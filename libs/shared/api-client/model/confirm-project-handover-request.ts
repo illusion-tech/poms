@@ -8,12 +8,16 @@
  * Do not edit the class manually.
  */
 import { ConfirmProjectHandoverParticipantConfirmationInput } from './confirm-project-handover-participant-confirmation-input';
+import { ProjectReceiptJudgmentMode } from './project-receipt-judgment-mode';
 
 
 export interface ConfirmProjectHandoverRequest {
     comment?: string;
     participantConfirmations: Array<ConfirmProjectHandoverParticipantConfirmationInput>;
-    receiptJudgmentMode?: string;
+    receiptJudgmentMode?: ProjectReceiptJudgmentMode;
     contractSummarySnapshotId: string;
-    expectedVersion?: number;
+    expectedVersion: number;
+    handoverBasisSnapshotId: string;
+    summarySnapshotId: string;
+    sourcePayloadHash: string;
 }

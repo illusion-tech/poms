@@ -1,0 +1,281 @@
+{
+  "kind": "Root-executable-late-proxy-put84-thin-runner-candidate",
+  "createdAt": "2026-11-04T04:34:31.632Z",
+  "products": [
+    {
+      "file": "runner84.mjs",
+      "bytes": 32947,
+      "rawBytesSha256": "7356fb12c19c3cc319448e2ca4070d9952c3ff6a43d4a02a72a25f72d786a241"
+    },
+    {
+      "file": "root-entry84.mjs",
+      "bytes": 9138,
+      "rawBytesSha256": "c6af3217d68c7921350c68201f74e8535794312b565c368a34708b3cd9ed176b"
+    },
+    {
+      "file": "README.md",
+      "bytes": 7615,
+      "rawBytesSha256": "92c366e0028f32d7bbe5d2c43e19af0be82f3d6b075286c75aa261450e571fc3"
+    },
+    {
+      "file": "capture-manifest84.mjs",
+      "bytes": 5938,
+      "rawBytesSha256": "d084a4326dc57eee3b8dbafe3a6c88836573e758c0c3e4a30cbfad7d980a54d5"
+    }
+  ],
+  "publicSourcePins": [
+    {
+      "file": "tools/rust-r4def/db33.mjs",
+      "bytes": 1165,
+      "rawBytesSha256": "82594c292fd2b45c6bcaa14643f1eab71de7f91d45fb714de37fd3c2f2ec0680"
+    },
+    {
+      "file": "tools/rust-r4def/api-harness32.mjs",
+      "bytes": 17627,
+      "rawBytesSha256": "8a31b5e5c57844969565d0c5b2a3b93a0a16b5a24edcfc6507fe7817c2625041"
+    },
+    {
+      "file": "tools/rust-r4def/api-runtime31.mjs",
+      "bytes": 3774,
+      "rawBytesSha256": "8ab461cd6eb04722ecf6c80b5fd744ac16010512f69a46f6fb5ab9f33aff9bf5"
+    },
+    {
+      "file": "tools/rust-r4def/prepare-races73.mjs",
+      "bytes": 1775,
+      "rawBytesSha256": "5d72900a5a0941bf75ee2ddb97b9479d28a94eba953e922a71e6ea3e32cc24d8"
+    },
+    {
+      "file": "tools/rust-r4def/run-races85.mjs",
+      "bytes": 2378,
+      "rawBytesSha256": "18eaed106d9cad19f155cb39b137e324d8b34bbef8edda877926a13fe6ae1b5d"
+    },
+    {
+      "file": "tmp/rust-r4def/root/api32/races73-context.json",
+      "bytes": 1706,
+      "rawBytesSha256": "32bf6bd016dd2c693e5c377895203892fc7d3ae209eea0d9455494264e6dad7c"
+    },
+    {
+      "file": "tmp/rust-r4def/root/api32/attachments52-result.json",
+      "bytes": 39451,
+      "rawBytesSha256": "37086e8094d0f455b36b2de689960efd17cd6e259feb9e563194341e13daea69"
+    },
+    {
+      "file": "libs/shared/api-spec/openapi.json",
+      "bytes": 1236594,
+      "rawBytesSha256": "56ae1835f50e427dd564b60f423da49e5c03fd88eed431b12ae054011e6de821"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/service.rs",
+      "bytes": 81710,
+      "rawBytesSha256": "0fbd8afc1c22fec87e3034b9e31d9c89a3cfea92d85cb8f0ef1866dd23bcceab"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/store.rs",
+      "bytes": 68634,
+      "rawBytesSha256": "163452c03d34231360ba7da16b76fd3e282fbc96b9ae752e2cfd584cf9809f8e"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachment_storage/registry.rs",
+      "bytes": 22940,
+      "rawBytesSha256": "617f734af15f7e75db2cc69de63343c04104abbd446f322809fb1f1bfc625765"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachment_storage/store.rs",
+      "bytes": 13211,
+      "rawBytesSha256": "58fb3377e549c39c300bce07f8e6819a6a8a8953d0e4e535347c3b7cd6ceed4e"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachment_storage/local.rs",
+      "bytes": 6654,
+      "rawBytesSha256": "eb41e2738b7e54d200809f0f0eaab3361f526b6dfc16203468e945923c49ae28"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachment_storage/service.rs",
+      "bytes": 31151,
+      "rawBytesSha256": "1ebac6fb8311970ddec50f4d50cff1a9f29cb8e40671d2cef4a270c17c4d202f"
+    },
+    {
+      "file": "tools/rust-r4def/E/K63/gate63.sql",
+      "bytes": 6668,
+      "rawBytesSha256": "771e07198e1077e60c2a38a30ec15183910042536f2cafb7411b75e19c71d657"
+    }
+  ],
+  "operationAuthority": [
+    {
+      "operationId": "AuthController_getCurrentAuthSession",
+      "method": "GET",
+      "path": "/api/auth/session",
+      "expectedStatus": 200
+    },
+    {
+      "operationId": "ProjectController_getById",
+      "method": "GET",
+      "path": "/api/projects/{id}",
+      "expectedStatus": 200
+    },
+    {
+      "operationId": "DictionaryController_list",
+      "method": "GET",
+      "path": "/api/dictionaries",
+      "expectedStatus": 200
+    },
+    {
+      "operationId": "AttachmentStorageProviderController_listAttachmentStorageProviderConfigs",
+      "method": "GET",
+      "path": "/api/platform/attachment-storage-providers",
+      "expectedStatus": 200
+    },
+    {
+      "operationId": "AttachmentStorageProviderController_createAttachmentStorageProviderConfig",
+      "method": "POST",
+      "path": "/api/platform/attachment-storage-providers",
+      "expectedStatus": 201
+    },
+    {
+      "operationId": "AttachmentUploadSessionController_create",
+      "method": "POST",
+      "path": "/api/attachment-upload-sessions",
+      "expectedStatus": 201
+    },
+    {
+      "operationId": "AttachmentUploadSessionController_createUploadTarget",
+      "method": "POST",
+      "path": "/api/attachment-upload-sessions/{id}/upload-targets",
+      "expectedStatus": 200
+    },
+    {
+      "operationId": "AttachmentUploadSessionController_get",
+      "method": "GET",
+      "path": "/api/attachment-upload-sessions/{id}",
+      "expectedStatus": 200
+    },
+    {
+      "operationId": "AttachmentUploadSessionController_proxyUploadObject",
+      "method": "PUT",
+      "path": "/api/attachment-upload-sessions/{id}/object",
+      "expectedStatus": 200
+    },
+    {
+      "operationId": "AttachmentUploadSessionController_complete",
+      "method": "POST",
+      "path": "/api/attachment-upload-sessions/{id}:complete",
+      "expectedStatus": 200
+    },
+    {
+      "operationId": "AttachmentController_download",
+      "method": "GET",
+      "path": "/api/attachments/{id}/download",
+      "expectedStatus": 200
+    }
+  ],
+  "currentSchemaCount": 626,
+  "initial": {
+    "stages": [
+      {
+        "name": "admission-and-original-security",
+        "status": "not-run"
+      },
+      {
+        "name": "real-owned-prefix-provider-and-session",
+        "status": "not-run"
+      },
+      {
+        "name": "B-observed-relation-wait",
+        "status": "not-run"
+      },
+      {
+        "name": "same-B-observed-advisory-wait",
+        "status": "not-run"
+      },
+      {
+        "name": "A-real-PUT-complete-final-A",
+        "status": "not-run"
+      },
+      {
+        "name": "release-B-real-attachment-CAS409",
+        "status": "not-run"
+      },
+      {
+        "name": "independent-final-A-staging-B-and-legacy-proof",
+        "status": "not-run"
+      },
+      {
+        "name": "finally-exact-infrastructure-restoration",
+        "status": "not-run"
+      }
+    ],
+    "complete": false,
+    "actualHTTP": 0,
+    "actualPGProofs": 0,
+    "actualObjectProofs": 0,
+    "infrastructureRestored": false,
+    "businessRowsInsertedBySQL": 0,
+    "authorExecuted": false,
+    "G3Certified": false,
+    "G4Certified": false,
+    "HTTP": [],
+    "SQL": [],
+    "evidence": [],
+    "restoreErrors": [],
+    "fixture": null,
+    "uploadSessionId": null,
+    "attachmentId": null,
+    "BBackendPid": null,
+    "requiresPostK86Runtime": true,
+    "responsesMocked": 0
+  },
+  "witnesses": {
+    "A64": {
+      "text": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "bytes": 64,
+      "sha256": "d53eda7a637c99cc7fb566d96e9fa109bf15c478410a3f5eb4d4c4e26cd081f6"
+    },
+    "B64": {
+      "text": "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+      "bytes": 64,
+      "sha256": "c422e7070cb1cb455b5de9afee0d975e303d0239c72030cd7414ab5c382d3ae8"
+    },
+    "legacy39": {
+      "bytes": 39,
+      "sha256": "7e092953bfd0e46ebf7b1f895b7ad2c7fb000ea717d406ec4cfe751e6ece5347"
+    }
+  },
+  "staticChecks": {
+    "nodeSyntax": "passed node --check of all3 mjs",
+    "ASTParserVersion": "6.0.3",
+    "factorySafeAll8NotRun": true,
+    "zeroHTTPPGObjectIOOnImportOrFactory": true,
+    "actualCurrentRouteMethodStatusMatched": true,
+    "realConfigRequiredFieldsMatched": true,
+    "independentWitnessSHAsMatched": true,
+    "SQLBusinessProducerAbsent": true,
+    "explicitRootExecutionAndPostK86FenceRequired": true,
+    "runtimeFinalK86SHAChosenByAuthor": false
+  },
+  "actualExecution": {
+    "privateRead": false,
+    "DBConnected": false,
+    "HTTPCalled": false,
+    "objectsReadOrWritten": false,
+    "RLSChanged": false,
+    "advisoryOrTableLockTaken": false,
+    "BBackendObserved": false,
+    "AOrBUploaded": false,
+    "infrastructureRestorationVerified": false,
+    "G3Certified": false,
+    "G4Certified": false
+  },
+  "rootRequired": [
+    "bind actual post-K86 live process/binary receipt",
+    "read only this new namespace fixtures or inject fresh two real sessions",
+    "review and execute explicit flag; actual owner marker/PG15/25433 guards",
+    "actual B relation to advisory waits same PID",
+    "actual A complete then actual B attachment409",
+    "independent PG/audit/full flags/download/final-A staging-B bytes",
+    "exact finally security/locks/schema restoration and actual status receipts"
+  ],
+  "oldPackagesChanged": false,
+  "productFilesChanged": [],
+  "RootFilesChanged": [],
+  "committed": false
+}

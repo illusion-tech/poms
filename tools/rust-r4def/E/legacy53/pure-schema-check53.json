@@ -1,0 +1,41 @@
+{
+  "kind": "Native-build50-exact-pure-schema-check53",
+  "createdAt": "2026-11-04T01:41:37.133Z",
+  "buildMap": {
+    "file": "dist/apps/poms-api/main.js.map",
+    "bytes": 4110577,
+    "rawBytesSha256": "6dcfe5b41e3e843f54b5050c973a379439188cd5e8dbf6bcd4db5b697762df14"
+  },
+  "sourcePins": [
+    {
+      "file": "webpack:///./src/app/core/rust-r4def-frozen-native-reference.ts",
+      "bytes": 409436,
+      "rawBytesSha256": "f72396459c944d44b240a2fa4d620671a0d9a99b7b00cd8d2e6193468d56bfe1"
+    },
+    {
+      "file": "webpack:///../../libs/shared/contracts/src/lib/shared-contracts.ts",
+      "bytes": 475984,
+      "rawBytesSha256": "5852e8cd5653f8746dd48bce58a33cf1650ac0d65fa238809d059978c7f4e4b8"
+    }
+  ],
+  "results": {
+    "currentInvoiceDtoWithoutCurrencyAccepted": true,
+    "currentDtoDidNotAddUndefinedCurrencyKey": true,
+    "frozenNativeInvoiceWithoutCurrencyAccepted": true,
+    "frozenNativeVerifiedPatchAccepted": true,
+    "frozenNewCurrencyKeyRejected501": true,
+    "frozenExpense10_123StringAccepted": true,
+    "currentExpenseDto10_123StringAccepted": true,
+    "actualMikroOrmDecimalConvertToDatabaseValue": "10.123"
+  },
+  "limitations": {
+    "actualHTTPExecuted": false,
+    "databaseConnected": false,
+    "NativeMainImported": false,
+    "privateRead": false,
+    "persistedNULLInvoiceProven": false,
+    "actualProbe93StoredSubcentProven": false,
+    "migration94RollbackExecuted": false,
+    "precisionRoute": "Syntax/service/ORM path supports a probe; exact10.1230 still must be proven by real API+read-only PG on fresh93 before any migration attempt"
+  }
+}

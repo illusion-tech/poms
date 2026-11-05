@@ -23,6 +23,7 @@ export interface ReadinessInitializationResult {
     planVersionId: string | null;
     planVersion: number | null;
     initRecordId: string | null;
+    contractAmendmentId: string | null;
 }
 export enum ReadinessInitializationResultTargetTypeEnum {
     ContractTermPreparation = 'contract-term-preparation',

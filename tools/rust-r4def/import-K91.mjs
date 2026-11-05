@@ -1,0 +1,12 @@
+// Root guarded K86 intake. K56 and its actual K71 evidence remain immutable.
+import fs from'node:fs';import path from'node:path';import assert from'node:assert/strict';import{createHash}from'node:crypto';
+const src='E:/projects/worktrees/poms-r4f-cost-governance/poms/tools/rust-r4def/F/K86',dst='tools/rust-r4def/F/K86',sha=b=>createHash('sha256').update(b).digest('hex');
+const bytes=fs.readFileSync(src+'/delivery86.json');assert.equal(sha(bytes),'af204da15ec0d6030afbca1635711d7cd9f996d317d879e9f34061da59e0b3c8');const m=JSON.parse(bytes);
+assert.equal(sha(fs.readFileSync(m.authority.file)),m.authority.rawBytesSha256);assert(JSON.parse(fs.readFileSync(m.authority.file)).implementationAuthorized);assert.equal(m.products.length,2);
+assert.deepEqual(m.products.map(p=>p.file).sort(),['apps/poms-api-rust/src/attachments/service.rs','apps/poms-api-rust/src/attachments/store.rs'].sort());
+for(const p of m.products){assert.equal(sha(fs.readFileSync(p.file)),p.sourceBefore.rawBytesSha256);assert.equal(sha(fs.readFileSync(src+'/'+p.sourceBefore.file)),p.sourceBefore.rawBytesSha256);assert.equal(sha(fs.readFileSync(src+'/'+p.completeImportFile.file)),p.sourceAfter.rawBytesSha256);}
+const registry=m.scope.registryUnchanged;assert.equal(sha(fs.readFileSync(registry.file)),registry.rawBytesSha256);for(const p of m.F46SixSourcesUnchanged)assert.equal(sha(fs.readFileSync(p.file)),p.rawBytesSha256);
+for(const [f,s]of Object.entries(m.sealedEarlierPackages))assert.equal(sha(fs.readFileSync('tools/rust-r4def/F/'+f)),s);
+assert(!fs.existsSync(dst));const copied=[];function copy(rel=''){for(const e of fs.readdirSync(src+'/'+rel,{withFileTypes:true})){const f=rel?rel+'/'+e.name:e.name;assert(!e.isSymbolicLink());if(e.isDirectory())copy(f);else{assert(e.isFile());const b=fs.readFileSync(src+'/'+f);fs.mkdirSync(path.dirname(dst+'/'+f),{recursive:true});fs.writeFileSync(dst+'/'+f,b,{flag:'wx'});copied.push({file:dst+'/'+f,bytes:b.length,sha256:sha(b)});}}}copy();
+for(const p of m.products){fs.writeFileSync(p.file,fs.readFileSync(src+'/'+p.completeImportFile.file));assert.equal(sha(fs.readFileSync(p.file)),p.sourceAfter.rawBytesSha256);}
+fs.writeFileSync('tmp/rust-r4def/root/K91-import.json',JSON.stringify({kind:'Root-K86-guarded-two-file-import91',manifestSha256:sha(bytes),products:m.products.map(p=>p.sourceAfter),registryUnchanged:registry,F46Unchanged:true,copied,runtimeAccepted:false},null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({imported:2,preserved:copied.length,K86manifest:sha(bytes)}));

@@ -1,0 +1,366 @@
+{
+  "kind": "R4E-author-production-delivery",
+  "createdAt": "2026-11-03T21:59:57.102Z",
+  "base": "756d813c9578090fcf8e56821acce01b46b40420",
+  "branch": "codex/poms-r4e-cost-base",
+  "childIssue": 108,
+  "parentBatch": 106,
+  "G2Authorized": true,
+  "status": "E implementation ready for Root integration; independent G3/runtime acceptance/G4 not certified",
+  "counts": {
+    "operations": 11,
+    "createVariants": 5,
+    "pureTestsPassed": 25,
+    "pureTestsFailed": 0,
+    "pureTestsIgnored": 0
+  },
+  "productFiles": [
+    {
+      "file": "apps/poms-api-rust/src/project_actual_cost/logic.rs",
+      "bytes": 7863,
+      "rawBytesSha256": "96bdbc87dd031b59c6b895243241cd9b847eb9ae690766c5782183a5c0f9ba4c"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_actual_cost/mod.rs",
+      "bytes": 69247,
+      "rawBytesSha256": "9ce71bca1464498181b012fab8257d1ea6f82fced3fceea4801c0a6f500a962b"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_actual_cost/store.rs",
+      "bytes": 9144,
+      "rawBytesSha256": "0b39d14477e52641307d84f28c043dcf9c4309d38d0f55476e7f9806cb621eb5"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_actual_cost/view.rs",
+      "bytes": 16236,
+      "rawBytesSha256": "943a93380de87fbddc06650f35acfaf467db1a17abf6c25c3af162a5955b53ac"
+    }
+  ],
+  "supportFiles": [
+    {
+      "file": "tools/rust-r4def/E/.gitignore",
+      "bytes": 28,
+      "rawBytesSha256": "49e0e745a21229045220dd1a3e55af57f829dfcff6b026e931a9bca281454b1e"
+    },
+    {
+      "file": "tools/rust-r4def/E/run-checks.ps1",
+      "bytes": 5001,
+      "rawBytesSha256": "01d502d316c17e0d4f3e39c762486a1a9c1e9913ef2a8231f38764f8f9ba7b86"
+    },
+    {
+      "file": "tools/rust-r4def/E/write-delivery.mjs",
+      "bytes": 7894,
+      "rawBytesSha256": "e8b8630f933fa121e436b4d027f574052e88c3a79b3f37bab255dcb36a635242"
+    },
+    {
+      "file": "tools/rust-r4def/E/HANDOFF.md",
+      "bytes": 7736,
+      "rawBytesSha256": "fea07786c46d9d5ee50321f4a228c34485c15f9d253140092e5562a322bbe326"
+    }
+  ],
+  "frozenInputs": [
+    {
+      "file": "docs/design/rust-r4def/g1-gate-authority07.json",
+      "bytes": 755,
+      "rawBytesSha256": "9466a5de0335a89a874fb27bf6c9d560fb07549b309023cdb9e5307b0d826a36"
+    },
+    {
+      "file": "docs/design/rust-r4def/joint-g1-06/manifest06.json",
+      "bytes": 150138,
+      "rawBytesSha256": "8229d58c4319962de37ff9a153dc2c24a9b191f4a2101c3ce12558bdb0ef2147"
+    },
+    {
+      "file": "docs/design/rust-r4def/joint-g1-06/operation-map06.json",
+      "bytes": 15485,
+      "rawBytesSha256": "a7ec15625cef5483f09af7c1b33332dcd6612b84ecf082c6a6e87dd05e52eb01"
+    },
+    {
+      "file": "docs/design/rust-r4def/joint-g1-06/schema-authority06.json",
+      "bytes": 274094,
+      "rawBytesSha256": "37a1f7462c9417277ae068307c25c07569125d06943ea857a10ee7a3ae60f392"
+    },
+    {
+      "file": "docs/design/rust-r4def/joint-g1-06/schema06.sql",
+      "bytes": 45231,
+      "rawBytesSha256": "82207fb0c7d7c7c8ed221ea9b8bf04a8e3ad614e31fdd0443581ebf4520bf4f5"
+    },
+    {
+      "file": "docs/design/rust-r4def/ownership04.md",
+      "bytes": 4187,
+      "rawBytesSha256": "953bb9e9350a5da625b09ed6f0ac6f49dd48afe0739f8c535609dbe7ca04dd2f"
+    },
+    {
+      "file": "docs/design/rust-r4def/protocol01.md",
+      "bytes": 7716,
+      "rawBytesSha256": "fc6447b9e4bb1b9d2e6e78de3854cfc99c4de3af1fd9216e8361d01e33619286"
+    },
+    {
+      "file": "docs/design/rust-r4def/root-decisions02.json",
+      "bytes": 3958,
+      "rawBytesSha256": "44b6ec7e9742df44a6cfc8a41be4610b8b6baad916d0ffd6f49cda3f24a8e882"
+    },
+    {
+      "file": "docs/design/rust-r4def/root-projection05.json",
+      "bytes": 3374,
+      "rawBytesSha256": "9c41c9b92b2128e737efc34e809aa1f09b472450222e9cf391ad078d2788c61c"
+    },
+    {
+      "file": "docs/design/rust-r4def/E-g1-candidate02.json",
+      "bytes": 230498,
+      "rawBytesSha256": "ed4d2866430de748ee5211151d3ec9d90afe5874ac064699c787f3717ee925c3"
+    }
+  ],
+  "finalReceipt": {
+    "file": "tools/rust-r4def/E/evidence/author-checks03/receipt.json",
+    "bytes": 6211,
+    "rawBytesSha256": "f9727fc3455301cb1c95a8afe893bb43c29ce9b5a3cb46f478b6677c16ccf7f6"
+  },
+  "authorCheckHistory": [
+    {
+      "file": "tools/rust-r4def/E/evidence/author-checks01/receipt.json",
+      "bytes": 6211,
+      "rawBytesSha256": "846a0080254cc079f5547009d8f4e2881090d0a4b506d5a300459cd5e301776c",
+      "sourcesStableForThatRun": true,
+      "finalSourceMatches": false,
+      "checks": [
+        {
+          "id": "rustfmt",
+          "status": "passed",
+          "exitCode": 0
+        },
+        {
+          "id": "clippy",
+          "status": "passed",
+          "exitCode": 0
+        },
+        {
+          "id": "pure-tests",
+          "status": "passed",
+          "exitCode": 0
+        }
+      ],
+      "logs": [
+        {
+          "file": "tools/rust-r4def/E/evidence/author-checks01/rustfmt-stdout-original.log",
+          "bytes": 0,
+          "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "file": "tools/rust-r4def/E/evidence/author-checks01/rustfmt-stderr-original.log",
+          "bytes": 0,
+          "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "file": "tools/rust-r4def/E/evidence/author-checks01/clippy-stdout-original.log",
+          "bytes": 0,
+          "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "file": "tools/rust-r4def/E/evidence/author-checks01/clippy-stderr-original.log",
+          "bytes": 178,
+          "rawBytesSha256": "676a3b000f690f8926c821da9b5e1148cfbfa1a1f25b996ae2e71ef78cb5078b"
+        },
+        {
+          "file": "tools/rust-r4def/E/evidence/author-checks01/pure-tests-stdout-original.log",
+          "bytes": 2493,
+          "rawBytesSha256": "138d1502013cc20612e85e94d19763c02eca758f7ab8d45693614e79e86774a8"
+        },
+        {
+          "file": "tools/rust-r4def/E/evidence/author-checks01/pure-tests-stderr-original.log",
+          "bytes": 300,
+          "rawBytesSha256": "277d607b9636bef96e462f536f77a0d5d7dc873da2dc6a9b4d8cd5e2e2eb9dfa"
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r4def/E/evidence/author-checks02/receipt.json",
+      "bytes": 6211,
+      "rawBytesSha256": "66309915aa9a6f5a153c79124e90731d196fbc9a56d2b9faccc2b2a1f71f4365",
+      "sourcesStableForThatRun": true,
+      "finalSourceMatches": false,
+      "checks": [
+        {
+          "id": "rustfmt",
+          "status": "passed",
+          "exitCode": 0
+        },
+        {
+          "id": "clippy",
+          "status": "passed",
+          "exitCode": 0
+        },
+        {
+          "id": "pure-tests",
+          "status": "passed",
+          "exitCode": 0
+        }
+      ],
+      "logs": [
+        {
+          "file": "tools/rust-r4def/E/evidence/author-checks02/rustfmt-stdout-original.log",
+          "bytes": 0,
+          "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "file": "tools/rust-r4def/E/evidence/author-checks02/rustfmt-stderr-original.log",
+          "bytes": 0,
+          "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "file": "tools/rust-r4def/E/evidence/author-checks02/clippy-stdout-original.log",
+          "bytes": 0,
+          "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "file": "tools/rust-r4def/E/evidence/author-checks02/clippy-stderr-original.log",
+          "bytes": 178,
+          "rawBytesSha256": "19370fbfcc464edffe7dff965440ec5874da2ce8221e260f6bb4287cc1dc5195"
+        },
+        {
+          "file": "tools/rust-r4def/E/evidence/author-checks02/pure-tests-stdout-original.log",
+          "bytes": 2493,
+          "rawBytesSha256": "0a359de61df1ee87331a4134970ea145009c041c2ee15ba76df0918033573e46"
+        },
+        {
+          "file": "tools/rust-r4def/E/evidence/author-checks02/pure-tests-stderr-original.log",
+          "bytes": 300,
+          "rawBytesSha256": "ed34c38a3b5130a87aeb5e25bf8c44921a50390da1c29ecba7f1221e877220e4"
+        }
+      ]
+    },
+    {
+      "file": "tools/rust-r4def/E/evidence/author-checks03/receipt.json",
+      "bytes": 6211,
+      "rawBytesSha256": "f9727fc3455301cb1c95a8afe893bb43c29ce9b5a3cb46f478b6677c16ccf7f6",
+      "sourcesStableForThatRun": true,
+      "finalSourceMatches": true,
+      "checks": [
+        {
+          "id": "rustfmt",
+          "status": "passed",
+          "exitCode": 0
+        },
+        {
+          "id": "clippy",
+          "status": "passed",
+          "exitCode": 0
+        },
+        {
+          "id": "pure-tests",
+          "status": "passed",
+          "exitCode": 0
+        }
+      ],
+      "logs": [
+        {
+          "file": "tools/rust-r4def/E/evidence/author-checks03/rustfmt-stdout-original.log",
+          "bytes": 0,
+          "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "file": "tools/rust-r4def/E/evidence/author-checks03/rustfmt-stderr-original.log",
+          "bytes": 0,
+          "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "file": "tools/rust-r4def/E/evidence/author-checks03/clippy-stdout-original.log",
+          "bytes": 0,
+          "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "file": "tools/rust-r4def/E/evidence/author-checks03/clippy-stderr-original.log",
+          "bytes": 178,
+          "rawBytesSha256": "b74b62a2db920efde3d48a19f2ec40654a52b96613cc7a6f94aef17790988d94"
+        },
+        {
+          "file": "tools/rust-r4def/E/evidence/author-checks03/pure-tests-stdout-original.log",
+          "bytes": 2586,
+          "rawBytesSha256": "197147b911272f125436415130ec035bbf2f6a43055007a2e888bec88bb74af5"
+        },
+        {
+          "file": "tools/rust-r4def/E/evidence/author-checks03/pure-tests-stderr-original.log",
+          "bytes": 300,
+          "rawBytesSha256": "5103967e2cea611efddc1f58d38148216881c48cf860b75ef7cfade309979152"
+        }
+      ]
+    }
+  ],
+  "rootOwnedCompileInputs": [
+    {
+      "file": "apps/poms-api-rust/src/lib.rs",
+      "bytes": 994,
+      "rawBytesSha256": "beeac0cf75545df4719ba212e08e7f13b96801fc7c1f6d861ee871f231516a07"
+    },
+    {
+      "file": "apps/poms-api-rust/src/contract_support/mod.rs",
+      "bytes": 17762,
+      "rawBytesSha256": "1c70676ba26d827806ab27cdb9d0e983d9d403e3b9b6f3da730334296cebc855"
+    },
+    {
+      "file": "apps/poms-api-rust/Cargo.toml",
+      "bytes": 3419,
+      "rawBytesSha256": "12048cee8734f9df868d7fe0fa4e9cea007cc1e755168edb56106ffaf7140e3e"
+    },
+    {
+      "file": "apps/poms-api-rust/Cargo.lock",
+      "bytes": 77585,
+      "rawBytesSha256": "c49ada5d58d31b0a8a1ca93e4fde165604a8e20378527c0b9f3b620496892d6d"
+    }
+  ],
+  "excludeFromEProductImport": [
+    "apps/poms-api-rust/src/lib.rs",
+    "apps/poms-api-rust/src/contract_support/mod.rs",
+    "tools/rust-r4def/E/compile/** (optional check-only scaffolding)",
+    "ignored Windows logic-tests.exe/.pdb",
+    "any target/cache outputs"
+  ],
+  "publicInternalApis": [
+    "execute(&mut CommonSession,operationId,Option<Uuid>,query,body,&Actor)->Result<Value,Error>",
+    "source_facts(&mut PgConnection,&cost,lock)->Result<Value,Error>",
+    "lock_source_families(&mut PgConnection,&[Value])->Result<(),Error>",
+    "compare_source_transition(&cost,&previous_source_payload,&current_source_payload)->Result<Option<&static str>,Error>"
+  ],
+  "requiredRootIntegration": [
+    "Register execute in execution_support for frozen E11; shared input validators and HTTP/session/CSRF permissions remain Root-owned",
+    "Successful GET and writes must unconditionally flush common pending auth before single outer commit, including projection-only SecurityEvents",
+    "Apply frozen native migration/entity/schema and real C invoice currency producer; currency proof uses same snapshot -> source preparation",
+    "Runtime audit reads must enforce metadata.requiredSensitivePackages around before/after/reason/metadata; no raw audit bypass",
+    "F prelocks entire source family set and persists version-transition evidence/previous certified anchors; client CAS stays strict"
+  ],
+  "scopedBehavior": {
+    "allNewCosts": "registered and not included; F evidence-confirm owns confirmed+stage lock",
+    "money": "strict18,2 currency; rate15,4; quantity10,2; exact integer multiplication HALF_UP cents; zero result rejects422; legacy nonzero subcents rejected without round",
+    "projection": "all protected raw compatibility keys literal null for every caller; operating-finance for expense/nonlabor, labor-cost-rate for labor; audit/security event on borrowed outer transaction",
+    "laborWrites": "finance-manage outer guard plus labor-sensitive read before calculation/comparison; no extra operating permission for E single-row labor",
+    "sourceVersions": "strict client CAS; only explicit narrow payable progress and controlled covered-period rate supersession proofs; E source_basis immutable",
+    "attachments": "real unique active direct-project attachment references/version/checksum/security; no fabricated length or link"
+  },
+  "actualValidation": {
+    "rustfmt": "passed WSL1.99.1",
+    "clippy": "passed actual production crate --lib -- -D warnings; no new warnings",
+    "pureTests": "passed actual production crate project_actual_cost group",
+    "standaloneStdLogic": "earlier Windows Rust1.99.0 9/9 passed; final authority is WSL actual-crate run",
+    "database": "not run by author",
+    "http": "not run by author",
+    "browser": "not run by author",
+    "migration": "not run by author",
+    "generatedClient": "Root-owned; not generated by author",
+    "independentG3": "not performed by author",
+    "G4": "not performed by author"
+  },
+  "unresolvedBusinessDecisions": [],
+  "runtimeAcceptanceStillRequired": [
+    "real A/B/C and E producers -> E registration -> F stage/allocations/tax",
+    "strict source/cost CAS, duplicates, current uniqueness, replacement/frozen-source races, whole-family lock ordering",
+    "transactional rollback at number/fact/basis/audit/security-event/auth-coflush/commit boundaries",
+    "C payable progress -> F confirmation; rate successor -> original covered labor confirmation; later prior-certified anchor advance",
+    "invoice persisted currency and immutable snapshot/preparation proof; unknown legacy rejection",
+    "attachment missing/cross-project/deleted/security/changed evidence",
+    "real response DTO/client/UI privacy and behavior including runtime audit routes",
+    "precise owned cleanup and independent review"
+  ],
+  "commitPerformed": false,
+  "pushPerformed": false,
+  "GitHubChangedByAuthor": false,
+  "productionSharedFilesChangedByAuthor": false
+}

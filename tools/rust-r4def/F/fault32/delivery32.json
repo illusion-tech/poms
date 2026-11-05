@@ -1,0 +1,164 @@
+{
+  "kind": "R4EF-fault-concurrency-tool-candidates32",
+  "capturedAt": "2026-11-04T00:05:17.006915+00:00",
+  "candidateOnly": true,
+  "supportWhitelist": "tools/rust-r4def/F/fault32/**",
+  "faultScenarios": 35,
+  "controlledConcurrencyScenarios": 7,
+  "runtimeLabels": "all planned-not-run; static checks do not certify PG/HTTP/concurrency",
+  "rootCallbackEntrypoints": [
+    "runFault32",
+    "runContendedRace32",
+    "runSortedFamilyRace32"
+  ],
+  "sourceInputs": [
+    {
+      "file": "E:\\projects\\worktrees\\poms-r4f-cost-governance\\poms\\apps\\poms-api-rust\\src\\project_cost_governance\\service.rs",
+      "bytes": 43671,
+      "rawBytesSha256": "c4c840d026610bbaf31b008d06985b8d635d221fffb4f27007b144a52b395b3c"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r4f-cost-governance\\poms\\apps\\poms-api-rust\\src\\project_cost_governance\\evidence.rs",
+      "bytes": 32766,
+      "rawBytesSha256": "6c10996eec05d8c224fd2a02ade0a69eb17b8a497ed175b09609ab8fbbf42c53"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r4f-cost-governance\\poms\\apps\\poms-api-rust\\src\\project_cost_governance\\store.rs",
+      "bytes": 11880,
+      "rawBytesSha256": "6712ee261e4458df43fe3f1369dcdfa8a083de9e6f844f461a0eddc85a11867e"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r4e-cost-base\\poms\\apps\\poms-api-rust\\src\\project_actual_cost\\mod.rs",
+      "bytes": 77170,
+      "rawBytesSha256": "aaaa5126be86c421255d699bcad582131943d7f500754f0db8e55ddfc437a407"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r4e-cost-base\\poms\\apps\\poms-api-rust\\src\\project_actual_cost\\store.rs",
+      "bytes": 9144,
+      "rawBytesSha256": "0b39d14477e52641307d84f28c043dcf9c4309d38d0f55476e7f9806cb621eb5"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\apps\\poms-api-rust\\src\\contract_support\\http.rs",
+      "bytes": 14020,
+      "rawBytesSha256": "dbb2ca1f2f48c4142e0888967296e2cd7b99ab546ee91636410a0f03ade9509e"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\apps\\poms-api-rust\\src\\auth\\store.rs",
+      "bytes": 22695,
+      "rawBytesSha256": "14ba9d8e7171e6a6fbd00fa68c25a283d53521e17921b5d0e2ac760fec1a3f40"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\apps\\poms-api-rust\\src\\auth\\service.rs",
+      "bytes": 21730,
+      "rawBytesSha256": "3f216c2be127ca22e536f0413c91a72c29c37f2e97212089ac3a2611169ee650"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\apps\\poms-api-rust\\src\\auth\\model.rs",
+      "bytes": 10433,
+      "rawBytesSha256": "042f4418cee854566d942c5fe723a6221f4fd2e8c61bb35dcc8dbeca157d6312"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\apps\\poms-api-rust\\src\\auth\\guards.rs",
+      "bytes": 12029,
+      "rawBytesSha256": "58f7e67c075f3ee4918a0df433d0a055de81c4e99abb95ab7f0950d9c40c6082"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\apps\\poms-api-rust\\src\\business_numbers\\service.rs",
+      "bytes": 5337,
+      "rawBytesSha256": "24614da93077b133ef71803312169370a812ec8ef56609cc3ff9425fb96903fb"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\docs\\design\\rust-r4def\\joint-g1-06\\operation-map06.json",
+      "bytes": 15485,
+      "rawBytesSha256": "a7ec15625cef5483f09af7c1b33332dcd6612b84ecf082c6a6e87dd05e52eb01"
+    }
+  ],
+  "artifacts": [
+    {
+      "file": "CLEANUP-READBACK32.sql",
+      "bytes": 1261,
+      "rawBytesSha256": "fb9960f20da774f0d7b0a3e8d9d5a06d8533d0b8ceafebe6b0317804745b620f"
+    },
+    {
+      "file": "fault-plans32.mjs",
+      "bytes": 10927,
+      "rawBytesSha256": "daa77502dcdbbe7998a3a84aa37a99d5b137629422f07e0dd46285bcb53ae7ba"
+    },
+    {
+      "file": "matrix32.json",
+      "bytes": 72134,
+      "rawBytesSha256": "ad99f1dfbb1dcb270a5c863d25758f11f4c2140d8f0bc6c2e6f041a3f739d560"
+    },
+    {
+      "file": "MATRIX32.md",
+      "bytes": 8988,
+      "rawBytesSha256": "4c50f5a46dd5f56d64d02c4e1ea5f1620250f08043104502ced3036627779f96"
+    },
+    {
+      "file": "package32.py",
+      "bytes": 3215,
+      "rawBytesSha256": "30a45718acaa242dce10117a37d6a4bd4a8f10a1f150f6426eb24169ed78537e"
+    },
+    {
+      "file": "prepare32.py",
+      "bytes": 13381,
+      "rawBytesSha256": "14fc84a2655e19b7fed4a876009121cb7f80cb21b7e9bea10d5bbefc55d34f61"
+    },
+    {
+      "file": "read-only32.mjs",
+      "bytes": 6998,
+      "rawBytesSha256": "60295cd2571a4dd6d9c18f66a35fbf448754aac2e42de2bd12b8387747f108b2"
+    },
+    {
+      "file": "READ-ONLY32.sql",
+      "bytes": 7585,
+      "rawBytesSha256": "097e2714a1fd6d1dd23c6781c2f0d656ca38ce4968a6803ae6d5eadd2379dc3c"
+    },
+    {
+      "file": "README32.md",
+      "bytes": 10450,
+      "rawBytesSha256": "a5a0e4f729692e8e7182bfbe65c26012021ca9dc5e57941e8022d5a7bad9a10a"
+    },
+    {
+      "file": "root-callback32.mjs",
+      "bytes": 18477,
+      "rawBytesSha256": "1237e882e622c8ee8aafdd8d9238d2bd5f577b60f6293cc3fb17c69cf24da00c"
+    },
+    {
+      "file": "self-check32.mjs",
+      "bytes": 8395,
+      "rawBytesSha256": "d4f738cdc23caae30e72259d3f91449aa700d23646070a363ee46f9a231cd464"
+    },
+    {
+      "file": "static-checks32.json",
+      "bytes": 8403,
+      "rawBytesSha256": "fc7aa619c4afe86ecb979c28f6e82448b889c76dc48151453878f71ead5de151"
+    }
+  ],
+  "staticEvidence": {
+    "pureRenderingChecksPassed": 9,
+    "realHttpRequests": 0,
+    "realPgConnections": 0,
+    "pgSyntaxPrepared": false,
+    "productionSuccessMocked": false
+  },
+  "actualExecutionRequiredFromRoot": [
+    "actual owned API producers and independent sessions",
+    "DDL review/install/cleanup on actual acceptance database",
+    "observable PG advisory/project/family barriers",
+    "real HTTP500 rollback and exactly one explicit retry",
+    "case-specific PG business/evidence/source/audit/security/auth/counter assertions",
+    "cleanup readback and immutable raw evidence",
+    "independent review"
+  ],
+  "authBaseline": "post-independently-committed-eager-touch at observed trigger gate, before pending coflush",
+  "unknownCommitOutcome": "blocks retry and certification",
+  "frozenF25ProductionFilesVerifiedUnchanged": true,
+  "credentialsRead": false,
+  "environmentChanged": false,
+  "rootFilesWritten": false,
+  "businessStateSqlFabricated": false,
+  "committed": false,
+  "pushed": false,
+  "GitHubWritten": false
+}

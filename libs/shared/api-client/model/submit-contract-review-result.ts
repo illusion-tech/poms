@@ -19,4 +19,5 @@ export interface SubmitContractReviewResult {
     todoItemIds: Array<string>;
     snapshotId?: string | null;
     preparationId: string;
+    contractAmendmentId: string | null;
 }

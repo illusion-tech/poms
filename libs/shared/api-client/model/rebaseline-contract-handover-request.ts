@@ -14,5 +14,8 @@ export interface RebaselineContractHandoverRequest {
     rebaselineReason: string;
     affectedHandoverItemIds: Array<string>;
     effectiveBaselineAfterId: string;
-    expectedVersion?: number;
+    expectedVersion: number;
+    sourceHandoverId: string;
+    handoverBasisSnapshotId: string;
+    sourcePayloadHash: string;
 }

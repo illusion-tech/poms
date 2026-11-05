@@ -7,6 +7,8 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ProjectHandoverClosureStatus } from './project-handover-closure-status';
+import { ProjectHandoverExecutionAdmission } from './project-handover-execution-admission';
 
 
 export interface ConfirmProjectHandoverResult {
@@ -19,6 +21,10 @@ export interface ConfirmProjectHandoverResult {
     summarySnapshotId: string;
     projectionLevel: string;
     exportPolicy: string;
+    handoverBasisSnapshotId: string;
+    sourcePayloadHash: string;
+    closureStatus: ProjectHandoverClosureStatus;
+    executionAdmission: ProjectHandoverExecutionAdmission;
 }
 export enum ConfirmProjectHandoverResultBusinessStatusAfterEnum {
     Confirmed = 'confirmed'

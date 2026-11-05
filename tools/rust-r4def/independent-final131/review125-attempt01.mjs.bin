@@ -1,0 +1,77 @@
+// Independent offline tooling review. Only the declared pure synthetic tests run.
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+import { spawnSync } from 'node:child_process';
+const root = 'E:/projects/worktrees/poms-r3hijk-next28/poms';
+const out = 'tools/rust-r4def/independent-final131';
+const packageRoot = 'tools/rust-r4def/E/cleanup-wrapper125';
+assert.equal(path.resolve(process.cwd()).toLowerCase(), path.resolve(root).toLowerCase());
+const sha = b => createHash('sha256').update(b).digest('hex');
+function bytes(f) { assert(!f.includes('..') && !f.includes('/private/') && !path.isAbsolute(f)); return fs.readFileSync(path.join(root, f)); }
+const json = f => JSON.parse(bytes(f));
+const pin = f => { const b = bytes(f); return { file: f, bytes: b.length, sha256: sha(b) }; };
+const manifestFile = packageRoot + '/manifest125.json';
+assert.equal(pin(manifestFile).sha256, 'cbd797bb98fcac5f8ef01a29f96bf3eb2965b0c98910c7dcd3b69053d603985b');
+const manifest = json(manifestFile);
+const refs = [pin(manifestFile)];
+for (const p of [...manifest.products.map(p => ({ ...p, file: packageRoot + '/' + p.file })), ...manifest.publicSourcePins]) {
+  const a = pin(p.file); assert.equal(a.sha256, p.rawBytesSha256); assert.equal(a.bytes, p.bytes); refs.push(a);
+}
+assert.equal(manifest.products.length, 9); assert.equal(manifest.publicSourcePins.length, 22);
+const entry = bytes(packageRoot + '/cleanup125.mjs').toString();
+assert(entry.indexOf("assert(process.argv.includes('--allowRootExecution')") < entry.indexOf("await import(pathToFileURL(ROOT103 + '/tools/rust-r4def/db33.mjs')"));
+assert(entry.includes("core.assertApplyAdmission70(entry.plan"));
+assert(entry.includes("core.privateStatement70(op, current.catalog, outputs)"));
+assert(entry.includes("source.kind, 'actual-cleanup-wrapper125-private-bundle'"));
+assert(!/SET\s+(?:TIME\s+ZONE|timezone|session_replication_role)|DISABLE\s+TRIGGER|TRUNCATE\s+/i.test(entry));
+const testArgs = ['--test', packageRoot + '/rules125.test.mjs', packageRoot + '/ownership125.test.mjs'];
+const startedAtUtc = new Date().toISOString();
+const result = spawnSync(process.execPath, testArgs, { cwd: root, encoding: null, timeout: 60000, maxBuffer: 8000000 });
+for (const [name, data] of [['cleanup125-pure-tests-stdout.bin', result.stdout ?? Buffer.alloc(0)], ['cleanup125-pure-tests-stderr.bin', result.stderr ?? Buffer.alloc(0)]]) fs.writeFileSync(path.join(root, out, name), data, { flag: 'wx' });
+assert.equal(result.status, 0);
+const output = result.stdout.toString();
+assert(/# tests 20/.test(output) && /# pass 20/.test(output) && /# fail 0/.test(output));
+for (const p of refs) assert.deepEqual(pin(p.file), p, 'Source changed during offline review');
+const actualFile = 'tmp/rust-r4def/root/cleanup-wrapper125-140/receipt125.json';
+const actual = json(actualFile), rust = actual.reports.find(r => r.backend === 'rust'), native = actual.reports.find(r => r.backend === 'native');
+assert.equal(actual.failure, undefined); // Omitted failure is the successful read-only planner result.
+assert.equal(actual.mode, 'plan');
+assert.equal(rust.claimed.actualNewPKs, 2673); assert.equal(rust.claimed.claimed, 2634);
+assert.equal(rust.unclaimed.length, 39); assert.equal(rust.counterIssues.length, 0);
+assert.equal(rust.planned, false); assert(!rust.publicPlan);
+assert.equal(native.claimed.actualNewPKs, 0); assert(native.publicPlan.noOp);
+refs.push(pin(actualFile));
+const snapshots = refs.map(p => {
+  const target = path.join(root, out, 'cleanup125-inputs', p.file + '.bin');
+  fs.mkdirSync(path.dirname(target), { recursive: true }); fs.writeFileSync(target, bytes(p.file), { flag: 'wx' });
+  return { ...p, snapshot: path.relative(root, target).replaceAll('\\', '/') };
+});
+const report = {
+  kind: 'independent-R4DEF-final131-cleanup125-first-candidate-offline-review', reviewedAtUtc: new Date().toISOString(),
+  manifest: pin(manifestFile),
+  status: 'Strict-source correction reviewed; original pure negative cases pass; actual140 correctly refuses incomplete Rust ownership',
+  toolingSourceReview: {
+    exactResponseIdentityAndAcceptedCommandWindowRetained: true,
+    strictAttachmentPathCannotUseGenericResponseOrFKFallback: true,
+    attachmentRequiresOwnedCompletedSessionPUTActualRawHashBytesUploaderUploadInstantAndCompleteACK: true,
+    exactTypedFReverseEvidenceAndRequestActorWindowRequired: true,
+    typedTimelessChildrenRequireSameActualParentCreateCommand: true,
+    DConfirmationParticipantAndTodoReversePointersProjectRosterRequired: true,
+    nullAuditFallbackClosedEventOperationTargetActorWindow: true,
+    anonymousFoundationOnlyRequest6CSRFOr21LogoutWithSameObservedAuthenticatedFullRunAndWindow: true,
+    counterExactPrefixScopePaddingAndCompleteBeforeAfterNumberRangeRetained: true,
+    explicitRootSinglePKSupplementNotUsedToAutomaticallyCertifyUnknownRows: true,
+    frozenCore70Hash: manifest.frozenCoreSHA256,
+    executionEntryNotRunByReviewer: true,
+  },
+  pureTests: { startedAtUtc, completedAtUtc: new Date().toISOString(), nodeVersion: process.version, args: testArgs, exitCode: result.status, tests: 20, passed: 20, failed: 0, stdout: pin(out + '/cleanup125-pure-tests-stdout.bin'), stderr: pin(out + '/cleanup125-pure-tests-stderr.bin'), actualDBAcceptance: false },
+  actual140: { receipt: pin(actualFile), mode: actual.mode, nativeNewPKs: 0, nativeNoOpPlan: true, rustNewPKs: 2673, rustClaimed: 2634, rustUnclaimed: 39, counterIssues: 0, applyEligible: false, realDMLExecuted: false, preservedCorrectStop: true },
+  inputPins: snapshots,
+  newToolingFindingsP0P1P2: [], G3Pass: false, G4Pass: false, terminalCleanupCertified: false,
+  next: 'Resolve exact remaining39 with actual original provenance; new manifest/plan; separately review full public perPK/fingerprint ledger, cycle plan and source pins before any apply',
+  reviewer: { privateRead: false, DBHTTPGitGHExecuted: false, productOrOldEvidenceModified: false, writesOnly: out + '/**' },
+};
+fs.writeFileSync(path.join(root, out, 'cleanup125-review131.json'), JSON.stringify(report, null, 2) + '\n', { flag: 'wx' });
+process.stdout.write(JSON.stringify({ report: pin(out + '/cleanup125-review131.json'), inputPins: snapshots.length, tests: 20, passed: 20, failed: 0, realRustUnclaimed: 39, applyEligible: false, G3Pass: false }) + '\n');

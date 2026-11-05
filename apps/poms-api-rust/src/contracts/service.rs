@@ -146,6 +146,11 @@ async fn record_audit(
     reason: Option<String>,
     metadata: Json,
 ) -> Result<(), Error> {
+    let mut metadata = metadata.as_object().cloned().ok_or(Error::Internal)?;
+    metadata.insert(
+        "requiredSensitivePackages".into(),
+        json!(["contract-finance"]),
+    );
     audit(
         session,
         actor,
@@ -158,7 +163,7 @@ async fn record_audit(
             before,
             after: Some(audit_view(after)?),
             reason,
-            metadata,
+            metadata: Json::Object(metadata),
         },
     )
     .await
@@ -362,13 +367,29 @@ async fn submit(
     let record = store::locked_contract(session, id).await?;
     expected_version(body, data_version(&record.data)?, "contract")?;
     let status = data_text(&record.data, "status")?;
-    if status != "draft" {
+    let amendment_id = body
+        .get("contractAmendmentId")
+        .filter(|v| !v.is_null())
+        .map(|_| require_uuid(body, "contractAmendmentId"))
+        .transpose()?;
+    if (status == "active") != amendment_id.is_some()
+        || !matches!(status.as_str(), "draft" | "active")
+    {
         return Err(Error::BadRequest(format!(
             "Contract {id} cannot submit review in status {status}"
         )));
     }
     let preparation_id = require_uuid(body, "preparationId")?;
     let prepared = load_preparation(session, id, preparation_id, true).await?;
+    if prepared
+        .get("contractAmendmentId")
+        .filter(|v| !v.is_null())
+        .and_then(Json::as_str)
+        .and_then(|v| Uuid::parse_str(v).ok())
+        != amendment_id
+    {
+        return Err(Error::Conflict("审核的变更身份与准备不一致。".into()));
+    }
     verify_prepared(&record, preparation_id, &prepared)?;
     if store::pending_review(session, id).await? {
         return Err(Error::Conflict(format!(
@@ -386,7 +407,14 @@ async fn submit(
         session.state,
         record.handle,
         object([
-            ("status", Value::text("pending-review")),
+            (
+                "status",
+                Value::text(if amendment_id.is_some() {
+                    "active"
+                } else {
+                    "pending-review"
+                }),
+            ),
             ("updatedBy", uuid_value(actor.id)),
         ]),
     )?;
@@ -452,8 +480,8 @@ async fn submit(
     let preparation_version = prepared_integer(&prepared, "version")?;
     sqlx::query(
         "INSERT INTO poms.contract_review_binding \
-         (approval_record_id,contract_id,preparation_id,preparation_version,payload_hash,created_at,created_by) \
-         VALUES($1,$2,$3,$4,$5,$6,$7)",
+         (approval_record_id,contract_id,preparation_id,preparation_version,payload_hash,created_at,created_by,contract_amendment_id) \
+         VALUES($1,$2,$3,$4,$5,$6,$7,$8)",
     )
     .bind(approval_id)
     .bind(id)
@@ -462,8 +490,16 @@ async fn submit(
     .bind(&payload_hash)
     .bind(at)
     .bind(actor.id)
+    .bind(amendment_id)
     .execute(&mut *session.connection)
     .await?;
+    if let Some(amendment) = amendment_id {
+        let updated=sqlx::query("UPDATE poms.contract_amendment SET status='submitted',source_review_id=$2,updated_at=now(),updated_by=$3,row_version=row_version+1 WHERE id=$1 AND contract_id=$4 AND source_preparation_id=$5 AND status='draft' AND payload_hash=$6")
+            .bind(amendment).bind(approval_id).bind(actor.id).bind(id).bind(preparation_id).bind(&payload_hash).execute(&mut *session.connection).await?;
+        if updated.rows_affected() != 1 {
+            return Err(Error::Conflict("变更审核绑定已变化。".into()));
+        }
+    }
     session
         .state
         .trace
@@ -487,9 +523,9 @@ async fn submit(
     common::flush(session).await?;
     Ok(json!({
         "targetId":id,"targetType":"contract","resultStatus":"submitted",
-        "businessStatusAfter":"pending-review","approvalRecordId":approval_id,
+        "businessStatusAfter":if amendment_id.is_some(){"active"}else{"pending-review"},"approvalRecordId":approval_id,
         "confirmationRecordId":null,"todoItemIds":[todo_id],"snapshotId":null,
-        "preparationId":preparation_id
+        "preparationId":preparation_id,"contractAmendmentId":amendment_id
     }))
 }
 
@@ -553,6 +589,12 @@ async fn activate(
     body: &Json,
     actor: &Actor,
 ) -> Result<Json, Error> {
+    if body
+        .get("contractAmendmentId")
+        .is_some_and(|v| !v.is_null())
+    {
+        return super::amendment::activate(session, id, body, actor).await;
+    }
     let record = store::locked_contract(session, id).await?;
     // A stale explicit version wins over the already-active repeat guard.
     expected_version(body, data_version(&record.data)?, "contract")?;
@@ -702,7 +744,7 @@ async fn activate(
     Ok(json!({
         "targetId":id,"targetType":"contract","resultStatus":"activated","businessStatusAfter":"active",
         "approvalRecordId":approval_id,"confirmationRecordId":null,"todoItemIds":[],
-        "snapshotId":snapshot_id,"preparationId":binding.preparation_id
+        "snapshotId":snapshot_id,"preparationId":binding.preparation_id,"contractAmendmentId":null,"beforeSnapshotId":null,"snapshotVersion":1,"planVersionId":null
     }))
 }
 

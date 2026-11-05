@@ -1,4 +1,4 @@
-//! Finite request-schema interpreter for the reviewed R4 first-37 closure.
+//! Finite request-schema interpreter for the reviewed shared 37+30 closure.
 //! Generated input combines current OpenAPI with statically admitted Shared
 //! trim/default/refine rules. No Node runtime, database or transaction access.
 use std::collections::BTreeSet;
@@ -11,7 +11,7 @@ use uuid::Uuid;
 
 use crate::error::ApiError;
 
-const INPUT: &str = include_str!("../../../../tools/rust-r4abc/validation-input01.json");
+const INPUT: &str = include_str!("../../../../tools/rust-r4def/validation-input18.json");
 
 fn manifest() -> Result<&'static Value, ApiError> {
     static PARSED: OnceLock<Option<Value>> = OnceLock::new();
@@ -20,7 +20,7 @@ fn manifest() -> Result<&'static Value, ApiError> {
         .as_ref()
         .ok_or_else(ApiError::internal)?;
     if input.get("version").and_then(Value::as_u64) != Some(1)
-        || input.get("operationCount").and_then(Value::as_u64) != Some(37)
+        || input.get("operationCount").and_then(Value::as_u64) != Some(67)
     {
         return Err(ApiError::internal());
     }
@@ -61,6 +61,47 @@ fn trim_js(value: &str) -> &str {
         '\u{0009}'..='\u{000d}' | '\u{0020}' | '\u{00a0}' | '\u{1680}' |
         '\u{2000}'..='\u{200a}' | '\u{2028}' | '\u{2029}' | '\u{202f}' |
         '\u{205f}' | '\u{3000}' | '\u{feff}')
+    })
+}
+
+fn bounded_decimal(value: &str, signed: bool, whole_limit: usize, scale: usize) -> bool {
+    let value = if signed {
+        value.strip_prefix('-').unwrap_or(value)
+    } else {
+        value
+    };
+    let (whole, fraction) = value
+        .split_once('.')
+        .map_or((value, None), |(whole, fraction)| (whole, Some(fraction)));
+    !whole.is_empty()
+        && whole.len() <= whole_limit
+        && whole.bytes().all(|b| b.is_ascii_digit())
+        && fraction.is_none_or(|fraction| {
+            !fraction.is_empty()
+                && fraction.len() <= scale
+                && fraction.bytes().all(|b| b.is_ascii_digit())
+        })
+}
+
+fn finite_pattern(kind: &str, value: &str) -> Option<bool> {
+    Some(match kind {
+        "currency-code" => value.len() == 3 && value.bytes().all(|b| b.is_ascii_uppercase()),
+        "sha256" => {
+            value.len() == 64
+                && value
+                    .bytes()
+                    .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))
+        }
+        "dictionary-code" => {
+            value.bytes().next().is_some_and(|b| b.is_ascii_lowercase())
+                && value
+                    .bytes()
+                    .all(|b| b.is_ascii_lowercase() || b.is_ascii_digit() || b == b'-')
+        }
+        "weight-six" => bounded_decimal(value, false, 12, 6),
+        "bounded-money" => bounded_decimal(value, false, 16, 2),
+        "signed-bounded-money" => bounded_decimal(value, true, 16, 2),
+        _ => return None,
     })
 }
 
@@ -338,7 +379,18 @@ fn walk(
                     result.insert(key.clone(), value);
                 }
             }
-            // Current z.object strips all undeclared keys, recursively.
+            if schema.get("x-r4-strict") == Some(&Value::Bool(true)) {
+                let keys = value
+                    .keys()
+                    .filter(|key| !properties.contains_key(*key))
+                    .cloned()
+                    .collect::<Vec<_>>();
+                if !keys.is_empty() {
+                    errors.push(json!({"code":"unrecognized_keys","keys":keys,"path":path,"message":"Unrecognized object keys"}));
+                }
+            }
+            // Ordinary objects retain their original strip behavior; reviewed
+            // strict objects reject undeclared keys above.
             Value::Object(result)
         }
         Some("array") => {
@@ -431,6 +483,10 @@ fn walk(
                 };
                 if !valid {
                     errors.push(custom(path, message));
+                }
+            } else if let Some(kind) = schema.get("x-r4-pattern-kind").and_then(Value::as_str) {
+                if !finite_pattern(kind, value).ok_or_else(ApiError::internal)? {
+                    errors.push(custom(path, "Value does not match the required format"));
                 }
             } else if schema.get("pattern").is_some() && schema.get("format").is_none() {
                 return Err(ApiError::internal());
@@ -622,5 +678,73 @@ pub fn validate_query(operation_id: &str, raw_query: Option<&str>) -> Result<Val
         Ok(output.unwrap_or_else(|| json!({})))
     } else {
         Err(failure(errors))
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::{finite_pattern, validate_body};
+    use serde_json::json;
+
+    #[test]
+    fn reviewed_pattern_boundaries_reject_exponents_signs_and_excess_scale() {
+        assert_eq!(finite_pattern("currency-code", "CNY"), Some(true));
+        assert_eq!(finite_pattern("currency-code", "cny"), Some(false));
+        assert_eq!(finite_pattern("currency-code", "CN¥"), Some(false));
+        assert_eq!(
+            finite_pattern("weight-six", "999999999999.999999"),
+            Some(true)
+        );
+        for value in ["1000000000000", "1.0000001", "1e3", "+1", " 1", "1.", "-1"] {
+            assert_eq!(finite_pattern("weight-six", value), Some(false));
+        }
+        assert_eq!(
+            finite_pattern("bounded-money", "9999999999999999.99"),
+            Some(true)
+        );
+        assert_eq!(
+            finite_pattern("bounded-money", "10000000000000000"),
+            Some(false)
+        );
+        assert_eq!(
+            finite_pattern("signed-bounded-money", "-9999999999999999.99"),
+            Some(true)
+        );
+        assert_eq!(finite_pattern("signed-bounded-money", "-"), Some(false));
+        assert_eq!(
+            finite_pattern("dictionary-code", "travel-cost-2"),
+            Some(true)
+        );
+        assert_eq!(finite_pattern("dictionary-code", "_travel"), Some(false));
+    }
+
+    #[test]
+    fn self_confirmation_cannot_smuggle_an_actor_or_responsibility_override() {
+        let base = json!({
+            "summarySnapshotId":"00000000-0000-0000-0000-000000000000",
+            "handoverBasisSnapshotId":"00000000-0000-0000-0000-000000000000",
+            "expectedConfirmationVersion":1
+        });
+        let operation = "ProjectHandoverController_confirmProjectHandoverParticipant";
+        assert!(validate_body(operation, Some(&base.to_string())).is_ok());
+        for key in ["actorId", "userId", "responsibilities", "participantStatus"] {
+            let mut body = base.clone();
+            body[key] = json!("untrusted");
+            assert!(validate_body(operation, Some(&body.to_string())).is_err());
+        }
+    }
+
+    #[test]
+    fn currency_only_invoice_correction_is_admitted_but_version_only_is_not() {
+        let operation = "ContractFinanceController_updateInvoice";
+        assert!(
+            validate_body(
+                operation,
+                Some(r#"{"currencyCode":"CNY","expectedVersion":1}"#)
+            )
+            .is_ok()
+        );
+        assert!(validate_body(operation, Some(r#"{"expectedVersion":1}"#)).is_err());
+        assert!(validate_body(operation, Some(r#"{"currencyCode":"cny"}"#)).is_err());
     }
 }

@@ -1,0 +1,99 @@
+{
+  "kind": "R4DEF-E-owned-D-UI-non-null-candidate40",
+  "createdAt": "2026-11-04T00:09:56.382Z",
+  "rootSource": {
+    "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-admin/src/app/features/project/project-handover-actions.ts",
+    "bytes": 42237,
+    "rawBytesSha256": "6aa3370cd03200fc13c635f70523fddcf4a95bb27708c2fa658bfd606c9f08e3"
+  },
+  "original": {
+    "file": "E:/projects/worktrees/poms-r4e-cost-base/poms/tools/rust-r4def/E/ui-fix40/project-handover-actions-original.ts.bin",
+    "bytes": 42237,
+    "rawBytesSha256": "6aa3370cd03200fc13c635f70523fddcf4a95bb27708c2fa658bfd606c9f08e3"
+  },
+  "candidate": {
+    "file": "E:/projects/worktrees/poms-r4e-cost-base/poms/tools/rust-r4def/E/ui-fix40/candidate.ts",
+    "bytes": 42561,
+    "rawBytesSha256": "97c4c8a41539b0539d6730a6e0257c943e1cd5517a2589f2f4fd132f1dd7a0e9"
+  },
+  "targetImportPath": "apps/poms-admin/src/app/features/project/project-handover-actions.ts",
+  "ownership": "Only candidate.ts, original byte copy and manifest under tools/rust-r4def/E/ui-fix40; Root owns import/full lint/build",
+  "changes": {
+    "nonNullAssertionsBefore": 22,
+    "nonNullAssertionsAfter": 0,
+    "methods": [
+      "confirmOwn",
+      "finalize",
+      "createAmendment",
+      "prepareTerms",
+      "submitReview",
+      "activate",
+      "rebaseline"
+    ],
+    "guardsUnchanged": true,
+    "apiCallArgumentsEquivalentAfterResolvingGuardedConstAliases": true,
+    "importsUnchanged": true,
+    "inlineTemplateUnchanged": true,
+    "otherMethodsUnchanged": true,
+    "ASTComparison": "Read-only TypeScript AST comparison completed: 7 changed methods API args/guards, other methods/imports/template unchanged",
+    "asAssertionsBefore": 5,
+    "asAssertionsAfter": 5,
+    "newAsAssertions": 0,
+    "lintDisableAdded": false,
+    "projectWriteGatePreserved": true,
+    "adminDataAccessImportsPreserved": true
+  },
+  "validation": {
+    "angularVersion": "22.1.6",
+    "typescriptVersion": "6.0.3",
+    "targetedESLint": {
+      "status": "not-run-dependency-unavailable",
+      "attempts": "No top-level parser/plugin in existing Windows/Linux public checkout; require direct installed .pnpm package also MODULE_NOT_FOUND. No install/shared change performed.",
+      "claim": "No full lint or ESLint rule Pass claimed; AST verifies zero NonNullExpression nodes"
+    },
+    "virtualTypeScript": {
+      "actualTsconfig": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-admin/tsconfig.app.json",
+      "emit": false,
+      "rootFileModified": false,
+      "baselineSourceFiles": 1008,
+      "candidateSourceFiles": 1008,
+      "baselineDiagnostics": 0,
+      "candidateDiagnostics": 0,
+      "candidateOwnFileDiagnostics": 0,
+      "newDependencyDiagnostics": 0,
+      "existingUnrelatedDiagnostics": []
+    },
+    "fullAngularBuild": "not run: Root owns integrated build; task authorizes only three tool candidate files",
+    "unitTests": "not run; no tests added for type narrowing only",
+    "runtimeHttp": "not run"
+  },
+  "lateAttachmentFailureReview": {
+    "readOnlySources": [
+      {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-admin/src/app/features/project/project-contract-handover.spec.ts",
+        "bytes": 20397,
+        "rawBytesSha256": "d9319d5f184b4aa1aed4ff8dec64271e0ce41fcbf54bf7097e11eebc5c5754fc"
+      },
+      {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-admin/src/test-setup.ts",
+        "bytes": 104,
+        "rawBytesSha256": "f32e629447b088c9f3a59dee508e4f9ed8fcac6196946741569daa41b56943d7"
+      },
+      {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+        "bytes": 48089,
+        "rawBytesSha256": "c1f8b29e1fa88f880ffaddae8053ba1290130c36b262239f103bda87083b0d89"
+      }
+    ],
+    "caseTitle": "ignores an old attachment failure and loading completion after A→B→A navigation",
+    "whenStableLine": 411,
+    "testEnvironment": "setupZonelessTestEnv",
+    "oldRefresh": "direct async component method, bare mocked unresolved Promise, no explicit PendingTasks/real HttpClient in test",
+    "finding": "Pending bare Promise alone is not registered Angular stability work in this zoneless case, so hang is not proven solely by its unresolved state.",
+    "recommendation": "Use fixture.detectChanges plus bounded explicit microtask turn or specific current-route/load completion signal instead of a global whenStable barrier while intentionally keeping old work pending. If the old refresh becomes a tracked PendingTasks/HttpClient operation, whenStable before rejectOld can wait indefinitely. Then rejectOld→await oldRequest→assert current loading true; resolveCurrent→await currentRequest→assert loading false.",
+    "testFileModified": false,
+    "testExecuted": false
+  },
+  "commitPerformed": false,
+  "sharedFilesWritten": false
+}

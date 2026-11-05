@@ -1,0 +1,357 @@
+--- a/README.md
++++ b/README.md
+@@ -216,3 +216,11 @@
+ - [实施治理规则](docs/design/implementation-governance-gates.md)
+ 
+ 仓库只保存配置模板和文档，不提交真实证书、私钥、数据库密码、会话凭据或对象存储密钥。功能范围应结合当前代码和对应验收证据判断，历史设计与归档材料用于说明决策及演进过程。
++
++### {{ROOT_DATE}} R4 第二批 G4 归档就绪（条件候选，未应用）
++
++本批D7/E11/F12共30个唯一HTTP已完成限定实现与实际验收，[独立G3]({{independentG3_REF}})及[固定提交复核]({{fixedCommitReview_REF}})通过。当前为G4Ready，四项#107/#108/#109/#106仍Open；Rust技术surface240，正式仍210、本批正式新增0。main集成、独立关闭许可、实际线上G4和非作者实际终审另行完成；#101/#57保持Open。
++
++实现提交 `{{IMPLEMENTATION_COMMIT}}`；永久S4 `4f0ad88e78622a75b88b4e3cc72aded9da67458a` 保留。[验收]({{finalValidation_REF}})、[精确清理]({{cleanup_REF}})、[停止回执]({{stopped_REF}})和[原字节归档](docs/design/archive/slices/rust-r4def/archive-origin-map130.json)各自绑定原件；[机器状态](docs/design/rust-r4def-delivery-status.json)镜像同一Gate。完整spec为 **239 paths / 293 operations / 626 schemas**、client **616**。原G1、Block、Failed、Partial、ignored、Native参考与Native ORM exit 1均保留原分类，不升格为通过。
++
++完整R4阶段验收、R5、部署/切流、性能、S3 WORM与真实lost COMMIT ACK均未被本批认证完成；移交事实和已确认成本不绕过R5准入或自动纳入经营口径。另保留既有R2缺口：`createUser`携带`initialRoleIds`返回500（`actualapi32/00011`，`users/service.rs:469 intentionalProtocol`）；由#57后续跟进，本批不修复，也不宣称Rust全局正确性已经完成。
+--- a/docs/design/README.md
++++ b/docs/design/README.md
+@@ -170,7 +170,7 @@
+ # 文档标题
+ 
+ **文档状态**: Draft
+-**最后更新**: 2026-11-04
++**最后更新**: {{ROOT_DATE}}
+ **适用范围**: `POMS` 第一阶段某业务域或某治理专题
+ **关联文档**:
+ 
+@@ -537,10 +537,18 @@
+ 
+ ### 2026-11-04 R4 第二批 G0 / G1 准备
+ 
+-[#106](https://github.com/illusion-tech/poms/issues/106) 及D#107/E#108/F#109已建立，当前[联合基线](rust-r4def-next30-baseline.md)和[状态](rust-r4def-delivery-status.json)索引候选30入口（28既有+2真实移交准备/本人确认新增）。用户已裁决可操作闭环、职责确认/R5准入和成本精度/整批分摊规则；当前仍G1准备、未准入G2、新增交付0，经营17/验收完工归档8及完整R4未完成，#101/#57保持Open。
++[#106](https://github.com/illusion-tech/poms/issues/106) 及D#107/E#108/F#109已建立，当前[联合基线](archive/slices/rust-r4def-next30-baseline.md.bin)和[状态](rust-r4def-delivery-status.json)索引候选30入口（28既有+2真实移交准备/本人确认新增）。用户已裁决可操作闭环、职责确认/R5准入和成本精度/整批分摊规则；当前仍G1准备、未准入G2、新增交付0，经营17/验收完工归档8及完整R4未完成，#101/#57保持Open。
+ 
+ ### 2026-11-04 R4 第二批联合 G1 实际冻结
+ 
+-[#106](https://github.com/illusion-tech/poms/issues/106#issuecomment-6615241191) / [D#107](https://github.com/illusion-tech/poms/issues/107#issuecomment-6615243857) / [E#108](https://github.com/illusion-tech/poms/issues/108#issuecomment-6615246436) / [F#109](https://github.com/illusion-tech/poms/issues/109#issuecomment-6615249125) 已获[非作者G1 Pass](rust-r4def/g1-independent07/g1-final06.json.bin)并完成[实际线上读回](rust-r4def/g1-online07.json)，30入口及必要内部机制/最小UI的435来源和5outputs已冻结，三线G2准入。输入57f64d6c；[当前基线](rust-r4def-next30-baseline.md)、[归属](rust-r4def/ownership04.md)、[状态](rust-r4def-delivery-status.json)一致。旧Block/失败与候选不改写。
++[#106](https://github.com/illusion-tech/poms/issues/106#issuecomment-6615241191) / [D#107](https://github.com/illusion-tech/poms/issues/107#issuecomment-6615243857) / [E#108](https://github.com/illusion-tech/poms/issues/108#issuecomment-6615246436) / [F#109](https://github.com/illusion-tech/poms/issues/109#issuecomment-6615249125) 已获[非作者G1 Pass](archive/slices/rust-r4def/g1-independent07/g1-final06.json.bin)并完成[实际线上读回](archive/slices/rust-r4def/g1-online07.json.bin)，30入口及必要内部机制/最小UI的435来源和5outputs已冻结，三线G2准入。输入57f64d6c；[当前基线](archive/slices/rust-r4def-next30-baseline.md.bin)、[归属](archive/slices/rust-r4def/ownership04.md.bin)、[状态](rust-r4def-delivery-status.json)一致。旧Block/失败与候选不改写。
+ 
+ 当前仅G1完成，Rust仍210、本批新增正式交付0；实现/SQL/HTTP/PG/UI/独立G3/G4与main集成均未认证。经营17、验收完工归档8及完整R4仍后续，#101/#57持续Open。
++
++### {{ROOT_DATE}} R4 第二批 G4 归档就绪（条件候选，未应用）
++
++本批D7/E11/F12共30个唯一HTTP已完成限定实现与实际验收，[独立G3]({{independentG3_REF}})及[固定提交复核]({{fixedCommitReview_REF}})通过。当前为G4Ready，四项#107/#108/#109/#106仍Open；Rust技术surface240，正式仍210、本批正式新增0。main集成、独立关闭许可、实际线上G4和非作者实际终审另行完成；#101/#57保持Open。
++
++实现提交 `{{IMPLEMENTATION_COMMIT}}`；永久S4 `4f0ad88e78622a75b88b4e3cc72aded9da67458a` 保留。[验收]({{finalValidation_REF}})、[精确清理]({{cleanup_REF}})、[停止回执]({{stopped_REF}})和[原字节归档](../../docs/design/archive/slices/rust-r4def/archive-origin-map130.json)各自绑定原件；[机器状态](../../docs/design/rust-r4def-delivery-status.json)镜像同一Gate。完整spec为 **239 paths / 293 operations / 626 schemas**、client **616**。原G1、Block、Failed、Partial、ignored、Native参考与Native ORM exit 1均保留原分类，不升格为通过。
++
++完整R4阶段验收、R5、部署/切流、性能、S3 WORM与真实lost COMMIT ACK均未被本批认证完成；移交事实和已确认成本不绕过R5准入或自动纳入经营口径。另保留既有R2缺口：`createUser`携带`initialRoleIds`返回500（`actualapi32/00011`，`users/service.rs:469 intentionalProtocol`）；由#57后续跟进，本批不修复，也不宣称Rust全局正确性已经完成。
+--- a/docs/design/backend-rust-migration-plan.md
++++ b/docs/design/backend-rust-migration-plan.md
+@@ -1,7 +1,7 @@
+ # POMS 后端 Rust 重构计划
+ 
+-**文档状态**: Active — R0/R1/R2/R3已完成，R3独立实际G4终审Pass，#85及本批子项Closed；#57继续Open；R4首批37入口独立G4通过；完整R4仍Doing，R5–R7待推进
+-**最后更新**: 2026-11-04
++**文档状态**: Active — R0/R1/R2/R3已完成；R4本批G4Ready，技术240/正式210；完整R4仍Doing，#101/#57 Open，R5–R7待推进
++**最后更新**: {{ROOT_DATE}}
+ **适用范围**: 将现有 NestJS 后端逐步实现为 Rust 后端，完成业务兼容、部署切换和旧运行时退出
+ **关联文档**:
+ 
+@@ -583,12 +583,20 @@
+ 
+ ### 2026-11-04 R4 第二批 G0 与业务裁决
+ 
+-用户授权 [#106](https://github.com/illusion-tech/poms/issues/106) → D [#107](https://github.com/illusion-tech/poms/issues/107) / E [#108](https://github.com/illusion-tech/poms/issues/108) / F [#109](https://github.com/illusion-tech/poms/issues/109)，原28既有入口已静态去重并与Rust210零重叠。用户进一步批准真实准备/本人确认/受控合同变更与最小UI，候选调整为D7/E11/F12共30；两个新增canonical已登记planned，尚未准入G2。详见[联合基线](rust-r4def-next30-baseline.md)、[用户裁决](rust-r4def/user-decisions01.json)和[当前状态](rust-r4def-delivery-status.json)。
++用户授权 [#106](https://github.com/illusion-tech/poms/issues/106) → D [#107](https://github.com/illusion-tech/poms/issues/107) / E [#108](https://github.com/illusion-tech/poms/issues/108) / F [#109](https://github.com/illusion-tech/poms/issues/109)，原28既有入口已静态去重并与Rust210零重叠。用户进一步批准真实准备/本人确认/受控合同变更与最小UI，候选调整为D7/E11/F12共30；两个新增canonical已登记planned，尚未准入G2。详见[联合基线](archive/slices/rust-r4def-next30-baseline.md.bin)、[用户裁决](archive/slices/rust-r4def/user-decisions01.json.bin)和[当前状态](rust-r4def-delivery-status.json)。
+ 
+ 三线先准备精确G1：D真实移交和变更链，E实际成本基础，F整批分摊/阶段/税务；F真实验收消费E及适用D事实。职责允许兼任而只可本人确认，移交事实不绕过R5执行准入；人工精确HALF_UP到分、确定性分摊尾差与完整批次原子替代已明确，历史多位金额不静默改写。经营17与验收完工归档8仍后续，#101/#57保持Open。
+ 
+ ### 2026-11-04 R4 第二批联合 G1 实际冻结
+ 
+-[#106](https://github.com/illusion-tech/poms/issues/106#issuecomment-6615241191) / [D#107](https://github.com/illusion-tech/poms/issues/107#issuecomment-6615243857) / [E#108](https://github.com/illusion-tech/poms/issues/108#issuecomment-6615246436) / [F#109](https://github.com/illusion-tech/poms/issues/109#issuecomment-6615249125) 已获[非作者G1 Pass](rust-r4def/g1-independent07/g1-final06.json.bin)并完成[实际线上读回](rust-r4def/g1-online07.json)，30入口及必要内部机制/最小UI的435来源和5outputs已冻结，三线G2准入。输入57f64d6c；[当前基线](rust-r4def-next30-baseline.md)、[归属](rust-r4def/ownership04.md)、[状态](rust-r4def-delivery-status.json)一致。旧Block/失败与候选不改写。
++[#106](https://github.com/illusion-tech/poms/issues/106#issuecomment-6615241191) / [D#107](https://github.com/illusion-tech/poms/issues/107#issuecomment-6615243857) / [E#108](https://github.com/illusion-tech/poms/issues/108#issuecomment-6615246436) / [F#109](https://github.com/illusion-tech/poms/issues/109#issuecomment-6615249125) 已获[非作者G1 Pass](archive/slices/rust-r4def/g1-independent07/g1-final06.json.bin)并完成[实际线上读回](archive/slices/rust-r4def/g1-online07.json.bin)，30入口及必要内部机制/最小UI的435来源和5outputs已冻结，三线G2准入。输入57f64d6c；[当前基线](archive/slices/rust-r4def-next30-baseline.md.bin)、[归属](archive/slices/rust-r4def/ownership04.md.bin)、[状态](rust-r4def-delivery-status.json)一致。旧Block/失败与候选不改写。
+ 
+ 当前仅G1完成，Rust仍210、本批新增正式交付0；实现/SQL/HTTP/PG/UI/独立G3/G4与main集成均未认证。经营17、验收完工归档8及完整R4仍后续，#101/#57持续Open。
++
++### {{ROOT_DATE}} R4 第二批 G4 归档就绪（条件候选，未应用）
++
++本批D7/E11/F12共30个唯一HTTP已完成限定实现与实际验收，[独立G3]({{independentG3_REF}})及[固定提交复核]({{fixedCommitReview_REF}})通过。当前为G4Ready，四项#107/#108/#109/#106仍Open；Rust技术surface240，正式仍210、本批正式新增0。main集成、独立关闭许可、实际线上G4和非作者实际终审另行完成；#101/#57保持Open。
++
++实现提交 `{{IMPLEMENTATION_COMMIT}}`；永久S4 `4f0ad88e78622a75b88b4e3cc72aded9da67458a` 保留。[验收]({{finalValidation_REF}})、[精确清理]({{cleanup_REF}})、[停止回执]({{stopped_REF}})和[原字节归档](../../docs/design/archive/slices/rust-r4def/archive-origin-map130.json)各自绑定原件；[机器状态](../../docs/design/rust-r4def-delivery-status.json)镜像同一Gate。完整spec为 **239 paths / 293 operations / 626 schemas**、client **616**。原G1、Block、Failed、Partial、ignored、Native参考与Native ORM exit 1均保留原分类，不升格为通过。
++
++完整R4阶段验收、R5、部署/切流、性能、S3 WORM与真实lost COMMIT ACK均未被本批认证完成；移交事实和已确认成本不绕过R5准入或自动纳入经营口径。另保留既有R2缺口：`createUser`携带`initialRoleIds`返回500（`actualapi32/00011`，`users/service.rs:469 intentionalProtocol`）；由#57后续跟进，本批不修复，也不宣称Rust全局正确性已经完成。
+--- a/docs/design/rust-migration-execution-tracker.md
++++ b/docs/design/rust-migration-execution-tracker.md
+@@ -1,8 +1,8 @@
+ # Rust 后端迁移执行追踪
+ 
+-**最后更新**: 2026-11-04
++**最后更新**: {{ROOT_DATE}}
+ **父范围**: [Rust 重构计划](backend-rust-migration-plan.md)
+-**当前状态**: R0/R1/R2/R3已交付；R3 HTTP58/58及完整阶段独立G4终审Pass，#85/#97/#98–100 Closed；#57 Open；R4首批#102独立G4完成，#101保持Doing，R5–R7 Todo
++**当前状态**: R0/R1/R2/R3已交付；R4本批G4Ready、技术240/正式210，本批Issue保持Open；#101 Doing、#57 Open，R5–R7 Todo
+ **执行模式**: R0 main-only；R1A–E / R2A–H 独立 managed worktree + Linux checkout，按 solo worktree checkpoint 集成
+ 
+ ## 1. 状态与在线映射
+@@ -380,10 +380,18 @@
+ 
+ ### 2026-11-04 R4 第二批 G0 与联合 G1 准备
+ 
+-已建立 [#106](https://github.com/illusion-tech/poms/issues/106) → D#107/E#108/F#109。28既有入口当前AST/spec/canonical去重完成；用户授权补齐准备/本人确认/受控变更的真实可操作闭环，候选D7/E11/F12共30，其中2新增canonical为planned。职责本人确认/可兼任、R5执行准入分层、成本两位及整批分摊守恒三项已裁决，详见[基线](rust-r4def-next30-baseline.md)和[状态](rust-r4def-delivery-status.json)。当前G1准备、G2未准入、新增正式交付0；成本40已含经营17，不重复计数。仅本批最终可关闭#107/#108/#109/#106，#101/#57持续Open。
++已建立 [#106](https://github.com/illusion-tech/poms/issues/106) → D#107/E#108/F#109。28既有入口当前AST/spec/canonical去重完成；用户授权补齐准备/本人确认/受控变更的真实可操作闭环，候选D7/E11/F12共30，其中2新增canonical为planned。职责本人确认/可兼任、R5执行准入分层、成本两位及整批分摊守恒三项已裁决，详见[基线](archive/slices/rust-r4def-next30-baseline.md.bin)和[状态](rust-r4def-delivery-status.json)。当前G1准备、G2未准入、新增正式交付0；成本40已含经营17，不重复计数。仅本批最终可关闭#107/#108/#109/#106，#101/#57持续Open。
+ 
+ ### 2026-11-04 R4 第二批联合 G1 实际冻结
+ 
+-[#106](https://github.com/illusion-tech/poms/issues/106#issuecomment-6615241191) / [D#107](https://github.com/illusion-tech/poms/issues/107#issuecomment-6615243857) / [E#108](https://github.com/illusion-tech/poms/issues/108#issuecomment-6615246436) / [F#109](https://github.com/illusion-tech/poms/issues/109#issuecomment-6615249125) 已获[非作者G1 Pass](rust-r4def/g1-independent07/g1-final06.json.bin)并完成[实际线上读回](rust-r4def/g1-online07.json)，30入口及必要内部机制/最小UI的435来源和5outputs已冻结，三线G2准入。输入57f64d6c；[当前基线](rust-r4def-next30-baseline.md)、[归属](rust-r4def/ownership04.md)、[状态](rust-r4def-delivery-status.json)一致。旧Block/失败与候选不改写。
++[#106](https://github.com/illusion-tech/poms/issues/106#issuecomment-6615241191) / [D#107](https://github.com/illusion-tech/poms/issues/107#issuecomment-6615243857) / [E#108](https://github.com/illusion-tech/poms/issues/108#issuecomment-6615246436) / [F#109](https://github.com/illusion-tech/poms/issues/109#issuecomment-6615249125) 已获[非作者G1 Pass](archive/slices/rust-r4def/g1-independent07/g1-final06.json.bin)并完成[实际线上读回](archive/slices/rust-r4def/g1-online07.json.bin)，30入口及必要内部机制/最小UI的435来源和5outputs已冻结，三线G2准入。输入57f64d6c；[当前基线](archive/slices/rust-r4def-next30-baseline.md.bin)、[归属](archive/slices/rust-r4def/ownership04.md.bin)、[状态](rust-r4def-delivery-status.json)一致。旧Block/失败与候选不改写。
+ 
+ 当前仅G1完成，Rust仍210、本批新增正式交付0；实现/SQL/HTTP/PG/UI/独立G3/G4与main集成均未认证。经营17、验收完工归档8及完整R4仍后续，#101/#57持续Open。
++
++### {{ROOT_DATE}} R4 第二批 G4 归档就绪（条件候选，未应用）
++
++本批D7/E11/F12共30个唯一HTTP已完成限定实现与实际验收，[独立G3]({{independentG3_REF}})及[固定提交复核]({{fixedCommitReview_REF}})通过。当前为G4Ready，四项#107/#108/#109/#106仍Open；Rust技术surface240，正式仍210、本批正式新增0。main集成、独立关闭许可、实际线上G4和非作者实际终审另行完成；#101/#57保持Open。
++
++实现提交 `{{IMPLEMENTATION_COMMIT}}`；永久S4 `4f0ad88e78622a75b88b4e3cc72aded9da67458a` 保留。[验收]({{finalValidation_REF}})、[精确清理]({{cleanup_REF}})、[停止回执]({{stopped_REF}})和[原字节归档](../../docs/design/archive/slices/rust-r4def/archive-origin-map130.json)各自绑定原件；[机器状态](../../docs/design/rust-r4def-delivery-status.json)镜像同一Gate。完整spec为 **239 paths / 293 operations / 626 schemas**、client **616**。原G1、Block、Failed、Partial、ignored、Native参考与Native ORM exit 1均保留原分类，不升格为通过。
++
++完整R4阶段验收、R5、部署/切流、性能、S3 WORM与真实lost COMMIT ACK均未被本批认证完成；移交事实和已确认成本不绕过R5准入或自动纳入经营口径。另保留既有R2缺口：`createUser`携带`initialRoleIds`返回500（`actualapi32/00011`，`users/service.rs:469 intentionalProtocol`）；由#57后续跟进，本批不修复，也不宣称Rust全局正确性已经完成。
+--- a/docs/design/phase2-development-execution-tracker.md
++++ b/docs/design/phase2-development-execution-tracker.md
+@@ -1,8 +1,8 @@
+ # POMS 第二阶段开发执行追踪板
+ 
+ **文档状态**: Active
+-**最后更新**: 2026-11-04
+-**Rust 迁移补充索引更新**: 2026-11-03；原第二阶段任务状态不变
++**最后更新**: {{ROOT_DATE}}
++**Rust 迁移补充索引更新**: {{ROOT_DATE}}；原第二阶段任务状态不变
+ **适用范围**: `POMS` 第二阶段当前统一开发范围下的工程任务拆解、状态跟踪与执行回写
+ **关联文档**:
+ 
+@@ -794,15 +794,23 @@
+ 
+ ### 2026-11-04 R4 第二批 G0 与联合 G1 准备
+ 
+-已建立 [#106](https://github.com/illusion-tech/poms/issues/106) → D#107/E#108/F#109。28既有入口当前AST/spec/canonical去重完成；用户授权补齐准备/本人确认/受控变更的真实可操作闭环，候选D7/E11/F12共30，其中2新增canonical为planned。职责本人确认/可兼任、R5执行准入分层、成本两位及整批分摊守恒三项已裁决，详见[基线](rust-r4def-next30-baseline.md)和[状态](rust-r4def-delivery-status.json)。当前G1准备、G2未准入、新增正式交付0；经营17及验收完工归档8仍后续。#101/#57保持Open，第二阶段原任务状态不因迁移准备被重写。
++已建立 [#106](https://github.com/illusion-tech/poms/issues/106) → D#107/E#108/F#109。28既有入口当前AST/spec/canonical去重完成；用户授权补齐准备/本人确认/受控变更的真实可操作闭环，候选D7/E11/F12共30，其中2新增canonical为planned。职责本人确认/可兼任、R5执行准入分层、成本两位及整批分摊守恒三项已裁决，详见[基线](archive/slices/rust-r4def-next30-baseline.md.bin)和[状态](rust-r4def-delivery-status.json)。当前G1准备、G2未准入、新增正式交付0；经营17及验收完工归档8仍后续。#101/#57保持Open，第二阶段原任务状态不因迁移准备被重写。
+ 
+ ### 2026-11-04 R4 第二批联合 G1 实际冻结
+ 
+-[#106](https://github.com/illusion-tech/poms/issues/106#issuecomment-6615241191) / [D#107](https://github.com/illusion-tech/poms/issues/107#issuecomment-6615243857) / [E#108](https://github.com/illusion-tech/poms/issues/108#issuecomment-6615246436) / [F#109](https://github.com/illusion-tech/poms/issues/109#issuecomment-6615249125) 已获[非作者G1 Pass](rust-r4def/g1-independent07/g1-final06.json.bin)并完成[实际线上读回](rust-r4def/g1-online07.json)，30入口及必要内部机制/最小UI的435来源和5outputs已冻结，三线G2准入。输入57f64d6c；[当前基线](rust-r4def-next30-baseline.md)、[归属](rust-r4def/ownership04.md)、[状态](rust-r4def-delivery-status.json)一致。旧Block/失败与候选不改写。
++[#106](https://github.com/illusion-tech/poms/issues/106#issuecomment-6615241191) / [D#107](https://github.com/illusion-tech/poms/issues/107#issuecomment-6615243857) / [E#108](https://github.com/illusion-tech/poms/issues/108#issuecomment-6615246436) / [F#109](https://github.com/illusion-tech/poms/issues/109#issuecomment-6615249125) 已获[非作者G1 Pass](archive/slices/rust-r4def/g1-independent07/g1-final06.json.bin)并完成[实际线上读回](archive/slices/rust-r4def/g1-online07.json.bin)，30入口及必要内部机制/最小UI的435来源和5outputs已冻结，三线G2准入。输入57f64d6c；[当前基线](archive/slices/rust-r4def-next30-baseline.md.bin)、[归属](archive/slices/rust-r4def/ownership04.md.bin)、[状态](rust-r4def-delivery-status.json)一致。旧Block/失败与候选不改写。
+ 
+ 当前仅G1完成，Rust仍210、本批新增正式交付0；实现/SQL/HTTP/PG/UI/独立G3/G4与main集成均未认证。经营17、验收完工归档8及完整R4仍后续，#101/#57持续Open。
+ 
+ 
+ ### RUST-R4-DEF G2 进行中
+ 
+-[#106](https://github.com/illusion-tech/poms/issues/106)与D#107/E#108/F#109均保持Doing/Open，线上已同步G2进展。隔离候选Rust240、完整spec293/626、原生成client616；正式main仍210、本批新增交付0。主金额纠偏经[独立冻结51](rust-r4def/g2-allocation-freeze51.json)准入，K必要支持正在纠偏；真实部分证据和旧失败分段保留，最终清理、独立G3/G4与main集成尚未完成。[状态索引](rust-r4def-delivery-status.json)持续镜像线上。R4经营17、验收完工归档8及后续R5等仍未包含，#101/#57保持Open。
++[#106](https://github.com/illusion-tech/poms/issues/106)与D#107/E#108/F#109均保持Doing/Open，线上已同步G2进展。隔离候选Rust240、完整spec293/626、原生成client616；正式main仍210、本批新增交付0。主金额纠偏经[独立冻结51](archive/slices/rust-r4def/g2-allocation-freeze51.json.bin)准入，K必要支持正在纠偏；真实部分证据和旧失败分段保留，最终清理、独立G3/G4与main集成尚未完成。[状态索引](rust-r4def-delivery-status.json)持续镜像线上。R4经营17、验收完工归档8及后续R5等仍未包含，#101/#57保持Open。
++
++### {{ROOT_DATE}} R4 第二批 G4 归档就绪（条件候选，未应用）
++
++本批D7/E11/F12共30个唯一HTTP已完成限定实现与实际验收，[独立G3]({{independentG3_REF}})及[固定提交复核]({{fixedCommitReview_REF}})通过。当前为G4Ready，四项#107/#108/#109/#106仍Open；Rust技术surface240，正式仍210、本批正式新增0。main集成、独立关闭许可、实际线上G4和非作者实际终审另行完成；#101/#57保持Open。
++
++实现提交 `{{IMPLEMENTATION_COMMIT}}`；永久S4 `4f0ad88e78622a75b88b4e3cc72aded9da67458a` 保留。[验收]({{finalValidation_REF}})、[精确清理]({{cleanup_REF}})、[停止回执]({{stopped_REF}})和[原字节归档](../../docs/design/archive/slices/rust-r4def/archive-origin-map130.json)各自绑定原件；[机器状态](../../docs/design/rust-r4def-delivery-status.json)镜像同一Gate。完整spec为 **239 paths / 293 operations / 626 schemas**、client **616**。原G1、Block、Failed、Partial、ignored、Native参考与Native ORM exit 1均保留原分类，不升格为通过。
++
++完整R4阶段验收、R5、部署/切流、性能、S3 WORM与真实lost COMMIT ACK均未被本批认证完成；移交事实和已确认成本不绕过R5准入或自动纳入经营口径。另保留既有R2缺口：`createUser`携带`initialRoleIds`返回500（`actualapi32/00011`，`users/service.rs:469 intentionalProtocol`）；由#57后续跟进，本批不修复，也不宣称Rust全局正确性已经完成。
+--- a/docs/design/rust-r4-scope-and-dependencies.md
++++ b/docs/design/rust-r4-scope-and-dependencies.md
+@@ -1,12 +1,12 @@
+ # R4 范围与后续依赖
+ 
+-最后更新：2026-11-04。阶段父 [#101](https://github.com/illusion-tech/poms/issues/101)、总体 [#57](https://github.com/illusion-tech/poms/issues/57) 保持 Open。当前首批 #102/#103/#104/#105 已完成独立实际 G4 并关闭；新增37入口正式交付，完整 R4 仍未完成。
++最后更新：{{ROOT_DATE}}。#101/#57保持Open。本批仅G4Ready，正式Rust210、本批新增0。完整R4仍未完成。
+ 
+ ## 首批边界
+ 
+ A#103签约就绪9、B#104合同9、C#105资金19，共37公开入口；Runtime累计210，完整共享契约291 operations/595 schemas、client586文件。实际合同准备→精确审核绑定→原子生效快照→正式应收计划，以及独立合同金额、来源差异、正数两位金额和付款归属均已实现验收。详见[归档验收](archive/slices/rust-r4abc/validation-checkpoint57.md)。
+ 
+-## 尚未交付的阶段范围
++## 首批后盘点（历史时点）
+ 
+ 当前契约与 Rust 210 项去重后，R4 尚有 53 个既有 HTTP：移交 5、成本与经营 40、验收/完工/归档 8。成本与经营 40 内已包含基础成本 11、分摊/阶段/税务 12、经营核算及风险视图 17，不能重复计数。相应内部/审批机制及完整 R4 阶段集成另须真实验收；R2 最小事实读取不等于这些生产能力。R5 完整提成还依赖后续真实成本/经营/冻结事实；R6/R7 接管与切流另需自己的验收和授权。
+ 
+@@ -14,10 +14,18 @@
+ 
+ 用户已授权第二批 [#106](https://github.com/illusion-tech/poms/issues/106)，D [#107](https://github.com/illusion-tech/poms/issues/107)、E [#108](https://github.com/illusion-tech/poms/issues/108)、F [#109](https://github.com/illusion-tech/poms/issues/109) 原生父子关系已建立并读回。原范围为 28 既有入口；用户随后同意补齐可操作移交闭环，当前候选为 D7/E11/F12 共30，其中2个新增入口待 authoritative inventory 和联合 G1 精确冻结，尚未准入产品实现。
+ 
+-职责本人确认/可兼任、R5 执行准入分层、金额两位/人工精确舍入/整批分摊守恒的三个裁决见[联合基线](rust-r4def-next30-baseline.md)和[当前状态](rust-r4def-delivery-status.json)。经营17及验收完工归档8保留后续范围；#101/#57保持Open。
++职责本人确认/可兼任、R5 执行准入分层、金额两位/人工精确舍入/整批分摊守恒的三个裁决见[联合基线](archive/slices/rust-r4def-next30-baseline.md.bin)和[当前状态](rust-r4def-delivery-status.json)。经营17及验收完工归档8保留后续范围；#101/#57保持Open。
+ 
+ 本批合同/有效快照/计划和资金事实可以作为后续冻结输入。移交与成本领域可在接口及共享资源归属明确后并行准备；实际消费验收必须依赖真实上游交付，不以合成映射fixture替代成本producer。新增作者UI或财务UI、生产部署和性能均未被本批认领。
+ 
+-## 第二批当前准入
++## 第二批G1准入（历史时点）
+ 
+-30项（D7/E11/F12，28既有+2新增）已经[独立G1](rust-r4def/g1-independent07/g1-final06.json.bin)和[实际线上冻结](rust-r4def/g1-online07.json)，从同一冻结基线三线进入G2。联合目标完整契约293操作/624schemas不等于运行交付；当前Rust210、本批交付0。前述G0/G1准备为历史时点，当前以[状态索引](rust-r4def-delivery-status.json)为准。本批最终仅可收口#107/#108/#109/#106，#101/#57保持Open。
++30项（D7/E11/F12，28既有+2新增）已经[独立G1](archive/slices/rust-r4def/g1-independent07/g1-final06.json.bin)和[实际线上冻结](archive/slices/rust-r4def/g1-online07.json.bin)，从同一冻结基线三线进入G2。联合目标完整契约293操作/624schemas不等于运行交付；当前Rust210、本批交付0。前述G0/G1准备为历史时点，当前以[状态索引](rust-r4def-delivery-status.json)为准。本批最终仅可收口#107/#108/#109/#106，#101/#57保持Open。
++
++### {{ROOT_DATE}} R4 第二批 G4 归档就绪（条件候选，未应用）
++
++本批D7/E11/F12共30个唯一HTTP已完成限定实现与实际验收，[独立G3]({{independentG3_REF}})及[固定提交复核]({{fixedCommitReview_REF}})通过。当前为G4Ready，四项#107/#108/#109/#106仍Open；Rust技术surface240，正式仍210、本批正式新增0。main集成、独立关闭许可、实际线上G4和非作者实际终审另行完成；#101/#57保持Open。
++
++实现提交 `{{IMPLEMENTATION_COMMIT}}`；永久S4 `4f0ad88e78622a75b88b4e3cc72aded9da67458a` 保留。[验收]({{finalValidation_REF}})、[精确清理]({{cleanup_REF}})、[停止回执]({{stopped_REF}})和[原字节归档](../../docs/design/archive/slices/rust-r4def/archive-origin-map130.json)各自绑定原件；[机器状态](../../docs/design/rust-r4def-delivery-status.json)镜像同一Gate。完整spec为 **239 paths / 293 operations / 626 schemas**、client **616**。原G1、Block、Failed、Partial、ignored、Native参考与Native ORM exit 1均保留原分类，不升格为通过。
++
++完整R4阶段验收、R5、部署/切流、性能、S3 WORM与真实lost COMMIT ACK均未被本批认证完成；移交事实和已确认成本不绕过R5准入或自动纳入经营口径。另保留既有R2缺口：`createUser`携带`initialRoleIds`返回500（`actualapi32/00011`，`users/service.rs:469 intentionalProtocol`）；由#57后续跟进，本批不修复，也不宣称Rust全局正确性已经完成。
+--- a/docs/design/rust-r4def-delivery-status.json
++++ b/docs/design/rust-r4def-delivery-status.json
+@@ -1,9 +1,9 @@
+ {
+   "kind": "GitHub-mirrored-R4-second-batch-delivery-index",
+-  "date": "2026-11-04",
++  "date": "{{ROOT_DATE}}",
+   "base": "565661b9113372de4da6662a4a692fbfd2296dd6",
+   "branch": "codex/poms-r4def-next28",
+-  "stage": "G2Doing",
++  "stage": "CandidateReadyNotApplied",
+   "scope": {
+     "D": 7,
+     "E": 11,
+@@ -22,27 +22,27 @@
+     "108": "OPEN",
+     "109": "OPEN"
+   },
+-  "baseline": "rust-r4def-next30-baseline.md",
+-  "g0ActualReceipt": "rust-r4def/g0-registration01.json",
+-  "userDecisions": "rust-r4def/user-decisions01.json",
++  "baseline": "archive/slices/rust-r4def-next30-baseline.md.bin",
++  "g0ActualReceipt": "archive/slices/rust-r4def/g0-registration01.json.bin",
++  "userDecisions": "archive/slices/rust-r4def/user-decisions01.json.bin",
+   "G1Certified": true,
+   "G2Authorized": true,
+   "fullR4Complete": false,
+-  "updatedAt": "2026-11-04T04:24:18.848Z",
++  "updatedAt": null,
+   "G1InputCommit": "57f64d6c0aef99430acc3b4ed7d99d00074d59f4",
+   "G1InputManifest": {
+-    "file": "docs/design/rust-r4def/joint-g1-06/manifest06.json",
++    "file": "docs/design/archive/slices/rust-r4def/joint-g1-06/manifest06.json.bin",
+     "rawBytesSha256": "8229d58c4319962de37ff9a153dc2c24a9b191f4a2101c3ce12558bdb0ef2147"
+   },
+   "independentG1": {
+-    "file": "docs/design/rust-r4def/g1-independent07/g1-final06.json.bin",
++    "file": "docs/design/archive/slices/rust-r4def/g1-independent07/g1-final06.json.bin",
+     "rawBytesSha256": "b157f230a59a5750fd8fa993d8f58fb517619fb898b3ba1f3757b7a54d0656f6"
+   },
+-  "actualOnlineG1": "rust-r4def/g1-online07.json",
+-  "gateAuthority": "rust-r4def/g1-gate-authority07.json",
++  "actualOnlineG1": "archive/slices/rust-r4def/g1-online07.json.bin",
++  "gateAuthority": "archive/slices/rust-r4def/g1-gate-authority07.json.bin",
+   "officialRustOperations": 210,
+-  "G3Certified": false,
+-  "G4Certified": false,
++  "G3Certified": null,
++  "G4Certified": null,
+   "currentPublicContract": {
+     "paths": 239,
+     "operations": 293,
+@@ -51,9 +51,9 @@
+     "permanentS4": "4f0ad88e78622a75b88b4e3cc72aded9da67458a"
+   },
+   "G2": {
+-    "allocationDecision": "rust-r4def/g2-allocation-decision48.json",
+-    "allocationFreeze": "rust-r4def/g2-allocation-freeze51.json",
+-    "supportingAttachmentProposal": "rust-r4def/g2-attachment-proposal54.json",
++    "allocationDecision": "archive/slices/rust-r4def/g2-allocation-decision48.json.bin",
++    "allocationFreeze": "archive/slices/rust-r4def/g2-allocation-freeze51.json.bin",
++    "supportingAttachmentProposal": "archive/slices/rust-r4def/g2-attachment-proposal54.json.bin",
+     "attachmentImplementationAuthorized": true,
+     "actualPositiveOperationCoverage": 30,
+     "actualRuntime": "isolated candidate only; not mainline delivery",
+@@ -61,7 +61,7 @@
+       "K86 no-op intent correction, final runtime and K byte/necessary-write/race acceptance",
+       "Exact owned cleanup and independent G3/G4/main integration"
+     ],
+-    "supportingAttachmentFreeze": "rust-r4def/g2-attachment-freeze62.json",
++    "supportingAttachmentFreeze": "archive/slices/rust-r4def/g2-attachment-freeze62.json.bin",
+     "actualEvidence": {
+       "D": "D42/D49 + faults43/49; Linux64/Windows66 controlled amendment UI",
+       "E": "E41 + E42 actual readback + E20-56 legacy + precision56 negative/cleanup",
+@@ -71,6 +71,45 @@
+       "sensitiveGET": "fault75 + saved readback76",
+       "checks": "Rust full79 405/54 ignored; clippy80/build81; fmt87; Native50 863; Admin61 417; original foundation77 13"
+     },
+-    "supportingAttachmentNoopCorrection": "rust-r4def/g2-K86-correction.json"
++    "supportingAttachmentNoopCorrection": "archive/slices/rust-r4def/g2-K86-correction.json.bin",
++    "historicalSnapshotOnly": true
++  },
++  "finalIndependentActualReviewPending": true,
++  "implementationCommit": null,
++  "metadataCommit": null,
++  "mainCommit": null,
++  "finalMetadataCommit": null,
++  "fullR4StageAcceptanceComplete": false,
++  "archive": "archive/slices/rust-r4def/archive-origin-map130.json",
++  "r4Progress": {
++    "delivered": 37,
++    "total": 92,
++    "remaining": 55,
++    "pendingBatch": 30,
++    "later": {
++      "operating": 17,
++      "acceptanceCompletionArchive": 8
++    }
++  },
++  "currentGateEvidence": {
++    "finalValidation": null,
++    "cleanup": null,
++    "stopped": null,
++    "independentG3": null,
++    "fixedCommitReview": null,
++    "mainIntegration": null,
++    "preclosePermission": null,
++    "onlineReadback": null,
++    "independentActualG4": null
++  },
++  "cleanupCertified": null,
++  "knownOutOfBatchFollowup": {
++    "issue": 57,
++    "scope": "existing-R2",
++    "capability": "createUser with initialRoleIds",
++    "actual": "500",
++    "evidence": "actualapi32/00011",
++    "source": "users/service.rs:469 intentionalProtocol",
++    "fixedByThisBatch": false
+   }
+ }
+--- a/docs/design/api-route-canonical-inventory.md
++++ b/docs/design/api-route-canonical-inventory.md
+@@ -3,7 +3,7 @@
+ > 2026-11-03：R4首批迁移37个既有canonical入口，不新增/删除method/path。A03/A07的contractId query、合同准备/计划/审批绑定及金额语义改变已纳 [联合基线](archive/slices/rust-r4abc-first37-baseline.md) 和 `rust-r4abc/dto-freeze01.json`，G1冻结后才准入DTO/controller/client。authoritative行本身保持aligned。
+ 
+ **文档状态**: Active
+-**最后更新**: 2026-10-26
++**最后更新**: {{ROOT_DATE}}
+ **适用范围**: `POMS` API 路由 canonical grammar 落地、drift 盘点与批量整改执行底表
+ **关联文档**:
+ 
+@@ -104,12 +104,12 @@
+ | `project-handover` | `confirmProjectHandover`              | `POST /project-handovers/{id}:confirm`        | `POST /project-handovers/:id:confirm`        | `POST /project-handovers/{id}:confirm`        | `ADR-015` + `interface-openapi-dto-design.md` | `N/A`      | #83 G4 已按裁决统一 `{id}`；原 spec/client 同步且 S2 永久保留。联合 G3、固定提交及 G4 见[归档收口](archive/slices/rust-r2k-closeout.md)，Rust R4 业务另验。 | `B1`  | `aligned` |
+ | `project-handover` | `rebaselineContractHandover`          | `POST /contract-handover-rebaselines`         | `POST /contract-handover-rebaselines`        | `POST /contract-handover-rebaselines`         | `ADR-015` + `interface-openapi-dto-design.md` | `N/A`      | 保持                                                                                                                                                        | `B1`  | `aligned` |
+ 
+-新增 RUST-R4D 两项 route surface 已获用户明确授权；当前仅冻结 canonical 候选，尚未实现或通过 G1。精确 DTO、权限和真实生产机制见 [R4 第二批联合基线](rust-r4def-next30-baseline.md)，G2 前须完成联合 G1。
+-
+-| Domain             | Capability                          | Canonical Route                                          | Current Implemented Route | Current Design Route                                     | Authority                       | Drift Type               | Action                                                          | Batch | Status    |
+-| ------------------ | ----------------------------------- | -------------------------------------------------------- | ------------------------- | -------------------------------------------------------- | ------------------------------- | ------------------------ | --------------------------------------------------------------- | ----- | --------- |
+-| `project-handover` | `prepareProjectHandover`            | `POST /projects/{projectId}/project-handovers`           | `N/A`                     | `POST /projects/{projectId}/project-handovers`           | `ADR-015` + `RUST-R4D` 用户裁决 | `design-change-required` | 显式责任人/职责、真实合同基线、摘要与待确认记录同事务准备；#107 | `R4D` | `planned` |
+-| `project-handover` | `confirmProjectHandoverParticipant` | `POST /project-handovers/{id}/participant-confirmations` | `N/A`                     | `POST /project-handovers/{id}/participant-confirmations` | `ADR-015` + `RUST-R4D` 用户裁决 | `design-change-required` | 当前登录参与人只确认本人职责，禁止代确认；#107                  | `R4D` | `planned` |
++RUST-R4D 两项 route surface 已完成真实实现及本批限定验收；当前G4Ready，正式交付尚未计入。精确 DTO、权限和真实生产机制见 [R4 第二批联合基线](archive/slices/rust-r4def-next30-baseline.md.bin)，原G1候选与冻结原件按历史标签保留。
++
++| Domain             | Capability                          | Canonical Route                                          | Current Implemented Route                                | Current Design Route                                     | Authority                       | Drift Type | Action                                                          | Batch | Status    |
++| ------------------ | ----------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | ------------------------------- | ---------- | --------------------------------------------------------------- | ----- | --------- |
++| `project-handover` | `prepareProjectHandover`            | `POST /projects/{projectId}/project-handovers`           | `POST /projects/{projectId}/project-handovers`           | `POST /projects/{projectId}/project-handovers`           | `ADR-015` + `RUST-R4D` 用户裁决 | `N/A`      | 显式责任人/职责、真实合同基线、摘要与待确认记录同事务准备；#107 | `R4D` | `aligned` |
++| `project-handover` | `confirmProjectHandoverParticipant` | `POST /project-handovers/{id}/participant-confirmations` | `POST /project-handovers/{id}/participant-confirmations` | `POST /project-handovers/{id}/participant-confirmations` | `ADR-015` + `RUST-R4D` 用户裁决 | `N/A`      | 当前登录参与人只确认本人职责，禁止代确认；#107                  | `R4D` | `aligned` |
+ 
+ ### 5.2 EX-09 Commission Freeze / Change
+ 
+@@ -570,3 +570,11 @@
+    - tests
+ 3. tracker / progress / archive 只在 authoritative 文档与实现收口后再回写。
+ 4. 默认直接切换，不为仓库内可控调用方保留过渡路由。
++
++### {{ROOT_DATE}} R4 第二批 G4 归档就绪（条件候选，未应用）
++
++本批D7/E11/F12共30个唯一HTTP已完成限定实现与实际验收，[独立G3]({{independentG3_REF}})及[固定提交复核]({{fixedCommitReview_REF}})通过。当前为G4Ready，四项#107/#108/#109/#106仍Open；Rust技术surface240，正式仍210、本批正式新增0。main集成、独立关闭许可、实际线上G4和非作者实际终审另行完成；#101/#57保持Open。
++
++实现提交 `{{IMPLEMENTATION_COMMIT}}`；永久S4 `4f0ad88e78622a75b88b4e3cc72aded9da67458a` 保留。[验收]({{finalValidation_REF}})、[精确清理]({{cleanup_REF}})、[停止回执]({{stopped_REF}})和[原字节归档](../../docs/design/archive/slices/rust-r4def/archive-origin-map130.json)各自绑定原件；[机器状态](../../docs/design/rust-r4def-delivery-status.json)镜像同一Gate。完整spec为 **239 paths / 293 operations / 626 schemas**、client **616**。原G1、Block、Failed、Partial、ignored、Native参考与Native ORM exit 1均保留原分类，不升格为通过。
++
++完整R4阶段验收、R5、部署/切流、性能、S3 WORM与真实lost COMMIT ACK均未被本批认证完成；移交事实和已确认成本不绕过R5准入或自动纳入经营口径。另保留既有R2缺口：`createUser`携带`initialRoleIds`返回500（`actualapi32/00011`，`users/service.rs:469 intentionalProtocol`）；由#57后续跟进，本批不修复，也不宣称Rust全局正确性已经完成。

@@ -1,4 +1,7 @@
 export type {
+  ProjectHandoverParticipantInput,
+  ContractDiffReviewHistoryView,
+  CommercialReleaseBaselineSummary,
   ActivateContractRequest,
   ApprovalRecordSummary,
   ApproveLeadScoreOverrideRequest,
@@ -332,6 +335,10 @@ export {
   ProjectBidCommercialTimelineItemViewTimelineStatusEnum,
   ProjectCostApi,
   ProjectHandoverApi,
+  ProjectHandoverResponsibilityRole,
+  ProjectReceiptJudgmentMode,
+  ConfirmProjectHandoverParticipantConfirmationInputParticipantStatusEnum,
+  CommercialBaselineReviewDecision,
   ProjectHandoverAttachmentChecklistItemStatus,
   ProjectHandoverParticipantConfirmationStatus,
   ProjectHandoverReceiptJudgmentFreezeStatus,

@@ -22,6 +22,8 @@ import { ProjectActualCostRecord } from './project-actual-cost-record.entity';
 import { ProjectOperatingSnapshot } from './project-operating-snapshot.entity';
 import { SharedCostAllocationBasis } from './shared-cost-allocation-basis.entity';
 import { SharedCostAllocationResult } from './shared-cost-allocation-result.entity';
+import { CostGovernanceEvidence } from './cost-governance-evidence.entity';
+import { SharedCostAllocationSourceSnapshot } from './shared-cost-allocation-source-snapshot.entity';
 import {
     AccountingTaxTreatmentSnapshotRepository,
     ChangePackageBaselineRepository,
@@ -47,6 +49,8 @@ import { ProjectCostController } from './project-cost.controller';
 @Module({
     imports: [
         MikroOrmModule.forFeature([
+            CostGovernanceEvidence,
+            SharedCostAllocationSourceSnapshot,
             AccountingTaxTreatmentSnapshot,
             ChangePackageBaseline,
             CommissionGateReviewRecord,

@@ -1,0 +1,1367 @@
+{
+  "kind": "static-frozen-canonical-producer-route-authority103",
+  "source": {
+    "file": "libs/shared/api-spec/openapi.json",
+    "bytes": 1236594,
+    "rawBytesSha256": "56ae1835f50e427dd564b60f423da49e5c03fd88eed431b12ae054011e6de821"
+  },
+  "paths": {
+    "/api": {
+      "get": {
+        "operationId": "AppController_getData"
+      }
+    },
+    "/api/audit-logs/targets/{targetType}/{targetId}": {
+      "get": {
+        "operationId": "RuntimeAuditController_listEntityAuditLogs"
+      }
+    },
+    "/api/audit-logs": {
+      "get": {
+        "operationId": "RuntimeAuditController_listAuditLogs"
+      }
+    },
+    "/api/security-events": {
+      "get": {
+        "operationId": "RuntimeAuditController_listSecurityEvents"
+      }
+    },
+    "/api/security-events:recordRouteDenied": {
+      "post": {
+        "operationId": "RuntimeAuditController_recordRouteDeniedEvent"
+      }
+    },
+    "/api/health": {
+      "get": {
+        "operationId": "HealthController_getLiveness"
+      }
+    },
+    "/api/health/readiness": {
+      "get": {
+        "operationId": "HealthController_getReadiness"
+      }
+    },
+    "/api/auth/sessions": {
+      "post": {
+        "operationId": "AuthController_createPasswordAuthSession"
+      }
+    },
+    "/api/auth/session": {
+      "get": {
+        "operationId": "AuthController_getCurrentAuthSession"
+      }
+    },
+    "/api/auth/csrf-token": {
+      "get": {
+        "operationId": "AuthController_getCsrfToken"
+      }
+    },
+    "/api/auth/session:logout": {
+      "post": {
+        "operationId": "AuthController_logoutCurrentAuthSession"
+      }
+    },
+    "/api/auth/identity-providers": {
+      "get": {
+        "operationId": "AuthController_listEnabledLoginProviders"
+      }
+    },
+    "/api/auth/identity-providers/{id}:authorize": {
+      "get": {
+        "operationId": "AuthController_authorizeExternalLogin"
+      }
+    },
+    "/api/auth/identity-providers:callback": {
+      "get": {
+        "operationId": "AuthController_handleExternalLoginCallback"
+      }
+    },
+    "/api/auth/external-login-sessions": {
+      "post": {
+        "operationId": "AuthController_createExternalLoginSession"
+      }
+    },
+    "/api/auth/profile": {
+      "get": {
+        "operationId": "AuthController_getProfile"
+      },
+      "patch": {
+        "operationId": "AuthController_updateProfile"
+      }
+    },
+    "/api/platform/users": {
+      "get": {
+        "operationId": "PlatformController_listUsers"
+      },
+      "post": {
+        "operationId": "PlatformController_createUser"
+      }
+    },
+    "/api/platform/owner-reference": {
+      "get": {
+        "operationId": "PlatformController_listOwnerReferenceData"
+      }
+    },
+    "/api/platform/users/{id}": {
+      "get": {
+        "operationId": "PlatformController_getUser"
+      },
+      "patch": {
+        "operationId": "PlatformController_updateUser"
+      }
+    },
+    "/api/platform/users/{id}:activate": {
+      "post": {
+        "operationId": "PlatformController_activateUser"
+      }
+    },
+    "/api/platform/users/{id}:deactivate": {
+      "post": {
+        "operationId": "PlatformController_deactivateUser"
+      }
+    },
+    "/api/platform/users/{id}/roles": {
+      "put": {
+        "operationId": "PlatformController_assignUserRoles"
+      }
+    },
+    "/api/platform/users/{id}/org-memberships": {
+      "put": {
+        "operationId": "PlatformController_assignUserOrgMemberships"
+      }
+    },
+    "/api/platform/roles": {
+      "get": {
+        "operationId": "PlatformController_listRoles"
+      },
+      "post": {
+        "operationId": "PlatformController_createRole"
+      }
+    },
+    "/api/platform/permissions": {
+      "get": {
+        "operationId": "PlatformController_listPermissions"
+      }
+    },
+    "/api/platform/roles/{id}": {
+      "get": {
+        "operationId": "PlatformController_getRole"
+      },
+      "patch": {
+        "operationId": "PlatformController_updateRole"
+      }
+    },
+    "/api/platform/roles/{id}:activate": {
+      "post": {
+        "operationId": "PlatformController_activateRole"
+      }
+    },
+    "/api/platform/roles/{id}:deactivate": {
+      "post": {
+        "operationId": "PlatformController_deactivateRole"
+      }
+    },
+    "/api/platform/roles/{id}/permissions": {
+      "put": {
+        "operationId": "PlatformController_assignRolePermissions"
+      }
+    },
+    "/api/platform/org-units": {
+      "get": {
+        "operationId": "PlatformController_listOrgUnits"
+      },
+      "post": {
+        "operationId": "PlatformController_createOrgUnit"
+      }
+    },
+    "/api/platform/org-unit-tree": {
+      "get": {
+        "operationId": "PlatformController_listOrgUnitTree"
+      }
+    },
+    "/api/platform/org-units/{id}": {
+      "get": {
+        "operationId": "PlatformController_getOrgUnit"
+      },
+      "patch": {
+        "operationId": "PlatformController_updateOrgUnit"
+      }
+    },
+    "/api/platform/org-units/{id}:activate": {
+      "post": {
+        "operationId": "PlatformController_activateOrgUnit"
+      }
+    },
+    "/api/platform/org-units/{id}:deactivate": {
+      "post": {
+        "operationId": "PlatformController_deactivateOrgUnit"
+      }
+    },
+    "/api/platform/org-units/{id}:move": {
+      "post": {
+        "operationId": "PlatformController_moveOrgUnit"
+      }
+    },
+    "/api/platform/navigation": {
+      "get": {
+        "operationId": "PlatformController_getAllNavigationItems"
+      }
+    },
+    "/api/platform/navigation:sync": {
+      "post": {
+        "operationId": "PlatformController_syncNavigation"
+      }
+    },
+    "/api/me/navigation": {
+      "get": {
+        "operationId": "NavigationController_getNavigation"
+      }
+    },
+    "/api/platform/identity-providers": {
+      "get": {
+        "operationId": "IdentityProviderController_listIdentityProviderConfigs"
+      },
+      "post": {
+        "operationId": "IdentityProviderController_createIdentityProviderConfig"
+      }
+    },
+    "/api/platform/identity-providers/{id}": {
+      "get": {
+        "operationId": "IdentityProviderController_getIdentityProviderConfig"
+      },
+      "patch": {
+        "operationId": "IdentityProviderController_updateIdentityProviderConfig"
+      }
+    },
+    "/api/platform/identity-providers/{id}:testConnection": {
+      "post": {
+        "operationId": "IdentityProviderController_testIdentityProviderConnection"
+      }
+    },
+    "/api/platform/identity-providers/{id}/external-users": {
+      "get": {
+        "operationId": "IdentityProviderController_searchExternalUsers"
+      }
+    },
+    "/api/platform/users/{id}/external-identities": {
+      "get": {
+        "operationId": "ExternalIdentityController_listUserExternalIdentities"
+      },
+      "post": {
+        "operationId": "ExternalIdentityController_bindUserExternalIdentity"
+      }
+    },
+    "/api/platform/external-identities/{id}:unbind": {
+      "post": {
+        "operationId": "ExternalIdentityController_unbindExternalIdentity"
+      }
+    },
+    "/api/platform/identity-provider-oauth-grants/{identityProviderId}:authorize": {
+      "get": {
+        "operationId": "IdentityProviderOAuthGrantController_authorizeCurrentAdminProviderGrant"
+      }
+    },
+    "/api/platform/identity-provider-oauth-grants/{identityProviderId}": {
+      "get": {
+        "operationId": "IdentityProviderOAuthGrantController_getCurrentAdminProviderGrant"
+      }
+    },
+    "/api/platform/identity-provider-oauth-grants:callback": {
+      "get": {
+        "operationId": "IdentityProviderOAuthGrantController_handleCurrentAdminProviderGrantCallback"
+      }
+    },
+    "/api/platform/external-org-sources": {
+      "get": {
+        "operationId": "ExternalOrgSyncController_listExternalOrgSources"
+      },
+      "post": {
+        "operationId": "ExternalOrgSyncController_createExternalOrgSource"
+      }
+    },
+    "/api/platform/external-org-sources/{id}": {
+      "get": {
+        "operationId": "ExternalOrgSyncController_getExternalOrgSource"
+      },
+      "patch": {
+        "operationId": "ExternalOrgSyncController_updateExternalOrgSource"
+      }
+    },
+    "/api/platform/external-org-sources/{id}:activate": {
+      "post": {
+        "operationId": "ExternalOrgSyncController_activateExternalOrgSource"
+      }
+    },
+    "/api/platform/external-org-sources/{id}:pause": {
+      "post": {
+        "operationId": "ExternalOrgSyncController_pauseExternalOrgSource"
+      }
+    },
+    "/api/platform/external-org-sources/{id}:archive": {
+      "post": {
+        "operationId": "ExternalOrgSyncController_archiveExternalOrgSource"
+      }
+    },
+    "/api/platform/external-org-sources/{sourceId}/department-mappings": {
+      "get": {
+        "operationId": "ExternalOrgSyncController_listExternalDepartmentMappings"
+      },
+      "put": {
+        "operationId": "ExternalOrgSyncController_replaceExternalDepartmentMappings"
+      }
+    },
+    "/api/platform/external-department-mappings/{id}:map": {
+      "post": {
+        "operationId": "ExternalOrgSyncController_mapExternalDepartmentMapping"
+      }
+    },
+    "/api/platform/external-department-mappings/{id}:unmap": {
+      "post": {
+        "operationId": "ExternalOrgSyncController_unmapExternalDepartmentMapping"
+      }
+    },
+    "/api/platform/external-department-mappings/{id}:ignore": {
+      "post": {
+        "operationId": "ExternalOrgSyncController_ignoreExternalDepartmentMapping"
+      }
+    },
+    "/api/platform/external-department-mappings/{id}:restore": {
+      "post": {
+        "operationId": "ExternalOrgSyncController_restoreExternalDepartmentMapping"
+      }
+    },
+    "/api/platform/external-org-sources/{sourceId}/org-sync-runs": {
+      "post": {
+        "operationId": "ExternalOrgSyncController_createOrgSyncRun"
+      },
+      "get": {
+        "operationId": "ExternalOrgSyncController_listOrgSyncRuns"
+      }
+    },
+    "/api/platform/org-sync-runs/{id}": {
+      "get": {
+        "operationId": "ExternalOrgSyncController_getOrgSyncRun"
+      }
+    },
+    "/api/platform/org-sync-runs/{id}/diff-items": {
+      "get": {
+        "operationId": "ExternalOrgSyncController_listOrgSyncDiffItems"
+      }
+    },
+    "/api/platform/org-sync-runs/{id}:apply": {
+      "post": {
+        "operationId": "ExternalOrgSyncController_applyOrgSyncRun"
+      }
+    },
+    "/api/attachments": {
+      "get": {
+        "operationId": "AttachmentController_list"
+      }
+    },
+    "/api/attachments/{id}": {
+      "get": {
+        "operationId": "AttachmentController_get"
+      },
+      "patch": {
+        "operationId": "AttachmentController_update"
+      }
+    },
+    "/api/attachments/{id}/preview": {
+      "get": {
+        "operationId": "AttachmentController_preview"
+      }
+    },
+    "/api/attachments/{id}/thumbnail": {
+      "get": {
+        "operationId": "AttachmentController_thumbnail"
+      }
+    },
+    "/api/attachments/{id}/download": {
+      "get": {
+        "operationId": "AttachmentController_download"
+      }
+    },
+    "/api/attachments/{id}/versions": {
+      "get": {
+        "operationId": "AttachmentController_versions"
+      }
+    },
+    "/api/attachments/{id}:void": {
+      "post": {
+        "operationId": "AttachmentController_void"
+      }
+    },
+    "/api/attachments/{id}:mark-final": {
+      "post": {
+        "operationId": "AttachmentController_markFinal"
+      }
+    },
+    "/api/attachments/{id}:clear-final": {
+      "post": {
+        "operationId": "AttachmentController_clearFinal"
+      }
+    },
+    "/api/attachments/{id}/links": {
+      "post": {
+        "operationId": "AttachmentController_link"
+      }
+    },
+    "/api/attachments/{id}/links/{linkId}": {
+      "delete": {
+        "operationId": "AttachmentController_unlink"
+      }
+    },
+    "/api/attachment-center-records": {
+      "get": {
+        "operationId": "AttachmentCenterRecordController_list"
+      }
+    },
+    "/api/project-handovers/{id}/attachment-checklist": {
+      "get": {
+        "operationId": "AttachmentHandoverController_getChecklist"
+      }
+    },
+    "/api/project-handovers/{id}/attachment-checklist:refresh": {
+      "post": {
+        "operationId": "AttachmentHandoverController_refreshChecklist"
+      }
+    },
+    "/api/project-handovers/{id}/attachment-download-packages": {
+      "post": {
+        "operationId": "AttachmentHandoverController_createDownloadPackage"
+      }
+    },
+    "/api/attachment-download-packages/{id}": {
+      "get": {
+        "operationId": "AttachmentHandoverController_getDownloadPackage"
+      }
+    },
+    "/api/attachment-download-packages/{id}/download": {
+      "get": {
+        "operationId": "AttachmentHandoverController_downloadPackage"
+      }
+    },
+    "/api/platform/attachment-storage-providers": {
+      "get": {
+        "operationId": "AttachmentStorageProviderController_listAttachmentStorageProviderConfigs"
+      },
+      "post": {
+        "operationId": "AttachmentStorageProviderController_createAttachmentStorageProviderConfig"
+      }
+    },
+    "/api/platform/attachment-storage-providers/{id}": {
+      "get": {
+        "operationId": "AttachmentStorageProviderController_getAttachmentStorageProviderConfig"
+      },
+      "patch": {
+        "operationId": "AttachmentStorageProviderController_updateAttachmentStorageProviderConfig"
+      }
+    },
+    "/api/platform/attachment-storage-providers/{id}:testConnection": {
+      "post": {
+        "operationId": "AttachmentStorageProviderController_testAttachmentStorageProviderConnection"
+      }
+    },
+    "/api/platform/attachment-storage-providers/{id}:set-default": {
+      "post": {
+        "operationId": "AttachmentStorageProviderController_setDefaultAttachmentStorageProvider"
+      }
+    },
+    "/api/attachment-upload-sessions": {
+      "post": {
+        "operationId": "AttachmentUploadSessionController_create"
+      }
+    },
+    "/api/attachment-upload-sessions/{id}": {
+      "get": {
+        "operationId": "AttachmentUploadSessionController_get"
+      }
+    },
+    "/api/attachment-upload-sessions/{id}/upload-targets": {
+      "post": {
+        "operationId": "AttachmentUploadSessionController_createUploadTarget"
+      }
+    },
+    "/api/attachment-upload-sessions/{id}/object": {
+      "put": {
+        "operationId": "AttachmentUploadSessionController_proxyUploadObject"
+      }
+    },
+    "/api/attachment-upload-sessions/{id}:complete": {
+      "post": {
+        "operationId": "AttachmentUploadSessionController_complete"
+      }
+    },
+    "/api/attachment-upload-sessions/{id}:abort": {
+      "post": {
+        "operationId": "AttachmentUploadSessionController_abort"
+      }
+    },
+    "/api/dictionaries": {
+      "get": {
+        "operationId": "DictionaryController_list"
+      },
+      "post": {
+        "operationId": "DictionaryController_create"
+      }
+    },
+    "/api/dictionaries/{id}": {
+      "patch": {
+        "operationId": "DictionaryController_update"
+      }
+    },
+    "/api/platform/system-settings": {
+      "get": {
+        "operationId": "SystemSettingController_listSystemSettings"
+      }
+    },
+    "/api/platform/system-settings/{key}": {
+      "get": {
+        "operationId": "SystemSettingController_getSystemSetting"
+      },
+      "patch": {
+        "operationId": "SystemSettingController_updateSystemSetting"
+      }
+    },
+    "/api/customers": {
+      "get": {
+        "operationId": "CustomerController_list"
+      },
+      "post": {
+        "operationId": "CustomerController_create"
+      }
+    },
+    "/api/customers/{id}/aliases": {
+      "get": {
+        "operationId": "CustomerController_listAliases"
+      },
+      "post": {
+        "operationId": "CustomerController_createAlias"
+      }
+    },
+    "/api/customers/{id}/workspace-overview": {
+      "get": {
+        "operationId": "CustomerController_getWorkspaceOverview"
+      }
+    },
+    "/api/customers/{id}": {
+      "get": {
+        "operationId": "CustomerController_getById"
+      },
+      "patch": {
+        "operationId": "CustomerController_update"
+      }
+    },
+    "/api/customer-aliases/{id}": {
+      "delete": {
+        "operationId": "CustomerAliasController_delete"
+      }
+    },
+    "/api/leads": {
+      "get": {
+        "operationId": "LeadController_list"
+      },
+      "post": {
+        "operationId": "LeadController_create"
+      }
+    },
+    "/api/leads/{id}": {
+      "get": {
+        "operationId": "LeadController_getById"
+      },
+      "patch": {
+        "operationId": "LeadController_update"
+      }
+    },
+    "/api/leads/{id}/score-history": {
+      "get": {
+        "operationId": "LeadController_getScoreHistory"
+      }
+    },
+    "/api/leads/{id}/score-overrides": {
+      "post": {
+        "operationId": "LeadController_submitScoreOverride"
+      }
+    },
+    "/api/leads/{id}:claim": {
+      "post": {
+        "operationId": "LeadController_claimOwner"
+      }
+    },
+    "/api/leads/{id}:assignOwner": {
+      "post": {
+        "operationId": "LeadController_assignOwner"
+      }
+    },
+    "/api/leads/{id}:qualify": {
+      "post": {
+        "operationId": "LeadController_qualify"
+      }
+    },
+    "/api/leads/{id}:close": {
+      "post": {
+        "operationId": "LeadController_close"
+      }
+    },
+    "/api/leads/{id}:convertToProject": {
+      "post": {
+        "operationId": "LeadController_convertToProject"
+      }
+    },
+    "/api/lead-score-overrides/{id}:approve": {
+      "post": {
+        "operationId": "LeadScoreOverrideController_approve"
+      }
+    },
+    "/api/lead-score-overrides/{id}:reject": {
+      "post": {
+        "operationId": "LeadScoreOverrideController_reject"
+      }
+    },
+    "/api/lead-score-overrides/{id}:revoke": {
+      "post": {
+        "operationId": "LeadScoreOverrideController_revoke"
+      }
+    },
+    "/api/projects": {
+      "get": {
+        "operationId": "ProjectController_list"
+      },
+      "post": {
+        "operationId": "ProjectController_create"
+      }
+    },
+    "/api/projects/{projectId}/workspace-guidance": {
+      "get": {
+        "operationId": "ProjectController_getWorkspaceGuidance"
+      }
+    },
+    "/api/projects/{projectId}/timeline": {
+      "get": {
+        "operationId": "ProjectController_getTimeline"
+      }
+    },
+    "/api/projects/{projectId}/acceptance-records": {
+      "get": {
+        "operationId": "ProjectController_listAcceptanceRecords"
+      },
+      "post": {
+        "operationId": "ProjectController_createAcceptanceRecord"
+      }
+    },
+    "/api/projects/{projectId}/completion-records": {
+      "get": {
+        "operationId": "ProjectController_listProjectCompletionRecords"
+      },
+      "post": {
+        "operationId": "ProjectController_createProjectCompletionRecord"
+      }
+    },
+    "/api/projects/{projectId}/archive-records": {
+      "get": {
+        "operationId": "ProjectController_listProjectArchiveRecords"
+      },
+      "post": {
+        "operationId": "ProjectController_createProjectArchiveRecord"
+      }
+    },
+    "/api/projects/{projectId}/bid-commercial-processes": {
+      "get": {
+        "operationId": "ProjectController_listProjectBidCommercialProcesses"
+      },
+      "post": {
+        "operationId": "ProjectController_createProjectBidCommercialProcess"
+      }
+    },
+    "/api/projects/{projectId}/bid-commercial-workspace": {
+      "get": {
+        "operationId": "ProjectController_getProjectBidCommercialWorkspace"
+      }
+    },
+    "/api/projects/{projectId}/pricing-margin-reviews": {
+      "get": {
+        "operationId": "ProjectController_listProjectPricingMarginReviews"
+      },
+      "post": {
+        "operationId": "ProjectController_createProjectPricingMarginReview"
+      }
+    },
+    "/api/projects/{projectId}/pricing-margin-workspace": {
+      "get": {
+        "operationId": "ProjectController_getProjectPricingMarginWorkspace"
+      }
+    },
+    "/api/projects/{projectId}/technical-cost-packages": {
+      "get": {
+        "operationId": "ProjectController_listProjectTechnicalCostPackages"
+      },
+      "post": {
+        "operationId": "ProjectController_createProjectTechnicalCostPackage"
+      }
+    },
+    "/api/projects/{projectId}/technical-cost-workspace": {
+      "get": {
+        "operationId": "ProjectController_getProjectTechnicalCostWorkspace"
+      }
+    },
+    "/api/projects/{id}": {
+      "get": {
+        "operationId": "ProjectController_getById"
+      },
+      "patch": {
+        "operationId": "ProjectController_updateBasicInfo"
+      }
+    },
+    "/api/projects/{id}:reassignOwner": {
+      "post": {
+        "operationId": "ProjectController_reassignOwner"
+      }
+    },
+    "/api/projects:lookup": {
+      "get": {
+        "operationId": "ProjectController_getByCode"
+      }
+    },
+    "/api/project-archive-records/{id}:replace": {
+      "post": {
+        "operationId": "ProjectArchiveRecordController_replaceProjectArchiveRecord"
+      }
+    },
+    "/api/project-archive-records/{id}:void": {
+      "post": {
+        "operationId": "ProjectArchiveRecordController_voidProjectArchiveRecord"
+      }
+    },
+    "/api/internal-cost-rate-versions": {
+      "post": {
+        "operationId": "ProjectCostController_publishInternalCostRateVersion"
+      }
+    },
+    "/api/projects/{projectId}/actual-cost-records": {
+      "post": {
+        "operationId": "ProjectCostController_createProjectActualCostRecord"
+      },
+      "get": {
+        "operationId": "ProjectCostController_listProjectActualCostRecords"
+      }
+    },
+    "/api/operating-baseline-packages": {
+      "post": {
+        "operationId": "ProjectCostController_activateOperatingBaselinePackage"
+      }
+    },
+    "/api/projects/{projectId}/operating-baseline-package": {
+      "get": {
+        "operationId": "ProjectCostController_getCurrentOperatingBaselinePackage"
+      }
+    },
+    "/api/project-operating-snapshots": {
+      "post": {
+        "operationId": "ProjectCostController_createProjectOperatingSnapshot"
+      }
+    },
+    "/api/project-operating-snapshots/{id}": {
+      "get": {
+        "operationId": "ProjectCostController_getProjectOperatingSnapshot"
+      }
+    },
+    "/api/period-closing-snapshots": {
+      "post": {
+        "operationId": "ProjectCostController_createPeriodClosingSnapshot"
+      }
+    },
+    "/api/period-closing-snapshots/{id}": {
+      "get": {
+        "operationId": "ProjectCostController_getPeriodClosingSnapshot"
+      }
+    },
+    "/api/operating-restatements": {
+      "post": {
+        "operationId": "ProjectCostController_createOperatingRestatement"
+      }
+    },
+    "/api/projects/{projectId}/operating-restatements": {
+      "get": {
+        "operationId": "ProjectCostController_listOperatingRestatements"
+      }
+    },
+    "/api/operating-restatements/{id}": {
+      "get": {
+        "operationId": "ProjectCostController_getOperatingRestatement"
+      }
+    },
+    "/api/shared-cost-allocation-bases": {
+      "post": {
+        "operationId": "ProjectCostController_confirmSharedCostAllocationBasis"
+      }
+    },
+    "/api/shared-cost-allocation-bases/{id}": {
+      "get": {
+        "operationId": "ProjectCostController_getSharedCostAllocationBasis"
+      }
+    },
+    "/api/shared-cost-allocation-bases/{id}/results": {
+      "get": {
+        "operationId": "ProjectCostController_listSharedCostAllocationResults"
+      }
+    },
+    "/api/shared-cost-allocation-results/{id}:replace": {
+      "post": {
+        "operationId": "ProjectCostController_replaceSharedCostAllocationResult"
+      }
+    },
+    "/api/project-actual-cost-records/{id}/stage-attributions": {
+      "post": {
+        "operationId": "ProjectCostController_confirmCostStageAttribution"
+      }
+    },
+    "/api/cost-stage-attributions/{id}:reclassify": {
+      "post": {
+        "operationId": "ProjectCostController_reclassifyCostStageAttribution"
+      }
+    },
+    "/api/project-actual-cost-records/{costRecordId}/stage-attributions": {
+      "get": {
+        "operationId": "ProjectCostController_listCostStageAttributions"
+      }
+    },
+    "/api/cost-stage-attributions/{id}": {
+      "get": {
+        "operationId": "ProjectCostController_getCostStageAttribution"
+      }
+    },
+    "/api/projects/{projectId}/accounting-tax-treatments": {
+      "post": {
+        "operationId": "ProjectCostController_confirmAccountingTaxTreatment"
+      },
+      "get": {
+        "operationId": "ProjectCostController_listAccountingTaxTreatments"
+      }
+    },
+    "/api/accounting-tax-treatments/{id}:replace": {
+      "post": {
+        "operationId": "ProjectCostController_replaceAccountingTaxTreatment"
+      }
+    },
+    "/api/accounting-tax-treatments/{id}": {
+      "get": {
+        "operationId": "ProjectCostController_getAccountingTaxTreatment"
+      }
+    },
+    "/api/operating-signal-evaluations/{id}:review": {
+      "post": {
+        "operationId": "ProjectCostController_reviewOperatingSignalEvaluation"
+      }
+    },
+    "/api/operating-signal-evaluations/{id}": {
+      "get": {
+        "operationId": "ProjectCostController_getOperatingSignalEvaluation"
+      }
+    },
+    "/api/commission-gate-bindings/{id}:review": {
+      "post": {
+        "operationId": "ProjectCostController_reviewCommissionGateBinding"
+      }
+    },
+    "/api/commission-gate-bindings/{id}": {
+      "get": {
+        "operationId": "ProjectCostController_getCommissionGateBinding"
+      }
+    },
+    "/api/projects/{projectId}/business-outcome-overview": {
+      "get": {
+        "operationId": "ProjectCostController_getProjectBusinessOutcomeOverview"
+      }
+    },
+    "/api/projects/{projectId}/unified-accounting": {
+      "get": {
+        "operationId": "ProjectCostController_getProjectUnifiedAccounting"
+      }
+    },
+    "/api/projects/{projectId}/variance-risk-explanation": {
+      "get": {
+        "operationId": "ProjectCostController_getProjectVarianceRiskExplanation"
+      }
+    },
+    "/api/projects/{projectId}/business-accounting-feedback": {
+      "get": {
+        "operationId": "ProjectCostController_getBusinessAccountingFeedback"
+      }
+    },
+    "/api/projects/{projectId}/expense-records": {
+      "get": {
+        "operationId": "ProjectCostController_listExpenseRecords"
+      },
+      "post": {
+        "operationId": "ProjectCostController_createExpenseRecord"
+      }
+    },
+    "/api/expense-records/{id}": {
+      "get": {
+        "operationId": "ProjectCostController_getExpenseRecordDetail"
+      },
+      "patch": {
+        "operationId": "ProjectCostController_updateExpenseRecord"
+      }
+    },
+    "/api/expense-records/{id}:confirm": {
+      "post": {
+        "operationId": "ProjectCostController_confirmExpenseRecord"
+      }
+    },
+    "/api/expense-records/{id}:void": {
+      "post": {
+        "operationId": "ProjectCostController_voidExpenseRecord"
+      }
+    },
+    "/api/project-actual-cost-records/{id}": {
+      "get": {
+        "operationId": "ProjectCostController_getProjectActualCostRecordDetail"
+      }
+    },
+    "/api/project-actual-cost-records/{id}:replace": {
+      "post": {
+        "operationId": "ProjectCostController_replaceLaborCostRecord"
+      }
+    },
+    "/api/contracts/{contractId}/receipt-records": {
+      "get": {
+        "operationId": "ContractFinanceController_listReceipts"
+      },
+      "post": {
+        "operationId": "ContractFinanceController_createReceipt"
+      }
+    },
+    "/api/receipt-records/{id}:confirm": {
+      "post": {
+        "operationId": "ContractFinanceController_confirmReceipt"
+      }
+    },
+    "/api/projects/{projectId}/payable-records": {
+      "get": {
+        "operationId": "ContractFinanceController_listPayables"
+      },
+      "post": {
+        "operationId": "ContractFinanceController_createPayable"
+      }
+    },
+    "/api/payable-records/{id}": {
+      "get": {
+        "operationId": "ContractFinanceController_getPayable"
+      },
+      "patch": {
+        "operationId": "ContractFinanceController_updatePayable"
+      }
+    },
+    "/api/payable-records/{id}:close": {
+      "post": {
+        "operationId": "ContractFinanceController_closePayable"
+      }
+    },
+    "/api/payable-records/{id}:void": {
+      "post": {
+        "operationId": "ContractFinanceController_voidPayable"
+      }
+    },
+    "/api/projects/{projectId}/invoice-records": {
+      "get": {
+        "operationId": "ContractFinanceController_listInvoices"
+      },
+      "post": {
+        "operationId": "ContractFinanceController_createInvoice"
+      }
+    },
+    "/api/invoice-records/{id}": {
+      "get": {
+        "operationId": "ContractFinanceController_getInvoice"
+      },
+      "patch": {
+        "operationId": "ContractFinanceController_updateInvoice"
+      }
+    },
+    "/api/invoice-records/{id}:markException": {
+      "post": {
+        "operationId": "ContractFinanceController_markInvoiceException"
+      }
+    },
+    "/api/invoice-records/{id}:resolveException": {
+      "post": {
+        "operationId": "ContractFinanceController_resolveInvoiceException"
+      }
+    },
+    "/api/invoice-records/{id}:close": {
+      "post": {
+        "operationId": "ContractFinanceController_closeInvoiceRecord"
+      }
+    },
+    "/api/projects/{projectId}/payment-records": {
+      "get": {
+        "operationId": "ContractFinanceController_listPayments"
+      },
+      "post": {
+        "operationId": "ContractFinanceController_createPayment"
+      }
+    },
+    "/api/payment-records/{id}:confirm": {
+      "post": {
+        "operationId": "ContractFinanceController_confirmPayment"
+      }
+    },
+    "/api/projects/{projectId}/contract-handover": {
+      "get": {
+        "operationId": "ProjectHandoverController_getContractHandoverSummary"
+      }
+    },
+    "/api/projects/{projectId}/project-handover": {
+      "get": {
+        "operationId": "ProjectHandoverController_getProjectHandoverDetailByProject"
+      }
+    },
+    "/api/project-handovers/{id}": {
+      "get": {
+        "operationId": "ProjectHandoverController_getProjectHandoverDetailByHandover"
+      }
+    },
+    "/api/project-handovers/{id}:confirm": {
+      "post": {
+        "operationId": "ProjectHandoverController_confirmProjectHandover"
+      }
+    },
+    "/api/contract-handover-rebaselines": {
+      "post": {
+        "operationId": "ProjectHandoverController_rebaselineContractHandover"
+      }
+    },
+    "/api/projects/{projectId}/project-handovers": {
+      "post": {
+        "operationId": "ProjectHandoverController_prepareProjectHandover"
+      }
+    },
+    "/api/project-handovers/{id}/participant-confirmations": {
+      "post": {
+        "operationId": "ProjectHandoverController_confirmProjectHandoverParticipant"
+      }
+    },
+    "/api/approval-records/{id}": {
+      "get": {
+        "operationId": "ApprovalController_getApprovalRecord"
+      }
+    },
+    "/api/approval-records/{id}:approve": {
+      "post": {
+        "operationId": "ApprovalController_approveRecord"
+      }
+    },
+    "/api/approval-records/{id}:reject": {
+      "post": {
+        "operationId": "ApprovalController_rejectRecord"
+      }
+    },
+    "/api/me/todos": {
+      "get": {
+        "operationId": "ApprovalController_getMyTodos"
+      }
+    },
+    "/api/contracts": {
+      "get": {
+        "operationId": "ContractController_list"
+      },
+      "post": {
+        "operationId": "ContractController_create"
+      }
+    },
+    "/api/contracts/{id}": {
+      "get": {
+        "operationId": "ContractController_getById"
+      },
+      "patch": {
+        "operationId": "ContractController_updateBasicInfo"
+      }
+    },
+    "/api/contracts/{id}/approval-record": {
+      "get": {
+        "operationId": "ContractController_getCurrentApproval"
+      }
+    },
+    "/api/contracts/{id}:submitReview": {
+      "post": {
+        "operationId": "ContractController_submitReview"
+      }
+    },
+    "/api/contracts/{id}:activate": {
+      "post": {
+        "operationId": "ContractController_activate"
+      }
+    },
+    "/api/contracts:lookup": {
+      "get": {
+        "operationId": "ContractController_getByNo"
+      }
+    },
+    "/api/contract-term-snapshots/{id}": {
+      "get": {
+        "operationId": "ContractTermSnapshotController_getById"
+      }
+    },
+    "/api/commercial-release-baselines": {
+      "post": {
+        "operationId": "ContractReadinessController_createCommercialReleaseBaseline"
+      }
+    },
+    "/api/commercial-release-baselines/{id}": {
+      "get": {
+        "operationId": "ContractReadinessController_getCommercialReleaseBaseline"
+      }
+    },
+    "/api/commercial-release-baselines/{id}/diff-history": {
+      "get": {
+        "operationId": "ContractReadinessController_getDiffHistory"
+      }
+    },
+    "/api/commercial-release-baselines/{id}:reviewDiff": {
+      "post": {
+        "operationId": "ContractReadinessController_reviewDiff"
+      }
+    },
+    "/api/contract-readiness-packages": {
+      "post": {
+        "operationId": "ContractReadinessController_createContractReadinessPackage"
+      }
+    },
+    "/api/contract-readiness-packages/{id}": {
+      "get": {
+        "operationId": "ContractReadinessController_getContractReadinessPackage"
+      }
+    },
+    "/api/projects/{projectId}/contract-readiness": {
+      "get": {
+        "operationId": "ContractReadinessController_getCurrentContractReadiness"
+      }
+    },
+    "/api/contract-readiness-packages/{id}:initializeContractSnapshot": {
+      "post": {
+        "operationId": "ContractReadinessController_initializeContractSnapshot"
+      }
+    },
+    "/api/contract-readiness-packages/{id}:initializeReceivablePlan": {
+      "post": {
+        "operationId": "ContractReadinessController_initializeReceivablePlan"
+      }
+    },
+    "/api/sales-follow-up-records": {
+      "get": {
+        "operationId": "SalesFollowUpController_list"
+      },
+      "post": {
+        "operationId": "SalesFollowUpController_create"
+      }
+    },
+    "/api/sales-follow-up-records/{id}:replace": {
+      "post": {
+        "operationId": "SalesFollowUpController_replace"
+      }
+    },
+    "/api/sales-follow-up-records/{id}:void": {
+      "post": {
+        "operationId": "SalesFollowUpController_void"
+      }
+    },
+    "/api/customer-contacts": {
+      "get": {
+        "operationId": "CustomerContactController_list"
+      },
+      "post": {
+        "operationId": "CustomerContactController_create"
+      }
+    },
+    "/api/customer-contacts/{id}": {
+      "patch": {
+        "operationId": "CustomerContactController_update"
+      }
+    },
+    "/api/opportunity-stakeholders": {
+      "get": {
+        "operationId": "OpportunityStakeholderController_list"
+      },
+      "post": {
+        "operationId": "OpportunityStakeholderController_create"
+      }
+    },
+    "/api/opportunity-stakeholders/{id}": {
+      "patch": {
+        "operationId": "OpportunityStakeholderController_update"
+      }
+    },
+    "/api/competitor-intelligence-records": {
+      "get": {
+        "operationId": "CompetitorIntelligenceRecordController_list"
+      },
+      "post": {
+        "operationId": "CompetitorIntelligenceRecordController_create"
+      }
+    },
+    "/api/competitor-intelligence-records/{id}": {
+      "patch": {
+        "operationId": "CompetitorIntelligenceRecordController_update"
+      }
+    },
+    "/api/sales-discovery-records": {
+      "get": {
+        "operationId": "SalesDiscoveryRecordController_list"
+      },
+      "post": {
+        "operationId": "SalesDiscoveryRecordController_create"
+      }
+    },
+    "/api/sales-discovery-records/{id}": {
+      "patch": {
+        "operationId": "SalesDiscoveryRecordController_update"
+      }
+    },
+    "/api/sales-intelligence-gaps": {
+      "get": {
+        "operationId": "SalesIntelligenceGapController_list"
+      }
+    },
+    "/api/business-discussions": {
+      "get": {
+        "operationId": "BusinessDiscussionController_list"
+      },
+      "post": {
+        "operationId": "BusinessDiscussionController_create"
+      }
+    },
+    "/api/commission-rule-versions": {
+      "get": {
+        "operationId": "CommissionController_listRuleVersions"
+      },
+      "post": {
+        "operationId": "CommissionController_createRuleVersion"
+      }
+    },
+    "/api/commission-rule-versions/{id}:activate": {
+      "post": {
+        "operationId": "CommissionController_activateRuleVersion"
+      }
+    },
+    "/api/commission-rule-versions/{id}:stop": {
+      "post": {
+        "operationId": "CommissionController_stopRuleVersion"
+      }
+    },
+    "/api/projects/{projectId}/commission-role-assignment": {
+      "get": {
+        "operationId": "CommissionController_getCurrentRoleAssignment"
+      }
+    },
+    "/api/projects/{projectId}/commission-final-settlement": {
+      "get": {
+        "operationId": "CommissionController_getCommissionFinalSettlement"
+      }
+    },
+    "/api/projects/{projectId}/commission-rule-explanation": {
+      "get": {
+        "operationId": "CommissionController_getCommissionRuleExplanation"
+      }
+    },
+    "/api/projects/{projectId}/commission-role-assignments": {
+      "post": {
+        "operationId": "CommissionController_createRoleAssignment"
+      }
+    },
+    "/api/projects/{projectId}/commission-calculations": {
+      "get": {
+        "operationId": "CommissionController_listCalculations"
+      },
+      "post": {
+        "operationId": "CommissionController_createCalculation"
+      }
+    },
+    "/api/commission-calculations/{id}:approve": {
+      "post": {
+        "operationId": "CommissionController_approveCalculation"
+      }
+    },
+    "/api/commission-calculations/{id}:recalculate": {
+      "post": {
+        "operationId": "CommissionController_recalculateCalculation"
+      }
+    },
+    "/api/projects/{projectId}/commission-payouts": {
+      "get": {
+        "operationId": "CommissionController_listPayouts"
+      },
+      "post": {
+        "operationId": "CommissionController_createPayout"
+      }
+    },
+    "/api/commission-payouts/{id}:submitApproval": {
+      "post": {
+        "operationId": "CommissionController_submitPayoutApproval"
+      }
+    },
+    "/api/commission-payouts/{id}:approve": {
+      "post": {
+        "operationId": "CommissionController_approvePayout"
+      }
+    },
+    "/api/commission-payouts/{id}:registerPayout": {
+      "post": {
+        "operationId": "CommissionController_registerPayout"
+      }
+    },
+    "/api/projects/{projectId}/commission-adjustments": {
+      "get": {
+        "operationId": "CommissionController_listAdjustments"
+      },
+      "post": {
+        "operationId": "CommissionController_createAdjustment"
+      }
+    },
+    "/api/commission-adjustments/{id}:submitApproval": {
+      "post": {
+        "operationId": "CommissionController_submitAdjustmentApproval"
+      }
+    },
+    "/api/commission-adjustments/{id}:execute": {
+      "post": {
+        "operationId": "CommissionController_executeAdjustment"
+      }
+    },
+    "/api/commission-role-assignments/{id}": {
+      "get": {
+        "operationId": "CommissionRoleAssignmentController_getRoleAssignmentDetail"
+      }
+    },
+    "/api/commission-role-assignments/{id}:freeze": {
+      "post": {
+        "operationId": "CommissionRoleAssignmentController_freezeRoleAssignment"
+      }
+    },
+    "/api/projects/{projectId}/commission-departure-exception-decisions": {
+      "post": {
+        "operationId": "CommissionDepartureExceptionDecisionController_createDepartureExceptionDecision"
+      }
+    },
+    "/api/commission-freeze-disputes": {
+      "post": {
+        "operationId": "CommissionFreezeDisputeController_submitCommissionFreezeDispute"
+      }
+    },
+    "/api/commission-freeze-disputes/{id}": {
+      "get": {
+        "operationId": "CommissionFreezeDisputeController_getCommissionFreezeDispute"
+      }
+    },
+    "/api/commission-freeze-disputes/{id}:arbitrate": {
+      "post": {
+        "operationId": "CommissionFreezeDisputeController_arbitrateCommissionFreezeDispute"
+      }
+    },
+    "/api/commission-freeze-change-requests/{id}": {
+      "get": {
+        "operationId": "CommissionFreezeChangeRequestController_getCommissionFreezeChangeRequest"
+      }
+    }
+  }
+}

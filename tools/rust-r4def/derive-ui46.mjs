@@ -1,0 +1,10 @@
+import fs from'node:fs';import assert from'node:assert/strict';
+let s=fs.readFileSync('tools/rust-r4def/ui45.mjs','utf8');
+s=s.replace("const actors=JSON.parse",()=>"const resumeEdition=process.argv[4]??null;const prior=resumeEdition?JSON.parse(fs.readFileSync(win+'/tmp/rust-r4def/root/ui-'+label+resumeEdition+'/receipt45.json')):null;\nconst runtime=JSON.parse(fs.readFileSync(sourcePriv+'/rust-api'+(process.argv[5]??'31')+'-process.json'));\nconst actors=JSON.parse");
+const start=s.indexOf(" for(const[role,key,text]of"),end=s.indexOf(" await expect(actions.getByText",start);assert(start>0&&end>start);
+const original=s.slice(start,end).replace('const detail=await prepared.json();','detail=await prepared.json();');
+s=s.slice(0,start)+" let detail;\n if(prior){assert.equal(prior.projectId,project);assert.equal(prior.complete,false);assert.equal(prior.build.manifestSha256,server.build.manifestSha256);detail=prior.observations.find(x=>x.handoverId);assert(detail?.handoverId);observations.push({stage:'resume-acknowledged-preparation-without-replay',from:resumeEdition,...detail});}\n else{\n"+original+" }\n"+s.slice(end);
+s=s.replace("actions.getByText('V1冻结交付范围',{exact:true})",()=>"actions.getByText('V1冻结交付范围',{exact:false})");
+s=s.replace("await shot('02-frozen-materials',p);",()=>"await actions.locator('[aria-label=\"本次确认的冻结范围和风险\"]').scrollIntoViewIfNeeded();await shot('02-frozen-materials',p);");
+s=s.replace('browserSha256:browser?null:null',()=>"apiRuntime:{pid:runtime.pid,binarySha256:runtime.binarySha256,startedAt:runtime.startedAt}");
+fs.writeFileSync('tools/rust-r4def/ui46.mjs',s,{flag:'wx'});console.log(JSON.stringify({derivedResumeAndCorrectTextLocator:true,original45Preserved:true}));

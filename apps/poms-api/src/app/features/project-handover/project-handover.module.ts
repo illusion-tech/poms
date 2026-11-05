@@ -6,6 +6,11 @@ import { ContractReadinessModule } from '../contract-readiness/contract-readines
 import { ContractModule } from '../contract/contract.module';
 import { ProjectModule } from '../project/project.module';
 import { ProjectHandoverController } from './project-handover.controller';
+import { ProjectHandoverBasisSnapshot } from './project-handover-basis-snapshot.entity';
+import { ProjectHandoverContractBasis } from './project-handover-contract-basis.entity';
+import { ProjectHandoverBasisItem } from './project-handover-basis-item.entity';
+import { ProjectHandoverParticipantRole } from './project-handover-participant-role.entity';
+import { ProjectHandoverSummaryPayload } from './project-handover-summary-payload.entity';
 import {
     ContractHandoverRebaselineRecord,
     HandoverBaselineImpactItem,
@@ -24,6 +29,11 @@ import {
 @Module({
     imports: [
         MikroOrmModule.forFeature([
+            ProjectHandoverBasisSnapshot,
+            ProjectHandoverContractBasis,
+            ProjectHandoverBasisItem,
+            ProjectHandoverParticipantRole,
+            ProjectHandoverSummaryPayload,
             ProjectHandover,
             ContractHandoverRebaselineRecord,
             HandoverBaselineImpactItem,

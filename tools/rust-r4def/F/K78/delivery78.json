@@ -1,0 +1,344 @@
+{
+  "kind": "K78-executable-request-only-critical16-candidate",
+  "status": "sealed-candidate-all-actual-acceptance-not-run-by-author",
+  "productFilesChanged": false,
+  "supportOnly": "tools/rust-r4def/F/K78/**",
+  "requiredProductPins": {
+    "apps/poms-api-rust/src/attachments/service.rs": "0fbd8afc1c22fec87e3034b9e31d9c89a3cfea92d85cb8f0ef1866dd23bcceab",
+    "apps/poms-api-rust/src/attachments/store.rs": "525028f45ce39a5935f4a1565eee662b76a2976f07a212a580c23f862e899899",
+    "apps/poms-api-rust/src/attachment_storage/registry.rs": "617f734af15f7e75db2cc69de63343c04104abbd446f322809fb1f1bfc625765"
+  },
+  "sealedEarlierPackages": {
+    "K98/delivery98.json": "d1166d213a55d62357b3dbd36ec237b7bd60ecca8080038fd84bb139d910b994",
+    "K86/delivery86.json": "af204da15ec0d6030afbca1635711d7cd9f996d317d879e9f34061da59e0b3c8",
+    "K56/delivery56.json": "09f17e101976b12f5b741e0a9d1e110cae12e7d2a632369d4eae6d1ffd47d82b",
+    "delivery46.json": "1707b06f619c5995547824968ac739b055dfb2f8bff6452c16ab72a6e607aa41",
+    "acceptance44/delivery44.json": "2d8f1238a5a1e21a382523f939bb6ebe14c9d7efb15264ef9bd8be2261019473"
+  },
+  "entry": "RootEntry78.mjs",
+  "factory": "RootRunner78.mjs:createRootRunner78({h,db:connect,fault,context,runtimeEdition,selection})",
+  "driver": "request-driver78.mjs:createK78",
+  "selections": {
+    "vertical7": {
+      "kind": "K78-request-only-candidate",
+      "stages": [
+        {
+          "name": "complete-oldflag",
+          "status": "not-run"
+        },
+        {
+          "name": "complete-attachment-insert",
+          "status": "not-run"
+        },
+        {
+          "name": "complete-second-link",
+          "status": "not-run"
+        },
+        {
+          "name": "complete-session-completed",
+          "status": "not-run"
+        },
+        {
+          "name": "complete-audit",
+          "status": "not-run"
+        },
+        {
+          "name": "complete-deferred-audit",
+          "status": "not-run"
+        },
+        {
+          "name": "void-history-next-version",
+          "status": "not-run"
+        }
+      ],
+      "mandatoryCases": [
+        "complete-oldflag",
+        "complete-attachment-insert",
+        "complete-second-link",
+        "complete-session-completed",
+        "complete-audit",
+        "complete-deferred-audit",
+        "void-history-next-version"
+      ],
+      "optionalRootHookCases": [],
+      "omittedCasesNotRun": [
+        "metadata-audit-fault",
+        "final-audit-fault",
+        "void-audit-fault",
+        "link-audit-fault",
+        "unlink-audit-fault",
+        "abort-audit-fault",
+        "two-version-sessions-one-head",
+        "put-size-63",
+        "put-size-65",
+        "actual-read-size-63",
+        "actual-read-size-65"
+      ],
+      "witness": {
+        "bytes": 64,
+        "sha256": "5f71af14e59d7ee354fd8e313f0a031424309f86c9c27ecdcfc3f509f8f0315f"
+      },
+      "authorExecutedHTTP": false,
+      "authorExecutedPG": false,
+      "authorExecutedObjectIO": false,
+      "latePUTSchemeRepeated": false,
+      "SQLBusinessProducerUsed": false,
+      "S3Accepted": false,
+      "G3Certified": false,
+      "G4Certified": false
+    },
+    "critical16": {
+      "kind": "K78-request-only-candidate",
+      "stages": [
+        {
+          "name": "complete-oldflag",
+          "status": "not-run"
+        },
+        {
+          "name": "complete-attachment-insert",
+          "status": "not-run"
+        },
+        {
+          "name": "complete-second-link",
+          "status": "not-run"
+        },
+        {
+          "name": "complete-session-completed",
+          "status": "not-run"
+        },
+        {
+          "name": "complete-audit",
+          "status": "not-run"
+        },
+        {
+          "name": "complete-deferred-audit",
+          "status": "not-run"
+        },
+        {
+          "name": "metadata-audit-fault",
+          "status": "not-run"
+        },
+        {
+          "name": "final-audit-fault",
+          "status": "not-run"
+        },
+        {
+          "name": "void-audit-fault",
+          "status": "not-run"
+        },
+        {
+          "name": "link-audit-fault",
+          "status": "not-run"
+        },
+        {
+          "name": "unlink-audit-fault",
+          "status": "not-run"
+        },
+        {
+          "name": "abort-audit-fault",
+          "status": "not-run"
+        },
+        {
+          "name": "two-version-sessions-one-head",
+          "status": "not-run"
+        },
+        {
+          "name": "void-history-next-version",
+          "status": "not-run"
+        },
+        {
+          "name": "put-size-63",
+          "status": "not-run"
+        },
+        {
+          "name": "put-size-65",
+          "status": "not-run"
+        },
+        {
+          "name": "actual-read-size-63",
+          "status": "not-run"
+        },
+        {
+          "name": "actual-read-size-65",
+          "status": "not-run"
+        }
+      ],
+      "mandatoryCases": [
+        "complete-oldflag",
+        "complete-attachment-insert",
+        "complete-second-link",
+        "complete-session-completed",
+        "complete-audit",
+        "complete-deferred-audit",
+        "metadata-audit-fault",
+        "final-audit-fault",
+        "void-audit-fault",
+        "link-audit-fault",
+        "unlink-audit-fault",
+        "abort-audit-fault",
+        "two-version-sessions-one-head",
+        "void-history-next-version",
+        "put-size-63",
+        "put-size-65"
+      ],
+      "optionalRootHookCases": [
+        "actual-read-size-63",
+        "actual-read-size-65"
+      ],
+      "omittedCasesNotRun": [],
+      "witness": {
+        "bytes": 64,
+        "sha256": "5f71af14e59d7ee354fd8e313f0a031424309f86c9c27ecdcfc3f509f8f0315f"
+      },
+      "authorExecutedHTTP": false,
+      "authorExecutedPG": false,
+      "authorExecutedObjectIO": false,
+      "latePUTSchemeRepeated": false,
+      "SQLBusinessProducerUsed": false,
+      "S3Accepted": false,
+      "G3Certified": false,
+      "G4Certified": false
+    }
+  },
+  "RootDependencies": [
+    "api-harness32.mjs (actual h.request/binaryRequest)",
+    "db33.mjs:connect (Root execution only)",
+    "fault-core47.mjs:snapshot (diagnostics only; unscoped probe NOT used)"
+  ],
+  "RootOnlyPrivateReads": "RootEntry/RootRunner read Root existing actor/session/runtime files only after explicit Root execution; author did not execute or read them",
+  "actualOfflineChecks": {
+    "receipt": {
+      "file": "checks02/offline78.json",
+      "bytes": 5997,
+      "rawBytesSha256": "0cf41602d24a7ffc7db61c93da283e3363caee171af5f0a2d79333f6fa12249e"
+    },
+    "assertions": 8,
+    "nodeSyntaxFiles": 4,
+    "previousDraftChecks": "checks/ retained, prior to Root steering that removed already-covered no-op cases"
+  },
+  "externalRootCoverageNotRepeated": {
+    "RootReportedReceipt": "recovery113/receipt113.json",
+    "authorIndependentlyExecuted": false,
+    "cases": [
+      "fresh autoLink and necessary audit",
+      "no-op canonical-group waiters",
+      "no-op stale linkset/metadata source conflict"
+    ],
+    "latePUT": "Root E RLS plan; not repeated"
+  },
+  "limitations": [
+    "Root actual SQL trigger/function execution not tested by author",
+    "Complete actual object-read corruption is optional Root hook, default not-run",
+    "PUT size400 does not certify complete bounded reader",
+    "S3 not-run",
+    "Early-oldflag point cannot directly expose the not-yet-inserted private attempt UUID; old/staging/DB rollback checked",
+    "Group/fixture creation may alter current D materials; use alternate actual context or Root owned API cleanup",
+    "core47 empty-probe summary is infrastructure only, never K78 acceptance"
+  ],
+  "authorExecutedHTTP": false,
+  "authorExecutedPG": false,
+  "authorExecutedObjectIO": false,
+  "authorExecutedConcurrency": false,
+  "authorExecutedFailureInjection": false,
+  "S3Accepted": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "RootSharedWritten": false,
+  "credentialsRead": false,
+  "environmentModified": false,
+  "committed": false,
+  "pushed": false,
+  "artifactsExcludingManifest": [
+    {
+      "file": "checks/md-format78.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "checks/offline78.json",
+      "bytes": 1528,
+      "rawBytesSha256": "d41b168af7a34728880cdb8929a32c2c6b583524378fe61529d2e4af4fd30834"
+    },
+    {
+      "file": "checks/request-driver78.mjs.syntax.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "checks/RootEntry78.mjs.syntax.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "checks/RootRunner78.mjs.syntax.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "checks/static-check78.mjs.syntax.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "checks02/md-format78.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "checks02/offline78.json",
+      "bytes": 5997,
+      "rawBytesSha256": "0cf41602d24a7ffc7db61c93da283e3363caee171af5f0a2d79333f6fa12249e"
+    },
+    {
+      "file": "checks02/request-driver78.mjs.syntax.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "checks02/RootEntry78.mjs.syntax.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "checks02/RootRunner78.mjs.syntax.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "checks02/static-check78.mjs.syntax.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "README78.md",
+      "bytes": 4925,
+      "rawBytesSha256": "fce60e8ae2ae88fbe5daadc69ce5a5d9e0c26964246c3794f397b24aceb29fed"
+    },
+    {
+      "file": "request-driver78.mjs",
+      "bytes": 22462,
+      "rawBytesSha256": "1bb85f7e99cd2a806753e1beb636c7335bf89db42a850427c76490d73633cfb0"
+    },
+    {
+      "file": "RootEntry78.mjs",
+      "bytes": 2365,
+      "rawBytesSha256": "f2538827c847f0969b1c3ef13c934bfa077e602985415868b0fc1d0924d4610e"
+    },
+    {
+      "file": "RootRunner78.mjs",
+      "bytes": 17144,
+      "rawBytesSha256": "7dacb4fe1d3d65925262b85ddf7e9df88a9a57ca732023e8299fcb029b4cdbf5"
+    },
+    {
+      "file": "seal78.py",
+      "bytes": 4841,
+      "rawBytesSha256": "fb1d3e592ebff5f3025a6764790795a296b87f25161bf56bcedafa423666bd72"
+    },
+    {
+      "file": "static-check78.mjs",
+      "bytes": 3278,
+      "rawBytesSha256": "a9be9bd6781b88d6e389f44d7da89cc5d7199b40a0f4161a70de4a71aabd0fe1"
+    }
+  ],
+  "next": "Root guarded import of this support-only directory, actual runtime108 (or explicitly pinned successor) execution; keep raw failures, no-op/autoLink proof remains recovery113 epoch"
+}

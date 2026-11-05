@@ -1,0 +1,1391 @@
+{
+  "kind": "cleanup70-public-catalog-and-borrowed-field-authority",
+  "createdAt": "2026-11-04T04:00:21.606Z",
+  "namespace": "poms-r4def",
+  "base": "756d813c9578090fcf8e56821acce01b46b40420",
+  "structuralHash": "11769dbe4c5a5708754a941064a5d8e031d0e32e178f099797c751ac68009081",
+  "immutableUpdateTriggers": [
+    {
+      "table_name": "project_handover_basis_item",
+      "tgname": "trg_r4d_item_immutable",
+      "tgenabled": "O",
+      "definition": "CREATE TRIGGER trg_r4d_item_immutable BEFORE UPDATE ON poms.project_handover_basis_item FOR EACH ROW EXECUTE FUNCTION poms.r4d_guard_content_immutable()"
+    },
+    {
+      "table_name": "project_handover_basis_snapshot",
+      "tgname": "trg_r4d_basis_immutable",
+      "tgenabled": "O",
+      "definition": "CREATE TRIGGER trg_r4d_basis_immutable BEFORE UPDATE ON poms.project_handover_basis_snapshot FOR EACH ROW EXECUTE FUNCTION poms.r4d_guard_basis_immutable()"
+    },
+    {
+      "table_name": "project_handover_contract_basis",
+      "tgname": "trg_r4d_member_immutable",
+      "tgenabled": "O",
+      "definition": "CREATE TRIGGER trg_r4d_member_immutable BEFORE UPDATE ON poms.project_handover_contract_basis FOR EACH ROW EXECUTE FUNCTION poms.r4d_guard_content_immutable()"
+    },
+    {
+      "table_name": "project_handover_participant_role",
+      "tgname": "trg_r4d_role_immutable",
+      "tgenabled": "O",
+      "definition": "CREATE TRIGGER trg_r4d_role_immutable BEFORE UPDATE ON poms.project_handover_participant_role FOR EACH ROW EXECUTE FUNCTION poms.r4d_guard_content_immutable()"
+    },
+    {
+      "table_name": "project_handover_summary_payload",
+      "tgname": "trg_r4d_payload_immutable",
+      "tgenabled": "O",
+      "definition": "CREATE TRIGGER trg_r4d_payload_immutable BEFORE UPDATE ON poms.project_handover_summary_payload FOR EACH ROW EXECUTE FUNCTION poms.r4d_guard_content_immutable()"
+    }
+  ],
+  "borrowedOriginals": [
+    {
+      "backend": "rust",
+      "table": "business_number_sequence",
+      "primaryKey": {
+        "id": "52b0d05d-7e0b-430d-9aa5-1d8007e03fba"
+      },
+      "action": "restore-columns",
+      "columns": [
+        "next_value",
+        "updated_at"
+      ]
+    },
+    {
+      "backend": "rust",
+      "table": "local_credential",
+      "primaryKey": {
+        "id": "70000000-0000-4000-8000-000000000008"
+      },
+      "action": "restore-columns",
+      "columns": [
+        "password_hash",
+        "updated_at"
+      ]
+    },
+    {
+      "backend": "rust",
+      "table": "user_role_assignment",
+      "primaryKey": {
+        "id": "50000000-0000-4000-8000-000000000081"
+      },
+      "action": "restore-missing-original"
+    }
+  ],
+  "cyclePolicies": [
+    {
+      "table": "commercial_release_baseline",
+      "columns": [
+        "latest_diff_result_id"
+      ],
+      "rule": "nullable-pointers-with-no-touched-CHECK",
+      "affectedChecks": []
+    },
+    {
+      "table": "contract_readiness_package",
+      "columns": [
+        "current_preparation_id",
+        "contract_amendment_id"
+      ],
+      "rule": "nullable-pointers-with-no-touched-CHECK",
+      "affectedChecks": []
+    },
+    {
+      "table": "contract_term_snapshot",
+      "columns": [
+        "source_preparation_id",
+        "source_readiness_id",
+        "source_amendment_id"
+      ],
+      "rule": "nullable-pointers-with-no-touched-CHECK",
+      "affectedChecks": []
+    },
+    {
+      "table": "contract_term_preparation",
+      "columns": [
+        "contract_amendment_id",
+        "before_snapshot_id"
+      ],
+      "rule": "preparation-amendment-pair-null",
+      "affectedChecks": [
+        {
+          "name": "chk_r4d_preparation_amendment",
+          "definition": "CHECK ((((contract_amendment_id IS NULL) AND (before_snapshot_id IS NULL)) OR ((contract_amendment_id IS NOT NULL) AND (before_snapshot_id IS NOT NULL))))"
+        }
+      ]
+    },
+    {
+      "table": "contract_review_binding",
+      "columns": [
+        "contract_amendment_id"
+      ],
+      "rule": "nullable-pointers-with-no-touched-CHECK",
+      "affectedChecks": []
+    },
+    {
+      "table": "project_handover",
+      "columns": [
+        "handover_rebaseline_record_id"
+      ],
+      "rule": "nullable-pointers-with-no-touched-CHECK",
+      "affectedChecks": []
+    }
+  ],
+  "backend": {
+    "native": {
+      "baselineSummary": [
+        {
+          "table": "acceptance_record",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "accounting_tax_treatment_snapshot",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "approval_record",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "approval_summary_field_projection",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "approval_summary_package_definition",
+          "count": 5,
+          "sha256": "ec71b1b571e77da9d443747eca59cf512bf7bda88aac654f79d04269f5808e24"
+        },
+        {
+          "table": "approval_summary_snapshot",
+          "count": 15,
+          "sha256": "db19485f940f90ce05c33b0f12b2bc03e443aa5390fd45dc3f49e22c33158304"
+        },
+        {
+          "table": "attachment",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "attachment_download_package",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "attachment_download_package_item",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "attachment_link",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "attachment_storage_provider_config",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "attachment_upload_session",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "audit_log",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "auth_session",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "business_discussion_comment",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "business_discussion_thread",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "business_number_sequence",
+          "count": 1,
+          "sha256": "6188f3a50bf2bc75437893766465978fc70833e0e1c7df03cec09c082121f50b"
+        },
+        {
+          "table": "change_package_baseline",
+          "count": 3,
+          "sha256": "547a7acf4c1dacaa6e1ca3f822a41dec5830451a8e397ff506a7ae8e83c682a7"
+        },
+        {
+          "table": "commercial_baseline_diff_item",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "commercial_baseline_diff_result",
+          "count": 7,
+          "sha256": "9c0f7d430c21e325011bd7e931eae25637d84aac59850edae3fe552214299703"
+        },
+        {
+          "table": "commercial_baseline_review_attachment",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "commercial_baseline_review_record",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "commercial_release_baseline",
+          "count": 7,
+          "sha256": "86cb8daeb7b517ebf7d59b24afe5899f373b716532392ad324572513e0c1b44b"
+        },
+        {
+          "table": "commission_adjustment",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "commission_calculation",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "commission_departure_exception_decision",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "commission_final_settlement_snapshot",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "commission_freeze_change_request",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "commission_freeze_dispute_record",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "commission_gate_review_record",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "commission_payout",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "commission_role_assignment",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "commission_rule_explanation_snapshot",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "commission_rule_version",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "competitor_intelligence_record",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "confirmation_participant",
+          "count": 12,
+          "sha256": "19ae94628fe6c2cf9b1b60988d7e12998d1ff205e6ef3fd90488b401ee415153"
+        },
+        {
+          "table": "confirmation_record",
+          "count": 6,
+          "sha256": "896dc542560a29fc3e304287e317927ead4fae98f75266a04719b0a8541a044d"
+        },
+        {
+          "table": "contract",
+          "count": 9,
+          "sha256": "4f270159b9fbd9013c6a7dd3b49af51fdea0ce697c702b72069344992a4b5268"
+        },
+        {
+          "table": "contract_amendment",
+          "count": 1,
+          "sha256": "70aa4ea2f88733864d37446653abbbe17ce0c63baf86949792b453fb45da043d"
+        },
+        {
+          "table": "contract_handover_rebaseline_record",
+          "count": 1,
+          "sha256": "89cc7eb34ccd7251a17a1f3c9712b0ca6c289c3452c9b1c8cad5aa87864aa15f"
+        },
+        {
+          "table": "contract_readiness_package",
+          "count": 7,
+          "sha256": "57e6d1623472ca97d736dd54fb70740733495249e86763e40331d9fb592c9a1f"
+        },
+        {
+          "table": "contract_readiness_package_item",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "contract_review_binding",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "contract_term_preparation",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "contract_term_snapshot",
+          "count": 7,
+          "sha256": "ebda979b17f0dbfaa0bc9cdc14d86e4ae7417bfe45eceeb747eea9890e28f95e"
+        },
+        {
+          "table": "cost_governance_evidence",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "cost_stage_attribution_snapshot",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "customer",
+          "count": 2,
+          "sha256": "f9c308f6b33813d33a0ed614932be448eb9ab3146b32025cb56d92706987fdfa"
+        },
+        {
+          "table": "customer_alias",
+          "count": 2,
+          "sha256": "70ff1470f5506b47d7b452a837819c095580eedb9627c04c9d4bafc4fad0e537"
+        },
+        {
+          "table": "customer_contact",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "data_maturity_evaluation_result",
+          "count": 3,
+          "sha256": "334004151185723a4a9e96f8d4c4659445e685351e400c70a9a7ab0091fd4703"
+        },
+        {
+          "table": "dictionary_item",
+          "count": 32,
+          "sha256": "fcf9d053091c6f22d03460113517b382b41d67a25abd522a89dc24e0241ccb1b"
+        },
+        {
+          "table": "expense_record",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "external_department_mapping",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "external_identity",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "external_login_ticket",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "external_org_source",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "handover_baseline_impact_item",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "identity_provider_config",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "identity_provider_oauth_grant",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "internal_cost_rate_version",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "invoice_record",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "lead",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "lead_owner_assignment_record",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "lead_score_override",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "lead_score_snapshot",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "local_credential",
+          "count": 15,
+          "sha256": "18acb717b02efd492415e505dc7ed8f7de88d9c76f0c719227380a1b673fcd08"
+        },
+        {
+          "table": "operating_baseline_package",
+          "count": 3,
+          "sha256": "a5c27bdbe468dcf8035b47c54dd5f21ee8fd5726272514fdb8845d33c2041cb5"
+        },
+        {
+          "table": "operating_restatement_record",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "operating_signal_evaluation_result",
+          "count": 3,
+          "sha256": "d0c4ae56bf57b7339e9c6e9f3b9c33ab2bcc5e5ab943949bdc360cd57e777323"
+        },
+        {
+          "table": "operating_signal_gate_binding",
+          "count": 3,
+          "sha256": "36be3b70b4f9d80f944e1f1827b41292294780a1fbe0c21471850d3eee744f20"
+        },
+        {
+          "table": "operating_signal_review_record",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "opportunity_stakeholder",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "org_sync_diff_item",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "org_sync_run",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "org_unit",
+          "count": 9,
+          "sha256": "7027e1a782d1bb7d44709a92d7bf520da1c0be7852a300a228689f99768ca3e6"
+        },
+        {
+          "table": "payable_record",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "payment_record",
+          "count": 1,
+          "sha256": "83de7447c3b4bbcbb7b895ce8108925f034fe5b10ea935937a3ef8097c6e7b82"
+        },
+        {
+          "table": "period_closing_snapshot",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "platform_user",
+          "count": 15,
+          "sha256": "474fa85d2f92ce52972a4e55a9a99be66e14e9ae365d2cdfaf71459c432fa857"
+        },
+        {
+          "table": "poms_migrations",
+          "count": 94,
+          "sha256": "5b6e0831b72bb83608bae3d335dbc1ab1630ca0c9d71e8abae60fbdb1e1ae405"
+        },
+        {
+          "table": "project",
+          "count": 11,
+          "sha256": "f7dc37132dbd7b75fe992174f0111269e92a7b76168a2596ad554d855fcd50e0"
+        },
+        {
+          "table": "project_actual_cost_record",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "project_archive_record",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "project_bid_commercial_material_item",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "project_bid_commercial_process",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "project_bid_commercial_timeline_item",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "project_completion_record",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "project_handover",
+          "count": 6,
+          "sha256": "5f090e9ee183f08acf0de3df447d75989cf01c6e41e18c131d17f8bff914484b"
+        },
+        {
+          "table": "project_handover_attachment_selection",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "project_handover_basis_item",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "project_handover_basis_snapshot",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "project_handover_contract_basis",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "project_handover_participant_role",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "project_handover_summary_payload",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "project_operating_snapshot",
+          "count": 3,
+          "sha256": "6ce721a692c956cdda4851e9704ac30969efa0252beb2b89aa5448c61fd0e6a2"
+        },
+        {
+          "table": "project_owner_reassignment_record",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "project_pricing_margin_condition_item",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "project_pricing_margin_review",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "project_receipt_judgment_freeze",
+          "count": 2,
+          "sha256": "6a64d7e719e67668614faa28ae028f25685b786bc67dd2d0af14939615e0faeb"
+        },
+        {
+          "table": "project_technical_cost_item",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "project_technical_cost_package",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "project_technical_risk_item",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "project_technical_scope_item",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "receipt_record",
+          "count": 1,
+          "sha256": "ed22a90e6e769b4430ad96753519214ce273470c01b2da2681886f53ed3005f7"
+        },
+        {
+          "table": "receivable_plan_init_record",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "receivable_plan_node",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "receivable_plan_version",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "role",
+          "count": 15,
+          "sha256": "37ebfe542b78bb2a205746143459adaae6a07f9c0964bb73d7f11d2a1846e4f0"
+        },
+        {
+          "table": "role_permission_assignment",
+          "count": 200,
+          "sha256": "4bc6bda145034abc8adb11c341c9beaf29d30e187fb7b35a6c64655ab5bacd84"
+        },
+        {
+          "table": "sales_discovery_record",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "sales_follow_up_record",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "security_event",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "shared_cost_allocation_basis",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "shared_cost_allocation_result",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "shared_cost_allocation_source_snapshot",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "system_setting",
+          "count": 1,
+          "sha256": "208ec8ea7469cb22b5af892c559ca0fb3c3c04c1b05c109cbae9dd9a6e7f81f2"
+        },
+        {
+          "table": "todo_item",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "user_org_membership",
+          "count": 15,
+          "sha256": "f44860cb498d25381a421cf981b4119bce5c9d07e607e13b12cdb2bcd72a00d5"
+        },
+        {
+          "table": "user_role_assignment",
+          "count": 15,
+          "sha256": "53641873589465cdd981473e12d4087de89dcbb0eaf643eb38a43414548bd5eb"
+        }
+      ],
+      "aclHash": "045c68efcc5cab96e06ed3fcf98d8b8df8a2f36827f3098d2bbab303406dd560",
+      "public65bRowsOnlyHistorical": 532
+    },
+    "rust": {
+      "baselineSummary": [
+        {
+          "table": "acceptance_record",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "accounting_tax_treatment_snapshot",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "approval_record",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "approval_summary_field_projection",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "approval_summary_package_definition",
+          "count": 5,
+          "sha256": "dab94023ef3fdd6111ae81eb077f818edab676e337adca2d6620478d7a89264f"
+        },
+        {
+          "table": "approval_summary_snapshot",
+          "count": 15,
+          "sha256": "90252b25ff59db00bec2f6a40241df24d5bb1ee5e9966a5deb7b647865b56c1b"
+        },
+        {
+          "table": "attachment",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "attachment_download_package",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "attachment_download_package_item",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "attachment_link",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "attachment_storage_provider_config",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "attachment_upload_session",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "audit_log",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "auth_session",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "business_discussion_comment",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "business_discussion_thread",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "business_number_sequence",
+          "count": 1,
+          "sha256": "724bca811c83f6195b198bb38619c08ae2c8d21af5327fbc473aaaa853e30c0d"
+        },
+        {
+          "table": "change_package_baseline",
+          "count": 3,
+          "sha256": "a6d00df8cce8f45ea1c06cbdedfaf492438c6dc6f6fc32493fe31eb792a5362a"
+        },
+        {
+          "table": "commercial_baseline_diff_item",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "commercial_baseline_diff_result",
+          "count": 7,
+          "sha256": "03e1706f0d56c5132bb648122458c5728e6779c2ae38b24dcae994420286226e"
+        },
+        {
+          "table": "commercial_baseline_review_attachment",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "commercial_baseline_review_record",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "commercial_release_baseline",
+          "count": 7,
+          "sha256": "1d503283857ecda7517998564b1a8672bb50998f931e308a014b3357876b6546"
+        },
+        {
+          "table": "commission_adjustment",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "commission_calculation",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "commission_departure_exception_decision",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "commission_final_settlement_snapshot",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "commission_freeze_change_request",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "commission_freeze_dispute_record",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "commission_gate_review_record",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "commission_payout",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "commission_role_assignment",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "commission_rule_explanation_snapshot",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "commission_rule_version",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "competitor_intelligence_record",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "confirmation_participant",
+          "count": 12,
+          "sha256": "ba0abd0acc79c0adc78701ec95891a1fcbdd9b0b932ead8dd94349cd00971de5"
+        },
+        {
+          "table": "confirmation_record",
+          "count": 6,
+          "sha256": "2bab4ec798a5362aff0327c6384b5fe074b5f9f66c77eee1f8c31ab922ffc4af"
+        },
+        {
+          "table": "contract",
+          "count": 9,
+          "sha256": "53c0c19e28d031afe9a262093647a10b766c45cd0d40d1f1762abb6d7bbc744b"
+        },
+        {
+          "table": "contract_amendment",
+          "count": 1,
+          "sha256": "a7db0cc966d25cfd33bf1c84000f978307cc0370d508c820aad106714e97ace4"
+        },
+        {
+          "table": "contract_handover_rebaseline_record",
+          "count": 1,
+          "sha256": "8e51aded22e69cf33f27edfed541bebbb813a8695fb8d61820df88afe4a1b5ca"
+        },
+        {
+          "table": "contract_readiness_package",
+          "count": 7,
+          "sha256": "c5e2e23721b9dbcac4f46ae171507888d4b855c06fbcc09e2e77b4753a75d3f9"
+        },
+        {
+          "table": "contract_readiness_package_item",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "contract_review_binding",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "contract_term_preparation",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "contract_term_snapshot",
+          "count": 7,
+          "sha256": "c72ca578209c224647113d3c4f006104b1177149da6508c5e8df6e8ef5d14239"
+        },
+        {
+          "table": "cost_governance_evidence",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "cost_stage_attribution_snapshot",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "customer",
+          "count": 2,
+          "sha256": "8f1e12157c4444f26414130a79fdb7d2a184a355e412c74323fe2bd72c213de2"
+        },
+        {
+          "table": "customer_alias",
+          "count": 2,
+          "sha256": "3a6657d24b7db94d129947340624ca9e88aa8b4ed35ea20a621c80db8aca0114"
+        },
+        {
+          "table": "customer_contact",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "data_maturity_evaluation_result",
+          "count": 3,
+          "sha256": "561e1f8aab849ed271d604316de82dddb33f18f1606736d629cdd6b88e3458ca"
+        },
+        {
+          "table": "dictionary_item",
+          "count": 32,
+          "sha256": "efc65f7e019521278d8294299445ac06929042e9b5c34d427b64a88c6ec475d7"
+        },
+        {
+          "table": "expense_record",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "external_department_mapping",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "external_identity",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "external_login_ticket",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "external_org_source",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "handover_baseline_impact_item",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "identity_provider_config",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "identity_provider_oauth_grant",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "internal_cost_rate_version",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "invoice_record",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "lead",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "lead_owner_assignment_record",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "lead_score_override",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "lead_score_snapshot",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "local_credential",
+          "count": 15,
+          "sha256": "37d3916984e3deb5b2c0dd6c9646f801772a52feec54d4279e2f2ba286d087b1"
+        },
+        {
+          "table": "operating_baseline_package",
+          "count": 3,
+          "sha256": "bf2ea63ad8d25e41bcd11416eeca7d2b60a7bf31326b6c07cd1b0cd9fb705eb3"
+        },
+        {
+          "table": "operating_restatement_record",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "operating_signal_evaluation_result",
+          "count": 3,
+          "sha256": "949bdd5e3cfbfd11c71cde400603759df31ec0f078835ae9594d025e39306244"
+        },
+        {
+          "table": "operating_signal_gate_binding",
+          "count": 3,
+          "sha256": "400d879dd01a81466f80735ce9a33c324454fa8454e77d44c1edcefe8ce0f525"
+        },
+        {
+          "table": "operating_signal_review_record",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "opportunity_stakeholder",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "org_sync_diff_item",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "org_sync_run",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "org_unit",
+          "count": 9,
+          "sha256": "9abb789a6259750dd349c415630ac70e7ce55dc7d056dad67ca345d5db2d199a"
+        },
+        {
+          "table": "payable_record",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "payment_record",
+          "count": 1,
+          "sha256": "3722ce59e1ee594ff526fdf66238dc237287084e04d33e10915e74990eef120e"
+        },
+        {
+          "table": "period_closing_snapshot",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "platform_user",
+          "count": 15,
+          "sha256": "6c2617c5e6fba4a8db64872b7d31c76ec36099f2e2adde3ad06229fd41f9887d"
+        },
+        {
+          "table": "poms_migrations",
+          "count": 94,
+          "sha256": "904bf379ed84827e6760a8dd6895a86f821456258a91fc95a5b9498355c6e2b0"
+        },
+        {
+          "table": "project",
+          "count": 11,
+          "sha256": "51f2e262009bba0dea4570d3baa2b646e0369d24b1ab230a5f1492d627c04dda"
+        },
+        {
+          "table": "project_actual_cost_record",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "project_archive_record",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "project_bid_commercial_material_item",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "project_bid_commercial_process",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "project_bid_commercial_timeline_item",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "project_completion_record",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "project_handover",
+          "count": 6,
+          "sha256": "f6db5ecb14e69966305b850992476d250e371b511aa573fcefddcde4949d2cdb"
+        },
+        {
+          "table": "project_handover_attachment_selection",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "project_handover_basis_item",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "project_handover_basis_snapshot",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "project_handover_contract_basis",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "project_handover_participant_role",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "project_handover_summary_payload",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "project_operating_snapshot",
+          "count": 3,
+          "sha256": "c7117fcffc0b17bfdb4f05000209464735cf723e719f8edb92b030c05e45cc5f"
+        },
+        {
+          "table": "project_owner_reassignment_record",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "project_pricing_margin_condition_item",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "project_pricing_margin_review",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "project_receipt_judgment_freeze",
+          "count": 2,
+          "sha256": "03d87d20e7831cd2fbbfabd252c3801adbddc9321a447296fb57afda8a381952"
+        },
+        {
+          "table": "project_technical_cost_item",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "project_technical_cost_package",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "project_technical_risk_item",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "project_technical_scope_item",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "receipt_record",
+          "count": 1,
+          "sha256": "a5b2588cf1e304eb836893b6171ee42f96f8ece9542570cbb8e3e2ce90c70dc2"
+        },
+        {
+          "table": "receivable_plan_init_record",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "receivable_plan_node",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "receivable_plan_version",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "role",
+          "count": 15,
+          "sha256": "eb8d81741e01c4e41c408dc81d37c209ce37bd890316134c39bc883b0736f61d"
+        },
+        {
+          "table": "role_permission_assignment",
+          "count": 200,
+          "sha256": "87af43d4c79cdc999c8e280152666bb1757ec394f6b1d8ac9b03bf2d3462886f"
+        },
+        {
+          "table": "sales_discovery_record",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "sales_follow_up_record",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "security_event",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "shared_cost_allocation_basis",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "shared_cost_allocation_result",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "shared_cost_allocation_source_snapshot",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "system_setting",
+          "count": 1,
+          "sha256": "f95c17d994d9ed9c9d9cab6d42fcb0a8b1551d7c746a672b4dfd2067032c0100"
+        },
+        {
+          "table": "todo_item",
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "table": "user_org_membership",
+          "count": 15,
+          "sha256": "b24645ec0dfa935c800f6b34d407fd58d9be7db88e727416da1bf552cf9f9067"
+        },
+        {
+          "table": "user_role_assignment",
+          "count": 15,
+          "sha256": "9908808f91ea9c8b4e2e3cc7fcdb1db708dd7ea7e1b2811bcaae1148d9cc7881"
+        }
+      ],
+      "aclHash": "066cd3683d974aca7a24d762d20070b7a5276a006df95cc46d701966befd6bfb",
+      "public65bRowsOnlyHistorical": 2241
+    }
+  },
+  "publicSourcePins": [
+    {
+      "file": "tools/rust-r4def/cleanup-plan65.mjs",
+      "bytes": 5628,
+      "rawBytesSha256": "091da5933df71cd8c301cd180bc6d4ff05c287551b71258127a10b6a1d01bfab"
+    },
+    {
+      "file": "tools/rust-r4def/catalog25.mjs",
+      "bytes": 4043,
+      "rawBytesSha256": "b3fa238c93fd75722c826b8c397d3c6e1976dcee885449cb4c17fd67baac1e02"
+    },
+    {
+      "file": "tmp/rust-r4def/root/cleanup-plan65b/native.json",
+      "bytes": 122734,
+      "rawBytesSha256": "7698f23432defa1e416370dc61a86762fe13c611981ba91f2552b25ae30c1523"
+    },
+    {
+      "file": "tmp/rust-r4def/root/cleanup-plan65b/rust.json",
+      "bytes": 124371,
+      "rawBytesSha256": "515eb3b94d1dc22a35d9832bd37e76121daf815c302529cf4e7f6a097a3d813e"
+    },
+    {
+      "file": "tmp/rust-r4def/root/catalog25/native-catalog.json",
+      "bytes": 1137929,
+      "rawBytesSha256": "a1d876a5ff2ed4859e3374b3888763f00edd39f5666756a174be421da4b1f8f1"
+    },
+    {
+      "file": "tmp/rust-r4def/root/catalog25/rust-catalog.json",
+      "bytes": 1137929,
+      "rawBytesSha256": "0a6ef59de84f1e975c314735d49697c7f94ffde1415c1805bd01d7d0bf7efbef"
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20261104060000_rust_r4def_execution_cost.ts",
+      "bytes": 46289,
+      "rawBytesSha256": "b72c0273ee85396aa31652507fbfa4ea085ed22a0c9a8b33f8f3d62eb90e4994"
+    },
+    {
+      "file": "tools/rust-r4abc/cleanup50.mjs",
+      "bytes": 10068,
+      "rawBytesSha256": "0b2b1ea94c40c3ba8937442496631d1c23246d74d90bf3ad0ca87d47068730bf"
+    }
+  ],
+  "actualBaselinePrivateRead": false,
+  "actualLatestRowGraphRead": false,
+  "cleanupExecuted": false
+}

@@ -29,4 +29,5 @@ export interface InvoiceRecordSummary {
     rowVersion: number;
     createdAt: string;
     updatedAt: string;
+    currencyCode: string | null;
 }

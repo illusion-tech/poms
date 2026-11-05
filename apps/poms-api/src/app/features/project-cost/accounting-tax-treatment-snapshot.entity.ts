@@ -1,3 +1,4 @@
+import { CostGovernanceEvidence } from "./cost-governance-evidence.entity";
 import { defineEntity } from '@mikro-orm/core';
 import {
     ACCOUNTING_TAX_DEDUCTIBILITY_STATUSES,
@@ -26,7 +27,8 @@ export const AccountingTaxTreatmentSnapshotSchema = defineEntity({
             name: 'uq_atts_project_type_active',
             expression: (columns, table, indexName) =>
                 `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.projectId}", "${columns.taxTreatmentType}") where "${columns.status}" = '${OperatingPendingLifecycleStatusValue.Active}'`
-        }
+        },
+        { name: "uq_r4f_tax_successor", expression: "CREATE UNIQUE INDEX uq_r4f_tax_successor ON poms.accounting_tax_treatment_snapshot USING btree (supersedes_id) WHERE (supersedes_id IS NOT NULL)" }
     ],
     checks: [
         {
@@ -36,7 +38,8 @@ export const AccountingTaxTreatmentSnapshotSchema = defineEntity({
         {
             name: 'chk_accounting_tax_treatment_snapshot_status',
             expression: `"status" in (${toSqlStringList(OPERATING_PENDING_LIFECYCLE_STATUSES)})`
-        }
+        },
+        { name: "chk_r4f_tax_v1", expression: "(((governance_schema_version = 0) OR ((governance_schema_version = 1) AND (currency IS NOT NULL) AND (governance_evidence_id IS NOT NULL) AND (confirmed_at IS NOT NULL) AND (confirmed_by IS NOT NULL) AND (tax_impact_pending_amount >= (0)::numeric) AND (tax_pending_flag OR (tax_impact_pending_amount = (0)::numeric)) AND (((deductibility_status)::text <> 'pending'::text) OR tax_pending_flag) AND (length(btrim(tax_impact_summary)) > 0) AND ((supersedes_id IS NULL) OR ((replacement_reason IS NOT NULL) AND (length(btrim(replacement_reason)) > 0))))))" }
     ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
@@ -49,14 +52,18 @@ export const AccountingTaxTreatmentSnapshotSchema = defineEntity({
         taxImpactPendingAmount: p.decimal().precision(18).scale(2).default(0).fieldName('tax_impact_pending_amount').comment('待确认税务影响金额'),
         basisSummary: p.text().nullable().fieldName('basis_summary').comment('判断依据摘要'),
         status: p.string().$type<OperatingPendingLifecycleStatus>().length(32).default(OperatingPendingLifecycleStatusValue.Pending).comment('状态：pending/active/superseded/voided'),
-        supersedesId: p.uuid().nullable().fieldName('supersedes_id').comment('被替代的旧税务处理快照 ID'),
+        supersedesId: () => p.manyToOne(AccountingTaxTreatmentSnapshot).mapToPk().nullable().fieldName("supersedes_id").foreignKeyName("fk_r4f_tax_supersedes").updateRule('no action').deleteRule("no action").comment('被替代的旧税务处理快照 ID'),
         confirmedAt: p.datetime().nullable().fieldName('confirmed_at').comment('确认时间'),
         confirmedBy: p.uuid().nullable().fieldName('confirmed_by').comment('确认人'),
         createdAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).fieldName('created_at').comment('创建时间'),
         createdBy: p.uuid().nullable().fieldName('created_by').comment('创建人'),
         updatedAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).onUpdate(() => new Date()).fieldName('updated_at').comment('最后更新时间'),
         updatedBy: p.uuid().nullable().fieldName('updated_by').comment('最后更新人'),
-        rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号')
+        rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号'),
+        currency: p.string().length(16).nullable().fieldName("currency"),
+        replacementReason: p.text().nullable().fieldName("replacement_reason"),
+        governanceEvidenceId: () => p.manyToOne(CostGovernanceEvidence).mapToPk().nullable().fieldName("governance_evidence_id").foreignKeyName("accounting_tax_treatment_snapshot_governance_evidence_id_fkey").updateRule('no action').deleteRule("no action"),
+        governanceSchemaVersion: p.integer().columnType('smallint').default(1).fieldName("governance_schema_version")
     }
 });
 

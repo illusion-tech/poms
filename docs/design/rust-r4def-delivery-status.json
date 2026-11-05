@@ -3,7 +3,7 @@
   "date": "2026-11-04",
   "base": "565661b9113372de4da6662a4a692fbfd2296dd6",
   "branch": "codex/poms-r4def-next28",
-  "stage": "G1Frozen",
+  "stage": "G2Doing",
   "scope": {
     "D": 7,
     "E": 11,
@@ -13,7 +13,7 @@
     "new": 2
   },
   "officialNewDelivered": 0,
-  "technicalRustOperations": 210,
+  "technicalRustOperations": 240,
   "issues": {
     "57": "OPEN",
     "101": "OPEN",
@@ -28,7 +28,7 @@
   "G1Certified": true,
   "G2Authorized": true,
   "fullR4Complete": false,
-  "updatedAt": "2026-11-03T20:57:31.034Z",
+  "updatedAt": "2026-11-04T04:24:18.848Z",
   "G1InputCommit": "57f64d6c0aef99430acc3b4ed7d99d00074d59f4",
   "G1InputManifest": {
     "file": "docs/design/rust-r4def/joint-g1-06/manifest06.json",
@@ -39,5 +39,38 @@
     "rawBytesSha256": "b157f230a59a5750fd8fa993d8f58fb517619fb898b3ba1f3757b7a54d0656f6"
   },
   "actualOnlineG1": "rust-r4def/g1-online07.json",
-  "gateAuthority": "rust-r4def/g1-gate-authority07.json"
+  "gateAuthority": "rust-r4def/g1-gate-authority07.json",
+  "officialRustOperations": 210,
+  "G3Certified": false,
+  "G4Certified": false,
+  "currentPublicContract": {
+    "paths": 239,
+    "operations": 293,
+    "schemas": 626,
+    "generatedClientFiles": 616,
+    "permanentS4": "4f0ad88e78622a75b88b4e3cc72aded9da67458a"
+  },
+  "G2": {
+    "allocationDecision": "rust-r4def/g2-allocation-decision48.json",
+    "allocationFreeze": "rust-r4def/g2-allocation-freeze51.json",
+    "supportingAttachmentProposal": "rust-r4def/g2-attachment-proposal54.json",
+    "attachmentImplementationAuthorized": true,
+    "actualPositiveOperationCoverage": 30,
+    "actualRuntime": "isolated candidate only; not mainline delivery",
+    "remaining": [
+      "K86 no-op intent correction, final runtime and K byte/necessary-write/race acceptance",
+      "Exact owned cleanup and independent G3/G4/main integration"
+    ],
+    "supportingAttachmentFreeze": "rust-r4def/g2-attachment-freeze62.json",
+    "actualEvidence": {
+      "D": "D42/D49 + faults43/49; Linux64/Windows66 controlled amendment UI",
+      "E": "E41 + E42 actual readback + E20-56 legacy + precision56 negative/cleanup",
+      "F": "F60/proof-F61 + effective controlled races89 (10 cases)",
+      "K": "K71 7 stages/60 HTTP/13 PG at runtime81; no-op P2 correction K86 pending",
+      "pendingAuth": "pending74 fail/retry natural-throttle actual barriers",
+      "sensitiveGET": "fault75 + saved readback76",
+      "checks": "Rust full79 405/54 ignored; clippy80/build81; fmt87; Native50 863; Admin61 417; original foundation77 13"
+    },
+    "supportingAttachmentNoopCorrection": "rust-r4def/g2-K86-correction.json"
+  }
 }

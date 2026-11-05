@@ -9,6 +9,7 @@
  */
 import { OperatingPendingLifecycleStatus } from './operating-pending-lifecycle-status';
 import { AccountingTaxDeductibilityStatus } from './accounting-tax-deductibility-status';
+import { SensitiveStringFieldProjection } from './sensitive-string-field-projection';
 
 
 export interface AccountingTaxTreatmentSnapshotSummary {
@@ -16,11 +17,7 @@ export interface AccountingTaxTreatmentSnapshotSummary {
     projectId: string;
     taxTreatmentType: string;
     deductibilityStatus: AccountingTaxDeductibilityStatus;
-    taxImpactAmount: string;
     taxPendingFlag: boolean;
-    taxImpactSummary: string;
-    taxImpactPendingAmount: string;
-    basisSummary: string | null;
     status: OperatingPendingLifecycleStatus;
     supersedesId: string | null;
     confirmedAt: string | null;
@@ -28,4 +25,16 @@ export interface AccountingTaxTreatmentSnapshotSummary {
     rowVersion: number;
     createdAt: string;
     updatedAt: string;
+    taxImpactAmountProjection: SensitiveStringFieldProjection;
+    taxImpactSummaryProjection: SensitiveStringFieldProjection;
+    taxImpactPendingAmountProjection: SensitiveStringFieldProjection;
+    basisSummaryProjection: SensitiveStringFieldProjection;
+    sourceEvidenceProjection: SensitiveStringFieldProjection;
+    currency: string | null;
+    evidenceId: string | null;
+    governanceCertification: AccountingTaxTreatmentSnapshotSummaryGovernanceCertificationEnum;
 }
+export enum AccountingTaxTreatmentSnapshotSummaryGovernanceCertificationEnum {
+    Verified = 'verified',
+    LegacyUnverified = 'legacy-unverified'
+};

@@ -1,0 +1,63 @@
+{
+  "kind": "K86-to-K98-complete-Link-committed-baseline-correction",
+  "date": "2026-11-04T04:33:57.308Z",
+  "status": "G2-correction-authorized; prior K86 Block retained",
+  "implementationAuthorized": true,
+  "formalInputUnchanged": "K55/K62 transaction and source-proof semantics; K86 no-op intent retained",
+  "finding": "K86-P1-01: generic handover sparse Link must gain full actual committed row baseline before subsequent guarded audit flush",
+  "allowedProductFiles": [
+    "apps/poms-api-rust/src/attachments/store.rs"
+  ],
+  "otherProductFilesMustRemainUnchanged": true,
+  "requiredBehavior": [
+    "Keep strict first Link tuple and active-set guards on actual idempotent link/unlink intent",
+    "After Link INSERT and insert_group, retain actual complete RETURNING/true same-connection hydrated Link tuple including database NULL/default fields as committed baseline",
+    "Do not weaken comparison by treating absent keys as arbitrary NULL or skip clean source proofs",
+    "No HTTP, DTO, DDL, dependencies or F46/F44 changes"
+  ],
+  "requiredAcceptance": [
+    "Meaningful sparse generic Link to complete committed baseline regression",
+    "Fresh real uploaded attachment then handover refresh creates a new autoLink and necessary audit succeeds",
+    "Both actual idempotent group barrier cases and all affected actual K paths on final runtime"
+  ],
+  "pins": [
+    {
+      "file": "tmp/rust-r4def/independent/k86-code-preflight96.json",
+      "bytes": 11018,
+      "rawBytesSha256": "5714648c742efdb859a93cd59e0f64b9cc410e6594264755f0dfdc54bd1a1094",
+      "preserved": "docs/design/rust-r4def/g2-K98-inputs/tmp/rust-r4def/independent/k86-code-preflight96.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/independent/k86-code-preflight96.md",
+      "bytes": 1399,
+      "rawBytesSha256": "fb1b5b4539a81c31bb15422e3f5bf80088b0b399cdc2bf1747f4815492b15353",
+      "preserved": "docs/design/rust-r4def/g2-K98-inputs/tmp/rust-r4def/independent/k86-code-preflight96.md.bin"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/store.rs",
+      "bytes": 68634,
+      "rawBytesSha256": "163452c03d34231360ba7da16b76fd3e282fbc96b9ae752e2cfd584cf9809f8e",
+      "preserved": "docs/design/rust-r4def/g2-K98-inputs/apps/poms-api-rust/src/attachments/store.rs.bin"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/service.rs",
+      "bytes": 81710,
+      "rawBytesSha256": "0fbd8afc1c22fec87e3034b9e31d9c89a3cfea92d85cb8f0ef1866dd23bcceab",
+      "preserved": "docs/design/rust-r4def/g2-K98-inputs/apps/poms-api-rust/src/attachments/service.rs.bin"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/handover.rs",
+      "bytes": 40635,
+      "rawBytesSha256": "0fb5f3c71b1167e76a339f4d5996e0c6fac1b964a01be03f92f148906d20e217",
+      "preserved": "docs/design/rust-r4def/g2-K98-inputs/apps/poms-api-rust/src/attachments/handover.rs.bin"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachment_storage/registry.rs",
+      "bytes": 22940,
+      "rawBytesSha256": "617f734af15f7e75db2cc69de63343c04104abbd446f322809fb1f1bfc625765",
+      "preserved": "docs/design/rust-r4def/g2-K98-inputs/apps/poms-api-rust/src/attachment_storage/registry.rs.bin"
+    }
+  ],
+  "G3Certified": false,
+  "G4Certified": false
+}

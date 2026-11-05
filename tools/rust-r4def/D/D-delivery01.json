@@ -1,0 +1,426 @@
+{
+  "kind": "R4D-G2-author-implementation-handoff",
+  "createdAt": "2026-11-03T23:03:09.019Z",
+  "baseline": "756d813c9578090fcf8e56821acce01b46b40420",
+  "branch": "codex/poms-r4d-handover",
+  "issues": {
+    "parent": 106,
+    "D": 107,
+    "stageRemainsOpen": 101,
+    "overallRemainsOpen": 57
+  },
+  "status": {
+    "implementationReadyForRootIntegration": true,
+    "G3Certified": false,
+    "G4Certified": false,
+    "committed": false,
+    "pushed": false
+  },
+  "scope": {
+    "DHttp": 7,
+    "batchHttp": 30,
+    "newHttp": 2,
+    "controlledAmendment": "existing readiness/contract/review routes only",
+    "generatedFullHttp": 293,
+    "generatedSchemas": 626
+  },
+  "sourceFileCount": 18,
+  "sourceFiles": [
+    {
+      "path": "apps/poms-admin/src/app/features/project/project-contract-handover.spec.ts",
+      "bytes": 18570,
+      "rawBytesSha256": "8e3951429301a22a65a6e99f7aa6d03209bb50f68b9927b92fca8b94eedf152d"
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "bytes": 45542,
+      "rawBytesSha256": "92b990e4d5037fe24917ba26809d2baf69fbbe5599e27cd775e083c68000b768"
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/project/project-handover-actions.ts",
+      "bytes": 42247,
+      "rawBytesSha256": "677e1a98be9cef08920a0208f4a84d97f8cece08dd4f8c24e10d4ccd7af42c10"
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/project/project-handover-flow.spec.ts",
+      "bytes": 1693,
+      "rawBytesSha256": "01872199bf5978f7eaf4316615098745ab6241ea4da765aab2f95dd33fbbac69"
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/project/project-handover-flow.ts",
+      "bytes": 1616,
+      "rawBytesSha256": "39de5ae11262a42b751da315cc3667e7fb1d5f70dd8210d119de3427a1ec8b4e"
+    },
+    {
+      "path": "apps/poms-api-rust/src/approval/domain.rs",
+      "bytes": 31080,
+      "rawBytesSha256": "be6bc07826679369a1b4515facfd1cbe59d539cc76329a605158ccf510977c9f"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contract_readiness/mod.rs",
+      "bytes": 343,
+      "rawBytesSha256": "afd601103900fe2f3954bdf505c0c24c5549c273929cf7c74e7143f86ebdb219"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contract_readiness/service.rs",
+      "bytes": 56755,
+      "rawBytesSha256": "f62bfa680eccb1ec1a233fa4a75fcc74b4bbb1f6a7658bec0be7ad73230b1e4a"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contract_readiness/view.rs",
+      "bytes": 9658,
+      "rawBytesSha256": "2fb2fe4de25e72b920cf3cbaf6b35d8f158117e0a1f1a3f1b6dfe82031349b14"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contracts/amendment.rs",
+      "bytes": 18060,
+      "rawBytesSha256": "f6def27ca7fc4cd8135dc630f262b9eb6237ecbfff716757e35ab5f02b8b4032"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contracts/mod.rs",
+      "bytes": 380,
+      "rawBytesSha256": "0f0e6974854c72d8a983b199899a9d361a79205c44f54c19c61f7dbdd477cad8"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contracts/service.rs",
+      "bytes": 31558,
+      "rawBytesSha256": "65bb845fb2edfe8fecccd3372b448ea85c93e85fae94ed45684e67e85ca01b2f"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contracts/store.rs",
+      "bytes": 16174,
+      "rawBytesSha256": "1bf7f38ab3831734660dcd82c4a4cbb0b8c44115e39b7ad6c81800454c1d9d5d"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_handover/mod.rs",
+      "bytes": 201,
+      "rawBytesSha256": "95821ee40bd69b32fc644e49ac8d06de58853334b6c17d7e0408f68d1f1900ff"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_handover/model.rs",
+      "bytes": 5010,
+      "rawBytesSha256": "03a4ada33fb31c1b4202de24f858455d77d9b88f7cbd57afd4d40c3e8374ec32"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_handover/service.rs",
+      "bytes": 42969,
+      "rawBytesSha256": "283107428b312d641a2a8330e2c684b2a77163d16bdfa9a9dc9ecead655e4fc3"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_handover/sources.rs",
+      "bytes": 31707,
+      "rawBytesSha256": "e5d33db8ebe4cdd537f8c0006c9bb16ab6c8f1652e55c4923444a70499863ff4"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_handover/view.rs",
+      "bytes": 19677,
+      "rawBytesSha256": "1a8eccae792e2073cfb18a0c3454e65927265e46bac975795815281c8c53fcce"
+    }
+  ],
+  "toolArtifacts": [
+    {
+      "path": "tools/rust-r4def/D/clippy-20261103T214115798Z-original.log",
+      "bytes": 179,
+      "rawBytesSha256": "c1dbe7dc74c25126f461d75d2e35b7134d1c860abe862f9a66415b83d3af4dd7"
+    },
+    {
+      "path": "tools/rust-r4def/D/clippy-20261103T224452314Z-original.log",
+      "bytes": 179,
+      "rawBytesSha256": "86242d22470dc3f8d21dddbdddafef9e8ef9089bfcf2b2eb4d19dfdb02e88b92"
+    },
+    {
+      "path": "tools/rust-r4def/D/clippy-20261103T225127345Z-original.log",
+      "bytes": 179,
+      "rawBytesSha256": "69654952702c30240213c0408476923f8b2c46ef732e264a5912cee7600595c7"
+    },
+    {
+      "path": "tools/rust-r4def/D/clippy-20261103T225547934Z-original.log",
+      "bytes": 179,
+      "rawBytesSha256": "05f7265f7dcf0024998a80971eacbe15c589c5f6aecfdf496c414152c2204550"
+    },
+    {
+      "path": "tools/rust-r4def/D/clippy-20261103T225804762Z-metadata.json",
+      "bytes": 4451,
+      "rawBytesSha256": "8f1fa76b51bb4708506fb172af434601e150a6efe54761f64fee5777b8f3eda6"
+    },
+    {
+      "path": "tools/rust-r4def/D/clippy-20261103T225804762Z-original.log",
+      "bytes": 179,
+      "rawBytesSha256": "13f32ee2feccbf40713c2e7b91a1f6f0ce17683ca76b0a80fa4e4cffc21d3a69"
+    },
+    {
+      "path": "tools/rust-r4def/D/clippy-original.log",
+      "bytes": 3679,
+      "rawBytesSha256": "9eb31c42cdfdb91018fa61bba2fb9e85a77273e2c0ce5223ba676178f635dd97"
+    },
+    {
+      "path": "tools/rust-r4def/D/fmt-20261103T214112608Z-original.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tools/rust-r4def/D/fmt-20261103T224445209Z-original.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tools/rust-r4def/D/fmt-20261103T225117658Z-original.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tools/rust-r4def/D/fmt-20261103T225535891Z-original.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tools/rust-r4def/D/fmt-20261103T225648649Z-original.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tools/rust-r4def/D/fmt-original.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tools/rust-r4def/D/make-delivery.mjs",
+      "bytes": 7891,
+      "rawBytesSha256": "c8bc991865b56503952787923a29ee17a006c2f066f553ef40ced1a10eaca323"
+    },
+    {
+      "path": "tools/rust-r4def/D/pure-ui-20261103214635522.json",
+      "bytes": 977,
+      "rawBytesSha256": "04f86577fd10184123248a18be6f1edbe75f41f4d76996dc2134d956fcead60a"
+    },
+    {
+      "path": "tools/rust-r4def/D/pure-ui-20261103224746109.json",
+      "bytes": 977,
+      "rawBytesSha256": "1a1040792574b757b75a3b594c2f5b5af37ee8e56432605ad8ba6cde84785c95"
+    },
+    {
+      "path": "tools/rust-r4def/D/run-isolated-checks.ps1",
+      "bytes": 2740,
+      "rawBytesSha256": "543d698d9d1d4a8e5bf12463fed82cc14c0d59b25a14bd698a053ea3371fe866"
+    },
+    {
+      "path": "tools/rust-r4def/D/test-20261103T214214688Z-original.log",
+      "bytes": 9550,
+      "rawBytesSha256": "c98553f06eba325848910f0af3f19bcdc821e1dd358b85b48f69c20e217dc51c"
+    },
+    {
+      "path": "tools/rust-r4def/D/test-20261103T224540172Z-original.log",
+      "bytes": 1110,
+      "rawBytesSha256": "d8b98ce2186839ed97795961248c8e1573de548e7834d4982ec8bcfbdd214a25"
+    },
+    {
+      "path": "tools/rust-r4def/D/test-20261103T225221378Z-original.log",
+      "bytes": 1405,
+      "rawBytesSha256": "0bd2c4efc8f9134cd6f6467d652205096f28bea7a4a9bdcd0f9f779fbcf3a1cd"
+    },
+    {
+      "path": "tools/rust-r4def/D/test-20261103T230029436Z-metadata.json",
+      "bytes": 4431,
+      "rawBytesSha256": "e29dd8de9a567ec3a24f92a5a7bee04b2d61369b0b86818718fe5028a0370a96"
+    },
+    {
+      "path": "tools/rust-r4def/D/test-20261103T230029436Z-original.log",
+      "bytes": 1405,
+      "rawBytesSha256": "3edbabcfc8b36f5b913bc2d34bc56485e8af9acbe2c76888617dbf76ef6414db"
+    },
+    {
+      "path": "tools/rust-r4def/D/test-handover-flow.mjs",
+      "bytes": 3203,
+      "rawBytesSha256": "31ee9646dbf19cfd8b1439ebead288fd252a1d1a5e371d92d3b9a331dba0747b"
+    },
+    {
+      "path": "tools/rust-r4def/D/typecheck-ui.mjs",
+      "bytes": 3414,
+      "rawBytesSha256": "23decf922308af7158cb6e8c09ac9c2d61706229b85ce8b20459f3938c16867c"
+    },
+    {
+      "path": "tools/rust-r4def/D/ui-typecheck-20261103225838606.json",
+      "bytes": 9973,
+      "rawBytesSha256": "07b13bb006989f18b971d47577372a6e0e686b7748b9b6b4070d032db778bfb4"
+    },
+    {
+      "path": "tools/rust-r4def/D/ui-typecheck-20261103230015057.json",
+      "bytes": 1242,
+      "rawBytesSha256": "55634e97726cd1ffc85de1214f03a9d1df18e1c808f76bedeed508434f87d22a"
+    }
+  ],
+  "readOnlyInputPins": [
+    {
+      "path": "docs/design/rust-r4def/g1-gate-authority07.json",
+      "bytes": 755,
+      "rawBytesSha256": "9466a5de0335a89a874fb27bf6c9d560fb07549b309023cdb9e5307b0d826a36"
+    },
+    {
+      "path": "docs/design/rust-r4def/joint-g1-06/manifest06.json",
+      "bytes": 150138,
+      "rawBytesSha256": "8229d58c4319962de37ff9a153dc2c24a9b191f4a2101c3ce12558bdb0ef2147"
+    },
+    {
+      "path": "docs/design/rust-r4def/joint-g1-06/operation-map06.json",
+      "bytes": 15485,
+      "rawBytesSha256": "a7ec15625cef5483f09af7c1b33332dcd6612b84ecf082c6a6e87dd05e52eb01"
+    },
+    {
+      "path": "docs/design/rust-r4def/joint-g1-06/schema-authority06.json",
+      "bytes": 274094,
+      "rawBytesSha256": "37a1f7462c9417277ae068307c25c07569125d06943ea857a10ee7a3ae60f392"
+    },
+    {
+      "path": "docs/design/rust-r4def/joint-g1-06/schema06.sql",
+      "bytes": 45231,
+      "rawBytesSha256": "82207fb0c7d7c7c8ed221ea9b8bf04a8e3ad614e31fdd0443581ebf4520bf4f5"
+    },
+    {
+      "path": "docs/design/rust-r4def/ownership04.md",
+      "bytes": 4187,
+      "rawBytesSha256": "953bb9e9350a5da625b09ed6f0ac6f49dd48afe0739f8c535609dbe7ca04dd2f"
+    },
+    {
+      "path": "docs/design/rust-r4def/protocol01.md",
+      "bytes": 7716,
+      "rawBytesSha256": "fc6447b9e4bb1b9d2e6e78de3854cfc99c4de3af1fd9216e8361d01e33619286"
+    },
+    {
+      "path": "docs/design/rust-r4def/root-decisions02.json",
+      "bytes": 3958,
+      "rawBytesSha256": "44b6ec7e9742df44a6cfc8a41be4610b8b6baad916d0ffd6f49cda3f24a8e882"
+    },
+    {
+      "path": "docs/design/rust-r4def/root-projection05.json",
+      "bytes": 3374,
+      "rawBytesSha256": "9c41c9b92b2128e737efc34e809aa1f09b472450222e9cf391ad078d2788c61c"
+    },
+    {
+      "path": "docs/design/rust-r4def/D-g1-candidate01.md",
+      "bytes": 59107,
+      "rawBytesSha256": "47a9171033673b70cbcbd1f0f7f7ec03acf3307530262e38efe2103cd67b0ec5"
+    },
+    {
+      "path": "docs/design/rust-r4def/D-g1-candidate01.json",
+      "bytes": 274634,
+      "rawBytesSha256": "8aa3590f72ddb90a739a76d7a9f3cb0eef521b5d45bf5eea1ea673e084aeb1a7"
+    },
+    {
+      "path": "docs/design/rust-r4def/D-schema-candidate01.sql",
+      "bytes": 20395,
+      "rawBytesSha256": "92177258692cca42130a39491ef335358a5d31670806028443662b62bbe6a926"
+    },
+    {
+      "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "bytes": 483396,
+      "rawBytesSha256": "d962b8267030c8277f760b8bd6471e62491ee7fbd6353226f6291d3ff3a18db1"
+    },
+    {
+      "path": "libs/shared/api-spec/openapi.json",
+      "bytes": 1236594,
+      "rawBytesSha256": "56ae1835f50e427dd564b60f423da49e5c03fd88eed431b12ae054011e6de821"
+    },
+    {
+      "path": "libs/shared/api-client/api/project-handover.service.ts",
+      "bytes": 33434,
+      "rawBytesSha256": "eb799df0b2765c04e44c3183a50ba37930726441c468b853a3ac9bbe85c6d334"
+    },
+    {
+      "path": "libs/shared/api-client/model/project-handover-frozen-materials.ts",
+      "bytes": 467,
+      "rawBytesSha256": "7f71afa78efa8047f3e1dd8485add2bff6c81bd1e4251062822d372fd7f3e8ba"
+    },
+    {
+      "path": "apps/poms-api-rust/src/lib.rs",
+      "bytes": 991,
+      "rawBytesSha256": "3640dccd5220972dfc84a29f7313fe564065a0165632f700dc8c2201571998c1"
+    }
+  ],
+  "excludedRootOwnedChanges": [
+    "apps/poms-api-rust/src/lib.rs",
+    "libs/shared/**",
+    "public support/http/Cargo",
+    "migrations/entities",
+    "GitHub/formal governance docs"
+  ],
+  "implemented": [
+    "D7 execute borrows caller CommonSession and active outer transaction; all mandatory business/common/todo/summary/audit/security writes fail together.",
+    "Real prepare freezes every active contract exact approved preparation/snapshot/formal plan; explicit actual people/core duties/optional finance and receipt mode; real pending tasks, no invented consent.",
+    "Self confirmation authenticates actual own participant and revalidates complete current contract/plan/attachment sources under locks before any write; stale sources conflict including duplicate retries.",
+    "Final confirmation consumes actual complete participant/duty set and freezes receipt mode without inventing R5 role freeze or execution admission.",
+    "Real summary definitions are required from promoted migration94; producer stores immutable basis/full payload/two linked summary payloads with exact hashes and safe basis labels.",
+    "frozenMaterials reconstructs only historical scope/risk typed allowlists, cost version references and exact basis/source identities; financial/people/rate payloads never bypass projection.",
+    "Active controlled amendment keeps old snapshot/plan effective until true exact R2 approval and atomic activation of full new schedule; no receipt copies or replay.",
+    "Rebaseline verifies every changed contract complete consecutive amendment before/after chain, requires explicit affected contract/receivable items, persists full lineage in basis/hash/audit and starts fresh participant confirmations.",
+    "Ordinary prepare cannot bypass changed previous contract snapshots and preserves inherited valid rebaseline lineage; historical detail uses its own receipt freeze.",
+    "Minimal Angular UI supports actual user selection/duties/materials/self/final confirmation, controlled terms/commercial reference/review/activation/rebaseline, route and request epochs and explicit version state."
+  ],
+  "validation": [
+    {
+      "name": "isolated Rust fmt",
+      "result": "pass",
+      "artifact": "fmt-20261103T225648649Z-original.log"
+    },
+    {
+      "name": "isolated Rust Clippy -D warnings",
+      "result": "pass",
+      "artifact": "clippy-20261103T225804762Z-metadata.json"
+    },
+    {
+      "name": "actual Rust project_handover pure tests",
+      "result": "pass",
+      "passed": 9,
+      "failed": 0,
+      "ignored": 0,
+      "filtered": 236,
+      "artifact": "test-20261103T230029436Z-metadata.json"
+    },
+    {
+      "name": "actual pure UI helper runtime assertions",
+      "result": "pass",
+      "passed": 4,
+      "artifact": "pure-ui-20261103224746109.json"
+    },
+    {
+      "name": "TypeScript with actual 626 generated client",
+      "result": "pass",
+      "errors": 0,
+      "artifact": "ui-typecheck-20261103230015057.json"
+    },
+    {
+      "name": "5 owned UI TS files Prettier check",
+      "result": "pass",
+      "observedExitCode": 0
+    },
+    {
+      "name": "owned git diff --check",
+      "result": "pass",
+      "observedExitCode": 0
+    },
+    {
+      "name": "Angular template/build/Jest/browser, HTTP/DB/concurrency/fault injection",
+      "result": "not-run-by-D",
+      "owner": "Root"
+    }
+  ],
+  "preservedFailures": [
+    "clippy-original.log",
+    "ui-typecheck-20261103225838606.json"
+  ],
+  "pendingImplementationBlockers": [],
+  "requiredRootIntegration": [
+    "Register D7 with the common outer transaction adapter and promoted94/entities/error mapping.",
+    "Consume only sourceFiles whitelist; preserve Root-owned lib/shared sync separately.",
+    "Run real full Angular/Jest/template/build/browser, source/authorization/CSRF/rollback/concurrency/DB checks and independent G3/G4."
+  ],
+  "requiredRootBusinessScenarios": [
+    "real R3 and two independently priced contracts to exact reviews/activation/plans/prepare/each own confirmation/final/R5-pending",
+    "changed contract or attachment before self/final including already confirmed self retry must conflict without side effects",
+    "existing confirmed receipt then controlled amount amendment: current plan unique, old plan historical, original receipt still one fact and aggregate counted once",
+    "two changed contracts and two successive activations of one contract: full lineage and explicit impact coverage; missing/foreign/branched history rejected",
+    "all necessary write failures including summary/payload/participant/todo/freeze/impact/audit/auth/security produce whole rollback",
+    "R2 actual uploaded bytes checklist/refresh/package/download with material version/security changes and no metadata refresh loop",
+    "historical by-id material/mode remain frozen; writer-only active user picker; readonly operational scope/risk legible; financial canaries masked",
+    "UI actual complete workflow and A to B to A late-response protection"
+  ]
+}

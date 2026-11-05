@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { R4FGovernanceEvidence } from './r4-f-governance-evidence';
 import { ConfirmCostStageAttributionMode } from './confirm-cost-stage-attribution-mode';
 
 
@@ -17,4 +18,5 @@ export interface ConfirmCostStageAttributionRequest {
     attributionSummary?: string | null;
     comment?: string | null;
     expectedVersion?: number;
+    attributionEvidence: R4FGovernanceEvidence;
 }

@@ -1,0 +1,59 @@
+{
+  "kind": "K56-to-K86-scoped-corrective-authority",
+  "date": "2026-11-04T04:09:43.432Z",
+  "status": "G2-correction-authorized; not G3",
+  "reason": "K56-P2-01: idempotent link/unlink must carry explicit guard intent even without dirty writes; original nonversioned link tuple must be rechecked under canonical group lock",
+  "formalInputUnchanged": "g2-attachment-freeze62.json and accepted K55 semantics",
+  "implementationAuthorized": true,
+  "allowedProductFiles": [
+    "apps/poms-api-rust/src/attachments/service.rs",
+    "apps/poms-api-rust/src/attachments/store.rs"
+  ],
+  "registryMustRemainUnchanged": true,
+  "requiredBehavior": [
+    "Repeated active link and inactive unlink remain semantic no-ops without new business audit events or unwarranted row version changes",
+    "Capture first Attachment and Link proof, active-link set; guarded persist must not early-return when explicit source intent exists",
+    "Recheck under same canonical group locks; stale tuple/set returns established conflict; pending auth stays in transaction",
+    "No DTO, HTTP, DDL, dependency or F46/F44 changes"
+  ],
+  "requiredAcceptance": [
+    "Meaningful pure no-dirty intent/proof regression",
+    "Actual group barrier races for repeated link and inactive unlink",
+    "Unified Rust checks and final runtime pin"
+  ],
+  "evidenceReuse": "K71 actual seven-stage/60-HTTP/13-PG positive chain retained at its K56 source epoch; final no-op/races require corrected candidate",
+  "pins": [
+    {
+      "file": "tmp/rust-r4def/independent/k56-code-preflight75.json",
+      "bytes": 27783,
+      "rawBytesSha256": "e3c09dc23c55c2f0ae6924d488935fe0685ae6d5acc0cb4bf48614d00ba9a3d6",
+      "preserved": "docs/design/rust-r4def/g2-K86-inputs/tmp/rust-r4def/independent/k56-code-preflight75.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/independent/k56-code-preflight75.md",
+      "bytes": 2277,
+      "rawBytesSha256": "47f111f9919c422190f53d7e4b417adad096dbcffeba0da0bd6310b38d29d753",
+      "preserved": "docs/design/rust-r4def/g2-K86-inputs/tmp/rust-r4def/independent/k56-code-preflight75.md.bin"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/service.rs",
+      "bytes": 80598,
+      "rawBytesSha256": "010bd6f29762792f29c05849cc6b39f62cf2fbdb65837c5701c61fe43e68e073",
+      "preserved": "docs/design/rust-r4def/g2-K86-inputs/apps/poms-api-rust/src/attachments/service.rs.bin"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/store.rs",
+      "bytes": 65752,
+      "rawBytesSha256": "3af983b17b23435477e9bf0adaa88b22fc106a3f67229903c0440b7693a2bc42",
+      "preserved": "docs/design/rust-r4def/g2-K86-inputs/apps/poms-api-rust/src/attachments/store.rs.bin"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachment_storage/registry.rs",
+      "bytes": 22940,
+      "rawBytesSha256": "617f734af15f7e75db2cc69de63343c04104abbd446f322809fb1f1bfc625765",
+      "preserved": "docs/design/rust-r4def/g2-K86-inputs/apps/poms-api-rust/src/attachment_storage/registry.rs.bin"
+    }
+  ],
+  "G3Certified": false,
+  "G4Certified": false
+}

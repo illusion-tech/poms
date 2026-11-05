@@ -1,0 +1,307 @@
+{
+  "kind": "Root-real-D-controlled-amendment-rebaseline-browser-candidate59",
+  "createdAt": "2026-11-04T02:59:31.661Z",
+  "products": [
+    {
+      "file": "flow59.mjs",
+      "bytes": 32520,
+      "rawBytesSha256": "fedbdb281e9e60ab0459a5bc92404efa87a0fb1ad892dfca02105b114a8e761f"
+    },
+    {
+      "file": "root-run59.mjs",
+      "bytes": 12251,
+      "rawBytesSha256": "dba137f58f6f377336536bddaa7c70f9ac515ad7ea7cb7e00b8aca2c28acbba2"
+    },
+    {
+      "file": "README.md",
+      "bytes": 10047,
+      "rawBytesSha256": "d5564da2f26c6184456c1cd7df51ec140410c8988413c241d1fb61814c12f8a6"
+    },
+    {
+      "file": "capture-manifest59.mjs",
+      "bytes": 7230,
+      "rawBytesSha256": "b514a6983fc9a46425b4d38304b287ae94836d696a938f43bcf306c051a12c7c"
+    }
+  ],
+  "readOnlyPublicInputs": [
+    {
+      "file": "tools/rust-r4def/ui47.mjs",
+      "bytes": 9838,
+      "rawBytesSha256": "eaa51e849f0de6ffa569f3b4bdf951a31a13a8107e14a8dde2563dd68e7511c9"
+    },
+    {
+      "file": "tools/rust-r4def/ui-server45.mjs",
+      "bytes": 4495,
+      "rawBytesSha256": "a6772a4f54153b3e4cb3c488a6d9c4e407b341953e57f651c8dedb3c060b0a78"
+    },
+    {
+      "file": "tools/rust-r4def/writer-scope45.mjs",
+      "bytes": 1134,
+      "rawBytesSha256": "22ea5cb173cbdd6c97d818a1196c6b3223cfa42af94da62dd286347ddee980b6"
+    },
+    {
+      "file": "tools/rust-r4def/actors33.mjs",
+      "bytes": 5189,
+      "rawBytesSha256": "61c2936454fd01dc57fb2569f3c5af405661589de6e8769050cd5218e886c0ca"
+    },
+    {
+      "file": "apps/poms-admin/src/app/features/project/project-handover-actions.ts",
+      "bytes": 42561,
+      "rawBytesSha256": "97c4c8a41539b0539d6730a6e0257c943e1cd5517a2589f2f4fd132f1dd7a0e9"
+    },
+    {
+      "file": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "bytes": 48120,
+      "rawBytesSha256": "52482fda087adc6bad388c0a3b6903938b2eeda915330dbd5da0f7ecc517ddcd"
+    },
+    {
+      "file": "apps/poms-admin/src/app/features/project/project-handover-flow.ts",
+      "bytes": 1616,
+      "rawBytesSha256": "d3afd790d3958d5bc888308a177c706e84e24bed3ba52bd5a6ee93bb0c93bb84"
+    },
+    {
+      "file": "libs/admin/data-access/src/lib/auth/auth.store.ts",
+      "bytes": 8745,
+      "rawBytesSha256": "81252fcaf3aeb6da54c6b63b0335f397f3ae01f10e6655dbcd9851a380e630df"
+    },
+    {
+      "file": "libs/shared/api-spec/openapi.json",
+      "bytes": 1236594,
+      "rawBytesSha256": "56ae1835f50e427dd564b60f423da49e5c03fd88eed431b12ae054011e6de821"
+    },
+    {
+      "file": "tmp/rust-r4def/root/ui-windows48/receipt45.json",
+      "bytes": 181826,
+      "rawBytesSha256": "d17114c84c4d7dff25dea104c0f95c9aae9afdea15162df520a12346fe857dd1"
+    },
+    {
+      "file": "tmp/rust-r4def/root/api32/continuation48-result.json",
+      "bytes": 128829,
+      "rawBytesSha256": "62e828dd3d8206bac25ece8a9c39799681828a7ef7878be33b0f4bb07b5b9f27"
+    }
+  ],
+  "currentSchemaCount": 626,
+  "operationAuthority": [
+    {
+      "operationId": "AuthController_createPasswordAuthSession",
+      "method": "POST",
+      "path": "/api/auth/sessions",
+      "successStatus": 200
+    },
+    {
+      "operationId": "ProjectHandoverController_getContractHandoverSummary",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/contract-handover",
+      "successStatus": 200
+    },
+    {
+      "operationId": "ProjectHandoverController_getProjectHandoverDetailByProject",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/project-handover",
+      "successStatus": 200
+    },
+    {
+      "operationId": "ContractController_getById",
+      "method": "GET",
+      "path": "/api/contracts/{id}",
+      "successStatus": 200
+    },
+    {
+      "operationId": "ContractController_getCurrentApproval",
+      "method": "GET",
+      "path": "/api/contracts/{id}/approval-record",
+      "successStatus": 200
+    },
+    {
+      "operationId": "ContractController_submitReview",
+      "method": "POST",
+      "path": "/api/contracts/{id}:submitReview",
+      "successStatus": 200
+    },
+    {
+      "operationId": "ContractController_activate",
+      "method": "POST",
+      "path": "/api/contracts/{id}:activate",
+      "successStatus": 200
+    },
+    {
+      "operationId": "ApprovalController_approveRecord",
+      "method": "POST",
+      "path": "/api/approval-records/{id}:approve",
+      "successStatus": 200
+    },
+    {
+      "operationId": "ContractReadinessController_getCurrentContractReadiness",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/contract-readiness",
+      "successStatus": 200
+    },
+    {
+      "operationId": "ContractReadinessController_getDiffHistory",
+      "method": "GET",
+      "path": "/api/commercial-release-baselines/{id}/diff-history",
+      "successStatus": 200
+    },
+    {
+      "operationId": "ContractReadinessController_createContractReadinessPackage",
+      "method": "POST",
+      "path": "/api/contract-readiness-packages",
+      "successStatus": 201
+    },
+    {
+      "operationId": "ContractReadinessController_reviewDiff",
+      "method": "POST",
+      "path": "/api/commercial-release-baselines/{id}:reviewDiff",
+      "successStatus": 200
+    },
+    {
+      "operationId": "ContractReadinessController_initializeContractSnapshot",
+      "method": "POST",
+      "path": "/api/contract-readiness-packages/{id}:initializeContractSnapshot",
+      "successStatus": 200
+    },
+    {
+      "operationId": "ProjectHandoverController_rebaselineContractHandover",
+      "method": "POST",
+      "path": "/api/contract-handover-rebaselines",
+      "successStatus": 200
+    },
+    {
+      "operationId": "ProjectHandoverController_confirmProjectHandoverParticipant",
+      "method": "POST",
+      "path": "/api/project-handovers/{id}/participant-confirmations",
+      "successStatus": 200
+    },
+    {
+      "operationId": "ProjectHandoverController_confirmProjectHandover",
+      "method": "POST",
+      "path": "/api/project-handovers/{id}:confirm",
+      "successStatus": 200
+    }
+  ],
+  "templateSelectorsChecked": [
+    "选择合同",
+    "amendmentReason",
+    "node-label-",
+    "建立变更就绪包",
+    "审核或操作意见",
+    "记录已逐项核对的本次差异",
+    "准备精确变更版本",
+    "提交正式合同变更审核",
+    "批准本次变更",
+    "生效新快照与完整回款计划",
+    "再基线化并重新发起各人确认",
+    "确认本人全部已指派职责",
+    "正式确认本次移交事实",
+    "本次确认的冻结范围和风险"
+  ],
+  "inputIdentity": {
+    "projectId": "2410df0c-c530-4223-b857-1a83a411b57b",
+    "otherProjectId": "a275878e-459d-45d9-a2f4-37874d68c7f2",
+    "contractId": "a8ab4086-89c6-4b57-b14c-3ecaa7ceb058",
+    "otherContractId": "4563c684-9ea2-461f-8556-2d3aee34b242",
+    "originalHandoverId": "1cae4c15-d637-442a-b320-ad78336b197d",
+    "originalVersion": 1,
+    "priorFactsExecutedBy": "Root; public48 original read only"
+  },
+  "initial": {
+    "stages": [
+      {
+        "name": "writer-login-and-current-confirmed",
+        "status": "not-run"
+      },
+      {
+        "name": "writer-controlled-amendment",
+        "status": "not-run"
+      },
+      {
+        "name": "writer-exact-diff-review",
+        "status": "not-run"
+      },
+      {
+        "name": "writer-prepare",
+        "status": "not-run"
+      },
+      {
+        "name": "writer-submit",
+        "status": "not-run"
+      },
+      {
+        "name": "actual-current-approver",
+        "status": "not-run"
+      },
+      {
+        "name": "writer-activate",
+        "status": "not-run"
+      },
+      {
+        "name": "writer-two-affected-items-rebaseline",
+        "status": "not-run"
+      },
+      {
+        "name": "full-new-self-confirmation",
+        "status": "not-run"
+      },
+      {
+        "name": "personA-new-self-confirmation",
+        "status": "not-run"
+      },
+      {
+        "name": "writer-new-self-confirmation",
+        "status": "not-run"
+      },
+      {
+        "name": "writer-final-R5-blocked",
+        "status": "not-run"
+      }
+    ],
+    "browserExecuted": false,
+    "businessCommandsExecuted": 0,
+    "complete": false,
+    "optionalLateAttachmentFailure": "not-run; separate Root-owned fault scenario",
+    "G3Certified": false,
+    "G4Certified": false,
+    "commands": [],
+    "sessions": [],
+    "observations": []
+  },
+  "buildAdmission": {
+    "explicitBuildEditionRequired": true,
+    "build44HardcodedFallback": false,
+    "optionalActualManifestPin": true,
+    "realPublicBaselineRunSupported": true
+  },
+  "staticValidation": {
+    "nodeSyntax": "passed node --check for three candidates",
+    "ASTParserVersion": "6.0.3",
+    "currentRoutesMethodsAndStatusesMatched": true,
+    "selectorsFoundInCurrentRootTemplate": true,
+    "safeConstructorAll12NotRun": true,
+    "directHTTPClientOrRouteMockOrEvaluateInFlow": false,
+    "writerPermissionsFromActualUISession": true,
+    "realCurrentApproverMatchedToActualUILogin": true,
+    "affectedItemsFromOldSnapshotAndPlanIdentity": true,
+    "threeFreshSelfConfirmationsRequired": true,
+    "finalActualR5BlockedRequired": true,
+    "publicSecretsNotCopied": true
+  },
+  "authorExecution": {
+    "rootRunnerExecuted": false,
+    "privateRead": false,
+    "browserStarted": false,
+    "HTTPCalled": false,
+    "DBConnected": false,
+    "processStartedOrStopped": false,
+    "productOrRootFilesChanged": false,
+    "businessAccepted": false,
+    "performanceClaimed": false,
+    "G3Certified": false,
+    "G4Certified": false
+  },
+  "optionalLateAttachmentFailure": {
+    "implemented": false,
+    "executed": false,
+    "status": "not-run",
+    "RootOnlyPlan": "README; real500, exact ACL restore, transparent end-only gate, same SPA A-B-A"
+  }
+}

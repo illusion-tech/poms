@@ -1,0 +1,680 @@
+{
+  "kind": "R4DEF-upstream32-candidate-static-bundle",
+  "createdAt": "2026-11-03T23:58:58.035Z",
+  "namespace": "poms-r4def",
+  "owner": "E tools-only candidate; Root owns actual environment/import/execution",
+  "products": [
+    {
+      "file": "tools/rust-r4def/E/upstream32/r4def_summary_producer32.rs",
+      "bytes": 15635,
+      "rawBytesSha256": "9f282e14432c13d40d241924736290821c22963c0763984e591b146a03d50b1e"
+    },
+    {
+      "file": "tools/rust-r4def/E/upstream32/Cargo.toml",
+      "bytes": 822,
+      "rawBytesSha256": "fa0bf42224250a0cdf1d18292bce4d6c93687e0b2023768ef75576a0b52ef418"
+    },
+    {
+      "file": "tools/rust-r4def/E/upstream32/Cargo.lock",
+      "bytes": 77746,
+      "rawBytesSha256": "bb7009bbaaf7992b5972c2819cbe83f202147d3541520948e97e1c380889360a"
+    },
+    {
+      "file": "tools/rust-r4def/E/upstream32/request-drivers32.mjs",
+      "bytes": 23103,
+      "rawBytesSha256": "243e7a3796c0c16fa69d0ecbbb709e312712b0678f3b1b2efc1fb9100d77bd18"
+    },
+    {
+      "file": "tools/rust-r4def/E/upstream32/README.md",
+      "bytes": 13329,
+      "rawBytesSha256": "0f383550703cd087779b41c403aaf7fc09c312de57efb7d199d3c4b253fb94c8"
+    },
+    {
+      "file": "tools/rust-r4def/E/upstream32/capture-bundle32.mjs",
+      "bytes": 6723,
+      "rawBytesSha256": "404f56e77bea2f7a370f49406b0835e08969d6b92b27ef7d907837cd2f1b635d"
+    },
+    {
+      "file": "tools/rust-r4def/E/upstream32/compile32-receipt.json",
+      "bytes": 1268,
+      "rawBytesSha256": "21cbb9969702b31d6633ae8972ec9939f7b746dd5fa047ae248059ea9e14a589"
+    },
+    {
+      "file": "tools/rust-r4def/E/upstream32/compile32-stdout-original.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "tools/rust-r4def/E/upstream32/compile32-stderr-original.log",
+      "bytes": 72,
+      "rawBytesSha256": "113909059a6dcecaf3de576c460249bf68c132f35a1e11b649b30c5964f6d31e"
+    }
+  ],
+  "inputs": [
+    {
+      "file": "apps/poms-api-rust/examples/r4_summary_producer.rs",
+      "bytes": 15624,
+      "rawBytesSha256": "a9a849ce51dff261438e4615afc6255604561956858284227e5cf0ea7c0c81c1",
+      "source": "E-author-public-worktree"
+    },
+    {
+      "file": "tools/rust-r4abc/upstream-payloads01.mjs",
+      "bytes": 14741,
+      "rawBytesSha256": "44d09330dad2987648519f567963bb70a0f8d73e60ccae13b339da7db0b943b6",
+      "source": "E-author-public-worktree"
+    },
+    {
+      "file": "tools/rust-r4abc/happy-http08.mjs",
+      "bytes": 10074,
+      "rawBytesSha256": "80f7317fe538f700d840c7a5a77514cf61ff7da3cb09908657256318c24630e8",
+      "source": "E-author-public-worktree"
+    },
+    {
+      "file": "apps/poms-api-rust/src/approval_common/service.rs",
+      "bytes": 45702,
+      "rawBytesSha256": "0bd9da6467a496896525d697f2fee280a5de4749fcd8a3e46ef6a6db0ed4c38b",
+      "source": "E-author-public-worktree"
+    },
+    {
+      "file": "apps/poms-api-rust/src/approval_common/store.rs",
+      "bytes": 35844,
+      "rawBytesSha256": "b69ae15fdaaa7a1032432e57c6c13f244c8c58a0f0c6dc14ca016bcc5e523b86",
+      "source": "E-author-public-worktree"
+    },
+    {
+      "file": "apps/poms-api-rust/src/approval_common/schema.rs",
+      "bytes": 36415,
+      "rawBytesSha256": "57de18e631c7c2cfab49afb9daab7eb5938d4ec5e040d96d1ef54da392768eb9",
+      "source": "E-author-public-worktree"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_pricing_margin/service.rs",
+      "bytes": 29700,
+      "rawBytesSha256": "12f69da8baae927e3f8325342977e735469bf7b5b55af74cb5f66b6e321e7542",
+      "source": "E-author-public-worktree"
+    },
+    {
+      "file": "docs/design/rust-r4def/joint-g1-06/target-full-spec06.json",
+      "bytes": 1220145,
+      "rawBytesSha256": "4ed594830cfe74c981fc42d7e9ecbb8da6c02bb5ef76fc59e7daf8166ffc4a8b",
+      "source": "E-author-public-worktree"
+    },
+    {
+      "file": "tools/rust-r4def/E/delivery04.json",
+      "bytes": 7803,
+      "rawBytesSha256": "cf1fbb6bdc3def8ea606d40b2c33e232e844c5ac66ab8ee34ea4bb417d92ed77",
+      "source": "E-author-public-worktree"
+    },
+    {
+      "file": "libs/shared/api-spec/openapi.json",
+      "bytes": 1236594,
+      "rawBytesSha256": "56ae1835f50e427dd564b60f423da49e5c03fd88eed431b12ae054011e6de821",
+      "source": "Root-public-worktree-read-only"
+    },
+    {
+      "file": "tools/rust-r4def/environment21.mjs",
+      "bytes": 12487,
+      "rawBytesSha256": "e2b181d43b30b16f8cbec0943e48dfc6c6a6edbd635f238c393723dfbc34acb3",
+      "source": "Root-public-worktree-read-only"
+    },
+    {
+      "file": "tools/rust-r4def/api-runtime31.mjs",
+      "bytes": 3774,
+      "rawBytesSha256": "8ab461cd6eb04722ecf6c80b5fd744ac16010512f69a46f6fb5ab9f33aff9bf5",
+      "source": "Root-public-worktree-read-only"
+    },
+    {
+      "file": "tools/rust-r4def/api-harness32.mjs",
+      "bytes": 6495,
+      "rawBytesSha256": "cd629716c98d5b3e536ca17a54c531bb648badf9fe9b2cb1bc339e6f7989dcd0",
+      "source": "Root-public-worktree-read-only"
+    },
+    {
+      "file": "tools/rust-r4def/upstream-base36.mjs",
+      "bytes": 3427,
+      "rawBytesSha256": "2af710e3c8c0865a6a4ceeca122c80732eb53967a6eefe3fbf062b7c5411dd37",
+      "source": "Root-public-worktree-read-only"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_handover/service.rs",
+      "bytes": 42969,
+      "rawBytesSha256": "283107428b312d641a2a8330e2c684b2a77163d16bdfa9a9dc9ecead655e4fc3",
+      "source": "Root-public-worktree-read-only"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_handover/view.rs",
+      "bytes": 19677,
+      "rawBytesSha256": "1a8eccae792e2073cfb18a0c3454e65927265e46bac975795815281c8c53fcce",
+      "source": "Root-public-worktree-read-only"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_handover/sources.rs",
+      "bytes": 31707,
+      "rawBytesSha256": "e5d33db8ebe4cdd537f8c0006c9bb16ab6c8f1652e55c4923444a70499863ff4",
+      "source": "Root-public-worktree-read-only"
+    }
+  ],
+  "operations": [
+    {
+      "operationId": "CustomerController_create",
+      "method": "POST",
+      "currentTemplate": "/api/customers",
+      "requestDriverTemplate": "/api/customers",
+      "frozenTemplate": "/api/customers"
+    },
+    {
+      "operationId": "ProjectController_create",
+      "method": "POST",
+      "currentTemplate": "/api/projects",
+      "requestDriverTemplate": "/api/projects",
+      "frozenTemplate": "/api/projects"
+    },
+    {
+      "operationId": "ProjectController_getById",
+      "method": "GET",
+      "currentTemplate": "/api/projects/{id}",
+      "requestDriverTemplate": "/api/projects/{id}",
+      "frozenTemplate": "/api/projects/{id}"
+    },
+    {
+      "operationId": "ProjectController_createProjectTechnicalCostPackage",
+      "method": "POST",
+      "currentTemplate": "/api/projects/{projectId}/technical-cost-packages",
+      "requestDriverTemplate": "/api/projects/{id}/technical-cost-packages",
+      "frozenTemplate": "/api/projects/{projectId}/technical-cost-packages"
+    },
+    {
+      "operationId": "ProjectController_createProjectBidCommercialProcess",
+      "method": "POST",
+      "currentTemplate": "/api/projects/{projectId}/bid-commercial-processes",
+      "requestDriverTemplate": "/api/projects/{id}/bid-commercial-processes",
+      "frozenTemplate": "/api/projects/{projectId}/bid-commercial-processes"
+    },
+    {
+      "operationId": "ProjectController_createProjectPricingMarginReview",
+      "method": "POST",
+      "currentTemplate": "/api/projects/{projectId}/pricing-margin-reviews",
+      "requestDriverTemplate": "/api/projects/{id}/pricing-margin-reviews",
+      "frozenTemplate": "/api/projects/{projectId}/pricing-margin-reviews"
+    },
+    {
+      "operationId": "ContractController_create",
+      "method": "POST",
+      "currentTemplate": "/api/contracts",
+      "requestDriverTemplate": "/api/contracts",
+      "frozenTemplate": "/api/contracts"
+    },
+    {
+      "operationId": "ContractController_getById",
+      "method": "GET",
+      "currentTemplate": "/api/contracts/{id}",
+      "requestDriverTemplate": "/api/contracts/{id}",
+      "frozenTemplate": "/api/contracts/{id}"
+    },
+    {
+      "operationId": "ContractController_getCurrentApproval",
+      "method": "GET",
+      "currentTemplate": "/api/contracts/{id}/approval-record",
+      "requestDriverTemplate": "/api/contracts/{id}/approval-record",
+      "frozenTemplate": "/api/contracts/{id}/approval-record"
+    },
+    {
+      "operationId": "ContractController_submitReview",
+      "method": "POST",
+      "currentTemplate": "/api/contracts/{id}:submitReview",
+      "requestDriverTemplate": "/api/contracts/{id}:submitReview",
+      "frozenTemplate": "/api/contracts/{id}:submitReview"
+    },
+    {
+      "operationId": "ContractController_activate",
+      "method": "POST",
+      "currentTemplate": "/api/contracts/{id}:activate",
+      "requestDriverTemplate": "/api/contracts/{id}:activate",
+      "frozenTemplate": "/api/contracts/{id}:activate"
+    },
+    {
+      "operationId": "ContractTermSnapshotController_getById",
+      "method": "GET",
+      "currentTemplate": "/api/contract-term-snapshots/{id}",
+      "requestDriverTemplate": "/api/contract-term-snapshots/{id}",
+      "frozenTemplate": "/api/contract-term-snapshots/{id}"
+    },
+    {
+      "operationId": "ContractReadinessController_createCommercialReleaseBaseline",
+      "method": "POST",
+      "currentTemplate": "/api/commercial-release-baselines",
+      "requestDriverTemplate": "/api/commercial-release-baselines",
+      "frozenTemplate": "/api/commercial-release-baselines"
+    },
+    {
+      "operationId": "ContractReadinessController_getCommercialReleaseBaseline",
+      "method": "GET",
+      "currentTemplate": "/api/commercial-release-baselines/{id}",
+      "requestDriverTemplate": "/api/commercial-release-baselines/{id}",
+      "frozenTemplate": "/api/commercial-release-baselines/{id}"
+    },
+    {
+      "operationId": "ContractReadinessController_createContractReadinessPackage",
+      "method": "POST",
+      "currentTemplate": "/api/contract-readiness-packages",
+      "requestDriverTemplate": "/api/contract-readiness-packages",
+      "frozenTemplate": "/api/contract-readiness-packages"
+    },
+    {
+      "operationId": "ContractReadinessController_getContractReadinessPackage",
+      "method": "GET",
+      "currentTemplate": "/api/contract-readiness-packages/{id}",
+      "requestDriverTemplate": "/api/contract-readiness-packages/{id}",
+      "frozenTemplate": "/api/contract-readiness-packages/{id}"
+    },
+    {
+      "operationId": "ContractReadinessController_getCurrentContractReadiness",
+      "method": "GET",
+      "currentTemplate": "/api/projects/{projectId}/contract-readiness",
+      "requestDriverTemplate": "/api/projects/{id}/contract-readiness",
+      "frozenTemplate": "/api/projects/{projectId}/contract-readiness"
+    },
+    {
+      "operationId": "ContractReadinessController_getDiffHistory",
+      "method": "GET",
+      "currentTemplate": "/api/commercial-release-baselines/{id}/diff-history",
+      "requestDriverTemplate": "/api/commercial-release-baselines/{id}/diff-history",
+      "frozenTemplate": "/api/commercial-release-baselines/{id}/diff-history"
+    },
+    {
+      "operationId": "ContractReadinessController_reviewDiff",
+      "method": "POST",
+      "currentTemplate": "/api/commercial-release-baselines/{id}:reviewDiff",
+      "requestDriverTemplate": "/api/commercial-release-baselines/{id}:reviewDiff",
+      "frozenTemplate": "/api/commercial-release-baselines/{id}:reviewDiff"
+    },
+    {
+      "operationId": "ContractReadinessController_initializeContractSnapshot",
+      "method": "POST",
+      "currentTemplate": "/api/contract-readiness-packages/{id}:initializeContractSnapshot",
+      "requestDriverTemplate": "/api/contract-readiness-packages/{id}:initializeContractSnapshot",
+      "frozenTemplate": "/api/contract-readiness-packages/{id}:initializeContractSnapshot"
+    },
+    {
+      "operationId": "ContractReadinessController_initializeReceivablePlan",
+      "method": "POST",
+      "currentTemplate": "/api/contract-readiness-packages/{id}:initializeReceivablePlan",
+      "requestDriverTemplate": "/api/contract-readiness-packages/{id}:initializeReceivablePlan",
+      "frozenTemplate": "/api/contract-readiness-packages/{id}:initializeReceivablePlan"
+    },
+    {
+      "operationId": "ApprovalController_approveRecord",
+      "method": "POST",
+      "currentTemplate": "/api/approval-records/{id}:approve",
+      "requestDriverTemplate": "/api/approval-records/{id}:approve",
+      "frozenTemplate": "/api/approval-records/{id}:approve"
+    },
+    {
+      "operationId": "ProjectHandoverController_getContractHandoverSummary",
+      "method": "GET",
+      "currentTemplate": "/api/projects/{projectId}/contract-handover",
+      "requestDriverTemplate": "/api/projects/{id}/contract-handover",
+      "frozenTemplate": "/api/projects/{projectId}/contract-handover"
+    },
+    {
+      "operationId": "ProjectHandoverController_getProjectHandoverDetailByProject",
+      "method": "GET",
+      "currentTemplate": "/api/projects/{projectId}/project-handover",
+      "requestDriverTemplate": "/api/projects/{id}/project-handover",
+      "frozenTemplate": "/api/projects/{projectId}/project-handover"
+    },
+    {
+      "operationId": "ProjectHandoverController_getProjectHandoverDetailByHandover",
+      "method": "GET",
+      "currentTemplate": "/api/project-handovers/{id}",
+      "requestDriverTemplate": "/api/project-handovers/{id}",
+      "frozenTemplate": "/api/project-handovers/{id}"
+    },
+    {
+      "operationId": "ProjectHandoverController_prepareProjectHandover",
+      "method": "POST",
+      "currentTemplate": "/api/projects/{projectId}/project-handovers",
+      "requestDriverTemplate": "/api/projects/{id}/project-handovers",
+      "frozenTemplate": "/api/projects/{projectId}/project-handovers"
+    },
+    {
+      "operationId": "ProjectHandoverController_confirmProjectHandoverParticipant",
+      "method": "POST",
+      "currentTemplate": "/api/project-handovers/{id}/participant-confirmations",
+      "requestDriverTemplate": "/api/project-handovers/{id}/participant-confirmations",
+      "frozenTemplate": "/api/project-handovers/{id}/participant-confirmations"
+    },
+    {
+      "operationId": "ProjectHandoverController_confirmProjectHandover",
+      "method": "POST",
+      "currentTemplate": "/api/project-handovers/{id}:confirm",
+      "requestDriverTemplate": "/api/project-handovers/{id}:confirm",
+      "frozenTemplate": "/api/project-handovers/{id}:confirm"
+    },
+    {
+      "operationId": "ProjectHandoverController_rebaselineContractHandover",
+      "method": "POST",
+      "currentTemplate": "/api/contract-handover-rebaselines",
+      "requestDriverTemplate": "/api/contract-handover-rebaselines",
+      "frozenTemplate": "/api/contract-handover-rebaselines"
+    }
+  ],
+  "schemaDiffs": [
+    {
+      "name": "PrepareProjectHandoverRequest",
+      "differences": [
+        {
+          "field": "PrepareProjectHandoverRequest.properties.executionOwnerUserId.pattern",
+          "frozen06": {
+            "absent": true
+          },
+          "current": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        }
+      ]
+    },
+    {
+      "name": "ConfirmProjectHandoverRequest",
+      "differences": [
+        {
+          "field": "ConfirmProjectHandoverRequest.properties.handoverBasisSnapshotId.pattern",
+          "frozen06": {
+            "absent": true
+          },
+          "current": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        {
+          "field": "ConfirmProjectHandoverRequest.properties.summarySnapshotId.pattern",
+          "frozen06": {
+            "absent": true
+          },
+          "current": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        {
+          "field": "ConfirmProjectHandoverRequest.required",
+          "frozen06": [
+            "participantConfirmations",
+            "contractSummarySnapshotId",
+            "handoverBasisSnapshotId",
+            "summarySnapshotId",
+            "sourcePayloadHash",
+            "expectedVersion"
+          ],
+          "current": [
+            "participantConfirmations",
+            "contractSummarySnapshotId",
+            "expectedVersion",
+            "handoverBasisSnapshotId",
+            "summarySnapshotId",
+            "sourcePayloadHash"
+          ]
+        },
+        {
+          "field": "ConfirmProjectHandoverRequest.additionalProperties",
+          "frozen06": {
+            "absent": true
+          },
+          "current": false
+        }
+      ]
+    },
+    {
+      "name": "ConfirmProjectHandoverParticipantRequest",
+      "differences": [
+        {
+          "field": "ConfirmProjectHandoverParticipantRequest.properties.summarySnapshotId.pattern",
+          "frozen06": {
+            "absent": true
+          },
+          "current": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        {
+          "field": "ConfirmProjectHandoverParticipantRequest.properties.handoverBasisSnapshotId.pattern",
+          "frozen06": {
+            "absent": true
+          },
+          "current": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        }
+      ]
+    },
+    {
+      "name": "CreateInvoiceRecordRequest",
+      "differences": [
+        {
+          "field": "CreateInvoiceRecordRequest.additionalProperties",
+          "frozen06": {
+            "absent": true
+          },
+          "current": false
+        }
+      ]
+    },
+    {
+      "name": "UpdateInvoiceRecordRequest",
+      "differences": [
+        {
+          "field": "UpdateInvoiceRecordRequest.additionalProperties",
+          "frozen06": {
+            "absent": true
+          },
+          "current": false
+        }
+      ]
+    },
+    {
+      "name": "ExpenseRecordSummary",
+      "differences": []
+    },
+    {
+      "name": "ProjectActualCostRecordSummary",
+      "differences": []
+    }
+  ],
+  "contractInitial": {
+    "kind": "R4DEF-real-upstream-contract-request-driver32",
+    "stages": [
+      {
+        "id": "customer",
+        "action": "customer",
+        "status": "not-run"
+      },
+      {
+        "id": "project",
+        "action": "project",
+        "status": "not-run"
+      },
+      {
+        "id": "technical-cost",
+        "action": "technical-cost",
+        "status": "not-run"
+      },
+      {
+        "id": "bid-commercial",
+        "action": "bid-commercial",
+        "status": "not-run"
+      },
+      {
+        "id": "draft-contract",
+        "action": "draft-contract",
+        "status": "not-run"
+      },
+      {
+        "id": "commercial-baseline",
+        "action": "commercial-baseline",
+        "status": "not-run"
+      },
+      {
+        "id": "actual-internal-summary",
+        "action": "actual-internal-summary",
+        "status": "not-run"
+      },
+      {
+        "id": "pricing-margin",
+        "action": "pricing-margin",
+        "status": "not-run"
+      },
+      {
+        "id": "readiness-diff-review",
+        "action": "readiness-diff-review",
+        "status": "not-run"
+      },
+      {
+        "id": "contract-preparation",
+        "action": "contract-preparation",
+        "status": "not-run"
+      },
+      {
+        "id": "contract-review-approval",
+        "action": "contract-review-approval",
+        "status": "not-run"
+      },
+      {
+        "id": "contract-activation",
+        "action": "contract-activation",
+        "status": "not-run"
+      },
+      {
+        "id": "formal-receivable-plan",
+        "action": "formal-receivable-plan",
+        "status": "not-run"
+      }
+    ],
+    "httpReceipts": [],
+    "internalReceipts": [],
+    "runtimeExecuted": false,
+    "completed": false
+  },
+  "continuationInitial": {
+    "kind": "R4DEF-real-upstream-contract-request-driver32",
+    "stages": [
+      {
+        "id": "read-existing-source",
+        "action": "read-existing-source",
+        "status": "not-run"
+      },
+      {
+        "id": "actual-internal-summary",
+        "action": "actual-internal-summary",
+        "status": "not-run"
+      },
+      {
+        "id": "pricing-margin",
+        "action": "pricing-margin",
+        "status": "not-run"
+      },
+      {
+        "id": "contract-1-readiness-diff-review",
+        "action": "readiness-diff-review",
+        "contractIndex": 0,
+        "status": "not-run"
+      },
+      {
+        "id": "contract-1-contract-preparation",
+        "action": "contract-preparation",
+        "contractIndex": 0,
+        "status": "not-run"
+      },
+      {
+        "id": "contract-1-contract-review-approval",
+        "action": "contract-review-approval",
+        "contractIndex": 0,
+        "status": "not-run"
+      },
+      {
+        "id": "contract-1-contract-activation",
+        "action": "contract-activation",
+        "contractIndex": 0,
+        "status": "not-run"
+      },
+      {
+        "id": "contract-1-formal-receivable-plan",
+        "action": "formal-receivable-plan",
+        "contractIndex": 0,
+        "status": "not-run"
+      },
+      {
+        "id": "contract-2-readiness-diff-review",
+        "action": "readiness-diff-review",
+        "contractIndex": 1,
+        "status": "not-run"
+      },
+      {
+        "id": "contract-2-contract-preparation",
+        "action": "contract-preparation",
+        "contractIndex": 1,
+        "status": "not-run"
+      },
+      {
+        "id": "contract-2-contract-review-approval",
+        "action": "contract-review-approval",
+        "contractIndex": 1,
+        "status": "not-run"
+      },
+      {
+        "id": "contract-2-contract-activation",
+        "action": "contract-activation",
+        "contractIndex": 1,
+        "status": "not-run"
+      },
+      {
+        "id": "contract-2-formal-receivable-plan",
+        "action": "formal-receivable-plan",
+        "contractIndex": 1,
+        "status": "not-run"
+      }
+    ],
+    "httpReceipts": [],
+    "internalReceipts": [],
+    "runtimeExecuted": false,
+    "completed": false
+  },
+  "handoverInitial": {
+    "kind": "R4DEF-D-request-only-preparation-driver32",
+    "stages": [
+      {
+        "id": "read-real-source",
+        "status": "not-run"
+      },
+      {
+        "id": "prepare-real-handover",
+        "status": "not-run"
+      },
+      {
+        "id": "participants-self-confirm",
+        "status": "not-run"
+      },
+      {
+        "id": "finalize-handover",
+        "status": "not-run"
+      },
+      {
+        "id": "readback-frozen-handover",
+        "status": "not-run"
+      }
+    ],
+    "httpReceipts": [],
+    "completed": false,
+    "rebaseline": {
+      "status": "not-run",
+      "reason": "requires-real-effective-contract-amendment-and-affected-frozen-items"
+    }
+  },
+  "validation": {
+    "actualRustLibraryCompile": "passed Rust1.99.1 offline cargo check",
+    "rustfmt": "passed",
+    "javascript": "node --check and import-only manifests",
+    "binaryExecuted": false,
+    "databaseConnected": false,
+    "httpExecuted": false,
+    "fakeResponseUsed": false,
+    "runtimeAccepted": false,
+    "G3Certified": false,
+    "G4Certified": false
+  },
+  "actualExecutionStillRequired": [
+    "Root build/pin candidate binary against integrated source",
+    "Root guarded actual internal summary on new marker using actual HTTP-produced materials",
+    "Real contract approval and immutable snapshot/plan",
+    "D participant self-confirmation and final freeze; rebaseline only with actual amendment",
+    "E21 actual actors/source/evidence matrix with read-only proof hook"
+  ]
+}

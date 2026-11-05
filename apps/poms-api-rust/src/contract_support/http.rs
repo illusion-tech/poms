@@ -1,4 +1,4 @@
-//! The 37 frozen operations share one authorization and outer transaction adapter.
+//! The 67 frozen operations share one authorization and outer transaction adapter.
 use super::{Actor, Error};
 use crate::{
     approval::context::PendingAuthentication,
@@ -45,7 +45,7 @@ fn operations() -> &'static [Operation] {
     static OPS: OnceLock<Vec<Operation>> = OnceLock::new();
     OPS.get_or_init(|| {
         serde_json::from_str::<Inventory>(include_str!(
-            "../../../../tools/rust-r4abc/operation-map01.json"
+            "../../../../tools/rust-r4def/combined-operation-map16.json"
         ))
         .unwrap_or_else(|_| panic!("invalid frozen R4 operation map"))
         .operations
@@ -278,19 +278,46 @@ async fn dispatch(
                             )
                             .await
                         }
+                        "D" => {
+                            crate::project_handover::execute(
+                                &mut session,
+                                &op.operation_id,
+                                id,
+                                &query,
+                                &body,
+                                &actor,
+                            )
+                            .await
+                        }
+                        "E" => {
+                            crate::project_actual_cost::execute(
+                                &mut session,
+                                &op.operation_id,
+                                id,
+                                &query,
+                                &body,
+                                &actor,
+                            )
+                            .await
+                        }
+                        "F" => {
+                            crate::project_cost_governance::execute(
+                                &mut session,
+                                &op.operation_id,
+                                id,
+                                &query,
+                                &body,
+                                &actor,
+                            )
+                            .await
+                        }
                         _ => Err(Error::Internal),
                     };
                     match result {
-                        Ok(value) => {
-                            if session.state.trace.has_pending_insertions() {
-                                store::flush(&mut session)
-                                    .await
-                                    .map_err(Error::from)
-                                    .map(|()| value)
-                            } else {
-                                Ok(value)
-                            }
-                        }
+                        Ok(value) => store::flush(&mut session)
+                            .await
+                            .map_err(Error::from)
+                            .map(|()| value),
                         Err(error) => Err(error),
                     }
                 };
@@ -358,8 +385,8 @@ mod tests {
         );
     }
     #[test]
-    fn all_thirty_seven_operations_have_effective_permission() {
-        assert_eq!(operations().len(), 37);
+    fn all_sixty_seven_operations_have_effective_permission() {
+        assert_eq!(operations().len(), 67);
         assert!(operations().iter().all(|o| !o.permissions.is_empty()));
         assert!(
             operations()

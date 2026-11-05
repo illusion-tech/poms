@@ -244,7 +244,7 @@ describe('ContractController', () => {
         );
     });
 
-    it('submits contract review with current user identity', async () => {
+    it('rejects a legacy review body which has no exact Rust preparation binding', async () => {
         approvalService.submitContractReview.mockResolvedValue({
             targetId: contractId,
             targetType: 'contract',
@@ -256,17 +256,14 @@ describe('ContractController', () => {
             snapshotId: null
         });
 
-        await controller.submitReview(
+        expect(() => controller.submitReview(
             contractId,
             {
                 user: { sub: userId, username: 'admin', permissions: ['project:write'] }
             },
             { comment: '请审核合同' }
-        );
-
-        expect(approvalService.submitContractReview).toHaveBeenCalledWith(contractId, userId, {
-            comment: '请审核合同'
-        });
+        )).toThrow('This controlled command shape is implemented by the Rust backend');
+        expect(approvalService.submitContractReview).not.toHaveBeenCalled();
     });
 
     it('returns current approval summary for contract', async () => {

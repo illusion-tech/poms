@@ -1,0 +1,30 @@
+{
+  "kind": "D-actual-pure-UI-helper-tests",
+  "createdAt": "2026-11-03T21:46:35.522Z",
+  "source": "apps/poms-admin/src/app/features/project/project-handover-flow.ts",
+  "rawBytesSha256": "39de5ae11262a42b751da315cc3667e7fb1d5f70dd8210d119de3427a1ec8b4e",
+  "typescript": "6.0.3",
+  "tests": [
+    {
+      "name": "same person retains multiple explicit responsibilities and no fabricated confirmation status",
+      "result": "pass"
+    },
+    {
+      "name": "empty responsibility is rejected instead of consent",
+      "result": "pass"
+    },
+    {
+      "name": "duplicate own duty is rejected",
+      "result": "pass"
+    },
+    {
+      "name": "A to B to A never resurrects a late command acknowledgement",
+      "result": "pass"
+    }
+  ],
+  "passed": 4,
+  "angularTypeChecked": false,
+  "angularBuilt": false,
+  "browserRun": false,
+  "limitation": "transpile-and-execute pure helper only; no generated client resolution, Angular template, HTTP, DB or browser claim"
+}

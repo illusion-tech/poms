@@ -5,7 +5,6 @@ import {
     PROJECT_ACTUAL_COST_SOURCE_TYPES,
     PROJECT_ACTUAL_COST_TYPES,
     ProjectActualCostRecordStatusValue,
-    ProjectActualCostTypeValue,
     type LaborCostPeriodType,
     type ProjectActualCostRecordStatus,
     type ProjectActualCostSourceType,
@@ -27,29 +26,17 @@ export const ProjectActualCostRecordSchema = defineEntity({
         { name: 'idx_cost_record_project', properties: ['projectId'] },
         { name: 'idx_cost_record_status', properties: ['recordStatus'] },
         { name: 'idx_cost_record_stage', properties: ['executionStageCode'] },
-        { name: 'idx_cost_record_type', properties: ['costType'] }
+        { name: 'idx_cost_record_type', properties: ['costType'] },
+        { name: "excl_r4e_labor_scope_period", expression: "ALTER TABLE poms.project_actual_cost_record ADD CONSTRAINT excl_r4e_labor_scope_period EXCLUDE USING gist (project_id WITH =, labor_scope_key WITH =, daterange(labor_period_start, labor_period_end, '[]'::text) WITH &&) WHERE ((((cost_type)::text = 'labor'::text) AND ((record_status)::text = ANY ((ARRAY['registered'::character varying, 'confirmed'::character varying, 'included'::character varying])::text[]))))" },
+        { name: "idx_r4e_cost_source", expression: "CREATE INDEX idx_r4e_cost_source ON poms.project_actual_cost_record USING btree (source_type, source_id)" },
+        { name: "idx_r4e_cost_project_rate", expression: "CREATE INDEX idx_r4e_cost_project_rate ON poms.project_actual_cost_record USING btree (project_id, rate_version_id)" }
     ],
     uniques: [
-        {
-            name: 'uq_project_actual_cost_record_payment_fact_source_current',
-            expression: (columns, table, indexName) =>
-                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.sourceType}", "${columns.sourceId}") where "${columns.costType}" = '${ProjectActualCostTypeValue.PaymentFact}' and "${columns.recordStatus}" in ('${ProjectActualCostRecordStatusValue.Confirmed}', '${ProjectActualCostRecordStatusValue.Included}') and "${columns.sourceType}" is not null and "${columns.sourceId}" is not null`
-        },
-        {
-            name: 'uq_project_actual_cost_record_invoice_source_current',
-            expression: (columns, table, indexName) =>
-                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.sourceType}", "${columns.sourceId}") where "${columns.costType}" = '${ProjectActualCostTypeValue.Invoice}' and "${columns.recordStatus}" in ('${ProjectActualCostRecordStatusValue.Confirmed}', '${ProjectActualCostRecordStatusValue.Included}') and "${columns.sourceType}" is not null and "${columns.sourceId}" is not null`
-        },
-        {
-            name: 'uq_project_actual_cost_record_expense_source_current',
-            expression: (columns, table, indexName) =>
-                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.sourceType}", "${columns.sourceId}") where "${columns.costType}" = '${ProjectActualCostTypeValue.Expense}' and "${columns.recordStatus}" in ('${ProjectActualCostRecordStatusValue.Confirmed}', '${ProjectActualCostRecordStatusValue.Included}') and "${columns.sourceType}" is not null and "${columns.sourceId}" is not null`
-        },
-        {
-            name: 'uq_project_actual_cost_record_procurement_source_current',
-            expression: (columns, table, indexName) =>
-                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.sourceType}", "${columns.sourceId}") where "${columns.costType}" = '${ProjectActualCostTypeValue.Procurement}' and "${columns.recordStatus}" in ('${ProjectActualCostRecordStatusValue.Registered}', '${ProjectActualCostRecordStatusValue.Confirmed}', '${ProjectActualCostRecordStatusValue.Included}') and "${columns.sourceType}" is not null and "${columns.sourceId}" is not null`
-        }
+        { name: "uq_project_actual_cost_record_payment_fact_source_current", expression: "CREATE UNIQUE INDEX uq_project_actual_cost_record_payment_fact_source_current ON poms.project_actual_cost_record USING btree (source_type, source_id) WHERE (((cost_type)::text = 'payment-fact'::text) AND ((record_status)::text = ANY ((ARRAY['registered'::character varying, 'confirmed'::character varying, 'included'::character varying])::text[])))" },
+        { name: "uq_project_actual_cost_record_invoice_source_current", expression: "CREATE UNIQUE INDEX uq_project_actual_cost_record_invoice_source_current ON poms.project_actual_cost_record USING btree (source_type, source_id) WHERE (((cost_type)::text = 'invoice'::text) AND ((record_status)::text = ANY ((ARRAY['registered'::character varying, 'confirmed'::character varying, 'included'::character varying])::text[])))" },
+        { name: "uq_project_actual_cost_record_expense_source_current", expression: "CREATE UNIQUE INDEX uq_project_actual_cost_record_expense_source_current ON poms.project_actual_cost_record USING btree (source_type, source_id) WHERE (((cost_type)::text = 'expense'::text) AND ((record_status)::text = ANY ((ARRAY['registered'::character varying, 'confirmed'::character varying, 'included'::character varying])::text[])))" },
+        { name: "uq_project_actual_cost_record_procurement_source_current", expression: "CREATE UNIQUE INDEX uq_project_actual_cost_record_procurement_source_current ON poms.project_actual_cost_record USING btree (source_type, source_id) WHERE (((cost_type)::text = 'procurement'::text) AND ((record_status)::text = ANY ((ARRAY['registered'::character varying, 'confirmed'::character varying, 'included'::character varying])::text[])))" },
+        { name: "uq_r4e_cost_single_successor", expression: "CREATE UNIQUE INDEX uq_r4e_cost_single_successor ON poms.project_actual_cost_record USING btree (supersedes_record_id) WHERE (supersedes_record_id IS NOT NULL)" }
     ],
     checks: [
         {
@@ -67,7 +54,16 @@ export const ProjectActualCostRecordSchema = defineEntity({
         {
             name: 'chk_project_actual_cost_record_source_type',
             expression: `"source_type" is null or ("source_type")::text = ${toPostgresTextAnyArray(PROJECT_ACTUAL_COST_SOURCE_TYPES)}`
-        }
+        },
+        { name: "chk_r4e_basis_origin", expression: "(((basis_origin)::text = ANY ((ARRAY['captured'::character varying, 'legacy-unavailable'::character varying])::text[])))" },
+        { name: "chk_r4e_calculation_basis", expression: "(((calculation_basis IS NULL) OR (jsonb_typeof(calculation_basis) = 'object'::text)))" },
+        { name: "chk_r4e_captured_basis", expression: "((((basis_origin)::text <> 'captured'::text) OR ((source_basis IS NOT NULL) AND (((cost_type)::text <> 'labor'::text) OR (calculation_basis IS NOT NULL)))))" },
+        { name: "chk_r4e_cost_attachment_count", expression: "((attachment_count >= 0))" },
+        { name: "chk_r4e_cost_money", expression: "((((amount_excluding_tax IS NULL) OR (amount_excluding_tax >= (0)::numeric)) AND ((tax_cost_amount IS NULL) OR (tax_cost_amount >= (0)::numeric)) AND ((amount_including_tax IS NULL) OR (amount_including_tax > (0)::numeric)) AND ((amount_excluding_tax IS NULL) OR (tax_cost_amount IS NULL) OR (amount_including_tax IS NULL) OR (amount_including_tax = (amount_excluding_tax + tax_cost_amount))) AND (((cost_type)::text <> ALL ((ARRAY['payment-fact'::character varying, 'procurement'::character varying])::text[])) OR ((amount_excluding_tax IS NOT NULL) AND (amount_excluding_tax > (0)::numeric))) AND (((cost_type)::text <> ALL ((ARRAY['invoice'::character varying, 'expense'::character varying])::text[])) OR ((amount_including_tax IS NOT NULL) AND (amount_including_tax > (0)::numeric)))))" },
+        { name: "chk_r4e_cost_source_binding", expression: "(((source_id IS NOT NULL) AND ((((cost_type)::text = 'payment-fact'::text) AND (NOT ((source_type)::text IS DISTINCT FROM 'payment-record'::text))) OR (((cost_type)::text = 'invoice'::text) AND (NOT ((source_type)::text IS DISTINCT FROM 'invoice-record'::text))) OR (((cost_type)::text = 'expense'::text) AND (NOT ((source_type)::text IS DISTINCT FROM 'expense-record'::text))) OR (((cost_type)::text = 'procurement'::text) AND (NOT ((source_type)::text IS DISTINCT FROM 'payable-record'::text))) OR (((cost_type)::text = 'labor'::text) AND (NOT ((source_type)::text IS DISTINCT FROM 'labor'::text))))))" },
+        { name: "chk_r4e_cost_stage_truth", expression: "((((record_status)::text <> ALL ((ARRAY['confirmed'::character varying, 'included'::character varying])::text[])) OR ((execution_stage_code IS NOT NULL) AND (stage_derived_from_type IS NOT NULL) AND (stage_derived_from_id IS NOT NULL) AND (stage_derived_at IS NOT NULL) AND (stage_locked_at IS NOT NULL))))" },
+        { name: "chk_r4e_labor_basis", expression: "((((cost_type)::text <> 'labor'::text) OR ((rate_version_id IS NOT NULL) AND (labor_scope_key IS NOT NULL) AND (labor_period_type IS NOT NULL) AND (labor_period_start IS NOT NULL) AND (labor_period_end IS NOT NULL) AND (labor_period_start <= labor_period_end) AND (internal_cost_rate IS NOT NULL) AND (internal_cost_rate > (0)::numeric) AND (labor_amount IS NOT NULL) AND (labor_amount > (0)::numeric) AND (amount_excluding_tax IS NOT NULL) AND (amount_including_tax IS NOT NULL) AND (tax_cost_amount IS NOT NULL) AND (amount_excluding_tax = labor_amount) AND (amount_including_tax = labor_amount) AND (tax_cost_amount = (0)::numeric) AND (((actual_hours IS NOT NULL) AND (actual_hours > (0)::numeric) AND (actual_person_days IS NULL)) OR ((actual_person_days IS NOT NULL) AND (actual_person_days > (0)::numeric) AND (actual_hours IS NULL))))))" },
+        { name: "chk_r4e_source_basis", expression: "(((source_basis IS NULL) OR (jsonb_typeof(source_basis) = 'object'::text)))" }
     ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
@@ -86,9 +82,9 @@ export const ProjectActualCostRecordSchema = defineEntity({
         stageDerivedAt: p.datetime().nullable().fieldName('stage_derived_at').comment('阶段推导时间'),
         stageLockedAt: p.datetime().nullable().fieldName('stage_locked_at').comment('阶段锁定时间'),
         currency: p.string().length(16).default('CNY').comment('币种'),
-        amountExcludingTax: p.decimal().precision(15).scale(4).nullable().fieldName('amount_excluding_tax').comment('不含税金额'),
-        taxCostAmount: p.decimal().precision(15).scale(4).nullable().fieldName('tax_cost_amount').comment('税金成本'),
-        amountIncludingTax: p.decimal().precision(15).scale(4).nullable().fieldName('amount_including_tax').comment('含税总额（实际成本主要金额）'),
+        amountExcludingTax: p.decimal().precision(18).scale(2).nullable().fieldName('amount_excluding_tax').comment('不含税金额'),
+        taxCostAmount: p.decimal().precision(18).scale(2).nullable().fieldName('tax_cost_amount').comment('税金成本'),
+        amountIncludingTax: p.decimal().precision(18).scale(2).nullable().fieldName('amount_including_tax').comment('含税总额（实际成本主要金额）'),
         recordStatus: p.string().$type<ProjectActualCostRecordStatus>().length(32).default(ProjectActualCostRecordStatusValue.Draft).fieldName('record_status').comment('状态：draft/registered/confirmed/included/voided/replaced'),
         isIncludedInProjectCost: p.boolean().default(false).fieldName('is_included_in_project_cost').comment('是否已纳入项目成本'),
         isHighRisk: p.boolean().default(false).fieldName('is_high_risk').comment('是否高风险'),
@@ -116,7 +112,7 @@ export const ProjectActualCostRecordSchema = defineEntity({
         actualHours: p.decimal().precision(10).scale(2).nullable().fieldName('actual_hours').comment('人力成本-实际工时'),
         actualPersonDays: p.decimal().precision(10).scale(2).nullable().fieldName('actual_person_days').comment('人力成本-实际人天'),
         internalCostRate: p.decimal().precision(15).scale(4).nullable().fieldName('internal_cost_rate').comment('人力成本-采用成本率'),
-        laborAmount: p.decimal().precision(15).scale(4).nullable().fieldName('labor_amount').comment('人力成本-计算金额'),
+        laborAmount: p.decimal().precision(18).scale(2).nullable().fieldName('labor_amount').comment('人力成本-计算金额'),
         workSummary: p.text().nullable().fieldName('work_summary').comment('人力成本-工作摘要'),
         deliveryStage: p.string().length(64).nullable().fieldName('delivery_stage').comment('人力成本-交付阶段'),
         rateVersionId: () => p.manyToOne(InternalCostRateVersion).mapToPk().nullable().fieldName('rate_version_id').comment('人力成本-对应成本率版本'),
@@ -136,7 +132,11 @@ export const ProjectActualCostRecordSchema = defineEntity({
             .onUpdate(() => new Date())
             .fieldName('updated_at')
             .comment('最后更新时间'),
-        updatedBy: p.uuid().nullable().fieldName('updated_by').comment('最后更新人标识')
+        updatedBy: p.uuid().nullable().fieldName('updated_by').comment('最后更新人标识'),
+        sourceBasis: p.json<Record<string, unknown>>().columnType('jsonb').nullable().fieldName("source_basis"),
+        calculationBasis: p.json<Record<string, unknown>>().columnType('jsonb').nullable().fieldName("calculation_basis"),
+        basisOrigin: p.string().length(32).default("legacy-unavailable").fieldName("basis_origin"),
+        laborScopeKey: p.text().nullable().generated("(CASE\n    WHEN ((cost_type)::text = 'labor'::text) THEN\n    CASE\n        WHEN (labor_person_id IS NOT NULL) THEN ('person:'::text || (labor_person_id)::text)\n        WHEN (labor_role IS NOT NULL) THEN ('role:'::text || (labor_role)::text)\n        ELSE NULL::text\n    END\n    ELSE NULL::text\nEND) stored").fieldName("labor_scope_key")
     }
 });
 

@@ -2,6 +2,7 @@
 
 pub mod http;
 mod model;
+mod protection;
 mod query;
 mod service;
 mod store;

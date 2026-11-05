@@ -7,6 +7,8 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { LaborCostSensitiveProjection } from './labor-cost-sensitive-projection';
+import { OperatingCostSensitiveProjection } from './operating-cost-sensitive-projection';
 import { ProjectActualCostType } from './project-actual-cost-type';
 import { ProjectActualCostRecordStatus } from './project-actual-cost-record-status';
 import { ProjectActualCostSourceType } from './project-actual-cost-source-type';
@@ -29,27 +31,79 @@ export interface ProjectActualCostRecordSummary {
     stageDerivedAt: string | null;
     stageLockedAt: string | null;
     currency: string;
-    amountExcludingTax: string | null;
-    taxCostAmount: string | null;
-    amountIncludingTax: string | null;
+    /**
+     * Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.
+     */
+    amountExcludingTax: ProjectActualCostRecordSummaryAmountExcludingTaxEnum | null;
+    /**
+     * Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.
+     */
+    taxCostAmount: ProjectActualCostRecordSummaryTaxCostAmountEnum | null;
+    /**
+     * Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.
+     */
+    amountIncludingTax: ProjectActualCostRecordSummaryAmountIncludingTaxEnum | null;
     recordStatus: ProjectActualCostRecordStatus;
     isIncludedInProjectCost: boolean;
     isHighRisk: boolean;
     sourceType: ProjectActualCostSourceType | null;
-    sourceId: string | null;
-    sourceRefNo: string | null;
-    evidenceSummary: string | null;
+    /**
+     * Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.
+     */
+    sourceId: ProjectActualCostRecordSummarySourceIdEnum | null;
+    /**
+     * Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.
+     */
+    sourceRefNo: ProjectActualCostRecordSummarySourceRefNoEnum | null;
+    /**
+     * Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.
+     */
+    evidenceSummary: ProjectActualCostRecordSummaryEvidenceSummaryEnum | null;
     attachmentCount: number;
     registeredBy: string | null;
     confirmedBy: string | null;
     includedBy: string | null;
     ownerRole: string | null;
-    costDescription: string | null;
-    taxImpactSummary: string | null;
-    riskNote: string | null;
+    /**
+     * Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.
+     */
+    costDescription: ProjectActualCostRecordSummaryCostDescriptionEnum | null;
+    /**
+     * Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.
+     */
+    taxImpactSummary: ProjectActualCostRecordSummaryTaxImpactSummaryEnum | null;
+    /**
+     * Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.
+     */
+    riskNote: ProjectActualCostRecordSummaryRiskNoteEnum | null;
     supersedesRecordId: string | null;
-    voidReason: string | null;
+    /**
+     * Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.
+     */
+    voidReason: ProjectActualCostRecordSummaryVoidReasonEnum | null;
     rowVersion: number;
     createdAt: string;
     updatedAt: string;
+    financialProjection: OperatingCostSensitiveProjection | null;
+    laborSensitiveProjection: LaborCostSensitiveProjection | null;
 }
+export enum ProjectActualCostRecordSummaryAmountExcludingTaxEnum {
+};
+export enum ProjectActualCostRecordSummaryTaxCostAmountEnum {
+};
+export enum ProjectActualCostRecordSummaryAmountIncludingTaxEnum {
+};
+export enum ProjectActualCostRecordSummarySourceIdEnum {
+};
+export enum ProjectActualCostRecordSummarySourceRefNoEnum {
+};
+export enum ProjectActualCostRecordSummaryEvidenceSummaryEnum {
+};
+export enum ProjectActualCostRecordSummaryCostDescriptionEnum {
+};
+export enum ProjectActualCostRecordSummaryTaxImpactSummaryEnum {
+};
+export enum ProjectActualCostRecordSummaryRiskNoteEnum {
+};
+export enum ProjectActualCostRecordSummaryVoidReasonEnum {
+};

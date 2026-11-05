@@ -75,7 +75,8 @@ pub(super) async fn package(
         )
         .await?;
         if let Some(fact) = fact {
-            if fact.status == "draft"
+            if (fact.status == "draft"
+                || (fact.status == "active" && !p["contract_amendment_id"].is_null()))
                 && p["is_current"] == true
                 && p["guard_decision"] == "allowed"
                 && p["package_status"] != "blocked"
@@ -91,6 +92,17 @@ pub(super) async fn package(
             }
         }
     }
+    let amendment: Value = if let Some(key) = p["contract_amendment_id"].as_str() {
+        sqlx::query_scalar(
+            "SELECT to_jsonb(a) FROM poms.contract_amendment a WHERE id=$1::text::uuid",
+        )
+        .bind(key)
+        .fetch_optional(&mut *session.connection)
+        .await?
+        .unwrap_or(Value::Null)
+    } else {
+        Value::Null
+    };
     Ok(
         json!({"id":p["id"],"projectId":p["project_id"],"contractId":p["contract_id"],"sourceBaselineId":p["source_baseline_id"],"commercialReleaseBaselineId":p["source_baseline_id"],
         "latestDiffResultId":p["latest_diff_result_id"],"diffLevel":d["diff_level"],"reviewStatus":d["review_status"],"packageStatus":p["package_status"],"guardDecision":p["guard_decision"],
@@ -98,7 +110,7 @@ pub(super) async fn package(
         "initializedContractSnapshotId":p["initialized_contract_snapshot_id"],"initializedReceivablePlanVersionId":p["initialized_receivable_plan_version_id"],
         "contractSnapshotInitializedAt":store::iso(&p["contract_snapshot_initialized_at"]),"receivablePlanInitializedAt":store::iso(&p["receivable_plan_initialized_at"]),
         "isCurrent":p["is_current"],"rowVersion":p["row_version"],"createdAt":store::iso(&p["created_at"]),"createdBy":p["created_by"],"updatedAt":store::iso(&p["updated_at"]),"updatedBy":p["updated_by"],
-        "allowedActions":actions,"items":items,"candidateTerms":p["candidate_terms"],"currentPreparation":preparation.as_ref().map(store::preparation_summary)}),
+        "allowedActions":actions,"items":items,"candidateTerms":p["candidate_terms"],"currentPreparation":preparation.as_ref().map(store::preparation_summary),"contractAmendmentId":p["contract_amendment_id"],"sourceContractSnapshotId":amendment["before_snapshot_id"],"amendmentStatus":amendment["status"]}),
     )
 }
 fn hide(value: &mut Value) {

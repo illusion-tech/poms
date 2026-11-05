@@ -9,6 +9,7 @@
  */
 import { OperatingLifecycleStatus } from './operating-lifecycle-status';
 import { CostStageAttributionMode } from './cost-stage-attribution-mode';
+import { SensitiveStringFieldProjection } from './sensitive-string-field-projection';
 
 
 export interface CostStageAttributionSnapshotSummary {
@@ -17,7 +18,6 @@ export interface CostStageAttributionSnapshotSummary {
     attributedStage: string;
     attributionMode: CostStageAttributionMode;
     lockedBySnapshotId: string | null;
-    attributionSummary: string | null;
     status: OperatingLifecycleStatus;
     supersedesId: string | null;
     handledAt: string | null;
@@ -25,4 +25,13 @@ export interface CostStageAttributionSnapshotSummary {
     rowVersion: number;
     createdAt: string;
     updatedAt: string;
+    attributionSummaryProjection: SensitiveStringFieldProjection;
+    evidenceProjection: SensitiveStringFieldProjection;
+    evidenceId: string | null;
+    evidenceBusinessDate: string | null;
+    governanceCertification: CostStageAttributionSnapshotSummaryGovernanceCertificationEnum;
 }
+export enum CostStageAttributionSnapshotSummaryGovernanceCertificationEnum {
+    Verified = 'verified',
+    LegacyUnverified = 'legacy-unverified'
+};

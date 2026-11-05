@@ -25,6 +25,7 @@ use crate::{
         guards::{RequestMetadata, RoutePolicy},
         http::{AuthHttpState, ParsedBody, guarded_route},
         model::{AuthUser, ResolvedSession},
+        projection::{ProjectionRequestContext, ProjectionUser},
     },
     error::ApiError,
     shared::generated::PermissionKey,
@@ -172,26 +173,35 @@ pub fn openapi() -> Value {
 }
 
 async fn list_audit_logs(
+    State(auth): State<AuthHttpState>,
     RawQuery(raw): RawQuery,
     Extension(service): Extension<Arc<RuntimeAuditService>>,
+    Extension(session): Extension<Arc<ResolvedSession>>,
+    request: Request,
 ) -> Response {
+    let (parts, _) = request.into_parts();
+    let metadata = RequestMetadata::from_parts(&parts);
     let raw = query::parse(raw.as_deref());
     let query = match validation::validate_query(QueryKind::Audit, Some(&raw)) {
         Ok(value) => value,
         Err(error) => return error.into_response(),
     };
     match service.list_audit_logs(query).await {
-        Ok(value) => Json(value).into_response(),
+        Ok(value) => protected_audit_response(value, &auth, &session, metadata).await,
         Err(error) => domain_error(error),
     }
 }
 
 async fn list_entity_audit_logs(
+    State(auth): State<AuthHttpState>,
     Path((target_type, target_id)): Path<(String, String)>,
     RawQuery(raw): RawQuery,
     Extension(service): Extension<Arc<RuntimeAuditService>>,
     Extension(session): Extension<Arc<ResolvedSession>>,
+    request: Request,
 ) -> Response {
+    let (parts, _) = request.into_parts();
+    let metadata = RequestMetadata::from_parts(&parts);
     let raw = query::parse(raw.as_deref());
     let query = match validation::validate_query(QueryKind::Entity, Some(&raw)) {
         Ok(value) => value,
@@ -201,8 +211,45 @@ async fn list_entity_audit_logs(
         .list_entity_audit_logs(&target_type, &target_id, query, &session.user)
         .await
     {
-        Ok(value) => Json(value).into_response(),
+        Ok(value) => protected_audit_response(value, &auth, &session, metadata).await,
         Err(error) => domain_error(error),
+    }
+}
+
+async fn protected_audit_response(
+    rows: Vec<super::model::AuditLogSummary>,
+    auth: &AuthHttpState,
+    session: &ResolvedSession,
+    metadata: RequestMetadata,
+) -> Response {
+    let user = ProjectionUser {
+        sub: session.user.user_id,
+        username: session.user.username.clone(),
+        permissions: session
+            .user
+            .permissions
+            .iter()
+            .map(|p| p.as_str().to_owned())
+            .collect(),
+    };
+    let context = ProjectionRequestContext {
+        request_id: metadata.request_id,
+        path: metadata.path,
+        method: metadata.method,
+        ip: metadata.info.ip,
+        user_agent: metadata.info.user_agent,
+    };
+    let (rows, events) = match super::protection::protect(rows, user, context) {
+        Ok(value) => value,
+        Err(error) => return domain_error(error),
+    };
+    match auth
+        .service
+        .record_security_events_with_session(events, session.pending_flush.as_ref())
+        .await
+    {
+        Ok(()) => Json(rows).into_response(),
+        Err(_) => ApiError::internal().into_response(),
     }
 }
 

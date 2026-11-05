@@ -1,6 +1,6 @@
 import { defineEntity } from '@mikro-orm/core';
 import { INVOICE_RECORD_EXCEPTION_STATUSES, INVOICE_RECORD_STATUSES, INVOICE_RECORD_TYPES, InvoiceRecordExceptionStatusValue, type InvoiceRecordExceptionStatus, type InvoiceRecordStatus, type InvoiceRecordType } from '@poms/shared-contracts';
-import { Contract } from '../contract/contract.entity';
+import { Contract, ContractTermSnapshot } from '../contract/contract.entity';
 import { Project } from '../project/project.entity';
 
 const p = defineEntity.properties;
@@ -26,7 +26,8 @@ export const InvoiceRecordSchema = defineEntity({
         {
             name: 'chk_invoice_record_exception_status',
             expression: `"exception_status" in (${toSqlStringList(INVOICE_RECORD_EXCEPTION_STATUSES)})`
-        }
+        },
+        { name: "chk_r4e_invoice_currency", expression: "((((currency_code IS NULL) AND (currency_source IS NULL) AND (currency_source_snapshot_id IS NULL)) OR ((currency_code IS NOT NULL) AND ((currency_code)::text ~ '^[A-Z]{3}$'::text) AND (currency_source IS NOT NULL) AND ((currency_source)::text = ANY ((ARRAY['explicit'::character varying, 'contract-snapshot'::character varying])::text[])) AND ((((currency_source)::text = 'explicit'::text) AND (currency_source_snapshot_id IS NULL)) OR (((currency_source)::text = 'contract-snapshot'::text) AND (contract_id IS NOT NULL) AND (currency_source_snapshot_id IS NOT NULL))))))" }
     ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()'),
@@ -53,7 +54,10 @@ export const InvoiceRecordSchema = defineEntity({
             .defaultRaw('now()')
             .onCreate(() => new Date())
             .onUpdate(() => new Date())
-            .fieldName('updated_at')
+            .fieldName('updated_at'),
+        currencyCode: p.string().length(3).nullable().fieldName("currency_code"),
+        currencySource: p.string().length(32).nullable().fieldName("currency_source"),
+        currencySourceSnapshotId: () => p.manyToOne(ContractTermSnapshot).mapToPk().nullable().fieldName("currency_source_snapshot_id").createForeignKeyConstraint(false)
     }
 });
 

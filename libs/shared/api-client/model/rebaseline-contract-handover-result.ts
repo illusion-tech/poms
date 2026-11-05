@@ -7,6 +7,8 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ProjectHandoverBasisItemSummary } from './project-handover-basis-item-summary';
+import { ContractHandoverCurrentBaselineSummary } from './contract-handover-current-baseline-summary';
 
 
 export interface RebaselineContractHandoverResult {
@@ -14,6 +16,14 @@ export interface RebaselineContractHandoverResult {
     rebaselineRecordId: string;
     effectiveBaselineAfterId: string;
     resultStatus: RebaselineContractHandoverResultResultStatusEnum;
+    sourceHandoverId: string;
+    replacementHandoverId: string;
+    handoverBasisSnapshotId: string;
+    contractSummarySnapshotId: string;
+    summarySnapshotId: string;
+    sourcePayloadHash: string;
+    affectedHandoverItems: Array<ProjectHandoverBasisItemSummary>;
+    currentHandoverBaselineSummary: ContractHandoverCurrentBaselineSummary;
 }
 export enum RebaselineContractHandoverResultResultStatusEnum {
     Effective = 'effective'

@@ -6,7 +6,7 @@ import type {
     ContractReadinessItemType,
     ContractReadinessStatus
 } from '@poms/shared-contracts';
-import { Contract } from '../contract/contract.entity';
+import { Contract, ContractAmendment } from '../contract/contract.entity';
 import { ProjectBidCommercialProcess } from '../project/project-bid-commercial-process.entity';
 import { ProjectPricingMarginReview } from '../project/project-pricing-margin-review.entity';
 import { ProjectTechnicalCostPackage } from '../project/project-technical-cost-package.entity';
@@ -87,7 +87,8 @@ export const ContractReadinessPackageSchema = defineEntity({
         createdAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).fieldName('created_at'),
         createdBy: p.uuid().nullable().fieldName('created_by'),
         updatedAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).onUpdate(() => new Date()).fieldName('updated_at'),
-        updatedBy: p.uuid().nullable().fieldName('updated_by')
+        updatedBy: p.uuid().nullable().fieldName('updated_by'),
+        contractAmendmentId: () => p.manyToOne(ContractAmendment).mapToPk().nullable().fieldName("contract_amendment_id").createForeignKeyConstraint(false)
     }
 });
 

@@ -9,7 +9,9 @@
  */
 import { ContractHandoverBaselineValidationSummary } from './contract-handover-baseline-validation-summary';
 import { ContractHandoverEffectiveContractSetSummary } from './contract-handover-effective-contract-set-summary';
+import { ProjectHandoverContractReadiness } from './project-handover-contract-readiness';
 import { ContractHandoverReceivablePlanInitSummary } from './contract-handover-receivable-plan-init-summary';
+import { ProjectHandoverAvailableParticipant } from './project-handover-available-participant';
 import { ContractHandoverLatestRebaselineSummary } from './contract-handover-latest-rebaseline-summary';
 import { ContractHandoverCurrentBaselineSummary } from './contract-handover-current-baseline-summary';
 
@@ -29,4 +31,8 @@ export interface ContractHandoverSummaryView {
     allowedActions: Array<string>;
     blockingReasons: Array<string>;
     generatedAt: string;
+    projectRowVersion: number;
+    sourcePayloadHash: string;
+    contractReadiness: Array<ProjectHandoverContractReadiness>;
+    availableParticipants?: Array<ProjectHandoverAvailableParticipant>;
 }

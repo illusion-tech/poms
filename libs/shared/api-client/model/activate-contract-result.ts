@@ -19,4 +19,8 @@ export interface ActivateContractResult {
     todoItemIds: Array<string>;
     snapshotId: string;
     preparationId: string;
+    contractAmendmentId: string | null;
+    beforeSnapshotId: string | null;
+    snapshotVersion: number;
+    planVersionId: string | null;
 }

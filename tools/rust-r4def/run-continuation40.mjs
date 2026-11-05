@@ -1,0 +1,12 @@
+import fs from'node:fs';import assert from'node:assert/strict';
+import{createApiHarness}from'./api-harness32.mjs';import{createContractContinuation32}from'./E/upstream32/request-drivers32.mjs';
+const h=createApiHarness(),actors=JSON.parse(fs.readFileSync(h.priv+'/actors33.json')).actors;
+for(const key of['full','approver'])await h.login(actors[key]);
+const sourceEdition=process.argv[2]??'36',edition=process.argv[3]??'40',summaryEdition=process.argv[4]??'39';assert([sourceEdition,edition,summaryEdition].every(x=>/^\d+$/.test(x)));
+const context=JSON.parse(fs.readFileSync(h.priv+'/upstream'+sourceEdition+'.json'));
+const suite=createContractContinuation32({...context,creator:h.actor('full'),summaryReceiptId:'tmp/rust-r4def/root/summary'+summaryEdition+'/receipt39.json'},{request:h.request,resolveApprover:id=>{const found=Object.keys(actors).find(k=>h.actor(k).id===id);assert(found,'Actual approver has no logged-in actor');return h.actor(found);}});
+fs.writeFileSync(h.out+'/continuation'+edition+'-before.json',JSON.stringify(suite.manifest(),null,2)+'\n',{flag:'wx'});
+const result=await suite.run();fs.writeFileSync(h.out+'/continuation'+edition+'-result.json',JSON.stringify(result,null,2)+'\n',{flag:'wx'});
+if(result.completed)fs.writeFileSync(h.priv+'/continuation'+edition+'.json',JSON.stringify(result,null,2)+'\n',{flag:'wx',mode:0o600});
+console.log(JSON.stringify({completed:result.completed,counts:result.counts,stages:result.stages?.map(s=>({id:s.id,status:s.status,error:s.error})),error:result.error??null}));
+if(!result.completed)process.exitCode=1;

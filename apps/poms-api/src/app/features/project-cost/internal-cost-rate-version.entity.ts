@@ -21,11 +21,8 @@ export const InternalCostRateVersionSchema = defineEntity({
         { name: 'idx_cost_rate_scope', properties: ['rateScopeType'] },
         { name: 'idx_cost_rate_status', properties: ['status'] },
         { name: 'idx_cost_rate_effective', properties: ['effectiveFrom', 'effectiveTo'] },
-        {
-            name: 'internal_cost_rate_version_active_range_excl',
-            expression: (_columns, table, indexName) =>
-                `alter table "${table.schema}"."${table.name}" add constraint "${indexName}" exclude using gist ("rate_key" with =, daterange("effective_from", coalesce("effective_to", 'infinity'::date), '[]') with &&) where ("status" = 'active')`
-        }
+        { name: "internal_cost_rate_version_active_range_excl", expression: "ALTER TABLE poms.internal_cost_rate_version ADD CONSTRAINT internal_cost_rate_version_active_range_excl EXCLUDE USING gist (rate_key WITH =, daterange(effective_from, effective_to, '[]'::text) WITH &&) WHERE (((status)::text = ANY ((ARRAY['active'::character varying, 'superseded'::character varying])::text[])))" },
+        { name: "idx_r4e_person_rate_coverage", expression: "CREATE INDEX idx_r4e_person_rate_coverage ON poms.internal_cost_rate_version USING btree (person_id, effective_from, effective_to, rate_unit) WHERE (((rate_scope_type)::text = 'person'::text) AND ((status)::text = ANY ((ARRAY['active'::character varying, 'superseded'::character varying])::text[])))" }
     ],
     uniques: [
         { name: 'internal_cost_rate_version_rate_key_version_unique', properties: ['rateKey', 'version'] },
@@ -47,7 +44,12 @@ export const InternalCostRateVersionSchema = defineEntity({
         {
             name: 'chk_internal_cost_rate_version_rate_unit',
             expression: `"rate_unit" in (${toSqlStringList(INTERNAL_COST_RATE_UNITS)})`
-        }
+        },
+        { name: "chk_r4e_rate_dates", expression: "(((effective_to IS NULL) OR (effective_to >= effective_from)))" },
+        { name: "chk_r4e_rate_positive", expression: "((rate_value > (0)::numeric))" },
+        { name: "chk_r4e_rate_published", expression: "((((status)::text <> ALL ((ARRAY['active'::character varying, 'superseded'::character varying])::text[])) OR ((published_at IS NOT NULL) AND (published_by IS NOT NULL))))" },
+        { name: "chk_r4e_rate_scope", expression: "(((((rate_scope_type)::text = 'person'::text) AND (person_id IS NOT NULL) AND (role_code IS NULL)) OR (((rate_scope_type)::text = 'role'::text) AND (person_id IS NULL) AND (role_code IS NOT NULL) AND ((length(btrim((role_code)::text)) >= 1) AND (length(btrim((role_code)::text)) <= 64)))))" },
+        { name: "chk_r4e_rate_version", expression: "(((version > 0) AND (row_version > 0)))" }
     ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),

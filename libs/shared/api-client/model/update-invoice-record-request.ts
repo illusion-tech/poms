@@ -17,4 +17,5 @@ export interface UpdateInvoiceRecordRequest {
     invoiceDate?: string;
     status?: InvoiceRecordPatchableStatus;
     expectedVersion?: number;
+    currencyCode?: string;
 }

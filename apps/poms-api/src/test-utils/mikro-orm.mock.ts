@@ -35,6 +35,9 @@ export class PostgreSqlDriver {}
 export const defineConfig = <TConfig>(config: TConfig): TConfig => config;
 
 const CHAIN_METHODS = [
+    'generated',
+    'createForeignKeyConstraint',
+    'deferMode',
     'primary',
     'nullable',
     'length',

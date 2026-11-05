@@ -227,14 +227,16 @@ describe('ProjectHandoverController canonical parameter binding', () => {
         for (const spy of Object.values(queryService)) expect(spy).not.toHaveBeenCalled();
     });
 
-    it('changes only the two parameter labels and retains all five original operation IDs', () => {
+    it('retains five canonical operations and adds the two frozen Rust preparation operations', () => {
         const document = SwaggerModule.createDocument(app, new DocumentBuilder().setTitle('Binding only').setVersion('test').build());
         const operations = [
             ['get', '/api/projects/{projectId}/contract-handover', 'getContractHandoverSummary'],
             ['get', '/api/projects/{projectId}/project-handover', 'getProjectHandoverDetailByProject'],
             ['get', '/api/project-handovers/{id}', 'getProjectHandoverDetailByHandover'],
             ['post', '/api/project-handovers/{id}:confirm', 'confirmProjectHandover'],
-            ['post', '/api/contract-handover-rebaselines', 'rebaselineContractHandover']
+            ['post', '/api/contract-handover-rebaselines', 'rebaselineContractHandover'],
+            ['post', '/api/projects/{projectId}/project-handovers', 'prepareProjectHandover'],
+            ['post', '/api/project-handovers/{id}/participant-confirmations', 'confirmProjectHandoverParticipant']
         ] as const;
         expect(Object.keys(document.paths).sort()).toEqual(operations.map(([, path]) => path).sort());
         for (const [method, path, handler] of operations) {

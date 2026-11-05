@@ -1,0 +1,211 @@
+--- delivery01/evidence.rs
++++ delivery25/evidence.rs
+@@ -410,7 +410,10 @@
+         _ => "",
+     };
+     let sql = if source == "contract-term-snapshot" {
+-        "SELECT to_jsonb(t)||jsonb_build_object('project_id',c.project_id) AS data FROM poms.contract_term_snapshot t JOIN poms.contract c ON c.id=t.contract_id WHERE t.id=$1 AND c.project_id=$2 FOR UPDATE OF t".to_owned()
++        // A stage milestone needs identity, versions, time and the preparation's
++        // currency proof. Selecting the full snapshot would decode its numeric
++        // money/rates (and arbitrary seeds) through serde_json's float path.
++        "SELECT jsonb_build_object('id',t.id,'contract_id',t.contract_id,'project_id',c.project_id,'snapshot_status',t.snapshot_status,'version',t.version,'row_version',t.row_version,'effective_at',t.effective_at,'source_preparation_id',t.source_preparation_id,'currency',p.currency_code,'preparation_currency_row_version',p.row_version) AS data FROM poms.contract_term_snapshot t JOIN poms.contract c ON c.id=t.contract_id LEFT JOIN poms.contract_term_preparation p ON p.id=t.source_preparation_id AND p.contract_id=t.contract_id WHERE t.id=$1 AND c.project_id=$2 FOR UPDATE OF t".to_owned()
+     } else {
+         format!(
+             "SELECT to_jsonb(t)||jsonb_build_object('id',t.id{financial}) AS data FROM poms.{table} t WHERE t.id=$1 AND t.project_id=$2 FOR UPDATE"
+@@ -487,7 +490,10 @@
+             "payment_date"
+         }
+         "payable-record" => {
+-            if !matches!(status, "recorded" | "partially-paid" | "paid" | "closed") {
++            if !matches!(
++                status,
++                "recorded" | "partially-paid" | "completed" | "closed"
++            ) {
+                 return Err(Error::Conflict(
+                     "Formal payable evidence is required".into(),
+                 ));
+@@ -522,7 +528,7 @@
+             "Evidence date does not match the real source".into(),
+         ));
+     }
+-    let mut ccy = store::optional_text(
++    let ccy = store::optional_text(
+         &row,
+         if source == "invoice-record" {
+             "currency_code"
+@@ -530,11 +536,6 @@
+             "currency"
+         },
+     );
+-    if source == "contract-term-snapshot"
+-        && let Some(preparation) = store::optional_id(&row, "source_preparation_id")?
+-    {
+-        ccy=sqlx::query_scalar("SELECT currency_code FROM poms.contract_term_preparation WHERE id=$1 AND contract_id=$2").bind(preparation).bind(store::id(&row,"contract_id")?).fetch_optional(&mut *session.connection).await?;
+-    }
+     if let Some(ref ccy) = ccy {
+         currency(ccy)?;
+     }
+@@ -622,7 +623,7 @@
+         assert!(date("2026-1-01").is_err());
+     }
+     fn payable() -> (Value, Value) {
+-        let source = json!({"id":"10000000-0000-4000-8000-000000000001","project_id":"20000000-0000-4000-8000-000000000001","row_version":1,"status":"recorded","currency":"CNY","amount_excluding_tax":"100.00","tax_amount":"6.00","amount_including_tax":"106.00","expected_payment_date":"2026-11-04"});
++        let source = json!({"id":"10000000-0000-4000-8000-000000000001","project_id":"20000000-0000-4000-8000-000000000001","row_version":1,"status":"recorded","currency":"CNY","amount_excluding_tax":"100.00","tax_amount":"6.00","amount_including_tax":"106.00","expected_payment_date":"2026-11-04","confirmed_payment_amount_excluding_tax_total":"0.00"});
+         let cost = json!({"id":"30000000-0000-4000-8000-000000000001","source_type":"payable-record","source_id":source["id"],"row_version":1,"source_basis":{"sourceRowVersion":1,"sourcePayload":source}});
+         (cost, source)
+     }
+@@ -635,10 +636,15 @@
+         let original = cost.clone();
+         source["row_version"] = json!(2);
+         source["status"] = json!("partially-paid");
++        source["confirmed_payment_amount_excluding_tax_total"] = json!("20.00");
+         let first = version_proof(&cost, &facts(&source), None).unwrap();
+         source["row_version"] = json!(3);
+-        source["status"] = json!("paid");
++        source["confirmed_payment_amount_excluding_tax_total"] = json!("50.00");
+         let second = version_proof(&cost, &facts(&source), Some(&first)).unwrap();
++        source["row_version"] = json!(4);
++        source["status"] = json!("completed");
++        source["confirmed_payment_amount_excluding_tax_total"] = json!("100.00");
++        let third = version_proof(&cost, &facts(&source), Some(&second)).unwrap();
+         assert_eq!(first["capturedVersion"], 1);
+         assert_eq!(first["previousCertifiedVersion"], 1);
+         assert_eq!(first["currentVersion"], 2);
+@@ -646,6 +652,14 @@
+         assert_eq!(second["previousCertifiedVersion"], 2);
+         assert_eq!(second["currentVersion"], 3);
+         assert_eq!(second["reason"], "payable-payment-progress-only");
++        assert_eq!(third["capturedVersion"], 1);
++        assert_eq!(third["previousCertifiedVersion"], 3);
++        assert_eq!(third["currentVersion"], 4);
++        assert_eq!(third["sourcePayload"]["status"], "completed");
++        assert_eq!(
++            second["sourcePayload"]["confirmed_payment_amount_excluding_tax_total"],
++            "50.00"
++        );
+         assert_eq!(cost, original);
+         assert!(
+             crate::contract_support::expected_version(
+@@ -661,9 +675,11 @@
+         let (cost, mut source) = payable();
+         source["row_version"] = json!(2);
+         source["status"] = json!("partially-paid");
++        source["confirmed_payment_amount_excluding_tax_total"] = json!("20.00");
+         let first = version_proof(&cost, &facts(&source), None).unwrap();
+         source["row_version"] = json!(3);
+-        source["status"] = json!("paid");
++        source["status"] = json!("completed");
++        source["confirmed_payment_amount_excluding_tax_total"] = json!("100.00");
+         source["amount_excluding_tax"] = json!("101.00");
+         assert!(version_proof(&cost, &facts(&source), Some(&first)).is_err());
+         source["amount_excluding_tax"] = json!("100.00");
+@@ -672,7 +688,54 @@
+         assert!(version_proof(&cost, &facts(&source), Some(&corrupt)).is_err());
+         source["row_version"] = json!(2);
+         source["status"] = json!("recorded");
++        source["confirmed_payment_amount_excluding_tax_total"] = json!("0.00");
+         assert!(version_proof(&cost, &facts(&source), None).is_err());
++    }
++    #[test]
++    fn certified_payment_progress_needs_real_total_increase_and_canonical_status() {
++        let (cost, mut source) = payable();
++        source["row_version"] = json!(2);
++        source["status"] = json!("partially-paid");
++        source["confirmed_payment_amount_excluding_tax_total"] = json!("20.00");
++        let first = version_proof(&cost, &facts(&source), None).unwrap();
++        source["row_version"] = json!(3);
++        assert!(version_proof(&cost, &facts(&source), Some(&first)).is_err());
++        source["row_version"] = json!(2);
++        source["confirmed_payment_amount_excluding_tax_total"] = json!("50.00");
++        assert!(version_proof(&cost, &facts(&source), Some(&first)).is_err());
++        source["row_version"] = json!(3);
++        source["confirmed_payment_amount_excluding_tax_total"] = json!("100.00");
++        source["status"] = json!("paid");
++        assert!(version_proof(&cost, &facts(&source), Some(&first)).is_err());
++        source["status"] = json!("completed");
++        assert!(version_proof(&cost, &facts(&source), Some(&first)).is_ok());
++        let mut unknown_capture = cost.clone();
++        unknown_capture["source_basis"]["sourcePayload"]
++            .as_object_mut()
++            .unwrap()
++            .remove("confirmed_payment_amount_excluding_tax_total");
++        assert!(version_proof(&unknown_capture, &facts(&source), None).is_err());
++    }
++    #[test]
++    fn exact_large_source_layers_survive_immutable_payload_hash_replay() {
++        let source: Value = serde_json::from_str(
++            r#"{"amountExcludingTax":"9999999999999999.97","taxCostAmount":"0.02","amountIncludingTax":"9999999999999999.99"}"#,
++        )
++        .unwrap();
++        let names = ["amountExcludingTax", "taxCostAmount", "amountIncludingTax"];
++        assert_eq!(
++            layers(&source, names).unwrap(),
++            [Some(logic::MAX_MONEY - 2), Some(2), Some(logic::MAX_MONEY)]
++        );
++        let hash = contract_support::canonical_hash(&source).unwrap();
++        let replay: Value = serde_json::from_slice(&serde_json::to_vec(&source).unwrap()).unwrap();
++        assert_eq!(replay["amountExcludingTax"], "9999999999999999.97");
++        assert_eq!(contract_support::canonical_hash(&replay).unwrap(), hash);
++        let numeric: Value = serde_json::from_str(
++            r#"{"amountExcludingTax":9999999999999999.97,"taxCostAmount":"0.02","amountIncludingTax":"9999999999999999.99"}"#,
++        )
++        .unwrap();
++        assert!(layers(&numeric, names).is_err());
+     }
+     #[test]
+     fn pure_rate_comparison_rejects_lost_period_coverage() {
+--- delivery01/service.rs
++++ delivery25/service.rs
+@@ -87,9 +87,28 @@
+     let safe_after =
+         json!({"targetId":id,"evidenceId":evidence_id,"status":"active","rowVersion":1});
+     for project in projects {
+-        contract_support::audit(session,actor,AuditWrite{operation_id:op.into(),target_type:target.into(),target_id:id,project_id:*project,contract_id:None,before:safe_before.clone(),after:Some(safe_after.clone()),reason:Some("Governed cost fact committed; original evidence retained".into()),metadata:json!({"affectedProjectIds":projects,"containsLabor":labor,"governanceSchemaVersion":1,"evidenceId":evidence_id})}).await?;
++        contract_support::audit(
++            session,
++            actor,
++            AuditWrite {
++                operation_id: op.into(),
++                target_type: target.into(),
++                target_id: id,
++                project_id: *project,
++                contract_id: None,
++                before: safe_before.clone(),
++                after: Some(safe_after.clone()),
++                reason: Some("Governed cost fact committed; original evidence retained".into()),
++                metadata: audit_metadata(projects, labor, evidence_id),
++            },
++        )
++        .await?;
+     }
+     Ok(())
++}
++
++fn audit_metadata(projects: &BTreeSet<Uuid>, labor: bool, evidence_id: Uuid) -> Value {
++    json!({"affectedProjectIds":projects,"containsLabor":labor,"governanceSchemaVersion":1,"evidenceId":evidence_id,"safeAuditSummary":true})
+ }
+ 
+ fn audit_links(value: &Value) -> Value {
+@@ -1040,5 +1059,20 @@
+         assert_eq!(safe["cost"]["id"], "cost-id");
+         assert_eq!(safe["cost"]["row_version"], 2);
+         assert_eq!(safe["attribution"]["governance_evidence_id"], "evidence-id");
+-    }
+-}
++        let metadata = audit_metadata(&BTreeSet::from([Uuid::nil()]), true, Uuid::nil());
++        assert_eq!(metadata["safeAuditSummary"], true);
++        assert_eq!(metadata["evidenceId"], Uuid::nil().to_string());
++        assert_eq!(metadata["affectedProjectIds"], json!([Uuid::nil()]));
++        assert_eq!(metadata.as_object().unwrap().len(), 5);
++        for key in [
++            "reason",
++            "sourcePayload",
++            "before",
++            "after",
++            "amount",
++            "rate",
++        ] {
++            assert!(metadata.get(key).is_none());
++        }
++    }
++}

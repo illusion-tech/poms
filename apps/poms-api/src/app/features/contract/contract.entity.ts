@@ -2,7 +2,7 @@ import { defineEntity } from '@mikro-orm/core';
 import { CONTRACT_STATUSES, CONTRACT_TERM_SNAPSHOT_STATUSES, ContractTermSnapshotStatusValue, type ContractStatus, type ContractTermSnapshotStatus, type ReceivablePlanSeed } from '@poms/shared-contracts';
 import { CommercialReleaseBaseline } from '../contract-readiness/commercial-release-baseline.entity';
 import { ContractReadinessPackage } from '../contract-readiness/contract-readiness-package.entity';
-import { ContractTermPreparation } from '../contract-readiness/contract-lifecycle.entity';
+import { ContractTermPreparation, ContractReviewBinding } from '../contract-readiness/contract-lifecycle.entity';
 import { Project } from '../project/project.entity';
 
 const p = defineEntity.properties;
@@ -122,7 +122,8 @@ export const ContractTermSnapshotSchema = defineEntity({
             .fieldName('created_at')
             .comment('创建时间'),
         createdBy: p.uuid().nullable().fieldName('created_by').comment('创建人'),
-        rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号')
+        rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号'),
+        sourceAmendmentId: () => p.manyToOne(ContractAmendment).mapToPk().nullable().fieldName("source_amendment_id").createForeignKeyConstraint(false)
     }
 });
 
@@ -145,7 +146,12 @@ export const ContractAmendmentSchema = defineEntity({
         {
             name: 'uq_contract_amendment_contract_current',
             expression: (columns, table, indexName) => `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.contractId}") where "${columns.isCurrent}" = true`
-        }
+        },
+        { name: "uq_r4d_amendment_scope", properties: ["id","contractId"] },
+        { name: "uq_r4d_amendment_open", expression: "CREATE UNIQUE INDEX uq_r4d_amendment_open ON poms.contract_amendment USING btree (contract_id) WHERE ((producer_version = 1) AND ((status)::text = ANY ((ARRAY['draft'::character varying, 'submitted'::character varying, 'approved'::character varying])::text[])))" }
+    ],
+    checks: [
+        { name: "chk_r4d_amendment_producer", expression: "(((producer_version IS NULL) OR ((producer_version = 1) AND (project_id IS NOT NULL) AND (source_readiness_id IS NOT NULL) AND (before_snapshot_id IS NOT NULL) AND (amendment_reason IS NOT NULL) AND (length(btrim((amendment_reason)::text)) > 0) AND (payload_hash IS NOT NULL) AND ((payload_hash)::text ~ '^[0-9a-f]{64}$'::text) AND (((status)::text <> ALL ((ARRAY['submitted'::character varying, 'approved'::character varying, 'effective'::character varying, 'superseded'::character varying])::text[])) OR ((source_preparation_id IS NOT NULL) AND (source_review_id IS NOT NULL))) AND (((status)::text <> ALL ((ARRAY['effective'::character varying, 'superseded'::character varying])::text[])) OR ((after_snapshot_id IS NOT NULL) AND (after_snapshot_id <> before_snapshot_id) AND (effective_at IS NOT NULL) AND (effective_by IS NOT NULL))))))" }
     ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
@@ -169,7 +175,18 @@ export const ContractAmendmentSchema = defineEntity({
             .fieldName('updated_at')
             .comment('最后更新时间'),
         updatedBy: p.uuid().nullable().fieldName('updated_by').comment('最后更新人'),
-        rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号')
+        rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号'),
+        producerVersion: p.integer().nullable().fieldName("producer_version"),
+        projectId: () => p.manyToOne(Project).mapToPk().nullable().fieldName("project_id").createForeignKeyConstraint(false),
+        sourceReadinessId: () => p.manyToOne(ContractReadinessPackage).mapToPk().nullable().fieldName("source_readiness_id").createForeignKeyConstraint(false),
+        sourcePreparationId: () => p.manyToOne(ContractTermPreparation).mapToPk().nullable().fieldName("source_preparation_id").createForeignKeyConstraint(false),
+        sourceReviewId: () => p.manyToOne(ContractReviewBinding).mapToPk().nullable().fieldName("source_review_id").createForeignKeyConstraint(false),
+        beforeSnapshotId: () => p.manyToOne(ContractTermSnapshot).mapToPk().nullable().fieldName("before_snapshot_id").createForeignKeyConstraint(false),
+        afterSnapshotId: () => p.manyToOne(ContractTermSnapshot).mapToPk().nullable().fieldName("after_snapshot_id").createForeignKeyConstraint(false),
+        amendmentReason: p.string().length(1000).nullable().fieldName("amendment_reason"),
+        payloadHash: p.string().length(64).nullable().fieldName("payload_hash"),
+        effectiveAt: p.datetime().columnType('timestamptz').nullable().fieldName("effective_at"),
+        effectiveBy: p.uuid().nullable().fieldName("effective_by")
     }
 });
 

@@ -7,4 +7,6 @@ mod store;
 mod terms;
 mod view;
 
-pub use service::{execute, load_preparation};
+pub use service::{
+    execute, formal_plan_payload_hash, initialize_plan_from_effective_snapshot, load_preparation,
+};

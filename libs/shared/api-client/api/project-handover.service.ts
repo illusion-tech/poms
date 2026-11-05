@@ -17,11 +17,15 @@ import { Observable }                                        from 'rxjs';
 import { OpenApiHttpParams, QueryParamStyle } from '../query.params';
 
 // @ts-ignore
+import { ConfirmProjectHandoverParticipantRequest } from '../model/confirm-project-handover-participant-request';
+// @ts-ignore
 import { ConfirmProjectHandoverRequest } from '../model/confirm-project-handover-request';
 // @ts-ignore
 import { ConfirmProjectHandoverResult } from '../model/confirm-project-handover-result';
 // @ts-ignore
 import { ContractHandoverSummaryView } from '../model/contract-handover-summary-view';
+// @ts-ignore
+import { PrepareProjectHandoverRequest } from '../model/prepare-project-handover-request';
 // @ts-ignore
 import { ProjectHandoverDetailView } from '../model/project-handover-detail-view';
 // @ts-ignore
@@ -40,6 +44,11 @@ export interface ProjectHandoverControllerConfirmProjectHandoverRequestParams {
     confirmProjectHandoverRequest: ConfirmProjectHandoverRequest;
 }
 
+export interface ProjectHandoverControllerConfirmProjectHandoverParticipantRequestParams {
+    id: string;
+    confirmProjectHandoverParticipantRequest: ConfirmProjectHandoverParticipantRequest;
+}
+
 export interface ProjectHandoverControllerGetContractHandoverSummaryRequestParams {
     projectId: string;
 }
@@ -50,6 +59,11 @@ export interface ProjectHandoverControllerGetProjectHandoverDetailByHandoverRequ
 
 export interface ProjectHandoverControllerGetProjectHandoverDetailByProjectRequestParams {
     projectId: string;
+}
+
+export interface ProjectHandoverControllerPrepareProjectHandoverRequestParams {
+    projectId: string;
+    prepareProjectHandoverRequest: PrepareProjectHandoverRequest;
 }
 
 export interface ProjectHandoverControllerRebaselineContractHandoverRequestParams {
@@ -129,6 +143,79 @@ export class ProjectHandoverApi extends BaseService {
             {
                 context: localVarHttpContext,
                 body: confirmProjectHandoverRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 当前参与人确认本人承担的移交职责
+     * @endpoint post /api/project-handovers/{id}/participant-confirmations
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public projectHandoverControllerConfirmProjectHandoverParticipant(requestParameters: ProjectHandoverControllerConfirmProjectHandoverParticipantRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ProjectHandoverDetailView>;
+    public projectHandoverControllerConfirmProjectHandoverParticipant(requestParameters: ProjectHandoverControllerConfirmProjectHandoverParticipantRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ProjectHandoverDetailView>>;
+    public projectHandoverControllerConfirmProjectHandoverParticipant(requestParameters: ProjectHandoverControllerConfirmProjectHandoverParticipantRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ProjectHandoverDetailView>>;
+    public projectHandoverControllerConfirmProjectHandoverParticipant(requestParameters: ProjectHandoverControllerConfirmProjectHandoverParticipantRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling projectHandoverControllerConfirmProjectHandoverParticipant.');
+        }
+        const confirmProjectHandoverParticipantRequest = requestParameters?.confirmProjectHandoverParticipantRequest;
+        if (confirmProjectHandoverParticipantRequest === null || confirmProjectHandoverParticipantRequest === undefined) {
+            throw new Error('Required parameter confirmProjectHandoverParticipantRequest was null or undefined when calling projectHandoverControllerConfirmProjectHandoverParticipant.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (pomsSession) required
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/project-handovers/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/participant-confirmations`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<ProjectHandoverDetailView>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: confirmProjectHandoverParticipantRequest,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
@@ -306,6 +393,79 @@ export class ProjectHandoverApi extends BaseService {
         return this.httpClient.request<ProjectHandoverDetailView>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 准备真实项目移交与职责确认材料
+     * @endpoint post /api/projects/{projectId}/project-handovers
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public projectHandoverControllerPrepareProjectHandover(requestParameters: ProjectHandoverControllerPrepareProjectHandoverRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ProjectHandoverDetailView>;
+    public projectHandoverControllerPrepareProjectHandover(requestParameters: ProjectHandoverControllerPrepareProjectHandoverRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ProjectHandoverDetailView>>;
+    public projectHandoverControllerPrepareProjectHandover(requestParameters: ProjectHandoverControllerPrepareProjectHandoverRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ProjectHandoverDetailView>>;
+    public projectHandoverControllerPrepareProjectHandover(requestParameters: ProjectHandoverControllerPrepareProjectHandoverRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const projectId = requestParameters?.projectId;
+        if (projectId === null || projectId === undefined) {
+            throw new Error('Required parameter projectId was null or undefined when calling projectHandoverControllerPrepareProjectHandover.');
+        }
+        const prepareProjectHandoverRequest = requestParameters?.prepareProjectHandoverRequest;
+        if (prepareProjectHandoverRequest === null || prepareProjectHandoverRequest === undefined) {
+            throw new Error('Required parameter prepareProjectHandoverRequest was null or undefined when calling projectHandoverControllerPrepareProjectHandover.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (pomsSession) required
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/project-handovers`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<ProjectHandoverDetailView>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: prepareProjectHandoverRequest,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,

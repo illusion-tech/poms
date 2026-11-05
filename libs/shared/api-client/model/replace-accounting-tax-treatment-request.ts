@@ -8,6 +8,7 @@
  * Do not edit the class manually.
  */
 import { AccountingTaxDeductibilityStatus } from './accounting-tax-deductibility-status';
+import { R4FGovernanceEvidence } from './r4-f-governance-evidence';
 
 
 export interface ReplaceAccountingTaxTreatmentRequest {
@@ -19,4 +20,7 @@ export interface ReplaceAccountingTaxTreatmentRequest {
     taxImpactPendingAmount?: string;
     basisSummary?: string | null;
     expectedVersion?: number;
+    currency: string;
+    sourceReferences: Array<R4FGovernanceEvidence>;
+    replacementReason: string;
 }

@@ -1,6 +1,8 @@
-import { signal } from '@angular/core';
+import { signal, Component, input, output } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { ActivatedRoute, convertToParamMap, provideRouter } from '@angular/router';
+import { Subject } from 'rxjs';
 import {
     AttachmentSecurityLevel,
     CommercialDiffLevel,
@@ -25,6 +27,13 @@ import {
     ProjectWorkspaceStore
 } from '@poms/admin-data-access';
 import { ProjectContractHandover } from './project-contract-handover';
+import { ProjectHandoverActions } from './project-handover-actions';
+
+@Component({ selector: 'app-project-handover-actions', standalone: true, template: '' })
+class HandoverActionsStub {
+    readonly projectId = input('');
+    readonly changed = output<void>();
+}
 
 function sensitiveProjection(value: string | null, mode: 'full' | 'masked' = value === null ? 'masked' : 'full') {
     return {
@@ -222,6 +231,7 @@ describe('ProjectContractHandover', () => {
     let savingPackageSignal: ReturnType<typeof signal<boolean>>;
     let handoverAttachmentErrorSignal: ReturnType<typeof signal<string | null>>;
     let errorSignal: ReturnType<typeof signal<string | null>>;
+    let projectRoute: Subject<ReturnType<typeof convertToParamMap>>;
     let workspaceStoreMock: {
         contractHandoverSummary: ReturnType<typeof signal<ContractHandoverSummaryView | null>>;
         projectHandoverDetail: ReturnType<typeof signal<ProjectHandoverDetailView | null>>;
@@ -243,6 +253,7 @@ describe('ProjectContractHandover', () => {
     };
 
     async function setup(summary: ContractHandoverSummaryView | null = createContractHandoverSummary(), error: string | null = null) {
+        projectRoute = new Subject();
         contractHandoverSummarySignal = signal<ContractHandoverSummaryView | null>(summary);
         projectHandoverDetailSignal = signal<ProjectHandoverDetailView | null>(summary ? createProjectHandoverDetail(summary) : null);
         handoverAttachmentChecklistSignal = signal<ProjectHandoverAttachmentChecklistView | null>(summary ? createAttachmentChecklist() : null);
@@ -263,7 +274,7 @@ describe('ProjectContractHandover', () => {
             creatingHandoverAttachmentPackage: savingPackageSignal,
             downloadingHandoverAttachmentPackage: signal(false),
             handoverAttachmentError: handoverAttachmentErrorSignal,
-            loadContractHandover: jest.fn().mockResolvedValue(undefined),
+            loadContractHandover: error ? jest.fn().mockRejectedValue(new Error(error)) : jest.fn().mockResolvedValue({ contractHandoverSummary: summary, projectHandoverDetail: projectHandoverDetailSignal() }),
             loadHandoverAttachmentChecklist: jest.fn().mockResolvedValue(handoverAttachmentChecklistSignal()),
             refreshHandoverAttachmentChecklist: jest.fn().mockResolvedValue(handoverAttachmentChecklistSignal()),
             createHandoverAttachmentDownloadPackage: jest.fn().mockResolvedValue(null),
@@ -282,6 +293,7 @@ describe('ProjectContractHandover', () => {
                             paramMap: convertToParamMap({})
                         },
                         parent: {
+                            paramMap: projectRoute,
                             snapshot: {
                                 paramMap: convertToParamMap({ id: 'project-1' })
                             }
@@ -293,7 +305,9 @@ describe('ProjectContractHandover', () => {
                     useValue: workspaceStoreMock
                 }
             ]
-        }).compileComponents();
+        })
+            .overrideComponent(ProjectContractHandover, { remove: { imports: [ProjectHandoverActions] }, add: { imports: [HandoverActionsStub] } })
+            .compileComponents();
 
         fixture = TestBed.createComponent(ProjectContractHandover);
         fixture.detectChanges();
@@ -309,7 +323,10 @@ describe('ProjectContractHandover', () => {
         await setup();
 
         const text = fixture.nativeElement.textContent;
-
+        expect(fixture.componentInstance.loading()).toBe(false);
+        expect(fixture.componentInstance.error()).toBeNull();
+        expect(fixture.componentInstance.summary()).not.toBeNull();
+        expect(fixture.componentInstance.handover()).not.toBeNull();
         expect(workspaceStoreMock.loadContractHandover).toHaveBeenCalledWith('project-1');
         expect(workspaceStoreMock.loadHandoverAttachmentChecklist).toHaveBeenCalledWith('handover-1');
         expect(text).toContain('承接判断');
@@ -340,6 +357,17 @@ describe('ProjectContractHandover', () => {
         });
     });
 
+    it('keeps the action component and its in-progress selection during same-project refresh', async () => {
+        await setup();
+        const action = fixture.debugElement.query(By.directive(HandoverActionsStub)).componentInstance;
+        fixture.componentInstance.refreshWorkspace();
+        fixture.detectChanges();
+        expect(fixture.debugElement.query(By.directive(HandoverActionsStub)).componentInstance).toBe(action);
+        await fixture.whenStable();
+        fixture.detectChanges();
+        expect(fixture.debugElement.query(By.directive(HandoverActionsStub)).componentInstance).toBe(action);
+    });
+
     it('renders contract set amount from backend projection', async () => {
         const summary = createContractHandoverSummary();
         summary.effectiveContractSetSummary.totalSignedAmountProjection = sensitiveProjection(null);
@@ -361,5 +389,52 @@ describe('ProjectContractHandover', () => {
         expect(text).toContain('合同承接暂不可用');
         expect(text).toContain('当前项目还没有形成合同承接视图');
         expect(text).toContain('返回工作区总览');
+    });
+
+    it('keeps the latest A view when older A and B loads finish after A→B→A navigation', async () => {
+        await setup();
+        type Result = { contractHandoverSummary: ContractHandoverSummaryView; projectHandoverDetail: ProjectHandoverDetailView };
+        const pending: Array<(result: Result) => void> = [];
+        workspaceStoreMock.loadContractHandover.mockImplementation(() => new Promise<Result>((resolve) => pending.push(resolve)));
+        fixture.componentInstance.refreshWorkspace();
+        projectRoute.next(convertToParamMap({ id: 'project-2' }));
+        projectRoute.next(convertToParamMap({ id: 'project-1' }));
+        const latest = createContractHandoverSummary();
+        latest.effectiveContractSetSummary.contracts[0].contractNo = 'HT-LATEST';
+        pending[2]({ contractHandoverSummary: latest, projectHandoverDetail: createProjectHandoverDetail(latest) });
+        await Promise.resolve();
+        const old = createContractHandoverSummary();
+        pending[0]({ contractHandoverSummary: old, projectHandoverDetail: createProjectHandoverDetail(old) });
+        const other = { ...old, projectId: 'project-2' };
+        pending[1]({ contractHandoverSummary: other, projectHandoverDetail: { ...createProjectHandoverDetail(old), projectId: 'project-2' } });
+        await fixture.whenStable();
+        fixture.detectChanges();
+        expect(fixture.componentInstance.summary()?.effectiveContractSetSummary.contracts[0].contractNo).toBe('HT-LATEST');
+        expect(fixture.nativeElement.textContent).toContain('HT-LATEST');
+    });
+
+    it('ignores an old attachment failure and loading completion after A→B→A navigation', async () => {
+        await setup();
+        let rejectOld!: (error: Error) => void;
+        let resolveCurrent!: (view: ProjectHandoverAttachmentChecklistView) => void;
+        workspaceStoreMock.refreshHandoverAttachmentChecklist
+            .mockImplementationOnce(() => new Promise((_, reject) => { rejectOld = reject; }))
+            .mockImplementationOnce(() => new Promise((resolve) => { resolveCurrent = resolve; }));
+        const oldRequest = fixture.componentInstance.refreshHandoverAttachmentChecklist();
+        projectRoute.next(convertToParamMap({ id: 'project-2' }));
+        projectRoute.next(convertToParamMap({ id: 'project-1' }));
+        await fixture.whenStable();
+        const currentRequest = fixture.componentInstance.refreshHandoverAttachmentChecklist();
+        handoverAttachmentErrorSignal.set('OLD A REQUEST FAILED');
+        rejectOld(new Error('old A failure'));
+        await oldRequest;
+        fixture.detectChanges();
+        expect(fixture.componentInstance.handoverAttachmentError()).toBeNull();
+        expect(fixture.componentInstance.refreshingHandoverAttachments()).toBe(true);
+        expect(fixture.nativeElement.textContent).not.toContain('OLD A REQUEST FAILED');
+        resolveCurrent(createAttachmentChecklist());
+        await currentRequest;
+        expect(fixture.componentInstance.refreshingHandoverAttachments()).toBe(false);
+        expect(fixture.componentInstance.handoverAttachmentError()).toBeNull();
     });
 });

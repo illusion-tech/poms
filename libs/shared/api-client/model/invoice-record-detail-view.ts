@@ -30,4 +30,5 @@ export interface InvoiceRecordDetailView {
     createdAt: string;
     updatedAt: string;
     allowedActions: Array<string>;
+    currencyCode: string | null;
 }

@@ -62,6 +62,38 @@ impl From<CommonFailure> for Error {
 }
 
 const UNIQUE_CONFLICTS: &[&str] = &[
+    "uq_r4d_amendment_scope",
+    "uq_r4d_amendment_open",
+    "uq_r4d_review_scope",
+    "uq_r4d_basis_version",
+    "uq_r4d_basis_project",
+    "uq_r4d_basis_current",
+    "uq_r4d_plan_full_source",
+    "uq_r4d_basis_contract",
+    "uq_r4d_basis_anchor",
+    "uq_r4d_basis_item_key",
+    "uq_r4d_basis_item_scope",
+    "uq_r4d_handover_version",
+    "uq_r4d_handover_scope",
+    "uq_r4d_handover_confirmation",
+    "uq_r4d_handover_freeze_source",
+    "uq_r4d_handover_current",
+    "uq_r4d_participant_scope",
+    "uq_r4d_participant_role",
+    "uq_r4d_handover_execution_owner",
+    "uq_r4d_rebaseline_before",
+    "uq_r4d_rebaseline_item",
+    "uq_r4d_receipt_freeze_version",
+    "uq_project_actual_cost_record_payment_fact_source_current",
+    "uq_project_actual_cost_record_invoice_source_current",
+    "uq_project_actual_cost_record_expense_source_current",
+    "uq_project_actual_cost_record_procurement_source_current",
+    "uq_r4e_cost_single_successor",
+    "uq_r4f_basis_successor",
+    "uq_r4f_allocation_source_current",
+    "uq_r4f_result_successor",
+    "uq_r4f_stage_successor",
+    "uq_r4f_tax_successor",
     "invoice_record_invoice_no_unique",
     "contract_contract_no_unique",
     "commercial_release_baseline_project_code_unique",
@@ -328,6 +360,36 @@ pub struct AuditWrite {
     pub after: Option<Value>,
     pub reason: Option<String>,
     pub metadata: Value,
+}
+
+/// Global business facts have no project/contract scope. Never fabricate an ID.
+pub struct GlobalAuditWrite {
+    pub operation_id: String,
+    pub target_type: String,
+    pub target_id: Uuid,
+    pub before: Option<Value>,
+    pub after: Option<Value>,
+    pub reason: Option<String>,
+    pub metadata: Value,
+}
+
+pub async fn audit_global(
+    session: &mut CommonSession<'_, '_>,
+    actor: &Actor,
+    input: GlobalAuditWrite,
+) -> Result<(), Error> {
+    let id = new_uuid()?;
+    let mut metadata = input.metadata.as_object().cloned().unwrap_or_default();
+    metadata.insert("schemaVersion".into(), json!(1));
+    metadata.insert("projectId".into(), Value::Null);
+    metadata.insert("contractId".into(), Value::Null);
+    metadata.insert("operationId".into(), json!(input.operation_id));
+    sqlx::query("INSERT INTO poms.audit_log(id,event_type,target_type,target_id,operator_id,request_id,result,reason,before_snapshot,after_snapshot,metadata,occurred_at) VALUES($1,$2,$3,$4,$5,$6,'success',$7,$8,$9,$10,$11)")
+        .bind(id).bind(&input.operation_id).bind(&input.target_type).bind(input.target_id.to_string()).bind(actor.id).bind(actor.request_id.as_deref())
+        .bind(input.reason).bind(input.before).bind(input.after).bind(Value::Object(metadata)).bind(crate::auth::model::clock_now())
+        .execute(&mut *session.connection).await?;
+    session.state.trace.inserted("audit_log", &id.to_string());
+    Ok(())
 }
 pub async fn audit(
     session: &mut CommonSession<'_, '_>,

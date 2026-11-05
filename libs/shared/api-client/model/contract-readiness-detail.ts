@@ -46,4 +46,7 @@ export interface ContractReadinessDetail {
     updatedBy: string | null;
     allowedActions: Array<string>;
     items: Array<ContractReadinessItem>;
+    contractAmendmentId: string | null;
+    sourceContractSnapshotId: string | null;
+    amendmentStatus: string | null;
 }

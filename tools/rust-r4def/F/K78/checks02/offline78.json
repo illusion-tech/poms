@@ -1,0 +1,232 @@
+{
+  "kind": "K78-offline-static-candidate-checks",
+  "checks": [
+    {
+      "name": "constant 64-byte independent SHA witness",
+      "status": "passed",
+      "classification": "offline-static-only"
+    },
+    {
+      "name": "16 mandatory + 2 explicit optional Root-hook cases",
+      "status": "passed",
+      "classification": "offline-static-only"
+    },
+    {
+      "name": "vertical7 is closed genuine subset",
+      "status": "passed",
+      "classification": "offline-static-only"
+    },
+    {
+      "name": "constructor/manifest leaves every actual case not-run",
+      "status": "passed",
+      "classification": "offline-static-only"
+    },
+    {
+      "name": "vertical manifest exposes omitted cases as not-run",
+      "status": "passed",
+      "classification": "offline-static-only"
+    },
+    {
+      "name": "canonical operation IDs/method/path from actual spec",
+      "status": "passed",
+      "classification": "offline-static-only"
+    },
+    {
+      "name": "Root trigger is owned scoped, not unscoped core probe",
+      "status": "passed",
+      "classification": "offline-static-only"
+    },
+    {
+      "name": "product files remain exact sealed K98/K86/K56 bytes",
+      "status": "passed",
+      "classification": "offline-static-only"
+    }
+  ],
+  "initialPlan": {
+    "kind": "K78-request-only-candidate",
+    "stages": [
+      {
+        "name": "complete-oldflag",
+        "status": "not-run"
+      },
+      {
+        "name": "complete-attachment-insert",
+        "status": "not-run"
+      },
+      {
+        "name": "complete-second-link",
+        "status": "not-run"
+      },
+      {
+        "name": "complete-session-completed",
+        "status": "not-run"
+      },
+      {
+        "name": "complete-audit",
+        "status": "not-run"
+      },
+      {
+        "name": "complete-deferred-audit",
+        "status": "not-run"
+      },
+      {
+        "name": "metadata-audit-fault",
+        "status": "not-run"
+      },
+      {
+        "name": "final-audit-fault",
+        "status": "not-run"
+      },
+      {
+        "name": "void-audit-fault",
+        "status": "not-run"
+      },
+      {
+        "name": "link-audit-fault",
+        "status": "not-run"
+      },
+      {
+        "name": "unlink-audit-fault",
+        "status": "not-run"
+      },
+      {
+        "name": "abort-audit-fault",
+        "status": "not-run"
+      },
+      {
+        "name": "two-version-sessions-one-head",
+        "status": "not-run"
+      },
+      {
+        "name": "void-history-next-version",
+        "status": "not-run"
+      },
+      {
+        "name": "put-size-63",
+        "status": "not-run"
+      },
+      {
+        "name": "put-size-65",
+        "status": "not-run"
+      },
+      {
+        "name": "actual-read-size-63",
+        "status": "not-run"
+      },
+      {
+        "name": "actual-read-size-65",
+        "status": "not-run"
+      }
+    ],
+    "mandatoryCases": [
+      "complete-oldflag",
+      "complete-attachment-insert",
+      "complete-second-link",
+      "complete-session-completed",
+      "complete-audit",
+      "complete-deferred-audit",
+      "metadata-audit-fault",
+      "final-audit-fault",
+      "void-audit-fault",
+      "link-audit-fault",
+      "unlink-audit-fault",
+      "abort-audit-fault",
+      "two-version-sessions-one-head",
+      "void-history-next-version",
+      "put-size-63",
+      "put-size-65"
+    ],
+    "optionalRootHookCases": [
+      "actual-read-size-63",
+      "actual-read-size-65"
+    ],
+    "omittedCasesNotRun": [],
+    "witness": {
+      "bytes": 64,
+      "sha256": "5f71af14e59d7ee354fd8e313f0a031424309f86c9c27ecdcfc3f509f8f0315f"
+    },
+    "authorExecutedHTTP": false,
+    "authorExecutedPG": false,
+    "authorExecutedObjectIO": false,
+    "latePUTSchemeRepeated": false,
+    "SQLBusinessProducerUsed": false,
+    "S3Accepted": false,
+    "G3Certified": false,
+    "G4Certified": false
+  },
+  "verticalPlan": {
+    "kind": "K78-request-only-candidate",
+    "stages": [
+      {
+        "name": "complete-oldflag",
+        "status": "not-run"
+      },
+      {
+        "name": "complete-attachment-insert",
+        "status": "not-run"
+      },
+      {
+        "name": "complete-second-link",
+        "status": "not-run"
+      },
+      {
+        "name": "complete-session-completed",
+        "status": "not-run"
+      },
+      {
+        "name": "complete-audit",
+        "status": "not-run"
+      },
+      {
+        "name": "complete-deferred-audit",
+        "status": "not-run"
+      },
+      {
+        "name": "void-history-next-version",
+        "status": "not-run"
+      }
+    ],
+    "mandatoryCases": [
+      "complete-oldflag",
+      "complete-attachment-insert",
+      "complete-second-link",
+      "complete-session-completed",
+      "complete-audit",
+      "complete-deferred-audit",
+      "void-history-next-version"
+    ],
+    "optionalRootHookCases": [],
+    "omittedCasesNotRun": [
+      "metadata-audit-fault",
+      "final-audit-fault",
+      "void-audit-fault",
+      "link-audit-fault",
+      "unlink-audit-fault",
+      "abort-audit-fault",
+      "two-version-sessions-one-head",
+      "put-size-63",
+      "put-size-65",
+      "actual-read-size-63",
+      "actual-read-size-65"
+    ],
+    "witness": {
+      "bytes": 64,
+      "sha256": "5f71af14e59d7ee354fd8e313f0a031424309f86c9c27ecdcfc3f509f8f0315f"
+    },
+    "authorExecutedHTTP": false,
+    "authorExecutedPG": false,
+    "authorExecutedObjectIO": false,
+    "latePUTSchemeRepeated": false,
+    "SQLBusinessProducerUsed": false,
+    "S3Accepted": false,
+    "G3Certified": false,
+    "G4Certified": false
+  },
+  "authorExecutedHTTP": false,
+  "authorExecutedPG": false,
+  "authorExecutedObjectIO": false,
+  "actualAcceptance": "not-run",
+  "S3Accepted": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

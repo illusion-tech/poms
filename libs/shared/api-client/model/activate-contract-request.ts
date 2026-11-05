@@ -12,4 +12,6 @@
 export interface ActivateContractRequest {
     comment?: string;
     expectedVersion?: number;
+    contractAmendmentId?: string;
+    approvalRecordId?: string;
 }

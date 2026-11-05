@@ -7,7 +7,7 @@ use std::collections::{BTreeMap, BTreeSet};
 
 use chrono::{DateTime, NaiveDate, Utc};
 use serde_json::{Value, json};
-use sqlx::PgConnection;
+use sqlx::{PgConnection, Row};
 use uuid::Uuid;
 
 use crate::{
@@ -602,6 +602,12 @@ async fn create_invoice(
     }
     let facts = lock_contracts(session.connection, project, [contract]).await?;
     active_contract(&facts, contract, "关联发票记录")?;
+    let currency = invoice_currency(
+        session.connection,
+        contract.and_then(|id| facts.get(&id)),
+        body.get("currencyCode"),
+    )
+    .await?;
     let now = clock_now();
     let row = Invoice {
         id: new_uuid()?,
@@ -611,6 +617,9 @@ async fn create_invoice(
         invoice_number: text(body, "invoiceNumber")?,
         invoice_amount: money_string(money(&text(body, "invoiceAmount")?)?),
         invoice_date: date(body, "invoiceDate")?,
+        currency_code: Some(currency.0),
+        currency_source: Some(currency.1),
+        currency_source_snapshot_id: currency.2,
         status: "draft".into(),
         exception_status: "none".into(),
         exception_reason: None,
@@ -644,6 +653,55 @@ async fn create_invoice(
     )
     .await?;
     Ok(result)
+}
+
+/// The original project lock and ordered Contract locks are already held.
+/// Preserve a responsible explicit fact or a precise immutable preparation
+/// proof; never infer an invoice currency from the project's other contracts.
+async fn invoice_currency(
+    connection: &mut PgConnection,
+    contract: Option<&ContractFact>,
+    explicit: Option<&Value>,
+) -> Result<(String, String, Option<Uuid>), Error> {
+    if let Some(value) = explicit {
+        let code = value
+            .as_str()
+            .ok_or_else(|| Error::BadRequest("currencyCode must be a three-letter code".into()))?;
+        if code.len() != 3 || !code.bytes().all(|b| b.is_ascii_uppercase()) {
+            return Err(Error::BadRequest(
+                "currencyCode must be a three-letter uppercase code".into(),
+            ));
+        }
+        if contract.is_some_and(|c| c.currency_code != code) {
+            return Err(Error::Unprocessable(
+                "Invoice currency must match its selected contract".into(),
+            ));
+        }
+        return Ok((code.to_owned(), "explicit".into(), None));
+    }
+    let contract = contract.ok_or_else(|| {
+        Error::Unprocessable(
+            "An invoice without a proven contract currency requires currencyCode".into(),
+        )
+    })?;
+    let snapshot = contract.current_snapshot_id.ok_or_else(|| {
+        Error::Unprocessable(
+            "An explicit currencyCode is required without an effective snapshot".into(),
+        )
+    })?;
+    let row = sqlx::query("SELECT p.currency_code FROM poms.contract_term_snapshot s JOIN poms.contract_term_preparation p ON p.id=s.source_preparation_id AND p.contract_id=s.contract_id AND p.activated_snapshot_id=s.id WHERE s.id=$1 AND s.contract_id=$2 AND s.snapshot_status='active' AND p.status='activated'")
+        .bind(snapshot).bind(contract.id).fetch_optional(connection).await?
+        .ok_or_else(|| Error::Unprocessable("The invoice has no verifiable effective snapshot currency".into()))?;
+    let code: String = row.try_get("currency_code")?;
+    if code != contract.currency_code
+        || code.len() != 3
+        || !code.bytes().all(|b| b.is_ascii_uppercase())
+    {
+        return Err(Error::Unprocessable(
+            "The invoice contract currency proof is inconsistent".into(),
+        ));
+    }
+    Ok((code, "contract-snapshot".into(), Some(snapshot)))
 }
 
 async fn change_invoice(
@@ -691,6 +749,17 @@ async fn change_invoice(
                 }
                 active_contract(&facts, requested, "关联发票记录")?;
                 row.contract_id = requested;
+            }
+            if body.get("currencyCode").is_some() || body.get("contractId").is_some() {
+                let currency = invoice_currency(
+                    session.connection,
+                    row.contract_id.and_then(|id| facts.get(&id)),
+                    body.get("currencyCode"),
+                )
+                .await?;
+                row.currency_code = Some(currency.0);
+                row.currency_source = Some(currency.1);
+                row.currency_source_snapshot_id = currency.2;
             }
             if body.get("invoiceNumber").is_some() {
                 row.invoice_number = text(body, "invoiceNumber")?;
@@ -974,14 +1043,14 @@ async fn confirm_payment(
         } else {
             "partially-paid"
         };
-        if original.status != status {
-            let mut progress = original.clone();
-            progress.status = status.into();
-            progress.row_version = next_version(original.row_version)?;
-            progress.updated_at = clock_now();
-            if !store::update_payable(session.connection, &progress, original.row_version).await? {
-                return Err(stale("PayableRecord"));
-            }
+        // Confirmed child payments change this aggregate even when it remains
+        // partially-paid. Advance its CAS version on every real confirmation.
+        let mut progress = original.clone();
+        progress.status = status.into();
+        progress.row_version = next_version(original.row_version)?;
+        progress.updated_at = clock_now();
+        if !store::update_payable(session.connection, &progress, original.row_version).await? {
+            return Err(stale("PayableRecord"));
         }
     }
     let mut row = current.clone();

@@ -8,19 +8,24 @@
  * Do not edit the class manually.
  */
 import { OperatingPendingLifecycleStatus } from './operating-pending-lifecycle-status';
+import { SensitiveStringFieldProjection } from './sensitive-string-field-projection';
 
 
 export interface SharedCostAllocationResultSummary {
     id: string;
     basisId: string;
     projectId: string;
-    allocatedAmount: string;
-    allocationRatio: string | null;
-    allocationSummary: string | null;
     status: OperatingPendingLifecycleStatus;
     effectiveAt: string | null;
     supersedesId: string | null;
     rowVersion: number;
     createdAt: string;
     updatedAt: string;
+    financialProjection: SensitiveStringFieldProjection;
+    evidenceId: string | null;
+    governanceCertification: SharedCostAllocationResultSummaryGovernanceCertificationEnum;
 }
+export enum SharedCostAllocationResultSummaryGovernanceCertificationEnum {
+    Verified = 'verified',
+    LegacyUnverified = 'legacy-unverified'
+};

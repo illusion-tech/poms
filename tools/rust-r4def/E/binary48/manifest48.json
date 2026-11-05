@@ -1,0 +1,152 @@
+{
+  "kind": "Root-api-harness-binary48-controlled-candidate",
+  "createdAt": "2026-11-04T01:20:31.071Z",
+  "preImportRoot": {
+    "file": "tools/rust-r4def/api-harness32.mjs",
+    "bytes": 6676,
+    "rawBytesSha256": "870d3d5a2c73c973ea21aa2aa1566245cad6a6c8e1deb881cbb78c2596381b73"
+  },
+  "products": [
+    {
+      "file": "api-harness32-original.mjs.bin",
+      "bytes": 6676,
+      "rawBytesSha256": "870d3d5a2c73c973ea21aa2aa1566245cad6a6c8e1deb881cbb78c2596381b73"
+    },
+    {
+      "file": "api-harness-binary48-candidate.mjs",
+      "bytes": 17509,
+      "rawBytesSha256": "cac3e8581c810660faf913fc5c81c7b8d816ebac3767f4c86223ad7f32fec396"
+    },
+    {
+      "file": "README.md",
+      "bytes": 5164,
+      "rawBytesSha256": "771062fb072c8a76492bbadaeccf749ad06667550116fc8fd2d20888d36d3025"
+    },
+    {
+      "file": "capture-manifest48.mjs",
+      "bytes": 7683,
+      "rawBytesSha256": "2e991c87f1f1192670478082cc4584d6b2276eb9fca71101f6fa99b58e5f1592"
+    }
+  ],
+  "publicReadOnlyInputs": [
+    {
+      "file": "tools/rust-r4def/api-harness32.mjs",
+      "bytes": 6676,
+      "rawBytesSha256": "870d3d5a2c73c973ea21aa2aa1566245cad6a6c8e1deb881cbb78c2596381b73"
+    },
+    {
+      "file": "libs/shared/api-spec/openapi.json",
+      "bytes": 1236594,
+      "rawBytesSha256": "56ae1835f50e427dd564b60f423da49e5c03fd88eed431b12ae054011e6de821"
+    },
+    {
+      "file": "tools/rust-r4def/api-runtime31.mjs",
+      "bytes": 3774,
+      "rawBytesSha256": "8ab461cd6eb04722ecf6c80b5fd744ac16010512f69a46f6fb5ab9f33aff9bf5"
+    }
+  ],
+  "consumerDriver": {
+    "file": "tools/rust-r4def/E/attachments47/request-driver47.mjs",
+    "bytes": 25081,
+    "rawBytesSha256": "abd57b75e93d6b38381e687510c7803f5ec7c929d09ad0824b329a3f35bb5849"
+  },
+  "staticChecks": {
+    "nodeSyntax": "passed node --check",
+    "ASTTypeScriptVersion": "6.0.3",
+    "oldNestedFunctionsUnchanged": [
+      "actorState",
+      "safe",
+      "request",
+      "login",
+      "actor"
+    ],
+    "oldClosureDeclarationsUnchanged": true,
+    "oldReturnKeysPreserved": [
+      "root",
+      "win",
+      "priv",
+      "base",
+      "origin",
+      "out",
+      "spec",
+      "operations",
+      "request",
+      "login",
+      "actor",
+      "persist",
+      "stateFile"
+    ],
+    "binarySignature": "binaryRequest(operationId,id,bodyBytes,actor,meta={})",
+    "existingFreshLoginCookieResetPreserved": true,
+    "originalJSONCsrfTestLogicUnchanged": true,
+    "publicFields": [
+      "kind",
+      "startedAt",
+      "completedAt",
+      "operationId",
+      "method",
+      "path",
+      "actorKey",
+      "actorId",
+      "requestId",
+      "queryCount",
+      "querySha256",
+      "status",
+      "responseComplete",
+      "transportFailure",
+      "requestHasBody",
+      "requestBytes",
+      "requestSha256",
+      "responseBytes",
+      "responseSha256",
+      "requestHeaderCount",
+      "responseHeaderCount",
+      "originals",
+      "bodyByteBoundary",
+      "secretsCookiesHeadersAndPayloadPublished"
+    ],
+    "parameterAndMethodAuthority": [
+      {
+        "operationId": "AttachmentUploadSessionController_proxyUploadObject",
+        "method": "PUT",
+        "path": "/api/attachment-upload-sessions/{id}/object",
+        "declaredRequestContentTypes": [
+          "application/octet-stream"
+        ]
+      },
+      {
+        "operationId": "AttachmentController_download",
+        "method": "GET",
+        "path": "/api/attachments/{id}/download",
+        "declaredRequestContentTypes": []
+      },
+      {
+        "operationId": "AttachmentHandoverController_downloadPackage",
+        "method": "GET",
+        "path": "/api/attachment-download-packages/{id}/download",
+        "declaredRequestContentTypes": []
+      }
+    ]
+  },
+  "newBehavior": {
+    "actualStatusReturned": "response.status, no expected-status synthesis",
+    "actualHeaders": "selected actual non-auth values, no fallback Content-Type",
+    "binaryOriginals": "new namespace private only, wx/0600, body stream originals with partial/failure label",
+    "publicIndex": "metadata/status plus hash/count/private original references; no payload/header/token values",
+    "sequence": "same private state.sequence reserved before network; same actorState/persist",
+    "cookieAndCSRF": "same live jar and omit/wrong policy; no caller token/header injection",
+    "bodyBoundary": "WHATWG Fetch delivered body, no raw transport capture claim"
+  },
+  "execution": {
+    "createApiHarnessInvoked": false,
+    "privateStateRead": false,
+    "networkCalled": false,
+    "HTTPReceiptCreated": false,
+    "expectedContentTypeFabricated": false,
+    "SQLOrEnvironmentChanged": false,
+    "G3Certified": false,
+    "G4Certified": false
+  },
+  "targetImportPath": "tools/rust-r4def/api-harness32.mjs",
+  "RootImportRequired": "Assert preImportRoot SHA before replacing with candidate; preserve original artifact, then Root actual binary/cookie/CSRF/ZIP acceptance"
+}

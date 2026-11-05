@@ -1,0 +1,201 @@
+{
+  "kind": "independent-R4DEF-final131-preflight-only",
+  "reviewedAtUtc": "2026-11-05T01:43:03.975Z",
+  "status": "Existing immutable pins and final candidate verified; terminal cleanup and actual G4 remain pending",
+  "acceptedReviewChain": [
+    {
+      "file": "tmp/rust-r4def/independent/g3-stable-preflight89.json",
+      "bytes": 12505,
+      "sha256": "87ebe6673fbf574164a658f42762910aa0324e03ec1311b0cf06004a1188cc99",
+      "snapshot": "tools/rust-r4def/independent-final131/inputs/tmp/rust-r4def/independent/g3-stable-preflight89.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/independent/k98-runtime-preflight114.json",
+      "bytes": 106916,
+      "sha256": "78a2de714bbbb22c872af887d69737c89acba61497991fc71302de3229664edb",
+      "snapshot": "tools/rust-r4def/independent-final131/inputs/tmp/rust-r4def/independent/k98-runtime-preflight114.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/independent/K-evidence-review124.json",
+      "bytes": 186709,
+      "sha256": "b3c7ee972b3cc9c095bdfecc260a683731e1f71b55f0bb4d0daff0ffc4e2224e",
+      "snapshot": "tools/rust-r4def/independent-final131/inputs/tmp/rust-r4def/independent/K-evidence-review124.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/final-source126/manifest126.json",
+      "bytes": 527747,
+      "sha256": "891a98bcaec490cf5ce9d65cf74064a449064e89593fdba2fe848a42d83ffaf0",
+      "snapshot": "tools/rust-r4def/independent-final131/inputs/tmp/rust-r4def/root/final-source126/manifest126.json.bin"
+    }
+  ],
+  "stableSnapshots": {
+    "records": 2216,
+    "uniqueFileHashVersions": 2216,
+    "allSnapshotsMatch": true
+  },
+  "stableCurrent": {
+    "records": 902,
+    "matches": 900,
+    "delta": [
+      {
+        "file": "apps/poms-api-rust/src/attachments/service.rs",
+        "priorSha256": "010bd6f29762792f29c05849cc6b39f62cf2fbdb65837c5701c61fe43e68e073",
+        "currentSha256": "0fbd8afc1c22fec87e3034b9e31d9c89a3cfea92d85cb8f0ef1866dd23bcceab",
+        "category": "K56-not-final-K86"
+      },
+      {
+        "file": "apps/poms-api-rust/src/attachments/store.rs",
+        "priorSha256": "3af983b17b23435477e9bf0adaa88b22fc106a3f67229903c0440b7693a2bc42",
+        "currentSha256": "525028f45ce39a5935f4a1565eee662b76a2976f07a212a580c23f862e899899",
+        "category": "K56-not-final-K86"
+      }
+    ]
+  },
+  "runtimeSnapshots": {
+    "records": 306,
+    "uniqueFileHashVersions": 306,
+    "allSnapshotsMatch": true
+  },
+  "latestKSnapshots": {
+    "records": 504,
+    "uniqueFileHashVersions": 504,
+    "allSnapshotsMatch": true
+  },
+  "latestKCurrent": {
+    "records": 504,
+    "matches": 504,
+    "delta": []
+  },
+  "final126": {
+    "literalHead": "287214fd95d7d954694002c6e95665ebf881929c",
+    "mainBase": "565661b9113372de4da6662a4a692fbfd2296dd6",
+    "permanentS4": "4f0ad88e78622a75b88b4e3cc72aded9da67458a",
+    "categories": {
+      "product": {
+        "records": 156,
+        "allCurrentFilesMatch": true
+      },
+      "client": {
+        "records": 616,
+        "allCurrentFilesMatch": true
+      },
+      "formal": {
+        "records": 1431,
+        "allCurrentFilesMatch": true
+      },
+      "runtimeInputs": {
+        "records": 3,
+        "allCurrentFilesMatch": true
+      },
+      "sixS4ProtectedSources": {
+        "records": 6,
+        "allCurrentFilesMatch": true
+      },
+      "evidence": {
+        "records": 13,
+        "allCurrentFilesMatch": true
+      }
+    },
+    "baseline": {
+      "file": "docs/design/rust-r4def-next30-baseline.md",
+      "bytes": 9293,
+      "sha256": "18d12ef3cc78a47ac770b565e5ec48633f55a89a0687d12b622f35c9b22a27dd"
+    },
+    "surface": {
+      "RustOperations": 240,
+      "fullPaths": 239,
+      "fullOperations": 293,
+      "fullSchemas": 626,
+      "batchOperations": 30,
+      "D": 7,
+      "E": 11,
+      "F": 12
+    },
+    "checks": {
+      "RustPassed": 416,
+      "RustIgnored": 54,
+      "ignoredNotDBAcceptance": true,
+      "NativeSuites": 74,
+      "NativeTests": 863,
+      "AdminSuites": 60,
+      "AdminTests": 417,
+      "originalFoundationTests": 13,
+      "migrationCheck": "actual exit1 with exact reviewed SQL-only strong-FK/check-introspection/comment classifications; never called raw Pass"
+    }
+  },
+  "rustChecks": [
+    {
+      "receipt": {
+        "file": "tmp/rust-r4def/root/rust-full-test105/receipt27.json",
+        "bytes": 55933,
+        "sha256": "cc9fdd9c5a15802bdf46b2c38241a505805cf54b92e3225a8788ad462cf473ed"
+      },
+      "inputCount": 247,
+      "allCurrentFilesMatch": true,
+      "exitCode": 0
+    },
+    {
+      "receipt": {
+        "file": "tmp/rust-r4def/root/rust-clippy106/receipt27.json",
+        "bytes": 55987,
+        "sha256": "dcbc25fc9c076e5b3730739da6564f8455e5f7827a8c82961ece39dc8febbb1f"
+      },
+      "inputCount": 247,
+      "allCurrentFilesMatch": true,
+      "exitCode": 0
+    },
+    {
+      "receipt": {
+        "file": "tmp/rust-r4def/root/rust-build108/receipt27.json",
+        "bytes": 55951,
+        "sha256": "74956ebc8c014a8aa5e49176934b2d9875ffb39669cc52994f9f582c2cece552"
+      },
+      "inputCount": 247,
+      "allCurrentFilesMatch": true,
+      "exitCode": 0
+    }
+  ],
+  "binarySha256": "c53dcdce6d6ff466a8cc47ae02fbadf7da0ab60d22877e57cdb5411711bda442",
+  "reusable": {
+    "stableNonK": true,
+    "finalK": true,
+    "currentCandidateOnly": true,
+    "literalHEADWasNotIndependentlyQueried": true,
+    "permanentS4BlobReadNotRepeated": true,
+    "sixCurrentSourcesAndPriorPinnedLiteralComparisonVerified": true
+  },
+  "stoppedEvidence": [
+    {
+      "file": "tmp/rust-r4def/root/stopped128.json",
+      "bytes": 2883,
+      "sha256": "dc808296960adfd2d170fff1558d9bb9e28fb51e45cb44eb6c61463e74fb8887",
+      "snapshot": "tools/rust-r4def/independent-final131/inputs/tmp/rust-r4def/root/stopped128.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/windows-ui-port129.json",
+      "bytes": 196,
+      "sha256": "722daf351ecbca84683a31a40886c498ec16da22b994e6e86d913fcdbba154ff",
+      "snapshot": "tools/rust-r4def/independent-final131/inputs/tmp/rust-r4def/root/windows-ui-port129.json.bin"
+    }
+  ],
+  "pending": {
+    "ownedPGStillRetainedAt128": true,
+    "terminalCleanup": true,
+    "exactApprovedPlan": true,
+    "publicPerPKProducerLedger": true,
+    "actualCommitAndDoubleFreshNoops": true,
+    "objectBackupAndUnlink": true,
+    "ownedPGStop": true,
+    "actualCommittedOrMainIntegrationAndGovernanceG4": true
+  },
+  "reviewer": {
+    "privateRead": false,
+    "DBHTTPGitGHOSMutation": false,
+    "productOrOldEvidenceModified": false,
+    "writesOnly": "tools/rust-r4def/independent-final131/**"
+  },
+  "newProductFindingsP0P1P2": [],
+  "G3Pass": false,
+  "G4Pass": false,
+  "issueClosure": false
+}

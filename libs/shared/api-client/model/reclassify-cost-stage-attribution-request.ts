@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { R4FGovernanceEvidence } from './r4-f-governance-evidence';
 
 
 export interface ReclassifyCostStageAttributionRequest {
@@ -15,4 +16,5 @@ export interface ReclassifyCostStageAttributionRequest {
     reclassifyReason: string;
     comment?: string | null;
     expectedVersion?: number;
+    attributionEvidence: R4FGovernanceEvidence;
 }

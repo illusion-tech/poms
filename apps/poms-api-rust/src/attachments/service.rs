@@ -1,4 +1,4 @@
-//! Existing J19 service decisions. Each persist/audit is a separate request UoW flush.
+//! Attachment commands persist their necessary audit and managed auth atomically.
 use super::{
     model::{RequestData, Wire, js, trim_js},
     store::{self, AuditWrite, Entity, Table},
@@ -188,17 +188,70 @@ pub struct CallContext {
     pub pending: Option<SessionFlush>,
     pub entities: Vec<Entity>,
     target_cache: std::sync::Mutex<HashSet<String>>,
+    guard: store::FlushGuard,
+    checkpoint: Option<CallCheckpoint>,
+    poisoned: bool,
+}
+struct CallCheckpoint {
+    entities: Vec<Entity>,
+    pending: Option<SessionFlush>,
+    guard: store::FlushGuard,
+    targets: HashSet<String>,
 }
 impl CallContext {
+    fn ensure_usable(&self) -> Result<()> {
+        if self.poisoned || self.entities.iter().any(Entity::is_poisoned) {
+            Err(StorageFailure::internal())
+        } else {
+            Ok(())
+        }
+    }
     pub fn new(session: &ResolvedSession) -> Self {
         Self {
             session: session.clone(),
             pending: session.pending_flush.clone(),
             entities: Vec::new(),
             target_cache: std::sync::Mutex::new(HashSet::new()),
+            guard: store::FlushGuard::default(),
+            checkpoint: None,
+            poisoned: false,
+        }
+    }
+    fn checkpoint(&mut self) {
+        if self.checkpoint.is_none() {
+            self.checkpoint = Some(CallCheckpoint {
+                entities: self.entities.clone(),
+                pending: self.pending.clone(),
+                guard: self.guard.clone(),
+                targets: self
+                    .target_cache
+                    .lock()
+                    .map(|s| s.clone())
+                    .unwrap_or_default(),
+            });
+        }
+    }
+    fn restore(&mut self) {
+        if let Some(before) = self.checkpoint.take() {
+            self.entities = before.entities;
+            self.pending = before.pending;
+            self.guard = before.guard;
+            if let Ok(mut targets) = self.target_cache.lock() {
+                *targets = before.targets;
+            }
         }
     }
     fn track(&mut self, row: Entity) -> usize {
+        if row.original.is_some()
+            && matches!(row.table, Table::Attachment | Table::Session | Table::Link)
+            && !self
+                .guard
+                .source_entities
+                .iter()
+                .any(|e| e.table == row.table && e.id() == row.id())
+        {
+            self.guard.source_entities.push(row.clone());
+        }
         if let Some(i) = self
             .entities
             .iter()
@@ -265,6 +318,7 @@ impl AttachmentsService {
         }
     }
     async fn load(&self, table: Table, id: &str, ctx: &mut CallContext) -> Result<usize> {
+        ctx.ensure_usable()?;
         if let Some(index) = ctx
             .entities
             .iter()
@@ -290,6 +344,10 @@ impl AttachmentsService {
     }
     async fn links(&self, id: &str, ctx: &mut CallContext) -> Result<Vec<Entity>> {
         let rows = store::links(&self.database, id).await?;
+        ctx.guard
+            .active_links
+            .entry(id.into())
+            .or_insert_with(|| store::link_proof(&rows));
         Ok(rows
             .into_iter()
             .map(|r| {
@@ -313,7 +371,62 @@ impl AttachmentsService {
         })
     }
     async fn save(&self, ctx: &mut CallContext) -> Result<()> {
-        store::flush(&self.database, &mut ctx.entities, &mut ctx.pending, None).await
+        self.persist(ctx, None)
+            .await
+            .map_err(|failure| failure.error)
+    }
+    async fn persist(
+        &self,
+        ctx: &mut CallContext,
+        audit: Option<AuditWrite>,
+    ) -> std::result::Result<(), store::FlushFailure> {
+        if ctx.poisoned {
+            return Err(store::FlushFailure {
+                error: StorageFailure::internal(),
+                disposition: store::CommitDisposition::Unknown,
+            });
+        }
+        ctx.checkpoint();
+        match store::flush_guarded(
+            &self.database,
+            &mut ctx.entities,
+            &mut ctx.pending,
+            audit,
+            ctx.guard.clone(),
+        )
+        .await
+        {
+            Ok(()) => {
+                ctx.checkpoint = None;
+                ctx.guard = store::FlushGuard::default();
+                Ok(())
+            }
+            Err(failure) => {
+                if failure.disposition == store::CommitDisposition::KnownNotCommitted {
+                    ctx.restore();
+                } else {
+                    ctx.poisoned = true;
+                }
+                Err(failure)
+            }
+        }
+    }
+    fn audit_write(
+        &self,
+        event: &str,
+        target: &str,
+        metadata: Wire,
+        request_id: Option<&str>,
+        ctx: &CallContext,
+    ) -> AuditWrite {
+        AuditWrite {
+            event: event.into(),
+            target: target.into(),
+            operator: ctx.session.user.user_id,
+            request_id: request_id.map(str::to_owned),
+            metadata,
+            result: "success".into(),
+        }
     }
     async fn audit(
         &self,
@@ -323,21 +436,10 @@ impl AttachmentsService {
         request_id: Option<&str>,
         ctx: &mut CallContext,
     ) -> Result<()> {
-        let audit = AuditWrite {
-            event: event.into(),
-            target: target.into(),
-            operator: ctx.session.user.user_id,
-            request_id: request_id.map(str::to_owned),
-            metadata,
-            result: "success".into(),
-        };
-        store::flush(
-            &self.database,
-            &mut ctx.entities,
-            &mut ctx.pending,
-            Some(audit),
-        )
-        .await
+        let audit = self.audit_write(event, target, metadata, request_id, ctx);
+        self.persist(ctx, Some(audit))
+            .await
+            .map_err(|failure| failure.error)
     }
     async fn category(&self, value: &str) -> Result<()> {
         self.dictionary
@@ -486,9 +588,6 @@ impl AttachmentsService {
             return Ok(());
         }
         let id = ctx.entities[i].id();
-        ctx.entities[i].set("status", json!("expired"));
-        ctx.entities[i].set("failed_reason", json!("Attachment upload session expired"));
-        self.save(ctx).await?;
         Err(conflict(format!(
             "Attachment upload session {id} has expired"
         )))
@@ -513,6 +612,8 @@ impl AttachmentsService {
         request_id: Option<&str>,
         ctx: &mut CallContext,
     ) -> Result<Wire> {
+        ctx.ensure_usable()?;
+        ctx.checkpoint();
         let max = self
             .settings
             .get_attachment_max_upload_size_bytes()
@@ -628,7 +729,6 @@ impl AttachmentsService {
         );
         entity.set_text("change_note", change);
         let i = ctx.track(entity);
-        self.save(ctx).await?;
         let e = &ctx.entities[i];
         let metadata = Wire::value(
             json!({"operationType":e.data["operation_type"],"uploadMode":e.data["upload_mode"],"providerType":e.data["provider_type"],"targetType":e.data["target_type"],"targetId":e.data["target_id"],"baseAttachmentId":e.data["base_attachment_id"],"sizeBytes":e.data["size_bytes"],"maxSizeBytes":e.data["max_size_bytes"]}),
@@ -654,14 +754,17 @@ impl AttachmentsService {
         input: &RequestData,
         ctx: &mut CallContext,
     ) -> Result<Wire> {
+        ctx.checkpoint();
         let i = self.load(Table::Session, id, ctx).await?;
         self.session_access(i, "write", ctx).await?;
         self.expected(i, input, ctx)?;
         self.can_receive(i, ctx).await?;
-        if ctx.entities[i].str("status") == "pending" {
-            ctx.entities[i].set("status", json!("uploading"));
-            self.save(ctx).await?;
+        if store::has_published_staging(&self.database, &ctx.entities[i]).await? {
+            return Err(conflict("Attachment upload staging is already referenced"));
         }
+        ctx.guard
+            .session_rules
+            .insert(id.into(), store::SessionRule::Receive);
         let e = ctx.entities[i].clone();
         let expires = e
             .time("expires_at")
@@ -690,6 +793,10 @@ impl AttachmentsService {
                 json!(target.expires_at),
             )
         };
+        if ctx.entities[i].str("status") == "pending" {
+            ctx.entities[i].set("status", json!("uploading"));
+        }
+        self.save(ctx).await?;
         Ok(Wire::value(
             json!({"sessionId":e.id(),"uploadMode":e.data["upload_mode"],"method":method,"url":url,"headers":headers,"expiresAt":expiry,"providerType":e.data["provider_type"],"maxSizeBytes":e.data["max_size_bytes"]}),
         ))
@@ -700,9 +807,16 @@ impl AttachmentsService {
         bytes: &[u8],
         ctx: &mut CallContext,
     ) -> Result<Wire> {
+        ctx.checkpoint();
         let i = self.load(Table::Session, id, ctx).await?;
         self.session_access(i, "write", ctx).await?;
         self.can_receive(i, ctx).await?;
+        if store::has_published_staging(&self.database, &ctx.entities[i]).await? {
+            return Err(conflict("Attachment upload staging is already referenced"));
+        }
+        ctx.guard
+            .session_rules
+            .insert(id.into(), store::SessionRule::Receive);
         let e = ctx.entities[i].clone();
         if e.str("upload_mode") != "proxy" {
             return Err(bad(
@@ -742,40 +856,107 @@ impl AttachmentsService {
         request_id: Option<&str>,
         ctx: &mut CallContext,
     ) -> Result<Wire> {
+        ctx.checkpoint();
         let i = self.load(Table::Session, id, ctx).await?;
         self.session_access(i, "write", ctx).await?;
         self.expected(i, input, ctx)?;
         self.not_terminal(i, ctx)?;
         self.not_expired(i, ctx).await?;
-        if let (Some(a), Some(b)) = (
-            input.string("checksumSha256").filter(|v| !v.is_empty()),
-            ctx.entities[i]
-                .string("checksum_sha256")
-                .filter(|v| !v.is_empty()),
-        ) && a != b
+        let session = ctx.entities[i].clone();
+        if store::has_published_staging(&self.database, &session).await? {
+            return Err(conflict("Attachment upload staging is already referenced"));
+        }
+        let attachment_id = uuid()?;
+        let attempt = self
+            .storage
+            .completion_attempt(
+                &location(&session),
+                &attachment_id,
+                &uuid()?,
+                session.str("original_name"),
+            )
+            .await?;
+        // Authorize/capture head + full links before actual snapshot I/O. This is
+        // still only a plan; neither create_from_session nor this branch flushes.
+        let (attachment, links, audit) = match self
+            .create_from_session(
+                i,
+                attachment_id.clone(),
+                attempt.location(),
+                request_id,
+                ctx,
+            )
+            .await
         {
-            return Err(bad(
-                "Attachment upload completion checksum does not match the session checksum",
-            ));
-        }
-        ctx.entities[i].set("status", json!("validating"));
-        self.save(ctx).await?;
-        let completed:Result<Wire>=async{
-            let e=ctx.entities[i].clone();let metadata=self.storage.head_object(&location(&e)).await?;if metadata.size_bytes!=e.integer("size_bytes") as f64{return Err(conflict("Attachment upload object size does not match the declared session size"));}
-            let checksum=if let Some(declared)=input.string("checksumSha256").or_else(||e.string("checksum_sha256")).filter(|v|!v.is_empty()){if metadata.checksum_sha256.as_ref().map(|s|trim_js(js(s))).filter(|v|!v.is_empty()).is_some_and(|v|v!=declared){return Err(bad("Attachment upload object checksum does not match the declared session checksum"));}declared}else{js(&sha256(&self.storage.read_buffer(&location(&e)).await?))};
-            ctx.entities[i].set_text("checksum_sha256",Some(checksum));if ctx.entities[i].data["uploaded_at"].is_null(){ctx.entities[i].set("uploaded_at",json!(clock_now()));}
-            let(output,attachment_id)=self.create_from_session(i,request_id,ctx).await?;
-            ctx.entities[i].set("status",json!("completed"));ctx.entities[i].set("completed_attachment_id",json!(attachment_id));ctx.entities[i].set("completed_at",json!(clock_now()));ctx.entities[i].set("failed_reason",Value::Null);self.save(ctx).await?;Ok(output)
-        }.await;
-        match completed {
-            Ok(output) => Ok(output),
+            Ok(plan) => plan,
             Err(error) => {
-                ctx.entities[i].set("status", json!("failed"));
-                ctx.entities[i].set_text("failed_reason", Some(error.message.clone()));
-                self.save(ctx).await?;
-                Err(error)
+                ctx.restore();
+                return Err(error);
             }
+        };
+        let expected = [
+            input.text("checksumSha256"),
+            session.text("checksum_sha256"),
+        ]
+        .into_iter()
+        .flatten()
+        .filter(|s| !s.is_empty())
+        .collect::<Vec<_>>();
+        let snapshot = match self
+            .storage
+            .prepare_completion_snapshot(
+                &attempt,
+                session.integer("size_bytes"),
+                session.integer("max_size_bytes"),
+                &expected,
+                Some(session.str("mime_type")),
+            )
+            .await
+        {
+            Ok(snapshot) => snapshot,
+            Err(error) => {
+                ctx.restore();
+                // No business SQL was started. A failed PUT can still have left
+                // partial bytes, so a fresh reference check remains necessary.
+                if store::final_unreferenced(&self.database, &attachment_id, &attempt.location())
+                    .await
+                    .unwrap_or(false)
+                {
+                    let _ = self.storage.discard_completion_attempt(&attempt).await;
+                }
+                return Err(error);
+            }
+        };
+        ctx.entities[attachment].set("checksum_sha256", json!(snapshot.checksum));
+        ctx.entities[attachment].set("size_bytes", json!(snapshot.size_bytes));
+        let actual_checksum = ctx.entities[attachment].data["checksum_sha256"].clone();
+        ctx.entities[i].set("checksum_sha256", actual_checksum);
+        if ctx.entities[i].data["uploaded_at"].is_null() {
+            ctx.entities[i].set("uploaded_at", json!(clock_now()));
         }
+        ctx.entities[i].set("status", json!("completed"));
+        ctx.entities[i].set("completed_attachment_id", json!(attachment_id));
+        ctx.entities[i].set("completed_at", json!(clock_now()));
+        ctx.entities[i].set("failed_reason", Value::Null);
+        ctx.guard
+            .session_rules
+            .insert(id.into(), store::SessionRule::Complete);
+        ctx.guard.routing = attempt.routing();
+        if let Err(failure) = self.persist(ctx, Some(audit)).await {
+            if failure.disposition == store::CommitDisposition::KnownNotCommitted
+                && store::final_unreferenced(&self.database, &attachment_id, &attempt.location())
+                    .await
+                    .unwrap_or(false)
+            {
+                let _ = self.storage.discard_completion_attempt(&attempt).await;
+            }
+            return Err(failure.error);
+        }
+        let links = links
+            .into_iter()
+            .map(|n| ctx.entities[n].clone())
+            .collect::<Vec<_>>();
+        Ok(attachment_summary(&ctx.entities[attachment], &links, None))
     }
     pub async fn abort(
         &self,
@@ -784,61 +965,73 @@ impl AttachmentsService {
         request_id: Option<&str>,
         ctx: &mut CallContext,
     ) -> Result<Wire> {
+        ctx.checkpoint();
         let i = self.load(Table::Session, id, ctx).await?;
         self.session_access(i, "write", ctx).await?;
         self.expected(i, input, ctx)?;
-        if ctx.entities[i].str("status") == "completed" {
+        let before = ctx.entities[i].clone();
+        if before.str("status") == "completed" {
             return Err(conflict(format!(
                 "Attachment upload session {id} is already completed"
             )));
         }
-        if !Self::terminal(ctx.entities[i].str("status")) {
-            self.storage.remove(&location(&ctx.entities[i])).await;
-            ctx.entities[i].set("status", json!("aborted"));
-            ctx.entities[i].set("aborted_at", json!(clock_now()));
-            ctx.entities[i].set_text(
-                "failed_reason",
-                input.string("reason").filter(|v| !v.is_empty()),
-            );
-            self.save(ctx).await?;
-            let e = &ctx.entities[i];
-            let mut raw = BTreeMap::new();
-            if let Some(reason) = e.raw.get("failed_reason") {
-                raw.insert("reason".into(), reason.clone());
-            }
-            let meta = Wire::object(
-                json!({"reason":e.data["failed_reason"],"operationType":e.data["operation_type"]}),
-                &raw,
-            );
-            let target = e.id();
-            self.audit(
-                "attachment_upload_session.aborted",
-                &target,
-                meta,
-                request_id,
-                ctx,
-            )
-            .await?;
+        if Self::terminal(before.str("status")) {
+            return Ok(session_summary(&before));
+        }
+        if store::has_published_staging(&self.database, &before).await? {
+            return Err(conflict("Attachment upload staging is already referenced"));
+        }
+        let cleanup = self
+            .storage
+            .capture_staging_cleanup(&location(&before))
+            .await
+            .ok();
+        ctx.entities[i].set("status", json!("aborted"));
+        ctx.entities[i].set("aborted_at", json!(clock_now()));
+        ctx.entities[i].set_text(
+            "failed_reason",
+            input.string("reason").filter(|v| !v.is_empty()),
+        );
+        ctx.guard
+            .session_rules
+            .insert(id.into(), store::SessionRule::Abort);
+        let e = &ctx.entities[i];
+        let mut raw = BTreeMap::new();
+        if let Some(reason) = e.raw.get("failed_reason") {
+            raw.insert("reason".into(), reason.clone());
+        }
+        let metadata = Wire::object(
+            json!({"reason":e.data["failed_reason"],"operationType":e.data["operation_type"]}),
+            &raw,
+        );
+        self.audit(
+            "attachment_upload_session.aborted",
+            id,
+            metadata,
+            request_id,
+            ctx,
+        )
+        .await?;
+        // No I/O occurs on the losing/unknown/audit-failure branches above.
+        if store::aborted_staging_unreferenced(&self.database, &ctx.entities[i])
+            .await
+            .unwrap_or(false)
+            && let Some(cleanup) = cleanup
+        {
+            let _ = self.storage.remove_captured_staging(&cleanup).await;
         }
         Ok(session_summary(&ctx.entities[i]))
     }
-
     async fn create_from_session(
         &self,
         i: usize,
+        id: String,
+        final_location: ObjectLocation,
         request_id: Option<&str>,
         ctx: &mut CallContext,
-    ) -> Result<(Wire, String)> {
+    ) -> Result<(usize, Vec<usize>, AuditWrite)> {
         let session = ctx.entities[i].clone();
         let is_version = session.str("operation_type") == "create-version";
-        if session
-            .string("checksum_sha256")
-            .is_none_or(|v| v.is_empty())
-        {
-            return Err(bad(
-                "Attachment upload session is missing checksum metadata",
-            ));
-        }
         let (latest, links) = if is_version {
             let base = session.text("base_attachment_id").ok_or_else(|| {
                 bad("Attachment upload session is missing create-version metadata")
@@ -856,7 +1049,9 @@ impl AttachmentsService {
             let latest_id = ctx.entities[latest].id();
             let links = self.links(&latest_id, ctx).await?;
             self.mutate(&ctx.entities[latest], &links, ctx)?;
-            if ctx.entities[latest].str("status") != "active" {
+            if ctx.entities[latest].str("status") != "active"
+                || !ctx.entities[latest].boolean("is_latest")
+            {
                 return Err(conflict(format!("Attachment {latest_id} is not active")));
             }
             (Some(latest), links)
@@ -878,14 +1073,30 @@ impl AttachmentsService {
             self.target_access(&kind, &target, "write", ctx).await?;
             (None, Vec::new())
         };
-        let id = uuid()?;
         let uploaded = session.time("uploaded_at").unwrap_or_else(clock_now);
         let previous = latest.map(|n| ctx.entities[n].clone());
         let version_group = previous
             .as_ref()
             .map(group_id)
             .unwrap_or_else(|| id.clone());
-        let version = previous.as_ref().map_or(1, |e| e.integer("version_no") + 1);
+        let version = if let Some(previous) = previous.as_ref() {
+            let rows = self.versions(&version_group, ctx).await?;
+            if latest.is_some_and(|n| ctx.entities[n].version() != previous.version()) {
+                return Err(conflict(
+                    "Attachment source changed while planning completion",
+                ));
+            }
+            let maximum = store::history_max(
+                &rows
+                    .iter()
+                    .map(|n| ctx.entities[*n].clone())
+                    .collect::<Vec<_>>(),
+            );
+            ctx.guard.version_max.insert(version_group.clone(), maximum);
+            store::next_version(maximum)?
+        } else {
+            1
+        };
         if let Some(n) = latest {
             ctx.entities[n].set("version_group_id", json!(version_group));
             ctx.entities[n].set("is_latest", json!(false));
@@ -898,7 +1109,7 @@ impl AttachmentsService {
             .or_else(|| previous.as_ref().and_then(|e| e.text("security_level")));
         let mut attachment = Entity::new(
             Table::Attachment,
-            json!({"id":id,"original_name":session.data["original_name"],"display_name":session.data["display_name"],"extension":session.data["extension"],"mime_type":session.data["mime_type"],"size_bytes":session.data["size_bytes"],"checksum_sha256":session.data["checksum_sha256"],"category":category,"security_level":security,"storage_provider":session.data["provider_type"],"storage_bucket":session.data["storage_bucket"],"storage_key":session.data["storage_key"],"status":"active","description":null,"version_group_id":version_group,"version_no":version,"is_latest":true,"is_final":false,"previous_attachment_id":previous.as_ref().map(Entity::id),"change_note":session.data["change_note"],"uploaded_by":ctx.user_id(),"uploaded_at":uploaded,"deleted_by":null,"deleted_at":null,"created_at":uploaded,"updated_at":uploaded}),
+            json!({"id":id,"original_name":session.data["original_name"],"display_name":session.data["display_name"],"extension":session.data["extension"],"mime_type":session.data["mime_type"],"size_bytes":session.data["size_bytes"],"checksum_sha256":session.data["checksum_sha256"],"category":category,"security_level":security,"storage_provider":final_location.storage_provider,"storage_bucket":final_location.storage_bucket,"storage_key":final_location.storage_key,"status":"active","description":null,"version_group_id":version_group,"version_no":version,"is_latest":true,"is_final":false,"previous_attachment_id":previous.as_ref().map(Entity::id),"change_note":session.data["change_note"],"uploaded_by":ctx.user_id(),"uploaded_at":uploaded,"deleted_by":null,"deleted_at":null,"created_at":uploaded,"updated_at":uploaded}),
         );
         for key in [
             "original_name",
@@ -948,7 +1159,6 @@ impl AttachmentsService {
             let n = ctx.track(link);
             created.push(n);
         }
-        self.save(ctx).await?;
         let attachment = ctx.entities[attachment_index].clone();
         let mut raw = BTreeMap::new();
         if let Some(name) = attachment.raw.get("original_name") {
@@ -962,7 +1172,7 @@ impl AttachmentsService {
         } else {
             json!({"targetType":session.data["target_type"],"targetId":session.data["target_id"],"category":attachment.data["category"],"securityLevel":attachment.data["security_level"],"relationType":session.data["relation_type"],"fileName":attachment.data["original_name"],"sizeBytes":attachment.data["size_bytes"],"uploadSessionId":session.id()})
         };
-        self.audit(
+        let audit = self.audit_write(
             if is_version {
                 "attachment.version_created"
             } else {
@@ -972,16 +1182,8 @@ impl AttachmentsService {
             Wire::object(metadata, &raw),
             request_id,
             ctx,
-        )
-        .await?;
-        let links = created
-            .into_iter()
-            .map(|n| ctx.entities[n].clone())
-            .collect::<Vec<_>>();
-        Ok((
-            attachment_summary(&ctx.entities[attachment_index], &links, None),
-            id,
-        ))
+        );
+        Ok((attachment_index, created, audit))
     }
 
     async fn summary(&self, i: usize, links: &[Entity], ctx: &CallContext) -> Result<Wire> {
@@ -1167,6 +1369,7 @@ impl AttachmentsService {
         request_id: Option<&str>,
         ctx: &mut CallContext,
     ) -> Result<Wire> {
+        ctx.checkpoint();
         let i = self.load(Table::Attachment, id, ctx).await?;
         let links = self.links(id, ctx).await?;
         self.mutate(&ctx.entities[i], &links, ctx)?;
@@ -1187,7 +1390,6 @@ impl AttachmentsService {
                 input.string("description").filter(|s| !s.is_empty()),
             );
         }
-        self.save(ctx).await?;
         let after = audit_snapshot(&ctx.entities[i]);
         let meta = Wire(format!("{{\"before\":{},\"after\":{}}}", before.0, after.0));
         self.audit(
@@ -1207,6 +1409,7 @@ impl AttachmentsService {
         request_id: Option<&str>,
         ctx: &mut CallContext,
     ) -> Result<Wire> {
+        ctx.checkpoint();
         let i = self.load(Table::Attachment, id, ctx).await?;
         let links = self.links(id, ctx).await?;
         self.mutate(&ctx.entities[i], &links, ctx)?;
@@ -1222,7 +1425,6 @@ impl AttachmentsService {
                 ctx.entities[n].set("is_final", json!(false));
             }
         }
-        self.save(ctx).await?;
         let mut raw = BTreeMap::new();
         let note = input.string("note").filter(|s| !s.is_empty());
         if let Some(note) = note.as_ref() {
@@ -1244,6 +1446,7 @@ impl AttachmentsService {
         request_id: Option<&str>,
         ctx: &mut CallContext,
     ) -> Result<Wire> {
+        ctx.checkpoint();
         let i = self.load(Table::Attachment, id, ctx).await?;
         let links = self.links(id, ctx).await?;
         self.mutate(&ctx.entities[i], &links, ctx)?;
@@ -1255,15 +1458,10 @@ impl AttachmentsService {
         if !rows.contains(&i) {
             rows.push(i);
         }
-        let mut changed = false;
         for n in rows {
             if ctx.entities[n].boolean("is_final") {
                 ctx.entities[n].set("is_final", json!(false));
-                changed = true;
             }
-        }
-        if changed {
-            self.save(ctx).await?;
         }
         let mut raw = BTreeMap::new();
         if let Some(reason) = input.string("reason") {
@@ -1285,6 +1483,7 @@ impl AttachmentsService {
         request_id: Option<&str>,
         ctx: &mut CallContext,
     ) -> Result<Wire> {
+        ctx.checkpoint();
         let i = self.load(Table::Attachment, id, ctx).await?;
         let links = self.links(id, ctx).await?;
         self.mutate(&ctx.entities[i], &links, ctx)?;
@@ -1306,7 +1505,6 @@ impl AttachmentsService {
                 }
             }
         }
-        self.save(ctx).await?;
         let mut raw = BTreeMap::new();
         if let Some(reason) = input.string("reason") {
             raw.insert("reason".into(), reason);
@@ -1327,6 +1525,7 @@ impl AttachmentsService {
         request_id: Option<&str>,
         ctx: &mut CallContext,
     ) -> Result<Wire> {
+        ctx.checkpoint();
         let (i, _) = self.readable(id, ctx).await?;
         let kind = input.text("targetType").unwrap_or_default();
         let target = input.text("targetId").unwrap_or_default();
@@ -1347,10 +1546,13 @@ impl AttachmentsService {
         )
         .await?;
         if !existing.is_empty() {
+            for row in existing {
+                ctx.track(row);
+            }
+            self.save(ctx).await?;
             return self.get(id, ctx).await;
         }
         ctx.track(Entity::new(Table::Link,json!({"id":uuid()?,"attachment_id":ctx.entities[i].id(),"target_type":kind,"target_id":target,"relation_type":relation,"status":"active","linked_by":ctx.user_id(),"linked_at":clock_now(),"unlinked_by":null,"unlinked_at":null})));
-        self.save(ctx).await?;
         self.audit(
             "attachment.linked",
             &ctx.entities[i].id(),
@@ -1369,6 +1571,7 @@ impl AttachmentsService {
         request_id: Option<&str>,
         ctx: &mut CallContext,
     ) -> Result<Wire> {
+        ctx.checkpoint();
         let i = self.load(Table::Attachment, id, ctx).await?;
         let row = store::find(&self.database, Table::Link, link_id).await?;
         let row = row
@@ -1376,6 +1579,9 @@ impl AttachmentsService {
             .ok_or_else(|| missing(format!("Attachment link {link_id} not found")))?;
         let n = ctx.track(row);
         let link = ctx.entities[n].clone();
+        if link.str("status") != "active" {
+            self.links(id, ctx).await?;
+        }
         self.target_access(link.str("target_type"), link.str("target_id"), "write", ctx)
             .await?;
         if link.str("status") == "active" {
@@ -1383,8 +1589,11 @@ impl AttachmentsService {
             let operator = ctx.user_id();
             ctx.entities[n].set("unlinked_by", json!(operator));
             ctx.entities[n].set("unlinked_at", json!(clock_now()));
-            self.save(ctx).await?;
             self.audit("attachment.unlinked",&ctx.entities[i].id(),Wire::value(json!({"targetType":link.data["target_type"],"targetId":link.data["target_id"],"relationType":link.data["relation_type"]})),request_id,ctx).await?;
+        } else {
+            // The old nonversioned Link and the complete current active set are
+            // still authorization/source facts for this successful no-op.
+            self.save(ctx).await?;
         }
         self.get(id, ctx).await
     }
@@ -1608,6 +1817,174 @@ fn audit_snapshot(e: &Entity) -> Wire {
             ],
         ),
     )
+}
+
+#[cfg(test)]
+mod k56_context_tests {
+    use super::*;
+    use crate::{
+        auth::model::{AuthUser, Session, SessionChanges, UserReadSnapshot},
+        shared::generated::AuthSessionStatus,
+    };
+    fn context() -> CallContext {
+        let id = uuid::Uuid::nil();
+        let now = clock_now();
+        let resolved = ResolvedSession {
+            session: Session {
+                id,
+                token_hash: "unit-only".into(),
+                csrf_token_hash: None,
+                user_id: id,
+                status: AuthSessionStatus::Active,
+                idle_expires_at: now + Duration::hours(1),
+                absolute_expires_at: now + Duration::hours(2),
+                last_seen_at: now,
+                revoked_at: None,
+                revoked_reason: None,
+                created_ip: None,
+                last_ip: None,
+                created_user_agent: None,
+                row_version: 9,
+                created_at: now,
+                updated_at: now,
+            },
+            user: AuthUser {
+                user_id: id,
+                username: "unit-only".into(),
+                permissions: vec![],
+            },
+            user_snapshot: UserReadSnapshot {
+                id,
+                username: "unit-only".into(),
+                display_name: "unit-only".into(),
+                email: None,
+                phone: None,
+                avatar_url: None,
+                email_verified: false,
+                phone_verified: false,
+                is_active: true,
+                primary_org_unit_id: None,
+                last_login_at: None,
+                row_version: 1,
+                created_at: now,
+                updated_at: now,
+                created_by: None,
+                updated_by: None,
+            },
+            role_snapshots: vec![],
+            pending_flush: Some(SessionFlush {
+                id,
+                expected_version: 9,
+                changes: SessionChanges {
+                    last_seen_at: Some(now + Duration::seconds(1)),
+                    ..Default::default()
+                },
+            }),
+        };
+        CallContext::new(&resolved)
+    }
+    #[test]
+    fn k86_tracking_clean_link_preserves_first_nonversioned_tuple() {
+        let mut ctx = context();
+        ctx.track(Entity::loaded(
+            Table::Link,
+            json!({"id":"inactive","attachment_id":"head","target_id":"first","status":"unlinked"}),
+        ));
+        ctx.track(Entity::loaded(Table::Link,json!({"id":"inactive","attachment_id":"head","target_id":"changed","status":"unlinked"})));
+        assert_eq!(ctx.entities[0].str("target_id"), "changed");
+        assert_eq!(ctx.guard.source_entities.len(), 1);
+        assert_eq!(ctx.guard.source_entities[0].str("target_id"), "first");
+        assert!(ctx.entities[0].dirty().is_empty());
+    }
+    #[test]
+    fn known_rollback_restores_all_identity_raw_json_and_pending_baselines() {
+        let mut ctx = context();
+        let mut old = Entity::loaded(
+            Table::Attachment,
+            json!({"id":"old","row_version":4,"display_name":"original"}),
+        );
+        old.set_text(
+            "display_name",
+            Some(JsString::from_code_units(vec![0xd800])),
+        );
+        old.original_raw = old.raw.clone();
+        old.original = Some(old.data.clone());
+        old.json_raw
+            .insert("source_refs".into(), "{\"z\":1,\"a\":2}".into());
+        old.original_json_raw = old.json_raw.clone();
+        ctx.track(old.clone());
+        ctx.target_cache
+            .lock()
+            .unwrap_or_else(|_| panic!("cache"))
+            .insert("project:original".into());
+        ctx.checkpoint();
+        ctx.entities[0].set("display_name", json!("changed"));
+        ctx.entities[0].json_raw.clear();
+        ctx.entities[0].original_json_raw.clear();
+        ctx.track(Entity::new(Table::Link, json!({"id":"failed-new"})));
+        ctx.pending = None;
+        ctx.guard.active_links.insert("changed".into(), vec![]);
+        ctx.target_cache
+            .lock()
+            .unwrap_or_else(|_| panic!("cache"))
+            .clear();
+        ctx.restore();
+        assert_eq!(ctx.entities.len(), 1);
+        let restored = &ctx.entities[0];
+        assert_eq!(restored.data, old.data);
+        assert_eq!(restored.original, old.original);
+        assert_eq!(restored.raw, old.raw);
+        assert_eq!(restored.original_raw, old.original_raw);
+        assert_eq!(restored.json_raw, old.json_raw);
+        assert_eq!(restored.original_json_raw, old.original_json_raw);
+        assert_eq!(
+            ctx.pending.as_ref().map(SessionFlush::expected_version),
+            Some(9)
+        );
+        assert!(!ctx.guard.active_links.contains_key("changed"));
+        assert!(
+            ctx.target_cache
+                .lock()
+                .unwrap_or_else(|_| panic!("cache"))
+                .contains("project:original")
+        );
+    }
+    #[test]
+    fn refreshing_identity_cannot_replace_first_cas_proof() {
+        let mut ctx = context();
+        ctx.track(Entity::loaded(
+            Table::Attachment,
+            json!({"id":"head","row_version":1,"display_name":"one"}),
+        ));
+        ctx.track(Entity::loaded(
+            Table::Attachment,
+            json!({"id":"head","row_version":2,"display_name":"two"}),
+        ));
+        assert_eq!(ctx.entities[0].version(), 2);
+        assert_eq!(ctx.guard.source_entities.len(), 1);
+        assert_eq!(
+            ctx.guard.source_entities[0].version(),
+            1,
+            "locked check must still reject rebase"
+        );
+    }
+    #[test]
+    fn nested_planning_does_not_overwrite_outer_checkpoint() {
+        let mut ctx = context();
+        ctx.checkpoint();
+        ctx.track(Entity::new(Table::Attachment, json!({"id":"new"})));
+        ctx.checkpoint();
+        ctx.restore();
+        assert!(ctx.entities.is_empty());
+        assert!(ctx.pending.is_some());
+    }
+    #[test]
+    fn unknown_context_is_rejected_before_new_object_control_work() {
+        let mut ctx = context();
+        assert!(ctx.ensure_usable().is_ok());
+        ctx.poisoned = true;
+        assert!(ctx.ensure_usable().is_err());
+    }
 }
 
 #[cfg(test)]

@@ -1,0 +1,137 @@
+{
+  "source": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\tmp\\rust-r4def\\root\\api32\\E41-before.json",
+  "sourceRawSha256": "0b6583b16d140945f1100dbe23b43c8a05f9ec04c128afd91e9a93de08948e05",
+  "context": {
+    "project": {
+      "id": "c19e708b-522c-45e9-90d4-81de7295545b"
+    },
+    "otherProject": {
+      "id": "2dcd14e5-f113-4842-8886-86fb97750200"
+    },
+    "activeContract": {
+      "id": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+      "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+      "status": "active",
+      "currencyCode": "CNY"
+    },
+    "expenseCategory": "travel",
+    "costCategory": "implementation",
+    "actors": {
+      "full": {
+        "key": "full",
+        "id": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "username": "r4def33_full",
+        "permissions": [
+          "platform:users:manage",
+          "platform:roles:manage",
+          "platform:navigation:manage",
+          "platform:org-units:manage",
+          "platform:dictionaries:manage",
+          "platform:identity-providers:manage",
+          "platform:org-sync:manage",
+          "platform:attachment-storage-providers:manage",
+          "platform:system-settings:manage",
+          "customer:read",
+          "customer:write",
+          "commission:rule-versions:manage",
+          "commission:assignments:manage",
+          "commission:calculations:manage",
+          "commission:payouts:manage",
+          "commission:adjustments:manage",
+          "contract:finance:manage",
+          "contract:finance:sensitive:read",
+          "operating:finance:sensitive:read",
+          "commission:amount:sensitive:read",
+          "labor-cost-rate:sensitive:read",
+          "exception-approval-opinion:sensitive:read",
+          "lead:read",
+          "lead:write",
+          "lead:assign",
+          "lead:score:override",
+          "project:read",
+          "project:write",
+          "project:delete",
+          "nav:dashboard:view",
+          "nav:customers:view",
+          "nav:platform:view",
+          "nav:leads:view",
+          "nav:attachments:view",
+          "nav:projects:view",
+          "nav:contracts:view",
+          "nav:profile:view"
+        ]
+      },
+      "financeOnly": {
+        "key": "financeOnly",
+        "id": "295a1093-2dec-4444-b2f7-c8dde152695d",
+        "username": "r4def33_financeonly",
+        "permissions": [
+          "project:read",
+          "contract:finance:manage",
+          "platform:users:manage"
+        ]
+      },
+      "operatingOnly": {
+        "key": "operatingOnly",
+        "id": "5f22da8a-3802-4a59-97d5-27527ca2e854",
+        "username": "r4def33_operatingonly",
+        "permissions": [
+          "project:read",
+          "contract:finance:manage",
+          "platform:users:manage",
+          "operating:finance:sensitive:read"
+        ]
+      },
+      "laborOnly": {
+        "key": "laborOnly",
+        "id": "04f1746b-5ace-44ef-8fb9-f3d7196891f2",
+        "username": "r4def33_laboronly",
+        "permissions": [
+          "project:read",
+          "contract:finance:manage",
+          "platform:users:manage",
+          "labor-cost-rate:sensitive:read"
+        ]
+      }
+    },
+    "assessments": {
+      "payable": {
+        "periodStart": "2026-11-04",
+        "periodEnd": "2026-11-04",
+        "attributedStage": "execution",
+        "reason": "本隔离验收对采购事实的明确责任判断，不从当前项目阶段推断历史。",
+        "evidenceSummary": "验收责任人审核指定日期与完整期间，登记归属执行阶段；仅验证人工证据链，不作为真实生产业务事实。"
+      },
+      "historicalLabor": {
+        "periodStart": "2026-10-01",
+        "periodEnd": "2026-10-03",
+        "attributedStage": "execution",
+        "reason": "本隔离验收对历史完整人工期间的明确责任判断，不从当前项目阶段推断历史。",
+        "evidenceSummary": "验收责任人审核指定日期与完整期间，登记归属执行阶段；仅验证人工证据链，不作为真实生产业务事实。"
+      },
+      "priorityChange": {
+        "periodStart": "2026-09-01",
+        "periodEnd": "2026-09-30",
+        "attributedStage": "execution",
+        "reason": "本隔离验收对优先级变化人工完整期间的明确责任判断，不从当前项目阶段推断历史。",
+        "evidenceSummary": "验收责任人审核指定日期与完整期间，登记归属执行阶段；仅验证人工证据链，不作为真实生产业务事实。"
+      }
+    },
+    "tag": "f44",
+    "taxReason": "REQUIRED: Root财务验收责任人明确填写对本次真实税额pending及抵扣判定的理由；金额事实不自动纳入经营",
+    "businessDate": "2026-11-04",
+    "stageAssessment": {
+      "periodStart": "2026-11-04",
+      "periodEnd": "2026-11-04",
+      "attributedStage": "execution",
+      "reason": "本隔离验收责任人将本次费用、单日人工及采购承诺按指定业务日人工归属执行阶段；不推断历史区间，不认作R5执行准入",
+      "evidenceSummary": "实际API金额和业务日期支撑本次明确人工判断，后续以真实D确认事实作可追溯更正；Root执行前复核该责任说明"
+    },
+    "allocationPolicyDecision": {
+      "id": "selected-measurement-first",
+      "version": 2,
+      "authorityReceipt": "docs/design/rust-r4def/g2-allocation-freeze51.json#76b159d40f528f9735041f286cbc5f8d22f1e686a3955ba94f635a8b5703817f",
+      "runtimeBinding": "Root必须另核实际F46部署与SOURCE_PINS一致，静态输入不充当运行证明"
+    }
+  }
+}

@@ -2,7 +2,7 @@ import { defineEntity } from '@mikro-orm/core';
 import { CONTRACT_TERM_PREPARATION_STATUSES, type ContractTermPreparationStatus, type ReceivablePlanSeed } from '@poms/shared-contracts';
 import { ApprovalRecord } from '../approval/approval-record.entity';
 import { Attachment } from '../attachment/attachment.entity';
-import { Contract, ContractTermSnapshot } from '../contract/contract.entity';
+import { Contract, ContractTermSnapshot, ContractAmendment } from '../contract/contract.entity';
 import { ProjectBidCommercialProcess } from '../project/project-bid-commercial-process.entity';
 import { ProjectPricingMarginReview } from '../project/project-pricing-margin-review.entity';
 import { ProjectTechnicalCostPackage } from '../project/project-technical-cost-package.entity';
@@ -70,7 +70,8 @@ export const ContractTermPreparationSchema = defineEntity({
         {
             name: 'chk_r4_preparation_activation',
             expression: '("status" = \'activated\' and "activated_snapshot_id" is not null and "activated_at" is not null and "activated_by" is not null) or ("status" <> \'activated\' and "activated_snapshot_id" is null and "activated_at" is null and "activated_by" is null)'
-        }
+        },
+        { name: "chk_r4d_preparation_amendment", expression: "((((contract_amendment_id IS NULL) AND (before_snapshot_id IS NULL)) OR ((contract_amendment_id IS NOT NULL) AND (before_snapshot_id IS NOT NULL))))" }
     ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()'),
@@ -115,7 +116,9 @@ export const ContractTermPreparationSchema = defineEntity({
         activatedAt: p.datetime().columnType('timestamptz').nullable().fieldName('activated_at'),
         activatedBy: p.uuid().nullable().fieldName('activated_by'),
         createdAt: p.datetime().columnType('timestamptz').defaultRaw('now()').fieldName('created_at'),
-        updatedAt: p.datetime().columnType('timestamptz').defaultRaw('now()').fieldName('updated_at')
+        updatedAt: p.datetime().columnType('timestamptz').defaultRaw('now()').fieldName('updated_at'),
+        contractAmendmentId: () => p.manyToOne(ContractAmendment).mapToPk().nullable().fieldName("contract_amendment_id").createForeignKeyConstraint(false),
+        beforeSnapshotId: () => p.manyToOne(ContractTermSnapshot).mapToPk().nullable().fieldName("before_snapshot_id").createForeignKeyConstraint(false)
     }
 });
 
@@ -127,13 +130,18 @@ export const ContractReviewBindingSchema = defineEntity({
     name: 'ContractReviewBinding',
     tableName: 'contract_review_binding',
     schema: 'poms',
-    indexes: [{
+    indexes: [
+        {
         name: 'idx_r4_review_contract',
         expression: (columns, table, indexName) => `create index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.contractId}", "${columns.createdAt}" desc)`
-    }],
+    }
+    ],
     checks: [
         { name: 'contract_review_binding_preparation_version_check', expression: '"preparation_version" > 0' },
         { name: 'contract_review_binding_payload_hash_check', expression: '"payload_hash" ~ \'^[0-9a-f]{64}$\'' }
+    ],
+    uniques: [
+        { name: "uq_r4d_review_scope", properties: ["approvalRecordId","contractId","preparationId"] }
     ],
     properties: {
         approvalRecordId: () =>
@@ -146,7 +154,8 @@ export const ContractReviewBindingSchema = defineEntity({
         preparationVersion: p.integer().fieldName('preparation_version'),
         payloadHash: p.string().length(64).fieldName('payload_hash'),
         createdAt: p.datetime().columnType('timestamptz').defaultRaw('now()').fieldName('created_at'),
-        createdBy: p.uuid().fieldName('created_by')
+        createdBy: p.uuid().fieldName('created_by'),
+        contractAmendmentId: () => p.manyToOne(ContractAmendment).mapToPk().nullable().fieldName("contract_amendment_id").createForeignKeyConstraint(false)
     }
 });
 
@@ -165,7 +174,8 @@ export const ReceivablePlanVersionSchema = defineEntity({
         {
             name: 'uq_r4_plan_contract_current',
             expression: (columns, table, indexName) => `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.contractId}") where "${columns.isCurrent}"`
-        }
+        },
+        { name: "uq_r4d_plan_full_source", properties: ["id","contractId","snapshotId","sourcePreparationId","sourceReadinessId"] }
     ],
     checks: [
         { name: 'receivable_plan_version_version_check', expression: '"version" > 0' },

@@ -60,7 +60,10 @@ export const ConfirmationParticipantSchema = defineEntity({
         { name: 'idx_confirmation_participant_record_status', properties: ['confirmationRecordId', 'participantStatus'] },
         { name: 'idx_confirmation_participant_user_status', properties: ['participantId', 'participantStatus'] }
     ],
-    uniques: [{ name: 'uq_confirmation_participant_record_user', properties: ['confirmationRecordId', 'participantId'] }],
+    uniques: [
+        { name: 'uq_confirmation_participant_record_user', properties: ['confirmationRecordId', 'participantId'] },
+        { name: "uq_r4d_participant_scope", properties: ["id","confirmationRecordId","participantId"] }
+    ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
         confirmationRecordId: () =>

@@ -1,0 +1,24 @@
+"""Offline candidate manifest only. Never executes Root/HTTP/PG/object adapters."""
+import hashlib,json
+from pathlib import Path
+HERE=Path(__file__).resolve().parent;ROOT=HERE.parents[3];BASE=ROOT/"tools/rust-r4def/F"
+def sha(b):return hashlib.sha256(b).hexdigest()
+def load(p):return json.loads(p.read_text(encoding="utf-8-sig"))
+def rec(p,base):
+    b=p.read_bytes();return {"file":p.relative_to(base).as_posix(),"bytes":len(b),"rawBytesSha256":sha(b)}
+checks=load(HERE/"checks02/offline78.json");assert len(checks["checks"])==8 and all(c["status"]=="passed" for c in checks["checks"])
+assert len(checks["initialPlan"]["mandatoryCases"])==16
+assert len(checks["verticalPlan"]["mandatoryCases"])==7
+assert all(s["status"]=="not-run" for s in checks["initialPlan"]["stages"])
+pins={"apps/poms-api-rust/src/attachments/service.rs":"0fbd8afc1c22fec87e3034b9e31d9c89a3cfea92d85cb8f0ef1866dd23bcceab","apps/poms-api-rust/src/attachments/store.rs":"525028f45ce39a5935f4a1565eee662b76a2976f07a212a580c23f862e899899","apps/poms-api-rust/src/attachment_storage/registry.rs":"617f734af15f7e75db2cc69de63343c04104abbd446f322809fb1f1bfc625765"}
+for file,digest in pins.items():assert sha((ROOT/file).read_bytes())==digest
+old={"K98/delivery98.json":"d1166d213a55d62357b3dbd36ec237b7bd60ecca8080038fd84bb139d910b994","K86/delivery86.json":"af204da15ec0d6030afbca1635711d7cd9f996d317d879e9f34061da59e0b3c8","K56/delivery56.json":"09f17e101976b12f5b741e0a9d1e110cae12e7d2a632369d4eae6d1ffd47d82b","delivery46.json":"1707b06f619c5995547824968ac739b055dfb2f8bff6452c16ab72a6e607aa41","acceptance44/delivery44.json":"2d8f1238a5a1e21a382523f939bb6ebe14c9d7efb15264ef9bd8be2261019473"}
+for file,digest in old.items():assert sha((BASE/file).read_bytes())==digest
+f46=load(BASE/"delivery46.json")
+for item in f46["productFiles"]:assert sha((ROOT/item["file"]).read_bytes())==item["rawBytesSha256"]
+d={"kind":"K78-executable-request-only-critical16-candidate","status":"sealed-candidate-all-actual-acceptance-not-run-by-author","productFilesChanged":False,"supportOnly":"tools/rust-r4def/F/K78/**","requiredProductPins":pins,"sealedEarlierPackages":old,"entry":"RootEntry78.mjs","factory":"RootRunner78.mjs:createRootRunner78({h,db:connect,fault,context,runtimeEdition,selection})","driver":"request-driver78.mjs:createK78","selections":{"vertical7":checks["verticalPlan"],"critical16":checks["initialPlan"]},"RootDependencies":["api-harness32.mjs (actual h.request/binaryRequest)","db33.mjs:connect (Root execution only)","fault-core47.mjs:snapshot (diagnostics only; unscoped probe NOT used)"],"RootOnlyPrivateReads":"RootEntry/RootRunner read Root existing actor/session/runtime files only after explicit Root execution; author did not execute or read them","actualOfflineChecks":{"receipt":rec(HERE/"checks02/offline78.json",HERE),"assertions":8,"nodeSyntaxFiles":4,"previousDraftChecks":"checks/ retained, prior to Root steering that removed already-covered no-op cases"},"externalRootCoverageNotRepeated":{"RootReportedReceipt":"recovery113/receipt113.json","authorIndependentlyExecuted":False,"cases":["fresh autoLink and necessary audit","no-op canonical-group waiters","no-op stale linkset/metadata source conflict"],"latePUT":"Root E RLS plan; not repeated"},"limitations":["Root actual SQL trigger/function execution not tested by author","Complete actual object-read corruption is optional Root hook, default not-run","PUT size400 does not certify complete bounded reader","S3 not-run","Early-oldflag point cannot directly expose the not-yet-inserted private attempt UUID; old/staging/DB rollback checked","Group/fixture creation may alter current D materials; use alternate actual context or Root owned API cleanup","core47 empty-probe summary is infrastructure only, never K78 acceptance"],"authorExecutedHTTP":False,"authorExecutedPG":False,"authorExecutedObjectIO":False,"authorExecutedConcurrency":False,"authorExecutedFailureInjection":False,"S3Accepted":False,"G3Certified":False,"G4Certified":False,"RootSharedWritten":False,"credentialsRead":False,"environmentModified":False,"committed":False,"pushed":False,"artifactsExcludingManifest":[rec(p,HERE) for p in sorted(HERE.rglob("*")) if p.is_file() and p.name!="delivery78.json" and "__pycache__" not in p.parts],"next":"Root guarded import of this support-only directory, actual runtime108 (or explicitly pinned successor) execution; keep raw failures, no-op/autoLink proof remains recovery113 epoch"}
+out=HERE/"delivery78.json";raw=(json.dumps(d,ensure_ascii=False,indent=2)+"\n").encode()
+if out.exists():assert out.read_bytes()==raw,"Refuse overwrite delivery78"
+else:
+    with out.open("xb") as stream:stream.write(raw)
+print(json.dumps({"delivery":rec(out,HERE),"mandatoryCases":16,"verticalCases":7,"allActualNotRun":True,"entry":rec(HERE/"RootEntry78.mjs",HERE)},ensure_ascii=False))

@@ -1,0 +1,302 @@
+{
+  "kind": "R4DEF-D-controlled-amendment-request-only-candidate44",
+  "createdAt": "2026-11-04T00:24:33.800Z",
+  "products": [
+    {
+      "file": "request-driver44.mjs",
+      "bytes": 26486,
+      "rawBytesSha256": "db30e1dd74db01e8aa94e114e9277dcaad2f933010adadd78744502dce6328c7"
+    },
+    {
+      "file": "README.md",
+      "bytes": 8442,
+      "rawBytesSha256": "ea58f06942e20ec6b6a6aeaa2a331763b8b58dfa1beae3a23a77c43f2cf2c7ed"
+    },
+    {
+      "file": "capture-manifest44.mjs",
+      "bytes": 5283,
+      "rawBytesSha256": "2ddc41c80da858c61d0ad6d1c1690641bea47addbe72f324e205d4342b90652c"
+    }
+  ],
+  "readOnlyPublicInputs": [
+    {
+      "file": "libs/shared/api-spec/openapi.json",
+      "bytes": 1236594,
+      "rawBytesSha256": "56ae1835f50e427dd564b60f423da49e5c03fd88eed431b12ae054011e6de821"
+    },
+    {
+      "file": "apps/poms-api-rust/src/contracts/amendment.rs",
+      "bytes": 18060,
+      "rawBytesSha256": "f6def27ca7fc4cd8135dc630f262b9eb6237ecbfff716757e35ab5f02b8b4032"
+    },
+    {
+      "file": "apps/poms-api-rust/src/contracts/service.rs",
+      "bytes": 31558,
+      "rawBytesSha256": "65bb845fb2edfe8fecccd3372b448ea85c93e85fae94ed45684e67e85ca01b2f"
+    },
+    {
+      "file": "apps/poms-api-rust/src/contract_readiness/service.rs",
+      "bytes": 56755,
+      "rawBytesSha256": "f62bfa680eccb1ec1a233fa4a75fcc74b4bbb1f6a7658bec0be7ad73230b1e4a"
+    },
+    {
+      "file": "apps/poms-api-rust/src/contract_readiness/terms.rs",
+      "bytes": 12690,
+      "rawBytesSha256": "8f86245eefadbe8e759c52e0d79636f77f1374767ee214bd7c36761c10743d60"
+    },
+    {
+      "file": "apps/poms-api-rust/src/contract_readiness/view.rs",
+      "bytes": 9658,
+      "rawBytesSha256": "2fb2fe4de25e72b920cf3cbaf6b35d8f158117e0a1f1a3f1b6dfe82031349b14"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_handover/service.rs",
+      "bytes": 42969,
+      "rawBytesSha256": "283107428b312d641a2a8330e2c684b2a77163d16bdfa9a9dc9ecead655e4fc3"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_handover/sources.rs",
+      "bytes": 31707,
+      "rawBytesSha256": "e5d33db8ebe4cdd537f8c0006c9bb16ab6c8f1652e55c4923444a70499863ff4"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_handover/view.rs",
+      "bytes": 19677,
+      "rawBytesSha256": "1a8eccae792e2073cfb18a0c3454e65927265e46bac975795815281c8c53fcce"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_handover/model.rs",
+      "bytes": 5010,
+      "rawBytesSha256": "03a4ada33fb31c1b4202de24f858455d77d9b88f7cbd57afd4d40c3e8374ec32"
+    },
+    {
+      "file": "apps/poms-admin/src/app/features/project/project-handover-actions.ts",
+      "bytes": 42561,
+      "rawBytesSha256": "97c4c8a41539b0539d6730a6e0257c943e1cd5517a2589f2f4fd132f1dd7a0e9"
+    },
+    {
+      "file": "tmp/rust-r4def/root/api32/continuation40-result.json",
+      "bytes": 128829,
+      "rawBytesSha256": "4fde30c1a8971bd5df662a158a0e7a2268d4b81a60aa8c650793b642b9723d3a"
+    },
+    {
+      "file": "tmp/rust-r4def/root/api32/D42-result.json",
+      "bytes": 22597,
+      "rawBytesSha256": "0d7f52cec3ff6d65a09294af25a4a11393ff164da2a8f24232c74dd36ef098f6"
+    }
+  ],
+  "operationAuthority": [
+    {
+      "operationId": "ContractController_getById",
+      "method": "GET",
+      "path": "/api/contracts/{id}",
+      "successStatus": 200
+    },
+    {
+      "operationId": "ContractController_getCurrentApproval",
+      "method": "GET",
+      "path": "/api/contracts/{id}/approval-record",
+      "successStatus": 200
+    },
+    {
+      "operationId": "ContractController_submitReview",
+      "method": "POST",
+      "path": "/api/contracts/{id}:submitReview",
+      "successStatus": 200
+    },
+    {
+      "operationId": "ContractController_activate",
+      "method": "POST",
+      "path": "/api/contracts/{id}:activate",
+      "successStatus": 200
+    },
+    {
+      "operationId": "ContractTermSnapshotController_getById",
+      "method": "GET",
+      "path": "/api/contract-term-snapshots/{id}",
+      "successStatus": 200
+    },
+    {
+      "operationId": "ContractFinanceController_listReceipts",
+      "method": "GET",
+      "path": "/api/contracts/{contractId}/receipt-records",
+      "successStatus": 200
+    },
+    {
+      "operationId": "ContractReadinessController_getCurrentContractReadiness",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/contract-readiness",
+      "successStatus": 200
+    },
+    {
+      "operationId": "ContractReadinessController_getCommercialReleaseBaseline",
+      "method": "GET",
+      "path": "/api/commercial-release-baselines/{id}",
+      "successStatus": 200
+    },
+    {
+      "operationId": "ContractReadinessController_getDiffHistory",
+      "method": "GET",
+      "path": "/api/commercial-release-baselines/{id}/diff-history",
+      "successStatus": 200
+    },
+    {
+      "operationId": "ContractReadinessController_createContractReadinessPackage",
+      "method": "POST",
+      "path": "/api/contract-readiness-packages",
+      "successStatus": 201
+    },
+    {
+      "operationId": "ContractReadinessController_reviewDiff",
+      "method": "POST",
+      "path": "/api/commercial-release-baselines/{id}:reviewDiff",
+      "successStatus": 200
+    },
+    {
+      "operationId": "ContractReadinessController_initializeContractSnapshot",
+      "method": "POST",
+      "path": "/api/contract-readiness-packages/{id}:initializeContractSnapshot",
+      "successStatus": 200
+    },
+    {
+      "operationId": "ApprovalController_approveRecord",
+      "method": "POST",
+      "path": "/api/approval-records/{id}:approve",
+      "successStatus": 200
+    },
+    {
+      "operationId": "ProjectHandoverController_getContractHandoverSummary",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/contract-handover",
+      "successStatus": 200
+    },
+    {
+      "operationId": "ProjectHandoverController_getProjectHandoverDetailByProject",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/project-handover",
+      "successStatus": 200
+    },
+    {
+      "operationId": "ProjectHandoverController_getProjectHandoverDetailByHandover",
+      "method": "GET",
+      "path": "/api/project-handovers/{id}",
+      "successStatus": 200
+    },
+    {
+      "operationId": "ProjectHandoverController_rebaselineContractHandover",
+      "method": "POST",
+      "path": "/api/contract-handover-rebaselines",
+      "successStatus": 200
+    },
+    {
+      "operationId": "ProjectHandoverController_confirmProjectHandoverParticipant",
+      "method": "POST",
+      "path": "/api/project-handovers/{id}/participant-confirmations",
+      "successStatus": 200
+    },
+    {
+      "operationId": "ProjectHandoverController_confirmProjectHandover",
+      "method": "POST",
+      "path": "/api/project-handovers/{id}:confirm",
+      "successStatus": 200
+    },
+    {
+      "operationId": "RuntimeAuditController_listAuditLogs",
+      "method": "GET",
+      "path": "/api/audit-logs",
+      "successStatus": 200
+    }
+  ],
+  "currentSchemas": 626,
+  "actualInputIdentity": {
+    "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+    "handoverId": "bac70ea7-3f54-42d4-beac-a6ba6f4570db",
+    "contractIds": {
+      "A": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+      "B": "48a7467c-c58e-486d-aade-eda661b65298"
+    }
+  },
+  "priorFacts": {
+    "continuation40Completed": true,
+    "D42Completed": true,
+    "D42Status": "confirmed",
+    "D42ConfirmedPeople": 3,
+    "priorHTTPExecutedBy": "Root; original public receipts read only, not this candidate"
+  },
+  "candidateInitial": {
+    "kind": "R4DEF-controlled-amendment-request-only44",
+    "stages": [
+      {
+        "name": "capture",
+        "status": "not-run"
+      },
+      {
+        "name": "A1",
+        "status": "not-run"
+      },
+      {
+        "name": "A2",
+        "status": "not-run"
+      },
+      {
+        "name": "B1",
+        "status": "not-run"
+      },
+      {
+        "name": "affected-negative",
+        "status": "not-run"
+      },
+      {
+        "name": "rebaseline",
+        "status": "not-run"
+      },
+      {
+        "name": "lineage-evidence",
+        "status": "not-run"
+      },
+      {
+        "name": "fresh-confirmations",
+        "status": "not-run"
+      },
+      {
+        "name": "history-and-receipts",
+        "status": "not-run"
+      }
+    ],
+    "observations": [],
+    "receipts": [],
+    "mutations": [],
+    "initialState": "not-run",
+    "needsEvidence": false,
+    "HTTPPassed": 0,
+    "completed": false,
+    "noReceiptWriteOperationInCatalogue": true
+  },
+  "validation": {
+    "nodeSyntax": "passed node --check",
+    "importOnlyInitialManifest": "passed all9 not-run / 0HTTP",
+    "routesAndSuccessStatuses": "verified against current626 public spec",
+    "fakeResponseUsed": false,
+    "actualHTTPExecuted": false,
+    "databaseConnected": false,
+    "SQLBusinessProducerUsed": false,
+    "browserExecuted": false,
+    "G3Certified": false,
+    "G4Certified": false
+  },
+  "acceptance": {
+    "minimum": "capture(); amend(A1): one real contract amendment through approved Active snapshot and atomic complete plan",
+    "full": "A1+A2+B1 before a single D rebaseline from D42; complete two-contract chain and explicit affected original contract/receivable items",
+    "sourceReference": "same-Active explicit per-contract commercial reference, only node label changes, reapproval-required stops",
+    "approvers": "actual currentApproverUserId matched to real logged-in session",
+    "receipts": "read-only before/after; empty confirmed history marks needs-evidence",
+    "confirmation": "new identities and pending people; oldconfirmed flags rejected until all3 personally reconfirm",
+    "lineage": "actual D audit amendmentChains with every before/after/preparation/approval/payloadHash; no inference from200 alone",
+    "historicalMaterials": "old frozenV1 unchanged; new approved snapshots plus same true V1 scope/risk compared",
+    "R5": "execution admission remains false"
+  },
+  "changedProductFiles": [],
+  "changedRootFiles": [],
+  "environmentChanged": false,
+  "committed": false
+}

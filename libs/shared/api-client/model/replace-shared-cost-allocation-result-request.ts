@@ -7,13 +7,16 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { R4FSharedCostAllocationShareItem } from './r4-f-shared-cost-allocation-share-item';
 
 
 export interface ReplaceSharedCostAllocationResultRequest {
-    allocatedAmount: string;
+    allocatedAmount?: string;
     allocationRatio?: string | null;
     allocationSummary?: string | null;
     replacementReason: string;
     comment?: string | null;
     expectedVersion?: number;
+    projectShareItems: Array<R4FSharedCostAllocationShareItem>;
+    expectedBasisVersion: number;
 }

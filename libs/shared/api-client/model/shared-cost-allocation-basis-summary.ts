@@ -8,6 +8,7 @@
  * Do not edit the class manually.
  */
 import { OperatingPendingLifecycleStatus } from './operating-pending-lifecycle-status';
+import { SensitiveStringFieldProjection } from './sensitive-string-field-projection';
 import { SharedCostAllocationResultSummary } from './shared-cost-allocation-result-summary';
 
 
@@ -16,7 +17,6 @@ export interface SharedCostAllocationBasisSummary {
     sourceCostScopeKey: string;
     basisType: string;
     allocationMethod: string;
-    basisSummary: string | null;
     status: OperatingPendingLifecycleStatus;
     effectiveAt: string | null;
     effectiveBy: string | null;
@@ -25,4 +25,20 @@ export interface SharedCostAllocationBasisSummary {
     createdAt: string;
     updatedAt: string;
     results: Array<SharedCostAllocationResultSummary>;
+    basisSummaryProjection: SensitiveStringFieldProjection;
+    financialProjection: SensitiveStringFieldProjection;
+    currency: string | null;
+    measurementBasis: SharedCostAllocationBasisSummaryMeasurementBasisEnum | null;
+    sourceRecordCount: number;
+    evidenceId: string | null;
+    governanceCertification: SharedCostAllocationBasisSummaryGovernanceCertificationEnum;
 }
+export enum SharedCostAllocationBasisSummaryMeasurementBasisEnum {
+    ExcludingTax = 'excluding-tax',
+    Tax = 'tax',
+    IncludingTax = 'including-tax'
+};
+export enum SharedCostAllocationBasisSummaryGovernanceCertificationEnum {
+    Verified = 'verified',
+    LegacyUnverified = 'legacy-unverified'
+};

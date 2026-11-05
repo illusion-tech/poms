@@ -1,3 +1,7 @@
+import { ProjectHandoverBasisSnapshot } from "./project-handover-basis-snapshot.entity";
+import { PlatformUser } from "../platform/platform-user.entity";
+import { ConfirmationRecord } from "../approval/confirmation-record.entity";
+import { ProjectHandoverBasisItem } from "./project-handover-basis-item.entity";
 import { defineEntity } from '@mikro-orm/core';
 import { ApprovalSummarySnapshot } from '../approval-summary/approval-summary.entity';
 import { ContractAmendment, ContractTermSnapshot } from '../contract/contract.entity';
@@ -40,7 +44,11 @@ export const ContractHandoverRebaselineRecordSchema = defineEntity({
             name: 'uq_chrr_project_effective',
             expression: (columns, table, indexName) =>
                 `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.projectId}") where "${columns.status}" = 'effective'`
-        }
+        },
+        { name: "uq_r4d_rebaseline_before", properties: ["id","basisBeforeId"] }
+    ],
+    checks: [
+        { name: "chk_r4d_rebaseline_producer", expression: "(((producer_version IS NULL) OR ((producer_version = 1) AND (basis_before_id IS NOT NULL) AND (basis_after_id IS NOT NULL) AND (basis_before_id <> basis_after_id) AND (source_handover_id IS NOT NULL) AND (replacement_handover_id IS NOT NULL) AND (source_handover_id <> replacement_handover_id))))" }
     ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
@@ -89,7 +97,12 @@ export const ContractHandoverRebaselineRecordSchema = defineEntity({
         createdBy: p.uuid().nullable().fieldName('created_by').comment('创建人'),
         updatedAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).onUpdate(() => new Date()).fieldName('updated_at').comment('最后更新时间'),
         updatedBy: p.uuid().nullable().fieldName('updated_by').comment('最后更新人'),
-        rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号')
+        rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号'),
+        producerVersion: p.integer().nullable().fieldName("producer_version"),
+        basisBeforeId: () => p.manyToOne(ProjectHandoverBasisSnapshot).mapToPk().nullable().fieldName("basis_before_id").foreignKeyName("contract_handover_rebaseline_record_basis_before_id_fkey").updateRule('no action').deleteRule("restrict"),
+        basisAfterId: () => p.manyToOne(ProjectHandoverBasisSnapshot).mapToPk().nullable().fieldName("basis_after_id").foreignKeyName("contract_handover_rebaseline_record_basis_after_id_fkey").updateRule('no action').deleteRule("restrict"),
+        sourceHandoverId: () => p.manyToOne(ProjectHandover).mapToPk().nullable().fieldName("source_handover_id").foreignKeyName("contract_handover_rebaseline_record_source_handover_id_fkey").updateRule('no action').deleteRule("restrict"),
+        replacementHandoverId: () => p.manyToOne(ProjectHandover).mapToPk().nullable().fieldName("replacement_handover_id").foreignKeyName("contract_handover_rebaseline_recor_replacement_handover_id_fkey").updateRule('no action').deleteRule("restrict")
     }
 });
 
@@ -111,6 +124,17 @@ export const ProjectHandoverSchema = defineEntity({
         { name: 'idx_project_handover_contract_summary_snapshot', properties: ['contractSummarySnapshotId'] },
         { name: 'idx_project_handover_summary_snapshot', properties: ['summarySnapshotId'] },
         { name: 'idx_project_handover_rebaseline', properties: ['handoverRebaselineRecordId'] }
+    ],
+    uniques: [
+        { name: "uq_r4d_handover_confirmation", properties: ["id","confirmationRecordId"] },
+        { name: "uq_r4d_handover_freeze_source", properties: ["id","summarySnapshotId","basisSnapshotId"] },
+        { name: "uq_r4d_handover_scope", properties: ["id","projectId","basisSnapshotId"] },
+        { name: "uq_r4d_handover_version", properties: ["projectId","version"] },
+        { name: "uq_r4d_handover_current", expression: "CREATE UNIQUE INDEX uq_r4d_handover_current ON poms.project_handover USING btree (project_id) WHERE is_current" }
+    ],
+    checks: [
+        { name: "chk_r4d_handover_producer", expression: "(((producer_version IS NULL) OR ((producer_version = 1) AND (basis_snapshot_id IS NOT NULL) AND (version IS NOT NULL) AND (execution_owner_user_id IS NOT NULL) AND (confirmation_record_id IS NOT NULL) AND (finance_confirmation_required IS NOT NULL) AND (prepared_receipt_judgment_mode IS NOT NULL) AND ((prepared_receipt_judgment_mode)::text = ANY ((ARRAY['project-aggregate'::character varying, 'contract-separate'::character varying])::text[])) AND (source_payload_hash IS NOT NULL) AND ((source_payload_hash)::text ~ '^[0-9a-f]{64}$'::text) AND (((status)::text <> 'confirmed'::text) OR ((confirmed_at IS NOT NULL) AND (confirmed_by IS NOT NULL))) AND (((status)::text <> 'draft'::text) OR ((confirmed_at IS NULL) AND (confirmed_by IS NULL))) AND ((NOT is_current) OR ((status)::text = ANY ((ARRAY['draft'::character varying, 'confirmed'::character varying])::text[]))))))" },
+        { name: "project_handover_version_check", expression: "(((version IS NULL) OR (version > 0)))" }
     ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
@@ -168,7 +192,17 @@ export const ProjectHandoverSchema = defineEntity({
         createdBy: p.uuid().nullable().fieldName('created_by').comment('创建人'),
         updatedAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).onUpdate(() => new Date()).fieldName('updated_at').comment('最后更新时间'),
         updatedBy: p.uuid().nullable().fieldName('updated_by').comment('最后更新人'),
-        rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号')
+        rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号'),
+        producerVersion: p.integer().nullable().fieldName("producer_version"),
+        basisSnapshotId: () => p.manyToOne(ProjectHandoverBasisSnapshot).mapToPk().nullable().fieldName("basis_snapshot_id").createForeignKeyConstraint(false),
+        version: p.integer().nullable().fieldName("version"),
+        isCurrent: p.boolean().default(false).fieldName("is_current"),
+        supersedesId: () => p.manyToOne(ProjectHandover).mapToPk().nullable().fieldName("supersedes_id").foreignKeyName("project_handover_supersedes_id_fkey").updateRule('no action').deleteRule("restrict"),
+        executionOwnerUserId: () => p.manyToOne(PlatformUser).mapToPk().nullable().fieldName("execution_owner_user_id").foreignKeyName("project_handover_execution_owner_user_id_fkey").updateRule('no action').deleteRule("restrict"),
+        confirmationRecordId: () => p.manyToOne(ConfirmationRecord).mapToPk().nullable().fieldName("confirmation_record_id").foreignKeyName("project_handover_confirmation_record_id_fkey").updateRule('no action').deleteRule("restrict"),
+        financeConfirmationRequired: p.boolean().nullable().fieldName("finance_confirmation_required"),
+        preparedReceiptJudgmentMode: p.string().length(64).nullable().fieldName("prepared_receipt_judgment_mode"),
+        sourcePayloadHash: p.string().length(64).nullable().fieldName("source_payload_hash")
     }
 });
 
@@ -184,6 +218,12 @@ export const HandoverBaselineImpactItemSchema = defineEntity({
     indexes: [
         { name: 'idx_hbii_rebaseline_record', properties: ['rebaselineRecordId'] },
         { name: 'idx_hbii_affected_item', properties: ['affectedHandoverItemId'] }
+    ],
+    uniques: [
+        { name: "uq_r4d_rebaseline_item", expression: "CREATE UNIQUE INDEX uq_r4d_rebaseline_item ON poms.handover_baseline_impact_item USING btree (rebaseline_record_id, source_basis_item_id) WHERE (producer_version = 1)" }
+    ],
+    checks: [
+        { name: "chk_r4d_impact_producer", expression: "(((producer_version IS NULL) OR ((producer_version = 1) AND (basis_before_id IS NOT NULL) AND (source_basis_item_id IS NOT NULL) AND (affected_handover_item_id = source_basis_item_id))))" }
     ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
@@ -201,7 +241,10 @@ export const HandoverBaselineImpactItemSchema = defineEntity({
         impactSummary: p.text().fieldName('impact_summary').comment('影响摘要'),
         supersedesBaselineId: p.uuid().nullable().fieldName('supersedes_baseline_id').comment('被替代基线 ID'),
         createdAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).fieldName('created_at').comment('创建时间'),
-        createdBy: p.uuid().nullable().fieldName('created_by').comment('创建人')
+        createdBy: p.uuid().nullable().fieldName('created_by').comment('创建人'),
+        producerVersion: p.integer().nullable().fieldName("producer_version"),
+        basisBeforeId: () => p.manyToOne(ProjectHandoverBasisSnapshot).mapToPk().nullable().fieldName("basis_before_id").createForeignKeyConstraint(false),
+        sourceBasisItemId: () => p.manyToOne(ProjectHandoverBasisItem).mapToPk().nullable().fieldName("source_basis_item_id").createForeignKeyConstraint(false)
     }
 });
 
@@ -230,7 +273,12 @@ export const ProjectReceiptJudgmentFreezeSchema = defineEntity({
             name: 'uq_prjf_project_current',
             expression: (columns, table, indexName) =>
                 `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.projectId}") where "${columns.isCurrent}" = true`
-        }
+        },
+        { name: "uq_r4d_receipt_freeze_version", properties: ["projectId","version"] }
+    ],
+    checks: [
+        { name: "chk_r4d_receipt_freeze_producer", expression: "(((producer_version IS NULL) OR ((producer_version = 1) AND (basis_snapshot_id IS NOT NULL) AND (version IS NOT NULL) AND ((receipt_judgment_mode)::text = ANY ((ARRAY['project-aggregate'::character varying, 'contract-separate'::character varying])::text[])) AND ((source_type)::text = ANY ((ARRAY['project-handover'::character varying, 'project-receipt-judgment-freeze'::character varying])::text[])) AND (((source_type)::text <> 'project-handover'::text) OR (source_id = source_handover_id)))))" },
+        { name: "project_receipt_judgment_freeze_version_check", expression: "(((version IS NULL) OR (version > 0)))" }
     ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
@@ -291,7 +339,10 @@ export const ProjectReceiptJudgmentFreezeSchema = defineEntity({
         createdBy: p.uuid().nullable().fieldName('created_by').comment('创建人'),
         updatedAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).onUpdate(() => new Date()).fieldName('updated_at').comment('最后更新时间'),
         updatedBy: p.uuid().nullable().fieldName('updated_by').comment('最后更新人'),
-        rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号')
+        rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号'),
+        producerVersion: p.integer().nullable().fieldName("producer_version"),
+        basisSnapshotId: () => p.manyToOne(ProjectHandoverBasisSnapshot).mapToPk().nullable().fieldName("basis_snapshot_id").createForeignKeyConstraint(false),
+        version: p.integer().nullable().fieldName("version")
     }
 });
 

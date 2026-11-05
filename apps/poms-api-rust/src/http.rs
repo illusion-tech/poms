@@ -178,6 +178,10 @@ pub fn openapi() -> serde_json::Value {
         "../../../tools/rust-r4abc/component-overrides01.json"
     ))
     .unwrap_or_else(|_| panic!("invalid declared R4 component delta"));
+    let r4_def_overrides: serde_json::Value = serde_json::from_str(include_str!(
+        "../../../tools/rust-r4def/component-overrides27.json"
+    ))
+    .unwrap_or_else(|_| panic!("invalid declared R4 DEF component delta"));
     for subset in [
         authentication,
         crate::navigation::http::openapi(),
@@ -215,7 +219,18 @@ pub fn openapi() -> serde_json::Value {
                 }
                 let existing = &document["components"][kind][name];
                 let replacement = &r4_overrides["overrides"][name];
-                if kind == "schemas" && !replacement.is_null() {
+                let current_replacement = &r4_def_overrides["overrides"][name];
+                if kind == "schemas" && !current_replacement.is_null() {
+                    assert!(
+                        value == &current_replacement["before"]
+                            || value == &current_replacement["after"]
+                            || (!replacement.is_null()
+                                && (value == &replacement["before"]
+                                    || value == &replacement["after"])),
+                        "undeclared R4 DEF component shape {name}"
+                    );
+                    document["components"][kind][name] = current_replacement["after"].clone();
+                } else if kind == "schemas" && !replacement.is_null() {
                     assert!(
                         value == &replacement["before"] || value == &replacement["after"],
                         "undeclared R4 component shape {name}"

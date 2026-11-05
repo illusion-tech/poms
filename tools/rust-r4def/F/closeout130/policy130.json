@@ -1,0 +1,20 @@
+{
+  "kind": "R4DEF-closeout130-public-archive-policy",
+  "expectedRoot": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+  "archiveRoot": "docs/design/archive/slices/rust-r4def",
+  "baseline": "docs/design/rust-r4def-next30-baseline.md",
+  "lifecycleRoot": "docs/design/rust-r4def",
+  "publicEvidenceRoots": ["tmp/rust-r4def/root", "tmp/rust-r4def/independent"],
+  "allowedExtensions": [".json", ".md", ".sql", ".png", ".log", ".txt", ".bin", ".jsonl", ".ndjson"],
+  "deniedDirectoryComponents": ["private", "objects", "object", "object-store", "object-storage", "blobs", "uploads", "volumes", "pgdata", "node_modules", "target", "cargo", ".cargo", "dist", "build", "builds", "build-output", "release", "debug", "deps", "incremental", ".git"],
+  "deniedSuffixes": [".exe", ".dll", ".pdb", ".jar", ".class", ".o", ".obj", ".a", ".lib", ".rlib", ".rmeta", ".so", ".dylib", ".wasm", ".zip", ".7z", ".tar", ".gz", ".pem", ".key", ".pfx", ".p12", ".crt", ".cer", ".env"],
+  "deniedNameRegex": "(^|[-_])(credentials?|secrets?|tokens?|cookies?|session[-_]?dump|authorization)([-_.]|$)",
+  "publicSourceWrapperRegex": "\\.(rs|ts|tsx|js|mjs|cjs|py|ps1|sql|md)\\.bin$",
+  "buildOutputPathRegex": "(^|/)(admin-build[^/]*|native-build[^/]*|rust-build[^/]*|rust-summary-build[^/]*)/(output|artifacts|bin|browser|release|debug)(/|$)",
+  "maxBytesPerFile": 33554432,
+  "representation": "append .bin to raw text, retain existing .bin and .png; do not normalize bytes",
+  "lifecycleExclusionIsBlocker": true,
+  "tmpEvidenceOperation": "copy-only-never-delete",
+  "largeBuilds": "exclude build/cargo/node_modules/target/dist bulk; keep public manifest/receipt/log outside those bulk directories",
+  "classificationRule": "Retain original G1, Block, Failed, Partial, ignored, Native reference and Native ORM exit 1 labels. Archive inclusion is not certification."
+}

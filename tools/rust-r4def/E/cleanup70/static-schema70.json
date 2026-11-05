@@ -1,0 +1,143 @@
+{
+  "classification": "STATIC catalog potential graph only; no actual business row graph supplied",
+  "tables": 120,
+  "foreignKeys": 294,
+  "beforeCrossTableSCCs": [
+    [
+      "commercial_baseline_diff_result",
+      "commercial_release_baseline"
+    ],
+    [
+      "contract_amendment",
+      "contract_readiness_package",
+      "contract_review_binding",
+      "contract_term_preparation",
+      "contract_term_snapshot"
+    ],
+    [
+      "contract_handover_rebaseline_record",
+      "project_handover"
+    ]
+  ],
+  "afterWhitelistedPointerCutsCrossTableSCCs": [],
+  "selfForeignKeysRequireActualChildFirstOrder": [
+    {
+      "table": "accounting_tax_treatment_snapshot",
+      "constraint": "fk_r4f_tax_supersedes"
+    },
+    {
+      "table": "approval_summary_snapshot",
+      "constraint": "approval_summary_snapshot_supersedes_id_foreign"
+    },
+    {
+      "table": "commission_calculation",
+      "constraint": "commission_calculation_recalculated_from_id_foreign"
+    },
+    {
+      "table": "commission_departure_exception_decision",
+      "constraint": "cded_supersedes_fk"
+    },
+    {
+      "table": "commission_final_settlement_snapshot",
+      "constraint": "cfss_supersedes_fk"
+    },
+    {
+      "table": "commission_payout",
+      "constraint": "commission_payout_reversed_from_id_foreign"
+    },
+    {
+      "table": "commission_payout",
+      "constraint": "commission_payout_source_payout_id_foreign"
+    },
+    {
+      "table": "commission_role_assignment",
+      "constraint": "commission_role_assignment_supersedes_id_foreign"
+    },
+    {
+      "table": "commission_rule_explanation_snapshot",
+      "constraint": "cres_supersedes_fk"
+    },
+    {
+      "table": "contract_amendment",
+      "constraint": "contract_amendment_supersedes_id_foreign"
+    },
+    {
+      "table": "contract_handover_rebaseline_record",
+      "constraint": "contract_handover_rebaseline_record_supersedes_id_foreign"
+    },
+    {
+      "table": "contract_term_preparation",
+      "constraint": "contract_term_preparation_supersedes_id_fkey"
+    },
+    {
+      "table": "cost_stage_attribution_snapshot",
+      "constraint": "fk_r4f_stage_supersedes"
+    },
+    {
+      "table": "customer",
+      "constraint": "customer_merged_into_customer_id_foreign"
+    },
+    {
+      "table": "internal_cost_rate_version",
+      "constraint": "internal_cost_rate_version_supersedes_rate_version_id_foreign"
+    },
+    {
+      "table": "org_unit",
+      "constraint": "org_unit_parent_id_foreign"
+    },
+    {
+      "table": "project_actual_cost_record",
+      "constraint": "project_actual_cost_record_supersedes_record_id_foreign"
+    },
+    {
+      "table": "project_archive_record",
+      "constraint": "project_archive_record_supersedes_foreign"
+    },
+    {
+      "table": "project_bid_commercial_process",
+      "constraint": "project_bid_commercial_process_supersedes_id_foreign"
+    },
+    {
+      "table": "project_handover",
+      "constraint": "project_handover_supersedes_id_fkey"
+    },
+    {
+      "table": "project_handover_basis_snapshot",
+      "constraint": "project_handover_basis_snapshot_supersedes_id_fkey"
+    },
+    {
+      "table": "project_pricing_margin_review",
+      "constraint": "project_pricing_margin_review_supersedes_id_foreign"
+    },
+    {
+      "table": "project_receipt_judgment_freeze",
+      "constraint": "project_receipt_judgment_freeze_supersedes_id_foreign"
+    },
+    {
+      "table": "project_technical_cost_package",
+      "constraint": "project_technical_cost_package_supersedes_id_foreign"
+    },
+    {
+      "table": "receivable_plan_version",
+      "constraint": "receivable_plan_version_supersedes_id_fkey"
+    },
+    {
+      "table": "sales_follow_up_record",
+      "constraint": "sales_follow_up_replaced_by_foreign"
+    },
+    {
+      "table": "sales_follow_up_record",
+      "constraint": "sales_follow_up_supersedes_foreign"
+    },
+    {
+      "table": "shared_cost_allocation_basis",
+      "constraint": "fk_r4f_basis_supersedes"
+    },
+    {
+      "table": "shared_cost_allocation_result",
+      "constraint": "fk_r4f_result_supersedes"
+    }
+  ],
+  "actualRowsPlanned": false,
+  "cleanupExecuted": false
+}

@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ProjectHandoverResponsibilityInput } from './project-handover-responsibility-input';
 import { ProjectHandoverParticipantStatus } from './project-handover-participant-status';
 
 
@@ -17,4 +18,5 @@ export interface ProjectHandoverParticipantConfirmationItem {
     participantStatus: ProjectHandoverParticipantStatus;
     confirmedAt: string | null;
     confirmedComment: string | null;
+    responsibilities: Array<ProjectHandoverResponsibilityInput>;
 }

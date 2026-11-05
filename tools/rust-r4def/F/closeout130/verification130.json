@@ -1,0 +1,44 @@
+{
+  "kind": "static-support-packet-verification",
+  "rootMutation": false,
+  "checks": [
+    {
+      "check": "PowerShell-AST",
+      "result": "Pass",
+      "file": "Common130.ps1"
+    },
+    {
+      "check": "PowerShell-AST",
+      "result": "Pass",
+      "file": "Finish-Manifest130.ps1"
+    },
+    {
+      "check": "PowerShell-AST",
+      "result": "Pass",
+      "file": "Invoke-Archive130.ps1"
+    },
+    {
+      "check": "PowerShell-AST",
+      "result": "Pass",
+      "file": "Invoke-Writeback130.ps1"
+    },
+    {
+      "check": "PowerShell-AST",
+      "result": "Pass",
+      "file": "Verify-Static130.ps1"
+    },
+    {
+      "result": "Pass",
+      "check": "null-facts-rejected-before-Root-I/O"
+    },
+    {
+      "result": "Pass",
+      "check": "path-escapes-rejected"
+    },
+    {
+      "result": "Pass",
+      "check": "actual-JSON-pointer-lookup"
+    }
+  ],
+  "archiveEntrypointRun": false
+}

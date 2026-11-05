@@ -16,4 +16,5 @@ export interface CreateInvoiceRecordRequest {
     invoiceNumber: string;
     invoiceAmount: string;
     invoiceDate: string;
+    currencyCode?: string;
 }

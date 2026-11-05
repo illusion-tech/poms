@@ -69,3 +69,10 @@ G1 = Pending。仅在精确输入齐备、非作者复核和线上冻结后准�
 [独立终审原件](rust-r4def/g1-independent07/g1-final06.json.bin) Pass，P0–P2剩余0；[实际线上读回](rust-r4def/g1-online07.json)核四项正文/comment及原生父子关系，#101/#57保持Open。权威[manifest06](rust-r4def/joint-g1-06/manifest06.json)绑定435来源、5outputs、30入口/63schema差异及完整目标293/624；[ownership04](rust-r4def/ownership04.md)与[Root人力派生权限覆盖](rust-r4def/root-projection05.json)参与冻结。原候选、03/05 Block、失败原件保留各自时点。
 
 G1Certified=true、G2Authorized=true仅准入本批三线实现；Rust仍210操作，本批新增正式交付0。实现、实际验收、独立G3/G4、固定提交/main和收口仍待完成；作者从同一冻结metadata提交建立工作树，不重新询问已决业务。上方候选和原始输入的Pending文句保留原时点，以本节及线上Issue为当前准入。
+
+
+## 10. G2 当前进展
+
+30 个操作的隔离候选已有正向 HTTP 见证，正式 main 交付仍为210、本批新增正式交付0。当前完整 spec为293/626、生成client616，永久S4保留。用户另行裁决所选金额层优先，[纠偏输入51](rust-r4def/g2-allocation-freeze51.json)经独立复核后准入F46；原F25及原G1不改写。
+
+真实D多合同连续变更、再基线化、全员重新本人确认与已有到账不重放已执行；E旧协议无币种来源已由真实Native创建并被Rust拒绝；F12新policy的公开金额/税务/敏感矩阵及必要写回滚已有真实证据。附件新版本complete的旧顺序P1与必要I/O/关联竞态正通过[支持纠偏54](rust-r4def/g2-attachment-proposal54.json)及后续独立补充处理，当前不认证该支持机制通过。最终私有证据、精度负例、并发/最终UI、清理、独立G3/G4及main集成仍待完成。#101/#57保持开放。

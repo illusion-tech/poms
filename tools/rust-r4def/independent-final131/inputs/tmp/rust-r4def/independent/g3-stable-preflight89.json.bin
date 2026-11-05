@@ -1,0 +1,264 @@
+{
+  "kind": "R4DEF-independent-final-G3-preparation-stable-source-and-evidence89",
+  "reviewedAtUtc": "2026-11-04T04:35:48.322Z",
+  "status": "Stable-parts-reviewed; final-G3-withheld; known-K86-P1-Block",
+  "headAtStableIntake": "c96b14bb5af77d28df283612fd6569340765c8ea",
+  "currentHeadAtSeal": "287214fd95d7d954694002c6e95665ebf881929c",
+  "workingTreeIsNotFinalFreeze": true,
+  "authority": "G1-final06 + root-projection05 + corrective19/material delta + user-selected allocation decision48 and accepted v2 proposal; latest K86 delta reviewed separately.",
+  "inputManifests": {
+    "initial": {
+      "file": "tmp/rust-r4def/independent/g3-stable-prep89-inputs01/manifest89.json",
+      "bytes": 559285,
+      "sha256": "787f90985fb15161a72f40aa132946e171842bd5875c9f55542d1ba6f2ce4e95"
+    },
+    "publicFacts": {
+      "file": "tmp/rust-r4def/independent/g3-stable-facts89.json",
+      "bytes": 468620,
+      "sha256": "c34c54a1e6b696ce210979604cd94bd090861b46840f6978e7f0f4b93c86a314"
+    },
+    "correctedReadback": {
+      "file": "tmp/rust-r4def/independent/g3-stable-readback89-04.json",
+      "bytes": 26987,
+      "sha256": "e7f0d0bb45b3b34285ddd393da0eb88afc634914bbf121b83ca9ee2b53ef4b2b"
+    },
+    "effectiveRaces": {
+      "file": "tmp/rust-r4def/independent/races-effective89-review.json",
+      "bytes": 26420,
+      "sha256": "4c6e09b1cb7dfef719a10342107490430b04b64de227debbb073f4e7422565e6"
+    },
+    "K86Block": {
+      "file": "tmp/rust-r4def/independent/k86-code-preflight96.json",
+      "bytes": 11018,
+      "sha256": "5714648c742efdb859a93cd59e0f64b9cc410e6594264755f0dfdc54bd1a1094"
+    }
+  },
+  "exactSnapshotVersionsVerified": 2216,
+  "currentProductDeltaSinceStableIntake": [
+    {
+      "file": "apps/poms-api-rust/src/attachments/service.rs",
+      "captured": "010bd6f29762792f29c05849cc6b39f62cf2fbdb65837c5701c61fe43e68e073",
+      "current": "0fbd8afc1c22fec87e3034b9e31d9c89a3cfea92d85cb8f0ef1866dd23bcceab"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/store.rs",
+      "captured": "3af983b17b23435477e9bf0adaa88b22fc106a3f67229903c0440b7693a2bc42",
+      "current": "163452c03d34231360ba7da16b76fd3e282fbc96b9ae752e2cfd584cf9809f8e"
+    }
+  ],
+  "stableNewFindingsP0P1P2": [],
+  "outstandingProductFindings": [
+    {
+      "id": "K86-P1-01",
+      "priority": "P1",
+      "title": "New clean-Link global guard rejects generic handover auto-links after they commit",
+      "report": "tmp/rust-r4def/independent/k86-code-preflight96.json"
+    }
+  ],
+  "verified": {
+    "operations": {
+      "total": 30,
+      "D": 7,
+      "E": 11,
+      "F": 12,
+      "allPositiveHTTPOriginalsMatched": 30,
+      "missing": []
+    },
+    "negative": {
+      "rejects": 94,
+      "anonymous401": 30,
+      "permission403": 30,
+      "csrfOmitted403": 17,
+      "csrfWrong403": 17,
+      "originalStatusesMatch": true,
+      "business118TableDigestsUnchanged": true,
+      "allowedAuthSecurityOnly": [
+        "auth_session",
+        "security_event"
+      ]
+    },
+    "faults": [
+      {
+        "dir": "fault43",
+        "probes": 19,
+        "eachAll120DigestsEqualWithRealWaiterAndHTTP500": true,
+        "actualUnarmedRetryGroups": 3
+      },
+      {
+        "dir": "fault49",
+        "probes": 42,
+        "eachAll120DigestsEqualWithRealWaiterAndHTTP500": true,
+        "actualUnarmedRetryGroups": 6
+      },
+      {
+        "dir": "fault60",
+        "probes": 41,
+        "eachAll120DigestsEqualWithRealWaiterAndHTTP500": true,
+        "actualUnarmedRetryGroups": 10
+      },
+      {
+        "dir": "fault75",
+        "probes": 1,
+        "eachAll120DigestsEqualWithRealWaiterAndHTTP500": true,
+        "actualUnarmedRetryGroups": 1
+      }
+    ],
+    "pendingAuth": {
+      "source": "contract_support/http.rs always flushes successful reads/writes inside original outer transaction; PendingAuthentication participates on same connection.",
+      "fail": {
+        "naturalWait": true,
+        "eagerIndependentlyCommitted": true,
+        "sessionVersions": "1→eager2→afterfailure2",
+        "all120PostEagerBaselineEqual": true,
+        "HTTP500": true
+      },
+      "retry": {
+        "naturalWait": true,
+        "sameBodyAcknowledged": true,
+        "sessionVersions": "2→eager3→committed4",
+        "HTTP201": true
+      },
+      "notClaimingEagerRollback": true
+    },
+    "precisionLegacyProbe": {
+      "namespace": "poms-r4def-precision56",
+      "syntheticPriorMoney": "10.1230",
+      "producer": "actual frozen Native HTTP",
+      "guard": "migration94 rejected excess-scale legacy without automatic rewrite",
+      "all113TablesRowsDDLAndLedger93Unchanged": true,
+      "ownedProbeCleanupRecorded": true,
+      "businessOrPerformanceAcceptance": false,
+      "privateRawNotRead": true
+    },
+    "allocation": {
+      "F46SixSourcesUnchanged": true,
+      "publicAlgorithmFamily": "largest-remainder-cents-v1",
+      "newInternalPolicy": "selected-measurement-first/version2",
+      "actualF60": {
+        "cases": 11,
+        "HTTP": 162,
+        "caseStatuses": "all passed"
+      },
+      "F61": {
+        "basis": 8,
+        "result": 16,
+        "independentCanonicalHashes": 24,
+        "allMatch": true,
+        "allV2": true,
+        "oldF25TwoEvidenceNotRetagged": true
+      },
+      "realMoneyMAXExact": "verified in preserved actual F61 rows/receipt, no JS Number money conversion in new source projection"
+    },
+    "sourceAuthorityAndHistory": [
+      "D uses complete current Active contract set and exact real preparation/snapshot/review/plan binding; pending amendment retains prior Active facts.",
+      "D49 actual nine-stage chain covers two contracts, consecutive same-contract amendment, affected-set rebaseline, no inherited consent and preserved old receipt histories.",
+      "D historical material reads use frozen basis member/handoverFacts typed R3 scope/risk allowlist; no replacement with current technical package and no raw financial sourceFacts/costItems projection.",
+      "Self confirmation is the actual actor only, grouped duties may share one actor; final handover stays executionAdmission.allowed=false until R5 effective role freeze.",
+      "E C-derived payable progress uses actual confirmed net payment SUM and advancing source CAS; invoice currency requires explicit fact or exact effective snapshot/preparation proof; legacy unknown is not inferred.",
+      "E/F source rows, family/order proof, stage registered→confirmed/link/lock/byAt, atomic complete-batch replacement and immutable evidence use the same borrowed CommonSession."
+    ],
+    "sensitivity": {
+      "authority": "root-projection05 dual sensitive permission for every LABOR/mixed reversible group; finance-manage is not sensitive-read.",
+      "sourceReview": "E full expenses/nonlabor projection, F dual taint/history/evidence/result projection and safe constant errors, RuntimeAudit metadata/snapshot masking reviewed.",
+      "projectionFailure": {
+        "fault75Probe": 1,
+        "all120Rollback": true,
+        "retryAlreadyACK": true,
+        "projection76ReadbackOnly": true,
+        "independentSuccessfulRawSummaryRows": 6,
+        "allPresentCompatibilityMoneyNull": true
+      },
+      "ownObserverCorrectionsPreserved": [
+        "readback89-02 ENOBUFS local git-output buffer failure; no environment/product operation.",
+        "readback89-03 falsely required detail-only raw fields on Summary; v4 explicitly checks null-or-absent under the public Summary contract."
+      ]
+    },
+    "controlledRaces": {
+      "effectiveActualCases": 10,
+      "allRawPairStatusAndRealTwoWorkerProofsMatch": true,
+      "source": "r85 cases01/02 + r88 cases03–10 only",
+      "case09": "Two disjoint projects, same two real role scopes, reverse source order; both201 and full PG assertions.",
+      "case10": "Three real projects, one-cent tie/permutation, both independent sources201.",
+      "excluded": "r85 old03 wrong-gate ACK is preserved but not certified; r82 idle-expired warmup had zero business commands."
+    },
+    "checks": {
+      "Rust79": {
+        "exitCode": 0,
+        "groups": 26,
+        "passed": 405,
+        "failed": 0,
+        "ignored": 54,
+        "actualDBOptInClaimed": false
+      },
+      "Rust79Clippy80Build81Each247InputsMatchStableSnapshot": true,
+      "Native50": "74 suites/863 tests/exit0",
+      "Admin61": "60 suites/417 tests/exit0",
+      "Foundation77": "original Nx external1suite13; public receipt+ANSI readback; private originals not read",
+      "RustFmt87": "exit0; no-input-pins receipt, bounded by unchanged current source",
+      "DBTestsNotInferredFrom405Passed54Ignored": true
+    },
+    "ORM": {
+      "rawMigrationCheck": "owner1/app1; preserved as raw nonzero",
+      "rawDump": "owner0/app0; no DDL executed",
+      "independentPriorClassification": "orm41-classification01.json; no new generated-column diff",
+      "finiteCategories": [
+        "16 pre-existing +28 exact new SQL-only scoped FK definitions, never a blanket FK ignore",
+        "6 parenthesized enum CHECK pairs and3 ratio BETWEEN deparse pairs",
+        "control schema/preamble noise and finite app-role CHECK visibility",
+        "one pre-existing comment wording difference, physical historical comment not independently probed here"
+      ],
+      "newRealDriftAfterCanonicalGeneratedColumnCorrection": 0,
+      "finalMappingSourcesCaptured": 20
+    },
+    "SDK": {
+      "paths": 239,
+      "operations": 293,
+      "schemas": 626,
+      "generatedFiles": 616,
+      "danglingLocalRefs": 0,
+      "sourceHead": "4f0ad88e78622a75b88b4e3cc72aded9da67458a",
+      "allSixProtectedCurrentAndLiteralS4FingerprintsMatch": true,
+      "originalClientCheck53Exit0": true,
+      "handwrittenClient": false
+    },
+    "UI": {
+      "Windows48BaseFlow": "actual recorded146HTTP/0pageErrors; prior partial Linux originals preserved",
+      "Linux64AndWindows66ControlledAmendment": "two actual completed twelve-stage flows on same Active contract; confirmations reset then V3 three-of-three; explicit R5 blocked",
+      "Windows66AllSevenSourcePinsMatchStableInput": true,
+      "Linux64AllSixAliasedSourcePinsMatchStableInput": true,
+      "visualScreenshotsInspected": [
+        {
+          "file": "tmp/rust-r4def/root/ui-amend-windows66/06-rebaseline-zero-of-three.png",
+          "observation": "V3 new handover draft, zero of three confirmed; real scope/risk per-contract material shown."
+        },
+        {
+          "file": "tmp/rust-r4def/root/ui-amend-windows66/11-final-confirmed-R5-blocked.png",
+          "observation": "V3 confirmed three of three, two active contracts, R5 role-freeze explicitly still blocks execution."
+        }
+      ],
+      "lateAttachmentFailure": "explicit not-run optional browser branch; static epoch/PendingTasks fix and helper tests reviewed, no browser-failure claim",
+      "UIProductDeltaFromOriginalD18": "five UI/test/helper files; Root corrective inputs/current source pins preserved"
+    }
+  },
+  "requiredBeforeFinalG3": [
+    "K86-P1-01 generic clean-Link incomplete-baseline regression: source fix and fresh actual auto-Link→required audit proof are still required.",
+    "K56-P2-01: no-op link/unlink source intent is present in K86, but two actual controlled no-op barrier cases on the corrected final candidate remain required.",
+    "Final K runtime/fault/late PUT/object hashes and any K55 vectors not actually executed must retain their precise not-run or bounded status; K71 positive chain cannot certify every unexecuted vector.",
+    "Terminal environment cleanup70 is only a supplied core/plan at this review point; Root execution and owned-resource/readback evidence remain required.",
+    "Unified final candidate freeze must bind the exact latest HEAD, all product/source and binary/UI/SDK/SQL inputs plus actual evidence index. The initial89 intake was a dirty working tree, not that freeze.",
+    "After the latest supporting K changes, Root full Rust/clippy/fmt/build/runtime checks must bind those new two source hashes; existing Native/UI/client results may be reused only for unchanged inputs."
+  ],
+  "reviewer": {
+    "changedOnly": "tmp/rust-r4def/independent/**",
+    "productAuthorIssueOrOldEvidenceChanged": false,
+    "privateCredentialsOrPrivateDBRowsRead": false,
+    "actualDBHTTPStorageBrowserOrLocksExecuted": false,
+    "readOnlyLocalGitAndPublicFilesOnly": true
+  },
+  "gate": {
+    "G3Pass": false,
+    "G4Pass": false,
+    "issueClosure": false,
+    "issues101and57MustRemainOpen": true
+  }
+}

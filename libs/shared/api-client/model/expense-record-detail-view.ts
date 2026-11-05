@@ -8,6 +8,7 @@
  * Do not edit the class manually.
  */
 import { ExpenseSourceType } from './expense-source-type';
+import { ExpenseFinancialProjection } from './expense-financial-projection';
 import { ExpenseRecordStatus } from './expense-record-status';
 
 
@@ -16,22 +17,53 @@ export interface ExpenseRecordDetailView {
     projectId: string;
     contractId: string | null;
     expenseCategory: string;
-    expenseDescription: string;
+    /**
+     * Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.
+     */
+    expenseDescription: ExpenseRecordDetailViewExpenseDescriptionEnum | null;
     expenseDate: string;
     currency: string;
-    amountIncludingTax: string;
-    taxAmount: string | null;
-    amountExcludingTax: string | null;
+    /**
+     * Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.
+     */
+    amountIncludingTax: ExpenseRecordDetailViewAmountIncludingTaxEnum | null;
+    /**
+     * Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.
+     */
+    taxAmount: ExpenseRecordDetailViewTaxAmountEnum | null;
+    /**
+     * Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.
+     */
+    amountExcludingTax: ExpenseRecordDetailViewAmountExcludingTaxEnum | null;
     sourceType: ExpenseSourceType;
     status: ExpenseRecordStatus;
-    evidenceSummary: string | null;
+    /**
+     * Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.
+     */
+    evidenceSummary: ExpenseRecordDetailViewEvidenceSummaryEnum | null;
     attachmentCount: number;
     confirmedAt: string | null;
     confirmedBy: string | null;
     voidedAt: string | null;
-    voidReason: string | null;
+    /**
+     * Compatibility key. Always null for every caller; original is only available through the appropriate sensitive projection.
+     */
+    voidReason: ExpenseRecordDetailViewVoidReasonEnum | null;
     rowVersion: number;
     createdAt: string;
     updatedAt: string;
     allowedActions: Array<string>;
+    financialProjection: ExpenseFinancialProjection;
 }
+export enum ExpenseRecordDetailViewExpenseDescriptionEnum {
+};
+export enum ExpenseRecordDetailViewAmountIncludingTaxEnum {
+};
+export enum ExpenseRecordDetailViewTaxAmountEnum {
+};
+export enum ExpenseRecordDetailViewAmountExcludingTaxEnum {
+};
+export enum ExpenseRecordDetailViewEvidenceSummaryEnum {
+};
+export enum ExpenseRecordDetailViewVoidReasonEnum {
+};

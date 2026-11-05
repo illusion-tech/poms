@@ -1,0 +1,5 @@
+独立最终 G3 = Pass。当前源冻结为126加161唯一unused import修复，独立JS等价重算一致；当前Native lint2条既有warning、无newwarning，tsc0。156产品、616客户端、1431正式输入及baseline、3运行输入、6永久S4保护源和708 staged163 blob全部核对；唯一旧模型删除已核销。原Native50新增warning及旧126/153保留原时点。
+
+真实cleanup149已ACK：Rust2673逐PK删除、38白名单nullable断环和3借用原件恢复，全2714操作逐顺序/返回指纹匹配；两库各双fresh只读核对120表/532原行。62对象已wx保全校SHA并逐literal unlink，ownedPG15同容器停止，5端口与WindowsUI端口实际释放，container/volume/private保留。
+
+允许Root固定产品提交并在具体commit字节与永久S4祖先复核后按既定流程集成main。G4仍未完成；原字节归档、后续证据增量、文档/main/线上Issue收口及独立实际G4继续按冻结流程执行。仅本批30入口，101/57保持Open；失败、ignored、Unknown-retain及S3/lostACK/R5等边界保留原标签。160跨epoch存在性索引不代替89/114/124最终有效验收。

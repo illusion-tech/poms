@@ -7,14 +7,22 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { ConfirmSharedCostAllocationBasisRequestProjectShareItemsInner } from './confirm-shared-cost-allocation-basis-request-project-share-items-inner';
+import { R4FSharedCostAllocationShareItem } from './r4-f-shared-cost-allocation-share-item';
+import { R4FCostSourceVersion } from './r4-f-cost-source-version';
 
 
 export interface ConfirmSharedCostAllocationBasisRequest {
     basisType: string;
     sourceCostRecordIds: Array<string>;
     allocationMethod: string;
-    projectShareItems: Array<ConfirmSharedCostAllocationBasisRequestProjectShareItemsInner>;
+    projectShareItems: Array<R4FSharedCostAllocationShareItem>;
     basisSummary?: string | null;
     comment?: string | null;
+    measurementBasis: ConfirmSharedCostAllocationBasisRequestMeasurementBasisEnum;
+    expectedSourceVersions: Array<R4FCostSourceVersion>;
 }
+export enum ConfirmSharedCostAllocationBasisRequestMeasurementBasisEnum {
+    ExcludingTax = 'excluding-tax',
+    Tax = 'tax',
+    IncludingTax = 'including-tax'
+};

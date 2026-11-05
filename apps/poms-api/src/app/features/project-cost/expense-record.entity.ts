@@ -22,7 +22,11 @@ export const ExpenseRecordSchema = defineEntity({
         {
             name: 'chk_expense_record_status',
             expression: `"status" in (${toSqlStringList(EXPENSE_RECORD_STATUSES)})`
-        }
+        },
+        { name: "chk_r4e_expense_attachment_count", expression: "((attachment_count >= 0))" },
+        { name: "chk_r4e_expense_confirmation", expression: "((((status)::text <> 'confirmed'::text) OR ((confirmed_at IS NOT NULL) AND (confirmed_by IS NOT NULL))))" },
+        { name: "chk_r4e_expense_money", expression: "(((amount_including_tax > (0)::numeric) AND ((tax_amount IS NULL) OR ((tax_amount >= (0)::numeric) AND (tax_amount <= amount_including_tax))) AND ((amount_excluding_tax IS NULL) OR ((amount_excluding_tax >= (0)::numeric) AND (amount_excluding_tax <= amount_including_tax))) AND ((tax_amount IS NULL) OR (amount_excluding_tax IS NULL) OR (amount_including_tax = (tax_amount + amount_excluding_tax)))))" },
+        { name: "chk_r4e_expense_void", expression: "((((status)::text <> 'voided'::text) OR ((voided_at IS NOT NULL) AND (void_reason IS NOT NULL) AND (length(btrim(void_reason)) > 0))))" }
     ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()'),
@@ -32,9 +36,9 @@ export const ExpenseRecordSchema = defineEntity({
         expenseDescription: p.text().fieldName('expense_description'),
         expenseDate: p.date().fieldName('expense_date'),
         currency: p.string().length(16).default('CNY'),
-        amountIncludingTax: p.decimal().precision(15).scale(4).fieldName('amount_including_tax'),
-        taxAmount: p.decimal().precision(15).scale(4).nullable().fieldName('tax_amount'),
-        amountExcludingTax: p.decimal().precision(15).scale(4).nullable().fieldName('amount_excluding_tax'),
+        amountIncludingTax: p.decimal().precision(18).scale(2).fieldName('amount_including_tax'),
+        taxAmount: p.decimal().precision(18).scale(2).nullable().fieldName('tax_amount'),
+        amountExcludingTax: p.decimal().precision(18).scale(2).nullable().fieldName('amount_excluding_tax'),
         sourceType: p.string().$type<ExpenseSourceType>().length(32).default(ExpenseSourceTypeValue.Manual).fieldName('source_type'),
         status: p.string().$type<ExpenseRecordStatus>().length(32),
         evidenceSummary: p.text().nullable().fieldName('evidence_summary'),

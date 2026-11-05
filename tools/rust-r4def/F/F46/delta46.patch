@@ -1,0 +1,624 @@
+--- F25/logic.rs
++++ F46/logic.rs
+@@ -1,8 +1,10 @@
+ //! Exact monetary allocation. No transport, database, float or transaction API.
+-use std::collections::BTreeSet;
++use std::collections::{BTreeSet, BinaryHeap};
+ 
+ pub const MAX_MONEY: i128 = 999_999_999_999_999_999;
+ pub const ALGORITHM: &str = "largest-remainder-cents-v1";
++pub const POLICY_ID: &str = "selected-measurement-first";
++pub const POLICY_VERSION: u8 = 2;
+ 
+ pub fn decimal(value: &str, scale: u32, maximum: i128) -> Result<i128, &'static str> {
+     let mut parts = value.split('.');
+@@ -135,21 +137,35 @@
+ 
+ pub type Layers = [Option<i128>; 3];
+ 
++fn validate_layers(source: Layers) -> Result<(), &'static str> {
++    if source
++        .iter()
++        .flatten()
++        .any(|value| !(0..=MAX_MONEY).contains(value))
++    {
++        return Err("Invalid source money capacity");
++    }
++    if let Some(gross) = source[2]
++        && source[..2].iter().flatten().any(|value| *value > gross)
++    {
++        return Err("Known source component exceeds gross");
++    }
++    if let [Some(net), Some(tax), Some(gross)] = source
++        && net.checked_add(tax) != Some(gross)
++    {
++        return Err("Source monetary layers are inconsistent");
++    }
++    Ok(())
++}
++
+ pub fn total_layers(sources: &[Layers]) -> Result<Layers, &'static str> {
+     if sources.is_empty() {
+         return Err("A real source set is required");
+     }
+     let mut result = [Some(0_i128); 3];
+     for source in sources {
+-        if let [Some(net), Some(tax), Some(gross)] = source
+-            && net.checked_add(*tax) != Some(*gross)
+-        {
+-            return Err("Source monetary layers are inconsistent");
+-        }
++        validate_layers(*source)?;
+         for index in 0..3 {
+-            if source[index].is_some_and(|v| !(0..=MAX_MONEY).contains(&v)) {
+-                return Err("Invalid source money capacity");
+-            }
+             result[index] = match (result[index], source[index]) {
+                 (Some(a), Some(b)) => Some(
+                     a.checked_add(b)
+@@ -163,13 +179,124 @@
+     Ok(result)
+ }
+ 
+-#[derive(Debug)]
++#[derive(Debug, PartialEq, Eq)]
+ pub struct LayerAllocation {
+     pub project: [u8; 16],
+     pub layers: Layers,
+     pub amount: i128,
+     pub ratio: i128,
+     pub residual: i16,
++}
++
++#[derive(PartialEq, Eq, PartialOrd, Ord)]
++struct QuotaCandidate {
++    whole_deficit: i128,
++    remainder: i128,
++    tie: [u8; 16],
++    index: usize,
++}
++
++/// Bounds are derived only from another known layer rounded at these weights.
++/// For a gross cap, floor(net quota) <= floor(gross quota) <= gross share.
++/// For a component lower bound, it exceeds floor(gross quota) by at most one.
++/// Thus at most n residual corrections are needed, even for MAX18,2 money.
++fn bounded_layer(
++    total: i128,
++    ordered: &[Share],
++    lower: Option<&[i128]>,
++    upper: Option<&[i128]>,
++) -> Result<Vec<i128>, &'static str> {
++    if lower.is_some_and(|v| v.len() != ordered.len())
++        || upper.is_some_and(|v| v.len() != ordered.len())
++    {
++        return Err("Derived monetary bound identity mismatch");
++    }
++    let denominator = ordered.iter().try_fold(0_i128, |sum, share| {
++        sum.checked_add(share.weight)
++            .ok_or("Weight capacity exceeded")
++    })?;
++    if denominator <= 0 {
++        return Err("At least one positive allocation weight is required");
++    }
++    let mut quotas = Vec::with_capacity(ordered.len());
++    let mut values = Vec::with_capacity(ordered.len());
++    let mut bounds = Vec::with_capacity(ordered.len());
++    let (mut assigned, mut minimum, mut maximum) = (0_i128, 0_i128, 0_i128);
++    for (index, share) in ordered.iter().enumerate() {
++        let low = lower.map_or(0, |v| v[index]);
++        let high = upper.map_or(total, |v| v[index]);
++        if low < 0 || low > high || high > MAX_MONEY {
++            return Err("Invalid derived monetary bounds");
++        }
++        let numerator = total
++            .checked_mul(share.weight)
++            .ok_or("Allocation capacity exceeded")?;
++        let quota = (numerator / denominator, numerator % denominator);
++        let value = quota.0.clamp(low, high);
++        minimum = minimum.checked_add(low).ok_or("Bound capacity exceeded")?;
++        maximum = maximum.checked_add(high).ok_or("Bound capacity exceeded")?;
++        assigned = assigned
++            .checked_add(value)
++            .ok_or("Allocation capacity exceeded")?;
++        quotas.push(quota);
++        bounds.push((low, high));
++        values.push(value);
++    }
++    if minimum > total || maximum < total {
++        return Err("Derived monetary bounds are infeasible");
++    }
++    let delta = total - assigned;
++    let corrections = usize::try_from(delta.unsigned_abs())
++        .map_err(|_| "Derived monetary residual capacity exceeded")?;
++    if corrections > ordered.len() {
++        return Err("Derived monetary bounds violate the quota domain");
++    }
++    let increasing = delta > 0;
++    let candidate = |index: usize, value: i128| {
++        let (whole, remainder) = quotas[index];
++        QuotaCandidate {
++            // Exact lexicographic (whole deficit, fractional remainder); no
++            // multiplication of an already allocated amount by total weight.
++            whole_deficit: if increasing {
++                whole - value
++            } else {
++                value - whole
++            },
++            remainder: if increasing { remainder } else { -remainder },
++            tie: if increasing {
++                ordered[index].project.map(|byte| u8::MAX - byte)
++            } else {
++                ordered[index].project
++            },
++            index,
++        }
++    };
++    let eligible = |index: usize, value: i128| {
++        if increasing {
++            value < bounds[index].1
++        } else {
++            value > bounds[index].0
++        }
++    };
++    let mut heap = BinaryHeap::new();
++    for (index, value) in values.iter().copied().enumerate() {
++        if eligible(index, value) {
++            heap.push(candidate(index, value));
++        }
++    }
++    for _ in 0..corrections {
++        // Feasibility is maintained after each cent: remaining capacity is
++        // always >= remaining target. No valid derived input exhausts this heap.
++        let next = heap
++            .pop()
++            .ok_or("Derived monetary capacity invariant failed")?;
++        let value = &mut values[next.index];
++        *value = if increasing { *value + 1 } else { *value - 1 };
++        if eligible(next.index, *value) {
++            heap.push(candidate(next.index, *value));
++        }
++    }
++    Ok(values)
+ }
+ 
+ pub fn allocate_layers(
+@@ -180,38 +307,84 @@
+     if measurement > 2 || total[measurement].is_none() {
+         return Err("Selected source measurement layer is unknown");
+     }
+-    let mut allocations = Vec::new();
+-    for layer in total {
+-        allocations.push(layer.map(|v| allocate(v, shares)).transpose()?);
+-    }
+-    let all_known = total.iter().all(Option::is_some);
+-    let selected = allocations[measurement]
+-        .as_ref()
+-        .ok_or("Missing selected allocation layer")?;
++    validate_layers(total)?;
++    let mut ordered = shares.to_vec();
++    ordered.sort_by_key(|share| share.project);
++    let selected = allocate(
++        total[measurement].ok_or("Missing selected layer")?,
++        &ordered,
++    )?;
++    let primary: Vec<i128> = selected.iter().map(|row| row.amount).collect();
++    let mut columns: [Option<Vec<i128>>; 3] = [None, None, None];
++    columns[measurement] = Some(primary.clone());
++    if measurement == 2 {
++        if let Some(net) = total[0] {
++            columns[0] = Some(bounded_layer(net, &ordered, None, Some(&primary))?);
++        }
++        if let Some(tax) = total[1] {
++            columns[1] = Some(match &columns[0] {
++                Some(net) => primary
++                    .iter()
++                    .zip(net)
++                    .map(|(gross, net)| gross - net)
++                    .collect(),
++                None => bounded_layer(tax, &ordered, None, Some(&primary))?,
++            });
++        }
++    } else {
++        let secondary = 1 - measurement;
++        if let Some(value) = total[secondary] {
++            columns[secondary] = Some(
++                allocate(value, &ordered)?
++                    .iter()
++                    .map(|row| row.amount)
++                    .collect(),
++            );
++        }
++        if let Some(gross) = total[2] {
++            columns[2] = Some(match (&columns[0], &columns[1]) {
++                (Some(net), Some(tax)) => net
++                    .iter()
++                    .zip(tax)
++                    .map(|(net, tax)| {
++                        net.checked_add(*tax)
++                            .filter(|v| *v <= MAX_MONEY)
++                            .ok_or("Allocation capacity exceeded")
++                    })
++                    .collect::<Result<_, _>>()?,
++                _ => bounded_layer(gross, &ordered, Some(&primary), None)?,
++            });
++        }
++    }
++    for (layer, source) in total.iter().enumerate() {
++        match (source, &columns[layer]) {
++            (None, None) => {}
++            (Some(expected), Some(values)) => {
++                let sum = values.iter().try_fold(0_i128, |sum, value| {
++                    if !(0..=MAX_MONEY).contains(value) {
++                        return Err("Invalid allocated monetary layer");
++                    }
++                    sum.checked_add(*value)
++                        .ok_or("Allocation capacity exceeded")
++                })?;
++                if sum != *expected {
++                    return Err("Allocated monetary layer does not conserve");
++                }
++            }
++            _ => return Err("Unknown monetary layer was inferred"),
++        }
++    }
+     let mut output = Vec::new();
+     for (index, allocation) in selected.iter().enumerate() {
+-        let mut layers = [None; 3];
+-        for i in 0..3 {
+-            layers[i] = allocations[i].as_ref().map(|rows| rows[index].amount);
+-        }
+-        if all_known {
+-            if total[0].and_then(|n| total[1].and_then(|t| n.checked_add(t))) != total[2] {
+-                return Err("Source monetary layers are inconsistent");
+-            }
+-            layers[2] = layers[0].and_then(|n| layers[1].and_then(|t| n.checked_add(t)));
+-        }
+-        let residual = if all_known && measurement == 2 {
+-            allocations[0].as_ref().ok_or("Missing net layer")?[index].residual
+-                + allocations[1].as_ref().ok_or("Missing tax layer")?[index].residual
+-        } else {
+-            allocation.residual
+-        };
++        let layers =
++            std::array::from_fn(|layer| columns[layer].as_ref().map(|values| values[index]));
++        validate_layers(layers)?;
+         output.push(LayerAllocation {
+             project: allocation.project,
+             layers,
+-            amount: layers[measurement].ok_or("Missing allocation amount")?,
++            amount: allocation.amount,
+             ratio: allocation.ratio,
+-            residual,
++            residual: allocation.residual,
+         });
+     }
+     Ok(output)
+@@ -288,7 +461,9 @@
+         )
+         .unwrap();
+         assert_eq!(rows.iter().map(|r| r.amount).sum::<i128>(), 2);
+-        assert_eq!(rows[0].layers, [Some(1), Some(1), Some(2)]);
++        assert_eq!(rows[0].layers, [Some(1), Some(0), Some(1)]);
++        assert_eq!(rows[1].layers, [Some(0), Some(1), Some(1)]);
++        assert_eq!(rows[2].layers, [Some(0), Some(0), Some(0)]);
+         for r in rows {
+             assert_eq!(
+                 r.layers[0].unwrap() + r.layers[1].unwrap(),
+@@ -307,6 +482,227 @@
+             allocate_layers([None, None, Some(106)], &[share(1, 1)], 2).unwrap()[0].layers,
+             [None, None, Some(106)]
+         );
++    }
++    #[test]
++    fn selected_gross_is_primary_instead_of_accumulating_two_component_ties() {
++        let shares = [share(2, 1), share(1, 1)];
++        let gross = allocate_layers([Some(11), Some(1), Some(12)], &shares, 2).unwrap();
++        assert_eq!(gross[0].layers, [Some(6), Some(0), Some(6)]);
++        assert_eq!(gross[1].layers, [Some(5), Some(1), Some(6)]);
++        assert_eq!((gross[0].residual, gross[1].residual), (0, 0));
++        for primary in [0, 1] {
++            let rows = allocate_layers([Some(11), Some(1), Some(12)], &shares, primary).unwrap();
++            assert_eq!(rows[0].layers, [Some(6), Some(1), Some(7)]);
++            assert_eq!(rows[1].layers, [Some(5), Some(0), Some(5)]);
++            assert_eq!(rows[0].amount, rows[0].layers[primary].unwrap());
++        }
++    }
++    fn alabama_shares() -> Vec<Share> {
++        [1500, 1500, 900, 500, 500, 200]
++            .into_iter()
++            .enumerate()
++            .map(|(index, weight)| share(index as u8 + 1, weight))
++            .collect()
++    }
++    #[test]
++    fn gross_capacity_redirects_net_residuals_without_rejecting_valid_input() {
++        // Independent apportionment witness: at house size 25 the two 500
++        // weights receive 3 each, but at size 26 they receive only 2 each.
++        // An independent net result would exceed the selected gross capacities.
++        let rows = allocate_layers([Some(25), Some(1), Some(26)], &alabama_shares(), 2).unwrap();
++        assert_eq!(
++            rows.iter()
++                .map(|r| r.layers[2].unwrap())
++                .collect::<Vec<_>>(),
++            [8, 8, 5, 2, 2, 1]
++        );
++        assert_eq!(
++            rows.iter()
++                .map(|r| r.layers[0].unwrap())
++                .collect::<Vec<_>>(),
++            [8, 7, 5, 2, 2, 1]
++        );
++        assert_eq!(
++            rows.iter()
++                .map(|r| r.layers[1].unwrap())
++                .collect::<Vec<_>>(),
++            [0, 1, 0, 0, 0, 0]
++        );
++        let mut reversed = alabama_shares();
++        reversed.reverse();
++        assert_eq!(
++            rows,
++            allocate_layers([Some(25), Some(1), Some(26)], &reversed, 2).unwrap()
++        );
++    }
++    #[test]
++    fn partial_layers_keep_null_and_known_gross_respects_primary_component_lower_bounds() {
++        let shares = alabama_shares();
++        let rows = allocate_layers([Some(25), None, Some(26)], &shares, 0).unwrap();
++        assert_eq!(
++            rows.iter()
++                .map(|r| r.layers[0].unwrap())
++                .collect::<Vec<_>>(),
++            [7, 7, 4, 3, 3, 1]
++        );
++        assert_eq!(
++            rows.iter()
++                .map(|r| r.layers[2].unwrap())
++                .collect::<Vec<_>>(),
++            [8, 7, 4, 3, 3, 1]
++        );
++        assert!(rows.iter().all(|r| r.layers[1].is_none()));
++        let tax = allocate_layers([None, Some(25), Some(26)], &shares, 1).unwrap();
++        assert_eq!(
++            tax.iter().map(|r| r.layers[2].unwrap()).collect::<Vec<_>>(),
++            [8, 7, 4, 3, 3, 1]
++        );
++        assert!(tax.iter().all(|r| r.layers[0].is_none()));
++    }
++    #[test]
++    fn selected_primary_preserves_maximum_money_and_exact_final_cent() {
++        let rows = allocate_layers(
++            [Some(MAX_MONEY), Some(0), Some(MAX_MONEY)],
++            &[share(2, 1), share(1, 1)],
++            2,
++        )
++        .unwrap();
++        assert_eq!(format_scaled(rows[0].amount, 2), "5000000000000000.00");
++        assert_eq!(format_scaled(rows[1].amount, 2), "4999999999999999.99");
++        assert_eq!(rows.iter().map(|r| r.amount).sum::<i128>(), MAX_MONEY);
++        assert!(
++            rows.iter()
++                .all(|r| r.layers[0] == r.layers[2] && r.layers[1] == Some(0))
++        );
++    }
++    #[test]
++    fn every_unknown_mask_keeps_unknowns_and_every_known_layer_conserves() {
++        for wa in 1..4 {
++            for wb in 1..4 {
++                for wc in 0..4 {
++                    let mut shares = vec![share(1, wa), share(2, wb)];
++                    if wc > 0 {
++                        shares.push(share(3, wc));
++                    }
++                    for mask in 0..8 {
++                        let total = std::array::from_fn(|layer| {
++                            if mask & (1 << layer) == 0 {
++                                None
++                            } else {
++                                Some([7, 2, 9][layer])
++                            }
++                        });
++                        for primary in 0..3 {
++                            if total[primary].is_none() {
++                                assert!(allocate_layers(total, &shares, primary).is_err());
++                                continue;
++                            }
++                            let rows = allocate_layers(total, &shares, primary).unwrap();
++                            for (layer, amount) in total.iter().enumerate() {
++                                match amount {
++                                    None => assert!(rows.iter().all(|r| r.layers[layer].is_none())),
++                                    Some(amount) => assert_eq!(
++                                        rows.iter().map(|r| r.layers[layer].unwrap()).sum::<i128>(),
++                                        *amount
++                                    ),
++                                }
++                            }
++                        }
++                    }
++                }
++            }
++        }
++    }
++    #[test]
++    fn finite_domain_conservation_and_constrained_net_match_exhaustive_quota_optimum() {
++        let mut domains = 0;
++        for wa in 1..4 {
++            for wb in 1..4 {
++                for wc in 0..4 {
++                    let mut shares = vec![share(1, wa), share(2, wb)];
++                    if wc > 0 {
++                        shares.push(share(3, wc));
++                    }
++                    let weight_sum = wa + wb + wc;
++                    for gross in 0..10 {
++                        for net in 0..=gross {
++                            let total = [Some(net), Some(gross - net), Some(gross)];
++                            let mut reversed = shares.clone();
++                            reversed.reverse();
++                            for primary in 0..3 {
++                                let rows = allocate_layers(total, &shares, primary).unwrap();
++                                assert_eq!(
++                                    rows,
++                                    allocate_layers(total, &reversed, primary).unwrap()
++                                );
++                                for layer in 0..3 {
++                                    assert_eq!(
++                                        rows.iter().map(|r| r.layers[layer].unwrap()).sum::<i128>(),
++                                        total[layer].unwrap()
++                                    );
++                                }
++                                assert!(
++                                    rows.iter()
++                                        .all(|r| r.layers[0].unwrap() + r.layers[1].unwrap()
++                                            == r.layers[2].unwrap())
++                                );
++                            }
++                            let rows = allocate_layers(total, &shares, 2).unwrap();
++                            let objective = |values: &[i128]| {
++                                values
++                                    .iter()
++                                    .zip(&shares)
++                                    .map(|(amount, share)| {
++                                        (amount * weight_sum - net * share.weight).pow(2)
++                                    })
++                                    .sum::<i128>()
++                            };
++                            let actual = rows
++                                .iter()
++                                .map(|r| r.layers[0].unwrap())
++                                .collect::<Vec<_>>();
++                            let mut best = i128::MAX;
++                            for a in 0..=rows[0].amount {
++                                for b in 0..=rows[1].amount {
++                                    let remainder = net - a - b;
++                                    let candidate = if shares.len() == 2 {
++                                        if remainder != 0 {
++                                            continue;
++                                        }
++                                        vec![a, b]
++                                    } else {
++                                        if remainder < 0 || remainder > rows[2].amount {
++                                            continue;
++                                        }
++                                        vec![a, b, remainder]
++                                    };
++                                    best = best.min(objective(&candidate));
++                                }
++                            }
++                            assert_eq!(objective(&actual), best);
++                            domains += 1;
++                        }
++                    }
++                }
++            }
++        }
++        assert_eq!(domains, 1980);
++    }
++    #[test]
++    fn bounded_layers_preserve_zero_weights_and_reject_inconsistent_partial_facts() {
++        let shares = [share(3, 1), share(1, 0), share(2, MAX_MONEY)];
++        for primary in 0..3 {
++            let rows = allocate_layers(
++                [Some(MAX_MONEY - 2), Some(2), Some(MAX_MONEY)],
++                &shares,
++                primary,
++            )
++            .unwrap();
++            assert_eq!(rows[0].layers, [Some(0), Some(0), Some(0)]);
++        }
++        assert!(allocate_layers([Some(3), None, Some(2)], &shares, 2).is_err());
++        assert!(allocate_layers([None, Some(3), Some(2)], &shares, 1).is_err());
++        assert!(allocate_layers([Some(-1), None, Some(2)], &shares, 2).is_err());
+     }
+     #[test]
+     fn inconsistent_layers_and_aggregate_overflow_reject() {
+--- F25/service.rs
++++ F46/service.rs
+@@ -46,6 +46,25 @@
+                 .cloned()
+         })
+         .collect()
++}
++
++fn allocation_policy(measurement: &str) -> Result<Value, Error> {
++    let components = match measurement {
++        "including-tax" => "gross-cap-net-tax-complement",
++        "excluding-tax" | "tax" => "independent-components-gross-sum",
++        _ => return Err(domain("Unknown allocation measurement layer")),
++    };
++    Ok(
++        json!({"id":logic::POLICY_ID,"version":logic::POLICY_VERSION,"measurementBasis":measurement,"grossComponents":components,"tieBreak":"project-uuid-bytes-ascending","secondaryQuota":"bounded-largest-deficit"}),
++    )
++}
++
++fn allocation_payload(mut payload: Value, policy: &Value) -> Result<Value, Error> {
++    payload
++        .as_object_mut()
++        .ok_or(Error::Internal)?
++        .insert("allocationPolicy".into(), policy.clone());
++    Ok(payload)
+ }
+ fn summary(body: &Value, key: &str, reason: Option<&str>) -> Option<String> {
+     let text = store::optional_text(body, key).or_else(|| reason.map(str::to_owned));
+@@ -471,7 +490,11 @@
+     let scope = format!("cost-scope:{hash}");
+     let refs=json!(costs.iter().map(|c|json!({"kind":"source","sourceType":"project-actual-cost-record","sourceId":c["id"],"sourceVersion":c["row_version"],"businessDate":c["occurred_on"]})).collect::<Vec<_>>());
+     let source_version_transitions = source_proofs(&source_snapshots);
+-    let payload = json!({"containsLabor":labor,"sources":source_snapshots,"sourceVersionTransitions":source_version_transitions,"measurementBasis":measurement,"totals":totals.map(amount),"currency":currency,"projectShares":items,"algorithm":logic::ALGORITHM,"predecessorBasisId":old_basis.as_ref().map(|b|b["id"].clone())});
++    let policy = allocation_policy(measurement)?;
++    let payload = allocation_payload(
++        json!({"containsLabor":labor,"sources":source_snapshots,"sourceVersionTransitions":source_version_transitions,"measurementBasis":measurement,"totals":totals.map(amount),"currency":currency,"projectShares":items,"algorithm":logic::ALGORITHM,"predecessorBasisId":old_basis.as_ref().map(|b|b["id"].clone())}),
++        &policy,
++    )?;
+     let evidence_id = evidence::persist(
+         session,
+         actor,
+@@ -512,7 +535,10 @@
+             .find(|i| store::id(i, "projectId").ok() == Some(project))
+             .ok_or(Error::Internal)?;
+         let old = old_by_project.get(&project);
+-        let result_payload = json!({"containsLabor":labor,"basisId":basis_id,"basisEvidenceId":evidence_id,"sourceVersionTransitions":source_version_transitions,"allocation":item,"layers":allocation.layers.map(amount),"amount":logic::format_scaled(allocation.amount,2),"ratio":logic::format_scaled(allocation.ratio,6),"residualMinorUnits":allocation.residual,"predecessorResultId":old.map(|r|r["id"].clone())});
++        let result_payload = allocation_payload(
++            json!({"containsLabor":labor,"basisId":basis_id,"basisEvidenceId":evidence_id,"sourceVersionTransitions":source_version_transitions,"allocation":item,"layers":allocation.layers.map(amount),"amount":logic::format_scaled(allocation.amount,2),"ratio":logic::format_scaled(allocation.ratio,6),"residualMinorUnits":allocation.residual,"predecessorResultId":old.map(|r|r["id"].clone())}),
++            &policy,
++        )?;
+         let result_evidence = evidence::persist(
+             session,
+             actor,
+@@ -1044,6 +1070,36 @@
+ mod tests {
+     use super::*;
+     #[test]
++    fn allocation_policy_is_server_owned_hash_bound_and_does_not_rewrite_old_payload() {
++        let historical = json!({"algorithm":"largest-remainder-cents-v1","totals":["0.11","0.01","0.12"],"oldGross":["0.07","0.05"]});
++        let old_hash = contract_support::canonical_hash(&historical).unwrap();
++        let policy = allocation_policy("including-tax").unwrap();
++        assert_eq!(policy["id"], "selected-measurement-first");
++        assert_eq!(policy["version"], 2);
++        assert_eq!(policy["grossComponents"], "gross-cap-net-tax-complement");
++        let basis = allocation_payload(historical.clone(), &policy).unwrap();
++        let result = allocation_payload(
++            json!({"allocationPolicy":{"version":999},"amount":"0.06"}),
++            &policy,
++        )
++        .unwrap();
++        assert_eq!(basis["allocationPolicy"], result["allocationPolicy"]);
++        assert_ne!(contract_support::canonical_hash(&basis).unwrap(), old_hash);
++        assert_eq!(
++            contract_support::canonical_hash(&historical).unwrap(),
++            old_hash
++        );
++        assert!(historical.get("allocationPolicy").is_none());
++        for primary in ["excluding-tax", "tax"] {
++            let policy = allocation_policy(primary).unwrap();
++            assert_eq!(policy["measurementBasis"], primary);
++            assert_eq!(
++                policy["grossComponents"],
++                "independent-components-gross-sum"
++            );
++        }
++    }
++    #[test]
+     fn generic_runtime_audit_get_cannot_bypass_governed_financial_evidence() {
+         let before = json!({"cost":{"id":"cost-id","row_version":2,"record_status":"confirmed","internal_cost_rate":"9999.0000","amount_excluding_tax":"12345.67","costDescription":"private price"},"attribution":{"id":"stage-id","governance_evidence_id":"evidence-id","attribution_summary":"private labor explanation"},"reason":"private amount 12345.67"});
+         let safe = audit_links(&before);

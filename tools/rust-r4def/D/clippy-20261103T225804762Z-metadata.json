@@ -1,0 +1,117 @@
+{
+  "kind": "D-isolated-Rust-check",
+  "mode": "clippy",
+  "startedUtc": "20261103T225804762Z",
+  "finishedUtc": "2026-11-03T22:58:18.9141213Z",
+  "exitCode": 0,
+  "baseline": "756d813c9578090fcf8e56821acce01b46b40420",
+  "command": [
+    "wsl.exe",
+    "-d",
+    "Debian",
+    "--cd",
+    "/mnt/e/projects/worktrees/poms-r4d-handover/poms",
+    "--",
+    "env",
+    "PATH=/home/wangzishi/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+    "RUSTUP_HOME=/home/wangzishi/.rustup",
+    "CARGO_HOME=/home/wangzishi/.cache/poms-r4def-cargo-home",
+    "CARGO_TARGET_DIR=/home/wangzishi/.cache/poms-r4def-target-D",
+    "CARGO_BUILD_JOBS=2",
+    "/home/wangzishi/.cargo/bin/cargo",
+    "+1.99.1",
+    "clippy",
+    "--offline",
+    "--lib",
+    "--manifest-path",
+    "apps/poms-api-rust/Cargo.toml",
+    "--",
+    "-D",
+    "warnings"
+  ],
+  "originalLog": "clippy-20261103T225804762Z-original.log",
+  "rawLogSha256": "13f32ee2feccbf40713c2e7b91a1f6f0ce17683ca76b0a80fa4e4cffc21d3a69",
+  "sourceHashes": [
+    {
+      "path": "apps/poms-api-rust/src/project_handover/mod.rs",
+      "rawBytesSha256": "95821ee40bd69b32fc644e49ac8d06de58853334b6c17d7e0408f68d1f1900ff"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_handover/model.rs",
+      "rawBytesSha256": "03a4ada33fb31c1b4202de24f858455d77d9b88f7cbd57afd4d40c3e8374ec32"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_handover/service.rs",
+      "rawBytesSha256": "283107428b312d641a2a8330e2c684b2a77163d16bdfa9a9dc9ecead655e4fc3"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_handover/sources.rs",
+      "rawBytesSha256": "e5d33db8ebe4cdd537f8c0006c9bb16ab6c8f1652e55c4923444a70499863ff4"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_handover/view.rs",
+      "rawBytesSha256": "1a8eccae792e2073cfb18a0c3454e65927265e46bac975795815281c8c53fcce"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contracts/amendment.rs",
+      "rawBytesSha256": "f6def27ca7fc4cd8135dc630f262b9eb6237ecbfff716757e35ab5f02b8b4032"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contracts/mod.rs",
+      "rawBytesSha256": "0f0e6974854c72d8a983b199899a9d361a79205c44f54c19c61f7dbdd477cad8"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contracts/model.rs",
+      "rawBytesSha256": "f382f492c4cfc81a9b08b2884e27e5b4efbfc97fdf5b369fd2e2462b8a96f669"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contracts/projection.rs",
+      "rawBytesSha256": "7bc50f4b5e1ddcfa459975486c358dff9832d0d528a115a5782220bb6533eb0c"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contracts/service.rs",
+      "rawBytesSha256": "65bb845fb2edfe8fecccd3372b448ea85c93e85fae94ed45684e67e85ca01b2f"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contracts/store.rs",
+      "rawBytesSha256": "1bf7f38ab3831734660dcd82c4a4cbb0b8c44115e39b7ad6c81800454c1d9d5d"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contract_readiness/mod.rs",
+      "rawBytesSha256": "afd601103900fe2f3954bdf505c0c24c5549c273929cf7c74e7143f86ebdb219"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contract_readiness/service.rs",
+      "rawBytesSha256": "f62bfa680eccb1ec1a233fa4a75fcc74b4bbb1f6a7658bec0be7ad73230b1e4a"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contract_readiness/source.rs",
+      "rawBytesSha256": "8451a749d2a566b70ad3fd00e379388c88304be1ce1a3f0bf35de68f006e9f6f"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contract_readiness/store.rs",
+      "rawBytesSha256": "f095d61373f494fd04b46c511a9289be161c64fa95288340878b2414b01a1224"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contract_readiness/terms.rs",
+      "rawBytesSha256": "8f86245eefadbe8e759c52e0d79636f77f1374767ee214bd7c36761c10743d60"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contract_readiness/view.rs",
+      "rawBytesSha256": "2fb2fe4de25e72b920cf3cbaf6b35d8f158117e0a1f1a3f1b6dfe82031349b14"
+    },
+    {
+      "path": "apps/poms-api-rust/src/approval/domain.rs",
+      "rawBytesSha256": "be6bc07826679369a1b4515facfd1cbe59d539cc76329a605158ccf510977c9f"
+    },
+    {
+      "path": "apps/poms-api-rust/src/lib.rs",
+      "rawBytesSha256": "3640dccd5220972dfc84a29f7313fe564065a0165632f700dc8c2201571998c1"
+    }
+  ],
+  "realHttpRun": false,
+  "databaseRun": false,
+  "browserRun": false,
+  "g3Certified": false,
+  "g4Certified": false
+}

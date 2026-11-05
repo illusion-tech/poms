@@ -5,6 +5,226 @@ use super::{
 use axum::{body::Body, http::StatusCode};
 use chrono::{DateTime, Datelike, Utc};
 use futures_util::StreamExt;
+use serde_json::{Value, json};
+use sha2::{Digest, Sha256};
+
+// These capabilities deliberately do not implement Debug/Serialize. In particular
+// a failed PUT must not discard the captured runtime needed for safe compensation.
+pub(crate) struct CompletionAttempt {
+    source: ObjectLocation,
+    final_location: ObjectLocation,
+    runtime: RuntimeConfig,
+    routing: Vec<Value>,
+}
+
+#[cfg(test)]
+mod k56_snapshot_tests {
+    use super::*;
+    use std::sync::{
+        Arc,
+        atomic::{AtomicUsize, Ordering},
+    };
+    const SHA_A: &str = "d53eda7a637c99cc7fb566d96e9fa109bf15c478410a3f5eb4d4c4e26cd081f6";
+    const SHA_B: &str = "c422e7070cb1cb455b5de9afee0d975e303d0239c72030cd7414ab5c382d3ae8";
+
+    #[tokio::test]
+    async fn actual_buffer_is_hashed_even_with_declared_checksum() {
+        let (bytes, hash) = bounded_snapshot(Body::from(vec![b'A'; 64]), 64, 64, &[SHA_A.into()])
+            .await
+            .unwrap_or_else(|_| panic!("valid actual body"));
+        assert_eq!(bytes, vec![b'A'; 64]);
+        assert_eq!(hash, SHA_A);
+        let error = bounded_snapshot(Body::from(vec![b'B'; 64]), 64, 64, &[SHA_A.into()])
+            .await
+            .err()
+            .unwrap_or_else(|| panic!("same size is not same content"));
+        assert_eq!(error.status, Some(StatusCode::BAD_REQUEST));
+    }
+    #[tokio::test]
+    async fn undeclared_checksum_is_actual_hash_not_head_or_etag() {
+        let (bytes, hash) = bounded_snapshot(Body::from(vec![b'B'; 64]), 64, 64, &[])
+            .await
+            .unwrap_or_else(|_| panic!("actual body"));
+        assert_eq!(bytes.len(), 64);
+        assert_eq!(hash, SHA_B);
+    }
+    #[tokio::test]
+    async fn both_nonempty_hash_expectations_are_required() {
+        assert!(
+            bounded_snapshot(
+                Body::from(vec![b'A'; 64]),
+                64,
+                64,
+                &[SHA_A.into(), SHA_B.into()]
+            )
+            .await
+            .is_err()
+        );
+        assert!(
+            bounded_snapshot(Body::from(vec![b'A'; 64]), 64, 64, &[SHA_A.to_uppercase()])
+                .await
+                .is_ok()
+        );
+    }
+    #[tokio::test]
+    async fn extra_byte_stops_stream_without_polling_remainder() {
+        let observed = Arc::new(AtomicUsize::new(0));
+        let counter = observed.clone();
+        let chunks = vec![
+            Ok::<_, std::io::Error>(vec![b'A'; 64]),
+            Ok(vec![b'A'; 1]),
+            Ok(vec![b'A'; 64]),
+        ];
+        let stream = futures_util::stream::iter(chunks).inspect(move |_| {
+            counter.fetch_add(1, Ordering::SeqCst);
+        });
+        let error = bounded_snapshot(Body::from_stream(stream), 64, 64, &[])
+            .await
+            .err()
+            .unwrap_or_else(|| panic!("overrun"));
+        assert_eq!(error.status, Some(StatusCode::CONFLICT));
+        assert_eq!(
+            observed.load(Ordering::SeqCst),
+            2,
+            "must not read after overrun"
+        );
+    }
+    #[tokio::test]
+    async fn short_body_and_stream_error_never_produce_snapshot() {
+        assert!(
+            bounded_snapshot(Body::from(vec![b'A'; 63]), 64, 64, &[])
+                .await
+                .is_err()
+        );
+        let stream = futures_util::stream::iter(vec![
+            Ok(vec![b'A'; 32]),
+            Err(std::io::Error::other("controlled stream failure")),
+        ]);
+        assert!(
+            bounded_snapshot(Body::from_stream(stream), 64, 64, &[])
+                .await
+                .is_err()
+        );
+    }
+    #[tokio::test]
+    async fn invalid_size_and_captured_max_rejected_before_allocation() {
+        for (declared, max) in [
+            (0, 64),
+            (-1, 64),
+            (65, 64),
+            (i64::from(i32::MAX) + 1, i64::MAX),
+        ] {
+            assert!(
+                bounded_snapshot(Body::empty(), declared, max, &[])
+                    .await
+                    .is_err()
+            );
+        }
+    }
+    #[test]
+    fn final_namespace_preserves_original_prefix_and_attempt_identity() {
+        let at = DateTime::parse_from_rfc3339("2026-11-04T00:00:00Z")
+            .unwrap_or_else(|_| panic!("date"))
+            .with_timezone(&Utc);
+        let a = apply_prefix(
+            Some("original/prefix"),
+            &dated(
+                "attachments/completed",
+                "attachment/nonce-a",
+                "original.pdf",
+                at,
+            ),
+        );
+        let b = apply_prefix(
+            Some("original/prefix"),
+            &dated(
+                "attachments/completed",
+                "attachment/nonce-b",
+                "original.pdf",
+                at,
+            ),
+        );
+        assert_ne!(a, b);
+        assert!(a.starts_with("original/prefix/attachments/completed/"));
+        assert!(matches_prefix(&a, Some("original/prefix")));
+        assert!(!matches_prefix(
+            "original/prefix-sibling/object",
+            Some("original/prefix")
+        ));
+    }
+}
+impl CompletionAttempt {
+    pub(crate) fn location(&self) -> ObjectLocation {
+        self.final_location.clone()
+    }
+    pub(crate) fn routing(&self) -> Vec<Value> {
+        self.routing.clone()
+    }
+}
+pub(crate) struct CompletionSnapshot {
+    pub(crate) size_bytes: i64,
+    pub(crate) checksum: String,
+}
+pub(crate) struct StagingCleanup {
+    location: ObjectLocation,
+    runtime: RuntimeConfig,
+}
+
+async fn bounded_snapshot(
+    body: Body,
+    declared: i64,
+    maximum: i64,
+    expected: &[String],
+) -> Result<(Vec<u8>, String), StorageFailure> {
+    if declared <= 0 || declared > maximum || i32::try_from(declared).is_err() {
+        return Err(StorageFailure::http(
+            StatusCode::BAD_REQUEST,
+            "Invalid attachment snapshot size",
+        ));
+    }
+    let limit = usize::try_from(declared).map_err(|_| StorageFailure::internal())?;
+    let mut stream = body.into_data_stream();
+    let mut buffer = Vec::new();
+    let mut digest = Sha256::new();
+    while let Some(chunk) = stream.next().await {
+        let chunk =
+            chunk.map_err(|_| StorageFailure::unexpected("Attachment object read failed"))?;
+        if buffer
+            .len()
+            .checked_add(chunk.len())
+            .is_none_or(|n| n > limit)
+        {
+            return Err(StorageFailure::http(
+                StatusCode::CONFLICT,
+                "Attachment upload object size does not match the declared session size",
+            ));
+        }
+        digest.update(&chunk);
+        buffer.extend_from_slice(&chunk);
+    }
+    if buffer.len() != limit {
+        return Err(StorageFailure::http(
+            StatusCode::CONFLICT,
+            "Attachment upload object size does not match the declared session size",
+        ));
+    }
+    let checksum = digest
+        .finalize()
+        .iter()
+        .map(|b| format!("{b:02x}"))
+        .collect::<String>();
+    if expected
+        .iter()
+        .filter(|s| !s.is_empty())
+        .any(|s| !s.eq_ignore_ascii_case(&checksum))
+    {
+        return Err(StorageFailure::http(
+            StatusCode::BAD_REQUEST,
+            "Attachment upload object checksum does not match the declared session checksum",
+        ));
+    }
+    Ok((buffer, checksum))
+}
 
 fn normalized(value: &str) -> String {
     value.replace('\\', "/").trim_matches('/').into()
@@ -64,6 +284,14 @@ impl AttachmentStorage {
         &self,
         location: &ObjectLocation,
     ) -> Result<RuntimeConfig, StorageFailure> {
+        self.location_runtime_proof(location)
+            .await
+            .map(|(runtime, _)| runtime)
+    }
+    async fn location_runtime_proof(
+        &self,
+        location: &ObjectLocation,
+    ) -> Result<(RuntimeConfig, Value), StorageFailure> {
         let local = location.storage_provider == "local"
             && location
                 .storage_bucket
@@ -79,7 +307,7 @@ impl AttachmentStorage {
             Some(location.storage_provider.clone()),
             None,
             None,
-            Some(bucket),
+            Some(bucket.clone()),
             None,
             false,
         )
@@ -92,9 +320,13 @@ impl AttachmentStorage {
                     .map_or(0, |v| v.encode_utf16().count()),
             )
         });
+        let stamp = |id: Option<&str>, version: Option<i32>| json!({"provider":location.storage_provider,"bucket":bucket,"key":location.storage_key,"configId":id,"configVersion":version});
         match configs.first() {
-            Some(v) => self.runtime_config(v),
-            None if local => Ok(RuntimeConfig::implicit_local()),
+            Some(v) => Ok((
+                self.runtime_config(v)?,
+                stamp(Some(&v.id), Some(v.row_version)),
+            )),
+            None if local => Ok((RuntimeConfig::implicit_local(), stamp(None, None))),
             None => Err(StorageFailure::http(
                 StatusCode::NOT_FOUND,
                 format!(
@@ -103,6 +335,117 @@ impl AttachmentStorage {
                     location.storage_bucket.as_deref().unwrap_or("default")
                 ),
             )),
+        }
+    }
+    pub(crate) async fn completion_attempt(
+        &self,
+        source: &ObjectLocation,
+        attachment_id: &str,
+        nonce: &str,
+        original_name: &str,
+    ) -> Result<CompletionAttempt, StorageFailure> {
+        uuid::Uuid::parse_str(attachment_id).map_err(|_| StorageFailure::internal())?;
+        uuid::Uuid::parse_str(nonce).map_err(|_| StorageFailure::internal())?;
+        let (runtime, source_proof) = self.location_runtime_proof(source).await?;
+        let key = apply_prefix(
+            runtime.key_prefix.as_deref(),
+            &dated(
+                "attachments/completed",
+                &format!("{attachment_id}/{nonce}"),
+                &format!("original{}", extension(original_name)),
+                crate::auth::model::clock_now(),
+            ),
+        );
+        if key.chars().count() > 1024 || key == source.storage_key {
+            return Err(StorageFailure::http(
+                StatusCode::BAD_REQUEST,
+                "Invalid attachment final key",
+            ));
+        }
+        let final_location = ObjectLocation {
+            storage_provider: source.storage_provider.clone(),
+            storage_bucket: source.storage_bucket.clone(),
+            storage_key: key,
+        };
+        let (_, final_proof) = self.location_runtime_proof(&final_location).await?;
+        if source_proof["configId"] != final_proof["configId"]
+            || source_proof["configVersion"] != final_proof["configVersion"]
+        {
+            return Err(StorageFailure::http(
+                StatusCode::CONFLICT,
+                "Attachment final location routing changed",
+            ));
+        }
+        Ok(CompletionAttempt {
+            source: source.clone(),
+            final_location,
+            runtime,
+            routing: vec![source_proof, final_proof],
+        })
+    }
+    pub(crate) async fn prepare_completion_snapshot(
+        &self,
+        attempt: &CompletionAttempt,
+        declared: i64,
+        maximum: i64,
+        expected: &[String],
+        content_type: Option<&str>,
+    ) -> Result<CompletionSnapshot, StorageFailure> {
+        let body = match attempt.runtime.provider_type.as_str() {
+            "local" => self.local_read(&attempt.source.storage_key).await?,
+            "huawei-obs-s3" => {
+                self.obs_read(&attempt.runtime, &attempt.source.storage_key)
+                    .await?
+            }
+            _ => return Err(StorageFailure::internal()),
+        };
+        let (buffer, checksum) = bounded_snapshot(body, declared, maximum, expected).await?;
+        let size_bytes = i64::try_from(buffer.len()).map_err(|_| StorageFailure::internal())?;
+        self.put_runtime(
+            &attempt.runtime,
+            &attempt.final_location.storage_key,
+            &buffer,
+            content_type,
+        )
+        .await?;
+        Ok(CompletionSnapshot {
+            size_bytes,
+            checksum,
+        })
+    }
+    pub(crate) async fn discard_completion_attempt(
+        &self,
+        attempt: &CompletionAttempt,
+    ) -> Result<(), StorageFailure> {
+        self.delete_captured(&attempt.runtime, &attempt.final_location)
+            .await
+    }
+    pub(crate) async fn capture_staging_cleanup(
+        &self,
+        location: &ObjectLocation,
+    ) -> Result<StagingCleanup, StorageFailure> {
+        let runtime = self.location_runtime(location).await?;
+        Ok(StagingCleanup {
+            location: location.clone(),
+            runtime,
+        })
+    }
+    pub(crate) async fn remove_captured_staging(
+        &self,
+        cleanup: &StagingCleanup,
+    ) -> Result<(), StorageFailure> {
+        self.delete_captured(&cleanup.runtime, &cleanup.location)
+            .await
+    }
+    async fn delete_captured(
+        &self,
+        runtime: &RuntimeConfig,
+        location: &ObjectLocation,
+    ) -> Result<(), StorageFailure> {
+        match runtime.provider_type.as_str() {
+            "local" => self.local_delete(&location.storage_key).await,
+            "huawei-obs-s3" => self.obs_delete(runtime, &location.storage_key).await,
+            _ => Err(StorageFailure::internal()),
         }
     }
     pub async fn create_original_upload_plan(

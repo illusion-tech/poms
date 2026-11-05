@@ -1,0 +1,115 @@
+{
+  "kind": "GitHub-mirrored-R4-second-batch-delivery-index",
+  "date": "{{ROOT_DATE}}",
+  "base": "565661b9113372de4da6662a4a692fbfd2296dd6",
+  "branch": "codex/poms-r4def-next28",
+  "stage": "CandidateReadyNotApplied",
+  "scope": {
+    "D": 7,
+    "E": 11,
+    "F": 12,
+    "total": 30,
+    "existing": 28,
+    "new": 2
+  },
+  "officialNewDelivered": 0,
+  "technicalRustOperations": 240,
+  "issues": {
+    "57": "OPEN",
+    "101": "OPEN",
+    "106": "OPEN",
+    "107": "OPEN",
+    "108": "OPEN",
+    "109": "OPEN"
+  },
+  "baseline": "archive/slices/rust-r4def-next30-baseline.md.bin",
+  "g0ActualReceipt": "archive/slices/rust-r4def/g0-registration01.json.bin",
+  "userDecisions": "archive/slices/rust-r4def/user-decisions01.json.bin",
+  "G1Certified": true,
+  "G2Authorized": true,
+  "fullR4Complete": false,
+  "updatedAt": null,
+  "G1InputCommit": "57f64d6c0aef99430acc3b4ed7d99d00074d59f4",
+  "G1InputManifest": {
+    "file": "docs/design/archive/slices/rust-r4def/joint-g1-06/manifest06.json.bin",
+    "rawBytesSha256": "8229d58c4319962de37ff9a153dc2c24a9b191f4a2101c3ce12558bdb0ef2147"
+  },
+  "independentG1": {
+    "file": "docs/design/archive/slices/rust-r4def/g1-independent07/g1-final06.json.bin",
+    "rawBytesSha256": "b157f230a59a5750fd8fa993d8f58fb517619fb898b3ba1f3757b7a54d0656f6"
+  },
+  "actualOnlineG1": "archive/slices/rust-r4def/g1-online07.json.bin",
+  "gateAuthority": "archive/slices/rust-r4def/g1-gate-authority07.json.bin",
+  "officialRustOperations": 210,
+  "G3Certified": null,
+  "G4Certified": null,
+  "currentPublicContract": {
+    "paths": 239,
+    "operations": 293,
+    "schemas": 626,
+    "generatedClientFiles": 616,
+    "permanentS4": "4f0ad88e78622a75b88b4e3cc72aded9da67458a"
+  },
+  "G2": {
+    "allocationDecision": "archive/slices/rust-r4def/g2-allocation-decision48.json.bin",
+    "allocationFreeze": "archive/slices/rust-r4def/g2-allocation-freeze51.json.bin",
+    "supportingAttachmentProposal": "archive/slices/rust-r4def/g2-attachment-proposal54.json.bin",
+    "attachmentImplementationAuthorized": true,
+    "actualPositiveOperationCoverage": 30,
+    "actualRuntime": "isolated candidate only; not mainline delivery",
+    "remaining": [
+      "K86 no-op intent correction, final runtime and K byte/necessary-write/race acceptance",
+      "Exact owned cleanup and independent G3/G4/main integration"
+    ],
+    "supportingAttachmentFreeze": "archive/slices/rust-r4def/g2-attachment-freeze62.json.bin",
+    "actualEvidence": {
+      "D": "D42/D49 + faults43/49; Linux64/Windows66 controlled amendment UI",
+      "E": "E41 + E42 actual readback + E20-56 legacy + precision56 negative/cleanup",
+      "F": "F60/proof-F61 + effective controlled races89 (10 cases)",
+      "K": "K71 7 stages/60 HTTP/13 PG at runtime81; no-op P2 correction K86 pending",
+      "pendingAuth": "pending74 fail/retry natural-throttle actual barriers",
+      "sensitiveGET": "fault75 + saved readback76",
+      "checks": "Rust full79 405/54 ignored; clippy80/build81; fmt87; Native50 863; Admin61 417; original foundation77 13"
+    },
+    "supportingAttachmentNoopCorrection": "archive/slices/rust-r4def/g2-K86-correction.json.bin",
+    "historicalSnapshotOnly": true
+  },
+  "finalIndependentActualReviewPending": true,
+  "implementationCommit": null,
+  "metadataCommit": null,
+  "mainCommit": null,
+  "finalMetadataCommit": null,
+  "fullR4StageAcceptanceComplete": false,
+  "archive": "archive/slices/rust-r4def/archive-origin-map130.json",
+  "r4Progress": {
+    "delivered": 37,
+    "total": 92,
+    "remaining": 55,
+    "pendingBatch": 30,
+    "later": {
+      "operating": 17,
+      "acceptanceCompletionArchive": 8
+    }
+  },
+  "currentGateEvidence": {
+    "finalValidation": null,
+    "cleanup": null,
+    "stopped": null,
+    "independentG3": null,
+    "fixedCommitReview": null,
+    "mainIntegration": null,
+    "preclosePermission": null,
+    "onlineReadback": null,
+    "independentActualG4": null
+  },
+  "cleanupCertified": null,
+  "knownOutOfBatchFollowup": {
+    "issue": 57,
+    "scope": "existing-R2",
+    "capability": "createUser with initialRoleIds",
+    "actual": "500",
+    "evidence": "actualapi32/00011",
+    "source": "users/service.rs:469 intentionalProtocol",
+    "fixedByThisBatch": false
+  }
+}

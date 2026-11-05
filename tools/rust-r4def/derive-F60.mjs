@@ -1,0 +1,2 @@
+import fs from'node:fs';import assert from'node:assert/strict';
+const source='tools/rust-r4def/F/acceptance44/request-suite44.mjs',target='tools/rust-r4def/F/acceptance44/request-suite60.mjs';let s=fs.readFileSync(source,'utf8');const before='const meta = {caseId:active.id,stepId:';assert(s.includes(before));s=s.replace(before,()=> 'const meta = {expectedStatus:expected,caseId:active.id,stepId:');fs.writeFileSync(target,s,{flag:'wx'});console.log(JSON.stringify({transportExpectationOnly:true,original44Preserved:true}));

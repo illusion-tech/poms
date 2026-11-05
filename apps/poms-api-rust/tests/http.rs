@@ -609,11 +609,11 @@ async fn basic_error_variants_consume_the_frozen_nest_filter_outputs() -> TestRe
 }
 
 #[test]
-fn openapi_has_two_hundred_ten_operations_and_preserves_existing_health_schemas() -> TestResult {
+fn openapi_has_two_hundred_forty_operations_and_preserves_existing_health_schemas() -> TestResult {
     let document = serde_json::to_value(http::openapi())?;
     let existing: Value = serde_json::from_str(EXISTING_OPENAPI)?;
     let paths = document["paths"].as_object().ok_or("missing paths")?;
-    assert_eq!(paths.len(), 167);
+    assert_eq!(paths.len(), 193);
     assert_eq!(
         paths
             .values()
@@ -625,13 +625,13 @@ fn openapi_has_two_hundred_ten_operations_and_preserves_existing_health_schemas(
                 .contains(&method.as_str()))
                 .count()))
             .sum::<usize>(),
-        210
+        240
     );
     let r4: Value = serde_json::from_str(include_str!(
-        "../../../tools/rust-r4abc/operation-map01.json"
+        "../../../tools/rust-r4def/combined-operation-map16.json"
     ))?;
     let operations = r4["operations"].as_array().ok_or("missing R4 operations")?;
-    assert_eq!(operations.len(), 37);
+    assert_eq!(operations.len(), 67);
     let mut identities = std::collections::BTreeSet::new();
     for operation in operations {
         let path = operation["path"].as_str().ok_or("missing R4 path")?;

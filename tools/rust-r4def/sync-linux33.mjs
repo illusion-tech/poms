@@ -1,0 +1,10 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import { execFileSync } from 'node:child_process';
+const edition = process.argv[2] ?? '33'; assert(/^\d+$/.test(edition)); assert.equal(process.platform,'win32');
+const base='756d813c9578090fcf8e56821acce01b46b40420';
+const tracked=execFileSync('git',['diff','--name-only','-z','--diff-filter=ACMRT',base],{encoding:'utf8'}).split('\0');
+const fresh=execFileSync('git',['ls-files','--others','--exclude-standard','-z'],{encoding:'utf8'}).split('\0');
+const files=[...new Set([...tracked,...fresh])].filter(f=>f&&fs.existsSync(f));
+fs.writeFileSync('tmp/rust-r4def/root/linux-source-list'+edition+'.json',JSON.stringify({base,files},null,2)+'\n',{flag:'wx'});
+console.log(JSON.stringify({edition,files:files.length}));

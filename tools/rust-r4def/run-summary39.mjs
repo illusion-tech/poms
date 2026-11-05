@@ -1,0 +1,12 @@
+import fs from 'node:fs';import assert from 'node:assert/strict';import{spawnSync}from'node:child_process';import{createHash}from'node:crypto';
+import{priv,win,root}from'./db33.mjs';
+const sourceEdition=process.argv[2]??'36',edition=process.argv[3]??'39';assert(/^\d+$/.test(sourceEdition)&&/^\d+$/.test(edition));
+const binary='/home/wangzishi/.cache/poms-r4def-target-ROOT/debug/examples/r4def_summary_producer32',out=win+'/tmp/rust-r4def/root/summary'+edition;assert(!fs.existsSync(out));fs.mkdirSync(out,{recursive:true});
+const input=priv+'/summary'+sourceEdition+'-request.json',env={HOME:process.env.HOME,PATH:'/home/wangzishi/.cargo/bin:/usr/bin:/bin',POMS_ENV_FILE:priv+'/rust.env'};
+const startedAt=new Date().toISOString(),r=spawnSync(binary,[input],{cwd:root,env,encoding:null,timeout:60000,maxBuffer:16000000});
+fs.writeFileSync(out+'/stdout-original.bin',r.stdout??Buffer.alloc(0),{flag:'wx'});fs.writeFileSync(out+'/stderr-original.bin',r.stderr??Buffer.alloc(0),{flag:'wx'});assert.equal(r.status,0,`Actual summary failed: ${r.stderr}`);
+const output=JSON.parse(r.stdout.toString('utf8'));assert.equal(output.outerCommitAcknowledged,true);assert.equal(output.traceIncomplete,false);assert(output.summarySnapshotId);
+const contextFile=priv+'/upstream'+sourceEdition+'.json',context=JSON.parse(fs.readFileSync(contextFile));context.summary=output;fs.writeFileSync(contextFile,JSON.stringify(context,null,2)+'\n',{mode:0o600});
+const sha=b=>createHash('sha256').update(b).digest('hex');
+fs.writeFileSync(out+'/receipt39.json',JSON.stringify({kind:'actual-trusted-ApprovalCommonService-material-producer',startedAt,completedAt:new Date().toISOString(),binarySha256:sha(fs.readFileSync(binary)),sourceSha256:sha(fs.readFileSync(root+'/apps/poms-api-rust/examples/r4def_summary_producer32.rs')),inputSha256:sha(fs.readFileSync(input)),output,approvalPretended:false,HTTPPretended:false},null,2)+'\n',{flag:'wx'});
+console.log(JSON.stringify({summarySnapshotId:output.summarySnapshotId,outerCommitAcknowledged:output.outerCommitAcknowledged,pricingApprovalPretended:false}));

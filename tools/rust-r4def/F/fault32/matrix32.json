@@ -1,0 +1,1446 @@
+{
+  "kind": "R4EF-real-PG-fault-concurrency-candidate32",
+  "capturedAt": "2026-11-04T00:02:48.096235+00:00",
+  "runtimeExecutedByAuthor": false,
+  "authorDatabaseConnections": 0,
+  "credentialsRead": false,
+  "inputs": [
+    {
+      "file": "E:\\projects\\worktrees\\poms-r4f-cost-governance\\poms\\apps\\poms-api-rust\\src\\project_cost_governance\\service.rs",
+      "bytes": 43671,
+      "rawBytesSha256": "c4c840d026610bbaf31b008d06985b8d635d221fffb4f27007b144a52b395b3c"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r4f-cost-governance\\poms\\apps\\poms-api-rust\\src\\project_cost_governance\\evidence.rs",
+      "bytes": 32766,
+      "rawBytesSha256": "6c10996eec05d8c224fd2a02ade0a69eb17b8a497ed175b09609ab8fbbf42c53"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r4f-cost-governance\\poms\\apps\\poms-api-rust\\src\\project_cost_governance\\store.rs",
+      "bytes": 11880,
+      "rawBytesSha256": "6712ee261e4458df43fe3f1369dcdfa8a083de9e6f844f461a0eddc85a11867e"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r4e-cost-base\\poms\\apps\\poms-api-rust\\src\\project_actual_cost\\mod.rs",
+      "bytes": 77170,
+      "rawBytesSha256": "aaaa5126be86c421255d699bcad582131943d7f500754f0db8e55ddfc437a407"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r4e-cost-base\\poms\\apps\\poms-api-rust\\src\\project_actual_cost\\store.rs",
+      "bytes": 9144,
+      "rawBytesSha256": "0b39d14477e52641307d84f28c043dcf9c4309d38d0f55476e7f9806cb621eb5"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\apps\\poms-api-rust\\src\\contract_support\\http.rs",
+      "bytes": 14020,
+      "rawBytesSha256": "dbb2ca1f2f48c4142e0888967296e2cd7b99ab546ee91636410a0f03ade9509e"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\apps\\poms-api-rust\\src\\auth\\store.rs",
+      "bytes": 22695,
+      "rawBytesSha256": "14ba9d8e7171e6a6fbd00fa68c25a283d53521e17921b5d0e2ac760fec1a3f40"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\apps\\poms-api-rust\\src\\auth\\service.rs",
+      "bytes": 21730,
+      "rawBytesSha256": "3f216c2be127ca22e536f0413c91a72c29c37f2e97212089ac3a2611169ee650"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\apps\\poms-api-rust\\src\\auth\\model.rs",
+      "bytes": 10433,
+      "rawBytesSha256": "042f4418cee854566d942c5fe723a6221f4fd2e8c61bb35dcc8dbeca157d6312"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\apps\\poms-api-rust\\src\\auth\\guards.rs",
+      "bytes": 12029,
+      "rawBytesSha256": "58f7e67c075f3ee4918a0df433d0a055de81c4e99abb95ab7f0950d9c40c6082"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\apps\\poms-api-rust\\src\\business_numbers\\service.rs",
+      "bytes": 5337,
+      "rawBytesSha256": "24614da93077b133ef71803312169370a812ec8ef56609cc3ff9425fb96903fb"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\docs\\design\\rust-r4def\\joint-g1-06\\operation-map06.json",
+      "bytes": 15485,
+      "rawBytesSha256": "a7ec15625cef5483f09af7c1b33332dcd6612b84ecf082c6a6e87dd05e52eb01"
+    }
+  ],
+  "faults": [
+    {
+      "id": "F01-stage-evidence",
+      "kind": "fault",
+      "priority": "P1",
+      "operation": {
+        "group": "F",
+        "method": "POST",
+        "path": "/api/project-actual-cost-records/{id}/stage-attributions",
+        "operationId": "ProjectCostController_confirmCostStageAttribution",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "confirmCostStageAttribution",
+          "line": 265
+        }
+      },
+      "point": "f-evidence",
+      "realSetup": "Real E confirmed expense -> real mapped registered cost; actual business-date evidence; no active attribution/allocation; strict expected cost/source versions",
+      "rollbackOracle": "single-statement owned snapshot equality from observed trigger gate; auth baseline is post-eager-touch",
+      "retryOracle": "Exactly one new active attribution and immutable evidence, cost confirmedAt/By + version + stage lock atomically set, not included; one audit; captured basis unchanged",
+      "retryCount": 1,
+      "requiresPendingAuth": false,
+      "requiresBusinessNumberSnapshot": false,
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    },
+    {
+      "id": "F02-stage-attribution",
+      "kind": "fault",
+      "priority": "P0",
+      "operation": {
+        "group": "F",
+        "method": "POST",
+        "path": "/api/project-actual-cost-records/{id}/stage-attributions",
+        "operationId": "ProjectCostController_confirmCostStageAttribution",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "confirmCostStageAttribution",
+          "line": 265
+        }
+      },
+      "point": "f-stage-insert",
+      "realSetup": "Real E confirmed expense -> real mapped registered cost; actual business-date evidence; no active attribution/allocation; strict expected cost/source versions",
+      "rollbackOracle": "single-statement owned snapshot equality from observed trigger gate; auth baseline is post-eager-touch",
+      "retryOracle": "Exactly one new active attribution and immutable evidence, cost confirmedAt/By + version + stage lock atomically set, not included; one audit; captured basis unchanged",
+      "retryCount": 1,
+      "requiresPendingAuth": false,
+      "requiresBusinessNumberSnapshot": false,
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    },
+    {
+      "id": "F03-stage-cost-update",
+      "kind": "fault",
+      "priority": "P0",
+      "operation": {
+        "group": "F",
+        "method": "POST",
+        "path": "/api/project-actual-cost-records/{id}/stage-attributions",
+        "operationId": "ProjectCostController_confirmCostStageAttribution",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "confirmCostStageAttribution",
+          "line": 265
+        }
+      },
+      "point": "f-stage-cost-update",
+      "realSetup": "Real E confirmed expense -> real mapped registered cost; actual business-date evidence; no active attribution/allocation; strict expected cost/source versions",
+      "rollbackOracle": "single-statement owned snapshot equality from observed trigger gate; auth baseline is post-eager-touch",
+      "retryOracle": "Exactly one new active attribution and immutable evidence, cost confirmedAt/By + version + stage lock atomically set, not included; one audit; captured basis unchanged",
+      "retryCount": 1,
+      "requiresPendingAuth": false,
+      "requiresBusinessNumberSnapshot": false,
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    },
+    {
+      "id": "F04-stage-audit",
+      "kind": "fault",
+      "priority": "P0",
+      "operation": {
+        "group": "F",
+        "method": "POST",
+        "path": "/api/project-actual-cost-records/{id}/stage-attributions",
+        "operationId": "ProjectCostController_confirmCostStageAttribution",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "confirmCostStageAttribution",
+          "line": 265
+        }
+      },
+      "point": "business-audit",
+      "realSetup": "Real E confirmed expense -> real mapped registered cost; actual business-date evidence; no active attribution/allocation; strict expected cost/source versions",
+      "rollbackOracle": "single-statement owned snapshot equality from observed trigger gate; auth baseline is post-eager-touch",
+      "retryOracle": "Exactly one new active attribution and immutable evidence, cost confirmedAt/By + version + stage lock atomically set, not included; one audit; captured basis unchanged",
+      "retryCount": 1,
+      "requiresPendingAuth": false,
+      "requiresBusinessNumberSnapshot": false,
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    },
+    {
+      "id": "F05-stage-pending-auth",
+      "kind": "fault",
+      "priority": "P0",
+      "operation": {
+        "group": "F",
+        "method": "POST",
+        "path": "/api/project-actual-cost-records/{id}/stage-attributions",
+        "operationId": "ProjectCostController_confirmCostStageAttribution",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "confirmCostStageAttribution",
+          "line": 265
+        }
+      },
+      "point": "pending-auth",
+      "realSetup": "Real E confirmed expense -> real mapped registered cost; actual business-date evidence; no active attribution/allocation; strict expected cost/source versions",
+      "rollbackOracle": "single-statement owned snapshot equality from observed trigger gate; auth baseline is post-eager-touch",
+      "retryOracle": "Exactly one new active attribution and immutable evidence, cost confirmedAt/By + version + stage lock atomically set, not included; one audit; captured basis unchanged",
+      "retryCount": 1,
+      "requiresPendingAuth": true,
+      "requiresBusinessNumberSnapshot": false,
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    },
+    {
+      "id": "F06-reclass-attribution",
+      "kind": "fault",
+      "priority": "P1",
+      "operation": {
+        "group": "F",
+        "method": "POST",
+        "path": "/api/cost-stage-attributions/{id}:reclassify",
+        "operationId": "ProjectCostController_reclassifyCostStageAttribution",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "reclassifyCostStageAttribution",
+          "line": 274
+        }
+      },
+      "point": "f-stage-insert",
+      "realSetup": "Real prior stage confirmation, not allocated/frozen; responsible actual new evidence and strict current versions",
+      "rollbackOracle": "single-statement owned snapshot equality from observed trigger gate; auth baseline is post-eager-touch",
+      "retryOracle": "Old attribution superseded, exactly one successor; cost version increments once; immutable old evidence and original confirmation remain",
+      "retryCount": 1,
+      "requiresPendingAuth": false,
+      "requiresBusinessNumberSnapshot": false,
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    },
+    {
+      "id": "F07-reclass-audit",
+      "kind": "fault",
+      "priority": "P1",
+      "operation": {
+        "group": "F",
+        "method": "POST",
+        "path": "/api/cost-stage-attributions/{id}:reclassify",
+        "operationId": "ProjectCostController_reclassifyCostStageAttribution",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "reclassifyCostStageAttribution",
+          "line": 274
+        }
+      },
+      "point": "business-audit",
+      "realSetup": "Real prior stage confirmation, not allocated/frozen; responsible actual new evidence and strict current versions",
+      "rollbackOracle": "single-statement owned snapshot equality from observed trigger gate; auth baseline is post-eager-touch",
+      "retryOracle": "Old attribution superseded, exactly one successor; cost version increments once; immutable old evidence and original confirmation remain",
+      "retryCount": 1,
+      "requiresPendingAuth": false,
+      "requiresBusinessNumberSnapshot": false,
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    },
+    {
+      "id": "F08-basis-evidence",
+      "kind": "fault",
+      "priority": "P1",
+      "operation": {
+        "group": "F",
+        "method": "POST",
+        "path": "/api/shared-cost-allocation-bases",
+        "operationId": "ProjectCostController_confirmSharedCostAllocationBasis",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "confirmSharedCostAllocationBasis",
+          "line": 231
+        }
+      },
+      "point": "f-evidence",
+      "realSetup": "At least two real E->F confirmed costs and two real target projects; one currency/proven layer; distinct source IDs, all projects owned; selectedCostId=max sorted source UUID, selectedProjectId=max sorted target UUID",
+      "rollbackOracle": "single-statement owned snapshot equality from observed trigger gate; auth baseline is post-eager-touch",
+      "retryOracle": "One new basis, full N-source set, M results, 1+M evidence rows, audit per distinct affected project; strict per-layer cent conservation and unknown layers remain null; sources and results not included; no second active occupancy",
+      "retryCount": 1,
+      "requiresPendingAuth": false,
+      "requiresBusinessNumberSnapshot": false,
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    },
+    {
+      "id": "F09-basis-row",
+      "kind": "fault",
+      "priority": "P1",
+      "operation": {
+        "group": "F",
+        "method": "POST",
+        "path": "/api/shared-cost-allocation-bases",
+        "operationId": "ProjectCostController_confirmSharedCostAllocationBasis",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "confirmSharedCostAllocationBasis",
+          "line": 231
+        }
+      },
+      "point": "f-basis-insert",
+      "realSetup": "At least two real E->F confirmed costs and two real target projects; one currency/proven layer; distinct source IDs, all projects owned; selectedCostId=max sorted source UUID, selectedProjectId=max sorted target UUID",
+      "rollbackOracle": "single-statement owned snapshot equality from observed trigger gate; auth baseline is post-eager-touch",
+      "retryOracle": "One new basis, full N-source set, M results, 1+M evidence rows, audit per distinct affected project; strict per-layer cent conservation and unknown layers remain null; sources and results not included; no second active occupancy",
+      "retryCount": 1,
+      "requiresPendingAuth": false,
+      "requiresBusinessNumberSnapshot": false,
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    },
+    {
+      "id": "F10-basis-second-source",
+      "kind": "fault",
+      "priority": "P0",
+      "operation": {
+        "group": "F",
+        "method": "POST",
+        "path": "/api/shared-cost-allocation-bases",
+        "operationId": "ProjectCostController_confirmSharedCostAllocationBasis",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "confirmSharedCostAllocationBasis",
+          "line": 231
+        }
+      },
+      "point": "f-source-insert",
+      "realSetup": "At least two real E->F confirmed costs and two real target projects; one currency/proven layer; distinct source IDs, all projects owned; selectedCostId=max sorted source UUID, selectedProjectId=max sorted target UUID",
+      "rollbackOracle": "single-statement owned snapshot equality from observed trigger gate; auth baseline is post-eager-touch",
+      "retryOracle": "One new basis, full N-source set, M results, 1+M evidence rows, audit per distinct affected project; strict per-layer cent conservation and unknown layers remain null; sources and results not included; no second active occupancy",
+      "retryCount": 1,
+      "requiresPendingAuth": false,
+      "requiresBusinessNumberSnapshot": false,
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    },
+    {
+      "id": "F11-basis-second-result-evidence",
+      "kind": "fault",
+      "priority": "P1",
+      "operation": {
+        "group": "F",
+        "method": "POST",
+        "path": "/api/shared-cost-allocation-bases",
+        "operationId": "ProjectCostController_confirmSharedCostAllocationBasis",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "confirmSharedCostAllocationBasis",
+          "line": 231
+        }
+      },
+      "point": "f-result-evidence",
+      "realSetup": "At least two real E->F confirmed costs and two real target projects; one currency/proven layer; distinct source IDs, all projects owned; selectedCostId=max sorted source UUID, selectedProjectId=max sorted target UUID",
+      "rollbackOracle": "single-statement owned snapshot equality from observed trigger gate; auth baseline is post-eager-touch",
+      "retryOracle": "One new basis, full N-source set, M results, 1+M evidence rows, audit per distinct affected project; strict per-layer cent conservation and unknown layers remain null; sources and results not included; no second active occupancy",
+      "retryCount": 1,
+      "requiresPendingAuth": false,
+      "requiresBusinessNumberSnapshot": false,
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    },
+    {
+      "id": "F12-basis-second-result",
+      "kind": "fault",
+      "priority": "P0",
+      "operation": {
+        "group": "F",
+        "method": "POST",
+        "path": "/api/shared-cost-allocation-bases",
+        "operationId": "ProjectCostController_confirmSharedCostAllocationBasis",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "confirmSharedCostAllocationBasis",
+          "line": 231
+        }
+      },
+      "point": "f-result-insert",
+      "realSetup": "At least two real E->F confirmed costs and two real target projects; one currency/proven layer; distinct source IDs, all projects owned; selectedCostId=max sorted source UUID, selectedProjectId=max sorted target UUID",
+      "rollbackOracle": "single-statement owned snapshot equality from observed trigger gate; auth baseline is post-eager-touch",
+      "retryOracle": "One new basis, full N-source set, M results, 1+M evidence rows, audit per distinct affected project; strict per-layer cent conservation and unknown layers remain null; sources and results not included; no second active occupancy",
+      "retryCount": 1,
+      "requiresPendingAuth": false,
+      "requiresBusinessNumberSnapshot": false,
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    },
+    {
+      "id": "F13-basis-audit",
+      "kind": "fault",
+      "priority": "P0",
+      "operation": {
+        "group": "F",
+        "method": "POST",
+        "path": "/api/shared-cost-allocation-bases",
+        "operationId": "ProjectCostController_confirmSharedCostAllocationBasis",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "confirmSharedCostAllocationBasis",
+          "line": 231
+        }
+      },
+      "point": "business-audit",
+      "realSetup": "At least two real E->F confirmed costs and two real target projects; one currency/proven layer; distinct source IDs, all projects owned; selectedCostId=max sorted source UUID, selectedProjectId=max sorted target UUID",
+      "rollbackOracle": "single-statement owned snapshot equality from observed trigger gate; auth baseline is post-eager-touch",
+      "retryOracle": "One new basis, full N-source set, M results, 1+M evidence rows, audit per distinct affected project; strict per-layer cent conservation and unknown layers remain null; sources and results not included; no second active occupancy",
+      "retryCount": 1,
+      "requiresPendingAuth": false,
+      "requiresBusinessNumberSnapshot": false,
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    },
+    {
+      "id": "F14-replace-old-basis",
+      "kind": "fault",
+      "priority": "P1",
+      "operation": {
+        "group": "F",
+        "method": "POST",
+        "path": "/api/shared-cost-allocation-results/{id}:replace",
+        "operationId": "ProjectCostController_replaceSharedCostAllocationResult",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "replaceSharedCostAllocationResult",
+          "line": 256
+        }
+      },
+      "point": "f-old-basis-supersede",
+      "realSetup": "At least two real E->F confirmed costs and two real target projects; one currency/proven layer; distinct source IDs, all projects owned; selectedCostId=max sorted source UUID, selectedProjectId=max sorted target UUID; first commit a real complete allocation, then prepare one valid full replacement with the same two target identities and changed weights/explanation, preserving anchored project and strict old result/source versions; oldBasisId from actual receipt",
+      "rollbackOracle": "single-statement owned snapshot equality from observed trigger gate; auth baseline is post-eager-touch",
+      "retryOracle": "One new basis, full N-source set, M results, 1+M evidence rows, audit per distinct affected project; strict per-layer cent conservation and unknown layers remain null; sources and results not included; no second active occupancy; old basis/all old results superseded, all old source flags false, new complete batch current, one successor per predecessor; old amounts/weights/evidence/hash unchanged",
+      "retryCount": 1,
+      "requiresPendingAuth": false,
+      "requiresBusinessNumberSnapshot": false,
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    },
+    {
+      "id": "F15-replace-old-result",
+      "kind": "fault",
+      "priority": "P1",
+      "operation": {
+        "group": "F",
+        "method": "POST",
+        "path": "/api/shared-cost-allocation-results/{id}:replace",
+        "operationId": "ProjectCostController_replaceSharedCostAllocationResult",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "replaceSharedCostAllocationResult",
+          "line": 256
+        }
+      },
+      "point": "f-old-result-supersede",
+      "realSetup": "At least two real E->F confirmed costs and two real target projects; one currency/proven layer; distinct source IDs, all projects owned; selectedCostId=max sorted source UUID, selectedProjectId=max sorted target UUID; first commit a real complete allocation, then prepare one valid full replacement with the same two target identities and changed weights/explanation, preserving anchored project and strict old result/source versions; oldBasisId from actual receipt",
+      "rollbackOracle": "single-statement owned snapshot equality from observed trigger gate; auth baseline is post-eager-touch",
+      "retryOracle": "One new basis, full N-source set, M results, 1+M evidence rows, audit per distinct affected project; strict per-layer cent conservation and unknown layers remain null; sources and results not included; no second active occupancy; old basis/all old results superseded, all old source flags false, new complete batch current, one successor per predecessor; old amounts/weights/evidence/hash unchanged",
+      "retryCount": 1,
+      "requiresPendingAuth": false,
+      "requiresBusinessNumberSnapshot": false,
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    },
+    {
+      "id": "F16-replace-release-source",
+      "kind": "fault",
+      "priority": "P0",
+      "operation": {
+        "group": "F",
+        "method": "POST",
+        "path": "/api/shared-cost-allocation-results/{id}:replace",
+        "operationId": "ProjectCostController_replaceSharedCostAllocationResult",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "replaceSharedCostAllocationResult",
+          "line": 256
+        }
+      },
+      "point": "f-old-source-release",
+      "realSetup": "At least two real E->F confirmed costs and two real target projects; one currency/proven layer; distinct source IDs, all projects owned; selectedCostId=max sorted source UUID, selectedProjectId=max sorted target UUID; first commit a real complete allocation, then prepare one valid full replacement with the same two target identities and changed weights/explanation, preserving anchored project and strict old result/source versions; oldBasisId from actual receipt",
+      "rollbackOracle": "single-statement owned snapshot equality from observed trigger gate; auth baseline is post-eager-touch",
+      "retryOracle": "One new basis, full N-source set, M results, 1+M evidence rows, audit per distinct affected project; strict per-layer cent conservation and unknown layers remain null; sources and results not included; no second active occupancy; old basis/all old results superseded, all old source flags false, new complete batch current, one successor per predecessor; old amounts/weights/evidence/hash unchanged",
+      "retryCount": 1,
+      "requiresPendingAuth": false,
+      "requiresBusinessNumberSnapshot": false,
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    },
+    {
+      "id": "F17-replace-new-basis",
+      "kind": "fault",
+      "priority": "P1",
+      "operation": {
+        "group": "F",
+        "method": "POST",
+        "path": "/api/shared-cost-allocation-results/{id}:replace",
+        "operationId": "ProjectCostController_replaceSharedCostAllocationResult",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "replaceSharedCostAllocationResult",
+          "line": 256
+        }
+      },
+      "point": "f-basis-insert",
+      "realSetup": "At least two real E->F confirmed costs and two real target projects; one currency/proven layer; distinct source IDs, all projects owned; selectedCostId=max sorted source UUID, selectedProjectId=max sorted target UUID; first commit a real complete allocation, then prepare one valid full replacement with the same two target identities and changed weights/explanation, preserving anchored project and strict old result/source versions; oldBasisId from actual receipt",
+      "rollbackOracle": "single-statement owned snapshot equality from observed trigger gate; auth baseline is post-eager-touch",
+      "retryOracle": "One new basis, full N-source set, M results, 1+M evidence rows, audit per distinct affected project; strict per-layer cent conservation and unknown layers remain null; sources and results not included; no second active occupancy; old basis/all old results superseded, all old source flags false, new complete batch current, one successor per predecessor; old amounts/weights/evidence/hash unchanged",
+      "retryCount": 1,
+      "requiresPendingAuth": false,
+      "requiresBusinessNumberSnapshot": false,
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    },
+    {
+      "id": "F18-replace-new-source",
+      "kind": "fault",
+      "priority": "P0",
+      "operation": {
+        "group": "F",
+        "method": "POST",
+        "path": "/api/shared-cost-allocation-results/{id}:replace",
+        "operationId": "ProjectCostController_replaceSharedCostAllocationResult",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "replaceSharedCostAllocationResult",
+          "line": 256
+        }
+      },
+      "point": "f-source-insert",
+      "realSetup": "At least two real E->F confirmed costs and two real target projects; one currency/proven layer; distinct source IDs, all projects owned; selectedCostId=max sorted source UUID, selectedProjectId=max sorted target UUID; first commit a real complete allocation, then prepare one valid full replacement with the same two target identities and changed weights/explanation, preserving anchored project and strict old result/source versions; oldBasisId from actual receipt",
+      "rollbackOracle": "single-statement owned snapshot equality from observed trigger gate; auth baseline is post-eager-touch",
+      "retryOracle": "One new basis, full N-source set, M results, 1+M evidence rows, audit per distinct affected project; strict per-layer cent conservation and unknown layers remain null; sources and results not included; no second active occupancy; old basis/all old results superseded, all old source flags false, new complete batch current, one successor per predecessor; old amounts/weights/evidence/hash unchanged",
+      "retryCount": 1,
+      "requiresPendingAuth": false,
+      "requiresBusinessNumberSnapshot": false,
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    },
+    {
+      "id": "F19-replace-second-result",
+      "kind": "fault",
+      "priority": "P0",
+      "operation": {
+        "group": "F",
+        "method": "POST",
+        "path": "/api/shared-cost-allocation-results/{id}:replace",
+        "operationId": "ProjectCostController_replaceSharedCostAllocationResult",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "replaceSharedCostAllocationResult",
+          "line": 256
+        }
+      },
+      "point": "f-result-insert",
+      "realSetup": "At least two real E->F confirmed costs and two real target projects; one currency/proven layer; distinct source IDs, all projects owned; selectedCostId=max sorted source UUID, selectedProjectId=max sorted target UUID; first commit a real complete allocation, then prepare one valid full replacement with the same two target identities and changed weights/explanation, preserving anchored project and strict old result/source versions; oldBasisId from actual receipt",
+      "rollbackOracle": "single-statement owned snapshot equality from observed trigger gate; auth baseline is post-eager-touch",
+      "retryOracle": "One new basis, full N-source set, M results, 1+M evidence rows, audit per distinct affected project; strict per-layer cent conservation and unknown layers remain null; sources and results not included; no second active occupancy; old basis/all old results superseded, all old source flags false, new complete batch current, one successor per predecessor; old amounts/weights/evidence/hash unchanged",
+      "retryCount": 1,
+      "requiresPendingAuth": false,
+      "requiresBusinessNumberSnapshot": false,
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    },
+    {
+      "id": "F20-replace-final-audit",
+      "kind": "fault",
+      "priority": "P0",
+      "operation": {
+        "group": "F",
+        "method": "POST",
+        "path": "/api/shared-cost-allocation-results/{id}:replace",
+        "operationId": "ProjectCostController_replaceSharedCostAllocationResult",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "replaceSharedCostAllocationResult",
+          "line": 256
+        }
+      },
+      "point": "business-audit",
+      "realSetup": "At least two real E->F confirmed costs and two real target projects; one currency/proven layer; distinct source IDs, all projects owned; selectedCostId=max sorted source UUID, selectedProjectId=max sorted target UUID; first commit a real complete allocation, then prepare one valid full replacement with the same two target identities and changed weights/explanation, preserving anchored project and strict old result/source versions; oldBasisId from actual receipt",
+      "rollbackOracle": "single-statement owned snapshot equality from observed trigger gate; auth baseline is post-eager-touch",
+      "retryOracle": "One new basis, full N-source set, M results, 1+M evidence rows, audit per distinct affected project; strict per-layer cent conservation and unknown layers remain null; sources and results not included; no second active occupancy; old basis/all old results superseded, all old source flags false, new complete batch current, one successor per predecessor; old amounts/weights/evidence/hash unchanged",
+      "retryCount": 1,
+      "requiresPendingAuth": false,
+      "requiresBusinessNumberSnapshot": false,
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    },
+    {
+      "id": "F21-tax-evidence",
+      "kind": "fault",
+      "priority": "P1",
+      "operation": {
+        "group": "F",
+        "method": "POST",
+        "path": "/api/projects/{projectId}/accounting-tax-treatments",
+        "operationId": "ProjectCostController_confirmAccountingTaxTreatment",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "confirmAccountingTaxTreatment",
+          "line": 299
+        }
+      },
+      "point": "f-evidence",
+      "realSetup": "Actual same-project typed source or responsible finance manual assessment, proven currency/date; replacement has actual prior tax ID and strict version",
+      "rollbackOracle": "single-statement owned snapshot equality from observed trigger gate; auth baseline is post-eager-touch",
+      "retryOracle": "One new immutable tax fact/evidence/audit; replacement old->new unique chain, no automatic tax double-add and no cost inclusion; all source costs unchanged",
+      "retryCount": 1,
+      "requiresPendingAuth": false,
+      "requiresBusinessNumberSnapshot": false,
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    },
+    {
+      "id": "F22-tax-record",
+      "kind": "fault",
+      "priority": "P1",
+      "operation": {
+        "group": "F",
+        "method": "POST",
+        "path": "/api/projects/{projectId}/accounting-tax-treatments",
+        "operationId": "ProjectCostController_confirmAccountingTaxTreatment",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "confirmAccountingTaxTreatment",
+          "line": 299
+        }
+      },
+      "point": "f-tax-insert",
+      "realSetup": "Actual same-project typed source or responsible finance manual assessment, proven currency/date; replacement has actual prior tax ID and strict version",
+      "rollbackOracle": "single-statement owned snapshot equality from observed trigger gate; auth baseline is post-eager-touch",
+      "retryOracle": "One new immutable tax fact/evidence/audit; replacement old->new unique chain, no automatic tax double-add and no cost inclusion; all source costs unchanged",
+      "retryCount": 1,
+      "requiresPendingAuth": false,
+      "requiresBusinessNumberSnapshot": false,
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    },
+    {
+      "id": "F23-tax-replace-record",
+      "kind": "fault",
+      "priority": "P1",
+      "operation": {
+        "group": "F",
+        "method": "POST",
+        "path": "/api/accounting-tax-treatments/{id}:replace",
+        "operationId": "ProjectCostController_replaceAccountingTaxTreatment",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "replaceAccountingTaxTreatment",
+          "line": 308
+        }
+      },
+      "point": "f-tax-insert",
+      "realSetup": "Actual same-project typed source or responsible finance manual assessment, proven currency/date; replacement has actual prior tax ID and strict version",
+      "rollbackOracle": "single-statement owned snapshot equality from observed trigger gate; auth baseline is post-eager-touch",
+      "retryOracle": "One new immutable tax fact/evidence/audit; replacement old->new unique chain, no automatic tax double-add and no cost inclusion; all source costs unchanged",
+      "retryCount": 1,
+      "requiresPendingAuth": false,
+      "requiresBusinessNumberSnapshot": false,
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    },
+    {
+      "id": "F24-tax-replace-audit",
+      "kind": "fault",
+      "priority": "P1",
+      "operation": {
+        "group": "F",
+        "method": "POST",
+        "path": "/api/accounting-tax-treatments/{id}:replace",
+        "operationId": "ProjectCostController_replaceAccountingTaxTreatment",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "replaceAccountingTaxTreatment",
+          "line": 308
+        }
+      },
+      "point": "business-audit",
+      "realSetup": "Actual same-project typed source or responsible finance manual assessment, proven currency/date; replacement has actual prior tax ID and strict version",
+      "rollbackOracle": "single-statement owned snapshot equality from observed trigger gate; auth baseline is post-eager-touch",
+      "retryOracle": "One new immutable tax fact/evidence/audit; replacement old->new unique chain, no automatic tax double-add and no cost inclusion; all source costs unchanged",
+      "retryCount": 1,
+      "requiresPendingAuth": false,
+      "requiresBusinessNumberSnapshot": false,
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    },
+    {
+      "id": "F25-tax-replace-pending-auth",
+      "kind": "fault",
+      "priority": "P0",
+      "operation": {
+        "group": "F",
+        "method": "POST",
+        "path": "/api/accounting-tax-treatments/{id}:replace",
+        "operationId": "ProjectCostController_replaceAccountingTaxTreatment",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "replaceAccountingTaxTreatment",
+          "line": 308
+        }
+      },
+      "point": "pending-auth",
+      "realSetup": "Actual same-project typed source or responsible finance manual assessment, proven currency/date; replacement has actual prior tax ID and strict version",
+      "rollbackOracle": "single-statement owned snapshot equality from observed trigger gate; auth baseline is post-eager-touch",
+      "retryOracle": "One new immutable tax fact/evidence/audit; replacement old->new unique chain, no automatic tax double-add and no cost inclusion; all source costs unchanged",
+      "retryCount": 1,
+      "requiresPendingAuth": true,
+      "requiresBusinessNumberSnapshot": false,
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    },
+    {
+      "id": "E26-map-cost-row",
+      "kind": "fault",
+      "priority": "P0",
+      "operation": {
+        "group": "E",
+        "method": "POST",
+        "path": "/api/projects/{projectId}/actual-cost-records",
+        "operationId": "ProjectCostController_createProjectActualCostRecord",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "createProjectActualCostRecord",
+          "line": 113
+        }
+      },
+      "point": "e-cost-insert",
+      "realSetup": "Actual confirmed E expense, not currently mapped; real sourceVersion; counter scope cost-expense and actual period read only",
+      "rollbackOracle": "single-statement owned snapshot equality from observed trigger gate; auth baseline is post-eager-touch",
+      "retryOracle": "One registered/not-included cost with exact captured source_basis; one audit; expense untouched; number sequence advances only once on retry and not on failed attempt",
+      "retryCount": 1,
+      "requiresPendingAuth": false,
+      "requiresBusinessNumberSnapshot": true,
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    },
+    {
+      "id": "E27-map-audit",
+      "kind": "fault",
+      "priority": "P0",
+      "operation": {
+        "group": "E",
+        "method": "POST",
+        "path": "/api/projects/{projectId}/actual-cost-records",
+        "operationId": "ProjectCostController_createProjectActualCostRecord",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "createProjectActualCostRecord",
+          "line": 113
+        }
+      },
+      "point": "business-audit",
+      "realSetup": "Actual confirmed E expense, not currently mapped; real sourceVersion; counter scope cost-expense and actual period read only",
+      "rollbackOracle": "single-statement owned snapshot equality from observed trigger gate; auth baseline is post-eager-touch",
+      "retryOracle": "One registered/not-included cost with exact captured source_basis; one audit; expense untouched; number sequence advances only once on retry and not on failed attempt",
+      "retryCount": 1,
+      "requiresPendingAuth": false,
+      "requiresBusinessNumberSnapshot": true,
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    },
+    {
+      "id": "E28-map-pending-auth",
+      "kind": "fault",
+      "priority": "P0",
+      "operation": {
+        "group": "E",
+        "method": "POST",
+        "path": "/api/projects/{projectId}/actual-cost-records",
+        "operationId": "ProjectCostController_createProjectActualCostRecord",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "createProjectActualCostRecord",
+          "line": 113
+        }
+      },
+      "point": "pending-auth",
+      "realSetup": "Actual confirmed E expense, not currently mapped; real sourceVersion; counter scope cost-expense and actual period read only",
+      "rollbackOracle": "single-statement owned snapshot equality from observed trigger gate; auth baseline is post-eager-touch",
+      "retryOracle": "One registered/not-included cost with exact captured source_basis; one audit; expense untouched; number sequence advances only once on retry and not on failed attempt",
+      "retryCount": 1,
+      "requiresPendingAuth": true,
+      "requiresBusinessNumberSnapshot": true,
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    },
+    {
+      "id": "E29-expense-row",
+      "kind": "fault",
+      "priority": "P1",
+      "operation": {
+        "group": "E",
+        "method": "POST",
+        "path": "/api/projects/{projectId}/expense-records",
+        "operationId": "ProjectCostController_createExpenseRecord",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "createExpenseRecord",
+          "line": 417
+        }
+      },
+      "point": "e-expense-insert",
+      "realSetup": "Existing real owned project/contract/category; valid expense input using unique expenseDescriptionMarker",
+      "rollbackOracle": "single-statement owned snapshot equality from observed trigger gate; auth baseline is post-eager-touch",
+      "retryOracle": "Exactly one recorded expense and one audit after retry, no cost mapping created",
+      "retryCount": 1,
+      "requiresPendingAuth": false,
+      "requiresBusinessNumberSnapshot": false,
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    },
+    {
+      "id": "E30-expense-audit",
+      "kind": "fault",
+      "priority": "P1",
+      "operation": {
+        "group": "E",
+        "method": "POST",
+        "path": "/api/projects/{projectId}/expense-records",
+        "operationId": "ProjectCostController_createExpenseRecord",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "createExpenseRecord",
+          "line": 417
+        }
+      },
+      "point": "business-audit",
+      "realSetup": "Existing real owned project/contract/category; valid expense input using unique expenseDescriptionMarker",
+      "rollbackOracle": "single-statement owned snapshot equality from observed trigger gate; auth baseline is post-eager-touch",
+      "retryOracle": "Exactly one recorded expense and one audit after retry, no cost mapping created",
+      "retryCount": 1,
+      "requiresPendingAuth": false,
+      "requiresBusinessNumberSnapshot": false,
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    },
+    {
+      "id": "E31-labor-replace-row",
+      "kind": "fault",
+      "priority": "P0",
+      "operation": {
+        "group": "E",
+        "method": "POST",
+        "path": "/api/project-actual-cost-records/{id}:replace",
+        "operationId": "ProjectCostController_replaceLaborCostRecord",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "replaceLaborCostRecord",
+          "line": 469
+        }
+      },
+      "point": "e-labor-replacement-insert",
+      "realSetup": "Real published rate -> E registered labor, not included/allocated/frozen; valid replacement rate/period/person/scope and strict cost/source versions; selectedCostId=old cost ID; cost-labor counter scope",
+      "rollbackOracle": "single-statement owned snapshot equality from observed trigger gate; auth baseline is post-eager-touch",
+      "retryOracle": "Old cost replaced with one new registered successor, exact original source/calculation basis preserved; valid HALF_UP cents and no phantom labor overlap; counter and audit atomic",
+      "retryCount": 1,
+      "requiresPendingAuth": false,
+      "requiresBusinessNumberSnapshot": true,
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    },
+    {
+      "id": "E32-labor-replace-audit",
+      "kind": "fault",
+      "priority": "P0",
+      "operation": {
+        "group": "E",
+        "method": "POST",
+        "path": "/api/project-actual-cost-records/{id}:replace",
+        "operationId": "ProjectCostController_replaceLaborCostRecord",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "replaceLaborCostRecord",
+          "line": 469
+        }
+      },
+      "point": "business-audit",
+      "realSetup": "Real published rate -> E registered labor, not included/allocated/frozen; valid replacement rate/period/person/scope and strict cost/source versions; selectedCostId=old cost ID; cost-labor counter scope",
+      "rollbackOracle": "single-statement owned snapshot equality from observed trigger gate; auth baseline is post-eager-touch",
+      "retryOracle": "Old cost replaced with one new registered successor, exact original source/calculation basis preserved; valid HALF_UP cents and no phantom labor overlap; counter and audit atomic",
+      "retryCount": 1,
+      "requiresPendingAuth": false,
+      "requiresBusinessNumberSnapshot": true,
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    },
+    {
+      "id": "E33-labor-replace-pending-auth",
+      "kind": "fault",
+      "priority": "P0",
+      "operation": {
+        "group": "E",
+        "method": "POST",
+        "path": "/api/project-actual-cost-records/{id}:replace",
+        "operationId": "ProjectCostController_replaceLaborCostRecord",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "replaceLaborCostRecord",
+          "line": 469
+        }
+      },
+      "point": "pending-auth",
+      "realSetup": "Real published rate -> E registered labor, not included/allocated/frozen; valid replacement rate/period/person/scope and strict cost/source versions; selectedCostId=old cost ID; cost-labor counter scope",
+      "rollbackOracle": "single-statement owned snapshot equality from observed trigger gate; auth baseline is post-eager-touch",
+      "retryOracle": "Old cost replaced with one new registered successor, exact original source/calculation basis preserved; valid HALF_UP cents and no phantom labor overlap; counter and audit atomic",
+      "retryCount": 1,
+      "requiresPendingAuth": true,
+      "requiresBusinessNumberSnapshot": true,
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    },
+    {
+      "id": "F34-masked-get-security",
+      "kind": "fault",
+      "priority": "P0",
+      "operation": {
+        "group": "F",
+        "method": "GET",
+        "path": "/api/shared-cost-allocation-bases/{id}",
+        "operationId": "ProjectCostController_getSharedCostAllocationBasis",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 200,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "getSharedCostAllocationBasis",
+          "line": 240
+        }
+      },
+      "point": "projection-security-event",
+      "realSetup": "Real mixed/LABOR basis; actor has route permission but lacks at least one of operating/labor sensitive grants; actual owned session",
+      "rollbackOracle": "single-statement owned snapshot equality from observed trigger gate; auth baseline is post-eager-touch",
+      "retryOracle": "200 masked retry with one or more actual package security events, no raw amount/ratio/weight/evidence/history/receipt bypass; no business mutation/audit; pending auth coflush if dirty",
+      "retryCount": 1,
+      "requiresPendingAuth": false,
+      "requiresBusinessNumberSnapshot": false,
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    },
+    {
+      "id": "F35-masked-get-pending-auth",
+      "kind": "fault",
+      "priority": "P0",
+      "operation": {
+        "group": "F",
+        "method": "GET",
+        "path": "/api/shared-cost-allocation-bases/{id}",
+        "operationId": "ProjectCostController_getSharedCostAllocationBasis",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 200,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "getSharedCostAllocationBasis",
+          "line": 240
+        }
+      },
+      "point": "pending-auth",
+      "realSetup": "Real mixed/LABOR basis; actor has route permission but lacks at least one of operating/labor sensitive grants; actual owned session",
+      "rollbackOracle": "single-statement owned snapshot equality from observed trigger gate; auth baseline is post-eager-touch",
+      "retryOracle": "200 masked retry with one or more actual package security events, no raw amount/ratio/weight/evidence/history/receipt bypass; no business mutation/audit; pending auth coflush if dirty",
+      "retryCount": 1,
+      "requiresPendingAuth": true,
+      "requiresBusinessNumberSnapshot": false,
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    }
+  ],
+  "races": [
+    {
+      "id": "C01-one-stage-winner",
+      "kind": "project-lock-contention",
+      "priority": "P0",
+      "operationA": {
+        "group": "F",
+        "method": "POST",
+        "path": "/api/project-actual-cost-records/{id}/stage-attributions",
+        "operationId": "ProjectCostController_confirmCostStageAttribution",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "confirmCostStageAttribution",
+          "line": 265
+        }
+      },
+      "operationB": {
+        "group": "F",
+        "method": "POST",
+        "path": "/api/project-actual-cost-records/{id}/stage-attributions",
+        "operationId": "ProjectCostController_confirmCostStageAttribution",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "confirmCostStageAttribution",
+          "line": 265
+        }
+      },
+      "leaderPoint": "f-stage-cost-update",
+      "leaderSuccessStatus": 201,
+      "contenderStatus": 409,
+      "realSetup": "Real E confirmed expense -> real mapped registered cost; actual business-date evidence; no active attribution/allocation; strict expected cost/source versions; independent real sessions, identical cost/source CAS",
+      "barrier": "A reaches unique owned-row advisory gate holding actual project lock; observe A PID; B then visibly waits behind A on actual project FOR UPDATE; release A only after PG observation",
+      "oracle": "One confirmed cost and one active attribution/evidence/audit, exactly one cost version increment",
+      "retry": "Exactly one unchanged B retry: 409 again, zero new business/evidence/audit state; semantic stale/occupancy conflicts do not become success by retry",
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    },
+    {
+      "id": "C02-intersecting-source-sets",
+      "kind": "project-lock-contention",
+      "priority": "P0",
+      "operationA": {
+        "group": "F",
+        "method": "POST",
+        "path": "/api/shared-cost-allocation-bases",
+        "operationId": "ProjectCostController_confirmSharedCostAllocationBasis",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "confirmSharedCostAllocationBasis",
+          "line": 231
+        }
+      },
+      "operationB": {
+        "group": "F",
+        "method": "POST",
+        "path": "/api/shared-cost-allocation-bases",
+        "operationId": "ProjectCostController_confirmSharedCostAllocationBasis",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "confirmSharedCostAllocationBasis",
+          "line": 231
+        }
+      },
+      "leaderPoint": "f-source-insert",
+      "leaderSuccessStatus": 201,
+      "contenderStatus": 409,
+      "realSetup": "Real confirmed costs A/B/C; requestA sources[A,B], requestB sources[B,C], different exact-set scope hashes; two real targets; independent sessions",
+      "barrier": "A reaches unique owned-row advisory gate holding actual project lock; observe A PID; B then visibly waits behind A on actual project FOR UPDATE; release A only after PG observation",
+      "oracle": "Only A owns current B; no basis/evidence/result/audit for B request; no intersecting-set leak despite different scope hashes",
+      "retry": "Exactly one unchanged B retry: 409 again, zero new business/evidence/audit state; semantic stale/occupancy conflicts do not become success by retry",
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    },
+    {
+      "id": "C03-complete-replacement-winner",
+      "kind": "project-lock-contention",
+      "priority": "P0",
+      "operationA": {
+        "group": "F",
+        "method": "POST",
+        "path": "/api/shared-cost-allocation-results/{id}:replace",
+        "operationId": "ProjectCostController_replaceSharedCostAllocationResult",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "replaceSharedCostAllocationResult",
+          "line": 256
+        }
+      },
+      "operationB": {
+        "group": "F",
+        "method": "POST",
+        "path": "/api/shared-cost-allocation-results/{id}:replace",
+        "operationId": "ProjectCostController_replaceSharedCostAllocationResult",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "replaceSharedCostAllocationResult",
+          "line": 256
+        }
+      },
+      "leaderPoint": "f-result-insert",
+      "leaderSuccessStatus": 201,
+      "contenderStatus": 409,
+      "realSetup": "At least two real E->F confirmed costs and two real target projects; one currency/proven layer; distinct source IDs, all projects owned; selectedCostId=max sorted source UUID, selectedProjectId=max sorted target UUID; first commit a real complete allocation, then prepare one valid full replacement with the same two target identities and changed weights/explanation, preserving anchored project and strict old result/source versions; oldBasisId from actual receipt; both anchor same old result/version in independent sessions",
+      "barrier": "A reaches unique owned-row advisory gate holding actual project lock; observe A PID; B then visibly waits behind A on actual project FOR UPDATE; release A only after PG observation",
+      "oracle": "Exactly one whole batch successor; all old rows switch atomically; loser creates no extra source/evidence/results",
+      "retry": "Exactly one unchanged B retry: 409 again, zero new business/evidence/audit state; semantic stale/occupancy conflicts do not become success by retry",
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    },
+    {
+      "id": "C04-one-source-mapping",
+      "kind": "project-lock-contention",
+      "priority": "P0",
+      "operationA": {
+        "group": "E",
+        "method": "POST",
+        "path": "/api/projects/{projectId}/actual-cost-records",
+        "operationId": "ProjectCostController_createProjectActualCostRecord",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "createProjectActualCostRecord",
+          "line": 113
+        }
+      },
+      "operationB": {
+        "group": "E",
+        "method": "POST",
+        "path": "/api/projects/{projectId}/actual-cost-records",
+        "operationId": "ProjectCostController_createProjectActualCostRecord",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "createProjectActualCostRecord",
+          "line": 113
+        }
+      },
+      "leaderPoint": "e-cost-insert",
+      "leaderSuccessStatus": 201,
+      "contenderStatus": 409,
+      "realSetup": "One real confirmed expense, no mapping; both source CAS equal, independent sessions; read cost-expense number counter",
+      "barrier": "A reaches unique owned-row advisory gate holding actual project lock; observe A PID; B then visibly waits behind A on actual project FOR UPDATE; release A only after PG observation",
+      "oracle": "One registered mapping, one audit, one number allocation; current source unique covers registered; no loser number gap",
+      "retry": "Exactly one unchanged B retry: 409 again, zero new business/evidence/audit state; semantic stale/occupancy conflicts do not become success by retry",
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    },
+    {
+      "id": "C05-E-replace-before-F-stage",
+      "kind": "project-lock-contention",
+      "priority": "P0",
+      "operationA": {
+        "group": "E",
+        "method": "POST",
+        "path": "/api/project-actual-cost-records/{id}:replace",
+        "operationId": "ProjectCostController_replaceLaborCostRecord",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "replaceLaborCostRecord",
+          "line": 469
+        }
+      },
+      "operationB": {
+        "group": "F",
+        "method": "POST",
+        "path": "/api/project-actual-cost-records/{id}/stage-attributions",
+        "operationId": "ProjectCostController_confirmCostStageAttribution",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "confirmCostStageAttribution",
+          "line": 265
+        }
+      },
+      "leaderPoint": "e-labor-replacement-insert",
+      "leaderSuccessStatus": 201,
+      "contenderStatus": 409,
+      "realSetup": "One real registered labor cost from actual published rate; independent sessions, original strict cost version; no prior attribution or active allocation",
+      "barrier": "A reaches unique owned-row advisory gate holding actual project lock; observe A PID; B then visibly waits behind A on actual project FOR UPDATE; release A only after PG observation",
+      "oracle": "E replacement commits one successor, F rejects replaced/stale old cost and creates no attribution/evidence; new cost stays registered",
+      "retry": "Exactly one unchanged B retry: 409 again, zero new business/evidence/audit state; semantic stale/occupancy conflicts do not become success by retry",
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    },
+    {
+      "id": "C06-F-stage-before-E-replace",
+      "kind": "project-lock-contention",
+      "priority": "P0",
+      "operationA": {
+        "group": "F",
+        "method": "POST",
+        "path": "/api/project-actual-cost-records/{id}/stage-attributions",
+        "operationId": "ProjectCostController_confirmCostStageAttribution",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "confirmCostStageAttribution",
+          "line": 265
+        }
+      },
+      "operationB": {
+        "group": "E",
+        "method": "POST",
+        "path": "/api/project-actual-cost-records/{id}:replace",
+        "operationId": "ProjectCostController_replaceLaborCostRecord",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "replaceLaborCostRecord",
+          "line": 469
+        }
+      },
+      "leaderPoint": "f-stage-cost-update",
+      "leaderSuccessStatus": 201,
+      "contenderStatus": 409,
+      "realSetup": "Same kind of real registered labor fixture, dual sensitive grants, independent sessions and original strict cost version",
+      "barrier": "A reaches unique owned-row advisory gate holding actual project lock; observe A PID; B then visibly waits behind A on actual project FOR UPDATE; release A only after PG observation",
+      "oracle": "F confirms once; E stale CAS fails without old/new labor or audit remnants; unchanged E retry remains409",
+      "retry": "Exactly one unchanged B retry: 409 again, zero new business/evidence/audit state; semantic stale/occupancy conflicts do not become success by retry",
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    },
+    {
+      "id": "C07-sorted-rate-families",
+      "kind": "production-family-lock-chain",
+      "priority": "P1",
+      "operationA": {
+        "group": "F",
+        "method": "POST",
+        "path": "/api/shared-cost-allocation-bases",
+        "operationId": "ProjectCostController_confirmSharedCostAllocationBasis",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "confirmSharedCostAllocationBasis",
+          "line": 231
+        }
+      },
+      "operationB": {
+        "group": "F",
+        "method": "POST",
+        "path": "/api/shared-cost-allocation-bases",
+        "operationId": "ProjectCostController_confirmSharedCostAllocationBasis",
+        "permissions": [
+          "contract:finance:manage"
+        ],
+        "successStatus": 201,
+        "controller": {
+          "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+          "class": "ProjectCostController",
+          "handler": "confirmSharedCostAllocationBasis",
+          "line": 231
+        }
+      },
+      "realSetup": "Disjoint real project/target sets and distinct confirmed labor cost IDs, both consuming the same >=2 actual rate/person families; prove cost UUID order opposes family order from real IDs, never assign IDs with SQL",
+      "barrier": "Controller holds last actual poms:cost-rate family key; A holds first and waits last; B visibly waits first behind A; then release controller",
+      "oracle": "Both201 with exact disjoint conserved allocations and unchanged real rate/source versions, no deadlock/cycle; no retry needed; duplicate retry conflicts covered in C01-C06",
+      "deadlineMs": 20000,
+      "runtimeStatus": "planned-not-run"
+    }
+  ],
+  "noBusinessStateSqlFabrication": true,
+  "faultsMustRunOneAtATime": true,
+  "newFixturePerScenario": true,
+  "authBoundary": "eager touch is independently committed; pending-auth rollback compares post-touch snapshot at observed trigger gate",
+  "commitAcknowledgementAmbiguity": "not injected; transport/unknown COMMIT outcome blocks automatic retry and certification"
+}

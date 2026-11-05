@@ -1,0 +1,83 @@
+{
+  "kind": "K86-actual-isolated-crate-author-check-receipt",
+  "passed": true,
+  "sourceStableDuringChecks": true,
+  "sourceBefore": [
+    {
+      "file": "apps/poms-api-rust/src/attachments/service.rs",
+      "bytes": 81710,
+      "rawBytesSha256": "0fbd8afc1c22fec87e3034b9e31d9c89a3cfea92d85cb8f0ef1866dd23bcceab"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/store.rs",
+      "bytes": 68634,
+      "rawBytesSha256": "163452c03d34231360ba7da16b76fd3e282fbc96b9ae752e2cfd584cf9809f8e"
+    }
+  ],
+  "sourceAfter": [
+    {
+      "file": "apps/poms-api-rust/src/attachments/service.rs",
+      "bytes": 81710,
+      "rawBytesSha256": "0fbd8afc1c22fec87e3034b9e31d9c89a3cfea92d85cb8f0ef1866dd23bcceab"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/store.rs",
+      "bytes": 68634,
+      "rawBytesSha256": "163452c03d34231360ba7da16b76fd3e282fbc96b9ae752e2cfd584cf9809f8e"
+    }
+  ],
+  "commands": [
+    {
+      "mode": "version",
+      "startedAtUtc": "2026-11-04T04:17:15.9885168Z",
+      "endedAtUtc": "2026-11-04T04:17:16.4970982Z",
+      "exitCode": 0,
+      "log": "version.log",
+      "logBytes": 74,
+      "logRawBytesSha256": "1d5ffecef3d3a41c112753b3503c5175bbee8590cb64163c8d0d99cd2961921d"
+    },
+    {
+      "mode": "fmt-check",
+      "startedAtUtc": "2026-11-04T04:17:16.5018085Z",
+      "endedAtUtc": "2026-11-04T04:17:19.8047622Z",
+      "exitCode": 0,
+      "log": "fmt-check.log",
+      "logBytes": 0,
+      "logRawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "mode": "clippy",
+      "startedAtUtc": "2026-11-04T04:17:19.8068371Z",
+      "endedAtUtc": "2026-11-04T04:20:15.3613878Z",
+      "exitCode": 0,
+      "log": "clippy.log",
+      "logBytes": 186,
+      "logRawBytesSha256": "df278ab965bbf4e583105395f3c645481fc111f90941bf7880378ba21177221f"
+    },
+    {
+      "mode": "test",
+      "startedAtUtc": "2026-11-04T04:20:15.3640608Z",
+      "endedAtUtc": "2026-11-04T04:23:02.5942350Z",
+      "exitCode": 0,
+      "log": "test.log",
+      "logBytes": 941,
+      "logRawBytesSha256": "b527dc042ab33beceaead2c9c9f40eb038ebc1a61da89204e6ccd5f91b97f199"
+    },
+    {
+      "mode": "regression",
+      "startedAtUtc": "2026-11-04T04:23:02.5957702Z",
+      "endedAtUtc": "2026-11-04T04:23:16.7642556Z",
+      "exitCode": 0,
+      "log": "regression.log",
+      "logBytes": 3707,
+      "logRawBytesSha256": "4ed4390a7cccbb0927a472a19c8d537069af316fed020193b6f42dfa90b0d018"
+    }
+  ],
+  "compilerScope": "Real application lib, Root-owned existing E module registration; no fake source producer",
+  "resourceScope": "WSL Debian cargo +1.99.1 --offline, dedicated target-F, jobs2",
+  "actualPGExecuted": false,
+  "actualHTTPExecuted": false,
+  "actualObjectProviderIOExecuted": false,
+  "actualConcurrencyExecuted": false,
+  "S3Accepted": false
+}

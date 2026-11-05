@@ -1,0 +1,973 @@
+--- /dev/null
++++ b/apps/poms-api/src/app/features/project-handover/project-handover-basis-snapshot.entity.ts
+@@ -0,0 +1,43 @@
++import { Project } from "../project/project.entity";
++import { PlatformUser } from "../platform/platform-user.entity";
++import { defineEntity } from '@mikro-orm/core';
++
++const p = defineEntity.properties;
++
++export const ProjectHandoverBasisSnapshotSchema = defineEntity({
++    name: "ProjectHandoverBasisSnapshot",
++    tableName: "project_handover_basis_snapshot",
++    schema: 'poms',
++    checks: [
++        { name: "chk_r4d_basis_current", expression: "(((NOT is_current) OR ((status)::text = 'active'::text)))" },
++        { name: "project_handover_basis_snapshot_payload_hash_check", expression: "(((payload_hash)::text ~ '^[0-9a-f]{64}$'::text))" },
++        { name: "project_handover_basis_snapshot_row_version_check", expression: "((row_version > 0))" },
++        { name: "project_handover_basis_snapshot_source_hash_check", expression: "(((source_hash)::text ~ '^[0-9a-f]{64}$'::text))" },
++        { name: "project_handover_basis_snapshot_source_payload_check", expression: "((jsonb_typeof(source_payload) = 'object'::text))" },
++        { name: "project_handover_basis_snapshot_status_check", expression: "(((status)::text = ANY ((ARRAY['active'::character varying, 'superseded'::character varying, 'voided'::character varying])::text[])))" },
++        { name: "project_handover_basis_snapshot_version_check", expression: "((version > 0))" }
++    ],
++    uniques: [
++        { name: "uq_r4d_basis_project", properties: ["id","projectId"] },
++        { name: "uq_r4d_basis_version", properties: ["projectId","version"] },
++        { name: "uq_r4d_basis_current", expression: "CREATE UNIQUE INDEX uq_r4d_basis_current ON poms.project_handover_basis_snapshot USING btree (project_id) WHERE is_current" }
++    ],
++    properties: {
++        id: p.uuid().primary().defaultRaw("gen_random_uuid()").fieldName("id"),
++        projectId: () => p.manyToOne(Project).mapToPk().fieldName("project_id").foreignKeyName("project_handover_basis_snapshot_project_id_fkey").updateRule('no action').deleteRule("restrict"),
++        version: p.integer().fieldName("version"),
++        sourcePayload: p.json<Record<string, unknown>>().columnType('jsonb').fieldName("source_payload"),
++        sourceHash: p.string().length(64).fieldName("source_hash"),
++        payloadHash: p.string().length(64).fieldName("payload_hash"),
++        status: p.string().length(32).fieldName("status"),
++        isCurrent: p.boolean().default(true).fieldName("is_current"),
++        supersedesId: () => p.manyToOne(ProjectHandoverBasisSnapshot).mapToPk().nullable().fieldName("supersedes_id").foreignKeyName("project_handover_basis_snapshot_supersedes_id_fkey").updateRule('no action').deleteRule("restrict"),
++        generatedAt: p.datetime().columnType('timestamptz').defaultRaw("now()").fieldName("generated_at"),
++        generatedBy: () => p.manyToOne(PlatformUser).mapToPk().fieldName("generated_by").foreignKeyName("project_handover_basis_snapshot_generated_by_fkey").updateRule('no action').deleteRule("restrict"),
++        rowVersion: p.integer().version().default(1).fieldName("row_version")
++    }
++});
++
++export class ProjectHandoverBasisSnapshot extends ProjectHandoverBasisSnapshotSchema.class {}
++
++ProjectHandoverBasisSnapshotSchema.setClass(ProjectHandoverBasisSnapshot);
+--- /dev/null
++++ b/apps/poms-api/src/app/features/project-handover/project-handover-contract-basis.entity.ts
+@@ -0,0 +1,46 @@
++import { ProjectHandoverBasisSnapshot } from "./project-handover-basis-snapshot.entity";
++import { Project } from "../project/project.entity";
++import { Contract, ContractAmendment, ContractTermSnapshot } from "../contract/contract.entity";
++import { ContractReadinessPackage } from "../contract-readiness/contract-readiness-package.entity";
++import { ContractTermPreparation, ReceivablePlanVersion } from "../contract-readiness/contract-lifecycle.entity";
++import { defineEntity } from '@mikro-orm/core';
++
++const p = defineEntity.properties;
++
++export const ProjectHandoverContractBasisSchema = defineEntity({
++    name: "ProjectHandoverContractBasis",
++    tableName: "project_handover_contract_basis",
++    schema: 'poms',
++    checks: [
++        { name: "project_handover_contract_basis_amount_tax_exclusive_check", expression: "((amount_tax_exclusive > (0)::numeric))" },
++        { name: "project_handover_contract_basis_amount_tax_inclusive_check", expression: "((amount_tax_inclusive > (0)::numeric))" },
++        { name: "project_handover_contract_basis_currency_code_check", expression: "((length(btrim((currency_code)::text)) > 0))" },
++        { name: "project_handover_contract_basis_signed_amount_check", expression: "((signed_amount > (0)::numeric))" },
++        { name: "project_handover_contract_basis_source_payload_hash_check", expression: "(((source_payload_hash)::text ~ '^[0-9a-f]{64}$'::text))" }
++    ],
++    uniques: [
++        { name: "uq_r4d_basis_contract", properties: ["basisSnapshotId","contractId"] },
++        { name: "uq_r4d_basis_anchor", expression: "CREATE UNIQUE INDEX uq_r4d_basis_anchor ON poms.project_handover_contract_basis USING btree (basis_snapshot_id) WHERE is_compatibility_anchor" }
++    ],
++    properties: {
++        id: p.uuid().primary().defaultRaw("gen_random_uuid()").fieldName("id"),
++        basisSnapshotId: () => p.manyToOne(ProjectHandoverBasisSnapshot).mapToPk().fieldName("basis_snapshot_id").createForeignKeyConstraint(false),
++        projectId: () => p.manyToOne(Project).mapToPk().fieldName("project_id").createForeignKeyConstraint(false),
++        contractId: () => p.manyToOne(Contract).mapToPk().fieldName("contract_id").createForeignKeyConstraint(false),
++        termSnapshotId: () => p.manyToOne(ContractTermSnapshot).mapToPk().fieldName("term_snapshot_id").createForeignKeyConstraint(false),
++        readinessPackageId: () => p.manyToOne(ContractReadinessPackage).mapToPk().fieldName("readiness_package_id").createForeignKeyConstraint(false),
++        preparationId: () => p.manyToOne(ContractTermPreparation).mapToPk().fieldName("preparation_id").createForeignKeyConstraint(false),
++        planVersionId: () => p.manyToOne(ReceivablePlanVersion).mapToPk().fieldName("plan_version_id").createForeignKeyConstraint(false),
++        contractAmendmentId: () => p.manyToOne(ContractAmendment).mapToPk().nullable().fieldName("contract_amendment_id").createForeignKeyConstraint(false),
++        sourcePayloadHash: p.string().length(64).fieldName("source_payload_hash"),
++        currencyCode: p.string().length(16).fieldName("currency_code"),
++        signedAmount: p.string().columnType('numeric(18,2)').precision(18).scale(2).fieldName("signed_amount"),
++        amountTaxInclusive: p.string().columnType('numeric(18,2)').precision(18).scale(2).fieldName("amount_tax_inclusive"),
++        amountTaxExclusive: p.string().columnType('numeric(18,2)').precision(18).scale(2).fieldName("amount_tax_exclusive"),
++        isCompatibilityAnchor: p.boolean().default(false).fieldName("is_compatibility_anchor")
++    }
++});
++
++export class ProjectHandoverContractBasis extends ProjectHandoverContractBasisSchema.class {}
++
++ProjectHandoverContractBasisSchema.setClass(ProjectHandoverContractBasis);
+--- /dev/null
++++ b/apps/poms-api/src/app/features/project-handover/project-handover-basis-item.entity.ts
+@@ -0,0 +1,39 @@
++import { ProjectHandoverBasisSnapshot } from "./project-handover-basis-snapshot.entity";
++import { PlatformUser } from "../platform/platform-user.entity";
++import { defineEntity } from '@mikro-orm/core';
++
++const p = defineEntity.properties;
++
++export const ProjectHandoverBasisItemSchema = defineEntity({
++    name: "ProjectHandoverBasisItem",
++    tableName: "project_handover_basis_item",
++    schema: 'poms',
++    checks: [
++        { name: "project_handover_basis_item_item_key_check", expression: "((length(btrim((item_key)::text)) > 0))" },
++        { name: "project_handover_basis_item_item_type_check", expression: "(((item_type)::text = ANY ((ARRAY['scope'::character varying, 'risk'::character varying, 'receivable'::character varying, 'cost'::character varying, 'responsibility'::character varying, 'attachment'::character varying, 'contract'::character varying])::text[])))" },
++        { name: "project_handover_basis_item_payload_check", expression: "((jsonb_typeof(payload) = 'object'::text))" },
++        { name: "project_handover_basis_item_source_hash_check", expression: "(((source_hash IS NULL) OR ((source_hash)::text ~ '^[0-9a-f]{64}$'::text)))" },
++        { name: "project_handover_basis_item_source_type_check", expression: "((length(btrim((source_type)::text)) > 0))" }
++    ],
++    uniques: [
++        { name: "uq_r4d_basis_item_key", properties: ["basisSnapshotId","itemKey"] },
++        { name: "uq_r4d_basis_item_scope", properties: ["id","basisSnapshotId"] }
++    ],
++    properties: {
++        id: p.uuid().primary().defaultRaw("gen_random_uuid()").fieldName("id"),
++        basisSnapshotId: () => p.manyToOne(ProjectHandoverBasisSnapshot).mapToPk().fieldName("basis_snapshot_id").foreignKeyName("project_handover_basis_item_basis_snapshot_id_fkey").updateRule('no action').deleteRule("restrict"),
++        itemKey: p.string().length(128).fieldName("item_key"),
++        itemType: p.string().length(32).fieldName("item_type"),
++        sourceType: p.string().length(64).fieldName("source_type"),
++        sourceId: p.uuid().fieldName("source_id"),
++        sourceVersion: p.string().length(64).nullable().fieldName("source_version"),
++        sourceHash: p.string().length(64).nullable().fieldName("source_hash"),
++        payload: p.json<Record<string, unknown>>().columnType('jsonb').fieldName("payload"),
++        createdAt: p.datetime().columnType('timestamptz').defaultRaw("now()").fieldName("created_at"),
++        createdBy: () => p.manyToOne(PlatformUser).mapToPk().fieldName("created_by").foreignKeyName("project_handover_basis_item_created_by_fkey").updateRule('no action').deleteRule("restrict")
++    }
++});
++
++export class ProjectHandoverBasisItem extends ProjectHandoverBasisItemSchema.class {}
++
++ProjectHandoverBasisItemSchema.setClass(ProjectHandoverBasisItem);
+--- /dev/null
++++ b/apps/poms-api/src/app/features/project-handover/project-handover-participant-role.entity.ts
+@@ -0,0 +1,35 @@
++import { ProjectHandover } from "./project-handover.entity";
++import { ConfirmationParticipant, ConfirmationRecord } from "../approval/confirmation-record.entity";
++import { PlatformUser } from "../platform/platform-user.entity";
++import { defineEntity } from '@mikro-orm/core';
++
++const p = defineEntity.properties;
++
++export const ProjectHandoverParticipantRoleSchema = defineEntity({
++    name: "ProjectHandoverParticipantRole",
++    tableName: "project_handover_participant_role",
++    schema: 'poms',
++    checks: [
++        { name: "project_handover_participant_role_responsibility_summary_check", expression: "((length(btrim((responsibility_summary)::text)) > 0))" },
++        { name: "project_handover_participant_role_role_key_check", expression: "(((role_key)::text = ANY ((ARRAY['sales-owner'::character varying, 'business-admin'::character varying, 'technical-support'::character varying, 'execution-owner'::character varying, 'finance'::character varying])::text[])))" }
++    ],
++    uniques: [
++        { name: "uq_r4d_participant_role", properties: ["handoverId","participantUserId","roleKey"] },
++        { name: "uq_r4d_handover_execution_owner", expression: "CREATE UNIQUE INDEX uq_r4d_handover_execution_owner ON poms.project_handover_participant_role USING btree (handover_id) WHERE ((role_key)::text = 'execution-owner'::text)" }
++    ],
++    properties: {
++        id: p.uuid().primary().defaultRaw("gen_random_uuid()").fieldName("id"),
++        handoverId: () => p.manyToOne(ProjectHandover).mapToPk().fieldName("handover_id").createForeignKeyConstraint(false),
++        confirmationRecordId: () => p.manyToOne(ConfirmationRecord).mapToPk().fieldName("confirmation_record_id").createForeignKeyConstraint(false),
++        confirmationParticipantId: () => p.manyToOne(ConfirmationParticipant).mapToPk().fieldName("confirmation_participant_id").createForeignKeyConstraint(false),
++        participantUserId: () => p.manyToOne(PlatformUser).mapToPk().fieldName("participant_user_id").foreignKeyName("project_handover_participant_role_participant_user_id_fkey").updateRule('no action').deleteRule("restrict"),
++        roleKey: p.string().length(64).fieldName("role_key"),
++        responsibilitySummary: p.string().length(1000).fieldName("responsibility_summary"),
++        createdAt: p.datetime().columnType('timestamptz').defaultRaw("now()").fieldName("created_at"),
++        createdBy: () => p.manyToOne(PlatformUser).mapToPk().fieldName("created_by").foreignKeyName("project_handover_participant_role_created_by_fkey").updateRule('no action').deleteRule("restrict")
++    }
++});
++
++export class ProjectHandoverParticipantRole extends ProjectHandoverParticipantRoleSchema.class {}
++
++ProjectHandoverParticipantRoleSchema.setClass(ProjectHandoverParticipantRole);
+--- /dev/null
++++ b/apps/poms-api/src/app/features/project-handover/project-handover-summary-payload.entity.ts
+@@ -0,0 +1,36 @@
++import { ApprovalSummarySnapshot } from "../approval-summary/approval-summary.entity";
++import { Project } from "../project/project.entity";
++import { ProjectHandover } from "./project-handover.entity";
++import { ProjectHandoverBasisSnapshot } from "./project-handover-basis-snapshot.entity";
++import { PlatformUser } from "../platform/platform-user.entity";
++import { defineEntity } from '@mikro-orm/core';
++
++const p = defineEntity.properties;
++
++export const ProjectHandoverSummaryPayloadSchema = defineEntity({
++    name: "ProjectHandoverSummaryPayload",
++    tableName: "project_handover_summary_payload",
++    schema: 'poms',
++    checks: [
++        { name: "chk_r4d_payload_kind", expression: "((((handover_id IS NULL) AND (contract_summary_snapshot_id IS NULL)) OR ((handover_id IS NOT NULL) AND (contract_summary_snapshot_id IS NOT NULL))))" },
++        { name: "project_handover_summary_payload_payload_check", expression: "((jsonb_typeof(payload) = 'object'::text))" },
++        { name: "project_handover_summary_payload_payload_hash_check", expression: "(((payload_hash)::text ~ '^[0-9a-f]{64}$'::text))" },
++        { name: "project_handover_summary_payload_source_hash_check", expression: "(((source_hash)::text ~ '^[0-9a-f]{64}$'::text))" }
++    ],
++    properties: {
++        summarySnapshotId: () => p.manyToOne(ApprovalSummarySnapshot).mapToPk().primary().fieldName("summary_snapshot_id").foreignKeyName("project_handover_summary_payload_summary_snapshot_id_fkey").updateRule('no action').deleteRule("restrict"),
++        projectId: () => p.manyToOne(Project).mapToPk().fieldName("project_id").createForeignKeyConstraint(false),
++        handoverId: () => p.manyToOne(ProjectHandover).mapToPk().nullable().fieldName("handover_id").createForeignKeyConstraint(false),
++        basisSnapshotId: () => p.manyToOne(ProjectHandoverBasisSnapshot).mapToPk().fieldName("basis_snapshot_id").createForeignKeyConstraint(false),
++        contractSummarySnapshotId: () => p.manyToOne(ApprovalSummarySnapshot).mapToPk().nullable().fieldName("contract_summary_snapshot_id").foreignKeyName("project_handover_summary_payl_contract_summary_snapshot_id_fkey").updateRule('no action').deleteRule("restrict"),
++        payload: p.json<Record<string, unknown>>().columnType('jsonb').fieldName("payload"),
++        payloadHash: p.string().length(64).fieldName("payload_hash"),
++        sourceHash: p.string().length(64).fieldName("source_hash"),
++        generatedAt: p.datetime().columnType('timestamptz').defaultRaw("now()").fieldName("generated_at"),
++        generatedBy: () => p.manyToOne(PlatformUser).mapToPk().fieldName("generated_by").foreignKeyName("project_handover_summary_payload_generated_by_fkey").updateRule('no action').deleteRule("restrict")
++    }
++});
++
++export class ProjectHandoverSummaryPayload extends ProjectHandoverSummaryPayloadSchema.class {}
++
++ProjectHandoverSummaryPayloadSchema.setClass(ProjectHandoverSummaryPayload);
+--- /dev/null
++++ b/apps/poms-api/src/app/features/project-cost/cost-governance-evidence.entity.ts
+@@ -0,0 +1,42 @@
++import { Project } from "../project/project.entity";
++import { defineEntity } from '@mikro-orm/core';
++
++const p = defineEntity.properties;
++
++export const CostGovernanceEvidenceSchema = defineEntity({
++    name: "CostGovernanceEvidence",
++    tableName: "cost_governance_evidence",
++    schema: 'poms',
++    checks: [
++        { name: "cost_governance_evidence_evidence_kind_check", expression: "(((evidence_kind)::text = ANY ((ARRAY['source-facts'::character varying, 'manual-stage'::character varying, 'manual-finance'::character varying])::text[])))" },
++        { name: "cost_governance_evidence_frozen_payload_check", expression: "((jsonb_typeof(frozen_payload) = 'object'::text))" },
++        { name: "cost_governance_evidence_payload_hash_check", expression: "((payload_hash ~ '^[0-9a-f]{64}$'::text))" },
++        { name: "cost_governance_evidence_reason_check", expression: "((length(btrim(reason)) > 0))" },
++        { name: "cost_governance_evidence_schema_version_check", expression: "((schema_version = 1))" },
++        { name: "cost_governance_evidence_source_references_check", expression: "((jsonb_typeof(source_references) = 'array'::text))" },
++        { name: "cost_governance_evidence_target_type_check", expression: "(((target_type)::text = ANY ((ARRAY['SharedCostAllocationBasis'::character varying, 'SharedCostAllocationResult'::character varying, 'CostStageAttributionSnapshot'::character varying, 'AccountingTaxTreatmentSnapshot'::character varying])::text[])))" }
++    ],
++    uniques: [
++        { name: "cost_governance_evidence_target_type_target_id_key", properties: ["targetType","targetId"] }
++    ],
++    properties: {
++        id: p.uuid().primary().defaultRaw("gen_random_uuid()").fieldName("id"),
++        targetType: p.string().length(64).fieldName("target_type"),
++        targetId: p.uuid().fieldName("target_id"),
++        projectId: () => p.manyToOne(Project).mapToPk().nullable().fieldName("project_id").foreignKeyName("cost_governance_evidence_project_id_fkey").updateRule('no action').deleteRule("no action"),
++        evidenceKind: p.string().length(32).fieldName("evidence_kind"),
++        businessDate: p.date().fieldName("business_date"),
++        sourceReferences: p.json<unknown[]>().columnType('jsonb').fieldName("source_references"),
++        frozenPayload: p.json<Record<string, unknown>>().columnType('jsonb').fieldName("frozen_payload"),
++        payloadHash: p.string().columnType('char(64)').length(64).fieldName("payload_hash"),
++        reason: p.text().fieldName("reason"),
++        actorId: p.uuid().fieldName("actor_id"),
++        requestId: p.string().length(128).nullable().fieldName("request_id"),
++        schemaVersion: p.integer().columnType('smallint').default(1).fieldName("schema_version"),
++        createdAt: p.datetime().columnType('timestamptz').defaultRaw("now()").fieldName("created_at")
++    }
++});
++
++export class CostGovernanceEvidence extends CostGovernanceEvidenceSchema.class {}
++
++CostGovernanceEvidenceSchema.setClass(CostGovernanceEvidence);
+--- /dev/null
++++ b/apps/poms-api/src/app/features/project-cost/shared-cost-allocation-source-snapshot.entity.ts
+@@ -0,0 +1,41 @@
++import { SharedCostAllocationBasis } from "./shared-cost-allocation-basis.entity";
++import { ProjectActualCostRecord } from "./project-actual-cost-record.entity";
++import { defineEntity } from '@mikro-orm/core';
++
++const p = defineEntity.properties;
++
++export const SharedCostAllocationSourceSnapshotSchema = defineEntity({
++    name: "SharedCostAllocationSourceSnapshot",
++    tableName: "shared_cost_allocation_source_snapshot",
++    schema: 'poms',
++    checks: [
++        { name: "shared_cost_allocation_source_snapsho_source_payload_hash_check", expression: "((source_payload_hash ~ '^[0-9a-f]{64}$'::text))" },
++        { name: "shared_cost_allocation_source_snapshot_check", expression: "((((amount_excluding_tax IS NULL) OR (amount_excluding_tax >= (0)::numeric)) AND ((tax_cost_amount IS NULL) OR (tax_cost_amount >= (0)::numeric)) AND ((amount_including_tax IS NULL) OR (amount_including_tax >= (0)::numeric)) AND ((amount_excluding_tax IS NULL) OR (tax_cost_amount IS NULL) OR (amount_including_tax IS NULL) OR ((amount_excluding_tax + tax_cost_amount) = amount_including_tax))))" },
++        { name: "shared_cost_allocation_source_snapshot_cost_row_version_check", expression: "((cost_row_version > 0))" },
++        { name: "shared_cost_allocation_source_snapshot_source_payload_check", expression: "((jsonb_typeof(source_payload) = 'object'::text))" },
++        { name: "shared_cost_allocation_source_snapshot_source_row_version_check", expression: "((source_row_version > 0))" }
++    ],
++    uniques: [
++        { name: "uq_r4f_allocation_source_current", expression: "CREATE UNIQUE INDEX uq_r4f_allocation_source_current ON poms.shared_cost_allocation_source_snapshot USING btree (cost_record_id) WHERE is_current" }
++    ],
++    properties: {
++        basisId: () => p.manyToOne(SharedCostAllocationBasis).mapToPk().primary().fieldName("basis_id").foreignKeyName("shared_cost_allocation_source_snapshot_basis_id_fkey").updateRule('no action').deleteRule("no action"),
++        costRecordId: () => p.manyToOne(ProjectActualCostRecord).mapToPk().primary().fieldName("cost_record_id").foreignKeyName("shared_cost_allocation_source_snapshot_cost_record_id_fkey").updateRule('no action').deleteRule("no action"),
++        costRowVersion: p.integer().fieldName("cost_row_version"),
++        sourceType: p.string().length(64).nullable().fieldName("source_type"),
++        sourceId: p.string().length(64).nullable().fieldName("source_id"),
++        sourceRowVersion: p.integer().nullable().fieldName("source_row_version"),
++        currency: p.string().length(16).fieldName("currency"),
++        amountExcludingTax: p.string().columnType('numeric(18,2)').precision(18).scale(2).nullable().fieldName("amount_excluding_tax"),
++        taxCostAmount: p.string().columnType('numeric(18,2)').precision(18).scale(2).nullable().fieldName("tax_cost_amount"),
++        amountIncludingTax: p.string().columnType('numeric(18,2)').precision(18).scale(2).nullable().fieldName("amount_including_tax"),
++        sourcePayload: p.json<Record<string, unknown>>().columnType('jsonb').fieldName("source_payload"),
++        sourcePayloadHash: p.string().columnType('char(64)').length(64).fieldName("source_payload_hash"),
++        isCurrent: p.boolean().fieldName("is_current"),
++        createdAt: p.datetime().columnType('timestamptz').defaultRaw("now()").fieldName("created_at")
++    }
++});
++
++export class SharedCostAllocationSourceSnapshot extends SharedCostAllocationSourceSnapshotSchema.class {}
++
++SharedCostAllocationSourceSnapshotSchema.setClass(SharedCostAllocationSourceSnapshot);
+--- a/apps/poms-api/src/app/features/contract/contract.entity.ts
++++ b/apps/poms-api/src/app/features/contract/contract.entity.ts
+@@ -2,7 +2,7 @@
+ import { CONTRACT_STATUSES, CONTRACT_TERM_SNAPSHOT_STATUSES, ContractTermSnapshotStatusValue, type ContractStatus, type ContractTermSnapshotStatus, type ReceivablePlanSeed } from '@poms/shared-contracts';
+ import { CommercialReleaseBaseline } from '../contract-readiness/commercial-release-baseline.entity';
+ import { ContractReadinessPackage } from '../contract-readiness/contract-readiness-package.entity';
+-import { ContractTermPreparation } from '../contract-readiness/contract-lifecycle.entity';
++import { ContractTermPreparation, ContractReviewBinding } from '../contract-readiness/contract-lifecycle.entity';
+ import { Project } from '../project/project.entity';
+ 
+ const p = defineEntity.properties;
+@@ -122,7 +122,8 @@
+             .fieldName('created_at')
+             .comment('创建时间'),
+         createdBy: p.uuid().nullable().fieldName('created_by').comment('创建人'),
+-        rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号')
++        rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号'),
++        sourceAmendmentId: () => p.manyToOne(ContractAmendment).mapToPk().nullable().fieldName("source_amendment_id").createForeignKeyConstraint(false)
+     }
+ });
+ 
+@@ -145,7 +146,12 @@
+         {
+             name: 'uq_contract_amendment_contract_current',
+             expression: (columns, table, indexName) => `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.contractId}") where "${columns.isCurrent}" = true`
+-        }
++        },
++        { name: "uq_r4d_amendment_scope", properties: ["id","contractId"] },
++        { name: "uq_r4d_amendment_open", expression: "CREATE UNIQUE INDEX uq_r4d_amendment_open ON poms.contract_amendment USING btree (contract_id) WHERE ((producer_version = 1) AND ((status)::text = ANY ((ARRAY['draft'::character varying, 'submitted'::character varying, 'approved'::character varying])::text[])))" }
++    ],
++    checks: [
++        { name: "chk_r4d_amendment_producer", expression: "(((producer_version IS NULL) OR ((producer_version = 1) AND (project_id IS NOT NULL) AND (source_readiness_id IS NOT NULL) AND (before_snapshot_id IS NOT NULL) AND (amendment_reason IS NOT NULL) AND (length(btrim((amendment_reason)::text)) > 0) AND (payload_hash IS NOT NULL) AND ((payload_hash)::text ~ '^[0-9a-f]{64}$'::text) AND (((status)::text <> ALL ((ARRAY['submitted'::character varying, 'approved'::character varying, 'effective'::character varying, 'superseded'::character varying])::text[])) OR ((source_preparation_id IS NOT NULL) AND (source_review_id IS NOT NULL))) AND (((status)::text <> ALL ((ARRAY['effective'::character varying, 'superseded'::character varying])::text[])) OR ((after_snapshot_id IS NOT NULL) AND (after_snapshot_id <> before_snapshot_id) AND (effective_at IS NOT NULL) AND (effective_by IS NOT NULL))))))" }
+     ],
+     properties: {
+         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
+@@ -169,7 +175,18 @@
+             .fieldName('updated_at')
+             .comment('最后更新时间'),
+         updatedBy: p.uuid().nullable().fieldName('updated_by').comment('最后更新人'),
+-        rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号')
++        rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号'),
++        producerVersion: p.integer().nullable().fieldName("producer_version"),
++        projectId: () => p.manyToOne(Project).mapToPk().nullable().fieldName("project_id").createForeignKeyConstraint(false),
++        sourceReadinessId: () => p.manyToOne(ContractReadinessPackage).mapToPk().nullable().fieldName("source_readiness_id").createForeignKeyConstraint(false),
++        sourcePreparationId: () => p.manyToOne(ContractTermPreparation).mapToPk().nullable().fieldName("source_preparation_id").createForeignKeyConstraint(false),
++        sourceReviewId: () => p.manyToOne(ContractReviewBinding).mapToPk().nullable().fieldName("source_review_id").createForeignKeyConstraint(false),
++        beforeSnapshotId: () => p.manyToOne(ContractTermSnapshot).mapToPk().nullable().fieldName("before_snapshot_id").createForeignKeyConstraint(false),
++        afterSnapshotId: () => p.manyToOne(ContractTermSnapshot).mapToPk().nullable().fieldName("after_snapshot_id").createForeignKeyConstraint(false),
++        amendmentReason: p.string().length(1000).nullable().fieldName("amendment_reason"),
++        payloadHash: p.string().length(64).nullable().fieldName("payload_hash"),
++        effectiveAt: p.datetime().columnType('timestamptz').nullable().fieldName("effective_at"),
++        effectiveBy: p.uuid().nullable().fieldName("effective_by")
+     }
+ });
+ 
+--- a/apps/poms-api/src/app/features/contract-readiness/contract-readiness-package.entity.ts
++++ b/apps/poms-api/src/app/features/contract-readiness/contract-readiness-package.entity.ts
+@@ -6,7 +6,7 @@
+     ContractReadinessItemType,
+     ContractReadinessStatus
+ } from '@poms/shared-contracts';
+-import { Contract } from '../contract/contract.entity';
++import { Contract, ContractAmendment } from '../contract/contract.entity';
+ import { ProjectBidCommercialProcess } from '../project/project-bid-commercial-process.entity';
+ import { ProjectPricingMarginReview } from '../project/project-pricing-margin-review.entity';
+ import { ProjectTechnicalCostPackage } from '../project/project-technical-cost-package.entity';
+@@ -87,7 +87,8 @@
+         createdAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).fieldName('created_at'),
+         createdBy: p.uuid().nullable().fieldName('created_by'),
+         updatedAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).onUpdate(() => new Date()).fieldName('updated_at'),
+-        updatedBy: p.uuid().nullable().fieldName('updated_by')
++        updatedBy: p.uuid().nullable().fieldName('updated_by'),
++        contractAmendmentId: () => p.manyToOne(ContractAmendment).mapToPk().nullable().fieldName("contract_amendment_id").createForeignKeyConstraint(false)
+     }
+ });
+ 
+--- a/apps/poms-api/src/app/features/contract-readiness/contract-lifecycle.entity.ts
++++ b/apps/poms-api/src/app/features/contract-readiness/contract-lifecycle.entity.ts
+@@ -2,7 +2,7 @@
+ import { CONTRACT_TERM_PREPARATION_STATUSES, type ContractTermPreparationStatus, type ReceivablePlanSeed } from '@poms/shared-contracts';
+ import { ApprovalRecord } from '../approval/approval-record.entity';
+ import { Attachment } from '../attachment/attachment.entity';
+-import { Contract, ContractTermSnapshot } from '../contract/contract.entity';
++import { Contract, ContractTermSnapshot, ContractAmendment } from '../contract/contract.entity';
+ import { ProjectBidCommercialProcess } from '../project/project-bid-commercial-process.entity';
+ import { ProjectPricingMarginReview } from '../project/project-pricing-margin-review.entity';
+ import { ProjectTechnicalCostPackage } from '../project/project-technical-cost-package.entity';
+@@ -70,7 +70,8 @@
+         {
+             name: 'chk_r4_preparation_activation',
+             expression: '("status" = \'activated\' and "activated_snapshot_id" is not null and "activated_at" is not null and "activated_by" is not null) or ("status" <> \'activated\' and "activated_snapshot_id" is null and "activated_at" is null and "activated_by" is null)'
+-        }
++        },
++        { name: "chk_r4d_preparation_amendment", expression: "((((contract_amendment_id IS NULL) AND (before_snapshot_id IS NULL)) OR ((contract_amendment_id IS NOT NULL) AND (before_snapshot_id IS NOT NULL))))" }
+     ],
+     properties: {
+         id: p.uuid().primary().defaultRaw('gen_random_uuid()'),
+@@ -115,7 +116,9 @@
+         activatedAt: p.datetime().columnType('timestamptz').nullable().fieldName('activated_at'),
+         activatedBy: p.uuid().nullable().fieldName('activated_by'),
+         createdAt: p.datetime().columnType('timestamptz').defaultRaw('now()').fieldName('created_at'),
+-        updatedAt: p.datetime().columnType('timestamptz').defaultRaw('now()').fieldName('updated_at')
++        updatedAt: p.datetime().columnType('timestamptz').defaultRaw('now()').fieldName('updated_at'),
++        contractAmendmentId: () => p.manyToOne(ContractAmendment).mapToPk().nullable().fieldName("contract_amendment_id").createForeignKeyConstraint(false),
++        beforeSnapshotId: () => p.manyToOne(ContractTermSnapshot).mapToPk().nullable().fieldName("before_snapshot_id").createForeignKeyConstraint(false)
+     }
+ });
+ 
+@@ -127,13 +130,18 @@
+     name: 'ContractReviewBinding',
+     tableName: 'contract_review_binding',
+     schema: 'poms',
+-    indexes: [{
++    indexes: [
++        {
+         name: 'idx_r4_review_contract',
+         expression: (columns, table, indexName) => `create index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.contractId}", "${columns.createdAt}" desc)`
+-    }],
++    }
++    ],
+     checks: [
+         { name: 'contract_review_binding_preparation_version_check', expression: '"preparation_version" > 0' },
+         { name: 'contract_review_binding_payload_hash_check', expression: '"payload_hash" ~ \'^[0-9a-f]{64}$\'' }
++    ],
++    uniques: [
++        { name: "uq_r4d_review_scope", properties: ["approvalRecordId","contractId","preparationId"] }
+     ],
+     properties: {
+         approvalRecordId: () =>
+@@ -146,7 +154,8 @@
+         preparationVersion: p.integer().fieldName('preparation_version'),
+         payloadHash: p.string().length(64).fieldName('payload_hash'),
+         createdAt: p.datetime().columnType('timestamptz').defaultRaw('now()').fieldName('created_at'),
+-        createdBy: p.uuid().fieldName('created_by')
++        createdBy: p.uuid().fieldName('created_by'),
++        contractAmendmentId: () => p.manyToOne(ContractAmendment).mapToPk().nullable().fieldName("contract_amendment_id").createForeignKeyConstraint(false)
+     }
+ });
+ 
+@@ -165,7 +174,8 @@
+         {
+             name: 'uq_r4_plan_contract_current',
+             expression: (columns, table, indexName) => `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.contractId}") where "${columns.isCurrent}"`
+-        }
++        },
++        { name: "uq_r4d_plan_full_source", properties: ["id","contractId","snapshotId","sourcePreparationId","sourceReadinessId"] }
+     ],
+     checks: [
+         { name: 'receivable_plan_version_version_check', expression: '"version" > 0' },
+--- a/apps/poms-api/src/app/features/project-handover/project-handover.entity.ts
++++ b/apps/poms-api/src/app/features/project-handover/project-handover.entity.ts
+@@ -1,3 +1,7 @@
++import { ProjectHandoverBasisSnapshot } from "./project-handover-basis-snapshot.entity";
++import { PlatformUser } from "../platform/platform-user.entity";
++import { ConfirmationRecord } from "../approval/confirmation-record.entity";
++import { ProjectHandoverBasisItem } from "./project-handover-basis-item.entity";
+ import { defineEntity } from '@mikro-orm/core';
+ import { ApprovalSummarySnapshot } from '../approval-summary/approval-summary.entity';
+ import { ContractAmendment, ContractTermSnapshot } from '../contract/contract.entity';
+@@ -40,7 +44,11 @@
+             name: 'uq_chrr_project_effective',
+             expression: (columns, table, indexName) =>
+                 `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.projectId}") where "${columns.status}" = 'effective'`
+-        }
++        },
++        { name: "uq_r4d_rebaseline_before", properties: ["id","basisBeforeId"] }
++    ],
++    checks: [
++        { name: "chk_r4d_rebaseline_producer", expression: "(((producer_version IS NULL) OR ((producer_version = 1) AND (basis_before_id IS NOT NULL) AND (basis_after_id IS NOT NULL) AND (basis_before_id <> basis_after_id) AND (source_handover_id IS NOT NULL) AND (replacement_handover_id IS NOT NULL) AND (source_handover_id <> replacement_handover_id))))" }
+     ],
+     properties: {
+         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
+@@ -89,7 +97,12 @@
+         createdBy: p.uuid().nullable().fieldName('created_by').comment('创建人'),
+         updatedAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).onUpdate(() => new Date()).fieldName('updated_at').comment('最后更新时间'),
+         updatedBy: p.uuid().nullable().fieldName('updated_by').comment('最后更新人'),
+-        rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号')
++        rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号'),
++        producerVersion: p.integer().nullable().fieldName("producer_version"),
++        basisBeforeId: () => p.manyToOne(ProjectHandoverBasisSnapshot).mapToPk().nullable().fieldName("basis_before_id").foreignKeyName("contract_handover_rebaseline_record_basis_before_id_fkey").updateRule('no action').deleteRule("restrict"),
++        basisAfterId: () => p.manyToOne(ProjectHandoverBasisSnapshot).mapToPk().nullable().fieldName("basis_after_id").foreignKeyName("contract_handover_rebaseline_record_basis_after_id_fkey").updateRule('no action').deleteRule("restrict"),
++        sourceHandoverId: () => p.manyToOne(ProjectHandover).mapToPk().nullable().fieldName("source_handover_id").foreignKeyName("contract_handover_rebaseline_record_source_handover_id_fkey").updateRule('no action').deleteRule("restrict"),
++        replacementHandoverId: () => p.manyToOne(ProjectHandover).mapToPk().nullable().fieldName("replacement_handover_id").foreignKeyName("contract_handover_rebaseline_recor_replacement_handover_id_fkey").updateRule('no action').deleteRule("restrict")
+     }
+ });
+ 
+@@ -111,6 +124,17 @@
+         { name: 'idx_project_handover_contract_summary_snapshot', properties: ['contractSummarySnapshotId'] },
+         { name: 'idx_project_handover_summary_snapshot', properties: ['summarySnapshotId'] },
+         { name: 'idx_project_handover_rebaseline', properties: ['handoverRebaselineRecordId'] }
++    ],
++    uniques: [
++        { name: "uq_r4d_handover_confirmation", properties: ["id","confirmationRecordId"] },
++        { name: "uq_r4d_handover_freeze_source", properties: ["id","summarySnapshotId","basisSnapshotId"] },
++        { name: "uq_r4d_handover_scope", properties: ["id","projectId","basisSnapshotId"] },
++        { name: "uq_r4d_handover_version", properties: ["projectId","version"] },
++        { name: "uq_r4d_handover_current", expression: "CREATE UNIQUE INDEX uq_r4d_handover_current ON poms.project_handover USING btree (project_id) WHERE is_current" }
++    ],
++    checks: [
++        { name: "chk_r4d_handover_producer", expression: "(((producer_version IS NULL) OR ((producer_version = 1) AND (basis_snapshot_id IS NOT NULL) AND (version IS NOT NULL) AND (execution_owner_user_id IS NOT NULL) AND (confirmation_record_id IS NOT NULL) AND (finance_confirmation_required IS NOT NULL) AND (prepared_receipt_judgment_mode IS NOT NULL) AND ((prepared_receipt_judgment_mode)::text = ANY ((ARRAY['project-aggregate'::character varying, 'contract-separate'::character varying])::text[])) AND (source_payload_hash IS NOT NULL) AND ((source_payload_hash)::text ~ '^[0-9a-f]{64}$'::text) AND (((status)::text <> 'confirmed'::text) OR ((confirmed_at IS NOT NULL) AND (confirmed_by IS NOT NULL))) AND (((status)::text <> 'draft'::text) OR ((confirmed_at IS NULL) AND (confirmed_by IS NULL))) AND ((NOT is_current) OR ((status)::text = ANY ((ARRAY['draft'::character varying, 'confirmed'::character varying])::text[]))))))" },
++        { name: "project_handover_version_check", expression: "(((version IS NULL) OR (version > 0)))" }
+     ],
+     properties: {
+         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
+@@ -168,7 +192,17 @@
+         createdBy: p.uuid().nullable().fieldName('created_by').comment('创建人'),
+         updatedAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).onUpdate(() => new Date()).fieldName('updated_at').comment('最后更新时间'),
+         updatedBy: p.uuid().nullable().fieldName('updated_by').comment('最后更新人'),
+-        rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号')
++        rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号'),
++        producerVersion: p.integer().nullable().fieldName("producer_version"),
++        basisSnapshotId: () => p.manyToOne(ProjectHandoverBasisSnapshot).mapToPk().nullable().fieldName("basis_snapshot_id").createForeignKeyConstraint(false),
++        version: p.integer().nullable().fieldName("version"),
++        isCurrent: p.boolean().default(false).fieldName("is_current"),
++        supersedesId: () => p.manyToOne(ProjectHandover).mapToPk().nullable().fieldName("supersedes_id").foreignKeyName("project_handover_supersedes_id_fkey").updateRule('no action').deleteRule("restrict"),
++        executionOwnerUserId: () => p.manyToOne(PlatformUser).mapToPk().nullable().fieldName("execution_owner_user_id").foreignKeyName("project_handover_execution_owner_user_id_fkey").updateRule('no action').deleteRule("restrict"),
++        confirmationRecordId: () => p.manyToOne(ConfirmationRecord).mapToPk().nullable().fieldName("confirmation_record_id").foreignKeyName("project_handover_confirmation_record_id_fkey").updateRule('no action').deleteRule("restrict"),
++        financeConfirmationRequired: p.boolean().nullable().fieldName("finance_confirmation_required"),
++        preparedReceiptJudgmentMode: p.string().length(64).nullable().fieldName("prepared_receipt_judgment_mode"),
++        sourcePayloadHash: p.string().length(64).nullable().fieldName("source_payload_hash")
+     }
+ });
+ 
+@@ -185,6 +219,12 @@
+         { name: 'idx_hbii_rebaseline_record', properties: ['rebaselineRecordId'] },
+         { name: 'idx_hbii_affected_item', properties: ['affectedHandoverItemId'] }
+     ],
++    uniques: [
++        { name: "uq_r4d_rebaseline_item", expression: "CREATE UNIQUE INDEX uq_r4d_rebaseline_item ON poms.handover_baseline_impact_item USING btree (rebaseline_record_id, source_basis_item_id) WHERE (producer_version = 1)" }
++    ],
++    checks: [
++        { name: "chk_r4d_impact_producer", expression: "(((producer_version IS NULL) OR ((producer_version = 1) AND (basis_before_id IS NOT NULL) AND (source_basis_item_id IS NOT NULL) AND (affected_handover_item_id = source_basis_item_id))))" }
++    ],
+     properties: {
+         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
+         rebaselineRecordId: () =>
+@@ -201,7 +241,10 @@
+         impactSummary: p.text().fieldName('impact_summary').comment('影响摘要'),
+         supersedesBaselineId: p.uuid().nullable().fieldName('supersedes_baseline_id').comment('被替代基线 ID'),
+         createdAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).fieldName('created_at').comment('创建时间'),
+-        createdBy: p.uuid().nullable().fieldName('created_by').comment('创建人')
++        createdBy: p.uuid().nullable().fieldName('created_by').comment('创建人'),
++        producerVersion: p.integer().nullable().fieldName("producer_version"),
++        basisBeforeId: () => p.manyToOne(ProjectHandoverBasisSnapshot).mapToPk().nullable().fieldName("basis_before_id").createForeignKeyConstraint(false),
++        sourceBasisItemId: () => p.manyToOne(ProjectHandoverBasisItem).mapToPk().nullable().fieldName("source_basis_item_id").createForeignKeyConstraint(false)
+     }
+ });
+ 
+@@ -230,7 +273,12 @@
+             name: 'uq_prjf_project_current',
+             expression: (columns, table, indexName) =>
+                 `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.projectId}") where "${columns.isCurrent}" = true`
+-        }
++        },
++        { name: "uq_r4d_receipt_freeze_version", properties: ["projectId","version"] }
++    ],
++    checks: [
++        { name: "chk_r4d_receipt_freeze_producer", expression: "(((producer_version IS NULL) OR ((producer_version = 1) AND (basis_snapshot_id IS NOT NULL) AND (version IS NOT NULL) AND ((receipt_judgment_mode)::text = ANY ((ARRAY['project-aggregate'::character varying, 'contract-separate'::character varying])::text[])) AND ((source_type)::text = ANY ((ARRAY['project-handover'::character varying, 'project-receipt-judgment-freeze'::character varying])::text[])) AND (((source_type)::text <> 'project-handover'::text) OR (source_id = source_handover_id)))))" },
++        { name: "project_receipt_judgment_freeze_version_check", expression: "(((version IS NULL) OR (version > 0)))" }
+     ],
+     properties: {
+         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
+@@ -291,7 +339,10 @@
+         createdBy: p.uuid().nullable().fieldName('created_by').comment('创建人'),
+         updatedAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).onUpdate(() => new Date()).fieldName('updated_at').comment('最后更新时间'),
+         updatedBy: p.uuid().nullable().fieldName('updated_by').comment('最后更新人'),
+-        rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号')
++        rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号'),
++        producerVersion: p.integer().nullable().fieldName("producer_version"),
++        basisSnapshotId: () => p.manyToOne(ProjectHandoverBasisSnapshot).mapToPk().nullable().fieldName("basis_snapshot_id").createForeignKeyConstraint(false),
++        version: p.integer().nullable().fieldName("version")
+     }
+ });
+ 
+--- a/apps/poms-api/src/app/features/approval/confirmation-record.entity.ts
++++ b/apps/poms-api/src/app/features/approval/confirmation-record.entity.ts
+@@ -60,7 +60,10 @@
+         { name: 'idx_confirmation_participant_record_status', properties: ['confirmationRecordId', 'participantStatus'] },
+         { name: 'idx_confirmation_participant_user_status', properties: ['participantId', 'participantStatus'] }
+     ],
+-    uniques: [{ name: 'uq_confirmation_participant_record_user', properties: ['confirmationRecordId', 'participantId'] }],
++    uniques: [
++        { name: 'uq_confirmation_participant_record_user', properties: ['confirmationRecordId', 'participantId'] },
++        { name: "uq_r4d_participant_scope", properties: ["id","confirmationRecordId","participantId"] }
++    ],
+     properties: {
+         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
+         confirmationRecordId: () =>
+--- a/apps/poms-api/src/app/features/project-cost/expense-record.entity.ts
++++ b/apps/poms-api/src/app/features/project-cost/expense-record.entity.ts
+@@ -22,7 +22,11 @@
+         {
+             name: 'chk_expense_record_status',
+             expression: `"status" in (${toSqlStringList(EXPENSE_RECORD_STATUSES)})`
+-        }
++        },
++        { name: "chk_r4e_expense_attachment_count", expression: "((attachment_count >= 0))" },
++        { name: "chk_r4e_expense_confirmation", expression: "((((status)::text <> 'confirmed'::text) OR ((confirmed_at IS NOT NULL) AND (confirmed_by IS NOT NULL))))" },
++        { name: "chk_r4e_expense_money", expression: "(((amount_including_tax > (0)::numeric) AND ((tax_amount IS NULL) OR ((tax_amount >= (0)::numeric) AND (tax_amount <= amount_including_tax))) AND ((amount_excluding_tax IS NULL) OR ((amount_excluding_tax >= (0)::numeric) AND (amount_excluding_tax <= amount_including_tax))) AND ((tax_amount IS NULL) OR (amount_excluding_tax IS NULL) OR (amount_including_tax = (tax_amount + amount_excluding_tax)))))" },
++        { name: "chk_r4e_expense_void", expression: "((((status)::text <> 'voided'::text) OR ((voided_at IS NOT NULL) AND (void_reason IS NOT NULL) AND (length(btrim(void_reason)) > 0))))" }
+     ],
+     properties: {
+         id: p.uuid().primary().defaultRaw('gen_random_uuid()'),
+@@ -32,9 +36,9 @@
+         expenseDescription: p.text().fieldName('expense_description'),
+         expenseDate: p.date().fieldName('expense_date'),
+         currency: p.string().length(16).default('CNY'),
+-        amountIncludingTax: p.decimal().precision(15).scale(4).fieldName('amount_including_tax'),
+-        taxAmount: p.decimal().precision(15).scale(4).nullable().fieldName('tax_amount'),
+-        amountExcludingTax: p.decimal().precision(15).scale(4).nullable().fieldName('amount_excluding_tax'),
++        amountIncludingTax: p.decimal().precision(18).scale(2).fieldName('amount_including_tax'),
++        taxAmount: p.decimal().precision(18).scale(2).nullable().fieldName('tax_amount'),
++        amountExcludingTax: p.decimal().precision(18).scale(2).nullable().fieldName('amount_excluding_tax'),
+         sourceType: p.string().$type<ExpenseSourceType>().length(32).default(ExpenseSourceTypeValue.Manual).fieldName('source_type'),
+         status: p.string().$type<ExpenseRecordStatus>().length(32),
+         evidenceSummary: p.text().nullable().fieldName('evidence_summary'),
+--- a/apps/poms-api/src/app/features/project-cost/project-actual-cost-record.entity.ts
++++ b/apps/poms-api/src/app/features/project-cost/project-actual-cost-record.entity.ts
+@@ -27,29 +27,17 @@
+         { name: 'idx_cost_record_project', properties: ['projectId'] },
+         { name: 'idx_cost_record_status', properties: ['recordStatus'] },
+         { name: 'idx_cost_record_stage', properties: ['executionStageCode'] },
+-        { name: 'idx_cost_record_type', properties: ['costType'] }
++        { name: 'idx_cost_record_type', properties: ['costType'] },
++        { name: "excl_r4e_labor_scope_period", expression: "ALTER TABLE poms.project_actual_cost_record ADD CONSTRAINT excl_r4e_labor_scope_period EXCLUDE USING gist (project_id WITH =, labor_scope_key WITH =, daterange(labor_period_start, labor_period_end, '[]'::text) WITH &&) WHERE ((((cost_type)::text = 'labor'::text) AND ((record_status)::text = ANY ((ARRAY['registered'::character varying, 'confirmed'::character varying, 'included'::character varying])::text[]))))" },
++        { name: "idx_r4e_cost_source", expression: "CREATE INDEX idx_r4e_cost_source ON poms.project_actual_cost_record USING btree (source_type, source_id)" },
++        { name: "idx_r4e_cost_project_rate", expression: "CREATE INDEX idx_r4e_cost_project_rate ON poms.project_actual_cost_record USING btree (project_id, rate_version_id)" }
+     ],
+     uniques: [
+-        {
+-            name: 'uq_project_actual_cost_record_payment_fact_source_current',
+-            expression: (columns, table, indexName) =>
+-                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.sourceType}", "${columns.sourceId}") where "${columns.costType}" = '${ProjectActualCostTypeValue.PaymentFact}' and "${columns.recordStatus}" in ('${ProjectActualCostRecordStatusValue.Confirmed}', '${ProjectActualCostRecordStatusValue.Included}') and "${columns.sourceType}" is not null and "${columns.sourceId}" is not null`
+-        },
+-        {
+-            name: 'uq_project_actual_cost_record_invoice_source_current',
+-            expression: (columns, table, indexName) =>
+-                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.sourceType}", "${columns.sourceId}") where "${columns.costType}" = '${ProjectActualCostTypeValue.Invoice}' and "${columns.recordStatus}" in ('${ProjectActualCostRecordStatusValue.Confirmed}', '${ProjectActualCostRecordStatusValue.Included}') and "${columns.sourceType}" is not null and "${columns.sourceId}" is not null`
+-        },
+-        {
+-            name: 'uq_project_actual_cost_record_expense_source_current',
+-            expression: (columns, table, indexName) =>
+-                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.sourceType}", "${columns.sourceId}") where "${columns.costType}" = '${ProjectActualCostTypeValue.Expense}' and "${columns.recordStatus}" in ('${ProjectActualCostRecordStatusValue.Confirmed}', '${ProjectActualCostRecordStatusValue.Included}') and "${columns.sourceType}" is not null and "${columns.sourceId}" is not null`
+-        },
+-        {
+-            name: 'uq_project_actual_cost_record_procurement_source_current',
+-            expression: (columns, table, indexName) =>
+-                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.sourceType}", "${columns.sourceId}") where "${columns.costType}" = '${ProjectActualCostTypeValue.Procurement}' and "${columns.recordStatus}" in ('${ProjectActualCostRecordStatusValue.Registered}', '${ProjectActualCostRecordStatusValue.Confirmed}', '${ProjectActualCostRecordStatusValue.Included}') and "${columns.sourceType}" is not null and "${columns.sourceId}" is not null`
+-        }
++        { name: "uq_project_actual_cost_record_payment_fact_source_current", expression: "CREATE UNIQUE INDEX uq_project_actual_cost_record_payment_fact_source_current ON poms.project_actual_cost_record USING btree (source_type, source_id) WHERE (((cost_type)::text = 'payment-fact'::text) AND ((record_status)::text = ANY ((ARRAY['registered'::character varying, 'confirmed'::character varying, 'included'::character varying])::text[])))" },
++        { name: "uq_project_actual_cost_record_invoice_source_current", expression: "CREATE UNIQUE INDEX uq_project_actual_cost_record_invoice_source_current ON poms.project_actual_cost_record USING btree (source_type, source_id) WHERE (((cost_type)::text = 'invoice'::text) AND ((record_status)::text = ANY ((ARRAY['registered'::character varying, 'confirmed'::character varying, 'included'::character varying])::text[])))" },
++        { name: "uq_project_actual_cost_record_expense_source_current", expression: "CREATE UNIQUE INDEX uq_project_actual_cost_record_expense_source_current ON poms.project_actual_cost_record USING btree (source_type, source_id) WHERE (((cost_type)::text = 'expense'::text) AND ((record_status)::text = ANY ((ARRAY['registered'::character varying, 'confirmed'::character varying, 'included'::character varying])::text[])))" },
++        { name: "uq_project_actual_cost_record_procurement_source_current", expression: "CREATE UNIQUE INDEX uq_project_actual_cost_record_procurement_source_current ON poms.project_actual_cost_record USING btree (source_type, source_id) WHERE (((cost_type)::text = 'procurement'::text) AND ((record_status)::text = ANY ((ARRAY['registered'::character varying, 'confirmed'::character varying, 'included'::character varying])::text[])))" },
++        { name: "uq_r4e_cost_single_successor", expression: "CREATE UNIQUE INDEX uq_r4e_cost_single_successor ON poms.project_actual_cost_record USING btree (supersedes_record_id) WHERE (supersedes_record_id IS NOT NULL)" }
+     ],
+     checks: [
+         {
+@@ -67,7 +55,16 @@
+         {
+             name: 'chk_project_actual_cost_record_source_type',
+             expression: `"source_type" is null or ("source_type")::text = ${toPostgresTextAnyArray(PROJECT_ACTUAL_COST_SOURCE_TYPES)}`
+-        }
++        },
++        { name: "chk_r4e_basis_origin", expression: "(((basis_origin)::text = ANY ((ARRAY['captured'::character varying, 'legacy-unavailable'::character varying])::text[])))" },
++        { name: "chk_r4e_calculation_basis", expression: "(((calculation_basis IS NULL) OR (jsonb_typeof(calculation_basis) = 'object'::text)))" },
++        { name: "chk_r4e_captured_basis", expression: "((((basis_origin)::text <> 'captured'::text) OR ((source_basis IS NOT NULL) AND (((cost_type)::text <> 'labor'::text) OR (calculation_basis IS NOT NULL)))))" },
++        { name: "chk_r4e_cost_attachment_count", expression: "((attachment_count >= 0))" },
++        { name: "chk_r4e_cost_money", expression: "((((amount_excluding_tax IS NULL) OR (amount_excluding_tax >= (0)::numeric)) AND ((tax_cost_amount IS NULL) OR (tax_cost_amount >= (0)::numeric)) AND ((amount_including_tax IS NULL) OR (amount_including_tax > (0)::numeric)) AND ((amount_excluding_tax IS NULL) OR (tax_cost_amount IS NULL) OR (amount_including_tax IS NULL) OR (amount_including_tax = (amount_excluding_tax + tax_cost_amount))) AND (((cost_type)::text <> ALL ((ARRAY['payment-fact'::character varying, 'procurement'::character varying])::text[])) OR ((amount_excluding_tax IS NOT NULL) AND (amount_excluding_tax > (0)::numeric))) AND (((cost_type)::text <> ALL ((ARRAY['invoice'::character varying, 'expense'::character varying])::text[])) OR ((amount_including_tax IS NOT NULL) AND (amount_including_tax > (0)::numeric)))))" },
++        { name: "chk_r4e_cost_source_binding", expression: "(((source_id IS NOT NULL) AND ((((cost_type)::text = 'payment-fact'::text) AND (NOT ((source_type)::text IS DISTINCT FROM 'payment-record'::text))) OR (((cost_type)::text = 'invoice'::text) AND (NOT ((source_type)::text IS DISTINCT FROM 'invoice-record'::text))) OR (((cost_type)::text = 'expense'::text) AND (NOT ((source_type)::text IS DISTINCT FROM 'expense-record'::text))) OR (((cost_type)::text = 'procurement'::text) AND (NOT ((source_type)::text IS DISTINCT FROM 'payable-record'::text))) OR (((cost_type)::text = 'labor'::text) AND (NOT ((source_type)::text IS DISTINCT FROM 'labor'::text))))))" },
++        { name: "chk_r4e_cost_stage_truth", expression: "((((record_status)::text <> ALL ((ARRAY['confirmed'::character varying, 'included'::character varying])::text[])) OR ((execution_stage_code IS NOT NULL) AND (stage_derived_from_type IS NOT NULL) AND (stage_derived_from_id IS NOT NULL) AND (stage_derived_at IS NOT NULL) AND (stage_locked_at IS NOT NULL))))" },
++        { name: "chk_r4e_labor_basis", expression: "((((cost_type)::text <> 'labor'::text) OR ((rate_version_id IS NOT NULL) AND (labor_scope_key IS NOT NULL) AND (labor_period_type IS NOT NULL) AND (labor_period_start IS NOT NULL) AND (labor_period_end IS NOT NULL) AND (labor_period_start <= labor_period_end) AND (internal_cost_rate IS NOT NULL) AND (internal_cost_rate > (0)::numeric) AND (labor_amount IS NOT NULL) AND (labor_amount > (0)::numeric) AND (amount_excluding_tax IS NOT NULL) AND (amount_including_tax IS NOT NULL) AND (tax_cost_amount IS NOT NULL) AND (amount_excluding_tax = labor_amount) AND (amount_including_tax = labor_amount) AND (tax_cost_amount = (0)::numeric) AND (((actual_hours IS NOT NULL) AND (actual_hours > (0)::numeric) AND (actual_person_days IS NULL)) OR ((actual_person_days IS NOT NULL) AND (actual_person_days > (0)::numeric) AND (actual_hours IS NULL))))))" },
++        { name: "chk_r4e_source_basis", expression: "(((source_basis IS NULL) OR (jsonb_typeof(source_basis) = 'object'::text)))" }
+     ],
+     properties: {
+         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
+@@ -86,9 +83,9 @@
+         stageDerivedAt: p.datetime().nullable().fieldName('stage_derived_at').comment('阶段推导时间'),
+         stageLockedAt: p.datetime().nullable().fieldName('stage_locked_at').comment('阶段锁定时间'),
+         currency: p.string().length(16).default('CNY').comment('币种'),
+-        amountExcludingTax: p.decimal().precision(15).scale(4).nullable().fieldName('amount_excluding_tax').comment('不含税金额'),
+-        taxCostAmount: p.decimal().precision(15).scale(4).nullable().fieldName('tax_cost_amount').comment('税金成本'),
+-        amountIncludingTax: p.decimal().precision(15).scale(4).nullable().fieldName('amount_including_tax').comment('含税总额（实际成本主要金额）'),
++        amountExcludingTax: p.decimal().precision(18).scale(2).nullable().fieldName('amount_excluding_tax').comment('不含税金额'),
++        taxCostAmount: p.decimal().precision(18).scale(2).nullable().fieldName('tax_cost_amount').comment('税金成本'),
++        amountIncludingTax: p.decimal().precision(18).scale(2).nullable().fieldName('amount_including_tax').comment('含税总额（实际成本主要金额）'),
+         recordStatus: p.string().$type<ProjectActualCostRecordStatus>().length(32).default(ProjectActualCostRecordStatusValue.Draft).fieldName('record_status').comment('状态：draft/registered/confirmed/included/voided/replaced'),
+         isIncludedInProjectCost: p.boolean().default(false).fieldName('is_included_in_project_cost').comment('是否已纳入项目成本'),
+         isHighRisk: p.boolean().default(false).fieldName('is_high_risk').comment('是否高风险'),
+@@ -116,7 +113,7 @@
+         actualHours: p.decimal().precision(10).scale(2).nullable().fieldName('actual_hours').comment('人力成本-实际工时'),
+         actualPersonDays: p.decimal().precision(10).scale(2).nullable().fieldName('actual_person_days').comment('人力成本-实际人天'),
+         internalCostRate: p.decimal().precision(15).scale(4).nullable().fieldName('internal_cost_rate').comment('人力成本-采用成本率'),
+-        laborAmount: p.decimal().precision(15).scale(4).nullable().fieldName('labor_amount').comment('人力成本-计算金额'),
++        laborAmount: p.decimal().precision(18).scale(2).nullable().fieldName('labor_amount').comment('人力成本-计算金额'),
+         workSummary: p.text().nullable().fieldName('work_summary').comment('人力成本-工作摘要'),
+         deliveryStage: p.string().length(64).nullable().fieldName('delivery_stage').comment('人力成本-交付阶段'),
+         rateVersionId: () => p.manyToOne(InternalCostRateVersion).mapToPk().nullable().fieldName('rate_version_id').comment('人力成本-对应成本率版本'),
+@@ -136,7 +133,11 @@
+             .onUpdate(() => new Date())
+             .fieldName('updated_at')
+             .comment('最后更新时间'),
+-        updatedBy: p.uuid().nullable().fieldName('updated_by').comment('最后更新人标识')
++        updatedBy: p.uuid().nullable().fieldName('updated_by').comment('最后更新人标识'),
++        sourceBasis: p.json<Record<string, unknown>>().columnType('jsonb').nullable().fieldName("source_basis"),
++        calculationBasis: p.json<Record<string, unknown>>().columnType('jsonb').nullable().fieldName("calculation_basis"),
++        basisOrigin: p.string().length(32).default("legacy-unavailable").fieldName("basis_origin"),
++        laborScopeKey: p.text().nullable().generated("as (CASE WHEN cost_type = 'labor' THEN CASE WHEN labor_person_id IS NOT NULL THEN 'person:' || labor_person_id::text WHEN labor_role IS NOT NULL THEN 'role:' || labor_role END END) stored").fieldName("labor_scope_key")
+     }
+ });
+ 
+--- a/apps/poms-api/src/app/features/project-cost/internal-cost-rate-version.entity.ts
++++ b/apps/poms-api/src/app/features/project-cost/internal-cost-rate-version.entity.ts
+@@ -21,11 +21,8 @@
+         { name: 'idx_cost_rate_scope', properties: ['rateScopeType'] },
+         { name: 'idx_cost_rate_status', properties: ['status'] },
+         { name: 'idx_cost_rate_effective', properties: ['effectiveFrom', 'effectiveTo'] },
+-        {
+-            name: 'internal_cost_rate_version_active_range_excl',
+-            expression: (_columns, table, indexName) =>
+-                `alter table "${table.schema}"."${table.name}" add constraint "${indexName}" exclude using gist ("rate_key" with =, daterange("effective_from", coalesce("effective_to", 'infinity'::date), '[]') with &&) where ("status" = 'active')`
+-        }
++        { name: "internal_cost_rate_version_active_range_excl", expression: "ALTER TABLE poms.internal_cost_rate_version ADD CONSTRAINT internal_cost_rate_version_active_range_excl EXCLUDE USING gist (rate_key WITH =, daterange(effective_from, effective_to, '[]'::text) WITH &&) WHERE (((status)::text = ANY ((ARRAY['active'::character varying, 'superseded'::character varying])::text[])))" },
++        { name: "idx_r4e_person_rate_coverage", expression: "CREATE INDEX idx_r4e_person_rate_coverage ON poms.internal_cost_rate_version USING btree (person_id, effective_from, effective_to, rate_unit) WHERE (((rate_scope_type)::text = 'person'::text) AND ((status)::text = ANY ((ARRAY['active'::character varying, 'superseded'::character varying])::text[])))" }
+     ],
+     uniques: [
+         { name: 'internal_cost_rate_version_rate_key_version_unique', properties: ['rateKey', 'version'] },
+@@ -47,7 +44,12 @@
+         {
+             name: 'chk_internal_cost_rate_version_rate_unit',
+             expression: `"rate_unit" in (${toSqlStringList(INTERNAL_COST_RATE_UNITS)})`
+-        }
++        },
++        { name: "chk_r4e_rate_dates", expression: "(((effective_to IS NULL) OR (effective_to >= effective_from)))" },
++        { name: "chk_r4e_rate_positive", expression: "((rate_value > (0)::numeric))" },
++        { name: "chk_r4e_rate_published", expression: "((((status)::text <> ALL ((ARRAY['active'::character varying, 'superseded'::character varying])::text[])) OR ((published_at IS NOT NULL) AND (published_by IS NOT NULL))))" },
++        { name: "chk_r4e_rate_scope", expression: "(((((rate_scope_type)::text = 'person'::text) AND (person_id IS NOT NULL) AND (role_code IS NULL)) OR (((rate_scope_type)::text = 'role'::text) AND (person_id IS NULL) AND (role_code IS NOT NULL) AND ((length(btrim((role_code)::text)) >= 1) AND (length(btrim((role_code)::text)) <= 64)))))" },
++        { name: "chk_r4e_rate_version", expression: "(((version > 0) AND (row_version > 0)))" }
+     ],
+     properties: {
+         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
+--- a/apps/poms-api/src/app/features/project-cost/shared-cost-allocation-basis.entity.ts
++++ b/apps/poms-api/src/app/features/project-cost/shared-cost-allocation-basis.entity.ts
+@@ -1,3 +1,4 @@
++import { CostGovernanceEvidence } from "./cost-governance-evidence.entity";
+ import { defineEntity } from '@mikro-orm/core';
+ import { OPERATING_PENDING_LIFECYCLE_STATUSES, OperatingPendingLifecycleStatusValue, type OperatingPendingLifecycleStatus } from '@poms/shared-contracts';
+ 
+@@ -22,13 +23,16 @@
+             name: 'uq_scab_scope_current',
+             expression: (columns, table, indexName) =>
+                 `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.sourceCostScopeKey}") where "${columns.status}" = '${OperatingPendingLifecycleStatusValue.Active}'`
+-        }
++        },
++        { name: "uq_r4f_basis_successor", expression: "CREATE UNIQUE INDEX uq_r4f_basis_successor ON poms.shared_cost_allocation_basis USING btree (supersedes_id) WHERE (supersedes_id IS NOT NULL)" }
+     ],
+     checks: [
+         {
+             name: 'chk_shared_cost_allocation_basis_status',
+             expression: `"status" in (${toSqlStringList(OPERATING_PENDING_LIFECYCLE_STATUSES)})`
+-        }
++        },
++        { name: "chk_r4f_basis_money_layers", expression: "((((source_amount_excluding_tax IS NULL) OR (source_amount_excluding_tax >= (0)::numeric)) AND ((source_tax_cost_amount IS NULL) OR (source_tax_cost_amount >= (0)::numeric)) AND ((source_amount_including_tax IS NULL) OR (source_amount_including_tax >= (0)::numeric)) AND ((source_amount_excluding_tax IS NULL) OR (source_tax_cost_amount IS NULL) OR (source_amount_including_tax IS NULL) OR ((source_amount_excluding_tax + source_tax_cost_amount) = source_amount_including_tax))))" },
++        { name: "chk_r4f_basis_v1", expression: "(((governance_schema_version = 0) OR ((governance_schema_version = 1) AND (currency IS NOT NULL) AND (measurement_basis IS NOT NULL) AND ((measurement_basis)::text = ANY ((ARRAY['excluding-tax'::character varying, 'tax'::character varying, 'including-tax'::character varying])::text[])) AND (measurement_amount IS NOT NULL) AND (measurement_amount >= (0)::numeric) AND (allocation_algorithm IS NOT NULL) AND ((allocation_algorithm)::text = 'largest-remainder-cents-v1'::text) AND (governance_evidence_id IS NOT NULL) AND ((supersedes_id IS NULL) OR ((replacement_reason IS NOT NULL) AND (length(btrim(replacement_reason)) > 0))))))" }
+     ],
+     properties: {
+         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
+@@ -39,12 +43,23 @@
+         status: p.string().$type<OperatingPendingLifecycleStatus>().length(32).default(OperatingPendingLifecycleStatusValue.Pending).comment('状态：pending/active/superseded/voided'),
+         effectiveAt: p.datetime().nullable().fieldName('effective_at').comment('生效时间'),
+         effectiveBy: p.uuid().nullable().fieldName('effective_by').comment('生效操作人'),
+-        supersedesId: p.uuid().nullable().fieldName('supersedes_id').comment('被替代的旧依据 ID'),
++        supersedesId: () => p.manyToOne(SharedCostAllocationBasis).mapToPk().nullable().fieldName("supersedes_id").foreignKeyName("fk_r4f_basis_supersedes").updateRule('no action').deleteRule("no action").comment('被替代的旧依据 ID'),
+         createdAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).fieldName('created_at').comment('创建时间'),
+         createdBy: p.uuid().nullable().fieldName('created_by').comment('创建人'),
+         updatedAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).onUpdate(() => new Date()).fieldName('updated_at').comment('最后更新时间'),
+         updatedBy: p.uuid().nullable().fieldName('updated_by').comment('最后更新人'),
+-        rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号')
++        rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号'),
++        currency: p.string().length(16).nullable().fieldName("currency"),
++        measurementBasis: p.string().length(32).nullable().fieldName("measurement_basis"),
++        sourceAmountExcludingTax: p.string().columnType('numeric(18,2)').precision(18).scale(2).nullable().fieldName("source_amount_excluding_tax"),
++        sourceTaxCostAmount: p.string().columnType('numeric(18,2)').precision(18).scale(2).nullable().fieldName("source_tax_cost_amount"),
++        sourceAmountIncludingTax: p.string().columnType('numeric(18,2)').precision(18).scale(2).nullable().fieldName("source_amount_including_tax"),
++        measurementAmount: p.string().columnType('numeric(18,2)').precision(18).scale(2).nullable().fieldName("measurement_amount"),
++        allocationAlgorithm: p.string().length(64).nullable().fieldName("allocation_algorithm"),
++        replacementOperationId: p.uuid().nullable().fieldName("replacement_operation_id"),
++        replacementReason: p.text().nullable().fieldName("replacement_reason"),
++        governanceEvidenceId: () => p.manyToOne(CostGovernanceEvidence).mapToPk().nullable().fieldName("governance_evidence_id").foreignKeyName("shared_cost_allocation_basis_governance_evidence_id_fkey").updateRule('no action').deleteRule("no action"),
++        governanceSchemaVersion: p.integer().columnType('smallint').default(1).fieldName("governance_schema_version")
+     }
+ });
+ 
+--- a/apps/poms-api/src/app/features/project-cost/shared-cost-allocation-result.entity.ts
++++ b/apps/poms-api/src/app/features/project-cost/shared-cost-allocation-result.entity.ts
+@@ -1,3 +1,4 @@
++import { CostGovernanceEvidence } from "./cost-governance-evidence.entity";
+ import { defineEntity } from '@mikro-orm/core';
+ import { OPERATING_PENDING_LIFECYCLE_STATUSES, OperatingPendingLifecycleStatusValue, type OperatingPendingLifecycleStatus } from '@poms/shared-contracts';
+ import { Project } from '../project/project.entity';
+@@ -20,13 +21,16 @@
+             name: 'uq_scar_basis_project_current',
+             expression: (columns, table, indexName) =>
+                 `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.basisId}", "${columns.projectId}") where "${columns.status}" = '${OperatingPendingLifecycleStatusValue.Active}'`
+-        }
++        },
++        { name: "uq_r4f_result_successor", expression: "CREATE UNIQUE INDEX uq_r4f_result_successor ON poms.shared_cost_allocation_result USING btree (supersedes_id) WHERE (supersedes_id IS NOT NULL)" }
+     ],
+     checks: [
+         {
+             name: 'chk_shared_cost_allocation_result_status',
+             expression: `"status" in (${toSqlStringList(OPERATING_PENDING_LIFECYCLE_STATUSES)})`
+-        }
++        },
++        { name: "chk_r4f_result_money_layers", expression: "((((allocated_amount_excluding_tax IS NULL) OR (allocated_amount_excluding_tax >= (0)::numeric)) AND ((allocated_tax_cost_amount IS NULL) OR (allocated_tax_cost_amount >= (0)::numeric)) AND ((allocated_amount_including_tax IS NULL) OR (allocated_amount_including_tax >= (0)::numeric)) AND ((allocated_amount_excluding_tax IS NULL) OR (allocated_tax_cost_amount IS NULL) OR (allocated_amount_including_tax IS NULL) OR ((allocated_amount_excluding_tax + allocated_tax_cost_amount) = allocated_amount_including_tax))))" },
++        { name: "chk_r4f_result_v1", expression: "(((governance_schema_version = 0) OR ((governance_schema_version = 1) AND (currency IS NOT NULL) AND (allocation_weight IS NOT NULL) AND (allocation_weight >= (0)::numeric) AND (allocated_amount >= (0)::numeric) AND ((allocation_ratio IS NULL) OR ((allocation_ratio >= (0)::numeric) AND (allocation_ratio <= (1)::numeric))) AND (residual_minor_units IS NOT NULL) AND ((residual_minor_units >= 0) AND (residual_minor_units <= 2)) AND (governance_evidence_id IS NOT NULL) AND ((supersedes_id IS NULL) OR ((replacement_reason IS NOT NULL) AND (length(btrim(replacement_reason)) > 0))))))" }
+     ],
+     properties: {
+         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
+@@ -37,12 +41,22 @@
+         allocationSummary: p.text().nullable().fieldName('allocation_summary').comment('分摊结果说明'),
+         status: p.string().$type<OperatingPendingLifecycleStatus>().length(32).default(OperatingPendingLifecycleStatusValue.Pending).comment('状态：pending/active/superseded/voided'),
+         effectiveAt: p.datetime().nullable().fieldName('effective_at').comment('生效时间'),
+-        supersedesId: p.uuid().nullable().fieldName('supersedes_id').comment('被替代的旧结果 ID'),
++        supersedesId: () => p.manyToOne(SharedCostAllocationResult).mapToPk().nullable().fieldName("supersedes_id").foreignKeyName("fk_r4f_result_supersedes").updateRule('no action').deleteRule("no action").comment('被替代的旧结果 ID'),
+         createdAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).fieldName('created_at').comment('创建时间'),
+         createdBy: p.uuid().nullable().fieldName('created_by').comment('创建人'),
+         updatedAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).onUpdate(() => new Date()).fieldName('updated_at').comment('最后更新时间'),
+         updatedBy: p.uuid().nullable().fieldName('updated_by').comment('最后更新人'),
+-        rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号')
++        rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号'),
++        allocationWeight: p.string().columnType('numeric(18,6)').precision(18).scale(6).nullable().fieldName("allocation_weight"),
++        currency: p.string().length(16).nullable().fieldName("currency"),
++        allocatedAmountExcludingTax: p.string().columnType('numeric(18,2)').precision(18).scale(2).nullable().fieldName("allocated_amount_excluding_tax"),
++        allocatedTaxCostAmount: p.string().columnType('numeric(18,2)').precision(18).scale(2).nullable().fieldName("allocated_tax_cost_amount"),
++        allocatedAmountIncludingTax: p.string().columnType('numeric(18,2)').precision(18).scale(2).nullable().fieldName("allocated_amount_including_tax"),
++        residualMinorUnits: p.integer().columnType('smallint').nullable().fieldName("residual_minor_units"),
++        replacementOperationId: p.uuid().nullable().fieldName("replacement_operation_id"),
++        replacementReason: p.text().nullable().fieldName("replacement_reason"),
++        governanceEvidenceId: () => p.manyToOne(CostGovernanceEvidence).mapToPk().nullable().fieldName("governance_evidence_id").foreignKeyName("shared_cost_allocation_result_governance_evidence_id_fkey").updateRule('no action').deleteRule("no action"),
++        governanceSchemaVersion: p.integer().columnType('smallint').default(1).fieldName("governance_schema_version")
+     }
+ });
+ 
+--- a/apps/poms-api/src/app/features/project-cost/cost-stage-attribution-snapshot.entity.ts
++++ b/apps/poms-api/src/app/features/project-cost/cost-stage-attribution-snapshot.entity.ts
+@@ -1,3 +1,4 @@
++import { CostGovernanceEvidence } from "./cost-governance-evidence.entity";
+ import { defineEntity } from '@mikro-orm/core';
+ import {
+     COST_STAGE_ATTRIBUTION_MODES,
+@@ -30,7 +31,8 @@
+             name: 'uq_csas_cost_record_current',
+             expression: (columns, table, indexName) =>
+                 `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.costRecordId}") where "${columns.status}" = '${OperatingLifecycleStatusValue.Active}'`
+-        }
++        },
++        { name: "uq_r4f_stage_successor", expression: "CREATE UNIQUE INDEX uq_r4f_stage_successor ON poms.cost_stage_attribution_snapshot USING btree (supersedes_id) WHERE (supersedes_id IS NOT NULL)" }
+     ],
+     checks: [
+         {
+@@ -40,7 +42,8 @@
+         {
+             name: 'chk_cost_stage_attribution_snapshot_status',
+             expression: `"status" in (${toSqlStringList(OPERATING_LIFECYCLE_STATUSES)})`
+-        }
++        },
++        { name: "chk_r4f_stage_v1", expression: "(((governance_schema_version = 0) OR ((governance_schema_version = 1) AND (evidence_business_date IS NOT NULL) AND (governance_evidence_id IS NOT NULL) AND (handled_at IS NOT NULL) AND (handled_by IS NOT NULL))))" }
+     ],
+     properties: {
+         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
+@@ -50,14 +53,17 @@
+         lockedBySnapshotId: p.uuid().nullable().fieldName('locked_by_snapshot_id').comment('锁定快照 ID'),
+         attributionSummary: p.text().nullable().fieldName('attribution_summary').comment('归属依据说明'),
+         status: p.string().$type<OperatingLifecycleStatus>().length(32).default(OperatingLifecycleStatusValue.Active).comment('状态：active/superseded/voided'),
+-        supersedesId: p.uuid().nullable().fieldName('supersedes_id').comment('被替代的旧归属快照 ID'),
++        supersedesId: () => p.manyToOne(CostStageAttributionSnapshot).mapToPk().nullable().fieldName("supersedes_id").foreignKeyName("fk_r4f_stage_supersedes").updateRule('no action').deleteRule("no action").comment('被替代的旧归属快照 ID'),
+         handledAt: p.datetime().nullable().fieldName('handled_at').comment('操作时间'),
+         handledBy: p.uuid().nullable().fieldName('handled_by').comment('操作人'),
+         createdAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).fieldName('created_at').comment('创建时间'),
+         createdBy: p.uuid().nullable().fieldName('created_by').comment('创建人'),
+         updatedAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).onUpdate(() => new Date()).fieldName('updated_at').comment('最后更新时间'),
+         updatedBy: p.uuid().nullable().fieldName('updated_by').comment('最后更新人'),
+-        rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号')
++        rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号'),
++        evidenceBusinessDate: p.date().nullable().fieldName("evidence_business_date"),
++        governanceEvidenceId: () => p.manyToOne(CostGovernanceEvidence).mapToPk().nullable().fieldName("governance_evidence_id").foreignKeyName("cost_stage_attribution_snapshot_governance_evidence_id_fkey").updateRule('no action').deleteRule("no action"),
++        governanceSchemaVersion: p.integer().columnType('smallint').default(1).fieldName("governance_schema_version")
+     }
+ });
+ 
+--- a/apps/poms-api/src/app/features/project-cost/accounting-tax-treatment-snapshot.entity.ts
++++ b/apps/poms-api/src/app/features/project-cost/accounting-tax-treatment-snapshot.entity.ts
+@@ -1,3 +1,4 @@
++import { CostGovernanceEvidence } from "./cost-governance-evidence.entity";
+ import { defineEntity } from '@mikro-orm/core';
+ import {
+     ACCOUNTING_TAX_DEDUCTIBILITY_STATUSES,
+@@ -26,7 +27,8 @@
+             name: 'uq_atts_project_type_active',
+             expression: (columns, table, indexName) =>
+                 `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.projectId}", "${columns.taxTreatmentType}") where "${columns.status}" = '${OperatingPendingLifecycleStatusValue.Active}'`
+-        }
++        },
++        { name: "uq_r4f_tax_successor", expression: "CREATE UNIQUE INDEX uq_r4f_tax_successor ON poms.accounting_tax_treatment_snapshot USING btree (supersedes_id) WHERE (supersedes_id IS NOT NULL)" }
+     ],
+     checks: [
+         {
+@@ -36,7 +38,8 @@
+         {
+             name: 'chk_accounting_tax_treatment_snapshot_status',
+             expression: `"status" in (${toSqlStringList(OPERATING_PENDING_LIFECYCLE_STATUSES)})`
+-        }
++        },
++        { name: "chk_r4f_tax_v1", expression: "(((governance_schema_version = 0) OR ((governance_schema_version = 1) AND (currency IS NOT NULL) AND (governance_evidence_id IS NOT NULL) AND (confirmed_at IS NOT NULL) AND (confirmed_by IS NOT NULL) AND (tax_impact_pending_amount >= (0)::numeric) AND (tax_pending_flag OR (tax_impact_pending_amount = (0)::numeric)) AND (((deductibility_status)::text <> 'pending'::text) OR tax_pending_flag) AND (length(btrim(tax_impact_summary)) > 0) AND ((supersedes_id IS NULL) OR ((replacement_reason IS NOT NULL) AND (length(btrim(replacement_reason)) > 0))))))" }
+     ],
+     properties: {
+         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
+@@ -49,14 +52,18 @@
+         taxImpactPendingAmount: p.decimal().precision(18).scale(2).default(0).fieldName('tax_impact_pending_amount').comment('待确认税务影响金额'),
+         basisSummary: p.text().nullable().fieldName('basis_summary').comment('判断依据摘要'),
+         status: p.string().$type<OperatingPendingLifecycleStatus>().length(32).default(OperatingPendingLifecycleStatusValue.Pending).comment('状态：pending/active/superseded/voided'),
+-        supersedesId: p.uuid().nullable().fieldName('supersedes_id').comment('被替代的旧税务处理快照 ID'),
++        supersedesId: () => p.manyToOne(AccountingTaxTreatmentSnapshot).mapToPk().nullable().fieldName("supersedes_id").foreignKeyName("fk_r4f_tax_supersedes").updateRule('no action').deleteRule("no action").comment('被替代的旧税务处理快照 ID'),
+         confirmedAt: p.datetime().nullable().fieldName('confirmed_at').comment('确认时间'),
+         confirmedBy: p.uuid().nullable().fieldName('confirmed_by').comment('确认人'),
+         createdAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).fieldName('created_at').comment('创建时间'),
+         createdBy: p.uuid().nullable().fieldName('created_by').comment('创建人'),
+         updatedAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).onUpdate(() => new Date()).fieldName('updated_at').comment('最后更新时间'),
+         updatedBy: p.uuid().nullable().fieldName('updated_by').comment('最后更新人'),
+-        rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号')
++        rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号'),
++        currency: p.string().length(16).nullable().fieldName("currency"),
++        replacementReason: p.text().nullable().fieldName("replacement_reason"),
++        governanceEvidenceId: () => p.manyToOne(CostGovernanceEvidence).mapToPk().nullable().fieldName("governance_evidence_id").foreignKeyName("accounting_tax_treatment_snapshot_governance_evidence_id_fkey").updateRule('no action').deleteRule("no action"),
++        governanceSchemaVersion: p.integer().columnType('smallint').default(1).fieldName("governance_schema_version")
+     }
+ });
+ 
+--- a/apps/poms-api/src/app/features/contract-finance/invoice-record.entity.ts
++++ b/apps/poms-api/src/app/features/contract-finance/invoice-record.entity.ts
+@@ -1,6 +1,6 @@
+ import { defineEntity } from '@mikro-orm/core';
+ import { INVOICE_RECORD_EXCEPTION_STATUSES, INVOICE_RECORD_STATUSES, INVOICE_RECORD_TYPES, InvoiceRecordExceptionStatusValue, type InvoiceRecordExceptionStatus, type InvoiceRecordStatus, type InvoiceRecordType } from '@poms/shared-contracts';
+-import { Contract } from '../contract/contract.entity';
++import { Contract, ContractTermSnapshot } from '../contract/contract.entity';
+ import { Project } from '../project/project.entity';
+ 
+ const p = defineEntity.properties;
+@@ -26,7 +26,8 @@
+         {
+             name: 'chk_invoice_record_exception_status',
+             expression: `"exception_status" in (${toSqlStringList(INVOICE_RECORD_EXCEPTION_STATUSES)})`
+-        }
++        },
++        { name: "chk_r4e_invoice_currency", expression: "((((currency_code IS NULL) AND (currency_source IS NULL) AND (currency_source_snapshot_id IS NULL)) OR ((currency_code IS NOT NULL) AND ((currency_code)::text ~ '^[A-Z]{3}$'::text) AND (currency_source IS NOT NULL) AND ((currency_source)::text = ANY ((ARRAY['explicit'::character varying, 'contract-snapshot'::character varying])::text[])) AND ((((currency_source)::text = 'explicit'::text) AND (currency_source_snapshot_id IS NULL)) OR (((currency_source)::text = 'contract-snapshot'::text) AND (contract_id IS NOT NULL) AND (currency_source_snapshot_id IS NOT NULL))))))" }
+     ],
+     properties: {
+         id: p.uuid().primary().defaultRaw('gen_random_uuid()'),
+@@ -53,7 +54,10 @@
+             .defaultRaw('now()')
+             .onCreate(() => new Date())
+             .onUpdate(() => new Date())
+-            .fieldName('updated_at')
++            .fieldName('updated_at'),
++        currencyCode: p.string().length(3).nullable().fieldName("currency_code"),
++        currencySource: p.string().length(32).nullable().fieldName("currency_source"),
++        currencySourceSnapshotId: () => p.manyToOne(ContractTermSnapshot).mapToPk().nullable().fieldName("currency_source_snapshot_id").createForeignKeyConstraint(false)
+     }
+ });
+ 

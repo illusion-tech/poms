@@ -1,0 +1,5 @@
+// Read-only live Issue state before G3/G4; no remote mutation.
+import fs from 'node:fs';import assert from 'node:assert/strict';import{execFileSync}from'node:child_process';import{createHash}from'node:crypto';
+const out='tmp/rust-r4def/root/live-issues133';assert(!fs.existsSync(out));fs.mkdirSync(out,{recursive:true});
+const results=[];for(const n of[57,101,106,107,108,109]){const raw=execFileSync('gh',['issue','view',String(n),'--json','number,title,state,body,comments,labels,url,updatedAt'],{encoding:null,maxBuffer:16000000}),v=JSON.parse(raw);assert.equal(v.state,'OPEN');fs.writeFileSync(out+'/'+n+'.json',raw,{flag:'wx'});results.push({issue:n,title:v.title,state:v.state,comments:v.comments.length,updatedAt:v.updatedAt,file:out+'/'+n+'.json',rawBytesSha256:createHash('sha256').update(raw).digest('hex')});}
+fs.writeFileSync(out+'/receipt133.json',JSON.stringify({capturedAt:new Date().toISOString(),results,readOnly:true},null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(results));

@@ -1,0 +1,66 @@
+{
+  "kind": "D-read-only-TypeScript-client-linkage",
+  "createdAt": "2026-11-03T22:58:38.606Z",
+  "typescript": "6.0.3",
+  "dependencyRoot": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+  "sourceCheckout": "E:\\projects\\worktrees\\poms-r4d-handover\\poms",
+  "sourcePaths": [
+    {
+      "path": "apps/poms-admin/src/app/features/project/project-contract-handover.ts",
+      "rawBytesSha256": "92b990e4d5037fe24917ba26809d2baf69fbbe5599e27cd775e083c68000b768"
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/project/project-handover-actions.ts",
+      "rawBytesSha256": "72434a41c92b61a5b7925afa21824a72ed827fc586da510346348b89d0a9082b"
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/project/project-handover-flow.ts",
+      "rawBytesSha256": "39de5ae11262a42b751da315cc3667e7fb1d5f70dd8210d119de3427a1ec8b4e"
+    }
+  ],
+  "sourceFileCount": 1136,
+  "errors": 5,
+  "diagnostics": [
+    {
+      "code": 2322,
+      "category": "Error",
+      "file": "apps/poms-admin/src/app/features/project/project-handover-actions.ts",
+      "line": 316,
+      "message": "Type '{ roleKey: \"sales-owner\" | \"business-admin\" | \"technical-support\" | \"execution-owner\"; userId: string; responsibilitySummary: string; }[]' is not assignable to type 'HandoverDutySelection[]'.\n  Type '{ roleKey: \"sales-owner\" | \"business-admin\" | \"technical-support\" | \"execution-owner\"; userId: string; responsibilitySummary: string; }' is not assignable to type 'HandoverDutySelection'.\n    Types of property 'roleKey' are incompatible.\n      Type '\"sales-owner\" | \"business-admin\" | \"technical-support\" | \"execution-owner\"' is not assignable to type 'ProjectHandoverResponsibilityRole'.\n        Type '\"sales-owner\"' is not assignable to type 'ProjectHandoverResponsibilityRole'."
+    },
+    {
+      "code": 2345,
+      "category": "Error",
+      "file": "apps/poms-admin/src/app/features/project/project-handover-actions.ts",
+      "line": 380,
+      "message": "Argument of type '(HandoverDutySelection | { roleKey: \"finance\"; userId: string; responsibilitySummary: string; })[]' is not assignable to parameter of type 'readonly HandoverDutySelection[]'.\n  Type 'HandoverDutySelection | { roleKey: \"finance\"; userId: string; responsibilitySummary: string; }' is not assignable to type 'HandoverDutySelection'.\n    Type '{ roleKey: \"finance\"; userId: string; responsibilitySummary: string; }' is not assignable to type 'HandoverDutySelection'.\n      Types of property 'roleKey' are incompatible.\n        Type '\"finance\"' is not assignable to type 'ProjectHandoverResponsibilityRole'."
+    },
+    {
+      "code": 2769,
+      "category": "Error",
+      "file": "apps/poms-admin/src/app/features/project/project-handover-actions.ts",
+      "line": 396,
+      "message": "No overload matches this call.\n  Overload 1 of 3, '(requestParameters: ProjectHandoverControllerPrepareProjectHandoverRequestParams, observe?: \"body\" | undefined, reportProgress?: boolean | undefined, options?: { ...; } | undefined): Observable<...>', gave the following error.\n    Type '{ comment: string; expectedCurrentHandoverVersion?: number | undefined; executionOwnerUserId: string; participants: ProjectHandoverParticipantInput[]; financeConfirmationRequired: boolean; receiptJudgmentMode: \"project-aggregate\" | \"contract-separate\"; expectedProjectVersion: number; expectedSourceHash: string; }' is not assignable to type 'PrepareProjectHandoverRequest'.\n      Types of property 'receiptJudgmentMode' are incompatible.\n        Type '\"project-aggregate\" | \"contract-separate\"' is not assignable to type 'ProjectReceiptJudgmentMode'.\n          Type '\"project-aggregate\"' is not assignable to type 'ProjectReceiptJudgmentMode'.\n  Overload 2 of 3, '(requestParameters: ProjectHandoverControllerPrepareProjectHandoverRequestParams, observe?: \"response\" | undefined, reportProgress?: boolean | undefined, options?: { ...; } | undefined): Observable<...>', gave the following error.\n    Type '{ comment: string; expectedCurrentHandoverVersion?: number | undefined; executionOwnerUserId: string; participants: ProjectHandoverParticipantInput[]; financeConfirmationRequired: boolean; receiptJudgmentMode: \"project-aggregate\" | \"contract-separate\"; expectedProjectVersion: number; expectedSourceHash: string; }' is not assignable to type 'PrepareProjectHandoverRequest'.\n      Types of property 'receiptJudgmentMode' are incompatible.\n        Type '\"project-aggregate\" | \"contract-separate\"' is not assignable to type 'ProjectReceiptJudgmentMode'.\n          Type '\"project-aggregate\"' is not assignable to type 'ProjectReceiptJudgmentMode'.\n  Overload 3 of 3, '(requestParameters: ProjectHandoverControllerPrepareProjectHandoverRequestParams, observe?: \"events\" | undefined, reportProgress?: boolean | undefined, options?: { ...; } | undefined): Observable<...>', gave the following error.\n    Type '{ comment: string; expectedCurrentHandoverVersion?: number | undefined; executionOwnerUserId: string; participants: ProjectHandoverParticipantInput[]; financeConfirmationRequired: boolean; receiptJudgmentMode: \"project-aggregate\" | \"contract-separate\"; expectedProjectVersion: number; expectedSourceHash: string; }' is not assignable to type 'PrepareProjectHandoverRequest'.\n      Types of property 'receiptJudgmentMode' are incompatible.\n        Type '\"project-aggregate\" | \"contract-separate\"' is not assignable to type 'ProjectReceiptJudgmentMode'.\n          Type '\"project-aggregate\"' is not assignable to type 'ProjectReceiptJudgmentMode'."
+    },
+    {
+      "code": 2769,
+      "category": "Error",
+      "file": "apps/poms-admin/src/app/features/project/project-handover-actions.ts",
+      "line": 427,
+      "message": "No overload matches this call.\n  Overload 1 of 3, '(requestParameters: ProjectHandoverControllerConfirmProjectHandoverRequestParams, observe?: \"body\" | undefined, reportProgress?: boolean | undefined, options?: { ...; } | undefined): Observable<...>', gave the following error.\n    Type '{ participantId: string; participantRoleKey: ProjectHandoverResponsibilityRole; participantStatus: \"confirmed\"; }[]' is not assignable to type 'ConfirmProjectHandoverParticipantConfirmationInput[]'.\n      Type '{ participantId: string; participantRoleKey: ProjectHandoverResponsibilityRole; participantStatus: \"confirmed\"; }' is not assignable to type 'ConfirmProjectHandoverParticipantConfirmationInput'.\n        Types of property 'participantStatus' are incompatible.\n          Type '\"confirmed\"' is not assignable to type 'ConfirmProjectHandoverParticipantConfirmationInputParticipantStatusEnum'.\n  Overload 2 of 3, '(requestParameters: ProjectHandoverControllerConfirmProjectHandoverRequestParams, observe?: \"response\" | undefined, reportProgress?: boolean | undefined, options?: { ...; } | undefined): Observable<...>', gave the following error.\n    Type '{ participantId: string; participantRoleKey: ProjectHandoverResponsibilityRole; participantStatus: \"confirmed\"; }[]' is not assignable to type 'ConfirmProjectHandoverParticipantConfirmationInput[]'.\n      Type '{ participantId: string; participantRoleKey: ProjectHandoverResponsibilityRole; participantStatus: \"confirmed\"; }' is not assignable to type 'ConfirmProjectHandoverParticipantConfirmationInput'.\n        Types of property 'participantStatus' are incompatible.\n          Type '\"confirmed\"' is not assignable to type 'ConfirmProjectHandoverParticipantConfirmationInputParticipantStatusEnum'.\n  Overload 3 of 3, '(requestParameters: ProjectHandoverControllerConfirmProjectHandoverRequestParams, observe?: \"events\" | undefined, reportProgress?: boolean | undefined, options?: { ...; } | undefined): Observable<...>', gave the following error.\n    Type '{ participantId: string; participantRoleKey: ProjectHandoverResponsibilityRole; participantStatus: \"confirmed\"; }[]' is not assignable to type 'ConfirmProjectHandoverParticipantConfirmationInput[]'.\n      Type '{ participantId: string; participantRoleKey: ProjectHandoverResponsibilityRole; participantStatus: \"confirmed\"; }' is not assignable to type 'ConfirmProjectHandoverParticipantConfirmationInput'.\n        Types of property 'participantStatus' are incompatible.\n          Type '\"confirmed\"' is not assignable to type 'ConfirmProjectHandoverParticipantConfirmationInputParticipantStatusEnum'."
+    },
+    {
+      "code": 2769,
+      "category": "Error",
+      "file": "apps/poms-admin/src/app/features/project/project-handover-actions.ts",
+      "line": 579,
+      "message": "No overload matches this call.\n  Overload 1 of 3, '(requestParameters: ContractReadinessControllerReviewDiffRequestParams, observe?: \"body\" | undefined, reportProgress?: boolean | undefined, options?: { ...; } | undefined): Observable<...>', gave the following error.\n    Type '\"approved\"' is not assignable to type 'CommercialBaselineReviewDecision'.\n  Overload 2 of 3, '(requestParameters: ContractReadinessControllerReviewDiffRequestParams, observe?: \"response\" | undefined, reportProgress?: boolean | undefined, options?: { ...; } | undefined): Observable<...>', gave the following error.\n    Type '\"approved\"' is not assignable to type 'CommercialBaselineReviewDecision'.\n  Overload 3 of 3, '(requestParameters: ContractReadinessControllerReviewDiffRequestParams, observe?: \"events\" | undefined, reportProgress?: boolean | undefined, options?: { ...; } | undefined): Observable<...>', gave the following error.\n    Type '\"approved\"' is not assignable to type 'CommercialBaselineReviewDecision'."
+    }
+  ],
+  "typescriptChecked": true,
+  "angularTemplateChecked": false,
+  "angularBuilt": false,
+  "browserRun": false,
+  "result": "fail",
+  "limitation": "Checks TypeScript with real generated client in D checkout and existing read-only third-party dependencies; does not run Angular compiler, build, tests, HTTP, DB or browser."
+}

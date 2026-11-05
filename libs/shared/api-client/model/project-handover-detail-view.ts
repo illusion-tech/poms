@@ -7,10 +7,14 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ProjectHandoverClosureStatus } from './project-handover-closure-status';
+import { ProjectHandoverFrozenMaterials } from './project-handover-frozen-materials';
 import { ContractHandoverEffectiveContractSetSummary } from './contract-handover-effective-contract-set-summary';
 import { ProjectHandoverParticipantConfirmationSummary } from './project-handover-participant-confirmation-summary';
+import { ProjectHandoverExecutionAdmission } from './project-handover-execution-admission';
 import { ProjectHandoverReceiptJudgmentModeSummary } from './project-handover-receipt-judgment-mode-summary';
 import { ProjectHandoverStatus } from './project-handover-status';
+import { ProjectHandoverBasisItemSummary } from './project-handover-basis-item-summary';
 import { ContractHandoverCurrentBaselineSummary } from './contract-handover-current-baseline-summary';
 
 
@@ -36,4 +40,16 @@ export interface ProjectHandoverDetailView {
     allowedActions: Array<string>;
     blockingReasons: Array<string>;
     generatedAt: string;
+    projectRowVersion: number;
+    handoverBasisSnapshotId: string | null;
+    sourcePayloadHash: string | null;
+    currentSourcePayloadHash: string;
+    sourceChanged: boolean;
+    executionOwnerUserId: string | null;
+    financeConfirmationRequired: boolean | null;
+    version: number | null;
+    closureStatus: ProjectHandoverClosureStatus;
+    executionAdmission: ProjectHandoverExecutionAdmission;
+    handoverBasisItems: Array<ProjectHandoverBasisItemSummary>;
+    frozenMaterials: ProjectHandoverFrozenMaterials | null;
 }

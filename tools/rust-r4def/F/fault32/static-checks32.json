@@ -1,0 +1,176 @@
+{
+  "kind": "R4EF-fault32-pure-rendering-and-source-checks",
+  "capturedAt": "2026-11-04T00:02:48.381Z",
+  "nodeVersion": "v26.13.0",
+  "passed": 9,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "all-35-fault-plans-render-only-owned-predicates",
+      "status": "passed-pure-static"
+    },
+    {
+      "name": "unique-technical-names-and-explicit-owned-row-scope",
+      "status": "passed-pure-static"
+    },
+    {
+      "name": "invalid-or-unowned-sql-input-rejected",
+      "status": "passed-pure-static"
+    },
+    {
+      "name": "pending-auth-targets-late-coflush-not-eager-touch",
+      "status": "passed-pure-static"
+    },
+    {
+      "name": "barrier-is-visible-lock-state-not-notify-or-pg-sleep",
+      "status": "passed-pure-static"
+    },
+    {
+      "name": "source-family-gate-matches-real-E-hash-protocol",
+      "status": "passed-pure-static"
+    },
+    {
+      "name": "snapshot-is-one-read-only-statement-and-preserves-decimals",
+      "status": "passed-pure-static"
+    },
+    {
+      "name": "credential-columns-never-read-by-candidate-SQL",
+      "status": "passed-pure-static"
+    },
+    {
+      "name": "concrete-parameter-bindings-and-controlled-race-counts",
+      "status": "passed-pure-static"
+    }
+  ],
+  "inputPinsBefore": [
+    {
+      "file": "E:\\projects\\worktrees\\poms-r4f-cost-governance\\poms\\apps\\poms-api-rust\\src\\project_cost_governance\\service.rs",
+      "bytes": 43671,
+      "rawBytesSha256": "c4c840d026610bbaf31b008d06985b8d635d221fffb4f27007b144a52b395b3c",
+      "observedRawSha256": "c4c840d026610bbaf31b008d06985b8d635d221fffb4f27007b144a52b395b3c"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r4f-cost-governance\\poms\\apps\\poms-api-rust\\src\\project_cost_governance\\evidence.rs",
+      "bytes": 32766,
+      "rawBytesSha256": "6c10996eec05d8c224fd2a02ade0a69eb17b8a497ed175b09609ab8fbbf42c53",
+      "observedRawSha256": "6c10996eec05d8c224fd2a02ade0a69eb17b8a497ed175b09609ab8fbbf42c53"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r4f-cost-governance\\poms\\apps\\poms-api-rust\\src\\project_cost_governance\\store.rs",
+      "bytes": 11880,
+      "rawBytesSha256": "6712ee261e4458df43fe3f1369dcdfa8a083de9e6f844f461a0eddc85a11867e",
+      "observedRawSha256": "6712ee261e4458df43fe3f1369dcdfa8a083de9e6f844f461a0eddc85a11867e"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r4e-cost-base\\poms\\apps\\poms-api-rust\\src\\project_actual_cost\\mod.rs",
+      "bytes": 77170,
+      "rawBytesSha256": "aaaa5126be86c421255d699bcad582131943d7f500754f0db8e55ddfc437a407",
+      "observedRawSha256": "aaaa5126be86c421255d699bcad582131943d7f500754f0db8e55ddfc437a407"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r4e-cost-base\\poms\\apps\\poms-api-rust\\src\\project_actual_cost\\store.rs",
+      "bytes": 9144,
+      "rawBytesSha256": "0b39d14477e52641307d84f28c043dcf9c4309d38d0f55476e7f9806cb621eb5",
+      "observedRawSha256": "0b39d14477e52641307d84f28c043dcf9c4309d38d0f55476e7f9806cb621eb5"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\apps\\poms-api-rust\\src\\contract_support\\http.rs",
+      "bytes": 14020,
+      "rawBytesSha256": "dbb2ca1f2f48c4142e0888967296e2cd7b99ab546ee91636410a0f03ade9509e",
+      "observedRawSha256": "dbb2ca1f2f48c4142e0888967296e2cd7b99ab546ee91636410a0f03ade9509e"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\apps\\poms-api-rust\\src\\auth\\store.rs",
+      "bytes": 22695,
+      "rawBytesSha256": "14ba9d8e7171e6a6fbd00fa68c25a283d53521e17921b5d0e2ac760fec1a3f40",
+      "observedRawSha256": "14ba9d8e7171e6a6fbd00fa68c25a283d53521e17921b5d0e2ac760fec1a3f40"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\apps\\poms-api-rust\\src\\auth\\service.rs",
+      "bytes": 21730,
+      "rawBytesSha256": "3f216c2be127ca22e536f0413c91a72c29c37f2e97212089ac3a2611169ee650",
+      "observedRawSha256": "3f216c2be127ca22e536f0413c91a72c29c37f2e97212089ac3a2611169ee650"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\apps\\poms-api-rust\\src\\auth\\model.rs",
+      "bytes": 10433,
+      "rawBytesSha256": "042f4418cee854566d942c5fe723a6221f4fd2e8c61bb35dcc8dbeca157d6312",
+      "observedRawSha256": "042f4418cee854566d942c5fe723a6221f4fd2e8c61bb35dcc8dbeca157d6312"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\apps\\poms-api-rust\\src\\auth\\guards.rs",
+      "bytes": 12029,
+      "rawBytesSha256": "58f7e67c075f3ee4918a0df433d0a055de81c4e99abb95ab7f0950d9c40c6082",
+      "observedRawSha256": "58f7e67c075f3ee4918a0df433d0a055de81c4e99abb95ab7f0950d9c40c6082"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\apps\\poms-api-rust\\src\\business_numbers\\service.rs",
+      "bytes": 5337,
+      "rawBytesSha256": "24614da93077b133ef71803312169370a812ec8ef56609cc3ff9425fb96903fb",
+      "observedRawSha256": "24614da93077b133ef71803312169370a812ec8ef56609cc3ff9425fb96903fb"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\docs\\design\\rust-r4def\\joint-g1-06\\operation-map06.json",
+      "bytes": 15485,
+      "rawBytesSha256": "a7ec15625cef5483f09af7c1b33332dcd6612b84ecf082c6a6e87dd05e52eb01",
+      "observedRawSha256": "a7ec15625cef5483f09af7c1b33332dcd6612b84ecf082c6a6e87dd05e52eb01"
+    }
+  ],
+  "inputPinsAfter": [
+    {
+      "file": "E:\\projects\\worktrees\\poms-r4f-cost-governance\\poms\\apps\\poms-api-rust\\src\\project_cost_governance\\service.rs",
+      "rawBytesSha256": "c4c840d026610bbaf31b008d06985b8d635d221fffb4f27007b144a52b395b3c"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r4f-cost-governance\\poms\\apps\\poms-api-rust\\src\\project_cost_governance\\evidence.rs",
+      "rawBytesSha256": "6c10996eec05d8c224fd2a02ade0a69eb17b8a497ed175b09609ab8fbbf42c53"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r4f-cost-governance\\poms\\apps\\poms-api-rust\\src\\project_cost_governance\\store.rs",
+      "rawBytesSha256": "6712ee261e4458df43fe3f1369dcdfa8a083de9e6f844f461a0eddc85a11867e"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r4e-cost-base\\poms\\apps\\poms-api-rust\\src\\project_actual_cost\\mod.rs",
+      "rawBytesSha256": "aaaa5126be86c421255d699bcad582131943d7f500754f0db8e55ddfc437a407"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r4e-cost-base\\poms\\apps\\poms-api-rust\\src\\project_actual_cost\\store.rs",
+      "rawBytesSha256": "0b39d14477e52641307d84f28c043dcf9c4309d38d0f55476e7f9806cb621eb5"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\apps\\poms-api-rust\\src\\contract_support\\http.rs",
+      "rawBytesSha256": "dbb2ca1f2f48c4142e0888967296e2cd7b99ab546ee91636410a0f03ade9509e"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\apps\\poms-api-rust\\src\\auth\\store.rs",
+      "rawBytesSha256": "14ba9d8e7171e6a6fbd00fa68c25a283d53521e17921b5d0e2ac760fec1a3f40"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\apps\\poms-api-rust\\src\\auth\\service.rs",
+      "rawBytesSha256": "3f216c2be127ca22e536f0413c91a72c29c37f2e97212089ac3a2611169ee650"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\apps\\poms-api-rust\\src\\auth\\model.rs",
+      "rawBytesSha256": "042f4418cee854566d942c5fe723a6221f4fd2e8c61bb35dcc8dbeca157d6312"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\apps\\poms-api-rust\\src\\auth\\guards.rs",
+      "rawBytesSha256": "58f7e67c075f3ee4918a0df433d0a055de81c4e99abb95ab7f0950d9c40c6082"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\apps\\poms-api-rust\\src\\business_numbers\\service.rs",
+      "rawBytesSha256": "24614da93077b133ef71803312169370a812ec8ef56609cc3ff9425fb96903fb"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\docs\\design\\rust-r4def\\joint-g1-06\\operation-map06.json",
+      "rawBytesSha256": "a7ec15625cef5483f09af7c1b33332dcd6612b84ecf082c6a6e87dd05e52eb01"
+    }
+  ],
+  "realHttpRequests": 0,
+  "realPgConnections": 0,
+  "ddlExecuted": false,
+  "credentialsRead": false,
+  "productionSuccessMocked": false,
+  "pgSyntaxPrepared": false,
+  "note": "No Root callback invoked. This is static JS/rendering evidence, not PG/HTTP fault or concurrency acceptance."
+}

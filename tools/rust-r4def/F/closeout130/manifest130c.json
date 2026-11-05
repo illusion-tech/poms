@@ -1,0 +1,84 @@
+{
+  "kind": "R4DEF-closeout130c-linear-journal-support-addendum",
+  "status": "PreparedNoArchiveExecution",
+  "authorPackage": "E:/projects/worktrees/poms-r4f-cost-governance/poms/tools/rust-r4def/F/closeout130",
+  "newFilesIncludingThisManifest": 3,
+  "files": [
+    {
+      "file": "Invoke-Archive130c.ps1",
+      "bytes": 10451,
+      "rawBytesSha256": "da7eb5852c13c02232ec4f014d97a3b00affc8a50547e9bf584ec3ab1453eef1"
+    },
+    {
+      "file": "README130c.md",
+      "bytes": 2720,
+      "rawBytesSha256": "e0b5875f2edab81fb2bdea706725f2582a074ad688f8232829ed480fa47366f5"
+    }
+  ],
+  "selfHash": "Excluded to avoid recursive self-hashing; Root intake pins actual manifest bytes.",
+  "immutablePredecessor": {
+    "file": "manifest130.json",
+    "rawBytesSha256": "372044e8bb8910c1716d8237ecb0525b3d8dcd0620aa37817a6d0cfdc9374746",
+    "recordedFiles": 41,
+    "filesIncludingPredecessorManifest": 42,
+    "allOld42RawBytesVerifiedUnchanged": true
+  },
+  "pinnedDependencies": [
+    {
+      "file": "Common130.ps1",
+      "rawBytesSha256": "c61ec76955c9c5c629f898f3894f744d8bfd6ab1e1c861ed1c570a4f83d4902c"
+    },
+    {
+      "file": "policy130.json",
+      "rawBytesSha256": "34c95843ec0bd198ccd5a5748986e15f18e266da49a38d662d6d916a2abf9519"
+    },
+    {
+      "file": "archive-plan130b.json",
+      "rawBytesSha256": "d3ca0043ebaa924cbdf67177febf8f4a02dea8b9e0a858e3f2c88642c5ff5af9"
+    }
+  ],
+  "unchangedArchiveScope": {
+    "files": 9079,
+    "bytes": 178735821,
+    "lifecycleMoves": 1432,
+    "publicEvidenceCopies": 7647,
+    "exclusions": 1335
+  },
+  "changes": {
+    "perEntryJournal": "Append one compressed JSONL record after destination bytes/SHA verification; Flush(true) after every line.",
+    "fullOriginMapWrites": 1,
+    "successSummaryWrites": 1,
+    "successSummaryContainsCompletedArray": false,
+    "failureEvidence": "CreateNew FailedPartial with phase, in-flight entry and stage path; retain start marker, completed/truncated JSONL and any already-installed raw evidence.",
+    "overwritePolicy": "Existing archive destinations or receipts stop. JSON/map/summary/log use CreateNew. Copies stage to a new GUID path and install with no-Force native Move-Item.",
+    "factBinding": "Root supplies actual FactsPath plus mandatory ExpectedFactsSha256; rechecked before first mutation and before final map.",
+    "additionalArchiveEntrypointParameter": "-ExpectedFactsSha256 <actual Root facts raw SHA256>"
+  },
+  "verification": {
+    "powerShellAST": "ran-and-passed",
+    "nativeMoveCopyLiteralPathCommands": 3,
+    "moveCopyForcePresent": false,
+    "fullCompletedArrayMaterializations": 1,
+    "old42FilesRawSha": "ran-and-passed",
+    "memoryJsonlRoundtrip": "6 records passed",
+    "memoryJsonl3Bytes": 462,
+    "memoryJsonl6Bytes": 924,
+    "memoryJsonl6To3Ratio": 2,
+    "filesystemArchiveOrDurabilityTest": "not-run-entrypoint-prohibited",
+    "productBuildTest": "not-required-support-serialization-only",
+    "endToEndPerformanceMeasurement": "not-run-no-runtime-speedup-claim"
+  },
+  "execution": {
+    "archiveEntrypointRun": false,
+    "rootReadOrMutation": false,
+    "gitOrGitHubMutation": false,
+    "tmpDeleted": false
+  },
+  "actualGateFacts": {
+    "G3": null,
+    "cleanup": null,
+    "implementationCommit": null,
+    "actualArchiveApplied": null,
+    "G4": null
+  }
+}

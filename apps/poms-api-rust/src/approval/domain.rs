@@ -563,6 +563,20 @@ impl ApprovalDomainHandler for OriginalApprovalDomain {
                 .await
                 .map_err(contract_support::Error::into_common)?
                 .ok_or_else(|| CommonFailure::http(StatusCode::NOT_FOUND, "Contract not found"))?;
+                let amendment_actor = uuid::Uuid::parse_str(&context.actor_id.to_utf8_lossy())
+                    .map_err(|_| CommonFailure::unexpected("Invalid authenticated actor"))?;
+                if let Some(outcome) = crate::contracts::apply_amendment_review(
+                    session,
+                    contract_id,
+                    approval_id,
+                    approved,
+                    amendment_actor,
+                )
+                .await
+                .map_err(contract_support::Error::into_common)?
+                {
+                    return Ok(outcome);
+                }
                 crate::contracts::validate_review_binding(
                     session,
                     contract_id,
@@ -589,7 +603,7 @@ impl ApprovalDomainHandler for OriginalApprovalDomain {
                     before:Some(serde_json::json!({"id":contract_id,"status":fact.status})),
                     after:Some(serde_json::json!({"id":contract_id,"status":if approved{"pending-review"}else{"draft"}})),
                     reason:record.decision_comment.as_ref().map(|text|text.to_utf8_lossy()),
-                    metadata:serde_json::json!({"approvalRecordId":approval_id,"decision":if approved{"approved"}else{"rejected"}}),
+                    metadata:serde_json::json!({"requiredSensitivePackages":["contract-finance"],"approvalRecordId":approval_id,"decision":if approved{"approved"}else{"rejected"}}),
                 }).await.map_err(contract_support::Error::into_common)?;
             }
             let entity = required(find_one(session, table, &filters, &[]).await?, kind, &id)?;

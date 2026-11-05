@@ -23,15 +23,23 @@ import { ActivateOperatingBaselinePackageRequest } from '../model/activate-opera
 // @ts-ignore
 import { BusinessAccountingFeedbackView } from '../model/business-accounting-feedback-view';
 // @ts-ignore
+import { CommandResult } from '../model/command-result';
+// @ts-ignore
 import { CommissionGateBindingHistoryView } from '../model/commission-gate-binding-history-view';
 // @ts-ignore
 import { ConfirmAccountingTaxTreatmentRequest } from '../model/confirm-accounting-tax-treatment-request';
 // @ts-ignore
+import { ConfirmAccountingTaxTreatmentResult } from '../model/confirm-accounting-tax-treatment-result';
+// @ts-ignore
 import { ConfirmCostStageAttributionRequest } from '../model/confirm-cost-stage-attribution-request';
+// @ts-ignore
+import { ConfirmCostStageAttributionResult } from '../model/confirm-cost-stage-attribution-result';
 // @ts-ignore
 import { ConfirmExpenseRecordRequest } from '../model/confirm-expense-record-request';
 // @ts-ignore
 import { ConfirmSharedCostAllocationBasisRequest } from '../model/confirm-shared-cost-allocation-basis-request';
+// @ts-ignore
+import { ConfirmSharedCostAllocationBasisResult } from '../model/confirm-shared-cost-allocation-basis-result';
 // @ts-ignore
 import { CostStageAttributionSnapshotSummary } from '../model/cost-stage-attribution-snapshot-summary';
 // @ts-ignore
@@ -73,11 +81,17 @@ import { PublishInternalCostRateVersionRequest } from '../model/publish-internal
 // @ts-ignore
 import { ReclassifyCostStageAttributionRequest } from '../model/reclassify-cost-stage-attribution-request';
 // @ts-ignore
+import { ReclassifyCostStageAttributionResult } from '../model/reclassify-cost-stage-attribution-result';
+// @ts-ignore
 import { ReplaceAccountingTaxTreatmentRequest } from '../model/replace-accounting-tax-treatment-request';
+// @ts-ignore
+import { ReplaceAccountingTaxTreatmentResult } from '../model/replace-accounting-tax-treatment-result';
 // @ts-ignore
 import { ReplaceLaborCostRecordRequest } from '../model/replace-labor-cost-record-request';
 // @ts-ignore
 import { ReplaceSharedCostAllocationResultRequest } from '../model/replace-shared-cost-allocation-result-request';
+// @ts-ignore
+import { ReplaceSharedCostAllocationResultResult } from '../model/replace-shared-cost-allocation-result-result';
 // @ts-ignore
 import { ReviewCommissionGateBindingRequest } from '../model/review-commission-gate-binding-request';
 // @ts-ignore
@@ -224,6 +238,9 @@ export interface ProjectCostControllerListOperatingRestatementsRequestParams {
 
 export interface ProjectCostControllerListProjectActualCostRecordsRequestParams {
     projectId: string;
+    sourceType?: 'payment-record' | 'invoice-record' | 'expense-record' | 'payable-record' | 'labor';
+    recordStatus?: 'draft' | 'registered' | 'confirmed' | 'included' | 'voided' | 'replaced';
+    costType?: 'procurement' | 'invoice' | 'expense' | 'payment-fact' | 'labor';
 }
 
 export interface ProjectCostControllerListSharedCostAllocationResultsRequestParams {
@@ -360,10 +377,10 @@ export class ProjectCostApi extends BaseService {
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public projectCostControllerConfirmAccountingTaxTreatment(requestParameters: ProjectCostControllerConfirmAccountingTaxTreatmentRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public projectCostControllerConfirmAccountingTaxTreatment(requestParameters: ProjectCostControllerConfirmAccountingTaxTreatmentRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public projectCostControllerConfirmAccountingTaxTreatment(requestParameters: ProjectCostControllerConfirmAccountingTaxTreatmentRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public projectCostControllerConfirmAccountingTaxTreatment(requestParameters: ProjectCostControllerConfirmAccountingTaxTreatmentRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public projectCostControllerConfirmAccountingTaxTreatment(requestParameters: ProjectCostControllerConfirmAccountingTaxTreatmentRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ConfirmAccountingTaxTreatmentResult>;
+    public projectCostControllerConfirmAccountingTaxTreatment(requestParameters: ProjectCostControllerConfirmAccountingTaxTreatmentRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ConfirmAccountingTaxTreatmentResult>>;
+    public projectCostControllerConfirmAccountingTaxTreatment(requestParameters: ProjectCostControllerConfirmAccountingTaxTreatmentRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ConfirmAccountingTaxTreatmentResult>>;
+    public projectCostControllerConfirmAccountingTaxTreatment(requestParameters: ProjectCostControllerConfirmAccountingTaxTreatmentRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const projectId = requestParameters?.projectId;
         if (projectId === null || projectId === undefined) {
             throw new Error('Required parameter projectId was null or undefined when calling projectCostControllerConfirmAccountingTaxTreatment.');
@@ -378,6 +395,7 @@ export class ProjectCostApi extends BaseService {
         // authentication (pomsSession) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
         ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -410,7 +428,7 @@ export class ProjectCostApi extends BaseService {
 
         let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/accounting-tax-treatments`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
+        return this.httpClient.request<ConfirmAccountingTaxTreatmentResult>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: confirmAccountingTaxTreatmentRequest,
@@ -432,10 +450,10 @@ export class ProjectCostApi extends BaseService {
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public projectCostControllerConfirmCostStageAttribution(requestParameters: ProjectCostControllerConfirmCostStageAttributionRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public projectCostControllerConfirmCostStageAttribution(requestParameters: ProjectCostControllerConfirmCostStageAttributionRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public projectCostControllerConfirmCostStageAttribution(requestParameters: ProjectCostControllerConfirmCostStageAttributionRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public projectCostControllerConfirmCostStageAttribution(requestParameters: ProjectCostControllerConfirmCostStageAttributionRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public projectCostControllerConfirmCostStageAttribution(requestParameters: ProjectCostControllerConfirmCostStageAttributionRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ConfirmCostStageAttributionResult>;
+    public projectCostControllerConfirmCostStageAttribution(requestParameters: ProjectCostControllerConfirmCostStageAttributionRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ConfirmCostStageAttributionResult>>;
+    public projectCostControllerConfirmCostStageAttribution(requestParameters: ProjectCostControllerConfirmCostStageAttributionRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ConfirmCostStageAttributionResult>>;
+    public projectCostControllerConfirmCostStageAttribution(requestParameters: ProjectCostControllerConfirmCostStageAttributionRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const id = requestParameters?.id;
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling projectCostControllerConfirmCostStageAttribution.');
@@ -450,6 +468,7 @@ export class ProjectCostApi extends BaseService {
         // authentication (pomsSession) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
         ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -482,7 +501,7 @@ export class ProjectCostApi extends BaseService {
 
         let localVarPath = `/api/project-actual-cost-records/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/stage-attributions`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
+        return this.httpClient.request<ConfirmCostStageAttributionResult>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: confirmCostStageAttributionRequest,
@@ -577,10 +596,10 @@ export class ProjectCostApi extends BaseService {
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public projectCostControllerConfirmSharedCostAllocationBasis(requestParameters: ProjectCostControllerConfirmSharedCostAllocationBasisRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public projectCostControllerConfirmSharedCostAllocationBasis(requestParameters: ProjectCostControllerConfirmSharedCostAllocationBasisRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public projectCostControllerConfirmSharedCostAllocationBasis(requestParameters: ProjectCostControllerConfirmSharedCostAllocationBasisRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public projectCostControllerConfirmSharedCostAllocationBasis(requestParameters: ProjectCostControllerConfirmSharedCostAllocationBasisRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public projectCostControllerConfirmSharedCostAllocationBasis(requestParameters: ProjectCostControllerConfirmSharedCostAllocationBasisRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ConfirmSharedCostAllocationBasisResult>;
+    public projectCostControllerConfirmSharedCostAllocationBasis(requestParameters: ProjectCostControllerConfirmSharedCostAllocationBasisRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ConfirmSharedCostAllocationBasisResult>>;
+    public projectCostControllerConfirmSharedCostAllocationBasis(requestParameters: ProjectCostControllerConfirmSharedCostAllocationBasisRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ConfirmSharedCostAllocationBasisResult>>;
+    public projectCostControllerConfirmSharedCostAllocationBasis(requestParameters: ProjectCostControllerConfirmSharedCostAllocationBasisRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const confirmSharedCostAllocationBasisRequest = requestParameters?.confirmSharedCostAllocationBasisRequest;
         if (confirmSharedCostAllocationBasisRequest === null || confirmSharedCostAllocationBasisRequest === undefined) {
             throw new Error('Required parameter confirmSharedCostAllocationBasisRequest was null or undefined when calling projectCostControllerConfirmSharedCostAllocationBasis.');
@@ -591,6 +610,7 @@ export class ProjectCostApi extends BaseService {
         // authentication (pomsSession) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
         ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -623,7 +643,7 @@ export class ProjectCostApi extends BaseService {
 
         let localVarPath = `/api/shared-cost-allocation-bases`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
+        return this.httpClient.request<ConfirmSharedCostAllocationBasisResult>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: confirmSharedCostAllocationBasisRequest,
@@ -854,10 +874,10 @@ export class ProjectCostApi extends BaseService {
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public projectCostControllerCreateProjectActualCostRecord(requestParameters: ProjectCostControllerCreateProjectActualCostRecordRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public projectCostControllerCreateProjectActualCostRecord(requestParameters: ProjectCostControllerCreateProjectActualCostRecordRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public projectCostControllerCreateProjectActualCostRecord(requestParameters: ProjectCostControllerCreateProjectActualCostRecordRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public projectCostControllerCreateProjectActualCostRecord(requestParameters: ProjectCostControllerCreateProjectActualCostRecordRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public projectCostControllerCreateProjectActualCostRecord(requestParameters: ProjectCostControllerCreateProjectActualCostRecordRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<CommandResult>;
+    public projectCostControllerCreateProjectActualCostRecord(requestParameters: ProjectCostControllerCreateProjectActualCostRecordRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<CommandResult>>;
+    public projectCostControllerCreateProjectActualCostRecord(requestParameters: ProjectCostControllerCreateProjectActualCostRecordRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<CommandResult>>;
+    public projectCostControllerCreateProjectActualCostRecord(requestParameters: ProjectCostControllerCreateProjectActualCostRecordRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const projectId = requestParameters?.projectId;
         if (projectId === null || projectId === undefined) {
             throw new Error('Required parameter projectId was null or undefined when calling projectCostControllerCreateProjectActualCostRecord.');
@@ -872,6 +892,7 @@ export class ProjectCostApi extends BaseService {
         // authentication (pomsSession) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
         ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -904,7 +925,7 @@ export class ProjectCostApi extends BaseService {
 
         let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/actual-cost-records`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
+        return this.httpClient.request<CommandResult>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: createProjectActualCostRecordRequest,
@@ -2123,6 +2144,38 @@ export class ProjectCostApi extends BaseService {
         if (projectId === null || projectId === undefined) {
             throw new Error('Required parameter projectId was null or undefined when calling projectCostControllerListProjectActualCostRecords.');
         }
+        const sourceType = requestParameters?.sourceType;
+        const recordStatus = requestParameters?.recordStatus;
+        const costType = requestParameters?.costType;
+
+        let localVarQueryParameters = new OpenApiHttpParams(this.encoder);
+
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            'sourceType',
+            <any>sourceType,
+            QueryParamStyle.Form,
+            true,
+        );
+
+
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            'recordStatus',
+            <any>recordStatus,
+            QueryParamStyle.Form,
+            true,
+        );
+
+
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            'costType',
+            <any>costType,
+            QueryParamStyle.Form,
+            true,
+        );
+
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -2156,6 +2209,7 @@ export class ProjectCostApi extends BaseService {
         return this.httpClient.request<Array<ProjectActualCostRecordSummary>>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                params: localVarQueryParameters.toHttpParams(),
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
@@ -2233,10 +2287,10 @@ export class ProjectCostApi extends BaseService {
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public projectCostControllerPublishInternalCostRateVersion(requestParameters: ProjectCostControllerPublishInternalCostRateVersionRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public projectCostControllerPublishInternalCostRateVersion(requestParameters: ProjectCostControllerPublishInternalCostRateVersionRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public projectCostControllerPublishInternalCostRateVersion(requestParameters: ProjectCostControllerPublishInternalCostRateVersionRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public projectCostControllerPublishInternalCostRateVersion(requestParameters: ProjectCostControllerPublishInternalCostRateVersionRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public projectCostControllerPublishInternalCostRateVersion(requestParameters: ProjectCostControllerPublishInternalCostRateVersionRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<CommandResult>;
+    public projectCostControllerPublishInternalCostRateVersion(requestParameters: ProjectCostControllerPublishInternalCostRateVersionRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<CommandResult>>;
+    public projectCostControllerPublishInternalCostRateVersion(requestParameters: ProjectCostControllerPublishInternalCostRateVersionRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<CommandResult>>;
+    public projectCostControllerPublishInternalCostRateVersion(requestParameters: ProjectCostControllerPublishInternalCostRateVersionRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const publishInternalCostRateVersionRequest = requestParameters?.publishInternalCostRateVersionRequest;
         if (publishInternalCostRateVersionRequest === null || publishInternalCostRateVersionRequest === undefined) {
             throw new Error('Required parameter publishInternalCostRateVersionRequest was null or undefined when calling projectCostControllerPublishInternalCostRateVersion.');
@@ -2247,6 +2301,7 @@ export class ProjectCostApi extends BaseService {
         // authentication (pomsSession) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
         ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -2279,7 +2334,7 @@ export class ProjectCostApi extends BaseService {
 
         let localVarPath = `/api/internal-cost-rate-versions`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
+        return this.httpClient.request<CommandResult>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: publishInternalCostRateVersionRequest,
@@ -2301,10 +2356,10 @@ export class ProjectCostApi extends BaseService {
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public projectCostControllerReclassifyCostStageAttribution(requestParameters: ProjectCostControllerReclassifyCostStageAttributionRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public projectCostControllerReclassifyCostStageAttribution(requestParameters: ProjectCostControllerReclassifyCostStageAttributionRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public projectCostControllerReclassifyCostStageAttribution(requestParameters: ProjectCostControllerReclassifyCostStageAttributionRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public projectCostControllerReclassifyCostStageAttribution(requestParameters: ProjectCostControllerReclassifyCostStageAttributionRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public projectCostControllerReclassifyCostStageAttribution(requestParameters: ProjectCostControllerReclassifyCostStageAttributionRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ReclassifyCostStageAttributionResult>;
+    public projectCostControllerReclassifyCostStageAttribution(requestParameters: ProjectCostControllerReclassifyCostStageAttributionRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ReclassifyCostStageAttributionResult>>;
+    public projectCostControllerReclassifyCostStageAttribution(requestParameters: ProjectCostControllerReclassifyCostStageAttributionRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ReclassifyCostStageAttributionResult>>;
+    public projectCostControllerReclassifyCostStageAttribution(requestParameters: ProjectCostControllerReclassifyCostStageAttributionRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const id = requestParameters?.id;
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling projectCostControllerReclassifyCostStageAttribution.');
@@ -2319,6 +2374,7 @@ export class ProjectCostApi extends BaseService {
         // authentication (pomsSession) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
         ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -2351,7 +2407,7 @@ export class ProjectCostApi extends BaseService {
 
         let localVarPath = `/api/cost-stage-attributions/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:reclassify`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
+        return this.httpClient.request<ReclassifyCostStageAttributionResult>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: reclassifyCostStageAttributionRequest,
@@ -2373,10 +2429,10 @@ export class ProjectCostApi extends BaseService {
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public projectCostControllerReplaceAccountingTaxTreatment(requestParameters: ProjectCostControllerReplaceAccountingTaxTreatmentRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public projectCostControllerReplaceAccountingTaxTreatment(requestParameters: ProjectCostControllerReplaceAccountingTaxTreatmentRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public projectCostControllerReplaceAccountingTaxTreatment(requestParameters: ProjectCostControllerReplaceAccountingTaxTreatmentRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public projectCostControllerReplaceAccountingTaxTreatment(requestParameters: ProjectCostControllerReplaceAccountingTaxTreatmentRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public projectCostControllerReplaceAccountingTaxTreatment(requestParameters: ProjectCostControllerReplaceAccountingTaxTreatmentRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ReplaceAccountingTaxTreatmentResult>;
+    public projectCostControllerReplaceAccountingTaxTreatment(requestParameters: ProjectCostControllerReplaceAccountingTaxTreatmentRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ReplaceAccountingTaxTreatmentResult>>;
+    public projectCostControllerReplaceAccountingTaxTreatment(requestParameters: ProjectCostControllerReplaceAccountingTaxTreatmentRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ReplaceAccountingTaxTreatmentResult>>;
+    public projectCostControllerReplaceAccountingTaxTreatment(requestParameters: ProjectCostControllerReplaceAccountingTaxTreatmentRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const id = requestParameters?.id;
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling projectCostControllerReplaceAccountingTaxTreatment.');
@@ -2391,6 +2447,7 @@ export class ProjectCostApi extends BaseService {
         // authentication (pomsSession) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
         ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -2423,7 +2480,7 @@ export class ProjectCostApi extends BaseService {
 
         let localVarPath = `/api/accounting-tax-treatments/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:replace`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
+        return this.httpClient.request<ReplaceAccountingTaxTreatmentResult>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: replaceAccountingTaxTreatmentRequest,
@@ -2445,10 +2502,10 @@ export class ProjectCostApi extends BaseService {
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public projectCostControllerReplaceLaborCostRecord(requestParameters: ProjectCostControllerReplaceLaborCostRecordRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public projectCostControllerReplaceLaborCostRecord(requestParameters: ProjectCostControllerReplaceLaborCostRecordRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public projectCostControllerReplaceLaborCostRecord(requestParameters: ProjectCostControllerReplaceLaborCostRecordRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public projectCostControllerReplaceLaborCostRecord(requestParameters: ProjectCostControllerReplaceLaborCostRecordRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public projectCostControllerReplaceLaborCostRecord(requestParameters: ProjectCostControllerReplaceLaborCostRecordRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<CommandResult>;
+    public projectCostControllerReplaceLaborCostRecord(requestParameters: ProjectCostControllerReplaceLaborCostRecordRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<CommandResult>>;
+    public projectCostControllerReplaceLaborCostRecord(requestParameters: ProjectCostControllerReplaceLaborCostRecordRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<CommandResult>>;
+    public projectCostControllerReplaceLaborCostRecord(requestParameters: ProjectCostControllerReplaceLaborCostRecordRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const id = requestParameters?.id;
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling projectCostControllerReplaceLaborCostRecord.');
@@ -2463,6 +2520,7 @@ export class ProjectCostApi extends BaseService {
         // authentication (pomsSession) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
         ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -2495,7 +2553,7 @@ export class ProjectCostApi extends BaseService {
 
         let localVarPath = `/api/project-actual-cost-records/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:replace`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
+        return this.httpClient.request<CommandResult>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: replaceLaborCostRecordRequest,
@@ -2517,10 +2575,10 @@ export class ProjectCostApi extends BaseService {
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public projectCostControllerReplaceSharedCostAllocationResult(requestParameters: ProjectCostControllerReplaceSharedCostAllocationResultRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public projectCostControllerReplaceSharedCostAllocationResult(requestParameters: ProjectCostControllerReplaceSharedCostAllocationResultRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public projectCostControllerReplaceSharedCostAllocationResult(requestParameters: ProjectCostControllerReplaceSharedCostAllocationResultRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public projectCostControllerReplaceSharedCostAllocationResult(requestParameters: ProjectCostControllerReplaceSharedCostAllocationResultRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public projectCostControllerReplaceSharedCostAllocationResult(requestParameters: ProjectCostControllerReplaceSharedCostAllocationResultRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ReplaceSharedCostAllocationResultResult>;
+    public projectCostControllerReplaceSharedCostAllocationResult(requestParameters: ProjectCostControllerReplaceSharedCostAllocationResultRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ReplaceSharedCostAllocationResultResult>>;
+    public projectCostControllerReplaceSharedCostAllocationResult(requestParameters: ProjectCostControllerReplaceSharedCostAllocationResultRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ReplaceSharedCostAllocationResultResult>>;
+    public projectCostControllerReplaceSharedCostAllocationResult(requestParameters: ProjectCostControllerReplaceSharedCostAllocationResultRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const id = requestParameters?.id;
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling projectCostControllerReplaceSharedCostAllocationResult.');
@@ -2535,6 +2593,7 @@ export class ProjectCostApi extends BaseService {
         // authentication (pomsSession) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
         ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -2567,7 +2626,7 @@ export class ProjectCostApi extends BaseService {
 
         let localVarPath = `/api/shared-cost-allocation-results/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:replace`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
+        return this.httpClient.request<ReplaceSharedCostAllocationResultResult>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: replaceSharedCostAllocationResultRequest,

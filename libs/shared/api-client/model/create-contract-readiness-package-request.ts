@@ -11,6 +11,7 @@ import { ContractReadinessStatus } from './contract-readiness-status';
 import { ContractReadinessPackageItemInput } from './contract-readiness-package-item-input';
 import { ContractReadinessGuardDecision } from './contract-readiness-guard-decision';
 import { ContractCommercialTerms } from './contract-commercial-terms';
+import { ContractAmendmentPreparationInput } from './contract-amendment-preparation-input';
 
 
 export interface CreateContractReadinessPackageRequest {
@@ -27,4 +28,5 @@ export interface CreateContractReadinessPackageRequest {
     items?: Array<ContractReadinessPackageItemInput>;
     createdBy?: string | null;
     updatedBy?: string | null;
+    amendment?: ContractAmendmentPreparationInput;
 }

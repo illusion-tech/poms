@@ -1,0 +1,13 @@
+// Root real execution of independently prepared request/barrier/PG assertions.
+import fs from'node:fs';import assert from'node:assert/strict';import{createHash}from'node:crypto';
+import{createApiHarness}from'./api-harness32.mjs';import{connect}from'./db33.mjs';
+import{runRootRaces62}from'../../tmp/rust-r4def/independent/races62/root-runner62-04.mjs';
+const h=createApiHarness(),sha=b=>createHash('sha256').update(b).digest('hex'),d='tmp/rust-r4def/independent/races62/';
+for(const [f,s]of Object.entries({'candidate62-manifest04.json':'f845c1d93d497b0d37e1c1c0a3514f0ff926f764893f6f7914ee7f0fc66b2b37','root-runner62-04.mjs':'0a98d3da61c5af319ebc6f2a8aed6a0c35a2b805f54275f7c6a9d1e6573b6faa','root-adapter62-04.mjs':'7d8db7275377b33049a9c3f92a0da5b58f46e3b3002a653d76652ff1c8e96871'}))assert.equal(sha(fs.readFileSync(h.win+'/'+d+f)),s);
+const base=JSON.parse(fs.readFileSync(h.out+'/F60-before.json')).context,extra=JSON.parse(fs.readFileSync(h.out+'/races73-context.json'));
+const c=await connect(), actors=JSON.parse(fs.readFileSync(h.priv+'/actors33.json')).actors, sessions={};
+try {for(const key of ['raceA88','raceB88']){const before=(await c.query('SELECT id FROM poms.auth_session WHERE user_id=$1',[actors.full.id])).rows.map(r=>r.id);await h.login({...actors.full,key});const after=(await c.query('SELECT id,row_version,last_seen_at FROM poms.auth_session WHERE user_id=$1',[actors.full.id])).rows.filter(r=>!before.includes(r.id));assert.equal(after.length,1);sessions[key]=after[0];}}finally{await c.end();}
+fs.writeFileSync(h.out+'/races88-sessions.json',JSON.stringify({userId:actors.full.id,sessions,capturedAt:new Date().toISOString(),onlyActualAPILogin:true},null,2)+'\n',{flag:'wx'});
+const context={...base,thirdProject:extra.thirdProject,tag:'r88',raceActors:{A:h.actor('raceA88'),B:h.actor('raceB88')},sessionProof:{receiptId:'tmp/rust-r4def/root/api32/races88-sessions.json',userId:actors.full.id,A:sessions.raceA88.id,B:sessions.raceB88.id}};
+const r=await runRootRaces62({allowRootExecution:true,context,caseIds:['R62-03-labor-replace','R62-04-stage-confirm','R62-05-stage-reclassify','R62-06-tax-replace','R62-07-basis-full-replace','R62-08-overlap-sources','R62-09-reverse-families','R62-10-three-project-cent-permutation'],warmup:true,namespace:{database:'poms_r4def_rust',applicationRole:'poms_r4def_rust_app',isolatedOwned:true},harness:h});
+console.log(JSON.stringify({out:r.out,allSelectedCasesPassed:r.allSelectedCasesPassed,cases:r.result.cases.map(c=>({id:c.id,status:c.status,reason:c.reason})),counts:r.result.counts}));if(!r.allSelectedCasesPassed)process.exitCode=1;

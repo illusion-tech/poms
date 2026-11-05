@@ -6,7 +6,7 @@ use super::model::{Invoice, Payable, Payment, Receipt};
 
 const RECEIPT_COLUMNS: &str = "id,contract_id,project_id,receipt_amount::text AS receipt_amount,receipt_date,source_type,status,confirmed_at,confirmed_by,row_version,created_at,updated_at";
 const PAYMENT_COLUMNS: &str = "id,project_id,contract_id,payable_record_id,currency,amount_excluding_tax::text AS amount_excluding_tax,tax_amount::text AS tax_amount,amount_including_tax::text AS amount_including_tax,payment_date,cost_category,source_type,status,confirmed_at,confirmed_by,row_version,created_at,updated_at";
-const INVOICE_COLUMNS: &str = "id,project_id,contract_id,invoice_type,invoice_no,invoice_amount::text AS invoice_amount,invoice_date,status,exception_status,exception_reason,exception_resolution,closed_at,close_reason,row_version,created_at,updated_at";
+const INVOICE_COLUMNS: &str = "id,project_id,contract_id,invoice_type,invoice_no,invoice_amount::text AS invoice_amount,invoice_date,currency_code,currency_source,currency_source_snapshot_id,status,exception_status,exception_reason,exception_resolution,closed_at,close_reason,row_version,created_at,updated_at";
 const PAYABLE_COLUMNS: &str = "p.id,p.project_id,p.contract_id,p.vendor_name,p.cost_category,p.payable_description,p.currency,p.amount_excluding_tax::text AS amount_excluding_tax,p.tax_amount::text AS tax_amount,p.amount_including_tax::text AS amount_including_tax,p.expected_payment_date,p.status,p.evidence_summary,p.attachment_count,p.closed_at,p.close_reason,p.voided_at,p.void_reason,p.row_version,p.created_at,p.updated_at,(SELECT COALESCE(SUM(x.amount_excluding_tax),0.00)::text FROM poms.payment_record x WHERE x.payable_record_id=p.id AND x.status='confirmed') AS settled_amount,EXISTS(SELECT 1 FROM poms.payment_record x WHERE x.payable_record_id=p.id) AS any_payment";
 
 fn receipt(row: PgRow) -> Result<Receipt, sqlx::Error> {
@@ -82,6 +82,9 @@ fn invoice(row: PgRow) -> Result<Invoice, sqlx::Error> {
         invoice_number: row.try_get("invoice_no")?,
         invoice_amount: row.try_get("invoice_amount")?,
         invoice_date: row.try_get("invoice_date")?,
+        currency_code: row.try_get("currency_code")?,
+        currency_source: row.try_get("currency_source")?,
+        currency_source_snapshot_id: row.try_get("currency_source_snapshot_id")?,
         status: row.try_get("status")?,
         exception_status: row.try_get("exception_status")?,
         exception_reason: row.try_get("exception_reason")?,
@@ -306,10 +309,10 @@ pub(super) async fn update_payment(
         .bind(&p.status).bind(p.confirmed_at).bind(p.confirmed_by).bind(p.row_version).bind(p.updated_at).bind(p.id).bind(expected).execute(c).await?.rows_affected() == 1)
 }
 pub(super) async fn insert_invoice(c: &mut PgConnection, i: &Invoice) -> Result<(), sqlx::Error> {
-    sqlx::query("INSERT INTO poms.invoice_record(id,project_id,contract_id,invoice_type,invoice_no,invoice_amount,invoice_date,status,exception_status,exception_reason,exception_resolution,closed_at,close_reason,row_version,created_at,updated_at) VALUES($1,$2,$3,$4,$5,$6::text::numeric,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16)")
+    sqlx::query("INSERT INTO poms.invoice_record(id,project_id,contract_id,invoice_type,invoice_no,invoice_amount,invoice_date,status,exception_status,exception_reason,exception_resolution,closed_at,close_reason,row_version,created_at,updated_at,currency_code,currency_source,currency_source_snapshot_id) VALUES($1,$2,$3,$4,$5,$6::text::numeric,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19)")
         .bind(i.id).bind(i.project_id).bind(i.contract_id).bind(&i.invoice_type).bind(&i.invoice_number).bind(&i.invoice_amount).bind(i.invoice_date)
         .bind(&i.status).bind(&i.exception_status).bind(&i.exception_reason).bind(&i.exception_resolution).bind(i.closed_at).bind(&i.close_reason)
-        .bind(i.row_version).bind(i.created_at).bind(i.updated_at).execute(c).await?;
+        .bind(i.row_version).bind(i.created_at).bind(i.updated_at).bind(&i.currency_code).bind(&i.currency_source).bind(i.currency_source_snapshot_id).execute(c).await?;
     Ok(())
 }
 pub(super) async fn update_invoice(
@@ -317,8 +320,8 @@ pub(super) async fn update_invoice(
     i: &Invoice,
     expected: i32,
 ) -> Result<bool, sqlx::Error> {
-    Ok(sqlx::query("UPDATE poms.invoice_record SET contract_id=$1,invoice_no=$2,invoice_amount=$3::text::numeric,invoice_date=$4,status=$5,exception_status=$6,exception_reason=$7,exception_resolution=$8,closed_at=$9,close_reason=$10,row_version=$11,updated_at=$12 WHERE id=$13 AND row_version=$14")
+    Ok(sqlx::query("UPDATE poms.invoice_record SET contract_id=$1,invoice_no=$2,invoice_amount=$3::text::numeric,invoice_date=$4,status=$5,exception_status=$6,exception_reason=$7,exception_resolution=$8,closed_at=$9,close_reason=$10,row_version=$11,updated_at=$12,currency_code=$13,currency_source=$14,currency_source_snapshot_id=$15 WHERE id=$16 AND row_version=$17")
         .bind(i.contract_id).bind(&i.invoice_number).bind(&i.invoice_amount).bind(i.invoice_date).bind(&i.status).bind(&i.exception_status)
         .bind(&i.exception_reason).bind(&i.exception_resolution).bind(i.closed_at).bind(&i.close_reason).bind(i.row_version).bind(i.updated_at)
-        .bind(i.id).bind(expected).execute(c).await?.rows_affected() == 1)
+        .bind(&i.currency_code).bind(&i.currency_source).bind(i.currency_source_snapshot_id).bind(i.id).bind(expected).execute(c).await?.rows_affected() == 1)
 }

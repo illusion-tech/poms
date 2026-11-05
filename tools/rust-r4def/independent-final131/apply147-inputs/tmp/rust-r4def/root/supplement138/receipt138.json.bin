@@ -1,0 +1,115 @@
+{
+  "kind": "actual-original-catalog-and-untouched-native-control-supplement138",
+  "capturedAt": "2026-11-05T01:49:15.616Z",
+  "namespace": "poms-r4def",
+  "instanceId": "0c945ec2-e3ec-4705-8bd3-660a46e8cafc",
+  "comparisons": [
+    {
+      "backend": "native",
+      "originalCatalog": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4def/root/catalog25/native-catalog.json",
+        "bytes": 1137929,
+        "rawBytesSha256": "a1d876a5ff2ed4859e3374b3888763f00edd39f5666756a174be421da4b1f8f1"
+      },
+      "structuralHash": "11769dbe4c5a5708754a941064a5d8e031d0e32e178f099797c751ac68009081",
+      "originalColumnsIndexesConstraintsExact": true,
+      "originalTableACLAndRLSFlagsExact": true,
+      "originalFiveImmutableTriggersExact": true,
+      "temporaryPolicies": 0,
+      "current": {
+        "file": "/home/wangzishi/.local/share/poms-r4def/private/supplement138/native-actual.json",
+        "bytes": 2128085,
+        "rawBytesSha256": "bc548e0bbc9d7939d449d2b518b83caaa4c11519cb830ec7757edca541a9d69c"
+      }
+    },
+    {
+      "backend": "rust",
+      "originalCatalog": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4def/root/catalog25/rust-catalog.json",
+        "bytes": 1137929,
+        "rawBytesSha256": "0a6ef59de84f1e975c314735d49697c7f94ffde1415c1805bd01d7d0bf7efbef"
+      },
+      "structuralHash": "11769dbe4c5a5708754a941064a5d8e031d0e32e178f099797c751ac68009081",
+      "originalColumnsIndexesConstraintsExact": true,
+      "originalTableACLAndRLSFlagsExact": true,
+      "originalFiveImmutableTriggersExact": true,
+      "temporaryPolicies": 0,
+      "current": {
+        "file": "/home/wangzishi/.local/share/poms-r4def/private/supplement138/rust-actual.json",
+        "bytes": 6467799,
+        "rawBytesSha256": "ac64abeb71902e724df89254d56cc27c6fb39c5ebc8a91d36e2e3704e79e040d"
+      }
+    }
+  ],
+  "commonSupplement": [
+    {
+      "component": "functions",
+      "untouchedNativeControlSHA256": "9d96fe21bc61f7b34a333d3a7f13865f20415cfb98e31f224476b41114251752",
+      "rustSHA256": "9d96fe21bc61f7b34a333d3a7f13865f20415cfb98e31f224476b41114251752",
+      "equal": true,
+      "entries": 2
+    },
+    {
+      "component": "columnACL",
+      "untouchedNativeControlSHA256": "e1c95876cbca3cf71d23b2f39dd35f4c62cd180e56171083ae9d72aa9219a947",
+      "rustSHA256": "e1c95876cbca3cf71d23b2f39dd35f4c62cd180e56171083ae9d72aa9219a947",
+      "equal": true,
+      "entries": 2902
+    },
+    {
+      "component": "sequences",
+      "untouchedNativeControlSHA256": "d6f27893ad500e94a0ef91c8fd753b53317ebed63e02def58c6d6f4721cc78bb",
+      "rustSHA256": "d6f27893ad500e94a0ef91c8fd753b53317ebed63e02def58c6d6f4721cc78bb",
+      "equal": true,
+      "entries": 1
+    },
+    {
+      "component": "gateSchemas",
+      "untouchedNativeControlSHA256": "fa37c7e9705bf5ffc97030d2fe9135eb2f441b476cb87daa795796e00386e508",
+      "rustSHA256": "fa37c7e9705bf5ffc97030d2fe9135eb2f441b476cb87daa795796e00386e508",
+      "equal": true,
+      "entries": 1
+    }
+  ],
+  "schemaACL": {
+    "exactOriginalProvisionGrantProgram": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4def/environment21.mjs",
+      "bytes": 12487,
+      "rawBytesSha256": "e2b181d43b30b16f8cbec0943e48dfc6c6a6edbd635f238c393723dfbc34acb3"
+    },
+    "ownerAndOnlyPerBackendAppUsageGrantExact": true,
+    "originalCreationReceipt": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4def/root/environment21/provision01.json",
+      "bytes": 877,
+      "rawBytesSha256": "c7d79c21e97dfb1076333d682d678201f07c5172b0e84616a5fecf15c268eb31"
+    },
+    "migrationReceipt": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4def/root/environment21/migrate01.json",
+      "bytes": 26725,
+      "rawBytesSha256": "d0e05c3cdfcb30caea523946e3cb43c8ffa792aac1e35a3ed212a3a950feda3d"
+    }
+  },
+  "nativeWitness": {
+    "all120Tables532OriginalRowsExact": true,
+    "noOwnedNewRows": true,
+    "baseline": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4def/root/catalog25/native-catalog.json",
+      "bytes": 1137929,
+      "rawBytesSha256": "a1d876a5ff2ed4859e3374b3888763f00edd39f5666756a174be421da4b1f8f1"
+    },
+    "note": "Native control has no acceptance business writes or test gates; supplement comparison is an untouched control witness, not a falsely claimed pre-test supplemental snapshot."
+  },
+  "sequenceValuesAndControlFunctionsEqual": true,
+  "precision56": {
+    "originalCleanup": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4def/root/precision56/cleanup56.json",
+      "bytes": 613,
+      "rawBytesSha256": "ba0f689672a6145c90b6ec273bab57708d43f47af309292a501131e58542680c"
+    },
+    "actualCurrentAbsent": {
+      "databases": [],
+      "roles": []
+    }
+  },
+  "DDLSQLOrBusinessDMLExecuted": 0
+}

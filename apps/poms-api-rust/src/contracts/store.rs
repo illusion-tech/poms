@@ -226,6 +226,7 @@ pub(super) async fn latest_approval(
 }
 
 pub(super) struct ReviewBinding {
+    pub amendment_id: Option<Uuid>,
     pub approval_id: Uuid,
     pub contract_id: Uuid,
     pub preparation_id: Uuid,
@@ -251,6 +252,7 @@ impl ReviewBinding {
 
 fn binding(row: sqlx::postgres::PgRow) -> Result<ReviewBinding, Error> {
     Ok(ReviewBinding {
+        amendment_id: row.try_get("contract_amendment_id")?,
         approval_id: row.try_get("approval_record_id")?,
         contract_id: row.try_get("contract_id")?,
         preparation_id: row.try_get("preparation_id")?,
@@ -267,10 +269,10 @@ pub(super) async fn review_binding(
     lock: bool,
 ) -> Result<Option<ReviewBinding>, Error> {
     let sql: &'static str = if lock {
-        "SELECT approval_record_id,contract_id,preparation_id,preparation_version,payload_hash,created_at,created_by \
+        "SELECT approval_record_id,contract_id,preparation_id,preparation_version,payload_hash,created_at,created_by,contract_amendment_id \
          FROM poms.contract_review_binding WHERE approval_record_id=$1 FOR UPDATE"
     } else {
-        "SELECT approval_record_id,contract_id,preparation_id,preparation_version,payload_hash,created_at,created_by \
+        "SELECT approval_record_id,contract_id,preparation_id,preparation_version,payload_hash,created_at,created_by,contract_amendment_id \
          FROM poms.contract_review_binding WHERE approval_record_id=$1"
     };
     sqlx::query(sql)
@@ -286,7 +288,7 @@ pub(super) async fn latest_binding(
     contract_id: Uuid,
 ) -> Result<Option<ReviewBinding>, Error> {
     sqlx::query(
-        "SELECT b.approval_record_id,b.contract_id,b.preparation_id,b.preparation_version,b.payload_hash,b.created_at,b.created_by \
+        "SELECT b.approval_record_id,b.contract_id,b.preparation_id,b.preparation_version,b.payload_hash,b.created_at,b.created_by,b.contract_amendment_id \
          FROM poms.contract_review_binding b \
          JOIN poms.approval_record a ON a.id=b.approval_record_id \
          WHERE b.contract_id=$1 ORDER BY a.submitted_at DESC,a.created_at DESC,b.created_at DESC LIMIT 1",

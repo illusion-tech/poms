@@ -1,0 +1,175 @@
+{
+  "kind": "R4E-author-isolated-checks",
+  "base": "756d813c9578090fcf8e56821acce01b46b40420",
+  "currentG1": "docs/design/rust-r4def/g1-gate-authority07.json",
+  "before": [
+    {
+      "file": "apps/poms-api-rust/src/project_actual_cost/logic.rs",
+      "bytes": 7863,
+      "rawBytesSha256": "96bdbc87dd031b59c6b895243241cd9b847eb9ae690766c5782183a5c0f9ba4c"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_actual_cost/mod.rs",
+      "bytes": 69247,
+      "rawBytesSha256": "9ce71bca1464498181b012fab8257d1ea6f82fced3fceea4801c0a6f500a962b"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_actual_cost/store.rs",
+      "bytes": 9144,
+      "rawBytesSha256": "0b39d14477e52641307d84f28c043dcf9c4309d38d0f55476e7f9806cb621eb5"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_actual_cost/view.rs",
+      "bytes": 16236,
+      "rawBytesSha256": "943a93380de87fbddc06650f35acfaf467db1a17abf6c25c3af162a5955b53ac"
+    }
+  ],
+  "after": [
+    {
+      "file": "apps/poms-api-rust/src/project_actual_cost/logic.rs",
+      "bytes": 7863,
+      "rawBytesSha256": "96bdbc87dd031b59c6b895243241cd9b847eb9ae690766c5782183a5c0f9ba4c"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_actual_cost/mod.rs",
+      "bytes": 69247,
+      "rawBytesSha256": "9ce71bca1464498181b012fab8257d1ea6f82fced3fceea4801c0a6f500a962b"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_actual_cost/store.rs",
+      "bytes": 9144,
+      "rawBytesSha256": "0b39d14477e52641307d84f28c043dcf9c4309d38d0f55476e7f9806cb621eb5"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_actual_cost/view.rs",
+      "bytes": 16236,
+      "rawBytesSha256": "943a93380de87fbddc06650f35acfaf467db1a17abf6c25c3af162a5955b53ac"
+    }
+  ],
+  "sourcesUnchangedDuringChecks": true,
+  "rootOwnedCompileInputs": [
+    {
+      "file": "apps/poms-api-rust/src/lib.rs",
+      "bytes": 994,
+      "rawBytesSha256": "beeac0cf75545df4719ba212e08e7f13b96801fc7c1f6d861ee871f231516a07"
+    },
+    {
+      "file": "apps/poms-api-rust/src/contract_support/mod.rs",
+      "bytes": 17762,
+      "rawBytesSha256": "1c70676ba26d827806ab27cdb9d0e983d9d403e3b9b6f3da730334296cebc855"
+    },
+    {
+      "file": "apps/poms-api-rust/Cargo.toml",
+      "bytes": 3419,
+      "rawBytesSha256": "12048cee8734f9df868d7fe0fa4e9cea007cc1e755168edb56106ffaf7140e3e"
+    },
+    {
+      "file": "apps/poms-api-rust/Cargo.lock",
+      "bytes": 77585,
+      "rawBytesSha256": "c49ada5d58d31b0a8a1ca93e4fde165604a8e20378527c0b9f3b620496892d6d"
+    }
+  ],
+  "checks": [
+    {
+      "id": "rustfmt",
+      "executable": "wsl.exe",
+      "arguments": [
+        "-d",
+        "Debian",
+        "--cd",
+        "/mnt/e/projects/worktrees/poms-r4e-cost-base/poms",
+        "--exec",
+        "env",
+        "PATH=/home/wangzishi/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+        "CARGO_HOME=/home/wangzishi/.cache/poms-r4def-cargo-home",
+        "CARGO_BUILD_JOBS=2",
+        "/home/wangzishi/.cargo/bin/rustfmt",
+        "+1.99.1",
+        "--edition",
+        "2024",
+        "--check",
+        "apps/poms-api-rust/src/project_actual_cost/logic.rs",
+        "apps/poms-api-rust/src/project_actual_cost/mod.rs",
+        "apps/poms-api-rust/src/project_actual_cost/store.rs",
+        "apps/poms-api-rust/src/project_actual_cost/view.rs"
+      ],
+      "exitCode": 0,
+      "status": "passed",
+      "startedAt": "2026-11-03T21:49:43.8555459+00:00",
+      "finishedAt": "2026-11-03T21:49:44.3797283+00:00",
+      "stdout": "tools/rust-r4def/E/evidence/author-checks03/rustfmt-stdout-original.log",
+      "stderr": "tools/rust-r4def/E/evidence/author-checks03/rustfmt-stderr-original.log"
+    },
+    {
+      "id": "clippy",
+      "executable": "wsl.exe",
+      "arguments": [
+        "-d",
+        "Debian",
+        "--cd",
+        "/mnt/e/projects/worktrees/poms-r4e-cost-base/poms",
+        "--exec",
+        "env",
+        "PATH=/home/wangzishi/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+        "CARGO_HOME=/home/wangzishi/.cache/poms-r4def-cargo-home",
+        "CARGO_BUILD_JOBS=2",
+        "/home/wangzishi/.cargo/bin/cargo",
+        "+1.99.1",
+        "clippy",
+        "--offline",
+        "--manifest-path",
+        "apps/poms-api-rust/Cargo.toml",
+        "--target-dir",
+        "/home/wangzishi/.cache/poms-r4def-target-E",
+        "--lib",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exitCode": 0,
+      "status": "passed",
+      "startedAt": "2026-11-03T21:49:44.3873421+00:00",
+      "finishedAt": "2026-11-03T21:49:58.1820651+00:00",
+      "stdout": "tools/rust-r4def/E/evidence/author-checks03/clippy-stdout-original.log",
+      "stderr": "tools/rust-r4def/E/evidence/author-checks03/clippy-stderr-original.log"
+    },
+    {
+      "id": "pure-tests",
+      "executable": "wsl.exe",
+      "arguments": [
+        "-d",
+        "Debian",
+        "--cd",
+        "/mnt/e/projects/worktrees/poms-r4e-cost-base/poms",
+        "--exec",
+        "env",
+        "PATH=/home/wangzishi/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+        "CARGO_HOME=/home/wangzishi/.cache/poms-r4def-cargo-home",
+        "CARGO_BUILD_JOBS=2",
+        "/home/wangzishi/.cargo/bin/cargo",
+        "+1.99.1",
+        "test",
+        "--offline",
+        "--manifest-path",
+        "apps/poms-api-rust/Cargo.toml",
+        "--target-dir",
+        "/home/wangzishi/.cache/poms-r4def-target-E",
+        "--lib",
+        "project_actual_cost",
+        "--",
+        "--nocapture"
+      ],
+      "exitCode": 0,
+      "status": "passed",
+      "startedAt": "2026-11-03T21:49:58.1850253+00:00",
+      "finishedAt": "2026-11-03T21:50:16.7684571+00:00",
+      "stdout": "tools/rust-r4def/E/evidence/author-checks03/pure-tests-stdout-original.log",
+      "stderr": "tools/rust-r4def/E/evidence/author-checks03/pure-tests-stderr-original.log"
+    }
+  ],
+  "databaseExecuted": false,
+  "httpExecuted": false,
+  "browserExecuted": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

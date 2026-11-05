@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, OnInit, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, computed, inject, OnInit, signal, ChangeDetectionStrategy, DestroyRef, PendingTasks } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import {
     AttachmentDownloadPackageStatus,
@@ -15,6 +16,8 @@ import {
     ProjectHandoverReceiptJudgmentFreezeStatus,
     type AttachmentDownloadPackageSummary,
     type ContractHandoverSummaryView,
+    type ProjectHandoverDetailView,
+    type ProjectHandoverAttachmentChecklistView,
     type ProjectHandoverAttachmentChecklistItem,
     ProjectWorkspaceStore
 } from '@poms/admin-data-access';
@@ -46,6 +49,8 @@ import { WorkspaceCommandPanel, type WorkspaceCommandPanelItem } from '../../sha
 import { WorkspaceFactGrid, type WorkspaceFactGridItem } from '../../shared/ui/workspace-fact-grid';
 import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
 import { WorkspaceLoading } from '../../shared/ui/workspace-loading';
+import { ProjectHandoverActions } from './project-handover-actions';
+import { HandoverRouteEpoch } from './project-handover-flow';
 import { formatSensitiveAmountProjection } from '../../shared/ui/sensitive-visibility';
 import { contractStatusLabelOrFallback as sharedContractStatusLabel, contractStatusSeverityOrFallback as sharedContractStatusSeverity } from '../../shared/ui/status-presentation';
 import { type UiTagSeverity } from './project-presentation';
@@ -123,7 +128,7 @@ const DOWNLOAD_PACKAGE_STATUS_SEVERITIES: Record<AttachmentDownloadPackageStatus
 @Component({
     selector: 'app-project-contract-handover',
     standalone: true,
-    imports: [CommonModule, ButtonModule, SectionCard, TableModule, TagModule, WorkspaceActionLink, WorkspaceCommandPanel, WorkspaceFactGrid, WorkspaceFeedback, WorkspaceLoading],
+    imports: [CommonModule, ButtonModule, SectionCard, TableModule, TagModule, WorkspaceActionLink, WorkspaceCommandPanel, WorkspaceFactGrid, WorkspaceFeedback, WorkspaceLoading, ProjectHandoverActions],
     changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         @if (loading()) {
@@ -138,6 +143,7 @@ const DOWNLOAD_PACKAGE_STATUS_SEVERITIES: Record<AttachmentDownloadPackageStatus
         } @else if (summary() && handover()) {
             <div class="flex flex-col gap-6">
                 <app-workspace-command-panel heading="承接判断" caption="先确认合同是否已稳定，再判断是否可以进入正式移交。" [items]="handoverCommandItems()" />
+                <app-project-handover-actions [projectId]="projectId()" (changed)="refreshWorkspace()" />
 
                 <section-card>
                     <ng-template #title>当前有效合同集合</ng-template>
@@ -210,9 +216,25 @@ const DOWNLOAD_PACKAGE_STATUS_SEVERITIES: Record<AttachmentDownloadPackageStatus
                         <div class="mt-4 flex flex-wrap items-center justify-between gap-3">
                             <div class="flex flex-wrap gap-2">
                                 <p-button icon="pi pi-refresh" label="刷新扫描" size="small" severity="secondary" [outlined]="true" [loading]="refreshingHandoverAttachments()" (onClick)="refreshHandoverAttachmentChecklist()" />
-                                <p-button icon="pi pi-file-export" label="创建下载包" size="small" [disabled]="selectedHandoverAttachmentCount() === 0" [loading]="creatingHandoverAttachmentPackage()" (onClick)="createHandoverAttachmentDownloadPackage()" />
+                                <p-button
+                                    icon="pi pi-file-export"
+                                    label="创建下载包"
+                                    size="small"
+                                    [disabled]="selectedHandoverAttachmentCount() === 0"
+                                    [loading]="creatingHandoverAttachmentPackage()"
+                                    (onClick)="createHandoverAttachmentDownloadPackage()"
+                                />
                                 @if (handoverAttachmentDownloadPackage(); as downloadPackage) {
-                                    <p-button icon="pi pi-download" label="下载包" size="small" severity="success" [outlined]="true" [disabled]="!canDownloadHandoverAttachmentPackage(downloadPackage)" [loading]="downloadingHandoverAttachmentPackage()" (onClick)="downloadHandoverAttachmentPackage(downloadPackage)" />
+                                    <p-button
+                                        icon="pi pi-download"
+                                        label="下载包"
+                                        size="small"
+                                        severity="success"
+                                        [outlined]="true"
+                                        [disabled]="!canDownloadHandoverAttachmentPackage(downloadPackage)"
+                                        [loading]="downloadingHandoverAttachmentPackage()"
+                                        (onClick)="downloadHandoverAttachmentPackage(downloadPackage)"
+                                    />
                                 }
                             </div>
                             <span class="text-sm text-surface-500">已选择 {{ selectedHandoverAttachmentCount() }} 项</span>
@@ -259,7 +281,13 @@ const DOWNLOAD_PACKAGE_STATUS_SEVERITIES: Record<AttachmentDownloadPackageStatus
                                 <ng-template #body pTemplate="body" let-item>
                                     <tr>
                                         <td>
-                                            <input type="checkbox" class="h-4 w-4 rounded border-surface-300 text-primary" [checked]="isHandoverAttachmentSelected(item)" [disabled]="!canSelectHandoverAttachment(item)" (change)="toggleHandoverAttachmentSelection(item, $event)" />
+                                            <input
+                                                type="checkbox"
+                                                class="h-4 w-4 rounded border-surface-300 text-primary"
+                                                [checked]="isHandoverAttachmentSelected(item)"
+                                                [disabled]="!canSelectHandoverAttachment(item)"
+                                                (change)="toggleHandoverAttachmentSelection(item, $event)"
+                                            />
                                         </td>
                                         <td>
                                             <div class="font-medium text-surface-950 dark:text-surface-0">{{ item.displayName }}</div>
@@ -292,18 +320,40 @@ const DOWNLOAD_PACKAGE_STATUS_SEVERITIES: Record<AttachmentDownloadPackageStatus
 export class ProjectContractHandover implements OnInit {
     readonly #route = inject(ActivatedRoute);
     readonly #workspaceStore = inject(ProjectWorkspaceStore);
+    readonly #destroyRef = inject(DestroyRef);
+    readonly #pendingTasks = inject(PendingTasks);
+    readonly #activeProjectId = signal(this.#route.parent?.snapshot.paramMap.get('id') ?? this.#route.snapshot.paramMap.get('id') ?? '');
+    readonly #epoch = new HandoverRouteEpoch();
+    #loadVersion = 0;
+    #attachmentLoadVersion = 0;
+    readonly #summaryView = signal<ContractHandoverSummaryView | null>(null);
+    readonly #handoverView = signal<ProjectHandoverDetailView | null>(null);
+    readonly #attachmentView = signal<ProjectHandoverAttachmentChecklistView | null>(null);
 
-    readonly summary = this.#workspaceStore.contractHandoverSummary;
-    readonly handover = this.#workspaceStore.projectHandoverDetail;
-    readonly loading = this.#workspaceStore.loadingContractHandover;
-    readonly error = this.#workspaceStore.contractHandoverError;
-    readonly handoverAttachmentChecklist = this.#workspaceStore.handoverAttachmentChecklist;
-    readonly handoverAttachmentDownloadPackage = this.#workspaceStore.handoverAttachmentDownloadPackage;
-    readonly loadingHandoverAttachments = this.#workspaceStore.loadingHandoverAttachments;
-    readonly refreshingHandoverAttachments = this.#workspaceStore.refreshingHandoverAttachments;
-    readonly creatingHandoverAttachmentPackage = this.#workspaceStore.creatingHandoverAttachmentPackage;
-    readonly downloadingHandoverAttachmentPackage = this.#workspaceStore.downloadingHandoverAttachmentPackage;
-    readonly handoverAttachmentError = this.#workspaceStore.handoverAttachmentError;
+    readonly summary = computed(() => {
+        const value = this.#summaryView();
+        return value?.projectId === this.projectId() ? value : null;
+    });
+    readonly handover = computed(() => {
+        const value = this.#handoverView();
+        return value?.projectId === this.projectId() ? value : null;
+    });
+    readonly loading = signal(false);
+    readonly error = signal<string | null>(null);
+    readonly handoverAttachmentChecklist = computed(() => {
+        const value = this.#attachmentView();
+        return value?.projectId === this.projectId() && value.handoverId === this.handover()?.handoverId ? value : null;
+    });
+    readonly handoverAttachmentDownloadPackage = computed(() => {
+        const value = this.#attachmentPackage();
+        return value?.projectId === this.projectId() && value.handoverId === this.handover()?.handoverId ? value : null;
+    });
+    readonly #attachmentPackage = signal<AttachmentDownloadPackageSummary | null>(null);
+    readonly loadingHandoverAttachments = signal(false);
+    readonly refreshingHandoverAttachments = signal(false);
+    readonly creatingHandoverAttachmentPackage = signal(false);
+    readonly downloadingHandoverAttachmentPackage = signal(false);
+    readonly handoverAttachmentError = signal<string | null>(null);
     readonly formatSensitiveAmountProjection = formatSensitiveAmountProjection;
     readonly selectedHandoverAttachmentSelectionIds = signal<Set<string>>(new Set());
     readonly selectedHandoverAttachmentCount = computed(() => this.selectedHandoverAttachmentSelectionIds().size);
@@ -351,29 +401,58 @@ export class ProjectContractHandover implements OnInit {
     });
 
     private async loadContractHandoverWorkspace(projectId: string): Promise<void> {
+        const done = this.#pendingTasks.add();
+        const ticket = this.#epoch.ticket();
+        const serial = ++this.#loadVersion;
+        this.loading.set(!this.summary() || !this.handover());
+        this.error.set(null);
         try {
-            await this.#workspaceStore.loadContractHandover(projectId);
-            await this.loadHandoverAttachmentChecklist();
+            const result = await this.#workspaceStore.loadContractHandover(projectId);
+            if (!this.#epoch.accepts(ticket) || serial !== this.#loadVersion) return;
+            this.#summaryView.set(result.contractHandoverSummary);
+            this.#handoverView.set(result.projectHandoverDetail);
+            await this.loadHandoverAttachmentChecklist().catch(() => undefined);
         } catch {
-            this.selectedHandoverAttachmentSelectionIds.set(new Set());
+            if (this.#epoch.accepts(ticket) && serial === this.#loadVersion) {
+                this.#summaryView.set(null);
+                this.#handoverView.set(null);
+                this.error.set(this.#workspaceStore.contractHandoverError() ?? '合同承接暂不可用，请重新核对。');
+                this.selectedHandoverAttachmentSelectionIds.set(new Set());
+            }
+        } finally {
+            if (this.#epoch.accepts(ticket) && serial === this.#loadVersion) this.loading.set(false);
+            done();
         }
+    }
+    refreshWorkspace(): void {
+        void this.loadContractHandoverWorkspace(this.projectId());
     }
 
     async refreshHandoverAttachmentChecklist(): Promise<void> {
+        const ticket = this.#epoch.ticket();
+        const serial = ++this.#attachmentLoadVersion;
         const handoverId = this.handover()?.handoverId;
         if (!handoverId) {
             return;
         }
-
+        this.refreshingHandoverAttachments.set(true);
+        this.handoverAttachmentError.set(null);
         try {
             const checklist = await this.#workspaceStore.refreshHandoverAttachmentChecklist(handoverId);
+            if (!this.#epoch.accepts(ticket) || serial !== this.#attachmentLoadVersion || handoverId !== this.handover()?.handoverId) return;
+            this.#attachmentView.set(checklist);
             this.syncSelectedHandoverAttachments(checklist.items);
         } catch {
-            // Error is surfaced through the store signal.
+            if (this.#epoch.accepts(ticket) && serial === this.#attachmentLoadVersion) {
+                this.handoverAttachmentError.set(this.#workspaceStore.handoverAttachmentError() ?? '附件清单刷新失败，请重新核对。');
+            }
+        } finally {
+            if (this.#epoch.accepts(ticket) && serial === this.#attachmentLoadVersion) this.refreshingHandoverAttachments.set(false);
         }
     }
 
     async createHandoverAttachmentDownloadPackage(): Promise<void> {
+        const ticket = this.#epoch.ticket();
         const handoverId = this.handover()?.handoverId;
         if (!handoverId) {
             return;
@@ -391,12 +470,18 @@ export class ProjectContractHandover implements OnInit {
                 rowVersion: item.rowVersion as number
             }));
 
-        await this.#workspaceStore.createHandoverAttachmentDownloadPackage({
-            handoverId,
-            selectionIds,
-            expectedSelectionVersions,
-            note: '由项目移交页面创建'
-        });
+        this.creatingHandoverAttachmentPackage.set(true);
+        this.handoverAttachmentError.set(null);
+        try {
+            const result = await this.#workspaceStore.createHandoverAttachmentDownloadPackage({
+                handoverId, selectionIds, expectedSelectionVersions, note: '由项目移交页面创建'
+            });
+            if (this.#epoch.accepts(ticket) && handoverId === this.handover()?.handoverId) this.#attachmentPackage.set(result);
+        } catch {
+            if (this.#epoch.accepts(ticket)) this.handoverAttachmentError.set(this.#workspaceStore.handoverAttachmentError() ?? '附件包创建失败，请重新核对。');
+        } finally {
+            if (this.#epoch.accepts(ticket)) this.creatingHandoverAttachmentPackage.set(false);
+        }
     }
 
     async downloadHandoverAttachmentPackage(downloadPackage: AttachmentDownloadPackageSummary): Promise<void> {
@@ -404,7 +489,12 @@ export class ProjectContractHandover implements OnInit {
             return;
         }
 
+        const ticket = this.#epoch.ticket();
+        this.downloadingHandoverAttachmentPackage.set(true);
+        this.handoverAttachmentError.set(null);
+        try {
         const result = await this.#workspaceStore.downloadHandoverAttachmentPackage(downloadPackage.id);
+        if (!this.#epoch.accepts(ticket) || downloadPackage.handoverId !== this.handover()?.handoverId) return;
         const url = URL.createObjectURL(result.blob);
         const anchor = document.createElement('a');
         anchor.href = url;
@@ -412,21 +502,62 @@ export class ProjectContractHandover implements OnInit {
         anchor.click();
         URL.revokeObjectURL(url);
 
-        await this.#workspaceStore.loadHandoverAttachmentDownloadPackage(downloadPackage.id).catch(() => undefined);
+        const latest = await this.#workspaceStore.loadHandoverAttachmentDownloadPackage(downloadPackage.id);
+        if (this.#epoch.accepts(ticket) && latest.handoverId === this.handover()?.handoverId) this.#attachmentPackage.set(latest);
+        } catch {
+            if (this.#epoch.accepts(ticket)) this.handoverAttachmentError.set(this.#workspaceStore.handoverAttachmentError() ?? '附件包下载失败，请重新核对。');
+        } finally {
+            if (this.#epoch.accepts(ticket)) this.downloadingHandoverAttachmentPackage.set(false);
+        }
     }
 
     private async loadHandoverAttachmentChecklist(): Promise<void> {
+        const ticket = this.#epoch.ticket();
+        const serial = ++this.#attachmentLoadVersion;
         const handoverId = this.handover()?.handoverId;
         if (!handoverId) {
             this.selectedHandoverAttachmentSelectionIds.set(new Set());
             return;
         }
 
+        this.loadingHandoverAttachments.set(true);
+        this.handoverAttachmentError.set(null);
+        try {
         const checklist = await this.#workspaceStore.loadHandoverAttachmentChecklist(handoverId);
+        if (!this.#epoch.accepts(ticket) || serial !== this.#attachmentLoadVersion || handoverId !== this.handover()?.handoverId) return;
+        this.#attachmentView.set(checklist);
         this.syncSelectedHandoverAttachments(checklist.items);
+        } catch {
+            if (this.#epoch.accepts(ticket) && serial === this.#attachmentLoadVersion) {
+                this.handoverAttachmentError.set(this.#workspaceStore.handoverAttachmentError() ?? '附件清单暂不可用，请重新核对。');
+            }
+        } finally {
+            if (this.#epoch.accepts(ticket) && serial === this.#attachmentLoadVersion) this.loadingHandoverAttachments.set(false);
+        }
     }
 
     ngOnInit() {
+        this.#epoch.enter(this.projectId());
+        this.#destroyRef.onDestroy(() => this.#epoch.enter(''));
+        const route = this.#route.parent ?? this.#route;
+        route.paramMap?.pipe(takeUntilDestroyed(this.#destroyRef)).subscribe((params) => {
+            const id = params.get('id') ?? '';
+            if (id !== this.#activeProjectId()) {
+                this.#activeProjectId.set(id);
+                this.#epoch.enter(id);
+                this.#summaryView.set(null);
+                this.#handoverView.set(null);
+                this.#attachmentView.set(null);
+                this.#attachmentPackage.set(null);
+                this.handoverAttachmentError.set(null);
+                this.loadingHandoverAttachments.set(false);
+                this.refreshingHandoverAttachments.set(false);
+                this.creatingHandoverAttachmentPackage.set(false);
+                this.downloadingHandoverAttachmentPackage.set(false);
+                this.selectedHandoverAttachmentSelectionIds.set(new Set());
+                if (id) void this.loadContractHandoverWorkspace(id);
+            }
+        });
         const projectId = this.projectId();
         if (projectId) {
             void this.loadContractHandoverWorkspace(projectId);
@@ -434,7 +565,7 @@ export class ProjectContractHandover implements OnInit {
     }
 
     projectId(): string {
-        return this.#route.parent?.snapshot.paramMap.get('id') ?? this.#route.snapshot.paramMap.get('id') ?? '';
+        return this.#activeProjectId();
     }
 
     contractItems(): ContractHandoverContractItem[] {
@@ -542,9 +673,7 @@ export class ProjectContractHandover implements OnInit {
             return '来源待确认';
         }
 
-        return item.sourceRefs
-            .map((source) => `${this.handoverAttachmentSourceTypeLabel(source.sourceType)}${source.label ? ` ${source.label}` : ''}`)
-            .join('、');
+        return item.sourceRefs.map((source) => `${this.handoverAttachmentSourceTypeLabel(source.sourceType)}${source.label ? ` ${source.label}` : ''}`).join('、');
     }
 
     contractSetItems(): WorkspaceFactGridItem[] {

@@ -1,0 +1,349 @@
+{
+  "kind": "R4DEF-E-owned-real-nonempty-K-attachment-tool-candidate47",
+  "createdAt": "2026-11-04T01:10:28.842Z",
+  "products": [
+    {
+      "file": "request-driver47.mjs",
+      "bytes": 25081,
+      "rawBytesSha256": "abd57b75e93d6b38381e687510c7803f5ec7c929d09ad0824b329a3f35bb5849"
+    },
+    {
+      "file": "README.md",
+      "bytes": 8503,
+      "rawBytesSha256": "6ee38cdb9d9de695ea9be315437d1ab66c802705ad7cd7248cfe690cc7d3beee"
+    },
+    {
+      "file": "capture-manifest47.mjs",
+      "bytes": 5368,
+      "rawBytesSha256": "d4c301eb908b3a7bafa557ff0ed4464e6e59a8d1dd852b26ad1c769792d5748a"
+    }
+  ],
+  "publicReadOnlySourcePins": [
+    {
+      "file": "libs/shared/api-spec/openapi.json",
+      "bytes": 1236594,
+      "rawBytesSha256": "56ae1835f50e427dd564b60f423da49e5c03fd88eed431b12ae054011e6de821"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/service.rs",
+      "bytes": 68932,
+      "rawBytesSha256": "13ea71827b3ee14ece4d8dda9a561f97975f10cbadcee2925adf6923a4bd91d9"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/http.rs",
+      "bytes": 20344,
+      "rawBytesSha256": "bf3104acae5ce0ea4899887036a4328d87a9e6ef173ca830d46c375e179270ce"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/handover.rs",
+      "bytes": 40635,
+      "rawBytesSha256": "0fb5f3c71b1167e76a339f4d5996e0c6fac1b964a01be03f92f148906d20e217"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/zip.rs",
+      "bytes": 13383,
+      "rawBytesSha256": "cf630e673353cec2ae91f139a09027aba01bd2a118ee4149766490b95f0592ef"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachment_storage/registry.rs",
+      "bytes": 11017,
+      "rawBytesSha256": "728eb662ca1f8ae459b7144956c87e6108702072b09d366ea55e0a7844f0b123"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachment_storage/local.rs",
+      "bytes": 6654,
+      "rawBytesSha256": "eb41e2738b7e54d200809f0f0eaab3361f526b6dfc16203468e945923c49ae28"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_handover/sources.rs",
+      "bytes": 31707,
+      "rawBytesSha256": "e5d33db8ebe4cdd537f8c0006c9bb16ab6c8f1652e55c4923444a70499863ff4"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_handover/service.rs",
+      "bytes": 42969,
+      "rawBytesSha256": "283107428b312d641a2a8330e2c684b2a77163d16bdfa9a9dc9ecead655e4fc3"
+    },
+    {
+      "file": "tools/rust-r4def/environment21.mjs",
+      "bytes": 12487,
+      "rawBytesSha256": "e2b181d43b30b16f8cbec0943e48dfc6c6a6edbd635f238c393723dfbc34acb3"
+    },
+    {
+      "file": "tools/rust-r4def/api-runtime31.mjs",
+      "bytes": 3774,
+      "rawBytesSha256": "8ab461cd6eb04722ecf6c80b5fd744ac16010512f69a46f6fb5ab9f33aff9bf5"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/attachment/attachment-upload-session.controller.ts",
+      "bytes": 4804,
+      "rawBytesSha256": "931bb4caf3dc0937d464d6a39804128ff389662f383599881958fff7a53473ce"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/attachment/attachment-handover.controller.ts",
+      "bytes": 4085,
+      "rawBytesSha256": "91480255c1e9218b86bff6d45b902895c74a93d54611ae5a75eddaae4c236d7d"
+    },
+    {
+      "file": "tools/rust-r2ij/j-upload-lifecycle-scenario.mjs",
+      "bytes": 17883,
+      "rawBytesSha256": "25705bf449a13943b3f717ab3ba1ea007a3cfe2c10361b725baa75d20dc8d2db"
+    }
+  ],
+  "operations": [
+    {
+      "operationId": "AttachmentUploadSessionController_create",
+      "method": "POST",
+      "path": "/api/attachment-upload-sessions",
+      "successStatus": 201,
+      "binary": false
+    },
+    {
+      "operationId": "AttachmentUploadSessionController_get",
+      "method": "GET",
+      "path": "/api/attachment-upload-sessions/{id}",
+      "successStatus": 200,
+      "binary": false
+    },
+    {
+      "operationId": "AttachmentUploadSessionController_createUploadTarget",
+      "method": "POST",
+      "path": "/api/attachment-upload-sessions/{id}/upload-targets",
+      "successStatus": 200,
+      "binary": false
+    },
+    {
+      "operationId": "AttachmentUploadSessionController_proxyUploadObject",
+      "method": "PUT",
+      "path": "/api/attachment-upload-sessions/{id}/object",
+      "successStatus": 200,
+      "binary": true
+    },
+    {
+      "operationId": "AttachmentUploadSessionController_complete",
+      "method": "POST",
+      "path": "/api/attachment-upload-sessions/{id}:complete",
+      "successStatus": 200,
+      "binary": false
+    },
+    {
+      "operationId": "AttachmentController_get",
+      "method": "GET",
+      "path": "/api/attachments/{id}",
+      "successStatus": 200,
+      "binary": false
+    },
+    {
+      "operationId": "AttachmentController_link",
+      "method": "POST",
+      "path": "/api/attachments/{id}/links",
+      "successStatus": 200,
+      "binary": false
+    },
+    {
+      "operationId": "AttachmentController_download",
+      "method": "GET",
+      "path": "/api/attachments/{id}/download",
+      "successStatus": 200,
+      "binary": true
+    },
+    {
+      "operationId": "AttachmentController_markFinal",
+      "method": "POST",
+      "path": "/api/attachments/{id}:mark-final",
+      "successStatus": 200,
+      "binary": false
+    },
+    {
+      "operationId": "AttachmentController_void",
+      "method": "POST",
+      "path": "/api/attachments/{id}:void",
+      "successStatus": 200,
+      "binary": false
+    },
+    {
+      "operationId": "AttachmentHandoverController_getChecklist",
+      "method": "GET",
+      "path": "/api/project-handovers/{id}/attachment-checklist",
+      "successStatus": 200,
+      "binary": false
+    },
+    {
+      "operationId": "AttachmentHandoverController_refreshChecklist",
+      "method": "POST",
+      "path": "/api/project-handovers/{id}/attachment-checklist:refresh",
+      "successStatus": 200,
+      "binary": false
+    },
+    {
+      "operationId": "AttachmentHandoverController_createDownloadPackage",
+      "method": "POST",
+      "path": "/api/project-handovers/{id}/attachment-download-packages",
+      "successStatus": 200,
+      "binary": false
+    },
+    {
+      "operationId": "AttachmentHandoverController_downloadPackage",
+      "method": "GET",
+      "path": "/api/attachment-download-packages/{id}/download",
+      "successStatus": 200,
+      "binary": true
+    },
+    {
+      "operationId": "ProjectHandoverController_getContractHandoverSummary",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/contract-handover",
+      "successStatus": 200,
+      "binary": false
+    },
+    {
+      "operationId": "ProjectHandoverController_getProjectHandoverDetailByProject",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/project-handover",
+      "successStatus": 200,
+      "binary": false
+    },
+    {
+      "operationId": "ProjectHandoverController_getProjectHandoverDetailByHandover",
+      "method": "GET",
+      "path": "/api/project-handovers/{id}",
+      "successStatus": 200,
+      "binary": false
+    },
+    {
+      "operationId": "ProjectHandoverController_prepareProjectHandover",
+      "method": "POST",
+      "path": "/api/projects/{projectId}/project-handovers",
+      "successStatus": 201,
+      "binary": false
+    },
+    {
+      "operationId": "ProjectHandoverController_confirmProjectHandoverParticipant",
+      "method": "POST",
+      "path": "/api/project-handovers/{id}/participant-confirmations",
+      "successStatus": 200,
+      "binary": false
+    },
+    {
+      "operationId": "ProjectHandoverController_confirmProjectHandover",
+      "method": "POST",
+      "path": "/api/project-handovers/{id}:confirm",
+      "successStatus": 200,
+      "binary": false
+    }
+  ],
+  "currentSchemaCount": 626,
+  "independentByteWitnesses": {
+    "normal1": {
+      "text": "POMS R4DEF47 normal final version one.\n",
+      "size": 39,
+      "sha256": "7e092953bfd0e46ebf7b1f895b7ad2c7fb000ea717d406ec4cfe751e6ece5347"
+    },
+    "normal2": {
+      "text": "POMS R4DEF47 normal final version two.\n",
+      "size": 39,
+      "sha256": "d6ab532cef7e99ddcd4b774d1b4a5720e43066dec08310f5e21b7a09e3ff4075"
+    },
+    "sensitive": {
+      "text": "POMS R4DEF47 confidential exclusion witness.\n",
+      "size": 45,
+      "sha256": "4415216e5f805a9fc152e79a23e1b20210afdce1952b3f356db87f2075d8b97b"
+    }
+  },
+  "initial": {
+    "kind": "R4DEF-real-nonempty-K-attachment-candidate47",
+    "stages": [
+      {
+        "name": "capture",
+        "status": "not-run"
+      },
+      {
+        "name": "real-normal-upload",
+        "status": "not-run"
+      },
+      {
+        "name": "real-sensitive-upload",
+        "status": "not-run"
+      },
+      {
+        "name": "prepare-nonempty-D",
+        "status": "not-run"
+      },
+      {
+        "name": "K-refresh-and-package",
+        "status": "not-run"
+      },
+      {
+        "name": "nonfinal-new-version-stable",
+        "status": "not-run"
+      },
+      {
+        "name": "final-version-invalidates",
+        "status": "not-run"
+      },
+      {
+        "name": "prepare-current-version",
+        "status": "not-run"
+      },
+      {
+        "name": "void-invalidates",
+        "status": "not-run"
+      },
+      {
+        "name": "recover-and-confirm",
+        "status": "not-run"
+      }
+    ],
+    "records": [],
+    "observations": [],
+    "ownedAttachments": [],
+    "HTTPPassed": 0,
+    "initialState": "not-run",
+    "completed": false,
+    "needsEvidence": false,
+    "scanWorkerClaimed": false,
+    "SQLBusinessProducerUsed": false
+  },
+  "validation": {
+    "nodeSyntax": "passed node --check",
+    "importOnly": "all10 not-run,0HTTP,0PG assertions",
+    "byteWitnessSizeAndSHA256": "independently recomputed from fixed literal UTF8, no production code",
+    "operationPathMethodAndSuccessStatuses": "statically matched current public spec",
+    "actualUploadExecuted": false,
+    "actualDownloadExecuted": false,
+    "actualServiceOrDBAccessed": false,
+    "fakeHTTPResponseUsed": false,
+    "browserRun": false,
+    "G3Certified": false,
+    "G4Certified": false
+  },
+  "productionChain": [
+    "actual HTTP create upload session",
+    "actual upload target",
+    "actual octet-stream proxy PUT with size/hash verification",
+    "actual complete creates active Attachment and link",
+    "actual direct project link + markFinal",
+    "actual Dprepare + read-only immutable basis proof",
+    "actual nonempty K refresh/download ZIP with sensitive excluded",
+    "real nonfinal version remains subordinate to original final",
+    "actual new final or selected void changes D source and rejects old consent",
+    "new prepare/own personal confirmations/finalize, R5 stays blocked"
+  ],
+  "scanProtocol": {
+    "workerRequiredForThisDeliveredLocalPath": false,
+    "publishedScanStatusPresent": false,
+    "scanOrMalwareCertificationClaimed": false,
+    "noInventedAvailableOrVerifiedSQL": true
+  },
+  "rootCallbacksRequired": [
+    "JSON request using actual auth session/CSRF",
+    "binaryRequest for real PUT and byte downloads, not JSON encoding",
+    "resolveParticipant matching each real assigned user",
+    "observeBasis actual read-only PG receipt; otherwise needs-evidence"
+  ],
+  "environmentChanged": false,
+  "productFilesChanged": [],
+  "RootFilesChanged": [],
+  "privateReadByAuthor": false,
+  "commitPerformed": false
+}

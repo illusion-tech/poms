@@ -801,3 +801,8 @@ R4 首批 [#102](https://github.com/illusion-tech/poms/issues/102) 的 A#103/B#1
 [#106](https://github.com/illusion-tech/poms/issues/106#issuecomment-6615241191) / [D#107](https://github.com/illusion-tech/poms/issues/107#issuecomment-6615243857) / [E#108](https://github.com/illusion-tech/poms/issues/108#issuecomment-6615246436) / [F#109](https://github.com/illusion-tech/poms/issues/109#issuecomment-6615249125) 已获[非作者G1 Pass](rust-r4def/g1-independent07/g1-final06.json.bin)并完成[实际线上读回](rust-r4def/g1-online07.json)，30入口及必要内部机制/最小UI的435来源和5outputs已冻结，三线G2准入。输入57f64d6c；[当前基线](rust-r4def-next30-baseline.md)、[归属](rust-r4def/ownership04.md)、[状态](rust-r4def-delivery-status.json)一致。旧Block/失败与候选不改写。
 
 当前仅G1完成，Rust仍210、本批新增正式交付0；实现/SQL/HTTP/PG/UI/独立G3/G4与main集成均未认证。经营17、验收完工归档8及完整R4仍后续，#101/#57持续Open。
+
+
+### RUST-R4-DEF G2 进行中
+
+[#106](https://github.com/illusion-tech/poms/issues/106)与D#107/E#108/F#109均保持Doing/Open，线上已同步G2进展。隔离候选Rust240、完整spec293/626、原生成client616；正式main仍210、本批新增交付0。主金额纠偏经[独立冻结51](rust-r4def/g2-allocation-freeze51.json)准入，K必要支持正在纠偏；真实部分证据和旧失败分段保留，最终清理、独立G3/G4与main集成尚未完成。[状态索引](rust-r4def-delivery-status.json)持续镜像线上。R4经营17、验收完工归档8及后续R5等仍未包含，#101/#57保持Open。

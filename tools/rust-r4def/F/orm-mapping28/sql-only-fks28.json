@@ -1,0 +1,590 @@
+{
+  "kind": "finite-proposed-SQL-owned-composite-FKs",
+  "count": 28,
+  "constraints": [
+    {
+      "table": "project_handover_contract_basis",
+      "constraintName": "fk_r4d_member_amendment",
+      "columns": [
+        "contract_amendment_id",
+        "contract_id"
+      ],
+      "targetTable": "contract_amendment",
+      "targetColumns": [
+        "id",
+        "contract_id"
+      ],
+      "definition": "FOREIGN KEY (contract_amendment_id, contract_id) REFERENCES poms.contract_amendment(id, contract_id) ON DELETE RESTRICT",
+      "definitionSha256": "5efc870525bd937bcf2fb11e82adf4958fbb0c2b311908256698ddb703a365f3",
+      "condeferrable": false,
+      "condeferred": false,
+      "catalogValidated": true,
+      "reason": "Target contract_amendment has PRIMARY KEY (id); this FK references its separate UNIQUE tuple (id, contract_id). Current Native mapToPk exposes one UUID identity with independently mapped scope columns. A scalar FK would discard scope; relation joinColumns/referencedColumnNames would change that value shape or duplicate ownership of scope columns without a verified schema diff. Preserve the exact SQL tuple and all deferral/delete semantics; no global FK ignore.",
+      "proposedClassification": "accepted-db-specific-difference only after Root verifies exact definition; pending approval, not a schema-check bypass"
+    },
+    {
+      "table": "project_handover_contract_basis",
+      "constraintName": "fk_r4d_member_basis",
+      "columns": [
+        "basis_snapshot_id",
+        "project_id"
+      ],
+      "targetTable": "project_handover_basis_snapshot",
+      "targetColumns": [
+        "id",
+        "project_id"
+      ],
+      "definition": "FOREIGN KEY (basis_snapshot_id, project_id) REFERENCES poms.project_handover_basis_snapshot(id, project_id) ON DELETE RESTRICT",
+      "definitionSha256": "f29b0a1e41e17f24c9a2709e16cc2d6619df019cb3ee42ff773a6294593e43ea",
+      "condeferrable": false,
+      "condeferred": false,
+      "catalogValidated": true,
+      "reason": "Target project_handover_basis_snapshot has PRIMARY KEY (id); this FK references its separate UNIQUE tuple (id, project_id). Current Native mapToPk exposes one UUID identity with independently mapped scope columns. A scalar FK would discard scope; relation joinColumns/referencedColumnNames would change that value shape or duplicate ownership of scope columns without a verified schema diff. Preserve the exact SQL tuple and all deferral/delete semantics; no global FK ignore.",
+      "proposedClassification": "accepted-db-specific-difference only after Root verifies exact definition; pending approval, not a schema-check bypass"
+    },
+    {
+      "table": "project_handover_contract_basis",
+      "constraintName": "fk_r4d_member_contract",
+      "columns": [
+        "contract_id",
+        "project_id"
+      ],
+      "targetTable": "contract",
+      "targetColumns": [
+        "id",
+        "project_id"
+      ],
+      "definition": "FOREIGN KEY (contract_id, project_id) REFERENCES poms.contract(id, project_id) ON DELETE RESTRICT",
+      "definitionSha256": "d965b90923039e2f0e43cad0d900e1a6b3e0371aa217672f72a289fb62c90802",
+      "condeferrable": false,
+      "condeferred": false,
+      "catalogValidated": true,
+      "reason": "Target contract has PRIMARY KEY (id); this FK references its separate UNIQUE tuple (id, project_id). Current Native mapToPk exposes one UUID identity with independently mapped scope columns. A scalar FK would discard scope; relation joinColumns/referencedColumnNames would change that value shape or duplicate ownership of scope columns without a verified schema diff. Preserve the exact SQL tuple and all deferral/delete semantics; no global FK ignore.",
+      "proposedClassification": "accepted-db-specific-difference only after Root verifies exact definition; pending approval, not a schema-check bypass"
+    },
+    {
+      "table": "project_handover_contract_basis",
+      "constraintName": "fk_r4d_member_plan",
+      "columns": [
+        "plan_version_id",
+        "contract_id",
+        "term_snapshot_id",
+        "preparation_id",
+        "readiness_package_id"
+      ],
+      "targetTable": "receivable_plan_version",
+      "targetColumns": [
+        "id",
+        "contract_id",
+        "snapshot_id",
+        "source_preparation_id",
+        "source_readiness_id"
+      ],
+      "definition": "FOREIGN KEY (plan_version_id, contract_id, term_snapshot_id, preparation_id, readiness_package_id) REFERENCES poms.receivable_plan_version(id, contract_id, snapshot_id, source_preparation_id, source_readiness_id) ON DELETE RESTRICT",
+      "definitionSha256": "a47df71091a85e197192c19548fe421c0426bcf6e74d2ace33655c49dfc5f20c",
+      "condeferrable": false,
+      "condeferred": false,
+      "catalogValidated": true,
+      "reason": "Target receivable_plan_version has PRIMARY KEY (id); this FK references its separate UNIQUE tuple (id, contract_id, snapshot_id, source_preparation_id, source_readiness_id). Current Native mapToPk exposes one UUID identity with independently mapped scope columns. A scalar FK would discard scope; relation joinColumns/referencedColumnNames would change that value shape or duplicate ownership of scope columns without a verified schema diff. Preserve the exact SQL tuple and all deferral/delete semantics; no global FK ignore.",
+      "proposedClassification": "accepted-db-specific-difference only after Root verifies exact definition; pending approval, not a schema-check bypass"
+    },
+    {
+      "table": "project_handover_contract_basis",
+      "constraintName": "fk_r4d_member_preparation",
+      "columns": [
+        "preparation_id",
+        "readiness_package_id",
+        "contract_id"
+      ],
+      "targetTable": "contract_term_preparation",
+      "targetColumns": [
+        "id",
+        "source_readiness_id",
+        "contract_id"
+      ],
+      "definition": "FOREIGN KEY (preparation_id, readiness_package_id, contract_id) REFERENCES poms.contract_term_preparation(id, source_readiness_id, contract_id) ON DELETE RESTRICT",
+      "definitionSha256": "37cee37d8bd6a6299c0e16f551948875e4304f70ac6ebf7fd4b310e8d6f1d1cd",
+      "condeferrable": false,
+      "condeferred": false,
+      "catalogValidated": true,
+      "reason": "Target contract_term_preparation has PRIMARY KEY (id); this FK references its separate UNIQUE tuple (id, source_readiness_id, contract_id). Current Native mapToPk exposes one UUID identity with independently mapped scope columns. A scalar FK would discard scope; relation joinColumns/referencedColumnNames would change that value shape or duplicate ownership of scope columns without a verified schema diff. Preserve the exact SQL tuple and all deferral/delete semantics; no global FK ignore.",
+      "proposedClassification": "accepted-db-specific-difference only after Root verifies exact definition; pending approval, not a schema-check bypass"
+    },
+    {
+      "table": "project_handover_contract_basis",
+      "constraintName": "fk_r4d_member_readiness",
+      "columns": [
+        "readiness_package_id",
+        "project_id",
+        "contract_id"
+      ],
+      "targetTable": "contract_readiness_package",
+      "targetColumns": [
+        "id",
+        "project_id",
+        "contract_id"
+      ],
+      "definition": "FOREIGN KEY (readiness_package_id, project_id, contract_id) REFERENCES poms.contract_readiness_package(id, project_id, contract_id) ON DELETE RESTRICT",
+      "definitionSha256": "9ebbc5f7b42a80022f061ddec773029d2a17f5b31d0d01b4b0c81c71d93ef571",
+      "condeferrable": false,
+      "condeferred": false,
+      "catalogValidated": true,
+      "reason": "Target contract_readiness_package has PRIMARY KEY (id); this FK references its separate UNIQUE tuple (id, project_id, contract_id). Current Native mapToPk exposes one UUID identity with independently mapped scope columns. A scalar FK would discard scope; relation joinColumns/referencedColumnNames would change that value shape or duplicate ownership of scope columns without a verified schema diff. Preserve the exact SQL tuple and all deferral/delete semantics; no global FK ignore.",
+      "proposedClassification": "accepted-db-specific-difference only after Root verifies exact definition; pending approval, not a schema-check bypass"
+    },
+    {
+      "table": "project_handover_contract_basis",
+      "constraintName": "fk_r4d_member_snapshot",
+      "columns": [
+        "term_snapshot_id",
+        "contract_id",
+        "preparation_id"
+      ],
+      "targetTable": "contract_term_snapshot",
+      "targetColumns": [
+        "id",
+        "contract_id",
+        "source_preparation_id"
+      ],
+      "definition": "FOREIGN KEY (term_snapshot_id, contract_id, preparation_id) REFERENCES poms.contract_term_snapshot(id, contract_id, source_preparation_id) ON DELETE RESTRICT",
+      "definitionSha256": "ef03f462036bbb13ae7be128d19fdd43bedcc7b6ed3a8ae28170563c5bd7beaf",
+      "condeferrable": false,
+      "condeferred": false,
+      "catalogValidated": true,
+      "reason": "Target contract_term_snapshot has PRIMARY KEY (id); this FK references its separate UNIQUE tuple (id, contract_id, source_preparation_id). Current Native mapToPk exposes one UUID identity with independently mapped scope columns. A scalar FK would discard scope; relation joinColumns/referencedColumnNames would change that value shape or duplicate ownership of scope columns without a verified schema diff. Preserve the exact SQL tuple and all deferral/delete semantics; no global FK ignore.",
+      "proposedClassification": "accepted-db-specific-difference only after Root verifies exact definition; pending approval, not a schema-check bypass"
+    },
+    {
+      "table": "project_handover_participant_role",
+      "constraintName": "fk_r4d_role_handover",
+      "columns": [
+        "handover_id",
+        "confirmation_record_id"
+      ],
+      "targetTable": "project_handover",
+      "targetColumns": [
+        "id",
+        "confirmation_record_id"
+      ],
+      "definition": "FOREIGN KEY (handover_id, confirmation_record_id) REFERENCES poms.project_handover(id, confirmation_record_id) ON DELETE RESTRICT",
+      "definitionSha256": "98d326e428e78f683b04e89034268ffa9f7c1355552445995538ca4a14f16a23",
+      "condeferrable": false,
+      "condeferred": false,
+      "catalogValidated": true,
+      "reason": "Target project_handover has PRIMARY KEY (id); this FK references its separate UNIQUE tuple (id, confirmation_record_id). Current Native mapToPk exposes one UUID identity with independently mapped scope columns. A scalar FK would discard scope; relation joinColumns/referencedColumnNames would change that value shape or duplicate ownership of scope columns without a verified schema diff. Preserve the exact SQL tuple and all deferral/delete semantics; no global FK ignore.",
+      "proposedClassification": "accepted-db-specific-difference only after Root verifies exact definition; pending approval, not a schema-check bypass"
+    },
+    {
+      "table": "project_handover_participant_role",
+      "constraintName": "fk_r4d_role_person",
+      "columns": [
+        "confirmation_participant_id",
+        "confirmation_record_id",
+        "participant_user_id"
+      ],
+      "targetTable": "confirmation_participant",
+      "targetColumns": [
+        "id",
+        "confirmation_record_id",
+        "participant_id"
+      ],
+      "definition": "FOREIGN KEY (confirmation_participant_id, confirmation_record_id, participant_user_id) REFERENCES poms.confirmation_participant(id, confirmation_record_id, participant_id) ON DELETE RESTRICT",
+      "definitionSha256": "5b333f794f5625994b8d90e9eec8b2948566d599234c0e09d69b3d0f02b8b6b5",
+      "condeferrable": false,
+      "condeferred": false,
+      "catalogValidated": true,
+      "reason": "Target confirmation_participant has PRIMARY KEY (id); this FK references its separate UNIQUE tuple (id, confirmation_record_id, participant_id). Current Native mapToPk exposes one UUID identity with independently mapped scope columns. A scalar FK would discard scope; relation joinColumns/referencedColumnNames would change that value shape or duplicate ownership of scope columns without a verified schema diff. Preserve the exact SQL tuple and all deferral/delete semantics; no global FK ignore.",
+      "proposedClassification": "accepted-db-specific-difference only after Root verifies exact definition; pending approval, not a schema-check bypass"
+    },
+    {
+      "table": "project_handover_summary_payload",
+      "constraintName": "fk_r4d_payload_basis",
+      "columns": [
+        "basis_snapshot_id",
+        "project_id"
+      ],
+      "targetTable": "project_handover_basis_snapshot",
+      "targetColumns": [
+        "id",
+        "project_id"
+      ],
+      "definition": "FOREIGN KEY (basis_snapshot_id, project_id) REFERENCES poms.project_handover_basis_snapshot(id, project_id) ON DELETE RESTRICT",
+      "definitionSha256": "f29b0a1e41e17f24c9a2709e16cc2d6619df019cb3ee42ff773a6294593e43ea",
+      "condeferrable": false,
+      "condeferred": false,
+      "catalogValidated": true,
+      "reason": "Target project_handover_basis_snapshot has PRIMARY KEY (id); this FK references its separate UNIQUE tuple (id, project_id). Current Native mapToPk exposes one UUID identity with independently mapped scope columns. A scalar FK would discard scope; relation joinColumns/referencedColumnNames would change that value shape or duplicate ownership of scope columns without a verified schema diff. Preserve the exact SQL tuple and all deferral/delete semantics; no global FK ignore.",
+      "proposedClassification": "accepted-db-specific-difference only after Root verifies exact definition; pending approval, not a schema-check bypass"
+    },
+    {
+      "table": "project_handover_summary_payload",
+      "constraintName": "fk_r4d_payload_handover",
+      "columns": [
+        "handover_id",
+        "project_id",
+        "basis_snapshot_id"
+      ],
+      "targetTable": "project_handover",
+      "targetColumns": [
+        "id",
+        "project_id",
+        "basis_snapshot_id"
+      ],
+      "definition": "FOREIGN KEY (handover_id, project_id, basis_snapshot_id) REFERENCES poms.project_handover(id, project_id, basis_snapshot_id) ON DELETE RESTRICT",
+      "definitionSha256": "676720d87a7c764ffaff4b58bf06a93078a3d48fed655bc155cffdd333bee521",
+      "condeferrable": false,
+      "condeferred": false,
+      "catalogValidated": true,
+      "reason": "Target project_handover has PRIMARY KEY (id); this FK references its separate UNIQUE tuple (id, project_id, basis_snapshot_id). Current Native mapToPk exposes one UUID identity with independently mapped scope columns. A scalar FK would discard scope; relation joinColumns/referencedColumnNames would change that value shape or duplicate ownership of scope columns without a verified schema diff. Preserve the exact SQL tuple and all deferral/delete semantics; no global FK ignore.",
+      "proposedClassification": "accepted-db-specific-difference only after Root verifies exact definition; pending approval, not a schema-check bypass"
+    },
+    {
+      "table": "contract_amendment",
+      "constraintName": "fk_r4d_amendment_after",
+      "columns": [
+        "after_snapshot_id",
+        "contract_id"
+      ],
+      "targetTable": "contract_term_snapshot",
+      "targetColumns": [
+        "id",
+        "contract_id"
+      ],
+      "definition": "FOREIGN KEY (after_snapshot_id, contract_id) REFERENCES poms.contract_term_snapshot(id, contract_id) ON DELETE RESTRICT",
+      "definitionSha256": "64e9210f1e62d35fe49e388e0526d80e54db210f19a617d60e0dc767f27455cc",
+      "condeferrable": false,
+      "condeferred": false,
+      "catalogValidated": true,
+      "reason": "Target contract_term_snapshot has PRIMARY KEY (id); this FK references its separate UNIQUE tuple (id, contract_id). Current Native mapToPk exposes one UUID identity with independently mapped scope columns. A scalar FK would discard scope; relation joinColumns/referencedColumnNames would change that value shape or duplicate ownership of scope columns without a verified schema diff. Preserve the exact SQL tuple and all deferral/delete semantics; no global FK ignore.",
+      "proposedClassification": "accepted-db-specific-difference only after Root verifies exact definition; pending approval, not a schema-check bypass"
+    },
+    {
+      "table": "contract_amendment",
+      "constraintName": "fk_r4d_amendment_before",
+      "columns": [
+        "before_snapshot_id",
+        "contract_id"
+      ],
+      "targetTable": "contract_term_snapshot",
+      "targetColumns": [
+        "id",
+        "contract_id"
+      ],
+      "definition": "FOREIGN KEY (before_snapshot_id, contract_id) REFERENCES poms.contract_term_snapshot(id, contract_id) ON DELETE RESTRICT",
+      "definitionSha256": "b5705c3610c62a4e158dae571af3183cc0f44d9a2a9df42150cc49fd37b65f61",
+      "condeferrable": false,
+      "condeferred": false,
+      "catalogValidated": true,
+      "reason": "Target contract_term_snapshot has PRIMARY KEY (id); this FK references its separate UNIQUE tuple (id, contract_id). Current Native mapToPk exposes one UUID identity with independently mapped scope columns. A scalar FK would discard scope; relation joinColumns/referencedColumnNames would change that value shape or duplicate ownership of scope columns without a verified schema diff. Preserve the exact SQL tuple and all deferral/delete semantics; no global FK ignore.",
+      "proposedClassification": "accepted-db-specific-difference only after Root verifies exact definition; pending approval, not a schema-check bypass"
+    },
+    {
+      "table": "contract_amendment",
+      "constraintName": "fk_r4d_amendment_preparation",
+      "columns": [
+        "source_preparation_id",
+        "source_readiness_id",
+        "contract_id"
+      ],
+      "targetTable": "contract_term_preparation",
+      "targetColumns": [
+        "id",
+        "source_readiness_id",
+        "contract_id"
+      ],
+      "definition": "FOREIGN KEY (source_preparation_id, source_readiness_id, contract_id) REFERENCES poms.contract_term_preparation(id, source_readiness_id, contract_id) ON DELETE RESTRICT",
+      "definitionSha256": "01fffa0b7b8375b137b4fe357d788fbf08f45dca6edacba9158e0dd7bd27c17f",
+      "condeferrable": false,
+      "condeferred": false,
+      "catalogValidated": true,
+      "reason": "Target contract_term_preparation has PRIMARY KEY (id); this FK references its separate UNIQUE tuple (id, source_readiness_id, contract_id). Current Native mapToPk exposes one UUID identity with independently mapped scope columns. A scalar FK would discard scope; relation joinColumns/referencedColumnNames would change that value shape or duplicate ownership of scope columns without a verified schema diff. Preserve the exact SQL tuple and all deferral/delete semantics; no global FK ignore.",
+      "proposedClassification": "accepted-db-specific-difference only after Root verifies exact definition; pending approval, not a schema-check bypass"
+    },
+    {
+      "table": "contract_amendment",
+      "constraintName": "fk_r4d_amendment_project",
+      "columns": [
+        "contract_id",
+        "project_id"
+      ],
+      "targetTable": "contract",
+      "targetColumns": [
+        "id",
+        "project_id"
+      ],
+      "definition": "FOREIGN KEY (contract_id, project_id) REFERENCES poms.contract(id, project_id) ON DELETE RESTRICT",
+      "definitionSha256": "d965b90923039e2f0e43cad0d900e1a6b3e0371aa217672f72a289fb62c90802",
+      "condeferrable": false,
+      "condeferred": false,
+      "catalogValidated": true,
+      "reason": "Target contract has PRIMARY KEY (id); this FK references its separate UNIQUE tuple (id, project_id). Current Native mapToPk exposes one UUID identity with independently mapped scope columns. A scalar FK would discard scope; relation joinColumns/referencedColumnNames would change that value shape or duplicate ownership of scope columns without a verified schema diff. Preserve the exact SQL tuple and all deferral/delete semantics; no global FK ignore.",
+      "proposedClassification": "accepted-db-specific-difference only after Root verifies exact definition; pending approval, not a schema-check bypass"
+    },
+    {
+      "table": "contract_amendment",
+      "constraintName": "fk_r4d_amendment_readiness",
+      "columns": [
+        "source_readiness_id",
+        "project_id",
+        "contract_id"
+      ],
+      "targetTable": "contract_readiness_package",
+      "targetColumns": [
+        "id",
+        "project_id",
+        "contract_id"
+      ],
+      "definition": "FOREIGN KEY (source_readiness_id, project_id, contract_id) REFERENCES poms.contract_readiness_package(id, project_id, contract_id) ON DELETE RESTRICT",
+      "definitionSha256": "95b447186c60aaddf4215a355459cb2a58bbb4b2806f5949abc579e114c4a980",
+      "condeferrable": false,
+      "condeferred": false,
+      "catalogValidated": true,
+      "reason": "Target contract_readiness_package has PRIMARY KEY (id); this FK references its separate UNIQUE tuple (id, project_id, contract_id). Current Native mapToPk exposes one UUID identity with independently mapped scope columns. A scalar FK would discard scope; relation joinColumns/referencedColumnNames would change that value shape or duplicate ownership of scope columns without a verified schema diff. Preserve the exact SQL tuple and all deferral/delete semantics; no global FK ignore.",
+      "proposedClassification": "accepted-db-specific-difference only after Root verifies exact definition; pending approval, not a schema-check bypass"
+    },
+    {
+      "table": "contract_amendment",
+      "constraintName": "fk_r4d_amendment_review",
+      "columns": [
+        "source_review_id",
+        "contract_id",
+        "source_preparation_id"
+      ],
+      "targetTable": "contract_review_binding",
+      "targetColumns": [
+        "approval_record_id",
+        "contract_id",
+        "preparation_id"
+      ],
+      "definition": "FOREIGN KEY (source_review_id, contract_id, source_preparation_id) REFERENCES poms.contract_review_binding(approval_record_id, contract_id, preparation_id) ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED",
+      "definitionSha256": "dc3e8f1c6e8129025594f686126955b5c5f9676b1b28bc2b13b1c51543553f6f",
+      "condeferrable": true,
+      "condeferred": true,
+      "catalogValidated": true,
+      "reason": "Target contract_review_binding has PRIMARY KEY (approval_record_id); this FK references its separate UNIQUE tuple (approval_record_id, contract_id, preparation_id). Current Native mapToPk exposes one UUID identity with independently mapped scope columns. A scalar FK would discard scope; relation joinColumns/referencedColumnNames would change that value shape or duplicate ownership of scope columns without a verified schema diff. Preserve the exact SQL tuple and all deferral/delete semantics; no global FK ignore.",
+      "proposedClassification": "accepted-db-specific-difference only after Root verifies exact definition; pending approval, not a schema-check bypass"
+    },
+    {
+      "table": "contract_readiness_package",
+      "constraintName": "fk_r4d_readiness_amendment",
+      "columns": [
+        "contract_amendment_id",
+        "contract_id"
+      ],
+      "targetTable": "contract_amendment",
+      "targetColumns": [
+        "id",
+        "contract_id"
+      ],
+      "definition": "FOREIGN KEY (contract_amendment_id, contract_id) REFERENCES poms.contract_amendment(id, contract_id) ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED",
+      "definitionSha256": "afbf467ca9774b97e7222867ad0c5eb7378dc778796311173d018906815d8e76",
+      "condeferrable": true,
+      "condeferred": true,
+      "catalogValidated": true,
+      "reason": "Target contract_amendment has PRIMARY KEY (id); this FK references its separate UNIQUE tuple (id, contract_id). Current Native mapToPk exposes one UUID identity with independently mapped scope columns. A scalar FK would discard scope; relation joinColumns/referencedColumnNames would change that value shape or duplicate ownership of scope columns without a verified schema diff. Preserve the exact SQL tuple and all deferral/delete semantics; no global FK ignore.",
+      "proposedClassification": "accepted-db-specific-difference only after Root verifies exact definition; pending approval, not a schema-check bypass"
+    },
+    {
+      "table": "contract_term_preparation",
+      "constraintName": "fk_r4d_preparation_amendment",
+      "columns": [
+        "contract_amendment_id",
+        "contract_id"
+      ],
+      "targetTable": "contract_amendment",
+      "targetColumns": [
+        "id",
+        "contract_id"
+      ],
+      "definition": "FOREIGN KEY (contract_amendment_id, contract_id) REFERENCES poms.contract_amendment(id, contract_id) ON DELETE RESTRICT",
+      "definitionSha256": "5efc870525bd937bcf2fb11e82adf4958fbb0c2b311908256698ddb703a365f3",
+      "condeferrable": false,
+      "condeferred": false,
+      "catalogValidated": true,
+      "reason": "Target contract_amendment has PRIMARY KEY (id); this FK references its separate UNIQUE tuple (id, contract_id). Current Native mapToPk exposes one UUID identity with independently mapped scope columns. A scalar FK would discard scope; relation joinColumns/referencedColumnNames would change that value shape or duplicate ownership of scope columns without a verified schema diff. Preserve the exact SQL tuple and all deferral/delete semantics; no global FK ignore.",
+      "proposedClassification": "accepted-db-specific-difference only after Root verifies exact definition; pending approval, not a schema-check bypass"
+    },
+    {
+      "table": "contract_term_preparation",
+      "constraintName": "fk_r4d_preparation_before",
+      "columns": [
+        "before_snapshot_id",
+        "contract_id"
+      ],
+      "targetTable": "contract_term_snapshot",
+      "targetColumns": [
+        "id",
+        "contract_id"
+      ],
+      "definition": "FOREIGN KEY (before_snapshot_id, contract_id) REFERENCES poms.contract_term_snapshot(id, contract_id) ON DELETE RESTRICT",
+      "definitionSha256": "b5705c3610c62a4e158dae571af3183cc0f44d9a2a9df42150cc49fd37b65f61",
+      "condeferrable": false,
+      "condeferred": false,
+      "catalogValidated": true,
+      "reason": "Target contract_term_snapshot has PRIMARY KEY (id); this FK references its separate UNIQUE tuple (id, contract_id). Current Native mapToPk exposes one UUID identity with independently mapped scope columns. A scalar FK would discard scope; relation joinColumns/referencedColumnNames would change that value shape or duplicate ownership of scope columns without a verified schema diff. Preserve the exact SQL tuple and all deferral/delete semantics; no global FK ignore.",
+      "proposedClassification": "accepted-db-specific-difference only after Root verifies exact definition; pending approval, not a schema-check bypass"
+    },
+    {
+      "table": "contract_review_binding",
+      "constraintName": "fk_r4d_review_amendment",
+      "columns": [
+        "contract_amendment_id",
+        "contract_id"
+      ],
+      "targetTable": "contract_amendment",
+      "targetColumns": [
+        "id",
+        "contract_id"
+      ],
+      "definition": "FOREIGN KEY (contract_amendment_id, contract_id) REFERENCES poms.contract_amendment(id, contract_id) ON DELETE RESTRICT",
+      "definitionSha256": "5efc870525bd937bcf2fb11e82adf4958fbb0c2b311908256698ddb703a365f3",
+      "condeferrable": false,
+      "condeferred": false,
+      "catalogValidated": true,
+      "reason": "Target contract_amendment has PRIMARY KEY (id); this FK references its separate UNIQUE tuple (id, contract_id). Current Native mapToPk exposes one UUID identity with independently mapped scope columns. A scalar FK would discard scope; relation joinColumns/referencedColumnNames would change that value shape or duplicate ownership of scope columns without a verified schema diff. Preserve the exact SQL tuple and all deferral/delete semantics; no global FK ignore.",
+      "proposedClassification": "accepted-db-specific-difference only after Root verifies exact definition; pending approval, not a schema-check bypass"
+    },
+    {
+      "table": "contract_term_snapshot",
+      "constraintName": "fk_r4d_snapshot_amendment",
+      "columns": [
+        "source_amendment_id",
+        "contract_id"
+      ],
+      "targetTable": "contract_amendment",
+      "targetColumns": [
+        "id",
+        "contract_id"
+      ],
+      "definition": "FOREIGN KEY (source_amendment_id, contract_id) REFERENCES poms.contract_amendment(id, contract_id) ON DELETE RESTRICT",
+      "definitionSha256": "172669ad4c19bc0347199d213ed32ee76641df4ddd9276abde6f6cc3f8a92bd2",
+      "condeferrable": false,
+      "condeferred": false,
+      "catalogValidated": true,
+      "reason": "Target contract_amendment has PRIMARY KEY (id); this FK references its separate UNIQUE tuple (id, contract_id). Current Native mapToPk exposes one UUID identity with independently mapped scope columns. A scalar FK would discard scope; relation joinColumns/referencedColumnNames would change that value shape or duplicate ownership of scope columns without a verified schema diff. Preserve the exact SQL tuple and all deferral/delete semantics; no global FK ignore.",
+      "proposedClassification": "accepted-db-specific-difference only after Root verifies exact definition; pending approval, not a schema-check bypass"
+    },
+    {
+      "table": "project_handover",
+      "constraintName": "fk_r4d_handover_basis",
+      "columns": [
+        "basis_snapshot_id",
+        "project_id"
+      ],
+      "targetTable": "project_handover_basis_snapshot",
+      "targetColumns": [
+        "id",
+        "project_id"
+      ],
+      "definition": "FOREIGN KEY (basis_snapshot_id, project_id) REFERENCES poms.project_handover_basis_snapshot(id, project_id) ON DELETE RESTRICT",
+      "definitionSha256": "f29b0a1e41e17f24c9a2709e16cc2d6619df019cb3ee42ff773a6294593e43ea",
+      "condeferrable": false,
+      "condeferred": false,
+      "catalogValidated": true,
+      "reason": "Target project_handover_basis_snapshot has PRIMARY KEY (id); this FK references its separate UNIQUE tuple (id, project_id). Current Native mapToPk exposes one UUID identity with independently mapped scope columns. A scalar FK would discard scope; relation joinColumns/referencedColumnNames would change that value shape or duplicate ownership of scope columns without a verified schema diff. Preserve the exact SQL tuple and all deferral/delete semantics; no global FK ignore.",
+      "proposedClassification": "accepted-db-specific-difference only after Root verifies exact definition; pending approval, not a schema-check bypass"
+    },
+    {
+      "table": "handover_baseline_impact_item",
+      "constraintName": "fk_r4d_impact_basis_item",
+      "columns": [
+        "source_basis_item_id",
+        "basis_before_id"
+      ],
+      "targetTable": "project_handover_basis_item",
+      "targetColumns": [
+        "id",
+        "basis_snapshot_id"
+      ],
+      "definition": "FOREIGN KEY (source_basis_item_id, basis_before_id) REFERENCES poms.project_handover_basis_item(id, basis_snapshot_id) ON DELETE RESTRICT",
+      "definitionSha256": "ddadae1d6f8b86da06a66003c1d0dea2492850d5cda495604f4cca5b29d8666b",
+      "condeferrable": false,
+      "condeferred": false,
+      "catalogValidated": true,
+      "reason": "Target project_handover_basis_item has PRIMARY KEY (id); this FK references its separate UNIQUE tuple (id, basis_snapshot_id). Current Native mapToPk exposes one UUID identity with independently mapped scope columns. A scalar FK would discard scope; relation joinColumns/referencedColumnNames would change that value shape or duplicate ownership of scope columns without a verified schema diff. Preserve the exact SQL tuple and all deferral/delete semantics; no global FK ignore.",
+      "proposedClassification": "accepted-db-specific-difference only after Root verifies exact definition; pending approval, not a schema-check bypass"
+    },
+    {
+      "table": "handover_baseline_impact_item",
+      "constraintName": "fk_r4d_impact_rebaseline",
+      "columns": [
+        "rebaseline_record_id",
+        "basis_before_id"
+      ],
+      "targetTable": "contract_handover_rebaseline_record",
+      "targetColumns": [
+        "id",
+        "basis_before_id"
+      ],
+      "definition": "FOREIGN KEY (rebaseline_record_id, basis_before_id) REFERENCES poms.contract_handover_rebaseline_record(id, basis_before_id) ON DELETE RESTRICT",
+      "definitionSha256": "711b9616eddcbd11f5e5def6c8961dda83d99bdaf869ed881530d929417c8fde",
+      "condeferrable": false,
+      "condeferred": false,
+      "catalogValidated": true,
+      "reason": "Target contract_handover_rebaseline_record has PRIMARY KEY (id); this FK references its separate UNIQUE tuple (id, basis_before_id). Current Native mapToPk exposes one UUID identity with independently mapped scope columns. A scalar FK would discard scope; relation joinColumns/referencedColumnNames would change that value shape or duplicate ownership of scope columns without a verified schema diff. Preserve the exact SQL tuple and all deferral/delete semantics; no global FK ignore.",
+      "proposedClassification": "accepted-db-specific-difference only after Root verifies exact definition; pending approval, not a schema-check bypass"
+    },
+    {
+      "table": "project_receipt_judgment_freeze",
+      "constraintName": "fk_r4d_receipt_freeze_basis",
+      "columns": [
+        "basis_snapshot_id",
+        "project_id"
+      ],
+      "targetTable": "project_handover_basis_snapshot",
+      "targetColumns": [
+        "id",
+        "project_id"
+      ],
+      "definition": "FOREIGN KEY (basis_snapshot_id, project_id) REFERENCES poms.project_handover_basis_snapshot(id, project_id) ON DELETE RESTRICT",
+      "definitionSha256": "f29b0a1e41e17f24c9a2709e16cc2d6619df019cb3ee42ff773a6294593e43ea",
+      "condeferrable": false,
+      "condeferred": false,
+      "catalogValidated": true,
+      "reason": "Target project_handover_basis_snapshot has PRIMARY KEY (id); this FK references its separate UNIQUE tuple (id, project_id). Current Native mapToPk exposes one UUID identity with independently mapped scope columns. A scalar FK would discard scope; relation joinColumns/referencedColumnNames would change that value shape or duplicate ownership of scope columns without a verified schema diff. Preserve the exact SQL tuple and all deferral/delete semantics; no global FK ignore.",
+      "proposedClassification": "accepted-db-specific-difference only after Root verifies exact definition; pending approval, not a schema-check bypass"
+    },
+    {
+      "table": "project_receipt_judgment_freeze",
+      "constraintName": "fk_r4d_receipt_freeze_handover",
+      "columns": [
+        "source_handover_id",
+        "source_handover_summary_snapshot_id",
+        "basis_snapshot_id"
+      ],
+      "targetTable": "project_handover",
+      "targetColumns": [
+        "id",
+        "summary_snapshot_id",
+        "basis_snapshot_id"
+      ],
+      "definition": "FOREIGN KEY (source_handover_id, source_handover_summary_snapshot_id, basis_snapshot_id) REFERENCES poms.project_handover(id, summary_snapshot_id, basis_snapshot_id) ON DELETE RESTRICT",
+      "definitionSha256": "6e1bd846971173b49c50dc3cffc297f32b921aa58bb7aeb616548ef01b06fc5e",
+      "condeferrable": false,
+      "condeferred": false,
+      "catalogValidated": true,
+      "reason": "Target project_handover has PRIMARY KEY (id); this FK references its separate UNIQUE tuple (id, summary_snapshot_id, basis_snapshot_id). Current Native mapToPk exposes one UUID identity with independently mapped scope columns. A scalar FK would discard scope; relation joinColumns/referencedColumnNames would change that value shape or duplicate ownership of scope columns without a verified schema diff. Preserve the exact SQL tuple and all deferral/delete semantics; no global FK ignore.",
+      "proposedClassification": "accepted-db-specific-difference only after Root verifies exact definition; pending approval, not a schema-check bypass"
+    },
+    {
+      "table": "invoice_record",
+      "constraintName": "fk_r4e_invoice_currency_snapshot",
+      "columns": [
+        "currency_source_snapshot_id",
+        "contract_id"
+      ],
+      "targetTable": "contract_term_snapshot",
+      "targetColumns": [
+        "id",
+        "contract_id"
+      ],
+      "definition": "FOREIGN KEY (currency_source_snapshot_id, contract_id) REFERENCES poms.contract_term_snapshot(id, contract_id) ON DELETE RESTRICT",
+      "definitionSha256": "af95e390866fe27913c964b75f128bc2a13230d40d6984888200a5a1e5d437bf",
+      "condeferrable": false,
+      "condeferred": false,
+      "catalogValidated": true,
+      "reason": "Target contract_term_snapshot has PRIMARY KEY (id); this FK references its separate UNIQUE tuple (id, contract_id). Current Native mapToPk exposes one UUID identity with independently mapped scope columns. A scalar FK would discard scope; relation joinColumns/referencedColumnNames would change that value shape or duplicate ownership of scope columns without a verified schema diff. Preserve the exact SQL tuple and all deferral/delete semantics; no global FK ignore.",
+      "proposedClassification": "accepted-db-specific-difference only after Root verifies exact definition; pending approval, not a schema-check bypass"
+    }
+  ]
+}

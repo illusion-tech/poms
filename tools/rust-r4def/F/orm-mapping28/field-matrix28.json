@@ -1,0 +1,3864 @@
+{
+  "columnActions": [
+    {
+      "table": "contract_amendment",
+      "column": "producer_version",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN producer_version integer NULL"
+    },
+    {
+      "table": "contract_amendment",
+      "column": "project_id",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN project_id uuid NULL"
+    },
+    {
+      "table": "contract_amendment",
+      "column": "source_readiness_id",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN source_readiness_id uuid NULL"
+    },
+    {
+      "table": "contract_amendment",
+      "column": "source_preparation_id",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN source_preparation_id uuid NULL"
+    },
+    {
+      "table": "contract_amendment",
+      "column": "source_review_id",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN source_review_id uuid NULL"
+    },
+    {
+      "table": "contract_amendment",
+      "column": "before_snapshot_id",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN before_snapshot_id uuid NULL"
+    },
+    {
+      "table": "contract_amendment",
+      "column": "after_snapshot_id",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN after_snapshot_id uuid NULL"
+    },
+    {
+      "table": "contract_amendment",
+      "column": "amendment_reason",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN amendment_reason varchar(1000) NULL"
+    },
+    {
+      "table": "contract_amendment",
+      "column": "payload_hash",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN payload_hash varchar(64) NULL"
+    },
+    {
+      "table": "contract_amendment",
+      "column": "effective_at",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN effective_at timestamptz NULL"
+    },
+    {
+      "table": "contract_amendment",
+      "column": "effective_by",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN effective_by uuid NULL"
+    },
+    {
+      "table": "contract_readiness_package",
+      "column": "contract_amendment_id",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN contract_amendment_id uuid NULL"
+    },
+    {
+      "table": "contract_term_preparation",
+      "column": "contract_amendment_id",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN contract_amendment_id uuid NULL"
+    },
+    {
+      "table": "contract_term_preparation",
+      "column": "before_snapshot_id",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN before_snapshot_id uuid NULL"
+    },
+    {
+      "table": "contract_review_binding",
+      "column": "contract_amendment_id",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN contract_amendment_id uuid NULL"
+    },
+    {
+      "table": "contract_term_snapshot",
+      "column": "source_amendment_id",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN source_amendment_id uuid NULL"
+    },
+    {
+      "table": "project_handover",
+      "column": "producer_version",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN producer_version integer NULL"
+    },
+    {
+      "table": "project_handover",
+      "column": "basis_snapshot_id",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN basis_snapshot_id uuid NULL"
+    },
+    {
+      "table": "project_handover",
+      "column": "version",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN version integer NULL CHECK(version IS NULL OR version>0)"
+    },
+    {
+      "table": "project_handover",
+      "column": "is_current",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN is_current boolean NOT NULL DEFAULT false"
+    },
+    {
+      "table": "project_handover",
+      "column": "supersedes_id",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN supersedes_id uuid NULL REFERENCES poms.project_handover(id) ON DELETE RESTRICT"
+    },
+    {
+      "table": "project_handover",
+      "column": "execution_owner_user_id",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN execution_owner_user_id uuid NULL REFERENCES poms.platform_user(id) ON DELETE RESTRICT"
+    },
+    {
+      "table": "project_handover",
+      "column": "confirmation_record_id",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN confirmation_record_id uuid NULL REFERENCES poms.confirmation_record(id) ON DELETE RESTRICT"
+    },
+    {
+      "table": "project_handover",
+      "column": "finance_confirmation_required",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN finance_confirmation_required boolean NULL"
+    },
+    {
+      "table": "project_handover",
+      "column": "prepared_receipt_judgment_mode",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN prepared_receipt_judgment_mode varchar(64) NULL"
+    },
+    {
+      "table": "project_handover",
+      "column": "source_payload_hash",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN source_payload_hash varchar(64) NULL"
+    },
+    {
+      "table": "contract_handover_rebaseline_record",
+      "column": "producer_version",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN producer_version integer NULL"
+    },
+    {
+      "table": "contract_handover_rebaseline_record",
+      "column": "basis_before_id",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN basis_before_id uuid NULL REFERENCES poms.project_handover_basis_snapshot(id) ON DELETE RESTRICT"
+    },
+    {
+      "table": "contract_handover_rebaseline_record",
+      "column": "basis_after_id",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN basis_after_id uuid NULL REFERENCES poms.project_handover_basis_snapshot(id) ON DELETE RESTRICT"
+    },
+    {
+      "table": "contract_handover_rebaseline_record",
+      "column": "source_handover_id",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN source_handover_id uuid NULL REFERENCES poms.project_handover(id) ON DELETE RESTRICT"
+    },
+    {
+      "table": "contract_handover_rebaseline_record",
+      "column": "replacement_handover_id",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN replacement_handover_id uuid NULL REFERENCES poms.project_handover(id) ON DELETE RESTRICT"
+    },
+    {
+      "table": "handover_baseline_impact_item",
+      "column": "producer_version",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN producer_version integer NULL"
+    },
+    {
+      "table": "handover_baseline_impact_item",
+      "column": "basis_before_id",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN basis_before_id uuid NULL"
+    },
+    {
+      "table": "handover_baseline_impact_item",
+      "column": "source_basis_item_id",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN source_basis_item_id uuid NULL"
+    },
+    {
+      "table": "project_receipt_judgment_freeze",
+      "column": "producer_version",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN producer_version integer NULL"
+    },
+    {
+      "table": "project_receipt_judgment_freeze",
+      "column": "basis_snapshot_id",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN basis_snapshot_id uuid NULL"
+    },
+    {
+      "table": "project_receipt_judgment_freeze",
+      "column": "version",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN version integer NULL CHECK(version IS NULL OR version>0)"
+    },
+    {
+      "table": "expense_record",
+      "column": "amount_including_tax",
+      "action": "ALTER COLUMN",
+      "sql": "ALTER COLUMN amount_including_tax TYPE numeric(18,2)"
+    },
+    {
+      "table": "expense_record",
+      "column": "tax_amount",
+      "action": "ALTER COLUMN",
+      "sql": "ALTER COLUMN tax_amount TYPE numeric(18,2)"
+    },
+    {
+      "table": "expense_record",
+      "column": "amount_excluding_tax",
+      "action": "ALTER COLUMN",
+      "sql": "ALTER COLUMN amount_excluding_tax TYPE numeric(18,2)"
+    },
+    {
+      "table": "project_actual_cost_record",
+      "column": "amount_excluding_tax",
+      "action": "ALTER COLUMN",
+      "sql": "ALTER COLUMN amount_excluding_tax TYPE numeric(18,2)"
+    },
+    {
+      "table": "project_actual_cost_record",
+      "column": "tax_cost_amount",
+      "action": "ALTER COLUMN",
+      "sql": "ALTER COLUMN tax_cost_amount TYPE numeric(18,2)"
+    },
+    {
+      "table": "project_actual_cost_record",
+      "column": "amount_including_tax",
+      "action": "ALTER COLUMN",
+      "sql": "ALTER COLUMN amount_including_tax TYPE numeric(18,2)"
+    },
+    {
+      "table": "project_actual_cost_record",
+      "column": "labor_amount",
+      "action": "ALTER COLUMN",
+      "sql": "ALTER COLUMN labor_amount TYPE numeric(18,2)"
+    },
+    {
+      "table": "project_actual_cost_record",
+      "column": "source_basis",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN source_basis jsonb NULL"
+    },
+    {
+      "table": "project_actual_cost_record",
+      "column": "calculation_basis",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN calculation_basis jsonb NULL"
+    },
+    {
+      "table": "project_actual_cost_record",
+      "column": "basis_origin",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN basis_origin varchar(32) NOT NULL DEFAULT 'legacy-unavailable'"
+    },
+    {
+      "table": "project_actual_cost_record",
+      "column": "labor_scope_key",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN labor_scope_key text GENERATED ALWAYS AS (\n    CASE WHEN cost_type = 'labor' THEN\n      CASE WHEN labor_person_id IS NOT NULL THEN 'person:' || labor_person_id::text\n           WHEN labor_role IS NOT NULL THEN 'role:' || labor_role END\n    END\n  ) STORED"
+    },
+    {
+      "table": "shared_cost_allocation_basis",
+      "column": "currency",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN currency varchar(16) NULL"
+    },
+    {
+      "table": "shared_cost_allocation_basis",
+      "column": "measurement_basis",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN measurement_basis varchar(32) NULL"
+    },
+    {
+      "table": "shared_cost_allocation_basis",
+      "column": "source_amount_excluding_tax",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN source_amount_excluding_tax numeric(18,2) NULL"
+    },
+    {
+      "table": "shared_cost_allocation_basis",
+      "column": "source_tax_cost_amount",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN source_tax_cost_amount numeric(18,2) NULL"
+    },
+    {
+      "table": "shared_cost_allocation_basis",
+      "column": "source_amount_including_tax",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN source_amount_including_tax numeric(18,2) NULL"
+    },
+    {
+      "table": "shared_cost_allocation_basis",
+      "column": "measurement_amount",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN measurement_amount numeric(18,2) NULL"
+    },
+    {
+      "table": "shared_cost_allocation_basis",
+      "column": "allocation_algorithm",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN allocation_algorithm varchar(64) NULL"
+    },
+    {
+      "table": "shared_cost_allocation_basis",
+      "column": "replacement_operation_id",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN replacement_operation_id uuid NULL"
+    },
+    {
+      "table": "shared_cost_allocation_basis",
+      "column": "replacement_reason",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN replacement_reason text NULL"
+    },
+    {
+      "table": "shared_cost_allocation_basis",
+      "column": "governance_evidence_id",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN governance_evidence_id uuid NULL REFERENCES poms.cost_governance_evidence(id)"
+    },
+    {
+      "table": "shared_cost_allocation_basis",
+      "column": "governance_schema_version",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN governance_schema_version smallint NOT NULL DEFAULT 0"
+    },
+    {
+      "table": "shared_cost_allocation_basis",
+      "column": "governance_schema_version",
+      "action": "ALTER COLUMN",
+      "sql": "ALTER COLUMN governance_schema_version SET DEFAULT 1"
+    },
+    {
+      "table": "shared_cost_allocation_result",
+      "column": "allocation_weight",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN allocation_weight numeric(18,6) NULL"
+    },
+    {
+      "table": "shared_cost_allocation_result",
+      "column": "currency",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN currency varchar(16) NULL"
+    },
+    {
+      "table": "shared_cost_allocation_result",
+      "column": "allocated_amount_excluding_tax",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN allocated_amount_excluding_tax numeric(18,2) NULL"
+    },
+    {
+      "table": "shared_cost_allocation_result",
+      "column": "allocated_tax_cost_amount",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN allocated_tax_cost_amount numeric(18,2) NULL"
+    },
+    {
+      "table": "shared_cost_allocation_result",
+      "column": "allocated_amount_including_tax",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN allocated_amount_including_tax numeric(18,2) NULL"
+    },
+    {
+      "table": "shared_cost_allocation_result",
+      "column": "residual_minor_units",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN residual_minor_units smallint NULL"
+    },
+    {
+      "table": "shared_cost_allocation_result",
+      "column": "replacement_operation_id",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN replacement_operation_id uuid NULL"
+    },
+    {
+      "table": "shared_cost_allocation_result",
+      "column": "replacement_reason",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN replacement_reason text NULL"
+    },
+    {
+      "table": "shared_cost_allocation_result",
+      "column": "governance_evidence_id",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN governance_evidence_id uuid NULL REFERENCES poms.cost_governance_evidence(id)"
+    },
+    {
+      "table": "shared_cost_allocation_result",
+      "column": "governance_schema_version",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN governance_schema_version smallint NOT NULL DEFAULT 0"
+    },
+    {
+      "table": "shared_cost_allocation_result",
+      "column": "governance_schema_version",
+      "action": "ALTER COLUMN",
+      "sql": "ALTER COLUMN governance_schema_version SET DEFAULT 1"
+    },
+    {
+      "table": "cost_stage_attribution_snapshot",
+      "column": "evidence_business_date",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN evidence_business_date date NULL"
+    },
+    {
+      "table": "cost_stage_attribution_snapshot",
+      "column": "governance_evidence_id",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN governance_evidence_id uuid NULL REFERENCES poms.cost_governance_evidence(id)"
+    },
+    {
+      "table": "cost_stage_attribution_snapshot",
+      "column": "governance_schema_version",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN governance_schema_version smallint NOT NULL DEFAULT 0"
+    },
+    {
+      "table": "cost_stage_attribution_snapshot",
+      "column": "governance_schema_version",
+      "action": "ALTER COLUMN",
+      "sql": "ALTER COLUMN governance_schema_version SET DEFAULT 1"
+    },
+    {
+      "table": "accounting_tax_treatment_snapshot",
+      "column": "currency",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN currency varchar(16) NULL"
+    },
+    {
+      "table": "accounting_tax_treatment_snapshot",
+      "column": "replacement_reason",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN replacement_reason text NULL"
+    },
+    {
+      "table": "accounting_tax_treatment_snapshot",
+      "column": "governance_evidence_id",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN governance_evidence_id uuid NULL REFERENCES poms.cost_governance_evidence(id)"
+    },
+    {
+      "table": "accounting_tax_treatment_snapshot",
+      "column": "governance_schema_version",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN governance_schema_version smallint NOT NULL DEFAULT 0"
+    },
+    {
+      "table": "accounting_tax_treatment_snapshot",
+      "column": "governance_schema_version",
+      "action": "ALTER COLUMN",
+      "sql": "ALTER COLUMN governance_schema_version SET DEFAULT 1"
+    },
+    {
+      "table": "invoice_record",
+      "column": "currency_code",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN currency_code varchar(3) NULL"
+    },
+    {
+      "table": "invoice_record",
+      "column": "currency_source",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN currency_source varchar(32) NULL"
+    },
+    {
+      "table": "invoice_record",
+      "column": "currency_source_snapshot_id",
+      "action": "ADD COLUMN",
+      "sql": "ADD COLUMN currency_source_snapshot_id uuid NULL"
+    }
+  ],
+  "mappings": [
+    {
+      "table": "project_handover_basis_snapshot",
+      "column": "id",
+      "property": "id",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-basis-snapshot.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_basis_snapshot",
+        "column_name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "column_default": "gen_random_uuid()",
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 1
+      },
+      "expression": "p.uuid().primary().defaultRaw(\"gen_random_uuid()\").fieldName(\"id\")"
+    },
+    {
+      "table": "project_handover_basis_snapshot",
+      "column": "project_id",
+      "property": "projectId",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-basis-snapshot.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_basis_snapshot",
+        "column_name": "project_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 2
+      },
+      "expression": "() => p.manyToOne(Project).mapToPk().fieldName(\"project_id\").foreignKeyName(\"project_handover_basis_snapshot_project_id_fkey\").updateRule('no action').deleteRule(\"restrict\")"
+    },
+    {
+      "table": "project_handover_basis_snapshot",
+      "column": "version",
+      "property": "version",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-basis-snapshot.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_basis_snapshot",
+        "column_name": "version",
+        "data_type": "integer",
+        "udt_name": "int4",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": 32,
+        "numeric_scale": 0,
+        "ordinal_position": 3
+      },
+      "expression": "p.integer().fieldName(\"version\")"
+    },
+    {
+      "table": "project_handover_basis_snapshot",
+      "column": "source_payload",
+      "property": "sourcePayload",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-basis-snapshot.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_basis_snapshot",
+        "column_name": "source_payload",
+        "data_type": "jsonb",
+        "udt_name": "jsonb",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 4
+      },
+      "expression": "p.json<Record<string, unknown>>().columnType('jsonb').fieldName(\"source_payload\")"
+    },
+    {
+      "table": "project_handover_basis_snapshot",
+      "column": "source_hash",
+      "property": "sourceHash",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-basis-snapshot.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_basis_snapshot",
+        "column_name": "source_hash",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": 64,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 5
+      },
+      "expression": "p.string().length(64).fieldName(\"source_hash\")"
+    },
+    {
+      "table": "project_handover_basis_snapshot",
+      "column": "payload_hash",
+      "property": "payloadHash",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-basis-snapshot.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_basis_snapshot",
+        "column_name": "payload_hash",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": 64,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 6
+      },
+      "expression": "p.string().length(64).fieldName(\"payload_hash\")"
+    },
+    {
+      "table": "project_handover_basis_snapshot",
+      "column": "status",
+      "property": "status",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-basis-snapshot.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_basis_snapshot",
+        "column_name": "status",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": 32,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 7
+      },
+      "expression": "p.string().length(32).fieldName(\"status\")"
+    },
+    {
+      "table": "project_handover_basis_snapshot",
+      "column": "is_current",
+      "property": "isCurrent",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-basis-snapshot.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_basis_snapshot",
+        "column_name": "is_current",
+        "data_type": "boolean",
+        "udt_name": "bool",
+        "is_nullable": "NO",
+        "column_default": "true",
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 8
+      },
+      "expression": "p.boolean().default(true).fieldName(\"is_current\")"
+    },
+    {
+      "table": "project_handover_basis_snapshot",
+      "column": "supersedes_id",
+      "property": "supersedesId",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-basis-snapshot.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_basis_snapshot",
+        "column_name": "supersedes_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 9
+      },
+      "expression": "() => p.manyToOne(ProjectHandoverBasisSnapshot).mapToPk().nullable().fieldName(\"supersedes_id\").foreignKeyName(\"project_handover_basis_snapshot_supersedes_id_fkey\").updateRule('no action').deleteRule(\"restrict\")"
+    },
+    {
+      "table": "project_handover_basis_snapshot",
+      "column": "generated_at",
+      "property": "generatedAt",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-basis-snapshot.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_basis_snapshot",
+        "column_name": "generated_at",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "NO",
+        "column_default": "now()",
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 10
+      },
+      "expression": "p.datetime().columnType('timestamptz').defaultRaw(\"now()\").fieldName(\"generated_at\")"
+    },
+    {
+      "table": "project_handover_basis_snapshot",
+      "column": "generated_by",
+      "property": "generatedBy",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-basis-snapshot.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_basis_snapshot",
+        "column_name": "generated_by",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 11
+      },
+      "expression": "() => p.manyToOne(PlatformUser).mapToPk().fieldName(\"generated_by\").foreignKeyName(\"project_handover_basis_snapshot_generated_by_fkey\").updateRule('no action').deleteRule(\"restrict\")"
+    },
+    {
+      "table": "project_handover_basis_snapshot",
+      "column": "row_version",
+      "property": "rowVersion",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-basis-snapshot.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_basis_snapshot",
+        "column_name": "row_version",
+        "data_type": "integer",
+        "udt_name": "int4",
+        "is_nullable": "NO",
+        "column_default": "1",
+        "character_maximum_length": null,
+        "numeric_precision": 32,
+        "numeric_scale": 0,
+        "ordinal_position": 12
+      },
+      "expression": "p.integer().version().default(1).fieldName(\"row_version\")"
+    },
+    {
+      "table": "project_handover_contract_basis",
+      "column": "id",
+      "property": "id",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-contract-basis.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_contract_basis",
+        "column_name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "column_default": "gen_random_uuid()",
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 1
+      },
+      "expression": "p.uuid().primary().defaultRaw(\"gen_random_uuid()\").fieldName(\"id\")"
+    },
+    {
+      "table": "project_handover_contract_basis",
+      "column": "basis_snapshot_id",
+      "property": "basisSnapshotId",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-contract-basis.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_contract_basis",
+        "column_name": "basis_snapshot_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 2
+      },
+      "expression": "() => p.manyToOne(ProjectHandoverBasisSnapshot).mapToPk().fieldName(\"basis_snapshot_id\").createForeignKeyConstraint(false)"
+    },
+    {
+      "table": "project_handover_contract_basis",
+      "column": "project_id",
+      "property": "projectId",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-contract-basis.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_contract_basis",
+        "column_name": "project_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 3
+      },
+      "expression": "() => p.manyToOne(Project).mapToPk().fieldName(\"project_id\").createForeignKeyConstraint(false)"
+    },
+    {
+      "table": "project_handover_contract_basis",
+      "column": "contract_id",
+      "property": "contractId",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-contract-basis.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_contract_basis",
+        "column_name": "contract_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 4
+      },
+      "expression": "() => p.manyToOne(Contract).mapToPk().fieldName(\"contract_id\").createForeignKeyConstraint(false)"
+    },
+    {
+      "table": "project_handover_contract_basis",
+      "column": "term_snapshot_id",
+      "property": "termSnapshotId",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-contract-basis.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_contract_basis",
+        "column_name": "term_snapshot_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 5
+      },
+      "expression": "() => p.manyToOne(ContractTermSnapshot).mapToPk().fieldName(\"term_snapshot_id\").createForeignKeyConstraint(false)"
+    },
+    {
+      "table": "project_handover_contract_basis",
+      "column": "readiness_package_id",
+      "property": "readinessPackageId",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-contract-basis.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_contract_basis",
+        "column_name": "readiness_package_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 6
+      },
+      "expression": "() => p.manyToOne(ContractReadinessPackage).mapToPk().fieldName(\"readiness_package_id\").createForeignKeyConstraint(false)"
+    },
+    {
+      "table": "project_handover_contract_basis",
+      "column": "preparation_id",
+      "property": "preparationId",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-contract-basis.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_contract_basis",
+        "column_name": "preparation_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 7
+      },
+      "expression": "() => p.manyToOne(ContractTermPreparation).mapToPk().fieldName(\"preparation_id\").createForeignKeyConstraint(false)"
+    },
+    {
+      "table": "project_handover_contract_basis",
+      "column": "plan_version_id",
+      "property": "planVersionId",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-contract-basis.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_contract_basis",
+        "column_name": "plan_version_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 8
+      },
+      "expression": "() => p.manyToOne(ReceivablePlanVersion).mapToPk().fieldName(\"plan_version_id\").createForeignKeyConstraint(false)"
+    },
+    {
+      "table": "project_handover_contract_basis",
+      "column": "contract_amendment_id",
+      "property": "contractAmendmentId",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-contract-basis.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_contract_basis",
+        "column_name": "contract_amendment_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 9
+      },
+      "expression": "() => p.manyToOne(ContractAmendment).mapToPk().nullable().fieldName(\"contract_amendment_id\").createForeignKeyConstraint(false)"
+    },
+    {
+      "table": "project_handover_contract_basis",
+      "column": "source_payload_hash",
+      "property": "sourcePayloadHash",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-contract-basis.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_contract_basis",
+        "column_name": "source_payload_hash",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": 64,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 10
+      },
+      "expression": "p.string().length(64).fieldName(\"source_payload_hash\")"
+    },
+    {
+      "table": "project_handover_contract_basis",
+      "column": "currency_code",
+      "property": "currencyCode",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-contract-basis.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_contract_basis",
+        "column_name": "currency_code",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": 16,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 11
+      },
+      "expression": "p.string().length(16).fieldName(\"currency_code\")"
+    },
+    {
+      "table": "project_handover_contract_basis",
+      "column": "signed_amount",
+      "property": "signedAmount",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-contract-basis.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_contract_basis",
+        "column_name": "signed_amount",
+        "data_type": "numeric",
+        "udt_name": "numeric",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": 18,
+        "numeric_scale": 2,
+        "ordinal_position": 12
+      },
+      "expression": "p.string().columnType('numeric(18,2)').precision(18).scale(2).fieldName(\"signed_amount\")"
+    },
+    {
+      "table": "project_handover_contract_basis",
+      "column": "amount_tax_inclusive",
+      "property": "amountTaxInclusive",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-contract-basis.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_contract_basis",
+        "column_name": "amount_tax_inclusive",
+        "data_type": "numeric",
+        "udt_name": "numeric",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": 18,
+        "numeric_scale": 2,
+        "ordinal_position": 13
+      },
+      "expression": "p.string().columnType('numeric(18,2)').precision(18).scale(2).fieldName(\"amount_tax_inclusive\")"
+    },
+    {
+      "table": "project_handover_contract_basis",
+      "column": "amount_tax_exclusive",
+      "property": "amountTaxExclusive",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-contract-basis.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_contract_basis",
+        "column_name": "amount_tax_exclusive",
+        "data_type": "numeric",
+        "udt_name": "numeric",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": 18,
+        "numeric_scale": 2,
+        "ordinal_position": 14
+      },
+      "expression": "p.string().columnType('numeric(18,2)').precision(18).scale(2).fieldName(\"amount_tax_exclusive\")"
+    },
+    {
+      "table": "project_handover_contract_basis",
+      "column": "is_compatibility_anchor",
+      "property": "isCompatibilityAnchor",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-contract-basis.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_contract_basis",
+        "column_name": "is_compatibility_anchor",
+        "data_type": "boolean",
+        "udt_name": "bool",
+        "is_nullable": "NO",
+        "column_default": "false",
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 15
+      },
+      "expression": "p.boolean().default(false).fieldName(\"is_compatibility_anchor\")"
+    },
+    {
+      "table": "project_handover_basis_item",
+      "column": "id",
+      "property": "id",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-basis-item.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_basis_item",
+        "column_name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "column_default": "gen_random_uuid()",
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 1
+      },
+      "expression": "p.uuid().primary().defaultRaw(\"gen_random_uuid()\").fieldName(\"id\")"
+    },
+    {
+      "table": "project_handover_basis_item",
+      "column": "basis_snapshot_id",
+      "property": "basisSnapshotId",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-basis-item.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_basis_item",
+        "column_name": "basis_snapshot_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 2
+      },
+      "expression": "() => p.manyToOne(ProjectHandoverBasisSnapshot).mapToPk().fieldName(\"basis_snapshot_id\").foreignKeyName(\"project_handover_basis_item_basis_snapshot_id_fkey\").updateRule('no action').deleteRule(\"restrict\")"
+    },
+    {
+      "table": "project_handover_basis_item",
+      "column": "item_key",
+      "property": "itemKey",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-basis-item.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_basis_item",
+        "column_name": "item_key",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": 128,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 3
+      },
+      "expression": "p.string().length(128).fieldName(\"item_key\")"
+    },
+    {
+      "table": "project_handover_basis_item",
+      "column": "item_type",
+      "property": "itemType",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-basis-item.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_basis_item",
+        "column_name": "item_type",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": 32,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 4
+      },
+      "expression": "p.string().length(32).fieldName(\"item_type\")"
+    },
+    {
+      "table": "project_handover_basis_item",
+      "column": "source_type",
+      "property": "sourceType",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-basis-item.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_basis_item",
+        "column_name": "source_type",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": 64,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 5
+      },
+      "expression": "p.string().length(64).fieldName(\"source_type\")"
+    },
+    {
+      "table": "project_handover_basis_item",
+      "column": "source_id",
+      "property": "sourceId",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-basis-item.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_basis_item",
+        "column_name": "source_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 6
+      },
+      "expression": "p.uuid().fieldName(\"source_id\")"
+    },
+    {
+      "table": "project_handover_basis_item",
+      "column": "source_version",
+      "property": "sourceVersion",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-basis-item.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_basis_item",
+        "column_name": "source_version",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": 64,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 7
+      },
+      "expression": "p.string().length(64).nullable().fieldName(\"source_version\")"
+    },
+    {
+      "table": "project_handover_basis_item",
+      "column": "source_hash",
+      "property": "sourceHash",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-basis-item.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_basis_item",
+        "column_name": "source_hash",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": 64,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 8
+      },
+      "expression": "p.string().length(64).nullable().fieldName(\"source_hash\")"
+    },
+    {
+      "table": "project_handover_basis_item",
+      "column": "payload",
+      "property": "payload",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-basis-item.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_basis_item",
+        "column_name": "payload",
+        "data_type": "jsonb",
+        "udt_name": "jsonb",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 9
+      },
+      "expression": "p.json<Record<string, unknown>>().columnType('jsonb').fieldName(\"payload\")"
+    },
+    {
+      "table": "project_handover_basis_item",
+      "column": "created_at",
+      "property": "createdAt",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-basis-item.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_basis_item",
+        "column_name": "created_at",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "NO",
+        "column_default": "now()",
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 10
+      },
+      "expression": "p.datetime().columnType('timestamptz').defaultRaw(\"now()\").fieldName(\"created_at\")"
+    },
+    {
+      "table": "project_handover_basis_item",
+      "column": "created_by",
+      "property": "createdBy",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-basis-item.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_basis_item",
+        "column_name": "created_by",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 11
+      },
+      "expression": "() => p.manyToOne(PlatformUser).mapToPk().fieldName(\"created_by\").foreignKeyName(\"project_handover_basis_item_created_by_fkey\").updateRule('no action').deleteRule(\"restrict\")"
+    },
+    {
+      "table": "project_handover_participant_role",
+      "column": "id",
+      "property": "id",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-participant-role.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_participant_role",
+        "column_name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "column_default": "gen_random_uuid()",
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 1
+      },
+      "expression": "p.uuid().primary().defaultRaw(\"gen_random_uuid()\").fieldName(\"id\")"
+    },
+    {
+      "table": "project_handover_participant_role",
+      "column": "handover_id",
+      "property": "handoverId",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-participant-role.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_participant_role",
+        "column_name": "handover_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 2
+      },
+      "expression": "() => p.manyToOne(ProjectHandover).mapToPk().fieldName(\"handover_id\").createForeignKeyConstraint(false)"
+    },
+    {
+      "table": "project_handover_participant_role",
+      "column": "confirmation_record_id",
+      "property": "confirmationRecordId",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-participant-role.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_participant_role",
+        "column_name": "confirmation_record_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 3
+      },
+      "expression": "() => p.manyToOne(ConfirmationRecord).mapToPk().fieldName(\"confirmation_record_id\").createForeignKeyConstraint(false)"
+    },
+    {
+      "table": "project_handover_participant_role",
+      "column": "confirmation_participant_id",
+      "property": "confirmationParticipantId",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-participant-role.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_participant_role",
+        "column_name": "confirmation_participant_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 4
+      },
+      "expression": "() => p.manyToOne(ConfirmationParticipant).mapToPk().fieldName(\"confirmation_participant_id\").createForeignKeyConstraint(false)"
+    },
+    {
+      "table": "project_handover_participant_role",
+      "column": "participant_user_id",
+      "property": "participantUserId",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-participant-role.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_participant_role",
+        "column_name": "participant_user_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 5
+      },
+      "expression": "() => p.manyToOne(PlatformUser).mapToPk().fieldName(\"participant_user_id\").foreignKeyName(\"project_handover_participant_role_participant_user_id_fkey\").updateRule('no action').deleteRule(\"restrict\")"
+    },
+    {
+      "table": "project_handover_participant_role",
+      "column": "role_key",
+      "property": "roleKey",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-participant-role.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_participant_role",
+        "column_name": "role_key",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": 64,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 6
+      },
+      "expression": "p.string().length(64).fieldName(\"role_key\")"
+    },
+    {
+      "table": "project_handover_participant_role",
+      "column": "responsibility_summary",
+      "property": "responsibilitySummary",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-participant-role.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_participant_role",
+        "column_name": "responsibility_summary",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": 1000,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 7
+      },
+      "expression": "p.string().length(1000).fieldName(\"responsibility_summary\")"
+    },
+    {
+      "table": "project_handover_participant_role",
+      "column": "created_at",
+      "property": "createdAt",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-participant-role.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_participant_role",
+        "column_name": "created_at",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "NO",
+        "column_default": "now()",
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 8
+      },
+      "expression": "p.datetime().columnType('timestamptz').defaultRaw(\"now()\").fieldName(\"created_at\")"
+    },
+    {
+      "table": "project_handover_participant_role",
+      "column": "created_by",
+      "property": "createdBy",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-participant-role.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_participant_role",
+        "column_name": "created_by",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 9
+      },
+      "expression": "() => p.manyToOne(PlatformUser).mapToPk().fieldName(\"created_by\").foreignKeyName(\"project_handover_participant_role_created_by_fkey\").updateRule('no action').deleteRule(\"restrict\")"
+    },
+    {
+      "table": "project_handover_summary_payload",
+      "column": "summary_snapshot_id",
+      "property": "summarySnapshotId",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-summary-payload.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_summary_payload",
+        "column_name": "summary_snapshot_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 1
+      },
+      "expression": "() => p.manyToOne(ApprovalSummarySnapshot).mapToPk().primary().fieldName(\"summary_snapshot_id\").foreignKeyName(\"project_handover_summary_payload_summary_snapshot_id_fkey\").updateRule('no action').deleteRule(\"restrict\")"
+    },
+    {
+      "table": "project_handover_summary_payload",
+      "column": "project_id",
+      "property": "projectId",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-summary-payload.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_summary_payload",
+        "column_name": "project_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 2
+      },
+      "expression": "() => p.manyToOne(Project).mapToPk().fieldName(\"project_id\").createForeignKeyConstraint(false)"
+    },
+    {
+      "table": "project_handover_summary_payload",
+      "column": "handover_id",
+      "property": "handoverId",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-summary-payload.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_summary_payload",
+        "column_name": "handover_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 3
+      },
+      "expression": "() => p.manyToOne(ProjectHandover).mapToPk().nullable().fieldName(\"handover_id\").createForeignKeyConstraint(false)"
+    },
+    {
+      "table": "project_handover_summary_payload",
+      "column": "basis_snapshot_id",
+      "property": "basisSnapshotId",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-summary-payload.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_summary_payload",
+        "column_name": "basis_snapshot_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 4
+      },
+      "expression": "() => p.manyToOne(ProjectHandoverBasisSnapshot).mapToPk().fieldName(\"basis_snapshot_id\").createForeignKeyConstraint(false)"
+    },
+    {
+      "table": "project_handover_summary_payload",
+      "column": "contract_summary_snapshot_id",
+      "property": "contractSummarySnapshotId",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-summary-payload.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_summary_payload",
+        "column_name": "contract_summary_snapshot_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 5
+      },
+      "expression": "() => p.manyToOne(ApprovalSummarySnapshot).mapToPk().nullable().fieldName(\"contract_summary_snapshot_id\").foreignKeyName(\"project_handover_summary_payl_contract_summary_snapshot_id_fkey\").updateRule('no action').deleteRule(\"restrict\")"
+    },
+    {
+      "table": "project_handover_summary_payload",
+      "column": "payload",
+      "property": "payload",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-summary-payload.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_summary_payload",
+        "column_name": "payload",
+        "data_type": "jsonb",
+        "udt_name": "jsonb",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 6
+      },
+      "expression": "p.json<Record<string, unknown>>().columnType('jsonb').fieldName(\"payload\")"
+    },
+    {
+      "table": "project_handover_summary_payload",
+      "column": "payload_hash",
+      "property": "payloadHash",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-summary-payload.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_summary_payload",
+        "column_name": "payload_hash",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": 64,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 7
+      },
+      "expression": "p.string().length(64).fieldName(\"payload_hash\")"
+    },
+    {
+      "table": "project_handover_summary_payload",
+      "column": "source_hash",
+      "property": "sourceHash",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-summary-payload.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_summary_payload",
+        "column_name": "source_hash",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": 64,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 8
+      },
+      "expression": "p.string().length(64).fieldName(\"source_hash\")"
+    },
+    {
+      "table": "project_handover_summary_payload",
+      "column": "generated_at",
+      "property": "generatedAt",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-summary-payload.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_summary_payload",
+        "column_name": "generated_at",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "NO",
+        "column_default": "now()",
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 9
+      },
+      "expression": "p.datetime().columnType('timestamptz').defaultRaw(\"now()\").fieldName(\"generated_at\")"
+    },
+    {
+      "table": "project_handover_summary_payload",
+      "column": "generated_by",
+      "property": "generatedBy",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover-summary-payload.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "project_handover_summary_payload",
+        "column_name": "generated_by",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 10
+      },
+      "expression": "() => p.manyToOne(PlatformUser).mapToPk().fieldName(\"generated_by\").foreignKeyName(\"project_handover_summary_payload_generated_by_fkey\").updateRule('no action').deleteRule(\"restrict\")"
+    },
+    {
+      "table": "cost_governance_evidence",
+      "column": "id",
+      "property": "id",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/cost-governance-evidence.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "cost_governance_evidence",
+        "column_name": "id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "column_default": "gen_random_uuid()",
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 1
+      },
+      "expression": "p.uuid().primary().defaultRaw(\"gen_random_uuid()\").fieldName(\"id\")"
+    },
+    {
+      "table": "cost_governance_evidence",
+      "column": "target_type",
+      "property": "targetType",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/cost-governance-evidence.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "cost_governance_evidence",
+        "column_name": "target_type",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": 64,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 2
+      },
+      "expression": "p.string().length(64).fieldName(\"target_type\")"
+    },
+    {
+      "table": "cost_governance_evidence",
+      "column": "target_id",
+      "property": "targetId",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/cost-governance-evidence.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "cost_governance_evidence",
+        "column_name": "target_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 3
+      },
+      "expression": "p.uuid().fieldName(\"target_id\")"
+    },
+    {
+      "table": "cost_governance_evidence",
+      "column": "project_id",
+      "property": "projectId",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/cost-governance-evidence.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "cost_governance_evidence",
+        "column_name": "project_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 4
+      },
+      "expression": "() => p.manyToOne(Project).mapToPk().nullable().fieldName(\"project_id\").foreignKeyName(\"cost_governance_evidence_project_id_fkey\").updateRule('no action').deleteRule(\"no action\")"
+    },
+    {
+      "table": "cost_governance_evidence",
+      "column": "evidence_kind",
+      "property": "evidenceKind",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/cost-governance-evidence.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "cost_governance_evidence",
+        "column_name": "evidence_kind",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": 32,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 5
+      },
+      "expression": "p.string().length(32).fieldName(\"evidence_kind\")"
+    },
+    {
+      "table": "cost_governance_evidence",
+      "column": "business_date",
+      "property": "businessDate",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/cost-governance-evidence.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "cost_governance_evidence",
+        "column_name": "business_date",
+        "data_type": "date",
+        "udt_name": "date",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 6
+      },
+      "expression": "p.date().fieldName(\"business_date\")"
+    },
+    {
+      "table": "cost_governance_evidence",
+      "column": "source_references",
+      "property": "sourceReferences",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/cost-governance-evidence.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "cost_governance_evidence",
+        "column_name": "source_references",
+        "data_type": "jsonb",
+        "udt_name": "jsonb",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 7
+      },
+      "expression": "p.json<unknown[]>().columnType('jsonb').fieldName(\"source_references\")"
+    },
+    {
+      "table": "cost_governance_evidence",
+      "column": "frozen_payload",
+      "property": "frozenPayload",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/cost-governance-evidence.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "cost_governance_evidence",
+        "column_name": "frozen_payload",
+        "data_type": "jsonb",
+        "udt_name": "jsonb",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 8
+      },
+      "expression": "p.json<Record<string, unknown>>().columnType('jsonb').fieldName(\"frozen_payload\")"
+    },
+    {
+      "table": "cost_governance_evidence",
+      "column": "payload_hash",
+      "property": "payloadHash",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/cost-governance-evidence.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "cost_governance_evidence",
+        "column_name": "payload_hash",
+        "data_type": "character",
+        "udt_name": "bpchar",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": 64,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 9
+      },
+      "expression": "p.string().columnType('char(64)').length(64).fieldName(\"payload_hash\")"
+    },
+    {
+      "table": "cost_governance_evidence",
+      "column": "reason",
+      "property": "reason",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/cost-governance-evidence.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "cost_governance_evidence",
+        "column_name": "reason",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 10
+      },
+      "expression": "p.text().fieldName(\"reason\")"
+    },
+    {
+      "table": "cost_governance_evidence",
+      "column": "actor_id",
+      "property": "actorId",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/cost-governance-evidence.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "cost_governance_evidence",
+        "column_name": "actor_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 11
+      },
+      "expression": "p.uuid().fieldName(\"actor_id\")"
+    },
+    {
+      "table": "cost_governance_evidence",
+      "column": "request_id",
+      "property": "requestId",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/cost-governance-evidence.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "cost_governance_evidence",
+        "column_name": "request_id",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": 128,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 12
+      },
+      "expression": "p.string().length(128).nullable().fieldName(\"request_id\")"
+    },
+    {
+      "table": "cost_governance_evidence",
+      "column": "schema_version",
+      "property": "schemaVersion",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/cost-governance-evidence.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "cost_governance_evidence",
+        "column_name": "schema_version",
+        "data_type": "smallint",
+        "udt_name": "int2",
+        "is_nullable": "NO",
+        "column_default": "1",
+        "character_maximum_length": null,
+        "numeric_precision": 16,
+        "numeric_scale": 0,
+        "ordinal_position": 13
+      },
+      "expression": "p.integer().columnType('smallint').default(1).fieldName(\"schema_version\")"
+    },
+    {
+      "table": "cost_governance_evidence",
+      "column": "created_at",
+      "property": "createdAt",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/cost-governance-evidence.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "cost_governance_evidence",
+        "column_name": "created_at",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "NO",
+        "column_default": "now()",
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 14
+      },
+      "expression": "p.datetime().columnType('timestamptz').defaultRaw(\"now()\").fieldName(\"created_at\")"
+    },
+    {
+      "table": "shared_cost_allocation_source_snapshot",
+      "column": "basis_id",
+      "property": "basisId",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/shared-cost-allocation-source-snapshot.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "shared_cost_allocation_source_snapshot",
+        "column_name": "basis_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 1
+      },
+      "expression": "() => p.manyToOne(SharedCostAllocationBasis).mapToPk().primary().fieldName(\"basis_id\").foreignKeyName(\"shared_cost_allocation_source_snapshot_basis_id_fkey\").updateRule('no action').deleteRule(\"no action\")"
+    },
+    {
+      "table": "shared_cost_allocation_source_snapshot",
+      "column": "cost_record_id",
+      "property": "costRecordId",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/shared-cost-allocation-source-snapshot.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "shared_cost_allocation_source_snapshot",
+        "column_name": "cost_record_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 2
+      },
+      "expression": "() => p.manyToOne(ProjectActualCostRecord).mapToPk().primary().fieldName(\"cost_record_id\").foreignKeyName(\"shared_cost_allocation_source_snapshot_cost_record_id_fkey\").updateRule('no action').deleteRule(\"no action\")"
+    },
+    {
+      "table": "shared_cost_allocation_source_snapshot",
+      "column": "cost_row_version",
+      "property": "costRowVersion",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/shared-cost-allocation-source-snapshot.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "shared_cost_allocation_source_snapshot",
+        "column_name": "cost_row_version",
+        "data_type": "integer",
+        "udt_name": "int4",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": 32,
+        "numeric_scale": 0,
+        "ordinal_position": 3
+      },
+      "expression": "p.integer().fieldName(\"cost_row_version\")"
+    },
+    {
+      "table": "shared_cost_allocation_source_snapshot",
+      "column": "source_type",
+      "property": "sourceType",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/shared-cost-allocation-source-snapshot.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "shared_cost_allocation_source_snapshot",
+        "column_name": "source_type",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": 64,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 4
+      },
+      "expression": "p.string().length(64).nullable().fieldName(\"source_type\")"
+    },
+    {
+      "table": "shared_cost_allocation_source_snapshot",
+      "column": "source_id",
+      "property": "sourceId",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/shared-cost-allocation-source-snapshot.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "shared_cost_allocation_source_snapshot",
+        "column_name": "source_id",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": 64,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 5
+      },
+      "expression": "p.string().length(64).nullable().fieldName(\"source_id\")"
+    },
+    {
+      "table": "shared_cost_allocation_source_snapshot",
+      "column": "source_row_version",
+      "property": "sourceRowVersion",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/shared-cost-allocation-source-snapshot.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "shared_cost_allocation_source_snapshot",
+        "column_name": "source_row_version",
+        "data_type": "integer",
+        "udt_name": "int4",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": 32,
+        "numeric_scale": 0,
+        "ordinal_position": 6
+      },
+      "expression": "p.integer().nullable().fieldName(\"source_row_version\")"
+    },
+    {
+      "table": "shared_cost_allocation_source_snapshot",
+      "column": "currency",
+      "property": "currency",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/shared-cost-allocation-source-snapshot.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "shared_cost_allocation_source_snapshot",
+        "column_name": "currency",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": 16,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 7
+      },
+      "expression": "p.string().length(16).fieldName(\"currency\")"
+    },
+    {
+      "table": "shared_cost_allocation_source_snapshot",
+      "column": "amount_excluding_tax",
+      "property": "amountExcludingTax",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/shared-cost-allocation-source-snapshot.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "shared_cost_allocation_source_snapshot",
+        "column_name": "amount_excluding_tax",
+        "data_type": "numeric",
+        "udt_name": "numeric",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": 18,
+        "numeric_scale": 2,
+        "ordinal_position": 8
+      },
+      "expression": "p.string().columnType('numeric(18,2)').precision(18).scale(2).nullable().fieldName(\"amount_excluding_tax\")"
+    },
+    {
+      "table": "shared_cost_allocation_source_snapshot",
+      "column": "tax_cost_amount",
+      "property": "taxCostAmount",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/shared-cost-allocation-source-snapshot.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "shared_cost_allocation_source_snapshot",
+        "column_name": "tax_cost_amount",
+        "data_type": "numeric",
+        "udt_name": "numeric",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": 18,
+        "numeric_scale": 2,
+        "ordinal_position": 9
+      },
+      "expression": "p.string().columnType('numeric(18,2)').precision(18).scale(2).nullable().fieldName(\"tax_cost_amount\")"
+    },
+    {
+      "table": "shared_cost_allocation_source_snapshot",
+      "column": "amount_including_tax",
+      "property": "amountIncludingTax",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/shared-cost-allocation-source-snapshot.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "shared_cost_allocation_source_snapshot",
+        "column_name": "amount_including_tax",
+        "data_type": "numeric",
+        "udt_name": "numeric",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": 18,
+        "numeric_scale": 2,
+        "ordinal_position": 10
+      },
+      "expression": "p.string().columnType('numeric(18,2)').precision(18).scale(2).nullable().fieldName(\"amount_including_tax\")"
+    },
+    {
+      "table": "shared_cost_allocation_source_snapshot",
+      "column": "source_payload",
+      "property": "sourcePayload",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/shared-cost-allocation-source-snapshot.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "shared_cost_allocation_source_snapshot",
+        "column_name": "source_payload",
+        "data_type": "jsonb",
+        "udt_name": "jsonb",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 11
+      },
+      "expression": "p.json<Record<string, unknown>>().columnType('jsonb').fieldName(\"source_payload\")"
+    },
+    {
+      "table": "shared_cost_allocation_source_snapshot",
+      "column": "source_payload_hash",
+      "property": "sourcePayloadHash",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/shared-cost-allocation-source-snapshot.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "shared_cost_allocation_source_snapshot",
+        "column_name": "source_payload_hash",
+        "data_type": "character",
+        "udt_name": "bpchar",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": 64,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 12
+      },
+      "expression": "p.string().columnType('char(64)').length(64).fieldName(\"source_payload_hash\")"
+    },
+    {
+      "table": "shared_cost_allocation_source_snapshot",
+      "column": "is_current",
+      "property": "isCurrent",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/shared-cost-allocation-source-snapshot.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "shared_cost_allocation_source_snapshot",
+        "column_name": "is_current",
+        "data_type": "boolean",
+        "udt_name": "bool",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 13
+      },
+      "expression": "p.boolean().fieldName(\"is_current\")"
+    },
+    {
+      "table": "shared_cost_allocation_source_snapshot",
+      "column": "created_at",
+      "property": "createdAt",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/shared-cost-allocation-source-snapshot.entity.ts",
+      "action": "CREATE TABLE column",
+      "catalog": {
+        "table_name": "shared_cost_allocation_source_snapshot",
+        "column_name": "created_at",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "NO",
+        "column_default": "now()",
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 14
+      },
+      "expression": "p.datetime().columnType('timestamptz').defaultRaw(\"now()\").fieldName(\"created_at\")"
+    },
+    {
+      "table": "contract_amendment",
+      "column": "producer_version",
+      "property": "producerVersion",
+      "candidateFile": "apps/poms-api/src/app/features/contract/contract.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN producer_version integer NULL",
+      "catalog": {
+        "table_name": "contract_amendment",
+        "column_name": "producer_version",
+        "data_type": "integer",
+        "udt_name": "int4",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": 32,
+        "numeric_scale": 0,
+        "ordinal_position": 12
+      },
+      "expression": "p.integer().nullable().fieldName(\"producer_version\")"
+    },
+    {
+      "table": "contract_amendment",
+      "column": "project_id",
+      "property": "projectId",
+      "candidateFile": "apps/poms-api/src/app/features/contract/contract.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN project_id uuid NULL",
+      "catalog": {
+        "table_name": "contract_amendment",
+        "column_name": "project_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 13
+      },
+      "expression": "() => p.manyToOne(Project).mapToPk().nullable().fieldName(\"project_id\").createForeignKeyConstraint(false)"
+    },
+    {
+      "table": "contract_amendment",
+      "column": "source_readiness_id",
+      "property": "sourceReadinessId",
+      "candidateFile": "apps/poms-api/src/app/features/contract/contract.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN source_readiness_id uuid NULL",
+      "catalog": {
+        "table_name": "contract_amendment",
+        "column_name": "source_readiness_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 14
+      },
+      "expression": "() => p.manyToOne(ContractReadinessPackage).mapToPk().nullable().fieldName(\"source_readiness_id\").createForeignKeyConstraint(false)"
+    },
+    {
+      "table": "contract_amendment",
+      "column": "source_preparation_id",
+      "property": "sourcePreparationId",
+      "candidateFile": "apps/poms-api/src/app/features/contract/contract.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN source_preparation_id uuid NULL",
+      "catalog": {
+        "table_name": "contract_amendment",
+        "column_name": "source_preparation_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 15
+      },
+      "expression": "() => p.manyToOne(ContractTermPreparation).mapToPk().nullable().fieldName(\"source_preparation_id\").createForeignKeyConstraint(false)"
+    },
+    {
+      "table": "contract_amendment",
+      "column": "source_review_id",
+      "property": "sourceReviewId",
+      "candidateFile": "apps/poms-api/src/app/features/contract/contract.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN source_review_id uuid NULL",
+      "catalog": {
+        "table_name": "contract_amendment",
+        "column_name": "source_review_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 16
+      },
+      "expression": "() => p.manyToOne(ContractReviewBinding).mapToPk().nullable().fieldName(\"source_review_id\").createForeignKeyConstraint(false)"
+    },
+    {
+      "table": "contract_amendment",
+      "column": "before_snapshot_id",
+      "property": "beforeSnapshotId",
+      "candidateFile": "apps/poms-api/src/app/features/contract/contract.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN before_snapshot_id uuid NULL",
+      "catalog": {
+        "table_name": "contract_amendment",
+        "column_name": "before_snapshot_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 17
+      },
+      "expression": "() => p.manyToOne(ContractTermSnapshot).mapToPk().nullable().fieldName(\"before_snapshot_id\").createForeignKeyConstraint(false)"
+    },
+    {
+      "table": "contract_amendment",
+      "column": "after_snapshot_id",
+      "property": "afterSnapshotId",
+      "candidateFile": "apps/poms-api/src/app/features/contract/contract.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN after_snapshot_id uuid NULL",
+      "catalog": {
+        "table_name": "contract_amendment",
+        "column_name": "after_snapshot_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 18
+      },
+      "expression": "() => p.manyToOne(ContractTermSnapshot).mapToPk().nullable().fieldName(\"after_snapshot_id\").createForeignKeyConstraint(false)"
+    },
+    {
+      "table": "contract_amendment",
+      "column": "amendment_reason",
+      "property": "amendmentReason",
+      "candidateFile": "apps/poms-api/src/app/features/contract/contract.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN amendment_reason varchar(1000) NULL",
+      "catalog": {
+        "table_name": "contract_amendment",
+        "column_name": "amendment_reason",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": 1000,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 19
+      },
+      "expression": "p.string().length(1000).nullable().fieldName(\"amendment_reason\")"
+    },
+    {
+      "table": "contract_amendment",
+      "column": "payload_hash",
+      "property": "payloadHash",
+      "candidateFile": "apps/poms-api/src/app/features/contract/contract.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN payload_hash varchar(64) NULL",
+      "catalog": {
+        "table_name": "contract_amendment",
+        "column_name": "payload_hash",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": 64,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 20
+      },
+      "expression": "p.string().length(64).nullable().fieldName(\"payload_hash\")"
+    },
+    {
+      "table": "contract_amendment",
+      "column": "effective_at",
+      "property": "effectiveAt",
+      "candidateFile": "apps/poms-api/src/app/features/contract/contract.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN effective_at timestamptz NULL",
+      "catalog": {
+        "table_name": "contract_amendment",
+        "column_name": "effective_at",
+        "data_type": "timestamp with time zone",
+        "udt_name": "timestamptz",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 21
+      },
+      "expression": "p.datetime().columnType('timestamptz').nullable().fieldName(\"effective_at\")"
+    },
+    {
+      "table": "contract_amendment",
+      "column": "effective_by",
+      "property": "effectiveBy",
+      "candidateFile": "apps/poms-api/src/app/features/contract/contract.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN effective_by uuid NULL",
+      "catalog": {
+        "table_name": "contract_amendment",
+        "column_name": "effective_by",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 22
+      },
+      "expression": "p.uuid().nullable().fieldName(\"effective_by\")"
+    },
+    {
+      "table": "contract_readiness_package",
+      "column": "contract_amendment_id",
+      "property": "contractAmendmentId",
+      "candidateFile": "apps/poms-api/src/app/features/contract-readiness/contract-readiness-package.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN contract_amendment_id uuid NULL",
+      "catalog": {
+        "table_name": "contract_readiness_package",
+        "column_name": "contract_amendment_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 28
+      },
+      "expression": "() => p.manyToOne(ContractAmendment).mapToPk().nullable().fieldName(\"contract_amendment_id\").createForeignKeyConstraint(false)"
+    },
+    {
+      "table": "contract_term_preparation",
+      "column": "contract_amendment_id",
+      "property": "contractAmendmentId",
+      "candidateFile": "apps/poms-api/src/app/features/contract-readiness/contract-lifecycle.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN contract_amendment_id uuid NULL",
+      "catalog": {
+        "table_name": "contract_term_preparation",
+        "column_name": "contract_amendment_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 36
+      },
+      "expression": "() => p.manyToOne(ContractAmendment).mapToPk().nullable().fieldName(\"contract_amendment_id\").createForeignKeyConstraint(false)"
+    },
+    {
+      "table": "contract_term_preparation",
+      "column": "before_snapshot_id",
+      "property": "beforeSnapshotId",
+      "candidateFile": "apps/poms-api/src/app/features/contract-readiness/contract-lifecycle.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN before_snapshot_id uuid NULL",
+      "catalog": {
+        "table_name": "contract_term_preparation",
+        "column_name": "before_snapshot_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 37
+      },
+      "expression": "() => p.manyToOne(ContractTermSnapshot).mapToPk().nullable().fieldName(\"before_snapshot_id\").createForeignKeyConstraint(false)"
+    },
+    {
+      "table": "contract_review_binding",
+      "column": "contract_amendment_id",
+      "property": "contractAmendmentId",
+      "candidateFile": "apps/poms-api/src/app/features/contract-readiness/contract-lifecycle.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN contract_amendment_id uuid NULL",
+      "catalog": {
+        "table_name": "contract_review_binding",
+        "column_name": "contract_amendment_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 8
+      },
+      "expression": "() => p.manyToOne(ContractAmendment).mapToPk().nullable().fieldName(\"contract_amendment_id\").createForeignKeyConstraint(false)"
+    },
+    {
+      "table": "contract_term_snapshot",
+      "column": "source_amendment_id",
+      "property": "sourceAmendmentId",
+      "candidateFile": "apps/poms-api/src/app/features/contract/contract.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN source_amendment_id uuid NULL",
+      "catalog": {
+        "table_name": "contract_term_snapshot",
+        "column_name": "source_amendment_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 22
+      },
+      "expression": "() => p.manyToOne(ContractAmendment).mapToPk().nullable().fieldName(\"source_amendment_id\").createForeignKeyConstraint(false)"
+    },
+    {
+      "table": "project_handover",
+      "column": "producer_version",
+      "property": "producerVersion",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN producer_version integer NULL",
+      "catalog": {
+        "table_name": "project_handover",
+        "column_name": "producer_version",
+        "data_type": "integer",
+        "udt_name": "int4",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": 32,
+        "numeric_scale": 0,
+        "ordinal_position": 16
+      },
+      "expression": "p.integer().nullable().fieldName(\"producer_version\")"
+    },
+    {
+      "table": "project_handover",
+      "column": "basis_snapshot_id",
+      "property": "basisSnapshotId",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN basis_snapshot_id uuid NULL",
+      "catalog": {
+        "table_name": "project_handover",
+        "column_name": "basis_snapshot_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 17
+      },
+      "expression": "() => p.manyToOne(ProjectHandoverBasisSnapshot).mapToPk().nullable().fieldName(\"basis_snapshot_id\").createForeignKeyConstraint(false)"
+    },
+    {
+      "table": "project_handover",
+      "column": "version",
+      "property": "version",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN version integer NULL CHECK(version IS NULL OR version>0)",
+      "catalog": {
+        "table_name": "project_handover",
+        "column_name": "version",
+        "data_type": "integer",
+        "udt_name": "int4",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": 32,
+        "numeric_scale": 0,
+        "ordinal_position": 18
+      },
+      "expression": "p.integer().nullable().fieldName(\"version\")"
+    },
+    {
+      "table": "project_handover",
+      "column": "is_current",
+      "property": "isCurrent",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN is_current boolean NOT NULL DEFAULT false",
+      "catalog": {
+        "table_name": "project_handover",
+        "column_name": "is_current",
+        "data_type": "boolean",
+        "udt_name": "bool",
+        "is_nullable": "NO",
+        "column_default": "false",
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 19
+      },
+      "expression": "p.boolean().default(false).fieldName(\"is_current\")"
+    },
+    {
+      "table": "project_handover",
+      "column": "supersedes_id",
+      "property": "supersedesId",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN supersedes_id uuid NULL REFERENCES poms.project_handover(id) ON DELETE RESTRICT",
+      "catalog": {
+        "table_name": "project_handover",
+        "column_name": "supersedes_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 20
+      },
+      "expression": "() => p.manyToOne(ProjectHandover).mapToPk().nullable().fieldName(\"supersedes_id\").foreignKeyName(\"project_handover_supersedes_id_fkey\").updateRule('no action').deleteRule(\"restrict\")"
+    },
+    {
+      "table": "project_handover",
+      "column": "execution_owner_user_id",
+      "property": "executionOwnerUserId",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN execution_owner_user_id uuid NULL REFERENCES poms.platform_user(id) ON DELETE RESTRICT",
+      "catalog": {
+        "table_name": "project_handover",
+        "column_name": "execution_owner_user_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 21
+      },
+      "expression": "() => p.manyToOne(PlatformUser).mapToPk().nullable().fieldName(\"execution_owner_user_id\").foreignKeyName(\"project_handover_execution_owner_user_id_fkey\").updateRule('no action').deleteRule(\"restrict\")"
+    },
+    {
+      "table": "project_handover",
+      "column": "confirmation_record_id",
+      "property": "confirmationRecordId",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN confirmation_record_id uuid NULL REFERENCES poms.confirmation_record(id) ON DELETE RESTRICT",
+      "catalog": {
+        "table_name": "project_handover",
+        "column_name": "confirmation_record_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 22
+      },
+      "expression": "() => p.manyToOne(ConfirmationRecord).mapToPk().nullable().fieldName(\"confirmation_record_id\").foreignKeyName(\"project_handover_confirmation_record_id_fkey\").updateRule('no action').deleteRule(\"restrict\")"
+    },
+    {
+      "table": "project_handover",
+      "column": "finance_confirmation_required",
+      "property": "financeConfirmationRequired",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN finance_confirmation_required boolean NULL",
+      "catalog": {
+        "table_name": "project_handover",
+        "column_name": "finance_confirmation_required",
+        "data_type": "boolean",
+        "udt_name": "bool",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 23
+      },
+      "expression": "p.boolean().nullable().fieldName(\"finance_confirmation_required\")"
+    },
+    {
+      "table": "project_handover",
+      "column": "prepared_receipt_judgment_mode",
+      "property": "preparedReceiptJudgmentMode",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN prepared_receipt_judgment_mode varchar(64) NULL",
+      "catalog": {
+        "table_name": "project_handover",
+        "column_name": "prepared_receipt_judgment_mode",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": 64,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 24
+      },
+      "expression": "p.string().length(64).nullable().fieldName(\"prepared_receipt_judgment_mode\")"
+    },
+    {
+      "table": "project_handover",
+      "column": "source_payload_hash",
+      "property": "sourcePayloadHash",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN source_payload_hash varchar(64) NULL",
+      "catalog": {
+        "table_name": "project_handover",
+        "column_name": "source_payload_hash",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": 64,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 25
+      },
+      "expression": "p.string().length(64).nullable().fieldName(\"source_payload_hash\")"
+    },
+    {
+      "table": "contract_handover_rebaseline_record",
+      "column": "producer_version",
+      "property": "producerVersion",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN producer_version integer NULL",
+      "catalog": {
+        "table_name": "contract_handover_rebaseline_record",
+        "column_name": "producer_version",
+        "data_type": "integer",
+        "udt_name": "int4",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": 32,
+        "numeric_scale": 0,
+        "ordinal_position": 15
+      },
+      "expression": "p.integer().nullable().fieldName(\"producer_version\")"
+    },
+    {
+      "table": "contract_handover_rebaseline_record",
+      "column": "basis_before_id",
+      "property": "basisBeforeId",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN basis_before_id uuid NULL REFERENCES poms.project_handover_basis_snapshot(id) ON DELETE RESTRICT",
+      "catalog": {
+        "table_name": "contract_handover_rebaseline_record",
+        "column_name": "basis_before_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 16
+      },
+      "expression": "() => p.manyToOne(ProjectHandoverBasisSnapshot).mapToPk().nullable().fieldName(\"basis_before_id\").foreignKeyName(\"contract_handover_rebaseline_record_basis_before_id_fkey\").updateRule('no action').deleteRule(\"restrict\")"
+    },
+    {
+      "table": "contract_handover_rebaseline_record",
+      "column": "basis_after_id",
+      "property": "basisAfterId",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN basis_after_id uuid NULL REFERENCES poms.project_handover_basis_snapshot(id) ON DELETE RESTRICT",
+      "catalog": {
+        "table_name": "contract_handover_rebaseline_record",
+        "column_name": "basis_after_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 17
+      },
+      "expression": "() => p.manyToOne(ProjectHandoverBasisSnapshot).mapToPk().nullable().fieldName(\"basis_after_id\").foreignKeyName(\"contract_handover_rebaseline_record_basis_after_id_fkey\").updateRule('no action').deleteRule(\"restrict\")"
+    },
+    {
+      "table": "contract_handover_rebaseline_record",
+      "column": "source_handover_id",
+      "property": "sourceHandoverId",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN source_handover_id uuid NULL REFERENCES poms.project_handover(id) ON DELETE RESTRICT",
+      "catalog": {
+        "table_name": "contract_handover_rebaseline_record",
+        "column_name": "source_handover_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 18
+      },
+      "expression": "() => p.manyToOne(ProjectHandover).mapToPk().nullable().fieldName(\"source_handover_id\").foreignKeyName(\"contract_handover_rebaseline_record_source_handover_id_fkey\").updateRule('no action').deleteRule(\"restrict\")"
+    },
+    {
+      "table": "contract_handover_rebaseline_record",
+      "column": "replacement_handover_id",
+      "property": "replacementHandoverId",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN replacement_handover_id uuid NULL REFERENCES poms.project_handover(id) ON DELETE RESTRICT",
+      "catalog": {
+        "table_name": "contract_handover_rebaseline_record",
+        "column_name": "replacement_handover_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 19
+      },
+      "expression": "() => p.manyToOne(ProjectHandover).mapToPk().nullable().fieldName(\"replacement_handover_id\").foreignKeyName(\"contract_handover_rebaseline_recor_replacement_handover_id_fkey\").updateRule('no action').deleteRule(\"restrict\")"
+    },
+    {
+      "table": "handover_baseline_impact_item",
+      "column": "producer_version",
+      "property": "producerVersion",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN producer_version integer NULL",
+      "catalog": {
+        "table_name": "handover_baseline_impact_item",
+        "column_name": "producer_version",
+        "data_type": "integer",
+        "udt_name": "int4",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": 32,
+        "numeric_scale": 0,
+        "ordinal_position": 9
+      },
+      "expression": "p.integer().nullable().fieldName(\"producer_version\")"
+    },
+    {
+      "table": "handover_baseline_impact_item",
+      "column": "basis_before_id",
+      "property": "basisBeforeId",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN basis_before_id uuid NULL",
+      "catalog": {
+        "table_name": "handover_baseline_impact_item",
+        "column_name": "basis_before_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 10
+      },
+      "expression": "() => p.manyToOne(ProjectHandoverBasisSnapshot).mapToPk().nullable().fieldName(\"basis_before_id\").createForeignKeyConstraint(false)"
+    },
+    {
+      "table": "handover_baseline_impact_item",
+      "column": "source_basis_item_id",
+      "property": "sourceBasisItemId",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN source_basis_item_id uuid NULL",
+      "catalog": {
+        "table_name": "handover_baseline_impact_item",
+        "column_name": "source_basis_item_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 11
+      },
+      "expression": "() => p.manyToOne(ProjectHandoverBasisItem).mapToPk().nullable().fieldName(\"source_basis_item_id\").createForeignKeyConstraint(false)"
+    },
+    {
+      "table": "project_receipt_judgment_freeze",
+      "column": "producer_version",
+      "property": "producerVersion",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN producer_version integer NULL",
+      "catalog": {
+        "table_name": "project_receipt_judgment_freeze",
+        "column_name": "producer_version",
+        "data_type": "integer",
+        "udt_name": "int4",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": 32,
+        "numeric_scale": 0,
+        "ordinal_position": 18
+      },
+      "expression": "p.integer().nullable().fieldName(\"producer_version\")"
+    },
+    {
+      "table": "project_receipt_judgment_freeze",
+      "column": "basis_snapshot_id",
+      "property": "basisSnapshotId",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN basis_snapshot_id uuid NULL",
+      "catalog": {
+        "table_name": "project_receipt_judgment_freeze",
+        "column_name": "basis_snapshot_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 19
+      },
+      "expression": "() => p.manyToOne(ProjectHandoverBasisSnapshot).mapToPk().nullable().fieldName(\"basis_snapshot_id\").createForeignKeyConstraint(false)"
+    },
+    {
+      "table": "project_receipt_judgment_freeze",
+      "column": "version",
+      "property": "version",
+      "candidateFile": "apps/poms-api/src/app/features/project-handover/project-handover.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN version integer NULL CHECK(version IS NULL OR version>0)",
+      "catalog": {
+        "table_name": "project_receipt_judgment_freeze",
+        "column_name": "version",
+        "data_type": "integer",
+        "udt_name": "int4",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": 32,
+        "numeric_scale": 0,
+        "ordinal_position": 20
+      },
+      "expression": "p.integer().nullable().fieldName(\"version\")"
+    },
+    {
+      "table": "expense_record",
+      "column": "amount_including_tax",
+      "property": "amountIncludingTax",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/expense-record.entity.ts",
+      "action": "ALTER COLUMN ALTER COLUMN amount_including_tax TYPE numeric(18,2)",
+      "catalog": {
+        "table_name": "expense_record",
+        "column_name": "amount_including_tax",
+        "data_type": "numeric",
+        "udt_name": "numeric",
+        "is_nullable": "NO",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": 18,
+        "numeric_scale": 2,
+        "ordinal_position": 8
+      },
+      "expression": "p.decimal().precision(18).scale(2).fieldName('amount_including_tax')"
+    },
+    {
+      "table": "expense_record",
+      "column": "tax_amount",
+      "property": "taxAmount",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/expense-record.entity.ts",
+      "action": "ALTER COLUMN ALTER COLUMN tax_amount TYPE numeric(18,2)",
+      "catalog": {
+        "table_name": "expense_record",
+        "column_name": "tax_amount",
+        "data_type": "numeric",
+        "udt_name": "numeric",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": 18,
+        "numeric_scale": 2,
+        "ordinal_position": 9
+      },
+      "expression": "p.decimal().precision(18).scale(2).nullable().fieldName('tax_amount')"
+    },
+    {
+      "table": "expense_record",
+      "column": "amount_excluding_tax",
+      "property": "amountExcludingTax",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/expense-record.entity.ts",
+      "action": "ALTER COLUMN ALTER COLUMN amount_excluding_tax TYPE numeric(18,2)",
+      "catalog": {
+        "table_name": "expense_record",
+        "column_name": "amount_excluding_tax",
+        "data_type": "numeric",
+        "udt_name": "numeric",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": 18,
+        "numeric_scale": 2,
+        "ordinal_position": 10
+      },
+      "expression": "p.decimal().precision(18).scale(2).nullable().fieldName('amount_excluding_tax')"
+    },
+    {
+      "table": "project_actual_cost_record",
+      "column": "amount_excluding_tax",
+      "property": "amountExcludingTax",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/project-actual-cost-record.entity.ts",
+      "action": "ALTER COLUMN ALTER COLUMN amount_excluding_tax TYPE numeric(18,2)",
+      "catalog": {
+        "table_name": "project_actual_cost_record",
+        "column_name": "amount_excluding_tax",
+        "data_type": "numeric",
+        "udt_name": "numeric",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": 18,
+        "numeric_scale": 2,
+        "ordinal_position": 17
+      },
+      "expression": "p.decimal().precision(18).scale(2).nullable().fieldName('amount_excluding_tax').comment('不含税金额')"
+    },
+    {
+      "table": "project_actual_cost_record",
+      "column": "tax_cost_amount",
+      "property": "taxCostAmount",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/project-actual-cost-record.entity.ts",
+      "action": "ALTER COLUMN ALTER COLUMN tax_cost_amount TYPE numeric(18,2)",
+      "catalog": {
+        "table_name": "project_actual_cost_record",
+        "column_name": "tax_cost_amount",
+        "data_type": "numeric",
+        "udt_name": "numeric",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": 18,
+        "numeric_scale": 2,
+        "ordinal_position": 18
+      },
+      "expression": "p.decimal().precision(18).scale(2).nullable().fieldName('tax_cost_amount').comment('税金成本')"
+    },
+    {
+      "table": "project_actual_cost_record",
+      "column": "amount_including_tax",
+      "property": "amountIncludingTax",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/project-actual-cost-record.entity.ts",
+      "action": "ALTER COLUMN ALTER COLUMN amount_including_tax TYPE numeric(18,2)",
+      "catalog": {
+        "table_name": "project_actual_cost_record",
+        "column_name": "amount_including_tax",
+        "data_type": "numeric",
+        "udt_name": "numeric",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": 18,
+        "numeric_scale": 2,
+        "ordinal_position": 19
+      },
+      "expression": "p.decimal().precision(18).scale(2).nullable().fieldName('amount_including_tax').comment('含税总额（实际成本主要金额）')"
+    },
+    {
+      "table": "project_actual_cost_record",
+      "column": "labor_amount",
+      "property": "laborAmount",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/project-actual-cost-record.entity.ts",
+      "action": "ALTER COLUMN ALTER COLUMN labor_amount TYPE numeric(18,2)",
+      "catalog": {
+        "table_name": "project_actual_cost_record",
+        "column_name": "labor_amount",
+        "data_type": "numeric",
+        "udt_name": "numeric",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": 18,
+        "numeric_scale": 2,
+        "ordinal_position": 45
+      },
+      "expression": "p.decimal().precision(18).scale(2).nullable().fieldName('labor_amount').comment('人力成本-计算金额')"
+    },
+    {
+      "table": "project_actual_cost_record",
+      "column": "source_basis",
+      "property": "sourceBasis",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/project-actual-cost-record.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN source_basis jsonb NULL",
+      "catalog": {
+        "table_name": "project_actual_cost_record",
+        "column_name": "source_basis",
+        "data_type": "jsonb",
+        "udt_name": "jsonb",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 54
+      },
+      "expression": "p.json<Record<string, unknown>>().columnType('jsonb').nullable().fieldName(\"source_basis\")"
+    },
+    {
+      "table": "project_actual_cost_record",
+      "column": "calculation_basis",
+      "property": "calculationBasis",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/project-actual-cost-record.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN calculation_basis jsonb NULL",
+      "catalog": {
+        "table_name": "project_actual_cost_record",
+        "column_name": "calculation_basis",
+        "data_type": "jsonb",
+        "udt_name": "jsonb",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 55
+      },
+      "expression": "p.json<Record<string, unknown>>().columnType('jsonb').nullable().fieldName(\"calculation_basis\")"
+    },
+    {
+      "table": "project_actual_cost_record",
+      "column": "basis_origin",
+      "property": "basisOrigin",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/project-actual-cost-record.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN basis_origin varchar(32) NOT NULL DEFAULT 'legacy-unavailable'",
+      "catalog": {
+        "table_name": "project_actual_cost_record",
+        "column_name": "basis_origin",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "column_default": "'legacy-unavailable'::character varying",
+        "character_maximum_length": 32,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 56
+      },
+      "expression": "p.string().length(32).default(\"legacy-unavailable\").fieldName(\"basis_origin\")"
+    },
+    {
+      "table": "project_actual_cost_record",
+      "column": "labor_scope_key",
+      "property": "laborScopeKey",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/project-actual-cost-record.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN labor_scope_key text GENERATED ALWAYS AS (\n    CASE WHEN cost_type = 'labor' THEN\n      CASE WHEN labor_person_id IS NOT NULL THEN 'person:' || labor_person_id::text\n           WHEN labor_role IS NOT NULL THEN 'role:' || labor_role END\n    END\n  ) STORED",
+      "catalog": {
+        "table_name": "project_actual_cost_record",
+        "column_name": "labor_scope_key",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 57
+      },
+      "expression": "p.text().nullable().generated(\"as (CASE WHEN cost_type = 'labor' THEN CASE WHEN labor_person_id IS NOT NULL THEN 'person:' || labor_person_id::text WHEN labor_role IS NOT NULL THEN 'role:' || labor_role END END) stored\").fieldName(\"labor_scope_key\")"
+    },
+    {
+      "table": "shared_cost_allocation_basis",
+      "column": "currency",
+      "property": "currency",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/shared-cost-allocation-basis.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN currency varchar(16) NULL",
+      "catalog": {
+        "table_name": "shared_cost_allocation_basis",
+        "column_name": "currency",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": 16,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 15
+      },
+      "expression": "p.string().length(16).nullable().fieldName(\"currency\")"
+    },
+    {
+      "table": "shared_cost_allocation_basis",
+      "column": "measurement_basis",
+      "property": "measurementBasis",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/shared-cost-allocation-basis.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN measurement_basis varchar(32) NULL",
+      "catalog": {
+        "table_name": "shared_cost_allocation_basis",
+        "column_name": "measurement_basis",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": 32,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 16
+      },
+      "expression": "p.string().length(32).nullable().fieldName(\"measurement_basis\")"
+    },
+    {
+      "table": "shared_cost_allocation_basis",
+      "column": "source_amount_excluding_tax",
+      "property": "sourceAmountExcludingTax",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/shared-cost-allocation-basis.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN source_amount_excluding_tax numeric(18,2) NULL",
+      "catalog": {
+        "table_name": "shared_cost_allocation_basis",
+        "column_name": "source_amount_excluding_tax",
+        "data_type": "numeric",
+        "udt_name": "numeric",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": 18,
+        "numeric_scale": 2,
+        "ordinal_position": 17
+      },
+      "expression": "p.string().columnType('numeric(18,2)').precision(18).scale(2).nullable().fieldName(\"source_amount_excluding_tax\")"
+    },
+    {
+      "table": "shared_cost_allocation_basis",
+      "column": "source_tax_cost_amount",
+      "property": "sourceTaxCostAmount",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/shared-cost-allocation-basis.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN source_tax_cost_amount numeric(18,2) NULL",
+      "catalog": {
+        "table_name": "shared_cost_allocation_basis",
+        "column_name": "source_tax_cost_amount",
+        "data_type": "numeric",
+        "udt_name": "numeric",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": 18,
+        "numeric_scale": 2,
+        "ordinal_position": 18
+      },
+      "expression": "p.string().columnType('numeric(18,2)').precision(18).scale(2).nullable().fieldName(\"source_tax_cost_amount\")"
+    },
+    {
+      "table": "shared_cost_allocation_basis",
+      "column": "source_amount_including_tax",
+      "property": "sourceAmountIncludingTax",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/shared-cost-allocation-basis.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN source_amount_including_tax numeric(18,2) NULL",
+      "catalog": {
+        "table_name": "shared_cost_allocation_basis",
+        "column_name": "source_amount_including_tax",
+        "data_type": "numeric",
+        "udt_name": "numeric",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": 18,
+        "numeric_scale": 2,
+        "ordinal_position": 19
+      },
+      "expression": "p.string().columnType('numeric(18,2)').precision(18).scale(2).nullable().fieldName(\"source_amount_including_tax\")"
+    },
+    {
+      "table": "shared_cost_allocation_basis",
+      "column": "measurement_amount",
+      "property": "measurementAmount",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/shared-cost-allocation-basis.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN measurement_amount numeric(18,2) NULL",
+      "catalog": {
+        "table_name": "shared_cost_allocation_basis",
+        "column_name": "measurement_amount",
+        "data_type": "numeric",
+        "udt_name": "numeric",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": 18,
+        "numeric_scale": 2,
+        "ordinal_position": 20
+      },
+      "expression": "p.string().columnType('numeric(18,2)').precision(18).scale(2).nullable().fieldName(\"measurement_amount\")"
+    },
+    {
+      "table": "shared_cost_allocation_basis",
+      "column": "allocation_algorithm",
+      "property": "allocationAlgorithm",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/shared-cost-allocation-basis.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN allocation_algorithm varchar(64) NULL",
+      "catalog": {
+        "table_name": "shared_cost_allocation_basis",
+        "column_name": "allocation_algorithm",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": 64,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 21
+      },
+      "expression": "p.string().length(64).nullable().fieldName(\"allocation_algorithm\")"
+    },
+    {
+      "table": "shared_cost_allocation_basis",
+      "column": "replacement_operation_id",
+      "property": "replacementOperationId",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/shared-cost-allocation-basis.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN replacement_operation_id uuid NULL",
+      "catalog": {
+        "table_name": "shared_cost_allocation_basis",
+        "column_name": "replacement_operation_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 22
+      },
+      "expression": "p.uuid().nullable().fieldName(\"replacement_operation_id\")"
+    },
+    {
+      "table": "shared_cost_allocation_basis",
+      "column": "replacement_reason",
+      "property": "replacementReason",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/shared-cost-allocation-basis.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN replacement_reason text NULL",
+      "catalog": {
+        "table_name": "shared_cost_allocation_basis",
+        "column_name": "replacement_reason",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 23
+      },
+      "expression": "p.text().nullable().fieldName(\"replacement_reason\")"
+    },
+    {
+      "table": "shared_cost_allocation_basis",
+      "column": "governance_evidence_id",
+      "property": "governanceEvidenceId",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/shared-cost-allocation-basis.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN governance_evidence_id uuid NULL REFERENCES poms.cost_governance_evidence(id)",
+      "catalog": {
+        "table_name": "shared_cost_allocation_basis",
+        "column_name": "governance_evidence_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 24
+      },
+      "expression": "() => p.manyToOne(CostGovernanceEvidence).mapToPk().nullable().fieldName(\"governance_evidence_id\").foreignKeyName(\"shared_cost_allocation_basis_governance_evidence_id_fkey\").updateRule('no action').deleteRule(\"no action\")"
+    },
+    {
+      "table": "shared_cost_allocation_basis",
+      "column": "governance_schema_version",
+      "property": "governanceSchemaVersion",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/shared-cost-allocation-basis.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN governance_schema_version smallint NOT NULL DEFAULT 0 | ALTER COLUMN ALTER COLUMN governance_schema_version SET DEFAULT 1",
+      "catalog": {
+        "table_name": "shared_cost_allocation_basis",
+        "column_name": "governance_schema_version",
+        "data_type": "smallint",
+        "udt_name": "int2",
+        "is_nullable": "NO",
+        "column_default": "1",
+        "character_maximum_length": null,
+        "numeric_precision": 16,
+        "numeric_scale": 0,
+        "ordinal_position": 25
+      },
+      "expression": "p.integer().columnType('smallint').default(1).fieldName(\"governance_schema_version\")"
+    },
+    {
+      "table": "shared_cost_allocation_basis",
+      "column": "supersedes_id",
+      "property": "supersedesId",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/shared-cost-allocation-basis.entity.ts",
+      "action": "new single-column FK",
+      "catalog": {
+        "table_name": "shared_cost_allocation_basis",
+        "column_name": "supersedes_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 9
+      },
+      "expression": "() => p.manyToOne(SharedCostAllocationBasis).mapToPk().nullable().fieldName(\"supersedes_id\").foreignKeyName(\"fk_r4f_basis_supersedes\").updateRule('no action').deleteRule(\"no action\").comment('被替代的旧依据 ID')"
+    },
+    {
+      "table": "shared_cost_allocation_result",
+      "column": "allocation_weight",
+      "property": "allocationWeight",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/shared-cost-allocation-result.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN allocation_weight numeric(18,6) NULL",
+      "catalog": {
+        "table_name": "shared_cost_allocation_result",
+        "column_name": "allocation_weight",
+        "data_type": "numeric",
+        "udt_name": "numeric",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": 18,
+        "numeric_scale": 6,
+        "ordinal_position": 15
+      },
+      "expression": "p.string().columnType('numeric(18,6)').precision(18).scale(6).nullable().fieldName(\"allocation_weight\")"
+    },
+    {
+      "table": "shared_cost_allocation_result",
+      "column": "currency",
+      "property": "currency",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/shared-cost-allocation-result.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN currency varchar(16) NULL",
+      "catalog": {
+        "table_name": "shared_cost_allocation_result",
+        "column_name": "currency",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": 16,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 16
+      },
+      "expression": "p.string().length(16).nullable().fieldName(\"currency\")"
+    },
+    {
+      "table": "shared_cost_allocation_result",
+      "column": "allocated_amount_excluding_tax",
+      "property": "allocatedAmountExcludingTax",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/shared-cost-allocation-result.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN allocated_amount_excluding_tax numeric(18,2) NULL",
+      "catalog": {
+        "table_name": "shared_cost_allocation_result",
+        "column_name": "allocated_amount_excluding_tax",
+        "data_type": "numeric",
+        "udt_name": "numeric",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": 18,
+        "numeric_scale": 2,
+        "ordinal_position": 17
+      },
+      "expression": "p.string().columnType('numeric(18,2)').precision(18).scale(2).nullable().fieldName(\"allocated_amount_excluding_tax\")"
+    },
+    {
+      "table": "shared_cost_allocation_result",
+      "column": "allocated_tax_cost_amount",
+      "property": "allocatedTaxCostAmount",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/shared-cost-allocation-result.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN allocated_tax_cost_amount numeric(18,2) NULL",
+      "catalog": {
+        "table_name": "shared_cost_allocation_result",
+        "column_name": "allocated_tax_cost_amount",
+        "data_type": "numeric",
+        "udt_name": "numeric",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": 18,
+        "numeric_scale": 2,
+        "ordinal_position": 18
+      },
+      "expression": "p.string().columnType('numeric(18,2)').precision(18).scale(2).nullable().fieldName(\"allocated_tax_cost_amount\")"
+    },
+    {
+      "table": "shared_cost_allocation_result",
+      "column": "allocated_amount_including_tax",
+      "property": "allocatedAmountIncludingTax",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/shared-cost-allocation-result.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN allocated_amount_including_tax numeric(18,2) NULL",
+      "catalog": {
+        "table_name": "shared_cost_allocation_result",
+        "column_name": "allocated_amount_including_tax",
+        "data_type": "numeric",
+        "udt_name": "numeric",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": 18,
+        "numeric_scale": 2,
+        "ordinal_position": 19
+      },
+      "expression": "p.string().columnType('numeric(18,2)').precision(18).scale(2).nullable().fieldName(\"allocated_amount_including_tax\")"
+    },
+    {
+      "table": "shared_cost_allocation_result",
+      "column": "residual_minor_units",
+      "property": "residualMinorUnits",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/shared-cost-allocation-result.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN residual_minor_units smallint NULL",
+      "catalog": {
+        "table_name": "shared_cost_allocation_result",
+        "column_name": "residual_minor_units",
+        "data_type": "smallint",
+        "udt_name": "int2",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": 16,
+        "numeric_scale": 0,
+        "ordinal_position": 20
+      },
+      "expression": "p.integer().columnType('smallint').nullable().fieldName(\"residual_minor_units\")"
+    },
+    {
+      "table": "shared_cost_allocation_result",
+      "column": "replacement_operation_id",
+      "property": "replacementOperationId",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/shared-cost-allocation-result.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN replacement_operation_id uuid NULL",
+      "catalog": {
+        "table_name": "shared_cost_allocation_result",
+        "column_name": "replacement_operation_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 21
+      },
+      "expression": "p.uuid().nullable().fieldName(\"replacement_operation_id\")"
+    },
+    {
+      "table": "shared_cost_allocation_result",
+      "column": "replacement_reason",
+      "property": "replacementReason",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/shared-cost-allocation-result.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN replacement_reason text NULL",
+      "catalog": {
+        "table_name": "shared_cost_allocation_result",
+        "column_name": "replacement_reason",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 22
+      },
+      "expression": "p.text().nullable().fieldName(\"replacement_reason\")"
+    },
+    {
+      "table": "shared_cost_allocation_result",
+      "column": "governance_evidence_id",
+      "property": "governanceEvidenceId",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/shared-cost-allocation-result.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN governance_evidence_id uuid NULL REFERENCES poms.cost_governance_evidence(id)",
+      "catalog": {
+        "table_name": "shared_cost_allocation_result",
+        "column_name": "governance_evidence_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 23
+      },
+      "expression": "() => p.manyToOne(CostGovernanceEvidence).mapToPk().nullable().fieldName(\"governance_evidence_id\").foreignKeyName(\"shared_cost_allocation_result_governance_evidence_id_fkey\").updateRule('no action').deleteRule(\"no action\")"
+    },
+    {
+      "table": "shared_cost_allocation_result",
+      "column": "governance_schema_version",
+      "property": "governanceSchemaVersion",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/shared-cost-allocation-result.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN governance_schema_version smallint NOT NULL DEFAULT 0 | ALTER COLUMN ALTER COLUMN governance_schema_version SET DEFAULT 1",
+      "catalog": {
+        "table_name": "shared_cost_allocation_result",
+        "column_name": "governance_schema_version",
+        "data_type": "smallint",
+        "udt_name": "int2",
+        "is_nullable": "NO",
+        "column_default": "1",
+        "character_maximum_length": null,
+        "numeric_precision": 16,
+        "numeric_scale": 0,
+        "ordinal_position": 24
+      },
+      "expression": "p.integer().columnType('smallint').default(1).fieldName(\"governance_schema_version\")"
+    },
+    {
+      "table": "shared_cost_allocation_result",
+      "column": "supersedes_id",
+      "property": "supersedesId",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/shared-cost-allocation-result.entity.ts",
+      "action": "new single-column FK",
+      "catalog": {
+        "table_name": "shared_cost_allocation_result",
+        "column_name": "supersedes_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 9
+      },
+      "expression": "() => p.manyToOne(SharedCostAllocationResult).mapToPk().nullable().fieldName(\"supersedes_id\").foreignKeyName(\"fk_r4f_result_supersedes\").updateRule('no action').deleteRule(\"no action\").comment('被替代的旧结果 ID')"
+    },
+    {
+      "table": "cost_stage_attribution_snapshot",
+      "column": "evidence_business_date",
+      "property": "evidenceBusinessDate",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/cost-stage-attribution-snapshot.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN evidence_business_date date NULL",
+      "catalog": {
+        "table_name": "cost_stage_attribution_snapshot",
+        "column_name": "evidence_business_date",
+        "data_type": "date",
+        "udt_name": "date",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 16
+      },
+      "expression": "p.date().nullable().fieldName(\"evidence_business_date\")"
+    },
+    {
+      "table": "cost_stage_attribution_snapshot",
+      "column": "governance_evidence_id",
+      "property": "governanceEvidenceId",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/cost-stage-attribution-snapshot.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN governance_evidence_id uuid NULL REFERENCES poms.cost_governance_evidence(id)",
+      "catalog": {
+        "table_name": "cost_stage_attribution_snapshot",
+        "column_name": "governance_evidence_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 17
+      },
+      "expression": "() => p.manyToOne(CostGovernanceEvidence).mapToPk().nullable().fieldName(\"governance_evidence_id\").foreignKeyName(\"cost_stage_attribution_snapshot_governance_evidence_id_fkey\").updateRule('no action').deleteRule(\"no action\")"
+    },
+    {
+      "table": "cost_stage_attribution_snapshot",
+      "column": "governance_schema_version",
+      "property": "governanceSchemaVersion",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/cost-stage-attribution-snapshot.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN governance_schema_version smallint NOT NULL DEFAULT 0 | ALTER COLUMN ALTER COLUMN governance_schema_version SET DEFAULT 1",
+      "catalog": {
+        "table_name": "cost_stage_attribution_snapshot",
+        "column_name": "governance_schema_version",
+        "data_type": "smallint",
+        "udt_name": "int2",
+        "is_nullable": "NO",
+        "column_default": "1",
+        "character_maximum_length": null,
+        "numeric_precision": 16,
+        "numeric_scale": 0,
+        "ordinal_position": 18
+      },
+      "expression": "p.integer().columnType('smallint').default(1).fieldName(\"governance_schema_version\")"
+    },
+    {
+      "table": "cost_stage_attribution_snapshot",
+      "column": "supersedes_id",
+      "property": "supersedesId",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/cost-stage-attribution-snapshot.entity.ts",
+      "action": "new single-column FK",
+      "catalog": {
+        "table_name": "cost_stage_attribution_snapshot",
+        "column_name": "supersedes_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 8
+      },
+      "expression": "() => p.manyToOne(CostStageAttributionSnapshot).mapToPk().nullable().fieldName(\"supersedes_id\").foreignKeyName(\"fk_r4f_stage_supersedes\").updateRule('no action').deleteRule(\"no action\").comment('被替代的旧归属快照 ID')"
+    },
+    {
+      "table": "accounting_tax_treatment_snapshot",
+      "column": "currency",
+      "property": "currency",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/accounting-tax-treatment-snapshot.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN currency varchar(16) NULL",
+      "catalog": {
+        "table_name": "accounting_tax_treatment_snapshot",
+        "column_name": "currency",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": 16,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 19
+      },
+      "expression": "p.string().length(16).nullable().fieldName(\"currency\")"
+    },
+    {
+      "table": "accounting_tax_treatment_snapshot",
+      "column": "replacement_reason",
+      "property": "replacementReason",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/accounting-tax-treatment-snapshot.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN replacement_reason text NULL",
+      "catalog": {
+        "table_name": "accounting_tax_treatment_snapshot",
+        "column_name": "replacement_reason",
+        "data_type": "text",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 20
+      },
+      "expression": "p.text().nullable().fieldName(\"replacement_reason\")"
+    },
+    {
+      "table": "accounting_tax_treatment_snapshot",
+      "column": "governance_evidence_id",
+      "property": "governanceEvidenceId",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/accounting-tax-treatment-snapshot.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN governance_evidence_id uuid NULL REFERENCES poms.cost_governance_evidence(id)",
+      "catalog": {
+        "table_name": "accounting_tax_treatment_snapshot",
+        "column_name": "governance_evidence_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 21
+      },
+      "expression": "() => p.manyToOne(CostGovernanceEvidence).mapToPk().nullable().fieldName(\"governance_evidence_id\").foreignKeyName(\"accounting_tax_treatment_snapshot_governance_evidence_id_fkey\").updateRule('no action').deleteRule(\"no action\")"
+    },
+    {
+      "table": "accounting_tax_treatment_snapshot",
+      "column": "governance_schema_version",
+      "property": "governanceSchemaVersion",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/accounting-tax-treatment-snapshot.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN governance_schema_version smallint NOT NULL DEFAULT 0 | ALTER COLUMN ALTER COLUMN governance_schema_version SET DEFAULT 1",
+      "catalog": {
+        "table_name": "accounting_tax_treatment_snapshot",
+        "column_name": "governance_schema_version",
+        "data_type": "smallint",
+        "udt_name": "int2",
+        "is_nullable": "NO",
+        "column_default": "1",
+        "character_maximum_length": null,
+        "numeric_precision": 16,
+        "numeric_scale": 0,
+        "ordinal_position": 22
+      },
+      "expression": "p.integer().columnType('smallint').default(1).fieldName(\"governance_schema_version\")"
+    },
+    {
+      "table": "accounting_tax_treatment_snapshot",
+      "column": "supersedes_id",
+      "property": "supersedesId",
+      "candidateFile": "apps/poms-api/src/app/features/project-cost/accounting-tax-treatment-snapshot.entity.ts",
+      "action": "new single-column FK",
+      "catalog": {
+        "table_name": "accounting_tax_treatment_snapshot",
+        "column_name": "supersedes_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 11
+      },
+      "expression": "() => p.manyToOne(AccountingTaxTreatmentSnapshot).mapToPk().nullable().fieldName(\"supersedes_id\").foreignKeyName(\"fk_r4f_tax_supersedes\").updateRule('no action').deleteRule(\"no action\").comment('被替代的旧税务处理快照 ID')"
+    },
+    {
+      "table": "invoice_record",
+      "column": "currency_code",
+      "property": "currencyCode",
+      "candidateFile": "apps/poms-api/src/app/features/contract-finance/invoice-record.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN currency_code varchar(3) NULL",
+      "catalog": {
+        "table_name": "invoice_record",
+        "column_name": "currency_code",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": 3,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 17
+      },
+      "expression": "p.string().length(3).nullable().fieldName(\"currency_code\")"
+    },
+    {
+      "table": "invoice_record",
+      "column": "currency_source",
+      "property": "currencySource",
+      "candidateFile": "apps/poms-api/src/app/features/contract-finance/invoice-record.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN currency_source varchar(32) NULL",
+      "catalog": {
+        "table_name": "invoice_record",
+        "column_name": "currency_source",
+        "data_type": "character varying",
+        "udt_name": "varchar",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": 32,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 18
+      },
+      "expression": "p.string().length(32).nullable().fieldName(\"currency_source\")"
+    },
+    {
+      "table": "invoice_record",
+      "column": "currency_source_snapshot_id",
+      "property": "currencySourceSnapshotId",
+      "candidateFile": "apps/poms-api/src/app/features/contract-finance/invoice-record.entity.ts",
+      "action": "ADD COLUMN ADD COLUMN currency_source_snapshot_id uuid NULL",
+      "catalog": {
+        "table_name": "invoice_record",
+        "column_name": "currency_source_snapshot_id",
+        "data_type": "uuid",
+        "udt_name": "uuid",
+        "is_nullable": "YES",
+        "column_default": null,
+        "character_maximum_length": null,
+        "numeric_precision": null,
+        "numeric_scale": null,
+        "ordinal_position": 19
+      },
+      "expression": "() => p.manyToOne(ContractTermSnapshot).mapToPk().nullable().fieldName(\"currency_source_snapshot_id\").createForeignKeyConstraint(false)"
+    }
+  ]
+}

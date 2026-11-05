@@ -488,6 +488,43 @@ impl AuthService {
             .await?)
     }
 
+    /// One sensitive-read response can conceal several packages. Persist all
+    /// decisions and its pending authentication once, before returning data.
+    pub async fn record_security_events_with_session(
+        &self,
+        inputs: Vec<SecurityEventInput>,
+        pending: Option<&SessionFlush>,
+    ) -> Result<(), AuthError> {
+        let pending = pending.cloned();
+        if inputs.is_empty() && pending.is_none() {
+            return Ok(());
+        }
+        Ok(self
+            .database
+            .with_connection(move |connection| {
+                Box::pin(async move {
+                    let mut transaction = connection.begin().await?;
+                    let result: Result<(), sqlx::Error> = async {
+                        for input in inputs {
+                            audit::insert_security_event(&mut transaction, &input).await?;
+                        }
+                        if let Some(pending) = pending {
+                            store::flush_managed_session(&mut transaction, &pending).await?;
+                        }
+                        Ok(())
+                    }
+                    .await;
+                    if let Err(error) = result {
+                        transaction.rollback().await?;
+                        return Err(error);
+                    }
+                    transaction.commit().await?;
+                    Ok(())
+                })
+            })
+            .await?)
+    }
+
     /// Match one original business audit flush, as observed by the R2A Nest
     /// witness: INSERT the audit before an optional managed-session CAS UPDATE.
     /// Both belong to this transaction; preceding raw touch remains committed.

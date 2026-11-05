@@ -11,7 +11,13 @@ use crate::{
 use chrono::{DateTime, Utc};
 use serde_json::{Value, json};
 use sqlx::{Connection, PgConnection, Postgres, QueryBuilder, Row};
-use std::collections::BTreeMap;
+use std::{
+    collections::{BTreeMap, BTreeSet},
+    sync::{
+        Arc,
+        atomic::{AtomicU8, Ordering},
+    },
+};
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum Table {
@@ -48,6 +54,7 @@ pub struct Entity {
     pub json_raw: BTreeMap<String, String>,
     /// ORM comparison baseline retains the original managed JSON member order.
     pub original_json_raw: BTreeMap<String, String>,
+    poisoned: bool,
 }
 impl std::fmt::Debug for Entity {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -57,6 +64,9 @@ impl std::fmt::Debug for Entity {
     }
 }
 impl Entity {
+    pub(super) fn is_poisoned(&self) -> bool {
+        self.poisoned
+    }
     pub fn new(table: Table, mut data: Value) -> Self {
         if table.versioned() {
             data["row_version"] = json!(1);
@@ -69,6 +79,7 @@ impl Entity {
             original_raw: BTreeMap::new(),
             json_raw: BTreeMap::new(),
             original_json_raw: BTreeMap::new(),
+            poisoned: false,
         }
     }
     pub fn loaded(table: Table, data: Value) -> Self {
@@ -80,6 +91,7 @@ impl Entity {
             original_raw: BTreeMap::new(),
             json_raw: BTreeMap::new(),
             original_json_raw: BTreeMap::new(),
+            poisoned: false,
         }
     }
     pub fn str(&self, key: &str) -> &str {
@@ -219,6 +231,14 @@ impl Entity {
     }
 }
 fn sql_failure(error: sqlx::Error) -> StorageFailure {
+    if let sqlx::Error::Protocol(message) = &error
+        && (message.starts_with("K56 conflict:") || message.starts_with("The optimistic lock"))
+    {
+        return StorageFailure::http(
+            axum::http::StatusCode::CONFLICT,
+            "Attachment source or version changed; reload and retry",
+        );
+    }
     if let Some(pg) = error
         .as_database_error()
         .and_then(|database| database.try_downcast_ref::<sqlx::postgres::PgDatabaseError>())
@@ -269,11 +289,11 @@ impl ReadFilter {
         match self{
 Self::ById=>"WHERE id=$1::text::uuid LIMIT 1".into(),
 Self::LinksByAttachment=>"WHERE attachment_id=$1::text::uuid AND status='active' ORDER BY linked_at DESC".into(),
-Self::VersionGroup=>"WHERE version_group_id=$1::text::uuid ORDER BY version_no DESC,uploaded_at DESC".into(),
-Self::Latest=>"WHERE version_group_id=$1::text::uuid AND status='active' AND is_latest=true ORDER BY version_no DESC,uploaded_at DESC LIMIT 1".into(),
+Self::VersionGroup=>"WHERE COALESCE(version_group_id,id)=$1::text::uuid ORDER BY version_no DESC,uploaded_at DESC".into(),
+Self::Latest=>"WHERE COALESCE(version_group_id,id)=$1::text::uuid AND status='active' AND is_latest=true ORDER BY version_no DESC,uploaded_at DESC LIMIT 1".into(),
 Self::LinksByTarget=>"WHERE target_type=$1 AND target_id=$2::text::uuid AND status='active' ORDER BY linked_at DESC".into(),
 Self::ExistingLink=>"WHERE attachment_id=$1::text::uuid AND target_type=$2 AND target_id=$3::text::uuid AND relation_type=$4 AND status='active' LIMIT 1".into(),
-Self::Final=>"WHERE version_group_id=$1::text::uuid AND status='active' AND is_final=true ORDER BY version_no DESC,uploaded_at DESC LIMIT 1".into(),
+Self::Final=>"WHERE COALESCE(version_group_id,id)=$1::text::uuid AND status='active' AND is_final=true ORDER BY version_no DESC,uploaded_at DESC LIMIT 1".into(),
 Self::HandoverSelections=>"WHERE handover_id=$1::text::uuid ORDER BY updated_at DESC,created_at DESC".into(),
 Self::HandoverSelectionIds=>"WHERE id=ANY($1::text::uuid[])".into(),
 Self::Center(types)=>format!("WHERE status='active' AND target_type IN ({}) ORDER BY linked_at DESC",types.iter().filter(|t|["customer","lead","project","contract"].contains(t)).map(|t|format!("'{t}'")).collect::<Vec<_>>().join(","))}
@@ -541,10 +561,18 @@ async fn insert(connection: &mut PgConnection, entity: &Entity) -> Result<Entity
         bind(&mut query, entity, key)?;
     }
     query.push(") RETURNING id");
+    if entity.table == Table::Link {
+        query.push(",to_jsonb(attachment_link) AS data");
+    }
     if entity.table.versioned() {
         query.push(",row_version");
     }
     let row = query.build().fetch_one(connection).await?;
+    if entity.table == Table::Link {
+        return hydrate_inserted_links(std::slice::from_ref(entity), vec![row.try_get("data")?])?
+            .pop()
+            .ok_or_else(|| sqlx::Error::Protocol("Missing Link RETURNING tuple".into()));
+    }
     let mut entity = entity.clone();
     let id: uuid::Uuid = row.try_get("id")?;
     entity.data["id"] = json!(id);
@@ -552,6 +580,187 @@ async fn insert(connection: &mut PgConnection, entity: &Entity) -> Result<Entity
         entity.data["row_version"] = json!(row.try_get::<i32, _>("row_version")?);
     }
     Ok(entity)
+}
+// INSERT defaults belong to the actual database row, not to absent JSON keys.
+// Keep original=None until the outer commit ACK publishes the saved journal.
+fn hydrate_inserted_links(
+    planned: &[Entity],
+    returned: Vec<Value>,
+) -> Result<Vec<Entity>, sqlx::Error> {
+    if planned.len() != returned.len() {
+        return Err(sqlx::Error::Protocol("Link RETURNING row count".into()));
+    }
+    let mut by_id = BTreeMap::new();
+    for row in returned {
+        if !row.is_object()
+            || columns(Table::Link)
+                .split(' ')
+                .any(|key| row.get(key).is_none())
+        {
+            return Err(sqlx::Error::Protocol(
+                "Incomplete Link RETURNING tuple".into(),
+            ));
+        }
+        let id = row["id"]
+            .as_str()
+            .and_then(|id| uuid::Uuid::parse_str(id).ok())
+            .ok_or_else(|| sqlx::Error::Protocol("Invalid Link RETURNING identity".into()))?;
+        if by_id.insert(id, row).is_some() {
+            return Err(sqlx::Error::Protocol(
+                "Duplicate Link RETURNING identity".into(),
+            ));
+        }
+    }
+    planned
+        .iter()
+        .map(|entity| {
+            if entity.table != Table::Link {
+                return Err(sqlx::Error::Protocol("Non-Link RETURNING hydration".into()));
+            }
+            let id = if entity.data.get("id").is_some() {
+                uuid::Uuid::parse_str(&entity.id())
+                    .map_err(|_| sqlx::Error::Protocol("Invalid planned Link identity".into()))?
+            } else {
+                // Generic handover Links intentionally use the DB-generated UUID.
+                // Correlate only assigned INSERT fields; missing defaults are NOT
+                // synthesized or ignored by the later strict committed-row guard.
+                let candidates = by_id
+                    .iter()
+                    .filter(|(_, actual)| {
+                        let Some(assigned) = entity.data.as_object() else {
+                            return false;
+                        };
+                        let projection = assigned
+                            .keys()
+                            .filter_map(|key| {
+                                actual.get(key).map(|value| (key.clone(), value.clone()))
+                            })
+                            .collect::<serde_json::Map<_, _>>();
+                        same_proof(&entity.data, &Value::Object(projection))
+                    })
+                    .map(|(id, _)| *id)
+                    .collect::<Vec<_>>();
+                if candidates.len() != 1 {
+                    return Err(sqlx::Error::Protocol(
+                        "Ambiguous sparse Link RETURNING identity".into(),
+                    ));
+                }
+                candidates[0]
+            };
+            let mut saved = entity.clone();
+            saved.data = by_id.remove(&id).ok_or_else(|| {
+                sqlx::Error::Protocol("Mismatched Link RETURNING identity".into())
+            })?;
+            Ok(saved)
+        })
+        .collect()
+}
+#[cfg(test)]
+mod k98_hydration_tests {
+    use super::*;
+    const LINK_A: &str = "20000000-0000-4000-8000-000000000001";
+    const LINK_B: &str = "20000000-0000-4000-8000-000000000002";
+    fn sparse(attachment: &str) -> Entity {
+        // The real handover producer supplies these seven fields and lets PG
+        // generate id/default NULLs. This is a pure RETURNING-value fixture.
+        Entity::new(
+            Table::Link,
+            json!({"attachment_id":attachment,"target_type":"project-handover","target_id":"30000000-0000-4000-8000-000000000001","relation_type":"handover","status":"active","linked_by":"40000000-0000-4000-8000-000000000001","linked_at":"2026-11-04T04:00:00.000Z"}),
+        )
+    }
+    fn returned(planned: &Entity, id: &str) -> Value {
+        let mut row = planned.data.clone();
+        row["id"] = json!(id);
+        row["linked_at"] = json!("2026-11-04T04:00:00+00:00");
+        row["unlinked_by"] = Value::Null;
+        row["unlinked_at"] = Value::Null;
+        row
+    }
+    #[test]
+    fn sparse_generic_link_commits_complete_baseline_for_next_audit_guard() {
+        let planned = sparse("10000000-0000-4000-8000-000000000001");
+        assert!(planned.data.get("id").is_none());
+        assert!(planned.data.get("unlinked_at").is_none());
+        let pg = returned(&planned, LINK_A);
+        assert!(
+            !same_proof(&planned.data, &pg),
+            "strict guard must continue to reject incomplete baselines"
+        );
+        let mut saved = hydrate_inserted_links(&[planned], vec![pg.clone()])
+            .unwrap_or_else(|_| panic!("actual complete tuple"))
+            .remove(0);
+        assert!(
+            saved.original.is_none(),
+            "hydration cannot pretend COMMIT ACK"
+        );
+        saved.mark_committed();
+        assert_eq!(saved.id(), LINK_A);
+        assert_eq!(saved.data.as_object().map(|m| m.len()), Some(10));
+        assert!(saved.dirty().is_empty());
+        let guard = FlushGuard::default();
+        assert!(
+            same_proof(
+                first_source(&guard, &saved)
+                    .original
+                    .as_ref()
+                    .unwrap_or(&Value::Null),
+                &pg
+            ),
+            "subsequent generic audit flush sees the full real committed tuple"
+        );
+        let mut changed = pg;
+        changed["status"] = json!("unlinked");
+        changed["unlinked_at"] = json!("2026-11-04T04:00:01Z");
+        assert!(
+            !same_proof(saved.original.as_ref().unwrap_or(&Value::Null), &changed),
+            "real post-commit tuple changes remain conflicts"
+        );
+    }
+    #[test]
+    fn returning_missing_nullable_field_is_rejected_not_filled_with_null() {
+        let planned = sparse("10000000-0000-4000-8000-000000000001");
+        let mut pg = returned(&planned, LINK_A);
+        pg.as_object_mut()
+            .unwrap_or_else(|| panic!("row"))
+            .remove("unlinked_at");
+        assert!(hydrate_inserted_links(&[planned], vec![pg]).is_err());
+    }
+    #[test]
+    fn grouped_sparse_link_results_correlate_real_generated_ids_not_return_order() {
+        let a = sparse("10000000-0000-4000-8000-000000000001");
+        let b = sparse("10000000-0000-4000-8000-000000000002");
+        let actual_a = returned(&a, LINK_A);
+        let actual_b = returned(&b, LINK_B);
+        let saved = hydrate_inserted_links(&[a, b], vec![actual_b.clone(), actual_a.clone()])
+            .unwrap_or_else(|_| panic!("reversed RETURNING order"));
+        assert_eq!(saved[0].data, actual_a);
+        assert_eq!(saved[1].data, actual_b);
+    }
+    #[test]
+    fn duplicate_returned_identity_cannot_publish_two_baselines() {
+        let a = sparse("10000000-0000-4000-8000-000000000001");
+        let b = sparse("10000000-0000-4000-8000-000000000002");
+        assert!(
+            hydrate_inserted_links(
+                &[a.clone(), b.clone()],
+                vec![returned(&a, LINK_A), returned(&b, LINK_A)]
+            )
+            .is_err()
+        );
+    }
+    #[test]
+    fn explicit_generated_id_must_match_its_actual_returned_identity() {
+        let mut a = sparse("10000000-0000-4000-8000-000000000001");
+        a.set("id", json!(LINK_A));
+        assert!(hydrate_inserted_links(&[a.clone()], vec![returned(&a, LINK_B)]).is_err());
+    }
+    #[test]
+    fn sparse_returning_cannot_silently_match_different_source_identity() {
+        let a = sparse("10000000-0000-4000-8000-000000000001");
+        let mut pg = returned(&a, LINK_A);
+        pg["attachment_id"] = json!("10000000-0000-4000-8000-000000000002");
+        assert!(hydrate_inserted_links(&[a], vec![pg]).is_err());
+    }
 }
 /// K's CREATE classes follow the original reverse-postorder metadata calculator.
 fn create_groups(changes: &[(usize, Entity)]) -> Vec<Vec<(usize, Entity)>> {
@@ -671,6 +880,9 @@ async fn insert_group(
             query.push(")");
         }
         query.push(" RETURNING id");
+        if table == Table::Link {
+            query.push(",to_jsonb(attachment_link) AS data");
+        }
         if table.versioned() {
             query.push(",row_version");
         }
@@ -679,6 +891,14 @@ async fn insert_group(
             return Err(sqlx::Error::Protocol(
                 "attachment CREATE returned row count".into(),
             ));
+        }
+        if table == Table::Link {
+            let actual = returned
+                .into_iter()
+                .map(|row| row.try_get::<Value, _>("data"))
+                .collect::<Result<Vec<_>, _>>()?;
+            saved.extend(hydrate_inserted_links(chunk, actual)?);
+            continue;
         }
         for (index, row) in returned.into_iter().enumerate() {
             let mut entity = chunk[index].clone();
@@ -720,6 +940,15 @@ async fn update(connection: &mut PgConnection, entity: &Entity) -> Result<Entity
     bind(&mut query, &entity, "id")?;
     if entity.table.versioned() {
         query.push(" AND row_version=").push_bind(entity.version());
+    }
+    if entity.table == Table::Link
+        && let Some(before) = &entity.original
+    {
+        let original = Entity::loaded(Table::Link, before.clone());
+        for key in columns(Table::Link).split(' ').filter(|key| *key != "id") {
+            query.push(" AND ").push(key).push(" IS NOT DISTINCT FROM ");
+            bind(&mut query, &original, key)?;
+        }
     }
     query.push(" RETURNING id");
     if entity.table.versioned() {
@@ -864,72 +1093,730 @@ pub struct AuditWrite {
     pub metadata: Wire,
     pub result: String,
 }
-/// Changes of all loaded J entities participate, including upload-session dirty fields.
-/// An audit call is its own later flush; pending auth is consumed exactly once.
+#[derive(Clone, Copy)]
+pub(super) enum SessionRule {
+    Receive,
+    Complete,
+    Abort,
+}
+#[derive(Clone, Default)]
+pub(super) struct FlushGuard {
+    pub source_entities: Vec<Entity>,
+    pub active_links: BTreeMap<String, Vec<Value>>,
+    pub session_rules: BTreeMap<String, SessionRule>,
+    pub version_max: BTreeMap<String, i64>,
+    pub routing: Vec<Value>,
+}
+impl FlushGuard {
+    fn has_intent(&self) -> bool {
+        !self.source_entities.is_empty()
+            || !self.active_links.is_empty()
+            || !self.session_rules.is_empty()
+            || !self.version_max.is_empty()
+            || !self.routing.is_empty()
+    }
+}
+fn first_source<'a>(guard: &'a FlushGuard, entity: &'a Entity) -> &'a Entity {
+    guard
+        .source_entities
+        .iter()
+        .find(|e| e.table == entity.table && e.id() == entity.id())
+        .unwrap_or(entity)
+}
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+pub(super) enum CommitDisposition {
+    KnownNotCommitted,
+    Unknown,
+}
+pub(super) struct FlushFailure {
+    pub error: StorageFailure,
+    pub disposition: CommitDisposition,
+}
+fn changed_source() -> sqlx::Error {
+    sqlx::Error::Protocol("K56 conflict: attachment source changed".into())
+}
+fn canonical_group(data: &Value) -> String {
+    data["version_group_id"]
+        .as_str()
+        .or_else(|| data["id"].as_str())
+        .unwrap_or("")
+        .into()
+}
+pub(super) fn link_proof(rows: &[Entity]) -> Vec<Value> {
+    let mut rows = rows.iter().map(|e| e.data.clone()).collect::<Vec<_>>();
+    rows.sort_by(|a, b| a["id"].as_str().cmp(&b["id"].as_str()));
+    rows
+}
+fn same_proof(expected: &Value, current: &Value) -> bool {
+    let (Some(expected), Some(current)) = (expected.as_object(), current.as_object()) else {
+        return expected == current;
+    };
+    expected.len() == current.len()
+        && expected.iter().all(|(key, before)| {
+            let Some(after) = current.get(key) else {
+                return false;
+            };
+            if before == after {
+                return true;
+            }
+            if key.ends_with("_at") {
+                match (
+                    before
+                        .as_str()
+                        .and_then(|s| DateTime::parse_from_rfc3339(s).ok()),
+                    after
+                        .as_str()
+                        .and_then(|s| DateTime::parse_from_rfc3339(s).ok()),
+                ) {
+                    (Some(a), Some(b)) => a == b,
+                    _ => false,
+                }
+            } else {
+                false
+            }
+        })
+}
+fn session_allowed(current: &Value, rule: SessionRule, now: DateTime<Utc>) -> bool {
+    let status = current["status"].as_str().unwrap_or("");
+    let expires = current["expires_at"]
+        .as_str()
+        .and_then(|s| DateTime::parse_from_rfc3339(s).ok());
+    match rule {
+        SessionRule::Receive => {
+            ["pending", "uploading"].contains(&status) && expires.is_some_and(|t| t > now)
+        }
+        SessionRule::Complete => {
+            ["pending", "uploading", "uploaded", "validating"].contains(&status)
+                && expires.is_some_and(|t| t > now)
+        }
+        SessionRule::Abort => ["pending", "uploading", "uploaded", "validating"].contains(&status),
+    }
+}
+fn early_release(entity: &Entity) -> bool {
+    entity.table == Table::Attachment
+        && entity.original.as_ref().is_some_and(|before| {
+            ["is_latest", "is_final"]
+                .iter()
+                .any(|key| before[*key] == true && entity.data[*key] == false)
+                || (before["status"] == "active" && entity.data["status"] != "active")
+        })
+}
+pub(super) fn next_version(maximum: i64) -> Result<i64, StorageFailure> {
+    maximum
+        .checked_add(1)
+        .filter(|n| *n > 0 && i32::try_from(*n).is_ok())
+        .ok_or_else(|| {
+            StorageFailure::http(
+                axum::http::StatusCode::CONFLICT,
+                "Attachment version number exhausted",
+            )
+        })
+}
+pub(super) fn history_max(rows: &[Entity]) -> i64 {
+    rows.iter()
+        .map(|e| e.integer("version_no"))
+        .max()
+        .unwrap_or(0)
+}
+fn failure_disposition(phase: u8) -> CommitDisposition {
+    if matches!(phase, 0 | 2) {
+        CommitDisposition::KnownNotCommitted
+    } else {
+        CommitDisposition::Unknown
+    }
+}
+
+#[cfg(test)]
+mod k56_guard_tests {
+    use super::*;
+    #[test]
+    fn k86_source_only_noop_requires_guarded_transaction() {
+        let mut guard = FlushGuard::default();
+        assert!(!guard.has_intent());
+        let clean = Entity::loaded(Table::Attachment, json!({"id":"head","row_version":7}));
+        assert!(clean.dirty().is_empty());
+        guard.source_entities.push(clean);
+        assert!(
+            guard.has_intent(),
+            "no dirty/audit/pending must not erase explicit source intent"
+        );
+    }
+    #[test]
+    fn k86_clean_inactive_nonversioned_tuple_cannot_be_rebased() {
+        let old = Entity::loaded(
+            Table::Link,
+            json!({"id":"same-link","attachment_id":"head","target_id":"target-a","status":"unlinked"}),
+        );
+        let mut current = old.clone();
+        current.refresh(Entity::loaded(Table::Link,json!({"id":"same-link","attachment_id":"head","target_id":"target-b","status":"unlinked"})));
+        assert!(current.dirty().is_empty());
+        assert_eq!(current.version(), old.version());
+        let guard = FlushGuard {
+            source_entities: vec![old],
+            ..Default::default()
+        };
+        let first = first_source(&guard, &current);
+        assert!(
+            !same_proof(
+                first.original.as_ref().unwrap_or(&Value::Null),
+                &current.data
+            ),
+            "Link has no rowVersion CAS; compare its first tuple even when clean"
+        );
+    }
+    #[test]
+    fn k86_every_explicit_guard_field_forces_recheck() {
+        let mut empty_set = FlushGuard::default();
+        empty_set.active_links.insert("head".into(), vec![]);
+        let mut session = FlushGuard::default();
+        session
+            .session_rules
+            .insert("session".into(), SessionRule::Receive);
+        let mut history = FlushGuard::default();
+        history.version_max.insert("group".into(), 2);
+        let route = FlushGuard {
+            routing: vec![json!({"configId":null})],
+            ..Default::default()
+        };
+        for guard in [empty_set, session, history, route] {
+            assert!(guard.has_intent());
+        }
+    }
+    #[test]
+    fn k86_first_link_proof_is_scoped_by_table_and_id() {
+        let attachment = Entity::loaded(Table::Attachment, json!({"id":"same","row_version":2}));
+        let link = Entity::loaded(Table::Link, json!({"id":"same","status":"unlinked"}));
+        let guard = FlushGuard {
+            source_entities: vec![attachment, link.clone()],
+            ..Default::default()
+        };
+        assert_eq!(first_source(&guard, &link).table, Table::Link);
+        assert_eq!(first_source(&guard, &link).data["status"], "unlinked");
+    }
+    fn attachment(id: &str, version: i64, status: &str, latest: bool, final_flag: bool) -> Entity {
+        Entity::loaded(
+            Table::Attachment,
+            json!({"id":id,"version_group_id":"group","version_no":version,"status":status,"is_latest":latest,"is_final":final_flag,"row_version":4}),
+        )
+    }
+    #[test]
+    fn nonfinal_append_releases_latest_without_releasing_old_final() {
+        let mut old = attachment("old", 1, "active", true, true);
+        assert!(!early_release(&old));
+        old.set("is_latest", json!(false));
+        assert!(early_release(&old));
+        assert!(old.boolean("is_final"));
+        assert_eq!(old.str("status"), "active");
+        let new = Entity::new(
+            Table::Attachment,
+            json!({"id":"new","is_latest":true,"is_final":false}),
+        );
+        assert!(
+            !early_release(&new),
+            "new rows are inserted, not early-updated"
+        );
+    }
+    #[test]
+    fn explicit_final_transfer_and_void_release_old_unique_slots() {
+        let mut old = attachment("old", 1, "active", false, true);
+        old.set("is_final", json!(false));
+        let mut new = attachment("new", 2, "active", true, false);
+        new.set("is_final", json!(true));
+        assert!(early_release(&old));
+        assert!(!early_release(&new));
+        new.set("status", json!("voided"));
+        new.set("is_latest", json!(false));
+        assert!(early_release(&new));
+    }
+    #[test]
+    fn voided_history_is_not_reused_as_a_new_version() {
+        let rows = vec![
+            attachment("one", 1, "active", true, false),
+            attachment("two", 2, "voided", false, false),
+        ];
+        assert_eq!(next_version(history_max(&rows)).ok(), Some(3));
+        assert_eq!(next_version(0).ok(), Some(1));
+        assert!(next_version(i64::from(i32::MAX)).is_err());
+        assert!(next_version(i64::MAX).is_err());
+    }
+    #[test]
+    fn canonical_group_handles_historical_null_without_a_separate_lock_key() {
+        assert_eq!(
+            canonical_group(&json!({"id":"first","version_group_id":null})),
+            "first"
+        );
+        assert_eq!(
+            canonical_group(&json!({"id":"second","version_group_id":"first"})),
+            "first"
+        );
+    }
+    #[test]
+    fn complete_and_receive_recheck_terminal_state_and_expiry() {
+        let now = DateTime::parse_from_rfc3339("2026-11-04T03:00:00Z")
+            .unwrap_or_else(|_| panic!("date"))
+            .with_timezone(&Utc);
+        for status in ["pending", "uploading", "uploaded", "validating"] {
+            let row = json!({"status":status,"expires_at":"2026-11-04T03:00:01Z"});
+            assert!(session_allowed(&row, SessionRule::Complete, now));
+            assert_eq!(
+                session_allowed(&row, SessionRule::Receive, now),
+                ["pending", "uploading"].contains(&status)
+            );
+        }
+        for status in ["completed", "failed", "expired", "aborted"] {
+            let row = json!({"status":status,"expires_at":"2026-11-04T04:00:00Z"});
+            assert!(!session_allowed(&row, SessionRule::Complete, now));
+            assert!(!session_allowed(&row, SessionRule::Receive, now));
+            assert!(!session_allowed(&row, SessionRule::Abort, now));
+        }
+        assert!(!session_allowed(
+            &json!({"status":"validating","expires_at":"2026-11-04T03:00:00Z"}),
+            SessionRule::Complete,
+            now
+        ));
+        assert!(!session_allowed(
+            &json!({"status":"validating","expires_at":"2026-11-04T02:38:00Z"}),
+            SessionRule::Complete,
+            now
+        ));
+    }
+    #[test]
+    fn proof_compares_actual_fields_but_equal_timestamp_offsets_are_equal() {
+        let old = json!({"id":"link","target_id":"targetA","status":"active","linked_at":"2026-11-04T00:00:00.000Z"});
+        let mut current = old.clone();
+        current["linked_at"] = json!("2026-11-04T09:00:00+09:00");
+        assert!(same_proof(&old, &current));
+        for (key, value) in [
+            ("target_id", json!("targetB")),
+            ("status", json!("unlinked")),
+            ("id", json!("other-link")),
+            ("linked_at", json!("2026-11-04T00:00:00.001Z")),
+        ] {
+            let mut changed = current.clone();
+            changed[key] = value;
+            assert!(!same_proof(&old, &changed), "changed {key}");
+        }
+    }
+    #[test]
+    fn link_proof_is_full_identity_set_independent_of_query_order() {
+        let a = Entity::loaded(
+            Table::Link,
+            json!({"id":"a","attachment_id":"same","target_id":"one","status":"active"}),
+        );
+        let b = Entity::loaded(
+            Table::Link,
+            json!({"id":"b","attachment_id":"same","target_id":"two","status":"active"}),
+        );
+        assert_eq!(
+            link_proof(&[a.clone(), b.clone()]),
+            link_proof(&[b.clone(), a.clone()])
+        );
+        assert_ne!(link_proof(&[a.clone()]), link_proof(&[a.clone(), b]));
+        let mut changed = a.clone();
+        changed.set("target_id", json!("different"));
+        assert_ne!(link_proof(&[a]), link_proof(&[changed]));
+    }
+    #[test]
+    fn unknown_commit_or_timeout_is_never_a_cleanup_authority() {
+        assert_eq!(failure_disposition(0), CommitDisposition::KnownNotCommitted);
+        assert_eq!(failure_disposition(2), CommitDisposition::KnownNotCommitted);
+        for phase in [1, 3, 4, 255] {
+            assert_eq!(failure_disposition(phase), CommitDisposition::Unknown);
+        }
+    }
+    #[test]
+    fn routing_uses_component_boundary_and_normalized_prefix() {
+        assert!(route_matches("prefix/completed/object", Some("prefix")));
+        assert!(route_matches("prefix\\completed\\object", Some("/prefix/")));
+        assert!(!route_matches(
+            "prefix-other/completed/object",
+            Some("prefix")
+        ));
+    }
+}
+fn normalized_key(value: &str) -> String {
+    value.replace('\\', "/").trim_matches('/').into()
+}
+fn route_matches(key: &str, prefix: Option<&str>) -> bool {
+    let prefix = prefix.map(normalized_key).unwrap_or_default();
+    let key = normalized_key(key);
+    prefix.is_empty() || key == prefix || key.starts_with(&format!("{prefix}/"))
+}
+async fn verify_routing(connection: &mut PgConnection, proof: &Value) -> Result<(), sqlx::Error> {
+    let provider = proof["provider"].as_str().ok_or_else(changed_source)?;
+    let bucket = proof["bucket"].as_str();
+    let key = proof["key"].as_str().ok_or_else(changed_source)?;
+    let mut rows = sqlx::query("SELECT id::text AS id,row_version,key_prefix FROM poms.attachment_storage_provider_config WHERE provider_type=$1 AND bucket IS NOT DISTINCT FROM $2::text ORDER BY created_at DESC")
+        .bind(provider).bind(bucket).fetch_all(connection).await?;
+    rows.retain(|r| {
+        route_matches(
+            key,
+            r.try_get::<Option<String>, _>("key_prefix")
+                .ok()
+                .flatten()
+                .as_deref(),
+        )
+    });
+    rows.sort_by_key(|r| {
+        std::cmp::Reverse(
+            r.try_get::<Option<String>, _>("key_prefix")
+                .ok()
+                .flatten()
+                .map_or(0, |s| s.encode_utf16().count()),
+        )
+    });
+    match rows.first() {
+        Some(row)
+            if proof["configId"] == row.try_get::<String, _>("id")?
+                && proof["configVersion"] == row.try_get::<i32, _>("row_version")? =>
+        {
+            Ok(())
+        }
+        None if provider == "local" && bucket.is_none() && proof["configId"].is_null() => Ok(()),
+        _ => Err(changed_source()),
+    }
+}
+async fn published_location(
+    connection: &mut PgConnection,
+    provider: &str,
+    bucket: Option<&str>,
+    key: &str,
+) -> Result<bool, sqlx::Error> {
+    sqlx::query_scalar("SELECT EXISTS(SELECT 1 FROM poms.attachment WHERE storage_provider=$1 AND storage_bucket IS NOT DISTINCT FROM $2::text AND storage_key=$3)")
+        .bind(provider).bind(bucket).bind(key).fetch_one(connection).await
+}
+pub(super) async fn has_published_staging(
+    database: &Database,
+    session: &Entity,
+) -> Result<bool, StorageFailure> {
+    let session = session.clone();
+    run(database, move |c| {
+        Box::pin(async move {
+            published_location(
+                c,
+                session.str("provider_type"),
+                session.data["storage_bucket"].as_str(),
+                session.str("storage_key"),
+            )
+            .await
+        })
+    })
+    .await
+}
+pub(super) async fn final_unreferenced(
+    database: &Database,
+    id: &str,
+    location: &crate::attachment_storage::ObjectLocation,
+) -> Result<bool, StorageFailure> {
+    let id = id.to_owned();
+    let location = location.clone();
+    run(database,move|c|Box::pin(async move {
+        sqlx::query_scalar("SELECT NOT (EXISTS(SELECT 1 FROM poms.attachment WHERE id=$1::text::uuid OR (storage_provider=$2 AND storage_bucket IS NOT DISTINCT FROM $3::text AND storage_key=$4)) OR EXISTS(SELECT 1 FROM poms.attachment_upload_session WHERE completed_attachment_id=$1::text::uuid OR (provider_type=$2 AND storage_bucket IS NOT DISTINCT FROM $3::text AND storage_key=$4)) OR EXISTS(SELECT 1 FROM poms.attachment_download_package WHERE storage_provider=$2 AND storage_bucket IS NOT DISTINCT FROM $3::text AND storage_key=$4))")
+            .bind(id).bind(location.storage_provider).bind(location.storage_bucket).bind(location.storage_key).fetch_one(c).await
+    })).await
+}
+pub(super) async fn aborted_staging_unreferenced(
+    database: &Database,
+    session: &Entity,
+) -> Result<bool, StorageFailure> {
+    let session = session.clone();
+    run(database,move|c|Box::pin(async move {
+        sqlx::query_scalar("SELECT EXISTS(SELECT 1 FROM poms.attachment_upload_session WHERE id=$1::text::uuid AND row_version=$2 AND status='aborted' AND completed_attachment_id IS NULL AND provider_type=$3 AND storage_bucket IS NOT DISTINCT FROM $4::text AND storage_key=$5) AND NOT (EXISTS(SELECT 1 FROM poms.attachment WHERE storage_provider=$3 AND storage_bucket IS NOT DISTINCT FROM $4::text AND storage_key=$5) OR EXISTS(SELECT 1 FROM poms.attachment_upload_session WHERE id<>$1::text::uuid AND provider_type=$3 AND storage_bucket IS NOT DISTINCT FROM $4::text AND storage_key=$5) OR EXISTS(SELECT 1 FROM poms.attachment_download_package WHERE storage_provider=$3 AND storage_bucket IS NOT DISTINCT FROM $4::text AND storage_key=$5))")
+            .bind(session.id()).bind(session.version()).bind(session.str("provider_type")).bind(session.data["storage_bucket"].as_str()).bind(session.str("storage_key")).fetch_one(c).await
+    })).await
+}
+async fn lock_and_recheck(
+    connection: &mut PgConnection,
+    entities: &[Entity],
+    guard: &FlushGuard,
+) -> Result<(), sqlx::Error> {
+    let mut sessions = entities
+        .iter()
+        .filter(|e| e.table == Table::Session && e.original.is_some())
+        .collect::<Vec<_>>();
+    sessions.sort_by_key(|e| e.id());
+    for entity in sessions {
+        let current:Value=sqlx::query_scalar("SELECT to_jsonb(s) FROM poms.attachment_upload_session s WHERE id=$1::text::uuid FOR UPDATE").bind(entity.id()).fetch_optional(&mut *connection).await?.ok_or_else(changed_source)?;
+        let first = first_source(guard, entity);
+        if first
+            .original
+            .as_ref()
+            .is_none_or(|before| !same_proof(before, &current))
+        {
+            return Err(changed_source());
+        }
+        let inferred = if entity.dirty().is_empty() {
+            None
+        } else {
+            match entity.str("status") {
+                "completed" => Some(SessionRule::Complete),
+                "aborted" => Some(SessionRule::Abort),
+                "uploaded" | "uploading" => Some(SessionRule::Receive),
+                _ => None,
+            }
+        };
+        if let Some(rule) = guard.session_rules.get(&entity.id()).copied().or(inferred)
+            && (!session_allowed(&current, rule, clock_now())
+                || published_location(
+                    connection,
+                    entity.str("provider_type"),
+                    entity.data["storage_bucket"].as_str(),
+                    entity.str("storage_key"),
+                )
+                .await?)
+        {
+            return Err(changed_source());
+        }
+    }
+    let mut ids = BTreeSet::new();
+    let mut groups = BTreeSet::new();
+    for entity in entities {
+        match entity.table {
+            Table::Attachment => {
+                if entity.original.is_some() {
+                    ids.insert(entity.id());
+                }
+                groups.insert(canonical_group(&entity.data));
+            }
+            Table::Link => {
+                ids.insert(entity.str("attachment_id").to_owned());
+            }
+            Table::Session => {
+                if let Some(id) = entity.text("base_attachment_id") {
+                    ids.insert(id);
+                }
+            }
+            _ => {}
+        }
+    }
+    ids.extend(guard.active_links.keys().cloned());
+    let discovered=sqlx::query("SELECT id::text AS id,COALESCE(version_group_id,id)::text AS group_id FROM poms.attachment WHERE id=ANY($1::text[]::uuid[])")
+        .bind(ids.iter().cloned().collect::<Vec<_>>()).fetch_all(&mut *connection).await?;
+    let mut discovered_groups = BTreeMap::new();
+    for row in discovered {
+        let id: String = row.try_get("id")?;
+        let group: String = row.try_get("group_id")?;
+        groups.insert(group.clone());
+        discovered_groups.insert(id, group);
+    }
+    for id in &ids {
+        if !discovered_groups.contains_key(id)
+            && !entities
+                .iter()
+                .any(|e| e.table == Table::Attachment && e.original.is_none() && e.id() == *id)
+        {
+            return Err(changed_source());
+        }
+    }
+    for group in &groups {
+        sqlx::query("SELECT pg_advisory_xact_lock(hashtextextended($1,0))")
+            .bind(format!("poms:attachment-group:{group}"))
+            .execute(&mut *connection)
+            .await?;
+    }
+    let rows:Vec<Value>=sqlx::query_scalar("SELECT to_jsonb(a) FROM poms.attachment a WHERE COALESCE(version_group_id,id)=ANY($1::text[]::uuid[]) ORDER BY id FOR UPDATE")
+        .bind(groups.iter().cloned().collect::<Vec<_>>()).fetch_all(&mut *connection).await?;
+    for (id, group) in &discovered_groups {
+        if rows
+            .iter()
+            .find(|row| row["id"] == *id)
+            .is_none_or(|row| canonical_group(row) != *group)
+        {
+            return Err(changed_source());
+        }
+    }
+    for entity in entities
+        .iter()
+        .filter(|e| e.table == Table::Attachment && e.original.is_some())
+    {
+        let current = rows
+            .iter()
+            .find(|r| r["id"] == entity.data["id"])
+            .ok_or_else(changed_source)?;
+        let first = first_source(guard, entity);
+        if first
+            .original
+            .as_ref()
+            .is_none_or(|before| !same_proof(before, current))
+        {
+            return Err(changed_source());
+        }
+    }
+    for (group, maximum) in &guard.version_max {
+        let actual = rows
+            .iter()
+            .filter(|r| canonical_group(r) == *group)
+            .filter_map(|r| r["version_no"].as_i64())
+            .max()
+            .unwrap_or(0);
+        if actual != *maximum {
+            return Err(changed_source());
+        }
+    }
+    for (id, expected) in &guard.active_links {
+        let current:Vec<Value>=sqlx::query_scalar("SELECT to_jsonb(l) FROM poms.attachment_link l WHERE attachment_id=$1::text::uuid AND status='active' ORDER BY id FOR UPDATE")
+            .bind(id).fetch_all(&mut *connection).await?;
+        if current.len() != expected.len()
+            || !current.iter().zip(expected).all(|(a, b)| same_proof(a, b))
+        {
+            return Err(changed_source());
+        }
+    }
+    let mut new_links = BTreeSet::new();
+    let mut links = entities
+        .iter()
+        .filter(|e| e.table == Table::Link)
+        .collect::<Vec<_>>();
+    links.sort_by_key(|e| e.id());
+    for entity in links {
+        if let Some(original) = &first_source(guard, entity).original {
+            let current: Option<Value> = sqlx::query_scalar(
+                "SELECT to_jsonb(l) FROM poms.attachment_link l WHERE id=$1::text::uuid FOR UPDATE",
+            )
+            .bind(entity.id())
+            .fetch_optional(&mut *connection)
+            .await?;
+            if current
+                .as_ref()
+                .is_none_or(|row| !same_proof(original, row))
+            {
+                return Err(changed_source());
+            }
+        } else {
+            let key = (
+                entity.str("attachment_id"),
+                entity.str("target_type"),
+                entity.str("target_id"),
+                entity.str("relation_type"),
+            );
+            if !new_links.insert(key) {
+                return Err(changed_source());
+            }
+            let exists:bool=sqlx::query_scalar("SELECT EXISTS(SELECT 1 FROM poms.attachment_link WHERE attachment_id=$1::text::uuid AND target_type=$2 AND target_id=$3::text::uuid AND relation_type=$4 AND status='active')")
+                .bind(key.0).bind(key.1).bind(key.2).bind(key.3).fetch_one(&mut *connection).await?;
+            if exists {
+                return Err(changed_source());
+            }
+        }
+    }
+    for proof in &guard.routing {
+        verify_routing(connection, proof).await?;
+    }
+    Ok(())
+}
+/// Child K writers use this same lock protocol. A failed child flush cannot replay
+/// its dirty identity map; the service's guarded entry additionally restores its
+/// complete pre-mutation checkpoint on a known rollback.
 pub async fn flush(
     database: &Database,
     entities: &mut [Entity],
     pending: &mut Option<SessionFlush>,
     audit: Option<AuditWrite>,
 ) -> Result<(), StorageFailure> {
+    flush_guarded(database, entities, pending, audit, FlushGuard::default())
+        .await
+        .map_err(|failure| failure.error)
+}
+pub(super) async fn flush_guarded(
+    database: &Database,
+    entities: &mut [Entity],
+    pending: &mut Option<SessionFlush>,
+    audit: Option<AuditWrite>,
+    guard: FlushGuard,
+) -> Result<(), FlushFailure> {
+    if entities.iter().any(|e| e.poisoned) {
+        return Err(FlushFailure {
+            error: StorageFailure::internal(),
+            disposition: CommitDisposition::Unknown,
+        });
+    }
     let changes = entities
         .iter()
         .enumerate()
         .filter(|(_, e)| e.original.is_none() || !e.dirty().is_empty())
         .map(|(i, e)| (i, e.clone()))
         .collect::<Vec<_>>();
-    if changes.is_empty() && pending.is_none() && audit.is_none() {
+    if changes.is_empty() && pending.is_none() && audit.is_none() && !guard.has_intent() {
         return Ok(());
     }
+    let phase = Arc::new(AtomicU8::new(0));
+    let journal = phase.clone();
+    let proof_entities = entities.to_vec();
     let managed = pending.clone();
-    let saved=run(database,move|connection|Box::pin(async move{
-        let mut transaction=connection.begin().await?;let operation:Result<Vec<(usize,Entity)>,sqlx::Error>=async{
-            let mut saved=Vec::new();let inserting=changes.iter().any(|(_,e)|e.original.is_none())||audit.is_some();
-            // Native auth01 (619 -> 621): an update-only flush first writes
-            // managed auth, then the upload session. CREATE flushes instead
-            // finish every CREATE before that managed UPDATE (631 -> 633 -> 635
-            // after the earlier validating flush consumed pending auth).
-            if !inserting&&let Some(managed)=managed.as_ref(){crate::auth::store::flush_managed_session(&mut transaction,managed).await?;}
-            // Native native01: CREATE precedes ordinary UPDATE. The partial
-            // expression indexes do not mark is_latest/is_final as UPDATE_EARLY.
-            // A version INSERT can therefore fail before the old latest or
-            // session dirty fields are written. Do not repair that ordering.
-            // Native K alpha04: refresh AUTO is Link(1) -> Selection(batch2);
-            // Package(1) -> Items(batch2) occurs only after actual archive I/O.
+    let result = database.with_connection(move |connection| Box::pin(async move {
+        // Set before BEGIN: cancellation at any point after entry is conservative.
+        journal.store(1, Ordering::SeqCst);
+        let mut transaction = connection.begin().await?;
+        let operation: Result<Vec<(usize,Entity)>,sqlx::Error> = async {
+            lock_and_recheck(&mut transaction, &proof_entities, &guard).await?;
+            let mut saved = Vec::new();
+            let mut consumed = BTreeSet::new();
+            for (index,entity) in changes.iter().filter(|(_,e)|early_release(e)) {
+                saved.push((*index,update(&mut transaction,entity).await?));
+                consumed.insert(*index);
+            }
             for group in create_groups(&changes) {
-                let rows=group.iter().map(|(_,entity)|entity.clone()).collect::<Vec<_>>();
+                let rows=group.iter().map(|(_,e)|e.clone()).collect::<Vec<_>>();
                 let inserted=insert_group(&mut transaction,&rows).await?;
-                saved.extend(group.into_iter().zip(inserted).map(|((index,_),entity)|(index,entity)));
+                saved.extend(group.into_iter().zip(inserted).map(|((index,_),e)|(index,e)));
             }
-            if let Some(audit)=audit{sqlx::query("INSERT INTO poms.audit_log(event_type,target_type,target_id,operator_id,request_id,result,metadata,occurred_at) VALUES($1,'attachment',$2,$3,$4,$5,$6::text::jsonb,$7)").bind(audit.event).bind(audit.target).bind(audit.operator).bind(audit.request_id).bind(audit.result).bind(audit.metadata.0).bind(clock_now()).execute(&mut *transaction).await?;}
-            if inserting&&let Some(managed)=managed.as_ref(){crate::auth::store::flush_managed_session(&mut transaction,managed).await?;}
-            // Ordinary UPDATEs are grouped by entity class, not emitted as
-            // stronger per-row CAS statements when a class has multiple rows.
-            let mut tables=Vec::new();
-            for(_,entity)in changes.iter().filter(|(_,e)|e.original.is_some()){
-                if !tables.contains(&entity.table){tables.push(entity.table);}
+            let mut other_tables=Vec::new();
+            for (index,entity) in changes.iter().filter(|(i,e)|e.original.is_some()&&!consumed.contains(i)) {
+                if matches!(entity.table,Table::Attachment|Table::Session|Table::Link) {
+                    saved.push((*index,update(&mut transaction,entity).await?));
+                } else if !other_tables.contains(&entity.table) {
+                    other_tables.push(entity.table);
+                }
             }
-            for table in tables{
-                let existing=changes.iter().filter(|(_,entity)|entity.original.is_some()&&entity.table==table).map(|(index,entity)|(*index,entity.clone())).collect::<Vec<_>>();
-                let rows=existing.iter().map(|(_,entity)|entity).cloned().collect::<Vec<_>>();
-                let updated=update_many(&mut transaction,&rows).await?;
-                saved.extend(existing.into_iter().zip(updated).map(|((index,_),entity)|(index,entity)));
+            for table in other_tables {
+                let existing=changes.iter().filter(|(_,e)|e.original.is_some()&&e.table==table).collect::<Vec<_>>();
+                let updated=update_many(&mut transaction,&existing.iter().map(|(_,e)|e.clone()).collect::<Vec<_>>()).await?;
+                saved.extend(existing.into_iter().zip(updated).map(|((index,_),e)|(*index,e)));
             }
+            if let Some(audit)=audit {
+                sqlx::query("INSERT INTO poms.audit_log(event_type,target_type,target_id,operator_id,request_id,result,metadata,occurred_at) VALUES($1,'attachment',$2,$3,$4,$5,$6::text::jsonb,$7)")
+                    .bind(audit.event).bind(audit.target).bind(audit.operator).bind(audit.request_id).bind(audit.result).bind(audit.metadata.0).bind(clock_now()).execute(&mut *transaction).await?;
+            }
+            if let Some(managed)=managed.as_ref(){crate::auth::store::flush_managed_session(&mut transaction,managed).await?;}
             Ok(saved)
-        }.await;match operation{Ok(value)=>{transaction.commit().await?;Ok(value)},Err(error)=>{transaction.rollback().await?;Err(error)}}
-    })).await?;
-    // Publish snapshots only after commit. On failure the same new entity IDs,
-    // INSERT payloads and existing dirty state stay in the request identity map.
-    // The complete catch flush retries CREATE and may fail again before it can
-    // persist status=failed (native01 leaves the session validating at v3).
-    for (i, mut e) in saved {
-        e.mark_committed();
-        entities[i] = e;
+        }.await;
+        match operation {
+            Ok(saved)=>{
+                journal.store(3,Ordering::SeqCst);
+                transaction.commit().await?;
+                journal.store(4,Ordering::SeqCst);
+                Ok(Ok(saved))
+            },
+            Err(error)=>{
+                transaction.rollback().await?;
+                journal.store(2,Ordering::SeqCst);
+                Ok(Err(sql_failure(error)))
+            }
+        }
+    })).await;
+    let result = match result {
+        Ok(result) => result,
+        Err(_) => Err(StorageFailure::internal()),
+    };
+    match result {
+        Ok(saved) => {
+            for (i, mut entity) in saved {
+                entity.mark_committed();
+                entities[i] = entity;
+            }
+            *pending = None;
+            Ok(())
+        }
+        Err(error) => {
+            // Poison also on known rollback for legacy child callers; a guarded
+            // service checkpoint restore removes this only when rollback is proven.
+            for entity in entities {
+                entity.poisoned = true;
+            }
+            let disposition = failure_disposition(phase.load(Ordering::SeqCst));
+            Err(FlushFailure { error, disposition })
+        }
     }
-    // Consume only after successful commit. Later dirty-session, success audit
-    // and completed-status flushes must not replay the old authentication CAS.
-    *pending = None;
-    Ok(())
 }
 
 #[cfg(test)]

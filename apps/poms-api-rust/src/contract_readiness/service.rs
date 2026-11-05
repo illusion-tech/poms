@@ -154,7 +154,7 @@ async fn audit(
     contract_support::audit(session,actor,AuditWrite{
         operation_id:op.into(),target_type:kind.into(),target_id:id(after,"id")?,project_id:project,contract_id:contract,
         before:before.map(view::audit_snapshot),after:Some(view::audit_snapshot(after)),reason,
-        metadata:json!({"sourceIds":{"readinessId":after["source_readiness_id"],"baselineId":after["source_baseline_id"],"diffResultId":after["source_diff_result_id"],"preparationId":after["source_preparation_id"]},"payloadHash":after["payload_hash"]}),
+        metadata:json!({"requiredSensitivePackages":["contract-finance"],"sourceIds":{"readinessId":after["source_readiness_id"],"baselineId":after["source_baseline_id"],"diffResultId":after["source_diff_result_id"],"preparationId":after["source_preparation_id"]},"payloadHash":after["payload_hash"]}),
     }).await
 }
 fn optional_money(body: &Value, key: &str) -> Result<Option<String>, Error> {
@@ -199,10 +199,19 @@ async fn create_baseline(
         let fact = contract_fact(session.connection, terms.contract_id, Some(project), true)
             .await?
             .ok_or_else(|| Error::NotFound("Draft contract not found in project".into()))?;
-        if fact.status != "draft" {
+        if !matches!(fact.status.as_str(), "draft" | "active") {
             return Err(Error::BadRequest(
-                "Reference terms require a draft contract".into(),
+                "Reference terms require a draft or active contract".into(),
             ));
+        }
+        if fact.status == "active" {
+            let valid:bool=sqlx::query_scalar("SELECT EXISTS(SELECT 1 FROM poms.contract_term_snapshot WHERE id=$1 AND contract_id=$2 AND snapshot_status='active')")
+                .bind(fact.current_snapshot_id).bind(fact.id).fetch_one(&mut *session.connection).await?;
+            if !valid {
+                return Err(Error::Conflict(
+                    "Active参考合同缺少真实当前生效快照。".into(),
+                ));
+            }
         }
         if currency.as_ref().is_some_and(|v| *v != fact.currency_code) {
             return Err(Error::BadRequest(
@@ -353,7 +362,10 @@ async fn create_package(
     let fact = contract_fact(session.connection, contract, Some(project), true)
         .await?
         .ok_or_else(|| Error::NotFound("Contract not found in project".into()))?;
-    if fact.status != "draft" {
+    let amendment_input = body.get("amendment").filter(|v| !v.is_null());
+    if (fact.status == "active") != amendment_input.is_some()
+        || !matches!(fact.status.as_str(), "draft" | "active")
+    {
         return Err(Error::BadRequest(
             "Readiness requires a draft contract".into(),
         ));
@@ -370,7 +382,9 @@ async fn create_package(
             "candidateTerms.contractId must match contractId".into(),
         ));
     }
-    if money(&candidate.amount_tax_inclusive)? != money(&fact.signed_amount)? {
+    if fact.status == "draft"
+        && money(&candidate.amount_tax_inclusive)? != money(&fact.signed_amount)?
+    {
         return Err(Error::BadRequest(
             "Candidate inclusive amount must equal the actual draft contract signedAmount".into(),
         ));
@@ -459,6 +473,12 @@ async fn create_package(
         .bind(baseline_id).bind(diff_id).bind(sources.blockers.is_empty()).bind(actor.id).bind(store::rv(&baseline)?).execute(&mut *session.connection).await?;
     if changed.rows_affected() != 1 {
         return Err(Error::Conflict("Commercial baseline changed".into()));
+    }
+    if let Some(input) = amendment_input {
+        crate::contracts::prepare_amendment_readiness(
+            session, project, contract, key, input, actor,
+        )
+        .await?;
     }
     let row = store::package(session.connection, key, false).await?;
     audit(
@@ -623,7 +643,7 @@ async fn review(
 fn preparation_result(p: &Value) -> Value {
     json!({"targetId":p["id"],"targetType":"contract-term-preparation","sourceReadinessId":p["source_readiness_id"],"contractId":p["contract_id"],
         "resultStatus":"prepared","businessStatusAfter":"prepared","preparationId":p["id"],"preparationVersion":p["version"],
-        "snapshotId":null,"newVersionId":null,"planVersionId":null,"planVersion":null,"initRecordId":null})
+        "snapshotId":null,"newVersionId":null,"planVersionId":null,"planVersion":null,"initRecordId":null,"contractAmendmentId":p["contract_amendment_id"]})
 }
 async fn prepare(
     session: &mut CommonSession<'_, '_>,
@@ -642,10 +662,23 @@ async fn prepare(
         .ok_or_else(|| Error::NotFound("Contract not found in project".into()))?;
     let package = store::package(session.connection, package_id, true).await?;
     same_scope(&package, project, contract)?;
-    if fact.status != "draft" {
+    let amendment_id = package["contract_amendment_id"]
+        .as_str()
+        .map(uuid)
+        .transpose()?;
+    if (fact.status == "active") != amendment_id.is_some()
+        || !matches!(fact.status.as_str(), "draft" | "active")
+    {
         return Err(Error::BadRequest(
             "Only a draft contract may prepare or retry preparation".into(),
         ));
+    }
+    if let Some(amendment) = amendment_id {
+        if id(body, "contractAmendmentId")? != amendment {
+            return Err(Error::Conflict("变更身份不匹配。".into()));
+        }
+        crate::contracts::validate_amendment_preparation(session, amendment, contract, package_id)
+            .await?;
     }
     let baseline = store::baseline(
         session.connection,
@@ -663,7 +696,8 @@ async fn prepare(
     validate_diff(&d, project, contract, id(&baseline, "id")?)?;
     let terms = Terms::parse(&package["candidate_terms"])?;
     if terms.contract_id != contract
-        || money(&terms.amount_tax_inclusive)? != money(&fact.signed_amount)?
+        || (amendment_id.is_none()
+            && money(&terms.amount_tax_inclusive)? != money(&fact.signed_amount)?)
     {
         return Err(Error::CodedConflict {
             code: "payload_changed",
@@ -731,7 +765,7 @@ async fn prepare(
         .transpose()?;
     let old:Option<Value>=sqlx::query_scalar("SELECT to_jsonb(p) FROM poms.contract_term_preparation p WHERE contract_id=$1 AND is_current FOR UPDATE")
         .bind(contract).fetch_optional(&mut *session.connection).await?;
-    if old.as_ref().is_some_and(|p| p["status"] == "activated") {
+    if amendment_id.is_none() && old.as_ref().is_some_and(|p| p["status"] == "activated") {
         return Err(Error::BadRequest(
             "An activated preparation cannot be replaced through draft initialization".into(),
         ));
@@ -740,7 +774,7 @@ async fn prepare(
         .bind(contract).fetch_one(&mut *session.connection).await?;
     let supersedes = old.as_ref().map(|p| id(p, "id")).transpose()?;
     if let Some(old) = old.as_ref() {
-        let changed=sqlx::query("UPDATE poms.contract_term_preparation SET is_current=false,status='superseded',row_version=row_version+1,updated_at=now() WHERE id=$1 AND row_version=$2 AND is_current AND status='prepared'")
+        let changed=sqlx::query("UPDATE poms.contract_term_preparation SET is_current=false,status=CASE WHEN status='activated' THEN status ELSE 'superseded' END,row_version=row_version+1,updated_at=now() WHERE id=$1 AND row_version=$2 AND is_current AND status IN ('prepared','activated')")
             .bind(id(old,"id")?).bind(store::rv(old)?).execute(&mut *session.connection).await?;
         if changed.rows_affected() != 1 {
             return Err(Error::Conflict("Current preparation changed".into()));
@@ -757,6 +791,14 @@ async fn prepare(
         .state
         .trace
         .inserted("contract_term_preparation", &key.to_string());
+    if let Some(amendment) = amendment_id {
+        sqlx::query("UPDATE poms.contract_term_preparation SET contract_amendment_id=$2,before_snapshot_id=(SELECT before_snapshot_id FROM poms.contract_amendment WHERE id=$2) WHERE id=$1").bind(key).bind(amendment).execute(&mut *session.connection).await?;
+        let updated=sqlx::query("UPDATE poms.contract_amendment SET source_preparation_id=$2,payload_hash=$3,updated_at=now(),updated_by=$4,row_version=row_version+1 WHERE id=$1 AND status='draft' AND source_readiness_id=$5")
+            .bind(amendment).bind(key).bind(&hash).bind(actor.id).bind(package_id).execute(&mut *session.connection).await?;
+        if updated.rows_affected() != 1 {
+            return Err(Error::Conflict("变更准备来源已变化。".into()));
+        }
+    }
     let changed=sqlx::query("UPDATE poms.contract_readiness_package SET current_preparation_id=$2,updated_by=$3,updated_at=now(),row_version=row_version+1 WHERE id=$1 AND row_version=$4 AND is_current")
         .bind(package_id).bind(key).bind(actor.id).bind(store::rv(&package)?).execute(&mut *session.connection).await?;
     if changed.rows_affected() != 1 {
@@ -805,6 +847,15 @@ pub async fn load_preparation(
         .ok_or_else(|| Error::NotFound("Preparation contract not found".into()))?;
     let p = store::preparation(session.connection, preparation_id, true).await?;
     same_scope(&p, project, contract_id)?;
+    if require_current_sources && let Some(amendment) = optional_text(&p, "contract_amendment_id") {
+        crate::contracts::validate_amendment_preparation(
+            session,
+            uuid(&amendment)?,
+            contract_id,
+            id(&p, "source_readiness_id")?,
+        )
+        .await?;
+    }
     let package = store::package(session.connection, id(&p, "source_readiness_id")?, true).await?;
     same_scope(&package, project, contract_id)?;
     let baseline = store::baseline(session.connection, id(&p, "source_baseline_id")?, true).await?;
@@ -891,6 +942,8 @@ pub async fn load_preparation(
         ("payloadHash", "payload_hash"),
         ("preparedBy", "prepared_by"),
         ("activatedSnapshotId", "activated_snapshot_id"),
+        ("contractAmendmentId", "contract_amendment_id"),
+        ("beforeSnapshotId", "before_snapshot_id"),
     ] {
         fields.insert(camel.into(), p[snake].clone());
     }
@@ -899,10 +952,39 @@ pub async fn load_preparation(
     Ok(result)
 }
 
+/// The formal producer and downstream provenance guards use the same exact fingerprint.
+pub fn formal_plan_payload_hash(
+    project: Uuid,
+    contract: Uuid,
+    snapshot: Uuid,
+    preparation: Uuid,
+    preparation_hash: &str,
+    terms: &Value,
+) -> Result<String, Error> {
+    canonical_hash(
+        &json!({"projectId":project,"contractId":contract,"snapshotId":snapshot,"sourcePreparationId":preparation,"preparationPayloadHash":preparation_hash,"terms":Terms::parse(terms)?.value()?}),
+    )
+}
 fn plan_result(plan: &Value, preparation: &Value, snapshot: Uuid, record: Uuid) -> Value {
     json!({"targetId":plan["id"],"targetType":"receivable-plan-version","sourceReadinessId":plan["source_readiness_id"],"contractId":plan["contract_id"],
         "resultStatus":"initialized","businessStatusAfter":"active","preparationId":preparation["id"],"preparationVersion":preparation["version"],
-        "snapshotId":snapshot,"newVersionId":plan["id"],"planVersionId":plan["id"],"planVersion":plan["version"],"initRecordId":record})
+        "snapshotId":snapshot,"newVersionId":plan["id"],"planVersionId":plan["id"],"planVersion":plan["version"],"initRecordId":record,"contractAmendmentId":preparation["contract_amendment_id"]})
+}
+pub async fn initialize_plan_from_effective_snapshot(
+    session: &mut CommonSession<'_, '_>,
+    package_id: Uuid,
+    contract: Uuid,
+    actor: &Actor,
+    operation_id: &str,
+) -> Result<Value, Error> {
+    initialize_plan(
+        session,
+        package_id,
+        &json!({"contractId":contract}),
+        actor,
+        operation_id,
+    )
+    .await
 }
 async fn initialize_plan(
     session: &mut CommonSession<'_, '_>,
@@ -963,9 +1045,13 @@ async fn initialize_plan(
     }
     // Deliberately do not read current project R3 sources here. An already
     // effective contract retains its approved source after another contract quote.
-    let payload_hash = canonical_hash(
-        &json!({"projectId":project,"contractId":contract,"snapshotId":snapshot_id,"sourcePreparationId":preparation_id,
-        "preparationPayloadHash":preparation["payload_hash"],"terms":terms.value()?}),
+    let payload_hash = formal_plan_payload_hash(
+        project,
+        contract,
+        snapshot_id,
+        preparation_id,
+        text(&preparation, "payload_hash")?,
+        &terms.value()?,
     )?;
     let exact:Option<Value>=sqlx::query_scalar("SELECT to_jsonb(p)||jsonb_build_object('amount_tax_inclusive',amount_tax_inclusive::text) FROM poms.receivable_plan_version p WHERE contract_id=$1 AND snapshot_id=$2 FOR UPDATE")
         .bind(contract).bind(snapshot_id).fetch_optional(&mut *session.connection).await?;

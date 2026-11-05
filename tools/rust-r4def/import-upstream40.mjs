@@ -1,0 +1,4 @@
+import fs from 'node:fs';import path from'node:path';import assert from'node:assert/strict';import{createHash}from'node:crypto';
+const from='E:/projects/worktrees/poms-r4e-cost-base/poms',file='tools/rust-r4def/E/upstream32/bundle32.json',raw=fs.readFileSync(from+'/'+file),sha=b=>createHash('sha256').update(b).digest('hex');assert.equal(sha(raw),'23833531306f64165d246a5815f7241e890e3d9dfc2ecce93090f8b6ab0b82e3');
+for(const p of JSON.parse(raw).products){assert(p.file.startsWith('tools/rust-r4def/E/upstream32/'));const b=fs.readFileSync(from+'/'+p.file);assert.equal(sha(b),p.rawBytesSha256);fs.mkdirSync(path.dirname(p.file),{recursive:true});if(fs.existsSync(p.file))assert(fs.readFileSync(p.file).equals(b));else fs.writeFileSync(p.file,b,{flag:'wx'});}
+fs.writeFileSync(file,raw,{flag:'wx'});console.log(JSON.stringify({upstream32Imported:true}));
