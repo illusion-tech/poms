@@ -1,0 +1,3728 @@
+{
+  "kind": "Root-controlled-cleanup-wrapper103-actual-receipt",
+  "mode": "probe-plan",
+  "phase": "read-only-index-plan-rust",
+  "reports": [
+    {
+      "backend": "native",
+      "claimed": {
+        "actualNewPKs": 0,
+        "claimed": 0,
+        "unclaimed": 0,
+        "sourceReceipts": 0
+      },
+      "baselineDrift": [],
+      "publicPlan": {
+        "kind": "owned-only-exact-PK-teardown70-plan",
+        "status": "planned-not-executed",
+        "backend": "native",
+        "scope": {
+          "namespace": "poms-r4def",
+          "base": "756d813c9578090fcf8e56821acce01b46b40420",
+          "instanceId": "0c945ec2-e3ec-4705-8bd3-660a46e8cafc",
+          "database": "poms_r4def_native",
+          "databaseOid": "16385",
+          "host": "127.0.0.1",
+          "hostPort": 25433,
+          "serverPort": 15432,
+          "serverVersionNum": 150012,
+          "isolated": "on",
+          "presentationTimeZone": "Etc/GMT-8",
+          "containerId": "81f3f931dd6752763016d1d7e27b65d9a88103c236213058feadd7a4a8ceacbc",
+          "environmentReceiptId": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4def/root/environment21/provision01.json"
+        },
+        "planHash": "4b7171db2d7e0344f47a2ddd53809281949bdf9357c3e2eb2f579613d3adbb11",
+        "sealedLiveGraphHash": "54138332e020e94dc6ac926f3d1ebda24f52dae09ad52fa5f873eff70516ea85",
+        "baselineGraphHash": "54138332e020e94dc6ac926f3d1ebda24f52dae09ad52fa5f873eff70516ea85",
+        "expectedDeleted": 0,
+        "expectedRestored": 0,
+        "originalBaselineRows": 532,
+        "operations": [],
+        "noOp": true,
+        "actualRowGraphValidatedFromInjectedRows": true,
+        "rawRowsOrCredentialsPublished": false,
+        "DBExecuted": false,
+        "G3Certified": false,
+        "G4Certified": false
+      },
+      "rowCycleDiagnostic": {
+        "classification": "actual-injected-row-FK-diagnostic-not-ownership-or-DML",
+        "actualAddedPKs": 0,
+        "SCCs": [],
+        "DMLExecuted": false
+      },
+      "probeOnly": true,
+      "DMLExecuted": false
+    },
+    {
+      "backend": "rust",
+      "claimed": {
+        "actualNewPKs": 2673,
+        "claimed": 2336,
+        "unclaimed": 337,
+        "sourceReceipts": 3012
+      },
+      "counterIssues": [],
+      "unclaimed": [
+        {
+          "table": "attachment",
+          "primaryKey": {
+            "id": "046b4084-3ac6-4663-9798-064274c86717"
+          },
+          "rowFingerprint": "6002570641ea5a7be8ab1c1c667d83ead272a44d676f5255929391ad5ef6fcce",
+          "createdAt": "2026-11-04T13:41:01.414+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment",
+          "primaryKey": {
+            "id": "092cfa59-21db-4962-8a11-9f0462d4ae97"
+          },
+          "rowFingerprint": "e7559b8f3afe5a07600cd2e5eadfc1b0d40022e38b1f8149dfbec62e8c0eb65f",
+          "createdAt": "2026-11-04T13:41:14.531+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment",
+          "primaryKey": {
+            "id": "156eed94-e0a5-49b1-8762-7c04b8cc4bba"
+          },
+          "rowFingerprint": "16691f45ae6fbeb10e036e6c3cddedb9f94e6e46b3ac397feffc7c517d1c1ced",
+          "createdAt": "2026-11-04T09:38:25.029+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment",
+          "primaryKey": {
+            "id": "1e7bd91d-4564-41f2-a5bd-6aec3e45ee7d"
+          },
+          "rowFingerprint": "a887131f5648d22df027de4e5821fcabc4ef053b3291a80edafcdb5f34a2b8c7",
+          "createdAt": "2026-11-04T13:40:35.388+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment",
+          "primaryKey": {
+            "id": "2270de0a-2cec-48ce-8835-798298942156"
+          },
+          "rowFingerprint": "b9c83e99426af839750bdb1ad6884183a274b9bc14d1e4f67d60073620e06ff2",
+          "createdAt": "2026-11-04T13:14:02.935+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment",
+          "primaryKey": {
+            "id": "29eb9163-07a7-4cec-bc32-d28ead55437a"
+          },
+          "rowFingerprint": "19f8a81ae891810decd6feeec39c9f6118e1bf05378761123b54f1acd243a746",
+          "createdAt": "2026-11-04T13:40:43.738+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment",
+          "primaryKey": {
+            "id": "38ef09b4-32da-4e13-870a-b3d4eeb1d96e"
+          },
+          "rowFingerprint": "01bf929bf156c5a434ab0a9d04c2a1dcc9b131be0306c7fe21cbdcfe06399631",
+          "createdAt": "2026-11-04T13:41:30.453+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment",
+          "primaryKey": {
+            "id": "39ed7c93-bec1-43de-8d39-ce22a877d8b9"
+          },
+          "rowFingerprint": "d2f54252e1534f240e730f9e3844586ebbcff313008e38ad7028c5e9a648cbd4",
+          "createdAt": "2026-11-04T13:40:57.249+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment",
+          "primaryKey": {
+            "id": "3f6ee935-ddf8-4c15-90a0-1c7a3880bdba"
+          },
+          "rowFingerprint": "06a4a797c387deaeb040489a702934983ea583579a625aed9a9de311abd72124",
+          "createdAt": "2026-11-04T13:06:26.447+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment",
+          "primaryKey": {
+            "id": "44bb50ed-f842-4bbc-826f-afcf76bdb5d4"
+          },
+          "rowFingerprint": "32e6aabb855121001f2f024f8cc8fa033ab5b3603e8cbcdc3926d2e7b3a2a421",
+          "createdAt": "2026-11-04T13:40:30.641+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment",
+          "primaryKey": {
+            "id": "4727b36b-df9a-47e6-a19f-6a44e8a1f51f"
+          },
+          "rowFingerprint": "64366c9896d8d77be475f726093064e5a0ac14fe3f87f3a423539a12e2247cb1",
+          "createdAt": "2026-11-04T13:40:18.25+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment",
+          "primaryKey": {
+            "id": "5151e346-59d4-4d3b-8254-ccaae6bd3699"
+          },
+          "rowFingerprint": "b7cb874ca485652b07d5041042e3468f621b0fec387df9a7e77dfa0a4650b2d2",
+          "createdAt": "2026-11-04T09:38:24.265+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment",
+          "primaryKey": {
+            "id": "57634ef2-c1c5-4f19-80a6-24381ca8c304"
+          },
+          "rowFingerprint": "00192f7bd515549dcadf96c6ce5298920ba3eb399e046b0aff7fadb6655b4e34",
+          "createdAt": "2026-11-04T13:40:44.762+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment",
+          "primaryKey": {
+            "id": "646e9220-4e1f-479d-83bd-0da8112c96bb"
+          },
+          "rowFingerprint": "96ec10de47eaec6d66cf5584e2a3c1bfdc2273517ac953780c896ae6e83d70e0",
+          "createdAt": "2026-11-04T13:41:35.641+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment",
+          "primaryKey": {
+            "id": "7bfbc7ac-e24f-4720-9b60-422ae6ae48d2"
+          },
+          "rowFingerprint": "e7ef07c9c38c9ea82b7f9a8a75189e14c03f8687c54150869280936c0ab599bf",
+          "createdAt": "2026-11-04T13:41:31.706+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment",
+          "primaryKey": {
+            "id": "89bb0168-e40b-4b95-99ac-49232f6f475c"
+          },
+          "rowFingerprint": "cb7a2a4f8326e1bc75d53e4b031202581bd7e48ad36918b38224672b5ccf9af0",
+          "createdAt": "2026-11-04T13:40:47.671+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment",
+          "primaryKey": {
+            "id": "8ac88918-153d-41cd-86c0-db6ac3c5c452"
+          },
+          "rowFingerprint": "4e1f043bbbbb1039f30007e881e9c34887e7b3ca00c759f9090ea2bb1e55a0e9",
+          "createdAt": "2026-11-04T13:41:17.411+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment",
+          "primaryKey": {
+            "id": "934e1513-9a88-4ce8-8f84-d21d4e748c39"
+          },
+          "rowFingerprint": "d6bbceb9a8e2511db3ebeff5c3d3b5a6ed54d3c335bc32ee0e23122aa11c7ccd",
+          "createdAt": "2026-11-04T13:40:26.308+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment",
+          "primaryKey": {
+            "id": "98856b29-052e-431d-a8d2-5d868b364f58"
+          },
+          "rowFingerprint": "b76a69824f70392c5cfdd4888359f3a4a06e55935aa8c91f0846f419b19ec87b",
+          "createdAt": "2026-11-04T13:41:33.963+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment",
+          "primaryKey": {
+            "id": "9e7bbeb5-5343-4e1e-9311-a680f7948ff8"
+          },
+          "rowFingerprint": "c74fabbd21601d43306dc99095362e872fe7396f09c894a1accd1f4c108c776c",
+          "createdAt": "2026-11-04T13:40:27.385+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment",
+          "primaryKey": {
+            "id": "a51a309b-5b10-4f74-a020-4b7402fa82d0"
+          },
+          "rowFingerprint": "ae8ca7c6671f57f45b3f89c7da4f6920bda69651a59a7697e82c816ce38a19a3",
+          "createdAt": "2026-11-04T13:40:19.477+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment",
+          "primaryKey": {
+            "id": "a7762a5e-8750-4ced-a87d-49be6f873690"
+          },
+          "rowFingerprint": "68b5447d12bc72392062037f6ec35294208c20f3ae6dadaf8a1e4b49e2459e0e",
+          "createdAt": "2026-11-04T13:53:47.824+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment",
+          "primaryKey": {
+            "id": "ad16e3e6-368f-4d90-bcde-a7289b3e241c"
+          },
+          "rowFingerprint": "26effc48721fc3c202941315b05f9cab45dc7ef259e7eae4f2259b7c9301d489",
+          "createdAt": "2026-11-04T13:40:31.36+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment",
+          "primaryKey": {
+            "id": "b1f2c93b-adbb-4f2d-972c-d82c4890c1c5"
+          },
+          "rowFingerprint": "017d1de801ac9f7e19a1f2ab4977c7b60bb516ee028e6f12615d38583be07d0c",
+          "createdAt": "2026-11-04T13:53:50.006+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment",
+          "primaryKey": {
+            "id": "bcf2bc92-84d0-4018-bb93-3d51dd22f067"
+          },
+          "rowFingerprint": "9bbca256a54d36104db89e22a211f95f47eb1b565697fd2b9072d4436009dbf9",
+          "createdAt": "2026-11-04T13:41:06.513+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment",
+          "primaryKey": {
+            "id": "be9f4278-6eaa-4428-9de4-32f893eeb796"
+          },
+          "rowFingerprint": "6ae66c0a8999db2fd10636fc45b94ba36116e4be1fb850ffb859718c828c57e7",
+          "createdAt": "2026-11-04T13:41:23.17+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment",
+          "primaryKey": {
+            "id": "d53ed4b7-b027-4ae0-b466-109c2cc58730"
+          },
+          "rowFingerprint": "6736863edef5bec24a422ddd06fa22e0795bfb6df00e0f05cc4f839fa8cc823c",
+          "createdAt": "2026-11-04T13:41:28.26+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment",
+          "primaryKey": {
+            "id": "e4d83526-48fd-44c0-85e8-b8e137653974"
+          },
+          "rowFingerprint": "c208397345187a0e1a9a3dc5585571733677ea97e12e8760a4d91e0c2d3d0d63",
+          "createdAt": "2026-11-04T13:40:49.611+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment",
+          "primaryKey": {
+            "id": "f00845dd-28e3-4a5c-8837-bdcbf19c8ae8"
+          },
+          "rowFingerprint": "929901c737be2f17725a944f990969535ecfc3e0357614248ad3b67034609cd5",
+          "createdAt": "2026-11-04T12:02:45.709+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment",
+          "primaryKey": {
+            "id": "fdd0f6b3-511d-4e5a-959e-fed300700031"
+          },
+          "rowFingerprint": "704e639e096d68d31ddef9ea8f37c029700bd5d13b01770e008d4baf274e2724",
+          "createdAt": "2026-11-04T13:40:36.591+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "0a572054-726a-44ea-a7c5-82dd2711792e"
+          },
+          "rowFingerprint": "bc05b99db00203793884b628efa3506f0edd17b2cce42f5ec73847c6afa424a5",
+          "createdAt": "2026-11-04T13:41:35.641+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "0c251335-fe50-4c29-a63a-8465a71b230d"
+          },
+          "rowFingerprint": "e76a9dcde217a25922c7f19cde5b3d65cb99fd7f11ea2df78c50c05901199bf5",
+          "createdAt": "2026-11-04T13:40:26.308+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "13093645-a064-494e-9a5f-acaea662c438"
+          },
+          "rowFingerprint": "f995c24483f75977ba68a3b460f98de55a455a7d76256d41ec5957c0cc195ce4",
+          "createdAt": "2026-11-04T13:06:26.447+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "1316db46-41a5-47e3-8fd6-66f534bc58b1"
+          },
+          "rowFingerprint": "71135b1245d6d059c1829dfee28c7fc4471507f76d57d5004ea1c19ad4585875",
+          "createdAt": "2026-11-04T13:40:31.36+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "13e5f077-82d2-4107-a25d-a7642a27a446"
+          },
+          "rowFingerprint": "b2ee92c145d3e1ff79d0b4a0cf58ce6dfdbb28d547f0aa82b50bb240504fd6cd",
+          "createdAt": "2026-11-04T13:40:19.477+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "15f1503c-188f-47d7-9971-6a474677d84c"
+          },
+          "rowFingerprint": "5c682e9315eda0e0fcc467e9fc504493427d82ff7648ea549af50df9f04a37f9",
+          "createdAt": "2026-11-04T13:12:40.31+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "1700955d-5179-410d-b914-3f1a642370cc"
+          },
+          "rowFingerprint": "7e5103b5b9bf78161ed3c7ebdcbbb7b3b958c396ed5f5f68f7137dafde04b44a",
+          "createdAt": "2026-11-04T13:40:36.591+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "1b15db9d-6c15-4e13-99ee-03c2731d68e2"
+          },
+          "rowFingerprint": "7fb541acd3ab0f06f7eea7b05a4b7e794a930afb41800010b230c088dee4fb13",
+          "createdAt": "2026-11-04T09:38:27.403+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "1b1721a5-cc5f-4a48-85d9-f7eeac66a40f"
+          },
+          "rowFingerprint": "7dfc25ac8956f70f75b9734265608188d16d8d2f6c489ccbd08f57148de9692b",
+          "createdAt": "2026-11-04T13:41:31.706+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "1d43ccfd-79be-4782-8818-cb3340739500"
+          },
+          "rowFingerprint": "5ace291d91e661ddaef5879f76855e5694d1260b53f02662310a03ec4fab34e9",
+          "createdAt": "2026-11-04T13:47:47.891+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "2348fb9c-f800-43b9-aa9a-f86862136e0e"
+          },
+          "rowFingerprint": "558b55edaef1048ea8b57f5ea6e3e92cf5e0ffedbfbb159a4de2453f9ad4825e",
+          "createdAt": "2026-11-04T13:40:36.591+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "24dd2b96-4dad-4c51-abc9-5cb937d10011"
+          },
+          "rowFingerprint": "3597f0a4b0499fc220ef46ec682a048a73e5ae638a0387341c4180c1854bb97f",
+          "createdAt": "2026-11-04T13:40:35.388+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "2c2ed890-1f7e-4fd9-a353-22b3e6de79d6"
+          },
+          "rowFingerprint": "27197e45277aa8aeb1326041d0374396d9aa4710335eecfd1170288a8fbed555",
+          "createdAt": "2026-11-04T13:41:14.531+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "3775d0a7-74a2-4064-988d-da17b129ae04"
+          },
+          "rowFingerprint": "0ff77f1a83a9e3b77e478eb8b46dcfed71ee43b6f71671531ec33e2ecc3d5f79",
+          "createdAt": "2026-11-04T13:40:30.641+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "3989c66e-0ffa-4e40-a101-a68b5ab39322"
+          },
+          "rowFingerprint": "3cf5ce5689d8ea4c2a9d53dd8eab31302797ab8f257b9eea018eeffdf06f08e3",
+          "createdAt": "2026-11-04T09:38:24.265+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "3cc685e4-bc66-4939-adb4-e6bca829f364"
+          },
+          "rowFingerprint": "d1440fe5a3f88a89329a7646df69039d1f62629a84a66e6b16d4b5ee7cb13b64",
+          "createdAt": "2026-11-04T13:47:48.26+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "416b4c2f-d5ed-47f3-bf0f-ceec8af41143"
+          },
+          "rowFingerprint": "156bee23fd49a08b19e6aa8f3a524924e82ea701947b017adf3c385097d35450",
+          "createdAt": "2026-11-04T13:41:28.26+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "4228bd60-3aa0-4408-b344-4eb0bacf203b"
+          },
+          "rowFingerprint": "57d28bee86898b588bd3968aa1a48f1e5ceaaec15ab22042a3e7b4df00ebb013",
+          "createdAt": "2026-11-04T13:41:30.453+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "45db8aab-0a2a-4b6d-9a7e-7da31e60e284"
+          },
+          "rowFingerprint": "2755c47896c9baf90bcdda1f4f2953b2358636b0bc23df48268b9c4b320b8bfd",
+          "createdAt": "2026-11-04T13:41:23.17+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "47d62d23-5bba-42f4-9856-2f4f73a1f3e8"
+          },
+          "rowFingerprint": "6d4c1243f212f5a3f35cd03f6bdc103d84d99f67a427821c133661d1d755912e",
+          "createdAt": "2026-11-04T13:41:33.963+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "56e25c3e-dff8-44d1-8fdc-8fbc8b194d50"
+          },
+          "rowFingerprint": "e69f92959eff743eb9e7ea5f636f258b0d8d809b7fe565168f453c5a1479d94f",
+          "createdAt": "2026-11-04T13:06:28.054+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "576c71f3-000e-41ac-af31-9ae9205e7735"
+          },
+          "rowFingerprint": "0c1f52d166dc6e317b938a5ed4b17f89a8c90d2c9387c45c5dc255131132a269",
+          "createdAt": "2026-11-04T13:40:31.36+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "5936c70f-e925-4297-a57d-9ff4fad60fdd"
+          },
+          "rowFingerprint": "2ec3272cc18030f467da7a03e55d123ab4832458c3e47af3416f41933679542b",
+          "createdAt": "2026-11-04T13:14:02.935+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "5f62235d-2a77-47c9-904e-7ff41453a7ad"
+          },
+          "rowFingerprint": "708ed88dff52affe0363d01c6bc0ebba91d7adfccc68c4e75eacdfd00470b031",
+          "createdAt": "2026-11-04T13:47:48.006+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "6355b0fd-fea1-46ed-b5fc-4857bd021470"
+          },
+          "rowFingerprint": "742981abd1425eed6f57075c1fc3e59a1108a2c5640fdfff5ffe99f95a7bdd96",
+          "createdAt": "2026-11-04T13:40:57.249+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "67759d0e-5901-4e64-8cb6-03f30d737b3c"
+          },
+          "rowFingerprint": "13bb5db6b5b8c225a5420aa112c66019b4a6349b05caf8db5566470ec1336e1d",
+          "createdAt": "2026-11-04T12:02:45.709+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "6af644bd-5017-4cb2-93f4-ee84213beb25"
+          },
+          "rowFingerprint": "953ca819e9ad8ee64030deaa52d6f52e87d3461fb1cbd27543884130e0ed4421",
+          "createdAt": "2026-11-04T13:41:06.513+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "6cfb3cee-83cc-4877-b4f7-1a7ef23c091b"
+          },
+          "rowFingerprint": "8d3fd999f7a7076d9c970bc2c1a8015d59a3dda1d960d8fa64f3f1f01ede0973",
+          "createdAt": "2026-11-04T13:47:48.53+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "70b45f17-82fe-45b3-aebd-bc0c94673ca5"
+          },
+          "rowFingerprint": "ea7f3b23f376569d652f718c3ae72a1ee561a030176daefac1bb9f6505aeb4e2",
+          "createdAt": "2026-11-04T13:47:46.45+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "80d01af1-67b7-4019-b6c6-55a937c7e889"
+          },
+          "rowFingerprint": "5c8902d5de22b789587b92a5a8236b0c84e950198fd4bb207ba72aac580c41fd",
+          "createdAt": "2026-11-04T13:40:44.762+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "884cc485-bb73-480f-9c6a-98810d956198"
+          },
+          "rowFingerprint": "2285aae5155de5ed3dc1c3f64db05b75a10a319607b6e513e4fab0db22cecc69",
+          "createdAt": "2026-11-04T13:40:27.385+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "8e826c27-d119-4082-a6b5-d6c5229d4f6a"
+          },
+          "rowFingerprint": "2f7f236953c89f672aa2285631a1c98d830fa427842c292a7292b6e463a8143d",
+          "createdAt": "2026-11-04T13:47:48.687+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "8ef94ca7-bc89-47e7-8e6f-9ad4bd9b5db8"
+          },
+          "rowFingerprint": "9a0ddc99204d4b572502bb25a882024c1a6d3d92fa6e14b8b1a25a2afb431c14",
+          "createdAt": "2026-11-04T13:53:47.824+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "940732b4-a53f-4c04-9b27-f72b6c30d537"
+          },
+          "rowFingerprint": "2f3fcadd04167d7086c572f2b2c8d085ea2f6b58b04689b37db546623fa821cc",
+          "createdAt": "2026-11-04T12:03:00.944+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "a2899926-0e69-4b86-bae1-52e5ad6b9003"
+          },
+          "rowFingerprint": "9c222ff2608cb53b32e7147b0bc539828b934673652b19b14fbdd8f12f9a3e22",
+          "createdAt": "2026-11-04T13:40:44.762+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "a448cc4a-bb7a-483e-8cdf-248a6c1a5532"
+          },
+          "rowFingerprint": "8d8e1ba87eb4f8ccc9428453384eb27ef439e5159f226f1a44a5917cf95ea194",
+          "createdAt": "2026-11-04T13:47:47.767+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "a4c78318-a54d-4407-8507-9459994f4d0d"
+          },
+          "rowFingerprint": "dd4c7366cf85d2bf0a6adcd2ec1673a58991fc3531c64db758af5167bbc35d89",
+          "createdAt": "2026-11-04T12:02:45.709+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "a83d741b-52a9-4821-baa0-2d4810408aec"
+          },
+          "rowFingerprint": "5947b8429a328a7bfc2a8a101e0a6962337c7be892e901be414707e9bbd528ef",
+          "createdAt": "2026-11-04T13:41:35.641+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "ad0ad9ec-a5e3-480e-93b6-8cf8293f87b1"
+          },
+          "rowFingerprint": "034e74ba0665e31d0a88c6e839ddb8eb607afea696307446e02d099f9f034c14",
+          "createdAt": "2026-11-04T13:47:47.031+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "b382bad5-049c-4b8e-a06d-026d389643a9"
+          },
+          "rowFingerprint": "f6450d11d0ee67eff769c8f6f6592073e886697e3cfad4ae0fbd7c1a9cd54f20",
+          "createdAt": "2026-11-04T12:02:45.709+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "b7be38f6-fa40-4ba1-9c5c-ab503fe381ac"
+          },
+          "rowFingerprint": "5e6a3901c6007cdea34b6e58629128aa76aa18effdf4f995c221ce30bf695ffc",
+          "createdAt": "2026-11-04T13:47:46.795+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "ba5a302b-d3f8-40d2-802e-a90215a32c0c"
+          },
+          "rowFingerprint": "7e71eb469182f9741b0cefb66d756ccfa4800bf6ba1df1154aa551a45e350ab7",
+          "createdAt": "2026-11-04T13:47:46.331+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "bb860744-fa78-4144-a36e-35260609e8a9"
+          },
+          "rowFingerprint": "c7749c109ae57e33d4eb08e8882f3e1a42589e3eb51579d0d55966a0dbd6fa3e",
+          "createdAt": "2026-11-04T13:41:30.453+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "be8f7f2e-6dfa-45e6-87ad-7692b00da7b0"
+          },
+          "rowFingerprint": "3b7cd1b3935e347c2959f31bb125599a9f3b1d1417da3a060fe5b0ab510146ff",
+          "createdAt": "2026-11-04T13:47:47.139+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "c0837fbe-1e6c-44bb-8cdc-7a7aec449b23"
+          },
+          "rowFingerprint": "f0289dfd002fd48107bb9ac8cd4741dd6f284eaeb7780304ff7f52e4897b1e9b",
+          "createdAt": "2026-11-04T13:47:47.369+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "c0d0c98e-a5e5-4bfa-b47f-22b52cc633ea"
+          },
+          "rowFingerprint": "21101a26a247295087369fc31374d1b9b52e06ad9c0a8cda2d8bdd6019771957",
+          "createdAt": "2026-11-04T13:40:47.671+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "c803c2ca-34cd-4320-8844-0317dc4565cb"
+          },
+          "rowFingerprint": "48cd0a6d21b406e4979a15bd9840ac217e4305776d2f64e3052be42e20e1369c",
+          "createdAt": "2026-11-04T13:41:33.963+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "c8174351-c4ed-4702-b3de-0cf9cc5a1da6"
+          },
+          "rowFingerprint": "88405fde60fc9df2ac2881b73f3f92e34f6983404f419273ce6b6315f206cc5b",
+          "createdAt": "2026-11-04T13:40:18.25+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "cbb02bc2-da4a-4b49-8bd9-52858ef75fa3"
+          },
+          "rowFingerprint": "2ae055dd99a4b40a3e7354943c1eb59fd13792de80a18d645cf477f0639e970e",
+          "createdAt": "2026-11-04T13:53:50.006+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "d0239cd7-3450-4d79-9310-352185041f71"
+          },
+          "rowFingerprint": "9a2727a8655dc97d6c6b96bbb036c9afadd252fca462ddf53f8ec065bf19eb3b",
+          "createdAt": "2026-11-04T13:47:48.14+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "d3adabb1-58b1-4655-8825-3791b85cfd1a"
+          },
+          "rowFingerprint": "431b841882597d344143451ded0ca97511c639b039b0eb2a962d31f332d70a9e",
+          "createdAt": "2026-11-04T13:41:01.414+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "d5844e9e-0e2f-4947-bec0-7235d55792d8"
+          },
+          "rowFingerprint": "ae6bc2f662c2f9f27ba8b22c407e42dea0a13aff11e5ac06f74ad555c0d72a7b",
+          "createdAt": "2026-11-04T13:40:49.611+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "dcbe47a5-5635-443d-a3f6-051b4699246c"
+          },
+          "rowFingerprint": "ad90c40ebccccfe6baf498ce6b673a17ef0ee09bfbe2c5c6fdf02fd7293d2bd7",
+          "createdAt": "2026-11-04T13:40:27.385+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "ddd5c23f-4578-4378-a386-50fb99d9e43e"
+          },
+          "rowFingerprint": "008a665754d01634345d89db635f2e86694523709c38a126d4b2dfae9f1b8f8c",
+          "createdAt": "2026-11-04T13:40:19.477+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "e1726641-2a3c-4013-a68c-c5ede60049ad"
+          },
+          "rowFingerprint": "908c2c51eff94f8bae73e7cac9fb35af1caf721fdcb4151898b99744c389ec59",
+          "createdAt": "2026-11-04T13:40:49.611+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "e9fb4ec0-f48b-4026-8222-1f30c460c42f"
+          },
+          "rowFingerprint": "0f1628b222c36bda4732f630a52ebdd5023d4d7a75ee67b698aea924a366d122",
+          "createdAt": "2026-11-04T13:47:48.812+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "ea61dc8a-bd68-4fe2-b786-495f9b21cfa8"
+          },
+          "rowFingerprint": "a63a9fe641261c4ddcd37ff150ece7636e061defc27e35c5467774ccbaf9094e",
+          "createdAt": "2026-11-04T13:40:43.738+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "f16185cc-a1ac-4879-b3f1-903bcf2fc0e5"
+          },
+          "rowFingerprint": "e44d55a11b808328f5b5b7d7fb79f3823b419abbaae5c3cdbb51f69ee0ecf8f4",
+          "createdAt": "2026-11-04T09:38:25.029+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "attachment_link",
+          "primaryKey": {
+            "id": "f2c74d19-9d74-40d5-b68d-81f7e0dd6800"
+          },
+          "rowFingerprint": "66e5aad566585bf8e446eca9454939a2c1c660eceb1112565058745ac8375f89",
+          "createdAt": "2026-11-04T13:41:17.411+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "060a5216-a05a-4ad2-bbb3-b8ac350a60fe"
+          },
+          "rowFingerprint": "2c7f7bfe1344ab565d93c06e2dd3e8e2bf81a9946854d9937c19c398f3d5860a",
+          "createdAt": "2026-11-04T07:50:31.001+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "0941881c-e356-446d-9d52-c44a0f9fc9aa"
+          },
+          "rowFingerprint": "351a43fa6c554c89b2e7b25cc02018c1649808139b0af058e1c2067d04ae9f30",
+          "createdAt": "2026-11-04T11:32:48.467+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "09e375dd-7cd0-40d7-9d13-5e0710a67b77"
+          },
+          "rowFingerprint": "622ddc0e34f6fc28162589d2b46310a6adf28f893f40bb1eb5e79fad952f4e0b",
+          "createdAt": "2026-11-04T07:50:29.788+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "0bb20186-da85-4e34-a5f2-b9e6dcbbebdb"
+          },
+          "rowFingerprint": "baa413932b3d8bd5faa19becbe7162e6018ee06a3ec04e0954bf1b13233d868e",
+          "createdAt": "2026-11-04T09:15:57.063+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "0db7eeb1-2126-44a8-9e57-c114a50f3a64"
+          },
+          "rowFingerprint": "4eeaa59f17fdf870868fd13502ce0a39bf6a3b66db8fcbb9b00152fde819e108",
+          "createdAt": "2026-11-04T09:01:41.972+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "0f730f06-9038-4283-889c-a7218d980625"
+          },
+          "rowFingerprint": "b00940704618a46d6d08bb5f444a0c8205336ab42d9caeec878402fe0b7419f0",
+          "createdAt": "2026-11-04T11:32:29.919+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "0ffa4dbc-be3a-444b-817c-aa77bc9ec2d9"
+          },
+          "rowFingerprint": "d9a1ef5956fde062df4a5f978231abfa150f660a671ae2f9f7473078b002553f",
+          "createdAt": "2026-11-04T07:50:28.736+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "114b8de1-a9d5-44dc-9143-42efa1536ae7"
+          },
+          "rowFingerprint": "0593f24c6074883d019516009fb2ef04e11e583eee76b5fa6ca1824c2d7514ce",
+          "createdAt": "2026-11-04T09:15:43.801+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "14a9f51b-5f5f-43ea-8579-066b58fd05fb"
+          },
+          "rowFingerprint": "bb7d06232fa870e121817a6102e30410ca38ae82f528356f9fddad664c5dd908",
+          "createdAt": "2026-11-04T11:35:33.797+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "1887ce39-6987-4378-945e-d1a732e0883f"
+          },
+          "rowFingerprint": "070f62ddf9b66edad8003b3f577a93d7d47e7eecfcc42c81a77849037715ee18",
+          "createdAt": "2026-11-04T11:35:07.178+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "1a5d5257-0e26-49cc-8413-e3717b8b2c91"
+          },
+          "rowFingerprint": "ad86772b3c4c7877790a6ead106d90446bc50b496a3962aca28ebdb6b54d52ee",
+          "createdAt": "2026-11-04T11:32:27.475+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "2d314a1b-b9ab-409e-ac0a-e86fb0ebd487"
+          },
+          "rowFingerprint": "7c1dba2d9f37f87f89c39c11de7ab3392f4a705261f8c8e223c93468e62c1c09",
+          "createdAt": "2026-11-04T11:35:40.051+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "2def5c78-0e41-4333-bbd4-8c0638274059"
+          },
+          "rowFingerprint": "e8b30f0943ccb0615d68056b7b8daa4d3f70e63ec17663c9e22d2fa0cf7084f9",
+          "createdAt": "2026-11-04T07:50:31.781+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "2fda4f7e-da77-4f89-9abc-d2f25d4509fb"
+          },
+          "rowFingerprint": "35009c1e8abaeb88e54b41c2353a7fc65412c23cbd415ac4bb9bbd33768badfd",
+          "createdAt": "2026-11-04T09:02:05.494+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "3200b7b9-223a-43a3-9acf-d360eb76a96e"
+          },
+          "rowFingerprint": "6fad85160d9915f0bab04b71375fe264904372891fd987563c5c789678d59368",
+          "createdAt": "2026-11-04T07:50:31.035+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "3445eaff-e141-442a-b1e0-03e190c92d1c"
+          },
+          "rowFingerprint": "55050e4c6fa91cbfc57b77a2829db595ee8fcbd3472f9815036364564cbc3912",
+          "createdAt": "2026-11-04T11:35:15.688+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "3b768847-c025-4e22-9713-f9cc345feef8"
+          },
+          "rowFingerprint": "c0518acfff01d94dc09e00a03f2d423d780ee71aa98b36bf3bc807d344ac7b43",
+          "createdAt": "2026-11-04T11:32:10.871+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "41ba63f3-4dae-4e01-8532-71fb6229ba59"
+          },
+          "rowFingerprint": "7dd6fa03457134bba3a69aed6d8a34cd7f842ac5ac477ebba28f97b41e7368dd",
+          "createdAt": "2026-11-04T11:34:57.133+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "42ceefa3-3da6-48fb-91c1-94c764556935"
+          },
+          "rowFingerprint": "9c1c8dca8c390df43a4b2f8b9379bfe662b91dc49503369925331aecd3d680bf",
+          "createdAt": "2026-11-04T11:34:56.059+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "43f973d7-06d6-4416-8d04-438a1e07d6ad"
+          },
+          "rowFingerprint": "eb7f1292430709b10287c38c0169605aaae3949c76b45758c5a077ef8b7f641a",
+          "createdAt": "2026-11-04T11:33:21.007+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "46a0f3f4-5ccb-487b-86f7-e2b2742f671b"
+          },
+          "rowFingerprint": "1a017a56c6fd32952a0a4d54b1c9982d16acc9efb04dea2e876d3b1a9816b785",
+          "createdAt": "2026-11-04T13:14:01.653+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "481093e3-d497-4e32-9360-fb70ce8c95f2"
+          },
+          "rowFingerprint": "d7704418d361cc577b03acd889e0cd03f8a667e64b37b29e3cae3230c90b28fe",
+          "createdAt": "2026-11-04T07:48:19.707+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "483c2771-b4b0-41fd-a70d-5b218e08995d"
+          },
+          "rowFingerprint": "ce808d8784daf82ae42803cfcae4d6bc462c1d873c6a351cfc19e4cda0cb5fc3",
+          "createdAt": "2026-11-04T11:35:09.333+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "49f8b298-10e7-4c1c-8ced-6715e0285748"
+          },
+          "rowFingerprint": "48a87d409d768920132de90c0e172022c4346d3f0425140bc77eac23d68bfb47",
+          "createdAt": "2026-11-04T07:50:29.76+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "4a89b6c7-b7a0-4c1e-8c8b-874089ba3d7c"
+          },
+          "rowFingerprint": "ed8b53a2fdd34db7749af795a1d945817f1206fc4d4550130b9482bd27a5c621",
+          "createdAt": "2026-11-04T07:50:29.821+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "4cbffb8b-bc2e-4679-8130-8a2ec57411a2"
+          },
+          "rowFingerprint": "a242e76783affe0777409dc99e1c4fddfb77d850a9cf2bb04274fda458e12ac6",
+          "createdAt": "2026-11-04T07:50:30.134+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "4d56fb26-e9da-4210-8a04-864c8e50bf18"
+          },
+          "rowFingerprint": "c216bf877d40cf5f527cf391aaf21119c5ddc2a04eebfd9557e655a8b27be940",
+          "createdAt": "2026-11-04T11:32:33.819+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "5154001a-4c4f-4480-a426-b9155436917f"
+          },
+          "rowFingerprint": "c5b2a96fb0e18fca6b9ac0899f33ad6ab6194ea0d5383b9a210e97d29745deb0",
+          "createdAt": "2026-11-04T07:50:29.414+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "557c0883-fac6-4605-8fb6-4cbaab8c7d8a"
+          },
+          "rowFingerprint": "862fb51e6a9c0fa17795f0a9198823fb804aad8546f5df8c2ce27f131fadeacc",
+          "createdAt": "2026-11-04T07:50:31.407+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "57bbdbae-300b-41e6-8e80-0ded5014f001"
+          },
+          "rowFingerprint": "ce3335cd790905ace2ab73603c3767bb614bfe4e2407b19d014781376d3c4191",
+          "createdAt": "2026-11-04T07:48:19.772+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "5cd3f762-ad3c-4f89-b21d-c9b11c4e9f9d"
+          },
+          "rowFingerprint": "67981c1f4eebb7ebb3bcdd7839d9a8c0035f35d00277ab315ef86fbecc0cdf41",
+          "createdAt": "2026-11-04T11:35:41.617+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "5d01ade5-76e6-4c5d-8cd5-a2b92ffba0b0"
+          },
+          "rowFingerprint": "01db057356c01519c1e0f456163333d43025fb72f7dce9f9d57818cd09cc37d6",
+          "createdAt": "2026-11-04T11:35:24.144+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "5f3ae1e9-2d9e-4d39-8666-3dcc75129837"
+          },
+          "rowFingerprint": "50b8c8c2c203819fc8941c5c96a906ab385dcaa77f098b70b09e964f6362691a",
+          "createdAt": "2026-11-04T11:35:05.615+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "65df14af-9e8c-431d-b8b4-9a53150eb977"
+          },
+          "rowFingerprint": "3688b6f57225c68d3de7f5946fa29045bb53b429ee18dcf100ad1ad166ecbedb",
+          "createdAt": "2026-11-04T09:15:55.463+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "66ed58bc-3eec-4efd-8faf-53b032c35efc"
+          },
+          "rowFingerprint": "ad5a2ecbc6b9ab4141e1dc039cf4b1092f960d291d8a794d890f7e5ad828075a",
+          "createdAt": "2026-11-04T11:33:19.024+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "6ae2a399-9cdc-4c37-b232-9e7e3d018820"
+          },
+          "rowFingerprint": "159660855bb0ef95f62394c56899427a413c172c592c7749a2d340febc1f4a52",
+          "createdAt": "2026-11-04T07:50:31.349+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "6d197a8f-b13a-4e8e-952a-9814e3f9a3a5"
+          },
+          "rowFingerprint": "18ea214b37c1674e42fe7c856512f9ae44516f30b91e42ecbd70f583916a2a59",
+          "createdAt": "2026-11-04T11:33:03.097+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "70dd3640-4d01-4799-a240-79a3872b2204"
+          },
+          "rowFingerprint": "911f42cdc49d4134a889f32811f1b9c48d571753329178a8af6a1e14c2e6558e",
+          "createdAt": "2026-11-04T07:50:29.352+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "73d8edbe-5623-4052-8bb9-e451cc27761b"
+          },
+          "rowFingerprint": "bfc346f2b33a068e471ea9388cf7d31888659b36535ad25527dd3d2664027b66",
+          "createdAt": "2026-11-04T11:32:17.27+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "7b4f441f-6b5a-4f3a-971e-5fa482627997"
+          },
+          "rowFingerprint": "61a871a52a6f88fe24dde7268e2442d5f4d5823075a482db32ce1e716fe5f485",
+          "createdAt": "2026-11-04T11:35:17.449+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "7df10b17-fcd1-4124-9fab-ff587ee9aafc"
+          },
+          "rowFingerprint": "b5dad161709654d1057c497f3fcd9f1ba0dc6d2fcfd197b49a78687b22f66668",
+          "createdAt": "2026-11-04T08:25:38.809+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "82a29beb-81f5-4db9-8044-74a636796025"
+          },
+          "rowFingerprint": "0bb6577850ae62b4ace541f1ae17793212c87eb7eb646dd72c0ca78daea9740d",
+          "createdAt": "2026-11-04T11:19:22.72+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "852cd42a-f378-4865-a281-c2fd05440d9b"
+          },
+          "rowFingerprint": "1d2fdd838758d2836e1cff496bd5e556491a60020c74ff6074b00adae9b67629",
+          "createdAt": "2026-11-04T07:50:30.949+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "85476723-6d09-49ad-bb48-038e6f454a25"
+          },
+          "rowFingerprint": "49d607fb83c07dc004211fb22b49283dadbdc32a6f6a22591c01e539a6eb0635",
+          "createdAt": "2026-11-04T09:01:51.897+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "8bba1caa-5a18-4e00-bc21-f9ff16a0be79"
+          },
+          "rowFingerprint": "1630d9cd125a6b52f282eeed08d8da79ed303e26f42ad64f5c58686222078a35",
+          "createdAt": "2026-11-04T09:02:04.494+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "8e296700-9fc5-4b4b-a6f1-ada8e8ee82ea"
+          },
+          "rowFingerprint": "429eeb2fa37710d725b3753ab862f0e162ad7ed34b5b814d9c4c00a547559852",
+          "createdAt": "2026-11-04T09:16:12.518+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "8e5c2c21-260f-493c-a932-d5491801f2e9"
+          },
+          "rowFingerprint": "7f0646b57f79ece882520dc882a7023b9fa27c163a80453f8201d0d170a01964",
+          "createdAt": "2026-11-04T09:05:04.124+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "8e6a0dea-a1ee-4d84-838a-ca56e95bfcb7"
+          },
+          "rowFingerprint": "778de9b29ccf93f5732a42932bb711736d41770bb4cdbb7273ea83624f1368d8",
+          "createdAt": "2026-11-04T07:50:30.161+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "8ee00723-d04f-4b42-8a7a-abaa468959aa"
+          },
+          "rowFingerprint": "6fc97d851cc7f28ee895f3d678f516e451a2740bae0bf9f802b9e5f032d549af",
+          "createdAt": "2026-11-04T07:50:29.73+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "93778623-e399-4d23-8397-7aee9535af38"
+          },
+          "rowFingerprint": "1599d7f3d90bb449919f58243b60604ef08d56fc2988c5a4ad92b63266122d93",
+          "createdAt": "2026-11-04T07:50:29.448+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "9492a133-3e7f-44fc-b0fe-fffcef4a271b"
+          },
+          "rowFingerprint": "d52940c17ce1ffd75f9d5bcd93e76ddce017fccaee4bb60d2d7c8f0efd87ee71",
+          "createdAt": "2026-11-04T07:50:30.973+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "96882831-23b5-42fb-bcc5-8cfd7511b449"
+          },
+          "rowFingerprint": "6f4a3111efbc30cdade9f86184e1db1d0b0639d9d2f9565ddc3600b279d08ba1",
+          "createdAt": "2026-11-04T11:35:32.188+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "9900a3ed-1c18-4517-b610-4960f86e131b"
+          },
+          "rowFingerprint": "9ec634ddd281d4cc6a4bcdd03d021cf3d2cad3b77784dfe496d54e47999f5320",
+          "createdAt": "2026-11-04T11:33:35.035+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "9ac8fedb-cf67-417d-b443-0a94be759cf5"
+          },
+          "rowFingerprint": "7082acc905efe68a21818ae93110383c578d08e6f4e1229995449ab82a6dbfe8",
+          "createdAt": "2026-11-04T11:34:55.001+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "9b0f6278-70b3-43d9-aac1-92e7eab7962a"
+          },
+          "rowFingerprint": "d1b84ccf788997f67ff7a217ad9f68bb078f8fbb75a7a8198716ae8f09193c94",
+          "createdAt": "2026-11-04T11:35:26.118+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "9cd7712b-67ae-456a-b60c-49bc99f0de9e"
+          },
+          "rowFingerprint": "3e016ed2adeb81bd5cf1808ba85acb66fe34b1cf69a0270cf870db4e0e15867a",
+          "createdAt": "2026-11-04T09:05:12.49+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "9d4187d5-d181-40b3-a1f3-46c0ab7fd009"
+          },
+          "rowFingerprint": "656742cadfc07df7b961b4df70f38b512885145e946cea3f3d58ba5eed0d473f",
+          "createdAt": "2026-11-04T07:50:30.192+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "9e0f6f0b-ab2d-4bd6-852b-103848377784"
+          },
+          "rowFingerprint": "54ec137c35d16ab7728605d5ce908c2c65b8d278caf43c182ad53e6b2f16085f",
+          "createdAt": "2026-11-04T07:50:28.87+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "9e55e468-1f93-4714-90c1-b9d9c36b41c2"
+          },
+          "rowFingerprint": "023131f5fea9055e2c1b22fb2614ef942ce779ddb0936320f4671fb2e6e2cdab",
+          "createdAt": "2026-11-04T07:50:31.749+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "9f7bffd0-2336-4373-89d9-70901a0bc9d7"
+          },
+          "rowFingerprint": "a3293c7e5117dd319f4fe1ccb484ad1aa276713c060eeb181d971d184dd4ed31",
+          "createdAt": "2026-11-04T09:01:50.749+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "9fb0b575-e204-4ff7-ad35-de4050b973e5"
+          },
+          "rowFingerprint": "d0c303ad9dbb094792dc9d60c93cd27131aabec03e90a24f5f67fd616504d259",
+          "createdAt": "2026-11-04T09:05:06.75+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "a0f7e691-7796-4195-9294-ff4a15e47b46"
+          },
+          "rowFingerprint": "bb5b5c49c4fa441c0d52f69d713884d3142306a634d4e4b41e347c5a1223e905",
+          "createdAt": "2026-11-04T07:50:30.529+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "a4f9d370-2028-4b67-9ed5-20d143f44436"
+          },
+          "rowFingerprint": "38c29791b0ef0ea7e31b3d799681ff72a4c1c295cc2da396c5da61ce78d5b1db",
+          "createdAt": "2026-11-04T11:32:50.004+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "a5d52118-999d-4ca5-acc8-9cb4d66843e2"
+          },
+          "rowFingerprint": "5124342c63c4f0caa2185f0dc7236259f8e71d2a2650f80c7068650584ed9f33",
+          "createdAt": "2026-11-04T11:35:05.049+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "ae58d6c5-0c7a-48a7-84c2-60e06671ab4b"
+          },
+          "rowFingerprint": "6e458e4b015464d5962af8b005f625858b5310e7c92fd5a191e1bb1733434b10",
+          "createdAt": "2026-11-04T07:50:31.69+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "b08aafa6-1ffc-4a9b-9ddf-7d1c87a27c6e"
+          },
+          "rowFingerprint": "2f292843b4d1bfec7cb6fc62c7f6b123ea8e924a4b1b3be7a69b680d4ed801c9",
+          "createdAt": "2026-11-04T07:50:30.563+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "b2094aac-4a08-4471-9bd6-7da37368314e"
+          },
+          "rowFingerprint": "b613678aff88c216225ca1b6dfdf90a35310d2191336bc71cf8830b37652fca1",
+          "createdAt": "2026-11-04T11:32:12.885+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "b3ff505c-500c-423a-9c4a-54c84ed4f410"
+          },
+          "rowFingerprint": "9050604528b1ef2d75cd032f53a8745637dbbbda10191c84d9645c527501eb14",
+          "createdAt": "2026-11-04T08:25:55.693+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "b74df4a1-409b-43b7-8beb-5bbf184db7d7"
+          },
+          "rowFingerprint": "1414e84e23ef7addb5b23389ec89d4f15d6f753955d10794de2a7d6878f6e274",
+          "createdAt": "2026-11-04T09:15:50.75+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "bb89d8cc-6d1d-4494-9612-a14f8d66f213"
+          },
+          "rowFingerprint": "c2f8d3ffe120a012f322705a7beeee6e14eb59e1a7f80d6b0fcc3540ae5378db",
+          "createdAt": "2026-11-04T11:33:36.358+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "bbfed21b-04ea-4208-b845-b8afec595981"
+          },
+          "rowFingerprint": "d8c5fe68eabdac4f073f5ed56755cbb53bb4ecea6731044643040f671a754536",
+          "createdAt": "2026-11-04T09:15:58.396+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "bf27b4f4-f41d-4e0b-80f3-36e547409e26"
+          },
+          "rowFingerprint": "324fa65e241d2337225e0fd295d4bb116e6a11b2344e3d8cd7ca420c31b6353f",
+          "createdAt": "2026-11-04T11:33:04.554+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "c320f40c-3059-4b7b-9610-8be14944c80e"
+          },
+          "rowFingerprint": "9d16ddc3654ae746d2421519190dd6b4b91a45bd91475d739fd676d12184bca0",
+          "createdAt": "2026-11-04T07:50:30.501+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "c4574819-dabb-4d62-83f4-ca28da9b8d99"
+          },
+          "rowFingerprint": "d1f97161de64413252203b11e4c4977311aed54644dbd1b882a9719f6528a144",
+          "createdAt": "2026-11-04T07:50:31.319+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "c5bb901b-c53c-44bc-b189-622c4507b3fa"
+          },
+          "rowFingerprint": "ee1083fceae435e122b2a6e9958eaf8fcb92693703a720d17d0f7c79382d7aa3",
+          "createdAt": "2026-11-04T09:15:49.184+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "c8ff8838-cf32-48f2-9886-db1750ab5a24"
+          },
+          "rowFingerprint": "dbc952f1ae3d66e75b1670786831e2e385f9e2cb4c4baa26de6f16195b8d3928",
+          "createdAt": "2026-11-04T11:34:51.867+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "c951c91e-531f-4e76-964d-3f659bf675f7"
+          },
+          "rowFingerprint": "4735ecf1c15fb3004e586de6e9d4d531eb7602d574850e17c6d002f54547d6a1",
+          "createdAt": "2026-11-04T07:50:31.72+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "cef6e75d-6f92-44aa-a51f-50ed336947a7"
+          },
+          "rowFingerprint": "dead2cecaf9e7d9a95aa2a1001e541e924496388848fcbde85c18ae652485f01",
+          "createdAt": "2026-11-04T11:32:26.42+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "d2c63fb5-b953-467f-ba5a-dfde2ec8e4a5"
+          },
+          "rowFingerprint": "fba877c3d186e6e26e3f8eeeb37300bb03cf316961ff6769e19daf3e4b12c94b",
+          "createdAt": "2026-11-04T07:50:31.376+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "d97a7833-163d-4635-9e8c-2098d3e41fde"
+          },
+          "rowFingerprint": "1fcb643f540ab84a88b8c24d183308c562d4fbe9a8a369020dce8916c9366d00",
+          "createdAt": "2026-11-04T11:34:53.953+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "da86224a-5905-4262-9d11-35119ada7903"
+          },
+          "rowFingerprint": "f50c6319c3c2cc4e124928d8ea5ebe910191f6983794079f3a823d5d4315dc1b",
+          "createdAt": "2026-11-04T07:50:30.471+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "dfabd950-5b26-483e-bd01-e780ffd1296a"
+          },
+          "rowFingerprint": "e5dee3f60d1a3459e2f4752ff57afb83b9f163492718a74363a4a2a90dcf6746",
+          "createdAt": "2026-11-04T11:32:16.39+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "e3f0c0f6-2399-4d4a-a319-78bdc3653021"
+          },
+          "rowFingerprint": "69c4dc79c98d44142e70cb67b28d7446bc03191e3a62a7207981c14d7fb8ac52",
+          "createdAt": "2026-11-04T09:16:00.345+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "e48a7fba-7757-4cfa-b874-34dd13578be2"
+          },
+          "rowFingerprint": "3221fcc06eca7a1134fbc66ef5ab826392c2ce07202b93b8db2b5aa5fb3b1f1f",
+          "createdAt": "2026-11-04T11:35:03.897+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "e98c411f-8a52-472a-a31d-f4c0b91a1d50"
+          },
+          "rowFingerprint": "a5c08f5e919c0ca6791bb433c8090e630d007ff8a9c9fc57f636f47aa8c8d764",
+          "createdAt": "2026-11-04T11:32:27.933+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "f0b87092-dfd7-4bac-b156-e362225ad08b"
+          },
+          "rowFingerprint": "cf79816f7be3b98866ccb8a451cdcd940b040ed6eb4f8644a003463e2670dfa1",
+          "createdAt": "2026-11-04T09:05:05.437+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "f17035e9-e604-4b8c-8fd9-581728d118e8"
+          },
+          "rowFingerprint": "c5401254bb3b71eba097b1798ff8d373d32ac4793091520315fb4867e5b28170",
+          "createdAt": "2026-11-04T07:50:29.385+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "f62e8e92-34d2-42f3-9d43-949b93168b83"
+          },
+          "rowFingerprint": "f7c45e706916a1c425415b597fe30f01cbaf343b850e403285064ff1031a0878",
+          "createdAt": "2026-11-04T11:32:15.38+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "f9b8825f-c479-4b30-9144-1ea1a4cf69ae"
+          },
+          "rowFingerprint": "d043799f773318486412cdb51a55ef86486e324dd8945b4ac514339ef78c49dd",
+          "createdAt": "2026-11-04T07:50:28.906+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "fd59a271-c9c5-4a2b-83c1-a6c74bf21614"
+          },
+          "rowFingerprint": "82153d1cb39a7a40c96f85fdd24dd75baa385beee0a77d264ee48e40baccf7ec",
+          "createdAt": "2026-11-04T07:50:30.103+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "ff5fdf68-02f9-4b01-9f03-b65ea8c62691"
+          },
+          "rowFingerprint": "2becf643dc9a082e0728c79242318e9135ad3365f273a13a8bfdb9c4ec27ba50",
+          "createdAt": "2026-11-04T07:51:34.638+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "commercial_baseline_diff_item",
+          "primaryKey": {
+            "id": "333641d5-0a25-4ab8-9238-a59a0ba10ac2"
+          },
+          "rowFingerprint": "d1edfee4a7f1f04285cf91afe7c187c60d7d213d28746a89a5c8f7f2e4772c90",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "commercial_baseline_diff_item",
+          "primaryKey": {
+            "id": "3e890a46-7778-4136-83ba-9b7550788e80"
+          },
+          "rowFingerprint": "bda3f047c2f097ef3e09828db2f0564b54ad8a8bfdea8e3c59dc3f8e04869df3",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "commercial_baseline_diff_item",
+          "primaryKey": {
+            "id": "502a7fd6-03a8-43c1-9d7d-b597b5240dff"
+          },
+          "rowFingerprint": "cf280325be35882e597ec2a78b3cb188c7055ca55ef94849fee440a310667019",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "commercial_baseline_diff_item",
+          "primaryKey": {
+            "id": "5a6f1ef3-6579-425a-b0eb-194531ed8765"
+          },
+          "rowFingerprint": "5f2ed86265e0682e1decbdb64d0163f37d8fc90a3e371bd6b5aacf6203b56696",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "commercial_baseline_diff_item",
+          "primaryKey": {
+            "id": "6b99a810-b14d-42c5-8799-a27b8b4844a8"
+          },
+          "rowFingerprint": "0d24c056f80853933530bd6d4c38f17a6ca01439ade81995316abf52c0804188",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "commercial_baseline_diff_item",
+          "primaryKey": {
+            "id": "9bbb3a30-0cff-47c2-8c88-6ddf84f7b2ab"
+          },
+          "rowFingerprint": "2b1065b113d9642ead8e5dd98700d22cc32accf8041a182f23138864a5515a37",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "commercial_baseline_diff_item",
+          "primaryKey": {
+            "id": "9c4c36f4-ae46-451f-b2f2-3fad1e5cf61a"
+          },
+          "rowFingerprint": "8dfd6ea98a5e1d4babdd641d113f7d82b2a983178ad4f9f1040571f58a8b1f8e",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "commercial_baseline_diff_item",
+          "primaryKey": {
+            "id": "b284823a-379c-4829-851e-0b6bb512a340"
+          },
+          "rowFingerprint": "c1b8cfbc7f136e53c0eed85c9f28d3596f9e3869e4ce97552b10312c25df9cb2",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "commercial_baseline_diff_item",
+          "primaryKey": {
+            "id": "c978400b-eb07-4183-9e28-241c8209ec29"
+          },
+          "rowFingerprint": "da12a843f4859a19d375b0d2b39b17c9957f502f08712f296689648c7da8aee3",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "commercial_baseline_diff_item",
+          "primaryKey": {
+            "id": "cb823210-0468-4530-a7c1-8e21bf72b469"
+          },
+          "rowFingerprint": "cfbf3fe078291a4499da13ff66f7f5ca93888309eaf998b4e5adde52c63b7588",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "commercial_baseline_diff_item",
+          "primaryKey": {
+            "id": "ff6ab594-9339-490f-9a8c-b83ffd5d7141"
+          },
+          "rowFingerprint": "103e46ac5e754eb2cc7dc844f008a5e2b4bcd64a450bd1298a7dfa95d40514b6",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "confirmation_participant",
+          "primaryKey": {
+            "id": "136072cb-f48e-4f90-8aeb-3a6a00e7174e"
+          },
+          "rowFingerprint": "297b9dd8d669ee465335b645ee857b4fa7d0b9a758ff555b3e58bb7721b8d6e8",
+          "createdAt": "2026-11-04T11:32:32.897+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "confirmation_participant",
+          "primaryKey": {
+            "id": "1bfba9c4-7fd6-4858-8e8e-9d31c97fae50"
+          },
+          "rowFingerprint": "3a676729fad6878f63a1b76026b7ee6dd578e40133b868c080d38094c3a15f1f",
+          "createdAt": "2026-11-04T11:35:08.737+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "confirmation_participant",
+          "primaryKey": {
+            "id": "2dea167b-cfb0-44d6-9c71-9f4a68d3d12d"
+          },
+          "rowFingerprint": "7ab065650909781253f3ea232bd5a2ec42b28dfd49af4cae515164bc50754a65",
+          "createdAt": "2026-11-04T11:35:08.736+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "confirmation_participant",
+          "primaryKey": {
+            "id": "7560ad71-fe24-42a2-9611-0efe758d12f8"
+          },
+          "rowFingerprint": "f54dbb1585aa1a254d5aa933ba9128b8627734975be9c31fb3024bd00d186852",
+          "createdAt": "2026-11-04T09:12:02.741+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "confirmation_participant",
+          "primaryKey": {
+            "id": "b0046372-d353-46ab-9c90-61caa8fe5d9f"
+          },
+          "rowFingerprint": "07c68543dbbadacf081f43a4957e5ded84e9f6a584e175cc99c368e85aa7a7c2",
+          "createdAt": "2026-11-04T09:12:02.741+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "confirmation_participant",
+          "primaryKey": {
+            "id": "b2c4e1f3-aceb-4090-8d25-63067ac0d9ef"
+          },
+          "rowFingerprint": "8f94f79b9dad1dc550d2667b304c202b2b8b185e9dcdcfdfbc577f5085a7f88e",
+          "createdAt": "2026-11-04T09:12:02.741+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "confirmation_participant",
+          "primaryKey": {
+            "id": "d6387d43-b390-4d78-a69c-a9538884b6d5"
+          },
+          "rowFingerprint": "6cefcad5cada7b2ac06cf8ae34430f7a8af4a135e9936899a348977a75bb6458",
+          "createdAt": "2026-11-04T11:35:08.736+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "confirmation_participant",
+          "primaryKey": {
+            "id": "e07383e1-2890-4ed5-ac77-75c671a16610"
+          },
+          "rowFingerprint": "fc1cddf188ed624f8fd3accf8baabaeddb61f38f0a3a954a057a22b836ac930d",
+          "createdAt": "2026-11-04T11:32:32.897+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "confirmation_participant",
+          "primaryKey": {
+            "id": "f69fbc8b-fdb2-4c04-9ab3-96ecc6458701"
+          },
+          "rowFingerprint": "31bc689471553c97e3bf8bff1f415181fe33930ff4dc8e557b38b3c624576ca6",
+          "createdAt": "2026-11-04T11:32:32.896+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "confirmation_record",
+          "primaryKey": {
+            "id": "29fdb115-f193-4a7f-8448-8ae40b2c3c48"
+          },
+          "rowFingerprint": "cb46d68d5b0fecf6d80e774e80a5c490de6c3d19c91e06251338c211be0b5f13",
+          "createdAt": "2026-11-04T11:35:08.736+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "confirmation_record",
+          "primaryKey": {
+            "id": "33286944-e25a-46c8-8297-52cfa532bc4d"
+          },
+          "rowFingerprint": "09f17df8faf318af8064574d20e6461734a36ab207614c7f10ad662f2c18b929",
+          "createdAt": "2026-11-04T09:12:02.74+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "confirmation_record",
+          "primaryKey": {
+            "id": "3ccc9ec8-385e-404b-a157-3348a084fe2b"
+          },
+          "rowFingerprint": "bb373124ef0c1fec4acfb3c920583cb75efd8024b48b50235616f1b8b98f2628",
+          "createdAt": "2026-11-04T11:32:32.896+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "contract_amendment",
+          "primaryKey": {
+            "id": "12e95e38-be07-4293-937e-f1f5baec12be"
+          },
+          "rowFingerprint": "9719cb9f5acd8ef636e5071410092dd0e972f578b4e772b4fdd5b2fe4e039413",
+          "createdAt": "2026-11-04T11:32:12.295052+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "contract_amendment",
+          "primaryKey": {
+            "id": "3188dad4-2a04-4da9-bb13-1de46a25eebf"
+          },
+          "rowFingerprint": "041ecf6f46062d606aee7092baf00d23bcc0afecdab96389a77ebd7233143d15",
+          "createdAt": "2026-11-04T09:11:37.62499+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "contract_amendment",
+          "primaryKey": {
+            "id": "b1a6130c-4c1f-44a3-810b-f3a6d3d71f57"
+          },
+          "rowFingerprint": "63cf069e3b194f8bc4b302ff7ef5d9acd4cc4886e37d371f1b5fc50ecbaf6c9c",
+          "createdAt": "2026-11-04T11:34:53.396821+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "contract_amendment",
+          "primaryKey": {
+            "id": "b3e88460-d239-420a-91f7-d8a640f910d1"
+          },
+          "rowFingerprint": "0120d93838cfec8e7d4504d34577f5bb04073b09a3c700b7463f6ec19d83831a",
+          "createdAt": "2026-11-04T09:11:05.429878+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "contract_amendment",
+          "primaryKey": {
+            "id": "b56d6637-b5e3-4137-9459-a94886e41648"
+          },
+          "rowFingerprint": "77ed8deb60e58e3ea8287c69ec3eb1bd41c99d515978050465e0a163f0b7c294",
+          "createdAt": "2026-11-04T09:11:39.35653+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "contract_readiness_package_item",
+          "primaryKey": {
+            "id": "042316bf-2a43-4a1d-afba-43c0d8b4156c"
+          },
+          "rowFingerprint": "79b1c5c21281d6ae2cefa0781ddd97f531ed7b93832a06444e44451882da9247",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "contract_readiness_package_item",
+          "primaryKey": {
+            "id": "136397a9-7cf4-4277-bee3-624900679650"
+          },
+          "rowFingerprint": "0d7cbadd1fccb7f993337c0d43939fd2f320357c14e1eef8c84a128964c7f80e",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "contract_readiness_package_item",
+          "primaryKey": {
+            "id": "1bcf6e01-5030-4520-b597-6c99352f8ce9"
+          },
+          "rowFingerprint": "f0281e568a93ff4501a245baf6380a1080fc2a0ec4f98357ac3bb629d7d2e25c",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "contract_readiness_package_item",
+          "primaryKey": {
+            "id": "1c747ed9-01ac-4305-b656-e4a8853877c1"
+          },
+          "rowFingerprint": "373b02fe6a2bf4e9a62c254483ad1536f806760c5cdf41482e63493327b2790f",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "contract_readiness_package_item",
+          "primaryKey": {
+            "id": "203ba787-732b-4875-84ff-5384f10fd699"
+          },
+          "rowFingerprint": "eeb05629b84b137cd1a024bc9a00437ae39e1353ae16ac703394642b6fa75cb8",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "contract_readiness_package_item",
+          "primaryKey": {
+            "id": "2c1e7c15-8840-4573-b1d5-188d457e975a"
+          },
+          "rowFingerprint": "0ae6d87e119ee43e6eb19fa3c9cd689fc31387f160542fc8dfccd16e2d878fd2",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "contract_readiness_package_item",
+          "primaryKey": {
+            "id": "3385d931-b090-42a8-8a14-6cd8fd2d9c51"
+          },
+          "rowFingerprint": "ab6a222c88f2d34a391845d893bfc7abd08d2498898e32dc2a71d7109ffd8b63",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "contract_readiness_package_item",
+          "primaryKey": {
+            "id": "3825cb41-d9ba-4ac7-abdc-35a275c524ae"
+          },
+          "rowFingerprint": "84d6593d1b72a46d84b3b10102eff5e737df142d8406cefce21fe0063b2f7d4d",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "contract_readiness_package_item",
+          "primaryKey": {
+            "id": "397b5680-9808-4899-a533-0e15db340276"
+          },
+          "rowFingerprint": "4312b73e4cece22b3c9de53665383c43e891689f79b218abee5448238dcf52b3",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "contract_readiness_package_item",
+          "primaryKey": {
+            "id": "413052b4-57a2-4d75-9295-9e3068700c1f"
+          },
+          "rowFingerprint": "f69ee8617a39893dd9b09deb32010c1d6a4ff2741375f2294b82c7f405f6512a",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "contract_readiness_package_item",
+          "primaryKey": {
+            "id": "45d38bf8-afc2-4062-8ef7-861409ef27d5"
+          },
+          "rowFingerprint": "bdedb31cbaf509b26fc10740dd4cad1b6db644805bdb84328d8bbb12fc31ecb3",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "contract_readiness_package_item",
+          "primaryKey": {
+            "id": "4ac19737-0041-4ed2-af48-625896289093"
+          },
+          "rowFingerprint": "d7afe7360d10eaa8b70d0ff0b8022c96fa180acf9a8b5fe924d0e4ac9ea71dce",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "contract_readiness_package_item",
+          "primaryKey": {
+            "id": "5858e4ee-6278-4ea1-b3dc-daf3364c382e"
+          },
+          "rowFingerprint": "6c22dc36d510fa720768140a2e6fc95efed234ad57d0cc496ca6474c146100be",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "contract_readiness_package_item",
+          "primaryKey": {
+            "id": "6997389b-45c0-4a1c-8dce-0eb645b5997f"
+          },
+          "rowFingerprint": "8437f30698389a3131148b5d6a4df8cdc58e08965be6b2f795496b19209fb442",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "contract_readiness_package_item",
+          "primaryKey": {
+            "id": "7510a4ca-7815-4689-b3a6-6533e977eec6"
+          },
+          "rowFingerprint": "9dac1bf4bfebae517536d58c0bd43e471f651f0ab629a1881e5bd48ed3c52793",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "contract_readiness_package_item",
+          "primaryKey": {
+            "id": "777d540e-ac1e-4e75-9f27-d5f6697757e0"
+          },
+          "rowFingerprint": "e4bc65051adb53af053b64e15e92919374f6519be355740f2755adec225514e9",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "contract_readiness_package_item",
+          "primaryKey": {
+            "id": "7793c3eb-c7f9-4935-9d73-4a4d26fee4be"
+          },
+          "rowFingerprint": "82bb760d0077d421f587243b52e95d1e9dfe57f98bba39665a8d01ad7f010f73",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "contract_readiness_package_item",
+          "primaryKey": {
+            "id": "88d496c7-5ac3-4f16-9097-08334913f5b1"
+          },
+          "rowFingerprint": "f5296f7c4b56643c56fc79b46b71ba98f09bc4ec90054707a9e3c27876a35001",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "contract_readiness_package_item",
+          "primaryKey": {
+            "id": "8a18d119-2f66-4004-af28-da0c15db7dc4"
+          },
+          "rowFingerprint": "7db8dc29fe62224839534e64bd140ae173ca33beb43ac1806da64f26516fec6d",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "contract_readiness_package_item",
+          "primaryKey": {
+            "id": "98d5f3e7-fa5d-4115-a682-90c95c924b47"
+          },
+          "rowFingerprint": "1ae9e1840418194864de5207783f10e250658bc0123910211c3f0b70314d041c",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "contract_readiness_package_item",
+          "primaryKey": {
+            "id": "9e7e7f3c-3bd1-4fb0-a692-6edf2b13ee74"
+          },
+          "rowFingerprint": "18189db890e7e7a83e470770e2d39bba15b94e9a5a8b81b3686faa421c719372",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "contract_readiness_package_item",
+          "primaryKey": {
+            "id": "a50ad9a0-0f34-48a8-b421-3e8e5a809363"
+          },
+          "rowFingerprint": "ab8396a30116cec73159c3fa33a41b6092b29d8b18b3950c0960696cf56ebea7",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "contract_readiness_package_item",
+          "primaryKey": {
+            "id": "bb0e8d38-5119-4b0b-bfa1-67211b4b2157"
+          },
+          "rowFingerprint": "1e24bc429a3de99a1c101a64a93041a00c68d062caf793ba47c43a8595c26620",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "contract_readiness_package_item",
+          "primaryKey": {
+            "id": "bc5e248c-9527-446d-abba-e8312b376bc5"
+          },
+          "rowFingerprint": "2c0bfaddf3af4ae17ab7996e1eda5abf7f0b1d6e2f7e8ca73ab82cf4e52f028b",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "contract_readiness_package_item",
+          "primaryKey": {
+            "id": "d4be261a-0edb-47e1-831a-fa24ab67a063"
+          },
+          "rowFingerprint": "0147e00245dc3407cac91ccfe7f523e3d260c132b9fe0d7db6e4e3b8ce3151a4",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "contract_readiness_package_item",
+          "primaryKey": {
+            "id": "d6c0ca38-0914-4da8-9941-841dcb0b2db9"
+          },
+          "rowFingerprint": "85daee7828a16ee5e7f5e23c687d4a45132523a718d9c48e0dbe53ec6ca294cd",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "contract_readiness_package_item",
+          "primaryKey": {
+            "id": "dd5a9a10-c44a-4e01-9c7d-e92249c492ac"
+          },
+          "rowFingerprint": "b3681844868d9574760b600779f0fadae24e6ab9143de53ef48cbeaf65607770",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "contract_readiness_package_item",
+          "primaryKey": {
+            "id": "dd7eb02a-380f-4d7f-9543-f41eb996b357"
+          },
+          "rowFingerprint": "9f2fb2f7cc03f45b97303c3846a4af4fe9aece864655d840e17fae48357a797b",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "contract_readiness_package_item",
+          "primaryKey": {
+            "id": "e0a2b3b9-26ba-422e-9dfa-5ce543102c45"
+          },
+          "rowFingerprint": "87c3e58f7ac39f9e05ed6f5678dd468a17c3fc9a4babe769b436e875b57b4a49",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "contract_readiness_package_item",
+          "primaryKey": {
+            "id": "e67ecd75-1722-4674-9400-115fa1ba270f"
+          },
+          "rowFingerprint": "e2b5a492d2845c2913e1d95d48ba8d7e37288491d091e4af2323c220aec2cebb",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "contract_readiness_package_item",
+          "primaryKey": {
+            "id": "e910a90b-c433-4996-be83-182f05873921"
+          },
+          "rowFingerprint": "5d05e7421d721cf18e7a3c98b2d7628a2ac78fb2544a6932bcdf93b9946a1b02",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "contract_readiness_package_item",
+          "primaryKey": {
+            "id": "f416879a-0ef2-4cfc-83fb-3e89308f0c35"
+          },
+          "rowFingerprint": "9378d5dcc41738394a9d17151dfd82557052393f6cf372667f15643578f4f0b0",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "contract_readiness_package_item",
+          "primaryKey": {
+            "id": "f6d86fa5-56e1-4417-9d21-2e7f04a10c6e"
+          },
+          "rowFingerprint": "f0d090c1cb3d45fe2c477b291ca011a9874eeba52360a46fa564545b511c5a87",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "cost_governance_evidence",
+          "primaryKey": {
+            "id": "36b8b758-b78b-485e-adac-588fd1ab6ec3"
+          },
+          "rowFingerprint": "24da1bbf80699a97ffa411611a427d41bd84d3e9ca03f81f4ffbde586d4a738b",
+          "createdAt": "2026-11-04T10:44:21.696+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "cost_governance_evidence",
+          "primaryKey": {
+            "id": "84c881ac-a1e2-451b-85fb-7a584b6252e4"
+          },
+          "rowFingerprint": "268ceca2aa18acf71f3e5b3f4f794f8c4a6beea3b316659dd74b0ac99c417ccc",
+          "createdAt": "2026-11-04T08:05:23.617+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "cost_governance_evidence",
+          "primaryKey": {
+            "id": "9bff8a5d-7979-42f8-92c4-bca3973965b4"
+          },
+          "rowFingerprint": "dbaa6305d826ed53134168d03b5814277a6a83f4c64412b9ddbef72fb9e784e5",
+          "createdAt": "2026-11-04T10:43:52.219+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "cost_governance_evidence",
+          "primaryKey": {
+            "id": "d816a884-a553-4c5f-98e6-5e097781ac99"
+          },
+          "rowFingerprint": "45340558fb42dd27a3ce088982b448431c72c44d83711220a9dfa1837cc5b71c",
+          "createdAt": "2026-11-04T10:44:10.046+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "cost_governance_evidence",
+          "primaryKey": {
+            "id": "f46647ed-fa60-41f7-97f9-8f9663029dff"
+          },
+          "rowFingerprint": "54bc3d51527bb93937b53a1a4424aa4280b75a9a6fc5546796a60aa17569bd86",
+          "createdAt": "2026-11-04T12:18:13.805+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "project_handover_contract_basis",
+          "primaryKey": {
+            "id": "095f87b2-38db-4cae-b6db-f8000c43aec8"
+          },
+          "rowFingerprint": "76d5baaa2af707fefe188cebcca9dbaa3adf94d6b7b6d8171c52114bbac33ca9",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "project_handover_contract_basis",
+          "primaryKey": {
+            "id": "15bf85c0-06b2-452a-b86f-cf2cf83b9b80"
+          },
+          "rowFingerprint": "4b9996390933efecc35b70f66aea7c990edff90d169caf7949ad806c206b094f",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "project_handover_contract_basis",
+          "primaryKey": {
+            "id": "23ca7e3b-c3d4-4487-9642-798f019a08a9"
+          },
+          "rowFingerprint": "f0c6cda0dca4a6bc4447edb7112f04ac832882f05e6e17a9f6c1fab57b497063",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "project_handover_contract_basis",
+          "primaryKey": {
+            "id": "2c9b3865-678f-4679-bdf7-afa013a3802c"
+          },
+          "rowFingerprint": "a0d277c702a2870e0b85b1d4661c45f0e61ce379f2e7b02728f8b958b488cb64",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "project_handover_contract_basis",
+          "primaryKey": {
+            "id": "30815efd-af86-4028-b437-ccc499ef8cc0"
+          },
+          "rowFingerprint": "b33185d173e260c0afc649df6aa02b0fc663af93feaec84e8e90a4d6970f0ffc",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "project_handover_contract_basis",
+          "primaryKey": {
+            "id": "32094315-fcb5-420a-abe8-484489b079d6"
+          },
+          "rowFingerprint": "7d11e6e4860977d67b4b2de5d84bde251be8a87dde4a5b266978e2d1e517ed35",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "project_handover_contract_basis",
+          "primaryKey": {
+            "id": "3273926f-6d0b-4574-a658-452230091e53"
+          },
+          "rowFingerprint": "7285559ee169e10e8d05fc417711cb3dcd01f565a508e07d393bedf0447b172c",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "project_handover_contract_basis",
+          "primaryKey": {
+            "id": "403c1468-c70f-4400-827a-98660a5450d9"
+          },
+          "rowFingerprint": "ab0597e5d37e4d017ba7699cf2089e9c868771e0c7e304039fced5f234f9dc5e",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "project_handover_contract_basis",
+          "primaryKey": {
+            "id": "4d501394-7d02-437c-b342-b61c27ebef65"
+          },
+          "rowFingerprint": "51d173c6ca85787bc880367d68ffeb3643581297c4a91d99da221856eab4d69d",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "project_handover_contract_basis",
+          "primaryKey": {
+            "id": "690289ee-2e94-43eb-bdfd-5b72a07c6c30"
+          },
+          "rowFingerprint": "cbb3cdde79d5538fff979d130923a44eb1974fc7081400ade4cd9d2a6ebe2995",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "project_handover_contract_basis",
+          "primaryKey": {
+            "id": "6cd154ae-0275-4ff9-8169-001a16195ef5"
+          },
+          "rowFingerprint": "9ac0e0e4bba1c4d9c8d82ea7204a796143434a79246c865c096ceb4a215335c6",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "project_handover_contract_basis",
+          "primaryKey": {
+            "id": "6cf20ca3-a94e-4b75-8cd5-22e4d2ba3b76"
+          },
+          "rowFingerprint": "7557a5a6b443b305fd2cc86565ae50b9115f1150adff4b01ee4eb57e1b6c9fd0",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "project_handover_contract_basis",
+          "primaryKey": {
+            "id": "78b9b8db-2b0f-446a-8abf-bf7d2f3e54bd"
+          },
+          "rowFingerprint": "bac81698d8f3ffa2ed2c55de67867e09ca3ffaff611d92478b4aec675b17087e",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "project_handover_contract_basis",
+          "primaryKey": {
+            "id": "7a12c894-0a8d-4ed7-b29b-9fb5b8b36c85"
+          },
+          "rowFingerprint": "fbc92e14afe68067a856071e448d927ddf4d8e7c6271b74697fa5764ae5322da",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "project_handover_contract_basis",
+          "primaryKey": {
+            "id": "83a0a73f-6d1f-48d8-966c-dcace27894f9"
+          },
+          "rowFingerprint": "22be9155ce12f69fba1a5b3c85669c853e21f7d27481d55f34c569e518dc42eb",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "project_handover_contract_basis",
+          "primaryKey": {
+            "id": "be5c6217-9eea-45ed-bdea-630e4d454788"
+          },
+          "rowFingerprint": "d07cc921ff821a4ef089be51a11189f8d2e5e5a2abd85e3374f7f4109e49e6ed",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "project_handover_contract_basis",
+          "primaryKey": {
+            "id": "be845e27-0137-4b47-9bbe-66ac8adf88e5"
+          },
+          "rowFingerprint": "dadc1cf3839a616a1f08c8988f3b966babca116c7329fa3c2d934bfd0c5ae1ef",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "project_handover_contract_basis",
+          "primaryKey": {
+            "id": "c14e9443-16b1-4201-963f-ff106dd61fd3"
+          },
+          "rowFingerprint": "a20c4f36876d737bf3b891f999392f31f15c532db8854c0d0646c3808bfbb3da",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "project_handover_contract_basis",
+          "primaryKey": {
+            "id": "ccfe243c-91a4-40e7-b615-ac5b5a325ac9"
+          },
+          "rowFingerprint": "f035fe11f40189a5adec8ec2ae9b9fdb9becd01c2fd27b59eba8a5290e8eef51",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "project_handover_contract_basis",
+          "primaryKey": {
+            "id": "db096b9c-9052-4aa7-b917-faa3d6c268e6"
+          },
+          "rowFingerprint": "fcf8468d3476aa5991511be9217e3e029edfff541635668487db4d707b051023",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "project_handover_contract_basis",
+          "primaryKey": {
+            "id": "e116a1c5-be4a-4c0b-b4cd-ed9ef4db8fc5"
+          },
+          "rowFingerprint": "bee4e37a0da3ebaa5dfddce5c1c0cc1603beefe6e97fd172d3c9838f468d6d5d",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "project_handover_contract_basis",
+          "primaryKey": {
+            "id": "e6e9d146-32ad-4585-8540-b9add4b4dd95"
+          },
+          "rowFingerprint": "a6140d2de9a7f706c7bbcc63f61f20866eab3ab50e6cb99735a767b804cf7aba",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "project_technical_cost_item",
+          "primaryKey": {
+            "id": "3d9650b0-c932-4ad6-8c22-9aae11b03f7e"
+          },
+          "rowFingerprint": "c47d40d613db9b060215fdd07d4e337bf2d59b08dc348cc92a44e9398dbbcdd1",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "project_technical_cost_item",
+          "primaryKey": {
+            "id": "9f312b41-2e21-4928-b15d-74950ad6639a"
+          },
+          "rowFingerprint": "80ded511e9c143d09625c5706bdb987b46e143551d710e6370ff899fd710f62c",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "project_technical_cost_item",
+          "primaryKey": {
+            "id": "fba06047-c920-440e-a8d3-843cd8e64af6"
+          },
+          "rowFingerprint": "eda4449234fa11c2d742c8dce8707bc5a8c15220e7afdcfc01e3ca71faea6c74",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "project_technical_risk_item",
+          "primaryKey": {
+            "id": "0585aa96-2120-4064-90d7-07f32a4f9bc2"
+          },
+          "rowFingerprint": "0af5c7ca4db5227449d8582cdc01937f663ed7f7dec75baa0c2bb96fcc37cf82",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "project_technical_risk_item",
+          "primaryKey": {
+            "id": "4a796fb5-07b6-491a-be0a-e603ce4000af"
+          },
+          "rowFingerprint": "12e9db829109f140c75641adbb91576152ed8e14d3807e7844d8b9b49c80d8ca",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "project_technical_risk_item",
+          "primaryKey": {
+            "id": "51071b0f-3114-4fdf-bd37-ab2152fb0cbc"
+          },
+          "rowFingerprint": "54e05cbdc73e170975a479f4f617091af024e7be1851877161f12121bad18717",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "project_technical_scope_item",
+          "primaryKey": {
+            "id": "1599209a-9bba-4416-a5e2-bdeb4c43ee7d"
+          },
+          "rowFingerprint": "67aa6bfe7ad7873bc9e529b43c64b5d2e18beaefd760f5c11781c7c62d96dc3a",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "project_technical_scope_item",
+          "primaryKey": {
+            "id": "710d5a65-a6c8-485a-9d18-f60d988bc10c"
+          },
+          "rowFingerprint": "ce8c917f42cdef53e1325b6148cd191ffdf6dc9dbb5257b465a95902e2103f19",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "project_technical_scope_item",
+          "primaryKey": {
+            "id": "7a359ba7-d42f-4089-a317-4bd6ced8b5c2"
+          },
+          "rowFingerprint": "3706fbfb6a252fa7eddb5271c5c8336f47ada40e8b6a153ae3e74160e5a7d322",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "project_technical_scope_item",
+          "primaryKey": {
+            "id": "a545bfe3-0f19-40f3-84c5-2c60cd3fcfcb"
+          },
+          "rowFingerprint": "71d8bf61a5569f217fb4231c2b519d883460ce580508e270fb6c2a50f5e72f9e",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "project_technical_scope_item",
+          "primaryKey": {
+            "id": "dae39380-c604-4b4d-af78-d57cc88e6599"
+          },
+          "rowFingerprint": "13f706e359cc072c592f654918848bbea08a9c9c24b1fbe7a96667349daeedc8",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "project_technical_scope_item",
+          "primaryKey": {
+            "id": "f8c01c2a-0747-477c-8717-d2a9434eced8"
+          },
+          "rowFingerprint": "84d57001fca893213d76c1bb21ae5426f5d55570a9eda9dbaca8a81cd3bb1898",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "receivable_plan_init_record",
+          "primaryKey": {
+            "id": "149a34ac-a942-4560-8f75-6ea781bac2ec"
+          },
+          "rowFingerprint": "0ed1a546b8cd48ee20aae3384c2c7749e91d43074dadf0e71acdbdd45c17adda",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "receivable_plan_init_record",
+          "primaryKey": {
+            "id": "1cc6e021-f0ae-466f-b485-0b6d31b9e987"
+          },
+          "rowFingerprint": "92011f99eb6ffa5a8176f56c241be714539167952edb22f549c05d114c2f5486",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "receivable_plan_init_record",
+          "primaryKey": {
+            "id": "1ff86b95-2935-4372-b9dd-d60e6e0fbaf0"
+          },
+          "rowFingerprint": "9fc6d1b75f8a41d6d46bfdfddc13bf6037a156199b5205367a44067e80b106e8",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "receivable_plan_init_record",
+          "primaryKey": {
+            "id": "3476d979-bafc-423f-9673-367343a2ad36"
+          },
+          "rowFingerprint": "a05a260707ecd98ba54e6407a5e2bb14a39731ae895a617c2a73f0ab1ef8d25c",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "receivable_plan_init_record",
+          "primaryKey": {
+            "id": "424803ae-c044-4dee-9bf2-b5e886e0b55b"
+          },
+          "rowFingerprint": "254347462dd90eba6ca848d05a16601942e3c5eb44292f1dde9b23bcfa8a5288",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "receivable_plan_init_record",
+          "primaryKey": {
+            "id": "543e3546-6c00-403a-bd5f-a00a4b585638"
+          },
+          "rowFingerprint": "e45512b34cfa7876a2dd9250b3c1ae48a7f8c8215486641469491657c164e89a",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "receivable_plan_init_record",
+          "primaryKey": {
+            "id": "5838c1d6-c8ea-4f29-8e86-1e5535ad4d1e"
+          },
+          "rowFingerprint": "a61c78ddd58c6b25194056e947de1af636168b4b29cd5b14ac4a4555821c9559",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "receivable_plan_init_record",
+          "primaryKey": {
+            "id": "91f3dcc3-baa5-4f5b-b8aa-99852400a478"
+          },
+          "rowFingerprint": "947abd9a1fb6cb3e9c1d792ed0d86bfd23f9bdecc53bdc65a8d405193905b1bf",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "receivable_plan_init_record",
+          "primaryKey": {
+            "id": "98c5f9d5-5888-4ce0-b215-e8f12a91fb66"
+          },
+          "rowFingerprint": "8f7d286214510ab9efca283ed8863e389e370947203c8f6dc100d10d982c87d7",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "receivable_plan_init_record",
+          "primaryKey": {
+            "id": "b2329ad2-ac43-47d0-b2a1-6210608ee18e"
+          },
+          "rowFingerprint": "4a2ef0c981bf47857550c94945dc999be1a1dba9838c9ae47b332ee73bb1904a",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "receivable_plan_init_record",
+          "primaryKey": {
+            "id": "ea09ba74-101d-458a-8618-d04b503b98a3"
+          },
+          "rowFingerprint": "f7c78f27628a57a6e6ba9995290757091437fc98cbb1c98ab28492138cbec1e1",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "receivable_plan_node",
+          "primaryKey": {
+            "id": "252ad67e-1033-42e2-8d7e-55b77ff33f89"
+          },
+          "rowFingerprint": "abc7898df2e37577d6904a3ee6eb7fd28ae00739a833b0143d2ec5d711da2cc8",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "receivable_plan_node",
+          "primaryKey": {
+            "id": "2f64b09e-166c-4f5e-b422-0334aecdf4db"
+          },
+          "rowFingerprint": "d0078b8a596e200ca50d6da99b0487a5157b1e95213d3a656a58dd4745a7fa68",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "receivable_plan_node",
+          "primaryKey": {
+            "id": "4169b916-1949-4e59-a520-012f77cba591"
+          },
+          "rowFingerprint": "c045aeab72907b32fd6bb72f4b6b9ec2cf3d2a3e4b20918854869260bf6e47e2",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "receivable_plan_node",
+          "primaryKey": {
+            "id": "46d48982-40a0-4b47-aaa4-ef957d2badc7"
+          },
+          "rowFingerprint": "3af1109b813a0dcc35c152717c2c13410eea6d89e2ac834279ffe3110b7b7097",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "receivable_plan_node",
+          "primaryKey": {
+            "id": "56e63961-0ec8-470b-92a5-0c5ce64eadf0"
+          },
+          "rowFingerprint": "3a39775a37a59bb472ba08c585cfc857e1de1a055bf18047ad40ea71a0e00acf",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "receivable_plan_node",
+          "primaryKey": {
+            "id": "789c8c65-90bb-41eb-b85f-34c49a1e9a5c"
+          },
+          "rowFingerprint": "e523fbf17f43fc18cdf90c3170a00a385ad52be3b6f903d4089f3489349758ed",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "receivable_plan_node",
+          "primaryKey": {
+            "id": "891302c2-120e-419e-a3d3-f8b2a169609f"
+          },
+          "rowFingerprint": "c2a56be17885ff0963d99d318db4baa1dbfc96f420c1a198124b4b98b84803a0",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "receivable_plan_node",
+          "primaryKey": {
+            "id": "c698b571-6924-41b2-bd88-b76d75a2ac79"
+          },
+          "rowFingerprint": "95007188048022140b8b09cc6de7def0f44ce6ac457dc6e9e398892f206df698",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "receivable_plan_node",
+          "primaryKey": {
+            "id": "c9b10308-b3ea-4582-9332-a8aee8ed6c31"
+          },
+          "rowFingerprint": "df23c4fa5853e4d582a3b266e147b22574700415af29ff3bd374d74a593c9196",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "receivable_plan_node",
+          "primaryKey": {
+            "id": "e1529119-4c5d-4bf3-95e3-b3e045b56892"
+          },
+          "rowFingerprint": "5eba861dc9cd8a5131ebdd8329b63063ac0a3d25381d9047b535bac0f79a6a49",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "receivable_plan_node",
+          "primaryKey": {
+            "id": "e30b772e-49c9-47ca-9757-6c4096e0be5c"
+          },
+          "rowFingerprint": "770b990448262c7a862a25e57064817c82af37db9ddbe8999f9c8ba3baebd9e7",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "security_event",
+          "primaryKey": {
+            "id": "0f0a786d-f3b0-4595-bb14-74659229a68f"
+          },
+          "rowFingerprint": "498e7811d05f627d5d9b3d8c1cf979321b6bb0a87b991513e356abc5ea6d00fd",
+          "createdAt": "2026-11-04T12:13:11.299+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "security_event",
+          "primaryKey": {
+            "id": "c4d329df-0e1c-46d9-90c1-778c3f3b2853"
+          },
+          "rowFingerprint": "ce23ce6aa4396dbe7ed0978396312b10d78823d6c4eac643bdd3d39d8d1d1990",
+          "createdAt": "2026-11-04T12:13:09.116+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "todo_item",
+          "primaryKey": {
+            "id": "0ae92492-50b5-45c2-b69d-4f3b7bcac3da"
+          },
+          "rowFingerprint": "9e3ba70a3d79f4658e6adbf554f497d0626ba79729b404d93e419d9726b2688e",
+          "createdAt": "2026-11-04T12:02:49.79+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "todo_item",
+          "primaryKey": {
+            "id": "114f2425-0d5b-408a-9e4f-2af3ac1e2aef"
+          },
+          "rowFingerprint": "e2e4ab65cb05806d65982f0b5bbedfe3f1024987641d7ca2a647ea456169f3d8",
+          "createdAt": "2026-11-04T09:38:26.144+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "todo_item",
+          "primaryKey": {
+            "id": "1afaf60e-699e-4fc6-bcef-14f56c6ca419"
+          },
+          "rowFingerprint": "33ab4fd1e5e2b95427e00f43ac6559cc69b4909cfc8babe1b5d5d22c42afed72",
+          "createdAt": "2026-11-04T09:12:02.741+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "todo_item",
+          "primaryKey": {
+            "id": "26c700c7-ed8d-4661-aac6-038e3509efd5"
+          },
+          "rowFingerprint": "2a7364163585c8d6c47521a027c6b0658f77dde190f0cf5505d827cbb14ef661",
+          "createdAt": "2026-11-04T11:35:08.736+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "todo_item",
+          "primaryKey": {
+            "id": "34bb7bbb-285a-4dcc-ad0c-e4879bcbbe19"
+          },
+          "rowFingerprint": "4ba52d100f566670859c6e4ad44281908575ae9cbf317502e918d57294f5b775",
+          "createdAt": "2026-11-04T09:15:42.167+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "todo_item",
+          "primaryKey": {
+            "id": "35e4e1b3-e7ff-4932-bb79-914b51fa7d79"
+          },
+          "rowFingerprint": "e59561af03d7f352fe1371177acf4e878884a763527b338b084ad8436b8f3455",
+          "createdAt": "2026-11-04T12:02:49.791+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "todo_item",
+          "primaryKey": {
+            "id": "3a124260-460e-4358-a646-b8579a004f57"
+          },
+          "rowFingerprint": "1b734b7ddb2f2b724b550630343c05dd4eaa62eaf044fa9cbffc37199db43d55",
+          "createdAt": "2026-11-04T08:12:00.343+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "todo_item",
+          "primaryKey": {
+            "id": "4022416e-33d8-4879-8d67-d86d5b804bfb"
+          },
+          "rowFingerprint": "e2e5ab1ae97871815a5e61c769410a7fab7e4c2c7f6f482e7e99aa8d5a9a302c",
+          "createdAt": "2026-11-04T11:35:08.737+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "todo_item",
+          "primaryKey": {
+            "id": "4dbe1c91-249b-403e-aed0-a427f97d4b21"
+          },
+          "rowFingerprint": "fc22dadd21b789392cf3941cfedfccf09544bbb9fdd0c75edbdbf965c75f54e6",
+          "createdAt": "2026-11-04T11:35:08.737+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "todo_item",
+          "primaryKey": {
+            "id": "6782be42-9033-4beb-aef5-157fb3e673b2"
+          },
+          "rowFingerprint": "9cfcf6ffbccdb2c523b9b6d93fff3540e6c0825bcd2a8450c2926fe82124b323",
+          "createdAt": "2026-11-04T08:12:00.343+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "todo_item",
+          "primaryKey": {
+            "id": "733edad3-82d6-4e64-a91b-f3c6e4ab390b"
+          },
+          "rowFingerprint": "6ed9121e184e0b982910aaa8c9259628099af464b7fc81488fb15c3cf8b28b2c",
+          "createdAt": "2026-11-04T08:12:00.343+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "todo_item",
+          "primaryKey": {
+            "id": "778606ef-6e3e-4b2e-9c31-d60bb7498330"
+          },
+          "rowFingerprint": "767543e803e4bf41179fdbd953e368e09e68d39162cccbf78e01d62061eba93e",
+          "createdAt": "2026-11-04T09:15:42.167+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "todo_item",
+          "primaryKey": {
+            "id": "78920481-00e4-4cee-a3b7-f6658fd3473e"
+          },
+          "rowFingerprint": "fa185410b035c05efaf0f87a874e2ea2c67c10d1e9dd289a6aa7f23c86b38b20",
+          "createdAt": "2026-11-04T13:10:06.234+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "todo_item",
+          "primaryKey": {
+            "id": "7a3be61f-53e6-414a-8cbc-7371d0243354"
+          },
+          "rowFingerprint": "a9b43f97bbae0b4d087182b849888bfa34b45ca747fa411c957617385e0b5fde",
+          "createdAt": "2026-11-04T09:38:26.143+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "todo_item",
+          "primaryKey": {
+            "id": "7d8bf8e5-2b29-4861-9325-be67e49c5e66"
+          },
+          "rowFingerprint": "51b4e792617f67a581a145b6df4346041ed4459319bf7f5ba47ed083ba2a12d0",
+          "createdAt": "2026-11-04T12:03:00.265+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "todo_item",
+          "primaryKey": {
+            "id": "7fc8deda-fbfa-496e-93e2-3a7195706ce4"
+          },
+          "rowFingerprint": "a3059fe038cb9f5ea907a131be3dac5decbd8a7006e886f0ec60960a9e7f201a",
+          "createdAt": "2026-11-04T12:03:00.265+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "todo_item",
+          "primaryKey": {
+            "id": "99468c15-7689-4e6b-acca-d845085e55ee"
+          },
+          "rowFingerprint": "31adc817b60d7e12437cb77e57fcc85c9e5fdb017e7151cba5a3c8380d861fea",
+          "createdAt": "2026-11-04T12:03:00.266+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "todo_item",
+          "primaryKey": {
+            "id": "9b3b0fea-b6db-4d31-a645-96793038acb0"
+          },
+          "rowFingerprint": "2b5e388ddeb9239e8351cb310bcf09adae61f1ae75a2c1f50b0924988a0a669f",
+          "createdAt": "2026-11-04T13:10:06.234+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "todo_item",
+          "primaryKey": {
+            "id": "aa400c39-642c-47c5-8f47-0f25b6a17eef"
+          },
+          "rowFingerprint": "813286a354ddd8c68aac67144413f949fdf9a5797cce6d6555dc720a7d9d3972",
+          "createdAt": "2026-11-04T13:47:45.412+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "todo_item",
+          "primaryKey": {
+            "id": "b4b0a50a-dfa5-4cfe-9cf6-4fd70ce5fe92"
+          },
+          "rowFingerprint": "9af43e63c3dc010be08b055c77c2b9e9e05f7d20448c8fce65ef679ef9708a77",
+          "createdAt": "2026-11-04T08:25:55.393+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "todo_item",
+          "primaryKey": {
+            "id": "bd4c2ac5-8527-424e-b138-c8dc700a9f91"
+          },
+          "rowFingerprint": "6d0ade4ca7438ba59c51a27f4555f5cf1d2ef4bf3541234b9cb2bebb0c83d530",
+          "createdAt": "2026-11-04T11:32:32.897+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "todo_item",
+          "primaryKey": {
+            "id": "ce1c7020-ff41-4b74-b53d-15f1131a3dfc"
+          },
+          "rowFingerprint": "257625fc25a51b7b3aaea72e448b66bfc26571c7a1550714a4f6cdf780c2b301",
+          "createdAt": "2026-11-04T11:32:32.897+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "todo_item",
+          "primaryKey": {
+            "id": "ce1fbac9-bd35-4a3d-a79e-a56c28dfe609"
+          },
+          "rowFingerprint": "e220f46fb8a7f2630fd9d5e37cadceb14aa3ac73038e943e17654cf7edb2348b",
+          "createdAt": "2026-11-04T09:15:42.166+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "todo_item",
+          "primaryKey": {
+            "id": "d7fd9280-0578-4344-9279-d90b8a8b4557"
+          },
+          "rowFingerprint": "098af2e8ee6c228d94724a645eedcba86ca953d1c7eefe9008608a79adadab5f",
+          "createdAt": "2026-11-04T08:25:55.393+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "todo_item",
+          "primaryKey": {
+            "id": "d8d0bbb6-50b6-4d44-af9a-86f9f7e8a8b5"
+          },
+          "rowFingerprint": "189a602c724f43ef5e13d9abe34948d7eb35fc7d96a77e621cd8493907c1e66a",
+          "createdAt": "2026-11-04T09:12:02.741+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "todo_item",
+          "primaryKey": {
+            "id": "dbd194a5-03be-4818-a76c-32a9c33b7aff"
+          },
+          "rowFingerprint": "bce2b5d4e6ad340a16116ccf8b797e7e1aa8580fdb42bbb6c20b3ddefdb5e053",
+          "createdAt": "2026-11-04T08:25:55.393+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "todo_item",
+          "primaryKey": {
+            "id": "dcbf3b10-87e3-47d7-9e73-e247bab2e745"
+          },
+          "rowFingerprint": "ff4878af5651f151e263329da0848f3e862905e6d5ed91b2b20fcd3c7b51a7ca",
+          "createdAt": "2026-11-04T09:38:26.143+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "todo_item",
+          "primaryKey": {
+            "id": "e2ab3830-e337-4b87-b7d6-bdbc211422b6"
+          },
+          "rowFingerprint": "afb0c7c8a9dd4a3b447f45139f3ffa50fe063170b383ce3ce1a0eae776eaf2a2",
+          "createdAt": "2026-11-04T13:47:45.413+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "todo_item",
+          "primaryKey": {
+            "id": "e33de456-c71a-4c6b-9d4e-bbe2eef4deda"
+          },
+          "rowFingerprint": "c5b87660ee0fd5ae0dd0f92576d2b6dfa63bee06f1a845d830a9d9f4626dc444",
+          "createdAt": "2026-11-04T13:47:45.412+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "todo_item",
+          "primaryKey": {
+            "id": "e36f012a-7875-4005-835c-3ccafb48f1c3"
+          },
+          "rowFingerprint": "661377640d33a40767069fb0766a91cdf392a1bfe19e7dc61009215928f7962e",
+          "createdAt": "2026-11-04T13:10:06.234+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "todo_item",
+          "primaryKey": {
+            "id": "ee18a786-0824-4f77-adc9-d7a307c7a6c4"
+          },
+          "rowFingerprint": "569ffa94bb8b5eb91edecd0e12006523b0e0c15395566bcfb2eee33ec0eca951",
+          "createdAt": "2026-11-04T11:32:32.898+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "todo_item",
+          "primaryKey": {
+            "id": "f0734eb6-ad18-49c2-bf30-5588da3f8e73"
+          },
+          "rowFingerprint": "6e3e292bf09d886a837c1577b86ea7c8dae30ee3c03781b6778cd4a64931a7ff",
+          "createdAt": "2026-11-04T12:02:49.79+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "todo_item",
+          "primaryKey": {
+            "id": "f858bb13-4a55-4d14-b545-3ec686638802"
+          },
+          "rowFingerprint": "b3303552ac9575622b9d564ff95255f04e4e0380bfb5a39e3b2bf5040b625496",
+          "createdAt": "2026-11-04T09:12:02.741+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        }
+      ],
+      "baselineDrift": [
+        {
+          "table": "business_number_sequence",
+          "primaryKey": {
+            "id": "52b0d05d-7e0b-430d-9aa5-1d8007e03fba"
+          },
+          "kind": "changed",
+          "beforeFingerprint": "74f165107f85dcc739e012faddb3a7719ec3646a96189695047bdafc28e32727",
+          "afterFingerprint": "d8216efedae8ffd768fe585dbdb48a705626718c0a6d52a37e43bd0043aab96f",
+          "columns": [
+            "next_value",
+            "updated_at"
+          ]
+        },
+        {
+          "table": "local_credential",
+          "primaryKey": {
+            "id": "70000000-0000-4000-8000-000000000008"
+          },
+          "kind": "changed",
+          "beforeFingerprint": "bdc0ee265e04203b911e0bf97e4a84d9539dee6fec336ab60faed790a8cc142b",
+          "afterFingerprint": "1d9f1e79eee1f35360ca37ab103caa7f2e54a731c2927306f7e89adaa4cf16c1",
+          "columns": [
+            "updated_at",
+            "password_hash"
+          ]
+        },
+        {
+          "table": "user_role_assignment",
+          "primaryKey": {
+            "id": "50000000-0000-4000-8000-000000000081"
+          },
+          "kind": "missing",
+          "beforeFingerprint": "c22c0c212435a249dcb6fa43946c89ea405f32edf0658f18f65f25401b787e92",
+          "afterFingerprint": null,
+          "columns": []
+        }
+      ],
+      "rowCycleDiagnostic": {
+        "classification": "actual-injected-row-FK-diagnostic-not-ownership-or-DML",
+        "actualAddedPKs": 2673,
+        "SCCs": [
+          {
+            "rows": [
+              {
+                "table": "commercial_baseline_diff_result",
+                "primaryKey": {
+                  "id": "095d0a8e-46d0-4765-b8f9-b88e6a9bf515"
+                }
+              },
+              {
+                "table": "commercial_release_baseline",
+                "primaryKey": {
+                  "id": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec"
+                }
+              }
+            ],
+            "constraints": [
+              "commercial_baseline_diff_result_baseline_id_foreign",
+              "commercial_release_baseline_latest_diff_result_id_foreign",
+              "fk_r4_diff_baseline_project"
+            ]
+          },
+          {
+            "rows": [
+              {
+                "table": "contract_readiness_package",
+                "primaryKey": {
+                  "id": "00f58143-cd28-464f-98c2-4c2c7d29e7fc"
+                }
+              },
+              {
+                "table": "contract_term_preparation",
+                "primaryKey": {
+                  "id": "8fab8f95-1ca6-4ed4-b83c-85ea221dec18"
+                }
+              },
+              {
+                "table": "contract_term_snapshot",
+                "primaryKey": {
+                  "id": "2eaff0e9-8af3-4551-a94f-b85feae1510d"
+                }
+              }
+            ],
+            "constraints": [
+              "contract_term_snapshot_source_readiness_fk",
+              "fk_r4_preparation_activated_snapshot",
+              "fk_r4_preparation_readiness_scope",
+              "fk_r4_readiness_current_preparation",
+              "fk_r4_snapshot_preparation_contract"
+            ]
+          },
+          {
+            "rows": [
+              {
+                "table": "contract_amendment",
+                "primaryKey": {
+                  "id": "b56d6637-b5e3-4137-9459-a94886e41648"
+                }
+              },
+              {
+                "table": "contract_readiness_package",
+                "primaryKey": {
+                  "id": "a7be963c-cc5b-422a-9223-a1329550d655"
+                }
+              },
+              {
+                "table": "contract_review_binding",
+                "primaryKey": {
+                  "approval_record_id": "50d1defd-232e-4e45-b2dd-259e6cd0c0e6"
+                }
+              },
+              {
+                "table": "contract_term_preparation",
+                "primaryKey": {
+                  "id": "0d0d4655-cb07-4628-ba8b-387bd06ec6b2"
+                }
+              },
+              {
+                "table": "contract_term_snapshot",
+                "primaryKey": {
+                  "id": "5d1e0aad-4250-4b52-b96b-68b5d134cb1a"
+                }
+              }
+            ],
+            "constraints": [
+              "contract_term_snapshot_source_readiness_fk",
+              "fk_r4_preparation_activated_snapshot",
+              "fk_r4_preparation_readiness_scope",
+              "fk_r4_readiness_current_preparation",
+              "fk_r4_review_preparation_contract",
+              "fk_r4_snapshot_preparation_contract",
+              "fk_r4d_amendment_after",
+              "fk_r4d_amendment_preparation",
+              "fk_r4d_amendment_readiness",
+              "fk_r4d_amendment_review",
+              "fk_r4d_preparation_amendment",
+              "fk_r4d_readiness_amendment",
+              "fk_r4d_review_amendment",
+              "fk_r4d_snapshot_amendment"
+            ]
+          },
+          {
+            "rows": [
+              {
+                "table": "contract_handover_rebaseline_record",
+                "primaryKey": {
+                  "id": "e0cee582-70bb-459a-b4e2-3b4d06c57aa9"
+                }
+              },
+              {
+                "table": "project_handover",
+                "primaryKey": {
+                  "id": "e1f0b6a7-3e51-44c3-839e-843869fbb3ad"
+                }
+              }
+            ],
+            "constraints": [
+              "contract_handover_rebaseline_recor_replacement_handover_id_fkey",
+              "project_handover_handover_rebaseline_record_id_foreign"
+            ]
+          },
+          {
+            "rows": [
+              {
+                "table": "commercial_baseline_diff_result",
+                "primaryKey": {
+                  "id": "22e85189-4d6c-4c9f-9ee0-a2f53e3488aa"
+                }
+              },
+              {
+                "table": "commercial_release_baseline",
+                "primaryKey": {
+                  "id": "81701cdc-43cd-4e55-a6bb-9de023a21d71"
+                }
+              }
+            ],
+            "constraints": [
+              "commercial_baseline_diff_result_baseline_id_foreign",
+              "commercial_release_baseline_latest_diff_result_id_foreign",
+              "fk_r4_diff_baseline_project"
+            ]
+          },
+          {
+            "rows": [
+              {
+                "table": "commercial_baseline_diff_result",
+                "primaryKey": {
+                  "id": "dd41d005-0b34-4f91-b723-e5a4ca86128a"
+                }
+              },
+              {
+                "table": "commercial_release_baseline",
+                "primaryKey": {
+                  "id": "5cd512a2-e124-4cff-aa13-08a00dd61ba2"
+                }
+              }
+            ],
+            "constraints": [
+              "commercial_baseline_diff_result_baseline_id_foreign",
+              "commercial_release_baseline_latest_diff_result_id_foreign",
+              "fk_r4_diff_baseline_project"
+            ]
+          },
+          {
+            "rows": [
+              {
+                "table": "contract_readiness_package",
+                "primaryKey": {
+                  "id": "cdb3fdff-7942-4e3b-b370-184f860faa2e"
+                }
+              },
+              {
+                "table": "contract_term_preparation",
+                "primaryKey": {
+                  "id": "f0c9debf-6f2c-41d8-92f7-5062d0953dc4"
+                }
+              },
+              {
+                "table": "contract_term_snapshot",
+                "primaryKey": {
+                  "id": "418e3d55-d3e2-49ea-894c-67289ba64fa4"
+                }
+              }
+            ],
+            "constraints": [
+              "contract_term_snapshot_source_readiness_fk",
+              "fk_r4_preparation_activated_snapshot",
+              "fk_r4_preparation_readiness_scope",
+              "fk_r4_readiness_current_preparation",
+              "fk_r4_snapshot_preparation_contract"
+            ]
+          },
+          {
+            "rows": [
+              {
+                "table": "contract_amendment",
+                "primaryKey": {
+                  "id": "12e95e38-be07-4293-937e-f1f5baec12be"
+                }
+              },
+              {
+                "table": "contract_readiness_package",
+                "primaryKey": {
+                  "id": "56ba818b-2344-488e-919d-e48802c45a79"
+                }
+              },
+              {
+                "table": "contract_review_binding",
+                "primaryKey": {
+                  "approval_record_id": "7887c78d-616b-4afd-87ba-b06b59d7cfc4"
+                }
+              },
+              {
+                "table": "contract_term_preparation",
+                "primaryKey": {
+                  "id": "da368e71-c776-4014-a287-9950c7ce7fd9"
+                }
+              },
+              {
+                "table": "contract_term_snapshot",
+                "primaryKey": {
+                  "id": "18f1d5eb-313b-4d2b-84c1-19afce1528a5"
+                }
+              }
+            ],
+            "constraints": [
+              "contract_term_snapshot_source_readiness_fk",
+              "fk_r4_preparation_activated_snapshot",
+              "fk_r4_preparation_readiness_scope",
+              "fk_r4_readiness_current_preparation",
+              "fk_r4_review_preparation_contract",
+              "fk_r4_snapshot_preparation_contract",
+              "fk_r4d_amendment_after",
+              "fk_r4d_amendment_preparation",
+              "fk_r4d_amendment_readiness",
+              "fk_r4d_amendment_review",
+              "fk_r4d_preparation_amendment",
+              "fk_r4d_readiness_amendment",
+              "fk_r4d_review_amendment",
+              "fk_r4d_snapshot_amendment"
+            ]
+          },
+          {
+            "rows": [
+              {
+                "table": "contract_readiness_package",
+                "primaryKey": {
+                  "id": "f03b3390-7b8f-4c7e-8a3a-14d3f0aadded"
+                }
+              },
+              {
+                "table": "contract_term_preparation",
+                "primaryKey": {
+                  "id": "6df3e4d0-cd17-4615-ade5-d027a944c96a"
+                }
+              },
+              {
+                "table": "contract_term_snapshot",
+                "primaryKey": {
+                  "id": "839324ec-ddc2-4af1-af5e-82b5dc101fa7"
+                }
+              }
+            ],
+            "constraints": [
+              "contract_term_snapshot_source_readiness_fk",
+              "fk_r4_preparation_activated_snapshot",
+              "fk_r4_preparation_readiness_scope",
+              "fk_r4_readiness_current_preparation",
+              "fk_r4_snapshot_preparation_contract"
+            ]
+          },
+          {
+            "rows": [
+              {
+                "table": "contract_amendment",
+                "primaryKey": {
+                  "id": "b3e88460-d239-420a-91f7-d8a640f910d1"
+                }
+              },
+              {
+                "table": "contract_readiness_package",
+                "primaryKey": {
+                  "id": "8df25134-c1a8-4a5e-9f8c-13351407e572"
+                }
+              },
+              {
+                "table": "contract_review_binding",
+                "primaryKey": {
+                  "approval_record_id": "d3419cd7-9eab-4d61-aa40-6afa935856f1"
+                }
+              },
+              {
+                "table": "contract_term_preparation",
+                "primaryKey": {
+                  "id": "533dd3e7-604a-490b-a811-0672e0052826"
+                }
+              },
+              {
+                "table": "contract_term_snapshot",
+                "primaryKey": {
+                  "id": "0f4bd54f-7349-4603-98c8-4a79b1aad182"
+                }
+              }
+            ],
+            "constraints": [
+              "contract_term_snapshot_source_readiness_fk",
+              "fk_r4_preparation_activated_snapshot",
+              "fk_r4_preparation_readiness_scope",
+              "fk_r4_readiness_current_preparation",
+              "fk_r4_review_preparation_contract",
+              "fk_r4_snapshot_preparation_contract",
+              "fk_r4d_amendment_after",
+              "fk_r4d_amendment_preparation",
+              "fk_r4d_amendment_readiness",
+              "fk_r4d_amendment_review",
+              "fk_r4d_preparation_amendment",
+              "fk_r4d_readiness_amendment",
+              "fk_r4d_review_amendment",
+              "fk_r4d_snapshot_amendment"
+            ]
+          },
+          {
+            "rows": [
+              {
+                "table": "contract_amendment",
+                "primaryKey": {
+                  "id": "3188dad4-2a04-4da9-bb13-1de46a25eebf"
+                }
+              },
+              {
+                "table": "contract_readiness_package",
+                "primaryKey": {
+                  "id": "3a30c955-1d0e-4d81-96de-0998a1ef852b"
+                }
+              },
+              {
+                "table": "contract_review_binding",
+                "primaryKey": {
+                  "approval_record_id": "27956a9a-c0f3-4a99-b566-929934a728c3"
+                }
+              },
+              {
+                "table": "contract_term_preparation",
+                "primaryKey": {
+                  "id": "74c60742-67e6-4fb5-8b48-479367574d23"
+                }
+              },
+              {
+                "table": "contract_term_snapshot",
+                "primaryKey": {
+                  "id": "26585fe5-dba5-4415-bba2-9f04c1c889cd"
+                }
+              }
+            ],
+            "constraints": [
+              "contract_term_snapshot_source_readiness_fk",
+              "fk_r4_preparation_activated_snapshot",
+              "fk_r4_preparation_readiness_scope",
+              "fk_r4_readiness_current_preparation",
+              "fk_r4_review_preparation_contract",
+              "fk_r4_snapshot_preparation_contract",
+              "fk_r4d_amendment_after",
+              "fk_r4d_amendment_preparation",
+              "fk_r4d_amendment_readiness",
+              "fk_r4d_amendment_review",
+              "fk_r4d_preparation_amendment",
+              "fk_r4d_readiness_amendment",
+              "fk_r4d_review_amendment",
+              "fk_r4d_snapshot_amendment"
+            ]
+          },
+          {
+            "rows": [
+              {
+                "table": "contract_amendment",
+                "primaryKey": {
+                  "id": "b1a6130c-4c1f-44a3-810b-f3a6d3d71f57"
+                }
+              },
+              {
+                "table": "contract_readiness_package",
+                "primaryKey": {
+                  "id": "f34ec8bd-de93-4fde-994c-832bd90bc8d2"
+                }
+              },
+              {
+                "table": "contract_review_binding",
+                "primaryKey": {
+                  "approval_record_id": "5dcdbca2-34ba-4808-80db-3639a8e15d96"
+                }
+              },
+              {
+                "table": "contract_term_preparation",
+                "primaryKey": {
+                  "id": "b605a26a-b3a7-4b53-9e05-6a82be7bdf95"
+                }
+              },
+              {
+                "table": "contract_term_snapshot",
+                "primaryKey": {
+                  "id": "ed7f2c06-f2c2-4f37-9193-6278ca8a5f85"
+                }
+              }
+            ],
+            "constraints": [
+              "contract_term_snapshot_source_readiness_fk",
+              "fk_r4_preparation_activated_snapshot",
+              "fk_r4_preparation_readiness_scope",
+              "fk_r4_readiness_current_preparation",
+              "fk_r4_review_preparation_contract",
+              "fk_r4_snapshot_preparation_contract",
+              "fk_r4d_amendment_after",
+              "fk_r4d_amendment_preparation",
+              "fk_r4d_amendment_readiness",
+              "fk_r4d_amendment_review",
+              "fk_r4d_preparation_amendment",
+              "fk_r4d_readiness_amendment",
+              "fk_r4d_review_amendment",
+              "fk_r4d_snapshot_amendment"
+            ]
+          },
+          {
+            "rows": [
+              {
+                "table": "contract_readiness_package",
+                "primaryKey": {
+                  "id": "d85689b2-9783-4837-ac20-ff4aace1de5a"
+                }
+              },
+              {
+                "table": "contract_term_preparation",
+                "primaryKey": {
+                  "id": "17347ed4-7ee5-4915-8268-2c6bfa03af99"
+                }
+              },
+              {
+                "table": "contract_term_snapshot",
+                "primaryKey": {
+                  "id": "eb66ca08-c4e0-405b-a1e5-942aefc44b4e"
+                }
+              }
+            ],
+            "constraints": [
+              "contract_term_snapshot_source_readiness_fk",
+              "fk_r4_preparation_activated_snapshot",
+              "fk_r4_preparation_readiness_scope",
+              "fk_r4_readiness_current_preparation",
+              "fk_r4_snapshot_preparation_contract"
+            ]
+          },
+          {
+            "rows": [
+              {
+                "table": "contract_handover_rebaseline_record",
+                "primaryKey": {
+                  "id": "67af90f0-46a6-4407-a133-25c758213b82"
+                }
+              },
+              {
+                "table": "project_handover",
+                "primaryKey": {
+                  "id": "14fd1557-175e-410e-9ec6-4bf9405e57e1"
+                }
+              }
+            ],
+            "constraints": [
+              "contract_handover_rebaseline_recor_replacement_handover_id_fkey",
+              "project_handover_handover_rebaseline_record_id_foreign"
+            ]
+          },
+          {
+            "rows": [
+              {
+                "table": "contract_handover_rebaseline_record",
+                "primaryKey": {
+                  "id": "6784f180-16e6-48b6-8cea-c0ff691b9d76"
+                }
+              },
+              {
+                "table": "project_handover",
+                "primaryKey": {
+                  "id": "738b8438-d6c9-42d4-9df4-118b841b2493"
+                }
+              }
+            ],
+            "constraints": [
+              "contract_handover_rebaseline_recor_replacement_handover_id_fkey",
+              "project_handover_handover_rebaseline_record_id_foreign"
+            ]
+          },
+          {
+            "rows": [
+              {
+                "table": "contract_readiness_package",
+                "primaryKey": {
+                  "id": "2eac5253-da1e-4e5c-89cb-22550c317a08"
+                }
+              },
+              {
+                "table": "contract_term_preparation",
+                "primaryKey": {
+                  "id": "687490ee-dd04-4d1b-ab5a-2b3775114f82"
+                }
+              },
+              {
+                "table": "contract_term_snapshot",
+                "primaryKey": {
+                  "id": "cc31e0c8-2b6a-4c6e-854a-e48512cb666c"
+                }
+              }
+            ],
+            "constraints": [
+              "contract_term_snapshot_source_readiness_fk",
+              "fk_r4_preparation_activated_snapshot",
+              "fk_r4_preparation_readiness_scope",
+              "fk_r4_readiness_current_preparation",
+              "fk_r4_snapshot_preparation_contract"
+            ]
+          },
+          {
+            "rows": [
+              {
+                "table": "contract_readiness_package",
+                "primaryKey": {
+                  "id": "920519fc-e32b-424e-99ef-4ddf34363b99"
+                }
+              },
+              {
+                "table": "contract_term_preparation",
+                "primaryKey": {
+                  "id": "b2a7d285-b1d9-4c35-b788-6c6038e0d515"
+                }
+              },
+              {
+                "table": "contract_term_snapshot",
+                "primaryKey": {
+                  "id": "a3c76f27-32ed-4508-957a-897060ae62fb"
+                }
+              }
+            ],
+            "constraints": [
+              "contract_term_snapshot_source_readiness_fk",
+              "fk_r4_preparation_activated_snapshot",
+              "fk_r4_preparation_readiness_scope",
+              "fk_r4_readiness_current_preparation",
+              "fk_r4_snapshot_preparation_contract"
+            ]
+          }
+        ],
+        "DMLExecuted": false
+      },
+      "planned": false,
+      "DMLExecuted": false
+    },
+    {
+      "bundle": {
+        "file": "/home/wangzishi/.local/share/poms-r4def/private/cleanup-wrapper103-124/bundle103.json",
+        "bytes": 15548231,
+        "rawBytesSha256": "b8f7bc339492a34a166f2971bf41a626409f0d1a879666b2191d38f9f81333b3"
+      },
+      "normalizedProducerIndex": {
+        "file": "/home/wangzishi/.local/share/poms-r4def/private/cleanup-wrapper103-124/actual-normalized-producer-index.json",
+        "bytes": 16038215,
+        "rawBytesSha256": "1794f95f0acf763acf9a428a1976f584912958c4dfcd9fcdc2b70819373282cb"
+      },
+      "actualDMLExecuted": false
+    }
+  ],
+  "actions": [
+    {
+      "readOnlySnapshotOriginal": {
+        "file": "/home/wangzishi/.local/share/poms-r4def/private/cleanup-wrapper103-124/source-snapshots103.json",
+        "bytes": 11088019,
+        "rawBytesSha256": "b7129d76cbfd9d0096757ba24cfe41ccaf951133cfbd1dcd2acca248e232a8f9"
+      }
+    }
+  ],
+  "DBOrDMLExecutedBy": "Root explicit entry only",
+  "authorExecution": false,
+  "objectsHandled": false,
+  "servicesStoppedByWrapper": false,
+  "mainDatabaseDropped": false,
+  "constraintsDisabled": false,
+  "rawRowsOrPasswordsPublished": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

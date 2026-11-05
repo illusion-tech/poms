@@ -1,0 +1,939 @@
+// Static exporter only. Root executes this after importing the reviewed source.
+// Never imports/evaluates Shared's Zod runtime or calls a database/application.
+import fs from 'node:fs';
+import path from 'node:path';
+import crypto from 'node:crypto';
+import { createRequire } from 'node:module';
+import { fileURLToPath } from 'node:url';
+
+const require = createRequire(import.meta.url);
+const ts = require('typescript');
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
+const files = {
+  shared: 'libs/shared/contracts/src/lib/shared-contracts.ts',
+  spec: 'libs/shared/api-spec/openapi.json',
+  surface: 'tools/rust-r4def/combined-operation-map16.json',
+};
+const buffers = Object.fromEntries(Object.entries(files).map(([key, relative]) => [key, fs.readFileSync(path.join(root, relative))]));
+const hash = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
+const assert = (condition, message) => { if (!condition) throw new Error(message); };
+const source = ts.createSourceFile(files.shared, buffers.shared.toString('utf8'), ts.ScriptTarget.Latest, true, ts.ScriptKind.TS);
+assert(source.parseDiagnostics.length === 0, 'Shared TypeScript parse failed');
+const declarations = new Map();
+for (const statement of source.statements) {
+  if (!ts.isVariableStatement(statement)) continue;
+  for (const declaration of statement.declarationList.declarations) {
+    if (ts.isIdentifier(declaration.name) && declaration.initializer) declarations.set(declaration.name.text, declaration.initializer);
+  }
+}
+const spec = JSON.parse(buffers.spec.toString('utf8'));
+const surface = JSON.parse(buffers.surface.toString('utf8'));
+assert(surface.operations.length === 67, 'Expected exactly 67 source operations');
+assert(Object.keys(spec.components.schemas).length === 624, 'Current 624-schema source changed; review/export update required');
+const allOperations = Object.values(spec.paths).flatMap(item => Object.entries(item).filter(([method]) => ['get','post','patch','put','delete','head','options','trace'].includes(method)).map(([, operation]) => operation));
+assert(allOperations.length === 293, 'Current 293-operation source changed; review/export update required');
+const scalarKinds = { R4PositiveMoneyString: 'positive-money', R4NonnegativeMoneyString: 'nonnegative-money', R4RatioString: 'ratio' };
+const querySchemas = {
+  ContractReadinessController_getDiffHistory: 'ContractSelectionQuery',
+  ContractReadinessController_getCurrentContractReadiness: 'ContractSelectionQuery',
+  ContractController_list: 'ContractListQuery',
+  ContractController_getByNo: 'ContractLookupQuery',
+};
+
+function unparen(node) {
+  while (ts.isParenthesizedExpression(node) || ts.isAsExpression(node) || ts.isTypeAssertionExpression(node) || ts.isSatisfiesExpression(node)) node = node.expression;
+  return node;
+}
+function literal(node) {
+  node = unparen(node);
+  if (ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node)) return node.text;
+  if (ts.isNumericLiteral(node)) return Number(node.text);
+  if (node.kind === ts.SyntaxKind.TrueKeyword) return true;
+  if (node.kind === ts.SyntaxKind.FalseKeyword) return false;
+  if (node.kind === ts.SyntaxKind.NullKeyword) return null;
+  if (ts.isArrayLiteralExpression(node)) return node.elements.map(literal);
+  if (ts.isObjectLiteralExpression(node)) return Object.fromEntries(node.properties.map(property => {
+    assert(ts.isPropertyAssignment(property), 'Unsupported default object property');
+    return [property.name.text, literal(property.initializer)];
+  }));
+  throw new Error(`Unsupported static default: ${node.getText(source)}`);
+}
+function atLeastOne(arrow) {
+  if (!ts.isArrowFunction(arrow) || arrow.parameters.length !== 1 || !ts.isIdentifier(arrow.parameters[0].name)) return null;
+  const parameter = arrow.parameters[0].name.text;
+  function keys(expression) {
+    expression = unparen(expression);
+    if (!ts.isBinaryExpression(expression)) return null;
+    if (expression.operatorToken.kind === ts.SyntaxKind.BarBarToken) {
+      const left = keys(expression.left), right = keys(expression.right);
+      return left && right ? [...left, ...right] : null;
+    }
+    if (expression.operatorToken.kind !== ts.SyntaxKind.ExclamationEqualsEqualsToken) return null;
+    const left = unparen(expression.left), right = unparen(expression.right);
+    return ts.isPropertyAccessExpression(left) && ts.isIdentifier(left.expression) && left.expression.text === parameter
+      && ts.isIdentifier(right) && right.text === 'undefined' ? [left.name.text] : null;
+  }
+  return keys(arrow.body);
+}
+function refineMessage(node) {
+  if (ts.isStringLiteral(node)) return node.text;
+  if (ts.isObjectLiteralExpression(node)) {
+    const entry = node.properties.find(property => ts.isPropertyAssignment(property) && property.name.text === 'message');
+    if (entry) return literal(entry.initializer);
+  }
+  throw new Error('Refinement has no statically supported message');
+}
+const observed = [];
+function annotation(node, owner) {
+  node = unparen(node);
+  // Ref nodes obtain all transformations from their own annotated component.
+  if (ts.isIdentifier(node)) return {};
+  if (!ts.isCallExpression(node) || !ts.isPropertyAccessExpression(node.expression)) return {};
+  const method = node.expression.name.text;
+  assert(['object','array','string','number','boolean','enum','literal','uuid','date','datetime','union','discriminatedUnion','strict','describe','optional','nullable','default','meta','trim','min','max','int','nonnegative','positive','gt','lt','regex','refine'].includes(method), `Unregistered Shared method ${owner}.${method}`);
+  const receiver = node.expression.expression;
+  if (method === 'object') {
+    assert(ts.isObjectLiteralExpression(node.arguments[0]), `${owner}: unsupported object construction`);
+    return { properties: Object.fromEntries(node.arguments[0].properties.map(property => {
+      assert(ts.isPropertyAssignment(property), `${owner}: unsupported object spread/shorthand`);
+      return [property.name.text, annotation(property.initializer, owner)];
+    })) };
+  }
+  if (method === 'array') return { items: annotation(node.arguments[0], owner) };
+  const result = annotation(receiver, owner);
+  if (method === 'trim') result.trim = true;
+  if (method === 'strict') result.strict = true;
+  if (method === 'default') result.default = literal(node.arguments[0]);
+  if (method === 'refine') {
+    const keys = atLeastOne(node.arguments[0]);
+    if (keys) {
+      assert(['UpdateContractBasicInfoRequest','UpdatePayableRecordRequest','UpdateInvoiceRecordRequest'].includes(owner), `Unregistered object refinement ${owner}`);
+      result.atLeastOne = { keys: [...new Set(keys)], message: refineMessage(node.arguments[1]) };
+    } else if (scalarKinds[owner]) {
+      const expression = node.arguments[0].getText(source).replace(/\s+/g, '');
+      const expected = owner === 'R4PositiveMoneyString' ? '(value)=>isR4ScaledDecimal(value,2,999999999999999999n,false)'
+        : owner === 'R4NonnegativeMoneyString' ? '(value)=>isR4ScaledDecimal(value,2,999999999999999999n,true)'
+        : '(value)=>isR4ScaledDecimal(value,4,10000n,true)';
+      assert(expression === expected, `${owner} exact scaled-decimal refinement changed`);
+      result.scalar = scalarKinds[owner];
+    } else {
+      const expression = node.arguments[0].getText(source).replace(/\s+/g, '');
+      assert(owner === 'CreateCommercialReleaseBaselineRequest'
+        && expression === '(terms)=>newSet(terms.map((term)=>term.contractId.toLowerCase())).size===terms.length', `Unsupported refinement in ${owner}: ${expression}`);
+      result.uniqueContractIds = refineMessage(node.arguments[1]);
+    }
+    observed.push({ owner, sourceLine: source.getLineAndCharacterOfPosition(node.getStart(source)).line + 1, kind: keys ? 'at-least-one' : result.scalar || 'unique-contract-id' });
+  }
+  if (['transform','superRefine','check','preprocess','catch','pipe','coerce','passthrough','catchall'].includes(method)) throw new Error(`Unsupported transformation ${owner}.${method}`);
+  return result;
+}
+function decorate(schema, meta) {
+  const output = structuredClone(schema);
+  if (meta.trim) output['x-r4-trim'] = true;
+  if (meta.strict) output['x-r4-strict'] = true;
+  if (Object.hasOwn(meta, 'default')) output.default = meta.default;
+  if (meta.scalar) output['x-r4-scalar'] = meta.scalar;
+  if (meta.atLeastOne) output['x-r4-at-least-one'] = meta.atLeastOne;
+  if (meta.uniqueContractIds) output['x-r4-unique-contract-ids'] = meta.uniqueContractIds;
+  if (meta.properties) {
+    assert(output.properties, 'AST object does not match its OpenAPI object');
+    for (const [key, child] of Object.entries(meta.properties)) {
+      assert(Object.hasOwn(output.properties, key), `AST property absent from current spec: ${key}`);
+      output.properties[key] = decorate(output.properties[key], child);
+    }
+  }
+  if (meta.items) { assert(output.items, 'AST array does not match its OpenAPI array'); output.items = decorate(output.items, meta.items); }
+  return output;
+}
+
+const components = {}, queue = [];
+function references(value) {
+  if (!value || typeof value !== 'object') return;
+  if (typeof value.$ref === 'string') {
+    assert(value.$ref.startsWith('#/components/schemas/'), `Remote/unsupported $ref ${value.$ref}`);
+    queue.push(value.$ref.slice('#/components/schemas/'.length));
+  }
+  for (const item of Object.values(value)) if (typeof item === 'object') references(item);
+}
+const operations = {};
+for (const row of surface.operations) {
+  const operation = spec.paths[row.path]?.[row.method.toLowerCase()];
+  assert(operation?.operationId === row.operationId, `Current method/path/operationId mismatch: ${row.operationId}`);
+  assert(!Object.hasOwn(operations, row.operationId), 'Duplicate operationId');
+  const body = operation.requestBody?.content?.['application/json']?.schema ?? null;
+  if (body) references(body);
+  const parameters = (operation.parameters ?? []).filter(parameter => parameter.in === 'query');
+  let query = { type: 'object', properties: Object.fromEntries(parameters.map(parameter => [parameter.name, parameter.schema])), required: parameters.filter(parameter => parameter.required).map(parameter => parameter.name) };
+  const queryName = querySchemas[row.operationId];
+  if (queryName) {
+    const declaration = declarations.get(`${queryName}Schema`);
+    assert(declaration, `Missing current Shared ${queryName}`);
+    const meta = annotation(declaration, queryName);
+    assert(JSON.stringify(Object.keys(meta.properties ?? {}).sort()) === JSON.stringify(Object.keys(query.properties).sort()), `Current query DTO and OpenAPI fields differ at ${row.operationId}`);
+    query = decorate(query, meta);
+  } else if (row.operationId === 'ProjectCostController_listProjectActualCostRecords') {
+    assert(parameters.length === 3 && parameters.every(p => ['costType','recordStatus','sourceType'].includes(p.name)), 'Unexpected cost query closure');
+    query['x-r4-strict'] = true;
+  } else assert(parameters.length === 0, `Unregistered query DTO at ${row.operationId}`);
+  references(query);
+  operations[row.operationId] = { method: row.method, path: row.path, bodyRequired: operation.requestBody?.required === true, body, query };
+}
+while (queue.length) {
+  const name = queue.shift();
+  if (Object.hasOwn(components, name)) continue;
+  assert(spec.components.schemas[name], `Missing component ${name}`);
+  const declaration = declarations.get(`${name}Schema`);
+  assert(declaration, `No current Shared schema declaration for ${name}`);
+  components[name] = decorate(spec.components.schemas[name], annotation(declaration, name));
+  if (scalarKinds[name]) assert(components[name]['x-r4-scalar'] === scalarKinds[name], `Missing exact scalar refinement ${name}`);
+  references(components[name]);
+}
+
+const supported = new Set(['$ref','type','properties','required','items','allOf','anyOf','oneOf','nullable','enum','const','minimum','maximum','exclusiveMinimum','exclusiveMaximum','minLength','maxLength','minItems','maxItems','default','format','pattern','additionalProperties','description','title','example','examples','deprecated','readOnly','writeOnly','x-r4-trim','x-r4-scalar','x-r4-at-least-one','x-r4-unique-contract-ids','x-r4-strict','x-r4-pattern-kind','discriminator']);
+const datePattern = String.raw`^(?:(?:\d\d[2468][048]|\d\d[13579][26]|\d\d0[48]|[02468][048]00|[13579][26]00)-02-29|\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\d|30)|(?:02)-(?:0[1-9]|1\d|2[0-8])))$`;
+const knownPatterns = {
+  uuid: '^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$',
+  date: datePattern,
+  'date-time': datePattern.slice(0, -1) + String.raw`T(?:(?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d(?:\.\d+)?(?:Z))$`,
+  'positive-money': String.raw`^[0-9]+(?:\.[0-9]{1,2})?$`,
+  'nonnegative-money': String.raw`^[0-9]+(?:\.[0-9]{1,2})?$`,
+  ratio: String.raw`^[0-9]+(?:\.[0-9]{1,4})?$`,
+};
+const finitePatterns = new Map([
+  ['^[A-Z]{3}
+  assert(schema && typeof schema === 'object' && !Array.isArray(schema), 'Unsupported boolean/nonobject schema');
+  for (const key of Object.keys(schema)) assert(supported.has(key), `Unsupported JSON-schema keyword ${key}`);
+  if (schema.type !== undefined) assert((Array.isArray(schema.type) ? schema.type : [schema.type]).every(type => ['object','array','string','number','integer','boolean','null'].includes(type)), 'Unsupported schema type');
+  if (schema.format) assert(['uuid','date','date-time'].includes(schema.format), `Unsupported format ${schema.format}`);
+  if (schema.pattern) {
+    if (schema.pattern !== knownPatterns[schema.format ?? schema['x-r4-scalar']]) {
+      const kind = finitePatterns.get(schema.pattern); assert(kind, `Unsupported or changed format/pattern ${schema.pattern}`);
+      schema['x-r4-pattern-kind'] = kind;
+    }
+  }
+  if (schema.anyOf || schema.oneOf) {
+    assert(!['type','properties','items','allOf','enum','const','format','pattern','minLength','maxLength','x-r4-trim','x-r4-scalar','x-r4-at-least-one','x-r4-unique-contract-ids'].some(key => Object.hasOwn(schema, key)), 'Union sibling constraints require a reviewed interpreter extension');
+  }
+  assert(schema.additionalProperties === undefined || schema.additionalProperties === false, 'Shared dictionary/passthrough requires explicit new support');
+  if (schema.properties) for (const child of Object.values(schema.properties)) admit(child);
+  if (schema.items) admit(schema.items);
+  for (const keyword of ['allOf','anyOf','oneOf']) if (schema[keyword]) for (const child of schema[keyword]) admit(child);
+}
+for (const schema of Object.values(components)) admit(schema);
+for (const operation of Object.values(operations)) { if (operation.body) admit(operation.body); admit(operation.query); }
+for (const [key, relative] of Object.entries(files)) assert(hash(fs.readFileSync(path.join(root, relative))) === hash(buffers[key]), `Source changed during export: ${relative}`);
+const output = {
+  kind: 'r4-shared67-validation-input', version: 1,
+  sourcePins: Object.entries(files).map(([key, relative]) => ({ path: relative, bytes: buffers[key].length, sha256: hash(buffers[key]) })),
+  operationCount: Object.keys(operations).length, sourceSchemaCount: Object.keys(spec.components.schemas).length,
+  operations, schemas: components, observedRefinements: observed,
+  boundary: 'Finite 67-operation OpenAPI request closure plus statically admitted Shared transformations; no general Zod/JSONSchema interpreter, no source/seed-total/tax-layer domain decisions',
+};
+fs.mkdirSync(path.join(root, 'tools/rust-r4def'), { recursive: true });
+fs.writeFileSync(path.join(root, 'tools/rust-r4def/validation-input17.json'), JSON.stringify(output, null, 2) + '\n');
+process.stdout.write(JSON.stringify({ kind: output.kind, operations: output.operationCount, schemas: Object.keys(components).length, outputSha256: hash(fs.readFileSync(path.join(root, 'tools/rust-r4def/validation-input17.json'))) }) + '\n');
+, 'currency-code'], ['^[0-9a-f]{64}
+  assert(schema && typeof schema === 'object' && !Array.isArray(schema), 'Unsupported boolean/nonobject schema');
+  for (const key of Object.keys(schema)) assert(supported.has(key), `Unsupported JSON-schema keyword ${key}`);
+  if (schema.type !== undefined) assert((Array.isArray(schema.type) ? schema.type : [schema.type]).every(type => ['object','array','string','number','integer','boolean','null'].includes(type)), 'Unsupported schema type');
+  if (schema.format) assert(['uuid','date','date-time'].includes(schema.format), `Unsupported format ${schema.format}`);
+  if (schema.pattern) {
+    if (schema.pattern !== knownPatterns[schema.format ?? schema['x-r4-scalar']]) {
+      const kind = finitePatterns.get(schema.pattern); assert(kind, `Unsupported or changed format/pattern ${schema.pattern}`);
+      schema['x-r4-pattern-kind'] = kind;
+    }
+  }
+  if (schema.anyOf || schema.oneOf) {
+    assert(!['type','properties','items','allOf','enum','const','format','pattern','minLength','maxLength','x-r4-trim','x-r4-scalar','x-r4-at-least-one','x-r4-unique-contract-ids'].some(key => Object.hasOwn(schema, key)), 'Union sibling constraints require a reviewed interpreter extension');
+  }
+  assert(schema.additionalProperties === undefined || schema.additionalProperties === false, 'Shared dictionary/passthrough requires explicit new support');
+  if (schema.properties) for (const child of Object.values(schema.properties)) admit(child);
+  if (schema.items) admit(schema.items);
+  for (const keyword of ['allOf','anyOf','oneOf']) if (schema[keyword]) for (const child of schema[keyword]) admit(child);
+}
+for (const schema of Object.values(components)) admit(schema);
+for (const operation of Object.values(operations)) { if (operation.body) admit(operation.body); admit(operation.query); }
+for (const [key, relative] of Object.entries(files)) assert(hash(fs.readFileSync(path.join(root, relative))) === hash(buffers[key]), `Source changed during export: ${relative}`);
+const output = {
+  kind: 'r4-shared67-validation-input', version: 1,
+  sourcePins: Object.entries(files).map(([key, relative]) => ({ path: relative, bytes: buffers[key].length, sha256: hash(buffers[key]) })),
+  operationCount: Object.keys(operations).length, sourceSchemaCount: Object.keys(spec.components.schemas).length,
+  operations, schemas: components, observedRefinements: observed,
+  boundary: 'Finite 67-operation OpenAPI request closure plus statically admitted Shared transformations; no general Zod/JSONSchema interpreter, no source/seed-total/tax-layer domain decisions',
+};
+fs.mkdirSync(path.join(root, 'tools/rust-r4def'), { recursive: true });
+fs.writeFileSync(path.join(root, 'tools/rust-r4def/validation-input17.json'), JSON.stringify(output, null, 2) + '\n');
+process.stdout.write(JSON.stringify({ kind: output.kind, operations: output.operationCount, schemas: Object.keys(components).length, outputSha256: hash(fs.readFileSync(path.join(root, 'tools/rust-r4def/validation-input17.json'))) }) + '\n');
+, 'sha256'],
+  ['^[a-z][a-z0-9-]*
+  assert(schema && typeof schema === 'object' && !Array.isArray(schema), 'Unsupported boolean/nonobject schema');
+  for (const key of Object.keys(schema)) assert(supported.has(key), `Unsupported JSON-schema keyword ${key}`);
+  if (schema.type !== undefined) assert((Array.isArray(schema.type) ? schema.type : [schema.type]).every(type => ['object','array','string','number','integer','boolean','null'].includes(type)), 'Unsupported schema type');
+  if (schema.format) assert(['uuid','date','date-time'].includes(schema.format), `Unsupported format ${schema.format}`);
+  if (schema.pattern) {
+    if (schema.pattern !== knownPatterns[schema.format ?? schema['x-r4-scalar']]) {
+      const kind = finitePatterns.get(schema.pattern); assert(kind, `Unsupported or changed format/pattern ${schema.pattern}`);
+      schema['x-r4-pattern-kind'] = kind;
+    }
+  }
+  if (schema.anyOf || schema.oneOf) {
+    assert(!['type','properties','items','allOf','enum','const','format','pattern','minLength','maxLength','x-r4-trim','x-r4-scalar','x-r4-at-least-one','x-r4-unique-contract-ids'].some(key => Object.hasOwn(schema, key)), 'Union sibling constraints require a reviewed interpreter extension');
+  }
+  assert(schema.additionalProperties === undefined || schema.additionalProperties === false, 'Shared dictionary/passthrough requires explicit new support');
+  if (schema.properties) for (const child of Object.values(schema.properties)) admit(child);
+  if (schema.items) admit(schema.items);
+  for (const keyword of ['allOf','anyOf','oneOf']) if (schema[keyword]) for (const child of schema[keyword]) admit(child);
+}
+for (const schema of Object.values(components)) admit(schema);
+for (const operation of Object.values(operations)) { if (operation.body) admit(operation.body); admit(operation.query); }
+for (const [key, relative] of Object.entries(files)) assert(hash(fs.readFileSync(path.join(root, relative))) === hash(buffers[key]), `Source changed during export: ${relative}`);
+const output = {
+  kind: 'r4-shared67-validation-input', version: 1,
+  sourcePins: Object.entries(files).map(([key, relative]) => ({ path: relative, bytes: buffers[key].length, sha256: hash(buffers[key]) })),
+  operationCount: Object.keys(operations).length, sourceSchemaCount: Object.keys(spec.components.schemas).length,
+  operations, schemas: components, observedRefinements: observed,
+  boundary: 'Finite 67-operation OpenAPI request closure plus statically admitted Shared transformations; no general Zod/JSONSchema interpreter, no source/seed-total/tax-layer domain decisions',
+};
+fs.mkdirSync(path.join(root, 'tools/rust-r4def'), { recursive: true });
+fs.writeFileSync(path.join(root, 'tools/rust-r4def/validation-input17.json'), JSON.stringify(output, null, 2) + '\n');
+process.stdout.write(JSON.stringify({ kind: output.kind, operations: output.operationCount, schemas: Object.keys(components).length, outputSha256: hash(fs.readFileSync(path.join(root, 'tools/rust-r4def/validation-input17.json'))) }) + '\n');
+, 'dictionary-code'],
+  [String.raw`^[0-9]{1,12}(?:\.[0-9]{1,6})?// Static exporter only. Root executes this after importing the reviewed source.
+// Never imports/evaluates Shared's Zod runtime or calls a database/application.
+import fs from 'node:fs';
+import path from 'node:path';
+import crypto from 'node:crypto';
+import { createRequire } from 'node:module';
+import { fileURLToPath } from 'node:url';
+
+const require = createRequire(import.meta.url);
+const ts = require('typescript');
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
+const files = {
+  shared: 'libs/shared/contracts/src/lib/shared-contracts.ts',
+  spec: 'libs/shared/api-spec/openapi.json',
+  surface: 'tools/rust-r4def/combined-operation-map16.json',
+};
+const buffers = Object.fromEntries(Object.entries(files).map(([key, relative]) => [key, fs.readFileSync(path.join(root, relative))]));
+const hash = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
+const assert = (condition, message) => { if (!condition) throw new Error(message); };
+const source = ts.createSourceFile(files.shared, buffers.shared.toString('utf8'), ts.ScriptTarget.Latest, true, ts.ScriptKind.TS);
+assert(source.parseDiagnostics.length === 0, 'Shared TypeScript parse failed');
+const declarations = new Map();
+for (const statement of source.statements) {
+  if (!ts.isVariableStatement(statement)) continue;
+  for (const declaration of statement.declarationList.declarations) {
+    if (ts.isIdentifier(declaration.name) && declaration.initializer) declarations.set(declaration.name.text, declaration.initializer);
+  }
+}
+const spec = JSON.parse(buffers.spec.toString('utf8'));
+const surface = JSON.parse(buffers.surface.toString('utf8'));
+assert(surface.operations.length === 67, 'Expected exactly 67 source operations');
+assert(Object.keys(spec.components.schemas).length === 624, 'Current 624-schema source changed; review/export update required');
+const allOperations = Object.values(spec.paths).flatMap(item => Object.entries(item).filter(([method]) => ['get','post','patch','put','delete','head','options','trace'].includes(method)).map(([, operation]) => operation));
+assert(allOperations.length === 293, 'Current 293-operation source changed; review/export update required');
+const scalarKinds = { R4PositiveMoneyString: 'positive-money', R4NonnegativeMoneyString: 'nonnegative-money', R4RatioString: 'ratio' };
+const querySchemas = {
+  ContractReadinessController_getDiffHistory: 'ContractSelectionQuery',
+  ContractReadinessController_getCurrentContractReadiness: 'ContractSelectionQuery',
+  ContractController_list: 'ContractListQuery',
+  ContractController_getByNo: 'ContractLookupQuery',
+};
+
+function unparen(node) {
+  while (ts.isParenthesizedExpression(node) || ts.isAsExpression(node) || ts.isTypeAssertionExpression(node) || ts.isSatisfiesExpression(node)) node = node.expression;
+  return node;
+}
+function literal(node) {
+  node = unparen(node);
+  if (ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node)) return node.text;
+  if (ts.isNumericLiteral(node)) return Number(node.text);
+  if (node.kind === ts.SyntaxKind.TrueKeyword) return true;
+  if (node.kind === ts.SyntaxKind.FalseKeyword) return false;
+  if (node.kind === ts.SyntaxKind.NullKeyword) return null;
+  if (ts.isArrayLiteralExpression(node)) return node.elements.map(literal);
+  if (ts.isObjectLiteralExpression(node)) return Object.fromEntries(node.properties.map(property => {
+    assert(ts.isPropertyAssignment(property), 'Unsupported default object property');
+    return [property.name.text, literal(property.initializer)];
+  }));
+  throw new Error(`Unsupported static default: ${node.getText(source)}`);
+}
+function atLeastOne(arrow) {
+  if (!ts.isArrowFunction(arrow) || arrow.parameters.length !== 1 || !ts.isIdentifier(arrow.parameters[0].name)) return null;
+  const parameter = arrow.parameters[0].name.text;
+  function keys(expression) {
+    expression = unparen(expression);
+    if (!ts.isBinaryExpression(expression)) return null;
+    if (expression.operatorToken.kind === ts.SyntaxKind.BarBarToken) {
+      const left = keys(expression.left), right = keys(expression.right);
+      return left && right ? [...left, ...right] : null;
+    }
+    if (expression.operatorToken.kind !== ts.SyntaxKind.ExclamationEqualsEqualsToken) return null;
+    const left = unparen(expression.left), right = unparen(expression.right);
+    return ts.isPropertyAccessExpression(left) && ts.isIdentifier(left.expression) && left.expression.text === parameter
+      && ts.isIdentifier(right) && right.text === 'undefined' ? [left.name.text] : null;
+  }
+  return keys(arrow.body);
+}
+function refineMessage(node) {
+  if (ts.isStringLiteral(node)) return node.text;
+  if (ts.isObjectLiteralExpression(node)) {
+    const entry = node.properties.find(property => ts.isPropertyAssignment(property) && property.name.text === 'message');
+    if (entry) return literal(entry.initializer);
+  }
+  throw new Error('Refinement has no statically supported message');
+}
+const observed = [];
+function annotation(node, owner) {
+  node = unparen(node);
+  // Ref nodes obtain all transformations from their own annotated component.
+  if (ts.isIdentifier(node)) return {};
+  if (!ts.isCallExpression(node) || !ts.isPropertyAccessExpression(node.expression)) return {};
+  const method = node.expression.name.text;
+  assert(['object','array','string','number','boolean','enum','literal','uuid','date','datetime','union','discriminatedUnion','strict','describe','optional','nullable','default','meta','trim','min','max','int','nonnegative','positive','gt','lt','regex','refine'].includes(method), `Unregistered Shared method ${owner}.${method}`);
+  const receiver = node.expression.expression;
+  if (method === 'object') {
+    assert(ts.isObjectLiteralExpression(node.arguments[0]), `${owner}: unsupported object construction`);
+    return { properties: Object.fromEntries(node.arguments[0].properties.map(property => {
+      assert(ts.isPropertyAssignment(property), `${owner}: unsupported object spread/shorthand`);
+      return [property.name.text, annotation(property.initializer, owner)];
+    })) };
+  }
+  if (method === 'array') return { items: annotation(node.arguments[0], owner) };
+  const result = annotation(receiver, owner);
+  if (method === 'trim') result.trim = true;
+  if (method === 'strict') result.strict = true;
+  if (method === 'default') result.default = literal(node.arguments[0]);
+  if (method === 'refine') {
+    const keys = atLeastOne(node.arguments[0]);
+    if (keys) {
+      assert(['UpdateContractBasicInfoRequest','UpdatePayableRecordRequest','UpdateInvoiceRecordRequest'].includes(owner), `Unregistered object refinement ${owner}`);
+      result.atLeastOne = { keys: [...new Set(keys)], message: refineMessage(node.arguments[1]) };
+    } else if (scalarKinds[owner]) {
+      const expression = node.arguments[0].getText(source).replace(/\s+/g, '');
+      const expected = owner === 'R4PositiveMoneyString' ? '(value)=>isR4ScaledDecimal(value,2,999999999999999999n,false)'
+        : owner === 'R4NonnegativeMoneyString' ? '(value)=>isR4ScaledDecimal(value,2,999999999999999999n,true)'
+        : '(value)=>isR4ScaledDecimal(value,4,10000n,true)';
+      assert(expression === expected, `${owner} exact scaled-decimal refinement changed`);
+      result.scalar = scalarKinds[owner];
+    } else {
+      const expression = node.arguments[0].getText(source).replace(/\s+/g, '');
+      assert(owner === 'CreateCommercialReleaseBaselineRequest'
+        && expression === '(terms)=>newSet(terms.map((term)=>term.contractId.toLowerCase())).size===terms.length', `Unsupported refinement in ${owner}: ${expression}`);
+      result.uniqueContractIds = refineMessage(node.arguments[1]);
+    }
+    observed.push({ owner, sourceLine: source.getLineAndCharacterOfPosition(node.getStart(source)).line + 1, kind: keys ? 'at-least-one' : result.scalar || 'unique-contract-id' });
+  }
+  if (['transform','superRefine','check','preprocess','catch','pipe','coerce','passthrough','catchall'].includes(method)) throw new Error(`Unsupported transformation ${owner}.${method}`);
+  return result;
+}
+function decorate(schema, meta) {
+  const output = structuredClone(schema);
+  if (meta.trim) output['x-r4-trim'] = true;
+  if (meta.strict) output['x-r4-strict'] = true;
+  if (Object.hasOwn(meta, 'default')) output.default = meta.default;
+  if (meta.scalar) output['x-r4-scalar'] = meta.scalar;
+  if (meta.atLeastOne) output['x-r4-at-least-one'] = meta.atLeastOne;
+  if (meta.uniqueContractIds) output['x-r4-unique-contract-ids'] = meta.uniqueContractIds;
+  if (meta.properties) {
+    assert(output.properties, 'AST object does not match its OpenAPI object');
+    for (const [key, child] of Object.entries(meta.properties)) {
+      assert(Object.hasOwn(output.properties, key), `AST property absent from current spec: ${key}`);
+      output.properties[key] = decorate(output.properties[key], child);
+    }
+  }
+  if (meta.items) { assert(output.items, 'AST array does not match its OpenAPI array'); output.items = decorate(output.items, meta.items); }
+  return output;
+}
+
+const components = {}, queue = [];
+function references(value) {
+  if (!value || typeof value !== 'object') return;
+  if (typeof value.$ref === 'string') {
+    assert(value.$ref.startsWith('#/components/schemas/'), `Remote/unsupported $ref ${value.$ref}`);
+    queue.push(value.$ref.slice('#/components/schemas/'.length));
+  }
+  for (const item of Object.values(value)) if (typeof item === 'object') references(item);
+}
+const operations = {};
+for (const row of surface.operations) {
+  const operation = spec.paths[row.path]?.[row.method.toLowerCase()];
+  assert(operation?.operationId === row.operationId, `Current method/path/operationId mismatch: ${row.operationId}`);
+  assert(!Object.hasOwn(operations, row.operationId), 'Duplicate operationId');
+  const body = operation.requestBody?.content?.['application/json']?.schema ?? null;
+  if (body) references(body);
+  const parameters = (operation.parameters ?? []).filter(parameter => parameter.in === 'query');
+  let query = { type: 'object', properties: Object.fromEntries(parameters.map(parameter => [parameter.name, parameter.schema])), required: parameters.filter(parameter => parameter.required).map(parameter => parameter.name) };
+  const queryName = querySchemas[row.operationId];
+  if (queryName) {
+    const declaration = declarations.get(`${queryName}Schema`);
+    assert(declaration, `Missing current Shared ${queryName}`);
+    const meta = annotation(declaration, queryName);
+    assert(JSON.stringify(Object.keys(meta.properties ?? {}).sort()) === JSON.stringify(Object.keys(query.properties).sort()), `Current query DTO and OpenAPI fields differ at ${row.operationId}`);
+    query = decorate(query, meta);
+  } else if (row.operationId === 'ProjectCostController_listProjectActualCostRecords') {
+    assert(parameters.length === 3 && parameters.every(p => ['costType','recordStatus','sourceType'].includes(p.name)), 'Unexpected cost query closure');
+    query['x-r4-strict'] = true;
+  } else assert(parameters.length === 0, `Unregistered query DTO at ${row.operationId}`);
+  references(query);
+  operations[row.operationId] = { method: row.method, path: row.path, bodyRequired: operation.requestBody?.required === true, body, query };
+}
+while (queue.length) {
+  const name = queue.shift();
+  if (Object.hasOwn(components, name)) continue;
+  assert(spec.components.schemas[name], `Missing component ${name}`);
+  const declaration = declarations.get(`${name}Schema`);
+  assert(declaration, `No current Shared schema declaration for ${name}`);
+  components[name] = decorate(spec.components.schemas[name], annotation(declaration, name));
+  if (scalarKinds[name]) assert(components[name]['x-r4-scalar'] === scalarKinds[name], `Missing exact scalar refinement ${name}`);
+  references(components[name]);
+}
+
+const supported = new Set(['$ref','type','properties','required','items','allOf','anyOf','oneOf','nullable','enum','const','minimum','maximum','exclusiveMinimum','exclusiveMaximum','minLength','maxLength','minItems','maxItems','default','format','pattern','additionalProperties','description','title','example','examples','deprecated','readOnly','writeOnly','x-r4-trim','x-r4-scalar','x-r4-at-least-one','x-r4-unique-contract-ids','x-r4-strict','x-r4-pattern-kind','discriminator']);
+const datePattern = String.raw`^(?:(?:\d\d[2468][048]|\d\d[13579][26]|\d\d0[48]|[02468][048]00|[13579][26]00)-02-29|\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\d|30)|(?:02)-(?:0[1-9]|1\d|2[0-8])))$`;
+const knownPatterns = {
+  uuid: '^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$',
+  date: datePattern,
+  'date-time': datePattern.slice(0, -1) + String.raw`T(?:(?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d(?:\.\d+)?(?:Z))$`,
+  'positive-money': String.raw`^[0-9]+(?:\.[0-9]{1,2})?$`,
+  'nonnegative-money': String.raw`^[0-9]+(?:\.[0-9]{1,2})?$`,
+  ratio: String.raw`^[0-9]+(?:\.[0-9]{1,4})?$`,
+};
+, 'weight-six'],
+  [String.raw`^[0-9]{1,16}(?:\.[0-9]{1,2})?// Static exporter only. Root executes this after importing the reviewed source.
+// Never imports/evaluates Shared's Zod runtime or calls a database/application.
+import fs from 'node:fs';
+import path from 'node:path';
+import crypto from 'node:crypto';
+import { createRequire } from 'node:module';
+import { fileURLToPath } from 'node:url';
+
+const require = createRequire(import.meta.url);
+const ts = require('typescript');
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
+const files = {
+  shared: 'libs/shared/contracts/src/lib/shared-contracts.ts',
+  spec: 'libs/shared/api-spec/openapi.json',
+  surface: 'tools/rust-r4def/combined-operation-map16.json',
+};
+const buffers = Object.fromEntries(Object.entries(files).map(([key, relative]) => [key, fs.readFileSync(path.join(root, relative))]));
+const hash = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
+const assert = (condition, message) => { if (!condition) throw new Error(message); };
+const source = ts.createSourceFile(files.shared, buffers.shared.toString('utf8'), ts.ScriptTarget.Latest, true, ts.ScriptKind.TS);
+assert(source.parseDiagnostics.length === 0, 'Shared TypeScript parse failed');
+const declarations = new Map();
+for (const statement of source.statements) {
+  if (!ts.isVariableStatement(statement)) continue;
+  for (const declaration of statement.declarationList.declarations) {
+    if (ts.isIdentifier(declaration.name) && declaration.initializer) declarations.set(declaration.name.text, declaration.initializer);
+  }
+}
+const spec = JSON.parse(buffers.spec.toString('utf8'));
+const surface = JSON.parse(buffers.surface.toString('utf8'));
+assert(surface.operations.length === 67, 'Expected exactly 67 source operations');
+assert(Object.keys(spec.components.schemas).length === 624, 'Current 624-schema source changed; review/export update required');
+const allOperations = Object.values(spec.paths).flatMap(item => Object.entries(item).filter(([method]) => ['get','post','patch','put','delete','head','options','trace'].includes(method)).map(([, operation]) => operation));
+assert(allOperations.length === 293, 'Current 293-operation source changed; review/export update required');
+const scalarKinds = { R4PositiveMoneyString: 'positive-money', R4NonnegativeMoneyString: 'nonnegative-money', R4RatioString: 'ratio' };
+const querySchemas = {
+  ContractReadinessController_getDiffHistory: 'ContractSelectionQuery',
+  ContractReadinessController_getCurrentContractReadiness: 'ContractSelectionQuery',
+  ContractController_list: 'ContractListQuery',
+  ContractController_getByNo: 'ContractLookupQuery',
+};
+
+function unparen(node) {
+  while (ts.isParenthesizedExpression(node) || ts.isAsExpression(node) || ts.isTypeAssertionExpression(node) || ts.isSatisfiesExpression(node)) node = node.expression;
+  return node;
+}
+function literal(node) {
+  node = unparen(node);
+  if (ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node)) return node.text;
+  if (ts.isNumericLiteral(node)) return Number(node.text);
+  if (node.kind === ts.SyntaxKind.TrueKeyword) return true;
+  if (node.kind === ts.SyntaxKind.FalseKeyword) return false;
+  if (node.kind === ts.SyntaxKind.NullKeyword) return null;
+  if (ts.isArrayLiteralExpression(node)) return node.elements.map(literal);
+  if (ts.isObjectLiteralExpression(node)) return Object.fromEntries(node.properties.map(property => {
+    assert(ts.isPropertyAssignment(property), 'Unsupported default object property');
+    return [property.name.text, literal(property.initializer)];
+  }));
+  throw new Error(`Unsupported static default: ${node.getText(source)}`);
+}
+function atLeastOne(arrow) {
+  if (!ts.isArrowFunction(arrow) || arrow.parameters.length !== 1 || !ts.isIdentifier(arrow.parameters[0].name)) return null;
+  const parameter = arrow.parameters[0].name.text;
+  function keys(expression) {
+    expression = unparen(expression);
+    if (!ts.isBinaryExpression(expression)) return null;
+    if (expression.operatorToken.kind === ts.SyntaxKind.BarBarToken) {
+      const left = keys(expression.left), right = keys(expression.right);
+      return left && right ? [...left, ...right] : null;
+    }
+    if (expression.operatorToken.kind !== ts.SyntaxKind.ExclamationEqualsEqualsToken) return null;
+    const left = unparen(expression.left), right = unparen(expression.right);
+    return ts.isPropertyAccessExpression(left) && ts.isIdentifier(left.expression) && left.expression.text === parameter
+      && ts.isIdentifier(right) && right.text === 'undefined' ? [left.name.text] : null;
+  }
+  return keys(arrow.body);
+}
+function refineMessage(node) {
+  if (ts.isStringLiteral(node)) return node.text;
+  if (ts.isObjectLiteralExpression(node)) {
+    const entry = node.properties.find(property => ts.isPropertyAssignment(property) && property.name.text === 'message');
+    if (entry) return literal(entry.initializer);
+  }
+  throw new Error('Refinement has no statically supported message');
+}
+const observed = [];
+function annotation(node, owner) {
+  node = unparen(node);
+  // Ref nodes obtain all transformations from their own annotated component.
+  if (ts.isIdentifier(node)) return {};
+  if (!ts.isCallExpression(node) || !ts.isPropertyAccessExpression(node.expression)) return {};
+  const method = node.expression.name.text;
+  assert(['object','array','string','number','boolean','enum','literal','uuid','date','datetime','union','discriminatedUnion','strict','describe','optional','nullable','default','meta','trim','min','max','int','nonnegative','positive','gt','lt','regex','refine'].includes(method), `Unregistered Shared method ${owner}.${method}`);
+  const receiver = node.expression.expression;
+  if (method === 'object') {
+    assert(ts.isObjectLiteralExpression(node.arguments[0]), `${owner}: unsupported object construction`);
+    return { properties: Object.fromEntries(node.arguments[0].properties.map(property => {
+      assert(ts.isPropertyAssignment(property), `${owner}: unsupported object spread/shorthand`);
+      return [property.name.text, annotation(property.initializer, owner)];
+    })) };
+  }
+  if (method === 'array') return { items: annotation(node.arguments[0], owner) };
+  const result = annotation(receiver, owner);
+  if (method === 'trim') result.trim = true;
+  if (method === 'strict') result.strict = true;
+  if (method === 'default') result.default = literal(node.arguments[0]);
+  if (method === 'refine') {
+    const keys = atLeastOne(node.arguments[0]);
+    if (keys) {
+      assert(['UpdateContractBasicInfoRequest','UpdatePayableRecordRequest','UpdateInvoiceRecordRequest'].includes(owner), `Unregistered object refinement ${owner}`);
+      result.atLeastOne = { keys: [...new Set(keys)], message: refineMessage(node.arguments[1]) };
+    } else if (scalarKinds[owner]) {
+      const expression = node.arguments[0].getText(source).replace(/\s+/g, '');
+      const expected = owner === 'R4PositiveMoneyString' ? '(value)=>isR4ScaledDecimal(value,2,999999999999999999n,false)'
+        : owner === 'R4NonnegativeMoneyString' ? '(value)=>isR4ScaledDecimal(value,2,999999999999999999n,true)'
+        : '(value)=>isR4ScaledDecimal(value,4,10000n,true)';
+      assert(expression === expected, `${owner} exact scaled-decimal refinement changed`);
+      result.scalar = scalarKinds[owner];
+    } else {
+      const expression = node.arguments[0].getText(source).replace(/\s+/g, '');
+      assert(owner === 'CreateCommercialReleaseBaselineRequest'
+        && expression === '(terms)=>newSet(terms.map((term)=>term.contractId.toLowerCase())).size===terms.length', `Unsupported refinement in ${owner}: ${expression}`);
+      result.uniqueContractIds = refineMessage(node.arguments[1]);
+    }
+    observed.push({ owner, sourceLine: source.getLineAndCharacterOfPosition(node.getStart(source)).line + 1, kind: keys ? 'at-least-one' : result.scalar || 'unique-contract-id' });
+  }
+  if (['transform','superRefine','check','preprocess','catch','pipe','coerce','passthrough','catchall'].includes(method)) throw new Error(`Unsupported transformation ${owner}.${method}`);
+  return result;
+}
+function decorate(schema, meta) {
+  const output = structuredClone(schema);
+  if (meta.trim) output['x-r4-trim'] = true;
+  if (meta.strict) output['x-r4-strict'] = true;
+  if (Object.hasOwn(meta, 'default')) output.default = meta.default;
+  if (meta.scalar) output['x-r4-scalar'] = meta.scalar;
+  if (meta.atLeastOne) output['x-r4-at-least-one'] = meta.atLeastOne;
+  if (meta.uniqueContractIds) output['x-r4-unique-contract-ids'] = meta.uniqueContractIds;
+  if (meta.properties) {
+    assert(output.properties, 'AST object does not match its OpenAPI object');
+    for (const [key, child] of Object.entries(meta.properties)) {
+      assert(Object.hasOwn(output.properties, key), `AST property absent from current spec: ${key}`);
+      output.properties[key] = decorate(output.properties[key], child);
+    }
+  }
+  if (meta.items) { assert(output.items, 'AST array does not match its OpenAPI array'); output.items = decorate(output.items, meta.items); }
+  return output;
+}
+
+const components = {}, queue = [];
+function references(value) {
+  if (!value || typeof value !== 'object') return;
+  if (typeof value.$ref === 'string') {
+    assert(value.$ref.startsWith('#/components/schemas/'), `Remote/unsupported $ref ${value.$ref}`);
+    queue.push(value.$ref.slice('#/components/schemas/'.length));
+  }
+  for (const item of Object.values(value)) if (typeof item === 'object') references(item);
+}
+const operations = {};
+for (const row of surface.operations) {
+  const operation = spec.paths[row.path]?.[row.method.toLowerCase()];
+  assert(operation?.operationId === row.operationId, `Current method/path/operationId mismatch: ${row.operationId}`);
+  assert(!Object.hasOwn(operations, row.operationId), 'Duplicate operationId');
+  const body = operation.requestBody?.content?.['application/json']?.schema ?? null;
+  if (body) references(body);
+  const parameters = (operation.parameters ?? []).filter(parameter => parameter.in === 'query');
+  let query = { type: 'object', properties: Object.fromEntries(parameters.map(parameter => [parameter.name, parameter.schema])), required: parameters.filter(parameter => parameter.required).map(parameter => parameter.name) };
+  const queryName = querySchemas[row.operationId];
+  if (queryName) {
+    const declaration = declarations.get(`${queryName}Schema`);
+    assert(declaration, `Missing current Shared ${queryName}`);
+    const meta = annotation(declaration, queryName);
+    assert(JSON.stringify(Object.keys(meta.properties ?? {}).sort()) === JSON.stringify(Object.keys(query.properties).sort()), `Current query DTO and OpenAPI fields differ at ${row.operationId}`);
+    query = decorate(query, meta);
+  } else if (row.operationId === 'ProjectCostController_listProjectActualCostRecords') {
+    assert(parameters.length === 3 && parameters.every(p => ['costType','recordStatus','sourceType'].includes(p.name)), 'Unexpected cost query closure');
+    query['x-r4-strict'] = true;
+  } else assert(parameters.length === 0, `Unregistered query DTO at ${row.operationId}`);
+  references(query);
+  operations[row.operationId] = { method: row.method, path: row.path, bodyRequired: operation.requestBody?.required === true, body, query };
+}
+while (queue.length) {
+  const name = queue.shift();
+  if (Object.hasOwn(components, name)) continue;
+  assert(spec.components.schemas[name], `Missing component ${name}`);
+  const declaration = declarations.get(`${name}Schema`);
+  assert(declaration, `No current Shared schema declaration for ${name}`);
+  components[name] = decorate(spec.components.schemas[name], annotation(declaration, name));
+  if (scalarKinds[name]) assert(components[name]['x-r4-scalar'] === scalarKinds[name], `Missing exact scalar refinement ${name}`);
+  references(components[name]);
+}
+
+const supported = new Set(['$ref','type','properties','required','items','allOf','anyOf','oneOf','nullable','enum','const','minimum','maximum','exclusiveMinimum','exclusiveMaximum','minLength','maxLength','minItems','maxItems','default','format','pattern','additionalProperties','description','title','example','examples','deprecated','readOnly','writeOnly','x-r4-trim','x-r4-scalar','x-r4-at-least-one','x-r4-unique-contract-ids','x-r4-strict','x-r4-pattern-kind','discriminator']);
+const datePattern = String.raw`^(?:(?:\d\d[2468][048]|\d\d[13579][26]|\d\d0[48]|[02468][048]00|[13579][26]00)-02-29|\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\d|30)|(?:02)-(?:0[1-9]|1\d|2[0-8])))$`;
+const knownPatterns = {
+  uuid: '^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$',
+  date: datePattern,
+  'date-time': datePattern.slice(0, -1) + String.raw`T(?:(?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d(?:\.\d+)?(?:Z))$`,
+  'positive-money': String.raw`^[0-9]+(?:\.[0-9]{1,2})?$`,
+  'nonnegative-money': String.raw`^[0-9]+(?:\.[0-9]{1,2})?$`,
+  ratio: String.raw`^[0-9]+(?:\.[0-9]{1,4})?$`,
+};
+, 'bounded-money'],
+  [String.raw`^-?[0-9]{1,16}(?:\.[0-9]{1,2})?// Static exporter only. Root executes this after importing the reviewed source.
+// Never imports/evaluates Shared's Zod runtime or calls a database/application.
+import fs from 'node:fs';
+import path from 'node:path';
+import crypto from 'node:crypto';
+import { createRequire } from 'node:module';
+import { fileURLToPath } from 'node:url';
+
+const require = createRequire(import.meta.url);
+const ts = require('typescript');
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
+const files = {
+  shared: 'libs/shared/contracts/src/lib/shared-contracts.ts',
+  spec: 'libs/shared/api-spec/openapi.json',
+  surface: 'tools/rust-r4def/combined-operation-map16.json',
+};
+const buffers = Object.fromEntries(Object.entries(files).map(([key, relative]) => [key, fs.readFileSync(path.join(root, relative))]));
+const hash = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
+const assert = (condition, message) => { if (!condition) throw new Error(message); };
+const source = ts.createSourceFile(files.shared, buffers.shared.toString('utf8'), ts.ScriptTarget.Latest, true, ts.ScriptKind.TS);
+assert(source.parseDiagnostics.length === 0, 'Shared TypeScript parse failed');
+const declarations = new Map();
+for (const statement of source.statements) {
+  if (!ts.isVariableStatement(statement)) continue;
+  for (const declaration of statement.declarationList.declarations) {
+    if (ts.isIdentifier(declaration.name) && declaration.initializer) declarations.set(declaration.name.text, declaration.initializer);
+  }
+}
+const spec = JSON.parse(buffers.spec.toString('utf8'));
+const surface = JSON.parse(buffers.surface.toString('utf8'));
+assert(surface.operations.length === 67, 'Expected exactly 67 source operations');
+assert(Object.keys(spec.components.schemas).length === 624, 'Current 624-schema source changed; review/export update required');
+const allOperations = Object.values(spec.paths).flatMap(item => Object.entries(item).filter(([method]) => ['get','post','patch','put','delete','head','options','trace'].includes(method)).map(([, operation]) => operation));
+assert(allOperations.length === 293, 'Current 293-operation source changed; review/export update required');
+const scalarKinds = { R4PositiveMoneyString: 'positive-money', R4NonnegativeMoneyString: 'nonnegative-money', R4RatioString: 'ratio' };
+const querySchemas = {
+  ContractReadinessController_getDiffHistory: 'ContractSelectionQuery',
+  ContractReadinessController_getCurrentContractReadiness: 'ContractSelectionQuery',
+  ContractController_list: 'ContractListQuery',
+  ContractController_getByNo: 'ContractLookupQuery',
+};
+
+function unparen(node) {
+  while (ts.isParenthesizedExpression(node) || ts.isAsExpression(node) || ts.isTypeAssertionExpression(node) || ts.isSatisfiesExpression(node)) node = node.expression;
+  return node;
+}
+function literal(node) {
+  node = unparen(node);
+  if (ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node)) return node.text;
+  if (ts.isNumericLiteral(node)) return Number(node.text);
+  if (node.kind === ts.SyntaxKind.TrueKeyword) return true;
+  if (node.kind === ts.SyntaxKind.FalseKeyword) return false;
+  if (node.kind === ts.SyntaxKind.NullKeyword) return null;
+  if (ts.isArrayLiteralExpression(node)) return node.elements.map(literal);
+  if (ts.isObjectLiteralExpression(node)) return Object.fromEntries(node.properties.map(property => {
+    assert(ts.isPropertyAssignment(property), 'Unsupported default object property');
+    return [property.name.text, literal(property.initializer)];
+  }));
+  throw new Error(`Unsupported static default: ${node.getText(source)}`);
+}
+function atLeastOne(arrow) {
+  if (!ts.isArrowFunction(arrow) || arrow.parameters.length !== 1 || !ts.isIdentifier(arrow.parameters[0].name)) return null;
+  const parameter = arrow.parameters[0].name.text;
+  function keys(expression) {
+    expression = unparen(expression);
+    if (!ts.isBinaryExpression(expression)) return null;
+    if (expression.operatorToken.kind === ts.SyntaxKind.BarBarToken) {
+      const left = keys(expression.left), right = keys(expression.right);
+      return left && right ? [...left, ...right] : null;
+    }
+    if (expression.operatorToken.kind !== ts.SyntaxKind.ExclamationEqualsEqualsToken) return null;
+    const left = unparen(expression.left), right = unparen(expression.right);
+    return ts.isPropertyAccessExpression(left) && ts.isIdentifier(left.expression) && left.expression.text === parameter
+      && ts.isIdentifier(right) && right.text === 'undefined' ? [left.name.text] : null;
+  }
+  return keys(arrow.body);
+}
+function refineMessage(node) {
+  if (ts.isStringLiteral(node)) return node.text;
+  if (ts.isObjectLiteralExpression(node)) {
+    const entry = node.properties.find(property => ts.isPropertyAssignment(property) && property.name.text === 'message');
+    if (entry) return literal(entry.initializer);
+  }
+  throw new Error('Refinement has no statically supported message');
+}
+const observed = [];
+function annotation(node, owner) {
+  node = unparen(node);
+  // Ref nodes obtain all transformations from their own annotated component.
+  if (ts.isIdentifier(node)) return {};
+  if (!ts.isCallExpression(node) || !ts.isPropertyAccessExpression(node.expression)) return {};
+  const method = node.expression.name.text;
+  assert(['object','array','string','number','boolean','enum','literal','uuid','date','datetime','union','discriminatedUnion','strict','describe','optional','nullable','default','meta','trim','min','max','int','nonnegative','positive','gt','lt','regex','refine'].includes(method), `Unregistered Shared method ${owner}.${method}`);
+  const receiver = node.expression.expression;
+  if (method === 'object') {
+    assert(ts.isObjectLiteralExpression(node.arguments[0]), `${owner}: unsupported object construction`);
+    return { properties: Object.fromEntries(node.arguments[0].properties.map(property => {
+      assert(ts.isPropertyAssignment(property), `${owner}: unsupported object spread/shorthand`);
+      return [property.name.text, annotation(property.initializer, owner)];
+    })) };
+  }
+  if (method === 'array') return { items: annotation(node.arguments[0], owner) };
+  const result = annotation(receiver, owner);
+  if (method === 'trim') result.trim = true;
+  if (method === 'strict') result.strict = true;
+  if (method === 'default') result.default = literal(node.arguments[0]);
+  if (method === 'refine') {
+    const keys = atLeastOne(node.arguments[0]);
+    if (keys) {
+      assert(['UpdateContractBasicInfoRequest','UpdatePayableRecordRequest','UpdateInvoiceRecordRequest'].includes(owner), `Unregistered object refinement ${owner}`);
+      result.atLeastOne = { keys: [...new Set(keys)], message: refineMessage(node.arguments[1]) };
+    } else if (scalarKinds[owner]) {
+      const expression = node.arguments[0].getText(source).replace(/\s+/g, '');
+      const expected = owner === 'R4PositiveMoneyString' ? '(value)=>isR4ScaledDecimal(value,2,999999999999999999n,false)'
+        : owner === 'R4NonnegativeMoneyString' ? '(value)=>isR4ScaledDecimal(value,2,999999999999999999n,true)'
+        : '(value)=>isR4ScaledDecimal(value,4,10000n,true)';
+      assert(expression === expected, `${owner} exact scaled-decimal refinement changed`);
+      result.scalar = scalarKinds[owner];
+    } else {
+      const expression = node.arguments[0].getText(source).replace(/\s+/g, '');
+      assert(owner === 'CreateCommercialReleaseBaselineRequest'
+        && expression === '(terms)=>newSet(terms.map((term)=>term.contractId.toLowerCase())).size===terms.length', `Unsupported refinement in ${owner}: ${expression}`);
+      result.uniqueContractIds = refineMessage(node.arguments[1]);
+    }
+    observed.push({ owner, sourceLine: source.getLineAndCharacterOfPosition(node.getStart(source)).line + 1, kind: keys ? 'at-least-one' : result.scalar || 'unique-contract-id' });
+  }
+  if (['transform','superRefine','check','preprocess','catch','pipe','coerce','passthrough','catchall'].includes(method)) throw new Error(`Unsupported transformation ${owner}.${method}`);
+  return result;
+}
+function decorate(schema, meta) {
+  const output = structuredClone(schema);
+  if (meta.trim) output['x-r4-trim'] = true;
+  if (meta.strict) output['x-r4-strict'] = true;
+  if (Object.hasOwn(meta, 'default')) output.default = meta.default;
+  if (meta.scalar) output['x-r4-scalar'] = meta.scalar;
+  if (meta.atLeastOne) output['x-r4-at-least-one'] = meta.atLeastOne;
+  if (meta.uniqueContractIds) output['x-r4-unique-contract-ids'] = meta.uniqueContractIds;
+  if (meta.properties) {
+    assert(output.properties, 'AST object does not match its OpenAPI object');
+    for (const [key, child] of Object.entries(meta.properties)) {
+      assert(Object.hasOwn(output.properties, key), `AST property absent from current spec: ${key}`);
+      output.properties[key] = decorate(output.properties[key], child);
+    }
+  }
+  if (meta.items) { assert(output.items, 'AST array does not match its OpenAPI array'); output.items = decorate(output.items, meta.items); }
+  return output;
+}
+
+const components = {}, queue = [];
+function references(value) {
+  if (!value || typeof value !== 'object') return;
+  if (typeof value.$ref === 'string') {
+    assert(value.$ref.startsWith('#/components/schemas/'), `Remote/unsupported $ref ${value.$ref}`);
+    queue.push(value.$ref.slice('#/components/schemas/'.length));
+  }
+  for (const item of Object.values(value)) if (typeof item === 'object') references(item);
+}
+const operations = {};
+for (const row of surface.operations) {
+  const operation = spec.paths[row.path]?.[row.method.toLowerCase()];
+  assert(operation?.operationId === row.operationId, `Current method/path/operationId mismatch: ${row.operationId}`);
+  assert(!Object.hasOwn(operations, row.operationId), 'Duplicate operationId');
+  const body = operation.requestBody?.content?.['application/json']?.schema ?? null;
+  if (body) references(body);
+  const parameters = (operation.parameters ?? []).filter(parameter => parameter.in === 'query');
+  let query = { type: 'object', properties: Object.fromEntries(parameters.map(parameter => [parameter.name, parameter.schema])), required: parameters.filter(parameter => parameter.required).map(parameter => parameter.name) };
+  const queryName = querySchemas[row.operationId];
+  if (queryName) {
+    const declaration = declarations.get(`${queryName}Schema`);
+    assert(declaration, `Missing current Shared ${queryName}`);
+    const meta = annotation(declaration, queryName);
+    assert(JSON.stringify(Object.keys(meta.properties ?? {}).sort()) === JSON.stringify(Object.keys(query.properties).sort()), `Current query DTO and OpenAPI fields differ at ${row.operationId}`);
+    query = decorate(query, meta);
+  } else if (row.operationId === 'ProjectCostController_listProjectActualCostRecords') {
+    assert(parameters.length === 3 && parameters.every(p => ['costType','recordStatus','sourceType'].includes(p.name)), 'Unexpected cost query closure');
+    query['x-r4-strict'] = true;
+  } else assert(parameters.length === 0, `Unregistered query DTO at ${row.operationId}`);
+  references(query);
+  operations[row.operationId] = { method: row.method, path: row.path, bodyRequired: operation.requestBody?.required === true, body, query };
+}
+while (queue.length) {
+  const name = queue.shift();
+  if (Object.hasOwn(components, name)) continue;
+  assert(spec.components.schemas[name], `Missing component ${name}`);
+  const declaration = declarations.get(`${name}Schema`);
+  assert(declaration, `No current Shared schema declaration for ${name}`);
+  components[name] = decorate(spec.components.schemas[name], annotation(declaration, name));
+  if (scalarKinds[name]) assert(components[name]['x-r4-scalar'] === scalarKinds[name], `Missing exact scalar refinement ${name}`);
+  references(components[name]);
+}
+
+const supported = new Set(['$ref','type','properties','required','items','allOf','anyOf','oneOf','nullable','enum','const','minimum','maximum','exclusiveMinimum','exclusiveMaximum','minLength','maxLength','minItems','maxItems','default','format','pattern','additionalProperties','description','title','example','examples','deprecated','readOnly','writeOnly','x-r4-trim','x-r4-scalar','x-r4-at-least-one','x-r4-unique-contract-ids','x-r4-strict','x-r4-pattern-kind','discriminator']);
+const datePattern = String.raw`^(?:(?:\d\d[2468][048]|\d\d[13579][26]|\d\d0[48]|[02468][048]00|[13579][26]00)-02-29|\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\d|30)|(?:02)-(?:0[1-9]|1\d|2[0-8])))$`;
+const knownPatterns = {
+  uuid: '^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$',
+  date: datePattern,
+  'date-time': datePattern.slice(0, -1) + String.raw`T(?:(?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d(?:\.\d+)?(?:Z))$`,
+  'positive-money': String.raw`^[0-9]+(?:\.[0-9]{1,2})?$`,
+  'nonnegative-money': String.raw`^[0-9]+(?:\.[0-9]{1,2})?$`,
+  ratio: String.raw`^[0-9]+(?:\.[0-9]{1,4})?$`,
+};
+, 'signed-bounded-money'],
+]);
+function admit(schema) {
+  assert(schema && typeof schema === 'object' && !Array.isArray(schema), 'Unsupported boolean/nonobject schema');
+  for (const key of Object.keys(schema)) assert(supported.has(key), `Unsupported JSON-schema keyword ${key}`);
+  if (schema.type !== undefined) assert((Array.isArray(schema.type) ? schema.type : [schema.type]).every(type => ['object','array','string','number','integer','boolean','null'].includes(type)), 'Unsupported schema type');
+  if (schema.format) assert(['uuid','date','date-time'].includes(schema.format), `Unsupported format ${schema.format}`);
+  if (schema.pattern) {
+    if (schema.pattern !== knownPatterns[schema.format ?? schema['x-r4-scalar']]) {
+      const kind = finitePatterns.get(schema.pattern); assert(kind, `Unsupported or changed format/pattern ${schema.pattern}`);
+      schema['x-r4-pattern-kind'] = kind;
+    }
+  }
+  if (schema.anyOf || schema.oneOf) {
+    assert(!['type','properties','items','allOf','enum','const','format','pattern','minLength','maxLength','x-r4-trim','x-r4-scalar','x-r4-at-least-one','x-r4-unique-contract-ids'].some(key => Object.hasOwn(schema, key)), 'Union sibling constraints require a reviewed interpreter extension');
+  }
+  assert(schema.additionalProperties === undefined || schema.additionalProperties === false, 'Shared dictionary/passthrough requires explicit new support');
+  if (schema.properties) for (const child of Object.values(schema.properties)) admit(child);
+  if (schema.items) admit(schema.items);
+  for (const keyword of ['allOf','anyOf','oneOf']) if (schema[keyword]) for (const child of schema[keyword]) admit(child);
+}
+for (const schema of Object.values(components)) admit(schema);
+for (const operation of Object.values(operations)) { if (operation.body) admit(operation.body); admit(operation.query); }
+for (const [key, relative] of Object.entries(files)) assert(hash(fs.readFileSync(path.join(root, relative))) === hash(buffers[key]), `Source changed during export: ${relative}`);
+const output = {
+  kind: 'r4-shared67-validation-input', version: 1,
+  sourcePins: Object.entries(files).map(([key, relative]) => ({ path: relative, bytes: buffers[key].length, sha256: hash(buffers[key]) })),
+  operationCount: Object.keys(operations).length, sourceSchemaCount: Object.keys(spec.components.schemas).length,
+  operations, schemas: components, observedRefinements: observed,
+  boundary: 'Finite 67-operation OpenAPI request closure plus statically admitted Shared transformations; no general Zod/JSONSchema interpreter, no source/seed-total/tax-layer domain decisions',
+};
+fs.mkdirSync(path.join(root, 'tools/rust-r4def'), { recursive: true });
+fs.writeFileSync(path.join(root, 'tools/rust-r4def/validation-input17.json'), JSON.stringify(output, null, 2) + '\n');
+process.stdout.write(JSON.stringify({ kind: output.kind, operations: output.operationCount, schemas: Object.keys(components).length, outputSha256: hash(fs.readFileSync(path.join(root, 'tools/rust-r4def/validation-input17.json'))) }) + '\n');

@@ -1,0 +1,7 @@
+{
+  "kind": "K98-manifest-runner-shape-error-preserved",
+  "error": "PowerShell serializes the single store fingerprint as an object, while the initial sealer expected an array",
+  "actualRustChecksPassed": true,
+  "productSourceChangedForCorrection": false,
+  "correction": "Accept the actual single-object receipt without rewriting the original receipt or rerunning unchanged Rust checks"
+}

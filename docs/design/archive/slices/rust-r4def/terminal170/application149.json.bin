@@ -1,0 +1,81 @@
+{
+  "kind": "Root-controlled-cleanup-wrapper125a-actual-receipt",
+  "mode": "apply",
+  "phase": "apply-rust",
+  "reports": [
+    {
+      "backend": "native",
+      "mode": "apply",
+      "actualApplied": {
+        "file": "/home/wangzishi/.local/share/poms-r4def/private/cleanup-wrapper125a-149/native-actual-actions-commit-ACK.json",
+        "bytes": 794,
+        "rawBytesSha256": "3a988d7235251aa8b40ee90396efa0d2cbfa1d50b7dcad4907b67c2f2a39bf0f"
+      },
+      "actualTwoNoOps": [
+        {
+          "baselineExact": true,
+          "tables": 120,
+          "rows": 532,
+          "graphHash": "54138332e020e94dc6ac926f3d1ebda24f52dae09ad52fa5f873eff70516ea85",
+          "catalogHash": "11769dbe4c5a5708754a941064a5d8e031d0e32e178f099797c751ac68009081",
+          "guardsHash": "0ea5ca0ff92cdd68a019555c7a056e07ec642d2ebd2bfad3aa940a379f90d3c2",
+          "receiptId": "/home/wangzishi/.local/share/poms-r4def/private/cleanup-wrapper125a-149/native-postcommit-noop-1.json"
+        },
+        {
+          "baselineExact": true,
+          "tables": 120,
+          "rows": 532,
+          "graphHash": "54138332e020e94dc6ac926f3d1ebda24f52dae09ad52fa5f873eff70516ea85",
+          "catalogHash": "11769dbe4c5a5708754a941064a5d8e031d0e32e178f099797c751ac68009081",
+          "guardsHash": "0ea5ca0ff92cdd68a019555c7a056e07ec642d2ebd2bfad3aa940a379f90d3c2",
+          "receiptId": "/home/wangzishi/.local/share/poms-r4def/private/cleanup-wrapper125a-149/native-postcommit-noop-2.json"
+        }
+      ],
+      "deletedRows": 0,
+      "restoredBorrowedOriginals": 0,
+      "outerCommitAcknowledged": true
+    },
+    {
+      "backend": "rust",
+      "mode": "apply",
+      "actualApplied": {
+        "file": "/home/wangzishi/.local/share/poms-r4def/private/cleanup-wrapper125a-149/rust-actual-actions-commit-ACK.json",
+        "bytes": 866394,
+        "rawBytesSha256": "9b635e1598a524587c61b15db62de8d796add20cb7870a119be37a07846fb7c7"
+      },
+      "actualTwoNoOps": [
+        {
+          "baselineExact": true,
+          "tables": 120,
+          "rows": 532,
+          "graphHash": "9060fe62c9369ffab4f3b59a8029ea391947ec2022e9e3d6b4f554f4919285e9",
+          "catalogHash": "11769dbe4c5a5708754a941064a5d8e031d0e32e178f099797c751ac68009081",
+          "guardsHash": "8a510c1c5fba8fc49fad3ccc8bf05e635326a185d77c41034283d750f26e0eff",
+          "receiptId": "/home/wangzishi/.local/share/poms-r4def/private/cleanup-wrapper125a-149/rust-postcommit-noop-1.json"
+        },
+        {
+          "baselineExact": true,
+          "tables": 120,
+          "rows": 532,
+          "graphHash": "9060fe62c9369ffab4f3b59a8029ea391947ec2022e9e3d6b4f554f4919285e9",
+          "catalogHash": "11769dbe4c5a5708754a941064a5d8e031d0e32e178f099797c751ac68009081",
+          "guardsHash": "8a510c1c5fba8fc49fad3ccc8bf05e635326a185d77c41034283d750f26e0eff",
+          "receiptId": "/home/wangzishi/.local/share/poms-r4def/private/cleanup-wrapper125a-149/rust-postcommit-noop-2.json"
+        }
+      ],
+      "deletedRows": 2673,
+      "restoredBorrowedOriginals": 3,
+      "outerCommitAcknowledged": true
+    }
+  ],
+  "actions": [],
+  "DBOrDMLExecutedBy": "Root explicit entry only",
+  "authorExecution": false,
+  "objectsHandled": false,
+  "servicesStoppedByWrapper": false,
+  "mainDatabaseDropped": false,
+  "constraintsDisabled": false,
+  "rawRowsOrPasswordsPublished": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

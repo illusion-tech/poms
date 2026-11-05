@@ -1,0 +1,41 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T02:43:03.508Z",
+  "completedAt": "2026-11-04T02:43:03.608Z",
+  "operationId": "ProjectCostController_reclassifyCostStageAttribution",
+  "method": "POST",
+  "path": "/api/cost-stage-attributions/9bbdf91a-d55b-44de-be2d-6295ab282220:reclassify",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-01112-ce7000c9",
+  "requestBody": {
+    "newAttributedStage": "handover",
+    "expectedVersion": 1,
+    "reclassifyReason": "按本次真实移交确认的日期及版本更正归属；保留原人工判断链",
+    "attributionEvidence": {
+      "kind": "source",
+      "sourceType": "project-handover",
+      "sourceId": "1cae4c15-d637-442a-b320-ad78336b197d",
+      "sourceVersion": 2,
+      "businessDate": "2026-11-04",
+      "reason": "真实D已确认移交事实，仅用于handover日期，不推断execution区间"
+    }
+  },
+  "status": 201,
+  "responseBody": {
+    "approvalRecordId": null,
+    "attributionSnapshotId": "a47ac791-e9b5-46b9-a2d5-64c8cb3dfd94",
+    "businessStatusAfter": "active",
+    "confirmationRecordId": null,
+    "costRecordId": "a9f41b40-6599-4c22-affc-111ee41b7bec",
+    "evidenceId": "2ac40c0a-c5e9-4914-ad25-45250f009139",
+    "resultStatus": "success",
+    "supersedesAttributionId": "9bbdf91a-d55b-44de-be2d-6295ab282220",
+    "targetId": "a47ac791-e9b5-46b9-a2d5-64c8cb3dfd94",
+    "targetType": "CostStageAttributionSnapshot",
+    "todoItemIds": []
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

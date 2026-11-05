@@ -1,0 +1,53 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:05:19.190Z",
+  "completedAt": "2026-11-04T00:05:19.203Z",
+  "operationId": "AuthController_getCurrentAuthSession",
+  "method": "GET",
+  "path": "/api/auth/session",
+  "query": {},
+  "actorKey": "operatingOnly",
+  "actorId": "5f22da8a-3802-4a59-97d5-27527ca2e854",
+  "requestId": "r4def32-00138-0ec02cdb",
+  "requestBody": null,
+  "status": 200,
+  "responseBody": {
+    "authenticated": true,
+    "csrf": {
+      "cookieName": "poms_csrf",
+      "headerName": "X-CSRF-Token"
+    },
+    "expiresAt": "2026-11-04T00:20:19.171Z",
+    "permissions": [
+      "project:read",
+      "contract:finance:manage",
+      "platform:users:manage",
+      "operating:finance:sensitive:read"
+    ],
+    "status": "active",
+    "user": {
+      "avatarUrl": null,
+      "displayName": "R4DEF33 operatingOnly",
+      "email": null,
+      "emailVerified": false,
+      "id": "5f22da8a-3802-4a59-97d5-27527ca2e854",
+      "isActive": true,
+      "lastLoginAt": null,
+      "orgUnits": [],
+      "permissions": [
+        "project:read",
+        "contract:finance:manage",
+        "platform:users:manage",
+        "operating:finance:sensitive:read"
+      ],
+      "phone": null,
+      "phoneVerified": false,
+      "roles": [
+        "R4DEF33 operatingOnly"
+      ],
+      "username": "r4def33_operatingonly"
+    }
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

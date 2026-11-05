@@ -1,0 +1,26 @@
+
+> nx run poms-api:lint
+
+(node:48432) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+The `@nx/eslint:lint` executor is deprecated and will be removed in Nx v24. Run `nx g @nx/eslint:convert-to-inferred` to migrate to the `@nx/eslint/plugin` inferred targets. See https://nx.dev/docs/guides/tasks--caching/convert-to-inferred for details.
+Linting "poms-api"...
+[0m
+[4mE:\projects\worktrees\poms-r3hijk-next28\poms\apps\poms-api\src\app\features\contract-readiness\contract-readiness.service.ts[24m
+  [2m132:51[22m  [33mwarning[39m  '_selection' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m
+  [2m289:70[22m  [33mwarning[39m  '_selection' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m
+[4mE:\projects\worktrees\poms-r3hijk-next28\poms\apps\poms-api\src\app\features\project-cost\project-actual-cost-record.entity.ts[24m
+  [2m8:5[22m  [33mwarning[39m  'ProjectActualCostTypeValue' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m
+[33m[1m✖ 3 problems (0 errors, 3 warnings)[22m[39m
+[0m
+✖ 3 problems (0 errors, 3 warnings)
+
+
+
+ NX   Successfully ran target lint for project poms-api
+
+
+  Run duration:      6.5s
+  Cache:             Skipped (--skip-nx-cache)
+  Critical path:     6.5s (1 task)
+  Recoverable time:  <1ms

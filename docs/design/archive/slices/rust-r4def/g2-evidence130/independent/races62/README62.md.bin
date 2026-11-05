@@ -1,0 +1,62 @@
+**races62：纯 request-only 候选，全部 not-run，不认证 G3。**
+
+导入 `request-driver62.mjs` 无 I/O。它只通过 Root 注入的 `request`、`runRace`、`observe` 回调工作，不导入产品算法、数据库驱动、配置、凭据或网络客户端，不自动登录、不安装故障、不重试 HTTP。Root 独占隔离验收项目，并统一记录原始请求、屏障、PG读回、清理。
+
+9项覆盖7类核心竞争：重复 C→E 映射、expense void/map、labor替代、同cost阶段确认、同阶段前驱更正、同tax前驱替代、同basis完整批替代、[A,B]/[B,C]交叉占用、同源集/反序rate-family锁。每例新建真实 C/E/F 来源；不修改已验收 F60 资源，也不把 SQL 插入当业务producer。
+
+```js
+import { createRaces62 } from './request-driver62.mjs';
+// publicContext 可从 F60-before.context 派生，Root先核实际当前状态。
+const suite = createRaces62({
+  ...publicContext,
+  tag: 'r62unique1',
+  raceActors: { A: h.actor('fullRaceA'), B: h.actor('fullRaceB') },
+  sessionProof: { receiptId: 'Root实际会话见证路径', userId, A: actualSessionIdA, B: actualSessionIdB },
+}, { request: h.request, runRace: h.runRace, observe: h.observe });
+// 在执行前保存 suite.manifest()，其状态为 not-run。
+// 只有 Root 在实际环境调用 run；此候选的准备者没有调用。
+const result = await suite.run();
+```
+
+`publicContext` 必须提供真实 `project`、`otherProject`、同项目 Active `activeContract`、已启用字典 `expenseCategory/costCategory`、显式 `businessDate`、`stageAssessment`（execution、真实责任说明）及 `taxReason`。阶段更正还会真实 GET 当前 D，必须已有 confirmed handover；不满足时保留未执行/失败，不造 source。tag 为新的1–16位ASCII字母数字/横线，每个case只执行一次。发生未知结果后不得重新调用原 suite 或盲重放已ACK的setup；Root解析当前真实状态并另留续跑记录。
+
+两个 worker 必须是**同一实际full用户的两个独立登录会话**，不同 actor key、不同真实 auth_session UUID；cookie、密码、CSRF值仍留在 Root私密状态，候选和公共回执只用不含秘密的用户/会话ID及独立见证路径。不要误用两个不同用户来绕过同用户路径，也不要复用一个会话引入无关managed-auth CAS竞争。
+
+回调契约：
+
+- `request(op,id,body,actor,meta)` 沿现有api32调用约定，返回 `{status,body,receiptId,requestId}`；setup/readback均需真实HTTP。调用禁止自动重试。
+- `runRace({A:{op,id,body,actor},B:{...}}, meta)` 必须由Root预持实际锁，再启动两次真实请求，保存两个真实response及 `barrierProof`。不得Promise启动后睡眠一段就当并发成立。
+- `barrierProof` 至少包含 `{realPostgres:true,receiptId,heldBeforeRequests:true,bothObservedBeforeRelease:true,released:true,waiters:[{pid,granted:false},...]}`，恰有两个不同PG PID。回执应保存实际gate目标、wait_event、queries和当时仅这两个待测请求在途的归属证明。
+- family例还要求 `sameCanonicalFirst:true`、`noHigherFamilyHeldBeforeFirst:true`。Root用实际rate行的 `rate_key` 取 `hashtextextended('poms:cost-rate:'||rate_key,0)`，按现生产的文本key排序/dedupe持gate。两worker必须都阻塞在同一canonical第一族，不能仅证明它们各自任意等待；保存是否已持有后续族的pg_locks，避免把ABBA隐藏成成功。
+- `observe({phase,caseId,scope,expected,pair?,assertions,beforeReceiptId?})` 是Root真实只读PG观察，返回 `{realPostgres:true,receiptId,assertions:[{id,passed,actual,expected,...}]}`。before至少保留源/旧证据/头指针基线；after逐一实现下表及SQL规范，保存绑定ID、原查询结果或安全摘要及精确实际/预期。不得只手填passed或从赢家HTTP结果反求金额。
+
+屏障选择：前8例的 `gate.kind=project-row`，使用真实项目行锁，证明两方在业务逻辑进入相同资源的阶段等待后放行。第9例 `rate-family-advisory` 使用真实生产family锁，不创建一个没有被生产代码调用的“测试锁”。Root负责锁超时、未知结果及终端清理；失败不能杀生产backend、删表或改预期来伪装通过。回执没有可证明屏障则not-run/failed，不能按时间猜测。
+
+固定金额见证（不调用生产分摊函数）：
+
+- procurement：net100.00/tax6.00/gross106.00。
+- expense：net0.11/tax0.01/gross0.12。
+- labor：17.2850×3.00=51.86；竞争替代A为4.00→69.14、B为5.00→86.43，均精确HALF_UP。
+- 完整basis初始1:1：gross0.06/0.06；较小UUID的net0.06/tax0，另一net0.05/tax0.01。替代A为1:2：4/8分（net4/7、tax0/1）；B为1:4：2/10分（net2/9、tax0/1）。两份始终完整，旧batch全替代。
+- overlap两源各0.12：totals net0.22/tax0.02/gross0.24，两项目各net0.11/tax0.01/gross0.12。
+- family两人工分别0.5000×0.02与1.0000×0.01，各0.01；整组net0.02/tax0/gross0.02，每项目net0.01/tax0/gross0.01。
+
+按标准UUID文本小写排序与UUID字节序一致，此处仅用于固定同价分币的身份归属；不使用舍入后的ratio算金额。所有新fact均保持 `is_included_in_project_cost=false`，阶段确认不是R5执行准入。
+
+PG断言（代码中的稳定ID是必需集合）：
+
+| case | 允许的真实状态组合 | PG必须证明 |
+| --- | --- | --- |
+| 01 | 一个201、另一个409 | 一个current映射、赢家registered固定100/6/106、C源未改、一次业务编号/成功audit，输家无孤儿 |
+| 02 | map201+void422，或map409+void200 | 前者source confirmed且唯一映射；后者source voided且无current映射，绝不voided source配current cost |
+| 03 | 一个201、另一个409 | 原labor只replaced一次，单后继/单current期间，按赢家69.14或86.43，原basis/rate不改 |
+| 04 | 一个201、另一个409 | 同cost唯一active阶段，registered→confirmed只推进一次版本；真实actor/time/lock/归属指针同事务 |
+| 05 | 一个201、另一个409 | 原stage只superseded一次、唯一新head，cost只加一版本且首次confirmer/time不改，旧证据hash不改 |
+| 06 | 一个201、另一个409 | tax前驱单继任，当前deductible impact=-0.01/pending=0，旧payload/hash及源金额不改 |
+| 07 | 一个201、另一个409 | 原basis和每份old result全部superseded，恰两份完整新结果、逐项目前驱正确，current source占用整批搬迁且三层守恒 |
+| 08 | 一个201、另一个409 | 只赢家[A,B]或[B,C]有current占用，共用B一次、输家exclusive源无占用，没有半basis/半results/evidence |
+| 09 | 一个201、另一个409 | 无ABBA/无40P01或500，canonical family proof，same-set仅一basis，2分守恒、rate和E capture原样 |
+
+所有case还检查输家没有business success audit/evidence/新版本残留；认证、安全事件可按真实拒绝规则存在，不能把它们当业务孤儿。完整分摊和每份新结果须policy v2且canonical hash匹配；旧basis/result/evidence不得被新算法重算。Root可复用已经实际工作的120表观察与proof-F61，但本候选没有执行那些工具。
+
+参见 `readback62.sql` 的只读模板。模板不负责连接、持锁、生产业务事实或授予权限，不能单独作为运行通过证据。

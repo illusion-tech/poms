@@ -1,0 +1,22 @@
+{
+  "kind": "owned-UI-actor-role-fixture-delta",
+  "before": [
+    "project:read",
+    "project:write",
+    "nav:projects:view",
+    "nav:contracts:view",
+    "nav:attachments:view"
+  ],
+  "after": [
+    "project:read",
+    "project:write",
+    "nav:projects:view",
+    "nav:contracts:view",
+    "nav:attachments:view",
+    "contract:finance:sensitive:read"
+  ],
+  "hasProjectWrite": true,
+  "hasFinanceManage": false,
+  "hasContractSensitiveRead": true,
+  "receiptId": "tmp/rust-r4def/root/api32/00615-PlatformController_assignRolePermissions.json"
+}

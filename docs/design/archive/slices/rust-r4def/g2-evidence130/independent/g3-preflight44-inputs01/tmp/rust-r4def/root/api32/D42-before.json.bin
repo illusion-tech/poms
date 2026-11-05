@@ -1,0 +1,163 @@
+{
+  "context": {
+    "project": {
+      "allowedActions": [
+        "view-project-workspace",
+        "edit-project-basic-info",
+        "reassign-project-owner"
+      ],
+      "closedAt": null,
+      "closedReason": null,
+      "createdAt": "2026-11-03T23:52:40.709Z",
+      "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "currentApprovalSummary": {
+        "exportPolicy": null,
+        "generatedAt": null,
+        "projectionLevel": null,
+        "summaryPackageKey": null,
+        "summarySnapshotId": null
+      },
+      "currentBidSummary": {
+        "bidPackageNo": null,
+        "bidProcessId": "c99f3e97-f50b-4b24-96b2-1687ca81ea68",
+        "bidStatus": "negotiating",
+        "resultStatus": "pending",
+        "summary": "R4-def36真实商务过程",
+        "tenderNo": null
+      },
+      "currentConfirmationSummary": {
+        "confirmationRecordId": null,
+        "confirmedAt": null,
+        "confirmedCount": 0,
+        "pendingCount": 0,
+        "requiredCount": 0,
+        "status": "not_configured"
+      },
+      "currentContractSummary": {
+        "activeContractCount": 2,
+        "currencyCode": "CNY",
+        "currentSnapshotId": "2eaff0e9-8af3-4551-a94f-b85feae1510d",
+        "latestContractId": "48a7467c-c58e-486d-aade-eda661b65298",
+        "latestContractNo": "CT-2026-000002",
+        "latestContractStatus": "active",
+        "signedAmountProjection": {
+          "displayText": "56500.00 CNY",
+          "fieldPackageKey": "contract-finance",
+          "mode": "full",
+          "reasonCode": "allowed",
+          "value": "56500.00"
+        },
+        "signedAt": null
+      },
+      "currentStage": "commercial-closure",
+      "customerId": "c5b2d4b1-1b87-4e40-a003-d29c7bac6028",
+      "customerName": "R4-def36-客户",
+      "customerProjectNo": "R4-def36",
+      "exportPolicy": null,
+      "generatedAt": "2026-11-04T00:01:57.021Z",
+      "id": "c19e708b-522c-45e9-90d4-81de7295545b",
+      "ownerName": "R4DEF33 full",
+      "ownerOrgId": null,
+      "ownerOrgName": null,
+      "ownerUserId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "plannedSignAt": null,
+      "projectName": "R4-def36-项目",
+      "projectNo": "PRJ-2026-000001",
+      "projectionLevel": null,
+      "rowVersion": 1,
+      "sourceLeadId": null,
+      "sourceLeadSummary": null,
+      "stageSummary": {
+        "blockingReasons": [],
+        "closedAt": null,
+        "closedReason": null,
+        "currentStage": "commercial-closure",
+        "plannedSignAt": null,
+        "status": "active"
+      },
+      "status": "active",
+      "summarySnapshotId": null,
+      "updatedAt": "2026-11-03T23:52:40.709Z",
+      "updatedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935"
+    },
+    "operator": {
+      "key": "writer",
+      "id": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+      "username": "r4def33_writer",
+      "permissions": [
+        "project:read",
+        "project:write",
+        "nav:projects:view",
+        "nav:contracts:view",
+        "nav:attachments:view"
+      ]
+    },
+    "executionOwnerUserId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+    "financeConfirmationRequired": false,
+    "receiptJudgmentMode": "contract-separate",
+    "participants": [
+      {
+        "userId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "responsibilities": [
+          {
+            "roleKey": "sales-owner",
+            "responsibilitySummary": "移交客户合同与销售事实"
+          },
+          {
+            "roleKey": "business-admin",
+            "responsibilitySummary": "核对商务边界和合同材料"
+          }
+        ]
+      },
+      {
+        "userId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+        "responsibilities": [
+          {
+            "roleKey": "execution-owner",
+            "responsibilitySummary": "承接此冻结版本的交付职责"
+          }
+        ]
+      },
+      {
+        "userId": "384ffad5-04ed-4f78-918a-ec8e7df6a590",
+        "responsibilities": [
+          {
+            "roleKey": "technical-support",
+            "responsibilitySummary": "核对冻结范围边界与技术风险"
+          }
+        ]
+      }
+    ]
+  },
+  "manifest": {
+    "kind": "R4DEF-D-request-only-preparation-driver32",
+    "stages": [
+      {
+        "id": "read-real-source",
+        "status": "not-run"
+      },
+      {
+        "id": "prepare-real-handover",
+        "status": "not-run"
+      },
+      {
+        "id": "participants-self-confirm",
+        "status": "not-run"
+      },
+      {
+        "id": "finalize-handover",
+        "status": "not-run"
+      },
+      {
+        "id": "readback-frozen-handover",
+        "status": "not-run"
+      }
+    ],
+    "httpReceipts": [],
+    "completed": false,
+    "rebaseline": {
+      "status": "not-run",
+      "reason": "requires-real-effective-contract-amendment-and-affected-frozen-items"
+    }
+  }
+}

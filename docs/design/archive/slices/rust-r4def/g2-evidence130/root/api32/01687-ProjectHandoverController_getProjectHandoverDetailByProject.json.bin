@@ -1,0 +1,521 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T05:47:49.362Z",
+  "completedAt": "2026-11-04T05:47:49.570Z",
+  "operationId": "ProjectHandoverController_getProjectHandoverDetailByProject",
+  "method": "GET",
+  "path": "/api/projects/c19e708b-522c-45e9-90d4-81de7295545b/project-handover",
+  "query": {},
+  "actorKey": "writer",
+  "actorId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+  "requestId": "r4def32-01687-c512ff7e",
+  "requestBody": null,
+  "status": 200,
+  "responseBody": {
+    "allowedActions": [
+      "confirm-project-handover-participant"
+    ],
+    "blockingReasons": [
+      "参与人尚未全部确认。"
+    ],
+    "closureStatus": "handover-in-progress",
+    "comment": null,
+    "confirmedAt": null,
+    "confirmedBy": null,
+    "contractSummarySnapshotId": "71bb8977-e359-4f4d-8170-dd7112f27835",
+    "currentHandoverBaselineSummary": {
+      "baselineSnapshotId": "5d1e0aad-4250-4b52-b96b-68b5d134cb1a",
+      "sourceId": "e0cee582-70bb-459a-b4e2-3b4d06c57aa9",
+      "sourceType": "handover-rebaseline",
+      "status": "available",
+      "summary": "全部合同的承接依据已固定；单快照字段仅为兼容锚点。"
+    },
+    "currentSourcePayloadHash": "a856d60847c44887f6cf654833af7e3f27f375929805a01d609ad4866c6fd352",
+    "effectiveContractSetSummary": {
+      "activeContractCount": 2,
+      "activeContractIds": [
+        "48a7467c-c58e-486d-aade-eda661b65298",
+        "b75ed6ae-87ba-4ae1-9e35-f865239ebed7"
+      ],
+      "amountTotalsByCurrency": [
+        {
+          "currencyCode": "CNY",
+          "totalSignedAmountProjection": {
+            "displayText": "113000.00",
+            "fieldPackageKey": "contract-finance",
+            "mode": "full",
+            "reasonCode": "allowed",
+            "value": "113000.00"
+          }
+        }
+      ],
+      "contractNos": [
+        "CT-2026-000002",
+        "CT-2026-000001"
+      ],
+      "contracts": [
+        {
+          "contractNo": "CT-2026-000002",
+          "currencyCode": "CNY",
+          "currentSnapshotId": "5d1e0aad-4250-4b52-b96b-68b5d134cb1a",
+          "id": "48a7467c-c58e-486d-aade-eda661b65298",
+          "signedAmountProjection": {
+            "displayText": "56500.00",
+            "fieldPackageKey": "contract-finance",
+            "mode": "full",
+            "reasonCode": "allowed",
+            "value": "56500.00"
+          },
+          "signedAt": null,
+          "status": "active"
+        },
+        {
+          "contractNo": "CT-2026-000001",
+          "currencyCode": "CNY",
+          "currentSnapshotId": "26585fe5-dba5-4415-bba2-9f04c1c889cd",
+          "id": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+          "signedAmountProjection": {
+            "displayText": "56500.00",
+            "fieldPackageKey": "contract-finance",
+            "mode": "full",
+            "reasonCode": "allowed",
+            "value": "56500.00"
+          },
+          "signedAt": null,
+          "status": "active"
+        }
+      ],
+      "currencyCodes": [
+        "CNY"
+      ],
+      "earliestSignedAt": null,
+      "latestSignedAt": null,
+      "totalSignedAmountProjection": {
+        "displayText": "113000.00",
+        "fieldPackageKey": "contract-finance",
+        "mode": "full",
+        "reasonCode": "allowed",
+        "value": "113000.00"
+      }
+    },
+    "executionAdmission": {
+      "allowed": false,
+      "blockingReasons": [
+        "正式执行准入仍需 R5 同链有效提成角色冻结。"
+      ]
+    },
+    "executionOwnerUserId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+    "exportPolicy": "handover-controlled",
+    "financeConfirmationRequired": false,
+    "frozenMaterials": {
+      "basisSnapshotId": "b74f9439-5cd1-4a0c-9ce7-28e1053357c5",
+      "contracts": [
+        {
+          "contractId": "48a7467c-c58e-486d-aade-eda661b65298",
+          "contractTermSnapshotId": "5d1e0aad-4250-4b52-b96b-68b5d134cb1a",
+          "riskItems": [
+            {
+              "blocksNextStage": false,
+              "id": "51071b0f-3114-4fdf-bd37-ab2152fb0cbc",
+              "impactScope": "接口验收时间",
+              "mitigationPlan": "提前安排联调窗口",
+              "ownerRole": "technical-support",
+              "packageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+              "riskCategory": "integration",
+              "riskDescription": "V1客户联调窗口风险",
+              "riskLevel": "R2",
+              "riskStatus": "mitigating",
+              "sortOrder": 0
+            }
+          ],
+          "scopeItems": [
+            {
+              "description": "交付核心接口和操作培训；范围以此版本为准。",
+              "id": "7a359ba7-d42f-4089-a317-4bd6ced8b5c2",
+              "label": "V1冻结交付范围",
+              "packageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+              "scopeType": "in-scope",
+              "sortOrder": 0
+            },
+            {
+              "description": "不包含第三方硬件采购。",
+              "id": "a545bfe3-0f19-40f3-84c5-2c60cd3fcfcb",
+              "label": "V1边界",
+              "packageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+              "scopeType": "out-of-scope",
+              "sortOrder": 1
+            }
+          ],
+          "technicalCostPackageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+          "technicalCostVersion": 1
+        },
+        {
+          "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+          "contractTermSnapshotId": "26585fe5-dba5-4415-bba2-9f04c1c889cd",
+          "riskItems": [
+            {
+              "blocksNextStage": false,
+              "id": "51071b0f-3114-4fdf-bd37-ab2152fb0cbc",
+              "impactScope": "接口验收时间",
+              "mitigationPlan": "提前安排联调窗口",
+              "ownerRole": "technical-support",
+              "packageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+              "riskCategory": "integration",
+              "riskDescription": "V1客户联调窗口风险",
+              "riskLevel": "R2",
+              "riskStatus": "mitigating",
+              "sortOrder": 0
+            }
+          ],
+          "scopeItems": [
+            {
+              "description": "交付核心接口和操作培训；范围以此版本为准。",
+              "id": "7a359ba7-d42f-4089-a317-4bd6ced8b5c2",
+              "label": "V1冻结交付范围",
+              "packageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+              "scopeType": "in-scope",
+              "sortOrder": 0
+            },
+            {
+              "description": "不包含第三方硬件采购。",
+              "id": "a545bfe3-0f19-40f3-84c5-2c60cd3fcfcb",
+              "label": "V1边界",
+              "packageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+              "scopeType": "out-of-scope",
+              "sortOrder": 1
+            }
+          ],
+          "technicalCostPackageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+          "technicalCostVersion": 1
+        }
+      ],
+      "sourcePayloadHash": "a856d60847c44887f6cf654833af7e3f27f375929805a01d609ad4866c6fd352"
+    },
+    "generatedAt": "2026-11-04T05:47:49.554Z",
+    "handoverBasisItems": [
+      {
+        "id": "9ffd92a0-2034-4126-98a7-8e9fc96478f6",
+        "itemType": "attachment",
+        "sourceId": "046b4084-3ac6-4663-9798-064274c86717",
+        "sourceType": "attachment",
+        "sourceVersion": "1",
+        "summary": "attachment · 046b4084-3ac6-4663-9798-064274c86717 · 版本 1"
+      },
+      {
+        "id": "2d7d2c4e-8d13-463f-92dc-c8a14bc7d5ba",
+        "itemType": "attachment",
+        "sourceId": "092cfa59-21db-4962-8a11-9f0462d4ae97",
+        "sourceType": "attachment",
+        "sourceVersion": "1",
+        "summary": "attachment · 092cfa59-21db-4962-8a11-9f0462d4ae97 · 版本 1"
+      },
+      {
+        "id": "0c809973-4848-4af4-ba09-e1065faa0758",
+        "itemType": "attachment",
+        "sourceId": "156eed94-e0a5-49b1-8762-7c04b8cc4bba",
+        "sourceType": "attachment",
+        "sourceVersion": "1",
+        "summary": "attachment · 156eed94-e0a5-49b1-8762-7c04b8cc4bba · 版本 1"
+      },
+      {
+        "id": "383938ca-94af-479f-a186-7c229ff51693",
+        "itemType": "attachment",
+        "sourceId": "1e7bd91d-4564-41f2-a5bd-6aec3e45ee7d",
+        "sourceType": "attachment",
+        "sourceVersion": "1",
+        "summary": "attachment · 1e7bd91d-4564-41f2-a5bd-6aec3e45ee7d · 版本 1"
+      },
+      {
+        "id": "9ebc1100-b73a-40a0-bdc9-715f477569e1",
+        "itemType": "attachment",
+        "sourceId": "29eb9163-07a7-4cec-bc32-d28ead55437a",
+        "sourceType": "attachment",
+        "sourceVersion": "1",
+        "summary": "attachment · 29eb9163-07a7-4cec-bc32-d28ead55437a · 版本 1"
+      },
+      {
+        "id": "cb2cc79a-d8f6-4579-8637-e1ba0fa04651",
+        "itemType": "attachment",
+        "sourceId": "39ed7c93-bec1-43de-8d39-ce22a877d8b9",
+        "sourceType": "attachment",
+        "sourceVersion": "1",
+        "summary": "attachment · 39ed7c93-bec1-43de-8d39-ce22a877d8b9 · 版本 1"
+      },
+      {
+        "id": "a6bf8790-7697-418c-bc0b-6f03d611c5a4",
+        "itemType": "attachment",
+        "sourceId": "3f6ee935-ddf8-4c15-90a0-1c7a3880bdba",
+        "sourceType": "attachment",
+        "sourceVersion": "1",
+        "summary": "attachment · 3f6ee935-ddf8-4c15-90a0-1c7a3880bdba · 版本 1"
+      },
+      {
+        "id": "d0d77e83-3997-44e5-9944-ff5ceeedc523",
+        "itemType": "attachment",
+        "sourceId": "44bb50ed-f842-4bbc-826f-afcf76bdb5d4",
+        "sourceType": "attachment",
+        "sourceVersion": "1",
+        "summary": "attachment · 44bb50ed-f842-4bbc-826f-afcf76bdb5d4 · 版本 1"
+      },
+      {
+        "id": "60c3a2de-44a2-485d-8bbf-65ff701cc2f7",
+        "itemType": "attachment",
+        "sourceId": "4727b36b-df9a-47e6-a19f-6a44e8a1f51f",
+        "sourceType": "attachment",
+        "sourceVersion": "1",
+        "summary": "attachment · 4727b36b-df9a-47e6-a19f-6a44e8a1f51f · 版本 1"
+      },
+      {
+        "id": "82a890df-4f05-499f-b87d-1188ae881373",
+        "itemType": "attachment",
+        "sourceId": "5151e346-59d4-4d3b-8254-ccaae6bd3699",
+        "sourceType": "attachment",
+        "sourceVersion": "1",
+        "summary": "attachment · 5151e346-59d4-4d3b-8254-ccaae6bd3699 · 版本 1"
+      },
+      {
+        "id": "57c25d7b-2859-45fc-b5a5-234ec9ec8f89",
+        "itemType": "attachment",
+        "sourceId": "7bfbc7ac-e24f-4720-9b60-422ae6ae48d2",
+        "sourceType": "attachment",
+        "sourceVersion": "1",
+        "summary": "attachment · 7bfbc7ac-e24f-4720-9b60-422ae6ae48d2 · 版本 1"
+      },
+      {
+        "id": "b59d922d-6aee-44c6-8d65-1e322b84ad69",
+        "itemType": "attachment",
+        "sourceId": "89bb0168-e40b-4b95-99ac-49232f6f475c",
+        "sourceType": "attachment",
+        "sourceVersion": "1",
+        "summary": "attachment · 89bb0168-e40b-4b95-99ac-49232f6f475c · 版本 1"
+      },
+      {
+        "id": "d09212e0-906f-4050-a339-087c608d752c",
+        "itemType": "attachment",
+        "sourceId": "8ac88918-153d-41cd-86c0-db6ac3c5c452",
+        "sourceType": "attachment",
+        "sourceVersion": "1",
+        "summary": "attachment · 8ac88918-153d-41cd-86c0-db6ac3c5c452 · 版本 1"
+      },
+      {
+        "id": "2708245e-1716-4bf4-9536-124b5dd4f207",
+        "itemType": "attachment",
+        "sourceId": "934e1513-9a88-4ce8-8f84-d21d4e748c39",
+        "sourceType": "attachment",
+        "sourceVersion": "1",
+        "summary": "attachment · 934e1513-9a88-4ce8-8f84-d21d4e748c39 · 版本 1"
+      },
+      {
+        "id": "4c84f02e-6a1a-4027-b5e5-e3d14e04989a",
+        "itemType": "attachment",
+        "sourceId": "bcf2bc92-84d0-4018-bb93-3d51dd22f067",
+        "sourceType": "attachment",
+        "sourceVersion": "1",
+        "summary": "attachment · bcf2bc92-84d0-4018-bb93-3d51dd22f067 · 版本 1"
+      },
+      {
+        "id": "9dd19bc2-5d0e-4780-803c-3ca9bad18338",
+        "itemType": "attachment",
+        "sourceId": "be9f4278-6eaa-4428-9de4-32f893eeb796",
+        "sourceType": "attachment",
+        "sourceVersion": "1",
+        "summary": "attachment · be9f4278-6eaa-4428-9de4-32f893eeb796 · 版本 1"
+      },
+      {
+        "id": "38ee1cba-dd40-4dae-be93-f7fbeed20117",
+        "itemType": "attachment",
+        "sourceId": "d53ed4b7-b027-4ae0-b466-109c2cc58730",
+        "sourceType": "attachment",
+        "sourceVersion": "1",
+        "summary": "attachment · d53ed4b7-b027-4ae0-b466-109c2cc58730 · 版本 1"
+      },
+      {
+        "id": "522a937e-cb0b-4928-b4d1-7b3094804d08",
+        "itemType": "contract",
+        "sourceId": "5d1e0aad-4250-4b52-b96b-68b5d134cb1a",
+        "sourceType": "contract-term-snapshot",
+        "sourceVersion": "2",
+        "summary": "contract · 5d1e0aad-4250-4b52-b96b-68b5d134cb1a · 版本 2 · 合同 48a7467c-c58e-486d-aade-eda661b65298"
+      },
+      {
+        "id": "2fb2f1fa-0ee1-4988-a11e-6b30fe8810cc",
+        "itemType": "contract",
+        "sourceId": "26585fe5-dba5-4415-bba2-9f04c1c889cd",
+        "sourceType": "contract-term-snapshot",
+        "sourceVersion": "3",
+        "summary": "contract · 26585fe5-dba5-4415-bba2-9f04c1c889cd · 版本 3 · 合同 b75ed6ae-87ba-4ae1-9e35-f865239ebed7"
+      },
+      {
+        "id": "509cbb02-d982-47ef-be18-46b680b047c6",
+        "itemType": "cost",
+        "sourceId": "0d0d4655-cb07-4628-ba8b-387bd06ec6b2",
+        "sourceType": "contract-term-preparation",
+        "sourceVersion": "2",
+        "summary": "cost · 0d0d4655-cb07-4628-ba8b-387bd06ec6b2 · 版本 2 · 合同 48a7467c-c58e-486d-aade-eda661b65298"
+      },
+      {
+        "id": "6842c8cf-ffd4-4c50-b865-642e43927e12",
+        "itemType": "cost",
+        "sourceId": "74c60742-67e6-4fb5-8b48-479367574d23",
+        "sourceType": "contract-term-preparation",
+        "sourceVersion": "3",
+        "summary": "cost · 74c60742-67e6-4fb5-8b48-479367574d23 · 版本 3 · 合同 b75ed6ae-87ba-4ae1-9e35-f865239ebed7"
+      },
+      {
+        "id": "16bc4791-8391-4918-83f9-a4ad1770f4ac",
+        "itemType": "receivable",
+        "sourceId": "3eee54f4-e87b-4c06-bf4f-26592bc632e7",
+        "sourceType": "receivable-plan-version",
+        "sourceVersion": "2",
+        "summary": "receivable · 3eee54f4-e87b-4c06-bf4f-26592bc632e7 · 版本 2 · 合同 48a7467c-c58e-486d-aade-eda661b65298"
+      },
+      {
+        "id": "45ed61ca-167a-48a0-bfa5-c041e30fbe33",
+        "itemType": "receivable",
+        "sourceId": "56bd21d8-3f3f-402b-8ce4-decc524d9b1c",
+        "sourceType": "receivable-plan-version",
+        "sourceVersion": "3",
+        "summary": "receivable · 56bd21d8-3f3f-402b-8ce4-decc524d9b1c · 版本 3 · 合同 b75ed6ae-87ba-4ae1-9e35-f865239ebed7"
+      },
+      {
+        "id": "32b88543-bc07-4fc9-b557-9962d15a534d",
+        "itemType": "responsibility",
+        "sourceId": "384ffad5-04ed-4f78-918a-ec8e7df6a590",
+        "sourceType": "platform-user",
+        "sourceVersion": "7",
+        "summary": "responsibility · 384ffad5-04ed-4f78-918a-ec8e7df6a590 · 版本 7"
+      },
+      {
+        "id": "3ca9f573-975b-49b6-9102-38cc85b419d5",
+        "itemType": "responsibility",
+        "sourceId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+        "sourceType": "platform-user",
+        "sourceVersion": "7",
+        "summary": "responsibility · 7269e5e0-fb18-4d11-aafe-a052e149f24a · 版本 7"
+      },
+      {
+        "id": "0322dd1e-7c1b-4642-a8b7-4dfce39951f5",
+        "itemType": "responsibility",
+        "sourceId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "sourceType": "platform-user",
+        "sourceVersion": "7",
+        "summary": "responsibility · ebad7d92-85e5-4c1c-b956-ea256fe52935 · 版本 7"
+      },
+      {
+        "id": "357f73d5-aafb-4910-8f22-3e8594a01d30",
+        "itemType": "risk",
+        "sourceId": "0d0d4655-cb07-4628-ba8b-387bd06ec6b2",
+        "sourceType": "contract-term-preparation",
+        "sourceVersion": "2",
+        "summary": "risk · 0d0d4655-cb07-4628-ba8b-387bd06ec6b2 · 版本 2 · 合同 48a7467c-c58e-486d-aade-eda661b65298"
+      },
+      {
+        "id": "a31ecaea-9e5d-4d59-b021-2fc48a94e47f",
+        "itemType": "risk",
+        "sourceId": "74c60742-67e6-4fb5-8b48-479367574d23",
+        "sourceType": "contract-term-preparation",
+        "sourceVersion": "3",
+        "summary": "risk · 74c60742-67e6-4fb5-8b48-479367574d23 · 版本 3 · 合同 b75ed6ae-87ba-4ae1-9e35-f865239ebed7"
+      },
+      {
+        "id": "bab5cbed-c70d-4c74-9b9b-13c5f759671a",
+        "itemType": "scope",
+        "sourceId": "0d0d4655-cb07-4628-ba8b-387bd06ec6b2",
+        "sourceType": "contract-term-preparation",
+        "sourceVersion": "2",
+        "summary": "scope · 0d0d4655-cb07-4628-ba8b-387bd06ec6b2 · 版本 2 · 合同 48a7467c-c58e-486d-aade-eda661b65298"
+      },
+      {
+        "id": "e3474085-6899-4c6e-aa40-e0e8366edb8e",
+        "itemType": "scope",
+        "sourceId": "74c60742-67e6-4fb5-8b48-479367574d23",
+        "sourceType": "contract-term-preparation",
+        "sourceVersion": "3",
+        "summary": "scope · 74c60742-67e6-4fb5-8b48-479367574d23 · 版本 3 · 合同 b75ed6ae-87ba-4ae1-9e35-f865239ebed7"
+      }
+    ],
+    "handoverBasisSnapshotId": "b74f9439-5cd1-4a0c-9ce7-28e1053357c5",
+    "handoverId": "ecf2c00e-6d2a-44ad-871d-b6058da6546d",
+    "handoverStatus": "draft",
+    "participantConfirmationSummary": {
+      "closedAt": null,
+      "closedCount": 0,
+      "confirmationRecordId": "98f97578-dbf7-422c-9d03-98c0767700d8",
+      "confirmedAt": null,
+      "confirmedCount": 0,
+      "participants": [
+        {
+          "confirmedAt": null,
+          "confirmedComment": null,
+          "participantDisplayName": "R4DEF33 personA",
+          "participantId": "384ffad5-04ed-4f78-918a-ec8e7df6a590",
+          "participantRoleKey": "technical-support",
+          "participantStatus": "pending",
+          "responsibilities": [
+            {
+              "responsibilitySummary": "核对冻结范围边界与技术风险",
+              "roleKey": "technical-support"
+            }
+          ]
+        },
+        {
+          "confirmedAt": null,
+          "confirmedComment": null,
+          "participantDisplayName": "R4DEF33 writer",
+          "participantId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+          "participantRoleKey": "execution-owner",
+          "participantStatus": "pending",
+          "responsibilities": [
+            {
+              "responsibilitySummary": "承接此冻结版本的交付职责",
+              "roleKey": "execution-owner"
+            }
+          ]
+        },
+        {
+          "confirmedAt": null,
+          "confirmedComment": null,
+          "participantDisplayName": "R4DEF33 full",
+          "participantId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+          "participantRoleKey": "business-admin",
+          "participantStatus": "pending",
+          "responsibilities": [
+            {
+              "responsibilitySummary": "核对商务边界和合同材料",
+              "roleKey": "business-admin"
+            },
+            {
+              "responsibilitySummary": "移交客户合同与销售事实",
+              "roleKey": "sales-owner"
+            }
+          ]
+        }
+      ],
+      "pendingCount": 3,
+      "requiredCount": 3,
+      "rowVersion": 1,
+      "status": "pending",
+      "submittedAt": "2026-11-04T05:47:45.411Z"
+    },
+    "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+    "projectName": "R4-def36-项目",
+    "projectNo": "PRJ-2026-000001",
+    "projectRowVersion": 1,
+    "projectionLevel": "handover-confirmation",
+    "receiptJudgmentModeSummary": {
+      "receiptJudgmentMode": "contract-separate",
+      "sourceId": null,
+      "sourceType": "none",
+      "status": "not-frozen",
+      "summary": "当前显示本次准备选定的模式；最终移交事实确认后才冻结生效。"
+    },
+    "rowVersion": 1,
+    "sourceChanged": false,
+    "sourcePayloadHash": "a856d60847c44887f6cf654833af7e3f27f375929805a01d609ad4866c6fd352",
+    "summaryPackageKey": "project-handover-confirmation",
+    "summarySnapshotId": "9cc17f12-fa6d-4679-b265-25cf01a52f1b",
+    "version": 7
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

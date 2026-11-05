@@ -1,0 +1,182 @@
+{
+  "kind": "R4DEF-K55-attachment-support-design-candidate",
+  "status": "candidate-only-awaiting-Root-and-independent-Gate-freeze",
+  "implementationAuthorized": false,
+  "supersedesProposalNotEvidence": "K54 proposal is Block; independent review55 and all previous runtime evidence remain immutable",
+  "sourceRoot": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+  "outputRoot": "E:/projects/worktrees/poms-r4f-cost-governance/poms/tools/rust-r4def/F/K55",
+  "scope": {
+    "proposedProductFiles": [
+      "apps/poms-api-rust/src/attachments/service.rs",
+      "apps/poms-api-rust/src/attachments/store.rs",
+      "apps/poms-api-rust/src/attachment_storage/registry.rs"
+    ],
+    "currentWrites": ["tools/rust-r4def/F/K55/**"],
+    "productFilesChanged": false,
+    "publicOperationsAdded": 0,
+    "DatabaseChanged": false,
+    "HTTPChanged": false,
+    "DTOChanged": false,
+    "DDLChanged": false,
+    "dependenciesChanged": false,
+    "F46OrF44Changed": false,
+    "noCredentialRead": true,
+    "noNetworkOrDBOrObjectIO": true
+  },
+  "resolves": [
+    {
+      "finding": "K54-P1-01",
+      "rule": "Only a private, fresh Attachment UUID plus attempt nonce final key is published; all proxy or presigned PUT capabilities continue to target staging, including capabilities issued before completion",
+      "notClaimed": "A SQL lock does not undo a prior object overwrite or revoke an external presigned PUT"
+    },
+    {
+      "finding": "K54-P2-02",
+      "rule": "All relevant Attachment, flag and Link writers acquire the same sorted canonical group locks; complete rereads and compares the full active-link tuple set while holding those locks, even if head rowVersion is unchanged"
+    },
+    {
+      "finding": "Gate53-create-before-update-and-multi-flush",
+      "rule": "Early strict CAS releases old unique flag slots before INSERT; early entities are excluded from ordinary UPDATE. All completion rows, necessary audit, managed auth and Session.completed share one transaction and commit"
+    }
+  ],
+  "registryPlan": {
+    "helper": "AttachmentStorage::prepare_completion_snapshot (private crate capability; signature described in PROPOSAL55.md)",
+    "beforeBusinessSQL": true,
+    "input": [
+      "original Session ObjectLocation",
+      "server generated Attachment UUID and independent attempt nonce",
+      "declaredSize and captured Session.maxSizeBytes as positive checked int4",
+      "all non-empty request and Session checksum expectations",
+      "existing content type and safe extension"
+    ],
+    "read": [
+      "Resolve original location using existing provider/bucket/longest-prefix rules before starting business Tx",
+      "Capture RuntimeConfig in memory without Debug, serialization or credential logging",
+      "Read actual local/OBS Body data chunks with checked length and incremental SHA256",
+      "Reject immediately before extending a chunk that would exceed declaredSize; stop reading and do not allocate by HEAD or an unchecked Content-Length",
+      "Require actual EOF length exactly declaredSize and <= captured max and int4::MAX",
+      "Require actual hash equal every non-empty checksum expectation",
+      "No use of unbounded read_buffer, no second read from mutable staging for the final PUT"
+    ],
+    "write": [
+      "Key namespace: original prefix/attachments/completed/date/AttachmentUUID/attemptNonce/original.extension",
+      "Same original captured provider, bucket, endpoint and runtime; do not call default_runtime or save_original",
+      "Require final != staging and original routing identity still selected for both source and final destination",
+      "Reject a more-specific final prefix that would route future reads to a different config",
+      "put_runtime writes the same validated buffer exactly once to this owned key",
+      "Do not return any write or presign capability for the final key"
+    ],
+    "result": [
+      "new ObjectLocation and Attachment UUID",
+      "actual size and actual lowercase SHA256",
+      "nonsecret routing proof plus config ID/rowVersion where configured, or implicit-local sentinel",
+      "opaque captured-runtime cleanup capability"
+    ],
+    "sameConnectionStampRecheck": "store revalidates the captured routing/config proof using the already borrowed SQL connection; no storage-config API that obtains another connection while Tx locks are held",
+    "immutabilityMeaning": "Application-owned unique namespace and absence of public final writes; not S3 Object Lock, storage administrator protection, conditional PUT or a certified stable remote generation",
+    "noChecksumMeaning": "Actual bytes captured and published are identical; no claim to infer uploader intent or a stable source generation if staging changes during an undeclared-checksum read"
+  },
+  "servicePlan": [
+    {
+      "methods": ["complete", "create_from_session"],
+      "actions": [
+        "Take complete CallContext checkpoint before the first planned mutation",
+        "Pure preliminary owner/permission/client-CAS/status/expiry/metadata checks; do not persist validating, expired or failed as a side effect",
+        "Capture Session, current head and complete active-link authorization proofs, and all-history version max",
+        "Prepare actual final snapshot outside SQL Tx",
+        "Purely stage old latest release, new Attachment bound to final, copied links, Session checksum/completed and original success audit",
+        "One guarded flush. No create_from_session nested flush/audit and no catch reflush",
+        "Build success response only after COMMIT ACK and identity-map publication"
+      ]
+    },
+    {
+      "methods": ["create_session", "update_metadata", "mark_final", "clear_final", "void", "link", "unlink"],
+      "actions": [
+        "Replace save followed by audit with one necessary-audit flush carrying all dirty entities and pending auth",
+        "Carry explicit mutation authorization/head/group intent even if values happen to be unchanged",
+        "All Link mutations, including handover auto-links reached through store.flush, join canonical group protocol",
+        "Nonfinal new version preserves old active and final; explicit mark_final transfers final atomically; void preserves prior bytes"
+      ]
+    },
+    {
+      "methods": ["upload_target", "proxy_object"],
+      "actions": [
+        "Never issue a target or write to a final key",
+        "Before I/O reject known terminal sessions and legacy staging keys already referenced by any Attachment",
+        "Prepare target or write only staging, then guarded Session CAS/state recheck; no backwards status transition after a concurrent complete/abort",
+        "A late PUT may mutate staging before its SQL 409, but cannot alter an Attachment's unique final object"
+      ]
+    },
+    {
+      "methods": ["abort"],
+      "actions": [
+        "Lock and recheck Session CAS/status and legacy published source references",
+        "One commit of terminal aborted, original necessary audit and pending auth before any delete",
+        "After ACK and releasing main connection, independently reread aborted version/no completed ID and absence of Attachment, package or other Session references",
+        "Only the owning aborted Session's own historical staging pointer is excluded from reference blockers",
+        "Remove only staging using captured original runtime; losing to completion or unknown commit never deletes",
+        "Delete failure or late PUT recreation is an orphan, not a reason to reflush business state"
+      ]
+    }
+  ],
+  "storePlan": {
+    "privateExtension": "guarded flush with mutation intent plus typed commit outcome; keep existing flush entry for child callers and enforce common locks there too",
+    "lockOrder": [
+      "existing Session IDs sorted, SELECT FOR UPDATE",
+      "discover canonical groups for all related Attachment/Link/source facts without row locks",
+      "sorted distinct group UUIDs using transaction advisory lock poms:attachment-group:<UUID>",
+      "all relevant group Attachment IDs sorted, SELECT FOR UPDATE; recheck group membership",
+      "active Link IDs sorted, SELECT FOR UPDATE; full set recheck"
+    ],
+    "canonicalGroup": "COALESCE(version_group_id,id); no group->Session reverse acquisition",
+    "lockedSessionProof": [
+      "id", "row_version", "created_by", "status", "expires_at", "operation_type", "upload_mode",
+      "provider_type", "storage_bucket", "storage_key", "base_attachment_id", "completed_attachment_id",
+      "target_type", "target_id", "size_bytes", "max_size_bytes", "checksum_sha256",
+      "original_name", "display_name", "extension", "mime_type", "category", "security_level", "relation_type", "description", "change_note"
+    ],
+    "clientAndServerCAS": "Client expectedVersion, when supplied, must match; the original server-loaded Session version must match even when client expectedVersion is omitted",
+    "lockedHeadProof": ["id", "canonical_group", "row_version", "status", "is_latest", "is_final", "security_level", "uploaded_by"],
+    "activeLinkIdentity": ["id", "attachment_id", "target_type", "target_id", "relation_type", "status", "linked_by", "linked_at", "unlinked_by", "unlinked_at"],
+    "activeLinkComparison": "Sort by Link UUID, compare the complete tuple set and count; addition, removal, same-count target change or tuple change yields 409 and no business rows, without silently rebasing permission or copy semantics",
+    "versionNumber": "Locked max(version_no) across all group history including voided + 1; fail on changed prepared head/history proof or int4 overflow; do not reuse a voided version number",
+    "writeOrder": [
+      "Early per-row CAS on old Attachment rows releasing latest/final/active unique slots; include only legitimate planned fields",
+      "Put early returned rowVersion in saved journal and mark the entity index consumed",
+      "INSERT new Attachment then real copied Link rows with all existing constraints intact",
+      "Strict CAS for remaining existing Attachment and Session rows; group-locked full-original-tuple guard plus affected row check for nonversioned Links",
+      "Necessary existing audit and managed auth in this same transaction; Session completed is not a separate flush",
+      "One COMMIT then publish saved entity journal and consume pending auth"
+    ],
+    "earlyWriteExactlyOnce": true,
+    "noGlobalNativeBulkRewriteClaim": true,
+    "headVersionIsNotLinkVersion": true
+  },
+  "outcomeAndCleanup": {
+    "implementation": "Private shared phase journal survives Database.with_connection cancellation without changing Database or public errors",
+    "phases": ["BeforeTx", "InTx", "RollbackAck", "CommitAttempted", "CommitAck"],
+    "Committed": "COMMIT ACK only; publish saved rows/raw baselines and consume pending auth once",
+    "KnownNotCommitted": "Rollback ACK or proven no SQL began; restore full pre-mutation CallContext checkpoint, including all entities/raw/json originals, pending auth and target cache",
+    "Unknown": "Any timeout or failure without decisive rollback/commit ACK, especially COMMIT attempted; poison current context/entities, return existing internal failure, prohibit catch reflush, blind retry and final deletion",
+    "finalDeletePreconditions": [
+      "Outcome KnownNotCommitted, never Unknown",
+      "Original SQL connection released",
+      "Fresh independent probe succeeded",
+      "No Attachment of any status refers to prepared ID or provider/bucket/key",
+      "No UploadSession references completedAttachmentId or prepared key, and no DownloadPackage uses prepared key",
+      "Object is exactly this attempt's UUID/nonce owned final key and is not staging, a legacy key, or another attempt's winner"
+    ],
+    "deleteRuntime": "Use captured original runtime; no current-default reroute or config lookup while holding business Tx connection",
+    "failedPut": "May have produced a partial final object; with no SQL started, use the same independent no-reference probe before best-effort cleanup",
+    "failedCleanup": "Retain orphan and original failure disposition; do not commit a failed status or retry business flush",
+    "unknownEvenIfNoRowsOnce": "A single fresh empty read does not prove a prior in-flight COMMIT cannot become visible; retain final"
+  },
+  "legacyAndLimits": [
+    "No rewriting old F25/F46, prior D material hashes, or existing Attachment keys",
+    "A nonterminal legacy Session already referenced by an Attachment is rejected by new proxy/complete/abort rather than overwritten, deleted or completed a second time",
+    "Previously issued presigned URLs to legacy keys cannot be revoked by this change; Root must inventory/expire/govern separately",
+    "New final-key protection applies to new completions; no claim all historical legacy-bound S3 objects became immutable",
+    "Post-commit administrative config retarget/migration and full handover/package multi-phase atomicity require separate scope",
+    "Permission checks preserve existing actor/operation/target policies; this is not full R6 scope certification",
+    "No S3 runtime, network, PG, HTTP, binary or failure-injection acceptance was executed by the proposal author"
+  ]
+}

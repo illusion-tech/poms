@@ -1,0 +1,22 @@
+{
+  "operationId": "ProjectCostController_confirmAccountingTaxTreatment",
+  "table": "accounting_tax_treatment_snapshot",
+  "event": "INSERT OR UPDATE",
+  "nth": 1,
+  "deferred": false,
+  "functionDefinition": "CREATE OR REPLACE FUNCTION r4def_control.r4def_fault_60()\n RETURNS trigger\n LANGUAGE plpgsql\nAS $function$ DECLARE hits integer; BEGIN hits:=COALESCE(NULLIF(current_setting('poms_r4def_fault.hits',true),''),'0')::integer+1; PERFORM set_config('poms_r4def_fault.hits',hits::text,true); IF hits < COALESCE(TG_ARGV[1],'1')::integer THEN RETURN NEW; END IF; PERFORM pg_advisory_xact_lock(194043,TG_ARGV[0]::integer); RAISE EXCEPTION USING ERRCODE='P0001', MESSAGE='r4def60 necessary write fault'; END $function$\n",
+  "barrierWaiter": {
+    "pid": 1009,
+    "query": "INSERT INTO poms.accounting_tax_treatment_snapshot (\"basis_summary\",\"confirmed_at\",\"confirmed_by\",\"created_at\",\"created_by\",\"currency\",\"deductibility_status\",\"governance_evidence_id\",\"governance_schema_version\",\"id\",\"project_id\",\"replacement_reason\",\"row_version\",\"status\",\"supersedes_id\",\"tax_impact_amount\",\"tax_impact_pending_amount\",\"tax_impact_summary\",\"tax_pending_flag\",\"tax_treatment_type\",\"updated_at\",\"updated_by\") SELECT \"basis_summary\",\"confirmed_at\",\"confirmed_by\",\"created_at\",\"created_by\",\"currency\",\"deductibility_status\",\"governance_evidence_id\",\"governance_schema_version\",\"id\",\"project_id\",\"replacement_reason\",\"row_version\",\"status\",\"supersedes_id\",\"tax_impact_amount\",\"tax_impact_pending_amount\",\"tax_impact_summary\",\"tax_pending_flag\",\"tax_treatment_type\",\"updated_at\",\"updated_by\" FROM jsonb_populate_record(NULL::poms.accounting_tax_treatment_snapshot,$1::jsonb)",
+    "wait_event": "advisory",
+    "wait_event_type": "Lock",
+    "classid": "194043",
+    "objid": "60019",
+    "granted": false
+  },
+  "status": 500,
+  "receiptId": "tmp/rust-r4def/root/api32/01127-ProjectCostController_confirmAccountingTaxTreatment.json",
+  "hitProven": true,
+  "all120TablesRolledBack": true,
+  "retryPending": true
+}

@@ -1,0 +1,49 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:12:01.911Z",
+  "completedAt": "2026-11-04T00:12:01.924Z",
+  "operationId": "AuthController_getCurrentAuthSession",
+  "method": "GET",
+  "path": "/api/auth/session",
+  "query": {},
+  "actorKey": "personA",
+  "actorId": "384ffad5-04ed-4f78-918a-ec8e7df6a590",
+  "requestId": "r4def32-00427-c67afccb",
+  "requestBody": null,
+  "status": 200,
+  "responseBody": {
+    "authenticated": true,
+    "csrf": {
+      "cookieName": "poms_csrf",
+      "headerName": "X-CSRF-Token"
+    },
+    "expiresAt": "2026-11-04T00:27:01.894Z",
+    "permissions": [
+      "project:read",
+      "project:write"
+    ],
+    "status": "active",
+    "user": {
+      "avatarUrl": null,
+      "displayName": "R4DEF33 personA",
+      "email": null,
+      "emailVerified": false,
+      "id": "384ffad5-04ed-4f78-918a-ec8e7df6a590",
+      "isActive": true,
+      "lastLoginAt": null,
+      "orgUnits": [],
+      "permissions": [
+        "project:read",
+        "project:write"
+      ],
+      "phone": null,
+      "phoneVerified": false,
+      "roles": [
+        "R4DEF33 personA"
+      ],
+      "username": "r4def33_persona"
+    }
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

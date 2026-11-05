@@ -1,0 +1,41 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T04:18:13.475Z",
+  "completedAt": "2026-11-04T04:18:13.859Z",
+  "operationId": "ProjectCostController_replaceSharedCostAllocationResult",
+  "method": "POST",
+  "path": "/api/shared-cost-allocation-results/862af246-f476-4b4c-971c-574d433949eb:replace",
+  "query": {},
+  "actorKey": "raceB88",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-01513-76a82f02",
+  "requestBody": {
+    "expectedVersion": 1,
+    "expectedBasisVersion": 1,
+    "projectShareItems": [
+      {
+        "projectId": "2410df0c-c530-4223-b857-1a83a411b57b",
+        "allocationWeight": "1.000000",
+        "allocatedAmount": "0.02",
+        "allocationRatio": "0.200000",
+        "allocationSummary": "R62-r88-explicit-fixed-share"
+      },
+      {
+        "projectId": "a275878e-459d-45d9-a2f4-37874d68c7f2",
+        "allocationWeight": "4.000000",
+        "allocatedAmount": "0.10",
+        "allocationRatio": "0.800000",
+        "allocationSummary": "R62-r88-explicit-fixed-share"
+      }
+    ],
+    "replacementReason": "对同一完整批竞争替代，不能只替一个result"
+  },
+  "status": 409,
+  "responseBody": {
+    "error": "Conflict",
+    "message": "Only an active current governance fact can be changed",
+    "statusCode": 409
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

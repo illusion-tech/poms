@@ -1,0 +1,60 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T02:43:10.657Z",
+  "completedAt": "2026-11-04T02:43:10.808Z",
+  "operationId": "ProjectCostController_confirmAccountingTaxTreatment",
+  "method": "POST",
+  "path": "/api/projects/2410df0c-c530-4223-b857-1a83a411b57b/accounting-tax-treatments",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-01132-809c6c91",
+  "requestBody": {
+    "taxTreatmentType": "R4F44-f60-ordinary",
+    "deductibilityStatus": "pending",
+    "taxImpactAmount": "0.00",
+    "taxImpactSummary": "R4F44-f60-本隔离验收财务责任人核对真实0.01税额来源，先登记待定后明确可抵扣判定；保留原成本金额及不纳入经营状态，仅验证正式命令与证据链。",
+    "taxPendingFlag": true,
+    "taxImpactPendingAmount": "0.01",
+    "basisSummary": "R4F44-f60-仅治理事实，不重复加税",
+    "currency": "CNY",
+    "sourceReferences": [
+      {
+        "kind": "source",
+        "sourceType": "expense-record",
+        "sourceId": "882196a0-3349-48ed-a0d8-09f2a6b440e1",
+        "sourceVersion": 2,
+        "businessDate": "2026-11-04",
+        "reason": "本隔离验收财务责任人核对真实0.01税额来源，先登记待定后明确可抵扣判定；保留原成本金额及不纳入经营状态，仅验证正式命令与证据链。"
+      }
+    ]
+  },
+  "status": 201,
+  "responseBody": {
+    "approvalRecordId": null,
+    "businessStatusAfter": "active",
+    "confirmationRecordId": null,
+    "evidenceId": "a2c41675-90bb-4881-803c-1dbc61c59ac0",
+    "resultStatus": "success",
+    "targetId": "54323eae-e256-48a8-aba7-0f335bb788aa",
+    "targetType": "AccountingTaxTreatmentSnapshot",
+    "taxImpactPendingAmountProjection": {
+      "displayText": "0.01",
+      "fieldPackageKey": "operating-finance",
+      "mode": "full",
+      "reasonCode": "allowed",
+      "value": "0.01"
+    },
+    "taxImpactSummaryProjection": {
+      "displayText": "R4F44-f60-本隔离验收财务责任人核对真实0.01税额来源，先登记待定后明确可抵扣判定；保留原成本金额及不纳入经营状态，仅验证正式命令与证据链。",
+      "fieldPackageKey": "operating-finance",
+      "mode": "full",
+      "reasonCode": "allowed",
+      "value": "R4F44-f60-本隔离验收财务责任人核对真实0.01税额来源，先登记待定后明确可抵扣判定；保留原成本金额及不纳入经营状态，仅验证正式命令与证据链。"
+    },
+    "taxTreatmentSnapshotId": "54323eae-e256-48a8-aba7-0f335bb788aa",
+    "todoItemIds": []
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

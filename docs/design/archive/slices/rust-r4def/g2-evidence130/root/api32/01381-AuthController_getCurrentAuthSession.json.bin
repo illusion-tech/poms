@@ -1,0 +1,57 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T04:02:41.400Z",
+  "completedAt": "2026-11-04T04:02:41.428Z",
+  "operationId": "AuthController_getCurrentAuthSession",
+  "method": "GET",
+  "path": "/api/auth/session",
+  "query": {},
+  "actorKey": "writer",
+  "actorId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+  "requestId": "r4def32-01381-aed4fc35",
+  "requestBody": null,
+  "status": 200,
+  "responseBody": {
+    "authenticated": true,
+    "csrf": {
+      "cookieName": "poms_csrf",
+      "headerName": "X-CSRF-Token"
+    },
+    "expiresAt": "2026-11-04T04:17:41.355Z",
+    "permissions": [
+      "project:read",
+      "project:write",
+      "nav:projects:view",
+      "nav:contracts:view",
+      "nav:attachments:view",
+      "contract:finance:sensitive:read"
+    ],
+    "status": "active",
+    "user": {
+      "avatarUrl": null,
+      "displayName": "R4DEF33 writer",
+      "email": null,
+      "emailVerified": false,
+      "id": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+      "isActive": true,
+      "lastLoginAt": null,
+      "orgUnits": [],
+      "permissions": [
+        "project:read",
+        "project:write",
+        "nav:projects:view",
+        "nav:contracts:view",
+        "nav:attachments:view",
+        "contract:finance:sensitive:read"
+      ],
+      "phone": null,
+      "phoneVerified": false,
+      "roles": [
+        "R4DEF33 writer"
+      ],
+      "username": "r4def33_writer"
+    }
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

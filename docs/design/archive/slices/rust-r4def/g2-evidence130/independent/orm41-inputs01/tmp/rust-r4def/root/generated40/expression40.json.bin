@@ -1,0 +1,3 @@
+{
+  "generation_expression": "\nCASE\n    WHEN ((cost_type)::text = 'labor'::text) THEN\n    CASE\n        WHEN (labor_person_id IS NOT NULL) THEN ('person:'::text || (labor_person_id)::text)\n        WHEN (labor_role IS NOT NULL) THEN ('role:'::text || (labor_role)::text)\n        ELSE NULL::text\n    END\n    ELSE NULL::text\nEND"
+}

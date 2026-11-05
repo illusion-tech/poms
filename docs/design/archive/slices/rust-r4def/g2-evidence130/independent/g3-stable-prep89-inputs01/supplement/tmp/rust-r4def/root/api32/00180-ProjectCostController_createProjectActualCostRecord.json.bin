@@ -1,0 +1,25 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:05:20.406Z",
+  "completedAt": "2026-11-04T00:05:20.423Z",
+  "operationId": "ProjectCostController_createProjectActualCostRecord",
+  "method": "POST",
+  "path": "/api/projects/c19e708b-522c-45e9-90d4-81de7295545b/actual-cost-records",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-00180-3bfad33e",
+  "requestBody": {
+    "costType": "invoice",
+    "invoiceRecordId": "7906ab53-817b-4601-85eb-beb8d7b46e14",
+    "expectedSourceVersion": 1
+  },
+  "status": 409,
+  "responseBody": {
+    "error": "Conflict",
+    "message": "Invoice is not an eligible verified input source",
+    "statusCode": 409
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

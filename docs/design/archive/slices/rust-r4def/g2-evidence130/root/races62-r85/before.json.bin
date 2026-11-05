@@ -1,0 +1,383 @@
+{
+  "kind": "Root-races62-before",
+  "manifest": {
+    "kind": "R4DEF-request-only-controlled-races62",
+    "execution": "not-run",
+    "sourceMoneyRule": "Fixed independent witnesses; no production allocation function imported or reverse-derived.",
+    "cases": [
+      {
+        "id": "R62-01-duplicate-mapping",
+        "status": "not-run",
+        "requests": [],
+        "resources": []
+      },
+      {
+        "id": "R62-02-expense-void-map",
+        "status": "not-run",
+        "requests": [],
+        "resources": []
+      },
+      {
+        "id": "R62-03-labor-replace",
+        "status": "not-run",
+        "requests": [],
+        "resources": []
+      },
+      {
+        "id": "R62-04-stage-confirm",
+        "status": "not-run",
+        "requests": [],
+        "resources": []
+      },
+      {
+        "id": "R62-05-stage-reclassify",
+        "status": "not-run",
+        "requests": [],
+        "resources": []
+      },
+      {
+        "id": "R62-06-tax-replace",
+        "status": "not-run",
+        "requests": [],
+        "resources": []
+      },
+      {
+        "id": "R62-07-basis-full-replace",
+        "status": "not-run",
+        "requests": [],
+        "resources": []
+      },
+      {
+        "id": "R62-08-overlap-sources",
+        "status": "not-run",
+        "requests": [],
+        "resources": []
+      },
+      {
+        "id": "R62-09-reverse-families",
+        "status": "not-run",
+        "requests": [],
+        "resources": []
+      },
+      {
+        "id": "R62-10-three-project-cent-permutation",
+        "status": "not-run",
+        "requests": [],
+        "resources": []
+      }
+    ],
+    "automaticRetries": false,
+    "productOrEnvironmentTouchedByImport": false,
+    "finalG3Certified": false
+  },
+  "publicContext": {
+    "project": {
+      "id": "2410df0c-c530-4223-b857-1a83a411b57b"
+    },
+    "otherProject": {
+      "id": "a275878e-459d-45d9-a2f4-37874d68c7f2"
+    },
+    "activeContract": {
+      "id": "a8ab4086-89c6-4b57-b14c-3ecaa7ceb058",
+      "projectId": "2410df0c-c530-4223-b857-1a83a411b57b",
+      "status": "active",
+      "currencyCode": "CNY"
+    },
+    "expenseCategory": "travel",
+    "costCategory": "implementation",
+    "actors": {
+      "full": {
+        "key": "full",
+        "id": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "username": "r4def33_full",
+        "permissions": [
+          "platform:users:manage",
+          "platform:roles:manage",
+          "platform:navigation:manage",
+          "platform:org-units:manage",
+          "platform:dictionaries:manage",
+          "platform:identity-providers:manage",
+          "platform:org-sync:manage",
+          "platform:attachment-storage-providers:manage",
+          "platform:system-settings:manage",
+          "customer:read",
+          "customer:write",
+          "commission:rule-versions:manage",
+          "commission:assignments:manage",
+          "commission:calculations:manage",
+          "commission:payouts:manage",
+          "commission:adjustments:manage",
+          "contract:finance:manage",
+          "contract:finance:sensitive:read",
+          "operating:finance:sensitive:read",
+          "commission:amount:sensitive:read",
+          "labor-cost-rate:sensitive:read",
+          "exception-approval-opinion:sensitive:read",
+          "lead:read",
+          "lead:write",
+          "lead:assign",
+          "lead:score:override",
+          "project:read",
+          "project:write",
+          "project:delete",
+          "nav:dashboard:view",
+          "nav:customers:view",
+          "nav:platform:view",
+          "nav:leads:view",
+          "nav:attachments:view",
+          "nav:projects:view",
+          "nav:contracts:view",
+          "nav:profile:view"
+        ]
+      },
+      "financeOnly": {
+        "key": "financeOnly",
+        "id": "295a1093-2dec-4444-b2f7-c8dde152695d",
+        "username": "r4def33_financeonly",
+        "permissions": [
+          "project:read",
+          "contract:finance:manage",
+          "platform:users:manage"
+        ]
+      },
+      "operatingOnly": {
+        "key": "operatingOnly",
+        "id": "5f22da8a-3802-4a59-97d5-27527ca2e854",
+        "username": "r4def33_operatingonly",
+        "permissions": [
+          "project:read",
+          "contract:finance:manage",
+          "platform:users:manage",
+          "operating:finance:sensitive:read"
+        ]
+      },
+      "laborOnly": {
+        "key": "laborOnly",
+        "id": "04f1746b-5ace-44ef-8fb9-f3d7196891f2",
+        "username": "r4def33_laboronly",
+        "permissions": [
+          "project:read",
+          "contract:finance:manage",
+          "platform:users:manage",
+          "labor-cost-rate:sensitive:read"
+        ]
+      },
+      "auditFull": {
+        "key": "full",
+        "id": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "username": "r4def33_full",
+        "permissions": [
+          "platform:users:manage",
+          "platform:roles:manage",
+          "platform:navigation:manage",
+          "platform:org-units:manage",
+          "platform:dictionaries:manage",
+          "platform:identity-providers:manage",
+          "platform:org-sync:manage",
+          "platform:attachment-storage-providers:manage",
+          "platform:system-settings:manage",
+          "customer:read",
+          "customer:write",
+          "commission:rule-versions:manage",
+          "commission:assignments:manage",
+          "commission:calculations:manage",
+          "commission:payouts:manage",
+          "commission:adjustments:manage",
+          "contract:finance:manage",
+          "contract:finance:sensitive:read",
+          "operating:finance:sensitive:read",
+          "commission:amount:sensitive:read",
+          "labor-cost-rate:sensitive:read",
+          "exception-approval-opinion:sensitive:read",
+          "lead:read",
+          "lead:write",
+          "lead:assign",
+          "lead:score:override",
+          "project:read",
+          "project:write",
+          "project:delete",
+          "nav:dashboard:view",
+          "nav:customers:view",
+          "nav:platform:view",
+          "nav:leads:view",
+          "nav:attachments:view",
+          "nav:projects:view",
+          "nav:contracts:view",
+          "nav:profile:view"
+        ]
+      },
+      "auditFinanceOnly": {
+        "key": "financeOnly",
+        "id": "295a1093-2dec-4444-b2f7-c8dde152695d",
+        "username": "r4def33_financeonly",
+        "permissions": [
+          "project:read",
+          "contract:finance:manage",
+          "platform:users:manage"
+        ]
+      }
+    },
+    "assessments": {
+      "payable": {
+        "periodStart": "2026-11-04",
+        "periodEnd": "2026-11-04",
+        "attributedStage": "execution",
+        "reason": "本隔离验收对采购事实的明确责任判断，不从当前项目阶段推断历史。",
+        "evidenceSummary": "验收责任人审核指定日期与完整期间，登记归属执行阶段；仅验证人工证据链，不作为真实生产业务事实。"
+      },
+      "historicalLabor": {
+        "periodStart": "2026-10-01",
+        "periodEnd": "2026-10-03",
+        "attributedStage": "execution",
+        "reason": "本隔离验收对历史完整人工期间的明确责任判断，不从当前项目阶段推断历史。",
+        "evidenceSummary": "验收责任人审核指定日期与完整期间，登记归属执行阶段；仅验证人工证据链，不作为真实生产业务事实。"
+      },
+      "priorityChange": {
+        "periodStart": "2026-09-01",
+        "periodEnd": "2026-09-30",
+        "attributedStage": "execution",
+        "reason": "本隔离验收对优先级变化人工完整期间的明确责任判断，不从当前项目阶段推断历史。",
+        "evidenceSummary": "验收责任人审核指定日期与完整期间，登记归属执行阶段；仅验证人工证据链，不作为真实生产业务事实。"
+      }
+    },
+    "tag": "r85",
+    "taxReason": "本隔离验收财务责任人核对真实0.01税额来源，先登记待定后明确可抵扣判定；保留原成本金额及不纳入经营状态，仅验证正式命令与证据链。",
+    "businessDate": "2026-11-04",
+    "stageAssessment": {
+      "periodStart": "2026-11-04",
+      "periodEnd": "2026-11-04",
+      "attributedStage": "execution",
+      "reason": "本隔离验收责任人将本次费用、单日人工及采购承诺按指定业务日人工归属执行阶段；不推断历史区间，不认作R5执行准入",
+      "evidenceSummary": "实际API金额和业务日期支撑本次明确人工判断，后续以真实D确认事实作可追溯更正；Root执行前复核该责任说明"
+    },
+    "allocationPolicyDecision": {
+      "id": "selected-measurement-first",
+      "version": 2,
+      "authorityReceipt": "docs/design/rust-r4def/g2-allocation-freeze51.json#76b159d40f528f9735041f286cbc5f8d22f1e686a3955ba94f635a8b5703817f",
+      "runtimeBinding": "Root必须另核实际F46部署与SOURCE_PINS一致，静态输入不充当运行证明"
+    },
+    "thirdProject": {
+      "closedAt": null,
+      "closedReason": null,
+      "createdAt": "2026-11-04T03:44:26.254Z",
+      "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "currentStage": "commercial-closure",
+      "customerId": "252b8fad-f9c1-416e-b281-327758e3d70e",
+      "customerName": "R4-def48-客户",
+      "customerProjectNo": "R4-def-races73-third",
+      "id": "7a83eecc-261d-452a-92cd-25980d2ba0a7",
+      "ownerOrgId": null,
+      "ownerUserId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "plannedSignAt": null,
+      "projectName": "R4-def-races73-third-项目",
+      "projectNo": "PRJ-2026-000007",
+      "rowVersion": 1,
+      "sourceLeadId": null,
+      "status": "active",
+      "updatedAt": "2026-11-04T03:44:26.254Z",
+      "updatedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935"
+    },
+    "raceActors": {
+      "A": {
+        "key": "raceA85",
+        "id": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "username": "r4def33_full",
+        "permissions": [
+          "platform:users:manage",
+          "platform:roles:manage",
+          "platform:navigation:manage",
+          "platform:org-units:manage",
+          "platform:dictionaries:manage",
+          "platform:identity-providers:manage",
+          "platform:org-sync:manage",
+          "platform:attachment-storage-providers:manage",
+          "platform:system-settings:manage",
+          "customer:read",
+          "customer:write",
+          "commission:rule-versions:manage",
+          "commission:assignments:manage",
+          "commission:calculations:manage",
+          "commission:payouts:manage",
+          "commission:adjustments:manage",
+          "contract:finance:manage",
+          "contract:finance:sensitive:read",
+          "operating:finance:sensitive:read",
+          "commission:amount:sensitive:read",
+          "labor-cost-rate:sensitive:read",
+          "exception-approval-opinion:sensitive:read",
+          "lead:read",
+          "lead:write",
+          "lead:assign",
+          "lead:score:override",
+          "project:read",
+          "project:write",
+          "project:delete",
+          "nav:dashboard:view",
+          "nav:customers:view",
+          "nav:platform:view",
+          "nav:leads:view",
+          "nav:attachments:view",
+          "nav:projects:view",
+          "nav:contracts:view",
+          "nav:profile:view"
+        ]
+      },
+      "B": {
+        "key": "raceB85",
+        "id": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "username": "r4def33_full",
+        "permissions": [
+          "platform:users:manage",
+          "platform:roles:manage",
+          "platform:navigation:manage",
+          "platform:org-units:manage",
+          "platform:dictionaries:manage",
+          "platform:identity-providers:manage",
+          "platform:org-sync:manage",
+          "platform:attachment-storage-providers:manage",
+          "platform:system-settings:manage",
+          "customer:read",
+          "customer:write",
+          "commission:rule-versions:manage",
+          "commission:assignments:manage",
+          "commission:calculations:manage",
+          "commission:payouts:manage",
+          "commission:adjustments:manage",
+          "contract:finance:manage",
+          "contract:finance:sensitive:read",
+          "operating:finance:sensitive:read",
+          "commission:amount:sensitive:read",
+          "labor-cost-rate:sensitive:read",
+          "exception-approval-opinion:sensitive:read",
+          "lead:read",
+          "lead:write",
+          "lead:assign",
+          "lead:score:override",
+          "project:read",
+          "project:write",
+          "project:delete",
+          "nav:dashboard:view",
+          "nav:customers:view",
+          "nav:platform:view",
+          "nav:leads:view",
+          "nav:attachments:view",
+          "nav:projects:view",
+          "nav:contracts:view",
+          "nav:profile:view"
+        ]
+      }
+    },
+    "sessionProof": {
+      "receiptId": "tmp/rust-r4def/root/api32/races85-sessions.json",
+      "userId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "A": "82c4a090-f43e-4844-b369-4c3eb1be9b9c",
+      "B": "ff73d9ce-0b77-41b7-ae6f-226bf8eab567"
+    }
+  },
+  "namespace": {
+    "database": "poms_r4def_rust",
+    "applicationRole": "poms_r4def_rust_app",
+    "isolatedOwned": true,
+    "proofReceiptId": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4def/root/races62-r85/namespace-observer-proof.json"
+  }
+}

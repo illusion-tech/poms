@@ -1,0 +1,31 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:05:24.726Z",
+  "completedAt": "2026-11-04T00:05:24.738Z",
+  "operationId": "ProjectCostController_publishInternalCostRateVersion",
+  "method": "POST",
+  "path": "/api/internal-cost-rate-versions",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-00334-298fd739",
+  "requestBody": {
+    "rateScopeType": "role",
+    "roleCode": "R4E21-e41-versionrules",
+    "rateUnit": "hour",
+    "rateValue": "11.0000",
+    "currency": "CNY",
+    "effectiveFrom": "2026-02-01",
+    "changeReason": "R4E21-e41-真实费率发布",
+    "supersedesRateVersionId": "b159b72a-e116-40ea-a9e6-4975c2bfadd6",
+    "expectedVersion": 2
+  },
+  "status": 409,
+  "responseBody": {
+    "error": "Conflict",
+    "message": "Business record version changed",
+    "statusCode": 409
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

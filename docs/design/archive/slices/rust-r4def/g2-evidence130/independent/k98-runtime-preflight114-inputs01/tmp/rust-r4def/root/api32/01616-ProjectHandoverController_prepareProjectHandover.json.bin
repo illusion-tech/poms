@@ -1,0 +1,126 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T05:08:36.240Z",
+  "completedAt": "2026-11-04T05:08:36.261Z",
+  "operationId": "ProjectHandoverController_prepareProjectHandover",
+  "method": "POST",
+  "path": "/api/projects/c19e708b-522c-45e9-90d4-81de7295545b/project-handovers",
+  "query": {},
+  "actorKey": "writer",
+  "actorId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+  "requestId": "r4def32-01616-2d06214e",
+  "requestBody": {
+    "executionOwnerUserId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+    "participants": [
+      {
+        "participantId": "384ffad5-04ed-4f78-918a-ec8e7df6a590",
+        "responsibilities": [
+          {
+            "responsibilitySummary": "核对冻结范围边界与技术风险",
+            "roleKey": "technical-support"
+          }
+        ]
+      },
+      {
+        "participantId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+        "responsibilities": [
+          {
+            "responsibilitySummary": "承接此冻结版本的交付职责",
+            "roleKey": "execution-owner"
+          }
+        ]
+      },
+      {
+        "participantId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "responsibilities": [
+          {
+            "responsibilitySummary": "核对商务边界和合同材料",
+            "roleKey": "business-admin"
+          },
+          {
+            "responsibilitySummary": "移交客户合同与销售事实",
+            "roleKey": "sales-owner"
+          }
+        ]
+      }
+    ],
+    "financeConfirmationRequired": false,
+    "receiptJudgmentMode": "contract-separate",
+    "expectedProjectVersion": 1,
+    "expectedSourceHash": "50282871aed24a43f0f752ec2d2e6bebd6b8c6bd7006eb623424010299a69bc6",
+    "expectedCurrentHandoverVersion": 5,
+    "comment": "实际新增并作废材料改变来源事实；重新准备并由各人确认当前材料，不强行复用旧确认"
+  },
+  "status": 400,
+  "responseBody": {
+    "errors": [
+      {
+        "code": "invalid_type",
+        "expected": "string",
+        "message": "Invalid input: expected string, received undefined",
+        "path": [
+          "participants",
+          0,
+          "userId"
+        ]
+      },
+      {
+        "code": "unrecognized_keys",
+        "keys": [
+          "participantId"
+        ],
+        "message": "Unrecognized object keys",
+        "path": [
+          "participants",
+          0
+        ]
+      },
+      {
+        "code": "invalid_type",
+        "expected": "string",
+        "message": "Invalid input: expected string, received undefined",
+        "path": [
+          "participants",
+          1,
+          "userId"
+        ]
+      },
+      {
+        "code": "unrecognized_keys",
+        "keys": [
+          "participantId"
+        ],
+        "message": "Unrecognized object keys",
+        "path": [
+          "participants",
+          1
+        ]
+      },
+      {
+        "code": "invalid_type",
+        "expected": "string",
+        "message": "Invalid input: expected string, received undefined",
+        "path": [
+          "participants",
+          2,
+          "userId"
+        ]
+      },
+      {
+        "code": "unrecognized_keys",
+        "keys": [
+          "participantId"
+        ],
+        "message": "Unrecognized object keys",
+        "path": [
+          "participants",
+          2
+        ]
+      }
+    ],
+    "message": "Validation failed",
+    "statusCode": 400
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

@@ -1,0 +1,28 @@
+{
+  "mode": "retry",
+  "completed": true,
+  "sqlBusinessProducerUsed": false,
+  "definition": "CREATE FUNCTION r4def_control.r4def_pending74_retry() RETURNS trigger LANGUAGE plpgsql AS $f$ BEGIN IF NEW.id='e68f96dc-6100-4336-aa30-4371a55e734b'::uuid AND EXISTS(SELECT 1 FROM poms.expense_record e JOIN poms.audit_log a ON a.target_id=e.id::text WHERE e.project_id='2410df0c-c530-4223-b857-1a83a411b57b'::uuid AND e.expense_description='R4DEF-pending74-unique-real-expense' AND a.event_type='ProjectCostController_createExpenseRecord' AND a.operator_id='ebad7d92-85e5-4c1c-b956-ea256fe52935'::uuid) THEN PERFORM pg_advisory_xact_lock(194074,742);  END IF; RETURN NEW; END $f$",
+  "waiter": {
+    "pid": 1322,
+    "query": "UPDATE poms.auth_session SET status=CASE WHEN $1 THEN $2 ELSE status END,csrf_token_hash=CASE WHEN $3 THEN $4 ELSE csrf_token_hash END,idle_expires_at=CASE WHEN $5 THEN $6 ELSE idle_expires_at END,absolute_expires_at=CASE WHEN $7 THEN $8 ELSE absolute_expires_at END,last_seen_at=CASE WHEN $9 THEN $10 ELSE last_seen_at END,last_ip=CASE WHEN $11 THEN $12 ELSE last_ip END,revoked_at=CASE WHEN $13 THEN $14 ELSE revoked_at END,revoked_reason=CASE WHEN $15 THEN $16 ELSE revoked_reason END,updated_at=$17,row_version=row_version+1 WHERE id=$18 AND row_version=$19 RETURNING row_version",
+    "wait_event": "advisory",
+    "wait_event_type": "Lock",
+    "granted": false
+  },
+  "response": {
+    "status": 201,
+    "receiptId": "tmp/rust-r4def/root/api32/01375-ProjectCostController_createExpenseRecord.json"
+  },
+  "eagerTouchCommittedIndependently": true,
+  "pendingCoflushHitProven": true,
+  "all120EqualPostEagerBaseline": false,
+  "sameBodyRetryAcknowledged": true,
+  "sessionVersions": {
+    "before": 2,
+    "postEager": 3,
+    "after": 4
+  },
+  "realElapsedMilliseconds": 155646,
+  "temporaryObjectsRemoved": true
+}

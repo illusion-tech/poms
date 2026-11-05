@@ -1,0 +1,11 @@
+**K create-version独立定位53：P1阻断，未签G3。**
+
+不是child attachmentId缺失。Rust service881已生成UUID，901新附件和946复制link都使用同一id。真正原因是 [store.rs](../../../../apps/poms-api-rust/src/attachments/store.rs) 893–902刻意保持Native CREATE先于UPDATE（包含Do not repair注释）；旧latest在service889–892只改内存，实际UPDATE直到store912–916。真实catalog唯一索引uq_attachment_latest_active要求每group仅一条active/latest，新INSERT必在旧latest撤位前冲突。
+
+实际01004回执为合法complete(expectedVersion3)的500；前面session创建201、真实PUT200已ACK。catch会保留同一new entity再flush CREATE，failed标记也可能无法保存；先前validating已由独立事务提交。实际当前会话状态需Root只读GET，不把源码推断当DB实测。
+
+必要最小纠偏是在同事务锁/CAS交接旧latest→新附件→真实copied links，并明确success audit/completed会话/认证必要写的原子边界。不能另事务先save旧latest、删除唯一索引、把旧final或active清掉、或SQL造新版本；失败记账不能重试已回滚子对象。普通update_many预检后UPDATE也不能充当真正并发CAS。
+
+保留旧final直到显式markFinal新版本，保证“新非final版本不替换D已冻final材料”。随后必须真实完成markFinal使旧basis失效、重prepare/本人确认、void/恢复及非空K包链，并分别故障/并发验证。详见 [JSON](k-create-version-preflight53.json) 的精确pins与6组验收。前5stage通过仅按52原件保留，不覆盖剩余not-run。
+
+只读产品/公开原件/catalog，未读private/凭据、未操作DB/环境、未改源码或旧证据。用户已授权业务纠偏，无需询问是否保留500；具体实现完成后另审，不以Node bug级对齐放行。

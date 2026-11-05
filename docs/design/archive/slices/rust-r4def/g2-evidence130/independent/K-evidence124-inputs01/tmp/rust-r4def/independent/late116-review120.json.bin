@@ -1,0 +1,322 @@
+{
+  "kind": "independent-late-proxy-PUT116-public-original-review120",
+  "reviewedAtUtc": "2026-11-04T05:47:41.679Z",
+  "status": "Pass-bounded-local-proxy-late-write-public-effects; recorded-PG/FS-assertions-reviewed; not-G3",
+  "runtime": {
+    "epoch": "108",
+    "pid": 274896,
+    "binarySha256": "c53dcdce6d6ff466a8cc47ae02fbadf7da0ab60d22877e57cdb5411711bda442",
+    "sourceRuntime": {
+      "file": "tmp/rust-r4def/root/final-runtime110.json",
+      "bytes": 2250,
+      "sha256": "14c0a5b5cfeabae12445b4497ebc17b4cb65e43df5ae1734bd4b62c032c80db8",
+      "snapshot": "tmp/rust-r4def/independent/late116-review120-inputs01/tmp/rust-r4def/root/final-runtime110.json.bin"
+    },
+    "threeCurrentProductPinsMatch": true
+  },
+  "originalLabels": {
+    "k113": {
+      "originalComplete": false,
+      "firstSixStages": "passed",
+      "seventhObserverStage": "failed",
+      "finallyExactRestore": "passed",
+      "actualHTTP": 13,
+      "actualPGProofs": 9,
+      "actualObjectProofs": 1
+    },
+    "k115": {
+      "complete": false,
+      "errorName": "AssertionError"
+    },
+    "k116": {
+      "complete": true,
+      "readOnlyPGTimezoneUTCAligned": true,
+      "AOrBProducerReplayed": false,
+      "newActualDownloads": 2
+    }
+  },
+  "independentPublicChecks": {
+    "A64": "d53eda7a637c99cc7fb566d96e9fa109bf15c478410a3f5eb4d4c4e26cd081f6",
+    "B64": "c422e7070cb1cb455b5de9afee0d975e303d0239c72030cd7414ab5c382d3ae8",
+    "originalBusinessHTTPStatusesMatched": true,
+    "B": {
+      "requestId": "r4def32-01663-52c0d383",
+      "request64BSha": "c422e7070cb1cb455b5de9afee0d975e303d0239c72030cd7414ab5c382d3ae8",
+      "response409": true,
+      "completeResponseNoTransportFailure": true
+    },
+    "A": {
+      "PUTRequestId": "r4def32-01664-01bc4aea",
+      "completeRequestId": "r4def32-01665-aed6764e",
+      "AttachmentId": "2270de0a-2cec-48ce-8835-798298942156",
+      "checksum": "d53eda7a637c99cc7fb566d96e9fa109bf15c478410a3f5eb4d4c4e26cd081f6",
+      "size": 64,
+      "firstDownloadRequestId": "r4def32-01666-6d9eaaf6"
+    },
+    "distinctPublishedVsStagingKeyFingerprints": true,
+    "recordedFSPublishedA64AndStagingB64MatchKnownWitnesses": true,
+    "finalDownloads": [
+      {
+        "id": "2270de0a-2cec-48ce-8835-798298942156",
+        "receiptId": "tmp/rust-r4def/root/api32/01670-AttachmentController_download.json",
+        "bytes": 64,
+        "sha256": "d53eda7a637c99cc7fb566d96e9fa109bf15c478410a3f5eb4d4c4e26cd081f6",
+        "requestId": "r4def32-01670-93b1fe16"
+      },
+      {
+        "id": "5151e346-59d4-4d3b-8254-ccaae6bd3699",
+        "receiptId": "tmp/rust-r4def/root/api32/01671-AttachmentController_download.json",
+        "bytes": 39,
+        "sha256": "7e092953bfd0e46ebf7b1f895b7ad2c7fb000ea717d406ec4cfe751e6ece5347",
+        "requestId": "r4def32-01671-688ff148"
+      }
+    ],
+    "legacyOriginalAndFinalBytesAndHashEqual": true,
+    "sourcePinnedRunnerIntakeMatches": true,
+    "knownObserverDownloadIsActualRequestBoundRead": true
+  },
+  "RootRecordedPrivateComparison": {
+    "receipt": {
+      "file": "tmp/rust-r4def/root/late-proof116/receipt116.json",
+      "bytes": 2772,
+      "sha256": "ba5feb997548b74f9bb556c7e7c032938374ed5c1b63135885fc1d9b3f3e7202",
+      "snapshot": "tmp/rust-r4def/independent/late116-review120-inputs01/tmp/rust-r4def/root/late-proof116/receipt116.json.bin"
+    },
+    "rawAggregateSha256": "4cada311523e24cce13080bd388b5c12b03e06a05fa1b025c7fdb0159a80c0d6",
+    "rootSourceReviewed": "tools/rust-r4def/proof-late116.mjs",
+    "conditions": [
+      "UTC read-only snapshot compares Session/Attachment/full flags/Link rows with original A ACK snapshot.",
+      "Every original necessary audit row is unchanged; exactly one extra audit is attachment.downloaded, bound to the actual01666 request, and no audit is bound to B.",
+      "B auth exact fields match original post-eager barrier snapshot; no pre-eager rollback claim.",
+      "Actual FS non-symlink single-link files are read under owned object root; final and staging keys differ and hash to A64/B64.",
+      "Original legacy storage binding is unchanged.",
+      "Original RLS/policies/table+column ACL/role/namespace security equals restoration snapshot and owned locks are empty."
+    ],
+    "recordedAllAssertionsPassed": true,
+    "reviewerDidNotOpenPrivatePGFSOrProcessOriginals": true,
+    "individualPublicComponentDigests": "Requested from Root as an offline export of retained raw116, not yet supplied; this review does not claim reviewer recomputed private row equality."
+  },
+  "controlledConcurrency": {
+    "recordedSameBBackendPid": 1715,
+    "recordedRelationThenAdvisoryBoundary": true,
+    "sourceProtocolReviewed": "runner84.mjs identifies exact relation waiter PID, confirms AccessShare waiting vs controller AccessExclusive, then same PID awaits exact advisory tuple via temporary scoped RLS before object I/O; no timing-only proof.",
+    "nonSensitiveWaiterTuplePublicExport": "Requested; original selected lock rows currently preserved only by private hash references."
+  },
+  "observerCorrection": {
+    "originalK113SeventhStageUnchanged": true,
+    "original115FailureUnchanged": true,
+    "UTCChange": "Observer connection SET TIME ZONE only; no application clock or business time rewrite.",
+    "auditDifference": "The original snapshot comparison included its own acknowledged successful A download.116 isolates that request-bound read audit, rather than ignoring arbitrary audit differences."
+  },
+  "limits": [
+    "This proves the local proxy late PUT scenario with recorded actual PG/FS assertions and independent public HTTP byte fingerprints; it is not an S3/external presigned runtime result.",
+    "No global120-table rollback claim is made for this case.",
+    "New owned provider/session/objects are business fixtures still present for later terminal cleanup; finally restoration concerns the scoped coordination infrastructure.",
+    "K78 FI/double-complete/void-max and real multi-sparse autoLink batch are separate pending evidence.",
+    "Terminal cleanup and unified final source/runtime/evidence freeze remain pending."
+  ],
+  "newFindingsP0P1P2": [],
+  "inputPins": [
+    {
+      "file": "tmp/rust-r4def/root/late-proof116/receipt116.json",
+      "bytes": 2772,
+      "sha256": "ba5feb997548b74f9bb556c7e7c032938374ed5c1b63135885fc1d9b3f3e7202",
+      "snapshot": "tmp/rust-r4def/independent/late116-review120-inputs01/tmp/rust-r4def/root/late-proof116/receipt116.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/late-put84-k113/result84.json",
+      "bytes": 34450,
+      "sha256": "b9eb9e7923488d3d6eb92444d99ec5ed3624b162ac72cdcc4a73cef3d76b0f78",
+      "snapshot": "tmp/rust-r4def/independent/late116-review120-inputs01/tmp/rust-r4def/root/late-put84-k113/result84.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/late-put84-k113/before84.json",
+      "bytes": 2466,
+      "sha256": "05431073518830a1aa7cb969ea679b831067cf8681dadda09db907a13f96b4d1",
+      "snapshot": "tmp/rust-r4def/independent/late116-review120-inputs01/tmp/rust-r4def/root/late-put84-k113/before84.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/final-runtime110.json",
+      "bytes": 2250,
+      "sha256": "14c0a5b5cfeabae12445b4497ebc17b4cb65e43df5ae1734bd4b62c032c80db8",
+      "snapshot": "tmp/rust-r4def/independent/late116-review120-inputs01/tmp/rust-r4def/root/final-runtime110.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/late-proof115/failed115.json",
+      "bytes": 89,
+      "sha256": "b522e9074962341d0e3b9d0c4dfb4faf804647f429c00aa276bc9d1878043f7c",
+      "snapshot": "tmp/rust-r4def/independent/late116-review120-inputs01/tmp/rust-r4def/root/late-proof115/failed115.json.bin"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/service.rs",
+      "bytes": 81710,
+      "sha256": "0fbd8afc1c22fec87e3034b9e31d9c89a3cfea92d85cb8f0ef1866dd23bcceab",
+      "snapshot": "tmp/rust-r4def/independent/late116-review120-inputs01/apps/poms-api-rust/src/attachments/service.rs.bin"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/store.rs",
+      "bytes": 77122,
+      "sha256": "525028f45ce39a5935f4a1565eee662b76a2976f07a212a580c23f862e899899",
+      "snapshot": "tmp/rust-r4def/independent/late116-review120-inputs01/apps/poms-api-rust/src/attachments/store.rs.bin"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachment_storage/registry.rs",
+      "bytes": 22940,
+      "sha256": "617f734af15f7e75db2cc69de63343c04104abbd446f322809fb1f1bfc625765",
+      "snapshot": "tmp/rust-r4def/independent/late116-review120-inputs01/apps/poms-api-rust/src/attachment_storage/registry.rs.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/intake100-late-put84.json",
+      "bytes": 2297,
+      "sha256": "91caf2e3f827467ceb4c3b753de3459cbf633ea08e9ef6da679cb77ed3eb4983",
+      "snapshot": "tmp/rust-r4def/independent/late116-review120-inputs01/tmp/rust-r4def/root/intake100-late-put84.json.bin"
+    },
+    {
+      "file": "tools/rust-r4def/E/late-put84/manifest84b.json",
+      "bytes": 9302,
+      "sha256": "ad7cb20b0ca706fd87695507c7de865009610fe361b0cbeafba17e1e13080d06",
+      "snapshot": "tmp/rust-r4def/independent/late116-review120-inputs01/tools/rust-r4def/E/late-put84/manifest84b.json.bin"
+    },
+    {
+      "file": "tools/rust-r4def/E/late-put84/runner84.mjs",
+      "bytes": 33678,
+      "sha256": "fe2cec46820c5a14fec983f0de4a1f6c51a24dcbb6ba0aa31e194793de49aa74",
+      "snapshot": "tmp/rust-r4def/independent/late116-review120-inputs01/tools/rust-r4def/E/late-put84/runner84.mjs.bin"
+    },
+    {
+      "file": "tools/rust-r4def/E/late-put84/root-entry84.mjs",
+      "bytes": 9816,
+      "sha256": "5f01a586cb5edd07de1de56795948453a5e52f09b1573fe45a6b1eb6861789e8",
+      "snapshot": "tmp/rust-r4def/independent/late116-review120-inputs01/tools/rust-r4def/E/late-put84/root-entry84.mjs.bin"
+    },
+    {
+      "file": "tools/rust-r4def/E/late-put84/README.md",
+      "bytes": 8352,
+      "sha256": "10a7fcd91314094272adc63424bef2741c40f4458599ca762ff3778cf1ee8df2",
+      "snapshot": "tmp/rust-r4def/independent/late116-review120-inputs01/tools/rust-r4def/E/late-put84/README.md.bin"
+    },
+    {
+      "file": "tools/rust-r4def/E/late-put84/capture-manifest84.mjs",
+      "bytes": 6414,
+      "sha256": "93411b6b6e79ce3bc89e72283fb0f90dc248a9488a02da366d076861e990ec8b",
+      "snapshot": "tmp/rust-r4def/independent/late116-review120-inputs01/tools/rust-r4def/E/late-put84/capture-manifest84.mjs.bin"
+    },
+    {
+      "file": "tools/rust-r4def/proof-late115.mjs",
+      "bytes": 7568,
+      "sha256": "84690c83b2f0eec52a73ca7d686f2e7d30f48fffcc9d854d4a0e713efc7f4f0c",
+      "snapshot": "tmp/rust-r4def/independent/late116-review120-inputs01/tools/rust-r4def/proof-late115.mjs.bin"
+    },
+    {
+      "file": "tools/rust-r4def/proof-late116.mjs",
+      "bytes": 7701,
+      "sha256": "7d57ad8e8a8b29c5f7143a52d9f6ad57248f20fa78d07dfb4cbb6a24bd77ec69",
+      "snapshot": "tmp/rust-r4def/independent/late116-review120-inputs01/tools/rust-r4def/proof-late116.mjs.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/independent/k98-runtime-preflight114.json",
+      "bytes": 106916,
+      "sha256": "78a2de714bbbb22c872af887d69737c89acba61497991fc71302de3229664edb",
+      "snapshot": "tmp/rust-r4def/independent/late116-review120-inputs01/tmp/rust-r4def/independent/k98-runtime-preflight114.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/api32/01654-AuthController_getCurrentAuthSession.json",
+      "bytes": 3654,
+      "sha256": "d933ce7be719b526709e344c3e4c701a425e35d8da31bffa6615b746601946ca",
+      "snapshot": "tmp/rust-r4def/independent/late116-review120-inputs01/tmp/rust-r4def/root/api32/01654-AuthController_getCurrentAuthSession.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/api32/01655-AuthController_getCurrentAuthSession.json",
+      "bytes": 3662,
+      "sha256": "4081eab6ee5c2f482ab55b1a8ccdca43bea62f09d859927ad52b7a63b7385d7b",
+      "snapshot": "tmp/rust-r4def/independent/late116-review120-inputs01/tmp/rust-r4def/root/api32/01655-AuthController_getCurrentAuthSession.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/api32/01656-AuthController_getCurrentAuthSession.json",
+      "bytes": 3662,
+      "sha256": "bead7ce3c6894566b0eceef67da673be51e20758635508a0d35d8c07eae9dc21",
+      "snapshot": "tmp/rust-r4def/independent/late116-review120-inputs01/tmp/rust-r4def/root/api32/01656-AuthController_getCurrentAuthSession.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/api32/01657-ProjectController_getById.json",
+      "bytes": 2943,
+      "sha256": "21aea4b6c1ae516173d15284affd88edb5e0b4d1adc87fe2c3dad23549763a37",
+      "snapshot": "tmp/rust-r4def/independent/late116-review120-inputs01/tmp/rust-r4def/root/api32/01657-ProjectController_getById.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/api32/01658-AttachmentController_download.json",
+      "bytes": 2353,
+      "sha256": "054a1086db514a1a898f062dbf2234846caa4348eef1d41aa0f4e921e64a8f98",
+      "snapshot": "tmp/rust-r4def/independent/late116-review120-inputs01/tmp/rust-r4def/root/api32/01658-AttachmentController_download.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/api32/01659-DictionaryController_list.json",
+      "bytes": 7084,
+      "sha256": "d485d154bdf967e00ac53de187d1f04a005be77b57047b43b3112385e28379dc",
+      "snapshot": "tmp/rust-r4def/independent/late116-review120-inputs01/tmp/rust-r4def/root/api32/01659-DictionaryController_list.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/api32/01660-AttachmentStorageProviderController_createAttachmentStorageProviderConfig.json",
+      "bytes": 1391,
+      "sha256": "02758affba01e1ffcd752cc9b5aadb4ecc47405a48b594e664b255783436564c",
+      "snapshot": "tmp/rust-r4def/independent/late116-review120-inputs01/tmp/rust-r4def/root/api32/01660-AttachmentStorageProviderController_createAttachmentStorageProviderConfig.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/api32/01661-AttachmentUploadSessionController_create.json",
+      "bytes": 1884,
+      "sha256": "0b0cbf19b0c520ba32a6a6f4c2e9233ff9871157d68d9e3e48188d7df7162cd7",
+      "snapshot": "tmp/rust-r4def/independent/late116-review120-inputs01/tmp/rust-r4def/root/api32/01661-AttachmentUploadSessionController_create.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/api32/01662-AttachmentUploadSessionController_createUploadTarget.json",
+      "bytes": 992,
+      "sha256": "c7cc1bee703a0df787bfe099ce30cf65e157edad1227f9afd11651a79f607e1e",
+      "snapshot": "tmp/rust-r4def/independent/late116-review120-inputs01/tmp/rust-r4def/root/api32/01662-AttachmentUploadSessionController_createUploadTarget.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/api32/01663-AttachmentUploadSessionController_proxyUploadObject.json",
+      "bytes": 2479,
+      "sha256": "eaa18638e869bf75c68ab94257d11292f5104bad00e3ca544e3ce16f1c4a7a3e",
+      "snapshot": "tmp/rust-r4def/independent/late116-review120-inputs01/tmp/rust-r4def/root/api32/01663-AttachmentUploadSessionController_proxyUploadObject.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/api32/01664-AttachmentUploadSessionController_proxyUploadObject.json",
+      "bytes": 2479,
+      "sha256": "a0e31f337489b57105d50e53f0b21e61242ab72780c59cfd2564d859185a7a07",
+      "snapshot": "tmp/rust-r4def/independent/late116-review120-inputs01/tmp/rust-r4def/root/api32/01664-AttachmentUploadSessionController_proxyUploadObject.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/api32/01665-AttachmentUploadSessionController_complete.json",
+      "bytes": 2124,
+      "sha256": "0bf921cd7b596691db05a7def815de0daeb857b53e80940caa6b1e4fb3cc8469",
+      "snapshot": "tmp/rust-r4def/independent/late116-review120-inputs01/tmp/rust-r4def/root/api32/01665-AttachmentUploadSessionController_complete.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/api32/01666-AttachmentController_download.json",
+      "bytes": 2353,
+      "sha256": "99a0f913818e93349cd5c3bb036731e2648aa79c934418a531a7eeea4f2fef30",
+      "snapshot": "tmp/rust-r4def/independent/late116-review120-inputs01/tmp/rust-r4def/root/api32/01666-AttachmentController_download.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/api32/01670-AttachmentController_download.json",
+      "bytes": 2345,
+      "sha256": "507ecf85d5fefc9a17685182c62aae49bfba941651f337ec4a63bffe53176166",
+      "snapshot": "tmp/rust-r4def/independent/late116-review120-inputs01/tmp/rust-r4def/root/api32/01670-AttachmentController_download.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/api32/01671-AttachmentController_download.json",
+      "bytes": 2345,
+      "sha256": "22713049bc8eccd16928712a5fe7433db9b84a0b3d0d58961465372d2a84b455",
+      "snapshot": "tmp/rust-r4def/independent/late116-review120-inputs01/tmp/rust-r4def/root/api32/01671-AttachmentController_download.json.bin"
+    }
+  ],
+  "reviewer": {
+    "privateRead": false,
+    "productOrAuthorOrOldEvidenceModified": false,
+    "actualDBHTTPStorageFSObjectsBrowserLocksOrEnvironmentExecuted": false,
+    "writesOnly": "tmp/rust-r4def/independent/**"
+  },
+  "G3Pass": false,
+  "G4Pass": false,
+  "issueClosure": false
+}

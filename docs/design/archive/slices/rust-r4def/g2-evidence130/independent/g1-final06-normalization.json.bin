@@ -1,0 +1,46 @@
+{
+  "kind": "R4DEF-independent-final06-normalization-semantics",
+  "normalizationRecords": 13,
+  "targetDeltas": [
+    {
+      "pointer": "#/components/schemas/SharedCostAllocationBasisSummary/properties/measurementBasis/enum/3",
+      "before": null,
+      "after": null,
+      "beforeAbsent": true,
+      "afterAbsent": false
+    }
+  ],
+  "changedSourcesSince05": [
+    "tools/rust-r4def/build-g1-package01.mjs"
+  ],
+  "measurementBasisLegacyNullWitnesses": [
+    {
+      "value": null,
+      "accepted": true
+    },
+    {
+      "value": "excluding-tax",
+      "accepted": true
+    },
+    {
+      "value": "tax",
+      "accepted": true
+    },
+    {
+      "value": "including-tax",
+      "accepted": true
+    },
+    {
+      "value": "invalid",
+      "accepted": false
+    },
+    {
+      "value": 0,
+      "accepted": false
+    }
+  ],
+  "allOtherTargetContractValuesUnchanged": true,
+  "allBusinessAuthoritySourcesUnchanged": true,
+  "sqlExecuted": false,
+  "runtimeExecuted": false
+}

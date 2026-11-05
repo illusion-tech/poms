@@ -1,0 +1,66 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T04:18:17.186Z",
+  "completedAt": "2026-11-04T04:18:17.372Z",
+  "operationId": "ProjectCostController_confirmSharedCostAllocationBasis",
+  "method": "POST",
+  "path": "/api/shared-cost-allocation-bases",
+  "query": {},
+  "actorKey": "raceB88",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-01536-4fc5dbaa",
+  "requestBody": {
+    "basisType": "R62-r88-basis",
+    "allocationMethod": "weighted",
+    "sourceCostRecordIds": [
+      "62cf6d54-2024-4bb2-ad49-261676c1abb2",
+      "5a7e0fc9-7f23-41b5-85b9-c1783bdc95df"
+    ],
+    "measurementBasis": "including-tax",
+    "expectedSourceVersions": [
+      {
+        "costRecordId": "62cf6d54-2024-4bb2-ad49-261676c1abb2",
+        "expectedVersion": 2
+      },
+      {
+        "costRecordId": "5a7e0fc9-7f23-41b5-85b9-c1783bdc95df",
+        "expectedVersion": 2
+      }
+    ],
+    "projectShareItems": [
+      {
+        "projectId": "2410df0c-c530-4223-b857-1a83a411b57b",
+        "allocationWeight": "1.000000",
+        "allocatedAmount": "0.12",
+        "allocationRatio": "0.500000",
+        "allocationSummary": "R62-r88-explicit-fixed-share"
+      },
+      {
+        "projectId": "a275878e-459d-45d9-a2f4-37874d68c7f2",
+        "allocationWeight": "1.000000",
+        "allocatedAmount": "0.12",
+        "allocationRatio": "0.500000",
+        "allocationSummary": "R62-r88-explicit-fixed-share"
+      }
+    ],
+    "basisSummary": "固定来源金额与完整项目份额；v2；不纳入经营成本"
+  },
+  "status": 201,
+  "responseBody": {
+    "allocationResultIds": [
+      "443b06a9-ef54-4f07-993d-adf8b24f8e9e",
+      "f81a89af-b78f-4dbe-b1b2-ebe9f406b594"
+    ],
+    "approvalRecordId": null,
+    "basisId": "48afcb82-5f4e-4bee-953c-b19cc5e179c5",
+    "businessStatusAfter": "active",
+    "confirmationRecordId": null,
+    "evidenceId": "6bb5f386-f094-4596-a1dc-9cc3330a191d",
+    "resultStatus": "success",
+    "targetId": "48afcb82-5f4e-4bee-953c-b19cc5e179c5",
+    "targetType": "SharedCostAllocationBasis",
+    "todoItemIds": []
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

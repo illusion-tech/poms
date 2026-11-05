@@ -1,0 +1,585 @@
+{
+  "context": {
+    "tag": "e41",
+    "project": {
+      "allowedActions": [
+        "view-project-workspace",
+        "edit-project-basic-info",
+        "reassign-project-owner"
+      ],
+      "closedAt": null,
+      "closedReason": null,
+      "createdAt": "2026-11-03T23:52:40.709Z",
+      "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "currentApprovalSummary": {
+        "exportPolicy": null,
+        "generatedAt": null,
+        "projectionLevel": null,
+        "summaryPackageKey": null,
+        "summarySnapshotId": null
+      },
+      "currentBidSummary": {
+        "bidPackageNo": null,
+        "bidProcessId": "c99f3e97-f50b-4b24-96b2-1687ca81ea68",
+        "bidStatus": "negotiating",
+        "resultStatus": "pending",
+        "summary": "R4-def36真实商务过程",
+        "tenderNo": null
+      },
+      "currentConfirmationSummary": {
+        "confirmationRecordId": null,
+        "confirmedAt": null,
+        "confirmedCount": 0,
+        "pendingCount": 0,
+        "requiredCount": 0,
+        "status": "not_configured"
+      },
+      "currentContractSummary": {
+        "activeContractCount": 2,
+        "currencyCode": "CNY",
+        "currentSnapshotId": "2eaff0e9-8af3-4551-a94f-b85feae1510d",
+        "latestContractId": "48a7467c-c58e-486d-aade-eda661b65298",
+        "latestContractNo": "CT-2026-000002",
+        "latestContractStatus": "active",
+        "signedAmountProjection": {
+          "displayText": "56500.00 CNY",
+          "fieldPackageKey": "contract-finance",
+          "mode": "full",
+          "reasonCode": "allowed",
+          "value": "56500.00"
+        },
+        "signedAt": null
+      },
+      "currentStage": "commercial-closure",
+      "customerId": "c5b2d4b1-1b87-4e40-a003-d29c7bac6028",
+      "customerName": "R4-def36-客户",
+      "customerProjectNo": "R4-def36",
+      "exportPolicy": null,
+      "generatedAt": "2026-11-04T00:01:57.021Z",
+      "id": "c19e708b-522c-45e9-90d4-81de7295545b",
+      "ownerName": "R4DEF33 full",
+      "ownerOrgId": null,
+      "ownerOrgName": null,
+      "ownerUserId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "plannedSignAt": null,
+      "projectName": "R4-def36-项目",
+      "projectNo": "PRJ-2026-000001",
+      "projectionLevel": null,
+      "rowVersion": 1,
+      "sourceLeadId": null,
+      "sourceLeadSummary": null,
+      "stageSummary": {
+        "blockingReasons": [],
+        "closedAt": null,
+        "closedReason": null,
+        "currentStage": "commercial-closure",
+        "plannedSignAt": null,
+        "status": "active"
+      },
+      "status": "active",
+      "summarySnapshotId": null,
+      "updatedAt": "2026-11-03T23:52:40.709Z",
+      "updatedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935"
+    },
+    "activeContract": {
+      "id": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+      "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+      "status": "active",
+      "currencyCode": "CNY"
+    },
+    "otherProject": {
+      "closedAt": null,
+      "closedReason": null,
+      "createdAt": "2026-11-03T23:52:40.741Z",
+      "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "currentStage": "commercial-closure",
+      "customerId": "c5b2d4b1-1b87-4e40-a003-d29c7bac6028",
+      "customerName": "R4-def36-客户",
+      "customerProjectNo": "R4-def36other",
+      "id": "2dcd14e5-f113-4842-8886-86fb97750200",
+      "ownerOrgId": null,
+      "ownerUserId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "plannedSignAt": null,
+      "projectName": "R4-def36other-项目",
+      "projectNo": "PRJ-2026-000002",
+      "rowVersion": 1,
+      "sourceLeadId": null,
+      "status": "active",
+      "updatedAt": "2026-11-03T23:52:40.741Z",
+      "updatedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935"
+    },
+    "expenseCategory": "travel",
+    "costCategory": "implementation",
+    "actors": {
+      "full": {
+        "key": "full",
+        "id": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "username": "r4def33_full",
+        "permissions": [
+          "platform:users:manage",
+          "platform:roles:manage",
+          "platform:navigation:manage",
+          "platform:org-units:manage",
+          "platform:dictionaries:manage",
+          "platform:identity-providers:manage",
+          "platform:org-sync:manage",
+          "platform:attachment-storage-providers:manage",
+          "platform:system-settings:manage",
+          "customer:read",
+          "customer:write",
+          "commission:rule-versions:manage",
+          "commission:assignments:manage",
+          "commission:calculations:manage",
+          "commission:payouts:manage",
+          "commission:adjustments:manage",
+          "contract:finance:manage",
+          "contract:finance:sensitive:read",
+          "operating:finance:sensitive:read",
+          "commission:amount:sensitive:read",
+          "labor-cost-rate:sensitive:read",
+          "exception-approval-opinion:sensitive:read",
+          "lead:read",
+          "lead:write",
+          "lead:assign",
+          "lead:score:override",
+          "project:read",
+          "project:write",
+          "project:delete",
+          "nav:dashboard:view",
+          "nav:customers:view",
+          "nav:platform:view",
+          "nav:leads:view",
+          "nav:attachments:view",
+          "nav:projects:view",
+          "nav:contracts:view",
+          "nav:profile:view"
+        ]
+      },
+      "financeOnly": {
+        "key": "financeOnly",
+        "id": "295a1093-2dec-4444-b2f7-c8dde152695d",
+        "username": "r4def33_financeonly",
+        "permissions": [
+          "project:read",
+          "contract:finance:manage",
+          "platform:users:manage"
+        ]
+      },
+      "operatingOnly": {
+        "key": "operatingOnly",
+        "id": "5f22da8a-3802-4a59-97d5-27527ca2e854",
+        "username": "r4def33_operatingonly",
+        "permissions": [
+          "project:read",
+          "contract:finance:manage",
+          "platform:users:manage",
+          "operating:finance:sensitive:read"
+        ]
+      },
+      "laborOnly": {
+        "key": "laborOnly",
+        "id": "04f1746b-5ace-44ef-8fb9-f3d7196891f2",
+        "username": "r4def33_laboronly",
+        "permissions": [
+          "project:read",
+          "contract:finance:manage",
+          "platform:users:manage",
+          "labor-cost-rate:sensitive:read"
+        ]
+      },
+      "auditFull": {
+        "key": "full",
+        "id": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "username": "r4def33_full",
+        "permissions": [
+          "platform:users:manage",
+          "platform:roles:manage",
+          "platform:navigation:manage",
+          "platform:org-units:manage",
+          "platform:dictionaries:manage",
+          "platform:identity-providers:manage",
+          "platform:org-sync:manage",
+          "platform:attachment-storage-providers:manage",
+          "platform:system-settings:manage",
+          "customer:read",
+          "customer:write",
+          "commission:rule-versions:manage",
+          "commission:assignments:manage",
+          "commission:calculations:manage",
+          "commission:payouts:manage",
+          "commission:adjustments:manage",
+          "contract:finance:manage",
+          "contract:finance:sensitive:read",
+          "operating:finance:sensitive:read",
+          "commission:amount:sensitive:read",
+          "labor-cost-rate:sensitive:read",
+          "exception-approval-opinion:sensitive:read",
+          "lead:read",
+          "lead:write",
+          "lead:assign",
+          "lead:score:override",
+          "project:read",
+          "project:write",
+          "project:delete",
+          "nav:dashboard:view",
+          "nav:customers:view",
+          "nav:platform:view",
+          "nav:leads:view",
+          "nav:attachments:view",
+          "nav:projects:view",
+          "nav:contracts:view",
+          "nav:profile:view"
+        ]
+      },
+      "auditFinanceOnly": {
+        "key": "financeOnly",
+        "id": "295a1093-2dec-4444-b2f7-c8dde152695d",
+        "username": "r4def33_financeonly",
+        "permissions": [
+          "project:read",
+          "contract:finance:manage",
+          "platform:users:manage"
+        ]
+      }
+    },
+    "persons": {
+      "partialCoverage": "384ffad5-04ed-4f78-918a-ec8e7df6a590",
+      "priorityChange": "3dc9a7e4-33b9-432e-81ec-613803614739"
+    },
+    "assessments": {
+      "payable": {
+        "periodStart": "2026-11-04",
+        "periodEnd": "2026-11-04",
+        "attributedStage": "execution",
+        "reason": "本隔离验收对采购事实的明确责任判断，不从当前项目阶段推断历史。",
+        "evidenceSummary": "验收责任人审核指定日期与完整期间，登记归属执行阶段；仅验证人工证据链，不作为真实生产业务事实。"
+      },
+      "historicalLabor": {
+        "periodStart": "2026-10-01",
+        "periodEnd": "2026-10-03",
+        "attributedStage": "execution",
+        "reason": "本隔离验收对历史完整人工期间的明确责任判断，不从当前项目阶段推断历史。",
+        "evidenceSummary": "验收责任人审核指定日期与完整期间，登记归属执行阶段；仅验证人工证据链，不作为真实生产业务事实。"
+      },
+      "priorityChange": {
+        "periodStart": "2026-09-01",
+        "periodEnd": "2026-09-30",
+        "attributedStage": "execution",
+        "reason": "本隔离验收对优先级变化人工完整期间的明确责任判断，不从当前项目阶段推断历史。",
+        "evidenceSummary": "验收责任人审核指定日期与完整期间，登记归属执行阶段；仅验证人工证据链，不作为真实生产业务事实。"
+      }
+    }
+  },
+  "manifest": {
+    "kind": "R4E-request-only-API-acceptance-vectors21",
+    "initialState": "not-run",
+    "producerSourcePins": {
+      "logic.rs": "96bdbc87dd031b59c6b895243241cd9b847eb9ae690766c5782183a5c0f9ba4c",
+      "mod.rs": "aaaa5126be86c421255d699bcad582131943d7f500754f0db8e55ddfc437a407",
+      "store.rs": "0b39d14477e52641307d84f28c043dcf9c4309d38d0f55476e7f9806cb621eb5",
+      "view.rs": "943a93380de87fbddc06650f35acfaf467db1a17abf6c25c3af162a5955b53ac"
+    },
+    "cases": [
+      {
+        "id": "E21-01",
+        "title": "费用创建、更新、确认、作废及六入口投影",
+        "dependsOn": [],
+        "requirements": [
+          "base",
+          "actors.full"
+        ],
+        "status": "not-run",
+        "httpStatus": "not-run",
+        "observations": []
+      },
+      {
+        "id": "E21-02",
+        "title": "已确认费用→实际成本，当前映射唯一且原源不可变",
+        "dependsOn": [],
+        "requirements": [
+          "base",
+          "actors.full"
+        ],
+        "status": "not-run",
+        "httpStatus": "not-run",
+        "observations": []
+      },
+      {
+        "id": "E21-03",
+        "title": "费用分币、税层与无silent rounding",
+        "dependsOn": [],
+        "requirements": [
+          "base",
+          "actors.full"
+        ],
+        "status": "not-run",
+        "httpStatus": "not-run",
+        "observations": []
+      },
+      {
+        "id": "E21-04",
+        "title": "真实付款确认→payment-fact及HK业务日",
+        "dependsOn": [],
+        "requirements": [
+          "base",
+          "actors.full"
+        ],
+        "status": "not-run",
+        "httpStatus": "not-run",
+        "observations": []
+      },
+      {
+        "id": "E21-05",
+        "title": "真实进项发票、显式币种/合同证明→invoice",
+        "dependsOn": [],
+        "requirements": [
+          "base",
+          "actors.full"
+        ],
+        "status": "not-run",
+        "httpStatus": "not-run",
+        "observations": []
+      },
+      {
+        "id": "E21-06",
+        "title": "真实采购承诺→procurement，全部先registered",
+        "dependsOn": [],
+        "requirements": [
+          "base",
+          "actors.full"
+        ],
+        "status": "not-run",
+        "httpStatus": "not-run",
+        "observations": []
+      },
+      {
+        "id": "E21-07",
+        "title": "四位费率、两位数量、精确HALF_UP固定见证",
+        "dependsOn": [],
+        "requirements": [
+          "base",
+          "actors.full",
+          "actors.auditFull"
+        ],
+        "status": "not-run",
+        "httpStatus": "not-run",
+        "observations": []
+      },
+      {
+        "id": "E21-08",
+        "title": "人工舍入0拒绝、精度与计算前敏感权限",
+        "dependsOn": [
+          "E21-07"
+        ],
+        "requirements": [
+          "actors.operatingOnly"
+        ],
+        "status": "not-run",
+        "httpStatus": "not-run",
+        "observations": []
+      },
+      {
+        "id": "E21-09",
+        "title": "个人率部分覆盖/单日边界拒绝且按三段拆分",
+        "dependsOn": [],
+        "requirements": [
+          "base",
+          "actors.full",
+          "actors.auditFull",
+          "persons.partialCoverage"
+        ],
+        "status": "not-run",
+        "httpStatus": "not-run",
+        "observations": []
+      },
+      {
+        "id": "E21-10",
+        "title": "同person/role劳动期间当前去重，邻接不重叠",
+        "dependsOn": [
+          "E21-07",
+          "E21-09"
+        ],
+        "requirements": [],
+        "status": "not-run",
+        "httpStatus": "not-run",
+        "observations": []
+      },
+      {
+        "id": "E21-11",
+        "title": "替代失败整体回滚、成功新ID及旧链终态",
+        "dependsOn": [
+          "E21-07"
+        ],
+        "requirements": [],
+        "status": "not-run",
+        "httpStatus": "not-run",
+        "observations": []
+      },
+      {
+        "id": "E21-12",
+        "title": "费用/非labor/labor敏感权限交叉，raw无旁路",
+        "dependsOn": [
+          "E21-02",
+          "E21-07"
+        ],
+        "requirements": [
+          "actors.financeOnly",
+          "actors.operatingOnly",
+          "actors.laborOnly"
+        ],
+        "status": "not-run",
+        "httpStatus": "not-run",
+        "observations": []
+      },
+      {
+        "id": "E21-13",
+        "title": "C采购→E注册→C部分付款→F具证确认及原始版本proof",
+        "dependsOn": [
+          "E21-06"
+        ],
+        "requirements": [
+          "assessments.payable"
+        ],
+        "status": "not-run",
+        "httpStatus": "not-run",
+        "observations": []
+      },
+      {
+        "id": "E21-14",
+        "title": "C再付仍partial→F分摊、付清completed→F分摊替代及锚点递进",
+        "dependsOn": [
+          "E21-13"
+        ],
+        "requirements": [],
+        "status": "not-run",
+        "httpStatus": "not-run",
+        "observations": []
+      },
+      {
+        "id": "E21-15",
+        "title": "历史费率受控截短仍覆盖原期→F确认及rate proof",
+        "dependsOn": [],
+        "requirements": [
+          "base",
+          "actors.full",
+          "actors.auditFull",
+          "assessments.historicalLabor"
+        ],
+        "status": "not-run",
+        "httpStatus": "not-run",
+        "observations": []
+      },
+      {
+        "id": "E21-16",
+        "title": "费率截短不得破坏已捕获期间，CAS/头指针拒绝",
+        "dependsOn": [],
+        "requirements": [
+          "base",
+          "actors.full",
+          "actors.auditFull"
+        ],
+        "status": "not-run",
+        "httpStatus": "not-run",
+        "observations": []
+      },
+      {
+        "id": "E21-17",
+        "title": "注册后新个人率相交，F拒绝确认并保留registered",
+        "dependsOn": [],
+        "requirements": [
+          "base",
+          "actors.full",
+          "actors.auditFull",
+          "persons.priorityChange",
+          "assessments.priorityChange"
+        ],
+        "status": "not-run",
+        "httpStatus": "not-run",
+        "observations": []
+      },
+      {
+        "id": "E21-18",
+        "title": "费率显式前驱/期区/版本及发布回执不泄露rate",
+        "dependsOn": [],
+        "requirements": [
+          "base",
+          "actors.full",
+          "actors.auditFull"
+        ],
+        "status": "not-run",
+        "httpStatus": "not-run",
+        "observations": []
+      },
+      {
+        "id": "E21-19",
+        "title": "审计包标签、真实费用更新历史、读保护及安全事件",
+        "dependsOn": [
+          "E21-01",
+          "E21-02",
+          "E21-07",
+          "E21-11"
+        ],
+        "requirements": [
+          "actors.auditFull",
+          "actors.auditFinanceOnly"
+        ],
+        "status": "not-run",
+        "httpStatus": "not-run",
+        "observations": []
+      },
+      {
+        "id": "E21-20",
+        "title": "真实历史无币种证明发票不得映射",
+        "dependsOn": [],
+        "requirements": [
+          "base",
+          "actors.full",
+          "legacy.unprovedInvoice"
+        ],
+        "status": "not-run",
+        "httpStatus": "not-run",
+        "observations": []
+      },
+      {
+        "id": "E21-21",
+        "title": "查询枚举/联合请求严格校验和跨项目源拒绝",
+        "dependsOn": [
+          "E21-02",
+          "E21-04",
+          "E21-05",
+          "E21-06",
+          "E21-07"
+        ],
+        "requirements": [
+          "otherProject.id"
+        ],
+        "status": "not-run",
+        "httpStatus": "not-run",
+        "observations": []
+      }
+    ],
+    "resources": [],
+    "counts": {
+      "cases": 21,
+      "passed": 0,
+      "failed": 0,
+      "needsEvidence": 0,
+      "notRun": 21,
+      "httpRequestsPassed": 0,
+      "readOnlyObservationsPassed": 0
+    },
+    "knownIntegrationPreconditions": [
+      "Use E delivery04 and Root C/F completed/progress-aggregate correction: every confirmed payment, including partial→partial, advances payable CAS; freeze confirmed_payment_amount_excluding_tax_total. No paid alias in adapter.",
+      "Root C invoice producer must persist currency_code/currency_source/currency_source_snapshot_id using explicit input or the real contract snapshot→source preparation proof.",
+      "Root runtime audit read protection and successful-GET pending-auth flush must be active; finance manage alone grants no sensitive read."
+    ],
+    "notCoveredHere": [
+      "concurrent requests",
+      "fault injection / COMMIT acknowledgement ambiguity",
+      "DB migrations / schema preflight",
+      "browser / UI / generated clients",
+      "frozen period-end snapshot and included states without public producers",
+      "independent G3 / G4"
+    ]
+  }
+}

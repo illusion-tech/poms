@@ -1,0 +1,54 @@
+
+> nx run poms-admin:lint
+
+(node:65696) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+The `@nx/eslint:lint` executor is deprecated and will be removed in Nx v24. Run `nx g @nx/eslint:convert-to-inferred` to migrate to the `@nx/eslint/plugin` inferred targets. See https://nx.dev/docs/guides/tasks--caching/convert-to-inferred for details.
+Linting "poms-admin"...
+[0m
+[4mE:\projects\worktrees\poms-r3hijk-next28\poms\apps\poms-admin\src\app\features\project\project-handover-actions.ts[24m
+    [2m7:1[22m    [31merror[39m    A project tagged with "type:app" can only depend on libs tagged with "type:data-access", "type:contracts"  [2m@nx/enforce-module-boundaries[22m
+  [2m413:29[22m   [33mwarning[39m  Forbidden non-null assertion                                                                               [2m@typescript-eslint/no-non-null-assertion[22m
+  [2m415:48[22m   [33mwarning[39m  Forbidden non-null assertion                                                                               [2m@typescript-eslint/no-non-null-assertion[22m
+  [2m416:54[22m   [33mwarning[39m  Forbidden non-null assertion                                                                               [2m@typescript-eslint/no-non-null-assertion[22m
+  [2m417:58[22m   [33mwarning[39m  Forbidden non-null assertion                                                                               [2m@typescript-eslint/no-non-null-assertion[22m
+  [2m435:29[22m   [33mwarning[39m  Forbidden non-null assertion                                                                               [2m@typescript-eslint/no-non-null-assertion[22m
+  [2m438:56[22m   [33mwarning[39m  Forbidden non-null assertion                                                                               [2m@typescript-eslint/no-non-null-assertion[22m
+  [2m439:48[22m   [33mwarning[39m  Forbidden non-null assertion                                                                               [2m@typescript-eslint/no-non-null-assertion[22m
+  [2m440:54[22m   [33mwarning[39m  Forbidden non-null assertion                                                                               [2m@typescript-eslint/no-non-null-assertion[22m
+  [2m441:48[22m   [33mwarning[39m  Forbidden non-null assertion                                                                               [2m@typescript-eslint/no-non-null-assertion[22m
+  [2m442:46[22m   [33mwarning[39m  Forbidden non-null assertion                                                                               [2m@typescript-eslint/no-non-null-assertion[22m
+  [2m506:60[22m   [33mwarning[39m  Forbidden non-null assertion                                                                               [2m@typescript-eslint/no-non-null-assertion[22m
+  [2m607:94[22m   [33mwarning[39m  Forbidden non-null assertion                                                                               [2m@typescript-eslint/no-non-null-assertion[22m
+  [2m607:130[22m  [33mwarning[39m  Forbidden non-null assertion                                                                               [2m@typescript-eslint/no-non-null-assertion[22m
+  [2m620:126[22m  [33mwarning[39m  Forbidden non-null assertion                                                                               [2m@typescript-eslint/no-non-null-assertion[22m
+  [2m620:184[22m  [33mwarning[39m  Forbidden non-null assertion                                                                               [2m@typescript-eslint/no-non-null-assertion[22m
+  [2m644:137[22m  [33mwarning[39m  Forbidden non-null assertion                                                                               [2m@typescript-eslint/no-non-null-assertion[22m
+  [2m664:47[22m   [33mwarning[39m  Forbidden non-null assertion                                                                               [2m@typescript-eslint/no-non-null-assertion[22m
+  [2m665:54[22m   [33mwarning[39m  Forbidden non-null assertion                                                                               [2m@typescript-eslint/no-non-null-assertion[22m
+  [2m666:48[22m   [33mwarning[39m  Forbidden non-null assertion                                                                               [2m@typescript-eslint/no-non-null-assertion[22m
+  [2m667:46[22m   [33mwarning[39m  Forbidden non-null assertion                                                                               [2m@typescript-eslint/no-non-null-assertion[22m
+  [2m668:50[22m   [33mwarning[39m  Forbidden non-null assertion                                                                               [2m@typescript-eslint/no-non-null-assertion[22m
+  [2m669:55[22m   [33mwarning[39m  Forbidden non-null assertion                                                                               [2m@typescript-eslint/no-non-null-assertion[22m
+[4mE:\projects\worktrees\poms-r3hijk-next28\poms\apps\poms-admin\src\app\features\project\project-handover-flow.spec.ts[24m
+  [2m2:1[22m  [31merror[39m  A project tagged with "type:app" can only depend on libs tagged with "type:data-access", "type:contracts"  [2m@nx/enforce-module-boundaries[22m
+[4mE:\projects\worktrees\poms-r3hijk-next28\poms\apps\poms-admin\src\app\features\project\project-handover-flow.ts[24m
+  [2m1:1[22m  [31merror[39m  A project tagged with "type:app" can only depend on libs tagged with "type:data-access", "type:contracts"  [2m@nx/enforce-module-boundaries[22m
+[31m[1m✖ 25 problems (3 errors, 22 warnings)[22m[39m
+[0m
+✖ 25 problems (3 errors, 22 warnings)
+
+
+
+ NX   Running target lint for project poms-admin failed
+
+Failed tasks:
+
+- poms-admin:lint
+
+Hint: run the command with --verbose for more details.
+
+  Run duration:      8.9s
+  Cache:             Skipped (--skip-nx-cache)
+  Critical path:     8.9s (1 task)
+  Recoverable time:  <1ms

@@ -1,0 +1,95 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T02:44:14.865Z",
+  "completedAt": "2026-11-04T02:44:14.901Z",
+  "operationId": "ProjectCostController_createExpenseRecord",
+  "method": "POST",
+  "path": "/api/projects/2410df0c-c530-4223-b857-1a83a411b57b/expense-records",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-01316-9f31db21",
+  "requestBody": {
+    "contractId": "a8ab4086-89c6-4b57-b14c-3ecaa7ceb058",
+    "expenseCategory": "travel",
+    "expenseDescription": "R4F44-f60-unknown-net-tax",
+    "expenseDate": "2026-11-04",
+    "currency": "CNY",
+    "amountExcludingTax": null,
+    "taxAmount": null,
+    "amountIncludingTax": "0.01",
+    "sourceType": "manual",
+    "evidenceSummary": "R4F44-f60-实际API费用来源",
+    "attachmentCount": 0
+  },
+  "status": 201,
+  "responseBody": {
+    "amountExcludingTax": null,
+    "amountIncludingTax": null,
+    "attachmentCount": 0,
+    "confirmedAt": null,
+    "confirmedBy": null,
+    "contractId": "a8ab4086-89c6-4b57-b14c-3ecaa7ceb058",
+    "createdAt": "2026-11-04T02:44:14.891Z",
+    "currency": "CNY",
+    "evidenceSummary": null,
+    "expenseCategory": "travel",
+    "expenseDate": "2026-11-04",
+    "expenseDescription": null,
+    "financialProjection": {
+      "amountExcludingTax": {
+        "displayText": "-",
+        "fieldPackageKey": "operating-finance",
+        "mode": "full",
+        "reasonCode": "field-package-not-applicable",
+        "value": null
+      },
+      "amountIncludingTax": {
+        "displayText": "0.01",
+        "fieldPackageKey": "operating-finance",
+        "mode": "full",
+        "reasonCode": "allowed",
+        "value": "0.01"
+      },
+      "evidenceSummary": {
+        "displayText": "R4F44-f60-实际API费用来源",
+        "fieldPackageKey": "operating-finance",
+        "mode": "full",
+        "reasonCode": "allowed",
+        "value": "R4F44-f60-实际API费用来源"
+      },
+      "expenseDescription": {
+        "displayText": "R4F44-f60-unknown-net-tax",
+        "fieldPackageKey": "operating-finance",
+        "mode": "full",
+        "reasonCode": "allowed",
+        "value": "R4F44-f60-unknown-net-tax"
+      },
+      "taxAmount": {
+        "displayText": "-",
+        "fieldPackageKey": "operating-finance",
+        "mode": "full",
+        "reasonCode": "field-package-not-applicable",
+        "value": null
+      },
+      "voidReason": {
+        "displayText": "-",
+        "fieldPackageKey": "operating-finance",
+        "mode": "full",
+        "reasonCode": "field-package-not-applicable",
+        "value": null
+      }
+    },
+    "id": "076e4efe-ce4a-46b9-873c-72d7fe17090e",
+    "projectId": "2410df0c-c530-4223-b857-1a83a411b57b",
+    "rowVersion": 1,
+    "sourceType": "manual",
+    "status": "recorded",
+    "taxAmount": null,
+    "updatedAt": "2026-11-04T02:44:14.891Z",
+    "voidReason": null,
+    "voidedAt": null
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

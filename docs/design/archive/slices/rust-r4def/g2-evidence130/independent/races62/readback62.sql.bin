@@ -1,0 +1,118 @@
+-- PLANNED/NOT-RUN: bound SELECT templates for Root observe callbacks.
+-- IDs/request IDs/tag prefixes are actual API receipts; no SQL business producer.
+-- Root records real before/after results and source bytes/hashes, not only booleans.
+
+-- 1. Current/noncurrent cost facts. $1=owned cost UUID[], $2=owned source UUID text[].
+SELECT id, project_id, source_type, source_id, record_status, row_version,
+       supersedes_record_id, labor_scope_key, labor_period_start, labor_period_end,
+       amount_excluding_tax::text, tax_cost_amount::text, amount_including_tax::text,
+       actual_hours::text, actual_person_days::text, internal_cost_rate::text,
+       labor_amount::text, source_basis, calculation_basis, confirmed_at,
+       confirmed_by, stage_locked_at, stage_derived_from_id,
+       is_included_in_project_cost, cost_description
+FROM poms.project_actual_cost_record
+WHERE id = ANY($1::uuid[]) OR source_id = ANY($2::text[])
+   OR supersedes_record_id = ANY($1::uuid[])
+ORDER BY id;
+
+-- 2. Expense truth: confirmed+mapped OR voided+unmapped; all money remains exact.
+-- $1=owned source expense UUID[].
+SELECT id, project_id, status, row_version, currency, expense_date,
+       amount_excluding_tax::text, tax_amount::text, amount_including_tax::text,
+       confirmed_at, confirmed_by, voided_at, void_reason
+FROM poms.expense_record WHERE id = ANY($1::uuid[]) ORDER BY id;
+
+-- 3. Source procurement record unchanged by E mapping. $1=actual C payable UUID.
+SELECT id, project_id, contract_id, status, row_version, currency,
+       amount_excluding_tax::text, tax_amount::text, amount_including_tax::text,
+       expected_payment_date
+FROM poms.payable_record WHERE id = $1::uuid;
+
+-- 4. Stage history: exact one head, exact predecessor, preserved old evidence.
+-- $1=owned cost UUID[].
+SELECT id, cost_record_id, status, row_version, supersedes_id, attributed_stage,
+       locked_by_snapshot_id, evidence_business_date, governance_evidence_id,
+       handled_at, handled_by
+FROM poms.cost_stage_attribution_snapshot
+WHERE cost_record_id = ANY($1::uuid[]) ORDER BY cost_record_id, id;
+
+-- 5. Tax predecessor chain. $1=project UUID, $2=owned unique tax type.
+SELECT id, project_id, tax_treatment_type, status, row_version, supersedes_id,
+       deductibility_status, tax_pending_flag, tax_impact_amount::text,
+       tax_impact_pending_amount::text, currency, governance_evidence_id
+FROM poms.accounting_tax_treatment_snapshot
+WHERE project_id = $1::uuid AND tax_treatment_type = $2::text ORDER BY id;
+
+-- 6. Relevant basis rows, including newly discovered rows from their source
+-- snapshots and any target IDs in request-scoped evidence below.
+-- $1=known basis UUID[], $2=owned cost UUID[]. Root unions evidence target IDs.
+SELECT b.id, b.status, b.row_version, b.supersedes_id, b.source_cost_scope_key,
+       b.currency, b.measurement_basis, b.measurement_amount::text,
+       b.source_amount_excluding_tax::text, b.source_tax_cost_amount::text,
+       b.source_amount_including_tax::text, b.governance_evidence_id
+FROM poms.shared_cost_allocation_basis b
+WHERE b.id = ANY($1::uuid[]) OR b.id IN (
+  SELECT s.basis_id FROM poms.shared_cost_allocation_source_snapshot s
+  WHERE s.cost_record_id = ANY($2::uuid[])
+)
+ORDER BY b.id;
+
+-- 7. All result rows for the exact old/new basis IDs. $1=UUID[].
+SELECT id, basis_id, project_id, status, row_version, supersedes_id,
+       allocated_amount::text, allocated_amount_excluding_tax::text,
+       allocated_tax_cost_amount::text, allocated_amount_including_tax::text,
+       allocation_weight::text, allocation_ratio::text, residual_minor_units,
+       governance_evidence_id
+FROM poms.shared_cost_allocation_result
+WHERE basis_id = ANY($1::uuid[]) ORDER BY basis_id, project_id, id;
+
+-- 8. Occupancy: one current per winning cost, zero for losing exclusive cost.
+-- No aggregate result count may hide duplicate/missing source membership.
+-- $1=owned cost UUID[].
+SELECT basis_id, cost_record_id, cost_row_version, source_type, source_id,
+       source_row_version, is_current, currency, amount_excluding_tax::text,
+       tax_cost_amount::text, amount_including_tax::text, source_payload_hash
+FROM poms.shared_cost_allocation_source_snapshot
+WHERE cost_record_id = ANY($1::uuid[]) ORDER BY cost_record_id, basis_id;
+
+-- 9. Evidence and successful business audits are filtered by the actual two
+-- race request IDs, NOT by setup request IDs or wall-clock windows.
+-- Root also reads preexisting evidence IDs for immutable before/after hashes.
+-- $1=race request_id text[], $2=old evidence UUID[].
+SELECT id, target_type, target_id, project_id, request_id, payload_hash,
+       schema_version, frozen_payload
+FROM poms.cost_governance_evidence
+WHERE request_id = ANY($1::text[]) OR id = ANY($2::uuid[]) ORDER BY id;
+
+-- $1=race request_id text[]. Actual E/C/F success event names must match the
+-- requested operation, winner ID and real actor. A loser cannot leave evidence.
+SELECT id, event_type, target_type, target_id, operator_id, request_id, result,
+       before_snapshot, after_snapshot, metadata
+FROM poms.audit_log WHERE request_id = ANY($1::text[]) ORDER BY id;
+
+-- 10. Actual family identities and immutable rate facts. $1=rate UUID[].
+-- Root gate uses these exact rate_key strings prefixed poms:cost-rate: and the
+-- production hashtextextended(...,0), never a new uncalled test advisory key.
+SELECT id, rate_key, version, row_version, status, is_current, rate_scope_type,
+       person_id, role_code, rate_unit, rate_value::text, currency,
+       effective_from, effective_to, supersedes_rate_version_id
+FROM poms.internal_cost_rate_version WHERE id = ANY($1::uuid[]) ORDER BY rate_key, id;
+
+-- 11. Session binding only: no cookies/session tokens/password hashes.
+-- $1=two independently authenticated auth_session UUIDs; verify one user_id.
+SELECT id, user_id FROM poms.auth_session WHERE id = ANY($1::uuid[]) ORDER BY id;
+
+-- 12. Barrier observation metadata, executed by Root while its real gate is held.
+-- $1=actual Rust application backend PID[] correlated to only the two workers.
+SELECT a.pid, a.query, a.wait_event_type, a.wait_event, l.locktype,
+       l.relation::regclass::text, l.classid::text, l.objid::text, l.objsubid,
+       l.mode, l.granted
+FROM pg_stat_activity a JOIN pg_locks l ON l.pid = a.pid
+WHERE a.pid = ANY($1::integer[])
+ORDER BY a.pid, l.granted, l.locktype, l.classid, l.objid;
+
+-- Required independent assertions are in README62.md/PG_ASSERTIONS62.
+-- For orphan detection, Root compares its existing complete business-row graph
+-- snapshots and request-scoped target IDs, including business_number_sequence;
+-- absence from these narrow projections alone must not hide a partial orphan.
+-- Auth/security rejections may be expected, but never waive business deltas.

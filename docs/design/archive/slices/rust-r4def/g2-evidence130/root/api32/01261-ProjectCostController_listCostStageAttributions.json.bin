@@ -1,0 +1,49 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T02:44:04.355Z",
+  "completedAt": "2026-11-04T02:44:04.394Z",
+  "operationId": "ProjectCostController_listCostStageAttributions",
+  "method": "GET",
+  "path": "/api/project-actual-cost-records/f0239e19-744d-442c-af38-2068fc9dc627/stage-attributions",
+  "query": {},
+  "actorKey": "financeOnly",
+  "actorId": "295a1093-2dec-4444-b2f7-c8dde152695d",
+  "requestId": "r4def32-01261-9e02e961",
+  "requestBody": null,
+  "status": 200,
+  "responseBody": [
+    {
+      "attributedStage": "sensitive",
+      "attributionMode": "manual",
+      "attributionSummaryProjection": {
+        "displayText": "敏感字段已隐藏",
+        "fieldPackageKey": "operating-finance",
+        "mode": "masked",
+        "reasonCode": "missing-sensitive-read-permission",
+        "value": null
+      },
+      "costRecordId": "f0239e19-744d-442c-af38-2068fc9dc627",
+      "createdAt": "2026-11-04T02:44:02.942Z",
+      "evidenceBusinessDate": "2026-11-04",
+      "evidenceId": "4ca6658e-5042-45ae-a36e-0d8b0328b1e6",
+      "evidenceProjection": {
+        "displayText": "敏感字段已隐藏",
+        "fieldPackageKey": "operating-finance",
+        "mode": "masked",
+        "reasonCode": "missing-sensitive-read-permission",
+        "value": null
+      },
+      "governanceCertification": "verified",
+      "handledAt": "2026-11-04T02:44:02.942Z",
+      "handledBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "id": "41061901-064e-4818-b108-bf1f9e61ce6f",
+      "lockedBySnapshotId": null,
+      "rowVersion": 1,
+      "status": "active",
+      "supersedesId": null,
+      "updatedAt": "2026-11-04T02:44:02.942Z"
+    }
+  ],
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

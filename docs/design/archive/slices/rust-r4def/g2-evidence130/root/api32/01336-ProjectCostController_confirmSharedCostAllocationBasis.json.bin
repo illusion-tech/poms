@@ -1,0 +1,61 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T02:44:18.858Z",
+  "completedAt": "2026-11-04T02:44:18.932Z",
+  "operationId": "ProjectCostController_confirmSharedCostAllocationBasis",
+  "method": "POST",
+  "path": "/api/shared-cost-allocation-bases",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-01336-7d072d54",
+  "requestBody": {
+    "basisType": "R4F44-f60",
+    "allocationMethod": "weighted",
+    "sourceCostRecordIds": [
+      "84a798f2-f6b4-4d10-8e97-5825e51e29e4"
+    ],
+    "measurementBasis": "including-tax",
+    "expectedSourceVersions": [
+      {
+        "costRecordId": "84a798f2-f6b4-4d10-8e97-5825e51e29e4",
+        "expectedVersion": 2
+      }
+    ],
+    "projectShareItems": [
+      {
+        "projectId": "2410df0c-c530-4223-b857-1a83a411b57b",
+        "allocationWeight": "1.000000",
+        "allocatedAmount": "5000000000000000.00",
+        "allocationRatio": "0.500000",
+        "allocationSummary": "R4F44-f60-明确完整项目份额"
+      },
+      {
+        "projectId": "a275878e-459d-45d9-a2f4-37874d68c7f2",
+        "allocationWeight": "1.000000",
+        "allocatedAmount": "4999999999999999.99",
+        "allocationRatio": "0.500000",
+        "allocationSummary": "R4F44-f60-明确完整项目份额"
+      }
+    ],
+    "basisSummary": "R4F44-f60-具证来源、权重与完整份额，不自动included"
+  },
+  "status": 201,
+  "responseBody": {
+    "allocationResultIds": [
+      "219227c3-d720-4f5e-ba57-ed17de8b8c66",
+      "4ba5dde5-a3e4-47b4-ba42-b04960dba39d"
+    ],
+    "approvalRecordId": null,
+    "basisId": "03c4ca55-7cc0-4afe-a809-762b4a4cb9cd",
+    "businessStatusAfter": "active",
+    "confirmationRecordId": null,
+    "evidenceId": "19181b96-e1d5-46db-bce6-37cb04a281c4",
+    "resultStatus": "success",
+    "targetId": "03c4ca55-7cc0-4afe-a809-762b4a4cb9cd",
+    "targetType": "SharedCostAllocationBasis",
+    "todoItemIds": []
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

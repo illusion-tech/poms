@@ -1,0 +1,40 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T04:18:04.550Z",
+  "completedAt": "2026-11-04T04:18:04.636Z",
+  "operationId": "ProjectCostController_confirmCostStageAttribution",
+  "method": "POST",
+  "path": "/api/project-actual-cost-records/563c2285-0ab7-4fe8-8f2b-1f816832f032/stage-attributions",
+  "query": {},
+  "actorKey": "raceA88",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-01490-d0fb02b8",
+  "requestBody": {
+    "stageAttributionMode": "manual",
+    "attributedStage": "execution",
+    "expectedVersion": 1,
+    "attributionSummary": "实际API金额和业务日期支撑本次明确人工判断，后续以真实D确认事实作可追溯更正；Root执行前复核该责任说明",
+    "attributionEvidence": {
+      "kind": "manual",
+      "businessDate": "2026-11-04",
+      "reason": "本隔离验收责任人将本次费用、单日人工及采购承诺按指定业务日人工归属执行阶段；不推断历史区间，不认作R5执行准入",
+      "evidenceSummary": "实际API金额和业务日期支撑本次明确人工判断，后续以真实D确认事实作可追溯更正；Root执行前复核该责任说明",
+      "attachmentIds": []
+    }
+  },
+  "status": 201,
+  "responseBody": {
+    "approvalRecordId": null,
+    "attributionSnapshotId": "2a45cf19-5052-4037-ae80-7590c80a444e",
+    "businessStatusAfter": "active",
+    "confirmationRecordId": null,
+    "costRecordId": "563c2285-0ab7-4fe8-8f2b-1f816832f032",
+    "evidenceId": "cfa02c7c-6435-43d4-9068-8bc24594c981",
+    "resultStatus": "success",
+    "targetId": "2a45cf19-5052-4037-ae80-7590c80a444e",
+    "targetType": "CostStageAttributionSnapshot",
+    "todoItemIds": []
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

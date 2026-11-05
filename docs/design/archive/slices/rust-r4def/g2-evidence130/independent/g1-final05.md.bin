@@ -1,0 +1,40 @@
+# R4 DEF 独立 G1 最终审查 05
+
+**G1 = Block，仅剩一项 OpenAPI nullable enum 归一化差异。** 未准入 G2；03 Block 和所有 preflight 原件保留。
+
+- 审查提交：`f3d093d2cf2495ca990f8aac314eead7a8935ab1`。
+- manifest：`docs/design/rust-r4def/joint-g1-05/manifest05.json`。
+- 原字节 SHA-256：`dbb1a88c4c60ec0e4d77a6015524ab293e4750f571a41135d1b75f9bd43adfcf`，独立匹配。
+- 原始核验结果：`g1-final05-checks.json`。435 个来源的当前文件/冻结原件/指定提交 blob、5 个输出全部匹配。
+
+## 唯一剩余阻断
+
+**[P2] nullable enum 转换没有保留 null 取值。**
+
+`target-full-spec05.json` 的 JSON pointer `#/components/schemas/SharedCostAllocationBasisSummary/properties/measurementBasis` 为：
+
+```json
+{"type":"string","enum":["excluding-tax","tax","including-tax"],"nullable":true}
+```
+
+F 原候选是该 enum 与 null 的 oneOf，明确允许 legacy-unverified 行的 measurementBasis=null。OpenAPI 3.0 的 nullable 只允许类型为空，并不自动让 enum 接受 null；null 还须显式加入 enum。当前转换排除了原来的合法 null，因此 `openapi-normalization05.json` 所称 same accepted values 不成立。[Swagger 官方 nullable enum 说明](https://swagger.io/docs/specification/v3_0/data-models/enums/#nullable-enums)。
+
+修正归一器：若去除 null 分支后的 T 含 enum，补入未重复的 JSON null；保持业务字段/原候选不改，保留05，重建权威包。补一项 legacy measurementBasis=null 的契约见证。此问题是12处归一化中唯一有 enum 的 nullable 转换，其他11处转换方向正确；不重开已收口的业务选择。
+
+## 03 四项阻断已收口
+
+1. **3.0 语法：** 10处 type:null、2处const 已消除，12处变换均有记录；上述 nullable enum 的值域保留仍需最后修正。
+2. **F 人工金额：** `root-projection05.json` 显式优先于 F fixed-operating 条款。真实来源含 LABOR、mixed 或前代冻结依据时，所有可逆 basis/result/evidence/tax/receipt 金额组要求 operating + labor 双敏感授权；读取任缺整组 mask，治理写入任缺403，不提供隐藏金额校验提示，双包安全事件借同 CommonSession。权限矩阵/混合减法反推/错误/故障场景已冻结。
+3. **累计检查与旧证据：** 精确 binary 规则保护旧02 failed SQL，当前主线基线到候选累计 `git diff --check` 实际通过；最近提交检查也通过，未把旧失败字节改成新成功原件。
+4. **归属：** `ownership04.md` 已具体冻结 D/E/F 模块、D 受控 B/R2 回调及 UI、Root C invoice/公共协议/迁移/Shared/spec/client 和运行环境的唯一写入者；超白名单改动须先交 Root 单点协调。
+
+## 其他独立检查
+
+- D7/E11/F12共30操作；完整目标293操作、624 schemas、63变更；291个既有 method/path/operationId均保留。
+- schema authority before/after 无差异，本地 JSON refs 无悬空、required 无未定义字段，OpenAPI3.1-only关键字扫描为0。
+- 原始产品 apps/libs 相对 main 基线差异为0；没有产品实现、SQL执行或真实运行验收。
+- 全库 `deno task format:md:check` 实际通过；最近提交和累计 diff check 均实际通过。
+- SQL 哈希与已审03一致；E02投影/个人费率相交拆分、D锁内self-confirm/安全摘要、Fregistered→confirmed原子producer、invoice真源币种/单字段修正、香港业务日期/跨日验证等既有决定保持。
+- 显式 authorityOrder 已明确 Root05 覆盖 F 较宽权限解释，原候选/原件哈希未被重写。R5 execution gate、本批not included及#101/#57保持Open边界不变。
+
+修正唯一剩余值域问题后，提交新精确 commit/manifest 即可做增量最终核验。通过之前不允许将05线上冻结为可编码 G1。静态 G1 审查通过之后，仍须由 Root 写回纯metadata并完成实际线上冻结，随后才能按独占白名单进入 G2；本审查从未等同运行验收。

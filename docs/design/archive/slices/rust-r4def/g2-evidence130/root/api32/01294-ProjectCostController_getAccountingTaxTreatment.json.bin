@@ -1,0 +1,68 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T02:44:11.746Z",
+  "completedAt": "2026-11-04T02:44:11.776Z",
+  "operationId": "ProjectCostController_getAccountingTaxTreatment",
+  "method": "GET",
+  "path": "/api/accounting-tax-treatments/4dbbf717-19d5-4819-8fab-b09cba2b83bd",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-01294-5202ef3a",
+  "requestBody": null,
+  "status": 200,
+  "responseBody": {
+    "basisSummaryProjection": {
+      "displayText": "R4F44-f60-仅治理事实，不重复加税",
+      "fieldPackageKey": "operating-finance",
+      "mode": "full",
+      "reasonCode": "allowed",
+      "value": "R4F44-f60-仅治理事实，不重复加税"
+    },
+    "confirmedAt": "2026-11-04T02:44:11.718Z",
+    "confirmedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+    "createdAt": "2026-11-04T02:44:11.718Z",
+    "currency": "CNY",
+    "deductibilityStatus": "deductible",
+    "evidenceId": "c5a035fc-dfa5-4229-a7ef-c64ac62a7493",
+    "governanceCertification": "verified",
+    "id": "4dbbf717-19d5-4819-8fab-b09cba2b83bd",
+    "projectId": "2410df0c-c530-4223-b857-1a83a411b57b",
+    "rowVersion": 1,
+    "sourceEvidenceProjection": {
+      "displayText": "{\"businessDate\":\"2026-11-04\",\"payloadHash\":\"ce541d01b9f8cda30c67b8b42ecb13884feba6f9e978fae4fa704b7a7e0228c7\",\"reason\":\"Confirmed responsible tax assessment\",\"sourceReferences\":[{\"businessDate\":\"2026-11-04\",\"kind\":\"source\",\"reason\":\"本隔离验收财务责任人核对真实0.01税额来源，先登记待定后明确可抵扣判定；保留原成本金额及不纳入经营状态，仅验证正式命令与证据链。\",\"sourceId\":\"f0239e19-744d-442c-af38-2068fc9dc627\",\"sourceType\":\"project-actual-cost-record\",\"sourceVersion\":2},{\"businessDate\":\"2026-11-04\",\"kind\":\"source\",\"reason\":\"本隔离验收财务责任人核对真实0.01税额来源，先登记待定后明确可抵扣判定；保留原成本金额及不纳入经营状态，仅验证正式命令与证据链。\",\"sourceId\":\"1146af9a-9d1e-4e9e-894f-71022bfea549\",\"sourceType\":\"project-actual-cost-record\",\"sourceVersion\":2}]}",
+      "fieldPackageKey": "operating-finance",
+      "mode": "full",
+      "reasonCode": "allowed",
+      "value": "{\"businessDate\":\"2026-11-04\",\"payloadHash\":\"ce541d01b9f8cda30c67b8b42ecb13884feba6f9e978fae4fa704b7a7e0228c7\",\"reason\":\"Confirmed responsible tax assessment\",\"sourceReferences\":[{\"businessDate\":\"2026-11-04\",\"kind\":\"source\",\"reason\":\"本隔离验收财务责任人核对真实0.01税额来源，先登记待定后明确可抵扣判定；保留原成本金额及不纳入经营状态，仅验证正式命令与证据链。\",\"sourceId\":\"f0239e19-744d-442c-af38-2068fc9dc627\",\"sourceType\":\"project-actual-cost-record\",\"sourceVersion\":2},{\"businessDate\":\"2026-11-04\",\"kind\":\"source\",\"reason\":\"本隔离验收财务责任人核对真实0.01税额来源，先登记待定后明确可抵扣判定；保留原成本金额及不纳入经营状态，仅验证正式命令与证据链。\",\"sourceId\":\"1146af9a-9d1e-4e9e-894f-71022bfea549\",\"sourceType\":\"project-actual-cost-record\",\"sourceVersion\":2}]}"
+    },
+    "status": "active",
+    "supersedesId": null,
+    "taxImpactAmountProjection": {
+      "displayText": "0.00",
+      "fieldPackageKey": "operating-finance",
+      "mode": "full",
+      "reasonCode": "allowed",
+      "value": "0.00"
+    },
+    "taxImpactPendingAmountProjection": {
+      "displayText": "0.00",
+      "fieldPackageKey": "operating-finance",
+      "mode": "full",
+      "reasonCode": "allowed",
+      "value": "0.00"
+    },
+    "taxImpactSummaryProjection": {
+      "displayText": "R4F44-f60-本隔离验收财务责任人核对真实0.01税额来源，先登记待定后明确可抵扣判定；保留原成本金额及不纳入经营状态，仅验证正式命令与证据链。",
+      "fieldPackageKey": "operating-finance",
+      "mode": "full",
+      "reasonCode": "allowed",
+      "value": "R4F44-f60-本隔离验收财务责任人核对真实0.01税额来源，先登记待定后明确可抵扣判定；保留原成本金额及不纳入经营状态，仅验证正式命令与证据链。"
+    },
+    "taxPendingFlag": false,
+    "taxTreatmentType": "R4F44-f60-mixed",
+    "updatedAt": "2026-11-04T02:44:11.718Z"
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

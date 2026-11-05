@@ -1,0 +1,25 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:05:20.199Z",
+  "completedAt": "2026-11-04T00:05:20.223Z",
+  "operationId": "ProjectCostController_createProjectActualCostRecord",
+  "method": "POST",
+  "path": "/api/projects/c19e708b-522c-45e9-90d4-81de7295545b/actual-cost-records",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-00173-d8d3f14c",
+  "requestBody": {
+    "costType": "payment-fact",
+    "paymentRecordId": "c37a29a1-62f7-4138-bcc9-6f7d74d3f716",
+    "expectedSourceVersion": 1
+  },
+  "status": 409,
+  "responseBody": {
+    "error": "Conflict",
+    "message": "Payment source is not confirmed",
+    "statusCode": 409
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

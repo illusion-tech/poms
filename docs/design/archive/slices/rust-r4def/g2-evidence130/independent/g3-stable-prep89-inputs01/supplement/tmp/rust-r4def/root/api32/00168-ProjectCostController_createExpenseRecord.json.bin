@@ -1,0 +1,33 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:05:20.068Z",
+  "completedAt": "2026-11-04T00:05:20.082Z",
+  "operationId": "ProjectCostController_createExpenseRecord",
+  "method": "POST",
+  "path": "/api/projects/c19e708b-522c-45e9-90d4-81de7295545b/expense-records",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-00168-56e8b8f4",
+  "requestBody": {
+    "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+    "expenseCategory": "travel",
+    "expenseDescription": "R4E21-e41-费用原始说明",
+    "expenseDate": "2026-11-04",
+    "currency": "CNY",
+    "amountIncludingTax": "106.00",
+    "taxAmount": "6.01",
+    "amountExcludingTax": "100.00",
+    "sourceType": "manual",
+    "evidenceSummary": "R4E21-e41-费用真实API依据",
+    "attachmentCount": 0
+  },
+  "status": 422,
+  "responseBody": {
+    "error": "Unprocessable Entity",
+    "message": "Financial amount layers are inconsistent",
+    "statusCode": 422
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

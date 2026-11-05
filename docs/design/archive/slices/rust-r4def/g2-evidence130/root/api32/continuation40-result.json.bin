@@ -1,0 +1,3230 @@
+{
+  "kind": "R4DEF-real-upstream-contract-request-driver32",
+  "stages": [
+    {
+      "id": "read-existing-source",
+      "action": "read-existing-source",
+      "status": "passed"
+    },
+    {
+      "id": "actual-internal-summary",
+      "action": "actual-internal-summary",
+      "status": "passed"
+    },
+    {
+      "id": "pricing-margin",
+      "action": "pricing-margin",
+      "status": "passed"
+    },
+    {
+      "id": "contract-1-readiness-diff-review",
+      "action": "readiness-diff-review",
+      "contractIndex": 0,
+      "status": "passed"
+    },
+    {
+      "id": "contract-1-contract-preparation",
+      "action": "contract-preparation",
+      "contractIndex": 0,
+      "status": "passed"
+    },
+    {
+      "id": "contract-1-contract-review-approval",
+      "action": "contract-review-approval",
+      "contractIndex": 0,
+      "status": "passed"
+    },
+    {
+      "id": "contract-1-contract-activation",
+      "action": "contract-activation",
+      "contractIndex": 0,
+      "status": "passed"
+    },
+    {
+      "id": "contract-1-formal-receivable-plan",
+      "action": "formal-receivable-plan",
+      "contractIndex": 0,
+      "status": "passed"
+    },
+    {
+      "id": "contract-2-readiness-diff-review",
+      "action": "readiness-diff-review",
+      "contractIndex": 1,
+      "status": "passed"
+    },
+    {
+      "id": "contract-2-contract-preparation",
+      "action": "contract-preparation",
+      "contractIndex": 1,
+      "status": "passed"
+    },
+    {
+      "id": "contract-2-contract-review-approval",
+      "action": "contract-review-approval",
+      "contractIndex": 1,
+      "status": "passed"
+    },
+    {
+      "id": "contract-2-contract-activation",
+      "action": "contract-activation",
+      "contractIndex": 1,
+      "status": "passed"
+    },
+    {
+      "id": "contract-2-formal-receivable-plan",
+      "action": "formal-receivable-plan",
+      "contractIndex": 1,
+      "status": "passed"
+    }
+  ],
+  "httpReceipts": [
+    {
+      "operationId": "ProjectController_getById",
+      "method": "GET",
+      "path": "/api/projects/c19e708b-522c-45e9-90d4-81de7295545b",
+      "query": {},
+      "caseId": "upstream32-read-existing-source",
+      "stepId": "upstream32-1",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "expectedStatus": 200,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/00089-ProjectController_getById.json",
+      "requestId": "r4def32-00089-739bff9c",
+      "httpStatus": 200
+    },
+    {
+      "operationId": "ContractReadinessController_getCommercialReleaseBaseline",
+      "method": "GET",
+      "path": "/api/commercial-release-baselines/c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+      "query": {},
+      "caseId": "upstream32-read-existing-source",
+      "stepId": "upstream32-2",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "expectedStatus": 200,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/00090-ContractReadinessController_getCommercialReleaseBaseline.json",
+      "requestId": "r4def32-00090-1fed4916",
+      "httpStatus": 200
+    },
+    {
+      "operationId": "ContractController_getById",
+      "method": "GET",
+      "path": "/api/contracts/b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+      "query": {},
+      "caseId": "upstream32-read-existing-source",
+      "stepId": "upstream32-3",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "expectedStatus": 200,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/00091-ContractController_getById.json",
+      "requestId": "r4def32-00091-7ae4b76f",
+      "httpStatus": 200
+    },
+    {
+      "operationId": "ContractController_getById",
+      "method": "GET",
+      "path": "/api/contracts/48a7467c-c58e-486d-aade-eda661b65298",
+      "query": {},
+      "caseId": "upstream32-read-existing-source",
+      "stepId": "upstream32-4",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "expectedStatus": 200,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/00092-ContractController_getById.json",
+      "requestId": "r4def32-00092-916625ae",
+      "httpStatus": 200
+    },
+    {
+      "operationId": "ProjectController_createProjectPricingMarginReview",
+      "method": "POST",
+      "path": "/api/projects/c19e708b-522c-45e9-90d4-81de7295545b/pricing-margin-reviews",
+      "query": {},
+      "caseId": "upstream32-pricing-margin",
+      "stepId": "upstream32-5",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "expectedStatus": 201,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/00093-ProjectController_createProjectPricingMarginReview.json",
+      "requestId": "r4def32-00093-12a32f95",
+      "httpStatus": 201
+    },
+    {
+      "operationId": "ContractReadinessController_createContractReadinessPackage",
+      "method": "POST",
+      "path": "/api/contract-readiness-packages",
+      "query": {},
+      "caseId": "upstream32-contract-1-readiness-diff-review",
+      "stepId": "upstream32-6",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "expectedStatus": 201,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/00094-ContractReadinessController_createContractReadinessPackage.json",
+      "requestId": "r4def32-00094-e467d18b",
+      "httpStatus": 201
+    },
+    {
+      "operationId": "ContractReadinessController_getDiffHistory",
+      "method": "GET",
+      "path": "/api/commercial-release-baselines/c6d760c3-8a87-4ac8-94e5-16c497a4c4ec/diff-history",
+      "query": {
+        "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7"
+      },
+      "caseId": "upstream32-contract-1-readiness-diff-review",
+      "stepId": "upstream32-7",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "expectedStatus": 200,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/00095-ContractReadinessController_getDiffHistory.json",
+      "requestId": "r4def32-00095-4fd83f54",
+      "httpStatus": 200
+    },
+    {
+      "operationId": "ContractReadinessController_getCommercialReleaseBaseline",
+      "method": "GET",
+      "path": "/api/commercial-release-baselines/c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+      "query": {},
+      "caseId": "upstream32-contract-1-readiness-diff-review",
+      "stepId": "upstream32-8",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "expectedStatus": 200,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/00096-ContractReadinessController_getCommercialReleaseBaseline.json",
+      "requestId": "r4def32-00096-ec018236",
+      "httpStatus": 200
+    },
+    {
+      "operationId": "ContractReadinessController_reviewDiff",
+      "method": "POST",
+      "path": "/api/commercial-release-baselines/c6d760c3-8a87-4ac8-94e5-16c497a4c4ec:reviewDiff",
+      "query": {},
+      "caseId": "upstream32-contract-1-readiness-diff-review",
+      "stepId": "upstream32-9",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "expectedStatus": 200,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/00097-ContractReadinessController_reviewDiff.json",
+      "requestId": "r4def32-00097-e370687e",
+      "httpStatus": 200
+    },
+    {
+      "operationId": "ContractReadinessController_getCurrentContractReadiness",
+      "method": "GET",
+      "path": "/api/projects/c19e708b-522c-45e9-90d4-81de7295545b/contract-readiness",
+      "query": {
+        "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7"
+      },
+      "caseId": "upstream32-contract-1-readiness-diff-review",
+      "stepId": "upstream32-10",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "expectedStatus": 200,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/00098-ContractReadinessController_getCurrentContractReadiness.json",
+      "requestId": "r4def32-00098-4745eac3",
+      "httpStatus": 200
+    },
+    {
+      "operationId": "ContractReadinessController_initializeContractSnapshot",
+      "method": "POST",
+      "path": "/api/contract-readiness-packages/f03b3390-7b8f-4c7e-8a3a-14d3f0aadded:initializeContractSnapshot",
+      "query": {},
+      "caseId": "upstream32-contract-1-contract-preparation",
+      "stepId": "upstream32-11",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "expectedStatus": 200,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/00099-ContractReadinessController_initializeContractSnapshot.json",
+      "requestId": "r4def32-00099-f2def766",
+      "httpStatus": 200
+    },
+    {
+      "operationId": "ContractController_getById",
+      "method": "GET",
+      "path": "/api/contracts/b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+      "query": {},
+      "caseId": "upstream32-contract-1-contract-review-approval",
+      "stepId": "upstream32-12",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "expectedStatus": 200,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/00100-ContractController_getById.json",
+      "requestId": "r4def32-00100-9faa0729",
+      "httpStatus": 200
+    },
+    {
+      "operationId": "ContractController_submitReview",
+      "method": "POST",
+      "path": "/api/contracts/b75ed6ae-87ba-4ae1-9e35-f865239ebed7:submitReview",
+      "query": {},
+      "caseId": "upstream32-contract-1-contract-review-approval",
+      "stepId": "upstream32-13",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "expectedStatus": 200,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/00101-ContractController_submitReview.json",
+      "requestId": "r4def32-00101-a5c8f6cc",
+      "httpStatus": 200
+    },
+    {
+      "operationId": "ContractController_getCurrentApproval",
+      "method": "GET",
+      "path": "/api/contracts/b75ed6ae-87ba-4ae1-9e35-f865239ebed7/approval-record",
+      "query": {},
+      "caseId": "upstream32-contract-1-contract-review-approval",
+      "stepId": "upstream32-14",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "expectedStatus": 200,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/00102-ContractController_getCurrentApproval.json",
+      "requestId": "r4def32-00102-e72bb12b",
+      "httpStatus": 200
+    },
+    {
+      "operationId": "ApprovalController_approveRecord",
+      "method": "POST",
+      "path": "/api/approval-records/ba7f547f-f65e-4a4a-a64d-7b90ecb4f3f0:approve",
+      "query": {},
+      "caseId": "upstream32-contract-1-contract-review-approval",
+      "stepId": "upstream32-15",
+      "actorId": "00000000-0000-4000-8000-000000000008",
+      "expectedStatus": 200,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/00103-ApprovalController_approveRecord.json",
+      "requestId": "r4def32-00103-c0947c79",
+      "httpStatus": 200
+    },
+    {
+      "operationId": "ContractController_getCurrentApproval",
+      "method": "GET",
+      "path": "/api/contracts/b75ed6ae-87ba-4ae1-9e35-f865239ebed7/approval-record",
+      "query": {},
+      "caseId": "upstream32-contract-1-contract-review-approval",
+      "stepId": "upstream32-16",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "expectedStatus": 200,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/00104-ContractController_getCurrentApproval.json",
+      "requestId": "r4def32-00104-5f1045cf",
+      "httpStatus": 200
+    },
+    {
+      "operationId": "ContractController_getById",
+      "method": "GET",
+      "path": "/api/contracts/b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+      "query": {},
+      "caseId": "upstream32-contract-1-contract-activation",
+      "stepId": "upstream32-17",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "expectedStatus": 200,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/00105-ContractController_getById.json",
+      "requestId": "r4def32-00105-39b964fe",
+      "httpStatus": 200
+    },
+    {
+      "operationId": "ContractController_activate",
+      "method": "POST",
+      "path": "/api/contracts/b75ed6ae-87ba-4ae1-9e35-f865239ebed7:activate",
+      "query": {},
+      "caseId": "upstream32-contract-1-contract-activation",
+      "stepId": "upstream32-18",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "expectedStatus": 200,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/00106-ContractController_activate.json",
+      "requestId": "r4def32-00106-7b3c84c3",
+      "httpStatus": 200
+    },
+    {
+      "operationId": "ContractController_getById",
+      "method": "GET",
+      "path": "/api/contracts/b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+      "query": {},
+      "caseId": "upstream32-contract-1-contract-activation",
+      "stepId": "upstream32-19",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "expectedStatus": 200,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/00107-ContractController_getById.json",
+      "requestId": "r4def32-00107-a85a56ec",
+      "httpStatus": 200
+    },
+    {
+      "operationId": "ContractTermSnapshotController_getById",
+      "method": "GET",
+      "path": "/api/contract-term-snapshots/839324ec-ddc2-4af1-af5e-82b5dc101fa7",
+      "query": {},
+      "caseId": "upstream32-contract-1-contract-activation",
+      "stepId": "upstream32-20",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "expectedStatus": 200,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/00108-ContractTermSnapshotController_getById.json",
+      "requestId": "r4def32-00108-4fa3391b",
+      "httpStatus": 200
+    },
+    {
+      "operationId": "ContractReadinessController_getContractReadinessPackage",
+      "method": "GET",
+      "path": "/api/contract-readiness-packages/f03b3390-7b8f-4c7e-8a3a-14d3f0aadded",
+      "query": {},
+      "caseId": "upstream32-contract-1-formal-receivable-plan",
+      "stepId": "upstream32-21",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "expectedStatus": 200,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/00109-ContractReadinessController_getContractReadinessPackage.json",
+      "requestId": "r4def32-00109-e8c942d8",
+      "httpStatus": 200
+    },
+    {
+      "operationId": "ContractReadinessController_initializeReceivablePlan",
+      "method": "POST",
+      "path": "/api/contract-readiness-packages/f03b3390-7b8f-4c7e-8a3a-14d3f0aadded:initializeReceivablePlan",
+      "query": {},
+      "caseId": "upstream32-contract-1-formal-receivable-plan",
+      "stepId": "upstream32-22",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "expectedStatus": 200,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/00110-ContractReadinessController_initializeReceivablePlan.json",
+      "requestId": "r4def32-00110-f29d7a54",
+      "httpStatus": 200
+    },
+    {
+      "operationId": "ProjectController_getById",
+      "method": "GET",
+      "path": "/api/projects/c19e708b-522c-45e9-90d4-81de7295545b",
+      "query": {},
+      "caseId": "upstream32-contract-1-formal-receivable-plan",
+      "stepId": "upstream32-23",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "expectedStatus": 200,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/00111-ProjectController_getById.json",
+      "requestId": "r4def32-00111-4db0db2c",
+      "httpStatus": 200
+    },
+    {
+      "operationId": "ContractReadinessController_createContractReadinessPackage",
+      "method": "POST",
+      "path": "/api/contract-readiness-packages",
+      "query": {},
+      "caseId": "upstream32-contract-2-readiness-diff-review",
+      "stepId": "upstream32-24",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "expectedStatus": 201,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/00112-ContractReadinessController_createContractReadinessPackage.json",
+      "requestId": "r4def32-00112-ef7fe5fb",
+      "httpStatus": 201
+    },
+    {
+      "operationId": "ContractReadinessController_getDiffHistory",
+      "method": "GET",
+      "path": "/api/commercial-release-baselines/c6d760c3-8a87-4ac8-94e5-16c497a4c4ec/diff-history",
+      "query": {
+        "contractId": "48a7467c-c58e-486d-aade-eda661b65298"
+      },
+      "caseId": "upstream32-contract-2-readiness-diff-review",
+      "stepId": "upstream32-25",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "expectedStatus": 200,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/00113-ContractReadinessController_getDiffHistory.json",
+      "requestId": "r4def32-00113-1ef37f24",
+      "httpStatus": 200
+    },
+    {
+      "operationId": "ContractReadinessController_getCommercialReleaseBaseline",
+      "method": "GET",
+      "path": "/api/commercial-release-baselines/c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+      "query": {},
+      "caseId": "upstream32-contract-2-readiness-diff-review",
+      "stepId": "upstream32-26",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "expectedStatus": 200,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/00114-ContractReadinessController_getCommercialReleaseBaseline.json",
+      "requestId": "r4def32-00114-be1b452b",
+      "httpStatus": 200
+    },
+    {
+      "operationId": "ContractReadinessController_reviewDiff",
+      "method": "POST",
+      "path": "/api/commercial-release-baselines/c6d760c3-8a87-4ac8-94e5-16c497a4c4ec:reviewDiff",
+      "query": {},
+      "caseId": "upstream32-contract-2-readiness-diff-review",
+      "stepId": "upstream32-27",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "expectedStatus": 200,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/00115-ContractReadinessController_reviewDiff.json",
+      "requestId": "r4def32-00115-c5b5f8fc",
+      "httpStatus": 200
+    },
+    {
+      "operationId": "ContractReadinessController_getCurrentContractReadiness",
+      "method": "GET",
+      "path": "/api/projects/c19e708b-522c-45e9-90d4-81de7295545b/contract-readiness",
+      "query": {
+        "contractId": "48a7467c-c58e-486d-aade-eda661b65298"
+      },
+      "caseId": "upstream32-contract-2-readiness-diff-review",
+      "stepId": "upstream32-28",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "expectedStatus": 200,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/00116-ContractReadinessController_getCurrentContractReadiness.json",
+      "requestId": "r4def32-00116-e4ead573",
+      "httpStatus": 200
+    },
+    {
+      "operationId": "ContractReadinessController_initializeContractSnapshot",
+      "method": "POST",
+      "path": "/api/contract-readiness-packages/00f58143-cd28-464f-98c2-4c2c7d29e7fc:initializeContractSnapshot",
+      "query": {},
+      "caseId": "upstream32-contract-2-contract-preparation",
+      "stepId": "upstream32-29",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "expectedStatus": 200,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/00117-ContractReadinessController_initializeContractSnapshot.json",
+      "requestId": "r4def32-00117-ec13a94a",
+      "httpStatus": 200
+    },
+    {
+      "operationId": "ContractController_getById",
+      "method": "GET",
+      "path": "/api/contracts/48a7467c-c58e-486d-aade-eda661b65298",
+      "query": {},
+      "caseId": "upstream32-contract-2-contract-review-approval",
+      "stepId": "upstream32-30",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "expectedStatus": 200,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/00118-ContractController_getById.json",
+      "requestId": "r4def32-00118-5db9fdfd",
+      "httpStatus": 200
+    },
+    {
+      "operationId": "ContractController_submitReview",
+      "method": "POST",
+      "path": "/api/contracts/48a7467c-c58e-486d-aade-eda661b65298:submitReview",
+      "query": {},
+      "caseId": "upstream32-contract-2-contract-review-approval",
+      "stepId": "upstream32-31",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "expectedStatus": 200,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/00119-ContractController_submitReview.json",
+      "requestId": "r4def32-00119-b479e577",
+      "httpStatus": 200
+    },
+    {
+      "operationId": "ContractController_getCurrentApproval",
+      "method": "GET",
+      "path": "/api/contracts/48a7467c-c58e-486d-aade-eda661b65298/approval-record",
+      "query": {},
+      "caseId": "upstream32-contract-2-contract-review-approval",
+      "stepId": "upstream32-32",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "expectedStatus": 200,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/00120-ContractController_getCurrentApproval.json",
+      "requestId": "r4def32-00120-8b59f65b",
+      "httpStatus": 200
+    },
+    {
+      "operationId": "ApprovalController_approveRecord",
+      "method": "POST",
+      "path": "/api/approval-records/a7f78452-9ecd-4633-bce4-fe6e0a93dd5e:approve",
+      "query": {},
+      "caseId": "upstream32-contract-2-contract-review-approval",
+      "stepId": "upstream32-33",
+      "actorId": "00000000-0000-4000-8000-000000000008",
+      "expectedStatus": 200,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/00121-ApprovalController_approveRecord.json",
+      "requestId": "r4def32-00121-ce0dc988",
+      "httpStatus": 200
+    },
+    {
+      "operationId": "ContractController_getCurrentApproval",
+      "method": "GET",
+      "path": "/api/contracts/48a7467c-c58e-486d-aade-eda661b65298/approval-record",
+      "query": {},
+      "caseId": "upstream32-contract-2-contract-review-approval",
+      "stepId": "upstream32-34",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "expectedStatus": 200,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/00122-ContractController_getCurrentApproval.json",
+      "requestId": "r4def32-00122-3ee72dff",
+      "httpStatus": 200
+    },
+    {
+      "operationId": "ContractController_getById",
+      "method": "GET",
+      "path": "/api/contracts/48a7467c-c58e-486d-aade-eda661b65298",
+      "query": {},
+      "caseId": "upstream32-contract-2-contract-activation",
+      "stepId": "upstream32-35",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "expectedStatus": 200,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/00123-ContractController_getById.json",
+      "requestId": "r4def32-00123-da2c861c",
+      "httpStatus": 200
+    },
+    {
+      "operationId": "ContractController_activate",
+      "method": "POST",
+      "path": "/api/contracts/48a7467c-c58e-486d-aade-eda661b65298:activate",
+      "query": {},
+      "caseId": "upstream32-contract-2-contract-activation",
+      "stepId": "upstream32-36",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "expectedStatus": 200,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/00124-ContractController_activate.json",
+      "requestId": "r4def32-00124-ec179592",
+      "httpStatus": 200
+    },
+    {
+      "operationId": "ContractController_getById",
+      "method": "GET",
+      "path": "/api/contracts/48a7467c-c58e-486d-aade-eda661b65298",
+      "query": {},
+      "caseId": "upstream32-contract-2-contract-activation",
+      "stepId": "upstream32-37",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "expectedStatus": 200,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/00125-ContractController_getById.json",
+      "requestId": "r4def32-00125-25e9dff0",
+      "httpStatus": 200
+    },
+    {
+      "operationId": "ContractTermSnapshotController_getById",
+      "method": "GET",
+      "path": "/api/contract-term-snapshots/2eaff0e9-8af3-4551-a94f-b85feae1510d",
+      "query": {},
+      "caseId": "upstream32-contract-2-contract-activation",
+      "stepId": "upstream32-38",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "expectedStatus": 200,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/00126-ContractTermSnapshotController_getById.json",
+      "requestId": "r4def32-00126-28fec917",
+      "httpStatus": 200
+    },
+    {
+      "operationId": "ContractReadinessController_getContractReadinessPackage",
+      "method": "GET",
+      "path": "/api/contract-readiness-packages/00f58143-cd28-464f-98c2-4c2c7d29e7fc",
+      "query": {},
+      "caseId": "upstream32-contract-2-formal-receivable-plan",
+      "stepId": "upstream32-39",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "expectedStatus": 200,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/00127-ContractReadinessController_getContractReadinessPackage.json",
+      "requestId": "r4def32-00127-8d11ba1e",
+      "httpStatus": 200
+    },
+    {
+      "operationId": "ContractReadinessController_initializeReceivablePlan",
+      "method": "POST",
+      "path": "/api/contract-readiness-packages/00f58143-cd28-464f-98c2-4c2c7d29e7fc:initializeReceivablePlan",
+      "query": {},
+      "caseId": "upstream32-contract-2-formal-receivable-plan",
+      "stepId": "upstream32-40",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "expectedStatus": 200,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/00128-ContractReadinessController_initializeReceivablePlan.json",
+      "requestId": "r4def32-00128-988f204a",
+      "httpStatus": 200
+    },
+    {
+      "operationId": "ProjectController_getById",
+      "method": "GET",
+      "path": "/api/projects/c19e708b-522c-45e9-90d4-81de7295545b",
+      "query": {},
+      "caseId": "upstream32-contract-2-formal-receivable-plan",
+      "stepId": "upstream32-41",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "expectedStatus": 200,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/00129-ProjectController_getById.json",
+      "requestId": "r4def32-00129-713e4709",
+      "httpStatus": 200
+    }
+  ],
+  "internalReceipts": [
+    {
+      "stage": "actual-internal-summary",
+      "receiptId": "tmp/rust-r4def/root/summary39/receipt39.json",
+      "summarySnapshotId": "f95bd597-7da3-4373-b3dc-c0ca75988aa2",
+      "definitionId": "ee472c4a-0f23-4c66-95ed-29779fa53cc2",
+      "status": "outer-COMMIT-ACK"
+    }
+  ],
+  "runtimeExecuted": true,
+  "completed": true,
+  "context": {
+    "tag": "def36",
+    "caseId": "def36",
+    "runId": "152fce0e-f4c3-47fc-8e54-f0104f2ca4ff",
+    "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+    "plannedDate": "2026-12-04",
+    "instant": "2026-11-04T01:00:00.000Z",
+    "expectedInstanceId": "0c945ec2-e3ec-4705-8bd3-660a46e8cafc",
+    "customer": {
+      "id": "c5b2d4b1-1b87-4e40-a003-d29c7bac6028",
+      "customerNo": "CUST-2026-000003",
+      "displayName": "R4-def36-客户",
+      "legalName": null,
+      "shortName": null,
+      "status": "active",
+      "ownerOrgId": null,
+      "ownerUserId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "sourceChannel": "r4-actual-owned-producer",
+      "remark": null,
+      "mergedIntoCustomerId": null,
+      "rowVersion": 1,
+      "createdAt": "2026-11-03T23:52:40.672Z",
+      "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "updatedAt": "2026-11-03T23:52:40.672Z",
+      "updatedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935"
+    },
+    "project": {
+      "allowedActions": [
+        "view-project-workspace",
+        "edit-project-basic-info",
+        "reassign-project-owner"
+      ],
+      "closedAt": null,
+      "closedReason": null,
+      "createdAt": "2026-11-03T23:52:40.709Z",
+      "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "currentApprovalSummary": {
+        "exportPolicy": null,
+        "generatedAt": null,
+        "projectionLevel": null,
+        "summaryPackageKey": null,
+        "summarySnapshotId": null
+      },
+      "currentBidSummary": {
+        "bidPackageNo": null,
+        "bidProcessId": "c99f3e97-f50b-4b24-96b2-1687ca81ea68",
+        "bidStatus": "negotiating",
+        "resultStatus": "pending",
+        "summary": "R4-def36真实商务过程",
+        "tenderNo": null
+      },
+      "currentConfirmationSummary": {
+        "confirmationRecordId": null,
+        "confirmedAt": null,
+        "confirmedCount": 0,
+        "pendingCount": 0,
+        "requiredCount": 0,
+        "status": "not_configured"
+      },
+      "currentContractSummary": {
+        "activeContractCount": 2,
+        "currencyCode": "CNY",
+        "currentSnapshotId": "2eaff0e9-8af3-4551-a94f-b85feae1510d",
+        "latestContractId": "48a7467c-c58e-486d-aade-eda661b65298",
+        "latestContractNo": "CT-2026-000002",
+        "latestContractStatus": "active",
+        "signedAmountProjection": {
+          "displayText": "56500.00 CNY",
+          "fieldPackageKey": "contract-finance",
+          "mode": "full",
+          "reasonCode": "allowed",
+          "value": "56500.00"
+        },
+        "signedAt": null
+      },
+      "currentStage": "commercial-closure",
+      "customerId": "c5b2d4b1-1b87-4e40-a003-d29c7bac6028",
+      "customerName": "R4-def36-客户",
+      "customerProjectNo": "R4-def36",
+      "exportPolicy": null,
+      "generatedAt": "2026-11-04T00:01:57.021Z",
+      "id": "c19e708b-522c-45e9-90d4-81de7295545b",
+      "ownerName": "R4DEF33 full",
+      "ownerOrgId": null,
+      "ownerOrgName": null,
+      "ownerUserId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "plannedSignAt": null,
+      "projectName": "R4-def36-项目",
+      "projectNo": "PRJ-2026-000001",
+      "projectionLevel": null,
+      "rowVersion": 1,
+      "sourceLeadId": null,
+      "sourceLeadSummary": null,
+      "stageSummary": {
+        "blockingReasons": [],
+        "closedAt": null,
+        "closedReason": null,
+        "currentStage": "commercial-closure",
+        "plannedSignAt": null,
+        "status": "active"
+      },
+      "status": "active",
+      "summarySnapshotId": null,
+      "updatedAt": "2026-11-03T23:52:40.709Z",
+      "updatedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935"
+    },
+    "otherProject": {
+      "closedAt": null,
+      "closedReason": null,
+      "createdAt": "2026-11-03T23:52:40.741Z",
+      "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "currentStage": "commercial-closure",
+      "customerId": "c5b2d4b1-1b87-4e40-a003-d29c7bac6028",
+      "customerName": "R4-def36-客户",
+      "customerProjectNo": "R4-def36other",
+      "id": "2dcd14e5-f113-4842-8886-86fb97750200",
+      "ownerOrgId": null,
+      "ownerUserId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "plannedSignAt": null,
+      "projectName": "R4-def36other-项目",
+      "projectNo": "PRJ-2026-000002",
+      "rowVersion": 1,
+      "sourceLeadId": null,
+      "status": "active",
+      "updatedAt": "2026-11-03T23:52:40.741Z",
+      "updatedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935"
+    },
+    "cost": {
+      "allowNextStage": true,
+      "blockerCount": 0,
+      "createdAt": "2026-11-03T23:52:40.769Z",
+      "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "currencyCode": "CNY",
+      "effectiveAt": "2026-11-03T23:52:40.769Z",
+      "highestRiskLevel": "R2",
+      "id": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+      "isCurrent": true,
+      "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+      "rowVersion": 1,
+      "status": "effective",
+      "supersedesId": null,
+      "taxAssumptionSummary": "成本含税额56500.00=未税50000.00+税6500.00。",
+      "taxReviewStatus": "reviewed",
+      "technicalConclusionSummary": "本case技术范围可交付。",
+      "technicalFeasibilityDecision": "feasible",
+      "totalEstimatedAmountExcludingTax": "50000.00",
+      "totalEstimatedAmountIncludingTax": "56500.00",
+      "totalTaxCostAmount": "6500.00",
+      "updatedAt": "2026-11-03T23:52:40.769Z",
+      "updatedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "version": 1
+    },
+    "bid": {
+      "bidMode": "direct-commercial",
+      "bidPackageNo": null,
+      "blockerCount": 0,
+      "createdAt": "2026-11-03T23:52:40.799Z",
+      "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "currentStage": "negotiating",
+      "decision": "participate",
+      "decisionSummary": "通过实际R3命令登记本case决定。",
+      "effectiveAt": "2026-11-03T23:52:40.799Z",
+      "id": "c99f3e97-f50b-4b24-96b2-1687ca81ea68",
+      "isCurrent": true,
+      "ownerRole": null,
+      "processSummary": "R4-def36真实商务过程",
+      "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+      "resultStatus": "pending",
+      "resultSummary": "沿真实直接商务放行，不虚构中标。",
+      "rowVersion": 1,
+      "status": "effective",
+      "supersedesId": null,
+      "tenderNo": null,
+      "updatedAt": "2026-11-03T23:52:40.799Z",
+      "updatedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "version": 1
+    },
+    "contract": {
+      "contractNo": "CT-2026-000001",
+      "createdAt": "2026-11-03T23:52:40.827Z",
+      "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "currencyCode": "CNY",
+      "currentPreparation": {
+        "activatedAt": "2026-11-04T00:01:56.252Z",
+        "activatedSnapshotId": "839324ec-ddc2-4af1-af5e-82b5dc101fa7",
+        "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+        "isCurrent": true,
+        "payloadHash": "363ba6e4ec92c9ed7713ea231a323d999743dc65c94c055adbd4d0020d3322d9",
+        "preparationId": "6df3e4d0-cd17-4615-ade5-d027a944c96a",
+        "preparedAt": "2026-11-04T00:01:55.983Z",
+        "preparedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+        "rowVersion": 2,
+        "sourceBaselineId": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+        "sourceDiffResultId": "72589d07-bfb4-473e-afc5-35278bb0bb18",
+        "sourceReadinessId": "f03b3390-7b8f-4c7e-8a3a-14d3f0aadded",
+        "status": "activated",
+        "version": 1
+      },
+      "currentSnapshotId": "839324ec-ddc2-4af1-af5e-82b5dc101fa7",
+      "currentTermSnapshot": {
+        "amountTaxExclusiveProjection": {
+          "displayText": "50000.00",
+          "fieldPackageKey": "contract-finance",
+          "mode": "full",
+          "reasonCode": "allowed",
+          "value": "50000.00"
+        },
+        "amountTaxInclusiveProjection": {
+          "displayText": "56500.00",
+          "fieldPackageKey": "contract-finance",
+          "mode": "full",
+          "reasonCode": "allowed",
+          "value": "56500.00"
+        },
+        "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+        "createdAt": "2026-11-04T00:01:56.252Z",
+        "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "downPaymentRateProjection": {
+          "displayText": "1.0000",
+          "fieldPackageKey": "contract-finance",
+          "mode": "full",
+          "reasonCode": "allowed",
+          "value": "1.0000"
+        },
+        "effectiveAt": "2026-11-04T00:01:56.252Z",
+        "effectiveBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "id": "839324ec-ddc2-4af1-af5e-82b5dc101fa7",
+        "paymentTermsProjection": {
+          "displayText": "验收前按合同约定支付全部合同款。",
+          "fieldPackageKey": "contract-finance",
+          "mode": "full",
+          "reasonCode": "allowed",
+          "value": "验收前按合同约定支付全部合同款。"
+        },
+        "retentionDueDate": null,
+        "retentionRateProjection": {
+          "displayText": "0.0000",
+          "fieldPackageKey": "contract-finance",
+          "mode": "full",
+          "reasonCode": "allowed",
+          "value": "0.0000"
+        },
+        "rowVersion": 1,
+        "snapshotStatus": "active",
+        "sourceBaselineId": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+        "sourcePreparationId": "6df3e4d0-cd17-4615-ade5-d027a944c96a",
+        "sourceReadinessId": "f03b3390-7b8f-4c7e-8a3a-14d3f0aadded",
+        "taxRateProjection": {
+          "displayText": "0.1300",
+          "fieldPackageKey": "contract-finance",
+          "mode": "full",
+          "reasonCode": "allowed",
+          "value": "0.1300"
+        },
+        "version": 1
+      },
+      "customerContractNo": "R4-def36-合同",
+      "customerName": "R4-def36-客户",
+      "id": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+      "latestReviewBinding": {
+        "approvalRecordId": "ba7f547f-f65e-4a4a-a64d-7b90ecb4f3f0",
+        "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+        "createdAt": "2026-11-04T00:01:56.079Z",
+        "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "payloadHash": "363ba6e4ec92c9ed7713ea231a323d999743dc65c94c055adbd4d0020d3322d9",
+        "preparationId": "6df3e4d0-cd17-4615-ade5-d027a944c96a",
+        "preparationVersion": 1
+      },
+      "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+      "projectName": "R4-def36-项目",
+      "retentionDueDate": null,
+      "rowVersion": 3,
+      "signedAmountProjection": {
+        "displayText": "56500.00 CNY",
+        "fieldPackageKey": "contract-finance",
+        "mode": "full",
+        "reasonCode": "allowed",
+        "value": "56500.00"
+      },
+      "signedAt": null,
+      "status": "active",
+      "updatedAt": "2026-11-04T00:01:56.258Z",
+      "updatedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935"
+    },
+    "secondContract": {
+      "contractNo": "CT-2026-000002",
+      "createdAt": "2026-11-03T23:52:40.993Z",
+      "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "currencyCode": "CNY",
+      "currentPreparation": {
+        "activatedAt": "2026-11-04T00:01:56.887Z",
+        "activatedSnapshotId": "2eaff0e9-8af3-4551-a94f-b85feae1510d",
+        "contractId": "48a7467c-c58e-486d-aade-eda661b65298",
+        "isCurrent": true,
+        "payloadHash": "5cacd3c8990333e2b2abb7a227aa6628edd0aaff91a7b084eb9f2ca5338638b2",
+        "preparationId": "8fab8f95-1ca6-4ed4-b83c-85ea221dec18",
+        "preparedAt": "2026-11-04T00:01:56.656Z",
+        "preparedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+        "rowVersion": 2,
+        "sourceBaselineId": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+        "sourceDiffResultId": "40f03b30-5206-4158-83c6-d217a630f4c2",
+        "sourceReadinessId": "00f58143-cd28-464f-98c2-4c2c7d29e7fc",
+        "status": "activated",
+        "version": 1
+      },
+      "currentSnapshotId": "2eaff0e9-8af3-4551-a94f-b85feae1510d",
+      "currentTermSnapshot": {
+        "amountTaxExclusiveProjection": {
+          "displayText": "50000.00",
+          "fieldPackageKey": "contract-finance",
+          "mode": "full",
+          "reasonCode": "allowed",
+          "value": "50000.00"
+        },
+        "amountTaxInclusiveProjection": {
+          "displayText": "56500.00",
+          "fieldPackageKey": "contract-finance",
+          "mode": "full",
+          "reasonCode": "allowed",
+          "value": "56500.00"
+        },
+        "contractId": "48a7467c-c58e-486d-aade-eda661b65298",
+        "createdAt": "2026-11-04T00:01:56.887Z",
+        "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "downPaymentRateProjection": {
+          "displayText": "1.0000",
+          "fieldPackageKey": "contract-finance",
+          "mode": "full",
+          "reasonCode": "allowed",
+          "value": "1.0000"
+        },
+        "effectiveAt": "2026-11-04T00:01:56.887Z",
+        "effectiveBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "id": "2eaff0e9-8af3-4551-a94f-b85feae1510d",
+        "paymentTermsProjection": {
+          "displayText": "验收前按合同约定支付全部合同款。",
+          "fieldPackageKey": "contract-finance",
+          "mode": "full",
+          "reasonCode": "allowed",
+          "value": "验收前按合同约定支付全部合同款。"
+        },
+        "retentionDueDate": null,
+        "retentionRateProjection": {
+          "displayText": "0.0000",
+          "fieldPackageKey": "contract-finance",
+          "mode": "full",
+          "reasonCode": "allowed",
+          "value": "0.0000"
+        },
+        "rowVersion": 1,
+        "snapshotStatus": "active",
+        "sourceBaselineId": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+        "sourcePreparationId": "8fab8f95-1ca6-4ed4-b83c-85ea221dec18",
+        "sourceReadinessId": "00f58143-cd28-464f-98c2-4c2c7d29e7fc",
+        "taxRateProjection": {
+          "displayText": "0.1300",
+          "fieldPackageKey": "contract-finance",
+          "mode": "full",
+          "reasonCode": "allowed",
+          "value": "0.1300"
+        },
+        "version": 1
+      },
+      "customerContractNo": "R4-def36second-合同",
+      "customerName": "R4-def36-客户",
+      "id": "48a7467c-c58e-486d-aade-eda661b65298",
+      "latestReviewBinding": {
+        "approvalRecordId": "a7f78452-9ecd-4633-bce4-fe6e0a93dd5e",
+        "contractId": "48a7467c-c58e-486d-aade-eda661b65298",
+        "createdAt": "2026-11-04T00:01:56.737Z",
+        "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "payloadHash": "5cacd3c8990333e2b2abb7a227aa6628edd0aaff91a7b084eb9f2ca5338638b2",
+        "preparationId": "8fab8f95-1ca6-4ed4-b83c-85ea221dec18",
+        "preparationVersion": 1
+      },
+      "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+      "projectName": "R4-def36-项目",
+      "retentionDueDate": null,
+      "rowVersion": 3,
+      "signedAmountProjection": {
+        "displayText": "56500.00 CNY",
+        "fieldPackageKey": "contract-finance",
+        "mode": "full",
+        "reasonCode": "allowed",
+        "value": "56500.00"
+      },
+      "signedAt": null,
+      "status": "active",
+      "updatedAt": "2026-11-04T00:01:56.891Z",
+      "updatedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935"
+    },
+    "baseline": {
+      "amountTaxExclusive": "100000.00",
+      "amountTaxInclusive": "113000.00",
+      "baselineCode": "R4-def36-base",
+      "baselineStatus": "effective",
+      "contractTerms": [
+        {
+          "amountTaxExclusive": "50000.00",
+          "amountTaxInclusive": "56500.00",
+          "contractId": "48a7467c-c58e-486d-aade-eda661b65298",
+          "downPaymentRate": "1.0000",
+          "paymentTerms": "验收前按合同约定支付全部合同款。",
+          "receivablePlanSeeds": [
+            {
+              "isRetentionNode": false,
+              "label": "合同付款",
+              "nodeKey": "full-payment",
+              "note": null,
+              "plannedAmount": "56500.00",
+              "plannedDate": "2026-12-04",
+              "sortOrder": 0
+            }
+          ],
+          "retentionDueDate": null,
+          "retentionRate": "0.0000",
+          "taxRate": "0.1300"
+        },
+        {
+          "amountTaxExclusive": "50000.00",
+          "amountTaxInclusive": "56500.00",
+          "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+          "downPaymentRate": "1.0000",
+          "paymentTerms": "验收前按合同约定支付全部合同款。",
+          "receivablePlanSeeds": [
+            {
+              "isRetentionNode": false,
+              "label": "合同付款",
+              "nodeKey": "full-payment",
+              "note": null,
+              "plannedAmount": "56500.00",
+              "plannedDate": "2026-12-04",
+              "sortOrder": 0
+            }
+          ],
+          "retentionDueDate": null,
+          "retentionRate": "0.0000",
+          "taxRate": "0.1300"
+        }
+      ],
+      "createdAt": "2026-11-03T23:52:41.020Z",
+      "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "currencyCode": "CNY",
+      "diffLevel": "review-required",
+      "diffSummary": "合同条款差异已按同合同来源计算。",
+      "downPaymentRate": "1.0000",
+      "financialProjection": {
+        "displayText": "合同财务字段包",
+        "fieldPackageKey": "contract-finance",
+        "mode": "full",
+        "reasonCode": "allowed",
+        "value": "合同财务字段包"
+      },
+      "grossMarginSummary": null,
+      "id": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+      "isCurrent": true,
+      "latestDiffResultId": "40f03b30-5206-4158-83c6-d217a630f4c2",
+      "paymentTerms": "项目商业来源；各合同金额与节点独立。",
+      "paymentTermsSummary": null,
+      "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+      "quotationReviewId": null,
+      "retentionRate": "0.0000",
+      "reviewStatus": "pending-review",
+      "rowVersion": 4,
+      "taxRate": "0.1300",
+      "updatedAt": "2026-11-04T00:01:56.513Z",
+      "updatedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935"
+    },
+    "summary": {
+      "approvalScenarioKey": "pricing-margin-review",
+      "beforeAbsence": {
+        "activeTargetScenarioProjection": true,
+        "definitionId": true,
+        "definitionNaturalKey": true
+      },
+      "createTrace": [
+        {
+          "id": "ee472c4a-0f23-4c66-95ed-29779fa53cc2",
+          "proof": {
+            "createContext": {
+              "caseId": "def36",
+              "index": 0,
+              "op": "r4def.summary.actual-internal-producer32",
+              "runId": "152fce0e-f4c3-47fc-8e54-f0104f2ca4ff"
+            },
+            "createEventSeq": 2,
+            "createTransaction": 1,
+            "kind": "rust-insert-outer-commit",
+            "outerCommitEventSeq": 11,
+            "releases": [],
+            "runtime": "sqlx-0.9.0"
+          },
+          "table": "approval_summary_package_definition"
+        },
+        {
+          "id": "f95bd597-7da3-4373-b3dc-c0ca75988aa2",
+          "proof": {
+            "createContext": {
+              "caseId": "def36",
+              "index": 0,
+              "op": "r4def.summary.actual-internal-producer32",
+              "runId": "152fce0e-f4c3-47fc-8e54-f0104f2ca4ff"
+            },
+            "createEventSeq": 3,
+            "createTransaction": 1,
+            "kind": "rust-insert-outer-commit",
+            "outerCommitEventSeq": 11,
+            "releases": [],
+            "runtime": "sqlx-0.9.0"
+          },
+          "table": "approval_summary_snapshot"
+        },
+        {
+          "id": "489f83ed-aa56-45a6-8df6-e941d645573b",
+          "proof": {
+            "createContext": {
+              "caseId": "def36",
+              "index": 0,
+              "op": "r4def.summary.actual-internal-producer32",
+              "runId": "152fce0e-f4c3-47fc-8e54-f0104f2ca4ff"
+            },
+            "createEventSeq": 4,
+            "createTransaction": 1,
+            "kind": "rust-insert-outer-commit",
+            "outerCommitEventSeq": 11,
+            "releases": [],
+            "runtime": "sqlx-0.9.0"
+          },
+          "table": "approval_summary_field_projection"
+        },
+        {
+          "id": "1e925674-2e1d-476d-a3f0-df958d6a80b1",
+          "proof": {
+            "createContext": {
+              "caseId": "def36",
+              "index": 0,
+              "op": "r4def.summary.actual-internal-producer32",
+              "runId": "152fce0e-f4c3-47fc-8e54-f0104f2ca4ff"
+            },
+            "createEventSeq": 5,
+            "createTransaction": 1,
+            "kind": "rust-insert-outer-commit",
+            "outerCommitEventSeq": 11,
+            "releases": [],
+            "runtime": "sqlx-0.9.0"
+          },
+          "table": "approval_summary_field_projection"
+        },
+        {
+          "id": "b80bb9b7-d572-4012-9d0e-f4655502e676",
+          "proof": {
+            "createContext": {
+              "caseId": "def36",
+              "index": 0,
+              "op": "r4def.summary.actual-internal-producer32",
+              "runId": "152fce0e-f4c3-47fc-8e54-f0104f2ca4ff"
+            },
+            "createEventSeq": 6,
+            "createTransaction": 1,
+            "kind": "rust-insert-outer-commit",
+            "outerCommitEventSeq": 11,
+            "releases": [],
+            "runtime": "sqlx-0.9.0"
+          },
+          "table": "approval_summary_field_projection"
+        },
+        {
+          "id": "9c71ef18-6065-45ed-ab9a-fd04d7e3bc9e",
+          "proof": {
+            "createContext": {
+              "caseId": "def36",
+              "index": 0,
+              "op": "r4def.summary.actual-internal-producer32",
+              "runId": "152fce0e-f4c3-47fc-8e54-f0104f2ca4ff"
+            },
+            "createEventSeq": 7,
+            "createTransaction": 1,
+            "kind": "rust-insert-outer-commit",
+            "outerCommitEventSeq": 11,
+            "releases": [],
+            "runtime": "sqlx-0.9.0"
+          },
+          "table": "approval_summary_field_projection"
+        },
+        {
+          "id": "c8e7bffd-c779-4ded-bb28-53096f7b57ce",
+          "proof": {
+            "createContext": {
+              "caseId": "def36",
+              "index": 0,
+              "op": "r4def.summary.actual-internal-producer32",
+              "runId": "152fce0e-f4c3-47fc-8e54-f0104f2ca4ff"
+            },
+            "createEventSeq": 8,
+            "createTransaction": 1,
+            "kind": "rust-insert-outer-commit",
+            "outerCommitEventSeq": 11,
+            "releases": [],
+            "runtime": "sqlx-0.9.0"
+          },
+          "table": "approval_summary_field_projection"
+        },
+        {
+          "id": "f65e78db-78ed-40fa-997a-207baca3de33",
+          "proof": {
+            "createContext": {
+              "caseId": "def36",
+              "index": 0,
+              "op": "r4def.summary.actual-internal-producer32",
+              "runId": "152fce0e-f4c3-47fc-8e54-f0104f2ca4ff"
+            },
+            "createEventSeq": 9,
+            "createTransaction": 1,
+            "kind": "rust-insert-outer-commit",
+            "outerCommitEventSeq": 11,
+            "releases": [],
+            "runtime": "sqlx-0.9.0"
+          },
+          "table": "approval_summary_field_projection"
+        },
+        {
+          "id": "37226824-a4c0-4574-b9b2-f4f09ca2f463",
+          "proof": {
+            "createContext": {
+              "caseId": "def36",
+              "index": 0,
+              "op": "r4def.summary.actual-internal-producer32",
+              "runId": "152fce0e-f4c3-47fc-8e54-f0104f2ca4ff"
+            },
+            "createEventSeq": 10,
+            "createTransaction": 1,
+            "kind": "rust-insert-outer-commit",
+            "outerCommitEventSeq": 11,
+            "releases": [],
+            "runtime": "sqlx-0.9.0"
+          },
+          "table": "approval_summary_field_projection"
+        }
+      ],
+      "createsApproval": false,
+      "definitionId": "ee472c4a-0f23-4c66-95ed-29779fa53cc2",
+      "exportPolicy": "internal-only",
+      "materialReferences": {
+        "baselineId": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+        "costPackageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+        "materialHash": "b550f586ac8c952671700f720a855d83981d327628c4f80fc1d9691a682b69e5",
+        "projectId": "c19e708b-522c-45e9-90d4-81de7295545b"
+      },
+      "outerCommitAcknowledged": true,
+      "ownershipCertified": false,
+      "poolClosed": true,
+      "projectionIds": [
+        "489f83ed-aa56-45a6-8df6-e941d645573b",
+        "1e925674-2e1d-476d-a3f0-df958d6a80b1",
+        "b80bb9b7-d572-4012-9d0e-f4655502e676",
+        "9c71ef18-6065-45ed-ab9a-fd04d7e3bc9e",
+        "c8e7bffd-c779-4ded-bb28-53096f7b57ce",
+        "f65e78db-78ed-40fa-997a-207baca3de33",
+        "37226824-a4c0-4574-b9b2-f4f09ca2f463"
+      ],
+      "projectionLevel": "pricing-facts",
+      "rawMaterialsStoredInSummary": false,
+      "summaryPackageKey": "r4defpf-152fce0ef4c347fc8e54f0104f2ca4ff-def36",
+      "summarySnapshotId": "f95bd597-7da3-4373-b3dc-c0ca75988aa2",
+      "traceIncomplete": false,
+      "trustedInternalActorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935"
+    },
+    "creator": {
+      "key": "full",
+      "id": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "username": "r4def33_full",
+      "permissions": [
+        "platform:users:manage",
+        "platform:roles:manage",
+        "platform:navigation:manage",
+        "platform:org-units:manage",
+        "platform:dictionaries:manage",
+        "platform:identity-providers:manage",
+        "platform:org-sync:manage",
+        "platform:attachment-storage-providers:manage",
+        "platform:system-settings:manage",
+        "customer:read",
+        "customer:write",
+        "commission:rule-versions:manage",
+        "commission:assignments:manage",
+        "commission:calculations:manage",
+        "commission:payouts:manage",
+        "commission:adjustments:manage",
+        "contract:finance:manage",
+        "contract:finance:sensitive:read",
+        "operating:finance:sensitive:read",
+        "commission:amount:sensitive:read",
+        "labor-cost-rate:sensitive:read",
+        "exception-approval-opinion:sensitive:read",
+        "lead:read",
+        "lead:write",
+        "lead:assign",
+        "lead:score:override",
+        "project:read",
+        "project:write",
+        "project:delete",
+        "nav:dashboard:view",
+        "nav:customers:view",
+        "nav:platform:view",
+        "nav:leads:view",
+        "nav:attachments:view",
+        "nav:projects:view",
+        "nav:contracts:view",
+        "nav:profile:view"
+      ]
+    },
+    "summaryReceiptId": "tmp/rust-r4def/root/summary39/receipt39.json",
+    "pricing": {
+      "approvalScenarioKey": "pricing-margin-review",
+      "bidCommercialProcessId": "c99f3e97-f50b-4b24-96b2-1687ca81ea68",
+      "blockerCount": 0,
+      "commercialReleaseBaselineId": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+      "createdAt": "2026-11-04T00:01:55.782Z",
+      "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "currencyCode": "CNY",
+      "decision": "released",
+      "decisionSummary": "真实R3放行事实，summary仅材料引用，不是审批通过证明。",
+      "effectiveAt": "2026-11-04T00:01:55.782Z",
+      "exportPolicy": "internal-only",
+      "grossMarginBand": "target",
+      "grossMarginRate": "0.50000000",
+      "grossMarginSummary": "项目层毛利参考；不冒充合同成本分摊。",
+      "id": "f766741b-88b4-49e3-9a3f-c998fa151713",
+      "isCurrent": true,
+      "ownerRole": null,
+      "paymentTermsSummary": "各合同付款条款由独立referenceTerms明确。",
+      "pricingPath": "direct-commercial",
+      "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+      "projectionLevel": "pricing-facts",
+      "quoteAmountTaxExclusive": "100000.00",
+      "quoteAmountTaxInclusive": "113000.00",
+      "quoteVersion": "Q-def36",
+      "readyForContracting": true,
+      "rowVersion": 1,
+      "status": "effective",
+      "summaryPackageKey": "r4defpf-152fce0ef4c347fc8e54f0104f2ca4ff-def36",
+      "summarySnapshotId": "f95bd597-7da3-4373-b3dc-c0ca75988aa2",
+      "supersedesId": null,
+      "taxConditionSummary": "项目商业来源税率13%，四位可无损承接。",
+      "taxRate": "0.1300",
+      "technicalCostPackageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+      "updatedAt": "2026-11-04T00:01:55.782Z",
+      "updatedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "version": 1
+    },
+    "readiness": {
+      "allowedActions": [
+        "initialize-receivable-plan"
+      ],
+      "amendmentStatus": null,
+      "blockingReasonSummary": null,
+      "candidateTerms": {
+        "amountTaxExclusive": "50000.00",
+        "amountTaxInclusive": "56500.00",
+        "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+        "downPaymentRate": "1.0000",
+        "paymentTerms": "验收前按合同约定支付全部合同款。",
+        "receivablePlanSeeds": [
+          {
+            "isRetentionNode": false,
+            "label": "合同付款（本case字段复核）",
+            "nodeKey": "full-payment",
+            "note": null,
+            "plannedAmount": "56500.00",
+            "plannedDate": "2026-12-04",
+            "sortOrder": 0
+          }
+        ],
+        "retentionDueDate": null,
+        "retentionRate": "0.0000",
+        "taxRate": "0.1300"
+      },
+      "commercialReleaseBaselineId": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+      "contractAmendmentId": null,
+      "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+      "contractSnapshotInitializedAt": "2026-11-04T00:01:56.252Z",
+      "createdAt": "2026-11-04T00:01:55.809Z",
+      "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "currentEffectiveDecisionSummary": "本合同差异已通过复核，真实前置条件已收口。",
+      "currentPreparation": {
+        "activatedAt": "2026-11-04T00:01:56.252Z",
+        "activatedSnapshotId": "839324ec-ddc2-4af1-af5e-82b5dc101fa7",
+        "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+        "isCurrent": true,
+        "payloadHash": "363ba6e4ec92c9ed7713ea231a323d999743dc65c94c055adbd4d0020d3322d9",
+        "preparationId": "6df3e4d0-cd17-4615-ade5-d027a944c96a",
+        "preparedAt": "2026-11-04T00:01:55.983Z",
+        "preparedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+        "rowVersion": 2,
+        "sourceBaselineId": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+        "sourceDiffResultId": "72589d07-bfb4-473e-afc5-35278bb0bb18",
+        "sourceReadinessId": "f03b3390-7b8f-4c7e-8a3a-14d3f0aadded",
+        "status": "activated",
+        "version": 1
+      },
+      "diffLevel": "review-required",
+      "financialProjection": {
+        "displayText": "合同财务字段包",
+        "fieldPackageKey": "contract-finance",
+        "mode": "full",
+        "reasonCode": "allowed",
+        "value": "合同财务字段包"
+      },
+      "guardDecision": "allowed",
+      "id": "f03b3390-7b8f-4c7e-8a3a-14d3f0aadded",
+      "initializedContractSnapshotId": "839324ec-ddc2-4af1-af5e-82b5dc101fa7",
+      "initializedReceivablePlanVersionId": null,
+      "isCurrent": true,
+      "items": [
+        {
+          "id": "d6c0ca38-0914-4da8-9941-841dcb0b2db9",
+          "itemKey": "actual-cost-source",
+          "itemType": "checklist",
+          "label": "真实技术与成本来源",
+          "navigationHint": null,
+          "responsibleRole": null,
+          "sortOrder": 0,
+          "status": "ready",
+          "summary": null
+        },
+        {
+          "id": "9e7e7f3c-3bd1-4fb0-a692-6edf2b13ee74",
+          "itemKey": "actual-pricing-source",
+          "itemType": "checklist",
+          "label": "真实报价放行来源",
+          "navigationHint": null,
+          "responsibleRole": null,
+          "sortOrder": 1,
+          "status": "ready",
+          "summary": null
+        },
+        {
+          "id": "e67ecd75-1722-4674-9400-115fa1ba270f",
+          "itemKey": "exact-contract-diff",
+          "itemType": "checklist",
+          "label": "本合同精确差异",
+          "navigationHint": null,
+          "responsibleRole": null,
+          "sortOrder": 2,
+          "status": "ready",
+          "summary": null
+        }
+      ],
+      "latestDiffResultId": "72589d07-bfb4-473e-afc5-35278bb0bb18",
+      "missingPrerequisiteCount": 0,
+      "packageStatus": "ready",
+      "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+      "receivablePlanInitializedAt": null,
+      "reviewStatus": "approved",
+      "rowVersion": 4,
+      "sourceBaselineId": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+      "sourceContractSnapshotId": null,
+      "updatedAt": "2026-11-04T00:01:56.252Z",
+      "updatedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935"
+    },
+    "diffHistory": {
+      "baseline": {
+        "amountTaxExclusive": "100000.00",
+        "amountTaxInclusive": "113000.00",
+        "baselineCode": "R4-def36-base",
+        "baselineStatus": "effective",
+        "contractTerms": [
+          {
+            "amountTaxExclusive": "50000.00",
+            "amountTaxInclusive": "56500.00",
+            "contractId": "48a7467c-c58e-486d-aade-eda661b65298",
+            "downPaymentRate": "1.0000",
+            "paymentTerms": "验收前按合同约定支付全部合同款。",
+            "receivablePlanSeeds": [
+              {
+                "isRetentionNode": false,
+                "label": "合同付款",
+                "nodeKey": "full-payment",
+                "note": null,
+                "plannedAmount": "56500.00",
+                "plannedDate": "2026-12-04",
+                "sortOrder": 0
+              }
+            ],
+            "retentionDueDate": null,
+            "retentionRate": "0.0000",
+            "taxRate": "0.1300"
+          },
+          {
+            "amountTaxExclusive": "50000.00",
+            "amountTaxInclusive": "56500.00",
+            "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+            "downPaymentRate": "1.0000",
+            "paymentTerms": "验收前按合同约定支付全部合同款。",
+            "receivablePlanSeeds": [
+              {
+                "isRetentionNode": false,
+                "label": "合同付款",
+                "nodeKey": "full-payment",
+                "note": null,
+                "plannedAmount": "56500.00",
+                "plannedDate": "2026-12-04",
+                "sortOrder": 0
+              }
+            ],
+            "retentionDueDate": null,
+            "retentionRate": "0.0000",
+            "taxRate": "0.1300"
+          }
+        ],
+        "createdAt": "2026-11-03T23:52:41.020Z",
+        "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "currencyCode": "CNY",
+        "diffLevel": "review-required",
+        "diffSummary": "合同条款差异已按同合同来源计算。",
+        "downPaymentRate": "1.0000",
+        "financialProjection": {
+          "displayText": "合同财务字段包",
+          "fieldPackageKey": "contract-finance",
+          "mode": "full",
+          "reasonCode": "allowed",
+          "value": "合同财务字段包"
+        },
+        "grossMarginSummary": null,
+        "id": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+        "isCurrent": true,
+        "latestDiffResultId": "40f03b30-5206-4158-83c6-d217a630f4c2",
+        "paymentTerms": "项目商业来源；各合同金额与节点独立。",
+        "paymentTermsSummary": null,
+        "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+        "quotationReviewId": null,
+        "retentionRate": "0.0000",
+        "reviewStatus": "pending-review",
+        "rowVersion": 4,
+        "taxRate": "0.1300",
+        "updatedAt": "2026-11-04T00:01:56.513Z",
+        "updatedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935"
+      },
+      "diffItems": [
+        {
+          "diffLevel": "review-required",
+          "fieldKey": "receivablePlanSeeds[full-payment].label",
+          "fieldLabel": "receivablePlanSeeds[full-payment].label",
+          "id": "333641d5-0a25-4ab8-9238-a59a0ba10ac2",
+          "isBlocking": false,
+          "newValueSummary": "合同付款（本case字段复核）",
+          "oldValueSummary": "合同付款",
+          "sortOrder": 0
+        }
+      ],
+      "reviewHistory": []
+    },
+    "preparation": {
+      "businessStatusAfter": "prepared",
+      "contractAmendmentId": null,
+      "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+      "initRecordId": null,
+      "newVersionId": null,
+      "planVersion": null,
+      "planVersionId": null,
+      "preparationId": "6df3e4d0-cd17-4615-ade5-d027a944c96a",
+      "preparationVersion": 1,
+      "resultStatus": "prepared",
+      "snapshotId": null,
+      "sourceReadinessId": "f03b3390-7b8f-4c7e-8a3a-14d3f0aadded",
+      "targetId": "6df3e4d0-cd17-4615-ade5-d027a944c96a",
+      "targetType": "contract-term-preparation"
+    },
+    "submitted": {
+      "approvalRecordId": "ba7f547f-f65e-4a4a-a64d-7b90ecb4f3f0",
+      "businessStatusAfter": "pending-review",
+      "confirmationRecordId": null,
+      "contractAmendmentId": null,
+      "preparationId": "6df3e4d0-cd17-4615-ade5-d027a944c96a",
+      "resultStatus": "submitted",
+      "snapshotId": null,
+      "targetId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+      "targetType": "contract",
+      "todoItemIds": [
+        "af9dd2f0-863e-44d8-975d-9649f9ab855e"
+      ]
+    },
+    "approval": {
+      "approvalType": "contract-review",
+      "businessDomain": "contract-finance",
+      "closedAt": "2026-11-04T00:01:56.138Z",
+      "createdAt": "2026-11-04T00:01:56.079Z",
+      "currentApproverUserId": null,
+      "currentNodeKey": "contract-review",
+      "currentNodeName": "合同审核",
+      "currentStatus": "approved",
+      "decidedAt": "2026-11-04T00:01:56.138Z",
+      "decision": "approved",
+      "decisionComment": "本case实际指定审批人批准。",
+      "id": "ba7f547f-f65e-4a4a-a64d-7b90ecb4f3f0",
+      "initiatorUserId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+      "rowVersion": 2,
+      "submittedAt": "2026-11-04T00:01:56.079Z",
+      "targetObjectId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+      "targetObjectType": "contract",
+      "targetStatus": "pending-review",
+      "targetTitle": "CT-2026-000001",
+      "updatedAt": "2026-11-04T00:01:56.168Z"
+    },
+    "activated": {
+      "approvalRecordId": "ba7f547f-f65e-4a4a-a64d-7b90ecb4f3f0",
+      "beforeSnapshotId": null,
+      "businessStatusAfter": "active",
+      "confirmationRecordId": null,
+      "contractAmendmentId": null,
+      "planVersionId": null,
+      "preparationId": "6df3e4d0-cd17-4615-ade5-d027a944c96a",
+      "resultStatus": "activated",
+      "snapshotId": "839324ec-ddc2-4af1-af5e-82b5dc101fa7",
+      "snapshotVersion": 1,
+      "targetId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+      "targetType": "contract",
+      "todoItemIds": []
+    },
+    "effective": {
+      "amountTaxExclusiveProjection": {
+        "displayText": "50000.00",
+        "fieldPackageKey": "contract-finance",
+        "mode": "full",
+        "reasonCode": "allowed",
+        "value": "50000.00"
+      },
+      "amountTaxInclusiveProjection": {
+        "displayText": "56500.00",
+        "fieldPackageKey": "contract-finance",
+        "mode": "full",
+        "reasonCode": "allowed",
+        "value": "56500.00"
+      },
+      "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+      "createdAt": "2026-11-04T00:01:56.252Z",
+      "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "downPaymentRateProjection": {
+        "displayText": "1.0000",
+        "fieldPackageKey": "contract-finance",
+        "mode": "full",
+        "reasonCode": "allowed",
+        "value": "1.0000"
+      },
+      "effectiveAt": "2026-11-04T00:01:56.252Z",
+      "effectiveBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "id": "839324ec-ddc2-4af1-af5e-82b5dc101fa7",
+      "paymentTermsProjection": {
+        "displayText": "验收前按合同约定支付全部合同款。",
+        "fieldPackageKey": "contract-finance",
+        "mode": "full",
+        "reasonCode": "allowed",
+        "value": "验收前按合同约定支付全部合同款。"
+      },
+      "retentionDueDate": null,
+      "retentionRateProjection": {
+        "displayText": "0.0000",
+        "fieldPackageKey": "contract-finance",
+        "mode": "full",
+        "reasonCode": "allowed",
+        "value": "0.0000"
+      },
+      "rowVersion": 1,
+      "snapshotStatus": "active",
+      "sourceBaselineId": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+      "sourcePreparationId": "6df3e4d0-cd17-4615-ade5-d027a944c96a",
+      "sourceReadinessId": "f03b3390-7b8f-4c7e-8a3a-14d3f0aadded",
+      "taxRateProjection": {
+        "displayText": "0.1300",
+        "fieldPackageKey": "contract-finance",
+        "mode": "full",
+        "reasonCode": "allowed",
+        "value": "0.1300"
+      },
+      "version": 1
+    },
+    "plan": {
+      "businessStatusAfter": "active",
+      "contractAmendmentId": null,
+      "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+      "initRecordId": "91f3dcc3-baa5-4f5b-b8aa-99852400a478",
+      "newVersionId": "f8d73777-9136-4c50-9982-7f88fcb27e21",
+      "planVersion": 1,
+      "planVersionId": "f8d73777-9136-4c50-9982-7f88fcb27e21",
+      "preparationId": "6df3e4d0-cd17-4615-ade5-d027a944c96a",
+      "preparationVersion": 1,
+      "resultStatus": "initialized",
+      "snapshotId": "839324ec-ddc2-4af1-af5e-82b5dc101fa7",
+      "sourceReadinessId": "f03b3390-7b8f-4c7e-8a3a-14d3f0aadded",
+      "targetId": "f8d73777-9136-4c50-9982-7f88fcb27e21",
+      "targetType": "receivable-plan-version"
+    },
+    "contractContexts": [
+      {
+        "contract": {
+          "contractNo": "CT-2026-000001",
+          "createdAt": "2026-11-03T23:52:40.827Z",
+          "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+          "currencyCode": "CNY",
+          "currentPreparation": {
+            "activatedAt": "2026-11-04T00:01:56.252Z",
+            "activatedSnapshotId": "839324ec-ddc2-4af1-af5e-82b5dc101fa7",
+            "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+            "isCurrent": true,
+            "payloadHash": "363ba6e4ec92c9ed7713ea231a323d999743dc65c94c055adbd4d0020d3322d9",
+            "preparationId": "6df3e4d0-cd17-4615-ade5-d027a944c96a",
+            "preparedAt": "2026-11-04T00:01:55.983Z",
+            "preparedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+            "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+            "rowVersion": 2,
+            "sourceBaselineId": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+            "sourceDiffResultId": "72589d07-bfb4-473e-afc5-35278bb0bb18",
+            "sourceReadinessId": "f03b3390-7b8f-4c7e-8a3a-14d3f0aadded",
+            "status": "activated",
+            "version": 1
+          },
+          "currentSnapshotId": "839324ec-ddc2-4af1-af5e-82b5dc101fa7",
+          "currentTermSnapshot": {
+            "amountTaxExclusiveProjection": {
+              "displayText": "50000.00",
+              "fieldPackageKey": "contract-finance",
+              "mode": "full",
+              "reasonCode": "allowed",
+              "value": "50000.00"
+            },
+            "amountTaxInclusiveProjection": {
+              "displayText": "56500.00",
+              "fieldPackageKey": "contract-finance",
+              "mode": "full",
+              "reasonCode": "allowed",
+              "value": "56500.00"
+            },
+            "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+            "createdAt": "2026-11-04T00:01:56.252Z",
+            "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+            "downPaymentRateProjection": {
+              "displayText": "1.0000",
+              "fieldPackageKey": "contract-finance",
+              "mode": "full",
+              "reasonCode": "allowed",
+              "value": "1.0000"
+            },
+            "effectiveAt": "2026-11-04T00:01:56.252Z",
+            "effectiveBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+            "id": "839324ec-ddc2-4af1-af5e-82b5dc101fa7",
+            "paymentTermsProjection": {
+              "displayText": "验收前按合同约定支付全部合同款。",
+              "fieldPackageKey": "contract-finance",
+              "mode": "full",
+              "reasonCode": "allowed",
+              "value": "验收前按合同约定支付全部合同款。"
+            },
+            "retentionDueDate": null,
+            "retentionRateProjection": {
+              "displayText": "0.0000",
+              "fieldPackageKey": "contract-finance",
+              "mode": "full",
+              "reasonCode": "allowed",
+              "value": "0.0000"
+            },
+            "rowVersion": 1,
+            "snapshotStatus": "active",
+            "sourceBaselineId": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+            "sourcePreparationId": "6df3e4d0-cd17-4615-ade5-d027a944c96a",
+            "sourceReadinessId": "f03b3390-7b8f-4c7e-8a3a-14d3f0aadded",
+            "taxRateProjection": {
+              "displayText": "0.1300",
+              "fieldPackageKey": "contract-finance",
+              "mode": "full",
+              "reasonCode": "allowed",
+              "value": "0.1300"
+            },
+            "version": 1
+          },
+          "customerContractNo": "R4-def36-合同",
+          "customerName": "R4-def36-客户",
+          "id": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+          "latestReviewBinding": {
+            "approvalRecordId": "ba7f547f-f65e-4a4a-a64d-7b90ecb4f3f0",
+            "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+            "createdAt": "2026-11-04T00:01:56.079Z",
+            "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+            "payloadHash": "363ba6e4ec92c9ed7713ea231a323d999743dc65c94c055adbd4d0020d3322d9",
+            "preparationId": "6df3e4d0-cd17-4615-ade5-d027a944c96a",
+            "preparationVersion": 1
+          },
+          "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+          "projectName": "R4-def36-项目",
+          "retentionDueDate": null,
+          "rowVersion": 3,
+          "signedAmountProjection": {
+            "displayText": "56500.00 CNY",
+            "fieldPackageKey": "contract-finance",
+            "mode": "full",
+            "reasonCode": "allowed",
+            "value": "56500.00"
+          },
+          "signedAt": null,
+          "status": "active",
+          "updatedAt": "2026-11-04T00:01:56.258Z",
+          "updatedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935"
+        },
+        "readiness": {
+          "allowedActions": [
+            "initialize-receivable-plan"
+          ],
+          "amendmentStatus": null,
+          "blockingReasonSummary": null,
+          "candidateTerms": {
+            "amountTaxExclusive": "50000.00",
+            "amountTaxInclusive": "56500.00",
+            "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+            "downPaymentRate": "1.0000",
+            "paymentTerms": "验收前按合同约定支付全部合同款。",
+            "receivablePlanSeeds": [
+              {
+                "isRetentionNode": false,
+                "label": "合同付款（本case字段复核）",
+                "nodeKey": "full-payment",
+                "note": null,
+                "plannedAmount": "56500.00",
+                "plannedDate": "2026-12-04",
+                "sortOrder": 0
+              }
+            ],
+            "retentionDueDate": null,
+            "retentionRate": "0.0000",
+            "taxRate": "0.1300"
+          },
+          "commercialReleaseBaselineId": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+          "contractAmendmentId": null,
+          "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+          "contractSnapshotInitializedAt": "2026-11-04T00:01:56.252Z",
+          "createdAt": "2026-11-04T00:01:55.809Z",
+          "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+          "currentEffectiveDecisionSummary": "本合同差异已通过复核，真实前置条件已收口。",
+          "currentPreparation": {
+            "activatedAt": "2026-11-04T00:01:56.252Z",
+            "activatedSnapshotId": "839324ec-ddc2-4af1-af5e-82b5dc101fa7",
+            "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+            "isCurrent": true,
+            "payloadHash": "363ba6e4ec92c9ed7713ea231a323d999743dc65c94c055adbd4d0020d3322d9",
+            "preparationId": "6df3e4d0-cd17-4615-ade5-d027a944c96a",
+            "preparedAt": "2026-11-04T00:01:55.983Z",
+            "preparedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+            "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+            "rowVersion": 2,
+            "sourceBaselineId": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+            "sourceDiffResultId": "72589d07-bfb4-473e-afc5-35278bb0bb18",
+            "sourceReadinessId": "f03b3390-7b8f-4c7e-8a3a-14d3f0aadded",
+            "status": "activated",
+            "version": 1
+          },
+          "diffLevel": "review-required",
+          "financialProjection": {
+            "displayText": "合同财务字段包",
+            "fieldPackageKey": "contract-finance",
+            "mode": "full",
+            "reasonCode": "allowed",
+            "value": "合同财务字段包"
+          },
+          "guardDecision": "allowed",
+          "id": "f03b3390-7b8f-4c7e-8a3a-14d3f0aadded",
+          "initializedContractSnapshotId": "839324ec-ddc2-4af1-af5e-82b5dc101fa7",
+          "initializedReceivablePlanVersionId": null,
+          "isCurrent": true,
+          "items": [
+            {
+              "id": "d6c0ca38-0914-4da8-9941-841dcb0b2db9",
+              "itemKey": "actual-cost-source",
+              "itemType": "checklist",
+              "label": "真实技术与成本来源",
+              "navigationHint": null,
+              "responsibleRole": null,
+              "sortOrder": 0,
+              "status": "ready",
+              "summary": null
+            },
+            {
+              "id": "9e7e7f3c-3bd1-4fb0-a692-6edf2b13ee74",
+              "itemKey": "actual-pricing-source",
+              "itemType": "checklist",
+              "label": "真实报价放行来源",
+              "navigationHint": null,
+              "responsibleRole": null,
+              "sortOrder": 1,
+              "status": "ready",
+              "summary": null
+            },
+            {
+              "id": "e67ecd75-1722-4674-9400-115fa1ba270f",
+              "itemKey": "exact-contract-diff",
+              "itemType": "checklist",
+              "label": "本合同精确差异",
+              "navigationHint": null,
+              "responsibleRole": null,
+              "sortOrder": 2,
+              "status": "ready",
+              "summary": null
+            }
+          ],
+          "latestDiffResultId": "72589d07-bfb4-473e-afc5-35278bb0bb18",
+          "missingPrerequisiteCount": 0,
+          "packageStatus": "ready",
+          "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+          "receivablePlanInitializedAt": null,
+          "reviewStatus": "approved",
+          "rowVersion": 4,
+          "sourceBaselineId": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+          "sourceContractSnapshotId": null,
+          "updatedAt": "2026-11-04T00:01:56.252Z",
+          "updatedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935"
+        },
+        "preparation": {
+          "businessStatusAfter": "prepared",
+          "contractAmendmentId": null,
+          "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+          "initRecordId": null,
+          "newVersionId": null,
+          "planVersion": null,
+          "planVersionId": null,
+          "preparationId": "6df3e4d0-cd17-4615-ade5-d027a944c96a",
+          "preparationVersion": 1,
+          "resultStatus": "prepared",
+          "snapshotId": null,
+          "sourceReadinessId": "f03b3390-7b8f-4c7e-8a3a-14d3f0aadded",
+          "targetId": "6df3e4d0-cd17-4615-ade5-d027a944c96a",
+          "targetType": "contract-term-preparation"
+        },
+        "submitted": {
+          "approvalRecordId": "ba7f547f-f65e-4a4a-a64d-7b90ecb4f3f0",
+          "businessStatusAfter": "pending-review",
+          "confirmationRecordId": null,
+          "contractAmendmentId": null,
+          "preparationId": "6df3e4d0-cd17-4615-ade5-d027a944c96a",
+          "resultStatus": "submitted",
+          "snapshotId": null,
+          "targetId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+          "targetType": "contract",
+          "todoItemIds": [
+            "af9dd2f0-863e-44d8-975d-9649f9ab855e"
+          ]
+        },
+        "approval": {
+          "approvalType": "contract-review",
+          "businessDomain": "contract-finance",
+          "closedAt": "2026-11-04T00:01:56.138Z",
+          "createdAt": "2026-11-04T00:01:56.079Z",
+          "currentApproverUserId": null,
+          "currentNodeKey": "contract-review",
+          "currentNodeName": "合同审核",
+          "currentStatus": "approved",
+          "decidedAt": "2026-11-04T00:01:56.138Z",
+          "decision": "approved",
+          "decisionComment": "本case实际指定审批人批准。",
+          "id": "ba7f547f-f65e-4a4a-a64d-7b90ecb4f3f0",
+          "initiatorUserId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+          "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+          "rowVersion": 2,
+          "submittedAt": "2026-11-04T00:01:56.079Z",
+          "targetObjectId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+          "targetObjectType": "contract",
+          "targetStatus": "pending-review",
+          "targetTitle": "CT-2026-000001",
+          "updatedAt": "2026-11-04T00:01:56.168Z"
+        },
+        "activated": {
+          "approvalRecordId": "ba7f547f-f65e-4a4a-a64d-7b90ecb4f3f0",
+          "beforeSnapshotId": null,
+          "businessStatusAfter": "active",
+          "confirmationRecordId": null,
+          "contractAmendmentId": null,
+          "planVersionId": null,
+          "preparationId": "6df3e4d0-cd17-4615-ade5-d027a944c96a",
+          "resultStatus": "activated",
+          "snapshotId": "839324ec-ddc2-4af1-af5e-82b5dc101fa7",
+          "snapshotVersion": 1,
+          "targetId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+          "targetType": "contract",
+          "todoItemIds": []
+        },
+        "effective": {
+          "amountTaxExclusiveProjection": {
+            "displayText": "50000.00",
+            "fieldPackageKey": "contract-finance",
+            "mode": "full",
+            "reasonCode": "allowed",
+            "value": "50000.00"
+          },
+          "amountTaxInclusiveProjection": {
+            "displayText": "56500.00",
+            "fieldPackageKey": "contract-finance",
+            "mode": "full",
+            "reasonCode": "allowed",
+            "value": "56500.00"
+          },
+          "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+          "createdAt": "2026-11-04T00:01:56.252Z",
+          "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+          "downPaymentRateProjection": {
+            "displayText": "1.0000",
+            "fieldPackageKey": "contract-finance",
+            "mode": "full",
+            "reasonCode": "allowed",
+            "value": "1.0000"
+          },
+          "effectiveAt": "2026-11-04T00:01:56.252Z",
+          "effectiveBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+          "id": "839324ec-ddc2-4af1-af5e-82b5dc101fa7",
+          "paymentTermsProjection": {
+            "displayText": "验收前按合同约定支付全部合同款。",
+            "fieldPackageKey": "contract-finance",
+            "mode": "full",
+            "reasonCode": "allowed",
+            "value": "验收前按合同约定支付全部合同款。"
+          },
+          "retentionDueDate": null,
+          "retentionRateProjection": {
+            "displayText": "0.0000",
+            "fieldPackageKey": "contract-finance",
+            "mode": "full",
+            "reasonCode": "allowed",
+            "value": "0.0000"
+          },
+          "rowVersion": 1,
+          "snapshotStatus": "active",
+          "sourceBaselineId": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+          "sourcePreparationId": "6df3e4d0-cd17-4615-ade5-d027a944c96a",
+          "sourceReadinessId": "f03b3390-7b8f-4c7e-8a3a-14d3f0aadded",
+          "taxRateProjection": {
+            "displayText": "0.1300",
+            "fieldPackageKey": "contract-finance",
+            "mode": "full",
+            "reasonCode": "allowed",
+            "value": "0.1300"
+          },
+          "version": 1
+        },
+        "plan": {
+          "businessStatusAfter": "active",
+          "contractAmendmentId": null,
+          "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+          "initRecordId": "91f3dcc3-baa5-4f5b-b8aa-99852400a478",
+          "newVersionId": "f8d73777-9136-4c50-9982-7f88fcb27e21",
+          "planVersion": 1,
+          "planVersionId": "f8d73777-9136-4c50-9982-7f88fcb27e21",
+          "preparationId": "6df3e4d0-cd17-4615-ade5-d027a944c96a",
+          "preparationVersion": 1,
+          "resultStatus": "initialized",
+          "snapshotId": "839324ec-ddc2-4af1-af5e-82b5dc101fa7",
+          "sourceReadinessId": "f03b3390-7b8f-4c7e-8a3a-14d3f0aadded",
+          "targetId": "f8d73777-9136-4c50-9982-7f88fcb27e21",
+          "targetType": "receivable-plan-version"
+        }
+      },
+      {
+        "contract": {
+          "contractNo": "CT-2026-000002",
+          "createdAt": "2026-11-03T23:52:40.993Z",
+          "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+          "currencyCode": "CNY",
+          "currentPreparation": {
+            "activatedAt": "2026-11-04T00:01:56.887Z",
+            "activatedSnapshotId": "2eaff0e9-8af3-4551-a94f-b85feae1510d",
+            "contractId": "48a7467c-c58e-486d-aade-eda661b65298",
+            "isCurrent": true,
+            "payloadHash": "5cacd3c8990333e2b2abb7a227aa6628edd0aaff91a7b084eb9f2ca5338638b2",
+            "preparationId": "8fab8f95-1ca6-4ed4-b83c-85ea221dec18",
+            "preparedAt": "2026-11-04T00:01:56.656Z",
+            "preparedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+            "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+            "rowVersion": 2,
+            "sourceBaselineId": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+            "sourceDiffResultId": "40f03b30-5206-4158-83c6-d217a630f4c2",
+            "sourceReadinessId": "00f58143-cd28-464f-98c2-4c2c7d29e7fc",
+            "status": "activated",
+            "version": 1
+          },
+          "currentSnapshotId": "2eaff0e9-8af3-4551-a94f-b85feae1510d",
+          "currentTermSnapshot": {
+            "amountTaxExclusiveProjection": {
+              "displayText": "50000.00",
+              "fieldPackageKey": "contract-finance",
+              "mode": "full",
+              "reasonCode": "allowed",
+              "value": "50000.00"
+            },
+            "amountTaxInclusiveProjection": {
+              "displayText": "56500.00",
+              "fieldPackageKey": "contract-finance",
+              "mode": "full",
+              "reasonCode": "allowed",
+              "value": "56500.00"
+            },
+            "contractId": "48a7467c-c58e-486d-aade-eda661b65298",
+            "createdAt": "2026-11-04T00:01:56.887Z",
+            "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+            "downPaymentRateProjection": {
+              "displayText": "1.0000",
+              "fieldPackageKey": "contract-finance",
+              "mode": "full",
+              "reasonCode": "allowed",
+              "value": "1.0000"
+            },
+            "effectiveAt": "2026-11-04T00:01:56.887Z",
+            "effectiveBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+            "id": "2eaff0e9-8af3-4551-a94f-b85feae1510d",
+            "paymentTermsProjection": {
+              "displayText": "验收前按合同约定支付全部合同款。",
+              "fieldPackageKey": "contract-finance",
+              "mode": "full",
+              "reasonCode": "allowed",
+              "value": "验收前按合同约定支付全部合同款。"
+            },
+            "retentionDueDate": null,
+            "retentionRateProjection": {
+              "displayText": "0.0000",
+              "fieldPackageKey": "contract-finance",
+              "mode": "full",
+              "reasonCode": "allowed",
+              "value": "0.0000"
+            },
+            "rowVersion": 1,
+            "snapshotStatus": "active",
+            "sourceBaselineId": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+            "sourcePreparationId": "8fab8f95-1ca6-4ed4-b83c-85ea221dec18",
+            "sourceReadinessId": "00f58143-cd28-464f-98c2-4c2c7d29e7fc",
+            "taxRateProjection": {
+              "displayText": "0.1300",
+              "fieldPackageKey": "contract-finance",
+              "mode": "full",
+              "reasonCode": "allowed",
+              "value": "0.1300"
+            },
+            "version": 1
+          },
+          "customerContractNo": "R4-def36second-合同",
+          "customerName": "R4-def36-客户",
+          "id": "48a7467c-c58e-486d-aade-eda661b65298",
+          "latestReviewBinding": {
+            "approvalRecordId": "a7f78452-9ecd-4633-bce4-fe6e0a93dd5e",
+            "contractId": "48a7467c-c58e-486d-aade-eda661b65298",
+            "createdAt": "2026-11-04T00:01:56.737Z",
+            "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+            "payloadHash": "5cacd3c8990333e2b2abb7a227aa6628edd0aaff91a7b084eb9f2ca5338638b2",
+            "preparationId": "8fab8f95-1ca6-4ed4-b83c-85ea221dec18",
+            "preparationVersion": 1
+          },
+          "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+          "projectName": "R4-def36-项目",
+          "retentionDueDate": null,
+          "rowVersion": 3,
+          "signedAmountProjection": {
+            "displayText": "56500.00 CNY",
+            "fieldPackageKey": "contract-finance",
+            "mode": "full",
+            "reasonCode": "allowed",
+            "value": "56500.00"
+          },
+          "signedAt": null,
+          "status": "active",
+          "updatedAt": "2026-11-04T00:01:56.891Z",
+          "updatedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935"
+        },
+        "readiness": {
+          "allowedActions": [
+            "initialize-receivable-plan"
+          ],
+          "amendmentStatus": null,
+          "blockingReasonSummary": null,
+          "candidateTerms": {
+            "amountTaxExclusive": "50000.00",
+            "amountTaxInclusive": "56500.00",
+            "contractId": "48a7467c-c58e-486d-aade-eda661b65298",
+            "downPaymentRate": "1.0000",
+            "paymentTerms": "验收前按合同约定支付全部合同款。",
+            "receivablePlanSeeds": [
+              {
+                "isRetentionNode": false,
+                "label": "合同付款（本case字段复核）",
+                "nodeKey": "full-payment",
+                "note": null,
+                "plannedAmount": "56500.00",
+                "plannedDate": "2026-12-04",
+                "sortOrder": 0
+              }
+            ],
+            "retentionDueDate": null,
+            "retentionRate": "0.0000",
+            "taxRate": "0.1300"
+          },
+          "commercialReleaseBaselineId": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+          "contractAmendmentId": null,
+          "contractId": "48a7467c-c58e-486d-aade-eda661b65298",
+          "contractSnapshotInitializedAt": "2026-11-04T00:01:56.887Z",
+          "createdAt": "2026-11-04T00:01:56.513Z",
+          "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+          "currentEffectiveDecisionSummary": "本合同差异已通过复核，真实前置条件已收口。",
+          "currentPreparation": {
+            "activatedAt": "2026-11-04T00:01:56.887Z",
+            "activatedSnapshotId": "2eaff0e9-8af3-4551-a94f-b85feae1510d",
+            "contractId": "48a7467c-c58e-486d-aade-eda661b65298",
+            "isCurrent": true,
+            "payloadHash": "5cacd3c8990333e2b2abb7a227aa6628edd0aaff91a7b084eb9f2ca5338638b2",
+            "preparationId": "8fab8f95-1ca6-4ed4-b83c-85ea221dec18",
+            "preparedAt": "2026-11-04T00:01:56.656Z",
+            "preparedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+            "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+            "rowVersion": 2,
+            "sourceBaselineId": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+            "sourceDiffResultId": "40f03b30-5206-4158-83c6-d217a630f4c2",
+            "sourceReadinessId": "00f58143-cd28-464f-98c2-4c2c7d29e7fc",
+            "status": "activated",
+            "version": 1
+          },
+          "diffLevel": "review-required",
+          "financialProjection": {
+            "displayText": "合同财务字段包",
+            "fieldPackageKey": "contract-finance",
+            "mode": "full",
+            "reasonCode": "allowed",
+            "value": "合同财务字段包"
+          },
+          "guardDecision": "allowed",
+          "id": "00f58143-cd28-464f-98c2-4c2c7d29e7fc",
+          "initializedContractSnapshotId": "2eaff0e9-8af3-4551-a94f-b85feae1510d",
+          "initializedReceivablePlanVersionId": null,
+          "isCurrent": true,
+          "items": [
+            {
+              "id": "f6d86fa5-56e1-4417-9d21-2e7f04a10c6e",
+              "itemKey": "actual-cost-source",
+              "itemType": "checklist",
+              "label": "真实技术与成本来源",
+              "navigationHint": null,
+              "responsibleRole": null,
+              "sortOrder": 0,
+              "status": "ready",
+              "summary": null
+            },
+            {
+              "id": "397b5680-9808-4899-a533-0e15db340276",
+              "itemKey": "actual-pricing-source",
+              "itemType": "checklist",
+              "label": "真实报价放行来源",
+              "navigationHint": null,
+              "responsibleRole": null,
+              "sortOrder": 1,
+              "status": "ready",
+              "summary": null
+            },
+            {
+              "id": "bc5e248c-9527-446d-abba-e8312b376bc5",
+              "itemKey": "exact-contract-diff",
+              "itemType": "checklist",
+              "label": "本合同精确差异",
+              "navigationHint": null,
+              "responsibleRole": null,
+              "sortOrder": 2,
+              "status": "ready",
+              "summary": null
+            }
+          ],
+          "latestDiffResultId": "40f03b30-5206-4158-83c6-d217a630f4c2",
+          "missingPrerequisiteCount": 0,
+          "packageStatus": "ready",
+          "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+          "receivablePlanInitializedAt": null,
+          "reviewStatus": "approved",
+          "rowVersion": 4,
+          "sourceBaselineId": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+          "sourceContractSnapshotId": null,
+          "updatedAt": "2026-11-04T00:01:56.887Z",
+          "updatedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935"
+        },
+        "preparation": {
+          "businessStatusAfter": "prepared",
+          "contractAmendmentId": null,
+          "contractId": "48a7467c-c58e-486d-aade-eda661b65298",
+          "initRecordId": null,
+          "newVersionId": null,
+          "planVersion": null,
+          "planVersionId": null,
+          "preparationId": "8fab8f95-1ca6-4ed4-b83c-85ea221dec18",
+          "preparationVersion": 1,
+          "resultStatus": "prepared",
+          "snapshotId": null,
+          "sourceReadinessId": "00f58143-cd28-464f-98c2-4c2c7d29e7fc",
+          "targetId": "8fab8f95-1ca6-4ed4-b83c-85ea221dec18",
+          "targetType": "contract-term-preparation"
+        },
+        "submitted": {
+          "approvalRecordId": "a7f78452-9ecd-4633-bce4-fe6e0a93dd5e",
+          "businessStatusAfter": "pending-review",
+          "confirmationRecordId": null,
+          "contractAmendmentId": null,
+          "preparationId": "8fab8f95-1ca6-4ed4-b83c-85ea221dec18",
+          "resultStatus": "submitted",
+          "snapshotId": null,
+          "targetId": "48a7467c-c58e-486d-aade-eda661b65298",
+          "targetType": "contract",
+          "todoItemIds": [
+            "6afefe10-8992-4cc4-b3fb-55315f84f095"
+          ]
+        },
+        "approval": {
+          "approvalType": "contract-review",
+          "businessDomain": "contract-finance",
+          "closedAt": "2026-11-04T00:01:56.788Z",
+          "createdAt": "2026-11-04T00:01:56.737Z",
+          "currentApproverUserId": null,
+          "currentNodeKey": "contract-review",
+          "currentNodeName": "合同审核",
+          "currentStatus": "approved",
+          "decidedAt": "2026-11-04T00:01:56.788Z",
+          "decision": "approved",
+          "decisionComment": "本case实际指定审批人批准。",
+          "id": "a7f78452-9ecd-4633-bce4-fe6e0a93dd5e",
+          "initiatorUserId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+          "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+          "rowVersion": 2,
+          "submittedAt": "2026-11-04T00:01:56.737Z",
+          "targetObjectId": "48a7467c-c58e-486d-aade-eda661b65298",
+          "targetObjectType": "contract",
+          "targetStatus": "pending-review",
+          "targetTitle": "CT-2026-000002",
+          "updatedAt": "2026-11-04T00:01:56.804Z"
+        },
+        "activated": {
+          "approvalRecordId": "a7f78452-9ecd-4633-bce4-fe6e0a93dd5e",
+          "beforeSnapshotId": null,
+          "businessStatusAfter": "active",
+          "confirmationRecordId": null,
+          "contractAmendmentId": null,
+          "planVersionId": null,
+          "preparationId": "8fab8f95-1ca6-4ed4-b83c-85ea221dec18",
+          "resultStatus": "activated",
+          "snapshotId": "2eaff0e9-8af3-4551-a94f-b85feae1510d",
+          "snapshotVersion": 1,
+          "targetId": "48a7467c-c58e-486d-aade-eda661b65298",
+          "targetType": "contract",
+          "todoItemIds": []
+        },
+        "effective": {
+          "amountTaxExclusiveProjection": {
+            "displayText": "50000.00",
+            "fieldPackageKey": "contract-finance",
+            "mode": "full",
+            "reasonCode": "allowed",
+            "value": "50000.00"
+          },
+          "amountTaxInclusiveProjection": {
+            "displayText": "56500.00",
+            "fieldPackageKey": "contract-finance",
+            "mode": "full",
+            "reasonCode": "allowed",
+            "value": "56500.00"
+          },
+          "contractId": "48a7467c-c58e-486d-aade-eda661b65298",
+          "createdAt": "2026-11-04T00:01:56.887Z",
+          "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+          "downPaymentRateProjection": {
+            "displayText": "1.0000",
+            "fieldPackageKey": "contract-finance",
+            "mode": "full",
+            "reasonCode": "allowed",
+            "value": "1.0000"
+          },
+          "effectiveAt": "2026-11-04T00:01:56.887Z",
+          "effectiveBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+          "id": "2eaff0e9-8af3-4551-a94f-b85feae1510d",
+          "paymentTermsProjection": {
+            "displayText": "验收前按合同约定支付全部合同款。",
+            "fieldPackageKey": "contract-finance",
+            "mode": "full",
+            "reasonCode": "allowed",
+            "value": "验收前按合同约定支付全部合同款。"
+          },
+          "retentionDueDate": null,
+          "retentionRateProjection": {
+            "displayText": "0.0000",
+            "fieldPackageKey": "contract-finance",
+            "mode": "full",
+            "reasonCode": "allowed",
+            "value": "0.0000"
+          },
+          "rowVersion": 1,
+          "snapshotStatus": "active",
+          "sourceBaselineId": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+          "sourcePreparationId": "8fab8f95-1ca6-4ed4-b83c-85ea221dec18",
+          "sourceReadinessId": "00f58143-cd28-464f-98c2-4c2c7d29e7fc",
+          "taxRateProjection": {
+            "displayText": "0.1300",
+            "fieldPackageKey": "contract-finance",
+            "mode": "full",
+            "reasonCode": "allowed",
+            "value": "0.1300"
+          },
+          "version": 1
+        },
+        "plan": {
+          "businessStatusAfter": "active",
+          "contractAmendmentId": null,
+          "contractId": "48a7467c-c58e-486d-aade-eda661b65298",
+          "initRecordId": "424803ae-c044-4dee-9bf2-b5e886e0b55b",
+          "newVersionId": "f73f6bb8-7cbc-4091-b760-b09568e91f77",
+          "planVersion": 1,
+          "planVersionId": "f73f6bb8-7cbc-4091-b760-b09568e91f77",
+          "preparationId": "8fab8f95-1ca6-4ed4-b83c-85ea221dec18",
+          "preparationVersion": 1,
+          "resultStatus": "initialized",
+          "snapshotId": "2eaff0e9-8af3-4551-a94f-b85feae1510d",
+          "sourceReadinessId": "00f58143-cd28-464f-98c2-4c2c7d29e7fc",
+          "targetId": "f73f6bb8-7cbc-4091-b760-b09568e91f77",
+          "targetType": "receivable-plan-version"
+        }
+      }
+    ]
+  },
+  "contractContexts": [
+    {
+      "contract": {
+        "contractNo": "CT-2026-000001",
+        "createdAt": "2026-11-03T23:52:40.827Z",
+        "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "currencyCode": "CNY",
+        "currentPreparation": {
+          "activatedAt": "2026-11-04T00:01:56.252Z",
+          "activatedSnapshotId": "839324ec-ddc2-4af1-af5e-82b5dc101fa7",
+          "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+          "isCurrent": true,
+          "payloadHash": "363ba6e4ec92c9ed7713ea231a323d999743dc65c94c055adbd4d0020d3322d9",
+          "preparationId": "6df3e4d0-cd17-4615-ade5-d027a944c96a",
+          "preparedAt": "2026-11-04T00:01:55.983Z",
+          "preparedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+          "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+          "rowVersion": 2,
+          "sourceBaselineId": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+          "sourceDiffResultId": "72589d07-bfb4-473e-afc5-35278bb0bb18",
+          "sourceReadinessId": "f03b3390-7b8f-4c7e-8a3a-14d3f0aadded",
+          "status": "activated",
+          "version": 1
+        },
+        "currentSnapshotId": "839324ec-ddc2-4af1-af5e-82b5dc101fa7",
+        "currentTermSnapshot": {
+          "amountTaxExclusiveProjection": {
+            "displayText": "50000.00",
+            "fieldPackageKey": "contract-finance",
+            "mode": "full",
+            "reasonCode": "allowed",
+            "value": "50000.00"
+          },
+          "amountTaxInclusiveProjection": {
+            "displayText": "56500.00",
+            "fieldPackageKey": "contract-finance",
+            "mode": "full",
+            "reasonCode": "allowed",
+            "value": "56500.00"
+          },
+          "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+          "createdAt": "2026-11-04T00:01:56.252Z",
+          "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+          "downPaymentRateProjection": {
+            "displayText": "1.0000",
+            "fieldPackageKey": "contract-finance",
+            "mode": "full",
+            "reasonCode": "allowed",
+            "value": "1.0000"
+          },
+          "effectiveAt": "2026-11-04T00:01:56.252Z",
+          "effectiveBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+          "id": "839324ec-ddc2-4af1-af5e-82b5dc101fa7",
+          "paymentTermsProjection": {
+            "displayText": "验收前按合同约定支付全部合同款。",
+            "fieldPackageKey": "contract-finance",
+            "mode": "full",
+            "reasonCode": "allowed",
+            "value": "验收前按合同约定支付全部合同款。"
+          },
+          "retentionDueDate": null,
+          "retentionRateProjection": {
+            "displayText": "0.0000",
+            "fieldPackageKey": "contract-finance",
+            "mode": "full",
+            "reasonCode": "allowed",
+            "value": "0.0000"
+          },
+          "rowVersion": 1,
+          "snapshotStatus": "active",
+          "sourceBaselineId": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+          "sourcePreparationId": "6df3e4d0-cd17-4615-ade5-d027a944c96a",
+          "sourceReadinessId": "f03b3390-7b8f-4c7e-8a3a-14d3f0aadded",
+          "taxRateProjection": {
+            "displayText": "0.1300",
+            "fieldPackageKey": "contract-finance",
+            "mode": "full",
+            "reasonCode": "allowed",
+            "value": "0.1300"
+          },
+          "version": 1
+        },
+        "customerContractNo": "R4-def36-合同",
+        "customerName": "R4-def36-客户",
+        "id": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+        "latestReviewBinding": {
+          "approvalRecordId": "ba7f547f-f65e-4a4a-a64d-7b90ecb4f3f0",
+          "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+          "createdAt": "2026-11-04T00:01:56.079Z",
+          "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+          "payloadHash": "363ba6e4ec92c9ed7713ea231a323d999743dc65c94c055adbd4d0020d3322d9",
+          "preparationId": "6df3e4d0-cd17-4615-ade5-d027a944c96a",
+          "preparationVersion": 1
+        },
+        "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+        "projectName": "R4-def36-项目",
+        "retentionDueDate": null,
+        "rowVersion": 3,
+        "signedAmountProjection": {
+          "displayText": "56500.00 CNY",
+          "fieldPackageKey": "contract-finance",
+          "mode": "full",
+          "reasonCode": "allowed",
+          "value": "56500.00"
+        },
+        "signedAt": null,
+        "status": "active",
+        "updatedAt": "2026-11-04T00:01:56.258Z",
+        "updatedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935"
+      },
+      "readiness": {
+        "allowedActions": [
+          "initialize-receivable-plan"
+        ],
+        "amendmentStatus": null,
+        "blockingReasonSummary": null,
+        "candidateTerms": {
+          "amountTaxExclusive": "50000.00",
+          "amountTaxInclusive": "56500.00",
+          "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+          "downPaymentRate": "1.0000",
+          "paymentTerms": "验收前按合同约定支付全部合同款。",
+          "receivablePlanSeeds": [
+            {
+              "isRetentionNode": false,
+              "label": "合同付款（本case字段复核）",
+              "nodeKey": "full-payment",
+              "note": null,
+              "plannedAmount": "56500.00",
+              "plannedDate": "2026-12-04",
+              "sortOrder": 0
+            }
+          ],
+          "retentionDueDate": null,
+          "retentionRate": "0.0000",
+          "taxRate": "0.1300"
+        },
+        "commercialReleaseBaselineId": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+        "contractAmendmentId": null,
+        "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+        "contractSnapshotInitializedAt": "2026-11-04T00:01:56.252Z",
+        "createdAt": "2026-11-04T00:01:55.809Z",
+        "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "currentEffectiveDecisionSummary": "本合同差异已通过复核，真实前置条件已收口。",
+        "currentPreparation": {
+          "activatedAt": "2026-11-04T00:01:56.252Z",
+          "activatedSnapshotId": "839324ec-ddc2-4af1-af5e-82b5dc101fa7",
+          "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+          "isCurrent": true,
+          "payloadHash": "363ba6e4ec92c9ed7713ea231a323d999743dc65c94c055adbd4d0020d3322d9",
+          "preparationId": "6df3e4d0-cd17-4615-ade5-d027a944c96a",
+          "preparedAt": "2026-11-04T00:01:55.983Z",
+          "preparedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+          "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+          "rowVersion": 2,
+          "sourceBaselineId": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+          "sourceDiffResultId": "72589d07-bfb4-473e-afc5-35278bb0bb18",
+          "sourceReadinessId": "f03b3390-7b8f-4c7e-8a3a-14d3f0aadded",
+          "status": "activated",
+          "version": 1
+        },
+        "diffLevel": "review-required",
+        "financialProjection": {
+          "displayText": "合同财务字段包",
+          "fieldPackageKey": "contract-finance",
+          "mode": "full",
+          "reasonCode": "allowed",
+          "value": "合同财务字段包"
+        },
+        "guardDecision": "allowed",
+        "id": "f03b3390-7b8f-4c7e-8a3a-14d3f0aadded",
+        "initializedContractSnapshotId": "839324ec-ddc2-4af1-af5e-82b5dc101fa7",
+        "initializedReceivablePlanVersionId": null,
+        "isCurrent": true,
+        "items": [
+          {
+            "id": "d6c0ca38-0914-4da8-9941-841dcb0b2db9",
+            "itemKey": "actual-cost-source",
+            "itemType": "checklist",
+            "label": "真实技术与成本来源",
+            "navigationHint": null,
+            "responsibleRole": null,
+            "sortOrder": 0,
+            "status": "ready",
+            "summary": null
+          },
+          {
+            "id": "9e7e7f3c-3bd1-4fb0-a692-6edf2b13ee74",
+            "itemKey": "actual-pricing-source",
+            "itemType": "checklist",
+            "label": "真实报价放行来源",
+            "navigationHint": null,
+            "responsibleRole": null,
+            "sortOrder": 1,
+            "status": "ready",
+            "summary": null
+          },
+          {
+            "id": "e67ecd75-1722-4674-9400-115fa1ba270f",
+            "itemKey": "exact-contract-diff",
+            "itemType": "checklist",
+            "label": "本合同精确差异",
+            "navigationHint": null,
+            "responsibleRole": null,
+            "sortOrder": 2,
+            "status": "ready",
+            "summary": null
+          }
+        ],
+        "latestDiffResultId": "72589d07-bfb4-473e-afc5-35278bb0bb18",
+        "missingPrerequisiteCount": 0,
+        "packageStatus": "ready",
+        "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+        "receivablePlanInitializedAt": null,
+        "reviewStatus": "approved",
+        "rowVersion": 4,
+        "sourceBaselineId": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+        "sourceContractSnapshotId": null,
+        "updatedAt": "2026-11-04T00:01:56.252Z",
+        "updatedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935"
+      },
+      "preparation": {
+        "businessStatusAfter": "prepared",
+        "contractAmendmentId": null,
+        "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+        "initRecordId": null,
+        "newVersionId": null,
+        "planVersion": null,
+        "planVersionId": null,
+        "preparationId": "6df3e4d0-cd17-4615-ade5-d027a944c96a",
+        "preparationVersion": 1,
+        "resultStatus": "prepared",
+        "snapshotId": null,
+        "sourceReadinessId": "f03b3390-7b8f-4c7e-8a3a-14d3f0aadded",
+        "targetId": "6df3e4d0-cd17-4615-ade5-d027a944c96a",
+        "targetType": "contract-term-preparation"
+      },
+      "submitted": {
+        "approvalRecordId": "ba7f547f-f65e-4a4a-a64d-7b90ecb4f3f0",
+        "businessStatusAfter": "pending-review",
+        "confirmationRecordId": null,
+        "contractAmendmentId": null,
+        "preparationId": "6df3e4d0-cd17-4615-ade5-d027a944c96a",
+        "resultStatus": "submitted",
+        "snapshotId": null,
+        "targetId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+        "targetType": "contract",
+        "todoItemIds": [
+          "af9dd2f0-863e-44d8-975d-9649f9ab855e"
+        ]
+      },
+      "approval": {
+        "approvalType": "contract-review",
+        "businessDomain": "contract-finance",
+        "closedAt": "2026-11-04T00:01:56.138Z",
+        "createdAt": "2026-11-04T00:01:56.079Z",
+        "currentApproverUserId": null,
+        "currentNodeKey": "contract-review",
+        "currentNodeName": "合同审核",
+        "currentStatus": "approved",
+        "decidedAt": "2026-11-04T00:01:56.138Z",
+        "decision": "approved",
+        "decisionComment": "本case实际指定审批人批准。",
+        "id": "ba7f547f-f65e-4a4a-a64d-7b90ecb4f3f0",
+        "initiatorUserId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+        "rowVersion": 2,
+        "submittedAt": "2026-11-04T00:01:56.079Z",
+        "targetObjectId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+        "targetObjectType": "contract",
+        "targetStatus": "pending-review",
+        "targetTitle": "CT-2026-000001",
+        "updatedAt": "2026-11-04T00:01:56.168Z"
+      },
+      "activated": {
+        "approvalRecordId": "ba7f547f-f65e-4a4a-a64d-7b90ecb4f3f0",
+        "beforeSnapshotId": null,
+        "businessStatusAfter": "active",
+        "confirmationRecordId": null,
+        "contractAmendmentId": null,
+        "planVersionId": null,
+        "preparationId": "6df3e4d0-cd17-4615-ade5-d027a944c96a",
+        "resultStatus": "activated",
+        "snapshotId": "839324ec-ddc2-4af1-af5e-82b5dc101fa7",
+        "snapshotVersion": 1,
+        "targetId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+        "targetType": "contract",
+        "todoItemIds": []
+      },
+      "effective": {
+        "amountTaxExclusiveProjection": {
+          "displayText": "50000.00",
+          "fieldPackageKey": "contract-finance",
+          "mode": "full",
+          "reasonCode": "allowed",
+          "value": "50000.00"
+        },
+        "amountTaxInclusiveProjection": {
+          "displayText": "56500.00",
+          "fieldPackageKey": "contract-finance",
+          "mode": "full",
+          "reasonCode": "allowed",
+          "value": "56500.00"
+        },
+        "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+        "createdAt": "2026-11-04T00:01:56.252Z",
+        "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "downPaymentRateProjection": {
+          "displayText": "1.0000",
+          "fieldPackageKey": "contract-finance",
+          "mode": "full",
+          "reasonCode": "allowed",
+          "value": "1.0000"
+        },
+        "effectiveAt": "2026-11-04T00:01:56.252Z",
+        "effectiveBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "id": "839324ec-ddc2-4af1-af5e-82b5dc101fa7",
+        "paymentTermsProjection": {
+          "displayText": "验收前按合同约定支付全部合同款。",
+          "fieldPackageKey": "contract-finance",
+          "mode": "full",
+          "reasonCode": "allowed",
+          "value": "验收前按合同约定支付全部合同款。"
+        },
+        "retentionDueDate": null,
+        "retentionRateProjection": {
+          "displayText": "0.0000",
+          "fieldPackageKey": "contract-finance",
+          "mode": "full",
+          "reasonCode": "allowed",
+          "value": "0.0000"
+        },
+        "rowVersion": 1,
+        "snapshotStatus": "active",
+        "sourceBaselineId": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+        "sourcePreparationId": "6df3e4d0-cd17-4615-ade5-d027a944c96a",
+        "sourceReadinessId": "f03b3390-7b8f-4c7e-8a3a-14d3f0aadded",
+        "taxRateProjection": {
+          "displayText": "0.1300",
+          "fieldPackageKey": "contract-finance",
+          "mode": "full",
+          "reasonCode": "allowed",
+          "value": "0.1300"
+        },
+        "version": 1
+      },
+      "plan": {
+        "businessStatusAfter": "active",
+        "contractAmendmentId": null,
+        "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+        "initRecordId": "91f3dcc3-baa5-4f5b-b8aa-99852400a478",
+        "newVersionId": "f8d73777-9136-4c50-9982-7f88fcb27e21",
+        "planVersion": 1,
+        "planVersionId": "f8d73777-9136-4c50-9982-7f88fcb27e21",
+        "preparationId": "6df3e4d0-cd17-4615-ade5-d027a944c96a",
+        "preparationVersion": 1,
+        "resultStatus": "initialized",
+        "snapshotId": "839324ec-ddc2-4af1-af5e-82b5dc101fa7",
+        "sourceReadinessId": "f03b3390-7b8f-4c7e-8a3a-14d3f0aadded",
+        "targetId": "f8d73777-9136-4c50-9982-7f88fcb27e21",
+        "targetType": "receivable-plan-version"
+      }
+    },
+    {
+      "contract": {
+        "contractNo": "CT-2026-000002",
+        "createdAt": "2026-11-03T23:52:40.993Z",
+        "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "currencyCode": "CNY",
+        "currentPreparation": {
+          "activatedAt": "2026-11-04T00:01:56.887Z",
+          "activatedSnapshotId": "2eaff0e9-8af3-4551-a94f-b85feae1510d",
+          "contractId": "48a7467c-c58e-486d-aade-eda661b65298",
+          "isCurrent": true,
+          "payloadHash": "5cacd3c8990333e2b2abb7a227aa6628edd0aaff91a7b084eb9f2ca5338638b2",
+          "preparationId": "8fab8f95-1ca6-4ed4-b83c-85ea221dec18",
+          "preparedAt": "2026-11-04T00:01:56.656Z",
+          "preparedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+          "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+          "rowVersion": 2,
+          "sourceBaselineId": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+          "sourceDiffResultId": "40f03b30-5206-4158-83c6-d217a630f4c2",
+          "sourceReadinessId": "00f58143-cd28-464f-98c2-4c2c7d29e7fc",
+          "status": "activated",
+          "version": 1
+        },
+        "currentSnapshotId": "2eaff0e9-8af3-4551-a94f-b85feae1510d",
+        "currentTermSnapshot": {
+          "amountTaxExclusiveProjection": {
+            "displayText": "50000.00",
+            "fieldPackageKey": "contract-finance",
+            "mode": "full",
+            "reasonCode": "allowed",
+            "value": "50000.00"
+          },
+          "amountTaxInclusiveProjection": {
+            "displayText": "56500.00",
+            "fieldPackageKey": "contract-finance",
+            "mode": "full",
+            "reasonCode": "allowed",
+            "value": "56500.00"
+          },
+          "contractId": "48a7467c-c58e-486d-aade-eda661b65298",
+          "createdAt": "2026-11-04T00:01:56.887Z",
+          "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+          "downPaymentRateProjection": {
+            "displayText": "1.0000",
+            "fieldPackageKey": "contract-finance",
+            "mode": "full",
+            "reasonCode": "allowed",
+            "value": "1.0000"
+          },
+          "effectiveAt": "2026-11-04T00:01:56.887Z",
+          "effectiveBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+          "id": "2eaff0e9-8af3-4551-a94f-b85feae1510d",
+          "paymentTermsProjection": {
+            "displayText": "验收前按合同约定支付全部合同款。",
+            "fieldPackageKey": "contract-finance",
+            "mode": "full",
+            "reasonCode": "allowed",
+            "value": "验收前按合同约定支付全部合同款。"
+          },
+          "retentionDueDate": null,
+          "retentionRateProjection": {
+            "displayText": "0.0000",
+            "fieldPackageKey": "contract-finance",
+            "mode": "full",
+            "reasonCode": "allowed",
+            "value": "0.0000"
+          },
+          "rowVersion": 1,
+          "snapshotStatus": "active",
+          "sourceBaselineId": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+          "sourcePreparationId": "8fab8f95-1ca6-4ed4-b83c-85ea221dec18",
+          "sourceReadinessId": "00f58143-cd28-464f-98c2-4c2c7d29e7fc",
+          "taxRateProjection": {
+            "displayText": "0.1300",
+            "fieldPackageKey": "contract-finance",
+            "mode": "full",
+            "reasonCode": "allowed",
+            "value": "0.1300"
+          },
+          "version": 1
+        },
+        "customerContractNo": "R4-def36second-合同",
+        "customerName": "R4-def36-客户",
+        "id": "48a7467c-c58e-486d-aade-eda661b65298",
+        "latestReviewBinding": {
+          "approvalRecordId": "a7f78452-9ecd-4633-bce4-fe6e0a93dd5e",
+          "contractId": "48a7467c-c58e-486d-aade-eda661b65298",
+          "createdAt": "2026-11-04T00:01:56.737Z",
+          "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+          "payloadHash": "5cacd3c8990333e2b2abb7a227aa6628edd0aaff91a7b084eb9f2ca5338638b2",
+          "preparationId": "8fab8f95-1ca6-4ed4-b83c-85ea221dec18",
+          "preparationVersion": 1
+        },
+        "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+        "projectName": "R4-def36-项目",
+        "retentionDueDate": null,
+        "rowVersion": 3,
+        "signedAmountProjection": {
+          "displayText": "56500.00 CNY",
+          "fieldPackageKey": "contract-finance",
+          "mode": "full",
+          "reasonCode": "allowed",
+          "value": "56500.00"
+        },
+        "signedAt": null,
+        "status": "active",
+        "updatedAt": "2026-11-04T00:01:56.891Z",
+        "updatedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935"
+      },
+      "readiness": {
+        "allowedActions": [
+          "initialize-receivable-plan"
+        ],
+        "amendmentStatus": null,
+        "blockingReasonSummary": null,
+        "candidateTerms": {
+          "amountTaxExclusive": "50000.00",
+          "amountTaxInclusive": "56500.00",
+          "contractId": "48a7467c-c58e-486d-aade-eda661b65298",
+          "downPaymentRate": "1.0000",
+          "paymentTerms": "验收前按合同约定支付全部合同款。",
+          "receivablePlanSeeds": [
+            {
+              "isRetentionNode": false,
+              "label": "合同付款（本case字段复核）",
+              "nodeKey": "full-payment",
+              "note": null,
+              "plannedAmount": "56500.00",
+              "plannedDate": "2026-12-04",
+              "sortOrder": 0
+            }
+          ],
+          "retentionDueDate": null,
+          "retentionRate": "0.0000",
+          "taxRate": "0.1300"
+        },
+        "commercialReleaseBaselineId": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+        "contractAmendmentId": null,
+        "contractId": "48a7467c-c58e-486d-aade-eda661b65298",
+        "contractSnapshotInitializedAt": "2026-11-04T00:01:56.887Z",
+        "createdAt": "2026-11-04T00:01:56.513Z",
+        "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "currentEffectiveDecisionSummary": "本合同差异已通过复核，真实前置条件已收口。",
+        "currentPreparation": {
+          "activatedAt": "2026-11-04T00:01:56.887Z",
+          "activatedSnapshotId": "2eaff0e9-8af3-4551-a94f-b85feae1510d",
+          "contractId": "48a7467c-c58e-486d-aade-eda661b65298",
+          "isCurrent": true,
+          "payloadHash": "5cacd3c8990333e2b2abb7a227aa6628edd0aaff91a7b084eb9f2ca5338638b2",
+          "preparationId": "8fab8f95-1ca6-4ed4-b83c-85ea221dec18",
+          "preparedAt": "2026-11-04T00:01:56.656Z",
+          "preparedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+          "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+          "rowVersion": 2,
+          "sourceBaselineId": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+          "sourceDiffResultId": "40f03b30-5206-4158-83c6-d217a630f4c2",
+          "sourceReadinessId": "00f58143-cd28-464f-98c2-4c2c7d29e7fc",
+          "status": "activated",
+          "version": 1
+        },
+        "diffLevel": "review-required",
+        "financialProjection": {
+          "displayText": "合同财务字段包",
+          "fieldPackageKey": "contract-finance",
+          "mode": "full",
+          "reasonCode": "allowed",
+          "value": "合同财务字段包"
+        },
+        "guardDecision": "allowed",
+        "id": "00f58143-cd28-464f-98c2-4c2c7d29e7fc",
+        "initializedContractSnapshotId": "2eaff0e9-8af3-4551-a94f-b85feae1510d",
+        "initializedReceivablePlanVersionId": null,
+        "isCurrent": true,
+        "items": [
+          {
+            "id": "f6d86fa5-56e1-4417-9d21-2e7f04a10c6e",
+            "itemKey": "actual-cost-source",
+            "itemType": "checklist",
+            "label": "真实技术与成本来源",
+            "navigationHint": null,
+            "responsibleRole": null,
+            "sortOrder": 0,
+            "status": "ready",
+            "summary": null
+          },
+          {
+            "id": "397b5680-9808-4899-a533-0e15db340276",
+            "itemKey": "actual-pricing-source",
+            "itemType": "checklist",
+            "label": "真实报价放行来源",
+            "navigationHint": null,
+            "responsibleRole": null,
+            "sortOrder": 1,
+            "status": "ready",
+            "summary": null
+          },
+          {
+            "id": "bc5e248c-9527-446d-abba-e8312b376bc5",
+            "itemKey": "exact-contract-diff",
+            "itemType": "checklist",
+            "label": "本合同精确差异",
+            "navigationHint": null,
+            "responsibleRole": null,
+            "sortOrder": 2,
+            "status": "ready",
+            "summary": null
+          }
+        ],
+        "latestDiffResultId": "40f03b30-5206-4158-83c6-d217a630f4c2",
+        "missingPrerequisiteCount": 0,
+        "packageStatus": "ready",
+        "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+        "receivablePlanInitializedAt": null,
+        "reviewStatus": "approved",
+        "rowVersion": 4,
+        "sourceBaselineId": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+        "sourceContractSnapshotId": null,
+        "updatedAt": "2026-11-04T00:01:56.887Z",
+        "updatedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935"
+      },
+      "preparation": {
+        "businessStatusAfter": "prepared",
+        "contractAmendmentId": null,
+        "contractId": "48a7467c-c58e-486d-aade-eda661b65298",
+        "initRecordId": null,
+        "newVersionId": null,
+        "planVersion": null,
+        "planVersionId": null,
+        "preparationId": "8fab8f95-1ca6-4ed4-b83c-85ea221dec18",
+        "preparationVersion": 1,
+        "resultStatus": "prepared",
+        "snapshotId": null,
+        "sourceReadinessId": "00f58143-cd28-464f-98c2-4c2c7d29e7fc",
+        "targetId": "8fab8f95-1ca6-4ed4-b83c-85ea221dec18",
+        "targetType": "contract-term-preparation"
+      },
+      "submitted": {
+        "approvalRecordId": "a7f78452-9ecd-4633-bce4-fe6e0a93dd5e",
+        "businessStatusAfter": "pending-review",
+        "confirmationRecordId": null,
+        "contractAmendmentId": null,
+        "preparationId": "8fab8f95-1ca6-4ed4-b83c-85ea221dec18",
+        "resultStatus": "submitted",
+        "snapshotId": null,
+        "targetId": "48a7467c-c58e-486d-aade-eda661b65298",
+        "targetType": "contract",
+        "todoItemIds": [
+          "6afefe10-8992-4cc4-b3fb-55315f84f095"
+        ]
+      },
+      "approval": {
+        "approvalType": "contract-review",
+        "businessDomain": "contract-finance",
+        "closedAt": "2026-11-04T00:01:56.788Z",
+        "createdAt": "2026-11-04T00:01:56.737Z",
+        "currentApproverUserId": null,
+        "currentNodeKey": "contract-review",
+        "currentNodeName": "合同审核",
+        "currentStatus": "approved",
+        "decidedAt": "2026-11-04T00:01:56.788Z",
+        "decision": "approved",
+        "decisionComment": "本case实际指定审批人批准。",
+        "id": "a7f78452-9ecd-4633-bce4-fe6e0a93dd5e",
+        "initiatorUserId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+        "rowVersion": 2,
+        "submittedAt": "2026-11-04T00:01:56.737Z",
+        "targetObjectId": "48a7467c-c58e-486d-aade-eda661b65298",
+        "targetObjectType": "contract",
+        "targetStatus": "pending-review",
+        "targetTitle": "CT-2026-000002",
+        "updatedAt": "2026-11-04T00:01:56.804Z"
+      },
+      "activated": {
+        "approvalRecordId": "a7f78452-9ecd-4633-bce4-fe6e0a93dd5e",
+        "beforeSnapshotId": null,
+        "businessStatusAfter": "active",
+        "confirmationRecordId": null,
+        "contractAmendmentId": null,
+        "planVersionId": null,
+        "preparationId": "8fab8f95-1ca6-4ed4-b83c-85ea221dec18",
+        "resultStatus": "activated",
+        "snapshotId": "2eaff0e9-8af3-4551-a94f-b85feae1510d",
+        "snapshotVersion": 1,
+        "targetId": "48a7467c-c58e-486d-aade-eda661b65298",
+        "targetType": "contract",
+        "todoItemIds": []
+      },
+      "effective": {
+        "amountTaxExclusiveProjection": {
+          "displayText": "50000.00",
+          "fieldPackageKey": "contract-finance",
+          "mode": "full",
+          "reasonCode": "allowed",
+          "value": "50000.00"
+        },
+        "amountTaxInclusiveProjection": {
+          "displayText": "56500.00",
+          "fieldPackageKey": "contract-finance",
+          "mode": "full",
+          "reasonCode": "allowed",
+          "value": "56500.00"
+        },
+        "contractId": "48a7467c-c58e-486d-aade-eda661b65298",
+        "createdAt": "2026-11-04T00:01:56.887Z",
+        "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "downPaymentRateProjection": {
+          "displayText": "1.0000",
+          "fieldPackageKey": "contract-finance",
+          "mode": "full",
+          "reasonCode": "allowed",
+          "value": "1.0000"
+        },
+        "effectiveAt": "2026-11-04T00:01:56.887Z",
+        "effectiveBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "id": "2eaff0e9-8af3-4551-a94f-b85feae1510d",
+        "paymentTermsProjection": {
+          "displayText": "验收前按合同约定支付全部合同款。",
+          "fieldPackageKey": "contract-finance",
+          "mode": "full",
+          "reasonCode": "allowed",
+          "value": "验收前按合同约定支付全部合同款。"
+        },
+        "retentionDueDate": null,
+        "retentionRateProjection": {
+          "displayText": "0.0000",
+          "fieldPackageKey": "contract-finance",
+          "mode": "full",
+          "reasonCode": "allowed",
+          "value": "0.0000"
+        },
+        "rowVersion": 1,
+        "snapshotStatus": "active",
+        "sourceBaselineId": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+        "sourcePreparationId": "8fab8f95-1ca6-4ed4-b83c-85ea221dec18",
+        "sourceReadinessId": "00f58143-cd28-464f-98c2-4c2c7d29e7fc",
+        "taxRateProjection": {
+          "displayText": "0.1300",
+          "fieldPackageKey": "contract-finance",
+          "mode": "full",
+          "reasonCode": "allowed",
+          "value": "0.1300"
+        },
+        "version": 1
+      },
+      "plan": {
+        "businessStatusAfter": "active",
+        "contractAmendmentId": null,
+        "contractId": "48a7467c-c58e-486d-aade-eda661b65298",
+        "initRecordId": "424803ae-c044-4dee-9bf2-b5e886e0b55b",
+        "newVersionId": "f73f6bb8-7cbc-4091-b760-b09568e91f77",
+        "planVersion": 1,
+        "planVersionId": "f73f6bb8-7cbc-4091-b760-b09568e91f77",
+        "preparationId": "8fab8f95-1ca6-4ed4-b83c-85ea221dec18",
+        "preparationVersion": 1,
+        "resultStatus": "initialized",
+        "snapshotId": "2eaff0e9-8af3-4551-a94f-b85feae1510d",
+        "sourceReadinessId": "00f58143-cd28-464f-98c2-4c2c7d29e7fc",
+        "targetId": "f73f6bb8-7cbc-4091-b760-b09568e91f77",
+        "targetType": "receivable-plan-version"
+      }
+    }
+  ],
+  "activeContract": {
+    "id": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+    "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+    "status": "active",
+    "currencyCode": "CNY"
+  }
+}

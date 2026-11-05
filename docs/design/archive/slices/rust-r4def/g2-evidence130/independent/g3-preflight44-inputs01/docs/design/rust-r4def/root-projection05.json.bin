@@ -1,0 +1,24 @@
+{
+  "kind": "Root-joint-G1-stricter-labor-allocation-resolution",
+  "authority": "Explicitly supersedes F candidate01's fixed operating-finance interpretation where any real source is LABOR; does not change the public route count",
+  "sourceClassification": "Resolve every real source under the same locks; any LABOR source, including a mixed set or a predecessor's frozen evidence, taints the full derived group. Do not classify only by the displayed result or absence of raw person/rate fields.",
+  "requiredPermissions": ["operating:finance:sensitive:read", "labor-cost-rate:sensitive:read"],
+  "readRule": "For any LABOR-derived basis/result/evidence/tax fact, require both sensitive permissions in addition to the original operation guard for full projection. If either is missing, mask the entire monetary/reversible group: source total, net/tax/gross, allocated amounts, ratios, weights, financial summaries, evidence/calculation details, and write-result projections. All compatibility raw values stay null. Do not release a visible mixed total from which an individually protected labor amount can be subtracted.",
+  "writeRule": "LABOR-involving governance writes require both sensitive permissions before accepting value assertions or calculating client-visible results. Otherwise return 403 without calculated-value hints. This prevents hidden-amount equality/validation probes through the financial-manage operation. Non-LABOR writes retain the original guard and normal projection rules.",
+  "projectionCarrier": "Existing F SensitiveStringFieldProjection is generic over registered package keys. Use the missing/most restrictive package for masking; dual-authorized reads use normal full financial projection. No ad-hoc permission alias or unregistered package is introduced.",
+  "audit": "Collect the applicable operating-finance and labor-cost-rate projection decisions and write their security events on the same borrowed CommonSession. Never call an independent-connection projection wrapper or flush after commit.",
+  "safeErrors": "Failure responses do not echo computed source totals, expected allocations, differences, rates or other hidden values. Version/conflict/resource identities alone remain available as appropriate.",
+  "requiredValidation": [
+    "one LABOR source, known weights, operating permission only: all reversible monetary groups masked; governance write403",
+    "one LABOR source, labor permission only: operating-derived group masked; governance write403",
+    "one LABOR source, neither sensitive permission: masked",
+    "one LABOR source, both sensitive permissions: full and exact",
+    "mixed LABOR/non-LABOR sources with known non-LABOR value and weights: no subtraction/inverse-amount leak without both permissions",
+    "result/basis/evidence/history/write-response and validation errors follow the same sensitivity rule",
+    "security-event failure rolls back every required business write",
+    "non-LABOR source retains normal operating-finance projection"
+  ],
+  "businessDate": "Keep the existing source-instant-to-business-date rule implemented by compat::business_date_only (Asia/Hong_Kong). A date-only input remains its literal business date; the host's Asia/Tokyo timezone does not redefine business dates. Include a UTC/Hong_Kong midnight boundary case.",
+  "G1Certified": false,
+  "runtimeExecuted": false
+}

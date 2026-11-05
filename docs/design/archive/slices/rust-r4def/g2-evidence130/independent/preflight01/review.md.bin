@@ -1,0 +1,30 @@
+# R4 DEF 非作者独立 G1 预审 01
+
+- 结论：**Block，待候选修正及最终联合输入**。不是最终 G1 认证，不准入 G2。
+- 审查输入：同目录 `static-input-review.json` 的 15 个逐字节快照与 SHA-256；HEAD=`565661b9113372de4da6662a4a692fbfd2296dd6`。
+- 已独立复核 D/E/F operation 数分别 7/11/12，组内 operationId 各自唯一；作者 165 个来源 pin 的字节数及 raw SHA-256 全部匹配当前文件。
+- 已审阅用户裁决、联合基线/公共协议、D/E/F MD/JSON/SQL、G0 原件索引、两条 planned canonical、相关正式业务/权限设计及 R4ABC migration。G0 是已有实际回执的静态核对，本次没有另发 GitHub 请求。
+- 本次没有产品改动、数据库/HTTP/浏览器运行、迁移执行或 G2/G3/G4 交付认证。只写独立审查目录，旧证据不覆盖。
+
+## 合并问题清单
+
+1. **[P1] 把 E 非人力成本与费用的原值读取也纳入财务投影。** `E-g1-candidate01.md:87-101` 仍把费用三层金额、说明/证据作为普通 raw 字段，并明确非 labor 原字段保持原义；JSON `proposedSchemas` 只有 `LaborCostSensitiveProjection` 与两种 labor 扩展视图。入口 `contract:finance:manage` 不授予 `operating:finance:sensitive:read` 或 `contract:finance:sensitive:read`，按该候选实现，缺敏感权限者仍能从 E GET、费用 create/update/confirm/void 返回值读取精确金额及证据。公共 `protocol01.md` §5 与 F 已采用的金额/自由说明投影规则不支持这一旁路。联合 G1 须冻结 E 各字段归属包、remove/null/projection、写响应与列表/详情一致规则；并覆盖有入口权限但缺敏感读取权限的真实响应。D 新 `ProjectHandoverBasisItemSummary.summary` 也是 raw string，cost/risk/attachment 等生成摘要应明确为安全固定摘要或按字段包投影，避免 payload 中的金额/人力原值通过此新字段绕出。
+
+2. **[P1] 冻结 F 阶段确认对 registered 成本的完整确认 producer。** `F-g1-candidate01.md:109-115`、JSON `semanticAssertions` 和 F-STAGE 计划只约束“已有 confirmed 必须锁”及 E 直接创建 confirmed 的内调，没有定义公开阶段确认对 registered 成本进行 `registered -> confirmed` 的必要写。E 的 labor/procurement 默认 registered，而 F 分摊又要求 confirmed；缺这一步就没有真实公开流程把这些来源送入分摊。Root 已在本次消息明确该技术决定：F 既有 stage confirmation 必须在同一 CommonSession 内写 cost status、confirmedAt/By、rowVersion、归属快照、阶段依据/锁及 audit，且 not included；应把该决定变成机器 SSOT/成功结果和验收场景。需覆盖终态拒绝、重复/并发、一处必要写失败整体回滚，不能另加未授权“确认成本”路由。
+
+3. **[P2] 本人确认也在锁内拒绝 source-changed 材料。** D JSON `proposedBusinessValidation.participant` 只列 actor、旧 summary/basis/confirmation version 与 pending 关系，D MD 的 self-confirm 精确说明未列当前全合同/附件来源重验。合同新 snapshot 生效后，这些旧 ID/version 仍可全部匹配。公共协议 §4 已要求旧待移交材料显示 source-changed 并阻断确认，不能等到最后 `:confirm` 才发现。应明确 self-confirm 同样在项目/来源锁内重验当前来源 hash、材料与附件版本；409 后必须重基线/重新准备并生成新待确认，不能把过期同意复用到新材料。补 self-confirm 与 amendment activate/附件变更互竞场景。
+
+4. **[P2] 个人费率部分覆盖归集期间时也不能整段回落角色率。** E MD §3.2 目前仅在个人费率“覆盖完整期间”时禁止角色率；正式 `phase2-project-actual-cost-records.md:279-280` 是存在适用个人率则个人优先，来源映射 §人力又要求跨费率边界拆分。若个人率只覆盖 11/05–11/10，角色率覆盖 11/01–11/30，按候选字面仍可整月使用角色率。应冻结任一适用个人率与归集期间相交时按边界拆分及选率规则，不能只做完整包含判定；补部分相交、闭区间相邻、历史补记/替代与角色回落的真实边界场景。
+
+## 已通过的预审边界
+
+- 两条新增准备/本人确认路由已登记 planned；不把全名单提交当成代他人确认的授权。
+- D 的多合同依据成员指向真实 snapshot/preparation/readiness/plan；SQL 复合引用能消费 R4ABC 已有唯一键。新变更待审保留旧 Active，激活时同事务切 snapshot/plan，再基线保留旧材料，方向正确。
+- 费用/入账 18,2、率 15,4、quantity 10,2、人力精确 HALF_UP、历史非分币 preflight 阻断，不静默改写。
+- F 来源逐项占用、三层金额不混算、确定性最大余数、完整份额整批替代、历史来源 payload 保留均已进入候选。
+- 全局费率审计无伪造项目 ID；各线借同外层 CommonSession，必要写/audit/auth coflush 失败整体回滚，未知 commit 不冒称回滚。
+- 本批全部 not included；R5 执行准入与 #101/#57 关闭边界保持明确。
+
+## 后续最终 G1 输入
+
+等待 Root 的最终 30 项机器 SSOT、联合来源 manifest/精确 DTO/DDL/内部接口、统一验证与文件归属，以及候选 commit。最终 Pass/Block 将绑定这些精确输入重新验证；本预审不替代最终认证。后续修订保留本目录，不覆盖失败/Block 原件。

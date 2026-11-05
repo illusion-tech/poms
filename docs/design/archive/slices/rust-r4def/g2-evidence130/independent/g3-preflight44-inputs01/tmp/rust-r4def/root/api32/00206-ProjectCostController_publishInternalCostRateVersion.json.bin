@@ -1,0 +1,33 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:05:21.198Z",
+  "completedAt": "2026-11-04T00:05:21.219Z",
+  "operationId": "ProjectCostController_publishInternalCostRateVersion",
+  "method": "POST",
+  "path": "/api/internal-cost-rate-versions",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-00206-13c0c73d",
+  "requestBody": {
+    "rateScopeType": "role",
+    "roleCode": "R4E21-e41-day",
+    "rateUnit": "day",
+    "rateValue": "80.1250",
+    "currency": "CNY",
+    "effectiveFrom": "2026-01-01",
+    "changeReason": "R4E21-e41-真实费率发布"
+  },
+  "status": 201,
+  "responseBody": {
+    "approvalRecordId": null,
+    "businessStatusAfter": "active",
+    "confirmationRecordId": null,
+    "resultStatus": "success",
+    "targetId": "caefd90e-8d3e-41bd-8b2b-fdda317ba5ce",
+    "targetType": "InternalCostRateVersion",
+    "todoItemIds": []
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

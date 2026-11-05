@@ -1,0 +1,56 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T04:18:17.186Z",
+  "completedAt": "2026-11-04T04:18:17.567Z",
+  "operationId": "ProjectCostController_confirmSharedCostAllocationBasis",
+  "method": "POST",
+  "path": "/api/shared-cost-allocation-bases",
+  "query": {},
+  "actorKey": "raceA88",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-01535-14993792",
+  "requestBody": {
+    "basisType": "R62-r88-basis",
+    "allocationMethod": "weighted",
+    "sourceCostRecordIds": [
+      "a3bb94fa-e8e1-43c5-bab3-647717def604",
+      "62cf6d54-2024-4bb2-ad49-261676c1abb2"
+    ],
+    "measurementBasis": "including-tax",
+    "expectedSourceVersions": [
+      {
+        "costRecordId": "a3bb94fa-e8e1-43c5-bab3-647717def604",
+        "expectedVersion": 2
+      },
+      {
+        "costRecordId": "62cf6d54-2024-4bb2-ad49-261676c1abb2",
+        "expectedVersion": 2
+      }
+    ],
+    "projectShareItems": [
+      {
+        "projectId": "2410df0c-c530-4223-b857-1a83a411b57b",
+        "allocationWeight": "1.000000",
+        "allocatedAmount": "0.12",
+        "allocationRatio": "0.500000",
+        "allocationSummary": "R62-r88-explicit-fixed-share"
+      },
+      {
+        "projectId": "a275878e-459d-45d9-a2f4-37874d68c7f2",
+        "allocationWeight": "1.000000",
+        "allocatedAmount": "0.12",
+        "allocationRatio": "0.500000",
+        "allocationSummary": "R62-r88-explicit-fixed-share"
+      }
+    ],
+    "basisSummary": "固定来源金额与完整项目份额；v2；不纳入经营成本"
+  },
+  "status": 409,
+  "responseBody": {
+    "error": "Conflict",
+    "message": "Source is already reserved by an active allocation",
+    "statusCode": 409
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

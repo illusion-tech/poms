@@ -1,0 +1,135 @@
+{
+  "kind": "precision56-owned-probe-tool-receipt",
+  "mode": "exercise",
+  "at": "2026-11-04T02:55:18.444Z",
+  "namespace": "poms-r4def-precision56",
+  "database": "poms_r4def_legacy_probe56",
+  "modeSucceeded": true,
+  "producer": "actual frozen Native HTTP only",
+  "expenseId": "e0172d85-edca-4e2a-80b3-6c457f9561ab",
+  "projectId": "7fdf76a8-670f-4f62-a640-50888114b911",
+  "exactSyntheticPGAmount": "10.1230",
+  "HTTPReceipts": [
+    {
+      "operationId": "AuthController_getCsrfToken",
+      "method": "GET",
+      "path": "/api/auth/csrf-token",
+      "requestId": "precision56-1-609a61e3",
+      "status": 200,
+      "original": {
+        "file": "/home/wangzishi/.local/share/poms-r4def-precision56/private/http/001-original.json",
+        "bytes": 1286,
+        "rawBytesSha256": "c853a02934c8aef83144a03a51ea0f41ba264028f0032d570fd4c7cacd37d76f"
+      }
+    },
+    {
+      "operationId": "AuthController_createPasswordAuthSession",
+      "method": "POST",
+      "path": "/api/auth/sessions",
+      "requestId": "precision56-2-f4193182",
+      "status": 200,
+      "original": {
+        "file": "/home/wangzishi/.local/share/poms-r4def-precision56/private/http/002-original.json",
+        "bytes": 4301,
+        "rawBytesSha256": "4e6f03155b39c6a4316a5c83c6ef36d4b6741e04c9b79b5b86944a91b1bd89b6"
+      }
+    },
+    {
+      "operationId": "AuthController_getCurrentAuthSession",
+      "method": "GET",
+      "path": "/api/auth/session",
+      "requestId": "precision56-3-b441f785",
+      "status": 200,
+      "original": {
+        "file": "/home/wangzishi/.local/share/poms-r4def-precision56/private/http/003-original.json",
+        "bytes": 3832,
+        "rawBytesSha256": "dbcacd8d6833bea87942778adbb35169097d76d934c63ee471052caca51f8785"
+      }
+    },
+    {
+      "operationId": "CustomerController_create",
+      "method": "POST",
+      "path": "/api/customers",
+      "requestId": "precision56-4-b7c590a5",
+      "status": 201,
+      "original": {
+        "file": "/home/wangzishi/.local/share/poms-r4def-precision56/private/http/004-original.json",
+        "bytes": 1947,
+        "rawBytesSha256": "2a8502d7a1d5787bebb7a5ac32b0e0b5f880e2a31b3b7e078a54a2bae538e814"
+      }
+    },
+    {
+      "operationId": "ProjectController_create",
+      "method": "POST",
+      "path": "/api/projects",
+      "requestId": "precision56-5-f333e521",
+      "status": 201,
+      "original": {
+        "file": "/home/wangzishi/.local/share/poms-r4def-precision56/private/http/005-original.json",
+        "bytes": 2152,
+        "rawBytesSha256": "0ca91e8410996e675d5c88362eaf235c34c9f151262279add36743cca6eb4e14"
+      }
+    },
+    {
+      "operationId": "DictionaryController_create",
+      "method": "POST",
+      "path": "/api/dictionaries",
+      "requestId": "precision56-6-1ba32420",
+      "status": 201,
+      "original": {
+        "file": "/home/wangzishi/.local/share/poms-r4def-precision56/private/http/006-original.json",
+        "bytes": 1930,
+        "rawBytesSha256": "58fd8b67ec97c50a87c02cac9084cf22de007b138d8e75cf2c5f08a89d6b0f72"
+      }
+    },
+    {
+      "operationId": "DictionaryController_list",
+      "method": "GET",
+      "path": "/api/dictionaries",
+      "requestId": "precision56-7-f9d17e2f",
+      "status": 200,
+      "original": {
+        "file": "/home/wangzishi/.local/share/poms-r4def-precision56/private/http/007-original.json",
+        "bytes": 3601,
+        "rawBytesSha256": "02dc95a72c3ea3f217cf2130280b9a19862dbc932cb3909e54c6067025f6d961"
+      }
+    },
+    {
+      "operationId": "ProjectCostController_createExpenseRecord",
+      "method": "POST",
+      "path": "/api/projects/7fdf76a8-670f-4f62-a640-50888114b911/expense-records",
+      "requestId": "precision56-8-6922a713",
+      "status": 201,
+      "original": {
+        "file": "/home/wangzishi/.local/share/poms-r4def-precision56/private/http/008-original.json",
+        "bytes": 2362,
+        "rawBytesSha256": "5c9e773f6eacec37902f8163a0c84c74e958cb2e179646815ffbab1f20aca645"
+      }
+    }
+  ],
+  "snapshot": {
+    "facts": {
+      "migrations": 93,
+      "tables": 113,
+      "numeric_precision": 15,
+      "numeric_scale": 4
+    },
+    "graphFile": {
+      "file": "/home/wangzishi/.local/share/poms-r4def-precision56/private/snapshots/after-real-api-all113-original-strings.json",
+      "bytes": 247365,
+      "rawBytesSha256": "0e4b10c703b9ae930cdacc241f0c10cb7020d9bc5d154f24aad04c17bf47fb80"
+    },
+    "ddlFile": {
+      "file": "/home/wangzishi/.local/share/poms-r4def-precision56/private/snapshots/after-real-api-ddl-original.json",
+      "bytes": 913606,
+      "rawBytesSha256": "87d3a6c0593fb5c427d3187a46c49dc328822918ece011cf94d4bd9e72cf2407"
+    },
+    "allRowsSignature": "01640ae62bc21dc59ae938f59e1285ef9c8e9b6d4917a3515cad28c63f48d42a",
+    "ddlSignature": "7dec0244ba3a4fe1d6c2934b5840bfa0a4e262ea667e06461748eae46856eeb8"
+  },
+  "routeStillNotMigrationAcceptance": true,
+  "businessAccepted": false,
+  "performanceClaimed": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

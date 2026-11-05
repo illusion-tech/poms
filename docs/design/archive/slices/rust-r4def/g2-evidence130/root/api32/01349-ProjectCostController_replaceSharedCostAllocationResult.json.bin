@@ -1,0 +1,54 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T02:44:21.652Z",
+  "completedAt": "2026-11-04T02:44:21.730Z",
+  "operationId": "ProjectCostController_replaceSharedCostAllocationResult",
+  "method": "POST",
+  "path": "/api/shared-cost-allocation-results/7e8b45ff-f8e9-4849-a657-d183b72ef697:replace",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-01349-6179af81",
+  "requestBody": {
+    "expectedVersion": 1,
+    "expectedBasisVersion": 1,
+    "projectShareItems": [
+      {
+        "projectId": "2410df0c-c530-4223-b857-1a83a411b57b",
+        "allocationWeight": "1.000000",
+        "allocatedAmount": "0.06",
+        "allocationRatio": "0.500000",
+        "allocationSummary": "R4F44-f60-明确完整项目份额"
+      },
+      {
+        "projectId": "a275878e-459d-45d9-a2f4-37874d68c7f2",
+        "allocationWeight": "1.000000",
+        "allocatedAmount": "0.06",
+        "allocationRatio": "0.500000",
+        "allocationSummary": "R4F44-f60-明确完整项目份额"
+      }
+    ],
+    "replacementReason": "用户明确gross主层优先，完整新批仍按0.06/0.06，旧批证据不改写"
+  },
+  "status": 201,
+  "responseBody": {
+    "allocationResultIds": [
+      "be9c1665-e166-41a9-ba6a-a102b94fbf5a",
+      "13f41dbd-adea-4b97-9136-ad016df24252"
+    ],
+    "approvalRecordId": null,
+    "basisId": "515af226-b5eb-4070-9aed-73e95b11910e",
+    "businessStatusAfter": "active",
+    "confirmationRecordId": null,
+    "evidenceId": "28d43405-54cb-41ed-ac11-9b631f02094a",
+    "replacementResultId": "be9c1665-e166-41a9-ba6a-a102b94fbf5a",
+    "resultStatus": "success",
+    "supersedesAllocationResultId": "7e8b45ff-f8e9-4849-a657-d183b72ef697",
+    "supersedesBasisId": "0631e76f-6d9a-4b0b-a617-6c1aa7cd5b74",
+    "targetId": "be9c1665-e166-41a9-ba6a-a102b94fbf5a",
+    "targetType": "SharedCostAllocationResult",
+    "todoItemIds": []
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

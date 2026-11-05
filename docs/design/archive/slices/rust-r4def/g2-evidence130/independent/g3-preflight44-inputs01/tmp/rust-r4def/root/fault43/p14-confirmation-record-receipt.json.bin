@@ -1,0 +1,18 @@
+{
+  "operationId": "ProjectHandoverController_confirmProjectHandoverParticipant",
+  "table": "confirmation_record",
+  "barrierWaiter": {
+    "pid": 336,
+    "query": "UPDATE poms.\"confirmation_record\" SET \"confirmed_count\"=$1::integer,\"updated_at\"=$2::timestamptz,\"updated_by\"=$3::uuid,row_version=row_version+1 WHERE id=$4::uuid AND row_version=$5::integer RETURNING row_version",
+    "wait_event": "advisory",
+    "wait_event_type": "Lock",
+    "classid": "194043",
+    "objid": "43014",
+    "granted": false
+  },
+  "status": 500,
+  "receiptId": "tmp/rust-r4def/root/api32/00424-ProjectHandoverController_confirmProjectHandoverParticipant.json",
+  "hitProven": true,
+  "all120TablesRolledBack": true,
+  "retryPending": true
+}

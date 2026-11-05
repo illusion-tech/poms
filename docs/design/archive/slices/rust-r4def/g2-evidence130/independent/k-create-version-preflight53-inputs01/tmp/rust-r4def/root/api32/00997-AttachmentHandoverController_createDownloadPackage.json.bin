@@ -1,0 +1,54 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T01:38:28.123Z",
+  "completedAt": "2026-11-04T01:38:28.222Z",
+  "operationId": "AttachmentHandoverController_createDownloadPackage",
+  "method": "POST",
+  "path": "/api/project-handovers/32eeb954-5559-45fa-a3aa-fd08e0b8981a/attachment-download-packages",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-00997-12eb6737",
+  "requestBody": {
+    "selectionIds": [
+      "d0c0c1dc-ab24-4d7a-a174-563e45a8b810"
+    ],
+    "expectedSelectionVersions": [
+      {
+        "selectionId": "d0c0c1dc-ab24-4d7a-a174-563e45a8b810",
+        "rowVersion": 2
+      }
+    ],
+    "confirmedSensitiveExclusion": true,
+    "note": "只下载已核对的非空normal最终版本；敏感文件明确排除"
+  },
+  "status": 200,
+  "responseBody": {
+    "id": "29f01682-0fb7-4242-97c2-a45cd2f11e0f",
+    "handoverId": "32eeb954-5559-45fa-a3aa-fd08e0b8981a",
+    "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+    "status": "ready",
+    "manifestSummary": {
+      "includedCount": 1,
+      "excludedCount": 1,
+      "includedAttachmentIds": [
+        "5151e346-59d4-4d3b-8254-ccaae6bd3699"
+      ],
+      "excludedAttachmentIds": [
+        "156eed94-e0a5-49b1-8762-7c04b8cc4bba"
+      ],
+      "excludedReasons": [
+        "Security level confidential is excluded from ordinary handover download packages"
+      ]
+    },
+    "fileName": "project-handover-32eeb954-5559-45fa-a3aa-fd08e0b8981a-attachments.zip",
+    "expiresAt": "2026-11-05T01:38:28.185Z",
+    "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+    "createdAt": "2026-11-04T01:38:28.185Z",
+    "downloadedAt": null,
+    "downloadCount": 0,
+    "failedReason": null
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

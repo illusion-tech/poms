@@ -1,0 +1,27 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T04:02:48.557Z",
+  "completedAt": "2026-11-04T04:02:48.645Z",
+  "operationId": "ProjectHandoverController_confirmProjectHandoverParticipant",
+  "method": "POST",
+  "path": "/api/project-handovers/32eeb954-5559-45fa-a3aa-fd08e0b8981a/participant-confirmations",
+  "query": {},
+  "actorKey": "personA",
+  "actorId": "384ffad5-04ed-4f78-918a-ec8e7df6a590",
+  "requestId": "r4def32-01414-dc4703c4",
+  "requestBody": {
+    "summarySnapshotId": "3445a059-6262-4313-b922-7c9fe04423de",
+    "handoverBasisSnapshotId": "4d3a730e-c920-4159-9878-d25406ccf101",
+    "expectedConfirmationVersion": 2,
+    "comment": "本人核验本次真实附件固定版本及全部职责"
+  },
+  "status": 409,
+  "responseBody": {
+    "code": "source_changed",
+    "error": "Conflict",
+    "message": "移交来源或材料版本已变化，请重新准备。",
+    "statusCode": 409
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

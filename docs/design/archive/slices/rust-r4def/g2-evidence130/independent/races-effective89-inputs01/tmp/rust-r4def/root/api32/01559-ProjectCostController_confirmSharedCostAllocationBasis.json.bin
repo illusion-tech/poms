@@ -1,0 +1,58 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T04:18:21.494Z",
+  "completedAt": "2026-11-04T04:18:21.755Z",
+  "operationId": "ProjectCostController_confirmSharedCostAllocationBasis",
+  "method": "POST",
+  "path": "/api/shared-cost-allocation-bases",
+  "query": {},
+  "actorKey": "raceA88",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-01559-9d18bd13",
+  "requestBody": {
+    "basisType": "R62-r88-basis",
+    "allocationMethod": "weighted",
+    "sourceCostRecordIds": [
+      "2965bba0-f253-498f-99f6-14c1e9ef04fb",
+      "393d31a8-12a4-46d4-b8dd-bf785de22ed3"
+    ],
+    "measurementBasis": "including-tax",
+    "expectedSourceVersions": [
+      {
+        "costRecordId": "2965bba0-f253-498f-99f6-14c1e9ef04fb",
+        "expectedVersion": 2
+      },
+      {
+        "costRecordId": "393d31a8-12a4-46d4-b8dd-bf785de22ed3",
+        "expectedVersion": 2
+      }
+    ],
+    "projectShareItems": [
+      {
+        "projectId": "2410df0c-c530-4223-b857-1a83a411b57b",
+        "allocationWeight": "1.000000",
+        "allocatedAmount": "0.02",
+        "allocationRatio": "1.000000",
+        "allocationSummary": "同一双family在独立项目各分配两分，不共享项目行锁"
+      }
+    ],
+    "basisSummary": "固定来源金额与完整项目份额；v2；不纳入经营成本"
+  },
+  "status": 201,
+  "responseBody": {
+    "allocationResultIds": [
+      "4244f69a-fc5b-49ee-b2f4-2186a0f2aa02"
+    ],
+    "approvalRecordId": null,
+    "basisId": "b2234fcf-4609-4134-afc9-5ed2bc07db85",
+    "businessStatusAfter": "active",
+    "confirmationRecordId": null,
+    "evidenceId": "92724f89-c5f5-4f0b-a2f0-9f82eabb4bac",
+    "resultStatus": "success",
+    "targetId": "b2234fcf-4609-4134-afc9-5ed2bc07db85",
+    "targetType": "SharedCostAllocationBasis",
+    "todoItemIds": []
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

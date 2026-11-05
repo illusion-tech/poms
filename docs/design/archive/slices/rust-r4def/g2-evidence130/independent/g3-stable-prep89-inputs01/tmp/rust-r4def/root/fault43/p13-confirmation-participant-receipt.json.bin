@@ -1,0 +1,18 @@
+{
+  "operationId": "ProjectHandoverController_confirmProjectHandoverParticipant",
+  "table": "confirmation_participant",
+  "barrierWaiter": {
+    "pid": 339,
+    "query": "UPDATE poms.\"confirmation_participant\" SET \"participant_status\"=$1::text,\"confirmed_at\"=$2::timestamptz,\"confirmed_comment\"=$3::text,\"updated_at\"=$4::timestamptz,\"updated_by\"=$5::uuid WHERE id=$6::uuid",
+    "wait_event": "advisory",
+    "wait_event_type": "Lock",
+    "classid": "194043",
+    "objid": "43013",
+    "granted": false
+  },
+  "status": 500,
+  "receiptId": "tmp/rust-r4def/root/api32/00420-ProjectHandoverController_confirmProjectHandoverParticipant.json",
+  "hitProven": true,
+  "all120TablesRolledBack": true,
+  "retryPending": true
+}

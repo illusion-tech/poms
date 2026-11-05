@@ -1,0 +1,154 @@
+{
+  "formatVersion": 1,
+  "kind": "derived-native-observed-K-create-groups-not-new-execution",
+  "source": {
+    "file": "tmp/rust-r2k/native-calibration-alpha04.json",
+    "sha256": "0315402dce510dce6fd243f8a8fba29da9a69fa91b4c0622b200d5331b75cd26",
+    "runId": "5bfdcaa0-762e-4585-828a-dae8a818636d",
+    "result": "observed"
+  },
+  "sdk": [
+    {
+      "package": "@mikro-orm/core@7.0.11",
+      "relative": "unit-of-work/CommitOrderCalculator.js",
+      "sha256": "10570cd4ba584f6218f3e10caedf4db47e87368fd87a1bbec771a01cfd34dc62"
+    },
+    {
+      "package": "@mikro-orm/core@7.0.11",
+      "relative": "unit-of-work/ChangeSetPersister.js",
+      "sha256": "1a2c33d6d91454be04f3b8d5d353b79a2b22779594cc039597c99626c22878d3"
+    },
+    {
+      "package": "@mikro-orm/core@7.0.11",
+      "relative": "utils/Configuration.js",
+      "sha256": "a02d638fba77cd7298fa16727252b052a13feb542388d2af1a36c587bde9e2fc"
+    }
+  ],
+  "batchSize": 300,
+  "cases": [
+    {
+      "name": "k.refresh.first",
+      "transactions": [
+        {
+          "beginSequence": 1065,
+          "creates": [
+            {
+              "table": "attachment_link",
+              "rows": 1,
+              "sequence": 1067
+            },
+            {
+              "table": "project_handover_attachment_selection",
+              "rows": 2,
+              "sequence": 1069
+            }
+          ],
+          "updates": [
+            {
+              "table": "auth_session",
+              "sequence": 1071
+            }
+          ],
+          "commitSequence": 1073
+        },
+        {
+          "beginSequence": 1077,
+          "creates": [
+            {
+              "table": "attachment_link",
+              "rows": 1,
+              "sequence": 1079
+            }
+          ],
+          "updates": [],
+          "commitSequence": 1081
+        },
+        {
+          "beginSequence": 1083,
+          "creates": [
+            {
+              "table": "audit_log",
+              "rows": 1,
+              "sequence": 1085
+            }
+          ],
+          "updates": [],
+          "commitSequence": 1087
+        }
+      ]
+    },
+    {
+      "name": "k.package.success",
+      "transactions": [
+        {
+          "beginSequence": 1553,
+          "creates": [
+            {
+              "table": "attachment_download_package",
+              "rows": 1,
+              "sequence": 1555
+            },
+            {
+              "table": "attachment_download_package_item",
+              "rows": 2,
+              "sequence": 1557
+            }
+          ],
+          "updates": [
+            {
+              "table": "auth_session",
+              "sequence": 1559
+            }
+          ],
+          "commitSequence": 1561
+        },
+        {
+          "beginSequence": 1563,
+          "creates": [
+            {
+              "table": "audit_log",
+              "rows": 1,
+              "sequence": 1565
+            }
+          ],
+          "updates": [],
+          "commitSequence": 1567
+        }
+      ]
+    },
+    {
+      "name": "k.package.source-file-missing",
+      "transactions": [
+        {
+          "beginSequence": 1877,
+          "creates": [
+            {
+              "table": "attachment_download_package",
+              "rows": 1,
+              "sequence": 1879
+            },
+            {
+              "table": "attachment_download_package_item",
+              "rows": 2,
+              "sequence": 1881
+            }
+          ],
+          "updates": [],
+          "commitSequence": 1883
+        },
+        {
+          "beginSequence": 1885,
+          "creates": [
+            {
+              "table": "audit_log",
+              "rows": 1,
+              "sequence": 1887
+            }
+          ],
+          "updates": [],
+          "commitSequence": 1889
+        }
+      ]
+    }
+  ]
+}

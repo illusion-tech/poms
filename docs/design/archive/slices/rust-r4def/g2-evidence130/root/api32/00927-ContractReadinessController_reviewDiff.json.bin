@@ -1,0 +1,31 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T01:15:31.137Z",
+  "completedAt": "2026-11-04T01:15:31.262Z",
+  "operationId": "ContractReadinessController_reviewDiff",
+  "method": "POST",
+  "path": "/api/commercial-release-baselines/81701cdc-43cd-4e55-a6bb-9de023a21d71:reviewDiff",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-00927-d05c3e9a",
+  "requestBody": {
+    "contractId": "a8ab4086-89c6-4b57-b14c-3ecaa7ceb058",
+    "diffResultId": "d6be1720-3186-4a7f-bce5-f1312777acbd",
+    "diffDecision": "approved",
+    "reviewedFieldKeys": [
+      "receivablePlanSeeds[full-payment].label"
+    ],
+    "attachmentIds": [],
+    "expectedVersion": 2
+  },
+  "status": 200,
+  "responseBody": {
+    "baselineReviewDecision": "approved",
+    "diffResultId": "d6be1720-3186-4a7f-bce5-f1312777acbd",
+    "resultStatus": "reviewed",
+    "targetId": "81701cdc-43cd-4e55-a6bb-9de023a21d71"
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

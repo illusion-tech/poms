@@ -1,0 +1,69 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:05:24.552Z",
+  "completedAt": "2026-11-04T00:05:24.562Z",
+  "operationId": "RuntimeAuditController_listAuditLogs",
+  "method": "GET",
+  "path": "/api/audit-logs",
+  "query": {
+    "targetType": "InternalCostRateVersion",
+    "targetId": "65223458-f597-4f11-ab39-3b0725b9db34",
+    "limit": "100"
+  },
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-00326-50d8f226",
+  "requestBody": null,
+  "status": 200,
+  "responseBody": [
+    {
+      "id": "cebbdf03-79cd-44ed-8826-c419a5ee0ace",
+      "eventType": "ProjectCostController_publishInternalCostRateVersion",
+      "targetType": "InternalCostRateVersion",
+      "targetId": "65223458-f597-4f11-ab39-3b0725b9db34",
+      "operatorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "requestId": "r4def32-00325-aeedd1fc",
+      "result": "success",
+      "reason": "R4E21-e41-真实费率发布",
+      "beforeSnapshot": null,
+      "afterSnapshot": {
+        "change_reason": "R4E21-e41-真实费率发布",
+        "created_at": "2026-11-04T00:05:24.541Z",
+        "created_by": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "currency": "CNY",
+        "effective_from": "2026-09-15",
+        "effective_to": "2026-09-20",
+        "id": "65223458-f597-4f11-ab39-3b0725b9db34",
+        "is_current": true,
+        "person_id": "3dc9a7e4-33b9-432e-81ec-613803614739",
+        "published_at": "2026-11-04T00:05:24.541Z",
+        "published_by": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "rate_key": "person:3dc9a7e4-33b9-432e-81ec-613803614739:hour",
+        "rate_scope_type": "person",
+        "rate_unit": "hour",
+        "rate_value": "20.0000",
+        "role_code": null,
+        "row_version": 1,
+        "status": "active",
+        "supersedes_rate_version_id": null,
+        "updated_at": "2026-11-04T00:05:24.541Z",
+        "updated_by": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "version": 1
+      },
+      "metadata": {
+        "contractId": null,
+        "operationId": "ProjectCostController_publishInternalCostRateVersion",
+        "producer": "rust-r4e",
+        "projectId": null,
+        "requiredSensitivePackages": [
+          "labor-cost-rate"
+        ],
+        "roundingPolicy": "HALF_UP-cents-v1",
+        "schemaVersion": 1
+      },
+      "occurredAt": "2026-11-04T00:05:24.542Z"
+    }
+  ],
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

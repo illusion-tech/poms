@@ -1,0 +1,65 @@
+{
+  "kind": "R4DEF-independent-G1-final-review05",
+  "verdict": "Block",
+  "reviewedCommit": "f3d093d2cf2495ca990f8aac314eead7a8935ab1",
+  "mainBaseline": "565661b9113372de4da6662a4a692fbfd2296dd6",
+  "manifest": {
+    "file": "docs/design/rust-r4def/joint-g1-05/manifest05.json",
+    "rawBytesSha256": "dbb1a88c4c60ec0e4d77a6015524ab293e4750f571a41135d1b75f9bd43adfcf",
+    "independentlyMatched": true
+  },
+  "checksArtifact": "tmp/rust-r4def/independent/g1-final05-checks.json",
+  "reviewArtifact": "tmp/rust-r4def/independent/g1-final05.md",
+  "G1Certified": false,
+  "G2Authorized": false,
+  "onlineFreezeAllowed": false,
+  "productChanged": false,
+  "runtimeExecuted": false,
+  "sqlExecuted": false,
+  "counts": { "sourcePins": 435, "outputPins": 5, "D": 7, "E": 11, "F": 12, "total": 30, "targetOperations": 293, "targetSchemas": 624, "schemaChanges": 63 },
+  "passedChecks": {
+    "sourceCurrentRawAndCommittedBlobsAllMatch": true,
+    "outputsAllMatch": true,
+    "lostExistingOperations": 0,
+    "schemaAuthorityMismatches": 0,
+    "unresolvedLocalRefs": 0,
+    "undefinedRequiredProperties": 0,
+    "typeNullAndConstOccurrences": 0,
+    "docsMarkdownCheck": "ran-and-passed",
+    "latestCommitDiffCheck": "ran-and-passed",
+    "cumulativeDiffCheck": "ran-and-passed",
+    "productAppsLibsDiff": "empty"
+  },
+  "findings": [
+    {
+      "id": "G1-05-B01",
+      "priority": "P2",
+      "class": "new-real-drift",
+      "title": "Nullable enum normalization excludes previously accepted null",
+      "pointer": "#/components/schemas/SharedCostAllocationBasisSummary/properties/measurementBasis",
+      "sourceAcceptsNull": true,
+      "targetNullable": true,
+      "targetEnum": ["excluding-tax", "tax", "including-tax"],
+      "targetEnumIncludesNull": false,
+      "requiredCorrection": "When normalizing a nullable enum union to OpenAPI3.0, explicitly add null to enum; preserve05 and produce a new precise authority package with a legacy null witness",
+      "primaryReference": "https://swagger.io/docs/specification/v3_0/data-models/enums/#nullable-enums"
+    }
+  ],
+  "prior03Findings": {
+    "B01OpenAPI30Vocabulary": "closed at vocabulary level; one new semantic-preservation defect B01 above remains",
+    "B02LaborAmountSensitivity": "closed-in-design by explicit root-projection05 authority override, dual read masking and dual write authorization",
+    "B03CumulativeDiffCheck": "closed by exact binary evidence protection; actual cumulative check passes",
+    "B04FileOwnership": "closed by ownership04 concrete whitelist"
+  },
+  "unchangedBusinessReview": "All prior D/E/F business, DTO/DDL/transaction/source/precision/state and validation boundaries retained; no additional substantive blocker found",
+  "preservedPriorEvidence": [
+    "tmp/rust-r4def/independent/preflight01",
+    "tmp/rust-r4def/independent/preflight02-root-d",
+    "tmp/rust-r4def/independent/g1-final03.json",
+    "docs/design/rust-r4def/joint-g1-02",
+    "docs/design/rust-r4def/joint-g1-03",
+    "docs/design/rust-r4def/joint-g1-04",
+    "docs/design/rust-r4def/joint-g1-05"
+  ],
+  "closeoutBoundary": { "onlyAfterRealG4": [107, 108, 109, 106], "mustRemainOpen": [101, 57] }
+}

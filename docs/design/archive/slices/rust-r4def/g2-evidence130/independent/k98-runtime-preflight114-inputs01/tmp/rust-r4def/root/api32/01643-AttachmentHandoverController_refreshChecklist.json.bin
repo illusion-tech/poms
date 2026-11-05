@@ -1,0 +1,97 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T05:12:40.223Z",
+  "completedAt": "2026-11-04T05:12:40.489Z",
+  "operationId": "AttachmentHandoverController_refreshChecklist",
+  "method": "POST",
+  "path": "/api/project-handovers/08e9c60c-f071-4ce9-9b1d-694b273998c0/attachment-checklist:refresh",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-01643-6cfaa1db",
+  "requestBody": {
+    "preserveManualExclusions": true,
+    "includeHistoricalSelections": true
+  },
+  "status": 200,
+  "responseBody": {
+    "handoverId": "08e9c60c-f071-4ce9-9b1d-694b273998c0",
+    "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+    "generatedAt": "2026-11-04T05:12:40.484Z",
+    "counts": {
+      "total": 2,
+      "included": 1,
+      "missing": 0,
+      "excluded": 0,
+      "sensitiveExcluded": 1,
+      "staleVersion": 0,
+      "downloadable": 1
+    },
+    "items": [
+      {
+        "selectionId": "b9452b21-b0db-421f-834a-6cd6d170bf3c",
+        "handoverId": "08e9c60c-f071-4ce9-9b1d-694b273998c0",
+        "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+        "attachmentId": "5151e346-59d4-4d3b-8254-ccaae6bd3699",
+        "versionGroupId": "5151e346-59d4-4d3b-8254-ccaae6bd3699",
+        "displayName": "R4DEF47-att52-normal-v1.txt",
+        "category": "customer-profile",
+        "securityLevel": "normal",
+        "status": "included",
+        "selectionReason": "final",
+        "exclusionReason": null,
+        "downloadEligible": true,
+        "staleVersion": false,
+        "sourceRefs": [
+          {
+            "sourceType": "project",
+            "sourceId": "c19e708b-522c-45e9-90d4-81de7295545b",
+            "relationType": "normal",
+            "label": "项目附件"
+          },
+          {
+            "sourceType": "contract",
+            "sourceId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+            "relationType": "normal",
+            "label": "合同 CT-2026-000001"
+          }
+        ],
+        "rowVersion": 1,
+        "updatedAt": "2026-11-04T05:12:40.303Z"
+      },
+      {
+        "selectionId": "40824b2b-16f3-433b-a28d-320206f5eb07",
+        "handoverId": "08e9c60c-f071-4ce9-9b1d-694b273998c0",
+        "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+        "attachmentId": "156eed94-e0a5-49b1-8762-7c04b8cc4bba",
+        "versionGroupId": "156eed94-e0a5-49b1-8762-7c04b8cc4bba",
+        "displayName": "R4DEF47-att52-sensitive-v1.txt",
+        "category": "customer-profile",
+        "securityLevel": "confidential",
+        "status": "sensitive-excluded",
+        "selectionReason": "final",
+        "exclusionReason": "Security level confidential is excluded from ordinary handover download packages",
+        "downloadEligible": false,
+        "staleVersion": false,
+        "sourceRefs": [
+          {
+            "sourceType": "project",
+            "sourceId": "c19e708b-522c-45e9-90d4-81de7295545b",
+            "relationType": "normal",
+            "label": "项目附件"
+          },
+          {
+            "sourceType": "contract",
+            "sourceId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+            "relationType": "normal",
+            "label": "合同 CT-2026-000001"
+          }
+        ],
+        "rowVersion": 1,
+        "updatedAt": "2026-11-04T05:12:40.310Z"
+      }
+    ]
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

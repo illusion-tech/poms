@@ -1,0 +1,49 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T02:44:18.806Z",
+  "completedAt": "2026-11-04T02:44:18.842Z",
+  "operationId": "ProjectCostController_listCostStageAttributions",
+  "method": "GET",
+  "path": "/api/project-actual-cost-records/84a798f2-f6b4-4d10-8e97-5825e51e29e4/stage-attributions",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-01335-0bed2a13",
+  "requestBody": null,
+  "status": 200,
+  "responseBody": [
+    {
+      "attributedStage": "execution",
+      "attributionMode": "manual",
+      "attributionSummaryProjection": {
+        "displayText": "实际API金额和业务日期支撑本次明确人工判断，后续以真实D确认事实作可追溯更正；Root执行前复核该责任说明",
+        "fieldPackageKey": "operating-finance",
+        "mode": "full",
+        "reasonCode": "allowed",
+        "value": "实际API金额和业务日期支撑本次明确人工判断，后续以真实D确认事实作可追溯更正；Root执行前复核该责任说明"
+      },
+      "costRecordId": "84a798f2-f6b4-4d10-8e97-5825e51e29e4",
+      "createdAt": "2026-11-04T02:44:18.271Z",
+      "evidenceBusinessDate": "2026-11-04",
+      "evidenceId": "2ea29dfc-064b-4498-9cc5-22d44fe70db5",
+      "evidenceProjection": {
+        "displayText": "{\"businessDate\":\"2026-11-04\",\"payloadHash\":\"876f6e5339a9913ce86553c9b3175930e9d9b921e80b8bfea47b0b5b54a9feb4\",\"reason\":\"实际API金额和业务日期支撑本次明确人工判断，后续以真实D确认事实作可追溯更正；Root执行前复核该责任说明\",\"sourceReferences\":[{\"businessDate\":\"2026-11-04\",\"kind\":\"source\",\"reason\":\"本隔离验收责任人将本次费用、单日人工及采购承诺按指定业务日人工归属执行阶段；不推断历史区间，不认作R5执行准入\",\"sourceId\":\"148a0ab0-ca5c-4814-b751-d8eedbd3e981\",\"sourceType\":\"payable-record\",\"sourceVersion\":1}]}",
+        "fieldPackageKey": "operating-finance",
+        "mode": "full",
+        "reasonCode": "allowed",
+        "value": "{\"businessDate\":\"2026-11-04\",\"payloadHash\":\"876f6e5339a9913ce86553c9b3175930e9d9b921e80b8bfea47b0b5b54a9feb4\",\"reason\":\"实际API金额和业务日期支撑本次明确人工判断，后续以真实D确认事实作可追溯更正；Root执行前复核该责任说明\",\"sourceReferences\":[{\"businessDate\":\"2026-11-04\",\"kind\":\"source\",\"reason\":\"本隔离验收责任人将本次费用、单日人工及采购承诺按指定业务日人工归属执行阶段；不推断历史区间，不认作R5执行准入\",\"sourceId\":\"148a0ab0-ca5c-4814-b751-d8eedbd3e981\",\"sourceType\":\"payable-record\",\"sourceVersion\":1}]}"
+      },
+      "governanceCertification": "verified",
+      "handledAt": "2026-11-04T02:44:18.271Z",
+      "handledBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "id": "f6c8487b-02f1-479b-91b7-eb603b12139a",
+      "lockedBySnapshotId": null,
+      "rowVersion": 1,
+      "status": "active",
+      "supersedesId": null,
+      "updatedAt": "2026-11-04T02:44:18.271Z"
+    }
+  ],
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

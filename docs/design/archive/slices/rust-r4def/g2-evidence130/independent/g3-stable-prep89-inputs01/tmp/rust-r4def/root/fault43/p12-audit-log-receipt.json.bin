@@ -1,0 +1,18 @@
+{
+  "operationId": "ProjectHandoverController_prepareProjectHandover",
+  "table": "audit_log",
+  "barrierWaiter": {
+    "pid": 337,
+    "query": "INSERT INTO poms.audit_log(id,event_type,target_type,target_id,operator_id,request_id,result,reason,before_snapshot,after_snapshot,metadata,occurred_at) VALUES($1,$2,$3,$4,$5,$6,'success',$7,$8,$9,$10,$11)",
+    "wait_event": "advisory",
+    "wait_event_type": "Lock",
+    "classid": "194043",
+    "objid": "43012",
+    "granted": false
+  },
+  "status": 500,
+  "receiptId": "tmp/rust-r4def/root/api32/00414-ProjectHandoverController_prepareProjectHandover.json",
+  "hitProven": true,
+  "all120TablesRolledBack": true,
+  "retryPending": true
+}

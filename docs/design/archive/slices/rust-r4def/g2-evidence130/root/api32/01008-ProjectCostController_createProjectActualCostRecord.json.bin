@@ -1,0 +1,26 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T02:16:39.022Z",
+  "completedAt": "2026-11-04T02:16:39.456Z",
+  "operationId": "ProjectCostController_createProjectActualCostRecord",
+  "method": "POST",
+  "path": "/api/projects/c19e708b-522c-45e9-90d4-81de7295545b/actual-cost-records",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-01008-aab3dbbc",
+  "requestBody": {
+    "costType": "invoice",
+    "invoiceRecordId": "ee203abb-54df-4b52-831f-eb1029922751",
+    "expectedSourceVersion": 2,
+    "costDescription": "真实旧Native协议发票缺不可变币种证明，不能映射为Rust实际成本"
+  },
+  "status": 422,
+  "responseBody": {
+    "error": "Unprocessable Entity",
+    "message": "Historical invoice currency requires explicit correction",
+    "statusCode": 422
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

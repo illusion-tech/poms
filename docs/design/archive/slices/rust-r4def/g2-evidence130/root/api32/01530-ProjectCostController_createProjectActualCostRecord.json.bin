@@ -1,0 +1,31 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T04:18:16.188Z",
+  "completedAt": "2026-11-04T04:18:16.236Z",
+  "operationId": "ProjectCostController_createProjectActualCostRecord",
+  "method": "POST",
+  "path": "/api/projects/2410df0c-c530-4223-b857-1a83a411b57b/actual-cost-records",
+  "query": {},
+  "actorKey": "raceA88",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-01530-40a5940c",
+  "requestBody": {
+    "costType": "expense",
+    "expenseRecordId": "7dbf4971-5ff8-44c1-a9e2-34864b090add",
+    "expectedSourceVersion": 2,
+    "costDescription": "R62-r88-R62-08-overlap-sources",
+    "evidenceSummary": "由实际费用映射，保持not-included"
+  },
+  "status": 201,
+  "responseBody": {
+    "approvalRecordId": null,
+    "businessStatusAfter": "registered",
+    "confirmationRecordId": null,
+    "resultStatus": "success",
+    "targetId": "5a7e0fc9-7f23-41b5-85b9-c1783bdc95df",
+    "targetType": "ProjectActualCostRecord",
+    "todoItemIds": []
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

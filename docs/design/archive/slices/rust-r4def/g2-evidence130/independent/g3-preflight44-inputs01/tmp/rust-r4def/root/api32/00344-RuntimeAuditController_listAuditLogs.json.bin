@@ -1,0 +1,45 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:05:24.938Z",
+  "completedAt": "2026-11-04T00:05:24.951Z",
+  "operationId": "RuntimeAuditController_listAuditLogs",
+  "method": "GET",
+  "path": "/api/audit-logs",
+  "query": {
+    "targetType": "InternalCostRateVersion",
+    "targetId": "c95e1545-7e76-4283-b28e-da26af4d463d",
+    "limit": "100"
+  },
+  "actorKey": "financeOnly",
+  "actorId": "295a1093-2dec-4444-b2f7-c8dde152695d",
+  "requestId": "r4def32-00344-c47aaea4",
+  "requestBody": null,
+  "status": 200,
+  "responseBody": [
+    {
+      "id": "6c790bc4-ac02-4129-b29f-551fd97ac48f",
+      "eventType": "ProjectCostController_publishInternalCostRateVersion",
+      "targetType": "InternalCostRateVersion",
+      "targetId": "c95e1545-7e76-4283-b28e-da26af4d463d",
+      "operatorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "requestId": "r4def32-00198-d824c81d",
+      "result": "success",
+      "reason": null,
+      "beforeSnapshot": null,
+      "afterSnapshot": null,
+      "metadata": {
+        "contractId": null,
+        "operationId": "ProjectCostController_publishInternalCostRateVersion",
+        "projectId": null,
+        "requiredSensitivePackages": [
+          "labor-cost-rate"
+        ],
+        "schemaVersion": 1,
+        "sensitiveRedacted": true
+      },
+      "occurredAt": "2026-11-04T00:05:20.914Z"
+    }
+  ],
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

@@ -1,0 +1,18 @@
+{
+  "operationId": "ProjectHandoverController_confirmProjectHandover",
+  "table": "project_handover",
+  "barrierWaiter": {
+    "pid": 339,
+    "query": "UPDATE poms.project_handover SET status='confirmed',confirmed_at=now(),confirmed_by=$2,comment=$3,updated_by=$2,updated_at=now(),row_version=row_version+1 WHERE id=$1 AND row_version=$4 AND is_current AND status='draft'",
+    "wait_event": "advisory",
+    "wait_event_type": "Lock",
+    "classid": "194043",
+    "objid": "43017",
+    "granted": false
+  },
+  "status": 500,
+  "receiptId": "tmp/rust-r4def/root/api32/00442-ProjectHandoverController_confirmProjectHandover.json",
+  "hitProven": true,
+  "all120TablesRolledBack": true,
+  "retryPending": true
+}

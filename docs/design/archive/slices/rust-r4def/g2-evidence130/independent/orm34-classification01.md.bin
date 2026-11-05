@@ -1,0 +1,17 @@
+**ORM34 独立差异分类：逐条完成，1项 new-real P2；原 migration:check 仍失败，非G3。**
+
+输入为Root实跑原流，owner/app migration:check均exit1，schema:update --dump均exit0（只导出，未执行DDL）。20实体全部匹配ORM28候选sha；58项输入快照见JSON。当前HEAD 8b4c30597215ec75623ff6c8eb017f0f505ef89e。
+
+owner全部67条已逐条分类：
+
+- 44条精确FK drop建议＝16条既有R4ABC + 28条本批SQL-only FK。全部对照schema06/原迁移及Rust、Native catalog25，完整列元组、定义hash、validated、delete及两项deferred语义一致；仅接受这44个精确声明由迁移维护，绝不执行drop、不泛化ignore。
+- 6个enum membership CHECK的12条drop/add，仅多余完整外层括号；剥除该括号后内表达式逐字一致。
+- 3个既有ratio CHECK的6条drop/add，numeric包含界0/1的BETWEEN与>=/<=精确等价。
+- 2条control schema/table drop是隔离验收marker噪声；1条set names为连接前导。
+- **2条labor_scope_key drop/add为真正新漂移（同一项P2）**：实体140行p.generated自带as，driver又拼generated always as，真实输出为generated always as as (...)。不得当噪声放行。
+
+App全部310条也已逐条登记：同44FK及相同生成列问题；260条CHECK add中9条与owner一致，其余251条均逐名确认在两个owner catalog已有validated CHECK且owner未报对应新增。安装版本的getChecksSQL通过information_schema.constraint_column_usage联接，角色可见性差异可解释这批有限新增建议；不是未知约束豁免。另有1条lead_score_override.status COMMENT：原HEAD迁移为“覆盖审批状态”、原HEAD实体为“覆盖状态”，属于既有文案来源不一致；owner本次没有该DDL，catalog25不含实际column comment，因此角色观测差异仍需Root精确只读probe，未泛化接受COMMENT。首次分类器因遇到此未知COMMENT失败关闭，原脚本/失败记录和输入均保留。
+
+须在新纠偏交付修apps/poms-api/src/app/features/project-cost/project-actual-cost-record.entity.ts:140及新版本生成器，按Root实际generation_expression加stored匹配MikroORM期望，移除多余as。旧ORM28提案/失败流保留。随后Root重跑原owner/check与dump，必须不再提议drop/add该列；实际有限FK、CHECK和control的分类单独保留，不把raw exit1重命名为Pass。
+
+本reviewer只读公开流/源码/catalog并写独立证据，未读取凭据、加载配置、连接数据库、运行CLI、改产品或环境；F25源未由reviewer修改且六源交付pins匹配。不签G3。完整每条SQL、定义与文件建议见 [JSON](orm34-classification01.json)。

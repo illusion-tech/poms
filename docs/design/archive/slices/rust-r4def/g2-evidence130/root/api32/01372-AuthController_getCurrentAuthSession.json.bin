@@ -1,0 +1,51 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T03:49:30.049Z",
+  "completedAt": "2026-11-04T03:49:30.072Z",
+  "operationId": "AuthController_getCurrentAuthSession",
+  "method": "GET",
+  "path": "/api/auth/session",
+  "query": {},
+  "actorKey": "financeOnly",
+  "actorId": "295a1093-2dec-4444-b2f7-c8dde152695d",
+  "requestId": "r4def32-01372-144e0ce6",
+  "requestBody": null,
+  "status": 200,
+  "responseBody": {
+    "authenticated": true,
+    "csrf": {
+      "cookieName": "poms_csrf",
+      "headerName": "X-CSRF-Token"
+    },
+    "expiresAt": "2026-11-04T04:04:30.002Z",
+    "permissions": [
+      "project:read",
+      "contract:finance:manage",
+      "platform:users:manage"
+    ],
+    "status": "active",
+    "user": {
+      "avatarUrl": null,
+      "displayName": "R4DEF33 financeOnly",
+      "email": null,
+      "emailVerified": false,
+      "id": "295a1093-2dec-4444-b2f7-c8dde152695d",
+      "isActive": true,
+      "lastLoginAt": null,
+      "orgUnits": [],
+      "permissions": [
+        "project:read",
+        "contract:finance:manage",
+        "platform:users:manage"
+      ],
+      "phone": null,
+      "phoneVerified": false,
+      "roles": [
+        "R4DEF33 financeOnly"
+      ],
+      "username": "r4def33_financeonly"
+    }
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

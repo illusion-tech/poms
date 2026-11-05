@@ -1,0 +1,33 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T04:18:08.859Z",
+  "completedAt": "2026-11-04T04:18:09.183Z",
+  "operationId": "ProjectCostController_reclassifyCostStageAttribution",
+  "method": "POST",
+  "path": "/api/cost-stage-attributions/2a45cf19-5052-4037-ae80-7590c80a444e:reclassify",
+  "query": {},
+  "actorKey": "raceB88",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-01495-56ee92a5",
+  "requestBody": {
+    "newAttributedStage": "handover",
+    "expectedVersion": 1,
+    "reclassifyReason": "同一已确认移交来源的正式归属更正，只能有一个后继",
+    "attributionEvidence": {
+      "kind": "source",
+      "sourceType": "project-handover",
+      "sourceId": "738b8438-d6c9-42d4-9df4-118b841b2493",
+      "sourceVersion": 3,
+      "businessDate": "2026-11-04",
+      "reason": "使用真实D确认事实与日期，不推断执行准入"
+    }
+  },
+  "status": 409,
+  "responseBody": {
+    "error": "Conflict",
+    "message": "Only an active current governance fact can be changed",
+    "statusCode": 409
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

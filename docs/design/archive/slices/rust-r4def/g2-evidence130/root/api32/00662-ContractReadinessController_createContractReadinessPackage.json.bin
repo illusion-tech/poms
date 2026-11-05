@@ -1,0 +1,50 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T01:11:03.161Z",
+  "completedAt": "2026-11-04T01:11:03.420Z",
+  "operationId": "ContractReadinessController_createContractReadinessPackage",
+  "method": "POST",
+  "path": "/api/contract-readiness-packages",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-00662-e684a975",
+  "requestBody": {
+    "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+    "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+    "sourceBaselineId": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+    "candidateTerms": {
+      "amountTaxExclusive": "50000.00",
+      "amountTaxInclusive": "56500.00",
+      "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+      "downPaymentRate": "1.0000",
+      "paymentTerms": "验收前按合同约定支付全部合同款。",
+      "receivablePlanSeeds": [
+        {
+          "isRetentionNode": false,
+          "label": "R4DEF44-def49-A1-回款节点名称",
+          "nodeKey": "full-payment",
+          "note": null,
+          "plannedAmount": "56500.00",
+          "plannedDate": "2026-12-04",
+          "sortOrder": 0
+        }
+      ],
+      "retentionDueDate": null,
+      "retentionRate": "0.0000",
+      "taxRate": "0.1300"
+    },
+    "amendment": {
+      "sourceSnapshotId": "839324ec-ddc2-4af1-af5e-82b5dc101fa7",
+      "expectedContractVersion": 3,
+      "reason": "R4DEF44-def49-A1：仅修订既有回款节点名称，金额、税率、日期、节点身份与数量保持已读原值。"
+    }
+  },
+  "status": 500,
+  "responseBody": {
+    "message": "Internal server error",
+    "statusCode": 500
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

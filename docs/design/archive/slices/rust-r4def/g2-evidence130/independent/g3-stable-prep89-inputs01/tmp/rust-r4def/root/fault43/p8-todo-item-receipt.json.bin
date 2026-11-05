@@ -1,0 +1,18 @@
+{
+  "operationId": "ProjectHandoverController_prepareProjectHandover",
+  "table": "todo_item",
+  "barrierWaiter": {
+    "pid": 337,
+    "query": "INSERT INTO poms.\"todo_item\" (\"id\",\"source_type\",\"source_id\",\"todo_type\",\"business_domain\",\"target_object_type\",\"target_object_id\",\"project_id\",\"title\",\"summary\",\"assignee_user_id\",\"status\",\"priority\",\"due_at\",\"completed_at\",\"created_at\",\"updated_at\") VALUES ($1::uuid,$2::text,$3::uuid,$4::text,$5::text,$6::text,$7::uuid,$8::uuid,$9::text,$10::text,$11::uuid,$12::text,$13::text,$14::timestamptz,$15::timestamptz,$16::timestamptz,$17::timestamptz),($18::uuid,$19::text,$20::uuid,$21::text,$22::text,$23::text,$24::uuid,$25::uuid,$26::text,$27::text,$28::uuid,$29::text,$30::text,$31::timestamptz,$32::timestamptz,$33::timestamptz,$34::timestamptz),($35::uuid,$36::text,$37::uuid,$38::text,$39::text,$40::text,$41::uuid,$42::uuid,$43::text,$44::text,$45::uuid,$46::text,$47::text,$48::timestamptz,$49::timestamptz,$50::timestamptz,$51::timestamptz) RETURNING id::text AS id,row_version",
+    "wait_event": "advisory",
+    "wait_event_type": "Lock",
+    "classid": "194043",
+    "objid": "43008",
+    "granted": false
+  },
+  "status": 500,
+  "receiptId": "tmp/rust-r4def/root/api32/00398-ProjectHandoverController_prepareProjectHandover.json",
+  "hitProven": true,
+  "all120TablesRolledBack": true,
+  "retryPending": true
+}

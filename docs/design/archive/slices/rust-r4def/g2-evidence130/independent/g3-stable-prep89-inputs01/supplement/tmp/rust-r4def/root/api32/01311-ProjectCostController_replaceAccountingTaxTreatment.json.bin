@@ -1,0 +1,42 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T02:44:13.942Z",
+  "completedAt": "2026-11-04T02:44:13.972Z",
+  "operationId": "ProjectCostController_replaceAccountingTaxTreatment",
+  "method": "POST",
+  "path": "/api/accounting-tax-treatments/439222d6-9ea8-4f77-b329-7e39b5d002d9:replace",
+  "query": {},
+  "actorKey": "laborOnly",
+  "actorId": "04f1746b-5ace-44ef-8fb9-f3d7196891f2",
+  "requestId": "r4def32-01311-66258f62",
+  "requestBody": {
+    "taxTreatmentType": "R4F44-f60-mixed",
+    "deductibilityStatus": "deductible",
+    "taxImpactAmount": "0.00",
+    "taxImpactSummary": "R4F44-f60-本隔离验收财务责任人核对真实0.01税额来源，先登记待定后明确可抵扣判定；保留原成本金额及不纳入经营状态，仅验证正式命令与证据链。",
+    "taxPendingFlag": false,
+    "taxImpactPendingAmount": "0.00",
+    "basisSummary": "R4F44-f60-仅治理事实，不重复加税",
+    "currency": "CNY",
+    "sourceReferences": [
+      {
+        "kind": "source",
+        "sourceType": "project-actual-cost-record",
+        "sourceId": "1146af9a-9d1e-4e9e-894f-71022bfea549",
+        "sourceVersion": 2,
+        "businessDate": "2026-11-04",
+        "reason": "本隔离验收财务责任人核对真实0.01税额来源，先登记待定后明确可抵扣判定；保留原成本金额及不纳入经营状态，仅验证正式命令与证据链。"
+      }
+    ],
+    "expectedVersion": 1,
+    "replacementReason": "本隔离验收财务责任人核对真实0.01税额来源，先登记待定后明确可抵扣判定；保留原成本金额及不纳入经营状态，仅验证正式命令与证据链。"
+  },
+  "status": 403,
+  "responseBody": {
+    "error": "Forbidden",
+    "message": "Both operating and labor sensitive permissions are required",
+    "statusCode": 403
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

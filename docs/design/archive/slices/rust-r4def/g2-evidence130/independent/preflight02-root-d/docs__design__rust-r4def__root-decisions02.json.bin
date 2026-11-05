@@ -1,0 +1,29 @@
+{
+  "kind": "Root-joint-G1-technical-resolutions",
+  "status": "candidate-for-independent-G1",
+  "preflightReview": "tmp/rust-r4def/independent/preflight01/static-input-review.json",
+  "resolutions": {
+    "sourceCurrency": {
+      "newInvoice": "Add optional currencyCode request field. With a selected contract, an explicit code must match that contract's currency; omission requires a real Active immutable snapshot proof. Without such proof, require an explicit code. Persist the code and explicit/contract-snapshot provenance with the invoice in the same audited transaction.",
+      "updateInvoice": "Allow an explicit currencyCode correction under existing mutable-state/CAS/current-mapping guards and the same contract consistency check. Do not allow null to erase a known currency.",
+      "legacy": "No currency backfill, project-level guess, or inference from a later unrelated snapshot. An invoice lacking persisted currency proof cannot be mapped to a new actual cost until explicitly corrected through the real financial operation.",
+      "affectedSchemas": ["CreateInvoiceRecordRequest", "UpdateInvoiceRecordRequest", "InvoiceRecordSummary", "InvoiceRecordDetailView"],
+      "schemaProposal": "root-source-currency01.sql",
+      "affectedExistingOperations": ["ContractFinanceController_createInvoice", "ContractFinanceController_updateInvoice", "ContractFinanceController_getInvoice", "ContractFinanceController_listInvoices"],
+      "newHttpOperations": 0
+    },
+    "stageProducer": {
+      "operation": "ProjectCostController_confirmCostStageAttribution",
+      "atomicWrites": ["revalidate real source and current version under locks", "registered -> confirmed", "confirmedAt and confirmedBy", "cost rowVersion increment", "unique current attribution", "immutable stage lock and basis", "business audit", "pending authentication"],
+      "existingConfirmed": "Validate matching evidence and preserve original confirmation responsibility/time; do not fabricate a new confirmation.",
+      "inclusion": "All this batch's new costs and allocated shares remain not included in project operating cost."
+    },
+    "projection": "Use corrected E candidate02 and D safe summary/self-confirm corrections; no financial/person/rate/evidence raw-value bypass. Privileged users also consume typed projection values.",
+    "personalRateBoundary": "Any overlap with a personal rate requires splitting at its validity boundary and using the applicable personal rate on that segment; a partially covered role-rate interval cannot bypass priority.",
+    "selfConfirmation": "Under the same locks recheck all current contract and actual attachment material before accepting self-confirmation. Source changes return 409, including before final handover confirmation.",
+    "safeHandoverSummary": "Basis item summary is a deterministic non-sensitive server label of source kind/version/identity, never copied from raw financial, risk, cost, description or evidence payload."
+  },
+  "G1Certified": false,
+  "G2Authorized": false,
+  "runtimeExecuted": false
+}

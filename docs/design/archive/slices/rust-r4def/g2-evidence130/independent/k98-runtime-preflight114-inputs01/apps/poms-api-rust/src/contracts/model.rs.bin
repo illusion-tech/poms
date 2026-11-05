@@ -1,0 +1,172 @@
+use chrono::{DateTime, NaiveDate, SecondsFormat, Utc};
+use serde_json::{Value as Json, json};
+use uuid::Uuid;
+
+use crate::{
+    approval_common::{
+        EntityHandle,
+        js::{Data, Value, get},
+        model::Timestamp,
+    },
+    contract_support::Error,
+};
+
+pub(super) struct ContractRecord {
+    pub handle: EntityHandle,
+    pub data: Data,
+}
+
+pub(super) fn uuid_value(id: Uuid) -> Value {
+    Value::text(id.to_string())
+}
+
+pub(super) fn data_uuid(data: &Data, name: &str) -> Result<Uuid, Error> {
+    get(data, name)
+        .as_text()
+        .and_then(|value| Uuid::parse_str(&value.to_utf8_lossy()).ok())
+        .ok_or(Error::Internal)
+}
+
+pub(super) fn data_text(data: &Data, name: &str) -> Result<String, Error> {
+    get(data, name)
+        .as_text()
+        .map(|value| value.to_utf8_lossy())
+        .ok_or(Error::Internal)
+}
+
+pub(super) fn data_optional_text(data: &Data, name: &str) -> Result<Option<String>, Error> {
+    if get(data, name).nullish() {
+        Ok(None)
+    } else {
+        data_text(data, name).map(Some)
+    }
+}
+
+pub(super) fn data_optional_uuid(data: &Data, name: &str) -> Result<Option<Uuid>, Error> {
+    if get(data, name).nullish() {
+        Ok(None)
+    } else {
+        data_uuid(data, name).map(Some)
+    }
+}
+
+pub(super) fn data_version(data: &Data) -> Result<i32, Error> {
+    let number = get(data, "rowVersion").as_number().ok_or(Error::Internal)?;
+    if number < 1.0 || number > f64::from(i32::MAX) || number.fract() != 0.0 {
+        return Err(Error::Internal);
+    }
+    Ok(number as i32)
+}
+
+pub(super) fn data_instant(data: &Data, name: &str) -> Result<Option<String>, Error> {
+    match get(data, name) {
+        Value::Date(Some(value)) => Ok(Some(instant(value.0))),
+        Value::Null | Value::Undefined => Ok(None),
+        _ => Err(Error::Internal),
+    }
+}
+
+pub(super) fn instant(value: DateTime<Utc>) -> String {
+    value.to_rfc3339_opts(SecondsFormat::Millis, true)
+}
+
+pub(super) fn timestamp(value: DateTime<Utc>) -> Value {
+    Value::Date(Some(Timestamp::from_database(value)))
+}
+
+pub(super) fn required_string(input: &Json, name: &str) -> Result<String, Error> {
+    input
+        .get(name)
+        .and_then(Json::as_str)
+        .map(str::to_owned)
+        .ok_or_else(|| Error::BadRequest(format!("{name} must be a string")))
+}
+
+pub(super) fn optional_string(input: &Json, name: &str) -> Result<Option<String>, Error> {
+    match input.get(name) {
+        None => Ok(None),
+        Some(Json::String(value)) => Ok(Some(value.clone())),
+        _ => Err(Error::BadRequest(format!("{name} must be a string"))),
+    }
+}
+
+/// Missing, null and a supplied string have different PATCH meanings.
+pub(super) fn nullable_string(input: &Json, name: &str) -> Result<Option<Option<String>>, Error> {
+    match input.get(name) {
+        None => Ok(None),
+        Some(Json::Null) => Ok(Some(None)),
+        Some(Json::String(value)) => Ok(Some(Some(value.clone()))),
+        _ => Err(Error::BadRequest(format!(
+            "{name} must be a string or null"
+        ))),
+    }
+}
+
+pub(super) fn date_only(value: &str, field: &str) -> Result<NaiveDate, Error> {
+    let bytes = value.as_bytes();
+    if bytes.len() != 10
+        || bytes[4] != b'-'
+        || bytes[7] != b'-'
+        || !bytes
+            .iter()
+            .enumerate()
+            .all(|(index, byte)| [4, 7].contains(&index) || byte.is_ascii_digit())
+    {
+        return Err(Error::BadRequest(format!(
+            "{field} must be a calendar date"
+        )));
+    }
+    NaiveDate::parse_from_str(value, "%Y-%m-%d")
+        .map_err(|_| Error::BadRequest(format!("{field} must be a calendar date")))
+}
+
+pub(super) fn date_time(value: &str, field: &str) -> Result<DateTime<Utc>, Error> {
+    let value = DateTime::parse_from_rfc3339(value)
+        .map_err(|_| Error::BadRequest(format!("{field} must be an RFC3339 datetime")))?
+        .with_timezone(&Utc);
+    DateTime::from_timestamp_millis(value.timestamp_millis()).ok_or_else(|| {
+        Error::BadRequest(format!("{field} is outside the supported datetime range"))
+    })
+}
+
+pub(super) fn optional_value(value: Option<String>) -> Value {
+    value.map_or(Value::Null, Value::text)
+}
+
+/// Audit DTOs deliberately exclude raw monetary and contract terms packages.
+pub(super) fn audit_view(data: &Data) -> Result<Json, Error> {
+    Ok(json!({
+        "id": data_uuid(data, "id")?,
+        "projectId": data_uuid(data, "projectId")?,
+        "contractNo": data_text(data, "contractNo")?,
+        "customerContractNo": data_optional_text(data, "customerContractNo")?,
+        "status": data_text(data, "status")?,
+        "currencyCode": data_text(data, "currencyCode")?,
+        "currentSnapshotId": data_optional_uuid(data, "currentSnapshotId")?,
+        "signedAt": data_instant(data, "signedAt")?,
+        "retentionDueDate": data_optional_text(data, "retentionDueDate")?,
+        "rowVersion": data_version(data)?,
+        "createdBy": data_optional_uuid(data, "createdBy")?,
+        "updatedBy": data_optional_uuid(data, "updatedBy")?
+    }))
+}
+
+pub(super) fn contract_core(data: &Data) -> Result<Json, Error> {
+    Ok(json!({
+        "projectId": data_uuid(data, "projectId")?,
+        "customerContractNo": data_optional_text(data, "customerContractNo")?,
+        "signedAmount": data_text(data, "signedAmount")?,
+        "currencyCode": data_text(data, "currencyCode")?,
+        "signedAt": data_instant(data, "signedAt")?,
+        "retentionDueDate": data_optional_text(data, "retentionDueDate")?
+    }))
+}
+
+pub(super) fn prepared_integer(value: &Json, name: &str) -> Result<i32, Error> {
+    value
+        .get(name)
+        .and_then(Json::as_i64)
+        .and_then(|number| i32::try_from(number).ok())
+        .filter(|number| *number > 0)
+        .ok_or(Error::Internal)
+}

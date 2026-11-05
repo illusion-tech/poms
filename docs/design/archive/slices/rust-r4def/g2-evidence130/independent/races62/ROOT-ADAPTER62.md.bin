@@ -1,0 +1,28 @@
+**Root薄适配候选：未执行任何DB/HTTP/屏障，不认证G3。**
+
+`root-adapter62.mjs` 导出纯 `assertionsFromRows62(before,after,meta)`、实际屏障SQL `GATE_SQL62`，及注入 `request/connect/namespace/record` 的回调工厂。纯observer从Root实际SELECT rows计算current、继任、旧evidence不可变、精确字符串/BigInt守恒、v2 canonical hash等断言，不调用生产分摊算法。after回执保存每项actual/expected/通过与原rows，必需断言失败会在记录后停止。
+
+`runRace` 预持真实项目排序并集行锁，或从真实rate行取得rate_key后持实际 `poms:cost-rate:` family advisory locks，随后同时发送两个Root请求。通过 `pg_blocking_pids` 找到等待controller的两个不同backend（含阻塞链），记录 `pg_locks` 再释放。family要求两方等待同一个canonical第一族、尚未持有后续族。轮询25ms只作观察节奏，放行由真实PG锁证据决定；30s未证明即失败，不按sleep猜测。请求未知时保留已见receipt并记录人工清理要求，不重试、不终止backend。
+
+Root入口明确调用后才动态import `db33.mjs` / `api-harness32.mjs`；候选准备者没有调用。已有harness可直接传入，避免弄错actor key。使用同用户的raceA73/raceB73两独立session，并保持其真实Session UUID见证。两个key不能合并成full。
+
+```js
+import fs from 'node:fs';
+import {runRootRaces62} from './root-runner62.mjs';
+const base = JSON.parse(fs.readFileSync(ROOT_WIN+'/tmp/rust-r4def/root/api32/F60-before.json')).context;
+const extra = JSON.parse(fs.readFileSync(ROOT_WIN+'/tmp/rust-r4def/root/api32/races73-context.json'));
+// Root按真实context文件结构合并；不要猜测它是否有.context包装。
+const context = {...base, ...ROOT_ACTUAL_RACES73_CONTEXT, tag:'r73fresh1'};
+const run = await runRootRaces62({
+  allowRootExecution:true, context, warmup:true,
+  namespace:{database:ROOT_ACTUAL_ISOLATED_RUST_DB, applicationRole:'poms_r4def_rust_app', isolatedOwned:true},
+  // harness: h, // 可传已实际登录的api32 harness
+});
+// Root保存run/result。只在所有实际回执/PG断言检查后另作认证。
+```
+
+参数示例中的ROOT值必须由Root提供，不是可直接执行的假数据。`warmup:true`只做两次真实current-session GET；不会回写时间或SQL backdate。PG observer还验证两个session当前active、未revoked且同一user。若自然due触发eager touch，业务回滚/原子比较要按既有真实post-eager baseline，不能说独立提交touch也被回滚。
+
+所有输出写到新的Root受控 `tmp/rust-r4def/root/races62-<tag>/`，已存在则拒绝覆盖。Unknown后不要复用suite/同case盲重放；依据HTTP原件与真实PG解析状态，保留当前失败，手动决定fresh续跑。候选只证明被执行后这10种竞争，不替代K56、UI、所有cleanup或最终G3/G4。
+
+本适配还没实际接线运行；Root先审字段、namespace、pool和屏障权限。当前静态检查不宣称真实SQL、锁等待、数据库或HTTP通过。

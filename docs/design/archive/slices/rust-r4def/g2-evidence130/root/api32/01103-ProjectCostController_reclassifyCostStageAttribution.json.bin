@@ -1,0 +1,32 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T02:42:56.909Z",
+  "completedAt": "2026-11-04T02:42:57.332Z",
+  "operationId": "ProjectCostController_reclassifyCostStageAttribution",
+  "method": "POST",
+  "path": "/api/cost-stage-attributions/9bbdf91a-d55b-44de-be2d-6295ab282220:reclassify",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-01103-7dcc2a4f",
+  "requestBody": {
+    "newAttributedStage": "handover",
+    "expectedVersion": 1,
+    "reclassifyReason": "按本次真实移交确认的日期及版本更正归属；保留原人工判断链",
+    "attributionEvidence": {
+      "kind": "source",
+      "sourceType": "project-handover",
+      "sourceId": "1cae4c15-d637-442a-b320-ad78336b197d",
+      "sourceVersion": 2,
+      "businessDate": "2026-11-04",
+      "reason": "真实D已确认移交事实，仅用于handover日期，不推断execution区间"
+    }
+  },
+  "status": 500,
+  "responseBody": {
+    "message": "Internal server error",
+    "statusCode": 500
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

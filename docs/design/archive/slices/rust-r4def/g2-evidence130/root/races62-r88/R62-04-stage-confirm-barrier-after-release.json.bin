@@ -1,0 +1,397 @@
+{
+  "kind": "actual-two-worker-pg-lock-barrier",
+  "proof": {
+    "realPostgres": true,
+    "heldBeforeRequests": true,
+    "bothObservedBeforeRelease": true,
+    "released": true,
+    "controllerPid": 1491,
+    "gate": {
+      "kind": "project-row",
+      "projectIds": [
+        "2410df0c-c530-4223-b857-1a83a411b57b"
+      ]
+    },
+    "gateLocks": [],
+    "waiters": [
+      {
+        "pid": 1407,
+        "query": "SELECT id FROM poms.project WHERE id=$1 FOR UPDATE",
+        "wait_event": "tuple",
+        "wait_event_type": "Lock",
+        "blockers": [
+          1409
+        ],
+        "granted": false
+      },
+      {
+        "pid": 1409,
+        "query": "SELECT id FROM poms.project WHERE id=$1 FOR UPDATE",
+        "wait_event": "transactionid",
+        "wait_event_type": "Lock",
+        "blockers": [
+          1491
+        ],
+        "granted": false
+      }
+    ],
+    "workerLocks": [
+      {
+        "pid": 1407,
+        "locktype": "tuple",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessExclusiveLock",
+        "granted": false
+      },
+      {
+        "pid": 1407,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1407,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1407,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1407,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1407,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1407,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1407,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1407,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1407,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1407,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1407,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1407,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1407,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1407,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1407,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1407,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "RowShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1407,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "RowShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1407,
+        "locktype": "virtualxid",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "ExclusiveLock",
+        "granted": true
+      },
+      {
+        "pid": 1409,
+        "locktype": "transactionid",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "ShareLock",
+        "granted": false
+      },
+      {
+        "pid": 1409,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1409,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1409,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1409,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1409,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1409,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1409,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1409,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1409,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1409,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1409,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1409,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1409,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1409,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "RowShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1409,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1409,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "RowShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1409,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1409,
+        "locktype": "tuple",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessExclusiveLock",
+        "granted": true
+      },
+      {
+        "pid": 1409,
+        "locktype": "virtualxid",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "ExclusiveLock",
+        "granted": true
+      }
+    ],
+    "onlyTheseTwoRequestsLaunchedByAdapter": true
+  },
+  "responseReceipts": [
+    "tmp/rust-r4def/root/api32/01484-ProjectCostController_confirmCostStageAttribution.json",
+    "tmp/rust-r4def/root/api32/01485-ProjectCostController_confirmCostStageAttribution.json"
+  ]
+}

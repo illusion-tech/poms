@@ -1,0 +1,33 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:05:21.304Z",
+  "completedAt": "2026-11-04T00:05:21.324Z",
+  "operationId": "ProjectCostController_publishInternalCostRateVersion",
+  "method": "POST",
+  "path": "/api/internal-cost-rate-versions",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-00210-77924a88",
+  "requestBody": {
+    "rateScopeType": "role",
+    "roleCode": "R4E21-e41-minimum",
+    "rateUnit": "hour",
+    "rateValue": "0.5000",
+    "currency": "CNY",
+    "effectiveFrom": "2026-01-01",
+    "changeReason": "R4E21-e41-真实费率发布"
+  },
+  "status": 201,
+  "responseBody": {
+    "approvalRecordId": null,
+    "businessStatusAfter": "active",
+    "confirmationRecordId": null,
+    "resultStatus": "success",
+    "targetId": "50b9165b-e1b6-44a7-adee-3fe8451f7b11",
+    "targetType": "InternalCostRateVersion",
+    "todoItemIds": []
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

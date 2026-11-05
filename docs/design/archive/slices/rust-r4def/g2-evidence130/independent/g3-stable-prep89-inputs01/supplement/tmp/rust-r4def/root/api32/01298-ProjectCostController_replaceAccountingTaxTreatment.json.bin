@@ -1,0 +1,63 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T02:44:11.949Z",
+  "completedAt": "2026-11-04T02:44:12.190Z",
+  "operationId": "ProjectCostController_replaceAccountingTaxTreatment",
+  "method": "POST",
+  "path": "/api/accounting-tax-treatments/4dbbf717-19d5-4819-8fab-b09cba2b83bd:replace",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-01298-5640f8b0",
+  "requestBody": {
+    "taxTreatmentType": "R4F44-f60-mixed",
+    "deductibilityStatus": "deductible",
+    "taxImpactAmount": "0.00",
+    "taxImpactSummary": "R4F44-f60-本隔离验收财务责任人核对真实0.01税额来源，先登记待定后明确可抵扣判定；保留原成本金额及不纳入经营状态，仅验证正式命令与证据链。",
+    "taxPendingFlag": false,
+    "taxImpactPendingAmount": "0.00",
+    "basisSummary": "R4F44-f60-仅治理事实，不重复加税",
+    "currency": "CNY",
+    "sourceReferences": [
+      {
+        "kind": "source",
+        "sourceType": "project-actual-cost-record",
+        "sourceId": "1146af9a-9d1e-4e9e-894f-71022bfea549",
+        "sourceVersion": 2,
+        "businessDate": "2026-11-04",
+        "reason": "本隔离验收财务责任人核对真实0.01税额来源，先登记待定后明确可抵扣判定；保留原成本金额及不纳入经营状态，仅验证正式命令与证据链。"
+      }
+    ],
+    "expectedVersion": 1,
+    "replacementReason": "本隔离验收财务责任人核对真实0.01税额来源，先登记待定后明确可抵扣判定；保留原成本金额及不纳入经营状态，仅验证正式命令与证据链。"
+  },
+  "status": 201,
+  "responseBody": {
+    "approvalRecordId": null,
+    "businessStatusAfter": "active",
+    "confirmationRecordId": null,
+    "evidenceId": "8a3aa50a-f9e7-4c71-8315-e0d1e5e9e7ff",
+    "resultStatus": "success",
+    "supersedesTaxTreatmentSnapshotId": "4dbbf717-19d5-4819-8fab-b09cba2b83bd",
+    "targetId": "439222d6-9ea8-4f77-b329-7e39b5d002d9",
+    "targetType": "AccountingTaxTreatmentSnapshot",
+    "taxImpactPendingAmountProjection": {
+      "displayText": "0.00",
+      "fieldPackageKey": "operating-finance",
+      "mode": "full",
+      "reasonCode": "allowed",
+      "value": "0.00"
+    },
+    "taxImpactSummaryProjection": {
+      "displayText": "R4F44-f60-本隔离验收财务责任人核对真实0.01税额来源，先登记待定后明确可抵扣判定；保留原成本金额及不纳入经营状态，仅验证正式命令与证据链。",
+      "fieldPackageKey": "operating-finance",
+      "mode": "full",
+      "reasonCode": "allowed",
+      "value": "R4F44-f60-本隔离验收财务责任人核对真实0.01税额来源，先登记待定后明确可抵扣判定；保留原成本金额及不纳入经营状态，仅验证正式命令与证据链。"
+    },
+    "taxTreatmentSnapshotId": "439222d6-9ea8-4f77-b329-7e39b5d002d9",
+    "todoItemIds": []
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

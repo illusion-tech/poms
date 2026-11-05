@@ -1,0 +1,95 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:05:19.715Z",
+  "completedAt": "2026-11-04T00:05:19.733Z",
+  "operationId": "ProjectCostController_createExpenseRecord",
+  "method": "POST",
+  "path": "/api/projects/c19e708b-522c-45e9-90d4-81de7295545b/expense-records",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-00153-58a50cd5",
+  "requestBody": {
+    "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+    "expenseCategory": "travel",
+    "expenseDescription": "R4E21-e41-费用原始说明",
+    "expenseDate": "2026-11-04",
+    "currency": "CNY",
+    "amountIncludingTax": "106.00",
+    "taxAmount": "6.00",
+    "amountExcludingTax": "100.00",
+    "sourceType": "manual",
+    "evidenceSummary": "R4E21-e41-费用真实API依据",
+    "attachmentCount": 0
+  },
+  "status": 201,
+  "responseBody": {
+    "amountExcludingTax": null,
+    "amountIncludingTax": null,
+    "attachmentCount": 0,
+    "confirmedAt": null,
+    "confirmedBy": null,
+    "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+    "createdAt": "2026-11-04T00:05:19.727Z",
+    "currency": "CNY",
+    "evidenceSummary": null,
+    "expenseCategory": "travel",
+    "expenseDate": "2026-11-04",
+    "expenseDescription": null,
+    "financialProjection": {
+      "amountExcludingTax": {
+        "displayText": "100.00",
+        "fieldPackageKey": "operating-finance",
+        "mode": "full",
+        "reasonCode": "allowed",
+        "value": "100.00"
+      },
+      "amountIncludingTax": {
+        "displayText": "106.00",
+        "fieldPackageKey": "operating-finance",
+        "mode": "full",
+        "reasonCode": "allowed",
+        "value": "106.00"
+      },
+      "evidenceSummary": {
+        "displayText": "R4E21-e41-费用真实API依据",
+        "fieldPackageKey": "operating-finance",
+        "mode": "full",
+        "reasonCode": "allowed",
+        "value": "R4E21-e41-费用真实API依据"
+      },
+      "expenseDescription": {
+        "displayText": "R4E21-e41-费用原始说明",
+        "fieldPackageKey": "operating-finance",
+        "mode": "full",
+        "reasonCode": "allowed",
+        "value": "R4E21-e41-费用原始说明"
+      },
+      "taxAmount": {
+        "displayText": "6.00",
+        "fieldPackageKey": "operating-finance",
+        "mode": "full",
+        "reasonCode": "allowed",
+        "value": "6.00"
+      },
+      "voidReason": {
+        "displayText": "-",
+        "fieldPackageKey": "operating-finance",
+        "mode": "full",
+        "reasonCode": "field-package-not-applicable",
+        "value": null
+      }
+    },
+    "id": "f2915f4f-1471-4082-aad0-c771eb6f72d8",
+    "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+    "rowVersion": 1,
+    "sourceType": "manual",
+    "status": "recorded",
+    "taxAmount": null,
+    "updatedAt": "2026-11-04T00:05:19.727Z",
+    "voidReason": null,
+    "voidedAt": null
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

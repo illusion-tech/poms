@@ -1,0 +1,1647 @@
+{
+  "kind": "K55-readonly-catalog-subset-no-row-data",
+  "source": {
+    "file": "tmp/rust-r4def/root/catalog25/rust-catalog.json",
+    "rawBytesSha256": "0a6ef59de84f1e975c314735d49697c7f94ffde1415c1805bd01d7d0bf7efbef"
+  },
+  "columns": [
+    {
+      "table_name": "attachment",
+      "column_name": "id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()",
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 1
+    },
+    {
+      "table_name": "attachment",
+      "column_name": "original_name",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 255,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 2
+    },
+    {
+      "table_name": "attachment",
+      "column_name": "display_name",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 255,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 3
+    },
+    {
+      "table_name": "attachment",
+      "column_name": "extension",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 32,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 4
+    },
+    {
+      "table_name": "attachment",
+      "column_name": "mime_type",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 255,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 5
+    },
+    {
+      "table_name": "attachment",
+      "column_name": "size_bytes",
+      "data_type": "integer",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null,
+      "numeric_precision": 32,
+      "numeric_scale": 0,
+      "ordinal_position": 6
+    },
+    {
+      "table_name": "attachment",
+      "column_name": "checksum_sha256",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 64,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 7
+    },
+    {
+      "table_name": "attachment",
+      "column_name": "category",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 64,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 8
+    },
+    {
+      "table_name": "attachment",
+      "column_name": "security_level",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 32,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 9
+    },
+    {
+      "table_name": "attachment",
+      "column_name": "storage_provider",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 32,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 10
+    },
+    {
+      "table_name": "attachment",
+      "column_name": "storage_bucket",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 255,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 11
+    },
+    {
+      "table_name": "attachment",
+      "column_name": "storage_key",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 1024,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 12
+    },
+    {
+      "table_name": "attachment",
+      "column_name": "status",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": "'active'::character varying",
+      "character_maximum_length": 32,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 13
+    },
+    {
+      "table_name": "attachment",
+      "column_name": "description",
+      "data_type": "text",
+      "udt_name": "text",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 14
+    },
+    {
+      "table_name": "attachment",
+      "column_name": "version_group_id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 15
+    },
+    {
+      "table_name": "attachment",
+      "column_name": "version_no",
+      "data_type": "integer",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": "1",
+      "character_maximum_length": null,
+      "numeric_precision": 32,
+      "numeric_scale": 0,
+      "ordinal_position": 16
+    },
+    {
+      "table_name": "attachment",
+      "column_name": "is_latest",
+      "data_type": "boolean",
+      "udt_name": "bool",
+      "is_nullable": "NO",
+      "column_default": "true",
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 17
+    },
+    {
+      "table_name": "attachment",
+      "column_name": "is_final",
+      "data_type": "boolean",
+      "udt_name": "bool",
+      "is_nullable": "NO",
+      "column_default": "false",
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 18
+    },
+    {
+      "table_name": "attachment",
+      "column_name": "previous_attachment_id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 19
+    },
+    {
+      "table_name": "attachment",
+      "column_name": "change_note",
+      "data_type": "text",
+      "udt_name": "text",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 20
+    },
+    {
+      "table_name": "attachment",
+      "column_name": "uploaded_by",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 21
+    },
+    {
+      "table_name": "attachment",
+      "column_name": "uploaded_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": "now()",
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 22
+    },
+    {
+      "table_name": "attachment",
+      "column_name": "deleted_by",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 23
+    },
+    {
+      "table_name": "attachment",
+      "column_name": "deleted_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 24
+    },
+    {
+      "table_name": "attachment",
+      "column_name": "row_version",
+      "data_type": "integer",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": "1",
+      "character_maximum_length": null,
+      "numeric_precision": 32,
+      "numeric_scale": 0,
+      "ordinal_position": 25
+    },
+    {
+      "table_name": "attachment",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": "now()",
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 26
+    },
+    {
+      "table_name": "attachment",
+      "column_name": "updated_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": "now()",
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 27
+    },
+    {
+      "table_name": "attachment_download_package",
+      "column_name": "id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()",
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 1
+    },
+    {
+      "table_name": "attachment_download_package",
+      "column_name": "handover_id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 2
+    },
+    {
+      "table_name": "attachment_download_package",
+      "column_name": "project_id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 3
+    },
+    {
+      "table_name": "attachment_download_package",
+      "column_name": "status",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": "'pending'::character varying",
+      "character_maximum_length": 32,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 4
+    },
+    {
+      "table_name": "attachment_download_package",
+      "column_name": "manifest_summary",
+      "data_type": "jsonb",
+      "udt_name": "jsonb",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 5
+    },
+    {
+      "table_name": "attachment_download_package",
+      "column_name": "storage_provider",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 32,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 6
+    },
+    {
+      "table_name": "attachment_download_package",
+      "column_name": "storage_bucket",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 255,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 7
+    },
+    {
+      "table_name": "attachment_download_package",
+      "column_name": "storage_key",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 1024,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 8
+    },
+    {
+      "table_name": "attachment_download_package",
+      "column_name": "file_name",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 255,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 9
+    },
+    {
+      "table_name": "attachment_download_package",
+      "column_name": "expires_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 10
+    },
+    {
+      "table_name": "attachment_download_package",
+      "column_name": "created_by",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 11
+    },
+    {
+      "table_name": "attachment_download_package",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": "now()",
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 12
+    },
+    {
+      "table_name": "attachment_download_package",
+      "column_name": "updated_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": "now()",
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 13
+    },
+    {
+      "table_name": "attachment_download_package",
+      "column_name": "downloaded_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 14
+    },
+    {
+      "table_name": "attachment_download_package",
+      "column_name": "download_count",
+      "data_type": "integer",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": "0",
+      "character_maximum_length": null,
+      "numeric_precision": 32,
+      "numeric_scale": 0,
+      "ordinal_position": 15
+    },
+    {
+      "table_name": "attachment_download_package",
+      "column_name": "failed_reason",
+      "data_type": "text",
+      "udt_name": "text",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 16
+    },
+    {
+      "table_name": "attachment_download_package",
+      "column_name": "row_version",
+      "data_type": "integer",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": "1",
+      "character_maximum_length": null,
+      "numeric_precision": 32,
+      "numeric_scale": 0,
+      "ordinal_position": 17
+    },
+    {
+      "table_name": "attachment_link",
+      "column_name": "id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()",
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 1
+    },
+    {
+      "table_name": "attachment_link",
+      "column_name": "attachment_id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 2
+    },
+    {
+      "table_name": "attachment_link",
+      "column_name": "target_type",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 64,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 3
+    },
+    {
+      "table_name": "attachment_link",
+      "column_name": "target_id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 4
+    },
+    {
+      "table_name": "attachment_link",
+      "column_name": "relation_type",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 32,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 5
+    },
+    {
+      "table_name": "attachment_link",
+      "column_name": "status",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": "'active'::character varying",
+      "character_maximum_length": 32,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 6
+    },
+    {
+      "table_name": "attachment_link",
+      "column_name": "linked_by",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 7
+    },
+    {
+      "table_name": "attachment_link",
+      "column_name": "linked_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": "now()",
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 8
+    },
+    {
+      "table_name": "attachment_link",
+      "column_name": "unlinked_by",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 9
+    },
+    {
+      "table_name": "attachment_link",
+      "column_name": "unlinked_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 10
+    },
+    {
+      "table_name": "attachment_storage_provider_config",
+      "column_name": "id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()",
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 1
+    },
+    {
+      "table_name": "attachment_storage_provider_config",
+      "column_name": "provider_type",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": "'local'::character varying",
+      "character_maximum_length": 32,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 2
+    },
+    {
+      "table_name": "attachment_storage_provider_config",
+      "column_name": "display_name",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 128,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 3
+    },
+    {
+      "table_name": "attachment_storage_provider_config",
+      "column_name": "status",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": "'draft'::character varying",
+      "character_maximum_length": 32,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 4
+    },
+    {
+      "table_name": "attachment_storage_provider_config",
+      "column_name": "enabled",
+      "data_type": "boolean",
+      "udt_name": "bool",
+      "is_nullable": "NO",
+      "column_default": "false",
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 5
+    },
+    {
+      "table_name": "attachment_storage_provider_config",
+      "column_name": "is_default",
+      "data_type": "boolean",
+      "udt_name": "bool",
+      "is_nullable": "NO",
+      "column_default": "false",
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 6
+    },
+    {
+      "table_name": "attachment_storage_provider_config",
+      "column_name": "endpoint",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 512,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 7
+    },
+    {
+      "table_name": "attachment_storage_provider_config",
+      "column_name": "region",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 128,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 8
+    },
+    {
+      "table_name": "attachment_storage_provider_config",
+      "column_name": "bucket",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 255,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 9
+    },
+    {
+      "table_name": "attachment_storage_provider_config",
+      "column_name": "key_prefix",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 512,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 10
+    },
+    {
+      "table_name": "attachment_storage_provider_config",
+      "column_name": "force_path_style",
+      "data_type": "boolean",
+      "udt_name": "bool",
+      "is_nullable": "NO",
+      "column_default": "false",
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 11
+    },
+    {
+      "table_name": "attachment_storage_provider_config",
+      "column_name": "encrypted_access_key_id",
+      "data_type": "text",
+      "udt_name": "text",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 12
+    },
+    {
+      "table_name": "attachment_storage_provider_config",
+      "column_name": "encrypted_secret_access_key",
+      "data_type": "text",
+      "udt_name": "text",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 13
+    },
+    {
+      "table_name": "attachment_storage_provider_config",
+      "column_name": "credentials_updated_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 14
+    },
+    {
+      "table_name": "attachment_storage_provider_config",
+      "column_name": "row_version",
+      "data_type": "integer",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": "1",
+      "character_maximum_length": null,
+      "numeric_precision": 32,
+      "numeric_scale": 0,
+      "ordinal_position": 15
+    },
+    {
+      "table_name": "attachment_storage_provider_config",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": "now()",
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 16
+    },
+    {
+      "table_name": "attachment_storage_provider_config",
+      "column_name": "created_by",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 17
+    },
+    {
+      "table_name": "attachment_storage_provider_config",
+      "column_name": "updated_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": "now()",
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 18
+    },
+    {
+      "table_name": "attachment_storage_provider_config",
+      "column_name": "updated_by",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 19
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "column_name": "id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()",
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 1
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "column_name": "operation_type",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 32,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 2
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "column_name": "status",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 32,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 3
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "column_name": "upload_mode",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 32,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 4
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "column_name": "provider_type",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 32,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 5
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "column_name": "storage_bucket",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 255,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 6
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "column_name": "storage_key",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 1024,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 7
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "column_name": "target_type",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 64,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 8
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "column_name": "target_id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 9
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "column_name": "base_attachment_id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 10
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "column_name": "completed_attachment_id",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 11
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "column_name": "original_name",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 255,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 12
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "column_name": "display_name",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 255,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 13
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "column_name": "extension",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 32,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 14
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "column_name": "mime_type",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 255,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 15
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "column_name": "size_bytes",
+      "data_type": "integer",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null,
+      "numeric_precision": 32,
+      "numeric_scale": 0,
+      "ordinal_position": 16
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "column_name": "checksum_sha256",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 64,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 17
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "column_name": "category",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 64,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 18
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "column_name": "security_level",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 32,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 19
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "column_name": "relation_type",
+      "data_type": "character varying",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 32,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 20
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "column_name": "description",
+      "data_type": "text",
+      "udt_name": "text",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 21
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "column_name": "change_note",
+      "data_type": "text",
+      "udt_name": "text",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 22
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "column_name": "expires_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 23
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "column_name": "uploaded_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 24
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "column_name": "completed_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 25
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "column_name": "aborted_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 26
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "column_name": "failed_reason",
+      "data_type": "text",
+      "udt_name": "text",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 27
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "column_name": "row_version",
+      "data_type": "integer",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": "1",
+      "character_maximum_length": null,
+      "numeric_precision": 32,
+      "numeric_scale": 0,
+      "ordinal_position": 28
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": "now()",
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 29
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "column_name": "created_by",
+      "data_type": "uuid",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 30
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "column_name": "updated_at",
+      "data_type": "timestamp with time zone",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": "now()",
+      "character_maximum_length": null,
+      "numeric_precision": null,
+      "numeric_scale": null,
+      "ordinal_position": 31
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "column_name": "max_size_bytes",
+      "data_type": "integer",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null,
+      "numeric_precision": 32,
+      "numeric_scale": 0,
+      "ordinal_position": 32
+    }
+  ],
+  "indexes": [
+    {
+      "tablename": "attachment",
+      "indexname": "attachment_pkey",
+      "indexdef": "CREATE UNIQUE INDEX attachment_pkey ON poms.attachment USING btree (id)"
+    },
+    {
+      "tablename": "attachment",
+      "indexname": "idx_attachment_category_status",
+      "indexdef": "CREATE INDEX idx_attachment_category_status ON poms.attachment USING btree (category, status)"
+    },
+    {
+      "tablename": "attachment",
+      "indexname": "idx_attachment_checksum_sha256",
+      "indexdef": "CREATE INDEX idx_attachment_checksum_sha256 ON poms.attachment USING btree (checksum_sha256)"
+    },
+    {
+      "tablename": "attachment",
+      "indexname": "idx_attachment_uploaded_at",
+      "indexdef": "CREATE INDEX idx_attachment_uploaded_at ON poms.attachment USING btree (uploaded_at)"
+    },
+    {
+      "tablename": "attachment",
+      "indexname": "idx_attachment_uploaded_by",
+      "indexdef": "CREATE INDEX idx_attachment_uploaded_by ON poms.attachment USING btree (uploaded_by)"
+    },
+    {
+      "tablename": "attachment",
+      "indexname": "idx_attachment_version_group_uploaded_at",
+      "indexdef": "CREATE INDEX idx_attachment_version_group_uploaded_at ON poms.attachment USING btree (version_group_id, uploaded_at)"
+    },
+    {
+      "tablename": "attachment",
+      "indexname": "uq_attachment_final_active",
+      "indexdef": "CREATE UNIQUE INDEX uq_attachment_final_active ON poms.attachment USING btree (version_group_id) WHERE (((status)::text = 'active'::text) AND (is_final = true))"
+    },
+    {
+      "tablename": "attachment",
+      "indexname": "uq_attachment_latest_active",
+      "indexdef": "CREATE UNIQUE INDEX uq_attachment_latest_active ON poms.attachment USING btree (version_group_id) WHERE (((status)::text = 'active'::text) AND (is_latest = true))"
+    },
+    {
+      "tablename": "attachment",
+      "indexname": "uq_attachment_version_no",
+      "indexdef": "CREATE UNIQUE INDEX uq_attachment_version_no ON poms.attachment USING btree (version_group_id, version_no)"
+    },
+    {
+      "tablename": "attachment_download_package",
+      "indexname": "idx_adp_expires_at",
+      "indexdef": "CREATE INDEX idx_adp_expires_at ON poms.attachment_download_package USING btree (expires_at)"
+    },
+    {
+      "tablename": "attachment_download_package",
+      "indexname": "idx_adp_handover_status",
+      "indexdef": "CREATE INDEX idx_adp_handover_status ON poms.attachment_download_package USING btree (handover_id, status)"
+    },
+    {
+      "tablename": "attachment_download_package",
+      "indexname": "idx_adp_project_created",
+      "indexdef": "CREATE INDEX idx_adp_project_created ON poms.attachment_download_package USING btree (project_id, created_at)"
+    },
+    {
+      "tablename": "attachment_download_package",
+      "indexname": "pk_attachment_download_package",
+      "indexdef": "CREATE UNIQUE INDEX pk_attachment_download_package ON poms.attachment_download_package USING btree (id)"
+    },
+    {
+      "tablename": "attachment_link",
+      "indexname": "attachment_link_pkey",
+      "indexdef": "CREATE UNIQUE INDEX attachment_link_pkey ON poms.attachment_link USING btree (id)"
+    },
+    {
+      "tablename": "attachment_link",
+      "indexname": "idx_attachment_link_attachment_status",
+      "indexdef": "CREATE INDEX idx_attachment_link_attachment_status ON poms.attachment_link USING btree (attachment_id, status)"
+    },
+    {
+      "tablename": "attachment_link",
+      "indexname": "idx_attachment_link_target",
+      "indexdef": "CREATE INDEX idx_attachment_link_target ON poms.attachment_link USING btree (target_type, target_id, status, linked_at DESC)"
+    },
+    {
+      "tablename": "attachment_link",
+      "indexname": "uq_attachment_link_active_relation",
+      "indexdef": "CREATE UNIQUE INDEX uq_attachment_link_active_relation ON poms.attachment_link USING btree (attachment_id, target_type, target_id, relation_type) WHERE ((status)::text = 'active'::text)"
+    },
+    {
+      "tablename": "attachment_storage_provider_config",
+      "indexname": "attachment_storage_provider_config_pkey",
+      "indexdef": "CREATE UNIQUE INDEX attachment_storage_provider_config_pkey ON poms.attachment_storage_provider_config USING btree (id)"
+    },
+    {
+      "tablename": "attachment_storage_provider_config",
+      "indexname": "idx_attachment_storage_provider_enabled_default",
+      "indexdef": "CREATE INDEX idx_attachment_storage_provider_enabled_default ON poms.attachment_storage_provider_config USING btree (enabled, is_default)"
+    },
+    {
+      "tablename": "attachment_storage_provider_config",
+      "indexname": "idx_attachment_storage_provider_type_status",
+      "indexdef": "CREATE INDEX idx_attachment_storage_provider_type_status ON poms.attachment_storage_provider_config USING btree (provider_type, status)"
+    },
+    {
+      "tablename": "attachment_storage_provider_config",
+      "indexname": "uq_attachment_storage_provider_default",
+      "indexdef": "CREATE UNIQUE INDEX uq_attachment_storage_provider_default ON poms.attachment_storage_provider_config USING btree (is_default) WHERE ((enabled = true) AND (is_default = true))"
+    },
+    {
+      "tablename": "attachment_storage_provider_config",
+      "indexname": "uq_attachment_storage_provider_enabled_location",
+      "indexdef": "CREATE UNIQUE INDEX uq_attachment_storage_provider_enabled_location ON poms.attachment_storage_provider_config USING btree (provider_type, COALESCE(bucket, ''::character varying), COALESCE(key_prefix, ''::character varying)) WHERE (enabled = true)"
+    },
+    {
+      "tablename": "attachment_upload_session",
+      "indexname": "attachment_upload_session_pkey",
+      "indexdef": "CREATE UNIQUE INDEX attachment_upload_session_pkey ON poms.attachment_upload_session USING btree (id)"
+    },
+    {
+      "tablename": "attachment_upload_session",
+      "indexname": "idx_attachment_upload_session_base_attachment",
+      "indexdef": "CREATE INDEX idx_attachment_upload_session_base_attachment ON poms.attachment_upload_session USING btree (base_attachment_id)"
+    },
+    {
+      "tablename": "attachment_upload_session",
+      "indexname": "idx_attachment_upload_session_completed_attachment",
+      "indexdef": "CREATE INDEX idx_attachment_upload_session_completed_attachment ON poms.attachment_upload_session USING btree (completed_attachment_id)"
+    },
+    {
+      "tablename": "attachment_upload_session",
+      "indexname": "idx_attachment_upload_session_created_by",
+      "indexdef": "CREATE INDEX idx_attachment_upload_session_created_by ON poms.attachment_upload_session USING btree (created_by, created_at)"
+    },
+    {
+      "tablename": "attachment_upload_session",
+      "indexname": "idx_attachment_upload_session_status_expires",
+      "indexdef": "CREATE INDEX idx_attachment_upload_session_status_expires ON poms.attachment_upload_session USING btree (status, expires_at)"
+    },
+    {
+      "tablename": "attachment_upload_session",
+      "indexname": "idx_attachment_upload_session_target",
+      "indexdef": "CREATE INDEX idx_attachment_upload_session_target ON poms.attachment_upload_session USING btree (target_type, target_id, status)"
+    }
+  ],
+  "constraints": [
+    {
+      "table_name": "attachment",
+      "conname": "attachment_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "attachment",
+      "conname": "chk_attachment_security_level",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK (((security_level)::text = ANY ((ARRAY['normal'::character varying, 'internal'::character varying, 'sensitive'::character varying, 'confidential'::character varying, 'restricted'::character varying])::text[])))"
+    },
+    {
+      "table_name": "attachment",
+      "conname": "chk_attachment_status",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK (((status)::text = ANY ((ARRAY['active'::character varying, 'voided'::character varying, 'deleted'::character varying, 'failed'::character varying])::text[])))"
+    },
+    {
+      "table_name": "attachment_download_package",
+      "conname": "attachment_download_package_handover_id_foreign",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (handover_id) REFERENCES poms.project_handover(id) ON UPDATE CASCADE ON DELETE CASCADE"
+    },
+    {
+      "table_name": "attachment_download_package",
+      "conname": "attachment_download_package_project_id_foreign",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (project_id) REFERENCES poms.project(id) ON UPDATE CASCADE ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "attachment_download_package",
+      "conname": "chk_adp_status",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK (((status)::text = ANY ((ARRAY['pending'::character varying, 'running'::character varying, 'ready'::character varying, 'failed'::character varying, 'expired'::character varying, 'cancelled'::character varying])::text[])))"
+    },
+    {
+      "table_name": "attachment_download_package",
+      "conname": "pk_attachment_download_package",
+      "contype": "p",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "attachment_link",
+      "conname": "attachment_link_attachment_id_foreign",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (attachment_id) REFERENCES poms.attachment(id) ON UPDATE CASCADE ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "attachment_link",
+      "conname": "attachment_link_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "attachment_link",
+      "conname": "chk_attachment_link_relation_type",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK (((relation_type)::text = ANY ((ARRAY['normal'::character varying, 'source'::character varying, 'evidence'::character varying, 'final'::character varying, 'handover'::character varying])::text[])))"
+    },
+    {
+      "table_name": "attachment_link",
+      "conname": "chk_attachment_link_status",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK (((status)::text = ANY ((ARRAY['active'::character varying, 'unlinked'::character varying])::text[])))"
+    },
+    {
+      "table_name": "attachment_link",
+      "conname": "chk_attachment_link_target_type",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK (((target_type)::text = ANY ((ARRAY['lead'::character varying, 'customer'::character varying, 'project'::character varying, 'contract'::character varying, 'sales-follow-up'::character varying, 'project-handover'::character varying])::text[])))"
+    },
+    {
+      "table_name": "attachment_storage_provider_config",
+      "conname": "attachment_storage_provider_config_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "attachment_storage_provider_config",
+      "conname": "chk_attachment_storage_provider_status",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK (((status)::text = ANY ((ARRAY['draft'::character varying, 'active'::character varying, 'disabled'::character varying, 'misconfigured'::character varying])::text[])))"
+    },
+    {
+      "table_name": "attachment_storage_provider_config",
+      "conname": "chk_attachment_storage_provider_type",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK (((provider_type)::text = ANY ((ARRAY['local'::character varying, 'huawei-obs-s3'::character varying])::text[])))"
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "conname": "attachment_upload_session_base_attachment_id_foreign",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (base_attachment_id) REFERENCES poms.attachment(id) ON UPDATE CASCADE ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "conname": "attachment_upload_session_completed_attachment_id_foreign",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (completed_attachment_id) REFERENCES poms.attachment(id) ON UPDATE CASCADE ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "conname": "attachment_upload_session_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "conname": "chk_attachment_upload_session_max_size_bytes",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK ((max_size_bytes > 0))"
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "conname": "chk_attachment_upload_session_operation_type",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK (((operation_type)::text = ANY ((ARRAY['create-attachment'::character varying, 'create-version'::character varying])::text[])))"
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "conname": "chk_attachment_upload_session_provider_type",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK (((provider_type)::text = ANY ((ARRAY['local'::character varying, 'huawei-obs-s3'::character varying])::text[])))"
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "conname": "chk_attachment_upload_session_relation_type",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK (((relation_type IS NULL) OR ((relation_type)::text = ANY ((ARRAY['normal'::character varying, 'source'::character varying, 'evidence'::character varying, 'final'::character varying, 'handover'::character varying])::text[]))))"
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "conname": "chk_attachment_upload_session_security_level",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK (((security_level IS NULL) OR ((security_level)::text = ANY ((ARRAY['normal'::character varying, 'internal'::character varying, 'sensitive'::character varying, 'confidential'::character varying, 'restricted'::character varying])::text[]))))"
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "conname": "chk_attachment_upload_session_status",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK (((status)::text = ANY ((ARRAY['pending'::character varying, 'uploading'::character varying, 'uploaded'::character varying, 'validating'::character varying, 'completed'::character varying, 'failed'::character varying, 'expired'::character varying, 'aborted'::character varying])::text[])))"
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "conname": "chk_attachment_upload_session_target_type",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK (((target_type IS NULL) OR ((target_type)::text = ANY ((ARRAY['lead'::character varying, 'customer'::character varying, 'project'::character varying, 'contract'::character varying, 'sales-follow-up'::character varying, 'project-handover'::character varying])::text[]))))"
+    },
+    {
+      "table_name": "attachment_upload_session",
+      "conname": "chk_attachment_upload_session_upload_mode",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK (((upload_mode)::text = ANY ((ARRAY['proxy'::character varying, 'presigned-put'::character varying, 'multipart'::character varying])::text[])))"
+    }
+  ]
+}

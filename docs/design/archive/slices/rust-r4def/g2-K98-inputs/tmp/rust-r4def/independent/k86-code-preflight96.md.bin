@@ -1,0 +1,9 @@
+K86 源码预审：**Block，新增 P1×1；不是最终 G3。**
+
+`K86-P1-01`：store 将所有 clean Link 纳入完整 tuple 重检，但既有 handover 自动关联构造省略 unlinked_by/unlinked_at。INSERT 只返回 id，mark_committed 保存的内存 original 缺两个 NULL 字段；refresh 的第一次 save 已提交后，紧接 k_audit 的 generic flush 会以 8 字段 original 比 PG 10 字段 to_jsonb，触发 changed_source/409。这是静态源码与公开 catalog 推导，reviewer 未执行实际 HTTP/PG。
+
+精确 K86 delivery SHA `af204da15ec0d6030afbca1635711d7cd9f996d317d879e9f34061da59e0b3c8`；service `0fbd8afc…`、store `163452c0…`、registry `617f734a…`。原始源码、before、product copy、权限依据和 catalog 均已独立封 pins。
+
+原 K56-P2-01 的 no-op intent 已在源码中补齐，但新增 generic regression 必须纠正。限原 service/store：用真实 RETURNING/hydrate 建完整基线，或将 clean tuple 强检限定为显式 first-Link intent，保留无变更意图、真实 NULL 差异及原 dirty/new 防护。不能全局忽略 NULL 或放松首次来源比较。
+
+最终需 fresh 真实 attachment→handover refresh 新建 auto-Link→必要 audit 成功，以及两条真实 no-op 并发屏障。原 K71 只复用已有 auto-Link 的正链不足以覆盖此分支。所有旧 Block 和原始证据保留；没有授权 G3/G4。

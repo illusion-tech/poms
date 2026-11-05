@@ -1,0 +1,28 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T04:18:00.113Z",
+  "completedAt": "2026-11-04T04:18:01.269Z",
+  "operationId": "ProjectCostController_replaceLaborCostRecord",
+  "method": "POST",
+  "path": "/api/project-actual-cost-records/2f58a0e6-3f27-4631-95c7-d4bb48b4cbea:replace",
+  "query": {},
+  "actorKey": "raceB88",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-01479-0576e9e5",
+  "requestBody": {
+    "laborPeriodStart": "2026-11-04",
+    "laborPeriodEnd": "2026-11-04",
+    "actualHours": "5.00",
+    "rateVersionId": "b03c17f9-14b1-49db-87d4-197ee7ce868d",
+    "replaceReason": "同一真实labor前驱只允许一个受控后继",
+    "expectedSupersededRecordVersion": 1
+  },
+  "status": 409,
+  "responseBody": {
+    "error": "Conflict",
+    "message": "Business record version changed",
+    "statusCode": 409
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

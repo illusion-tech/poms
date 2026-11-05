@@ -1,0 +1,33 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:05:21.736Z",
+  "completedAt": "2026-11-04T00:05:21.753Z",
+  "operationId": "ProjectCostController_createProjectActualCostRecord",
+  "method": "POST",
+  "path": "/api/projects/c19e708b-522c-45e9-90d4-81de7295545b/actual-cost-records",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-00229-7d9c0bc8",
+  "requestBody": {
+    "costType": "labor",
+    "laborRole": "R4E21-e41-split",
+    "laborPeriodType": "month",
+    "laborPeriodStart": "2026-10-01",
+    "laborPeriodEnd": "2026-10-10",
+    "actualHours": "6.00",
+    "rateVersionId": "dff00dc2-f560-4159-94cf-a7c309a1abc6",
+    "workSummary": "R4E21-e41-按明确区间和数量登记",
+    "costDescription": "真实费率版本乘真实请求数量，完整保存舍入依据",
+    "attachmentIds": [],
+    "laborPersonId": "384ffad5-04ed-4f78-918a-ec8e7df6a590"
+  },
+  "status": 409,
+  "responseBody": {
+    "error": "Conflict",
+    "message": "Split the labor period at personal-rate validity boundaries",
+    "statusCode": 409
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

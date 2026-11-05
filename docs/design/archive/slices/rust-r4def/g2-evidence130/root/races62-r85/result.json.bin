@@ -1,0 +1,867 @@
+{
+  "kind": "R4DEF-request-only-controlled-races62",
+  "execution": "Root-callback-execution",
+  "sourceMoneyRule": "Fixed independent witnesses; no production allocation function imported or reverse-derived.",
+  "cases": [
+    {
+      "id": "R62-01-duplicate-mapping",
+      "status": "passed",
+      "requests": [
+        {
+          "operationId": "ContractFinanceController_createPayable",
+          "id": "2410df0c-c530-4223-b857-1a83a411b57b",
+          "body": {
+            "contractId": "a8ab4086-89c6-4b57-b14c-3ecaa7ceb058",
+            "vendorName": "R62-r85-vendor",
+            "costCategory": "implementation",
+            "payableDescription": "R62-r85-duplicate-C-source",
+            "currency": "CNY",
+            "amountExcludingTax": "100.00",
+            "taxAmount": "6.00",
+            "amountIncludingTax": "106.00",
+            "expectedPaymentDate": "2026-11-04",
+            "evidenceSummary": "真实采购承诺；未支付、不included",
+            "attachmentCount": 0
+          },
+          "actorKey": "raceA85",
+          "expectedStatus": 201,
+          "phase": "real-API-setup-or-readback",
+          "receiptId": "tmp/rust-r4def/root/api32/01454-ContractFinanceController_createPayable.json",
+          "requestId": "r4def32-01454-fc638ce4",
+          "status": 201
+        },
+        {
+          "operationId": "ContractFinanceController_getPayable",
+          "id": "1607148d-bbff-43c2-8a31-013c15d94372",
+          "body": null,
+          "actorKey": "raceA85",
+          "expectedStatus": 200,
+          "phase": "real-API-setup-or-readback",
+          "receiptId": "tmp/rust-r4def/root/api32/01455-ContractFinanceController_getPayable.json",
+          "requestId": "r4def32-01455-fe023028",
+          "status": 200
+        }
+      ],
+      "resources": [
+        {
+          "kind": "payable",
+          "id": "1607148d-bbff-43c2-8a31-013c15d94372",
+          "rowVersion": 1
+        }
+      ],
+      "beforePG": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4def/root/races62-r85/R62-01-duplicate-mapping-before-PG.json",
+      "race": {
+        "A": {
+          "status": 201,
+          "body": {
+            "approvalRecordId": null,
+            "businessStatusAfter": "registered",
+            "confirmationRecordId": null,
+            "resultStatus": "success",
+            "targetId": "51bbf541-6217-4343-bc3f-ea87c3479d26",
+            "targetType": "ProjectActualCostRecord",
+            "todoItemIds": []
+          },
+          "receiptId": "tmp/rust-r4def/root/api32/01456-ProjectCostController_createProjectActualCostRecord.json",
+          "requestId": "r4def32-01456-e74aac03"
+        },
+        "B": {
+          "status": 409,
+          "body": {
+            "error": "Conflict",
+            "message": "Source already has a current cost mapping",
+            "statusCode": 409
+          },
+          "receiptId": "tmp/rust-r4def/root/api32/01457-ProjectCostController_createProjectActualCostRecord.json",
+          "requestId": "r4def32-01457-5d83daf5"
+        },
+        "barrierProof": {
+          "realPostgres": true,
+          "heldBeforeRequests": true,
+          "bothObservedBeforeRelease": true,
+          "released": true,
+          "controllerPid": 1432,
+          "gate": {
+            "kind": "project-row",
+            "projectIds": [
+              "2410df0c-c530-4223-b857-1a83a411b57b"
+            ]
+          },
+          "gateLocks": [],
+          "waiters": [
+            {
+              "pid": 1407,
+              "query": "SELECT id FROM poms.project WHERE id=$1 FOR UPDATE",
+              "wait_event": "tuple",
+              "wait_event_type": "Lock",
+              "blockers": [
+                1409
+              ],
+              "granted": false
+            },
+            {
+              "pid": 1409,
+              "query": "SELECT id FROM poms.project WHERE id=$1 FOR UPDATE",
+              "wait_event": "transactionid",
+              "wait_event_type": "Lock",
+              "blockers": [
+                1432
+              ],
+              "granted": false
+            }
+          ],
+          "workerLocks": [
+            {
+              "pid": 1407,
+              "locktype": "tuple",
+              "classid": null,
+              "objid": null,
+              "objsubid": null,
+              "mode": "AccessExclusiveLock",
+              "granted": false
+            },
+            {
+              "pid": 1407,
+              "locktype": "relation",
+              "classid": null,
+              "objid": null,
+              "objsubid": null,
+              "mode": "RowShareLock",
+              "granted": true
+            },
+            {
+              "pid": 1407,
+              "locktype": "relation",
+              "classid": null,
+              "objid": null,
+              "objsubid": null,
+              "mode": "RowShareLock",
+              "granted": true
+            },
+            {
+              "pid": 1407,
+              "locktype": "virtualxid",
+              "classid": null,
+              "objid": null,
+              "objsubid": null,
+              "mode": "ExclusiveLock",
+              "granted": true
+            },
+            {
+              "pid": 1409,
+              "locktype": "transactionid",
+              "classid": null,
+              "objid": null,
+              "objsubid": null,
+              "mode": "ShareLock",
+              "granted": false
+            },
+            {
+              "pid": 1409,
+              "locktype": "relation",
+              "classid": null,
+              "objid": null,
+              "objsubid": null,
+              "mode": "RowShareLock",
+              "granted": true
+            },
+            {
+              "pid": 1409,
+              "locktype": "relation",
+              "classid": null,
+              "objid": null,
+              "objsubid": null,
+              "mode": "RowShareLock",
+              "granted": true
+            },
+            {
+              "pid": 1409,
+              "locktype": "relation",
+              "classid": null,
+              "objid": null,
+              "objsubid": null,
+              "mode": "RowShareLock",
+              "granted": true
+            },
+            {
+              "pid": 1409,
+              "locktype": "relation",
+              "classid": null,
+              "objid": null,
+              "objsubid": null,
+              "mode": "RowShareLock",
+              "granted": true
+            },
+            {
+              "pid": 1409,
+              "locktype": "relation",
+              "classid": null,
+              "objid": null,
+              "objsubid": null,
+              "mode": "RowShareLock",
+              "granted": true
+            },
+            {
+              "pid": 1409,
+              "locktype": "relation",
+              "classid": null,
+              "objid": null,
+              "objsubid": null,
+              "mode": "RowShareLock",
+              "granted": true
+            },
+            {
+              "pid": 1409,
+              "locktype": "relation",
+              "classid": null,
+              "objid": null,
+              "objsubid": null,
+              "mode": "RowShareLock",
+              "granted": true
+            },
+            {
+              "pid": 1409,
+              "locktype": "relation",
+              "classid": null,
+              "objid": null,
+              "objsubid": null,
+              "mode": "RowShareLock",
+              "granted": true
+            },
+            {
+              "pid": 1409,
+              "locktype": "tuple",
+              "classid": null,
+              "objid": null,
+              "objsubid": null,
+              "mode": "AccessExclusiveLock",
+              "granted": true
+            },
+            {
+              "pid": 1409,
+              "locktype": "virtualxid",
+              "classid": null,
+              "objid": null,
+              "objsubid": null,
+              "mode": "ExclusiveLock",
+              "granted": true
+            }
+          ],
+          "onlyTheseTwoRequestsLaunchedByAdapter": true,
+          "receiptId": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4def/root/races62-r85/R62-01-duplicate-mapping-barrier-after-release.json"
+        }
+      },
+      "afterPG": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4def/root/races62-r85/R62-01-duplicate-mapping-after-PG.json",
+      "winner": "A",
+      "assertions": [
+        {
+          "id": "one-current-mapping",
+          "passed": true,
+          "actual": [
+            "51bbf541-6217-4343-bc3f-ea87c3479d26"
+          ],
+          "expected": "one"
+        },
+        {
+          "id": "winner-registered-fixed-money",
+          "passed": true,
+          "actual": [
+            {
+              "state": "registered",
+              "money": [
+                "100.00",
+                "6.00",
+                "106.00"
+              ],
+              "currency": "CNY"
+            }
+          ],
+          "expected": {
+            "state": "registered",
+            "money": [
+              "100.00",
+              "6.00",
+              "106.00"
+            ],
+            "currency": "CNY"
+          }
+        },
+        {
+          "id": "source-unchanged",
+          "passed": true,
+          "actual": {
+            "expense": [],
+            "payable": [
+              {
+                "id": "1607148d-bbff-43c2-8a31-013c15d94372",
+                "status": "recorded",
+                "currency": "CNY",
+                "closed_at": null,
+                "voided_at": null,
+                "created_at": "2026-11-04T12:07:30.81+08:00",
+                "project_id": "2410df0c-c530-4223-b857-1a83a411b57b",
+                "tax_amount": "6.00",
+                "updated_at": "2026-11-04T12:07:30.81+08:00",
+                "contract_id": "a8ab4086-89c6-4b57-b14c-3ecaa7ceb058",
+                "row_version": 1,
+                "vendor_name": "R62-r85-vendor",
+                "void_reason": null,
+                "close_reason": null,
+                "cost_category": "implementation",
+                "attachment_count": 0,
+                "evidence_summary": "真实采购承诺；未支付、不included",
+                "payable_description": "R62-r85-duplicate-C-source",
+                "amount_excluding_tax": "100.00",
+                "amount_including_tax": "106.00",
+                "expected_payment_date": "2026-11-04"
+              }
+            ]
+          },
+          "expected": {
+            "expense": [],
+            "payable": [
+              {
+                "id": "1607148d-bbff-43c2-8a31-013c15d94372",
+                "status": "recorded",
+                "currency": "CNY",
+                "closed_at": null,
+                "voided_at": null,
+                "created_at": "2026-11-04T12:07:30.81+08:00",
+                "project_id": "2410df0c-c530-4223-b857-1a83a411b57b",
+                "tax_amount": "6.00",
+                "updated_at": "2026-11-04T12:07:30.81+08:00",
+                "contract_id": "a8ab4086-89c6-4b57-b14c-3ecaa7ceb058",
+                "row_version": 1,
+                "vendor_name": "R62-r85-vendor",
+                "void_reason": null,
+                "close_reason": null,
+                "cost_category": "implementation",
+                "attachment_count": 0,
+                "evidence_summary": "真实采购承诺；未支付、不included",
+                "payable_description": "R62-r85-duplicate-C-source",
+                "amount_excluding_tax": "100.00",
+                "amount_including_tax": "106.00",
+                "expected_payment_date": "2026-11-04"
+              }
+            ]
+          }
+        },
+        {
+          "id": "counter-once",
+          "passed": true,
+          "actual": "1",
+          "expected": "1"
+        },
+        {
+          "id": "no-loser-business-audit-evidence",
+          "passed": true,
+          "actual": {
+            "loserRequestIds": [
+              "r4def32-01457-5d83daf5"
+            ],
+            "evidence": [],
+            "successAudits": []
+          },
+          "expected": "zero loser business success/evidence; auth/security independently permitted"
+        },
+        {
+          "id": "not-included",
+          "passed": true,
+          "actual": [
+            {
+              "id": "51bbf541-6217-4343-bc3f-ea87c3479d26",
+              "included": false
+            }
+          ],
+          "expected": false
+        }
+      ]
+    },
+    {
+      "id": "R62-02-expense-void-map",
+      "status": "passed",
+      "requests": [
+        {
+          "operationId": "ProjectCostController_createExpenseRecord",
+          "id": "2410df0c-c530-4223-b857-1a83a411b57b",
+          "body": {
+            "contractId": "a8ab4086-89c6-4b57-b14c-3ecaa7ceb058",
+            "expenseCategory": "travel",
+            "expenseDescription": "R62-r85-void-map",
+            "expenseDate": "2026-11-04",
+            "currency": "CNY",
+            "amountExcludingTax": "0.11",
+            "taxAmount": "0.01",
+            "amountIncludingTax": "0.12",
+            "sourceType": "manual",
+            "evidenceSummary": "隔离并发验收真实费用源；固定净/税/含税0.11/0.01/0.12，不是经营纳入事实",
+            "attachmentCount": 0
+          },
+          "actorKey": "raceA85",
+          "expectedStatus": 201,
+          "phase": "real-API-setup-or-readback",
+          "receiptId": "tmp/rust-r4def/root/api32/01458-ProjectCostController_createExpenseRecord.json",
+          "requestId": "r4def32-01458-e1469f4e",
+          "status": 201
+        },
+        {
+          "operationId": "ProjectCostController_confirmExpenseRecord",
+          "id": "69e855e4-7ee5-4943-8095-ab8e9e886e22",
+          "body": {
+            "expectedVersion": 1
+          },
+          "actorKey": "raceA85",
+          "expectedStatus": 200,
+          "phase": "real-API-setup-or-readback",
+          "receiptId": "tmp/rust-r4def/root/api32/01459-ProjectCostController_confirmExpenseRecord.json",
+          "requestId": "r4def32-01459-82c9d660",
+          "status": 200
+        }
+      ],
+      "resources": [
+        {
+          "kind": "expense",
+          "id": "69e855e4-7ee5-4943-8095-ab8e9e886e22",
+          "rowVersion": 1
+        },
+        {
+          "kind": "expense",
+          "id": "69e855e4-7ee5-4943-8095-ab8e9e886e22",
+          "rowVersion": 2
+        }
+      ],
+      "beforePG": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4def/root/races62-r85/R62-02-expense-void-map-before-PG.json",
+      "race": {
+        "A": {
+          "status": 201,
+          "body": {
+            "approvalRecordId": null,
+            "businessStatusAfter": "registered",
+            "confirmationRecordId": null,
+            "resultStatus": "success",
+            "targetId": "2ebb03b4-0dc5-4112-bf41-1ad1d4a67e45",
+            "targetType": "ProjectActualCostRecord",
+            "todoItemIds": []
+          },
+          "receiptId": "tmp/rust-r4def/root/api32/01460-ProjectCostController_createProjectActualCostRecord.json",
+          "requestId": "r4def32-01460-c2450f28"
+        },
+        "B": {
+          "status": 422,
+          "body": {
+            "error": "Unprocessable Entity",
+            "message": "Mapped expense requires a controlled correction",
+            "statusCode": 422
+          },
+          "receiptId": "tmp/rust-r4def/root/api32/01461-ProjectCostController_voidExpenseRecord.json",
+          "requestId": "r4def32-01461-8000c481"
+        },
+        "barrierProof": {
+          "realPostgres": true,
+          "heldBeforeRequests": true,
+          "bothObservedBeforeRelease": true,
+          "released": true,
+          "controllerPid": 1436,
+          "gate": {
+            "kind": "project-row",
+            "projectIds": [
+              "2410df0c-c530-4223-b857-1a83a411b57b"
+            ]
+          },
+          "gateLocks": [],
+          "waiters": [
+            {
+              "pid": 1407,
+              "query": "SELECT id FROM poms.project WHERE id=$1 FOR UPDATE",
+              "wait_event": "transactionid",
+              "wait_event_type": "Lock",
+              "blockers": [
+                1436
+              ],
+              "granted": false
+            },
+            {
+              "pid": 1409,
+              "query": "SELECT id FROM poms.project WHERE id=$1 FOR UPDATE",
+              "wait_event": "tuple",
+              "wait_event_type": "Lock",
+              "blockers": [
+                1407
+              ],
+              "granted": false
+            }
+          ],
+          "workerLocks": [
+            {
+              "pid": 1407,
+              "locktype": "transactionid",
+              "classid": null,
+              "objid": null,
+              "objsubid": null,
+              "mode": "ShareLock",
+              "granted": false
+            },
+            {
+              "pid": 1407,
+              "locktype": "relation",
+              "classid": null,
+              "objid": null,
+              "objsubid": null,
+              "mode": "RowShareLock",
+              "granted": true
+            },
+            {
+              "pid": 1407,
+              "locktype": "relation",
+              "classid": null,
+              "objid": null,
+              "objsubid": null,
+              "mode": "RowShareLock",
+              "granted": true
+            },
+            {
+              "pid": 1407,
+              "locktype": "tuple",
+              "classid": null,
+              "objid": null,
+              "objsubid": null,
+              "mode": "AccessExclusiveLock",
+              "granted": true
+            },
+            {
+              "pid": 1407,
+              "locktype": "virtualxid",
+              "classid": null,
+              "objid": null,
+              "objsubid": null,
+              "mode": "ExclusiveLock",
+              "granted": true
+            },
+            {
+              "pid": 1409,
+              "locktype": "tuple",
+              "classid": null,
+              "objid": null,
+              "objsubid": null,
+              "mode": "AccessExclusiveLock",
+              "granted": false
+            },
+            {
+              "pid": 1409,
+              "locktype": "relation",
+              "classid": null,
+              "objid": null,
+              "objsubid": null,
+              "mode": "RowShareLock",
+              "granted": true
+            },
+            {
+              "pid": 1409,
+              "locktype": "relation",
+              "classid": null,
+              "objid": null,
+              "objsubid": null,
+              "mode": "RowShareLock",
+              "granted": true
+            },
+            {
+              "pid": 1409,
+              "locktype": "relation",
+              "classid": null,
+              "objid": null,
+              "objsubid": null,
+              "mode": "RowShareLock",
+              "granted": true
+            },
+            {
+              "pid": 1409,
+              "locktype": "relation",
+              "classid": null,
+              "objid": null,
+              "objsubid": null,
+              "mode": "RowShareLock",
+              "granted": true
+            },
+            {
+              "pid": 1409,
+              "locktype": "relation",
+              "classid": null,
+              "objid": null,
+              "objsubid": null,
+              "mode": "RowShareLock",
+              "granted": true
+            },
+            {
+              "pid": 1409,
+              "locktype": "relation",
+              "classid": null,
+              "objid": null,
+              "objsubid": null,
+              "mode": "RowShareLock",
+              "granted": true
+            },
+            {
+              "pid": 1409,
+              "locktype": "relation",
+              "classid": null,
+              "objid": null,
+              "objsubid": null,
+              "mode": "AccessShareLock",
+              "granted": true
+            },
+            {
+              "pid": 1409,
+              "locktype": "relation",
+              "classid": null,
+              "objid": null,
+              "objsubid": null,
+              "mode": "AccessShareLock",
+              "granted": true
+            },
+            {
+              "pid": 1409,
+              "locktype": "relation",
+              "classid": null,
+              "objid": null,
+              "objsubid": null,
+              "mode": "AccessShareLock",
+              "granted": true
+            },
+            {
+              "pid": 1409,
+              "locktype": "relation",
+              "classid": null,
+              "objid": null,
+              "objsubid": null,
+              "mode": "AccessShareLock",
+              "granted": true
+            },
+            {
+              "pid": 1409,
+              "locktype": "relation",
+              "classid": null,
+              "objid": null,
+              "objsubid": null,
+              "mode": "RowShareLock",
+              "granted": true
+            },
+            {
+              "pid": 1409,
+              "locktype": "relation",
+              "classid": null,
+              "objid": null,
+              "objsubid": null,
+              "mode": "RowShareLock",
+              "granted": true
+            },
+            {
+              "pid": 1409,
+              "locktype": "virtualxid",
+              "classid": null,
+              "objid": null,
+              "objsubid": null,
+              "mode": "ExclusiveLock",
+              "granted": true
+            }
+          ],
+          "onlyTheseTwoRequestsLaunchedByAdapter": true,
+          "receiptId": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4def/root/races62-r85/R62-02-expense-void-map-barrier-after-release.json"
+        }
+      },
+      "afterPG": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4def/root/races62-r85/R62-02-expense-void-map-after-PG.json",
+      "winner": "A-map",
+      "assertions": [
+        {
+          "id": "serialized-void-or-map",
+          "passed": true,
+          "actual": [
+            201,
+            422
+          ],
+          "expected": [
+            [
+              201,
+              422
+            ],
+            [
+              409,
+              200
+            ]
+          ]
+        },
+        {
+          "id": "source-mapping-consistent",
+          "passed": true,
+          "actual": {
+            "source": {
+              "id": "69e855e4-7ee5-4943-8095-ab8e9e886e22",
+              "status": "confirmed",
+              "currency": "CNY",
+              "voided_at": null,
+              "created_at": "2026-11-04T12:07:31.387+08:00",
+              "project_id": "2410df0c-c530-4223-b857-1a83a411b57b",
+              "tax_amount": "0.01",
+              "updated_at": "2026-11-04T12:07:31.442+08:00",
+              "contract_id": "a8ab4086-89c6-4b57-b14c-3ecaa7ceb058",
+              "row_version": 2,
+              "source_type": "manual",
+              "void_reason": null,
+              "confirmed_at": "2026-11-04T12:07:31.442+08:00",
+              "confirmed_by": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+              "expense_date": "2026-11-04",
+              "attachment_count": 0,
+              "evidence_summary": "隔离并发验收真实费用源；固定净/税/含税0.11/0.01/0.12，不是经营纳入事实",
+              "expense_category": "travel",
+              "expense_description": "R62-r85-void-map",
+              "amount_excluding_tax": "0.11",
+              "amount_including_tax": "0.12"
+            },
+            "mappings": [
+              "2ebb03b4-0dc5-4112-bf41-1ad1d4a67e45"
+            ]
+          },
+          "expected": "confirmed + one current mapping"
+        },
+        {
+          "id": "no-loser-business-audit-evidence",
+          "passed": true,
+          "actual": {
+            "loserRequestIds": [
+              "r4def32-01461-8000c481"
+            ],
+            "evidence": [],
+            "successAudits": []
+          },
+          "expected": "zero loser business success/evidence; auth/security independently permitted"
+        },
+        {
+          "id": "not-included",
+          "passed": true,
+          "actual": [
+            {
+              "id": "2ebb03b4-0dc5-4112-bf41-1ad1d4a67e45",
+              "included": false
+            }
+          ],
+          "expected": false
+        }
+      ]
+    },
+    {
+      "id": "R62-03-labor-replace",
+      "status": "failed-or-unknown-before-pair",
+      "requests": [
+        {
+          "operationId": "ProjectCostController_publishInternalCostRateVersion",
+          "id": null,
+          "body": {
+            "rateScopeType": "role",
+            "roleCode": "R62-r85-replace-role",
+            "rateUnit": "hour",
+            "rateValue": "17.2850",
+            "currency": "CNY",
+            "effectiveFrom": "2026-11-04",
+            "changeReason": "隔离并发验收真实发布；不得修改已有rate事实"
+          },
+          "actorKey": "raceA85",
+          "expectedStatus": 201,
+          "phase": "real-API-setup-or-readback",
+          "receiptId": "tmp/rust-r4def/root/api32/01462-ProjectCostController_publishInternalCostRateVersion.json",
+          "requestId": "r4def32-01462-66855ad1",
+          "status": 201
+        },
+        {
+          "operationId": "ProjectCostController_createProjectActualCostRecord",
+          "id": "2410df0c-c530-4223-b857-1a83a411b57b",
+          "body": {
+            "costType": "labor",
+            "laborRole": "R62-r85-replace-role",
+            "laborPeriodType": "month",
+            "laborPeriodStart": "2026-11-04",
+            "laborPeriodEnd": "2026-11-04",
+            "actualHours": "3.00",
+            "rateVersionId": "22ff3cad-91f1-43a8-a73f-c5369837c815",
+            "workSummary": "R62-r85-replace-role",
+            "costDescription": "R62-r85-replace-role",
+            "attachmentIds": []
+          },
+          "actorKey": "raceA85",
+          "expectedStatus": 201,
+          "phase": "real-API-setup-or-readback",
+          "receiptId": "tmp/rust-r4def/root/api32/01463-ProjectCostController_createProjectActualCostRecord.json",
+          "requestId": "r4def32-01463-6099d1b1",
+          "status": 201
+        },
+        {
+          "operationId": "ProjectCostController_getProjectActualCostRecordDetail",
+          "id": "7b8c0bd9-494c-41a5-b3b8-644413aae83c",
+          "body": null,
+          "actorKey": "raceA85",
+          "expectedStatus": 200,
+          "phase": "real-API-setup-or-readback",
+          "receiptId": "tmp/rust-r4def/root/api32/01464-ProjectCostController_getProjectActualCostRecordDetail.json",
+          "requestId": "r4def32-01464-0ebda04f",
+          "status": 200
+        }
+      ],
+      "resources": [
+        {
+          "kind": "rate",
+          "id": "22ff3cad-91f1-43a8-a73f-c5369837c815"
+        },
+        {
+          "kind": "cost",
+          "id": "7b8c0bd9-494c-41a5-b3b8-644413aae83c",
+          "rowVersion": 1
+        }
+      ],
+      "beforePG": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4def/root/races62-r85/R62-03-labor-replace-before-PG.json",
+      "errorCode": "worker-settled-before-proven-barrier"
+    },
+    {
+      "id": "R62-04-stage-confirm",
+      "status": "not-run",
+      "requests": [],
+      "resources": []
+    },
+    {
+      "id": "R62-05-stage-reclassify",
+      "status": "not-run",
+      "requests": [],
+      "resources": []
+    },
+    {
+      "id": "R62-06-tax-replace",
+      "status": "not-run",
+      "requests": [],
+      "resources": []
+    },
+    {
+      "id": "R62-07-basis-full-replace",
+      "status": "not-run",
+      "requests": [],
+      "resources": []
+    },
+    {
+      "id": "R62-08-overlap-sources",
+      "status": "not-run",
+      "requests": [],
+      "resources": []
+    },
+    {
+      "id": "R62-09-reverse-families",
+      "status": "not-run",
+      "requests": [],
+      "resources": []
+    },
+    {
+      "id": "R62-10-three-project-cent-permutation",
+      "status": "not-run",
+      "requests": [],
+      "resources": []
+    }
+  ],
+  "automaticRetries": false,
+  "productOrEnvironmentTouchedByImport": false,
+  "finalG3Certified": false
+}

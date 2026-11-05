@@ -1,0 +1,7 @@
+K98 单 store 差异预审：**Pass，仅源码纠偏；无新增 P0–P2，不是 G3。**
+
+精确 delivery SHA `d1166d213a55d62357b3dbd36ec237b7bd60ecca8080038fd84bb139d910b994`；store `525028f45ce39a5935f4a1565eee662b76a2976f07a212a580c23f862e899899`。Root、作者 WT 与完整 product copy 一致。service、handover、registry 及 F46 六源保持原 hash。
+
+K86-P1-01 的静态原因已修：单条/批量 Link INSERT 实际 RETURNING 完整十字段 tuple；显式 ID 按真实 ID 对应，DB 生成 ID 按已赋值字段唯一关联，不依赖返回顺序。缺字段/身份/数量/唯一对应不符时回滚，未把 absent 猜作 NULL。完整 actual row 先进入局部 saved journal，COMMIT ACK 后才 mark_committed；后续 first-source/完整 tuple/set、无 dirty intent、pending auth、Unknown poison/对象保留均未放松。旧 Block96 原样保留。
+
+作者纯检查原件去重 37 名（新6），fmt/Clippy/测试退出码为0；reviewer 未重跑，作者也无实际 PG/HTTP。允许 Root 继续该精确候选实际验证。最终仍需 fresh 上传附件→新 auto-Link→必要 audit 成功、批量身份/完整 PG tuple、两项 no-op 实际屏障，以及最终 binary/source/故障/迟到 PUT/对象读回绑定。旧 K71 已存在 auto-Link 正链不能替代新分支，未跑的 K55/S3 等边界继续如实保留。没有 G3/G4 或 Issue 关闭授权。

@@ -1,0 +1,18 @@
+{
+  "operationId": "ProjectHandoverController_confirmProjectHandover",
+  "table": "project_receipt_judgment_freeze",
+  "barrierWaiter": {
+    "pid": 336,
+    "query": "INSERT INTO poms.project_receipt_judgment_freeze(id,project_id,receipt_judgment_mode,source_type,source_id,source_handover_id,source_handover_summary_snapshot_id,source_handover_rebaseline_record_id,is_current,frozen_by,supersedes_id,created_by,updated_by,producer_version,basis_snapshot_id,version) VALUES($1,$2,$3,'project-handover',$4,$4,$5,$6,true,$7,$8,$7,$7,1,$9,$10)",
+    "wait_event": "advisory",
+    "wait_event_type": "Lock",
+    "classid": "194043",
+    "objid": "43018",
+    "granted": false
+  },
+  "status": 500,
+  "receiptId": "tmp/rust-r4def/root/api32/00446-ProjectHandoverController_confirmProjectHandover.json",
+  "hitProven": true,
+  "all120TablesRolledBack": true,
+  "retryPending": true
+}

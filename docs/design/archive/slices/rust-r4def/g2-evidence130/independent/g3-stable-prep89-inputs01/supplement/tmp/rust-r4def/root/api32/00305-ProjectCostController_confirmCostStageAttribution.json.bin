@@ -1,0 +1,41 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:05:23.922Z",
+  "completedAt": "2026-11-04T00:05:24.058Z",
+  "operationId": "ProjectCostController_confirmCostStageAttribution",
+  "method": "POST",
+  "path": "/api/project-actual-cost-records/6e117b47-1221-4c51-980c-d68c4c76b514/stage-attributions",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-00305-dc819de0",
+  "requestBody": {
+    "stageAttributionMode": "manual",
+    "attributedStage": "execution",
+    "expectedVersion": 1,
+    "attributionSummary": "验收责任人审核指定日期与完整期间，登记归属执行阶段；仅验证人工证据链，不作为真实生产业务事实。",
+    "comment": "本隔离验收对历史完整人工期间的明确责任判断，不从当前项目阶段推断历史。",
+    "attributionEvidence": {
+      "kind": "manual",
+      "businessDate": "2026-10-01",
+      "reason": "本隔离验收对历史完整人工期间的明确责任判断，不从当前项目阶段推断历史。",
+      "evidenceSummary": "验收责任人审核指定日期与完整期间，登记归属执行阶段；仅验证人工证据链，不作为真实生产业务事实。",
+      "attachmentIds": []
+    }
+  },
+  "status": 201,
+  "responseBody": {
+    "approvalRecordId": null,
+    "attributionSnapshotId": "70619ccc-2d4a-41b0-a109-e8f72bb6bf00",
+    "businessStatusAfter": "active",
+    "confirmationRecordId": null,
+    "costRecordId": "6e117b47-1221-4c51-980c-d68c4c76b514",
+    "evidenceId": "6df832fe-08ae-4893-afd9-f488000eb68d",
+    "resultStatus": "success",
+    "targetId": "70619ccc-2d4a-41b0-a109-e8f72bb6bf00",
+    "targetType": "CostStageAttributionSnapshot",
+    "todoItemIds": []
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

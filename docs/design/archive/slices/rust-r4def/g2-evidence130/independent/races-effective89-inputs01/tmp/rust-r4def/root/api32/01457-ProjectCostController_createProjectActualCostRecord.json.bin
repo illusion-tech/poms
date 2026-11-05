@@ -1,0 +1,26 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T04:07:31.070Z",
+  "completedAt": "2026-11-04T04:07:31.264Z",
+  "operationId": "ProjectCostController_createProjectActualCostRecord",
+  "method": "POST",
+  "path": "/api/projects/2410df0c-c530-4223-b857-1a83a411b57b/actual-cost-records",
+  "query": {},
+  "actorKey": "raceB85",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-01457-5d83daf5",
+  "requestBody": {
+    "costType": "procurement",
+    "payableRecordId": "1607148d-bbff-43c2-8a31-013c15d94372",
+    "expectedSourceVersion": 1,
+    "costDescription": "R62-r85-R62-01-duplicate-mapping"
+  },
+  "status": 409,
+  "responseBody": {
+    "error": "Conflict",
+    "message": "Source already has a current cost mapping",
+    "statusCode": 409
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

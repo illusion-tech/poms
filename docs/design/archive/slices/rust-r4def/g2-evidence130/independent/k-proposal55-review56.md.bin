@@ -1,0 +1,9 @@
+**K55精确提案复核：Pass，仅准入冻结后的三文件K56实现；不是当前实现或G3通过。**
+
+manifest SHA a0c6d57f0a9a3e13bb9ceb324d2e6000144bb42a7d0e5b926eafe9c638787e58，vectors SHA 208bc0d93ad095a8ba71b5c96ff25ddef13e2f7d60338f4a7c084c4d67475ba9。全包14 artifact、12项Root原输入/冻结副本和F46/F44封存及双方六个cost源逐原字节匹配。32条真实验收向量仍全部planned-not-run；作者64项仅离线声明一致性。独立复核4个payload常量hash及10个纯SELECT模板，没有运行SQL或作者seal脚本。
+
+54 Block两项已在精确规则上解决：新active只绑定一次实际有界读取/校验的同buffer所写UUID+nonce final；迟到proxy/presigned仅能改staging。所有writer统一组协议，锁内逐tuple比较完整active links，HeadCAS不再代替关联集。53的CREATE先UPDATE与多flush也通过early strict CAS撤位/一次写、单Tx audit/auth/completed、失败context恢复覆盖。
+
+原runtime先解析，锁内同连接复验，不切current default或嵌套pool取连接；全历史max版本、旧active/final保护、abort提交后引用probe，以及Unknown保留/poison/不重flush都已明确。清理仅针对已确认未提交且独立无引用的本attempt final，未知提交时一次empty read仍不能授权删除。
+
+新增提案P0–P2为0。Root先守hash冻结此包，再授权K56仅service/store/registry三文件及隔离支持测试；F46/F44、53/54/Block55及旧实际失败原件不改。新实现交付后仍须代码和真实二进制/PG/对象/barrier/fault审查，当前K53 P1未因设计Pass变成已修。旧S3签名URL、管理员历史存储迁移及宽范围handover/package多阶段原子性不外推。完整范围见 [JSON](k-proposal55-review56.json)。

@@ -1,0 +1,125 @@
+{
+  "context": {
+    "tag": "att52",
+    "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+    "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+    "author": {
+      "key": "full",
+      "id": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "username": "r4def33_full",
+      "permissions": [
+        "platform:users:manage",
+        "platform:roles:manage",
+        "platform:navigation:manage",
+        "platform:org-units:manage",
+        "platform:dictionaries:manage",
+        "platform:identity-providers:manage",
+        "platform:org-sync:manage",
+        "platform:attachment-storage-providers:manage",
+        "platform:system-settings:manage",
+        "customer:read",
+        "customer:write",
+        "commission:rule-versions:manage",
+        "commission:assignments:manage",
+        "commission:calculations:manage",
+        "commission:payouts:manage",
+        "commission:adjustments:manage",
+        "contract:finance:manage",
+        "contract:finance:sensitive:read",
+        "operating:finance:sensitive:read",
+        "commission:amount:sensitive:read",
+        "labor-cost-rate:sensitive:read",
+        "exception-approval-opinion:sensitive:read",
+        "lead:read",
+        "lead:write",
+        "lead:assign",
+        "lead:score:override",
+        "project:read",
+        "project:write",
+        "project:delete",
+        "nav:dashboard:view",
+        "nav:customers:view",
+        "nav:platform:view",
+        "nav:leads:view",
+        "nav:attachments:view",
+        "nav:projects:view",
+        "nav:contracts:view",
+        "nav:profile:view"
+      ]
+    },
+    "handoverOperator": {
+      "key": "writer",
+      "id": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+      "username": "r4def33_writer",
+      "permissions": [
+        "project:read",
+        "project:write",
+        "nav:projects:view",
+        "nav:contracts:view",
+        "nav:attachments:view",
+        "contract:finance:sensitive:read"
+      ]
+    },
+    "attachmentCategory": "customer-profile",
+    "environment": {
+      "namespace": "poms-r4def",
+      "apiOrigin": "http://127.0.0.1:31341",
+      "instanceId": "0c945ec2-e3ec-4705-8bd3-660a46e8cafc",
+      "receiptId": "tmp/rust-r4def/root/environment21/provision01.json"
+    }
+  },
+  "manifest": {
+    "kind": "R4DEF-real-nonempty-K-attachment-candidate47",
+    "stages": [
+      {
+        "name": "capture",
+        "status": "not-run"
+      },
+      {
+        "name": "real-normal-upload",
+        "status": "not-run"
+      },
+      {
+        "name": "real-sensitive-upload",
+        "status": "not-run"
+      },
+      {
+        "name": "prepare-nonempty-D",
+        "status": "not-run"
+      },
+      {
+        "name": "K-refresh-and-package",
+        "status": "not-run"
+      },
+      {
+        "name": "nonfinal-new-version-stable",
+        "status": "not-run"
+      },
+      {
+        "name": "final-version-invalidates",
+        "status": "not-run"
+      },
+      {
+        "name": "prepare-current-version",
+        "status": "not-run"
+      },
+      {
+        "name": "void-invalidates",
+        "status": "not-run"
+      },
+      {
+        "name": "recover-and-confirm",
+        "status": "not-run"
+      }
+    ],
+    "records": [],
+    "observations": [],
+    "ownedAttachments": [],
+    "HTTPPassed": 0,
+    "initialState": "not-run",
+    "completed": false,
+    "needsEvidence": false,
+    "scanWorkerClaimed": false,
+    "SQLBusinessProducerUsed": false
+  }
+}

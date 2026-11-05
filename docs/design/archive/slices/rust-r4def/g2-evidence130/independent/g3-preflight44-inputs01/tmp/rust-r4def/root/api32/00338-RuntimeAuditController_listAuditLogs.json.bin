@@ -1,0 +1,114 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:05:24.813Z",
+  "completedAt": "2026-11-04T00:05:24.830Z",
+  "operationId": "RuntimeAuditController_listAuditLogs",
+  "method": "GET",
+  "path": "/api/audit-logs",
+  "query": {
+    "targetType": "ExpenseRecord",
+    "targetId": "15cc3879-c294-4b19-8656-79242d8f6808",
+    "limit": "100"
+  },
+  "actorKey": "financeOnly",
+  "actorId": "295a1093-2dec-4444-b2f7-c8dde152695d",
+  "requestId": "r4def32-00338-f3e41291",
+  "requestBody": null,
+  "status": 200,
+  "responseBody": [
+    {
+      "id": "ddc0016c-18ce-4298-a816-f87611783bf4",
+      "eventType": "ProjectCostController_voidExpenseRecord",
+      "targetType": "ExpenseRecord",
+      "targetId": "15cc3879-c294-4b19-8656-79242d8f6808",
+      "operatorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "requestId": "r4def32-00150-6e3bc8c0",
+      "result": "success",
+      "reason": null,
+      "beforeSnapshot": null,
+      "afterSnapshot": null,
+      "metadata": {
+        "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+        "operationId": "ProjectCostController_voidExpenseRecord",
+        "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+        "requiredSensitivePackages": [
+          "operating-finance"
+        ],
+        "schemaVersion": 1,
+        "sensitiveRedacted": true
+      },
+      "occurredAt": "2026-11-04T00:05:19.656Z"
+    },
+    {
+      "id": "c404068a-3c1a-4610-8272-1d3dd0f12778",
+      "eventType": "ProjectCostController_confirmExpenseRecord",
+      "targetType": "ExpenseRecord",
+      "targetId": "15cc3879-c294-4b19-8656-79242d8f6808",
+      "operatorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "requestId": "r4def32-00148-67711525",
+      "result": "success",
+      "reason": null,
+      "beforeSnapshot": null,
+      "afterSnapshot": null,
+      "metadata": {
+        "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+        "operationId": "ProjectCostController_confirmExpenseRecord",
+        "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+        "requiredSensitivePackages": [
+          "operating-finance"
+        ],
+        "schemaVersion": 1,
+        "sensitiveRedacted": true
+      },
+      "occurredAt": "2026-11-04T00:05:19.600Z"
+    },
+    {
+      "id": "3d7efb30-3098-4b31-9eb3-43141a396a29",
+      "eventType": "ProjectCostController_updateExpenseRecord",
+      "targetType": "ExpenseRecord",
+      "targetId": "15cc3879-c294-4b19-8656-79242d8f6808",
+      "operatorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "requestId": "r4def32-00146-fc93894b",
+      "result": "success",
+      "reason": null,
+      "beforeSnapshot": null,
+      "afterSnapshot": null,
+      "metadata": {
+        "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+        "operationId": "ProjectCostController_updateExpenseRecord",
+        "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+        "requiredSensitivePackages": [
+          "operating-finance"
+        ],
+        "schemaVersion": 1,
+        "sensitiveRedacted": true
+      },
+      "occurredAt": "2026-11-04T00:05:19.547Z"
+    },
+    {
+      "id": "4adfed24-43d1-488b-bf1d-77627d198c5a",
+      "eventType": "ProjectCostController_createExpenseRecord",
+      "targetType": "ExpenseRecord",
+      "targetId": "15cc3879-c294-4b19-8656-79242d8f6808",
+      "operatorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "requestId": "r4def32-00143-e4200477",
+      "result": "success",
+      "reason": null,
+      "beforeSnapshot": null,
+      "afterSnapshot": null,
+      "metadata": {
+        "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+        "operationId": "ProjectCostController_createExpenseRecord",
+        "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+        "requiredSensitivePackages": [
+          "operating-finance"
+        ],
+        "schemaVersion": 1,
+        "sensitiveRedacted": true
+      },
+      "occurredAt": "2026-11-04T00:05:19.469Z"
+    }
+  ],
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

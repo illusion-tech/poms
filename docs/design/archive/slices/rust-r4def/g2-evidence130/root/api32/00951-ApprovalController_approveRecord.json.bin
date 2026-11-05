@@ -1,0 +1,31 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T01:15:33.984Z",
+  "completedAt": "2026-11-04T01:15:34.063Z",
+  "operationId": "ApprovalController_approveRecord",
+  "method": "POST",
+  "path": "/api/approval-records/48dd117e-e3b9-466d-82fc-499bb1e9c77a:approve",
+  "query": {},
+  "actorKey": "approver",
+  "actorId": "00000000-0000-4000-8000-000000000008",
+  "requestId": "r4def32-00951-2c6ff64d",
+  "requestBody": {
+    "expectedVersion": 1,
+    "comment": "本case实际指定审批人批准。"
+  },
+  "status": 200,
+  "responseBody": {
+    "approvalRecordId": "48dd117e-e3b9-466d-82fc-499bb1e9c77a",
+    "businessStatusAfter": "pending-review",
+    "confirmationRecordId": null,
+    "resultStatus": "approved",
+    "snapshotId": null,
+    "targetId": "4563c684-9ea2-461f-8556-2d3aee34b242",
+    "targetType": "contract",
+    "todoItemIds": [
+      "3f6ba467-457a-4564-8140-eb5130673ac7"
+    ]
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

@@ -1,0 +1,10 @@
+候选 v4：**未运行 DB/HTTP/锁；不认证 G3。** v3 原件及 Root r85 的真实失败、已 ACK A409/B201 均保留，不能重放该 pair。
+
+入口改为 `root-runner62-04.mjs` 的 `runRootRaces62(options)`，其它 Root 实际接线参数沿用原说明。请使用新真实 login/sessionProof、fresh tag 和 `caseIds` 过滤：fresh case03 单独重跑，后续 case04–10 可用另一个新 tag 续跑；不要包含已 ACK 的 r85 case01/02/03。r82 warmup 过期失败保持 0 业务操作标签。
+
+- case03 使用真实 project row 屏障，与 `replace_labor` 的 Project→Cost→Rate family 顺序一致。
+- family key 从真实 `rate_scope_type/person_id/role_code` 推导，另外并入 source cost 的 `labor_person_id`；不取 `rate_key`，不含 unit。UTF-8 排序与 Rust String 顺序一致，再加生产前缀 `poms:cost-rate:`。查询行和实际 advisory tuple 都进屏障回执。
+- case09 改为两个独立项目、各有两个真实 E 成本，两批共用同两真实 role 费率族，body 的来源顺序反转。每批只分给自己的项目（冻结 Shared `projectShareItems.min(1)` 允许），固定每批净/税/含税 `.02/.00/.02`；A/B 都应 201。两批的项目锁没有交集，才能真正证明两 PID 同等 canonical 首 family、未持有更高 family。独立 PG observer 验证两完整单项目批、四来源各自占用、不可变捕获、v2 policy/hash 与三层守恒。
+- 其它场景、金额和必要断言不变。发生 barrier 错误时增加失败回执，保留两个 worker 已见 receipt/ACK；不自动重试或假定回滚。
+
+此版本只修纯验收候选，不改产品或已有 runtime 证据。离线 family 反例和 Node 语法通过不等于真实屏障通过。Root 应审阅后实际执行，未知 HTTP 结果先核原件，禁止盲重放。

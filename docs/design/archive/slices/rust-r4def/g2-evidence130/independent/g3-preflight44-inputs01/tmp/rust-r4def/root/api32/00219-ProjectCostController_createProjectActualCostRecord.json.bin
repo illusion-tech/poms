@@ -1,0 +1,32 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:05:21.518Z",
+  "completedAt": "2026-11-04T00:05:21.528Z",
+  "operationId": "ProjectCostController_createProjectActualCostRecord",
+  "method": "POST",
+  "path": "/api/projects/c19e708b-522c-45e9-90d4-81de7295545b/actual-cost-records",
+  "query": {},
+  "actorKey": "operatingOnly",
+  "actorId": "5f22da8a-3802-4a59-97d5-27527ca2e854",
+  "requestId": "r4def32-00219-1ccb5439",
+  "requestBody": {
+    "costType": "labor",
+    "laborRole": "R4E21-e41-zero",
+    "laborPeriodType": "month",
+    "laborPeriodStart": "2026-10-01",
+    "laborPeriodEnd": "2026-10-01",
+    "actualHours": "0.01",
+    "rateVersionId": "70da6d48-a1b4-4b56-8df1-6c8d73b5dca1",
+    "workSummary": "R4E21-e41-按明确区间和数量登记",
+    "costDescription": "真实费率版本乘真实请求数量，完整保存舍入依据",
+    "attachmentIds": []
+  },
+  "status": 403,
+  "responseBody": {
+    "error": "Forbidden",
+    "message": "Labor-sensitive authorization is required",
+    "statusCode": 403
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

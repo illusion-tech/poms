@@ -1,0 +1,391 @@
+{
+  "kind": "actual-two-worker-pg-lock-barrier",
+  "proof": {
+    "realPostgres": true,
+    "heldBeforeRequests": true,
+    "bothObservedBeforeRelease": true,
+    "released": false,
+    "controllerPid": 1512,
+    "gate": {
+      "kind": "rate-family-advisory",
+      "rateVersionIds": [
+        "b7e4600e-e501-4dcc-89c0-1f23eb0de87e",
+        "c3282eca-19b5-417b-96e9-3447026e532f"
+      ],
+      "sourceCostIds": [
+        "2965bba0-f253-498f-99f6-14c1e9ef04fb",
+        "393d31a8-12a4-46d4-b8dd-bf785de22ed3",
+        "7479d95b-0dc2-43ce-8e42-29685fa085e4",
+        "596a7cb8-9eda-403b-bdb5-2e6d4501fc72"
+      ],
+      "sameCanonicalFirstRequired": true,
+      "noHigherFamilyHeldByWorkersBeforeFirst": true
+    },
+    "gateLocks": [
+      {
+        "key": "role:R62-r88-family-a",
+        "rateScopeRows": [
+          {
+            "id": "b7e4600e-e501-4dcc-89c0-1f23eb0de87e",
+            "rate_scope_type": "role",
+            "person_id": null,
+            "role_code": "R62-r88-family-a"
+          },
+          {
+            "id": "c3282eca-19b5-417b-96e9-3447026e532f",
+            "rate_scope_type": "role",
+            "person_id": null,
+            "role_code": "R62-r88-family-b"
+          }
+        ],
+        "costScopeRows": [
+          {
+            "id": "2965bba0-f253-498f-99f6-14c1e9ef04fb",
+            "cost_type": "labor",
+            "source_type": "labor",
+            "source_id": "b7e4600e-e501-4dcc-89c0-1f23eb0de87e",
+            "labor_person_id": null
+          },
+          {
+            "id": "393d31a8-12a4-46d4-b8dd-bf785de22ed3",
+            "cost_type": "labor",
+            "source_type": "labor",
+            "source_id": "c3282eca-19b5-417b-96e9-3447026e532f",
+            "labor_person_id": null
+          },
+          {
+            "id": "596a7cb8-9eda-403b-bdb5-2e6d4501fc72",
+            "cost_type": "labor",
+            "source_type": "labor",
+            "source_id": "c3282eca-19b5-417b-96e9-3447026e532f",
+            "labor_person_id": null
+          },
+          {
+            "id": "7479d95b-0dc2-43ce-8e42-29685fa085e4",
+            "cost_type": "labor",
+            "source_type": "labor",
+            "source_id": "b7e4600e-e501-4dcc-89c0-1f23eb0de87e",
+            "labor_person_id": null
+          }
+        ],
+        "classid": "2152014012",
+        "objid": "1320195508",
+        "objsubid": 1,
+        "granted": true
+      },
+      {
+        "key": "role:R62-r88-family-b",
+        "rateScopeRows": [
+          {
+            "id": "b7e4600e-e501-4dcc-89c0-1f23eb0de87e",
+            "rate_scope_type": "role",
+            "person_id": null,
+            "role_code": "R62-r88-family-a"
+          },
+          {
+            "id": "c3282eca-19b5-417b-96e9-3447026e532f",
+            "rate_scope_type": "role",
+            "person_id": null,
+            "role_code": "R62-r88-family-b"
+          }
+        ],
+        "costScopeRows": [
+          {
+            "id": "2965bba0-f253-498f-99f6-14c1e9ef04fb",
+            "cost_type": "labor",
+            "source_type": "labor",
+            "source_id": "b7e4600e-e501-4dcc-89c0-1f23eb0de87e",
+            "labor_person_id": null
+          },
+          {
+            "id": "393d31a8-12a4-46d4-b8dd-bf785de22ed3",
+            "cost_type": "labor",
+            "source_type": "labor",
+            "source_id": "c3282eca-19b5-417b-96e9-3447026e532f",
+            "labor_person_id": null
+          },
+          {
+            "id": "596a7cb8-9eda-403b-bdb5-2e6d4501fc72",
+            "cost_type": "labor",
+            "source_type": "labor",
+            "source_id": "c3282eca-19b5-417b-96e9-3447026e532f",
+            "labor_person_id": null
+          },
+          {
+            "id": "7479d95b-0dc2-43ce-8e42-29685fa085e4",
+            "cost_type": "labor",
+            "source_type": "labor",
+            "source_id": "b7e4600e-e501-4dcc-89c0-1f23eb0de87e",
+            "labor_person_id": null
+          }
+        ],
+        "classid": "1965472266",
+        "objid": "1770447041",
+        "objsubid": 1,
+        "granted": true
+      }
+    ],
+    "waiters": [
+      {
+        "pid": 1407,
+        "query": "SELECT pg_advisory_xact_lock(hashtextextended($1,0))",
+        "wait_event": "advisory",
+        "wait_event_type": "Lock",
+        "blockers": [
+          1512
+        ],
+        "granted": false
+      },
+      {
+        "pid": 1409,
+        "query": "SELECT pg_advisory_xact_lock(hashtextextended($1,0))",
+        "wait_event": "advisory",
+        "wait_event_type": "Lock",
+        "blockers": [
+          1512,
+          1407
+        ],
+        "granted": false
+      }
+    ],
+    "workerLocks": [
+      {
+        "pid": 1407,
+        "locktype": "advisory",
+        "classid": "2152014012",
+        "objid": "1320195508",
+        "objsubid": 1,
+        "mode": "ExclusiveLock",
+        "granted": false
+      },
+      {
+        "pid": 1407,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1407,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1407,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1407,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1407,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1407,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1407,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1407,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1407,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1407,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "RowShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1407,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "RowShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1407,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1407,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1407,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1407,
+        "locktype": "transactionid",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "ExclusiveLock",
+        "granted": true
+      },
+      {
+        "pid": 1407,
+        "locktype": "virtualxid",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "ExclusiveLock",
+        "granted": true
+      },
+      {
+        "pid": 1409,
+        "locktype": "advisory",
+        "classid": "2152014012",
+        "objid": "1320195508",
+        "objsubid": 1,
+        "mode": "ExclusiveLock",
+        "granted": false
+      },
+      {
+        "pid": 1409,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "RowShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1409,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1409,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1409,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1409,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1409,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "RowShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1409,
+        "locktype": "transactionid",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "ExclusiveLock",
+        "granted": true
+      },
+      {
+        "pid": 1409,
+        "locktype": "virtualxid",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "ExclusiveLock",
+        "granted": true
+      }
+    ],
+    "onlyTheseTwoRequestsLaunchedByAdapter": true,
+    "sameCanonicalFirst": true,
+    "noHigherFamilyHeldBeforeFirst": true
+  }
+}

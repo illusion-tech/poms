@@ -1,0 +1,35 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:05:23.853Z",
+  "completedAt": "2026-11-04T00:05:23.870Z",
+  "operationId": "ProjectCostController_publishInternalCostRateVersion",
+  "method": "POST",
+  "path": "/api/internal-cost-rate-versions",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-00302-dea2f474",
+  "requestBody": {
+    "rateScopeType": "role",
+    "roleCode": "R4E21-e41-historical",
+    "rateUnit": "hour",
+    "rateValue": "125.0000",
+    "currency": "CNY",
+    "effectiveFrom": "2026-11-01",
+    "changeReason": "R4E21-e41-真实费率发布",
+    "supersedesRateVersionId": "6ac22c6f-1be8-4e09-9f42-78f1a3304888",
+    "expectedVersion": 1
+  },
+  "status": 201,
+  "responseBody": {
+    "approvalRecordId": null,
+    "businessStatusAfter": "active",
+    "confirmationRecordId": null,
+    "resultStatus": "success",
+    "targetId": "c24a4d84-36e1-43c7-8b4e-6e66f6be362d",
+    "targetType": "InternalCostRateVersion",
+    "todoItemIds": []
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

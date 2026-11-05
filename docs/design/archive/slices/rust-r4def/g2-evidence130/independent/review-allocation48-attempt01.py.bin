@@ -1,0 +1,239 @@
+"""Independent mathematical proposal review. Writes only reviewer evidence."""
+from pathlib import Path
+import ast
+import hashlib
+import itertools
+import json
+import random
+from datetime import datetime, timezone
+
+ROOT = Path('E:/projects/worktrees/poms-r3hijk-next28/poms')
+AUTHOR = Path('E:/projects/worktrees/poms-r4f-cost-governance/poms/tools/rust-r4def/F/proposal-mainbasis45')
+OWN = ROOT / 'tmp/rust-r4def/independent'
+CAP = OWN / 'allocation-proposal45-review48-inputs01'
+assert not CAP.exists()
+CAP.mkdir(parents=True)
+
+def digest(data):
+    return hashlib.sha256(data).hexdigest()
+
+pins = []
+def capture(file, alias):
+    data = file.read_bytes()
+    dest = CAP / (alias + '.bin')
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    with dest.open('xb') as f:
+        f.write(data)
+    pin = {'file': str(file), 'bytes': len(data), 'sha256': digest(data), 'snapshot': str(dest)}
+    pins.append(pin)
+    return data
+
+decision_path = ROOT / 'docs/design/rust-r4def/g2-allocation-decision48.json'
+decision_raw = capture(decision_path, 'root/g2-allocation-decision48.json')
+assert digest(decision_raw) == '7e32d833c29e2309d3dd6f86f58eed2f907564298d0cfc2d731031dcf7c4b4b3'
+decision = json.loads(decision_raw)
+assert decision['implementationAuthorizedByThisRecord'] is False
+capture(ROOT / 'docs/design/rust-r4def/g2-allocation-checkpoint48.md', 'root/g2-allocation-checkpoint48.md')
+manifest_raw = capture(AUTHOR / 'proposal45-manifest.json', 'proposal/proposal45-manifest.json')
+assert digest(manifest_raw) == '21e42cc9c027efe25bd7714aba81c6a2a1051f45653e8edaf3c89a4c69ea3943'
+manifest = json.loads(manifest_raw)
+for p in manifest['artifacts']:
+    data = capture(AUTHOR / p['file'], 'proposal/' + p['file'])
+    assert len(data) == p['bytes']
+    assert digest(data) == p['rawBytesSha256']
+for p in decision['previousF25Sources']:
+    assert digest(capture(ROOT / p['file'], 'root/' + p['file'])) == p['sha256']
+    author_file = AUTHOR.parents[4] / p['file']
+    # Resolve author workspace explicitly rather than inferring from a filename.
+    author_file = Path('E:/projects/worktrees/poms-r4f-cost-governance/poms') / p['file']
+    assert digest(capture(author_file, 'author-f25/' + p['file'])) == p['sha256']
+for p in decision['scope']['unchangedGuards']:
+    assert digest(capture(ROOT / p['file'], 'guards/' + p['file'])) == p['sha256']
+capture(ROOT / 'docs/design/rust-r4def/joint-g1-06/schema06.sql', 'root/schema06.sql')
+reference = (CAP / 'proposal/reference45.py.bin').read_bytes()
+assert digest(reference) == '53ea4ca8e4141c097ac2fe34081bbc61c0e8c84278817d27b3ab97507985a74c'
+# Read/execute only the frozen arithmetic reference. Do not run author check45,
+# which writes the author's receipt and vectors.
+tree = ast.parse(reference)
+assert all(isinstance(node, (ast.Expr, ast.Assign, ast.FunctionDef)) for node in tree.body)
+namespace = {}
+exec(compile(tree, str(CAP / 'proposal/reference45.py.bin'), 'exec'), namespace)
+allocate = namespace['allocate']
+bounded = namespace['bounded']
+hamilton = namespace['hamilton']
+MAX = namespace['MAX_MONEY']
+
+def oracle_hamilton(total, shares):
+    ordered = sorted(shares)
+    denominator = sum(w for _, w in ordered)
+    base = [total * w // denominator for _, w in ordered]
+    residual = total - sum(base)
+    ranks = sorted(range(len(ordered)), key=lambda i: (-(total * ordered[i][1] % denominator), ordered[i][0]))
+    for i in ranks[:residual]:
+        base[i] += 1
+    return dict(zip((k for k, _ in ordered), base))
+
+def feasible_vectors(total, low, high, i=0, prefix=()):
+    if i == len(low) - 1:
+        if low[i] <= total <= high[i]:
+            yield prefix + (total,)
+        return
+    start = max(low[i], total - sum(high[i+1:]))
+    end = min(high[i], total - sum(low[i+1:]))
+    for value in range(start, end + 1):
+        yield from feasible_vectors(total - value, low, high, i + 1, prefix + (value,))
+
+def best_objective(total, shares, low, high):
+    ordered = sorted(shares)
+    denominator = sum(w for _, w in ordered)
+    best = None
+    for vector in feasible_vectors(total, low, high):
+        cost = sum((x * denominator - total * w) ** 2 for x, (_, w) in zip(vector, ordered))
+        # Exact squared-quota cost, then lexicographically most cents to the
+        # earliest UUID; no copy of the proposal's deficit loop.
+        candidate = (cost, tuple(-x for x in vector), vector)
+        if best is None or candidate[:2] < best[:2]:
+            best = candidate
+    assert best is not None
+    return best[2]
+
+properties = 0
+unknown_rejections = 0
+upper_objectives = 0
+lower_objectives = 0
+lower_decrement_domains = 0
+max_correction_bound = 0
+
+def inspect_layers(total, shares, primary):
+    global properties, unknown_rejections
+    if total[primary] is None:
+        try:
+            allocate(total, shares, primary)
+        except ValueError:
+            unknown_rejections += 1
+            return
+        raise AssertionError('unknown primary accepted')
+    result = allocate(total, shares, primary)
+    ordered = sorted(shares)
+    assert result == allocate(total, list(reversed(shares)), primary)
+    expected_primary = oracle_hamilton(total[primary], ordered)
+    assert {k: row[primary] for k, row in result.items()} == expected_primary
+    for layer in range(3):
+        if total[layer] is None:
+            assert all(row[layer] is None for row in result.values())
+        else:
+            assert sum(row[layer] for row in result.values()) == total[layer]
+    for key, weight in ordered:
+        row = result[key]
+        assert all(value is None or 0 <= value <= MAX for value in row)
+        if all(value is not None for value in total):
+            assert row[0] + row[1] == row[2]
+        if row[2] is not None:
+            assert all(value is None or value <= row[2] for value in row[:2])
+        if weight == 0:
+            assert all(value is None or value == 0 for value in row)
+    properties += 1
+
+for count in [1, 2, 3]:
+    for weights in itertools.product(range(4), repeat=count):
+        if not any(weights):
+            continue
+        shares = [(i.to_bytes(16, 'big'), w) for i, w in enumerate(weights)]
+        keys = [key for key, _ in shares]
+        denominator = sum(weights)
+        for gross in range(13):
+            gross_capacity = oracle_hamilton(gross, shares)
+            for component in range(gross + 1):
+                full = [component, gross - component, gross]
+                for mask in itertools.product([False, True], repeat=3):
+                    partial = [value if known else None for value, known in zip(full, mask)]
+                    for primary in range(3):
+                        inspect_layers(partial, shares, primary)
+                if gross > 9:
+                    continue
+                got = bounded(component, shares, upper=gross_capacity)
+                expected = best_objective(component, shares, [0] * count, [gross_capacity[k] for k in keys])
+                assert tuple(got[k] for k in keys) == expected
+                upper_objectives += 1
+                primary_lower = oracle_hamilton(component, shares)
+                got = bounded(gross, shares, lower=primary_lower)
+                expected = best_objective(gross, shares, [primary_lower[k] for k in keys], [gross] * count)
+                assert tuple(got[k] for k in keys) == expected
+                lower_objectives += 1
+                floors = [gross * w // denominator for w in weights]
+                delta = gross - sum(max(q, primary_lower[k]) for q, k in zip(floors, keys))
+                max_correction_bound = max(max_correction_bound, abs(delta))
+                if delta < 0:
+                    lower_decrement_domains += 1
+                assert abs(delta) <= count
+
+random_cases = 0
+rng = random.Random(20261104)
+for count in [1, 2, 3, 6, 17, 64]:
+    for sample in range(32):
+        weights = [rng.randrange(MAX + 1) for _ in range(count)]
+        if count > 1:
+            weights[0] = 0
+        if not any(weights):
+            weights[-1] = 1
+        shares = [(i.to_bytes(16, 'big'), w) for i, w in enumerate(weights)]
+        gross = MAX if sample % 2 == 0 else rng.randrange(MAX + 1)
+        net = rng.randrange(gross + 1)
+        full = [net, gross - net, gross]
+        for mask in itertools.product([False, True], repeat=3):
+            partial = [value if known else None for value, known in zip(full, mask)]
+            for primary in range(3):
+                inspect_layers(partial, shares, primary)
+                random_cases += 1
+
+# Explicit counterexamples and extreme null combinations.
+simple = [(bytes(16), 1), ((1).to_bytes(16, 'big'), 1)]
+counterexample = allocate([11, 1, 12], simple, 2)
+assert [r[2] for r in counterexample.values()] == [6, 6]
+assert [r[0] for r in counterexample.values()] == [6, 5]
+assert [r[1] for r in counterexample.values()] == [0, 1]
+assert [r[2] for r in allocate([11, 1, 12], simple, 0).values()] == [7, 5]
+assert [r[2] for r in allocate([11, 1, 12], simple, 1).values()] == [7, 5]
+for primary in [0, 1]:
+    answer = allocate([MAX, MAX, None], simple, primary)
+    assert all(row[2] is None for row in answer.values())
+
+classic = [(i.to_bytes(16, 'big'), w) for i, w in enumerate([1500,1500,900,500,500,200])]
+uncapped_net = oracle_hamilton(25, classic)
+gross_caps = oracle_hamilton(26, classic)
+capped_net = bounded(25, classic, upper=gross_caps)
+assert any(uncapped_net[k] > gross_caps[k] for k in uncapped_net)
+assert sum(capped_net.values()) == 25
+assert all(capped_net[k] <= gross_caps[k] for k in capped_net)
+clipped = [min(uncapped_net[k], gross_caps[k]) for k, _ in classic]
+assert sum(clipped) < 25
+
+def write_json(path, value):
+    with path.open('x', encoding='utf8', newline='\n') as f:
+        json.dump(value, f, ensure_ascii=False, indent=2)
+        f.write('\n')
+
+created = datetime.now(timezone.utc).isoformat()
+report = {
+ 'kind': 'independent-selected-main-basis-proposal45-math-review48',
+ 'capturedAt': created,
+ 'decisionSha256': digest(decision_raw),
+ 'proposalManifestSha256': digest(manifest_raw),
+ 'referenceSha256': digest(reference),
+ 'propertiesIncludingKnownNullPermutationZeroWeightsAndLargeAmounts': properties,
+ 'unknownSelectedLayerRejections': unknown_rejections,
+ 'exhaustiveUpperCapacityObjectiveCases': upper_objectives,
+ 'exhaustiveLowerCapacityObjectiveCases': lower_objectives,
+ 'lowerDerivedDomainsWithNegativeInitialDeltaObservedInSmallDomain': lower_decrement_domains,
+ 'maxAbsDerivedLowerDeltaInSmallDomain': max_correction_bound,
+ 'largeDomainInvocations': random_cases,
+ 'failed': 0,
+ 'objectiveOracle': 'Enumerate every feasible small-domain integer vector, minimize exact squared quota deviation; break equal minima lexicographically toward smaller UUID. Independent from reference greedy loop.',
+ 'smallDomain': {'projects': [1,2,3], 'weights': '0..3 except all zero', 'grossCents': '0..12 for properties;0..9 for objective', 'allSubordinateComponents': '0..gross', 'knownNullCombinations': 8, 'primaryLayers': 3},
+ 'largeDomain': {'projects': [1,2,3,6,17,64], 'samplesPerCount':32, 'seed':20261104, 'maxMoneyCents':str(MAX)},
+ 'clippingCounterexample': {'net':25,'gross':26,'weights':[1500,1500,900,500,500,200],'unconstrainedNet':list(uncapped_net.values()),'grossCapacity':list(gross_caps.values()),'clippedNetSum':sum(clipped),'correctBoundedNet':list(capped_net.values())},
+ 'productionCodeExecuted':False,'databaseOrHttpExecuted':False,'authorFilesModified':False,'productModified':False,
+}
+write_json(CAP / 'manifest.json', {'kind':'independent-proposal48-exact-inputs','capturedAt':created,'pins':pins})
+write_json(OWN / 'allocation-proposal45-review48-math.json', report)
+print(json.dumps({'status':'pure mathematical checks passed','properties':properties,'unknownPrimaryRejected':unknown_rejections,'upperObjectives':upper_objectives,'lowerObjectives':lower_objectives,'negativeLowerDeltaCases':lower_decrement_domains,'failed':0,'pins':len(pins)},ensure_ascii=False))

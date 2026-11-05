@@ -1,0 +1,3 @@
+{
+  "query": "query{repository(owner:\"illusion-tech\",name:\"poms\"){stage:issue(number:101){number state body subIssues(first:100){nodes{number title state}}} root:issue(number:57){number state body} upstream:issue(number:102){number state} issues(first:100,states:OPEN,orderBy:{field:CREATED_AT,direction:DESC}){nodes{number title state}}}}"
+}

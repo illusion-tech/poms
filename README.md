@@ -216,3 +216,11 @@ deno run --allow-read tools/format-md-tables.ts --check README.md
 - [实施治理规则](docs/design/implementation-governance-gates.md)
 
 仓库只保存配置模板和文档，不提交真实证书、私钥、数据库密码、会话凭据或对象存储密钥。功能范围应结合当前代码和对应验收证据判断，历史设计与归档材料用于说明决策及演进过程。
+
+### 2026-11-05 R4 第二批 G4 归档就绪
+
+本批D7/E11/F12共30个唯一HTTP已完成限定实现与实际验收，[独立G3](docs/design/archive/slices/rust-r4def/terminal170/independent-g3.json.bin)及[固定提交复核](docs/design/archive/slices/rust-r4def/terminal170/fixed-commit-review167.json.bin)通过。当前为G4Ready，四项#107/#108/#109/#106仍Open；Rust技术surface240，正式仍210、本批正式新增0。实施提交main集成已核；本批归档与Ready治理提交、独立关闭许可、实际线上G4和非作者实际终审继续推进；#101/#57保持Open。
+
+实现提交 `d6c3cff84dd96c981bab075d3f4aca3e98c76c4b`；永久S4 `4f0ad88e78622a75b88b4e3cc72aded9da67458a` 保留。[验收](docs/design/archive/slices/rust-r4def/terminal170/final-validation160.json.bin)、[精确清理](docs/design/archive/slices/rust-r4def/terminal170/cleanup-actions158.json.bin)、[停止回执](docs/design/archive/slices/rust-r4def/terminal170/stopped157.json.bin)和[原字节归档](docs/design/archive/slices/rust-r4def/archive-origin-map130.json)各自绑定原件；[机器状态](docs/design/rust-r4def-delivery-status.json)镜像同一Gate。完整spec为 **239 paths / 293 operations / 626 schemas**、client **616**。原G1、Block、Failed、Partial、ignored、Native参考与Native ORM exit 1均保留原分类，不升格为通过。
+
+完整R4阶段验收、R5、部署/切流、性能、S3 WORM与真实lost COMMIT ACK均未被本批认证完成；移交事实和已确认成本不绕过R5准入或自动纳入经营口径。另保留既有R2缺口：`createUser`携带`initialRoleIds`返回500（`actualapi32/00011`，`users/service.rs:469 intentionalProtocol`）；由#57后续跟进，本批不修复，也不宣称Rust全局正确性已经完成。

@@ -1,0 +1,70 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:05:23.685Z",
+  "completedAt": "2026-11-04T00:05:23.706Z",
+  "operationId": "ProjectCostController_getSharedCostAllocationBasis",
+  "method": "GET",
+  "path": "/api/shared-cost-allocation-bases/62df4598-ace0-4273-8929-7c0e126e375d",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-00296-e4f202bb",
+  "requestBody": null,
+  "status": 200,
+  "responseBody": {
+    "allocationMethod": "weighted",
+    "basisSummaryProjection": {
+      "displayText": "后续治理读取最近已认证source版本；不改原始E basis、不自动included",
+      "fieldPackageKey": "operating-finance",
+      "mode": "full",
+      "reasonCode": "allowed",
+      "value": "后续治理读取最近已认证source版本；不改原始E basis、不自动included"
+    },
+    "basisType": "single-source-project",
+    "createdAt": "2026-11-04T00:05:23.389Z",
+    "currency": "CNY",
+    "effectiveAt": "2026-11-04T00:05:23.389Z",
+    "effectiveBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+    "evidenceId": "e22c0c67-dd38-4415-9bbb-8a1466203c8f",
+    "financialProjection": {
+      "displayText": "{\"algorithm\":\"largest-remainder-cents-v1\",\"currency\":\"CNY\",\"measurementAmount\":\"106.00\",\"measurementBasis\":\"including-tax\",\"sourceAmountExcludingTax\":\"100.00\",\"sourceAmountIncludingTax\":\"106.00\",\"sourceCostRecords\":[{\"amountExcludingTax\":\"100.00\",\"amountIncludingTax\":\"106.00\",\"costRecordId\":\"7bc61359-745a-44d6-966f-166d0b3f5998\",\"costVersion\":2,\"currency\":\"CNY\",\"occurredOn\":\"2026-11-04\",\"projectId\":\"c19e708b-522c-45e9-90d4-81de7295545b\",\"sourceId\":\"99c0557d-193f-47d9-bfd4-8e3ef5097021\",\"sourceType\":\"payable-record\",\"sourceVersion\":3,\"taxCostAmount\":\"6.00\"}],\"sourceTaxCostAmount\":\"6.00\"}",
+      "fieldPackageKey": "operating-finance",
+      "mode": "full",
+      "reasonCode": "allowed",
+      "value": "{\"algorithm\":\"largest-remainder-cents-v1\",\"currency\":\"CNY\",\"measurementAmount\":\"106.00\",\"measurementBasis\":\"including-tax\",\"sourceAmountExcludingTax\":\"100.00\",\"sourceAmountIncludingTax\":\"106.00\",\"sourceCostRecords\":[{\"amountExcludingTax\":\"100.00\",\"amountIncludingTax\":\"106.00\",\"costRecordId\":\"7bc61359-745a-44d6-966f-166d0b3f5998\",\"costVersion\":2,\"currency\":\"CNY\",\"occurredOn\":\"2026-11-04\",\"projectId\":\"c19e708b-522c-45e9-90d4-81de7295545b\",\"sourceId\":\"99c0557d-193f-47d9-bfd4-8e3ef5097021\",\"sourceType\":\"payable-record\",\"sourceVersion\":3,\"taxCostAmount\":\"6.00\"}],\"sourceTaxCostAmount\":\"6.00\"}"
+    },
+    "governanceCertification": "verified",
+    "id": "62df4598-ace0-4273-8929-7c0e126e375d",
+    "measurementBasis": "including-tax",
+    "results": [
+      {
+        "basisId": "62df4598-ace0-4273-8929-7c0e126e375d",
+        "createdAt": "2026-11-04T00:05:23.389Z",
+        "effectiveAt": "2026-11-04T00:05:23.389Z",
+        "evidenceId": "0b7a6acd-8a0d-4fd0-afa0-6e9acf68ebc8",
+        "financialProjection": {
+          "displayText": "{\"allocatedAmount\":\"106.00\",\"allocationRatio\":\"1.000000\",\"allocationSummary\":\"同项目单源100%分摊，精确金额106.00\",\"allocationWeight\":\"1.000000\",\"amountExcludingTax\":\"100.00\",\"amountIncludingTax\":\"106.00\",\"currency\":\"CNY\",\"residualMinorUnits\":0,\"taxCostAmount\":\"6.00\"}",
+          "fieldPackageKey": "operating-finance",
+          "mode": "full",
+          "reasonCode": "allowed",
+          "value": "{\"allocatedAmount\":\"106.00\",\"allocationRatio\":\"1.000000\",\"allocationSummary\":\"同项目单源100%分摊，精确金额106.00\",\"allocationWeight\":\"1.000000\",\"amountExcludingTax\":\"100.00\",\"amountIncludingTax\":\"106.00\",\"currency\":\"CNY\",\"residualMinorUnits\":0,\"taxCostAmount\":\"6.00\"}"
+        },
+        "governanceCertification": "verified",
+        "id": "e17f425d-80ea-4706-bc5f-3ee1252da4f6",
+        "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+        "rowVersion": 2,
+        "status": "superseded",
+        "supersedesId": null,
+        "updatedAt": "2026-11-04T00:05:23.621Z"
+      }
+    ],
+    "rowVersion": 2,
+    "sourceCostScopeKey": "cost-scope:28bb8134df282fbe759e42bfcb77665f31f486ab595e4b348a02dec27d083b66",
+    "sourceRecordCount": 1,
+    "status": "superseded",
+    "supersedesId": null,
+    "updatedAt": "2026-11-04T00:05:23.619Z"
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

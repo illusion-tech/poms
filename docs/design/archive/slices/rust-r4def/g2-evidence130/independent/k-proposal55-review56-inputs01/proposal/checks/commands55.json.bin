@@ -1,0 +1,38 @@
+{
+  "kind": "K55-local-command-receipt",
+  "capturedAtUtc": "2026-11-04T03:02:00.9961169Z",
+  "commands": [
+    {
+      "tool": "deno run --cached-only --allow-read --allow-write tools/format-md-tables.ts",
+      "files": [
+        "PROPOSAL55.md",
+        "HANDOFF55.md"
+      ],
+      "exitCode": 0,
+      "rawOutput": "checks/md-format55.log"
+    },
+    {
+      "tool": "deno run --cached-only --allow-read tools/format-md-tables.ts --check",
+      "files": [
+        "PROPOSAL55.md",
+        "HANDOFF55.md"
+      ],
+      "exitCode": 0,
+      "rawOutput": "checks/md-check55.log"
+    },
+    {
+      "tool": "python JSON parse",
+      "files": [
+        "proposal55.json",
+        "vectors55.json"
+      ],
+      "exitCode": 0,
+      "rawOutput": "checks/json-parse55.log"
+    }
+  ],
+  "actualProductTestCount": 0,
+  "actualPGExecuted": false,
+  "actualHTTPExecuted": false,
+  "actualObjectIOExecuted": false,
+  "networkUsed": false
+}

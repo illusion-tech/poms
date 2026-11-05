@@ -1,0 +1,147 @@
+{
+  "kind": "actual-effective-K98-auto-Link-four-barriers-and-current-D-recovery113",
+  "complete": true,
+  "sourceRuntime": "tmp/rust-r4def/root/final-runtime110.json",
+  "freshAutoLinkAndAuditProof": "tmp/rust-r4def/root/auto-link-noop109/fresh-auto-link109.json",
+  "fourActualBarriers": [
+    {
+      "kind": "actual-no-dirty-canonical-group-barrier",
+      "label": "repeated-link",
+      "waiter": {
+        "pid": 1715,
+        "query": "SELECT pg_advisory_xact_lock(hashtextextended($1,0))",
+        "wait_event": "advisory",
+        "wait_event_type": "Lock",
+        "granted": false
+      },
+      "heldBeforeRequest": true,
+      "hitProven": true,
+      "granted": false,
+      "released": true,
+      "HTTP": "tmp/rust-r4def/root/api32/01595-AttachmentController_link.json",
+      "status": 200,
+      "before": "tmp/rust-r4def/root/auto-link-noop109/repeated-link-before.json",
+      "blocked": "tmp/rust-r4def/root/auto-link-noop109/repeated-link-blocked.json",
+      "after": "tmp/rust-r4def/root/auto-link-noop109/repeated-link-after.json",
+      "businessAndAuditUnchanged": true
+    },
+    {
+      "kind": "actual-first-proof-stale-noop-rejection",
+      "label": "repeated-link-active-set-changed",
+      "waiter": {
+        "pid": 1715,
+        "query": "SELECT json_build_object('id',id::text,'number',contract_no,'projectId',project_id::text) AS data FROM poms.contract WHERE id=ANY($1::text[]::uuid[])",
+        "wait_event": "relation",
+        "wait_event_type": "Lock",
+        "blockers": [
+          1712
+        ]
+      },
+      "heldBeforeRequest": true,
+      "sourceReadBoundary": "contract target access follows first Attachment/active-set capture; source-pinned K86/K98 implementation",
+      "otherMutation": "tmp/rust-r4def/root/api32/01598-AttachmentController_unlink.json",
+      "HTTP": "tmp/rust-r4def/root/api32/01597-AttachmentController_link.json",
+      "status": 409,
+      "before": "tmp/rust-r4def/root/auto-link-noop109/repeated-link-active-set-changed-before.json",
+      "changed": "tmp/rust-r4def/root/auto-link-noop109/repeated-link-active-set-changed-other-committed.json",
+      "after": "tmp/rust-r4def/root/auto-link-noop109/repeated-link-active-set-changed-after.json",
+      "staleRequestAddedNoWrites": true
+    },
+    {
+      "kind": "actual-no-dirty-canonical-group-barrier",
+      "label": "inactive-unlink",
+      "waiter": {
+        "pid": 1715,
+        "query": "SELECT pg_advisory_xact_lock(hashtextextended($1,0))",
+        "wait_event": "advisory",
+        "wait_event_type": "Lock",
+        "granted": false
+      },
+      "heldBeforeRequest": true,
+      "hitProven": true,
+      "granted": false,
+      "released": true,
+      "HTTP": "tmp/rust-r4def/root/api32/01600-AttachmentController_unlink.json",
+      "status": 200,
+      "before": "tmp/rust-r4def/root/auto-link-noop109/inactive-unlink-before.json",
+      "blocked": "tmp/rust-r4def/root/auto-link-noop109/inactive-unlink-blocked.json",
+      "after": "tmp/rust-r4def/root/auto-link-noop109/inactive-unlink-after.json",
+      "businessAndAuditUnchanged": true
+    },
+    {
+      "kind": "actual-first-proof-stale-noop-rejection",
+      "label": "inactive-unlink-attachment-changed",
+      "waiter": {
+        "pid": 1705,
+        "query": "SELECT json_build_object('id',id::text,'number',contract_no,'projectId',project_id::text) AS data FROM poms.contract WHERE id=ANY($1::text[]::uuid[])",
+        "wait_event": "relation",
+        "wait_event_type": "Lock",
+        "blockers": [
+          1712
+        ]
+      },
+      "heldBeforeRequest": true,
+      "sourceReadBoundary": "contract target access follows first Attachment/active-set capture; source-pinned K86/K98 implementation",
+      "otherMutation": "tmp/rust-r4def/root/api32/01602-AttachmentController_update.json",
+      "HTTP": "tmp/rust-r4def/root/api32/01601-AttachmentController_unlink.json",
+      "status": 409,
+      "before": "tmp/rust-r4def/root/auto-link-noop109/inactive-unlink-attachment-changed-before.json",
+      "changed": "tmp/rust-r4def/root/auto-link-noop109/inactive-unlink-attachment-changed-other-committed.json",
+      "after": "tmp/rust-r4def/root/auto-link-noop109/inactive-unlink-attachment-changed-after.json",
+      "staleRequestAddedNoWrites": true
+    }
+  ],
+  "allFourEffectivePass": true,
+  "preparationACKResumed": "tmp/rust-r4def/root/api32/01628-ProjectHandoverController_prepareProjectHandover.json",
+  "preparationNotReplayed": true,
+  "previousFailuresRetained": [
+    "109: overstrong restore-old-hash assumption",
+    "111: helper used wrong request identifier property; 400 and no preparation",
+    "112: helper compared new envelope IDs; preparation ACK preserved"
+  ],
+  "frozenContractContentUnchanged": true,
+  "newMaterialEnvelopeIdentityObserved": true,
+  "newHandoverId": "08e9c60c-f071-4ce9-9b1d-694b273998c0",
+  "newVersion": 6,
+  "freshConfirmations": 3,
+  "R5AdmissionAllowed": false,
+  "records": [
+    {
+      "op": "ProjectHandoverController_getProjectHandoverDetailByProject",
+      "status": 200,
+      "receiptId": "tmp/rust-r4def/root/api32/01638-ProjectHandoverController_getProjectHandoverDetailByProject.json"
+    },
+    {
+      "op": "ProjectHandoverController_confirmProjectHandoverParticipant",
+      "status": 200,
+      "receiptId": "tmp/rust-r4def/root/api32/01639-ProjectHandoverController_confirmProjectHandoverParticipant.json"
+    },
+    {
+      "op": "ProjectHandoverController_confirmProjectHandoverParticipant",
+      "status": 200,
+      "receiptId": "tmp/rust-r4def/root/api32/01640-ProjectHandoverController_confirmProjectHandoverParticipant.json"
+    },
+    {
+      "op": "ProjectHandoverController_confirmProjectHandoverParticipant",
+      "status": 200,
+      "receiptId": "tmp/rust-r4def/root/api32/01641-ProjectHandoverController_confirmProjectHandoverParticipant.json"
+    },
+    {
+      "op": "ProjectHandoverController_confirmProjectHandover",
+      "status": 200,
+      "receiptId": "tmp/rust-r4def/root/api32/01642-ProjectHandoverController_confirmProjectHandover.json"
+    },
+    {
+      "op": "AttachmentHandoverController_refreshChecklist",
+      "status": 200,
+      "receiptId": "tmp/rust-r4def/root/api32/01643-AttachmentHandoverController_refreshChecklist.json"
+    },
+    {
+      "op": "ProjectHandoverController_getProjectHandoverDetailByProject",
+      "status": 200,
+      "receiptId": "tmp/rust-r4def/root/api32/01644-ProjectHandoverController_getProjectHandoverDetailByProject.json"
+    }
+  ],
+  "G3Certified": false,
+  "G4Certified": false
+}

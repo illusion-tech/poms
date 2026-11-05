@@ -1,0 +1,40 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T02:43:45.885Z",
+  "completedAt": "2026-11-04T02:43:46.481Z",
+  "operationId": "ProjectCostController_replaceSharedCostAllocationResult",
+  "method": "POST",
+  "path": "/api/shared-cost-allocation-results/39593883-da46-4ec2-a0eb-74bfff9eb84d:replace",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-01216-7de7a678",
+  "requestBody": {
+    "expectedVersion": 1,
+    "expectedBasisVersion": 1,
+    "projectShareItems": [
+      {
+        "projectId": "2410df0c-c530-4223-b857-1a83a411b57b",
+        "allocationWeight": "1.000000",
+        "allocatedAmount": "0.02",
+        "allocationRatio": "0.200000",
+        "allocationSummary": "R4F44-f60-明确完整项目份额"
+      },
+      {
+        "projectId": "a275878e-459d-45d9-a2f4-37874d68c7f2",
+        "allocationWeight": "4.000000",
+        "allocatedAmount": "0.10",
+        "allocationRatio": "0.800000",
+        "allocationSummary": "R4F44-f60-明确完整项目份额"
+      }
+    ],
+    "replacementReason": "完整两项目份额按明确1:4权重替代，来源仍为真实0.12"
+  },
+  "status": 500,
+  "responseBody": {
+    "message": "Internal server error",
+    "statusCode": 500
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

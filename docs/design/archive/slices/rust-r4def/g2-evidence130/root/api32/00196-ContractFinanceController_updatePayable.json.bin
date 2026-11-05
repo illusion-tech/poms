@@ -1,0 +1,24 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:05:20.841Z",
+  "completedAt": "2026-11-04T00:05:20.859Z",
+  "operationId": "ContractFinanceController_updatePayable",
+  "method": "PATCH",
+  "path": "/api/payable-records/99c0557d-193f-47d9-bfd4-8e3ef5097021",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-00196-8176522b",
+  "requestBody": {
+    "amountExcludingTax": "101.00",
+    "expectedVersion": 1
+  },
+  "status": 422,
+  "responseBody": {
+    "error": "Unprocessable Entity",
+    "message": "payable-record 99c0557d-193f-47d9-bfd4-8e3ef5097021 已存在统一成本映射 7bc61359-745a-44d6-966f-166d0b3f5998，当前不允许继续更新采购承诺记录；如需调整请走替代/作废链",
+    "statusCode": 422
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

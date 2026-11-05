@@ -1,0 +1,50 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T02:43:26.768Z",
+  "completedAt": "2026-11-04T02:43:27.163Z",
+  "operationId": "ProjectCostController_confirmSharedCostAllocationBasis",
+  "method": "POST",
+  "path": "/api/shared-cost-allocation-bases",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-01175-4ba626bd",
+  "requestBody": {
+    "basisType": "R4F44-f60",
+    "allocationMethod": "weighted",
+    "sourceCostRecordIds": [
+      "a9f41b40-6599-4c22-affc-111ee41b7bec"
+    ],
+    "measurementBasis": "including-tax",
+    "expectedSourceVersions": [
+      {
+        "costRecordId": "a9f41b40-6599-4c22-affc-111ee41b7bec",
+        "expectedVersion": 3
+      }
+    ],
+    "projectShareItems": [
+      {
+        "projectId": "2410df0c-c530-4223-b857-1a83a411b57b",
+        "allocationWeight": "1.000000",
+        "allocatedAmount": "0.04",
+        "allocationRatio": "0.333333",
+        "allocationSummary": "R4F44-f60-明确完整项目份额"
+      },
+      {
+        "projectId": "a275878e-459d-45d9-a2f4-37874d68c7f2",
+        "allocationWeight": "2.000000",
+        "allocatedAmount": "0.08",
+        "allocationRatio": "0.666667",
+        "allocationSummary": "R4F44-f60-明确完整项目份额"
+      }
+    ],
+    "basisSummary": "R4F44-f60-具证来源、权重与完整份额，不自动included"
+  },
+  "status": 500,
+  "responseBody": {
+    "message": "Internal server error",
+    "statusCode": 500
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

@@ -1,0 +1,23 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:05:23.301Z",
+  "completedAt": "2026-11-04T00:05:23.317Z",
+  "operationId": "ContractFinanceController_confirmPayment",
+  "method": "POST",
+  "path": "/api/payment-records/7a07dabf-7eb4-4c73-8ddf-1872849bf1c3:confirm",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-00284-0a5a4ef0",
+  "requestBody": {
+    "expectedVersion": 2
+  },
+  "status": 422,
+  "responseBody": {
+    "error": "Unprocessable Entity",
+    "message": "只有已登记状态的付款记录可以确认生效，当前状态: confirmed",
+    "statusCode": 422
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

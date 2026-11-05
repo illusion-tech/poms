@@ -1,0 +1,511 @@
+{
+  "kind": "independent-offline-effective-real-races89-audit",
+  "at": "2026-11-04T04:33:37.366Z",
+  "cases": [
+    {
+      "id": "R62-01-duplicate-mapping",
+      "source": "tmp/rust-r4def/root/races62-r85/result.json",
+      "statuses": [
+        201,
+        409
+      ],
+      "pairReceiptIds": [
+        "tmp/rust-r4def/root/api32/01456-ProjectCostController_createProjectActualCostRecord.json",
+        "tmp/rust-r4def/root/api32/01457-ProjectCostController_createProjectActualCostRecord.json"
+      ],
+      "realTwoWaiterBarrier": true,
+      "assertionCount": 6,
+      "allRequiredAssertionsPassed": true,
+      "independentSameUserSessionRows": true,
+      "case09DisjointProjectAndRealScopeFamilyProof": true,
+      "passed": true
+    },
+    {
+      "id": "R62-02-expense-void-map",
+      "source": "tmp/rust-r4def/root/races62-r85/result.json",
+      "statuses": [
+        201,
+        422
+      ],
+      "pairReceiptIds": [
+        "tmp/rust-r4def/root/api32/01460-ProjectCostController_createProjectActualCostRecord.json",
+        "tmp/rust-r4def/root/api32/01461-ProjectCostController_voidExpenseRecord.json"
+      ],
+      "realTwoWaiterBarrier": true,
+      "assertionCount": 4,
+      "allRequiredAssertionsPassed": true,
+      "independentSameUserSessionRows": true,
+      "case09DisjointProjectAndRealScopeFamilyProof": true,
+      "passed": true
+    },
+    {
+      "id": "R62-03-labor-replace",
+      "source": "tmp/rust-r4def/root/races62-r88/result.json",
+      "statuses": [
+        201,
+        409
+      ],
+      "pairReceiptIds": [
+        "tmp/rust-r4def/root/api32/01478-ProjectCostController_replaceLaborCostRecord.json",
+        "tmp/rust-r4def/root/api32/01479-ProjectCostController_replaceLaborCostRecord.json"
+      ],
+      "realTwoWaiterBarrier": true,
+      "assertionCount": 7,
+      "allRequiredAssertionsPassed": true,
+      "independentSameUserSessionRows": true,
+      "case09DisjointProjectAndRealScopeFamilyProof": true,
+      "passed": true
+    },
+    {
+      "id": "R62-04-stage-confirm",
+      "source": "tmp/rust-r4def/root/races62-r88/result.json",
+      "statuses": [
+        201,
+        409
+      ],
+      "pairReceiptIds": [
+        "tmp/rust-r4def/root/api32/01484-ProjectCostController_confirmCostStageAttribution.json",
+        "tmp/rust-r4def/root/api32/01485-ProjectCostController_confirmCostStageAttribution.json"
+      ],
+      "realTwoWaiterBarrier": true,
+      "assertionCount": 6,
+      "allRequiredAssertionsPassed": true,
+      "independentSameUserSessionRows": true,
+      "case09DisjointProjectAndRealScopeFamilyProof": true,
+      "passed": true
+    },
+    {
+      "id": "R62-05-stage-reclassify",
+      "source": "tmp/rust-r4def/root/races62-r88/result.json",
+      "statuses": [
+        201,
+        409
+      ],
+      "pairReceiptIds": [
+        "tmp/rust-r4def/root/api32/01494-ProjectCostController_reclassifyCostStageAttribution.json",
+        "tmp/rust-r4def/root/api32/01495-ProjectCostController_reclassifyCostStageAttribution.json"
+      ],
+      "realTwoWaiterBarrier": true,
+      "assertionCount": 6,
+      "allRequiredAssertionsPassed": true,
+      "independentSameUserSessionRows": true,
+      "case09DisjointProjectAndRealScopeFamilyProof": true,
+      "passed": true
+    },
+    {
+      "id": "R62-06-tax-replace",
+      "source": "tmp/rust-r4def/root/races62-r88/result.json",
+      "statuses": [
+        201,
+        409
+      ],
+      "pairReceiptIds": [
+        "tmp/rust-r4def/root/api32/01500-ProjectCostController_replaceAccountingTaxTreatment.json",
+        "tmp/rust-r4def/root/api32/01501-ProjectCostController_replaceAccountingTaxTreatment.json"
+      ],
+      "realTwoWaiterBarrier": true,
+      "assertionCount": 7,
+      "allRequiredAssertionsPassed": true,
+      "independentSameUserSessionRows": true,
+      "case09DisjointProjectAndRealScopeFamilyProof": true,
+      "passed": true
+    },
+    {
+      "id": "R62-07-basis-full-replace",
+      "source": "tmp/rust-r4def/root/races62-r88/result.json",
+      "statuses": [
+        201,
+        409
+      ],
+      "pairReceiptIds": [
+        "tmp/rust-r4def/root/api32/01512-ProjectCostController_replaceSharedCostAllocationResult.json",
+        "tmp/rust-r4def/root/api32/01513-ProjectCostController_replaceSharedCostAllocationResult.json"
+      ],
+      "realTwoWaiterBarrier": true,
+      "assertionCount": 9,
+      "allRequiredAssertionsPassed": true,
+      "independentSameUserSessionRows": true,
+      "case09DisjointProjectAndRealScopeFamilyProof": true,
+      "passed": true
+    },
+    {
+      "id": "R62-08-overlap-sources",
+      "source": "tmp/rust-r4def/root/races62-r88/result.json",
+      "statuses": [
+        409,
+        201
+      ],
+      "pairReceiptIds": [
+        "tmp/rust-r4def/root/api32/01535-ProjectCostController_confirmSharedCostAllocationBasis.json",
+        "tmp/rust-r4def/root/api32/01536-ProjectCostController_confirmSharedCostAllocationBasis.json"
+      ],
+      "realTwoWaiterBarrier": true,
+      "assertionCount": 8,
+      "allRequiredAssertionsPassed": true,
+      "independentSameUserSessionRows": true,
+      "case09DisjointProjectAndRealScopeFamilyProof": true,
+      "passed": true
+    },
+    {
+      "id": "R62-09-reverse-families",
+      "source": "tmp/rust-r4def/root/races62-r88/result.json",
+      "statuses": [
+        201,
+        201
+      ],
+      "pairReceiptIds": [
+        "tmp/rust-r4def/root/api32/01559-ProjectCostController_confirmSharedCostAllocationBasis.json",
+        "tmp/rust-r4def/root/api32/01560-ProjectCostController_confirmSharedCostAllocationBasis.json"
+      ],
+      "realTwoWaiterBarrier": true,
+      "assertionCount": 9,
+      "allRequiredAssertionsPassed": true,
+      "independentSameUserSessionRows": true,
+      "case09DisjointProjectAndRealScopeFamilyProof": true,
+      "passed": true
+    },
+    {
+      "id": "R62-10-three-project-cent-permutation",
+      "source": "tmp/rust-r4def/root/races62-r88/result.json",
+      "statuses": [
+        201,
+        201
+      ],
+      "pairReceiptIds": [
+        "tmp/rust-r4def/root/api32/01575-ProjectCostController_confirmSharedCostAllocationBasis.json",
+        "tmp/rust-r4def/root/api32/01576-ProjectCostController_confirmSharedCostAllocationBasis.json"
+      ],
+      "realTwoWaiterBarrier": true,
+      "assertionCount": 8,
+      "allRequiredAssertionsPassed": true,
+      "independentSameUserSessionRows": true,
+      "case09DisjointProjectAndRealScopeFamilyProof": true,
+      "passed": true
+    }
+  ],
+  "total": 10,
+  "allEffectiveCasesPass": true,
+  "excluded": "r85 case03 wrong-gate ACK is preserved in its original source result but never counted as a concurrency Pass; r82 warmup expired has zero business setup.",
+  "pins": [
+    {
+      "file": "tmp/rust-r4def/root/races-effective89.json",
+      "bytes": 9551,
+      "sha256": "2302cc49aea02af8654b2a6ba8d361e1857e3c53a29f97fb771cb7479700104b",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/races-effective89.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/races62-r85/result.json",
+      "bytes": 27968,
+      "sha256": "984ddb797c78276fded46146113ca8fbab22206728751efd09702931e7f7c6e0",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/races62-r85/result.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/races62-r85/R62-01-duplicate-mapping-barrier-after-release.json",
+      "bytes": 4204,
+      "sha256": "f8362fcabda820b28999c8b87c606e41e87f85356159da10bdeea95aba1ff4d3",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/races62-r85/R62-01-duplicate-mapping-barrier-after-release.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/races62-r85/R62-01-duplicate-mapping-after-PG.json",
+      "bytes": 21675,
+      "sha256": "3717a991ae75d712de0e7f3e6f99c013288800d9e155d5ad9d774381b060ef2a",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/races62-r85/R62-01-duplicate-mapping-after-PG.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/races62-r85/R62-01-duplicate-mapping-before-PG.json",
+      "bytes": 5076,
+      "sha256": "f6a1a5823fdf26845c087d427438898d6c765c626398efbc6354776ad323c628",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/races62-r85/R62-01-duplicate-mapping-before-PG.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/api32/01456-ProjectCostController_createProjectActualCostRecord.json",
+      "bytes": 1042,
+      "sha256": "28ae7541f120ae4a5b15a8ae4339174d948699ffb02d35d46d5a22bfbf01a6ba",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/api32/01456-ProjectCostController_createProjectActualCostRecord.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/api32/01457-ProjectCostController_createProjectActualCostRecord.json",
+      "bytes": 890,
+      "sha256": "ce6557ae168fc5ef60ff3f1ec37fdf69dab124f54aa7e728e36ba6e3335270b0",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/api32/01457-ProjectCostController_createProjectActualCostRecord.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/races62-r85/R62-02-expense-void-map-barrier-after-release.json",
+      "bytes": 5004,
+      "sha256": "b9e0aa2a6cd62fd8822929ca3efabfed95ba916b85f65f12d14546892c9499c2",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/races62-r85/R62-02-expense-void-map-barrier-after-release.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/races62-r85/R62-02-expense-void-map-after-PG.json",
+      "bytes": 24197,
+      "sha256": "10cb0d84e0b8c5a5a1e489562d100e40773ba02089e8ef1336262b2217b5ca38",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/races62-r85/R62-02-expense-void-map-after-PG.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/races62-r85/R62-02-expense-void-map-before-PG.json",
+      "bytes": 9055,
+      "sha256": "8bda9ebc3a467d2731ed63d7c0d4a111d360e6b7bcc8560a6024b172ebbc434d",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/races62-r85/R62-02-expense-void-map-before-PG.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/api32/01460-ProjectCostController_createProjectActualCostRecord.json",
+      "bytes": 1106,
+      "sha256": "e70bb83dc352e11a106753b1327e785c0a147c205bab271e8799ac9df57f0e8f",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/api32/01460-ProjectCostController_createProjectActualCostRecord.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/api32/01461-ProjectCostController_voidExpenseRecord.json",
+      "bytes": 792,
+      "sha256": "ea9953d12f2464b18a2a743f213b6229c13099ec32a248432e357d35d9b097a4",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/api32/01461-ProjectCostController_voidExpenseRecord.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/races62-r88/result.json",
+      "bytes": 344269,
+      "sha256": "55778fbaadef1b849a5736bea69f563d3e082592e18635655dceae1831fc77a5",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/races62-r88/result.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/races62-r88/R62-03-labor-replace-barrier-after-release.json",
+      "bytes": 9080,
+      "sha256": "5c59451f6e2feb9c8c676f661e86bf12d9e1d5a0f577b1b395e55a55af48da80",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/races62-r88/R62-03-labor-replace-barrier-after-release.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/races62-r88/R62-03-labor-replace-after-PG.json",
+      "bytes": 50689,
+      "sha256": "3d91c57a63a988ead0a56b12f0efe36930a681f5a7191b180787244a4f5068b9",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/races62-r88/R62-03-labor-replace-after-PG.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/races62-r88/R62-03-labor-replace-before-PG.json",
+      "bytes": 14274,
+      "sha256": "315d44d314f8ed168ad45d9219fd2f5180607dcdf2b42e16645c3e121bb13eac",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/races62-r88/R62-03-labor-replace-before-PG.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/api32/01478-ProjectCostController_replaceLaborCostRecord.json",
+      "bytes": 1136,
+      "sha256": "10db6745e5144ad05378ce2c4e0e3d6bb75c4d337cc8d93e7675a000be0888cd",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/api32/01478-ProjectCostController_replaceLaborCostRecord.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/api32/01479-ProjectCostController_replaceLaborCostRecord.json",
+      "bytes": 974,
+      "sha256": "a1d8fd279040197adfb0534314fe6d818b907b43520f5a52204191be657967ee",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/api32/01479-ProjectCostController_replaceLaborCostRecord.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/races62-r88/R62-04-stage-confirm-barrier-after-release.json",
+      "bytes": 9090,
+      "sha256": "8802bc79e49b906ca4db318602a4bba4cea5684e2ec8b49cad90542e92fba235",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/races62-r88/R62-04-stage-confirm-barrier-after-release.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/races62-r88/R62-04-stage-confirm-after-PG.json",
+      "bytes": 40991,
+      "sha256": "70091c4ffcf7637ff412dcf20c395f9a4aaceffa84f74e694e8a2ec0066fff48",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/races62-r88/R62-04-stage-confirm-after-PG.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/races62-r88/R62-04-stage-confirm-before-PG.json",
+      "bytes": 17548,
+      "sha256": "61c0d5163171e5cf803d20da70c77e147ef152408aa4e95fc4334f99fa279ceb",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/races62-r88/R62-04-stage-confirm-before-PG.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/api32/01484-ProjectCostController_confirmCostStageAttribution.json",
+      "bytes": 1815,
+      "sha256": "627a1dc8d6e3c4d86f61cf0e963be815b57d932a507af97d07f3d4f128fea8a9",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/api32/01484-ProjectCostController_confirmCostStageAttribution.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/api32/01485-ProjectCostController_confirmCostStageAttribution.json",
+      "bytes": 1474,
+      "sha256": "984a7f368e640505b7fa87570252ba4c57edc30a674cc52b1de88768e9e7d71d",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/api32/01485-ProjectCostController_confirmCostStageAttribution.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/races62-r88/R62-05-stage-reclassify-barrier-after-release.json",
+      "bytes": 11532,
+      "sha256": "41e0245776dfd5edf620665805eb1a5f7dbc5c2caa4280474a34102306308c90",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/races62-r88/R62-05-stage-reclassify-barrier-after-release.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/races62-r88/R62-05-stage-reclassify-after-PG.json",
+      "bytes": 62605,
+      "sha256": "bbea528b0da201c8af61d57ea102b267fdd7477ab11bce0367a1173bce681495",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/races62-r88/R62-05-stage-reclassify-after-PG.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/races62-r88/R62-05-stage-reclassify-before-PG.json",
+      "bytes": 39697,
+      "sha256": "01808ff558546baf920b00517674549c56748a070268b00eb427adcec626b743",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/races62-r88/R62-05-stage-reclassify-before-PG.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/api32/01494-ProjectCostController_reclassifyCostStageAttribution.json",
+      "bytes": 1584,
+      "sha256": "7608e3dd1a6021e6f9cd45eaed2564dac583f1705b22f7f585b7334a19948577",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/api32/01494-ProjectCostController_reclassifyCostStageAttribution.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/api32/01495-ProjectCostController_reclassifyCostStageAttribution.json",
+      "bytes": 1185,
+      "sha256": "46d58b1f066ea98c0529da390eb18aa4cdb75650753ebf6f3321b5ee39d99d51",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/api32/01495-ProjectCostController_reclassifyCostStageAttribution.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/races62-r88/R62-06-tax-replace-barrier-after-release.json",
+      "bytes": 5440,
+      "sha256": "9af903b21a1b46275b8d9336e34eeaa4aec8c676532984f2f119c57c11e842a2",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/races62-r88/R62-06-tax-replace-barrier-after-release.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/races62-r88/R62-06-tax-replace-after-PG.json",
+      "bytes": 34752,
+      "sha256": "53a38a76e96ce7634915cfeeba8f83c349aecb2bc8b8fa1742ae8599f03b89b9",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/races62-r88/R62-06-tax-replace-after-PG.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/races62-r88/R62-06-tax-replace-before-PG.json",
+      "bytes": 23439,
+      "sha256": "7df210daf7d6763398a166a01a2dca25186aa3c1613ab664a1111ae2ed77f1ce",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/races62-r88/R62-06-tax-replace-before-PG.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/api32/01500-ProjectCostController_replaceAccountingTaxTreatment.json",
+      "bytes": 2847,
+      "sha256": "53b3ff8842addb2fd178a99d5b259c22ac79da75e8fdb8b39cbbfecf239246c0",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/api32/01500-ProjectCostController_replaceAccountingTaxTreatment.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/api32/01501-ProjectCostController_replaceAccountingTaxTreatment.json",
+      "bytes": 1738,
+      "sha256": "a63dec6c36ab1f645efdc33ff9e13a53267ff8c3507799c980f21e866b44f383",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/api32/01501-ProjectCostController_replaceAccountingTaxTreatment.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/races62-r88/R62-07-basis-full-replace-barrier-after-release.json",
+      "bytes": 12601,
+      "sha256": "3af0324c0e9e7cd9483b633750797e277441d91f1ce8f723e8098a8d4b4dd104",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/races62-r88/R62-07-basis-full-replace-barrier-after-release.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/races62-r88/R62-07-basis-full-replace-after-PG.json",
+      "bytes": 136856,
+      "sha256": "409b7e5af2b0c5467fafa22b450bdd2c63c05d326652bf2fd4ebba7985afc493",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/races62-r88/R62-07-basis-full-replace-after-PG.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/races62-r88/R62-07-basis-full-replace-before-PG.json",
+      "bytes": 77622,
+      "sha256": "906c57700192eeb7d27639b6f600b8d17c9e03a1c4494d4d05302a6abea2aa6f",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/races62-r88/R62-07-basis-full-replace-before-PG.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/api32/01512-ProjectCostController_replaceSharedCostAllocationResult.json",
+      "bytes": 1998,
+      "sha256": "7580c5a59964bd5d055327eb6403ddfbeae5aa25b89ffcbcee5017eab351e26a",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/api32/01512-ProjectCostController_replaceSharedCostAllocationResult.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/api32/01513-ProjectCostController_replaceSharedCostAllocationResult.json",
+      "bytes": 1411,
+      "sha256": "482ed8b4dd9f854c319777ad5f3c6df3873648167fb113a1232c739924921ff0",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/api32/01513-ProjectCostController_replaceSharedCostAllocationResult.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/races62-r88/R62-08-overlap-sources-barrier-after-release.json",
+      "bytes": 6509,
+      "sha256": "eec3a129487d5a2c97669757c27be7560f2e449b0646bc35ced96edc30a24b14",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/races62-r88/R62-08-overlap-sources-barrier-after-release.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/races62-r88/R62-08-overlap-sources-after-PG.json",
+      "bytes": 278993,
+      "sha256": "83aadd0e6ee8c94eb1c3fb3655054dd2559638c655ed793fb060bd4c321c0086",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/races62-r88/R62-08-overlap-sources-after-PG.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/races62-r88/R62-08-overlap-sources-before-PG.json",
+      "bytes": 169512,
+      "sha256": "bc3012c6bd77046691b95efc4c46e560c39c8bf682674e4c6b98a83dcdc6133d",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/races62-r88/R62-08-overlap-sources-before-PG.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/api32/01535-ProjectCostController_confirmSharedCostAllocationBasis.json",
+      "bytes": 1805,
+      "sha256": "72c2516531d0871f4bc7ee91c91d1b44ee6841c027c7cd61b614237a3bcd837f",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/api32/01535-ProjectCostController_confirmSharedCostAllocationBasis.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/api32/01536-ProjectCostController_confirmSharedCostAllocationBasis.json",
+      "bytes": 2186,
+      "sha256": "71d455f8cacea302d36c3d2cbb1bd5c874e91e0c6c54736d4d63f59461ac812c",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/api32/01536-ProjectCostController_confirmSharedCostAllocationBasis.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/races62-r88/R62-09-reverse-families-barrier-after-release.json",
+      "bytes": 10271,
+      "sha256": "e5c7695a9aa899e6994ffa51f785e468cc408f3469f70610376bdd106d1f4168",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/races62-r88/R62-09-reverse-families-barrier-after-release.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/races62-r88/R62-09-reverse-families-after-PG.json",
+      "bytes": 426674,
+      "sha256": "be9327ba383e016def256aa8e182fdbffdc03929c6607771850cf2af8267ceea",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/races62-r88/R62-09-reverse-families-after-PG.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/races62-r88/R62-09-reverse-families-before-PG.json",
+      "bytes": 273472,
+      "sha256": "868e27d4c0e1be451adbb22e02e8dc080fb51759d07281dbfbdcf32bb23b1060",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/races62-r88/R62-09-reverse-families-before-PG.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/api32/01559-ProjectCostController_confirmSharedCostAllocationBasis.json",
+      "bytes": 1929,
+      "sha256": "e97ee989cfda29d4eb967326565fc74e167d5b99a5e23321d174927733c417ba",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/api32/01559-ProjectCostController_confirmSharedCostAllocationBasis.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/api32/01560-ProjectCostController_confirmSharedCostAllocationBasis.json",
+      "bytes": 1929,
+      "sha256": "fd5ff4d709bf5b2c346e3f24671f60b3e3d6918686c9f9b0ce2072aa74d3b6cb",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/api32/01560-ProjectCostController_confirmSharedCostAllocationBasis.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/races62-r88/R62-10-three-project-cent-permutation-barrier-after-release.json",
+      "bytes": 3918,
+      "sha256": "a26f5aa42cd0e0811f28f2cf2ba03da9653c6d8c9a9633d76f846299e3bcdbdc",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/races62-r88/R62-10-three-project-cent-permutation-barrier-after-release.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/races62-r88/R62-10-three-project-cent-permutation-after-PG.json",
+      "bytes": 442112,
+      "sha256": "10f6906c91a7803f201676bc99fb11e2deda7541f074300e8a1e6a5e30719063",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/races62-r88/R62-10-three-project-cent-permutation-after-PG.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/races62-r88/R62-10-three-project-cent-permutation-before-PG.json",
+      "bytes": 327316,
+      "sha256": "1c7f012fdff4f0cda48a6b3e6753722b7a7c158f3c2313564eec90a272a63e97",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/races62-r88/R62-10-three-project-cent-permutation-before-PG.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/api32/01575-ProjectCostController_confirmSharedCostAllocationBasis.json",
+      "bytes": 2451,
+      "sha256": "6c5ebf1d6c7def9103a587b4a31a29091bfb61ede5a65627ca3c55cb924ece07",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/api32/01575-ProjectCostController_confirmSharedCostAllocationBasis.json.bin"
+    },
+    {
+      "file": "tmp/rust-r4def/root/api32/01576-ProjectCostController_confirmSharedCostAllocationBasis.json",
+      "bytes": 2451,
+      "sha256": "eb1ceeaca7a69764ea4fedef59b68b11a27edc3805ab85cdfe4cf435d3ae61cf",
+      "snapshot": "tmp/rust-r4def/independent/races-effective89-inputs01/tmp/rust-r4def/root/api32/01576-ProjectCostController_confirmSharedCostAllocationBasis.json.bin"
+    }
+  ],
+  "reviewerActualDBHTTPOrLocks": false,
+  "G3Pass": false
+}

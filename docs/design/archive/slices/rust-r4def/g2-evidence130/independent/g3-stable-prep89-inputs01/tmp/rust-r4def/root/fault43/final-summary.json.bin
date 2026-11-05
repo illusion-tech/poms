@@ -1,0 +1,371 @@
+{
+  "kind": "actual-advisory-barrier-fault-probes",
+  "results": [
+    {
+      "operationId": "ProjectHandoverController_prepareProjectHandover",
+      "table": "project_handover_basis_snapshot",
+      "barrierWaiter": {
+        "pid": 339,
+        "query": "INSERT INTO poms.project_handover_basis_snapshot(id,project_id,version,source_payload,source_hash,payload_hash,status,is_current,supersedes_id,generated_by) VALUES($1,$2,$3,$4,$5,$6,'active',true,$7,$8)",
+        "wait_event": "advisory",
+        "wait_event_type": "Lock",
+        "classid": "194043",
+        "objid": "43001",
+        "granted": false
+      },
+      "status": 500,
+      "receiptId": "tmp/rust-r4def/root/api32/00370-ProjectHandoverController_prepareProjectHandover.json",
+      "hitProven": true,
+      "all120TablesRolledBack": true,
+      "retryPending": false,
+      "successfulUnarmedRetryReceiptId": "tmp/rust-r4def/root/api32/00415-ProjectHandoverController_prepareProjectHandover.json"
+    },
+    {
+      "operationId": "ProjectHandoverController_prepareProjectHandover",
+      "table": "project_handover_contract_basis",
+      "barrierWaiter": {
+        "pid": 336,
+        "query": "INSERT INTO poms.project_handover_contract_basis(basis_snapshot_id,project_id,contract_id,term_snapshot_id,readiness_package_id,preparation_id,plan_version_id,contract_amendment_id,source_payload_hash,currency_code,signed_amount,amount_tax_inclusive,amount_tax_exclusive,is_compatibility_anchor) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11::numeric,$12::numeric,$13::numeric,$14)",
+        "wait_event": "advisory",
+        "wait_event_type": "Lock",
+        "classid": "194043",
+        "objid": "43002",
+        "granted": false
+      },
+      "status": 500,
+      "receiptId": "tmp/rust-r4def/root/api32/00374-ProjectHandoverController_prepareProjectHandover.json",
+      "hitProven": true,
+      "all120TablesRolledBack": true,
+      "retryPending": false,
+      "successfulUnarmedRetryReceiptId": "tmp/rust-r4def/root/api32/00415-ProjectHandoverController_prepareProjectHandover.json"
+    },
+    {
+      "operationId": "ProjectHandoverController_prepareProjectHandover",
+      "table": "project_handover_basis_item",
+      "barrierWaiter": {
+        "pid": 338,
+        "query": "INSERT INTO poms.project_handover_basis_item(basis_snapshot_id,item_key,item_type,source_type,source_id,source_version,source_hash,payload,created_by) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)",
+        "wait_event": "advisory",
+        "wait_event_type": "Lock",
+        "classid": "194043",
+        "objid": "43003",
+        "granted": false
+      },
+      "status": 500,
+      "receiptId": "tmp/rust-r4def/root/api32/00378-ProjectHandoverController_prepareProjectHandover.json",
+      "hitProven": true,
+      "all120TablesRolledBack": true,
+      "retryPending": false,
+      "successfulUnarmedRetryReceiptId": "tmp/rust-r4def/root/api32/00415-ProjectHandoverController_prepareProjectHandover.json"
+    },
+    {
+      "operationId": "ProjectHandoverController_prepareProjectHandover",
+      "table": "approval_summary_snapshot",
+      "barrierWaiter": {
+        "pid": 337,
+        "query": "INSERT INTO poms.\"approval_summary_snapshot\" (\"id\",\"target_type\",\"target_id\",\"approval_scenario_key\",\"summary_package_id\",\"summary_package_key\",\"projection_level\",\"export_policy\",\"business_status_at_snapshot\",\"generated_at\",\"status\",\"supersedes_id\",\"created_at\",\"created_by\",\"updated_at\",\"updated_by\") VALUES ($1::uuid,$2::text,$3::uuid,$4::text,$5::uuid,$6::text,$7::text,$8::text,$9::text,$10::timestamptz,$11::text,$12::uuid,$13::timestamptz,$14::uuid,$15::timestamptz,$16::uuid) RETURNING id::text AS id,row_version,generated_at",
+        "wait_event": "advisory",
+        "wait_event_type": "Lock",
+        "classid": "194043",
+        "objid": "43004",
+        "granted": false
+      },
+      "status": 500,
+      "receiptId": "tmp/rust-r4def/root/api32/00382-ProjectHandoverController_prepareProjectHandover.json",
+      "hitProven": true,
+      "all120TablesRolledBack": true,
+      "retryPending": false,
+      "successfulUnarmedRetryReceiptId": "tmp/rust-r4def/root/api32/00415-ProjectHandoverController_prepareProjectHandover.json"
+    },
+    {
+      "operationId": "ProjectHandoverController_prepareProjectHandover",
+      "table": "approval_summary_field_projection",
+      "barrierWaiter": {
+        "pid": 339,
+        "query": "INSERT INTO poms.\"approval_summary_field_projection\" (\"id\",\"summary_snapshot_id\",\"field_key\",\"visibility_level\",\"masking_mode\",\"export_policy\",\"field_order\",\"channel_scope_summary\",\"created_at\",\"created_by\") VALUES ($1::uuid,$2::uuid,$3::text,$4::text,$5::text,$6::text,$7::integer,$8::text,$9::timestamptz,$10::uuid),($11::uuid,$12::uuid,$13::text,$14::text,$15::text,$16::text,$17::integer,$18::text,$19::timestamptz,$20::uuid),($21::uuid,$22::uuid,$23::text,$24::text,$25::text,$26::text,$27::integer,$28::text,$29::timestamptz,$30::uuid),($31::uuid,$32::uuid,$33::text,$34::text,$35::text,$36::text,$37::integer,$38::text,$39::timestamptz,$40::uuid),($41::uuid,$42::uuid,$43::text,$44::text,$45::text,$46::text,$47::integer,$48::text,$49::timestamptz,$50::uuid),($51::uuid,$52::uuid,$53::text,$54::text,$55::text,$56::text,$57::integer,$58::text,$59::timestamptz,$60::uuid),($61::uuid,$62::uuid,$63::text,$64::text,$65::text,$66::text,$67::integer,$68::text,$69::timestamptz,$70::uuid),($71::uuid,$72::uuid,$73::text,$7",
+        "wait_event": "advisory",
+        "wait_event_type": "Lock",
+        "classid": "194043",
+        "objid": "43005",
+        "granted": false
+      },
+      "status": 500,
+      "receiptId": "tmp/rust-r4def/root/api32/00386-ProjectHandoverController_prepareProjectHandover.json",
+      "hitProven": true,
+      "all120TablesRolledBack": true,
+      "retryPending": false,
+      "successfulUnarmedRetryReceiptId": "tmp/rust-r4def/root/api32/00415-ProjectHandoverController_prepareProjectHandover.json"
+    },
+    {
+      "operationId": "ProjectHandoverController_prepareProjectHandover",
+      "table": "confirmation_record",
+      "barrierWaiter": {
+        "pid": 336,
+        "query": "INSERT INTO poms.\"confirmation_record\" (\"id\",\"confirmation_type\",\"business_domain\",\"target_type\",\"target_id\",\"project_id\",\"status\",\"required_count\",\"confirmed_count\",\"confirmation_comment\",\"submitted_at\",\"confirmed_at\",\"closed_at\",\"closed_by\",\"close_reason\",\"created_at\",\"created_by\",\"updated_at\",\"updated_by\") VALUES ($1::uuid,$2::text,$3::text,$4::text,$5::uuid,$6::uuid,$7::text,$8::integer,$9::integer,$10::text,$11::timestamptz,$12::timestamptz,$13::timestamptz,$14::uuid,$15::text,$16::timestamptz,$17::uuid,$18::timestamptz,$19::uuid) RETURNING id::text AS id,row_version",
+        "wait_event": "advisory",
+        "wait_event_type": "Lock",
+        "classid": "194043",
+        "objid": "43006",
+        "granted": false
+      },
+      "status": 500,
+      "receiptId": "tmp/rust-r4def/root/api32/00390-ProjectHandoverController_prepareProjectHandover.json",
+      "hitProven": true,
+      "all120TablesRolledBack": true,
+      "retryPending": false,
+      "successfulUnarmedRetryReceiptId": "tmp/rust-r4def/root/api32/00415-ProjectHandoverController_prepareProjectHandover.json"
+    },
+    {
+      "operationId": "ProjectHandoverController_prepareProjectHandover",
+      "table": "confirmation_participant",
+      "barrierWaiter": {
+        "pid": 338,
+        "query": "INSERT INTO poms.\"confirmation_participant\" (\"id\",\"confirmation_record_id\",\"participant_id\",\"participant_role_key\",\"participant_display_name\",\"participant_status\",\"confirmed_at\",\"confirmed_comment\",\"created_at\",\"created_by\",\"updated_at\",\"updated_by\") VALUES ($1::uuid,$2::uuid,$3::uuid,$4::text,$5::text,$6::text,$7::timestamptz,$8::text,$9::timestamptz,$10::uuid,$11::timestamptz,$12::uuid),($13::uuid,$14::uuid,$15::uuid,$16::text,$17::text,$18::text,$19::timestamptz,$20::text,$21::timestamptz,$22::uuid,$23::timestamptz,$24::uuid),($25::uuid,$26::uuid,$27::uuid,$28::text,$29::text,$30::text,$31::timestamptz,$32::text,$33::timestamptz,$34::uuid,$35::timestamptz,$36::uuid) RETURNING id::text AS id",
+        "wait_event": "advisory",
+        "wait_event_type": "Lock",
+        "classid": "194043",
+        "objid": "43007",
+        "granted": false
+      },
+      "status": 500,
+      "receiptId": "tmp/rust-r4def/root/api32/00394-ProjectHandoverController_prepareProjectHandover.json",
+      "hitProven": true,
+      "all120TablesRolledBack": true,
+      "retryPending": false,
+      "successfulUnarmedRetryReceiptId": "tmp/rust-r4def/root/api32/00415-ProjectHandoverController_prepareProjectHandover.json"
+    },
+    {
+      "operationId": "ProjectHandoverController_prepareProjectHandover",
+      "table": "todo_item",
+      "barrierWaiter": {
+        "pid": 337,
+        "query": "INSERT INTO poms.\"todo_item\" (\"id\",\"source_type\",\"source_id\",\"todo_type\",\"business_domain\",\"target_object_type\",\"target_object_id\",\"project_id\",\"title\",\"summary\",\"assignee_user_id\",\"status\",\"priority\",\"due_at\",\"completed_at\",\"created_at\",\"updated_at\") VALUES ($1::uuid,$2::text,$3::uuid,$4::text,$5::text,$6::text,$7::uuid,$8::uuid,$9::text,$10::text,$11::uuid,$12::text,$13::text,$14::timestamptz,$15::timestamptz,$16::timestamptz,$17::timestamptz),($18::uuid,$19::text,$20::uuid,$21::text,$22::text,$23::text,$24::uuid,$25::uuid,$26::text,$27::text,$28::uuid,$29::text,$30::text,$31::timestamptz,$32::timestamptz,$33::timestamptz,$34::timestamptz),($35::uuid,$36::text,$37::uuid,$38::text,$39::text,$40::text,$41::uuid,$42::uuid,$43::text,$44::text,$45::uuid,$46::text,$47::text,$48::timestamptz,$49::timestamptz,$50::timestamptz,$51::timestamptz) RETURNING id::text AS id,row_version",
+        "wait_event": "advisory",
+        "wait_event_type": "Lock",
+        "classid": "194043",
+        "objid": "43008",
+        "granted": false
+      },
+      "status": 500,
+      "receiptId": "tmp/rust-r4def/root/api32/00398-ProjectHandoverController_prepareProjectHandover.json",
+      "hitProven": true,
+      "all120TablesRolledBack": true,
+      "retryPending": false,
+      "successfulUnarmedRetryReceiptId": "tmp/rust-r4def/root/api32/00415-ProjectHandoverController_prepareProjectHandover.json"
+    },
+    {
+      "operationId": "ProjectHandoverController_prepareProjectHandover",
+      "table": "project_handover",
+      "barrierWaiter": {
+        "pid": 339,
+        "query": "INSERT INTO poms.project_handover(id,project_id,contract_summary_snapshot_id,effective_handover_baseline_snapshot_id,summary_snapshot_id,status,created_by,updated_by,producer_version,basis_snapshot_id,version,is_current,supersedes_id,execution_owner_user_id,confirmation_record_id,finance_confirmation_required,prepared_receipt_judgment_mode,source_payload_hash,handover_rebaseline_record_id) VALUES($1,$2,$3,$4,$5,'draft',$6,$6,1,$7,$8,true,$9,$10,$11,$12,$13,$14,$15)",
+        "wait_event": "advisory",
+        "wait_event_type": "Lock",
+        "classid": "194043",
+        "objid": "43009",
+        "granted": false
+      },
+      "status": 500,
+      "receiptId": "tmp/rust-r4def/root/api32/00402-ProjectHandoverController_prepareProjectHandover.json",
+      "hitProven": true,
+      "all120TablesRolledBack": true,
+      "retryPending": false,
+      "successfulUnarmedRetryReceiptId": "tmp/rust-r4def/root/api32/00415-ProjectHandoverController_prepareProjectHandover.json"
+    },
+    {
+      "operationId": "ProjectHandoverController_prepareProjectHandover",
+      "table": "project_handover_participant_role",
+      "barrierWaiter": {
+        "pid": 336,
+        "query": "INSERT INTO poms.project_handover_participant_role(handover_id,confirmation_record_id,confirmation_participant_id,participant_user_id,role_key,responsibility_summary,created_by) VALUES($1,$2,$3,$4,$5,$6,$7)",
+        "wait_event": "advisory",
+        "wait_event_type": "Lock",
+        "classid": "194043",
+        "objid": "43010",
+        "granted": false
+      },
+      "status": 500,
+      "receiptId": "tmp/rust-r4def/root/api32/00406-ProjectHandoverController_prepareProjectHandover.json",
+      "hitProven": true,
+      "all120TablesRolledBack": true,
+      "retryPending": false,
+      "successfulUnarmedRetryReceiptId": "tmp/rust-r4def/root/api32/00415-ProjectHandoverController_prepareProjectHandover.json"
+    },
+    {
+      "operationId": "ProjectHandoverController_prepareProjectHandover",
+      "table": "project_handover_summary_payload",
+      "barrierWaiter": {
+        "pid": 338,
+        "query": "INSERT INTO poms.project_handover_summary_payload(summary_snapshot_id,project_id,handover_id,basis_snapshot_id,contract_summary_snapshot_id,payload,payload_hash,source_hash,generated_by) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)",
+        "wait_event": "advisory",
+        "wait_event_type": "Lock",
+        "classid": "194043",
+        "objid": "43011",
+        "granted": false
+      },
+      "status": 500,
+      "receiptId": "tmp/rust-r4def/root/api32/00410-ProjectHandoverController_prepareProjectHandover.json",
+      "hitProven": true,
+      "all120TablesRolledBack": true,
+      "retryPending": false,
+      "successfulUnarmedRetryReceiptId": "tmp/rust-r4def/root/api32/00415-ProjectHandoverController_prepareProjectHandover.json"
+    },
+    {
+      "operationId": "ProjectHandoverController_prepareProjectHandover",
+      "table": "audit_log",
+      "barrierWaiter": {
+        "pid": 337,
+        "query": "INSERT INTO poms.audit_log(id,event_type,target_type,target_id,operator_id,request_id,result,reason,before_snapshot,after_snapshot,metadata,occurred_at) VALUES($1,$2,$3,$4,$5,$6,'success',$7,$8,$9,$10,$11)",
+        "wait_event": "advisory",
+        "wait_event_type": "Lock",
+        "classid": "194043",
+        "objid": "43012",
+        "granted": false
+      },
+      "status": 500,
+      "receiptId": "tmp/rust-r4def/root/api32/00414-ProjectHandoverController_prepareProjectHandover.json",
+      "hitProven": true,
+      "all120TablesRolledBack": true,
+      "retryPending": false,
+      "successfulUnarmedRetryReceiptId": "tmp/rust-r4def/root/api32/00415-ProjectHandoverController_prepareProjectHandover.json"
+    },
+    {
+      "operationId": "ProjectHandoverController_confirmProjectHandoverParticipant",
+      "table": "confirmation_participant",
+      "barrierWaiter": {
+        "pid": 339,
+        "query": "UPDATE poms.\"confirmation_participant\" SET \"participant_status\"=$1::text,\"confirmed_at\"=$2::timestamptz,\"confirmed_comment\"=$3::text,\"updated_at\"=$4::timestamptz,\"updated_by\"=$5::uuid WHERE id=$6::uuid",
+        "wait_event": "advisory",
+        "wait_event_type": "Lock",
+        "classid": "194043",
+        "objid": "43013",
+        "granted": false
+      },
+      "status": 500,
+      "receiptId": "tmp/rust-r4def/root/api32/00420-ProjectHandoverController_confirmProjectHandoverParticipant.json",
+      "hitProven": true,
+      "all120TablesRolledBack": true,
+      "retryPending": false,
+      "successfulUnarmedRetryReceiptId": "tmp/rust-r4def/root/api32/00433-ProjectHandoverController_confirmProjectHandoverParticipant.json"
+    },
+    {
+      "operationId": "ProjectHandoverController_confirmProjectHandoverParticipant",
+      "table": "confirmation_record",
+      "barrierWaiter": {
+        "pid": 336,
+        "query": "UPDATE poms.\"confirmation_record\" SET \"confirmed_count\"=$1::integer,\"updated_at\"=$2::timestamptz,\"updated_by\"=$3::uuid,row_version=row_version+1 WHERE id=$4::uuid AND row_version=$5::integer RETURNING row_version",
+        "wait_event": "advisory",
+        "wait_event_type": "Lock",
+        "classid": "194043",
+        "objid": "43014",
+        "granted": false
+      },
+      "status": 500,
+      "receiptId": "tmp/rust-r4def/root/api32/00424-ProjectHandoverController_confirmProjectHandoverParticipant.json",
+      "hitProven": true,
+      "all120TablesRolledBack": true,
+      "retryPending": false,
+      "successfulUnarmedRetryReceiptId": "tmp/rust-r4def/root/api32/00433-ProjectHandoverController_confirmProjectHandoverParticipant.json"
+    },
+    {
+      "operationId": "ProjectHandoverController_confirmProjectHandoverParticipant",
+      "table": "todo_item",
+      "barrierWaiter": {
+        "pid": 338,
+        "query": "UPDATE poms.\"todo_item\" SET \"status\"=$1::text,\"completed_at\"=$2::timestamptz,\"updated_at\"=$3::timestamptz,row_version=row_version+1 WHERE id=$4::uuid AND row_version=$5::integer RETURNING row_version",
+        "wait_event": "advisory",
+        "wait_event_type": "Lock",
+        "classid": "194043",
+        "objid": "43015",
+        "granted": false
+      },
+      "status": 500,
+      "receiptId": "tmp/rust-r4def/root/api32/00428-ProjectHandoverController_confirmProjectHandoverParticipant.json",
+      "hitProven": true,
+      "all120TablesRolledBack": true,
+      "retryPending": false,
+      "successfulUnarmedRetryReceiptId": "tmp/rust-r4def/root/api32/00433-ProjectHandoverController_confirmProjectHandoverParticipant.json"
+    },
+    {
+      "operationId": "ProjectHandoverController_confirmProjectHandoverParticipant",
+      "table": "audit_log",
+      "barrierWaiter": {
+        "pid": 337,
+        "query": "INSERT INTO poms.audit_log(id,event_type,target_type,target_id,operator_id,request_id,result,reason,before_snapshot,after_snapshot,metadata,occurred_at) VALUES($1,$2,$3,$4,$5,$6,'success',$7,$8,$9,$10,$11)",
+        "wait_event": "advisory",
+        "wait_event_type": "Lock",
+        "classid": "194043",
+        "objid": "43016",
+        "granted": false
+      },
+      "status": 500,
+      "receiptId": "tmp/rust-r4def/root/api32/00432-ProjectHandoverController_confirmProjectHandoverParticipant.json",
+      "hitProven": true,
+      "all120TablesRolledBack": true,
+      "retryPending": false,
+      "successfulUnarmedRetryReceiptId": "tmp/rust-r4def/root/api32/00433-ProjectHandoverController_confirmProjectHandoverParticipant.json"
+    },
+    {
+      "operationId": "ProjectHandoverController_confirmProjectHandover",
+      "table": "project_handover",
+      "barrierWaiter": {
+        "pid": 339,
+        "query": "UPDATE poms.project_handover SET status='confirmed',confirmed_at=now(),confirmed_by=$2,comment=$3,updated_by=$2,updated_at=now(),row_version=row_version+1 WHERE id=$1 AND row_version=$4 AND is_current AND status='draft'",
+        "wait_event": "advisory",
+        "wait_event_type": "Lock",
+        "classid": "194043",
+        "objid": "43017",
+        "granted": false
+      },
+      "status": 500,
+      "receiptId": "tmp/rust-r4def/root/api32/00442-ProjectHandoverController_confirmProjectHandover.json",
+      "hitProven": true,
+      "all120TablesRolledBack": true,
+      "retryPending": false,
+      "successfulUnarmedRetryReceiptId": "tmp/rust-r4def/root/api32/00451-ProjectHandoverController_confirmProjectHandover.json"
+    },
+    {
+      "operationId": "ProjectHandoverController_confirmProjectHandover",
+      "table": "project_receipt_judgment_freeze",
+      "barrierWaiter": {
+        "pid": 336,
+        "query": "INSERT INTO poms.project_receipt_judgment_freeze(id,project_id,receipt_judgment_mode,source_type,source_id,source_handover_id,source_handover_summary_snapshot_id,source_handover_rebaseline_record_id,is_current,frozen_by,supersedes_id,created_by,updated_by,producer_version,basis_snapshot_id,version) VALUES($1,$2,$3,'project-handover',$4,$4,$5,$6,true,$7,$8,$7,$7,1,$9,$10)",
+        "wait_event": "advisory",
+        "wait_event_type": "Lock",
+        "classid": "194043",
+        "objid": "43018",
+        "granted": false
+      },
+      "status": 500,
+      "receiptId": "tmp/rust-r4def/root/api32/00446-ProjectHandoverController_confirmProjectHandover.json",
+      "hitProven": true,
+      "all120TablesRolledBack": true,
+      "retryPending": false,
+      "successfulUnarmedRetryReceiptId": "tmp/rust-r4def/root/api32/00451-ProjectHandoverController_confirmProjectHandover.json"
+    },
+    {
+      "operationId": "ProjectHandoverController_confirmProjectHandover",
+      "table": "audit_log",
+      "barrierWaiter": {
+        "pid": 338,
+        "query": "INSERT INTO poms.audit_log(id,event_type,target_type,target_id,operator_id,request_id,result,reason,before_snapshot,after_snapshot,metadata,occurred_at) VALUES($1,$2,$3,$4,$5,$6,'success',$7,$8,$9,$10,$11)",
+        "wait_event": "advisory",
+        "wait_event_type": "Lock",
+        "classid": "194043",
+        "objid": "43019",
+        "granted": false
+      },
+      "status": 500,
+      "receiptId": "tmp/rust-r4def/root/api32/00450-ProjectHandoverController_confirmProjectHandover.json",
+      "hitProven": true,
+      "all120TablesRolledBack": true,
+      "retryPending": false,
+      "successfulUnarmedRetryReceiptId": "tmp/rust-r4def/root/api32/00451-ProjectHandoverController_confirmProjectHandover.json"
+    }
+  ],
+  "faults": 19,
+  "allHitProven": true,
+  "all120TablesRolledBack": true,
+  "allSameCommandRetryAcknowledged": true,
+  "temporaryObjectsRemoved": true
+}

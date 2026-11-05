@@ -1,0 +1,169 @@
+{
+  "kind": "independent-R4DEF-main168-terminal170-Ready172-precheck131",
+  "reviewedAtUtc": "2026-11-05T03:08:42.909Z",
+  "status": "Pass for actual main publication, terminal copy map and Ready facts; actual archive/Ready writeback still to be observed",
+  "implementationCommit": "d6c3cff84dd96c981bab075d3f4aca3e98c76c4b",
+  "actualMainPublicationVerified": true,
+  "actualMainEvidence": {
+    "file": "tmp/rust-r4def/root/main168/receipt168.json",
+    "bytes": 1265,
+    "sha256": "9f403a1eefcef53514e86265bbbeee788fc101101dc492bb7f3c4afb8fff031c"
+  },
+  "all708MainAndRootCurrentRawBindingsMatch": true,
+  "terminal170": {
+    "map": {
+      "file": "docs/design/archive/slices/rust-r4def/terminal170/origin-map170.json",
+      "bytes": 7855,
+      "sha256": "1010901196c94c61c5abad96f0f09a7db21cd7733fb03f31447c9690b4a9366f"
+    },
+    "entries": 23,
+    "bytes": 2348031,
+    "allSourceAndDestinationRawBytesSHAExact": true,
+    "copyOnly": true,
+    "historicalLabelsPreserved": true,
+    "previouslyExcludedPublicTsconfigWrapperRecovered": true
+  },
+  "ReadyFacts": {
+    "proof": {
+      "file": "tools/rust-r4def/closeout/facts-ready172.json",
+      "bytes": 4765,
+      "sha256": "46ebcd97495ea9d08efb546b134b2c43a6aad6a8f9a757dec4b3fe7820c9d995"
+    },
+    "semanticProofPointersVerified": [
+      {
+        "proof": "finalValidation",
+        "pointer": "/actualAcceptanceAndTerminalReadyForIndependentG3",
+        "equals": true
+      },
+      {
+        "proof": "cleanup",
+        "pointer": "/allOperationsMatchReviewedPlan",
+        "equals": true
+      },
+      {
+        "proof": "cleanup",
+        "pointer": "/reports/1/outerCommitAcknowledged",
+        "equals": true
+      },
+      {
+        "proof": "cleanup",
+        "pointer": "/reports/1/actualTwoNoOps/1/baselineExact",
+        "equals": true
+      },
+      {
+        "proof": "stopped",
+        "pointer": "/running",
+        "equals": false
+      },
+      {
+        "proof": "stopped",
+        "pointer": "/stopAcknowledged",
+        "equals": true
+      },
+      {
+        "proof": "stopped",
+        "pointer": "/volumeRetained",
+        "equals": true
+      },
+      {
+        "proof": "stopped",
+        "pointer": "/privateRetained",
+        "equals": true
+      },
+      {
+        "proof": "independentG3",
+        "pointer": "/G3Pass",
+        "equals": true
+      },
+      {
+        "proof": "fixedCommitReview",
+        "pointer": "/fixedCommitVerified",
+        "equals": true
+      },
+      {
+        "proof": "mainIntegration",
+        "pointer": "/mainIntegrated",
+        "equals": true
+      },
+      {
+        "proof": "mainIntegration",
+        "pointer": "/mainCommit",
+        "equals": "d6c3cff84dd96c981bab075d3f4aca3e98c76c4b"
+      }
+    ],
+    "actualG4AndOnlinePendingFieldsRemainNull": true,
+    "officialBeforeFinal210AndAfterFinal240Separated": true,
+    "closedAtExplicitlyReadyTimestamp": true
+  },
+  "supportPermission": {
+    "canProceedReviewedRawArchive130c": true,
+    "canProceedReadyWriteback": true,
+    "ReadyTextCondition": "Use the actual main168 facts: implementation-main integration has completed. Replace the original conditional Ready sentence saying main integration remains pending in a new rendered candidate, preserving immutable130 templates.",
+    "issueClosureAuthorized": false
+  },
+  "remaining": [
+    "Observe actual130c raw archive and Ready8 document diff/checks/metadata-main commit",
+    "Review concrete preclose payload against actual main/archive/online states",
+    "Actual four-issue closure and six-issue readback with10157Open",
+    "Final metadata/main and actual independentG4"
+  ],
+  "findingsP0P1P2": [],
+  "inputPins": [
+    {
+      "file": "tmp/rust-r4def/root/main168/receipt168.json",
+      "bytes": 1265,
+      "sha256": "9f403a1eefcef53514e86265bbbeee788fc101101dc492bb7f3c4afb8fff031c",
+      "snapshot": "tools/rust-r4def/independent-final131/ready172-inputs/tmp/rust-r4def/root/main168/receipt168.json.bin"
+    },
+    {
+      "file": "tools/rust-r4def/closeout/main168.json",
+      "bytes": 1265,
+      "sha256": "9f403a1eefcef53514e86265bbbeee788fc101101dc492bb7f3c4afb8fff031c",
+      "snapshot": "tools/rust-r4def/independent-final131/ready172-inputs/tools/rust-r4def/closeout/main168.json.bin"
+    },
+    {
+      "file": "docs/design/archive/slices/rust-r4def/terminal170/origin-map170.json",
+      "bytes": 7855,
+      "sha256": "1010901196c94c61c5abad96f0f09a7db21cd7733fb03f31447c9690b4a9366f",
+      "snapshot": "tools/rust-r4def/independent-final131/ready172-inputs/docs/design/archive/slices/rust-r4def/terminal170/origin-map170.json.bin"
+    },
+    {
+      "file": "tools/rust-r4def/closeout/facts-ready172.json",
+      "bytes": 4765,
+      "sha256": "46ebcd97495ea9d08efb546b134b2c43a6aad6a8f9a757dec4b3fe7820c9d995",
+      "snapshot": "tools/rust-r4def/independent-final131/ready172-inputs/tools/rust-r4def/closeout/facts-ready172.json.bin"
+    },
+    {
+      "file": "tools/rust-r4def/terminal170.mjs",
+      "bytes": 3454,
+      "sha256": "24f528d6e0e8b70d43bb8cf56a863b90a137c63ac627072e9a1b0f0031788a71",
+      "snapshot": "tools/rust-r4def/independent-final131/ready172-inputs/tools/rust-r4def/terminal170.mjs.bin"
+    },
+    {
+      "file": "tools/rust-r4def/facts172.mjs",
+      "bytes": 2741,
+      "sha256": "1e1a62e9f81d55bd3b59dc184019a4c3d7c175b05f2cf1e90580c35570119725",
+      "snapshot": "tools/rust-r4def/independent-final131/ready172-inputs/tools/rust-r4def/facts172.mjs.bin"
+    },
+    {
+      "file": "tools/rust-r4def/independent-final131/fixed167-review131.json",
+      "bytes": 4436,
+      "sha256": "02fc334fcb9745264765de727f4fda64162ab8ae63cda08ab5056dc54faf840a",
+      "snapshot": "tools/rust-r4def/independent-final131/ready172-inputs/tools/rust-r4def/independent-final131/fixed167-review131.json.bin"
+    },
+    {
+      "file": "tools/rust-r4def/independent-final131/main169-raw-review131.json",
+      "bytes": 3594,
+      "sha256": "e80febade6b25f37c52bb9b5a1aa3fa46b7b694d2998cad0699fe39d47bafedf",
+      "snapshot": "tools/rust-r4def/independent-final131/ready172-inputs/tools/rust-r4def/independent-final131/main169-raw-review131.json.bin"
+    }
+  ],
+  "G3Pass": true,
+  "G4Pass": false,
+  "reviewer": {
+    "privateRead": false,
+    "DBHTTPGitGHOrForeignEntryExecuted": false,
+    "mainOrRootProductModified": false,
+    "writesOnly": "tools/rust-r4def/independent-final131/**"
+  }
+}

@@ -1,0 +1,412 @@
+{
+  "kind": "actual-read-only-PG-basis-observation",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "meta": {
+    "namespace": "poms-r4def",
+    "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+    "readOnly": true
+  },
+  "body": {
+    "id": "4d3a730e-c920-4159-9878-d25406ccf101",
+    "project_id": "c19e708b-522c-45e9-90d4-81de7295545b",
+    "version": 3,
+    "source_payload": {
+      "members": [
+        {
+          "diffId": "095d0a8e-46d0-4765-b8f9-b88e6a9bf515",
+          "taxRate": "0.1300",
+          "signedAt": null,
+          "diffLevel": "review-required",
+          "integrity": true,
+          "planSeeds": [
+            {
+              "note": null,
+              "label": "R4DEF44-def49-B1-回款节点名称",
+              "nodeKey": "full-payment",
+              "sortOrder": 0,
+              "plannedDate": "2026-12-04",
+              "plannedAmount": "56500.00",
+              "isRetentionNode": false
+            }
+          ],
+          "baselineId": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+          "contractId": "48a7467c-c58e-486d-aade-eda661b65298",
+          "contractNo": "CT-2026-000002",
+          "planAmount": "56500.00",
+          "snapshotId": "5d1e0aad-4250-4b52-b96b-68b5d134cb1a",
+          "payloadHash": "9548ad7f79db75c7fa7e3b894486b6dfe348b019bb41dde60604ad4b119c461e",
+          "planVersion": 2,
+          "readinessId": "a7be963c-cc5b-422a-9223-a1329550d655",
+          "sourceFacts": {
+            "bid": {
+              "id": "c99f3e97-f50b-4b24-96b2-1687ca81ea68",
+              "version": 1,
+              "rowVersion": 1
+            },
+            "cost": {
+              "id": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+              "version": 1,
+              "rowVersion": 1
+            },
+            "pricing": {
+              "id": "f766741b-88b4-49e3-9a3f-c998fa151713",
+              "version": 1,
+              "rowVersion": 1
+            },
+            "summary": {
+              "id": "f95bd597-7da3-4373-b3dc-c0ca75988aa2"
+            },
+            "baseline": {
+              "id": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+              "projectSourceHash": "10de66ed935c1bf39baefbd2a1cc4cbaf0c18bb3d1904e9e45ec40955e88ba8d",
+              "referenceTermsHash": "4bb308bb5264510e573fcf5dd471c78e51ee293839583b67ea42641b670213b5"
+            },
+            "substitution": "current-direct-pricing",
+            "bidApplicability": "not-applicable",
+            "bidQualification": {
+              "bidMode": "direct-commercial",
+              "decision": "participate",
+              "pricingPath": "direct-commercial",
+              "blockerCount": 0,
+              "resultStatus": "pending",
+              "pathQualified": true,
+              "referencedProcessId": "c99f3e97-f50b-4b24-96b2-1687ca81ea68"
+            },
+            "pricingConditionsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "currencyCode": "CNY",
+          "initRecordId": "1ff86b95-2935-4372-b9dd-d60e6e0fbaf0",
+          "paymentTerms": "验收前按合同约定支付全部合同款。",
+          "reviewStatus": "approved",
+          "signedAmount": "56500.00",
+          "handoverFacts": {
+            "riskItems": [
+              {
+                "id": "51071b0f-3114-4fdf-bd37-ab2152fb0cbc",
+                "ownerRole": "technical-support",
+                "packageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+                "riskLevel": "R2",
+                "sortOrder": 0,
+                "riskStatus": "mitigating",
+                "impactScope": "接口验收时间",
+                "riskCategory": "integration",
+                "mitigationPlan": "提前安排联调窗口",
+                "blocksNextStage": false,
+                "riskDescription": "V1客户联调窗口风险"
+              }
+            ],
+            "scopeItems": [
+              {
+                "id": "7a359ba7-d42f-4089-a317-4bd6ced8b5c2",
+                "label": "V1冻结交付范围",
+                "packageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+                "scopeType": "in-scope",
+                "sortOrder": 0,
+                "description": "交付核心接口和操作培训；范围以此版本为准。"
+              },
+              {
+                "id": "a545bfe3-0f19-40f3-84c5-2c60cd3fcfcb",
+                "label": "V1边界",
+                "packageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+                "scopeType": "out-of-scope",
+                "sortOrder": 1,
+                "description": "不包含第三方硬件采购。"
+              }
+            ],
+            "sourceVersion": 1,
+            "sourcePackageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+            "costBaselineReference": {
+              "id": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+              "version": 1
+            }
+          },
+          "planVersionId": "3eee54f4-e87b-4c06-bf4f-26592bc632e7",
+          "preparationId": "0d0d4655-cb07-4628-ba8b-387bd06ec6b2",
+          "retentionRate": "0.0000",
+          "snapshotSeeds": [
+            {
+              "note": null,
+              "label": "R4DEF44-def49-B1-回款节点名称",
+              "nodeKey": "full-payment",
+              "sortOrder": 0,
+              "plannedDate": "2026-12-04",
+              "plannedAmount": "56500.00",
+              "isRetentionNode": false
+            }
+          ],
+          "approvalStatus": "approved",
+          "planSnapshotId": "5d1e0aad-4250-4b52-b96b-68b5d134cb1a",
+          "snapshotStatus": "active",
+          "downPaymentRate": "1.0000",
+          "planPayloadHash": "b574b6f93d751f83d8eb194f79c9176065337f9e70ca4086ceae4a0825836789",
+          "planReadinessId": "a7be963c-cc5b-422a-9223-a1329550d655",
+          "snapshotVersion": 2,
+          "planCurrencyCode": "CNY",
+          "retentionDueDate": null,
+          "reviewApprovalId": "50d1defd-232e-4e45-b2dd-259e6cd0c0e6",
+          "planInitializedAt": "2026-11-04T01:11:40.323Z",
+          "planPreparationId": "0d0d4655-cb07-4628-ba8b-387bd06ec6b2",
+          "preparationStatus": "activated",
+          "reviewPayloadHash": "9548ad7f79db75c7fa7e3b894486b6dfe348b019bb41dde60604ad4b119c461e",
+          "sourceAmendmentId": "b56d6637-b5e3-4137-9459-a94886e41648",
+          "amountTaxExclusive": "50000.00",
+          "amountTaxInclusive": "56500.00",
+          "preparationVersion": 2,
+          "activatedSnapshotId": "5d1e0aad-4250-4b52-b96b-68b5d134cb1a",
+          "snapshotEffectiveAt": "2026-11-04T01:11:40.430Z",
+          "snapshotPayloadHash": "9548ad7f79db75c7fa7e3b894486b6dfe348b019bb41dde60604ad4b119c461e"
+        },
+        {
+          "diffId": "309a7aa0-3b7d-4732-90f1-ced402d68997",
+          "taxRate": "0.1300",
+          "signedAt": null,
+          "diffLevel": "review-required",
+          "integrity": true,
+          "planSeeds": [
+            {
+              "note": null,
+              "label": "R4DEF44-def49-A2-回款节点名称",
+              "nodeKey": "full-payment",
+              "sortOrder": 0,
+              "plannedDate": "2026-12-04",
+              "plannedAmount": "56500.00",
+              "isRetentionNode": false
+            }
+          ],
+          "baselineId": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+          "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+          "contractNo": "CT-2026-000001",
+          "planAmount": "56500.00",
+          "snapshotId": "26585fe5-dba5-4415-bba2-9f04c1c889cd",
+          "payloadHash": "d313811c4a7aaccb0013b2e8ad1d5f311453271492378c9debe98e2cd98a7971",
+          "planVersion": 3,
+          "readinessId": "3a30c955-1d0e-4d81-96de-0998a1ef852b",
+          "sourceFacts": {
+            "bid": {
+              "id": "c99f3e97-f50b-4b24-96b2-1687ca81ea68",
+              "version": 1,
+              "rowVersion": 1
+            },
+            "cost": {
+              "id": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+              "version": 1,
+              "rowVersion": 1
+            },
+            "pricing": {
+              "id": "f766741b-88b4-49e3-9a3f-c998fa151713",
+              "version": 1,
+              "rowVersion": 1
+            },
+            "summary": {
+              "id": "f95bd597-7da3-4373-b3dc-c0ca75988aa2"
+            },
+            "baseline": {
+              "id": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+              "projectSourceHash": "10de66ed935c1bf39baefbd2a1cc4cbaf0c18bb3d1904e9e45ec40955e88ba8d",
+              "referenceTermsHash": "d17af31f99c34aa564991d59d72d20a2fd1eaa6267bbea556d8d7415ac2b441d"
+            },
+            "substitution": "current-direct-pricing",
+            "bidApplicability": "not-applicable",
+            "bidQualification": {
+              "bidMode": "direct-commercial",
+              "decision": "participate",
+              "pricingPath": "direct-commercial",
+              "blockerCount": 0,
+              "resultStatus": "pending",
+              "pathQualified": true,
+              "referencedProcessId": "c99f3e97-f50b-4b24-96b2-1687ca81ea68"
+            },
+            "pricingConditionsHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "currencyCode": "CNY",
+          "initRecordId": "5838c1d6-c8ea-4f29-8e86-1e5535ad4d1e",
+          "paymentTerms": "验收前按合同约定支付全部合同款。",
+          "reviewStatus": "approved",
+          "signedAmount": "56500.00",
+          "handoverFacts": {
+            "riskItems": [
+              {
+                "id": "51071b0f-3114-4fdf-bd37-ab2152fb0cbc",
+                "ownerRole": "technical-support",
+                "packageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+                "riskLevel": "R2",
+                "sortOrder": 0,
+                "riskStatus": "mitigating",
+                "impactScope": "接口验收时间",
+                "riskCategory": "integration",
+                "mitigationPlan": "提前安排联调窗口",
+                "blocksNextStage": false,
+                "riskDescription": "V1客户联调窗口风险"
+              }
+            ],
+            "scopeItems": [
+              {
+                "id": "7a359ba7-d42f-4089-a317-4bd6ced8b5c2",
+                "label": "V1冻结交付范围",
+                "packageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+                "scopeType": "in-scope",
+                "sortOrder": 0,
+                "description": "交付核心接口和操作培训；范围以此版本为准。"
+              },
+              {
+                "id": "a545bfe3-0f19-40f3-84c5-2c60cd3fcfcb",
+                "label": "V1边界",
+                "packageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+                "scopeType": "out-of-scope",
+                "sortOrder": 1,
+                "description": "不包含第三方硬件采购。"
+              }
+            ],
+            "sourceVersion": 1,
+            "sourcePackageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+            "costBaselineReference": {
+              "id": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+              "version": 1
+            }
+          },
+          "planVersionId": "56bd21d8-3f3f-402b-8ce4-decc524d9b1c",
+          "preparationId": "74c60742-67e6-4fb5-8b48-479367574d23",
+          "retentionRate": "0.0000",
+          "snapshotSeeds": [
+            {
+              "note": null,
+              "label": "R4DEF44-def49-A2-回款节点名称",
+              "nodeKey": "full-payment",
+              "sortOrder": 0,
+              "plannedDate": "2026-12-04",
+              "plannedAmount": "56500.00",
+              "isRetentionNode": false
+            }
+          ],
+          "approvalStatus": "approved",
+          "planSnapshotId": "26585fe5-dba5-4415-bba2-9f04c1c889cd",
+          "snapshotStatus": "active",
+          "downPaymentRate": "1.0000",
+          "planPayloadHash": "33a8cdd9572a0bb3fe0c4999f75e931ae16cfec2f6ba009c53e9149ac95996df",
+          "planReadinessId": "3a30c955-1d0e-4d81-96de-0998a1ef852b",
+          "snapshotVersion": 3,
+          "planCurrencyCode": "CNY",
+          "retentionDueDate": null,
+          "reviewApprovalId": "27956a9a-c0f3-4a99-b566-929934a728c3",
+          "planInitializedAt": "2026-11-04T01:11:38.659Z",
+          "planPreparationId": "74c60742-67e6-4fb5-8b48-479367574d23",
+          "preparationStatus": "activated",
+          "reviewPayloadHash": "d313811c4a7aaccb0013b2e8ad1d5f311453271492378c9debe98e2cd98a7971",
+          "sourceAmendmentId": "3188dad4-2a04-4da9-bb13-1de46a25eebf",
+          "amountTaxExclusive": "50000.00",
+          "amountTaxInclusive": "56500.00",
+          "preparationVersion": 3,
+          "activatedSnapshotId": "26585fe5-dba5-4415-bba2-9f04c1c889cd",
+          "snapshotEffectiveAt": "2026-11-04T01:11:38.719Z",
+          "snapshotPayloadHash": "d313811c4a7aaccb0013b2e8ad1d5f311453271492378c9debe98e2cd98a7971"
+        }
+      ],
+      "materials": [
+        {
+          "status": "active",
+          "version": 1,
+          "included": false,
+          "contentHash": "4415216e5f805a9fc152e79a23e1b20210afdce1952b3f356db87f2075d8b97b",
+          "attachmentId": "156eed94-e0a5-49b1-8762-7c04b8cc4bba",
+          "securityLevel": "confidential",
+          "versionGroupId": "156eed94-e0a5-49b1-8762-7c04b8cc4bba"
+        },
+        {
+          "status": "active",
+          "version": 1,
+          "included": true,
+          "contentHash": "7e092953bfd0e46ebf7b1f895b7ad2c7fb000ea717d406ec4cfe751e6ece5347",
+          "attachmentId": "5151e346-59d4-4d3b-8254-ccaae6bd3699",
+          "securityLevel": "normal",
+          "versionGroupId": "5151e346-59d4-4d3b-8254-ccaae6bd3699"
+        }
+      ],
+      "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+      "participants": [
+        {
+          "userId": "384ffad5-04ed-4f78-918a-ec8e7df6a590",
+          "responsibilities": [
+            {
+              "roleKey": "technical-support",
+              "responsibilitySummary": "核对冻结范围边界与技术风险"
+            }
+          ]
+        },
+        {
+          "userId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+          "responsibilities": [
+            {
+              "roleKey": "execution-owner",
+              "responsibilitySummary": "承接此冻结版本的交付职责"
+            }
+          ]
+        },
+        {
+          "userId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+          "responsibilities": [
+            {
+              "roleKey": "business-admin",
+              "responsibilitySummary": "核对商务边界和合同材料"
+            },
+            {
+              "roleKey": "sales-owner",
+              "responsibilitySummary": "移交客户合同与销售事实"
+            }
+          ]
+        }
+      ],
+      "rebaselineChains": [
+        {
+          "amendments": [
+            {
+              "payloadHash": "9548ad7f79db75c7fa7e3b894486b6dfe348b019bb41dde60604ad4b119c461e",
+              "preparationId": "0d0d4655-cb07-4628-ba8b-387bd06ec6b2",
+              "afterSnapshotId": "5d1e0aad-4250-4b52-b96b-68b5d134cb1a",
+              "approvalRecordId": "50d1defd-232e-4e45-b2dd-259e6cd0c0e6",
+              "beforeSnapshotId": "2eaff0e9-8af3-4551-a94f-b85feae1510d",
+              "contractAmendmentId": "b56d6637-b5e3-4137-9459-a94886e41648"
+            }
+          ],
+          "contractId": "48a7467c-c58e-486d-aade-eda661b65298",
+          "toSnapshotId": "5d1e0aad-4250-4b52-b96b-68b5d134cb1a",
+          "fromSnapshotId": "2eaff0e9-8af3-4551-a94f-b85feae1510d"
+        },
+        {
+          "amendments": [
+            {
+              "payloadHash": "dbb43b7ce61e651df260b63923652c2e5e5abb56efb9b765690de4d19590e75f",
+              "preparationId": "533dd3e7-604a-490b-a811-0672e0052826",
+              "afterSnapshotId": "0f4bd54f-7349-4603-98c8-4a79b1aad182",
+              "approvalRecordId": "d3419cd7-9eab-4d61-aa40-6afa935856f1",
+              "beforeSnapshotId": "839324ec-ddc2-4af1-af5e-82b5dc101fa7",
+              "contractAmendmentId": "b3e88460-d239-420a-91f7-d8a640f910d1"
+            },
+            {
+              "payloadHash": "d313811c4a7aaccb0013b2e8ad1d5f311453271492378c9debe98e2cd98a7971",
+              "preparationId": "74c60742-67e6-4fb5-8b48-479367574d23",
+              "afterSnapshotId": "26585fe5-dba5-4415-bba2-9f04c1c889cd",
+              "approvalRecordId": "27956a9a-c0f3-4a99-b566-929934a728c3",
+              "beforeSnapshotId": "0f4bd54f-7349-4603-98c8-4a79b1aad182",
+              "contractAmendmentId": "3188dad4-2a04-4da9-bb13-1de46a25eebf"
+            }
+          ],
+          "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+          "toSnapshotId": "26585fe5-dba5-4415-bba2-9f04c1c889cd",
+          "fromSnapshotId": "839324ec-ddc2-4af1-af5e-82b5dc101fa7"
+        }
+      ],
+      "salesOwnerUserId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "receiptJudgmentMode": "contract-separate",
+      "executionOwnerUserId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+      "financeConfirmationRequired": false
+    },
+    "source_hash": "1b5c5514eb5e1b19e9d12fcb553479acbac1accd855788873a69c8bc4f379482",
+    "payload_hash": "eab81ea7a44aafdecbaeb8715c697e75c568f05d63cdd8c707dd05836d6409be",
+    "status": "active",
+    "is_current": true,
+    "supersedes_id": "c719c9c3-a972-4f67-a1a7-bd2d09b637a5",
+    "generated_at": "2026-11-04T01:38:26.000Z",
+    "generated_by": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+    "row_version": 1
+  }
+}

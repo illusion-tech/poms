@@ -1,0 +1,14 @@
+{
+  "kind": "pure-request-concurrency-candidate",
+  "status": "prepared-for-Root; not-run",
+  "coreGroups": 7,
+  "splitCases": 9,
+  "producerRule": "Fresh real C/E/F API only; no SQL-manufactured source or state",
+  "runnerCallbacks": [
+    "request",
+    "runRace",
+    "observe"
+  ],
+  "realConcurrencyRequired": "Two independent sessions of one full user; controlled actual production row/family gate and two distinct PG waiters; no timing-only pass",
+  "acceptance": false
+}

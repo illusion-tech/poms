@@ -1,0 +1,68 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T02:44:12.299Z",
+  "completedAt": "2026-11-04T02:44:12.328Z",
+  "operationId": "ProjectCostController_getAccountingTaxTreatment",
+  "method": "GET",
+  "path": "/api/accounting-tax-treatments/439222d6-9ea8-4f77-b329-7e39b5d002d9",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-01299-da291670",
+  "requestBody": null,
+  "status": 200,
+  "responseBody": {
+    "basisSummaryProjection": {
+      "displayText": "R4F44-f60-仅治理事实，不重复加税",
+      "fieldPackageKey": "operating-finance",
+      "mode": "full",
+      "reasonCode": "allowed",
+      "value": "R4F44-f60-仅治理事实，不重复加税"
+    },
+    "confirmedAt": "2026-11-04T02:44:12.008Z",
+    "confirmedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+    "createdAt": "2026-11-04T02:44:12.008Z",
+    "currency": "CNY",
+    "deductibilityStatus": "deductible",
+    "evidenceId": "8a3aa50a-f9e7-4c71-8315-e0d1e5e9e7ff",
+    "governanceCertification": "verified",
+    "id": "439222d6-9ea8-4f77-b329-7e39b5d002d9",
+    "projectId": "2410df0c-c530-4223-b857-1a83a411b57b",
+    "rowVersion": 1,
+    "sourceEvidenceProjection": {
+      "displayText": "{\"businessDate\":\"2026-11-04\",\"payloadHash\":\"5e96b85ca3b4d144ca62cf5cae4b06455ea5358c9905c365b5dc3977093dcbb7\",\"reason\":\"本隔离验收财务责任人核对真实0.01税额来源，先登记待定后明确可抵扣判定；保留原成本金额及不纳入经营状态，仅验证正式命令与证据链。\",\"sourceReferences\":[{\"businessDate\":\"2026-11-04\",\"kind\":\"source\",\"reason\":\"本隔离验收财务责任人核对真实0.01税额来源，先登记待定后明确可抵扣判定；保留原成本金额及不纳入经营状态，仅验证正式命令与证据链。\",\"sourceId\":\"1146af9a-9d1e-4e9e-894f-71022bfea549\",\"sourceType\":\"project-actual-cost-record\",\"sourceVersion\":2}]}",
+      "fieldPackageKey": "operating-finance",
+      "mode": "full",
+      "reasonCode": "allowed",
+      "value": "{\"businessDate\":\"2026-11-04\",\"payloadHash\":\"5e96b85ca3b4d144ca62cf5cae4b06455ea5358c9905c365b5dc3977093dcbb7\",\"reason\":\"本隔离验收财务责任人核对真实0.01税额来源，先登记待定后明确可抵扣判定；保留原成本金额及不纳入经营状态，仅验证正式命令与证据链。\",\"sourceReferences\":[{\"businessDate\":\"2026-11-04\",\"kind\":\"source\",\"reason\":\"本隔离验收财务责任人核对真实0.01税额来源，先登记待定后明确可抵扣判定；保留原成本金额及不纳入经营状态，仅验证正式命令与证据链。\",\"sourceId\":\"1146af9a-9d1e-4e9e-894f-71022bfea549\",\"sourceType\":\"project-actual-cost-record\",\"sourceVersion\":2}]}"
+    },
+    "status": "active",
+    "supersedesId": "4dbbf717-19d5-4819-8fab-b09cba2b83bd",
+    "taxImpactAmountProjection": {
+      "displayText": "0.00",
+      "fieldPackageKey": "operating-finance",
+      "mode": "full",
+      "reasonCode": "allowed",
+      "value": "0.00"
+    },
+    "taxImpactPendingAmountProjection": {
+      "displayText": "0.00",
+      "fieldPackageKey": "operating-finance",
+      "mode": "full",
+      "reasonCode": "allowed",
+      "value": "0.00"
+    },
+    "taxImpactSummaryProjection": {
+      "displayText": "R4F44-f60-本隔离验收财务责任人核对真实0.01税额来源，先登记待定后明确可抵扣判定；保留原成本金额及不纳入经营状态，仅验证正式命令与证据链。",
+      "fieldPackageKey": "operating-finance",
+      "mode": "full",
+      "reasonCode": "allowed",
+      "value": "R4F44-f60-本隔离验收财务责任人核对真实0.01税额来源，先登记待定后明确可抵扣判定；保留原成本金额及不纳入经营状态，仅验证正式命令与证据链。"
+    },
+    "taxPendingFlag": false,
+    "taxTreatmentType": "R4F44-f60-mixed",
+    "updatedAt": "2026-11-04T02:44:12.008Z"
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

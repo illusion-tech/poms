@@ -1,0 +1,127 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:18:45.627Z",
+  "completedAt": "2026-11-04T00:18:45.642Z",
+  "operationId": "ContractReadinessController_getContractReadinessPackage",
+  "method": "GET",
+  "path": "/api/contract-readiness-packages/920519fc-e32b-424e-99ef-4ddf34363b99",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-00609-747e2ebc",
+  "requestBody": null,
+  "status": 200,
+  "responseBody": {
+    "allowedActions": [
+      "initialize-receivable-plan"
+    ],
+    "amendmentStatus": null,
+    "blockingReasonSummary": null,
+    "candidateTerms": {
+      "amountTaxExclusive": "50000.00",
+      "amountTaxInclusive": "56500.00",
+      "contractId": "670dd78b-46fb-402c-b7b0-e9db5365c1b5",
+      "downPaymentRate": "1.0000",
+      "paymentTerms": "验收前按合同约定支付全部合同款。",
+      "receivablePlanSeeds": [
+        {
+          "isRetentionNode": false,
+          "label": "合同付款（本case字段复核）",
+          "nodeKey": "full-payment",
+          "note": null,
+          "plannedAmount": "56500.00",
+          "plannedDate": "2026-12-04",
+          "sortOrder": 0
+        }
+      ],
+      "retentionDueDate": null,
+      "retentionRate": "0.0000",
+      "taxRate": "0.1300"
+    },
+    "commercialReleaseBaselineId": "5cd512a2-e124-4cff-aa13-08a00dd61ba2",
+    "contractAmendmentId": null,
+    "contractId": "670dd78b-46fb-402c-b7b0-e9db5365c1b5",
+    "contractSnapshotInitializedAt": "2026-11-04T00:18:45.558Z",
+    "createdAt": "2026-11-04T00:18:45.124Z",
+    "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+    "currentEffectiveDecisionSummary": "本合同差异已通过复核，真实前置条件已收口。",
+    "currentPreparation": {
+      "activatedAt": "2026-11-04T00:18:45.558Z",
+      "activatedSnapshotId": "a3c76f27-32ed-4508-957a-897060ae62fb",
+      "contractId": "670dd78b-46fb-402c-b7b0-e9db5365c1b5",
+      "isCurrent": true,
+      "payloadHash": "579ffd0fd2e09d9c0428a94a334fc06cfd6567f292a9bc783bb5f381c64fa850",
+      "preparationId": "b2a7d285-b1d9-4c35-b788-6c6038e0d515",
+      "preparedAt": "2026-11-04T00:18:45.299Z",
+      "preparedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "projectId": "a72c6b2e-0213-4048-8bb5-6d5f0721edb1",
+      "rowVersion": 2,
+      "sourceBaselineId": "5cd512a2-e124-4cff-aa13-08a00dd61ba2",
+      "sourceDiffResultId": "dd41d005-0b34-4f91-b723-e5a4ca86128a",
+      "sourceReadinessId": "920519fc-e32b-424e-99ef-4ddf34363b99",
+      "status": "activated",
+      "version": 1
+    },
+    "diffLevel": "review-required",
+    "financialProjection": {
+      "displayText": "合同财务字段包",
+      "fieldPackageKey": "contract-finance",
+      "mode": "full",
+      "reasonCode": "allowed",
+      "value": "合同财务字段包"
+    },
+    "guardDecision": "allowed",
+    "id": "920519fc-e32b-424e-99ef-4ddf34363b99",
+    "initializedContractSnapshotId": "a3c76f27-32ed-4508-957a-897060ae62fb",
+    "initializedReceivablePlanVersionId": null,
+    "isCurrent": true,
+    "items": [
+      {
+        "id": "203ba787-732b-4875-84ff-5384f10fd699",
+        "itemKey": "actual-cost-source",
+        "itemType": "checklist",
+        "label": "真实技术与成本来源",
+        "navigationHint": null,
+        "responsibleRole": null,
+        "sortOrder": 0,
+        "status": "ready",
+        "summary": null
+      },
+      {
+        "id": "a50ad9a0-0f34-48a8-b421-3e8e5a809363",
+        "itemKey": "actual-pricing-source",
+        "itemType": "checklist",
+        "label": "真实报价放行来源",
+        "navigationHint": null,
+        "responsibleRole": null,
+        "sortOrder": 1,
+        "status": "ready",
+        "summary": null
+      },
+      {
+        "id": "6997389b-45c0-4a1c-8dce-0eb645b5997f",
+        "itemKey": "exact-contract-diff",
+        "itemType": "checklist",
+        "label": "本合同精确差异",
+        "navigationHint": null,
+        "responsibleRole": null,
+        "sortOrder": 2,
+        "status": "ready",
+        "summary": null
+      }
+    ],
+    "latestDiffResultId": "dd41d005-0b34-4f91-b723-e5a4ca86128a",
+    "missingPrerequisiteCount": 0,
+    "packageStatus": "ready",
+    "projectId": "a72c6b2e-0213-4048-8bb5-6d5f0721edb1",
+    "receivablePlanInitializedAt": null,
+    "reviewStatus": "approved",
+    "rowVersion": 4,
+    "sourceBaselineId": "5cd512a2-e124-4cff-aa13-08a00dd61ba2",
+    "sourceContractSnapshotId": null,
+    "updatedAt": "2026-11-04T00:18:45.558Z",
+    "updatedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935"
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

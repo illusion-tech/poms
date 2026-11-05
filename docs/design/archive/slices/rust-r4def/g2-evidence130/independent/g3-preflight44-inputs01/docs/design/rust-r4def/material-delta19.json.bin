@@ -1,0 +1,297 @@
+{
+  "kind": "R4D-operable-frozen-materials-corrective-input",
+  "G1Original": "joint-g1-06/manifest06.json",
+  "authorization": "User authorized the real operable handover/controlled amendment/minimal UI; Root resolves this necessary field-level correction before client generation",
+  "affectedOperationIds": [
+    "ProjectHandoverController_prepareProjectHandover",
+    "ProjectHandoverController_confirmProjectHandoverParticipant",
+    "ProjectHandoverController_getProjectHandoverDetailByProject",
+    "ProjectHandoverController_getProjectHandoverDetailByHandover"
+  ],
+  "newHttpOperations": 0,
+  "fullOperations": 293,
+  "expectedFullSchemas": 626,
+  "schemas": {
+    "ProjectHandoverFrozenMaterialContract": {
+      "type": "object",
+      "properties": {
+        "contractId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "contractTermSnapshotId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "technicalCostPackageId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "technicalCostVersion": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "scopeItems": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/ProjectTechnicalScopeItemView"
+          }
+        },
+        "riskItems": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/ProjectTechnicalRiskItemView"
+          }
+        }
+      },
+      "required": [
+        "contractId",
+        "contractTermSnapshotId",
+        "technicalCostPackageId",
+        "technicalCostVersion",
+        "scopeItems",
+        "riskItems"
+      ],
+      "additionalProperties": false
+    },
+    "ProjectHandoverFrozenMaterials": {
+      "type": "object",
+      "properties": {
+        "basisSnapshotId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "sourcePayloadHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "contracts": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/components/schemas/ProjectHandoverFrozenMaterialContract"
+          }
+        }
+      },
+      "required": [
+        "basisSnapshotId",
+        "sourcePayloadHash",
+        "contracts"
+      ],
+      "additionalProperties": false
+    },
+    "ProjectHandoverDetailView": {
+      "type": "object",
+      "properties": {
+        "handoverId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "projectId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "projectNo": {
+          "type": "string"
+        },
+        "projectName": {
+          "type": "string"
+        },
+        "handoverStatus": {
+          "$ref": "#/components/schemas/ProjectHandoverStatus"
+        },
+        "confirmedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "confirmedBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "comment": {
+          "type": "string",
+          "nullable": true
+        },
+        "rowVersion": {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991,
+          "nullable": true
+        },
+        "effectiveContractSetSummary": {
+          "$ref": "#/components/schemas/ContractHandoverEffectiveContractSetSummary"
+        },
+        "contractSummarySnapshotId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "currentHandoverBaselineSummary": {
+          "$ref": "#/components/schemas/ContractHandoverCurrentBaselineSummary"
+        },
+        "participantConfirmationSummary": {
+          "$ref": "#/components/schemas/ProjectHandoverParticipantConfirmationSummary"
+        },
+        "receiptJudgmentModeSummary": {
+          "$ref": "#/components/schemas/ProjectHandoverReceiptJudgmentModeSummary"
+        },
+        "summaryPackageKey": {
+          "type": "string",
+          "nullable": true
+        },
+        "summarySnapshotId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "projectionLevel": {
+          "type": "string",
+          "nullable": true
+        },
+        "exportPolicy": {
+          "type": "string",
+          "nullable": true
+        },
+        "allowedActions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "blockingReasons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "generatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "projectRowVersion": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "handoverBasisSnapshotId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "sourcePayloadHash": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$",
+          "nullable": true
+        },
+        "currentSourcePayloadHash": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "sourceChanged": {
+          "type": "boolean"
+        },
+        "executionOwnerUserId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "financeConfirmationRequired": {
+          "type": "boolean",
+          "nullable": true
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991,
+          "nullable": true
+        },
+        "closureStatus": {
+          "$ref": "#/components/schemas/ProjectHandoverClosureStatus"
+        },
+        "executionAdmission": {
+          "$ref": "#/components/schemas/ProjectHandoverExecutionAdmission"
+        },
+        "handoverBasisItems": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/ProjectHandoverBasisItemSummary"
+          }
+        },
+        "frozenMaterials": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/ProjectHandoverFrozenMaterials"
+            }
+          ],
+          "nullable": true
+        }
+      },
+      "required": [
+        "handoverId",
+        "projectId",
+        "projectNo",
+        "projectName",
+        "handoverStatus",
+        "confirmedAt",
+        "confirmedBy",
+        "comment",
+        "rowVersion",
+        "effectiveContractSetSummary",
+        "contractSummarySnapshotId",
+        "currentHandoverBaselineSummary",
+        "participantConfirmationSummary",
+        "receiptJudgmentModeSummary",
+        "summaryPackageKey",
+        "summarySnapshotId",
+        "projectionLevel",
+        "exportPolicy",
+        "allowedActions",
+        "blockingReasons",
+        "generatedAt",
+        "projectRowVersion",
+        "handoverBasisSnapshotId",
+        "sourcePayloadHash",
+        "currentSourcePayloadHash",
+        "sourceChanged",
+        "executionOwnerUserId",
+        "financeConfirmationRequired",
+        "version",
+        "closureStatus",
+        "executionAdmission",
+        "handoverBasisItems",
+        "frozenMaterials"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "permissionPolicy": "Same project:read operational scope/risk allowlist as delivered R3 ProjectTechnicalCostWorkspaceView. No new package or permission alias; no sourceFacts/costItems/money/person/rate/approval-opinion payload. Existing structured finance still uses its own projection.",
+  "sourcePolicy": "Copy exact snapshot->preparation sourceFacts.cost.id historical typed scope/risk rows into the immutable basis on the same transaction; include their frozen bytes in the hash. GET never substitutes current R3 materials. Legacy/unverified detail returns frozenMaterials:null.",
+  "requiredValidation": [
+    "two different technical package versions show exactly the signed snapshot historical version",
+    "confirmed source version cannot be replaced by current R3 items",
+    "unrelated project/source package rejected",
+    "self/final confirms the same disclosed material/hash",
+    "legacy/null is explicit",
+    "no financial/labor raw source payload in materials",
+    "real UI displays scope/risk text and version before confirmation"
+  ],
+  "runtimeExecuted": false,
+  "independentG3Pending": true
+}

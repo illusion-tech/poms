@@ -1,0 +1,34 @@
+{
+  "kind": "Root-public-context-shape-example; no sessions fabricated",
+  "context": {
+    "project": {
+      "id": "2410df0c-c530-4223-b857-1a83a411b57b"
+    },
+    "otherProject": {
+      "id": "a275878e-459d-45d9-a2f4-37874d68c7f2"
+    },
+    "activeContract": {
+      "id": "a8ab4086-89c6-4b57-b14c-3ecaa7ceb058",
+      "projectId": "2410df0c-c530-4223-b857-1a83a411b57b",
+      "status": "active",
+      "currencyCode": "CNY"
+    },
+    "expenseCategory": "travel",
+    "costCategory": "implementation",
+    "businessDate": "2026-11-04",
+    "stageAssessment": {
+      "periodStart": "2026-11-04",
+      "periodEnd": "2026-11-04",
+      "attributedStage": "execution",
+      "reason": "本隔离验收责任人将本次费用、单日人工及采购承诺按指定业务日人工归属执行阶段；不推断历史区间，不认作R5执行准入",
+      "evidenceSummary": "实际API金额和业务日期支撑本次明确人工判断，后续以真实D确认事实作可追溯更正；Root执行前复核该责任说明"
+    },
+    "taxReason": "本隔离验收财务责任人核对真实0.01税额来源，先登记待定后明确可抵扣判定；保留原成本金额及不纳入经营状态，仅验证正式命令与证据链。"
+  },
+  "RootMustSupply": {
+    "tag": "fresh 1..16 ASCII letters/digits/hyphen",
+    "raceActors": "A/B: actual same full user, distinct independent authenticated session keys",
+    "sessionProof": "{receiptId,userId,A:realAuthSessionUuidA,B:realAuthSessionUuidB}; no cookies/tokens"
+  },
+  "notRun": true
+}

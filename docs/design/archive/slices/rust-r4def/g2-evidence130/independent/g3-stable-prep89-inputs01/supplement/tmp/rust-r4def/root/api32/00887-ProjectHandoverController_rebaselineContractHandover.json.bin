@@ -1,0 +1,83 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T01:12:02.192Z",
+  "completedAt": "2026-11-04T01:12:02.816Z",
+  "operationId": "ProjectHandoverController_rebaselineContractHandover",
+  "method": "POST",
+  "path": "/api/contract-handover-rebaselines",
+  "query": {},
+  "actorKey": "writer",
+  "actorId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+  "requestId": "r4def32-00887-f2935f1d",
+  "requestBody": {
+    "sourceHandoverId": "bac70ea7-3f54-42d4-beac-a6ba6f4570db",
+    "handoverBasisSnapshotId": "713c7054-48be-451a-a74e-8d082316d0a0",
+    "sourcePayloadHash": "3c793354e66ef434b6d28729fe53865b2d39ecb5c91b55a14f2e41865875151a",
+    "expectedVersion": 2,
+    "contractAmendmentId": "b56d6637-b5e3-4137-9459-a94886e41648",
+    "effectiveBaselineAfterId": "5d1e0aad-4250-4b52-b96b-68b5d134cb1a",
+    "affectedHandoverItemIds": [
+      "1dfd8e25-7a8c-4874-8abc-672885dd6e12",
+      "58c04796-4def-4f36-9911-cba59bb32e51",
+      "b6975579-364e-492e-99d8-a38a02c4160d",
+      "cd499b94-cbfe-4ea1-ba27-3dcf9685cf7e"
+    ],
+    "rebaselineReason": "R4DEF44-def49：逐合同核验全部生效变更链及原条款/完整回款计划影响，不继承旧人员确认。"
+  },
+  "status": 200,
+  "responseBody": {
+    "affectedHandoverItems": [
+      {
+        "id": "b6975579-364e-492e-99d8-a38a02c4160d",
+        "itemType": "contract",
+        "sourceId": "2eaff0e9-8af3-4551-a94f-b85feae1510d",
+        "sourceType": "contract-term-snapshot",
+        "sourceVersion": "1",
+        "summary": "contract · 2eaff0e9-8af3-4551-a94f-b85feae1510d · 版本 1 · 合同 48a7467c-c58e-486d-aade-eda661b65298"
+      },
+      {
+        "id": "1dfd8e25-7a8c-4874-8abc-672885dd6e12",
+        "itemType": "contract",
+        "sourceId": "839324ec-ddc2-4af1-af5e-82b5dc101fa7",
+        "sourceType": "contract-term-snapshot",
+        "sourceVersion": "1",
+        "summary": "contract · 839324ec-ddc2-4af1-af5e-82b5dc101fa7 · 版本 1 · 合同 b75ed6ae-87ba-4ae1-9e35-f865239ebed7"
+      },
+      {
+        "id": "cd499b94-cbfe-4ea1-ba27-3dcf9685cf7e",
+        "itemType": "receivable",
+        "sourceId": "f73f6bb8-7cbc-4091-b760-b09568e91f77",
+        "sourceType": "receivable-plan-version",
+        "sourceVersion": "1",
+        "summary": "receivable · f73f6bb8-7cbc-4091-b760-b09568e91f77 · 版本 1 · 合同 48a7467c-c58e-486d-aade-eda661b65298"
+      },
+      {
+        "id": "58c04796-4def-4f36-9911-cba59bb32e51",
+        "itemType": "receivable",
+        "sourceId": "f8d73777-9136-4c50-9982-7f88fcb27e21",
+        "sourceType": "receivable-plan-version",
+        "sourceVersion": "1",
+        "summary": "receivable · f8d73777-9136-4c50-9982-7f88fcb27e21 · 版本 1 · 合同 b75ed6ae-87ba-4ae1-9e35-f865239ebed7"
+      }
+    ],
+    "contractSummarySnapshotId": "bbdcad85-8d67-4e23-90f3-f3badcc65028",
+    "currentHandoverBaselineSummary": {
+      "baselineSnapshotId": "5d1e0aad-4250-4b52-b96b-68b5d134cb1a",
+      "sourceId": "e0cee582-70bb-459a-b4e2-3b4d06c57aa9",
+      "sourceType": "handover-rebaseline",
+      "status": "available",
+      "summary": "全部合同的承接依据已固定；单快照字段仅为兼容锚点。"
+    },
+    "effectiveBaselineAfterId": "5d1e0aad-4250-4b52-b96b-68b5d134cb1a",
+    "handoverBasisSnapshotId": "c719c9c3-a972-4f67-a1a7-bd2d09b637a5",
+    "rebaselineRecordId": "e0cee582-70bb-459a-b4e2-3b4d06c57aa9",
+    "replacementHandoverId": "e1f0b6a7-3e51-44c3-839e-843869fbb3ad",
+    "resultStatus": "effective",
+    "sourceHandoverId": "bac70ea7-3f54-42d4-beac-a6ba6f4570db",
+    "sourcePayloadHash": "ce02dc6ffa4bbf3c692923c071412fc8df788c55a222ae319e35c631745c2db8",
+    "summarySnapshotId": "d1e3186a-f280-4129-ba4d-9b780f5be9f4",
+    "targetId": "e0cee582-70bb-459a-b4e2-3b4d06c57aa9"
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

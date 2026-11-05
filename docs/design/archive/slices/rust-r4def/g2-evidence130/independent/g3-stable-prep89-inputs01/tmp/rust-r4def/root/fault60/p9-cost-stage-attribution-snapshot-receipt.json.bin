@@ -1,0 +1,22 @@
+{
+  "operationId": "ProjectCostController_confirmCostStageAttribution",
+  "table": "cost_stage_attribution_snapshot",
+  "event": "INSERT OR UPDATE",
+  "nth": 1,
+  "deferred": false,
+  "functionDefinition": "CREATE OR REPLACE FUNCTION r4def_control.r4def_fault_60()\n RETURNS trigger\n LANGUAGE plpgsql\nAS $function$ DECLARE hits integer; BEGIN hits:=COALESCE(NULLIF(current_setting('poms_r4def_fault.hits',true),''),'0')::integer+1; PERFORM set_config('poms_r4def_fault.hits',hits::text,true); IF hits < COALESCE(TG_ARGV[1],'1')::integer THEN RETURN NEW; END IF; PERFORM pg_advisory_xact_lock(194043,TG_ARGV[0]::integer); RAISE EXCEPTION USING ERRCODE='P0001', MESSAGE='r4def60 necessary write fault'; END $function$\n",
+  "barrierWaiter": {
+    "pid": 1002,
+    "query": "INSERT INTO poms.cost_stage_attribution_snapshot (\"attributed_stage\",\"attribution_mode\",\"attribution_summary\",\"cost_record_id\",\"created_at\",\"created_by\",\"evidence_business_date\",\"governance_evidence_id\",\"governance_schema_version\",\"handled_at\",\"handled_by\",\"id\",\"locked_by_snapshot_id\",\"row_version\",\"status\",\"supersedes_id\",\"updated_at\",\"updated_by\") SELECT \"attributed_stage\",\"attribution_mode\",\"attribution_summary\",\"cost_record_id\",\"created_at\",\"created_by\",\"evidence_business_date\",\"governance_evidence_id\",\"governance_schema_version\",\"handled_at\",\"handled_by\",\"id\",\"locked_by_snapshot_id\",\"row_version\",\"status\",\"supersedes_id\",\"updated_at\",\"updated_by\" FROM jsonb_populate_record(NULL::poms.cost_stage_attribution_snapshot,$1::jsonb)",
+    "wait_event": "advisory",
+    "wait_event_type": "Lock",
+    "classid": "194043",
+    "objid": "60009",
+    "granted": false
+  },
+  "status": 500,
+  "receiptId": "tmp/rust-r4def/root/api32/01072-ProjectCostController_confirmCostStageAttribution.json",
+  "hitProven": true,
+  "all120TablesRolledBack": true,
+  "retryPending": true
+}

@@ -1,0 +1,24 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:05:19.560Z",
+  "completedAt": "2026-11-04T00:05:19.575Z",
+  "operationId": "ProjectCostController_updateExpenseRecord",
+  "method": "PATCH",
+  "path": "/api/expense-records/15cc3879-c294-4b19-8656-79242d8f6808",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-00147-94812c3c",
+  "requestBody": {
+    "expenseDescription": "陈旧写入不能覆盖",
+    "expectedVersion": 1
+  },
+  "status": 409,
+  "responseBody": {
+    "error": "Conflict",
+    "message": "Business record version changed",
+    "statusCode": 409
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

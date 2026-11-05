@@ -1,0 +1,31 @@
+node:internal/errors:985
+  const err = new Error(message);
+              ^
+
+Error: Command failed: git ls-files --error-unmatch libs/shared/api-client/model/confirm-shared-cost-allocation-basis-request-project-share-items-inner.ts
+error: pathspec 'libs/shared/api-client/model/confirm-shared-cost-allocation-basis-request-project-share-items-inner.ts' did not match any file(s) known to git
+Did you forget to 'git add'?
+
+    at genericNodeError (node:internal/errors:985:15)
+    at wrappedFn (node:internal/errors:539:14)
+    at checkExecSyncError (node:child_process:942:11)
+    at execFileSync (node:child_process:978:15)
+    at file:///E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4def/staged-product151.mjs:5:209
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  status: 1,
+  signal: null,
+  output: [
+    null,
+    '',
+    "error: pathspec 'libs/shared/api-client/model/confirm-shared-cost-allocation-basis-request-project-share-items-inner.ts' did not match any file(s) known to git\n" +
+      "Did you forget to 'git add'?\n"
+  ],
+  pid: 47996,
+  stdout: '',
+  stderr: "error: pathspec 'libs/shared/api-client/model/confirm-shared-cost-allocation-basis-request-project-share-items-inner.ts' did not match any file(s) known to git\n" +
+    "Did you forget to 'git add'?\n"
+}
+
+Node.js v24.19.0

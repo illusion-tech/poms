@@ -1,0 +1,41 @@
+# R4 DEF 独立 G1 最终审查 03
+
+**G1 = Block。不得据此线上冻结或准入 G2。**
+
+- 审查提交：`6e10e329d2758d7576544ad3cdec6c04328316d3`。
+- 权威 manifest：`docs/design/rust-r4def/joint-g1-03/manifest03.json`。
+- manifest 原字节 SHA-256：`75eaae593e5bb6a95820f1745fa72dc533367779480904c6c128be9cff16e1aa`，已独立匹配。
+- 机器核验原件：`g1-final03-checks.json`；审查决定机器版：`g1-final03.json`。preflight01、preflight02-root-d 原件不变。
+
+## 阻断
+
+1. **[P1] F 新契约含 OpenAPI 3.0 不支持的 Schema Object 表达。** 最终 `target-full-spec03.json` 声明 `openapi=3.0.0`，独立遍历发现 10 处 `type:null` 与 2 处 `const`，均来自 F 新 schema。例如 JSON pointer `#/components/schemas/SharedCostAllocationBasisSummary/properties/currency/oneOf/1` 和 `#/components/schemas/R4FManualAssessmentEvidence/properties/kind`。完整路径在 checks 原件。3.0 明确不支持 null 类型，且未列出的 JSON Schema 关键字不受支持；单值应使用 enum，可空值使用本仓库既有 nullable 载体。现 E02 已按 3.0 冻结，F 不能冻结为另一种语法。[OpenAPI 3.0.0 官方规范](https://spec.openapis.org/oas/v3.0.0.html)。需保留03并重建兼容的权威候选，重新核对 refs/完整路径/生成器输入，不以忽略校验放行。
+
+2. **[P1] F 的 operating-finance 固定投影会泄露 LABOR 单条金额。** `F-g1-candidate01.md` §3.3 和 JSON `semanticAssertions` 将所有分摊金额/权重/自由说明统一放入 operating-finance；F 又允许 LABOR 作为真实来源。仅有 finance manage + operating finance sensitive、缺 labor cost sensitive 的调用者可用单条人工成本作来源，读取批次总额或把已知权重的份额加总，从而还原 E02 明确保护的该条 laborAmount。结果不附带人员/费率和原始 payload 并不能消除这个旁路。公共协议 §5 已要求人力金额及可反推值服从 labor-cost-rate。应在联合 SSOT 明确：任一来源含个人/角色级 LABOR 时，basis/results/evidence/写回执的金额及其可反推组合采用更严格权限；可以整体遮罩或要求双敏感授权，不能由 operating 权限单独放出。加入单源/混合源、已知权重、缺两种敏感权限各自组合的验收。禁止只在 E 详情遮罩而让 F 重获原值。
+
+3. **[P2] 最终累计差异检查仍失败。** 实际执行 `git diff --check 565661b9113372de4da6662a4a692fbfd2296dd6 6e10e329d2758d7576544ad3cdec6c04328316d3` 返回 2，报 `joint-g1-02/schema02.sql:757: new blank line at EOF`。最近单个提交检查通过不能替代本批累计差异。旧02必须保留其真实失败字节和标签，可以用明确的证据属性/治理 metadata 保护该原件，但不能宣称整个累计检查已经通过。修正后重跑累计检查。
+
+4. **[P2] G2 文件归属仍未具体冻结。** 联合基线 §6 仍写“具体文件白名单随最终 G1 冻结”；D JSON `authorScope.ownedFiles` 仅列三件 G1 文档，E/F 没有对应产品文件白名单。当前已明确 Root 公共单写和 D/E/F 业务分工，但真实受影响的 B/R2 approval 回调、C invoice、共享 CommonSession/审计与 UI 文件应在下一次 G1 metadata 中逐一指定唯一写入者，并划出三作者可新增的独占模块边界，避免并行产品写入相撞。该项是归属 metadata，不需要改变已选业务方案。
+
+## 已独立通过的检查
+
+- 432 个来源：当前文件、冻结原件副本、指定提交内对应 blob 的字节数和 SHA-256 全部匹配；4 个输出亦全部匹配。
+- operation map 为 D7/E11/F12，共30，operationId 唯一。完整目标293操作、624 schema，63项 schema 变化与 schema authority 的 before/after 完全对应；当前291个原操作 method/path/opId 均保留。
+- 完整目标的本地 JSON refs 无未解析项，required 字段无悬空项。这只证明引用闭合，不能覆盖上述 OpenAPI 方言错误。
+- 指定提交相对 main 基线的 `apps/`、`libs/` 产品差异为空；没有提前产品实现、SQL 执行或运行验收。
+- 全库 `deno task format:md:check` 实际执行通过。最近提交 `git diff --check HEAD^ HEAD` 通过；累计检查如上失败，保留各自真实标签。
+
+## 预审四项修正的复核
+
+- E02 已把费用六条返回路径与所有非 labor 三层金额/说明/证据纳入 operating-finance，原兼容字段恒 null；labor 使用独立 labor-cost-rate，并覆盖风险/税务/作废说明。F 上述跨线金额旁路仍须补齐。
+- F 公开阶段确认的 registered→confirmed、confirmedAt/By、rowVersion、唯一归属、锁、audit、auth 同一事务已在 protocol/root-decisions 冻结；本批仍 not included。
+- D self-confirm 锁内完整来源重验、安全常量摘要及新增 D-V21 已入 MD/JSON；source-changed 在本人确认写入之前拒绝。
+- E02 任意个人率区间相交都触发拆分，覆盖段用个人率、未覆盖段才回落角色率；quantity 由业务明确提供，保留原计算快照，不自动日历均摊。
+
+## 业务与 DDL 静态结论
+
+D 多合同成员的复合 FK 能匹配 R4ABC 既有唯一键；真实准备/精确审核/新 snapshot 与 plan 原子切换、待审保留旧 Active、旧 receipt/plan 历史不重挂，方向可实现。D 事实确认仍不替代 R5 执行准入。费用18,2、rate15,4、quantity10,2、精确 HALF_UP 与历史非分币 preflight 阻断一致。F 逐来源占用、三层不混算、确定性尾差、整批替代与不可变快照明确。Invoice nullable 历史币种、真实 snapshot provenance、currency-only PATCH、mapping/CAS 竞争和回滚验证已列入 Root 决定。
+
+上述仅为设计与静态可实现性审核；没有执行 DDL、真实 HTTP/PG/并发/故障/UI，也没有证明产品可运行。SQL 中委托给同事务业务守卫的跨行守恒、来源/归属/证据真值、不可变性仍必须在 G2/G3 实证。
+
+仅收本批 #107/#108/#109/#106，#101/#57 保持 Open。修正后使用新的精确提交/manifest 再审，不覆盖03、旧02或任何失败/Block 原件。

@@ -1,0 +1,26 @@
+// Independent read-only main checkout/line-ending evidence review.
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+const root='E:/projects/worktrees/poms-r3hijk-next28/poms',main='E:/projects/poms',out='tools/rust-r4def/independent-final131',commit='d6c3cff84dd96c981bab075d3f4aca3e98c76c4b';
+assert.equal(path.resolve(process.cwd()).toLowerCase(),path.resolve(root).toLowerCase());
+const digest=(a,b)=>createHash(a).update(b).digest('hex'),sha=b=>digest('sha256',b);
+function safe(f){assert(!path.isAbsolute(f)&&!f.includes('..')&&!f.includes('/private/'));return f;}
+const bytes=f=>fs.readFileSync(path.join(root,safe(f))),json=f=>JSON.parse(bytes(f)),pin=f=>{const b=bytes(f);return{file:f,bytes:b.length,sha256:sha(b)}};
+const stage=json('tmp/rust-r4def/root/staged-product163/receipt163.json'),admissionFile='tmp/rust-r4def/root/main168b/admission169.json',admission=json(admissionFile),before=json('tmp/rust-r4def/root/main168/before.json');
+assert.equal(before.publishedImplementation,commit);assert.equal(admission.implementationCommit,commit);assert(admission.localMainAlreadyFastForwarded&&admission.gitStatusClean);assert.equal(admission.mismatches.length,1);
+const corrections=[];
+for(const [i,p]of admission.mismatches.entries()){
+ const original=bytes('tmp/rust-r4def/root/main168b/'+i+'-before.bin');assert.equal(sha(original),p.beforeRawSHA256);assert.equal(original.length,p.beforeBytes);
+ const normalized=[];let crlfPairs=0;for(let j=0;j<original.length;j++){if(original[j]===13&&original[j+1]===10){crlfPairs++;continue;}normalized.push(original[j]);}const target=Buffer.from(normalized);
+ assert(p.exactCRLFtoLFOnly);assert.equal(sha(target),p.afterLiteralBlobSHA256);assert.equal(target.length,p.afterBytes);assert(target.equals(fs.readFileSync(path.join(main,safe(p.file)))));assert(target.equals(bytes(p.file)));assert.equal(stage.pins.find(x=>x.file===p.file).currentRawSHA256,sha(target));corrections.push({file:p.file,beforeBytes:original.length,beforeSHA256:sha(original),literalBytes:target.length,literalSHA256:sha(target),exactCRLFPairsRemoved:crlfPairs,originalPreserved:true,materialChange:false});
+}
+const checked=stage.pins.map(p=>{const b=fs.readFileSync(path.join(main,safe(p.file)));assert.equal(sha(b),p.currentRawSHA256);assert.equal(b.length,p.bytes);assert.equal(digest('sha1',Buffer.concat([Buffer.from('blob '+b.length+'\0'),b])),p.gitBlob);return{file:p.file,bytes:b.length,sha256:sha(b),gitBlob:p.gitBlob};});assert.equal(checked.length,708);for(const p of stage.deleted)assert(!fs.existsSync(path.join(main,safe(p.file))));
+const literal=json(out+'/final-source131.json');for(const p of literal.sixS4ProtectedSources){assert.equal(sha(fs.readFileSync(path.join(main,safe(p.file)))),p.rawBytesSha256);assert.equal(pin(p.file).sha256,p.rawBytesSha256);}
+const common='E:/projects/poms/.git',localMain=fs.readFileSync(common+'/refs/heads/main','utf8').trim(),branch=fs.readFileSync(common+'/refs/heads/codex/poms-r4def-next28','utf8').trim();assert.equal(localMain,commit);assert.equal(branch,commit);
+const actualFile='tmp/rust-r4def/root/main168/receipt168.json',published=fs.existsSync(path.join(root,actualFile))?json(actualFile):null;if(published){assert(published.mainIntegrated&&published.mainCommit===commit&&published.remoteMain===commit);assert(published.productRawBindingsVerified===708&&published.S4Ancestor&&published.fastForwardOnly);}
+const inputs=['tmp/rust-r4def/root/main168/before.json',admissionFile,'tmp/rust-r4def/root/main168b/0-before.bin','tools/rust-r4def/main168.mjs','tools/rust-r4def/main169.mjs','tmp/rust-r4def/root/staged-product163/receipt163.json',out+'/fixed167-review131.json',...(published?[actualFile]:[])];
+const inputPins=inputs.map(f=>{const p=pin(f),dest=path.join(root,out,'main169-inputs',f+'.bin');fs.mkdirSync(path.dirname(dest),{recursive:true});fs.writeFileSync(dest,bytes(f),{flag:'wx'});return{...p,snapshot:path.relative(root,dest).replaceAll('\\','/')};});
+const report={kind:'independent-R4DEF-main168partial-169-checkout-byte-review131',reviewedAtUtc:new Date().toISOString(),status:'Main checkout raw bindings Pass; publication follows actual receipt',implementationCommit:commit,all708CurrentMainRawAndPublishedBlobHashesMatch:true,uniqueDeletedModelAbsent:true,allSixMainAndRootProtectedSourcesMatchLiteralS4:true,corrections,partial168Retained:true,localMainAndImplementationBranch:commit,remotePublicationObserved:!!published,actualPublicationReceipt:published?pin(actualFile):null,GitCleanWasNotUsedAsRawByteProof:true,codeOrContractChange:false,businessReplayRequired:false,findingsP0P1P2:[],G3Pass:true,G4Pass:false,issueClosureAuthorized:false,inputPins,reviewer:{privateRead:false,DBHTTPGitGHOrForeignEntryExecuted:false,readOnlyGitMetadata:true,mainOrRootProductModified:false,writesOnly:out+'/**'}};
+fs.writeFileSync(path.join(root,out,'main169-raw-review131.json'),JSON.stringify(report,null,2)+'\n',{flag:'wx'});process.stdout.write(JSON.stringify({report:pin(out+'/main169-raw-review131.json'),all708MainRawExact:true,exactCRLFCorrections:corrections,remotePublicationObserved:!!published,G4Pass:false})+'\n');

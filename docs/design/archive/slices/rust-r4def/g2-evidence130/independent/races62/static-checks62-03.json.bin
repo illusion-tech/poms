@@ -1,0 +1,43 @@
+{
+  "kind": "offline-races62-v3-root-adapter-check",
+  "capturedAtUtc": "2026-11-04T03:59:03.493Z",
+  "syntax": [
+    {
+      "command": "node --check tmp/rust-r4def/independent/races62/request-driver62-03.mjs",
+      "exitCode": 0,
+      "sha256": "dfc4e274a956249c51db0a4409db1908a9b478e5e2f9394c2c732baceef772ab",
+      "performedBeforeSeal": true,
+      "actualImportOrExecution": false
+    },
+    {
+      "command": "node --check tmp/rust-r4def/independent/races62/root-adapter62.mjs",
+      "exitCode": 0,
+      "sha256": "4ed4473dbdbea357e8d76e74bb667adf6277afcbb24b66e16e3d0fd3b9802d5f",
+      "performedBeforeSeal": true,
+      "actualImportOrExecution": false
+    },
+    {
+      "command": "node --check tmp/rust-r4def/independent/races62/root-runner62.mjs",
+      "exitCode": 0,
+      "sha256": "770e2fbc3bd451516c2202bd44c7275ecea37ea286b0fc537b11308708745fee",
+      "performedBeforeSeal": true,
+      "actualImportOrExecution": false
+    }
+  ],
+  "sourceSnapshotHashesVerified": 19,
+  "catalogColumns": {
+    "tables": 14,
+    "count": 102,
+    "missing": []
+  },
+  "scenarios": 10,
+  "actualPGHTTPOrLocks": false,
+  "actualRunnerOrDriverImport": false,
+  "productEnvironmentOrPrivateStateChanged": false,
+  "limitations": [
+    "Syntax and known catalog column names only; no SQL parse/runtime or lock/barrier execution.",
+    "Root must supply actual owned namespace, independent same-user sessions and fresh context/tag.",
+    "Unknown HTTP results require retained receipts and explicit Root resolution; no automatic retry.",
+    "No G3/G4 acceptance."
+  ]
+}

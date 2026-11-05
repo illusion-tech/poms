@@ -1,0 +1,34 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:05:24.571Z",
+  "completedAt": "2026-11-04T00:05:24.590Z",
+  "operationId": "ProjectCostController_confirmCostStageAttribution",
+  "method": "POST",
+  "path": "/api/project-actual-cost-records/3046eb9d-ec70-4b6e-b381-e01cd0dc3743/stage-attributions",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-00327-f799dab9",
+  "requestBody": {
+    "stageAttributionMode": "manual",
+    "attributedStage": "execution",
+    "expectedVersion": 1,
+    "attributionSummary": "验收责任人审核指定日期与完整期间，登记归属执行阶段；仅验证人工证据链，不作为真实生产业务事实。",
+    "comment": "本隔离验收对优先级变化人工完整期间的明确责任判断，不从当前项目阶段推断历史。",
+    "attributionEvidence": {
+      "kind": "manual",
+      "businessDate": "2026-09-01",
+      "reason": "本隔离验收对优先级变化人工完整期间的明确责任判断，不从当前项目阶段推断历史。",
+      "evidenceSummary": "验收责任人审核指定日期与完整期间，登记归属执行阶段；仅验证人工证据链，不作为真实生产业务事实。",
+      "attachmentIds": []
+    }
+  },
+  "status": 409,
+  "responseBody": {
+    "error": "Conflict",
+    "message": "Personal rate priority requires a controlled labor replacement",
+    "statusCode": 409
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

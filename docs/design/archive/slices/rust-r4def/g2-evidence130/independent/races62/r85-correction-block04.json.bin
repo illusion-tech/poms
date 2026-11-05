@@ -1,0 +1,30 @@
+{
+  "kind": "preserved-v3-harness-defect-classification",
+  "capturedAtUtc": "2026-11-04T04:16:04.868Z",
+  "status": "v3-case03-barrier-failed; not-business-failure-or-concurrency-pass",
+  "source": {
+    "file": "tmp/rust-r4def/independent/races62/candidate62-manifest03.json",
+    "bytes": 8721,
+    "sha256": "a7e987a502f4ec1c9244e83d0750c1e30a40f2a0b5c155381daad85c38291ac5"
+  },
+  "RootReportedActual": {
+    "runTag": "r85",
+    "case01and02": "Pass",
+    "case03": {
+      "A": 409,
+      "B": 201,
+      "bothACK": true,
+      "barrier": "worker settled before proven barrier",
+      "reference": "Root-owned R62-03-labor-replace-before-PG.json and API01465/01466 originals; not replayed by reviewer"
+    }
+  },
+  "independentlyConfirmedStaticCause": [
+    "Wrong family rate_key contains unit; production family identity omits unit.",
+    "replace_labor locks Project first, so case03 needs Project gate.",
+    "Original same-project case09 would serialize before two workers reach family; corrected to disjoint project sets."
+  ],
+  "realRootRuntimeEvidenceReviewed": false,
+  "alreadyACKedCommandsReplayed": false,
+  "actualEnvironmentTouched": false,
+  "replacedByCandidate": "candidate62-manifest04.json"
+}

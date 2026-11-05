@@ -1,0 +1,1046 @@
+{
+  "kind": "Root-controlled-cleanup-wrapper125-actual-receipt",
+  "mode": "plan",
+  "phase": "read-only-index-plan-rust",
+  "reports": [
+    {
+      "backend": "native",
+      "claimed": {
+        "actualNewPKs": 0,
+        "claimed": 0,
+        "unclaimed": 0,
+        "sourceReceipts": 0
+      },
+      "baselineDrift": [],
+      "publicPlan": {
+        "kind": "owned-only-exact-PK-teardown70-plan",
+        "status": "planned-not-executed",
+        "backend": "native",
+        "scope": {
+          "namespace": "poms-r4def",
+          "base": "756d813c9578090fcf8e56821acce01b46b40420",
+          "instanceId": "0c945ec2-e3ec-4705-8bd3-660a46e8cafc",
+          "database": "poms_r4def_native",
+          "databaseOid": "16385",
+          "host": "127.0.0.1",
+          "hostPort": 25433,
+          "serverPort": 15432,
+          "serverVersionNum": 150012,
+          "isolated": "on",
+          "presentationTimeZone": "Etc/GMT-8",
+          "containerId": "81f3f931dd6752763016d1d7e27b65d9a88103c236213058feadd7a4a8ceacbc",
+          "environmentReceiptId": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4def/root/environment21/provision01.json"
+        },
+        "planHash": "4b7171db2d7e0344f47a2ddd53809281949bdf9357c3e2eb2f579613d3adbb11",
+        "sealedLiveGraphHash": "54138332e020e94dc6ac926f3d1ebda24f52dae09ad52fa5f873eff70516ea85",
+        "baselineGraphHash": "54138332e020e94dc6ac926f3d1ebda24f52dae09ad52fa5f873eff70516ea85",
+        "expectedDeleted": 0,
+        "expectedRestored": 0,
+        "originalBaselineRows": 532,
+        "operations": [],
+        "noOp": true,
+        "actualRowGraphValidatedFromInjectedRows": true,
+        "rawRowsOrCredentialsPublished": false,
+        "DBExecuted": false,
+        "G3Certified": false,
+        "G4Certified": false
+      },
+      "rowCycleDiagnostic": {
+        "classification": "actual-injected-row-FK-diagnostic-not-ownership-or-DML",
+        "actualAddedPKs": 0,
+        "SCCs": [],
+        "DMLExecuted": false
+      },
+      "probeOnly": false,
+      "DMLExecuted": false
+    },
+    {
+      "backend": "rust",
+      "claimed": {
+        "actualNewPKs": 2673,
+        "claimed": 2634,
+        "unclaimed": 39,
+        "sourceReceipts": 3012
+      },
+      "counterIssues": [],
+      "unclaimed": [
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "1ad251e3-a4b9-4a4a-88bf-08214e09307b"
+          },
+          "rowFingerprint": "6056ef91e848183242569cfecc2350b8a4f6db91b027ddc0386e0bfe3d4496b4",
+          "createdAt": "2026-11-04T11:34:54.466+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "20ed95a0-26e8-48c2-850a-1d6842e24c46"
+          },
+          "rowFingerprint": "fe73b43d7d448c655e38b0d3941022c3ad64045fdf71aa6eee0b05b08a0d490d",
+          "createdAt": "2026-11-04T11:32:14.698+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "2b837fa2-432c-47dc-820d-5d2fd27f36c1"
+          },
+          "rowFingerprint": "e6220081fc7f5d2fc6a80e5f80e5b36c3b6539f6deaa8cb5b6096a4d10cbf685",
+          "createdAt": "2026-11-04T09:15:42.217+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "2f261e64-2612-436f-ad1d-09e4ce2dbedb"
+          },
+          "rowFingerprint": "db1eea43717721d3f9f68bea5be5cdd4b041d8305d02e399be479aff67498517",
+          "createdAt": "2026-11-04T11:33:20.653+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "37982e24-edc4-43ad-b340-8ff848c63b72"
+          },
+          "rowFingerprint": "2a386ae66f557763cf210b1a43f0c9a6139ba474a48f0a3290777fa1558e9597",
+          "createdAt": "2026-11-04T09:02:05.155+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "4dbdc3f5-8e43-4778-a875-d92b2ee5cf3e"
+          },
+          "rowFingerprint": "226b610c34a4e5410b2b98c2cc6209fbf5832b138fb6d0dd0bd91be1f9e675fe",
+          "createdAt": "2026-11-04T11:32:15.912+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "51597cb1-22e6-4e06-886c-ccc8a938e206"
+          },
+          "rowFingerprint": "2de55527ce02d801eb6299e273b9dbf7e6463d6cf260a5cf0efbbd2b2cb5cd59",
+          "createdAt": "2026-11-04T11:32:29.167+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "60421de3-ef8e-4208-bf28-f8895a5e29aa"
+          },
+          "rowFingerprint": "015960b5e2c6ee1064a369a560a8414ac367baa9dd63a293f926c2744f91a86d",
+          "createdAt": "2026-11-04T11:35:06.623+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "781f390e-2d74-4cef-874b-162dbb9d3464"
+          },
+          "rowFingerprint": "8b1ef64d2b64c20f440d322b1e44ae40fd6a4029d9e6d3464b075660682465b0",
+          "createdAt": "2026-11-04T11:34:55.556+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "91c0579b-07f4-46e1-b6fd-baadbec94267"
+          },
+          "rowFingerprint": "4da5b729d84a1626b200db782dda7e395a30e61ae18f860c8d88c63b3e91999a",
+          "createdAt": "2026-11-04T11:35:41.116+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "98504d58-f042-41b2-9bdd-e87e623de5ec"
+          },
+          "rowFingerprint": "6b71a5d6663d643f800e6e32a69b0ca70b1dd1bacd2cd3a8cf67d956ddf0106a",
+          "createdAt": "2026-11-04T11:32:32.98+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "9abe228c-5011-4e77-9367-24329a0967e2"
+          },
+          "rowFingerprint": "f77a6b33e7c86fab92fc8680c80add40533305482cf7694ca819da4c942762a4",
+          "createdAt": "2026-11-04T11:34:56.633+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "aba71ac7-310c-4587-97e1-818d201a0015"
+          },
+          "rowFingerprint": "f77ccd3f77ebdb8d62e7145904cb213c0ee10c8f480722e2587e08c76fbca723",
+          "createdAt": "2026-11-04T09:05:06.183+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "af4f3f28-6a46-435f-a7a8-a0c347518aaf"
+          },
+          "rowFingerprint": "146b2f67d1a8ae7fe4ef0958bf53ba0b619262432abe82796f747f5db74391f8",
+          "createdAt": "2026-11-04T11:35:16.869+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "b7ba95de-fdda-48ea-bd0f-0afc7947658c"
+          },
+          "rowFingerprint": "309827e151f6460ffa5b7d8c11bbbc90311940c92c250428dc0e1423b25fb078",
+          "createdAt": "2026-11-04T11:32:12.375+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "c056ebd5-9a1e-456f-a54b-024949c3dab9"
+          },
+          "rowFingerprint": "af4b0d3cf2d9ff2b660e5d142f0e0c15544ff10dc9687397c0f8ff4770bc0433",
+          "createdAt": "2026-11-04T11:33:35.723+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "c1326c39-988f-447b-a70e-4a2067b55bbd"
+          },
+          "rowFingerprint": "4920d1918036b7e9ffa68e5259af544f07304da6072f6955a87f14990f61caea",
+          "createdAt": "2026-11-04T08:25:55.432+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "c2a01c1f-a6ae-4de1-87c4-d7d3aabac8bb"
+          },
+          "rowFingerprint": "16472b0cfb830ff4c52949157dbb856d1473de2658b66746a71e6dd783ae4424",
+          "createdAt": "2026-11-04T11:34:53.501+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "c7698b72-677d-4f67-918f-3c4e5135da9d"
+          },
+          "rowFingerprint": "18c7cb76c3540fd89f1b1d7039bbb6a5487cadeb0f33861147c1090806f0b42a",
+          "createdAt": "2026-11-04T09:05:05.154+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "c78fee7d-5852-4878-aff4-1cbfc6295b57"
+          },
+          "rowFingerprint": "c64295d2d4172f8c2ac464deaaec0fe4737b5a457c69fceee16eb71754e7be20",
+          "createdAt": "2026-11-04T09:15:57.608+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "cc5ec617-af1d-428d-8555-3f9aa0fee13f"
+          },
+          "rowFingerprint": "c1c0469163983be5d9c7d98dcf08df9f03bb003fc7b94db68adf2d942f231b4a",
+          "createdAt": "2026-11-04T11:35:08.829+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "d085c9ad-7ff7-4465-ac2e-e446f1a9ee07"
+          },
+          "rowFingerprint": "18240c29b984ea1d8350884fc3308568b7203eeed5f40669803ee0831250650c",
+          "createdAt": "2026-11-04T09:01:51.389+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "d198adf7-f59c-483a-83ae-fe8fada52c8a"
+          },
+          "rowFingerprint": "0bb25724c06d0162402f5848833093f6a1f7e14bfe2518ec5c1f4cf9779b019a",
+          "createdAt": "2026-11-04T11:35:06.632+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "d34faad9-ad76-42da-a844-e36b7e6a5d25"
+          },
+          "rowFingerprint": "1a0f223be34b486d0b02c10bb6727d902ac2c49ab9451edee8a4cd16c780285e",
+          "createdAt": "2026-11-04T11:33:04.002+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "d3986aaa-a572-4898-8c6d-9231ba6750bd"
+          },
+          "rowFingerprint": "d141720757c45ce3d5a6e80f0819467ace3ae7f700674b69b17b596ce311657d",
+          "createdAt": "2026-11-04T09:15:59.179+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "d7c03061-3b8c-4dc7-93a1-ac902d9514dc"
+          },
+          "rowFingerprint": "2dc9cb528d5086bcedcc4f65643667c924c75b1c7c311af9495d98df93e3ce57",
+          "createdAt": "2026-11-04T11:35:25.495+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "de5b039b-91d3-414c-b554-276aa27324ad"
+          },
+          "rowFingerprint": "763a71f00532c53d7aaaf7af948034c6cdb364245958a10d4acd7441d33f45d8",
+          "createdAt": "2026-11-04T11:32:16.873+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "deb92378-3148-455c-b367-bc026b2f36cd"
+          },
+          "rowFingerprint": "74621f6e8cbeabeec5326a5c233f9aa2b97b4c50cb3863c51921ef3719f96189",
+          "createdAt": "2026-11-04T11:35:33.247+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "debb4991-a695-40ef-95a2-974ea8e7ad37"
+          },
+          "rowFingerprint": "9f91cd44879c8b609a7935d345ae3f584921dd40b486d6782454caa93ed3da8c",
+          "createdAt": "2026-11-04T09:15:56.312+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "df85533d-73fb-4d8a-abc9-808cb81a719f"
+          },
+          "rowFingerprint": "c6aeb77deb7d1faa7e2c0af2cb6743d3a4825836a341e4846ed40c5b3aeda50e",
+          "createdAt": "2026-11-04T09:15:49.805+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "e092efbf-820e-448a-98aa-c6af91d1ab0c"
+          },
+          "rowFingerprint": "5a117348d59b625a9e5f871e4ad5fc47e3b0bfca587e942e1a37b7db2e6b4705",
+          "createdAt": "2026-11-04T11:34:53.495+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "ea68e696-b25a-4e72-84f1-e16525d6bce1"
+          },
+          "rowFingerprint": "0e664c5c682a5cd32358ad57106f2425ff5fb762d4c26108f0e803b21182b33d",
+          "createdAt": "2026-11-04T11:32:29.175+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "f9403415-75ef-4b71-a580-553d3cadaf05"
+          },
+          "rowFingerprint": "ab95a51b81599360a753682c3d9c0f44dc00fb259faae5f39af8df3cd2c61362",
+          "createdAt": "2026-11-04T11:32:49.582+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "audit_log",
+          "primaryKey": {
+            "id": "fbf8a9e7-0065-43d1-9a5d-90278e6e216b"
+          },
+          "rowFingerprint": "1f3a01cd2c5cb857273b9bdc1a2e292823b59f38f3de0a4b05f1e5943ee53b3d",
+          "createdAt": "2026-11-04T11:32:12.38+08:00",
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "receivable_plan_node",
+          "primaryKey": {
+            "id": "252ad67e-1033-42e2-8d7e-55b77ff33f89"
+          },
+          "rowFingerprint": "abc7898df2e37577d6904a3ee6eb7fd28ae00739a833b0143d2ec5d711da2cc8",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "receivable_plan_node",
+          "primaryKey": {
+            "id": "2f64b09e-166c-4f5e-b422-0334aecdf4db"
+          },
+          "rowFingerprint": "d0078b8a596e200ca50d6da99b0487a5157b1e95213d3a656a58dd4745a7fa68",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "receivable_plan_node",
+          "primaryKey": {
+            "id": "4169b916-1949-4e59-a520-012f77cba591"
+          },
+          "rowFingerprint": "c045aeab72907b32fd6bb72f4b6b9ec2cf3d2a3e4b20918854869260bf6e47e2",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "receivable_plan_node",
+          "primaryKey": {
+            "id": "56e63961-0ec8-470b-92a5-0c5ce64eadf0"
+          },
+          "rowFingerprint": "3a39775a37a59bb472ba08c585cfc857e1de1a055bf18047ad40ea71a0e00acf",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        },
+        {
+          "table": "receivable_plan_node",
+          "primaryKey": {
+            "id": "e30b772e-49c9-47ca-9757-6c4096e0be5c"
+          },
+          "rowFingerprint": "770b990448262c7a862a25e57064817c82af37db9ddbe8999f9c8ba3baebd9e7",
+          "createdAt": null,
+          "reason": "No actual returned identity/authorized fixture/verified event/business-FK producer proof"
+        }
+      ],
+      "baselineDrift": [
+        {
+          "table": "business_number_sequence",
+          "primaryKey": {
+            "id": "52b0d05d-7e0b-430d-9aa5-1d8007e03fba"
+          },
+          "kind": "changed",
+          "beforeFingerprint": "74f165107f85dcc739e012faddb3a7719ec3646a96189695047bdafc28e32727",
+          "afterFingerprint": "d8216efedae8ffd768fe585dbdb48a705626718c0a6d52a37e43bd0043aab96f",
+          "columns": [
+            "next_value",
+            "updated_at"
+          ]
+        },
+        {
+          "table": "local_credential",
+          "primaryKey": {
+            "id": "70000000-0000-4000-8000-000000000008"
+          },
+          "kind": "changed",
+          "beforeFingerprint": "bdc0ee265e04203b911e0bf97e4a84d9539dee6fec336ab60faed790a8cc142b",
+          "afterFingerprint": "1d9f1e79eee1f35360ca37ab103caa7f2e54a731c2927306f7e89adaa4cf16c1",
+          "columns": [
+            "updated_at",
+            "password_hash"
+          ]
+        },
+        {
+          "table": "user_role_assignment",
+          "primaryKey": {
+            "id": "50000000-0000-4000-8000-000000000081"
+          },
+          "kind": "missing",
+          "beforeFingerprint": "c22c0c212435a249dcb6fa43946c89ea405f32edf0658f18f65f25401b787e92",
+          "afterFingerprint": null,
+          "columns": []
+        }
+      ],
+      "rowCycleDiagnostic": {
+        "classification": "actual-injected-row-FK-diagnostic-not-ownership-or-DML",
+        "actualAddedPKs": 2673,
+        "SCCs": [
+          {
+            "rows": [
+              {
+                "table": "commercial_baseline_diff_result",
+                "primaryKey": {
+                  "id": "095d0a8e-46d0-4765-b8f9-b88e6a9bf515"
+                }
+              },
+              {
+                "table": "commercial_release_baseline",
+                "primaryKey": {
+                  "id": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec"
+                }
+              }
+            ],
+            "constraints": [
+              "commercial_baseline_diff_result_baseline_id_foreign",
+              "commercial_release_baseline_latest_diff_result_id_foreign",
+              "fk_r4_diff_baseline_project"
+            ]
+          },
+          {
+            "rows": [
+              {
+                "table": "contract_readiness_package",
+                "primaryKey": {
+                  "id": "00f58143-cd28-464f-98c2-4c2c7d29e7fc"
+                }
+              },
+              {
+                "table": "contract_term_preparation",
+                "primaryKey": {
+                  "id": "8fab8f95-1ca6-4ed4-b83c-85ea221dec18"
+                }
+              },
+              {
+                "table": "contract_term_snapshot",
+                "primaryKey": {
+                  "id": "2eaff0e9-8af3-4551-a94f-b85feae1510d"
+                }
+              }
+            ],
+            "constraints": [
+              "contract_term_snapshot_source_readiness_fk",
+              "fk_r4_preparation_activated_snapshot",
+              "fk_r4_preparation_readiness_scope",
+              "fk_r4_readiness_current_preparation",
+              "fk_r4_snapshot_preparation_contract"
+            ]
+          },
+          {
+            "rows": [
+              {
+                "table": "contract_amendment",
+                "primaryKey": {
+                  "id": "b56d6637-b5e3-4137-9459-a94886e41648"
+                }
+              },
+              {
+                "table": "contract_readiness_package",
+                "primaryKey": {
+                  "id": "a7be963c-cc5b-422a-9223-a1329550d655"
+                }
+              },
+              {
+                "table": "contract_review_binding",
+                "primaryKey": {
+                  "approval_record_id": "50d1defd-232e-4e45-b2dd-259e6cd0c0e6"
+                }
+              },
+              {
+                "table": "contract_term_preparation",
+                "primaryKey": {
+                  "id": "0d0d4655-cb07-4628-ba8b-387bd06ec6b2"
+                }
+              },
+              {
+                "table": "contract_term_snapshot",
+                "primaryKey": {
+                  "id": "5d1e0aad-4250-4b52-b96b-68b5d134cb1a"
+                }
+              }
+            ],
+            "constraints": [
+              "contract_term_snapshot_source_readiness_fk",
+              "fk_r4_preparation_activated_snapshot",
+              "fk_r4_preparation_readiness_scope",
+              "fk_r4_readiness_current_preparation",
+              "fk_r4_review_preparation_contract",
+              "fk_r4_snapshot_preparation_contract",
+              "fk_r4d_amendment_after",
+              "fk_r4d_amendment_preparation",
+              "fk_r4d_amendment_readiness",
+              "fk_r4d_amendment_review",
+              "fk_r4d_preparation_amendment",
+              "fk_r4d_readiness_amendment",
+              "fk_r4d_review_amendment",
+              "fk_r4d_snapshot_amendment"
+            ]
+          },
+          {
+            "rows": [
+              {
+                "table": "contract_handover_rebaseline_record",
+                "primaryKey": {
+                  "id": "e0cee582-70bb-459a-b4e2-3b4d06c57aa9"
+                }
+              },
+              {
+                "table": "project_handover",
+                "primaryKey": {
+                  "id": "e1f0b6a7-3e51-44c3-839e-843869fbb3ad"
+                }
+              }
+            ],
+            "constraints": [
+              "contract_handover_rebaseline_recor_replacement_handover_id_fkey",
+              "project_handover_handover_rebaseline_record_id_foreign"
+            ]
+          },
+          {
+            "rows": [
+              {
+                "table": "commercial_baseline_diff_result",
+                "primaryKey": {
+                  "id": "22e85189-4d6c-4c9f-9ee0-a2f53e3488aa"
+                }
+              },
+              {
+                "table": "commercial_release_baseline",
+                "primaryKey": {
+                  "id": "81701cdc-43cd-4e55-a6bb-9de023a21d71"
+                }
+              }
+            ],
+            "constraints": [
+              "commercial_baseline_diff_result_baseline_id_foreign",
+              "commercial_release_baseline_latest_diff_result_id_foreign",
+              "fk_r4_diff_baseline_project"
+            ]
+          },
+          {
+            "rows": [
+              {
+                "table": "commercial_baseline_diff_result",
+                "primaryKey": {
+                  "id": "dd41d005-0b34-4f91-b723-e5a4ca86128a"
+                }
+              },
+              {
+                "table": "commercial_release_baseline",
+                "primaryKey": {
+                  "id": "5cd512a2-e124-4cff-aa13-08a00dd61ba2"
+                }
+              }
+            ],
+            "constraints": [
+              "commercial_baseline_diff_result_baseline_id_foreign",
+              "commercial_release_baseline_latest_diff_result_id_foreign",
+              "fk_r4_diff_baseline_project"
+            ]
+          },
+          {
+            "rows": [
+              {
+                "table": "contract_readiness_package",
+                "primaryKey": {
+                  "id": "cdb3fdff-7942-4e3b-b370-184f860faa2e"
+                }
+              },
+              {
+                "table": "contract_term_preparation",
+                "primaryKey": {
+                  "id": "f0c9debf-6f2c-41d8-92f7-5062d0953dc4"
+                }
+              },
+              {
+                "table": "contract_term_snapshot",
+                "primaryKey": {
+                  "id": "418e3d55-d3e2-49ea-894c-67289ba64fa4"
+                }
+              }
+            ],
+            "constraints": [
+              "contract_term_snapshot_source_readiness_fk",
+              "fk_r4_preparation_activated_snapshot",
+              "fk_r4_preparation_readiness_scope",
+              "fk_r4_readiness_current_preparation",
+              "fk_r4_snapshot_preparation_contract"
+            ]
+          },
+          {
+            "rows": [
+              {
+                "table": "contract_amendment",
+                "primaryKey": {
+                  "id": "12e95e38-be07-4293-937e-f1f5baec12be"
+                }
+              },
+              {
+                "table": "contract_readiness_package",
+                "primaryKey": {
+                  "id": "56ba818b-2344-488e-919d-e48802c45a79"
+                }
+              },
+              {
+                "table": "contract_review_binding",
+                "primaryKey": {
+                  "approval_record_id": "7887c78d-616b-4afd-87ba-b06b59d7cfc4"
+                }
+              },
+              {
+                "table": "contract_term_preparation",
+                "primaryKey": {
+                  "id": "da368e71-c776-4014-a287-9950c7ce7fd9"
+                }
+              },
+              {
+                "table": "contract_term_snapshot",
+                "primaryKey": {
+                  "id": "18f1d5eb-313b-4d2b-84c1-19afce1528a5"
+                }
+              }
+            ],
+            "constraints": [
+              "contract_term_snapshot_source_readiness_fk",
+              "fk_r4_preparation_activated_snapshot",
+              "fk_r4_preparation_readiness_scope",
+              "fk_r4_readiness_current_preparation",
+              "fk_r4_review_preparation_contract",
+              "fk_r4_snapshot_preparation_contract",
+              "fk_r4d_amendment_after",
+              "fk_r4d_amendment_preparation",
+              "fk_r4d_amendment_readiness",
+              "fk_r4d_amendment_review",
+              "fk_r4d_preparation_amendment",
+              "fk_r4d_readiness_amendment",
+              "fk_r4d_review_amendment",
+              "fk_r4d_snapshot_amendment"
+            ]
+          },
+          {
+            "rows": [
+              {
+                "table": "contract_readiness_package",
+                "primaryKey": {
+                  "id": "f03b3390-7b8f-4c7e-8a3a-14d3f0aadded"
+                }
+              },
+              {
+                "table": "contract_term_preparation",
+                "primaryKey": {
+                  "id": "6df3e4d0-cd17-4615-ade5-d027a944c96a"
+                }
+              },
+              {
+                "table": "contract_term_snapshot",
+                "primaryKey": {
+                  "id": "839324ec-ddc2-4af1-af5e-82b5dc101fa7"
+                }
+              }
+            ],
+            "constraints": [
+              "contract_term_snapshot_source_readiness_fk",
+              "fk_r4_preparation_activated_snapshot",
+              "fk_r4_preparation_readiness_scope",
+              "fk_r4_readiness_current_preparation",
+              "fk_r4_snapshot_preparation_contract"
+            ]
+          },
+          {
+            "rows": [
+              {
+                "table": "contract_amendment",
+                "primaryKey": {
+                  "id": "b3e88460-d239-420a-91f7-d8a640f910d1"
+                }
+              },
+              {
+                "table": "contract_readiness_package",
+                "primaryKey": {
+                  "id": "8df25134-c1a8-4a5e-9f8c-13351407e572"
+                }
+              },
+              {
+                "table": "contract_review_binding",
+                "primaryKey": {
+                  "approval_record_id": "d3419cd7-9eab-4d61-aa40-6afa935856f1"
+                }
+              },
+              {
+                "table": "contract_term_preparation",
+                "primaryKey": {
+                  "id": "533dd3e7-604a-490b-a811-0672e0052826"
+                }
+              },
+              {
+                "table": "contract_term_snapshot",
+                "primaryKey": {
+                  "id": "0f4bd54f-7349-4603-98c8-4a79b1aad182"
+                }
+              }
+            ],
+            "constraints": [
+              "contract_term_snapshot_source_readiness_fk",
+              "fk_r4_preparation_activated_snapshot",
+              "fk_r4_preparation_readiness_scope",
+              "fk_r4_readiness_current_preparation",
+              "fk_r4_review_preparation_contract",
+              "fk_r4_snapshot_preparation_contract",
+              "fk_r4d_amendment_after",
+              "fk_r4d_amendment_preparation",
+              "fk_r4d_amendment_readiness",
+              "fk_r4d_amendment_review",
+              "fk_r4d_preparation_amendment",
+              "fk_r4d_readiness_amendment",
+              "fk_r4d_review_amendment",
+              "fk_r4d_snapshot_amendment"
+            ]
+          },
+          {
+            "rows": [
+              {
+                "table": "contract_amendment",
+                "primaryKey": {
+                  "id": "3188dad4-2a04-4da9-bb13-1de46a25eebf"
+                }
+              },
+              {
+                "table": "contract_readiness_package",
+                "primaryKey": {
+                  "id": "3a30c955-1d0e-4d81-96de-0998a1ef852b"
+                }
+              },
+              {
+                "table": "contract_review_binding",
+                "primaryKey": {
+                  "approval_record_id": "27956a9a-c0f3-4a99-b566-929934a728c3"
+                }
+              },
+              {
+                "table": "contract_term_preparation",
+                "primaryKey": {
+                  "id": "74c60742-67e6-4fb5-8b48-479367574d23"
+                }
+              },
+              {
+                "table": "contract_term_snapshot",
+                "primaryKey": {
+                  "id": "26585fe5-dba5-4415-bba2-9f04c1c889cd"
+                }
+              }
+            ],
+            "constraints": [
+              "contract_term_snapshot_source_readiness_fk",
+              "fk_r4_preparation_activated_snapshot",
+              "fk_r4_preparation_readiness_scope",
+              "fk_r4_readiness_current_preparation",
+              "fk_r4_review_preparation_contract",
+              "fk_r4_snapshot_preparation_contract",
+              "fk_r4d_amendment_after",
+              "fk_r4d_amendment_preparation",
+              "fk_r4d_amendment_readiness",
+              "fk_r4d_amendment_review",
+              "fk_r4d_preparation_amendment",
+              "fk_r4d_readiness_amendment",
+              "fk_r4d_review_amendment",
+              "fk_r4d_snapshot_amendment"
+            ]
+          },
+          {
+            "rows": [
+              {
+                "table": "contract_amendment",
+                "primaryKey": {
+                  "id": "b1a6130c-4c1f-44a3-810b-f3a6d3d71f57"
+                }
+              },
+              {
+                "table": "contract_readiness_package",
+                "primaryKey": {
+                  "id": "f34ec8bd-de93-4fde-994c-832bd90bc8d2"
+                }
+              },
+              {
+                "table": "contract_review_binding",
+                "primaryKey": {
+                  "approval_record_id": "5dcdbca2-34ba-4808-80db-3639a8e15d96"
+                }
+              },
+              {
+                "table": "contract_term_preparation",
+                "primaryKey": {
+                  "id": "b605a26a-b3a7-4b53-9e05-6a82be7bdf95"
+                }
+              },
+              {
+                "table": "contract_term_snapshot",
+                "primaryKey": {
+                  "id": "ed7f2c06-f2c2-4f37-9193-6278ca8a5f85"
+                }
+              }
+            ],
+            "constraints": [
+              "contract_term_snapshot_source_readiness_fk",
+              "fk_r4_preparation_activated_snapshot",
+              "fk_r4_preparation_readiness_scope",
+              "fk_r4_readiness_current_preparation",
+              "fk_r4_review_preparation_contract",
+              "fk_r4_snapshot_preparation_contract",
+              "fk_r4d_amendment_after",
+              "fk_r4d_amendment_preparation",
+              "fk_r4d_amendment_readiness",
+              "fk_r4d_amendment_review",
+              "fk_r4d_preparation_amendment",
+              "fk_r4d_readiness_amendment",
+              "fk_r4d_review_amendment",
+              "fk_r4d_snapshot_amendment"
+            ]
+          },
+          {
+            "rows": [
+              {
+                "table": "contract_readiness_package",
+                "primaryKey": {
+                  "id": "d85689b2-9783-4837-ac20-ff4aace1de5a"
+                }
+              },
+              {
+                "table": "contract_term_preparation",
+                "primaryKey": {
+                  "id": "17347ed4-7ee5-4915-8268-2c6bfa03af99"
+                }
+              },
+              {
+                "table": "contract_term_snapshot",
+                "primaryKey": {
+                  "id": "eb66ca08-c4e0-405b-a1e5-942aefc44b4e"
+                }
+              }
+            ],
+            "constraints": [
+              "contract_term_snapshot_source_readiness_fk",
+              "fk_r4_preparation_activated_snapshot",
+              "fk_r4_preparation_readiness_scope",
+              "fk_r4_readiness_current_preparation",
+              "fk_r4_snapshot_preparation_contract"
+            ]
+          },
+          {
+            "rows": [
+              {
+                "table": "contract_handover_rebaseline_record",
+                "primaryKey": {
+                  "id": "67af90f0-46a6-4407-a133-25c758213b82"
+                }
+              },
+              {
+                "table": "project_handover",
+                "primaryKey": {
+                  "id": "14fd1557-175e-410e-9ec6-4bf9405e57e1"
+                }
+              }
+            ],
+            "constraints": [
+              "contract_handover_rebaseline_recor_replacement_handover_id_fkey",
+              "project_handover_handover_rebaseline_record_id_foreign"
+            ]
+          },
+          {
+            "rows": [
+              {
+                "table": "contract_handover_rebaseline_record",
+                "primaryKey": {
+                  "id": "6784f180-16e6-48b6-8cea-c0ff691b9d76"
+                }
+              },
+              {
+                "table": "project_handover",
+                "primaryKey": {
+                  "id": "738b8438-d6c9-42d4-9df4-118b841b2493"
+                }
+              }
+            ],
+            "constraints": [
+              "contract_handover_rebaseline_recor_replacement_handover_id_fkey",
+              "project_handover_handover_rebaseline_record_id_foreign"
+            ]
+          },
+          {
+            "rows": [
+              {
+                "table": "contract_readiness_package",
+                "primaryKey": {
+                  "id": "2eac5253-da1e-4e5c-89cb-22550c317a08"
+                }
+              },
+              {
+                "table": "contract_term_preparation",
+                "primaryKey": {
+                  "id": "687490ee-dd04-4d1b-ab5a-2b3775114f82"
+                }
+              },
+              {
+                "table": "contract_term_snapshot",
+                "primaryKey": {
+                  "id": "cc31e0c8-2b6a-4c6e-854a-e48512cb666c"
+                }
+              }
+            ],
+            "constraints": [
+              "contract_term_snapshot_source_readiness_fk",
+              "fk_r4_preparation_activated_snapshot",
+              "fk_r4_preparation_readiness_scope",
+              "fk_r4_readiness_current_preparation",
+              "fk_r4_snapshot_preparation_contract"
+            ]
+          },
+          {
+            "rows": [
+              {
+                "table": "contract_readiness_package",
+                "primaryKey": {
+                  "id": "920519fc-e32b-424e-99ef-4ddf34363b99"
+                }
+              },
+              {
+                "table": "contract_term_preparation",
+                "primaryKey": {
+                  "id": "b2a7d285-b1d9-4c35-b788-6c6038e0d515"
+                }
+              },
+              {
+                "table": "contract_term_snapshot",
+                "primaryKey": {
+                  "id": "a3c76f27-32ed-4508-957a-897060ae62fb"
+                }
+              }
+            ],
+            "constraints": [
+              "contract_term_snapshot_source_readiness_fk",
+              "fk_r4_preparation_activated_snapshot",
+              "fk_r4_preparation_readiness_scope",
+              "fk_r4_readiness_current_preparation",
+              "fk_r4_snapshot_preparation_contract"
+            ]
+          }
+        ],
+        "DMLExecuted": false
+      },
+      "planned": false,
+      "DMLExecuted": false
+    },
+    {
+      "bundle": {
+        "file": "/home/wangzishi/.local/share/poms-r4def/private/cleanup-wrapper125-140/bundle125.json",
+        "bytes": 15709007,
+        "rawBytesSha256": "3bc032bc556117d815fbc0eda440abdde851efd8529ed37dd66af0c0e7d76df3"
+      },
+      "normalizedProducerIndex": {
+        "file": "/home/wangzishi/.local/share/poms-r4def/private/cleanup-wrapper125-140/actual-normalized-producer-index.json",
+        "bytes": 17284916,
+        "rawBytesSha256": "7311e09a4f48654453e40e3a026f9f08d452bc71ad016ca3abf55fe1302e0c15"
+      },
+      "actualDMLExecuted": false
+    }
+  ],
+  "actions": [
+    {
+      "readOnlySnapshotOriginal": {
+        "file": "/home/wangzishi/.local/share/poms-r4def/private/cleanup-wrapper125-140/source-snapshots125.json",
+        "bytes": 11087185,
+        "rawBytesSha256": "0291c78d35d4d0b6c658313eb22924f1098b27da1532ea1876b02e7c25d6a8f7"
+      }
+    }
+  ],
+  "DBOrDMLExecutedBy": "Root explicit entry only",
+  "authorExecution": false,
+  "objectsHandled": false,
+  "servicesStoppedByWrapper": false,
+  "mainDatabaseDropped": false,
+  "constraintsDisabled": false,
+  "rawRowsOrPasswordsPublished": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

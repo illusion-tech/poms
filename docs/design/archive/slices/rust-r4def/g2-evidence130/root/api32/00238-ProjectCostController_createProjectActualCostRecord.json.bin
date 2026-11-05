@@ -1,0 +1,32 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:05:22.078Z",
+  "completedAt": "2026-11-04T00:05:22.094Z",
+  "operationId": "ProjectCostController_createProjectActualCostRecord",
+  "method": "POST",
+  "path": "/api/projects/c19e708b-522c-45e9-90d4-81de7295545b/actual-cost-records",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-00238-d4376c5d",
+  "requestBody": {
+    "costType": "labor",
+    "laborRole": "R4E21-e41-arithmetic",
+    "laborPeriodType": "month",
+    "laborPeriodStart": "2026-10-03",
+    "laborPeriodEnd": "2026-10-05",
+    "actualHours": "1.25",
+    "rateVersionId": "c95e1545-7e76-4283-b28e-da26af4d463d",
+    "workSummary": "R4E21-e41-按明确区间和数量登记",
+    "costDescription": "真实费率版本乘真实请求数量，完整保存舍入依据",
+    "attachmentIds": []
+  },
+  "status": 409,
+  "responseBody": {
+    "error": "Conflict",
+    "message": "Current labor aggregation periods overlap",
+    "statusCode": 409
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

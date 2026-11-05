@@ -1,0 +1,196 @@
+{
+  "kind": "K55-source-backed-design-and-future-acceptance-vectors",
+  "classification": "all real API/PG/storage/concurrency cases planned-not-run; constant hashes and declarative consistency only can be checked offline",
+  "actualHTTPExecuted": false,
+  "actualPGExecuted": false,
+  "actualObjectIOExecuted": false,
+  "S3Accepted": false,
+  "producerRule": "Use real create-session/upload-target/PUT/complete/link/flag/void APIs and owned request receipts. No SQL INSERT/UPDATE to manufacture a source, link, business state or version.",
+  "concurrencyRule": "Root must provide observable controlled barriers at named boundaries with no fixed sleeps as ordering evidence. If no real hook/provider barrier exists the case remains not-run, not simulated-success.",
+  "payloads": {
+    "A64": {"encoding": "ASCII-repeat", "character": "A", "count": 64, "sha256": "d53eda7a637c99cc7fb566d96e9fa109bf15c478410a3f5eb4d4c4e26cd081f6"},
+    "B64": {"encoding": "ASCII-repeat", "character": "B", "count": 64, "sha256": "c422e7070cb1cb455b5de9afee0d975e303d0239c72030cd7414ab5c382d3ae8"},
+    "A63": {"encoding": "ASCII-repeat", "character": "A", "count": 63, "sha256": "1b58d00f5b1fbd2a1884d666a2be33c2fa7463dff32cd60ef200c0f750a6b70f"},
+    "A65": {"encoding": "ASCII-repeat", "character": "A", "count": 65, "sha256": "836203944f4c0280461ad73d31457c22ba19d1d99e232dc231000085899e00a2"}
+  },
+  "linkProofExamples": {
+    "headBeforeAndAfter": {"id": "10000000-0000-4000-8000-000000000001", "row_version": 7},
+    "oneActive": [
+      {"id":"20000000-0000-4000-8000-000000000001","attachment_id":"10000000-0000-4000-8000-000000000001","target_type":"project","target_id":"30000000-0000-4000-8000-000000000001","relation_type":"normal","status":"active","linked_by":"40000000-0000-4000-8000-000000000001","linked_at":"2026-11-04T00:00:00.000Z","unlinked_by":null,"unlinked_at":null}
+    ],
+    "additionalActive": [
+      {"id":"20000000-0000-4000-8000-000000000001","attachment_id":"10000000-0000-4000-8000-000000000001","target_type":"project","target_id":"30000000-0000-4000-8000-000000000001","relation_type":"normal","status":"active","linked_by":"40000000-0000-4000-8000-000000000001","linked_at":"2026-11-04T00:00:00.000Z","unlinked_by":null,"unlinked_at":null},
+      {"id":"20000000-0000-4000-8000-000000000002","attachment_id":"10000000-0000-4000-8000-000000000001","target_type":"project","target_id":"30000000-0000-4000-8000-000000000002","relation_type":"normal","status":"active","linked_by":"40000000-0000-4000-8000-000000000001","linked_at":"2026-11-04T00:00:01.000Z","unlinked_by":null,"unlinked_at":null}
+    ],
+    "examplesAreNotBusinessRows": true
+  },
+  "cases": [
+    {
+      "id":"K55-01-final-binding-local",
+      "steps":["Fresh owned real Session declares 64 bytes and uploads A64 via real proxy PUT","Complete through real HTTP","Read new Attachment, Session, active links and success audit; download actual Attachment bytes"],
+      "expect":["Attachment UUID-owned final key differs from Session staging; original provider/bucket retained","Actual size 64 and SHA=A64, actual final/download bytes A64","One active latest, copied real associations, Session completed and one necessary success audit atomically present","Old source or final bytes untouched"]
+    },
+    {
+      "id":"K55-02-late-proxy-put-no-checksum",
+      "barriers":["PUT-B after loading original nonterminal/checksum-null S but before staging write","complete after COMMIT ACK"],
+      "steps":["Create legal S without checksum, declared64","Start PUT-B with B64 and hold before actual write","PUT-A uploads A64 and commits uploaded/shaA","Complete snapshots A64 and commits finalA","Release PUT-B to overwrite staging then hit strict Session CAS/terminal rejection"],
+      "expect":["Late PUT-B rejected by SQL state/CAS; no backwards Session status","Staging may be B64, but active final/download stays A64 with SHA=A64","No duplicate Attachment/audit, old D materials unchanged"],
+      "oldCounterexample":"K54 attaches the same staging key, so late B corrupts active bytes despite its SQL 409"
+    },
+    {
+      "id":"K55-03-late-external-presigned-put",
+      "requires":"Separately authorized real OBS/S3 environment and controlled actual PUT; local result is insufficient",
+      "steps":["Issue real staging presigned URL before complete","Upload A64 and complete to finalA","Use previously issued URL to PUT B64 after completion","Read actual final/download bytes"],
+      "expect":["Old external capability may still write staging only","finalA remains A64 and all published metadata matches","No claim external PUT was revoked or took a DB lock"]
+    },
+    {
+      "id":"K55-04-late-before-snapshot-known-sha",
+      "steps":["Session has actual uploaded shaA","Late staging B64 arrives before snapshot read","Complete reads actual B64"],
+      "expect":["Reject actual checksum mismatch before publishing new business rows","Session/head/links/audit/pending-auth remain at the relevant rollback baseline","Never adopt declared shaA for B64 or write failed via catch"]
+    },
+    {
+      "id":"K55-05-actual-read-no-checksum",
+      "steps":["Fresh allowed presigned Session has no checksum expectation; actual object is B64","Complete captures actual B64 buffer"],
+      "expect":["Published final bytes B64, actualSHA=B64, actualSize64","No assertion that undeclared source must have been A or that concurrent source reads are a stable remote object generation"]
+    },
+    {
+      "id":"K55-06-head-untrusted-overflow",
+      "input":{"declared":64,"capturedMax":64,"actual":"A65","headClaimsSize":64,"streamChunks":[32,32,1,100]},
+      "expect":["Accept first64 into application buffer then stop before extending extra1; do not read following100","No final publication and no new SQL business state","HEAD size/checksum cannot bypass actual read"]
+    },
+    {
+      "id":"K55-07-short-read",
+      "input":{"declared":64,"capturedMax":64,"actual":"A63","streamChunks":[32,31]},
+      "expect":["EOF actual63 != declared64 rejected; no final publication or business commit"]
+    },
+    {
+      "id":"K55-08-conflicting-expectations",
+      "input":{"declared":64,"actual":"A64","sessionExpected":"A64","requestExpected":"B64","headClaims":"A64"},
+      "expect":["Reject either preliminary differing non-empty expectations or actual comparison; no expected hash silently wins over another"]
+    },
+    {
+      "id":"K55-09-stream-error-or-oversized-chunk",
+      "steps":["Real controlled provider fails stream after partial read, or delivers chunk > remaining declared bytes"],
+      "expect":["Stop without extending oversized chunk, no unbounded collect","No business Tx started and no success audit; dispose only an actually owned unpublished key if one had been allocated/written"]
+    },
+    {
+      "id":"K55-10-original-provider-and-route",
+      "steps":["Session was created under provider/bucket/prefix R","Separately authorized real admin API changes default to another runtime before complete","Complete uses original Session R"],
+      "expect":["Both snapshot read and final PUT remain on original R, never current default","Config identity/routing proof rechecked on same borrowed connection","A destination more-specific prefix pointing to another runtime fails closed before publication"]
+    },
+    {
+      "id":"K55-11-config-changed-after-snapshot",
+      "barriers":["complete after final prepared, before business Tx proof check"],
+      "steps":["Change selected real routing/config row through authorized config API","Release complete"],
+      "expect":["Changed captured proof produces409 and no business rows","Only KnownNotCommitted plus independent no-reference probe permits own-final cleanup via captured runtime; never delete via new default"]
+    },
+    {
+      "id":"K55-12-link-added-head-unchanged",
+      "barriers":["complete after reading headV7 and oneActive links, before group lock"],
+      "steps":["Real link API adds second valid target and commits; head rowVersion remains7","Release complete"],
+      "expect":["Full-set recheck detects addition and returns409; no stale copied-link subset committed","Old head stays active/latest; final cleanup only after confirmed rollback and no-reference probe","One fresh complete retry with real current state copies both authorized links once"]
+    },
+    {
+      "id":"K55-13-link-removed-or-same-count-changed",
+      "barriers":["complete captured active link set, before group lock"],
+      "steps":["Real unlink API commits, or real unlink+link replaces association while preserving active count","Release complete"],
+      "expect":["409 despite unchanged headVersion or link count; no old association resurrected or new association omitted"]
+    },
+    {
+      "id":"K55-14-link-writer-arrives-after-lock",
+      "barriers":["complete holds canonical group lock before write","real Link or handover auto-link writer has started and is waiting for same group"],
+      "expect":["Writer waits, no phantom active-link insertion through unguarded store path","After one transaction finishes, waiting writer rechecks its actual state/proof; either valid sequential result or409, never lost association"]
+    },
+    {
+      "id":"K55-15-double-complete-same-session",
+      "barriers":["two complete requests prepare distinct private final keys from same Session version","first holds Session lock"],
+      "expect":["Exactly one Session completion/Attachment/copied-link set/success audit commits","Loser strictCAS/status409, confirmed rollback; loser may clean only its distinct unreferenced key","Winner final never deleted; losing context cannot reflush dirty creates"]
+    },
+    {
+      "id":"K55-16-two-version-sessions-same-head",
+      "barriers":["two real create-version Sessions capture same head/history/links proof","first holds shared canonical group"],
+      "expect":["First newversion commits once; second fails head/history CAS409 rather than silently rebasing","All unique/FK constraints retained","Fresh retry only after reload uses next max(all history)+1 and current links"]
+    },
+    {
+      "id":"K55-17-nonfinal-preserves-old-final",
+      "steps":["Real old Attachment A is active/latest/final and already used by actual D material","Complete new nonfinal B"],
+      "expect":["A active and final remain true; only latest becomesfalse","B active/latest true, finalfalse; no duplicate latest and existing final remains unique","A UUID/key/hash/download and frozen D material unchanged"]
+    },
+    {
+      "id":"K55-18-mark-final-and-clear-final",
+      "steps":["Mark new B final through real API, then clear final through real API"],
+      "expect":["Atomic old-final earlyfalse before new-finaltrue; no partial unique violation","Each changed entity version increments once, not early plus ordinary twice","Flags and one necessary audit per command rollback together on failure"]
+    },
+    {
+      "id":"K55-19-void-then-append",
+      "steps":["Create real versions1 and2, void latest2 so version1 becomes latest","Complete new version from restored head1"],
+      "expect":["New versionNo3, never reuse voided2; previousAttachmentId is current real head1","Old v2 bytes/status retained; v1/v3 latest uniqueness correct","max query includes voided history; checked int4 overflow never wraps"]
+    },
+    {
+      "id":"K55-20-metadata-flags-vs-complete",
+      "barriers":["complete has prepared source proof","real metadata/markFinal/void request commits under canonical group before complete locks"],
+      "expect":["Changed source head/version/status/security/flags rejected409, no stale authorization or overwritten flag","Opposite order waits then rechecks; explicit mutator may not bypass group lock"]
+    },
+    {
+      "id":"K55-21-abort-loses-to-complete",
+      "barriers":["abort has preliminary nonterminal snapshot","complete commits terminal first"],
+      "expect":["Abort sees completed/CAS409 before any remove","Both staging deletion and all final deletion prohibited on loser path","Actual active download remains correct"]
+    },
+    {
+      "id":"K55-22-abort-wins-late-put",
+      "barriers":["PUT-B loaded nonterminal and paused before I/O","abort commit ACK plus no-live-reference cleanup"],
+      "steps":["Abort terminal+necessary audit+pending auth commits before staging delete","Resume in-flight PUT-B"],
+      "expect":["Late PUT SQL rejects, cannot restore uploaded or complete","Staging may be recreated as orphan, with no new active Attachment or final reference","No claim external PUT cancellation; no failed catch flush"]
+    },
+    {
+      "id":"K55-23-legacy-referenced-staging",
+      "setup":"Use genuine pre-fix receipts/rows from Root's prior successful or partially committed runs, never SQL-fabricate this inconsistency",
+      "expect":["New proxy/complete/abort rejects nonterminal Session whose staging is already referenced by any Attachment","No delete, overwrite, duplicate create, silent repair, historical key/hash rewrite or fake completed state","Old signed legacy PUT limitation is explicitly unaccepted and separately governed"]
+    },
+    {
+      "id":"K55-24-failure-at-each-necessary-write",
+      "requires":"Root authorized uniquely named fault triggers scoped only to owned IDs; all producers and requests real",
+      "faultPoints":["old latest/final early CAS","new Attachment INSERT","each copied Link INSERT","Session completed UPDATE","necessary audit INSERT","deferred auth flush"],
+      "expect":["Each fault yields no success response and rollback ACK","All Attachment/group flags/links/Session and necessary audit equal pre-command baseline; pending auth unchanged from post-eager baseline","Only owned final cleanup after independent no-reference probe; no second catch flush","Remove one fault and use one fresh request/context: exactly one legitimate success, no duplicate IDs/audit or managed auth CAS replay"]
+    },
+    {
+      "id":"K55-25-create-session-and-mutation-audit-failures",
+      "operations":["create_session","update_metadata","mark_final","clear_final","void","link","unlink","abort"],
+      "expect":["Fault each operation's real necessary audit INSERT after dirty planning","No Session/metadata/flag/link/void/abort effect survives its failed transaction","abort never removes staging before audit/terminal ACK","One real retry after fault removal succeeds once; existing no-op semantics audited only as currently required"]
+    },
+    {
+      "id":"K55-26-commit-result-unknown",
+      "requires":"Controlled actual lost COMMIT ACK/connection failure, not a mocked application success result",
+      "expect":["Classify Unknown, return existing internal failure and poison request context","Retain final even if first independent read has no visible row; no automatic retry/delete","If actual commit succeeded, real GET/SQL finds complete row/final intact; if not, retained orphan is allowed","Caller resolves current state using fresh actual request; no replay with stale pending auth"]
+    },
+    {
+      "id":"K55-27-rollback-unknown-and-probe-error",
+      "expect":["Unacknowledged rollback, timeout after BEGIN, failed independent probe or cleanup error never deletes possibly referenced final","Full raw/json/original/pending snapshots restored only on decisive known rollback; unknown contexts unusable","No masking original error by a compensating status write"]
+    },
+    {
+      "id":"K55-28-final-put-partial-failure",
+      "requires":"Actual controlled object provider failure may leave partial owned final key",
+      "expect":["No business Tx started/published; independent no-reference probe then best-effort delete only this attempt key","Captured original runtime used even if current default changed","Cleanup failure leaves orphan, not Session.failed or a success audit"]
+    },
+    {
+      "id":"K55-29-single-connection-pool",
+      "requires":"Root authorized isolated resource configuration, not changed by this author",
+      "steps":["Actual pool size1; complete snapshot reads/resolves before acquiring business SQL Tx","Locked recheck uses same borrowed connection, with no nested storage config lookup"],
+      "expect":["No self-wait pool timeout/deadlock, one business transaction commit","fresh cleanup probe occurs only after original connection released"]
+    },
+    {
+      "id":"K55-30-client-cas-expiry-owner-and-status",
+      "operations":["complete","proxy metadata save","upload_target status save","abort"],
+      "expect":["Wrong supplied expectedVersion409; omitted client version still enforces loaded server rowVersion","Actual owner/actor/permission and locked source status/expiry reject stale or unauthorized operations","completed/failed/expired/aborted never revived; legitimate old validating may complete with current real version","Rejected complete does not precommit expired/failed/validating or audit success"]
+    },
+    {
+      "id":"K55-31-raw-context-and-no-repeat-early-update",
+      "classification":"Source-backed implementation/pure test plan, not yet executed",
+      "expect":["Checkpoint roundtrip preserves data/original/raw/original_raw/json_raw/original_json_raw/pending/target cache byte-for-byte on known rollback","Old early Attachment appears once in saved journal and is absent from ordinary UPDATE plan","No string metadata normalization, audit raw-string loss or double rowVersion increment introduced"]
+    },
+    {
+      "id":"K55-32-constraints-and-scope-regression",
+      "expect":["Real catalog still has uq_attachment_latest_active/uq_attachment_final_active/uq_attachment_version_no/uq_attachment_link_active_relation and all prior FKs/checks","Real D material keeps prior final attachment UUID/key/hash","F46 and F44 sealed artifacts and six cost product sources remain byte-identical","S3 and wider handover/package multi-phase atomicity remain uncertified unless separately actually tested"]
+    }
+  ]
+}

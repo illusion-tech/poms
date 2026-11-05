@@ -1,0 +1,169 @@
+{
+  "kind": "Root-supplied-R4DEF-closeout-facts130",
+  "rootVerified": true,
+  "stage": "Ready",
+  "closedAt": "2026-11-05T03:00:44.736Z",
+  "implementationCommit": "d6c3cff84dd96c981bab075d3f4aca3e98c76c4b",
+  "metadataCommit": null,
+  "mainCommit": "d6c3cff84dd96c981bab075d3f4aca3e98c76c4b",
+  "finalMetadataCommit": null,
+  "permanentS4": "4f0ad88e78622a75b88b4e3cc72aded9da67458a",
+  "counts": {
+    "D": 7,
+    "E": 11,
+    "F": 12,
+    "batch": 30,
+    "r4DeliveredAfterFinal": 67,
+    "r4Total": 92,
+    "remaining": 25,
+    "operating": 17,
+    "acceptanceCompletionArchive": 8,
+    "rustTechnical": 240,
+    "rustOfficialBeforeFinal": 210,
+    "rustOfficialAfterFinal": 240,
+    "paths": 239,
+    "operations": 293,
+    "schemas": 626,
+    "clientFiles": 616
+  },
+  "evidence": {
+    "finalValidation": {
+      "file": "docs/design/archive/slices/rust-r4def/terminal170/final-validation160.json.bin",
+      "rawBytesSha256": "f534252c187f5a37f235ac04f5643f6c0a1706699546d155522d05e778f596f8",
+      "checks": [
+        {
+          "pointer": "/actualAcceptanceAndTerminalReadyForIndependentG3",
+          "equals": true
+        }
+      ]
+    },
+    "cleanup": {
+      "file": "docs/design/archive/slices/rust-r4def/terminal170/cleanup-actions158.json.bin",
+      "rawBytesSha256": "9340515689dba3dcdf9293691d3883bae8c41974980345f14e8b50b8beb36827",
+      "checks": [
+        {
+          "pointer": "/allOperationsMatchReviewedPlan",
+          "equals": true
+        },
+        {
+          "pointer": "/reports/1/outerCommitAcknowledged",
+          "equals": true
+        },
+        {
+          "pointer": "/reports/1/actualTwoNoOps/1/baselineExact",
+          "equals": true
+        }
+      ]
+    },
+    "stopped": {
+      "file": "docs/design/archive/slices/rust-r4def/terminal170/stopped157.json.bin",
+      "rawBytesSha256": "c89e1b6f49ebda319eacb2143dde4c5af0411d33f8b0811a40808acdc10abdcc",
+      "checks": [
+        {
+          "pointer": "/running",
+          "equals": false
+        },
+        {
+          "pointer": "/stopAcknowledged",
+          "equals": true
+        },
+        {
+          "pointer": "/volumeRetained",
+          "equals": true
+        },
+        {
+          "pointer": "/privateRetained",
+          "equals": true
+        }
+      ]
+    },
+    "independentG3": {
+      "file": "docs/design/archive/slices/rust-r4def/terminal170/independent-g3.json.bin",
+      "rawBytesSha256": "5fc5301a86a2cdc0709fb43ed824da797056bfaa3910844424b4e378a9c67094",
+      "checks": [
+        {
+          "pointer": "/G3Pass",
+          "equals": true
+        }
+      ]
+    },
+    "fixedCommitReview": {
+      "file": "docs/design/archive/slices/rust-r4def/terminal170/fixed-commit-review167.json.bin",
+      "rawBytesSha256": "02fc334fcb9745264765de727f4fda64162ab8ae63cda08ab5056dc54faf840a",
+      "checks": [
+        {
+          "pointer": "/fixedCommitVerified",
+          "equals": true
+        }
+      ]
+    },
+    "mainIntegration": {
+      "file": "docs/design/archive/slices/rust-r4def/terminal170/main168.json.bin",
+      "rawBytesSha256": "9f403a1eefcef53514e86265bbbeee788fc101101dc492bb7f3c4afb8fff031c",
+      "checks": [
+        {
+          "pointer": "/mainIntegrated",
+          "equals": true
+        },
+        {
+          "pointer": "/mainCommit",
+          "equals": "d6c3cff84dd96c981bab075d3f4aca3e98c76c4b"
+        }
+      ]
+    },
+    "preclosePermission": {
+      "file": null,
+      "rawBytesSha256": null,
+      "checks": [
+        {
+          "pointer": null,
+          "equals": null
+        }
+      ]
+    },
+    "onlineReadback": {
+      "file": null,
+      "rawBytesSha256": null,
+      "checks": [
+        {
+          "pointer": null,
+          "equals": null
+        }
+      ]
+    },
+    "independentActualG4": {
+      "file": null,
+      "rawBytesSha256": null,
+      "checks": [
+        {
+          "pointer": null,
+          "equals": null
+        }
+      ]
+    }
+  },
+  "assertions": {
+    "exactOwnedCleanup": true,
+    "borrowedOriginalsRestored": true,
+    "secondCleanupNoop": true,
+    "ownedApisStopped": true,
+    "privateAndVolumesRetained": true,
+    "historicalLabelsRetained": true,
+    "s4IsPermanentAncestor": true,
+    "productScopeLimitedToBatch30": true,
+    "sixIssueBodiesCommentsAndNativeTreeMatchApprovedPlan": null,
+    "finalIndependentActualG4Pass": null,
+    "fullR4RemainsIncomplete": true,
+    "r5AndLaterRemainOutOfScope": true
+  },
+  "issueStatePointers": {
+    "57": null,
+    "101": null,
+    "106": null,
+    "107": null,
+    "108": null,
+    "109": null
+  },
+  "instructions": "Root fills real paths, exact raw SHA256, actual JSON-pointer/value checks and assertions; null is never Pass.",
+  "timestampMeaning": "Ready archival timestamp; four Issue closures still pending"
+}

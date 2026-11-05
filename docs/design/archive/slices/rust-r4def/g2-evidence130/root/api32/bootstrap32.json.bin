@@ -1,0 +1,76 @@
+{
+  "bootstrap": {
+    "id": "00000000-0000-4000-8000-000000000001",
+    "username": "admin",
+    "permissionCount": 37
+  },
+  "definitions": [
+    {
+      "method": "PUT",
+      "path": "/api/platform/users/{id}/roles",
+      "operationId": "PlatformController_assignUserRoles",
+      "requestSchema": {
+        "$ref": "#/components/schemas/AssignUserRolesRequest"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/platform/roles",
+      "operationId": "PlatformController_listRoles",
+      "requestSchema": null
+    },
+    {
+      "method": "POST",
+      "path": "/api/platform/roles",
+      "operationId": "PlatformController_createRole",
+      "requestSchema": {
+        "$ref": "#/components/schemas/CreateRoleRequest"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/platform/permissions",
+      "operationId": "PlatformController_listPermissions",
+      "requestSchema": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/platform/roles/{id}",
+      "operationId": "PlatformController_getRole",
+      "requestSchema": null
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/platform/roles/{id}",
+      "operationId": "PlatformController_updateRole",
+      "requestSchema": {
+        "$ref": "#/components/schemas/UpdateRoleRequest"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/platform/roles/{id}:activate",
+      "operationId": "PlatformController_activateRole",
+      "requestSchema": {
+        "$ref": "#/components/schemas/UpdateRoleActivationRequest"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/platform/roles/{id}:deactivate",
+      "operationId": "PlatformController_deactivateRole",
+      "requestSchema": {
+        "$ref": "#/components/schemas/UpdateRoleActivationRequest"
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/api/platform/roles/{id}/permissions",
+      "operationId": "PlatformController_assignRolePermissions",
+      "requestSchema": {
+        "$ref": "#/components/schemas/AssignRolePermissionsRequest"
+      }
+    }
+  ],
+  "businessRuntimeAccepted": false
+}

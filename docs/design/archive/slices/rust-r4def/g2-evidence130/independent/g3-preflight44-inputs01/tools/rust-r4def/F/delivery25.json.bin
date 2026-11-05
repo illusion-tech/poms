@@ -1,0 +1,565 @@
+{
+  "kind": "R4F-integration-correction25-delivery",
+  "capturedAt": "2026-11-03T23:18:04.796187+00:00",
+  "baseCommit": "756d813c9578090fcf8e56821acce01b46b40420",
+  "worktree": "E:\\projects\\worktrees\\poms-r4f-cost-governance\\poms",
+  "branch": "codex/poms-r4f-cost-governance",
+  "issue": 109,
+  "parentIssue": 106,
+  "ancestorIssuesRemainOpen": [
+    101,
+    57
+  ],
+  "authorization": "Root NEW_TASK correction25 after independent preflight22; no public surface/DDL change",
+  "driftClassification": "new-real-drift",
+  "authorComplete": true,
+  "committed": false,
+  "pushed": false,
+  "productWhitelist": "apps/poms-api-rust/src/project_cost_governance/**",
+  "supportWhitelist": "tools/rust-r4def/F/**",
+  "productFiles": [
+    {
+      "file": "apps/poms-api-rust/src/project_cost_governance/evidence.rs",
+      "bytes": 32766,
+      "rawBytesSha256": "6c10996eec05d8c224fd2a02ade0a69eb17b8a497ed175b09609ab8fbbf42c53"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_cost_governance/logic.rs",
+      "bytes": 12775,
+      "rawBytesSha256": "18f818dd4cdecb970ee5ed5a0e3fe0b5c29cdd34e43e45204cde34d2880a312d"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_cost_governance/mod.rs",
+      "bytes": 2330,
+      "rawBytesSha256": "ecbe9519abb24e6f06f39e3fb94ab4416e6fa4c9c2464c4606ccbac01ed83cc9"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_cost_governance/projection.rs",
+      "bytes": 23183,
+      "rawBytesSha256": "d525b70b521b3b7520345c77c9e547abe60080d7dd9644b515de876bef072725"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_cost_governance/service.rs",
+      "bytes": 43671,
+      "rawBytesSha256": "c4c840d026610bbaf31b008d06985b8d635d221fffb4f27007b144a52b395b3c"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_cost_governance/store.rs",
+      "bytes": 11880,
+      "rawBytesSha256": "6712ee261e4458df43fe3f1369dcdfa8a083de9e6f844f461a0eddc85a11867e"
+    }
+  ],
+  "productDeltaFromDelivery01": [
+    {
+      "file": "apps/poms-api-rust/src/project_cost_governance/evidence.rs",
+      "changed": true,
+      "previousRawBytesSha256": "bc8602037865a94b148a4fb7629d30890c8d4ca78c9d44efd1be30f1d6b5f2f6",
+      "rawBytesSha256": "6c10996eec05d8c224fd2a02ade0a69eb17b8a497ed175b09609ab8fbbf42c53"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_cost_governance/logic.rs",
+      "changed": false,
+      "previousRawBytesSha256": "18f818dd4cdecb970ee5ed5a0e3fe0b5c29cdd34e43e45204cde34d2880a312d",
+      "rawBytesSha256": "18f818dd4cdecb970ee5ed5a0e3fe0b5c29cdd34e43e45204cde34d2880a312d"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_cost_governance/mod.rs",
+      "changed": false,
+      "previousRawBytesSha256": "ecbe9519abb24e6f06f39e3fb94ab4416e6fa4c9c2464c4606ccbac01ed83cc9",
+      "rawBytesSha256": "ecbe9519abb24e6f06f39e3fb94ab4416e6fa4c9c2464c4606ccbac01ed83cc9"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_cost_governance/projection.rs",
+      "changed": false,
+      "previousRawBytesSha256": "d525b70b521b3b7520345c77c9e547abe60080d7dd9644b515de876bef072725",
+      "rawBytesSha256": "d525b70b521b3b7520345c77c9e547abe60080d7dd9644b515de876bef072725"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_cost_governance/service.rs",
+      "changed": true,
+      "previousRawBytesSha256": "99639f7b58d6ecbf14b80da0dac192918e777758af5a3c2f41c879defcb45584",
+      "rawBytesSha256": "c4c840d026610bbaf31b008d06985b8d635d221fffb4f27007b144a52b395b3c"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_cost_governance/store.rs",
+      "changed": false,
+      "previousRawBytesSha256": "6712ee261e4458df43fe3f1369dcdfa8a083de9e6f844f461a0eddc85a11867e",
+      "rawBytesSha256": "6712ee261e4458df43fe3f1369dcdfa8a083de9e6f844f461a0eddc85a11867e"
+    }
+  ],
+  "supportFiles": [
+    {
+      "file": "tools/rust-r4def/F/.gitignore",
+      "bytes": 8,
+      "rawBytesSha256": "020c2606e8ed484089c2083e0be438b9d0736bee1558a6b76af0d58bd23f69cf"
+    },
+    {
+      "file": "tools/rust-r4def/F/archive-source25.ps1",
+      "bytes": 2285,
+      "rawBytesSha256": "b51bd6ab8721c39a4c6decf40bec2f7c14d31aabbf4a64b2ae7c2933fb529919"
+    },
+    {
+      "file": "tools/rust-r4def/F/build-delivery01.py",
+      "bytes": 5614,
+      "rawBytesSha256": "227fff639863972e1546c84dabb66426639bb7b0f69a452ea1b01b68d9602243"
+    },
+    {
+      "file": "tools/rust-r4def/F/build-delivery25.py",
+      "bytes": 7259,
+      "rawBytesSha256": "dd85f111a8cb63da035e94fd40acdb933589d1e4a5716d055739de11990d58db"
+    },
+    {
+      "file": "tools/rust-r4def/F/delivery01.json",
+      "bytes": 14154,
+      "rawBytesSha256": "e1a95fe65978ec9b7a28336065d47e9b6f44f65d5d32fe1e6fc640eb534e1c8a"
+    },
+    {
+      "file": "tools/rust-r4def/F/delta25.patch",
+      "bytes": 11386,
+      "rawBytesSha256": "6631c234107b3fb52d9a012106d2838568555e6bfe56c935cc208bd21f9f3cf5"
+    },
+    {
+      "file": "tools/rust-r4def/F/frozen-schemas06.json",
+      "bytes": 72257,
+      "rawBytesSha256": "384d05551e881579dda33f047bb8f4efda014184202c65b367296d9fdda80a7e"
+    },
+    {
+      "file": "tools/rust-r4def/F/HANDOFF.md",
+      "bytes": 7921,
+      "rawBytesSha256": "3c98597b62aeeb0e1002ce581a2cfe1d27cfa6c4306d4d66cc21f92ab4c5a53d"
+    },
+    {
+      "file": "tools/rust-r4def/F/HANDOFF25.md",
+      "bytes": 5716,
+      "rawBytesSha256": "f90c0483c2b4f4b76477a1290801ded2f202802ebce2b6527d45fd5a849f5fb2"
+    },
+    {
+      "file": "tools/rust-r4def/F/inspect_frozen.py",
+      "bytes": 796,
+      "rawBytesSha256": "3ce02034ecdf0511a63686e4161a4c159db012b656c147419c7c13e58c526e69"
+    },
+    {
+      "file": "tools/rust-r4def/F/PG-REPLAY25.md",
+      "bytes": 4703,
+      "rawBytesSha256": "1c17582f91e4642cd811eb3fa6951668a7a86daf522fce89d6bec8b8d27cc18c"
+    },
+    {
+      "file": "tools/rust-r4def/F/run-author-checks01.ps1",
+      "bytes": 4335,
+      "rawBytesSha256": "88d15d17067151ba544be4ba45b07256031af82369a6aac48157d5e5bc4f38a4"
+    },
+    {
+      "file": "tools/rust-r4def/F/run-static25.ps1",
+      "bytes": 2801,
+      "rawBytesSha256": "9cd46b12784c9daad6f9e0d22093cf9c1147a273f98ecafe903e30b538ba4bc6"
+    },
+    {
+      "file": "tools/rust-r4def/F/source-originals25/evidence.rs.bin",
+      "bytes": 28931,
+      "rawBytesSha256": "bc8602037865a94b148a4fb7629d30890c8d4ca78c9d44efd1be30f1d6b5f2f6"
+    },
+    {
+      "file": "tools/rust-r4def/F/source-originals25/logic.rs.bin",
+      "bytes": 12775,
+      "rawBytesSha256": "18f818dd4cdecb970ee5ed5a0e3fe0b5c29cdd34e43e45204cde34d2880a312d"
+    },
+    {
+      "file": "tools/rust-r4def/F/source-originals25/manifest.json",
+      "bytes": 2752,
+      "rawBytesSha256": "32f30249cb905c1f1dd69b67764fb01f3d00ed232030b9a02b18a8d18dcc0f12"
+    },
+    {
+      "file": "tools/rust-r4def/F/source-originals25/mod.rs.bin",
+      "bytes": 2330,
+      "rawBytesSha256": "ecbe9519abb24e6f06f39e3fb94ab4416e6fa4c9c2464c4606ccbac01ed83cc9"
+    },
+    {
+      "file": "tools/rust-r4def/F/source-originals25/projection.rs.bin",
+      "bytes": 23183,
+      "rawBytesSha256": "d525b70b521b3b7520345c77c9e547abe60080d7dd9644b515de876bef072725"
+    },
+    {
+      "file": "tools/rust-r4def/F/source-originals25/service.rs.bin",
+      "bytes": 42694,
+      "rawBytesSha256": "99639f7b58d6ecbf14b80da0dac192918e777758af5a3c2f41c879defcb45584"
+    },
+    {
+      "file": "tools/rust-r4def/F/source-originals25/store.rs.bin",
+      "bytes": 11880,
+      "rawBytesSha256": "6712ee261e4458df43fe3f1369dcdfa8a083de9e6f844f461a0eddc85a11867e"
+    }
+  ],
+  "previousDelivery": {
+    "file": "tools/rust-r4def/F/delivery01.json",
+    "bytes": 14154,
+    "rawBytesSha256": "e1a95fe65978ec9b7a28336065d47e9b6f44f65d5d32fe1e6fc640eb534e1c8a"
+  },
+  "originalSourceArchive": {
+    "file": "tools/rust-r4def/F/source-originals25/manifest.json",
+    "bytes": 2752,
+    "rawBytesSha256": "32f30249cb905c1f1dd69b67764fb01f3d00ed232030b9a02b18a8d18dcc0f12"
+  },
+  "preservedArtifactsVerified": [
+    {
+      "file": "tools/rust-r4def/F/delivery01.json",
+      "bytes": 14154,
+      "rawBytesSha256": "e1a95fe65978ec9b7a28336065d47e9b6f44f65d5d32fe1e6fc640eb534e1c8a"
+    },
+    {
+      "file": "tools/rust-r4def/F/HANDOFF.md",
+      "bytes": 7921,
+      "rawBytesSha256": "3c98597b62aeeb0e1002ce581a2cfe1d27cfa6c4306d4d66cc21f92ab4c5a53d"
+    },
+    {
+      "file": "tools/rust-r4def/F/build-delivery01.py",
+      "bytes": 5614,
+      "rawBytesSha256": "227fff639863972e1546c84dabb66426639bb7b0f69a452ea1b01b68d9602243"
+    },
+    {
+      "file": "tools/rust-r4def/F/run-author-checks01.ps1",
+      "bytes": 4335,
+      "rawBytesSha256": "88d15d17067151ba544be4ba45b07256031af82369a6aac48157d5e5bc4f38a4"
+    },
+    {
+      "file": "tools/rust-r4def/F/build/author-checks03/receipt.json",
+      "bytes": 10056,
+      "rawBytesSha256": "59e94b83ceaaee69fbc6d43b562e719cca7d68f4b493c2933a34b7755f8503d4"
+    },
+    {
+      "file": "tools/rust-r4def/F/build/author-checks03/rustfmt.stdout.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "tools/rust-r4def/F/build/author-checks03/test.stdout.log",
+      "bytes": 2914,
+      "rawBytesSha256": "fd832c58a01b5ce691ce7f4ffdfdd951c9b3bae9b87bdab0a5cf9dfb6089ff97"
+    },
+    {
+      "file": "tools/rust-r4def/F/build/author-checks03/clippy.stdout.log",
+      "bytes": 186,
+      "rawBytesSha256": "4244e65cc888336f56a19dc7bb4330e10da85b00de389c2e08bcb69c8a8e00cd"
+    }
+  ],
+  "reviewablePatch": {
+    "file": "tools/rust-r4def/F/delta25.patch",
+    "bytes": 11386,
+    "rawBytesSha256": "6631c234107b3fb52d9a012106d2838568555e6bfe56c935cc208bd21f9f3cf5"
+  },
+  "corrections": [
+    "contract stage source selects only typed identity/scope/status/version/date and same-contract preparation currency reference; no numeric amounts/rates/seeds",
+    "payable direct source eligibility uses canonical completed, rejects paid alias",
+    "real E04 transition helper requires actual confirmed net payment total and version increase, latest anchor proof and strict client CAS unchanged",
+    "server-owned safeAuditSummary true; raw money/freeform stays only in immutable evidence"
+  ],
+  "numericBranchReview": {
+    "record": "tools/rust-r4def/F/HANDOFF25.md",
+    "mode": "static source and frozen schema review",
+    "notDatabaseEvidence": true,
+    "globalDependencyFeaturesChanged": false
+  },
+  "operationAuthority": {
+    "file": "docs/design/rust-r4def/joint-g1-06/operation-map06.json",
+    "bytes": 15485,
+    "rawBytesSha256": "a7ec15625cef5483f09af7c1b33332dcd6612b84ecf082c6a6e87dd05e52eb01"
+  },
+  "operations": [
+    {
+      "group": "F",
+      "method": "POST",
+      "path": "/api/shared-cost-allocation-bases",
+      "operationId": "ProjectCostController_confirmSharedCostAllocationBasis",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "confirmSharedCostAllocationBasis",
+        "line": 231
+      }
+    },
+    {
+      "group": "F",
+      "method": "GET",
+      "path": "/api/shared-cost-allocation-bases/{id}",
+      "operationId": "ProjectCostController_getSharedCostAllocationBasis",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "getSharedCostAllocationBasis",
+        "line": 240
+      }
+    },
+    {
+      "group": "F",
+      "method": "GET",
+      "path": "/api/shared-cost-allocation-bases/{id}/results",
+      "operationId": "ProjectCostController_listSharedCostAllocationResults",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "listSharedCostAllocationResults",
+        "line": 248
+      }
+    },
+    {
+      "group": "F",
+      "method": "POST",
+      "path": "/api/shared-cost-allocation-results/{id}:replace",
+      "operationId": "ProjectCostController_replaceSharedCostAllocationResult",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "replaceSharedCostAllocationResult",
+        "line": 256
+      }
+    },
+    {
+      "group": "F",
+      "method": "POST",
+      "path": "/api/project-actual-cost-records/{id}/stage-attributions",
+      "operationId": "ProjectCostController_confirmCostStageAttribution",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "confirmCostStageAttribution",
+        "line": 265
+      }
+    },
+    {
+      "group": "F",
+      "method": "POST",
+      "path": "/api/cost-stage-attributions/{id}:reclassify",
+      "operationId": "ProjectCostController_reclassifyCostStageAttribution",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "reclassifyCostStageAttribution",
+        "line": 274
+      }
+    },
+    {
+      "group": "F",
+      "method": "GET",
+      "path": "/api/project-actual-cost-records/{costRecordId}/stage-attributions",
+      "operationId": "ProjectCostController_listCostStageAttributions",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "listCostStageAttributions",
+        "line": 283
+      }
+    },
+    {
+      "group": "F",
+      "method": "GET",
+      "path": "/api/cost-stage-attributions/{id}",
+      "operationId": "ProjectCostController_getCostStageAttribution",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "getCostStageAttribution",
+        "line": 291
+      }
+    },
+    {
+      "group": "F",
+      "method": "POST",
+      "path": "/api/projects/{projectId}/accounting-tax-treatments",
+      "operationId": "ProjectCostController_confirmAccountingTaxTreatment",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "confirmAccountingTaxTreatment",
+        "line": 299
+      }
+    },
+    {
+      "group": "F",
+      "method": "POST",
+      "path": "/api/accounting-tax-treatments/{id}:replace",
+      "operationId": "ProjectCostController_replaceAccountingTaxTreatment",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "replaceAccountingTaxTreatment",
+        "line": 308
+      }
+    },
+    {
+      "group": "F",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/accounting-tax-treatments",
+      "operationId": "ProjectCostController_listAccountingTaxTreatments",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "listAccountingTaxTreatments",
+        "line": 317
+      }
+    },
+    {
+      "group": "F",
+      "method": "GET",
+      "path": "/api/accounting-tax-treatments/{id}",
+      "operationId": "ProjectCostController_getAccountingTaxTreatment",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "getAccountingTaxTreatment",
+        "line": 325
+      }
+    }
+  ],
+  "compiledRealESources": [
+    {
+      "path": "E:\\projects\\worktrees\\poms-r4e-cost-base\\poms\\apps\\poms-api-rust\\src\\project_actual_cost\\logic.rs",
+      "bytes": 7863,
+      "rawBytesSha256": "96bdbc87dd031b59c6b895243241cd9b847eb9ae690766c5782183a5c0f9ba4c"
+    },
+    {
+      "path": "E:\\projects\\worktrees\\poms-r4e-cost-base\\poms\\apps\\poms-api-rust\\src\\project_actual_cost\\mod.rs",
+      "bytes": 77170,
+      "rawBytesSha256": "aaaa5126be86c421255d699bcad582131943d7f500754f0db8e55ddfc437a407"
+    },
+    {
+      "path": "E:\\projects\\worktrees\\poms-r4e-cost-base\\poms\\apps\\poms-api-rust\\src\\project_actual_cost\\store.rs",
+      "bytes": 9144,
+      "rawBytesSha256": "0b39d14477e52641307d84f28c043dcf9c4309d38d0f55476e7f9806cb621eb5"
+    },
+    {
+      "path": "E:\\projects\\worktrees\\poms-r4e-cost-base\\poms\\apps\\poms-api-rust\\src\\project_actual_cost\\view.rs",
+      "bytes": 16236,
+      "rawBytesSha256": "943a93380de87fbddc06650f35acfaf467db1a17abf6c25c3af162a5955b53ac"
+    }
+  ],
+  "rootCompilerScaffoldingNotDelivered": [
+    "apps/poms-api-rust/src/lib.rs",
+    "apps/poms-api-rust/src/contract_support/mod.rs"
+  ],
+  "checks": {
+    "rustfmt": "passed",
+    "actualLibCompileAndPureTests": {
+      "passed": 24,
+      "failed": 0,
+      "ignored": 0
+    },
+    "clippyMinusDWarnings": "passed-zero-warnings",
+    "inputsStableDuringRun": true,
+    "ownedMarkdownFormatter": "passed",
+    "ownedSourceSupportWhitespace": "passed",
+    "trackedRootScaffoldingGitDiffCheck": "passed"
+  },
+  "receipt": {
+    "file": "tools/rust-r4def/F/build/author-checks25/receipt.json",
+    "bytes": 10056,
+    "rawBytesSha256": "afb7e919582ed71d68f3779fc6e96d4cfa7d66bff932433cd9689597485cc413"
+  },
+  "actualToolLogs": [
+    {
+      "file": "tools/rust-r4def/F/build/author-checks25/rustfmt.stdout.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "tools/rust-r4def/F/build/author-checks25/test.stdout.log",
+      "bytes": 3162,
+      "rawBytesSha256": "9248e03804e8ad588e018e661dae79f2fb2a8f7b42ea631e73c2e0f2ffb06b78"
+    },
+    {
+      "file": "tools/rust-r4def/F/build/author-checks25/clippy.stdout.log",
+      "bytes": 186,
+      "rawBytesSha256": "306f2425c35910e7b0b7861a33f15ac1b862684092b2b0dc668ee3ff2c2d63b9"
+    }
+  ],
+  "staticReceipt": {
+    "file": "tools/rust-r4def/F/build/static-checks25/receipt.json",
+    "bytes": 2739,
+    "rawBytesSha256": "b74a1ba1b9bc7d658d5df613e0856452108fe4d43ef40477023e8a055fba3c31"
+  },
+  "staticToolLogs": [
+    {
+      "file": "tools/rust-r4def/F/build/static-checks25/markdown.stdout.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "tools/rust-r4def/F/build/static-checks25/git-diff-check.stdout.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "realPgReplayPlan": {
+    "file": "tools/rust-r4def/F/PG-REPLAY25.md",
+    "status": "planned-not-executed"
+  },
+  "sourceProtocolDelta": {
+    "topLevelCamelContractChanged": false,
+    "sourcePayloadNewTextKey": "confirmed_payment_amount_excluding_tax_total",
+    "canonicalPayableTerminalStatus": "completed",
+    "paidAliasAccepted": false,
+    "immutableESourceBasisChangedByF": false,
+    "clientCAS": "strict"
+  },
+  "notRun": [
+    "shared PostgreSQL",
+    "migration execution",
+    "HTTP/auth/CSRF integration",
+    "browser",
+    "business fault injection",
+    "concurrency",
+    "real end-to-end producer acceptance",
+    "real PG large-money hash replay",
+    "independent G3",
+    "G4"
+  ],
+  "unresolvedBusinessQuestions": [],
+  "independentG3": "pending-Root",
+  "G4Certified": false
+}

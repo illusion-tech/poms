@@ -1,0 +1,36 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:25:38.791Z",
+  "completedAt": "2026-11-04T00:25:38.815Z",
+  "operationId": "PlatformController_assignRolePermissions",
+  "method": "PUT",
+  "path": "/api/platform/roles/34c85279-e6f6-47c2-8f83-3bb6c01d57c9/permissions",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-00615-714588d4",
+  "requestBody": {
+    "permissionKeys": [
+      "project:read",
+      "project:write",
+      "nav:projects:view",
+      "nav:contracts:view",
+      "nav:attachments:view",
+      "contract:finance:sensitive:read"
+    ]
+  },
+  "status": 200,
+  "responseBody": {
+    "id": "34c85279-e6f6-47c2-8f83-3bb6c01d57c9",
+    "roleKey": "r4def33-writer",
+    "name": "R4DEF33 writer",
+    "description": null,
+    "isActive": true,
+    "isSystemRole": false,
+    "displayOrder": 0,
+    "createdAt": "2026-11-03T23:50:30.466Z",
+    "updatedAt": "2026-11-03T23:50:30.466Z"
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

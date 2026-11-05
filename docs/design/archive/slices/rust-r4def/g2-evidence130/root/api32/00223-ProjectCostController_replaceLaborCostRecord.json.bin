@@ -1,0 +1,28 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:05:21.601Z",
+  "completedAt": "2026-11-04T00:05:21.613Z",
+  "operationId": "ProjectCostController_replaceLaborCostRecord",
+  "method": "POST",
+  "path": "/api/project-actual-cost-records/986d0e2f-614e-48f5-898d-28ddcacac8cc:replace",
+  "query": {},
+  "actorKey": "operatingOnly",
+  "actorId": "5f22da8a-3802-4a59-97d5-27527ca2e854",
+  "requestId": "r4def32-00223-82c95c16",
+  "requestBody": {
+    "laborPeriodStart": "2026-10-01",
+    "laborPeriodEnd": "2026-10-03",
+    "actualHours": "4.00",
+    "rateVersionId": "86934931-b6a1-4790-a978-f829a4aa4331",
+    "replaceReason": "无劳动敏感读不能探测替代金额",
+    "expectedSupersededRecordVersion": 1
+  },
+  "status": 403,
+  "responseBody": {
+    "error": "Forbidden",
+    "message": "Labor-sensitive authorization is required",
+    "statusCode": 403
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

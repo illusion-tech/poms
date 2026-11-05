@@ -1,0 +1,61 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T04:18:13.055Z",
+  "completedAt": "2026-11-04T04:18:13.121Z",
+  "operationId": "ProjectCostController_confirmSharedCostAllocationBasis",
+  "method": "POST",
+  "path": "/api/shared-cost-allocation-bases",
+  "query": {},
+  "actorKey": "raceA88",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-01509-d1a124dd",
+  "requestBody": {
+    "basisType": "R62-r88-basis",
+    "allocationMethod": "weighted",
+    "sourceCostRecordIds": [
+      "5c536ace-e016-4f63-bb21-d211ad4c87b7"
+    ],
+    "measurementBasis": "including-tax",
+    "expectedSourceVersions": [
+      {
+        "costRecordId": "5c536ace-e016-4f63-bb21-d211ad4c87b7",
+        "expectedVersion": 2
+      }
+    ],
+    "projectShareItems": [
+      {
+        "projectId": "2410df0c-c530-4223-b857-1a83a411b57b",
+        "allocationWeight": "1.000000",
+        "allocatedAmount": "0.06",
+        "allocationRatio": "0.500000",
+        "allocationSummary": "R62-r88-explicit-fixed-share"
+      },
+      {
+        "projectId": "a275878e-459d-45d9-a2f4-37874d68c7f2",
+        "allocationWeight": "1.000000",
+        "allocatedAmount": "0.06",
+        "allocationRatio": "0.500000",
+        "allocationSummary": "R62-r88-explicit-fixed-share"
+      }
+    ],
+    "basisSummary": "固定来源金额与完整项目份额；v2；不纳入经营成本"
+  },
+  "status": 201,
+  "responseBody": {
+    "allocationResultIds": [
+      "862af246-f476-4b4c-971c-574d433949eb",
+      "41baf311-319c-447a-83ec-b76ece809eb8"
+    ],
+    "approvalRecordId": null,
+    "basisId": "9512f585-e5dd-4820-aeb4-6511c20acd44",
+    "businessStatusAfter": "active",
+    "confirmationRecordId": null,
+    "evidenceId": "9c6f8bbc-bb79-454a-ae2a-fe44e4747093",
+    "resultStatus": "success",
+    "targetId": "9512f585-e5dd-4820-aeb4-6511c20acd44",
+    "targetType": "SharedCostAllocationBasis",
+    "todoItemIds": []
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

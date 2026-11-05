@@ -1,0 +1,68 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:05:24.896Z",
+  "completedAt": "2026-11-04T00:05:24.912Z",
+  "operationId": "RuntimeAuditController_listAuditLogs",
+  "method": "GET",
+  "path": "/api/audit-logs",
+  "query": {
+    "targetType": "ProjectActualCostRecord",
+    "targetId": "986d0e2f-614e-48f5-898d-28ddcacac8cc",
+    "limit": "100"
+  },
+  "actorKey": "financeOnly",
+  "actorId": "295a1093-2dec-4444-b2f7-c8dde152695d",
+  "requestId": "r4def32-00342-bd721a2f",
+  "requestBody": null,
+  "status": 200,
+  "responseBody": [
+    {
+      "id": "ede29851-47f1-4c77-804b-b949524d4f60",
+      "eventType": "ProjectCostController_replaceLaborCostRecord",
+      "targetType": "ProjectActualCostRecord",
+      "targetId": "986d0e2f-614e-48f5-898d-28ddcacac8cc",
+      "operatorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "requestId": "r4def32-00246-99bd51f8",
+      "result": "success",
+      "reason": null,
+      "beforeSnapshot": null,
+      "afterSnapshot": null,
+      "metadata": {
+        "contractId": null,
+        "operationId": "ProjectCostController_replaceLaborCostRecord",
+        "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+        "requiredSensitivePackages": [
+          "labor-cost-rate"
+        ],
+        "schemaVersion": 1,
+        "sensitiveRedacted": true
+      },
+      "occurredAt": "2026-11-04T00:05:22.306Z"
+    },
+    {
+      "id": "e8de6359-4cc1-4a21-8d13-aecc458e8b98",
+      "eventType": "ProjectCostController_createProjectActualCostRecord",
+      "targetType": "ProjectActualCostRecord",
+      "targetId": "986d0e2f-614e-48f5-898d-28ddcacac8cc",
+      "operatorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "requestId": "r4def32-00204-fc1bcd6c",
+      "result": "success",
+      "reason": null,
+      "beforeSnapshot": null,
+      "afterSnapshot": null,
+      "metadata": {
+        "contractId": null,
+        "operationId": "ProjectCostController_createProjectActualCostRecord",
+        "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+        "requiredSensitivePackages": [
+          "labor-cost-rate"
+        ],
+        "schemaVersion": 1,
+        "sensitiveRedacted": true
+      },
+      "occurredAt": "2026-11-04T00:05:21.157Z"
+    }
+  ],
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

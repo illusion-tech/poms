@@ -1,0 +1,11 @@
+**02补充：10项纯请求候选，仍全部not-run。原01候选和manifest保留。**
+
+Root改为导入 `request-driver62-02.mjs`；原README62的三个回调契约、固定金额、真实双会话和PG断言要求继续有效。case03现在使用其真实rate-family gate，分摊case持有全部目标项目和源项目的排序并集，避免只观察一个间接等待就漏掉真实锁顺序。
+
+新增 `R62-10-three-project-cent-permutation`：Root需提供真实、不同于前两项目的 `context.thirdProject.id`。缺少时只标该项needs-context-not-run，不创建假项目。它建立两个独立真实1分费用→E→F阶段确认源，A按项目UUID正序、B按反序发送完整三项目份额；两个来源不重叠，因此两请求**都必须201**。若只对同一来源一赢一409，不能证明两个排列都实际分摊过。
+
+两个新basis均固定net0.01/tax0/gross0.01、同权重1/1/1。最小UUID得net/gross0.01，其余两项目都是0.00；tax均0。每份ratio0.333333是独立展示值，总和0.999999不得反算或破坏1分守恒。Root逐basis/逐project验证三份齐全及新policy v2/hash、来源各自唯一current，旧数据不动。
+
+新增PG断言ID：`two-independent-bases-created`、`each-complete-three-project-results`、`fixed-smallest-UUID-cent`、`source-sets-separate-current`、`two-success-audit-evidence-complete`、`policy-v2`、`not-included`。同一basis下每个结果的金额依据以上固定见证；不能使用生产allocation函数生成expected。审计按实际影响项目集合，不能武断要求三项目批次只有一条audit。
+
+Root应保存两份真实201回执和实际PG readback。对两个互不重叠来源，不能沿用前九项的“恰一201一409”断言。语法检查和静态pin仍不是运行验收。

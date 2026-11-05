@@ -1,0 +1,28 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:05:22.362Z",
+  "completedAt": "2026-11-04T00:05:22.376Z",
+  "operationId": "ProjectCostController_replaceLaborCostRecord",
+  "method": "POST",
+  "path": "/api/project-actual-cost-records/986d0e2f-614e-48f5-898d-28ddcacac8cc:replace",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-00249-aa6e5888",
+  "requestBody": {
+    "laborPeriodStart": "2026-10-01",
+    "laborPeriodEnd": "2026-10-03",
+    "actualHours": "4.00",
+    "rateVersionId": "86934931-b6a1-4790-a978-f829a4aa4331",
+    "replaceReason": "明确工时修订：3.00→4.00，保留前后计算版本",
+    "expectedSupersededRecordVersion": 2
+  },
+  "status": 409,
+  "responseBody": {
+    "error": "Conflict",
+    "message": "Only the current unincluded labor record can be replaced",
+    "statusCode": 409
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

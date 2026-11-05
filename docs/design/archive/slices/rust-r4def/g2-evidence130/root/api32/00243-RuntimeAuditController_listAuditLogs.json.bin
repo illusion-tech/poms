@@ -1,0 +1,92 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:05:22.205Z",
+  "completedAt": "2026-11-04T00:05:22.216Z",
+  "operationId": "RuntimeAuditController_listAuditLogs",
+  "method": "GET",
+  "path": "/api/audit-logs",
+  "query": {
+    "targetType": "InternalCostRateVersion",
+    "targetId": "5c66c322-9c05-425a-a1d0-8943296d90a5",
+    "limit": "100"
+  },
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-00243-ac00364a",
+  "requestBody": null,
+  "status": 200,
+  "responseBody": [
+    {
+      "id": "7c51c998-c33f-4f62-a2c7-40acf6f2ce8e",
+      "eventType": "ProjectCostController_publishInternalCostRateVersion",
+      "targetType": "InternalCostRateVersion",
+      "targetId": "5c66c322-9c05-425a-a1d0-8943296d90a5",
+      "operatorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "requestId": "r4def32-00242-2d2e05f6",
+      "result": "success",
+      "reason": "R4E21-e41-真实费率发布",
+      "beforeSnapshot": {
+        "change_reason": "R4E21-e41-真实费率发布",
+        "created_at": "2026-11-04T08:05:21.101+08:00",
+        "created_by": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "currency": "CNY",
+        "effective_from": "2026-01-01",
+        "effective_to": null,
+        "id": "86934931-b6a1-4790-a978-f829a4aa4331",
+        "is_current": true,
+        "person_id": null,
+        "published_at": "2026-11-04T08:05:21.101+08:00",
+        "published_by": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "rate_key": "role:R4E21-e41-halfup:hour",
+        "rate_scope_type": "role",
+        "rate_unit": "hour",
+        "rate_value": "17.2850",
+        "role_code": "R4E21-e41-halfup",
+        "row_version": 1,
+        "status": "active",
+        "supersedes_rate_version_id": null,
+        "updated_at": "2026-11-04T08:05:21.101+08:00",
+        "updated_by": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "version": 1
+      },
+      "afterSnapshot": {
+        "change_reason": "R4E21-e41-真实费率发布",
+        "created_at": "2026-11-04T00:05:22.185Z",
+        "created_by": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "currency": "CNY",
+        "effective_from": "2026-11-01",
+        "effective_to": null,
+        "id": "5c66c322-9c05-425a-a1d0-8943296d90a5",
+        "is_current": true,
+        "person_id": null,
+        "published_at": "2026-11-04T00:05:22.185Z",
+        "published_by": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "rate_key": "role:R4E21-e41-halfup:hour",
+        "rate_scope_type": "role",
+        "rate_unit": "hour",
+        "rate_value": "0.0001",
+        "role_code": "R4E21-e41-halfup",
+        "row_version": 1,
+        "status": "active",
+        "supersedes_rate_version_id": "86934931-b6a1-4790-a978-f829a4aa4331",
+        "updated_at": "2026-11-04T00:05:22.185Z",
+        "updated_by": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "version": 2
+      },
+      "metadata": {
+        "contractId": null,
+        "operationId": "ProjectCostController_publishInternalCostRateVersion",
+        "producer": "rust-r4e",
+        "projectId": null,
+        "requiredSensitivePackages": [
+          "labor-cost-rate"
+        ],
+        "roundingPolicy": "HALF_UP-cents-v1",
+        "schemaVersion": 1
+      },
+      "occurredAt": "2026-11-04T00:05:22.191Z"
+    }
+  ],
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

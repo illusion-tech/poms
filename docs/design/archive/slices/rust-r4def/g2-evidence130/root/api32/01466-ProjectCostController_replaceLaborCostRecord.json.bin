@@ -1,0 +1,32 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T04:07:32.073Z",
+  "completedAt": "2026-11-04T04:07:32.138Z",
+  "operationId": "ProjectCostController_replaceLaborCostRecord",
+  "method": "POST",
+  "path": "/api/project-actual-cost-records/7b8c0bd9-494c-41a5-b3b8-644413aae83c:replace",
+  "query": {},
+  "actorKey": "raceB85",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-01466-3567445a",
+  "requestBody": {
+    "laborPeriodStart": "2026-11-04",
+    "laborPeriodEnd": "2026-11-04",
+    "actualHours": "5.00",
+    "rateVersionId": "22ff3cad-91f1-43a8-a73f-c5369837c815",
+    "replaceReason": "同一真实labor前驱只允许一个受控后继",
+    "expectedSupersededRecordVersion": 1
+  },
+  "status": 201,
+  "responseBody": {
+    "approvalRecordId": null,
+    "businessStatusAfter": "registered",
+    "confirmationRecordId": null,
+    "resultStatus": "success",
+    "targetId": "d3cc7789-7e27-48ba-8daf-3d812b7eb389",
+    "targetType": "ProjectActualCostRecord",
+    "todoItemIds": []
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

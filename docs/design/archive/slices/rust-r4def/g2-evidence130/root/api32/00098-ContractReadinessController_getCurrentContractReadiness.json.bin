@@ -1,0 +1,113 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:01:55.946Z",
+  "completedAt": "2026-11-04T00:01:55.965Z",
+  "operationId": "ContractReadinessController_getCurrentContractReadiness",
+  "method": "GET",
+  "path": "/api/projects/c19e708b-522c-45e9-90d4-81de7295545b/contract-readiness",
+  "query": {
+    "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7"
+  },
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-00098-4745eac3",
+  "requestBody": null,
+  "status": 200,
+  "responseBody": {
+    "allowedActions": [
+      "initialize-contract-snapshot"
+    ],
+    "amendmentStatus": null,
+    "blockingReasonSummary": null,
+    "candidateTerms": {
+      "amountTaxExclusive": "50000.00",
+      "amountTaxInclusive": "56500.00",
+      "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+      "downPaymentRate": "1.0000",
+      "paymentTerms": "验收前按合同约定支付全部合同款。",
+      "receivablePlanSeeds": [
+        {
+          "isRetentionNode": false,
+          "label": "合同付款（本case字段复核）",
+          "nodeKey": "full-payment",
+          "note": null,
+          "plannedAmount": "56500.00",
+          "plannedDate": "2026-12-04",
+          "sortOrder": 0
+        }
+      ],
+      "retentionDueDate": null,
+      "retentionRate": "0.0000",
+      "taxRate": "0.1300"
+    },
+    "commercialReleaseBaselineId": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+    "contractAmendmentId": null,
+    "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+    "contractSnapshotInitializedAt": null,
+    "createdAt": "2026-11-04T00:01:55.809Z",
+    "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+    "currentEffectiveDecisionSummary": "本合同差异已通过复核，真实前置条件已收口。",
+    "currentPreparation": null,
+    "diffLevel": "review-required",
+    "financialProjection": {
+      "displayText": "合同财务字段包",
+      "fieldPackageKey": "contract-finance",
+      "mode": "full",
+      "reasonCode": "allowed",
+      "value": "合同财务字段包"
+    },
+    "guardDecision": "allowed",
+    "id": "f03b3390-7b8f-4c7e-8a3a-14d3f0aadded",
+    "initializedContractSnapshotId": null,
+    "initializedReceivablePlanVersionId": null,
+    "isCurrent": true,
+    "items": [
+      {
+        "id": "d6c0ca38-0914-4da8-9941-841dcb0b2db9",
+        "itemKey": "actual-cost-source",
+        "itemType": "checklist",
+        "label": "真实技术与成本来源",
+        "navigationHint": null,
+        "responsibleRole": null,
+        "sortOrder": 0,
+        "status": "ready",
+        "summary": null
+      },
+      {
+        "id": "9e7e7f3c-3bd1-4fb0-a692-6edf2b13ee74",
+        "itemKey": "actual-pricing-source",
+        "itemType": "checklist",
+        "label": "真实报价放行来源",
+        "navigationHint": null,
+        "responsibleRole": null,
+        "sortOrder": 1,
+        "status": "ready",
+        "summary": null
+      },
+      {
+        "id": "e67ecd75-1722-4674-9400-115fa1ba270f",
+        "itemKey": "exact-contract-diff",
+        "itemType": "checklist",
+        "label": "本合同精确差异",
+        "navigationHint": null,
+        "responsibleRole": null,
+        "sortOrder": 2,
+        "status": "ready",
+        "summary": null
+      }
+    ],
+    "latestDiffResultId": "72589d07-bfb4-473e-afc5-35278bb0bb18",
+    "missingPrerequisiteCount": 0,
+    "packageStatus": "ready",
+    "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+    "receivablePlanInitializedAt": null,
+    "reviewStatus": "approved",
+    "rowVersion": 2,
+    "sourceBaselineId": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+    "sourceContractSnapshotId": null,
+    "updatedAt": "2026-11-04T00:01:55.908Z",
+    "updatedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935"
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

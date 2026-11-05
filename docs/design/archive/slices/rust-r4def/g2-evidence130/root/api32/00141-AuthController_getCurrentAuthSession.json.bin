@@ -1,0 +1,53 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:05:19.390Z",
+  "completedAt": "2026-11-04T00:05:19.404Z",
+  "operationId": "AuthController_getCurrentAuthSession",
+  "method": "GET",
+  "path": "/api/auth/session",
+  "query": {},
+  "actorKey": "laborOnly",
+  "actorId": "04f1746b-5ace-44ef-8fb9-f3d7196891f2",
+  "requestId": "r4def32-00141-feef902b",
+  "requestBody": null,
+  "status": 200,
+  "responseBody": {
+    "authenticated": true,
+    "csrf": {
+      "cookieName": "poms_csrf",
+      "headerName": "X-CSRF-Token"
+    },
+    "expiresAt": "2026-11-04T00:20:19.374Z",
+    "permissions": [
+      "project:read",
+      "contract:finance:manage",
+      "platform:users:manage",
+      "labor-cost-rate:sensitive:read"
+    ],
+    "status": "active",
+    "user": {
+      "avatarUrl": null,
+      "displayName": "R4DEF33 laborOnly",
+      "email": null,
+      "emailVerified": false,
+      "id": "04f1746b-5ace-44ef-8fb9-f3d7196891f2",
+      "isActive": true,
+      "lastLoginAt": null,
+      "orgUnits": [],
+      "permissions": [
+        "project:read",
+        "contract:finance:manage",
+        "platform:users:manage",
+        "labor-cost-rate:sensitive:read"
+      ],
+      "phone": null,
+      "phoneVerified": false,
+      "roles": [
+        "R4DEF33 laborOnly"
+      ],
+      "username": "r4def33_laboronly"
+    }
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

@@ -1,0 +1,24 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T04:07:31.565Z",
+  "completedAt": "2026-11-04T04:07:31.652Z",
+  "operationId": "ProjectCostController_voidExpenseRecord",
+  "method": "POST",
+  "path": "/api/expense-records/69e855e4-7ee5-4943-8095-ab8e9e886e22:void",
+  "query": {},
+  "actorKey": "raceB85",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-01461-8000c481",
+  "requestBody": {
+    "reason": "并发source作废与映射必须串行一致",
+    "expectedVersion": 2
+  },
+  "status": 422,
+  "responseBody": {
+    "error": "Unprocessable Entity",
+    "message": "Mapped expense requires a controlled correction",
+    "statusCode": 422
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

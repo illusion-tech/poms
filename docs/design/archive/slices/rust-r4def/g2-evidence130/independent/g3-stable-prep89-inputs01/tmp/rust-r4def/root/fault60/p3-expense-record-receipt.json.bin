@@ -1,0 +1,22 @@
+{
+  "operationId": "ProjectCostController_confirmExpenseRecord",
+  "table": "expense_record",
+  "event": "INSERT OR UPDATE",
+  "nth": 1,
+  "deferred": false,
+  "functionDefinition": "CREATE OR REPLACE FUNCTION r4def_control.r4def_fault_60()\n RETURNS trigger\n LANGUAGE plpgsql\nAS $function$ DECLARE hits integer; BEGIN hits:=COALESCE(NULLIF(current_setting('poms_r4def_fault.hits',true),''),'0')::integer+1; PERFORM set_config('poms_r4def_fault.hits',hits::text,true); IF hits < COALESCE(TG_ARGV[1],'1')::integer THEN RETURN NEW; END IF; PERFORM pg_advisory_xact_lock(194043,TG_ARGV[0]::integer); RAISE EXCEPTION USING ERRCODE='P0001', MESSAGE='r4def60 necessary write fault'; END $function$\n",
+  "barrierWaiter": {
+    "pid": 989,
+    "query": "UPDATE poms.expense_record SET (\"contract_id\",\"expense_category\",\"expense_description\",\"expense_date\",\"currency\",\"amount_including_tax\",\"tax_amount\",\"amount_excluding_tax\",\"source_type\",\"status\",\"evidence_summary\",\"attachment_count\",\"confirmed_at\",\"confirmed_by\",\"voided_at\",\"void_reason\",\"row_version\",\"updated_at\")=(SELECT \"contract_id\",\"expense_category\",\"expense_description\",\"expense_date\",\"currency\",\"amount_including_tax\",\"tax_amount\",\"amount_excluding_tax\",\"source_type\",\"status\",\"evidence_summary\",\"attachment_count\",\"confirmed_at\",\"confirmed_by\",\"voided_at\",\"void_reason\",\"row_version\",\"updated_at\" FROM jsonb_populate_record(NULL::poms.expense_record,$1::jsonb)) WHERE id=$2 AND row_version=$3",
+    "wait_event": "advisory",
+    "wait_event_type": "Lock",
+    "classid": "194043",
+    "objid": "60003",
+    "granted": false
+  },
+  "status": 500,
+  "receiptId": "tmp/rust-r4def/root/api32/01039-ProjectCostController_confirmExpenseRecord.json",
+  "hitProven": true,
+  "all120TablesRolledBack": true,
+  "retryPending": true
+}

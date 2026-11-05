@@ -1,0 +1,42 @@
+
+> nx run poms-admin:test --runInBand --testPathPatterns=project-contract-handover.spec.ts
+
+(node:49272) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+The `@nx/jest:jest` executor is deprecated and will be removed in Nx v24. Run `nx g @nx/jest:convert-to-inferred` to migrate to the `@nx/jest/plugin` inferred targets. See https://nx.dev/docs/guides/tasks--caching/convert-to-inferred for details.
+[0m[7m[1m[31m FAIL [39m[22m[27m[0m [0m[7m[37m poms-admin [39m[27m[0m [2mapps/poms-admin/src/app/features/project/[22m[1mproject-contract-handover.spec.ts[22m
+[1m[31m  [1m● [22m[1mProjectContractHandover › loads and renders contract handover facts from existing views[39m[22m
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+    Expected: [32mfalse[39m
+    Received: [31mtrue[39m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36msrc/app/features/project/E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-admin/src/app/features/project/project-contract-handover.spec.ts[39m[0m[2m:325:53)[22m[2m[22m
+[1m[31m  [1m● [22m[1mProjectContractHandover › renders contract set amount from backend projection[39m[22m
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoContain[2m([22m[32mexpected[39m[2m) // indexOf[22m
+    Expected substring: [32m"经营敏感字段已隐藏"[39m
+    Received string:    [31m""[39m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36msrc/app/features/project/E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-admin/src/app/features/project/project-contract-handover.spec.ts[39m[0m[2m:368:22)[22m[2m[22m
+[1m[31m  [1m● [22m[1mProjectContractHandover › keeps the latest A view when older A and B loads finish after A→B→A navigation[39m[22m
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoContain[2m([22m[32mexpected[39m[2m) // indexOf[22m
+    Expected substring: [32m"HT-LATEST"[39m
+    Received string:    [31m""[39m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36msrc/app/features/project/E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-admin/src/app/features/project/project-contract-handover.spec.ts[39m[0m[2m:401:51)[22m[2m[22m
+[1mTest Suites: [22m[1m[31m1 failed[39m[22m, 1 total
+[1mTests:       [22m[1m[31m3 failed[39m[22m, [1m[32m3 passed[39m[22m, 6 total
+[1mSnapshots:   [22m0 total
+[1mTime:[22m        [1m[33m3.275 s[39m[22m
+[2mRan all test suites[22m[2m matching [22mproject-contract-handover.spec.ts[2m.[22m
+
+
+
+ NX   Running target test for project poms-admin failed
+
+Failed tasks:
+
+- poms-admin:test
+
+Hint: run the command with --verbose for more details.
+
+  Run duration:      3.9s
+  Cache:             Skipped (--skip-nx-cache)
+  Critical path:     3.9s (1 task)
+  Recoverable time:  <1ms

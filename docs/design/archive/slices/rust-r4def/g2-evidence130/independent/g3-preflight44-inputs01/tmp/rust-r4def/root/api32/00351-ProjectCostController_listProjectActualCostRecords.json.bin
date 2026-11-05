@@ -1,0 +1,148 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:05:25.071Z",
+  "completedAt": "2026-11-04T00:05:25.083Z",
+  "operationId": "ProjectCostController_listProjectActualCostRecords",
+  "method": "GET",
+  "path": "/api/projects/c19e708b-522c-45e9-90d4-81de7295545b/actual-cost-records",
+  "query": {
+    "costType": "payment-fact"
+  },
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-00351-bcab807e",
+  "requestBody": null,
+  "status": 200,
+  "responseBody": [
+    {
+      "accountingPeriod": null,
+      "amountExcludingTax": null,
+      "amountIncludingTax": null,
+      "attachmentCount": 0,
+      "confirmedAt": null,
+      "confirmedBy": null,
+      "costDescription": null,
+      "costSubtype": "implementation",
+      "costType": "payment-fact",
+      "createdAt": "2026-11-04T00:05:20.278Z",
+      "currency": "CNY",
+      "evidenceSummary": null,
+      "executionStageCode": null,
+      "financialProjection": {
+        "amountExcludingTax": {
+          "displayText": "100.00",
+          "fieldPackageKey": "operating-finance",
+          "mode": "full",
+          "reasonCode": "allowed",
+          "value": "100.00"
+        },
+        "amountIncludingTax": {
+          "displayText": "106.00",
+          "fieldPackageKey": "operating-finance",
+          "mode": "full",
+          "reasonCode": "allowed",
+          "value": "106.00"
+        },
+        "costDescription": {
+          "displayText": "R4E21-e41-payment-fact真实映射",
+          "fieldPackageKey": "operating-finance",
+          "mode": "full",
+          "reasonCode": "allowed",
+          "value": "R4E21-e41-payment-fact真实映射"
+        },
+        "evidenceSummary": {
+          "displayText": "R4E21-e41-保留真实源链，不自动纳入",
+          "fieldPackageKey": "operating-finance",
+          "mode": "full",
+          "reasonCode": "allowed",
+          "value": "R4E21-e41-保留真实源链，不自动纳入"
+        },
+        "measurementBasisSummary": {
+          "displayText": "-",
+          "fieldPackageKey": "operating-finance",
+          "mode": "full",
+          "reasonCode": "field-package-not-applicable",
+          "value": null
+        },
+        "riskNote": {
+          "displayText": "-",
+          "fieldPackageKey": "operating-finance",
+          "mode": "full",
+          "reasonCode": "field-package-not-applicable",
+          "value": null
+        },
+        "sourceId": {
+          "displayText": "c37a29a1-62f7-4138-bcc9-6f7d74d3f716",
+          "fieldPackageKey": "operating-finance",
+          "mode": "full",
+          "reasonCode": "allowed",
+          "value": "c37a29a1-62f7-4138-bcc9-6f7d74d3f716"
+        },
+        "sourceRefNo": {
+          "displayText": "c37a29a1-62f7-4138-bcc9-6f7d74d3f716",
+          "fieldPackageKey": "operating-finance",
+          "mode": "full",
+          "reasonCode": "allowed",
+          "value": "c37a29a1-62f7-4138-bcc9-6f7d74d3f716"
+        },
+        "sourceStatusSummary": {
+          "displayText": "-",
+          "fieldPackageKey": "operating-finance",
+          "mode": "full",
+          "reasonCode": "field-package-not-applicable",
+          "value": null
+        },
+        "taxCostAmount": {
+          "displayText": "6.00",
+          "fieldPackageKey": "operating-finance",
+          "mode": "full",
+          "reasonCode": "allowed",
+          "value": "6.00"
+        },
+        "taxImpactSummary": {
+          "displayText": "-",
+          "fieldPackageKey": "operating-finance",
+          "mode": "full",
+          "reasonCode": "field-package-not-applicable",
+          "value": null
+        },
+        "voidReason": {
+          "displayText": "-",
+          "fieldPackageKey": "operating-finance",
+          "mode": "full",
+          "reasonCode": "field-package-not-applicable",
+          "value": null
+        }
+      },
+      "id": "cb555c74-0587-47fd-9f59-2aa05ef024d5",
+      "includedAt": null,
+      "includedBy": null,
+      "isHighRisk": false,
+      "isIncludedInProjectCost": false,
+      "laborSensitiveProjection": null,
+      "occurredOn": "2026-11-04",
+      "ownerRole": null,
+      "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+      "recordNo": "AC-PAY-2026-000001",
+      "recordStatus": "registered",
+      "registeredAt": "2026-11-04T00:05:20.278Z",
+      "registeredBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "riskNote": null,
+      "rowVersion": 1,
+      "sourceId": null,
+      "sourceRefNo": null,
+      "sourceType": "payment-record",
+      "stageDerivedAt": null,
+      "stageDerivedFromId": null,
+      "stageDerivedFromType": null,
+      "stageLockedAt": null,
+      "supersedesRecordId": null,
+      "taxCostAmount": null,
+      "taxImpactSummary": null,
+      "updatedAt": "2026-11-04T00:05:20.278Z",
+      "voidReason": null
+    }
+  ],
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

@@ -1,0 +1,31 @@
+**第二轮只读交付审查44完成；当前还不具备最终G3签署条件。**
+
+30条静态spec/map/dispatcher闭包完整。D/E套件225个HTTP回执（D12+E213，包含预期拒绝）逐项核expected status/requestId，加上negative44的94拒绝回执，只有24/30入口具备本轮正向见证：D6/7、E11/11、F7/12。未跑的是D再基线、F阶段重分类及税处理四入口。通过某个2xx不等于该入口业务/权限/回滚全验收。
+
+D42五阶段真实移交已核：两个Active合同、三人四职责、本人确认、最终receipt mode冻结且R5仍pending。fault43共19个必要写故障全部命中，逐组120表before/blocked/after count+SHA完全一致；19个失败命令分别与3个成功unarmed retry的body/actor/path相同。正确计数是19故障、3个同命令成功retry，不是19次单独成功retry。
+
+E41原统计为19Pass/1观察器失败/1未跑，213 HTTP全预期；E14的proof段由另存Root E42实际只读PG回执补核，F作者80项是对既有原件的离线断言。原E41失败不改写；E20历史无币种发票负例仍未跑。F税、多项目尾差/完整整批替代不能据此通过。
+
+新增negative44已逐回执核30匿名401、30权限403、17缺CSRF403、17错CSRF403，118业务表digest完全不变，只明确允许auth_session/security_event。admin-test44真实60套/416测试Pass、Angular build44 Pass，旧admin38失败保留。admin/data lint43都Pass；Rust full43原流26组377Pass/54ignored，247输入与当前源码sha全部一致，DB opt-in=false，因此不当DB验收。Native38真实74/863、handover41真实1套/6测试保留历史边界；ORM41仍原check exit1+有限精确差异分类。
+
+未发现新增已确认P0–P2。最终G3仍须完成：
+
+- **G3-44-01 D controlled Active amendment/rebaseline**：真实readiness/amendment→exact preparation→assigned approver→activation使新snapshot+完整plan原子生效；pending时旧Active事实/旧handover仍有效。多合同变化、同合同连续两次变化及连续rebaseline，affected完整、旧确认不继承、历史范围风险不被当前替换、已有receipt不重放；拒绝foreign/stale/branch/missing affected，并覆盖amendment/rebaseline必要写回滚。
+
+- **G3-44-02 F reclassification and accounting tax**：真实stage reclassify及confirm/replace/list/get tax四入口：actual/manual证据模式、真实source币种/税层/缺层null、规则/财务人工判断、原版immutable、新旧current/successor及CAS；registered→confirmed+confirmedAtBy+rowVersion+归属+锁+audit必须同事务验证；错误不能泄露金额。
+
+- **G3-44-03 F multi-project complete allocation replacement**：多项目/多来源/混合LABOR、分币尾差及UUID-byte同余顺序、三金额层分别整批守恒、完整份额整批原子替代、同批幂等/竞争、global/family/project排序锁与CAS；LABOR及mixed任缺operating或labor敏感授权整组mask/写403，双包安全事件及evidence/audit不可逆泄漏；至少一个真实失败全回滚及同payload成功。
+
+- **G3-44-04 E historical unavailable currency / precision**：以真实历史行或明确标注的owned negative历史夹具证明无币种/无snapshot preparation proof不映射，不回填猜测；currency-only原C route显式纠偏须可操作；历史多位金额/费率材料不自动改写，失败后原字节/版本保持。不要以新造合法invoice代替历史负例。
+
+- **G3-44-05 Mandatory writes, race and source invalidation beyond D43**：按冻结矩阵补E/F必要写及成功masked GET的security/auth共事务故障、真实race/duplicate/current-source变化下拒绝；每项给命中证据、全域业务/证据/审计/认证回滚及retry，或提供精确旧证据与未变输入的有效复用依据。未知COMMIT边界若声明覆盖须另证，不从这些precommit故障外推。
+
+- **G3-44-06 K real nonempty attachments**：真实R2附件来源、非空checklist、refresh不循环使source失效、真实版本/checksum/status/security变化使旧self/final拒绝或按冻结政策重新准备；选择版本、敏感排除、打包/下载、历史关联保留语义及权限真实验证。
+
+- **G3-44-07 Real browser minimal handover/amendment UI**：真实浏览器以project read/write无finance-manage、本人参与者、多职责及相关审批人完成最小flow，看到真实冻结scope/risk及版本、确认本人、最终R5仍pending；受控变更/再基线可操作。A→B→A迟到成功/失败、同项目新handover及附件mutation、失败后恢复和权限矩阵绑定当前generated client与最终bundle。
+
+- **G3-44-08 Final immutable candidate and required checks**：冻结当前全部产品/SQL/Shared/OpenAPI/client/UI/模块注册和受控Root delta及所有原回执的精确候选。将runtime binary/source、UI bundle与G1/修正/S4来源链关联；按最终变更完成已计划Native build/lint及必要检查、diff/MD/source protection。Native38保留74/863历史真实标签，不冒称最终新执行；ORM41保留raw check exit1及44精确FK/等价CHECK分类，旧comment精确观测待收口。
+
+- **G3-44-09 Terminal cleanup / closure**：所有必要真实验证完成后再提供owned终端/服务/锁/临时控制对象的最终清理或留存交接回执，保留私有原件及公开索引。不得从fault43 close推出完整terminal cleanup。本批仅可在真实G4后收口#106–109，#101/#57必须保持Open。
+
+原始624输入pins及新增103补充pins分别固定且全部只写独立目录；完整逐入口回执和范围见 [JSON](g3-preflight44.json)。本reviewer未改产品/原件/环境，未读凭据或私有DB原始行，未连接DB/HTTP/浏览器，不签G3/G4，不授权Issue关闭。

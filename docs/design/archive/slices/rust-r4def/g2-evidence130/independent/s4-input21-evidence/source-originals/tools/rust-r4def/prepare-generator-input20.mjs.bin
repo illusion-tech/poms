@@ -1,0 +1,31 @@
+// Source-review candidate only. The original writer remains blocked until permanent S4 is pinned.
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+const out = 'docs/design/rust-r4def/generator-input20'; assert(!fs.existsSync(out)); fs.mkdirSync(out, { recursive: true });
+const hash = b => createHash('sha256').update(b).digest('hex');
+const pin = file => { const b = fs.readFileSync(file); return { file, bytes: b.length, rawBytesSha256: hash(b) }; };
+const normalizedHash = file => hash(Buffer.from(fs.readFileSync(file, 'utf8').replace(/\r\n/g, '\n')));
+const toolFile = 'tools/openapi/shared-api-client.mjs', baselineFile = 'tools/openapi/shared-api-client-baseline.json';
+const oldTool = fs.readFileSync(toolFile, 'utf8'), oldRaw = fs.readFileSync(baselineFile), baseline = JSON.parse(oldRaw), oldSpec = JSON.parse(fs.readFileSync('docs/design/rust-r4def/joint-g1-04/source-originals/libs/shared/api-spec/openapi.json.bin'));
+fs.writeFileSync(out + '/generator-before-original.mjs.bin', oldTool, { flag: 'wx' }); fs.writeFileSync(out + '/baseline-before-original.json.bin', oldRaw, { flag: 'wx' });
+assert(oldTool.includes('baseline.spec.operations.length, 291')); assert(oldTool.includes('baseline.spec.schemas.length, 595'));
+const tool = oldTool.replace('baseline.spec.operations.length, 291', 'baseline.spec.operations.length, 293').replace('baseline.spec.schemas.length, 595', 'baseline.spec.schemas.length, 626'); fs.writeFileSync(toolFile, tool);
+const spec = JSON.parse(fs.readFileSync('libs/shared/api-spec/openapi.json')); assert.equal(Object.keys(spec.components.schemas).length, 626);
+const methods = new Set(['get', 'post', 'put', 'patch', 'delete', 'options', 'head', 'trace']);
+const rows = doc => Object.entries(doc.paths).flatMap(([path, values]) => Object.entries(values).filter(([method]) => methods.has(method)).map(([method, value]) => ({ method, path, operationId: value.operationId })));
+const operations = rows(spec); assert.equal(operations.length, 293); const current = new Set(operations.map(v => JSON.stringify(v))); assert(rows(oldSpec).every(v => current.has(JSON.stringify(v))));
+assert(Object.keys(oldSpec.components.schemas).every(name => spec.components.schemas[name]));
+baseline.spec = { file: 'libs/shared/api-spec/openapi.json', openapi: spec.openapi, paths: Object.keys(spec.paths).sort(), operations: operations.sort((a, b) => JSON.stringify(a) < JSON.stringify(b) ? -1 : JSON.stringify(a) > JSON.stringify(b) ? 1 : 0), schemas: Object.keys(spec.components.schemas).sort() };
+baseline.protectedSources = baseline.protectedSources.map(v => ({ ...v, sha256: normalizedHash(v.file) }));
+// Keep S3 until the reviewer permits creating permanent S4; do not point at mutable HEAD.
+assert.equal(baseline.sourceHead, '4f78bd486ca2118e4700bae560cb25ff08c4b47d');
+fs.writeFileSync(baselineFile, JSON.stringify(baseline, null, 2) + '\n');
+const { treeManifest, validateFullSpecification } = await import('../openapi/shared-api-client.mjs'); validateFullSpecification(spec, baseline);
+const clientBefore = treeManifest('libs/shared/api-client', { normalized: true });
+fs.writeFileSync(out + '/client-before20.json', JSON.stringify(clientBefore, null, 2) + '\n');
+const native = JSON.parse(fs.readFileSync('tmp/rust-r4def/root/native-reference12/receipt12.json'));
+const inputs = [...new Set([...baseline.protectedSources.map(v => v.file), toolFile, baselineFile, 'libs/shared/contracts/src/lib/shared-contracts.ts', 'libs/api/contracts/src/lib/project/project.dto.ts', 'libs/api/contracts/src/lib/project-cost/project-cost.dto.ts', 'apps/poms-api/src/app/core/rust-r4def-frozen-native-reference.ts', ...native.updated, 'docs/design/rust-r4def/material-delta19.json', 'docs/design/rust-r4def/g2-corrective-checkpoint19.md', 'tools/rust-r4def/prepare-generator-input20.mjs'])].map(pin);
+const input = { kind: 'R4-DEF-permanent-S4-generator-source-candidate', inputOnly: true, independentInputReviewPending: true, priorPermanentS3: baseline.sourceHead, plannedPermanentS4: 'Create only after independent source review; pin its literal SHA before original writer/checker', counts: { paths: baseline.spec.paths.length, operations: 293, schemas: 626, retainedPriorOperations: 291, retainedPriorSchemas: 595, clientBeforeFiles: clientBefore.length }, oldG1Preserved: 'joint-g1-06/manifest06.json', correctiveInput: 'material-delta19.json', generatorAndJarUnchanged: baseline.generator, protectedSources: baseline.protectedSources, sourceInputs: inputs, guardsUnchanged: ['worktree diff', 'index diff', 'untracked protected files', 'source fingerprints', 'fixed config and JAR', 'exact full method/path/operationId/schema inventory'], clientGenerated: false, runtimeExecuted: false };
+fs.writeFileSync(out + '/candidate20.json', JSON.stringify(input, null, 2) + '\n', { flag: 'wx' });
+console.log(JSON.stringify({ counts: input.counts, sourceInputs: inputs.length, inputOnly: true, clientGenerated: false }));

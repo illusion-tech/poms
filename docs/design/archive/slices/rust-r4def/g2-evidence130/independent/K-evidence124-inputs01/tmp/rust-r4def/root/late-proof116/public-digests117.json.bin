@@ -1,0 +1,112 @@
+{
+  "kind": "offline-public-digest-projection-of-actual-late116",
+  "completed": true,
+  "privateAggregate": {
+    "bytes": 15931,
+    "sha256": "4cada311523e24cce13080bd388b5c12b03e06a05fa1b025c7fdb0159a80c0d6"
+  },
+  "published": {
+    "session": {
+      "before": "b63d9e0dd2ae6ac1744359e8c09359182fb024a3b5b3d5c3d9e3394d4ff49d2d",
+      "after": "b63d9e0dd2ae6ac1744359e8c09359182fb024a3b5b3d5c3d9e3394d4ff49d2d",
+      "equal": true,
+      "count": 1
+    },
+    "attachments": {
+      "before": "9212c0c142e5fe7a4ae8cd286997c52a7d03b5d6c693809f917660f71ea4bdc1",
+      "after": "9212c0c142e5fe7a4ae8cd286997c52a7d03b5d6c693809f917660f71ea4bdc1",
+      "equal": true,
+      "count": 1
+    },
+    "links": {
+      "before": "f8bbe402395ea6f4ab8cbc132127755893fca934c1327e05d3798f751456f5a2",
+      "after": "f8bbe402395ea6f4ab8cbc132127755893fca934c1327e05d3798f751456f5a2",
+      "equal": true,
+      "count": 1
+    }
+  },
+  "necessaryAudit": {
+    "before": "958a1c2e405aa9f05776760f934f882eecf4d83093fc1af2afb48944d7e386f6",
+    "after": "958a1c2e405aa9f05776760f934f882eecf4d83093fc1af2afb48944d7e386f6",
+    "count": 2,
+    "equal": true
+  },
+  "extraOwnReadAudit": {
+    "id": "39012161-248d-499b-b63e-6bfd421d76f5",
+    "requestId": "r4def32-01666-6d9eaaf6",
+    "eventType": "attachment.downloaded",
+    "HTTPReceipt": "tmp/rust-r4def/root/api32/01666-AttachmentController_download.json"
+  },
+  "authB": {
+    "before": "fef570f9e696f83b8b2784ccab1fcb6e01d88eedeb9587f537320287830cece0",
+    "after": "fef570f9e696f83b8b2784ccab1fcb6e01d88eedeb9587f537320287830cece0",
+    "equal": true
+  },
+  "restoration": {
+    "before": "1e9f42eb4e90af2f7e27fe80ed925b283f0c3567d19887ca5fc4dab4800b0f61",
+    "after": "1e9f42eb4e90af2f7e27fe80ed925b283f0c3567d19887ca5fc4dab4800b0f61",
+    "equal": true,
+    "remainingOwnLocks": []
+  },
+  "barriers": [
+    {
+      "file": "0017-B-exact-relation-wait.json",
+      "rawSha256": "2b5b8ae9b1397bcc2d68980b7c28ff8f1b45a4a308168596c7f31d5534b8d2cb",
+      "nonSecretLockRows": [
+        {
+          "pid": 1715,
+          "wait_event": "relation",
+          "wait_event_type": "Lock",
+          "blockers": [
+            1753
+          ]
+        }
+      ]
+    },
+    {
+      "file": "0018-B-relation-locks.json",
+      "rawSha256": "c61806c20950fde07dfc3375e36ad5b8270a7223d4fc6e2a1d85fb2c086285dc",
+      "nonSecretLockRows": [
+        {
+          "pid": 1715,
+          "granted": false,
+          "mode": "AccessShareLock"
+        },
+        {
+          "pid": 1753,
+          "granted": true,
+          "mode": "AccessExclusiveLock"
+        }
+      ]
+    },
+    {
+      "file": "0019-same-B-exact-advisory-wait.json",
+      "rawSha256": "f588bfbcb5438bc5c05ea0145f270dda34862c31e973900bc00caa171e10be01",
+      "nonSecretLockRows": [
+        {
+          "pid": 1715,
+          "wait_event": "advisory",
+          "wait_event_type": "Lock",
+          "blockers": [
+            1752
+          ]
+        },
+        {
+          "pid": 1715,
+          "granted": false,
+          "classid": "70953710",
+          "objid": "2449802063",
+          "objsubid": 1
+        },
+        {
+          "pid": 1752,
+          "granted": true,
+          "classid": "70953710",
+          "objid": "2449802063",
+          "objsubid": 1
+        }
+      ]
+    }
+  ],
+  "noDBHTTPOrObjectReplayed": true
+}

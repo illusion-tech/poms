@@ -1,0 +1,49 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T01:12:02.977Z",
+  "completedAt": "2026-11-04T01:12:03.051Z",
+  "operationId": "ProjectHandoverController_confirmProjectHandover",
+  "method": "POST",
+  "path": "/api/project-handovers/e1f0b6a7-3e51-44c3-839e-843869fbb3ad:confirm",
+  "query": {},
+  "actorKey": "writer",
+  "actorId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+  "requestId": "r4def32-00889-e4f3a100",
+  "requestBody": {
+    "participantConfirmations": [
+      {
+        "participantId": "384ffad5-04ed-4f78-918a-ec8e7df6a590",
+        "participantRoleKey": "technical-support",
+        "participantStatus": "confirmed"
+      },
+      {
+        "participantId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+        "participantRoleKey": "execution-owner",
+        "participantStatus": "confirmed"
+      },
+      {
+        "participantId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "participantRoleKey": "business-admin",
+        "participantStatus": "confirmed"
+      },
+      {
+        "participantId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "participantRoleKey": "sales-owner",
+        "participantStatus": "confirmed"
+      }
+    ],
+    "contractSummarySnapshotId": "bbdcad85-8d67-4e23-90f3-f3badcc65028",
+    "handoverBasisSnapshotId": "c719c9c3-a972-4f67-a1a7-bd2d09b637a5",
+    "summarySnapshotId": "d1e3186a-f280-4129-ba4d-9b780f5be9f4",
+    "sourcePayloadHash": "ce02dc6ffa4bbf3c692923c071412fc8df788c55a222ae319e35c631745c2db8",
+    "expectedVersion": 2
+  },
+  "status": 409,
+  "responseBody": {
+    "error": "Conflict",
+    "message": "关键参与人尚未全部确认。",
+    "statusCode": 409
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

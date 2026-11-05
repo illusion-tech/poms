@@ -1,0 +1,95 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T04:18:14.241Z",
+  "completedAt": "2026-11-04T04:18:14.277Z",
+  "operationId": "ProjectCostController_createExpenseRecord",
+  "method": "POST",
+  "path": "/api/projects/2410df0c-c530-4223-b857-1a83a411b57b/expense-records",
+  "query": {},
+  "actorKey": "raceA88",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-01514-f9a789c4",
+  "requestBody": {
+    "contractId": "a8ab4086-89c6-4b57-b14c-3ecaa7ceb058",
+    "expenseCategory": "travel",
+    "expenseDescription": "R62-r88-overlap-A",
+    "expenseDate": "2026-11-04",
+    "currency": "CNY",
+    "amountExcludingTax": "0.11",
+    "taxAmount": "0.01",
+    "amountIncludingTax": "0.12",
+    "sourceType": "manual",
+    "evidenceSummary": "隔离并发验收真实费用源；固定净/税/含税0.11/0.01/0.12，不是经营纳入事实",
+    "attachmentCount": 0
+  },
+  "status": 201,
+  "responseBody": {
+    "amountExcludingTax": null,
+    "amountIncludingTax": null,
+    "attachmentCount": 0,
+    "confirmedAt": null,
+    "confirmedBy": null,
+    "contractId": "a8ab4086-89c6-4b57-b14c-3ecaa7ceb058",
+    "createdAt": "2026-11-04T04:18:14.265Z",
+    "currency": "CNY",
+    "evidenceSummary": null,
+    "expenseCategory": "travel",
+    "expenseDate": "2026-11-04",
+    "expenseDescription": null,
+    "financialProjection": {
+      "amountExcludingTax": {
+        "displayText": "0.11",
+        "fieldPackageKey": "operating-finance",
+        "mode": "full",
+        "reasonCode": "allowed",
+        "value": "0.11"
+      },
+      "amountIncludingTax": {
+        "displayText": "0.12",
+        "fieldPackageKey": "operating-finance",
+        "mode": "full",
+        "reasonCode": "allowed",
+        "value": "0.12"
+      },
+      "evidenceSummary": {
+        "displayText": "隔离并发验收真实费用源；固定净/税/含税0.11/0.01/0.12，不是经营纳入事实",
+        "fieldPackageKey": "operating-finance",
+        "mode": "full",
+        "reasonCode": "allowed",
+        "value": "隔离并发验收真实费用源；固定净/税/含税0.11/0.01/0.12，不是经营纳入事实"
+      },
+      "expenseDescription": {
+        "displayText": "R62-r88-overlap-A",
+        "fieldPackageKey": "operating-finance",
+        "mode": "full",
+        "reasonCode": "allowed",
+        "value": "R62-r88-overlap-A"
+      },
+      "taxAmount": {
+        "displayText": "0.01",
+        "fieldPackageKey": "operating-finance",
+        "mode": "full",
+        "reasonCode": "allowed",
+        "value": "0.01"
+      },
+      "voidReason": {
+        "displayText": "-",
+        "fieldPackageKey": "operating-finance",
+        "mode": "full",
+        "reasonCode": "field-package-not-applicable",
+        "value": null
+      }
+    },
+    "id": "408ca77d-c22b-4721-997a-636b91e0230a",
+    "projectId": "2410df0c-c530-4223-b857-1a83a411b57b",
+    "rowVersion": 1,
+    "sourceType": "manual",
+    "status": "recorded",
+    "taxAmount": null,
+    "updatedAt": "2026-11-04T04:18:14.265Z",
+    "voidReason": null,
+    "voidedAt": null
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

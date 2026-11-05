@@ -1,0 +1,125 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T01:11:39.469Z",
+  "completedAt": "2026-11-04T01:11:39.541Z",
+  "operationId": "ContractReadinessController_getDiffHistory",
+  "method": "GET",
+  "path": "/api/commercial-release-baselines/c6d760c3-8a87-4ac8-94e5-16c497a4c4ec/diff-history",
+  "query": {
+    "contractId": "48a7467c-c58e-486d-aade-eda661b65298"
+  },
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-00812-2329fcf5",
+  "requestBody": null,
+  "status": 200,
+  "responseBody": {
+    "baseline": {
+      "amountTaxExclusive": "100000.00",
+      "amountTaxInclusive": "113000.00",
+      "baselineCode": "R4-def36-base",
+      "baselineStatus": "effective",
+      "contractTerms": [
+        {
+          "amountTaxExclusive": "50000.00",
+          "amountTaxInclusive": "56500.00",
+          "contractId": "48a7467c-c58e-486d-aade-eda661b65298",
+          "downPaymentRate": "1.0000",
+          "paymentTerms": "验收前按合同约定支付全部合同款。",
+          "receivablePlanSeeds": [
+            {
+              "isRetentionNode": false,
+              "label": "合同付款",
+              "nodeKey": "full-payment",
+              "note": null,
+              "plannedAmount": "56500.00",
+              "plannedDate": "2026-12-04",
+              "sortOrder": 0
+            }
+          ],
+          "retentionDueDate": null,
+          "retentionRate": "0.0000",
+          "taxRate": "0.1300"
+        },
+        {
+          "amountTaxExclusive": "50000.00",
+          "amountTaxInclusive": "56500.00",
+          "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+          "downPaymentRate": "1.0000",
+          "paymentTerms": "验收前按合同约定支付全部合同款。",
+          "receivablePlanSeeds": [
+            {
+              "isRetentionNode": false,
+              "label": "合同付款",
+              "nodeKey": "full-payment",
+              "note": null,
+              "plannedAmount": "56500.00",
+              "plannedDate": "2026-12-04",
+              "sortOrder": 0
+            }
+          ],
+          "retentionDueDate": null,
+          "retentionRate": "0.0000",
+          "taxRate": "0.1300"
+        }
+      ],
+      "createdAt": "2026-11-03T23:52:41.020Z",
+      "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "currencyCode": "CNY",
+      "diffLevel": "review-required",
+      "diffSummary": "合同条款差异已按同合同来源计算。",
+      "downPaymentRate": "1.0000",
+      "financialProjection": {
+        "displayText": "合同财务字段包",
+        "fieldPackageKey": "contract-finance",
+        "mode": "full",
+        "reasonCode": "allowed",
+        "value": "合同财务字段包"
+      },
+      "grossMarginSummary": null,
+      "id": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+      "isCurrent": true,
+      "latestDiffResultId": "095d0a8e-46d0-4765-b8f9-b88e6a9bf515",
+      "paymentTerms": "项目商业来源；各合同金额与节点独立。",
+      "paymentTermsSummary": null,
+      "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+      "quotationReviewId": null,
+      "retentionRate": "0.0000",
+      "reviewStatus": "pending-review",
+      "rowVersion": 10,
+      "taxRate": "0.1300",
+      "updatedAt": "2026-11-04T01:11:39.356Z",
+      "updatedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935"
+    },
+    "diffItems": [
+      {
+        "diffLevel": "review-required",
+        "fieldKey": "receivablePlanSeeds[full-payment].label",
+        "fieldLabel": "receivablePlanSeeds[full-payment].label",
+        "id": "6b99a810-b14d-42c5-8799-a27b8b4844a8",
+        "isBlocking": false,
+        "newValueSummary": "R4DEF44-def49-B1-回款节点名称",
+        "oldValueSummary": "合同付款",
+        "sortOrder": 0
+      }
+    ],
+    "reviewHistory": [
+      {
+        "attachmentIds": [],
+        "baselineId": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec",
+        "comment": null,
+        "createdAt": "2026-11-04T00:01:56.597Z",
+        "decision": "approved",
+        "diffResultId": "40f03b30-5206-4158-83c6-d217a630f4c2",
+        "id": "0394da73-5023-4025-b002-5172b3946c19",
+        "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+        "reviewedFieldKeys": [
+          "receivablePlanSeeds[full-payment].label"
+        ],
+        "reviewerUserId": "ebad7d92-85e5-4c1c-b956-ea256fe52935"
+      }
+    ]
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

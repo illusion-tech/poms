@@ -1,0 +1,61 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T02:43:31.833Z",
+  "completedAt": "2026-11-04T02:43:31.911Z",
+  "operationId": "ProjectCostController_confirmSharedCostAllocationBasis",
+  "method": "POST",
+  "path": "/api/shared-cost-allocation-bases",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-01184-dc35de6b",
+  "requestBody": {
+    "basisType": "R4F44-f60",
+    "allocationMethod": "weighted",
+    "sourceCostRecordIds": [
+      "a9f41b40-6599-4c22-affc-111ee41b7bec"
+    ],
+    "measurementBasis": "including-tax",
+    "expectedSourceVersions": [
+      {
+        "costRecordId": "a9f41b40-6599-4c22-affc-111ee41b7bec",
+        "expectedVersion": 3
+      }
+    ],
+    "projectShareItems": [
+      {
+        "projectId": "2410df0c-c530-4223-b857-1a83a411b57b",
+        "allocationWeight": "1.000000",
+        "allocatedAmount": "0.04",
+        "allocationRatio": "0.333333",
+        "allocationSummary": "R4F44-f60-明确完整项目份额"
+      },
+      {
+        "projectId": "a275878e-459d-45d9-a2f4-37874d68c7f2",
+        "allocationWeight": "2.000000",
+        "allocatedAmount": "0.08",
+        "allocationRatio": "0.666667",
+        "allocationSummary": "R4F44-f60-明确完整项目份额"
+      }
+    ],
+    "basisSummary": "R4F44-f60-具证来源、权重与完整份额，不自动included"
+  },
+  "status": 201,
+  "responseBody": {
+    "allocationResultIds": [
+      "39593883-da46-4ec2-a0eb-74bfff9eb84d",
+      "2f48a8e1-2fda-424b-bce0-133a4fb4dab5"
+    ],
+    "approvalRecordId": null,
+    "basisId": "d474be79-3489-4928-a0d3-f0ad399323a7",
+    "businessStatusAfter": "active",
+    "confirmationRecordId": null,
+    "evidenceId": "326980cd-e8e2-457f-8b98-2c3b5e9a59c6",
+    "resultStatus": "success",
+    "targetId": "d474be79-3489-4928-a0d3-f0ad399323a7",
+    "targetType": "SharedCostAllocationBasis",
+    "todoItemIds": []
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

@@ -1,0 +1,82 @@
+{
+  "kind": "independent-selected-main-basis-proposal45-math-review48",
+  "capturedAt": "2026-11-04T01:17:22.970689+00:00",
+  "decisionSha256": "7e32d833c29e2309d3dd6f86f58eed2f907564298d0cfc2d731031dcf7c4b4b3",
+  "proposalManifestSha256": "21e42cc9c027efe25bd7714aba81c6a2a1051f45653e8edaf3c89a4c69ea3943",
+  "referenceSha256": "53ea4ca8e4141c097ac2fe34081bbc61c0e8c84278817d27b3ab97507985a74c",
+  "propertiesIncludingKnownNullPermutationZeroWeightsAndLargeAmounts": 90756,
+  "unknownSelectedLayerRejections": 90756,
+  "exhaustiveUpperCapacityObjectiveCases": 4455,
+  "exhaustiveLowerCapacityObjectiveCases": 4455,
+  "lowerDerivedDomainsWithNegativeInitialDeltaObservedInSmallDomain": 0,
+  "maxAbsDerivedLowerDeltaInSmallDomain": 2,
+  "largeDomainInvocations": 4608,
+  "failed": 0,
+  "objectiveOracle": "Enumerate every feasible small-domain integer vector, minimize exact squared quota deviation; break equal minima lexicographically toward smaller UUID. Independent from reference greedy loop.",
+  "smallDomain": {
+    "projects": [
+      1,
+      2,
+      3
+    ],
+    "weights": "0..3 except all zero",
+    "grossCents": "0..12 for properties;0..9 for objective",
+    "allSubordinateComponents": "0..gross",
+    "knownNullCombinations": 8,
+    "primaryLayers": 3
+  },
+  "largeDomain": {
+    "projects": [
+      1,
+      2,
+      3,
+      6,
+      17,
+      64
+    ],
+    "samplesPerCount": 32,
+    "seed": 20261104,
+    "maxMoneyCents": "999999999999999999"
+  },
+  "clippingCounterexample": {
+    "net": 25,
+    "gross": 26,
+    "weights": [
+      1500,
+      1500,
+      900,
+      500,
+      500,
+      200
+    ],
+    "unconstrainedNet": [
+      7,
+      7,
+      4,
+      3,
+      3,
+      1
+    ],
+    "grossCapacity": [
+      8,
+      8,
+      5,
+      2,
+      2,
+      1
+    ],
+    "clippedNetSum": 23,
+    "correctBoundedNet": [
+      8,
+      7,
+      5,
+      2,
+      2,
+      1
+    ]
+  },
+  "productionCodeExecuted": false,
+  "databaseOrHttpExecuted": false,
+  "authorFilesModified": false,
+  "productModified": false
+}

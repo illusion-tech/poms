@@ -1,0 +1,33 @@
+{
+  "kind": "R4-owned-new-PG15-provision",
+  "namespace": "poms-r4def",
+  "marker": "0c945ec2-e3ec-4705-8bd3-660a46e8cafc",
+  "base": "756d813c9578090fcf8e56821acce01b46b40420",
+  "container": "poms-r4def-pg15",
+  "volume": "poms-r4def-pg15-data",
+  "host": "127.0.0.1",
+  "port": 25433,
+  "databases": [
+    "poms_r4def_native",
+    "poms_r4def_rust"
+  ],
+  "roles": [
+    "poms_r4def_native_app",
+    "poms_r4def_rust_app"
+  ],
+  "createdAt": "2026-11-03T22:36:33.679Z",
+  "containerId": "81f3f931dd6752763016d1d7e27b65d9a88103c236213058feadd7a4a8ceacbc",
+  "databaseOids": [
+    {
+      "database": "poms_r4def_native",
+      "oid": "16385"
+    },
+    {
+      "database": "poms_r4def_rust",
+      "oid": "16387"
+    }
+  ],
+  "sourceImage": "b718026138f18af7722fc66f706d64990e869a4b196508aaf4f3671786c8d93a",
+  "oldEnvironmentTouched": false,
+  "credentialsPrinted": false
+}

@@ -1,0 +1,45 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:05:24.855Z",
+  "completedAt": "2026-11-04T00:05:24.870Z",
+  "operationId": "RuntimeAuditController_listAuditLogs",
+  "method": "GET",
+  "path": "/api/audit-logs",
+  "query": {
+    "targetType": "ProjectActualCostRecord",
+    "targetId": "8ad8048b-ee42-4a1b-b0ac-843fa962038d",
+    "limit": "100"
+  },
+  "actorKey": "financeOnly",
+  "actorId": "295a1093-2dec-4444-b2f7-c8dde152695d",
+  "requestId": "r4def32-00340-8e559be7",
+  "requestBody": null,
+  "status": 200,
+  "responseBody": [
+    {
+      "id": "06514713-b7a5-4536-bdd2-c91a590150e5",
+      "eventType": "ProjectCostController_createProjectActualCostRecord",
+      "targetType": "ProjectActualCostRecord",
+      "targetId": "8ad8048b-ee42-4a1b-b0ac-843fa962038d",
+      "operatorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "requestId": "r4def32-00155-0cd93d58",
+      "result": "success",
+      "reason": null,
+      "beforeSnapshot": null,
+      "afterSnapshot": null,
+      "metadata": {
+        "contractId": null,
+        "operationId": "ProjectCostController_createProjectActualCostRecord",
+        "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+        "requiredSensitivePackages": [
+          "operating-finance"
+        ],
+        "schemaVersion": 1,
+        "sensitiveRedacted": true
+      },
+      "occurredAt": "2026-11-04T00:05:19.787Z"
+    }
+  ],
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

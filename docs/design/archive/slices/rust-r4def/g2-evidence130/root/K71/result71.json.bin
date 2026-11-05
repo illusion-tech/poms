@@ -1,0 +1,2307 @@
+{
+  "kind": "K63-real-partial52-continuation-request-candidate",
+  "stages": [
+    {
+      "name": "capture-existing-ACKs",
+      "status": "passed"
+    },
+    {
+      "name": "retire-expired-failed-attempt",
+      "status": "passed"
+    },
+    {
+      "name": "fresh-nonfinal-version-and-immutable-final-proof",
+      "status": "passed"
+    },
+    {
+      "name": "mark-new-final-invalidates-first-consent",
+      "status": "passed"
+    },
+    {
+      "name": "prepare-new-version-and-one-own-consent",
+      "status": "passed"
+    },
+    {
+      "name": "void-invalidates-new-version-consent",
+      "status": "passed"
+    },
+    {
+      "name": "restore-v1-and-all-three-own-confirmations-R5-blocked",
+      "status": "passed"
+    }
+  ],
+  "records": [
+    {
+      "operationId": "ProjectHandoverController_getProjectHandoverDetailByProject",
+      "actorId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+      "method": "GET",
+      "path": "/api/projects/c19e708b-522c-45e9-90d4-81de7295545b/project-handover",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-capture-existing-ACKs",
+      "stepId": "K63-1",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01385-ProjectHandoverController_getProjectHandoverDetailByProject.json",
+      "requestId": "r4def32-01385-33aaebc8",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "AttachmentController_get",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "method": "GET",
+      "path": "/api/attachments/5151e346-59d4-4d3b-8254-ccaae6bd3699",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-capture-existing-ACKs",
+      "stepId": "K63-2",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01386-AttachmentController_get.json",
+      "requestId": "r4def32-01386-9b239226",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "AttachmentController_get",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "method": "GET",
+      "path": "/api/attachments/156eed94-e0a5-49b1-8762-7c04b8cc4bba",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-capture-existing-ACKs",
+      "stepId": "K63-3",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01387-AttachmentController_get.json",
+      "requestId": "r4def32-01387-62277dc7",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "AttachmentController_download",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "method": "GET",
+      "path": "/api/attachments/5151e346-59d4-4d3b-8254-ccaae6bd3699/download",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-capture-existing-ACKs",
+      "stepId": "K63-4",
+      "status": "passed",
+      "bodyKind": "binary",
+      "receiptId": "tmp/rust-r4def/root/api32/01388-AttachmentController_download.json",
+      "requestId": "r4def32-01388-f61708de",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "AttachmentController_download",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "method": "GET",
+      "path": "/api/attachments/156eed94-e0a5-49b1-8762-7c04b8cc4bba/download",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-capture-existing-ACKs",
+      "stepId": "K63-5",
+      "status": "passed",
+      "bodyKind": "binary",
+      "receiptId": "tmp/rust-r4def/root/api32/01389-AttachmentController_download.json",
+      "requestId": "r4def32-01389-ec4ff7e7",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "AttachmentHandoverController_getChecklist",
+      "actorId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+      "method": "GET",
+      "path": "/api/project-handovers/32eeb954-5559-45fa-a3aa-fd08e0b8981a/attachment-checklist",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-capture-existing-ACKs",
+      "stepId": "K63-6",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01390-AttachmentHandoverController_getChecklist.json",
+      "requestId": "r4def32-01390-9ef0f8f3",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "ProjectHandoverController_getContractHandoverSummary",
+      "actorId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+      "method": "GET",
+      "path": "/api/projects/c19e708b-522c-45e9-90d4-81de7295545b/contract-handover",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-capture-existing-ACKs",
+      "stepId": "K63-7",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01391-ProjectHandoverController_getContractHandoverSummary.json",
+      "requestId": "r4def32-01391-11e7990f",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "AttachmentUploadSessionController_get",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "method": "GET",
+      "path": "/api/attachment-upload-sessions/97146322-628d-4a5f-a9cb-3212deb26f45",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-retire-expired-failed-attempt",
+      "stepId": "K63-8",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01392-AttachmentUploadSessionController_get.json",
+      "requestId": "r4def32-01392-07311c47",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "AttachmentUploadSessionController_abort",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "method": "POST",
+      "path": "/api/attachment-upload-sessions/97146322-628d-4a5f-a9cb-3212deb26f45:abort",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-retire-expired-failed-attempt",
+      "stepId": "K63-9",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01393-AttachmentUploadSessionController_abort.json",
+      "requestId": "r4def32-01393-53afe704",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "AttachmentUploadSessionController_get",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "method": "GET",
+      "path": "/api/attachment-upload-sessions/97146322-628d-4a5f-a9cb-3212deb26f45",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-retire-expired-failed-attempt",
+      "stepId": "K63-10",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01394-AttachmentUploadSessionController_get.json",
+      "requestId": "r4def32-01394-df771df7",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "AttachmentController_get",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "method": "GET",
+      "path": "/api/attachments/5151e346-59d4-4d3b-8254-ccaae6bd3699",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-retire-expired-failed-attempt",
+      "stepId": "K63-11",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01395-AttachmentController_get.json",
+      "requestId": "r4def32-01395-7aaef2e2",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "AttachmentController_download",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "method": "GET",
+      "path": "/api/attachments/5151e346-59d4-4d3b-8254-ccaae6bd3699/download",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-retire-expired-failed-attempt",
+      "stepId": "K63-12",
+      "status": "passed",
+      "bodyKind": "binary",
+      "receiptId": "tmp/rust-r4def/root/api32/01396-AttachmentController_download.json",
+      "requestId": "r4def32-01396-8dd9ded6",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "AttachmentUploadSessionController_create",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "method": "POST",
+      "path": "/api/attachment-upload-sessions",
+      "query": {},
+      "expectedStatus": 201,
+      "caseId": "K63-fresh-nonfinal-version-and-immutable-final-proof",
+      "stepId": "K63-13",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01397-AttachmentUploadSessionController_create.json",
+      "requestId": "r4def32-01397-08aee226",
+      "actualStatus": 201
+    },
+    {
+      "operationId": "AttachmentUploadSessionController_createUploadTarget",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "method": "POST",
+      "path": "/api/attachment-upload-sessions/696b24bc-3dc2-4b39-8684-28df0584bae9/upload-targets",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-fresh-nonfinal-version-and-immutable-final-proof",
+      "stepId": "K63-14",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01398-AttachmentUploadSessionController_createUploadTarget.json",
+      "requestId": "r4def32-01398-b81cfee7",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "AttachmentUploadSessionController_proxyUploadObject",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "method": "PUT",
+      "path": "/api/attachment-upload-sessions/696b24bc-3dc2-4b39-8684-28df0584bae9/object",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-fresh-nonfinal-version-and-immutable-final-proof",
+      "stepId": "K63-15",
+      "contentType": "application/octet-stream",
+      "status": "passed",
+      "bodyKind": "binary",
+      "receiptId": "tmp/rust-r4def/root/api32/01399-AttachmentUploadSessionController_proxyUploadObject.json",
+      "requestId": "r4def32-01399-8b1ec073",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "AttachmentUploadSessionController_complete",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "method": "POST",
+      "path": "/api/attachment-upload-sessions/696b24bc-3dc2-4b39-8684-28df0584bae9:complete",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-fresh-nonfinal-version-and-immutable-final-proof",
+      "stepId": "K63-16",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01400-AttachmentUploadSessionController_complete.json",
+      "requestId": "r4def32-01400-dc368d0b",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "AttachmentController_get",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "method": "GET",
+      "path": "/api/attachments/f00845dd-28e3-4a5c-8837-bdcbf19c8ae8",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-fresh-nonfinal-version-and-immutable-final-proof",
+      "stepId": "K63-17",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01401-AttachmentController_get.json",
+      "requestId": "r4def32-01401-08a1441e",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "AttachmentController_download",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "method": "GET",
+      "path": "/api/attachments/f00845dd-28e3-4a5c-8837-bdcbf19c8ae8/download",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-fresh-nonfinal-version-and-immutable-final-proof",
+      "stepId": "K63-18",
+      "status": "passed",
+      "bodyKind": "binary",
+      "receiptId": "tmp/rust-r4def/root/api32/01402-AttachmentController_download.json",
+      "requestId": "r4def32-01402-55e71776",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "AttachmentController_get",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "method": "GET",
+      "path": "/api/attachments/5151e346-59d4-4d3b-8254-ccaae6bd3699",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-fresh-nonfinal-version-and-immutable-final-proof",
+      "stepId": "K63-19",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01403-AttachmentController_get.json",
+      "requestId": "r4def32-01403-af37a70a",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "AttachmentController_download",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "method": "GET",
+      "path": "/api/attachments/5151e346-59d4-4d3b-8254-ccaae6bd3699/download",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-fresh-nonfinal-version-and-immutable-final-proof",
+      "stepId": "K63-20",
+      "status": "passed",
+      "bodyKind": "binary",
+      "receiptId": "tmp/rust-r4def/root/api32/01404-AttachmentController_download.json",
+      "requestId": "r4def32-01404-98ab2e0a",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "ProjectHandoverController_getContractHandoverSummary",
+      "actorId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+      "method": "GET",
+      "path": "/api/projects/c19e708b-522c-45e9-90d4-81de7295545b/contract-handover",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-fresh-nonfinal-version-and-immutable-final-proof",
+      "stepId": "K63-21",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01405-ProjectHandoverController_getContractHandoverSummary.json",
+      "requestId": "r4def32-01405-d3419f7d",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "ProjectHandoverController_getProjectHandoverDetailByHandover",
+      "actorId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+      "method": "GET",
+      "path": "/api/project-handovers/32eeb954-5559-45fa-a3aa-fd08e0b8981a",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-fresh-nonfinal-version-and-immutable-final-proof",
+      "stepId": "K63-22",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01406-ProjectHandoverController_getProjectHandoverDetailByHandover.json",
+      "requestId": "r4def32-01406-a806a205",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "ProjectHandoverController_getProjectHandoverDetailByHandover",
+      "actorId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+      "method": "GET",
+      "path": "/api/project-handovers/32eeb954-5559-45fa-a3aa-fd08e0b8981a",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-fresh-nonfinal-version-and-immutable-final-proof",
+      "stepId": "K63-23",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01407-ProjectHandoverController_getProjectHandoverDetailByHandover.json",
+      "requestId": "r4def32-01407-0e2a98db",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "AttachmentController_markFinal",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "method": "POST",
+      "path": "/api/attachments/f00845dd-28e3-4a5c-8837-bdcbf19c8ae8:mark-final",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-mark-new-final-invalidates-first-consent",
+      "stepId": "K63-24",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01408-AttachmentController_markFinal.json",
+      "requestId": "r4def32-01408-01297d26",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "AttachmentController_get",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "method": "GET",
+      "path": "/api/attachments/5151e346-59d4-4d3b-8254-ccaae6bd3699",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-mark-new-final-invalidates-first-consent",
+      "stepId": "K63-25",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01409-AttachmentController_get.json",
+      "requestId": "r4def32-01409-a63388d1",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "AttachmentController_download",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "method": "GET",
+      "path": "/api/attachments/5151e346-59d4-4d3b-8254-ccaae6bd3699/download",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-mark-new-final-invalidates-first-consent",
+      "stepId": "K63-26",
+      "status": "passed",
+      "bodyKind": "binary",
+      "receiptId": "tmp/rust-r4def/root/api32/01410-AttachmentController_download.json",
+      "requestId": "r4def32-01410-d3c11f8c",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "ProjectHandoverController_getContractHandoverSummary",
+      "actorId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+      "method": "GET",
+      "path": "/api/projects/c19e708b-522c-45e9-90d4-81de7295545b/contract-handover",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-mark-new-final-invalidates-first-consent",
+      "stepId": "K63-27",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01411-ProjectHandoverController_getContractHandoverSummary.json",
+      "requestId": "r4def32-01411-b2da30ea",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "ProjectHandoverController_getProjectHandoverDetailByHandover",
+      "actorId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+      "method": "GET",
+      "path": "/api/project-handovers/32eeb954-5559-45fa-a3aa-fd08e0b8981a",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-mark-new-final-invalidates-first-consent",
+      "stepId": "K63-28",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01412-ProjectHandoverController_getProjectHandoverDetailByHandover.json",
+      "requestId": "r4def32-01412-b500d541",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "ProjectHandoverController_getProjectHandoverDetailByHandover",
+      "actorId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+      "method": "GET",
+      "path": "/api/project-handovers/32eeb954-5559-45fa-a3aa-fd08e0b8981a",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-mark-new-final-invalidates-first-consent",
+      "stepId": "K63-29",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01413-ProjectHandoverController_getProjectHandoverDetailByHandover.json",
+      "requestId": "r4def32-01413-0dab1e85",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "ProjectHandoverController_confirmProjectHandoverParticipant",
+      "actorId": "384ffad5-04ed-4f78-918a-ec8e7df6a590",
+      "method": "POST",
+      "path": "/api/project-handovers/32eeb954-5559-45fa-a3aa-fd08e0b8981a/participant-confirmations",
+      "query": {},
+      "expectedStatus": 409,
+      "caseId": "K63-mark-new-final-invalidates-first-consent",
+      "stepId": "K63-30",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01414-ProjectHandoverController_confirmProjectHandoverParticipant.json",
+      "requestId": "r4def32-01414-dc4703c4",
+      "actualStatus": 409
+    },
+    {
+      "operationId": "ProjectHandoverController_getProjectHandoverDetailByHandover",
+      "actorId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+      "method": "GET",
+      "path": "/api/project-handovers/32eeb954-5559-45fa-a3aa-fd08e0b8981a",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-mark-new-final-invalidates-first-consent",
+      "stepId": "K63-31",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01415-ProjectHandoverController_getProjectHandoverDetailByHandover.json",
+      "requestId": "r4def32-01415-9198aaf9",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "ProjectHandoverController_getContractHandoverSummary",
+      "actorId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+      "method": "GET",
+      "path": "/api/projects/c19e708b-522c-45e9-90d4-81de7295545b/contract-handover",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-prepare-new-version-and-one-own-consent",
+      "stepId": "K63-32",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01416-ProjectHandoverController_getContractHandoverSummary.json",
+      "requestId": "r4def32-01416-2550ad3e",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "ProjectHandoverController_getProjectHandoverDetailByProject",
+      "actorId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+      "method": "GET",
+      "path": "/api/projects/c19e708b-522c-45e9-90d4-81de7295545b/project-handover",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-prepare-new-version-and-one-own-consent",
+      "stepId": "K63-33",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01417-ProjectHandoverController_getProjectHandoverDetailByProject.json",
+      "requestId": "r4def32-01417-a1a35971",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "ProjectHandoverController_prepareProjectHandover",
+      "actorId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+      "method": "POST",
+      "path": "/api/projects/c19e708b-522c-45e9-90d4-81de7295545b/project-handovers",
+      "query": {},
+      "expectedStatus": 201,
+      "caseId": "K63-prepare-new-version-and-one-own-consent",
+      "stepId": "K63-34",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01418-ProjectHandoverController_prepareProjectHandover.json",
+      "requestId": "r4def32-01418-7ab65c9a",
+      "actualStatus": 201
+    },
+    {
+      "operationId": "ProjectHandoverController_getProjectHandoverDetailByHandover",
+      "actorId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+      "method": "GET",
+      "path": "/api/project-handovers/ee950197-9832-4129-88e1-407e044d1f5e",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-prepare-new-version-and-one-own-consent",
+      "stepId": "K63-35",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01419-ProjectHandoverController_getProjectHandoverDetailByHandover.json",
+      "requestId": "r4def32-01419-e2af88ae",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "ProjectHandoverController_confirmProjectHandoverParticipant",
+      "actorId": "384ffad5-04ed-4f78-918a-ec8e7df6a590",
+      "method": "POST",
+      "path": "/api/project-handovers/ee950197-9832-4129-88e1-407e044d1f5e/participant-confirmations",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-prepare-new-version-and-one-own-consent",
+      "stepId": "K63-36",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01420-ProjectHandoverController_confirmProjectHandoverParticipant.json",
+      "requestId": "r4def32-01420-d02022d1",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "AttachmentController_void",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "method": "POST",
+      "path": "/api/attachments/f00845dd-28e3-4a5c-8837-bdcbf19c8ae8:void",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-void-invalidates-new-version-consent",
+      "stepId": "K63-37",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01421-AttachmentController_void.json",
+      "requestId": "r4def32-01421-f8e0a9a1",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "ProjectHandoverController_getContractHandoverSummary",
+      "actorId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+      "method": "GET",
+      "path": "/api/projects/c19e708b-522c-45e9-90d4-81de7295545b/contract-handover",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-void-invalidates-new-version-consent",
+      "stepId": "K63-38",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01422-ProjectHandoverController_getContractHandoverSummary.json",
+      "requestId": "r4def32-01422-9b192b3f",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "ProjectHandoverController_getProjectHandoverDetailByHandover",
+      "actorId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+      "method": "GET",
+      "path": "/api/project-handovers/ee950197-9832-4129-88e1-407e044d1f5e",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-void-invalidates-new-version-consent",
+      "stepId": "K63-39",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01423-ProjectHandoverController_getProjectHandoverDetailByHandover.json",
+      "requestId": "r4def32-01423-1139616b",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "ProjectHandoverController_getProjectHandoverDetailByHandover",
+      "actorId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+      "method": "GET",
+      "path": "/api/project-handovers/ee950197-9832-4129-88e1-407e044d1f5e",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-void-invalidates-new-version-consent",
+      "stepId": "K63-40",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01424-ProjectHandoverController_getProjectHandoverDetailByHandover.json",
+      "requestId": "r4def32-01424-4da28dda",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "ProjectHandoverController_confirmProjectHandoverParticipant",
+      "actorId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+      "method": "POST",
+      "path": "/api/project-handovers/ee950197-9832-4129-88e1-407e044d1f5e/participant-confirmations",
+      "query": {},
+      "expectedStatus": 409,
+      "caseId": "K63-void-invalidates-new-version-consent",
+      "stepId": "K63-41",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01425-ProjectHandoverController_confirmProjectHandoverParticipant.json",
+      "requestId": "r4def32-01425-6cc57ff3",
+      "actualStatus": 409
+    },
+    {
+      "operationId": "ProjectHandoverController_getProjectHandoverDetailByHandover",
+      "actorId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+      "method": "GET",
+      "path": "/api/project-handovers/ee950197-9832-4129-88e1-407e044d1f5e",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-void-invalidates-new-version-consent",
+      "stepId": "K63-42",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01426-ProjectHandoverController_getProjectHandoverDetailByHandover.json",
+      "requestId": "r4def32-01426-3f1c7ada",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "AttachmentController_download",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "method": "GET",
+      "path": "/api/attachments/5151e346-59d4-4d3b-8254-ccaae6bd3699/download",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-void-invalidates-new-version-consent",
+      "stepId": "K63-43",
+      "status": "passed",
+      "bodyKind": "binary",
+      "receiptId": "tmp/rust-r4def/root/api32/01427-AttachmentController_download.json",
+      "requestId": "r4def32-01427-b3c709ef",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "AttachmentController_markFinal",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "method": "POST",
+      "path": "/api/attachments/5151e346-59d4-4d3b-8254-ccaae6bd3699:mark-final",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-restore-v1-and-all-three-own-confirmations-R5-blocked",
+      "stepId": "K63-44",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01428-AttachmentController_markFinal.json",
+      "requestId": "r4def32-01428-603c0586",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "AttachmentController_get",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "method": "GET",
+      "path": "/api/attachments/5151e346-59d4-4d3b-8254-ccaae6bd3699",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-restore-v1-and-all-three-own-confirmations-R5-blocked",
+      "stepId": "K63-45",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01429-AttachmentController_get.json",
+      "requestId": "r4def32-01429-b59fce8f",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "AttachmentController_download",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "method": "GET",
+      "path": "/api/attachments/5151e346-59d4-4d3b-8254-ccaae6bd3699/download",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-restore-v1-and-all-three-own-confirmations-R5-blocked",
+      "stepId": "K63-46",
+      "status": "passed",
+      "bodyKind": "binary",
+      "receiptId": "tmp/rust-r4def/root/api32/01430-AttachmentController_download.json",
+      "requestId": "r4def32-01430-1e9417f2",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "ProjectHandoverController_getContractHandoverSummary",
+      "actorId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+      "method": "GET",
+      "path": "/api/projects/c19e708b-522c-45e9-90d4-81de7295545b/contract-handover",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-restore-v1-and-all-three-own-confirmations-R5-blocked",
+      "stepId": "K63-47",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01431-ProjectHandoverController_getContractHandoverSummary.json",
+      "requestId": "r4def32-01431-482cc2c7",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "ProjectHandoverController_getProjectHandoverDetailByProject",
+      "actorId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+      "method": "GET",
+      "path": "/api/projects/c19e708b-522c-45e9-90d4-81de7295545b/project-handover",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-restore-v1-and-all-three-own-confirmations-R5-blocked",
+      "stepId": "K63-48",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01432-ProjectHandoverController_getProjectHandoverDetailByProject.json",
+      "requestId": "r4def32-01432-677b5b3c",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "ProjectHandoverController_prepareProjectHandover",
+      "actorId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+      "method": "POST",
+      "path": "/api/projects/c19e708b-522c-45e9-90d4-81de7295545b/project-handovers",
+      "query": {},
+      "expectedStatus": 201,
+      "caseId": "K63-restore-v1-and-all-three-own-confirmations-R5-blocked",
+      "stepId": "K63-49",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01433-ProjectHandoverController_prepareProjectHandover.json",
+      "requestId": "r4def32-01433-ab333b57",
+      "actualStatus": 201
+    },
+    {
+      "operationId": "AttachmentHandoverController_refreshChecklist",
+      "actorId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+      "method": "POST",
+      "path": "/api/project-handovers/b1233bf4-8917-462e-9bfd-7de5ccbfc819/attachment-checklist:refresh",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-restore-v1-and-all-three-own-confirmations-R5-blocked",
+      "stepId": "K63-50",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01434-AttachmentHandoverController_refreshChecklist.json",
+      "requestId": "r4def32-01434-71f61a92",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "ProjectHandoverController_getContractHandoverSummary",
+      "actorId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+      "method": "GET",
+      "path": "/api/projects/c19e708b-522c-45e9-90d4-81de7295545b/contract-handover",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-restore-v1-and-all-three-own-confirmations-R5-blocked",
+      "stepId": "K63-51",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01435-ProjectHandoverController_getContractHandoverSummary.json",
+      "requestId": "r4def32-01435-b43c2654",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "ProjectHandoverController_getProjectHandoverDetailByHandover",
+      "actorId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+      "method": "GET",
+      "path": "/api/project-handovers/b1233bf4-8917-462e-9bfd-7de5ccbfc819",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-restore-v1-and-all-three-own-confirmations-R5-blocked",
+      "stepId": "K63-52",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01436-ProjectHandoverController_getProjectHandoverDetailByHandover.json",
+      "requestId": "r4def32-01436-b6adfbb3",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "ProjectHandoverController_getProjectHandoverDetailByHandover",
+      "actorId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+      "method": "GET",
+      "path": "/api/project-handovers/b1233bf4-8917-462e-9bfd-7de5ccbfc819",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-restore-v1-and-all-three-own-confirmations-R5-blocked",
+      "stepId": "K63-53",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01437-ProjectHandoverController_getProjectHandoverDetailByHandover.json",
+      "requestId": "r4def32-01437-2076a1cb",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "ProjectHandoverController_confirmProjectHandoverParticipant",
+      "actorId": "384ffad5-04ed-4f78-918a-ec8e7df6a590",
+      "method": "POST",
+      "path": "/api/project-handovers/b1233bf4-8917-462e-9bfd-7de5ccbfc819/participant-confirmations",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-restore-v1-and-all-three-own-confirmations-R5-blocked",
+      "stepId": "K63-54",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01438-ProjectHandoverController_confirmProjectHandoverParticipant.json",
+      "requestId": "r4def32-01438-070fb883",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "ProjectHandoverController_getProjectHandoverDetailByHandover",
+      "actorId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+      "method": "GET",
+      "path": "/api/project-handovers/b1233bf4-8917-462e-9bfd-7de5ccbfc819",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-restore-v1-and-all-three-own-confirmations-R5-blocked",
+      "stepId": "K63-55",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01439-ProjectHandoverController_getProjectHandoverDetailByHandover.json",
+      "requestId": "r4def32-01439-4c7577eb",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "ProjectHandoverController_confirmProjectHandoverParticipant",
+      "actorId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+      "method": "POST",
+      "path": "/api/project-handovers/b1233bf4-8917-462e-9bfd-7de5ccbfc819/participant-confirmations",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-restore-v1-and-all-three-own-confirmations-R5-blocked",
+      "stepId": "K63-56",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01440-ProjectHandoverController_confirmProjectHandoverParticipant.json",
+      "requestId": "r4def32-01440-4c7e9f7e",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "ProjectHandoverController_getProjectHandoverDetailByHandover",
+      "actorId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+      "method": "GET",
+      "path": "/api/project-handovers/b1233bf4-8917-462e-9bfd-7de5ccbfc819",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-restore-v1-and-all-three-own-confirmations-R5-blocked",
+      "stepId": "K63-57",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01441-ProjectHandoverController_getProjectHandoverDetailByHandover.json",
+      "requestId": "r4def32-01441-0e292c71",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "ProjectHandoverController_confirmProjectHandoverParticipant",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "method": "POST",
+      "path": "/api/project-handovers/b1233bf4-8917-462e-9bfd-7de5ccbfc819/participant-confirmations",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-restore-v1-and-all-three-own-confirmations-R5-blocked",
+      "stepId": "K63-58",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01442-ProjectHandoverController_confirmProjectHandoverParticipant.json",
+      "requestId": "r4def32-01442-dace72f1",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "ProjectHandoverController_confirmProjectHandover",
+      "actorId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+      "method": "POST",
+      "path": "/api/project-handovers/b1233bf4-8917-462e-9bfd-7de5ccbfc819:confirm",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-restore-v1-and-all-three-own-confirmations-R5-blocked",
+      "stepId": "K63-59",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01443-ProjectHandoverController_confirmProjectHandover.json",
+      "requestId": "r4def32-01443-f42690eb",
+      "actualStatus": 200
+    },
+    {
+      "operationId": "ProjectHandoverController_getProjectHandoverDetailByHandover",
+      "actorId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+      "method": "GET",
+      "path": "/api/project-handovers/b1233bf4-8917-462e-9bfd-7de5ccbfc819",
+      "query": {},
+      "expectedStatus": 200,
+      "caseId": "K63-restore-v1-and-all-three-own-confirmations-R5-blocked",
+      "stepId": "K63-60",
+      "status": "passed",
+      "bodyKind": "JSON",
+      "receiptId": "tmp/rust-r4def/root/api32/01444-ProjectHandoverController_getProjectHandoverDetailByHandover.json",
+      "requestId": "r4def32-01444-3417ef9b",
+      "actualStatus": 200
+    }
+  ],
+  "observations": [
+    {
+      "kind": "actual-PG-legacy-binding-preservation",
+      "phase": "capture-existing-ACKs",
+      "attachmentId": "5151e346-59d4-4d3b-8254-ccaae6bd3699",
+      "sessionId": "86b1680b-f195-414a-8efb-4df63cf124de",
+      "status": "passed",
+      "legacyMayStillUseStagingKey": true,
+      "legacyObjectMigrationClaimed": false,
+      "receiptId": "tmp/rust-r4def/root/K71/001-attachment.json",
+      "locationIdentityHash": "9feedecd0539cda225ed9c144cfc176c4b29f3f86b76bb860429ca121f9aa5ba",
+      "stagingIdentityHash": "9feedecd0539cda225ed9c144cfc176c4b29f3f86b76bb860429ca121f9aa5ba"
+    },
+    {
+      "kind": "actual-PG-legacy-binding-preservation",
+      "phase": "capture-existing-ACKs",
+      "attachmentId": "156eed94-e0a5-49b1-8762-7c04b8cc4bba",
+      "sessionId": "f3b9c017-0395-4bb1-b3dd-a6c12a681737",
+      "status": "passed",
+      "legacyMayStillUseStagingKey": true,
+      "legacyObjectMigrationClaimed": false,
+      "receiptId": "tmp/rust-r4def/root/K71/002-attachment.json",
+      "locationIdentityHash": "396ca7e1b888695d41c57ca8f5feeb268a8cfba467bea2d84c9cd6a9f849b794",
+      "stagingIdentityHash": "396ca7e1b888695d41c57ca8f5feeb268a8cfba467bea2d84c9cd6a9f849b794"
+    },
+    {
+      "kind": "actual-PG-D-frozen-attachment-materials",
+      "basisId": "4d3a730e-c920-4159-9878-d25406ccf101",
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/K71/003-basis.json"
+    },
+    {
+      "kind": "expired-old-attempt-explicitly-retired-or-preserved",
+      "status": "passed",
+      "sessionId": "97146322-628d-4a5f-a9cb-3212deb26f45",
+      "actualStatus": "aborted",
+      "rowVersion": 5,
+      "originalExpiryPreserved": true
+    },
+    {
+      "kind": "actual-PG-legacy-binding-preservation",
+      "phase": "retire-expired-failed-attempt",
+      "attachmentId": "5151e346-59d4-4d3b-8254-ccaae6bd3699",
+      "sessionId": "86b1680b-f195-414a-8efb-4df63cf124de",
+      "status": "passed",
+      "legacyMayStillUseStagingKey": true,
+      "legacyObjectMigrationClaimed": false,
+      "receiptId": "tmp/rust-r4def/root/K71/004-attachment.json",
+      "locationIdentityHash": "9feedecd0539cda225ed9c144cfc176c4b29f3f86b76bb860429ca121f9aa5ba",
+      "stagingIdentityHash": "9feedecd0539cda225ed9c144cfc176c4b29f3f86b76bb860429ca121f9aa5ba"
+    },
+    {
+      "kind": "actual-PG-new-immutable-final-binding",
+      "phase": "fresh-nonfinal-version-and-immutable-final-proof",
+      "attachmentId": "f00845dd-28e3-4a5c-8837-bdcbf19c8ae8",
+      "sessionId": "696b24bc-3dc2-4b39-8684-28df0584bae9",
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/K71/005-attachment.json",
+      "locationIdentityHash": "44c6fae7a7018b170dd773c59135b72de68c48eabc7a126ec018be70e802fc15",
+      "stagingIdentityHash": "0aece633efa42fa2996d212c17539b2474bcdecd140fb29ce8228275eb8dd0f6"
+    },
+    {
+      "kind": "actual-PG-legacy-binding-preservation",
+      "phase": "fresh-nonfinal-version-and-immutable-final-proof",
+      "attachmentId": "5151e346-59d4-4d3b-8254-ccaae6bd3699",
+      "sessionId": "86b1680b-f195-414a-8efb-4df63cf124de",
+      "status": "passed",
+      "legacyMayStillUseStagingKey": true,
+      "legacyObjectMigrationClaimed": false,
+      "receiptId": "tmp/rust-r4def/root/K71/006-attachment.json",
+      "locationIdentityHash": "9feedecd0539cda225ed9c144cfc176c4b29f3f86b76bb860429ca121f9aa5ba",
+      "stagingIdentityHash": "9feedecd0539cda225ed9c144cfc176c4b29f3f86b76bb860429ca121f9aa5ba"
+    },
+    {
+      "kind": "actual-PG-D-frozen-attachment-materials",
+      "basisId": "4d3a730e-c920-4159-9878-d25406ccf101",
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/K71/007-basis.json"
+    },
+    {
+      "kind": "actual-PG-legacy-binding-preservation",
+      "phase": "mark-new-final-invalidates-first-consent",
+      "attachmentId": "5151e346-59d4-4d3b-8254-ccaae6bd3699",
+      "sessionId": "86b1680b-f195-414a-8efb-4df63cf124de",
+      "status": "passed",
+      "legacyMayStillUseStagingKey": true,
+      "legacyObjectMigrationClaimed": false,
+      "receiptId": "tmp/rust-r4def/root/K71/008-attachment.json",
+      "locationIdentityHash": "9feedecd0539cda225ed9c144cfc176c4b29f3f86b76bb860429ca121f9aa5ba",
+      "stagingIdentityHash": "9feedecd0539cda225ed9c144cfc176c4b29f3f86b76bb860429ca121f9aa5ba"
+    },
+    {
+      "kind": "actual-PG-new-immutable-final-binding",
+      "phase": "mark-new-final-invalidates-first-consent",
+      "attachmentId": "f00845dd-28e3-4a5c-8837-bdcbf19c8ae8",
+      "sessionId": "696b24bc-3dc2-4b39-8684-28df0584bae9",
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/K71/009-attachment.json",
+      "locationIdentityHash": "44c6fae7a7018b170dd773c59135b72de68c48eabc7a126ec018be70e802fc15",
+      "stagingIdentityHash": "0aece633efa42fa2996d212c17539b2474bcdecd140fb29ce8228275eb8dd0f6"
+    },
+    {
+      "kind": "actual-PG-D-frozen-attachment-materials",
+      "basisId": "dcdbc3ce-4a1b-4671-a51e-c675a797dc79",
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/K71/010-basis.json"
+    },
+    {
+      "kind": "actual-PG-new-immutable-final-binding",
+      "phase": "void-invalidates-new-version-consent",
+      "attachmentId": "f00845dd-28e3-4a5c-8837-bdcbf19c8ae8",
+      "sessionId": "696b24bc-3dc2-4b39-8684-28df0584bae9",
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/K71/011-attachment.json",
+      "locationIdentityHash": "44c6fae7a7018b170dd773c59135b72de68c48eabc7a126ec018be70e802fc15",
+      "stagingIdentityHash": "0aece633efa42fa2996d212c17539b2474bcdecd140fb29ce8228275eb8dd0f6"
+    },
+    {
+      "kind": "actual-PG-legacy-binding-preservation",
+      "phase": "restore-v1-and-all-three-own-confirmations-R5-blocked",
+      "attachmentId": "5151e346-59d4-4d3b-8254-ccaae6bd3699",
+      "sessionId": "86b1680b-f195-414a-8efb-4df63cf124de",
+      "status": "passed",
+      "legacyMayStillUseStagingKey": true,
+      "legacyObjectMigrationClaimed": false,
+      "receiptId": "tmp/rust-r4def/root/K71/012-attachment.json",
+      "locationIdentityHash": "9feedecd0539cda225ed9c144cfc176c4b29f3f86b76bb860429ca121f9aa5ba",
+      "stagingIdentityHash": "9feedecd0539cda225ed9c144cfc176c4b29f3f86b76bb860429ca121f9aa5ba"
+    },
+    {
+      "kind": "actual-PG-D-frozen-attachment-materials",
+      "basisId": "c60690af-aad3-4deb-847c-79d3a36db12b",
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/K71/013-basis.json"
+    }
+  ],
+  "HTTPPassed": 60,
+  "independentPGPassed": 13,
+  "needsEvidence": false,
+  "completed": true,
+  "previousACKsReplayed": false,
+  "freshVersionSessionCount": 1,
+  "freshVersionPUTAttempts": 1,
+  "freshVersionCompleteAttempts": 1,
+  "oldFailedSessionPUTOrCompleteReplayed": false,
+  "initialState": "not-run",
+  "SQLBusinessProducerUsed": false,
+  "objectBytesGeneratedOnlyAsDeclaredSyntheticHTTPPayload": true,
+  "legacyBindingsMigrated": false,
+  "authorExecutedHTTP": false,
+  "optionalLatePutRace": "not-run; Root-owned gate63.sql and README plan only",
+  "G3Certified": false,
+  "G4Certified": false,
+  "first": {
+    "allowedActions": [
+      "confirm-project-handover-participant"
+    ],
+    "blockingReasons": [
+      "参与人尚未全部确认。"
+    ],
+    "closureStatus": "handover-in-progress",
+    "comment": null,
+    "confirmedAt": null,
+    "confirmedBy": null,
+    "contractSummarySnapshotId": "f7ce9b1d-f2f8-463e-865a-53bbd7259ebb",
+    "currentHandoverBaselineSummary": {
+      "baselineSnapshotId": "5d1e0aad-4250-4b52-b96b-68b5d134cb1a",
+      "sourceId": "e0cee582-70bb-459a-b4e2-3b4d06c57aa9",
+      "sourceType": "handover-rebaseline",
+      "status": "available",
+      "summary": "全部合同的承接依据已固定；单快照字段仅为兼容锚点。"
+    },
+    "currentSourcePayloadHash": "1b5c5514eb5e1b19e9d12fcb553479acbac1accd855788873a69c8bc4f379482",
+    "effectiveContractSetSummary": {
+      "activeContractCount": 2,
+      "activeContractIds": [
+        "48a7467c-c58e-486d-aade-eda661b65298",
+        "b75ed6ae-87ba-4ae1-9e35-f865239ebed7"
+      ],
+      "amountTotalsByCurrency": [
+        {
+          "currencyCode": "CNY",
+          "totalSignedAmountProjection": {
+            "displayText": "113000.00",
+            "fieldPackageKey": "contract-finance",
+            "mode": "full",
+            "reasonCode": "allowed",
+            "value": "113000.00"
+          }
+        }
+      ],
+      "contractNos": [
+        "CT-2026-000002",
+        "CT-2026-000001"
+      ],
+      "contracts": [
+        {
+          "contractNo": "CT-2026-000002",
+          "currencyCode": "CNY",
+          "currentSnapshotId": "5d1e0aad-4250-4b52-b96b-68b5d134cb1a",
+          "id": "48a7467c-c58e-486d-aade-eda661b65298",
+          "signedAmountProjection": {
+            "displayText": "56500.00",
+            "fieldPackageKey": "contract-finance",
+            "mode": "full",
+            "reasonCode": "allowed",
+            "value": "56500.00"
+          },
+          "signedAt": null,
+          "status": "active"
+        },
+        {
+          "contractNo": "CT-2026-000001",
+          "currencyCode": "CNY",
+          "currentSnapshotId": "26585fe5-dba5-4415-bba2-9f04c1c889cd",
+          "id": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+          "signedAmountProjection": {
+            "displayText": "56500.00",
+            "fieldPackageKey": "contract-finance",
+            "mode": "full",
+            "reasonCode": "allowed",
+            "value": "56500.00"
+          },
+          "signedAt": null,
+          "status": "active"
+        }
+      ],
+      "currencyCodes": [
+        "CNY"
+      ],
+      "earliestSignedAt": null,
+      "latestSignedAt": null,
+      "totalSignedAmountProjection": {
+        "displayText": "113000.00",
+        "fieldPackageKey": "contract-finance",
+        "mode": "full",
+        "reasonCode": "allowed",
+        "value": "113000.00"
+      }
+    },
+    "executionAdmission": {
+      "allowed": false,
+      "blockingReasons": [
+        "正式执行准入仍需 R5 同链有效提成角色冻结。"
+      ]
+    },
+    "executionOwnerUserId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+    "exportPolicy": "handover-controlled",
+    "financeConfirmationRequired": false,
+    "frozenMaterials": {
+      "basisSnapshotId": "4d3a730e-c920-4159-9878-d25406ccf101",
+      "contracts": [
+        {
+          "contractId": "48a7467c-c58e-486d-aade-eda661b65298",
+          "contractTermSnapshotId": "5d1e0aad-4250-4b52-b96b-68b5d134cb1a",
+          "riskItems": [
+            {
+              "blocksNextStage": false,
+              "id": "51071b0f-3114-4fdf-bd37-ab2152fb0cbc",
+              "impactScope": "接口验收时间",
+              "mitigationPlan": "提前安排联调窗口",
+              "ownerRole": "technical-support",
+              "packageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+              "riskCategory": "integration",
+              "riskDescription": "V1客户联调窗口风险",
+              "riskLevel": "R2",
+              "riskStatus": "mitigating",
+              "sortOrder": 0
+            }
+          ],
+          "scopeItems": [
+            {
+              "description": "交付核心接口和操作培训；范围以此版本为准。",
+              "id": "7a359ba7-d42f-4089-a317-4bd6ced8b5c2",
+              "label": "V1冻结交付范围",
+              "packageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+              "scopeType": "in-scope",
+              "sortOrder": 0
+            },
+            {
+              "description": "不包含第三方硬件采购。",
+              "id": "a545bfe3-0f19-40f3-84c5-2c60cd3fcfcb",
+              "label": "V1边界",
+              "packageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+              "scopeType": "out-of-scope",
+              "sortOrder": 1
+            }
+          ],
+          "technicalCostPackageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+          "technicalCostVersion": 1
+        },
+        {
+          "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+          "contractTermSnapshotId": "26585fe5-dba5-4415-bba2-9f04c1c889cd",
+          "riskItems": [
+            {
+              "blocksNextStage": false,
+              "id": "51071b0f-3114-4fdf-bd37-ab2152fb0cbc",
+              "impactScope": "接口验收时间",
+              "mitigationPlan": "提前安排联调窗口",
+              "ownerRole": "technical-support",
+              "packageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+              "riskCategory": "integration",
+              "riskDescription": "V1客户联调窗口风险",
+              "riskLevel": "R2",
+              "riskStatus": "mitigating",
+              "sortOrder": 0
+            }
+          ],
+          "scopeItems": [
+            {
+              "description": "交付核心接口和操作培训；范围以此版本为准。",
+              "id": "7a359ba7-d42f-4089-a317-4bd6ced8b5c2",
+              "label": "V1冻结交付范围",
+              "packageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+              "scopeType": "in-scope",
+              "sortOrder": 0
+            },
+            {
+              "description": "不包含第三方硬件采购。",
+              "id": "a545bfe3-0f19-40f3-84c5-2c60cd3fcfcb",
+              "label": "V1边界",
+              "packageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+              "scopeType": "out-of-scope",
+              "sortOrder": 1
+            }
+          ],
+          "technicalCostPackageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+          "technicalCostVersion": 1
+        }
+      ],
+      "sourcePayloadHash": "1b5c5514eb5e1b19e9d12fcb553479acbac1accd855788873a69c8bc4f379482"
+    },
+    "generatedAt": "2026-11-04T04:02:42.190Z",
+    "handoverBasisItems": [
+      {
+        "id": "08af8556-dad4-4ba1-9ee3-3b3e0f1a3a6a",
+        "itemType": "attachment",
+        "sourceId": "156eed94-e0a5-49b1-8762-7c04b8cc4bba",
+        "sourceType": "attachment",
+        "sourceVersion": "1",
+        "summary": "attachment · 156eed94-e0a5-49b1-8762-7c04b8cc4bba · 版本 1"
+      },
+      {
+        "id": "8ac753b1-0715-4292-8ab5-298abe849d1a",
+        "itemType": "attachment",
+        "sourceId": "5151e346-59d4-4d3b-8254-ccaae6bd3699",
+        "sourceType": "attachment",
+        "sourceVersion": "1",
+        "summary": "attachment · 5151e346-59d4-4d3b-8254-ccaae6bd3699 · 版本 1"
+      },
+      {
+        "id": "1ca4b7dd-7691-44d8-bc52-4570bb0f0e8d",
+        "itemType": "contract",
+        "sourceId": "5d1e0aad-4250-4b52-b96b-68b5d134cb1a",
+        "sourceType": "contract-term-snapshot",
+        "sourceVersion": "2",
+        "summary": "contract · 5d1e0aad-4250-4b52-b96b-68b5d134cb1a · 版本 2 · 合同 48a7467c-c58e-486d-aade-eda661b65298"
+      },
+      {
+        "id": "a41dd943-ea1b-47e3-9cdd-1dbd669d1c15",
+        "itemType": "contract",
+        "sourceId": "26585fe5-dba5-4415-bba2-9f04c1c889cd",
+        "sourceType": "contract-term-snapshot",
+        "sourceVersion": "3",
+        "summary": "contract · 26585fe5-dba5-4415-bba2-9f04c1c889cd · 版本 3 · 合同 b75ed6ae-87ba-4ae1-9e35-f865239ebed7"
+      },
+      {
+        "id": "aa557f08-b508-4e74-845c-f3301f99e6db",
+        "itemType": "cost",
+        "sourceId": "0d0d4655-cb07-4628-ba8b-387bd06ec6b2",
+        "sourceType": "contract-term-preparation",
+        "sourceVersion": "2",
+        "summary": "cost · 0d0d4655-cb07-4628-ba8b-387bd06ec6b2 · 版本 2 · 合同 48a7467c-c58e-486d-aade-eda661b65298"
+      },
+      {
+        "id": "7046a339-11da-4f2f-90a3-ba3c80f3ba26",
+        "itemType": "cost",
+        "sourceId": "74c60742-67e6-4fb5-8b48-479367574d23",
+        "sourceType": "contract-term-preparation",
+        "sourceVersion": "3",
+        "summary": "cost · 74c60742-67e6-4fb5-8b48-479367574d23 · 版本 3 · 合同 b75ed6ae-87ba-4ae1-9e35-f865239ebed7"
+      },
+      {
+        "id": "df30db5b-969c-40ac-bf2c-b58e3e00ecae",
+        "itemType": "receivable",
+        "sourceId": "3eee54f4-e87b-4c06-bf4f-26592bc632e7",
+        "sourceType": "receivable-plan-version",
+        "sourceVersion": "2",
+        "summary": "receivable · 3eee54f4-e87b-4c06-bf4f-26592bc632e7 · 版本 2 · 合同 48a7467c-c58e-486d-aade-eda661b65298"
+      },
+      {
+        "id": "d84caee0-f8a0-4f1b-a941-afac668f7734",
+        "itemType": "receivable",
+        "sourceId": "56bd21d8-3f3f-402b-8ce4-decc524d9b1c",
+        "sourceType": "receivable-plan-version",
+        "sourceVersion": "3",
+        "summary": "receivable · 56bd21d8-3f3f-402b-8ce4-decc524d9b1c · 版本 3 · 合同 b75ed6ae-87ba-4ae1-9e35-f865239ebed7"
+      },
+      {
+        "id": "d59b1953-3655-42b5-881d-ab0484aa8243",
+        "itemType": "responsibility",
+        "sourceId": "384ffad5-04ed-4f78-918a-ec8e7df6a590",
+        "sourceType": "platform-user",
+        "sourceVersion": "3",
+        "summary": "responsibility · 384ffad5-04ed-4f78-918a-ec8e7df6a590 · 版本 3"
+      },
+      {
+        "id": "18a067d0-f2e8-424c-b1d4-a298b6b92409",
+        "itemType": "responsibility",
+        "sourceId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+        "sourceType": "platform-user",
+        "sourceVersion": "3",
+        "summary": "responsibility · 7269e5e0-fb18-4d11-aafe-a052e149f24a · 版本 3"
+      },
+      {
+        "id": "6bed6e7b-01c2-4248-b83f-2c997dc23fa7",
+        "itemType": "responsibility",
+        "sourceId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "sourceType": "platform-user",
+        "sourceVersion": "3",
+        "summary": "responsibility · ebad7d92-85e5-4c1c-b956-ea256fe52935 · 版本 3"
+      },
+      {
+        "id": "7895371b-88eb-47c9-9500-760fb4b7c6bc",
+        "itemType": "risk",
+        "sourceId": "0d0d4655-cb07-4628-ba8b-387bd06ec6b2",
+        "sourceType": "contract-term-preparation",
+        "sourceVersion": "2",
+        "summary": "risk · 0d0d4655-cb07-4628-ba8b-387bd06ec6b2 · 版本 2 · 合同 48a7467c-c58e-486d-aade-eda661b65298"
+      },
+      {
+        "id": "f48fd38d-9236-4bf9-9c24-7ba55eb26b38",
+        "itemType": "risk",
+        "sourceId": "74c60742-67e6-4fb5-8b48-479367574d23",
+        "sourceType": "contract-term-preparation",
+        "sourceVersion": "3",
+        "summary": "risk · 74c60742-67e6-4fb5-8b48-479367574d23 · 版本 3 · 合同 b75ed6ae-87ba-4ae1-9e35-f865239ebed7"
+      },
+      {
+        "id": "de2f6d2f-f117-4bfa-9a7f-d95210af81d2",
+        "itemType": "scope",
+        "sourceId": "0d0d4655-cb07-4628-ba8b-387bd06ec6b2",
+        "sourceType": "contract-term-preparation",
+        "sourceVersion": "2",
+        "summary": "scope · 0d0d4655-cb07-4628-ba8b-387bd06ec6b2 · 版本 2 · 合同 48a7467c-c58e-486d-aade-eda661b65298"
+      },
+      {
+        "id": "53a6d068-c842-49c2-8934-dabe06feaa1b",
+        "itemType": "scope",
+        "sourceId": "74c60742-67e6-4fb5-8b48-479367574d23",
+        "sourceType": "contract-term-preparation",
+        "sourceVersion": "3",
+        "summary": "scope · 74c60742-67e6-4fb5-8b48-479367574d23 · 版本 3 · 合同 b75ed6ae-87ba-4ae1-9e35-f865239ebed7"
+      }
+    ],
+    "handoverBasisSnapshotId": "4d3a730e-c920-4159-9878-d25406ccf101",
+    "handoverId": "32eeb954-5559-45fa-a3aa-fd08e0b8981a",
+    "handoverStatus": "draft",
+    "participantConfirmationSummary": {
+      "closedAt": null,
+      "closedCount": 0,
+      "confirmationRecordId": "68bfa4a8-b1fe-4b68-a019-b1a5b74e2d09",
+      "confirmedAt": null,
+      "confirmedCount": 1,
+      "participants": [
+        {
+          "confirmedAt": "2026-11-04T01:38:26.777Z",
+          "confirmedComment": "本人核验此固定附件及职责",
+          "participantDisplayName": "R4DEF33 personA",
+          "participantId": "384ffad5-04ed-4f78-918a-ec8e7df6a590",
+          "participantRoleKey": "technical-support",
+          "participantStatus": "confirmed",
+          "responsibilities": [
+            {
+              "responsibilitySummary": "核对冻结范围边界与技术风险",
+              "roleKey": "technical-support"
+            }
+          ]
+        },
+        {
+          "confirmedAt": null,
+          "confirmedComment": null,
+          "participantDisplayName": "R4DEF33 writer",
+          "participantId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+          "participantRoleKey": "execution-owner",
+          "participantStatus": "pending",
+          "responsibilities": [
+            {
+              "responsibilitySummary": "承接此冻结版本的交付职责",
+              "roleKey": "execution-owner"
+            }
+          ]
+        },
+        {
+          "confirmedAt": null,
+          "confirmedComment": null,
+          "participantDisplayName": "R4DEF33 full",
+          "participantId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+          "participantRoleKey": "business-admin",
+          "participantStatus": "pending",
+          "responsibilities": [
+            {
+              "responsibilitySummary": "核对商务边界和合同材料",
+              "roleKey": "business-admin"
+            },
+            {
+              "responsibilitySummary": "移交客户合同与销售事实",
+              "roleKey": "sales-owner"
+            }
+          ]
+        }
+      ],
+      "pendingCount": 2,
+      "requiredCount": 3,
+      "rowVersion": 2,
+      "status": "pending",
+      "submittedAt": "2026-11-04T01:38:26.142Z"
+    },
+    "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+    "projectName": "R4-def36-项目",
+    "projectNo": "PRJ-2026-000001",
+    "projectRowVersion": 1,
+    "projectionLevel": "handover-confirmation",
+    "receiptJudgmentModeSummary": {
+      "receiptJudgmentMode": "contract-separate",
+      "sourceId": null,
+      "sourceType": "none",
+      "status": "not-frozen",
+      "summary": "当前显示本次准备选定的模式；最终移交事实确认后才冻结生效。"
+    },
+    "rowVersion": 1,
+    "sourceChanged": false,
+    "sourcePayloadHash": "1b5c5514eb5e1b19e9d12fcb553479acbac1accd855788873a69c8bc4f379482",
+    "summaryPackageKey": "project-handover-confirmation",
+    "summarySnapshotId": "3445a059-6262-4313-b922-7c9fe04423de",
+    "version": 3
+  },
+  "second": {
+    "allowedActions": [],
+    "blockingReasons": [
+      "参与人尚未全部确认。"
+    ],
+    "closureStatus": "handover-in-progress",
+    "comment": null,
+    "confirmedAt": null,
+    "confirmedBy": null,
+    "contractSummarySnapshotId": "1c093038-b18d-44ed-85bd-ceaad5a9fcab",
+    "currentHandoverBaselineSummary": {
+      "baselineSnapshotId": "5d1e0aad-4250-4b52-b96b-68b5d134cb1a",
+      "sourceId": "e0cee582-70bb-459a-b4e2-3b4d06c57aa9",
+      "sourceType": "handover-rebaseline",
+      "status": "available",
+      "summary": "全部合同的承接依据已固定；单快照字段仅为兼容锚点。"
+    },
+    "currentSourcePayloadHash": "05f3a4bd130c9ea0be287bb4b521f16dc0825cb576b17e2dbaf89211360b4875",
+    "effectiveContractSetSummary": {
+      "activeContractCount": 2,
+      "activeContractIds": [
+        "48a7467c-c58e-486d-aade-eda661b65298",
+        "b75ed6ae-87ba-4ae1-9e35-f865239ebed7"
+      ],
+      "amountTotalsByCurrency": [
+        {
+          "currencyCode": "CNY",
+          "totalSignedAmountProjection": {
+            "displayText": "敏感字段已隐藏",
+            "fieldPackageKey": "contract-finance",
+            "mode": "masked",
+            "reasonCode": "missing-sensitive-read-permission",
+            "value": null
+          }
+        }
+      ],
+      "contractNos": [
+        "CT-2026-000002",
+        "CT-2026-000001"
+      ],
+      "contracts": [
+        {
+          "contractNo": "CT-2026-000002",
+          "currencyCode": "CNY",
+          "currentSnapshotId": "5d1e0aad-4250-4b52-b96b-68b5d134cb1a",
+          "id": "48a7467c-c58e-486d-aade-eda661b65298",
+          "signedAmountProjection": {
+            "displayText": "敏感字段已隐藏",
+            "fieldPackageKey": "contract-finance",
+            "mode": "masked",
+            "reasonCode": "missing-sensitive-read-permission",
+            "value": null
+          },
+          "signedAt": null,
+          "status": "active"
+        },
+        {
+          "contractNo": "CT-2026-000001",
+          "currencyCode": "CNY",
+          "currentSnapshotId": "26585fe5-dba5-4415-bba2-9f04c1c889cd",
+          "id": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+          "signedAmountProjection": {
+            "displayText": "敏感字段已隐藏",
+            "fieldPackageKey": "contract-finance",
+            "mode": "masked",
+            "reasonCode": "missing-sensitive-read-permission",
+            "value": null
+          },
+          "signedAt": null,
+          "status": "active"
+        }
+      ],
+      "currencyCodes": [
+        "CNY"
+      ],
+      "earliestSignedAt": null,
+      "latestSignedAt": null,
+      "totalSignedAmountProjection": {
+        "displayText": "敏感字段已隐藏",
+        "fieldPackageKey": "contract-finance",
+        "mode": "masked",
+        "reasonCode": "missing-sensitive-read-permission",
+        "value": null
+      }
+    },
+    "executionAdmission": {
+      "allowed": false,
+      "blockingReasons": [
+        "正式执行准入仍需 R5 同链有效提成角色冻结。"
+      ]
+    },
+    "executionOwnerUserId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+    "exportPolicy": "handover-controlled",
+    "financeConfirmationRequired": false,
+    "frozenMaterials": {
+      "basisSnapshotId": "dcdbc3ce-4a1b-4671-a51e-c675a797dc79",
+      "contracts": [
+        {
+          "contractId": "48a7467c-c58e-486d-aade-eda661b65298",
+          "contractTermSnapshotId": "5d1e0aad-4250-4b52-b96b-68b5d134cb1a",
+          "riskItems": [
+            {
+              "blocksNextStage": false,
+              "id": "51071b0f-3114-4fdf-bd37-ab2152fb0cbc",
+              "impactScope": "接口验收时间",
+              "mitigationPlan": "提前安排联调窗口",
+              "ownerRole": "technical-support",
+              "packageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+              "riskCategory": "integration",
+              "riskDescription": "V1客户联调窗口风险",
+              "riskLevel": "R2",
+              "riskStatus": "mitigating",
+              "sortOrder": 0
+            }
+          ],
+          "scopeItems": [
+            {
+              "description": "交付核心接口和操作培训；范围以此版本为准。",
+              "id": "7a359ba7-d42f-4089-a317-4bd6ced8b5c2",
+              "label": "V1冻结交付范围",
+              "packageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+              "scopeType": "in-scope",
+              "sortOrder": 0
+            },
+            {
+              "description": "不包含第三方硬件采购。",
+              "id": "a545bfe3-0f19-40f3-84c5-2c60cd3fcfcb",
+              "label": "V1边界",
+              "packageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+              "scopeType": "out-of-scope",
+              "sortOrder": 1
+            }
+          ],
+          "technicalCostPackageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+          "technicalCostVersion": 1
+        },
+        {
+          "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+          "contractTermSnapshotId": "26585fe5-dba5-4415-bba2-9f04c1c889cd",
+          "riskItems": [
+            {
+              "blocksNextStage": false,
+              "id": "51071b0f-3114-4fdf-bd37-ab2152fb0cbc",
+              "impactScope": "接口验收时间",
+              "mitigationPlan": "提前安排联调窗口",
+              "ownerRole": "technical-support",
+              "packageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+              "riskCategory": "integration",
+              "riskDescription": "V1客户联调窗口风险",
+              "riskLevel": "R2",
+              "riskStatus": "mitigating",
+              "sortOrder": 0
+            }
+          ],
+          "scopeItems": [
+            {
+              "description": "交付核心接口和操作培训；范围以此版本为准。",
+              "id": "7a359ba7-d42f-4089-a317-4bd6ced8b5c2",
+              "label": "V1冻结交付范围",
+              "packageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+              "scopeType": "in-scope",
+              "sortOrder": 0
+            },
+            {
+              "description": "不包含第三方硬件采购。",
+              "id": "a545bfe3-0f19-40f3-84c5-2c60cd3fcfcb",
+              "label": "V1边界",
+              "packageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+              "scopeType": "out-of-scope",
+              "sortOrder": 1
+            }
+          ],
+          "technicalCostPackageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+          "technicalCostVersion": 1
+        }
+      ],
+      "sourcePayloadHash": "05f3a4bd130c9ea0be287bb4b521f16dc0825cb576b17e2dbaf89211360b4875"
+    },
+    "generatedAt": "2026-11-04T04:02:51.000Z",
+    "handoverBasisItems": [
+      {
+        "id": "e5265643-84fe-41b0-852e-f6f53d9e6161",
+        "itemType": "attachment",
+        "sourceId": "156eed94-e0a5-49b1-8762-7c04b8cc4bba",
+        "sourceType": "attachment",
+        "sourceVersion": "1",
+        "summary": "attachment · 156eed94-e0a5-49b1-8762-7c04b8cc4bba · 版本 1"
+      },
+      {
+        "id": "05b02647-1530-4ea8-8f8e-027516519eeb",
+        "itemType": "attachment",
+        "sourceId": "f00845dd-28e3-4a5c-8837-bdcbf19c8ae8",
+        "sourceType": "attachment",
+        "sourceVersion": "2",
+        "summary": "attachment · f00845dd-28e3-4a5c-8837-bdcbf19c8ae8 · 版本 2"
+      },
+      {
+        "id": "53288d0d-d1db-4243-b159-eaed6d91c5c4",
+        "itemType": "contract",
+        "sourceId": "5d1e0aad-4250-4b52-b96b-68b5d134cb1a",
+        "sourceType": "contract-term-snapshot",
+        "sourceVersion": "2",
+        "summary": "contract · 5d1e0aad-4250-4b52-b96b-68b5d134cb1a · 版本 2 · 合同 48a7467c-c58e-486d-aade-eda661b65298"
+      },
+      {
+        "id": "ec6afa07-f0e1-4876-9c41-650c178d97e9",
+        "itemType": "contract",
+        "sourceId": "26585fe5-dba5-4415-bba2-9f04c1c889cd",
+        "sourceType": "contract-term-snapshot",
+        "sourceVersion": "3",
+        "summary": "contract · 26585fe5-dba5-4415-bba2-9f04c1c889cd · 版本 3 · 合同 b75ed6ae-87ba-4ae1-9e35-f865239ebed7"
+      },
+      {
+        "id": "3631a62d-564c-4379-9c25-2622438a77a7",
+        "itemType": "cost",
+        "sourceId": "0d0d4655-cb07-4628-ba8b-387bd06ec6b2",
+        "sourceType": "contract-term-preparation",
+        "sourceVersion": "2",
+        "summary": "cost · 0d0d4655-cb07-4628-ba8b-387bd06ec6b2 · 版本 2 · 合同 48a7467c-c58e-486d-aade-eda661b65298"
+      },
+      {
+        "id": "979700ab-0281-472c-bd2b-c7e03fb1186f",
+        "itemType": "cost",
+        "sourceId": "74c60742-67e6-4fb5-8b48-479367574d23",
+        "sourceType": "contract-term-preparation",
+        "sourceVersion": "3",
+        "summary": "cost · 74c60742-67e6-4fb5-8b48-479367574d23 · 版本 3 · 合同 b75ed6ae-87ba-4ae1-9e35-f865239ebed7"
+      },
+      {
+        "id": "070af45f-97d9-4624-b9d7-878fce116fd3",
+        "itemType": "receivable",
+        "sourceId": "3eee54f4-e87b-4c06-bf4f-26592bc632e7",
+        "sourceType": "receivable-plan-version",
+        "sourceVersion": "2",
+        "summary": "receivable · 3eee54f4-e87b-4c06-bf4f-26592bc632e7 · 版本 2 · 合同 48a7467c-c58e-486d-aade-eda661b65298"
+      },
+      {
+        "id": "99f9bd21-4601-4151-a7d0-85c57021c2af",
+        "itemType": "receivable",
+        "sourceId": "56bd21d8-3f3f-402b-8ce4-decc524d9b1c",
+        "sourceType": "receivable-plan-version",
+        "sourceVersion": "3",
+        "summary": "receivable · 56bd21d8-3f3f-402b-8ce4-decc524d9b1c · 版本 3 · 合同 b75ed6ae-87ba-4ae1-9e35-f865239ebed7"
+      },
+      {
+        "id": "8c8b31ba-5cf2-43bb-a9d1-eb55c450e241",
+        "itemType": "responsibility",
+        "sourceId": "384ffad5-04ed-4f78-918a-ec8e7df6a590",
+        "sourceType": "platform-user",
+        "sourceVersion": "4",
+        "summary": "responsibility · 384ffad5-04ed-4f78-918a-ec8e7df6a590 · 版本 4"
+      },
+      {
+        "id": "a7d523b9-3089-4a32-9ccb-ab9ddf5c75b9",
+        "itemType": "responsibility",
+        "sourceId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+        "sourceType": "platform-user",
+        "sourceVersion": "4",
+        "summary": "responsibility · 7269e5e0-fb18-4d11-aafe-a052e149f24a · 版本 4"
+      },
+      {
+        "id": "2d41f53c-7662-426a-ab06-466ced316252",
+        "itemType": "responsibility",
+        "sourceId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "sourceType": "platform-user",
+        "sourceVersion": "4",
+        "summary": "responsibility · ebad7d92-85e5-4c1c-b956-ea256fe52935 · 版本 4"
+      },
+      {
+        "id": "833bc82f-7383-4495-802d-ad2b183ba377",
+        "itemType": "risk",
+        "sourceId": "0d0d4655-cb07-4628-ba8b-387bd06ec6b2",
+        "sourceType": "contract-term-preparation",
+        "sourceVersion": "2",
+        "summary": "risk · 0d0d4655-cb07-4628-ba8b-387bd06ec6b2 · 版本 2 · 合同 48a7467c-c58e-486d-aade-eda661b65298"
+      },
+      {
+        "id": "3e264f41-411a-4607-a631-321e3541a2f8",
+        "itemType": "risk",
+        "sourceId": "74c60742-67e6-4fb5-8b48-479367574d23",
+        "sourceType": "contract-term-preparation",
+        "sourceVersion": "3",
+        "summary": "risk · 74c60742-67e6-4fb5-8b48-479367574d23 · 版本 3 · 合同 b75ed6ae-87ba-4ae1-9e35-f865239ebed7"
+      },
+      {
+        "id": "ab222a87-a6ee-4893-930a-0b77eeb84314",
+        "itemType": "scope",
+        "sourceId": "0d0d4655-cb07-4628-ba8b-387bd06ec6b2",
+        "sourceType": "contract-term-preparation",
+        "sourceVersion": "2",
+        "summary": "scope · 0d0d4655-cb07-4628-ba8b-387bd06ec6b2 · 版本 2 · 合同 48a7467c-c58e-486d-aade-eda661b65298"
+      },
+      {
+        "id": "a3c9b13b-c373-4e52-a7db-dde485d1aaf7",
+        "itemType": "scope",
+        "sourceId": "74c60742-67e6-4fb5-8b48-479367574d23",
+        "sourceType": "contract-term-preparation",
+        "sourceVersion": "3",
+        "summary": "scope · 74c60742-67e6-4fb5-8b48-479367574d23 · 版本 3 · 合同 b75ed6ae-87ba-4ae1-9e35-f865239ebed7"
+      }
+    ],
+    "handoverBasisSnapshotId": "dcdbc3ce-4a1b-4671-a51e-c675a797dc79",
+    "handoverId": "ee950197-9832-4129-88e1-407e044d1f5e",
+    "handoverStatus": "draft",
+    "participantConfirmationSummary": {
+      "closedAt": null,
+      "closedCount": 0,
+      "confirmationRecordId": "47e17183-79c7-4a97-a755-d391d53de889",
+      "confirmedAt": null,
+      "confirmedCount": 1,
+      "participants": [
+        {
+          "confirmedAt": "2026-11-04T04:02:50.945Z",
+          "confirmedComment": "本人核验本次真实附件固定版本及全部职责",
+          "participantDisplayName": "R4DEF33 personA",
+          "participantId": "384ffad5-04ed-4f78-918a-ec8e7df6a590",
+          "participantRoleKey": "technical-support",
+          "participantStatus": "confirmed",
+          "responsibilities": [
+            {
+              "responsibilitySummary": "核对冻结范围边界与技术风险",
+              "roleKey": "technical-support"
+            }
+          ]
+        },
+        {
+          "confirmedAt": null,
+          "confirmedComment": null,
+          "participantDisplayName": "R4DEF33 writer",
+          "participantId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+          "participantRoleKey": "execution-owner",
+          "participantStatus": "pending",
+          "responsibilities": [
+            {
+              "responsibilitySummary": "承接此冻结版本的交付职责",
+              "roleKey": "execution-owner"
+            }
+          ]
+        },
+        {
+          "confirmedAt": null,
+          "confirmedComment": null,
+          "participantDisplayName": "R4DEF33 full",
+          "participantId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+          "participantRoleKey": "business-admin",
+          "participantStatus": "pending",
+          "responsibilities": [
+            {
+              "responsibilitySummary": "核对商务边界和合同材料",
+              "roleKey": "business-admin"
+            },
+            {
+              "responsibilitySummary": "移交客户合同与销售事实",
+              "roleKey": "sales-owner"
+            }
+          ]
+        }
+      ],
+      "pendingCount": 2,
+      "requiredCount": 3,
+      "rowVersion": 2,
+      "status": "pending",
+      "submittedAt": "2026-11-04T04:02:49.789Z"
+    },
+    "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+    "projectName": "R4-def36-项目",
+    "projectNo": "PRJ-2026-000001",
+    "projectRowVersion": 1,
+    "projectionLevel": "handover-confirmation",
+    "receiptJudgmentModeSummary": {
+      "receiptJudgmentMode": "contract-separate",
+      "sourceId": null,
+      "sourceType": "none",
+      "status": "not-frozen",
+      "summary": "当前显示本次准备选定的模式；最终移交事实确认后才冻结生效。"
+    },
+    "rowVersion": 1,
+    "sourceChanged": false,
+    "sourcePayloadHash": "05f3a4bd130c9ea0be287bb4b521f16dc0825cb576b17e2dbaf89211360b4875",
+    "summaryPackageKey": "project-handover-confirmation",
+    "summarySnapshotId": "ed1130ab-3907-4733-a4b8-74081a190dbe",
+    "version": 4
+  },
+  "recovered": {
+    "allowedActions": [],
+    "blockingReasons": [],
+    "closureStatus": "handover-confirmed-freeze-pending",
+    "comment": null,
+    "confirmedAt": "2026-11-04T04:03:04.282Z",
+    "confirmedBy": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+    "contractSummarySnapshotId": "bdc0ca95-ddef-43ab-a796-356445ea9b2b",
+    "currentHandoverBaselineSummary": {
+      "baselineSnapshotId": "5d1e0aad-4250-4b52-b96b-68b5d134cb1a",
+      "sourceId": "e0cee582-70bb-459a-b4e2-3b4d06c57aa9",
+      "sourceType": "handover-rebaseline",
+      "status": "available",
+      "summary": "全部合同的承接依据已固定；单快照字段仅为兼容锚点。"
+    },
+    "currentSourcePayloadHash": "1b5c5514eb5e1b19e9d12fcb553479acbac1accd855788873a69c8bc4f379482",
+    "effectiveContractSetSummary": {
+      "activeContractCount": 2,
+      "activeContractIds": [
+        "48a7467c-c58e-486d-aade-eda661b65298",
+        "b75ed6ae-87ba-4ae1-9e35-f865239ebed7"
+      ],
+      "amountTotalsByCurrency": [
+        {
+          "currencyCode": "CNY",
+          "totalSignedAmountProjection": {
+            "displayText": "113000.00",
+            "fieldPackageKey": "contract-finance",
+            "mode": "full",
+            "reasonCode": "allowed",
+            "value": "113000.00"
+          }
+        }
+      ],
+      "contractNos": [
+        "CT-2026-000002",
+        "CT-2026-000001"
+      ],
+      "contracts": [
+        {
+          "contractNo": "CT-2026-000002",
+          "currencyCode": "CNY",
+          "currentSnapshotId": "5d1e0aad-4250-4b52-b96b-68b5d134cb1a",
+          "id": "48a7467c-c58e-486d-aade-eda661b65298",
+          "signedAmountProjection": {
+            "displayText": "56500.00",
+            "fieldPackageKey": "contract-finance",
+            "mode": "full",
+            "reasonCode": "allowed",
+            "value": "56500.00"
+          },
+          "signedAt": null,
+          "status": "active"
+        },
+        {
+          "contractNo": "CT-2026-000001",
+          "currencyCode": "CNY",
+          "currentSnapshotId": "26585fe5-dba5-4415-bba2-9f04c1c889cd",
+          "id": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+          "signedAmountProjection": {
+            "displayText": "56500.00",
+            "fieldPackageKey": "contract-finance",
+            "mode": "full",
+            "reasonCode": "allowed",
+            "value": "56500.00"
+          },
+          "signedAt": null,
+          "status": "active"
+        }
+      ],
+      "currencyCodes": [
+        "CNY"
+      ],
+      "earliestSignedAt": null,
+      "latestSignedAt": null,
+      "totalSignedAmountProjection": {
+        "displayText": "113000.00",
+        "fieldPackageKey": "contract-finance",
+        "mode": "full",
+        "reasonCode": "allowed",
+        "value": "113000.00"
+      }
+    },
+    "executionAdmission": {
+      "allowed": false,
+      "blockingReasons": [
+        "正式执行准入仍需 R5 同链有效提成角色冻结。"
+      ]
+    },
+    "executionOwnerUserId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+    "exportPolicy": "handover-controlled",
+    "financeConfirmationRequired": false,
+    "frozenMaterials": {
+      "basisSnapshotId": "c60690af-aad3-4deb-847c-79d3a36db12b",
+      "contracts": [
+        {
+          "contractId": "48a7467c-c58e-486d-aade-eda661b65298",
+          "contractTermSnapshotId": "5d1e0aad-4250-4b52-b96b-68b5d134cb1a",
+          "riskItems": [
+            {
+              "blocksNextStage": false,
+              "id": "51071b0f-3114-4fdf-bd37-ab2152fb0cbc",
+              "impactScope": "接口验收时间",
+              "mitigationPlan": "提前安排联调窗口",
+              "ownerRole": "technical-support",
+              "packageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+              "riskCategory": "integration",
+              "riskDescription": "V1客户联调窗口风险",
+              "riskLevel": "R2",
+              "riskStatus": "mitigating",
+              "sortOrder": 0
+            }
+          ],
+          "scopeItems": [
+            {
+              "description": "交付核心接口和操作培训；范围以此版本为准。",
+              "id": "7a359ba7-d42f-4089-a317-4bd6ced8b5c2",
+              "label": "V1冻结交付范围",
+              "packageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+              "scopeType": "in-scope",
+              "sortOrder": 0
+            },
+            {
+              "description": "不包含第三方硬件采购。",
+              "id": "a545bfe3-0f19-40f3-84c5-2c60cd3fcfcb",
+              "label": "V1边界",
+              "packageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+              "scopeType": "out-of-scope",
+              "sortOrder": 1
+            }
+          ],
+          "technicalCostPackageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+          "technicalCostVersion": 1
+        },
+        {
+          "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+          "contractTermSnapshotId": "26585fe5-dba5-4415-bba2-9f04c1c889cd",
+          "riskItems": [
+            {
+              "blocksNextStage": false,
+              "id": "51071b0f-3114-4fdf-bd37-ab2152fb0cbc",
+              "impactScope": "接口验收时间",
+              "mitigationPlan": "提前安排联调窗口",
+              "ownerRole": "technical-support",
+              "packageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+              "riskCategory": "integration",
+              "riskDescription": "V1客户联调窗口风险",
+              "riskLevel": "R2",
+              "riskStatus": "mitigating",
+              "sortOrder": 0
+            }
+          ],
+          "scopeItems": [
+            {
+              "description": "交付核心接口和操作培训；范围以此版本为准。",
+              "id": "7a359ba7-d42f-4089-a317-4bd6ced8b5c2",
+              "label": "V1冻结交付范围",
+              "packageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+              "scopeType": "in-scope",
+              "sortOrder": 0
+            },
+            {
+              "description": "不包含第三方硬件采购。",
+              "id": "a545bfe3-0f19-40f3-84c5-2c60cd3fcfcb",
+              "label": "V1边界",
+              "packageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+              "scopeType": "out-of-scope",
+              "sortOrder": 1
+            }
+          ],
+          "technicalCostPackageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+          "technicalCostVersion": 1
+        }
+      ],
+      "sourcePayloadHash": "1b5c5514eb5e1b19e9d12fcb553479acbac1accd855788873a69c8bc4f379482"
+    },
+    "generatedAt": "2026-11-04T04:03:04.509Z",
+    "handoverBasisItems": [
+      {
+        "id": "ad2d6212-3162-4279-8e5d-70e2240406cd",
+        "itemType": "attachment",
+        "sourceId": "156eed94-e0a5-49b1-8762-7c04b8cc4bba",
+        "sourceType": "attachment",
+        "sourceVersion": "1",
+        "summary": "attachment · 156eed94-e0a5-49b1-8762-7c04b8cc4bba · 版本 1"
+      },
+      {
+        "id": "27a3901d-25a8-469e-922b-481ae874cb73",
+        "itemType": "attachment",
+        "sourceId": "5151e346-59d4-4d3b-8254-ccaae6bd3699",
+        "sourceType": "attachment",
+        "sourceVersion": "1",
+        "summary": "attachment · 5151e346-59d4-4d3b-8254-ccaae6bd3699 · 版本 1"
+      },
+      {
+        "id": "1f7dd6c8-97c0-455e-b87e-5a43c9540f4d",
+        "itemType": "contract",
+        "sourceId": "5d1e0aad-4250-4b52-b96b-68b5d134cb1a",
+        "sourceType": "contract-term-snapshot",
+        "sourceVersion": "2",
+        "summary": "contract · 5d1e0aad-4250-4b52-b96b-68b5d134cb1a · 版本 2 · 合同 48a7467c-c58e-486d-aade-eda661b65298"
+      },
+      {
+        "id": "6bbcd8e3-0d22-4b0b-95f6-9b570551f657",
+        "itemType": "contract",
+        "sourceId": "26585fe5-dba5-4415-bba2-9f04c1c889cd",
+        "sourceType": "contract-term-snapshot",
+        "sourceVersion": "3",
+        "summary": "contract · 26585fe5-dba5-4415-bba2-9f04c1c889cd · 版本 3 · 合同 b75ed6ae-87ba-4ae1-9e35-f865239ebed7"
+      },
+      {
+        "id": "6d538549-9eb4-4922-9a61-a06f0ac0ae8c",
+        "itemType": "cost",
+        "sourceId": "0d0d4655-cb07-4628-ba8b-387bd06ec6b2",
+        "sourceType": "contract-term-preparation",
+        "sourceVersion": "2",
+        "summary": "cost · 0d0d4655-cb07-4628-ba8b-387bd06ec6b2 · 版本 2 · 合同 48a7467c-c58e-486d-aade-eda661b65298"
+      },
+      {
+        "id": "ba819fb0-c99f-40f3-adb6-36ad3a73c611",
+        "itemType": "cost",
+        "sourceId": "74c60742-67e6-4fb5-8b48-479367574d23",
+        "sourceType": "contract-term-preparation",
+        "sourceVersion": "3",
+        "summary": "cost · 74c60742-67e6-4fb5-8b48-479367574d23 · 版本 3 · 合同 b75ed6ae-87ba-4ae1-9e35-f865239ebed7"
+      },
+      {
+        "id": "943bae67-6fee-4871-b8d4-2da39b619437",
+        "itemType": "receivable",
+        "sourceId": "3eee54f4-e87b-4c06-bf4f-26592bc632e7",
+        "sourceType": "receivable-plan-version",
+        "sourceVersion": "2",
+        "summary": "receivable · 3eee54f4-e87b-4c06-bf4f-26592bc632e7 · 版本 2 · 合同 48a7467c-c58e-486d-aade-eda661b65298"
+      },
+      {
+        "id": "83d40a51-db74-43eb-b883-483f9a0bdf7a",
+        "itemType": "receivable",
+        "sourceId": "56bd21d8-3f3f-402b-8ce4-decc524d9b1c",
+        "sourceType": "receivable-plan-version",
+        "sourceVersion": "3",
+        "summary": "receivable · 56bd21d8-3f3f-402b-8ce4-decc524d9b1c · 版本 3 · 合同 b75ed6ae-87ba-4ae1-9e35-f865239ebed7"
+      },
+      {
+        "id": "af5de48c-3f28-400b-a25b-34fec6144b15",
+        "itemType": "responsibility",
+        "sourceId": "384ffad5-04ed-4f78-918a-ec8e7df6a590",
+        "sourceType": "platform-user",
+        "sourceVersion": "5",
+        "summary": "responsibility · 384ffad5-04ed-4f78-918a-ec8e7df6a590 · 版本 5"
+      },
+      {
+        "id": "2a08b5b1-657d-412d-8cb2-da93292f126b",
+        "itemType": "responsibility",
+        "sourceId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+        "sourceType": "platform-user",
+        "sourceVersion": "5",
+        "summary": "responsibility · 7269e5e0-fb18-4d11-aafe-a052e149f24a · 版本 5"
+      },
+      {
+        "id": "26a2f150-fad1-4b02-bd95-3543037c73ab",
+        "itemType": "responsibility",
+        "sourceId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "sourceType": "platform-user",
+        "sourceVersion": "5",
+        "summary": "responsibility · ebad7d92-85e5-4c1c-b956-ea256fe52935 · 版本 5"
+      },
+      {
+        "id": "51180216-098d-4bc7-8f23-dbc78f754f79",
+        "itemType": "risk",
+        "sourceId": "0d0d4655-cb07-4628-ba8b-387bd06ec6b2",
+        "sourceType": "contract-term-preparation",
+        "sourceVersion": "2",
+        "summary": "risk · 0d0d4655-cb07-4628-ba8b-387bd06ec6b2 · 版本 2 · 合同 48a7467c-c58e-486d-aade-eda661b65298"
+      },
+      {
+        "id": "e461491a-52f5-45eb-8741-fef9b690d0d8",
+        "itemType": "risk",
+        "sourceId": "74c60742-67e6-4fb5-8b48-479367574d23",
+        "sourceType": "contract-term-preparation",
+        "sourceVersion": "3",
+        "summary": "risk · 74c60742-67e6-4fb5-8b48-479367574d23 · 版本 3 · 合同 b75ed6ae-87ba-4ae1-9e35-f865239ebed7"
+      },
+      {
+        "id": "fa2c9767-cdb3-4489-8c8a-53fbff124ed4",
+        "itemType": "scope",
+        "sourceId": "0d0d4655-cb07-4628-ba8b-387bd06ec6b2",
+        "sourceType": "contract-term-preparation",
+        "sourceVersion": "2",
+        "summary": "scope · 0d0d4655-cb07-4628-ba8b-387bd06ec6b2 · 版本 2 · 合同 48a7467c-c58e-486d-aade-eda661b65298"
+      },
+      {
+        "id": "cf6d3671-242b-4efa-a324-eeeb7f8b52b5",
+        "itemType": "scope",
+        "sourceId": "74c60742-67e6-4fb5-8b48-479367574d23",
+        "sourceType": "contract-term-preparation",
+        "sourceVersion": "3",
+        "summary": "scope · 74c60742-67e6-4fb5-8b48-479367574d23 · 版本 3 · 合同 b75ed6ae-87ba-4ae1-9e35-f865239ebed7"
+      }
+    ],
+    "handoverBasisSnapshotId": "c60690af-aad3-4deb-847c-79d3a36db12b",
+    "handoverId": "b1233bf4-8917-462e-9bfd-7de5ccbfc819",
+    "handoverStatus": "confirmed",
+    "participantConfirmationSummary": {
+      "closedAt": null,
+      "closedCount": 0,
+      "confirmationRecordId": "629a5ceb-ed81-4c77-a718-61124db3d3fb",
+      "confirmedAt": "2026-11-04T04:03:03.418Z",
+      "confirmedCount": 3,
+      "participants": [
+        {
+          "confirmedAt": "2026-11-04T04:03:02.857Z",
+          "confirmedComment": "本人核验本次真实附件固定版本及全部职责",
+          "participantDisplayName": "R4DEF33 personA",
+          "participantId": "384ffad5-04ed-4f78-918a-ec8e7df6a590",
+          "participantRoleKey": "technical-support",
+          "participantStatus": "confirmed",
+          "responsibilities": [
+            {
+              "responsibilitySummary": "核对冻结范围边界与技术风险",
+              "roleKey": "technical-support"
+            }
+          ]
+        },
+        {
+          "confirmedAt": "2026-11-04T04:03:03.138Z",
+          "confirmedComment": "本人核验本次真实附件固定版本及全部职责",
+          "participantDisplayName": "R4DEF33 writer",
+          "participantId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+          "participantRoleKey": "execution-owner",
+          "participantStatus": "confirmed",
+          "responsibilities": [
+            {
+              "responsibilitySummary": "承接此冻结版本的交付职责",
+              "roleKey": "execution-owner"
+            }
+          ]
+        },
+        {
+          "confirmedAt": "2026-11-04T04:03:03.415Z",
+          "confirmedComment": "本人核验本次真实附件固定版本及全部职责",
+          "participantDisplayName": "R4DEF33 full",
+          "participantId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+          "participantRoleKey": "business-admin",
+          "participantStatus": "confirmed",
+          "responsibilities": [
+            {
+              "responsibilitySummary": "核对商务边界和合同材料",
+              "roleKey": "business-admin"
+            },
+            {
+              "responsibilitySummary": "移交客户合同与销售事实",
+              "roleKey": "sales-owner"
+            }
+          ]
+        }
+      ],
+      "pendingCount": 0,
+      "requiredCount": 3,
+      "rowVersion": 4,
+      "status": "confirmed",
+      "submittedAt": "2026-11-04T04:03:00.264Z"
+    },
+    "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+    "projectName": "R4-def36-项目",
+    "projectNo": "PRJ-2026-000001",
+    "projectRowVersion": 1,
+    "projectionLevel": "handover-confirmation",
+    "receiptJudgmentModeSummary": {
+      "receiptJudgmentMode": "contract-separate",
+      "sourceId": "b1233bf4-8917-462e-9bfd-7de5ccbfc819",
+      "sourceType": "project-handover",
+      "status": "frozen",
+      "summary": "回款判断模式已冻结。"
+    },
+    "rowVersion": 2,
+    "sourceChanged": false,
+    "sourcePayloadHash": "1b5c5514eb5e1b19e9d12fcb553479acbac1accd855788873a69c8bc4f379482",
+    "summaryPackageKey": "project-handover-confirmation",
+    "summarySnapshotId": "bcbdae97-f220-4ca9-a79d-3655c24e85be",
+    "version": 5
+  },
+  "next": {
+    "category": "customer-profile",
+    "changeNote": "仅通过本次新会话真实上传版本2；首版原字节与已ACK链接不重造",
+    "checksumSha256": "d6ab532cef7e99ddcd4b774d1b4a5720e43066dec08310f5e21b7a09e3ff4075",
+    "deletedAt": "2026-11-04T04:02:51.159Z",
+    "description": null,
+    "displayName": "R4DEF63-k71-normal-v2.txt",
+    "extension": "txt",
+    "id": "f00845dd-28e3-4a5c-8837-bdcbf19c8ae8",
+    "isFinal": false,
+    "isLatest": false,
+    "links": [
+      {
+        "attachmentId": "f00845dd-28e3-4a5c-8837-bdcbf19c8ae8",
+        "id": "a4c78318-a54d-4407-8507-9459994f4d0d",
+        "linkedAt": "2026-11-04T04:02:45.709Z",
+        "linkedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "relationType": "normal",
+        "status": "active",
+        "targetId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+        "targetType": "contract",
+        "unlinkedAt": null,
+        "unlinkedBy": null
+      },
+      {
+        "attachmentId": "f00845dd-28e3-4a5c-8837-bdcbf19c8ae8",
+        "id": "67759d0e-5901-4e64-8cb6-03f30d737b3c",
+        "linkedAt": "2026-11-04T04:02:45.709Z",
+        "linkedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "relationType": "normal",
+        "status": "active",
+        "targetId": "c19e708b-522c-45e9-90d4-81de7295545b",
+        "targetType": "project",
+        "unlinkedAt": null,
+        "unlinkedBy": null
+      },
+      {
+        "attachmentId": "f00845dd-28e3-4a5c-8837-bdcbf19c8ae8",
+        "id": "b382bad5-049c-4b8e-a06d-026d389643a9",
+        "linkedAt": "2026-11-04T04:02:45.709Z",
+        "linkedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "relationType": "handover",
+        "status": "active",
+        "targetId": "32eeb954-5559-45fa-a3aa-fd08e0b8981a",
+        "targetType": "project-handover",
+        "unlinkedAt": null,
+        "unlinkedBy": null
+      }
+    ],
+    "mimeType": "text/plain",
+    "originalName": "R4DEF63-k71-normal-v2.txt",
+    "previewMimeType": null,
+    "previewSupported": false,
+    "previewUrl": null,
+    "previousAttachmentId": "5151e346-59d4-4d3b-8254-ccaae6bd3699",
+    "securityLevel": "normal",
+    "sizeBytes": 39,
+    "status": "voided",
+    "thumbnailAvailable": false,
+    "thumbnailUrl": null,
+    "updatedAt": "2026-11-04T04:02:51.171Z",
+    "uploadedAt": "2026-11-04T04:02:45.709Z",
+    "uploadedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+    "uploadedByName": "R4DEF33 full",
+    "versionGroupId": "5151e346-59d4-4d3b-8254-ccaae6bd3699",
+    "versionNo": 2
+  },
+  "newSessionId": "696b24bc-3dc2-4b39-8684-28df0584bae9",
+  "abandonedSessionId": "97146322-628d-4a5f-a9cb-3212deb26f45"
+}

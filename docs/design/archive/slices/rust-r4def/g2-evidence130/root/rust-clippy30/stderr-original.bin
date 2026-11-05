@@ -1,0 +1,23 @@
+    Checking poms-api-rust v0.1.0 (/home/wangzishi/projects/poms-rust-r4def/apps/poms-api-rust)
+error: this `if` statement can be collapsed
+  --> src/runtime_audit/protection.rs:78:13
+   |
+78 | /             if let Some(value) = metadata.get(key) {
+79 | |                 if value.is_null() || value.as_str().is_some_and(|v| Uuid::parse_str(v).is_ok()) {
+80 | |                     safe.insert(key.to_owned(), value.clone());
+81 | |                 }
+82 | |             }
+   | |_____________^
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#collapsible_if
+   = note: `-D clippy::collapsible-if` implied by `-D warnings`
+   = help: to override `-D warnings` add `#[allow(clippy::collapsible_if)]`
+help: collapse nested if block
+   |
+78 ~             if let Some(value) = metadata.get(key)
+79 ~                 && (value.is_null() || value.as_str().is_some_and(|v| Uuid::parse_str(v).is_ok())) {
+80 |                     safe.insert(key.to_owned(), value.clone());
+81 ~                 }
+   |
+
+error: could not compile `poms-api-rust` (lib) due to 1 previous error

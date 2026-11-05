@@ -1,0 +1,32 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T01:11:05.760Z",
+  "completedAt": "2026-11-04T01:11:05.801Z",
+  "operationId": "ContractReadinessController_reviewDiff",
+  "method": "POST",
+  "path": "/api/commercial-release-baselines/c6d760c3-8a87-4ac8-94e5-16c497a4c4ec:reviewDiff",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-00670-56de3a82",
+  "requestBody": {
+    "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+    "diffResultId": "85ea1b85-e7f1-4ca2-993b-e5bc5765b38e",
+    "diffDecision": "approved",
+    "reviewedFieldKeys": [
+      "receivablePlanSeeds[full-payment].label"
+    ],
+    "comment": "R4DEF44-def49-A1：仅修订既有回款节点名称，金额、税率、日期、节点身份与数量保持已读原值。",
+    "attachmentIds": [],
+    "expectedVersion": 6
+  },
+  "status": 200,
+  "responseBody": {
+    "baselineReviewDecision": "approved",
+    "diffResultId": "85ea1b85-e7f1-4ca2-993b-e5bc5765b38e",
+    "resultStatus": "reviewed",
+    "targetId": "c6d760c3-8a87-4ac8-94e5-16c497a4c4ec"
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

@@ -1,0 +1,1871 @@
+//! R4E's eleven production operations. Root lends one CommonSession and owns
+//! authorization, validation, pending-auth flush and the single outer commit.
+mod logic;
+mod store;
+mod view;
+
+use crate::{
+    approval_common::CommonSession,
+    auth::model::clock_now,
+    business_numbers::{BusinessNumberScope, BusinessNumberService},
+    contract_support::{self, Actor, AuditWrite, Error, GlobalAuditWrite, new_uuid},
+};
+use chrono::{DateTime, NaiveDate, SecondsFormat, Utc};
+use serde_json::{Value, json};
+use sqlx::{Connection, PgConnection};
+use store::Table;
+use uuid::Uuid;
+
+pub async fn execute(
+    session: &mut CommonSession<'_, '_>,
+    op: &str,
+    id: Option<Uuid>,
+    query: &Value,
+    body: &Value,
+    actor: &Actor,
+) -> Result<Value, Error> {
+    if !session.connection.is_in_transaction() {
+        return Err(Error::Internal);
+    }
+    match op {
+        "ProjectCostController_publishInternalCostRateVersion" => {
+            publish_rate(session, body, actor, op).await
+        }
+        "ProjectCostController_createProjectActualCostRecord" => {
+            create_cost(session, required_id(id)?, body, actor, op, None).await
+        }
+        "ProjectCostController_replaceLaborCostRecord" => {
+            replace_labor(session, required_id(id)?, body, actor, op).await
+        }
+        "ProjectCostController_createExpenseRecord" => {
+            create_expense(session, required_id(id)?, body, actor, op).await
+        }
+        "ProjectCostController_updateExpenseRecord"
+        | "ProjectCostController_confirmExpenseRecord"
+        | "ProjectCostController_voidExpenseRecord" => {
+            change_expense(session, required_id(id)?, body, actor, op).await
+        }
+        "ProjectCostController_listExpenseRecords" => {
+            let rows =
+                store::list(session.connection, Table::Expense, required_id(id)?, query).await?;
+            let mut out = Vec::with_capacity(rows.len());
+            for row in rows {
+                out.push(view::expense(session, actor, &row, None).await?);
+            }
+            Ok(Value::Array(out))
+        }
+        "ProjectCostController_getExpenseRecordDetail" => {
+            let row =
+                store::row(session.connection, Table::Expense, required_id(id)?, false).await?;
+            let mapped =
+                store::current_mapping(session.connection, "expense-record", uid(&row, "id")?)
+                    .await?
+                    .is_some();
+            let actions = expense_actions(&row, mapped);
+            view::expense(session, actor, &row, Some(actions)).await
+        }
+        "ProjectCostController_listProjectActualCostRecords" => {
+            validate_filters(query)?;
+            let rows =
+                store::list(session.connection, Table::Cost, required_id(id)?, query).await?;
+            let mut out = Vec::with_capacity(rows.len());
+            for row in rows {
+                out.push(view::cost(session, actor, &row, None).await?);
+            }
+            Ok(Value::Array(out))
+        }
+        "ProjectCostController_getProjectActualCostRecordDetail" => {
+            let id = required_id(id)?;
+            let row = store::row(session.connection, Table::Cost, id, false).await?;
+            let facts = match source_facts(session.connection, &row, false).await {
+                Ok(v) => v,
+                Err(
+                    Error::NotFound(_)
+                    | Error::Conflict(_)
+                    | Error::Unprocessable(_)
+                    | Error::BadRequest(_),
+                ) => {
+                    json!({"sourceStatus":"source-unavailable-or-unverified"})
+                }
+                Err(e) => return Err(e),
+            };
+            let successor = store::successor(session.connection, id).await?;
+            let chain = if let Some(s) = optional(&row, "supersedes_record_id") {
+                Some(format!("Supersedes {s}"))
+            } else {
+                successor.map(|id| format!("Replaced by {id}"))
+            };
+            let can_replace = row["cost_type"] == "labor"
+                && matches!(
+                    row["record_status"].as_str(),
+                    Some("registered" | "confirmed")
+                )
+                && row["is_included_in_project_cost"] == false
+                && successor.is_none()
+                && !store::allocated(session.connection, id).await?
+                && !store::frozen_stage(session.connection, id).await?
+                && row["basis_origin"] == "captured"
+                && row["calculation_basis"].is_object()
+                && require_labor_read(actor).is_ok();
+            view::cost(
+                session,
+                actor,
+                &row,
+                Some((
+                    facts,
+                    chain,
+                    if can_replace { vec!["replace"] } else { vec![] },
+                )),
+            )
+            .await
+        }
+        _ => Err(Error::Internal),
+    }
+}
+fn required_id(id: Option<Uuid>) -> Result<Uuid, Error> {
+    id.ok_or_else(|| Error::BadRequest("Resource UUID is required".into()))
+}
+fn text(v: &Value, k: &str) -> Result<String, Error> {
+    v.get(k)
+        .and_then(Value::as_str)
+        .map(str::to_owned)
+        .ok_or_else(|| Error::BadRequest(format!("{k} must be a string")))
+}
+fn optional<'a>(v: &'a Value, k: &str) -> Option<&'a str> {
+    v.get(k).and_then(Value::as_str)
+}
+fn uid(v: &Value, k: &str) -> Result<Uuid, Error> {
+    optional(v, k)
+        .and_then(|v| Uuid::parse_str(v).ok())
+        .ok_or_else(|| Error::BadRequest(format!("{k} must be a UUID")))
+}
+fn maybe_uid(v: &Value, k: &str) -> Result<Option<Uuid>, Error> {
+    match v.get(k) {
+        None | Some(Value::Null) => Ok(None),
+        Some(_) => uid(v, k).map(Some),
+    }
+}
+fn version(v: &Value) -> Result<i32, Error> {
+    v["row_version"]
+        .as_i64()
+        .and_then(|v| i32::try_from(v).ok())
+        .filter(|v| *v > 0)
+        .ok_or(Error::Internal)
+}
+fn expected(body: &Value, k: &str, actual: i32) -> Result<(), Error> {
+    if let Some(v) = body.get(k)
+        && v.as_i64() != Some(i64::from(actual))
+    {
+        return Err(Error::Conflict("Business record version changed".into()));
+    }
+    Ok(())
+}
+fn iso(at: DateTime<Utc>) -> String {
+    at.to_rfc3339_opts(SecondsFormat::Millis, true)
+}
+fn date(v: &str) -> Result<NaiveDate, Error> {
+    if v.len() != 10 || v.starts_with("0000-") {
+        return Err(Error::BadRequest("Expected a valid business date".into()));
+    }
+    NaiveDate::parse_from_str(v, "%Y-%m-%d")
+        .ok()
+        .filter(|d| d.to_string() == v)
+        .ok_or_else(|| Error::BadRequest("Expected a valid business date".into()))
+}
+fn fault(e: logic::Fault) -> Error {
+    match e {
+        logic::Fault::ZeroResult => Error::Unprocessable(
+            "The labor aggregation rounds to zero; provide a meaningful aggregation".into(),
+        ),
+        logic::Fault::AmountSplit => {
+            Error::Unprocessable("Financial amount layers are inconsistent".into())
+        }
+        logic::Fault::Priority => {
+            Error::Conflict("Split the labor period at personal-rate validity boundaries".into())
+        }
+        _ => Error::BadRequest("Invalid decimal precision, capacity or measurement unit".into()),
+    }
+}
+fn money(v: &str, zero: bool) -> Result<String, Error> {
+    logic::money(v, zero).map_err(fault)
+}
+fn stored_money(v: &Value, k: &str, zero: bool) -> Result<Option<String>, Error> {
+    optional(v, k)
+        .map(|s| {
+            logic::stored_money(s, zero).map_err(|_| {
+                Error::Conflict(
+                    "Historical monetary precision requires controlled correction".into(),
+                )
+            })
+        })
+        .transpose()
+}
+fn currency(v: &str) -> Result<String, Error> {
+    if v.len() != 3 || !v.bytes().all(|c| c.is_ascii_uppercase()) {
+        return Err(Error::Unprocessable("Source currency is not proven".into()));
+    }
+    Ok(v.into())
+}
+fn require_labor_read(actor: &Actor) -> Result<(), Error> {
+    if !actor
+        .session
+        .user
+        .permissions
+        .iter()
+        .any(|p| p.as_str() == "labor-cost-rate:sensitive:read")
+    {
+        return Err(Error::Forbidden(
+            "Labor-sensitive authorization is required".into(),
+        ));
+    }
+    Ok(())
+}
+fn touch(row: &mut Value, actor: &Actor) -> Result<i32, Error> {
+    let v = version(row)?;
+    row["row_version"] = json!(v.checked_add(1).ok_or(Error::Internal)?);
+    row["updated_at"] = json!(iso(clock_now()));
+    if row.get("updated_by").is_some() {
+        row["updated_by"] = json!(actor.id);
+    }
+    Ok(v)
+}
+fn command(id: Uuid, target: &str, status: &str) -> Value {
+    json!({"targetId":id,"targetType":target,"resultStatus":"success","businessStatusAfter":status,"approvalRecordId":null,"confirmationRecordId":null,"todoItemIds":[]})
+}
+async fn audit(
+    session: &mut CommonSession<'_, '_>,
+    actor: &Actor,
+    op: &str,
+    identity: (&str, Uuid, Uuid),
+    before: Option<Value>,
+    after: Value,
+    reason: Option<String>,
+) -> Result<(), Error> {
+    let (target, project, id) = identity;
+    let contract = maybe_uid(&after, "contract_id")?;
+    let packages = audit_packages(target, before.as_ref(), &after);
+    contract_support::audit(
+        session,
+        actor,
+        AuditWrite {
+            operation_id: op.into(),
+            target_type: target.into(),
+            target_id: id,
+            project_id: project,
+            contract_id: contract,
+            before,
+            after: Some(after),
+            reason,
+            metadata: json!({"producer":"rust-r4e","basisSchemaVersion":1,"requiredSensitivePackages":packages}),
+        },
+    )
+    .await
+}
+fn audit_packages(target: &str, before: Option<&Value>, after: &Value) -> Vec<&'static str> {
+    if target == "InternalCostRateVersion" {
+        return vec!["labor-cost-rate"];
+    }
+    let rows = before.into_iter().chain(std::iter::once(after));
+    let (mut operating, mut labor) = (false, false);
+    for row in rows {
+        if row["cost_type"] == "labor" {
+            labor = true;
+        } else {
+            operating = true;
+        }
+    }
+    let mut packages = Vec::new();
+    if operating {
+        packages.push("operating-finance");
+    }
+    if labor {
+        packages.push("labor-cost-rate");
+    }
+    packages
+}
+async fn lock_contracts(
+    c: &mut PgConnection,
+    project: Uuid,
+    ids: Vec<Option<Uuid>>,
+    binding: Option<Uuid>,
+) -> Result<(), Error> {
+    let mut ids = ids.into_iter().flatten().collect::<Vec<_>>();
+    ids.sort();
+    ids.dedup();
+    for id in ids {
+        let fact = contract_support::contract_fact(c, id, Some(project), true)
+            .await?
+            .ok_or_else(|| Error::NotFound("Contract does not belong to project".into()))?;
+        if binding == Some(id) && fact.status != "active" {
+            return Err(Error::Unprocessable(
+                "An explicitly bound contract must be Active".into(),
+            ));
+        }
+    }
+    Ok(())
+}
+async fn active_category(c: &mut PgConnection, code: &str) -> Result<(), Error> {
+    let found:Option<Uuid>=sqlx::query_scalar("SELECT id FROM poms.dictionary_item WHERE domain='expense-category' AND code=$1 AND status='active' FOR SHARE").bind(code).fetch_optional(c).await?;
+    if found.is_none() {
+        return Err(Error::BadRequest(
+            "Expense category must be an active dictionary item".into(),
+        ));
+    }
+    Ok(())
+}
+fn expense_actions(row: &Value, mapped: bool) -> Vec<&'static str> {
+    if mapped {
+        vec![]
+    } else {
+        match row["status"].as_str() {
+            Some("recorded") => vec!["update", "confirm", "void"],
+            Some("confirmed") => vec!["void"],
+            _ => vec![],
+        }
+    }
+}
+fn expense_money(row: &mut Value) -> Result<(), Error> {
+    row["amount_including_tax"] = json!(money(&text(row, "amount_including_tax")?, false)?);
+    for k in ["tax_amount", "amount_excluding_tax"] {
+        if let Some(s) = optional(row, k) {
+            row[k] = json!(money(s, true)?);
+        }
+    }
+    logic::split(
+        &text(row, "amount_including_tax")?,
+        optional(row, "tax_amount"),
+        optional(row, "amount_excluding_tax"),
+    )
+    .map_err(fault)
+}
+async fn create_expense(
+    session: &mut CommonSession<'_, '_>,
+    project: Uuid,
+    body: &Value,
+    actor: &Actor,
+    op: &str,
+) -> Result<Value, Error> {
+    contract_support::lock_project(session.connection, project).await?;
+    let contract = maybe_uid(body, "contractId")?;
+    lock_contracts(session.connection, project, vec![contract], contract).await?;
+    active_category(session.connection, &text(body, "expenseCategory")?).await?;
+    date(&text(body, "expenseDate")?)?;
+    let id = new_uuid()?;
+    let now = iso(clock_now());
+    let mut row = json!({"id":id,"project_id":project,"contract_id":contract,"expense_category":text(body,"expenseCategory")?,"expense_description":text(body,"expenseDescription")?.trim(),"expense_date":text(body,"expenseDate")?,"currency":currency(optional(body,"currency").unwrap_or("CNY"))?,"amount_including_tax":text(body,"amountIncludingTax")?,"tax_amount":body["taxAmount"],"amount_excluding_tax":body["amountExcludingTax"],"source_type":optional(body,"sourceType").unwrap_or("manual"),"status":"recorded","evidence_summary":body["evidenceSummary"],"attachment_count":body.get("attachmentCount").cloned().unwrap_or(json!(0)),"confirmed_at":null,"confirmed_by":null,"voided_at":null,"void_reason":null,"row_version":1,"created_at":now,"updated_at":now});
+    expense_money(&mut row)?;
+    store::insert(session.connection, Table::Expense, &row).await?;
+    audit(
+        session,
+        actor,
+        op,
+        ("ExpenseRecord", project, id),
+        None,
+        row.clone(),
+        None,
+    )
+    .await?;
+    view::expense(session, actor, &row, None).await
+}
+async fn change_expense(
+    session: &mut CommonSession<'_, '_>,
+    id: Uuid,
+    body: &Value,
+    actor: &Actor,
+    op: &str,
+) -> Result<Value, Error> {
+    let found = store::row(session.connection, Table::Expense, id, false).await?;
+    let project = uid(&found, "project_id")?;
+    contract_support::lock_project(session.connection, project).await?;
+    let found = store::row(session.connection, Table::Expense, id, false).await?;
+    if uid(&found, "project_id")? != project {
+        return Err(Error::Conflict("Source project changed".into()));
+    }
+    let updating = op.ends_with("_updateExpenseRecord");
+    let binding = if updating && body.get("contractId").is_some() {
+        maybe_uid(body, "contractId")?
+    } else {
+        None
+    };
+    lock_contracts(
+        session.connection,
+        project,
+        vec![maybe_uid(&found, "contract_id")?, binding],
+        binding,
+    )
+    .await?;
+    let before = store::row(session.connection, Table::Expense, id, true).await?;
+    if uid(&before, "project_id")? != project {
+        return Err(Error::Conflict("Source project changed".into()));
+    }
+    expected(body, "expectedVersion", version(&before)?)?;
+    let mut row = before.clone();
+    let mut reason = None;
+    match op {
+        "ProjectCostController_updateExpenseRecord" => {
+            if !matches!(row["status"].as_str(), Some("draft" | "recorded")) {
+                return Err(Error::Unprocessable(
+                    "This expense can no longer be updated".into(),
+                ));
+            }
+            if store::current_mapping(session.connection, "expense-record", id)
+                .await?
+                .is_some()
+            {
+                return Err(Error::Unprocessable(
+                    "Mapped expense requires a controlled correction".into(),
+                ));
+            }
+            let mut changed = false;
+            for (camel, snake) in [
+                ("contractId", "contract_id"),
+                ("expenseCategory", "expense_category"),
+                ("expenseDescription", "expense_description"),
+                ("expenseDate", "expense_date"),
+                ("currency", "currency"),
+                ("amountIncludingTax", "amount_including_tax"),
+                ("taxAmount", "tax_amount"),
+                ("amountExcludingTax", "amount_excluding_tax"),
+                ("sourceType", "source_type"),
+                ("evidenceSummary", "evidence_summary"),
+                ("attachmentCount", "attachment_count"),
+            ] {
+                if let Some(v) = body.get(camel) {
+                    row[snake] = v.clone();
+                    changed = true;
+                }
+            }
+            if !changed {
+                return Err(Error::BadRequest(
+                    "At least one mutable expense field is required".into(),
+                ));
+            }
+            if body.get("expenseCategory").is_some() {
+                active_category(session.connection, &text(&row, "expense_category")?).await?;
+            }
+            date(&text(&row, "expense_date")?)?;
+            currency(&text(&row, "currency")?)?;
+            expense_money(&mut row)?;
+        }
+        "ProjectCostController_confirmExpenseRecord" => {
+            if row["status"] != "recorded" {
+                return Err(Error::Unprocessable(
+                    "Only recorded expense can be confirmed".into(),
+                ));
+            }
+            row["status"] = json!("confirmed");
+            row["confirmed_at"] = json!(iso(clock_now()));
+            row["confirmed_by"] = json!(actor.id);
+        }
+        "ProjectCostController_voidExpenseRecord" => {
+            if row["status"] == "voided" {
+                return Err(Error::Unprocessable("Expense is already voided".into()));
+            }
+            if store::current_mapping(session.connection, "expense-record", id)
+                .await?
+                .is_some()
+            {
+                return Err(Error::Unprocessable(
+                    "Mapped expense requires a controlled correction".into(),
+                ));
+            }
+            let r = text(body, "reason")?;
+            let combined = optional(body, "comment").map_or_else(
+                || r.trim().to_owned(),
+                |c| format!("{}: {}", r.trim(), c.trim()),
+            );
+            reason = Some(combined.clone());
+            row["status"] = json!("voided");
+            row["voided_at"] = json!(iso(clock_now()));
+            row["void_reason"] = json!(combined);
+        }
+        _ => return Err(Error::Internal),
+    }
+    let old = touch(&mut row, actor)?;
+    store::update(
+        session.connection,
+        Table::Expense,
+        &row,
+        old,
+        &[
+            "contract_id",
+            "expense_category",
+            "expense_description",
+            "expense_date",
+            "currency",
+            "amount_including_tax",
+            "tax_amount",
+            "amount_excluding_tax",
+            "source_type",
+            "status",
+            "evidence_summary",
+            "attachment_count",
+            "confirmed_at",
+            "confirmed_by",
+            "voided_at",
+            "void_reason",
+            "row_version",
+            "updated_at",
+        ],
+    )
+    .await?;
+    audit(
+        session,
+        actor,
+        op,
+        ("ExpenseRecord", project, id),
+        Some(before),
+        row.clone(),
+        reason,
+    )
+    .await?;
+    view::expense(session, actor, &row, None).await
+}
+
+async fn publish_rate(
+    session: &mut CommonSession<'_, '_>,
+    body: &Value,
+    actor: &Actor,
+    op: &str,
+) -> Result<Value, Error> {
+    let scope = text(body, "rateScopeType")?;
+    let unit = text(body, "rateUnit")?;
+    if !["hour", "day"].contains(&unit.as_str()) {
+        return Err(Error::BadRequest("Invalid rate unit".into()));
+    }
+    let person = maybe_uid(body, "personId")?;
+    let role = optional(body, "roleCode")
+        .map(str::trim)
+        .filter(|s| !s.is_empty());
+    let identity = match (scope.as_str(), person, role) {
+        ("person", Some(id), None) => id.to_string(),
+        ("role", None, Some(r)) if r.chars().count() <= 64 => r.to_owned(),
+        _ => {
+            return Err(Error::Unprocessable(
+                "Rate scope requires exactly one matching identity".into(),
+            ));
+        }
+    };
+    let key = format!("{scope}:{identity}:{unit}");
+    store::family_locks(session.connection, vec![format!("{scope}:{identity}")]).await?;
+    let current = store::current_rate(session.connection, &key).await?;
+    if let Some(c) = &current {
+        expected(body, "expectedVersion", version(c)?)?;
+    } else if body.get("expectedVersion").is_some() {
+        return Err(Error::Conflict(
+            "No current rate matches the expected version".into(),
+        ));
+    }
+    let supersedes = maybe_uid(body, "supersedesRateVersionId")?;
+    match (&current, supersedes) {
+        (None, None) => {}
+        (Some(c), Some(id)) if uid(c, "id")? == id && c["status"] == "active" => {}
+        _ => {
+            return Err(Error::Conflict(
+                "A new rate must explicitly supersede the current active version".into(),
+            ));
+        }
+    }
+    let start = text(body, "effectiveFrom")?;
+    let start_date = date(&start)?;
+    let end = optional(body, "effectiveTo");
+    if let Some(end) = end
+        && date(end)? < start_date
+    {
+        return Err(Error::Unprocessable("Invalid rate date interval".into()));
+    }
+    if let Some(c) = &current
+        && text(c, "effective_from")? >= start
+    {
+        return Err(Error::Conflict(
+            "New rate must start after its predecessor".into(),
+        ));
+    }
+    if store::rate_overlap(session.connection, &key, &start, end, supersedes).await? {
+        return Err(Error::Conflict("Published rate intervals overlap".into()));
+    }
+    let rate = logic::format(
+        logic::scaled(&text(body, "rateValue")?, 4, 999_999_999_999_999, false).map_err(fault)?,
+        4,
+    );
+    let ccy = currency(&text(body, "currency")?)?;
+    let next = current
+        .as_ref()
+        .and_then(|v| v["version"].as_i64())
+        .unwrap_or(0)
+        .checked_add(1)
+        .and_then(|v| i32::try_from(v).ok())
+        .ok_or(Error::Internal)?;
+    let id = new_uuid()?;
+    let at = iso(clock_now());
+    let row = json!({"id":id,"rate_key":key,"version":next,"status":"active","is_current":true,"rate_scope_type":scope,"person_id":person,"role_code":role,"rate_unit":unit,"rate_value":rate,"currency":ccy,"effective_from":start,"effective_to":end,"published_at":at,"published_by":actor.id,"supersedes_rate_version_id":supersedes,"change_reason":body["changeReason"],"row_version":1,"created_at":at,"created_by":actor.id,"updated_at":at,"updated_by":actor.id});
+    if let Some(mut old) = current.clone() {
+        // Never publish a backwards boundary that invalidates an already captured labor period.
+        let occupied:bool=sqlx::query_scalar("SELECT EXISTS(SELECT 1 FROM poms.project_actual_cost_record WHERE rate_version_id=$1 AND record_status IN ('registered','confirmed','included') AND labor_period_end >= $2::date)").bind(uid(&old,"id")?).bind(&start).fetch_one(&mut *session.connection).await?;
+        if occupied {
+            return Err(Error::Conflict(
+                "Rate publication would invalidate a captured labor period".into(),
+            ));
+        }
+        old["status"] = json!("superseded");
+        old["is_current"] = json!(false);
+        if optional(&old, "effective_to").is_none_or(|to| to >= start.as_str()) {
+            old["effective_to"] = json!(start_date.pred_opt().ok_or(Error::Internal)?.to_string());
+        }
+        let v = touch(&mut old, actor)?;
+        store::update(
+            session.connection,
+            Table::Rate,
+            &old,
+            v,
+            &[
+                "status",
+                "is_current",
+                "effective_to",
+                "row_version",
+                "updated_at",
+                "updated_by",
+            ],
+        )
+        .await?;
+    }
+    store::insert(session.connection, Table::Rate, &row).await?;
+    contract_support::audit_global(
+        session,
+        actor,
+        GlobalAuditWrite {
+            operation_id: op.into(),
+            target_type: "InternalCostRateVersion".into(),
+            target_id: id,
+            before: current,
+            after: Some(row),
+            reason: optional(body, "changeReason").map(str::to_owned),
+            metadata: json!({"producer":"rust-r4e","roundingPolicy":"HALF_UP-cents-v1","requiredSensitivePackages":["labor-cost-rate"]}),
+        },
+    )
+    .await?;
+    Ok(command(id, "InternalCostRateVersion", "active"))
+}
+
+fn base_cost(id: Uuid, project: Uuid, number: String, kind: &str, actor: &Actor) -> Value {
+    let now = iso(clock_now());
+    let mut row = json!({"id":id,"project_id":project,"record_no":number,"cost_type":kind,"registered_at":now,"record_status":"registered","is_included_in_project_cost":false,"is_high_risk":false,"attachment_count":0,"registered_by":actor.id,"basis_origin":"captured","row_version":1,"created_at":now,"created_by":actor.id,"updated_at":now,"updated_by":actor.id});
+    for key in [
+        "cost_subtype",
+        "occurred_on",
+        "accounting_period",
+        "confirmed_at",
+        "included_at",
+        "execution_stage_code",
+        "stage_derived_from_type",
+        "stage_derived_from_id",
+        "stage_derived_at",
+        "stage_locked_at",
+        "currency",
+        "amount_excluding_tax",
+        "tax_cost_amount",
+        "amount_including_tax",
+        "source_type",
+        "source_id",
+        "source_ref_no",
+        "evidence_summary",
+        "confirmed_by",
+        "included_by",
+        "owner_role",
+        "cost_description",
+        "tax_impact_summary",
+        "risk_note",
+        "supersedes_record_id",
+        "void_reason",
+        "labor_person_id",
+        "labor_role",
+        "labor_period_type",
+        "labor_period_start",
+        "labor_period_end",
+        "actual_hours",
+        "actual_person_days",
+        "internal_cost_rate",
+        "labor_amount",
+        "work_summary",
+        "delivery_stage",
+        "rate_version_id",
+        "source_basis",
+        "calculation_basis",
+    ] {
+        row[key] = Value::Null;
+    }
+    row
+}
+async fn create_cost(
+    session: &mut CommonSession<'_, '_>,
+    project: Uuid,
+    body: &Value,
+    actor: &Actor,
+    op: &str,
+    original: Option<&Value>,
+) -> Result<Value, Error> {
+    let kind = if original.is_some() {
+        "labor".to_owned()
+    } else {
+        text(body, "costType")?
+    };
+    if kind == "labor" {
+        require_labor_read(actor)?;
+    }
+    contract_support::lock_project(session.connection, project).await?;
+    let scope = match kind.as_str() {
+        "payment-fact" => BusinessNumberScope::CostPaymentFact,
+        "invoice" => BusinessNumberScope::CostInvoice,
+        "expense" => BusinessNumberScope::CostExpense,
+        "procurement" => BusinessNumberScope::CostProcurement,
+        "labor" => BusinessNumberScope::CostLabor,
+        _ => return Err(Error::BadRequest("Unknown costType".into())),
+    };
+    // Business-number allocation is enlisted in the same outer transaction.
+    let number =
+        BusinessNumberService::next_with_connection(session.connection, scope, clock_now()).await?;
+    let id = new_uuid()?;
+    let mut row = base_cost(id, project, number, &kind, actor);
+    if kind == "labor" {
+        build_labor(session, body, &mut row, original, actor).await?;
+    } else {
+        let (source_type, field, table) = match kind.as_str() {
+            "payment-fact" => ("payment-record", "paymentRecordId", Table::Payment),
+            "invoice" => ("invoice-record", "invoiceRecordId", Table::Invoice),
+            "expense" => ("expense-record", "expenseRecordId", Table::Expense),
+            "procurement" => ("payable-record", "payableRecordId", Table::Payable),
+            _ => return Err(Error::Internal),
+        };
+        let source = uid(body, field)?;
+        let discovered = store::row(session.connection, table, source, false).await?;
+        if uid(&discovered, "project_id")? != project {
+            return Err(Error::Conflict(
+                "Cost source does not belong to project".into(),
+            ));
+        }
+        let linked = if matches!(table, Table::Payment) {
+            maybe_uid(&discovered, "payable_record_id")?
+        } else {
+            None
+        };
+        let linked_row = if let Some(id) = linked {
+            Some(store::row(session.connection, Table::Payable, id, false).await?)
+        } else {
+            None
+        };
+        lock_contracts(
+            session.connection,
+            project,
+            vec![
+                maybe_uid(&discovered, "contract_id")?,
+                linked_row
+                    .as_ref()
+                    .map(|v| maybe_uid(v, "contract_id"))
+                    .transpose()?
+                    .flatten(),
+            ],
+            None,
+        )
+        .await?;
+        if let Some(id) = linked {
+            let p = store::row(session.connection, Table::Payable, id, true).await?;
+            if uid(&p, "project_id")? != project {
+                return Err(Error::Conflict(
+                    "Linked payable does not belong to project".into(),
+                ));
+            }
+        }
+        let source_row = store::row(session.connection, table, source, true).await?;
+        expected(body, "expectedSourceVersion", version(&source_row)?)?;
+        if store::current_mapping(session.connection, source_type, source)
+            .await?
+            .is_some()
+        {
+            return Err(Error::Conflict(
+                "Source already has a current cost mapping".into(),
+            ));
+        }
+        row["source_type"] = json!(source_type);
+        row["source_id"] = json!(source);
+        let facts = source_facts(session.connection, &row, false).await?;
+        row["currency"] = facts["currency"].clone();
+        row["amount_excluding_tax"] = facts["amountExcludingTax"].clone();
+        row["tax_cost_amount"] = facts["taxCostAmount"].clone();
+        row["amount_including_tax"] = facts["amountIncludingTax"].clone();
+        row["occurred_on"] = facts["occurredOn"].clone();
+        row["source_ref_no"] = if kind == "invoice" {
+            source_row["invoice_no"].clone()
+        } else {
+            json!(source)
+        };
+        row["cost_subtype"] = if kind == "invoice" {
+            source_row["invoice_type"].clone()
+        } else if kind == "expense" {
+            source_row["expense_category"].clone()
+        } else {
+            source_row["cost_category"].clone()
+        };
+        row["attachment_count"] = source_row
+            .get("attachment_count")
+            .cloned()
+            .unwrap_or(json!(0));
+        row["evidence_summary"] = body
+            .get("evidenceSummary")
+            .cloned()
+            .unwrap_or_else(|| view::value(&source_row, "evidence_summary"));
+        row["cost_description"] = body.get("costDescription").cloned().unwrap_or_else(|| {
+            if kind == "expense" {
+                view::value(&source_row, "expense_description")
+            } else {
+                view::value(&source_row, "payable_description")
+            }
+        });
+        row["tax_impact_summary"] = body["taxImpactSummary"].clone();
+        row["source_basis"] = facts;
+    }
+    if let Some(old) = original {
+        row["supersedes_record_id"] = old["id"].clone();
+        row["cost_description"] = json!(text(body, "replaceReason")?);
+    }
+    store::insert(session.connection, Table::Cost, &row).await?;
+    audit(
+        session,
+        actor,
+        op,
+        ("ProjectActualCostRecord", project, id),
+        original.cloned(),
+        row.clone(),
+        optional(body, "replaceReason").map(str::to_owned),
+    )
+    .await?;
+    Ok(command(id, "ProjectActualCostRecord", "registered"))
+}
+
+async fn build_labor(
+    session: &mut CommonSession<'_, '_>,
+    body: &Value,
+    row: &mut Value,
+    original: Option<&Value>,
+    actor: &Actor,
+) -> Result<(), Error> {
+    let rate_id = uid(body, "rateVersionId")?;
+    let first = store::row(session.connection, Table::Rate, rate_id, false).await?;
+    let person = if let Some(old) = original {
+        maybe_uid(old, "labor_person_id")?
+    } else {
+        maybe_uid(body, "laborPersonId")?.or(maybe_uid(&first, "person_id")?)
+    };
+    let role = if let Some(old) = original {
+        optional(old, "labor_role")
+    } else {
+        optional(body, "laborRole").or(optional(&first, "role_code"))
+    }
+    .map(str::to_owned);
+    if role
+        .as_deref()
+        .is_some_and(|r| r.trim().is_empty() || r.chars().count() > 64)
+    {
+        return Err(Error::BadRequest("Invalid labor role scope".into()));
+    }
+    let family = if first["rate_scope_type"] == "person" {
+        format!("person:{}", uid(&first, "person_id")?)
+    } else {
+        format!("role:{}", text(&first, "role_code")?)
+    };
+    let mut families = vec![family];
+    if let Some(p) = person {
+        families.push(format!("person:{p}"));
+    }
+    store::family_locks(session.connection, families).await?;
+    let rate = store::row(session.connection, Table::Rate, rate_id, true).await?;
+    let start = text(body, "laborPeriodStart")?;
+    let end = text(body, "laborPeriodEnd")?;
+    if date(&start)? > date(&end)? {
+        return Err(Error::Unprocessable("Invalid labor period".into()));
+    }
+    if !matches!(rate["status"].as_str(), Some("active" | "superseded"))
+        || rate["published_at"].is_null()
+        || rate["published_by"].is_null()
+    {
+        return Err(Error::Conflict(
+            "Rate version is not a published historical authority".into(),
+        ));
+    }
+    if text(&rate, "effective_from")? > start
+        || optional(&rate, "effective_to").is_some_and(|to| to < end.as_str())
+    {
+        return Err(Error::Conflict(
+            "Split the labor period at rate validity boundaries".into(),
+        ));
+    }
+    let mut personal = Vec::new();
+    if rate["rate_scope_type"] == "person" {
+        if person != Some(uid(&rate, "person_id")?) {
+            return Err(Error::Conflict(
+                "Labor person does not match the rate scope".into(),
+            ));
+        }
+    } else {
+        if role.as_deref() != optional(&rate, "role_code") {
+            return Err(Error::Conflict(
+                "Labor role does not match the rate scope".into(),
+            ));
+        }
+        if let Some(person) = person {
+            personal = store::personal_rates(session.connection, person, &start, &end).await?;
+            let intervals = personal
+                .iter()
+                .map(|v| {
+                    Ok((
+                        text(v, "effective_from")?,
+                        optional(v, "effective_to").map(str::to_owned),
+                    ))
+                })
+                .collect::<Result<Vec<_>, Error>>()?;
+            logic::role_priority(&start, &end, &intervals).map_err(fault)?;
+        }
+    }
+    let hours = optional(body, "actualHours");
+    let days = optional(body, "actualPersonDays");
+    let (amount, rate_value, quantity, product) = logic::labor(
+        &text(&rate, "rate_value")?,
+        &text(&rate, "rate_unit")?,
+        hours,
+        days,
+    )
+    .map_err(fault)?;
+    let subject = person
+        .map(|p| format!("person:{p}"))
+        .or_else(|| role.as_ref().map(|r| format!("role:{r}")))
+        .ok_or_else(|| {
+            Error::Unprocessable("Labor requires an explicit person or role scope".into())
+        })?;
+    if store::scope_overlap(
+        session.connection,
+        uid(row, "project_id")?,
+        &subject,
+        &start,
+        &end,
+        original.map(|r| uid(r, "id")).transpose()?,
+    )
+    .await?
+    {
+        return Err(Error::Conflict(
+            "Current labor aggregation periods overlap".into(),
+        ));
+    }
+    let period_type = original
+        .and_then(|v| optional(v, "labor_period_type"))
+        .or(optional(body, "laborPeriodType"))
+        .ok_or_else(|| Error::BadRequest("Labor period type is required".into()))?;
+    if !["week", "month"].contains(&period_type) {
+        return Err(Error::BadRequest("Invalid labor period type".into()));
+    }
+    row["occurred_on"] = json!(start);
+    row["currency"] = json!(currency(&text(&rate, "currency")?)?);
+    row["amount_excluding_tax"] = json!(amount);
+    row["tax_cost_amount"] = json!("0.00");
+    row["amount_including_tax"] = json!(amount);
+    row["source_type"] = json!("labor");
+    row["source_id"] = json!(rate_id);
+    row["source_ref_no"] = rate["rate_key"].clone();
+    row["labor_person_id"] = json!(person);
+    row["labor_role"] = json!(role);
+    row["labor_period_type"] = json!(period_type);
+    row["labor_period_start"] = json!(start);
+    row["labor_period_end"] = json!(end);
+    row["actual_hours"] = if hours.is_some() {
+        json!(quantity)
+    } else {
+        Value::Null
+    };
+    row["actual_person_days"] = if days.is_some() {
+        json!(quantity)
+    } else {
+        Value::Null
+    };
+    row["internal_cost_rate"] = json!(rate_value);
+    row["labor_amount"] = json!(amount);
+    row["rate_version_id"] = json!(rate_id);
+    row["work_summary"] = body["workSummary"].clone();
+    row["cost_description"] = body["costDescription"].clone();
+    let attachments = attachment_refs(
+        session.connection,
+        uid(row, "project_id")?,
+        body.get("attachmentIds"),
+        Some(actor),
+    )
+    .await?;
+    row["attachment_count"] = json!(attachments.len());
+    row["calculation_basis"] = json!({"schemaVersion":1,"rateVersionId":rate_id,"rateKey":rate["rate_key"],"rateValue":rate_value,"quantity":quantity,"unit":rate["rate_unit"],"rawProductScale6":product.to_string(),"rounding":"HALF_UP-cents-v1","laborAmount":amount,"rateEffectiveFrom":rate["effective_from"],"rateEffectiveTo":rate["effective_to"],"laborScopeKey":subject,"personalRateIntervals":personal,"priorityPolicy":"any-intersection-v1","capturedAt":iso(clock_now())});
+    row["source_basis"] = json!({"sourceRowVersion":version(&rate)?,"sourceType":"labor","sourceId":rate_id,"currency":row["currency"],"amountExcludingTax":amount,"taxCostAmount":"0.00","amountIncludingTax":amount,"occurredOn":start,"sourceStatus":rate["status"],"contractId":null,"payableRecordId":null,"sourcePayload":rate,"attachmentRefs":attachments});
+    Ok(())
+}
+async fn replace_labor(
+    session: &mut CommonSession<'_, '_>,
+    id: Uuid,
+    body: &Value,
+    actor: &Actor,
+    op: &str,
+) -> Result<Value, Error> {
+    require_labor_read(actor)?;
+    let discovered = store::row(session.connection, Table::Cost, id, false).await?;
+    let project = uid(&discovered, "project_id")?;
+    contract_support::lock_project(session.connection, project).await?;
+    let mut old = store::row(session.connection, Table::Cost, id, true).await?;
+    if uid(&old, "project_id")? != project {
+        return Err(Error::Conflict("Cost project changed".into()));
+    }
+    expected(body, "expectedSupersededRecordVersion", version(&old)?)?;
+    if old["cost_type"] != "labor"
+        || !matches!(
+            old["record_status"].as_str(),
+            Some("registered" | "confirmed")
+        )
+        || old["is_included_in_project_cost"] != false
+        || store::successor(session.connection, id).await?.is_some()
+    {
+        return Err(Error::Conflict(
+            "Only the current unincluded labor record can be replaced".into(),
+        ));
+    }
+    if store::allocated(session.connection, id).await? {
+        return Err(Error::Conflict(
+            "Allocation has frozen this cost source".into(),
+        ));
+    }
+    let locked = store::frozen_stage(session.connection, id).await?;
+    if locked {
+        return Err(Error::Conflict(
+            "Historical closing snapshot requires explicit restatement".into(),
+        ));
+    }
+    if old["basis_origin"] != "captured" || !old["calculation_basis"].is_object() {
+        return Err(Error::Conflict(
+            "Historical calculation is not replayable".into(),
+        ));
+    }
+    let before = old.clone();
+    old["record_status"] = json!("replaced");
+    let previous = touch(&mut old, actor)?;
+    store::update(
+        session.connection,
+        Table::Cost,
+        &old,
+        previous,
+        &["record_status", "row_version", "updated_at", "updated_by"],
+    )
+    .await?;
+    let result = create_cost(session, project, body, actor, op, Some(&before)).await?;
+    // The new-record audit contains original and replacement basis. The old
+    // status transition is also explicit and shares this same outer transaction.
+    audit(
+        session,
+        actor,
+        op,
+        ("ProjectActualCostRecord", project, id),
+        Some(before),
+        old,
+        Some(text(body, "replaceReason")?),
+    )
+    .await?;
+    Ok(result)
+}
+
+/// F and E use one source authority. Caller already holds sorted project locks;
+/// lock=true enlists the real source row in that same transaction. Never a pool.
+/// Before iterating multiple sources, F calls lock_source_families on the whole set.
+pub async fn source_facts(c: &mut PgConnection, cost: &Value, lock: bool) -> Result<Value, Error> {
+    let kind = text(cost, "source_type")?;
+    let expected_source = match optional(cost, "cost_type") {
+        Some("payment-fact") => "payment-record",
+        Some("invoice") => "invoice-record",
+        Some("expense") => "expense-record",
+        Some("procurement") => "payable-record",
+        Some("labor") => "labor",
+        _ => return Err(Error::Conflict("Unknown cost source binding".into())),
+    };
+    if kind != expected_source {
+        return Err(Error::Conflict(
+            "Cost source binding is inconsistent".into(),
+        ));
+    }
+    let id = uid(cost, "source_id")?;
+    let table = match kind.as_str() {
+        "payment-record" => Table::Payment,
+        "invoice-record" => Table::Invoice,
+        "expense-record" => Table::Expense,
+        "payable-record" => Table::Payable,
+        "labor" => Table::Rate,
+        _ => return Err(Error::Conflict("Unsupported cost source authority".into())),
+    };
+    if matches!(table, Table::Rate) && lock {
+        // Global publication does not lock projects. Always take rate-family
+        // locks before rate rows, also when F is the caller of this helper.
+        let discovered = store::row(c, Table::Rate, id, false).await?;
+        let family = if discovered["rate_scope_type"] == "person" {
+            format!("person:{}", uid(&discovered, "person_id")?)
+        } else {
+            format!("role:{}", text(&discovered, "role_code")?)
+        };
+        let mut keys = vec![family];
+        if let Some(person) = maybe_uid(cost, "labor_person_id")? {
+            keys.push(format!("person:{person}"));
+        }
+        store::family_locks(c, keys).await?;
+    }
+    // The payable version certifies a derived confirmed-payment aggregate.
+    // Even a detail read must acquire Project -> Payable before reading both;
+    // otherwise READ COMMITTED could pair an old version with a new SUM.
+    if matches!(table, Table::Payable) {
+        contract_support::lock_project(c, uid(cost, "project_id")?).await?;
+    }
+    let mut row = store::row(c, table, id, lock || matches!(table, Table::Payable)).await?;
+    if let Some(contract) = maybe_uid(&row, "contract_id")?
+        && contract_support::contract_fact(c, contract, Some(uid(cost, "project_id")?), false)
+            .await?
+            .is_none()
+    {
+        return Err(Error::Conflict(
+            "Source contract does not belong to project".into(),
+        ));
+    }
+    let mut attachments = Vec::new();
+    if matches!(table, Table::Rate) {
+        let captured = cost["source_basis"]["attachmentRefs"].as_array();
+        let ids = Value::Array(
+            captured
+                .into_iter()
+                .flatten()
+                .map(|v| v["attachmentId"].clone())
+                .collect(),
+        );
+        attachments = attachment_refs(c, uid(cost, "project_id")?, Some(&ids), None).await?;
+        if cost["attachment_count"].as_u64() != Some(attachments.len() as u64)
+            || captured.is_some_and(|old| old != &attachments)
+        {
+            return Err(Error::Conflict("Labor attachment evidence changed".into()));
+        }
+    }
+    if !matches!(table, Table::Rate) && uid(&row, "project_id")? != uid(cost, "project_id")? {
+        return Err(Error::Conflict("Cost source project does not match".into()));
+    }
+    let (ccy, net, tax, gross, occurred) = match table {
+        Table::Payment => {
+            if row["status"] != "confirmed"
+                || row["confirmed_at"].is_null()
+                || row["confirmed_by"].is_null()
+            {
+                return Err(Error::Conflict("Payment source is not confirmed".into()));
+            }
+            let instant = DateTime::parse_from_rfc3339(&text(&row, "payment_date")?)
+                .map_err(|_| Error::Conflict("Source business instant is invalid".into()))?
+                .with_timezone(&Utc);
+            let day = crate::compat::scalars::business_date_only(
+                crate::compat::json::Field::Value(crate::compat::scalars::DateInput::Instant(
+                    instant,
+                )),
+                crate::compat::scalars::BusinessTimeZone::HongKong,
+            )
+            .map_err(|_| Error::Internal)?
+            .ok_or(Error::Internal)?;
+            (
+                currency(&text(&row, "currency")?)?,
+                stored_money(&row, "amount_excluding_tax", false)?,
+                stored_money(&row, "tax_amount", true)?,
+                stored_money(&row, "amount_including_tax", false)?,
+                day,
+            )
+        }
+        Table::Invoice => {
+            if row["invoice_type"] != "input"
+                || row["status"] != "verified"
+                || row["exception_status"] == "open"
+            {
+                return Err(Error::Conflict(
+                    "Invoice is not an eligible verified input source".into(),
+                ));
+            }
+            let ccy = currency(optional(&row, "currency_code").ok_or_else(|| {
+                Error::Unprocessable(
+                    "Historical invoice currency requires explicit correction".into(),
+                )
+            })?)?;
+            match optional(&row, "currency_source") {
+                Some("explicit") if row["currency_source_snapshot_id"].is_null() => {}
+                Some("contract-snapshot") => {
+                    let sid = uid(&row, "currency_source_snapshot_id")?;
+                    let cid = uid(&row, "contract_id")?;
+                    let proof:Option<String>=sqlx::query_scalar("SELECT p.currency_code FROM poms.contract_term_snapshot s JOIN poms.contract_term_preparation p ON p.id=s.source_preparation_id AND p.contract_id=s.contract_id WHERE s.id=$1 AND s.contract_id=$2").bind(sid).bind(cid).fetch_optional(&mut *c).await?;
+                    if proof.as_deref() != Some(ccy.as_str()) {
+                        return Err(Error::Conflict(
+                            "Invoice currency snapshot proof does not match".into(),
+                        ));
+                    }
+                }
+                _ => {
+                    return Err(Error::Unprocessable(
+                        "Invoice currency provenance is not proven".into(),
+                    ));
+                }
+            }
+            (
+                ccy,
+                None,
+                None,
+                stored_money(&row, "invoice_amount", false)?,
+                text(&row, "invoice_date")?,
+            )
+        }
+        Table::Expense => {
+            if row["status"] != "confirmed"
+                || row["confirmed_at"].is_null()
+                || row["confirmed_by"].is_null()
+            {
+                return Err(Error::Conflict("Expense source is not confirmed".into()));
+            }
+            (
+                currency(&text(&row, "currency")?)?,
+                stored_money(&row, "amount_excluding_tax", true)?,
+                stored_money(&row, "tax_amount", true)?,
+                stored_money(&row, "amount_including_tax", false)?,
+                text(&row, "expense_date")?,
+            )
+        }
+        Table::Payable => {
+            if !matches!(
+                row["status"].as_str(),
+                Some("recorded" | "partially-paid" | "completed" | "closed")
+            ) {
+                return Err(Error::Conflict("Payable is not a formal commitment".into()));
+            }
+            // Exact same net-only, confirmed-payment predicate as C's
+            // settled_amount. Never infer progress from gross or status alone.
+            let total: String = sqlx::query_scalar("SELECT COALESCE(SUM(amount_excluding_tax),0.00)::text FROM poms.payment_record WHERE payable_record_id=$1 AND status='confirmed'")
+                .bind(id).fetch_one(&mut *c).await?;
+            row["confirmed_payment_amount_excluding_tax_total"] = json!(
+                logic::stored_money(&total, true).map_err(|_| Error::Conflict(
+                    "Confirmed payment precision requires controlled correction".into()
+                ))?
+            );
+            payable_confirmed_total(&row)?;
+            (
+                currency(&text(&row, "currency")?)?,
+                stored_money(&row, "amount_excluding_tax", false)?,
+                stored_money(&row, "tax_amount", true)?,
+                stored_money(&row, "amount_including_tax", false)?,
+                text(&row, "expected_payment_date")?,
+            )
+        }
+        Table::Rate => {
+            if maybe_uid(cost, "rate_version_id")? != Some(id)
+                || (row["rate_scope_type"] == "person"
+                    && maybe_uid(cost, "labor_person_id")? != maybe_uid(&row, "person_id")?)
+                || (row["rate_scope_type"] == "role"
+                    && optional(cost, "labor_role") != optional(&row, "role_code"))
+            {
+                return Err(Error::Conflict("Labor source scope changed".into()));
+            }
+            if !matches!(row["status"].as_str(), Some("active" | "superseded"))
+                || row["published_at"].is_null()
+                || row["published_by"].is_null()
+                || cost["basis_origin"] != "captured"
+                || !cost["calculation_basis"].is_object()
+            {
+                return Err(Error::Conflict(
+                    "Labor source has no replayable published authority".into(),
+                ));
+            }
+            let start = text(cost, "labor_period_start")?;
+            let end = text(cost, "labor_period_end")?;
+            if row["rate_scope_type"] == "role"
+                && let Some(person) = maybe_uid(cost, "labor_person_id")?
+            {
+                let personal = store::personal_rates(c, person, &start, &end).await?;
+                if !personal.is_empty() {
+                    return Err(Error::Conflict(
+                        "Personal rate priority requires a controlled labor replacement".into(),
+                    ));
+                }
+            }
+            if text(&row, "effective_from")? > start
+                || optional(&row, "effective_to").is_some_and(|to| to < end.as_str())
+            {
+                return Err(Error::Conflict(
+                    "Historical labor interval is no longer covered".into(),
+                ));
+            }
+            let (amount, rate, q, product) = logic::labor(
+                &text(cost, "internal_cost_rate")?,
+                &text(&row, "rate_unit")?,
+                optional(cost, "actual_hours"),
+                optional(cost, "actual_person_days"),
+            )
+            .map_err(|_| Error::Conflict("Labor calculation basis is not replayable".into()))?;
+            if cost["calculation_basis"]["laborAmount"] != amount
+                || cost["calculation_basis"]["rateValue"] != rate
+                || cost["calculation_basis"]["quantity"] != q
+                || cost["calculation_basis"]["rawProductScale6"] != product.to_string()
+            {
+                return Err(Error::Conflict("Labor calculation evidence changed".into()));
+            }
+            let current_rate = logic::format(
+                logic::scaled(&text(&row, "rate_value")?, 4, 999_999_999_999_999, false)
+                    .map_err(fault)?,
+                4,
+            );
+            if current_rate != rate {
+                return Err(Error::Conflict(
+                    "Captured labor rate no longer matches its authority".into(),
+                ));
+            }
+            (
+                currency(&text(&row, "currency")?)?,
+                Some(amount.clone()),
+                Some("0.00".into()),
+                Some(amount),
+                start,
+            )
+        }
+        Table::Cost => return Err(Error::Internal),
+    };
+    date(&occurred)?;
+    if let (Some(g), Some(t), Some(n)) = (&gross, &tax, &net) {
+        logic::split(g, Some(t), Some(n)).map_err(fault)?;
+    }
+    let transition = source_transition(c, cost, &row).await?;
+    Ok(
+        json!({"sourceRowVersion":version(&row)?,"currency":ccy,"amountExcludingTax":net,"taxCostAmount":tax,"amountIncludingTax":gross,"occurredOn":occurred,"sourceStatus":row["status"],"sourceType":kind,"sourceId":id,"contractId":view::value(&row,"contract_id"),"payableRecordId":view::value(&row,"payable_record_id"),"sourcePayload":row,"attachmentRefs":attachments,"sourceVersionTransition":transition}),
+    )
+}
+/// Prelock the complete source set before any individual source row locks. This
+/// prevents disjoint-project F batches from taking R2/R1 and R1/R2 family order.
+pub async fn lock_source_families(c: &mut PgConnection, costs: &[Value]) -> Result<(), Error> {
+    let mut keys = Vec::new();
+    for cost in costs {
+        if cost["cost_type"] != "labor" && cost["source_type"] != "labor" {
+            continue;
+        }
+        let rate = store::row(c, Table::Rate, uid(cost, "source_id")?, false).await?;
+        if rate["rate_scope_type"] == "person" {
+            keys.push(format!("person:{}", uid(&rate, "person_id")?));
+        } else if rate["rate_scope_type"] == "role" {
+            keys.push(format!("role:{}", text(&rate, "role_code")?));
+        } else {
+            return Err(Error::Conflict("Rate source scope is not proven".into()));
+        }
+        if let Some(person) = maybe_uid(cost, "labor_person_id")? {
+            keys.push(format!("person:{person}"));
+        }
+    }
+    store::family_locks(c, keys).await
+}
+fn same_source_except(before: &Value, after: &Value, except: &[&str]) -> bool {
+    let (Some(a), Some(b)) = (before.as_object(), after.as_object()) else {
+        return false;
+    };
+    let keys = a
+        .keys()
+        .chain(b.keys())
+        .collect::<std::collections::BTreeSet<_>>();
+    keys.into_iter().filter(|k|!except.contains(&k.as_str())).all(|k|{
+        if a.get(k)==b.get(k){return true;}
+        if k.ends_with("_at")
+            && let (Some(a),Some(b))=(a.get(k).and_then(Value::as_str),b.get(k).and_then(Value::as_str)) {
+                return matches!((DateTime::parse_from_rfc3339(a),DateTime::parse_from_rfc3339(b)),(Ok(a),Ok(b)) if a==b);
+        }
+        false
+    })
+}
+/// A payable status and its real confirmed net total must agree. Missing
+/// captured aggregates are not reconstructed from today's payment facts.
+fn payable_confirmed_total(row: &Value) -> Result<i128, Error> {
+    let conflict = || Error::Conflict("Payable payment progress is not proven".into());
+    let total =
+        optional(row, "confirmed_payment_amount_excluding_tax_total").ok_or_else(conflict)?;
+    let total = logic::stored_money(total, true).map_err(|_| conflict())?;
+    let total = logic::scaled(&total, 2, logic::MONEY_MAX, true).map_err(|_| conflict())?;
+    let commitment = optional(row, "amount_excluding_tax").ok_or_else(conflict)?;
+    let commitment = logic::stored_money(commitment, false).map_err(|_| conflict())?;
+    let commitment =
+        logic::scaled(&commitment, 2, logic::MONEY_MAX, false).map_err(|_| conflict())?;
+    let valid = match optional(row, "status") {
+        Some("recorded") => total == 0,
+        Some("partially-paid") => total > 0 && total < commitment,
+        Some("completed") => total == commitment,
+        Some("closed") => total <= commitment,
+        _ => false,
+    };
+    if !valid {
+        return Err(conflict());
+    }
+    Ok(total)
+}
+/// Reusable economic comparison for F's previously certified source anchor.
+/// This does not relax any client CAS or mutate E's immutable captured basis.
+/// A rate successor proof is additionally required by source_facts below.
+pub fn compare_source_transition(
+    cost: &Value,
+    before: &Value,
+    after: &Value,
+) -> Result<Option<&'static str>, Error> {
+    let conflict =
+        || Error::Conflict("Source changed outside an approved economic transition".into());
+    if uid(before, "id")? != uid(after, "id")?
+        || Some(uid(after, "id")?) != maybe_uid(cost, "source_id")?
+    {
+        return Err(conflict());
+    }
+    let old_version = version(before)?;
+    let new_version = version(after)?;
+    let payment_totals = if optional(cost, "source_type") == Some("payable-record") {
+        Some((
+            payable_confirmed_total(before)?,
+            payable_confirmed_total(after)?,
+        ))
+    } else {
+        None
+    };
+    if old_version == new_version {
+        return if same_source_except(before, after, &[]) {
+            Ok(None)
+        } else {
+            Err(conflict())
+        };
+    }
+    if new_version < old_version {
+        return Err(conflict());
+    }
+    match optional(cost, "source_type") {
+        Some("payable-record") => {
+            if !matches!(
+                (optional(before, "status"), optional(after, "status")),
+                (
+                    Some("recorded" | "partially-paid"),
+                    Some("partially-paid" | "completed")
+                )
+            ) || !payment_totals.is_some_and(|(old, current)| current > old)
+                || !same_source_except(
+                    before,
+                    after,
+                    &[
+                        "status",
+                        "row_version",
+                        "updated_at",
+                        "updated_by",
+                        "confirmed_payment_amount_excluding_tax_total",
+                    ],
+                )
+            {
+                return Err(conflict());
+            }
+            Ok(Some("payable-payment-progress-only"))
+        }
+        Some("labor") => {
+            if before["status"] != "active"
+                || after["status"] != "superseded"
+                || before["is_current"] != true
+                || after["is_current"] != false
+                || !same_source_except(
+                    before,
+                    after,
+                    &[
+                        "status",
+                        "is_current",
+                        "effective_to",
+                        "row_version",
+                        "updated_at",
+                        "updated_by",
+                    ],
+                )
+            {
+                return Err(conflict());
+            }
+            let end = optional(after, "effective_to").ok_or_else(conflict)?;
+            if date(end)? < date(&text(cost, "labor_period_end")?)?
+                || optional(before, "effective_to").is_some_and(|old| end > old)
+            {
+                return Err(conflict());
+            }
+            Ok(Some("rate-superseded-covered-period"))
+        }
+        _ => Err(conflict()),
+    }
+}
+async fn source_transition(
+    c: &mut PgConnection,
+    cost: &Value,
+    current: &Value,
+) -> Result<Value, Error> {
+    let captured = &cost["source_basis"]["sourcePayload"];
+    if cost["source_basis"].is_null() {
+        return Ok(Value::Null);
+    } // E creation has not captured the source yet.
+    if !captured.is_object()
+        || cost["source_basis"]["sourceRowVersion"].as_i64() != Some(i64::from(version(captured)?))
+    {
+        return Err(Error::Conflict(
+            "Captured source version is not proven".into(),
+        ));
+    }
+    let reason = compare_source_transition(cost, captured, current)?;
+    let Some(reason) = reason else {
+        return Ok(Value::Null);
+    };
+    if reason == "rate-superseded-covered-period" {
+        let next = current["version"]
+            .as_i64()
+            .and_then(|v| v.checked_add(1))
+            .and_then(|v| i32::try_from(v).ok())
+            .ok_or(Error::Internal)?;
+        let successor:Option<Value>=sqlx::query_scalar("SELECT jsonb_build_object('id',id,'rate_key',rate_key,'version',version,'effective_from',effective_from,'published_at',published_at) FROM poms.internal_cost_rate_version WHERE supersedes_rate_version_id=$1 AND rate_key=$2 AND version=$3 AND status IN ('active','superseded')").bind(uid(current,"id")?).bind(text(current,"rate_key")?).bind(next).fetch_optional(c).await?;
+        let successor = successor.ok_or_else(|| {
+            Error::Conflict("Rate supersession has no controlled successor".into())
+        })?;
+        if successor["published_at"].is_null() {
+            return Err(Error::Conflict("Rate successor is not published".into()));
+        }
+        let boundary = date(&text(&successor, "effective_from")?)?
+            .pred_opt()
+            .ok_or(Error::Internal)?
+            .to_string();
+        let expected_end = optional(captured, "effective_to").map_or(boundary.clone(), |old| {
+            old.min(boundary.as_str()).to_owned()
+        });
+        if optional(current, "effective_to") != Some(expected_end.as_str()) {
+            return Err(Error::Conflict(
+                "Rate validity was not closed by its exact successor".into(),
+            ));
+        }
+    }
+    Ok(
+        json!({"capturedVersion":version(captured)?,"currentVersion":version(current)?,"reason":reason,"capturedPayloadHash":contract_support::canonical_hash(captured)?,"currentPayloadHash":contract_support::canonical_hash(current)?}),
+    )
+}
+async fn attachment_refs(
+    c: &mut PgConnection,
+    project: Uuid,
+    input: Option<&Value>,
+    actor: Option<&Actor>,
+) -> Result<Vec<Value>, Error> {
+    let mut ids = Vec::new();
+    if let Some(v) = input {
+        for id in v
+            .as_array()
+            .ok_or_else(|| Error::BadRequest("Attachment references must be an array".into()))?
+        {
+            ids.push(
+                id.as_str()
+                    .and_then(|v| Uuid::parse_str(v).ok())
+                    .ok_or_else(|| Error::BadRequest("Invalid attachment reference".into()))?,
+            );
+        }
+    }
+    ids.sort();
+    if ids.windows(2).any(|w| w[0] == w[1]) {
+        return Err(Error::BadRequest(
+            "Attachment references must be unique".into(),
+        ));
+    }
+    let mut refs = Vec::with_capacity(ids.len());
+    for id in ids {
+        let row:Value=sqlx::query_scalar("SELECT jsonb_build_object('attachmentId',a.id,'versionGroupId',a.version_group_id,'versionNo',a.version_no,'rowVersion',a.row_version,'checksumSha256',a.checksum_sha256,'securityLevel',a.security_level,'linkId',l.id,'linkStatus',l.status) FROM poms.attachment a JOIN poms.attachment_link l ON l.attachment_id=a.id AND l.target_type='project' AND l.target_id=$2 AND l.status='active' WHERE a.id=$1 AND a.status='active' AND a.deleted_at IS NULL AND a.version_no>0 ORDER BY l.id LIMIT 1 FOR SHARE OF a,l").bind(id).bind(project).fetch_optional(&mut *c).await?.ok_or_else(||Error::Conflict("Attachment has no valid direct project evidence link".into()))?;
+        let checksum = optional(&row, "checksumSha256")
+            .ok_or_else(|| Error::Conflict("Attachment checksum is not proven".into()))?;
+        if checksum.len() != 64 || !checksum.bytes().all(|b| b.is_ascii_hexdigit()) {
+            return Err(Error::Conflict("Attachment checksum is not proven".into()));
+        }
+        if let Some(actor) = actor {
+            // Same registered attachment security rule; no new permission alias.
+            if matches!(
+                optional(&row, "securityLevel"),
+                Some("confidential" | "restricted")
+            ) && !actor.session.user.permissions.iter().any(|p| {
+                [
+                    "contract:finance:sensitive:read",
+                    "operating:finance:sensitive:read",
+                    "commission:amount:sensitive:read",
+                    "platform:roles:manage",
+                ]
+                .contains(&p.as_str())
+            }) {
+                return Err(Error::Forbidden(
+                    "Attachment security authorization is required".into(),
+                ));
+            }
+        }
+        refs.push(row);
+    }
+    Ok(refs)
+}
+fn validate_filters(q: &Value) -> Result<(), Error> {
+    for (k, allowed) in [
+        (
+            "costType",
+            &["procurement", "invoice", "expense", "payment-fact", "labor"][..],
+        ),
+        (
+            "recordStatus",
+            &[
+                "draft",
+                "registered",
+                "confirmed",
+                "included",
+                "voided",
+                "replaced",
+            ][..],
+        ),
+        (
+            "sourceType",
+            &[
+                "payment-record",
+                "invoice-record",
+                "expense-record",
+                "payable-record",
+                "labor",
+            ][..],
+        ),
+    ] {
+        if let Some(v) = q.get(k)
+            && !v.as_str().is_some_and(|v| allowed.contains(&v))
+        {
+            return Err(Error::BadRequest("Invalid cost list filter".into()));
+        }
+    }
+    Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn date_is_real_calendar_not_rollover() {
+        for s in [
+            "2026-02-29",
+            "2026-04-31",
+            "2026-1-01",
+            "2026-01-01T00:00:00Z",
+        ] {
+            assert!(date(s).is_err());
+        }
+        assert!(date("2024-02-29").is_ok());
+    }
+    #[test]
+    fn source_instant_business_day_is_hong_kong() {
+        let Ok(t) = DateTime::parse_from_rfc3339("2026-11-03T16:00:00Z") else {
+            panic!("test instant");
+        };
+        let Ok(day) = crate::compat::scalars::business_date_only(
+            crate::compat::json::Field::Value(crate::compat::scalars::DateInput::Instant(
+                t.with_timezone(&Utc),
+            )),
+            crate::compat::scalars::BusinessTimeZone::HongKong,
+        ) else {
+            panic!("test date");
+        };
+        assert_eq!(day.as_deref(), Some("2026-11-04"));
+    }
+    #[test]
+    fn expense_actions_match_stable_lifecycle() {
+        assert_eq!(
+            expense_actions(&json!({"status":"recorded"}), false),
+            vec!["update", "confirm", "void"]
+        );
+        assert!(expense_actions(&json!({"status":"confirmed"}), true).is_empty());
+        assert!(expense_actions(&json!({"status":"voided"}), false).is_empty());
+    }
+    #[test]
+    fn filters_never_fall_through_to_raw_sql() {
+        assert!(validate_filters(&json!({"sourceType":"expense-record"})).is_ok());
+        assert!(validate_filters(&json!({"costType":"LABOR"})).is_err());
+        assert!(validate_filters(&json!({"recordStatus":["registered"]})).is_err());
+    }
+    #[test]
+    fn payable_progress_proof_is_narrow_and_does_not_relax_client_cas() {
+        let id = Uuid::nil();
+        let cost = json!({"source_type":"payable-record","source_id":id});
+        let a = json!({"id":id,"status":"recorded","row_version":1,"amount_excluding_tax":"100.00","tax_amount":"6.00","amount_including_tax":"106.00","currency":"CNY","expected_payment_date":"2026-11-04","confirmed_payment_amount_excluding_tax_total":"0.00"});
+        let mut b = a.clone();
+        b["status"] = json!("partially-paid");
+        b["row_version"] = json!(2);
+        b["confirmed_payment_amount_excluding_tax_total"] = json!("20.00");
+        assert!(matches!(
+            compare_source_transition(&cost, &a, &b),
+            Ok(Some("payable-payment-progress-only"))
+        ));
+        let mut no_progress = a.clone();
+        no_progress["row_version"] = json!(2);
+        assert!(compare_source_transition(&cost, &a, &no_progress).is_err());
+        assert!(
+            expected(
+                &json!({"expectedSourceVersion":1}),
+                "expectedSourceVersion",
+                2
+            )
+            .is_err()
+        );
+        b["amount_including_tax"] = json!("107.00");
+        assert!(compare_source_transition(&cost, &a, &b).is_err());
+        b["amount_including_tax"] = json!("106.00");
+        b["expected_payment_date"] = json!("2026-11-05");
+        assert!(compare_source_transition(&cost, &a, &b).is_err());
+    }
+    #[test]
+    fn rate_supersession_must_preserve_scope_value_and_full_original_period() {
+        let id = Uuid::nil();
+        let cost = json!({"source_type":"labor","source_id":id,"labor_period_end":"2026-10-31"});
+        let a = json!({"id":id,"status":"active","is_current":true,"row_version":1,"rate_value":"123.4567","rate_unit":"hour","person_id":id,"currency":"CNY","effective_from":"2026-01-01","effective_to":null});
+        let mut b = a.clone();
+        b["status"] = json!("superseded");
+        b["is_current"] = json!(false);
+        b["row_version"] = json!(2);
+        b["effective_to"] = json!("2026-10-31");
+        assert!(matches!(
+            compare_source_transition(&cost, &a, &b),
+            Ok(Some("rate-superseded-covered-period"))
+        ));
+        b["effective_to"] = json!("2026-10-30");
+        assert!(compare_source_transition(&cost, &a, &b).is_err());
+        b["effective_to"] = json!("2026-10-31");
+        b["rate_value"] = json!("123.4568");
+        assert!(compare_source_transition(&cost, &a, &b).is_err());
+        b["rate_value"] = json!("123.4567");
+        b["status"] = json!("retired");
+        assert!(compare_source_transition(&cost, &a, &b).is_err());
+    }
+    #[test]
+    fn certified_anchor_can_advance_again_without_rewriting_original_capture() {
+        let id = Uuid::nil();
+        let cost = json!({"source_type":"payable-record","source_id":id});
+        let captured = json!({"id":id,"status":"recorded","row_version":1,"amount_excluding_tax":"100.00","confirmed_payment_amount_excluding_tax_total":"0.00"});
+        let mut anchor = captured.clone();
+        anchor["status"] = json!("partially-paid");
+        anchor["row_version"] = json!(2);
+        anchor["confirmed_payment_amount_excluding_tax_total"] = json!("20.00");
+        let mut current = anchor.clone();
+        current["status"] = json!("completed");
+        current["row_version"] = json!(3);
+        current["confirmed_payment_amount_excluding_tax_total"] = json!("100.00");
+        assert!(compare_source_transition(&cost, &captured, &current).is_ok());
+        assert!(compare_source_transition(&cost, &anchor, &current).is_ok());
+        assert_eq!(captured["row_version"], 1);
+        assert!(compare_source_transition(&cost, &current, &anchor).is_err());
+        let mut unversioned = current.clone();
+        unversioned["amount_excluding_tax"] = json!("101.00");
+        assert!(compare_source_transition(&cost, &current, &unversioned).is_err());
+    }
+    #[test]
+    fn payable_progress_requires_a_strictly_increasing_real_net_total() {
+        let id = Uuid::nil();
+        let cost = json!({"source_type":"payable-record","source_id":id});
+        let recorded = json!({"id":id,"status":"recorded","row_version":1,"amount_excluding_tax":"100.00","confirmed_payment_amount_excluding_tax_total":"0.00"});
+        let mut partial = recorded.clone();
+        partial["status"] = json!("partially-paid");
+        partial["row_version"] = json!(2);
+        partial["confirmed_payment_amount_excluding_tax_total"] = json!("20.00");
+        let mut next_partial = partial.clone();
+        next_partial["row_version"] = json!(3);
+        next_partial["confirmed_payment_amount_excluding_tax_total"] = json!("50.00");
+        assert!(matches!(
+            compare_source_transition(&cost, &partial, &next_partial),
+            Ok(Some("payable-payment-progress-only"))
+        ));
+        let mut no_progress = partial.clone();
+        no_progress["row_version"] = json!(3);
+        assert!(compare_source_transition(&cost, &partial, &no_progress).is_err());
+        next_partial["row_version"] = json!(2);
+        assert!(compare_source_transition(&cost, &partial, &next_partial).is_err());
+        next_partial["row_version"] = json!(3);
+        next_partial["confirmed_payment_amount_excluding_tax_total"] = json!("10.00");
+        assert!(compare_source_transition(&cost, &partial, &next_partial).is_err());
+        let mut complete = partial.clone();
+        complete["status"] = json!("completed");
+        complete["row_version"] = json!(4);
+        complete["confirmed_payment_amount_excluding_tax_total"] = json!("100.00");
+        assert!(compare_source_transition(&cost, &recorded, &complete).is_ok());
+        assert!(compare_source_transition(&cost, &partial, &complete).is_ok());
+        let mut no_more = complete.clone();
+        no_more["row_version"] = json!(5);
+        assert!(compare_source_transition(&cost, &complete, &no_more).is_err());
+        complete["status"] = json!("paid");
+        assert!(compare_source_transition(&cost, &partial, &complete).is_err());
+    }
+    #[test]
+    fn payable_aggregate_missing_precision_or_status_mismatch_is_not_proof() {
+        let id = Uuid::nil();
+        let cost = json!({"source_type":"payable-record","source_id":id});
+        let captured = json!({"id":id,"status":"recorded","row_version":1,"amount_excluding_tax":"100.00","confirmed_payment_amount_excluding_tax_total":"0.00"});
+        let mut current = captured.clone();
+        current["row_version"] = json!(2);
+        current["status"] = json!("partially-paid");
+        for bad_total in ["0.00", "100.00", "100.01", "20.0001", "-20.00"] {
+            current["confirmed_payment_amount_excluding_tax_total"] = json!(bad_total);
+            assert!(compare_source_transition(&cost, &captured, &current).is_err());
+        }
+        current["confirmed_payment_amount_excluding_tax_total"] = json!("20.00");
+        let mut unknown_capture = captured.clone();
+        unknown_capture
+            .as_object_mut()
+            .unwrap()
+            .remove("confirmed_payment_amount_excluding_tax_total");
+        assert!(compare_source_transition(&cost, &unknown_capture, &current).is_err());
+        current["status"] = json!("completed");
+        assert!(compare_source_transition(&cost, &captured, &current).is_err());
+    }
+    #[test]
+    fn payable_progress_never_certifies_core_economic_changes() {
+        let id = Uuid::nil();
+        let cost = json!({"source_type":"payable-record","source_id":id});
+        let captured = json!({"id":id,"status":"recorded","row_version":1,"amount_excluding_tax":"100.00","tax_amount":"6.00","amount_including_tax":"106.00","currency":"CNY","project_id":id,"contract_id":id,"expected_payment_date":"2026-11-04","evidence_summary":"original","confirmed_payment_amount_excluding_tax_total":"0.00"});
+        let mut current = captured.clone();
+        current["status"] = json!("partially-paid");
+        current["row_version"] = json!(2);
+        current["confirmed_payment_amount_excluding_tax_total"] = json!("20.00");
+        assert!(compare_source_transition(&cost, &captured, &current).is_ok());
+        for (key, changed) in [
+            ("amount_excluding_tax", json!("101.00")),
+            ("tax_amount", json!("7.00")),
+            ("amount_including_tax", json!("107.00")),
+            ("currency", json!("USD")),
+            ("project_id", json!("different-project")),
+            ("contract_id", Value::Null),
+            ("expected_payment_date", json!("2026-11-05")),
+            ("evidence_summary", json!("changed")),
+        ] {
+            let mut substantive = current.clone();
+            substantive[key] = changed;
+            assert!(compare_source_transition(&cost, &captured, &substantive).is_err());
+        }
+    }
+    #[test]
+    fn audit_history_keeps_explicit_required_field_packages() {
+        assert_eq!(
+            audit_packages("ExpenseRecord", None, &json!({"status":"recorded"})),
+            vec!["operating-finance"]
+        );
+        assert_eq!(
+            audit_packages(
+                "InternalCostRateVersion",
+                None,
+                &json!({"rate_scope_type":"person"})
+            ),
+            vec!["labor-cost-rate"]
+        );
+        assert_eq!(
+            audit_packages(
+                "ProjectActualCostRecord",
+                None,
+                &json!({"cost_type":"labor"})
+            ),
+            vec!["labor-cost-rate"]
+        );
+        assert_eq!(
+            audit_packages(
+                "ProjectActualCostRecord",
+                Some(&json!({"cost_type":"labor"})),
+                &json!({"cost_type":"invoice"})
+            ),
+            vec!["operating-finance", "labor-cost-rate"]
+        );
+    }
+}

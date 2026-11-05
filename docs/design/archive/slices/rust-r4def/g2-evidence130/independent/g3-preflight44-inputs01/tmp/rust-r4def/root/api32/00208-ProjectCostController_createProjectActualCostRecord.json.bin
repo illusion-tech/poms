@@ -1,0 +1,37 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:05:21.246Z",
+  "completedAt": "2026-11-04T00:05:21.270Z",
+  "operationId": "ProjectCostController_createProjectActualCostRecord",
+  "method": "POST",
+  "path": "/api/projects/c19e708b-522c-45e9-90d4-81de7295545b/actual-cost-records",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-00208-410b46fa",
+  "requestBody": {
+    "costType": "labor",
+    "laborRole": "R4E21-e41-day",
+    "laborPeriodType": "month",
+    "laborPeriodStart": "2026-10-01",
+    "laborPeriodEnd": "2026-10-03",
+    "actualHours": null,
+    "rateVersionId": "caefd90e-8d3e-41bd-8b2b-fdda317ba5ce",
+    "workSummary": "R4E21-e41-按明确区间和数量登记",
+    "costDescription": "真实费率版本乘真实请求数量，完整保存舍入依据",
+    "attachmentIds": [],
+    "actualPersonDays": "1.50"
+  },
+  "status": 201,
+  "responseBody": {
+    "approvalRecordId": null,
+    "businessStatusAfter": "registered",
+    "confirmationRecordId": null,
+    "resultStatus": "success",
+    "targetId": "438f8035-bfac-4c17-b1f9-7da01d6c93a9",
+    "targetType": "ProjectActualCostRecord",
+    "todoItemIds": []
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

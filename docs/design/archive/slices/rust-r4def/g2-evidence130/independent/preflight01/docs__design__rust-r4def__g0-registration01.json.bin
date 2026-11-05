@@ -1,0 +1,494 @@
+{
+  "kind": "R4-next28-actual-G0-registration",
+  "createdAt": "2026-11-03T19:58:49.539Z",
+  "base": "565661b9113372de4da6662a4a692fbfd2296dd6",
+  "branch": "codex/poms-r4def-next28",
+  "stage": 101,
+  "root": 57,
+  "batch": {
+    "number": 106,
+    "id": 6190135362,
+    "url": "https://github.com/illusion-tech/poms/issues/106"
+  },
+  "children": [
+    {
+      "key": "D",
+      "number": 107,
+      "id": 6190136983,
+      "title": "[RUST-R4D] 移交五入口与回款判断冻结真实机制",
+      "url": "https://github.com/illusion-tech/poms/issues/107",
+      "scope": "5入口：合同承接摘要、项目最新/指定移交详情、确认、再基线化；补齐真实移交准备/参与人确认/摘要与回款判断冻结，验收R2附件真实消费。复核与R5角色冻结边界，不能将回款判断冻结当提成冻结或制造循环依赖。"
+    },
+    {
+      "key": "E",
+      "number": 108,
+      "id": 6190138354,
+      "title": "[RUST-R4E] 实际成本与费用基础十一入口",
+      "url": "https://github.com/illusion-tech/poms/issues/108",
+      "scope": "11入口：费率版本、统一多来源实际成本登记/列表/详情/人力替换、费用列表/详情/创建/修改/确认/作废；冻结真实payment/invoice/expense/procurement/labor来源、计入范围、映射唯一、版本链和精度，向F输出可依赖真实成本。"
+    },
+    {
+      "key": "F",
+      "number": 109,
+      "id": 6190139855,
+      "title": "[RUST-R4F] 分摊阶段归属税务十二入口",
+      "url": "https://github.com/illusion-tech/poms/issues/109",
+      "scope": "12入口：共享成本分摊4、阶段归属4、税务处理4。冻结跨项目权重/金额守恒/舍入/币种、真实来源和阶段证据、锁定/替换/重分类链、必要同事务审计。最终验收消费E真实成本，适用场景消费D事实。"
+    }
+  ],
+  "commands": [
+    {
+      "name": "before",
+      "args": [
+        "graphql",
+        "--input",
+        "tmp/rust-r4def/root/g0-online01/01-before-input.json"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g0-online01/01-before-stdout-original.json",
+        "bytes": 5696,
+        "rawBytesSha256": "4818a3493e57c68103dab6ab1e2dd777fecd18ebe630af8c275e94a6ebae3df7"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g0-online01/01-before-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "create-batch",
+      "args": [
+        "repos/illusion-tech/poms/issues",
+        "--method",
+        "POST",
+        "--input",
+        "tmp/rust-r4def/root/g0-online01/02-create-batch-input.json"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g0-online01/02-create-batch-stdout-original.json",
+        "bytes": 4069,
+        "rawBytesSha256": "4f7456b5b8cc706727c3477b200949e770884b9818a0cfe8fa9d6a66f6ed4515"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g0-online01/02-create-batch-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "children-before-batch",
+      "args": [
+        "repos/illusion-tech/poms/issues/101/sub_issues?per_page=100"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g0-online01/03-children-before-batch-stdout-original.json",
+        "bytes": 10170,
+        "rawBytesSha256": "424a6f42cd921d2c95fe76170638073b1d5280e365e0e6fb2bd013919e338c15"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g0-online01/03-children-before-batch-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "attach-batch",
+      "args": [
+        "repos/illusion-tech/poms/issues/101/sub_issues",
+        "--method",
+        "POST",
+        "--input",
+        "tmp/rust-r4def/root/g0-online01/04-attach-batch-input.json"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g0-online01/04-attach-batch-stdout-original.json",
+        "bytes": 9970,
+        "rawBytesSha256": "0ca5432351a9d9e7b848cacd0806d50e3188eb1f28dfffef7916557d44b32d38"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g0-online01/04-attach-batch-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "children-after-batch",
+      "args": [
+        "repos/illusion-tech/poms/issues/101/sub_issues?per_page=100"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g0-online01/05-children-after-batch-stdout-original.json",
+        "bytes": 19535,
+        "rawBytesSha256": "9beab2d26decce918577b2ce63c682284746e7c8b3c6ed16b080a2eaa54d743f"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g0-online01/05-children-after-batch-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "create-D",
+      "args": [
+        "repos/illusion-tech/poms/issues",
+        "--method",
+        "POST",
+        "--input",
+        "tmp/rust-r4def/root/g0-online01/06-create-D-input.json"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g0-online01/06-create-D-stdout-original.json",
+        "bytes": 4172,
+        "rawBytesSha256": "fd49d70237f1ad628886c6983118a1391ff9cf22887cf9ed0a4a7eafd08ce1ad"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g0-online01/06-create-D-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "children-before-D",
+      "args": [
+        "repos/illusion-tech/poms/issues/106/sub_issues?per_page=100"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g0-online01/07-children-before-D-stdout-original.json",
+        "bytes": 2,
+        "rawBytesSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g0-online01/07-children-before-D-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "attach-D",
+      "args": [
+        "repos/illusion-tech/poms/issues/106/sub_issues",
+        "--method",
+        "POST",
+        "--input",
+        "tmp/rust-r4def/root/g0-online01/08-attach-D-input.json"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g0-online01/08-attach-D-stdout-original.json",
+        "bytes": 9364,
+        "rawBytesSha256": "ce919617e63ccb71d9d0e683e54437df646b514a11145d99cab21e82ed36b040"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g0-online01/08-attach-D-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "children-after-D",
+      "args": [
+        "repos/illusion-tech/poms/issues/106/sub_issues?per_page=100"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g0-online01/09-children-after-D-stdout-original.json",
+        "bytes": 9469,
+        "rawBytesSha256": "b03ffc686c0c13189e92cea52f1b73e047e3624236163d1daef761bfc9866729"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g0-online01/09-children-after-D-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "create-E",
+      "args": [
+        "repos/illusion-tech/poms/issues",
+        "--method",
+        "POST",
+        "--input",
+        "tmp/rust-r4def/root/g0-online01/10-create-E-input.json"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g0-online01/10-create-E-stdout-original.json",
+        "bytes": 4162,
+        "rawBytesSha256": "6e04eeb6e3971c559faf5120e4bf26546ea1564c76f81a442a6bfa42578703f5"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g0-online01/10-create-E-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "children-before-E",
+      "args": [
+        "repos/illusion-tech/poms/issues/106/sub_issues?per_page=100"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g0-online01/11-children-before-E-stdout-original.json",
+        "bytes": 9469,
+        "rawBytesSha256": "fd146b2e58679760c58e7cb5ba925026910646656772391577cc8e3f1295e9a7"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g0-online01/11-children-before-E-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "attach-E",
+      "args": [
+        "repos/illusion-tech/poms/issues/106/sub_issues",
+        "--method",
+        "POST",
+        "--input",
+        "tmp/rust-r4def/root/g0-online01/12-attach-E-input.json"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g0-online01/12-attach-E-stdout-original.json",
+        "bytes": 9364,
+        "rawBytesSha256": "00535ea3bc2c11516820647bac164f817521d4cc3c5a2775ffc5ceeb548ad42f"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g0-online01/12-attach-E-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "children-after-E",
+      "args": [
+        "repos/illusion-tech/poms/issues/106/sub_issues?per_page=100"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g0-online01/13-children-after-E-stdout-original.json",
+        "bytes": 18927,
+        "rawBytesSha256": "30b20888922b21b3f685f50db29d0771bdcb143ec3c55dfc073d2e57026c07ee"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g0-online01/13-children-after-E-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "create-F",
+      "args": [
+        "repos/illusion-tech/poms/issues",
+        "--method",
+        "POST",
+        "--input",
+        "tmp/rust-r4def/root/g0-online01/14-create-F-input.json"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g0-online01/14-create-F-stdout-original.json",
+        "bytes": 4134,
+        "rawBytesSha256": "be41d5af6bc451c47d75a9a8999226c3a278e9889dbd4b55933823ae7008276c"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g0-online01/14-create-F-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "children-before-F",
+      "args": [
+        "repos/illusion-tech/poms/issues/106/sub_issues?per_page=100"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g0-online01/15-children-before-F-stdout-original.json",
+        "bytes": 18927,
+        "rawBytesSha256": "34989dc77e4e57bb8b58772f8464972321b4d187f229171ae7e5a7cb84211018"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g0-online01/15-children-before-F-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "attach-F",
+      "args": [
+        "repos/illusion-tech/poms/issues/106/sub_issues",
+        "--method",
+        "POST",
+        "--input",
+        "tmp/rust-r4def/root/g0-online01/16-attach-F-input.json"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g0-online01/16-attach-F-stdout-original.json",
+        "bytes": 9364,
+        "rawBytesSha256": "cb91f382e3c811a33618b0d9c17243b5a344dc3b760440646a9f658540a3b48a"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g0-online01/16-attach-F-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "children-after-F",
+      "args": [
+        "repos/illusion-tech/poms/issues/106/sub_issues?per_page=100"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g0-online01/17-children-after-F-stdout-original.json",
+        "bytes": 28357,
+        "rawBytesSha256": "f83ce7e7976fc68197c290de5879b696cef3e9ed18aa11342802416a037a93a6"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g0-online01/17-children-after-F-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "batch-index",
+      "args": [
+        "repos/illusion-tech/poms/issues/106",
+        "--method",
+        "PATCH",
+        "--input",
+        "tmp/rust-r4def/root/g0-online01/18-batch-index-input.json"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g0-online01/18-batch-index-stdout-original.json",
+        "bytes": 4195,
+        "rawBytesSha256": "e5878a6c3933242e82a2926564917e0e6be45b6d9cdf6ae887f3cee8afb714bc"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g0-online01/18-batch-index-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "stage-index",
+      "args": [
+        "repos/illusion-tech/poms/issues/101",
+        "--method",
+        "PATCH",
+        "--input",
+        "tmp/rust-r4def/root/g0-online01/19-stage-index-input.json"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g0-online01/19-stage-index-stdout-original.json",
+        "bytes": 4979,
+        "rawBytesSha256": "9ba66008c2d3581250dd8249373f077c59a13c6c778afb64b0029a2ec05f796d"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g0-online01/19-stage-index-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "root-note",
+      "args": [
+        "repos/illusion-tech/poms/issues/57/comments",
+        "--method",
+        "POST",
+        "--input",
+        "tmp/rust-r4def/root/g0-online01/20-root-note-input.json"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g0-online01/20-root-note-stdout-original.json",
+        "bytes": 1880,
+        "rawBytesSha256": "24256cd2e0adbc71825603d00b59939e8bc635a8845894dee9f73051409bbd04"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g0-online01/20-root-note-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "after",
+      "args": [
+        "graphql",
+        "--input",
+        "tmp/rust-r4def/root/g0-online01/21-after-input.json"
+      ],
+      "exitCode": 0,
+      "stdout": {
+        "file": "tmp/rust-r4def/root/g0-online01/21-after-stdout-original.json",
+        "bytes": 2288,
+        "rawBytesSha256": "93b609a5c9e22064bbab39d6ad64ab228601df34818d30fdc454476e9ced6373"
+      },
+      "stderr": {
+        "file": "tmp/rust-r4def/root/g0-online01/21-after-stderr-original.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "readback": {
+    "stage": {
+      "number": 101,
+      "state": "OPEN",
+      "subIssues": {
+        "nodes": [
+          {
+            "number": 102,
+            "state": "CLOSED"
+          },
+          {
+            "number": 106,
+            "state": "OPEN"
+          }
+        ]
+      }
+    },
+    "root": {
+      "number": 57,
+      "state": "OPEN"
+    },
+    "batch": {
+      "number": 106,
+      "state": "OPEN",
+      "body": "状态：G0完成 / 联合G1准备，产品实现未准入。\n\n父#101，总体#57。D移交5/E成本基础11/F成本治理12，共28现有HTTP及必要内部机制。D/E可并行；F按冻结接口并行实现，真实验收依赖E实际成本与适用D阶段事实。\n\n基线main 565661b9113372de4da6662a4a692fbfd2296dd6，分支 codex/poms-r4def-next28。用户授权本批G0→联合G1→三线实现→实际验收→独立G3/fixed/main/G4，仅收本批；#101/#57保持Open。\n\n业务语义、正确性、合理性优先，不追求Node缺陷级对齐。必要业务/版本/快照/审计/会话写入借同一外层事务整体提交或回滚。公共契约、路由、DDL/迁移入口、生成物、Git/GitHub和真实运行环境由Root单一写入。三作者分别独占D/E/F模块；G2使用隔离工作树、端口/数据/构建输出，G1独立审查与线上冻结前禁止产品编码。子代理显式gpt-6.1-sol/max，Fast未核实。\n\nR3和R4首批37已G4；新批不重复计其交付。经营核算17、验收完工归档8及R5仅冻结依赖和必要边界，不在本批实现。必要内部机制按本批真实消费归属纳入，不虚构公开路由、不以prepared-state/测试seed冒充真实生产者。PG17/旧private/历史证据保留；无部署、切流或性能结论。\n\n- [x] G0：原生父子Issue及范围\n- [ ] 联合G1：28入口canonical/DTO/DDL/内部producer/事务/版本/金额精度/审批归属冻结\n- [ ] 三线实现及独占文件交付\n- [ ] 统一候选真实上游消费、HTTP/PG/权限/故障/并发/原UI验收及精确清理\n- [ ] 非作者G3、固定提交与main集成\n- [ ] 生命周期归档、独立G4及线上实际读回\n\n原生子项：#107 D；#108 E；#109 F。\n",
+      "subIssues": {
+        "nodes": [
+          {
+            "number": 107,
+            "state": "OPEN",
+            "title": "[RUST-R4D] 移交五入口与回款判断冻结真实机制"
+          },
+          {
+            "number": 108,
+            "state": "OPEN",
+            "title": "[RUST-R4E] 实际成本与费用基础十一入口"
+          },
+          {
+            "number": 109,
+            "state": "OPEN",
+            "title": "[RUST-R4F] 分摊阶段归属税务十二入口"
+          }
+        ]
+      }
+    }
+  },
+  "G1Certified": false,
+  "G2Authorized": false
+}

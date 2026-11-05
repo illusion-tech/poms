@@ -1,0 +1,559 @@
+{
+  "context": {
+    "project": {
+      "id": "2410df0c-c530-4223-b857-1a83a411b57b"
+    },
+    "otherProject": {
+      "id": "a275878e-459d-45d9-a2f4-37874d68c7f2"
+    },
+    "activeContract": {
+      "id": "a8ab4086-89c6-4b57-b14c-3ecaa7ceb058",
+      "projectId": "2410df0c-c530-4223-b857-1a83a411b57b",
+      "status": "active",
+      "currencyCode": "CNY"
+    },
+    "expenseCategory": "travel",
+    "costCategory": "implementation",
+    "actors": {
+      "full": {
+        "key": "full",
+        "id": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "username": "r4def33_full",
+        "permissions": [
+          "platform:users:manage",
+          "platform:roles:manage",
+          "platform:navigation:manage",
+          "platform:org-units:manage",
+          "platform:dictionaries:manage",
+          "platform:identity-providers:manage",
+          "platform:org-sync:manage",
+          "platform:attachment-storage-providers:manage",
+          "platform:system-settings:manage",
+          "customer:read",
+          "customer:write",
+          "commission:rule-versions:manage",
+          "commission:assignments:manage",
+          "commission:calculations:manage",
+          "commission:payouts:manage",
+          "commission:adjustments:manage",
+          "contract:finance:manage",
+          "contract:finance:sensitive:read",
+          "operating:finance:sensitive:read",
+          "commission:amount:sensitive:read",
+          "labor-cost-rate:sensitive:read",
+          "exception-approval-opinion:sensitive:read",
+          "lead:read",
+          "lead:write",
+          "lead:assign",
+          "lead:score:override",
+          "project:read",
+          "project:write",
+          "project:delete",
+          "nav:dashboard:view",
+          "nav:customers:view",
+          "nav:platform:view",
+          "nav:leads:view",
+          "nav:attachments:view",
+          "nav:projects:view",
+          "nav:contracts:view",
+          "nav:profile:view"
+        ]
+      },
+      "financeOnly": {
+        "key": "financeOnly",
+        "id": "295a1093-2dec-4444-b2f7-c8dde152695d",
+        "username": "r4def33_financeonly",
+        "permissions": [
+          "project:read",
+          "contract:finance:manage",
+          "platform:users:manage"
+        ]
+      },
+      "operatingOnly": {
+        "key": "operatingOnly",
+        "id": "5f22da8a-3802-4a59-97d5-27527ca2e854",
+        "username": "r4def33_operatingonly",
+        "permissions": [
+          "project:read",
+          "contract:finance:manage",
+          "platform:users:manage",
+          "operating:finance:sensitive:read"
+        ]
+      },
+      "laborOnly": {
+        "key": "laborOnly",
+        "id": "04f1746b-5ace-44ef-8fb9-f3d7196891f2",
+        "username": "r4def33_laboronly",
+        "permissions": [
+          "project:read",
+          "contract:finance:manage",
+          "platform:users:manage",
+          "labor-cost-rate:sensitive:read"
+        ]
+      },
+      "auditFull": {
+        "key": "full",
+        "id": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "username": "r4def33_full",
+        "permissions": [
+          "platform:users:manage",
+          "platform:roles:manage",
+          "platform:navigation:manage",
+          "platform:org-units:manage",
+          "platform:dictionaries:manage",
+          "platform:identity-providers:manage",
+          "platform:org-sync:manage",
+          "platform:attachment-storage-providers:manage",
+          "platform:system-settings:manage",
+          "customer:read",
+          "customer:write",
+          "commission:rule-versions:manage",
+          "commission:assignments:manage",
+          "commission:calculations:manage",
+          "commission:payouts:manage",
+          "commission:adjustments:manage",
+          "contract:finance:manage",
+          "contract:finance:sensitive:read",
+          "operating:finance:sensitive:read",
+          "commission:amount:sensitive:read",
+          "labor-cost-rate:sensitive:read",
+          "exception-approval-opinion:sensitive:read",
+          "lead:read",
+          "lead:write",
+          "lead:assign",
+          "lead:score:override",
+          "project:read",
+          "project:write",
+          "project:delete",
+          "nav:dashboard:view",
+          "nav:customers:view",
+          "nav:platform:view",
+          "nav:leads:view",
+          "nav:attachments:view",
+          "nav:projects:view",
+          "nav:contracts:view",
+          "nav:profile:view"
+        ]
+      },
+      "auditFinanceOnly": {
+        "key": "financeOnly",
+        "id": "295a1093-2dec-4444-b2f7-c8dde152695d",
+        "username": "r4def33_financeonly",
+        "permissions": [
+          "project:read",
+          "contract:finance:manage",
+          "platform:users:manage"
+        ]
+      }
+    },
+    "assessments": {
+      "payable": {
+        "periodStart": "2026-11-04",
+        "periodEnd": "2026-11-04",
+        "attributedStage": "execution",
+        "reason": "本隔离验收对采购事实的明确责任判断，不从当前项目阶段推断历史。",
+        "evidenceSummary": "验收责任人审核指定日期与完整期间，登记归属执行阶段；仅验证人工证据链，不作为真实生产业务事实。"
+      },
+      "historicalLabor": {
+        "periodStart": "2026-10-01",
+        "periodEnd": "2026-10-03",
+        "attributedStage": "execution",
+        "reason": "本隔离验收对历史完整人工期间的明确责任判断，不从当前项目阶段推断历史。",
+        "evidenceSummary": "验收责任人审核指定日期与完整期间，登记归属执行阶段；仅验证人工证据链，不作为真实生产业务事实。"
+      },
+      "priorityChange": {
+        "periodStart": "2026-09-01",
+        "periodEnd": "2026-09-30",
+        "attributedStage": "execution",
+        "reason": "本隔离验收对优先级变化人工完整期间的明确责任判断，不从当前项目阶段推断历史。",
+        "evidenceSummary": "验收责任人审核指定日期与完整期间，登记归属执行阶段；仅验证人工证据链，不作为真实生产业务事实。"
+      }
+    },
+    "tag": "f60",
+    "taxReason": "本隔离验收财务责任人核对真实0.01税额来源，先登记待定后明确可抵扣判定；保留原成本金额及不纳入经营状态，仅验证正式命令与证据链。",
+    "businessDate": "2026-11-04",
+    "stageAssessment": {
+      "periodStart": "2026-11-04",
+      "periodEnd": "2026-11-04",
+      "attributedStage": "execution",
+      "reason": "本隔离验收责任人将本次费用、单日人工及采购承诺按指定业务日人工归属执行阶段；不推断历史区间，不认作R5执行准入",
+      "evidenceSummary": "实际API金额和业务日期支撑本次明确人工判断，后续以真实D确认事实作可追溯更正；Root执行前复核该责任说明"
+    },
+    "allocationPolicyDecision": {
+      "id": "selected-measurement-first",
+      "version": 2,
+      "authorityReceipt": "docs/design/rust-r4def/g2-allocation-freeze51.json#76b159d40f528f9735041f286cbc5f8d22f1e686a3955ba94f635a8b5703817f",
+      "runtimeBinding": "Root必须另核实际F46部署与SOURCE_PINS一致，静态输入不充当运行证明"
+    }
+  },
+  "runtime": {
+    "pid": 249848,
+    "binarySha256": "d1da91867569c7e7d725cb38e8ee92d8711a9af5fb0589460cb47ddd49ac4839"
+  },
+  "sourcePins": [
+    {
+      "file": "apps/poms-api-rust/src/project_cost_governance/evidence.rs",
+      "bytes": 32766,
+      "rawBytesSha256": "6c10996eec05d8c224fd2a02ade0a69eb17b8a497ed175b09609ab8fbbf42c53"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_cost_governance/logic.rs",
+      "bytes": 29111,
+      "rawBytesSha256": "a287ed9281b71681820cb868adf03c5fc6cc59bb950c2814b9e7a0bc0fa0b15f"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_cost_governance/mod.rs",
+      "bytes": 2330,
+      "rawBytesSha256": "ecbe9519abb24e6f06f39e3fb94ab4416e6fa4c9c2464c4606ccbac01ed83cc9"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_cost_governance/projection.rs",
+      "bytes": 23183,
+      "rawBytesSha256": "d525b70b521b3b7520345c77c9e547abe60080d7dd9644b515de876bef072725"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_cost_governance/service.rs",
+      "bytes": 46092,
+      "rawBytesSha256": "04f8c521b2d68ac743d7fdc3146db96c2a6ae5096e1fadba53505b039b43af13"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_cost_governance/store.rs",
+      "bytes": 11880,
+      "rawBytesSha256": "6712ee261e4458df43fe3f1369dcdfa8a083de9e6f844f461a0eddc85a11867e"
+    }
+  ],
+  "manifest": {
+    "kind": "F44-request-only-single-use-candidate",
+    "cases": [
+      {
+        "id": "F44-01",
+        "title": "真实E费用→registered，snapshot/CAS/source version拒绝及F确认",
+        "dependsOn": [],
+        "status": "not-run",
+        "requests": []
+      },
+      {
+        "id": "F44-02",
+        "title": "未分摊阶段重分类，消费真实D确认日期/版本",
+        "dependsOn": [
+          "F44-01"
+        ],
+        "status": "not-run",
+        "requests": []
+      },
+      {
+        "id": "F44-03",
+        "title": "税务pending→deductible确认/读/列表/完整替代",
+        "dependsOn": [
+          "F44-01"
+        ],
+        "status": "not-run",
+        "requests": []
+      },
+      {
+        "id": "F44-04",
+        "title": "双项目独立分币见证与完整batch替代",
+        "dependsOn": [
+          "F44-02"
+        ],
+        "status": "not-run",
+        "requests": []
+      },
+      {
+        "id": "F44-05",
+        "title": "已allocated成本禁止重分类且阶段锁保持",
+        "dependsOn": [
+          "F44-04"
+        ],
+        "status": "not-run",
+        "requests": []
+      },
+      {
+        "id": "F44-06",
+        "title": "真实E费率和labor生产，双敏感阶段写与历史读",
+        "dependsOn": [],
+        "status": "not-run",
+        "requests": []
+      },
+      {
+        "id": "F44-07",
+        "title": "混合LABOR全组反推保护、写403及批替代",
+        "dependsOn": [
+          "F44-06"
+        ],
+        "status": "not-run",
+        "requests": []
+      },
+      {
+        "id": "F44-08",
+        "title": "LABOR税务来源与旧链污点，不因替换成普通来源失敏",
+        "dependsOn": [
+          "F44-07"
+        ],
+        "status": "not-run",
+        "requests": []
+      },
+      {
+        "id": "F44-09",
+        "title": "未知净税保持null，未知主层拒绝、gross-only成功",
+        "dependsOn": [],
+        "status": "not-run",
+        "requests": []
+      },
+      {
+        "id": "F44-10",
+        "title": "真实C payable→E procurement→F的18,2容量上限",
+        "dependsOn": [],
+        "status": "not-run",
+        "requests": []
+      },
+      {
+        "id": "F44-11",
+        "title": "用户已选gross主层1:1反例，F46确认与整批替代",
+        "dependsOn": [],
+        "status": "not-run",
+        "requests": []
+      }
+    ],
+    "f12Operations": [
+      "ProjectCostController_confirmSharedCostAllocationBasis",
+      "ProjectCostController_getSharedCostAllocationBasis",
+      "ProjectCostController_listSharedCostAllocationResults",
+      "ProjectCostController_replaceSharedCostAllocationResult",
+      "ProjectCostController_confirmCostStageAttribution",
+      "ProjectCostController_reclassifyCostStageAttribution",
+      "ProjectCostController_listCostStageAttributions",
+      "ProjectCostController_getCostStageAttribution",
+      "ProjectCostController_confirmAccountingTaxTreatment",
+      "ProjectCostController_replaceAccountingTaxTreatment",
+      "ProjectCostController_listAccountingTaxTreatments",
+      "ProjectCostController_getAccountingTaxTreatment"
+    ],
+    "sourcePins": [
+      {
+        "group": "F46",
+        "file": "E:\\projects\\worktrees\\poms-r4f-cost-governance\\poms\\apps\\poms-api-rust\\src\\project_cost_governance\\evidence.rs",
+        "rawBytesSha256": "6c10996eec05d8c224fd2a02ade0a69eb17b8a497ed175b09609ab8fbbf42c53",
+        "previousF25RawSha256": "6c10996eec05d8c224fd2a02ade0a69eb17b8a497ed175b09609ab8fbbf42c53"
+      },
+      {
+        "group": "F46",
+        "file": "E:\\projects\\worktrees\\poms-r4f-cost-governance\\poms\\apps\\poms-api-rust\\src\\project_cost_governance\\logic.rs",
+        "rawBytesSha256": "a287ed9281b71681820cb868adf03c5fc6cc59bb950c2814b9e7a0bc0fa0b15f",
+        "previousF25RawSha256": "18f818dd4cdecb970ee5ed5a0e3fe0b5c29cdd34e43e45204cde34d2880a312d"
+      },
+      {
+        "group": "F46",
+        "file": "E:\\projects\\worktrees\\poms-r4f-cost-governance\\poms\\apps\\poms-api-rust\\src\\project_cost_governance\\mod.rs",
+        "rawBytesSha256": "ecbe9519abb24e6f06f39e3fb94ab4416e6fa4c9c2464c4606ccbac01ed83cc9",
+        "previousF25RawSha256": "ecbe9519abb24e6f06f39e3fb94ab4416e6fa4c9c2464c4606ccbac01ed83cc9"
+      },
+      {
+        "group": "F46",
+        "file": "E:\\projects\\worktrees\\poms-r4f-cost-governance\\poms\\apps\\poms-api-rust\\src\\project_cost_governance\\projection.rs",
+        "rawBytesSha256": "d525b70b521b3b7520345c77c9e547abe60080d7dd9644b515de876bef072725",
+        "previousF25RawSha256": "d525b70b521b3b7520345c77c9e547abe60080d7dd9644b515de876bef072725"
+      },
+      {
+        "group": "F46",
+        "file": "E:\\projects\\worktrees\\poms-r4f-cost-governance\\poms\\apps\\poms-api-rust\\src\\project_cost_governance\\service.rs",
+        "rawBytesSha256": "04f8c521b2d68ac743d7fdc3146db96c2a6ae5096e1fadba53505b039b43af13",
+        "previousF25RawSha256": "c4c840d026610bbaf31b008d06985b8d635d221fffb4f27007b144a52b395b3c"
+      },
+      {
+        "group": "F46",
+        "file": "E:\\projects\\worktrees\\poms-r4f-cost-governance\\poms\\apps\\poms-api-rust\\src\\project_cost_governance\\store.rs",
+        "rawBytesSha256": "6712ee261e4458df43fe3f1369dcdfa8a083de9e6f844f461a0eddc85a11867e",
+        "previousF25RawSha256": "6712ee261e4458df43fe3f1369dcdfa8a083de9e6f844f461a0eddc85a11867e"
+      },
+      {
+        "group": "E04",
+        "file": "E:\\projects\\worktrees\\poms-r4e-cost-base\\poms\\apps\\poms-api-rust\\src\\project_actual_cost\\logic.rs",
+        "rawBytesSha256": "96bdbc87dd031b59c6b895243241cd9b847eb9ae690766c5782183a5c0f9ba4c"
+      },
+      {
+        "group": "E04",
+        "file": "E:\\projects\\worktrees\\poms-r4e-cost-base\\poms\\apps\\poms-api-rust\\src\\project_actual_cost\\mod.rs",
+        "rawBytesSha256": "aaaa5126be86c421255d699bcad582131943d7f500754f0db8e55ddfc437a407"
+      },
+      {
+        "group": "E04",
+        "file": "E:\\projects\\worktrees\\poms-r4e-cost-base\\poms\\apps\\poms-api-rust\\src\\project_actual_cost\\store.rs",
+        "rawBytesSha256": "0b39d14477e52641307d84f28c043dcf9c4309d38d0f55476e7f9806cb621eb5"
+      },
+      {
+        "group": "E04",
+        "file": "E:\\projects\\worktrees\\poms-r4e-cost-base\\poms\\apps\\poms-api-rust\\src\\project_actual_cost\\view.rs",
+        "rawBytesSha256": "943a93380de87fbddc06650f35acfaf467db1a17abf6c25c3af162a5955b53ac"
+      }
+    ],
+    "sourcePinMeaning": "Frozen author inputs; Root must bind the same actual F46 deployment before policy certification",
+    "witnesses": {
+      "ordinary": {
+        "layers": [
+          "0.11",
+          "0.01",
+          "0.12"
+        ],
+        "initial": [
+          [
+            "0.04",
+            "0.00",
+            "0.04",
+            "0.333333",
+            "1.000000"
+          ],
+          [
+            "0.07",
+            "0.01",
+            "0.08",
+            "0.666667",
+            "2.000000"
+          ]
+        ],
+        "replacement": [
+          [
+            "0.02",
+            "0.00",
+            "0.02",
+            "0.200000",
+            "1.000000"
+          ],
+          [
+            "0.09",
+            "0.01",
+            "0.10",
+            "0.800000",
+            "4.000000"
+          ]
+        ]
+      },
+      "mixed": {
+        "layers": [
+          "0.03",
+          "0.00",
+          "0.03"
+        ],
+        "initial": [
+          [
+            "0.02",
+            "0.00",
+            "0.02",
+            "0.500000",
+            "1.000000"
+          ],
+          [
+            "0.01",
+            "0.00",
+            "0.01",
+            "0.500000",
+            "1.000000"
+          ]
+        ],
+        "replacement": [
+          [
+            "0.01",
+            "0.00",
+            "0.01",
+            "0.333333",
+            "1.000000"
+          ],
+          [
+            "0.02",
+            "0.00",
+            "0.02",
+            "0.666667",
+            "2.000000"
+          ]
+        ]
+      },
+      "maximum": {
+        "layers": [
+          "9999999999999999.99",
+          "0.00",
+          "9999999999999999.99"
+        ],
+        "initial": [
+          [
+            "5000000000000000.00",
+            "0.00",
+            "5000000000000000.00",
+            "0.500000",
+            "1.000000"
+          ],
+          [
+            "4999999999999999.99",
+            "0.00",
+            "4999999999999999.99",
+            "0.500000",
+            "1.000000"
+          ]
+        ]
+      },
+      "grossOnly": {
+        "layers": [
+          null,
+          null,
+          "0.01"
+        ],
+        "initial": [
+          [
+            null,
+            null,
+            "0.01",
+            "0.500000",
+            "1.000000"
+          ],
+          [
+            null,
+            null,
+            "0.00",
+            "0.500000",
+            "1.000000"
+          ]
+        ]
+      },
+      "mainPriority": {
+        "layers": [
+          "0.11",
+          "0.01",
+          "0.12"
+        ],
+        "initial": [
+          [
+            "0.06",
+            "0.00",
+            "0.06",
+            "0.500000",
+            "1.000000"
+          ],
+          [
+            "0.05",
+            "0.01",
+            "0.06",
+            "0.500000",
+            "1.000000"
+          ]
+        ],
+        "replacement": [
+          [
+            "0.06",
+            "0.00",
+            "0.06",
+            "0.500000",
+            "1.000000"
+          ],
+          [
+            "0.05",
+            "0.01",
+            "0.06",
+            "0.500000",
+            "1.000000"
+          ]
+        ]
+      }
+    },
+    "allRuntimeStatus": "not-run-until-real-request-callback",
+    "publicDtoOrProductChanges": false
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T04:03:04.262Z",
+  "completedAt": "2026-11-04T04:03:04.384Z",
+  "operationId": "ProjectHandoverController_confirmProjectHandover",
+  "method": "POST",
+  "path": "/api/project-handovers/b1233bf4-8917-462e-9bfd-7de5ccbfc819:confirm",
+  "query": {},
+  "actorKey": "writer",
+  "actorId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+  "requestId": "r4def32-01443-f42690eb",
+  "requestBody": {
+    "participantConfirmations": [
+      {
+        "participantId": "384ffad5-04ed-4f78-918a-ec8e7df6a590",
+        "participantRoleKey": "technical-support",
+        "participantStatus": "confirmed"
+      },
+      {
+        "participantId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+        "participantRoleKey": "execution-owner",
+        "participantStatus": "confirmed"
+      },
+      {
+        "participantId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "participantRoleKey": "business-admin",
+        "participantStatus": "confirmed"
+      },
+      {
+        "participantId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "participantRoleKey": "sales-owner",
+        "participantStatus": "confirmed"
+      }
+    ],
+    "contractSummarySnapshotId": "bdc0ca95-ddef-43ab-a796-356445ea9b2b",
+    "summarySnapshotId": "bcbdae97-f220-4ca9-a79d-3655c24e85be",
+    "handoverBasisSnapshotId": "c60690af-aad3-4deb-847c-79d3a36db12b",
+    "sourcePayloadHash": "1b5c5514eb5e1b19e9d12fcb553479acbac1accd855788873a69c8bc4f379482",
+    "expectedVersion": 1,
+    "receiptJudgmentMode": "contract-separate"
+  },
+  "status": 200,
+  "responseBody": {
+    "businessStatusAfter": "confirmed",
+    "closureStatus": "handover-confirmed-freeze-pending",
+    "confirmationRecordId": "629a5ceb-ed81-4c77-a718-61124db3d3fb",
+    "contractSummarySnapshotId": "bdc0ca95-ddef-43ab-a796-356445ea9b2b",
+    "effectiveHandoverBaselineSnapshotId": "5d1e0aad-4250-4b52-b96b-68b5d134cb1a",
+    "executionAdmission": {
+      "allowed": false,
+      "blockingReasons": [
+        "正式执行准入仍需 R5 同链有效提成角色冻结。"
+      ]
+    },
+    "exportPolicy": "handover-controlled",
+    "handoverBasisSnapshotId": "c60690af-aad3-4deb-847c-79d3a36db12b",
+    "projectionLevel": "handover-confirmation",
+    "receiptJudgmentFreezeId": "83b3b606-b676-4391-ae3b-6e672c8ec6dd",
+    "sourcePayloadHash": "1b5c5514eb5e1b19e9d12fcb553479acbac1accd855788873a69c8bc4f379482",
+    "summarySnapshotId": "bcbdae97-f220-4ca9-a79d-3655c24e85be",
+    "targetId": "b1233bf4-8917-462e-9bfd-7de5ccbfc819"
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

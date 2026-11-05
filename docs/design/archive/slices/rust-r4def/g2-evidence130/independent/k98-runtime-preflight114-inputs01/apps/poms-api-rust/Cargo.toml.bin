@@ -1,0 +1,60 @@
+[package]
+name = "poms-api-rust"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.99.1"
+publish = false
+
+[workspace]
+resolver = "3"
+
+[[example]]
+name = "l_shared_uow_probe"
+path = "../../tools/rust-r2l/l-shared-uow-probe.rs"
+
+[[example]]
+name = "m_shared_uow_probe"
+path = "../../tools/rust-r2m/shared-uow-probe.rs"
+
+[[example]]
+name = "m_number_probe"
+path = "../../tools/rust-r2m/number-probe.rs"
+
+[dependencies]
+icu_casemap = { version = "=2.1.1", git = "https://github.com/unicode-org/icu4x.git", rev = "38a49da495248dd1ded84cf306e4ca42e64d5bb3", default-features = false, features = ["compiled_data"] }
+icu_normalizer = { version = "=2.1.1", git = "https://github.com/unicode-org/icu4x.git", rev = "38a49da495248dd1ded84cf306e4ca42e64d5bb3", default-features = false, features = ["compiled_data"] }
+icu_provider = { version = "=2.1.1", git = "https://github.com/unicode-org/icu4x.git", rev = "38a49da495248dd1ded84cf306e4ca42e64d5bb3", default-features = false, features = ["alloc", "sync"] }
+icu_collator = { version = "=2.1.1", git = "https://github.com/unicode-org/icu4x.git", rev = "38a49da495248dd1ded84cf306e4ca42e64d5bb3", default-features = false, features = ["compiled_data", "serde"] }
+icu_locale_core = { version = "=2.1.1", git = "https://github.com/unicode-org/icu4x.git", rev = "38a49da495248dd1ded84cf306e4ca42e64d5bb3", default-features = false, features = ["alloc"] }
+axum = { version = "=0.8.9", default-features = false, features = ["http1", "json", "tokio", "matched-path", "original-uri"] }
+chrono = { version = "=0.4.45", default-features = false, features = ["std", "serde", "clock"] }
+chrono-tz = { version = "=0.10.4", default-features = false, features = ["std"] }
+ryu-js = { version = "=1.0.3" }
+rust_decimal = { version = "=1.43.0", default-features = false, features = ["std", "serde-with-str"] }
+serde = { version = "=1.0.229", default-features = false, features = ["std", "derive"] }
+serde_json = { version = "=1.0.154", features = ["raw_value"] }
+base64 = { version = "=0.22.1" }
+bcrypt = { version = "=0.19.3" }
+getrandom = { version = "=0.4.3" }
+openssl = { version = "=0.10.81", features = ["vendored"] }
+sha2 = { version = "=0.11.1" }
+subtle = { version = "=2.6.1" }
+zeroize = { version = "=1.9.1" }
+zstd = { version = "=0.14.3", default-features = false }
+flate2 = { version = "=1.1.10", default-features = false, features = ["rust_backend"] }
+futures-util = { version = "=0.3.34", default-features = false, features = ["std"] }
+brotli-decompressor = { version = "=6.2.0", default-features = false, features = ["std"] }
+sqlx = { version = "=0.9.0", default-features = false, features = ["postgres", "runtime-tokio", "tls-rustls-ring-webpki", "chrono", "rust_decimal", "uuid", "json"] }
+tokio = { version = "=1.54.1", default-features = false, features = ["macros", "rt-multi-thread", "net", "io-util", "sync", "time", "signal", "fs"] }
+tower = { version = "=0.5.3", default-features = false, features = ["util"] }
+utoipa = { version = "=6.0.0", default-features = false, features = ["macros", "axum_extras", "chrono", "decimal", "uuid"] }
+uuid = { version = "=1.29.0", default-features = false, features = ["std", "serde"] }
+url = { version = "=2.5.8" }
+reqwest = { version = "=0.13.5", default-features = false, features = ["native-tls", "json", "gzip", "brotli", "deflate"] }
+
+[lints.rust]
+unsafe_code = "forbid"
+
+[lints.clippy]
+unwrap_used = "warn"
+expect_used = "warn"

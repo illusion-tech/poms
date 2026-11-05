@@ -1,0 +1,11 @@
+**ORM41 独立更新分类：生成列P2已收口；未发现新增真实ORM结构漂移，不是最终G3。**
+
+已对照Root PG expression40原件、当前实体generated字符串和owner/app实跑dump。实体仅generated literal相对ORM28变化，精确等于PG canonical CASE加stored；owner65条、app308条均不再提议drop/add labor_scope_key。两份完整DDL与ORM34相比只删除原先这2条，其余SQL逐条完全一致。
+
+余项保留原精确分类：44个范围FK（16既有+28新增）完整定义hash/validated/deferral重核；6个enum CHECK及3个ratio的等价表达式噪声；精确control marker/schema噪声。App额外251个CHECK仍逐名为已validated原约束；旧lead_score_override.status注释观测待精确probe，不通配忽略。原owner/app migration:check仍exit1，schema:update --dump为exit0，只读；不把有限分类改写成原CLI Pass。
+
+20实体中19份仍原ORM28sha，1份仅生成表达式受控修正；F25六生产源仍匹配交付。所有58项输入和当前重核固定于 [JSON](orm41-classification01.json)。原34及失败分类器证据未改。
+
+D两项旧P2按本次源码增量已静态修正：入口使用project:write；附件本地error/loading/package状态及epoch保护阻断原跨项目迟到污染，并注册PendingTasks。新增A→B→A旧失败回归随handover-test41真实通过（1套/6测试）。该套mock掉子actions组件，权限矩阵、同项目新handover及并发附件操作、真实浏览器仍在正式G3矩阵内。
+
+Native-test38原流确为74套/863测试通过（exit0）；不是问号估计，也不是本reviewer重跑，更不能作为生成表达式修正之后的当前源新测试。后续最终G3须绑定冻结候选与其真实回执。本次未读取凭据、加载环境/配置、连接DB、改产品或运行环境，不签G3/G4。

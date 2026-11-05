@@ -1,0 +1,27 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:05:19.825Z",
+  "completedAt": "2026-11-04T00:05:19.842Z",
+  "operationId": "ProjectCostController_createProjectActualCostRecord",
+  "method": "POST",
+  "path": "/api/projects/c19e708b-522c-45e9-90d4-81de7295545b/actual-cost-records",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-00157-6552ca3a",
+  "requestBody": {
+    "costType": "expense",
+    "expenseRecordId": "f2915f4f-1471-4082-aad0-c771eb6f72d8",
+    "expectedSourceVersion": 2,
+    "costDescription": "R4E21-e41-expense真实映射",
+    "evidenceSummary": "R4E21-e41-保留真实源链，不自动纳入"
+  },
+  "status": 409,
+  "responseBody": {
+    "error": "Conflict",
+    "message": "Source already has a current cost mapping",
+    "statusCode": 409
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

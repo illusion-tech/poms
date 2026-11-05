@@ -1,0 +1,33 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T01:38:28.081Z",
+  "completedAt": "2026-11-04T01:38:28.103Z",
+  "operationId": "AttachmentHandoverController_createDownloadPackage",
+  "method": "POST",
+  "path": "/api/project-handovers/32eeb954-5559-45fa-a3aa-fd08e0b8981a/attachment-download-packages",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-00996-0f355910",
+  "requestBody": {
+    "selectionIds": [
+      "d0c0c1dc-ab24-4d7a-a174-563e45a8b810"
+    ],
+    "expectedSelectionVersions": [
+      {
+        "selectionId": "d0c0c1dc-ab24-4d7a-a174-563e45a8b810",
+        "rowVersion": 2
+      }
+    ],
+    "confirmedSensitiveExclusion": false,
+    "note": "只下载已核对的非空normal最终版本；敏感文件明确排除"
+  },
+  "status": 400,
+  "responseBody": {
+    "statusCode": 400,
+    "message": "Sensitive exclusions must be confirmed before creating a handover package",
+    "error": "Bad Request"
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

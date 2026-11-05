@@ -1,0 +1,100 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T04:02:43.480Z",
+  "completedAt": "2026-11-04T04:02:43.538Z",
+  "operationId": "AttachmentHandoverController_getChecklist",
+  "method": "GET",
+  "path": "/api/project-handovers/32eeb954-5559-45fa-a3aa-fd08e0b8981a/attachment-checklist",
+  "query": {},
+  "actorKey": "writer",
+  "actorId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+  "requestId": "r4def32-01390-9ef0f8f3",
+  "requestBody": null,
+  "status": 200,
+  "responseBody": {
+    "handoverId": "32eeb954-5559-45fa-a3aa-fd08e0b8981a",
+    "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+    "generatedAt": "2026-11-04T04:02:43.534Z",
+    "counts": {
+      "total": 2,
+      "included": 1,
+      "missing": 0,
+      "excluded": 0,
+      "sensitiveExcluded": 1,
+      "staleVersion": 0,
+      "downloadable": 1
+    },
+    "items": [
+      {
+        "selectionId": "ef2d57b0-94a3-47e3-ad2b-6663754845a5",
+        "handoverId": "32eeb954-5559-45fa-a3aa-fd08e0b8981a",
+        "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+        "attachmentId": "156eed94-e0a5-49b1-8762-7c04b8cc4bba",
+        "versionGroupId": "156eed94-e0a5-49b1-8762-7c04b8cc4bba",
+        "displayName": "R4DEF47-att52-sensitive-v1.txt",
+        "category": "customer-profile",
+        "securityLevel": "confidential",
+        "status": "sensitive-excluded",
+        "selectionReason": "final",
+        "exclusionReason": "Security level confidential is excluded from ordinary handover download packages",
+        "downloadEligible": false,
+        "staleVersion": false,
+        "sourceRefs": [
+          {
+            "label": "项目附件",
+            "sourceId": "c19e708b-522c-45e9-90d4-81de7295545b",
+            "sourceType": "project",
+            "relationType": "normal"
+          },
+          {
+            "label": "合同 CT-2026-000001",
+            "sourceId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+            "sourceType": "contract",
+            "relationType": "normal"
+          }
+        ],
+        "rowVersion": 2,
+        "updatedAt": "2026-11-04T01:38:27.564Z"
+      },
+      {
+        "selectionId": "d0c0c1dc-ab24-4d7a-a174-563e45a8b810",
+        "handoverId": "32eeb954-5559-45fa-a3aa-fd08e0b8981a",
+        "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+        "attachmentId": "5151e346-59d4-4d3b-8254-ccaae6bd3699",
+        "versionGroupId": "5151e346-59d4-4d3b-8254-ccaae6bd3699",
+        "displayName": "R4DEF47-att52-normal-v1.txt",
+        "category": "customer-profile",
+        "securityLevel": "normal",
+        "status": "included",
+        "selectionReason": "final",
+        "exclusionReason": null,
+        "downloadEligible": true,
+        "staleVersion": false,
+        "sourceRefs": [
+          {
+            "label": "项目附件",
+            "sourceId": "c19e708b-522c-45e9-90d4-81de7295545b",
+            "sourceType": "project",
+            "relationType": "normal"
+          },
+          {
+            "label": "合同 CT-2026-000001",
+            "sourceId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+            "sourceType": "contract",
+            "relationType": "normal"
+          },
+          {
+            "label": "已纳入移交附件",
+            "sourceId": "32eeb954-5559-45fa-a3aa-fd08e0b8981a",
+            "sourceType": "project-handover",
+            "relationType": "handover"
+          }
+        ],
+        "rowVersion": 2,
+        "updatedAt": "2026-11-04T01:38:27.564Z"
+      }
+    ]
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

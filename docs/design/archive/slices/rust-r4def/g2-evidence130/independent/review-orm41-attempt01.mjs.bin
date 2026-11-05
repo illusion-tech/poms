@@ -1,0 +1,100 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+import { execFileSync } from 'node:child_process';
+
+const root = 'E:/projects/worktrees/poms-r3hijk-next28/poms';
+const own = 'tmp/rust-r4def/independent';
+const captureRoot = `${own}/orm41-inputs01`;
+assert(!fs.existsSync(path.join(root, captureRoot)));
+const read = (f) => fs.readFileSync(path.join(root, f));
+const text = (f) => read(f).toString('utf8');
+const json = (f) => JSON.parse(text(f));
+const sha = (b) => createHash('sha256').update(b).digest('hex');
+const write = (f,b) => {fs.mkdirSync(path.dirname(path.join(root,f)),{recursive:true});fs.writeFileSync(path.join(root,f),b,{flag:'wx'});};
+const writeJson = (f,v) => write(f,JSON.stringify(v,null,2)+'\n');
+const pins = [];
+const capture = (file) => {const prior=pins.find(p=>p.file===file);if(prior)return prior;const b=read(file),snapshot=`${captureRoot}/${file}.bin`;write(snapshot,b);const p={file,bytes:b.length,rawBytesSha256:sha(b),snapshot};pins.push(p);return p;};
+for(const dir of ['tmp/rust-r4def/root/orm-check41','tmp/rust-r4def/root/generated40','tmp/rust-r4def/root/native-test38','tmp/rust-r4def/root/handover-test41']) for(const filename of fs.readdirSync(path.join(root,dir))) capture(`${dir}/${filename}`);
+for(const file of [
+ `${own}/orm34-classification01.json`,`${own}/orm34-classification01.md`,`${own}/orm34-inputs01/manifest.json`,
+ `${own}/g3-D-preflight30.json`,`${own}/g3-D-preflight30-inputs/manifest.json`,
+ 'tools/rust-r4def/F/orm-mapping28/delivery28.json','tools/rust-r4def/F/orm-mapping28/sql-only-fks28.json',
+ 'docs/design/rust-r4def/joint-g1-06/schema06.sql','tmp/rust-r4def/root/catalog25/native-catalog.json','tmp/rust-r4def/root/catalog25/rust-catalog.json',
+ 'apps/poms-admin/src/app/features/project/project-contract-handover.ts',
+ 'apps/poms-admin/src/app/features/project/project-contract-handover.spec.ts',
+ 'apps/poms-admin/src/app/features/project/project-handover-actions.ts',
+ 'apps/poms-admin/src/app/features/project/project-handover-flow.ts',
+ 'libs/admin/data-access/src/lib/project/project-workspace.store.ts','libs/admin/data-access/src/index.ts',
+ 'tools/rust-r4def/combined-operation-map16.json','tools/rust-r4def/F/delivery25.json',
+]) capture(file);
+const old=json(`${own}/orm34-classification01.json`);
+assert.equal(sha(read(`${own}/orm34-classification01.json`)),'87331cf8450ae55165c5fcb206085ddeaeb78eb96088a8159535a72696980774');
+const oldPins=old.sourcePins;
+const frozenRead=(file)=>fs.readFileSync(path.join(root,oldPins.find(p=>p.file===file).snapshot));
+const entityFile='apps/poms-api/src/app/features/project-cost/project-actual-cost-record.entity.ts';
+const entity=text(entityFile), generatedPattern=/\.generated\(("(?:[^"\\]|\\.)*")\)/;
+const generatedLiteral=generatedPattern.exec(entity);assert(generatedLiteral);
+const mappedGenerated=JSON.parse(generatedLiteral[1]);
+const generationReceipt=json('tmp/rust-r4def/root/generated40/expression40.json');
+const canonical=`(${generationReceipt.generation_expression.trim()}) stored`;
+assert.equal(mappedGenerated,canonical);
+assert(!mappedGenerated.startsWith('as '));
+const oldEntity=frozenRead(entityFile).toString('utf8');
+assert.equal(oldEntity.replace(generatedPattern,`.generated(${generatedLiteral[1]})`),entity,'Unexpected entity changes outside generated literal');
+const delivery=json('tools/rust-r4def/F/orm-mapping28/delivery28.json');
+const entityRecheck=delivery.candidateFiles.map(p=>{const current=capture(p.target);return{file:p.target,orm28Sha256:p.candidateSha256,currentSha256:current.rawBytesSha256,unchangedFromOrm28:p.candidateSha256===current.rawBytesSha256,controlledCanonicalGeneratedCorrection:p.target===entityFile};});
+assert.equal(entityRecheck.length,20);assert.equal(entityRecheck.filter(p=>!p.unchangedFromOrm28).length,1);assert(entityRecheck.find(p=>!p.unchangedFromOrm28).controlledCanonicalGeneratedCorrection);
+const f25=json('tools/rust-r4def/F/delivery25.json');for(const p of f25.productFiles)assert.equal(capture(p.file).rawBytesSha256,p.rawBytesSha256);
+const receiptFile='tmp/rust-r4def/root/orm-check41/receipt34.json',receipt=json(receiptFile);
+for(const cmd of receipt.commands){for(const[stream,e]of Object.entries(cmd.streams)){const file=`tmp/rust-r4def/root/orm-check41/${cmd.principal}-${cmd.mode}-${stream}-redacted.txt`;assert.equal(sha(read(file)),e.publicRedacted.sha256);assert.equal(read(file).length,e.publicRedacted.bytes);}assert.equal(cmd.DDLExecuted,false);assert.equal(cmd.exitCode,cmd.mode==='schema-dump'?0:1);}
+function statements(file){return text(file).split(/\r?\n/).flatMap((raw,i)=>{const sql=raw.trim();if(!sql||sql.startsWith('◇ injected env '))return[];assert(/^(set |alter |drop |create |comment )/.test(sql)&&sql.endsWith(';'),`${file}:${i+1}: unparsed DDL`);return[{file,line:i+1,sql}];});}
+const ownerFile='tmp/rust-r4def/root/orm-check41/owner-schema-dump-stdout-redacted.txt',appFile='tmp/rust-r4def/root/orm-check41/app-schema-dump-stdout-redacted.txt';
+const owner=statements(ownerFile),app=statements(appFile);
+assert.equal(owner.length,65);assert.equal(app.length,308);
+const generatedDDL=/^alter table "poms"\."project_actual_cost_record" (?:drop column "labor_scope_key"|add "labor_scope_key")/;
+assert(!owner.some(p=>generatedDDL.test(p.sql)));assert(!app.some(p=>generatedDDL.test(p.sql)));
+const withoutGenerated=items=>items.filter(p=>p.classification!=='new-real-drift-invalid-generated-column-mapping');
+assert.deepEqual(owner.map(p=>p.sql),withoutGenerated(old.ownerDDL.statements).map(p=>p.sql));
+assert.deepEqual(app.map(p=>p.sql),withoutGenerated(old.appDDL.statements).map(p=>p.sql));
+for(const[suffix,rows]of[['ownerDDL',owner],['appDDL',app]])for(const s of rows){const previous=old[suffix].statements.find(p=>p.sql===s.sql);assert(previous);Object.assign(s,{classification:previous.classification,previous34Line:previous.line});}
+for(const c of old.finiteFK.constraints){for(const catalogFile of ['tmp/rust-r4def/root/catalog25/native-catalog.json','tmp/rust-r4def/root/catalog25/rust-catalog.json']){const cat=json(catalogFile).constraints.find(p=>p.table_name===c.table&&p.conname===c.constraintName);assert(cat?.convalidated);assert.equal(sha(Buffer.from(cat.definition)),c.definitionSha256);assert.equal(cat.condeferrable,c.condeferrable);assert.equal(cat.condeferred,c.condeferred);}}
+function testSummary(dir){const receipt=json(`${dir}/receipt33.json`);assert.equal(receipt.exitCode,0);const source=text(`${dir}/console-original.bin`),suites=/Test Suites:\s+(\d+) passed, (\d+) total/.exec(source),tests=/Tests:\s+(\d+) passed, (\d+) total/.exec(source);assert(suites&&tests);assert.equal(suites[1],suites[2]);assert.equal(tests[1],tests[2]);return{receipt:capture(`${dir}/receipt33.json`),originalStream:capture(`${dir}/console-original.bin`),args:receipt.args,startedAt:receipt.startedAt,completedAt:receipt.completedAt,exitCode:receipt.exitCode,suitesPassed:Number(suites[1]),suitesTotal:Number(suites[2]),testsPassed:Number(tests[1]),testsTotal:Number(tests[2]),executedBy:'Root original Nx/Jest',independentlyRerun:false};}
+const nativeTests=testSummary('tmp/rust-r4def/root/native-test38');assert.equal(nativeTests.suitesPassed,74);assert.equal(nativeTests.testsPassed,863);
+const handoverTests=testSummary('tmp/rust-r4def/root/handover-test41');assert.equal(handoverTests.suitesPassed,1);assert.equal(handoverTests.testsPassed,6);
+const actions=text('apps/poms-admin/src/app/features/project/project-handover-actions.ts'),ui=text('apps/poms-admin/src/app/features/project/project-contract-handover.ts'),spec=text('apps/poms-admin/src/app/features/project/project-contract-handover.spec.ts');
+assert(actions.includes("readonly canManageContracts = computed(() => this.#auth.hasAnyPermission(['project:write']))"));
+assert(ui.includes('readonly handoverAttachmentError = signal<string | null>(null)'));
+assert(!ui.includes('readonly handoverAttachmentError = this.#workspaceStore.handoverAttachmentError'));
+assert(ui.includes('readonly #pendingTasks = inject(PendingTasks)')&&ui.includes('const done = this.#pendingTasks.add()')&&ui.includes('done();'));
+assert(spec.includes('ignores an old attachment failure and loading completion after A→B→A navigation'));
+const counts=rows=>Object.fromEntries([...new Set(rows.map(p=>p.classification))].map(c=>[c,rows.filter(p=>p.classification===c).length]));
+const recheck=pins.map(p=>({file:p.file,capturedSha256:p.rawBytesSha256,currentSha256:sha(read(p.file)),unchanged:p.rawBytesSha256===sha(read(p.file))}));assert(recheck.every(p=>p.unchanged));
+const report={
+ kind:'R4DEF-independent-ORM41-canonical-generated-delta-classification01',
+ status:'Generated-column-P2-addressed; no-new-real-ORM-DDL-drift-after-exact-finite-classification; raw-check-exit1-retained; not-G3',
+ reviewedAtUtc:new Date().toISOString(),head:execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim(),
+ priorReview:{file:`${own}/orm34-classification01.json`,sha256:sha(read(`${own}/orm34-classification01.json`)),preserved:true},
+ sourcePins:pins,currentSourceRecheck:recheck,
+ rawObservedCommands:receipt.commands.map(({principal,mode,args,exitCode,DDLExecuted})=>({principal,mode,args,exitCode,DDLExecuted})),
+ generatedColumn:{priorFinding:'ORM34-P2-01',disposition:'addressed-in-current-source-and-actual-owner/app-dumps',entityFile,entityLine:140,originalRootPGExpression:capture('tmp/rust-r4def/root/generated40/expression40.json'),canonicalMappedGenerated:mappedGenerated,exactCanonicalMatched:true,onlyGeneratedLiteralChangedFromReviewedOrm28:true,ownerDropAddProposals:0,appDropAddProposals:0,old34DropAddProposals:2,sourceOnlyScope:'one existing ORM entity metadata literal; frozen schema06/DB were not rewritten by reviewer'},
+ entityRecheck,F25SixProductionPinsMatch:true,
+ ownerDDL:{statementCount:owner.length,counts:counts(owner),statements:owner,exactDeltaFrom34:'Only the two previously blocked generated-column DROP/ADD statements disappeared; every other SQL line byte-equal.'},
+ appDDL:{statementCount:app.length,counts:counts(app),statements:app,exactDeltaFrom34:'Only the same two generated-column DROP/ADD statements disappeared; every other SQL line byte-equal.',appOnlyValidatedChecks:251,allCheckAdds:260,oldCommentObservationRetained:old.appDDL.commentObservation},
+ finiteForeignKeyClassification:{existingCount:16,newCount:28,total:44,allDefinitionHashesValidatedAndDeferralsRechecked:true,constraints:old.finiteFK.constraints,acceptanceLimit:old.finiteFK.limits,noPrefixOrBlanketIgnore:true},
+ equivalentChecks:old.semanticChecks,ratioNoise:old.ratioNoise,controlObjects:old.controlObjects,
+ newRealOrmDrift:[],rawMigrationCheckPassed:false,
+ historicalNonStructuralObservation:{kind:'existing-comment-source-mismatch-not-ORM28-new-drift',details:old.appDDL.commentObservation,remainingEvidence:'catalog25 lacks physical column comment; owner/app role observation discrepancy still needs exact probe if Root wants to close it, not a blanket COMMENT ignore.'},
+ DPreflightCorrectionDelta:{
+  priorReport:`${own}/g3-D-preflight30.json`,
+  D30P201:{disposition:'statically-addressed',file:'apps/poms-admin/src/app/features/project/project-handover-actions.ts',line:277,evidence:'canManageContracts now checks project:write, matching frozen A/B/D write permissions; approved actor ownership remains separate. Import switched to existing admin-data-access generated-client reexports.',testLimit:'The six parent component tests stub ProjectHandoverActions; they do not prove permission-matrix rendering in this child component.'},
+  D30P202:{disposition:'original-cross-route-error/loading-path-statically-addressed-and-narrow-Jest-regression-passed',file:'apps/poms-admin/src/app/features/project/project-contract-handover.ts',evidence:['Attachment error/loading/package signals are now component-local rather than direct shared-store signals.','Route change clears local attachment state/package, while catch/finally and successful request updates check route epoch; checklist/refresh also check serial.','Successful current refresh begins by clearing local error; stale A failure cannot directly set local B/current-A error or prematurely clear its loading.','PendingTasks.add/done wraps async workspace load in try/finally, including attachment load, so Angular test stability observes this work.','New test explicitly mutates the shared old error signal then rejects old A after A→B→A; asserts current local error stays null and refresh busy stays true until current success.'],remainingRuntimeMatrix:['Real browser create/download/refresh late success and failure after navigation and current recovery.','Same-project new handover/version while an attachment mutation is in flight; handover identity and stale selection outcomes.','Simultaneous current-page attachment operations and current failure→success recovery; catches still derive message text from shared store after the local epoch guard.'],notCertified:'No real browser/HTTP/DB chain or complete permission/action matrix executed by reviewer.'},
+ },
+ observedOriginalTests:{native38:nativeTests,handover41:handoverTests,scope:'Read and counted original recorded summaries; Native38 predates canonical metadata correction and cannot be claimed as a new execution against final41/future G3 inputs.'},
+ boundaries:{G3PassIssued:false,G4PassIssued:false,rawMigrationCheckConvertedToPass:false,privateCredentialsOrEnvironmentRead:false,configurationImported:false,databaseConnectedOrDDLExecutedByReviewer:false,productOrEnvironmentModifiedByReviewer:false,oldEvidenceModified:false,reviewerExecutedRuntimeTests:false,writeScope:own},
+};
+writeJson(`${captureRoot}/manifest.json`,{kind:'ORM41-independent-exact-inputs01',capturedAtUtc:report.reviewedAtUtc,pins});
+writeJson(`${own}/orm41-classification01.json`,report);
+write(`${own}/orm41-classification01.md`,`**ORM41 独立更新分类：生成列P2已收口；未发现新增真实ORM结构漂移，不是最终G3。**\n\n已对照Root PG expression40原件、当前实体generated字符串和owner/app实跑dump。实体仅generated literal相对ORM28变化，精确等于PG canonical CASE加stored；owner65条、app308条均不再提议drop/add labor_scope_key。两份完整DDL与ORM34相比只删除原先这2条，其余SQL逐条完全一致。\n\n余项保留原精确分类：44个范围FK（16既有+28新增）完整定义hash/validated/deferral重核；6个enum CHECK及3个ratio的等价表达式噪声；精确control marker/schema噪声。App额外251个CHECK仍逐名为已validated原约束；旧lead_score_override.status注释观测待精确probe，不通配忽略。原owner/app migration:check仍exit1，schema:update --dump为exit0，只读；不把有限分类改写成原CLI Pass。\n\n20实体中19份仍原ORM28sha，1份仅生成表达式受控修正；F25六生产源仍匹配交付。所有${pins.length}项输入和当前重核固定于 [JSON](orm41-classification01.json)。原34及失败分类器证据未改。\n\nD两项旧P2按本次源码增量已静态修正：入口使用project:write；附件本地error/loading/package状态及epoch保护阻断原跨项目迟到污染，并注册PendingTasks。新增A→B→A旧失败回归随handover-test41真实通过（1套/6测试）。该套mock掉子actions组件，权限矩阵、同项目新handover及并发附件操作、真实浏览器仍在正式G3矩阵内。\n\nNative-test38原流确为74套/863测试通过（exit0）；不是问号估计，也不是本reviewer重跑，更不能作为生成表达式修正之后的当前源新测试。后续最终G3须绑定冻结候选与其真实回执。本次未读取凭据、加载环境/配置、连接DB、改产品或运行环境，不签G3/G4。\n`);
+console.log(JSON.stringify({ownerStatements:owner.length,appStatements:app.length,generatedProposals:0,finiteFKs:44,newRealOrmDrift:0,pins:pins.length,nativeOriginal:{suites:74,tests:863},handoverOriginal:{suites:1,tests:6},rawCheckExitCode:1,outputs:[`${own}/orm41-classification01.json`,`${own}/orm41-classification01.md`,`${captureRoot}/manifest.json`].map(file=>({file,bytes:read(file).length,sha256:sha(read(file))}))},null,2));

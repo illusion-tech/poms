@@ -1,0 +1,54 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T04:18:13.474Z",
+  "completedAt": "2026-11-04T04:18:13.841Z",
+  "operationId": "ProjectCostController_replaceSharedCostAllocationResult",
+  "method": "POST",
+  "path": "/api/shared-cost-allocation-results/862af246-f476-4b4c-971c-574d433949eb:replace",
+  "query": {},
+  "actorKey": "raceA88",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-01512-e01378dc",
+  "requestBody": {
+    "expectedVersion": 1,
+    "expectedBasisVersion": 1,
+    "projectShareItems": [
+      {
+        "projectId": "2410df0c-c530-4223-b857-1a83a411b57b",
+        "allocationWeight": "1.000000",
+        "allocatedAmount": "0.04",
+        "allocationRatio": "0.333333",
+        "allocationSummary": "R62-r88-explicit-fixed-share"
+      },
+      {
+        "projectId": "a275878e-459d-45d9-a2f4-37874d68c7f2",
+        "allocationWeight": "2.000000",
+        "allocatedAmount": "0.08",
+        "allocationRatio": "0.666667",
+        "allocationSummary": "R62-r88-explicit-fixed-share"
+      }
+    ],
+    "replacementReason": "对同一完整批竞争替代，不能只替一个result"
+  },
+  "status": 201,
+  "responseBody": {
+    "allocationResultIds": [
+      "f07f2782-4d41-4c03-ad5d-c6181d3ff9db",
+      "3927b2d0-320e-47a9-9f5c-2fce4121bc29"
+    ],
+    "approvalRecordId": null,
+    "basisId": "b92f609e-b36a-497b-8c1e-33db094cdfde",
+    "businessStatusAfter": "active",
+    "confirmationRecordId": null,
+    "evidenceId": "48b8cbe1-3540-4d64-94ac-d36afb9bd77e",
+    "replacementResultId": "f07f2782-4d41-4c03-ad5d-c6181d3ff9db",
+    "resultStatus": "success",
+    "supersedesAllocationResultId": "862af246-f476-4b4c-971c-574d433949eb",
+    "supersedesBasisId": "9512f585-e5dd-4820-aeb4-6511c20acd44",
+    "targetId": "f07f2782-4d41-4c03-ad5d-c6181d3ff9db",
+    "targetType": "SharedCostAllocationResult",
+    "todoItemIds": []
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

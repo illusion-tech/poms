@@ -1,0 +1,62 @@
+{
+  "kind": "actual-final-candidate-runtime110-binding",
+  "status": "frozen candidate for actual K acceptance; G3/G4 pending",
+  "finalRuntime": true,
+  "epoch": "108",
+  "namespace": "poms-r4def",
+  "instanceId": "0c945ec2-e3ec-4705-8bd3-660a46e8cafc",
+  "binarySha256": "c53dcdce6d6ff466a8cc47ae02fbadf7da0ab60d22877e57cdb5411711bda442",
+  "pid": 274896,
+  "startTime": "9928678",
+  "port": 31341,
+  "startedAt": "2026-11-04T05:04:48.376Z",
+  "actualRunningExecutableChecked": true,
+  "runtimeReceiptId": "tmp/rust-r4def/root/final-runtime110.json",
+  "privateProcessOriginalRetained": true,
+  "authorityReceiptIds": [
+    "docs/design/rust-r4def/g2-attachment-freeze62.json",
+    "docs/design/rust-r4def/g2-K86-correction.json",
+    "docs/design/rust-r4def/g2-K98-correction.json",
+    "tmp/rust-r4def/independent/k98-code-preflight100.json"
+  ],
+  "productSources": [
+    {
+      "file": "apps/poms-api-rust/src/attachments/service.rs",
+      "rawBytesSha256": "0fbd8afc1c22fec87e3034b9e31d9c89a3cfea92d85cb8f0ef1866dd23bcceab"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/store.rs",
+      "rawBytesSha256": "525028f45ce39a5935f4a1565eee662b76a2976f07a212a580c23f862e899899"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachment_storage/registry.rs",
+      "rawBytesSha256": "617f734af15f7e75db2cc69de63343c04104abbd446f322809fb1f1bfc625765"
+    }
+  ],
+  "checks": [
+    {
+      "file": "tmp/rust-r4def/root/rust-full-test105/receipt27.json",
+      "sha256": "cc9fdd9c5a15802bdf46b2c38241a505805cf54b92e3225a8788ad462cf473ed",
+      "matchedInputs": 247
+    },
+    {
+      "file": "tmp/rust-r4def/root/rust-clippy106/receipt27.json",
+      "sha256": "dcbc25fc9c076e5b3730739da6564f8455e5f7827a8c82961ece39dc8febbb1f",
+      "matchedInputs": 247
+    },
+    {
+      "file": "tmp/rust-r4def/root/rust-build108/receipt27.json",
+      "sha256": "74956ebc8c014a8aa5e49176934b2d9875ffb39669cc52994f9f582c2cece552",
+      "matchedInputs": 247
+    }
+  ],
+  "sourceCopyReceipt": "tmp/rust-r4def/root/linux-bootstrap104/receipt21.json",
+  "K86RejectedBinary95WasNeverStarted": true,
+  "RustTests": {
+    "passed": 416,
+    "ignored": 54,
+    "ignoredAreNotDBAcceptance": true
+  },
+  "G3Certified": false,
+  "G4Certified": false
+}

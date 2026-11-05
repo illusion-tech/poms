@@ -1,0 +1,55 @@
+// Real HTTP only. Cookies/passwords stay in the new namespace's private state.
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import { randomUUID } from 'node:crypto';
+
+export function createApiHarness({ tag = 'r4def32', edition = '32' } = {}) {
+    assert.equal(process.platform, 'linux'); assert(/^[a-zA-Z0-9_-]{1,24}$/.test(tag));
+    const win = '/mnt/e/projects/worktrees/poms-r3hijk-next28/poms', priv = '/home/wangzishi/.local/share/poms-r4def/private';
+    const root = '/home/wangzishi/projects/poms-rust-r4def', base = 'http://127.0.0.1:31341', origin = 'http://127.0.0.1:44451';
+    const spec = JSON.parse(fs.readFileSync(win + '/libs/shared/api-spec/openapi.json'));
+    const operations = new Map(); for (const [template, values] of Object.entries(spec.paths)) for (const [method, value] of Object.entries(values)) if (value.operationId) operations.set(value.operationId, { method: method.toUpperCase(), template, spec: value });
+    const out = `${win}/tmp/rust-r4def/root/api${edition}`; fs.mkdirSync(out, { recursive: true });
+    const stateFile = `${priv}/api-harness-${edition}.json`;
+    const state = fs.existsSync(stateFile) ? JSON.parse(fs.readFileSync(stateFile)) : { tag, edition, sequence: 0, actors: {} }; assert.equal(state.tag, tag);
+    const persist = () => fs.writeFileSync(stateFile, JSON.stringify(state, null, 2) + '\n', { mode: 0o600 });
+    function actorState(actor) { const key = actor?.key ?? actor?.id ?? actor; assert(typeof key === 'string' && key); if (!state.actors[key]) state.actors[key] = { key, cookies: {}, id: actor?.id ?? null, permissions: actor?.permissions ?? [] }; return state.actors[key]; }
+    function safe(value, key = '') {
+        if (/password|secret|accessToken|refreshToken|csrfToken|credential/i.test(key)) return '[private]';
+        if (Array.isArray(value)) return value.map(v => safe(v)); if (value && typeof value === 'object') return Object.fromEntries(Object.entries(value).map(([k, v]) => [k, safe(v, k)])); return value;
+    }
+    async function request(operationId, id, body, actor, meta = {}) {
+        const operation = operations.get(operationId); assert(operation, `Unknown current operation ${operationId}`);
+        const a = actorState(actor); let concrete = operation.template;
+        const placeholders = [...concrete.matchAll(/\{([^}]+)\}/g)].map(m => m[1]);
+        for (const name of placeholders) { const value = typeof id === 'object' && id !== null ? id[name] : id; assert(typeof value === 'string' && value, `Missing real ${name} for ${operationId}`); concrete = concrete.replace('{' + name + '}', encodeURIComponent(value)); }
+        if (meta.path) assert.equal(meta.path, concrete, 'Driver path must match the current canonical operation');
+        if (meta.method) assert.equal(meta.method.toUpperCase(), operation.method);
+        const url = new URL(base + concrete); for (const [key, value] of Object.entries(meta.query ?? {})) if (value !== undefined && value !== null) { if (Array.isArray(value)) value.forEach(v => url.searchParams.append(key, String(v))); else url.searchParams.set(key, String(value)); }
+        const n = ++state.sequence, requestId = `${tag}-${String(n).padStart(5, '0')}-${randomUUID().slice(0, 8)}`;
+        const headers = { Origin: origin, 'X-Request-Id': requestId };
+        if (Object.keys(a.cookies).length) headers.Cookie = Object.entries(a.cookies).map(([k, v]) => k + '=' + v).join('; ');
+        if (!['GET', 'HEAD', 'OPTIONS'].includes(operation.method) && a.cookies.poms_csrf && meta.csrf !== 'omit') headers['X-CSRF-Token'] = meta.csrf === 'wrong' ? 'deliberately-invalid-test-token' : decodeURIComponent(a.cookies.poms_csrf);
+        let wireBody; if (body !== null && body !== undefined && !['GET', 'HEAD'].includes(operation.method)) { headers['Content-Type'] = 'application/json'; wireBody = JSON.stringify(body); }
+        const startedAt = new Date().toISOString(); const response = await fetch(url, { method: operation.method, headers, body: wireBody, redirect: 'manual' });
+        for (const cookie of response.headers.getSetCookie()) { const part = cookie.split(';', 1)[0], at = part.indexOf('='); if (at < 1) continue; const name = part.slice(0, at), value = part.slice(at + 1); if (/max-age=0/i.test(cookie)) delete a.cookies[name]; else a.cookies[name] = value; }
+        const text = await response.text(); let value; try { value = text ? JSON.parse(text) : null; } catch { value = text; }
+        const receiptId = `${String(n).padStart(5, '0')}-${operationId.replace(/[^a-zA-Z0-9_-]/g, '_')}.json`;
+        fs.writeFileSync(out + '/' + receiptId, JSON.stringify({ kind: 'actual-HTTP-receipt', startedAt, completedAt: new Date().toISOString(), operationId, method: operation.method, path: url.pathname, query: Object.fromEntries(url.searchParams), actorKey: a.key, actorId: a.id, requestId, requestBody: safe(body), status: response.status, responseBody: safe(value), responseContentType: response.headers.get('content-type'), secretsAndCookiesPublished: false }, null, 2) + '\n', { flag: 'wx' });
+        persist(); return { status: response.status, body: value, receiptId: `tmp/rust-r4def/root/api${edition}/${receiptId}`, requestId };
+    }
+    async function login({ key, username, password }) {
+        const actor = actorState(key); actor.username = username;
+        actor.cookies = {}; // A deliberate fresh login must not send an expired session cookie.
+        const csrf = await request('AuthController_getCsrfToken', null, null, key); assert.equal(csrf.status, 200, 'CSRF bootstrap failed');
+        const response = await request('AuthController_createPasswordAuthSession', null, { username, password }, key); assert.equal(response.status, 200, `Real login failed: ${response.status}`);
+        const current = await request('AuthController_getCurrentAuthSession', null, null, key); assert.equal(current.status, 200);
+        const data = current.body?.data ?? current.body; const user = data.user ?? data.currentUser ?? data;
+        const id = user.id ?? user.userId ?? user.sub; assert(typeof id === 'string', 'Real session user ID missing');
+        const permissions = user.permissions ?? data.permissions; assert(Array.isArray(permissions), 'Real session permission array missing');
+        actor.id = id; actor.permissions = permissions; persist(); return { key, id, username, permissions };
+    }
+    function actor(key) { const a = actorState(key); return { key: a.key, id: a.id, username: a.username, permissions: a.permissions }; }
+    return { root, win, priv, base, origin, out, spec, operations, request, login, actor, persist, stateFile };
+}

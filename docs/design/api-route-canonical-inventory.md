@@ -3,7 +3,7 @@
 > 2026-11-03：R4首批迁移37个既有canonical入口，不新增/删除method/path。A03/A07的contractId query、合同准备/计划/审批绑定及金额语义改变已纳 [联合基线](archive/slices/rust-r4abc-first37-baseline.md) 和 `rust-r4abc/dto-freeze01.json`，G1冻结后才准入DTO/controller/client。authoritative行本身保持aligned。
 
 **文档状态**: Active
-**最后更新**: 2026-10-26
+**最后更新**: 2026-11-05
 **适用范围**: `POMS` API 路由 canonical grammar 落地、drift 盘点与批量整改执行底表
 **关联文档**:
 
@@ -104,12 +104,12 @@
 | `project-handover` | `confirmProjectHandover`              | `POST /project-handovers/{id}:confirm`        | `POST /project-handovers/:id:confirm`        | `POST /project-handovers/{id}:confirm`        | `ADR-015` + `interface-openapi-dto-design.md` | `N/A`      | #83 G4 已按裁决统一 `{id}`；原 spec/client 同步且 S2 永久保留。联合 G3、固定提交及 G4 见[归档收口](archive/slices/rust-r2k-closeout.md)，Rust R4 业务另验。 | `B1`  | `aligned` |
 | `project-handover` | `rebaselineContractHandover`          | `POST /contract-handover-rebaselines`         | `POST /contract-handover-rebaselines`        | `POST /contract-handover-rebaselines`         | `ADR-015` + `interface-openapi-dto-design.md` | `N/A`      | 保持                                                                                                                                                        | `B1`  | `aligned` |
 
-新增 RUST-R4D 两项 route surface 已获用户明确授权；当前仅冻结 canonical 候选，尚未实现或通过 G1。精确 DTO、权限和真实生产机制见 [R4 第二批联合基线](rust-r4def-next30-baseline.md)，G2 前须完成联合 G1。
+RUST-R4D 两项 route surface 已完成真实实现及本批限定验收；当前G4Ready，正式交付尚未计入。精确 DTO、权限和真实生产机制见 [R4 第二批联合基线](archive/slices/rust-r4def-next30-baseline.md.bin)，原G1候选与冻结原件按历史标签保留。
 
-| Domain             | Capability                          | Canonical Route                                          | Current Implemented Route | Current Design Route                                     | Authority                       | Drift Type               | Action                                                          | Batch | Status    |
-| ------------------ | ----------------------------------- | -------------------------------------------------------- | ------------------------- | -------------------------------------------------------- | ------------------------------- | ------------------------ | --------------------------------------------------------------- | ----- | --------- |
-| `project-handover` | `prepareProjectHandover`            | `POST /projects/{projectId}/project-handovers`           | `N/A`                     | `POST /projects/{projectId}/project-handovers`           | `ADR-015` + `RUST-R4D` 用户裁决 | `design-change-required` | 显式责任人/职责、真实合同基线、摘要与待确认记录同事务准备；#107 | `R4D` | `planned` |
-| `project-handover` | `confirmProjectHandoverParticipant` | `POST /project-handovers/{id}/participant-confirmations` | `N/A`                     | `POST /project-handovers/{id}/participant-confirmations` | `ADR-015` + `RUST-R4D` 用户裁决 | `design-change-required` | 当前登录参与人只确认本人职责，禁止代确认；#107                  | `R4D` | `planned` |
+| Domain             | Capability                          | Canonical Route                                          | Current Implemented Route                                | Current Design Route                                     | Authority                       | Drift Type | Action                                                          | Batch | Status    |
+| ------------------ | ----------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | ------------------------------- | ---------- | --------------------------------------------------------------- | ----- | --------- |
+| `project-handover` | `prepareProjectHandover`            | `POST /projects/{projectId}/project-handovers`           | `POST /projects/{projectId}/project-handovers`           | `POST /projects/{projectId}/project-handovers`           | `ADR-015` + `RUST-R4D` 用户裁决 | `N/A`      | 显式责任人/职责、真实合同基线、摘要与待确认记录同事务准备；#107 | `R4D` | `aligned` |
+| `project-handover` | `confirmProjectHandoverParticipant` | `POST /project-handovers/{id}/participant-confirmations` | `POST /project-handovers/{id}/participant-confirmations` | `POST /project-handovers/{id}/participant-confirmations` | `ADR-015` + `RUST-R4D` 用户裁决 | `N/A`      | 当前登录参与人只确认本人职责，禁止代确认；#107                  | `R4D` | `aligned` |
 
 ### 5.2 EX-09 Commission Freeze / Change
 
@@ -570,3 +570,11 @@
    - tests
 3. tracker / progress / archive 只在 authoritative 文档与实现收口后再回写。
 4. 默认直接切换，不为仓库内可控调用方保留过渡路由。
+
+### 2026-11-05 R4 第二批 G4 归档就绪
+
+本批D7/E11/F12共30个唯一HTTP已完成限定实现与实际验收，[独立G3](archive/slices/rust-r4def/terminal170/independent-g3.json.bin)及[固定提交复核](archive/slices/rust-r4def/terminal170/fixed-commit-review167.json.bin)通过。当前为G4Ready，四项#107/#108/#109/#106仍Open；Rust技术surface240，正式仍210、本批正式新增0。实施提交main集成已核；本批归档与Ready治理提交、独立关闭许可、实际线上G4和非作者实际终审继续推进；#101/#57保持Open。
+
+实现提交 `d6c3cff84dd96c981bab075d3f4aca3e98c76c4b`；永久S4 `4f0ad88e78622a75b88b4e3cc72aded9da67458a` 保留。[验收](archive/slices/rust-r4def/terminal170/final-validation160.json.bin)、[精确清理](archive/slices/rust-r4def/terminal170/cleanup-actions158.json.bin)、[停止回执](archive/slices/rust-r4def/terminal170/stopped157.json.bin)和[原字节归档](../../docs/design/archive/slices/rust-r4def/archive-origin-map130.json)各自绑定原件；[机器状态](../../docs/design/rust-r4def-delivery-status.json)镜像同一Gate。完整spec为 **239 paths / 293 operations / 626 schemas**、client **616**。原G1、Block、Failed、Partial、ignored、Native参考与Native ORM exit 1均保留原分类，不升格为通过。
+
+完整R4阶段验收、R5、部署/切流、性能、S3 WORM与真实lost COMMIT ACK均未被本批认证完成；移交事实和已确认成本不绕过R5准入或自动纳入经营口径。另保留既有R2缺口：`createUser`携带`initialRoleIds`返回500（`actualapi32/00011`，`users/service.rs:469 intentionalProtocol`）；由#57后续跟进，本批不修复，也不宣称Rust全局正确性已经完成。

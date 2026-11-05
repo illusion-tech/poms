@@ -1,0 +1,18 @@
+{
+  "operationId": "ProjectHandoverController_prepareProjectHandover",
+  "table": "approval_summary_field_projection",
+  "barrierWaiter": {
+    "pid": 339,
+    "query": "INSERT INTO poms.\"approval_summary_field_projection\" (\"id\",\"summary_snapshot_id\",\"field_key\",\"visibility_level\",\"masking_mode\",\"export_policy\",\"field_order\",\"channel_scope_summary\",\"created_at\",\"created_by\") VALUES ($1::uuid,$2::uuid,$3::text,$4::text,$5::text,$6::text,$7::integer,$8::text,$9::timestamptz,$10::uuid),($11::uuid,$12::uuid,$13::text,$14::text,$15::text,$16::text,$17::integer,$18::text,$19::timestamptz,$20::uuid),($21::uuid,$22::uuid,$23::text,$24::text,$25::text,$26::text,$27::integer,$28::text,$29::timestamptz,$30::uuid),($31::uuid,$32::uuid,$33::text,$34::text,$35::text,$36::text,$37::integer,$38::text,$39::timestamptz,$40::uuid),($41::uuid,$42::uuid,$43::text,$44::text,$45::text,$46::text,$47::integer,$48::text,$49::timestamptz,$50::uuid),($51::uuid,$52::uuid,$53::text,$54::text,$55::text,$56::text,$57::integer,$58::text,$59::timestamptz,$60::uuid),($61::uuid,$62::uuid,$63::text,$64::text,$65::text,$66::text,$67::integer,$68::text,$69::timestamptz,$70::uuid),($71::uuid,$72::uuid,$73::text,$7",
+    "wait_event": "advisory",
+    "wait_event_type": "Lock",
+    "classid": "194043",
+    "objid": "43005",
+    "granted": false
+  },
+  "status": 500,
+  "receiptId": "tmp/rust-r4def/root/api32/00386-ProjectHandoverController_prepareProjectHandover.json",
+  "hitProven": true,
+  "all120TablesRolledBack": true,
+  "retryPending": true
+}

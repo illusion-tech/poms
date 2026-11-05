@@ -1,0 +1,21 @@
+{
+  "kind": "actual-no-dirty-canonical-group-barrier",
+  "label": "repeated-link",
+  "waiter": {
+    "pid": 1715,
+    "query": "SELECT pg_advisory_xact_lock(hashtextextended($1,0))",
+    "wait_event": "advisory",
+    "wait_event_type": "Lock",
+    "granted": false
+  },
+  "heldBeforeRequest": true,
+  "hitProven": true,
+  "granted": false,
+  "released": true,
+  "HTTP": "tmp/rust-r4def/root/api32/01595-AttachmentController_link.json",
+  "status": 200,
+  "before": "tmp/rust-r4def/root/auto-link-noop109/repeated-link-before.json",
+  "blocked": "tmp/rust-r4def/root/auto-link-noop109/repeated-link-blocked.json",
+  "after": "tmp/rust-r4def/root/auto-link-noop109/repeated-link-after.json",
+  "businessAndAuditUnchanged": true
+}

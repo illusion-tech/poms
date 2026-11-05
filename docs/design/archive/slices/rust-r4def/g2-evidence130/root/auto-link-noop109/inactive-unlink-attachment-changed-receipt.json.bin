@@ -1,0 +1,22 @@
+{
+  "kind": "actual-first-proof-stale-noop-rejection",
+  "label": "inactive-unlink-attachment-changed",
+  "waiter": {
+    "pid": 1705,
+    "query": "SELECT json_build_object('id',id::text,'number',contract_no,'projectId',project_id::text) AS data FROM poms.contract WHERE id=ANY($1::text[]::uuid[])",
+    "wait_event": "relation",
+    "wait_event_type": "Lock",
+    "blockers": [
+      1712
+    ]
+  },
+  "heldBeforeRequest": true,
+  "sourceReadBoundary": "contract target access follows first Attachment/active-set capture; source-pinned K86/K98 implementation",
+  "otherMutation": "tmp/rust-r4def/root/api32/01602-AttachmentController_update.json",
+  "HTTP": "tmp/rust-r4def/root/api32/01601-AttachmentController_unlink.json",
+  "status": 409,
+  "before": "tmp/rust-r4def/root/auto-link-noop109/inactive-unlink-attachment-changed-before.json",
+  "changed": "tmp/rust-r4def/root/auto-link-noop109/inactive-unlink-attachment-changed-other-committed.json",
+  "after": "tmp/rust-r4def/root/auto-link-noop109/inactive-unlink-attachment-changed-after.json",
+  "staleRequestAddedNoWrites": true
+}

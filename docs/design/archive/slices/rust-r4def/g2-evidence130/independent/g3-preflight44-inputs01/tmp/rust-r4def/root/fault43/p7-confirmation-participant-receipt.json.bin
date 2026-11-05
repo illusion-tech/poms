@@ -1,0 +1,18 @@
+{
+  "operationId": "ProjectHandoverController_prepareProjectHandover",
+  "table": "confirmation_participant",
+  "barrierWaiter": {
+    "pid": 338,
+    "query": "INSERT INTO poms.\"confirmation_participant\" (\"id\",\"confirmation_record_id\",\"participant_id\",\"participant_role_key\",\"participant_display_name\",\"participant_status\",\"confirmed_at\",\"confirmed_comment\",\"created_at\",\"created_by\",\"updated_at\",\"updated_by\") VALUES ($1::uuid,$2::uuid,$3::uuid,$4::text,$5::text,$6::text,$7::timestamptz,$8::text,$9::timestamptz,$10::uuid,$11::timestamptz,$12::uuid),($13::uuid,$14::uuid,$15::uuid,$16::text,$17::text,$18::text,$19::timestamptz,$20::text,$21::timestamptz,$22::uuid,$23::timestamptz,$24::uuid),($25::uuid,$26::uuid,$27::uuid,$28::text,$29::text,$30::text,$31::timestamptz,$32::text,$33::timestamptz,$34::uuid,$35::timestamptz,$36::uuid) RETURNING id::text AS id",
+    "wait_event": "advisory",
+    "wait_event_type": "Lock",
+    "classid": "194043",
+    "objid": "43007",
+    "granted": false
+  },
+  "status": 500,
+  "receiptId": "tmp/rust-r4def/root/api32/00394-ProjectHandoverController_prepareProjectHandover.json",
+  "hitProven": true,
+  "all120TablesRolledBack": true,
+  "retryPending": true
+}

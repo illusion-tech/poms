@@ -1,0 +1,10 @@
+{
+  "kind": "K56-check-runner-error-preserved",
+  "status": "incomplete-runner-error-not-product-check-failure",
+  "actualExecuted": ["rustc and cargo version", "rustfmt check with exit 0 and no output"],
+  "error": "Get-Item could not find author-checks01/fmt-check.log because Tee-Object did not create a file for empty formatter output",
+  "actualNotExecutedByThisAttempt": ["clippy", "K56 pure tests", "legacy pure tests"],
+  "correction": "Precreate each log in a new attempt directory; preserve this incomplete attempt",
+  "productSourceChangedForCorrection": false,
+  "noRuntimeAcceptanceClaim": true
+}

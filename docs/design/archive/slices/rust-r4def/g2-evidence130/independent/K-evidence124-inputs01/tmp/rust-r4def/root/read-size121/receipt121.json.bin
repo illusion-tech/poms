@@ -1,0 +1,95 @@
+{
+  "kind": "actual-bounded-complete-reader-provider-size-corruption-negatives",
+  "complete": true,
+  "sourceRuntime": "tmp/rust-r4def/root/final-runtime110.json",
+  "results": [
+    {
+      "declaredBytes": 64,
+      "injectedActualBytes": 63,
+      "realAPIUploaded64First": true,
+      "negativeObjectFaultExplicit": true,
+      "rejection": "tmp/rust-r4def/root/api7805/00008-AttachmentUploadSessionController_complete.json",
+      "all120TablesExactlyUnchanged": true,
+      "sourceRestoredFromPrivateOriginal": true,
+      "oneSameCASUnarmedRetry": "tmp/rust-r4def/root/api7805/00009-AttachmentUploadSessionController_complete.json",
+      "download": "tmp/rust-r4def/root/api7805/00010-AttachmentController_download.json",
+      "downloadBytes": 64,
+      "downloadSha256": "d53eda7a637c99cc7fb566d96e9fa109bf15c478410a3f5eb4d4c4e26cd081f6",
+      "attachmentId": "a7762a5e-8750-4ced-a87d-49be6f873690",
+      "sessionId": "75ee7f79-b5be-44e5-a8c1-038e69c49131"
+    },
+    {
+      "declaredBytes": 64,
+      "injectedActualBytes": 65,
+      "realAPIUploaded64First": true,
+      "negativeObjectFaultExplicit": true,
+      "rejection": "tmp/rust-r4def/root/api7805/00015-AttachmentUploadSessionController_complete.json",
+      "all120TablesExactlyUnchanged": true,
+      "sourceRestoredFromPrivateOriginal": true,
+      "oneSameCASUnarmedRetry": "tmp/rust-r4def/root/api7805/00016-AttachmentUploadSessionController_complete.json",
+      "download": "tmp/rust-r4def/root/api7805/00017-AttachmentController_download.json",
+      "downloadBytes": 64,
+      "downloadSha256": "d53eda7a637c99cc7fb566d96e9fa109bf15c478410a3f5eb4d4c4e26cd081f6",
+      "attachmentId": "b1f2c93b-adbb-4f2d-972c-d82c4890c1c5",
+      "sessionId": "5f533c7b-86be-4168-9e14-ac41de5bebd5"
+    }
+  ],
+  "records": [
+    {
+      "operationId": "AttachmentUploadSessionController_create",
+      "status": 201,
+      "receiptId": "tmp/rust-r4def/root/api7805/00004-AttachmentUploadSessionController_create.json"
+    },
+    {
+      "operationId": "AttachmentUploadSessionController_createUploadTarget",
+      "status": 200,
+      "receiptId": "tmp/rust-r4def/root/api7805/00005-AttachmentUploadSessionController_createUploadTarget.json"
+    },
+    {
+      "operationId": "AttachmentUploadSessionController_get",
+      "status": 200,
+      "receiptId": "tmp/rust-r4def/root/api7805/00007-AttachmentUploadSessionController_get.json"
+    },
+    {
+      "operationId": "AttachmentUploadSessionController_complete",
+      "status": 409,
+      "receiptId": "tmp/rust-r4def/root/api7805/00008-AttachmentUploadSessionController_complete.json"
+    },
+    {
+      "operationId": "AttachmentUploadSessionController_complete",
+      "status": 200,
+      "receiptId": "tmp/rust-r4def/root/api7805/00009-AttachmentUploadSessionController_complete.json"
+    },
+    {
+      "operationId": "AttachmentUploadSessionController_create",
+      "status": 201,
+      "receiptId": "tmp/rust-r4def/root/api7805/00011-AttachmentUploadSessionController_create.json"
+    },
+    {
+      "operationId": "AttachmentUploadSessionController_createUploadTarget",
+      "status": 200,
+      "receiptId": "tmp/rust-r4def/root/api7805/00012-AttachmentUploadSessionController_createUploadTarget.json"
+    },
+    {
+      "operationId": "AttachmentUploadSessionController_get",
+      "status": 200,
+      "receiptId": "tmp/rust-r4def/root/api7805/00014-AttachmentUploadSessionController_get.json"
+    },
+    {
+      "operationId": "AttachmentUploadSessionController_complete",
+      "status": 409,
+      "receiptId": "tmp/rust-r4def/root/api7805/00015-AttachmentUploadSessionController_complete.json"
+    },
+    {
+      "operationId": "AttachmentUploadSessionController_complete",
+      "status": 200,
+      "receiptId": "tmp/rust-r4def/root/api7805/00016-AttachmentUploadSessionController_complete.json"
+    }
+  ],
+  "SQLBusinessProducerUsed": false,
+  "proxy400NotUsedAsCompleteReadProof": true,
+  "original120StatusExpectationFailurePreserved": true,
+  "actual409IsSizeConflictNotBadInput": true,
+  "G3Certified": false,
+  "G4Certified": false
+}

@@ -1,0 +1,185 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:05:25.054Z",
+  "completedAt": "2026-11-04T00:05:25.063Z",
+  "operationId": "ProjectCostController_createProjectActualCostRecord",
+  "method": "POST",
+  "path": "/api/projects/c19e708b-522c-45e9-90d4-81de7295545b/actual-cost-records",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-00350-3d3701b8",
+  "requestBody": {
+    "costType": "expense",
+    "expenseRecordId": "f2915f4f-1471-4082-aad0-c771eb6f72d8",
+    "amountIncludingTax": "999.00",
+    "expectedSourceVersion": 2
+  },
+  "status": 400,
+  "responseBody": {
+    "errors": [
+      {
+        "code": "invalid_union",
+        "errors": [
+          [
+            {
+              "code": "invalid_value",
+              "message": "Invalid option: expected one of the declared values",
+              "path": [
+                "costType"
+              ],
+              "values": [
+                "payment-fact"
+              ]
+            },
+            {
+              "code": "invalid_type",
+              "expected": "string",
+              "message": "Invalid input: expected string, received undefined",
+              "path": [
+                "paymentRecordId"
+              ]
+            },
+            {
+              "code": "unrecognized_keys",
+              "keys": [
+                "amountIncludingTax",
+                "expenseRecordId"
+              ],
+              "message": "Unrecognized object keys",
+              "path": []
+            }
+          ],
+          [
+            {
+              "code": "invalid_value",
+              "message": "Invalid option: expected one of the declared values",
+              "path": [
+                "costType"
+              ],
+              "values": [
+                "invoice"
+              ]
+            },
+            {
+              "code": "invalid_type",
+              "expected": "string",
+              "message": "Invalid input: expected string, received undefined",
+              "path": [
+                "invoiceRecordId"
+              ]
+            },
+            {
+              "code": "unrecognized_keys",
+              "keys": [
+                "amountIncludingTax",
+                "expenseRecordId"
+              ],
+              "message": "Unrecognized object keys",
+              "path": []
+            }
+          ],
+          [
+            {
+              "code": "unrecognized_keys",
+              "keys": [
+                "amountIncludingTax"
+              ],
+              "message": "Unrecognized object keys",
+              "path": []
+            }
+          ],
+          [
+            {
+              "code": "invalid_value",
+              "message": "Invalid option: expected one of the declared values",
+              "path": [
+                "costType"
+              ],
+              "values": [
+                "procurement"
+              ]
+            },
+            {
+              "code": "invalid_type",
+              "expected": "string",
+              "message": "Invalid input: expected string, received undefined",
+              "path": [
+                "payableRecordId"
+              ]
+            },
+            {
+              "code": "unrecognized_keys",
+              "keys": [
+                "amountIncludingTax",
+                "expenseRecordId"
+              ],
+              "message": "Unrecognized object keys",
+              "path": []
+            }
+          ],
+          [
+            {
+              "code": "invalid_value",
+              "message": "Invalid option: expected one of the declared values",
+              "path": [
+                "costType"
+              ],
+              "values": [
+                "labor"
+              ]
+            },
+            {
+              "code": "invalid_type",
+              "expected": "string",
+              "message": "Invalid input: expected string, received undefined",
+              "path": [
+                "laborPeriodEnd"
+              ]
+            },
+            {
+              "code": "invalid_type",
+              "expected": "string",
+              "message": "Invalid input: expected string, received undefined",
+              "path": [
+                "laborPeriodStart"
+              ]
+            },
+            {
+              "code": "invalid_type",
+              "expected": "string",
+              "message": "Invalid input: expected string, received undefined",
+              "path": [
+                "laborPeriodType"
+              ]
+            },
+            {
+              "code": "invalid_type",
+              "expected": "string",
+              "message": "Invalid input: expected string, received undefined",
+              "path": [
+                "rateVersionId"
+              ]
+            },
+            {
+              "code": "unrecognized_keys",
+              "keys": [
+                "amountIncludingTax",
+                "expectedSourceVersion",
+                "expenseRecordId"
+              ],
+              "message": "Unrecognized object keys",
+              "path": []
+            }
+          ]
+        ],
+        "message": "Invalid input",
+        "path": []
+      }
+    ],
+    "message": "Validation failed",
+    "statusCode": 400
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

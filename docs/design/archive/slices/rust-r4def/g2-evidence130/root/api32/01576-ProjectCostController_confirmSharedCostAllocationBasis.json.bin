@@ -1,0 +1,69 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T04:18:26.143Z",
+  "completedAt": "2026-11-04T04:18:28.278Z",
+  "operationId": "ProjectCostController_confirmSharedCostAllocationBasis",
+  "method": "POST",
+  "path": "/api/shared-cost-allocation-bases",
+  "query": {},
+  "actorKey": "raceB88",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-01576-3360b51b",
+  "requestBody": {
+    "basisType": "R62-r88-basis",
+    "allocationMethod": "weighted",
+    "sourceCostRecordIds": [
+      "806e4b88-4655-4110-b7f6-9ad7a9c11247"
+    ],
+    "measurementBasis": "including-tax",
+    "expectedSourceVersions": [
+      {
+        "costRecordId": "806e4b88-4655-4110-b7f6-9ad7a9c11247",
+        "expectedVersion": 2
+      }
+    ],
+    "projectShareItems": [
+      {
+        "projectId": "a275878e-459d-45d9-a2f4-37874d68c7f2",
+        "allocationWeight": "1.000000",
+        "allocatedAmount": "0.00",
+        "allocationRatio": "0.333333",
+        "allocationSummary": "三项目同权重一分，固定较小UUID得一分，ratio仅展示"
+      },
+      {
+        "projectId": "7a83eecc-261d-452a-92cd-25980d2ba0a7",
+        "allocationWeight": "1.000000",
+        "allocatedAmount": "0.00",
+        "allocationRatio": "0.333333",
+        "allocationSummary": "三项目同权重一分，固定较小UUID得一分，ratio仅展示"
+      },
+      {
+        "projectId": "2410df0c-c530-4223-b857-1a83a411b57b",
+        "allocationWeight": "1.000000",
+        "allocatedAmount": "0.01",
+        "allocationRatio": "0.333333",
+        "allocationSummary": "三项目同权重一分，固定较小UUID得一分，ratio仅展示"
+      }
+    ],
+    "basisSummary": "固定来源金额与完整项目份额；v2；不纳入经营成本"
+  },
+  "status": 201,
+  "responseBody": {
+    "allocationResultIds": [
+      "a2891611-fd27-45f1-83ef-85eb303664d4",
+      "db7dd141-f42b-4531-8e1f-9936d4d34c97",
+      "16042027-6427-40a9-9446-1d273bb536c4"
+    ],
+    "approvalRecordId": null,
+    "basisId": "3081d129-6759-45c4-ba19-da168f9a5dd2",
+    "businessStatusAfter": "active",
+    "confirmationRecordId": null,
+    "evidenceId": "5fcdf51e-8452-4486-a9a2-2990380efdff",
+    "resultStatus": "success",
+    "targetId": "3081d129-6759-45c4-ba19-da168f9a5dd2",
+    "targetType": "SharedCostAllocationBasis",
+    "todoItemIds": []
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

@@ -1,0 +1,31 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:05:20.266Z",
+  "completedAt": "2026-11-04T00:05:20.295Z",
+  "operationId": "ProjectCostController_createProjectActualCostRecord",
+  "method": "POST",
+  "path": "/api/projects/c19e708b-522c-45e9-90d4-81de7295545b/actual-cost-records",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-00175-c38ed4d4",
+  "requestBody": {
+    "costType": "payment-fact",
+    "paymentRecordId": "c37a29a1-62f7-4138-bcc9-6f7d74d3f716",
+    "expectedSourceVersion": 2,
+    "costDescription": "R4E21-e41-payment-fact真实映射",
+    "evidenceSummary": "R4E21-e41-保留真实源链，不自动纳入"
+  },
+  "status": 201,
+  "responseBody": {
+    "approvalRecordId": null,
+    "businessStatusAfter": "registered",
+    "confirmationRecordId": null,
+    "resultStatus": "success",
+    "targetId": "cb555c74-0587-47fd-9f59-2aa05ef024d5",
+    "targetType": "ProjectActualCostRecord",
+    "todoItemIds": []
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

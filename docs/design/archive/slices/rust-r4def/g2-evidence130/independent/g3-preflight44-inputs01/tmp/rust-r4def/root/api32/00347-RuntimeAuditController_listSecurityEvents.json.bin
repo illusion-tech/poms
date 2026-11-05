@@ -1,0 +1,96 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:05:24.999Z",
+  "completedAt": "2026-11-04T00:05:25.010Z",
+  "operationId": "RuntimeAuditController_listSecurityEvents",
+  "method": "GET",
+  "path": "/api/security-events",
+  "query": {
+    "actorId": "295a1093-2dec-4444-b2f7-c8dde152695d",
+    "eventType": "sensitive_field.masked",
+    "permissionKey": "operating:finance:sensitive:read",
+    "path": "/api/expense-records/f2915f4f-1471-4082-aad0-c771eb6f72d8",
+    "limit": "100"
+  },
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-00347-f447a123",
+  "requestBody": null,
+  "status": 200,
+  "responseBody": [
+    {
+      "id": "3bfbd43c-d0e1-4e37-a111-56a79ed963f9",
+      "eventType": "sensitive_field.masked",
+      "severity": "info",
+      "actorId": "295a1093-2dec-4444-b2f7-c8dde152695d",
+      "principal": "r4def33_financeonly",
+      "requestId": "r4def32-00346-0de47ebc",
+      "path": "/api/expense-records/f2915f4f-1471-4082-aad0-c771eb6f72d8",
+      "method": "GET",
+      "permissionKey": "operating:finance:sensitive:read",
+      "result": "blocked",
+      "ip": "127.0.0.1",
+      "userAgent": "node",
+      "details": {
+        "auditAggregationMode": "sensitive-field-batch",
+        "fieldKeys": [
+          "amountIncludingTax",
+          "taxAmount",
+          "amountExcludingTax",
+          "expenseDescription",
+          "evidenceSummary"
+        ],
+        "fieldPackageKey": "operating-finance",
+        "hiddenFieldCount": 5,
+        "projectionMode": "masked",
+        "reasonCode": "missing-sensitive-read-permission",
+        "requiredPermission": "operating:finance:sensitive:read",
+        "sampleTargetIds": [
+          "f2915f4f-1471-4082-aad0-c771eb6f72d8"
+        ],
+        "targetCount": 1,
+        "targetId": "f2915f4f-1471-4082-aad0-c771eb6f72d8",
+        "targetType": "ExpenseRecord"
+      },
+      "occurredAt": "2026-11-04T00:05:24.987Z"
+    },
+    {
+      "id": "8c8be34d-0a91-44f6-b087-3d81d9eb34b5",
+      "eventType": "sensitive_field.masked",
+      "severity": "info",
+      "actorId": "295a1093-2dec-4444-b2f7-c8dde152695d",
+      "principal": "r4def33_financeonly",
+      "requestId": "r4def32-00255-0d980618",
+      "path": "/api/expense-records/f2915f4f-1471-4082-aad0-c771eb6f72d8",
+      "method": "GET",
+      "permissionKey": "operating:finance:sensitive:read",
+      "result": "blocked",
+      "ip": "127.0.0.1",
+      "userAgent": "node",
+      "details": {
+        "auditAggregationMode": "sensitive-field-batch",
+        "fieldKeys": [
+          "amountIncludingTax",
+          "taxAmount",
+          "amountExcludingTax",
+          "expenseDescription",
+          "evidenceSummary"
+        ],
+        "fieldPackageKey": "operating-finance",
+        "hiddenFieldCount": 5,
+        "projectionMode": "masked",
+        "reasonCode": "missing-sensitive-read-permission",
+        "requiredPermission": "operating:finance:sensitive:read",
+        "sampleTargetIds": [
+          "f2915f4f-1471-4082-aad0-c771eb6f72d8"
+        ],
+        "targetCount": 1,
+        "targetId": "f2915f4f-1471-4082-aad0-c771eb6f72d8",
+        "targetType": "ExpenseRecord"
+      },
+      "occurredAt": "2026-11-04T00:05:22.511Z"
+    }
+  ],
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

@@ -1,0 +1,68 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T04:18:12.110Z",
+  "completedAt": "2026-11-04T04:18:12.163Z",
+  "operationId": "ProjectCostController_getAccountingTaxTreatment",
+  "method": "GET",
+  "path": "/api/accounting-tax-treatments/bb008e4d-3fb9-4a32-9290-7d5c34b1873b",
+  "query": {},
+  "actorKey": "raceA88",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-01499-8e41f068",
+  "requestBody": null,
+  "status": 200,
+  "responseBody": {
+    "basisSummaryProjection": {
+      "displayText": "R62-r88-tax-owned",
+      "fieldPackageKey": "operating-finance",
+      "mode": "full",
+      "reasonCode": "allowed",
+      "value": "R62-r88-tax-owned"
+    },
+    "confirmedAt": "2026-11-04T04:18:12.042Z",
+    "confirmedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+    "createdAt": "2026-11-04T04:18:12.042Z",
+    "currency": "CNY",
+    "deductibilityStatus": "pending",
+    "evidenceId": "fb9a1e3b-e8a2-4eec-a97b-8bb9df01f876",
+    "governanceCertification": "verified",
+    "id": "bb008e4d-3fb9-4a32-9290-7d5c34b1873b",
+    "projectId": "2410df0c-c530-4223-b857-1a83a411b57b",
+    "rowVersion": 1,
+    "sourceEvidenceProjection": {
+      "displayText": "{\"businessDate\":\"2026-11-04\",\"payloadHash\":\"85266b314ef0eb6d87db252311e9e62ac22dc1414a318b4941d8b5d03f3880fb\",\"reason\":\"Confirmed responsible tax assessment\",\"sourceReferences\":[{\"businessDate\":\"2026-11-04\",\"kind\":\"source\",\"reason\":\"本隔离验收财务责任人核对真实0.01税额来源，先登记待定后明确可抵扣判定；保留原成本金额及不纳入经营状态，仅验证正式命令与证据链。\",\"sourceId\":\"2eb5aa15-01dd-4571-a304-3d1d3acc2b75\",\"sourceType\":\"expense-record\",\"sourceVersion\":2}]}",
+      "fieldPackageKey": "operating-finance",
+      "mode": "full",
+      "reasonCode": "allowed",
+      "value": "{\"businessDate\":\"2026-11-04\",\"payloadHash\":\"85266b314ef0eb6d87db252311e9e62ac22dc1414a318b4941d8b5d03f3880fb\",\"reason\":\"Confirmed responsible tax assessment\",\"sourceReferences\":[{\"businessDate\":\"2026-11-04\",\"kind\":\"source\",\"reason\":\"本隔离验收财务责任人核对真实0.01税额来源，先登记待定后明确可抵扣判定；保留原成本金额及不纳入经营状态，仅验证正式命令与证据链。\",\"sourceId\":\"2eb5aa15-01dd-4571-a304-3d1d3acc2b75\",\"sourceType\":\"expense-record\",\"sourceVersion\":2}]}"
+    },
+    "status": "active",
+    "supersedesId": null,
+    "taxImpactAmountProjection": {
+      "displayText": "0.00",
+      "fieldPackageKey": "operating-finance",
+      "mode": "full",
+      "reasonCode": "allowed",
+      "value": "0.00"
+    },
+    "taxImpactPendingAmountProjection": {
+      "displayText": "0.01",
+      "fieldPackageKey": "operating-finance",
+      "mode": "full",
+      "reasonCode": "allowed",
+      "value": "0.01"
+    },
+    "taxImpactSummaryProjection": {
+      "displayText": "本隔离验收财务责任人核对真实0.01税额来源，先登记待定后明确可抵扣判定；保留原成本金额及不纳入经营状态，仅验证正式命令与证据链。",
+      "fieldPackageKey": "operating-finance",
+      "mode": "full",
+      "reasonCode": "allowed",
+      "value": "本隔离验收财务责任人核对真实0.01税额来源，先登记待定后明确可抵扣判定；保留原成本金额及不纳入经营状态，仅验证正式命令与证据链。"
+    },
+    "taxPendingFlag": true,
+    "taxTreatmentType": "R62-r88-tax",
+    "updatedAt": "2026-11-04T04:18:12.042Z"
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

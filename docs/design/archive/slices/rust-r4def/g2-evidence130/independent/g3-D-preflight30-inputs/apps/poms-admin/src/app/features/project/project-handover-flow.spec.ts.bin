@@ -1,0 +1,33 @@
+import { HandoverRouteEpoch, handoverParticipants } from './project-handover-flow';
+import { ProjectHandoverResponsibilityRole } from '@poms/shared-api-client';
+
+describe('handover authority and navigation', () => {
+    it('keeps multiple explicit duties on the same actual person instead of inventing users', () => {
+        const result = handoverParticipants([
+            { roleKey: ProjectHandoverResponsibilityRole.SalesOwner, userId: 'sales', responsibilitySummary: '销售交接' },
+            { roleKey: ProjectHandoverResponsibilityRole.ExecutionOwner, userId: 'sales', responsibilitySummary: ' 执行承接 ' }
+        ]);
+        expect(result).toEqual([
+            {
+                userId: 'sales',
+                responsibilities: [
+                    { roleKey: 'sales-owner', responsibilitySummary: '销售交接' },
+                    { roleKey: 'execution-owner', responsibilitySummary: '执行承接' }
+                ]
+            }
+        ]);
+        expect(result[0]).not.toHaveProperty('participantStatus');
+    });
+    it('rejects missing responsibility instead of turning it into consent', () => {
+        expect(() => handoverParticipants([{ roleKey: ProjectHandoverResponsibilityRole.ExecutionOwner, userId: 'person', responsibilitySummary: ' ' }])).toThrow();
+    });
+    it('rejects a late response even if the user navigated away and back to the same project', () => {
+        const epoch = new HandoverRouteEpoch();
+        epoch.enter('A');
+        const before = epoch.ticket();
+        epoch.enter('B');
+        epoch.enter('A');
+        expect(epoch.accepts(before)).toBe(false);
+        expect(epoch.accepts(epoch.ticket())).toBe(true);
+    });
+});

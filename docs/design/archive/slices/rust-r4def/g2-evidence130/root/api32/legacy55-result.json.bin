@@ -1,0 +1,156 @@
+{
+  "kind": "E20-real-Native-old-protocol-to-Rust-rejection53",
+  "stages": [
+    {
+      "name": "guard-context",
+      "status": "passed"
+    },
+    {
+      "name": "Native-old-shape-create",
+      "status": "passed"
+    },
+    {
+      "name": "Native-formal-verified",
+      "status": "passed"
+    },
+    {
+      "name": "independent-PG-before",
+      "status": "passed"
+    },
+    {
+      "name": "Rust-E-rejects-unproved-currency",
+      "status": "passed"
+    },
+    {
+      "name": "independent-PG-after",
+      "status": "passed"
+    }
+  ],
+  "receipts": [
+    {
+      "method": "POST",
+      "path": "/api/projects/c19e708b-522c-45e9-90d4-81de7295545b/invoice-records",
+      "query": {},
+      "caseId": "legacy53-Native-old-shape-create",
+      "stepId": "legacy53-1",
+      "backend": "Native",
+      "operationId": "ContractFinanceController_createInvoice",
+      "actorId": "00000000-0000-4000-8000-000000000001",
+      "expectedStatus": 201,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api53/00004-ContractFinanceController_createInvoice.json",
+      "requestId": "legacy53-00004-0a98d12d",
+      "httpStatus": 201
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/invoice-records/ee203abb-54df-4b52-831f-eb1029922751",
+      "query": {},
+      "caseId": "legacy53-Native-formal-verified",
+      "stepId": "legacy53-2",
+      "backend": "Native",
+      "operationId": "ContractFinanceController_updateInvoice",
+      "actorId": "00000000-0000-4000-8000-000000000001",
+      "expectedStatus": 200,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api53/00005-ContractFinanceController_updateInvoice.json",
+      "requestId": "legacy53-00005-89feb853",
+      "httpStatus": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/invoice-records/ee203abb-54df-4b52-831f-eb1029922751",
+      "query": {},
+      "caseId": "legacy53-Native-formal-verified",
+      "stepId": "legacy53-3",
+      "backend": "Native",
+      "operationId": "ContractFinanceController_getInvoice",
+      "actorId": "00000000-0000-4000-8000-000000000001",
+      "expectedStatus": 200,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api53/00006-ContractFinanceController_getInvoice.json",
+      "requestId": "legacy53-00006-5eaa9021",
+      "httpStatus": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/projects/c19e708b-522c-45e9-90d4-81de7295545b/actual-cost-records",
+      "query": {},
+      "caseId": "legacy53-Rust-E-rejects-unproved-currency",
+      "stepId": "legacy53-4",
+      "backend": "Rust",
+      "operationId": "ProjectCostController_createProjectActualCostRecord",
+      "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+      "expectedStatus": 422,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/01008-ProjectCostController_createProjectActualCostRecord.json",
+      "requestId": "r4def32-01008-aab3dbbc",
+      "httpStatus": 422
+    },
+    {
+      "method": "GET",
+      "path": "/api/invoice-records/ee203abb-54df-4b52-831f-eb1029922751",
+      "query": {},
+      "caseId": "legacy53-independent-PG-after",
+      "stepId": "legacy53-5",
+      "backend": "Native",
+      "operationId": "ContractFinanceController_getInvoice",
+      "actorId": "00000000-0000-4000-8000-000000000001",
+      "expectedStatus": 200,
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api53/00007-ContractFinanceController_getInvoice.json",
+      "requestId": "legacy53-00007-72af589e",
+      "httpStatus": 200
+    }
+  ],
+  "observations": [
+    {
+      "kind": "independent-read-only-invoice-proof",
+      "phase": "before",
+      "invoiceId": "ee203abb-54df-4b52-831f-eb1029922751",
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/legacy55-proof-1.json"
+    },
+    {
+      "kind": "independent-read-only-invoice-proof",
+      "phase": "after",
+      "invoiceId": "ee203abb-54df-4b52-831f-eb1029922751",
+      "status": "passed",
+      "receiptId": "tmp/rust-r4def/root/api32/legacy55-proof-2.json"
+    }
+  ],
+  "HTTPPassed": 5,
+  "completed": true,
+  "needsEvidence": false,
+  "producerClassification": "Actual frozen Native old invoice protocol; not a new Rust currency-less create success",
+  "initialState": "not-run",
+  "invoice": {
+    "id": "ee203abb-54df-4b52-831f-eb1029922751",
+    "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+    "contractId": null,
+    "invoiceType": "input",
+    "invoiceNumber": "R4DEF53-legacy55-OLD-NATIVE",
+    "invoiceAmount": "106.00",
+    "invoiceDate": "2026-11-04",
+    "status": "verified",
+    "exceptionStatus": "none",
+    "exceptionReason": null,
+    "exceptionResolution": null,
+    "closedAt": null,
+    "closeReason": null,
+    "rowVersion": 2,
+    "createdAt": "2026-11-04T02:16:38.545Z",
+    "updatedAt": "2026-11-04T02:16:38.894Z",
+    "allowedActions": [
+      "update",
+      "mark-exception",
+      "close"
+    ]
+  },
+  "E21LegacyBinding": {
+    "id": "ee203abb-54df-4b52-831f-eb1029922751",
+    "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+    "currencyProof": "missing",
+    "receiptId": "tmp/rust-r4def/root/api32/legacy55-proof-1.json"
+  }
+}

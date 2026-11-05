@@ -1,0 +1,161 @@
+{
+  "kind": "actual-two-worker-pg-lock-barrier",
+  "proof": {
+    "realPostgres": true,
+    "heldBeforeRequests": true,
+    "bothObservedBeforeRelease": true,
+    "released": false,
+    "controllerPid": 1516,
+    "gate": {
+      "kind": "project-row",
+      "projectIds": [
+        "2410df0c-c530-4223-b857-1a83a411b57b",
+        "7a83eecc-261d-452a-92cd-25980d2ba0a7",
+        "a275878e-459d-45d9-a2f4-37874d68c7f2"
+      ]
+    },
+    "gateLocks": [],
+    "waiters": [
+      {
+        "pid": 1407,
+        "query": "SELECT id FROM poms.project WHERE id=$1 FOR UPDATE",
+        "wait_event": "tuple",
+        "wait_event_type": "Lock",
+        "blockers": [
+          1409
+        ],
+        "granted": false
+      },
+      {
+        "pid": 1409,
+        "query": "SELECT id FROM poms.project WHERE id=$1 FOR UPDATE",
+        "wait_event": "transactionid",
+        "wait_event_type": "Lock",
+        "blockers": [
+          1516
+        ],
+        "granted": false
+      }
+    ],
+    "workerLocks": [
+      {
+        "pid": 1407,
+        "locktype": "tuple",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessExclusiveLock",
+        "granted": false
+      },
+      {
+        "pid": 1407,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "RowShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1407,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1407,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1407,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "RowShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1407,
+        "locktype": "virtualxid",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "ExclusiveLock",
+        "granted": true
+      },
+      {
+        "pid": 1409,
+        "locktype": "transactionid",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "ShareLock",
+        "granted": false
+      },
+      {
+        "pid": 1409,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1409,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1409,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "RowShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1409,
+        "locktype": "relation",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "RowShareLock",
+        "granted": true
+      },
+      {
+        "pid": 1409,
+        "locktype": "tuple",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "AccessExclusiveLock",
+        "granted": true
+      },
+      {
+        "pid": 1409,
+        "locktype": "virtualxid",
+        "classid": null,
+        "objid": null,
+        "objsubid": null,
+        "mode": "ExclusiveLock",
+        "granted": true
+      }
+    ],
+    "onlyTheseTwoRequestsLaunchedByAdapter": true
+  }
+}

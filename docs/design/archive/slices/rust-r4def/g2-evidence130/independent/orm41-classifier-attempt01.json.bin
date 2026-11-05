@@ -1,0 +1,12 @@
+{
+  "kind": "independent-offline-summary-parser-failed-attempt",
+  "status": "failed-closed-before-final-report",
+  "command": "node tmp/rust-r4def/independent/review-orm41.mjs",
+  "exitCode": 1,
+  "error": "AssertionError: assert(suites&&tests) at testSummary",
+  "reason": "Original Nx/Jest console includes ANSI control sequences between summary tokens; unmodified raw stream was intentionally not silently treated as a pass when a plain-text parser did not match.",
+  "correction": "Use Node stripVTControlCharacters only on the string used to count summaries; preserve original raw bytes and hashes.",
+  "scriptOriginal": "tmp/rust-r4def/independent/review-orm41-attempt01.mjs.bin",
+  "inputSnapshotsPreserved": "tmp/rust-r4def/independent/orm41-inputs01",
+  "productEnvironmentDatabaseModified": false
+}

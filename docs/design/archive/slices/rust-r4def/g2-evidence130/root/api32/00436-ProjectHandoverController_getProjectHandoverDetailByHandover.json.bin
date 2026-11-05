@@ -1,0 +1,383 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:12:03.158Z",
+  "completedAt": "2026-11-04T00:12:03.208Z",
+  "operationId": "ProjectHandoverController_getProjectHandoverDetailByHandover",
+  "method": "GET",
+  "path": "/api/project-handovers/bac70ea7-3f54-42d4-beac-a6ba6f4570db",
+  "query": {},
+  "actorKey": "writer",
+  "actorId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+  "requestId": "r4def32-00436-ae06a327",
+  "requestBody": null,
+  "status": 200,
+  "responseBody": {
+    "allowedActions": [],
+    "blockingReasons": [
+      "参与人尚未全部确认。"
+    ],
+    "closureStatus": "handover-in-progress",
+    "comment": null,
+    "confirmedAt": null,
+    "confirmedBy": null,
+    "contractSummarySnapshotId": "0454c110-f2d3-4322-b0ce-34056b3a0d4c",
+    "currentHandoverBaselineSummary": {
+      "baselineSnapshotId": "2eaff0e9-8af3-4551-a94f-b85feae1510d",
+      "sourceId": "bac70ea7-3f54-42d4-beac-a6ba6f4570db",
+      "sourceType": "project-handover",
+      "status": "available",
+      "summary": "全部合同的承接依据已固定；单快照字段仅为兼容锚点。"
+    },
+    "currentSourcePayloadHash": "3c793354e66ef434b6d28729fe53865b2d39ecb5c91b55a14f2e41865875151a",
+    "effectiveContractSetSummary": {
+      "activeContractCount": 2,
+      "activeContractIds": [
+        "48a7467c-c58e-486d-aade-eda661b65298",
+        "b75ed6ae-87ba-4ae1-9e35-f865239ebed7"
+      ],
+      "amountTotalsByCurrency": [
+        {
+          "currencyCode": "CNY",
+          "totalSignedAmountProjection": {
+            "displayText": "敏感字段已隐藏",
+            "fieldPackageKey": "contract-finance",
+            "mode": "masked",
+            "reasonCode": "missing-sensitive-read-permission",
+            "value": null
+          }
+        }
+      ],
+      "contractNos": [
+        "CT-2026-000002",
+        "CT-2026-000001"
+      ],
+      "contracts": [
+        {
+          "contractNo": "CT-2026-000002",
+          "currencyCode": "CNY",
+          "currentSnapshotId": "2eaff0e9-8af3-4551-a94f-b85feae1510d",
+          "id": "48a7467c-c58e-486d-aade-eda661b65298",
+          "signedAmountProjection": {
+            "displayText": "敏感字段已隐藏",
+            "fieldPackageKey": "contract-finance",
+            "mode": "masked",
+            "reasonCode": "missing-sensitive-read-permission",
+            "value": null
+          },
+          "signedAt": null,
+          "status": "active"
+        },
+        {
+          "contractNo": "CT-2026-000001",
+          "currencyCode": "CNY",
+          "currentSnapshotId": "839324ec-ddc2-4af1-af5e-82b5dc101fa7",
+          "id": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+          "signedAmountProjection": {
+            "displayText": "敏感字段已隐藏",
+            "fieldPackageKey": "contract-finance",
+            "mode": "masked",
+            "reasonCode": "missing-sensitive-read-permission",
+            "value": null
+          },
+          "signedAt": null,
+          "status": "active"
+        }
+      ],
+      "currencyCodes": [
+        "CNY"
+      ],
+      "earliestSignedAt": null,
+      "latestSignedAt": null,
+      "totalSignedAmountProjection": {
+        "displayText": "敏感字段已隐藏",
+        "fieldPackageKey": "contract-finance",
+        "mode": "masked",
+        "reasonCode": "missing-sensitive-read-permission",
+        "value": null
+      }
+    },
+    "executionAdmission": {
+      "allowed": false,
+      "blockingReasons": [
+        "正式执行准入仍需 R5 同链有效提成角色冻结。"
+      ]
+    },
+    "executionOwnerUserId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+    "exportPolicy": "handover-controlled",
+    "financeConfirmationRequired": false,
+    "frozenMaterials": {
+      "basisSnapshotId": "713c7054-48be-451a-a74e-8d082316d0a0",
+      "contracts": [
+        {
+          "contractId": "48a7467c-c58e-486d-aade-eda661b65298",
+          "contractTermSnapshotId": "2eaff0e9-8af3-4551-a94f-b85feae1510d",
+          "riskItems": [
+            {
+              "blocksNextStage": false,
+              "id": "51071b0f-3114-4fdf-bd37-ab2152fb0cbc",
+              "impactScope": "接口验收时间",
+              "mitigationPlan": "提前安排联调窗口",
+              "ownerRole": "technical-support",
+              "packageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+              "riskCategory": "integration",
+              "riskDescription": "V1客户联调窗口风险",
+              "riskLevel": "R2",
+              "riskStatus": "mitigating",
+              "sortOrder": 0
+            }
+          ],
+          "scopeItems": [
+            {
+              "description": "交付核心接口和操作培训；范围以此版本为准。",
+              "id": "7a359ba7-d42f-4089-a317-4bd6ced8b5c2",
+              "label": "V1冻结交付范围",
+              "packageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+              "scopeType": "in-scope",
+              "sortOrder": 0
+            },
+            {
+              "description": "不包含第三方硬件采购。",
+              "id": "a545bfe3-0f19-40f3-84c5-2c60cd3fcfcb",
+              "label": "V1边界",
+              "packageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+              "scopeType": "out-of-scope",
+              "sortOrder": 1
+            }
+          ],
+          "technicalCostPackageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+          "technicalCostVersion": 1
+        },
+        {
+          "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+          "contractTermSnapshotId": "839324ec-ddc2-4af1-af5e-82b5dc101fa7",
+          "riskItems": [
+            {
+              "blocksNextStage": false,
+              "id": "51071b0f-3114-4fdf-bd37-ab2152fb0cbc",
+              "impactScope": "接口验收时间",
+              "mitigationPlan": "提前安排联调窗口",
+              "ownerRole": "technical-support",
+              "packageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+              "riskCategory": "integration",
+              "riskDescription": "V1客户联调窗口风险",
+              "riskLevel": "R2",
+              "riskStatus": "mitigating",
+              "sortOrder": 0
+            }
+          ],
+          "scopeItems": [
+            {
+              "description": "交付核心接口和操作培训；范围以此版本为准。",
+              "id": "7a359ba7-d42f-4089-a317-4bd6ced8b5c2",
+              "label": "V1冻结交付范围",
+              "packageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+              "scopeType": "in-scope",
+              "sortOrder": 0
+            },
+            {
+              "description": "不包含第三方硬件采购。",
+              "id": "a545bfe3-0f19-40f3-84c5-2c60cd3fcfcb",
+              "label": "V1边界",
+              "packageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+              "scopeType": "out-of-scope",
+              "sortOrder": 1
+            }
+          ],
+          "technicalCostPackageId": "579e294a-4fd5-42e9-a82a-b0b0f5947838",
+          "technicalCostVersion": 1
+        }
+      ],
+      "sourcePayloadHash": "3c793354e66ef434b6d28729fe53865b2d39ecb5c91b55a14f2e41865875151a"
+    },
+    "generatedAt": "2026-11-04T00:12:03.204Z",
+    "handoverBasisItems": [
+      {
+        "id": "b6975579-364e-492e-99d8-a38a02c4160d",
+        "itemType": "contract",
+        "sourceId": "2eaff0e9-8af3-4551-a94f-b85feae1510d",
+        "sourceType": "contract-term-snapshot",
+        "sourceVersion": "1",
+        "summary": "contract · 2eaff0e9-8af3-4551-a94f-b85feae1510d · 版本 1 · 合同 48a7467c-c58e-486d-aade-eda661b65298"
+      },
+      {
+        "id": "1dfd8e25-7a8c-4874-8abc-672885dd6e12",
+        "itemType": "contract",
+        "sourceId": "839324ec-ddc2-4af1-af5e-82b5dc101fa7",
+        "sourceType": "contract-term-snapshot",
+        "sourceVersion": "1",
+        "summary": "contract · 839324ec-ddc2-4af1-af5e-82b5dc101fa7 · 版本 1 · 合同 b75ed6ae-87ba-4ae1-9e35-f865239ebed7"
+      },
+      {
+        "id": "8c00450e-745d-469a-9211-15fd5b0a3b88",
+        "itemType": "cost",
+        "sourceId": "8fab8f95-1ca6-4ed4-b83c-85ea221dec18",
+        "sourceType": "contract-term-preparation",
+        "sourceVersion": "1",
+        "summary": "cost · 8fab8f95-1ca6-4ed4-b83c-85ea221dec18 · 版本 1 · 合同 48a7467c-c58e-486d-aade-eda661b65298"
+      },
+      {
+        "id": "924bbe71-2a1d-403c-afba-c1c5d33e68e6",
+        "itemType": "cost",
+        "sourceId": "6df3e4d0-cd17-4615-ade5-d027a944c96a",
+        "sourceType": "contract-term-preparation",
+        "sourceVersion": "1",
+        "summary": "cost · 6df3e4d0-cd17-4615-ade5-d027a944c96a · 版本 1 · 合同 b75ed6ae-87ba-4ae1-9e35-f865239ebed7"
+      },
+      {
+        "id": "cd499b94-cbfe-4ea1-ba27-3dcf9685cf7e",
+        "itemType": "receivable",
+        "sourceId": "f73f6bb8-7cbc-4091-b760-b09568e91f77",
+        "sourceType": "receivable-plan-version",
+        "sourceVersion": "1",
+        "summary": "receivable · f73f6bb8-7cbc-4091-b760-b09568e91f77 · 版本 1 · 合同 48a7467c-c58e-486d-aade-eda661b65298"
+      },
+      {
+        "id": "58c04796-4def-4f36-9911-cba59bb32e51",
+        "itemType": "receivable",
+        "sourceId": "f8d73777-9136-4c50-9982-7f88fcb27e21",
+        "sourceType": "receivable-plan-version",
+        "sourceVersion": "1",
+        "summary": "receivable · f8d73777-9136-4c50-9982-7f88fcb27e21 · 版本 1 · 合同 b75ed6ae-87ba-4ae1-9e35-f865239ebed7"
+      },
+      {
+        "id": "324b7b82-be6b-4cc4-8572-2dee7aa9793e",
+        "itemType": "responsibility",
+        "sourceId": "384ffad5-04ed-4f78-918a-ec8e7df6a590",
+        "sourceType": "platform-user",
+        "sourceVersion": "1",
+        "summary": "responsibility · 384ffad5-04ed-4f78-918a-ec8e7df6a590 · 版本 1"
+      },
+      {
+        "id": "62ccdb8c-d09c-4260-8af2-b9889c696914",
+        "itemType": "responsibility",
+        "sourceId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+        "sourceType": "platform-user",
+        "sourceVersion": "1",
+        "summary": "responsibility · 7269e5e0-fb18-4d11-aafe-a052e149f24a · 版本 1"
+      },
+      {
+        "id": "0b6e19ba-97ad-439b-af01-f2888353dcfc",
+        "itemType": "responsibility",
+        "sourceId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+        "sourceType": "platform-user",
+        "sourceVersion": "1",
+        "summary": "responsibility · ebad7d92-85e5-4c1c-b956-ea256fe52935 · 版本 1"
+      },
+      {
+        "id": "0df24eb1-0a42-464f-a4da-4b30b7d93a6c",
+        "itemType": "risk",
+        "sourceId": "8fab8f95-1ca6-4ed4-b83c-85ea221dec18",
+        "sourceType": "contract-term-preparation",
+        "sourceVersion": "1",
+        "summary": "risk · 8fab8f95-1ca6-4ed4-b83c-85ea221dec18 · 版本 1 · 合同 48a7467c-c58e-486d-aade-eda661b65298"
+      },
+      {
+        "id": "fb912c79-6631-46a4-aa2c-d5300bbe9df9",
+        "itemType": "risk",
+        "sourceId": "6df3e4d0-cd17-4615-ade5-d027a944c96a",
+        "sourceType": "contract-term-preparation",
+        "sourceVersion": "1",
+        "summary": "risk · 6df3e4d0-cd17-4615-ade5-d027a944c96a · 版本 1 · 合同 b75ed6ae-87ba-4ae1-9e35-f865239ebed7"
+      },
+      {
+        "id": "43faceb2-3bf4-4f33-a41c-60353e853476",
+        "itemType": "scope",
+        "sourceId": "8fab8f95-1ca6-4ed4-b83c-85ea221dec18",
+        "sourceType": "contract-term-preparation",
+        "sourceVersion": "1",
+        "summary": "scope · 8fab8f95-1ca6-4ed4-b83c-85ea221dec18 · 版本 1 · 合同 48a7467c-c58e-486d-aade-eda661b65298"
+      },
+      {
+        "id": "20ce5dbe-5ab1-4b7a-ba4e-e4d2fbc14e4d",
+        "itemType": "scope",
+        "sourceId": "6df3e4d0-cd17-4615-ade5-d027a944c96a",
+        "sourceType": "contract-term-preparation",
+        "sourceVersion": "1",
+        "summary": "scope · 6df3e4d0-cd17-4615-ade5-d027a944c96a · 版本 1 · 合同 b75ed6ae-87ba-4ae1-9e35-f865239ebed7"
+      }
+    ],
+    "handoverBasisSnapshotId": "713c7054-48be-451a-a74e-8d082316d0a0",
+    "handoverId": "bac70ea7-3f54-42d4-beac-a6ba6f4570db",
+    "handoverStatus": "draft",
+    "participantConfirmationSummary": {
+      "closedAt": null,
+      "closedCount": 0,
+      "confirmationRecordId": "5fc6d5c0-ef28-479d-8fd0-0a7f5128dd49",
+      "confirmedAt": null,
+      "confirmedCount": 2,
+      "participants": [
+        {
+          "confirmedAt": "2026-11-04T00:12:02.991Z",
+          "confirmedComment": "本人核验同一固定材料并确认所指派职责",
+          "participantDisplayName": "R4DEF33 personA",
+          "participantId": "384ffad5-04ed-4f78-918a-ec8e7df6a590",
+          "participantRoleKey": "technical-support",
+          "participantStatus": "confirmed",
+          "responsibilities": [
+            {
+              "responsibilitySummary": "核对冻结范围边界与技术风险",
+              "roleKey": "technical-support"
+            }
+          ]
+        },
+        {
+          "confirmedAt": "2026-11-04T00:12:03.125Z",
+          "confirmedComment": "本人核验同一固定材料并确认所指派职责",
+          "participantDisplayName": "R4DEF33 writer",
+          "participantId": "7269e5e0-fb18-4d11-aafe-a052e149f24a",
+          "participantRoleKey": "execution-owner",
+          "participantStatus": "confirmed",
+          "responsibilities": [
+            {
+              "responsibilitySummary": "承接此冻结版本的交付职责",
+              "roleKey": "execution-owner"
+            }
+          ]
+        },
+        {
+          "confirmedAt": null,
+          "confirmedComment": null,
+          "participantDisplayName": "R4DEF33 full",
+          "participantId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+          "participantRoleKey": "sales-owner",
+          "participantStatus": "pending",
+          "responsibilities": [
+            {
+              "responsibilitySummary": "核对商务边界和合同材料",
+              "roleKey": "business-admin"
+            },
+            {
+              "responsibilitySummary": "移交客户合同与销售事实",
+              "roleKey": "sales-owner"
+            }
+          ]
+        }
+      ],
+      "pendingCount": 1,
+      "requiredCount": 3,
+      "rowVersion": 3,
+      "status": "pending",
+      "submittedAt": "2026-11-04T00:12:00.343Z"
+    },
+    "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+    "projectName": "R4-def36-项目",
+    "projectNo": "PRJ-2026-000001",
+    "projectRowVersion": 1,
+    "projectionLevel": "handover-confirmation",
+    "receiptJudgmentModeSummary": {
+      "receiptJudgmentMode": "contract-separate",
+      "sourceId": null,
+      "sourceType": "none",
+      "status": "not-frozen",
+      "summary": "当前显示本次准备选定的模式；最终移交事实确认后才冻结生效。"
+    },
+    "rowVersion": 1,
+    "sourceChanged": false,
+    "sourcePayloadHash": "3c793354e66ef434b6d28729fe53865b2d39ecb5c91b55a14f2e41865875151a",
+    "summaryPackageKey": "project-handover-confirmation",
+    "summarySnapshotId": "67b00aac-17cb-43c2-ae0a-351f6595049a",
+    "version": 1
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

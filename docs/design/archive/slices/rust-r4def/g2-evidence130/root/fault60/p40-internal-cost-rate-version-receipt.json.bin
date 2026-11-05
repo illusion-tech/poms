@@ -1,0 +1,22 @@
+{
+  "operationId": "ProjectCostController_publishInternalCostRateVersion",
+  "table": "internal_cost_rate_version",
+  "event": "INSERT OR UPDATE",
+  "nth": 1,
+  "deferred": false,
+  "functionDefinition": "CREATE OR REPLACE FUNCTION r4def_control.r4def_fault_60()\n RETURNS trigger\n LANGUAGE plpgsql\nAS $function$ DECLARE hits integer; BEGIN hits:=COALESCE(NULLIF(current_setting('poms_r4def_fault.hits',true),''),'0')::integer+1; PERFORM set_config('poms_r4def_fault.hits',hits::text,true); IF hits < COALESCE(TG_ARGV[1],'1')::integer THEN RETURN NEW; END IF; PERFORM pg_advisory_xact_lock(194043,TG_ARGV[0]::integer); RAISE EXCEPTION USING ERRCODE='P0001', MESSAGE='r4def60 necessary write fault'; END $function$\n",
+  "barrierWaiter": {
+    "pid": 989,
+    "query": "INSERT INTO poms.internal_cost_rate_version (\"change_reason\",\"created_at\",\"created_by\",\"currency\",\"effective_from\",\"effective_to\",\"id\",\"is_current\",\"person_id\",\"published_at\",\"published_by\",\"rate_key\",\"rate_scope_type\",\"rate_unit\",\"rate_value\",\"role_code\",\"row_version\",\"status\",\"supersedes_rate_version_id\",\"updated_at\",\"updated_by\",\"version\") SELECT \"change_reason\",\"created_at\",\"created_by\",\"currency\",\"effective_from\",\"effective_to\",\"id\",\"is_current\",\"person_id\",\"published_at\",\"published_by\",\"rate_key\",\"rate_scope_type\",\"rate_unit\",\"rate_value\",\"role_code\",\"row_version\",\"status\",\"supersedes_rate_version_id\",\"updated_at\",\"updated_by\",\"version\" FROM jsonb_populate_record(NULL::poms.internal_cost_rate_version,$1::jsonb)",
+    "wait_event": "advisory",
+    "wait_event_type": "Lock",
+    "classid": "194043",
+    "objid": "60040",
+    "granted": false
+  },
+  "status": 500,
+  "receiptId": "tmp/rust-r4def/root/api32/01244-ProjectCostController_publishInternalCostRateVersion.json",
+  "hitProven": true,
+  "all120TablesRolledBack": true,
+  "retryPending": true
+}

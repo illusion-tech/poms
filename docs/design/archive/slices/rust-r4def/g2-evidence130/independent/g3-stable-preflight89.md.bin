@@ -1,0 +1,13 @@
+稳定部分最终 G3 准备审查已完成，**尚不签 G3；K86-P1-01 仍 Block。**
+
+初始 intake HEAD `c96b14bb5af77d28df283612fd6569340765c8ea`，采集 1461 pins；原件及公开回执补充共验证 2216 个 file/hash 版本。当前稳定产品与 intake 的差异仅为另审的 K86 service/store 两源。当前 HEAD `287214fd95d7d954694002c6e95665ebf881929c` 只是上下文标识，工作树还不是最终候选冻结。
+
+独立重核原件：30/30 正向入口、94 拒绝；fault43/49/60/75 分别 19/42/41/1 个实际必要写故障，逐案 120 表 before/blocked/after 摘要相同及真实 waiter/500，成功 retry 组数分别 3/6/10/1。pending74 明确独立 eager 与同事务 coflush，不声称 eager 被回滚。E14 与 projection76 是保存的实际只读重核，没有重放 ACK。
+
+F61 的 8 basis/16 result 共 24 份 immutable payload 已独立 canonical hash 全匹配且新 policy v2 一致；旧 F25 不重标。10 个有效实际竞态索引、双 worker PG 锁与两真实同用户 Session、原 HTTP 和全部必要读回均匹配；仅计 r85 01/02+r88 03–10，旧 r85 03 错门控保留但不计通过。
+
+原流重数 Rust405 passed/54 ignored；Native74套863；Admin60套417。Rust79/clippy80/build81 各247输入匹配稳定源。full spec239 paths/293 ops/626 schemas，无悬空本地ref；client616，六保护源的当前与永久 S4 fingerprint 全符。ORM 原始 check 仍为1，逐条沿 finite 分类保留，不将 scopedFK/control/ratio差异统称忽略。
+
+D/E/F/common 复核未发现新的稳定部分 P0–P2。真实 amendment/rebaseline 与两次连续浏览器流程已确认旧 Active事实保留、材料 V3 零确认重启→三人本人确认，截图仍明确 R5 blocked；历史材料读取冻结 typed scope/risk，无 financial raw payload。optional browser迟到附件失败仍 not-run，不把 helper 测试说成该实际场景。
+
+最终还缺：K86-P1-01 baseline 回归修正；fresh真实附件新增 auto-Link+必要 audit；两条 no-op barrier；最新 K 运行/必要故障与对象边界的精确覆盖；cleanup70 Root 执行与终态证明；全候选 latest HEAD/source/binary/UI/SDK/SQL/evidence freeze。最新 K 支持源需要新 fullRust/clippy/fmt/build/runtime 绑定；其它未变输入可有界复用。完整明细、输入 hash 和每个边界见同名 JSON 及 Block96 原件。reviewer 全程只读源码/公开原件，没有 DB/HTTP/环境操作，也没有 G3/G4 或 Issue 关闭授权。

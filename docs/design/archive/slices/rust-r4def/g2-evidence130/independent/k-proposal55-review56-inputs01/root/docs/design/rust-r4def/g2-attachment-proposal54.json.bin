@@ -1,0 +1,75 @@
+{
+  "kind": "R4DEF-supporting-attachment-atomic-version-proposal54",
+  "capturedAt": "2026-11-04T02:00:13.422Z",
+  "checkpoint": {
+    "file": "docs/design/rust-r4def/g2-attachment-checkpoint54.md",
+    "sha256": "42e2091fe92008d20caa92491e02146492a6706c0e267881c6ba6c3606e8cab1"
+  },
+  "originals": [
+    {
+      "origin": {
+        "file": "apps/poms-api-rust/src/attachments/service.rs",
+        "sha256": "13ea71827b3ee14ece4d8dda9a561f97975f10cbadcee2925adf6923a4bd91d9"
+      },
+      "frozen": {
+        "file": "docs/design/rust-r4def/g2-attachment-input54/service.rs.bin",
+        "sha256": "13ea71827b3ee14ece4d8dda9a561f97975f10cbadcee2925adf6923a4bd91d9"
+      }
+    },
+    {
+      "origin": {
+        "file": "apps/poms-api-rust/src/attachments/store.rs",
+        "sha256": "d4907b05cf9772efc20c378667ccf78fce19473e8e3fa24bc498a4f72452a403"
+      },
+      "frozen": {
+        "file": "docs/design/rust-r4def/g2-attachment-input54/store.rs.bin",
+        "sha256": "d4907b05cf9772efc20c378667ccf78fce19473e8e3fa24bc498a4f72452a403"
+      }
+    },
+    {
+      "origin": {
+        "file": "tmp/rust-r4def/independent/k-create-version-preflight53.json",
+        "sha256": "ad87ac242d6e9498c51becb45c181186b67c0c9d453ef8fec5e725967f24dafe"
+      },
+      "frozen": {
+        "file": "docs/design/rust-r4def/g2-attachment-input54/independent53.json.bin",
+        "sha256": "ad87ac242d6e9498c51becb45c181186b67c0c9d453ef8fec5e725967f24dafe"
+      }
+    },
+    {
+      "origin": {
+        "file": "tmp/rust-r4def/independent/k-create-version-preflight53.md",
+        "sha256": "5d147afa947d659806bf287feecadedf575b301484e1a6e0682a849ef82429e4"
+      },
+      "frozen": {
+        "file": "docs/design/rust-r4def/g2-attachment-input54/independent53.md.bin",
+        "sha256": "5d147afa947d659806bf287feecadedf575b301484e1a6e0682a849ef82429e4"
+      }
+    }
+  ],
+  "requiredOrder": [
+    "validate actual uploaded object without publishing validating intermediate state",
+    "transaction lock and recheck actual upload session CAS/status",
+    "canonical version-group locks and head CAS",
+    "release old latest/final flags in the same transaction",
+    "insert new attachment then actual copied links",
+    "necessary audit plus managed auth plus session completed",
+    "one COMMIT; publish identity map only after success"
+  ],
+  "scope": {
+    "files": [
+      "apps/poms-api-rust/src/attachments/service.rs",
+      "apps/poms-api-rust/src/attachments/store.rs"
+    ],
+    "publicShapeChanged": false,
+    "DDLChanged": false,
+    "dependenciesChanged": false,
+    "newPublicOperations": 0
+  },
+  "restoreFailureContext": true,
+  "abortRemovesObjectOnlyAfterSuccessfulTerminalCommit": true,
+  "oldActiveAndFinalPreservedForNonfinalVersion": true,
+  "noSqlFabricatedBusinessFacts": true,
+  "implementationAuthorized": false,
+  "next": "Independent proposal review then isolated supporting implementation; Root imports and executes actual DB/binary/rollback/race acceptance."
+}

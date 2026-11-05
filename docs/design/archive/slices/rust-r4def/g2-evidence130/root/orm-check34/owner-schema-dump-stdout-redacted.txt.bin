@@ -1,0 +1,93 @@
+◇ injected env (16) from ../../.local/share/poms-r4def/private/orm-owner34.env // tip: ⌘ enable debugging { debug: true }
+set names 'utf8';
+
+drop table if exists "r4def_control"."marker" cascade;
+
+alter table "poms"."commercial_baseline_diff_result" drop constraint "fk_r4_diff_baseline_project";
+alter table "poms"."commercial_baseline_diff_result" drop constraint "fk_r4_diff_contract_project";
+
+alter table "poms"."contract_readiness_package" drop constraint "fk_r4_readiness_contract_project";
+alter table "poms"."contract_readiness_package" drop constraint "fk_r4_readiness_current_preparation";
+alter table "poms"."contract_readiness_package" drop constraint "fk_r4_readiness_diff_scope";
+alter table "poms"."contract_readiness_package" drop constraint "fk_r4d_readiness_amendment";
+
+alter table "poms"."contract_amendment" drop constraint "fk_r4d_amendment_after";
+alter table "poms"."contract_amendment" drop constraint "fk_r4d_amendment_before";
+alter table "poms"."contract_amendment" drop constraint "fk_r4d_amendment_preparation";
+alter table "poms"."contract_amendment" drop constraint "fk_r4d_amendment_project";
+alter table "poms"."contract_amendment" drop constraint "fk_r4d_amendment_readiness";
+alter table "poms"."contract_amendment" drop constraint "fk_r4d_amendment_review";
+
+alter table "poms"."contract_term_preparation" drop constraint "fk_r4_preparation_activated_snapshot";
+alter table "poms"."contract_term_preparation" drop constraint "fk_r4_preparation_contract_project";
+alter table "poms"."contract_term_preparation" drop constraint "fk_r4_preparation_diff_scope";
+alter table "poms"."contract_term_preparation" drop constraint "fk_r4_preparation_readiness_scope";
+alter table "poms"."contract_term_preparation" drop constraint "fk_r4d_preparation_amendment";
+alter table "poms"."contract_term_preparation" drop constraint "fk_r4d_preparation_before";
+
+alter table "poms"."contract_term_snapshot" drop constraint "fk_r4_snapshot_preparation_contract";
+alter table "poms"."contract_term_snapshot" drop constraint "fk_r4d_snapshot_amendment";
+
+alter table "poms"."invoice_record" drop constraint "fk_r4e_invoice_currency_snapshot";
+
+alter table "poms"."contract_review_binding" drop constraint "fk_r4_review_preparation_contract";
+alter table "poms"."contract_review_binding" drop constraint "fk_r4d_review_amendment";
+
+alter table "poms"."project_handover" drop constraint "fk_r4d_handover_basis";
+
+alter table "poms"."project_receipt_judgment_freeze" drop constraint "fk_r4d_receipt_freeze_basis";
+alter table "poms"."project_receipt_judgment_freeze" drop constraint "fk_r4d_receipt_freeze_handover";
+
+alter table "poms"."project_handover_summary_payload" drop constraint "fk_r4d_payload_basis";
+alter table "poms"."project_handover_summary_payload" drop constraint "fk_r4d_payload_handover";
+
+alter table "poms"."project_handover_participant_role" drop constraint "fk_r4d_role_handover";
+alter table "poms"."project_handover_participant_role" drop constraint "fk_r4d_role_person";
+
+alter table "poms"."handover_baseline_impact_item" drop constraint "fk_r4d_impact_basis_item";
+alter table "poms"."handover_baseline_impact_item" drop constraint "fk_r4d_impact_rebaseline";
+
+alter table "poms"."receivable_plan_version" drop constraint "fk_r4_plan_contract_project";
+alter table "poms"."receivable_plan_version" drop constraint "fk_r4_plan_preparation_source";
+alter table "poms"."receivable_plan_version" drop constraint "fk_r4_plan_snapshot_scope";
+
+alter table "poms"."receivable_plan_init_record" drop constraint "fk_r4_plan_init_contract";
+alter table "poms"."receivable_plan_init_record" drop constraint "fk_r4_plan_init_snapshot";
+
+alter table "poms"."project_handover_contract_basis" drop constraint "fk_r4d_member_amendment";
+alter table "poms"."project_handover_contract_basis" drop constraint "fk_r4d_member_basis";
+alter table "poms"."project_handover_contract_basis" drop constraint "fk_r4d_member_contract";
+alter table "poms"."project_handover_contract_basis" drop constraint "fk_r4d_member_plan";
+alter table "poms"."project_handover_contract_basis" drop constraint "fk_r4d_member_preparation";
+alter table "poms"."project_handover_contract_basis" drop constraint "fk_r4d_member_readiness";
+alter table "poms"."project_handover_contract_basis" drop constraint "fk_r4d_member_snapshot";
+
+alter table "poms"."cost_governance_evidence" drop constraint "cost_governance_evidence_evidence_kind_check";
+alter table "poms"."cost_governance_evidence" drop constraint "cost_governance_evidence_target_type_check";
+alter table "poms"."cost_governance_evidence" add constraint "cost_governance_evidence_evidence_kind_check" check ((((evidence_kind)::text = ANY ((ARRAY['source-facts'::character varying, 'manual-stage'::character varying, 'manual-finance'::character varying])::text[]))));
+alter table "poms"."cost_governance_evidence" add constraint "cost_governance_evidence_target_type_check" check ((((target_type)::text = ANY ((ARRAY['SharedCostAllocationBasis'::character varying, 'SharedCostAllocationResult'::character varying, 'CostStageAttributionSnapshot'::character varying, 'AccountingTaxTreatmentSnapshot'::character varying])::text[]))));
+
+alter table "poms"."project_actual_cost_record" drop constraint "chk_r4e_basis_origin";
+alter table "poms"."project_actual_cost_record" drop column "labor_scope_key";
+alter table "poms"."project_actual_cost_record" add "labor_scope_key" text generated always as as (CASE WHEN cost_type = 'labor' THEN CASE WHEN labor_person_id IS NOT NULL THEN 'person:' || labor_person_id::text WHEN labor_role IS NOT NULL THEN 'role:' || labor_role END END) stored null;
+alter table "poms"."project_actual_cost_record" add constraint "chk_r4e_basis_origin" check ((((basis_origin)::text = ANY ((ARRAY['captured'::character varying, 'legacy-unavailable'::character varying])::text[]))));
+
+alter table "poms"."project_handover_basis_snapshot" drop constraint "project_handover_basis_snapshot_status_check";
+alter table "poms"."project_handover_basis_snapshot" add constraint "project_handover_basis_snapshot_status_check" check ((((status)::text = ANY ((ARRAY['active'::character varying, 'superseded'::character varying, 'voided'::character varying])::text[]))));
+
+alter table "poms"."project_handover_basis_item" drop constraint "project_handover_basis_item_item_type_check";
+alter table "poms"."project_handover_basis_item" add constraint "project_handover_basis_item_item_type_check" check ((((item_type)::text = ANY ((ARRAY['scope'::character varying, 'risk'::character varying, 'receivable'::character varying, 'cost'::character varying, 'responsibility'::character varying, 'attachment'::character varying, 'contract'::character varying])::text[]))));
+
+alter table "poms"."contract_term_preparation" drop constraint "contract_term_preparation_down_payment_rate_check";
+alter table "poms"."contract_term_preparation" drop constraint "contract_term_preparation_retention_rate_check";
+alter table "poms"."contract_term_preparation" drop constraint "contract_term_preparation_tax_rate_check";
+alter table "poms"."contract_term_preparation" add constraint "contract_term_preparation_down_payment_rate_check" check ("down_payment_rate" between 0 and 1);
+alter table "poms"."contract_term_preparation" add constraint "contract_term_preparation_retention_rate_check" check ("retention_rate" between 0 and 1);
+alter table "poms"."contract_term_preparation" add constraint "contract_term_preparation_tax_rate_check" check ("tax_rate" between 0 and 1);
+
+alter table "poms"."project_handover_participant_role" drop constraint "project_handover_participant_role_role_key_check";
+alter table "poms"."project_handover_participant_role" add constraint "project_handover_participant_role_role_key_check" check ((((role_key)::text = ANY ((ARRAY['sales-owner'::character varying, 'business-admin'::character varying, 'technical-support'::character varying, 'execution-owner'::character varying, 'finance'::character varying])::text[]))));
+
+drop schema if exists "r4def_control";
+
+

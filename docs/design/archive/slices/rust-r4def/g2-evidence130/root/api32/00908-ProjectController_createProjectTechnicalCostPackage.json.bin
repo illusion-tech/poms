@@ -1,0 +1,89 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T01:15:25.632Z",
+  "completedAt": "2026-11-04T01:15:25.715Z",
+  "operationId": "ProjectController_createProjectTechnicalCostPackage",
+  "method": "POST",
+  "path": "/api/projects/2410df0c-c530-4223-b857-1a83a411b57b/technical-cost-packages",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-00908-bc55cdec",
+  "requestBody": {
+    "technicalFeasibilityDecision": "feasible",
+    "technicalConclusionSummary": "本case技术范围可交付。",
+    "allowNextStage": true,
+    "currencyCode": "CNY",
+    "taxAssumptionSummary": "成本含税额56500.00=未税50000.00+税6500.00。",
+    "taxReviewStatus": "reviewed",
+    "scopeItems": [
+      {
+        "scopeType": "in-scope",
+        "label": "V1冻结交付范围",
+        "description": "交付核心接口和操作培训；范围以此版本为准。",
+        "sortOrder": 0
+      },
+      {
+        "scopeType": "out-of-scope",
+        "label": "V1边界",
+        "description": "不包含第三方硬件采购。",
+        "sortOrder": 1
+      }
+    ],
+    "riskItems": [
+      {
+        "riskCategory": "integration",
+        "riskLevel": "R2",
+        "riskDescription": "V1客户联调窗口风险",
+        "impactScope": "接口验收时间",
+        "mitigationPlan": "提前安排联调窗口",
+        "ownerRole": "technical-support",
+        "riskStatus": "mitigating",
+        "blocksNextStage": false,
+        "sortOrder": 0
+      }
+    ],
+    "costItems": [
+      {
+        "costCategory": "implementation",
+        "costDescription": "本case已估算实施成本",
+        "estimationBasis": "本case明确估算基数",
+        "amountExcludingTax": "50000.00",
+        "taxCostAmount": "6500.00",
+        "amountIncludingTax": "56500.00",
+        "currencyCode": "CNY",
+        "confidenceLevel": "high",
+        "highUncertainty": false,
+        "sortOrder": 0
+      }
+    ]
+  },
+  "status": 201,
+  "responseBody": {
+    "allowNextStage": true,
+    "blockerCount": 0,
+    "createdAt": "2026-11-04T01:15:25.700Z",
+    "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+    "currencyCode": "CNY",
+    "effectiveAt": "2026-11-04T01:15:25.700Z",
+    "highestRiskLevel": "R2",
+    "id": "3a101a20-cb07-488a-9d8d-642010641c3c",
+    "isCurrent": true,
+    "projectId": "2410df0c-c530-4223-b857-1a83a411b57b",
+    "rowVersion": 1,
+    "status": "effective",
+    "supersedesId": null,
+    "taxAssumptionSummary": "成本含税额56500.00=未税50000.00+税6500.00。",
+    "taxReviewStatus": "reviewed",
+    "technicalConclusionSummary": "本case技术范围可交付。",
+    "technicalFeasibilityDecision": "feasible",
+    "totalEstimatedAmountExcludingTax": "50000.00",
+    "totalEstimatedAmountIncludingTax": "56500.00",
+    "totalTaxCostAmount": "6500.00",
+    "updatedAt": "2026-11-04T01:15:25.700Z",
+    "updatedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+    "version": 1
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

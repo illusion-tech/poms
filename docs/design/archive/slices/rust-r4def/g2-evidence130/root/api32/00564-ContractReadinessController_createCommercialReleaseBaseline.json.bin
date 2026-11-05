@@ -1,0 +1,146 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:18:42.312Z",
+  "completedAt": "2026-11-04T00:18:42.339Z",
+  "operationId": "ContractReadinessController_createCommercialReleaseBaseline",
+  "method": "POST",
+  "path": "/api/commercial-release-baselines",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-00564-4378cc49",
+  "requestBody": {
+    "projectId": "a72c6b2e-0213-4048-8bb5-6d5f0721edb1",
+    "baselineCode": "R4-def45-base",
+    "contractTerms": [
+      {
+        "contractId": "c964c41e-2673-4f31-91e2-2da8c65b8999",
+        "amountTaxInclusive": "56500.00",
+        "amountTaxExclusive": "50000.00",
+        "taxRate": "0.1300",
+        "downPaymentRate": "1.0000",
+        "retentionRate": "0.0000",
+        "retentionDueDate": null,
+        "paymentTerms": "验收前按合同约定支付全部合同款。",
+        "receivablePlanSeeds": [
+          {
+            "nodeKey": "full-payment",
+            "label": "合同付款",
+            "plannedAmount": "56500.00",
+            "plannedDate": "2026-12-04",
+            "isRetentionNode": false,
+            "sortOrder": 0,
+            "note": null
+          }
+        ]
+      },
+      {
+        "contractId": "670dd78b-46fb-402c-b7b0-e9db5365c1b5",
+        "amountTaxInclusive": "56500.00",
+        "amountTaxExclusive": "50000.00",
+        "taxRate": "0.1300",
+        "downPaymentRate": "1.0000",
+        "retentionRate": "0.0000",
+        "retentionDueDate": null,
+        "paymentTerms": "验收前按合同约定支付全部合同款。",
+        "receivablePlanSeeds": [
+          {
+            "nodeKey": "full-payment",
+            "label": "合同付款",
+            "plannedAmount": "56500.00",
+            "plannedDate": "2026-12-04",
+            "isRetentionNode": false,
+            "sortOrder": 0,
+            "note": null
+          }
+        ]
+      }
+    ],
+    "amountTaxInclusive": "113000.00",
+    "amountTaxExclusive": "100000.00",
+    "taxRate": "0.1300",
+    "downPaymentRate": "1.0000",
+    "retentionRate": "0.0000",
+    "paymentTerms": "项目商业来源；各合同金额与节点独立。"
+  },
+  "status": 201,
+  "responseBody": {
+    "amountTaxExclusive": "100000.00",
+    "amountTaxInclusive": "113000.00",
+    "baselineCode": "R4-def45-base",
+    "baselineStatus": "draft",
+    "contractTerms": [
+      {
+        "amountTaxExclusive": "50000.00",
+        "amountTaxInclusive": "56500.00",
+        "contractId": "670dd78b-46fb-402c-b7b0-e9db5365c1b5",
+        "downPaymentRate": "1.0000",
+        "paymentTerms": "验收前按合同约定支付全部合同款。",
+        "receivablePlanSeeds": [
+          {
+            "isRetentionNode": false,
+            "label": "合同付款",
+            "nodeKey": "full-payment",
+            "note": null,
+            "plannedAmount": "56500.00",
+            "plannedDate": "2026-12-04",
+            "sortOrder": 0
+          }
+        ],
+        "retentionDueDate": null,
+        "retentionRate": "0.0000",
+        "taxRate": "0.1300"
+      },
+      {
+        "amountTaxExclusive": "50000.00",
+        "amountTaxInclusive": "56500.00",
+        "contractId": "c964c41e-2673-4f31-91e2-2da8c65b8999",
+        "downPaymentRate": "1.0000",
+        "paymentTerms": "验收前按合同约定支付全部合同款。",
+        "receivablePlanSeeds": [
+          {
+            "isRetentionNode": false,
+            "label": "合同付款",
+            "nodeKey": "full-payment",
+            "note": null,
+            "plannedAmount": "56500.00",
+            "plannedDate": "2026-12-04",
+            "sortOrder": 0
+          }
+        ],
+        "retentionDueDate": null,
+        "retentionRate": "0.0000",
+        "taxRate": "0.1300"
+      }
+    ],
+    "createdAt": "2026-11-04T00:18:42.323Z",
+    "createdBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+    "currencyCode": "CNY",
+    "diffLevel": null,
+    "diffSummary": null,
+    "downPaymentRate": "1.0000",
+    "financialProjection": {
+      "displayText": "合同财务字段包",
+      "fieldPackageKey": "contract-finance",
+      "mode": "full",
+      "reasonCode": "allowed",
+      "value": "合同财务字段包"
+    },
+    "grossMarginSummary": null,
+    "id": "5cd512a2-e124-4cff-aa13-08a00dd61ba2",
+    "isCurrent": true,
+    "latestDiffResultId": null,
+    "paymentTerms": "项目商业来源；各合同金额与节点独立。",
+    "paymentTermsSummary": null,
+    "projectId": "a72c6b2e-0213-4048-8bb5-6d5f0721edb1",
+    "quotationReviewId": null,
+    "retentionRate": "0.0000",
+    "reviewStatus": null,
+    "rowVersion": 1,
+    "taxRate": "0.1300",
+    "updatedAt": "2026-11-04T00:18:42.323Z",
+    "updatedBy": "ebad7d92-85e5-4c1c-b956-ea256fe52935"
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

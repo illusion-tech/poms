@@ -1,0 +1,3787 @@
+{
+  "kind": "r4-shared67-validation-input",
+  "version": 1,
+  "sourcePins": [
+    {
+      "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "bytes": 483396,
+      "sha256": "d962b8267030c8277f760b8bd6471e62491ee7fbd6353226f6291d3ff3a18db1"
+    },
+    {
+      "path": "libs/shared/api-spec/openapi.json",
+      "bytes": 1236594,
+      "sha256": "56ae1835f50e427dd564b60f423da49e5c03fd88eed431b12ae054011e6de821"
+    },
+    {
+      "path": "tools/rust-r4def/combined-operation-map16.json",
+      "bytes": 40235,
+      "sha256": "51fe8bca788218aa1f84c371f6dba782e4b1be8b48b67e2fa5c2ae1254aae0cc"
+    }
+  ],
+  "operationCount": 67,
+  "sourceSchemaCount": 626,
+  "operations": {
+    "ContractReadinessController_createCommercialReleaseBaseline": {
+      "method": "POST",
+      "path": "/api/commercial-release-baselines",
+      "bodyRequired": true,
+      "body": {
+        "$ref": "#/components/schemas/CreateCommercialReleaseBaselineRequest"
+      },
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ContractReadinessController_getCommercialReleaseBaseline": {
+      "method": "GET",
+      "path": "/api/commercial-release-baselines/{id}",
+      "bodyRequired": false,
+      "body": null,
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ContractReadinessController_getDiffHistory": {
+      "method": "GET",
+      "path": "/api/commercial-release-baselines/{id}/diff-history",
+      "bodyRequired": false,
+      "body": null,
+      "query": {
+        "type": "object",
+        "properties": {
+          "contractId": {
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "type": "string"
+          }
+        },
+        "required": []
+      }
+    },
+    "ContractReadinessController_reviewDiff": {
+      "method": "POST",
+      "path": "/api/commercial-release-baselines/{id}:reviewDiff",
+      "bodyRequired": true,
+      "body": {
+        "$ref": "#/components/schemas/ReviewCommercialReleaseBaselineDiffRequest"
+      },
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ContractReadinessController_createContractReadinessPackage": {
+      "method": "POST",
+      "path": "/api/contract-readiness-packages",
+      "bodyRequired": true,
+      "body": {
+        "$ref": "#/components/schemas/CreateContractReadinessPackageRequest"
+      },
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ContractReadinessController_getContractReadinessPackage": {
+      "method": "GET",
+      "path": "/api/contract-readiness-packages/{id}",
+      "bodyRequired": false,
+      "body": null,
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ContractReadinessController_getCurrentContractReadiness": {
+      "method": "GET",
+      "path": "/api/projects/{projectId}/contract-readiness",
+      "bodyRequired": false,
+      "body": null,
+      "query": {
+        "type": "object",
+        "properties": {
+          "contractId": {
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "type": "string"
+          }
+        },
+        "required": []
+      }
+    },
+    "ContractReadinessController_initializeContractSnapshot": {
+      "method": "POST",
+      "path": "/api/contract-readiness-packages/{id}:initializeContractSnapshot",
+      "bodyRequired": true,
+      "body": {
+        "$ref": "#/components/schemas/InitializeContractSnapshotFromReadinessPackageRequest"
+      },
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ContractReadinessController_initializeReceivablePlan": {
+      "method": "POST",
+      "path": "/api/contract-readiness-packages/{id}:initializeReceivablePlan",
+      "bodyRequired": true,
+      "body": {
+        "$ref": "#/components/schemas/InitializeReceivablePlanFromReadinessPackageRequest"
+      },
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ContractController_list": {
+      "method": "GET",
+      "path": "/api/contracts",
+      "bodyRequired": false,
+      "body": null,
+      "query": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ContractStatus"
+          },
+          "keyword": {
+            "minLength": 1,
+            "maxLength": 128,
+            "type": "string",
+            "x-r4-trim": true
+          }
+        },
+        "required": []
+      }
+    },
+    "ContractController_getById": {
+      "method": "GET",
+      "path": "/api/contracts/{id}",
+      "bodyRequired": false,
+      "body": null,
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ContractController_getCurrentApproval": {
+      "method": "GET",
+      "path": "/api/contracts/{id}/approval-record",
+      "bodyRequired": false,
+      "body": null,
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ContractController_create": {
+      "method": "POST",
+      "path": "/api/contracts",
+      "bodyRequired": true,
+      "body": {
+        "$ref": "#/components/schemas/CreateContractRequest"
+      },
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ContractController_updateBasicInfo": {
+      "method": "PATCH",
+      "path": "/api/contracts/{id}",
+      "bodyRequired": true,
+      "body": {
+        "$ref": "#/components/schemas/UpdateContractBasicInfoRequest"
+      },
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ContractController_submitReview": {
+      "method": "POST",
+      "path": "/api/contracts/{id}:submitReview",
+      "bodyRequired": true,
+      "body": {
+        "$ref": "#/components/schemas/SubmitContractReviewRequest"
+      },
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ContractController_activate": {
+      "method": "POST",
+      "path": "/api/contracts/{id}:activate",
+      "bodyRequired": true,
+      "body": {
+        "$ref": "#/components/schemas/ActivateContractRequest"
+      },
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ContractController_getByNo": {
+      "method": "GET",
+      "path": "/api/contracts:lookup",
+      "bodyRequired": false,
+      "body": null,
+      "query": {
+        "type": "object",
+        "properties": {
+          "contractNo": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "contractNo"
+        ]
+      }
+    },
+    "ContractTermSnapshotController_getById": {
+      "method": "GET",
+      "path": "/api/contract-term-snapshots/{id}",
+      "bodyRequired": false,
+      "body": null,
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ContractFinanceController_listReceipts": {
+      "method": "GET",
+      "path": "/api/contracts/{contractId}/receipt-records",
+      "bodyRequired": false,
+      "body": null,
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ContractFinanceController_createReceipt": {
+      "method": "POST",
+      "path": "/api/contracts/{contractId}/receipt-records",
+      "bodyRequired": true,
+      "body": {
+        "$ref": "#/components/schemas/CreateReceiptRecordRequest"
+      },
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ContractFinanceController_confirmReceipt": {
+      "method": "POST",
+      "path": "/api/receipt-records/{id}:confirm",
+      "bodyRequired": true,
+      "body": {
+        "$ref": "#/components/schemas/ConfirmReceiptRecordRequest"
+      },
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ContractFinanceController_listPayables": {
+      "method": "GET",
+      "path": "/api/projects/{projectId}/payable-records",
+      "bodyRequired": false,
+      "body": null,
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ContractFinanceController_getPayable": {
+      "method": "GET",
+      "path": "/api/payable-records/{id}",
+      "bodyRequired": false,
+      "body": null,
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ContractFinanceController_createPayable": {
+      "method": "POST",
+      "path": "/api/projects/{projectId}/payable-records",
+      "bodyRequired": true,
+      "body": {
+        "$ref": "#/components/schemas/CreatePayableRecordRequest"
+      },
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ContractFinanceController_updatePayable": {
+      "method": "PATCH",
+      "path": "/api/payable-records/{id}",
+      "bodyRequired": true,
+      "body": {
+        "$ref": "#/components/schemas/UpdatePayableRecordRequest"
+      },
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ContractFinanceController_closePayable": {
+      "method": "POST",
+      "path": "/api/payable-records/{id}:close",
+      "bodyRequired": true,
+      "body": {
+        "$ref": "#/components/schemas/ClosePayableRecordRequest"
+      },
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ContractFinanceController_voidPayable": {
+      "method": "POST",
+      "path": "/api/payable-records/{id}:void",
+      "bodyRequired": true,
+      "body": {
+        "$ref": "#/components/schemas/VoidPayableRecordRequest"
+      },
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ContractFinanceController_listInvoices": {
+      "method": "GET",
+      "path": "/api/projects/{projectId}/invoice-records",
+      "bodyRequired": false,
+      "body": null,
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ContractFinanceController_getInvoice": {
+      "method": "GET",
+      "path": "/api/invoice-records/{id}",
+      "bodyRequired": false,
+      "body": null,
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ContractFinanceController_createInvoice": {
+      "method": "POST",
+      "path": "/api/projects/{projectId}/invoice-records",
+      "bodyRequired": true,
+      "body": {
+        "$ref": "#/components/schemas/CreateInvoiceRecordRequest"
+      },
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ContractFinanceController_updateInvoice": {
+      "method": "PATCH",
+      "path": "/api/invoice-records/{id}",
+      "bodyRequired": true,
+      "body": {
+        "$ref": "#/components/schemas/UpdateInvoiceRecordRequest"
+      },
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ContractFinanceController_markInvoiceException": {
+      "method": "POST",
+      "path": "/api/invoice-records/{id}:markException",
+      "bodyRequired": true,
+      "body": {
+        "$ref": "#/components/schemas/MarkInvoiceExceptionRequest"
+      },
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ContractFinanceController_resolveInvoiceException": {
+      "method": "POST",
+      "path": "/api/invoice-records/{id}:resolveException",
+      "bodyRequired": true,
+      "body": {
+        "$ref": "#/components/schemas/ResolveInvoiceExceptionRequest"
+      },
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ContractFinanceController_closeInvoiceRecord": {
+      "method": "POST",
+      "path": "/api/invoice-records/{id}:close",
+      "bodyRequired": true,
+      "body": {
+        "$ref": "#/components/schemas/CloseInvoiceRecordRequest"
+      },
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ContractFinanceController_listPayments": {
+      "method": "GET",
+      "path": "/api/projects/{projectId}/payment-records",
+      "bodyRequired": false,
+      "body": null,
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ContractFinanceController_createPayment": {
+      "method": "POST",
+      "path": "/api/projects/{projectId}/payment-records",
+      "bodyRequired": true,
+      "body": {
+        "$ref": "#/components/schemas/CreatePaymentRecordRequest"
+      },
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ContractFinanceController_confirmPayment": {
+      "method": "POST",
+      "path": "/api/payment-records/{id}:confirm",
+      "bodyRequired": true,
+      "body": {
+        "$ref": "#/components/schemas/ConfirmPaymentRecordRequest"
+      },
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ProjectHandoverController_getContractHandoverSummary": {
+      "method": "GET",
+      "path": "/api/projects/{projectId}/contract-handover",
+      "bodyRequired": false,
+      "body": null,
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ProjectHandoverController_getProjectHandoverDetailByProject": {
+      "method": "GET",
+      "path": "/api/projects/{projectId}/project-handover",
+      "bodyRequired": false,
+      "body": null,
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ProjectHandoverController_getProjectHandoverDetailByHandover": {
+      "method": "GET",
+      "path": "/api/project-handovers/{id}",
+      "bodyRequired": false,
+      "body": null,
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ProjectHandoverController_confirmProjectHandover": {
+      "method": "POST",
+      "path": "/api/project-handovers/{id}:confirm",
+      "bodyRequired": true,
+      "body": {
+        "$ref": "#/components/schemas/ConfirmProjectHandoverRequest"
+      },
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ProjectHandoverController_rebaselineContractHandover": {
+      "method": "POST",
+      "path": "/api/contract-handover-rebaselines",
+      "bodyRequired": true,
+      "body": {
+        "$ref": "#/components/schemas/RebaselineContractHandoverRequest"
+      },
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ProjectHandoverController_prepareProjectHandover": {
+      "method": "POST",
+      "path": "/api/projects/{projectId}/project-handovers",
+      "bodyRequired": true,
+      "body": {
+        "$ref": "#/components/schemas/PrepareProjectHandoverRequest"
+      },
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ProjectHandoverController_confirmProjectHandoverParticipant": {
+      "method": "POST",
+      "path": "/api/project-handovers/{id}/participant-confirmations",
+      "bodyRequired": true,
+      "body": {
+        "$ref": "#/components/schemas/ConfirmProjectHandoverParticipantRequest"
+      },
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ProjectCostController_publishInternalCostRateVersion": {
+      "method": "POST",
+      "path": "/api/internal-cost-rate-versions",
+      "bodyRequired": true,
+      "body": {
+        "$ref": "#/components/schemas/PublishInternalCostRateVersionRequest"
+      },
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ProjectCostController_createProjectActualCostRecord": {
+      "method": "POST",
+      "path": "/api/projects/{projectId}/actual-cost-records",
+      "bodyRequired": true,
+      "body": {
+        "title": "CreateProjectActualCostRecordRequest",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/CreatePaymentFactProjectActualCostRecordRequest"
+          },
+          {
+            "$ref": "#/components/schemas/CreateInvoiceProjectActualCostRecordRequest"
+          },
+          {
+            "$ref": "#/components/schemas/CreateExpenseProjectActualCostRecordRequest"
+          },
+          {
+            "$ref": "#/components/schemas/CreateProcurementProjectActualCostRecordRequest"
+          },
+          {
+            "$ref": "#/components/schemas/CreateLaborProjectActualCostRecordRequest"
+          }
+        ],
+        "discriminator": {
+          "propertyName": "costType",
+          "mapping": {
+            "payment-fact": "#/components/schemas/CreatePaymentFactProjectActualCostRecordRequest",
+            "invoice": "#/components/schemas/CreateInvoiceProjectActualCostRecordRequest",
+            "expense": "#/components/schemas/CreateExpenseProjectActualCostRecordRequest",
+            "procurement": "#/components/schemas/CreateProcurementProjectActualCostRecordRequest",
+            "labor": "#/components/schemas/CreateLaborProjectActualCostRecordRequest"
+          }
+        }
+      },
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ProjectCostController_listExpenseRecords": {
+      "method": "GET",
+      "path": "/api/projects/{projectId}/expense-records",
+      "bodyRequired": false,
+      "body": null,
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ProjectCostController_getExpenseRecordDetail": {
+      "method": "GET",
+      "path": "/api/expense-records/{id}",
+      "bodyRequired": false,
+      "body": null,
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ProjectCostController_createExpenseRecord": {
+      "method": "POST",
+      "path": "/api/projects/{projectId}/expense-records",
+      "bodyRequired": true,
+      "body": {
+        "$ref": "#/components/schemas/CreateExpenseRecordRequest"
+      },
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ProjectCostController_updateExpenseRecord": {
+      "method": "PATCH",
+      "path": "/api/expense-records/{id}",
+      "bodyRequired": true,
+      "body": {
+        "$ref": "#/components/schemas/UpdateExpenseRecordRequest"
+      },
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ProjectCostController_confirmExpenseRecord": {
+      "method": "POST",
+      "path": "/api/expense-records/{id}:confirm",
+      "bodyRequired": true,
+      "body": {
+        "$ref": "#/components/schemas/ConfirmExpenseRecordRequest"
+      },
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ProjectCostController_voidExpenseRecord": {
+      "method": "POST",
+      "path": "/api/expense-records/{id}:void",
+      "bodyRequired": true,
+      "body": {
+        "$ref": "#/components/schemas/VoidExpenseRecordRequest"
+      },
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ProjectCostController_listProjectActualCostRecords": {
+      "method": "GET",
+      "path": "/api/projects/{projectId}/actual-cost-records",
+      "bodyRequired": false,
+      "body": null,
+      "query": {
+        "type": "object",
+        "properties": {
+          "sourceType": {
+            "enum": [
+              "payment-record",
+              "invoice-record",
+              "expense-record",
+              "payable-record",
+              "labor"
+            ],
+            "type": "string"
+          },
+          "recordStatus": {
+            "enum": [
+              "draft",
+              "registered",
+              "confirmed",
+              "included",
+              "voided",
+              "replaced"
+            ],
+            "type": "string"
+          },
+          "costType": {
+            "enum": [
+              "procurement",
+              "invoice",
+              "expense",
+              "payment-fact",
+              "labor"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [],
+        "x-r4-strict": true
+      }
+    },
+    "ProjectCostController_getProjectActualCostRecordDetail": {
+      "method": "GET",
+      "path": "/api/project-actual-cost-records/{id}",
+      "bodyRequired": false,
+      "body": null,
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ProjectCostController_replaceLaborCostRecord": {
+      "method": "POST",
+      "path": "/api/project-actual-cost-records/{id}:replace",
+      "bodyRequired": true,
+      "body": {
+        "$ref": "#/components/schemas/ReplaceLaborCostRecordRequest"
+      },
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ProjectCostController_confirmSharedCostAllocationBasis": {
+      "method": "POST",
+      "path": "/api/shared-cost-allocation-bases",
+      "bodyRequired": true,
+      "body": {
+        "$ref": "#/components/schemas/ConfirmSharedCostAllocationBasisRequest"
+      },
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ProjectCostController_getSharedCostAllocationBasis": {
+      "method": "GET",
+      "path": "/api/shared-cost-allocation-bases/{id}",
+      "bodyRequired": false,
+      "body": null,
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ProjectCostController_listSharedCostAllocationResults": {
+      "method": "GET",
+      "path": "/api/shared-cost-allocation-bases/{id}/results",
+      "bodyRequired": false,
+      "body": null,
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ProjectCostController_replaceSharedCostAllocationResult": {
+      "method": "POST",
+      "path": "/api/shared-cost-allocation-results/{id}:replace",
+      "bodyRequired": true,
+      "body": {
+        "$ref": "#/components/schemas/ReplaceSharedCostAllocationResultRequest"
+      },
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ProjectCostController_confirmCostStageAttribution": {
+      "method": "POST",
+      "path": "/api/project-actual-cost-records/{id}/stage-attributions",
+      "bodyRequired": true,
+      "body": {
+        "$ref": "#/components/schemas/ConfirmCostStageAttributionRequest"
+      },
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ProjectCostController_reclassifyCostStageAttribution": {
+      "method": "POST",
+      "path": "/api/cost-stage-attributions/{id}:reclassify",
+      "bodyRequired": true,
+      "body": {
+        "$ref": "#/components/schemas/ReclassifyCostStageAttributionRequest"
+      },
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ProjectCostController_listCostStageAttributions": {
+      "method": "GET",
+      "path": "/api/project-actual-cost-records/{costRecordId}/stage-attributions",
+      "bodyRequired": false,
+      "body": null,
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ProjectCostController_getCostStageAttribution": {
+      "method": "GET",
+      "path": "/api/cost-stage-attributions/{id}",
+      "bodyRequired": false,
+      "body": null,
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ProjectCostController_confirmAccountingTaxTreatment": {
+      "method": "POST",
+      "path": "/api/projects/{projectId}/accounting-tax-treatments",
+      "bodyRequired": true,
+      "body": {
+        "$ref": "#/components/schemas/ConfirmAccountingTaxTreatmentRequest"
+      },
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ProjectCostController_replaceAccountingTaxTreatment": {
+      "method": "POST",
+      "path": "/api/accounting-tax-treatments/{id}:replace",
+      "bodyRequired": true,
+      "body": {
+        "$ref": "#/components/schemas/ReplaceAccountingTaxTreatmentRequest"
+      },
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ProjectCostController_listAccountingTaxTreatments": {
+      "method": "GET",
+      "path": "/api/projects/{projectId}/accounting-tax-treatments",
+      "bodyRequired": false,
+      "body": null,
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    "ProjectCostController_getAccountingTaxTreatment": {
+      "method": "GET",
+      "path": "/api/accounting-tax-treatments/{id}",
+      "bodyRequired": false,
+      "body": null,
+      "query": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  },
+  "schemas": {
+    "CreateCommercialReleaseBaselineRequest": {
+      "type": "object",
+      "properties": {
+        "projectId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "contractTerms": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/ContractCommercialTerms"
+          },
+          "x-r4-unique-contract-ids": "Each contractId must be unique"
+        },
+        "baselineCode": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "x-r4-trim": true
+        },
+        "quotationReviewId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "grossMarginSummary": {
+          "type": "string",
+          "maxLength": 1000,
+          "nullable": true
+        },
+        "paymentTermsSummary": {
+          "type": "string",
+          "maxLength": 1000,
+          "nullable": true
+        },
+        "amountTaxInclusive": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/R4PositiveMoneyString"
+            }
+          ],
+          "nullable": true
+        },
+        "amountTaxExclusive": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/R4PositiveMoneyString"
+            }
+          ],
+          "nullable": true
+        },
+        "taxRate": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/R4RatioString"
+            }
+          ],
+          "nullable": true
+        },
+        "downPaymentRate": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/R4RatioString"
+            }
+          ],
+          "nullable": true
+        },
+        "retentionRate": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/R4RatioString"
+            }
+          ],
+          "nullable": true
+        },
+        "paymentTerms": {
+          "type": "string",
+          "maxLength": 1000,
+          "nullable": true
+        },
+        "diffLevel": {
+          "$ref": "#/components/schemas/CommercialDiffLevel"
+        },
+        "diffSummary": {
+          "type": "string",
+          "maxLength": 1000,
+          "nullable": true
+        },
+        "diffItems": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/CreateCommercialBaselineDiffItemInput"
+          }
+        },
+        "createdBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "updatedBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        }
+      },
+      "required": [
+        "projectId",
+        "contractTerms",
+        "baselineCode"
+      ]
+    },
+    "ReviewCommercialReleaseBaselineDiffRequest": {
+      "type": "object",
+      "properties": {
+        "contractId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "diffResultId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "diffDecision": {
+          "$ref": "#/components/schemas/CommercialBaselineReviewDecision"
+        },
+        "reviewedFieldKeys": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "comment": {
+          "type": "string",
+          "maxLength": 1000,
+          "x-r4-trim": true
+        },
+        "attachmentIds": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      },
+      "required": [
+        "contractId",
+        "diffResultId",
+        "diffDecision"
+      ]
+    },
+    "CreateContractReadinessPackageRequest": {
+      "type": "object",
+      "properties": {
+        "projectId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "contractId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "candidateTerms": {
+          "$ref": "#/components/schemas/ContractCommercialTerms"
+        },
+        "sourceBaselineId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "latestDiffResultId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "packageStatus": {
+          "$ref": "#/components/schemas/ContractReadinessStatus"
+        },
+        "guardDecision": {
+          "$ref": "#/components/schemas/ContractReadinessGuardDecision"
+        },
+        "currentEffectiveDecisionSummary": {
+          "type": "string",
+          "maxLength": 1000,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "blockingReasonSummary": {
+          "type": "string",
+          "maxLength": 1000,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "missingPrerequisiteCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "items": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/ContractReadinessPackageItemInput"
+          }
+        },
+        "createdBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "updatedBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "amendment": {
+          "$ref": "#/components/schemas/ContractAmendmentPreparationInput"
+        }
+      },
+      "required": [
+        "projectId",
+        "contractId",
+        "candidateTerms",
+        "sourceBaselineId"
+      ],
+      "additionalProperties": false,
+      "x-r4-strict": true
+    },
+    "InitializeContractSnapshotFromReadinessPackageRequest": {
+      "type": "object",
+      "properties": {
+        "contractId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "contractReadinessPackageId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "comment": {
+          "type": "string",
+          "maxLength": 1000,
+          "x-r4-trim": true
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        },
+        "contractAmendmentId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        }
+      },
+      "required": [
+        "contractId"
+      ],
+      "additionalProperties": false,
+      "x-r4-strict": true
+    },
+    "InitializeReceivablePlanFromReadinessPackageRequest": {
+      "type": "object",
+      "properties": {
+        "contractId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "contractReadinessPackageId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "comment": {
+          "type": "string",
+          "maxLength": 1000,
+          "x-r4-trim": true
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      },
+      "required": [
+        "contractId"
+      ]
+    },
+    "ContractStatus": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "pending-review",
+        "active",
+        "terminated",
+        "completed"
+      ]
+    },
+    "CreateContractRequest": {
+      "type": "object",
+      "properties": {
+        "projectId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "customerContractNo": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "draft"
+          ]
+        },
+        "signedAmount": {
+          "$ref": "#/components/schemas/R4PositiveMoneyString"
+        },
+        "currencyCode": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 16,
+          "x-r4-trim": true
+        },
+        "signedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "retentionDueDate": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+          "nullable": true
+        },
+        "createdBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "updatedBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        }
+      },
+      "required": [
+        "projectId",
+        "signedAmount"
+      ]
+    },
+    "UpdateContractBasicInfoRequest": {
+      "type": "object",
+      "properties": {
+        "customerContractNo": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "signedAmount": {
+          "$ref": "#/components/schemas/R4PositiveMoneyString"
+        },
+        "currencyCode": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 16,
+          "x-r4-trim": true
+        },
+        "signedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "retentionDueDate": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+          "nullable": true
+        },
+        "updatedBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      },
+      "x-r4-at-least-one": {
+        "keys": [
+          "customerContractNo",
+          "signedAmount",
+          "currencyCode",
+          "signedAt",
+          "retentionDueDate",
+          "updatedBy"
+        ],
+        "message": "At least one field is required for update"
+      }
+    },
+    "SubmitContractReviewRequest": {
+      "type": "object",
+      "properties": {
+        "preparationId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "comment": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "x-r4-trim": true
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        },
+        "contractAmendmentId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        }
+      },
+      "required": [
+        "preparationId"
+      ],
+      "additionalProperties": false,
+      "x-r4-strict": true
+    },
+    "ActivateContractRequest": {
+      "type": "object",
+      "properties": {
+        "comment": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "x-r4-trim": true
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        },
+        "contractAmendmentId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "approvalRecordId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        }
+      },
+      "additionalProperties": false,
+      "x-r4-strict": true
+    },
+    "CreateReceiptRecordRequest": {
+      "type": "object",
+      "properties": {
+        "receiptAmount": {
+          "$ref": "#/components/schemas/R4PositiveMoneyString"
+        },
+        "receiptDate": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "sourceType": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "x-r4-trim": true
+        }
+      },
+      "required": [
+        "receiptAmount",
+        "receiptDate"
+      ]
+    },
+    "ConfirmReceiptRecordRequest": {
+      "type": "object",
+      "properties": {
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      }
+    },
+    "CreatePayableRecordRequest": {
+      "type": "object",
+      "properties": {
+        "contractId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "vendorName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "x-r4-trim": true
+        },
+        "costCategory": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "x-r4-trim": true
+        },
+        "payableDescription": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "x-r4-trim": true
+        },
+        "currency": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 16,
+          "x-r4-trim": true
+        },
+        "amountExcludingTax": {
+          "$ref": "#/components/schemas/R4PositiveMoneyString"
+        },
+        "taxAmount": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/R4NonnegativeMoneyString"
+            }
+          ],
+          "nullable": true
+        },
+        "amountIncludingTax": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/R4PositiveMoneyString"
+            }
+          ],
+          "nullable": true
+        },
+        "expectedPaymentDate": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+        },
+        "evidenceSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "attachmentCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "vendorName",
+        "costCategory",
+        "payableDescription",
+        "amountExcludingTax",
+        "expectedPaymentDate"
+      ]
+    },
+    "UpdatePayableRecordRequest": {
+      "type": "object",
+      "properties": {
+        "contractId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "vendorName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "x-r4-trim": true
+        },
+        "costCategory": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "x-r4-trim": true
+        },
+        "payableDescription": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "x-r4-trim": true
+        },
+        "currency": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 16,
+          "x-r4-trim": true
+        },
+        "amountExcludingTax": {
+          "$ref": "#/components/schemas/R4PositiveMoneyString"
+        },
+        "taxAmount": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/R4NonnegativeMoneyString"
+            }
+          ],
+          "nullable": true
+        },
+        "amountIncludingTax": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/R4PositiveMoneyString"
+            }
+          ],
+          "nullable": true
+        },
+        "expectedPaymentDate": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+        },
+        "evidenceSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "attachmentCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      },
+      "x-r4-at-least-one": {
+        "keys": [
+          "contractId",
+          "vendorName",
+          "costCategory",
+          "payableDescription",
+          "currency",
+          "amountExcludingTax",
+          "taxAmount",
+          "amountIncludingTax",
+          "expectedPaymentDate",
+          "evidenceSummary",
+          "attachmentCount"
+        ],
+        "message": "At least one updatable field is required"
+      }
+    },
+    "ClosePayableRecordRequest": {
+      "type": "object",
+      "properties": {
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "x-r4-trim": true
+        },
+        "comment": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      },
+      "required": [
+        "reason"
+      ]
+    },
+    "VoidPayableRecordRequest": {
+      "type": "object",
+      "properties": {
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "x-r4-trim": true
+        },
+        "comment": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      },
+      "required": [
+        "reason"
+      ]
+    },
+    "CreateInvoiceRecordRequest": {
+      "type": "object",
+      "properties": {
+        "contractId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "invoiceType": {
+          "$ref": "#/components/schemas/InvoiceRecordType"
+        },
+        "invoiceNumber": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "x-r4-trim": true
+        },
+        "invoiceAmount": {
+          "$ref": "#/components/schemas/R4PositiveMoneyString"
+        },
+        "invoiceDate": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+        },
+        "currencyCode": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$",
+          "x-r4-pattern-kind": "currency-code"
+        }
+      },
+      "required": [
+        "invoiceType",
+        "invoiceNumber",
+        "invoiceAmount",
+        "invoiceDate"
+      ],
+      "additionalProperties": false,
+      "x-r4-strict": true
+    },
+    "UpdateInvoiceRecordRequest": {
+      "type": "object",
+      "properties": {
+        "contractId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "invoiceNumber": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "x-r4-trim": true
+        },
+        "invoiceAmount": {
+          "$ref": "#/components/schemas/R4PositiveMoneyString"
+        },
+        "invoiceDate": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+        },
+        "status": {
+          "$ref": "#/components/schemas/InvoiceRecordPatchableStatus"
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        },
+        "currencyCode": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$",
+          "x-r4-pattern-kind": "currency-code"
+        }
+      },
+      "additionalProperties": false,
+      "x-r4-strict": true,
+      "x-r4-at-least-one": {
+        "keys": [
+          "contractId",
+          "invoiceNumber",
+          "invoiceAmount",
+          "invoiceDate",
+          "status",
+          "currencyCode"
+        ],
+        "message": "At least one updatable field is required"
+      }
+    },
+    "MarkInvoiceExceptionRequest": {
+      "type": "object",
+      "properties": {
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "x-r4-trim": true
+        },
+        "comment": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      },
+      "required": [
+        "reason"
+      ]
+    },
+    "ResolveInvoiceExceptionRequest": {
+      "type": "object",
+      "properties": {
+        "resolution": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "x-r4-trim": true
+        },
+        "comment": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      },
+      "required": [
+        "resolution"
+      ]
+    },
+    "CloseInvoiceRecordRequest": {
+      "type": "object",
+      "properties": {
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "x-r4-trim": true
+        },
+        "comment": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      },
+      "required": [
+        "reason"
+      ]
+    },
+    "CreatePaymentRecordRequest": {
+      "type": "object",
+      "properties": {
+        "contractId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "payableRecordId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "currency": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 16,
+          "x-r4-trim": true
+        },
+        "amountExcludingTax": {
+          "$ref": "#/components/schemas/R4PositiveMoneyString"
+        },
+        "taxAmount": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/R4NonnegativeMoneyString"
+            }
+          ],
+          "nullable": true
+        },
+        "amountIncludingTax": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/R4PositiveMoneyString"
+            }
+          ],
+          "nullable": true
+        },
+        "paymentDate": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "costCategory": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "x-r4-trim": true
+        },
+        "sourceType": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "x-r4-trim": true
+        }
+      },
+      "required": [
+        "amountExcludingTax",
+        "paymentDate",
+        "costCategory"
+      ]
+    },
+    "ConfirmPaymentRecordRequest": {
+      "type": "object",
+      "properties": {
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      }
+    },
+    "ConfirmProjectHandoverRequest": {
+      "type": "object",
+      "properties": {
+        "comment": {
+          "type": "string",
+          "maxLength": 1000,
+          "x-r4-trim": true
+        },
+        "participantConfirmations": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/ConfirmProjectHandoverParticipantConfirmationInput"
+          }
+        },
+        "receiptJudgmentMode": {
+          "$ref": "#/components/schemas/ProjectReceiptJudgmentMode"
+        },
+        "contractSummarySnapshotId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "handoverBasisSnapshotId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "summarySnapshotId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "sourcePayloadHash": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$",
+          "x-r4-pattern-kind": "sha256"
+        }
+      },
+      "required": [
+        "participantConfirmations",
+        "contractSummarySnapshotId",
+        "expectedVersion",
+        "handoverBasisSnapshotId",
+        "summarySnapshotId",
+        "sourcePayloadHash"
+      ],
+      "additionalProperties": false,
+      "x-r4-strict": true
+    },
+    "RebaselineContractHandoverRequest": {
+      "type": "object",
+      "properties": {
+        "contractAmendmentId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "rebaselineReason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "x-r4-trim": true
+        },
+        "affectedHandoverItemIds": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "effectiveBaselineAfterId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "sourceHandoverId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "handoverBasisSnapshotId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "sourcePayloadHash": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$",
+          "x-r4-pattern-kind": "sha256"
+        }
+      },
+      "required": [
+        "contractAmendmentId",
+        "rebaselineReason",
+        "affectedHandoverItemIds",
+        "effectiveBaselineAfterId",
+        "expectedVersion",
+        "sourceHandoverId",
+        "handoverBasisSnapshotId",
+        "sourcePayloadHash"
+      ],
+      "additionalProperties": false,
+      "x-r4-strict": true
+    },
+    "PrepareProjectHandoverRequest": {
+      "type": "object",
+      "properties": {
+        "executionOwnerUserId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "participants": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/ProjectHandoverParticipantInput"
+          }
+        },
+        "financeConfirmationRequired": {
+          "type": "boolean"
+        },
+        "receiptJudgmentMode": {
+          "$ref": "#/components/schemas/ProjectReceiptJudgmentMode"
+        },
+        "expectedProjectVersion": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "expectedSourceHash": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$",
+          "x-r4-pattern-kind": "sha256"
+        },
+        "expectedCurrentHandoverVersion": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "comment": {
+          "type": "string",
+          "maxLength": 1000,
+          "x-r4-trim": true
+        }
+      },
+      "required": [
+        "executionOwnerUserId",
+        "participants",
+        "financeConfirmationRequired",
+        "receiptJudgmentMode",
+        "expectedProjectVersion",
+        "expectedSourceHash"
+      ],
+      "additionalProperties": false,
+      "x-r4-strict": true
+    },
+    "ConfirmProjectHandoverParticipantRequest": {
+      "type": "object",
+      "properties": {
+        "summarySnapshotId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "handoverBasisSnapshotId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "expectedConfirmationVersion": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "comment": {
+          "type": "string",
+          "maxLength": 1000,
+          "x-r4-trim": true
+        }
+      },
+      "required": [
+        "summarySnapshotId",
+        "handoverBasisSnapshotId",
+        "expectedConfirmationVersion"
+      ],
+      "additionalProperties": false,
+      "x-r4-strict": true
+    },
+    "PublishInternalCostRateVersionRequest": {
+      "type": "object",
+      "properties": {
+        "rateScopeType": {
+          "$ref": "#/components/schemas/InternalCostRateScopeType"
+        },
+        "personId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "roleCode": {
+          "type": "string",
+          "nullable": true
+        },
+        "rateUnit": {
+          "$ref": "#/components/schemas/InternalCostRateUnit"
+        },
+        "rateValue": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "x-r4-trim": true
+        },
+        "currency": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 16,
+          "x-r4-trim": true
+        },
+        "effectiveFrom": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+        },
+        "effectiveTo": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+          "nullable": true
+        },
+        "changeReason": {
+          "type": "string",
+          "nullable": true
+        },
+        "supersedesRateVersionId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      },
+      "required": [
+        "rateScopeType",
+        "rateUnit",
+        "rateValue",
+        "currency",
+        "effectiveFrom"
+      ]
+    },
+    "CreatePaymentFactProjectActualCostRecordRequest": {
+      "type": "object",
+      "properties": {
+        "costType": {
+          "type": "string",
+          "enum": [
+            "payment-fact"
+          ]
+        },
+        "paymentRecordId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "costDescription": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "evidenceSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "expectedSourceVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      },
+      "required": [
+        "costType",
+        "paymentRecordId"
+      ],
+      "additionalProperties": false,
+      "x-r4-strict": true
+    },
+    "CreateInvoiceProjectActualCostRecordRequest": {
+      "type": "object",
+      "properties": {
+        "costType": {
+          "type": "string",
+          "enum": [
+            "invoice"
+          ]
+        },
+        "invoiceRecordId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "costDescription": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "evidenceSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "taxImpactSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "expectedSourceVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      },
+      "required": [
+        "costType",
+        "invoiceRecordId"
+      ],
+      "additionalProperties": false,
+      "x-r4-strict": true
+    },
+    "CreateExpenseProjectActualCostRecordRequest": {
+      "type": "object",
+      "properties": {
+        "costType": {
+          "type": "string",
+          "enum": [
+            "expense"
+          ]
+        },
+        "expenseRecordId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "costDescription": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "evidenceSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "taxImpactSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "expectedSourceVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      },
+      "required": [
+        "costType",
+        "expenseRecordId"
+      ],
+      "additionalProperties": false,
+      "x-r4-strict": true
+    },
+    "CreateProcurementProjectActualCostRecordRequest": {
+      "type": "object",
+      "properties": {
+        "costType": {
+          "type": "string",
+          "enum": [
+            "procurement"
+          ]
+        },
+        "payableRecordId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "costDescription": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "evidenceSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "taxImpactSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "expectedSourceVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      },
+      "required": [
+        "costType",
+        "payableRecordId"
+      ],
+      "additionalProperties": false,
+      "x-r4-strict": true
+    },
+    "CreateLaborProjectActualCostRecordRequest": {
+      "type": "object",
+      "properties": {
+        "costType": {
+          "type": "string",
+          "enum": [
+            "labor"
+          ]
+        },
+        "laborPersonId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "laborRole": {
+          "type": "string",
+          "nullable": true
+        },
+        "laborPeriodType": {
+          "$ref": "#/components/schemas/LaborCostPeriodType"
+        },
+        "laborPeriodStart": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+        },
+        "laborPeriodEnd": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+        },
+        "actualHours": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "actualPersonDays": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "workSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "rateVersionId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "costDescription": {
+          "type": "string",
+          "nullable": true
+        },
+        "attachmentIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        }
+      },
+      "required": [
+        "costType",
+        "laborPeriodType",
+        "laborPeriodStart",
+        "laborPeriodEnd",
+        "rateVersionId"
+      ],
+      "additionalProperties": false,
+      "x-r4-strict": true
+    },
+    "CreateExpenseRecordRequest": {
+      "type": "object",
+      "properties": {
+        "contractId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "expenseCategory": {
+          "$ref": "#/components/schemas/ExpenseCategory"
+        },
+        "expenseDescription": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "x-r4-trim": true
+        },
+        "expenseDate": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+        },
+        "currency": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 16,
+          "x-r4-trim": true
+        },
+        "amountIncludingTax": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "x-r4-trim": true
+        },
+        "taxAmount": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "amountExcludingTax": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "sourceType": {
+          "$ref": "#/components/schemas/ExpenseSourceType"
+        },
+        "evidenceSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "attachmentCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "expenseCategory",
+        "expenseDescription",
+        "expenseDate",
+        "amountIncludingTax"
+      ]
+    },
+    "UpdateExpenseRecordRequest": {
+      "type": "object",
+      "properties": {
+        "contractId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "expenseCategory": {
+          "$ref": "#/components/schemas/ExpenseCategory"
+        },
+        "expenseDescription": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "x-r4-trim": true
+        },
+        "expenseDate": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+        },
+        "currency": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 16,
+          "x-r4-trim": true
+        },
+        "amountIncludingTax": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "x-r4-trim": true
+        },
+        "taxAmount": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "amountExcludingTax": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "sourceType": {
+          "$ref": "#/components/schemas/ExpenseSourceType"
+        },
+        "evidenceSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "attachmentCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      },
+      "x-r4-at-least-one": {
+        "keys": [
+          "contractId",
+          "expenseCategory",
+          "expenseDescription",
+          "expenseDate",
+          "currency",
+          "amountIncludingTax",
+          "taxAmount",
+          "amountExcludingTax",
+          "sourceType",
+          "evidenceSummary",
+          "attachmentCount"
+        ],
+        "message": "At least one updatable field is required"
+      }
+    },
+    "ConfirmExpenseRecordRequest": {
+      "type": "object",
+      "properties": {
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      }
+    },
+    "VoidExpenseRecordRequest": {
+      "type": "object",
+      "properties": {
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "x-r4-trim": true
+        },
+        "comment": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      },
+      "required": [
+        "reason"
+      ]
+    },
+    "ReplaceLaborCostRecordRequest": {
+      "type": "object",
+      "properties": {
+        "laborPeriodStart": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+        },
+        "laborPeriodEnd": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+        },
+        "actualHours": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "actualPersonDays": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "workSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "rateVersionId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "replaceReason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "x-r4-trim": true
+        },
+        "expectedSupersededRecordVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      },
+      "required": [
+        "laborPeriodStart",
+        "laborPeriodEnd",
+        "rateVersionId",
+        "replaceReason"
+      ]
+    },
+    "ConfirmSharedCostAllocationBasisRequest": {
+      "type": "object",
+      "properties": {
+        "basisType": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "x-r4-trim": true
+        },
+        "sourceCostRecordIds": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "allocationMethod": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "x-r4-trim": true
+        },
+        "projectShareItems": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/R4FSharedCostAllocationShareItem"
+          }
+        },
+        "basisSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "comment": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "measurementBasis": {
+          "type": "string",
+          "enum": [
+            "excluding-tax",
+            "tax",
+            "including-tax"
+          ]
+        },
+        "expectedSourceVersions": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/R4FCostSourceVersion"
+          }
+        }
+      },
+      "required": [
+        "basisType",
+        "sourceCostRecordIds",
+        "allocationMethod",
+        "projectShareItems",
+        "measurementBasis",
+        "expectedSourceVersions"
+      ],
+      "additionalProperties": false,
+      "x-r4-strict": true
+    },
+    "ReplaceSharedCostAllocationResultRequest": {
+      "type": "object",
+      "properties": {
+        "allocatedAmount": {
+          "type": "string",
+          "maxLength": 19,
+          "pattern": "^[0-9]{1,16}(?:\\.[0-9]{1,2})?$",
+          "x-r4-pattern-kind": "bounded-money"
+        },
+        "allocationRatio": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "allocationSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "replacementReason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "x-r4-trim": true
+        },
+        "comment": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        },
+        "projectShareItems": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/R4FSharedCostAllocationShareItem"
+          }
+        },
+        "expectedBasisVersion": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "replacementReason",
+        "projectShareItems",
+        "expectedBasisVersion"
+      ],
+      "additionalProperties": false,
+      "x-r4-strict": true
+    },
+    "ConfirmCostStageAttributionRequest": {
+      "type": "object",
+      "properties": {
+        "stageAttributionMode": {
+          "$ref": "#/components/schemas/ConfirmCostStageAttributionMode"
+        },
+        "attributedStage": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "x-r4-trim": true
+        },
+        "lockedBySnapshotId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "attributionSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "comment": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        },
+        "attributionEvidence": {
+          "$ref": "#/components/schemas/R4FGovernanceEvidence"
+        }
+      },
+      "required": [
+        "stageAttributionMode",
+        "attributedStage",
+        "attributionEvidence"
+      ],
+      "additionalProperties": false,
+      "x-r4-strict": true
+    },
+    "ReclassifyCostStageAttributionRequest": {
+      "type": "object",
+      "properties": {
+        "newAttributedStage": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "x-r4-trim": true
+        },
+        "lockedBySnapshotId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "reclassifyReason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "x-r4-trim": true
+        },
+        "comment": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        },
+        "attributionEvidence": {
+          "$ref": "#/components/schemas/R4FGovernanceEvidence"
+        }
+      },
+      "required": [
+        "newAttributedStage",
+        "reclassifyReason",
+        "attributionEvidence"
+      ],
+      "additionalProperties": false,
+      "x-r4-strict": true
+    },
+    "ConfirmAccountingTaxTreatmentRequest": {
+      "type": "object",
+      "properties": {
+        "taxTreatmentType": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "x-r4-trim": true
+        },
+        "deductibilityStatus": {
+          "$ref": "#/components/schemas/AccountingTaxDeductibilityStatus"
+        },
+        "taxImpactAmount": {
+          "type": "string",
+          "maxLength": 20,
+          "pattern": "^-?[0-9]{1,16}(?:\\.[0-9]{1,2})?$",
+          "x-r4-pattern-kind": "signed-bounded-money"
+        },
+        "taxImpactSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "x-r4-trim": true
+        },
+        "taxPendingFlag": {
+          "default": false,
+          "type": "boolean"
+        },
+        "taxImpactPendingAmount": {
+          "default": "0",
+          "type": "string",
+          "maxLength": 19,
+          "pattern": "^[0-9]{1,16}(?:\\.[0-9]{1,2})?$",
+          "x-r4-pattern-kind": "bounded-money"
+        },
+        "basisSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "currency": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 16,
+          "x-r4-trim": true
+        },
+        "sourceReferences": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/R4FGovernanceEvidence"
+          }
+        }
+      },
+      "required": [
+        "taxTreatmentType",
+        "deductibilityStatus",
+        "taxImpactAmount",
+        "taxImpactSummary",
+        "currency",
+        "sourceReferences"
+      ],
+      "additionalProperties": false,
+      "x-r4-strict": true
+    },
+    "ReplaceAccountingTaxTreatmentRequest": {
+      "type": "object",
+      "properties": {
+        "taxTreatmentType": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "x-r4-trim": true
+        },
+        "deductibilityStatus": {
+          "$ref": "#/components/schemas/AccountingTaxDeductibilityStatus"
+        },
+        "taxImpactAmount": {
+          "type": "string",
+          "maxLength": 20,
+          "pattern": "^-?[0-9]{1,16}(?:\\.[0-9]{1,2})?$",
+          "x-r4-pattern-kind": "signed-bounded-money"
+        },
+        "taxImpactSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "x-r4-trim": true
+        },
+        "taxPendingFlag": {
+          "default": false,
+          "type": "boolean"
+        },
+        "taxImpactPendingAmount": {
+          "default": "0",
+          "type": "string",
+          "maxLength": 19,
+          "pattern": "^[0-9]{1,16}(?:\\.[0-9]{1,2})?$",
+          "x-r4-pattern-kind": "bounded-money"
+        },
+        "basisSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        },
+        "currency": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 16,
+          "x-r4-trim": true
+        },
+        "sourceReferences": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/R4FGovernanceEvidence"
+          }
+        },
+        "replacementReason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "x-r4-trim": true
+        }
+      },
+      "required": [
+        "taxTreatmentType",
+        "deductibilityStatus",
+        "taxImpactAmount",
+        "taxImpactSummary",
+        "currency",
+        "sourceReferences",
+        "replacementReason"
+      ],
+      "additionalProperties": false,
+      "x-r4-strict": true
+    },
+    "ContractCommercialTerms": {
+      "type": "object",
+      "properties": {
+        "contractId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "amountTaxInclusive": {
+          "$ref": "#/components/schemas/R4PositiveMoneyString"
+        },
+        "amountTaxExclusive": {
+          "$ref": "#/components/schemas/R4PositiveMoneyString"
+        },
+        "taxRate": {
+          "$ref": "#/components/schemas/R4RatioString"
+        },
+        "downPaymentRate": {
+          "$ref": "#/components/schemas/R4RatioString"
+        },
+        "retentionRate": {
+          "$ref": "#/components/schemas/R4RatioString"
+        },
+        "retentionDueDate": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+          "nullable": true
+        },
+        "paymentTerms": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "x-r4-trim": true
+        },
+        "receivablePlanSeeds": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/ReceivablePlanSeed"
+          }
+        }
+      },
+      "required": [
+        "contractId",
+        "amountTaxInclusive",
+        "amountTaxExclusive",
+        "taxRate",
+        "downPaymentRate",
+        "retentionRate",
+        "retentionDueDate",
+        "paymentTerms",
+        "receivablePlanSeeds"
+      ]
+    },
+    "R4PositiveMoneyString": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[0-9]+(?:\\.[0-9]{1,2})?$",
+      "x-r4-trim": true,
+      "x-r4-scalar": "positive-money"
+    },
+    "R4RatioString": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[0-9]+(?:\\.[0-9]{1,4})?$",
+      "x-r4-trim": true,
+      "x-r4-scalar": "ratio"
+    },
+    "CommercialDiffLevel": {
+      "type": "string",
+      "enum": [
+        "prompt",
+        "review-required",
+        "reapproval-required"
+      ]
+    },
+    "CreateCommercialBaselineDiffItemInput": {
+      "type": "object",
+      "properties": {
+        "fieldKey": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "x-r4-trim": true
+        },
+        "fieldLabel": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "x-r4-trim": true
+        },
+        "oldValueSummary": {
+          "type": "string",
+          "maxLength": 1000,
+          "nullable": true
+        },
+        "newValueSummary": {
+          "type": "string",
+          "maxLength": 1000,
+          "nullable": true
+        },
+        "diffLevel": {
+          "$ref": "#/components/schemas/CommercialDiffLevel"
+        },
+        "isBlocking": {
+          "type": "boolean"
+        },
+        "sortOrder": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "fieldKey",
+        "fieldLabel",
+        "diffLevel"
+      ]
+    },
+    "CommercialBaselineReviewDecision": {
+      "type": "string",
+      "enum": [
+        "approved",
+        "rejected"
+      ]
+    },
+    "ContractReadinessStatus": {
+      "type": "string",
+      "enum": [
+        "ready",
+        "conditional",
+        "blocked"
+      ]
+    },
+    "ContractReadinessGuardDecision": {
+      "type": "string",
+      "enum": [
+        "allowed",
+        "review-required",
+        "blocked"
+      ]
+    },
+    "ContractReadinessPackageItemInput": {
+      "type": "object",
+      "properties": {
+        "itemType": {
+          "$ref": "#/components/schemas/ContractReadinessItemType"
+        },
+        "itemKey": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "x-r4-trim": true
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "x-r4-trim": true
+        },
+        "summary": {
+          "type": "string",
+          "maxLength": 1000,
+          "nullable": true
+        },
+        "status": {
+          "$ref": "#/components/schemas/ContractReadinessItemStatus"
+        },
+        "responsibleRole": {
+          "type": "string",
+          "maxLength": 128,
+          "nullable": true
+        },
+        "navigationHint": {
+          "type": "string",
+          "maxLength": 255,
+          "nullable": true
+        },
+        "sortOrder": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "itemType",
+        "itemKey",
+        "label",
+        "status"
+      ]
+    },
+    "ContractAmendmentPreparationInput": {
+      "type": "object",
+      "properties": {
+        "sourceSnapshotId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "x-r4-trim": true
+        },
+        "expectedContractVersion": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "sourceSnapshotId",
+        "reason",
+        "expectedContractVersion"
+      ],
+      "additionalProperties": false,
+      "x-r4-strict": true
+    },
+    "R4NonnegativeMoneyString": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[0-9]+(?:\\.[0-9]{1,2})?$",
+      "x-r4-trim": true,
+      "x-r4-scalar": "nonnegative-money"
+    },
+    "InvoiceRecordType": {
+      "type": "string",
+      "enum": [
+        "input",
+        "output"
+      ]
+    },
+    "InvoiceRecordPatchableStatus": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "pending-issue",
+        "issued",
+        "received",
+        "verified"
+      ]
+    },
+    "ConfirmProjectHandoverParticipantConfirmationInput": {
+      "type": "object",
+      "properties": {
+        "participantId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "participantRoleKey": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "x-r4-trim": true
+        },
+        "participantStatus": {
+          "type": "string",
+          "enum": [
+            "confirmed"
+          ]
+        }
+      },
+      "required": [
+        "participantId",
+        "participantRoleKey",
+        "participantStatus"
+      ]
+    },
+    "ProjectReceiptJudgmentMode": {
+      "type": "string",
+      "enum": [
+        "project-aggregate",
+        "contract-separate"
+      ]
+    },
+    "ProjectHandoverParticipantInput": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "responsibilities": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/ProjectHandoverResponsibilityInput"
+          }
+        }
+      },
+      "required": [
+        "userId",
+        "responsibilities"
+      ],
+      "additionalProperties": false,
+      "x-r4-strict": true
+    },
+    "InternalCostRateScopeType": {
+      "type": "string",
+      "enum": [
+        "person",
+        "role"
+      ]
+    },
+    "InternalCostRateUnit": {
+      "type": "string",
+      "enum": [
+        "hour",
+        "day"
+      ]
+    },
+    "LaborCostPeriodType": {
+      "type": "string",
+      "enum": [
+        "week",
+        "month"
+      ]
+    },
+    "ExpenseCategory": {
+      "$ref": "#/components/schemas/DictionaryCode"
+    },
+    "ExpenseSourceType": {
+      "type": "string",
+      "enum": [
+        "manual",
+        "reimbursement",
+        "import"
+      ]
+    },
+    "R4FSharedCostAllocationShareItem": {
+      "type": "object",
+      "properties": {
+        "projectId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "allocationWeight": {
+          "type": "string",
+          "maxLength": 19,
+          "pattern": "^[0-9]{1,12}(?:\\.[0-9]{1,6})?$",
+          "x-r4-pattern-kind": "weight-six"
+        },
+        "allocatedAmount": {
+          "type": "string",
+          "maxLength": 19,
+          "pattern": "^[0-9]{1,16}(?:\\.[0-9]{1,2})?$",
+          "x-r4-pattern-kind": "bounded-money"
+        },
+        "allocationRatio": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "nullable": true,
+          "x-r4-trim": true
+        },
+        "allocationSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "nullable": true,
+          "x-r4-trim": true
+        }
+      },
+      "required": [
+        "projectId",
+        "allocationWeight"
+      ],
+      "additionalProperties": false,
+      "x-r4-strict": true
+    },
+    "R4FCostSourceVersion": {
+      "type": "object",
+      "properties": {
+        "costRecordId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "costRecordId",
+        "expectedVersion"
+      ],
+      "additionalProperties": false,
+      "x-r4-strict": true
+    },
+    "ConfirmCostStageAttributionMode": {
+      "type": "string",
+      "enum": [
+        "auto",
+        "manual"
+      ]
+    },
+    "R4FGovernanceEvidence": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/R4FSourceEvidence"
+        },
+        {
+          "$ref": "#/components/schemas/R4FManualAssessmentEvidence"
+        }
+      ]
+    },
+    "AccountingTaxDeductibilityStatus": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "deductible",
+        "non-deductible"
+      ]
+    },
+    "ReceivablePlanSeed": {
+      "type": "object",
+      "properties": {
+        "nodeKey": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "x-r4-trim": true
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "x-r4-trim": true
+        },
+        "plannedAmount": {
+          "$ref": "#/components/schemas/R4PositiveMoneyString"
+        },
+        "plannedDate": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+        },
+        "isRetentionNode": {
+          "type": "boolean"
+        },
+        "sortOrder": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "note": {
+          "type": "string",
+          "maxLength": 1000,
+          "nullable": true
+        }
+      },
+      "required": [
+        "nodeKey",
+        "label",
+        "plannedAmount",
+        "plannedDate",
+        "isRetentionNode",
+        "sortOrder"
+      ]
+    },
+    "ContractReadinessItemType": {
+      "type": "string",
+      "enum": [
+        "checklist",
+        "reusable-fact",
+        "blocking-reason",
+        "receivable-seed"
+      ]
+    },
+    "ContractReadinessItemStatus": {
+      "type": "string",
+      "enum": [
+        "ready",
+        "conditional",
+        "blocked",
+        "not-applicable"
+      ]
+    },
+    "ProjectHandoverResponsibilityInput": {
+      "type": "object",
+      "properties": {
+        "roleKey": {
+          "$ref": "#/components/schemas/ProjectHandoverResponsibilityRole"
+        },
+        "responsibilitySummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "x-r4-trim": true
+        }
+      },
+      "required": [
+        "roleKey",
+        "responsibilitySummary"
+      ],
+      "additionalProperties": false,
+      "x-r4-strict": true
+    },
+    "DictionaryCode": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "x-r4-trim": true,
+      "x-r4-pattern-kind": "dictionary-code"
+    },
+    "R4FSourceEvidence": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "source"
+          ]
+        },
+        "sourceType": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "x-r4-trim": true
+        },
+        "sourceId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "x-r4-trim": true
+        },
+        "sourceVersion": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "businessDate": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "x-r4-trim": true
+        }
+      },
+      "required": [
+        "kind",
+        "sourceType",
+        "sourceId",
+        "sourceVersion",
+        "businessDate",
+        "reason"
+      ],
+      "additionalProperties": false,
+      "x-r4-strict": true
+    },
+    "R4FManualAssessmentEvidence": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "manual"
+          ]
+        },
+        "businessDate": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "x-r4-trim": true
+        },
+        "evidenceSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "x-r4-trim": true
+        },
+        "attachmentIds": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        }
+      },
+      "required": [
+        "kind",
+        "businessDate",
+        "reason",
+        "evidenceSummary"
+      ],
+      "additionalProperties": false,
+      "x-r4-strict": true
+    },
+    "ProjectHandoverResponsibilityRole": {
+      "type": "string",
+      "enum": [
+        "sales-owner",
+        "business-admin",
+        "technical-support",
+        "execution-owner",
+        "finance"
+      ]
+    }
+  },
+  "observedRefinements": [
+    {
+      "owner": "CreateCommercialReleaseBaselineRequest",
+      "sourceLine": 6887,
+      "kind": "unique-contract-id"
+    },
+    {
+      "owner": "UpdateContractBasicInfoRequest",
+      "sourceLine": 5956,
+      "kind": "at-least-one"
+    },
+    {
+      "owner": "UpdatePayableRecordRequest",
+      "sourceLine": 7157,
+      "kind": "at-least-one"
+    },
+    {
+      "owner": "UpdateInvoiceRecordRequest",
+      "sourceLine": 7414,
+      "kind": "at-least-one"
+    },
+    {
+      "owner": "UpdateExpenseRecordRequest",
+      "sourceLine": 7673,
+      "kind": "at-least-one"
+    },
+    {
+      "owner": "R4PositiveMoneyString",
+      "sourceLine": 5787,
+      "kind": "positive-money"
+    },
+    {
+      "owner": "R4RatioString",
+      "sourceLine": 5805,
+      "kind": "ratio"
+    },
+    {
+      "owner": "R4NonnegativeMoneyString",
+      "sourceLine": 5796,
+      "kind": "nonnegative-money"
+    }
+  ],
+  "boundary": "Finite 67-operation OpenAPI request closure plus statically admitted Shared transformations; no general Zod/JSONSchema interpreter, no source/seed-total/tax-layer domain decisions"
+}

@@ -1,0 +1,344 @@
+{
+  "kind": "R4E-request-only-API-acceptance-vectors21",
+  "initialState": "not-run",
+  "producerSourcePins": {
+    "logic.rs": "96bdbc87dd031b59c6b895243241cd9b847eb9ae690766c5782183a5c0f9ba4c",
+    "mod.rs": "aaaa5126be86c421255d699bcad582131943d7f500754f0db8e55ddfc437a407",
+    "store.rs": "0b39d14477e52641307d84f28c043dcf9c4309d38d0f55476e7f9806cb621eb5",
+    "view.rs": "943a93380de87fbddc06650f35acfaf467db1a17abf6c25c3af162a5955b53ac"
+  },
+  "cases": [
+    {
+      "id": "E21-01",
+      "title": "费用创建、更新、确认、作废及六入口投影",
+      "dependsOn": [],
+      "requirements": [
+        "base",
+        "actors.full"
+      ],
+      "status": "not-run",
+      "httpStatus": "not-run",
+      "observations": []
+    },
+    {
+      "id": "E21-02",
+      "title": "已确认费用→实际成本，当前映射唯一且原源不可变",
+      "dependsOn": [],
+      "requirements": [
+        "base",
+        "actors.full"
+      ],
+      "status": "not-run",
+      "httpStatus": "not-run",
+      "observations": []
+    },
+    {
+      "id": "E21-03",
+      "title": "费用分币、税层与无silent rounding",
+      "dependsOn": [],
+      "requirements": [
+        "base",
+        "actors.full"
+      ],
+      "status": "not-run",
+      "httpStatus": "not-run",
+      "observations": []
+    },
+    {
+      "id": "E21-04",
+      "title": "真实付款确认→payment-fact及HK业务日",
+      "dependsOn": [],
+      "requirements": [
+        "base",
+        "actors.full"
+      ],
+      "status": "not-run",
+      "httpStatus": "not-run",
+      "observations": []
+    },
+    {
+      "id": "E21-05",
+      "title": "真实进项发票、显式币种/合同证明→invoice",
+      "dependsOn": [],
+      "requirements": [
+        "base",
+        "actors.full"
+      ],
+      "status": "not-run",
+      "httpStatus": "not-run",
+      "observations": []
+    },
+    {
+      "id": "E21-06",
+      "title": "真实采购承诺→procurement，全部先registered",
+      "dependsOn": [],
+      "requirements": [
+        "base",
+        "actors.full"
+      ],
+      "status": "not-run",
+      "httpStatus": "not-run",
+      "observations": []
+    },
+    {
+      "id": "E21-07",
+      "title": "四位费率、两位数量、精确HALF_UP固定见证",
+      "dependsOn": [],
+      "requirements": [
+        "base",
+        "actors.full",
+        "actors.auditFull"
+      ],
+      "status": "not-run",
+      "httpStatus": "not-run",
+      "observations": []
+    },
+    {
+      "id": "E21-08",
+      "title": "人工舍入0拒绝、精度与计算前敏感权限",
+      "dependsOn": [
+        "E21-07"
+      ],
+      "requirements": [
+        "actors.operatingOnly"
+      ],
+      "status": "not-run",
+      "httpStatus": "not-run",
+      "observations": []
+    },
+    {
+      "id": "E21-09",
+      "title": "个人率部分覆盖/单日边界拒绝且按三段拆分",
+      "dependsOn": [],
+      "requirements": [
+        "base",
+        "actors.full",
+        "actors.auditFull",
+        "persons.partialCoverage"
+      ],
+      "status": "not-run",
+      "httpStatus": "not-run",
+      "observations": []
+    },
+    {
+      "id": "E21-10",
+      "title": "同person/role劳动期间当前去重，邻接不重叠",
+      "dependsOn": [
+        "E21-07",
+        "E21-09"
+      ],
+      "requirements": [],
+      "status": "not-run",
+      "httpStatus": "not-run",
+      "observations": []
+    },
+    {
+      "id": "E21-11",
+      "title": "替代失败整体回滚、成功新ID及旧链终态",
+      "dependsOn": [
+        "E21-07"
+      ],
+      "requirements": [],
+      "status": "not-run",
+      "httpStatus": "not-run",
+      "observations": []
+    },
+    {
+      "id": "E21-12",
+      "title": "费用/非labor/labor敏感权限交叉，raw无旁路",
+      "dependsOn": [
+        "E21-02",
+        "E21-07"
+      ],
+      "requirements": [
+        "actors.financeOnly",
+        "actors.operatingOnly",
+        "actors.laborOnly"
+      ],
+      "status": "not-run",
+      "httpStatus": "not-run",
+      "observations": []
+    },
+    {
+      "id": "E21-13",
+      "title": "C采购→E注册→C部分付款→F具证确认及原始版本proof",
+      "dependsOn": [
+        "E21-06"
+      ],
+      "requirements": [
+        "assessments.payable"
+      ],
+      "status": "not-run",
+      "httpStatus": "not-run",
+      "observations": []
+    },
+    {
+      "id": "E21-14",
+      "title": "C再付仍partial→F分摊、付清completed→F分摊替代及锚点递进",
+      "dependsOn": [
+        "E21-13"
+      ],
+      "requirements": [],
+      "status": "not-run",
+      "httpStatus": "not-run",
+      "observations": []
+    },
+    {
+      "id": "E21-15",
+      "title": "历史费率受控截短仍覆盖原期→F确认及rate proof",
+      "dependsOn": [],
+      "requirements": [
+        "base",
+        "actors.full",
+        "actors.auditFull",
+        "assessments.historicalLabor"
+      ],
+      "status": "not-run",
+      "httpStatus": "not-run",
+      "observations": []
+    },
+    {
+      "id": "E21-16",
+      "title": "费率截短不得破坏已捕获期间，CAS/头指针拒绝",
+      "dependsOn": [],
+      "requirements": [
+        "base",
+        "actors.full",
+        "actors.auditFull"
+      ],
+      "status": "not-run",
+      "httpStatus": "not-run",
+      "observations": []
+    },
+    {
+      "id": "E21-17",
+      "title": "注册后新个人率相交，F拒绝确认并保留registered",
+      "dependsOn": [],
+      "requirements": [
+        "base",
+        "actors.full",
+        "actors.auditFull",
+        "persons.priorityChange",
+        "assessments.priorityChange"
+      ],
+      "status": "not-run",
+      "httpStatus": "not-run",
+      "observations": []
+    },
+    {
+      "id": "E21-18",
+      "title": "费率显式前驱/期区/版本及发布回执不泄露rate",
+      "dependsOn": [],
+      "requirements": [
+        "base",
+        "actors.full",
+        "actors.auditFull"
+      ],
+      "status": "not-run",
+      "httpStatus": "not-run",
+      "observations": []
+    },
+    {
+      "id": "E21-19",
+      "title": "审计包标签、真实费用更新历史、读保护及安全事件",
+      "dependsOn": [
+        "E21-01",
+        "E21-02",
+        "E21-07",
+        "E21-11"
+      ],
+      "requirements": [
+        "actors.auditFull",
+        "actors.auditFinanceOnly"
+      ],
+      "status": "not-run",
+      "httpStatus": "not-run",
+      "observations": []
+    },
+    {
+      "id": "E21-20",
+      "title": "真实历史无币种证明发票不得映射",
+      "dependsOn": [],
+      "requirements": [
+        "base",
+        "actors.full",
+        "legacy.unprovedInvoice"
+      ],
+      "status": "passed",
+      "httpStatus": "passed",
+      "observations": [],
+      "requests": [
+        {
+          "caseId": "E21-20",
+          "stepId": "E21-20:1",
+          "method": "GET",
+          "path": "/api/invoice-records/ee203abb-54df-4b52-831f-eb1029922751",
+          "query": {},
+          "operationId": "ContractFinanceController_getInvoice",
+          "actorKey": "full",
+          "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+          "expectedStatus": 200,
+          "status": "passed",
+          "receiptId": "tmp/rust-r4def/root/api32/01012-ContractFinanceController_getInvoice.json",
+          "httpStatus": 200,
+          "requestId": "r4def32-01012-e627c35d"
+        },
+        {
+          "caseId": "E21-20",
+          "stepId": "E21-20:2",
+          "method": "POST",
+          "path": "/api/projects/c19e708b-522c-45e9-90d4-81de7295545b/actual-cost-records",
+          "query": {},
+          "operationId": "ProjectCostController_createProjectActualCostRecord",
+          "actorKey": "full",
+          "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+          "expectedStatus": 422,
+          "status": "passed",
+          "receiptId": "tmp/rust-r4def/root/api32/01013-ProjectCostController_createProjectActualCostRecord.json",
+          "httpStatus": 422,
+          "requestId": "r4def32-01013-953f5a51"
+        }
+      ]
+    },
+    {
+      "id": "E21-21",
+      "title": "查询枚举/联合请求严格校验和跨项目源拒绝",
+      "dependsOn": [
+        "E21-02",
+        "E21-04",
+        "E21-05",
+        "E21-06",
+        "E21-07"
+      ],
+      "requirements": [
+        "otherProject.id"
+      ],
+      "status": "not-run",
+      "httpStatus": "not-run",
+      "observations": []
+    }
+  ],
+  "resources": [],
+  "counts": {
+    "cases": 21,
+    "passed": 1,
+    "failed": 0,
+    "needsEvidence": 0,
+    "notRun": 20,
+    "httpRequestsPassed": 2,
+    "readOnlyObservationsPassed": 0
+  },
+  "knownIntegrationPreconditions": [
+    "Use E delivery04 and Root C/F completed/progress-aggregate correction: every confirmed payment, including partial→partial, advances payable CAS; freeze confirmed_payment_amount_excluding_tax_total. No paid alias in adapter.",
+    "Root C invoice producer must persist currency_code/currency_source/currency_source_snapshot_id using explicit input or the real contract snapshot→source preparation proof.",
+    "Root runtime audit read protection and successful-GET pending-auth flush must be active; finance manage alone grants no sensitive read."
+  ],
+  "notCoveredHere": [
+    "concurrent requests",
+    "fault injection / COMMIT acknowledgement ambiguity",
+    "DB migrations / schema preflight",
+    "browser / UI / generated clients",
+    "frozen period-end snapshot and included states without public producers",
+    "independent G3 / G4"
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:05:19.529Z",
+  "completedAt": "2026-11-04T00:05:19.551Z",
+  "operationId": "ProjectCostController_updateExpenseRecord",
+  "method": "PATCH",
+  "path": "/api/expense-records/15cc3879-c294-4b19-8656-79242d8f6808",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-00146-fc93894b",
+  "requestBody": {
+    "expenseDescription": "R4E21-e41-费用修订说明",
+    "amountExcludingTax": "200.00",
+    "taxAmount": "12.00",
+    "amountIncludingTax": "212.00",
+    "expectedVersion": 1
+  },
+  "status": 200,
+  "responseBody": {
+    "amountExcludingTax": null,
+    "amountIncludingTax": null,
+    "attachmentCount": 0,
+    "confirmedAt": null,
+    "confirmedBy": null,
+    "contractId": "b75ed6ae-87ba-4ae1-9e35-f865239ebed7",
+    "createdAt": "2026-11-04T00:05:19.466Z",
+    "currency": "CNY",
+    "evidenceSummary": null,
+    "expenseCategory": "travel",
+    "expenseDate": "2026-11-04",
+    "expenseDescription": null,
+    "financialProjection": {
+      "amountExcludingTax": {
+        "displayText": "200.00",
+        "fieldPackageKey": "operating-finance",
+        "mode": "full",
+        "reasonCode": "allowed",
+        "value": "200.00"
+      },
+      "amountIncludingTax": {
+        "displayText": "212.00",
+        "fieldPackageKey": "operating-finance",
+        "mode": "full",
+        "reasonCode": "allowed",
+        "value": "212.00"
+      },
+      "evidenceSummary": {
+        "displayText": "R4E21-e41-费用真实API依据",
+        "fieldPackageKey": "operating-finance",
+        "mode": "full",
+        "reasonCode": "allowed",
+        "value": "R4E21-e41-费用真实API依据"
+      },
+      "expenseDescription": {
+        "displayText": "R4E21-e41-费用修订说明",
+        "fieldPackageKey": "operating-finance",
+        "mode": "full",
+        "reasonCode": "allowed",
+        "value": "R4E21-e41-费用修订说明"
+      },
+      "taxAmount": {
+        "displayText": "12.00",
+        "fieldPackageKey": "operating-finance",
+        "mode": "full",
+        "reasonCode": "allowed",
+        "value": "12.00"
+      },
+      "voidReason": {
+        "displayText": "-",
+        "fieldPackageKey": "operating-finance",
+        "mode": "full",
+        "reasonCode": "field-package-not-applicable",
+        "value": null
+      }
+    },
+    "id": "15cc3879-c294-4b19-8656-79242d8f6808",
+    "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+    "rowVersion": 2,
+    "sourceType": "manual",
+    "status": "recorded",
+    "taxAmount": null,
+    "updatedAt": "2026-11-04T00:05:19.545Z",
+    "voidReason": null,
+    "voidedAt": null
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

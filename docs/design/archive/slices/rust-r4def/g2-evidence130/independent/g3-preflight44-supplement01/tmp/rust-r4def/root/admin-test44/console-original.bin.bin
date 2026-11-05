@@ -1,0 +1,26 @@
+
+> nx run poms-admin:test --runInBand
+
+(node:31936) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+The `@nx/jest:jest` executor is deprecated and will be removed in Nx v24. Run `nx g @nx/jest:convert-to-inferred` to migrate to the `@nx/jest/plugin` inferred targets. See https://nx.dev/docs/guides/tasks--caching/convert-to-inferred for details.
+[1mTest Suites: [22m[1m[32m60 passed[39m[22m, 60 total
+[1mTests:       [22m[1m[32m416 passed[39m[22m, 416 total
+[1mSnapshots:   [22m0 total
+[1mTime:[22m        73.298 s, estimated 116 s
+[2mRan all test suites[22m[2m.[22m
+
+
+
+ NX   Successfully ran target test for project poms-admin
+
+
+  Run duration:      1m 14s
+  Cache:             Skipped (--skip-nx-cache)
+  Critical path:     1m 14s (1 task)
+  Recoverable time:  <1ms
+
+  Recommendations:
+    - Cache: drop --skip-nx-cache to restore unchanged tasks instantly.
+    - Speed up or split the longest tasks on the critical path:
+        poms-admin:test    1m 14s

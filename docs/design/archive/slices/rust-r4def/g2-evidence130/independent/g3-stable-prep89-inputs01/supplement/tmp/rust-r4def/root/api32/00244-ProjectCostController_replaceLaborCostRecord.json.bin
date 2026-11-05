@@ -1,0 +1,28 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:05:22.225Z",
+  "completedAt": "2026-11-04T00:05:22.247Z",
+  "operationId": "ProjectCostController_replaceLaborCostRecord",
+  "method": "POST",
+  "path": "/api/project-actual-cost-records/986d0e2f-614e-48f5-898d-28ddcacac8cc:replace",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-00244-3f618e08",
+  "requestBody": {
+    "laborPeriodStart": "2026-11-01",
+    "laborPeriodEnd": "2026-11-01",
+    "actualHours": "0.01",
+    "rateVersionId": "5c66c322-9c05-425a-a1d0-8943296d90a5",
+    "replaceReason": "同真实role后继率计算0分币不得留下已替代旧事实",
+    "expectedSupersededRecordVersion": 1
+  },
+  "status": 422,
+  "responseBody": {
+    "error": "Unprocessable Entity",
+    "message": "The labor aggregation rounds to zero; provide a meaningful aggregation",
+    "statusCode": 422
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

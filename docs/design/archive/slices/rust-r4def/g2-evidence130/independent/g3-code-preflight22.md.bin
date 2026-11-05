@@ -1,0 +1,31 @@
+# R4 DEF E/F 独立 G3 前置代码审查 22
+
+**前置审查完成：新增 P0=0、P1=0、P2=1。不是最终 G3，不给 G3 Pass。**
+
+审查对象是快照中的 E4/F6 稳定生产文件；18项初始输入与6项额外源码证据均有精确字节/SHA及只读副本。详见`g3-code-preflight22.json`和`g3-code-preflight22-inputs/manifest.json`。Root正在施工的公共接线仅列依赖，不归为作者缺陷。没有改产品/作者/Issue，没有DB/HTTP/UI实跑或私有凭据访问。
+
+## 必修P2
+
+**EF22-P2-01 — F 合同条款快照证据未沿精确decimal-text通道捕获。**
+
+`project_cost_governance/evidence.rs:402-417`中，其他财务来源把numeric列显式转text，但contract-term-snapshot分支直接`to_jsonb(t)`，带入18,2金额和税率等numeric，再解为`serde_json::Value`并固化/计算hash。当前依赖仅启用raw_value而非arbitrary_precision；缓存的serde_json number/de源证实该decimal进入f64通道。大金额尾分会在不可变证据之前失真，hash只证明舍入后的副本。
+
+建议只保留阶段所需typed身份/版本/状态/effectiveDate/preparation币种证明，排除无关财务数字；如确需保留，所有decimal逐项::text。不要全局改变serde行为掩盖局部来源边界。需用真实PG中`9999999999999999.99`等合法高值及相差一分见证，证明捕获/哈希/回放是精确文本或该typed引用明确不含这些金额。Root已指派F correction25；本22不提前宣布新字节或runtime已通过。
+
+## 已知受控修正，非新业务待决
+
+Root已实证C使用canonical completed，当前22 E源仍paid。E04将改为completed、真实confirmed payment net总额、严格version+总额增加，C每次确认即使partial→partial也递增aggregate payable CAS。F直读payable evidence分支489-495以及633-667旧纯测向量也要同步，不能认为所有F路径都经过E helper。原E25/F22和新E04报告的28纯测均不当作新组合的DB/API证据。
+
+## 正向静态核对
+
+精确整数/HALF_UP、费率4位/quantity2位/金额2位、nullable层、不以gross补net；E显式敏感字段清单、兼容raw键恒null、F双包/历史LABOR taint与safe audit links；全SameSession无新pool/独立commit；项目排序锁、全family预锁；registered确认/阶段锁/证据/CAS同事务；来源逐项占用、确定尾差、完整批替代和旧链保留；无实际snapshot membership即拒绝，均已从代码核对。
+
+来源1→2→3保存captured/previous-certified/current锚点且不放松客户端CAS，框架方向正确；progress具体语义按上述受控修正重新集成，不以旧纯测外推。角色聚合与具名person只证明各显式scope去重，不声称已经认证跨scope员工成员去重。
+
+## Root接口与实际证据缺口
+
+Root须完成67入口/validator18、GET无条件common+auth flush、C币种和真实进度、RuntimeAudit包权限读侧、已知SQL唯一/排斥冲突映射。F的project参数目前进入安全事件metadata，实际多project范围授权仍须由Root入口/数据范围证明，不能把事件tag当授权。
+
+必须补实测：真实五源→E→F确认/阶段→分摊/税务；金额边界/未知税/单源gross；completed与partial→partial真实净额进度和stale CAS；个人率相交/历史补记/发布互竞；跨project和交叉来源集合竞争；一分钱/UUID尾差/整批替代；所有必要写/evidence/audit/security/auth/commit故障；四包与写403/错误/审计读取旁路；附件真实归属/版本/checksum；旧snapshot拒绝；当前626 DTO/生成器客户端真实消费；精确隔离清理。12项详细矩阵保存在机器报告，不以纯测、静态源码或Root provision报告替代。
+
+后续对E04/F25及Root统一候选另立精确pins并复核修正和真实回执；保留本22原件。#101/#57保持Open，本次不认证G3/G4或关闭任何Issue。

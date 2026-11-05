@@ -1,0 +1,127 @@
+{
+  "kind": "actual-owned-runtime-stopped128",
+  "namespace": "poms-r4def",
+  "capturedAt": "2026-11-04T06:29:49.922Z",
+  "records": [
+    {
+      "record": "native-legacy53-process.json",
+      "pid": 243693,
+      "originalStartTime": "8838921",
+      "observed": null,
+      "originalProcessGone": true
+    },
+    {
+      "record": "rust-api108-process.json",
+      "pid": 274896,
+      "originalStartTime": "9928678",
+      "observed": null,
+      "originalProcessGone": true
+    },
+    {
+      "record": "rust-api31-process.json",
+      "pid": 228709,
+      "originalStartTime": "8048307",
+      "observed": null,
+      "originalProcessGone": true
+    },
+    {
+      "record": "rust-api58-process.json",
+      "pid": 249848,
+      "originalStartTime": "9056037",
+      "observed": null,
+      "originalProcessGone": true
+    },
+    {
+      "record": "rust-api81-process.json",
+      "pid": 260080,
+      "originalStartTime": "9553595",
+      "observed": null,
+      "originalProcessGone": true
+    }
+  ],
+  "ports": [
+    {
+      "host": "127.0.0.1",
+      "port": 31341,
+      "actuallyBoundAndReleased": true,
+      "surface": "owned WSL namespace"
+    },
+    {
+      "host": "127.0.0.1",
+      "port": 31342,
+      "actuallyBoundAndReleased": true,
+      "surface": "owned WSL namespace"
+    },
+    {
+      "host": "127.0.0.1",
+      "port": 31343,
+      "actuallyBoundAndReleased": true,
+      "surface": "owned WSL namespace"
+    },
+    {
+      "host": "127.0.0.1",
+      "port": 44451,
+      "actuallyBoundAndReleased": true,
+      "surface": "owned WSL namespace"
+    }
+  ],
+  "databases": [
+    {
+      "backend": "native",
+      "appConnections": [],
+      "onlyPermanentControlSchema": [
+        {
+          "nspname": "r4def_control"
+        }
+      ],
+      "originalImmutableTriggers": [
+        {
+          "tgname": "trg_r4d_basis_immutable"
+        },
+        {
+          "tgname": "trg_r4d_item_immutable"
+        },
+        {
+          "tgname": "trg_r4d_member_immutable"
+        },
+        {
+          "tgname": "trg_r4d_payload_immutable"
+        },
+        {
+          "tgname": "trg_r4d_role_immutable"
+        }
+      ]
+    },
+    {
+      "backend": "rust",
+      "appConnections": [],
+      "onlyPermanentControlSchema": [
+        {
+          "nspname": "r4def_control"
+        }
+      ],
+      "originalImmutableTriggers": [
+        {
+          "tgname": "trg_r4d_basis_immutable"
+        },
+        {
+          "tgname": "trg_r4d_item_immutable"
+        },
+        {
+          "tgname": "trg_r4d_member_immutable"
+        },
+        {
+          "tgname": "trg_r4d_payload_immutable"
+        },
+        {
+          "tgname": "trg_r4d_role_immutable"
+        }
+      ]
+    }
+  ],
+  "allOwnedAPIsStopped": true,
+  "allObservedPortsReleased": true,
+  "noAppPGConnections": true,
+  "ownedPG15RetainedForControlledCleanup": true,
+  "SQLBusinessWrites": 0
+}

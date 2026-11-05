@@ -1,0 +1,31 @@
+**D18 独立生产/UI代码前置审查30：完成，须修正2项P2；不是最终G3。**
+
+审查对象为D-delivery01原18文件（SHA256 8947aec79083c235427c38ed013d746e2bb64c8eacf657950609a0f37495594a），逐文件原字节与结束时重核均一致。根HEAD 8b4c30597215ec75623ff6c8eb017f0f505ef89e，G1冻结metadata 756d813c9578090fcf8e56821acce01b46b40420，S4 4f0ad88e78622a75b88b4e3cc72aded9da67458a。完整精确输入和只读快照见 [JSON](g3-D-preflight30.json) 及两manifest；旧审查/失败证据未改。
+
+- **D30-P2-01 受控合同变更及再基线 UI 使用了额外财务管理权限**：apps/poms-admin/src/app/features/project/project-handover-actions.ts:158。账户有 project:read + project:write，无 contract:finance:manage；对其已有权限的 Active amendment/rebaseline 页面操作。反向仅有 read+finance manage 无 project write 时入口可见但命令403。 本批真实可操作受控变更/再基线闭环对合法项目写入者不可达，且显示权限与 API 冻结权限不一致。 按冻结 project:write 及真实读取/审批归属分别渲染操作；不要求给正常项目写入者额外授予财务管理权限。复用现有读取，无需新增 HTTP。
+
+- **D30-P2-02 附件旧请求失败可越过路由 epoch 改写当前页错误与恢复状态**：apps/poms-admin/src/app/features/project/project-contract-handover.ts:354。A 的附件 load/refresh 未结束时切到 B（或A→B→A），当前项目请求成功后旧 A 请求失败；旧 catch 随后覆盖当前 error。交错 finally 也会把较新仍在途请求的 busy/loading 清为false。 当前项目已恢复仍显示旧项目失败，操作状态可提早恢复；组件的 epoch 成功数据保护没有覆盖其实际渲染的错误和运行状态。 将附件 error/loading/mutation 回执与项目、handover、请求 generation 绑定；或由组件维护只接受当前 epoch 的本地状态。成功恢复清理当前错误，旧失败/finally均不能污染当前状态。
+
+未发现新增P0/P1。静态可核到真实全Active合同snapshot→preparation→approved review→formal plan、历史R3范围/风险复制、actor本人确认、精确amendment绑定、完整连续变更rebaseline及同session原子写入；R5仍明确pending。catalog25只作已导出约束的静态交叉核对，未运行DB。
+
+E04/F25仅核增量和交付pins：F整snapshot numeric经float的旧P2路径已改typed最小选取；真实confirmed net总额/严格进度、canonical completed及后续证明向量在代码上对齐。不能据此认定C→E→F运行已通过。
+
+正式G3前仍必须保留并完成以下真实链：
+
+- D30-R01 用真实R3/A/B生产者建立两个Active合同、不同plan与技术材料；多合同prepare→本人确认→final。 basis成员与Active集合完全一致，definition版本/双summary/hash/confirmation/todos真实FK；同人多职责只本人一次，各人不得代确认；最终仍R5pending。
+
+- D30-R02 prepare后创建pending amendment、更新当前R3新版本；本人查看旧材料，随后完成amendment approval/activation。 pending阶段旧Active承接事实保持有效；旧材料不是当前R3替换；activation后旧self/final锁内409且零副作用；masked用户无money/sourceFacts/costItems/rate/approval意见泄漏并同事务security事件。
+
+- D30-R03 两合同各发生变更、同合同连续两次正式变更后一次rebaseline，再做第二轮rebaseline。 全部连续before→after链、精确review/prep/hash/新current plan验证；缺漏affected contract或receivable项拒绝；foreign/branched/stale链拒绝；新版本所有本人确认pending，旧确认/summary留存不继承，processing不自阻塞。
+
+- D30-R04 已有confirmed receipt的合同变更/重试activation/plan initialization，再读取C到账聚合。 旧receipt事实及金额不重放、不移至新plan、不重复计数；当前snapshot membership指向真实新plan，exact重试返回同一plan/init record；旧/foreign snapshot不可充当前锚点。
+
+- D30-R05 真实并发prepare/self/final/rebaseline/activate以及不同项目并行，失败注入各business/common/auth/audit/security flush。 项目→合同排序锁序、CAS、唯一约束稳健；冲突为受控409，不500；故障整笔回滚summary/confirmation/todos/amendment/snapshot/plan/freeze/audit/auth/security且旧current有效。
+
+- D30-R06 真实R2附件：首次prepare后refresh一次/多次、版本替换、失效、敏感级别变化及历史选择保留。 refresh只更新缓存不循环阻断；真正版本/checksum/status/可见性变化使来源失效并要求重准备；打包/下载权限、安全排除与selection版本严格，历史关联的保留语义明确。
+
+- D30-R07 真实浏览器按projectread/write、finance manage、敏感read、approver不同组合运行并A→B→A导航。 修正两个P2后合法入口可达；自确认不越本人；合同/材料迟到成功失败均不污染；错误后刷新恢复、mutation ACK/下载不越epoch。
+
+- D30-R08 E04/F25与Root C新确认producer进行真实recorded v1→partial v2→partial v3→completed v4链，F重复治理及审计读取。 真实SUM(confirmed net)与payable CAS同事务；每次version+total严格增、无进度版本增加和实质变化不认证，E原basis不改；F snapshot只保typed必要事实，大值金额不经float；dual-sensitive及RuntimeAudit旁路实际拒绝。
+
+Root报告Rust lib303/Clippy31/build31、Angular build30及原client write/check通过；本reviewer未独立运行这些检查，也未访问凭据、DB/API/浏览器或修改产品/环境/Git/Issue。Root公共接线和ORM28尚待统一集成验证，未作为D作者缺陷。本次不发G3/G4 Pass，不授权关闭Issue；只允许继续既有授权G2纠偏与验证。

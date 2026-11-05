@@ -1,0 +1,219 @@
+{
+  "kind": "K98-complete-Link-RETURNING-baseline-delivery98",
+  "authority": {
+    "file": "docs/design/rust-r4def/g2-K98-correction.json",
+    "rawBytesSha256": "e1f2da3e5a8855395f37dba60ca5bd88b4d6a76fcc166d2bb78c4e13f7c405c9",
+    "implementationAuthorized": true
+  },
+  "resolvedFinding": "K86-P1-01",
+  "scope": {
+    "productFiles": [
+      "apps/poms-api-rust/src/attachments/store.rs"
+    ],
+    "support": "tools/rust-r4def/F/K98/**",
+    "DatabaseChanged": false,
+    "HTTPChanged": false,
+    "DTOChanged": false,
+    "DDLChanged": false,
+    "dependenciesChanged": false
+  },
+  "product": {
+    "file": "apps/poms-api-rust/src/attachments/store.rs",
+    "sourceBefore": {
+      "file": "source-before/apps/poms-api-rust/src/attachments/store.rs.bin",
+      "bytes": 68634,
+      "rawBytesSha256": "163452c03d34231360ba7da16b76fd3e282fbc96b9ae752e2cfd584cf9809f8e"
+    },
+    "sourceAfter": {
+      "file": "apps/poms-api-rust/src/attachments/store.rs",
+      "bytes": 77122,
+      "rawBytesSha256": "525028f45ce39a5935f4a1565eee662b76a2976f07a212a580c23f862e899899"
+    },
+    "completeImportFile": {
+      "file": "product/apps/poms-api-rust/src/attachments/store.rs",
+      "bytes": 77122,
+      "rawBytesSha256": "525028f45ce39a5935f4a1565eee662b76a2976f07a212a580c23f862e899899"
+    }
+  },
+  "otherProductsUnchanged": [
+    {
+      "file": "apps/poms-api-rust/src/attachments/service.rs",
+      "bytes": 81710,
+      "rawBytesSha256": "0fbd8afc1c22fec87e3034b9e31d9c89a3cfea92d85cb8f0ef1866dd23bcceab"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachments/handover.rs",
+      "bytes": 40635,
+      "rawBytesSha256": "0fb5f3c71b1167e76a339f4d5996e0c6fac1b964a01be03f92f148906d20e217"
+    },
+    {
+      "file": "apps/poms-api-rust/src/attachment_storage/registry.rs",
+      "bytes": 22940,
+      "rawBytesSha256": "617f734af15f7e75db2cc69de63343c04104abbd446f322809fb1f1bfc625765"
+    }
+  ],
+  "actualChecks": {
+    "receipt": {
+      "file": "author-checks01/receipt.json",
+      "bytes": 2501,
+      "rawBytesSha256": "9e524fdb30a8a293f9afc7f7e9ed3a08aab1ffc7638b8acba7cad0b7c11c45f9"
+    },
+    "sourceStableDuringChecks": true,
+    "commandTestPassCountsWithOverlap": {
+      "test": 6,
+      "regression": 37
+    },
+    "distinctPureTestNames": 37,
+    "newK98PureTests": 6,
+    "scope": "Real app lib, offline target-F/jobs2, no fake E producer"
+  },
+  "sealedEarlierPackages": {
+    "K56/delivery56.json": "09f17e101976b12f5b741e0a9d1e110cae12e7d2a632369d4eae6d1ffd47d82b",
+    "K86/delivery86.json": "af204da15ec0d6030afbca1635711d7cd9f996d317d879e9f34061da59e0b3c8",
+    "K55/proposal55-manifest.json": "a0c6d57f0a9a3e13bb9ceb324d2e6000144bb42a7d0e5b926eafe9c638787e58",
+    "delivery46.json": "1707b06f619c5995547824968ac739b055dfb2f8bff6452c16ab72a6e607aa41",
+    "acceptance44/delivery44.json": "2d8f1238a5a1e21a382523f939bb6ebe14c9d7efb15264ef9bd8be2261019473"
+  },
+  "oldK56K86CompleteProductOriginalsUnchanged": true,
+  "F46SixSourcesUnchanged": [
+    {
+      "file": "apps/poms-api-rust/src/project_cost_governance/evidence.rs",
+      "bytes": 32766,
+      "rawBytesSha256": "6c10996eec05d8c224fd2a02ade0a69eb17b8a497ed175b09609ab8fbbf42c53"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_cost_governance/logic.rs",
+      "bytes": 29111,
+      "rawBytesSha256": "a287ed9281b71681820cb868adf03c5fc6cc59bb950c2814b9e7a0bc0fa0b15f"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_cost_governance/mod.rs",
+      "bytes": 2330,
+      "rawBytesSha256": "ecbe9519abb24e6f06f39e3fb94ab4416e6fa4c9c2464c4606ccbac01ed83cc9"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_cost_governance/projection.rs",
+      "bytes": 23183,
+      "rawBytesSha256": "d525b70b521b3b7520345c77c9e547abe60080d7dd9644b515de876bef072725"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_cost_governance/service.rs",
+      "bytes": 46092,
+      "rawBytesSha256": "04f8c521b2d68ac743d7fdc3146db96c2a6ae5096e1fadba53505b039b43af13"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_cost_governance/store.rs",
+      "bytes": 11880,
+      "rawBytesSha256": "6712ee261e4458df43fe3f1369dcdfa8a083de9e6f844f461a0eddc85a11867e"
+    }
+  ],
+  "RootOwnedCompilerScaffoldingNotDelivered": [
+    {
+      "file": "apps/poms-api-rust/src/lib.rs",
+      "bytes": 1217,
+      "rawBytesSha256": "c33ae73275915a155a05f9a3935730df03595c23add5b3c2b30ff31e71c625d0"
+    },
+    {
+      "file": "apps/poms-api-rust/src/contract_support/mod.rs",
+      "bytes": 17762,
+      "rawBytesSha256": "1c70676ba26d827806ab27cdb9d0e983d9d403e3b9b6f3da730334296cebc855"
+    }
+  ],
+  "baseCommitFromAssignedWorktree": "756d813c9578090fcf8e56821acce01b46b40420",
+  "actualPGExecuted": false,
+  "actualHTTPExecuted": false,
+  "actualObjectIOExecuted": false,
+  "actualConcurrencyExecuted": false,
+  "S3Accepted": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "RootSharedWritten": false,
+  "credentialsRead": false,
+  "environmentModified": false,
+  "committed": false,
+  "pushed": false,
+  "notRun": [
+    "PG execution of full-row RETURNING",
+    "fresh true handover autoLink creation then necessary audit",
+    "K86 actual no-op barriers",
+    "actual faults/concurrency/object checks on final runtime"
+  ],
+  "supportArtifactsExcludingManifest": [
+    {
+      "file": "author-checks01/clippy.log",
+      "bytes": 186,
+      "rawBytesSha256": "5c4409695f27bc1b58912eeeceb41db4624f2d387de041c89635fdf12da38688"
+    },
+    {
+      "file": "author-checks01/fmt-check.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "author-checks01/receipt.json",
+      "bytes": 2501,
+      "rawBytesSha256": "9e524fdb30a8a293f9afc7f7e9ed3a08aab1ffc7638b8acba7cad0b7c11c45f9"
+    },
+    {
+      "file": "author-checks01/regression.log",
+      "bytes": 4422,
+      "rawBytesSha256": "056d9ed433794cd44735e9e221bdef4a9150808132602709dd4df18ec1888900"
+    },
+    {
+      "file": "author-checks01/test.log",
+      "bytes": 1144,
+      "rawBytesSha256": "cf40eb7b46ebb9cc5c2088f4bd3a07bd72866a8f1da214f3338ed2eb3ab91b51"
+    },
+    {
+      "file": "author-checks01/version.log",
+      "bytes": 74,
+      "rawBytesSha256": "1d5ffecef3d3a41c112753b3503c5175bbee8590cb64163c8d0d99cd2961921d"
+    },
+    {
+      "file": "authority98.json.bin",
+      "bytes": 3257,
+      "rawBytesSha256": "e1f2da3e5a8855395f37dba60ca5bd88b4d6a76fcc166d2bb78c4e13f7c405c9"
+    },
+    {
+      "file": "check98.ps1",
+      "bytes": 2544,
+      "rawBytesSha256": "81057a3d064f1501455d81a658b1bf8f422dda0f060d791876f1ed8fe745f27d"
+    },
+    {
+      "file": "check98.sh",
+      "bytes": 1060,
+      "rawBytesSha256": "fb1073e2af13a4b6c407f1342a31112ff26aa141edff115e1ccb2b492668edac"
+    },
+    {
+      "file": "HANDOFF98.md",
+      "bytes": 2357,
+      "rawBytesSha256": "1f62cd8917813cb15a5e33e515c3f1b86de8cb18c45e0f9ea75f7e5a1383ff6e"
+    },
+    {
+      "file": "md-format98.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "product/apps/poms-api-rust/src/attachments/store.rs",
+      "bytes": 77122,
+      "rawBytesSha256": "525028f45ce39a5935f4a1565eee662b76a2976f07a212a580c23f862e899899"
+    },
+    {
+      "file": "seal-attempt01-error.json",
+      "bytes": 393,
+      "rawBytesSha256": "bcb97a8d67afd1258dee49d8e68982ec48dbca982cb494370a855a2b17de6a2a"
+    },
+    {
+      "file": "seal98.py",
+      "bytes": 5444,
+      "rawBytesSha256": "0c3e03d9a6d753f84a16f9e5e8573c0ed925bd9759a4eb0a30a9f5404bc2b32f"
+    },
+    {
+      "file": "source-before/apps/poms-api-rust/src/attachments/store.rs.bin",
+      "bytes": 68634,
+      "rawBytesSha256": "163452c03d34231360ba7da16b76fd3e282fbc96b9ae752e2cfd584cf9809f8e"
+    }
+  ],
+  "next": "Root imports this single exact store file; service/registry/handover retain pinned bytes; actual final runtime acceptance then independent G3/G4"
+}

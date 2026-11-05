@@ -1,0 +1,1318 @@
+{
+  "derivedFrom": {
+    "file": "tmp/rust-r4def/root/catalog25/rust-catalog.json",
+    "bytes": 1137929,
+    "rawBytesSha256": "0a6ef59de84f1e975c314735d49697c7f94ffde1415c1805bd01d7d0bf7efbef",
+    "snapshot": "tmp/rust-r4def/independent/g3-D-preflight30-supplement/tmp/rust-r4def/root/catalog25/rust-catalog.json.bin"
+  },
+  "constraints": [
+    {
+      "table_name": "contract_amendment",
+      "conname": "chk_r4d_amendment_producer",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK (((producer_version IS NULL) OR ((producer_version = 1) AND (project_id IS NOT NULL) AND (source_readiness_id IS NOT NULL) AND (before_snapshot_id IS NOT NULL) AND (amendment_reason IS NOT NULL) AND (length(btrim((amendment_reason)::text)) > 0) AND (payload_hash IS NOT NULL) AND ((payload_hash)::text ~ '^[0-9a-f]{64}$'::text) AND (((status)::text <> ALL ((ARRAY['submitted'::character varying, 'approved'::character varying, 'effective'::character varying, 'superseded'::character varying])::text[])) OR ((source_preparation_id IS NOT NULL) AND (source_review_id IS NOT NULL))) AND (((status)::text <> ALL ((ARRAY['effective'::character varying, 'superseded'::character varying])::text[])) OR ((after_snapshot_id IS NOT NULL) AND (after_snapshot_id <> before_snapshot_id) AND (effective_at IS NOT NULL) AND (effective_by IS NOT NULL))))))"
+    },
+    {
+      "table_name": "contract_amendment",
+      "conname": "contract_amendment_contract_id_foreign",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (contract_id) REFERENCES poms.contract(id) ON UPDATE CASCADE ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "contract_amendment",
+      "conname": "contract_amendment_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "contract_amendment",
+      "conname": "contract_amendment_supersedes_id_foreign",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (supersedes_id) REFERENCES poms.contract_amendment(id) ON UPDATE CASCADE ON DELETE SET NULL"
+    },
+    {
+      "table_name": "contract_amendment",
+      "conname": "fk_r4d_amendment_after",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (after_snapshot_id, contract_id) REFERENCES poms.contract_term_snapshot(id, contract_id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "contract_amendment",
+      "conname": "fk_r4d_amendment_before",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (before_snapshot_id, contract_id) REFERENCES poms.contract_term_snapshot(id, contract_id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "contract_amendment",
+      "conname": "fk_r4d_amendment_preparation",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (source_preparation_id, source_readiness_id, contract_id) REFERENCES poms.contract_term_preparation(id, source_readiness_id, contract_id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "contract_amendment",
+      "conname": "fk_r4d_amendment_project",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (contract_id, project_id) REFERENCES poms.contract(id, project_id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "contract_amendment",
+      "conname": "fk_r4d_amendment_readiness",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (source_readiness_id, project_id, contract_id) REFERENCES poms.contract_readiness_package(id, project_id, contract_id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "contract_amendment",
+      "conname": "fk_r4d_amendment_review",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": true,
+      "condeferred": true,
+      "definition": "FOREIGN KEY (source_review_id, contract_id, source_preparation_id) REFERENCES poms.contract_review_binding(approval_record_id, contract_id, preparation_id) ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED"
+    },
+    {
+      "table_name": "contract_amendment",
+      "conname": "uq_contract_amendment_contract_version",
+      "contype": "u",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "UNIQUE (contract_id, version)"
+    },
+    {
+      "table_name": "contract_amendment",
+      "conname": "uq_r4d_amendment_scope",
+      "contype": "u",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "UNIQUE (id, contract_id)"
+    },
+    {
+      "table_name": "contract_readiness_package",
+      "conname": "contract_readiness_package_latest_diff_result_id_foreign",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (latest_diff_result_id) REFERENCES poms.commercial_baseline_diff_result(id) ON UPDATE CASCADE ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "contract_readiness_package",
+      "conname": "contract_readiness_package_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "contract_readiness_package",
+      "conname": "contract_readiness_package_project_id_foreign",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (project_id) REFERENCES poms.project(id) ON UPDATE CASCADE ON DELETE CASCADE"
+    },
+    {
+      "table_name": "contract_readiness_package",
+      "conname": "contract_readiness_package_source_baseline_id_foreign",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (source_baseline_id) REFERENCES poms.commercial_release_baseline(id) ON UPDATE CASCADE ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "contract_readiness_package",
+      "conname": "contract_readiness_package_source_bid_process_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (source_bid_process_id) REFERENCES poms.project_bid_commercial_process(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "contract_readiness_package",
+      "conname": "contract_readiness_package_source_cost_package_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (source_cost_package_id) REFERENCES poms.project_technical_cost_package(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "contract_readiness_package",
+      "conname": "contract_readiness_package_source_pricing_review_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (source_pricing_review_id) REFERENCES poms.project_pricing_margin_review(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "contract_readiness_package",
+      "conname": "fk_r4_readiness_contract_project",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (contract_id, project_id) REFERENCES poms.contract(id, project_id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "contract_readiness_package",
+      "conname": "fk_r4_readiness_current_preparation",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (current_preparation_id, contract_id) REFERENCES poms.contract_term_preparation(id, contract_id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "contract_readiness_package",
+      "conname": "fk_r4_readiness_diff_scope",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (latest_diff_result_id, source_baseline_id, project_id, contract_id) REFERENCES poms.commercial_baseline_diff_result(id, baseline_id, project_id, contract_id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "contract_readiness_package",
+      "conname": "fk_r4d_readiness_amendment",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": true,
+      "condeferred": true,
+      "definition": "FOREIGN KEY (contract_amendment_id, contract_id) REFERENCES poms.contract_amendment(id, contract_id) ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED"
+    },
+    {
+      "table_name": "contract_readiness_package",
+      "conname": "uq_r4_readiness_scope",
+      "contype": "u",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "UNIQUE (id, project_id, contract_id)"
+    },
+    {
+      "table_name": "contract_review_binding",
+      "conname": "contract_review_binding_approval_record_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (approval_record_id) REFERENCES poms.approval_record(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "contract_review_binding",
+      "conname": "contract_review_binding_contract_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (contract_id) REFERENCES poms.contract(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "contract_review_binding",
+      "conname": "contract_review_binding_payload_hash_check",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK (((payload_hash)::text ~ '^[0-9a-f]{64}$'::text))"
+    },
+    {
+      "table_name": "contract_review_binding",
+      "conname": "contract_review_binding_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "PRIMARY KEY (approval_record_id)"
+    },
+    {
+      "table_name": "contract_review_binding",
+      "conname": "contract_review_binding_preparation_version_check",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK ((preparation_version > 0))"
+    },
+    {
+      "table_name": "contract_review_binding",
+      "conname": "fk_r4_review_preparation_contract",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (preparation_id, contract_id) REFERENCES poms.contract_term_preparation(id, contract_id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "contract_review_binding",
+      "conname": "fk_r4d_review_amendment",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (contract_amendment_id, contract_id) REFERENCES poms.contract_amendment(id, contract_id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "contract_review_binding",
+      "conname": "uq_r4d_review_scope",
+      "contype": "u",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "UNIQUE (approval_record_id, contract_id, preparation_id)"
+    },
+    {
+      "table_name": "project_handover",
+      "conname": "chk_r4d_handover_producer",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK (((producer_version IS NULL) OR ((producer_version = 1) AND (basis_snapshot_id IS NOT NULL) AND (version IS NOT NULL) AND (execution_owner_user_id IS NOT NULL) AND (confirmation_record_id IS NOT NULL) AND (finance_confirmation_required IS NOT NULL) AND (prepared_receipt_judgment_mode IS NOT NULL) AND ((prepared_receipt_judgment_mode)::text = ANY ((ARRAY['project-aggregate'::character varying, 'contract-separate'::character varying])::text[])) AND (source_payload_hash IS NOT NULL) AND ((source_payload_hash)::text ~ '^[0-9a-f]{64}$'::text) AND (((status)::text <> 'confirmed'::text) OR ((confirmed_at IS NOT NULL) AND (confirmed_by IS NOT NULL))) AND (((status)::text <> 'draft'::text) OR ((confirmed_at IS NULL) AND (confirmed_by IS NULL))) AND ((NOT is_current) OR ((status)::text = ANY ((ARRAY['draft'::character varying, 'confirmed'::character varying])::text[]))))))"
+    },
+    {
+      "table_name": "project_handover",
+      "conname": "fk_r4d_handover_basis",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (basis_snapshot_id, project_id) REFERENCES poms.project_handover_basis_snapshot(id, project_id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "project_handover",
+      "conname": "pk_project_handover",
+      "contype": "p",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "project_handover",
+      "conname": "project_handover_confirmation_record_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (confirmation_record_id) REFERENCES poms.confirmation_record(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "project_handover",
+      "conname": "project_handover_contract_summary_snapshot_id_foreign",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (contract_summary_snapshot_id) REFERENCES poms.approval_summary_snapshot(id) ON UPDATE CASCADE ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "project_handover",
+      "conname": "project_handover_effective_handover_baseline_snapshot_id_foreig",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (effective_handover_baseline_snapshot_id) REFERENCES poms.contract_term_snapshot(id) ON UPDATE CASCADE ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "project_handover",
+      "conname": "project_handover_execution_owner_user_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (execution_owner_user_id) REFERENCES poms.platform_user(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "project_handover",
+      "conname": "project_handover_handover_rebaseline_record_id_foreign",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (handover_rebaseline_record_id) REFERENCES poms.contract_handover_rebaseline_record(id) ON UPDATE CASCADE ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "project_handover",
+      "conname": "project_handover_project_id_foreign",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (project_id) REFERENCES poms.project(id) ON UPDATE CASCADE ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "project_handover",
+      "conname": "project_handover_summary_snapshot_id_foreign",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (summary_snapshot_id) REFERENCES poms.approval_summary_snapshot(id) ON UPDATE CASCADE ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "project_handover",
+      "conname": "project_handover_supersedes_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (supersedes_id) REFERENCES poms.project_handover(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "project_handover",
+      "conname": "project_handover_version_check",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK (((version IS NULL) OR (version > 0)))"
+    },
+    {
+      "table_name": "project_handover",
+      "conname": "uq_r4d_handover_confirmation",
+      "contype": "u",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "UNIQUE (id, confirmation_record_id)"
+    },
+    {
+      "table_name": "project_handover",
+      "conname": "uq_r4d_handover_freeze_source",
+      "contype": "u",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "UNIQUE (id, summary_snapshot_id, basis_snapshot_id)"
+    },
+    {
+      "table_name": "project_handover",
+      "conname": "uq_r4d_handover_scope",
+      "contype": "u",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "UNIQUE (id, project_id, basis_snapshot_id)"
+    },
+    {
+      "table_name": "project_handover",
+      "conname": "uq_r4d_handover_version",
+      "contype": "u",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "UNIQUE (project_id, version)"
+    },
+    {
+      "table_name": "project_handover_basis_snapshot",
+      "conname": "chk_r4d_basis_current",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK (((NOT is_current) OR ((status)::text = 'active'::text)))"
+    },
+    {
+      "table_name": "project_handover_basis_snapshot",
+      "conname": "project_handover_basis_snapshot_generated_by_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (generated_by) REFERENCES poms.platform_user(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "project_handover_basis_snapshot",
+      "conname": "project_handover_basis_snapshot_payload_hash_check",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK (((payload_hash)::text ~ '^[0-9a-f]{64}$'::text))"
+    },
+    {
+      "table_name": "project_handover_basis_snapshot",
+      "conname": "project_handover_basis_snapshot_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "project_handover_basis_snapshot",
+      "conname": "project_handover_basis_snapshot_project_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (project_id) REFERENCES poms.project(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "project_handover_basis_snapshot",
+      "conname": "project_handover_basis_snapshot_row_version_check",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK ((row_version > 0))"
+    },
+    {
+      "table_name": "project_handover_basis_snapshot",
+      "conname": "project_handover_basis_snapshot_source_hash_check",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK (((source_hash)::text ~ '^[0-9a-f]{64}$'::text))"
+    },
+    {
+      "table_name": "project_handover_basis_snapshot",
+      "conname": "project_handover_basis_snapshot_source_payload_check",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK ((jsonb_typeof(source_payload) = 'object'::text))"
+    },
+    {
+      "table_name": "project_handover_basis_snapshot",
+      "conname": "project_handover_basis_snapshot_status_check",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK (((status)::text = ANY ((ARRAY['active'::character varying, 'superseded'::character varying, 'voided'::character varying])::text[])))"
+    },
+    {
+      "table_name": "project_handover_basis_snapshot",
+      "conname": "project_handover_basis_snapshot_supersedes_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (supersedes_id) REFERENCES poms.project_handover_basis_snapshot(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "project_handover_basis_snapshot",
+      "conname": "project_handover_basis_snapshot_version_check",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK ((version > 0))"
+    },
+    {
+      "table_name": "project_handover_basis_snapshot",
+      "conname": "uq_r4d_basis_project",
+      "contype": "u",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "UNIQUE (id, project_id)"
+    },
+    {
+      "table_name": "project_handover_basis_snapshot",
+      "conname": "uq_r4d_basis_version",
+      "contype": "u",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "UNIQUE (project_id, version)"
+    },
+    {
+      "table_name": "project_handover_contract_basis",
+      "conname": "fk_r4d_member_amendment",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (contract_amendment_id, contract_id) REFERENCES poms.contract_amendment(id, contract_id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "project_handover_contract_basis",
+      "conname": "fk_r4d_member_basis",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (basis_snapshot_id, project_id) REFERENCES poms.project_handover_basis_snapshot(id, project_id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "project_handover_contract_basis",
+      "conname": "fk_r4d_member_contract",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (contract_id, project_id) REFERENCES poms.contract(id, project_id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "project_handover_contract_basis",
+      "conname": "fk_r4d_member_plan",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (plan_version_id, contract_id, term_snapshot_id, preparation_id, readiness_package_id) REFERENCES poms.receivable_plan_version(id, contract_id, snapshot_id, source_preparation_id, source_readiness_id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "project_handover_contract_basis",
+      "conname": "fk_r4d_member_preparation",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (preparation_id, readiness_package_id, contract_id) REFERENCES poms.contract_term_preparation(id, source_readiness_id, contract_id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "project_handover_contract_basis",
+      "conname": "fk_r4d_member_readiness",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (readiness_package_id, project_id, contract_id) REFERENCES poms.contract_readiness_package(id, project_id, contract_id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "project_handover_contract_basis",
+      "conname": "fk_r4d_member_snapshot",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (term_snapshot_id, contract_id, preparation_id) REFERENCES poms.contract_term_snapshot(id, contract_id, source_preparation_id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "project_handover_contract_basis",
+      "conname": "project_handover_contract_basis_amount_tax_exclusive_check",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK ((amount_tax_exclusive > (0)::numeric))"
+    },
+    {
+      "table_name": "project_handover_contract_basis",
+      "conname": "project_handover_contract_basis_amount_tax_inclusive_check",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK ((amount_tax_inclusive > (0)::numeric))"
+    },
+    {
+      "table_name": "project_handover_contract_basis",
+      "conname": "project_handover_contract_basis_currency_code_check",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK ((length(btrim((currency_code)::text)) > 0))"
+    },
+    {
+      "table_name": "project_handover_contract_basis",
+      "conname": "project_handover_contract_basis_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "project_handover_contract_basis",
+      "conname": "project_handover_contract_basis_signed_amount_check",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK ((signed_amount > (0)::numeric))"
+    },
+    {
+      "table_name": "project_handover_contract_basis",
+      "conname": "project_handover_contract_basis_source_payload_hash_check",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK (((source_payload_hash)::text ~ '^[0-9a-f]{64}$'::text))"
+    },
+    {
+      "table_name": "project_handover_contract_basis",
+      "conname": "uq_r4d_basis_contract",
+      "contype": "u",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "UNIQUE (basis_snapshot_id, contract_id)"
+    },
+    {
+      "table_name": "project_handover_participant_role",
+      "conname": "fk_r4d_role_handover",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (handover_id, confirmation_record_id) REFERENCES poms.project_handover(id, confirmation_record_id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "project_handover_participant_role",
+      "conname": "fk_r4d_role_person",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (confirmation_participant_id, confirmation_record_id, participant_user_id) REFERENCES poms.confirmation_participant(id, confirmation_record_id, participant_id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "project_handover_participant_role",
+      "conname": "project_handover_participant_role_created_by_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (created_by) REFERENCES poms.platform_user(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "project_handover_participant_role",
+      "conname": "project_handover_participant_role_participant_user_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (participant_user_id) REFERENCES poms.platform_user(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "project_handover_participant_role",
+      "conname": "project_handover_participant_role_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "project_handover_participant_role",
+      "conname": "project_handover_participant_role_responsibility_summary_check",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK ((length(btrim((responsibility_summary)::text)) > 0))"
+    },
+    {
+      "table_name": "project_handover_participant_role",
+      "conname": "project_handover_participant_role_role_key_check",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK (((role_key)::text = ANY ((ARRAY['sales-owner'::character varying, 'business-admin'::character varying, 'technical-support'::character varying, 'execution-owner'::character varying, 'finance'::character varying])::text[])))"
+    },
+    {
+      "table_name": "project_handover_participant_role",
+      "conname": "uq_r4d_participant_role",
+      "contype": "u",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "UNIQUE (handover_id, participant_user_id, role_key)"
+    },
+    {
+      "table_name": "project_handover_summary_payload",
+      "conname": "chk_r4d_payload_kind",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK ((((handover_id IS NULL) AND (contract_summary_snapshot_id IS NULL)) OR ((handover_id IS NOT NULL) AND (contract_summary_snapshot_id IS NOT NULL))))"
+    },
+    {
+      "table_name": "project_handover_summary_payload",
+      "conname": "fk_r4d_payload_basis",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (basis_snapshot_id, project_id) REFERENCES poms.project_handover_basis_snapshot(id, project_id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "project_handover_summary_payload",
+      "conname": "fk_r4d_payload_handover",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (handover_id, project_id, basis_snapshot_id) REFERENCES poms.project_handover(id, project_id, basis_snapshot_id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "project_handover_summary_payload",
+      "conname": "project_handover_summary_payl_contract_summary_snapshot_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (contract_summary_snapshot_id) REFERENCES poms.approval_summary_snapshot(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "project_handover_summary_payload",
+      "conname": "project_handover_summary_payload_generated_by_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (generated_by) REFERENCES poms.platform_user(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "project_handover_summary_payload",
+      "conname": "project_handover_summary_payload_payload_check",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK ((jsonb_typeof(payload) = 'object'::text))"
+    },
+    {
+      "table_name": "project_handover_summary_payload",
+      "conname": "project_handover_summary_payload_payload_hash_check",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK (((payload_hash)::text ~ '^[0-9a-f]{64}$'::text))"
+    },
+    {
+      "table_name": "project_handover_summary_payload",
+      "conname": "project_handover_summary_payload_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "PRIMARY KEY (summary_snapshot_id)"
+    },
+    {
+      "table_name": "project_handover_summary_payload",
+      "conname": "project_handover_summary_payload_source_hash_check",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK (((source_hash)::text ~ '^[0-9a-f]{64}$'::text))"
+    },
+    {
+      "table_name": "project_handover_summary_payload",
+      "conname": "project_handover_summary_payload_summary_snapshot_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (summary_snapshot_id) REFERENCES poms.approval_summary_snapshot(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "project_receipt_judgment_freeze",
+      "conname": "chk_r4d_receipt_freeze_producer",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK (((producer_version IS NULL) OR ((producer_version = 1) AND (basis_snapshot_id IS NOT NULL) AND (version IS NOT NULL) AND ((receipt_judgment_mode)::text = ANY ((ARRAY['project-aggregate'::character varying, 'contract-separate'::character varying])::text[])) AND ((source_type)::text = ANY ((ARRAY['project-handover'::character varying, 'project-receipt-judgment-freeze'::character varying])::text[])) AND (((source_type)::text <> 'project-handover'::text) OR (source_id = source_handover_id)))))"
+    },
+    {
+      "table_name": "project_receipt_judgment_freeze",
+      "conname": "fk_r4d_receipt_freeze_basis",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (basis_snapshot_id, project_id) REFERENCES poms.project_handover_basis_snapshot(id, project_id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "project_receipt_judgment_freeze",
+      "conname": "fk_r4d_receipt_freeze_handover",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (source_handover_id, source_handover_summary_snapshot_id, basis_snapshot_id) REFERENCES poms.project_handover(id, summary_snapshot_id, basis_snapshot_id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "project_receipt_judgment_freeze",
+      "conname": "pk_project_receipt_judgment_freeze",
+      "contype": "p",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "project_receipt_judgment_freeze",
+      "conname": "project_receipt_judgment_freeze_project_id_foreign",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (project_id) REFERENCES poms.project(id) ON UPDATE CASCADE ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "project_receipt_judgment_freeze",
+      "conname": "project_receipt_judgment_freeze_source_handover_id_foreign",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (source_handover_id) REFERENCES poms.project_handover(id) ON UPDATE CASCADE ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "project_receipt_judgment_freeze",
+      "conname": "project_receipt_judgment_freeze_source_handover_rebaseline_",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (source_handover_rebaseline_record_id) REFERENCES poms.contract_handover_rebaseline_record(id) ON UPDATE CASCADE ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "project_receipt_judgment_freeze",
+      "conname": "project_receipt_judgment_freeze_source_handover_summary_snapsh",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (source_handover_summary_snapshot_id) REFERENCES poms.approval_summary_snapshot(id) ON UPDATE CASCADE ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "project_receipt_judgment_freeze",
+      "conname": "project_receipt_judgment_freeze_supersedes_id_foreign",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (supersedes_id) REFERENCES poms.project_receipt_judgment_freeze(id) ON UPDATE CASCADE ON DELETE SET NULL"
+    },
+    {
+      "table_name": "project_receipt_judgment_freeze",
+      "conname": "project_receipt_judgment_freeze_version_check",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK (((version IS NULL) OR (version > 0)))"
+    },
+    {
+      "table_name": "project_receipt_judgment_freeze",
+      "conname": "uq_r4d_receipt_freeze_version",
+      "contype": "u",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "UNIQUE (project_id, version)"
+    },
+    {
+      "table_name": "receivable_plan_init_record",
+      "conname": "fk_r4_plan_init_contract",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (plan_version_id, contract_id) REFERENCES poms.receivable_plan_version(id, contract_id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "receivable_plan_init_record",
+      "conname": "fk_r4_plan_init_snapshot",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (snapshot_id, contract_id) REFERENCES poms.contract_term_snapshot(id, contract_id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "receivable_plan_init_record",
+      "conname": "receivable_plan_init_record_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "receivable_plan_init_record",
+      "conname": "receivable_plan_init_record_plan_version_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (plan_version_id) REFERENCES poms.receivable_plan_version(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "receivable_plan_init_record",
+      "conname": "receivable_plan_init_record_plan_version_id_key",
+      "contype": "u",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "UNIQUE (plan_version_id)"
+    },
+    {
+      "table_name": "receivable_plan_init_record",
+      "conname": "receivable_plan_init_record_source_readiness_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (source_readiness_id) REFERENCES poms.contract_readiness_package(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "receivable_plan_version",
+      "conname": "fk_r4_plan_contract_project",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (contract_id, project_id) REFERENCES poms.contract(id, project_id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "receivable_plan_version",
+      "conname": "fk_r4_plan_preparation_source",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (source_preparation_id, source_readiness_id, contract_id) REFERENCES poms.contract_term_preparation(id, source_readiness_id, contract_id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "receivable_plan_version",
+      "conname": "fk_r4_plan_snapshot_scope",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (snapshot_id, contract_id, source_preparation_id) REFERENCES poms.contract_term_snapshot(id, contract_id, source_preparation_id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "receivable_plan_version",
+      "conname": "receivable_plan_version_amount_tax_inclusive_check",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK ((amount_tax_inclusive > (0)::numeric))"
+    },
+    {
+      "table_name": "receivable_plan_version",
+      "conname": "receivable_plan_version_payload_hash_check",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK (((payload_hash)::text ~ '^[0-9a-f]{64}$'::text))"
+    },
+    {
+      "table_name": "receivable_plan_version",
+      "conname": "receivable_plan_version_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "receivable_plan_version",
+      "conname": "receivable_plan_version_row_version_check",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK ((row_version > 0))"
+    },
+    {
+      "table_name": "receivable_plan_version",
+      "conname": "receivable_plan_version_status_check",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK (((status)::text = ANY ((ARRAY['active'::character varying, 'superseded'::character varying, 'voided'::character varying])::text[])))"
+    },
+    {
+      "table_name": "receivable_plan_version",
+      "conname": "receivable_plan_version_supersedes_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "FOREIGN KEY (supersedes_id) REFERENCES poms.receivable_plan_version(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "receivable_plan_version",
+      "conname": "receivable_plan_version_version_check",
+      "contype": "c",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "CHECK ((version > 0))"
+    },
+    {
+      "table_name": "receivable_plan_version",
+      "conname": "uq_r4_plan_contract_snapshot",
+      "contype": "u",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "UNIQUE (contract_id, snapshot_id)"
+    },
+    {
+      "table_name": "receivable_plan_version",
+      "conname": "uq_r4_plan_contract_version",
+      "contype": "u",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "UNIQUE (contract_id, version)"
+    },
+    {
+      "table_name": "receivable_plan_version",
+      "conname": "uq_r4_plan_id_contract",
+      "contype": "u",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "UNIQUE (id, contract_id)"
+    },
+    {
+      "table_name": "receivable_plan_version",
+      "conname": "uq_r4d_plan_full_source",
+      "contype": "u",
+      "convalidated": true,
+      "condeferrable": false,
+      "condeferred": false,
+      "definition": "UNIQUE (id, contract_id, snapshot_id, source_preparation_id, source_readiness_id)"
+    }
+  ],
+  "uniqueIndexes": [
+    {
+      "tablename": "contract_amendment",
+      "indexname": "contract_amendment_pkey",
+      "indexdef": "CREATE UNIQUE INDEX contract_amendment_pkey ON poms.contract_amendment USING btree (id)"
+    },
+    {
+      "tablename": "contract_amendment",
+      "indexname": "uq_contract_amendment_contract_current",
+      "indexdef": "CREATE UNIQUE INDEX uq_contract_amendment_contract_current ON poms.contract_amendment USING btree (contract_id) WHERE (is_current = true)"
+    },
+    {
+      "tablename": "contract_amendment",
+      "indexname": "uq_contract_amendment_contract_version",
+      "indexdef": "CREATE UNIQUE INDEX uq_contract_amendment_contract_version ON poms.contract_amendment USING btree (contract_id, version)"
+    },
+    {
+      "tablename": "contract_amendment",
+      "indexname": "uq_r4d_amendment_open",
+      "indexdef": "CREATE UNIQUE INDEX uq_r4d_amendment_open ON poms.contract_amendment USING btree (contract_id) WHERE ((producer_version = 1) AND ((status)::text = ANY ((ARRAY['draft'::character varying, 'submitted'::character varying, 'approved'::character varying])::text[])))"
+    },
+    {
+      "tablename": "contract_amendment",
+      "indexname": "uq_r4d_amendment_scope",
+      "indexdef": "CREATE UNIQUE INDEX uq_r4d_amendment_scope ON poms.contract_amendment USING btree (id, contract_id)"
+    },
+    {
+      "tablename": "contract_readiness_package",
+      "indexname": "contract_readiness_package_pkey",
+      "indexdef": "CREATE UNIQUE INDEX contract_readiness_package_pkey ON poms.contract_readiness_package USING btree (id)"
+    },
+    {
+      "tablename": "contract_readiness_package",
+      "indexname": "uq_r4_readiness_contract_current",
+      "indexdef": "CREATE UNIQUE INDEX uq_r4_readiness_contract_current ON poms.contract_readiness_package USING btree (project_id, contract_id) WHERE (is_current AND (contract_id IS NOT NULL))"
+    },
+    {
+      "tablename": "contract_readiness_package",
+      "indexname": "uq_r4_readiness_scope",
+      "indexdef": "CREATE UNIQUE INDEX uq_r4_readiness_scope ON poms.contract_readiness_package USING btree (id, project_id, contract_id)"
+    },
+    {
+      "tablename": "contract_review_binding",
+      "indexname": "contract_review_binding_pkey",
+      "indexdef": "CREATE UNIQUE INDEX contract_review_binding_pkey ON poms.contract_review_binding USING btree (approval_record_id)"
+    },
+    {
+      "tablename": "contract_review_binding",
+      "indexname": "uq_r4d_review_scope",
+      "indexdef": "CREATE UNIQUE INDEX uq_r4d_review_scope ON poms.contract_review_binding USING btree (approval_record_id, contract_id, preparation_id)"
+    },
+    {
+      "tablename": "project_handover",
+      "indexname": "pk_project_handover",
+      "indexdef": "CREATE UNIQUE INDEX pk_project_handover ON poms.project_handover USING btree (id)"
+    },
+    {
+      "tablename": "project_handover",
+      "indexname": "uq_r4d_handover_confirmation",
+      "indexdef": "CREATE UNIQUE INDEX uq_r4d_handover_confirmation ON poms.project_handover USING btree (id, confirmation_record_id)"
+    },
+    {
+      "tablename": "project_handover",
+      "indexname": "uq_r4d_handover_current",
+      "indexdef": "CREATE UNIQUE INDEX uq_r4d_handover_current ON poms.project_handover USING btree (project_id) WHERE is_current"
+    },
+    {
+      "tablename": "project_handover",
+      "indexname": "uq_r4d_handover_freeze_source",
+      "indexdef": "CREATE UNIQUE INDEX uq_r4d_handover_freeze_source ON poms.project_handover USING btree (id, summary_snapshot_id, basis_snapshot_id)"
+    },
+    {
+      "tablename": "project_handover",
+      "indexname": "uq_r4d_handover_scope",
+      "indexdef": "CREATE UNIQUE INDEX uq_r4d_handover_scope ON poms.project_handover USING btree (id, project_id, basis_snapshot_id)"
+    },
+    {
+      "tablename": "project_handover",
+      "indexname": "uq_r4d_handover_version",
+      "indexdef": "CREATE UNIQUE INDEX uq_r4d_handover_version ON poms.project_handover USING btree (project_id, version)"
+    },
+    {
+      "tablename": "project_handover_basis_snapshot",
+      "indexname": "project_handover_basis_snapshot_pkey",
+      "indexdef": "CREATE UNIQUE INDEX project_handover_basis_snapshot_pkey ON poms.project_handover_basis_snapshot USING btree (id)"
+    },
+    {
+      "tablename": "project_handover_basis_snapshot",
+      "indexname": "uq_r4d_basis_current",
+      "indexdef": "CREATE UNIQUE INDEX uq_r4d_basis_current ON poms.project_handover_basis_snapshot USING btree (project_id) WHERE is_current"
+    },
+    {
+      "tablename": "project_handover_basis_snapshot",
+      "indexname": "uq_r4d_basis_project",
+      "indexdef": "CREATE UNIQUE INDEX uq_r4d_basis_project ON poms.project_handover_basis_snapshot USING btree (id, project_id)"
+    },
+    {
+      "tablename": "project_handover_basis_snapshot",
+      "indexname": "uq_r4d_basis_version",
+      "indexdef": "CREATE UNIQUE INDEX uq_r4d_basis_version ON poms.project_handover_basis_snapshot USING btree (project_id, version)"
+    },
+    {
+      "tablename": "project_handover_contract_basis",
+      "indexname": "project_handover_contract_basis_pkey",
+      "indexdef": "CREATE UNIQUE INDEX project_handover_contract_basis_pkey ON poms.project_handover_contract_basis USING btree (id)"
+    },
+    {
+      "tablename": "project_handover_contract_basis",
+      "indexname": "uq_r4d_basis_anchor",
+      "indexdef": "CREATE UNIQUE INDEX uq_r4d_basis_anchor ON poms.project_handover_contract_basis USING btree (basis_snapshot_id) WHERE is_compatibility_anchor"
+    },
+    {
+      "tablename": "project_handover_contract_basis",
+      "indexname": "uq_r4d_basis_contract",
+      "indexdef": "CREATE UNIQUE INDEX uq_r4d_basis_contract ON poms.project_handover_contract_basis USING btree (basis_snapshot_id, contract_id)"
+    },
+    {
+      "tablename": "project_handover_participant_role",
+      "indexname": "project_handover_participant_role_pkey",
+      "indexdef": "CREATE UNIQUE INDEX project_handover_participant_role_pkey ON poms.project_handover_participant_role USING btree (id)"
+    },
+    {
+      "tablename": "project_handover_participant_role",
+      "indexname": "uq_r4d_handover_execution_owner",
+      "indexdef": "CREATE UNIQUE INDEX uq_r4d_handover_execution_owner ON poms.project_handover_participant_role USING btree (handover_id) WHERE ((role_key)::text = 'execution-owner'::text)"
+    },
+    {
+      "tablename": "project_handover_participant_role",
+      "indexname": "uq_r4d_participant_role",
+      "indexdef": "CREATE UNIQUE INDEX uq_r4d_participant_role ON poms.project_handover_participant_role USING btree (handover_id, participant_user_id, role_key)"
+    },
+    {
+      "tablename": "project_handover_summary_payload",
+      "indexname": "project_handover_summary_payload_pkey",
+      "indexdef": "CREATE UNIQUE INDEX project_handover_summary_payload_pkey ON poms.project_handover_summary_payload USING btree (summary_snapshot_id)"
+    },
+    {
+      "tablename": "project_receipt_judgment_freeze",
+      "indexname": "pk_project_receipt_judgment_freeze",
+      "indexdef": "CREATE UNIQUE INDEX pk_project_receipt_judgment_freeze ON poms.project_receipt_judgment_freeze USING btree (id)"
+    },
+    {
+      "tablename": "project_receipt_judgment_freeze",
+      "indexname": "uq_prjf_project_current",
+      "indexdef": "CREATE UNIQUE INDEX uq_prjf_project_current ON poms.project_receipt_judgment_freeze USING btree (project_id) WHERE (is_current = true)"
+    },
+    {
+      "tablename": "project_receipt_judgment_freeze",
+      "indexname": "uq_r4d_receipt_freeze_version",
+      "indexdef": "CREATE UNIQUE INDEX uq_r4d_receipt_freeze_version ON poms.project_receipt_judgment_freeze USING btree (project_id, version)"
+    },
+    {
+      "tablename": "receivable_plan_init_record",
+      "indexname": "receivable_plan_init_record_pkey",
+      "indexdef": "CREATE UNIQUE INDEX receivable_plan_init_record_pkey ON poms.receivable_plan_init_record USING btree (id)"
+    },
+    {
+      "tablename": "receivable_plan_init_record",
+      "indexname": "receivable_plan_init_record_plan_version_id_key",
+      "indexdef": "CREATE UNIQUE INDEX receivable_plan_init_record_plan_version_id_key ON poms.receivable_plan_init_record USING btree (plan_version_id)"
+    },
+    {
+      "tablename": "receivable_plan_version",
+      "indexname": "receivable_plan_version_pkey",
+      "indexdef": "CREATE UNIQUE INDEX receivable_plan_version_pkey ON poms.receivable_plan_version USING btree (id)"
+    },
+    {
+      "tablename": "receivable_plan_version",
+      "indexname": "uq_r4_plan_contract_current",
+      "indexdef": "CREATE UNIQUE INDEX uq_r4_plan_contract_current ON poms.receivable_plan_version USING btree (contract_id) WHERE is_current"
+    },
+    {
+      "tablename": "receivable_plan_version",
+      "indexname": "uq_r4_plan_contract_snapshot",
+      "indexdef": "CREATE UNIQUE INDEX uq_r4_plan_contract_snapshot ON poms.receivable_plan_version USING btree (contract_id, snapshot_id)"
+    },
+    {
+      "tablename": "receivable_plan_version",
+      "indexname": "uq_r4_plan_contract_version",
+      "indexdef": "CREATE UNIQUE INDEX uq_r4_plan_contract_version ON poms.receivable_plan_version USING btree (contract_id, version)"
+    },
+    {
+      "tablename": "receivable_plan_version",
+      "indexname": "uq_r4_plan_id_contract",
+      "indexdef": "CREATE UNIQUE INDEX uq_r4_plan_id_contract ON poms.receivable_plan_version USING btree (id, contract_id)"
+    },
+    {
+      "tablename": "receivable_plan_version",
+      "indexname": "uq_r4d_plan_full_source",
+      "indexdef": "CREATE UNIQUE INDEX uq_r4d_plan_full_source ON poms.receivable_plan_version USING btree (id, contract_id, snapshot_id, source_preparation_id, source_readiness_id)"
+    }
+  ]
+}

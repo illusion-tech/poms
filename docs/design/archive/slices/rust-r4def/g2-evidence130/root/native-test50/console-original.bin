@@ -1,0 +1,29 @@
+
+> nx run poms-api:test --runInBand
+
+> jest --passWithNoTests=true --runInBand
+
+(node:71036) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:71036) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+
+[1mTest Suites: [22m[1m[32m74 passed[39m[22m, 74 total
+[1mTests:       [22m[1m[32m863 passed[39m[22m, 863 total
+[1mSnapshots:   [22m0 total
+[1mTime:[22m        [1m[33m34.058 s[39m[22m
+[2mRan all test suites[22m[2m.[22m
+
+
+
+ NX   Successfully ran target test for project poms-api
+
+
+  Run duration:      35.6s
+  Cache:             Skipped (--skip-nx-cache)
+  Critical path:     35.6s (1 task)
+  Recoverable time:  <1ms
+
+  Recommendations:
+    - Cache: drop --skip-nx-cache to restore unchanged tasks instantly.
+    - Speed up or split the longest tasks on the critical path:
+        poms-api:test    35.6s

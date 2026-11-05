@@ -1,0 +1,95 @@
+{
+  "complete": false,
+  "errorName": "AssertionError",
+  "results": [
+    {
+      "kind": "actual-no-dirty-canonical-group-barrier",
+      "label": "repeated-link",
+      "waiter": {
+        "pid": 1715,
+        "query": "SELECT pg_advisory_xact_lock(hashtextextended($1,0))",
+        "wait_event": "advisory",
+        "wait_event_type": "Lock",
+        "granted": false
+      },
+      "heldBeforeRequest": true,
+      "hitProven": true,
+      "granted": false,
+      "released": true,
+      "HTTP": "tmp/rust-r4def/root/api32/01595-AttachmentController_link.json",
+      "status": 200,
+      "before": "tmp/rust-r4def/root/auto-link-noop109/repeated-link-before.json",
+      "blocked": "tmp/rust-r4def/root/auto-link-noop109/repeated-link-blocked.json",
+      "after": "tmp/rust-r4def/root/auto-link-noop109/repeated-link-after.json",
+      "businessAndAuditUnchanged": true
+    },
+    {
+      "kind": "actual-first-proof-stale-noop-rejection",
+      "label": "repeated-link-active-set-changed",
+      "waiter": {
+        "pid": 1715,
+        "query": "SELECT json_build_object('id',id::text,'number',contract_no,'projectId',project_id::text) AS data FROM poms.contract WHERE id=ANY($1::text[]::uuid[])",
+        "wait_event": "relation",
+        "wait_event_type": "Lock",
+        "blockers": [
+          1712
+        ]
+      },
+      "heldBeforeRequest": true,
+      "sourceReadBoundary": "contract target access follows first Attachment/active-set capture; source-pinned K86/K98 implementation",
+      "otherMutation": "tmp/rust-r4def/root/api32/01598-AttachmentController_unlink.json",
+      "HTTP": "tmp/rust-r4def/root/api32/01597-AttachmentController_link.json",
+      "status": 409,
+      "before": "tmp/rust-r4def/root/auto-link-noop109/repeated-link-active-set-changed-before.json",
+      "changed": "tmp/rust-r4def/root/auto-link-noop109/repeated-link-active-set-changed-other-committed.json",
+      "after": "tmp/rust-r4def/root/auto-link-noop109/repeated-link-active-set-changed-after.json",
+      "staleRequestAddedNoWrites": true
+    },
+    {
+      "kind": "actual-no-dirty-canonical-group-barrier",
+      "label": "inactive-unlink",
+      "waiter": {
+        "pid": 1715,
+        "query": "SELECT pg_advisory_xact_lock(hashtextextended($1,0))",
+        "wait_event": "advisory",
+        "wait_event_type": "Lock",
+        "granted": false
+      },
+      "heldBeforeRequest": true,
+      "hitProven": true,
+      "granted": false,
+      "released": true,
+      "HTTP": "tmp/rust-r4def/root/api32/01600-AttachmentController_unlink.json",
+      "status": 200,
+      "before": "tmp/rust-r4def/root/auto-link-noop109/inactive-unlink-before.json",
+      "blocked": "tmp/rust-r4def/root/auto-link-noop109/inactive-unlink-blocked.json",
+      "after": "tmp/rust-r4def/root/auto-link-noop109/inactive-unlink-after.json",
+      "businessAndAuditUnchanged": true
+    },
+    {
+      "kind": "actual-first-proof-stale-noop-rejection",
+      "label": "inactive-unlink-attachment-changed",
+      "waiter": {
+        "pid": 1705,
+        "query": "SELECT json_build_object('id',id::text,'number',contract_no,'projectId',project_id::text) AS data FROM poms.contract WHERE id=ANY($1::text[]::uuid[])",
+        "wait_event": "relation",
+        "wait_event_type": "Lock",
+        "blockers": [
+          1712
+        ]
+      },
+      "heldBeforeRequest": true,
+      "sourceReadBoundary": "contract target access follows first Attachment/active-set capture; source-pinned K86/K98 implementation",
+      "otherMutation": "tmp/rust-r4def/root/api32/01602-AttachmentController_update.json",
+      "HTTP": "tmp/rust-r4def/root/api32/01601-AttachmentController_unlink.json",
+      "status": 409,
+      "before": "tmp/rust-r4def/root/auto-link-noop109/inactive-unlink-attachment-changed-before.json",
+      "changed": "tmp/rust-r4def/root/auto-link-noop109/inactive-unlink-attachment-changed-other-committed.json",
+      "after": "tmp/rust-r4def/root/auto-link-noop109/inactive-unlink-attachment-changed-after.json",
+      "staleRequestAddedNoWrites": true
+    }
+  ],
+  "attachmentId": "3f6ee935-ddf8-4c15-90a0-1c7a3880bdba",
+  "uploadSessionId": "d2eb7a1e-5915-4a73-b658-9a5b471a88ec",
+  "privateFailureRetained": true
+}

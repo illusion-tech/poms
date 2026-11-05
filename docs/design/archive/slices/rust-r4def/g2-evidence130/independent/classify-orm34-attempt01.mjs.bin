@@ -1,0 +1,225 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+import { execFileSync } from 'node:child_process';
+
+const root = 'E:/projects/worktrees/poms-r3hijk-next28/poms';
+const own = 'tmp/rust-r4def/independent';
+const out = `${own}/orm34-inputs01`;
+assert(!fs.existsSync(path.join(root, out)), 'Preserve prior inputs; use a new review generation');
+const read = (file) => fs.readFileSync(path.join(root, file));
+const text = (file) => read(file).toString('utf8');
+const json = (file) => JSON.parse(text(file));
+const sha = (bytes) => createHash('sha256').update(bytes).digest('hex');
+const write = (file, value) => { const dest = path.join(root, file); fs.mkdirSync(path.dirname(dest), { recursive: true }); fs.writeFileSync(dest, value, { flag: 'wx' }); };
+const writeJson = (file, value) => write(file, JSON.stringify(value, null, 2) + '\n');
+const pins = [];
+function capture(file) {
+  if (pins.some((p) => p.file === file)) return pins.find((p) => p.file === file);
+  const bytes = read(file), snapshot = `${out}/${file}.bin`;
+  write(snapshot, bytes);
+  const pin = { file, bytes: bytes.length, rawBytesSha256: sha(bytes), snapshot };
+  pins.push(pin); return pin;
+}
+const flowDir = 'tmp/rust-r4def/root/orm-check34';
+for (const filename of fs.readdirSync(path.join(root, flowDir))) capture(`${flowDir}/${filename}`);
+for (const file of [
+  'docs/design/rust-r4def/joint-g1-06/schema06.sql',
+  'tmp/rust-r4def/root/catalog25/native-catalog.json',
+  'tmp/rust-r4def/root/catalog25/rust-catalog.json',
+  'tools/rust-r4def/F/orm-mapping28/sql-only-fks28.json',
+  'tools/rust-r4def/F/orm-mapping28/SQL-ONLY-FKS28.md',
+  'tools/rust-r4def/F/orm-mapping28/candidate-manifest28.json',
+  'tools/rust-r4def/F/orm-mapping28/delivery28.json',
+  'tools/rust-r4def/F/orm-mapping28/generate28.cjs',
+  'tools/rust-r4def/F/orm-mapping28/static-checks28-04.json',
+  'tools/rust-r4abc/orm-classify27.mjs',
+  'apps/poms-api/src/migrations/Migration20261103060000_rust_r4abc_contract_lifecycle.ts',
+  'apps/poms-api/src/migrations/Migration20261104060000_rust_r4def_execution_cost.ts',
+  'apps/poms-api/src/app/features/contract-readiness/contract-lifecycle.entity.ts',
+  'apps/poms-api/src/app/features/project-cost/project-cost.module.ts',
+  'apps/poms-api/src/app/features/project-handover/project-handover.module.ts',
+  'tools/rust-r4def/orm-check34.mjs',
+  'tools/rust-r4def/import-orm33.mjs',
+  'apps/poms-api/src/app/core/persistence/persistence.config.ts',
+  'node_modules/@mikro-orm/postgresql/package.json',
+  'node_modules/.pnpm/@mikro-orm+sql@7.0.11_@mikro-orm+core@7.0.11/node_modules/@mikro-orm/sql/dialects/postgresql/PostgreSqlSchemaHelper.js',
+  'node_modules/.pnpm/@mikro-orm+sql@7.0.11_@mikro-orm+core@7.0.11/node_modules/@mikro-orm/sql/schema/SchemaComparator.js',
+]) capture(file);
+const delivery = json('tools/rust-r4def/F/orm-mapping28/delivery28.json');
+capture('tools/rust-r4def/F/delivery25.json');
+const f25 = json('tools/rust-r4def/F/delivery25.json');
+for (const p of f25.productFiles) { const pin = capture(p.file); assert.equal(pin.rawBytesSha256, p.rawBytesSha256, `${p.file}: F25 drift`); }
+const entityPins = delivery.candidateFiles.map((p) => {
+  const pin = capture(p.target); assert.equal(pin.rawBytesSha256, p.candidateSha256, `${p.target}: changed from ORM28`); return pin;
+});
+assert.equal(entityPins.length, 20);
+const receipt = json(`${flowDir}/receipt34.json`);
+for (const cmd of receipt.commands) {
+  for (const [stream, evidence] of Object.entries(cmd.streams)) {
+    const pin = pins.find((p) => p.file === `${flowDir}/${cmd.principal}-${cmd.mode}-${stream}-redacted.txt`);
+    assert(pin); assert.equal(pin.rawBytesSha256, evidence.publicRedacted.sha256); assert.equal(pin.bytes, evidence.publicRedacted.bytes);
+  }
+  assert.equal(cmd.DDLExecuted, false);
+}
+const nativeCatalog = json('tmp/rust-r4def/root/catalog25/native-catalog.json');
+const rustCatalog = json('tmp/rust-r4def/root/catalog25/rust-catalog.json');
+const newFkList = json('tools/rust-r4def/F/orm-mapping28/sql-only-fks28.json');
+assert.equal(newFkList.constraints.length, 28);
+const priorMigration = text('apps/poms-api/src/migrations/Migration20261103060000_rust_r4abc_contract_lifecycle.ts');
+const priorUp = /override async up\(\): Promise<void> \{\s*this\.addSql\(String\.raw`([\s\S]*?)`\);/.exec(priorMigration)[1];
+const newDDL = text('docs/design/rust-r4def/joint-g1-06/schema06.sql');
+const compact = (value) => value.toLowerCase().replace(/\s+/g, '');
+const oldNames = [...priorUp.matchAll(/(?:ADD\s+)?CONSTRAINT\s+(fk_r4_[a-z_]+)\s+FOREIGN\s+KEY/gi)].map((m) => m[1]);
+assert.equal(oldNames.length, 16); assert.equal(new Set(oldNames).size, 16);
+const newNames = new Set(newFkList.constraints.map((p) => p.constraintName));
+assert(oldNames.every((name) => !newNames.has(name)));
+function lookup(table, constraint) {
+  const n = nativeCatalog.constraints.find((p) => p.table_name === table && p.conname === constraint);
+  const r = rustCatalog.constraints.find((p) => p.table_name === table && p.conname === constraint);
+  assert(n && r, `${table}.${constraint}: catalog missing`);
+  assert.equal(n.definition, r.definition, `${constraint}: Rust/Native catalog mismatch`);
+  assert.equal(n.condeferrable, r.condeferrable); assert.equal(n.condeferred, r.condeferred);
+  assert(n.convalidated && r.convalidated, `${constraint}: unvalidated`); return n;
+}
+const ownerFile = `${flowDir}/owner-schema-dump-stdout-redacted.txt`;
+const appFile = `${flowDir}/app-schema-dump-stdout-redacted.txt`;
+function statements(file) {
+  const lines = text(file).split(/\r?\n/), result = [];
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim(); if (!line) continue;
+    if (/^(set |alter |drop |create )/.test(line)) { assert(line.endsWith(';')); result.push({ file, line: i + 1, sql: line }); }
+    else assert(line.startsWith('◇ injected env '), `Unexpected unparsed SQL at ${file}:${i + 1}`);
+  }
+  return result;
+}
+const owner = statements(ownerFile), app = statements(appFile);
+assert.equal(owner.length, 67); assert.equal(app.length, 309);
+const finiteFK = [];
+for (const statement of owner) {
+  const m = /^alter table "poms"\."([^"]+)" drop constraint "([^"]+)";$/.exec(statement.sql);
+  if (!m || (!oldNames.includes(m[2]) && !newNames.has(m[2]))) continue;
+  const table = m[1], constraintName = m[2], cat = lookup(table, constraintName); assert.equal(cat.contype, 'f');
+  const sourceClass = oldNames.includes(constraintName) ? 'existing-r4abc-finite-SQL-owned-composite-FK' : 'new-r4def-finite-SQL-owned-composite-FK';
+  const source = oldNames.includes(constraintName) ? priorUp : newDDL;
+  assert(compact(source).includes(compact(`CONSTRAINT ${constraintName} ${cat.definition}`)), `${constraintName}: catalog not equal frozen migration definition`);
+  if (newNames.has(constraintName)) {
+    const proposed = newFkList.constraints.find((p) => p.constraintName === constraintName);
+    assert.equal(proposed.table, table); assert.equal(proposed.definition, cat.definition);
+    assert.equal(proposed.definitionSha256, sha(Buffer.from(cat.definition)));
+    assert.equal(proposed.condeferrable, cat.condeferrable); assert.equal(proposed.condeferred, cat.condeferred);
+  }
+  const classification = { table, constraintName, definition: cat.definition, definitionSha256: sha(Buffer.from(cat.definition)), convalidated: cat.convalidated, condeferrable: cat.condeferrable, condeferred: cat.condeferred, sourceClass, classification: 'accepted-db-specific-difference-for-this-exact-constraint-only', statement };
+  finiteFK.push(classification); Object.assign(statement, { classification: classification.classification, constraintName, table, detailRef: `finiteFK.${constraintName}` });
+}
+assert.equal(finiteFK.length, 44); assert.equal(finiteFK.filter((p) => p.sourceClass.startsWith('existing')).length, 16); assert.equal(finiteFK.filter((p) => p.sourceClass.startsWith('new-')).length, 28);
+assert([...newNames, ...oldNames].every((name) => finiteFK.filter((p) => p.constraintName === name).length === 1));
+function stripOuter(value) {
+  let s = value.trim();
+  for (;;) {
+    if (!s.startsWith('(') || !s.endsWith(')')) return s;
+    let level = 0, quote = null, full = true;
+    for (let i = 0; i < s.length; i++) {
+      const c = s[i];
+      if (quote) { if (c === quote) { if (s[i + 1] === quote) i++; else quote = null; } continue; }
+      if (c === "'" || c === '"') quote = c;
+      else if (c === '(') level++;
+      else if (c === ')') { level--; if (level === 0 && i < s.length - 1) full = false; }
+      assert(level >= 0);
+    }
+    assert.equal(level, 0); if (!full) return s; s = s.slice(1, -1).trim();
+  }
+}
+const enumChecks = [
+  ['cost_governance_evidence','cost_governance_evidence_evidence_kind_check'],
+  ['cost_governance_evidence','cost_governance_evidence_target_type_check'],
+  ['project_actual_cost_record','chk_r4e_basis_origin'],
+  ['project_handover_basis_snapshot','project_handover_basis_snapshot_status_check'],
+  ['project_handover_basis_item','project_handover_basis_item_item_type_check'],
+  ['project_handover_participant_role','project_handover_participant_role_role_key_check'],
+];
+const equivalentChecks = [];
+function findPair(table, name) {
+  const dropped = owner.find((p) => p.sql === `alter table "poms"."${table}" drop constraint "${name}";`);
+  const added = owner.find((p) => p.sql.startsWith(`alter table "poms"."${table}" add constraint "${name}" check (`));
+  assert(dropped && added); const expr = / check \((.*)\);$/.exec(added.sql)[1]; const cat = lookup(table, name); assert.equal(cat.contype, 'c');
+  return { dropped, added, expr, cat };
+}
+for (const [table, name] of enumChecks) {
+  const { dropped, added, expr, cat } = findPair(table, name);
+  const actualExpr = /^CHECK\s*\(([\s\S]*)\)$/.exec(cat.definition)[1];
+  assert.equal(stripOuter(expr), stripOuter(actualExpr), `${name}: not only redundant outer parentheses`);
+  const detail = { table, constraintName: name, actual: cat.definition, proposed: added.sql, definitionSha256: sha(Buffer.from(cat.definition)), classification: 'tool-noise-exact-redundant-parentheses-CHECK', proof: 'Removing only balanced whole-expression outer parentheses yields byte-equal inner expressions; literals/casts/operators/order/null semantics unchanged.', statements: [dropped, added] };
+  equivalentChecks.push(detail); for (const s of [dropped, added]) Object.assign(s, { classification: detail.classification, table, constraintName: name });
+}
+const ratioChecks = [];
+for (const column of ['down_payment_rate','retention_rate','tax_rate']) {
+  const table = 'contract_term_preparation', name = `contract_term_preparation_${column}_check`;
+  const { dropped, added, expr, cat } = findPair(table, name);
+  assert.equal(expr, `"${column}" between 0 and 1`);
+  assert.equal(cat.definition, `CHECK (((${column} >= (0)::numeric) AND (${column} <= (1)::numeric)))`);
+  const oldSource = priorUp.replace(/\s+/g, ' '); assert(oldSource.includes(`${column} numeric(5,4) NOT NULL CHECK (${column} BETWEEN 0 AND 1)`));
+  const detail = { table, constraintName: name, actual: cat.definition, proposed: added.sql, classification: 'existing-tool-noise-BETWEEN-numeric-deparse', proof: 'Exact numeric column and same inclusive bounds 0/1; PostgreSQL BETWEEN expands to >=0 AND <=1; both preserve SQL NULL check result. Same three finite names as prior orm-classify27.', statements: [dropped, added] };
+  ratioChecks.push(detail); for (const s of [dropped, added]) Object.assign(s, { classification: detail.classification, table, constraintName: name });
+}
+const generated = owner.filter((p) => /^alter table "poms"\."project_actual_cost_record" (drop column "labor_scope_key"|add "labor_scope_key")/.test(p.sql)); assert.equal(generated.length, 2); assert(generated.some((p) => p.sql.includes('generated always as as (')));
+for (const s of generated) Object.assign(s, { classification: 'new-real-drift-invalid-generated-column-mapping', table: 'project_actual_cost_record', column: 'labor_scope_key' });
+const controlExpected = ['drop table if exists "r4def_control"."marker" cascade;', 'drop schema if exists "r4def_control";'];
+for (const sql of controlExpected) { const s = owner.find((p) => p.sql === sql); assert(s); s.classification = 'tool-noise-exact-isolated-acceptance-control-object'; }
+const setNames = owner.find((p) => p.sql === "set names 'utf8';"); assert(setNames); setNames.classification = 'session-encoding-preamble';
+assert(owner.every((p) => p.classification), 'Owner DDL has unknown differences');
+const appCheckAdditions = [];
+for (const s of app) {
+  const same = owner.find((p) => p.sql === s.sql);
+  if (same) { Object.assign(s, { classification: same.classification, ownerLine: same.line }); continue; }
+  const m = /^alter table "poms"\."([^"]+)" add constraint "([^"]+)" check \(([\s\S]*)\);$/.exec(s.sql);
+  assert(m, `Unknown app-only statement: ${s.sql}`); const cat = lookup(m[1], m[2]); assert.equal(cat.contype, 'c');
+  Object.assign(s, { classification: 'tool-noise-app-role-CHECK-metadata-visibility', table: m[1], constraintName: m[2] });
+  appCheckAdditions.push({ ...s, actualValidatedConstraint: cat.definition, actualDefinitionSha256: sha(Buffer.from(cat.definition)), absentFromOwnerStructuralDiff: true });
+}
+assert.equal(appCheckAdditions.length, 251);
+assert.equal(app.filter((p) => /add constraint.* check \(/.test(p.sql)).length, 260);
+const finding = {
+  id: 'ORM34-P2-01', priority: 'P2', classification: 'new-real-drift',
+  title: 'labor_scope_key 的 generated 元数据多包含一个 as，实际导出无效且重建该列',
+  file: 'apps/poms-api/src/app/features/project-cost/project-actual-cost-record.entity.ts', line: 140,
+  actualCode: text('apps/poms-api/src/app/features/project-cost/project-actual-cost-record.entity.ts').split(/\r?\n/)[139].trim(),
+  evidence: generated,
+  mechanism: 'installed MikroORM7.0.11 PostgreSqlSchemaHelper.js:553–554 prefixes generated always as itself; current p.generated("as (...) stored") produces generated always as as (...). Catalog introspection stores generation_expression + " stored" at lines334–335.',
+  requestedCorrection: '在新纠偏交付中改该实体的 generated 值，移除重复 as，并由Root只读导出 pg_attribute.attgenerated / pg_get_expr(pg_attrdef.adbin,adrelid) 的原始表达式，对齐为 generation_expression + " stored"。同时修 generate28.cjs 模板以免重新生成错误；不编辑ORM28旧原件/交付。',
+  requiredVerification: 'Root重跑原owner migration:check/schema:update --dump；不得再建议drop/add labor_scope_key。Native tsc/lint通过不足以验证DSL字符串。保留ORM34失败及新run原回执。',
+  noSuggestedDDLExecuted: true,
+};
+const grouped = (items) => Object.fromEntries([...new Set(items.map((p) => p.classification))].map((key) => [key, items.filter((p) => p.classification === key).length]));
+const report = {
+  kind: 'R4DEF-independent-ORM34-exact-actual-DDL-classification01',
+  status: 'Classification-complete; one-new-real-P2-drift; raw-migration-check-still-failed; not-G3',
+  reviewedAtUtc: new Date().toISOString(),
+  head: execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim(),
+  sourceReceipt: capture(`${flowDir}/receipt34.json`),
+  observedCommands: receipt.commands.map(({principal,mode,args,exitCode,DDLExecuted}) => ({principal,mode,args,exitCode,DDLExecuted})),
+  reviewMethod: 'Offline exact read of public redacted original streams, both catalog25 snapshots, old migration16, frozen schema06, finite FK28 list, guarded-imported20 entities, current local MikroORM source; no config import/connection/process business runtime.',
+  noBlanketForeignKeyIgnore: true,
+  sourcePins: pins, entityDeliveryMatch: { expected: 20, matched: 20, missing: 0, changed: 0 }, F25SourceDeliveryPinsMatch: true,
+  ownerDDL: { statementCount: owner.length, counts: grouped(owner), statements: owner },
+  appDDL: { statementCount: app.length, counts: grouped(app), statements: app, checkAdds: 260, appOnlyCheckAdds: 251, ownerOnlyCheckDrops: 9, extraCheckClassification: '251 finite existing validated checks appear only under application role; owner source/catalog remain authoritative. Visibility inference supported by local driver join through information_schema.constraint_column_usage; no unknown CHECK/FK accepted.' },
+  finiteFK: { existingCount: 16, newCount: 28, total: 44, allBothCatalogValidated: true, allExactSourceAndDeferralMatched: true, constraints: finiteFK, limits: 'Only listed schema/table/name/full definition/hash/local+target tuple/validated/deferral/delete rules. Any absent/renamed/weakened/new unknown FK is new-real-drift. Never execute these DROP statements.' },
+  semanticChecks: { newEnumMembershipCount: 6, ownerStatements: 12, checks: equivalentChecks, limits: 'Only these literal/operator/cast-identical expressions after redundant balanced outer parentheses removal; no generic CHECK suppression.' },
+  ratioNoise: { count: 3, ownerStatements: 6, checks: ratioChecks },
+  controlObjects: { statements: controlExpected, classification: 'tool-noise', scope: 'Only exact isolated r4def_control.marker and r4def_control; absent from application ORM by design; no drop executed or requested.' },
+  appOnlyChecks: appCheckAdditions,
+  newRealDrift: [finding],
+  suggestions: [
+    { file: finding.file, line: 140, action: finding.requestedCorrection, class: 'required-product-correction' },
+    { file: 'tools/rust-r4def/F/orm-mapping28/generate28.cjs', action: '保留旧ORM28原件；在新修正版生成器中修labor_scope_key generated字符串来源与前缀拼装，并加实际metadata→DDL负例覆盖。', class: 'new-version-support-correction' },
+    { file: 'tools/rust-r4def/F/orm-mapping28/sql-only-fks28.json', action: '旧提案不改；Root新独立classification artifact登记本报告逐项核验的28精确tuple/definition/deferral及16既有FK。不得改成前缀或所有FK ignore。', class: 'finite-governance-record-only' },
+    { files: ['cost-governance-evidence.entity.ts','project-actual-cost-record.entity.ts','project-handover-basis-snapshot.entity.ts','project-handover-basis-item.entity.ts','project-handover-participant-role.entity.ts'], action: '六个IN/ANY CHECK是精确冗余括号噪声，可仅在新classification按九个实际语句pair登记；若清理元数据要保持原有值、cast、NULL语义并重跑实际diff，不为消除噪声改数据库。', class: 'optional-finite-semantic-normalization' },
+  ],
+  boundaries: { privateCredentialOrEnvironmentRead: false, environmentOrProductModified: false, databaseOrDDLExecutedByReviewer: false, originalEvidenceChanged: false, rawMigrationCheckPassed: false, G3PassIssued: false, F25ChangedByReviewer: false, onlyReviewerEvidenceWritten: own },
+};
+writeJson(`${out}/manifest.json`, { kind: 'ORM34-independent-captured-inputs01', capturedAtUtc: report.reviewedAtUtc, pins });
+writeJson(`${own}/orm34-classification01.json`, report);
+const md = `**ORM34 独立差异分类：逐条完成，1项 new-real P2；原 migration:check 仍失败，非G3。**\n\n输入为Root实跑原流，owner/app migration:check均exit1，schema:update --dump均exit0（只导出，未执行DDL）。20实体全部匹配ORM28候选sha；${pins.length}项输入快照见JSON。当前HEAD ${report.head}。\n\nowner全部67条已逐条分类：\n\n- 44条精确FK drop建议＝16条既有R4ABC + 28条本批SQL-only FK。全部对照schema06/原迁移及Rust、Native catalog25，完整列元组、定义hash、validated、delete及两项deferred语义一致；仅接受这44个精确声明由迁移维护，绝不执行drop、不泛化ignore。\n- 6个enum membership CHECK的12条drop/add，仅多余完整外层括号；剥除该括号后内表达式逐字一致。\n- 3个既有ratio CHECK的6条drop/add，numeric包含界0/1的BETWEEN与>=/<=精确等价。\n- 2条control schema/table drop是隔离验收marker噪声；1条set names为连接前导。\n- **2条labor_scope_key drop/add为真正新漂移（同一项P2）**：实体140行p.generated自带as，driver又拼generated always as，真实输出为generated always as as (...)。不得当噪声放行。\n\nApp全部309条也已逐条登记：同44FK及相同生成列问题；260条CHECK add中9条与owner一致，其余251条均逐名确认在两个owner catalog已有validated CHECK且owner未报对应新增。安装版本的getChecksSQL通过information_schema.constraint_column_usage联接，角色可见性差异可解释这批有限新增建议；不是未知约束豁免。\n\n须在新纠偏交付修apps/poms-api/src/app/features/project-cost/project-actual-cost-record.entity.ts:140及新版本生成器，按Root实际generation_expression加stored匹配MikroORM期望，移除多余as。旧ORM28提案/失败流保留。随后Root重跑原owner/check与dump，必须不再提议drop/add该列；实际有限FK、CHECK和control的分类单独保留，不把raw exit1重命名为Pass。\n\n本reviewer只读公开流/源码/catalog并写独立证据，未读取凭据、加载配置、连接数据库、运行CLI、改产品或环境；F25源未由reviewer修改。不签G3。完整每条SQL、定义与文件建议见 [JSON](orm34-classification01.json)。\n`;
+write(`${own}/orm34-classification01.md`, md);
+console.log(JSON.stringify({ owner: grouped(owner), app: grouped(app), finiteFk: {old:16,new:28}, checks: {enum:6,ratio:3,appOnlyValidated:251}, newRealDrift: [finding.id], pins: pins.length, outputs: [`${own}/orm34-classification01.json`,`${own}/orm34-classification01.md`,`${out}/manifest.json`].map((file) => ({file,bytes:read(file).length,sha256:sha(read(file))})) }, null, 2));

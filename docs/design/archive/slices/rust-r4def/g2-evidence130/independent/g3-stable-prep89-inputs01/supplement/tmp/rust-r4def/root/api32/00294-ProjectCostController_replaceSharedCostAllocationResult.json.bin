@@ -1,0 +1,45 @@
+{
+  "kind": "actual-HTTP-receipt",
+  "startedAt": "2026-11-04T00:05:23.586Z",
+  "completedAt": "2026-11-04T00:05:23.639Z",
+  "operationId": "ProjectCostController_replaceSharedCostAllocationResult",
+  "method": "POST",
+  "path": "/api/shared-cost-allocation-results/e17f425d-80ea-4706-bc5f-3ee1252da4f6:replace",
+  "query": {},
+  "actorKey": "full",
+  "actorId": "ebad7d92-85e5-4c1c-b956-ea256fe52935",
+  "requestId": "r4def32-00294-dcb550f8",
+  "requestBody": {
+    "expectedVersion": 1,
+    "expectedBasisVersion": 1,
+    "projectShareItems": [
+      {
+        "projectId": "c19e708b-522c-45e9-90d4-81de7295545b",
+        "allocationWeight": "1.00",
+        "allocatedAmount": "106.00",
+        "allocationSummary": "同项目单源100%分摊，精确金额106.00"
+      }
+    ],
+    "replacementReason": "依据同一真实应付已付清的最新版本重新核证分摊，金额仍为106.00"
+  },
+  "status": 201,
+  "responseBody": {
+    "allocationResultIds": [
+      "b6adc1dc-4031-4394-926f-54bcb2eeb71e"
+    ],
+    "approvalRecordId": null,
+    "basisId": "1b6933fb-95c2-4924-b8e9-a18b012375f4",
+    "businessStatusAfter": "active",
+    "confirmationRecordId": null,
+    "evidenceId": "2d2ada0d-b77d-496d-9ea6-3493a4eced05",
+    "replacementResultId": "b6adc1dc-4031-4394-926f-54bcb2eeb71e",
+    "resultStatus": "success",
+    "supersedesAllocationResultId": "e17f425d-80ea-4706-bc5f-3ee1252da4f6",
+    "supersedesBasisId": "62df4598-ace0-4273-8929-7c0e126e375d",
+    "targetId": "b6adc1dc-4031-4394-926f-54bcb2eeb71e",
+    "targetType": "SharedCostAllocationResult",
+    "todoItemIds": []
+  },
+  "responseContentType": "application/json; charset=utf-8",
+  "secretsAndCookiesPublished": false
+}

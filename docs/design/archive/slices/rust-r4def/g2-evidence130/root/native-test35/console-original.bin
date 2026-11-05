@@ -1,0 +1,134 @@
+
+> nx run poms-api:test --runInBand
+
+> jest --passWithNoTests=true --runInBand
+
+(node:69380) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:69380) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+[0m[7m[1m[31m FAIL [39m[22m[27m[0m [0m[7m[37m poms-api [39m[27m[0m [2msrc/app/features/project-cost/[22m[1mproject-cost.service.spec.ts[22m
+  [1m● [22mTest suite failed to run
+
+    TypeError: p.text(...).nullable(...).generated is not a function
+
+      [2mat Object.<anonymous> ([22msrc/app/features/project-cost/E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/project-cost/project-actual-cost-record.entity.ts[2m:140:44)[22m
+      [2mat Object.<anonymous> ([22msrc/app/features/contract-finance/E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/contract-finance/contract-finance.repository.ts[2m:13:1)[22m
+      [2mat Object.<anonymous> ([22msrc/app/features/project-cost/E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/project-cost/project-cost.service.ts[2m:48:1)[22m
+      [2mat Object.<anonymous> ([22m[0m[36msrc/app/features/project-cost/E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/project-cost/project-cost.service.spec.ts[39m[0m[2m:32:1)[22m
+
+[0m[7m[1m[31m FAIL [39m[22m[27m[0m [0m[7m[37m poms-api [39m[27m[0m [2msrc/app/features/project-handover/[22m[1mproject-handover.controller.spec.ts[22m
+[1m[31m  [1m● [22m[1mProjectHandoverController canonical parameter binding › changes only the two parameter labels and retains all five original operation IDs[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 0[39m
+    [31m+ Received  + 2[39m
+
+    [2m  Array [[22m
+    [2m    "/api/contract-handover-rebaselines",[22m
+    [2m    "/api/project-handovers/{id}",[22m
+    [31m+   "/api/project-handovers/{id}/participant-confirmations",[39m
+    [2m    "/api/project-handovers/{id}:confirm",[22m
+    [2m    "/api/projects/{projectId}/contract-handover",[22m
+    [2m    "/api/projects/{projectId}/project-handover",[22m
+    [31m+   "/api/projects/{projectId}/project-handovers",[39m
+    [2m  ][22m
+
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36msrc/app/features/project-handover/E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/project-handover/project-handover.controller.spec.ts[39m[0m[2m:239:52)[22m[2m[22m
+
+[0m[7m[1m[31m FAIL [39m[22m[27m[0m [0m[7m[37m poms-api [39m[27m[0m [2msrc/app/features/contract-finance/[22m[1mcontract-finance.service.spec.ts[22m
+  [1m● [22mTest suite failed to run
+
+    TypeError: p.text(...).nullable(...).generated is not a function
+
+      [2mat Object.<anonymous> ([22msrc/app/features/project-cost/E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/project-cost/project-actual-cost-record.entity.ts[2m:140:44)[22m
+      [2mat Object.<anonymous> ([22msrc/app/features/contract-finance/E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/contract-finance/contract-finance.repository.ts[2m:13:1)[22m
+      [2mat Object.<anonymous> ([22msrc/app/features/contract-finance/E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/contract-finance/contract-finance.service.ts[2m:14:1)[22m
+      [2mat Object.<anonymous> ([22m[0m[36msrc/app/features/contract-finance/E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/contract-finance/contract-finance.service.spec.ts[39m[0m[2m:2:1)[22m
+
+[0m[7m[1m[31m FAIL [39m[22m[27m[0m [0m[7m[37m poms-api [39m[27m[0m [2msrc/app/features/contract/[22m[1mcontract.controller.spec.ts[22m
+[1m[31m  [1m● [22m[1mContractController › submits contract review with current user identity[39m[22m
+
+    NotImplementedException: This controlled command shape is implemented by the Rust backend
+
+[2m      [2mat parseFrozenNativeReference ([22m[2msrc/app/core/E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/core/rust-r4def-frozen-native-reference.ts[2m:7210:32)[22m[2m[22m
+[2m      [2mat ContractController.submitReview ([22m[2msrc/app/features/contract/E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/contract/contract.controller.ts[2m:135:102)[22m[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36msrc/app/features/contract/E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/contract/contract.controller.spec.ts[39m[0m[2m:259:26)[22m[2m[22m
+
+
+[1mSummary of all failing tests[22m
+[0m[7m[1m[31m FAIL [39m[22m[27m[0m [2msrc/app/features/project-cost/[22m[1mproject-cost.service.spec.ts[22m
+  [1m● [22mTest suite failed to run
+
+    TypeError: p.text(...).nullable(...).generated is not a function
+
+      [2mat Object.<anonymous> ([22msrc/app/features/project-cost/E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/project-cost/project-actual-cost-record.entity.ts[2m:140:44)[22m
+      [2mat Object.<anonymous> ([22msrc/app/features/contract-finance/E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/contract-finance/contract-finance.repository.ts[2m:13:1)[22m
+      [2mat Object.<anonymous> ([22msrc/app/features/project-cost/E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/project-cost/project-cost.service.ts[2m:48:1)[22m
+      [2mat Object.<anonymous> ([22m[0m[36msrc/app/features/project-cost/E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/project-cost/project-cost.service.spec.ts[39m[0m[2m:32:1)[22m
+
+[0m[7m[1m[31m FAIL [39m[22m[27m[0m [2msrc/app/features/project-handover/[22m[1mproject-handover.controller.spec.ts[22m
+[1m[31m  [1m● [22m[1mProjectHandoverController canonical parameter binding › changes only the two parameter labels and retains all five original operation IDs[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 0[39m
+    [31m+ Received  + 2[39m
+
+    [2m  Array [[22m
+    [2m    "/api/contract-handover-rebaselines",[22m
+    [2m    "/api/project-handovers/{id}",[22m
+    [31m+   "/api/project-handovers/{id}/participant-confirmations",[39m
+    [2m    "/api/project-handovers/{id}:confirm",[22m
+    [2m    "/api/projects/{projectId}/contract-handover",[22m
+    [2m    "/api/projects/{projectId}/project-handover",[22m
+    [31m+   "/api/projects/{projectId}/project-handovers",[39m
+    [2m  ][22m
+
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36msrc/app/features/project-handover/E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/project-handover/project-handover.controller.spec.ts[39m[0m[2m:239:52)[22m[2m[22m
+
+[0m[7m[1m[31m FAIL [39m[22m[27m[0m [2msrc/app/features/contract-finance/[22m[1mcontract-finance.service.spec.ts[22m
+  [1m● [22mTest suite failed to run
+
+    TypeError: p.text(...).nullable(...).generated is not a function
+
+      [2mat Object.<anonymous> ([22msrc/app/features/project-cost/E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/project-cost/project-actual-cost-record.entity.ts[2m:140:44)[22m
+      [2mat Object.<anonymous> ([22msrc/app/features/contract-finance/E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/contract-finance/contract-finance.repository.ts[2m:13:1)[22m
+      [2mat Object.<anonymous> ([22msrc/app/features/contract-finance/E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/contract-finance/contract-finance.service.ts[2m:14:1)[22m
+      [2mat Object.<anonymous> ([22m[0m[36msrc/app/features/contract-finance/E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/contract-finance/contract-finance.service.spec.ts[39m[0m[2m:2:1)[22m
+
+[0m[7m[1m[31m FAIL [39m[22m[27m[0m [2msrc/app/features/contract/[22m[1mcontract.controller.spec.ts[22m
+[1m[31m  [1m● [22m[1mContractController › submits contract review with current user identity[39m[22m
+
+    NotImplementedException: This controlled command shape is implemented by the Rust backend
+
+[2m      [2mat parseFrozenNativeReference ([22m[2msrc/app/core/E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/core/rust-r4def-frozen-native-reference.ts[2m:7210:32)[22m[2m[22m
+[2m      [2mat ContractController.submitReview ([22m[2msrc/app/features/contract/E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/contract/contract.controller.ts[2m:135:102)[22m[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36msrc/app/features/contract/E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/features/contract/contract.controller.spec.ts[39m[0m[2m:259:26)[22m[2m[22m
+
+
+[1mTest Suites: [22m[1m[31m4 failed[39m[22m, [1m[32m70 passed[39m[22m, 74 total
+[1mTests:       [22m[1m[31m2 failed[39m[22m, [1m[32m779 passed[39m[22m, 781 total
+[1mSnapshots:   [22m0 total
+[1mTime:[22m        [1m[33m35.956 s[39m[22m
+[2mRan all test suites[22m[2m.[22m
+Warning: command "jest --passWithNoTests=true --runInBand" exited with non-zero status code
+
+
+ NX   Running target test for project poms-api failed
+
+Failed tasks:
+
+- poms-api:test
+
+Hint: run the command with --verbose for more details.
+
+  Run duration:      37.0s
+  Cache:             Skipped (--skip-nx-cache)
+  Critical path:     36.9s (1 task)
+  Recoverable time:  <1ms
+
+  Recommendations:
+    - Cache: drop --skip-nx-cache to restore unchanged tasks instantly.
+    - Speed up or split the longest tasks on the critical path:
+        poms-api:test    36.9s

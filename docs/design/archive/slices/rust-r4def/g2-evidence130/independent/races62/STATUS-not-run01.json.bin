@@ -1,0 +1,20 @@
+{
+  "kind": "pure-request-concurrency-candidate-work-status",
+  "status": "design-in-progress; temporarily held for priority K55 proposal review",
+  "execution": "not-run",
+  "productOrEnvironmentChanged": false,
+  "networkOrDatabaseUsed": false,
+  "plannedCoreScenarios": [
+    "duplicate source mapping",
+    "expense void versus source mapping",
+    "labor replacement",
+    "same-cost stage confirmation and reclassification",
+    "same tax predecessor replacement",
+    "same allocation-basis full-batch replacement",
+    "overlapping sources A,B versus B,C",
+    "reverse source and rate-family lock order"
+  ],
+  "callbacks": ["request", "runRace", "observe/readback"],
+  "RootResponsibilities": "Two independent authenticated sessions for the same full user; actual row/advisory barriers and pg_locks proof; real PG readback and terminal cleanup.",
+  "producerRule": "Only real C/E/F API producers; no SQL-created business state and no mocked success. Expected source money fixed independently."
+}

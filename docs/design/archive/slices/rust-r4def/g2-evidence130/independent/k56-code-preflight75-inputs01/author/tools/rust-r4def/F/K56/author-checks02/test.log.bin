@@ -1,0 +1,28 @@
+   Compiling poms-api-rust v0.1.0 (/mnt/e/projects/worktrees/poms-r4f-cost-governance/poms/apps/poms-api-rust)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1m 17s
+     Running unittests src/lib.rs (/home/wangzishi/.cache/poms-r4def-target-F/debug/deps/poms_api_rust-33ca5c806a54bb6d)
+
+running 20 tests
+test attachment_storage::registry::k56_snapshot_tests::actual_buffer_is_hashed_even_with_declared_checksum ... ok
+test attachment_storage::registry::k56_snapshot_tests::both_nonempty_hash_expectations_are_required ... ok
+test attachment_storage::registry::k56_snapshot_tests::final_namespace_preserves_original_prefix_and_attempt_identity ... ok
+test attachment_storage::registry::k56_snapshot_tests::invalid_size_and_captured_max_rejected_before_allocation ... ok
+test attachment_storage::registry::k56_snapshot_tests::extra_byte_stops_stream_without_polling_remainder ... ok
+test attachment_storage::registry::k56_snapshot_tests::short_body_and_stream_error_never_produce_snapshot ... ok
+test attachment_storage::registry::k56_snapshot_tests::undeclared_checksum_is_actual_hash_not_head_or_etag ... ok
+test attachments::service::k56_context_tests::nested_planning_does_not_overwrite_outer_checkpoint ... ok
+test attachments::service::k56_context_tests::known_rollback_restores_all_identity_raw_json_and_pending_baselines ... ok
+test attachments::service::k56_context_tests::refreshing_identity_cannot_replace_first_cas_proof ... ok
+test attachments::service::k56_context_tests::unknown_context_is_rejected_before_new_object_control_work ... ok
+test attachments::store::k56_guard_tests::canonical_group_handles_historical_null_without_a_separate_lock_key ... ok
+test attachments::store::k56_guard_tests::explicit_final_transfer_and_void_release_old_unique_slots ... ok
+test attachments::store::k56_guard_tests::complete_and_receive_recheck_terminal_state_and_expiry ... ok
+test attachments::store::k56_guard_tests::link_proof_is_full_identity_set_independent_of_query_order ... ok
+test attachments::store::k56_guard_tests::nonfinal_append_releases_latest_without_releasing_old_final ... ok
+test attachments::store::k56_guard_tests::routing_uses_component_boundary_and_normalized_prefix ... ok
+test attachments::store::k56_guard_tests::proof_compares_actual_fields_but_equal_timestamp_offsets_are_equal ... ok
+test attachments::store::k56_guard_tests::unknown_commit_or_timeout_is_never_a_cleanup_authority ... ok
+test attachments::store::k56_guard_tests::voided_history_is_not_reused_as_a_new_version ... ok
+
+test result: ok. 20 passed; 0 failed; 0 ignored; 0 measured; 296 filtered out; finished in 0.01s
+

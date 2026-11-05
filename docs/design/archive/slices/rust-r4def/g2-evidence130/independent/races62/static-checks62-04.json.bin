@@ -1,0 +1,50 @@
+{
+  "kind": "races62-v4-static-only-checks",
+  "capturedAtUtc": "2026-11-04T04:16:04.864Z",
+  "syntax": [
+    {
+      "command": "node --check tmp/rust-r4def/independent/races62/request-driver62-04.mjs",
+      "exitCode": 0,
+      "pin": {
+        "file": "tmp/rust-r4def/independent/races62/request-driver62-04.mjs",
+        "bytes": 24985,
+        "sha256": "bcded723463b88893da904dfe5a376b2b7e86b12aa06c333bd29fbbaf2037d8e"
+      }
+    },
+    {
+      "command": "node --check tmp/rust-r4def/independent/races62/root-adapter62-04.mjs",
+      "exitCode": 0,
+      "pin": {
+        "file": "tmp/rust-r4def/independent/races62/root-adapter62-04.mjs",
+        "bytes": 30446,
+        "sha256": "7d8db7275377b33049a9c3f92a0da5b58f46e3b3002a653d76652ff1c8e96871"
+      }
+    },
+    {
+      "command": "node --check tmp/rust-r4def/independent/races62/root-runner62-04.mjs",
+      "exitCode": 0,
+      "pin": {
+        "file": "tmp/rust-r4def/independent/races62/root-runner62-04.mjs",
+        "bytes": 3399,
+        "sha256": "0a98d3da61c5af319ebc6f2a8aed6a0c35a2b805f54275f7c6a9d1e6573b6faa"
+      }
+    }
+  ],
+  "offlineFamilyIdentityCounterexamples": {
+    "command": "node tmp/rust-r4def/independent/races62/family-keys04-offline.mjs",
+    "passed": 8,
+    "failed": 0,
+    "actualDBHTTPOrLocks": false,
+    "productionAcceptance": false
+  },
+  "priorV3ArtifactsAnd19OriginalSourcesUnchanged": true,
+  "actualRun": false,
+  "noPrivateRead": true,
+  "changes": {
+    "case03": "Project row gate; no labor family gate before replace_labor Project lock.",
+    "familyKey": "Actual rate_scope_type/person_id/role_code + actual source labor_person_id, UTF8 sort/dedup; exclude rate_key/unit.",
+    "case09": "Disjoint project lock sets, shared two families in reverse body order, independent four true E costs; two201 and fixed .02/.00/.02 per batch.",
+    "otherScenariosAndFixedMoney": "unchanged",
+    "failureReceipt": "Preserve known ACK receipt IDs even if barrier proof fails; never auto replay."
+  }
+}

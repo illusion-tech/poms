@@ -1,0 +1,10 @@
+**K54提案复核：Block实现准入，需补明确对象I/O及关联集规则；不是G3。**
+
+原service/store、53报告及54冻结副本hash均一致。单flush、撤位后CREATE、dirty恢复与abort提交后remove的方向可解决53主要缺陷，但现提案尚有两个必须冻结的遗漏：
+
+- **P1 对象I/O竞争**：proxy_object先覆盖storage key后才flush。旧快照checksum=None的在途PUT可在complete已提交active后覆盖同key，随后DB CAS才409；数据库事务无法撤销文件覆盖。Attachment直接复用session key，local_put是覆盖写。需写前终态/排他协调覆盖真实I/O与校验，或不可变final对象绑定；仅store锁和postcommit abort remove不够。
+- **P2 active link来源绑定**：complete在组锁前读取links，link/unlink不提升head.rowVersion。head CAS不能证明关联集合未变；须锁内重读/比较完整active link集，变化则409或在锁内生成真实继承关系。
+
+两项都是源码支持的合法交错/提案缺口，没有宣称本次运行已复现。presigned外部PUT不能仅凭DB锁宣称安全；持锁I/O还须避免storage config另取连接形成连接池自等待。更完整条件与交错步骤见 [JSON](k-proposal54-review55.json)。
+
+建议Root保留54原件，冻结新补充后再授权作者仅两文件。未修改产品/作者/环境，未读private或运行DB/HTTP，不签实现或G3/G4。
