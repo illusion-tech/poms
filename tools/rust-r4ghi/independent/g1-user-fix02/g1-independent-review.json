@@ -1,0 +1,141 @@
+{
+  "kind": "independent-user-create-fix-G1-review",
+  "decision": "Pass",
+  "gate": "G1",
+  "issue": 115,
+  "parentIssue": 57,
+  "scope": "POST /api/platform/users only",
+  "reviewedAt": "2026-11-05T23:29:49.973Z",
+  "reviewedCommit": "21e9124160f92dce38a5029786273fdb893759f0",
+  "branch": "codex/poms-r4ghi-next25",
+  "sourceCommit": "aaa4b16ac66092f0cb1dc6646a02cf14e80823ee",
+  "reviewer": {
+    "role": "non-author independent reviewer",
+    "productEdits": false,
+    "gitMutations": false,
+    "githubMutations": false,
+    "credentialsRead": false,
+    "databaseOrApiStarted": false,
+    "writableBoundary": "tools/rust-r4ghi/independent/**",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "max",
+    "runtimeModelVerified": false,
+    "fast": "unverified"
+  },
+  "baseline": {
+    "file": "docs/design/rust-r4ghi-user-create-fix-baseline.md",
+    "bytes": 5721,
+    "rawBytesSha256": "7b130303f15094a3901b85862fedc87cebe788b8c54bc6419850ed864992625a"
+  },
+  "sourceManifest": {
+    "file": "docs/design/rust-r4ghi/user-fix-g1-sources01.json",
+    "bytes": 3175,
+    "rawBytesSha256": "d0d7afb52c50f82896137e7fe794e2da6d633b82e907cec88e5ca5610ca92462",
+    "sourceCount": 14,
+    "uniqueSourceCount": 14,
+    "workingTreeRawByteMatches": 14,
+    "sourceCommitRawByteMatches": 14,
+    "sourcePinsUnchangedFromInitialReview": true,
+    "sourcePinsOnlyNotAcceptance": true
+  },
+  "pinEvidence": {
+    "file": "tools/rust-r4ghi/independent/g1-user-fix02/pin-verification.json",
+    "rawBytesSha256": "d0b7e3c49c55df5d3aa6ed5d8667870458e43b76c30fe9fda5fa6f894c2dae09",
+    "headUnchangedDuringCapture": true,
+    "initialReviewInputPreservedAt": "tools/rust-r4ghi/independent/g1-user-fix01"
+  },
+  "checks": [
+    {
+      "id": "G1-UF-01",
+      "result": "Pass",
+      "subject": "Scope and authoritative route",
+      "evidence": ["baseline:11-15", "api-route-canonical-inventory.md:545"],
+      "assessment": "Existing canonical createPlatformUser row is aligned. Full route is POST /api/platform/users. Only creation changes; no new public operation, DTO, schema, credentials or R4 delivery count."
+    },
+    {
+      "id": "G1-UF-02",
+      "result": "Pass",
+      "subject": "DTO and guard boundaries",
+      "evidence": ["shared-contracts.ts:1523-1532", "users/validation.rs:454-485", "users/http.rs:27-31", "users/http.rs:307-319", "baseline:23-24"],
+      "assessment": "TypeScript DTO remains authoritative; initialRoleIds default/empty semantics, nullable primaryOrgUnitId and invalid UUID validation remain unchanged. Authentication, CSRF, PlatformUsersManage and existing success status remain frozen."
+    },
+    {
+      "id": "G1-UF-03",
+      "result": "Pass",
+      "subject": "Actual root cause and UUID materialization",
+      "evidence": ["users/service.rs:469-488", "users/store.rs:194-214", "platform.service.ts:708-742", "baseline:13", "baseline:35"],
+      "assessment": "Current Rust deliberately reproduces the Node child-before-user-id failure. Baseline requires generated UUID/row version first and actual role/primary-organization rows bound to that UUID. It corrects the defect rather than treating Node 500 as desired behavior."
+    },
+    {
+      "id": "G1-UF-04",
+      "result": "Pass",
+      "subject": "References, locking and uniqueness",
+      "evidence": ["baseline:26-27", "baseline:33", "Migration20260325153000_init_platform_governance_core.ts:21", "Migration20260325153000_init_platform_governance_core.ts:30", "Migration20260325153000_init_platform_governance_core.ts:37-38"],
+      "assessment": "Typed UUID identity and duplicate-role 409 are explicit. Missing references map to 404 and inactive ones to 409 after deterministic locks in the create transaction. The unique username constraint is the race authority and must produce 409 for the loser."
+    },
+    {
+      "id": "G1-UF-05",
+      "result": "Pass",
+      "subject": "Atomic business and necessary writes",
+      "evidence": ["users/service.rs:478-508", "users/service.rs:511-520", "users/service.rs:683-697", "baseline:13", "baseline:35", "baseline:43"],
+      "assessment": "Current creation commits before calling a separate audit transaction. The frozen repair joins the user, role rows, primary membership, required audit after snapshot and pending session flush into one transaction. Any necessary write failure rolls all of them back. Other user commands remain out of scope."
+    },
+    {
+      "id": "G1-UF-06",
+      "result": "Pass",
+      "subject": "Acceptance plan and historical W01",
+      "evidence": ["users_database.rs:992-1069", "baseline:41-47"],
+      "assessment": "Success shapes, typed UUID duplicate/alias, unknown/inactive references, username contention, auth/CSRF/permission denials, write faults and reference-deactivation races are required. The named ignored W01 function is explicitly superseded for current #115 behavior; its historical 500 conclusion cannot certify the repair. Current due/non-due and meaningful regression coverage are required."
+    },
+    {
+      "id": "G1-UF-07",
+      "result": "Pass",
+      "subject": "Drift and delivery boundary",
+      "evidence": ["baseline:37", "baseline:50-53", "rust-r4ghi-delivery-status.json"],
+      "assessment": "Known Node-compatible failure is existing-baseline-drift. No migration/entity/DDL or OpenAPI/client delta is expected; unexpected delta requires corrective review. G3/G4, implementation correctness and full R4 completion are not claimed by this G1 review."
+    }
+  ],
+  "resolvedFindings": [
+    {
+      "id": "G1-UF-R01",
+      "initialBaselineRawBytesSha256": "bfda5463c4b6ced81efe43b9c82d9a880ecc3d7158ad0f4f9b93ae62b77d406a",
+      "finding": "Historical ignored W01 retained the old generated-id child 500 expectation without naming its supersession in the original baseline.",
+      "minimalCorrection": "Explicitly name create_preserves_generated_id_child_failure_and_session_flush_order as historical Node-defect reference, superseded for #115; require current successful/404/409/due/non-due/fault rollback acceptance.",
+      "resolution": "Corrected baseline line 47 at reviewedCommit; the 14 source pins are unchanged."
+    }
+  ],
+  "openSemanticG1Blockers": [],
+  "onlineGateAtCapture": {
+    "issueState": "OPEN",
+    "nativeParent": 57,
+    "issueComments": 0,
+    "G1ChecklistChecked": false,
+    "actualSameSourceFreezeReceiptVerified": false,
+    "status": "Pending Root publication and readback; not represented as executed"
+  },
+  "entryConclusion": {
+    "technicalBaselineAccepted": true,
+    "G2EntryAtCapture": "Pending online same-source G1 freeze and readback",
+    "implementationCertified": false,
+    "G3Certified": false,
+    "G4Certified": false
+  },
+  "requiredG3Evidence": [
+    "Actual HTTP and PG success for no associations, one/multiple roles, primary organization only and both; committed UUID associations, response/detail and exact audit initial-role identities.",
+    "400 validation boundaries plus typed UUID aliases, duplicate role 409, missing 404, inactive 409, duplicate username 409; rejection leaves no business/association/audit residue and creates no credential.",
+    "Due/non-due pending-session cases, each necessary write fault including audit and session CAS, all-or-nothing rollback and clean retry.",
+    "Same username barrier race and both lock orders against role/organization deactivation; no committed stale precheck reference.",
+    "Meaningful current regression replacing or supplementing historical W01, Rust fmt/clippy/build/relevant tests and unified-candidate regression, independent G3/fixed-commit/main/G4 evidence."
+  ],
+  "GHI": {
+    "decision": "Pending",
+    "G1Certified": false,
+    "G2Authorized": false,
+    "pendingBusinessDecisions": [
+      "minimum-R5-role-freeze-and-controlled-stage-entry",
+      "receipt-gross-net-tax-basis",
+      "explicit-cost-inclusion-policy"
+    ],
+    "notAcceptedByThisReview": true
+  }
+}

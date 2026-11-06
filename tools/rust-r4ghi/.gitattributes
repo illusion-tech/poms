@@ -1,0 +1,7 @@
+# Preserve the bytes of captured tools, source snapshots and audit evidence.
+* -text
+* whitespace=cr-at-eol
+*.bin binary
+*.patch binary
+# Executed helper originals retain their existing final blank lines.
+userfix/*.mjs whitespace=cr-at-eol,-blank-at-eof

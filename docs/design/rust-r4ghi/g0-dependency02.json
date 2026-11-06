@@ -1,0 +1,279 @@
+{
+  "kind": "actual-minimum-R5-and-R4-G0-dependency-registration",
+  "capturedAt": "2026-11-06T00:27:43.661Z",
+  "r5": {
+    "number": 116,
+    "id": 6234209885,
+    "title": "[RUST-R5] 提成全链路迁移",
+    "url": "https://github.com/illusion-tech/poms/issues/116"
+  },
+  "minimumR5": {
+    "number": 117,
+    "id": 6234211075,
+    "title": "[RUST-R5-P1] 角色分配与有效冻结四入口及R4准入消费",
+    "url": "https://github.com/illusion-tech/poms/issues/117"
+  },
+  "batch": 110,
+  "consumer": 113,
+  "stageAcceptance": 114,
+  "decisionFile": "docs/design/rust-r4ghi/user-decisions02.json",
+  "decisionSHA256": "77f880ed923a404d6f62c4a3ab87862ca64a07d6e59395127aecffe5512f24d2",
+  "readback": [
+    {
+      "number": 116,
+      "state": "open",
+      "bodySHA256": "c458eda5e03cb24e586be4392bf092827020703488fc9b5946fecd9115bf98f5"
+    },
+    {
+      "number": 117,
+      "state": "open",
+      "bodySHA256": "2bb8055c470df92c9733c268f770f0d3c21e5bf925451f3e275042a6e0845fa7"
+    },
+    {
+      "number": 110,
+      "state": "open",
+      "bodySHA256": "842be10a7a427324c44181d94e7ecccd5d9b7b44d7901feef0f3ad5cf8b3fceb"
+    },
+    {
+      "number": 113,
+      "state": "open",
+      "bodySHA256": "4e6ec9d223ef3c30d54005ff30b0a376a200ce5aa9dcf9167ba34577d4f15d04"
+    },
+    {
+      "number": 114,
+      "state": "open",
+      "bodySHA256": "429f9f1b101a6f51fabdeb364073246617a7ec794bb35757b6c12a3b2e7ffaea"
+    },
+    {
+      "number": 57,
+      "state": "open",
+      "bodySHA256": "57bc6028d7b60bc4befdf7a5bc4cbdff8983939b2f351eb96161c88abb860a23"
+    },
+    {
+      "number": 101,
+      "state": "open",
+      "bodySHA256": "e4da0927107d2877e537223b18700d982105ba226dd3dd4f6f069dc5132df738"
+    }
+  ],
+  "calls": [
+    {
+      "label": "root-before",
+      "endpoint": "repos/illusion-tech/poms/issues/57",
+      "method": "GET",
+      "exit": 0,
+      "stdout": "tmp/rust-r4ghi/root/g0-dependency02/01-root-before-stdout.json",
+      "stdoutSHA256": "1e32a2f60648b30db4c1236fe51e307bee037ae058eb0699db7e32e610ba0991"
+    },
+    {
+      "label": "batch-before",
+      "endpoint": "repos/illusion-tech/poms/issues/110",
+      "method": "GET",
+      "exit": 0,
+      "stdout": "tmp/rust-r4ghi/root/g0-dependency02/02-batch-before-stdout.json",
+      "stdoutSHA256": "319107a06b53e1d25ac1239f9fcbd94c3f707877be4cd50710f0826e90187ca3"
+    },
+    {
+      "label": "open-before",
+      "endpoint": "repos/illusion-tech/poms/issues?state=open&per_page=100",
+      "method": "GET",
+      "exit": 0,
+      "stdout": "tmp/rust-r4ghi/root/g0-dependency02/03-open-before-stdout.json",
+      "stdoutSHA256": "f3007cae842c7807471410c522830ffd208a3d4cb29ed69c57cc21f1f31bd5c7"
+    },
+    {
+      "label": "create-R5",
+      "endpoint": "repos/illusion-tech/poms/issues",
+      "method": "POST",
+      "exit": 0,
+      "stdout": "tmp/rust-r4ghi/root/g0-dependency02/04-create-R5-stdout.json",
+      "stdoutSHA256": "28ced78359b7302255985327ae60a983632e8ee6f698f71b43da0cc4409e37c6"
+    },
+    {
+      "label": "attach-R5",
+      "endpoint": "repos/illusion-tech/poms/issues/57/sub_issues",
+      "method": "POST",
+      "exit": 0,
+      "stdout": "tmp/rust-r4ghi/root/g0-dependency02/05-attach-R5-stdout.json",
+      "stdoutSHA256": "e6a5fb7a13294b4d864c2f207a51d572dbe4813d7c7979cd2d0c605a8f7a729f"
+    },
+    {
+      "label": "children-R5",
+      "endpoint": "repos/illusion-tech/poms/issues/57/sub_issues?per_page=100",
+      "method": "GET",
+      "exit": 0,
+      "stdout": "tmp/rust-r4ghi/root/g0-dependency02/06-children-R5-stdout.json",
+      "stdoutSHA256": "da298b591b274dd7264a8b540960d2b2c050ec29ab95cede94efe65e069537f8"
+    },
+    {
+      "label": "create-R5-P1",
+      "endpoint": "repos/illusion-tech/poms/issues",
+      "method": "POST",
+      "exit": 0,
+      "stdout": "tmp/rust-r4ghi/root/g0-dependency02/07-create-R5-P1-stdout.json",
+      "stdoutSHA256": "b7b7176c28d005f2eeb33e24ff5a9ee576e7f1fc8eed0438490ba5450caaf25e"
+    },
+    {
+      "label": "attach-R5-P1",
+      "endpoint": "repos/illusion-tech/poms/issues/116/sub_issues",
+      "method": "POST",
+      "exit": 0,
+      "stdout": "tmp/rust-r4ghi/root/g0-dependency02/08-attach-R5-P1-stdout.json",
+      "stdoutSHA256": "65603c2f576ef3fd08a8f3fb9906e440a03dd4f77c7fa06c3c8df4deb3c2229e"
+    },
+    {
+      "label": "children-R5-P1",
+      "endpoint": "repos/illusion-tech/poms/issues/116/sub_issues?per_page=100",
+      "method": "GET",
+      "exit": 0,
+      "stdout": "tmp/rust-r4ghi/root/g0-dependency02/09-children-R5-P1-stdout.json",
+      "stdoutSHA256": "172a63aaf225202ddfb4d50dc8a26ce8234d7814339d1af359a976307ea9d382"
+    },
+    {
+      "label": "issue-before-110",
+      "endpoint": "repos/illusion-tech/poms/issues/110",
+      "method": "GET",
+      "exit": 0,
+      "stdout": "tmp/rust-r4ghi/root/g0-dependency02/10-issue-before-110-stdout.json",
+      "stdoutSHA256": "319107a06b53e1d25ac1239f9fcbd94c3f707877be4cd50710f0826e90187ca3"
+    },
+    {
+      "label": "issue-update-110",
+      "endpoint": "repos/illusion-tech/poms/issues/110",
+      "method": "PATCH",
+      "exit": 0,
+      "stdout": "tmp/rust-r4ghi/root/g0-dependency02/11-issue-update-110-stdout.json",
+      "stdoutSHA256": "76e4fe7ebd924433b2bdf0c768e1cffa2a2ab623c983a37ce14f4efcd65d5517"
+    },
+    {
+      "label": "issue-before-113",
+      "endpoint": "repos/illusion-tech/poms/issues/113",
+      "method": "GET",
+      "exit": 0,
+      "stdout": "tmp/rust-r4ghi/root/g0-dependency02/12-issue-before-113-stdout.json",
+      "stdoutSHA256": "7e85ebd4f74d7442481396fae36cc8620b3d1aa0d5bb684a066f0af22e861a11"
+    },
+    {
+      "label": "issue-update-113",
+      "endpoint": "repos/illusion-tech/poms/issues/113",
+      "method": "PATCH",
+      "exit": 0,
+      "stdout": "tmp/rust-r4ghi/root/g0-dependency02/13-issue-update-113-stdout.json",
+      "stdoutSHA256": "1e7716eaa66219b2f7be74ab78774964e3da49442733ebee4f0df7345e2aa4a0"
+    },
+    {
+      "label": "issue-before-114",
+      "endpoint": "repos/illusion-tech/poms/issues/114",
+      "method": "GET",
+      "exit": 0,
+      "stdout": "tmp/rust-r4ghi/root/g0-dependency02/14-issue-before-114-stdout.json",
+      "stdoutSHA256": "aca78aa8ff1c8d66de57a9fd5c039c41eead3ffe5a428aba8a31ea24def60be7"
+    },
+    {
+      "label": "issue-update-114",
+      "endpoint": "repos/illusion-tech/poms/issues/114",
+      "method": "PATCH",
+      "exit": 0,
+      "stdout": "tmp/rust-r4ghi/root/g0-dependency02/15-issue-update-114-stdout.json",
+      "stdoutSHA256": "ae8445d9bf776b4be5bf6588f1397c828b36ea30af62658776c76a6a63e18806"
+    },
+    {
+      "label": "issue-before-57",
+      "endpoint": "repos/illusion-tech/poms/issues/57",
+      "method": "GET",
+      "exit": 0,
+      "stdout": "tmp/rust-r4ghi/root/g0-dependency02/16-issue-before-57-stdout.json",
+      "stdoutSHA256": "ef34e0bb1c822af9e18238af2a62654872678d48298876fa059a735cd0b9dbfe"
+    },
+    {
+      "label": "issue-update-57",
+      "endpoint": "repos/illusion-tech/poms/issues/57",
+      "method": "PATCH",
+      "exit": 0,
+      "stdout": "tmp/rust-r4ghi/root/g0-dependency02/17-issue-update-57-stdout.json",
+      "stdoutSHA256": "e4383edebf55a4ed1921dd13f2423601800bfabc49b29e7a7ea6fd535190515b"
+    },
+    {
+      "label": "issue-before-101",
+      "endpoint": "repos/illusion-tech/poms/issues/101",
+      "method": "GET",
+      "exit": 0,
+      "stdout": "tmp/rust-r4ghi/root/g0-dependency02/18-issue-before-101-stdout.json",
+      "stdoutSHA256": "b11402d7ad37af14915ce3c6a7a0e9c89eb9ae4ca77856b60e2d57e4f2b36579"
+    },
+    {
+      "label": "issue-update-101",
+      "endpoint": "repos/illusion-tech/poms/issues/101",
+      "method": "PATCH",
+      "exit": 0,
+      "stdout": "tmp/rust-r4ghi/root/g0-dependency02/19-issue-update-101-stdout.json",
+      "stdoutSHA256": "a5e9a333912edf6fbee111f22f072137c89e752e357e1acbdc635216fcc78815"
+    },
+    {
+      "label": "batch-comment",
+      "endpoint": "repos/illusion-tech/poms/issues/110/comments",
+      "method": "POST",
+      "exit": 0,
+      "stdout": "tmp/rust-r4ghi/root/g0-dependency02/20-batch-comment-stdout.json",
+      "stdoutSHA256": "1e82fff42524518f5a48bd9ce6306ce4c71510a028c5ce00af40f89189eae52f"
+    },
+    {
+      "label": "readback-116",
+      "endpoint": "repos/illusion-tech/poms/issues/116",
+      "method": "GET",
+      "exit": 0,
+      "stdout": "tmp/rust-r4ghi/root/g0-dependency02/21-readback-116-stdout.json",
+      "stdoutSHA256": "04d3a9c4ef950cadc4fa9fc0369a44b2979b06b5ceb79c61ff2b04a13190110d"
+    },
+    {
+      "label": "readback-117",
+      "endpoint": "repos/illusion-tech/poms/issues/117",
+      "method": "GET",
+      "exit": 0,
+      "stdout": "tmp/rust-r4ghi/root/g0-dependency02/22-readback-117-stdout.json",
+      "stdoutSHA256": "e6caf29bca61c676497897acf36d96b2a45938c86c20eec3c5ccea4448d7508a"
+    },
+    {
+      "label": "readback-110",
+      "endpoint": "repos/illusion-tech/poms/issues/110",
+      "method": "GET",
+      "exit": 0,
+      "stdout": "tmp/rust-r4ghi/root/g0-dependency02/23-readback-110-stdout.json",
+      "stdoutSHA256": "29157414088b4d4988d3ca42bb18d538bb822b4a42860ee95a5a569fa7e5872c"
+    },
+    {
+      "label": "readback-113",
+      "endpoint": "repos/illusion-tech/poms/issues/113",
+      "method": "GET",
+      "exit": 0,
+      "stdout": "tmp/rust-r4ghi/root/g0-dependency02/24-readback-113-stdout.json",
+      "stdoutSHA256": "1e7716eaa66219b2f7be74ab78774964e3da49442733ebee4f0df7345e2aa4a0"
+    },
+    {
+      "label": "readback-114",
+      "endpoint": "repos/illusion-tech/poms/issues/114",
+      "method": "GET",
+      "exit": 0,
+      "stdout": "tmp/rust-r4ghi/root/g0-dependency02/25-readback-114-stdout.json",
+      "stdoutSHA256": "ae8445d9bf776b4be5bf6588f1397c828b36ea30af62658776c76a6a63e18806"
+    },
+    {
+      "label": "readback-57",
+      "endpoint": "repos/illusion-tech/poms/issues/57",
+      "method": "GET",
+      "exit": 0,
+      "stdout": "tmp/rust-r4ghi/root/g0-dependency02/26-readback-57-stdout.json",
+      "stdoutSHA256": "e4383edebf55a4ed1921dd13f2423601800bfabc49b29e7a7ea6fd535190515b"
+    },
+    {
+      "label": "readback-101",
+      "endpoint": "repos/illusion-tech/poms/issues/101",
+      "method": "GET",
+      "exit": 0,
+      "stdout": "tmp/rust-r4ghi/root/g0-dependency02/27-readback-101-stdout.json",
+      "stdoutSHA256": "a5e9a333912edf6fbee111f22f072137c89e752e357e1acbdc635216fcc78815"
+    }
+  ],
+  "G1Certified": false,
+  "G2Authorized": false,
+  "newOfficialDelivered": 0
+}

@@ -1,0 +1,184 @@
+{
+  "kind": "actual-user-create-fix-validation-and-terminal-checkpoint",
+  "capturedAt": "2026-11-06T01:06:58.245Z",
+  "issue": 115,
+  "inputCommit": "21e9124160f92dce38a5029786273fdb893759f0",
+  "productFiles": [
+    {
+      "file": "apps/poms-api-rust/src/users/service.rs",
+      "bytes": 43399,
+      "rawBytesSha256": "9ae9a02a6418d056572aeeff936818a39b5f10971ba0db77840f5f37ccad30fa"
+    },
+    {
+      "file": "apps/poms-api-rust/src/users/store.rs",
+      "bytes": 15590,
+      "rawBytesSha256": "ac2e865088707b9d3375f3c01051301d443ed245905946d3aac5ac6646f5cde6"
+    },
+    {
+      "file": "apps/poms-api-rust/tests/users_database.rs",
+      "bytes": 57499,
+      "rawBytesSha256": "e719fe09be061be93fa1c644e8e71deb5f8ba9502ddf447b3487325be3b83452"
+    }
+  ],
+  "checks": {
+    "rust-fmt01": {
+      "receipt": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/rust-fmt01/receipt.json",
+        "bytes": 64449,
+        "rawBytesSha256": "f62c2bc9851aebb8ad430c24b1b1e2b35eabf0a89bb6bced23ddc164e4473ed8"
+      },
+      "inputsVerified": 342
+    },
+    "rust-clippy02": {
+      "receipt": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/rust-clippy02/receipt.json",
+        "bytes": 64539,
+        "rawBytesSha256": "3d8f402c44b9988b40547e5b3d6e5513f1b356a78d2188446e4f52f41b9c8918"
+      },
+      "inputsVerified": 342
+    },
+    "rust-test01": {
+      "receipt": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/rust-test01/receipt.json",
+        "bytes": 64469,
+        "rawBytesSha256": "71fa901f80f40f3e4ae92d88e7bc9c17ba117c28630c8dbfea0c5cfa261a3c6e"
+      },
+      "inputsVerified": 342
+    },
+    "rust-build01": {
+      "receipt": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/rust-build01/receipt.json",
+        "bytes": 64505,
+        "rawBytesSha256": "a45f98fc8d52befc3d0e8863afe47554e3ebceb32998bf44b409121f035c2629"
+      },
+      "inputsVerified": 342
+    }
+  },
+  "testTotals": {
+    "groups": 26,
+    "passed": 416,
+    "failed": 0,
+    "ignored": 54
+  },
+  "acceptance": {
+    "smoke": {
+      "label": "00012-smoke02",
+      "at": "2026-11-06T00:21:26.272Z",
+      "result": {
+        "stage": "smoke",
+        "passed": 19,
+        "pending": [
+          "faults",
+          "pending-session",
+          "reference-lock-races"
+        ]
+      }
+    },
+    "faults": {
+      "label": "00063-faults01",
+      "at": "2026-11-06T00:24:10.374Z",
+      "result": {
+        "stage": "faults",
+        "passed": 9,
+        "managedPendingCovered": false,
+        "rawTouchRollbackClaimed": false
+      }
+    },
+    "pending": {
+      "label": "00093-pending01",
+      "at": "2026-11-06T00:25:14.106Z",
+      "result": {
+        "stage": "pending",
+        "passed": 2,
+        "managedPendingCovered": true,
+        "rawTouchRollbackClaimed": false
+      }
+    },
+    "races": {
+      "label": "00107-races01",
+      "at": "2026-11-06T00:28:06.077Z",
+      "result": {
+        "stage": "races",
+        "passed": 4,
+        "actualRowLockWaits": true
+      }
+    }
+  },
+  "necessaryWriteFI": 11,
+  "cleanRetries": 11,
+  "rawAuthenticationTouch": "Independent prior auth touch may commit; all user/relationship/create-audit/managed session command writes rollback together",
+  "contractComparison": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/contract01/receipt.json",
+    "bytes": 1052,
+    "rawBytesSha256": "59ffc38063c27e5a9f63b63f8f24f130d83de7ed5809f56a2411c5312da43236"
+  },
+  "UI": {
+    "result": "N/A",
+    "reason": "Only Rust command/store and guarded test change; no frontend/TS DTO/route/client delta. Existing runtime OpenAPI exports byte-identical, actual getUser verifies id/primary org/roleNames/orgUnits. No browser pass is claimed."
+  },
+  "cleanup": {
+    "original": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/userfix/userfix115/run01/00130-cleanup-apply01-complete.json",
+      "bytes": 2067,
+      "rawBytesSha256": "c2da2e5c25f3356a3fbb01385529276dd84b1d038f847bdb7b20181732fc297e"
+    },
+    "planSHA256": "69c50b931b2dd3f0a3f959b7e186710087356d52653cc476bdfc41e82bc6a3ee",
+    "exactDeletedRows": 121,
+    "originalRowsRewritten": 0,
+    "tablesPerDatabase": 120,
+    "originalRowsPerDatabase": 532,
+    "freshConnectionNoopRounds": 2,
+    "byteExactRowsAndLogicalCatalogAndSequences": true
+  },
+  "apiStop": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/userfix-stop01.json",
+    "bytes": 568,
+    "rawBytesSha256": "1e6ed368630f81299566c9f15c2dba71b037789ce633da8948285d87734b8924"
+  },
+  "pgStop": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/environment01/stopped01.json",
+    "bytes": 210,
+    "rawBytesSha256": "03969854decc804544609058fe0f4538e5f86b175bed7a2e4c9d15258fe4f95d"
+  },
+  "objectRoots": {
+    "native": {
+      "files": 0,
+      "rootRetained": true
+    },
+    "rust": {
+      "files": 0,
+      "rootRetained": true
+    }
+  },
+  "retainedFailures": [
+    {
+      "phase": "initial baseline",
+      "classification": "tool-noise",
+      "reason": "Postgres name[] needed text[] parser; read-only partial retained"
+    },
+    {
+      "phase": "smoke01",
+      "classification": "tool-noise",
+      "reason": "Tool expected 200 for existing CREATED 201; original role receipt and exact reconciliation retained"
+    },
+    {
+      "phase": "clippy01",
+      "classification": "tool-noise",
+      "reason": "New mirror lacked include assets; original failure retained, final four checks bind same343 complete inputs"
+    }
+  ],
+  "existingBaselineDrift": [
+    {
+      "scope": "OpenAPI declaration of three platform creates",
+      "declaredStatus": 200,
+      "actualExistingAndCurrentStatus": 201,
+      "changedByThisFix": false,
+      "sourceWitness": "userfix/status.mjs and actual HTTP; Rust remains semantically CREATED"
+    }
+  ],
+  "G3Certified": false,
+  "G4Certified": false,
+  "readyForIndependentG3": true,
+  "officialNewRustOperations": 0,
+  "fullR4Complete": false
+}

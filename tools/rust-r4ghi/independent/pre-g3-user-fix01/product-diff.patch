@@ -1,0 +1,346 @@
+diff --git a/apps/poms-api-rust/src/users/service.rs b/apps/poms-api-rust/src/users/service.rs
+index 9113a135..fbc94812 100644
+--- a/apps/poms-api-rust/src/users/service.rs
++++ b/apps/poms-api-rust/src/users/service.rs
+@@ -1,4 +1,6 @@
+-//! Existing user commands preserve each original persistence boundary.
++//! Existing user commands retain their scoped boundaries except creation:
++//! #115 fixes the historical pre-flush relationship failure and makes all
++//! necessary creation writes atomic.
+ //! W01 and core31 original Nest observations determine generated-ID/child
+ //! failure, dirty flush ordering, split replacement and nullable hydration.
+ 
+@@ -432,71 +434,122 @@ impl UsersService {
+ 
+     pub async fn create(
+         &self,
+-        request: CreateUser,
++        mut request: CreateUser,
+         session: &ResolvedSession,
+     ) -> Result<RawUserEntity, UsersError> {
+-        let username = request.username.to_utf8_lossy();
+-        let existing = self
+-            .database
+-            .with_connection(move |connection| {
+-                Box::pin(async move { store::find_by_username(connection, &username).await })
+-            })
+-            .await?;
+-        if existing.is_some() {
+-            return Err(UsersError::Conflict(js_message(
+-                "Platform user ",
+-                &request.username,
+-                " already exists",
++        let role_ids = request
++            .initial_role_ids
++            .iter()
++            .map(|id| Uuid::parse_str(id).map_err(|_| UsersError::Internal))
++            .collect::<Result<Vec<_>, _>>()?;
++        if role_ids.iter().copied().collect::<HashSet<_>>().len() != role_ids.len() {
++            return Err(UsersError::Conflict(js_string(
++                "Duplicate initial roles are not allowed",
+             )));
+         }
+-        if let Some(id) = request.primary_org_unit_id.as_deref() {
+-            let organizations = self
+-                .database
+-                .with_connection(|connection| Box::pin(org_store::list(connection)))
+-                .await?;
+-            // This check is the original JS Map lookup, not PostgreSQL UUID
+-            // equality. Preserve raw request spelling before any UUID parsing.
+-            let organization = organizations
+-                .iter()
+-                .find(|organization| organization.id.to_string() == id)
+-                .ok_or_else(|| UsersError::NotFound(format!("OrgUnit {id} not found")))?;
+-            if !organization.is_active {
+-                return Err(UsersError::Conflict(js_string(&format!(
+-                    "OrgUnit {id} is inactive"
+-                ))));
+-            }
+-        }
+-        let has_unbound_children =
+-            request.primary_org_unit_id.is_some() || !request.initial_role_ids.is_empty();
++        request.initial_role_ids = role_ids.iter().map(ToString::to_string).collect();
+         let mut user = ManagedUser::new(request)?;
++        let username = user.username.clone();
+         let input = user.new_row();
+         let pending = session.pending_flush.clone();
+-        let (id, version) = self
++        let operator_id = session.user.user_id;
++        let outcome = self
+             .database
+             .with_connection(move |connection| {
+                 Box::pin(async move {
+                     let mut transaction = connection.begin().await?;
+                     let result = async {
+-                        let generated = store::insert(&mut transaction, &input).await?;
+-                        // Real W01 (both non-due and due): PostgreSQL allocates
+-                        // the user UUID, then MikroORM rejects the child whose
+-                        // userId was captured as undefined before this INSERT.
+-                        // No child INSERT or pending session UPDATE is emitted.
+-                        if has_unbound_children {
+-                            return Err(sqlx::Error::Protocol(
+-                                "original user relation has no pre-flush user id".into(),
+-                            ));
++                        let roles = store::lock_create_roles(&mut transaction, &role_ids).await?;
++                        for id in &role_ids {
++                            match roles.iter().find(|row| row.0 == *id) {
++                                None => {
++                                    return Ok(CreateUserOutcome::NotFound(format!(
++                                        "Role {id} not found"
++                                    )));
++                                }
++                                Some((_, false)) => {
++                                    return Ok(CreateUserOutcome::Conflict(format!(
++                                        "Role {id} is inactive"
++                                    )));
++                                }
++                                _ => {}
++                            }
++                        }
++                        if let Some(id) = user.primary_org_unit_id {
++                            match store::lock_create_org(&mut transaction, id).await? {
++                                None => {
++                                    return Ok(CreateUserOutcome::NotFound(format!(
++                                        "OrgUnit {id} not found"
++                                    )));
++                                }
++                                Some(false) => {
++                                    return Ok(CreateUserOutcome::Conflict(format!(
++                                        "OrgUnit {id} is inactive"
++                                    )));
++                                }
++                                Some(true) => {}
++                            }
++                        }
++
++                        let (id, version) = store::insert(&mut transaction, &input).await?;
++                        user.id = id;
++                        user.row_version = version;
++                        let now = clock_now();
++                        let roles = role_ids
++                            .iter()
++                            .map(|role_id| NewUserRole {
++                                user_id: id.to_string(),
++                                role_id: role_id.to_string(),
++                                assigned_at: now,
++                                created_at: now,
++                            })
++                            .collect::<Vec<_>>();
++                        store::insert_roles(&mut transaction, &roles).await?;
++                        if let Some(org_id) = user.primary_org_unit_id {
++                            store::insert_memberships(
++                                &mut transaction,
++                                &[NewUserMembership {
++                                    user_id: id.to_string(),
++                                    org_unit_id: org_id.to_string(),
++                                    membership_type: "primary",
++                                    assigned_at: now,
++                                    created_at: now,
++                                }],
++                            )
++                            .await?;
+                         }
++                        let response = user.raw().map_err(|_| {
++                            sqlx::Error::Protocol(
++                                "created user response could not be serialized".into(),
++                            )
++                        })?;
++                        store::insert_audit(
++                            &mut transaction,
++                            &UserAudit {
++                                event_type: "platform.user.created",
++                                target_id: id.to_string(),
++                                operator_id: Some(operator_id),
++                                before_snapshot: None,
++                                after_snapshot: Some(user.created_snapshot()),
++                                metadata: None,
++                                occurred_at: now,
++                            },
++                        )
++                        .await?;
+                         if let Some(pending) = pending.as_ref() {
+                             flush_managed_session(&mut transaction, pending).await?;
+                         }
+-                        Ok(generated)
++                        Ok(CreateUserOutcome::Created(response))
+                     }
+                     .await;
+                     match result {
+-                        Ok(generated) => {
++                        Ok(created @ CreateUserOutcome::Created(_)) => {
+                             transaction.commit().await?;
+-                            Ok(generated)
++                            Ok(created)
++                        }
++                        Ok(rejected) => {
++                            transaction.rollback().await?;
++                            Ok(rejected)
+                         }
+                         Err(error) => {
+                             transaction.rollback().await?;
+@@ -505,20 +558,19 @@ impl UsersService {
+                     }
+                 })
+             })
+-            .await?;
+-        user.id = id;
+-        user.row_version = version;
+-        self.audit(UserAudit {
+-            event_type: "platform.user.created",
+-            target_id: id.to_string(),
+-            operator_id: Some(session.user.user_id),
+-            before_snapshot: None,
+-            after_snapshot: Some(user.created_snapshot()),
+-            metadata: None,
+-            occurred_at: clock_now(),
+-        })
+-        .await?;
+-        user.raw()
++            .await
++            .map_err(|error| {
++                if error.sqlstate() == Some("23505") {
++                    UsersError::Conflict(js_message("Platform user ", &username, " already exists"))
++                } else {
++                    UsersError::Database(error)
++                }
++            })?;
++        match outcome {
++            CreateUserOutcome::Created(response) => Ok(response),
++            CreateUserOutcome::NotFound(message) => Err(UsersError::NotFound(message)),
++            CreateUserOutcome::Conflict(message) => Err(UsersError::Conflict(js_string(&message))),
++        }
+     }
+ 
+     async fn find_user(&self, id: &str, cache: &mut ReadCache) -> Result<ManagedUser, UsersError> {
+@@ -698,6 +750,12 @@ impl UsersService {
+     }
+ }
+ 
++enum CreateUserOutcome {
++    Created(RawUserEntity),
++    NotFound(String),
++    Conflict(String),
++}
++
+ fn unique_ids(ids: &[String]) -> Vec<String> {
+     let mut seen = HashSet::new();
+     ids.iter()
+diff --git a/apps/poms-api-rust/src/users/store.rs b/apps/poms-api-rust/src/users/store.rs
+index 698f6f50..e87f6be5 100644
+--- a/apps/poms-api-rust/src/users/store.rs
++++ b/apps/poms-api-rust/src/users/store.rs
+@@ -188,9 +188,7 @@ pub struct NewUser {
+     pub updated_at: DateTime<Utc>,
+ }
+ 
+-/// Let PostgreSQL allocate the UUID. The source's child relations were built
+-/// with an undefined userId before this INSERT; callers preserve that failure
+-/// after INSERT and before any child/session SQL, rolling this transaction back.
++/// Materialize PostgreSQL's UUID before creating relationship rows.
+ pub async fn insert(
+     connection: &mut PgConnection,
+     input: &NewUser,
+@@ -371,6 +369,30 @@ pub struct NewUserRole {
+     pub created_at: DateTime<Utc>,
+ }
+ 
++/// Keep creation references active until the enclosing command commits.
++/// Sorted locks avoid reversing role lock order across concurrent commands.
++pub async fn lock_create_roles(
++    connection: &mut PgConnection,
++    ids: &[Uuid],
++) -> Result<Vec<(Uuid, bool)>, sqlx::Error> {
++    sqlx::query_as(
++        "SELECT id,is_active FROM poms.role WHERE id=ANY($1::uuid[]) ORDER BY id FOR SHARE",
++    )
++    .bind(ids)
++    .fetch_all(connection)
++    .await
++}
++
++pub async fn lock_create_org(
++    connection: &mut PgConnection,
++    id: Uuid,
++) -> Result<Option<bool>, sqlx::Error> {
++    sqlx::query_scalar("SELECT is_active FROM poms.org_unit WHERE id=$1 FOR SHARE")
++        .bind(id)
++        .fetch_optional(connection)
++        .await
++}
++
+ pub async fn insert_roles(
+     connection: &mut PgConnection,
+     rows: &[NewUserRole],
+diff --git a/apps/poms-api-rust/tests/users_database.rs b/apps/poms-api-rust/tests/users_database.rs
+index 40996432..d3b1bbfc 100644
+--- a/apps/poms-api-rust/tests/users_database.rs
++++ b/apps/poms-api-rust/tests/users_database.rs
+@@ -990,8 +990,8 @@ fn r2d_target_guard_refuses_pg17_old_databases_owner_and_ambient_before_io() {
+ }
+ 
+ #[tokio::test]
+-#[ignore = "explicit R2D PG15: original W01 seven shapes, with non-due and due first flush"]
+-async fn create_preserves_generated_id_child_failure_and_session_flush_order() {
++#[ignore = "explicit controlled R2D PG15 harness: #115 current creation semantics supersede historical W01 child failure"]
++async fn create_materializes_references_and_commits_necessary_writes() {
+     run_case(|h| async move {
+         let credentials = h.facts()["local_credential"].clone();
+         for due in [false, true] {
+@@ -1021,7 +1021,7 @@ async fn create_preserves_generated_id_child_failure_and_session_flush_order() {
+                     .unwrap()
+                     .iter()
+                     .find(|row| row["username"] == username);
+-                if shape == 0 {
++                if shape <= 3 {
+                     let raw: Value = serde_json::from_str(result.unwrap().0.get()).unwrap();
+                     assert_eq!(raw.as_object().unwrap().len(), 16);
+                     assert_eq!(raw["rowVersion"], 1);
+@@ -1032,7 +1032,6 @@ async fn create_preserves_generated_id_child_failure_and_session_flush_order() {
+                         "email",
+                         "phone",
+                         "avatarUrl",
+-                        "primaryOrgUnitId",
+                         "lastLoginAt",
+                         "createdBy",
+                         "updatedBy",
+@@ -1042,8 +1041,24 @@ async fn create_preserves_generated_id_child_failure_and_session_flush_order() {
+                     let id = row.unwrap()["id"].as_str().unwrap();
+                     assert_eq!(raw["id"], id);
+                     assert!(h.relations("local_credential", id).is_empty());
+-                    assert!(h.relations("user_role_assignment", id).is_empty());
+-                    assert!(h.relations("user_org_membership", id).is_empty());
++                    let expected_roles = usize::from(shape == 2 || shape == 3);
++                    let expected_orgs = usize::from(shape == 1 || shape == 3);
++                    let roles = h.relations("user_role_assignment", id);
++                    let memberships = h.relations("user_org_membership", id);
++                    assert_eq!(roles.len(), expected_roles);
++                    assert_eq!(memberships.len(), expected_orgs);
++                    if expected_roles == 1 {
++                        assert_eq!(roles[0]["role_id"], h.role("alpha"));
++                        assert_eq!(roles[0]["status"], "active");
++                    }
++                    if expected_orgs == 1 {
++                        assert_eq!(raw["primaryOrgUnitId"], h.org("alpha"));
++                        assert_eq!(memberships[0]["org_unit_id"], h.org("alpha"));
++                        assert_eq!(memberships[0]["membership_type"], "primary");
++                        assert_eq!(memberships[0]["status"], "active");
++                    } else {
++                        assert!(raw["primaryOrgUnitId"].is_null());
++                    }
+                     assert_eq!(h.audits(id).len(), 1);
+                     assert_eq!(
+                         h.session_row(&session)["row_version"].as_i64().unwrap(),
+@@ -1056,8 +1071,11 @@ async fn create_preserves_generated_id_child_failure_and_session_flush_order() {
+                     ));
+                 } else {
+                     let error = result.unwrap_err();
+-                    assert!(matches!(error, UsersError::Database(_)));
+-                    assert_eq!(sqlstate(&error), None);
++                    if shape == 5 {
++                        assert!(matches!(error, UsersError::NotFound(_)));
++                    } else {
++                        assert!(matches!(error, UsersError::Conflict(_)));
++                    }
+                     assert!(row.is_none());
+                     assert_eq!(h.session_row(&session), session_before);
+                     assert_eq!(facts["audit_log"].as_array().unwrap().len(), audits_before);

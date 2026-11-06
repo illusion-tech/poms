@@ -1,0 +1,57 @@
+{
+  "kind": "independent-userfix-actual-terminal-review",
+  "capturedAt": "2026-11-06T01:11:02.680Z",
+  "apiStop": {
+    "file": "tmp/rust-r4ghi/root/userfix-stop01.json",
+    "bytes": 568,
+    "rawBytesSha256": "1e6ed368630f81299566c9f15c2dba71b037789ce633da8948285d87734b8924"
+  },
+  "pgStop": {
+    "file": "tmp/rust-r4ghi/root/environment01/stopped01.json",
+    "bytes": 210,
+    "rawBytesSha256": "03969854decc804544609058fe0f4538e5f86b175bed7a2e4c9d15258fe4f95d"
+  },
+  "actualOwnedProcessGone": true,
+  "actualAPIPortConnectionRefused": true,
+  "processIdentityAndBinaryHashMatch": true,
+  "actualContainer": {
+    "id": "513925616f4e1c1c988753e385be7f441dc98f6fb490101537498f60e8d5e00f",
+    "running": false,
+    "status": "exited",
+    "volume": "poms-r4ghi-pg15-data"
+  },
+  "privateRunPermissions": {
+    "directories": 40,
+    "files": 9607,
+    "allGroupOtherAccessZero": true,
+    "regularFilesNoSymlinkOrHardlink": true
+  },
+  "applyShape": {
+    "kind": "string",
+    "planSha256": "string",
+    "stopped": [
+      "file",
+      "rawBytesSha256",
+      "processRecord",
+      "actualPidGone",
+      "actualPortRefused",
+      "applicationConnections"
+    ],
+    "deleteCount": "number",
+    "restoreCount": "number",
+    "noop": [
+      "stopped",
+      "freshConnectionRounds",
+      "tablesPerDatabase",
+      "databases",
+      "receipts",
+      "byteExactRowsAndLogicalCatalogAndSequences"
+    ],
+    "noCascade": "boolean"
+  },
+  "readOnlyMetadataActions": true,
+  "databaseConnectionsOpened": 0,
+  "cleanupExecutedByReviewer": false,
+  "productModified": false,
+  "privatePayloadPublished": false
+}

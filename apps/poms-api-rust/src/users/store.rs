@@ -188,9 +188,7 @@ pub struct NewUser {
     pub updated_at: DateTime<Utc>,
 }
 
-/// Let PostgreSQL allocate the UUID. The source's child relations were built
-/// with an undefined userId before this INSERT; callers preserve that failure
-/// after INSERT and before any child/session SQL, rolling this transaction back.
+/// Materialize PostgreSQL's UUID before creating relationship rows.
 pub async fn insert(
     connection: &mut PgConnection,
     input: &NewUser,
@@ -369,6 +367,30 @@ pub struct NewUserRole {
     pub role_id: String,
     pub assigned_at: DateTime<Utc>,
     pub created_at: DateTime<Utc>,
+}
+
+/// Keep creation references active until the enclosing command commits.
+/// Sorted locks avoid reversing role lock order across concurrent commands.
+pub async fn lock_create_roles(
+    connection: &mut PgConnection,
+    ids: &[Uuid],
+) -> Result<Vec<(Uuid, bool)>, sqlx::Error> {
+    sqlx::query_as(
+        "SELECT id,is_active FROM poms.role WHERE id=ANY($1::uuid[]) ORDER BY id FOR SHARE",
+    )
+    .bind(ids)
+    .fetch_all(connection)
+    .await
+}
+
+pub async fn lock_create_org(
+    connection: &mut PgConnection,
+    id: Uuid,
+) -> Result<Option<bool>, sqlx::Error> {
+    sqlx::query_scalar("SELECT is_active FROM poms.org_unit WHERE id=$1 FOR SHARE")
+        .bind(id)
+        .fetch_optional(connection)
+        .await
 }
 
 pub async fn insert_roles(

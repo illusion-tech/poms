@@ -1,0 +1,207 @@
+{
+  "kind": "independent-user-fix-G1-online-and-G2-entry-review",
+  "capturedAt": "2026-11-05T23:33:07.010Z",
+  "decision": "Pass",
+  "issue": 115,
+  "inputCommit": "21e9124160f92dce38a5029786273fdb893759f0",
+  "baselineTechnicalReview": {
+    "file": "tools/rust-r4ghi/independent/g1-user-fix02/g1-independent-review.json",
+    "rawBytesSha256": "12875fd8bfe9d648b83983617d1fbd23e448a67cf72a4e80d8c0041b4ad89460",
+    "decision": "Pass"
+  },
+  "rootOnlineReceipt": {
+    "file": "docs/design/rust-r4ghi/user-fix-online01.json",
+    "rawBytesSha256": "ea7cd8f97a3ea9b597d1668baa24528c8397f13196430774ebddabf48d3631d2"
+  },
+  "frozenFiles": [
+    {
+      "file": "docs/design/rust-r4ghi-user-create-fix-baseline.md",
+      "bytes": 5721,
+      "rawBytesSha256": "7b130303f15094a3901b85862fedc87cebe788b8c54bc6419850ed864992625a",
+      "actualBytes": 5721,
+      "actualRawBytesSha256": "7b130303f15094a3901b85862fedc87cebe788b8c54bc6419850ed864992625a",
+      "matches": true
+    },
+    {
+      "file": "docs/design/rust-r4ghi/user-fix-g1-sources01.json",
+      "bytes": 3175,
+      "rawBytesSha256": "d0d7afb52c50f82896137e7fe794e2da6d633b82e907cec88e5ca5610ca92462",
+      "actualBytes": 3175,
+      "actualRawBytesSha256": "d0d7afb52c50f82896137e7fe794e2da6d633b82e907cec88e5ca5610ca92462",
+      "matches": true
+    }
+  ],
+  "originalReadbacks": [
+    {
+      "file": "tmp/rust-r4ghi/root/user-fix-g1-online01/01-remote-commit-stdout.json",
+      "expectedRawBytesSha256": "e8c45118657c8d2a5df88bbf99b713be64e939ef4f7c4c069060ee4ee472d785",
+      "actualRawBytesSha256": "e8c45118657c8d2a5df88bbf99b713be64e939ef4f7c4c069060ee4ee472d785",
+      "exitCode": 0,
+      "matches": true
+    },
+    {
+      "file": "tmp/rust-r4ghi/root/user-fix-g1-online01/02-issue-before-stdout.json",
+      "expectedRawBytesSha256": "29a097f2df72ef06146511eeb28380f15a3a014e55831b077abb64b7c52b9cfa",
+      "actualRawBytesSha256": "29a097f2df72ef06146511eeb28380f15a3a014e55831b077abb64b7c52b9cfa",
+      "exitCode": 0,
+      "matches": true
+    },
+    {
+      "file": "tmp/rust-r4ghi/root/user-fix-g1-online01/03-freeze-comment-stdout.json",
+      "expectedRawBytesSha256": "19ea615255f3c9edfb115471aff0394eacab6fc040ac7a24eb41c01ac2b32814",
+      "actualRawBytesSha256": "19ea615255f3c9edfb115471aff0394eacab6fc040ac7a24eb41c01ac2b32814",
+      "exitCode": 0,
+      "matches": true
+    },
+    {
+      "file": "tmp/rust-r4ghi/root/user-fix-g1-online01/04-issue-update-stdout.json",
+      "expectedRawBytesSha256": "3cc5380dff2f7ef3ccd71a515f32a6c3a50a4299a9a7864f599896f90fc271ac",
+      "actualRawBytesSha256": "3cc5380dff2f7ef3ccd71a515f32a6c3a50a4299a9a7864f599896f90fc271ac",
+      "exitCode": 0,
+      "matches": true
+    },
+    {
+      "file": "tmp/rust-r4ghi/root/user-fix-g1-online01/05-issue-readback-stdout.json",
+      "expectedRawBytesSha256": "3cc5380dff2f7ef3ccd71a515f32a6c3a50a4299a9a7864f599896f90fc271ac",
+      "actualRawBytesSha256": "3cc5380dff2f7ef3ccd71a515f32a6c3a50a4299a9a7864f599896f90fc271ac",
+      "exitCode": 0,
+      "matches": true
+    },
+    {
+      "file": "tmp/rust-r4ghi/root/user-fix-g1-online01/06-comment-readback-stdout.json",
+      "expectedRawBytesSha256": "19ea615255f3c9edfb115471aff0394eacab6fc040ac7a24eb41c01ac2b32814",
+      "actualRawBytesSha256": "19ea615255f3c9edfb115471aff0394eacab6fc040ac7a24eb41c01ac2b32814",
+      "exitCode": 0,
+      "matches": true
+    },
+    {
+      "file": "tmp/rust-r4ghi/root/user-fix-g1-online01/07-parent-readback-stdout.json",
+      "expectedRawBytesSha256": "4c22618c8ccb387d948a7299c345255706c8f266625b45d9ec5427d09b8bb9a4",
+      "actualRawBytesSha256": "4c22618c8ccb387d948a7299c345255706c8f266625b45d9ec5427d09b8bb9a4",
+      "exitCode": 0,
+      "matches": true
+    },
+    {
+      "file": "tmp/rust-r4ghi/root/user-fix-g1-online01/08-parent-state-stdout.json",
+      "expectedRawBytesSha256": "1e32a2f60648b30db4c1236fe51e307bee037ae058eb0699db7e32e610ba0991",
+      "actualRawBytesSha256": "1e32a2f60648b30db4c1236fe51e307bee037ae058eb0699db7e32e610ba0991",
+      "exitCode": 0,
+      "matches": true
+    }
+  ],
+  "checks": {
+    "initialTechnicalReviewPass": true,
+    "sameInputCommit": true,
+    "sameBaseline": true,
+    "sameManifest": true,
+    "allFrozenCommitFilesMatch": true,
+    "allEightOriginalsMatch": true,
+    "actualIssueBodyMatchesReceipt": true,
+    "actualCommentBodyMatchesReceipt": true,
+    "actualCommentIdentityMatches": true,
+    "nativeParentIs57AndOpen": true,
+    "actualIssueOpen": true,
+    "actualG1ChecklistChecked": true,
+    "actualG2ChecklistNotComplete": true,
+    "noImplementationAcceptanceClaim": true,
+    "GHIExplicitlyPending": true
+  },
+  "actualIssue": {
+    "body": "状态：#115 G1已冻结 / 限定G2准入，实现与验收尚未完成。\n\n父#57；总体#57。\n\n修复#57已登记的POST /api/platform/users携带非空initialRoleIds返回500；同时核对同根因primaryOrgUnitId。用户UUID物化后写真实角色/组织关联，验证角色/组织有效性、重复关系、唯一用户名并发、必要审计/会话及业务写整体回滚。不增加公开路由，不计入R4新增25；后续独立验收和G3/G4。\n\n基线 main aaa4b16ac66092f0cb1dc6646a02cf14e80823ee；分支 codex/poms-r4ghi-next25；2026-11-06（Asia/Tokyo）。Rust 正式240，R4已交付67/92、余25。用户已授权：建立父子Issue、复核归属与联合G1、三线并行实现、补缺和验收准备、统一候选真实阶段验收及独立G3/G4。\n\n以业务语义、正确性和合理性为准，不追Node缺陷级对齐。必要事实/版本/快照/审计/会话写入同一外层事务整体提交或回滚。Root单一维护DDL/迁移、公共路由/契约/生成物、Git/GitHub及受控环境；作者独立worktree与写入范围。子代理显式gpt-6.1-sol/max，Fast未核实。\n\n经营评价须消费真实经营快照和合同/资金/成本/税务分摊事实。移交事实不自动进入execution，仍需同一事实链上的有效提成角色冻结；联合G1核清最小R5依赖归属和交付顺序。相应内部producer、审批和敏感视图纳入实际验收，不能用改库或合成映射fixture冒充生产交付。完整阶段未通过前#101保持Open，#57持续Open。无生产部署、切流、性能或完整R5–R7交付结论。\n\n- [x] G0：原生父子Issue及范围\n- [x] G1：#115创建关联、14来源、typed UUID、锁内校验及必要写整体事务冻结\n- [ ] G2：限定实现及文件交付\n- [ ] 统一候选真实HTTP/PG/权限/必要写故障/并发/原UI验收\n- [ ] 非作者G3、固定提交及main集成\n- [ ] 精确清理、生命周期归档、独立G4及线上实际读回\n\n\nG1 已冻结，仅限 #115 用户创建关联修复；R4 #110 的 G1 仍 Pending。\n\n- Input commit: [21e9124160f92dce38a5029786273fdb893759f0](https://github.com/illusion-tech/poms/commit/21e9124160f92dce38a5029786273fdb893759f0)。\n- Baseline: [限定实施基线](https://github.com/illusion-tech/poms/blob/21e9124160f92dce38a5029786273fdb893759f0/docs/design/rust-r4ghi-user-create-fix-baseline.md)。\n- Source manifest: `docs/design/rust-r4ghi/user-fix-g1-sources01.json` SHA256 `d0d7afb52c50f82896137e7fe794e2da6d633b82e907cec88e5ca5610ca92462`；14原始来源及基线已核，原产品source aaa4b16a。\n- 保留既有 POST /api/platform/users、请求/返回、权限/CSRF及成功状态；无新增route/DDL/生成契约。\n- UUID生成后写真实角色/主组织关联；引用在TX内锁定并复核，typed UUID去重、未知404/停用或重复409；用户名唯一竞态409。用户、关联、必要审计与待刷新认证会话整体提交或回滚。\n- 旧W01复制Node缺陷的500仅保留历史参考，已superseded，不纳入当前验收证书。真实成功/拒绝、due/non-due、逐必要写故障回滚与重试、受控并发及独立G3/G4均待执行。\n- 本读回允许 #115 限定G2；不代表实现/验收/G3/G4完成，不计R4新25；#57保持Open。\n\n<!-- user-create-G1-21e91241 -->\n",
+    "comments": [
+      {
+        "id": "IC_kwDORtdXRM8AAAABjbKHRA",
+        "author": {
+          "login": "wangzishi"
+        },
+        "authorAssociation": "MEMBER",
+        "body": "G1 已冻结，仅限 #115 用户创建关联修复；R4 #110 的 G1 仍 Pending。\n\n- Input commit: [21e9124160f92dce38a5029786273fdb893759f0](https://github.com/illusion-tech/poms/commit/21e9124160f92dce38a5029786273fdb893759f0)。\n- Baseline: [限定实施基线](https://github.com/illusion-tech/poms/blob/21e9124160f92dce38a5029786273fdb893759f0/docs/design/rust-r4ghi-user-create-fix-baseline.md)。\n- Source manifest: `docs/design/rust-r4ghi/user-fix-g1-sources01.json` SHA256 `d0d7afb52c50f82896137e7fe794e2da6d633b82e907cec88e5ca5610ca92462`；14原始来源及基线已核，原产品source aaa4b16a。\n- 保留既有 POST /api/platform/users、请求/返回、权限/CSRF及成功状态；无新增route/DDL/生成契约。\n- UUID生成后写真实角色/主组织关联；引用在TX内锁定并复核，typed UUID去重、未知404/停用或重复409；用户名唯一竞态409。用户、关联、必要审计与待刷新认证会话整体提交或回滚。\n- 旧W01复制Node缺陷的500仅保留历史参考，已superseded，不纳入当前验收证书。真实成功/拒绝、due/non-due、逐必要写故障回滚与重试、受控并发及独立G3/G4均待执行。\n- 本读回允许 #115 限定G2；不代表实现/验收/G3/G4完成，不计R4新25；#57保持Open。\n\n<!-- user-create-G1-21e91241 -->",
+        "createdAt": "2026-11-05T23:30:52Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/illusion-tech/poms/issues/115#issuecomment-6672254788",
+        "viewerDidAuthor": true
+      }
+    ],
+    "number": 115,
+    "state": "OPEN",
+    "url": "https://github.com/illusion-tech/poms/issues/115"
+  },
+  "actualComment": {
+    "url": "https://api.github.com/repos/illusion-tech/poms/issues/comments/6672254788",
+    "html_url": "https://github.com/illusion-tech/poms/issues/115#issuecomment-6672254788",
+    "issue_url": "https://api.github.com/repos/illusion-tech/poms/issues/115",
+    "id": 6672254788,
+    "node_id": "IC_kwDORtdXRM8AAAABjbKHRA",
+    "user": {
+      "login": "wangzishi",
+      "id": 8288105,
+      "node_id": "MDQ6VXNlcjgyODgxMDU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/8288105?u=aff44c960c9ac82f03872290ec45eb99fbf447af&v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/wangzishi",
+      "html_url": "https://github.com/wangzishi",
+      "followers_url": "https://api.github.com/users/wangzishi/followers",
+      "following_url": "https://api.github.com/users/wangzishi/following{/other_user}",
+      "gists_url": "https://api.github.com/users/wangzishi/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/wangzishi/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/wangzishi/subscriptions",
+      "organizations_url": "https://api.github.com/users/wangzishi/orgs",
+      "repos_url": "https://api.github.com/users/wangzishi/repos",
+      "events_url": "https://api.github.com/users/wangzishi/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/wangzishi/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-11-05T23:30:52Z",
+    "updated_at": "2026-11-05T23:30:52Z",
+    "author_association": "MEMBER",
+    "body": "G1 已冻结，仅限 #115 用户创建关联修复；R4 #110 的 G1 仍 Pending。\n\n- Input commit: [21e9124160f92dce38a5029786273fdb893759f0](https://github.com/illusion-tech/poms/commit/21e9124160f92dce38a5029786273fdb893759f0)。\n- Baseline: [限定实施基线](https://github.com/illusion-tech/poms/blob/21e9124160f92dce38a5029786273fdb893759f0/docs/design/rust-r4ghi-user-create-fix-baseline.md)。\n- Source manifest: `docs/design/rust-r4ghi/user-fix-g1-sources01.json` SHA256 `d0d7afb52c50f82896137e7fe794e2da6d633b82e907cec88e5ca5610ca92462`；14原始来源及基线已核，原产品source aaa4b16a。\n- 保留既有 POST /api/platform/users、请求/返回、权限/CSRF及成功状态；无新增route/DDL/生成契约。\n- UUID生成后写真实角色/主组织关联；引用在TX内锁定并复核，typed UUID去重、未知404/停用或重复409；用户名唯一竞态409。用户、关联、必要审计与待刷新认证会话整体提交或回滚。\n- 旧W01复制Node缺陷的500仅保留历史参考，已superseded，不纳入当前验收证书。真实成功/拒绝、due/non-due、逐必要写故障回滚与重试、受控并发及独立G3/G4均待执行。\n- 本读回允许 #115 限定G2；不代表实现/验收/G3/G4完成，不计R4新25；#57保持Open。\n\n<!-- user-create-G1-21e91241 -->",
+    "reactions": {
+      "url": "https://api.github.com/repos/illusion-tech/poms/issues/comments/6672254788/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null,
+    "pin": null
+  },
+  "actualParent": {
+    "html_url": "https://github.com/illusion-tech/poms/issues/57",
+    "number": 57,
+    "state": "open",
+    "title": "[RUST] Rust 后端分阶段迁移"
+  },
+  "remoteCommit": {
+    "html_url": "https://github.com/illusion-tech/poms/commit/21e9124160f92dce38a5029786273fdb893759f0",
+    "sha": "21e9124160f92dce38a5029786273fdb893759f0"
+  },
+  "conclusion": {
+    "G1TechnicalPass": true,
+    "onlineSameSourceFreezeVerified": true,
+    "limitedG2EntryPermitted": true,
+    "implementationAccepted": false,
+    "G3Certified": false,
+    "G4Certified": false,
+    "GHI_G1Certified": false,
+    "R4NewOperationDeliveryCount": 0
+  },
+  "independentBoundary": {
+    "productEdits": false,
+    "gitMutations": false,
+    "githubMutations": false,
+    "databaseOrApiStarted": false,
+    "credentialsRead": false
+  },
+  "earlierPendingSnapshotPreserved": true
+}

@@ -1,0 +1,290 @@
+{
+  "kind": "independent-issue115-final-G3-review",
+  "gate": "G3",
+  "decision": "Pass",
+  "signedAt": "2026-11-06T01:14:55.009Z",
+  "issue": 115,
+  "parentIssue": 57,
+  "scope": "Existing POST /api/platform/users creation repair only",
+  "governanceInputCommit": "21e9124160f92dce38a5029786273fdb893759f0",
+  "observedHead": "21e9124160f92dce38a5029786273fdb893759f0",
+  "productFiles": [
+    {
+      "file": "apps/poms-api-rust/src/users/service.rs",
+      "bytes": 43399,
+      "rawBytesSha256": "9ae9a02a6418d056572aeeff936818a39b5f10971ba0db77840f5f37ccad30fa"
+    },
+    {
+      "file": "apps/poms-api-rust/src/users/store.rs",
+      "bytes": 15590,
+      "rawBytesSha256": "ac2e865088707b9d3375f3c01051301d443ed245905946d3aac5ac6646f5cde6"
+    },
+    {
+      "file": "apps/poms-api-rust/tests/users_database.rs",
+      "bytes": 57499,
+      "rawBytesSha256": "e719fe09be061be93fa1c644e8e71deb5f8ba9502ddf447b3487325be3b83452"
+    }
+  ],
+  "changedProductPaths": [
+    "apps/poms-api-rust/src/users/service.rs",
+    "apps/poms-api-rust/src/users/store.rs",
+    "apps/poms-api-rust/tests/users_database.rs"
+  ],
+  "openFindings": [],
+  "openP0P1P2": 0,
+  "previouslyReportedFinding": {
+    "id": "UF-PRE-G3-01",
+    "resolution": "Corrected and actually regressed: only platform_user INSERT with 23505 and platform_user_username_unique maps to username 409; unrelated 23505 and audit spoof of the same constraint stay 500 with atomic rollback and clean retry."
+  },
+  "sourceBinding": {
+    "rawInputRecords": 343,
+    "uniqueInputFiles": 342,
+    "repeatedIdenticalInput": "libs/shared/api-spec/openapi.json",
+    "allFourEngineeringRoundsBindSameInputs": true,
+    "allUniqueInputsMatchCurrentBytesAtSigning": true,
+    "onlyDifferenceFromCorrectedPreReview02": "Rustfmt wrapping of js_message arguments in users/service.rs",
+    "actualRuntimeBinarySHA256": "2589d2bb057322e7cdde2b5ce2d492f12e78c67adf4de8a470d9f0bfbd07604e"
+  },
+  "engineering": {
+    "checks": [
+      {
+        "file": "tmp/rust-r4ghi/root/rust-fmt01/receipt.json",
+        "rawBytesSha256": "f62c2bc9851aebb8ad430c24b1b1e2b35eabf0a89bb6bced23ddc164e4473ed8",
+        "exitCode": 0,
+        "sourceStable": true,
+        "inputCount": 343,
+        "currentInputMatches": 343,
+        "inputPinsHash": "ce6150841f3aeabaddc28cbe408032e23eaa7f5102fa24ff53e0aee282d326e8",
+        "args": [
+          "+1.99.1",
+          "fmt",
+          "--manifest-path",
+          "apps/poms-api-rust/Cargo.toml",
+          "--check"
+        ]
+      },
+      {
+        "file": "tmp/rust-r4ghi/root/rust-clippy02/receipt.json",
+        "rawBytesSha256": "3d8f402c44b9988b40547e5b3d6e5513f1b356a78d2188446e4f52f41b9c8918",
+        "exitCode": 0,
+        "sourceStable": true,
+        "inputCount": 343,
+        "currentInputMatches": 343,
+        "inputPinsHash": "ce6150841f3aeabaddc28cbe408032e23eaa7f5102fa24ff53e0aee282d326e8",
+        "args": [
+          "+1.99.1",
+          "clippy",
+          "--manifest-path",
+          "apps/poms-api-rust/Cargo.toml",
+          "--locked",
+          "--offline",
+          "--lib",
+          "--no-deps",
+          "--",
+          "-D",
+          "warnings"
+        ]
+      },
+      {
+        "file": "tmp/rust-r4ghi/root/rust-test01/receipt.json",
+        "rawBytesSha256": "71fa901f80f40f3e4ae92d88e7bc9c17ba117c28630c8dbfea0c5cfa261a3c6e",
+        "exitCode": 0,
+        "sourceStable": true,
+        "inputCount": 343,
+        "currentInputMatches": 343,
+        "inputPinsHash": "ce6150841f3aeabaddc28cbe408032e23eaa7f5102fa24ff53e0aee282d326e8",
+        "args": [
+          "+1.99.1",
+          "test",
+          "--manifest-path",
+          "apps/poms-api-rust/Cargo.toml",
+          "--locked",
+          "--offline"
+        ]
+      },
+      {
+        "file": "tmp/rust-r4ghi/root/rust-build01/receipt.json",
+        "rawBytesSha256": "a45f98fc8d52befc3d0e8863afe47554e3ebceb32998bf44b409121f035c2629",
+        "exitCode": 0,
+        "sourceStable": true,
+        "inputCount": 343,
+        "currentInputMatches": 343,
+        "inputPinsHash": "ce6150841f3aeabaddc28cbe408032e23eaa7f5102fa24ff53e0aee282d326e8",
+        "args": [
+          "+1.99.1",
+          "build",
+          "--manifest-path",
+          "apps/poms-api-rust/Cargo.toml",
+          "--locked",
+          "--offline",
+          "--bin",
+          "poms-api-rust"
+        ]
+      }
+    ],
+    "testTotals": {
+      "groups": 26,
+      "passed": 416,
+      "failed": 0,
+      "ignored": 54
+    },
+    "changedProductWhitespace": "Pass",
+    "newRustWarnings": false,
+    "ignoredTestsCountedAsAcceptance": false,
+    "historicalW01": "Explicitly superseded for current creation semantics; guarded ignored test updated but not used as actual PG proof."
+  },
+  "actualAcceptance": {
+    "smoke": {
+      "cases": 19,
+      "successfulShapes": 6,
+      "deniedShapes": 12,
+      "actualDetailConsumers": 6,
+      "sameUsernameOne201One409SameBody": true
+    },
+    "necessaryWriteFaults": 11,
+    "cleanRetries": 11,
+    "naturallyDueManagedSessionFaults": 2,
+    "actualReferenceLockRaces": 4,
+    "unrelatedUniqueErrorsStay500": true,
+    "auditSpoofUsernameConstraintStays500": true,
+    "actualUUIDAssociationsAuditAndGetUserVerified": true,
+    "noCredentialCreated": true,
+    "actualConcurrentUsernamePair": "Same body, distinct concurrent HTTP requests, exactly one 201 and one 409, one committed user and one association/audit set; no extra database barrier claim.",
+    "rawHTTPBoundary": "Configured Node request headers and transfer-decoded response entity bytes, not TCP wire capture."
+  },
+  "transactionBoundary": {
+    "businessUserRelationsCreateAuditAndPendingManagedSessionAreAtomic": true,
+    "priorAuthenticationRawTouchCanCommitIndependently": true,
+    "failedRequestMayRetainExactlyItsProvenRawTouch": true,
+    "wholeHTTPRequestSideEffectFreeRollbackClaimed": false,
+    "managedSessionZeroRowCASRaceSeparatelyExecuted": false,
+    "realLostCommitAckOrUnknownCommitOutcomeCertified": false
+  },
+  "schemaAndContracts": {
+    "newPublicOperations": 0,
+    "productSchemaDelta": 0,
+    "generatedContractClientDelta": 0,
+    "runtimeExportByteIdenticalToPriorLocalReference": true,
+    "runtimeExport": {
+      "file": "tmp/rust-r4ghi/root/contract01/current-stdout.bin",
+      "bytes": 1183379,
+      "rawBytesSha256": "ce68b2debddeeff075045830fdf983d8d7a1cfea39540a6025b93e1e66002f36"
+    },
+    "runtimeSurface": {
+      "paths": 193,
+      "operations": 240,
+      "schemas": 626
+    },
+    "fullSharedSurface": {
+      "paths": 239,
+      "operations": 293,
+      "schemas": 626
+    },
+    "existingDeclarationDrift": "Three platform create operations declare 200 in Swagger while their frozen existing/current runtime success is 201; this repair preserves 201 and does not claim declaration cleanup."
+  },
+  "validationApplicability": {
+    "browserUI": {
+      "result": "N/A",
+      "reason": "Only Rust command/store and guarded test change; no frontend/TS DTO/route/client delta. Existing runtime OpenAPI exports byte-identical, actual getUser verifies id/primary org/roleNames/orgUnits. No browser pass is claimed.",
+      "independentAssessment": "Sufficient for this bounded command/store repair: no frontend or shared contract delta, byte-identical runtime schema and six actual getUser consumers cover the changed association/read behavior. No browser pass is claimed."
+    },
+    "nodeAndAdminLintBuild": {
+      "result": "Not required",
+      "reason": "No TypeScript, Admin or generated-client changes in the reviewed product delta."
+    },
+    "migrationGenerationAndORMCheck": {
+      "result": "Not required",
+      "reason": "No migration, entity or DDL changes; existing PK/FK/unique constraints and SQL fields are exercised in the isolated actual PG runs."
+    }
+  },
+  "cleanupAndTerminal": {
+    "exactReviewedPlanSHA256": "69c50b931b2dd3f0a3f959b7e186710087356d52653cc476bdfc41e82bc6a3ee",
+    "exactDeletedNewRows": 121,
+    "originalRowsRewritten": 0,
+    "originalRowsPerDatabase": 532,
+    "tablesPerDatabase": 120,
+    "independentRowFKOrderEdges": 108,
+    "postCommitFreshConnectionNoopRounds": 2,
+    "rawRowsAndLogicalCatalogACLTriggersFunctionsSequencesEqualBaseline": true,
+    "APIActualProcessGoneAndPortRefused": true,
+    "PGActualContainerStopped": true,
+    "volumeRetained": "poms-r4ghi-pg15-data",
+    "privateEvidencePermissionsVerified": {
+      "directories": 40,
+      "files": 9607,
+      "allGroupOtherAccessZero": true,
+      "regularFilesNoSymlinkOrHardlink": true
+    },
+    "reviewerPerformedCleanup": false
+  },
+  "evidence": {
+    "rootCheckpoint": {
+      "file": "docs/design/rust-r4ghi/user-fix/validation01.json",
+      "bytes": 6149,
+      "rawBytesSha256": "c3d90bb8b99df4b1e74ed69d04079d0acee250f9ed1892c960858d7f3eb9c98a"
+    },
+    "integrity": {
+      "file": "tools/rust-r4ghi/independent/userfix-final/evidence-integrity01.json",
+      "bytes": 121470,
+      "rawBytesSha256": "3c33e1669ac510d9fc14650a1eece835f667b0f31b44a0ddd6645d66aa4c16b3"
+    },
+    "independentActualRecomputation": {
+      "file": "tools/rust-r4ghi/independent/userfix-final/acceptance-recomputed01.json",
+      "bytes": 6837,
+      "rawBytesSha256": "66ef750b264f02bca79cffe9bed5d8bf170acb68b5b9822d7b443c6fef7bb642"
+    },
+    "independentTerminal": {
+      "file": "tools/rust-r4ghi/independent/userfix-final/terminal-verified01.json",
+      "bytes": 1622,
+      "rawBytesSha256": "65d3eabace2fb1bb827b5c42add29baa4d2fe8b4e5e44230295ff858cc854e24"
+    },
+    "APIStop": {
+      "file": "tmp/rust-r4ghi/root/userfix-stop01.json",
+      "bytes": 568,
+      "rawBytesSha256": "1e6ed368630f81299566c9f15c2dba71b037789ce633da8948285d87734b8924"
+    },
+    "PGStop": {
+      "file": "tmp/rust-r4ghi/root/environment01/stopped01.json",
+      "bytes": 210,
+      "rawBytesSha256": "03969854decc804544609058fe0f4538e5f86b175bed7a2e4c9d15258fe4f95d"
+    },
+    "privateRawOriginalPinsVerified": 382,
+    "fullSnapshotManifestsVerified": 38,
+    "rawTableFilesVerified": 9120,
+    "rawRowRecordHashesVerified": 42680,
+    "effectiveStagesHelperAndProductPinsCurrent": true,
+    "privateBusinessRowsCookiesPasswordsOrTokensCopiedToReviewArtifacts": false
+  },
+  "retainedHistory": {
+    "originalBaselineToolFailure": "tool-noise; immutable partial retained",
+    "originalSmoke01StatusAssertion": "tool-noise; actual role 201 preserved and exact journal-only reconciliation performed without business DML",
+    "clippy01MissingIncludeAssets": "tool-noise; exit 101 retained, excluded from final passing checks",
+    "oldG1AndPreG3SnapshotsRewritten": false,
+    "terminalVerifierInitialContainerCLIProbe": "Reviewer tooling-only command-not-found for docker; corrected to the actual read-only Podman metadata interface, no DB/API mutation."
+  },
+  "independence": {
+    "role": "Non-author independent reviewer",
+    "productEdits": false,
+    "gitOrGitHubMutations": false,
+    "databaseConnectionsOpened": 0,
+    "APIOrDatabaseStarted": false,
+    "credentialsPublished": false,
+    "writableBoundary": "tools/rust-r4ghi/independent/userfix-final/**",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoningEffort": "max",
+    "actualRuntimeModelIndependentlyVerified": false,
+    "fast": "unverified"
+  },
+  "deliveryDecision": {
+    "scopedG3Pass": true,
+    "readyForFixedImplementationCommitVerification": true,
+    "fixedCommitVerified": false,
+    "mainIntegrationVerified": false,
+    "G4Certified": false,
+    "issueCloseAllowedAtThisGate": false,
+    "officialNewRustOperations": 0,
+    "R4OrR5MinimumOrGHI_G1CertifiedByThisReview": false,
+    "productionDeploymentOrPerformanceCertified": false,
+    "parent57MustRemainOpen": true
+  }
+}

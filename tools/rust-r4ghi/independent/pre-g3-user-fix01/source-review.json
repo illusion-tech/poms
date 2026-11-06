@@ -1,0 +1,46 @@
+{
+  "kind": "independent-user-fix-source-pre-G3-review",
+  "issue": 115,
+  "decision": "Needs-correction; final G3 pending actual evidence",
+  "sourceCapture": "tools/rust-r4ghi/independent/pre-g3-user-fix01/source-inputs.json",
+  "capturedAt": "2026-11-05T23:39:46.208Z",
+  "reviewedBaseCommit": "21e9124160f92dce38a5029786273fdb893759f0",
+  "productDiffRawBytesSha256": "40af32b7f76ec62d9b41811b2ad2b7629a6c5b0d468fea76a2624b6fc9e9d0c6",
+  "findings": [
+    {
+      "id": "UF-PRE-G3-01",
+      "priority": "P2",
+      "file": "apps/poms-api-rust/src/users/service.rs",
+      "startLine": 562,
+      "endLine": 568,
+      "title": "Limit duplicate-username mapping to its own INSERT constraint",
+      "trigger": "A role/membership/audit/pending-session necessary write returns SQLSTATE 23505 for a different uniqueness failure.",
+      "observed": "The whole transaction's DbError is mapped solely by SQLSTATE 23505 to HTTP 409 with a username-already-exists message.",
+      "impact": "The real necessary-write failure is mislabeled as an existing username, so clients receive the wrong recoverability and reason despite rollback. Username uniqueness is only one constraint within the transaction.",
+      "requiredCorrection": "Before DbError erases SQLx constraint metadata, recognize only platform_user INSERT with SQLSTATE 23505 and constraint platform_user_username_unique as explicit username-conflict outcome. Leave all other SQL errors as Database and roll back normally; no shared DbError or other-command expansion is needed.",
+      "requiredActualVerification": "Same-username contention still has one success and one 409. Inject non-username 23505 at necessary association/audit/session writes, require 500 and exact whole-transaction rollback plus successful clean retry.",
+      "rootAcknowledged": true,
+      "correctionIndependentlyObservedAtCapture": false
+    }
+  ],
+  "staticAlignmentObservations": [
+    "Typed UUID parsing and HashSet reject aliases of the same role before any write; audit role IDs are normalized actual identities.",
+    "Existing role IDs are locked in UUID order FOR SHARE, followed by primary organization FOR SHARE; active/not-found checks use those rows within the create transaction.",
+    "The database-generated user UUID and row version are materialized before real active role and primary-membership rows are inserted.",
+    "Response serialization, required creation audit and pending-session CAS flush all occur before the same transaction commit; rejected outcomes explicitly roll back.",
+    "The historical W01 test was renamed and updated to current relationship success/404/409 semantics, remaining explicitly ignored behind its controlled R2D harness. It is not actual validation of the new batch.",
+    "Only the scoped create path and its store helpers/test changed; other user commands retain their existing boundaries."
+  ],
+  "pendingEvidence": [
+    "Corrected final source capture and exact tested candidate/mirror/binary binding.",
+    "Rust fmt/clippy/build/relevant regression results against the corrected source; superseded/source-changed build rounds cannot serve as final evidence.",
+    "Actual HTTP/PG success/denial, all necessary-write faults and retries, due/non-due session cases, username barrier race, reference-deactivation lock-order races and original UI evidence.",
+    "Independent final G3, fixed commit/main verification, exact cleanup/archive and independent G4/online closeout."
+  ],
+  "G3Certified": false,
+  "G4Certified": false,
+  "GHI_G1Certified": false,
+  "productModifiedByReviewer": false,
+  "runtimeStartedByReviewer": false,
+  "credentialsReadByReviewer": false
+}

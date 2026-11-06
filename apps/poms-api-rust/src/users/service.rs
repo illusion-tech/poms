@@ -1,4 +1,6 @@
-//! Existing user commands preserve each original persistence boundary.
+//! Existing user commands retain their scoped boundaries except creation:
+//! #115 fixes the historical pre-flush relationship failure and makes all
+//! necessary creation writes atomic.
 //! W01 and core31 original Nest observations determine generated-ID/child
 //! failure, dirty flush ordering, split replacement and nullable hydration.
 
@@ -432,71 +434,134 @@ impl UsersService {
 
     pub async fn create(
         &self,
-        request: CreateUser,
+        mut request: CreateUser,
         session: &ResolvedSession,
     ) -> Result<RawUserEntity, UsersError> {
-        let username = request.username.to_utf8_lossy();
-        let existing = self
-            .database
-            .with_connection(move |connection| {
-                Box::pin(async move { store::find_by_username(connection, &username).await })
-            })
-            .await?;
-        if existing.is_some() {
-            return Err(UsersError::Conflict(js_message(
-                "Platform user ",
-                &request.username,
-                " already exists",
+        let role_ids = request
+            .initial_role_ids
+            .iter()
+            .map(|id| Uuid::parse_str(id).map_err(|_| UsersError::Internal))
+            .collect::<Result<Vec<_>, _>>()?;
+        if role_ids.iter().copied().collect::<HashSet<_>>().len() != role_ids.len() {
+            return Err(UsersError::Conflict(js_string(
+                "Duplicate initial roles are not allowed",
             )));
         }
-        if let Some(id) = request.primary_org_unit_id.as_deref() {
-            let organizations = self
-                .database
-                .with_connection(|connection| Box::pin(org_store::list(connection)))
-                .await?;
-            // This check is the original JS Map lookup, not PostgreSQL UUID
-            // equality. Preserve raw request spelling before any UUID parsing.
-            let organization = organizations
-                .iter()
-                .find(|organization| organization.id.to_string() == id)
-                .ok_or_else(|| UsersError::NotFound(format!("OrgUnit {id} not found")))?;
-            if !organization.is_active {
-                return Err(UsersError::Conflict(js_string(&format!(
-                    "OrgUnit {id} is inactive"
-                ))));
-            }
-        }
-        let has_unbound_children =
-            request.primary_org_unit_id.is_some() || !request.initial_role_ids.is_empty();
+        request.initial_role_ids = role_ids.iter().map(ToString::to_string).collect();
         let mut user = ManagedUser::new(request)?;
+        let username = user.username.clone();
         let input = user.new_row();
         let pending = session.pending_flush.clone();
-        let (id, version) = self
+        let operator_id = session.user.user_id;
+        let outcome = self
             .database
             .with_connection(move |connection| {
                 Box::pin(async move {
                     let mut transaction = connection.begin().await?;
                     let result = async {
-                        let generated = store::insert(&mut transaction, &input).await?;
-                        // Real W01 (both non-due and due): PostgreSQL allocates
-                        // the user UUID, then MikroORM rejects the child whose
-                        // userId was captured as undefined before this INSERT.
-                        // No child INSERT or pending session UPDATE is emitted.
-                        if has_unbound_children {
-                            return Err(sqlx::Error::Protocol(
-                                "original user relation has no pre-flush user id".into(),
-                            ));
+                        let roles = store::lock_create_roles(&mut transaction, &role_ids).await?;
+                        for id in &role_ids {
+                            match roles.iter().find(|row| row.0 == *id) {
+                                None => {
+                                    return Ok(CreateUserOutcome::NotFound(format!(
+                                        "Role {id} not found"
+                                    )));
+                                }
+                                Some((_, false)) => {
+                                    return Ok(CreateUserOutcome::Conflict(format!(
+                                        "Role {id} is inactive"
+                                    )));
+                                }
+                                _ => {}
+                            }
                         }
+                        if let Some(id) = user.primary_org_unit_id {
+                            match store::lock_create_org(&mut transaction, id).await? {
+                                None => {
+                                    return Ok(CreateUserOutcome::NotFound(format!(
+                                        "OrgUnit {id} not found"
+                                    )));
+                                }
+                                Some(false) => {
+                                    return Ok(CreateUserOutcome::Conflict(format!(
+                                        "OrgUnit {id} is inactive"
+                                    )));
+                                }
+                                Some(true) => {}
+                            }
+                        }
+
+                        let (id, version) = match store::insert(&mut transaction, &input).await {
+                            Ok(created) => created,
+                            Err(error)
+                                if error.as_database_error().is_some_and(|database| {
+                                    database.code().as_deref() == Some("23505")
+                                        && database.constraint()
+                                            == Some("platform_user_username_unique")
+                                }) =>
+                            {
+                                return Ok(CreateUserOutcome::UsernameConflict);
+                            }
+                            Err(error) => return Err(error),
+                        };
+                        user.id = id;
+                        user.row_version = version;
+                        let now = clock_now();
+                        let roles = role_ids
+                            .iter()
+                            .map(|role_id| NewUserRole {
+                                user_id: id.to_string(),
+                                role_id: role_id.to_string(),
+                                assigned_at: now,
+                                created_at: now,
+                            })
+                            .collect::<Vec<_>>();
+                        store::insert_roles(&mut transaction, &roles).await?;
+                        if let Some(org_id) = user.primary_org_unit_id {
+                            store::insert_memberships(
+                                &mut transaction,
+                                &[NewUserMembership {
+                                    user_id: id.to_string(),
+                                    org_unit_id: org_id.to_string(),
+                                    membership_type: "primary",
+                                    assigned_at: now,
+                                    created_at: now,
+                                }],
+                            )
+                            .await?;
+                        }
+                        let response = user.raw().map_err(|_| {
+                            sqlx::Error::Protocol(
+                                "created user response could not be serialized".into(),
+                            )
+                        })?;
+                        store::insert_audit(
+                            &mut transaction,
+                            &UserAudit {
+                                event_type: "platform.user.created",
+                                target_id: id.to_string(),
+                                operator_id: Some(operator_id),
+                                before_snapshot: None,
+                                after_snapshot: Some(user.created_snapshot()),
+                                metadata: None,
+                                occurred_at: now,
+                            },
+                        )
+                        .await?;
                         if let Some(pending) = pending.as_ref() {
                             flush_managed_session(&mut transaction, pending).await?;
                         }
-                        Ok(generated)
+                        Ok(CreateUserOutcome::Created(response))
                     }
                     .await;
                     match result {
-                        Ok(generated) => {
+                        Ok(created @ CreateUserOutcome::Created(_)) => {
                             transaction.commit().await?;
-                            Ok(generated)
+                            Ok(created)
+                        }
+                        Ok(rejected) => {
+                            transaction.rollback().await?;
+                            Ok(rejected)
                         }
                         Err(error) => {
                             transaction.rollback().await?;
@@ -506,19 +571,16 @@ impl UsersService {
                 })
             })
             .await?;
-        user.id = id;
-        user.row_version = version;
-        self.audit(UserAudit {
-            event_type: "platform.user.created",
-            target_id: id.to_string(),
-            operator_id: Some(session.user.user_id),
-            before_snapshot: None,
-            after_snapshot: Some(user.created_snapshot()),
-            metadata: None,
-            occurred_at: clock_now(),
-        })
-        .await?;
-        user.raw()
+        match outcome {
+            CreateUserOutcome::Created(response) => Ok(response),
+            CreateUserOutcome::NotFound(message) => Err(UsersError::NotFound(message)),
+            CreateUserOutcome::Conflict(message) => Err(UsersError::Conflict(js_string(&message))),
+            CreateUserOutcome::UsernameConflict => Err(UsersError::Conflict(js_message(
+                "Platform user ",
+                &username,
+                " already exists",
+            ))),
+        }
     }
 
     async fn find_user(&self, id: &str, cache: &mut ReadCache) -> Result<ManagedUser, UsersError> {
@@ -696,6 +758,13 @@ impl UsersService {
             .await?;
         Ok(())
     }
+}
+
+enum CreateUserOutcome {
+    Created(RawUserEntity),
+    NotFound(String),
+    Conflict(String),
+    UsernameConflict,
 }
 
 fn unique_ids(ids: &[String]) -> Vec<String> {

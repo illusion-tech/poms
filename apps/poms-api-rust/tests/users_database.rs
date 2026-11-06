@@ -990,8 +990,8 @@ fn r2d_target_guard_refuses_pg17_old_databases_owner_and_ambient_before_io() {
 }
 
 #[tokio::test]
-#[ignore = "explicit R2D PG15: original W01 seven shapes, with non-due and due first flush"]
-async fn create_preserves_generated_id_child_failure_and_session_flush_order() {
+#[ignore = "explicit controlled R2D PG15 harness: #115 current creation semantics supersede historical W01 child failure"]
+async fn create_materializes_references_and_commits_necessary_writes() {
     run_case(|h| async move {
         let credentials = h.facts()["local_credential"].clone();
         for due in [false, true] {
@@ -1021,7 +1021,7 @@ async fn create_preserves_generated_id_child_failure_and_session_flush_order() {
                     .unwrap()
                     .iter()
                     .find(|row| row["username"] == username);
-                if shape == 0 {
+                if shape <= 3 {
                     let raw: Value = serde_json::from_str(result.unwrap().0.get()).unwrap();
                     assert_eq!(raw.as_object().unwrap().len(), 16);
                     assert_eq!(raw["rowVersion"], 1);
@@ -1032,7 +1032,6 @@ async fn create_preserves_generated_id_child_failure_and_session_flush_order() {
                         "email",
                         "phone",
                         "avatarUrl",
-                        "primaryOrgUnitId",
                         "lastLoginAt",
                         "createdBy",
                         "updatedBy",
@@ -1042,8 +1041,24 @@ async fn create_preserves_generated_id_child_failure_and_session_flush_order() {
                     let id = row.unwrap()["id"].as_str().unwrap();
                     assert_eq!(raw["id"], id);
                     assert!(h.relations("local_credential", id).is_empty());
-                    assert!(h.relations("user_role_assignment", id).is_empty());
-                    assert!(h.relations("user_org_membership", id).is_empty());
+                    let expected_roles = usize::from(shape == 2 || shape == 3);
+                    let expected_orgs = usize::from(shape == 1 || shape == 3);
+                    let roles = h.relations("user_role_assignment", id);
+                    let memberships = h.relations("user_org_membership", id);
+                    assert_eq!(roles.len(), expected_roles);
+                    assert_eq!(memberships.len(), expected_orgs);
+                    if expected_roles == 1 {
+                        assert_eq!(roles[0]["role_id"], h.role("alpha"));
+                        assert_eq!(roles[0]["status"], "active");
+                    }
+                    if expected_orgs == 1 {
+                        assert_eq!(raw["primaryOrgUnitId"], h.org("alpha"));
+                        assert_eq!(memberships[0]["org_unit_id"], h.org("alpha"));
+                        assert_eq!(memberships[0]["membership_type"], "primary");
+                        assert_eq!(memberships[0]["status"], "active");
+                    } else {
+                        assert!(raw["primaryOrgUnitId"].is_null());
+                    }
                     assert_eq!(h.audits(id).len(), 1);
                     assert_eq!(
                         h.session_row(&session)["row_version"].as_i64().unwrap(),
@@ -1056,8 +1071,11 @@ async fn create_preserves_generated_id_child_failure_and_session_flush_order() {
                     ));
                 } else {
                     let error = result.unwrap_err();
-                    assert!(matches!(error, UsersError::Database(_)));
-                    assert_eq!(sqlstate(&error), None);
+                    if shape == 5 {
+                        assert!(matches!(error, UsersError::NotFound(_)));
+                    } else {
+                        assert!(matches!(error, UsersError::Conflict(_)));
+                    }
                     assert!(row.is_none());
                     assert_eq!(h.session_row(&session), session_before);
                     assert_eq!(facts["audit_log"].as_array().unwrap().len(), audits_before);

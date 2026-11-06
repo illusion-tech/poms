@@ -1,0 +1,10 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+const input='tools/rust-r4def/api-runtime58.mjs',output='tools/rust-r4ghi/api-runtime01.mjs';
+const original=fs.readFileSync(input);let source=original.toString('utf8');
+assert(source.includes('port = 31341'));source=source.replaceAll('r4def','r4ghi').replaceAll('31341','31441').replaceAll('44451','44551');
+assert(!fs.existsSync(output));fs.writeFileSync(output,source,{flag:'wx'});
+const sha=b=>createHash('sha256').update(b).digest('hex');
+fs.writeFileSync('tools/rust-r4ghi/runtime-derivation01.json',JSON.stringify({kind:'owned-runtime-derivation',input,inputSHA256:sha(original),output,outputSHA256:sha(Buffer.from(source)),port:31441,origin:'http://127.0.0.1:44551',namespace:'poms-r4ghi',oldRuntimeTouched:false},null,2)+'\n',{flag:'wx'});
+console.log(JSON.stringify({derived:output,port:31441,oldRuntimeTouched:false}));

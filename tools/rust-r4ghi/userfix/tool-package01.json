@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 1,
+  "kind": "prepared-tools-local-validation-only",
+  "generatedAt": "2026-11-06T00:18:21.6444712+00:00",
+  "sourceBase": "aaa4b16ac66092f0cb1dc6646a02cf14e80823ee",
+  "authorAgent": "/root/r4g_operating",
+  "expectedModel": "gpt-6.1-sol",
+  "expectedEffort": "max",
+  "fastMode": "unverified",
+  "sourceOfActualRuntimeEvidence": "Root-operated same-epoch receipts only",
+  "executedByAuthor": {
+    "syntaxChecks": "passed-all-mjs",
+    "localTests": {
+      "passed": 4,
+      "failed": 0
+    },
+    "databaseRequests": 0,
+    "apiRequests": 0,
+    "databaseOrApiProcessesStarted": 0,
+    "productEdits": 0,
+    "gitOperations": 0
+  },
+  "preservedFailures": [
+    "Root baseline initial name-array TypeError partial",
+    "Root smoke01 actual role-create 201 rejected by tool status assertion; exact-request reconcile required"
+  ],
+  "package": [
+    {
+      "file": "tools/rust-r4ghi/userfix/cleanup.mjs",
+      "bytes": 17012,
+      "sha256": "5ed527a080dbdff97dfa8107ab1029871027e045ffefde18191e0520feab3e82"
+    },
+    {
+      "file": "tools/rust-r4ghi/userfix/context.mjs",
+      "bytes": 7700,
+      "sha256": "9e754b4a2ff08a8474c5a23df1e9f1af692e95837ef7313cdce9c913cf954c4b"
+    },
+    {
+      "file": "tools/rust-r4ghi/userfix/control.mjs",
+      "bytes": 7164,
+      "sha256": "2cd1c353f0c3e5023c5ad2755fc571707797bfb1148900e6c0d52a6c5bec670d"
+    },
+    {
+      "file": "tools/rust-r4ghi/userfix/driver.mjs",
+      "bytes": 4205,
+      "sha256": "75ff92c2271b54cdc4be7ed6912c8cb0a2ee486e66c12a8d46eec49c535ff1ad"
+    },
+    {
+      "file": "tools/rust-r4ghi/userfix/faults.mjs",
+      "bytes": 6759,
+      "sha256": "cd1a772a636efde2332613945ed1e9effd98e10a4c270d56453dc81b3799fea5"
+    },
+    {
+      "file": "tools/rust-r4ghi/userfix/http.mjs",
+      "bytes": 12327,
+      "sha256": "ba55504f8e2a1ad77bf57cc677943b0f80386a6b5e62621c7bd02ebf864fc8a2"
+    },
+    {
+      "file": "tools/rust-r4ghi/userfix/pure.mjs",
+      "bytes": 2621,
+      "sha256": "0995bfb2bd1a38812747adb1fd383925429418d2e29552d51a85bfbd76b768e5"
+    },
+    {
+      "file": "tools/rust-r4ghi/userfix/pure.test.mjs",
+      "bytes": 1691,
+      "sha256": "9a77db9b0138f38ad77198dc500080070f6b5e409598388de21a23a2b1ede48f"
+    },
+    {
+      "file": "tools/rust-r4ghi/userfix/races.mjs",
+      "bytes": 5806,
+      "sha256": "716096a69e6fd0eb0993a69e865579354b4662fba8d33e5f30c98d0593383d43"
+    },
+    {
+      "file": "tools/rust-r4ghi/userfix/README.md",
+      "bytes": 8999,
+      "sha256": "475e692a751fb26b9c57cd76737bad8fe303754c9a6006e7f7eb040a7c8cc1a3"
+    },
+    {
+      "file": "tools/rust-r4ghi/userfix/reconcile.mjs",
+      "bytes": 4001,
+      "sha256": "b7353f705c40e6b2338f32536f2a360265be22e3a4c755a7417dbdc3dba39544"
+    },
+    {
+      "file": "tools/rust-r4ghi/userfix/scenarios.mjs",
+      "bytes": 8805,
+      "sha256": "d8fb83d24195ced9f954a5f8bcd0b9a8fb5b58434863625e24ead9c955e52fb1"
+    },
+    {
+      "file": "tools/rust-r4ghi/userfix/snapshot.mjs",
+      "bytes": 8188,
+      "sha256": "a8859f1658a7f7505d096f63e836cd5f958b6447d77f71053b80491e9ab95807"
+    },
+    {
+      "file": "tools/rust-r4ghi/userfix/status.mjs",
+      "bytes": 1412,
+      "sha256": "802071a6b2e3be1d9caa04e63bb3202a436cb8e4b28c1466da0ac2f91256b8e7"
+    },
+    {
+      "file": "tools/rust-r4ghi/userfix/status.test.mjs",
+      "bytes": 640,
+      "sha256": "d8720e29d620d96010bb2fa85865f3acb0d4469582d6ea49ca2d0692d16ff61b"
+    }
+  ]
+}

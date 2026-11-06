@@ -1,0 +1,240 @@
+{
+  "kind": "independent-userfix-raw-acceptance-recomputation",
+  "capturedAt": "2026-11-06T01:06:47.006Z",
+  "smoke": {
+    "cases": 19,
+    "successfulShapes": 6,
+    "deniedShapes": 12,
+    "actualDetailConsumers": 6,
+    "sameUsernameOne201One409SameBody": true
+  },
+  "faultResults": [
+    {
+      "stage": "faults",
+      "case": 1,
+      "target": "platform_user",
+      "sqlstate": "P0001",
+      "constraint": "userfix_other_unique",
+      "actualFailureStatus": 500,
+      "actualRetryStatus": 201,
+      "hookHitCount": 1,
+      "businessAndManagedWritesRolledBack": true,
+      "separatePriorRawTouchCount": 1
+    },
+    {
+      "stage": "faults",
+      "case": 2,
+      "target": "platform_user",
+      "sqlstate": "23505",
+      "constraint": "userfix_other_unique",
+      "actualFailureStatus": 500,
+      "actualRetryStatus": 201,
+      "hookHitCount": 1,
+      "businessAndManagedWritesRolledBack": true,
+      "separatePriorRawTouchCount": 0
+    },
+    {
+      "stage": "faults",
+      "case": 3,
+      "target": "user_role_assignment",
+      "sqlstate": "P0001",
+      "constraint": "userfix_other_unique",
+      "actualFailureStatus": 500,
+      "actualRetryStatus": 201,
+      "hookHitCount": 1,
+      "businessAndManagedWritesRolledBack": true,
+      "separatePriorRawTouchCount": 0
+    },
+    {
+      "stage": "faults",
+      "case": 4,
+      "target": "user_role_assignment",
+      "sqlstate": "23505",
+      "constraint": "userfix_other_unique",
+      "actualFailureStatus": 500,
+      "actualRetryStatus": 201,
+      "hookHitCount": 1,
+      "businessAndManagedWritesRolledBack": true,
+      "separatePriorRawTouchCount": 0
+    },
+    {
+      "stage": "faults",
+      "case": 5,
+      "target": "user_org_membership",
+      "sqlstate": "P0001",
+      "constraint": "userfix_other_unique",
+      "actualFailureStatus": 500,
+      "actualRetryStatus": 201,
+      "hookHitCount": 1,
+      "businessAndManagedWritesRolledBack": true,
+      "separatePriorRawTouchCount": 0
+    },
+    {
+      "stage": "faults",
+      "case": 6,
+      "target": "user_org_membership",
+      "sqlstate": "23505",
+      "constraint": "userfix_other_unique",
+      "actualFailureStatus": 500,
+      "actualRetryStatus": 201,
+      "hookHitCount": 1,
+      "businessAndManagedWritesRolledBack": true,
+      "separatePriorRawTouchCount": 0
+    },
+    {
+      "stage": "faults",
+      "case": 7,
+      "target": "audit_log",
+      "sqlstate": "P0001",
+      "constraint": "userfix_other_unique",
+      "actualFailureStatus": 500,
+      "actualRetryStatus": 201,
+      "hookHitCount": 1,
+      "businessAndManagedWritesRolledBack": true,
+      "separatePriorRawTouchCount": 0
+    },
+    {
+      "stage": "faults",
+      "case": 8,
+      "target": "audit_log",
+      "sqlstate": "23505",
+      "constraint": "userfix_other_unique",
+      "actualFailureStatus": 500,
+      "actualRetryStatus": 201,
+      "hookHitCount": 1,
+      "businessAndManagedWritesRolledBack": true,
+      "separatePriorRawTouchCount": 0
+    },
+    {
+      "stage": "faults",
+      "case": 9,
+      "target": "audit_log",
+      "sqlstate": "23505",
+      "constraint": "platform_user_username_unique",
+      "actualFailureStatus": 500,
+      "actualRetryStatus": 201,
+      "hookHitCount": 1,
+      "businessAndManagedWritesRolledBack": true,
+      "separatePriorRawTouchCount": 0
+    },
+    {
+      "stage": "pending",
+      "case": 1,
+      "target": "auth_session",
+      "sqlstate": "P0001",
+      "constraint": "userfix_other_unique",
+      "actualFailureStatus": 500,
+      "actualRetryStatus": 201,
+      "hookHitCount": 1,
+      "businessAndManagedWritesRolledBack": true,
+      "separatePriorRawTouchCount": 1
+    },
+    {
+      "stage": "pending",
+      "case": 2,
+      "target": "auth_session",
+      "sqlstate": "23505",
+      "constraint": "userfix_other_unique",
+      "actualFailureStatus": 500,
+      "actualRetryStatus": 201,
+      "hookHitCount": 1,
+      "businessAndManagedWritesRolledBack": true,
+      "separatePriorRawTouchCount": 1
+    }
+  ],
+  "raceResults": [
+    {
+      "kind": "role",
+      "order": "deactivate-first",
+      "actualCreateStatus": 409,
+      "actualDeactivateStatus": 200,
+      "actualDirectBlockerObserved": true
+    },
+    {
+      "kind": "role",
+      "order": "create-first",
+      "actualCreateStatus": 201,
+      "actualDeactivateStatus": 200,
+      "actualDirectBlockerObserved": true
+    },
+    {
+      "kind": "org",
+      "order": "deactivate-first",
+      "actualCreateStatus": 409,
+      "actualDeactivateStatus": 200,
+      "actualDirectBlockerObserved": true
+    },
+    {
+      "kind": "org",
+      "order": "create-first",
+      "actualCreateStatus": 201,
+      "actualDeactivateStatus": 200,
+      "actualDirectBlockerObserved": true
+    }
+  ],
+  "cleanupPlan": {
+    "rawBytesSha256": "69c50b931b2dd3f0a3f959b7e186710087356d52653cc476bdfc41e82bc6a3ee",
+    "exactAddedRows": 121,
+    "restoreRows": 0,
+    "noUnownedOrOriginalRowChanges": true,
+    "actualRowFKEdges": 108,
+    "sessionLoginCookieHashesBoundWithoutPublishingValues": true
+  },
+  "noops": [
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/userfix/userfix115/run01/snapshot-00130-cleanup-apply01-postcommit-noop-1.json",
+      "rawBytesSha256": "c06887b4d630abfe0f5793b57e4da7da75321fd600a8e355df1227e6bd5096e6",
+      "all240TablesAndOriginalRowsMatch": true,
+      "normativeCatalogACLTriggersFunctionsSequencesMatch": true
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/userfix/userfix115/run01/snapshot-00130-cleanup-apply01-postcommit-noop-2.json",
+      "rawBytesSha256": "367b959c736d1fabc98acea0dbfa591c8d94cd6a50b0cead5658a808f2831362",
+      "all240TablesAndOriginalRowsMatch": true,
+      "normativeCatalogACLTriggersFunctionsSequencesMatch": true
+    }
+  ],
+  "helperChecks": [
+    {
+      "label": "00012-smoke02",
+      "productPins": 9,
+      "helperPins": 14,
+      "productMatches": true,
+      "helperMismatches": []
+    },
+    {
+      "label": "00063-faults01",
+      "productPins": 9,
+      "helperPins": 14,
+      "productMatches": true,
+      "helperMismatches": []
+    },
+    {
+      "label": "00093-pending01",
+      "productPins": 9,
+      "helperPins": 14,
+      "productMatches": true,
+      "helperMismatches": []
+    },
+    {
+      "label": "00107-races01",
+      "productPins": 9,
+      "helperPins": 14,
+      "productMatches": true,
+      "helperMismatches": []
+    },
+    {
+      "label": "00130-cleanup-apply01",
+      "productPins": 9,
+      "helperPins": 14,
+      "productMatches": true,
+      "helperMismatches": []
+    }
+  ],
+  "originalToolFailuresRetained": true,
+  "rawAuthenticationTouchRollbackClaimed": false,
+  "businessOrSecretPayloadPublished": false,
+  "databaseConnectionsOpened": 0,
+  "productModified": false,
+  "finalG3Signed": false
+}

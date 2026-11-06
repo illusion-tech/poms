@@ -1,0 +1,42 @@
+{
+  "kind": "independent-user-fix-corrected-source-pre-G3-review",
+  "issue": 115,
+  "decision": "No remaining finding in reviewed source; final G3 pending actual evidence",
+  "capturedAt": "2026-11-05T23:41:05.328Z",
+  "reviewedBaseCommit": "21e9124160f92dce38a5029786273fdb893759f0",
+  "sourceCapture": "tools/rust-r4ghi/independent/pre-g3-user-fix02/source-inputs.json",
+  "productDiffRawBytesSha256": "3dcc77792af91fa540bc45c159664791fd1f92827dc2fa1c4b3ccae7dabd80ad",
+  "reviewedSources": [
+    { "file": "apps/poms-api-rust/src/users/service.rs", "bytes": 43367, "rawBytesSha256": "8824ec1de378c413dffc1a9f0912c3c78c923502ebbed171e591ba8d405fd7a2" },
+    { "file": "apps/poms-api-rust/src/users/store.rs", "bytes": 15590, "rawBytesSha256": "ac2e865088707b9d3375f3c01051301d443ed245905946d3aac5ac6646f5cde6" },
+    { "file": "apps/poms-api-rust/tests/users_database.rs", "bytes": 57499, "rawBytesSha256": "e719fe09be061be93fa1c644e8e71deb5f8ba9502ddf447b3487325be3b83452" }
+  ],
+  "resolvedFinding": {
+    "id": "UF-PRE-G3-01",
+    "priorReview": "tools/rust-r4ghi/independent/pre-g3-user-fix01/source-review.json",
+    "status": "Corrected in captured source; actual regression pending",
+    "evidence": "users/service.rs:494-505 identifies SQLSTATE 23505 and constraint platform_user_username_unique only around store::insert for platform_user. UsernameConflict rolls the transaction back and is translated to username 409. The broad outer-transaction mapping was removed.",
+    "actualVerificationStillRequired": "Username barrier contention yields one commit and one 409; injected non-username association/audit/session 23505 yields 500 and whole-transaction rollback, then clean retry succeeds."
+  },
+  "remainingFindings": [],
+  "staticAlignment": {
+    "typedUUIDDuplicatesRejected": true,
+    "deterministicReferenceShareLocksAndActiveChecksInsideTransaction": true,
+    "materializedUUIDUsedByRealAssociations": true,
+    "responseAuditAndPendingSessionBeforeSameCommit": true,
+    "otherCommandsOutsideRepairScope": true,
+    "historicalTestUpdatedAndStillExplicitlyGuardedIgnored": true
+  },
+  "requiredBeforeFinalG3": [
+    "Exact final-source/mirror/binary binding and complete fmt/clippy/build/relevant regression results; this snapshot is not assumed to match a later formatted candidate without byte comparison.",
+    "Real HTTP/PG success, validation and auth/CSRF/permission denials; exact generated UUID relationships, detail and audit facts; due/non-due cases.",
+    "Every necessary write failure including audit, association and session unique errors/CAS, exact rollback and clean retry; controlled username and reference-deactivation races.",
+    "Original UI flow and unaffected-user-command regression evidence, followed by independent fixed-commit/main/G4 verification."
+  ],
+  "G3Certified": false,
+  "G4Certified": false,
+  "GHI_G1Certified": false,
+  "runtimeAcceptanceExecutedByReviewer": false,
+  "productModifiedByReviewer": false,
+  "credentialsReadByReviewer": false
+}
