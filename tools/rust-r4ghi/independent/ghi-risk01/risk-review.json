@@ -1,0 +1,141 @@
+{
+  "kind": "independent-GHI-candidate-future-G3-risk-review",
+  "decision": "Pending business decisions and joint G1 freeze",
+  "G1Certified": false,
+  "G2Authorized": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "issues": { "batch": 110, "G": 111, "H": 112, "I": 113, "acceptance": 114, "independentUserFix": 115 },
+  "existingCandidateOperationCount": { "G": 9, "H": 8, "I": 8, "total": 25 },
+  "inputCapture": "tools/rust-r4ghi/independent/ghi-risk01/input-capture.json",
+  "sourcePinObservation": {
+    "G": { "total": 69, "currentRawMatches": 69 },
+    "H": { "total": 54, "currentRawMatches": 52 },
+    "I": { "total": 64, "currentRawMatches": 64 },
+    "uniqueSourceUnion": 140,
+    "overlappingHashVariants": [
+      "docs/design/rust-r4-scope-and-dependencies.md",
+      "docs/design/backend-rust-migration-plan.md"
+    ],
+    "assessment": "H captured the original main versions of these two governance documents; both expected hashes exactly match aaa4b16a Git blobs. G/I captured later governance revisions. This is an input revision difference, not observed product drift; a final active joint source manifest must resolve the selected revisions while preserving candidate originals. No candidate manifest is accepted as the final G1 input by this review."
+  },
+  "pendingUserBusinessDecisions": [
+    "Whether to include the minimum four existing R5 role-assignment operations, two new controlled stage commands, and the necessary stage-entry bridge/tightened creation policy.",
+    "Whether receiptAmount is gross cash and which immutable same-contract net/tax/currency basis and legacy-correction boundary applies.",
+    "Whether and where users explicitly include/exclude actual costs, with traceable eligibility/source-chain evidence."
+  ],
+  "independentlyRecheckedSourcePoints": [
+    {
+      "subject": "Gross margin drift",
+      "sources": ["apps/poms-api/src/app/features/project-cost/project-cost.service.ts:2364-2378", "docs/design/phase2-project-unified-accounting-view-caliber.md:193-209"],
+      "observation": "Node currently subtracts included cost from contract total and divides by contract total. Formal design uses confirmed receipt net less included actual-cost net, with confirmed receipt net as denominator. Existing Node expectations cannot certify the corrected formula."
+    },
+    {
+      "subject": "Seeded producer outputs",
+      "sources": ["apps/poms-api/src/seeders/database.seeder.ts:1934", "apps/poms-api/src/seeders/database.seeder.ts:1967", "apps/poms-api/src/seeders/database.seeder.ts:2014"],
+      "observation": "Seeder directly inserts DMER, OSER and gate binding. Reads/reviews against those seed IDs do not establish the real G-to-H producer chain. This review did not independently repeat the authors' exhaustive negative producer searches."
+    },
+    {
+      "subject": "Handover and stage bypass",
+      "sources": ["apps/poms-api-rust/src/project_handover/view.rs:258", "apps/poms-api-rust/src/projects/service.rs:148-161"],
+      "observation": "Current confirmed handover view explicitly denies execution admission pending a same-chain R5 freeze. Project creation currently persists supplied currentStage, defaulting to assessment. Advanced-stage fixture creation cannot establish the missing controlled business chain. Policy tightening and additional commands remain proposals until frozen."
+    },
+    {
+      "subject": "Project action versus stage-specific gates",
+      "sources": ["docs/design/phase2-business-accounting-feedback-rules.md:266-310", "docs/design/phase2-project-unified-accounting-view-caliber.md:270-272"],
+      "observation": "Project currentActionLevel has the L2 severity floor. Four stage gates use their own signal matrix and highest-severity aggregation, including parallel reasons; project action is not a substitute. Exact standalone-L2-to-stage behavior must be frozen rather than inferred from the project floor."
+    }
+  ],
+  "requiredCandidateCorrectionsBeforeFinalG1": [
+    {
+      "id": "GHI-C01",
+      "files": ["tools/rust-r4ghi/G/g1/audit01.json", "tools/rust-r4ghi/G/g1/audit01.md"],
+      "finding": "userDecisionIssue=115, pending-user-decision-115 and multiple #115 business-decision references incorrectly identify the independent user-create fix as the GHI decision carrier.",
+      "minimumCorrection": "Use the actual Root/user decision reference or explicit pending decision identifiers; keep #115 solely the independent user-create fix. Preserve the original candidate when appending a corrected candidate."
+    },
+    {
+      "id": "GHI-C02",
+      "finding": "Source captures overlap with different revisions of two governance files; G/H also express the shared evaluation signature with different names and return labels.",
+      "minimumCorrection": "Publish one active joint input set and exact shared signature/owner/session contract after business decisions. Do not silently rewrite historical candidates or accept the three independent source lists as one coherent final freeze."
+    }
+  ],
+  "futureG3Risks": [
+    {
+      "id": "GHI-R01",
+      "area": "Canonical scope and operation accounting",
+      "requiredFreeze": "Separate original R4 25 operations, four proposed existing R5 operations, two proposed new stage routes, and internal mechanisms; register new canonical rows before shared route/DTO edits.",
+      "acceptanceTrigger": "AST/spec/canonical/adapter agree exactly; new operations and altered R4 totals are counted explicitly, without crediting #115 as an R4 operation."
+    },
+    {
+      "id": "GHI-R02",
+      "area": "Receipt accounting basis",
+      "requiredFreeze": "Gross meaning, applicable snapshot time, exact currency, per-receipt rounding/residual policy, immutable payload/hash and explicit handling of legacy confirmed receipts.",
+      "acceptanceTrigger": "Actual receipt confirmation writes status and basis in one outer transaction; gross=net+tax exactly at cent boundaries, amendments do not reinterpret old receipts, cross-contract/project/currency references reject. Unknown basis stays unknown."
+    },
+    {
+      "id": "GHI-R03",
+      "area": "Explicit actual-cost inclusion and no duplicate source chain",
+      "requiredFreeze": "Eligible source, main accumulation node, include/exclude reason, known net layer, F allocation result-level membership and replacements/restatements.",
+      "acceptanceTrigger": "Actual source commands create qualifying facts; procurement/payment/invoice are not summed as three costs; project shares consume exact frozen allocation outputs; simultaneous A/B inclusion and replacement conserve the batch without consuming the whole source for one project."
+    },
+    {
+      "id": "GHI-R04",
+      "area": "Project baseline and immutable history",
+      "requiredFreeze": "Project estimate adopted once across contracts; exact approved package selection and real change deltas; period business window/timezone/cutoff and snapshot pairing; restatement lineage.",
+      "acceptanceTrigger": "Multi-contract estimate does not multiply; conflicting packages reject; original period remains immutable; restatement stays within the same project/period root and records exact source changes. Known zero and missing evidence produce distinct states."
+    },
+    {
+      "id": "GHI-R05",
+      "area": "G-to-H producer transaction",
+      "requiredFreeze": "One G source collector and versioned H rules; exact CommonSession/Actor interface; same-project snapshot/version/sourceHash; current and idempotency semantics.",
+      "acceptanceTrigger": "Real G snapshot causes DMER/OSER/four bindings and same-chain summary production; every new write, old-current switch, audit/security event/auth flush fault rolls the whole transaction back. No fixture evaluations or second pool/transaction certify the producer."
+    },
+    {
+      "id": "GHI-R06",
+      "area": "Business rules and review authority",
+      "requiredFreeze": "Known/unknown and necessary facts, qualitative materiality policy/version, normal state, project action and four gate matrix, L2-stage lower bounds, ordinary review and approved exceptions.",
+      "acceptanceTrigger": "Independent numeric examples and all formal boundary signals preserve highest severity plus parallel reasons; no client-supplied result becomes authority; 20%/-100%/100% boundaries and immature negative profit are interpreted under the frozen rules; review cannot silently remove source blockers."
+    },
+    {
+      "id": "GHI-R07",
+      "area": "Real R5 minimum and stage-entry chain",
+      "requiredFreeze": "Accepted scope of D-to-handover bridge, role assignment/freeze, startExecution/startAcceptance and initial-stage tightening; legacy admission behavior and public DTOs.",
+      "acceptanceTrigger": "Real pre-signing/contract/receivable/handover self-confirmations lead to same-chain frozen roles, then explicit execution and acceptance. No direct stage edits or advanced-stage creation substitutes for the chain. H advice does not wait for future payout and does not automatically become I's closure permission."
+    },
+    {
+      "id": "GHI-R08",
+      "area": "Role freeze provenance and immutable weights",
+      "requiredFreeze": "Role categories, exact weight precision/zero policy/responsibility, own freeze-summary meaning, current-draft replacement policy and controlled frozen changes.",
+      "acceptanceTrigger": "Active participants, exact weight invariant and same-chain handover/receipt/basis snapshots are checked under project locks; current frozen cannot be demoted through create; freeze/rebaseline/startExecution races reject stale sides and leave no orphan summary. Handover duty compatibility is not inferred as commission-weight policy."
+    },
+    {
+      "id": "GHI-R09",
+      "area": "Acceptance, completion and archive facts",
+      "requiredFreeze": "Current accepted/conditional contract versus any proposed tightening; real acceptance-entered provenance; terminal archive anchors; whether fresh closed/terminated paths are actually in #114 scope.",
+      "acceptanceTrigger": "Completion and project transition commit atomically; archive create/replace/void preserves one recorded current and history under CAS/partial unique; void permits new create. Legacy terminal reads do not certify a newly produced closed chain. Archive remains a terminal milestone, not a ninth stage or proof of settlement."
+    },
+    {
+      "id": "GHI-R10",
+      "area": "Sensitive outputs and source taint",
+      "requiredFreeze": "Operating-finance and labor sensitive permissions, group intersections, containsLabor/unknown lineage, read/write projections and required security events.",
+      "acceptanceTrigger": "Permission combinations cover raw DTOs, DOM/network/tooltip/errors, summary/audit/free text and reversible differences; finance-manage or administrator alone grants no missing sensitive permission; security-event failure returns no raw fallback."
+    },
+    {
+      "id": "GHI-R11",
+      "area": "Real UI, fixed candidate and closeout evidence",
+      "requiredFreeze": "Actual author forms plus meaningful permissions/conflict/unknown states, independent run evidence, exact tested product/binary/source provenance and cleanup/archive/online closeout ownership.",
+      "acceptanceTrigger": "Actual upstream-to-G/H/I HTTP/PG/UI chain runs on the final candidate with write-fault and barrier concurrency evidence. Partial/not-run/ignored/Node-reference/unknown-commit outcomes retain their labels. Fixed commit/main and G4 match measured inputs; only delivered children close, and full #101 completion requires its full stage evidence while #57 remains open."
+    }
+  ],
+  "independenceAndLimits": {
+    "productEdits": false,
+    "gitMutations": false,
+    "githubMutations": false,
+    "credentialsRead": false,
+    "databaseOrApiStarted": false,
+    "actualRuntimeAcceptanceExecuted": false,
+    "fullNegativeProducerSearchRepeated": false,
+    "sourceManifestCheckIsNotProductAcceptance": true,
+    "businessDecisionsAssumed": false
+  }
+}

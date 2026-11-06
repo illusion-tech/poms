@@ -1,0 +1,242 @@
+{
+  "qualification": "independent static checks only; no SQL/HTTP/UI/product acceptance and no G1 Pass",
+  "checks": [
+    {
+      "id": "unique-32-target-operations",
+      "result": "pass",
+      "evidence": 32
+    },
+    {
+      "id": "group-counts",
+      "result": "pass",
+      "evidence": {
+        "G": 9,
+        "H": 8,
+        "I": 11,
+        "R5-min": 4
+      }
+    },
+    {
+      "id": "three-named-new-routes",
+      "result": "pass",
+      "evidence": [
+        {
+          "canonical": "POST /projects/{id}:startExecution",
+          "namedResourceKeys": {
+            "id": "UUID"
+          }
+        },
+        {
+          "canonical": "POST /projects/{id}:startAcceptance",
+          "namedResourceKeys": {
+            "id": "UUID"
+          }
+        },
+        {
+          "canonical": "POST /project-completion-records/{completionRecordId}/conditions/{id}:close",
+          "namedResourceKeys": {
+            "completionRecordId": "UUID",
+            "id": "UUID"
+          }
+        }
+      ]
+    },
+    {
+      "id": "16-modern-write-protocols",
+      "result": "pass",
+      "evidence": 16
+    },
+    {
+      "id": "all-route-resource-keys",
+      "result": "pass",
+      "evidence": "all 32 exact named route keys"
+    },
+    {
+      "id": "19-tables-exact-closure",
+      "result": "pass",
+      "evidence": [
+        "receipt_accounting_basis",
+        "operating_baseline_source",
+        "project_cost_inclusion_decision",
+        "project_cost_inclusion_head",
+        "operating_source_context",
+        "operating_snapshot_cost_member",
+        "operating_source_member",
+        "project_operating_head",
+        "project_stage_record",
+        "commission_role_assignment_participant",
+        "commission_role_assignment_freeze_payload",
+        "project_completion_condition",
+        "project_completion_condition_closure",
+        "project_lifecycle_evidence_ref",
+        "operating_evaluation_evidence",
+        "operating_evaluation_reason",
+        "operating_gate_summary_payload",
+        "operating_command_receipt",
+        "project_ownership_origin"
+      ]
+    },
+    {
+      "id": "all-observed-source-pins",
+      "result": "fail",
+      "evidence": {
+        "total": 142,
+        "mismatches": [
+          {
+            "path": "docs/design/rust-r4ghi-delivery-status.json",
+            "expectedSha256": "06b402ac22e9ede4113b0d1f51d28e497a9e799ff3473617f940740efe934e08",
+            "actualSha256": "5255870d60bf9ed5b0aeb0cc865f54ed2ad8e5574d55964bbfdb8ed7312ade59",
+            "bytes": 1857,
+            "matches": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "frozen-draft-core-pins",
+      "result": "pass",
+      "evidence": []
+    },
+    {
+      "id": "policy-canonical-hash",
+      "result": "pass",
+      "evidence": "7e9cfcedc496bd5d4ffd6fc158371e3db069110798926c63a5156ee4614a1aec"
+    },
+    {
+      "id": "11-policy-matrix-rows",
+      "result": "pass",
+      "evidence": [
+        {
+          "id": "H01",
+          "code": "missing-hard-evidence",
+          "project": "review",
+          "stages": {
+            "first": "prompt",
+            "second": "block",
+            "final": "block",
+            "retention": "block"
+          }
+        },
+        {
+          "id": "H02",
+          "code": "pending-optional-facts",
+          "project": "review",
+          "stages": {
+            "first": "prompt",
+            "second": "review",
+            "final": "review",
+            "retention": "review"
+          }
+        },
+        {
+          "id": "H03",
+          "code": "low-receipt-ratio",
+          "project": "prompt",
+          "stages": {
+            "first": "prompt",
+            "second": "prompt",
+            "final": "prompt",
+            "retention": "prompt"
+          }
+        },
+        {
+          "id": "H04",
+          "code": "risk-attention",
+          "project": "review",
+          "stages": {
+            "first": "prompt",
+            "second": "review",
+            "final": "review",
+            "retention": "review"
+          }
+        },
+        {
+          "id": "H05",
+          "code": "risk-confirmed",
+          "project": "block",
+          "stages": {
+            "first": "review",
+            "second": "block",
+            "final": "block",
+            "retention": "block"
+          }
+        },
+        {
+          "id": "H06",
+          "code": "restatement-pending",
+          "project": "review",
+          "stages": {
+            "first": "review",
+            "second": "block",
+            "final": "block",
+            "retention": "block"
+          }
+        },
+        {
+          "id": "H07",
+          "code": "extreme-ratio",
+          "project": "review",
+          "stages": {
+            "first": "review",
+            "second": "review",
+            "final": "block",
+            "retention": "block"
+          }
+        },
+        {
+          "id": "H08",
+          "code": "qualitative-materiality-unassessed",
+          "project": "review",
+          "stages": {
+            "first": "review",
+            "second": "review",
+            "final": "review",
+            "retention": "review"
+          }
+        },
+        {
+          "id": "H09",
+          "code": "authoritative-cost-block",
+          "project": "block",
+          "stages": {
+            "first": "review",
+            "second": "block",
+            "final": "block",
+            "retention": "block"
+          }
+        },
+        {
+          "id": "H10",
+          "code": "authoritative-cost-review",
+          "project": "review",
+          "stages": {
+            "first": "prompt",
+            "second": "review",
+            "final": "review",
+            "retention": "review"
+          }
+        },
+        {
+          "id": "H11",
+          "code": "normal-complete",
+          "project": "prompt",
+          "stages": {
+            "first": "prompt",
+            "second": "prompt",
+            "final": "prompt",
+            "retention": "prompt"
+          }
+        }
+      ]
+    },
+    {
+      "id": "native-reference-recursive-closure",
+      "result": "pass",
+      "evidence": {
+        "schemas": 95,
+        "refs": 130,
+        "missing": []
+      }
+    }
+  ]
+}

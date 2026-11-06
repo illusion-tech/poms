@@ -1,0 +1,146 @@
+{
+  "kind": "capacity-exact-integer-fixtures",
+  "productionAcceptanceRun": false,
+  "cases": [
+    {
+      "id": "maximum-single-source-no-tax",
+      "inputs": {
+        "receiptNetCents": "999999999999999999",
+        "receiptGrossCents": "999999999999999999",
+        "taxCents": "0",
+        "includedCostNetCents": "0"
+      },
+      "expect": {
+        "admission": "accept-range",
+        "marginCents": "999999999999999999",
+        "marginAmount": "9999999999999999.99",
+        "ratio6": "1.000000"
+      }
+    },
+    {
+      "id": "maximum-gross-frozen-13percent-basis",
+      "inputs": {
+        "grossCents": "999999999999999999",
+        "taxRate4": "1300"
+      },
+      "expect": {
+        "admission": "accept-range",
+        "netCents": "884955752212389380",
+        "taxCents": "115044247787610619",
+        "grossAmount": "9999999999999999.99",
+        "netAmount": "8849557522123893.80",
+        "taxAmount": "1150442477876106.19"
+      }
+    },
+    {
+      "id": "maximum-receipt-and-cost-known-zero-margin",
+      "inputs": {
+        "receiptNetCents": "999999999999999999",
+        "includedCostNetCents": "999999999999999999"
+      },
+      "expect": {
+        "admission": "accept-range",
+        "marginCents": "0",
+        "marginAmount": "0.00",
+        "marginKnowledge": "known",
+        "ratio6": "0.000000"
+      }
+    },
+    {
+      "id": "one-cent-receipt-maximum-cost-negative-margin",
+      "inputs": {
+        "receiptNetCents": "1",
+        "includedCostNetCents": "999999999999999999"
+      },
+      "expect": {
+        "admission": "accept-range",
+        "marginCents": "-999999999999999998",
+        "marginAmount": "-9999999999999999.98",
+        "ratio6": "-999999999999999998.000000",
+        "signal": "H policy still decides low-receipt observation/manual review; no automatic risk solely from large displayed negative ratio"
+      }
+    },
+    {
+      "id": "zero-denominator-known-negative-money",
+      "inputs": {
+        "receiptNetCents": "0",
+        "includedCostNetCents": "999999999999999999"
+      },
+      "expect": {
+        "arithmeticAdmission": "accept-range",
+        "formalPublication": "depends on genuine receipt/scope evidence under existing eligibility; this is not a fabricated no-receipt producer",
+        "marginCents": "-999999999999999999",
+        "marginAmount": "-9999999999999999.99",
+        "ratio6": null,
+        "ratioReason": "zero-denominator"
+      }
+    },
+    {
+      "id": "one-cent-over-aggregate",
+      "inputs": {
+        "sameCategorySourceCents": [
+          "999999999999999999",
+          "1"
+        ]
+      },
+      "expect": {
+        "aggregateCents": "1000000000000000000",
+        "aggregateAmount": "10000000000000000.00",
+        "httpStatus": 422,
+        "code": "operating_money_capacity_exceeded",
+        "committedDomainAndEvidenceChanges": 0
+      }
+    },
+    {
+      "id": "two-maxima-same-category-overflow",
+      "inputs": {
+        "sameCategorySourceCents": [
+          "999999999999999999",
+          "999999999999999999"
+        ]
+      },
+      "expect": {
+        "aggregateCents": "1999999999999999998",
+        "httpStatus": 422,
+        "code": "operating_money_capacity_exceeded",
+        "committedDomainAndEvidenceChanges": 0
+      }
+    },
+    {
+      "id": "historical-significant-third-decimal",
+      "inputs": {
+        "historicalMoney": "1.2340"
+      },
+      "expect": {
+        "httpStatus": 422,
+        "code": "operating_money_precision_unsupported",
+        "historicalMoneyUnchanged": "1.2340"
+      }
+    },
+    {
+      "id": "historical-insignificant-storage-zeros",
+      "inputs": {
+        "historicalMoney": "1.2300"
+      },
+      "expect": {
+        "admission": "accept-exact-cents",
+        "cents": "123",
+        "canonicalV1Amount": "1.23",
+        "historicalMoneyUnchanged": "1.2300"
+      }
+    },
+    {
+      "id": "unknown-pending-tax-is-not-zero",
+      "inputs": {
+        "knowledge": "unknown",
+        "value": null
+      },
+      "expect": {
+        "moneyCents": null,
+        "persistedPendingAmount": null,
+        "knowledge": "unknown",
+        "rangeDoesNotInventZero": true
+      }
+    }
+  ]
+}

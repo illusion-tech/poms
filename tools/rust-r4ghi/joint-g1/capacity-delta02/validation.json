@@ -1,0 +1,260 @@
+{
+  "kind": "capacity-delta-read-only-verification",
+  "status": "PASS",
+  "G1Certified": false,
+  "G2Authorized": false,
+  "SQLExecuted": false,
+  "productRuntimeRun": false,
+  "checks": [
+    {
+      "check": "exact-common-18-2-limit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "all20-existing-money-columns-audited",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "all-actual-DDL-and-ORM-18-2",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "full94-migration-history-searched",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no-later-type-narrowing",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "all8-new-money-fields-18-2",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "actual18-4-only-quantity-unit-price",
+      "passed": true,
+      "detail": [
+        {
+          "migration": "apps/poms-api/src/migrations/Migration20260424170000_ex26_project_technical_cost_package.ts",
+          "column": "quantity",
+          "excerpt": "\"quantity\" numeric(18,4)"
+        },
+        {
+          "migration": "apps/poms-api/src/migrations/Migration20260424170000_ex26_project_technical_cost_package.ts",
+          "column": "unit_price",
+          "excerpt": "\"unit_price\" numeric(18,4)"
+        }
+      ]
+    },
+    {
+      "check": "zero-capacity-SQL-ORM-changes",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "gross-margin-rate38-6-decision-preserved",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "typed422-capacity-and-precision",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no-live-database-or-product-claim",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "sources.json-exact-byte-pins",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "check": "preserved-v1.json-exact-byte-pins",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "check": "artifacts.json-exact-byte-pins",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "check": "matches-current-E-source-MONEY_MAX",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "operating_baseline_package.original_baseline_cost-exact-DDL-ORM-lines",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "operating_baseline_package.change_package_total-exact-DDL-ORM-lines",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "operating_baseline_package.current_effective_baseline_cost-exact-DDL-ORM-lines",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "change_package_baseline.change_amount-exact-DDL-ORM-lines",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "project_operating_snapshot.effective_contract_total-exact-DDL-ORM-lines",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "project_operating_snapshot.receivable_confirmed_total-exact-DDL-ORM-lines",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "project_operating_snapshot.included_cost_total-exact-DDL-ORM-lines",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "project_operating_snapshot.original_baseline_cost-exact-DDL-ORM-lines",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "project_operating_snapshot.current_effective_baseline_cost-exact-DDL-ORM-lines",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "project_operating_snapshot.gross_margin_amount-exact-DDL-ORM-lines",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "project_operating_snapshot.tax_impact_pending_amount-exact-DDL-ORM-lines",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "period_closing_snapshot.effective_contract_total-exact-DDL-ORM-lines",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "period_closing_snapshot.receivable_confirmed_total-exact-DDL-ORM-lines",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "period_closing_snapshot.included_cost_total-exact-DDL-ORM-lines",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "period_closing_snapshot.original_baseline_cost-exact-DDL-ORM-lines",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "period_closing_snapshot.current_effective_baseline_cost-exact-DDL-ORM-lines",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "period_closing_snapshot.gross_margin_amount-exact-DDL-ORM-lines",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "period_closing_snapshot.tax_impact_pending_amount-exact-DDL-ORM-lines",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "data_maturity_evaluation_result.tax_impact_pending_amount-exact-DDL-ORM-lines",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "operating_signal_gate_binding.tax_impact_pending_amount-exact-DDL-ORM-lines",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "pure-exact-integer-fixture:maximum-single-source-no-tax",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "pure-exact-integer-fixture:maximum-gross-frozen-13percent-basis",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "pure-exact-integer-fixture:maximum-receipt-and-cost-known-zero-margin",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "pure-exact-integer-fixture:one-cent-receipt-maximum-cost-negative-margin",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "pure-exact-integer-fixture:zero-denominator-known-negative-money",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "pure-exact-integer-fixture:one-cent-over-aggregate",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "pure-exact-integer-fixture:two-maxima-same-category-overflow",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "pure-exact-integer-fixture:historical-significant-third-decimal",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "pure-exact-integer-fixture:historical-insignificant-storage-zeros",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "pure-exact-integer-fixture:unknown-pending-tax-is-not-zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "capacity-migration-delta-has-no-executable-DDL",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "errors": [],
+  "observed": {
+    "existingMonetaryColumns": 20,
+    "newV1MonetaryFields": 8,
+    "sourceMigrationFiles": 94,
+    "capacitySQLAlters": 0,
+    "capacityORMChanges": 0
+  },
+  "limits": "Static byte/DDL/ORM checks and independent exact integer arithmetic only. Real source-producing HTTP, transaction rollback, database, security and UI acceptance not run."
+}

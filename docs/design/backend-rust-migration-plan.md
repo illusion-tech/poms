@@ -624,7 +624,7 @@ D#107/E#108/F#109及本批#106已按[独立关闭许可](archive/slices/rust-r4d
 
 已按用户授权建立 [本批 #110](https://github.com/illusion-tech/poms/issues/110) → G#111/H#112/I#113/阶段验收#114；[用户创建关联补缺 #115](https://github.com/illusion-tech/poms/issues/115) 为 #57 独立子项。G9/H8/I8共25既有入口及内部机制正在审计，角色冻结最小依赖、受控阶段推进、回款净税依据、成本纳入口径尚待联合冻结。当前 `G1Pending`、本批产品实现未准入，正式Rust240、R4累计67/92、余25。
 
-[#115 基线](rust-r4ghi-user-create-fix-baseline.md)仅冻结用户创建必要写同事务及真实关联修复，可独立推进；不计入R4新入口。三作者显式gpt-6.1-sol/max，Fast未核实；Root独占公共契约/迁移/路由/生成物/Git及统一环境。完整阶段验收及独立G3/G4通过后才可收口#101，#57保持Open。
+[#115 基线](archive/slices/rust-r2-user-create-fix115/baseline.md.bin)仅冻结用户创建必要写同事务及真实关联修复，可独立推进；不计入R4新入口。三作者显式gpt-6.1-sol/max，Fast未核实；Root独占公共契约/迁移/路由/生成物/Git及统一环境。完整阶段验收及独立G3/G4通过后才可收口#101，#57保持Open。
 
 [当前状态](rust-r4ghi-delivery-status.json)与[实际G0读回](rust-r4ghi/g0-registration01.json)保留真实Gate；历史已归档交付不重写。
 
@@ -637,3 +637,15 @@ D#107/E#108/F#109及本批#106已按[独立关闭许可](archive/slices/rust-r4d
 
 
 2026-11-06：#115独立实际G4已通过并线上Closed/completed；[证书与原件](archive/slices/rust-r2-user-create-fix115/README.md)已保全。仅既有用户创建修复完成，新增HTTP为0，正式Rust仍240；R4 GHI及最小R5本批32仍在联合G1准备，#101/#57/#110/#116/#117保持Open。
+
+<!-- poms-r4ghi-next32-input -->
+
+### 2026-11-06 R4 GHI 与最小 R5 的 32 项联合输入
+
+按六项用户裁决形成 [联合基线](rust-r4ghi-next32-baseline.md)：G9、H8、I11、最小角色4，共32项；其中29既有、3新增。新canonical已在 authoritative inventory 6.25 登记，R4规划总数95、本批剩余28；正式交付仍67、Rust仍240，272仅为验收后的目标。联合G1独立复核及线上冻结尚待完成，当前不准入G2。
+
+回款含税额须有可追溯净税依据；成本显式分类由服务端核算；零分成角色须说明原因；最终验收与有条件完工须真实闭环。创建人仅有可证、未消费的首次个人主责指派权，此后按真实责任链授权。首轮独审的两项P1/一项P2保留失败记录，有效v2及正式字节manifest另行复核。
+
+三业务作者从同一冻结输入独立工作，Root统一共享契约、迁移/实体、真实producer支撑、接线、生成物与环境。完整R4阶段验收及独立G3/G4通过后才可关闭#101；本批只能在各自通过后关闭#111/#112/#113/#117/#114/#110，完整R5父#116和总体#57保持Open。#115已独立G4并Closed，不重复计本批新增。
+
+<!-- /poms-r4ghi-next32-input -->

@@ -3,7 +3,7 @@
 > 2026-11-03：R4首批迁移37个既有canonical入口，不新增/删除method/path。A03/A07的contractId query、合同准备/计划/审批绑定及金额语义改变已纳 [联合基线](archive/slices/rust-r4abc-first37-baseline.md) 和 `rust-r4abc/dto-freeze01.json`，G1冻结后才准入DTO/controller/client。authoritative行本身保持aligned。
 
 **文档状态**: Active
-**最后更新**: 2026-11-05
+**最后更新**: 2026-11-06
 **适用范围**: `POMS` API 路由 canonical grammar 落地、drift 盘点与批量整改执行底表
 **关联文档**:
 
@@ -558,6 +558,16 @@ RUST-R4D 两项 route surface 已完成真实实现及本批限定验收；本�
 | `runtime-audit` | `listSecurityEvents`               | `GET /security-events`                                               | `GET /security-events`                                               | `GET /security-events`                                               | `ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)             | `N/A`      | R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R2 按该能力契约交付。                                                                                                                                                                     | `B19` | `aligned` |
 | `project-cost`  | `getSharedCostAllocationBasis`     | `GET /shared-cost-allocation-bases/{id}`                             | `GET /shared-cost-allocation-bases/{id}`                             | `GET /shared-cost-allocation-bases/{id}`                             | `ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)             | `N/A`      | R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。                                                                                                                                                                     | `B19` | `aligned` |
 | `project-cost`  | `listSharedCostAllocationResults`  | `GET /shared-cost-allocation-bases/{id}/results`                     | `GET /shared-cost-allocation-bases/{id}/results`                     | `GET /shared-cost-allocation-bases/{id}/results`                     | `ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)             | `N/A`      | R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。                                                                                                                                                                     | `B19` | `aligned` |
+
+### 6.25 RUST-R4I 受控阶段推进与完工条件关闭
+
+本三项依据用户裁决及 [R4 GHI / R5 最小依赖联合基线](rust-r4ghi-next32-baseline.md)登记为 `planned`。路由命名已裁决；联合 G1 独立复核及线上冻结前不得进入 DTO、controller、OpenAPI 或 client 实现。参数采用 named keys，条件关闭同时核对父完工记录与条件所属项目。
+
+| Domain    | Capability                 | Canonical Route                                                               | Current Implemented Route | Current Design Route                                                          | Authority                                                    | Drift Type | Action                                                                | Batch      | Status    |
+| --------- | -------------------------- | ----------------------------------------------------------------------------- | ------------------------- | ----------------------------------------------------------------------------- | ------------------------------------------------------------ | ---------- | --------------------------------------------------------------------- | ---------- | --------- |
+| `project` | `startExecution`           | `POST /projects/{id}:startExecution`                                          | N/A（尚未实现）           | `POST /projects/{id}:startExecution`                                          | `ADR-015` + `rust-r4ghi-next32-baseline.md` §3 / #110 / #113 | `N/A`      | 校验真实移交、本人职责确认及有效角色冻结后，原子记录进入执行          | `RUST-R4I` | `planned` |
+| `project` | `startAcceptance`          | `POST /projects/{id}:startAcceptance`                                         | N/A（尚未实现）           | `POST /projects/{id}:startAcceptance`                                         | `ADR-015` + `rust-r4ghi-next32-baseline.md` §3 / #110 / #113 | `N/A`      | 校验真实执行及交付依据后，原子记录进入验收                            | `RUST-R4I` | `planned` |
+| `project` | `closeCompletionCondition` | `POST /project-completion-records/{completionRecordId}/conditions/{id}:close` | N/A（尚未实现）           | `POST /project-completion-records/{completionRecordId}/conditions/{id}:close` | `ADR-015` + `rust-r4ghi-next32-baseline.md` §3 / #110 / #113 | `N/A`      | 本人提交证据、核父子双 CAS 并追加不可变关闭事实；全体条件由服务端聚合 | `RUST-R4I` | `planned` |
 
 ## 7. 批次推进原则
 

@@ -1,0 +1,963 @@
+{
+  "kind": "joint-G1-capacity-input-delta-not-product",
+  "status": "CAPACITY-CONFIRMED-NO-COLUMN-WIDENING",
+  "sealedV1Preserved": true,
+  "G1Certified": false,
+  "G2Authorized": false,
+  "staticOnly": true,
+  "liveDatabaseTypeVerified": false,
+  "rootDecision": {
+    "source": "Root explicitly corrected its hypothesis in this task after static findings",
+    "finding": "Old formatAmount four-place formatting and EX26 quantity/unit_price numeric(18,4) were incorrectly inferred as operating storage type. No catalog evidence was supplied or fabricated.",
+    "decision": "Use actual migration/ORM source: no aggregate column widening. Preserve sealed v1. V1 known source/aggregate money retains numeric(18,2) semantic range; over-capacity422 before aggregate persistence and atomic rollback. No silent rounding of historical non-cent amounts.",
+    "SQLExecuted": false,
+    "databaseQueried": false,
+    "productChanged": false,
+    "sealedV1Rebuilt": false
+  },
+  "sourceMigrationCount": 94,
+  "columns": [
+    {
+      "table": "operating_baseline_package",
+      "column": "original_baseline_cost",
+      "writer": "G",
+      "ddl": {
+        "precision": 18,
+        "scale": 2,
+        "integerDigits": 16,
+        "migration": "apps/poms-api/src/migrations/Migration20260414100000_ex07a_cost_accumulation_snapshot_model.ts",
+        "line": 148,
+        "excerpt": "\"original_baseline_cost\"         decimal(18,2) not null default 0,",
+        "laterTypeAlterations": []
+      },
+      "orm": {
+        "path": "apps/poms-api/src/app/features/project-cost/operating-baseline-package.entity.ts",
+        "line": 44,
+        "property": "originalBaselineCost",
+        "precision": 18,
+        "scale": 2,
+        "excerpt": "originalBaselineCost: p.decimal().precision(18).scale(2).default(0).fieldName('original_baseline_cost').comment('原始签约基线成本'),"
+      },
+      "capacityAction": "none; keep numeric(18,2) and precision(18).scale(2)",
+      "signed": false,
+      "V1CentsBound": {
+        "minimum": 0,
+        "maximum": 999999999999999999
+      },
+      "otherFrozenV1Change": null
+    },
+    {
+      "table": "operating_baseline_package",
+      "column": "change_package_total",
+      "writer": "G",
+      "ddl": {
+        "precision": 18,
+        "scale": 2,
+        "integerDigits": 16,
+        "migration": "apps/poms-api/src/migrations/Migration20260414100000_ex07a_cost_accumulation_snapshot_model.ts",
+        "line": 149,
+        "excerpt": "\"change_package_total\"           decimal(18,2) not null default 0,",
+        "laterTypeAlterations": []
+      },
+      "orm": {
+        "path": "apps/poms-api/src/app/features/project-cost/operating-baseline-package.entity.ts",
+        "line": 45,
+        "property": "changePackageTotal",
+        "precision": 18,
+        "scale": 2,
+        "excerpt": "changePackageTotal: p.decimal().precision(18).scale(2).default(0).fieldName('change_package_total').comment('已批准变更包累计金额'),"
+      },
+      "capacityAction": "none; keep numeric(18,2) and precision(18).scale(2)",
+      "signed": true,
+      "V1CentsBound": {
+        "minimum": -999999999999999999,
+        "maximum": 999999999999999999
+      },
+      "otherFrozenV1Change": null
+    },
+    {
+      "table": "operating_baseline_package",
+      "column": "current_effective_baseline_cost",
+      "writer": "G",
+      "ddl": {
+        "precision": 18,
+        "scale": 2,
+        "integerDigits": 16,
+        "migration": "apps/poms-api/src/migrations/Migration20260414100000_ex07a_cost_accumulation_snapshot_model.ts",
+        "line": 150,
+        "excerpt": "\"current_effective_baseline_cost\" decimal(18,2) not null default 0,",
+        "laterTypeAlterations": []
+      },
+      "orm": {
+        "path": "apps/poms-api/src/app/features/project-cost/operating-baseline-package.entity.ts",
+        "line": 46,
+        "property": "currentEffectiveBaselineCost",
+        "precision": 18,
+        "scale": 2,
+        "excerpt": "currentEffectiveBaselineCost: p.decimal().precision(18).scale(2).default(0).fieldName('current_effective_baseline_cost').comment('当前有效基线成本 = 原始 + 变更包'),"
+      },
+      "capacityAction": "none; keep numeric(18,2) and precision(18).scale(2)",
+      "signed": false,
+      "V1CentsBound": {
+        "minimum": 0,
+        "maximum": 999999999999999999
+      },
+      "otherFrozenV1Change": null
+    },
+    {
+      "table": "change_package_baseline",
+      "column": "change_amount",
+      "writer": "G",
+      "ddl": {
+        "precision": 18,
+        "scale": 2,
+        "integerDigits": 16,
+        "migration": "apps/poms-api/src/migrations/Migration20260414100000_ex07a_cost_accumulation_snapshot_model.ts",
+        "line": 182,
+        "excerpt": "\"change_amount\"        decimal(18,2) not null default 0,",
+        "laterTypeAlterations": []
+      },
+      "orm": {
+        "path": "apps/poms-api/src/app/features/project-cost/change-package-baseline.entity.ts",
+        "line": 29,
+        "property": "changeAmount",
+        "precision": 18,
+        "scale": 2,
+        "excerpt": "changeAmount: p.decimal().precision(18).scale(2).default(0).fieldName('change_amount').comment('变更金额（正增负减）'),"
+      },
+      "capacityAction": "none; keep numeric(18,2) and precision(18).scale(2)",
+      "signed": true,
+      "V1CentsBound": {
+        "minimum": -999999999999999999,
+        "maximum": 999999999999999999
+      },
+      "otherFrozenV1Change": null
+    },
+    {
+      "table": "project_operating_snapshot",
+      "column": "effective_contract_total",
+      "writer": "G",
+      "ddl": {
+        "precision": 18,
+        "scale": 2,
+        "integerDigits": 16,
+        "migration": "apps/poms-api/src/migrations/Migration20260414100000_ex07a_cost_accumulation_snapshot_model.ts",
+        "line": 210,
+        "excerpt": "\"effective_contract_total\"       decimal(18,2) not null default 0,",
+        "laterTypeAlterations": []
+      },
+      "orm": {
+        "path": "apps/poms-api/src/app/features/project-cost/project-operating-snapshot.entity.ts",
+        "line": 60,
+        "property": "effectiveContractTotal",
+        "precision": 18,
+        "scale": 2,
+        "excerpt": "effectiveContractTotal: p.decimal().precision(18).scale(2).default(0).fieldName('effective_contract_total').comment('当前有效合同总额'),"
+      },
+      "capacityAction": "none; keep numeric(18,2) and precision(18).scale(2)",
+      "signed": false,
+      "V1CentsBound": {
+        "minimum": 0,
+        "maximum": 999999999999999999
+      },
+      "otherFrozenV1Change": null
+    },
+    {
+      "table": "project_operating_snapshot",
+      "column": "receivable_confirmed_total",
+      "writer": "G",
+      "ddl": {
+        "precision": 18,
+        "scale": 2,
+        "integerDigits": 16,
+        "migration": "apps/poms-api/src/migrations/Migration20260414100000_ex07a_cost_accumulation_snapshot_model.ts",
+        "line": 211,
+        "excerpt": "\"receivable_confirmed_total\"     decimal(18,2) not null default 0,",
+        "laterTypeAlterations": []
+      },
+      "orm": {
+        "path": "apps/poms-api/src/app/features/project-cost/project-operating-snapshot.entity.ts",
+        "line": 61,
+        "property": "receivableConfirmedTotal",
+        "precision": 18,
+        "scale": 2,
+        "excerpt": "receivableConfirmedTotal: p.decimal().precision(18).scale(2).default(0).fieldName('receivable_confirmed_total').comment('已确认回款总额'),"
+      },
+      "capacityAction": "none; keep numeric(18,2) and precision(18).scale(2)",
+      "signed": false,
+      "V1CentsBound": {
+        "minimum": 0,
+        "maximum": 999999999999999999
+      },
+      "otherFrozenV1Change": null
+    },
+    {
+      "table": "project_operating_snapshot",
+      "column": "included_cost_total",
+      "writer": "G",
+      "ddl": {
+        "precision": 18,
+        "scale": 2,
+        "integerDigits": 16,
+        "migration": "apps/poms-api/src/migrations/Migration20260414100000_ex07a_cost_accumulation_snapshot_model.ts",
+        "line": 212,
+        "excerpt": "\"included_cost_total\"            decimal(18,2) not null default 0,",
+        "laterTypeAlterations": []
+      },
+      "orm": {
+        "path": "apps/poms-api/src/app/features/project-cost/project-operating-snapshot.entity.ts",
+        "line": 62,
+        "property": "includedCostTotal",
+        "precision": 18,
+        "scale": 2,
+        "excerpt": "includedCostTotal: p.decimal().precision(18).scale(2).default(0).fieldName('included_cost_total').comment('已纳入口径成本总额'),"
+      },
+      "capacityAction": "none; keep numeric(18,2) and precision(18).scale(2)",
+      "signed": false,
+      "V1CentsBound": {
+        "minimum": 0,
+        "maximum": 999999999999999999
+      },
+      "otherFrozenV1Change": null
+    },
+    {
+      "table": "project_operating_snapshot",
+      "column": "original_baseline_cost",
+      "writer": "G",
+      "ddl": {
+        "precision": 18,
+        "scale": 2,
+        "integerDigits": 16,
+        "migration": "apps/poms-api/src/migrations/Migration20260414100000_ex07a_cost_accumulation_snapshot_model.ts",
+        "line": 213,
+        "excerpt": "\"original_baseline_cost\"         decimal(18,2) not null default 0,",
+        "laterTypeAlterations": []
+      },
+      "orm": {
+        "path": "apps/poms-api/src/app/features/project-cost/project-operating-snapshot.entity.ts",
+        "line": 63,
+        "property": "originalBaselineCost",
+        "precision": 18,
+        "scale": 2,
+        "excerpt": "originalBaselineCost: p.decimal().precision(18).scale(2).default(0).fieldName('original_baseline_cost').comment('原始签约基线成本'),"
+      },
+      "capacityAction": "none; keep numeric(18,2) and precision(18).scale(2)",
+      "signed": false,
+      "V1CentsBound": {
+        "minimum": 0,
+        "maximum": 999999999999999999
+      },
+      "otherFrozenV1Change": null
+    },
+    {
+      "table": "project_operating_snapshot",
+      "column": "current_effective_baseline_cost",
+      "writer": "G",
+      "ddl": {
+        "precision": 18,
+        "scale": 2,
+        "integerDigits": 16,
+        "migration": "apps/poms-api/src/migrations/Migration20260414100000_ex07a_cost_accumulation_snapshot_model.ts",
+        "line": 214,
+        "excerpt": "\"current_effective_baseline_cost\" decimal(18,2) not null default 0,",
+        "laterTypeAlterations": []
+      },
+      "orm": {
+        "path": "apps/poms-api/src/app/features/project-cost/project-operating-snapshot.entity.ts",
+        "line": 64,
+        "property": "currentEffectiveBaselineCost",
+        "precision": 18,
+        "scale": 2,
+        "excerpt": "currentEffectiveBaselineCost: p.decimal().precision(18).scale(2).default(0).fieldName('current_effective_baseline_cost').comment('当前有效基线成本'),"
+      },
+      "capacityAction": "none; keep numeric(18,2) and precision(18).scale(2)",
+      "signed": false,
+      "V1CentsBound": {
+        "minimum": 0,
+        "maximum": 999999999999999999
+      },
+      "otherFrozenV1Change": null
+    },
+    {
+      "table": "project_operating_snapshot",
+      "column": "gross_margin_amount",
+      "writer": "G",
+      "ddl": {
+        "precision": 18,
+        "scale": 2,
+        "integerDigits": 16,
+        "migration": "apps/poms-api/src/migrations/Migration20260414100000_ex07a_cost_accumulation_snapshot_model.ts",
+        "line": 215,
+        "excerpt": "\"gross_margin_amount\"            decimal(18,2) not null default 0,",
+        "laterTypeAlterations": []
+      },
+      "orm": {
+        "path": "apps/poms-api/src/app/features/project-cost/project-operating-snapshot.entity.ts",
+        "line": 65,
+        "property": "grossMarginAmount",
+        "precision": 18,
+        "scale": 2,
+        "excerpt": "grossMarginAmount: p.decimal().precision(18).scale(2).default(0).fieldName('gross_margin_amount').comment('毛利金额'),"
+      },
+      "capacityAction": "none; keep numeric(18,2) and precision(18).scale(2)",
+      "signed": true,
+      "V1CentsBound": {
+        "minimum": -999999999999999999,
+        "maximum": 999999999999999999
+      },
+      "otherFrozenV1Change": null
+    },
+    {
+      "table": "project_operating_snapshot",
+      "column": "tax_impact_pending_amount",
+      "writer": "G",
+      "ddl": {
+        "precision": 18,
+        "scale": 2,
+        "integerDigits": 16,
+        "migration": "apps/poms-api/src/migrations/Migration20260414100000_ex07a_cost_accumulation_snapshot_model.ts",
+        "line": 218,
+        "excerpt": "\"tax_impact_pending_amount\"      decimal(18,2) not null default 0,",
+        "laterTypeAlterations": []
+      },
+      "orm": {
+        "path": "apps/poms-api/src/app/features/project-cost/project-operating-snapshot.entity.ts",
+        "line": 68,
+        "property": "taxImpactPendingAmount",
+        "precision": 18,
+        "scale": 2,
+        "excerpt": "taxImpactPendingAmount: p.decimal().precision(18).scale(2).default(0).fieldName('tax_impact_pending_amount').comment('待确认税务影响金额'),"
+      },
+      "capacityAction": "none; keep numeric(18,2) and precision(18).scale(2)",
+      "signed": false,
+      "V1CentsBound": {
+        "minimum": 0,
+        "maximum": 999999999999999999
+      },
+      "otherFrozenV1Change": null
+    },
+    {
+      "table": "period_closing_snapshot",
+      "column": "effective_contract_total",
+      "writer": "G",
+      "ddl": {
+        "precision": 18,
+        "scale": 2,
+        "integerDigits": 16,
+        "migration": "apps/poms-api/src/migrations/Migration20260414100000_ex07a_cost_accumulation_snapshot_model.ts",
+        "line": 249,
+        "excerpt": "\"effective_contract_total\"       decimal(18,2) not null default 0,",
+        "laterTypeAlterations": []
+      },
+      "orm": {
+        "path": "apps/poms-api/src/app/features/project-cost/period-closing-snapshot.entity.ts",
+        "line": 66,
+        "property": "effectiveContractTotal",
+        "precision": 18,
+        "scale": 2,
+        "excerpt": "effectiveContractTotal: p.decimal().precision(18).scale(2).default(0).fieldName('effective_contract_total').comment('当前有效合同总额'),"
+      },
+      "capacityAction": "none; keep numeric(18,2) and precision(18).scale(2)",
+      "signed": false,
+      "V1CentsBound": {
+        "minimum": 0,
+        "maximum": 999999999999999999
+      },
+      "otherFrozenV1Change": null
+    },
+    {
+      "table": "period_closing_snapshot",
+      "column": "receivable_confirmed_total",
+      "writer": "G",
+      "ddl": {
+        "precision": 18,
+        "scale": 2,
+        "integerDigits": 16,
+        "migration": "apps/poms-api/src/migrations/Migration20260414100000_ex07a_cost_accumulation_snapshot_model.ts",
+        "line": 250,
+        "excerpt": "\"receivable_confirmed_total\"     decimal(18,2) not null default 0,",
+        "laterTypeAlterations": []
+      },
+      "orm": {
+        "path": "apps/poms-api/src/app/features/project-cost/period-closing-snapshot.entity.ts",
+        "line": 67,
+        "property": "receivableConfirmedTotal",
+        "precision": 18,
+        "scale": 2,
+        "excerpt": "receivableConfirmedTotal: p.decimal().precision(18).scale(2).default(0).fieldName('receivable_confirmed_total').comment('已确认回款总额'),"
+      },
+      "capacityAction": "none; keep numeric(18,2) and precision(18).scale(2)",
+      "signed": false,
+      "V1CentsBound": {
+        "minimum": 0,
+        "maximum": 999999999999999999
+      },
+      "otherFrozenV1Change": null
+    },
+    {
+      "table": "period_closing_snapshot",
+      "column": "included_cost_total",
+      "writer": "G",
+      "ddl": {
+        "precision": 18,
+        "scale": 2,
+        "integerDigits": 16,
+        "migration": "apps/poms-api/src/migrations/Migration20260414100000_ex07a_cost_accumulation_snapshot_model.ts",
+        "line": 251,
+        "excerpt": "\"included_cost_total\"            decimal(18,2) not null default 0,",
+        "laterTypeAlterations": []
+      },
+      "orm": {
+        "path": "apps/poms-api/src/app/features/project-cost/period-closing-snapshot.entity.ts",
+        "line": 68,
+        "property": "includedCostTotal",
+        "precision": 18,
+        "scale": 2,
+        "excerpt": "includedCostTotal: p.decimal().precision(18).scale(2).default(0).fieldName('included_cost_total').comment('已纳入口径成本总额'),"
+      },
+      "capacityAction": "none; keep numeric(18,2) and precision(18).scale(2)",
+      "signed": false,
+      "V1CentsBound": {
+        "minimum": 0,
+        "maximum": 999999999999999999
+      },
+      "otherFrozenV1Change": null
+    },
+    {
+      "table": "period_closing_snapshot",
+      "column": "original_baseline_cost",
+      "writer": "G",
+      "ddl": {
+        "precision": 18,
+        "scale": 2,
+        "integerDigits": 16,
+        "migration": "apps/poms-api/src/migrations/Migration20260414100000_ex07a_cost_accumulation_snapshot_model.ts",
+        "line": 252,
+        "excerpt": "\"original_baseline_cost\"         decimal(18,2) not null default 0,",
+        "laterTypeAlterations": []
+      },
+      "orm": {
+        "path": "apps/poms-api/src/app/features/project-cost/period-closing-snapshot.entity.ts",
+        "line": 69,
+        "property": "originalBaselineCost",
+        "precision": 18,
+        "scale": 2,
+        "excerpt": "originalBaselineCost: p.decimal().precision(18).scale(2).default(0).fieldName('original_baseline_cost').comment('原始签约基线成本'),"
+      },
+      "capacityAction": "none; keep numeric(18,2) and precision(18).scale(2)",
+      "signed": false,
+      "V1CentsBound": {
+        "minimum": 0,
+        "maximum": 999999999999999999
+      },
+      "otherFrozenV1Change": null
+    },
+    {
+      "table": "period_closing_snapshot",
+      "column": "current_effective_baseline_cost",
+      "writer": "G",
+      "ddl": {
+        "precision": 18,
+        "scale": 2,
+        "integerDigits": 16,
+        "migration": "apps/poms-api/src/migrations/Migration20260414100000_ex07a_cost_accumulation_snapshot_model.ts",
+        "line": 253,
+        "excerpt": "\"current_effective_baseline_cost\" decimal(18,2) not null default 0,",
+        "laterTypeAlterations": []
+      },
+      "orm": {
+        "path": "apps/poms-api/src/app/features/project-cost/period-closing-snapshot.entity.ts",
+        "line": 70,
+        "property": "currentEffectiveBaselineCost",
+        "precision": 18,
+        "scale": 2,
+        "excerpt": "currentEffectiveBaselineCost: p.decimal().precision(18).scale(2).default(0).fieldName('current_effective_baseline_cost').comment('当前有效基线成本'),"
+      },
+      "capacityAction": "none; keep numeric(18,2) and precision(18).scale(2)",
+      "signed": false,
+      "V1CentsBound": {
+        "minimum": 0,
+        "maximum": 999999999999999999
+      },
+      "otherFrozenV1Change": null
+    },
+    {
+      "table": "period_closing_snapshot",
+      "column": "gross_margin_amount",
+      "writer": "G",
+      "ddl": {
+        "precision": 18,
+        "scale": 2,
+        "integerDigits": 16,
+        "migration": "apps/poms-api/src/migrations/Migration20260414100000_ex07a_cost_accumulation_snapshot_model.ts",
+        "line": 254,
+        "excerpt": "\"gross_margin_amount\"            decimal(18,2) not null default 0,",
+        "laterTypeAlterations": []
+      },
+      "orm": {
+        "path": "apps/poms-api/src/app/features/project-cost/period-closing-snapshot.entity.ts",
+        "line": 71,
+        "property": "grossMarginAmount",
+        "precision": 18,
+        "scale": 2,
+        "excerpt": "grossMarginAmount: p.decimal().precision(18).scale(2).default(0).fieldName('gross_margin_amount').comment('毛利金额'),"
+      },
+      "capacityAction": "none; keep numeric(18,2) and precision(18).scale(2)",
+      "signed": true,
+      "V1CentsBound": {
+        "minimum": -999999999999999999,
+        "maximum": 999999999999999999
+      },
+      "otherFrozenV1Change": null
+    },
+    {
+      "table": "period_closing_snapshot",
+      "column": "tax_impact_pending_amount",
+      "writer": "G",
+      "ddl": {
+        "precision": 18,
+        "scale": 2,
+        "integerDigits": 16,
+        "migration": "apps/poms-api/src/migrations/Migration20260414100000_ex07a_cost_accumulation_snapshot_model.ts",
+        "line": 257,
+        "excerpt": "\"tax_impact_pending_amount\"      decimal(18,2) not null default 0,",
+        "laterTypeAlterations": []
+      },
+      "orm": {
+        "path": "apps/poms-api/src/app/features/project-cost/period-closing-snapshot.entity.ts",
+        "line": 74,
+        "property": "taxImpactPendingAmount",
+        "precision": 18,
+        "scale": 2,
+        "excerpt": "taxImpactPendingAmount: p.decimal().precision(18).scale(2).default(0).fieldName('tax_impact_pending_amount').comment('待确认税务影响金额'),"
+      },
+      "capacityAction": "none; keep numeric(18,2) and precision(18).scale(2)",
+      "signed": false,
+      "V1CentsBound": {
+        "minimum": 0,
+        "maximum": 999999999999999999
+      },
+      "otherFrozenV1Change": null
+    },
+    {
+      "table": "data_maturity_evaluation_result",
+      "column": "tax_impact_pending_amount",
+      "writer": "H",
+      "ddl": {
+        "precision": 18,
+        "scale": 2,
+        "integerDigits": 16,
+        "migration": "apps/poms-api/src/migrations/Migration20260418170000_ex13a_operating_signal_model.ts",
+        "line": 19,
+        "excerpt": "\"tax_impact_pending_amount\"  decimal(18,2) not null default 0,",
+        "laterTypeAlterations": []
+      },
+      "orm": {
+        "path": "apps/poms-api/src/app/features/project-cost/data-maturity-evaluation-result.entity.ts",
+        "line": 61,
+        "property": "taxImpactPendingAmount",
+        "precision": 18,
+        "scale": 2,
+        "excerpt": "taxImpactPendingAmount: p.decimal().precision(18).scale(2).default(0).fieldName('tax_impact_pending_amount').comment('待闭合税务影响金额'),"
+      },
+      "capacityAction": "none; keep numeric(18,2) and precision(18).scale(2)",
+      "signed": false,
+      "V1CentsBound": {
+        "minimum": 0,
+        "maximum": 999999999999999999
+      },
+      "otherFrozenV1Change": "H pending nullable+knowledge per sealed v1; precision unchanged"
+    },
+    {
+      "table": "operating_signal_gate_binding",
+      "column": "tax_impact_pending_amount",
+      "writer": "H",
+      "ddl": {
+        "precision": 18,
+        "scale": 2,
+        "integerDigits": 16,
+        "migration": "apps/poms-api/src/migrations/Migration20260418170000_ex13a_operating_signal_model.ts",
+        "line": 184,
+        "excerpt": "\"tax_impact_pending_amount\"    decimal(18,2) not null default 0,",
+        "laterTypeAlterations": []
+      },
+      "orm": {
+        "path": "apps/poms-api/src/app/features/project-cost/operating-signal-gate-binding.entity.ts",
+        "line": 78,
+        "property": "taxImpactPendingAmount",
+        "precision": 18,
+        "scale": 2,
+        "excerpt": "taxImpactPendingAmount: p.decimal().precision(18).scale(2).default(0).fieldName('tax_impact_pending_amount').comment('待闭合税务影响金额'),"
+      },
+      "capacityAction": "none; keep numeric(18,2) and precision(18).scale(2)",
+      "signed": false,
+      "V1CentsBound": {
+        "minimum": 0,
+        "maximum": 999999999999999999
+      },
+      "otherFrozenV1Change": "H pending nullable+knowledge per sealed v1; precision unchanged"
+    }
+  ],
+  "existingMonetaryColumnCount": 20,
+  "newV1MonetaryColumns": [
+    {
+      "table": "receipt_accounting_basis",
+      "column": "cash_gross",
+      "precision": 18,
+      "scale": 2,
+      "source": "tools/rust-r4ghi/joint-g1/migration.sql",
+      "line": 33,
+      "capacityAction": "none",
+      "signed": false
+    },
+    {
+      "table": "receipt_accounting_basis",
+      "column": "amount_excluding_tax",
+      "precision": 18,
+      "scale": 2,
+      "source": "tools/rust-r4ghi/joint-g1/migration.sql",
+      "line": 34,
+      "capacityAction": "none",
+      "signed": false
+    },
+    {
+      "table": "receipt_accounting_basis",
+      "column": "tax_amount",
+      "precision": 18,
+      "scale": 2,
+      "source": "tools/rust-r4ghi/joint-g1/migration.sql",
+      "line": 35,
+      "capacityAction": "none",
+      "signed": false
+    },
+    {
+      "table": "operating_baseline_package",
+      "column": "handover_baseline_cost",
+      "precision": 18,
+      "scale": 2,
+      "source": "tools/rust-r4ghi/joint-g1/migration.sql",
+      "line": 87,
+      "capacityAction": "none",
+      "signed": false
+    },
+    {
+      "table": "operating_baseline_package",
+      "column": "execution_change_package_total",
+      "precision": 18,
+      "scale": 2,
+      "source": "tools/rust-r4ghi/joint-g1/migration.sql",
+      "line": 88,
+      "capacityAction": "none",
+      "signed": true
+    },
+    {
+      "table": "operating_snapshot_cost_member",
+      "column": "amount_excluding_tax",
+      "precision": 18,
+      "scale": 2,
+      "source": "tools/rust-r4ghi/joint-g1/migration.sql",
+      "line": 214,
+      "capacityAction": "none",
+      "signed": false
+    },
+    {
+      "table": "operating_snapshot_cost_member",
+      "column": "tax_cost_amount",
+      "precision": 18,
+      "scale": 2,
+      "source": "tools/rust-r4ghi/joint-g1/migration.sql",
+      "line": 215,
+      "capacityAction": "none",
+      "signed": false
+    },
+    {
+      "table": "operating_snapshot_cost_member",
+      "column": "amount_including_tax",
+      "precision": 18,
+      "scale": 2,
+      "source": "tools/rust-r4ghi/joint-g1/migration.sql",
+      "line": 216,
+      "capacityAction": "none",
+      "signed": false
+    }
+  ],
+  "newMonetaryColumnCount": 8,
+  "ratios": [
+    {
+      "table": "project_operating_snapshot",
+      "column": "gross_margin_rate",
+      "currentOrm": {
+        "precision": 9,
+        "scale": 6,
+        "path": "apps/poms-api/src/app/features/project-cost/project-operating-snapshot.entity.ts",
+        "line": 66,
+        "excerpt": "grossMarginRate: p.decimal().precision(9).scale(6).nullable().fieldName('gross_margin_rate').comment('毛利率'),"
+      },
+      "frozenV1Target": {
+        "precision": 38,
+        "scale": 6
+      },
+      "capacityDeltaAction": "no new change; Root still performs sealed v1 ratio ORM/DDL update",
+      "moneyCapApplies": false
+    },
+    {
+      "table": "period_closing_snapshot",
+      "column": "gross_margin_rate",
+      "currentOrm": {
+        "precision": 9,
+        "scale": 6,
+        "path": "apps/poms-api/src/app/features/project-cost/period-closing-snapshot.entity.ts",
+        "line": 72,
+        "excerpt": "grossMarginRate: p.decimal().precision(9).scale(6).nullable().fieldName('gross_margin_rate').comment('毛利率'),"
+      },
+      "frozenV1Target": {
+        "precision": 38,
+        "scale": 6
+      },
+      "capacityDeltaAction": "no new change; Root still performs sealed v1 ratio ORM/DDL update",
+      "moneyCapApplies": false
+    }
+  ],
+  "sourceProofs": [
+    {
+      "path": "apps/poms-api-rust/src/project_actual_cost/logic.rs",
+      "line": 11,
+      "excerpt": "pub const MONEY_MAX: i128 = 999_999_999_999_999_999;"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/contract-finance/receipt-record.entity.ts",
+      "line": 24,
+      "excerpt": "receiptAmount: p.decimal().precision(18).scale(2).fieldName('receipt_amount'),"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project-cost/project-actual-cost-record.entity.ts",
+      "line": 85,
+      "excerpt": "amountExcludingTax: p.decimal().precision(18).scale(2).nullable().fieldName('amount_excluding_tax').comment('不含税金额'),"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project-cost/project-actual-cost-record.entity.ts",
+      "line": 114,
+      "excerpt": "internalCostRate: p.decimal().precision(15).scale(4).nullable().fieldName('internal_cost_rate').comment('人力成本-采用成本率'),"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project-cost/shared-cost-allocation-source-snapshot.entity.ts",
+      "line": 29,
+      "excerpt": "amountExcludingTax: p.string().columnType('numeric(18,2)').precision(18).scale(2).nullable().fieldName(\"amount_excluding_tax\"),"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project/project-technical-cost-package.entity.ts",
+      "line": 188,
+      "excerpt": "quantity: p.decimal().precision(18).scale(4).nullable().comment('数量'),"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project/project-technical-cost-package.entity.ts",
+      "line": 190,
+      "excerpt": "unitPrice: p.decimal().precision(18).scale(4).nullable().fieldName('unit_price').comment('单价'),"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project/project-technical-cost-package.entity.ts",
+      "line": 191,
+      "excerpt": "amountExcludingTax: p.decimal().precision(18).scale(2).fieldName('amount_excluding_tax').comment('不含税金额'),"
+    }
+  ],
+  "allActual18_4CreateColumns": [
+    {
+      "migration": "apps/poms-api/src/migrations/Migration20260424170000_ex26_project_technical_cost_package.ts",
+      "column": "quantity",
+      "excerpt": "\"quantity\" numeric(18,4)"
+    },
+    {
+      "migration": "apps/poms-api/src/migrations/Migration20260424170000_ex26_project_technical_cost_package.ts",
+      "column": "unit_price",
+      "excerpt": "\"unit_price\" numeric(18,4)"
+    }
+  ],
+  "ORMCapacityChanges": [],
+  "SQLCapacityAlterStatements": [],
+  "moneyContract": {
+    "version": "operating-money-v1-capacity-confirmation",
+    "precision": 18,
+    "scale": 2,
+    "integerDigits": 16,
+    "maximumCents": "999999999999999999",
+    "minimumSignedCents": "-999999999999999999",
+    "maximumAmount": "9999999999999999.99",
+    "minimumSignedAmount": "-9999999999999999.99",
+    "representation": "exact decimal strings / checked integer cents (i128); no f64/JS Number totals or money formatter as authority",
+    "knownSourceAdmission": "Actual money may have trailing zero scale from storage/text, but converting to cents must be exact. Strip only insignificant zeros; nonzero sub-cent digits reject422, never round legacy money into a new baseline. Do not apply this money rule to legitimate quantity/unit_price/rate precision.",
+    "aggregateAdmission": "Each known published monetary aggregate independently fits +/-MAX_CENTS with its field sign constraint: baseline components/deltas, contract totals, confirmed receipt totals, included/excluded cost totals, pending tax/recognized adjustment, cost variance and margin. Amounts in context JSON are not unlimited sidecars.",
+    "sourceEconomicLayers": "Validate net/tax/gross and actual source sets separately; gross=net+tax exactly. Do not sum receipt+cost as a monetary precondition for a later subtraction, or reject a valid zero margin from two separately bounded maxima.",
+    "overflow": {
+      "httpStatus": 422,
+      "code": "operating_money_capacity_exceeded",
+      "safeResponseFields": [
+        "statusCode",
+        "code",
+        "field",
+        "maximumAmount"
+      ],
+      "neverReturnUnprojectedComputedAmount": true,
+      "timing": "checked sums/products/differences and full aggregate bounds before snapshot/baseline/period/H aggregate INSERT or returned certified current result. Producer changes within the same outer transaction must roll back if later capacity validation fails. Never rely on PostgreSQL22003 for a valid source.",
+      "i128Overflow": "checked arithmetic failure maps to the same typed422, never500 or wrap"
+    },
+    "nonCentHistory": {
+      "httpStatus": 422,
+      "code": "operating_money_precision_unsupported",
+      "rule": "retain original source/history bytes; formal new V1 consumption blocked until a real separately authorized corrected source exists; no migration mass rounding/backfill"
+    },
+    "unknown": "unknown is null+knowledge+reason, not known zero; no numeric range test on null and no COALESCE to0",
+    "zero": "known0.00 is permitted only with existing source/complete-scope proof; exact derived zero margin from equal known amounts is known, not missing",
+    "negative": "margin/cost variance/change delta can be negative; preserve signed cents and H low-receipt/maturity policy. Nonnegative totals remain nonnegative.",
+    "ratios": "Unrounded rational for classification, six-place half-away-from-zero display, existing frozen numeric(38,6) for gross_margin_rate. Zero denominator gives null/reason, not0; money MAX is not a ratio bound.",
+    "persistence": "20 existing monetary targets and8 new monetary fields already numeric(18,2). No sidecar-only workaround needed; v1 actually writes legacy aggregate columns and must honor their full common capacity.",
+    "rootWiring": {
+      "common": "Root owns a single exact money type/range guard in project_operating_common; G collector/writer and H context/policy assertion validator consume the same guard. Match existing E MONEY_MAX; do not expand C/E/F ordinary amount admission.",
+      "errors": "Root adds typed422 mapping and current shared error schema; G/H cannot throw database overflow as normal source rejection.",
+      "beforeG1": "Append this capacity delta as input clarification to the formal baseline/manifest; do not rewrite or retrospectively claim the sealed v1 audit included it."
+    }
+  },
+  "fixtures": [
+    {
+      "id": "maximum-single-source-no-tax",
+      "inputs": {
+        "receiptNetCents": "999999999999999999",
+        "receiptGrossCents": "999999999999999999",
+        "taxCents": "0",
+        "includedCostNetCents": "0"
+      },
+      "expect": {
+        "admission": "accept-range",
+        "marginCents": "999999999999999999",
+        "marginAmount": "9999999999999999.99",
+        "ratio6": "1.000000"
+      }
+    },
+    {
+      "id": "maximum-gross-frozen-13percent-basis",
+      "inputs": {
+        "grossCents": "999999999999999999",
+        "taxRate4": "1300"
+      },
+      "expect": {
+        "admission": "accept-range",
+        "netCents": "884955752212389380",
+        "taxCents": "115044247787610619",
+        "grossAmount": "9999999999999999.99",
+        "netAmount": "8849557522123893.80",
+        "taxAmount": "1150442477876106.19"
+      }
+    },
+    {
+      "id": "maximum-receipt-and-cost-known-zero-margin",
+      "inputs": {
+        "receiptNetCents": "999999999999999999",
+        "includedCostNetCents": "999999999999999999"
+      },
+      "expect": {
+        "admission": "accept-range",
+        "marginCents": "0",
+        "marginAmount": "0.00",
+        "marginKnowledge": "known",
+        "ratio6": "0.000000"
+      }
+    },
+    {
+      "id": "one-cent-receipt-maximum-cost-negative-margin",
+      "inputs": {
+        "receiptNetCents": "1",
+        "includedCostNetCents": "999999999999999999"
+      },
+      "expect": {
+        "admission": "accept-range",
+        "marginCents": "-999999999999999998",
+        "marginAmount": "-9999999999999999.98",
+        "ratio6": "-999999999999999998.000000",
+        "signal": "H policy still decides low-receipt observation/manual review; no automatic risk solely from large displayed negative ratio"
+      }
+    },
+    {
+      "id": "zero-denominator-known-negative-money",
+      "inputs": {
+        "receiptNetCents": "0",
+        "includedCostNetCents": "999999999999999999"
+      },
+      "expect": {
+        "arithmeticAdmission": "accept-range",
+        "formalPublication": "depends on genuine receipt/scope evidence under existing eligibility; this is not a fabricated no-receipt producer",
+        "marginCents": "-999999999999999999",
+        "marginAmount": "-9999999999999999.99",
+        "ratio6": null,
+        "ratioReason": "zero-denominator"
+      }
+    },
+    {
+      "id": "one-cent-over-aggregate",
+      "inputs": {
+        "sameCategorySourceCents": [
+          "999999999999999999",
+          "1"
+        ]
+      },
+      "expect": {
+        "aggregateCents": "1000000000000000000",
+        "aggregateAmount": "10000000000000000.00",
+        "httpStatus": 422,
+        "code": "operating_money_capacity_exceeded",
+        "committedDomainAndEvidenceChanges": 0
+      }
+    },
+    {
+      "id": "two-maxima-same-category-overflow",
+      "inputs": {
+        "sameCategorySourceCents": [
+          "999999999999999999",
+          "999999999999999999"
+        ]
+      },
+      "expect": {
+        "aggregateCents": "1999999999999999998",
+        "httpStatus": 422,
+        "code": "operating_money_capacity_exceeded",
+        "committedDomainAndEvidenceChanges": 0
+      }
+    },
+    {
+      "id": "historical-significant-third-decimal",
+      "inputs": {
+        "historicalMoney": "1.2340"
+      },
+      "expect": {
+        "httpStatus": 422,
+        "code": "operating_money_precision_unsupported",
+        "historicalMoneyUnchanged": "1.2340"
+      }
+    },
+    {
+      "id": "historical-insignificant-storage-zeros",
+      "inputs": {
+        "historicalMoney": "1.2300"
+      },
+      "expect": {
+        "admission": "accept-exact-cents",
+        "cents": "123",
+        "canonicalV1Amount": "1.23",
+        "historicalMoneyUnchanged": "1.2300"
+      }
+    },
+    {
+      "id": "unknown-pending-tax-is-not-zero",
+      "inputs": {
+        "knowledge": "unknown",
+        "value": null
+      },
+      "expect": {
+        "moneyCents": null,
+        "persistedPendingAmount": null,
+        "knowledge": "unknown",
+        "rangeDoesNotInventZero": true
+      }
+    }
+  ],
+  "reviewObligation": "Root performs current-schema comparison in its independently authorized acceptance workflow if desired. Static source proof is not a live DB measurement. Catalog divergence would be existing-baseline-drift and require a new exact delta, never an assumed18,4 mutation.",
+  "runtimeValidationStatus": "pure arithmetic fixture expectations only here; actual HTTP/transaction/DB/UI fixtures remain planned-not-run"
+}

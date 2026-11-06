@@ -1,0 +1,21 @@
+{
+  "kind": "independent-unfinished-package-preread-finding",
+  "id": "BG1-04",
+  "priority": 1,
+  "classification": "design-change-required",
+  "status": "reported-to-root-and-author-awaiting-final-bytes",
+  "title": "Two exact pre-effect hash whitelists disagree about the complete affected project state",
+  "inputs": {
+    "manifest": "candidate-inputs.json",
+    "blueprintSHA256": "a743265ed231ecc46186b951cf29db2fa9feae53859170685b31e3228b9e7d07",
+    "sourceContextSHA256": "0aaa76ede6f936bc6555e10ac7660ac439a26c422a970cda1d1cd60e50700683"
+  },
+  "evidence": [
+    "effective-v2/blueprint.json:1442-1452 ssot.sourceBeforeEffect.fields includes affectedProjects",
+    "effective-v2/source-context.schema.json:1738-1747 x-preEffectInputHashWhitelist.fields omits affectedProjects although its algorithm says exact object",
+    "effective-v2/restatement-contract.json inputHash requires the complete affectedProjects state"
+  ],
+  "consequence": "An implementation following the source-context exact whitelist does not bind every impacted project/head/period terminal version before producer effects, contrary to the blueprint and restatement contract. One formal hash authority must be unambiguous.",
+  "requestedResolution": "Generate both whitelist objects from one value, include the complete sorted affectedProjects project/head/terminal-root facts, and independently verify deep equality in final bytes. No new endpoint or public DTO field is required solely for this fix.",
+  "gate": "This is pre-read evidence of an unfinished draft, not a final G1 decision; recheck final candidate bytes."
+}

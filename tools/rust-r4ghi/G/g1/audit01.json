@@ -1,0 +1,876 @@
+{
+  "schemaVersion": 1,
+  "kind": "G-line-joint-G1-input-audit-candidate",
+  "capturedAt": "2026-11-05T23:23:33.188Z",
+  "status": "G1-Pending; product implementation not admitted",
+  "issue": 111,
+  "parentIssue": 110,
+  "jointAcceptanceIssue": 114,
+  "userDecisionIssue": 115,
+  "sourceBase": {
+    "worktree": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+    "branch": "codex/poms-r4ghi-next25",
+    "sha": "aaa4b16ac66092f0cb1dc6646a02cf14e80823ee",
+    "verification": "Branch/SHA/clean/main equality supplied by Root; no Git command run by G. Source bytes separately SHA256 pinned.",
+    "runtimeDelivered": 240,
+    "R4Delivered": "67/92",
+    "remainingBatch": 25
+  },
+  "agent": {
+    "task": "/root/r4g_operating",
+    "expectedModel": "gpt-6.1-sol",
+    "expectedEffort": "max",
+    "actualModelProof": "not available from delegated task tool metadata",
+    "fastMode": "unverified; no claim"
+  },
+  "authorization": {
+    "allowed": "read-only source audit; write tools/rust-r4ghi/G/g1/** only",
+    "prohibited": [
+      "product implementation until Root G1 admission",
+      "Git",
+      "DB/API startup or SQL execution",
+      "apps/libs/docs/shared edits",
+      "private credentials"
+    ],
+    "sourcePolicy": "business correctness + formal-source producer evidence; no Node bug equivalence and no synthetic fixture substitute for producer"
+  },
+  "fullContract": {
+    "completeSpec": {
+      "path": "libs/shared/api-spec/openapi.json",
+      "bytes": 1236594,
+      "sha256": "56ae1835f50e427dd564b60f423da49e5c03fd88eed431b12ae054011e6de821"
+    },
+    "completeSharedContracts": {
+      "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "bytes": 483396,
+      "sha256": "d962b8267030c8277f760b8bd6471e62491ee7fbd6353226f6291d3ff3a18db1"
+    },
+    "completeDto": {
+      "path": "libs/api/contracts/src/lib/project-cost/project-cost.dto.ts",
+      "bytes": 9258,
+      "sha256": "c4618e113009a4d19f81194165b29030bcd51e1ccd398e60de396b88c734d74e"
+    },
+    "fullSpecOperationCount": 293,
+    "fullSpecSchemaCount": 626,
+    "extractedOperationCount": 9,
+    "extractedSchemaClosureCount": 16,
+    "fragmentFile": "contract01.json"
+  },
+  "ssotManifest": "sources01.json",
+  "operations": [
+    {
+      "operationId": "ProjectCostController_activateOperatingBaselinePackage",
+      "method": "POST",
+      "path": "/api/operating-baseline-packages",
+      "canonicalPath": "/operating-baseline-packages",
+      "canonical": {
+        "source": "docs/design/api-route-canonical-inventory.md",
+        "line": 162,
+        "row": "| `project-cost` | `activateOperatingBaselinePackage`   | `POST /operating-baseline-packages`                    | `POST /operating-baseline-packages`                   | `POST /operating-baseline-packages`                    | `ADR-015` + `EX-15E2A`           | `N/A`      | `EX-15E2A` 已清退旧 `project-cost/*` action path                    | `B2`  | `aligned` |",
+        "status": "aligned"
+      },
+      "controller": {
+        "path": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "line": 161
+      },
+      "service": {
+        "path": "apps/poms-api/src/app/features/project-cost/project-cost.service.ts",
+        "line": 700
+      },
+      "permission": [
+        "contract:finance:manage"
+      ],
+      "session": "pomsSession",
+      "writeCsrfRequired": true,
+      "requestDto": "ActivateOperatingBaselinePackageRequestDto",
+      "requestSchema": "ActivateOperatingBaselinePackageRequest",
+      "resultSchema": "CommandResult",
+      "successStatus": 201,
+      "responseSchemaMissingInCurrentOpenApi": true,
+      "response": {
+        "targetType": "OperatingBaselinePackage",
+        "requiredFields": [
+          "targetId",
+          "targetType",
+          "resultStatus",
+          "businessStatusAfter",
+          "approvalRecordId",
+          "confirmationRecordId",
+          "todoItemIds"
+        ],
+        "values": {
+          "resultStatus": "success",
+          "businessStatusAfter": "active",
+          "approvalRecordId": null,
+          "confirmationRecordId": null,
+          "todoItemIds": []
+        }
+      },
+      "currentPersistence": {
+        "readsOrWrites": [
+          "operating_baseline_package",
+          "change_package_baseline"
+        ],
+        "access": "write",
+        "nodeTransactionBoundary": "Reads project/current+checks optional version outside callback; 760-770 transaction updates old row by id only (no row_version predicate) and inserts package+changes; uq_obp_project_current is last concurrency barrier."
+      },
+      "proposalTransaction": "borrow CommonSession/Actor; lock all affected projects by UUID; collect+verify producers; guarded UPDATE WHERE row_version/status/current; persist provenance/evidence, H evaluation, audit and auth participation; one Root outer commit; errors roll back all"
+    },
+    {
+      "operationId": "ProjectCostController_getCurrentOperatingBaselinePackage",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/operating-baseline-package",
+      "canonicalPath": "/projects/{projectId}/operating-baseline-package",
+      "canonical": {
+        "source": "docs/design/api-route-canonical-inventory.md",
+        "line": 163,
+        "row": "| `project-cost` | `getCurrentOperatingBaselinePackage` | `GET /projects/{projectId}/operating-baseline-package` | `GET /projects/:projectId/operating-baseline-package` | `GET /projects/{projectId}/operating-baseline-package` | `ADR-015` + `EX-15E2A`           | `N/A`      | `EX-15E2A` 已去掉 `/current` page suffix                            | `B2`  | `aligned` |",
+        "status": "aligned"
+      },
+      "controller": {
+        "path": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "line": 173
+      },
+      "service": {
+        "path": "apps/poms-api/src/app/features/project-cost/project-cost.service.ts",
+        "line": 788
+      },
+      "permission": [
+        "contract:finance:manage"
+      ],
+      "session": "pomsSession",
+      "writeCsrfRequired": false,
+      "requestDto": null,
+      "requestSchema": null,
+      "resultSchema": "OperatingBaselinePackageSummary",
+      "successStatus": 200,
+      "responseSchemaMissingInCurrentOpenApi": false,
+      "response": {
+        "schema": "OperatingBaselinePackageSummary",
+        "values": "persisted exact historical fields; list is an array ordered handled_at DESC,created_at DESC in Node (add id tie-break in Rust)"
+      },
+      "currentPersistence": {
+        "readsOrWrites": [
+          "operating_baseline_package"
+        ],
+        "access": "read",
+        "nodeTransactionBoundary": "Repository read only; no historical recalculation in mapper; current baseline is_current=true only."
+      },
+      "proposalTransaction": "borrow same outer session; authorize and sensitive projection/security event/auth coflush atomically; return frozen data; never rebase old amount values on current sources"
+    },
+    {
+      "operationId": "ProjectCostController_createProjectOperatingSnapshot",
+      "method": "POST",
+      "path": "/api/project-operating-snapshots",
+      "canonicalPath": "/project-operating-snapshots",
+      "canonical": {
+        "source": "docs/design/api-route-canonical-inventory.md",
+        "line": 164,
+        "row": "| `project-cost` | `createProjectOperatingSnapshot`     | `POST /project-operating-snapshots`                    | `POST /project-operating-snapshots`                   | `POST /project-operating-snapshots`                    | `ADR-015` + `EX-15E2A`           | `N/A`      | `EX-15E2A` 已把快照创建命令收口为 resource-first collection create  | `B2`  | `aligned` |",
+        "status": "aligned"
+      },
+      "controller": {
+        "path": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "line": 181
+      },
+      "service": {
+        "path": "apps/poms-api/src/app/features/project-cost/project-cost.service.ts",
+        "line": 796
+      },
+      "permission": [
+        "contract:finance:manage"
+      ],
+      "session": "pomsSession",
+      "writeCsrfRequired": true,
+      "requestDto": "CreateProjectOperatingSnapshotRequestDto",
+      "requestSchema": "CreateProjectOperatingSnapshotRequest",
+      "resultSchema": "CommandResult",
+      "successStatus": 201,
+      "responseSchemaMissingInCurrentOpenApi": true,
+      "response": {
+        "targetType": "ProjectOperatingSnapshot",
+        "requiredFields": [
+          "targetId",
+          "targetType",
+          "resultStatus",
+          "businessStatusAfter",
+          "approvalRecordId",
+          "confirmationRecordId",
+          "todoItemIds"
+        ],
+        "values": {
+          "resultStatus": "success",
+          "businessStatusAfter": "active",
+          "approvalRecordId": null,
+          "confirmationRecordId": null,
+          "todoItemIds": []
+        }
+      },
+      "currentPersistence": {
+        "readsOrWrites": [
+          "project_operating_snapshot"
+        ],
+        "access": "write",
+        "nodeTransactionBoundary": "797-808 reads project/rebaseline and computes from request; 831 standalone repository save; no source collection or domain lock."
+      },
+      "proposalTransaction": "borrow CommonSession/Actor; lock all affected projects by UUID; collect+verify producers; guarded UPDATE WHERE row_version/status/current; persist provenance/evidence, H evaluation, audit and auth participation; one Root outer commit; errors roll back all"
+    },
+    {
+      "operationId": "ProjectCostController_getProjectOperatingSnapshot",
+      "method": "GET",
+      "path": "/api/project-operating-snapshots/{id}",
+      "canonicalPath": "/project-operating-snapshots/{id}",
+      "canonical": {
+        "source": "docs/design/api-route-canonical-inventory.md",
+        "line": 550,
+        "row": "| `project-cost`  | `getProjectOperatingSnapshot`      | `GET /project-operating-snapshots/{id}`                              | `GET /project-operating-snapshots/{id}`                              | `GET /project-operating-snapshots/{id}`                              | `ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)             | `N/A`      | R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。                                                                                                                                                                     | `B19` | `aligned` |",
+        "status": "aligned"
+      },
+      "controller": {
+        "path": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "line": 190
+      },
+      "service": {
+        "path": "apps/poms-api/src/app/features/project-cost/project-cost.service.ts",
+        "line": 844
+      },
+      "permission": [
+        "contract:finance:manage"
+      ],
+      "session": "pomsSession",
+      "writeCsrfRequired": false,
+      "requestDto": null,
+      "requestSchema": null,
+      "resultSchema": "ProjectOperatingSnapshotSummary",
+      "successStatus": 200,
+      "responseSchemaMissingInCurrentOpenApi": false,
+      "response": {
+        "schema": "ProjectOperatingSnapshotSummary",
+        "values": "persisted exact historical fields; list is an array ordered handled_at DESC,created_at DESC in Node (add id tie-break in Rust)"
+      },
+      "currentPersistence": {
+        "readsOrWrites": [
+          "project_operating_snapshot"
+        ],
+        "access": "read",
+        "nodeTransactionBoundary": "Repository read only; no historical recalculation in mapper; current baseline is_current=true only."
+      },
+      "proposalTransaction": "borrow same outer session; authorize and sensitive projection/security event/auth coflush atomically; return frozen data; never rebase old amount values on current sources"
+    },
+    {
+      "operationId": "ProjectCostController_createPeriodClosingSnapshot",
+      "method": "POST",
+      "path": "/api/period-closing-snapshots",
+      "canonicalPath": "/period-closing-snapshots",
+      "canonical": {
+        "source": "docs/design/api-route-canonical-inventory.md",
+        "line": 165,
+        "row": "| `project-cost` | `createPeriodClosingSnapshot`        | `POST /period-closing-snapshots`                       | `POST /period-closing-snapshots`                      | `POST /period-closing-snapshots`                       | `ADR-015` + `EX-15E2A`           | `N/A`      | `EX-15E2A` 已把期末冻结快照创建命令收口为独立资源创建               | `B2`  | `aligned` |",
+        "status": "aligned"
+      },
+      "controller": {
+        "path": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "line": 198
+      },
+      "service": {
+        "path": "apps/poms-api/src/app/features/project-cost/project-cost.service.ts",
+        "line": 852
+      },
+      "permission": [
+        "contract:finance:manage"
+      ],
+      "session": "pomsSession",
+      "writeCsrfRequired": true,
+      "requestDto": "CreatePeriodClosingSnapshotRequestDto",
+      "requestSchema": "CreatePeriodClosingSnapshotRequest",
+      "resultSchema": "CommandResult",
+      "successStatus": 201,
+      "responseSchemaMissingInCurrentOpenApi": true,
+      "response": {
+        "targetType": "PeriodClosingSnapshot",
+        "requiredFields": [
+          "targetId",
+          "targetType",
+          "resultStatus",
+          "businessStatusAfter",
+          "approvalRecordId",
+          "confirmationRecordId",
+          "todoItemIds"
+        ],
+        "values": {
+          "resultStatus": "success",
+          "businessStatusAfter": "active",
+          "approvalRecordId": null,
+          "confirmationRecordId": null,
+          "todoItemIds": []
+        }
+      },
+      "currentPersistence": {
+        "readsOrWrites": [
+          "period_closing_snapshot"
+        ],
+        "access": "write",
+        "nodeTransactionBoundary": "853-869 reads project/current/rebaseline outside save; 890 standalone save; uq_pcs_project_period_current is duplicate barrier; expected version is not a replacement capability."
+      },
+      "proposalTransaction": "borrow CommonSession/Actor; lock all affected projects by UUID; collect+verify producers; guarded UPDATE WHERE row_version/status/current; persist provenance/evidence, H evaluation, audit and auth participation; one Root outer commit; errors roll back all"
+    },
+    {
+      "operationId": "ProjectCostController_getPeriodClosingSnapshot",
+      "method": "GET",
+      "path": "/api/period-closing-snapshots/{id}",
+      "canonicalPath": "/period-closing-snapshots/{id}",
+      "canonical": {
+        "source": "docs/design/api-route-canonical-inventory.md",
+        "line": 533,
+        "row": "| `project-cost`  | `getPeriodClosingSnapshot`         | `GET /period-closing-snapshots/{id}`                                 | `GET /period-closing-snapshots/{id}`                                 | `GET /period-closing-snapshots/{id}`                                 | `ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)             | `N/A`      | R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。                                                                                                                                                                     | `B19` | `aligned` |",
+        "status": "aligned"
+      },
+      "controller": {
+        "path": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "line": 207
+      },
+      "service": {
+        "path": "apps/poms-api/src/app/features/project-cost/project-cost.service.ts",
+        "line": 997
+      },
+      "permission": [
+        "contract:finance:manage"
+      ],
+      "session": "pomsSession",
+      "writeCsrfRequired": false,
+      "requestDto": null,
+      "requestSchema": null,
+      "resultSchema": "PeriodClosingSnapshotSummary",
+      "successStatus": 200,
+      "responseSchemaMissingInCurrentOpenApi": false,
+      "response": {
+        "schema": "PeriodClosingSnapshotSummary",
+        "values": "persisted exact historical fields; list is an array ordered handled_at DESC,created_at DESC in Node (add id tie-break in Rust)"
+      },
+      "currentPersistence": {
+        "readsOrWrites": [
+          "period_closing_snapshot"
+        ],
+        "access": "read",
+        "nodeTransactionBoundary": "Repository read only; no historical recalculation in mapper; current baseline is_current=true only."
+      },
+      "proposalTransaction": "borrow same outer session; authorize and sensitive projection/security event/auth coflush atomically; return frozen data; never rebase old amount values on current sources"
+    },
+    {
+      "operationId": "ProjectCostController_createOperatingRestatement",
+      "method": "POST",
+      "path": "/api/operating-restatements",
+      "canonicalPath": "/operating-restatements",
+      "canonical": {
+        "source": "docs/design/api-route-canonical-inventory.md",
+        "line": 166,
+        "row": "| `project-cost` | `createOperatingRestatement`         | `POST /operating-restatements`                         | `POST /operating-restatements`                        | `POST /operating-restatements`                         | `ADR-015` + `EX-15E2A`           | `N/A`      | `EX-15E2A` 已把重述创建命令收口为 resource-first collection create  | `B2`  | `aligned` |",
+        "status": "aligned"
+      },
+      "controller": {
+        "path": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "line": 215
+      },
+      "service": {
+        "path": "apps/poms-api/src/app/features/project-cost/project-cost.service.ts",
+        "line": 903
+      },
+      "permission": [
+        "contract:finance:manage"
+      ],
+      "session": "pomsSession",
+      "writeCsrfRequired": true,
+      "requestDto": "CreateOperatingRestatementRequestDto",
+      "requestSchema": "CreateOperatingRestatementRequest",
+      "resultSchema": "CommandResult",
+      "successStatus": 201,
+      "responseSchemaMissingInCurrentOpenApi": true,
+      "response": {
+        "targetType": "OperatingRestatementRecord",
+        "requiredFields": [
+          "targetId",
+          "targetType",
+          "resultStatus",
+          "businessStatusAfter",
+          "approvalRecordId",
+          "confirmationRecordId",
+          "todoItemIds"
+        ],
+        "values": {
+          "resultStatus": "success",
+          "businessStatusAfter": "active",
+          "approvalRecordId": null,
+          "confirmationRecordId": null,
+          "todoItemIds": []
+        }
+      },
+      "currentPersistence": {
+        "readsOrWrites": [
+          "project_operating_snapshot",
+          "operating_restatement_record"
+        ],
+        "access": "write",
+        "nodeTransactionBoundary": "904-931 reads both snapshots/existing record and optional version before 977-979 transaction; old/new snapshots+record flush together; explicit SELECT FOR UPDATE/CAS not present; ORM version SQL behavior needs runtime proof."
+      },
+      "proposalTransaction": "borrow CommonSession/Actor; lock all affected projects by UUID; collect+verify producers; guarded UPDATE WHERE row_version/status/current; persist provenance/evidence, H evaluation, audit and auth participation; one Root outer commit; errors roll back all"
+    },
+    {
+      "operationId": "ProjectCostController_listOperatingRestatements",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/operating-restatements",
+      "canonicalPath": "/projects/{projectId}/operating-restatements",
+      "canonical": {
+        "source": "docs/design/api-route-canonical-inventory.md",
+        "line": 556,
+        "row": "| `project-cost`  | `listOperatingRestatements`        | `GET /projects/{projectId}/operating-restatements`                   | `GET /projects/{projectId}/operating-restatements`                   | `GET /projects/{projectId}/operating-restatements`                   | `ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)             | `N/A`      | R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。                                                                                                                                                                     | `B19` | `aligned` |",
+        "status": "aligned"
+      },
+      "controller": {
+        "path": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "line": 224
+      },
+      "service": {
+        "path": "apps/poms-api/src/app/features/project-cost/project-cost.service.ts",
+        "line": 992
+      },
+      "permission": [
+        "contract:finance:manage"
+      ],
+      "session": "pomsSession",
+      "writeCsrfRequired": false,
+      "requestDto": null,
+      "requestSchema": null,
+      "resultSchema": "OperatingRestatementListView",
+      "successStatus": 200,
+      "responseSchemaMissingInCurrentOpenApi": false,
+      "response": {
+        "schema": "OperatingRestatementListView",
+        "values": "persisted exact historical fields; list is an array ordered handled_at DESC,created_at DESC in Node (add id tie-break in Rust)"
+      },
+      "currentPersistence": {
+        "readsOrWrites": [
+          "operating_restatement_record"
+        ],
+        "access": "read",
+        "nodeTransactionBoundary": "Repository read only; no historical recalculation in mapper; current baseline is_current=true only."
+      },
+      "proposalTransaction": "borrow same outer session; authorize and sensitive projection/security event/auth coflush atomically; return frozen data; never rebase old amount values on current sources"
+    },
+    {
+      "operationId": "ProjectCostController_getOperatingRestatement",
+      "method": "GET",
+      "path": "/api/operating-restatements/{id}",
+      "canonicalPath": "/operating-restatements/{id}",
+      "canonical": {
+        "source": "docs/design/api-route-canonical-inventory.md",
+        "line": 532,
+        "row": "| `project-cost`  | `getOperatingRestatement`          | `GET /operating-restatements/{id}`                                   | `GET /operating-restatements/{id}`                                   | `GET /operating-restatements/{id}`                                   | `ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)             | `N/A`      | R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。                                                                                                                                                                     | `B19` | `aligned` |",
+        "status": "aligned"
+      },
+      "controller": {
+        "path": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "line": 232
+      },
+      "service": {
+        "path": "apps/poms-api/src/app/features/project-cost/project-cost.service.ts",
+        "line": 1005
+      },
+      "permission": [
+        "contract:finance:manage"
+      ],
+      "session": "pomsSession",
+      "writeCsrfRequired": false,
+      "requestDto": null,
+      "requestSchema": null,
+      "resultSchema": "OperatingRestatementSummary",
+      "successStatus": 200,
+      "responseSchemaMissingInCurrentOpenApi": false,
+      "response": {
+        "schema": "OperatingRestatementSummary",
+        "values": "persisted exact historical fields; list is an array ordered handled_at DESC,created_at DESC in Node (add id tie-break in Rust)"
+      },
+      "currentPersistence": {
+        "readsOrWrites": [
+          "operating_restatement_record"
+        ],
+        "access": "read",
+        "nodeTransactionBoundary": "Repository read only; no historical recalculation in mapper; current baseline is_current=true only."
+      },
+      "proposalTransaction": "borrow same outer session; authorize and sensitive projection/security event/auth coflush atomically; return frozen data; never rebase old amount values on current sources"
+    }
+  ],
+  "findings": [
+    {
+      "id": "G01",
+      "priority": 1,
+      "drift": "existing-baseline-drift",
+      "status": "root-accepted-correction",
+      "evidence": [
+        "apps/poms-api/src/app/features/project-cost/project-cost.service.ts:2349-2378",
+        "docs/design/phase2-project-unified-accounting-view-caliber.md:191-209"
+      ],
+      "observation": "Node computes margin from contract total; formal design computes confirmed receipts net minus included cost net, divided by confirmed receipts net; zero receipts yields null ratio.",
+      "decision": "Root explicitly accepted formal design formula on 2026-11-06; Rust must diverge from Node test numeric assertions."
+    },
+    {
+      "id": "G02",
+      "priority": 1,
+      "drift": "design-change-required",
+      "status": "pending-user-decision-115",
+      "evidence": [
+        "apps/poms-api/src/app/features/contract-finance/receipt-record.entity.ts",
+        "apps/poms-api-rust/src/contract_finance/mod.rs:273-379"
+      ],
+      "observation": "Receipt producer has only receipt_amount/date/status, no immutable tax/currency/snapshot basis. Confirmed cash cannot be certified as net income by relabelling or current-rate guessing.",
+      "proposal": "Freeze gross cash semantics + confirmation-time immutable net/tax basis, explicit snapshot id/version and currency; preserve legacy-unverified rows; see receiptBasis."
+    },
+    {
+      "id": "G03",
+      "priority": 1,
+      "drift": "design-change-required",
+      "status": "pending-user-decision-115",
+      "evidence": [
+        "apps/poms-api-rust/src/project_actual_cost/mod.rs:652-658",
+        "apps/poms-api-rust/src/project_cost_governance/service.rs:843",
+        "docs/design/phase2-cost-source-to-project-record-mapping.md:412-471"
+      ],
+      "observation": "No business producer sets included status/flag; stage producer ends at confirmed. Source-chain nodes coexist and must not all be summed. Invoice has no payable/payment relation and no net/tax split; ambiguous links cannot be inferred from amount/date/project.",
+      "proposal": "Explicit include/exclude decisions on real source-chain basis, mandatory reasons/expected versions, default payment actual basis, invoice tax support only, procurement exception explicit. No synthetic included fixture."
+    },
+    {
+      "id": "G04",
+      "priority": 1,
+      "drift": "existing-baseline-drift",
+      "status": "proposal-awaits-root-freeze",
+      "evidence": [
+        "apps/poms-api/src/app/features/project-cost/project-cost.service.ts:700-770",
+        "apps/poms-api/src/app/features/project-cost/project-cost.service.ts:796-890",
+        "apps/poms-api/src/app/features/project-cost/project-cost.service.ts:903-979",
+        "libs/shared/contracts/src/lib/shared-contracts.ts:9438-9610"
+      ],
+      "observation": "Four commands accept authoritative money, tax summaries, action level and baseline version from client; baseline reference UUID/changePackageId are not bound to approved business producer; restatement bypasses rebaseline/date range validation in merge.",
+      "proposal": "Commands accept source identities/versions, explicit inclusion choices and reason; server derives all money/conclusions. Reject legacy authoritative money fields in revised strict DTO, or assertion-only fields with exact equality if Root explicitly freezes transition."
+    },
+    {
+      "id": "G05",
+      "priority": 1,
+      "drift": "design-change-required",
+      "status": "proposal-awaits-root-freeze",
+      "evidence": [
+        "docs/design/phase2-estimated-to-actual-cost-bridge.md:74-141",
+        "apps/poms-api-rust/src/contract_readiness/source.rs:57-63",
+        "apps/poms-api-rust/src/project_handover/sources.rs:168-176",
+        "apps/poms-api-rust/src/project_handover/service.rs:743-758"
+      ],
+      "observation": "Technical-cost producer is project-level; sourceFacts pins package id/version, handover records pin before/after chains. Cannot sum the same project estimate for each contract or treat contract signed amount delta as cost delta.",
+      "proposal": "Freeze original adopted project estimate package once; preserve before/after rebaseline package lineage; derive approved execution change deltas from real cost-version transitions. Distinct conflicting project estimate packages require explicit approved selection, never first-row choice."
+    },
+    {
+      "id": "G06",
+      "priority": 1,
+      "drift": "existing-baseline-drift",
+      "status": "proposal-awaits-root-freeze",
+      "evidence": [
+        "apps/poms-api/src/app/features/project-cost/project-cost.service.ts:760-770",
+        "apps/poms-api/src/app/features/project-cost/project-cost.service.ts:858-890",
+        "apps/poms-api/src/app/features/project-cost/project-cost.service.ts:904-979",
+        "apps/poms-api-rust/src/contract_support/http.rs:243-340"
+      ],
+      "observation": "Node preflight version/existence reads do not establish the Rust required transaction/lock protocol; baseline nativeUpdate omits CAS. Period and project snapshots have no shared root/source hash to prove restated history belongs to the period.",
+      "proposal": "Single outerTX; source locks; explicit status/version CAS; stable period anchor to paired ProjectOperatingSnapshot; same-period restatement lineage and unique successor; retain original period bytes."
+    },
+    {
+      "id": "G07",
+      "priority": 1,
+      "drift": "design-change-required",
+      "status": "proposal-awaits-root-freeze",
+      "evidence": [
+        "libs/shared/contracts/src/lib/shared-contracts.ts:9452-9634",
+        "apps/poms-api-rust/src/project_cost_governance/projection.rs:26-152",
+        "docs/design/phase2-project-unified-accounting-view-caliber.md:56-63"
+      ],
+      "observation": "Nine G DTO outputs expose raw financial strings under finance:manage; contract is not protected by operating/labor sensitive projection. Unknown net amount cannot honestly use default zero.",
+      "proposal": "Root freezes financial grouped projection + containsLabor intersection, amount-state/legacy certification, non-reconstructive compatibility nulls; G reuses registered projection mechanism and transactional security writes."
+    },
+    {
+      "id": "G08",
+      "priority": 2,
+      "drift": "existing-baseline-drift",
+      "status": "proposal-awaits-root-freeze",
+      "evidence": [
+        "libs/shared/api-spec/openapi.json four POST responses",
+        "libs/shared/api-client/api/project-cost.service.ts"
+      ],
+      "observation": "All four command 201 responses have description only; their real CommandResult is not represented by current response schema.",
+      "proposal": "Root assigns concrete CommandResult schema to four 201 responses and regenerates full clients after DTO freeze."
+    },
+    {
+      "id": "G09",
+      "priority": 1,
+      "drift": "design-change-required",
+      "status": "proposal-awaits-root-freeze",
+      "evidence": [
+        "libs/shared/contracts/src/lib/shared-contracts.ts:9554-9560",
+        "apps/poms-api/src/app/features/project-cost/period-closing-snapshot.entity.ts",
+        "docs/design/schema-ddl-design.md:669-677"
+      ],
+      "observation": "periodKey is an arbitrary nonempty string and period snapshots have no business window, currency, source evidence or paired snapshot reference. A current-state aggregate cannot certify an old-period as-of result.",
+      "proposal": "Validate month/ISO week; freeze business timezone (existing cost pipeline Hong Kong), business cutoff plus capture/knowledge cutoff; retain source membership and reconstruct effective contract/baseline versions as of cutoff; fail missing temporal provenance."
+    }
+  ],
+  "receiptBasis": {
+    "status": "pending-user-decision-115",
+    "owner": "Root migration/shared contracts/C producer edits",
+    "entryPoints": [
+      "Existing ContractFinanceController_createReceiptRecord: declare gross cash + optional explicit source snapshot; preserve actual receiptDate",
+      "Existing ContractFinanceController_confirmReceiptRecord: bind/validate same-contract activated term snapshot, freeze basis and confirm receipt in same outerTX"
+    ],
+    "proposedTable": "receipt_accounting_basis (name pending Root)",
+    "minimalFields": {
+      "receipt_id": "uuid PK/FK receipt_record.id",
+      "project_id": "uuid, same-project composite scope",
+      "contract_id": "uuid, same-contract scope",
+      "receipt_row_version": "integer, confirmed version",
+      "term_snapshot_id": "uuid same-contract FK; immutable tax source",
+      "term_snapshot_version": "integer",
+      "currency": "char(3), persisted from same-contract producer currency evidence",
+      "cash_amount_gross": "numeric(18,2)>0",
+      "amount_excluding_tax": "numeric(18,2)>=0",
+      "tax_amount": "numeric(18,2)>=0, net+tax=gross",
+      "tax_rate": "numeric scale 4, 0..1",
+      "policy_id": "gross-to-net-half-up-cents-v1",
+      "producer_version": "smallint=1 for certified new records; no legacy auto label",
+      "source_payload": "jsonb exact amount/snapshot/currency/receipt version binding",
+      "payload_hash": "SHA256 canonical source_payload",
+      "captured_at": "timestamptz",
+      "captured_by": "uuid actor"
+    },
+    "source": {
+      "taxRate": "contract_term_snapshot.tax_rate of exact activated source_preparation/readiness/approved review binding; never contract latest guessed value",
+      "currency": "contract.currency_code validated at activation/preparation; source handover member also freezes currency_code. Verify active-contract currency immutability and bind persisted value+source hash (term snapshot has no standalone frozen currency field in audited model)."
+    },
+    "calculation": "If user freezes receiptAmount=gross: cents_net = HALF_UP(cents_gross*10000/(10000+rate_scaled4)); cents_tax=cents_gross-cents_net. Exact integers/rational arithmetic; check capacity; no float and no independent gross/net/tax rounding.",
+    "unresolved": [
+      "User decision on receiptAmount gross meaning",
+      "Snapshot basis time: confirmation-time activated snapshot (recommended) versus actual cash-date applicable snapshot; cash before amendment confirmed after amendment must be explicitly covered",
+      "Rounding per receipt versus cumulative invoice/contract residual policy; proposal per-receipt exact HALF_UP plus tax residual identity",
+      "Legacy confirmed receipts: explicit evidence correction path under existing/new governed command; until supplied remain legacy-unverified, not zero and not current-rate reinterpreted"
+    ]
+  },
+  "inclusion": {
+    "status": "pending-user-decision-115",
+    "formalConditions": [
+      "Real E captured source_basis; actual source identity/version/currency/layers/date verified under same transaction locks, allowing only E/F certified semantic version transitions",
+      "Cost confirmed, current not replaced/voided; active F stage v1 with source-business-date evidence and stable derived stage fields",
+      "Recognized source chain with exactly one economic measurement role: payment-fact default; invoice tax/support; procurement promise excluded unless explicit approved exception unabsorbed by payment",
+      "Exclusive fact cannot simultaneously be a current shared source; shared fact consumes only F active result layer amounts and exact basis/result/source versions/hash",
+      "Net amount known for included net cost; unknown net cannot be filled from gross or tax, and cannot be coalesced to zero",
+      "No double count across source ID/replacement chain/allocation batch; tax treatment contributes only explicit approved non-deductible adjustment not already included; deductible input VAT remains excluded",
+      "Explicit include/exclude reason + expected source/cost/stage/allocation versions; all affected project IDs locked in sorted order; CAS row_version/status/flag; immutable per-snapshot membership"
+    ],
+    "options": {
+      "automatic": "Do not auto-include every confirmed row. Only a separately frozen source-chain policy can nominate safe candidates; server still records exact membership and exclusion reasons. Ambiguous invoice/source chains or procurement promise require explicit decision.",
+      "explicitWithinExistingSnapshotCommand": "Recommended bounded nine-route option: revised createProjectOperatingSnapshot/createPeriodClosingSnapshot accept inclusionDecisions of typed real IDs+expected versions+include/exclude reason; server chooses/certifies layers and computes amounts. CAS included flags + append inclusion membership + snapshot/H evidence/audit/auth together.",
+      "separateExplicitCommand": "If domain owner requires inclusion independent of snapshot capture, Root must register a canonical cost inclusion command/DTO/UI first and revise batch count/Issue scope. G cannot add a tenth public operation silently."
+    },
+    "sharedImportant": "F allocation remains a confirmed, non-included source set. Prefer record per-result inclusion rather than flip shared source cost to included when only one project share is captured; replacement of any consumed basis needs explicit restatement/delta chain across all affected projects."
+  },
+  "interline": {
+    "status": "candidate-G-H-agreement-awaits-root-freeze",
+    "owner": {
+      "G": "Single producer-source collector, baseline+snapshot+period+restatement and L2 stability facts",
+      "H": "Versioned pure L2 maturity/cost-action evaluation and same-TX DMER/OSER/stage binding producer; all query views consume snapshot context",
+      "Root": "Shared interfaces, outer HTTP adapter, migrations, contracts, generated clients and integration"
+    },
+    "G_to_H": {
+      "function": "evaluate(session: &mut CommonSession, snapshotId: Uuid, expectedRowVersion: i32, expectedSourceHash: &str, actor: &Actor) -> Result<EvaluationRefs, Error>",
+      "atomicity": "H reloads newly persisted G snapshot+source package using caller connection; no pool, BEGIN/COMMIT, public HTTP call or client amounts",
+      "sourcePackage": [
+        "schemaVersion/policyVersion/projectId/snapshotId/rowVersion/sourceHash/producerVersion/currency/businessWindow/knowledgeCutoff",
+        "baseline package id/version/source package ids, original+handover+execution delta lineage",
+        "contract members: contractId/snapshotId/preparationId/approvalBindingId/amount net/currency/sourceHash",
+        "receipt members: id/version/accountingBasisId/sourceSnapshotId/gross/net/tax/currency/hash",
+        "cost members: costId/version/sourceType/id/sourceVersion/hash/stageId/version/evidenceId/hash/inclusionDecision/member amount net/tax/gross/role",
+        "allocation basis/result/source snapshot IDs+versions/hash+measurement layer+policy selected-measurement-first v2; no recomputation from rounded ratios",
+        "tax treatment IDs+versions/evidence IDs/hash/deductibility/pending amount, overlap-safe recognized adjustment",
+        "registered/confirmed/included/pending/unmapped/unknown-layer counts and nullable amounts, allocation pending/frozen, source chain gaps, historical restatement gaps",
+        "containsLabor derived transitively from all costs/allocation/tax/source/baseline evidence",
+        "snapshot root/periodEndSnapshotId/restatesSnapshotId/restatedSnapshotId/rebaselineRecordId and expected provenance"
+      ]
+    },
+    "H_to_G": "Pure versioned L2 rule function over canonical source package before G insert, then H persist/evaluate after G snapshot insert; Root decides shared function module to avoid cyclic producer authority.",
+    "provisionalL2RulesFromH": [
+      "Contradictory/invalid provenance/currency => command failure+rollback",
+      "Lawful missing key facts/unknown amount layers => insufficient+review",
+      "Pending/unmapped/tax/allocation/restatement gap => preliminary+review",
+      "Complete mandatory facts+closed gaps => mature+prompt",
+      "Authoritative cost block can only strengthen aggregate action; no invented amount thresholds; confirmed zero vs unknown distinct"
+    ],
+    "futureIConsumer": "I consumes exact same snapshot/evaluation/sourceHash lineage in outerTX for closure facts; R5 minimum/phase producer decision pending #115. No synthetic closure/execution transitions."
+  },
+  "ddlProposals": [
+    "Root-only SQL-first receipt accounting basis with scoped FKs, immutable hash and certified producer version; add confirmReceipt producer hook, matching ORM/shared DTO/OpenAPI.",
+    "Root-only baseline provenance: currency, producer/schema version, original technical-cost package/version/hash, current handover basis/rebaseline refs, change source before/after package IDs+version, source payload/hash; originalBaselineCost immutable across package chain.",
+    "Root-only snapshot provenance/evidence with schema version, source payload/hash, calculation/rule policy IDs, currency, actual member IDs+versions+nullable layers, containsLabor; scoped immutable FK/evidence target checks. Prefer normalized member rows where concurrency/FKs need enforcement.",
+    "Root-only period->ProjectOperatingSnapshot same-project link, period start/end/business timezone/knowledge cutoff and stable historical root; project snapshot supersedes scoped FK + unique successor; restatement same-period root validation and record rebaseline FK assignment.",
+    "Root-only inclusion decision/membership table with typed source-chain role, source/cost/F evidence refs+versions, include/exclude reason, currency/layers and no-double-count key; separate per-result sharing membership so a shared source is not consumed as full original and allocated amount.",
+    "Preserve existing uq_obp_project_current, uq_pcs_project_period_current, uq_orr_restates_current, uq_orr_restated_current; add composite same-project identities and version/status checks; no legacy mass backfill/certification.",
+    "Protect immutable money/source evidence, period original snapshots and reasons against UPDATE/DELETE beyond current/status/version metadata. Replacements append evidence with causal predecessor."
+  ],
+  "dtoProposals": [
+    "Keep exact nine operationIds/methods/paths unless user explicitly approves additional inclusion/correction surface; Root owns canonical and route inventory changes.",
+    "Baseline request: projectId + expectedProjectVersion/currentPackageVersion + typed approved source/rebaseline/changes IDs and versions + reason; no client originalBaselineCost/changeAmount authority.",
+    "Snapshot/period request: projectId + mode/validated period/window + expected source/baseline/project versions + explicit inclusion decisions; amounts, tax/allocation/unmapped summaries, referencedBaselineVersion and action/maturity derived by server.",
+    "Restatement request: projectId + period root + actual terminal source snapshot+expectedVersion + reason/summary + real changed source/inclusion decisions; remove free restatedValues authority; preserve frozen business window.",
+    "Read responses: grouped operating-finance sensitive projections, labor intersection when containsLabor, sourceCertification + sourceHash + stable lineage, distinguish known zero/unknown/not-applicable; replace leaked raw financial compatibility fields with agreed nullable nulls.",
+    "Four POST responses explicitly type CommandResult (or a Root-approved specialized result with snapshot/evaluation/source refs); regenerate and check full shared OpenAPI+clients, no per-line client hand edits."
+  ],
+  "precision": {
+    "money": "numeric(18,2), decimal text, i128 cents, checked capacity; true subcent stored amounts rejected rather than silently rounded",
+    "rates": "tax/cost rate four decimal places; labor quantities two; derived margin ratio keeps existing numeric(9,6) contract pending Root explicit change",
+    "rounding": "HALF_UP only at explicit producer calculation boundary; source amounts retain exact stored cents; signed ratios round absolute rational then restore sign",
+    "allocations": "Reuse F selected-measurement-first version 2, largest-remainder-cents-v1, UUID-byte tie-break and bounded secondary layers; never recompute using rounded ratio or invent unknown layers"
+  },
+  "pendingDecisions": [
+    {
+      "id": "G-D01",
+      "authority": "user through Root #115",
+      "status": "pending",
+      "subject": "Gross receipt meaning and immutable traceable net/tax producer/correction boundary",
+      "recommendation": {
+        "status": "pending-user-decision-115",
+        "owner": "Root migration/shared contracts/C producer edits",
+        "entryPoints": [
+          "Existing ContractFinanceController_createReceiptRecord: declare gross cash + optional explicit source snapshot; preserve actual receiptDate",
+          "Existing ContractFinanceController_confirmReceiptRecord: bind/validate same-contract activated term snapshot, freeze basis and confirm receipt in same outerTX"
+        ],
+        "proposedTable": "receipt_accounting_basis (name pending Root)",
+        "minimalFields": {
+          "receipt_id": "uuid PK/FK receipt_record.id",
+          "project_id": "uuid, same-project composite scope",
+          "contract_id": "uuid, same-contract scope",
+          "receipt_row_version": "integer, confirmed version",
+          "term_snapshot_id": "uuid same-contract FK; immutable tax source",
+          "term_snapshot_version": "integer",
+          "currency": "char(3), persisted from same-contract producer currency evidence",
+          "cash_amount_gross": "numeric(18,2)>0",
+          "amount_excluding_tax": "numeric(18,2)>=0",
+          "tax_amount": "numeric(18,2)>=0, net+tax=gross",
+          "tax_rate": "numeric scale 4, 0..1",
+          "policy_id": "gross-to-net-half-up-cents-v1",
+          "producer_version": "smallint=1 for certified new records; no legacy auto label",
+          "source_payload": "jsonb exact amount/snapshot/currency/receipt version binding",
+          "payload_hash": "SHA256 canonical source_payload",
+          "captured_at": "timestamptz",
+          "captured_by": "uuid actor"
+        },
+        "source": {
+          "taxRate": "contract_term_snapshot.tax_rate of exact activated source_preparation/readiness/approved review binding; never contract latest guessed value",
+          "currency": "contract.currency_code validated at activation/preparation; source handover member also freezes currency_code. Verify active-contract currency immutability and bind persisted value+source hash (term snapshot has no standalone frozen currency field in audited model)."
+        },
+        "calculation": "If user freezes receiptAmount=gross: cents_net = HALF_UP(cents_gross*10000/(10000+rate_scaled4)); cents_tax=cents_gross-cents_net. Exact integers/rational arithmetic; check capacity; no float and no independent gross/net/tax rounding.",
+        "unresolved": [
+          "User decision on receiptAmount gross meaning",
+          "Snapshot basis time: confirmation-time activated snapshot (recommended) versus actual cash-date applicable snapshot; cash before amendment confirmed after amendment must be explicitly covered",
+          "Rounding per receipt versus cumulative invoice/contract residual policy; proposal per-receipt exact HALF_UP plus tax residual identity",
+          "Legacy confirmed receipts: explicit evidence correction path under existing/new governed command; until supplied remain legacy-unverified, not zero and not current-rate reinterpreted"
+        ]
+      }
+    },
+    {
+      "id": "G-D02",
+      "authority": "user through Root #115",
+      "status": "pending",
+      "subject": "Explicit inclusion/exclusion and reason policy, existing snapshot command versus dedicated public entry",
+      "recommendation": {
+        "automatic": "Do not auto-include every confirmed row. Only a separately frozen source-chain policy can nominate safe candidates; server still records exact membership and exclusion reasons. Ambiguous invoice/source chains or procurement promise require explicit decision.",
+        "explicitWithinExistingSnapshotCommand": "Recommended bounded nine-route option: revised createProjectOperatingSnapshot/createPeriodClosingSnapshot accept inclusionDecisions of typed real IDs+expected versions+include/exclude reason; server chooses/certifies layers and computes amounts. CAS included flags + append inclusion membership + snapshot/H evidence/audit/auth together.",
+        "separateExplicitCommand": "If domain owner requires inclusion independent of snapshot capture, Root must register a canonical cost inclusion command/DTO/UI first and revise batch count/Issue scope. G cannot add a tenth public operation silently."
+      }
+    },
+    {
+      "id": "G-D03",
+      "authority": "user through Root #115",
+      "status": "pending",
+      "subject": "Minimum R5 role freeze and phase transition business producers needed for actual G/H/I flow",
+      "recommendation": "Do not spoof execution state/date or commission freeze; Root scopes real bounded producer after answer."
+    },
+    {
+      "id": "G-D04",
+      "authority": "Root joint G1",
+      "status": "pending",
+      "subject": "Period business window/cutoff/timezone and pairing; historical source validity",
+      "recommendation": "Month+ISO week validated in existing business Hong Kong timezone; cumulative as-of period end with actual knowledge capturedAt; original period immutable; late backdated changes explicit restatement."
+    },
+    {
+      "id": "G-D05",
+      "authority": "Root joint G1/domain source owner",
+      "status": "pending",
+      "subject": "Project estimate selected once when multiple contracts refer different project cost packages; post-handover execution change producer",
+      "recommendation": "Freeze unique approved source package and explicit version-transition deltas; reject conflicting source selections rather than sum or pick first."
+    },
+    {
+      "id": "G-D06",
+      "authority": "Root joint G1",
+      "status": "pending",
+      "subject": "L2 rule/module owner, nullable unknown money and grouped sensitive outputs",
+      "recommendation": {
+        "G": "Single producer-source collector, baseline+snapshot+period+restatement and L2 stability facts",
+        "H": "Versioned pure L2 maturity/cost-action evaluation and same-TX DMER/OSER/stage binding producer; all query views consume snapshot context",
+        "Root": "Shared interfaces, outer HTTP adapter, migrations, contracts, generated clients and integration"
+      }
+    }
+  ],
+  "checks": {
+    "executed": [
+      "Static exact nine operationId/method/path and canonical row identity assertions",
+      "SHA256 + byte-count manifest for named complete files",
+      "Self-contained OpenAPI schema closure extraction and missing-ref check",
+      "JSON parse/required-operation invariants"
+    ],
+    "notRunByMandate": [
+      "Product tests, Rust build/lint, Nest build/lint, migration-check, DB/API startup, browser/UI sessions, Git/GitHub mutations"
+    ],
+    "faultMatrix": [
+      "Deny each new table INSERT/UPDATE in turn after earlier work has run; no included flags/package/current switch/snapshot/period/restatement/H records/audit/auth partial commit",
+      "Force H DMER/OSER/each binding insert failure after G persists snapshot; all G/H rollback",
+      "Force business audit, sensitive projection security event and auth participant persistence/permission revalidation failure; whole outerTX rolls back",
+      "Pre-commit abort versus ambiguous commit labelled honestly; no automatic retry that duplicates inclusion/restatement"
+    ],
+    "concurrencyMatrix": [
+      "Two first baseline activations: one current winner; losing insert/update fully rolls back",
+      "Two supersedes with same expected package version: exactly one succeeds; stale returns conflict; no fork",
+      "Two same-project/period closing requests: exactly one immutable period+paired project snapshot+H chain",
+      "Two restatements of same terminal snapshot: one successor; cross-project/cross-period/nonterminal target rejected",
+      "Snapshot capture vs receipt confirm/source cost replace/stage reclassify/tax replace/allocation whole-batch replace/handover rebaseline: deterministic lock order and coherent before/after source package only",
+      "Shared allocation across project A/B concurrent captures/replacement: conserve source layers, never combine direct full original with shares, no deadlock/partial share state",
+      "Session revocation/permission membership change before auth coflush: rollback financial write and required evidence"
+    ],
+    "businessMatrix": [
+      "Multiple contracts valid snapshots, mixed currencies, empty sources, historical superseded snapshot valid-at-period versus current source",
+      "Receipt gross-net at 0/4-place tax rate, 0.005 cent-boundary HALF_UP, exact huge amounts, multiple receipts residual identity, pre-amendment cash confirmed after amendment",
+      "Payment+procurement+invoice one economic chain measured once; expense direct chain; missing link blocks eligibility rather than date/amount heuristics",
+      "Labor 4-place rate/2-place quantity producer and HALF_UP cents reused; no recompute from latest rate",
+      "Shared selected gross/net/tax layer, residual cent winner, partial unknown layers, deductible/non-deductible/pending tax, no repeated VAT adjustment",
+      "Margin uses confirmed net receipts (not contract): contract 200000, confirmed net 80000, included net 120000 => -40000.00 and -0.500000; zero confirmed receipts => amount -cost and null rate",
+      "Period frozen then backdated real receipt/cost correction: original exact persisted payload unchanged; restatement new source hash, same period root, explicit reason and causal changes",
+      "Original estimate unchanged after approved handover/execution changes; project estimate repeated across two contracts counted once"
+    ],
+    "realUiMatrix": [
+      "No snapshot: existing project operating workspace shows meaningful empty/setup action; read query does not create business snapshots as a side effect",
+      "Financial operator activates derived baseline, sees true source versions, includes/excludes actual cost candidates with reason and stale-version recovery",
+      "Creates realtime and valid period freeze through actual UI and existing client; sees receipt net vs gross basis, not editable accounting totals",
+      "Posts real upstream source correction, creates restatement in UI, opens original period and new history with reason/difference/source versions",
+      "H query pages all show same snapshot/sourceHash and independent final/retention result; I closure flows consume same evidence",
+      "Permission matrix: finance manage only, operating sensitive only, finance+operating, finance+operating+labor; raw DTO/DOM/network/tooltips/errors/audit/reason text cannot reconstruct masked salary/cost",
+      "Narrow and desktop viewport, loading/pending/conflict/403/empty/unverified/unknown-zero distinctions; disabling submit prevents duplicate action but server concurrency remains authoritative"
+    ]
+  },
+  "conclusion": "Ready for independent input review only. No G1 Pass, no G2 implementation, no product acceptance, no G3/G4 claim. Root must incorporate user decisions, freeze shared resources/interfaces and assign independent worktree before G2.",
+  "memoryUsed": {
+    "file": "MEMORY.md",
+    "lines": "330-354",
+    "use": "Chinese governance artifacts, bounded child issue completion, model/evidence ownership; all current facts from checkout/Root, not historical delivery counts",
+    "rolloutId": "01a1745d-bfa3-7603-b07d-16afa227d566"
+  }
+}

@@ -1,0 +1,5583 @@
+{
+  "kind": "frozen-native-reference-input-not-new-public-contract",
+  "source": "libs/shared/api-spec/openapi.json",
+  "sourceSha256": "56ae1835f50e427dd564b60f423da49e5c03fd88eed431b12ae054011e6de821",
+  "sharedSourceSha256": "d962b8267030c8277f760b8bd6471e62491ee7fbd6353226f6291d3ff3a18db1",
+  "rule": "Exact deep copies of current source schema objects and full transitive component closure. Root later extracts explicit Native aliases; no current public schema weakened for Native compilation.",
+  "operations": [
+    {
+      "operationId": "ProjectCostController_activateOperatingBaselinePackage",
+      "method": "POST",
+      "path": "/api/operating-baseline-packages",
+      "parameters": [],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ActivateOperatingBaselinePackageRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "The command result"
+        }
+      }
+    },
+    {
+      "operationId": "ProjectCostController_getCurrentOperatingBaselinePackage",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/operating-baseline-package",
+      "parameters": [
+        {
+          "name": "projectId",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OperatingBaselinePackageSummary"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "operationId": "ProjectCostController_createProjectOperatingSnapshot",
+      "method": "POST",
+      "path": "/api/project-operating-snapshots",
+      "parameters": [],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CreateProjectOperatingSnapshotRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "The command result"
+        }
+      }
+    },
+    {
+      "operationId": "ProjectCostController_getProjectOperatingSnapshot",
+      "method": "GET",
+      "path": "/api/project-operating-snapshots/{id}",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectOperatingSnapshotSummary"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "operationId": "ProjectCostController_createPeriodClosingSnapshot",
+      "method": "POST",
+      "path": "/api/period-closing-snapshots",
+      "parameters": [],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CreatePeriodClosingSnapshotRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "The command result"
+        }
+      }
+    },
+    {
+      "operationId": "ProjectCostController_getPeriodClosingSnapshot",
+      "method": "GET",
+      "path": "/api/period-closing-snapshots/{id}",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PeriodClosingSnapshotSummary"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "operationId": "ProjectCostController_createOperatingRestatement",
+      "method": "POST",
+      "path": "/api/operating-restatements",
+      "parameters": [],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CreateOperatingRestatementRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "The command result"
+        }
+      }
+    },
+    {
+      "operationId": "ProjectCostController_listOperatingRestatements",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/operating-restatements",
+      "parameters": [
+        {
+          "name": "projectId",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OperatingRestatementListView"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "operationId": "ProjectCostController_getOperatingRestatement",
+      "method": "GET",
+      "path": "/api/operating-restatements/{id}",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OperatingRestatementSummary"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "operationId": "ProjectCostController_reviewOperatingSignalEvaluation",
+      "method": "POST",
+      "path": "/api/operating-signal-evaluations/{id}:review",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ReviewOperatingSignalEvaluationRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewOperatingSignalEvaluationResult"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "operationId": "ProjectCostController_getOperatingSignalEvaluation",
+      "method": "GET",
+      "path": "/api/operating-signal-evaluations/{id}",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OperatingSignalEvaluationView"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "operationId": "ProjectCostController_reviewCommissionGateBinding",
+      "method": "POST",
+      "path": "/api/commission-gate-bindings/{id}:review",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ReviewCommissionGateBindingRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewCommissionGateBindingResult"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "operationId": "ProjectCostController_getCommissionGateBinding",
+      "method": "GET",
+      "path": "/api/commission-gate-bindings/{id}",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommissionGateBindingHistoryView"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "operationId": "ProjectCostController_getProjectBusinessOutcomeOverview",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/business-outcome-overview",
+      "parameters": [
+        {
+          "name": "projectId",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectBusinessOutcomeOverviewView"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "operationId": "ProjectCostController_getProjectUnifiedAccounting",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/unified-accounting",
+      "parameters": [
+        {
+          "name": "projectId",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectUnifiedAccountingView"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "operationId": "ProjectCostController_getProjectVarianceRiskExplanation",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/variance-risk-explanation",
+      "parameters": [
+        {
+          "name": "projectId",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectVarianceRiskExplanationView"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "operationId": "ProjectCostController_getBusinessAccountingFeedback",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/business-accounting-feedback",
+      "parameters": [
+        {
+          "name": "projectId",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BusinessAccountingFeedbackView"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "operationId": "CommissionController_getCurrentRoleAssignment",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/commission-role-assignment",
+      "parameters": [
+        {
+          "name": "projectId",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommissionRoleAssignmentSummary"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "operationId": "CommissionController_createRoleAssignment",
+      "method": "POST",
+      "path": "/api/projects/{projectId}/commission-role-assignments",
+      "parameters": [
+        {
+          "name": "projectId",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CreateCommissionRoleAssignmentRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommissionRoleAssignmentSummary"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "operationId": "CommissionRoleAssignmentController_getRoleAssignmentDetail",
+      "method": "GET",
+      "path": "/api/commission-role-assignments/{id}",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommissionRoleAssignmentDetailView"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "operationId": "CommissionRoleAssignmentController_freezeRoleAssignment",
+      "method": "POST",
+      "path": "/api/commission-role-assignments/{id}:freeze",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/FreezeCommissionRoleAssignmentRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FreezeCommissionRoleAssignmentResult"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "operationId": "ProjectController_listAcceptanceRecords",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/acceptance-records",
+      "parameters": [
+        {
+          "name": "projectId",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AcceptanceRecordList"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "operationId": "ProjectController_createAcceptanceRecord",
+      "method": "POST",
+      "path": "/api/projects/{projectId}/acceptance-records",
+      "parameters": [
+        {
+          "name": "projectId",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CreateAcceptanceRecordRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AcceptanceRecordSummary"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "operationId": "ProjectController_listProjectCompletionRecords",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/completion-records",
+      "parameters": [
+        {
+          "name": "projectId",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectCompletionRecordList"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "operationId": "ProjectController_createProjectCompletionRecord",
+      "method": "POST",
+      "path": "/api/projects/{projectId}/completion-records",
+      "parameters": [
+        {
+          "name": "projectId",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CreateProjectCompletionRecordRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectCompletionRecordSummary"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "operationId": "ProjectController_listProjectArchiveRecords",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/archive-records",
+      "parameters": [
+        {
+          "name": "projectId",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectArchiveRecordList"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "operationId": "ProjectController_createProjectArchiveRecord",
+      "method": "POST",
+      "path": "/api/projects/{projectId}/archive-records",
+      "parameters": [
+        {
+          "name": "projectId",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CreateProjectArchiveRecordRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectArchiveRecordSummary"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "operationId": "ProjectArchiveRecordController_replaceProjectArchiveRecord",
+      "method": "POST",
+      "path": "/api/project-archive-records/{id}:replace",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ReplaceProjectArchiveRecordRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectArchiveRecordSummary"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "operationId": "ProjectArchiveRecordController_voidProjectArchiveRecord",
+      "method": "POST",
+      "path": "/api/project-archive-records/{id}:void",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/VoidProjectArchiveRecordRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectArchiveRecordSummary"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "operationId": "ProjectController_create",
+      "method": "POST",
+      "path": "/api/projects",
+      "parameters": [],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CreateProjectRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectSummary"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "operationId": "ProjectController_reassignOwner",
+      "method": "POST",
+      "path": "/api/projects/{id}:reassignOwner",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ReassignProjectOwnerRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectOwnerReassignmentResult"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "operationId": "ProjectController_getById",
+      "method": "GET",
+      "path": "/api/projects/{id}",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectDetailView"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "operationId": "ProjectController_getTimeline",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/timeline",
+      "parameters": [
+        {
+          "name": "projectId",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectTimelineView"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "operationId": "ProjectHandoverController_prepareProjectHandover",
+      "method": "POST",
+      "path": "/api/projects/{projectId}/project-handovers",
+      "parameters": [
+        {
+          "name": "projectId",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PrepareProjectHandoverRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectHandoverDetailView"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "operationId": "LeadController_convertToProject",
+      "method": "POST",
+      "path": "/api/leads/{id}:convertToProject",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ConvertLeadToProjectRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectSummary"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "operationId": "ContractFinanceController_confirmReceipt",
+      "method": "POST",
+      "path": "/api/receipt-records/{id}:confirm",
+      "parameters": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ConfirmReceiptRecordRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReceiptRecordSummary"
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "components": {
+    "schemas": {
+      "AcceptanceRecordList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/AcceptanceRecordSummary"
+        }
+      },
+      "AcceptanceRecordSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "acceptanceType": {
+            "type": "string",
+            "enum": [
+              "stage-outcome",
+              "stage-acceptance",
+              "final-acceptance"
+            ]
+          },
+          "acceptanceResult": {
+            "type": "string",
+            "enum": [
+              "accepted",
+              "conditional",
+              "rejected"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "confirmed",
+              "voided"
+            ]
+          },
+          "scopeSummary": {
+            "type": "string"
+          },
+          "evidenceSummary": {
+            "type": "string"
+          },
+          "comment": {
+            "type": "string",
+            "nullable": true
+          },
+          "confirmationRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "confirmedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "confirmedBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "rowVersion": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "id",
+          "projectId",
+          "acceptanceType",
+          "acceptanceResult",
+          "status",
+          "scopeSummary",
+          "evidenceSummary",
+          "comment",
+          "confirmationRecordId",
+          "confirmedAt",
+          "confirmedBy",
+          "createdAt",
+          "createdBy",
+          "updatedAt",
+          "updatedBy",
+          "rowVersion"
+        ]
+      },
+      "ActivateOperatingBaselinePackageRequest": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "originalBaselineCost": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "baselineSelectionSource": {
+            "default": "original",
+            "$ref": "#/components/schemas/BaselineSelectionSource"
+          },
+          "effectiveOperatingBaselineId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "baselineSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000,
+            "nullable": true
+          },
+          "changePackages": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "changePackageId": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "changeAmount": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64
+                },
+                "changeSummary": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 1000,
+                  "nullable": true
+                },
+                "effectiveAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+                  "nullable": true
+                }
+              },
+              "required": [
+                "changePackageId",
+                "changeAmount"
+              ]
+            }
+          },
+          "expectedCurrentPackageVersion": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
+          }
+        },
+        "required": [
+          "projectId",
+          "originalBaselineCost"
+        ]
+      },
+      "BaselineSelectionSource": {
+        "type": "string",
+        "enum": [
+          "original",
+          "handover-rebaseline"
+        ]
+      },
+      "BusinessAccountingFeedbackView": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "signalLevel": {
+            "$ref": "#/components/schemas/OperatingSignalLevel"
+          },
+          "currentActionLevel": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "taxImpactSummaryProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
+          "allocationStabilitySummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "unmappedCostSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "dataMaturityLevel": {
+            "$ref": "#/components/schemas/OperatingDataMaturityLevel"
+          },
+          "costActionRecommendation": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "referencedBaselineVersion": {
+            "type": "string"
+          },
+          "referencedSnapshotVersion": {
+            "type": "string"
+          },
+          "nextActionSummaryProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
+          "downstreamConsumerSummaryProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
+          "allowedActions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "projectId",
+          "signalLevel",
+          "currentActionLevel",
+          "taxImpactSummaryProjection",
+          "allocationStabilitySummary",
+          "unmappedCostSummary",
+          "dataMaturityLevel",
+          "costActionRecommendation",
+          "referencedBaselineVersion",
+          "referencedSnapshotVersion",
+          "nextActionSummaryProjection",
+          "downstreamConsumerSummaryProjection",
+          "allowedActions"
+        ]
+      },
+      "CommissionGateBindingHistoryView": {
+        "type": "object",
+        "properties": {
+          "bindingId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "signalEvaluationId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "gateStageType": {
+            "type": "string"
+          },
+          "signalLevel": {
+            "$ref": "#/components/schemas/OperatingSignalLevel"
+          },
+          "taxImpactSummary": {
+            "type": "string"
+          },
+          "taxImpactPendingAmount": {
+            "type": "string"
+          },
+          "dataMaturityLevel": {
+            "$ref": "#/components/schemas/OperatingDataMaturityLevel"
+          },
+          "costActionRecommendation": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "currentActionLevel": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "baselineSelectionSource": {
+            "$ref": "#/components/schemas/BaselineSelectionSource"
+          },
+          "referencedBaselineVersion": {
+            "type": "string"
+          },
+          "referencedSnapshotVersion": {
+            "type": "string"
+          },
+          "bindingAction": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "gateReviewDecision": {
+            "type": "string",
+            "nullable": true
+          },
+          "blockingReasonSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "summaryPackageKey": {
+            "type": "string",
+            "nullable": true
+          },
+          "summarySnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "projectionLevel": {
+            "type": "string",
+            "nullable": true
+          },
+          "exportPolicy": {
+            "type": "string",
+            "nullable": true
+          },
+          "nextActionSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "handledBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "handledAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+            "nullable": true
+          },
+          "allowedActions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "bindingId",
+          "projectId",
+          "signalEvaluationId",
+          "gateStageType",
+          "signalLevel",
+          "taxImpactSummary",
+          "taxImpactPendingAmount",
+          "dataMaturityLevel",
+          "costActionRecommendation",
+          "currentActionLevel",
+          "baselineSelectionSource",
+          "referencedBaselineVersion",
+          "referencedSnapshotVersion",
+          "bindingAction",
+          "gateReviewDecision",
+          "blockingReasonSummary",
+          "summaryPackageKey",
+          "summarySnapshotId",
+          "projectionLevel",
+          "exportPolicy",
+          "nextActionSummary",
+          "handledBy",
+          "handledAt",
+          "allowedActions"
+        ]
+      },
+      "CommissionRoleAssignmentDetailView": {
+        "type": "object",
+        "properties": {
+          "roleAssignmentId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "freezeVersionSummary": {
+            "$ref": "#/components/schemas/CommissionRoleAssignmentSummary"
+          },
+          "sourceHandoverId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "contractSummarySnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "handoverSummarySnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "effectiveHandoverBaselineSummary": {
+            "$ref": "#/components/schemas/ContractHandoverCurrentBaselineSummary"
+          },
+          "receiptJudgmentModeSummary": {
+            "$ref": "#/components/schemas/ProjectHandoverReceiptJudgmentModeSummary"
+          },
+          "summaryPackageKey": {
+            "type": "string",
+            "nullable": true
+          },
+          "summarySnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "projectionLevel": {
+            "type": "string",
+            "nullable": true
+          },
+          "exportPolicy": {
+            "type": "string",
+            "nullable": true
+          },
+          "allowedActions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "generatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          }
+        },
+        "required": [
+          "roleAssignmentId",
+          "projectId",
+          "freezeVersionSummary",
+          "sourceHandoverId",
+          "contractSummarySnapshotId",
+          "handoverSummarySnapshotId",
+          "effectiveHandoverBaselineSummary",
+          "receiptJudgmentModeSummary",
+          "summaryPackageKey",
+          "summarySnapshotId",
+          "projectionLevel",
+          "exportPolicy",
+          "allowedActions",
+          "generatedAt"
+        ]
+      },
+      "CommissionRoleAssignmentStatus": {
+        "type": "string",
+        "enum": [
+          "draft",
+          "frozen",
+          "superseded"
+        ]
+      },
+      "CommissionRoleAssignmentSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "version": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "rowVersion": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
+          },
+          "isCurrent": {
+            "type": "boolean"
+          },
+          "status": {
+            "$ref": "#/components/schemas/CommissionRoleAssignmentStatus"
+          },
+          "participantsJson": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "userId": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "displayName": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "roleType": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "weight": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                }
+              },
+              "required": [
+                "userId",
+                "displayName",
+                "roleType",
+                "weight"
+              ]
+            }
+          },
+          "sourceHandoverId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "sourceHandoverRebaselineRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "contractSummarySnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "handoverSummarySnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "effectiveHandoverBaselineSnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "frozenAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          }
+        },
+        "required": [
+          "id",
+          "projectId",
+          "version",
+          "rowVersion",
+          "isCurrent",
+          "status",
+          "participantsJson",
+          "sourceHandoverId",
+          "sourceHandoverRebaselineRecordId",
+          "contractSummarySnapshotId",
+          "handoverSummarySnapshotId",
+          "effectiveHandoverBaselineSnapshotId",
+          "frozenAt",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "ContractHandoverContractItemSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "contractNo": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ContractStatus"
+          },
+          "signedAmountProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
+          "currencyCode": {
+            "type": "string"
+          },
+          "currentSnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "signedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "contractNo",
+          "status",
+          "signedAmountProjection",
+          "currencyCode",
+          "currentSnapshotId",
+          "signedAt"
+        ]
+      },
+      "ContractHandoverCurrencyTotal": {
+        "type": "object",
+        "properties": {
+          "currencyCode": {
+            "type": "string"
+          },
+          "totalSignedAmountProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          }
+        },
+        "required": [
+          "currencyCode",
+          "totalSignedAmountProjection"
+        ],
+        "additionalProperties": false
+      },
+      "ContractHandoverCurrentBaselineSourceType": {
+        "type": "string",
+        "enum": [
+          "contract-readiness",
+          "project-handover",
+          "handover-rebaseline",
+          "none"
+        ]
+      },
+      "ContractHandoverCurrentBaselineStatus": {
+        "type": "string",
+        "enum": [
+          "available",
+          "missing"
+        ]
+      },
+      "ContractHandoverCurrentBaselineSummary": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/ContractHandoverCurrentBaselineStatus"
+          },
+          "baselineSnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "sourceType": {
+            "$ref": "#/components/schemas/ContractHandoverCurrentBaselineSourceType"
+          },
+          "sourceId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "summary": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "baselineSnapshotId",
+          "sourceType",
+          "sourceId",
+          "summary"
+        ]
+      },
+      "ContractHandoverEffectiveContractSetSummary": {
+        "type": "object",
+        "properties": {
+          "activeContractCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "activeContractIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
+          },
+          "contractNos": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "totalSignedAmountProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
+          "currencyCodes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "earliestSignedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+            "nullable": true
+          },
+          "latestSignedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+            "nullable": true
+          },
+          "contracts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ContractHandoverContractItemSummary"
+            }
+          },
+          "amountTotalsByCurrency": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ContractHandoverCurrencyTotal"
+            }
+          }
+        },
+        "required": [
+          "activeContractCount",
+          "activeContractIds",
+          "contractNos",
+          "totalSignedAmountProjection",
+          "currencyCodes",
+          "earliestSignedAt",
+          "latestSignedAt",
+          "contracts",
+          "amountTotalsByCurrency"
+        ],
+        "additionalProperties": false
+      },
+      "ContractStatus": {
+        "type": "string",
+        "enum": [
+          "draft",
+          "pending-review",
+          "active",
+          "terminated",
+          "completed"
+        ]
+      },
+      "ConvertLeadToProjectRequest": {
+        "type": "object",
+        "properties": {
+          "projectName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "customerProjectNo": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "nullable": true
+          },
+          "plannedSignAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+            "nullable": true
+          }
+        }
+      },
+      "CreatableOperatingSnapshotMode": {
+        "type": "string",
+        "enum": [
+          "realtime",
+          "period-end"
+        ]
+      },
+      "CreateAcceptanceRecordRequest": {
+        "type": "object",
+        "properties": {
+          "acceptanceType": {
+            "type": "string",
+            "enum": [
+              "stage-outcome",
+              "stage-acceptance",
+              "final-acceptance"
+            ]
+          },
+          "acceptanceResult": {
+            "type": "string",
+            "enum": [
+              "accepted",
+              "conditional",
+              "rejected"
+            ]
+          },
+          "scopeSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "evidenceSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "comment": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000,
+            "nullable": true
+          }
+        },
+        "required": [
+          "acceptanceType",
+          "acceptanceResult",
+          "scopeSummary",
+          "evidenceSummary"
+        ]
+      },
+      "CreateCommissionRoleAssignmentRequest": {
+        "type": "object",
+        "properties": {
+          "participants": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "userId": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "displayName": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "roleType": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "weight": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                }
+              },
+              "required": [
+                "userId",
+                "displayName",
+                "roleType",
+                "weight"
+              ]
+            }
+          }
+        },
+        "required": [
+          "participants"
+        ]
+      },
+      "CreateOperatingRestatementRequest": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "periodEndSnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "restatesSnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "restatementReason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "restatementSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "restatedValues": {
+            "type": "object",
+            "properties": {
+              "effectiveContractTotal": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              "receivableConfirmedTotal": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              "includedCostTotal": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              "originalBaselineCost": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              "currentEffectiveBaselineCost": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              "taxImpactSummary": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              },
+              "taxImpactPendingAmount": {
+                "default": "0",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              "allocationStabilitySummary": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000,
+                "nullable": true
+              },
+              "unmappedCostSummary": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000,
+                "nullable": true
+              },
+              "currentActionLevel": {
+                "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+              },
+              "referencedBaselineVersion": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              "baselineSelectionSource": {
+                "$ref": "#/components/schemas/BaselineSelectionSource"
+              },
+              "handoverRebaselineRecordId": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+                "nullable": true
+              },
+              "sourceWindowStart": {
+                "type": "string",
+                "format": "date",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+                "nullable": true
+              },
+              "sourceWindowEnd": {
+                "type": "string",
+                "format": "date",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+                "nullable": true
+              }
+            }
+          },
+          "expectedRestatesSnapshotVersion": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
+          }
+        },
+        "required": [
+          "projectId",
+          "periodEndSnapshotId",
+          "restatesSnapshotId",
+          "restatementReason",
+          "restatementSummary",
+          "restatedValues"
+        ]
+      },
+      "CreatePeriodClosingSnapshotRequest": {
+        "type": "object",
+        "properties": {
+          "effectiveContractTotal": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "receivableConfirmedTotal": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "includedCostTotal": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "originalBaselineCost": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "currentEffectiveBaselineCost": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "taxImpactSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "taxImpactPendingAmount": {
+            "default": "0",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "allocationStabilitySummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000,
+            "nullable": true
+          },
+          "unmappedCostSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000,
+            "nullable": true
+          },
+          "currentActionLevel": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "referencedBaselineVersion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "baselineSelectionSource": {
+            "$ref": "#/components/schemas/BaselineSelectionSource"
+          },
+          "handoverRebaselineRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "periodKey": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 32
+          },
+          "expectedCurrentSnapshotVersion": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
+          }
+        },
+        "required": [
+          "effectiveContractTotal",
+          "receivableConfirmedTotal",
+          "includedCostTotal",
+          "originalBaselineCost",
+          "currentEffectiveBaselineCost",
+          "taxImpactSummary",
+          "currentActionLevel",
+          "referencedBaselineVersion",
+          "baselineSelectionSource",
+          "projectId",
+          "periodKey"
+        ]
+      },
+      "CreateProjectArchiveRecordRequest": {
+        "type": "object",
+        "properties": {
+          "archivedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "archiveSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "evidenceSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          }
+        },
+        "required": [
+          "archivedAt",
+          "archiveSummary",
+          "evidenceSummary"
+        ]
+      },
+      "CreateProjectCompletionRecordRequest": {
+        "type": "object",
+        "properties": {
+          "acceptanceRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "completionResult": {
+            "type": "string",
+            "enum": [
+              "completed",
+              "conditional-completed"
+            ]
+          },
+          "completedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "completionSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "evidenceSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          }
+        },
+        "required": [
+          "acceptanceRecordId",
+          "completionResult",
+          "completedAt",
+          "completionSummary",
+          "evidenceSummary"
+        ]
+      },
+      "CreateProjectOperatingSnapshotRequest": {
+        "type": "object",
+        "properties": {
+          "effectiveContractTotal": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "receivableConfirmedTotal": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "includedCostTotal": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "originalBaselineCost": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "currentEffectiveBaselineCost": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "taxImpactSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "taxImpactPendingAmount": {
+            "default": "0",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "allocationStabilitySummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000,
+            "nullable": true
+          },
+          "unmappedCostSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000,
+            "nullable": true
+          },
+          "currentActionLevel": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "referencedBaselineVersion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "baselineSelectionSource": {
+            "$ref": "#/components/schemas/BaselineSelectionSource"
+          },
+          "handoverRebaselineRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "snapshotMode": {
+            "$ref": "#/components/schemas/CreatableOperatingSnapshotMode"
+          },
+          "sourceWindowStart": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+            "nullable": true
+          },
+          "sourceWindowEnd": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+            "nullable": true
+          }
+        },
+        "required": [
+          "effectiveContractTotal",
+          "receivableConfirmedTotal",
+          "includedCostTotal",
+          "originalBaselineCost",
+          "currentEffectiveBaselineCost",
+          "taxImpactSummary",
+          "currentActionLevel",
+          "referencedBaselineVersion",
+          "baselineSelectionSource",
+          "projectId",
+          "snapshotMode"
+        ]
+      },
+      "CreateProjectRequest": {
+        "type": "object",
+        "properties": {
+          "projectName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "customerId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "customerProjectNo": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "nullable": true
+          },
+          "currentStage": {
+            "$ref": "#/components/schemas/ProjectStage"
+          },
+          "plannedSignAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+            "nullable": true
+          }
+        },
+        "required": [
+          "projectName",
+          "customerId"
+        ]
+      },
+      "FreezeCommissionRoleAssignmentRequest": {
+        "type": "object",
+        "properties": {
+          "comment": {
+            "type": "string",
+            "maxLength": 1000
+          },
+          "sourceHandoverId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "handoverSummarySnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
+          }
+        },
+        "required": [
+          "sourceHandoverId",
+          "handoverSummarySnapshotId"
+        ]
+      },
+      "FreezeCommissionRoleAssignmentResult": {
+        "type": "object",
+        "properties": {
+          "targetId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "businessStatusAfter": {
+            "type": "string",
+            "enum": [
+              "frozen"
+            ]
+          },
+          "newVersionId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "sourceHandoverId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "contractSummarySnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "handoverSummarySnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "effectiveHandoverBaselineSnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "summarySnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectionLevel": {
+            "type": "string"
+          },
+          "exportPolicy": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "targetId",
+          "businessStatusAfter",
+          "newVersionId",
+          "sourceHandoverId",
+          "contractSummarySnapshotId",
+          "handoverSummarySnapshotId",
+          "effectiveHandoverBaselineSnapshotId",
+          "summarySnapshotId",
+          "projectionLevel",
+          "exportPolicy"
+        ]
+      },
+      "LeadStatus": {
+        "type": "string",
+        "enum": [
+          "registered",
+          "qualified",
+          "converted",
+          "closed"
+        ]
+      },
+      "OperatingBaselinePackageStatus": {
+        "type": "string",
+        "enum": [
+          "draft",
+          "active",
+          "superseded"
+        ]
+      },
+      "OperatingBaselinePackageSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "originalBaselineCost": {
+            "type": "string"
+          },
+          "changePackageTotal": {
+            "type": "string"
+          },
+          "currentEffectiveBaselineCost": {
+            "type": "string"
+          },
+          "baselineSelectionSource": {
+            "$ref": "#/components/schemas/BaselineSelectionSource"
+          },
+          "effectiveOperatingBaselineId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "baselineSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "isCurrent": {
+            "type": "boolean"
+          },
+          "status": {
+            "$ref": "#/components/schemas/OperatingBaselinePackageStatus"
+          },
+          "effectiveAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+            "nullable": true
+          },
+          "rowVersion": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          }
+        },
+        "required": [
+          "id",
+          "projectId",
+          "originalBaselineCost",
+          "changePackageTotal",
+          "currentEffectiveBaselineCost",
+          "baselineSelectionSource",
+          "effectiveOperatingBaselineId",
+          "baselineSummary",
+          "isCurrent",
+          "status",
+          "effectiveAt",
+          "rowVersion",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "OperatingDataMaturityLevel": {
+        "type": "string",
+        "enum": [
+          "insufficient",
+          "preliminary",
+          "mature"
+        ]
+      },
+      "OperatingLifecycleStatus": {
+        "type": "string",
+        "enum": [
+          "active",
+          "superseded",
+          "voided"
+        ]
+      },
+      "OperatingRestatementListView": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/OperatingRestatementSummary"
+        }
+      },
+      "OperatingRestatementSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "periodEndSnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "restatesSnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "restatedSnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "restatementReason": {
+            "type": "string"
+          },
+          "restatementSummary": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/OperatingLifecycleStatus"
+          },
+          "handledAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "handledBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "rowVersion": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          }
+        },
+        "required": [
+          "id",
+          "projectId",
+          "periodEndSnapshotId",
+          "restatesSnapshotId",
+          "restatedSnapshotId",
+          "restatementReason",
+          "restatementSummary",
+          "status",
+          "handledAt",
+          "handledBy",
+          "rowVersion",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "OperatingRiskLevel": {
+        "type": "string",
+        "enum": [
+          "attention",
+          "risk"
+        ]
+      },
+      "OperatingSignalEvaluationView": {
+        "type": "object",
+        "properties": {
+          "signalEvaluationId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "formulaBoundaryAction": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "signalLevel": {
+            "$ref": "#/components/schemas/OperatingSignalLevel"
+          },
+          "taxImpactSummary": {
+            "type": "string"
+          },
+          "allocationStabilitySummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "unmappedCostSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "dataMaturityLevel": {
+            "$ref": "#/components/schemas/OperatingDataMaturityLevel"
+          },
+          "costActionRecommendation": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "currentActionLevel": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "referencedBaselineVersion": {
+            "type": "string"
+          },
+          "referencedSnapshotVersion": {
+            "type": "string"
+          },
+          "reviewRequired": {
+            "type": "boolean"
+          },
+          "reviewSummary": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "signalEvaluationId",
+          "projectId",
+          "formulaBoundaryAction",
+          "signalLevel",
+          "taxImpactSummary",
+          "allocationStabilitySummary",
+          "unmappedCostSummary",
+          "dataMaturityLevel",
+          "costActionRecommendation",
+          "currentActionLevel",
+          "referencedBaselineVersion",
+          "referencedSnapshotVersion",
+          "reviewRequired",
+          "reviewSummary"
+        ]
+      },
+      "OperatingSignalLevel": {
+        "type": "string",
+        "enum": [
+          "attention",
+          "alert"
+        ]
+      },
+      "OperatingSignalReviewDecision": {
+        "type": "string",
+        "enum": [
+          "approve",
+          "manual-confirmed"
+        ]
+      },
+      "OperatingSnapshotActionLevel": {
+        "type": "string",
+        "enum": [
+          "prompt",
+          "review",
+          "block"
+        ]
+      },
+      "OperatingSnapshotMode": {
+        "type": "string",
+        "enum": [
+          "realtime",
+          "period-end",
+          "restated"
+        ]
+      },
+      "PeriodClosingSnapshotSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "periodKey": {
+            "type": "string"
+          },
+          "snapshotMode": {
+            "type": "string",
+            "enum": [
+              "period-end"
+            ]
+          },
+          "snapshotAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "effectiveContractTotal": {
+            "type": "string"
+          },
+          "receivableConfirmedTotal": {
+            "type": "string"
+          },
+          "includedCostTotal": {
+            "type": "string"
+          },
+          "originalBaselineCost": {
+            "type": "string"
+          },
+          "currentEffectiveBaselineCost": {
+            "type": "string"
+          },
+          "grossMarginAmount": {
+            "type": "string"
+          },
+          "grossMarginRate": {
+            "type": "string",
+            "nullable": true
+          },
+          "taxImpactSummary": {
+            "type": "string"
+          },
+          "taxImpactPendingAmount": {
+            "type": "string"
+          },
+          "allocationStabilitySummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "unmappedCostSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "currentActionLevel": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "referencedBaselineVersion": {
+            "type": "string"
+          },
+          "baselineSelectionSource": {
+            "$ref": "#/components/schemas/BaselineSelectionSource"
+          },
+          "handoverRebaselineRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/OperatingLifecycleStatus"
+          },
+          "rowVersion": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          }
+        },
+        "required": [
+          "id",
+          "projectId",
+          "periodKey",
+          "snapshotMode",
+          "snapshotAt",
+          "effectiveContractTotal",
+          "receivableConfirmedTotal",
+          "includedCostTotal",
+          "originalBaselineCost",
+          "currentEffectiveBaselineCost",
+          "grossMarginAmount",
+          "grossMarginRate",
+          "taxImpactSummary",
+          "taxImpactPendingAmount",
+          "allocationStabilitySummary",
+          "unmappedCostSummary",
+          "currentActionLevel",
+          "referencedBaselineVersion",
+          "baselineSelectionSource",
+          "handoverRebaselineRecordId",
+          "status",
+          "rowVersion",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "PrepareProjectHandoverRequest": {
+        "type": "object",
+        "properties": {
+          "executionOwnerUserId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "participants": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectHandoverParticipantInput"
+            }
+          },
+          "financeConfirmationRequired": {
+            "type": "boolean"
+          },
+          "receiptJudgmentMode": {
+            "$ref": "#/components/schemas/ProjectReceiptJudgmentMode"
+          },
+          "expectedProjectVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9007199254740991
+          },
+          "expectedSourceHash": {
+            "type": "string",
+            "minLength": 64,
+            "maxLength": 64,
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "expectedCurrentHandoverVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9007199254740991
+          },
+          "comment": {
+            "type": "string",
+            "maxLength": 1000
+          }
+        },
+        "required": [
+          "executionOwnerUserId",
+          "participants",
+          "financeConfirmationRequired",
+          "receiptJudgmentMode",
+          "expectedProjectVersion",
+          "expectedSourceHash"
+        ],
+        "additionalProperties": false
+      },
+      "ProjectArchiveRecordList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/ProjectArchiveRecordSummary"
+        }
+      },
+      "ProjectArchiveRecordSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "archiveAnchorStage": {
+            "type": "string",
+            "enum": [
+              "completed",
+              "closed-lost",
+              "closed-terminated"
+            ]
+          },
+          "archiveAnchorSourceType": {
+            "type": "string",
+            "enum": [
+              "project",
+              "project-completion-record"
+            ]
+          },
+          "archiveAnchorSourceId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "recorded",
+              "voided",
+              "superseded"
+            ]
+          },
+          "archivedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "archivedBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "archivedByName": {
+            "type": "string",
+            "nullable": true
+          },
+          "archiveSummary": {
+            "type": "string"
+          },
+          "evidenceSummary": {
+            "type": "string"
+          },
+          "supersedesArchiveRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "replacementReason": {
+            "type": "string",
+            "nullable": true
+          },
+          "voidedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+            "nullable": true
+          },
+          "voidedBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "voidedByName": {
+            "type": "string",
+            "nullable": true
+          },
+          "voidReason": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "rowVersion": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "allowedActions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "projectId",
+          "archiveAnchorStage",
+          "archiveAnchorSourceType",
+          "archiveAnchorSourceId",
+          "status",
+          "archivedAt",
+          "archivedBy",
+          "archivedByName",
+          "archiveSummary",
+          "evidenceSummary",
+          "supersedesArchiveRecordId",
+          "replacementReason",
+          "voidedAt",
+          "voidedBy",
+          "voidedByName",
+          "voidReason",
+          "createdAt",
+          "createdBy",
+          "updatedAt",
+          "updatedBy",
+          "rowVersion",
+          "allowedActions"
+        ]
+      },
+      "ProjectBusinessOutcomeOverviewView": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "effectiveContractSetSummaryProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
+          "receivableConfirmedAmountSummaryProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
+          "includedCostTotalSummaryProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
+          "currentEffectiveBaselineCostSummaryProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
+          "grossMarginAmountProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
+          "grossMarginRateProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
+          "taxImpactSummaryProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
+          "allocationStabilitySummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "unmappedCostSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "dataMaturityLevel": {
+            "$ref": "#/components/schemas/OperatingDataMaturityLevel"
+          },
+          "currentActionLevel": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "referencedBaselineVersion": {
+            "type": "string"
+          },
+          "referencedSnapshotVersion": {
+            "type": "string"
+          },
+          "allowedActions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "projectId",
+          "effectiveContractSetSummaryProjection",
+          "receivableConfirmedAmountSummaryProjection",
+          "includedCostTotalSummaryProjection",
+          "currentEffectiveBaselineCostSummaryProjection",
+          "grossMarginAmountProjection",
+          "grossMarginRateProjection",
+          "taxImpactSummaryProjection",
+          "allocationStabilitySummary",
+          "unmappedCostSummary",
+          "dataMaturityLevel",
+          "currentActionLevel",
+          "referencedBaselineVersion",
+          "referencedSnapshotVersion",
+          "allowedActions"
+        ]
+      },
+      "ProjectCompletionRecordList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/ProjectCompletionRecordSummary"
+        }
+      },
+      "ProjectCompletionRecordSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "acceptanceRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "completionResult": {
+            "type": "string",
+            "enum": [
+              "completed",
+              "conditional-completed"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "confirmed"
+            ]
+          },
+          "completedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "completedBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "completedByName": {
+            "type": "string",
+            "nullable": true
+          },
+          "completionSummary": {
+            "type": "string"
+          },
+          "evidenceSummary": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "rowVersion": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "id",
+          "projectId",
+          "acceptanceRecordId",
+          "completionResult",
+          "status",
+          "completedAt",
+          "completedBy",
+          "completedByName",
+          "completionSummary",
+          "evidenceSummary",
+          "createdAt",
+          "createdBy",
+          "updatedAt",
+          "updatedBy",
+          "rowVersion"
+        ]
+      },
+      "ProjectDetailApprovalSummary": {
+        "type": "object",
+        "properties": {
+          "summarySnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "summaryPackageKey": {
+            "type": "string",
+            "nullable": true
+          },
+          "projectionLevel": {
+            "type": "string",
+            "nullable": true
+          },
+          "exportPolicy": {
+            "type": "string",
+            "nullable": true
+          },
+          "generatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+            "nullable": true
+          }
+        },
+        "required": [
+          "summarySnapshotId",
+          "summaryPackageKey",
+          "projectionLevel",
+          "exportPolicy",
+          "generatedAt"
+        ]
+      },
+      "ProjectDetailBidSummary": {
+        "type": "object",
+        "properties": {
+          "bidProcessId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "bidStatus": {
+            "type": "string"
+          },
+          "resultStatus": {
+            "type": "string",
+            "nullable": true
+          },
+          "tenderNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "bidPackageNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "summary": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "bidProcessId",
+          "bidStatus",
+          "resultStatus",
+          "tenderNo",
+          "bidPackageNo",
+          "summary"
+        ]
+      },
+      "ProjectDetailConfirmationSummary": {
+        "type": "object",
+        "properties": {
+          "confirmationRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "status": {
+            "type": "string"
+          },
+          "requiredCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "confirmedCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "pendingCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "confirmedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+            "nullable": true
+          }
+        },
+        "required": [
+          "confirmationRecordId",
+          "status",
+          "requiredCount",
+          "confirmedCount",
+          "pendingCount",
+          "confirmedAt"
+        ]
+      },
+      "ProjectDetailContractSummary": {
+        "type": "object",
+        "properties": {
+          "activeContractCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "latestContractId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "latestContractNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "latestContractStatus": {
+            "type": "string",
+            "nullable": true
+          },
+          "signedAmountProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
+          "currencyCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "signedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+            "nullable": true
+          },
+          "currentSnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          }
+        },
+        "required": [
+          "activeContractCount",
+          "latestContractId",
+          "latestContractNo",
+          "latestContractStatus",
+          "signedAmountProjection",
+          "currencyCode",
+          "signedAt",
+          "currentSnapshotId"
+        ]
+      },
+      "ProjectDetailStageSummary": {
+        "type": "object",
+        "properties": {
+          "currentStage": {
+            "$ref": "#/components/schemas/ProjectStage"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ProjectStatus"
+          },
+          "plannedSignAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+            "nullable": true
+          },
+          "closedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+            "nullable": true
+          },
+          "closedReason": {
+            "type": "string",
+            "nullable": true
+          },
+          "blockingReasons": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "currentStage",
+          "status",
+          "plannedSignAt",
+          "closedAt",
+          "closedReason",
+          "blockingReasons"
+        ]
+      },
+      "ProjectDetailView": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectNo": {
+            "type": "string"
+          },
+          "projectName": {
+            "type": "string"
+          },
+          "sourceLeadId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "customerId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "customerName": {
+            "type": "string",
+            "nullable": true
+          },
+          "customerProjectNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/ProjectStatus"
+          },
+          "currentStage": {
+            "$ref": "#/components/schemas/ProjectStage"
+          },
+          "ownerOrgId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "ownerUserId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "plannedSignAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+            "nullable": true
+          },
+          "closedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+            "nullable": true
+          },
+          "closedReason": {
+            "type": "string",
+            "nullable": true
+          },
+          "rowVersion": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "ownerName": {
+            "type": "string",
+            "nullable": true
+          },
+          "ownerOrgName": {
+            "type": "string",
+            "nullable": true
+          },
+          "sourceLeadSummary": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProjectSourceLeadSummary"
+              }
+            ],
+            "nullable": true
+          },
+          "stageSummary": {
+            "$ref": "#/components/schemas/ProjectDetailStageSummary"
+          },
+          "currentBidSummary": {
+            "$ref": "#/components/schemas/ProjectDetailBidSummary"
+          },
+          "currentContractSummary": {
+            "$ref": "#/components/schemas/ProjectDetailContractSummary"
+          },
+          "currentApprovalSummary": {
+            "$ref": "#/components/schemas/ProjectDetailApprovalSummary"
+          },
+          "currentConfirmationSummary": {
+            "$ref": "#/components/schemas/ProjectDetailConfirmationSummary"
+          },
+          "summarySnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "projectionLevel": {
+            "type": "string",
+            "nullable": true
+          },
+          "exportPolicy": {
+            "type": "string",
+            "nullable": true
+          },
+          "allowedActions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "generatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          }
+        },
+        "required": [
+          "id",
+          "projectNo",
+          "projectName",
+          "sourceLeadId",
+          "customerId",
+          "customerName",
+          "customerProjectNo",
+          "status",
+          "currentStage",
+          "ownerOrgId",
+          "ownerUserId",
+          "plannedSignAt",
+          "closedAt",
+          "closedReason",
+          "rowVersion",
+          "createdAt",
+          "createdBy",
+          "updatedAt",
+          "updatedBy",
+          "ownerName",
+          "ownerOrgName",
+          "sourceLeadSummary",
+          "stageSummary",
+          "currentBidSummary",
+          "currentContractSummary",
+          "currentApprovalSummary",
+          "currentConfirmationSummary",
+          "summarySnapshotId",
+          "projectionLevel",
+          "exportPolicy",
+          "allowedActions",
+          "generatedAt"
+        ]
+      },
+      "ProjectHandoverBasisItemSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "itemType": {
+            "type": "string",
+            "enum": [
+              "scope",
+              "risk",
+              "receivable",
+              "cost",
+              "responsibility",
+              "attachment",
+              "contract"
+            ]
+          },
+          "sourceType": {
+            "type": "string"
+          },
+          "sourceId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "sourceVersion": {
+            "type": "string",
+            "nullable": true
+          },
+          "summary": {
+            "type": "string",
+            "description": "Safe constant template from registered source type, UUID, canonical version/status only; never raw cost/risk/labor/finance payload or free explanation."
+          }
+        },
+        "required": [
+          "id",
+          "itemType",
+          "sourceType",
+          "sourceId",
+          "sourceVersion",
+          "summary"
+        ],
+        "additionalProperties": false
+      },
+      "ProjectHandoverClosureStatus": {
+        "type": "string",
+        "enum": [
+          "not-started",
+          "handover-in-progress",
+          "handover-confirmed-freeze-pending",
+          "handover-completed-with-commission-freeze",
+          "review-required"
+        ]
+      },
+      "ProjectHandoverDetailView": {
+        "type": "object",
+        "properties": {
+          "handoverId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectNo": {
+            "type": "string"
+          },
+          "projectName": {
+            "type": "string"
+          },
+          "handoverStatus": {
+            "$ref": "#/components/schemas/ProjectHandoverStatus"
+          },
+          "confirmedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+            "nullable": true
+          },
+          "confirmedBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "comment": {
+            "type": "string",
+            "nullable": true
+          },
+          "rowVersion": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991,
+            "nullable": true
+          },
+          "effectiveContractSetSummary": {
+            "$ref": "#/components/schemas/ContractHandoverEffectiveContractSetSummary"
+          },
+          "contractSummarySnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "currentHandoverBaselineSummary": {
+            "$ref": "#/components/schemas/ContractHandoverCurrentBaselineSummary"
+          },
+          "participantConfirmationSummary": {
+            "$ref": "#/components/schemas/ProjectHandoverParticipantConfirmationSummary"
+          },
+          "receiptJudgmentModeSummary": {
+            "$ref": "#/components/schemas/ProjectHandoverReceiptJudgmentModeSummary"
+          },
+          "summaryPackageKey": {
+            "type": "string",
+            "nullable": true
+          },
+          "summarySnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "projectionLevel": {
+            "type": "string",
+            "nullable": true
+          },
+          "exportPolicy": {
+            "type": "string",
+            "nullable": true
+          },
+          "allowedActions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "blockingReasons": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "generatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "projectRowVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9007199254740991
+          },
+          "handoverBasisSnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "sourcePayloadHash": {
+            "type": "string",
+            "minLength": 64,
+            "maxLength": 64,
+            "pattern": "^[0-9a-f]{64}$",
+            "nullable": true
+          },
+          "currentSourcePayloadHash": {
+            "type": "string",
+            "minLength": 64,
+            "maxLength": 64,
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "sourceChanged": {
+            "type": "boolean"
+          },
+          "executionOwnerUserId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "financeConfirmationRequired": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9007199254740991,
+            "nullable": true
+          },
+          "closureStatus": {
+            "$ref": "#/components/schemas/ProjectHandoverClosureStatus"
+          },
+          "executionAdmission": {
+            "$ref": "#/components/schemas/ProjectHandoverExecutionAdmission"
+          },
+          "handoverBasisItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectHandoverBasisItemSummary"
+            }
+          },
+          "frozenMaterials": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProjectHandoverFrozenMaterials"
+              }
+            ],
+            "nullable": true
+          }
+        },
+        "required": [
+          "handoverId",
+          "projectId",
+          "projectNo",
+          "projectName",
+          "handoverStatus",
+          "confirmedAt",
+          "confirmedBy",
+          "comment",
+          "rowVersion",
+          "effectiveContractSetSummary",
+          "contractSummarySnapshotId",
+          "currentHandoverBaselineSummary",
+          "participantConfirmationSummary",
+          "receiptJudgmentModeSummary",
+          "summaryPackageKey",
+          "summarySnapshotId",
+          "projectionLevel",
+          "exportPolicy",
+          "allowedActions",
+          "blockingReasons",
+          "generatedAt",
+          "projectRowVersion",
+          "handoverBasisSnapshotId",
+          "sourcePayloadHash",
+          "currentSourcePayloadHash",
+          "sourceChanged",
+          "executionOwnerUserId",
+          "financeConfirmationRequired",
+          "version",
+          "closureStatus",
+          "executionAdmission",
+          "handoverBasisItems",
+          "frozenMaterials"
+        ],
+        "additionalProperties": false
+      },
+      "ProjectHandoverExecutionAdmission": {
+        "type": "object",
+        "properties": {
+          "allowed": {
+            "type": "boolean"
+          },
+          "blockingReasons": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "allowed",
+          "blockingReasons"
+        ],
+        "additionalProperties": false
+      },
+      "ProjectHandoverFrozenMaterialContract": {
+        "type": "object",
+        "properties": {
+          "contractId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "contractTermSnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "technicalCostPackageId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "technicalCostVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9007199254740991
+          },
+          "scopeItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectTechnicalScopeItemView"
+            }
+          },
+          "riskItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectTechnicalRiskItemView"
+            }
+          }
+        },
+        "required": [
+          "contractId",
+          "contractTermSnapshotId",
+          "technicalCostPackageId",
+          "technicalCostVersion",
+          "scopeItems",
+          "riskItems"
+        ],
+        "additionalProperties": false
+      },
+      "ProjectHandoverFrozenMaterials": {
+        "type": "object",
+        "properties": {
+          "basisSnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "sourcePayloadHash": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "contracts": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectHandoverFrozenMaterialContract"
+            }
+          }
+        },
+        "required": [
+          "basisSnapshotId",
+          "sourcePayloadHash",
+          "contracts"
+        ],
+        "additionalProperties": false
+      },
+      "ProjectHandoverParticipantConfirmationItem": {
+        "type": "object",
+        "properties": {
+          "participantId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "participantRoleKey": {
+            "type": "string"
+          },
+          "participantDisplayName": {
+            "type": "string",
+            "nullable": true
+          },
+          "participantStatus": {
+            "$ref": "#/components/schemas/ProjectHandoverParticipantStatus"
+          },
+          "confirmedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+            "nullable": true
+          },
+          "confirmedComment": {
+            "type": "string",
+            "nullable": true
+          },
+          "responsibilities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectHandoverResponsibilityInput"
+            }
+          }
+        },
+        "required": [
+          "participantId",
+          "participantRoleKey",
+          "participantDisplayName",
+          "participantStatus",
+          "confirmedAt",
+          "confirmedComment",
+          "responsibilities"
+        ],
+        "additionalProperties": false
+      },
+      "ProjectHandoverParticipantConfirmationStatus": {
+        "type": "string",
+        "enum": [
+          "not-started",
+          "pending",
+          "confirmed",
+          "closed"
+        ]
+      },
+      "ProjectHandoverParticipantConfirmationSummary": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/ProjectHandoverParticipantConfirmationStatus"
+          },
+          "confirmationRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "requiredCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "confirmedCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "pendingCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "closedCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "submittedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+            "nullable": true
+          },
+          "confirmedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+            "nullable": true
+          },
+          "closedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+            "nullable": true
+          },
+          "rowVersion": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991,
+            "nullable": true
+          },
+          "participants": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectHandoverParticipantConfirmationItem"
+            }
+          }
+        },
+        "required": [
+          "status",
+          "confirmationRecordId",
+          "requiredCount",
+          "confirmedCount",
+          "pendingCount",
+          "closedCount",
+          "submittedAt",
+          "confirmedAt",
+          "closedAt",
+          "rowVersion",
+          "participants"
+        ]
+      },
+      "ProjectHandoverParticipantInput": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "responsibilities": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectHandoverResponsibilityInput"
+            }
+          }
+        },
+        "required": [
+          "userId",
+          "responsibilities"
+        ],
+        "additionalProperties": false
+      },
+      "ProjectHandoverParticipantStatus": {
+        "type": "string",
+        "enum": [
+          "pending",
+          "confirmed",
+          "closed"
+        ]
+      },
+      "ProjectHandoverReceiptJudgmentFreezeStatus": {
+        "type": "string",
+        "enum": [
+          "not-frozen",
+          "frozen"
+        ]
+      },
+      "ProjectHandoverReceiptJudgmentModeSummary": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/ProjectHandoverReceiptJudgmentFreezeStatus"
+          },
+          "receiptJudgmentMode": {
+            "type": "string",
+            "nullable": true
+          },
+          "sourceType": {
+            "$ref": "#/components/schemas/ProjectHandoverReceiptJudgmentSourceType"
+          },
+          "sourceId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "summary": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "receiptJudgmentMode",
+          "sourceType",
+          "sourceId",
+          "summary"
+        ]
+      },
+      "ProjectHandoverReceiptJudgmentSourceType": {
+        "type": "string",
+        "enum": [
+          "project-handover",
+          "project-receipt-judgment-freeze",
+          "none"
+        ]
+      },
+      "ProjectHandoverResponsibilityInput": {
+        "type": "object",
+        "properties": {
+          "roleKey": {
+            "$ref": "#/components/schemas/ProjectHandoverResponsibilityRole"
+          },
+          "responsibilitySummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          }
+        },
+        "required": [
+          "roleKey",
+          "responsibilitySummary"
+        ],
+        "additionalProperties": false
+      },
+      "ProjectHandoverResponsibilityRole": {
+        "type": "string",
+        "enum": [
+          "sales-owner",
+          "business-admin",
+          "technical-support",
+          "execution-owner",
+          "finance"
+        ]
+      },
+      "ProjectHandoverStatus": {
+        "type": "string",
+        "enum": [
+          "not-started",
+          "draft",
+          "confirmed",
+          "superseded",
+          "voided"
+        ]
+      },
+      "ProjectOperatingSnapshotSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "snapshotMode": {
+            "$ref": "#/components/schemas/OperatingSnapshotMode"
+          },
+          "snapshotAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "sourceWindowStart": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+            "nullable": true
+          },
+          "sourceWindowEnd": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+            "nullable": true
+          },
+          "effectiveContractTotal": {
+            "type": "string"
+          },
+          "receivableConfirmedTotal": {
+            "type": "string"
+          },
+          "includedCostTotal": {
+            "type": "string"
+          },
+          "originalBaselineCost": {
+            "type": "string"
+          },
+          "currentEffectiveBaselineCost": {
+            "type": "string"
+          },
+          "grossMarginAmount": {
+            "type": "string"
+          },
+          "grossMarginRate": {
+            "type": "string",
+            "nullable": true
+          },
+          "taxImpactSummary": {
+            "type": "string"
+          },
+          "taxImpactPendingAmount": {
+            "type": "string"
+          },
+          "allocationStabilitySummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "unmappedCostSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "currentActionLevel": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "referencedBaselineVersion": {
+            "type": "string"
+          },
+          "baselineSelectionSource": {
+            "$ref": "#/components/schemas/BaselineSelectionSource"
+          },
+          "handoverRebaselineRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/OperatingLifecycleStatus"
+          },
+          "supersedesId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "rowVersion": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          }
+        },
+        "required": [
+          "id",
+          "projectId",
+          "snapshotMode",
+          "snapshotAt",
+          "sourceWindowStart",
+          "sourceWindowEnd",
+          "effectiveContractTotal",
+          "receivableConfirmedTotal",
+          "includedCostTotal",
+          "originalBaselineCost",
+          "currentEffectiveBaselineCost",
+          "grossMarginAmount",
+          "grossMarginRate",
+          "taxImpactSummary",
+          "taxImpactPendingAmount",
+          "allocationStabilitySummary",
+          "unmappedCostSummary",
+          "currentActionLevel",
+          "referencedBaselineVersion",
+          "baselineSelectionSource",
+          "handoverRebaselineRecordId",
+          "status",
+          "supersedesId",
+          "rowVersion",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "ProjectOwnerReassignmentResult": {
+        "type": "object",
+        "properties": {
+          "targetId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectOwnerReassignmentRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "previousOwnerUserId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "previousOwnerOrgId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "newOwnerUserId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "newOwnerOrgId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "businessStatusAfter": {
+            "$ref": "#/components/schemas/ProjectStatus"
+          }
+        },
+        "required": [
+          "targetId",
+          "projectOwnerReassignmentRecordId",
+          "previousOwnerUserId",
+          "previousOwnerOrgId",
+          "newOwnerUserId",
+          "newOwnerOrgId",
+          "businessStatusAfter"
+        ]
+      },
+      "ProjectReceiptJudgmentMode": {
+        "type": "string",
+        "enum": [
+          "project-aggregate",
+          "contract-separate"
+        ]
+      },
+      "ProjectSourceLeadSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "leadNo": {
+            "type": "string"
+          },
+          "leadName": {
+            "type": "string"
+          },
+          "customerId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "customerName": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/LeadStatus"
+          }
+        },
+        "required": [
+          "id",
+          "leadNo",
+          "leadName",
+          "customerId",
+          "customerName",
+          "status"
+        ]
+      },
+      "ProjectStage": {
+        "type": "string",
+        "enum": [
+          "assessment",
+          "scope-confirmation",
+          "commercial-closure",
+          "contracting",
+          "handover",
+          "execution",
+          "acceptance",
+          "completed",
+          "closed-lost",
+          "closed-terminated"
+        ]
+      },
+      "ProjectStatus": {
+        "type": "string",
+        "enum": [
+          "active",
+          "pending-approval",
+          "blocked",
+          "on-hold",
+          "completed",
+          "closed"
+        ]
+      },
+      "ProjectSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectNo": {
+            "type": "string"
+          },
+          "projectName": {
+            "type": "string"
+          },
+          "sourceLeadId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "customerId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "customerName": {
+            "type": "string",
+            "nullable": true
+          },
+          "customerProjectNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/ProjectStatus"
+          },
+          "currentStage": {
+            "$ref": "#/components/schemas/ProjectStage"
+          },
+          "ownerOrgId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "ownerUserId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "plannedSignAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+            "nullable": true
+          },
+          "closedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+            "nullable": true
+          },
+          "closedReason": {
+            "type": "string",
+            "nullable": true
+          },
+          "rowVersion": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "projectNo",
+          "projectName",
+          "sourceLeadId",
+          "customerId",
+          "customerName",
+          "customerProjectNo",
+          "status",
+          "currentStage",
+          "ownerOrgId",
+          "ownerUserId",
+          "plannedSignAt",
+          "closedAt",
+          "closedReason",
+          "rowVersion",
+          "createdAt",
+          "createdBy",
+          "updatedAt",
+          "updatedBy"
+        ]
+      },
+      "ProjectTechnicalRiskItemView": {
+        "type": "object",
+        "properties": {
+          "riskCategory": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "riskLevel": {
+            "type": "string",
+            "enum": [
+              "R1",
+              "R2",
+              "R3",
+              "R4"
+            ]
+          },
+          "riskDescription": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "impactScope": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "mitigationPlan": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "ownerRole": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "riskStatus": {
+            "type": "string",
+            "enum": [
+              "open",
+              "mitigating",
+              "accepted",
+              "closed"
+            ]
+          },
+          "blocksNextStage": {
+            "type": "boolean"
+          },
+          "sortOrder": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "packageId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "required": [
+          "riskCategory",
+          "riskLevel",
+          "riskDescription",
+          "impactScope",
+          "mitigationPlan",
+          "ownerRole",
+          "riskStatus",
+          "blocksNextStage",
+          "sortOrder",
+          "id",
+          "packageId"
+        ]
+      },
+      "ProjectTechnicalScopeItemView": {
+        "type": "object",
+        "properties": {
+          "scopeType": {
+            "type": "string",
+            "enum": [
+              "in-scope",
+              "out-of-scope",
+              "assumption"
+            ]
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "sortOrder": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "packageId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "required": [
+          "scopeType",
+          "label",
+          "description",
+          "sortOrder",
+          "id",
+          "packageId"
+        ]
+      },
+      "ProjectTimelineEvent": {
+        "type": "object",
+        "properties": {
+          "eventKey": {
+            "type": "string"
+          },
+          "stage": {
+            "$ref": "#/components/schemas/ProjectStage"
+          },
+          "stageLabel": {
+            "type": "string"
+          },
+          "eventType": {
+            "type": "string",
+            "enum": [
+              "stage-entered",
+              "stage-completed",
+              "milestone"
+            ]
+          },
+          "occurredAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "actorUserId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "actorName": {
+            "type": "string",
+            "nullable": true
+          },
+          "resultLabel": {
+            "type": "string"
+          },
+          "sourceType": {
+            "type": "string",
+            "enum": [
+              "project",
+              "contract",
+              "project-handover",
+              "acceptance-record",
+              "project-completion-record",
+              "project-archive-record"
+            ]
+          },
+          "sourceId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "evidenceLabel": {
+            "type": "string",
+            "nullable": true
+          },
+          "isAuthoritative": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "eventKey",
+          "stage",
+          "stageLabel",
+          "eventType",
+          "occurredAt",
+          "actorUserId",
+          "actorName",
+          "resultLabel",
+          "sourceType",
+          "sourceId",
+          "evidenceLabel",
+          "isAuthoritative"
+        ]
+      },
+      "ProjectTimelineView": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectTimelineEvent"
+            }
+          },
+          "generatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          }
+        },
+        "required": [
+          "projectId",
+          "events",
+          "generatedAt"
+        ]
+      },
+      "ProjectUnifiedAccountingView": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "snapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "originalBaselineCostSummaryProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
+          "currentEffectiveBaselineCostSummaryProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
+          "includedCostTotalSummaryProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
+          "receivableConfirmedAmountSummaryProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
+          "taxImpactSummaryProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
+          "taxImpactPendingAmountProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
+          "allocationStabilitySummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "unmappedCostSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "dataMaturityLevel": {
+            "$ref": "#/components/schemas/OperatingDataMaturityLevel"
+          },
+          "costActionRecommendation": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "referencedBaselineVersion": {
+            "type": "string"
+          },
+          "referencedSnapshotVersion": {
+            "type": "string"
+          },
+          "allowedActions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "projectId",
+          "snapshotId",
+          "originalBaselineCostSummaryProjection",
+          "currentEffectiveBaselineCostSummaryProjection",
+          "includedCostTotalSummaryProjection",
+          "receivableConfirmedAmountSummaryProjection",
+          "taxImpactSummaryProjection",
+          "taxImpactPendingAmountProjection",
+          "allocationStabilitySummary",
+          "unmappedCostSummary",
+          "dataMaturityLevel",
+          "costActionRecommendation",
+          "referencedBaselineVersion",
+          "referencedSnapshotVersion",
+          "allowedActions"
+        ]
+      },
+      "ProjectVarianceRiskExplanationView": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "signalEvaluationId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "varianceSourceSummaryProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
+          "riskLevel": {
+            "$ref": "#/components/schemas/OperatingRiskLevel"
+          },
+          "taxImpactSummaryProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
+          "allocationStabilitySummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "unmappedCostSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "dataMaturityLevel": {
+            "$ref": "#/components/schemas/OperatingDataMaturityLevel"
+          },
+          "costActionRecommendation": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "currentActionLevel": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "referencedBaselineVersion": {
+            "type": "string"
+          },
+          "referencedSnapshotVersion": {
+            "type": "string"
+          },
+          "recommendedActionSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "allowedActions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "projectId",
+          "signalEvaluationId",
+          "varianceSourceSummaryProjection",
+          "riskLevel",
+          "taxImpactSummaryProjection",
+          "allocationStabilitySummary",
+          "unmappedCostSummary",
+          "dataMaturityLevel",
+          "costActionRecommendation",
+          "currentActionLevel",
+          "referencedBaselineVersion",
+          "referencedSnapshotVersion",
+          "recommendedActionSummary",
+          "allowedActions"
+        ]
+      },
+      "ReassignProjectOwnerRequest": {
+        "type": "object",
+        "properties": {
+          "ownerUserId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "ownerOrgId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
+          }
+        },
+        "required": [
+          "ownerUserId",
+          "reason"
+        ]
+      },
+      "ReplaceProjectArchiveRecordRequest": {
+        "type": "object",
+        "properties": {
+          "archivedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "archiveSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "evidenceSummary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "replacementReason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
+          }
+        },
+        "required": [
+          "archivedAt",
+          "archiveSummary",
+          "evidenceSummary",
+          "replacementReason"
+        ]
+      },
+      "ReviewCommissionGateBindingRequest": {
+        "type": "object",
+        "properties": {
+          "bindingAction": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "gateReviewDecision": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 32
+          },
+          "blockingReasonCode": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "nullable": true
+          },
+          "baselineSelectionSource": {
+            "$ref": "#/components/schemas/BaselineSelectionSource"
+          },
+          "summaryPackageKey": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "summarySnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "referencedBaselineVersion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "referencedSnapshotVersion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "comment": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000,
+            "nullable": true
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
+          }
+        },
+        "required": [
+          "bindingAction",
+          "gateReviewDecision",
+          "baselineSelectionSource",
+          "summaryPackageKey",
+          "summarySnapshotId",
+          "referencedBaselineVersion",
+          "referencedSnapshotVersion"
+        ]
+      },
+      "ReviewCommissionGateBindingResult": {
+        "type": "object",
+        "properties": {
+          "targetId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "bindingResultId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "gateReviewRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "taxImpactSummary": {
+            "type": "string"
+          },
+          "taxImpactPendingAmount": {
+            "type": "string"
+          },
+          "dataMaturityLevel": {
+            "$ref": "#/components/schemas/OperatingDataMaturityLevel"
+          },
+          "costActionRecommendation": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "currentActionLevel": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "baselineSelectionSource": {
+            "$ref": "#/components/schemas/BaselineSelectionSource"
+          },
+          "referencedBaselineVersion": {
+            "type": "string"
+          },
+          "referencedSnapshotVersion": {
+            "type": "string"
+          },
+          "summaryPackageKey": {
+            "type": "string"
+          },
+          "summarySnapshotId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectionLevel": {
+            "type": "string"
+          },
+          "exportPolicy": {
+            "type": "string"
+          },
+          "nextActionSummary": {
+            "type": "string",
+            "nullable": true
+          },
+          "businessStatusAfter": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "targetId",
+          "bindingResultId",
+          "gateReviewRecordId",
+          "taxImpactSummary",
+          "taxImpactPendingAmount",
+          "dataMaturityLevel",
+          "costActionRecommendation",
+          "currentActionLevel",
+          "baselineSelectionSource",
+          "referencedBaselineVersion",
+          "referencedSnapshotVersion",
+          "summaryPackageKey",
+          "summarySnapshotId",
+          "projectionLevel",
+          "exportPolicy",
+          "nextActionSummary",
+          "businessStatusAfter"
+        ]
+      },
+      "ReviewOperatingSignalEvaluationRequest": {
+        "type": "object",
+        "properties": {
+          "reviewDecision": {
+            "$ref": "#/components/schemas/OperatingSignalReviewDecision"
+          },
+          "resolvedDataMaturityLevel": {
+            "$ref": "#/components/schemas/OperatingDataMaturityLevel"
+          },
+          "costActionRecommendation": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "referencedBaselineVersion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "referencedSnapshotVersion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "reviewComment": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000,
+            "nullable": true
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
+          }
+        },
+        "required": [
+          "reviewDecision",
+          "resolvedDataMaturityLevel",
+          "costActionRecommendation",
+          "referencedBaselineVersion",
+          "referencedSnapshotVersion"
+        ]
+      },
+      "ReviewOperatingSignalEvaluationResult": {
+        "type": "object",
+        "properties": {
+          "targetId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "signalEvaluationId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "reviewRecordId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "taxImpactSummary": {
+            "type": "string"
+          },
+          "dataMaturityLevel": {
+            "$ref": "#/components/schemas/OperatingDataMaturityLevel"
+          },
+          "costActionRecommendation": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "currentActionLevel": {
+            "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+          },
+          "referencedBaselineVersion": {
+            "type": "string"
+          },
+          "referencedSnapshotVersion": {
+            "type": "string"
+          },
+          "resultStatus": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "targetId",
+          "signalEvaluationId",
+          "reviewRecordId",
+          "taxImpactSummary",
+          "dataMaturityLevel",
+          "costActionRecommendation",
+          "currentActionLevel",
+          "referencedBaselineVersion",
+          "referencedSnapshotVersion",
+          "resultStatus"
+        ]
+      },
+      "SensitiveFieldPackageKey": {
+        "type": "string",
+        "enum": [
+          "contract-finance",
+          "operating-finance",
+          "commission-compensation",
+          "labor-cost-rate",
+          "exception-approval-opinion"
+        ]
+      },
+      "SensitiveProjectionMode": {
+        "type": "string",
+        "enum": [
+          "full",
+          "summary",
+          "masked",
+          "denied"
+        ]
+      },
+      "SensitiveProjectionReasonCode": {
+        "type": "string",
+        "enum": [
+          "allowed",
+          "summary-only",
+          "missing-sensitive-read-permission",
+          "field-package-not-applicable"
+        ]
+      },
+      "SensitiveStringFieldProjection": {
+        "type": "object",
+        "properties": {
+          "fieldPackageKey": {
+            "$ref": "#/components/schemas/SensitiveFieldPackageKey"
+          },
+          "mode": {
+            "$ref": "#/components/schemas/SensitiveProjectionMode"
+          },
+          "value": {
+            "type": "string",
+            "nullable": true
+          },
+          "displayText": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "reasonCode": {
+            "$ref": "#/components/schemas/SensitiveProjectionReasonCode"
+          }
+        },
+        "required": [
+          "fieldPackageKey",
+          "mode",
+          "value",
+          "displayText",
+          "reasonCode"
+        ]
+      },
+      "VoidProjectArchiveRecordRequest": {
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "comment": {
+            "type": "string",
+            "maxLength": 1000,
+            "nullable": true
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
+          }
+        },
+        "required": [
+          "reason"
+        ]
+      },
+      "ConfirmReceiptRecordRequest": {
+        "type": "object",
+        "properties": {
+          "expectedVersion": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
+          }
+        }
+      },
+      "ReceiptRecordSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "contractId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "receiptAmount": {
+            "type": "string"
+          },
+          "receiptDate": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "sourceType": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ReceiptRecordStatus"
+          },
+          "confirmedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+            "nullable": true
+          },
+          "confirmedBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
+          },
+          "rowVersion": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          }
+        },
+        "required": [
+          "id",
+          "contractId",
+          "projectId",
+          "receiptAmount",
+          "receiptDate",
+          "sourceType",
+          "status",
+          "confirmedAt",
+          "confirmedBy",
+          "rowVersion",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "ReceiptRecordStatus": {
+        "type": "string",
+        "enum": [
+          "draft",
+          "pending-confirmation",
+          "confirmed",
+          "reversed",
+          "voided"
+        ]
+      }
+    }
+  },
+  "effectiveV2Note": "Augmented only with exact actual C confirm operation/schema closure omitted by the v1 wrong supporting operationId; original v1 file unchanged."
+}

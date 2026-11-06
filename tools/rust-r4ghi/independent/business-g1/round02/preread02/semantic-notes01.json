@@ -1,0 +1,23 @@
+{
+  "kind": "independent-effective-v2-preread-semantic-notes",
+  "qualification": "Unfinished design package only. No G1 Pass, G2 authorization or product acceptance.",
+  "inputManifest": "candidate-inputs.json",
+  "nonAuthor": true,
+  "reviewed": [
+    {"id": "BG1-01", "observation": "Both G snapshot families drop pending-tax NOT NULL, add explicit knowledge, require known/value or unknown/NULL for producer1 and defer comparison to the immutable context and paired snapshot. ORM target mirrors nullable18,2. Existing producer0 values remain unchanged.", "acceptanceOutstanding": "Real known-zero/unknown chain and mismatch rollback"},
+    {"id": "BG1-02", "observation": "Exact scopeKind unions provide strict own-task and creator-anchor DTOs; own close returns only own closure plus parent version/aggregate. The task UI first requests the existing completion list without full ProjectDetail. Own attachments remain limited to actual task/closure links and existing attachment guards.", "acceptanceOutstanding": "Actual permission filtering, nonleaking HTTP/DOM and own-task UI"},
+    {"id": "BG1-03", "observation": "Participant assignment_id cannot change under any UPDATE. DELETE checks OLD parent, other DML checks the same real parent; frozen set mutations reject. Deferred exact millionths total remains.", "acceptanceOutstanding": "Real frozen-zero-weight member movement and freeze concurrency SQL cases"},
+    {"id": "F-four-producers", "observation": "Stage and tax corrections use exact nested real-producer request DTOs, references/versions/hashes and private same-outerTX permits. Stage refactor must preserve consumed included status/money/confirmation instead of the existing ordinary stage producer's SET record_status=confirmed path. Shared source lineage requires complete real allocation refresh and every affected live/period terminal, with full project/sensitive permissions and sorted locks.", "sources": ["apps/poms-api-rust/src/project_cost_governance/service.rs:596-665", "apps/poms-api-rust/src/project_cost_governance/service.rs:843", "apps/poms-api-rust/src/project_cost_governance/service.rs:872-955"], "acceptanceOutstanding": "All real producer, shared batch, complete impact set, source-window, rollback and same-body retry cases"},
+    {"id": "legacy-current", "observation": "Cross-producer baseline/period/frozen-role checks are explicit before INSERT. Missing new head never erases legacy current authority; no old baseline/period admission protocol is invented. Actual no-assignment response is200/null.", "acceptanceOutstanding": "Actual legacy current/source guard and semantic409 cases"},
+    {"id": "scope-sixth-decision", "observation": "Exact creator provenance and permanent bootstrap consumption match the sixth user decision. Initial personal ownership starts consumed; reassign and handover preparation check pre-change relationships. Bare permissions, role names and organization membership do not create scope.", "acceptanceOutstanding": "Direct creation/conversion, double first assignment, return-to-org, false authority and live relationship revocation"},
+    {"id": "conditional-stage-token", "observation": "preread02 adds conditional-completed consistently to shared stage/archive targets, project CHECK and terminal ledger matching. Access/permit authority uses a private lifetime-bound OuterTxToken, explicitly excluding HTTP request_id as authority.", "acceptanceOutstanding": "Compile, actual stage/closure/archive behavior and exact outer transaction rollback"}
+  ],
+  "knownUnresolvedInCapturedDraft": ["BG1-04 pre-effect whitelist disagreement; reported to Root and author, to be rechecked on formal candidate"],
+  "formalReviewNeeds": ["Exact candidate commit", "Root source manifest and operation map", "Final effective-v2 verify output", "All captured changed input bytes reviewed against the candidate", "Governance/canonical and frozen source/target hashes closed together"],
+  "G1Certified": false,
+  "G2Authorized": false,
+  "productTestsRun": false,
+  "databaseConnections": 0,
+  "GitHubWrites": 0,
+  "Fast": "unverified"
+}

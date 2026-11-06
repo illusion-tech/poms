@@ -1,0 +1,11 @@
+{
+  "classification": "tool-noise",
+  "preservedOriginal": "schema-checks01.json",
+  "replacementForSchemaVerdicts": "schema-checks02.json",
+  "scope": "Two Amount fixture probes only",
+  "cause": "The first verifier spread the full source-context root schema beside the Amount $ref. JSON Schema therefore also required every top-level context field for a standalone Amount fixture.",
+  "fix": "Resolve standalone Amount with the same captured $defs and a $ref only. The source schema bytes were not changed.",
+  "productOrSchemaFailure": false,
+  "hashWhitelistFindingUnaffected": true,
+  "G1Certified": false
+}

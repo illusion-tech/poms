@@ -3,7 +3,7 @@
   "date": "2026-11-06",
   "base": "aaa4b16ac66092f0cb1dc6646a02cf14e80823ee",
   "branch": "codex/poms-r4ghi-next25",
-  "stage": "G1Preparing",
+  "stage": "G1ReviewInput",
   "issues": {
     "root": 57,
     "stage": 101,
@@ -32,8 +32,9 @@
   "officialRustOperations": 240,
   "r4Progress": {
     "delivered": 67,
-    "total": 92,
-    "remaining": 25
+    "total": 95,
+    "remaining": 28,
+    "denominatorMeaning": "planned canonical including 3 new R4 routes; no new delivery certified"
   },
   "fullR4Complete": false,
   "pendingBusinessDecisions": [],
@@ -52,7 +53,9 @@
     "archive": "archive/slices/rust-r2-user-create-fix115/origin-map01.json",
     "implementationCommit": "874e35fc0af3b6cdf6f6461725eb1343152efbea",
     "certificateSHA256": "a3656dd231f41419be680bc5b8f163993ae70fc9c48025a78912c15767b1cd6f",
-    "onlineG4": "archive/slices/rust-r2-user-create-fix115/online-seal02/userfix-online01/receipt.json.bin"
+    "onlineG4": "archive/slices/rust-r2-user-create-fix115/online-seal02/userfix-online01/receipt.json.bin",
+    "sealCommit": "d5c79b260fc58f78ff9adb4ac9fd69ed5bc838d5",
+    "finalIssueLinksVerified": true
   },
   "modelTargets": {
     "subagents": {
@@ -61,5 +64,18 @@
       "fast": "unverified"
     }
   },
-  "g0Receipt": "rust-r4ghi/g0-registration01.json"
+  "g0Receipt": "rust-r4ghi/g0-registration01.json",
+  "forecast": {
+    "RustOperationsAfterAcceptance": 272,
+    "R4DeliveredAfterAcceptance": 95,
+    "notDeliveryEvidence": true
+  },
+  "businessBaseline": "rust-r4ghi-next32-baseline.md",
+  "operationMap": "rust-r4ghi/operation-map01.json",
+  "formalInputManifest": "rust-r4ghi/g1-source-manifest01.json",
+  "effectiveTechnicalInput": "../../tools/rust-r4ghi/joint-g1/effective-v2/blueprint.json",
+  "userDecisionSources": [
+    "rust-r4ghi/user-decisions02.json",
+    "rust-r4ghi/user-decision-scope03.json"
+  ]
 }

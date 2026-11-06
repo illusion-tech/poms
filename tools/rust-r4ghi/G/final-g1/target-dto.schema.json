@@ -1,0 +1,2665 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "G target DTO proposal; not yet shared runtime contract",
+  "$defs": {
+    "SourceRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "id",
+        "rowVersion",
+        "payloadHash"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "rowVersion": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "payloadHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "ExpectedRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "id",
+        "expectedVersion",
+        "payloadHash"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "payloadHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "MoneyFact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "knowledge",
+        "value",
+        "unknownReasonCode",
+        "evidenceRefs",
+        "zeroProof"
+      ],
+      "properties": {
+        "knowledge": {
+          "type": "string",
+          "enum": [
+            "known",
+            "unknown"
+          ]
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^-?(?:0|[1-9][0-9]{0,15})\\.[0-9]{2}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "unknownReasonCode": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "evidenceRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SourceRef"
+          },
+          "maxItems": 1000
+        },
+        "zeroProof": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "source-basis-value",
+                "sum-known-members-zero",
+                "exhaustive-classified-scope-zero"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "knowledge": {
+                "const": "known"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "string",
+                "pattern": "^-?(?:0|[1-9][0-9]{0,15})\\.[0-9]{2}$"
+              },
+              "unknownReasonCode": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "value": {
+                "type": "null"
+              },
+              "unknownReasonCode": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              },
+              "zeroProof": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "value": {
+                "const": "0.00"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "zeroProof": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "knowledge": {
+                "const": "known"
+              },
+              "value": {
+                "not": {
+                  "const": "0.00"
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "zeroProof": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "FormalEligibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "blockingReasonCodes",
+        "missingEvidenceRefs"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "eligible",
+            "missing-evidence"
+          ]
+        },
+        "blockingReasonCodes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "maxItems": 1000
+        },
+        "missingEvidenceRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SourceRef"
+          },
+          "maxItems": 1000
+        }
+      }
+    },
+    "FinancialGroup": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "effectiveContractNet",
+        "confirmedReceiptGross",
+        "confirmedReceiptNet",
+        "includedCostNet",
+        "originalBaselineNet",
+        "currentBaselineNet",
+        "taxPending",
+        "grossMarginNet",
+        "grossMarginRate",
+        "grossMarginRateState",
+        "taxSummary",
+        "allocationSummary",
+        "unmappedSummary",
+        "reasonText"
+      ],
+      "properties": {
+        "effectiveContractNet": {
+          "$ref": "#/$defs/MoneyFact"
+        },
+        "confirmedReceiptGross": {
+          "$ref": "#/$defs/MoneyFact"
+        },
+        "confirmedReceiptNet": {
+          "$ref": "#/$defs/MoneyFact"
+        },
+        "includedCostNet": {
+          "$ref": "#/$defs/MoneyFact"
+        },
+        "originalBaselineNet": {
+          "$ref": "#/$defs/MoneyFact"
+        },
+        "currentBaselineNet": {
+          "$ref": "#/$defs/MoneyFact"
+        },
+        "taxPending": {
+          "$ref": "#/$defs/MoneyFact"
+        },
+        "grossMarginNet": {
+          "$ref": "#/$defs/MoneyFact"
+        },
+        "grossMarginRate": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^-?[0-9]{1,32}\\.[0-9]{6}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "grossMarginRateState": {
+          "type": "string",
+          "enum": [
+            "known",
+            "zero-denominator",
+            "unknown"
+          ]
+        },
+        "taxSummary": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "allocationSummary": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "unmappedSummary": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reasonText": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "FinancialProjection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "displayText",
+        "fieldPackageKeys",
+        "value"
+      ],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": [
+            "full",
+            "masked",
+            "denied"
+          ]
+        },
+        "displayText": {
+          "type": "string"
+        },
+        "fieldPackageKeys": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "operating-finance",
+              "labor-cost-rate"
+            ]
+          },
+          "maxItems": 1000
+        },
+        "value": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/FinancialGroup"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "x-reuse-registered-engine": "Root maps the existing sensitive projection engine to this typed reversible group; no alternative authorization policy."
+    },
+    "SourceFinancialGroup": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "currency",
+        "net",
+        "tax",
+        "gross",
+        "rate",
+        "detailText"
+      ],
+      "properties": {
+        "currency": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[A-Z]{3}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "net": {
+          "$ref": "#/$defs/MoneyFact"
+        },
+        "tax": {
+          "$ref": "#/$defs/MoneyFact"
+        },
+        "gross": {
+          "$ref": "#/$defs/MoneyFact"
+        },
+        "rate": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9]\\.[0-9]{4}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "detailText": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "SourceFinancialProjection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "displayText",
+        "fieldPackageKeys",
+        "value"
+      ],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": [
+            "full",
+            "masked",
+            "denied"
+          ]
+        },
+        "displayText": {
+          "type": "string"
+        },
+        "fieldPackageKeys": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "operating-finance",
+              "labor-cost-rate"
+            ]
+          },
+          "maxItems": 1000
+        },
+        "value": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceFinancialGroup"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "CostDecisionInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "target",
+        "expectedVersion",
+        "decision",
+        "recognitionRole",
+        "reasonCode",
+        "reasonText",
+        "primaryCostRef",
+        "supportingSourceRefs",
+        "evidenceRefs"
+      ],
+      "properties": {
+        "target": {
+          "$ref": "#/$defs/ExpectedRef"
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "decision": {
+          "type": "string",
+          "enum": [
+            "include",
+            "exclude"
+          ]
+        },
+        "recognitionRole": {
+          "type": "string",
+          "enum": [
+            "direct-source",
+            "allocation-share",
+            "tax-support",
+            "evidence-only"
+          ]
+        },
+        "reasonCode": {
+          "type": "string",
+          "enum": [
+            "actual-payment",
+            "actual-expense",
+            "executed-labor",
+            "approved-commitment-exception",
+            "duplicate-support",
+            "pending-confirmation",
+            "pending-monetary-layer",
+            "shared-source-delegated",
+            "outside-cutoff",
+            "other-evidenced"
+          ]
+        },
+        "reasonText": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "primaryCostRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ExpectedRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "supportingSourceRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ExpectedRef"
+          },
+          "maxItems": 1000
+        },
+        "evidenceRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ExpectedRef"
+          },
+          "maxItems": 1000
+        }
+      }
+    },
+    "LegacyAssertions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "originalBaselineCost",
+        "currentEffectiveBaselineCost",
+        "changePackageTotal",
+        "effectiveContractTotal",
+        "receivableConfirmedTotal",
+        "includedCostTotal",
+        "taxImpactPendingAmount",
+        "currentActionLevel",
+        "referencedBaselineVersion"
+      ],
+      "properties": {
+        "originalBaselineCost": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^-?(?:0|[1-9][0-9]{0,15})\\.[0-9]{2}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "currentEffectiveBaselineCost": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^-?(?:0|[1-9][0-9]{0,15})\\.[0-9]{2}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "changePackageTotal": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^-?(?:0|[1-9][0-9]{0,15})\\.[0-9]{2}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "effectiveContractTotal": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^-?(?:0|[1-9][0-9]{0,15})\\.[0-9]{2}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "receivableConfirmedTotal": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^-?(?:0|[1-9][0-9]{0,15})\\.[0-9]{2}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "includedCostTotal": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^-?(?:0|[1-9][0-9]{0,15})\\.[0-9]{2}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "taxImpactPendingAmount": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^-?(?:0|[1-9][0-9]{0,15})\\.[0-9]{2}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "currentActionLevel": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "prompt",
+                "review",
+                "block"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "referencedBaselineVersion": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "ActivateOperatingBaselinePackageRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "inputVersion",
+        "projectId",
+        "expectedVersion",
+        "expectedProjectVersion",
+        "expectedInputHash",
+        "assertions",
+        "expectedCurrentPackageRef",
+        "originalAdoptedCostRef",
+        "selectedHandoverBasisRef",
+        "handoverRebaselineRef",
+        "approvedChangeRefs",
+        "reason"
+      ],
+      "properties": {
+        "inputVersion": {
+          "const": "server-derived-v1"
+        },
+        "projectId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "expectedProjectVersion": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "expectedInputHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "assertions": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/LegacyAssertions"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "expectedCurrentPackageRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ExpectedRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "originalAdoptedCostRef": {
+          "$ref": "#/$defs/ExpectedRef"
+        },
+        "selectedHandoverBasisRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ExpectedRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "handoverRebaselineRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ExpectedRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "approvedChangeRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ExpectedRef"
+          },
+          "maxItems": 1000
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        }
+      }
+    },
+    "CreateProjectOperatingSnapshotRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "inputVersion",
+        "projectId",
+        "expectedVersion",
+        "expectedProjectVersion",
+        "expectedInputHash",
+        "assertions",
+        "baselinePackageRef",
+        "snapshotMode",
+        "periodKey",
+        "costDecisions"
+      ],
+      "properties": {
+        "inputVersion": {
+          "const": "server-derived-v1"
+        },
+        "projectId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "expectedProjectVersion": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "expectedInputHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "assertions": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/LegacyAssertions"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "baselinePackageRef": {
+          "$ref": "#/$defs/ExpectedRef"
+        },
+        "snapshotMode": {
+          "type": "string",
+          "enum": [
+            "realtime",
+            "period-end"
+          ]
+        },
+        "periodKey": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^(?:[0-9]{4}-(?:0[1-9]|1[0-2])|[0-9]{4}-W(?:0[1-9]|[1-4][0-9]|5[0-3]))$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "costDecisions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CostDecisionInput"
+          },
+          "maxItems": 1000
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "snapshotMode": {
+                "const": "period-end"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "periodKey": {
+                "type": "string",
+                "pattern": "^(?:[0-9]{4}-(?:0[1-9]|1[0-2])|[0-9]{4}-W(?:0[1-9]|[1-4][0-9]|5[0-3]))$"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "periodKey": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "CreatePeriodClosingSnapshotRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "inputVersion",
+        "projectId",
+        "expectedVersion",
+        "expectedProjectVersion",
+        "expectedInputHash",
+        "assertions",
+        "baselinePackageRef",
+        "periodKey",
+        "expectedPeriodSnapshotRef",
+        "costDecisions"
+      ],
+      "properties": {
+        "inputVersion": {
+          "const": "server-derived-v1"
+        },
+        "projectId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "expectedProjectVersion": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "expectedInputHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "assertions": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/LegacyAssertions"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "baselinePackageRef": {
+          "$ref": "#/$defs/ExpectedRef"
+        },
+        "periodKey": {
+          "type": "string",
+          "pattern": "^(?:[0-9]{4}-(?:0[1-9]|1[0-2])|[0-9]{4}-W(?:0[1-9]|[1-4][0-9]|5[0-3]))$"
+        },
+        "expectedPeriodSnapshotRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ExpectedRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "costDecisions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CostDecisionInput"
+          },
+          "maxItems": 1000
+        }
+      }
+    },
+    "LaborCorrection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "supersededCostRef",
+        "rateRef",
+        "laborPeriodStart",
+        "laborPeriodEnd",
+        "actualHours",
+        "actualPersonDays",
+        "workSummary",
+        "attachmentRefs",
+        "stageEvidenceRefs",
+        "reason"
+      ],
+      "properties": {
+        "supersededCostRef": {
+          "$ref": "#/$defs/ExpectedRef"
+        },
+        "rateRef": {
+          "$ref": "#/$defs/ExpectedRef"
+        },
+        "laborPeriodStart": {
+          "type": "string",
+          "format": "date"
+        },
+        "laborPeriodEnd": {
+          "type": "string",
+          "format": "date"
+        },
+        "actualHours": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9]{1,8}(?:\\.[0-9]{1,2})?$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "actualPersonDays": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9]{1,8}(?:\\.[0-9]{1,2})?$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "workSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "attachmentRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ExpectedRef"
+          },
+          "maxItems": 1000
+        },
+        "stageEvidenceRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ExpectedRef"
+          },
+          "maxItems": 1000
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        }
+      }
+    },
+    "AllocationShareInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "projectId",
+        "allocationWeight",
+        "expectedCurrentResultRef",
+        "reason"
+      ],
+      "properties": {
+        "projectId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "allocationWeight": {
+          "type": "string",
+          "pattern": "^[0-9]{1,16}(?:\\.[0-9]{1,6})?$"
+        },
+        "expectedCurrentResultRef": {
+          "$ref": "#/$defs/ExpectedRef"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        }
+      }
+    },
+    "AllocationCorrection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "basisRef",
+        "sourceCostRefs",
+        "projectShareItems",
+        "reason"
+      ],
+      "properties": {
+        "basisRef": {
+          "$ref": "#/$defs/ExpectedRef"
+        },
+        "sourceCostRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ExpectedRef"
+          },
+          "maxItems": 1000
+        },
+        "projectShareItems": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AllocationShareInput"
+          },
+          "maxItems": 1000
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        }
+      }
+    },
+    "AffectedRestatementTarget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "projectId",
+        "expectedVersion",
+        "restatesSnapshotRef",
+        "periodEndSnapshotRef",
+        "costDecisions"
+      ],
+      "properties": {
+        "projectId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "restatesSnapshotRef": {
+          "$ref": "#/$defs/ExpectedRef"
+        },
+        "periodEndSnapshotRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ExpectedRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "costDecisions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CostDecisionInput"
+          },
+          "maxItems": 1000
+        }
+      }
+    },
+    "CreateOperatingRestatementRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "inputVersion",
+        "projectId",
+        "expectedVersion",
+        "expectedProjectVersion",
+        "expectedInputHash",
+        "assertions",
+        "scope",
+        "periodEndSnapshotRef",
+        "restatesSnapshotRef",
+        "restatementReason",
+        "restatementSummary",
+        "costDecisions",
+        "laborCorrections",
+        "allocationCorrections",
+        "affectedTargets",
+        "acknowledgedChangedSourceRefs"
+      ],
+      "properties": {
+        "inputVersion": {
+          "const": "server-derived-v1"
+        },
+        "projectId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "expectedProjectVersion": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "expectedInputHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "assertions": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/LegacyAssertions"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "scope": {
+          "type": "string",
+          "enum": [
+            "live",
+            "period"
+          ]
+        },
+        "periodEndSnapshotRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ExpectedRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "restatesSnapshotRef": {
+          "$ref": "#/$defs/ExpectedRef"
+        },
+        "restatementReason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "restatementSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "costDecisions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CostDecisionInput"
+          },
+          "maxItems": 1000
+        },
+        "laborCorrections": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/LaborCorrection"
+          },
+          "maxItems": 1000
+        },
+        "allocationCorrections": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AllocationCorrection"
+          },
+          "maxItems": 1000
+        },
+        "affectedTargets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AffectedRestatementTarget"
+          },
+          "maxItems": 1000
+        },
+        "acknowledgedChangedSourceRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ExpectedRef"
+          },
+          "maxItems": 1000
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "scope": {
+                "const": "period"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "periodEndSnapshotRef": {
+                "$ref": "#/$defs/ExpectedRef"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "periodEndSnapshotRef": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "ReceiptBasisInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "termSnapshotRef",
+        "currencyBasisRef",
+        "evidenceRefs",
+        "selectionPolicy",
+        "reason"
+      ],
+      "properties": {
+        "termSnapshotRef": {
+          "$ref": "#/$defs/ExpectedRef"
+        },
+        "currencyBasisRef": {
+          "$ref": "#/$defs/ExpectedRef"
+        },
+        "evidenceRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ExpectedRef"
+          },
+          "maxItems": 1000
+        },
+        "selectionPolicy": {
+          "type": "string",
+          "enum": [
+            "receipt-date-effective-terms",
+            "explicit-activated-terms-evidence"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        }
+      }
+    },
+    "ConfirmReceiptRecordRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "inputVersion",
+        "mode",
+        "expectedVersion",
+        "expectedContractVersion",
+        "basis"
+      ],
+      "properties": {
+        "inputVersion": {
+          "const": "server-derived-v1"
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "confirm",
+            "certify-existing-basis"
+          ]
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "expectedContractVersion": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "basis": {
+          "$ref": "#/$defs/ReceiptBasisInput"
+        }
+      }
+    },
+    "SourceRow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rowKind",
+        "sourceRef",
+        "sourceMembers",
+        "state",
+        "blockingReasonCodes",
+        "currentDecisionRef",
+        "canonicalAccumulationKey",
+        "sourceChainKey",
+        "containsLabor",
+        "allowedRecognitionRoles",
+        "primaryCostRef",
+        "sourceBusinessDate",
+        "sourceEffectiveBusinessDate",
+        "financialProjection"
+      ],
+      "properties": {
+        "rowKind": {
+          "type": "string",
+          "enum": [
+            "contract",
+            "receipt",
+            "direct-cost",
+            "allocation-share",
+            "supporting-source",
+            "tax-treatment",
+            "baseline",
+            "stage-evidence"
+          ]
+        },
+        "sourceRef": {
+          "$ref": "#/$defs/SourceRef"
+        },
+        "sourceMembers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SourceRef"
+          },
+          "maxItems": 1000
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "ready",
+            "pending",
+            "unclassified",
+            "legacy-unverified"
+          ]
+        },
+        "blockingReasonCodes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "maxItems": 1000
+        },
+        "currentDecisionRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "canonicalAccumulationKey": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sourceChainKey": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "containsLabor": {
+          "type": "string",
+          "enum": [
+            "yes",
+            "no",
+            "unknown"
+          ]
+        },
+        "allowedRecognitionRoles": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "direct-source",
+              "allocation-share",
+              "tax-support",
+              "evidence-only"
+            ]
+          },
+          "maxItems": 1000
+        },
+        "primaryCostRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sourceBusinessDate": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sourceEffectiveBusinessDate": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "financialProjection": {
+          "$ref": "#/$defs/SourceFinancialProjection"
+        }
+      }
+    },
+    "EvaluationRefs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "maturityEvaluationId",
+        "signalEvaluationId",
+        "signalRowVersion",
+        "bindingIds",
+        "summarySnapshotIds",
+        "evaluationHash",
+        "policyVersion"
+      ],
+      "properties": {
+        "maturityEvaluationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "signalEvaluationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "signalRowVersion": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "bindingIds": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "first",
+            "second",
+            "final",
+            "retention"
+          ],
+          "properties": {
+            "first": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "second": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "final": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "retention": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        },
+        "summarySnapshotIds": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "first",
+            "second",
+            "final",
+            "retention"
+          ],
+          "properties": {
+            "first": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "second": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "final": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "retention": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        },
+        "evaluationHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "policyVersion": {
+          "const": "r4h-operating-v1"
+        }
+      }
+    },
+    "OperatingCommandResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "targetId",
+        "targetType",
+        "resultStatus",
+        "businessStatusAfter",
+        "approvalRecordId",
+        "confirmationRecordId",
+        "todoItemIds",
+        "rowVersion",
+        "newHeadVersion",
+        "snapshotId",
+        "periodEndSnapshotId",
+        "restatementIds",
+        "sourceHash",
+        "evaluationRefs"
+      ],
+      "properties": {
+        "targetId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "targetType": {
+          "type": "string",
+          "enum": [
+            "OperatingBaselinePackage",
+            "ProjectOperatingSnapshot",
+            "PeriodClosingSnapshot",
+            "OperatingRestatementRecord"
+          ]
+        },
+        "resultStatus": {
+          "const": "success"
+        },
+        "businessStatusAfter": {
+          "const": "active"
+        },
+        "approvalRecordId": {
+          "type": "null"
+        },
+        "confirmationRecordId": {
+          "type": "null"
+        },
+        "todoItemIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "maxItems": 1000
+        },
+        "rowVersion": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "newHeadVersion": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "snapshotId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "periodEndSnapshotId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "restatementIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "maxItems": 1000
+        },
+        "sourceHash": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "evaluationRefs": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EvaluationRefs"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "OperatingBaselinePackageSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "outputVersion",
+        "id",
+        "projectId",
+        "rowVersion",
+        "capturedRowVersion",
+        "headVersion",
+        "producerVersion",
+        "certification",
+        "sourceHash",
+        "sourceContextId",
+        "sourcePayloadHash",
+        "containsLabor",
+        "financialProjection",
+        "sourceRows",
+        "createdAt",
+        "updatedAt",
+        "isCurrent",
+        "status",
+        "originalAdoptedCostRef",
+        "currentEffectiveCostRef",
+        "handoverBasisRef",
+        "handoverRebaselineRef",
+        "approvedChangeRefs",
+        "effectiveAt"
+      ],
+      "properties": {
+        "outputVersion": {
+          "const": "server-derived-v1"
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "projectId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "rowVersion": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "capturedRowVersion": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "headVersion": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "producerVersion": {
+          "const": 1
+        },
+        "certification": {
+          "const": "verified"
+        },
+        "sourceHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "sourceContextId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "sourcePayloadHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "containsLabor": {
+          "type": "string",
+          "enum": [
+            "yes",
+            "no",
+            "unknown"
+          ]
+        },
+        "financialProjection": {
+          "$ref": "#/$defs/FinancialProjection"
+        },
+        "sourceRows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SourceRow"
+          },
+          "maxItems": 1000
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "isCurrent": {
+          "type": "boolean"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "active",
+            "superseded"
+          ]
+        },
+        "originalAdoptedCostRef": {
+          "$ref": "#/$defs/SourceRef"
+        },
+        "currentEffectiveCostRef": {
+          "$ref": "#/$defs/SourceRef"
+        },
+        "handoverBasisRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "handoverRebaselineRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "approvedChangeRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SourceRef"
+          },
+          "maxItems": 1000
+        },
+        "effectiveAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "ProjectOperatingSnapshotSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "outputVersion",
+        "id",
+        "projectId",
+        "rowVersion",
+        "capturedRowVersion",
+        "headVersion",
+        "producerVersion",
+        "certification",
+        "sourceHash",
+        "sourceContextId",
+        "sourcePayloadHash",
+        "containsLabor",
+        "financialProjection",
+        "sourceRows",
+        "createdAt",
+        "updatedAt",
+        "snapshotMode",
+        "snapshotAt",
+        "sourceWindowStart",
+        "sourceWindowEnd",
+        "knowledgeCutoff",
+        "businessTimezone",
+        "status",
+        "supersedesId",
+        "baselinePackageRef",
+        "periodEndSnapshotRef",
+        "restatementRef",
+        "currentActionLevel",
+        "formalEligibility",
+        "evaluationStatus",
+        "evaluationRefs"
+      ],
+      "properties": {
+        "outputVersion": {
+          "const": "server-derived-v1"
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "projectId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "rowVersion": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "capturedRowVersion": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "headVersion": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "producerVersion": {
+          "const": 1
+        },
+        "certification": {
+          "const": "verified"
+        },
+        "sourceHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "sourceContextId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "sourcePayloadHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "containsLabor": {
+          "type": "string",
+          "enum": [
+            "yes",
+            "no",
+            "unknown"
+          ]
+        },
+        "financialProjection": {
+          "$ref": "#/$defs/FinancialProjection"
+        },
+        "sourceRows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SourceRow"
+          },
+          "maxItems": 1000
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "snapshotMode": {
+          "type": "string",
+          "enum": [
+            "realtime",
+            "period-end",
+            "restated"
+          ]
+        },
+        "snapshotAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "sourceWindowStart": {
+          "type": "null"
+        },
+        "sourceWindowEnd": {
+          "type": "string",
+          "format": "date"
+        },
+        "knowledgeCutoff": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "businessTimezone": {
+          "const": "Asia/Hong_Kong"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "active",
+            "superseded"
+          ]
+        },
+        "supersedesId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "baselinePackageRef": {
+          "$ref": "#/$defs/SourceRef"
+        },
+        "periodEndSnapshotRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "restatementRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "currentActionLevel": {
+          "type": "string",
+          "enum": [
+            "prompt",
+            "review",
+            "block"
+          ]
+        },
+        "formalEligibility": {
+          "$ref": "#/$defs/FormalEligibility"
+        },
+        "evaluationStatus": {
+          "const": "evaluated"
+        },
+        "evaluationRefs": {
+          "$ref": "#/$defs/EvaluationRefs"
+        }
+      }
+    },
+    "PeriodClosingSnapshotSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "outputVersion",
+        "id",
+        "projectId",
+        "rowVersion",
+        "capturedRowVersion",
+        "headVersion",
+        "producerVersion",
+        "certification",
+        "sourceHash",
+        "sourceContextId",
+        "sourcePayloadHash",
+        "containsLabor",
+        "financialProjection",
+        "sourceRows",
+        "createdAt",
+        "updatedAt",
+        "periodKey",
+        "periodStart",
+        "periodEnd",
+        "businessTimezone",
+        "projectSnapshotRef",
+        "snapshotAt",
+        "originalFrozenUnchanged",
+        "latestRestatementRef",
+        "status"
+      ],
+      "properties": {
+        "outputVersion": {
+          "const": "server-derived-v1"
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "projectId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "rowVersion": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "capturedRowVersion": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "headVersion": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "producerVersion": {
+          "const": 1
+        },
+        "certification": {
+          "const": "verified"
+        },
+        "sourceHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "sourceContextId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "sourcePayloadHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "containsLabor": {
+          "type": "string",
+          "enum": [
+            "yes",
+            "no",
+            "unknown"
+          ]
+        },
+        "financialProjection": {
+          "$ref": "#/$defs/FinancialProjection"
+        },
+        "sourceRows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SourceRow"
+          },
+          "maxItems": 1000
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "periodKey": {
+          "type": "string",
+          "pattern": "^(?:[0-9]{4}-(?:0[1-9]|1[0-2])|[0-9]{4}-W(?:0[1-9]|[1-4][0-9]|5[0-3]))$"
+        },
+        "periodStart": {
+          "type": "string",
+          "format": "date"
+        },
+        "periodEnd": {
+          "type": "string",
+          "format": "date"
+        },
+        "businessTimezone": {
+          "const": "Asia/Hong_Kong"
+        },
+        "projectSnapshotRef": {
+          "$ref": "#/$defs/SourceRef"
+        },
+        "snapshotAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "originalFrozenUnchanged": {
+          "const": true
+        },
+        "latestRestatementRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "active",
+            "superseded"
+          ]
+        }
+      }
+    },
+    "OperatingRestatementSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "outputVersion",
+        "id",
+        "projectId",
+        "rowVersion",
+        "capturedRowVersion",
+        "headVersion",
+        "producerVersion",
+        "certification",
+        "sourceHash",
+        "sourceContextId",
+        "sourcePayloadHash",
+        "containsLabor",
+        "financialProjection",
+        "sourceRows",
+        "createdAt",
+        "updatedAt",
+        "scope",
+        "periodEndSnapshotRef",
+        "restatesSnapshotRef",
+        "restatedSnapshotRef",
+        "rootSnapshotRef",
+        "causalitySourceRefs",
+        "affectedRestatementRefs",
+        "reasonProjection",
+        "handledAt",
+        "handledBy",
+        "status"
+      ],
+      "properties": {
+        "outputVersion": {
+          "const": "server-derived-v1"
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "projectId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "rowVersion": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "capturedRowVersion": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "headVersion": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "producerVersion": {
+          "const": 1
+        },
+        "certification": {
+          "const": "verified"
+        },
+        "sourceHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "sourceContextId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "sourcePayloadHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "containsLabor": {
+          "type": "string",
+          "enum": [
+            "yes",
+            "no",
+            "unknown"
+          ]
+        },
+        "financialProjection": {
+          "$ref": "#/$defs/FinancialProjection"
+        },
+        "sourceRows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SourceRow"
+          },
+          "maxItems": 1000
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "scope": {
+          "type": "string",
+          "enum": [
+            "live",
+            "period"
+          ]
+        },
+        "periodEndSnapshotRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "restatesSnapshotRef": {
+          "$ref": "#/$defs/SourceRef"
+        },
+        "restatedSnapshotRef": {
+          "$ref": "#/$defs/SourceRef"
+        },
+        "rootSnapshotRef": {
+          "$ref": "#/$defs/SourceRef"
+        },
+        "causalitySourceRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SourceRef"
+          },
+          "maxItems": 1000
+        },
+        "affectedRestatementRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SourceRef"
+          },
+          "maxItems": 1000
+        },
+        "reasonProjection": {
+          "$ref": "#/$defs/FinancialProjection"
+        },
+        "handledAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "handledBy": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "active",
+            "superseded"
+          ]
+        }
+      }
+    },
+    "OperatingRestatementListView": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/OperatingRestatementSummary"
+      },
+      "maxItems": 1000
+    },
+    "OperatingPreparation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "outputVersion",
+        "kind",
+        "officialSnapshotRef",
+        "intent",
+        "projectId",
+        "headVersion",
+        "projectVersion",
+        "expectedInputHash",
+        "preparedAt",
+        "businessCutoff",
+        "periodKey",
+        "formalEligibility",
+        "evaluationStatus",
+        "sourceRows",
+        "proposedOriginalCostRef",
+        "selectedBaselinePackageRef",
+        "allowedCommandCodes",
+        "blockingReasonCodes"
+      ],
+      "properties": {
+        "outputVersion": {
+          "const": "server-derived-v1"
+        },
+        "kind": {
+          "const": "preparation-only"
+        },
+        "officialSnapshotRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "intent": {
+          "type": "string",
+          "enum": [
+            "baseline-activation",
+            "snapshot-create",
+            "period-close",
+            "restatement",
+            "receipt-basis"
+          ]
+        },
+        "projectId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "headVersion": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "projectVersion": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "expectedInputHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "preparedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "businessCutoff": {
+          "type": "string",
+          "format": "date"
+        },
+        "periodKey": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^(?:[0-9]{4}-(?:0[1-9]|1[0-2])|[0-9]{4}-W(?:0[1-9]|[1-4][0-9]|5[0-3]))$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "formalEligibility": {
+          "$ref": "#/$defs/FormalEligibility"
+        },
+        "evaluationStatus": {
+          "type": "string",
+          "enum": [
+            "not-evaluated",
+            "preview-only"
+          ]
+        },
+        "sourceRows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SourceRow"
+          },
+          "maxItems": 1000
+        },
+        "proposedOriginalCostRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "selectedBaselinePackageRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "allowedCommandCodes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "maxItems": 1000
+        },
+        "blockingReasonCodes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "maxItems": 1000
+        }
+      }
+    }
+  },
+  "routes": [
+    {
+      "operationId": "ProjectCostController_activateOperatingBaselinePackage",
+      "method": "POST",
+      "path": "/api/operating-baseline-packages",
+      "canonicalLine": 162,
+      "permission": "contract:finance:manage",
+      "input": {
+        "$ref": "#/$defs/ActivateOperatingBaselinePackageRequest"
+      },
+      "response": {
+        "$ref": "#/$defs/OperatingCommandResult"
+      },
+      "successStatus": 201,
+      "inputVersion": "server-derived-v1"
+    },
+    {
+      "operationId": "ProjectCostController_getCurrentOperatingBaselinePackage",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/operating-baseline-package",
+      "canonicalLine": 163,
+      "permission": "contract:finance:manage",
+      "input": null,
+      "response": {
+        "$ref": "#/$defs/OperatingBaselinePackageSummary"
+      },
+      "successStatus": 200,
+      "inputVersion": null
+    },
+    {
+      "operationId": "ProjectCostController_createProjectOperatingSnapshot",
+      "method": "POST",
+      "path": "/api/project-operating-snapshots",
+      "canonicalLine": 164,
+      "permission": "contract:finance:manage",
+      "input": {
+        "$ref": "#/$defs/CreateProjectOperatingSnapshotRequest"
+      },
+      "response": {
+        "$ref": "#/$defs/OperatingCommandResult"
+      },
+      "successStatus": 201,
+      "inputVersion": "server-derived-v1"
+    },
+    {
+      "operationId": "ProjectCostController_getProjectOperatingSnapshot",
+      "method": "GET",
+      "path": "/api/project-operating-snapshots/{id}",
+      "canonicalLine": 550,
+      "permission": "contract:finance:manage",
+      "input": null,
+      "response": {
+        "$ref": "#/$defs/ProjectOperatingSnapshotSummary"
+      },
+      "successStatus": 200,
+      "inputVersion": null
+    },
+    {
+      "operationId": "ProjectCostController_createPeriodClosingSnapshot",
+      "method": "POST",
+      "path": "/api/period-closing-snapshots",
+      "canonicalLine": 165,
+      "permission": "contract:finance:manage",
+      "input": {
+        "$ref": "#/$defs/CreatePeriodClosingSnapshotRequest"
+      },
+      "response": {
+        "$ref": "#/$defs/OperatingCommandResult"
+      },
+      "successStatus": 201,
+      "inputVersion": "server-derived-v1"
+    },
+    {
+      "operationId": "ProjectCostController_getPeriodClosingSnapshot",
+      "method": "GET",
+      "path": "/api/period-closing-snapshots/{id}",
+      "canonicalLine": 533,
+      "permission": "contract:finance:manage",
+      "input": null,
+      "response": {
+        "$ref": "#/$defs/PeriodClosingSnapshotSummary"
+      },
+      "successStatus": 200,
+      "inputVersion": null
+    },
+    {
+      "operationId": "ProjectCostController_createOperatingRestatement",
+      "method": "POST",
+      "path": "/api/operating-restatements",
+      "canonicalLine": 166,
+      "permission": "contract:finance:manage",
+      "input": {
+        "$ref": "#/$defs/CreateOperatingRestatementRequest"
+      },
+      "response": {
+        "$ref": "#/$defs/OperatingCommandResult"
+      },
+      "successStatus": 201,
+      "inputVersion": "server-derived-v1"
+    },
+    {
+      "operationId": "ProjectCostController_listOperatingRestatements",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/operating-restatements",
+      "canonicalLine": 556,
+      "permission": "contract:finance:manage",
+      "input": null,
+      "response": {
+        "$ref": "#/$defs/OperatingRestatementListView"
+      },
+      "successStatus": 200,
+      "inputVersion": null
+    },
+    {
+      "operationId": "ProjectCostController_getOperatingRestatement",
+      "method": "GET",
+      "path": "/api/operating-restatements/{id}",
+      "canonicalLine": 532,
+      "permission": "contract:finance:manage",
+      "input": null,
+      "response": {
+        "$ref": "#/$defs/OperatingRestatementSummary"
+      },
+      "successStatus": 200,
+      "inputVersion": null
+    }
+  ]
+}

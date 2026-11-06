@@ -1,0 +1,21 @@
+{
+  "RootOwns": true,
+  "capacityChanges": [],
+  "G": [
+    {
+      "entity": "ProjectOperatingSnapshot",
+      "property": "taxImpactPendingAmount",
+      "target": "p.decimal().precision(18).scale(2).nullable().default(0); legacy default only; modern unknown writes explicitNULL",
+      "newProperty": "taxPendingKnowledge: nullable known|unknown; required valid for producer1; producer0 remainsNULL"
+    },
+    {
+      "entity": "PeriodClosingSnapshot",
+      "property": "taxImpactPendingAmount",
+      "target": "p.decimal().precision(18).scale(2).nullable().default(0); legacy default only; modern unknown writes explicitNULL",
+      "newProperty": "taxPendingKnowledge: nullable known|unknown; required valid for producer1; producer0 remainsNULL"
+    }
+  ],
+  "alreadyFrozenH": "DMER and binding pending nullable+knowledge unchanged; Root must apply mapping together with G",
+  "grossMarginRate": "Existing frozen38,6 target unchanged; source money18,2 unchanged",
+  "Native": "Use exact frozen aliases; legacy queries cannot format a producer1 unknownNULL as a legacy zero. Modern unsupported path422, no as-cast or optional weakening."
+}

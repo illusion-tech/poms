@@ -1,0 +1,199 @@
+{
+  "kind": "independent-GHI-candidate-risk-input-capture",
+  "capturedAt": "2026-11-05T23:35:51.046Z",
+  "purpose": "Future G3 risk preparation only, not G1 admission or implementation acceptance",
+  "sourceCommit": "aaa4b16ac66092f0cb1dc6646a02cf14e80823ee",
+  "candidateArtifacts": [
+    {
+      "line": "G",
+      "role": "audit",
+      "file": "tools/rust-r4ghi/G/g1/audit01.json",
+      "bytes": 55882,
+      "rawBytesSha256": "501f3a77c33c60901b159d7f1eadd379dbe7cd0edd71e1206974300524fa7a0a",
+      "snapshot": "tools/rust-r4ghi/independent/ghi-risk01/inputs/G-audit01.json"
+    },
+    {
+      "line": "G",
+      "role": "note",
+      "file": "tools/rust-r4ghi/G/g1/audit01.md",
+      "bytes": 13683,
+      "rawBytesSha256": "5a8bf1fe4982143bc4e4be27b07e61456174adab4aa103f05492e19097584e0f",
+      "snapshot": "tools/rust-r4ghi/independent/ghi-risk01/inputs/G-audit01.md"
+    },
+    {
+      "line": "G",
+      "role": "manifest",
+      "file": "tools/rust-r4ghi/G/g1/sources01.json",
+      "bytes": 13739,
+      "rawBytesSha256": "0f67d6a704be844b6aaf9344c3b6296aa51c05483c22f0ab347dbde865d33580",
+      "snapshot": "tools/rust-r4ghi/independent/ghi-risk01/inputs/G-sources01.json"
+    },
+    {
+      "line": "H",
+      "role": "audit",
+      "file": "tools/rust-r4ghi/H/g1/h-g1-candidate01.json",
+      "bytes": 26712,
+      "rawBytesSha256": "1c688b20cbb76c491b493c34389ceacaba5d42344d36003202c40b6cf951d44a",
+      "snapshot": "tools/rust-r4ghi/independent/ghi-risk01/inputs/H-h-g1-candidate01.json"
+    },
+    {
+      "line": "H",
+      "role": "note",
+      "file": "tools/rust-r4ghi/H/g1/h-g1-candidate01.md",
+      "bytes": 12713,
+      "rawBytesSha256": "0e23266279efd186ab895d40e3f6a27e6409edcb06e3d74ce97bbdc07b54f9a1",
+      "snapshot": "tools/rust-r4ghi/independent/ghi-risk01/inputs/H-h-g1-candidate01.md"
+    },
+    {
+      "line": "H",
+      "role": "manifest",
+      "file": "tools/rust-r4ghi/H/g1/source-manifest01.json",
+      "bytes": 11333,
+      "rawBytesSha256": "20be87f60e394adc99f183754e2584d4279f55ea6eb59ceced7ae648e7c1549f",
+      "snapshot": "tools/rust-r4ghi/independent/ghi-risk01/inputs/H-source-manifest01.json"
+    },
+    {
+      "line": "I",
+      "role": "audit",
+      "file": "tools/rust-r4ghi/I/g1/i-lifecycle-g1-audit.json",
+      "bytes": 30451,
+      "rawBytesSha256": "d474d4989e27e091448198495af095d03384b907155eb3f11329002539e90682",
+      "snapshot": "tools/rust-r4ghi/independent/ghi-risk01/inputs/I-i-lifecycle-g1-audit.json"
+    },
+    {
+      "line": "I",
+      "role": "note",
+      "file": "tools/rust-r4ghi/I/g1/i-lifecycle-g1-audit.md",
+      "bytes": 20149,
+      "rawBytesSha256": "8f09039498b7eee8b394220f92b26fb99c0feb1b595de697b9e378dcabd36193",
+      "snapshot": "tools/rust-r4ghi/independent/ghi-risk01/inputs/I-i-lifecycle-g1-audit.md"
+    },
+    {
+      "line": "I",
+      "role": "manifest",
+      "file": "tools/rust-r4ghi/I/g1/i-source-manifest.json",
+      "bytes": 21047,
+      "rawBytesSha256": "41a55ce5fd74b79265570f688647813fd2e62e4ebdfd8ce6c2ea5917670ece20",
+      "snapshot": "tools/rust-r4ghi/independent/ghi-risk01/inputs/I-i-source-manifest.json"
+    }
+  ],
+  "manifests": [
+    {
+      "line": "G",
+      "sourceCount": 69,
+      "uniqueSourceCount": 69,
+      "currentRawMatches": 69,
+      "currentMismatches": [],
+      "declaredAdmission": "G1-Pending; product implementation not admitted",
+      "operations": 9,
+      "userDecisionIssue": 115,
+      "candidateOnly": true
+    },
+    {
+      "line": "H",
+      "sourceCount": 54,
+      "uniqueSourceCount": 54,
+      "currentRawMatches": 52,
+      "currentMismatches": [
+        {
+          "file": "docs/design/rust-r4-scope-and-dependencies.md",
+          "expected": {
+            "bytes": 8446,
+            "rawBytesSha256": "b70fe0d6efd6faf82dda5515e235b326a5679c3aa061e019ae3fb812c849ace0"
+          },
+          "actual": {
+            "bytes": 9554,
+            "rawBytesSha256": "367b1484bc4ed0717c4d48265ac9ce3e357cd76a05e3ae41f8951913061609f9"
+          },
+          "matches": false,
+          "originalCommit": {
+            "bytes": 8446,
+            "rawBytesSha256": "b70fe0d6efd6faf82dda5515e235b326a5679c3aa061e019ae3fb812c849ace0",
+            "expectedMatches": true
+          }
+        },
+        {
+          "file": "docs/design/backend-rust-migration-plan.md",
+          "expected": {
+            "bytes": 88192,
+            "rawBytesSha256": "49de364cb9dc2a442c780ecec63a93ed03e20f18a527b7ee87b06dc36f988211"
+          },
+          "actual": {
+            "bytes": 89300,
+            "rawBytesSha256": "430583d69884e459b621a04d68817f73fb56257ae573ef155ff1919f43400a1d"
+          },
+          "matches": false,
+          "originalCommit": {
+            "bytes": 88192,
+            "rawBytesSha256": "49de364cb9dc2a442c780ecec63a93ed03e20f18a527b7ee87b06dc36f988211",
+            "expectedMatches": true
+          }
+        }
+      ],
+      "declaredAdmission": "NOT_ADMITTED",
+      "operations": null,
+      "userDecisionIssue": null,
+      "candidateOnly": true
+    },
+    {
+      "line": "I",
+      "sourceCount": 64,
+      "uniqueSourceCount": 64,
+      "currentRawMatches": 64,
+      "currentMismatches": [],
+      "declaredAdmission": "G1-Pending",
+      "operations": 8,
+      "userDecisionIssue": null,
+      "candidateOnly": true
+    }
+  ],
+  "unionSourceCount": 140,
+  "overlappingVariantPins": [
+    {
+      "file": "docs/design/rust-r4-scope-and-dependencies.md",
+      "pins": [
+        {
+          "line": "G",
+          "bytes": 9554,
+          "rawBytesSha256": "367b1484bc4ed0717c4d48265ac9ce3e357cd76a05e3ae41f8951913061609f9"
+        },
+        {
+          "line": "H",
+          "bytes": 8446,
+          "rawBytesSha256": "b70fe0d6efd6faf82dda5515e235b326a5679c3aa061e019ae3fb812c849ace0"
+        },
+        {
+          "line": "I",
+          "bytes": 9554,
+          "rawBytesSha256": "367b1484bc4ed0717c4d48265ac9ce3e357cd76a05e3ae41f8951913061609f9"
+        }
+      ]
+    },
+    {
+      "file": "docs/design/backend-rust-migration-plan.md",
+      "pins": [
+        {
+          "line": "G",
+          "bytes": 89300,
+          "rawBytesSha256": "430583d69884e459b621a04d68817f73fb56257ae573ef155ff1919f43400a1d"
+        },
+        {
+          "line": "H",
+          "bytes": 88192,
+          "rawBytesSha256": "49de364cb9dc2a442c780ecec63a93ed03e20f18a527b7ee87b06dc36f988211"
+        },
+        {
+          "line": "I",
+          "bytes": 89300,
+          "rawBytesSha256": "430583d69884e459b621a04d68817f73fb56257ae573ef155ff1919f43400a1d"
+        }
+      ]
+    }
+  ],
+  "G1Certified": false,
+  "G2Authorized": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "productModified": false,
+  "runtimeStarted": false
+}

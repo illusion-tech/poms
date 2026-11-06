@@ -1,0 +1,1947 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "R4 G/H joint immutable source context v1 - review input",
+  "description": "Tools-only internal schema, not an HTTP body or generated client model. Explicit null, no money defaults. Additional semantic validation required.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "producerVersion",
+    "policyVersion",
+    "policyHash",
+    "contextId",
+    "projectId",
+    "currency",
+    "sourceHash",
+    "scopeHash",
+    "formalEligibility",
+    "snapshot",
+    "baseline",
+    "contracts",
+    "receipts",
+    "costs",
+    "allocations",
+    "taxTreatments",
+    "pendingFacts",
+    "unclassifiedSourceRefs",
+    "upstreamCostConstraints",
+    "scope",
+    "laborLineage",
+    "metrics"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "producerVersion": {
+      "const": 1
+    },
+    "policyVersion": {
+      "const": "r4h-operating-v1"
+    },
+    "policyHash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "contextId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "projectId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "currency": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "sourceHash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "scopeHash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "formalEligibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "blockingReasonCodes",
+        "missingEvidenceRefs"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "eligible",
+            "missing-evidence"
+          ]
+        },
+        "blockingReasonCodes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0
+        },
+        "missingEvidenceRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SourceRef"
+          },
+          "minItems": 0
+        }
+      }
+    },
+    "snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "rowVersion",
+        "version",
+        "mode",
+        "snapshotAt",
+        "knowledgeCutoff",
+        "sourceWindowStart",
+        "sourceWindowEnd",
+        "periodKey",
+        "businessTimezone",
+        "supersedesSnapshotId",
+        "periodEndSnapshotRef",
+        "restatementRef",
+        "restatesSnapshotRef",
+        "restatedSnapshotRef",
+        "restatementStatus"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "rowVersion": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "realtime",
+            "period-end",
+            "restated"
+          ]
+        },
+        "snapshotAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "knowledgeCutoff": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "sourceWindowStart": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sourceWindowEnd": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "periodKey": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "businessTimezone": {
+          "type": "string",
+          "minLength": 1
+        },
+        "supersedesSnapshotId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "periodEndSnapshotRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "restatementRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "restatesSnapshotRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "restatedSnapshotRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "restatementStatus": {
+          "type": "string",
+          "enum": [
+            "not-applicable",
+            "confirmed",
+            "pending"
+          ]
+        }
+      }
+    },
+    "baseline": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "baselinePackageRef",
+        "selectionSource",
+        "originalTechnicalPackageRef",
+        "handoverRef",
+        "handoverRebaselineRef",
+        "approvedChangeRefs",
+        "referencedBaselineVersion",
+        "originalNetCost",
+        "currentEffectiveNetCost"
+      ],
+      "properties": {
+        "baselinePackageRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "selectionSource": {
+          "type": "string",
+          "enum": [
+            "original",
+            "handover-rebaseline"
+          ]
+        },
+        "originalTechnicalPackageRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "handoverRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "handoverRebaselineRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "approvedChangeRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SourceRef"
+          },
+          "minItems": 0
+        },
+        "referencedBaselineVersion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "originalNetCost": {
+          "$ref": "#/$defs/Amount"
+        },
+        "currentEffectiveNetCost": {
+          "$ref": "#/$defs/Amount"
+        }
+      }
+    },
+    "contracts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Contract"
+      },
+      "minItems": 0
+    },
+    "receipts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Receipt"
+      },
+      "minItems": 0
+    },
+    "costs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Cost"
+      },
+      "minItems": 0
+    },
+    "allocations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Allocation"
+      },
+      "minItems": 0
+    },
+    "taxTreatments": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Tax"
+      },
+      "minItems": 0
+    },
+    "pendingFacts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Pending"
+      },
+      "minItems": 0
+    },
+    "unclassifiedSourceRefs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/SourceRef"
+      },
+      "minItems": 0
+    },
+    "upstreamCostConstraints": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/CostConstraint"
+      },
+      "minItems": 0
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "collectionStatus",
+        "collectionQueryVersion",
+        "scopeInventoryHash",
+        "registeredReceiptCount",
+        "confirmedReceiptCount",
+        "registeredCostCount",
+        "includedCostCount",
+        "excludedCostCount",
+        "unclassifiedCostCount",
+        "pendingCostCount",
+        "unmappedCostCount",
+        "hasExplicitCostScopeEvidence",
+        "closureEvidenceRefs"
+      ],
+      "properties": {
+        "collectionStatus": {
+          "type": "string",
+          "enum": [
+            "closed",
+            "open",
+            "unknown"
+          ]
+        },
+        "collectionQueryVersion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scopeInventoryHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "registeredReceiptCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "confirmedReceiptCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "registeredCostCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "includedCostCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "excludedCostCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "unclassifiedCostCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "pendingCostCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "unmappedCostCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "hasExplicitCostScopeEvidence": {
+          "type": "boolean"
+        },
+        "closureEvidenceRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SourceRef"
+          },
+          "minItems": 0
+        }
+      }
+    },
+    "laborLineage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "containsLabor",
+        "basisRefs",
+        "lineageHash"
+      ],
+      "properties": {
+        "containsLabor": {
+          "type": "string",
+          "enum": [
+            "yes",
+            "no",
+            "unknown"
+          ]
+        },
+        "basisRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SourceRef"
+          },
+          "minItems": 0
+        },
+        "lineageHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "metrics": {
+      "$ref": "#/$defs/Metrics"
+    }
+  },
+  "$defs": {
+    "SourceRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "id",
+        "rowVersion",
+        "payloadHash"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "minLength": 1
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "rowVersion": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "payloadHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "Amount": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "knowledge",
+        "value",
+        "unknownReasonCode",
+        "basisRefs",
+        "zeroProof"
+      ],
+      "properties": {
+        "knowledge": {
+          "type": "string",
+          "enum": [
+            "known",
+            "unknown"
+          ]
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^-?(0|[1-9][0-9]*)\\.[0-9]{2}$",
+              "not": {
+                "const": "-0.00"
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "unknownReasonCode": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "basisRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SourceRef"
+          },
+          "minItems": 0
+        },
+        "zeroProof": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "source-basis-value",
+                "sum-known-members-zero",
+                "exhaustive-classified-scope-zero"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "knowledge": {
+                "const": "known"
+              }
+            },
+            "required": [
+              "knowledge"
+            ]
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "string",
+                "pattern": "^-?(0|[1-9][0-9]*)\\.[0-9]{2}$"
+              },
+              "unknownReasonCode": {
+                "type": "null"
+              }
+            },
+            "required": [
+              "value",
+              "unknownReasonCode"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "knowledge": {
+                "const": "unknown"
+              }
+            },
+            "required": [
+              "knowledge"
+            ]
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "null"
+              },
+              "unknownReasonCode": {
+                "type": "string",
+                "minLength": 1
+              },
+              "zeroProof": {
+                "type": "null"
+              }
+            },
+            "required": [
+              "value",
+              "unknownReasonCode",
+              "zeroProof"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "value": {
+                "const": "0.00"
+              }
+            },
+            "required": [
+              "value"
+            ]
+          },
+          "then": {
+            "properties": {
+              "zeroProof": {
+                "type": "string",
+                "enum": [
+                  "source-basis-value",
+                  "sum-known-members-zero",
+                  "exhaustive-classified-scope-zero"
+                ]
+              }
+            },
+            "required": [
+              "zeroProof"
+            ]
+          }
+        }
+      ]
+    },
+    "Triple": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "currency",
+        "gross",
+        "net",
+        "tax"
+      ],
+      "properties": {
+        "currency": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "gross": {
+          "$ref": "#/$defs/Amount"
+        },
+        "net": {
+          "$ref": "#/$defs/Amount"
+        },
+        "tax": {
+          "$ref": "#/$defs/Amount"
+        }
+      }
+    },
+    "Classification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decisionId",
+        "rowVersion",
+        "decision",
+        "reasonCode",
+        "reasonText",
+        "decidedBy",
+        "decidedAt",
+        "evidenceHash"
+      ],
+      "properties": {
+        "decisionId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "rowVersion": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "decision": {
+          "type": "string",
+          "enum": [
+            "include",
+            "exclude"
+          ]
+        },
+        "reasonCode": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reasonText": {
+          "type": "string",
+          "minLength": 1
+        },
+        "decidedBy": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "decidedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "evidenceHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "Contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractRef",
+        "effectiveTermSnapshotRef",
+        "preparationRef",
+        "approvalBindingRef",
+        "amounts",
+        "originalEstimatePackageRef",
+        "memberRole"
+      ],
+      "properties": {
+        "contractRef": {
+          "$ref": "#/$defs/SourceRef"
+        },
+        "effectiveTermSnapshotRef": {
+          "$ref": "#/$defs/SourceRef"
+        },
+        "preparationRef": {
+          "$ref": "#/$defs/SourceRef"
+        },
+        "approvalBindingRef": {
+          "$ref": "#/$defs/SourceRef"
+        },
+        "amounts": {
+          "$ref": "#/$defs/Triple"
+        },
+        "originalEstimatePackageRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "memberRole": {
+          "type": "string",
+          "enum": [
+            "main",
+            "supplement",
+            "amendment"
+          ]
+        }
+      }
+    },
+    "Receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "receiptRef",
+        "contractId",
+        "status",
+        "confirmedAt",
+        "cashGross",
+        "accountingBasisRef",
+        "contractTermSnapshotRef",
+        "basisOrigin",
+        "legacyCorrectionRef",
+        "amounts"
+      ],
+      "properties": {
+        "receiptRef": {
+          "$ref": "#/$defs/SourceRef"
+        },
+        "contractId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "confirmed"
+          ]
+        },
+        "confirmedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "cashGross": {
+          "$ref": "#/$defs/Amount"
+        },
+        "accountingBasisRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "contractTermSnapshotRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "basisOrigin": {
+          "type": "string",
+          "enum": [
+            "confirmation",
+            "authorized-legacy-correction",
+            "missing"
+          ]
+        },
+        "legacyCorrectionRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "amounts": {
+          "$ref": "#/$defs/Triple"
+        }
+      }
+    },
+    "Cost": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "costRef",
+        "sourceRef",
+        "sourceType",
+        "canonicalAccumulationKey",
+        "costType",
+        "recognitionRole",
+        "classification",
+        "stageAttributionRef",
+        "attributedStage",
+        "businessDate",
+        "amounts",
+        "allocationResultRef",
+        "taxTreatmentRefs",
+        "governanceEvidenceRefs",
+        "containsLabor",
+        "recordStatus",
+        "stageEvidenceState",
+        "sourceChainKey",
+        "primaryCostRef",
+        "allocationSourceSetHash",
+        "sourceLifecycleStatus",
+        "allocationSourceMembers"
+      ],
+      "properties": {
+        "costRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sourceRef": {
+          "$ref": "#/$defs/SourceRef"
+        },
+        "sourceType": {
+          "type": "string",
+          "enum": [
+            "payment-record",
+            "invoice-record",
+            "expense-record",
+            "payable-record",
+            "labor",
+            "shared-cost-allocation-result"
+          ]
+        },
+        "canonicalAccumulationKey": {
+          "type": "string",
+          "minLength": 1
+        },
+        "costType": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "procurement",
+                "invoice",
+                "expense",
+                "payment-fact",
+                "labor"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "recognitionRole": {
+          "type": "string",
+          "enum": [
+            "direct-source",
+            "allocation-share",
+            "tax-support",
+            "evidence-only"
+          ]
+        },
+        "classification": {
+          "$ref": "#/$defs/Classification"
+        },
+        "stageAttributionRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "attributedStage": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "businessDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "amounts": {
+          "$ref": "#/$defs/Triple"
+        },
+        "allocationResultRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "taxTreatmentRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SourceRef"
+          },
+          "minItems": 0
+        },
+        "governanceEvidenceRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SourceRef"
+          },
+          "minItems": 0
+        },
+        "containsLabor": {
+          "type": "string",
+          "enum": [
+            "yes",
+            "no",
+            "unknown"
+          ]
+        },
+        "recordStatus": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "draft",
+                "registered",
+                "confirmed",
+                "included",
+                "voided",
+                "replaced"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "stageEvidenceState": {
+          "type": "string",
+          "enum": [
+            "verified",
+            "not-yet-applicable",
+            "missing"
+          ]
+        },
+        "sourceChainKey": {
+          "type": "string",
+          "minLength": 1
+        },
+        "primaryCostRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "allocationSourceSetHash": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sourceLifecycleStatus": {
+          "type": "string",
+          "minLength": 1
+        },
+        "allocationSourceMembers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SharedSourceMember"
+          },
+          "minItems": 0
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "classification": {
+                "properties": {
+                  "decision": {
+                    "const": "include"
+                  }
+                },
+                "required": [
+                  "decision"
+                ]
+              }
+            },
+            "required": [
+              "classification"
+            ]
+          },
+          "then": {
+            "properties": {
+              "stageEvidenceState": {
+                "const": "verified"
+              }
+            },
+            "required": [
+              "stageEvidenceState"
+            ],
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "recognitionRole": {
+                      "const": "direct-source"
+                    }
+                  },
+                  "required": [
+                    "recognitionRole"
+                  ]
+                },
+                "then": {
+                  "properties": {
+                    "costRef": {
+                      "$ref": "#/$defs/SourceRef"
+                    },
+                    "recordStatus": {
+                      "type": "string",
+                      "enum": [
+                        "confirmed",
+                        "included"
+                      ]
+                    },
+                    "stageAttributionRef": {
+                      "$ref": "#/$defs/SourceRef"
+                    },
+                    "attributedStage": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "costType": {
+                      "type": "string",
+                      "enum": [
+                        "procurement",
+                        "invoice",
+                        "expense",
+                        "payment-fact",
+                        "labor"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "costRef",
+                    "recordStatus",
+                    "stageAttributionRef",
+                    "attributedStage",
+                    "costType"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "recognitionRole": {
+                      "const": "allocation-share"
+                    }
+                  },
+                  "required": [
+                    "recognitionRole"
+                  ]
+                },
+                "then": {
+                  "properties": {
+                    "costRef": {
+                      "type": "null"
+                    },
+                    "recordStatus": {
+                      "type": "null"
+                    },
+                    "allocationResultRef": {
+                      "$ref": "#/$defs/SourceRef"
+                    },
+                    "allocationSourceSetHash": {
+                      "type": "string",
+                      "pattern": "^[0-9a-f]{64}$"
+                    },
+                    "allocationSourceMembers": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/$defs/SharedSourceMember"
+                      },
+                      "minItems": 1
+                    },
+                    "costType": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "costRef",
+                    "recordStatus",
+                    "allocationResultRef",
+                    "allocationSourceSetHash",
+                    "allocationSourceMembers",
+                    "costType"
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "recognitionRole": {
+                "enum": [
+                  "tax-support",
+                  "evidence-only"
+                ]
+              }
+            },
+            "required": [
+              "recognitionRole"
+            ]
+          },
+          "then": {
+            "properties": {
+              "classification": {
+                "properties": {
+                  "decision": {
+                    "const": "exclude"
+                  }
+                },
+                "required": [
+                  "decision"
+                ]
+              },
+              "primaryCostRef": {
+                "$ref": "#/$defs/SourceRef"
+              }
+            },
+            "required": [
+              "classification",
+              "primaryCostRef"
+            ]
+          }
+        }
+      ]
+    },
+    "Allocation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "basisRef",
+        "resultRef",
+        "sourceSnapshotRefs",
+        "sourceCostRefs",
+        "projectId",
+        "status",
+        "measurementLayer",
+        "algorithmVersion",
+        "allocatedAmounts",
+        "ratio6",
+        "residualMinorUnits"
+      ],
+      "properties": {
+        "basisRef": {
+          "$ref": "#/$defs/SourceRef"
+        },
+        "resultRef": {
+          "$ref": "#/$defs/SourceRef"
+        },
+        "sourceSnapshotRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SourceRef"
+          },
+          "minItems": 1
+        },
+        "sourceCostRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SourceRef"
+          },
+          "minItems": 1
+        },
+        "projectId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "frozen",
+            "pending",
+            "superseded"
+          ]
+        },
+        "measurementLayer": {
+          "type": "string",
+          "enum": [
+            "net",
+            "tax",
+            "gross"
+          ]
+        },
+        "algorithmVersion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "allocatedAmounts": {
+          "$ref": "#/$defs/Triple"
+        },
+        "ratio6": {
+          "type": "string",
+          "pattern": "^(0|1)\\.[0-9]{6}$"
+        },
+        "residualMinorUnits": {
+          "type": "integer"
+        }
+      }
+    },
+    "Tax": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "taxTreatmentRef",
+        "evidenceRefs",
+        "deductibility",
+        "pendingAmount",
+        "recognizedAdjustmentNet",
+        "adjustmentOverlapKey",
+        "containsLabor"
+      ],
+      "properties": {
+        "taxTreatmentRef": {
+          "$ref": "#/$defs/SourceRef"
+        },
+        "evidenceRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SourceRef"
+          },
+          "minItems": 1
+        },
+        "deductibility": {
+          "type": "string",
+          "enum": [
+            "pending",
+            "deductible",
+            "non-deductible"
+          ]
+        },
+        "pendingAmount": {
+          "$ref": "#/$defs/Amount"
+        },
+        "recognizedAdjustmentNet": {
+          "$ref": "#/$defs/Amount"
+        },
+        "adjustmentOverlapKey": {
+          "type": "string",
+          "minLength": 1
+        },
+        "containsLabor": {
+          "type": "string",
+          "enum": [
+            "yes",
+            "no",
+            "unknown"
+          ]
+        }
+      }
+    },
+    "Pending": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "sourceRef",
+        "amounts",
+        "reasonCode",
+        "requiredForFormalAccounting"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "receipt",
+            "cost",
+            "allocation",
+            "tax",
+            "restatement",
+            "classification"
+          ]
+        },
+        "sourceRef": {
+          "$ref": "#/$defs/SourceRef"
+        },
+        "amounts": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Triple"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reasonCode": {
+          "type": "string",
+          "minLength": 1
+        },
+        "requiredForFormalAccounting": {
+          "type": "boolean"
+        }
+      }
+    },
+    "CostConstraint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ruleId",
+        "ruleVersion",
+        "action",
+        "reasonCode",
+        "basisRefs"
+      ],
+      "properties": {
+        "ruleId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "ruleVersion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "action": {
+          "type": "string",
+          "enum": [
+            "prompt",
+            "review",
+            "block"
+          ]
+        },
+        "reasonCode": {
+          "type": "string",
+          "minLength": 1
+        },
+        "basisRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SourceRef"
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "Ratio": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "knowledge",
+        "value",
+        "reasonCode"
+      ],
+      "properties": {
+        "knowledge": {
+          "type": "string",
+          "enum": [
+            "known",
+            "unknown"
+          ]
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^-?(0|[1-9][0-9]*)\\.[0-9]{6}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reasonCode": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "Metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "effectiveContractAmounts",
+        "confirmedReceiptAmounts",
+        "includedCostAmounts",
+        "excludedCostAmounts",
+        "taxPendingAmount",
+        "costVarianceNet",
+        "grossMarginNet",
+        "grossMarginRate",
+        "receiptRatio"
+      ],
+      "properties": {
+        "effectiveContractAmounts": {
+          "$ref": "#/$defs/Triple"
+        },
+        "confirmedReceiptAmounts": {
+          "$ref": "#/$defs/Triple"
+        },
+        "includedCostAmounts": {
+          "$ref": "#/$defs/Triple"
+        },
+        "excludedCostAmounts": {
+          "$ref": "#/$defs/Triple"
+        },
+        "taxPendingAmount": {
+          "$ref": "#/$defs/Amount"
+        },
+        "costVarianceNet": {
+          "$ref": "#/$defs/Amount"
+        },
+        "grossMarginNet": {
+          "$ref": "#/$defs/Amount"
+        },
+        "grossMarginRate": {
+          "$ref": "#/$defs/Ratio"
+        },
+        "receiptRatio": {
+          "$ref": "#/$defs/Ratio"
+        }
+      }
+    },
+    "SharedSourceMember": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "costRef",
+        "sourceRef",
+        "stageAttributionRef",
+        "attributedStage",
+        "governanceEvidenceRefs",
+        "containsLabor",
+        "costType",
+        "businessDate"
+      ],
+      "properties": {
+        "costRef": {
+          "$ref": "#/$defs/SourceRef"
+        },
+        "sourceRef": {
+          "$ref": "#/$defs/SourceRef"
+        },
+        "stageAttributionRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "attributedStage": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "governanceEvidenceRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SourceRef"
+          },
+          "minItems": 0
+        },
+        "containsLabor": {
+          "type": "string",
+          "enum": [
+            "yes",
+            "no",
+            "unknown"
+          ]
+        },
+        "costType": {
+          "type": "string",
+          "enum": [
+            "procurement",
+            "invoice",
+            "expense",
+            "payment-fact",
+            "labor"
+          ]
+        },
+        "businessDate": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "formalEligibility": {
+            "properties": {
+              "status": {
+                "const": "eligible"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          }
+        },
+        "required": [
+          "formalEligibility"
+        ]
+      },
+      "then": {
+        "properties": {
+          "currency": {
+            "type": "string",
+            "pattern": "^[A-Z]{3}$"
+          }
+        },
+        "required": [
+          "currency"
+        ]
+      }
+    }
+  ],
+  "x-authority": {
+    "modelOwner": "Root",
+    "factCollectorOwner": "G",
+    "policyOwner": "H",
+    "source": "tools/rust-r4ghi/H/final-g1/source-context.schema.json",
+    "noIndependentGModel": true,
+    "internalOnly": true
+  },
+  "x-sourceHashFactualWhitelist": {
+    "top": [
+      "schemaVersion",
+      "producerVersion",
+      "projectId",
+      "currency",
+      "scopeHash",
+      "baseline",
+      "contracts",
+      "receipts",
+      "costs",
+      "allocations",
+      "taxTreatments",
+      "pendingFacts",
+      "unclassifiedSourceRefs",
+      "upstreamCostConstraints",
+      "scope",
+      "laborLineage"
+    ],
+    "snapshot": [
+      "mode",
+      "knowledgeCutoff",
+      "sourceWindowStart",
+      "sourceWindowEnd",
+      "periodKey",
+      "businessTimezone",
+      "periodEndSnapshotRef",
+      "restatesSnapshotRef",
+      "restatementStatus"
+    ],
+    "exclude": [
+      "sourceHash",
+      "contextId",
+      "snapshot.id",
+      "snapshot.rowVersion",
+      "snapshot.version",
+      "snapshot.snapshotAt",
+      "snapshot.supersedesSnapshotId",
+      "policyVersion",
+      "policyHash",
+      "formalEligibility",
+      "metrics",
+      "all evaluation/review/generated-result identifiers",
+      "snapshot.restatementRef (this command output)",
+      "snapshot.restatedSnapshotRef (this snapshot result)",
+      "new paired snapshot.periodEndSnapshotRef (null at capture)"
+    ],
+    "algorithm": "Construct exact nested whitelist object, sort set-like arrays kind/id/rowVersion/payloadHash, then contract_support::canonical_hash. No arbitrary SELECT * JSON participates. Same factual source scope has same sourceHash regardless new generated IDs.",
+    "evaluationHash": "canonical_hash({sourceHash,policyVersion,policyHash,normalizedDerivedOutput,verifiedReviewOverlayHash|null}); exclude generated DMER/OSER/binding/summary IDs and wall-clock timestamps. Review overlay hash binds real actor/evidence/source and immutable review content."
+  },
+  "x-arrayOrdering": {
+    "contracts": "contractRef.id",
+    "receipts": "receiptRef.id",
+    "costs": "canonicalAccumulationKey,recognitionRole,sourceRef.id,costRef.id-or-null; shares sorted by actual F result identity",
+    "allocations": "resultRef.id",
+    "taxTreatments": "taxTreatmentRef.id",
+    "pendingFacts": "kind then sourceRef.id",
+    "sourceRefSets": "kind,id,rowVersion,payloadHash",
+    "upstreamCostConstraints": "ruleId,reasonCode,sorted basis refs",
+    "approvedChangeRefs": "preserve authoritative approved delta application chain order; never reorder commutative-looking business history arbitrarily"
+  },
+  "x-preEffectInputHashWhitelist": {
+    "algorithm": "contract_support::canonical_hash of this exact object, with set-like arrays sorted kind/id/rowVersion/payloadHash",
+    "fields": {
+      "schemaVersion": 1,
+      "projectId": "real scoped project UUID",
+      "intent": "baseline-activation|snapshot-create|period-close|restatement|receipt-basis",
+      "projectRowVersion": "positive real version",
+      "head": "{rowVersion,baselinePackageId|null,currentSnapshotId|null}",
+      "businessScope": "{mode,periodKey|null,businessCutoff,restatesSnapshotRef|null,periodEndSnapshotRef|null}",
+      "sourceRows": "[{sourceKind,id,rowVersion,payloadHash,currentClassificationHeadRef|null}] for complete actual source/transitive evidence set before new writes"
+    },
+    "exclude": [
+      "financial projection modes/user identity",
+      "prepare generated UUID",
+      "preparedAt/transport timestamps",
+      "client-proposed decisions not yet committed",
+      "new snapshot/context/random IDs",
+      "policy conclusions"
+    ],
+    "compare": "After all actual scope/source locks but before G/E/F classification or correction writes, recompute and require request expectedInputHash equality; 409 on mismatch. New client decisions have their own exact expected target/decision versions, identity/scope/evidence validation.",
+    "postProducer": "Only after actual classification IDs, direct included CAS and shared-result included CAS exist, collect final immutable context and compute H sourceHash factual whitelist. External expectedInputHash and internal evaluate expected_source_hash are deliberately different authorities."
+  },
+  "x-sourceRefKindDispatch": {
+    "originalAdoptedCostRef": [
+      "ProjectTechnicalCostPackage"
+    ],
+    "baselinePackageRef": [
+      "OperatingBaselinePackage"
+    ],
+    "selectedHandoverBasisRef": [
+      "ProjectHandoverBasisSnapshot"
+    ],
+    "handoverRebaselineRef": [
+      "ContractHandoverRebaselineRecord"
+    ],
+    "approvedChangeRefs": [
+      "ContractTermSnapshot",
+      "ContractAmendment",
+      "ContractTermPreparation"
+    ],
+    "costDecisionTarget": [
+      "ProjectActualCostRecord",
+      "SharedCostAllocationResult"
+    ],
+    "termSnapshotRef": [
+      "ContractTermSnapshot"
+    ],
+    "currencyBasisRef": [
+      "CommercialReleaseBaseline",
+      "ContractTermSnapshot"
+    ],
+    "rule": "Each route field uses this registered finite kind dispatch, verifies actual table/scope/version/hash, and never constructs SQL identifiers from a client kind. Evidence kinds further use the existing attachment/source authority registry."
+  },
+  "x-activePolicy": {
+    "file": "policy-definition.json",
+    "policyVersion": "r4h-operating-v1",
+    "policyHash": "7e9cfcedc496bd5d4ffd6fc158371e3db069110798926c63a5156ee4614a1aec",
+    "canonicalization": "contract_support::canonical_hash: recursively sort object keys, preserve array order, compact UTF-8 JSON; no floats in this policy artifact"
+  },
+  "x-semanticValidation": {
+    "collector": {
+      "contracts": "As-of effective complete contract set with exact activated term/preparation/readiness/review bindings; net from immutable terms, currency from certified immutable activation-baseline/contract linkage; no single-contract shortcut or signed gross used as net",
+      "receipts": "Confirmed same-project receipts by true receiptDate <= business cutoff; every required row must have immutable v1 receipt_accounting_basis. Gross cash for progress ratio; net for margin. No missing-basis exclusion toggle.",
+      "costs": "All real registered/current source rows partitioned by actual include/exclude producer; unknown/unclassified remains visible and not implicit zero. Included direct nodes need captured E source facts + active verified F stage and known net currency; payment installments are distinct actual payment IDs.",
+      "sourceChains": "Server constructs canonicalAccumulationKey from actual primary source identity/lineage and sourceChainKey from real payable link. Invoice/tax-support/evidence-only must exclude primary money; controlled explicit supportingSourceRefs creates actual append-only source link+reason, never amount/date heuristics. Included procurement promise excludes any absorbed same-chain payment principal; no triple counting.",
+      "allocations": "Use actual F basis/result/source snapshots, exact stored selected-measurement-first-v2 cents/layers. No synthetic ProjectActualCostRecord. Result version and each real source/stage lineage frozen; shared source full amount and same share source-set mutually exclusive; direct source unrelated same-payable installments remain valid.",
+      "baseline": "One adopted PROJECT technical-cost chain, counted once even across many contracts; original earliest approved adopted package immutable. Current handover cost from exact before/after basis verified chain; execution change delta = approved successor project cost version net minus predecessor net, each transition once. Contract gross/signed delta never cost delta. Forked/disconnected/conflicting adopted project packages reject.",
+      "tax": "Active F tax snapshots/evidence, deductible VAT excluded from base; non-deductible adjustment only when explicit source component not already included; pending remains unknown/pending, never automatic addition of all taxImpactAmount",
+      "labor": "yes if any transitive member is labor; no only if all lineage verified non-labor; otherwise unknown and strongest reversible projection/write guards",
+      "zero": "Known zero only exhaustive source-scope zero or authorized explicit exclusions with proofs; money knowledge separate from maturity/evaluation. Missing confirmed receipt basis or included hard evidence prevents official publish."
+    },
+    "sourceContext": {
+      "schema": "source-context.schema.json",
+      "canonicalization": "Exact sourceHashFactualWhitelist supersedes broad hash wording. Shared serializer and tests Root-owned. H independently recomputes derived metric assertions; payloadHash hashes the complete stored context excluding only its self-hash field.",
+      "semantics": [
+        "All fields required, absent explicit null. Unknown amount value=null+nonempty reason; known amount decimal string+null reason. Proven zero needs zeroProof and exact source/scope evidence.",
+        "Known gross=net+tax in cents. Receipt cashGross=amounts.gross and net/tax from frozen confirmation contract basis, never current tax rate.",
+        "Missing receipt basis or included hard source/tax/stage/classification/amount evidence => formalEligibility missing-evidence and official G/H publication rejects. Legacy/preview may expose unavailable state but cannot publish certified current summaries or releasable gates.",
+        "Every registered cost has one explicit validated current include/exclude classification. Duplicate canonicalAccumulationKey across invoice/payment/procurement rejects. Allocated project share uses exact F frozen cents, not recomputed rounded ratio.",
+        "Empty registered scope may prove a point-in-time aggregate zero only with exhaustive collector scope hash; this does not prove mature business data. Without actual classified cost-scope evidence, maturity remains insufficient even if registered sum is zero.",
+        "All-excluded validated known records can prove included sum zero; unknown or missing hard facts cannot be hidden by an implicit exclude.",
+        "containsLabor=yes if any transitive lineage labor, no only if all verified nonlabor, otherwise unknown; unknown uses strongest sensitive group."
+      ],
+      "sourceHashFactualWhitelist": {
+        "top": [
+          "schemaVersion",
+          "producerVersion",
+          "projectId",
+          "currency",
+          "scopeHash",
+          "baseline",
+          "contracts",
+          "receipts",
+          "costs",
+          "allocations",
+          "taxTreatments",
+          "pendingFacts",
+          "unclassifiedSourceRefs",
+          "upstreamCostConstraints",
+          "scope",
+          "laborLineage"
+        ],
+        "snapshot": [
+          "mode",
+          "knowledgeCutoff",
+          "sourceWindowStart",
+          "sourceWindowEnd",
+          "periodKey",
+          "businessTimezone",
+          "periodEndSnapshotRef",
+          "restatesSnapshotRef",
+          "restatementStatus"
+        ],
+        "exclude": [
+          "sourceHash",
+          "contextId",
+          "snapshot.id",
+          "snapshot.rowVersion",
+          "snapshot.version",
+          "snapshot.snapshotAt",
+          "snapshot.supersedesSnapshotId",
+          "policyVersion",
+          "policyHash",
+          "formalEligibility",
+          "metrics",
+          "all evaluation/review/generated-result identifiers",
+          "snapshot.restatementRef (this command output)",
+          "snapshot.restatedSnapshotRef (this snapshot result)",
+          "new paired snapshot.periodEndSnapshotRef (null at capture)"
+        ],
+        "algorithm": "Construct exact nested whitelist object, sort set-like arrays kind/id/rowVersion/payloadHash, then contract_support::canonical_hash. No arbitrary SELECT * JSON participates. Same factual source scope has same sourceHash regardless new generated IDs.",
+        "evaluationHash": "canonical_hash({sourceHash,policyVersion,policyHash,normalizedDerivedOutput,verifiedReviewOverlayHash|null}); exclude generated DMER/OSER/binding/summary IDs and wall-clock timestamps. Review overlay hash binds real actor/evidence/source and immutable review content."
+      },
+      "preparation": "Pure derive context may use server-preallocated IDs without business persistence; preparation knowledgeCutoff is explicit, stable and included in sourceHash. H pure derive never certifies current or writes. Final formal publication reloads source assertions and rejects changed sources.",
+      "excludeStageSemantics": "Cost.stageAttributionRef/attributedStage nullable only for expressing real excluded not-yet-applicable/missing stage evidence. Include requires recordStatus confirmed/included, stageEvidenceState verified and exact nonnull stage refs plus all hard layers. Registered source explicitly excluded for a permitted stage-not-ready reason remains traceable with pendingFacts(requiredForFormalAccounting=false), preserves uncertainty and cannot become mature/normal. It does not waive confirmed receipt accounting basis or hard facts of an included source.",
+      "arrayOrdering": {
+        "contracts": "contractRef.id",
+        "receipts": "receiptRef.id",
+        "costs": "canonicalAccumulationKey,recognitionRole,sourceRef.id,costRef.id-or-null; shares sorted by actual F result identity",
+        "allocations": "resultRef.id",
+        "taxTreatments": "taxTreatmentRef.id",
+        "pendingFacts": "kind then sourceRef.id",
+        "sourceRefSets": "kind,id,rowVersion,payloadHash",
+        "upstreamCostConstraints": "ruleId,reasonCode,sorted basis refs",
+        "approvedChangeRefs": "preserve authoritative approved delta application chain order; never reorder commutative-looking business history arbitrarily"
+      },
+      "costRecognitionUniqueness": {
+        "canonicalAccumulationKey": "Uniqueness among included primary economic measurement shares in this project snapshot only; not among excluded support rows or historical snapshots.",
+        "sourceChainKey": "Separate chain constraint: payable commitment/procurement exception principal and its payment principals cannot both be included. Multiple genuine installment paymentIds under one payable remain separate primary economic units.",
+        "supportingEvidence": "Invoice/tax/evidence support rows explicitly exclude with real reason and primaryCostRef; same sourceChainKey is not a duplicate principal.",
+        "allocation": "Share key includes actual F source-set hash+project/result identity. Same source full principal and corresponding project allocation share cannot be counted simultaneously; lock/validate source-set overlap, not a rounded allocation ratio.",
+        "rule": "These exact rules supersede the broad earlier duplicate canonicalAccumulationKey across invoice/payment/procurement wording."
+      },
+      "currency": "Preparation with no proven source currency or multi-currency has currency=null (and unavailable aggregate Triple.currency=null); never CNY/UNKNOWN placeholder. Only formalEligibility eligible forces a unique evidenced three-letter currency. Different source currencies reject formal publication unless a separately frozen actual conversion policy exists (none here).",
+      "sharedShare": "No fabricated ProjectActualCostRecord. allocation-share costRef/recordStatus null, sourceRef is actual F SharedCostAllocationResult, allocationResultRef/source-set hash exact. allocationSourceMembers carries real source costs/stages/governance/labor refs. Included shares require all member hard eligibility/stage evidence valid; per-source refs remain authoritative, aggregate stageEvidenceState verified only when all members qualify. Share costType=null when representing actual allocation result (never invent a unified-cost enum); members retain actual costType/businessDate. Share businessDate is actual F result effective business date under G frozen window policy, not a guessed member date.",
+      "outputRefCapturePolicy": "Only upstream facts enter sourceHash. New self/result restatedSnapshotRef/restatementRef/new-paired-periodEndSnapshotRef are null at immutable capture and never backfilled; result links use SQL FK/response. Existing restatesSnapshotRef and actual existing period root remain sources."
+    },
+    "required": "Validate real records and exact amounts/hashes; JSON Schema cannot prove scope, sums, lineage, authorization or policy."
+  },
+  "x-effectiveVersion": 2,
+  "x-moneyCapacity": {
+    "version": "operating-money-v1-capacity-confirmation",
+    "precision": 18,
+    "scale": 2,
+    "integerDigits": 16,
+    "maximumCents": "999999999999999999",
+    "minimumSignedCents": "-999999999999999999",
+    "maximumAmount": "9999999999999999.99",
+    "minimumSignedAmount": "-9999999999999999.99",
+    "representation": "exact decimal strings / checked integer cents (i128); no f64/JS Number totals or money formatter as authority",
+    "knownSourceAdmission": "Actual money may have trailing zero scale from storage/text, but converting to cents must be exact. Strip only insignificant zeros; nonzero sub-cent digits reject422, never round legacy money into a new baseline. Do not apply this money rule to legitimate quantity/unit_price/rate precision.",
+    "aggregateAdmission": "Each known published monetary aggregate independently fits +/-MAX_CENTS with its field sign constraint: baseline components/deltas, contract totals, confirmed receipt totals, included/excluded cost totals, pending tax/recognized adjustment, cost variance and margin. Amounts in context JSON are not unlimited sidecars.",
+    "sourceEconomicLayers": "Validate net/tax/gross and actual source sets separately; gross=net+tax exactly. Do not sum receipt+cost as a monetary precondition for a later subtraction, or reject a valid zero margin from two separately bounded maxima.",
+    "overflow": {
+      "httpStatus": 422,
+      "code": "operating_money_capacity_exceeded",
+      "safeResponseFields": [
+        "statusCode",
+        "code",
+        "field",
+        "maximumAmount"
+      ],
+      "neverReturnUnprojectedComputedAmount": true,
+      "timing": "checked sums/products/differences and full aggregate bounds before snapshot/baseline/period/H aggregate INSERT or returned certified current result. Producer changes within the same outer transaction must roll back if later capacity validation fails. Never rely on PostgreSQL22003 for a valid source.",
+      "i128Overflow": "checked arithmetic failure maps to the same typed422, never500 or wrap"
+    },
+    "nonCentHistory": {
+      "httpStatus": 422,
+      "code": "operating_money_precision_unsupported",
+      "rule": "retain original source/history bytes; formal new V1 consumption blocked until a real separately authorized corrected source exists; no migration mass rounding/backfill"
+    },
+    "unknown": "unknown is null+knowledge+reason, not known zero; no numeric range test on null and no COALESCE to0",
+    "zero": "known0.00 is permitted only with existing source/complete-scope proof; exact derived zero margin from equal known amounts is known, not missing",
+    "negative": "margin/cost variance/change delta can be negative; preserve signed cents and H low-receipt/maturity policy. Nonnegative totals remain nonnegative.",
+    "ratios": "Unrounded rational for classification, six-place half-away-from-zero display, existing frozen numeric(38,6) for gross_margin_rate. Zero denominator gives null/reason, not0; money MAX is not a ratio bound.",
+    "persistence": "20 existing monetary targets and8 new monetary fields already numeric(18,2). No sidecar-only workaround needed; v1 actually writes legacy aggregate columns and must honor their full common capacity.",
+    "rootWiring": {
+      "common": "Root owns a single exact money type/range guard in project_operating_common; G collector/writer and H context/policy assertion validator consume the same guard. Match existing E MONEY_MAX; do not expand C/E/F ordinary amount admission.",
+      "errors": "Root adds typed422 mapping and current shared error schema; G/H cannot throw database overflow as normal source rejection.",
+      "beforeG1": "Append this capacity delta as input clarification to the formal baseline/manifest; do not rewrite or retrospectively claim the sealed v1 audit included it."
+    }
+  },
+  "x-pendingTaxPersistence": "G snapshot+paired period+H DMER/binding all null+knowledge, tied to metrics.taxPendingAmount; known-zero proof retained, unknown never zero",
+  "x-restatementCorrectionKinds": [
+    "labor-replacement",
+    "allocation-batch-replacement",
+    "stage-reclassification",
+    "tax-treatment-replacement"
+  ]
+}
