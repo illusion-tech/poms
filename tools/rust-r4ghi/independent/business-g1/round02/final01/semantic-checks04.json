@@ -1,0 +1,364 @@
+{
+  "kind": "independent-final-frozen-graph-and-semantic-alignment",
+  "checks": [
+    {
+      "id": "sources.json-closed-in-root-manifest",
+      "passed": true,
+      "observed": {
+        "entries": 174,
+        "bad": []
+      }
+    },
+    {
+      "id": "preserved-inputs.json-closed-in-root-manifest",
+      "passed": false,
+      "observed": {
+        "entries": 26,
+        "bad": [
+          {
+            "path": "tools/rust-r4ghi/joint-g1/artifacts.json",
+            "reason": "absent from Root frozen graph",
+            "expected": {
+              "path": "tools/rust-r4ghi/joint-g1/artifacts.json",
+              "bytes": 1986,
+              "sha256": "871b01a2378a9632a1e0b207a7b1afa6f4da9615104dec3cac9e419c34a41373"
+            }
+          },
+          {
+            "path": "tools/rust-r4ghi/joint-g1/build.py",
+            "reason": "absent from Root frozen graph",
+            "expected": {
+              "path": "tools/rust-r4ghi/joint-g1/build.py",
+              "bytes": 91014,
+              "sha256": "3eb7c163882ca4a14cbfb66ed8f817befabcd814e9b3161e4ee0cce715597acb"
+            }
+          },
+          {
+            "path": "tools/rust-r4ghi/joint-g1/integration.md",
+            "reason": "absent from Root frozen graph",
+            "expected": {
+              "path": "tools/rust-r4ghi/joint-g1/integration.md",
+              "bytes": 11725,
+              "sha256": "d6d70e74679956ba30ae25a94e31fe8f6e202ecab805069f604b012071c8bd72"
+            }
+          },
+          {
+            "path": "tools/rust-r4ghi/joint-g1/observed-schema.json",
+            "reason": "absent from Root frozen graph",
+            "expected": {
+              "path": "tools/rust-r4ghi/joint-g1/observed-schema.json",
+              "bytes": 4185,
+              "sha256": "a46ff7f5f8e9924208a2e8cf76caf0f57171a7a8fe8784c0704910ffa3af21c9"
+            }
+          },
+          {
+            "path": "tools/rust-r4ghi/joint-g1/root-adoptions.json",
+            "reason": "absent from Root frozen graph",
+            "expected": {
+              "path": "tools/rust-r4ghi/joint-g1/root-adoptions.json",
+              "bytes": 1301,
+              "sha256": "2a2f2dfb0e5425cb425b1322bc67345ae9a54f50b53ab0c9f702dff96b995486"
+            }
+          },
+          {
+            "path": "tools/rust-r4ghi/joint-g1/validation.json",
+            "reason": "absent from Root frozen graph",
+            "expected": {
+              "path": "tools/rust-r4ghi/joint-g1/validation.json",
+              "bytes": 5907,
+              "sha256": "c62b0b0c8c1734f7f75807771ba66c3cc04793a04cb916bc2f432ba713240a88"
+            }
+          },
+          {
+            "path": "tools/rust-r4ghi/joint-g1/verify.py",
+            "reason": "absent from Root frozen graph",
+            "expected": {
+              "path": "tools/rust-r4ghi/joint-g1/verify.py",
+              "bytes": 15543,
+              "sha256": "446748458488c8a9f854f7e8e8991a8c4e25048d47ad4a7bc508044f463dfff8"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "manifest.json-closed-in-root-manifest",
+      "passed": true,
+      "observed": {
+        "entries": 20,
+        "bad": []
+      }
+    },
+    {
+      "id": "operation-map-all32-substantive-fields-exact",
+      "passed": true,
+      "observed": {
+        "metadataDifferences": [
+          {
+            "operationId": "ProjectController_startExecution",
+            "onlyPermittedStatusAnnotation": true,
+            "substantiveEqual": true,
+            "blueprintStatus": "planned",
+            "RootStatus": "new-planned-canonical-decided"
+          },
+          {
+            "operationId": "ProjectController_startAcceptance",
+            "onlyPermittedStatusAnnotation": true,
+            "substantiveEqual": true,
+            "blueprintStatus": "planned",
+            "RootStatus": "new-planned-canonical-decided"
+          },
+          {
+            "operationId": "ProjectCompletionRecordController_closeCompletionCondition",
+            "onlyPermittedStatusAnnotation": true,
+            "substantiveEqual": true,
+            "blueprintStatus": "planned",
+            "RootStatus": "new-planned-canonical-decided"
+          }
+        ],
+        "allOtherFieldsIdentical": true,
+        "classification": "accepted-metadata-label-difference; both labels mean new route planned, not implemented"
+      }
+    },
+    {
+      "id": "all32-canonical-rows-and-three-planned-statuses",
+      "passed": true,
+      "observed": []
+    },
+    {
+      "id": "public-boundaries-consistent-with-root-counts",
+      "passed": true,
+      "observed": {
+        "G": 9,
+        "H": 8,
+        "I": 11,
+        "R5Minimum": 4,
+        "total": 32,
+        "newPublic": 3,
+        "existing": 29,
+        "officialRust": 240,
+        "targetRust": 272,
+        "R4Delivered": 67,
+        "R4Planned": 95
+      }
+    },
+    {
+      "id": "single-interfaces",
+      "passed": true,
+      "observed": "interface-targets.json"
+    },
+    {
+      "id": "single-scopeResponseContract",
+      "passed": true,
+      "observed": "scope-response-contract.json"
+    },
+    {
+      "id": "single-restatementContract",
+      "passed": true,
+      "observed": "restatement-contract.json"
+    },
+    {
+      "id": "single-legacyCurrentContract",
+      "passed": true,
+      "observed": "legacy-current-contract.json"
+    },
+    {
+      "id": "policy-canonical-hash-and-byte-count",
+      "passed": true,
+      "observed": {
+        "hash": "7e9cfcedc496bd5d4ffd6fc158371e3db069110798926c63a5156ee4614a1aec",
+        "bytes": 4723,
+        "expected": {
+          "file": "policy-definition.json",
+          "policyVersion": "r4h-operating-v1",
+          "policyHash": "7e9cfcedc496bd5d4ffd6fc158371e3db069110798926c63a5156ee4614a1aec",
+          "canonicalBytes": 4723,
+          "algorithm": "same sorted-key/preserved-array compact JSON SHA-256 as contract_support::canonical_hash; Root/H must verify compiled policy constant against pinned artifact before G3"
+        }
+      }
+    },
+    {
+      "id": "native-reference-exact-original-closure",
+      "passed": true,
+      "observed": {
+        "schemas": 98,
+        "bad": []
+      }
+    },
+    {
+      "id": "supporting-C-real-confirm-operation",
+      "passed": true,
+      "observed": "ContractFinanceController_confirmReceipt"
+    },
+    {
+      "id": "conditional-completion-type-and-sql-closure",
+      "passed": true,
+      "observed": "Final accepted writes project/ledger completed; final conditional writes project/ledger conditional-completed. ProjectStatus uses existing completed terminal status. Condition closure changes only conditionStatus, never original completionResult/stage. Archive retains true terminal anchor and requires all conditions closed."
+    },
+    {
+      "id": "actual-acceptance-plan-remains-planned",
+      "passed": false,
+      "observed": {
+        "status": "Plan only; no GHI product, SQL, HTTP or browser acceptance has run",
+        "stories": [
+          "A01",
+          "A02",
+          "A03",
+          "A04",
+          "A05",
+          "A06",
+          "A07",
+          "A08"
+        ],
+        "checks": [
+          "Rust fmt/clippy/build/full regression",
+          "affected TS shared/Native/admin lint and builds/tests",
+          "full OpenAPI generation and current client check",
+          "forward migration and ORM/entity/DDL alignment with drift classified",
+          "complete actual HTTP operation matrix",
+          "real browser acceptance",
+          "git diff --check and docs format check"
+        ],
+        "closeout": {
+          "restoration": "Only owned proven added PKs/object keys or explicitly approved exact original-row restoration. Catalog/ACL/trigger/sequence and row identity checks, two fresh no-ops, then stop only owned API/PG resources and preserve volume/private inputs.",
+          "gate": "Independent G3, fixed-commit/main verification, G4 preclose, actual online readback, and independent actual G4. Archive lifecycle raw bytes without rewriting failures.",
+          "mayCloseOnlyAfterPassing": [
+            111,
+            112,
+            113,
+            117,
+            114,
+            110
+          ],
+          "stage101": "Close only if complete R4 delivery audit and real unified stage acceptance pass independently",
+          "mustStayOpen": [
+            57,
+            116
+          ]
+        }
+      }
+    }
+  ],
+  "failed": [
+    {
+      "id": "preserved-inputs.json-closed-in-root-manifest",
+      "passed": false,
+      "observed": {
+        "entries": 26,
+        "bad": [
+          {
+            "path": "tools/rust-r4ghi/joint-g1/artifacts.json",
+            "reason": "absent from Root frozen graph",
+            "expected": {
+              "path": "tools/rust-r4ghi/joint-g1/artifacts.json",
+              "bytes": 1986,
+              "sha256": "871b01a2378a9632a1e0b207a7b1afa6f4da9615104dec3cac9e419c34a41373"
+            }
+          },
+          {
+            "path": "tools/rust-r4ghi/joint-g1/build.py",
+            "reason": "absent from Root frozen graph",
+            "expected": {
+              "path": "tools/rust-r4ghi/joint-g1/build.py",
+              "bytes": 91014,
+              "sha256": "3eb7c163882ca4a14cbfb66ed8f817befabcd814e9b3161e4ee0cce715597acb"
+            }
+          },
+          {
+            "path": "tools/rust-r4ghi/joint-g1/integration.md",
+            "reason": "absent from Root frozen graph",
+            "expected": {
+              "path": "tools/rust-r4ghi/joint-g1/integration.md",
+              "bytes": 11725,
+              "sha256": "d6d70e74679956ba30ae25a94e31fe8f6e202ecab805069f604b012071c8bd72"
+            }
+          },
+          {
+            "path": "tools/rust-r4ghi/joint-g1/observed-schema.json",
+            "reason": "absent from Root frozen graph",
+            "expected": {
+              "path": "tools/rust-r4ghi/joint-g1/observed-schema.json",
+              "bytes": 4185,
+              "sha256": "a46ff7f5f8e9924208a2e8cf76caf0f57171a7a8fe8784c0704910ffa3af21c9"
+            }
+          },
+          {
+            "path": "tools/rust-r4ghi/joint-g1/root-adoptions.json",
+            "reason": "absent from Root frozen graph",
+            "expected": {
+              "path": "tools/rust-r4ghi/joint-g1/root-adoptions.json",
+              "bytes": 1301,
+              "sha256": "2a2f2dfb0e5425cb425b1322bc67345ae9a54f50b53ab0c9f702dff96b995486"
+            }
+          },
+          {
+            "path": "tools/rust-r4ghi/joint-g1/validation.json",
+            "reason": "absent from Root frozen graph",
+            "expected": {
+              "path": "tools/rust-r4ghi/joint-g1/validation.json",
+              "bytes": 5907,
+              "sha256": "c62b0b0c8c1734f7f75807771ba66c3cc04793a04cb916bc2f432ba713240a88"
+            }
+          },
+          {
+            "path": "tools/rust-r4ghi/joint-g1/verify.py",
+            "reason": "absent from Root frozen graph",
+            "expected": {
+              "path": "tools/rust-r4ghi/joint-g1/verify.py",
+              "bytes": 15543,
+              "sha256": "446748458488c8a9f854f7e8e8991a8c4e25048d47ad4a7bc508044f463dfff8"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "actual-acceptance-plan-remains-planned",
+      "passed": false,
+      "observed": {
+        "status": "Plan only; no GHI product, SQL, HTTP or browser acceptance has run",
+        "stories": [
+          "A01",
+          "A02",
+          "A03",
+          "A04",
+          "A05",
+          "A06",
+          "A07",
+          "A08"
+        ],
+        "checks": [
+          "Rust fmt/clippy/build/full regression",
+          "affected TS shared/Native/admin lint and builds/tests",
+          "full OpenAPI generation and current client check",
+          "forward migration and ORM/entity/DDL alignment with drift classified",
+          "complete actual HTTP operation matrix",
+          "real browser acceptance",
+          "git diff --check and docs format check"
+        ],
+        "closeout": {
+          "restoration": "Only owned proven added PKs/object keys or explicitly approved exact original-row restoration. Catalog/ACL/trigger/sequence and row identity checks, two fresh no-ops, then stop only owned API/PG resources and preserve volume/private inputs.",
+          "gate": "Independent G3, fixed-commit/main verification, G4 preclose, actual online readback, and independent actual G4. Archive lifecycle raw bytes without rewriting failures.",
+          "mayCloseOnlyAfterPassing": [
+            111,
+            112,
+            113,
+            117,
+            114,
+            110
+          ],
+          "stage101": "Close only if complete R4 delivery audit and real unified stage acceptance pass independently",
+          "mustStayOpen": [
+            57,
+            116
+          ]
+        }
+      }
+    }
+  ],
+  "G1Certified": false,
+  "G2Authorized": false,
+  "SQLExecuted": false,
+  "productAcceptanceRun": false,
+  "metadataAdjudication": "integrity02 operation-map exact JSON check was too strict about three Root planned-status annotations. This report verifies every other operation field and actual canonical planned status; original comparison is retained."
+}

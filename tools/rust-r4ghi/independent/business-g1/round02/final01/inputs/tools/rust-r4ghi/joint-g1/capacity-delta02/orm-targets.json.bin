@@ -1,0 +1,341 @@
+{
+  "capacityChanges": [],
+  "columns": [
+    {
+      "table": "operating_baseline_package",
+      "column": "original_baseline_cost",
+      "orm": {
+        "path": "apps/poms-api/src/app/features/project-cost/operating-baseline-package.entity.ts",
+        "line": 44,
+        "property": "originalBaselineCost",
+        "precision": 18,
+        "scale": 2,
+        "excerpt": "originalBaselineCost: p.decimal().precision(18).scale(2).default(0).fieldName('original_baseline_cost').comment('原始签约基线成本'),"
+      },
+      "targetPrecision": 18,
+      "targetScale": 2,
+      "action": "keep"
+    },
+    {
+      "table": "operating_baseline_package",
+      "column": "change_package_total",
+      "orm": {
+        "path": "apps/poms-api/src/app/features/project-cost/operating-baseline-package.entity.ts",
+        "line": 45,
+        "property": "changePackageTotal",
+        "precision": 18,
+        "scale": 2,
+        "excerpt": "changePackageTotal: p.decimal().precision(18).scale(2).default(0).fieldName('change_package_total').comment('已批准变更包累计金额'),"
+      },
+      "targetPrecision": 18,
+      "targetScale": 2,
+      "action": "keep"
+    },
+    {
+      "table": "operating_baseline_package",
+      "column": "current_effective_baseline_cost",
+      "orm": {
+        "path": "apps/poms-api/src/app/features/project-cost/operating-baseline-package.entity.ts",
+        "line": 46,
+        "property": "currentEffectiveBaselineCost",
+        "precision": 18,
+        "scale": 2,
+        "excerpt": "currentEffectiveBaselineCost: p.decimal().precision(18).scale(2).default(0).fieldName('current_effective_baseline_cost').comment('当前有效基线成本 = 原始 + 变更包'),"
+      },
+      "targetPrecision": 18,
+      "targetScale": 2,
+      "action": "keep"
+    },
+    {
+      "table": "change_package_baseline",
+      "column": "change_amount",
+      "orm": {
+        "path": "apps/poms-api/src/app/features/project-cost/change-package-baseline.entity.ts",
+        "line": 29,
+        "property": "changeAmount",
+        "precision": 18,
+        "scale": 2,
+        "excerpt": "changeAmount: p.decimal().precision(18).scale(2).default(0).fieldName('change_amount').comment('变更金额（正增负减）'),"
+      },
+      "targetPrecision": 18,
+      "targetScale": 2,
+      "action": "keep"
+    },
+    {
+      "table": "project_operating_snapshot",
+      "column": "effective_contract_total",
+      "orm": {
+        "path": "apps/poms-api/src/app/features/project-cost/project-operating-snapshot.entity.ts",
+        "line": 60,
+        "property": "effectiveContractTotal",
+        "precision": 18,
+        "scale": 2,
+        "excerpt": "effectiveContractTotal: p.decimal().precision(18).scale(2).default(0).fieldName('effective_contract_total').comment('当前有效合同总额'),"
+      },
+      "targetPrecision": 18,
+      "targetScale": 2,
+      "action": "keep"
+    },
+    {
+      "table": "project_operating_snapshot",
+      "column": "receivable_confirmed_total",
+      "orm": {
+        "path": "apps/poms-api/src/app/features/project-cost/project-operating-snapshot.entity.ts",
+        "line": 61,
+        "property": "receivableConfirmedTotal",
+        "precision": 18,
+        "scale": 2,
+        "excerpt": "receivableConfirmedTotal: p.decimal().precision(18).scale(2).default(0).fieldName('receivable_confirmed_total').comment('已确认回款总额'),"
+      },
+      "targetPrecision": 18,
+      "targetScale": 2,
+      "action": "keep"
+    },
+    {
+      "table": "project_operating_snapshot",
+      "column": "included_cost_total",
+      "orm": {
+        "path": "apps/poms-api/src/app/features/project-cost/project-operating-snapshot.entity.ts",
+        "line": 62,
+        "property": "includedCostTotal",
+        "precision": 18,
+        "scale": 2,
+        "excerpt": "includedCostTotal: p.decimal().precision(18).scale(2).default(0).fieldName('included_cost_total').comment('已纳入口径成本总额'),"
+      },
+      "targetPrecision": 18,
+      "targetScale": 2,
+      "action": "keep"
+    },
+    {
+      "table": "project_operating_snapshot",
+      "column": "original_baseline_cost",
+      "orm": {
+        "path": "apps/poms-api/src/app/features/project-cost/project-operating-snapshot.entity.ts",
+        "line": 63,
+        "property": "originalBaselineCost",
+        "precision": 18,
+        "scale": 2,
+        "excerpt": "originalBaselineCost: p.decimal().precision(18).scale(2).default(0).fieldName('original_baseline_cost').comment('原始签约基线成本'),"
+      },
+      "targetPrecision": 18,
+      "targetScale": 2,
+      "action": "keep"
+    },
+    {
+      "table": "project_operating_snapshot",
+      "column": "current_effective_baseline_cost",
+      "orm": {
+        "path": "apps/poms-api/src/app/features/project-cost/project-operating-snapshot.entity.ts",
+        "line": 64,
+        "property": "currentEffectiveBaselineCost",
+        "precision": 18,
+        "scale": 2,
+        "excerpt": "currentEffectiveBaselineCost: p.decimal().precision(18).scale(2).default(0).fieldName('current_effective_baseline_cost').comment('当前有效基线成本'),"
+      },
+      "targetPrecision": 18,
+      "targetScale": 2,
+      "action": "keep"
+    },
+    {
+      "table": "project_operating_snapshot",
+      "column": "gross_margin_amount",
+      "orm": {
+        "path": "apps/poms-api/src/app/features/project-cost/project-operating-snapshot.entity.ts",
+        "line": 65,
+        "property": "grossMarginAmount",
+        "precision": 18,
+        "scale": 2,
+        "excerpt": "grossMarginAmount: p.decimal().precision(18).scale(2).default(0).fieldName('gross_margin_amount').comment('毛利金额'),"
+      },
+      "targetPrecision": 18,
+      "targetScale": 2,
+      "action": "keep"
+    },
+    {
+      "table": "project_operating_snapshot",
+      "column": "tax_impact_pending_amount",
+      "orm": {
+        "path": "apps/poms-api/src/app/features/project-cost/project-operating-snapshot.entity.ts",
+        "line": 68,
+        "property": "taxImpactPendingAmount",
+        "precision": 18,
+        "scale": 2,
+        "excerpt": "taxImpactPendingAmount: p.decimal().precision(18).scale(2).default(0).fieldName('tax_impact_pending_amount').comment('待确认税务影响金额'),"
+      },
+      "targetPrecision": 18,
+      "targetScale": 2,
+      "action": "keep"
+    },
+    {
+      "table": "period_closing_snapshot",
+      "column": "effective_contract_total",
+      "orm": {
+        "path": "apps/poms-api/src/app/features/project-cost/period-closing-snapshot.entity.ts",
+        "line": 66,
+        "property": "effectiveContractTotal",
+        "precision": 18,
+        "scale": 2,
+        "excerpt": "effectiveContractTotal: p.decimal().precision(18).scale(2).default(0).fieldName('effective_contract_total').comment('当前有效合同总额'),"
+      },
+      "targetPrecision": 18,
+      "targetScale": 2,
+      "action": "keep"
+    },
+    {
+      "table": "period_closing_snapshot",
+      "column": "receivable_confirmed_total",
+      "orm": {
+        "path": "apps/poms-api/src/app/features/project-cost/period-closing-snapshot.entity.ts",
+        "line": 67,
+        "property": "receivableConfirmedTotal",
+        "precision": 18,
+        "scale": 2,
+        "excerpt": "receivableConfirmedTotal: p.decimal().precision(18).scale(2).default(0).fieldName('receivable_confirmed_total').comment('已确认回款总额'),"
+      },
+      "targetPrecision": 18,
+      "targetScale": 2,
+      "action": "keep"
+    },
+    {
+      "table": "period_closing_snapshot",
+      "column": "included_cost_total",
+      "orm": {
+        "path": "apps/poms-api/src/app/features/project-cost/period-closing-snapshot.entity.ts",
+        "line": 68,
+        "property": "includedCostTotal",
+        "precision": 18,
+        "scale": 2,
+        "excerpt": "includedCostTotal: p.decimal().precision(18).scale(2).default(0).fieldName('included_cost_total').comment('已纳入口径成本总额'),"
+      },
+      "targetPrecision": 18,
+      "targetScale": 2,
+      "action": "keep"
+    },
+    {
+      "table": "period_closing_snapshot",
+      "column": "original_baseline_cost",
+      "orm": {
+        "path": "apps/poms-api/src/app/features/project-cost/period-closing-snapshot.entity.ts",
+        "line": 69,
+        "property": "originalBaselineCost",
+        "precision": 18,
+        "scale": 2,
+        "excerpt": "originalBaselineCost: p.decimal().precision(18).scale(2).default(0).fieldName('original_baseline_cost').comment('原始签约基线成本'),"
+      },
+      "targetPrecision": 18,
+      "targetScale": 2,
+      "action": "keep"
+    },
+    {
+      "table": "period_closing_snapshot",
+      "column": "current_effective_baseline_cost",
+      "orm": {
+        "path": "apps/poms-api/src/app/features/project-cost/period-closing-snapshot.entity.ts",
+        "line": 70,
+        "property": "currentEffectiveBaselineCost",
+        "precision": 18,
+        "scale": 2,
+        "excerpt": "currentEffectiveBaselineCost: p.decimal().precision(18).scale(2).default(0).fieldName('current_effective_baseline_cost').comment('当前有效基线成本'),"
+      },
+      "targetPrecision": 18,
+      "targetScale": 2,
+      "action": "keep"
+    },
+    {
+      "table": "period_closing_snapshot",
+      "column": "gross_margin_amount",
+      "orm": {
+        "path": "apps/poms-api/src/app/features/project-cost/period-closing-snapshot.entity.ts",
+        "line": 71,
+        "property": "grossMarginAmount",
+        "precision": 18,
+        "scale": 2,
+        "excerpt": "grossMarginAmount: p.decimal().precision(18).scale(2).default(0).fieldName('gross_margin_amount').comment('毛利金额'),"
+      },
+      "targetPrecision": 18,
+      "targetScale": 2,
+      "action": "keep"
+    },
+    {
+      "table": "period_closing_snapshot",
+      "column": "tax_impact_pending_amount",
+      "orm": {
+        "path": "apps/poms-api/src/app/features/project-cost/period-closing-snapshot.entity.ts",
+        "line": 74,
+        "property": "taxImpactPendingAmount",
+        "precision": 18,
+        "scale": 2,
+        "excerpt": "taxImpactPendingAmount: p.decimal().precision(18).scale(2).default(0).fieldName('tax_impact_pending_amount').comment('待确认税务影响金额'),"
+      },
+      "targetPrecision": 18,
+      "targetScale": 2,
+      "action": "keep"
+    },
+    {
+      "table": "data_maturity_evaluation_result",
+      "column": "tax_impact_pending_amount",
+      "orm": {
+        "path": "apps/poms-api/src/app/features/project-cost/data-maturity-evaluation-result.entity.ts",
+        "line": 61,
+        "property": "taxImpactPendingAmount",
+        "precision": 18,
+        "scale": 2,
+        "excerpt": "taxImpactPendingAmount: p.decimal().precision(18).scale(2).default(0).fieldName('tax_impact_pending_amount').comment('待闭合税务影响金额'),"
+      },
+      "targetPrecision": 18,
+      "targetScale": 2,
+      "action": "keep"
+    },
+    {
+      "table": "operating_signal_gate_binding",
+      "column": "tax_impact_pending_amount",
+      "orm": {
+        "path": "apps/poms-api/src/app/features/project-cost/operating-signal-gate-binding.entity.ts",
+        "line": 78,
+        "property": "taxImpactPendingAmount",
+        "precision": 18,
+        "scale": 2,
+        "excerpt": "taxImpactPendingAmount: p.decimal().precision(18).scale(2).default(0).fieldName('tax_impact_pending_amount').comment('待闭合税务影响金额'),"
+      },
+      "targetPrecision": 18,
+      "targetScale": 2,
+      "action": "keep"
+    }
+  ],
+  "preserveAlreadyFrozenRatioTargets": [
+    {
+      "table": "project_operating_snapshot",
+      "column": "gross_margin_rate",
+      "currentOrm": {
+        "precision": 9,
+        "scale": 6,
+        "path": "apps/poms-api/src/app/features/project-cost/project-operating-snapshot.entity.ts",
+        "line": 66,
+        "excerpt": "grossMarginRate: p.decimal().precision(9).scale(6).nullable().fieldName('gross_margin_rate').comment('毛利率'),"
+      },
+      "frozenV1Target": {
+        "precision": 38,
+        "scale": 6
+      },
+      "capacityDeltaAction": "no new change; Root still performs sealed v1 ratio ORM/DDL update",
+      "moneyCapApplies": false
+    },
+    {
+      "table": "period_closing_snapshot",
+      "column": "gross_margin_rate",
+      "currentOrm": {
+        "precision": 9,
+        "scale": 6,
+        "path": "apps/poms-api/src/app/features/project-cost/period-closing-snapshot.entity.ts",
+        "line": 72,
+        "excerpt": "grossMarginRate: p.decimal().precision(9).scale(6).nullable().fieldName('gross_margin_rate').comment('毛利率'),"
+      },
+      "frozenV1Target": {
+        "precision": 38,
+        "scale": 6
+      },
+      "capacityDeltaAction": "no new change; Root still performs sealed v1 ratio ORM/DDL update",
+      "moneyCapApplies": false
+    }
+  ]
+}

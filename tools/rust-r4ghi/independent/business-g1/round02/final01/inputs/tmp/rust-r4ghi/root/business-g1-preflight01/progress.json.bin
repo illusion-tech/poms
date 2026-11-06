@@ -1,0 +1,114 @@
+[
+  {
+    "label": "tracked-changes",
+    "executable": "git",
+    "args": [
+      "diff",
+      "--name-only"
+    ],
+    "exitCode": 0,
+    "stdoutSHA256": "f55b5b6ea39c976c757e12fd6e4f9541605e0135b09d1cd51f38bef0cb5c90e4",
+    "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "passed": true
+  },
+  {
+    "label": "no-GHI-product-edit-before-G1",
+    "paths": [
+      "docs/design/README.md",
+      "docs/design/api-route-canonical-inventory.md",
+      "docs/design/backend-rust-migration-plan.md",
+      "docs/design/phase2-development-execution-tracker.md",
+      "docs/design/rust-migration-execution-tracker.md",
+      "docs/design/rust-r4-scope-and-dependencies.md",
+      "docs/design/rust-r4ghi-delivery-status.json"
+    ],
+    "passed": true
+  },
+  {
+    "label": "whitespace",
+    "executable": "git",
+    "args": [
+      "diff",
+      "--check"
+    ],
+    "exitCode": 0,
+    "stdoutSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "passed": true
+  },
+  {
+    "label": "markdown-format",
+    "executable": "E:/.cargo/bin/deno.exe",
+    "args": [
+      "task",
+      "format:md:check"
+    ],
+    "exitCode": 0,
+    "stdoutSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderrSHA256": "2e357e4fa912a6ddd661cbdd282b20356561520e6402bb921401eb94f35d0fbd",
+    "passed": true
+  },
+  {
+    "label": "syntax-freeze-business-input01",
+    "executable": "C:\\Users\\ynh2\\AppData\\Roaming\\fnm\\node-versions\\v24.19.0\\installation\\node.exe",
+    "args": [
+      "--check",
+      "tools/rust-r4ghi/freeze-business-input01.mjs"
+    ],
+    "exitCode": 0,
+    "stdoutSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "passed": true
+  },
+  {
+    "label": "syntax-freeze-business-online01",
+    "executable": "C:\\Users\\ynh2\\AppData\\Roaming\\fnm\\node-versions\\v24.19.0\\installation\\node.exe",
+    "args": [
+      "--check",
+      "tools/rust-r4ghi/freeze-business-online01.mjs"
+    ],
+    "exitCode": 0,
+    "stdoutSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "passed": true
+  },
+  {
+    "label": "syntax-prepare-business-g1-docs01",
+    "executable": "C:\\Users\\ynh2\\AppData\\Roaming\\fnm\\node-versions\\v24.19.0\\installation\\node.exe",
+    "args": [
+      "--check",
+      "tools/rust-r4ghi/prepare-business-g1-docs01.mjs"
+    ],
+    "exitCode": 0,
+    "stdoutSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "passed": true
+  },
+  {
+    "label": "syntax-business-g1-preflight01",
+    "executable": "C:\\Users\\ynh2\\AppData\\Roaming\\fnm\\node-versions\\v24.19.0\\installation\\node.exe",
+    "args": [
+      "--check",
+      "tools/rust-r4ghi/business-g1-preflight01.mjs"
+    ],
+    "exitCode": 0,
+    "stdoutSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "passed": true
+  },
+  {
+    "label": "effective-v2-verify",
+    "executable": "wsl",
+    "args": [
+      "-d",
+      "Debian",
+      "--",
+      "/usr/bin/python3",
+      "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/joint-g1/effective-v2/verify.py"
+    ],
+    "exitCode": 1,
+    "stdoutSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderrSHA256": "8abe965c03259c26824b69d24718bb65b0a18d02fd6954b84d80caa992b1bbbf",
+    "passed": false
+  }
+]

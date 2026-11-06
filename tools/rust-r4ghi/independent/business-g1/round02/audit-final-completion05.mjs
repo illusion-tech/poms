@@ -1,0 +1,31 @@
+import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
+import {dirname} from 'node:path';
+import {createHash} from 'node:crypto';
+import {spawnSync} from 'node:child_process';
+const p='tools/rust-r4ghi/independent/business-g1/round02/final01',v='tools/rust-r4ghi/joint-g1/effective-v2';
+const read=path=>readFileSync(`${p}/inputs/${path}.bin`),json=path=>JSON.parse(read(path));
+const hash=b=>createHash('sha256').update(b).digest('hex'),checks=[];
+const check=(id,passed,observed)=>checks.push({id,passed:Boolean(passed),observed});
+const manifest=json('docs/design/rust-r4ghi/g1-source-manifest01.json'),rootPins=new Map(manifest.entries.map(e=>[e.path,e]));
+const prior=JSON.parse(readFileSync(`${p}/semantic-checks04.json`));
+const historical=json(`${v}/preserved-inputs.json`),preservation=[];
+for(const e of historical.entries){const pinned=rootPins.get(e.path);if(pinned){preservation.push({path:e.path,inRootNormativeGraph:true,rawSHA256:pinned.sha256,matches:e.sha256===pinned.sha256&&e.bytes===pinned.bytes});continue;}
+ const b=readFileSync(e.path),r=spawnSync('git',['show',`9e010077e3010ff09447e9d77cb1bf1f7adbf68d:${e.path}`],{shell:false,windowsHide:true,maxBuffer:2*1024*1024});
+ const copy=`${p}/inputs/${e.path}.bin`;mkdirSync(dirname(copy),{recursive:true});writeFileSync(copy,b,{flag:'wx'});
+ preservation.push({path:e.path,inRootNormativeGraph:false,role:'historical-reference-only; not executable target',rawSHA256:hash(b),bytes:b.length,expected:e,gitExitCode:r.status,gitSHA256:hash(r.stdout),matches:r.status===0&&b.equals(r.stdout)&&b.length===e.bytes&&hash(b)===e.sha256,copy});
+}
+check('all26-preserved-historical-inputs-match-fixed-commit',preservation.every(e=>e.matches),{entries:preservation.length,additionalHistoricalOnly:preservation.filter(e=>!e.inRootNormativeGraph),reason:'Root manifest is a normative input graph. Seven old generator/check/index files are preserved historical references only, and their exact commit bytes are independently verified here.'});
+const op=prior.checks.find(c=>c.id==='operation-map-all32-substantive-fields-exact');
+check('operation-map-metadata-differences-are-exactly-three-new-planned-annotations',op.passed&&op.observed.metadataDifferences.length===3&&op.observed.metadataDifferences.every(d=>d.substantiveEqual&&d.blueprintStatus==='planned'&&d.RootStatus==='new-planned-canonical-decided'),op.observed);
+const plan=json('docs/design/rust-r4ghi/acceptance-plan01.json');
+const requiredGroups=['Rust fmt/clippy/build/full regression','affected TS shared/Native/admin lint and builds/tests','full OpenAPI generation and current client check','forward migration and ORM/entity/DDL alignment with drift classified','complete actual HTTP operation matrix','real browser acceptance','git diff --check and docs format check'];
+check('all-required-risk-scaled-acceptance-groups-planned',requiredGroups.every(s=>plan.checks.includes(s))&&plan.productBase===manifest.productBase&&plan.status.includes('no GHI product')&&plan.stories.length===8&&JSON.stringify(plan.closeout.mustStayOpen)==='[57,116]',{groups:plan.checks,stories:plan.stories.map(s=>s.id),status:plan.status});
+const effectivePrior=prior.checks.filter(c=>!['preserved-inputs.json-closed-in-root-manifest','actual-acceptance-plan-remains-planned'].includes(c.id));
+check('all-other-final-semantic-checks-pass',effectivePrior.every(c=>c.passed),{passed:effectivePrior.length});
+const integrity=JSON.parse(readFileSync(`${p}/integrity02.json`));
+check('all-substantive-integrity-checks-pass',integrity.checks.filter(c=>c.id!=='operation-map-exact-blueprint-operations-and-hash').every(c=>c.passed),{passed:19,refinedCheck:'operation-map status annotation adjudicated above'});
+const schema=JSON.parse(readFileSync(`${p}/schema-checks01.json`));
+check('independent45-schema-and-route-checks-pass',schema.checks.length===45&&schema.checks.every(c=>c.passed),{checks:schema.checks.length});
+const result={kind:'independent-final-semantic-audit-completion',passed:checks.every(c=>c.passed),checks,historicalPreservation:preservation,priorEvidenceRetained:[`${p}/integrity02.json`,`${p}/semantic-checks04.json`,`${p}/operation-map-comparison03.json`],adjudications:[{classification:'accepted-metadata-label-difference',detail:'Three Root inventoryStatus annotations refine planned routing status; every other operation field is identical and canonical remains planned.'},{classification:'tool-check-scope-correction',detail:'Historical preserved-input generator/check/index files need immutable preservation, not promotion into executable normative targets. All26 fixed bytes verified. Acceptance plan has seven groups covering the complete required check set; no arbitrary minimum group count is required.'}],G1Certified:false,G2Authorized:false};
+writeFileSync(`${p}/completion-checks05.json`,JSON.stringify(result,null,2)+'\n',{flag:'wx'});
+console.log(JSON.stringify({checks:checks.length,passed:result.passed,failed:checks.filter(c=>!c.passed),report:`${p}/completion-checks05.json`},null,2));

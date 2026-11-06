@@ -1,0 +1,60 @@
+{
+  "proofToWire": {
+    "FullProject": "full-project",
+    "OwnConditionOnly": "own-condition-only",
+    "CreatorFirstAssignmentOnly": "creator-first-assignment-only"
+  },
+  "completionList": {
+    "operationId": "ProjectController_listProjectCompletionRecords",
+    "dto": "ProjectCompletionRecordList",
+    "FullProject": "FullProjectCompletionRecordListView with all existing full required values",
+    "OwnConditionOnly": "OwnCompletionTaskListView: parent completion ID/rowVersion/global conditionStatus; only actor-owned tasks and their own frozen/closure evidence",
+    "query": "SQL restrict parents to EXISTS own condition first, select own tasks only; parent aggregate computed from all real conditions in one coherent read. No parent acceptance/completion summary or evidence joins into the narrow projection."
+  },
+  "conditionClose": {
+    "dto": "CloseProjectCompletionConditionResult",
+    "sourceHashPayloadWhitelist": [
+      "schemaVersion",
+      "projectId",
+      "completionRecordId",
+      "expectedCompletionVersion",
+      "conditionId",
+      "expectedConditionVersion",
+      "responsibleUserId",
+      "closedBy",
+      "closedAt",
+      "closureSummary",
+      "ownConditionEvidenceRefs",
+      "closureEvidenceRefs"
+    ],
+    "rule": "Actor equals responsible user and has project:write; both proof branches return only own closure result and parent ID/version/global aggregate status. Never embed full parent DTO, acceptance IDs, parent summaries or parent evidence."
+  },
+  "creatorAnchor": {
+    "operationId": "ProjectController_getById",
+    "dto": "CreatorFirstAssignmentAnchorView",
+    "rule": "Exact new org-owned origin+creator+active ownerOrg membership; only assignment anchor IDs/versions/projectNo/currentNULL owner. Read requires project:read; allowedActions includes reassign-owner only if separate project:write and exact bootstrap still available. First write consumes forever."
+  },
+  "evidence": "OwnConditionOnly may read only exact frozen evidence attached to its owned condition or own closure, with existing attachment permission/classification still AND. Validate actual project/link/attachment/version/checksum; no parent acceptance/completion evidence copying or project-wide attachment listing.",
+  "frontend": {
+    "ownTasks": {
+      "path": "existing frontend project route with own-conditions task mode, or independent frontend /project-condition-tasks/:projectId route",
+      "firstRequest": "existing GET /api/projects/{projectId}/completion-records directly; never require full ProjectDetail before task access",
+      "components": [
+        "Root data-access typed loadCompletionRecords union",
+        "I project-condition-tasks.ts child",
+        "Root router mounts task child without full workspace preload"
+      ],
+      "write": "post existing named dual-UUID close route with returned parent/task versions; replace safe result and refresh same list"
+    },
+    "creator": {
+      "firstRequest": "existing GET /api/projects/{id}",
+      "components": [
+        "Root project-workspace store ProjectDetailView union",
+        "I project-first-owner-assignment.ts child"
+      ],
+      "rule": "Narrow by scopeKind before loading panels. Creator branch mounts only assignment form, calls existing owner reference lookup with its actual guard and reassignOwner; never loads G/H/R5/full evidence. No fill-empty/as-cast to FullProjectDetailView."
+    }
+  },
+  "backendGetDelta": 0,
+  "noGeneralSummaryHTTPFinding": "Independent review found no registered generic L summary HTTP GET; do not report this unproven earlier concern as a confirmed vulnerability. Actual domain responses and summary consumers still require scope/projection."
+}

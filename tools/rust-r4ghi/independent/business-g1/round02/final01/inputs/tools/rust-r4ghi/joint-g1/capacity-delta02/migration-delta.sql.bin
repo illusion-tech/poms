@@ -1,0 +1,9 @@
+-- CAPACITY CONFIRMATION DELTA ONLY. NOT EXECUTED.
+-- Required capacity ALTER statements: NONE.
+-- All20 inspected existing G/H monetary columns and8 new V1 money fields
+-- already use numeric(18,2): 16 integer digits, exact cents.
+-- Preserve sealed v1 migration, including its2 gross_margin_rate numeric(38,6)
+-- changes and pending-tax NULL/knowledge semantics.
+-- No TYPE20,4 change, no UPDATE/round/backfill, no source capacity expansion.
+-- Exact aggregation bounds and typed422 rejection belong to the pre-INSERT
+-- common V1 money validator; do not intentionally provoke SQLSTATE22003.

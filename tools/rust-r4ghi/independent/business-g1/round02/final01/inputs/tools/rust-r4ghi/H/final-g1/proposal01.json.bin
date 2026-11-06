@@ -1,0 +1,437 @@
+{
+  "schemaVersion": 1,
+  "status": "FINAL-G1-PROPOSAL-NOT-ADMITTED",
+  "slice": "H #112; batch #110",
+  "existingHttp": 8,
+  "newPublicHttp": 0,
+  "userDecisions": {
+    "carrier": "User answers delivered by Root in chat; #115 is independent user-create-fix, not business decision carrier",
+    "accepted": [
+      "Minimum four existing R5 role operations plus two controlled execution/acceptance commands and real initial-stage lifecycle",
+      "Receipt amount is gross cash; confirmation freezes traceable same-contract net/tax basis; legacy missing basis needs authorized correction before formal operating",
+      "Explicit cost include/exclude with reason; server validates actual source/stage/currency/tax/version and derives totals"
+    ],
+    "rootAcceptedEnums": "known/unknown independent amount knowledge; signal/risk add normal/unknown; maturity unchanged; not evaluated uses evaluationStatus"
+  },
+  "interface": {
+    "module": "project_operating_signals",
+    "evaluate": "pub async fn evaluate_with_session(session: &mut CommonSession<'_, '_>, snapshot_id: Uuid, expected_row_version: i32, expected_source_hash: &str, actor: &Actor) -> Result<OperatingEvaluationRefs, Error>",
+    "derive": "pub fn derive_operating_evaluation(context: &OperatingSourceContext, review: Option<&VerifiedMaterialityReview>) -> Result<OperatingEvaluationDraft, Error>",
+    "readiness": "pub fn derive_cost_readiness(context: &OperatingSourceContext) -> Result<CostReadiness, Error>",
+    "returns": {
+      "snapshotId": "UUID",
+      "sourceHash": "SHA256",
+      "evaluationHash": "SHA256",
+      "maturityEvaluationId": "UUID",
+      "signalEvaluationId": "UUID",
+      "signalRowVersion": "positive int",
+      "bindingIds": "four-stage UUID record",
+      "summarySnapshotIds": "four-stage UUID record",
+      "currentActionLevel": "action",
+      "policyVersion": "r4h-operating-v1",
+      "certification": "verified|missing-evidence|legacy-unverified"
+    },
+    "sequence": [
+      "G allocates snapshot UUID and authoritative collector builds typed context; no client conclusions.",
+      "G calls H pure derive before INSERT; insert snapshot final facts/action once at v1 and immutable source context in same outerTX.",
+      "G calls exact evaluate_with_session(snapshotId,1,sourceHash,actor); H reloads via caller session, locks project scope, checks schema/project/version/hash/formalEligibility and recomputes result.",
+      "H asserts snapshot final facts/action equal policy output, inserts DMER/OSER/all four bindings/source summaries/reasons/evidence/idempotency. No write-back of G factual snapshot.",
+      "Shared caller adapter flushes required audit/auth/security participants and COMMITs once. H never pools, begins or commits independently."
+    ],
+    "sharedOwner": "Root model/hash/context-load helper only; H is sole policy authority; G collector is sole source authority. Shared model has no business calculator."
+  },
+  "sourceContext": {
+    "schema": "source-context.schema.json",
+    "canonicalization": "Exact sourceHashFactualWhitelist supersedes broad hash wording. Shared serializer and tests Root-owned. H independently recomputes derived metric assertions; payloadHash hashes the complete stored context excluding only its self-hash field.",
+    "semantics": [
+      "All fields required, absent explicit null. Unknown amount value=null+nonempty reason; known amount decimal string+null reason. Proven zero needs zeroProof and exact source/scope evidence.",
+      "Known gross=net+tax in cents. Receipt cashGross=amounts.gross and net/tax from frozen confirmation contract basis, never current tax rate.",
+      "Missing receipt basis or included hard source/tax/stage/classification/amount evidence => formalEligibility missing-evidence and official G/H publication rejects. Legacy/preview may expose unavailable state but cannot publish certified current summaries or releasable gates.",
+      "Every registered cost has one explicit validated current include/exclude classification. Duplicate canonicalAccumulationKey across invoice/payment/procurement rejects. Allocated project share uses exact F frozen cents, not recomputed rounded ratio.",
+      "Empty registered scope may prove a point-in-time aggregate zero only with exhaustive collector scope hash; this does not prove mature business data. Without actual classified cost-scope evidence, maturity remains insufficient even if registered sum is zero.",
+      "All-excluded validated known records can prove included sum zero; unknown or missing hard facts cannot be hidden by an implicit exclude.",
+      "containsLabor=yes if any transitive lineage labor, no only if all verified nonlabor, otherwise unknown; unknown uses strongest sensitive group."
+    ],
+    "sourceHashFactualWhitelist": {
+      "top": [
+        "schemaVersion",
+        "producerVersion",
+        "projectId",
+        "currency",
+        "scopeHash",
+        "baseline",
+        "contracts",
+        "receipts",
+        "costs",
+        "allocations",
+        "taxTreatments",
+        "pendingFacts",
+        "unclassifiedSourceRefs",
+        "upstreamCostConstraints",
+        "scope",
+        "laborLineage"
+      ],
+      "snapshot": [
+        "mode",
+        "knowledgeCutoff",
+        "sourceWindowStart",
+        "sourceWindowEnd",
+        "periodKey",
+        "businessTimezone",
+        "periodEndSnapshotRef",
+        "restatementRef",
+        "restatesSnapshotRef",
+        "restatedSnapshotRef",
+        "restatementStatus"
+      ],
+      "exclude": [
+        "sourceHash",
+        "contextId",
+        "snapshot.id",
+        "snapshot.rowVersion",
+        "snapshot.version",
+        "snapshot.snapshotAt",
+        "snapshot.supersedesSnapshotId",
+        "policyVersion",
+        "policyHash",
+        "formalEligibility",
+        "metrics",
+        "all evaluation/review/generated-result identifiers"
+      ],
+      "algorithm": "Construct exact nested whitelist object, sort set-like arrays kind/id/rowVersion/payloadHash, then contract_support::canonical_hash. No arbitrary SELECT * JSON participates. Same factual source scope has same sourceHash regardless new generated IDs.",
+      "evaluationHash": "canonical_hash({sourceHash,policyVersion,policyHash,normalizedDerivedOutput,verifiedReviewOverlayHash|null}); exclude generated DMER/OSER/binding/summary IDs and wall-clock timestamps. Review overlay hash binds real actor/evidence/source and immutable review content."
+    },
+    "preparation": "Pure derive context may use server-preallocated IDs without business persistence; preparation knowledgeCutoff is explicit, stable and included in sourceHash. H pure derive never certifies current or writes. Final formal publication reloads source assertions and rejects changed sources.",
+    "excludeStageSemantics": "Cost.stageAttributionRef/attributedStage nullable only for expressing real excluded not-yet-applicable/missing stage evidence. Include requires recordStatus confirmed/included, stageEvidenceState verified and exact nonnull stage refs plus all hard layers. Registered source explicitly excluded for a permitted stage-not-ready reason remains traceable with pendingFacts(requiredForFormalAccounting=false), preserves uncertainty and cannot become mature/normal. It does not waive confirmed receipt accounting basis or hard facts of an included source.",
+    "arrayOrdering": {
+      "contracts": "contractRef.id",
+      "receipts": "receiptRef.id",
+      "costs": "canonicalAccumulationKey,recognitionRole,sourceRef.id,costRef.id-or-null; shares sorted by actual F result identity",
+      "allocations": "resultRef.id",
+      "taxTreatments": "taxTreatmentRef.id",
+      "pendingFacts": "kind then sourceRef.id",
+      "sourceRefSets": "kind,id,rowVersion,payloadHash",
+      "upstreamCostConstraints": "ruleId,reasonCode,sorted basis refs",
+      "approvedChangeRefs": "preserve authoritative approved delta application chain order; never reorder commutative-looking business history arbitrarily"
+    },
+    "costRecognitionUniqueness": {
+      "canonicalAccumulationKey": "Uniqueness among included primary economic measurement shares in this project snapshot only; not among excluded support rows or historical snapshots.",
+      "sourceChainKey": "Separate chain constraint: payable commitment/procurement exception principal and its payment principals cannot both be included. Multiple genuine installment paymentIds under one payable remain separate primary economic units.",
+      "supportingEvidence": "Invoice/tax/evidence support rows explicitly exclude with real reason and primaryCostRef; same sourceChainKey is not a duplicate principal.",
+      "allocation": "Share key includes actual F source-set hash+project/result identity. Same source full principal and corresponding project allocation share cannot be counted simultaneously; lock/validate source-set overlap, not a rounded allocation ratio.",
+      "rule": "These exact rules supersede the broad earlier duplicate canonicalAccumulationKey across invoice/payment/procurement wording."
+    },
+    "currency": "Preparation with no proven source currency or multi-currency has currency=null (and unavailable aggregate Triple.currency=null); never CNY/UNKNOWN placeholder. Only formalEligibility eligible forces a unique evidenced three-letter currency. Different source currencies reject formal publication unless a separately frozen actual conversion policy exists (none here).",
+    "sharedShare": "No fabricated ProjectActualCostRecord. allocation-share costRef/recordStatus null, sourceRef is actual F SharedCostAllocationResult, allocationResultRef/source-set hash exact. allocationSourceMembers carries real source costs/stages/governance/labor refs. Included shares require all member hard eligibility/stage evidence valid; per-source refs remain authoritative, aggregate stageEvidenceState verified only when all members qualify. Share costType=null when representing actual allocation result (never invent a unified-cost enum); members retain actual costType/businessDate. Share businessDate is actual F result effective business date under G frozen window policy, not a guessed member date."
+  },
+  "policy": {
+    "version": "r4h-operating-v1",
+    "maturity": [
+      "insufficient if necessary effective contract/confirmed receipt basis/explicit classified cost scope/factual layer missing. Ordinary review cannot change this. Official eligibility guard applies separately.",
+      "preliminary if necessary evidence exists but pending/unmapped/tax/allocation/restatement uncertainty remains, even when its qualitative materiality has been reviewed.",
+      "mature only complete classified known current-scope sources with no pending gaps/corrections/restatements; maturity is not risk normality."
+    ],
+    "formulas": [
+      "grossMarginNet=confirmedReceiptNet-includedCostNet; margin ratio denominator confirmedReceiptNet",
+      "zero known receipt denominator=>null rate/zero-denominator; unknown=>null/missing-evidence; immature ratios explicitly unstable",
+      "low receipt ratio exact comparison confirmed gross cash/effective contract gross <0.20, same frozen currency/gross layer; no tax-layer mixing",
+      "extreme margin ratio <-1 or >1; exact -1/1 not extreme by this rule. No fabricated abnormal-jump threshold."
+    ],
+    "risk": [
+      "Auto risk/alert for proven negative margin only when known facts, mature, receipt ratio>=0.20 and receipt net>0. Independent authoritative cost BLOCK survives regardless receipt ratio.",
+      "Negative observed margin at low/zero receipts or immature data => qualitative-materiality-unassessed, unknown risk/signal and explicit manual review; preserve independent cost/formula/maturity/restatement actions.",
+      "Any adverse positive cost variance or pending impact with only qualitative materiality adds unassessed review. No invented amount/percentage threshold. Verified manual review classifies only exact qualitative issues normal/attention/risk, not facts or maturity.",
+      "normal only complete facts and no automatic risk/attention or unresolved qualitative issues. unknown never means normal or confirmed release."
+    ],
+    "ruleRows": [
+      {
+        "id": "H01",
+        "code": "missing-hard-evidence",
+        "project": "review",
+        "stages": {
+          "first": "prompt",
+          "second": "block",
+          "final": "block",
+          "retention": "block"
+        }
+      },
+      {
+        "id": "H02",
+        "code": "pending-optional-facts",
+        "project": "review",
+        "stages": {
+          "first": "prompt",
+          "second": "review",
+          "final": "review",
+          "retention": "review"
+        }
+      },
+      {
+        "id": "H03",
+        "code": "low-receipt-ratio",
+        "project": "prompt",
+        "stages": {
+          "first": "prompt",
+          "second": "prompt",
+          "final": "prompt",
+          "retention": "prompt"
+        }
+      },
+      {
+        "id": "H04",
+        "code": "risk-attention",
+        "project": "review",
+        "stages": {
+          "first": "prompt",
+          "second": "review",
+          "final": "review",
+          "retention": "review"
+        }
+      },
+      {
+        "id": "H05",
+        "code": "risk-confirmed",
+        "project": "block",
+        "stages": {
+          "first": "review",
+          "second": "block",
+          "final": "block",
+          "retention": "block"
+        }
+      },
+      {
+        "id": "H06",
+        "code": "restatement-pending",
+        "project": "review",
+        "stages": {
+          "first": "review",
+          "second": "block",
+          "final": "block",
+          "retention": "block"
+        }
+      },
+      {
+        "id": "H07",
+        "code": "extreme-ratio",
+        "project": "review",
+        "stages": {
+          "first": "review",
+          "second": "review",
+          "final": "block",
+          "retention": "block"
+        }
+      },
+      {
+        "id": "H08",
+        "code": "qualitative-materiality-unassessed",
+        "project": "review",
+        "stages": {
+          "first": "review",
+          "second": "review",
+          "final": "review",
+          "retention": "review"
+        }
+      },
+      {
+        "id": "H09",
+        "code": "authoritative-cost-block",
+        "project": "block",
+        "stages": {
+          "first": "review",
+          "second": "block",
+          "final": "block",
+          "retention": "block"
+        }
+      },
+      {
+        "id": "H10",
+        "code": "authoritative-cost-review",
+        "project": "review",
+        "stages": {
+          "first": "prompt",
+          "second": "review",
+          "final": "review",
+          "retention": "review"
+        }
+      },
+      {
+        "id": "H11",
+        "code": "normal-complete",
+        "project": "prompt",
+        "stages": {
+          "first": "prompt",
+          "second": "prompt",
+          "final": "prompt",
+          "retention": "prompt"
+        }
+      }
+    ],
+    "aggregate": "Project=max(costAction floor, all project candidates). Four gates independently max per-stage including explicit H09/H10 standalone-cost mappings; do not copy project action. Persist all reasons and flag all equal-max project/stage primaries; sort code/evidenceHash.",
+    "manual": "Manual materiality review may resolve unknown qualitative issues to an evidenced classification. It cannot replace automatic/proven normal-attention-risk findings, downgrade source floor/BLOCK, change maturity or supply missing hard facts. Generic exception downgrade excluded pending separate authorized approval/expiry baseline."
+  },
+  "reviews": {
+    "signal": [
+      "Require session/CSRF/finance action and source-derived sensitive-write permissions; expectedVersion/sourceHash/evaluationHash/requestKey all mandatory.",
+      "Lock project+evaluation, compare every source assertion, CAS OSER WHERE version+active and increment version even child-only review. System generated values stay immutable.",
+      "Append unique-active signal review with actor/rationale/source+effective hashes; regenerate all four current bindings/source summaries under effective overlay sameTX. Old binding reviews become historical/stale."
+    ],
+    "gate": [
+      "Lock exact current project/stage/binding; validate source assertions, complete blocking codes and source summary exact target/project/stage/source/evaluation/policy hashes/package/projection/export.",
+      "bindingAction is pre-review assertion. acknowledge preserves action; tighten-review/block only increases severity. Decision is server assertion: block=>blocked, incomplete evidence/materiality=>review-required, otherwise confirmed when exact human duties satisfied.",
+      "Advice REVIEW may stay REVIEW after confirmed manual review; confirmed means review satisfied, not payout authorization. BLOCK cannot be confirmed away.",
+      "CAS binding; append single-active gate review and produce new reviewed summary+projection+payload. Request summarySnapshotId asserted pre-review source summary; response points to new reviewed summary.",
+      "Preallocate review ID in immutable summary payload then insert review FK to summary, avoiding FK cycle; never rewrite prior summary payload/projections."
+    ],
+    "summary": {
+      "approvalScenarioKey": "commission-gate-review",
+      "summaryPackageKey": "project-operating-commission-gate-v1",
+      "projectionLevel": "commission-gate-review",
+      "exportPolicy": "internal-only",
+      "fieldRuleVersion": "r4h-operating-v1",
+      "targetType": "operating-signal-gate-binding",
+      "targetId": "exact binding UUID",
+      "identity": [
+        "projectId",
+        "gateStageType",
+        "snapshotId",
+        "sourceHash",
+        "policyVersion",
+        "policyHash",
+        "evaluationHash",
+        "signalEvaluationId",
+        "signalReviewRecordId",
+        "bindingId",
+        "bindingRowVersion",
+        "gateReviewRecordId|null",
+        "sourceSummarySnapshotId|null"
+      ],
+      "data": "Authorized field projections and internal immutable payload/hash only; e2e-v1 package never production."
+    },
+    "idempotency": "scope operation+targetScope+actor+requestKey. Hash validated body+source/evaluation/policy. Exact authenticated same-actor committed replay before stale CAS returns receipt, changed payload conflicts. Receipt/audit sameTX."
+  },
+  "sensitive": {
+    "raw": "protected old raw compatibility fields literal null even privileged; originals only projections. Include free text, all reasons/evidence refs and reversible aggregate groups. No raw financial snapshots in audit/errors.",
+    "permissions": "route finance manage not sensitive grant; operating-finance sensitive read for protected access. Labor yes or unknown lineage requires both operating-finance and labor-cost-rate permissions; admin no bypass.",
+    "events": "Use same borrowed session; evaluate both registered packages and most restrictive group mode. Mandatory security/audit/summary/auth flush errors propagate. Sensitive GET required event failure returns no payload/raw fallback."
+  },
+  "modules": [
+    [
+      "project_operating_common/model.rs",
+      "Root",
+      "source-context/ref/knowledge/output structs, no rule authority"
+    ],
+    [
+      "project_operating_common/hash.rs",
+      "Root",
+      "canonical source validation/load/hash shared G/H"
+    ],
+    [
+      "project_operating_signals/mod.rs",
+      "H",
+      "execute and pure/evaluate facades"
+    ],
+    [
+      "project_operating_signals/policy.rs",
+      "H",
+      "versioned pure exact-integer/rational maturity/risk/project/stage rules"
+    ],
+    [
+      "project_operating_signals/store.rs",
+      "H",
+      "borrowed-session locked reload/inserts/CAS/current/history/idempotency"
+    ],
+    [
+      "project_operating_signals/service.rs",
+      "H",
+      "real producer plus two reviews, no pool/transaction owner"
+    ],
+    [
+      "project_operating_signals/projection.rs",
+      "H",
+      "six GET/two receipts whitelist and sensitive groups"
+    ],
+    [
+      "project_operating_signals/summary.rs",
+      "H with Root shared API",
+      "same-chain summary producer/validator via borrowed ApprovalSummaryService"
+    ]
+  ],
+  "rootWiring": [
+    "lib.rs module exports; contract_support operation map/route group H eight existing IDs; shared-derived validation. No public H producer endpoint.",
+    "Shared TS enums/schemas/DTO/OpenAPI/client/Rust models and admin consume one-way source; Root owns all common/generated files.",
+    "G collector/context insert/derive-before-insert formalEligibility integration; receipt basis and source-membership source authority remains G/Root.",
+    "Migration SQL first: evidence/output/policy/hash; same-project-snapshot relations; four-stage CHECK; single-active reviews; idempotency; summary payload; actual migration name/order Root decides.",
+    "Minimal R5 and controlled stage lifecycle Root/I-owned. H consumes real R4 source; it neither calculates commission nor relaxes execution/acceptance entry. #115 tests are not H acceptance.",
+    "Typed 409 OperatingEvaluationNotReadyError response/adapter and enum not-evaluated; existing eight route operation identities remain unchanged."
+  ],
+  "ddl": [
+    "operating_evaluation_evidence: project/snapshot/context/producerVersion/policyVersion/policyHash/sourceHash/evaluationHash/frozenOutput/containsLabor/actor/time",
+    "DMER/OSER evidence link and same project/snapshot integrity; immutable generated content, OSER rowVersion CAS; active per project+snapshot",
+    "binding adds signalReviewId/evidenceId/evaluationHash/systemBindingAction/currentSummaryId/supersedesId; active unique(project,stage), stage CHECK first/second/final/retention",
+    "gate review active unique(binding), decision enum/sourceSummaryId/evidenceHash/actor/rationale; exact same-chain relation",
+    "operating_gate_summary_payload summary PK/binding version/project/stage/source/evaluation/policy hashes/payload+hash/sourceSummaryId; no payload rewrite",
+    "operating_command_receipt unique(operation,scope,actor,requestKey) + requestHash + authorized response; lifecycle/current pointer changes separate immutable content",
+    "Gross margin rate only: propose numeric(38,6) instead of existing numeric(9,6), to avoid valid low-receipt large-negative ratio overflow; contract/tax rates retain frozen four-place definitions. Threshold comparisons use exact unrounded cents/rational, display rounds exact rational half-away-from-zero to six places; if storage bound still exceeded reject with explicit error, never clamp."
+  ],
+  "compile": {
+    "ssot": "shared-contracts.ts -> createZodDto -> OpenAPI -> generated TS client/Rust -> admin; never generated-client back-import into source or UI business calculator.",
+    "native": "Required new metadata/projections and raw-null keys break old Native return literals. Root extracts rust-r4ghi-native-reference.ts from final pinned pre-change H schemas with source hash/extraction manifest; prior frozen file untouched. Existing rust-r4def frozen H subtree may be reused only after exact equality verification.",
+    "nativePlan": [
+      "Node service/controller Promise return types for ten H legacy shapes use generated NativeH aliases; Swagger classes remain current shared DTO. Node old responses remain Native reference, not certified new contract.",
+      "For four old response shapes with signalLevel/riskLevel, generated compatibility aliases keep pinned old properties and widen only scalar enum slots through Pick<CurrentSharedShape,key>; current entity normal/unknown union remains type compatible, no as any.",
+      "Native request alias preserves old historical shape; current public request DTO carries added source assertions. Old service fixtures/reference E2E remain explicitly historical; current schema fixtures require complete new metadata.",
+      "Never make public context optional or weaken null/projection guards to preserve old literals. No hand-edited generated client."
+    ],
+    "uiFiles": [
+      "libs/admin/data-access/src/index.ts",
+      "libs/admin/data-access/src/lib/project/project-workspace.store.ts",
+      "apps/poms-admin/src/app/features/project/project-presentation.ts",
+      "apps/poms-admin/src/app/features/project/project-operating-overview.ts",
+      "apps/poms-admin/src/app/features/project/project-variance-risk.ts",
+      "apps/poms-admin/src/app/features/commission/project-commission-gate-overview.ts",
+      "apps/poms-admin/src/app/features/project/project-workspace.store.spec.ts"
+    ],
+    "uiWork": [
+      "Use projection helpers for protected text and shared normal/unknown labels.",
+      "Require evaluation/source hashes match across overview/accounting store responses; consume four explicit stageBindings, unknown/stale/reviewState; no empty-actions=>payout-ready conclusion.",
+      "Real finance review forms post returned IDs/versions/hashes, immutable source assertions read-only; manual form only qualitative issues/evidence. No editable maturity or gate downgrade selector.",
+      "Update shared/current client fixtures with all required fields; no real author flow exists in original H UI.",
+      "409 typed evaluationStatus renders not-evaluated/missing-evidence and source-author action links; unknown/null never becomes zero. Use grossMarginRateUse to label observation-only under low receipts."
+    ],
+    "requiredChecks": [
+      "shared schema/enum tests and OpenAPI/client/Rust generation checks",
+      "Native API lint/build/test with honest frozen reference boundary",
+      "Rust fmt/clippy/build/targeted pure+transaction tests",
+      "admin lint/build + actual review/readonly/permissions/unknown/conflict UI flows"
+    ],
+    "executed": "none; tools-only proposal"
+  },
+  "acceptance": [
+    "Actual upstream APIs -> contract receipt frozen basis/cost classifications -> G snapshot -> H maturity/evaluation/four gates/source summaries -> both human forms -> six GET/old UI same hash. No seeded result acceptance.",
+    "net receipt100.00/cost60.00 => margin40.00/rate0.400000; gross reconciles net+tax; legacy unknown basis formal rejection; proven zero vs absent facts.",
+    "All H01-H11 and ties plus exact20%/-100%/100% edges, immature negative result review; immutable system vs review overlay.",
+    "Barrier same-source producers/same CAS reviews/source replace-vs-evaluate/signal-vs-gate review/idempotency same-different payload. One current, no orphan summary.",
+    "Fault each insert/current flip/audit/summary/projection/auth flush => wholeTX rollback. GET event failure closed.",
+    "Finance route only and four sensitive permission combos; labor yes/no/unknown/admin; JSON/DOM/tooltip/free text/audit/summary/errors/difference leak assertions.",
+    "Real minimal R5/lifecycle chain by owners; no H commission/freeze/payout certification."
+  ],
+  "remainingRootFreeze": [
+    "Adopt explicit H09/H10 standalone cost-to-stage mappings.",
+    "Adopt conservative negative margin maturity/20% sufficiency and materiality-review semantics; no invented thresholds.",
+    "Confirm shared module/summary metadata/migration names in unified G/I/minimalR5 package."
+  ],
+  "implementationAdmission": false,
+  "publicAvailability": {
+    "success": "Real existing produced package and exact IDs only; legacy package retains legacy-unverified certification, no current production promotion.",
+    "missing": "Current-project GET no package =>409 OperatingEvaluationNotReadyError evaluationStatus=not-evaluated; hard missing basis/classification=>409 evaluationStatus=missing-evidence. Item unknown ID=>404.",
+    "rootChange": "Root typed conflict adapter adds safe OperatingEvaluationNotReadyError schema to current-project GETs; no fabricated summary/evaluation IDs, no new HTTP."
+  },
+  "referenceSignatures": {
+    "costReadiness": "CostReadiness { data_maturity_level, cost_action_recommendation, reason_items, known_metric_states, formal_eligibility }",
+    "draft": "OperatingEvaluationDraft { cost_readiness, system_signal_level, system_risk_level, effective_signal_level, effective_risk_level, current_action_level, four_stage_drafts, all_reasons, ratio_use, evaluation_status, certification, evaluation_hash }",
+    "verifyReview": "fn verify_materiality_review(context:&OperatingSourceContext, request:&ManualOperatingMaterialityReview, actor:&Actor, available_issues:&[OperatingReason]) -> Result<VerifiedMaterialityReview, Error>",
+    "reviewService": "pub async fn review_signal_with_session(session:&mut CommonSession<'_, '_>, evaluation_id:Uuid, input:&ReviewOperatingSignalEvaluationRequest, actor:&Actor)->Result<Value,Error>",
+    "gateReviewService": "pub async fn review_gate_with_session(session:&mut CommonSession<'_, '_>, binding_id:Uuid, input:&ReviewCommissionGateBindingRequest, actor:&Actor)->Result<Value,Error>",
+    "query": "pub async fn project_view_with_session(session, project_id, ViewKind, actor)->Result<Value,Error>; pub async fn signal_detail_with_session(session,evaluation_id,actor); pub async fn binding_detail_with_session(session,binding_id,actor)"
+  }
+}

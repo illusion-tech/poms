@@ -1,0 +1,43 @@
+{
+  "kind": "actual-business-G1-preflight-environment-correction",
+  "capturedAt": "2026-11-06T06:19:29.601Z",
+  "passed": true,
+  "G1Certified": false,
+  "G2Authorized": false,
+  "productAcceptanceRun": false,
+  "prior": {
+    "path": "tmp/rust-r4ghi/root/business-g1-preflight01/report.json",
+    "sha256": "53b09838f19dbcfeee1d53457162f13d490b6eddb6ddd98267759b8fd7185f8d",
+    "status": "FAILED-preserved",
+    "classification": "tool-environment; WSL interpreter lacks jsonschema",
+    "inheritedUnchangedPassedChecks": [
+      "tracked-changes",
+      "no-GHI-product-edit-before-G1",
+      "whitespace",
+      "markdown-format",
+      "syntax-freeze-business-input01",
+      "syntax-freeze-business-online01",
+      "syntax-prepare-business-g1-docs01",
+      "syntax-business-g1-preflight01",
+      "all-Root-manifest-current-raw-bytes"
+    ]
+  },
+  "retry": {
+    "interpreter": "C:/Users/ynh2/AppData/Local/Microsoft/WindowsApps/PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0/python.exe",
+    "args": [
+      "tools/rust-r4ghi/joint-g1/effective-v2/verify.py"
+    ],
+    "exitCode": 0,
+    "stdoutSHA256": "91d35d2a1f4790395657e564683495ad62fd8fe8ed1b87f3097b7b53b9855212",
+    "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "checks": 41,
+    "observed": {
+      "operations": 32,
+      "publicSchemas": 128,
+      "newTables": 19
+    },
+    "status": "PASS"
+  },
+  "sourceManifestSHA256": "89a2ebeba984320afe9b883910be742edb15e97ce19b409eab0c3b4372d27da9",
+  "allCurrentPinsUnchanged": true
+}

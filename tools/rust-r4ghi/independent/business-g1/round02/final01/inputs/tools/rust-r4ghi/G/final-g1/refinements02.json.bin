@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "status": "FINAL-G1-TARGET-PROPOSAL-NOT-ADMITTED",
+  "base": "proposal01.json",
+  "inputHashExactWhitelist": {
+    "algorithm": "contract_support::canonical_hash of this exact object, with set-like arrays sorted kind/id/rowVersion/payloadHash",
+    "fields": {
+      "schemaVersion": 1,
+      "projectId": "real scoped project UUID",
+      "intent": "baseline-activation|snapshot-create|period-close|restatement|receipt-basis",
+      "projectRowVersion": "positive real version",
+      "head": "{rowVersion,baselinePackageId|null,currentSnapshotId|null}",
+      "businessScope": "{mode,periodKey|null,businessCutoff,restatesSnapshotRef|null,periodEndSnapshotRef|null}",
+      "sourceRows": "[{sourceKind,id,rowVersion,payloadHash,currentClassificationHeadRef|null}] for complete actual source/transitive evidence set before new writes"
+    },
+    "exclude": ["financial projection modes/user identity", "prepare generated UUID", "preparedAt/transport timestamps", "client-proposed decisions not yet committed", "new snapshot/context/random IDs", "policy conclusions"],
+    "compare": "After all actual scope/source locks but before G/E/F classification or correction writes, recompute and require request expectedInputHash equality; 409 on mismatch. New client decisions have their own exact expected target/decision versions, identity/scope/evidence validation.",
+    "postProducer": "Only after actual classification IDs, direct included CAS and shared-result included CAS exist, collect final immutable context and compute H sourceHash factual whitelist. External expectedInputHash and internal evaluate expected_source_hash are deliberately different authorities."
+  },
+  "inputRefKindNarrowing": {
+    "originalAdoptedCostRef": ["ProjectTechnicalCostPackage"],
+    "baselinePackageRef": ["OperatingBaselinePackage"],
+    "selectedHandoverBasisRef": ["ProjectHandoverBasisSnapshot"],
+    "handoverRebaselineRef": ["ContractHandoverRebaselineRecord"],
+    "approvedChangeRefs": ["ContractTermSnapshot", "ContractAmendment", "ContractTermPreparation"],
+    "costDecisionTarget": ["ProjectActualCostRecord", "SharedCostAllocationResult"],
+    "termSnapshotRef": ["ContractTermSnapshot"],
+    "currencyBasisRef": ["CommercialReleaseBaseline", "ContractTermSnapshot"],
+    "rule": "Each route field uses this registered finite kind dispatch, verifies actual table/scope/version/hash, and never constructs SQL identifiers from a client kind. Evidence kinds further use the existing attachment/source authority registry."
+  },
+  "captureVersusLaterReview": "G snapshot currentActionLevel is final policy action AT CAPTURE. H later manual-review effective action is separate source-linked overlay; no G snapshot writeback. New UI must label capture action and current effective review result separately rather than implying old fixed facts changed.",
+  "baselineOnlyContext": "OperatingBaselinePackageSummary.sourceContextId identifies operating_baseline_source, not a fake full OperatingSourceContext with nonexistent snapshot or missing receipts. Full contexts and H evaluate exist only for actual snapshots.",
+  "currencyVersionAuthority": "Use actual CommercialReleaseBaseline rowVersion through exact term source_baseline_id, or a new actually-activated ContractTermSnapshot whose nonnull currency_code is frozen and hashed. Do not claim an independent rowVersion on ProjectHandoverContractBasis, which has no such column; its parent basis/version is supporting evidence only. Legacy null term currency needs real original baseline evidence or remains unknown.",
+  "sqlCheckNullSemantics": "target-schema.sql verified-producer CHECK conditions explicitly require every nullable newly-added authority column IS NOT NULL; PostgreSQL CHECK UNKNOWN must not bypass v1 certification.",
+  "deferredChecksCompletionBoundary": "target-schema.sql defines columns/FKs/uniques and explicitly enumerates mandatory cross-row/deferred checks. Root promotion must implement those SQL trigger/service predicates and matching ORM/schema checks before G1/G2/acceptance; the tools-only candidate is not an executed complete migration.",
+  "upstreamSchemaPin": "sources01.json records H context/proposal bytes observed when this candidate was generated. H is actively finalizing agreed nullable stage/currency/share refinements; Root must pin the final unified bytes in the joint freeze, not silently reuse stale candidate hashes."
+}

@@ -1,0 +1,231 @@
+{
+  "kind": "independent-R4GHI-minimalR5-joint-G1-second-round-review",
+  "schemaVersion": 1,
+  "gate": "G1",
+  "decision": "Pass",
+  "signedAt": "2026-11-06T06:35:04.124Z",
+  "approvedInputCommit": "9e010077e3010ff09447e9d77cb1bf1f7adbf68d",
+  "productBase": "d5c79b260fc58f78ff9adb4ac9fd69ed5bc838d5",
+  "sourceManifest": "docs/design/rust-r4ghi/g1-source-manifest01.json",
+  "sourceManifestSHA256": "89a2ebeba984320afe9b883910be742edb15e97ce19b409eab0c3b4372d27da9",
+  "nonAuthor": true,
+  "reviewer": "r4ghi_gate_review",
+  "G1Certified": true,
+  "certificationScope": "Frozen design/input review only; no product, SQL, HTTP, browser, G3 or G4 acceptance.",
+  "readyForOnlineFreeze": true,
+  "G2Authorized": false,
+  "onlineFreezeCompleted": false,
+  "unresolvedFindings": [],
+  "openP0P1P2": 0,
+  "scope": {
+    "issues": [
+      110,
+      111,
+      112,
+      113,
+      114,
+      117
+    ],
+    "referenceOnlyParents": [
+      57,
+      101,
+      116
+    ],
+    "G": 9,
+    "H": 8,
+    "I": 11,
+    "R5Minimum": 4,
+    "total": 32,
+    "existing": 29,
+    "newPublic": 3,
+    "currentOfficialRust": 240,
+    "forecastRust": 272,
+    "currentR4Delivered": 67,
+    "R4PlannedTotal": 95,
+    "forecastIsNotDelivery": true,
+    "officialNewDelivered": 0,
+    "userfix115Separate": true
+  },
+  "formalInputs": {
+    "baseline": {
+      "file": "docs/design/rust-r4ghi-next32-baseline.md",
+      "bytes": 9267,
+      "rawBytesSha256": "f7f33c728a529fdd1fab47242060d05c9c9a7d9a37293b3110c1a4c88a65eedb"
+    },
+    "operationMap": {
+      "file": "docs/design/rust-r4ghi/operation-map01.json",
+      "bytes": 57363,
+      "rawBytesSha256": "73b82726b2c87053e019d35191803a608c56054a49ce5408567709d097a90769"
+    },
+    "acceptancePlan": {
+      "file": "docs/design/rust-r4ghi/acceptance-plan01.json",
+      "bytes": 10585,
+      "rawBytesSha256": "57881bb732c0fc816d99227a9f55cfc1451c29c0b879181d65575970c39462a2"
+    },
+    "sourceManifest": {
+      "file": "docs/design/rust-r4ghi/g1-source-manifest01.json",
+      "bytes": 72704,
+      "rawBytesSha256": "89a2ebeba984320afe9b883910be742edb15e97ce19b409eab0c3b4372d27da9"
+    },
+    "blueprint": {
+      "file": "tools/rust-r4ghi/joint-g1/effective-v2/blueprint.json",
+      "bytes": 195382,
+      "rawBytesSha256": "0cf2795adf7f94196f5af4e268ebf48268e0be7ec1d493124907b63b881395e9"
+    },
+    "migration": {
+      "file": "tools/rust-r4ghi/joint-g1/effective-v2/migration.sql",
+      "bytes": 80764,
+      "rawBytesSha256": "ee5305d17f692efa97a66ded226ce041d95bb1926667a62f709e0118f11f5c00"
+    },
+    "effectiveManifest": {
+      "file": "tools/rust-r4ghi/joint-g1/effective-v2/manifest.json",
+      "bytes": 3504,
+      "rawBytesSha256": "e78578d30fbeb6921ba898a50e6a4313a61745ea6cde29df99bc5ce002c054fb"
+    }
+  },
+  "resolvedFindings": [
+    {
+      "id": "BG1-01",
+      "priority": 1,
+      "status": "resolved-in-design",
+      "resolution": "Both G snapshot families accept SQL NULL plus explicit knowledge. Producer1 known/value and unknown/NULL constraints, immutable context/paired-snapshot comparison and nullable18,2 ORM target agree. Legacy producer0 stored values are preserved; real SQL/rollback cases remain required."
+    },
+    {
+      "id": "BG1-02",
+      "priority": 1,
+      "status": "resolved-in-design",
+      "resolution": "Exact strict scopeKind unions separate full project, own-condition task and creator-first-assignment anchor. Narrow list/close schemas reject parent acceptance/completion/evidence fields; own task frontend loads the existing list directly and evidence authority stays tied to actual own task/closure links."
+    },
+    {
+      "id": "BG1-03",
+      "priority": 2,
+      "status": "resolved-in-design",
+      "resolution": "Participant assignment_id UPDATE is unconditionally rejected; DELETE checks OLD parent, other DML checks the actual same parent. Frozen participant mutations reject and exact deferred millionths total is retained; the zero-weight movement SQL counterexample remains planned acceptance."
+    },
+    {
+      "id": "BG1-04",
+      "priority": 1,
+      "status": "resolved-in-design",
+      "resolution": "blueprint.inputPreEffectHash, blueprint.ssot.sourceBeforeEffect and source-context.x-preEffectInputHashWhitelist are deeply equal. The exact whitelist binds the complete sorted affected project/head/baseline/current snapshot/terminal-root IDs, versions and payload hashes before any producer effects."
+    }
+  ],
+  "semanticConclusions": [
+    "Consumed labor/allocation/stage/tax corrections use the actual producers under private same-outerTX permits. Stage correction preserves included status/money/confirmation; shared lineage refreshes a complete real allocation batch. All affected projects, sensitive permissions, sorted locks and live/period terminal restatements are mandatory and atomic.",
+    "Access proofs and correction permits bind a private lifetime-bound Root OuterTxToken, not request_id. Root owns common types/hash/loader/scope and all shared/critical producer changes; G/H/I consume those exact contracts.",
+    "Legacy current baseline/period/frozen assignment is queried across producers before interpreting a missing new head. Unsupported legacy admission and nonexistent correction producers fail closed before insertion; actual missing assignment is200/null.",
+    "The sixth user scope decision is frozen as true creator first assignment with provenance and permanent consumption, followed by current responsibility-chain authority. Old unknown origins, same organization, role names or bare permissions never manufacture scope.",
+    "Conditional completion is consistently represented in public stage/archive enums, project CHECK and terminal ledger matching; closure changes aggregate condition state only. Only the designated actor closes an exact parent/child condition under double CAS.",
+    "Money remains exact cents/numeric18,2 with checked pre-insert capacity rejection; unknown/null differs from evidenced zero. Policy hash, all11 rules, separate four-stage gates, source windows, immutable capture and acyclic output references remain frozen."
+  ],
+  "validation": {
+    "inputIntegrity": "223/223 frozen raw-byte inputs exactly match both worktree and approved Git objects; no line-ending exception.133/133 product Git blobs match d5c79 and their recorded base identities. Candidate changes are confined to docs/tools.",
+    "sourceGraph": "174 author source pins and effective manifest entries close in the Root graph. All26 promised historical preserved inputs are exact at the approved commit; seven old generator/check/index files are supplementary historical references, not executable targets.",
+    "independentStaticChecks": {
+      "run": true,
+      "checks": 45,
+      "passed": 45,
+      "qualification": "Schema, routing, strict minimal DTO injection rejection, numeric bounds and exact hash-contract checks only."
+    },
+    "RootStructuralChecks": {
+      "runByReviewer": false,
+      "rawEvidenceIndependentlyVerified": true,
+      "checks": 41,
+      "passed": 41,
+      "qualification": "Existing exact final-script result carried forward after verifying raw stdout/stderr hashes and every unchanged input pin."
+    },
+    "docsChecks": {
+      "gitDiffCheck": "Root actual preflight passed; immutable raw streams verified",
+      "markdownFormat": "Root actual preflight passed; unchanged docs source pins verified"
+    },
+    "actualRemoteReadback": {
+      "main": "d5c79b260fc58f78ff9adb4ac9fd69ed5bc838d5",
+      "feature": "9e010077e3010ff09447e9d77cb1bf1f7adbf68d",
+      "issuesOpen": [
+        57,
+        101,
+        110,
+        111,
+        112,
+        113,
+        114,
+        116,
+        117
+      ],
+      "G1OnlineNotYetCertified": true
+    },
+    "productSQLHTTPUI": "not required to sign design G1; not run by this reviewer. All actual PG/HTTP/UI/FI/concurrency/security/cleanup and risk-scaled build/lint/test requirements remain explicit in the frozen acceptance plan.",
+    "gateExceptions": []
+  },
+  "metadataAdjudications": [
+    {
+      "subject": "operation-map inventoryStatus",
+      "conclusion": "Three new-route Root annotations new-planned-canonical-decided and blueprint planned have the same planned meaning. Every other operation field is identical and the authoritative canonical rows remain planned; no contract drift or implementation claim."
+    },
+    {
+      "subject": "preserved historical tools",
+      "conclusion": "Seven old generator/check/index files are not promoted into the Root normative target graph. Their hashes and approved-commit bytes are independently verified in completion-checks05; the original historical labels are preserved."
+    }
+  ],
+  "retainedFailuresAndLimits": {
+    "RootPreflight01": "Failed-preserved: WSL Python lacked jsonschema. Narrow Windows Python retry passed41 without rerunning unchanged passed checks.",
+    "reviewerToolNoise": [
+      "preread01/verifier-clarification01.json",
+      "final01/verifier-clarification02.json"
+    ],
+    "strictComparisonRefinements": [
+      "final01/operation-map-comparison03.json",
+      "final01/completion-checks05.json"
+    ],
+    "priorReviewsNotRewritten": true,
+    "model": {
+      "requested": "gpt-6.1-sol",
+      "requestedReasoningEffort": "max",
+      "runtimeModelIndependentlyVerified": false,
+      "Fast": "unverified"
+    }
+  },
+  "evidence": [
+    {
+      "file": "tools/rust-r4ghi/independent/business-g1/round02/final01/candidate-inputs.json",
+      "bytes": 82695,
+      "rawBytesSha256": "e9b0b5270d1ddde309c4cacc9326311d688ccdc5f86b62c24106c5d68fdfe03a"
+    },
+    {
+      "file": "tools/rust-r4ghi/independent/business-g1/round02/final01/integrity02.json",
+      "bytes": 256536,
+      "rawBytesSha256": "a68dcf99982459b37304f13cee02dffbcb8c3be5005ec93b3aefab66b640b98c"
+    },
+    {
+      "file": "tools/rust-r4ghi/independent/business-g1/round02/final01/schema-checks01.json",
+      "bytes": 8576,
+      "rawBytesSha256": "11d981e5c54e8237fc4825a420cdff9e41f6ed04261134d15a495f43414ffec3"
+    },
+    {
+      "file": "tools/rust-r4ghi/independent/business-g1/round02/final01/semantic-checks04.json",
+      "bytes": 13168,
+      "rawBytesSha256": "5cac3c93b7ada4c3fb57eb92f5ac86b4f0974802ad7eda2c6b90e1ecc70b585f"
+    },
+    {
+      "file": "tools/rust-r4ghi/independent/business-g1/round02/final01/completion-checks05.json",
+      "bytes": 19429,
+      "rawBytesSha256": "8709d2070d1f26e69d6c4848c42eedc0545e01138c211118fdc8dc1640e18e6b"
+    },
+    {
+      "file": "tools/rust-r4ghi/independent/business-g1/round02/final01/preread-final-comparison.json",
+      "bytes": 16778,
+      "rawBytesSha256": "ee3963c96079a93b57d43f19414625f5ecdc56210b610f40aac6d9a04c42ece1"
+    }
+  ],
+  "nextGate": "Root may commit/push this certificate and execute the already-reviewed exact online-freeze plan. Only successful actual online freeze and readback may authorize G2. This certificate grants no G2, product acceptance, Issue closure, main integration or deployment.",
+  "independence": {
+    "authoredProductOrFrozenDesign": false,
+    "productEdits": false,
+    "gitMutations": false,
+    "GitHubMutations": false,
+    "databaseConnections": 0,
+    "productRuntimeStarted": false,
+    "productTestsRerun": false,
+    "readOnlyExternalCalls": "gh api --method GET",
+    "writableBoundary": "tools/rust-r4ghi/independent/business-g1/round02/**"
+  }
+}

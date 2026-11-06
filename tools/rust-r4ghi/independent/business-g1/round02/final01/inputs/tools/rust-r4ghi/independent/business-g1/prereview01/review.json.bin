@@ -1,0 +1,44 @@
+{
+  "kind": "independent-joint-g1-prereview",
+  "decision": "G1-not-passed",
+  "G2Authorized": false,
+  "inputManifest": "candidate-inputs.json",
+  "checks": "structural-checks.json",
+  "findings": [
+    {
+      "id": "BG1-01",
+      "priority": 1,
+      "classification": "design-change-required",
+      "title": "G snapshots cannot persist unknown pending tax",
+      "status": "open",
+      "evidence": [
+        "tools/rust-r4ghi/joint-g1/blueprint.json:8228",
+        "tools/rust-r4ghi/joint-g1/migration.sql:536",
+        "tools/rust-r4ghi/joint-g1/migration.sql:580",
+        "apps/poms-api/src/migrations/Migration20260414100000_ex07a_cost_accumulation_snapshot_model.ts:218",
+        "apps/poms-api/src/migrations/Migration20260414100000_ex07a_cost_accumulation_snapshot_model.ts:257"
+      ]
+    },
+    {
+      "id": "BG1-02",
+      "priority": 1,
+      "classification": "design-change-required",
+      "title": "Own-task minimal scope has no exact public response branch",
+      "status": "open",
+      "evidence": [
+        "tools/rust-r4ghi/joint-g1/blueprint.json:1975",
+        "tools/rust-r4ghi/joint-g1/blueprint.json:2213",
+        "tools/rust-r4ghi/joint-g1/blueprint.json:7184",
+        "tools/rust-r4ghi/joint-g1/blueprint.json:7538"
+      ]
+    }
+  ],
+  "notAcceptance": [
+    "SQL",
+    "HTTP",
+    "UI",
+    "product",
+    "G1 Pass"
+  ],
+  "writesOnlyUnder": "tools/rust-r4ghi/independent/business-g1/"
+}

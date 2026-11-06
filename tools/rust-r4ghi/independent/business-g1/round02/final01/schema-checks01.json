@@ -1,0 +1,309 @@
+{
+  "kind": "independent-design-only-schema-and-route-audit",
+  "qualification": "Static schema/contract checks only. No SQL, HTTP, UI, product or G1 acceptance.",
+  "pins": [
+    {
+      "file": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\tools\\rust-r4ghi\\independent\\business-g1\\round02\\final01\\inputs\\tools\\rust-r4ghi\\joint-g1\\effective-v2\\public-contracts.schema.json.bin",
+      "bytes": 313620,
+      "rawBytesSha256": "97fea5becea4b1f81f5c99daa1dac4d76646886c8888a9f3d4ff4923d3a3fbd0"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\tools\\rust-r4ghi\\independent\\business-g1\\round02\\final01\\inputs\\tools\\rust-r4ghi\\joint-g1\\effective-v2\\source-context.schema.json.bin",
+      "bytes": 60873,
+      "rawBytesSha256": "f0abc899fc121ff68b2c8f50625f8f4b8e1dd3b9f15e90ff274c6a6c5c718f3c"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\tools\\rust-r4ghi\\independent\\business-g1\\round02\\final01\\inputs\\tools\\rust-r4ghi\\joint-g1\\effective-v2\\blueprint.json.bin",
+      "bytes": 195382,
+      "rawBytesSha256": "0cf2795adf7f94196f5af4e268ebf48268e0be7ec1d493124907b63b881395e9"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\tools\\rust-r4ghi\\independent\\business-g1\\round02\\final01\\inputs\\tools\\rust-r4ghi\\joint-g1\\effective-v2\\policy-definition.json.bin",
+      "bytes": 6469,
+      "rawBytesSha256": "3417ba89e270582260ea6a7a33a6b6a7923a21867a0d4e499fd0f568f491d88b"
+    }
+  ],
+  "checks": [
+    {
+      "id": "public-draft202012-shape",
+      "passed": true,
+      "observed": "valid schema document; extension semantics reviewed separately"
+    },
+    {
+      "id": "context-draft202012-shape",
+      "passed": true,
+      "observed": "valid schema document; extension semantics reviewed separately"
+    },
+    {
+      "id": "policy-draft202012-shape",
+      "passed": true,
+      "observed": "valid schema document; extension semantics reviewed separately"
+    },
+    {
+      "id": "public-recursive-ref-closure",
+      "passed": true,
+      "observed": {
+        "references": 288,
+        "missing": []
+      }
+    },
+    {
+      "id": "context-recursive-ref-closure",
+      "passed": true,
+      "observed": {
+        "references": 79,
+        "missing": []
+      }
+    },
+    {
+      "id": "32-unique-operations",
+      "passed": true,
+      "observed": 32
+    },
+    {
+      "id": "group-counts",
+      "passed": true,
+      "observed": {
+        "G": 9,
+        "H": 8,
+        "R5-min": 4,
+        "I": 11
+      }
+    },
+    {
+      "id": "exact-three-new-routes",
+      "passed": true,
+      "observed": [
+        "POST /project-completion-records/{completionRecordId}/conditions/{id}:close",
+        "POST /projects/{id}:startAcceptance",
+        "POST /projects/{id}:startExecution"
+      ]
+    },
+    {
+      "id": "exact-named-resource-keys",
+      "passed": true,
+      "observed": []
+    },
+    {
+      "id": "operation-public-dto-pointer-closure",
+      "passed": true,
+      "observed": []
+    },
+    {
+      "id": "16-modern-batch-write-protocols",
+      "passed": true,
+      "observed": {
+        "writes": 16,
+        "bad": []
+      }
+    },
+    {
+      "id": "own-list-minimal-valid",
+      "passed": true,
+      "observed": []
+    },
+    {
+      "id": "own-list-reject-acceptanceRecordId",
+      "passed": true,
+      "observed": "strict branch rejects unregistered parent/full field"
+    },
+    {
+      "id": "own-list-reject-completionSummary",
+      "passed": true,
+      "observed": "strict branch rejects unregistered parent/full field"
+    },
+    {
+      "id": "own-list-reject-evidenceSummary",
+      "passed": true,
+      "observed": "strict branch rejects unregistered parent/full field"
+    },
+    {
+      "id": "own-list-reject-parentEvidenceRefs",
+      "passed": true,
+      "observed": "strict branch rejects unregistered parent/full field"
+    },
+    {
+      "id": "own-list-reject-createdBy",
+      "passed": true,
+      "observed": "strict branch rejects unregistered parent/full field"
+    },
+    {
+      "id": "own-list-reject-operatingOverview",
+      "passed": true,
+      "observed": "strict branch rejects unregistered parent/full field"
+    },
+    {
+      "id": "creator-minimal-valid",
+      "passed": true,
+      "observed": []
+    },
+    {
+      "id": "creator-reject-acceptanceRecordId",
+      "passed": true,
+      "observed": "strict branch rejects unregistered parent/full field"
+    },
+    {
+      "id": "creator-reject-completionSummary",
+      "passed": true,
+      "observed": "strict branch rejects unregistered parent/full field"
+    },
+    {
+      "id": "creator-reject-evidenceSummary",
+      "passed": true,
+      "observed": "strict branch rejects unregistered parent/full field"
+    },
+    {
+      "id": "creator-reject-parentEvidenceRefs",
+      "passed": true,
+      "observed": "strict branch rejects unregistered parent/full field"
+    },
+    {
+      "id": "creator-reject-createdBy",
+      "passed": true,
+      "observed": "strict branch rejects unregistered parent/full field"
+    },
+    {
+      "id": "creator-reject-operatingOverview",
+      "passed": true,
+      "observed": "strict branch rejects unregistered parent/full field"
+    },
+    {
+      "id": "own-close-minimal-valid",
+      "passed": true,
+      "observed": []
+    },
+    {
+      "id": "own-close-reject-acceptanceRecordId",
+      "passed": true,
+      "observed": "strict branch rejects unregistered parent/full field"
+    },
+    {
+      "id": "own-close-reject-completionSummary",
+      "passed": true,
+      "observed": "strict branch rejects unregistered parent/full field"
+    },
+    {
+      "id": "own-close-reject-evidenceSummary",
+      "passed": true,
+      "observed": "strict branch rejects unregistered parent/full field"
+    },
+    {
+      "id": "own-close-reject-parentEvidenceRefs",
+      "passed": true,
+      "observed": "strict branch rejects unregistered parent/full field"
+    },
+    {
+      "id": "own-close-reject-createdBy",
+      "passed": true,
+      "observed": "strict branch rejects unregistered parent/full field"
+    },
+    {
+      "id": "own-close-reject-operatingOverview",
+      "passed": true,
+      "observed": "strict branch rejects unregistered parent/full field"
+    },
+    {
+      "id": "own-parent-reject-acceptanceRecordId",
+      "passed": true,
+      "observed": "no full parent DTO fallback"
+    },
+    {
+      "id": "own-parent-reject-completionSummary",
+      "passed": true,
+      "observed": "no full parent DTO fallback"
+    },
+    {
+      "id": "own-parent-reject-evidenceSummary",
+      "passed": true,
+      "observed": "no full parent DTO fallback"
+    },
+    {
+      "id": "own-parent-reject-parentEvidenceRefs",
+      "passed": true,
+      "observed": "no full parent DTO fallback"
+    },
+    {
+      "id": "own-parent-reject-createdBy",
+      "passed": true,
+      "observed": "no full parent DTO fallback"
+    },
+    {
+      "id": "own-parent-reject-version-0",
+      "passed": true,
+      "observed": 0
+    },
+    {
+      "id": "own-parent-reject-version-2147483648",
+      "passed": true,
+      "observed": 2147483648
+    },
+    {
+      "id": "own-parent-accept-int4-max",
+      "passed": true,
+      "observed": 2147483647
+    },
+    {
+      "id": "unknown-null",
+      "passed": true,
+      "observed": {
+        "schemaValid": true,
+        "expected": true
+      }
+    },
+    {
+      "id": "unknown-cannot-zero",
+      "passed": true,
+      "observed": {
+        "schemaValid": false,
+        "expected": false
+      }
+    },
+    {
+      "id": "known-zero-proof",
+      "passed": true,
+      "observed": {
+        "schemaValid": true,
+        "expected": true
+      }
+    },
+    {
+      "id": "known-zero-no-proof",
+      "passed": true,
+      "observed": {
+        "schemaValid": false,
+        "expected": false
+      }
+    },
+    {
+      "id": "pre-effect-whitelist-single-source",
+      "passed": true,
+      "observed": {
+        "blueprintFields": [
+          "schemaVersion",
+          "projectId",
+          "intent",
+          "projectRowVersion",
+          "head",
+          "businessScope",
+          "sourceRows",
+          "affectedProjects"
+        ],
+        "contextFields": [
+          "schemaVersion",
+          "projectId",
+          "intent",
+          "projectRowVersion",
+          "head",
+          "businessScope",
+          "sourceRows",
+          "affectedProjects"
+        ],
+        "equal": true
+      }
+    }
+  ],
+  "passed": 45,
+  "failed": [],
+  "G1Certified": false,
+  "G2Authorized": false
+}
