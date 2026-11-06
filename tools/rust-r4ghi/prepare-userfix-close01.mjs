@@ -1,0 +1,21 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import {spawnSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
+const commit='42b6fc3451eb31042bef80f995c4023eeb6c736b',out='tmp/rust-r4ghi/root/userfix-close-plan01';
+assert(!fs.existsSync(out));fs.mkdirSync(out,{recursive:true});
+const sha=b=>createHash('sha256').update(b).digest('hex');
+function read(label,endpoint){const r=spawnSync('gh',['api',endpoint],{encoding:null,windowsHide:true,timeout:55000,maxBuffer:8000000});fs.writeFileSync(out+'/'+label+'-original.json',r.stdout??Buffer.alloc(0),{flag:'wx'});assert.equal(r.status,0);return JSON.parse(r.stdout);}
+const repo='repos/illusion-tech/poms';assert.equal(read('main',repo+'/git/ref/heads/main').object.sha,commit);
+const before={issue:read('issue115',repo+'/issues/115'),parent:read('issue57',repo+'/issues/57')};assert.equal(before.issue.state,'open');assert.equal(before.parent.state,'open');
+const archive='docs/design/archive/slices/rust-r2-user-create-fix115';
+const evidence=`实现 [874e35fc](https://github.com/illusion-tech/poms/commit/874e35fc0af3b6cdf6f6461725eb1343152efbea)、[main与归档](https://github.com/illusion-tech/poms/commit/${commit})；[独立G3](https://github.com/illusion-tech/poms/blob/${commit}/tools/rust-r4ghi/independent/userfix-final/g3-review01.json)、[固定提交复核](https://github.com/illusion-tech/poms/blob/${commit}/tools/rust-r4ghi/independent/userfix-final/fixed-review01.json)、[原件映射](https://github.com/illusion-tech/poms/blob/${commit}/${archive}/origin-map01.json)。`;
+const body115=`状态：限定实现、验收、独立G3、固定提交及main/归档已交付；按独立G4关闭许可完成本片收口，实际线上读回与最终Seal另记。\n\n父#57保持OPEN；本片仅修复既有用户创建命令，新增HTTP为0，Rust正式仍240，R4/R5联批不因此完成。\n\n${evidence}\n\n- [x] G0与限定G1已冻结并线上读回\n- [x] 用户UUID物化后写真实角色/主组织；typed UUID、锁内有效引用及精确用户名冲突\n- [x] 必要用户/关联/创建审计/managed会话同事务，前置认证raw touch独立边界明确\n- [x] Rust 26组416 passed /54 ignored；fmt、clippy、build通过；ignored不作DB验收\n- [x] 实际19场景与真实getUser消费、11必要写故障/重试、4真实引用锁竞态；UI有依据N/A，不写浏览器通过\n- [x] 精确121新增PK清理，0原件改写；两库120表各532行及catalog/ACL/trigger/function/sequence恢复、2 fresh noop\n- [x] 自有API/PG实际停止，volume/private/对象空目录保留；公共原字节归档，未复制private载荷\n- [x] 独立G3及固定提交复核通过、main实际集成、生命周期归档\n\n旧baseline工具TypeError、镜像include缺失、smoke01误断201为200的失败和实际201精确补证均保留。旧W01复制Node缺陷不作为验收目标；真实丢失COMMIT ACK及managed零行CAS竞态未另证。原三个平台create OpenAPI200/实际201声明差异未在本片改动；无部署/切流/性能结论。\n\n<!-- userfix115-G4-online01 -->\n`;
+const lines=before.parent.body.split('\n'),at=lines.findIndex(line=>line.startsWith('- [ ] 既有R2补缺：'));
+assert(at>=0&&lines.filter(line=>line.startsWith('- [ ] 既有R2补缺：')).length===1);
+const originalFollowup=lines[at];lines[at]=`- [x] 既有R2补缺：创建用户携带初始角色/主组织的500已由 [#115](https://github.com/illusion-tech/poms/issues/115) 修复；真实关联与必要写整体事务、19场景/11故障重试/4锁竞态通过，独立G3/main/归档已完成。`;
+const history='\n\n<details><summary>#115 原始缺陷观察（历史保留）</summary>\n\n'+'```text\n'+originalFollowup+'\n```\n\n</details>\n';
+const body57=lines.join('\n')+history+`\n\n#115限定补缺按独立G4许可收口；${evidence} 实际线上读回与最终Seal另记。总体#57、R4#101及本批#110、R5#116/#117均保持OPEN，未交付清单保留。\n\n<!-- userfix115-G4-online01 -->\n`;
+const comment=`#115 G4 限定交付收口。${evidence}\n\n真实UUID和初始角色/主组织关联、必要审计/managed会话整体事务及锁内有效引用已实际验证；Rust416/54历史ignored，19场景、11故障重试、4引用锁竞态，UI N/A。121精确新增PK清理、原件恢复及API/PG停止/volume保留均独立核通过。仅关闭#115，#57/#101/#110/#116/#117保持Open；新增操作0，正式Rust240。实际线上读回和最终Seal作为后续终态原件，不提前伪造其结果。\n`;
+const plan={kind:'userfix115-concrete-online-G4-plan',createdAt:new Date().toISOString(),mainCommit:commit,onlyCloseIssue:115,keepOpen:[57,101,110,111,112,113,114,116,117],before:{115:{bodySHA256:sha(Buffer.from(before.issue.body)),state:before.issue.state},57:{bodySHA256:sha(Buffer.from(before.parent.body)),state:before.parent.state}},updates:[{number:115,body:body115,state:'closed',state_reason:'completed',comment},{number:57,body:body57,state:'open',comment}],archiveMapSHA256:sha(fs.readFileSync(archive+'/origin-map01.json')),G4ApprovalPending:true};
+fs.writeFileSync(out+'/plan.json',JSON.stringify(plan,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({plan:out+'/plan.json',rawBytesSha256:sha(fs.readFileSync(out+'/plan.json')),onlyClose:115,keepOpen:plan.keepOpen}));

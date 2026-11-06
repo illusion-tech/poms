@@ -1,0 +1,25 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import {spawnSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
+assert.equal(process.platform,'win32');
+const commit='42b6fc3451eb31042bef80f995c4023eeb6c736b',previous='aaa4b16ac66092f0cb1dc6646a02cf14e80823ee';
+const primary='E:/projects/poms',out='tmp/rust-r4ghi/root/userfix-main01.json';assert(!fs.existsSync(out));
+function run(exe,args,cwd=process.cwd()){const r=spawnSync(exe,args,{cwd,encoding:'utf8',windowsHide:true,maxBuffer:12000000,timeout:140000});assert.equal(r.status,0,'Publication step failed; inspect actual refs/local heads before retrying');return r.stdout.trim();}
+const sha=b=>createHash('sha256').update(b).digest('hex');
+assert.equal(run('git',['rev-parse','HEAD']),commit);
+assert.equal(sha(fs.readFileSync('tools/rust-r4ghi/independent/userfix-final/fixed-review01.json')),'a871a48fb45b22e9fc36694e7787a1254947b5941fb83d3cb8e807d49d767e4f');
+assert.equal(run('git',['diff','--name-only','874e35fc0af3b6cdf6f6461725eb1343152efbea',commit,'--','apps','libs']),'');
+run('git',['merge-base','--is-ancestor','4f0ad88e78622a75b88b4e3cc72aded9da67458a',commit]);
+const archive=JSON.parse(fs.readFileSync('docs/design/archive/slices/rust-r2-user-create-fix115/origin-map01.json'));
+for(const e of archive.entries)assert.equal(sha(fs.readFileSync(e.archive)),e.rawBytesSha256);
+assert.equal(run('git',['branch','--show-current'],primary),'main');assert.equal(run('git',['status','--porcelain=v1'],primary),'');assert.equal(run('git',['rev-parse','HEAD'],primary),previous);
+const repo='repos/illusion-tech/poms/git/ref/heads/';assert.equal(run('gh',['api',repo+'main','--jq','.object.sha']),previous);
+run('git',['-c','pack.useSparse=false','push','--porcelain','origin',commit+':refs/heads/codex/poms-r4ghi-next25']);
+assert.equal(run('gh',['api',repo+'codex/poms-r4ghi-next25','--jq','.object.sha']),commit);
+assert.equal(run('gh',['api',repo+'main','--jq','.object.sha']),previous);
+run('git',['merge','--ff-only','--quiet',commit],primary);
+run('git',['-c','pack.useSparse=false','push','--porcelain','origin',commit+':refs/heads/main']);
+assert.equal(run('gh',['api',repo+'main','--jq','.object.sha']),commit);assert.equal(run('git',['rev-parse','HEAD'],primary),commit);assert.equal(run('git',['status','--porcelain=v1'],primary),'');
+const receipt={kind:'actual-userfix-implementation-and-archive-main-integration',capturedAt:new Date().toISOString(),implementation:'874e35fc0af3b6cdf6f6461725eb1343152efbea',metadata:commit,previousMain:previous,remoteMain:commit,remoteFeature:commit,primaryHead:commit,mainIntegrated:true,primaryClean:true,archiveRawBindingsVerified:archive.entries.length,permanentS4Ancestor:true,IssueClosed:false,G4Certified:false};
+fs.writeFileSync(out,JSON.stringify(receipt,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(receipt));
