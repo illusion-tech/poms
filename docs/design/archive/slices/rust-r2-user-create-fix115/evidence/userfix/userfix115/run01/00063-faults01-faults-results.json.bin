@@ -1,0 +1,124 @@
+{
+  "stage": "faults",
+  "results": [
+    {
+      "target": "platform_user",
+      "code": "P0001",
+      "constraint": "userfix_other_unique",
+      "status": 500,
+      "retryStatus": 201,
+      "hitCount": "1",
+      "rawTouchCommitted": true,
+      "failedRequestId": "uf1222fe274c-00066-http-4b722342",
+      "retryRequestId": "uf1222fe274c-00067-http-58b54925",
+      "delta": [
+        {
+          "database": "poms_r4ghi_rust",
+          "table": "auth_session",
+          "added": 0,
+          "changed": 1,
+          "missing": 0
+        }
+      ]
+    },
+    {
+      "target": "platform_user",
+      "code": "23505",
+      "constraint": "userfix_other_unique",
+      "status": 500,
+      "retryStatus": 201,
+      "hitCount": "1",
+      "rawTouchCommitted": false,
+      "failedRequestId": "uf1222fe274c-00069-http-49a7ff7f",
+      "retryRequestId": "uf1222fe274c-00070-http-7c2fb84b",
+      "delta": []
+    },
+    {
+      "target": "user_role_assignment",
+      "code": "P0001",
+      "constraint": "userfix_other_unique",
+      "status": 500,
+      "retryStatus": 201,
+      "hitCount": "1",
+      "rawTouchCommitted": false,
+      "failedRequestId": "uf1222fe274c-00072-http-e4827aa8",
+      "retryRequestId": "uf1222fe274c-00073-http-662f3ab3",
+      "delta": []
+    },
+    {
+      "target": "user_role_assignment",
+      "code": "23505",
+      "constraint": "userfix_other_unique",
+      "status": 500,
+      "retryStatus": 201,
+      "hitCount": "1",
+      "rawTouchCommitted": false,
+      "failedRequestId": "uf1222fe274c-00075-http-17a58230",
+      "retryRequestId": "uf1222fe274c-00076-http-38e44c71",
+      "delta": []
+    },
+    {
+      "target": "user_org_membership",
+      "code": "P0001",
+      "constraint": "userfix_other_unique",
+      "status": 500,
+      "retryStatus": 201,
+      "hitCount": "1",
+      "rawTouchCommitted": false,
+      "failedRequestId": "uf1222fe274c-00078-http-21480140",
+      "retryRequestId": "uf1222fe274c-00079-http-cda1bf3d",
+      "delta": []
+    },
+    {
+      "target": "user_org_membership",
+      "code": "23505",
+      "constraint": "userfix_other_unique",
+      "status": 500,
+      "retryStatus": 201,
+      "hitCount": "1",
+      "rawTouchCommitted": false,
+      "failedRequestId": "uf1222fe274c-00081-http-8496b8fa",
+      "retryRequestId": "uf1222fe274c-00082-http-09718c89",
+      "delta": []
+    },
+    {
+      "target": "audit_log",
+      "code": "P0001",
+      "constraint": "userfix_other_unique",
+      "status": 500,
+      "retryStatus": 201,
+      "hitCount": "1",
+      "rawTouchCommitted": false,
+      "failedRequestId": "uf1222fe274c-00084-http-0b0d979d",
+      "retryRequestId": "uf1222fe274c-00085-http-a7da6b2e",
+      "delta": []
+    },
+    {
+      "target": "audit_log",
+      "code": "23505",
+      "constraint": "userfix_other_unique",
+      "status": 500,
+      "retryStatus": 201,
+      "hitCount": "1",
+      "rawTouchCommitted": false,
+      "failedRequestId": "uf1222fe274c-00087-http-e05b7cdf",
+      "retryRequestId": "uf1222fe274c-00088-http-cc190acd",
+      "delta": []
+    },
+    {
+      "target": "audit_log",
+      "code": "23505",
+      "constraint": "platform_user_username_unique",
+      "status": 500,
+      "retryStatus": 201,
+      "hitCount": "1",
+      "rawTouchCommitted": false,
+      "failedRequestId": "uf1222fe274c-00090-http-fab2bd4a",
+      "retryRequestId": "uf1222fe274c-00091-http-75494f83",
+      "delta": []
+    }
+  ],
+  "requiredWriteHitProof": true,
+  "naturalThrottleOnly": false,
+  "businessProducerFixtureBySQL": false
+}

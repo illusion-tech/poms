@@ -1,0 +1,33 @@
+{
+  "kind": "R4-owned-new-PG15-provision",
+  "namespace": "poms-r4ghi",
+  "marker": "0ca66699-053b-4f40-ad5c-82fed4cf1a6f",
+  "base": "aaa4b16ac66092f0cb1dc6646a02cf14e80823ee",
+  "container": "poms-r4ghi-pg15",
+  "volume": "poms-r4ghi-pg15-data",
+  "host": "127.0.0.1",
+  "port": 25434,
+  "databases": [
+    "poms_r4ghi_native",
+    "poms_r4ghi_rust"
+  ],
+  "roles": [
+    "poms_r4ghi_native_app",
+    "poms_r4ghi_rust_app"
+  ],
+  "createdAt": "2026-11-05T23:38:00.160Z",
+  "containerId": "513925616f4e1c1c988753e385be7f441dc98f6fb490101537498f60e8d5e00f",
+  "databaseOids": [
+    {
+      "database": "poms_r4ghi_native",
+      "oid": "16385"
+    },
+    {
+      "database": "poms_r4ghi_rust",
+      "oid": "16387"
+    }
+  ],
+  "sourceImage": "b718026138f18af7722fc66f706d64990e869a4b196508aaf4f3671786c8d93a",
+  "oldEnvironmentTouched": false,
+  "credentialsPrinted": false
+}

@@ -1,0 +1,48 @@
+{
+  "kind": "actual-HTTP-reference-FOR-SHARE-races",
+  "results": [
+    {
+      "kind": "role",
+      "order": "deactivate-first",
+      "createStatus": 409,
+      "deactivateStatus": 200,
+      "createRequestId": "uf1222fe274c-00117-http-6400e3d2",
+      "deactivateRequestId": "uf1222fe274c-00116-http-55980510",
+      "gateBackendPid": "537",
+      "realBlockedBackendPid": "572"
+    },
+    {
+      "kind": "role",
+      "order": "create-first",
+      "createStatus": 201,
+      "deactivateStatus": 200,
+      "createRequestId": "uf1222fe274c-00119-http-d863b3d1",
+      "deactivateRequestId": "uf1222fe274c-00120-http-4050087c",
+      "gateBackendPid": "537",
+      "realBlockedBackendPid": "572"
+    },
+    {
+      "kind": "org",
+      "order": "deactivate-first",
+      "createStatus": 409,
+      "deactivateStatus": 200,
+      "createRequestId": "uf1222fe274c-00124-http-6cf8a384",
+      "deactivateRequestId": "uf1222fe274c-00123-http-b80e830a",
+      "gateBackendPid": "518",
+      "realBlockedBackendPid": "572"
+    },
+    {
+      "kind": "org",
+      "order": "create-first",
+      "createStatus": 201,
+      "deactivateStatus": 200,
+      "createRequestId": "uf1222fe274c-00126-http-56123b7d",
+      "deactivateRequestId": "uf1222fe274c-00127-http-936e9d6b",
+      "gateBackendPid": "572",
+      "realBlockedBackendPid": "537"
+    }
+  ],
+  "controlledAdvisoryGate": true,
+  "pgStatActivityObserved": true,
+  "referenceDeactivationBySQL": false
+}

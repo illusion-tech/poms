@@ -1,0 +1,38 @@
+{
+  "kind": "append-only-independent-G1-history-provenance-correction",
+  "capturedAt": "2026-11-06T01:36:45.853Z",
+  "relatedFixedCommit": "874e35fc0af3b6cdf6f6461725eb1343152efbea",
+  "correction": "The earlier g1-user-fix02 review incorrectly described g1-user-fix01 as preservation of the pre-correction baseline. That first byte capture actually already ran on 21e9124 after the W01 clarification. Both capture01 and capture02 contain the corrected 5721-byte baseline. This addendum corrects only that historical location statement; prior artifacts are retained unchanged.",
+  "originalPreCorrectionInput": {
+    "commit": "45a614b9ae87e9cb6e59fe0ab8a5a06bb0e628b1",
+    "baseline": {
+      "source": "docs/design/rust-r4ghi-user-create-fix-baseline.md",
+      "recovered": "tools/rust-r4ghi/independent/userfix-final/history-recovery01/original-baseline-45a614b9.md",
+      "bytes": 5397,
+      "rawBytesSha256": "bfda5463c4b6ced81efe43b9c82d9a880ecc3d7158ad0f4f9b93ae62b77d406a"
+    },
+    "manifest": {
+      "source": "docs/design/rust-r4ghi/user-fix-g1-sources01.json",
+      "recovered": "tools/rust-r4ghi/independent/userfix-final/history-recovery01/original-manifest-45a614b9.json",
+      "bytes": 3175,
+      "rawBytesSha256": "80a1e60cc1bc8841c32f643d3af4f542b9e673b4647bce3cd0f39b62f83a4616"
+    },
+    "previouslyRetainedInImmutableGitObject": true
+  },
+  "capture01ActualProvenance": {
+    "capturedAt": "2026-11-05T23:29:08.387Z",
+    "headBefore": "21e9124160f92dce38a5029786273fdb893759f0",
+    "headAfter": "21e9124160f92dce38a5029786273fdb893759f0",
+    "baselineBytes": 5721,
+    "baselineRawBytesSha256": "7b130303f15094a3901b85862fedc87cebe788b8c54bc6419850ed864992625a"
+  },
+  "all14SourcePinsUnchangedAcrossClarification": true,
+  "affectedEarlierStatements": [
+    "tools/rust-r4ghi/independent/g1-user-fix02/g1-independent-review.json: pinEvidence.initialReviewInputPreservedAt",
+    "tools/rust-r4ghi/independent/g1-user-fix02/g1-independent-review.md: paragraph describing pre-correction input preservation"
+  ],
+  "currentTechnicalG1AndG3ConclusionsChanged": false,
+  "priorArtifactsRewritten": false,
+  "productChanged": false,
+  "additionalRuntimeAcceptanceRequired": false
+}

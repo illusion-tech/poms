@@ -1,0 +1,48 @@
+{
+  "stage": "pending",
+  "results": [
+    {
+      "target": "auth_session",
+      "code": "P0001",
+      "constraint": "userfix_other_unique",
+      "status": 500,
+      "retryStatus": 201,
+      "hitCount": "1",
+      "rawTouchCommitted": true,
+      "failedRequestId": "uf1222fe274c-00101-http-00e8b567",
+      "retryRequestId": "uf1222fe274c-00102-http-fdb3df31",
+      "delta": [
+        {
+          "database": "poms_r4ghi_rust",
+          "table": "auth_session",
+          "added": 0,
+          "changed": 1,
+          "missing": 0
+        }
+      ]
+    },
+    {
+      "target": "auth_session",
+      "code": "23505",
+      "constraint": "userfix_other_unique",
+      "status": 500,
+      "retryStatus": 201,
+      "hitCount": "1",
+      "rawTouchCommitted": true,
+      "failedRequestId": "uf1222fe274c-00104-http-588ec3a3",
+      "retryRequestId": "uf1222fe274c-00105-http-ca95d467",
+      "delta": [
+        {
+          "database": "poms_r4ghi_rust",
+          "table": "auth_session",
+          "added": 0,
+          "changed": 1,
+          "missing": 0
+        }
+      ]
+    }
+  ],
+  "requiredWriteHitProof": true,
+  "naturalThrottleOnly": true,
+  "businessProducerFixtureBySQL": false
+}

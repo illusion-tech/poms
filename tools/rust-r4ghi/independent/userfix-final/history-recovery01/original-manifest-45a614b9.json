@@ -1,0 +1,88 @@
+{
+  "kind": "user-create-fix-G1-source-freeze",
+  "sourceCommit": "aaa4b16ac66092f0cb1dc6646a02cf14e80823ee",
+  "issue": 115,
+  "scope": "POST /api/platform/users only",
+  "baseline": {
+    "file": "docs/design/rust-r4ghi-user-create-fix-baseline.md",
+    "bytes": 5397,
+    "rawBytesSha256": "bfda5463c4b6ced81efe43b9c82d9a880ecc3d7158ad0f4f9b93ae62b77d406a"
+  },
+  "sources": [
+    {
+      "file": "apps/poms-api-rust/src/users/service.rs",
+      "bytes": 39760,
+      "rawBytesSha256": "d8871e921c35d2ab2f190185da23733caaaa8ad25af4095d8f2e3b3c1b2f3f70"
+    },
+    {
+      "file": "apps/poms-api-rust/src/users/store.rs",
+      "bytes": 15028,
+      "rawBytesSha256": "a7e185d2b0eb97cf340ac88ebc652409124083fc769c1c5f22cfcc3d6d1ec606"
+    },
+    {
+      "file": "apps/poms-api-rust/src/users/model.rs",
+      "bytes": 7392,
+      "rawBytesSha256": "4460e658e9f18693fb363ef634bac11a622bb8e47b1a7dd4518a67c13d39ca74"
+    },
+    {
+      "file": "apps/poms-api-rust/src/users/validation.rs",
+      "bytes": 30367,
+      "rawBytesSha256": "af00e5b6511c43ec37489741a9b837ba11e9a785431e947177e72999770315f6"
+    },
+    {
+      "file": "apps/poms-api-rust/src/users/http.rs",
+      "bytes": 20122,
+      "rawBytesSha256": "8840963a685b8a0841eb3a33137a1413ac6b1f5e29f0d731407a81f6c4c83f10"
+    },
+    {
+      "file": "apps/poms-api-rust/src/database.rs",
+      "bytes": 11644,
+      "rawBytesSha256": "9f595d9e759222c05a5dbb14d36d84f29c449151b40fc7d8ec7ce362a58b79f9"
+    },
+    {
+      "file": "apps/poms-api-rust/src/auth/store.rs",
+      "bytes": 22695,
+      "rawBytesSha256": "14ba9d8e7171e6a6fbd00fa68c25a283d53521e17921b5d0e2ac760fec1a3f40"
+    },
+    {
+      "file": "apps/poms-api-rust/tests/users_database.rs",
+      "bytes": 56451,
+      "rawBytesSha256": "a88859025994b9f79ea3c913dbf5eed17dc3f79b4f08448ab57fd944ba9bfeed"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/platform/platform.service.ts",
+      "bytes": 53069,
+      "rawBytesSha256": "b46095aedad3405cd3f5e80cb18d6d1102a7bcf1bfe8af7a28da66fc3688f0db"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/platform/platform.controller.ts",
+      "bytes": 13006,
+      "rawBytesSha256": "84d2985622098536ddd1c3b4d6fadeacccb84b5b7b460cf8e23d18213afed45b"
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260325153000_init_platform_governance_core.ts",
+      "bytes": 8958,
+      "rawBytesSha256": "8583cbeb7f5ec4ba42af26c47014871650c357e9bd79e7c2754df94c4131c402"
+    },
+    {
+      "file": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "bytes": 483396,
+      "rawBytesSha256": "d962b8267030c8277f760b8bd6471e62491ee7fbd6353226f6291d3ff3a18db1"
+    },
+    {
+      "file": "libs/shared/api-spec/openapi.json",
+      "bytes": 1236594,
+      "rawBytesSha256": "56ae1835f50e427dd564b60f423da49e5c03fd88eed431b12ae054011e6de821"
+    },
+    {
+      "file": "docs/design/api-route-canonical-inventory.md",
+      "bytes": 179796,
+      "rawBytesSha256": "e5d86489cf1480c89460ea3359f35fb23a0e368ffd46ec6d9e3ef07f6348e07c"
+    }
+  ],
+  "G1Certified": true,
+  "implementationStarted": false,
+  "publicRouteDelta": 0,
+  "schemaDelta": 0,
+  "sourceOnlyNotAcceptance": true
+}

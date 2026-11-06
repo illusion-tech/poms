@@ -843,3 +843,8 @@ D#107/E#108/F#109及本批#106已按[独立关闭许可](archive/slices/rust-r4d
 [当前状态](rust-r4ghi-delivery-status.json)与[实际G0读回](rust-r4ghi/g0-registration01.json)保留真实Gate；历史已归档交付不重写。
 
 <!-- /poms-r4ghi-g0 -->
+
+
+### 2026-11-06 用户创建初始关联独立补缺
+
+[#115](https://github.com/illusion-tech/poms/issues/115) 已修复用户UUID物化、初始角色/主组织及必要写整体事务，实际19场景/11故障重试/4引用锁竞态及Rust416通过、54历史ignored；UI明确N/A。精确121新增PK清理、双库原件恢复及自有API/PG停止均完成，独立G3通过，固定提交/main及线上G4按各自原件收口。见[归档](archive/slices/rust-r2-user-create-fix115/README.md)；本片无新增操作，不代表R4/R5完整阶段交付。

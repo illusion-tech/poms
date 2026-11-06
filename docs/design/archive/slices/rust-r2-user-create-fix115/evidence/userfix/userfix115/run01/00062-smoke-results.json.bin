@@ -1,0 +1,115 @@
+{
+  "kind": "real-HTTP-PG-userfix-smoke",
+  "results": [
+    {
+      "name": "none",
+      "status": 201,
+      "userId": "61113243-2450-4fdf-8ebd-ca72cfe6c90b",
+      "requestId": "uf1222fe274c-00020-http-be4b3867"
+    },
+    {
+      "name": "one-role",
+      "status": 201,
+      "userId": "4d4b90c1-8953-4255-8667-f87fc19d7b5c",
+      "requestId": "uf1222fe274c-00023-http-74c00c27"
+    },
+    {
+      "name": "two-roles",
+      "status": 201,
+      "userId": "261f50a9-9fac-4496-a4ec-e3b569d56e1a",
+      "requestId": "uf1222fe274c-00026-http-5cc1d3cc"
+    },
+    {
+      "name": "org-only",
+      "status": 201,
+      "userId": "a2c33b76-1cd2-4766-8b48-ee941c0cb6bd",
+      "requestId": "uf1222fe274c-00029-http-ecc12038"
+    },
+    {
+      "name": "combined",
+      "status": 201,
+      "userId": "bceb7f3b-c5e0-4895-afa8-6ca812717bca",
+      "requestId": "uf1222fe274c-00032-http-2aa1fe71"
+    },
+    {
+      "name": "uuid-uppercase",
+      "status": 201,
+      "userId": "6d520e5b-081d-4d8b-ae54-4cf11900ef04",
+      "requestId": "uf1222fe274c-00035-http-b34a158b"
+    },
+    {
+      "name": "role-duplicate",
+      "status": 409,
+      "requestId": "uf1222fe274c-00038-http-2341da4f"
+    },
+    {
+      "name": "role-case-duplicate",
+      "status": 409,
+      "requestId": "uf1222fe274c-00039-http-d358b39f"
+    },
+    {
+      "name": "role-unknown",
+      "status": 404,
+      "requestId": "uf1222fe274c-00040-http-701972ed"
+    },
+    {
+      "name": "role-inactive",
+      "status": 409,
+      "requestId": "uf1222fe274c-00041-http-350aa509"
+    },
+    {
+      "name": "org-unknown",
+      "status": 404,
+      "requestId": "uf1222fe274c-00042-http-cb98064f"
+    },
+    {
+      "name": "org-inactive",
+      "status": 409,
+      "requestId": "uf1222fe274c-00043-http-d7558113"
+    },
+    {
+      "name": "role-malformed",
+      "status": 400,
+      "requestId": "uf1222fe274c-00044-http-b71d6880"
+    },
+    {
+      "name": "org-malformed",
+      "status": 400,
+      "requestId": "uf1222fe274c-00045-http-03813d15"
+    },
+    {
+      "name": "anonymous",
+      "status": 401,
+      "requestId": "uf1222fe274c-00049-http-fcae87a3"
+    },
+    {
+      "name": "forbidden",
+      "status": 403,
+      "requestId": "uf1222fe274c-00050-http-388a4638"
+    },
+    {
+      "name": "csrf-omit",
+      "status": 403,
+      "requestId": "uf1222fe274c-00051-http-b6c13cfe"
+    },
+    {
+      "name": "csrf-wrong",
+      "status": 403,
+      "requestId": "uf1222fe274c-00052-http-46619683"
+    },
+    {
+      "name": "same-username-concurrent",
+      "statuses": [
+        409,
+        201
+      ],
+      "requestIds": [
+        "uf1222fe274c-00059-http-87b06d44",
+        "uf1222fe274c-00060-http-f801fe42"
+      ]
+    }
+  ],
+  "caseCount": 19,
+  "fixturesViaDeliveredHTTP": true,
+  "faultAndLockRaceCoverageClaimed": false
+}
