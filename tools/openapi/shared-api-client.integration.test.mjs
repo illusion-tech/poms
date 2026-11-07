@@ -28,7 +28,7 @@ test('two concurrent actual 7.20.0 checks agree on all files and preserve the ta
         assert.equal(result.result, 'pass');
         assert.equal(result.clientFiles, before.length);
         assert.equal(result.spec.operations, 296);
-        assert.equal(result.spec.schemas, 689);
+        assert.equal(result.spec.schemas, 690);
         assert.equal(result.generator.jarSha256, baseline.generator.jarSha256);
         assert.equal(result.clientWritten, false);
         assert.deepEqual(result.differences, []);

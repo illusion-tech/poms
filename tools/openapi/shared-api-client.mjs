@@ -29,7 +29,7 @@ export function loadBaseline(root = workspaceRoot) {
     assert.equal(baseline.client.directory, clientPath, 'Client output directory is fixed');
     assert.deepEqual(baseline.client.metadata, ['project.json', 'tsconfig.json', 'tsconfig.lib.json']);
     assert.equal(baseline.spec.operations.length, 296, 'Full operation protection must not become a Rust subset');
-    assert.equal(baseline.spec.schemas.length, 689, 'Full schema protection must not become a Rust subset');
+    assert.equal(baseline.spec.schemas.length, 690, 'Full schema protection must not become a Rust subset');
     return baseline;
 }
 

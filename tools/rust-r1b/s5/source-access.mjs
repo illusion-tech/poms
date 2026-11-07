@@ -8,8 +8,8 @@ import { dirname, posix, resolve } from 'node:path';
 const sha = (value) => createHash('sha256').update(value).digest('hex');
 const norm = (value) => value.replace(/\r\n/g, '\n');
 const accesses = new WeakSet();
-export const CHECKPOINT_MANIFEST_PATH = 'tools/openapi/checkpoints/r4ghi-s5/input-manifest02.json';
-export const CHECKPOINT_DIRECTORY = 'tools/openapi/checkpoints/r4ghi-s5';
+export const CHECKPOINT_MANIFEST_PATH = 'tools/openapi/checkpoints/r4ghi-s6/input-manifest01.json';
+export const CHECKPOINT_DIRECTORY = 'tools/openapi/checkpoints/r4ghi-s6';
 export const SNAPSHOT_LOGICAL_INPUTS = Object.freeze([
     '.gitattributes',
     'libs/shared/contracts/src/index.ts',
@@ -54,7 +54,7 @@ export function createSnapshotSourceAccess(root, expectedManifestRawSha256) {
     const manifestRaw = readFileSync(resolve(root, CHECKPOINT_MANIFEST_PATH));
     assert.equal(sha(manifestRaw), expectedManifestRawSha256, 'S5 checkpoint manifest raw bytes differ from reviewed pin');
     const manifest = JSON.parse(decoded(manifestRaw));
-    if (!Array.isArray(manifest.inputs) || manifest.inputs.length !== 414) throw new Error('S5 checkpoint must retain all 414 explicit input records');
+    if (!Array.isArray(manifest.inputs) || manifest.inputs.length !== 420) throw new Error('S5 checkpoint must retain all 420 explicit input records');
     const byLogical = new Map();
     const physicalNames = new Set();
     for (const row of manifest.inputs) {
@@ -102,7 +102,7 @@ export function createSnapshotSourceAccess(root, expectedManifestRawSha256) {
         assertLiveMatchesSnapshots,
         requiredCommittedPhysicalPaths,
         provenance: Object.freeze({ kind: 'committed-raw-checkpoint-source-reader', manifestPath: CHECKPOINT_MANIFEST_PATH,
-            manifestRawBytesSha256: expectedManifestRawSha256, manifestInputRecords: 414,
+            manifestRawBytesSha256: expectedManifestRawSha256, manifestInputRecords: 420,
             actualSnapshotLogicalInputs: SNAPSHOT_LOGICAL_INPUTS, directReviewedAInputs: DIRECT_A_INPUTS,
             physicalSourceScope: S5_PHYSICAL_SOURCE_SCOPE, liveLogicalEquality: 'exact raw bytes before and after generation; no dirty-source override' }),
     });

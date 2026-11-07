@@ -9,7 +9,7 @@ import { assertModuleText, CLOSED_MODULES } from './registered-module-graph.mjs'
 import { assertPinnedReview, assertGuardReport, applyArtifactMode, assertArtifactSet, assertReviewedBlobBatch, assertCommittedSnapshotPaths } from './export-s5.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../../..');
-const out = resolve(root, 'tmp/rust-r4ghi/s5-exporter-probes09');
+const out = resolve(root, 'tmp/rust-r4ghi/s6-exporter-probes01');
 mkdirSync(out, { recursive: true });
 const read = (path) => readFileSync(resolve(out, path), 'utf8');
 const hash = (text) => createHash('sha256').update(text).digest('hex');
@@ -29,8 +29,8 @@ function rejection(name, body, message) { test(name, () => assert.throws(body, m
 
 test('candidate builds all semantic occurrences and retains historical names', () => {
     const manifest = buildS5Manifest(root, registry, identity, { candidate: true, sourceAccess });
-    assert.equal(manifest.enumOccurrences.length, 338);
-    assert.equal(manifest.enums.length, 330);
+    assert.equal(manifest.enumOccurrences.length, 339);
+    assert.equal(manifest.enums.length, 331);
     assert.equal(manifest.r0Witness.declaredS5Registrations.enumOccurrences.length, 224);
     assert.equal(manifest.r0Witness.declaredS5Registrations.constants.length, 455);
     assert.equal(manifest.r0Witness.declaredS5Registrations.constants.filter((r) => r.disposition === 'explicit-value-replacement').length, 9);
@@ -134,7 +134,7 @@ const inputsAfter = inputsBefore.map(({ path }) => ({ path, rawSha256: hash(read
 test('actual Root source bytes remained stable during pure probes', () => assert.deepEqual(inputsAfter, inputsBefore));
 const report = { kind: 'S5-pure-proposal-probes09', startedAt, finishedAt: new Date().toISOString(), results,
     passed: results.filter((r) => r.passed).length, failed: results.filter((r) => !r.passed).length, inputsBefore, inputsAfter,
-    limitations: ['No Git source guard command executed by this author', 'No Root --s5 --write or --check executed', 'The non-null source head in review matcher is a pure fixture, never an authorized Git reference', 'Root must freeze final canonical130 physical-source registry, A reference and independent B metadata after review'] };
+    limitations: ['No Git source guard command executed by this author', 'No Root --s5 --write or --check executed', 'The non-null source head in review matcher is a pure fixture, never an authorized Git reference', 'Root must freeze final canonical131 physical-source registry, A reference and independent B metadata after review'] };
 mkdirSync(out, { recursive: true });
 writeFileSync(resolve(out, 'pure-probes09.json'), JSON.stringify(report, null, 2) + '\n');
 console.log(JSON.stringify({ passed: report.passed, failed: report.failed, failures: results.filter((r) => !r.passed), sourceStable: JSON.stringify(inputsAfter) === JSON.stringify(inputsBefore) }, null, 2));

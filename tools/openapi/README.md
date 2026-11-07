@@ -11,7 +11,7 @@ node tools/openapi/shared-api-client.mjs --write
 
 Nx `shared-api-client:generate` / `check` 保留 `poms-api:openapi` 上游依赖，后者刷新 `libs/shared/api-spec/openapi.json`。因此整条 Nx check 链会写规范；直接 Node check 只读受审输入和 client。不存在任意 `inputSpec` / output override；子集、缺失/重复 operationId、schema 缺失、外部 `$ref` 和输入漂移都会在同步前拒绝。
 
-`shared-api-client-baseline.json` 是完整输入保护清单。当前 S5 输入提交为 `883f88fdf4fd609bb8b0725b28bda011d408d6ee`，绑定完整规范、配置与锁文件，包含 242 paths、296 条 method/path/operationId 和 689 个 schema 名称；永久 S4 保留为祖先。精确来源与原字节证据在 `checkpoints/r4ghi-s5/`。这只是 G2 生成输入，不代表业务 G3/G4。清单不复制 schema 结构、不生成产品类型。working tree 与 index 独立检查；生成前后复查来源及三个手管元文件。来源指纹仅做 UTF-8 CRLF→LF，与输出规范化是两回事。后续契约变更需先审阅并显式更新该清单，工具没有自动接受新基线的选项。
+`shared-api-client-baseline.json` 是完整输入保护清单。当前 S6 输入提交为 `2cd1be6029cf1b14ebfb1fc4530af894507a4c5a`，绑定完整规范、配置与锁文件，包含 242 paths、296 条 method/path/operationId 和 690 个 schema 名称；原 S5 与永久 S4 均保留。精确来源与原字节证据在 `checkpoints/r4ghi-s6/`。这只是 G2 生成输入，不代表业务 G3/G4。清单不复制 schema 结构、不生成产品类型。working tree 与 index 独立检查；生成前后复查来源及三个手管元文件。来源指纹仅做 UTF-8 CRLF→LF，与输出规范化是两回事。后续契约变更需先审阅并显式更新该清单，工具没有自动接受新基线的选项。
 
 生成器固定 `7.20.0`，JAR SHA256 固定为 `871e0155287a87b579ff31096b2d45b1f95a115edfe631411ec6cff4848d0f03`。来源为 [官方 Maven artifact](https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.20.0/openapi-generator-cli-7.20.0.jar)，由主运行器预先下载校验；本工具不安装或下载依赖。直接调用该 JAR，保留配置中的 `ngVersion:21.0.0` 和原 `--skip-validate-spec` 参数，不升级模板。
 
