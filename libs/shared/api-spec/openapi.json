@@ -25059,6 +25059,14 @@
           }
         ]
       },
+      "ProjectInitialOwnership": {
+        "type": "string",
+        "enum": [
+          "creator",
+          "organization"
+        ],
+        "description": "creator 由创建人主责；organization 由真实组织承接并等待创建人首次指派。省略时采用 creator。"
+      },
       "CreateProjectRequest": {
         "type": "object",
         "required": [
@@ -25113,6 +25121,9 @@
                 ]
               }
             ]
+          },
+          "initialOwnership": {
+            "$ref": "#/components/schemas/ProjectInitialOwnership"
           }
         }
       },

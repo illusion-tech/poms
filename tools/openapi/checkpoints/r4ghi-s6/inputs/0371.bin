@@ -1,0 +1,28 @@
+{
+  "kind": "G2-user-approved-initial-project-ownership-public-delta",
+  "userDecision": "docs/design/rust-r4ghi/user-decision-org-create04.json",
+  "base": [
+    "tools/rust-r4ghi/joint-g1/effective-v2/public-contracts.schema.json",
+    "docs/design/rust-r4ghi/g2-public-delta01.json",
+    "docs/design/rust-r4ghi/g2-public-delta02.json"
+  ],
+  "operationCountChanged": false,
+  "newHttpOperations": 0,
+  "addSchemas": {
+    "ProjectInitialOwnership": {
+      "type": "string",
+      "enum": ["creator", "organization"],
+      "description": "creator 由创建人主责；organization 由真实组织承接并等待创建人首次指派。省略时采用 creator。"
+    }
+  },
+  "components": {
+    "CreateProjectRequest": {
+      "addProperties": {
+        "initialOwnership": { "$ref": "#/components/schemas/ProjectInitialOwnership" }
+      }
+    }
+  },
+  "G1OriginalUnchanged": true,
+  "G3Certified": false,
+  "actualAcceptancePassed": false
+}
