@@ -27,7 +27,8 @@ for (const observation of oracle.cases) {
 const generated = {
     '.gitignore': 'node_modules \r\n',
     'api/service.ts': 'export const synthetic = true; \t\r\n\r\n',
-    '.openapi-generator/FILES': '.gitignore\napi/service.ts\n',
+    'model/test.ts': 'export interface ExplicitUnitGeneratorDouble { synthetic: string; }\n',
+    '.openapi-generator/FILES': '.gitignore\napi/service.ts\nmodel/test.ts\n',
     '.openapi-generator/VERSION': '7.20.0\n'
 };
 

@@ -1,0 +1,172 @@
+{
+  "kind": "review05-independent-exact-SDK-model-repair-tooling-D-admission",
+  "reviewedAt": "2026-11-07T08:13:25.114941+00:00",
+  "FeatureToolingDCommitAllowed": true,
+  "scopeOnly": [
+    "tools/openapi/shared-api-client.mjs",
+    "tools/openapi/repair-generated-models.mjs",
+    "tools/openapi/repair-generated-models.test.mjs",
+    "tools/openapi/shared-api-client.test.mjs",
+    "documentedREADMErepairdescription",
+    "append-onlyseparateDcheckpoint/provenance"
+  ],
+  "excludes": [
+    "canonicalspecor6protectedinputchanges",
+    "generatedSDKproductsinthisDtoolingcommit",
+    "businesscommon/G/H/clippysourcechanges",
+    "immutableA/B/Ccheckpointchanges",
+    "mainadvancementorG3/G4/Issuecloseout"
+  ],
+  "actualInputs": [
+    {
+      "file": "tools/openapi/shared-api-client.mjs",
+      "bytes": 21009,
+      "sha256": "4741cb72411fad9267a90c70e8ec7effcbf3ddcca5c9b790941aa6b7fc62bad2"
+    },
+    {
+      "file": "tools/openapi/repair-generated-models.mjs",
+      "bytes": 10255,
+      "sha256": "efc77985246d3c86b985dfe48cfdd6926de140e99d9b1cecd4924a89000aaace"
+    },
+    {
+      "file": "tools/openapi/repair-generated-models.test.mjs",
+      "bytes": 4759,
+      "sha256": "70c7bff8bfd935249eb198fdb0a6466d3237532b0b2196429cbc645416efbd21"
+    },
+    {
+      "file": "tools/openapi/shared-api-client.test.mjs",
+      "bytes": 15537,
+      "sha256": "77005b31beaa1af8847a05a4b70f52a92746838c37048e35c6bd3105f8419704"
+    },
+    {
+      "file": "tools/openapi/shared-api-client-baseline.json",
+      "bytes": 88204,
+      "sha256": "a9323bb005d36bca2c4bcd9b41b3ed058d62f2299f0a882bc475a5b5217c1fcd"
+    },
+    {
+      "file": "libs/shared/api-spec/openapi.json",
+      "bytes": 1401247,
+      "sha256": "8965393af9264e0805c3174520816673a1a56920944428bb8a9321e81da74ab0"
+    }
+  ],
+  "spec": {
+    "file": "libs/shared/api-spec/openapi.json",
+    "sha256": "8965393af9264e0805c3174520816673a1a56920944428bb8a9321e81da74ab0",
+    "paths": 242,
+    "operations": 296,
+    "schemas": 689
+  },
+  "A": "883f88fdf4fd609bb8b0725b28bda011d408d6ee",
+  "canonicalSourceRemainsUnchanged": true,
+  "deterministicTransformAudit": {
+    "recognizedCases": {
+      "boolean-literal": 2,
+      "null-only-literal": 61,
+      "conditional-member-optional": 1,
+      "referenced-model-union": 3,
+      "remove-merged-union-enum": 3
+    },
+    "files": 23,
+    "totalRepairs": 70,
+    "noAnyOrUncheckedCastInserted": true,
+    "BooleanAsConstIsCheckedLiteralRepresentation": true,
+    "unionTargetsResolveOnlyNamedLocalRegisteredGeneratedModels": true,
+    "literalEnumValuesAndShapesMustExactlyMatchCanonicalOrFailBeforeTargetCopy": true,
+    "onlyConditionalOptionalityFix": "CommissionParticipantInput.zeroWeightReason restores baseoptionalType; canonical zero-weight runtimecondition remainsunchanged",
+    "preSyncSixSourceIndexWorkingUntrackedAndInputMetadataAndTargetSnapshotsUnchanged": true
+  },
+  "independentExecutedChecks": {
+    "repairPureTestsPassed": 7,
+    "repairPureTestsFailed": 0,
+    "actualFullJARCheck": true,
+    "files": 682,
+    "manifestSHA256": "57f644666d8668afd1127e0582b99e108e77a9bf06cf113c15fc73043445885f",
+    "fullOutputAndAll70RepairsExactlyMatchRoot05": true,
+    "RootTargetEveryByteAndMtimeUnchanged": true,
+    "toolAndCanonicalInputStable": true
+  },
+  "actualRootEvidence": {
+    "write05": "pass",
+    "check05": "pass",
+    "sdkUnit04": "38passed,0failed;generatorDoubleonly",
+    "sdkIntegration04": "4passed,0failed,0skipped;actualfixedJAR;2concurrentfullchecks+override+PScheck+PSnormalizer",
+    "oldIntegration01Preserved": "2PSPATHfailuresretained;04driveronlyrestoresPath/PATHEXT,notglobalhostconfig"
+  },
+  "handManagedMetadata": [
+    {
+      "file": "project.json",
+      "rawSHA256": "c0ee6159a0de1071ea10b07707393d1a69e8a68c5aaba926b624bc05ef5d79fa",
+      "Root05MtimeAndBytesPreserved": true
+    },
+    {
+      "file": "tsconfig.json",
+      "rawSHA256": "ad6576e9bc540527d7a43003e55b74471a77a92a3caf43c2fb9cb68635913208",
+      "Root05MtimeAndBytesPreserved": true
+    },
+    {
+      "file": "tsconfig.lib.json",
+      "rawSHA256": "4055b9753b63413b239616fb118f97f37aedccc7e5cc184e7f1b9aa6eed752f8",
+      "Root05MtimeAndBytesPreserved": true
+    }
+  ],
+  "scopeLimits": "DadmitsprecisetoolingandcurrentfrozenAmodelrepresentationrepair; itdoesnotcertifybusinessruntime/PG/HTTP/browseroroverallG3. ExactDcommittreeandpostcommitguardshouldbereadbackbeforeanydeliveryclaim.",
+  "evidence": [
+    {
+      "file": "tmp/rust-r4ghi/root/client-generation05/receipt.json",
+      "bytes": 1802,
+      "sha256": "c6aeedd678c616d30b01f8afec1ceeb49743873a1e5960a1e1b92d76db620504"
+    },
+    {
+      "file": "tmp/rust-r4ghi/root/client-generation05/write-stdout.json",
+      "bytes": 107086,
+      "sha256": "7af46f7c2c5b9dec73869bf326a8b04994728e61e706bcb6ebdd7119d9a0a548"
+    },
+    {
+      "file": "tmp/rust-r4ghi/root/client-generation05/check-stdout.json",
+      "bytes": 105468,
+      "sha256": "87d7018ea48e1dd1d4b48fbc9258ecb9e7db57e09cbde8f49e50a6febe334ae4"
+    },
+    {
+      "file": "tmp/rust-r4ghi/root/client-generation05/target-before.json",
+      "bytes": 124917,
+      "sha256": "e76713192c6f7c33739b83b9164823de9ba9df6d457d53b4e2395acb40adcbd9"
+    },
+    {
+      "file": "tmp/rust-r4ghi/root/client-generation05/target-after.json",
+      "bytes": 124917,
+      "sha256": "656468cb9f4625ecdb3cace60002c659b8a341822630ba2cdb1bb1ed820a47d4"
+    },
+    {
+      "file": "tmp/rust-r4ghi/root/sdk-integration04/receipt.json",
+      "bytes": 669,
+      "sha256": "53b6ef1bb0539fcedb8dfaa94069a49dc2fa6404f85051284f2894ef32cf4e5b"
+    },
+    {
+      "file": "tmp/rust-r4ghi/root/sdk-integration04/stdout.log",
+      "bytes": 737,
+      "sha256": "9fda79e44bb776d57ea2d38764ff5f1a300ad7fe5a3019cac445bf1999b8ae7e"
+    },
+    {
+      "file": "tmp/rust-r4ghi/root/sdk-integration04/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "tmp/rust-r4ghi/root/sdk-unit04/receipt.json",
+      "bytes": 649,
+      "sha256": "0af48e413c9286b3d139248f8c111ab28e93522607189fd13a01106617c5c55b"
+    },
+    {
+      "file": "tmp/rust-r4ghi/root/sdk-unit04/stdout.log",
+      "bytes": 2841,
+      "sha256": "81baba254cea39d7c194b46451a5ddc0b5b1559ceb874556240614de111d15d5"
+    },
+    {
+      "file": "tmp/rust-r4ghi/root/sdk-unit04/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "G3Certified": false,
+  "G4Certified": false
+}

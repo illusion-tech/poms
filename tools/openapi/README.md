@@ -41,4 +41,11 @@ node --test tools/openapi/shared-api-client.integration.test.mjs
 node tools/openapi/capture-normalization-oracle.mjs --check
 ```
 
-单元测试还覆盖 source/index 抵消、未跟踪输入、生成期间元文件变化、缺失/额外/隐藏文件、坏 JAR/Java、路径越界和 symlink、失败不写目标及唯一临时目录。真实集成测试在 Windows 额外执行旧 PS check/normalize 薄入口；Linux 的矩阵不包含 Windows 适配器。两端实际完整 579 文件必须与仓库一致并有相同内容清单，不能只以生成器 exit code 认证。
+单元测试还覆盖 source/index 抵消、未跟踪输入、生成期间元文件变化、缺失/额外/隐藏文件、坏 JAR/Java、路径越界和 symlink、失败不写目标及唯一临时目录。真实集成测试在 Windows 额外执行旧 PS check/normalize 薄入口；Linux 的矩阵不包含 Windows 适配器。当前 S5 实际完整 682 文件必须与仓库一致并有相同内容清单，不能只以生成器 exit code 认证。
+
+
+## 固定生成器的模型表示修正
+
+完整 JAR 生成与文件清单校验之后、同步之前，`repair-generated-models.mjs` 从同一完整 canonical spec 绑定生成模型名称、属性与实际声明，修正精确 null/boolean、纯引用 union 和条件必填被错误抬升的表示。未知空枚举、缺失导入或不匹配立即终止；不放宽 canonical，不手改目标 SDK。每次结果记录修正路径和前后指纹，仍保留六项输入、三个手管元文件、并发 check 及失败不写目标保护。
+
+语义回归：`node --test tools/openapi/repair-generated-models.test.mjs`。S5 的 70 处修正、完整 write/check 及独立实际复核见 `checkpoints/r4ghi-s5-model-repair/`；不是业务 G3/G4。
