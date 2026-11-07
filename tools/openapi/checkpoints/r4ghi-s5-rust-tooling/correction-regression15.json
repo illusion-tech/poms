@@ -1,0 +1,49 @@
+{
+  "kind": "review05-authored-C15-correction-real-rebuild-and-regression-check",
+  "capturedAt": "2026-11-07T07:46:34.408Z",
+  "actualRuntime": {
+    "node": "24.19.0"
+  },
+  "regressions": [
+    {
+      "name": "foreign-prefix",
+      "specifier": "../../../../../foreign/libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated",
+      "actualLogical": "foreign/libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts",
+      "oldIncorrectlyAcceptedAs": "libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts",
+      "correctedRejectsBeforePinning": true
+    },
+    {
+      "name": "parent-underflow",
+      "specifier": "../../../../../../../libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated",
+      "actualLogical": "../../libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts",
+      "oldIncorrectlyAcceptedAs": "libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts",
+      "correctedRejectsBeforePinning": true
+    }
+  ],
+  "actualFullBuildImportProofResolverTested": true,
+  "validCanonicalRelativeImportRetained": true,
+  "identityExactlyUnchanged": true,
+  "entireRegistrationExactlyUnchanged": true,
+  "entireCandidateManifestExactlyUnchanged": true,
+  "coverage": {
+    "sharedTopLevelVariables": 1409,
+    "sharedClassifiedDataDeclarations": 666,
+    "sharedSchemaDeclarations": 741,
+    "explicitSchemaShapeExclusions": 2,
+    "historicalR0SnapshotCount": 455,
+    "historicalR0EnumOccurrences": 224,
+    "declaredPostR0SnapshotCount": 1,
+    "zEnumOccurrences": 338,
+    "generatedEnumFamilies": 330,
+    "generatedEnumValues": 1159,
+    "sharedEnumFamilies": 327,
+    "backendAuthEnumFamilies": 3,
+    "completenessRule": "All closed-module statements and enum calls pinned; semantic AST z member recognition; every current enum maps to nominal source identity, never equal-value merging."
+  },
+  "actualASourceGuardPassed": true,
+  "productionBuilderWithFixedReviewedAAndRegistryPassed": true,
+  "productOrRootToolsModified": false,
+  "productionOutputsWritten": false,
+  "G3Certified": false,
+  "G4Certified": false
+}
