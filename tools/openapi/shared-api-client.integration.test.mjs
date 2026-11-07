@@ -26,9 +26,9 @@ test('two concurrent actual 7.20.0 checks agree on all files and preserve the ta
     const results = executions.map((execution) => JSON.parse(execution.stdout));
     for (const result of results) {
         assert.equal(result.result, 'pass');
-        assert.equal(result.clientFiles, 579);
-        assert.equal(result.spec.operations, 291);
-        assert.equal(result.spec.schemas, 585);
+        assert.equal(result.clientFiles, before.length);
+        assert.equal(result.spec.operations, 296);
+        assert.equal(result.spec.schemas, 689);
         assert.equal(result.generator.jarSha256, baseline.generator.jarSha256);
         assert.equal(result.clientWritten, false);
         assert.deepEqual(result.differences, []);
@@ -75,7 +75,7 @@ if (process.platform === 'win32') {
         const result = await command(powershell, ['-NoLogo', '-NoProfile', '-NonInteractive', '-File', path.join(workspaceRoot, 'tools/openapi/check-shared-api-client.ps1'), '--java', java.executable, '--jar', jar]);
         assert.equal(result.code, 0, result.stderr);
         const report = JSON.parse(result.stdout);
-        assert.equal(report.clientFiles, 579);
+        assert.equal(report.clientFiles, before.length);
         assert.equal(report.clientWritten, false);
         assert.deepEqual(report.differences, []);
         assert.deepEqual(treeManifest(target, { timestamps: true }), before);

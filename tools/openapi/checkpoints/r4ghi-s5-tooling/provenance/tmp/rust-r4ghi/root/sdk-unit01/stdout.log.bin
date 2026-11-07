@@ -1,0 +1,46 @@
+✔ actual old PS oracle: empty (1.003ms)
+✔ actual old PS oracle: unchanged-lf (0.1118ms)
+✔ actual old PS oracle: crlf-and-ascii-trailing (0.1083ms)
+✔ actual old PS oracle: bare-cr (0.0748ms)
+✔ actual old PS oracle: no-final-lf-ascii-spaces-retained (0.1458ms)
+✔ actual old PS oracle: only-final-line-feeds (0.0857ms)
+✔ actual old PS oracle: unicode-line-separator-is-not-eof-lf (0.1587ms)
+✔ actual old PS oracle: unicode-paragraph-separator-is-not-eof-lf (0.1193ms)
+✔ actual old PS oracle: unicode-spaces-retained (0.251ms)
+✔ actual old PS oracle: unicode-with-ascii-trailing (0.2028ms)
+✔ actual old PS oracle: binary-nul-skipped (0.1074ms)
+✔ actual old PS oracle: utf8-bom-unchanged-retained (0.0561ms)
+✔ actual old PS oracle: utf8-bom-changed-removed (0.029ms)
+✔ actual old PS oracle: invalid-utf8-unchanged-bytes-retained (0.0325ms)
+✔ actual old PS oracle: invalid-utf8-changed-uses-decoder (0.0509ms)
+✔ actual old PS oracle: utf16-with-nul-skipped (0.0302ms)
+✔ actual old PS oracle: utf16be-no-nul-unchanged (0.5449ms)
+✔ actual old PS oracle: ascii-blank-lines-collapse (0.0716ms)
+✔ actual old PS oracle: no-final-lf-unicode-spaces-retained (0.0514ms)
+✔ actual old PS oracle: double-utf8-bom-changed (0.0459ms)
+✔ actual old PS oracle: only-utf8-bom-unchanged (0.0399ms)
+✔ normalization writes only changed files, preserving byte and timestamp behavior (417.5402ms)
+✔ full specification and fixed arguments accept only their reviewed surface (58.191ms)
+✔ check compares hidden files and preserves every target byte and mtime (802.1133ms)
+✔ check fails without target writes for content (819.223ms)
+✔ check fails without target writes for missing (840.4616ms)
+✔ check fails without target writes for extra (874.7485ms)
+✔ check fails without target writes for hidden-extra (833.515ms)
+✔ write mirrors validated output and preserves all metadata bytes (1265.3636ms)
+✔ generator failure never synchronizes a partially generated tree (637.8864ms)
+✔ missing or wrong JAR is rejected before generator or target mutation (840.6112ms)
+✔ source changes in worktree or during generation fail before synchronization (716.6625ms)
+✔ index changes cannot be hidden by restoring the working tree to baseline (1359.408ms)
+✔ untracked protected source is rejected even with a matching content hash (510.0837ms)
+✔ metadata changes during generation fail before writing generated files (808.9605ms)
+✔ unsafe generated paths, file-list omissions and links are rejected (659.1101ms)
+✔ separate checks use unique temporary directories even under one temporary parent (1289.1197ms)
+✔ invalid explicit Java and missing JAVA_HOME cannot silently fall back (48.2229ms)
+ℹ tests 38
+ℹ suites 0
+ℹ pass 38
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 12967.2754
