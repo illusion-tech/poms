@@ -1,0 +1,98 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
+import { createContext, ownedFile } from './business/context.mjs';
+import { sha } from './business/pure.mjs';
+import { capture, readRows } from './business/snapshot.mjs';
+import { assertRecorded } from './business/ledger.mjs';
+const ctx = createContext({ epoch: 'g2-business11', run: 'main01' });
+const lock = `${ctx.priv}/driver.lock`;
+fs.writeFileSync(lock, JSON.stringify({ pid: process.pid, mode: 'retain-existing-real-epoch11-before-noop70' }) + '\n', { flag: 'wx', mode: 0o600 });
+const out = `${ctx.private}/retention/epoch11-before-noop70`;
+assert(!fs.existsSync(out)); fs.mkdirSync(out, { recursive: true, mode: 0o700 }); assert.equal(fs.realpathSync(out), out);
+const filePin = file => { const bytes = fs.readFileSync(file); return { file, bytes: bytes.length, rawBytesSha256: sha(bytes) }; };
+try {
+  assert(!ctx.state.activeFault && !ctx.state.blockedObservation && !ctx.state.cleanupPlan && !ctx.state.cleaned && !ctx.state.retention70);
+  assert.equal(sha(JSON.stringify(ctx.pins)), '06d80fa6e766c2704664dc1828ccbedadd6bb5fba2798e3e5b42cc02a759274e');
+  const p = ctx.state.apiProcess.record;
+  assert.equal(p.pid, 69377); assert.equal(p.binarySha256, 'c73fcaa6cc9063e9a6b7dc481a51f9f52d4ed3f9855c55201d1ab46f0695bee4');
+  const processStat = fs.readFileSync(`/proc/${p.pid}/stat`, 'utf8');
+  assert.equal(processStat.slice(processStat.lastIndexOf(') ') + 2).split(' ')[19], p.startTime);
+  assert.equal(fs.realpathSync(`/proc/${p.pid}/exe`), p.binary); assert.equal(sha(fs.readFileSync(p.binary)), p.binarySha256);
+  const binary = `${out}/api134.binary`; fs.copyFileSync(p.binary, binary, fs.constants.COPYFILE_EXCL); fs.chmodSync(binary, 0o600);
+  assert.equal(filePin(binary).rawBytesSha256, p.binarySha256);
+  const stop = spawnSync(process.execPath, [`${ctx.win}/tools/rust-r4ghi/api-runtime01.mjs`, 'stop', '134'], { cwd: ctx.win, encoding: 'utf8', timeout: 20000 });
+  fs.writeFileSync(`${out}/api-stop-stdout.log`, stop.stdout ?? '', { flag: 'wx', mode: 0o600 });
+  fs.writeFileSync(`${out}/api-stop-stderr.log`, stop.stderr ?? '', { flag: 'wx', mode: 0o600 });
+  assert.equal(stop.status, 0); const stopped = JSON.parse(stop.stdout); assert.equal(stopped.pid, p.pid); assert.equal(stopped.processGone, true);
+  const inspection = spawnSync('/usr/bin/podman', ['--cgroup-manager=cgroupfs', 'container', 'inspect', ctx.identity.container], { encoding: 'utf8', timeout: 15000 });
+  assert.equal(inspection.status, 0); const container = JSON.parse(inspection.stdout)[0];
+  assert.equal(container.Config.Labels['org.poms.scope'], ctx.namespace); assert.equal(container.Config.Labels['org.poms.base'], ctx.base);
+  assert(container.State.Running && container.Mounts.some(m => m.Name === ctx.identity.volume));
+  assert(container.NetworkSettings.Ports['15432/tcp'].some(x => x.HostIp === '127.0.0.1' && x.HostPort === '25434'));
+  const before = await capture(ctx, ctx.next('retained70-before')); assertRecorded(ctx, before);
+  const password = ownedFile(`${ctx.private}/owner-password`).toString(); assert(/^[a-f0-9]{64}$/.test(password));
+  const archives = [];
+  for (const database of ctx.databases) {
+    const archive = `${out}/${database}.dump`, stderr = `${out}/${database}-dump-stderr.log`;
+    const fd = fs.openSync(archive, 'wx', 0o600), errors = fs.openSync(stderr, 'wx', 0o600);
+    let result;
+    try { result = spawnSync('/usr/bin/podman', ['--cgroup-manager=cgroupfs', 'exec', '--env', 'PGPASSWORD', ctx.identity.container,
+      'pg_dump', '--format=custom', '--no-owner', '--no-password', '--host=/run/postgresql', '--port=15432', '--username=poms_r0e_owner', `--dbname=${database}`],
+    { env: { ...process.env, PGPASSWORD: password }, stdio: ['ignore', fd, errors], timeout: 60000 }); }
+    finally { fs.closeSync(fd); fs.closeSync(errors); }
+    assert.equal(result.status, 0, 'Private PG15 archive failed; original namespace remains retained');
+    assert.equal(fs.readFileSync(archive).subarray(0, 5).toString(), 'PGDMP');
+    const list = `${out}/${database}-toc.txt`, listErrors = `${out}/${database}-toc-stderr.log`;
+    const input = fs.openSync(archive, 'r'), output = fs.openSync(list, 'wx', 0o600), err = fs.openSync(listErrors, 'wx', 0o600);
+    let checked;
+    try { checked = spawnSync('/usr/bin/podman', ['--cgroup-manager=cgroupfs', 'exec', '-i', ctx.identity.container, 'pg_restore', '--list'],
+      { stdio: [input, output, err], timeout: 60000 }); }
+    finally { fs.closeSync(input); fs.closeSync(output); fs.closeSync(err); }
+    assert.equal(checked.status, 0, 'Archive table-of-contents validation failed; do not claim restore certification');
+    archives.push({ database, archive: filePin(archive), toc: filePin(list), restoreActuallyExecuted: false, restoredXminPreservationClaimed: false });
+  }
+  const objects = [];
+  for (const database of ctx.databases) {
+    for (const item of before.objects[database].files) {
+      assert(item.file.startsWith(before.objects[database].root + '/'));
+      assert.equal(sha(fs.readFileSync(item.file)), item.sha256);
+      const target = path.resolve(out, 'objects', database, item.key); assert(target.startsWith(out + '/objects/' + database + '/'));
+      fs.mkdirSync(path.dirname(target), { recursive: true, mode: 0o700 }); fs.copyFileSync(item.file, target, fs.constants.COPYFILE_EXCL); fs.chmodSync(target, 0o600);
+      assert.equal(sha(fs.readFileSync(target)), item.sha256); objects.push({ database, key: item.key, original: item.file, copy: filePin(target) });
+    }
+  }
+  const after = await capture(ctx, ctx.next('retained70-after')); assertRecorded(ctx, after);
+  const identities = item => readRows(item).map(row => ({ key: row.key, sha256: row.sha256, xmin: row.xmin }));
+  for (const database of ctx.databases) {
+    for (const table of Object.keys(before.databases[database].tables)) assert.deepEqual(identities(before.databases[database].tables[table]), identities(after.databases[database].tables[table]));
+    assert.deepEqual(before.databases[database].meta, after.databases[database].meta); assert.deepEqual(before.objects[database], after.objects[database]);
+  }
+  const receipt = ctx.artifact(`${ctx.next('retention70-complete')}.json`, { kind: 'actual-source11-candidate-and-real-data-retained-before-corrective-consumer',
+    producerEpoch: ctx.epoch, marker: ctx.identity.marker, before: before.manifest, after: after.manifest, binary: filePin(binary), stoppedAPI: stopped,
+    containerId: container.Id, volumeRetained: ctx.identity.volume, archives, objects, allRowsXminCatalogSequencesObjectsUnchangedByBackup: true,
+    privateOriginalsRetainedInPlace: true, oldSourcePinsRetained: ctx.pins, newConsumerAdmissionStillRequired: true,
+    databaseRestoreExecuted: false, currentSourceRebound: false, historicalFactsBackfilled: false, G3Certified: false, G4Certified: false },
+  { kind: 'actual-source11-candidate-and-data-retained', originalCandidateStopped: true, databases: archives.length, objectCopies: objects.length,
+    databaseRestoreExecuted: false, businessRowsAndXminUnchanged: true, originalEpochRebound: false, privateCredentialsPublished: false, G3Certified: false });
+  ctx.state.retention70 = receipt; ctx.persist();
+  const frozenState = `${out}/state-at-retention70.json`; fs.writeFileSync(frozenState, JSON.stringify(ctx.state, null, 2) + '\n', { flag: 'wx', mode: 0o600 });
+  const index = { kind: 'private-retained-source11-material-index70', producerEpoch: ctx.epoch, run: ctx.run, marker: ctx.identity.marker,
+    receipt, frozenState: filePin(frozenState), baseline: ctx.state.baseline, retainedSnapshot: after.manifest, binary: filePin(binary), archives, objects };
+  fs.writeFileSync(`${out}/index.json`, JSON.stringify(index, null, 2) + '\n', { flag: 'wx', mode: 0o600 });
+  const indexPin = filePin(`${out}/index.json`);
+  fs.writeFileSync(`${ctx.win}/docs/design/rust-r4ghi/retained-source11-before-noop70.json`, JSON.stringify({ kind: index.kind,
+    producerEpoch: ctx.epoch, sourcePinsSHA256: sha(JSON.stringify(ctx.pins)), frozenSourcePacket: 'docs/design/rust-r4ghi/retention/final11-source58/receipt.json',
+    privateIndex: indexPin, frozenState: filePin(frozenState), retainedSnapshot: after.manifest, retainedBinarySHA256: p.binarySha256,
+    databaseArchives: archives.map(x => ({ database: x.database, bytes: x.archive.bytes, rawBytesSha256: x.archive.rawBytesSha256, tocChecked: true })),
+    originalDatabaseVolumeRetained: true, allDataAndXminUnchanged: true, originalPrivateEvidenceRetained: true, API134Stopped: true,
+    databaseRestoreExecuted: false, originalSourceEpochRebound: false, newConsumerAdmissionStillRequired: true, periodAcceptancePassed: false, G3Certified: false, G4Certified: false }, null, 2) + '\n', { flag: 'wx' });
+  console.log(JSON.stringify({ status: 'retained', databases: archives.length, objectCopies: objects.length, privateIndex: indexPin,
+    API134Stopped: true, businessRowsAndXminUnchanged: true, originalEpochRebound: false, G3Certified: false }));
+} catch (error) {
+  const original = ctx.artifact(`${ctx.next('retention70-partial')}.json`, { name: error.name, message: error.message, stack: error.stack }); ctx.persist();
+  console.error(JSON.stringify({ status: 'failed-or-partial', privateOriginal: original, originalsMustBeRetained: true })); process.exitCode = 1;
+} finally {
+  assert.equal(JSON.parse(fs.readFileSync(lock)).pid, process.pid); fs.unlinkSync(lock);
+}

@@ -1,0 +1,392 @@
+diff --git a/tools/rust-r4ghi/business/a05-capture26.mjs b/tools/rust-r4ghi/business/a05-capture26.mjs
+--- a/tools/rust-r4ghi/business/a05-capture26.mjs
++++ b/tools/rust-r4ghi/business/a05-capture26.mjs
+@@ -1,73 +1,91 @@
+-import assert from 'node:assert/strict';
+-import { data, uuid } from './pure.mjs';
+-import { expectedRef } from './handover.mjs';
+-import { expenseDecisions } from './operating.mjs';
+-import { assertA05Metrics26 } from './a05-values26.mjs';
+-import { loadSnapshot } from './snapshot.mjs';
+-import { assertSweepRollback } from './fault-sweep.mjs';
+-import { requireOwnedScope } from './required-write-inventory.mjs';
+-import { actualReceipt26 } from './a05-finance26.mjs';
+-
+-const mutable = ['project_operating_head', 'operating_baseline_package', 'project_operating_snapshot', 'project_cost_inclusion_head', 'project_actual_cost_record'];
+-export async function prepareSnapshotBody26(ctx, api) {
+-  const f = ctx.state.fixtures, response = await api.request('ProjectCostController_getProjectUnifiedAccounting', { projectId: f.project.id }, null, 'manager', { query: { view: 'preparation', intent: 'snapshot-create', snapshotMode: 'realtime' } });
+-  const p = data(response).preparation; assert.equal(p.kind, 'preparation-only'); assert(p.selectedBaselinePackageRef);
+-  return { receipt: response.receiptId, body: { inputVersion: 'server-derived-v1', projectId: f.project.id, expectedVersion: p.headVersion, expectedProjectVersion: p.projectVersion,
+-    expectedInputHash: p.expectedInputHash, assertions: null, baselinePackageRef: expectedRef(p.selectedBaselinePackageRef), snapshotMode: 'realtime', periodKey: null, costDecisions: expenseDecisions(p, [f.actualCost.id]) } };
+-}
+-export async function publishBoundary26(ctx, api, scenario) {
+-  const f = ctx.state.fixtures;
+-  if (!f.operatingBaselineCommand) {
+-    const response = await api.request('ProjectCostController_getProjectUnifiedAccounting', { projectId: f.project.id }, null, 'manager', { query: { view: 'preparation', intent: 'baseline-activation' } });
+-    const p = data(response).preparation, refs = [p.proposedOriginalCostRef, p.selectedBaselinePackageRef, ...p.sourceRows.flatMap(row => [row.sourceRef, ...row.sourceMembers])].filter(Boolean);
+-    const basis = refs.find(ref => ref.id === f.handover.handoverBasisSnapshotId); assert(basis && p.proposedOriginalCostRef.id === f.cost.id);
+-    const command = await api.request('ProjectCostController_activateOperatingBaselinePackage', {}, { inputVersion: 'server-derived-v1', projectId: f.project.id, expectedVersion: p.headVersion, expectedProjectVersion: p.projectVersion,
+-      expectedInputHash: p.expectedInputHash, assertions: null, expectedCurrentPackageRef: p.selectedBaselinePackageRef ? expectedRef(p.selectedBaselinePackageRef) : null,
+-      originalAdoptedCostRef: expectedRef(p.proposedOriginalCostRef), selectedHandoverBasisRef: expectedRef(basis), handoverRebaselineRef: null, approvedChangeRefs: [], reason: 'A05单合同真实项目采用一次真实项目估算，不把MAX合同值或实际费用伪装成基线。' }, 'manager',
+-    { responseBirths: [{ table: 'operating_baseline_package', pointer: '/targetId' }], mutableTables: mutable });
+-    f.operatingBaselineCommand = data(command); f.operatingBaselineReceipt = command.receiptId; ctx.persist(); assert.equal(f.operatingBaselineCommand.evaluationRefs, null);
+-  }
+-  if (!f.operatingSnapshotCommand) {
+-    const prepared = await prepareSnapshotBody26(ctx, api); f.a05SnapshotInput = prepared; ctx.persist();
+-    const response = await api.request('ProjectCostController_createProjectOperatingSnapshot', {}, prepared.body, 'manager', { responseBirths: [{ table: 'project_operating_snapshot', pointer: '/targetId' }], mutableTables: mutable });
+-    f.operatingSnapshotCommand = data(response); f.a05SnapshotHTTP = { receipt: response.receiptId, before: response.before, after: response.after, proofPending: true }; ctx.persist();
+-  }
+-  const id = uuid(f.operatingSnapshotCommand.snapshotId ?? f.operatingSnapshotCommand.targetId), response = await api.request('ProjectCostController_getProjectOperatingSnapshot', { id }, null, 'manager'), view = data(response);
+-  assert.equal(view.id, id); assert.equal(view.certification, 'verified'); assert(view.evaluationRefs); assert.equal(view.financialProjection.mode, 'full');
+-  const actual = await ctx.db(async c => (await c.query('SELECT c.id::text,c.source_hash,c.payload_hash,c.frozen_payload,s.gross_margin_amount::text,s.gross_margin_rate::text,s.receivable_confirmed_total::text,s.included_cost_total::text FROM poms.project_operating_snapshot s JOIN poms.operating_source_context c ON c.id=s.source_context_id AND c.project_id=s.project_id WHERE s.id=$1::uuid AND s.project_id=$2::uuid', [id, f.project.id])).rows);
+-  assert.equal(actual.length, 1); const row = actual[0]; assert.equal(row.source_hash, view.sourceHash); assert.equal(row.id, view.sourceContextId); assertA05Metrics26(row.frozen_payload, scenario);
+-  assert.equal(row.gross_margin_amount, scenario.margin); assert.equal(row.gross_margin_rate, scenario.ratio); assert.equal(row.receivable_confirmed_total, scenario.cashNet); assert.equal(row.included_cost_total, scenario.costNet);
+-  const evaluation = view.evaluationRefs; assert.equal(new Set(Object.values(evaluation.bindingIds)).size, 4); assert.equal(new Set(Object.values(evaluation.summarySnapshotIds)).size, 4);
+-  const signal = data(await api.request('ProjectCostController_getOperatingSignalEvaluation', { id: evaluation.signalEvaluationId }, null, 'manager')); assert.equal(signal.evaluationContext.sourceHash, view.sourceHash);
+-  if (scenario.cashGross === '0.01') {
+-    assert(signal.reasonItems.some(reason => reason.ruleId === 'H03')); assert(signal.reasonItems.some(reason => reason.ruleId === 'H08'));
+-    assert.equal(signal.metricKnowledge.grossMarginRateUse, 'observation-only'); assert.equal(signal.metricKnowledge.grossMarginRateReason, 'low-receipt-ratio'); assert.equal(signal.metricKnowledge.ratiosStable, false);
+-  }
+-  const bindings = [];
+-  for (const bindingId of Object.values(evaluation.bindingIds)) { const gate = data(await api.request('ProjectCostController_getCommissionGateBinding', { id: bindingId }, null, 'manager')); assert.equal(gate.evaluationContext.sourceHash, view.sourceHash); bindings.push(gate); }
+-  const proof = ctx.artifact(`${ctx.next('a05-actual-published-metrics')}.json`, { snapshotReceipt: response.receiptId, stored: actual, actualSignal: signal, actualBindings: bindings,
+-    actualPublishedSnapshot: true, preparationWasNotCountedAsSnapshot: true, actualHReloadProducedFourBindings: true, independentProject: true, businessFixturesSQL: false });
+-  f.a05SnapshotHTTP.proofPending = false; f.a05SnapshotHTTP.proof = proof; f.operatingComplete = true; ctx.persist(); return { kind: 'actual-A05-published-boundary', snapshotId: id, proof };
+-}
+-export async function overflowBoundary26(ctx, api) {
+-  const f = ctx.state.fixtures; assert(f.operatingComplete && f.a05SnapshotHTTP.proof && f.a05SnapshotHTTP.proofPending === false);
+-  f.a05Overflow26 ??= {}; const state = f.a05Overflow26;
+-  if (state.proof) return { kind: 'actual-A05-atomic-capacity-rejection', proof: state.proof, noCommandReplay: true };
+-  assert(!state.failedAttempt, 'Inspect the original overflow response/rollback proof before any retry');
+-  // Save a genuine next-version body before adding the lawful second receipt.
+-  // Its key differs from the already committed first snapshot, so it cannot be
+-  // mistaken for that snapshot's idempotent response. No input hash is minted.
+-  if (!state.input) { state.input = await prepareSnapshotBody26(ctx, api); assert.notEqual(state.input.body.expectedInputHash, f.a05SnapshotInput.body.expectedInputHash); ctx.persist(); }
+-  state.extraCash ??= {}; ctx.persist();
+-  await actualReceipt26(ctx, api, state.extraCash, '0.01', { net: '0.01', tax: '0.00', rate: '0.0000' });
+-  const response = await api.request('ProjectCostController_createProjectOperatingSnapshot', {}, state.input.body, 'manager', { expectedStatus: 422, mutableTables: mutable });
+-  state.failedAttempt = { receipt: response.receiptId, before: response.before, after: response.after, proofPending: true }; ctx.persist();
+-  const error = data(response); assert.equal(error.code, 'operating_money_capacity_exceeded');
+-  const before = loadSnapshot(ctx, response.before), after = loadSnapshot(ctx, response.after);
+-  const sessionId = requireOwnedScope(ctx, before, { projectId: f.project.id, actorId: ctx.state.actors.manager.id, actorKey: 'manager' });
+-  const rollback = assertSweepRollback(ctx, before, after, { sessionId }, ctx.state.actors.manager.id);
+-  state.proof = ctx.artifact(`${ctx.next('a05-atomic-capacity422')}.json`, { receipt: response.receiptId, before: response.before, after: response.after, rollback,
+-    actualExtraReceipt: state.extraCash, aggregateCategory: 'confirmed cash gross/net', expectedAggregate: '10000000000000000.00', code: error.code,
+-    earlierPublishedMAXSnapshotStillImmutable: true, businessDatabaseWritesByRejectedCapture: 0, aggregateOrEvidenceInsertsCommitted: 0, staleHashWasNotSubstitutedWithLocalHash: true });
+-  state.failedAttempt.proofPending = false; ctx.persist(); return { kind: 'actual-A05-atomic-capacity-rejection', proof: state.proof };
+-}
++import assert from 'node:assert/strict';
++import { data, uuid } from './pure.mjs';
++import { expectedRef } from './handover.mjs';
++import { expenseDecisions } from './operating.mjs';
++import { assertA05Metrics26 } from './a05-values26.mjs';
++import { loadSnapshot } from './snapshot.mjs';
++import { assertSweepRollback } from './fault-sweep.mjs';
++import { requireOwnedScope } from './required-write-inventory.mjs';
++import { actualReceipt26 } from './a05-finance26.mjs';
++import { freshOverflowInput59 } from './a05-overflow-guards59.mjs';
++
++const mutable = ['project_operating_head', 'operating_baseline_package', 'project_operating_snapshot', 'project_cost_inclusion_head', 'project_actual_cost_record'];
++export async function prepareSnapshotBody26(ctx, api) {
++  const f = ctx.state.fixtures, response = await api.request('ProjectCostController_getProjectUnifiedAccounting', { projectId: f.project.id }, null, 'manager', { query: { view: 'preparation', intent: 'snapshot-create', snapshotMode: 'realtime' } });
++  const p = data(response).preparation; assert.equal(p.kind, 'preparation-only'); assert(p.selectedBaselinePackageRef);
++  return { receipt: response.receiptId, body: { inputVersion: 'server-derived-v1', projectId: f.project.id, expectedVersion: p.headVersion, expectedProjectVersion: p.projectVersion,
++    expectedInputHash: p.expectedInputHash, assertions: null, baselinePackageRef: expectedRef(p.selectedBaselinePackageRef), snapshotMode: 'realtime', periodKey: null, costDecisions: expenseDecisions(p, [f.actualCost.id]) } };
++}
++export async function publishBoundary26(ctx, api, scenario) {
++  const f = ctx.state.fixtures;
++  if (!f.operatingBaselineCommand) {
++    const response = await api.request('ProjectCostController_getProjectUnifiedAccounting', { projectId: f.project.id }, null, 'manager', { query: { view: 'preparation', intent: 'baseline-activation' } });
++    const p = data(response).preparation, refs = [p.proposedOriginalCostRef, p.selectedBaselinePackageRef, ...p.sourceRows.flatMap(row => [row.sourceRef, ...row.sourceMembers])].filter(Boolean);
++    const basis = refs.find(ref => ref.id === f.handover.handoverBasisSnapshotId); assert(basis && p.proposedOriginalCostRef.id === f.cost.id);
++    const command = await api.request('ProjectCostController_activateOperatingBaselinePackage', {}, { inputVersion: 'server-derived-v1', projectId: f.project.id, expectedVersion: p.headVersion, expectedProjectVersion: p.projectVersion,
++      expectedInputHash: p.expectedInputHash, assertions: null, expectedCurrentPackageRef: p.selectedBaselinePackageRef ? expectedRef(p.selectedBaselinePackageRef) : null,
++      originalAdoptedCostRef: expectedRef(p.proposedOriginalCostRef), selectedHandoverBasisRef: expectedRef(basis), handoverRebaselineRef: null, approvedChangeRefs: [], reason: 'A05单合同真实项目采用一次真实项目估算，不把MAX合同值或实际费用伪装成基线。' }, 'manager',
++    { responseBirths: [{ table: 'operating_baseline_package', pointer: '/targetId' }], mutableTables: mutable });
++    f.operatingBaselineCommand = data(command); f.operatingBaselineReceipt = command.receiptId; ctx.persist(); assert.equal(f.operatingBaselineCommand.evaluationRefs, null);
++  }
++  if (!f.operatingSnapshotCommand) {
++    const prepared = await prepareSnapshotBody26(ctx, api); f.a05SnapshotInput = prepared; ctx.persist();
++    const response = await api.request('ProjectCostController_createProjectOperatingSnapshot', {}, prepared.body, 'manager', { responseBirths: [{ table: 'project_operating_snapshot', pointer: '/targetId' }], mutableTables: mutable });
++    f.operatingSnapshotCommand = data(response); f.a05SnapshotHTTP = { receipt: response.receiptId, before: response.before, after: response.after, proofPending: true }; ctx.persist();
++  }
++  const id = uuid(f.operatingSnapshotCommand.snapshotId ?? f.operatingSnapshotCommand.targetId), response = await api.request('ProjectCostController_getProjectOperatingSnapshot', { id }, null, 'manager'), view = data(response);
++  assert.equal(view.id, id); assert.equal(view.certification, 'verified'); assert(view.evaluationRefs); assert.equal(view.financialProjection.mode, 'full');
++  const actual = await ctx.db(async c => (await c.query('SELECT c.id::text,c.source_hash,c.payload_hash,c.frozen_payload,s.gross_margin_amount::text,s.gross_margin_rate::text,s.receivable_confirmed_total::text,s.included_cost_total::text FROM poms.project_operating_snapshot s JOIN poms.operating_source_context c ON c.id=s.source_context_id AND c.project_id=s.project_id WHERE s.id=$1::uuid AND s.project_id=$2::uuid', [id, f.project.id])).rows);
++  assert.equal(actual.length, 1); const row = actual[0]; assert.equal(row.source_hash, view.sourceHash); assert.equal(row.id, view.sourceContextId); assertA05Metrics26(row.frozen_payload, scenario);
++  assert.equal(row.gross_margin_amount, scenario.margin); assert.equal(row.gross_margin_rate, scenario.ratio); assert.equal(row.receivable_confirmed_total, scenario.cashNet); assert.equal(row.included_cost_total, scenario.costNet);
++  const evaluation = view.evaluationRefs; assert.equal(new Set(Object.values(evaluation.bindingIds)).size, 4); assert.equal(new Set(Object.values(evaluation.summarySnapshotIds)).size, 4);
++  const signal = data(await api.request('ProjectCostController_getOperatingSignalEvaluation', { id: evaluation.signalEvaluationId }, null, 'manager')); assert.equal(signal.evaluationContext.sourceHash, view.sourceHash);
++  if (scenario.cashGross === '0.01') {
++    assert(signal.reasonItems.some(reason => reason.ruleId === 'H03')); assert(signal.reasonItems.some(reason => reason.ruleId === 'H08'));
++    assert.equal(signal.metricKnowledge.grossMarginRateUse, 'observation-only'); assert.equal(signal.metricKnowledge.grossMarginRateReason, 'low-receipt-ratio'); assert.equal(signal.metricKnowledge.ratiosStable, false);
++  }
++  const bindings = [];
++  for (const bindingId of Object.values(evaluation.bindingIds)) { const gate = data(await api.request('ProjectCostController_getCommissionGateBinding', { id: bindingId }, null, 'manager')); assert.equal(gate.evaluationContext.sourceHash, view.sourceHash); bindings.push(gate); }
++  const proof = ctx.artifact(`${ctx.next('a05-actual-published-metrics')}.json`, { snapshotReceipt: response.receiptId, stored: actual, actualSignal: signal, actualBindings: bindings,
++    actualPublishedSnapshot: true, preparationWasNotCountedAsSnapshot: true, actualHReloadProducedFourBindings: true, independentProject: true, businessFixturesSQL: false });
++  f.a05SnapshotHTTP.proofPending = false; f.a05SnapshotHTTP.proof = proof; f.operatingComplete = true; ctx.persist(); return { kind: 'actual-A05-published-boundary', snapshotId: id, proof };
++}
++export async function overflowBoundary26(ctx, api, { preparationExpectedStatus = 200 } = {}) {
++  const f = ctx.state.fixtures; assert(f.operatingComplete && f.a05SnapshotHTTP.proof && f.a05SnapshotHTTP.proofPending === false);
++  f.a05Overflow26 ??= {}; const state = f.a05Overflow26;
++  if (state.proof) return { kind: 'actual-A05-atomic-capacity-rejection', proof: state.proof, noCommandReplay: true };
++  assert([200, 422].includes(preparationExpectedStatus), 'Root must choose one exact expected public preparation status, never widen a command success');
++  assert(!state.failedAttempt && !state.freshCaptureAttempt59, 'Inspect the original response/rollback proof before any retry');
++  // Save a genuine next-version body before adding the lawful second receipt.
++  // Its key differs from the already committed first snapshot, so it cannot be
++  // mistaken for that snapshot's idempotent response. No input hash is minted.
++  if (!state.input) { state.input = await prepareSnapshotBody26(ctx, api); assert.notEqual(state.input.body.expectedInputHash, f.a05SnapshotInput.body.expectedInputHash); ctx.persist(); }
++  state.extraCash ??= {}; ctx.persist();
++  await actualReceipt26(ctx, api, state.extraCash, '0.01', { net: '0.01', tax: '0.00', rate: '0.0000' });
++  // A prior receipt changes the pre-effect source hash. Preserve the old body
++  // and any real409; a fresh body must come from the public server preparation.
++  let response, rejectionLayer;
++  if (preparationExpectedStatus === 422) {
++    rejectionLayer = 'public-preparation';
++    response = await api.request('ProjectCostController_getProjectUnifiedAccounting', { projectId: f.project.id }, null, 'manager', {
++      expectedStatus: 422, query: { view: 'preparation', intent: 'snapshot-create', snapshotMode: 'realtime' } });
++  } else {
++    if (!state.freshInput) { state.freshInput = freshOverflowInput59(state.input, await prepareSnapshotBody26(ctx, api)); ctx.persist(); }
++    rejectionLayer = 'snapshot-command';
++    state.freshCaptureAttempt59 = { phase: 'starting', publicPreparationReceipt: state.freshInput.receipt }; ctx.persist();
++    response = await api.request('ProjectCostController_createProjectOperatingSnapshot', {}, state.freshInput.body, 'manager', { expectedStatus: 422, mutableTables: mutable });
++    state.freshCaptureAttempt59.phase = 'response-proof-pending';
++  }
++  state.failedAttempt = { receipt: response.receiptId, before: response.before, after: response.after, rejectionLayer, proofPending: true }; ctx.persist();
++  const error = data(response); assert.equal(error.code, 'operating_money_capacity_exceeded');
++  const before = loadSnapshot(ctx, response.before), after = loadSnapshot(ctx, response.after);
++  const sessionId = requireOwnedScope(ctx, before, { projectId: f.project.id, actorId: ctx.state.actors.manager.id, actorKey: 'manager' });
++  const rollback = assertSweepRollback(ctx, before, after, { sessionId }, ctx.state.actors.manager.id);
++  state.proof = ctx.artifact(`${ctx.next('a05-atomic-capacity422')}.json`, { receipt: response.receiptId, before: response.before, after: response.after, rollback,
++    actualExtraReceipt: state.extraCash, aggregateCategory: 'confirmed cash gross/net', expectedAggregate: '10000000000000000.00', code: error.code,
++    rejectionLayer, commandCapacity422Certified: rejectionLayer === 'snapshot-command', publicPreparationCapacity422Certified: rejectionLayer === 'public-preparation',
++    priorStaleHash409: state.staleAttempt59 ?? null, freshPublicPreparation: state.freshInput ?? null,
++    earlierPublishedMAXSnapshotStillImmutable: true, businessDatabaseWritesByRejectedRequest: 0, aggregateOrEvidenceInsertsCommitted: 0, staleHashWasNotSubstitutedWithLocalHash: true });
++  state.failedAttempt.proofPending = false; if (state.freshCaptureAttempt59) state.freshCaptureAttempt59.phase = 'verified';
++  ctx.persist(); return { kind: 'actual-A05-atomic-capacity-rejection', rejectionLayer, proof: state.proof };
++}
+diff --git a/tools/rust-r4ghi/business/a05-overflow-guards59.mjs b/tools/rust-r4ghi/business/a05-overflow-guards59.mjs
+new file mode 100644
+--- /dev/null
++++ b/tools/rust-r4ghi/business/a05-overflow-guards59.mjs
+@@ -0,0 +1,23 @@
++import assert from 'node:assert/strict';
++
++export function freshOverflowInput59(stale, actualPublicPreparation) {
++  assert(stale?.receipt && actualPublicPreparation?.receipt);
++  const old = stale.body, fresh = actualPublicPreparation.body;
++  assert.equal(fresh.inputVersion, 'server-derived-v1'); assert.equal(fresh.projectId, old.projectId);
++  assert(/^[a-f0-9]{64}$/.test(fresh.expectedInputHash)); assert.notEqual(fresh.expectedInputHash, old.expectedInputHash, 'New receipt must have a fresh real server source hash');
++  assert(Number.isInteger(fresh.expectedVersion) && Number.isInteger(fresh.expectedProjectVersion));
++  assert.equal(fresh.snapshotMode, 'realtime'); assert.equal(fresh.periodKey, null);
++  return actualPublicPreparation;
++}
++
++export function recoverOverflowState59(state, original, staleAttempt) {
++  assert.equal(state.epoch, original.epoch); assert.equal(state.run, original.run); assert(!state.blockedObservation && !state.activeFault && !state.cleaned);
++  const record = state.fixtures.a05Boundaries26.views['max-zero'], f = record.fixtures, overflow = f.a05Overflow26;
++  assert.deepEqual(record.stages['aggregate-overflow'], { phase: 'running' }); assert(!overflow.failedAttempt && !overflow.proof && !overflow.staleAttempt59 && !overflow.freshInput && !overflow.freshCaptureAttempt59);
++  assert.equal(f.project.id, original.projectId); assert.deepEqual(overflow.input, original.oldInput); assert.deepEqual(overflow.extraCash, original.extraCash);
++  assert(f.operatingComplete && f.a05SnapshotHTTP.proof && f.a05SnapshotHTTP.proofPending === false);
++  assert.equal(staleAttempt.code, 'operating_input_hash_changed'); assert.equal(staleAttempt.status, 409);
++  const next = structuredClone(state), target = next.fixtures.a05Boundaries26.views['max-zero'];
++  delete target.stages['aggregate-overflow']; target.fixtures.a05Overflow26.staleAttempt59 = staleAttempt;
++  return next;
++}
+diff --git a/tools/rust-r4ghi/business/a05-overflow-recovery59.mjs b/tools/rust-r4ghi/business/a05-overflow-recovery59.mjs
+new file mode 100644
+--- /dev/null
++++ b/tools/rust-r4ghi/business/a05-overflow-recovery59.mjs
+@@ -0,0 +1,61 @@
++#!/usr/bin/env node
++// Metadata only. This module never creates a DB client or sends HTTP.
++import fs from 'node:fs';
++import path from 'node:path';
++import assert from 'node:assert/strict';
++import { randomUUID } from 'node:crypto';
++import { pathToFileURL } from 'node:url';
++import { sha } from './pure.mjs';
++import { readAdmittedConsumerContext } from './consumer-admission54.mjs';
++import { loadSnapshot } from './snapshot.mjs';
++import { assertSweepRollback } from './fault-sweep.mjs';
++import { recoverOverflowState59 } from './a05-overflow-guards59.mjs';
++
++const serialize = value => Buffer.from(JSON.stringify(value, null, 2) + '\n');
++function pin59(file) { const stat = fs.lstatSync(file); assert(stat.isFile() && !stat.isSymbolicLink() && stat.nlink === 1); assert.equal(fs.realpathSync(file), path.resolve(file)); return { file, rawBytesSha256: sha(fs.readFileSync(file)) }; }
++function json59(pin) { assert.equal(pin59(pin.file).rawBytesSha256, pin.rawBytesSha256); return JSON.parse(fs.readFileSync(pin.file)); }
++function within59(root, file) { const relative = path.relative(fs.realpathSync(root), path.resolve(file)); assert(relative && relative !== '..' && !relative.startsWith('..' + path.sep) && !path.isAbsolute(relative)); assert.equal(fs.realpathSync(path.dirname(file)), path.dirname(path.resolve(file))); }
++function nextState59(ctx, spec) {
++  assert.equal(ctx.epoch, spec.epoch); assert.equal(ctx.run, spec.run); assert(!fs.existsSync(`${ctx.priv}/driver.lock`), 'No concurrent driver may change the state');
++  const overflow = ctx.state.fixtures.a05Boundaries26.views['max-zero'].fixtures.a05Overflow26;
++  assert.equal(sha(JSON.stringify(overflow.input)), spec.oldInputSHA256); assert.equal(sha(JSON.stringify(overflow.extraCash)), spec.extraCashSHA256);
++  assert.equal(overflow.extraCash.receipt.id, spec.extraReceiptId); assert.equal(overflow.extraCash.receipt.status, 'confirmed'); assert.equal(overflow.extraCash.receipt.receiptAmount, '0.01');
++  const body = json59(spec.requestBody); assert.deepEqual(body, overflow.input.body);
++  const http = json59(spec.httpReceipt); assert.equal(http.operationId, 'ProjectCostController_createProjectOperatingSnapshot'); assert.equal(http.requestId, spec.requestId);
++  assert.equal(http.status, 409); assert.equal(http.responseComplete, true); assert.equal(http.transportFailure, false);
++  const error = json59(spec.responseBody); assert.equal(error.statusCode, 409); assert.equal(error.code, 'operating_input_hash_changed');
++  const ledger = json59(spec.ledger); assert.equal(ledger.requestId, spec.requestId); assert.equal(ledger.operationId, 'ProjectCostController_createProjectOperatingSnapshot');
++  assert.equal(ledger.ownershipComplete, true); assert.deepEqual(ledger.recorded, []); assert.deepEqual(ledger.blockers, []); assert.deepEqual(ledger.before, spec.before); assert.deepEqual(ledger.after, spec.after);
++  assert.deepEqual(overflow.extraCash.basisVerified, spec.basisVerified); const basis = json59(spec.basisVerified); assert.equal(basis.receiptId, spec.extraReceiptId); assert.equal(basis.actual.length, 1);
++  assert.equal(basis.actual[0].cash_gross, '0.01'); assert.equal(basis.actual[0].amount_excluding_tax, '0.01'); assert.equal(basis.actual[0].tax_amount, '0.00');
++  const before = loadSnapshot(ctx, spec.before), after = loadSnapshot(ctx, spec.after);
++  // No auth touch occurred in this exact409; require even xmin-only equality.
++  const rollback = assertSweepRollback({ ...ctx, databases: Object.keys(before.databases) }, before, after, { sessionId: null }, null);
++  json59(spec.originalPartial);
++  const staleAttempt = { status: 409, code: error.code, requestId: spec.requestId, httpReceipt: spec.httpReceipt, originalPartial: spec.originalPartial, requestBody: spec.requestBody, responseBody: spec.responseBody, ledger: spec.ledger, before: spec.before, after: spec.after, rollback, noCommandReplay: true };
++  return recoverOverflowState59(ctx.state, { epoch: spec.epoch, run: spec.run, projectId: spec.projectId, oldInput: overflow.input, extraCash: overflow.extraCash }, staleAttempt);
++}
++
++export async function main59(argv = process.argv.slice(2)) {
++  if (argv.length === 1 && argv[0] === '--help') { console.log('Root metadata-only: plan STATE_FILE NEW_PLAN_FILE; apply PLAN_FILE APPROVED_RAW_SHA. No DB/HTTP.'); return; }
++  assert.equal(process.platform, 'linux'); assert.equal(argv.length, 3);
++  const specFile = new URL('./overflow-recovery-input59.json', import.meta.url), specBytes = fs.readFileSync(specFile), spec = JSON.parse(specBytes);
++  if (argv[0] === 'plan') {
++    const statePin = pin59(argv[1]), ctx = readAdmittedConsumerContext({ statePin }), next = nextState59(ctx, spec); within59(ctx.priv, argv[2]);
++    const plan = { kind: 'exact-A05-overflow-stale409-metadata-recovery59', statePin, expectedAfterStateSHA256: sha(serialize(next)), specSHA256: sha(specBytes),
++      allowedChanges: ['delete /fixtures/a05Boundaries26/views/max-zero/stages/aggregate-overflow phase=running', 'append actual staleAttempt59 refs and exact unchanged-proof under same overflow'],
++      submittedReceiptReposted: false, oldInputOrExtraCashChanged: false, businessWrites: 0 };
++    fs.writeFileSync(argv[2], serialize(plan), { flag: 'wx', mode: 0o600 }); console.log(JSON.stringify({ plan: pin59(argv[2]), businessWrites: 0 })); return;
++  }
++  assert.equal(argv[0], 'apply'); assert.equal(pin59(argv[1]).rawBytesSha256, argv[2]); const plan = json59({ file: argv[1], rawBytesSha256: argv[2] });
++  assert.equal(plan.kind, 'exact-A05-overflow-stale409-metadata-recovery59'); assert.equal(plan.specSHA256, sha(specBytes));
++  const ctx = readAdmittedConsumerContext({ statePin: plan.statePin }); within59(ctx.priv, argv[1]);
++  const next = nextState59(ctx, spec), bytes = serialize(next); assert.equal(sha(bytes), plan.expectedAfterStateSHA256);
++  const receiptFile = `${ctx.priv}/overflow59-metadata-applied.json`; assert(!fs.existsSync(receiptFile));
++  const temporary = `${plan.statePin.file}.overflow59-${randomUUID()}.tmp`; fs.writeFileSync(temporary, bytes, { flag: 'wx', mode: 0o600 });
++  assert.equal(pin59(plan.statePin.file).rawBytesSha256, plan.statePin.rawBytesSha256, 'Latest exact state changed before atomic replace'); fs.renameSync(temporary, plan.statePin.file);
++  const receipt = { kind: 'exact-metadata-only-overflow59-recovery-applied', approvedPlan: { file: argv[1], rawBytesSha256: argv[2] }, before: plan.statePin, after: pin59(plan.statePin.file),
++    businessWrites: 0, DBOrHTTPExecuted: false, submittedReceiptReposted: false, oldInputAndExtraCashPreserved: true, ownedOrBorrowedRebased: false, G3Certified: false, G4Certified: false };
++  fs.writeFileSync(receiptFile, serialize(receipt), { flag: 'wx', mode: 0o600 }); console.log(JSON.stringify({ receipt: pin59(receiptFile), businessWrites: 0 }));
++}
++if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) await main59();
+diff --git a/tools/rust-r4ghi/business/a05-overflow-sources59.json b/tools/rust-r4ghi/business/a05-overflow-sources59.json
+new file mode 100644
+--- /dev/null
++++ b/tools/rust-r4ghi/business/a05-overflow-sources59.json
+@@ -0,0 +1,22 @@
++[
++  {
++    "file": "apps/poms-api-rust/src/project_operating/preparation.rs",
++    "sha256": "ccff8729cf6f77749f435c5d429b88bcc54a8166431ba452da0328251baaf185"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating/collector.rs",
++    "sha256": "386235765190448b021025b5a9954dacd52d6dbde5a04938e2074a750c8d395e"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating/context.rs",
++    "sha256": "cd485efbf0408cee829cb138617afb2195411317d14b9f9175decb5ba1d09cf5"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating/facts.rs",
++    "sha256": "273884c21d2bb04ff38d1eb98e3be5a955ad8817912784b09a05c4208b1b869f"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating_common/scalars.rs",
++    "sha256": "ddfe2287f0db8ce09aca7d50a4bd31b71c51d70d92fa986f92d3535c5eceeccb"
++  }
++]
+diff --git a/tools/rust-r4ghi/business/a05-overflow59.test.mjs b/tools/rust-r4ghi/business/a05-overflow59.test.mjs
+new file mode 100644
+--- /dev/null
++++ b/tools/rust-r4ghi/business/a05-overflow59.test.mjs
+@@ -0,0 +1,18 @@
++import test from 'node:test';
++import assert from 'node:assert/strict';
++import { freshOverflowInput59, recoverOverflowState59 } from './a05-overflow-guards59.mjs';
++test('overflow keeps old body and uses only the actual fresh public body and CAS', () => {
++  const stale = { receipt: 'old-public', body: { projectId: 'project', expectedInputHash: 'a'.repeat(64) } };
++  const fresh = { receipt: 'new-public', body: { inputVersion: 'server-derived-v1', projectId: 'project', expectedInputHash: 'b'.repeat(64), expectedVersion: 4, expectedProjectVersion: 5, snapshotMode: 'realtime', periodKey: null } };
++  const original = structuredClone(stale); assert.equal(freshOverflowInput59(stale, fresh), fresh); assert.deepEqual(stale, original);
++  assert.throws(() => freshOverflowInput59(stale, { ...fresh, body: { ...fresh.body, expectedInputHash: stale.body.expectedInputHash } }));
++});
++test('exact metadata recovery preserves submitted receipt, old source, published proof and all other state', () => {
++  const input = { receipt: 'old-public', body: { expectedInputHash: 'real-old' } }, cash = { receipt: { id: 'cash', status: 'confirmed' }, basisVerified: { file: 'real-basis' } };
++  const state = { epoch: 'consumer', run: 'run', owned: { unchanged: true }, fixtures: { unrelatedFixture: { immutable: true }, a05Boundaries26: { views: { 'max-zero': { sourcePinsSHA256: 'old-producer', stages: { 'aggregate-overflow': { phase: 'running' }, 'published-G-H': { phase: 'verified' } }, fixtures: { project: { id: 'project' }, operatingComplete: true, a05SnapshotHTTP: { proof: 'published-original', proofPending: false }, a05Overflow26: { input, extraCash: cash } } } } } } };
++  const original = structuredClone(state), entry = { epoch: 'consumer', run: 'run', projectId: 'project', oldInput: input, extraCash: cash }, stale = { code: 'operating_input_hash_changed', status: 409, response: 'actual-original' };
++  const next = recoverOverflowState59(state, entry, stale); assert.deepEqual(state, original);
++  const revert = structuredClone(next); revert.fixtures.a05Boundaries26.views['max-zero'].stages['aggregate-overflow'] = { phase: 'running' }; delete revert.fixtures.a05Boundaries26.views['max-zero'].fixtures.a05Overflow26.staleAttempt59;
++  assert.deepEqual(revert, original); assert.throws(() => recoverOverflowState59(next, entry, stale));
++  assert.throws(() => recoverOverflowState59(state, { ...entry, extraCash: { receipt: { id: 'other' } } }, stale));
++});
+diff --git a/tools/rust-r4ghi/business/overflow-recovery-input59.json b/tools/rust-r4ghi/business/overflow-recovery-input59.json
+new file mode 100644
+--- /dev/null
++++ b/tools/rust-r4ghi/business/overflow-recovery-input59.json
+@@ -0,0 +1,46 @@
++{
++  "schemaVersion": 1,
++  "kind": "exact-existing-A05-stale409-recovery-input",
++  "epoch": "g2-business11",
++  "run": "main01",
++  "projectId": "7518a44d-1381-4e36-ba81-c6e595ea8666",
++  "requestId": "bg383435b83c-003935-http-6965c6a2",
++  "oldInputSHA256": "5f4eb1195e7b2d7636fe0507e8eda79afd15a58d58b586e64bf6be1e672d7d43",
++  "extraCashSHA256": "ca0586b1e17089b1241d2e4471e20c5fc734fedbe912ca0020bd6a2243eed99a",
++  "extraReceiptId": "d928d7e1-00b9-45a0-aed7-f2d8381f9ce7",
++  "basisVerified": {
++    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/003934-a05-actual-receipt-basis.json",
++    "bytes": 837,
++    "rawBytesSha256": "e3dac10313f509c58ef9a923d0cba4277a8404dd59856a0de06de5efe33fe380"
++  },
++  "requestBody": {
++    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/003935-http-request-body.bin",
++    "rawBytesSha256": "41533dae73e2289a582a08d2b94c44fdb4cfd6abcc1e893c5000aa5819dbf248"
++  },
++  "responseBody": {
++    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/003935-http-response-body.bin",
++    "rawBytesSha256": "6b53fc9ccf8acb17d1149be5afb55bca2b75368d1548c10b13fa2987ed14b07c"
++  },
++  "httpReceipt": {
++    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business11/main01/003935-http-http.json",
++    "rawBytesSha256": "942fc3559b7bb6d65ee992d19138d021dc557385eef20525244e952f101e4858"
++  },
++  "originalPartial": {
++    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/003867-a05-overflow64-01-partial.json",
++    "rawBytesSha256": "dd5f8c9c1ae06d5a5fcf3f0f6aa35b93e58a72a7c3dc7ec3be69e71e13c6771a"
++  },
++  "ledger": {
++    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/003936-ledger.json",
++    "rawBytesSha256": "5c50c367fb0c61b81048739461033a75e8cf99b91c80417358af11ff53c5276d"
++  },
++  "before": {
++    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/snapshot-003935-http-before.json",
++    "bytes": 3121875,
++    "rawBytesSha256": "2d10d828702755c1b67dfccf58db38342241c3ac0df01a623e7fb22bb8145fbf"
++  },
++  "after": {
++    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/snapshot-003935-http-after.json",
++    "bytes": 3121596,
++    "rawBytesSha256": "0e992ab6c1041d39bda5765e099172926ff8b38626ee5ac179aa43b88f44ecc1"
++  }
++}
+diff --git a/tools/rust-r4ghi/business/run-a05-overflow59.mjs b/tools/rust-r4ghi/business/run-a05-overflow59.mjs
+new file mode 100644
+--- /dev/null
++++ b/tools/rust-r4ghi/business/run-a05-overflow59.mjs
+@@ -0,0 +1,24 @@
++#!/usr/bin/env node
++import fs from 'node:fs';
++import assert from 'node:assert/strict';
++import { pathToFileURL } from 'node:url';
++import { createContext, FIXED } from './context.mjs';
++import { segment, safeFailure } from './pure.mjs';
++
++export async function main59(argv = process.argv.slice(2)) {
++  if (argv.length === 1 && argv[0] === '--help') { console.log('Root only: run-a05-overflow59.mjs EPOCH RUN 200|422 (one exact reviewed public-preparation expected status); no receipt POST or local hash.'); return; }
++  assert.equal(argv.length, 3); assert.equal(process.platform, 'linux'); const epoch = segment(argv[0]), run = segment(argv[1]), preparationExpectedStatus = Number(argv[2]); assert([200, 422].includes(preparationExpectedStatus));
++  const lock = `${FIXED.private}/business/${epoch}/${run}/driver.lock`; assert(!fs.existsSync(lock)); const ctx = createContext({ epoch, run }); fs.writeFileSync(lock, JSON.stringify({ pid: process.pid, mode: 'a05-overflow59' }) + '\n', { flag: 'wx', mode: 0o600 });
++  try {
++    assert(ctx.state.baseline && !ctx.state.activeFault && !ctx.state.blockedObservation && !ctx.state.cleaned);
++    for (const pin of JSON.parse(fs.readFileSync(new URL('./a05-overflow-sources59.json', import.meta.url)))) assert.equal(ctx.pins.find(source => source.file === pin.file)?.sha256, pin.sha256);
++    const { createApi } = await import('./http.mjs'), { openA05View26, boundaryStep26 } = await import('./a05-view26.mjs'), { overflowBoundary26 } = await import('./a05-capture26.mjs');
++    const { ctx: view, record } = openA05View26(ctx, 'max-zero'), overflow = view.state.fixtures.a05Overflow26;
++    assert(overflow?.staleAttempt59?.code === 'operating_input_hash_changed' && overflow.extraCash?.basisVerified, 'First apply the reviewed exact metadata recovery; never recreate the committed receipt');
++    const api = createApi(view); await api.login('manager');
++    const result = await boundaryStep26(view, record, 'aggregate-overflow', () => overflowBoundary26(view, api, { preparationExpectedStatus }));
++    const receipt = view.artifact(`${view.next('a05-overflow59-complete')}.json`, result); console.log(JSON.stringify({ status: 'completed', receipt, preparationExpectedStatus, G3Certified: false, G4Certified: false }));
++  } catch (error) { const original = ctx.artifact(`${ctx.next('a05-overflow59-partial')}.json`, { name: error.name, message: error.message, stack: error.stack, preparationExpectedStatus }); console.error(JSON.stringify({ ...safeFailure(error), original })); process.exitCode = 1; }
++  finally { assert.equal(JSON.parse(fs.readFileSync(lock)).pid, process.pid); fs.unlinkSync(lock); }
++}
++if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) await main59();

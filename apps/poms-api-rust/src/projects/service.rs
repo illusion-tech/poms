@@ -684,12 +684,12 @@ async fn update_with_session(
             project.planned_sign_at = Some(value);
         }
     }
-    if project.updated_by != Some(actor.id) {
-        changes.updated_by = Some(Some(actor.id));
-    }
-    project.updated_by = Some(actor.id);
     let dirty = changes.is_dirty();
     if dirty {
+        if project.updated_by != Some(actor.id) {
+            changes.updated_by = Some(Some(actor.id));
+        }
+        project.updated_by = Some(actor.id);
         project
             .row_version
             .checked_add(1)

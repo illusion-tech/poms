@@ -1,0 +1,144 @@
+{
+  "schemaVersion": 1,
+  "proposal": "I-explicit-chained-retained-source12-admission62",
+  "state": "frozen-prepared-unrun",
+  "files": [
+    {
+      "file": "tools/rust-r4ghi/business/consumer-admission54.mjs",
+      "beforeSHA256": "ba734d995649dc82474a64ab15095b8a946637bc947ce42c034842777f54db09",
+      "afterSHA256": "08f49d66466deb6fb150b4a788ffe1c3d132f1cb2eb692a043020dd5cb4811b2",
+      "candidate": "proposed/tools/rust-r4ghi/business/consumer-admission54.mjs"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/context.mjs",
+      "beforeSHA256": "9b8378d349828b8e6505a83d668a7beb77801b22c7fabc8b12469bfdffdd8470",
+      "afterSHA256": "ce995535f6bec182dc189bcef41f8f3d6a7e75bc160ed92df6e5d41c18507ffd",
+      "candidate": "proposed/tools/rust-r4ghi/business/context.mjs"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/registry-lineage62.mjs",
+      "beforeSHA256": null,
+      "afterSHA256": "3ef58286d777b40e835210ffc0a1acb8238ebaa36d647175075ba04d181c015b",
+      "candidate": "proposed/tools/rust-r4ghi/business/registry-lineage62.mjs"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/registry-lineage62.test.mjs",
+      "beforeSHA256": null,
+      "afterSHA256": "ce97ade8c3e34cceb1cb3960ca5b7c1fbe97264a8494307f193c147517eb5d8e",
+      "candidate": "proposed/tools/rust-r4ghi/business/registry-lineage62.test.mjs"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/retained-admission54.mjs",
+      "beforeSHA256": "92417400dd8db07fa72ad27c0e2645d943d18617c15c6f7f41757d4e100956ca",
+      "afterSHA256": "f213aaab615d3c4a9284437dc68e74d1faa98df0a4609dba5ab9dde31848b86b",
+      "candidate": "proposed/tools/rust-r4ghi/business/retained-admission54.mjs"
+    }
+  ],
+  "runtimeDependencies": [
+    {
+      "file": "tools/rust-r4ghi/business/run-retained-admission54.mjs",
+      "sha256": "2f3168abf5269672a5f890df7d0cbcd0c1e5780b5869a65c43847d1e1881f37c"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/pure.mjs",
+      "sha256": "42f1d133ad6b279235c8c2b7c3f10c129958e4aa7b42fa1da5287f160a88fa1a"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/snapshot.mjs",
+      "sha256": "c9a72d7e763045bed175dfe16386ae9d95d683b84f1445b34b59d78934877aed"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/ledger.mjs",
+      "sha256": "d743d736cb3b6528214d21ca0aa152b78be8906cbcab73c40f0a3d7563e6bb5b"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/objects.mjs",
+      "sha256": "990a24b83dd494aedd4e5d6380c96eb63d40ceea48b8d4645d819394ec073fcc"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/report.mjs",
+      "sha256": "15b66e8031a7e9be74a3bea3f3cf97a02b77f939bc5073313bb06189bf9eaeef"
+    }
+  ],
+  "sidecars": [
+    {
+      "file": "README62.md",
+      "sha256": "03adccb4c67e406403efbed80fbd2cae93d26cfaa81b9150cf5f96552801aea9"
+    },
+    {
+      "file": "admission62-plan.schema.json",
+      "sha256": "f0b50482d49c840796d63404d54ec57b355bc82636078c196fe99c4e8b15d565"
+    },
+    {
+      "file": "admission62-plan.template.json",
+      "sha256": "116bbb592a1c8b9be2923ae7e9b13e7211ee264bfee9047ad633a22347fd1b57"
+    },
+    {
+      "file": "impact-review62.template.json",
+      "sha256": "9b2ec420a84606869998d1d38af4afe48b4df8796cf49ea06d95df1181a7dac2"
+    },
+    {
+      "file": "inspect-retained-fixtures62.mjs",
+      "sha256": "cca8c140500afc955b45f532983891647e11f095928f4e263609761574775d2f"
+    },
+    {
+      "file": "actual70-fs-inspection62.json",
+      "sha256": "43922171767b499ecc8cd94d86e2ff9503fbef87c88bed1699f0a6e1637dd031"
+    },
+    {
+      "file": "offline-tests62.log",
+      "sha256": "5409af5d7eb32b7a712691f3a8ed5b71dcea625d50e189e61d8a7f81466a8402"
+    },
+    {
+      "file": "node24-tests62.log",
+      "sha256": "a95c038cbfc5b1b64eb0ec73ebec92047ea2f3244db4a59f00b292049b1933e5"
+    },
+    {
+      "file": "node24-directory-attempt62.log",
+      "sha256": "6652642c3bcaf62b6763b71a36cc0c6382c90bddb86ba71be4ea4dedd81d8d5f"
+    }
+  ],
+  "APICompatibility": "readPin54/assertAdmittedContext54/assertAdmittedFixtureSource/readAdmittedConsumerContext remain synchronous same names/signatures; Node24 createRequire passed, no top-level I/O/await",
+  "actualRetainedFSProjection": {
+    "entries": 7,
+    "birth10": [
+      "eo",
+      "own",
+      "creator-ui-spare",
+      "legacy-controlled-negative",
+      "max-zero"
+    ],
+    "birth11": [
+      "cent-max",
+      "max-tax13"
+    ],
+    "allRetainedAt": "g2-business11",
+    "A05PublishedReceiptsExplicit": 3,
+    "newSource12Bound": false
+  },
+  "newSourceDirectFile": "docs/design/rust-r4ghi/g2-project-metadata-noop61.md",
+  "sourceCount": "Actual dynamic full sourcePins list, expected406 but no hardcoded count",
+  "ancestry": "schema2 exact prior registry pin -> direct producer state -> original10/11 states, arrays, snapshots and per-entry immutable/continuable identity; no source relabel",
+  "evidenceHandling": "Preserve inheritedProducerEvidence54 source10; append old11 maps/process/seam/registry to consumerEvidenceHistory62; new active FI/auth maps empty. Pinned impact review is historical-only, never135 execution certification",
+  "validation": {
+    "syntaxModules": 87,
+    "windowsNode": "v26.13.0",
+    "linuxNode": "v24.19.0",
+    "pureTestsEach": 91,
+    "failedEach": 0,
+    "FSOnlyActual70Projection": true,
+    "synchronousRequireNode24": true,
+    "firstNode24DirectoryArgumentAttempt": "preserved separately; wrong CLI argument, then explicit file list91pass"
+  },
+  "authorExecution": {
+    "admissionMint": false,
+    "SQL": false,
+    "HTTP": false,
+    "RootStateOrProductWrites": false,
+    "privateOriginalsReadOnly": true,
+    "syntheticInspectionEnvelopeExplicitlyNonMintable": true
+  },
+  "CLI": "Root only: node tools/rust-r4ghi/business/run-retained-admission54.mjs ACTUAL_SCHEMA2_PLAN_JSON APPROVED_RAW_SHA",
+  "G3Certified": false,
+  "G4Certified": false
+}

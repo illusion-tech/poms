@@ -2,10 +2,11 @@
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
 import { createContext, sourcePins, FIXED } from './context.mjs';
-import { sha, keyOf } from './pure.mjs';
+import { sha, keyOf, segment } from './pure.mjs';
 import { capture, loadSnapshot, readRows } from './snapshot.mjs';
 import { assertRecorded } from './ledger.mjs';
 import { readPin54, pointer54, producerProjection54 } from './consumer-admission54.mjs';
+import { makeChainedAdmissions62, validateRegistryLineage62, quarantineEvidence62, assertImpactReview62 } from './registry-lineage62.mjs';
 
 export function assertSameRetained54(old, current, databases, read = readRows) {
   assert.deepEqual(Object.keys(old.databases).sort(), Object.keys(current.databases).sort());
@@ -51,16 +52,24 @@ export function fixtureAdmissions54(state, retained, database, pinFile = filePin
 }
 export async function admitRetained54({ planFile, approvedPlanSHA256 }) {
   assert.equal(process.platform, 'linux'); const planBytes = fs.readFileSync(planFile); assert.equal(sha(planBytes), approvedPlanSHA256); const plan = JSON.parse(planBytes);
-  assert.equal(plan.kind, 'retained-data-consumer-admission54'); assert.equal(plan.schemaVersion, 1);
-  assert.equal(plan.consumer.epoch, 'g2-business11'); assert.equal(plan.consumer.run, 'main01');
+  assert.equal(plan.kind, 'retained-data-consumer-admission54'); assert([1, 2].includes(plan.schemaVersion));
+  if (plan.schemaVersion === 1) { assert.equal(plan.consumer.epoch, 'g2-business11'); assert.equal(plan.consumer.run, 'main01'); }
+  else { segment(plan.consumer.epoch); segment(plan.consumer.run); assert.notEqual(plan.consumer.epoch, plan.producer.epoch); }
   const index = JSON.parse(readPin54(plan.producer.retentionIndex));
   assert.equal(index.producerEpoch, plan.producer.epoch); assert.equal(index.run, plan.producer.run);
   assert.deepEqual(receiptPin54(index.frozenState), plan.producer.frozenState); assert.deepEqual(receiptPin54(index.retainedSnapshot), plan.producer.retainedSnapshot);
   const old = JSON.parse(readPin54(plan.producer.frozenState)); assert.equal(old.marker, index.marker); assert.equal(old.epoch, plan.producer.epoch);
   assert.equal(sha(JSON.stringify(old.sourcePins)), plan.producer.sourcePinsSHA256); assert(!old.activeFault && !old.blockedObservation && !old.cleaned && !old.cleanupPlan);
+  if (plan.schemaVersion === 2) {
+    assert(old.consumerAdmission54?.registry && plan.producer.priorRegistry);
+    assert.deepEqual(receiptPin54(old.consumerAdmission54.registry), plan.producer.priorRegistry, 'Keep the exact original producer consumer-registry chain');
+    const impact = JSON.parse(readPin54(plan.consumer.impactReview));
+    assertImpactReview62(impact, plan.producer, plan.consumer);
+  }
   const expected = JSON.parse(readPin54(plan.consumer.sourcePins)); assert.deepEqual(sourcePins(), expected, 'Actual new source list must exactly match the explicit reviewed input');
   assert.equal(sha(JSON.stringify(expected)), plan.consumer.sourcePinsSHA256); assert.equal(expected.length, plan.consumer.sourceCount);
   assert(expected.some(pin => pin.file === 'docs/design/rust-r4ghi/g2-consumed-evidence-corrective54.md'));
+  if (plan.schemaVersion === 2) assert(expected.some(pin => pin.file === 'docs/design/rust-r4ghi/g2-project-metadata-noop61.md'));
   assert.notEqual(plan.consumer.sourcePinsSHA256, plan.producer.sourcePinsSHA256);
   const candidate = JSON.parse(readPin54(plan.consumer.candidateReceipt));
   assert.equal(pointer54(candidate, plan.consumer.candidateSourceDigestPointer), plan.consumer.sourcePinsSHA256); assert.equal(pointer54(candidate, plan.consumer.candidateBinaryHashPointer), plan.consumer.binarySHA256);
@@ -81,20 +90,28 @@ export async function admitRetained54({ planFile, approvedPlanSHA256 }) {
     const current = await capture(ctx, currentLabel);
     assert.equal(ctx.state.marker, old.marker); assertSameRetained54(retained, current, ctx.databases);
     assertRecorded({ ...ctx, state: old }, current);
-    const fixtureAdmissions = fixtureAdmissions54(old, retained, ctx.database);
-    for (const entry of fixtureAdmissions) for (const pin of entry.receipts) readPin54(pin);
-    const registry = { schemaVersion: 1, kind: 'verified-retained-data-consumer-registry54', namespace: ctx.namespace, marker: old.marker,
+    let fixtureAdmissions = fixtureAdmissions54(old, retained, ctx.database);
+    let registry = { schemaVersion: plan.schemaVersion, kind: 'verified-retained-data-consumer-registry54', namespace: ctx.namespace, marker: old.marker,
       approvedPlanSHA256, producer: { epoch: old.epoch, run: old.run, sourcePinsSHA256: plan.producer.sourcePinsSHA256, sourceCount: old.sourcePins.length, binarySHA256: oldProcess.binarySha256 },
       consumer: { ...plan.consumer }, retentionIndex: plan.producer.retentionIndex, producerState: plan.producer.frozenState, retainedSnapshot: plan.producer.retainedSnapshot,
       freshEquivalentSnapshot: current.manifest, originalBaseline: old.baseline, fixtureAdmissions,
       inheritedProducerEvidenceIsNotCurrentConsumerAcceptance: true, newConsumerHTTPOrFIAlreadyCertified: false, businessWrites: 0, G3Certified: false, G4Certified: false };
+    if (plan.schemaVersion === 2) {
+      registry.priorRegistry = plan.producer.priorRegistry; registry.impactReview = plan.consumer.impactReview;
+      const chained = makeChainedAdmissions62(ctx, registry, fixtureAdmissions); fixtureAdmissions = chained.entries;
+      registry = { ...registry, sourceHistory: chained.sources, fixtureAdmissions }; validateRegistryLineage62(ctx, registry);
+    }
+    for (const entry of fixtureAdmissions) for (const pin of entry.receipts) readPin54(pin);
     const registryName = `${ctx.next('consumer-admission54-registry')}.json`; ctx.persist(); const registryPin = ctx.artifact(registryName, registry);
     const next = structuredClone(old), activeProcess = { file: plan.consumer.apiProcess.file, rawBytesSha256: plan.consumer.apiProcess.rawBytesSha256, record: processRecord };
     next.epoch = ctx.epoch; next.run = ctx.run; next.createdAt = new Date().toISOString(); next.sourcePins = expected; next.apiProcess = activeProcess;
-    next.inheritedProducerEvidence54 = { producerState: plan.producer.frozenState, retentionIndex: plan.producer.retentionIndex,
+    const historicalEvidence = { producerState: plan.producer.frozenState, retentionIndex: plan.producer.retentionIndex,
       oldProcessBinding: old.apiProcess, oldStatusSourcePins: old.statusSourcePins, oldAuthConfigurations: old.actualAuthConfigurations, oldTrustedSummarySeam: old.trustedSummarySeam,
-      oldRequiredWriteSweeps: old.requiredWriteSweeps, oldEFRequiredWriteSweeps40: old.efRequiredWriteSweeps40, oldProducerAPI: '133', newConsumerAPI: '134',
+      oldRequiredWriteSweeps: old.requiredWriteSweeps, oldEFRequiredWriteSweeps40: old.efRequiredWriteSweeps40,
+      ...(plan.schemaVersion === 1 ? { oldProducerAPI: '133', newConsumerAPI: '134' } : { priorRegistry: plan.producer.priorRegistry, impactReview: plan.consumer.impactReview }),
       producerFactsAndOriginalReceiptsUnchanged: true, inheritedSuccessesNotCertifiedForNewConsumer: true };
+    if (plan.schemaVersion === 1) next.inheritedProducerEvidence54 = historicalEvidence;
+    else quarantineEvidence62(next, old, historicalEvidence);
     // These are NEW active consumer registries, not rewritten old evidence.
     next.actualAuthConfigurations = {}; next.requiredWriteSweeps = {}; next.efRequiredWriteSweeps40 = {};
     delete next.trustedSummarySeam; delete next.statusSourcePins; delete next.admissionPending54;

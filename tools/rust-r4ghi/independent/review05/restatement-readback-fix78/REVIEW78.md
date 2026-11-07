@@ -1,0 +1,7 @@
+77失败属于验收工具列映射假定。正式Rust view.rs230-304先从record.restated_snapshot_id读取Snapshot，再从snapshot.source_context_id读取Context；API sourceContextId=Context.id、sourceHash=Snapshot.source_hash=record.after_source_hash、sourcePayloadHash=Context.payload_hash。Restatement表本身没有source_context_id或source_hash两列，service.rs400的真实INSERT也不写它们。
+
+本作者只读已验证003079原件/其after SQL快照、005191原partial及77两个list/首个detail原HTTP/ledger。3条真实关系都成立，首个detail实际上已200并内容正确，原工具错误断言不抹掉它。第一次离线勘误脚本对裸响应错误假定.data，已保留原失败；02按仓库标准data语义验证通过。
+
+只提升manifest78的两个NEW工具/输入文件，不改77/旧producer/失败/产品。Root无其他driver时运行verify-restatement-reads78.mjs：先按固定input SHA复核原2lists+首detail，再真实登录manager，发剩余2个detail GET，核完整refs/源hash/源context/源payload hash与full reason projection，写新的78完整receipt。不会重POST，也不把API134 producer改称135 producer。Root执行可产生正常认证及必要GET审计；本作者未发HTTP/SQL。
+
+node24 --check通过；实际HTTP续跑仍由Root执行。manifest及source-map-proof78给出精确原件pins，不签业务G3/G4。

@@ -4,21 +4,13 @@ import fs from 'node:fs';
 import path from 'node:path';
 import http from 'node:http';
 import { createRequire } from 'node:module';
-import { execFileSync, spawn } from 'node:child_process';
+import { spawn } from 'node:child_process';
+import { bindPowerShell22, createPrivateDirectory22, fileVersion22, emitFailure22 } from '../../../../../business/ui-windows-preflight22.mjs';
 import { fileURLToPath } from 'node:url';
 import { executeCase, SOURCE_BASE_SHA256 } from './browser-cases14.mjs';
 import { fixed, sha, readJson, validatePlanIdentity, readPinned, writeNew, atomicJson, waitJson } from './dom-common14.mjs';
 
 const equalWindows = (left, right) => path.win32.normalize(left).toLowerCase() === path.win32.normalize(right).toLowerCase();
-function fileVersion(executable) {
-  const script = "$taskItem=Get-Item -LiteralPath $env:POMS_R4GHI_UI_EXE; [pscustomobject]@{ProductVersion=$taskItem.VersionInfo.ProductVersion;FileVersion=$taskItem.VersionInfo.FileVersion}|ConvertTo-Json -Compress";
-  return JSON.parse(execFileSync('powershell.exe', ['-NoProfile', '-NonInteractive', '-Command', script], { env: { ...process.env, POMS_R4GHI_UI_EXE: executable }, windowsHide: true, encoding: 'utf8' }));
-}
-function createPrivateDirectory(directory) {
-  assert(!fs.existsSync(directory), 'A Chrome task profile directory may never be reused'); fs.mkdirSync(directory, { recursive: true });
-  const script = "$taskIdentity=[System.Security.Principal.WindowsIdentity]::GetCurrent().User; $taskAcl=[System.Security.AccessControl.DirectorySecurity]::new(); $taskAcl.SetAccessRuleProtection($true,$false); $taskAcl.SetOwner($taskIdentity); $taskAcl.AddAccessRule([System.Security.AccessControl.FileSystemAccessRule]::new($taskIdentity,'FullControl','ContainerInherit,ObjectInherit','None','Allow')); $taskAcl.AddAccessRule([System.Security.AccessControl.FileSystemAccessRule]::new([System.Security.Principal.SecurityIdentifier]::new('S-1-5-18'),'FullControl','ContainerInherit,ObjectInherit','None','Allow')); Set-Acl -LiteralPath $env:POMS_R4GHI_UI_PRIVATE -AclObject $taskAcl; $result=Get-Acl -LiteralPath $env:POMS_R4GHI_UI_PRIVATE; if(-not $result.AreAccessRulesProtected){throw 'private ACL inheritance remained enabled'}";
-  execFileSync('powershell.exe', ['-NoProfile', '-NonInteractive', '-Command', script], { env: { ...process.env, POMS_R4GHI_UI_PRIVATE: directory }, windowsHide: true, stdio: 'pipe' });
-}
 function bindPlaywright(runtime) {
   readPinned(runtime.requireFromPackageJson, runtime.requireFromPackageJsonRawBytesSha256); const require = createRequire(runtime.requireFromPackageJson);
   const entry = require.resolve('@playwright/test'), packageFile = require.resolve('@playwright/test/package.json');
@@ -53,9 +45,9 @@ async function execute(plan, planFile, approvedBindingSHA256) {
   for (const item of plan.sourceBases) readPinned(path.join(fixed.windowsRoot, item.file), item.rawBytesSha256);
   assert.equal(SOURCE_BASE_SHA256, plan.browserCasesSourceBaseSHA256);
   const executable = plan.windows.browser.executablePath; assert(path.win32.isAbsolute(executable) && !executable.startsWith('/home/') && /(?:chrome|msedge)\.exe$/i.test(executable));
-  readPinned(executable, plan.windows.browser.rawBytesSha256); const version = fileVersion(executable);
+  readPinned(executable, plan.windows.browser.rawBytesSha256); const powershell22 = bindPowerShell22(plan.windows.powershell); createPrivateDirectory22(locations.windowsPrivate, powershell22); const version = fileVersion22(executable, powershell22, locations.windowsPrivate);
   assert.equal(version.ProductVersion, plan.windows.browser.productVersion); assert.equal(version.FileVersion, plan.windows.browser.fileVersion);
-  const { chromium, expect } = bindPlaywright(plan.windows.playwright); createPrivateDirectory(locations.windowsPrivate);
+  const { chromium, expect } = bindPlaywright(plan.windows.playwright);
   assert(typeof plan.linuxNodeExecutable === 'string' && plan.linuxNodeExecutable.startsWith('/'), 'Root must bind its actual existing Linux Node absolute path');
   const output = fs.openSync(path.join(locations.windowsPrivate, 'linux-stdout.log'), 'wx'), errorOutput = fs.openSync(path.join(locations.windowsPrivate, 'linux-stderr.log'), 'wx');
   const linuxEntry = `${fixed.linuxRoot}/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/runtime14/linux14.mjs`;
@@ -91,7 +83,7 @@ async function execute(plan, planFile, approvedBindingSHA256) {
       cases.push(result); await command('end', { index, result }); active = null;
     }
     for (const context of contexts) await context.close(); contexts.clear();
-    readPinned(executable, plan.windows.browser.rawBytesSha256); assert.deepEqual(fileVersion(executable), version);
+    readPinned(executable, plan.windows.browser.rawBytesSha256); assert.deepEqual(fileVersion22(executable, powershell22, locations.windowsPrivate), version);
     await command('finish', { windows });
   } catch (error) {
     writeNew(path.join(locations.windowsPrivate, 'windows-failure.log'), Buffer.from(error.stack || String(error)));
@@ -107,4 +99,4 @@ async function execute(plan, planFile, approvedBindingSHA256) {
   return done.report;
 }
 async function main() { const args = process.argv.slice(2); assert(args.length === 5 && args[0] === '--plan' && args[2] === '--approved-binding-sha' && args[4] === '--execute'); const report = await execute(readJson(args[1]), args[1], args[3]); console.log(JSON.stringify({ namespace: report.namespace, status: report.status, cases: report.cases.map(({ kind, status }) => ({ kind, status })), G3Certified: false })); if (!['passed', 'passed-bound-cases-only'].includes(report.status)) process.exitCode = 1; }
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) main().catch(() => { console.error('Windows runtime14 preflight/owned-worker failed; inspect task-private originals. No DOM success is claimed.'); process.exitCode = 1; });
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) main().catch(error => { emitFailure22(error); process.exitCode = 1; });

@@ -20,7 +20,18 @@ export function validateInput(input, bytes, approvedSHA256, kind) {
 }
 export function usedActorKeys(plan) {
   assert(Array.isArray(plan.cases) && Array.isArray(plan.writeActions));
-  const result = [...new Set([...plan.cases.map(item => item.actorKey), ...plan.writeActions.filter(item => item.targetOwnerActorKey).map(item => item.targetOwnerActorKey)])];
+  const participants = plan.writeActions.flatMap(item => {
+    if (!Object.hasOwn(item, 'participants')) return [];
+    assert(Array.isArray(item.participants)); return item.participants.map(row => row.actorKey);
+  });
+  let additional = [];
+  if (Object.hasOwn(plan, 'actorProofKeys')) {
+    assert.equal(plan.metadata16?.purpose, 'fixtures', 'Additional actor proofs are fixture metadata only, never DOM cases');
+    assert(Array.isArray(plan.actorProofKeys) && plan.actorProofKeys.length > 0 && plan.actorProofKeys.length <= 64);
+    assert.equal(new Set(plan.actorProofKeys).size, plan.actorProofKeys.length, 'Additional actor keys must be explicit and unique');
+    additional = plan.actorProofKeys;
+  }
+  const result = [...new Set([...plan.cases.map(item => item.actorKey), ...plan.writeActions.filter(item => item.targetOwnerActorKey).map(item => item.targetOwnerActorKey), ...participants, ...additional])];
   assert(result.length > 0 && result.every(key => typeof key === 'string' && /^[a-z][a-z0-9-]*$/.test(key)));
   return result;
 }

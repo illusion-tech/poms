@@ -1,0 +1,55 @@
+{
+  "kind": "author-minimal-restatement-readback78-mapping-repair-candidate",
+  "at": "2026-11-07T21:05:57.514539+00:00",
+  "files": [
+    {
+      "file": "tools/rust-r4ghi/readback77-prior78.json",
+      "beforeSHA256": null,
+      "afterSHA256": "53542e31bd84c427c5884f8d3c972bb3c09539a8ed7773c77edb67ec2535e4cc",
+      "candidate": "candidate/tools/rust-r4ghi/readback77-prior78.json"
+    },
+    {
+      "file": "tools/rust-r4ghi/verify-restatement-reads78.mjs",
+      "beforeSHA256": null,
+      "afterSHA256": "2070565942057f78dedc7f8e26e0cf951e46b1adaa33b1a3bd87ce9a68803870",
+      "candidate": "candidate/tools/rust-r4ghi/verify-restatement-reads78.mjs"
+    }
+  ],
+  "existing77ToolSHA256": "642a8c5e9d250b0837d0ec5667ded942158b0a13220217b13eafaef780a9edcf",
+  "partial77SHA256": "8e57115008b122e7dc3e78087fc8916aa5cac0fc9e55262f23fa9c4f6d0d8785",
+  "producer003079SHA256": "360ff7f813c05dae0ef2f21d2351c7c4bc9130e377428605868dc07ca67c6eac",
+  "sourcePins": [
+    {
+      "file": "apps/poms-api-rust/src/project_operating/view.rs",
+      "rawSHA256": "310aea4bc44e0f600316e5cc0f5a6fc7b8e9c9305a025f30603478b35480d2e9"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_operating/service.rs",
+      "rawSHA256": "8e7a18f8349a5b9545ae9fde56ec4a11668338de7b2f9580d30a2e80ccb7599c"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_operating/store.rs",
+      "rawSHA256": "13850ed78ab5e2619becc91311afdd8eff415adcf3ff30b7b8272868d75382bb"
+    }
+  ],
+  "defects": [
+    "operating_restatement_record has no source_context_id; resolve through restated_snapshot_id->snapshot.source_context_id->context.id",
+    "operating_restatement_record has no source_hash; API sourceHash comes from successor snapshot.source_hash, equal record.after_source_hash; sourcePayloadHash from context.payload_hash"
+  ],
+  "scope": "Reverify exact prior77 two successful list GETs and first successful detail raw bytes with fixed mapping, then Root performs only two remaining actual detail GETs. New source is read API135, producer remains API134.",
+  "FSOnlyVerification": {
+    "actualFrozenRowsJoined": 3,
+    "priorListsVerified": 2,
+    "priorDetailVerified": 1,
+    "remainingDetailGETs": 2,
+    "proof": "source-map-proof78.json",
+    "priorInputSHA256": "53542e31bd84c427c5884f8d3c972bb3c09539a8ed7773c77edb67ec2535e4cc"
+  },
+  "node24SyntaxExit0": true,
+  "old77AndProducerAndPartialRewritten": false,
+  "RootToolOrProductWritten": false,
+  "SQLExecutedByAuthor": false,
+  "HTTPExecutedByAuthor": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

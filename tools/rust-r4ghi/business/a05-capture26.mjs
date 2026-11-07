@@ -7,6 +7,7 @@ import { loadSnapshot } from './snapshot.mjs';
 import { assertSweepRollback } from './fault-sweep.mjs';
 import { requireOwnedScope } from './required-write-inventory.mjs';
 import { actualReceipt26 } from './a05-finance26.mjs';
+import { freshOverflowInput59 } from './a05-overflow-guards59.mjs';
 
 const mutable = ['project_operating_head', 'operating_baseline_package', 'project_operating_snapshot', 'project_cost_inclusion_head', 'project_actual_cost_record'];
 export async function prepareSnapshotBody26(ctx, api) {
@@ -49,25 +50,42 @@ export async function publishBoundary26(ctx, api, scenario) {
     actualPublishedSnapshot: true, preparationWasNotCountedAsSnapshot: true, actualHReloadProducedFourBindings: true, independentProject: true, businessFixturesSQL: false });
   f.a05SnapshotHTTP.proofPending = false; f.a05SnapshotHTTP.proof = proof; f.operatingComplete = true; ctx.persist(); return { kind: 'actual-A05-published-boundary', snapshotId: id, proof };
 }
-export async function overflowBoundary26(ctx, api) {
+export async function overflowBoundary26(ctx, api, { preparationExpectedStatus = 200 } = {}) {
   const f = ctx.state.fixtures; assert(f.operatingComplete && f.a05SnapshotHTTP.proof && f.a05SnapshotHTTP.proofPending === false);
   f.a05Overflow26 ??= {}; const state = f.a05Overflow26;
   if (state.proof) return { kind: 'actual-A05-atomic-capacity-rejection', proof: state.proof, noCommandReplay: true };
-  assert(!state.failedAttempt, 'Inspect the original overflow response/rollback proof before any retry');
+  assert([200, 422].includes(preparationExpectedStatus), 'Root must choose one exact expected public preparation status, never widen a command success');
+  assert(!state.failedAttempt && !state.freshCaptureAttempt59, 'Inspect the original response/rollback proof before any retry');
   // Save a genuine next-version body before adding the lawful second receipt.
   // Its key differs from the already committed first snapshot, so it cannot be
   // mistaken for that snapshot's idempotent response. No input hash is minted.
   if (!state.input) { state.input = await prepareSnapshotBody26(ctx, api); assert.notEqual(state.input.body.expectedInputHash, f.a05SnapshotInput.body.expectedInputHash); ctx.persist(); }
   state.extraCash ??= {}; ctx.persist();
   await actualReceipt26(ctx, api, state.extraCash, '0.01', { net: '0.01', tax: '0.00', rate: '0.0000' });
-  const response = await api.request('ProjectCostController_createProjectOperatingSnapshot', {}, state.input.body, 'manager', { expectedStatus: 422, mutableTables: mutable });
-  state.failedAttempt = { receipt: response.receiptId, before: response.before, after: response.after, proofPending: true }; ctx.persist();
+  // A prior receipt changes the pre-effect source hash. Preserve the old body
+  // and any real409; a fresh body must come from the public server preparation.
+  let response, rejectionLayer;
+  if (preparationExpectedStatus === 422) {
+    rejectionLayer = 'public-preparation';
+    response = await api.request('ProjectCostController_getProjectUnifiedAccounting', { projectId: f.project.id }, null, 'manager', {
+      expectedStatus: 422, query: { view: 'preparation', intent: 'snapshot-create', snapshotMode: 'realtime' } });
+  } else {
+    if (!state.freshInput) { state.freshInput = freshOverflowInput59(state.input, await prepareSnapshotBody26(ctx, api)); ctx.persist(); }
+    rejectionLayer = 'snapshot-command';
+    state.freshCaptureAttempt59 = { phase: 'starting', publicPreparationReceipt: state.freshInput.receipt }; ctx.persist();
+    response = await api.request('ProjectCostController_createProjectOperatingSnapshot', {}, state.freshInput.body, 'manager', { expectedStatus: 422, mutableTables: mutable });
+    state.freshCaptureAttempt59.phase = 'response-proof-pending';
+  }
+  state.failedAttempt = { receipt: response.receiptId, before: response.before, after: response.after, rejectionLayer, proofPending: true }; ctx.persist();
   const error = data(response); assert.equal(error.code, 'operating_money_capacity_exceeded');
   const before = loadSnapshot(ctx, response.before), after = loadSnapshot(ctx, response.after);
   const sessionId = requireOwnedScope(ctx, before, { projectId: f.project.id, actorId: ctx.state.actors.manager.id, actorKey: 'manager' });
   const rollback = assertSweepRollback(ctx, before, after, { sessionId }, ctx.state.actors.manager.id);
   state.proof = ctx.artifact(`${ctx.next('a05-atomic-capacity422')}.json`, { receipt: response.receiptId, before: response.before, after: response.after, rollback,
     actualExtraReceipt: state.extraCash, aggregateCategory: 'confirmed cash gross/net', expectedAggregate: '10000000000000000.00', code: error.code,
-    earlierPublishedMAXSnapshotStillImmutable: true, businessDatabaseWritesByRejectedCapture: 0, aggregateOrEvidenceInsertsCommitted: 0, staleHashWasNotSubstitutedWithLocalHash: true });
-  state.failedAttempt.proofPending = false; ctx.persist(); return { kind: 'actual-A05-atomic-capacity-rejection', proof: state.proof };
+    rejectionLayer, commandCapacity422Certified: rejectionLayer === 'snapshot-command', publicPreparationCapacity422Certified: rejectionLayer === 'public-preparation',
+    priorStaleHash409: state.staleAttempt59 ?? null, freshPublicPreparation: state.freshInput ?? null,
+    earlierPublishedMAXSnapshotStillImmutable: true, businessDatabaseWritesByRejectedRequest: 0, aggregateOrEvidenceInsertsCommitted: 0, staleHashWasNotSubstitutedWithLocalHash: true });
+  state.failedAttempt.proofPending = false; if (state.freshCaptureAttempt59) state.freshCaptureAttempt59.phase = 'verified';
+  ctx.persist(); return { kind: 'actual-A05-atomic-capacity-rejection', rejectionLayer, proof: state.proof };
 }

@@ -42,4 +42,6 @@
 
 34. 真实非空更正验收在21项实际故障回滚后被 classification evidence changed 拒绝，见 [消费版本纠偏54](g2-consumed-evidence-corrective54.md)。首次纳入的不可变 decision 保留原始输入与最终 sourceRef，继承证据必须通过该已封消费桥再进入 exact producer transition；完整分摊替代还需真实 SourceSnapshot 映射与正确 basis/result proof，各项目自动分类证据只取其实际 catalog 成员。最终写入的 primary context 与 source rows 使用 producer/分类完成后的真实 knowledge_cutoff，避免漏掉本事务新来源；原业务窗口、business cutoff及pre-effect hash校验不改。旧decision、snapshot和完整跨项目因果证据不回写或丢弃，不按ID盲刷版本/hash，不放宽最终证据校验。原source10已通过53封存，后续新候选须显式保留数据准入并独立重验，不能重绑定原epoch或拼凑旧partial为通过。公共契约、M97/139、阈值和金额口径不变。
 
+35. 新主责的空/原样更新不得因最后修改人不同而成为业务更新，见 [无变化更新纠偏61](g2-project-metadata-noop61.md)。仅实际业务字段 dirty 时归因 updated_by；无变化保持真实持久字段、版本、时间和业务审计，托管认证刷新仍按原事务规则处理。API134/source11已70留存；后续新候选显式准入并补不同actor的真实HTTP，不把旧同actor测试扩大为通过。
+
 共享 TS/DTO、Rust、Native 明确参考拒绝、OpenAPI/client、最小 UI 与真实验收须消费上述同一 delta。验证补充：基线 receipt NULL/非基线必要评价原子性；第二次分类及竞态；选择真实纠正来源后的完整 prepare/write hash；跨项目新 ID/期间目标可由真实界面构造；全局 head 与四阶段 binding 一致；stored review 不能越过验证。未执行项保持 planned，不把纯模型/候选编译升为真实 PG/HTTP/UI 通过。

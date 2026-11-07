@@ -340,7 +340,6 @@ impl ProjectUpdate {
             || self.owner_user_id.is_some()
             || self.owner_org_id.is_some()
             || self.planned_sign_at.is_some()
-            || self.updated_by.is_some()
     }
 }
 
@@ -427,4 +426,67 @@ pub async fn insert_reassignment(
         .bind(input.new_owner_org_id).bind(input.new_owner_user_id).bind(&input.reason).bind(input.at).bind(input.operator_id)
         .execute(connection).await?;
     Ok(())
+}
+
+#[cfg(test)]
+mod metadata_update_tests {
+    use super::*;
+
+    #[test]
+    fn updater_attribution_alone_is_not_a_business_change() {
+        let new_owner = Uuid::from_u128(2);
+        assert!(!ProjectUpdate::default().is_dirty());
+        assert!(
+            !ProjectUpdate {
+                updated_by: Some(Some(new_owner)),
+                ..Default::default()
+            }
+            .is_dirty()
+        );
+        assert!(
+            !ProjectUpdate {
+                updated_by: Some(None),
+                ..Default::default()
+            }
+            .is_dirty()
+        );
+    }
+
+    #[test]
+    fn actual_field_changes_still_require_a_versioned_write() {
+        let owner = Uuid::from_u128(2);
+        let changes = [
+            ProjectUpdate {
+                project_name: Some("Changed project name".into()),
+                ..Default::default()
+            },
+            ProjectUpdate {
+                customer_id: Some(None),
+                ..Default::default()
+            },
+            ProjectUpdate {
+                customer_name: Some(None),
+                ..Default::default()
+            },
+            ProjectUpdate {
+                customer_project_no: Some(None),
+                ..Default::default()
+            },
+            ProjectUpdate {
+                owner_user_id: Some(Some(owner)),
+                ..Default::default()
+            },
+            ProjectUpdate {
+                owner_org_id: Some(Some(owner)),
+                ..Default::default()
+            },
+            ProjectUpdate {
+                planned_sign_at: Some(None),
+                ..Default::default()
+            },
+        ];
+        for change in changes {
+            assert!(change.is_dirty());
+        }
+    }
 }

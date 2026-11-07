@@ -22,6 +22,7 @@ export function ownedFile(file) {
 }
 const directFiles = ['docs/design/rust-r4ghi/acceptance-plan01.json', 'docs/design/rust-r4ghi/operation-map01.json',
   'docs/design/rust-r4ghi/g2-consumed-evidence-corrective54.md',
+  'docs/design/rust-r4ghi/g2-project-metadata-noop61.md',
   'docs/design/rust-r4ghi/g1-online01.json', 'docs/design/rust-r4ghi/g2-corrective01.md',
   'docs/design/rust-r4ghi/g2-public-delta01.json', 'docs/design/rust-r4ghi/g2-public-delta02.json',
   'docs/design/rust-r4ghi/g2-public-delta03.json', 'docs/design/rust-r4ghi/user-decision-org-create04.json',

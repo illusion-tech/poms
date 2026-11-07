@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
+import { validateRegistryLineage62, entrySource62 } from './registry-lineage62.mjs';
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 export const CONSUMER_OBSERVER_FIELDS54 = Object.freeze(['UICommandObserved', 'UICommandObserverReceipt', 'UICommandResponseOriginal', 'UICommandOperationId']);
 export function producerProjection54(record) { return Object.fromEntries(Object.entries(record).filter(([key]) => !CONSUMER_OBSERVER_FIELDS54.includes(key))); }
@@ -82,9 +83,11 @@ export function assertAdmittedContext54(ctx, { liveProcess = false, sourceFiles 
   const digest = sha(JSON.stringify(ctx.pins)); assert.equal(digest, registry.consumer.sourcePinsSHA256); assert.deepEqual(ctx.state.sourcePins, ctx.pins);
   const pins = JSON.parse(readPin54(registry.consumer.sourcePins)); assert.deepEqual(pins, ctx.pins);
   assert(pins.some(pin => pin.file === 'docs/design/rust-r4ghi/g2-consumed-evidence-corrective54.md'), 'Consumer correction54 must be a real source pin');
+  if (pins.some(pin => pin.file === 'docs/design/rust-r4ghi/g2-project-metadata-noop61.md')) assert.equal(registry.schemaVersion, 2, 'A chained retained consumer requires explicit schema2, never an old one-hop relabel');
   if (sourceFiles) for (const pin of pins) { assert(!path.isAbsolute(pin.file) && !pin.file.split('/').includes('..')); assert.equal(sha(fs.readFileSync(`${ctx.win}/${pin.file}`)), pin.sha256); }
   const currentProcess = apiProcess54(ctx, registry.consumer.apiProcess, liveProcess); assert.equal(currentProcess.binarySha256, registry.consumer.binarySHA256);
   readPin54(registry.retentionIndex); readPin54(registry.producerState); readPin54(registry.retainedSnapshot);
+  if (registry.schemaVersion === 2) validateRegistryLineage62(ctx, registry);
   return registry;
 }
 export function assertAdmittedFixtureSource(ctx, { registryPath, record, projectIds, producerReceipt = null }) {
@@ -105,13 +108,15 @@ export function assertAdmittedFixtureSource(ctx, { registryPath, record, project
   assert(projectIds.every(id => entry.projectIds.includes(id)), 'Requested project is outside this exact old producer fixture');
   for (const identity of entry.identity) assert.deepEqual(pointer54(record, identity.path), identity.value, `Original resource identity changed: ${identity.path}`);
   if (entry.mode === 'immutable-ui-producer' || entry.mode === 'legacy-compatibility') assert.equal(sha(JSON.stringify(producerProjection54(record))), entry.producerProjectionSHA256, 'Old producer facts changed outside the four explicit UI observer fields');
-  if (record.sourcePinsSHA256 !== undefined) assert.equal(record.sourcePinsSHA256, registry.producer.sourcePinsSHA256, 'Old source label must remain its real producer source');
+  const birthSource = entrySource62(registry, entry);
+  if (record.sourcePinsSHA256 !== undefined) assert.equal(record.sourcePinsSHA256, birthSource.sourcePinsSHA256, 'Old source label must remain its real birth producer source');
   if (producerReceipt) {
     assert(entry.receipts.some(pin => pin.file === producerReceipt.file && pin.rawBytesSha256 === producerReceipt.rawBytesSha256), 'Only the exact pinned producer receipt is admitted'); readPin54(producerReceipt);
   }
   assert(entry.mode !== 'legacy-compatibility' || producerReceipt, 'Legacy compatibility requires its exact real seed receipt');
-  return { registryPath, producerEpoch: registry.producer.epoch, consumerEpoch: registry.consumer.epoch, producerSourcePinsSHA256: registry.producer.sourcePinsSHA256,
-    consumerSourcePinsSHA256: registry.consumer.sourcePinsSHA256, retainedProducerOnly: true };
+  return { registryPath, producerEpoch: birthSource.epoch, consumerEpoch: registry.consumer.epoch, producerSourcePinsSHA256: birthSource.sourcePinsSHA256,
+    consumerSourcePinsSHA256: registry.consumer.sourcePinsSHA256, retainedProducerOnly: true,
+    ...(registry.schemaVersion === 2 ? { retainedAtEpoch: entry.retainedAt.epoch, retainedAtSourcePinsSHA256: entry.retainedAt.sourcePinsSHA256 } : {}) };
 }
 export function readAdmittedConsumerContext({ statePin }) {
   assert.equal(process.platform, 'linux'); const privateRoot = '/home/wangzishi/.local/share/poms-r4ghi/private', win = '/mnt/e/projects/worktrees/poms-r3hijk-next28/poms';
