@@ -1,0 +1,75 @@
+import { createHash } from 'node:crypto';
+import type { NavigationItem, NavigationSyncSummary, PermissionKey } from '@poms/shared-contracts';
+import { Injectable } from '@nestjs/common';
+import { NAVIGATION_TREE } from './navigation.constants';
+
+@Injectable()
+export class NavigationService {
+    getNavigationForUser(userPermissions: PermissionKey[]): NavigationItem[] {
+        return this.#filterTree(NAVIGATION_TREE, userPermissions);
+    }
+
+    getAllNavigationItems(): NavigationItem[] {
+        return NAVIGATION_TREE;
+    }
+
+    getNavigationAuditSnapshot(): NavigationSyncSummary {
+        const flattened = this.#flattenTree(NAVIGATION_TREE);
+        const routeLinks = flattened
+            .map((item) => item.link)
+            .filter((link): link is string => typeof link === 'string' && link.length > 0);
+        const navigationKeys = flattened.map((item) => item.key);
+        const hiddenCount = flattened.filter((item) => item.isHidden).length;
+        const disabledCount = flattened.filter((item) => item.isDisabled).length;
+        const treeChecksum = createHash('sha256')
+            .update(
+                JSON.stringify({
+                    navigationKeys,
+                    routeLinks,
+                    hiddenCount,
+                    disabledCount
+                })
+            )
+            .digest('hex');
+
+        return {
+            targetId: 'platform-navigation',
+            nodeCount: flattened.length,
+            routeCount: routeLinks.length,
+            hiddenCount,
+            disabledCount,
+            treeChecksum,
+            navigationKeys,
+            routeLinks
+        };
+    }
+
+    #filterTree(items: NavigationItem[], userPermissions: PermissionKey[]): NavigationItem[] {
+        const result: NavigationItem[] = [];
+
+        for (const item of items) {
+            if (item.isHidden) continue;
+
+            const canSee = item.requiredPermissions === null || item.requiredPermissions.every((p) => userPermissions.includes(p));
+
+            if (!canSee) continue;
+
+            const filteredItem: NavigationItem = { ...item };
+
+            if (item.children && item.children.length > 0) {
+                const visibleChildren = this.#filterTree(item.children, userPermissions);
+                // 信息架构容器如果子项全被过滤掉，则隐藏该容器。
+                if ((item.type === 'group' || item.type === 'collapsable') && visibleChildren.length === 0) continue;
+                filteredItem.children = visibleChildren.length > 0 ? visibleChildren : null;
+            }
+
+            result.push(filteredItem);
+        }
+
+        return result.sort((a, b) => a.displayOrder - b.displayOrder);
+    }
+
+    #flattenTree(items: NavigationItem[]): NavigationItem[] {
+        return items.flatMap((item) => [item, ...(item.children ? this.#flattenTree(item.children) : [])]);
+    }
+}
