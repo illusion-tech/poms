@@ -1,0 +1,26 @@
+# R4 GHI 实现纠偏 01
+
+来源是已冻结候选 `9e010077e3010ff09447e9d77cb1bf1f7adbf68d`、独立 G1 和实际线上冻结；不改写其原件。本记录是 G2 实现中发现的具体缺口，作为本批独立 G3 的必审输入；G3/G4 尚未通过。当前批准范围仍为 G9/H8/I11/R5最小4共32项，新HTTP仍3，不增加部署或切流范围。
+
+1. 基线启用只产生真实基线来源，不产生 H 评价。`operating_command_receipt.evaluation_hash` 对该操作必须 NULL，对其余 G 命令必须为真实非 NULL 评价哈希；不用请求哈希或内部标记假扮评价。以 `g2-corrective01.sql` 追加到本批唯一 forward migration，保留冻结 SQL。
+2. `CostDecisionInput.expectedVersion` 核对公开的当前不可变 decision ref 的 rowVersion（没有则0）；前置 expectedInputHash 同时绑定真实 classification head/ref，写入在同一锁内对真实 head row_version 和 decision_id 作私有 CAS。客户端不需猜一个没有公开的 head 版本，不降低并发保护。
+3. 重述需要准备与执行采用同一实际影响闭包。既有 preparation GET 增加可选 `correctionSourceRefs` query：JSON 编码的 exact ExpectedRef 数组，表示用户选中的原真实纠正来源。内部 Restatement intent 增加同义 `correction_source_refs`；服务端验证其真实版本/hash并发现全部影响项目/终端。为空时是无显式 producer 纠正的 late-facts 模式，依据完整当前来源与原 context 的差异发现闭包。执行从四组真实纠正请求提取原 refs，重新发现、锁定并核同一前置哈希，不能忽略 affectedProjects 或猜新 ID。
+4. `OperatingPreparation` 增加 required `proposedAffectedTargets: AffectedRestatementTarget[]`：可执行重述返回完整真实终端、项目/版本及期间 ref，供客户端构造 affectedTargets；非重述为空数组。分类继续消费真实既有 explicit decision 或用户显式决定，不生成虚拟金额/来源。对无完整权限的影响集合整体拒绝，不暴露无权限项目详情。
+5. producer 产生新 source/result ID 后，仅沿 `VerifiedProducerTransition` 继承其真实前驱的 include/exclude/recognitionRole，追加新 decision、前驱/证据及纠正原因；included 不重置。阶段、税务、币种、期间和 hard eligibility 仍逐项复核，失效则受控显式处理或整命令回滚。
+6. G 在同一外层事务先 CAS 实际选定 head，再调用 H evaluate。每份 snapshot 仍产生四阶段 binding/真实摘要；只有该 snapshot 是真实 current head 时才替代全局 active，历史期间 binding 保存为 superseded。补关期末是否选择 live current 尚待本聊天用户裁决；该依赖部分不作提前发布，其他实现继续。
+7. 人工复核的持久化 payload 仅反序列化为 `StoredMaterialityReview` 数据；H 复核实际 producer row、来源、policy、evidence 与 overlay hash 后才构造私有 verified proof。不能将请求或任意 JSON 直接反序列化为 authority。金额精度拒绝码使用冻结的 `operating_money_precision_unsupported`。
+8. 独审 G2S-01 指出旧缺 ownerOrg 的 owner 不能被提升为 FullProject。新增精确 `LegacyOwnerAnchorView` 第三 union 分支与同名窄 proof，只允许既有 ProjectDetail 的基础信息读取；经营/提成/I列表和写入不接受该资格。真实独立 Part 仍按其验证链判定。响应无金融、父证据或可执行动作，不伪装 creator/full、不填假字段。
+9. 独审 G2S-02 指出有限 schema 漏掉 `not`，已补精确处理及 `completed + completionConditions` 结构反例。重述前置白名单同时补充 `businessScope.correctionSourceRefs` 为确定性有序的真实原 ref 集合；准备与执行共用该定义，金额/人工结论不因该字段成为输入权威。
+10. 分类纠正的根使用真实 `ProjectCostInclusionDecision` 当前 ref，闭包只涉及其实际项目终端；不把它伪装为 F 跨项目 producer 纠正。相同的完整分类输入是现状断言，不生成额外纠正根。来源版本已前进时走真实 late-facts 差异发现。
+11. 历史期间重述复用已验证的原期间基线、来源成员和获批变更链，不用未来 live 预算覆盖，也不回退 live 基线。若业务需要没有真实定期 producer 支撑的历史预算调整，返回 `period_baseline_reconciliation_required`，等待明确业务处理。正常期末是否选择当前经营依据仍待用户裁决。
+12. 尚未纳入且从无阶段确认或分摊消费的成本，可以追加首次真实阶段事实；既有快照继续保持其原来的待复核状态。首次税务依据及费用确认同样只追加真实事实，不自动纳入、不改写既有快照。已识别或已有阶段的事实纠正仍须完整原子重述。
+13. 移交确认后的授权验证固定基线、原确认摘要与真实职责，不因后续上传交付附件而撤销已确认职责。业务准入继续核对当前有效合同、计划及原固定附件的真实 ID、版本、校验值和安全级别；不自动扩张到新附件组。确认前的草稿仍须完整 live freshness 校验。
+14. F 的 `project-stage-record` 来源消费真实 I 不可变 ledger，以 `sequence_no` 作为来源版本、`entered_at` 作为发生时间。G 是完整 factual payload/hash 的唯一实现，区别于 ledger 内嵌 transition payload 的完整性哈希；不虚构 row_version，也不从当前阶段倒推历史。
+15. 普通回款确认与缺依据的历史回款认证在同一外层事务冻结真实合同条款、币种来源和精确净税拆分，必要写入及审计任一失败整体回滚。新条款激活从已核验 preparation 冻结 currency_code，历史 NULL 保留。含税现金以整数分精确反算净额并显式 HALF_UP 到分，税额取守恒差额。`Attachment` 证据的 ExpectedRef.payloadHash 复用 G 唯一 factual hash，内容 SHA-256 校验值作为独立证据字段保留；同时核对实际 row_version、真实项目/合同链接与密级，不把客户端提交的说明当作税务事实。
+16. D 既有七项入口统一在读取材料或写入前消费真实 Scope：三项读取仅 FullProject；准备只认当前主责；本人确认核对真实参与职责；最终确认与再基线化只认当前主责或真实 business-admin。CreatorBootstrap、LegacyOwnerAnchor 和 OwnCondition 不能借移交读取升级为全量项目范围。
+17. 非作者复核发现移交再基线化遗漏阶段前序：仍在移交且未冻结角色时，新移交须追加真实 `handover -> handover` ledger，承接新 h/basis/摘要；复用替换前已验证的 Prepare/Rebaseline proof，并核对同 actor、session、物理事务和项目版本，合法 business-admin 不误走仅主责 Prepare 授权。角色已冻结时，普通重新准备及再基线化均在关闭旧事实前返回 `commission_frozen_change_requires_dispute`；执行及以后返回 `project_stage_requalification_required`。不自动撤销冻结、回退阶段或补造历史。正式 D 候选及完整 R5 规则将冻结后争议、替代冻结与执行变更留在 #116；本批不扩为完整 R5。
+18. 非作者复核发现既有附件及 timeline/guidance 入口会绕过新 OwnCondition 最小范围。项目/合同附件的普通读取、列表、history、center、summary.links 与写入均须核对真实 FullProject；本人任务只允许精确冻结引用及本人条件的新上传证据。现有上传协议没有条件上下文，故在既有 create-upload-session 请求增加可选严格 `completionConditionContext { completionRecordId, conditionId }`，仅用于 `create-attachment + targetType=project`；不新增 HTTP 操作。服务器在真实同事务 Scope 核验后创建 purpose binding；以追加 migration96 的三项专用上传会话字段和真实父子项目复合 FK 保存，不用说明文本或 audit JSON 充当权限事实。旧会话 version0/NULL 保留，绑定创建后不可改写。续传/完成须重验当前本人未关闭条件、actor 与实际父子链；精确回读仅限其已冻引用或该用途实际产生的本人文件/链接，并继续核对实时分类。不得借此关联他人任意附件、全项目列举或扩成普通新版本写入。审计与必要身份写入仍同提交边界。Native 对新上下文明确422，普通业务差异单列；SQL/ORM/DTO/客户端/UI和真实安全反例尚须独立验收。
+19. 非作者实际纯探针发现 UTC datetime 的 chrono 宽容解析超出冻结正则。有限 schema 校验现按真实 ASCII 日期、literal T/Z、时分秒及小数秒语法加日历校验；空格、小写 t、闰秒60、错误闰年和偏移量变体均拒绝，完整完成请求正负例纳入回归。日期、月及 ISO 周也不得由符号或空格绕过形状约束。独立重跑15项纯断言通过，仍须整 crate/HTTP 验证。
+20. 新 producer 不能写入创建后即不可操作的责任链。新个人项目须锁定有效 ownerOrg、有效真实 owner 及该组织的 active primary/secondary M；新组织项目须有效 creator 在继承 ownerOrg 的实际 M，以便唯一创建人能够首次指派。线索转换再次核对真实已转换线索的 owner/org/convertedProject/convertedBy，不从角色名或缓存主组织推断资格。缺失或撤销时返回明确业务错误并回滚项目、线索转换、origin、审计及必要身份写入；既有独立业务号预留仍按已接受的留号合同保留可能的号段间隙，不伪称计数器整体回滚。旧 missing-org 历史继续只读最小锚，不回填。
+
+共享 TS/DTO、Rust、Native 明确参考拒绝、OpenAPI/client、最小 UI 与真实验收须消费上述同一 delta。验证补充：基线 receipt NULL/非基线必要评价原子性；第二次分类及竞态；选择真实纠正来源后的完整 prepare/write hash；跨项目新 ID/期间目标可由真实界面构造；全局 head 与四阶段 binding 一致；stored review 不能越过验证。未执行项保持 planned，不把纯模型/候选编译升为真实 PG/HTTP/UI 通过。

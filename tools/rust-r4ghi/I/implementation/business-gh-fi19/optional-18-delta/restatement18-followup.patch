@@ -1,0 +1,42 @@
+--- a/tools/rust-r4ghi/business/restatement.mjs
++++ b/tools/rust-r4ghi/business/restatement.mjs
+@@ -2,7 +2,7 @@
+ import fs from 'node:fs';
+ import assert from 'node:assert/strict';
+ import { data, uuid, sha, keyOf } from './pure.mjs';
+-import { expectedRef } from './handover.mjs';
++import { prepareLiveRestatementBody } from './gh-restatement-preparation.mjs';
+ import { expenseDecisions } from './operating.mjs';
+ import { loadSnapshot, readRows, difference } from './snapshot.mjs';
+ import { assertFrozenPreserved, assertLateSource, assertLateCostDelta, completeLiveTargets } from './restatement-assertions.mjs';
+@@ -55,12 +55,12 @@
+   }
+   state.cost = await call('ProjectCostController_getProjectActualCostRecordDetail', { id: uuid(state.actualCostCommand.targetId) }); ctx.persist();
+   if (!state.stage) {
+-    const stages = await ctx.db(async c => (await c.query("SELECT id::text,sequence_no,to_stage,timezone('Asia/Hong_Kong',entered_at)::date::text day FROM poms.project_stage_record WHERE id=$1::uuid AND project_id=$2::uuid", [f.execution.projectStageRecordId, f.project.id])).rows);
+-    assert.equal(stages.length, 1); const stage = stages[0]; assert.equal(stage.to_stage, 'execution'); assert.equal(stage.day, f.costBusinessDate);
++    const stages = await ctx.db(async c => (await c.query("SELECT id::text,sequence_no,to_stage,timezone('Asia/Hong_Kong',entered_at)::date::text AS business_date FROM poms.project_stage_record WHERE id=$1::uuid AND project_id=$2::uuid", [f.execution.projectStageRecordId, f.project.id])).rows);
++    assert.equal(stages.length, 1); const stage = stages[0]; assert.equal(stage.to_stage, 'execution'); assert.equal(stage.business_date, f.costBusinessDate);
+     assert(Number.isSafeInteger(stage.sequence_no) && stage.sequence_no > 0);
+     state.stage = await call('ProjectCostController_confirmCostStageAttribution', { id: state.cost.id }, { stageAttributionMode: 'auto', attributedStage: 'execution', expectedVersion: rv(state.cost),
+       attributionSummary: '真实晚到同日费用沿实际执行ledger确认，不从mutable当前阶段猜区间。', attributionEvidence: { kind: 'source', sourceType: 'project-stage-record', sourceId: stage.id,
+-        sourceVersion: stage.sequence_no, businessDate: stage.day, reason: '确切ledger sequence_no/entered_at，只证明同一业务日milestone。' } },
++        sourceVersion: stage.sequence_no, businessDate: stage.business_date, reason: '确切ledger sequence_no/entered_at，只证明同一业务日milestone。' } },
+       { responseBirths: [{ table: 'cost_stage_attribution_snapshot', pointer: '/targetId' }], mutableTables: ['project_actual_cost_record'], updatedAnchors: [{ table: 'project_actual_cost_record', id: state.cost.id, requestBinding: 'path:id' }] }); ctx.persist();
+   }
+   const costs = await ctx.db(async c => (await c.query('SELECT id::text,project_id::text "projectId",source_type "sourceType",source_id::text "sourceId",occurred_on::text "businessDate",created_at "createdAt",currency,amount_excluding_tax::text "amountExcludingTax",tax_cost_amount::text "taxCostAmount",amount_including_tax::text "amountIncludingTax" FROM poms.project_actual_cost_record WHERE id=$1::uuid', [state.cost.id])).rows);
+@@ -150,12 +150,13 @@
+       expectedInputHash: preparation.expectedInputHash, assertions: null, scope: 'live', periodEndSnapshotRef: null, restatesSnapshotRef: targets.primary.restatesSnapshotRef,
+       restatementReason: '原不可变快照之后实际生产同业务日费用及真实E/F来源，显式纳入受控晚到事实重述。', restatementSummary: '保留原快照、上下文与来源集合；新快照、重述及H评价由服务器同事务生成。',
+       costDecisions, laborCorrections: [], allocationCorrections: [], affectedTargets: others, acknowledgedChangedSourceRefs: [], stageCorrections: [], taxCorrections: [] };
++    state.preEffectPreparation = await prepareLiveRestatementBody(ctx, api, body); ctx.persist();
+     if (!state.invalidHashBlocked) {
+       const bad = structuredClone(body); bad.restatesSnapshotRef.payloadHash = (bad.restatesSnapshotRef.payloadHash[0] === '0' ? '1' : '0') + bad.restatesSnapshotRef.payloadHash.slice(1);
+       const rejected = await call(op, {}, bad, { expectedStatus: 409 }); unchangedBusinessRetry(ctx, rejected); state.invalidHashBlocked = rejected.receiptId; ctx.persist();
+     }
+     const response = await call(op, {}, body, { responseBirths: [{ table: 'operating_restatement_record', pointer: '/targetId' }, { table: 'project_operating_snapshot', pointer: '/snapshotId' }],
+-      mutableTables: ['project_operating_head', 'project_operating_snapshot', 'project_cost_inclusion_head', 'project_actual_cost_record'],
++      mutableTables: ['project_operating_head', 'project_operating_snapshot', 'project_cost_inclusion_head', 'project_actual_cost_record', 'operating_signal_gate_binding', 'commission_gate_review_record'],
+       updatedAnchors: [{ table: 'project_operating_snapshot', id: original.snapshotId, requestBinding: 'body:/restatesSnapshotRef/id' }] });
+     state.command = data(response); state.atomicInput = ctx.artifact(`${ctx.next('restatement-attempt')}.json`, { before: response.before, after: response.after, requestId: response.requestId, body: state.command, receiptId: response.receiptId }); state.commandBody = ctx.artifact(`${ctx.next('restatement-command')}.json`, body); state.commandReceipt = response.receiptId; ctx.persist();
+     state.transaction = ctx.artifact(`${ctx.next('restatement-atomic')}.json`, atomicRestatement(ctx, response), { kind: 'actual-restatement-G-H-audit-receipt-common-transaction', actualXminBound: true }); ctx.persist();

@@ -71,6 +71,11 @@ impl Entity {
         if table.versioned() {
             data["row_version"] = json!(1);
         }
+        if table == Table::Session {
+            data["project_scope_context_version"] = json!(0);
+            data["completion_record_id"] = Value::Null;
+            data["completion_condition_id"] = Value::Null;
+        }
         Self {
             table,
             data,
@@ -482,7 +487,7 @@ fn columns(table: Table) -> &'static str {
             "id attachment_id target_type target_id relation_type status linked_by linked_at unlinked_by unlinked_at"
         }
         Table::Session => {
-            "id operation_type status upload_mode provider_type storage_bucket storage_key target_type target_id base_attachment_id completed_attachment_id original_name display_name extension mime_type size_bytes max_size_bytes checksum_sha256 category security_level relation_type description change_note expires_at uploaded_at completed_at aborted_at failed_reason row_version created_at created_by updated_at"
+            "id operation_type status upload_mode provider_type storage_bucket storage_key target_type target_id base_attachment_id completed_attachment_id original_name display_name extension mime_type size_bytes max_size_bytes checksum_sha256 category security_level relation_type description change_note expires_at uploaded_at completed_at aborted_at failed_reason row_version created_at created_by updated_at project_scope_context_version completion_record_id completion_condition_id"
         }
         Table::HandoverSelection => {
             "id handover_id project_id attachment_id version_group_id display_name category security_level status selection_reason exclusion_reason source_refs created_at created_by updated_at updated_by row_version"
@@ -506,7 +511,12 @@ fn column_type(table: Table, key: &str) -> Option<&'static str> {
             "timestamptz"
         } else if matches!(
             key,
-            "size_bytes" | "max_size_bytes" | "version_no" | "row_version" | "download_count"
+            "size_bytes"
+                | "max_size_bytes"
+                | "version_no"
+                | "row_version"
+                | "download_count"
+                | "project_scope_context_version"
         ) {
             "integer"
         } else if matches!(key, "source_refs" | "manifest_summary") {
@@ -1106,6 +1116,8 @@ pub(super) struct FlushGuard {
     pub session_rules: BTreeMap<String, SessionRule>,
     pub version_max: BTreeMap<String, i64>,
     pub routing: Vec<Value>,
+    pub scope_actor: Option<crate::auth::model::ResolvedSession>,
+    pub scope_intents: Vec<super::project_scope::Intent>,
 }
 impl FlushGuard {
     fn has_intent(&self) -> bool {
@@ -1114,6 +1126,7 @@ impl FlushGuard {
             || !self.session_rules.is_empty()
             || !self.version_max.is_empty()
             || !self.routing.is_empty()
+            || !self.scope_intents.is_empty()
     }
 }
 fn first_source<'a>(guard: &'a FlushGuard, entity: &'a Entity) -> &'a Entity {
@@ -1747,6 +1760,19 @@ pub(super) async fn flush_guarded(
         // Set before BEGIN: cancellation at any point after entry is conservative.
         journal.store(1, Ordering::SeqCst);
         let mut transaction = connection.begin().await?;
+        // Critical authority is recomputed on this physical outer transaction,
+        // before source guards and all business/audit/auth writes.
+        if let Some(actor) = guard.scope_actor.as_ref() {
+            if let Err(error) = super::project_scope::recheck(&mut transaction, actor, &guard.scope_intents, &proof_entities).await {
+                transaction.rollback().await?;
+                journal.store(2, Ordering::SeqCst);
+                return Ok(Err(error));
+            }
+        } else if !guard.scope_intents.is_empty() {
+            transaction.rollback().await?;
+            journal.store(2, Ordering::SeqCst);
+            return Ok(Err(StorageFailure::internal()));
+        }
         let operation: Result<Vec<(usize,Entity)>,sqlx::Error> = async {
             lock_and_recheck(&mut transaction, &proof_entities, &guard).await?;
             let mut saved = Vec::new();

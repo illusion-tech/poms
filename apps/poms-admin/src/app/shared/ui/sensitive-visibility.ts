@@ -28,20 +28,34 @@ export function sensitiveProjectionDisplayText(projection: SensitiveStringFieldP
     return text && text.length > 0 ? text : fallback;
 }
 
+/** Decimal rounding for display only; no money or rate passes through Number. */
+function exactDecimalDisplay(value: string, shift: 0 | 2, minimumFractionDigits: 2, maximumFractionDigits: 2 | 4): string | null {
+    const match = /^([+-]?)([0-9]+)(?:\.([0-9]+))?$/.exec(value.trim());
+    if (!match) return null;
+    const whole = match[2];
+    const digits = whole + (match[3] ?? '');
+    const point = whole.length + shift;
+    const shifted = digits.padEnd(point, '0');
+    const integer = shifted.slice(0, point);
+    const fraction = shifted.slice(point);
+    const kept = fraction.slice(0, maximumFractionDigits).padEnd(maximumFractionDigits, '0');
+    let minor = BigInt(integer + kept);
+    // Intl.NumberFormat's existing halfExpand display rule, implemented exactly.
+    if ((fraction[maximumFractionDigits] ?? '0') >= '5') minor += 1n;
+    const rounded = minor.toString().padStart(maximumFractionDigits + 1, '0');
+    const roundedInteger = rounded.slice(0, -maximumFractionDigits);
+    let roundedFraction = rounded.slice(-maximumFractionDigits);
+    while (roundedFraction.length > minimumFractionDigits && roundedFraction.endsWith('0')) roundedFraction = roundedFraction.slice(0, -1);
+    const grouped = roundedInteger.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return `${match[1] === '-' ? '-' : ''}${grouped}.${roundedFraction}`;
+}
+
 export function formatSensitiveAmountProjection(projection: SensitiveStringFieldProjectionView | null | undefined, currencyCode?: string | null): string {
     if (!isSensitiveProjectionFull(projection)) {
         return sensitiveProjectionDisplayText(projection);
     }
-
     const value = projection?.value ?? '';
-    const parsed = Number(value);
-    const amount = Number.isFinite(parsed)
-        ? parsed.toLocaleString('zh-CN', {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 4
-          })
-        : value;
-
+    const amount = exactDecimalDisplay(value, 0, 2, 4) ?? value;
     return `${amount} ${currencyCode ?? ''}`.trim();
 }
 
@@ -49,13 +63,7 @@ export function formatSensitiveRatioProjection(projection: SensitiveStringFieldP
     if (!isSensitiveProjectionFull(projection)) {
         return sensitiveProjectionDisplayText(projection);
     }
-
     const value = projection?.value ?? '';
-    const parsed = Number(value);
-    return Number.isFinite(parsed)
-        ? `${(parsed * 100).toLocaleString('zh-CN', {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2
-          })}%`
-        : value;
+    const percent = exactDecimalDisplay(value, 2, 2, 2);
+    return percent === null ? value : `${percent}%`;
 }

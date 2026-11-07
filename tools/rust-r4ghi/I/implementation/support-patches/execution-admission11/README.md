@@ -1,0 +1,1 @@
+FullProjectDetail只读执行准入上下文proposal；三个Rust候选、从真实Start DTO精确omit三字段的schema JSON、gateway说明及baseSHA见apply-manifest11.json。旧delta01/Role GET权限/Root产品未改。Root先冻结delta02与SSOT/common130，再同时晋升产品字段和helper；当前未声称实际HTTP/PG/UI通过。

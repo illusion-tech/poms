@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 1,
+  "kind": "proposed-exact-committed-reassignment-failed-contract-metadata-recovery",
+  "namespace": "poms-r4ghi",
+  "epoch": "g2-business08",
+  "run": "main01",
+  "marker": "0ca66699-053b-4f40-ad5c-82fed4cf1a6f",
+  "reviewStateSHA256": "7a14da85a3e1f9e11b18c6c0ba68379547d2fca4149c86c2a4227d0c38d87743",
+  "operationId": "ProjectController_reassignOwner",
+  "requestId": "bg91075d6347-000658-http-3b999c83",
+  "canonicalOpenApiSHA256": "8965393af9264e0805c3174520816673a1a56920944428bb8a9321e81da74ab0",
+  "originals": {
+    "000658-http-request.json": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business08/main01/000658-http-request.json",
+      "sha256": "d5f3ba3d50c8ca2127ed064db839a8f8eebfa8d0712ccfb4123fc51f2fcb32ea"
+    },
+    "000658-http-request-body.bin": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business08/main01/000658-http-request-body.bin",
+      "sha256": "f5506de22c62513353145f84020563fe3e1f12232e4b702cfdec001f9c44ebd5"
+    },
+    "000658-http-response-headers.json": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business08/main01/000658-http-response-headers.json",
+      "sha256": "c48b5a360f4be3bb59511f816f28972c113b992cdd62cd494a39933d234461e1"
+    },
+    "000658-http-response-body.bin": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business08/main01/000658-http-response-body.bin",
+      "sha256": "80f46d2e81a40e12c627162f17ec721939c0ee4e38a9baaae88d2722b6b8d940"
+    },
+    "000659-ledger.json": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business08/main01/000659-ledger.json",
+      "sha256": "50e8b7aadb036764b564886aafdc187d82fae979cc1c3ab25dd47c5a8d93201f"
+    },
+    "000626-H-mask-fixture09-partial.json": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business08/main01/000626-H-mask-fixture09-partial.json",
+      "sha256": "9c741d9778e53093ee63be3f838bdb4f012e546bc269de3ddf2c686ff2dcb985"
+    }
+  },
+  "httpReceipt": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business08/main01/000658-http-http.json",
+    "sha256": "37cd4377f13f2e16b9f759f86e81157d13d5d177cf4804f60c5113b5a5217814"
+  },
+  "before": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business08/main01/snapshot-000658-http-before.json",
+    "bytes": 3111443,
+    "rawBytesSha256": "d15b0659d1cebdad5f3028a3b2d31e05c6197e3181034898bdb9f35268d8a0d8"
+  },
+  "after": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business08/main01/snapshot-000658-http-after.json",
+    "bytes": 3111164,
+    "rawBytesSha256": "98ccf64bd4e00476afaf9928070d46f97262cb5359a3083c0b655d8adb9e72ba"
+  },
+  "proof": {
+    "projectId": "b1ccf7b0-3fb7-4a60-86c1-27165f178199",
+    "reassignmentId": "a87bac27-7ce0-4e88-91d6-cb8e25bc82d0",
+    "auditId": "3cf64553-b05d-4563-9508-6578062aff9e",
+    "actorId": "c9c2060f-8e01-4841-8991-1d9e467650e1",
+    "requestId": "bg91075d6347-000658-http-3b999c83",
+    "sameTransactionXmin": "1623",
+    "projectBeforeVersion": 1,
+    "projectAfterVersion": 2,
+    "changedColumns": [
+      "owner_user_id",
+      "row_version",
+      "updated_at"
+    ],
+    "actualStatus": 201,
+    "canonicalExpectedStatus": 200,
+    "contractPassed": false,
+    "rows": [
+      {
+        "table": "project",
+        "key": [
+          "b1ccf7b0-3fb7-4a60-86c1-27165f178199"
+        ],
+        "rawSha256": "33499788c474cd476b957ee0a03598fd3a431dd0512ee179613060026d94f11d",
+        "xmin": "1623"
+      },
+      {
+        "table": "project_owner_reassignment_record",
+        "key": [
+          "a87bac27-7ce0-4e88-91d6-cb8e25bc82d0"
+        ],
+        "rawSha256": "055c098e4c7b794068679a92d2c1baf9960f31f7dd23addce7ff712f0d284fdd",
+        "xmin": "1623"
+      },
+      {
+        "table": "audit_log",
+        "key": [
+          "3cf64553-b05d-4563-9508-6578062aff9e"
+        ],
+        "rawSha256": "e84164ec73f5e9db9cc22080cbf925c73f1c1ca8517dc8e006c972e727380053",
+        "xmin": "1623"
+      }
+    ]
+  },
+  "permittedMetadataChanges": [
+    "fixtures.maskReassignment = exact actual 000658 response body",
+    "fixtures.maskReassignmentRecovery = approved exact-plan/private proof links",
+    "fixtures.maskReassignmentContractFailure = preserved actual201/canonical200 failure",
+    "sequence/private artifact bookkeeping only"
+  ],
+  "forbidden": [
+    "business HTTP/SQL write",
+    "repeat reassignOwner POST",
+    "change canonical expected200 to201",
+    "fake successful200",
+    "mutate owned/borrowed row proof",
+    "clear/create blockedObservation",
+    "rewrite prior originals"
+  ],
+  "RootApprovalRequiredBeforeApply": true,
+  "applied": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

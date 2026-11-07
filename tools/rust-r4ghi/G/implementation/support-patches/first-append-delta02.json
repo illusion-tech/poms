@@ -1,0 +1,23 @@
+{
+  "kind": "review-only-not-applied-delta02",
+  "base": "F-merged-sealed01.candidate.rs",
+  "baseSha256": "16b995f8d2348f9c93d36552eb0555d2e2b62d9e2b8182f932f969d6b5020fc1",
+  "candidateSha256": "7cb5cdb04cb0076a5da19575fefca306c942ac77e6ad203fb173ae20b8ee0357",
+  "applied": false,
+  "compiled": false,
+  "realDatabaseValidated": false,
+  "positiveCase": [
+    "Real registered E cost v1; included-ever=false; no stage at all; no allocation-source row in all history",
+    "G explicit exclude pending snapshot retains stageRef=null/unknown/pending",
+    "Ordinary real F first confirm appends stage/evidence and cost v2; no old G bytes rewritten",
+    "Subsequent actual late-facts G restatement explicitly classifies v2, captures v1 once and H reloads it"
+  ],
+  "negativeCases": [
+    "Included-ever=true remains protected, including a currently excluded inclusion head",
+    "Any existing stage or any historical allocation-source row makes first-append exception false",
+    "Ordinary reclassification still requires sealed actual predecessor and complete impacted graph",
+    "Failure in later G restatement rolls back only that G command; separately committed first-stage fact remains real v2"
+  ],
+  "tax": "Existing sealed tax wrapper already only blocks replacing=true on an existing consumed Tax. True first append stays normal: no Cost amount mutation and automaticallyIncludedInCost=false. Do not add a generic source-member denial to first Tax confirmation. Existing Tax replacement remains sealed.",
+  "expense": "Keep existing actual current-mapping/recognized source guards. A never-mapped, never-recognized pending Expense may first-confirm; a mere pending reference is not monetary recognition. Do not allow any principal/date/currency rewrite of a mapped/recognized Expense source. Root owns any new shared guard callsite delta."
+}

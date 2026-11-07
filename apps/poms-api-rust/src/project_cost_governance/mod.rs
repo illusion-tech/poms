@@ -1,9 +1,11 @@
 //! R4F: twelve governed cost operations on the caller's one outer transaction.
+mod correction;
 mod evidence;
 mod logic;
 mod projection;
 mod service;
 mod store;
+pub(crate) use correction::apply_corrections_with_session;
 
 use crate::{
     approval_common::CommonSession,

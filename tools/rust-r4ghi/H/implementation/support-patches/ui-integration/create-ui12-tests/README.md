@@ -1,0 +1,11 @@
+Root当前S6实际SDK与已晋升UI12产品的定向回归候选；作者只写两份spec提案，未改Root产品/SDK/既有mock来伪装编译。
+
+原ProjectList“只有Lead转入可见”断言按用户8授权更新为Lead按钮与“创建评估项目”并存。Read-only仍无创建按钮，只有project:write而无lead:write可以创建评估，同时保留原Lead gate提示/路由。
+
+真实generated ProjectInitialOwnership enum默认Creator，默认请求精确省略initialOwnership；Organization请求通过当前Shared CreateProjectRequestSchema解析，使用完整ProjectSummarySchema验证的响应DTO与实际返回ID导航。导航失败仍保留“已创建”，重试仅导航，不再POST；unsupported选择不能回落个人创建。Store用真实class并预先将list置loaded，再断言org创建没有list/Full/timeline/archive扇出，default creator仍刷新已加载list。
+
+新增DTO helper用当前公开schema验证全字段ProjectSummary，不以ProjectListView冒充创建响应；原Store summary补齐缺失required customerProjectNo并统一过schema。synthetic fixture UUID改为合法格式，未将这些单元数据算真实业务事实。没有actualSDK stub或enum shim。
+
+实际已运行：Root物理依赖和logical source path的Jest，两套24项全pass；真实S6 whole main.ts ngc，0 TS/template diagnostics，1022输入前后SHA稳定。sdk-audit15.json另外AST核client-generation06实际write/check回执、enum Creator/Organization和optional named-ref property。未运行HTTP/DB/browser；全app生产build/lint/全量Jest由Root执行。
+
+manifest只含候选spec、patch与确定证据，cache不在交付列表。Root按originalSHA/candidateSHA晋升两spec后跑全admin测试，无需改产品来迎合旧预期。

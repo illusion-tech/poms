@@ -1,0 +1,32 @@
+--- before
++++ after
+@@ -82,7 +82,16 @@
+   if (needsMaintenance && sandbox && unknownGuards.length === 0) {
+     deleteRows = [...deletes].sort((a, b) => a.table.localeCompare(b.table) || JSON.stringify(a.key).localeCompare(JSON.stringify(b.key)));
+     const command = exactDeleteCTE(deleteRows);
++    const drain = ctx.state.constraintDrainSandbox;
++    assert(drain?.file.startsWith(ctx.priv + '/'), 'Actual same-run deferred-constraint drain sandbox required');
++    const drainBytes = ownedFile(drain.file); assert.equal(sha(drainBytes), drain.rawBytesSha256);
++    const drainReport = JSON.parse(drainBytes);
++    assert.equal(drainReport.kind, 'actual-PG15-TEMP-only-deferred-trigger-drain-sandbox');
++    assert(drainReport.allTEMPObjectsRolledBack && drainReport.businessRowsAndXminUnchanged && drainReport.catalogAndSequencesUnchanged && drainReport.objectsUnchanged);
++    assert.deepEqual(drainReport.cases.map(row => row.sqlState), ['55006', null, '23503']);
++    assert(drainReport.cases[1].guardRestored && drainReport.cases[1].allSystemFKTriggersEnabled && drainReport.cases[2].violationRejected);
+     maintenance = { kind: 'isolated-owned-fixture-maintenance-only', strategy: 'one-statement-exact-PK-CTE-original-RI-enabled', actualSandbox: sandbox,
++      constraintDrainSandbox: drain, validateDeferredConstraintsBeforeGuardRestore: true,
+       guardTriggers: guardTriggers.map(({ raw, value }) => ({ raw, ...value })), command: { text: command.text, values: command.values, expected: command.expected, rawSQLSha256: sha(command.text), parameterSHA256: sha(JSON.stringify(command.values)), tableCount: command.tableCount },
+       originalSystemFKTriggersRemainEnabled: true, originalForeignKeysDroppedOrRecreated: false, factsTemporarilyRewritten: false, productImmutabilityChanged: false, WORMCertified: false };
+   } else {
+@@ -185,6 +194,12 @@
+         assert.equal(sha(command.text), plan.maintenance.command.rawSQLSha256); assert.equal(sha(JSON.stringify(command.values)), plan.maintenance.command.parameterSHA256);
+         const result = await c.query(command.text, command.values);
+         assert.deepEqual(result.rows.map(row => JSON.stringify([row.table_name, JSON.parse(row.key)])).sort(), command.expected, 'Single-statement DELETE did not remove exactly the reviewed owned PK set');
++        assert.equal(plan.maintenance.validateDeferredConstraintsBeforeGuardRestore, true);
++        const drain = plan.maintenance.constraintDrainSandbox; assert(drain?.file.startsWith(ctx.priv + '/'));
++        assert.equal(sha(ownedFile(drain.file)), drain.rawBytesSha256);
++        // Validate queued FK/constraint events before ALTER TABLE restores the
++        // reviewed user guards. This does not disable or defer any constraint.
++        await c.query('SET CONSTRAINTS ALL IMMEDIATE');
+         for (const trigger of plan.maintenance.guardTriggers) {
+           assert(['O', 'A'].includes(trigger.tgenabled));
+           await c.query(`ALTER TABLE poms.${quote(trigger.table_name)} ${trigger.tgenabled === 'A' ? 'ENABLE ALWAYS' : 'ENABLE'} TRIGGER ${quote(trigger.tgname)}`);

@@ -1,0 +1,125 @@
+{
+  "kind": "independent-review-of-actual-Native-checks-after-type-correction",
+  "capturedAt": "2026-11-07T10:21:34.617817+00:00",
+  "typeBridge": {
+    "file": "apps/poms-api/src/types/mikro-orm-schema.d.ts",
+    "sha256": "c8f58d580d2354190ba4335899614c5f4c24663dcb7e1ef8040c2e396ffd12a3",
+    "exactCandidate26": true
+  },
+  "candidate26NonDeclarationSourcesCurrentExact": 402,
+  "runs": [
+    {
+      "run": "api-tsc05",
+      "receiptSHA256": "e08058b901af4d2a6026d30df149b242f35aef8d590b7d120717a474d2cb689e",
+      "command": [
+        "node_modules/typescript/bin/tsc",
+        "-p",
+        "apps/poms-api/tsconfig.app.json",
+        "--noEmit",
+        "--pretty",
+        "false"
+      ],
+      "exitCode": 0,
+      "startedAt": "2026-11-07T10:10:41.823Z",
+      "completedAt": "2026-11-07T10:10:52.465Z",
+      "logs": {
+        "stdout": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        }
+      },
+      "databaseConnect": false
+    },
+    {
+      "run": "api-build01",
+      "receiptSHA256": "ee9ded35e7228b358b5192ea5929300097d6c970578655b0b912537aa862d2b3",
+      "command": [
+        "node_modules/nx/dist/bin/nx.js",
+        "run",
+        "poms-api:build",
+        "--skip-nx-cache"
+      ],
+      "exitCode": 0,
+      "startedAt": "2026-11-07T10:10:41.823Z",
+      "completedAt": "2026-11-07T10:11:01.165Z",
+      "logs": {
+        "stdout": {
+          "sha256": "43225a286140f7333195dabb5286fa15798e877758403d1c2421ab70832095c5",
+          "bytes": 880
+        },
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        }
+      },
+      "databaseConnect": false
+    },
+    {
+      "run": "api-test02",
+      "receiptSHA256": "18800f1ee5f5ce9084855cd81b7b7dc0721c1ea9d34251cb2acf1ce66c0fc805",
+      "command": [
+        "node_modules/jest/bin/jest.js",
+        "--config",
+        "apps/poms-api/jest.config.js",
+        "--runInBand",
+        "--no-cache"
+      ],
+      "exitCode": 0,
+      "startedAt": "2026-11-07T09:59:12.796Z",
+      "completedAt": "2026-11-07T09:59:42.810Z",
+      "logs": {
+        "stdout": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "stderr": {
+          "sha256": "668134d820ea6453b2d4c3a8e8ce046221073cbaa173951f65bf1e340dd629a3",
+          "bytes": 7912
+        }
+      },
+      "databaseConnect": false
+    },
+    {
+      "run": "api-lint04",
+      "receiptSHA256": "7f49b8d48dd943eda0f8e50ebb2432f1096e62ddf4f1dfde47e22bb02a468610",
+      "command": [
+        "node_modules/nx/dist/bin/nx.js",
+        "run",
+        "poms-api:lint",
+        "--skip-nx-cache"
+      ],
+      "exitCode": 0,
+      "startedAt": "2026-11-07T09:58:41.546Z",
+      "completedAt": "2026-11-07T09:58:53.620Z",
+      "logs": {
+        "stdout": {
+          "sha256": "0add6cffabd78e8afd528db79c5f12989c8f43c47ca00d3e560ba89d595432ee",
+          "bytes": 825
+        },
+        "stderr": {
+          "sha256": "7256bf146645205767bfb3d85f48c6c0ebaaf633bb401b3c185f13a7c0c75950",
+          "bytes": 273
+        }
+      },
+      "databaseConnect": false
+    }
+  ],
+  "unitSummary": {
+    "suites": 74,
+    "passed": 863,
+    "failed": 0,
+    "skipped": 0,
+    "actualRuntimeBeforeTypeOnlyBridge": true
+  },
+  "lintBoundary": "api-lint04 passes with two existing warnings, predates new .d.ts; current lint for the new declaration still separately required or scoped lint proof",
+  "newAnyOrCastIntroduced": false,
+  "noRuntimeChangeByTypeBridge": true,
+  "noMockPatchNeeded": true,
+  "NativeChecksAreNotBusinessPGHTTPAcceptance": true,
+  "G3Certified": false,
+  "G4Certified": false
+}

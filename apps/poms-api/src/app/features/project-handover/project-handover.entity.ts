@@ -130,7 +130,8 @@ export const ProjectHandoverSchema = defineEntity({
         { name: "uq_r4d_handover_freeze_source", properties: ["id","summarySnapshotId","basisSnapshotId"] },
         { name: "uq_r4d_handover_scope", properties: ["id","projectId","basisSnapshotId"] },
         { name: "uq_r4d_handover_version", properties: ["projectId","version"] },
-        { name: "uq_r4d_handover_current", expression: "CREATE UNIQUE INDEX uq_r4d_handover_current ON poms.project_handover USING btree (project_id) WHERE is_current" }
+        { name: "uq_r4d_handover_current", expression: "CREATE UNIQUE INDEX uq_r4d_handover_current ON poms.project_handover USING btree (project_id) WHERE is_current" },
+        {"name":"uq_jghi_handover_project","properties":["id","projectId"]}
     ],
     checks: [
         { name: "chk_r4d_handover_producer", expression: "(((producer_version IS NULL) OR ((producer_version = 1) AND (basis_snapshot_id IS NOT NULL) AND (version IS NOT NULL) AND (execution_owner_user_id IS NOT NULL) AND (confirmation_record_id IS NOT NULL) AND (finance_confirmation_required IS NOT NULL) AND (prepared_receipt_judgment_mode IS NOT NULL) AND ((prepared_receipt_judgment_mode)::text = ANY ((ARRAY['project-aggregate'::character varying, 'contract-separate'::character varying])::text[])) AND (source_payload_hash IS NOT NULL) AND ((source_payload_hash)::text ~ '^[0-9a-f]{64}$'::text) AND (((status)::text <> 'confirmed'::text) OR ((confirmed_at IS NOT NULL) AND (confirmed_by IS NOT NULL))) AND (((status)::text <> 'draft'::text) OR ((confirmed_at IS NULL) AND (confirmed_by IS NULL))) AND ((NOT is_current) OR ((status)::text = ANY ((ARRAY['draft'::character varying, 'confirmed'::character varying])::text[]))))))" },

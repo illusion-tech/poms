@@ -1,3 +1,4 @@
+import { ProjectTechnicalCostPackage } from '../project/project-technical-cost-package.entity';
 import { defineEntity } from '@mikro-orm/core';
 import { CHANGE_PACKAGE_BASELINE_STATUSES, ChangePackageBaselineStatusValue, type ChangePackageBaselineStatus } from '@poms/shared-contracts';
 import { OperatingBaselinePackage } from './operating-baseline-package.entity';
@@ -14,7 +15,8 @@ export const ChangePackageBaselineSchema = defineEntity({
         { name: 'idx_cpb_baseline_package', properties: ['baselinePackageId', 'status'] }
     ],
     uniques: [
-        { name: 'uq_cpb_package_change', properties: ['baselinePackageId', 'changePackageId'] }
+        { name: 'uq_cpb_package_change', properties: ['baselinePackageId', 'changePackageId'] },
+        {"name":"uq_r4g_change_transition","expression":"CREATE UNIQUE INDEX uq_r4g_change_transition ON poms.change_package_baseline\n  (baseline_package_id,before_cost_package_id,after_cost_package_id)\n  WHERE before_cost_package_id IS NOT NULL AND after_cost_package_id IS NOT NULL"}
     ],
     checks: [
         {
@@ -35,6 +37,13 @@ export const ChangePackageBaselineSchema = defineEntity({
         updatedAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).onUpdate(() => new Date()).fieldName('updated_at').comment('最后更新时间'),
         updatedBy: p.uuid().nullable().fieldName('updated_by').comment('最后更新人'),
         rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号')
+    ,
+        sourceKind: p.string().length(64).nullable().fieldName("source_kind"),
+        sourceId: p.uuid().nullable().fieldName("source_id"),
+        sourceRowVersion: p.integer().nullable().fieldName("source_row_version"),
+        beforeCostPackageId: () => p.manyToOne(ProjectTechnicalCostPackage).mapToPk().joinColumns("before_cost_package_id").referencedColumnNames("id").foreignKeyName("change_package_baseline_before_cost_package_id_fkey").deleteRule("restrict").updateRule("no action").nullable(),
+        afterCostPackageId: () => p.manyToOne(ProjectTechnicalCostPackage).mapToPk().joinColumns("after_cost_package_id").referencedColumnNames("id").foreignKeyName("change_package_baseline_after_cost_package_id_fkey").deleteRule("restrict").updateRule("no action").nullable(),
+        sourcePayloadHash: p.string().length(64).nullable().fieldName("source_payload_hash")
     }
 });
 

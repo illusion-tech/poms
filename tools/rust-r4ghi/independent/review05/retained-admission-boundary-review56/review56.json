@@ -1,0 +1,67 @@
+{
+  "kind": "non-author-I54-bounded-static-review56",
+  "at": "2026-11-07T18:01:08.463594+00:00",
+  "manifestSHA256": "90dca6b86e01dc7f4d17adc41268dadeecb4703ad6acb00d0305597e4fcaf6f7",
+  "toolSHA256": "618511bf763bf3838c3a7dcae40b9a4c7f45e918eb79a6c7e8497dea37c5ec72",
+  "scope": "eight exact manifest files plus current snapshot/ledger/context callers",
+  "toolingMintAdmission": "blocked-pending-correction",
+  "findings": [
+    {
+      "id": "IR56-01",
+      "priority": "P1",
+      "file": "tools/rust-r4ghi/business/consumer-admission54.mjs",
+      "line": 46,
+      "problem": "current-source short-circuit precedes retained-resource registry checks; an old registered resource may be relabeled current and even have immutable producer content changed; an unregistered fresh path may alias an old retained project; empty projectIds also hides an existing project",
+      "reproduction": [
+        "probe-relabel56.json",
+        "remaining-probes56.json"
+      ],
+      "requiredBoundary": "retained entry checked first and keeps exact original source/projection; fresh paths may initialize only without project binding or consume actual consumer-born owned projects outside pinned retained producer project inventory; caller projectIds must cover the record actual project binding"
+    },
+    {
+      "id": "IR56-02",
+      "priority": "P1",
+      "file": "tools/rust-r4ghi/business/consumer-admission54.mjs",
+      "line": 51,
+      "problem": "legacy mode does not verify producerProjection, so counted32Producer false and original physical row/xmin metadata can change with the exact seed receipt still accepted",
+      "reproduction": "remaining-probes56.json",
+      "requiredBoundary": "legacy producer projection immutable apart from explicit observer overlay, exact original seed receipt remains mandatory; new consumer denial evidence remains separate"
+    },
+    {
+      "id": "IR56-03",
+      "priority": "P2",
+      "file": "tools/rust-r4ghi/business/consumer-admission54.mjs",
+      "line": 31,
+      "problem": "lexical private-prefix accepts priv/../outside/registry.json; readPin realpath==resolve does not establish containment",
+      "reproduction": "remaining-probes56.json",
+      "requiredBoundary": "canonical registry pin must remain inside the exact consumer private directory and reject traversal aliases"
+    }
+  ],
+  "positiveStaticResults": {
+    "eightManifestHashesAndBeforeCopiesExact": true,
+    "RootCurrentEightMatchCandidates": true,
+    "old53StateAndSnapshotReferencedByExactPins": true,
+    "forkDeepEqualPreservesBaselineOwnedBorrowedFixturesObjects": true,
+    "freshComparisonIncludesBoth139TablesRowsSHAAndXminMetaSequencesObjects": true,
+    "captureUsesRepeatableReadReadOnlyTransactions": true,
+    "ordinaryDriverRejectsPendingBootstrapState": true,
+    "newActiveAuthAndFICoverageRegistriesEmptyWithOldEvidenceArchived": true,
+    "newProcessPIDStartTimeExecutableAndBinaryHashChecked": true,
+    "noGlobalDirtySourceOverride": true
+  },
+  "independentlyExecutedPureChecks": {
+    "Node": "v24.19.0",
+    "tests": 5,
+    "passed": 5,
+    "failed": 0,
+    "counterexamplesReproduced": 6,
+    "actualPrivateSnapshotQueried": false,
+    "actualPrivateStateFSRead": "only exact53 state hash + Legacy field names/types, no payload or credential copied"
+  },
+  "SQLExecuted": false,
+  "HTTPExecuted": false,
+  "mintExecuted": false,
+  "RootProductOrToolsWritten": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

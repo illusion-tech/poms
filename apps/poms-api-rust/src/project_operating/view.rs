@@ -1,0 +1,465 @@
+//! History reads project frozen members. Live source changes never rewrite it.
+use super::{
+    facts, projection, sources,
+    store::{self, Table},
+};
+use crate::{
+    approval_common::CommonSession,
+    contract_support::{Actor, Error, canonical_hash},
+    project_operating_common::model::*,
+};
+use serde_json::{Value, json};
+use uuid::Uuid;
+
+async fn authorize(
+    session: &mut CommonSession<'_, '_>,
+    project: Uuid,
+    actor: &Actor,
+) -> Result<(), Error> {
+    let token = OuterTxToken::capture(session).await?;
+    crate::project_action_authorization::verify_access_set(
+        session,
+        &[project],
+        actor,
+        false,
+        &token,
+    )
+    .await?;
+    Ok(())
+}
+
+pub async fn baseline_with_session(
+    session: &mut CommonSession<'_, '_>,
+    project: Uuid,
+    actor: &Actor,
+) -> Result<OperatingBaselinePackageSummary, Error> {
+    authorize(session, project, actor).await?;
+    let baseline = store::semantic_current_baseline(session.connection, project, false)
+        .await?
+        .ok_or_else(|| Error::NotFound("Operating baseline is absent".into()))?;
+    let source = store::row(
+        session.connection,
+        Table::BaselineSource,
+        store::id(&baseline, "source_context_id")?,
+        false,
+    )
+    .await?;
+    let draft = &source["frozen_payload"];
+    let typed: OperatingBaselineSourceDraft = serde_json::from_value(draft.clone())
+        .map_err(|_| store::conflict("operating_baseline_source_unverified"))?;
+    let mut payload = draft.clone();
+    payload
+        .as_object_mut()
+        .ok_or(Error::Internal)?
+        .remove("payloadHash");
+    if canonical_hash(&payload)? != source["payload_hash"]
+        || typed.payload_hash.as_str() != source["payload_hash"].as_str().unwrap_or("")
+        || typed.source_hash.as_str() != source["source_hash"].as_str().unwrap_or("")
+        || source["source_hash"] != baseline["source_hash"]
+        || typed.id != store::id(&source, "id")?
+        || typed.project_id != project
+    {
+        return Err(store::conflict("operating_baseline_source_changed"));
+    }
+    for (column, key) in [
+        ("original_baseline_cost", "originalBaselineCost"),
+        ("handover_baseline_cost", "handoverBaselineCost"),
+        (
+            "execution_change_package_total",
+            "executionChangePackageTotal",
+        ),
+        ("change_package_total", "changePackageTotal"),
+        (
+            "current_effective_baseline_cost",
+            "currentEffectiveBaselineCost",
+        ),
+    ] {
+        if OperatingMoneyCents::parse_exact(store::text(&baseline, column)?, column)?.cents()
+            != OperatingMoneyCents::parse_exact(store::text(draft, key)?, key)?.cents()
+        {
+            return Err(store::conflict("operating_baseline_source_amount_changed"));
+        }
+    }
+    let original = known_draft(draft, "originalBaselineCost")?;
+    let current = known_draft(draft, "currentEffectiveBaselineCost")?;
+    let u = facts::unknown("not-a-snapshot");
+    let t = json!({"currency":draft["currency"],"net":u,"tax":u,"gross":u});
+    let context = json!({"baseline":{"originalNetCost":original,"currentEffectiveNetCost":current},"metrics":{"effectiveContractAmounts":t,"confirmedReceiptAmounts":t,"includedCostAmounts":t,"taxPendingAmount":u,"grossMarginNet":u,"grossMarginRate":{"knowledge":"unknown","value":null,"reasonCode":"missing-evidence"}},"allocations":[],"scope":{"unmappedCostCount":0}});
+    let fp = projection::financial(
+        session,
+        actor,
+        project,
+        store::id(&baseline, "id")?,
+        "unknown",
+        &context,
+        baseline["baseline_summary"].as_str(),
+    )
+    .await?;
+    let mut rows = Vec::new();
+    for (key, amount) in [("originalCostRef", original), ("currentCostRef", current)] {
+        if draft[key].is_null() {
+            continue;
+        }
+        let amounts = json!({"currency":draft["currency"],"net":amount,"tax":facts::unknown("baseline-net-only"),"gross":facts::unknown("baseline-net-only")});
+        rows.push(
+            frozen_row(
+                session,
+                actor,
+                project,
+                &draft[key],
+                "baseline",
+                &amounts,
+                "unknown",
+                None,
+                vec![],
+            )
+            .await?,
+        );
+    }
+    let head = store::rows(session.connection, Table::Head, project, false)
+        .await?
+        .pop();
+    serde_json::from_value(json!({"outputVersion":"server-derived-v1","id":baseline["id"],"projectId":project,"rowVersion":baseline["row_version"],"capturedRowVersion":1,"headVersion":head.map(|h|h["row_version"].clone()).unwrap_or(json!(0)),"producerVersion":1,"certification":"verified","sourceHash":source["source_hash"],"sourceContextId":source["id"],"sourcePayloadHash":source["payload_hash"],"containsLabor":"unknown","financialProjection":fp,"sourceRows":rows,"createdAt":baseline["created_at"],"updatedAt":baseline["updated_at"],"isCurrent":baseline["is_current"],"status":baseline["status"],"originalAdoptedCostRef":draft["originalCostRef"],"currentEffectiveCostRef":draft["currentCostRef"],"handoverBasisRef":draft["handoverBasisRef"],"handoverRebaselineRef":draft["handoverRebaselineRef"],"approvedChangeRefs":draft["approvedTransitions"].as_array().map(|v|v.iter().map(|t|t["afterCostRef"].clone()).collect::<Vec<_>>()).unwrap_or_default(),"effectiveAt":baseline["effective_at"]})).map_err(|_|Error::Internal)
+}
+
+pub async fn snapshot_with_session(
+    session: &mut CommonSession<'_, '_>,
+    id: Uuid,
+    actor: &Actor,
+) -> Result<ProjectOperatingSnapshotSummary, Error> {
+    let row = store::row(session.connection, Table::Snapshot, id, false).await?;
+    let project = store::id(&row, "project_id")?;
+    authorize(session, project, actor).await?;
+    let (context, source) = frozen_context(session, &row).await?;
+    let ctx = serde_json::to_value(&context).map_err(|_| Error::Internal)?;
+    let fp = projection::financial(
+        session,
+        actor,
+        project,
+        id,
+        context.labor_lineage.contains_labor.as_str(),
+        &ctx,
+        None,
+    )
+    .await?;
+    let rows = frozen_rows(session, actor, &context).await?;
+    let evaluation = crate::project_operating_signals::service::load_evaluation_refs_with_session(
+        session, id, actor,
+    )
+    .await?;
+    let period = row["period_end_snapshot_id"]
+        .as_str()
+        .and_then(|s| Uuid::parse_str(s).ok());
+    let period_ref = if let Some(period_id) = period {
+        Some(sources::reference(
+            Table::Period,
+            &store::row(session.connection, Table::Period, period_id, false).await?,
+        )?)
+    } else {
+        None
+    };
+    let restatement = store::rows(session.connection, Table::Restatement, project, false)
+        .await?
+        .into_iter()
+        .find(|r| r["restated_snapshot_id"] == row["id"]);
+    let head = store::rows(session.connection, Table::Head, project, false)
+        .await?
+        .pop();
+    serde_json::from_value(json!({"outputVersion":"server-derived-v1","id":id,"projectId":project,"rowVersion":row["row_version"],"capturedRowVersion":row["captured_row_version"],"headVersion":head.map(|h|h["row_version"].clone()).unwrap_or(json!(0)),"producerVersion":1,"certification":"verified","sourceHash":row["source_hash"],"sourceContextId":source["id"],"sourcePayloadHash":source["payload_hash"],"containsLabor":context.labor_lineage.contains_labor,"financialProjection":fp,"sourceRows":rows,"createdAt":row["created_at"],"updatedAt":row["updated_at"],"snapshotMode":row["snapshot_mode"],"snapshotAt":row["snapshot_at"],"sourceWindowStart":context.snapshot.source_window_start,"sourceWindowEnd":context.snapshot.source_window_end,"knowledgeCutoff":context.snapshot.knowledge_cutoff,"businessTimezone":context.snapshot.business_timezone,"status":row["status"],"supersedesId":row["supersedes_id"],"baselinePackageRef":context.baseline.baseline_package_ref,"periodEndSnapshotRef":period_ref,"restatementRef":restatement.as_ref().map(|r|sources::reference(Table::Restatement,r)).transpose()?,"currentActionLevel":row["current_action_level"],"formalEligibility":context.formal_eligibility,"evaluationStatus":"evaluated","evaluationRefs":evaluation_view(&evaluation)})).map_err(|_|Error::Internal)
+}
+
+pub async fn period_with_session(
+    session: &mut CommonSession<'_, '_>,
+    id: Uuid,
+    actor: &Actor,
+) -> Result<PeriodClosingSnapshotSummary, Error> {
+    let row = store::row(session.connection, Table::Period, id, false).await?;
+    let project = store::id(&row, "project_id")?;
+    authorize(session, project, actor).await?;
+    if row["producer_version"] != 1 {
+        return Err(store::conflict("legacy_period_reconciliation_required"));
+    }
+    let snapshot = store::row(
+        session.connection,
+        Table::Snapshot,
+        store::id(&row, "project_snapshot_id")?,
+        false,
+    )
+    .await?;
+    let (context, source) = frozen_context(session, &snapshot).await?;
+    let ctx = serde_json::to_value(&context).map_err(|_| Error::Internal)?;
+    let fp = projection::financial(
+        session,
+        actor,
+        project,
+        id,
+        context.labor_lineage.contains_labor.as_str(),
+        &ctx,
+        None,
+    )
+    .await?;
+    let rows = frozen_rows(session, actor, &context).await?;
+    let mut history = store::rows(session.connection, Table::Restatement, project, false)
+        .await?
+        .into_iter()
+        .filter(|r| r["period_end_snapshot_id"] == row["id"])
+        .collect::<Vec<_>>();
+    if history.iter().any(|r| r["producer_version"] != 1) {
+        return Err(store::conflict("legacy_period_reconciliation_required"));
+    }
+    let superseded = history
+        .iter()
+        .map(|r| r["restates_snapshot_id"].to_string())
+        .collect::<std::collections::BTreeSet<_>>();
+    history.retain(|r| {
+        !superseded.contains(&r["restated_snapshot_id"].to_string()) && r["status"] == "active"
+    });
+    if history.len() > 1 {
+        return Err(store::conflict("operating_period_terminal_ambiguous"));
+    }
+    let head = store::rows(session.connection, Table::Head, project, false)
+        .await?
+        .pop();
+    serde_json::from_value(json!({"outputVersion":"server-derived-v1","id":id,"projectId":project,"rowVersion":row["row_version"],"capturedRowVersion":1,"headVersion":head.map(|h|h["row_version"].clone()).unwrap_or(json!(0)),"producerVersion":1,"certification":"verified","sourceHash":row["source_hash"],"sourceContextId":source["id"],"sourcePayloadHash":source["payload_hash"],"containsLabor":context.labor_lineage.contains_labor,"financialProjection":fp,"sourceRows":rows,"createdAt":row["created_at"],"updatedAt":row["updated_at"],"periodKey":row["period_key"],"periodStart":row["period_start"],"periodEnd":row["period_end"],"businessTimezone":row["business_timezone"],"projectSnapshotRef":sources::reference(Table::Snapshot,&snapshot)?,"snapshotAt":row["snapshot_at"],"originalFrozenUnchanged":true,"latestRestatementRef":history.last().map(|r|sources::reference(Table::Restatement,r)).transpose()?,"status":row["status"]})).map_err(|_|Error::Internal)
+}
+
+pub async fn restatement_with_session(
+    session: &mut CommonSession<'_, '_>,
+    id: Uuid,
+    actor: &Actor,
+) -> Result<OperatingRestatementSummary, Error> {
+    let row = store::row(session.connection, Table::Restatement, id, false).await?;
+    let project = store::id(&row, "project_id")?;
+    authorize(session, project, actor).await?;
+    if row["producer_version"] != 1 {
+        return Err(store::conflict("operating_legacy_restatement_unverified"));
+    }
+    let snapshot = store::row(
+        session.connection,
+        Table::Snapshot,
+        store::id(&row, "restated_snapshot_id")?,
+        false,
+    )
+    .await?;
+    let (context, source) = frozen_context(session, &snapshot).await?;
+    let ctx = serde_json::to_value(&context).map_err(|_| Error::Internal)?;
+    let fp = projection::financial(
+        session,
+        actor,
+        project,
+        id,
+        context.labor_lineage.contains_labor.as_str(),
+        &ctx,
+        None,
+    )
+    .await?;
+    let reason = projection::financial(
+        session,
+        actor,
+        project,
+        id,
+        context.labor_lineage.contains_labor.as_str(),
+        &ctx,
+        row["restatement_summary"].as_str(),
+    )
+    .await?;
+    let rows = frozen_rows(session, actor, &context).await?;
+    let before = store::row(
+        session.connection,
+        Table::Snapshot,
+        store::id(&row, "restates_snapshot_id")?,
+        false,
+    )
+    .await?;
+    let root = store::row(
+        session.connection,
+        Table::Snapshot,
+        store::id(&row, "root_snapshot_id")?,
+        false,
+    )
+    .await?;
+    let period = match row["period_end_snapshot_id"].as_str() {
+        Some(id) => Some(sources::reference(
+            Table::Period,
+            &store::row(
+                session.connection,
+                Table::Period,
+                Uuid::parse_str(id).map_err(|_| Error::Internal)?,
+                false,
+            )
+            .await?,
+        )?),
+        None => None,
+    };
+    let affected:Vec<Value>=sqlx::query_scalar("SELECT to_jsonb(t) FROM poms.operating_restatement_record t WHERE restatement_batch_id=$1 ORDER BY project_id,id").bind(store::id(&row,"restatement_batch_id")?).fetch_all(&mut *session.connection).await?;
+    // Only IDs/versions/hashes of the atomic affected records are returned;
+    // another project's reasons, amounts and frozen source payload never leak.
+    let refs = affected
+        .iter()
+        .map(|r| sources::reference(Table::Restatement, r))
+        .collect::<Result<Vec<_>, _>>()?;
+    let head = store::rows(session.connection, Table::Head, project, false)
+        .await?
+        .pop();
+    serde_json::from_value(json!({"outputVersion":"server-derived-v1","id":id,"projectId":project,"rowVersion":row["row_version"],"capturedRowVersion":1,"headVersion":head.map(|h|h["row_version"].clone()).unwrap_or(json!(0)),"producerVersion":1,"certification":"verified","sourceHash":snapshot["source_hash"],"sourceContextId":source["id"],"sourcePayloadHash":source["payload_hash"],"containsLabor":context.labor_lineage.contains_labor,"financialProjection":fp,"sourceRows":rows,"createdAt":row["created_at"],"updatedAt":row["updated_at"],"scope":row["restatement_scope"],"periodEndSnapshotRef":period,"restatesSnapshotRef":sources::reference(Table::Snapshot,&before)?,"restatedSnapshotRef":sources::reference(Table::Snapshot,&snapshot)?,"rootSnapshotRef":sources::reference(Table::Snapshot,&root)?,"causalitySourceRefs":row["causal_source_refs"],"affectedRestatementRefs":refs,"reasonProjection":reason,"handledAt":row["handled_at"],"handledBy":row["handled_by"],"status":row["status"]})).map_err(|_|Error::Internal)
+}
+
+pub async fn restatements_with_session(
+    session: &mut CommonSession<'_, '_>,
+    project: Uuid,
+    actor: &Actor,
+) -> Result<OperatingRestatementListView, Error> {
+    authorize(session, project, actor).await?;
+    let rows = store::rows(session.connection, Table::Restatement, project, false).await?;
+    let mut out = Vec::new();
+    for row in rows {
+        out.push(restatement_with_session(session, store::id(&row, "id")?, actor).await?);
+    }
+    Ok(out)
+}
+
+async fn frozen_context(
+    session: &mut CommonSession<'_, '_>,
+    snapshot: &Value,
+) -> Result<(OperatingSourceContext, Value), Error> {
+    if snapshot["producer_version"] != 1 {
+        return Err(store::conflict("operating_legacy_snapshot_unverified"));
+    }
+    let row = store::row(
+        session.connection,
+        Table::Context,
+        store::id(snapshot, "source_context_id")?,
+        false,
+    )
+    .await?;
+    let context = crate::project_operating_common::loader::load_frozen_context_with_session(
+        session,
+        store::id(snapshot, "id")?,
+        1,
+        store::text(snapshot, "source_hash")?,
+    )
+    .await?;
+    Ok((context, row))
+}
+fn known_draft(draft: &Value, key: &str) -> Result<Value, Error> {
+    Ok(facts::known(
+        OperatingMoneyCents::parse_exact(store::text(draft, key)?, key)?,
+        vec![
+            draft[if key == "originalBaselineCost" {
+                "originalCostRef"
+            } else {
+                "currentCostRef"
+            }]
+            .clone(),
+        ],
+        "source-basis-value",
+    ))
+}
+fn evaluation_view(e: &OperatingEvaluationRefs) -> Value {
+    json!({"maturityEvaluationId":e.maturity_evaluation_id,"signalEvaluationId":e.signal_evaluation_id,"signalRowVersion":e.signal_row_version,"bindingIds":e.binding_ids,"summarySnapshotIds":e.summary_snapshot_ids,"evaluationHash":e.evaluation_hash,"policyVersion":e.policy_version})
+}
+
+async fn frozen_rows(
+    session: &mut CommonSession<'_, '_>,
+    actor: &Actor,
+    context: &OperatingSourceContext,
+) -> Result<Vec<OperatingSourceRow>, Error> {
+    let payload = serde_json::to_value(context).map_err(|_| Error::Internal)?;
+    let mut rows = Vec::new();
+    for (contract_key, kind, ref_key) in [
+        ("contracts", "contract", "contractRef"),
+        ("receipts", "receipt", "receiptRef"),
+        ("costs", "direct-cost", "sourceRef"),
+    ] {
+        for item in payload[contract_key].as_array().ok_or(Error::Internal)? {
+            let row_kind = if item["recognitionRole"] == "allocation-share" {
+                "allocation-share"
+            } else {
+                kind
+            };
+            let labor = item["containsLabor"].as_str().unwrap_or("no");
+            let decision = if item["classification"].is_object() {
+                Some(
+                    json!({"kind":"ProjectCostInclusionDecision","id":item["classification"]["decisionId"],"rowVersion":item["classification"]["rowVersion"],"payloadHash":item["classification"]["evidenceHash"]}),
+                )
+            } else {
+                None
+            };
+            let members = item["allocationSourceMembers"]
+                .as_array()
+                .map(|m| m.iter().map(|v| v["costRef"].clone()).collect())
+                .unwrap_or_default();
+            let reference = if contract_key == "costs" && item["costRef"].is_object() {
+                &item["costRef"]
+            } else {
+                &item[ref_key]
+            };
+            let mut row = frozen_row(
+                session,
+                actor,
+                context.project_id,
+                reference,
+                row_kind,
+                &item["amounts"],
+                labor,
+                decision,
+                members,
+            )
+            .await?;
+            row.canonical_accumulation_key =
+                item["canonicalAccumulationKey"].as_str().map(str::to_owned);
+            row.source_chain_key = item["sourceChainKey"].as_str().map(str::to_owned);
+            row.source_business_date = item["businessDate"]
+                .as_str()
+                .map(|_| sources::business_day(&item["businessDate"]))
+                .transpose()?;
+            row.source_effective_business_date = row.source_business_date;
+            rows.push(row);
+        }
+    }
+    for tax in &context.tax_treatments {
+        let reference =
+            serde_json::to_value(&tax.tax_treatment_ref).map_err(|_| Error::Internal)?;
+        let amounts = facts::empty_triple(context.currency.as_deref(), false)?;
+        let members = tax
+            .evidence_refs
+            .iter()
+            .map(serde_json::to_value)
+            .collect::<Result<Vec<_>, _>>()
+            .map_err(|_| Error::Internal)?;
+        rows.push(
+            frozen_row(
+                session,
+                actor,
+                context.project_id,
+                &reference,
+                "tax-treatment",
+                &amounts,
+                tax.contains_labor.as_str(),
+                None,
+                members,
+            )
+            .await?,
+        );
+    }
+    Ok(rows)
+}
+#[expect(
+    clippy::too_many_arguments,
+    reason = "The frozen row maps distinct source, classification, and projection facts."
+)]
+async fn frozen_row(
+    session: &mut CommonSession<'_, '_>,
+    actor: &Actor,
+    project: Uuid,
+    reference: &Value,
+    kind: &str,
+    amounts: &Value,
+    labor: &str,
+    decision: Option<Value>,
+    members: Vec<Value>,
+) -> Result<OperatingSourceRow, Error> {
+    let id = store::id(reference, "id")?;
+    let fp = projection::source(session, actor, project, id, labor, amounts, None, None).await?;
+    serde_json::from_value(json!({"rowKind":kind,"sourceRef":reference,"sourceMembers":members,"state":"ready","blockingReasonCodes":[],"currentDecisionRef":decision,"canonicalAccumulationKey":null,"sourceChainKey":null,"containsLabor":labor,"allowedRecognitionRoles":[],"primaryCostRef":null,"sourceBusinessDate":null,"sourceEffectiveBusinessDate":null,"financialProjection":fp})).map_err(|_|Error::Internal)
+}

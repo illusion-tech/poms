@@ -7,22 +7,31 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { LifecycleEvidenceRef } from './lifecycle-evidence-ref';
 
 
 export interface CreateAcceptanceRecordRequest {
-    acceptanceType: CreateAcceptanceRecordRequestAcceptanceTypeEnum;
     acceptanceResult: CreateAcceptanceRecordRequestAcceptanceResultEnum;
+    acceptanceType: CreateAcceptanceRecordRequestAcceptanceTypeEnum;
     scopeSummary: string;
     evidenceSummary: string;
     comment?: string | null;
+    expectedProjectVersion: number;
+    evidenceRefs: Array<LifecycleEvidenceRef>;
+    acceptanceStageRecordId: string;
+    conditionalSummary?: string;
+    inputVersion: CreateAcceptanceRecordRequestInputVersionEnum;
 }
+export enum CreateAcceptanceRecordRequestAcceptanceResultEnum {
+    Accepted = 'accepted',
+    Conditional = 'conditional',
+    Rejected = 'rejected'
+};
 export enum CreateAcceptanceRecordRequestAcceptanceTypeEnum {
     StageOutcome = 'stage-outcome',
     StageAcceptance = 'stage-acceptance',
     FinalAcceptance = 'final-acceptance'
 };
-export enum CreateAcceptanceRecordRequestAcceptanceResultEnum {
-    Accepted = 'accepted',
-    Conditional = 'conditional',
-    Rejected = 'rejected'
+export enum CreateAcceptanceRecordRequestInputVersionEnum {
+    ServerDerivedV1 = 'server-derived-v1'
 };

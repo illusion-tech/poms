@@ -1,3 +1,4 @@
+import { OperatingEvaluationEvidence } from './rust-r4ghi-entities.entity';
 import { defineEntity } from '@mikro-orm/core';
 import {
     OPERATING_DATA_MATURITY_LEVELS,
@@ -35,7 +36,9 @@ export const OperatingSignalReviewRecordSchema = defineEntity({
             name: 'uq_osrr_signal_active',
             expression: (columns, table, indexName) =>
                 `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.signalEvaluationId}") where "${columns.status}" = '${OperatingLifecycleStatusValue.Active}'`
-        }
+        },
+        {"name":"uq_jghi_signal_review_current","expression":"CREATE UNIQUE INDEX uq_jghi_signal_review_current ON poms.operating_signal_review_record(signal_evaluation_id)\n WHERE producer_version=1 AND status='active'"},
+        {"name":"uq_jghi_signal_review_successor","expression":"CREATE UNIQUE INDEX uq_jghi_signal_review_successor ON poms.operating_signal_review_record(supersedes_id)\n WHERE supersedes_id IS NOT NULL"}
     ],
     checks: [
         {
@@ -57,7 +60,8 @@ export const OperatingSignalReviewRecordSchema = defineEntity({
         {
             name: 'chk_os_review_status',
             expression: `"status" in (${toSqlStringList(OPERATING_LIFECYCLE_STATUSES)})`
-        }
+        },
+        {"name":"ck_jghi_osreview_v1","expression":"producer_version=0 OR\n  (producer_version=1 AND evidence_id IS NOT NULL AND source_hash IS NOT NULL AND source_hash~'^[0-9a-f]{64}$'\n   AND evaluation_hash IS NOT NULL AND evaluation_hash~'^[0-9a-f]{64}$'\n   AND expected_signal_version IS NOT NULL AND expected_signal_version>0\n   AND review_payload IS NOT NULL AND jsonb_typeof(review_payload)='object'\n   AND payload_hash IS NOT NULL AND payload_hash~'^[0-9a-f]{64}$' AND handled_by IS NOT NULL)"}
     ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
@@ -78,6 +82,15 @@ export const OperatingSignalReviewRecordSchema = defineEntity({
         updatedAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).onUpdate(() => new Date()).fieldName('updated_at').comment('最后更新时间'),
         updatedBy: p.uuid().nullable().fieldName('updated_by').comment('最后更新人'),
         rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号')
+    ,
+        producerVersion: p.smallint().default(0).fieldName("producer_version"),
+        evidenceId: () => p.manyToOne(OperatingEvaluationEvidence).mapToPk().joinColumns("evidence_id").referencedColumnNames("id").foreignKeyName("operating_signal_review_record_evidence_id_fkey").deleteRule("no action").updateRule("no action").nullable(),
+        sourceHash: p.string().length(64).nullable().fieldName("source_hash"),
+        evaluationHash: p.string().length(64).nullable().fieldName("evaluation_hash"),
+        expectedSignalVersion: p.integer().nullable().fieldName("expected_signal_version"),
+        reviewPayload: p.json<unknown>().columnType('jsonb').nullable().fieldName("review_payload"),
+        payloadHash: p.string().length(64).nullable().fieldName("payload_hash"),
+        supersedesId: () => p.manyToOne(OperatingSignalReviewRecord).mapToPk().joinColumns("supersedes_id").referencedColumnNames("id").foreignKeyName("operating_signal_review_record_supersedes_id_fkey").deleteRule("no action").updateRule("no action").nullable()
     }
 });
 

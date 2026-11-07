@@ -27,4 +27,13 @@ export interface CommissionRoleAssignmentDetailView {
     exportPolicy: string | null;
     allowedActions: Array<string>;
     generatedAt: string;
+    sourcePayloadHash: string | null;
+    sourceQualification: CommissionRoleAssignmentDetailViewSourceQualificationEnum;
+    receiptJudgmentFreezeId: string | null;
+    handoverBasisSnapshotId: string | null;
+    freezeSummarySnapshotId: string | null;
 }
+export enum CommissionRoleAssignmentDetailViewSourceQualificationEnum {
+    VerifiedProducer = 'verified-producer',
+    LegacyUnverified = 'legacy-unverified'
+};

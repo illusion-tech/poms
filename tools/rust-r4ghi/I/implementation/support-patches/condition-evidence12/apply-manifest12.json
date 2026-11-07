@@ -1,0 +1,61 @@
+{
+  "kind": "IR05-03 exact-condition sealed upload evidence correction",
+  "createdAt": "2026-11-07T06:31:27.675482+00:00",
+  "rootProductModified": false,
+  "files": [
+    {
+      "path": "apps/poms-api-rust/src/attachments/project_scope.rs",
+      "baseSHA256": "32541bc750d3cc3ef1b58eefc4b2771cb982f8a02ee7e17eb21933c60b87da90",
+      "candidateSHA256": "b807e0b2124c090d5dea0f8eccc416dd05c86db70e026617a0f89a6fb155b875",
+      "candidateBytes": 35028,
+      "rootCurrentSHA256": "32541bc750d3cc3ef1b58eefc4b2771cb982f8a02ee7e17eb21933c60b87da90",
+      "baseMatchesRoot": true
+    },
+    {
+      "path": "apps/poms-api-rust/src/lifecycle_evidence/mod.rs",
+      "baseSHA256": "b40ee3a8091d233e90737a693f4a27f060d9aa41df7b1f1a37fd3c332a83e5fb",
+      "candidateSHA256": "0e11a9f45699815f74c49c773f4c92b0abb6c1a776276084aa335a7571daf872",
+      "candidateBytes": 26832,
+      "rootCurrentSHA256": "b40ee3a8091d233e90737a693f4a27f060d9aa41df7b1f1a37fd3c332a83e5fb",
+      "baseMatchesRoot": true
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_lifecycle/service.rs",
+      "baseSHA256": "bbd61d489a88ab730ec61dd4b195cab33c85598e666738c17a035562822a5da3",
+      "candidateSHA256": "853fba08c8120844d52674a2f15813eb2bb90567ddeab292bc64af8001014ea5",
+      "candidateBytes": 52775,
+      "rootCurrentSHA256": "bbd61d489a88ab730ec61dd4b195cab33c85598e666738c17a035562822a5da3",
+      "baseMatchesRoot": true
+    }
+  ],
+  "patchSHA256": "053556879d46b6f06cc300532c63a8a8aaa677048406594c74d15fdd0381ca76",
+  "preservedOriginals": [
+    "07b",
+    "attachment09",
+    "attachment10",
+    "execution-admission11"
+  ],
+  "behavior": [
+    "OwnCondition EvidenceAccess now carries actual completion_record_id and condition_id from close route scope.",
+    "FullProject close proof explicitly keeps FullProject evidence path; legitimate ordinary project evidence is not narrowed to purpose uploads.",
+    "Own-only branch recomputes exact double-UUID CloseCompletionCondition proof in caller CommonSession and verifies project identity.",
+    "An existing exact K frozen condition/closure ref may be reused only with true parent/child/project ownership and immutable payload hash plus current/frozen live link/attachment/classification/version/checksum checks.",
+    "Otherwise a new ref must come from completed create-attachment project-purpose version1 session bound to this exact K/parent/project/actor, real produced attachment/link, initial physical version_no/group/previous chain, actual current row_version and completed checksum, statuses/timestamps/size.",
+    "uploaded_by alone, ordinary version0, or another condition owned by this actor cannot qualify.",
+    "Private frozen provenance captures actual uploadSessionId/rowVersion/K binding and current attachment ref; public projection still exactly five evidence fields.",
+    "Purpose-session exact attachment read also checks initial upload classification AND live classification; existing frozen evidence path retains its own frozen/current checks."
+  ],
+  "verification": {
+    "rustSyntaxAndNewEvidenceScopeFmt": "passed",
+    "testsAdded": "4 pure matcher counterexample/positive tests added; actual Root HTTP negatives still required",
+    "PGHTTP": "not run by author",
+    "independentReview": "requested"
+  },
+  "actualAcceptancePlan": [
+    "Own-only same-project ordinary purpose0 uploadedBy-self file: close rejected, zero closure/evidence/CAS/audit writes; original attachment GET remains denied.",
+    "Exact same actor purpose K1 file cannot close K2 or wrong parent/project.",
+    "Correct completed purpose for K closes successfully; exact already-K frozen reference reusable.",
+    "FullProject actor closing own pending K may use ordinary valid project evidence from another uploader.",
+    "Version/checksum/link/status/current/frozen-class mismatch rejects, all mandatory writes/auth/audit roll back."
+  ]
+}

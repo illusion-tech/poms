@@ -1,0 +1,53 @@
+{
+  "kind": "reviewer-authored-supported-schema-generator-fix-admission-evidence",
+  "capturedAt": "2026-11-07T09:07:00.757121+00:00",
+  "candidateFiles": [
+    {
+      "path": "apps/poms-api/src/app/core/persistence/poms-schema-generator.ts",
+      "baseSHA256": null,
+      "candidateSHA256": "457fed18cb696f55fe1353877fc3d1cf16d3220cc0eaf0d0368e9abf4e7cced0",
+      "candidateBytes": 4035
+    },
+    {
+      "path": "apps/poms-api/src/app/core/persistence/persistence.config.ts",
+      "baseSHA256": "0086edb287fde5390ffcf75cef71b2f929ac3bff07a9d31b5a130010dde2284c",
+      "candidateSHA256": "ac68d3fc8f87c4a804f464e1d0bf3ad50f9ef53e7b865b3c8708bfb3b338d90e",
+      "candidateBytes": 2444
+    }
+  ],
+  "framework": "MikroORM 7.0.11 supported extensions/registerExtension mechanism; no vendor or lock changes",
+  "supportedExtensionActuallyActive": true,
+  "fullTargetTableCount": 135,
+  "sourceInputs": 88,
+  "baseAndCandidateInputsExact": true,
+  "sourceStillMatches": true,
+  "completeTargetDelta": [
+    {
+      "path": "tables/project/columns/id/default",
+      "before": null,
+      "after": "gen_random_uuid()"
+    },
+    {
+      "path": "tables/project_operating_snapshot/columns/id/default",
+      "before": null,
+      "after": "gen_random_uuid()"
+    }
+  ],
+  "allOtherDefaultsAndColumnsAndIterationOrderExact": true,
+  "allFKScopeAndRulesExact": true,
+  "allChecksAndIndexesExact": true,
+  "typecheck": {
+    "kind": "actual-typescript-real-MikroORM7-generator-extension-typecheck-no-emit",
+    "version": "6.0.3",
+    "diagnostics": []
+  },
+  "negativeProof": "generator-fixtures21.json",
+  "actualComparatorDetectsMissingDefault": true,
+  "SQLExecuted": false,
+  "RootFilesEditedByReviewer": false,
+  "reviewerAuthoredNeedsRootIndependentReview": true,
+  "scopeAdmission": "Two files only: generator subclass and supported extension registration. Root must review exact bases, apply/sync and rerun actual owner check/dump. No product G3/G4 or SDK change.",
+  "originalFailedProbes": "first-probe21/ retains initial two TypeScript diagnostics and invalid single-column duplicate fixture; corrected harness/typing, no weakened product validation.",
+  "G3Certified": false,
+  "G4Certified": false
+}

@@ -1,0 +1,19 @@
+{
+  "kind":"actual-user-business-decisions-for-R4-third-batch",
+  "date":"2026-11-06",
+  "batchIssue":110,
+  "notUserFixIssue":115,
+  "source":"explicit user replies in this chat",
+  "decisions":[
+    {"topic":"minimum-role-freeze-and-controlled-lifecycle","answer":"补齐最小依赖和受控推进，完成真实闭环（推荐）","meaning":"单列4项既有R5角色分配/冻结；补进入执行、进入验收两个受控命令；新建项目从初始阶段开始，由真实合同和移交事实推进。"},
+    {"topic":"receipt-accounting-basis","answer":"含税到账额＋可追溯净税依据，历史不猜测（推荐）","meaning":"到账现金视为含税；确认冻结真实合同税务依据及净税拆分；历史缺依据保持待复核，授权补齐后才进入正式经营核算。"},
+    {"topic":"cost-inclusion","answer":"显式分类并复核，服务端派生核算结果（推荐）","meaning":"完整列明成本纳入/排除和理由；服务器验证来源、阶段、币种、税务、版本后计算和冻结。"},
+    {"topic":"commission-weight-zero","answer":"允许零权重角色，但必须说明零分成原因","meaning":"允许非负权重，最多6位小数，合计精确1；零权重须非空零分成原因，移交职责事实继续保留。"},
+    {"topic":"project-completion","answer":"最终验收＋可追踪的有条件完工闭环（推荐）","meaning":"仅最终验收可触发完工；accepted对应completed，conditional对应conditional-completed，后者必须有事项/负责人/期限/证据及真实条件关闭入口；阶段验收不直接完成整个项目。"}
+  ],
+  "candidateCount":{"existingR4":25,"newR4StageCommands":2,"newR4ConditionClosure":1,"existingR5Minimum":4,"totalBeforeFinalRouteReview":32},
+  "G1Certified":false,
+  "G2AuthorizedForBusinessBatch":false,
+  "knownCurrentCounts":{"officialRust":240,"deliveredR4":67,"previousFrozenTotalR4":92},
+  "scopeNote":"最终canonical/DTO/DDL/公共机制及唯一操作数仍须联合G1精确冻结；本记录不代表实现或验收。"
+}

@@ -1,0 +1,61 @@
+{
+  "kind": "Root-non-author-reviewed-real-E-F-expense-authoring-UI",
+  "proposalSHA256": "7bf3ae2209ba13fb2fbf830d7519f6ca2df036498526d5807b0b1f79f87a38a5",
+  "files": [
+    {
+      "file": "apps/poms-admin/src/app/features/project/project-expense-cost-authoring.spec.ts",
+      "baseRawBytesSha256": null,
+      "candidateRawBytesSha256": "b8bfc956b38127e37a9cdff71e5c1e25306666e8ec30fb1726811eef9340bb51",
+      "bytes": 14254
+    },
+    {
+      "file": "apps/poms-admin/src/app/features/project/project-expense-cost-authoring.ts",
+      "baseRawBytesSha256": null,
+      "candidateRawBytesSha256": "3c48208d58f52a00326c0893ee3ed36a1eafb4549aa520f2bdf60ac660f63785",
+      "bytes": 19605
+    },
+    {
+      "file": "apps/poms-admin/src/app/features/project/project-expense-cost-facts.spec.ts",
+      "baseRawBytesSha256": null,
+      "candidateRawBytesSha256": "416af41d77011e1920f657412a5e76aed9c2434f60e34a6f720b23e261f3b713",
+      "bytes": 5334
+    },
+    {
+      "file": "apps/poms-admin/src/app/features/project/project-expense-cost-facts.ts",
+      "baseRawBytesSha256": null,
+      "candidateRawBytesSha256": "cd74922fa44d4e2cb35b2d9d33c6832416cb0b9fa350954d79e40fa753e28627",
+      "bytes": 3937
+    },
+    {
+      "file": "apps/poms-admin/src/app/features/project/project-governance.ts",
+      "baseRawBytesSha256": "133207a2f0900ea0fbbf21e91487226257fe5e949880dcd20e9d384c6be137ec",
+      "candidateRawBytesSha256": "0dd4dbf9c3d8a4226ce5110901a47e792a00ef8a934743dab9b1236468224c43",
+      "bytes": 19383
+    },
+    {
+      "file": "libs/admin/data-access/src/index.ts",
+      "baseRawBytesSha256": "301f3c4caab732e7c6c379f18666fd9c446c061d1a29d4c846f7fad4a883b890",
+      "candidateRawBytesSha256": "a32b33b20f8a707a9466d02f35e3f9ac11455b97b606effab5b27eaf0facf3f1",
+      "bytes": 14101
+    },
+    {
+      "file": "libs/admin/data-access/src/lib/project/project-expense-cost.api.ts",
+      "baseRawBytesSha256": null,
+      "candidateRawBytesSha256": "b2b6512693397232b8dabdb1c6244458640b2f0779e0d4f527be4edacdb0684b",
+      "bytes": 9924
+    }
+  ],
+  "review": [
+    "Only the existing Full scope finance tab mounts the expense/cost component; Creator/Legacy/Own remain separate",
+    "Server-listed categories/contracts/expense/cost IDs and exact source CAS feed existing generated clients",
+    "Money remains strings with exact cents and explicit currency; unknown net/tax stay null",
+    "A confirmed expense produces source-only actual cost then a documented manual stage assessment using its actual occurredOn",
+    "Protected source identity prevents treating uncertain mapping as absent; missing ACK never automatically reposts",
+    "Backend/Shared/SDK/routes unchanged; formal DOM and complete validation remain required"
+  ],
+  "newHTTP": 0,
+  "backendProductSourceChanged": false,
+  "actualDOMExecuted": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

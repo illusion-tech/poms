@@ -1,0 +1,43 @@
+{
+  "kind": "independent-S6-A2-exact-input-feature-commit-admission",
+  "capturedAt": "2026-11-07T11:33:55.871660+00:00",
+  "manifestSHA256": "ddb2d8e44ed6897d75d0181093b49b3a27540560d2df73f789fd476bf1d91b35",
+  "inputRecords": 420,
+  "allCurrentSnapshotRawNormalizedAndStagedBytesExact": true,
+  "stagedPaths": 423,
+  "stageOnlySpecAndNewCheckpoint": true,
+  "fiveOtherProtectedFilesUnchangedFromS5": true,
+  "S4AncestorS5Immutable": true,
+  "specSHA256": "942661f06947136bbdaf5621bdef9e531a7ab3fe350271f6ca054e01b495a19c",
+  "counts": {
+    "paths": 242,
+    "operations": 296,
+    "schemas": 690
+  },
+  "exactJSONDelta": [
+    "/components/schemas/CreateProjectRequest/properties/initialOwnership",
+    "/components/schemas/ProjectInitialOwnership"
+  ],
+  "old689SchemasAnd296OperationsRetained": true,
+  "newEnum": {
+    "type": "string",
+    "enum": [
+      "creator",
+      "organization"
+    ],
+    "description": "creator 由创建人主责；organization 由真实组织承接并等待创建人首次指派。省略时采用 creator。"
+  },
+  "createInitialOwnershipOptional": true,
+  "nativeGuardCapturedAndWiredSourceReviewed": true,
+  "explicitTypeReferenceAndRealBridgeCaptured": true,
+  "actualFullExport13": {
+    "exitCode": 0,
+    "noFilesOverride": true,
+    "databaseConnect": false,
+    "rawLogsMatchReceipt": true
+  },
+  "fullProgramClosure": "Capture script builds full current app program, asserts actual errors0 and enumerates full in-repo source closure plus exact extras/protected; standalone closure reproduction follows separately.",
+  "boundedAdmission": "Root may create feature-only A2 source-input commit with these exact423 paths; does not authorize product/SDK/main/G3 delivery. Actual commit tree must still be read back; C2/SDK_B2 guarded registration and full generation remain separate.",
+  "G3Certified": false,
+  "G4Certified": false
+}

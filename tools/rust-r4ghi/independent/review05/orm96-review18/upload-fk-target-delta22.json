@@ -1,0 +1,28 @@
+{
+  "completeSemanticDelta": [
+    {
+      "path": "tables/attachment_upload_session/foreignKeys/fk_jghi_upload_condition_scope",
+      "before": null,
+      "after": {
+        "constraintName": "fk_jghi_upload_condition_scope",
+        "columnNames": [
+          "completion_condition_id",
+          "completion_record_id",
+          "target_id"
+        ],
+        "localTableName": "poms.attachment_upload_session",
+        "referencedColumnNames": [
+          "id",
+          "completion_record_id",
+          "project_id"
+        ],
+        "referencedTableName": "poms.project_completion_condition",
+        "deleteRule": "restrict",
+        "updateRule": "no action"
+      }
+    }
+  ],
+  "columnMapIterationOrderChanged": [
+    "attachment_upload_session"
+  ]
+}

@@ -1,0 +1,1116 @@
+//! REVIEW CANDIDATE for project_cost_governance/correction.rs, Root applies.
+//! Required real seams: original E/F three patches, first-append delta02,
+//! E-preflight-delta03 and F-reference-read-delta03, I's real stage provider.
+//! No transaction control, pool, UoW clearing, synthetic source or client permit.
+use super::{
+    evidence, logic, service,
+    store::{self, Table},
+};
+use crate::{
+    approval_common::CommonSession,
+    contract_support::{Actor, Error},
+    project_operating::sources::source_reference_with_session,
+    project_operating_common::model::*,
+};
+use serde_json::{Value, json};
+use std::collections::{BTreeMap, BTreeSet};
+use uuid::Uuid;
+
+const OP: &str = "ProjectCostController_createOperatingRestatement";
+struct LaborPlan {
+    input: LaborCorrection,
+    project: Uuid,
+    old: Value,
+    body: Value,
+    authority: StageAuthority,
+}
+struct StageAuthority {
+    stage: String,
+    mode: &'static str,
+    evidence: Value,
+    refs: Vec<SourceRef>,
+}
+struct StagePlan {
+    input: ValidatedStageCorrection,
+    bases: Vec<Uuid>,
+}
+struct TaxPlan {
+    input: ValidatedTaxCorrection,
+}
+struct BatchPlan {
+    basis: Value,
+    results: Vec<Value>,
+    sources: Vec<Value>,
+    explicit: Option<AllocationCorrection>,
+}
+
+pub(crate) async fn apply_corrections_with_session(
+    session: &mut CommonSession<'_, '_>,
+    input: &CreateOperatingRestatementRequest,
+    scope: &VerifiedRestatementScope<'_>,
+    actor: &Actor,
+) -> Result<Vec<VerifiedProducerTransition>, Error> {
+    scope.access.assert_session(session, actor).await?;
+    if scope.actor_id != actor.id || scope.input_hash.as_str() != input.expected_input_hash {
+        return Err(Error::Forbidden(
+            "Correction scope is not this actor and prepared transaction".into(),
+        ));
+    }
+    scoped_project(scope, input.project_id)?;
+    assert_targets(input, scope)?;
+    let mut primary = BTreeSet::new();
+    let mut labor = Vec::new();
+    let mut stages = Vec::new();
+    let mut taxes = Vec::new();
+    let mut batches = BTreeMap::<Uuid, BatchPlan>::new();
+
+    // Complete permissions, exact references, conflicts and producer preflight
+    // all precede the first source write. Source families are already rank-
+    // locked by G; these helpers only reacquire that same borrowed frame.
+    for correction in &input.labor_corrections {
+        unique(&mut primary, "cost", correction.superseded_cost_ref.id)?;
+        let old_ref = expected(
+            session,
+            scope,
+            &correction.superseded_cost_ref,
+            "ProjectActualCostRecord",
+        )
+        .await?;
+        let old = store::row(session.connection, Table::Cost, old_ref.id, true).await?;
+        let project = store::id(&old, "project_id")?;
+        scoped_project(scope, project)?;
+        if old["cost_type"] != "labor" {
+            return Err(unsupported());
+        }
+        expected(
+            session,
+            scope,
+            &correction.rate_ref,
+            "InternalCostRateVersion",
+        )
+        .await?;
+        let rate:Value=sqlx::query_scalar("SELECT to_jsonb(r)||jsonb_build_object('rate_value',r.rate_value::text) FROM poms.internal_cost_rate_version r WHERE id=$1 FOR SHARE")
+            .bind(correction.rate_ref.id).fetch_one(&mut *session.connection).await?;
+        if rate["currency"] != old["currency"] {
+            return Err(Error::CodedConflict {
+                code: "operating_source_currency_change_unsupported",
+                message: "No frozen conversion producer exists".into(),
+            });
+        }
+        for attachment in &correction.attachment_refs {
+            expected(session, scope, attachment, "Attachment").await?;
+        }
+        let authority =
+            labor_stage_authority(session, scope, actor, correction, &old, project).await?;
+        let body = json!({"expectedSupersededRecordVersion":correction.superseded_cost_ref.expected_version,
+            "rateVersionId":correction.rate_ref.id,"laborPeriodStart":correction.labor_period_start,
+            "laborPeriodEnd":correction.labor_period_end,"actualHours":correction.actual_hours,
+            "actualPersonDays":correction.actual_person_days,"workSummary":correction.work_summary,
+            "costDescription":correction.work_summary,"replaceReason":correction.reason,
+            "attachmentIds":correction.attachment_refs.iter().map(|r|r.id).collect::<Vec<_>>()});
+        crate::project_actual_cost::validate_labor_replacement_with_restatement_scope(
+            session, old_ref.id, &body, actor, scope,
+        )
+        .await?;
+        for basis in basis_ids_for_costs(session, &[old_ref.id]).await? {
+            load_batch(session, scope, basis, None, &mut batches).await?;
+        }
+        labor.push(LaborPlan {
+            input: correction.clone(),
+            project,
+            old,
+            body,
+            authority,
+        });
+    }
+    for correction in &input.stage_corrections {
+        unique(&mut primary, "cost", correction.cost_ref.id)?;
+        let cost = expected(
+            session,
+            scope,
+            &to_expected(&correction.cost_ref)?,
+            "ProjectActualCostRecord",
+        )
+        .await?;
+        let attribution = expected(
+            session,
+            scope,
+            &to_expected(&correction.stage_attribution_ref)?,
+            "CostStageAttributionSnapshot",
+        )
+        .await?;
+        let cost_row = store::row(session.connection, Table::Cost, cost.id, true).await?;
+        let old = store::row(session.connection, Table::Stage, attribution.id, true).await?;
+        let project = store::id(&cost_row, "project_id")?;
+        scoped_project(scope, project)?;
+        if old["cost_record_id"] != cost.id.to_string()
+            || old["status"] != "active"
+            || old["governance_schema_version"] != 1
+            || correction.request.expected_version != attribution.row_version
+        {
+            return Err(changed());
+        }
+        let body = serde_json::to_value(&correction.request).map_err(|_| Error::Internal)?;
+        let proof =
+            evidence::reference(session, &body["attributionEvidence"], project, actor).await?;
+        if proof.date != store::text(&cost_row, "occurred_on")?
+            || correction.request.new_attributed_stage.trim().is_empty()
+        {
+            return Err(changed());
+        }
+        let bases = basis_ids_for_costs(session, &[cost.id]).await?;
+        for basis in &bases {
+            load_batch(session, scope, *basis, None, &mut batches).await?;
+        }
+        stages.push(StagePlan {
+            input: ValidatedStageCorrection {
+                request: correction.clone(),
+                project_id: project,
+                cost_before_ref: cost,
+                attribution_before_ref: attribution,
+                verified_evidence_refs: vec![],
+            },
+            bases,
+        });
+    }
+    for correction in &input.tax_corrections {
+        unique(&mut primary, "tax", correction.tax_treatment_ref.id)?;
+        let tax = expected(
+            session,
+            scope,
+            &to_expected(&correction.tax_treatment_ref)?,
+            "AccountingTaxTreatmentSnapshot",
+        )
+        .await?;
+        let old = store::row(session.connection, Table::Tax, tax.id, true).await?;
+        let project = store::id(&old, "project_id")?;
+        scoped_project(scope, project)?;
+        if old["status"] != "active"
+            || old["governance_schema_version"] != 1
+            || correction.request.expected_version != tax.row_version
+        {
+            return Err(changed());
+        }
+        let mut verified = Vec::new();
+        let mut costs = BTreeSet::new();
+        for reference in &correction.expected_source_refs {
+            let source = expected(session, scope, reference, &reference.kind).await?;
+            costs.extend(cost_ids_for_source(session, &source).await?);
+            verified.push(source);
+        }
+        let old_evidence = store::row(
+            session.connection,
+            Table::Evidence,
+            store::id(&old, "governance_evidence_id")?,
+            false,
+        )
+        .await?;
+        if old_evidence["payload_hash"]
+            != crate::contract_support::canonical_hash(&old_evidence["frozen_payload"])?
+        {
+            return Err(changed());
+        }
+        for source in old_evidence["source_references"]
+            .as_array()
+            .into_iter()
+            .flatten()
+        {
+            if source["kind"] == "source" {
+                costs.extend(cost_ids_for_legacy_reference(session, source).await?);
+            }
+        }
+        let mut normalized = correction.clone();
+        normalized.request.source_references =
+            complete_tax_source_references(session, correction).await?;
+        let body = serde_json::to_value(&normalized.request).map_err(|_| Error::Internal)?;
+        validate_tax_request(session, scope, project, tax.id, &body, actor).await?;
+        for basis in basis_ids_for_costs(session, &costs.into_iter().collect::<Vec<_>>()).await? {
+            load_batch(session, scope, basis, None, &mut batches).await?;
+        }
+        taxes.push(TaxPlan {
+            input: ValidatedTaxCorrection {
+                request: normalized,
+                project_id: project,
+                tax_before_ref: tax,
+                verified_source_refs: verified,
+                verified_evidence_refs: vec![],
+            },
+        });
+    }
+    for correction in &input.allocation_corrections {
+        unique(&mut primary, "allocation", correction.basis_ref.id)?;
+        expected(
+            session,
+            scope,
+            &correction.basis_ref,
+            "SharedCostAllocationBasis",
+        )
+        .await?;
+        load_batch(
+            session,
+            scope,
+            correction.basis_ref.id,
+            Some(correction.clone()),
+            &mut batches,
+        )
+        .await?;
+    }
+    for batch in batches.values() {
+        validate_batch_input(session, scope, batch).await?;
+    }
+
+    let mut transitions = Vec::new();
+    // Real E replacement, then the real F first-stage producer for its new ID.
+    for plan in labor {
+        let before = source_reference_with_session(
+            session,
+            "ProjectActualCostRecord",
+            store::id(&plan.old, "id")?,
+        )
+        .await?;
+        let result = crate::project_actual_cost::replace_labor_with_restatement_scope(
+            session, before.id, &plan.body, actor, OP, scope,
+        )
+        .await?;
+        let id = result_id(&result)?;
+        let registered = store::row(session.connection, Table::Cost, id, false).await?;
+        if registered["supersedes_record_id"] != before.id.to_string()
+            || registered["project_id"] != plan.project.to_string()
+            || registered["record_status"] != "registered"
+            || registered["is_included_in_project_cost"] != false
+        {
+            return Err(changed());
+        }
+        let stage_body = json!({"expectedVersion":store::version(&registered)?,"attributedStage":plan.authority.stage,
+            "stageAttributionMode":plan.authority.mode,"lockedBySnapshotId":null,
+            "attributionSummary":plan.input.work_summary,"attributionEvidence":plan.authority.evidence});
+        let stage = service::stage(session, OP, id, false, &stage_body, actor).await?;
+        let after = source_reference_with_session(session, "ProjectActualCostRecord", id).await?;
+        let stage_ref = source_reference_with_session(
+            session,
+            "CostStageAttributionSnapshot",
+            result_id(&stage)?,
+        )
+        .await?;
+        let evidence_ref = source_reference_with_session(
+            session,
+            "CostGovernanceEvidence",
+            value_id(&stage, "evidenceId")?,
+        )
+        .await?;
+        let mut refs = plan.authority.refs;
+        refs.extend([stage_ref.clone(), evidence_ref]);
+        transitions.push(VerifiedProducerTransition {
+            kind: CorrectionKind::LaborReplacement,
+            before_refs: vec![before],
+            after_refs: vec![after, stage_ref],
+            evidence_refs: refs,
+            affected_project_ids: vec![plan.project],
+        });
+    }
+    for mut plan in stages {
+        plan.input.request.request.attribution_evidence = rebind_governance_evidence(
+            session,
+            &plan.input.request.request.attribution_evidence,
+            &transitions,
+        )
+        .await?;
+        let permit = StageReclassificationPermit {
+            scope,
+            cost_id: plan.input.cost_before_ref.id,
+            attribution_id: plan.input.attribution_before_ref.id,
+            affected_allocation_basis_ids: plan.bases,
+        };
+        transitions.push(reclassify_with_permit(session, &plan.input, &permit, actor).await?);
+    }
+    for mut plan in taxes {
+        let mut rebound = Vec::new();
+        for source in &plan.input.request.request.source_references {
+            rebound.push(rebind_governance_evidence(session, source, &transitions).await?);
+        }
+        plan.input.request.request.source_references = rebound;
+        let permit = TaxTreatmentReplacementPermit {
+            scope,
+            tax_treatment_id: plan.input.tax_before_ref.id,
+            project_id: plan.input.project_id,
+        };
+        transitions.push(replace_tax_with_permit(session, &plan.input, &permit, actor).await?);
+    }
+    // Each old batch is rebuilt exactly once, including dependencies of a true
+    // stage/tax correction. No synthetic receiver cost row or partial share.
+    for batch in batches.into_values() {
+        let before = std::iter::once(
+            source_reference_with_session(
+                session,
+                "SharedCostAllocationBasis",
+                store::id(&batch.basis, "id")?,
+            )
+            .await?,
+        )
+        .chain(
+            batch
+                .results
+                .iter()
+                .map(|r| {
+                    store::id(r, "id")
+                        .and_then(|id| source_ref_locked(scope, "SharedCostAllocationResult", id))
+                })
+                .collect::<Result<Vec<_>, _>>()?
+                .into_iter(),
+        )
+        .collect::<Vec<_>>();
+        let mut shares = Vec::new();
+        for result in &batch.results {
+            let project = store::id(result, "project_id")?;
+            let (weight,reason)=match batch.explicit.as_ref().and_then(|c|c.project_share_items.iter().find(|s|s.project_id==project)){
+                Some(item)=>(item.allocation_weight.clone(),item.reason.clone()),
+                None=>(store::text(result,"allocation_weight")?.to_owned(),"Preserve the actual frozen project weight while refreshing corrected source provenance".into())};
+            shares.push(
+                json!({"projectId":project,"allocationWeight":weight,"allocationSummary":reason}),
+            );
+        }
+        let anchor = batch.results.first().ok_or_else(changed)?;
+        let reason = batch
+            .explicit
+            .as_ref()
+            .map(|c| c.reason.as_str())
+            .unwrap_or(
+                "Refresh the complete actual allocation batch for the sealed source correction",
+            );
+        let body = json!({"expectedVersion":store::version(anchor)?,"expectedBasisVersion":store::version(&batch.basis)?,
+            "replacementReason":reason,"projectShareItems":shares});
+        let response = service::allocation_with_restatement_scope(
+            session,
+            OP,
+            store::id(anchor, "id")?,
+            &body,
+            actor,
+            scope,
+            &transitions,
+        )
+        .await?;
+        let basis_id = value_id(&response, "basisId")?;
+        let new_basis =
+            source_reference_with_session(session, "SharedCostAllocationBasis", basis_id).await?;
+        let results = store::children(session.connection, Table::Result, basis_id, false).await?;
+        let mut after = vec![new_basis];
+        let mut evidence_refs = vec![
+            source_reference_with_session(
+                session,
+                "CostGovernanceEvidence",
+                value_id(&response, "evidenceId")?,
+            )
+            .await?,
+        ];
+        for result in &results {
+            after.push(
+                source_reference_with_session(
+                    session,
+                    "SharedCostAllocationResult",
+                    store::id(result, "id")?,
+                )
+                .await?,
+            );
+            evidence_refs.push(
+                source_reference_with_session(
+                    session,
+                    "CostGovernanceEvidence",
+                    store::id(result, "governance_evidence_id")?,
+                )
+                .await?,
+            );
+        }
+        let affected = batch
+            .results
+            .iter()
+            .map(|r| store::id(r, "project_id"))
+            .collect::<Result<Vec<_>, _>>()?;
+        transitions.push(VerifiedProducerTransition {
+            kind: CorrectionKind::AllocationBatchReplacement,
+            before_refs: before,
+            after_refs: after,
+            evidence_refs,
+            affected_project_ids: affected,
+        });
+    }
+    Ok(transitions)
+}
+
+pub(crate) async fn reclassify_with_permit(
+    session: &mut CommonSession<'_, '_>,
+    input: &ValidatedStageCorrection,
+    permit: &StageReclassificationPermit<'_>,
+    actor: &Actor,
+) -> Result<VerifiedProducerTransition, Error> {
+    permit.scope.access.assert_session(session, actor).await?;
+    scoped_project(permit.scope, input.project_id)?;
+    let before_cost =
+        source_reference_with_session(session, "ProjectActualCostRecord", input.cost_before_ref.id)
+            .await?;
+    let before_stage = source_reference_with_session(
+        session,
+        "CostStageAttributionSnapshot",
+        input.attribution_before_ref.id,
+    )
+    .await?;
+    if before_cost.row_version != input.cost_before_ref.row_version
+        || before_cost.payload_hash != input.cost_before_ref.payload_hash
+        || before_stage.row_version != input.attribution_before_ref.row_version
+        || before_stage.payload_hash != input.attribution_before_ref.payload_hash
+    {
+        return Err(changed());
+    }
+    let body = serde_json::to_value(&input.request.request).map_err(|_| Error::Internal)?;
+    let result =
+        service::stage_with_restatement_permit(session, OP, before_stage.id, &body, actor, permit)
+            .await?;
+    Ok(VerifiedProducerTransition {
+        kind: CorrectionKind::StageReclassification,
+        before_refs: vec![before_cost.clone(), before_stage],
+        after_refs: vec![
+            source_reference_with_session(session, "ProjectActualCostRecord", before_cost.id)
+                .await?,
+            source_reference_with_session(
+                session,
+                "CostStageAttributionSnapshot",
+                result_id(&result)?,
+            )
+            .await?,
+        ],
+        evidence_refs: vec![
+            source_reference_with_session(
+                session,
+                "CostGovernanceEvidence",
+                value_id(&result, "evidenceId")?,
+            )
+            .await?,
+        ],
+        affected_project_ids: vec![input.project_id],
+    })
+}
+
+pub(crate) async fn replace_tax_with_permit(
+    session: &mut CommonSession<'_, '_>,
+    input: &ValidatedTaxCorrection,
+    permit: &TaxTreatmentReplacementPermit<'_>,
+    actor: &Actor,
+) -> Result<VerifiedProducerTransition, Error> {
+    permit.scope.access.assert_session(session, actor).await?;
+    scoped_project(permit.scope, input.project_id)?;
+    let before = source_reference_with_session(
+        session,
+        "AccountingTaxTreatmentSnapshot",
+        input.tax_before_ref.id,
+    )
+    .await?;
+    if before.row_version != input.tax_before_ref.row_version
+        || before.payload_hash != input.tax_before_ref.payload_hash
+    {
+        return Err(changed());
+    }
+    let body = serde_json::to_value(&input.request.request).map_err(|_| Error::Internal)?;
+    let result =
+        service::tax_with_restatement_permit(session, OP, before.id, &body, actor, permit).await?;
+    Ok(VerifiedProducerTransition {
+        kind: CorrectionKind::TaxTreatmentReplacement,
+        before_refs: vec![before],
+        after_refs: vec![
+            source_reference_with_session(
+                session,
+                "AccountingTaxTreatmentSnapshot",
+                result_id(&result)?,
+            )
+            .await?,
+        ],
+        evidence_refs: vec![
+            source_reference_with_session(
+                session,
+                "CostGovernanceEvidence",
+                value_id(&result, "evidenceId")?,
+            )
+            .await?,
+        ],
+        affected_project_ids: vec![input.project_id],
+    })
+}
+
+async fn expected(
+    session: &mut CommonSession<'_, '_>,
+    scope: &VerifiedRestatementScope<'_>,
+    input: &ExpectedRef,
+    kind: &str,
+) -> Result<SourceRef, Error> {
+    if input.kind != kind {
+        return Err(unsupported());
+    }
+    let actual = source_reference_with_session(session, kind, input.id).await?;
+    if actual.row_version != input.expected_version || actual.payload_hash != input.payload_hash {
+        return Err(changed());
+    }
+    if !scope
+        .locked_source_refs
+        .iter()
+        .any(|r| same_ref(r, &actual))
+    {
+        return Err(Error::CodedConflict {
+            code: "operating_correction_lock_plan_incomplete",
+            message: "The complete correction source must be locked before producer effects".into(),
+        });
+    }
+    Ok(actual)
+}
+fn same_ref(a: &SourceRef, b: &SourceRef) -> bool {
+    a.kind == b.kind
+        && a.id == b.id
+        && a.row_version == b.row_version
+        && a.payload_hash == b.payload_hash
+}
+fn scoped_project(scope: &VerifiedRestatementScope<'_>, id: Uuid) -> Result<(), Error> {
+    scope.access.assert_project(id)?;
+    if !scope.locked_projects.iter().any(|p| p.project_id == id) {
+        return Err(Error::CodedConflict {
+            code: "operating_restatement_scope_incomplete",
+            message: "The actual affected project was not locked".into(),
+        });
+    }
+    Ok(())
+}
+fn unique(
+    seen: &mut BTreeSet<(&'static str, Uuid)>,
+    kind: &'static str,
+    id: Uuid,
+) -> Result<(), Error> {
+    if !seen.insert((kind, id)) {
+        return Err(Error::CodedUnprocessable {
+            code: "conflicting_correction_targets",
+            message: "Correction targets conflict".into(),
+        });
+    }
+    Ok(())
+}
+fn changed() -> Error {
+    Error::CodedConflict {
+        code: "operating_correction_source_changed",
+        message: "The actual correction source or predecessor changed".into(),
+    }
+}
+fn unsupported() -> Error {
+    Error::CodedConflict {
+        code: "operating_source_correction_unsupported",
+        message: "No genuine correction producer or proved stage authority exists for this input"
+            .into(),
+    }
+}
+fn value_id(value: &Value, key: &str) -> Result<Uuid, Error> {
+    store::id(value, key)
+}
+fn result_id(value: &Value) -> Result<Uuid, Error> {
+    value_id(value, "targetId")
+}
+fn to_expected<T: serde::Serialize>(value: &T) -> Result<ExpectedRef, Error> {
+    serde_json::from_value(serde_json::to_value(value).map_err(|_| Error::Internal)?)
+        .map_err(|_| Error::Internal)
+}
+fn source_ref_locked(
+    scope: &VerifiedRestatementScope<'_>,
+    kind: &str,
+    id: Uuid,
+) -> Result<SourceRef, Error> {
+    scope
+        .locked_source_refs
+        .iter()
+        .find(|r| r.kind == kind && r.id == id)
+        .cloned()
+        .ok_or_else(changed)
+}
+
+fn assert_targets(
+    input: &CreateOperatingRestatementRequest,
+    scope: &VerifiedRestatementScope<'_>,
+) -> Result<(), Error> {
+    let mut submitted = BTreeSet::from([input.restates_snapshot_ref.id]);
+    for target in &input.affected_targets {
+        if !submitted.insert(target.restates_snapshot_ref.id) {
+            return Err(Error::CodedUnprocessable {
+                code: "conflicting_correction_targets",
+                message: "Duplicate terminal target".into(),
+            });
+        }
+    }
+    let actual = scope
+        .complete_terminal_target_refs
+        .iter()
+        .map(|r| r.id)
+        .collect::<BTreeSet<_>>();
+    if submitted != actual {
+        return Err(Error::CodedConflict {
+            code: "operating_restatement_scope_incomplete",
+            message: "Every actual affected live and period terminal must participate".into(),
+        });
+    }
+    Ok(())
+}
+
+async fn labor_stage_authority(
+    session: &mut CommonSession<'_, '_>,
+    scope: &VerifiedRestatementScope<'_>,
+    actor: &Actor,
+    input: &LaborCorrection,
+    old: &Value,
+    project: Uuid,
+) -> Result<StageAuthority, Error> {
+    let mut selected: Option<StageAuthority> = None;
+    for reference in &input.stage_evidence_refs {
+        let actual = expected(session, scope, reference, &reference.kind).await?;
+        let candidate = if reference.kind == "CostStageAttributionSnapshot" {
+            let stage = store::row(session.connection, Table::Stage, reference.id, true).await?;
+            if stage["cost_record_id"] != old["id"]
+                || stage["status"] != "active"
+                || stage["governance_schema_version"] != 1
+                || old["stage_derived_from_id"] != stage["id"]
+                || old["labor_period_start"] != input.labor_period_start.to_string()
+                || old["labor_period_end"] != input.labor_period_end.to_string()
+            {
+                return Err(unsupported());
+            }
+            let proof = store::row(
+                session.connection,
+                Table::Evidence,
+                store::id(&stage, "governance_evidence_id")?,
+                false,
+            )
+            .await?;
+            if proof["payload_hash"]
+                != crate::contract_support::canonical_hash(&proof["frozen_payload"])?
+            {
+                return Err(changed());
+            }
+            // The selected certified attribution applies to the exact same real
+            // work interval. The caller's correction reason/work statement and
+            // genuine attachment IDs support the new F attribution for the new
+            // E cost ID. This never invents a project transition or interval.
+            let evidence = json!({"kind":"manual","businessDate":input.labor_period_start,"reason":input.reason,
+                "evidenceSummary":format!("{}; selected prior certified attribution {} ({}) for unchanged work interval",input.work_summary,reference.id,reference.payload_hash),
+                "attachmentIds":input.attachment_refs.iter().map(|r|r.id).collect::<Vec<_>>()});
+            evidence::reference(session, &evidence, project, actor).await?;
+            StageAuthority {
+                stage: store::text(&stage, "attributed_stage")?.into(),
+                mode: "manual",
+                evidence,
+                refs: vec![actual],
+            }
+        } else {
+            if input.labor_period_start != input.labor_period_end {
+                return Err(unsupported());
+            }
+            let source_type = source_type(&reference.kind).ok_or_else(unsupported)?;
+            let evidence = json!({"kind":"source","sourceType":source_type,"sourceId":reference.id,"sourceVersion":reference.expected_version,"businessDate":input.labor_period_start,"reason":input.reason});
+            let proof = evidence::reference(session, &evidence, project, actor).await?;
+            let stage = proof.stage.ok_or_else(unsupported)?;
+            if proof.date != input.labor_period_start.to_string() {
+                return Err(changed());
+            }
+            StageAuthority {
+                stage,
+                mode: "auto",
+                evidence,
+                refs: vec![actual],
+            }
+        };
+        if selected
+            .as_ref()
+            .is_some_and(|old| old.stage != candidate.stage)
+        {
+            return Err(Error::CodedUnprocessable {
+                code: "conflicting_correction_targets",
+                message: "Stage evidence conflicts".into(),
+            });
+        }
+        if let Some(old) = selected.as_mut() {
+            old.refs.extend(candidate.refs);
+        } else {
+            selected = Some(candidate);
+        }
+    }
+    selected.ok_or_else(unsupported)
+}
+
+fn source_type(kind: &str) -> Option<&'static str> {
+    Some(match kind {
+        "ProjectStageRecord" => "project-stage-record",
+        "ProjectHandover" => "project-handover",
+        "AcceptanceRecord" => "acceptance-record",
+        "ContractTermSnapshot" => "contract-term-snapshot",
+        "ProjectActualCostRecord" => "project-actual-cost-record",
+        "PaymentRecord" => "payment-record",
+        "InvoiceRecord" => "invoice-record",
+        "ExpenseRecord" => "expense-record",
+        "PayableRecord" => "payable-record",
+        _ => return None,
+    })
+}
+async fn basis_ids_for_costs(
+    session: &mut CommonSession<'_, '_>,
+    ids: &[Uuid],
+) -> Result<Vec<Uuid>, Error> {
+    Ok(sqlx::query_scalar("SELECT DISTINCT basis_id FROM poms.shared_cost_allocation_source_snapshot WHERE cost_record_id=ANY($1::uuid[]) AND is_current ORDER BY basis_id").bind(ids).fetch_all(&mut *session.connection).await?)
+}
+async fn cost_ids_for_source(
+    session: &mut CommonSession<'_, '_>,
+    reference: &SourceRef,
+) -> Result<Vec<Uuid>, Error> {
+    if reference.kind == "ProjectActualCostRecord" {
+        return Ok(vec![reference.id]);
+    }
+    let source = match reference.kind.as_str() {
+        "PaymentRecord" => "payment-record",
+        "InvoiceRecord" => "invoice-record",
+        "ExpenseRecord" => "expense-record",
+        "PayableRecord" => "payable-record",
+        _ => return Ok(vec![]),
+    };
+    Ok(sqlx::query_scalar("SELECT id FROM poms.project_actual_cost_record WHERE source_type=$1 AND source_id=$2 ORDER BY id").bind(source).bind(reference.id.to_string()).fetch_all(&mut *session.connection).await?)
+}
+async fn cost_ids_for_legacy_reference(
+    session: &mut CommonSession<'_, '_>,
+    source: &Value,
+) -> Result<Vec<Uuid>, Error> {
+    let kind = match source["sourceType"].as_str() {
+        Some("project-actual-cost-record" | "source-cost-fact") => "ProjectActualCostRecord",
+        Some("payment-record") => "PaymentRecord",
+        Some("invoice-record") => "InvoiceRecord",
+        Some("expense-record") => "ExpenseRecord",
+        Some("payable-record") => "PayableRecord",
+        _ => return Ok(vec![]),
+    };
+    let id = store::id(source, "sourceId")?;
+    let actual = source_reference_with_session(session, kind, id).await?;
+    cost_ids_for_source(session, &actual).await
+}
+
+async fn load_batch(
+    session: &mut CommonSession<'_, '_>,
+    scope: &VerifiedRestatementScope<'_>,
+    id: Uuid,
+    explicit: Option<AllocationCorrection>,
+    out: &mut BTreeMap<Uuid, BatchPlan>,
+) -> Result<(), Error> {
+    if let Some(old) = out.get_mut(&id) {
+        if explicit.is_some() {
+            if old.explicit.is_some() {
+                return Err(Error::CodedUnprocessable {
+                    code: "conflicting_correction_targets",
+                    message: "Duplicate allocation correction".into(),
+                });
+            }
+            old.explicit = explicit;
+        }
+        return Ok(());
+    }
+    let basis = store::row(session.connection, Table::Basis, id, true).await?;
+    if basis["status"] != "active" || basis["governance_schema_version"] != 1 {
+        return Err(changed());
+    }
+    let actual = source_reference_with_session(session, "SharedCostAllocationBasis", id).await?;
+    if !scope
+        .locked_source_refs
+        .iter()
+        .any(|r| same_ref(r, &actual))
+    {
+        return Err(changed());
+    }
+    let results = store::children(session.connection, Table::Result, id, true).await?;
+    let sources = store::children(session.connection, Table::Source, id, true).await?;
+    if results.is_empty()
+        || sources.is_empty()
+        || results
+            .iter()
+            .any(|r| r["status"] != "active" || r["governance_schema_version"] != 1)
+        || sources.iter().any(|s| s["is_current"] != true)
+    {
+        return Err(changed());
+    }
+    for result in &results {
+        scoped_project(scope, store::id(result, "project_id")?)?;
+    }
+    for source in &sources {
+        let cost = store::row(
+            session.connection,
+            Table::Cost,
+            store::id(source, "cost_record_id")?,
+            true,
+        )
+        .await?;
+        scoped_project(scope, store::id(&cost, "project_id")?)?;
+    }
+    out.insert(
+        id,
+        BatchPlan {
+            basis,
+            results,
+            sources,
+            explicit,
+        },
+    );
+    Ok(())
+}
+async fn validate_batch_input(
+    session: &mut CommonSession<'_, '_>,
+    scope: &VerifiedRestatementScope<'_>,
+    batch: &BatchPlan,
+) -> Result<(), Error> {
+    let old_projects = batch
+        .results
+        .iter()
+        .map(|r| store::id(r, "project_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let old_costs = batch
+        .sources
+        .iter()
+        .map(|r| store::id(r, "cost_record_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    if let Some(input) = &batch.explicit {
+        let projects = input
+            .project_share_items
+            .iter()
+            .map(|s| s.project_id)
+            .collect::<BTreeSet<_>>();
+        if projects != old_projects || projects.len() != input.project_share_items.len() {
+            return Err(Error::CodedConflict {
+                code: "operating_restatement_scope_incomplete",
+                message: "Correction must retain the complete actual project set".into(),
+            });
+        }
+        let costs = input
+            .source_cost_refs
+            .iter()
+            .map(|r| r.id)
+            .collect::<BTreeSet<_>>();
+        if costs != old_costs || costs.len() != input.source_cost_refs.len() {
+            return Err(changed());
+        }
+        for source in &input.source_cost_refs {
+            expected(session, scope, source, "ProjectActualCostRecord").await?;
+        }
+        for share in &input.project_share_items {
+            let actual = expected(
+                session,
+                scope,
+                &share.expected_current_result_ref,
+                "SharedCostAllocationResult",
+            )
+            .await?;
+            if !batch.results.iter().any(|r| {
+                r["id"] == actual.id.to_string() && r["project_id"] == share.project_id.to_string()
+            }) {
+                return Err(changed());
+            }
+            logic::decimal(&share.allocation_weight, 6, logic::MAX_MONEY)
+                .map_err(|_| Error::Unprocessable("Invalid exact allocation weight".into()))?;
+        }
+    }
+    for result in &batch.results {
+        store::text(result, "allocation_weight")?;
+        source_ref_locked(
+            scope,
+            "SharedCostAllocationResult",
+            store::id(result, "id")?,
+        )?;
+    }
+    Ok(())
+}
+
+async fn validate_tax_request(
+    session: &mut CommonSession<'_, '_>,
+    scope: &VerifiedRestatementScope<'_>,
+    project: Uuid,
+    old_tax: Uuid,
+    body: &Value,
+    actor: &Actor,
+) -> Result<(), Error> {
+    scoped_project(scope, project)?;
+    evidence::currency(store::text(body, "currency")?)?;
+    logic::signed_money(store::text(body, "taxImpactAmount")?)
+        .map_err(|_| Error::Unprocessable("Invalid exact tax impact".into()))?;
+    let pending = logic::decimal(
+        body["taxImpactPendingAmount"].as_str().unwrap_or("0"),
+        2,
+        logic::MAX_MONEY,
+    )
+    .map_err(|_| Error::Unprocessable("Invalid exact pending tax".into()))?;
+    let flag = body["taxPendingFlag"].as_bool().unwrap_or(false);
+    if (!flag && pending != 0)
+        || (body["deductibilityStatus"] == "pending" && !flag)
+        || store::text(body, "taxTreatmentType")?.trim().is_empty()
+        || store::text(body, "taxImpactSummary")?.trim().is_empty()
+    {
+        return Err(Error::Unprocessable(
+            "Inconsistent responsible tax assessment".into(),
+        ));
+    }
+    let mut seen = BTreeSet::new();
+    let refs = body["sourceReferences"]
+        .as_array()
+        .ok_or_else(unsupported)?;
+    if refs.is_empty() {
+        return Err(unsupported());
+    }
+    for reference in refs {
+        if reference["kind"] == "source"
+            && !seen.insert((
+                reference["sourceType"].to_string(),
+                reference["sourceId"].to_string(),
+            ))
+        {
+            return Err(Error::Unprocessable("Duplicate actual tax source".into()));
+        }
+        let proof = evidence::reference(session, reference, project, actor).await?;
+        if proof
+            .currency
+            .as_deref()
+            .is_some_and(|ccy| Some(ccy) != body["currency"].as_str())
+            || (proof.currency.is_none() && reference["kind"] != "manual")
+        {
+            return Err(changed());
+        }
+    }
+    if store::children(session.connection, Table::Tax, project, true)
+        .await?
+        .iter()
+        .any(|r| {
+            r["status"] == "active"
+                && r["tax_treatment_type"] == body["taxTreatmentType"]
+                && r["id"] != old_tax.to_string()
+        })
+    {
+        return Err(changed());
+    }
+    Ok(())
+}
+
+async fn rebind_governance_evidence(
+    session: &mut CommonSession<'_, '_>,
+    input: &RestatementR4FGovernanceEvidence,
+    transitions: &[VerifiedProducerTransition],
+) -> Result<RestatementR4FGovernanceEvidence, Error> {
+    let mut result = input.clone();
+    if let RestatementR4FGovernanceEvidence::RestatementR4FSourceEvidence(source) = &mut result {
+        let Some(kind) = (match source.source_type.as_str() {
+            "project-actual-cost-record" | "source-cost-fact" => Some("ProjectActualCostRecord"),
+            _ => None,
+        }) else {
+            return Ok(result);
+        };
+        let id = Uuid::parse_str(&source.source_id)
+            .map_err(|_| Error::BadRequest("Expected actual source UUID".into()))?;
+        for transition in transitions {
+            if transition
+                .before_refs
+                .iter()
+                .any(|r| r.kind == kind && r.id == id && r.row_version == source.source_version)
+            {
+                let next = transition
+                    .after_refs
+                    .iter()
+                    .filter(|r| r.kind == kind)
+                    .collect::<Vec<_>>();
+                let next = next
+                    .iter()
+                    .find(|r| r.id == id)
+                    .copied()
+                    .or_else(|| if next.len() == 1 { Some(next[0]) } else { None })
+                    .ok_or_else(changed)?;
+                source.source_id = next.id.to_string();
+                source.source_version = next.row_version;
+                let row = store::row(session.connection, Table::Cost, next.id, false).await?;
+                source.business_date = chrono::NaiveDate::parse_from_str(
+                    store::text(&row, "occurred_on")?,
+                    "%Y-%m-%d",
+                )
+                .map_err(|_| Error::Internal)?;
+            }
+        }
+    }
+    Ok(result)
+}
+
+async fn complete_tax_source_references(
+    session: &mut CommonSession<'_, '_>,
+    input: &TaxTreatmentReplacementCorrection,
+) -> Result<Vec<RestatementR4FGovernanceEvidence>, Error> {
+    let mut references = input.request.source_references.clone();
+    for reference in &references {
+        match reference {
+            RestatementR4FGovernanceEvidence::RestatementR4FSourceEvidence(source) => {
+                let kind = match source.source_type.as_str() {
+                    "project-actual-cost-record" | "source-cost-fact" => "ProjectActualCostRecord",
+                    "payment-record" => "PaymentRecord",
+                    "payable-record" => "PayableRecord",
+                    "expense-record" => "ExpenseRecord",
+                    "invoice-record" => "InvoiceRecord",
+                    "contract-term-snapshot" => "ContractTermSnapshot",
+                    "project-handover" => "ProjectHandover",
+                    "project-stage-record" => "ProjectStageRecord",
+                    _ => return Err(unsupported()),
+                };
+                let id = Uuid::parse_str(&source.source_id)
+                    .map_err(|_| Error::BadRequest("Expected actual tax source UUID".into()))?;
+                if !input.expected_source_refs.iter().any(|r| {
+                    r.kind == kind && r.id == id && r.expected_version == source.source_version
+                }) {
+                    return Err(Error::CodedConflict {
+                        code: "operating_tax_source_assertions_incomplete",
+                        message:
+                            "Every selected real source must have its exact ExpectedRef assertion"
+                                .into(),
+                    });
+                }
+            }
+            RestatementR4FGovernanceEvidence::RestatementR4FManualAssessmentEvidence(manual) => {
+                for id in manual.attachment_ids.iter().flatten() {
+                    if !input
+                        .expected_source_refs
+                        .iter()
+                        .any(|r| r.kind == "Attachment" && r.id == *id)
+                    {
+                        return Err(Error::CodedConflict {
+                            code: "operating_tax_source_assertions_incomplete",
+                            message: "Every manual evidence attachment needs its exact reference"
+                                .into(),
+                        });
+                    }
+                }
+            }
+        }
+    }
+    for reference in &input.expected_source_refs {
+        let Some((kind, sql)) = (match reference.kind.as_str() {
+            "ProjectActualCostRecord" => Some((
+                "project-actual-cost-record",
+                "SELECT to_jsonb(t)->'occurred_on' FROM poms.project_actual_cost_record t WHERE t.id=$1",
+            )),
+            "PaymentRecord" => Some(("payment-record", "SELECT to_jsonb(t)->'payment_date' FROM poms.payment_record t WHERE t.id=$1")),
+            "PayableRecord" => Some(("payable-record", "SELECT to_jsonb(t)->'expected_payment_date' FROM poms.payable_record t WHERE t.id=$1")),
+            "ExpenseRecord" => Some(("expense-record", "SELECT to_jsonb(t)->'expense_date' FROM poms.expense_record t WHERE t.id=$1")),
+            "InvoiceRecord" => Some(("invoice-record", "SELECT to_jsonb(t)->'invoice_date' FROM poms.invoice_record t WHERE t.id=$1")),
+            "ContractTermSnapshot" => Some((
+                "contract-term-snapshot",
+                "SELECT to_jsonb(t)->'effective_at' FROM poms.contract_term_snapshot t WHERE t.id=$1",
+            )),
+            _ => None,
+        }) else {
+            continue;
+        };
+        if references.iter().any(|r|matches!(r,RestatementR4FGovernanceEvidence::RestatementR4FSourceEvidence(s)if s.source_id==reference.id.to_string()&&(s.source_type==kind||(kind=="project-actual-cost-record"&&s.source_type=="source-cost-fact")))){continue;}
+        // The user selected this exact existing fiscal source. Persist its
+        // genuine source reference through F too, so later corrections can
+        // rediscover the relationship without guessing a project-wide batch.
+        let raw: Value = sqlx::query_scalar(sql)
+            .bind(reference.id)
+            .fetch_one(&mut *session.connection)
+            .await?;
+        let day = evidence::business_date(raw.as_str().ok_or_else(changed)?)?;
+        references.push(serde_json::from_value(json!({"kind":"source","sourceType":kind,"sourceId":reference.id,"sourceVersion":reference.expected_version,"businessDate":day,"reason":input.request.replacement_reason})).map_err(|_|Error::Internal)?);
+    }
+    Ok(references)
+}

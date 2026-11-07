@@ -1,0 +1,33 @@
+{
+  "kind": "Root-reviewed-candidate-only-minimal-tax-pending-assertion-and-H02-fix21",
+  "createdAt": "2026-11-07T10:50:10.096905+00:00",
+  "RootProductRustAndEpoch08Changed": false,
+  "files": [
+    {
+      "path": "apps/poms-api-rust/src/project_operating_signals/policy.rs",
+      "beforeSHA256": "7f351253b74cd801f1d1e0a52bb27df681ef680bb7ca57a931c93ed7adb0acab",
+      "afterSHA256": "f687418cc72f49b050b1008bf5507876428d756ef1bea46941c6a27eacc62075",
+      "candidate": "tools/rust-r4ghi/I/implementation/support-patches/tax-pending-assertion21/candidate/apps/poms-api-rust/src/project_operating_signals/policy.rs"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_operating_signals/tests.rs",
+      "beforeSHA256": "987fab7dd5624fd752eb25f396bbd9c8bb91e73c0d7529135062b68f6ee647f6",
+      "afterSHA256": "df7394732298ed387bce4557d4dc761352f37767f67b8dbe67e549df6e4eb925",
+      "candidate": "tools/rust-r4ghi/I/implementation/support-patches/tax-pending-assertion21/candidate/apps/poms-api-rust/src/project_operating_signals/tests.rs"
+    }
+  ],
+  "patchSHA256": "300512035eedebaf8b4d1a55e2f1ee8802a591c51d1c474d929016bcec1a2482",
+  "diagnosisSHA256": "446aba47b5dce70f65f6ac672b5a140972cfb0c74af5e3ed09f6468070faf12c",
+  "staticCheckSHA256": "9424c182c3a05bfd63220baef8f5fc56a035ecb9f1235426e8411e84ad59b2a2",
+  "regressionTestsPrepared": 6,
+  "regressionTestsActuallyRunByAuthor": false,
+  "RustfmtCheck": "PASS",
+  "applyBoundary": "Root explicitly keeps current Rust unchanged until epoch08 cleanup/closure; apply only after exact beforeSHA review and new authorized source input checkpoint. Never rebind old sourcePins or blockedObservation silently.",
+  "followup": [
+    "Root apply/review and fullH tests/cargo.",
+    "Refreeze actual H source pins in required-write-sources19.json as a separate reviewed metadata change; old epoch/source originals remain immutable.",
+    "Root actual snapshot FI should now genuinely hit context primary once, finish required families, and preserve unknown/null/H02 in final G/H capture.",
+    "No author G3/G4 or financial assessment approval claimed."
+  ],
+  "savedOtherWork": "business-ownership20/README-WIP.md preserved unfinished Creator/Legacy progress; no candidate20 promotion/SQL execution."
+}

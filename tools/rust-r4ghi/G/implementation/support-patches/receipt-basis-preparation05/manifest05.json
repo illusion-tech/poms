@@ -1,0 +1,46 @@
+{
+  "kind": "G-receipt-basis-preparation-delta05",
+  "files": [
+    {
+      "path": "apps/poms-api-rust/src/project_operating/context.rs",
+      "baseSha256": "8dbb5a1096936943f9bb6799da977483e444da848f5089de371d7d41851f3e41",
+      "candidateSha256": "3091bc8ea3c72b1b385a33add737fd190adbf3a112ca46a45e23a4f3e4d010d4",
+      "patch": "context.rs.patch",
+      "patchSha256": "12008325d8569fbab0cf09eef51607641e5116c98fbdadc3b8c24ca666ead418"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_operating/preparation.rs",
+      "baseSha256": "0aed6e307331f908c9c567064d91d9285e8bb3496681dbdc92992ced685c6090",
+      "candidateSha256": "8b031eb9b10184484132521efc47c3bfd08240b05488d76dab1e7ff8acb51ad0",
+      "patch": "preparation.rs.patch",
+      "patchSha256": "813cb58d4694078b960cee611af56d8d72e8ee7e3300bf7f698ea42915cb1f20"
+    }
+  ],
+  "patch": "G-receipt-basis-preparation-delta05.patch",
+  "patchSha256": "be9632a76d7cbcf7fe2815b79b333938a931886ec85d1294566603d2d2cb03b6",
+  "rootProductModifiedByAuthor": false,
+  "wire": {
+    "newApi": false,
+    "newSchema": false,
+    "ReceiptBasisReceiptRow": "sourceMembers contains actual same-project receipt contract and actual approved activated term/currency references",
+    "ReceiptBasisContractRow": "sourceMembers contains same-contract activated ContractTermSnapshot and actual CommercialReleaseBaseline references",
+    "ReceiptBasisTermRows": "Existing SourceRow stage-evidence shape; one actual ContractTermSnapshot sourceRef, sourceMembers only its own real same-project effective/superseded CommercialReleaseBaseline; financial amounts unknown, never synthetic zero",
+    "currency": "Frozen term currency may use that same term as currencyBasisRef; historical unknown term currency may use its own actual commercial source. No later/current currency guess."
+  },
+  "facts": [
+    "Receipt expected ref/hash/version asserted by G sole source reference",
+    "Contract belongs to receipt/project",
+    "Term activated/superseded and exact activated preparation/approved binding/same amendment and target checked",
+    "Commercial exact source_baseline_id, project, status, rowVersion and evidenced currency checked",
+    "Existing generic source hash/whitelist unchanged; no receipt/cost write",
+    "Receipt intent no longer requires unrelated operating baseline/estimate/handover derivation",
+    "Frozen 1000 source-row capacity still enforced"
+  ],
+  "actualValidation": {
+    "rustfmt": "passed on two owned product files",
+    "newPureTests": "three meaningful catalog provenance cases authored; not run by this author",
+    "cargo": "Root integrated check pending",
+    "httpUi": "Root isolated acceptance pending"
+  },
+  "gate": "G2 delta; original author-handoff01 remains its original frozen historical bytes; no G3/G4 claim"
+}

@@ -1,0 +1,32 @@
+{
+  "kind": "actual-MikroORM7-offline-period-FK-rule-candidate-proof",
+  "capturedAt": "2026-11-07T08:48:22.015394+00:00",
+  "baseTargetSHA256": "177f9e06293d8a3985d8ef46eff66f528579f22f3b651fa300cd48cd5818e4e3",
+  "candidateTargetSHA256": "469b360261f470b98d30a09cc1672f986f9c0faca208a113c84f511dc9b9e247",
+  "sourceCount": 87,
+  "tableCount": 135,
+  "completeSchemaDelta": [
+    {
+      "path": "tables/operating_restatement_record/foreignKeys/operating_restatement_record_period_end_snapshot_id_foreign/deleteRule",
+      "before": "set null",
+      "after": "no action"
+    },
+    {
+      "path": "tables/operating_restatement_record/foreignKeys/operating_restatement_record_period_end_snapshot_id_foreign/updateRule",
+      "before": null,
+      "after": "no action"
+    }
+  ],
+  "allPhysicalColumnsAndIterationOrderUnchanged": true,
+  "allIndexesAndChecksUnchanged": true,
+  "allOtherFKsAndAllScopeCompositeFKsUnchanged": true,
+  "bothExistingUUIDDefaultProjectionLimitationsStillPresent": true,
+  "ownerActualSQLRules": "NO ACTION / NO ACTION",
+  "rootSourceNotEdited": true,
+  "DBConnected": false,
+  "SQLExecuted": false,
+  "reviewerAuthoredNeedsRootReview": true,
+  "scopeAdmission": "single-entity explicit-original-FK-rules candidate only; Root must review/apply exact base and rerun actual owner dump/check; does not certify G3/G4",
+  "G3Certified": false,
+  "G4Certified": false
+}

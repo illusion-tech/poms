@@ -1,0 +1,1042 @@
+//! R4C's nineteen existing operations on Root's borrowed outer transaction.
+//! Root owns transport validation, authorization, final auth flush and COMMIT.
+mod model;
+mod receipt_basis;
+mod store;
+
+use std::collections::{BTreeMap, BTreeSet};
+
+use chrono::{DateTime, NaiveDate, Utc};
+use serde_json::{Value, json};
+use sqlx::{PgConnection, Row};
+use uuid::Uuid;
+
+use crate::{
+    approval_common::CommonSession,
+    auth::model::clock_now,
+    contract_support::{
+        self, Actor, AuditWrite, ContractFact, Error, expected_version, money, money_string,
+        new_uuid, nonnegative_money,
+    },
+};
+use model::{Invoice, Payable, Payment, Receipt};
+
+/// The body/query have passed Root's frozen shared-schema validation. Domain
+/// readers below still fail safely rather than indexing or trusting an actor.
+pub async fn execute(
+    session: &mut CommonSession<'_, '_>,
+    operation_id: &str,
+    id: Option<Uuid>,
+    _query: &Value,
+    body: &Value,
+    actor: &Actor,
+) -> Result<Value, Error> {
+    let id = id.ok_or_else(|| Error::BadRequest("A financial resource ID is required".into()))?;
+    match operation_id {
+        "ContractFinanceController_listReceipts" => Ok(Value::Array(
+            store::receipts(session.connection, id)
+                .await?
+                .iter()
+                .map(Receipt::summary)
+                .collect(),
+        )),
+        "ContractFinanceController_createReceipt" => {
+            create_receipt(session, operation_id, id, body, actor).await
+        }
+        "ContractFinanceController_confirmReceipt" => {
+            confirm_receipt(session, operation_id, id, body, actor).await
+        }
+        "ContractFinanceController_listPayables" => Ok(Value::Array(
+            store::payables(session.connection, id)
+                .await?
+                .iter()
+                .map(Payable::summary)
+                .collect(),
+        )),
+        "ContractFinanceController_getPayable" => {
+            let row = payable(session.connection, id, false).await?;
+            let mapped = store::current_mapping(session.connection, "payable-record", row.id)
+                .await?
+                .is_some();
+            Ok(row.detail(mapped))
+        }
+        "ContractFinanceController_createPayable" => {
+            create_payable(session, operation_id, id, body, actor).await
+        }
+        "ContractFinanceController_updatePayable"
+        | "ContractFinanceController_closePayable"
+        | "ContractFinanceController_voidPayable" => {
+            change_payable(session, operation_id, id, body, actor).await
+        }
+        "ContractFinanceController_listInvoices" => Ok(Value::Array(
+            store::invoices(session.connection, id)
+                .await?
+                .iter()
+                .map(Invoice::summary)
+                .collect(),
+        )),
+        "ContractFinanceController_getInvoice" => {
+            let row = invoice(session.connection, id, false).await?;
+            let mapped = store::current_mapping(session.connection, "invoice-record", row.id)
+                .await?
+                .is_some();
+            Ok(row.detail(mapped))
+        }
+        "ContractFinanceController_createInvoice" => {
+            create_invoice(session, operation_id, id, body, actor).await
+        }
+        "ContractFinanceController_updateInvoice"
+        | "ContractFinanceController_markInvoiceException"
+        | "ContractFinanceController_resolveInvoiceException"
+        | "ContractFinanceController_closeInvoiceRecord" => {
+            change_invoice(session, operation_id, id, body, actor).await
+        }
+        "ContractFinanceController_listPayments" => Ok(Value::Array(
+            store::payments(session.connection, id)
+                .await?
+                .iter()
+                .map(Payment::summary)
+                .collect(),
+        )),
+        "ContractFinanceController_createPayment" => {
+            create_payment(session, operation_id, id, body, actor).await
+        }
+        "ContractFinanceController_confirmPayment" => {
+            confirm_payment(session, operation_id, id, body, actor).await
+        }
+        _ => Err(Error::Internal),
+    }
+}
+
+fn text(body: &Value, key: &str) -> Result<String, Error> {
+    body.get(key)
+        .and_then(Value::as_str)
+        .map(|s| s.trim().to_owned())
+        .ok_or_else(|| Error::BadRequest(format!("{key} must be a string")))
+}
+fn nullable_text(body: &Value, key: &str) -> Result<Option<String>, Error> {
+    match body.get(key) {
+        None | Some(Value::Null) => Ok(None),
+        Some(_) => text(body, key).map(Some),
+    }
+}
+fn optional_uuid(body: &Value, key: &str) -> Result<Option<Uuid>, Error> {
+    match body.get(key) {
+        None | Some(Value::Null) => Ok(None),
+        Some(_) => contract_support::require_uuid(body, key).map(Some),
+    }
+}
+fn date(body: &Value, key: &str) -> Result<NaiveDate, Error> {
+    let value = text(body, key)?;
+    let parsed = NaiveDate::parse_from_str(&value, "%Y-%m-%d")
+        .map_err(|_| Error::BadRequest(format!("{key} must be a real calendar date")))?;
+    if parsed.to_string() != value {
+        return Err(Error::BadRequest(format!("{key} must use YYYY-MM-DD")));
+    }
+    Ok(parsed)
+}
+fn datetime(body: &Value, key: &str) -> Result<DateTime<Utc>, Error> {
+    let value = text(body, key)?;
+    let parsed = DateTime::parse_from_rfc3339(&value)
+        .map_err(|_| Error::BadRequest(format!("{key} must be an RFC3339 timestamp")))?;
+    // The frozen original Date/response contract uses millisecond instants.
+    DateTime::from_timestamp_millis(parsed.timestamp_millis()).ok_or(Error::Internal)
+}
+fn count(body: &Value, key: &str) -> Result<i32, Error> {
+    let value = body
+        .get(key)
+        .and_then(Value::as_i64)
+        .filter(|v| *v >= 0)
+        .ok_or_else(|| Error::BadRequest(format!("{key} must be a nonnegative integer")))?;
+    i32::try_from(value).map_err(|_| Error::BadRequest(format!("{key} exceeds integer capacity")))
+}
+fn next_version(value: i32) -> Result<i32, Error> {
+    value.checked_add(1).ok_or(Error::Internal)
+}
+fn nullable_money(body: &Value, key: &str, zero: bool) -> Result<Option<String>, Error> {
+    nullable_text(body, key)?
+        .map(|value| {
+            let cents = if zero {
+                nonnegative_money(&value)?
+            } else {
+                money(&value)?
+            };
+            Ok(money_string(cents))
+        })
+        .transpose()
+}
+fn tax_tuple(
+    excluding: &str,
+    tax: Option<&str>,
+    including: Option<&str>,
+    label: &str,
+) -> Result<(), Error> {
+    let excluding = money(excluding)?;
+    let tax = tax.map(nonnegative_money).transpose()?;
+    let including = including.map(money).transpose()?;
+    if let (Some(tax), Some(including)) = (tax, including)
+        && excluding.checked_add(tax) != Some(including)
+    {
+        return Err(Error::Unprocessable(format!(
+            "{label}.amountIncludingTax must equal amountExcludingTax + taxAmount when both values are provided"
+        )));
+    }
+    Ok(())
+}
+fn comment(body: &Value, key: &str) -> Result<String, Error> {
+    let value = text(body, key)?;
+    let suffix = nullable_text(body, "comment")?;
+    Ok(match suffix.filter(|s| !s.is_empty()) {
+        Some(suffix) => format!("{value}\n{suffix}"),
+        None => value,
+    })
+}
+fn stale(entity: &str) -> Error {
+    Error::Conflict(format!(
+        "{entity} changed while the command was being applied"
+    ))
+}
+fn same_project(actual: Uuid, expected: Uuid) -> Result<(), Error> {
+    if actual == expected {
+        Ok(())
+    } else {
+        Err(Error::Conflict("Financial source project changed".into()))
+    }
+}
+async fn receipt(c: &mut PgConnection, id: Uuid, lock: bool) -> Result<Receipt, Error> {
+    store::receipt_by_id(c, id, lock)
+        .await?
+        .ok_or_else(|| Error::NotFound(format!("ReceiptRecord {id} not found")))
+}
+async fn payable(c: &mut PgConnection, id: Uuid, lock: bool) -> Result<Payable, Error> {
+    store::payable_by_id(c, id, lock)
+        .await?
+        .ok_or_else(|| Error::NotFound(format!("PayableRecord {id} not found")))
+}
+async fn payment(c: &mut PgConnection, id: Uuid, lock: bool) -> Result<Payment, Error> {
+    store::payment_by_id(c, id, lock)
+        .await?
+        .ok_or_else(|| Error::NotFound(format!("PaymentRecord {id} not found")))
+}
+async fn invoice(c: &mut PgConnection, id: Uuid, lock: bool) -> Result<Invoice, Error> {
+    store::invoice_by_id(c, id, lock)
+        .await?
+        .ok_or_else(|| Error::NotFound(format!("InvoiceRecord {id} not found")))
+}
+
+/// Project is already locked. Never lock Contracts in caller/body order.
+async fn lock_contracts(
+    c: &mut PgConnection,
+    project: Uuid,
+    ids: impl IntoIterator<Item = Option<Uuid>>,
+) -> Result<BTreeMap<Uuid, ContractFact>, Error> {
+    let ids = ids.into_iter().flatten().collect::<BTreeSet<_>>();
+    let mut facts = BTreeMap::new();
+    for id in ids {
+        let fact = contract_support::contract_fact(c, id, Some(project), true)
+            .await?
+            .ok_or_else(|| {
+                Error::NotFound(format!("Contract {id} not found for project {project}"))
+            })?;
+        facts.insert(id, fact);
+    }
+    Ok(facts)
+}
+fn active_contract(
+    facts: &BTreeMap<Uuid, ContractFact>,
+    id: Option<Uuid>,
+    label: &str,
+) -> Result<(), Error> {
+    if let Some(id) = id {
+        let fact = facts.get(&id).ok_or(Error::Internal)?;
+        if fact.status != "active" {
+            return Err(Error::Unprocessable(format!(
+                "只有已生效合同可以{label}，当前状态: {}",
+                fact.status
+            )));
+        }
+    }
+    Ok(())
+}
+async fn unmapped(
+    c: &mut PgConnection,
+    source_type: &str,
+    id: Uuid,
+    action: &str,
+) -> Result<(), Error> {
+    if let Some(mapping) = store::current_mapping(c, source_type, id).await? {
+        return Err(Error::Unprocessable(format!(
+            "{source_type} {id} 已存在统一成本映射 {mapping}，当前不允许继续{action}；如需调整请走替代/作废链"
+        )));
+    }
+    Ok(())
+}
+async fn create_receipt(
+    session: &mut CommonSession<'_, '_>,
+    operation: &str,
+    id: Uuid,
+    body: &Value,
+    actor: &Actor,
+) -> Result<Value, Error> {
+    let discovered = contract_support::contract_fact(session.connection, id, None, false)
+        .await?
+        .ok_or_else(|| Error::NotFound(format!("Contract {id} not found")))?;
+    contract_support::lock_project(session.connection, discovered.project_id).await?;
+    let facts = lock_contracts(session.connection, discovered.project_id, [Some(id)]).await?;
+    active_contract(&facts, Some(id), "登记回款")?;
+    let now = clock_now();
+    let row = Receipt {
+        id: new_uuid()?,
+        contract_id: id,
+        project_id: discovered.project_id,
+        receipt_amount: money_string(money(&text(body, "receiptAmount")?)?),
+        receipt_date: datetime(body, "receiptDate")?,
+        source_type: nullable_text(body, "sourceType")?.unwrap_or_else(|| "manual".into()),
+        status: "pending-confirmation".into(),
+        confirmed_at: None,
+        confirmed_by: None,
+        row_version: 1,
+        created_at: now,
+        updated_at: now,
+    };
+    store::insert_receipt(session.connection, &row).await?;
+    session
+        .state
+        .trace
+        .inserted("receipt_record", &row.id.to_string());
+    let result = row.summary();
+    contract_support::audit(
+        session,
+        actor,
+        AuditWrite {
+            operation_id: operation.into(),
+            target_type: "Receipt".into(),
+            target_id: row.id,
+            project_id: row.project_id,
+            contract_id: Some(id),
+            before: None,
+            after: Some(result.clone()),
+            reason: None,
+            metadata: json!({}),
+        },
+    )
+    .await?;
+    Ok(result)
+}
+async fn confirm_receipt(
+    session: &mut CommonSession<'_, '_>,
+    operation: &str,
+    id: Uuid,
+    body: &Value,
+    actor: &Actor,
+) -> Result<Value, Error> {
+    receipt_basis::confirm(session, operation, id, body, actor).await
+}
+
+async fn create_payable(
+    session: &mut CommonSession<'_, '_>,
+    operation: &str,
+    project: Uuid,
+    body: &Value,
+    actor: &Actor,
+) -> Result<Value, Error> {
+    contract_support::lock_project(session.connection, project).await?;
+    let contract = optional_uuid(body, "contractId")?;
+    let facts = lock_contracts(session.connection, project, [contract]).await?;
+    active_contract(&facts, contract, "关联采购承诺记录")?;
+    let now = clock_now();
+    let row = Payable {
+        id: new_uuid()?,
+        project_id: project,
+        contract_id: contract,
+        vendor_name: text(body, "vendorName")?,
+        cost_category: text(body, "costCategory")?,
+        payable_description: text(body, "payableDescription")?,
+        currency: nullable_text(body, "currency")?.unwrap_or_else(|| "CNY".into()),
+        amount_excluding_tax: money_string(money(&text(body, "amountExcludingTax")?)?),
+        tax_amount: nullable_money(body, "taxAmount", true)?,
+        amount_including_tax: nullable_money(body, "amountIncludingTax", false)?,
+        expected_payment_date: date(body, "expectedPaymentDate")?,
+        status: "recorded".into(),
+        evidence_summary: nullable_text(body, "evidenceSummary")?,
+        attachment_count: if body.get("attachmentCount").is_some() {
+            count(body, "attachmentCount")?
+        } else {
+            0
+        },
+        closed_at: None,
+        close_reason: None,
+        voided_at: None,
+        void_reason: None,
+        row_version: 1,
+        created_at: now,
+        updated_at: now,
+        settled_amount: "0.00".into(),
+        any_payment: false,
+    };
+    tax_tuple(
+        &row.amount_excluding_tax,
+        row.tax_amount.as_deref(),
+        row.amount_including_tax.as_deref(),
+        "PayableRecord",
+    )?;
+    store::insert_payable(session.connection, &row).await?;
+    session
+        .state
+        .trace
+        .inserted("payable_record", &row.id.to_string());
+    let result = row.summary();
+    contract_support::audit(
+        session,
+        actor,
+        AuditWrite {
+            operation_id: operation.into(),
+            target_type: "Payable".into(),
+            target_id: row.id,
+            project_id: project,
+            contract_id: contract,
+            before: None,
+            after: Some(result.clone()),
+            reason: None,
+            metadata: json!({}),
+        },
+    )
+    .await?;
+    Ok(result)
+}
+
+async fn change_payable(
+    session: &mut CommonSession<'_, '_>,
+    operation: &str,
+    id: Uuid,
+    body: &Value,
+    actor: &Actor,
+) -> Result<Value, Error> {
+    let discovered = payable(session.connection, id, false).await?;
+    contract_support::lock_project(session.connection, discovered.project_id).await?;
+    let current = payable(session.connection, id, false).await?;
+    same_project(current.project_id, discovered.project_id)?;
+    expected_version(body, current.row_version, "PayableRecord")?;
+    let updating = operation == "ContractFinanceController_updatePayable";
+    let requested = if updating {
+        optional_uuid(body, "contractId")?
+    } else {
+        None
+    };
+    let facts = lock_contracts(
+        session.connection,
+        current.project_id,
+        [current.contract_id, requested],
+    )
+    .await?;
+    let current = payable(session.connection, id, true).await?;
+    same_project(current.project_id, discovered.project_id)?;
+    expected_version(body, current.row_version, "PayableRecord")?;
+    let mut row = current.clone();
+    let mut reason = None;
+    match operation {
+        "ContractFinanceController_updatePayable" => {
+            if !matches!(current.status.as_str(), "draft" | "recorded") {
+                return Err(Error::Unprocessable(format!(
+                    "当前状态 {} 的采购承诺记录不允许再更新",
+                    current.status
+                )));
+            }
+            unmapped(session.connection, "payable-record", id, "更新采购承诺记录").await?;
+            if body.get("contractId").is_some() {
+                active_contract(&facts, requested, "关联采购承诺记录")?;
+                row.contract_id = requested;
+            }
+            for (field, target) in [
+                ("vendorName", &mut row.vendor_name),
+                ("costCategory", &mut row.cost_category),
+                ("payableDescription", &mut row.payable_description),
+                ("currency", &mut row.currency),
+            ] {
+                if body.get(field).is_some() {
+                    *target = text(body, field)?;
+                }
+            }
+            if body.get("amountExcludingTax").is_some() {
+                row.amount_excluding_tax = money_string(money(&text(body, "amountExcludingTax")?)?);
+            }
+            if body.get("taxAmount").is_some() {
+                row.tax_amount = nullable_money(body, "taxAmount", true)?;
+            }
+            if body.get("amountIncludingTax").is_some() {
+                row.amount_including_tax = nullable_money(body, "amountIncludingTax", false)?;
+            }
+            if body.get("expectedPaymentDate").is_some() {
+                row.expected_payment_date = date(body, "expectedPaymentDate")?;
+            }
+            if body.get("evidenceSummary").is_some() {
+                row.evidence_summary = nullable_text(body, "evidenceSummary")?;
+            }
+            if body.get("attachmentCount").is_some() {
+                row.attachment_count = count(body, "attachmentCount")?;
+            }
+            tax_tuple(
+                &row.amount_excluding_tax,
+                row.tax_amount.as_deref(),
+                row.amount_including_tax.as_deref(),
+                "PayableRecord",
+            )?;
+        }
+        "ContractFinanceController_closePayable" => {
+            if matches!(current.status.as_str(), "closed" | "voided") {
+                return Err(Error::Unprocessable(format!(
+                    "当前状态 {} 的采购承诺记录不允许关闭",
+                    current.status
+                )));
+            }
+            unmapped(session.connection, "payable-record", id, "关闭采购承诺记录").await?;
+            row.status = "closed".into();
+            row.closed_at = Some(clock_now());
+            row.close_reason = Some(comment(body, "reason")?);
+            reason = row.close_reason.clone();
+        }
+        "ContractFinanceController_voidPayable" => {
+            if current.status == "voided" {
+                return Err(Error::Unprocessable("当前采购承诺记录已经作废".into()));
+            }
+            if current.any_payment {
+                return Err(Error::Unprocessable(
+                    "已关联付款事实的采购承诺记录不允许直接作废".into(),
+                ));
+            }
+            unmapped(session.connection, "payable-record", id, "作废采购承诺记录").await?;
+            row.status = "voided".into();
+            row.voided_at = Some(clock_now());
+            row.void_reason = Some(comment(body, "reason")?);
+            reason = row.void_reason.clone();
+        }
+        _ => return Err(Error::Internal),
+    }
+    if row == current {
+        return Ok(current.summary());
+    }
+    row.row_version = next_version(current.row_version)?;
+    row.updated_at = clock_now();
+    if !store::update_payable(session.connection, &row, current.row_version).await? {
+        return Err(stale("PayableRecord"));
+    }
+    // Reload the actual aggregate; never reset a paid close response to 0.00.
+    let row = payable(session.connection, id, false).await?;
+    let result = row.summary();
+    contract_support::audit(
+        session,
+        actor,
+        AuditWrite {
+            operation_id: operation.into(),
+            target_type: "Payable".into(),
+            target_id: id,
+            project_id: row.project_id,
+            contract_id: row.contract_id,
+            before: Some(current.summary()),
+            after: Some(result.clone()),
+            reason,
+            metadata: json!({}),
+        },
+    )
+    .await?;
+    Ok(result)
+}
+
+async fn create_invoice(
+    session: &mut CommonSession<'_, '_>,
+    operation: &str,
+    project: Uuid,
+    body: &Value,
+    actor: &Actor,
+) -> Result<Value, Error> {
+    contract_support::lock_project(session.connection, project).await?;
+    let contract = optional_uuid(body, "contractId")?;
+    let invoice_type = text(body, "invoiceType")?;
+    if invoice_type == "output" && contract.is_none() {
+        return Err(Error::Unprocessable("销项发票必须关联已生效合同".into()));
+    }
+    let facts = lock_contracts(session.connection, project, [contract]).await?;
+    active_contract(&facts, contract, "关联发票记录")?;
+    let currency = invoice_currency(
+        session.connection,
+        contract.and_then(|id| facts.get(&id)),
+        body.get("currencyCode"),
+    )
+    .await?;
+    let now = clock_now();
+    let row = Invoice {
+        id: new_uuid()?,
+        project_id: project,
+        contract_id: contract,
+        invoice_type,
+        invoice_number: text(body, "invoiceNumber")?,
+        invoice_amount: money_string(money(&text(body, "invoiceAmount")?)?),
+        invoice_date: date(body, "invoiceDate")?,
+        currency_code: Some(currency.0),
+        currency_source: Some(currency.1),
+        currency_source_snapshot_id: currency.2,
+        status: "draft".into(),
+        exception_status: "none".into(),
+        exception_reason: None,
+        exception_resolution: None,
+        closed_at: None,
+        close_reason: None,
+        row_version: 1,
+        created_at: now,
+        updated_at: now,
+    };
+    store::insert_invoice(session.connection, &row).await?;
+    session
+        .state
+        .trace
+        .inserted("invoice_record", &row.id.to_string());
+    let result = row.summary();
+    contract_support::audit(
+        session,
+        actor,
+        AuditWrite {
+            operation_id: operation.into(),
+            target_type: "Invoice".into(),
+            target_id: row.id,
+            project_id: project,
+            contract_id: contract,
+            before: None,
+            after: Some(result.clone()),
+            reason: None,
+            metadata: json!({}),
+        },
+    )
+    .await?;
+    Ok(result)
+}
+
+/// The original project lock and ordered Contract locks are already held.
+/// Preserve a responsible explicit fact or a precise immutable preparation
+/// proof; never infer an invoice currency from the project's other contracts.
+async fn invoice_currency(
+    connection: &mut PgConnection,
+    contract: Option<&ContractFact>,
+    explicit: Option<&Value>,
+) -> Result<(String, String, Option<Uuid>), Error> {
+    if let Some(value) = explicit {
+        let code = value
+            .as_str()
+            .ok_or_else(|| Error::BadRequest("currencyCode must be a three-letter code".into()))?;
+        if code.len() != 3 || !code.bytes().all(|b| b.is_ascii_uppercase()) {
+            return Err(Error::BadRequest(
+                "currencyCode must be a three-letter uppercase code".into(),
+            ));
+        }
+        if contract.is_some_and(|c| c.currency_code != code) {
+            return Err(Error::Unprocessable(
+                "Invoice currency must match its selected contract".into(),
+            ));
+        }
+        return Ok((code.to_owned(), "explicit".into(), None));
+    }
+    let contract = contract.ok_or_else(|| {
+        Error::Unprocessable(
+            "An invoice without a proven contract currency requires currencyCode".into(),
+        )
+    })?;
+    let snapshot = contract.current_snapshot_id.ok_or_else(|| {
+        Error::Unprocessable(
+            "An explicit currencyCode is required without an effective snapshot".into(),
+        )
+    })?;
+    let row = sqlx::query("SELECT p.currency_code FROM poms.contract_term_snapshot s JOIN poms.contract_term_preparation p ON p.id=s.source_preparation_id AND p.contract_id=s.contract_id AND p.activated_snapshot_id=s.id WHERE s.id=$1 AND s.contract_id=$2 AND s.snapshot_status='active' AND p.status='activated'")
+        .bind(snapshot).bind(contract.id).fetch_optional(connection).await?
+        .ok_or_else(|| Error::Unprocessable("The invoice has no verifiable effective snapshot currency".into()))?;
+    let code: String = row.try_get("currency_code")?;
+    if code != contract.currency_code
+        || code.len() != 3
+        || !code.bytes().all(|b| b.is_ascii_uppercase())
+    {
+        return Err(Error::Unprocessable(
+            "The invoice contract currency proof is inconsistent".into(),
+        ));
+    }
+    Ok((code, "contract-snapshot".into(), Some(snapshot)))
+}
+
+async fn change_invoice(
+    session: &mut CommonSession<'_, '_>,
+    operation: &str,
+    id: Uuid,
+    body: &Value,
+    actor: &Actor,
+) -> Result<Value, Error> {
+    let discovered = invoice(session.connection, id, false).await?;
+    contract_support::lock_project(session.connection, discovered.project_id).await?;
+    let current = invoice(session.connection, id, false).await?;
+    same_project(current.project_id, discovered.project_id)?;
+    expected_version(body, current.row_version, "InvoiceRecord")?;
+    let updating = operation == "ContractFinanceController_updateInvoice";
+    let requested = if updating {
+        optional_uuid(body, "contractId")?
+    } else {
+        None
+    };
+    let facts = lock_contracts(
+        session.connection,
+        current.project_id,
+        [current.contract_id, requested],
+    )
+    .await?;
+    let current = invoice(session.connection, id, true).await?;
+    same_project(current.project_id, discovered.project_id)?;
+    expected_version(body, current.row_version, "InvoiceRecord")?;
+    let mut row = current.clone();
+    let reason = match operation {
+        "ContractFinanceController_updateInvoice" => {
+            if current.status == "closed" {
+                return Err(Error::Unprocessable("已关闭发票记录不允许再更新".into()));
+            }
+            if current.exception_status == "open" {
+                return Err(Error::Unprocessable(
+                    "异常处理中发票记录不允许直接更新，请先解决异常".into(),
+                ));
+            }
+            unmapped(session.connection, "invoice-record", id, "更新发票记录").await?;
+            if body.get("contractId").is_some() {
+                if row.invoice_type == "output" && requested.is_none() {
+                    return Err(Error::Unprocessable("销项发票必须关联已生效合同".into()));
+                }
+                active_contract(&facts, requested, "关联发票记录")?;
+                row.contract_id = requested;
+            }
+            if body.get("currencyCode").is_some() || body.get("contractId").is_some() {
+                let currency = invoice_currency(
+                    session.connection,
+                    row.contract_id.and_then(|id| facts.get(&id)),
+                    body.get("currencyCode"),
+                )
+                .await?;
+                row.currency_code = Some(currency.0);
+                row.currency_source = Some(currency.1);
+                row.currency_source_snapshot_id = currency.2;
+            }
+            if body.get("invoiceNumber").is_some() {
+                row.invoice_number = text(body, "invoiceNumber")?;
+            }
+            if body.get("invoiceAmount").is_some() {
+                row.invoice_amount = money_string(money(&text(body, "invoiceAmount")?)?);
+            }
+            if body.get("invoiceDate").is_some() {
+                row.invoice_date = date(body, "invoiceDate")?;
+            }
+            if body.get("status").is_some() {
+                row.status = text(body, "status")?;
+            }
+            None
+        }
+        "ContractFinanceController_markInvoiceException" => {
+            if current.status == "closed" {
+                return Err(Error::Unprocessable("已关闭发票记录不允许标记异常".into()));
+            }
+            if current.exception_status == "open" {
+                return Err(Error::Unprocessable("当前发票记录已处于异常处理中".into()));
+            }
+            unmapped(session.connection, "invoice-record", id, "标记发票异常").await?;
+            row.status = "exception".into();
+            row.exception_status = "open".into();
+            row.exception_reason = Some(comment(body, "reason")?);
+            row.exception_resolution = None;
+            row.exception_reason.clone()
+        }
+        "ContractFinanceController_resolveInvoiceException" => {
+            if current.status != "exception" || current.exception_status != "open" {
+                return Err(Error::Unprocessable(
+                    "只有异常处理中发票记录可以执行异常解决".into(),
+                ));
+            }
+            unmapped(session.connection, "invoice-record", id, "解决发票异常").await?;
+            row.exception_status = "resolved".into();
+            row.exception_resolution = Some(comment(body, "resolution")?);
+            row.exception_resolution.clone()
+        }
+        "ContractFinanceController_closeInvoiceRecord" => {
+            if current.status == "closed" {
+                return Err(Error::Unprocessable("当前发票记录已经关闭".into()));
+            }
+            if current.exception_status == "open" {
+                return Err(Error::Unprocessable(
+                    "异常处理中发票记录不允许关闭，请先解决异常".into(),
+                ));
+            }
+            unmapped(session.connection, "invoice-record", id, "关闭发票记录").await?;
+            row.status = "closed".into();
+            row.closed_at = Some(clock_now());
+            row.close_reason = Some(comment(body, "reason")?);
+            row.close_reason.clone()
+        }
+        _ => return Err(Error::Internal),
+    };
+    if row == current {
+        return Ok(current.summary());
+    }
+    row.row_version = next_version(current.row_version)?;
+    row.updated_at = clock_now();
+    if !store::update_invoice(session.connection, &row, current.row_version).await? {
+        return Err(stale("InvoiceRecord"));
+    }
+    let result = row.summary();
+    contract_support::audit(
+        session,
+        actor,
+        AuditWrite {
+            operation_id: operation.into(),
+            target_type: "Invoice".into(),
+            target_id: id,
+            project_id: row.project_id,
+            contract_id: row.contract_id,
+            before: Some(current.summary()),
+            after: Some(result.clone()),
+            reason,
+            metadata: json!({}),
+        },
+    )
+    .await?;
+    Ok(result)
+}
+
+fn payable_payment_state(row: &Payable) -> Result<(), Error> {
+    if !matches!(row.status.as_str(), "recorded" | "partially-paid") {
+        return Err(Error::Unprocessable(format!(
+            "当前状态 {} 的采购承诺记录不允许继续登记或确认付款",
+            row.status
+        )));
+    }
+    Ok(())
+}
+fn payable_binding(
+    row: Option<&Payable>,
+    contract: Option<Uuid>,
+    currency: &str,
+) -> Result<(), Error> {
+    if let Some(row) = row {
+        if row.contract_id.is_some() && contract != row.contract_id {
+            return Err(Error::Unprocessable(
+                "付款所选合同必须与采购承诺记录已绑定合同一致".into(),
+            ));
+        }
+        if currency != row.currency {
+            return Err(Error::Unprocessable(
+                "关联采购承诺记录的付款币种必须与采购承诺一致".into(),
+            ));
+        }
+    }
+    Ok(())
+}
+
+async fn create_payment(
+    session: &mut CommonSession<'_, '_>,
+    operation: &str,
+    project: Uuid,
+    body: &Value,
+    actor: &Actor,
+) -> Result<Value, Error> {
+    contract_support::lock_project(session.connection, project).await?;
+    let payable_id = optional_uuid(body, "payableRecordId")?;
+    let discovered_payable = match payable_id {
+        Some(id) => Some(payable(session.connection, id, false).await?),
+        None => None,
+    };
+    if let Some(row) = &discovered_payable
+        && row.project_id != project
+    {
+        return Err(Error::NotFound(format!(
+            "PayableRecord {} not found for project {project}",
+            row.id
+        )));
+    }
+    let selected = optional_uuid(body, "contractId")?;
+    let inherited = discovered_payable.as_ref().and_then(|p| p.contract_id);
+    let contract = selected.or(inherited);
+    let facts = lock_contracts(session.connection, project, [inherited, contract]).await?;
+    let linked = match payable_id {
+        Some(id) => Some(payable(session.connection, id, true).await?),
+        None => None,
+    };
+    if let Some(row) = &linked {
+        if row.project_id != project {
+            return Err(Error::NotFound(format!(
+                "PayableRecord {} not found for project {project}",
+                row.id
+            )));
+        }
+        payable_payment_state(row)?;
+    }
+    let currency = nullable_text(body, "currency")?
+        .or_else(|| linked.as_ref().map(|p| p.currency.clone()))
+        .unwrap_or_else(|| "CNY".into());
+    payable_binding(linked.as_ref(), contract, &currency)?;
+    active_contract(&facts, contract, "关联付款记录")?;
+    let now = clock_now();
+    let row = Payment {
+        id: new_uuid()?,
+        project_id: project,
+        contract_id: contract,
+        payable_record_id: payable_id,
+        currency,
+        amount_excluding_tax: money_string(money(&text(body, "amountExcludingTax")?)?),
+        tax_amount: nullable_money(body, "taxAmount", true)?,
+        amount_including_tax: nullable_money(body, "amountIncludingTax", false)?,
+        payment_date: datetime(body, "paymentDate")?,
+        cost_category: text(body, "costCategory")?,
+        source_type: nullable_text(body, "sourceType")?.unwrap_or_else(|| "manual".into()),
+        status: "recorded".into(),
+        confirmed_at: None,
+        confirmed_by: None,
+        row_version: 1,
+        created_at: now,
+        updated_at: now,
+    };
+    tax_tuple(
+        &row.amount_excluding_tax,
+        row.tax_amount.as_deref(),
+        row.amount_including_tax.as_deref(),
+        "PaymentRecord",
+    )?;
+    store::insert_payment(session.connection, &row).await?;
+    session
+        .state
+        .trace
+        .inserted("payment_record", &row.id.to_string());
+    let result = row.summary();
+    contract_support::audit(
+        session,
+        actor,
+        AuditWrite {
+            operation_id: operation.into(),
+            target_type: "Payment".into(),
+            target_id: row.id,
+            project_id: project,
+            contract_id: contract,
+            before: None,
+            after: Some(result.clone()),
+            reason: None,
+            metadata: json!({"sourceIds":{"payableRecordId":payable_id}}),
+        },
+    )
+    .await?;
+    Ok(result)
+}
+
+async fn confirm_payment(
+    session: &mut CommonSession<'_, '_>,
+    operation: &str,
+    id: Uuid,
+    body: &Value,
+    actor: &Actor,
+) -> Result<Value, Error> {
+    let discovered = payment(session.connection, id, false).await?;
+    contract_support::lock_project(session.connection, discovered.project_id).await?;
+    let current = payment(session.connection, id, false).await?;
+    same_project(current.project_id, discovered.project_id)?;
+    expected_version(body, current.row_version, "PaymentRecord")?;
+    let linked = match current.payable_record_id {
+        Some(id) => Some(payable(session.connection, id, false).await?),
+        None => None,
+    };
+    if let Some(row) = &linked
+        && row.project_id != current.project_id
+    {
+        return Err(Error::NotFound(format!(
+            "PayableRecord {} not found for project {}",
+            row.id, current.project_id
+        )));
+    }
+    let facts = lock_contracts(
+        session.connection,
+        current.project_id,
+        [
+            current.contract_id,
+            linked.as_ref().and_then(|p| p.contract_id),
+        ],
+    )
+    .await?;
+    // Lock Payable before Payment even though the initial discovery read was Payment.
+    let mut linked = match current.payable_record_id {
+        Some(id) => Some(payable(session.connection, id, true).await?),
+        None => None,
+    };
+    let current = payment(session.connection, id, true).await?;
+    same_project(current.project_id, discovered.project_id)?;
+    expected_version(body, current.row_version, "PaymentRecord")?;
+    if current.status != "recorded" {
+        return Err(Error::Unprocessable(format!(
+            "只有已登记状态的付款记录可以确认生效，当前状态: {}",
+            current.status
+        )));
+    }
+    payable_binding(linked.as_ref(), current.contract_id, &current.currency)?;
+    active_contract(&facts, current.contract_id, "确认付款记录")?;
+    if let Some(source) = linked.as_mut() {
+        // A separate statement after all locks establishes the fresh aggregate
+        // even if an earlier SELECT waited before acquiring its row lock.
+        source.settled_amount = store::settled_amount(session.connection, source.id).await?;
+    }
+    let before_payable = linked.as_ref().map(Payable::summary);
+    if let Some(original) = &linked {
+        same_project(original.project_id, current.project_id)?;
+        payable_payment_state(original)?;
+        // Aggregate is read after Project/Payable locks, not from an old identity map.
+        let settled = nonnegative_money(&original.settled_amount)
+            .map_err(|_| Error::Unprocessable("已确认付款累计金额超出合法承诺范围".into()))?;
+        let projected = settled
+            .checked_add(money(&current.amount_excluding_tax)?)
+            .ok_or_else(|| Error::Unprocessable("付款累计超出支持范围".into()))?;
+        let commitment = money(&original.amount_excluding_tax)?;
+        if projected > commitment {
+            return Err(Error::Unprocessable(
+                "关联付款确认后将超过采购承诺未税金额，当前不允许确认".into(),
+            ));
+        }
+        let status = if projected == commitment {
+            "completed"
+        } else {
+            "partially-paid"
+        };
+        // Confirmed child payments change this aggregate even when it remains
+        // partially-paid. Advance its CAS version on every real confirmation.
+        let mut progress = original.clone();
+        progress.status = status.into();
+        progress.row_version = next_version(original.row_version)?;
+        progress.updated_at = clock_now();
+        if !store::update_payable(session.connection, &progress, original.row_version).await? {
+            return Err(stale("PayableRecord"));
+        }
+    }
+    let mut row = current.clone();
+    row.status = "confirmed".into();
+    row.confirmed_at = Some(clock_now());
+    row.confirmed_by = Some(actor.id);
+    row.row_version = next_version(current.row_version)?;
+    row.updated_at = clock_now();
+    if !store::update_payment(session.connection, &row, current.row_version).await? {
+        return Err(stale("PaymentRecord"));
+    }
+    let after_payable = match row.payable_record_id {
+        Some(id) => Some(payable(session.connection, id, false).await?.summary()),
+        None => None,
+    };
+    let result = row.summary();
+    contract_support::audit(
+        session,
+        actor,
+        AuditWrite {
+            operation_id: operation.into(),
+            target_type: "Payment".into(),
+            target_id: id,
+            project_id: row.project_id,
+            contract_id: row.contract_id,
+            before: Some(json!({"payment":current.summary(),"payable":before_payable})),
+            after: Some(json!({"payment":result,"payable":after_payable})),
+            reason: None,
+            metadata: json!({"sourceIds":{"payableRecordId":row.payable_record_id}}),
+        },
+    )
+    .await?;
+    Ok(row.summary())
+}

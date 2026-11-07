@@ -1,0 +1,40 @@
+{
+  "kind": "independent-actual-owner07-readonly-dump-classification-and-exact-source-review",
+  "capturedAt": "2026-11-07T09:57:08.098206+00:00",
+  "logSHA256": "ef2e88b59fba39d436fede6757d9139943cc7afea1a386b152cdbb56b4718d8c",
+  "logBytes": 18507,
+  "exitCode": 0,
+  "actualCommand": "schema:update --dump --no-drop-tables; this is not a migration:check pass",
+  "sourceFiles": 437,
+  "RootMirrorAndCurrentBytesMatch": true,
+  "sourceBeforeAfterGuardReadInRootScript": true,
+  "exact19_21_22_24Sources": {
+    "apps/poms-api/src/app/core/persistence/poms-schema-generator.ts": "457fed18cb696f55fe1353877fc3d1cf16d3220cc0eaf0d0368e9abf4e7cced0",
+    "apps/poms-api/src/app/core/persistence/poms-postgresql-driver.ts": "23816bd00c20470b3385c837999364d933af5655d76ac4e5ee12bc1418fa0c0d",
+    "apps/poms-api/src/app/core/persistence/persistence.config.ts": "94cbe7bedfb09b3bf7404d3402124841423d294af0d02d8639e656ce1abe5974",
+    "apps/poms-api/src/app/features/attachment/attachment-upload-session.entity.ts": "575db84f7fb1c77e1c9b6e817fde4c18e5414f2d644e4901a002d6a450f93607",
+    "apps/poms-api/src/app/features/project-cost/operating-restatement-record.entity.ts": "963c0578a41f95d92c030fbaf17027eaec2a2e64cf95eb67edd08a777e1d2d9b"
+  },
+  "nativeTables": 139,
+  "nativeCatalogSequencesAndRowReceiptFieldsStable": true,
+  "remaining": {
+    "historicalFKDrops": 44,
+    "equivalentCHECKDropAddPairs": 30,
+    "comments": 22
+  },
+  "allRemainingFKsHaveMainHistoricalProvenance": true,
+  "all30CHECKTargetExpressionsExactlyMatchASTProvedOwner05Pairs": true,
+  "noColumnDefaultTypeNullableDDL": true,
+  "noM96PurposeFKDrop": true,
+  "noPeriodSingleFKRewrite": true,
+  "IR05-05": "resolved-in-actual-CLI-owner07; both UUID DROP DEFAULT disappeared",
+  "IR05-06": "resolved-in-actual-CLI-owner07",
+  "M96NewFKORMMapping": "resolved-in-actual-CLI-owner07",
+  "minorProvenanceNote": "orm-input-sources07 exactCorrectiveManifests lists 19/21/22 but not24; nativeInputs itself includes and exactly pins driver24/config24, so actual byte binding is intact. Preserve original and append provenance if desired.",
+  "reviewerAuthoredSources": "19/21/22/24 authored here; Root non-author reviews/promotions remain separate evidence, not self-certified review.",
+  "NativeLintBuildTestsStillSeparate": true,
+  "NoSQLExecutedByReviewer": true,
+  "NoRowPayloadReadByReviewer": true,
+  "G3Certified": false,
+  "G4Certified": false
+}

@@ -1,0 +1,1407 @@
+//! Root-owned project responsibility scopes, corrective v2. Root review pending.
+//! V1 is preserved separately at SHA256
+//! 673a1d159f4a021061f353325b5977523c827f2cee91601fb962cdaede1584b5.
+//! Every fact, lock and proof belongs to the borrowed physical outer transaction.
+//! RBAC stays the authenticated request-local snapshot; roles/org ancestry are
+//! never inferred to be project grants. No business mutation/flush/commit here.
+pub mod ownership;
+
+use crate::{
+    approval_common::CommonSession,
+    contract_support::{Actor, Error, canonical_hash, new_uuid},
+    project_handover::{ParticipantScopeFacts, participant_scope_facts_with_session},
+    project_operating_common::{
+        model::{Sha256, SourceRef},
+        runtime::{OperatingLockedProjectState, VerifiedRestatementScope},
+    },
+};
+use chrono::{DateTime, Utc};
+use serde_json::{Value, json};
+use sqlx::{Connection, Row};
+use std::collections::{BTreeMap, BTreeSet};
+use uuid::Uuid;
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum ProjectAction {
+    ReadProjectAnchorOrIList,
+    ReadOwnCompletionTask,
+    ReadProjectAnchor,
+    ReadCommissionAssignment,
+    CreateCommissionAssignmentDraft,
+    FreezeCommissionAssignment,
+    PrepareHandover,
+    ConfirmHandoverSelf,
+    ParticipantConfirm,
+    FinalizeHandover,
+    HandoverFinalize,
+    RebaselineHandover,
+    StartExecution,
+    StartAcceptanceConfirmAcceptanceConfirmCompletion,
+    CreateReplaceVoidArchive,
+    CloseCompletionCondition,
+    ReassignCurrentOwner,
+    FirstAssignOwner,
+    OwnerReassign,
+    OperatingRead,
+    OperatingWrite,
+}
+
+impl ProjectAction {
+    fn permission(self) -> &'static str {
+        match self {
+            Self::ReadCommissionAssignment
+            | Self::CreateCommissionAssignmentDraft
+            | Self::FreezeCommissionAssignment => "commission:assignments:manage",
+            Self::OperatingRead | Self::OperatingWrite => "contract:finance:manage",
+            Self::ReadProjectAnchorOrIList
+            | Self::ReadOwnCompletionTask
+            | Self::ReadProjectAnchor
+            | Self::ConfirmHandoverSelf
+            | Self::ParticipantConfirm => "project:read",
+            _ => "project:write",
+        }
+    }
+}
+
+#[derive(Clone, Copy, Debug)]
+pub enum ProjectActionTarget {
+    Project {
+        id: Uuid,
+    },
+    Handover {
+        id: Uuid,
+    },
+    Assignment {
+        id: Uuid,
+    },
+    Archive {
+        id: Uuid,
+    },
+    Condition {
+        completion_record_id: Uuid,
+        condition_id: Uuid,
+    },
+    OwnerReassignment {
+        project_id: Uuid,
+        expected_version: i32,
+        new_owner_user_id: Uuid,
+        new_owner_org_id: Option<Uuid>,
+    },
+}
+
+fn missing() -> Error {
+    Error::NotFound("Project resource not found".into())
+}
+fn denied() -> Error {
+    Error::Forbidden("Current project responsibility does not permit this action".into())
+}
+fn changed(message: &str) -> Error {
+    Error::CodedConflict {
+        code: "project_scope_changed",
+        message: message.into(),
+    }
+}
+fn permission(actor: &Actor, key: &str) -> bool {
+    actor
+        .session
+        .user
+        .permissions
+        .iter()
+        .any(|value| value.as_str() == key)
+}
+fn permission_snapshot(actor: &Actor) -> BTreeSet<String> {
+    actor
+        .session
+        .user
+        .permissions
+        .iter()
+        .map(|value| value.as_str().to_owned())
+        .collect()
+}
+fn check_actor_identity(actor: &Actor) -> Result<(), Error> {
+    if actor.id != actor.session.user.user_id || actor.id != actor.session.user_snapshot.id {
+        return Err(Error::Forbidden(
+            "Authenticated actor identity is inconsistent".into(),
+        ));
+    }
+    Ok(())
+}
+
+/// Not serializable, clonable or client-constructible. Request IDs never enter
+/// this identity. A nonce binds all proofs minted for one Root coordinator.
+pub struct OuterTxToken {
+    pid: i32,
+    xid: String,
+    nonce: Uuid,
+}
+impl OuterTxToken {
+    pub(crate) async fn capture(session: &mut CommonSession<'_, '_>) -> Result<Self, Error> {
+        if !session.connection.is_in_transaction() {
+            return Err(Error::Internal);
+        }
+        let (pid, xid): (i32, String) =
+            sqlx::query_as("SELECT pg_backend_pid(),txid_current()::text")
+                .fetch_one(&mut *session.connection)
+                .await?;
+        Ok(Self {
+            pid,
+            xid,
+            nonce: new_uuid()?,
+        })
+    }
+    pub async fn assert_current(&self, session: &mut CommonSession<'_, '_>) -> Result<(), Error> {
+        if !session.connection.is_in_transaction() {
+            return Err(changed("The outer transaction is no longer active"));
+        }
+        let (pid, xid): (i32, String) =
+            sqlx::query_as("SELECT pg_backend_pid(),txid_current()::text")
+                .fetch_one(&mut *session.connection)
+                .await?;
+        if self.pid != pid || self.xid != xid {
+            return Err(changed(
+                "The project proof belongs to another physical outer transaction",
+            ));
+        }
+        Ok(())
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum ScopeKind {
+    FullProject,
+    OwnConditionOnly,
+    CreatorFirstAssignmentOnly,
+    LegacyOwnerAnchorOnly,
+}
+
+/// Private construction, no Serialize/Deserialize/Clone. The copied token
+/// coordinates let require return a proof without borrowing CommonSession.
+pub struct ProjectAccessProof {
+    project_id: Uuid,
+    actor_id: Uuid,
+    session_id: Uuid,
+    permissions: BTreeSet<String>,
+    action: ProjectAction,
+    scope_kind: ScopeKind,
+    project_row_version: i32,
+    owner_write: bool,
+    owner_org_active: bool,
+    active_membership_ids: Vec<Uuid>,
+    own_condition_binding: Option<(Uuid, Uuid)>,
+    can_operating_write: bool,
+    tx_pid: i32,
+    tx_xid: String,
+    tx_nonce: Uuid,
+}
+impl ProjectAccessProof {
+    pub fn scope_kind(&self) -> &'static str {
+        match self.scope_kind {
+            ScopeKind::FullProject => "full-project",
+            ScopeKind::OwnConditionOnly => "own-condition-only",
+            ScopeKind::CreatorFirstAssignmentOnly => "creator-first-assignment-only",
+            ScopeKind::LegacyOwnerAnchorOnly => "legacy-owner-anchor-only",
+        }
+    }
+    pub fn project_id(&self) -> Uuid {
+        self.project_id
+    }
+    pub fn actor_id(&self) -> Uuid {
+        self.actor_id
+    }
+    pub fn action(&self) -> ProjectAction {
+        self.action
+    }
+    pub fn project_row_version(&self) -> i32 {
+        self.project_row_version
+    }
+    pub fn is_full_project(&self) -> bool {
+        self.scope_kind == ScopeKind::FullProject
+    }
+    pub fn is_legacy_owner_anchor_only(&self) -> bool {
+        self.scope_kind == ScopeKind::LegacyOwnerAnchorOnly
+    }
+    pub fn owner_write(&self) -> bool {
+        self.owner_write
+    }
+    pub fn owner_org_active(&self) -> bool {
+        self.owner_org_active
+    }
+    pub fn active_membership_ids(&self) -> &[Uuid] {
+        &self.active_membership_ids
+    }
+    pub fn own_condition_binding(&self) -> Option<(Uuid, Uuid)> {
+        self.own_condition_binding
+    }
+    pub fn can_operating_write(&self) -> bool {
+        self.is_full_project() && self.can_operating_write
+    }
+    fn assert_actor(&self, actor: &Actor) -> Result<(), Error> {
+        check_actor_identity(actor)?;
+        if actor.id != self.actor_id
+            || actor.session.session.id != self.session_id
+            || permission_snapshot(actor) != self.permissions
+        {
+            return Err(denied());
+        }
+        Ok(())
+    }
+    pub async fn assert_session(
+        &self,
+        session: &mut CommonSession<'_, '_>,
+        actor: &Actor,
+    ) -> Result<(), Error> {
+        self.assert_actor(actor)?;
+        if !session.connection.is_in_transaction() {
+            return Err(changed("The outer transaction is no longer active"));
+        }
+        let (pid, xid): (i32, String) =
+            sqlx::query_as("SELECT pg_backend_pid(),txid_current()::text")
+                .fetch_one(&mut *session.connection)
+                .await?;
+        if pid != self.tx_pid || xid != self.tx_xid {
+            return Err(changed(
+                "The project proof belongs to another physical outer transaction",
+            ));
+        }
+        Ok(())
+    }
+}
+
+struct ProjectState {
+    id: Uuid,
+    owner_user_id: Option<Uuid>,
+    owner_org_id: Option<Uuid>,
+    created_by: Option<Uuid>,
+    created_at: DateTime<Utc>,
+    source_lead_id: Option<Uuid>,
+    row_version: i32,
+    current_stage_record_id: Option<Uuid>,
+}
+async fn project_state(
+    session: &mut CommonSession<'_, '_>,
+    project_id: Uuid,
+) -> Result<ProjectState, Error> {
+    // D freshness takes an UPDATE lock even for coherent reads. Locking it here
+    // prevents later SHARE->UPDATE upgrade deadlocks; no business row is changed.
+    let row = sqlx::query("SELECT id,owner_user_id,owner_org_id,created_by,created_at,source_lead_id,row_version,current_stage_record_id FROM poms.project WHERE id=$1 FOR UPDATE")
+        .bind(project_id).fetch_optional(&mut *session.connection).await?.ok_or_else(missing)?;
+    let state = ProjectState {
+        id: row.try_get("id")?,
+        owner_user_id: row.try_get("owner_user_id")?,
+        owner_org_id: row.try_get("owner_org_id")?,
+        created_by: row.try_get("created_by")?,
+        created_at: row.try_get("created_at")?,
+        source_lead_id: row.try_get("source_lead_id")?,
+        row_version: row.try_get("row_version")?,
+        current_stage_record_id: row.try_get("current_stage_record_id")?,
+    };
+    if state.row_version <= 0 {
+        return Err(changed("The project has no valid row version"));
+    }
+    Ok(state)
+}
+
+async fn resolve_project(
+    session: &mut CommonSession<'_, '_>,
+    target: ProjectActionTarget,
+) -> Result<Uuid, Error> {
+    let found = match target {
+        ProjectActionTarget::Project { id } => return Ok(id),
+        ProjectActionTarget::OwnerReassignment { project_id, .. } => return Ok(project_id),
+        ProjectActionTarget::Handover { id } => sqlx::query_scalar("SELECT project_id FROM poms.project_handover WHERE id=$1").bind(id).fetch_optional(&mut *session.connection).await?,
+        ProjectActionTarget::Assignment { id } => sqlx::query_scalar("SELECT project_id FROM poms.commission_role_assignment WHERE id=$1").bind(id).fetch_optional(&mut *session.connection).await?,
+        ProjectActionTarget::Archive { id } => sqlx::query_scalar("SELECT project_id FROM poms.project_archive_record WHERE id=$1").bind(id).fetch_optional(&mut *session.connection).await?,
+        ProjectActionTarget::Condition { completion_record_id, condition_id } => sqlx::query_scalar("SELECT c.project_id FROM poms.project_completion_condition c JOIN poms.project_completion_record p ON p.id=c.completion_record_id AND p.project_id=c.project_id WHERE c.id=$1 AND c.completion_record_id=$2")
+            .bind(condition_id).bind(completion_record_id).fetch_optional(&mut *session.connection).await?,
+    };
+    found.ok_or_else(missing)
+}
+
+async fn assert_target_project(
+    session: &mut CommonSession<'_, '_>,
+    target: ProjectActionTarget,
+    project_id: Uuid,
+) -> Result<(), Error> {
+    let found:Option<Uuid>=match target{
+        ProjectActionTarget::Project{id}=>Some(id),
+        ProjectActionTarget::OwnerReassignment{project_id,..}=>Some(project_id),
+        ProjectActionTarget::Handover{id}=>sqlx::query_scalar("SELECT project_id FROM poms.project_handover WHERE id=$1 FOR SHARE").bind(id).fetch_optional(&mut *session.connection).await?,
+        ProjectActionTarget::Assignment{id}=>sqlx::query_scalar("SELECT project_id FROM poms.commission_role_assignment WHERE id=$1 FOR SHARE").bind(id).fetch_optional(&mut *session.connection).await?,
+        ProjectActionTarget::Archive{id}=>sqlx::query_scalar("SELECT project_id FROM poms.project_archive_record WHERE id=$1 FOR SHARE").bind(id).fetch_optional(&mut *session.connection).await?,
+        ProjectActionTarget::Condition{completion_record_id,condition_id}=>sqlx::query_scalar("SELECT c.project_id FROM poms.project_completion_condition c JOIN poms.project_completion_record p ON p.id=c.completion_record_id AND p.project_id=c.project_id WHERE c.id=$1 AND c.completion_record_id=$2 FOR SHARE OF c,p")
+            .bind(condition_id).bind(completion_record_id).fetch_optional(&mut *session.connection).await?,
+    };
+    if found != Some(project_id) {
+        return Err(changed(
+            "The resource no longer belongs to the resolved project",
+        ));
+    }
+    Ok(())
+}
+
+struct SecurityFacts {
+    active_accounts: BTreeSet<Uuid>,
+    active_orgs: BTreeSet<Uuid>,
+    memberships: BTreeMap<Uuid, BTreeSet<Uuid>>,
+    membership_ids: BTreeMap<Uuid, Vec<Uuid>>,
+}
+impl SecurityFacts {
+    fn has_membership(&self, user: Uuid, org: Uuid) -> bool {
+        self.memberships
+            .get(&user)
+            .is_some_and(|orgs| orgs.contains(&org))
+    }
+    fn has_any_membership(&self, user: Uuid) -> bool {
+        self.memberships
+            .get(&user)
+            .is_some_and(|orgs| !orgs.is_empty())
+    }
+    fn owner_org_active(&self, project: &ProjectState) -> bool {
+        project
+            .owner_org_id
+            .is_some_and(|id| self.active_orgs.contains(&id))
+    }
+}
+
+/// Account -> org -> membership rank, each family sorted by UUID. The discovery
+/// recheck never adds a newly found organization lock out of order.
+async fn security_facts(
+    session: &mut CommonSession<'_, '_>,
+    actor: &Actor,
+    extra_users: &[Uuid],
+    extra_orgs: &[Uuid],
+) -> Result<SecurityFacts, Error> {
+    check_actor_identity(actor)?;
+    let user_ids = extra_users
+        .iter()
+        .copied()
+        .chain([actor.id])
+        .collect::<BTreeSet<_>>()
+        .into_iter()
+        .collect::<Vec<_>>();
+    let accounts: Vec<(Uuid, bool)> = sqlx::query_as(
+        "SELECT id,is_active FROM poms.platform_user WHERE id=ANY($1) ORDER BY id FOR SHARE",
+    )
+    .bind(&user_ids)
+    .fetch_all(&mut *session.connection)
+    .await?;
+    let active_accounts = accounts
+        .into_iter()
+        .filter_map(|(id, active)| active.then_some(id))
+        .collect::<BTreeSet<_>>();
+    if !active_accounts.contains(&actor.id) {
+        return Err(Error::Forbidden(
+            "Authenticated account is no longer active".into(),
+        ));
+    }
+    let observed: Vec<(Uuid, Uuid, Uuid)> = sqlx::query_as("SELECT id,user_id,org_unit_id FROM poms.user_org_membership WHERE user_id=ANY($1) ORDER BY id")
+        .bind(&user_ids).fetch_all(&mut *session.connection).await?;
+    let org_ids = observed
+        .iter()
+        .map(|(_, _, org)| *org)
+        .chain(extra_orgs.iter().copied())
+        .collect::<BTreeSet<_>>()
+        .into_iter()
+        .collect::<Vec<_>>();
+    let organizations: Vec<(Uuid, bool)> = sqlx::query_as(
+        "SELECT id,is_active FROM poms.org_unit WHERE id=ANY($1) ORDER BY id FOR SHARE",
+    )
+    .bind(&org_ids)
+    .fetch_all(&mut *session.connection)
+    .await?;
+    let active_orgs = organizations
+        .into_iter()
+        .filter_map(|(id, active)| active.then_some(id))
+        .collect::<BTreeSet<_>>();
+    let rows = sqlx::query("SELECT id,user_id,org_unit_id,membership_type,status,revoked_at FROM poms.user_org_membership WHERE user_id=ANY($1) ORDER BY id FOR SHARE")
+        .bind(&user_ids).fetch_all(&mut *session.connection).await?;
+    let locked = rows
+        .iter()
+        .map(|row| {
+            Ok((
+                row.try_get::<Uuid, _>("id")?,
+                row.try_get::<Uuid, _>("user_id")?,
+                row.try_get::<Uuid, _>("org_unit_id")?,
+            ))
+        })
+        .collect::<Result<Vec<_>, sqlx::Error>>()?;
+    let observed_again: Vec<(Uuid, Uuid, Uuid)> = sqlx::query_as("SELECT id,user_id,org_unit_id FROM poms.user_org_membership WHERE user_id=ANY($1) ORDER BY id")
+        .bind(&user_ids).fetch_all(&mut *session.connection).await?;
+    if observed != locked || locked != observed_again {
+        return Err(changed(
+            "The organization membership lock set changed; restart the outer transaction",
+        ));
+    }
+    let mut memberships: BTreeMap<Uuid, BTreeSet<Uuid>> = BTreeMap::new();
+    let mut membership_ids: BTreeMap<Uuid, Vec<Uuid>> = BTreeMap::new();
+    for row in rows {
+        let id: Uuid = row.try_get("id")?;
+        let user: Uuid = row.try_get("user_id")?;
+        let org: Uuid = row.try_get("org_unit_id")?;
+        let kind: String = row.try_get("membership_type")?;
+        let status: String = row.try_get("status")?;
+        let revoked: Option<DateTime<Utc>> = row.try_get("revoked_at")?;
+        if status == "active"
+            && revoked.is_none()
+            && matches!(kind.as_str(), "primary" | "secondary")
+            && active_orgs.contains(&org)
+        {
+            memberships.entry(user).or_default().insert(org);
+            membership_ids.entry(user).or_default().push(id);
+        }
+    }
+    Ok(SecurityFacts {
+        active_accounts,
+        active_orgs,
+        memberships,
+        membership_ids,
+    })
+}
+
+struct BootstrapFacts {
+    available: bool,
+    consumed: bool,
+}
+async fn bootstrap_facts(
+    session: &mut CommonSession<'_, '_>,
+    actor: &Actor,
+    project: &ProjectState,
+    security: &SecurityFacts,
+) -> Result<BootstrapFacts, Error> {
+    let none = || BootstrapFacts {
+        available: false,
+        consumed: false,
+    };
+    if project.created_by != Some(actor.id) {
+        return Ok(none());
+    }
+    let row = sqlx::query("SELECT producer_version,creator_user_id,source_type,source_record_id,initial_kind,initial_owner_user_id,initial_owner_org_id,source_payload,source_payload_hash,bootstrap_state,first_personal_owner_user_id,first_personal_assigned_at,bootstrap_consumed_at,bootstrap_assignment_record_id,row_version,created_at FROM poms.project_ownership_origin WHERE project_id=$1 FOR UPDATE")
+        .bind(project.id).fetch_optional(&mut *session.connection).await?;
+    let Some(row) = row else { return Ok(none()) };
+    let creator: Uuid = row.try_get("creator_user_id")?;
+    let producer: i32 = row.try_get("producer_version")?;
+    if producer != 1 || creator != actor.id {
+        return Ok(none());
+    }
+    let source_type: String = row.try_get("source_type")?;
+    let source_id: Uuid = row.try_get("source_record_id")?;
+    let kind: String = row.try_get("initial_kind")?;
+    let initial_owner: Option<Uuid> = row.try_get("initial_owner_user_id")?;
+    let initial_org: Option<Uuid> = row.try_get("initial_owner_org_id")?;
+    let created_at: DateTime<Utc> = row.try_get("created_at")?;
+    let payload: Value = row.try_get("source_payload")?;
+    let hash: String = row.try_get("source_payload_hash")?;
+    let expected = json!({"schemaVersion":1,"projectId":project.id,"creatorUserId":creator,"sourceType":source_type,"sourceRecordId":source_id,"initialKind":kind,"initialOwnerUserId":initial_owner,"initialOwnerOrgId":initial_org,"createdAt":created_at});
+    let source_matches = match source_type.as_str() {
+        "direct-create" => {
+            source_id == project.id
+                && project.source_lead_id.is_none()
+                && kind == "personal"
+                && initial_owner == Some(creator)
+        }
+        "lead-conversion" => project.source_lead_id == Some(source_id),
+        _ => false,
+    };
+    if !source_matches
+        || created_at != project.created_at
+        || payload != expected
+        || canonical_hash(&expected)? != hash
+    {
+        return Err(changed(
+            "The ownership origin no longer matches its real creation source",
+        ));
+    }
+    if source_type == "lead-conversion" {
+        let valid: bool = sqlx::query_scalar("SELECT EXISTS(SELECT 1 FROM poms.lead WHERE id=$1 AND converted_project_id=$2 AND converted_by=$3 AND converted_at IS NOT NULL)")
+            .bind(source_id).bind(project.id).bind(creator).fetch_one(&mut *session.connection).await?;
+        if !valid {
+            return Err(changed(
+                "The ownership origin has no matching actual lead conversion",
+            ));
+        }
+    }
+    // A true initial personal origin is consumed at creation and is never a
+    // bootstrap source, even if someone later returns its project to an org.
+    if kind != "org-owned" || initial_owner.is_some() || initial_org.is_none() {
+        return Ok(none());
+    }
+    let state: String = row.try_get("bootstrap_state")?;
+    let first_owner: Option<Uuid> = row.try_get("first_personal_owner_user_id")?;
+    let first_at: Option<DateTime<Utc>> = row.try_get("first_personal_assigned_at")?;
+    let consumed_at: Option<DateTime<Utc>> = row.try_get("bootstrap_consumed_at")?;
+    let assignment: Option<Uuid> = row.try_get("bootstrap_assignment_record_id")?;
+    let version: i32 = row.try_get("row_version")?;
+    if version <= 0 {
+        return Err(changed("The ownership origin version is invalid"));
+    }
+    if state == "consumed" {
+        // This is a conflict witness only, never a retained scope grant. It
+        // gives a stale concurrent first assignment a generic409, not new data.
+        let consumed = first_owner.is_some()
+            && first_at.is_some()
+            && consumed_at.is_some()
+            && assignment.is_some();
+        return Ok(BootstrapFacts {
+            available: false,
+            consumed,
+        });
+    }
+    let clean = state == "available"
+        && first_owner.is_none()
+        && first_at.is_none()
+        && consumed_at.is_none()
+        && assignment.is_none();
+    let org = initial_org.ok_or(Error::Internal)?;
+    if !clean
+        || project.owner_user_id.is_some()
+        || project.owner_org_id != Some(org)
+        || !security.active_orgs.contains(&org)
+        || !security.has_membership(actor.id, org)
+    {
+        return Ok(none());
+    }
+    let personal_history: bool = sqlx::query_scalar("SELECT EXISTS(SELECT 1 FROM poms.project_owner_reassignment_record WHERE project_id=$1 AND (previous_owner_user_id IS NOT NULL OR new_owner_user_id IS NOT NULL))")
+        .bind(project.id).fetch_one(&mut *session.connection).await?;
+    Ok(BootstrapFacts {
+        available: !personal_history,
+        consumed: false,
+    })
+}
+
+/// Minimal relation discovery only. D alone verifies its collector, basis,
+/// current summary/source hash and duties through the real bridge below.
+async fn participant_facts(
+    session: &mut CommonSession<'_, '_>,
+    project_id: Uuid,
+    actor_id: Uuid,
+) -> Result<Option<ParticipantScopeFacts>, Error> {
+    let candidate: bool = sqlx::query_scalar("SELECT EXISTS(SELECT 1 FROM poms.project_handover h JOIN poms.project_handover_participant_role r ON r.handover_id=h.id WHERE h.project_id=$1 AND h.producer_version=1 AND h.is_current AND h.status IN ('draft','confirmed') AND r.participant_user_id=$2)")
+        .bind(project_id).bind(actor_id).fetch_one(&mut *session.connection).await?;
+    if !candidate {
+        return Ok(None);
+    }
+    participant_scope_facts_with_session(session, project_id, actor_id).await
+}
+
+async fn own_condition(
+    session: &mut CommonSession<'_, '_>,
+    project: &ProjectState,
+    actor_id: Uuid,
+    target: ProjectActionTarget,
+    security: &SecurityFacts,
+) -> Result<Option<(Uuid, Uuid)>, Error> {
+    if !security.owner_org_active(project) || !security.has_any_membership(actor_id) {
+        return Ok(None);
+    }
+    let (parent, child) = match target {
+        ProjectActionTarget::Condition {
+            completion_record_id,
+            condition_id,
+        } => (Some(completion_record_id), Some(condition_id)),
+        ProjectActionTarget::Project { .. } => (None, None),
+        _ => return Ok(None),
+    };
+    // Only source identities are joined. No parent summary, acceptance detail,
+    // completion evidence or another user's condition payload is returned.
+    let binding: Option<(Uuid,Uuid)> = sqlx::query_as(r#"SELECT c.completion_record_id,c.id
+      FROM poms.project_completion_condition c
+      JOIN poms.project_completion_record completion ON completion.id=c.completion_record_id AND completion.project_id=c.project_id
+        AND completion.producer_version=1 AND completion.status='confirmed' AND completion.completion_result='conditional-completed'
+      JOIN poms.acceptance_record acceptance ON acceptance.id=completion.acceptance_record_id AND acceptance.project_id=c.project_id
+        AND acceptance.producer_version=1 AND acceptance.status='confirmed' AND acceptance.acceptance_type='final-acceptance' AND acceptance.acceptance_result='conditional'
+      JOIN poms.project_stage_record admission ON admission.id=completion.source_stage_record_id AND admission.project_id=c.project_id
+        AND admission.producer_version=1 AND admission.to_stage='acceptance' AND acceptance.source_stage_record_id=admission.id
+      JOIN poms.project_stage_record execution ON execution.id=admission.previous_stage_record_id AND execution.project_id=c.project_id
+        AND execution.producer_version=1 AND execution.to_stage='execution'
+        AND execution.source_handover_id=admission.source_handover_id AND execution.source_role_assignment_id=admission.source_role_assignment_id
+      JOIN poms.project_stage_record terminal ON terminal.source_completion_record_id=completion.id AND terminal.project_id=c.project_id
+        AND terminal.producer_version=1 AND terminal.to_stage='conditional-completed' AND terminal.previous_stage_record_id=admission.id
+        AND terminal.source_handover_id=admission.source_handover_id AND terminal.source_role_assignment_id=admission.source_role_assignment_id
+      JOIN poms.project p ON p.id=c.project_id AND p.current_stage_record_id=terminal.id AND p.status='completed' AND p.current_stage='conditional-completed'
+      WHERE c.project_id=$1 AND c.responsible_user_id=$2 AND c.status IN ('pending','closed')
+        AND ($3::uuid IS NULL OR c.completion_record_id=$3) AND ($4::uuid IS NULL OR c.id=$4)
+      ORDER BY c.completion_record_id,c.id LIMIT 1"#)
+        .bind(project.id).bind(actor_id).bind(parent).bind(child).fetch_optional(&mut *session.connection).await?;
+    Ok(binding)
+}
+
+async fn execution_owner_matches(
+    session: &mut CommonSession<'_, '_>,
+    project: &ProjectState,
+    actor_id: Uuid,
+) -> Result<(), Error> {
+    let current = project
+        .current_stage_record_id
+        .ok_or_else(|| Error::CodedConflict {
+            code: "lifecycle_admission_required",
+            message: "A true execution admission is required".into(),
+        })?;
+    let rows: Vec<(Value,String,Value,String)> = sqlx::query_as(r#"SELECT cur.source_payload,cur.source_payload_hash,execution.source_payload,execution.source_payload_hash
+      FROM poms.project_stage_record cur
+      JOIN poms.project_stage_record execution ON execution.project_id=cur.project_id
+        AND ((cur.to_stage='execution' AND execution.id=cur.id)
+          OR (cur.to_stage='acceptance' AND execution.id=cur.previous_stage_record_id))
+      JOIN poms.project_handover h ON h.id=execution.source_handover_id AND h.project_id=cur.project_id
+        AND h.producer_version=1 AND h.is_current AND h.status='confirmed' AND h.execution_owner_user_id=$3
+      WHERE cur.id=$1 AND cur.project_id=$2 AND cur.producer_version=1
+        AND execution.producer_version=1 AND execution.to_stage='execution' AND execution.entered_by=$3
+        AND cur.source_handover_id=execution.source_handover_id
+        AND cur.source_role_assignment_id=execution.source_role_assignment_id"#)
+        .bind(current).bind(project.id).bind(actor_id).fetch_all(&mut *session.connection).await?;
+    if rows.len() != 1 {
+        return Err(changed(
+            "The current execution source no longer matches the confirmed execution owner",
+        ));
+    }
+    let (current_payload, current_hash, execution_payload, execution_hash) = &rows[0];
+    if canonical_hash(current_payload)? != *current_hash
+        || canonical_hash(execution_payload)? != *execution_hash
+        || execution_payload["executionOwnerUserId"] != actor_id.to_string()
+    {
+        return Err(changed(
+            "The immutable execution admission source failed verification",
+        ));
+    }
+    Ok(())
+}
+
+fn needs_bootstrap(action: ProjectAction) -> bool {
+    matches!(
+        action,
+        ProjectAction::ReadProjectAnchor
+            | ProjectAction::FirstAssignOwner
+            | ProjectAction::OwnerReassign
+    )
+}
+
+/// A personal-owner equality with no owner organization proves only a bounded
+/// legacy project anchor. It is never itself the FullProject relation.
+fn owner_read_relation(
+    owner_user_id: Option<Uuid>,
+    owner_org_id: Option<Uuid>,
+    actor_id: Uuid,
+) -> (bool, bool) {
+    let matches = owner_user_id == Some(actor_id);
+    (
+        matches && owner_org_id.is_some(),
+        matches && owner_org_id.is_none(),
+    )
+}
+fn legacy_anchor_permits(action: ProjectAction, target: ProjectActionTarget) -> bool {
+    action == ProjectAction::ReadProjectAnchor
+        && matches!(target, ProjectActionTarget::Project { .. })
+}
+fn outside_full_scope(legacy_owner_anchor: bool) -> Error {
+    if legacy_owner_anchor {
+        denied()
+    } else {
+        missing()
+    }
+}
+fn owner_suffices(action: ProjectAction, owner_read: bool, owner_write: bool) -> bool {
+    match action {
+        ProjectAction::ReadProjectAnchorOrIList
+        | ProjectAction::ReadOwnCompletionTask
+        | ProjectAction::ReadProjectAnchor
+        | ProjectAction::ReadCommissionAssignment
+        | ProjectAction::OperatingRead => owner_read,
+        ProjectAction::CreateCommissionAssignmentDraft
+        | ProjectAction::FreezeCommissionAssignment
+        | ProjectAction::PrepareHandover
+        | ProjectAction::FinalizeHandover
+        | ProjectAction::HandoverFinalize
+        | ProjectAction::RebaselineHandover
+        | ProjectAction::CreateReplaceVoidArchive
+        | ProjectAction::ReassignCurrentOwner
+        | ProjectAction::OwnerReassign
+        | ProjectAction::OperatingWrite => owner_write,
+        _ => false,
+    }
+}
+
+async fn evaluate(
+    session: &mut CommonSession<'_, '_>,
+    actor: &Actor,
+    action: ProjectAction,
+    target: ProjectActionTarget,
+    project: &ProjectState,
+    security: &SecurityFacts,
+    token: &OuterTxToken,
+) -> Result<ProjectAccessProof, Error> {
+    let (owner_read, legacy_owner_anchor) =
+        owner_read_relation(project.owner_user_id, project.owner_org_id, actor.id);
+    let owner_org_active = security.owner_org_active(project);
+    let owner_write = owner_read
+        && owner_org_active
+        && project
+            .owner_org_id
+            .is_some_and(|org| security.has_membership(actor.id, org));
+    let delegated_org = owner_org_active && security.has_any_membership(actor.id);
+    let permitted = permission(actor, action.permission());
+    let legacy_anchor_allowed = legacy_owner_anchor && legacy_anchor_permits(action, target);
+    let owner_allowed = owner_suffices(action, owner_read, owner_write) || legacy_anchor_allowed;
+    let bootstrap = if needs_bootstrap(action) && !owner_allowed && !legacy_owner_anchor {
+        bootstrap_facts(session, actor, project, security).await?
+    } else {
+        BootstrapFacts {
+            available: false,
+            consumed: false,
+        }
+    };
+    let condition = if matches!(
+        action,
+        ProjectAction::ReadOwnCompletionTask | ProjectAction::CloseCompletionCondition
+    ) {
+        own_condition(session, project, actor.id, target, security).await?
+    } else {
+        None
+    };
+
+    // Strong owner authorization never needs old D facts to authorize a new
+    // prepare or a reassignment. For an already allowed read/own-task branch,
+    // an optional stale duty cannot revoke that independent relationship.
+    let owner_only_action = matches!(
+        action,
+        ProjectAction::CreateCommissionAssignmentDraft
+            | ProjectAction::PrepareHandover
+            | ProjectAction::ReassignCurrentOwner
+            | ProjectAction::FirstAssignOwner
+            | ProjectAction::OwnerReassign
+    );
+    let duty_needed = !owner_allowed
+        && !bootstrap.available
+        && condition.is_none()
+        && !((owner_read || legacy_owner_anchor) && owner_only_action);
+    let can_write_from_owner = permission(actor, "contract:finance:manage") && owner_write;
+    let optional_duty = !duty_needed
+        && ((!owner_read && (condition.is_some() || bootstrap.available || legacy_anchor_allowed))
+            || (!can_write_from_owner
+                && permission(actor, "contract:finance:manage")
+                && delegated_org));
+    let part = if duty_needed || optional_duty {
+        match participant_facts(session, project.id, actor.id).await {
+            Ok(part) => part,
+            Err(Error::Conflict(_) | Error::CodedConflict { .. }) if !duty_needed => None,
+            Err(error) => return Err(error),
+        }
+    } else {
+        None
+    };
+    // No generic owner-equality fallback: an actual independent D participant
+    // relationship can prove FullProject; the legacy anchor alone cannot.
+    let full = owner_read || part.is_some();
+    let confirmed = part.as_ref().is_some_and(|facts| facts.confirmed);
+    let ba = delegated_org
+        && confirmed
+        && part
+            .as_ref()
+            .is_some_and(|facts| facts.roles.contains("business-admin"));
+    let eo = delegated_org
+        && confirmed
+        && part
+            .as_ref()
+            .is_some_and(|facts| facts.execution_owner && facts.roles.contains("execution-owner"));
+    let finance = delegated_org
+        && confirmed
+        && part
+            .as_ref()
+            .is_some_and(|facts| facts.roles.contains("finance"));
+    let operating_write =
+        permission(actor, "contract:finance:manage") && (owner_write || ba || finance);
+    let scope_kind = match action {
+        ProjectAction::ReadProjectAnchorOrIList
+        | ProjectAction::ReadCommissionAssignment
+        | ProjectAction::OperatingRead => {
+            if !full {
+                return Err(outside_full_scope(legacy_owner_anchor));
+            }
+            ScopeKind::FullProject
+        }
+        ProjectAction::ReadProjectAnchor => {
+            if full {
+                ScopeKind::FullProject
+            } else if legacy_anchor_allowed {
+                ScopeKind::LegacyOwnerAnchorOnly
+            } else if legacy_owner_anchor {
+                return Err(denied());
+            } else if bootstrap.available {
+                ScopeKind::CreatorFirstAssignmentOnly
+            } else {
+                return Err(outside_full_scope(legacy_owner_anchor));
+            }
+        }
+        ProjectAction::ReadOwnCompletionTask => {
+            if full {
+                ScopeKind::FullProject
+            } else if condition.is_some() {
+                ScopeKind::OwnConditionOnly
+            } else {
+                return Err(outside_full_scope(legacy_owner_anchor));
+            }
+        }
+        ProjectAction::CloseCompletionCondition => {
+            if condition.is_none() {
+                return Err(if full {
+                    denied()
+                } else {
+                    outside_full_scope(legacy_owner_anchor)
+                });
+            }
+            if full {
+                ScopeKind::FullProject
+            } else {
+                ScopeKind::OwnConditionOnly
+            }
+        }
+        ProjectAction::FirstAssignOwner | ProjectAction::OwnerReassign if bootstrap.available => {
+            ScopeKind::CreatorFirstAssignmentOnly
+        }
+        ProjectAction::FirstAssignOwner | ProjectAction::OwnerReassign
+            if bootstrap.consumed && permitted =>
+        {
+            if let ProjectActionTarget::OwnerReassignment {
+                expected_version, ..
+            } = target
+            {
+                if expected_version != project.row_version {
+                    return Err(changed(
+                        "The first personal assignment was already consumed",
+                    ));
+                }
+            }
+            return Err(if full {
+                denied()
+            } else {
+                outside_full_scope(legacy_owner_anchor)
+            });
+        }
+        _ => {
+            if !full {
+                return Err(outside_full_scope(legacy_owner_anchor));
+            }
+            ScopeKind::FullProject
+        }
+    };
+    if !permitted {
+        return Err(denied());
+    }
+    let allowed = match action {
+        ProjectAction::ReadProjectAnchorOrIList
+        | ProjectAction::ReadOwnCompletionTask
+        | ProjectAction::ReadProjectAnchor
+        | ProjectAction::ReadCommissionAssignment
+        | ProjectAction::OperatingRead => true,
+        ProjectAction::CreateCommissionAssignmentDraft
+        | ProjectAction::PrepareHandover
+        | ProjectAction::ReassignCurrentOwner => owner_write,
+        ProjectAction::FreezeCommissionAssignment
+        | ProjectAction::FinalizeHandover
+        | ProjectAction::HandoverFinalize
+        | ProjectAction::RebaselineHandover => owner_write || ba,
+        ProjectAction::CreateReplaceVoidArchive => owner_write || ba || eo,
+        ProjectAction::StartExecution
+        | ProjectAction::StartAcceptanceConfirmAcceptanceConfirmCompletion => eo,
+        ProjectAction::ConfirmHandoverSelf | ProjectAction::ParticipantConfirm => part.is_some(),
+        ProjectAction::CloseCompletionCondition => condition.is_some(),
+        ProjectAction::FirstAssignOwner => bootstrap.available,
+        ProjectAction::OwnerReassign => owner_write || bootstrap.available,
+        ProjectAction::OperatingWrite => operating_write,
+    };
+    if !allowed {
+        return Err(denied());
+    }
+    if matches!(
+        action,
+        ProjectAction::StartAcceptanceConfirmAcceptanceConfirmCompletion
+    ) {
+        execution_owner_matches(session, project, actor.id).await?;
+    }
+    if matches!(
+        action,
+        ProjectAction::FirstAssignOwner
+            | ProjectAction::OwnerReassign
+            | ProjectAction::ReassignCurrentOwner
+    ) {
+        if let ProjectActionTarget::OwnerReassignment {
+            expected_version,
+            new_owner_user_id,
+            new_owner_org_id,
+            ..
+        } = target
+        {
+            if expected_version <= 0 {
+                return Err(Error::BadRequest(
+                    "expectedVersion must be a positive int4".into(),
+                ));
+            }
+            if expected_version != project.row_version {
+                return Err(changed("The project owner version changed"));
+            }
+            let valid_target = new_owner_org_id.is_some_and(|org| {
+                security.active_orgs.contains(&org)
+                    && security.has_membership(new_owner_user_id, org)
+            }) && security.active_accounts.contains(&new_owner_user_id);
+            if !valid_target {
+                return Err(Error::BadRequest("The target owner must have a real active membership in the target organization".into()));
+            }
+            if scope_kind == ScopeKind::CreatorFirstAssignmentOnly
+                && new_owner_org_id != project.owner_org_id
+            {
+                return Err(denied());
+            }
+        } else if scope_kind == ScopeKind::CreatorFirstAssignmentOnly {
+            return Err(Error::BadRequest(
+                "The first assignment needs its exact target and expected version".into(),
+            ));
+        }
+    }
+    Ok(ProjectAccessProof {
+        project_id: project.id,
+        actor_id: actor.id,
+        session_id: actor.session.session.id,
+        permissions: permission_snapshot(actor),
+        action,
+        scope_kind,
+        project_row_version: project.row_version,
+        owner_write,
+        owner_org_active,
+        active_membership_ids: security
+            .membership_ids
+            .get(&actor.id)
+            .cloned()
+            .unwrap_or_default(),
+        own_condition_binding: condition,
+        can_operating_write: scope_kind == ScopeKind::FullProject && operating_write,
+        tx_pid: token.pid,
+        tx_xid: token.xid.clone(),
+        tx_nonce: token.nonce,
+    })
+}
+
+pub async fn require(
+    session: &mut CommonSession<'_, '_>,
+    actor: &Actor,
+    action: ProjectAction,
+    target: ProjectActionTarget,
+) -> Result<ProjectAccessProof, Error> {
+    let token = OuterTxToken::capture(session).await?;
+    check_actor_identity(actor)?;
+    let project_id = resolve_project(session, target).await?;
+    let project = project_state(session, project_id).await?;
+    let (extra_users, extra_orgs) = match target {
+        ProjectActionTarget::OwnerReassignment {
+            new_owner_user_id,
+            new_owner_org_id,
+            ..
+        } => (
+            vec![new_owner_user_id],
+            new_owner_org_id
+                .into_iter()
+                .chain(project.owner_org_id)
+                .collect::<Vec<_>>(),
+        ),
+        _ => (
+            Vec::new(),
+            project.owner_org_id.into_iter().collect::<Vec<_>>(),
+        ),
+    };
+    let security = security_facts(session, actor, &extra_users, &extra_orgs).await?;
+    let proof = evaluate(session, actor, action, target, &project, &security, &token).await?;
+    // Minimal FK discovery was unlocked. Stabilize/recheck its exact resource
+    // after the account/D ranks, before returning an authorization capability.
+    assert_target_project(session, target, project_id).await?;
+    token.assert_current(session).await?;
+    Ok(proof)
+}
+
+pub async fn authorize_operating_read_with_session(
+    session: &mut CommonSession<'_, '_>, project_id: Uuid, actor: &Actor,
+) -> Result<ProjectAccessProof, Error> {
+    require(session, actor, ProjectAction::OperatingRead, ProjectActionTarget::Project { id: project_id }).await
+}
+pub async fn authorize_operating_write_with_session(
+    session: &mut CommonSession<'_, '_>, project_id: Uuid, actor: &Actor,
+) -> Result<ProjectAccessProof, Error> {
+    require(session, actor, ProjectAction::OperatingWrite, ProjectActionTarget::Project { id: project_id }).await
+}
+
+pub struct VerifiedOperatingAccessSet<'tx> {
+    actor_id: Uuid,
+    project_proofs: BTreeMap<Uuid, ProjectAccessProof>,
+    outer_tx_token: &'tx OuterTxToken,
+    write: bool,
+}
+impl VerifiedOperatingAccessSet<'_> {
+    pub fn contains(&self, project_id: Uuid) -> bool {
+        self.project_proofs.contains_key(&project_id)
+    }
+    pub fn project_ids(&self) -> impl ExactSizeIterator<Item = Uuid> + '_ {
+        self.project_proofs.keys().copied()
+    }
+    pub fn assert_project(&self, project_id: Uuid) -> Result<(), Error> {
+        match self.project_proofs.get(&project_id) {
+            Some(proof) if proof.is_full_project() => Ok(()),
+            Some(_) => Err(denied()),
+            None => Err(missing()),
+        }
+    }
+    pub async fn assert_session(
+        &self,
+        session: &mut CommonSession<'_, '_>,
+        actor: &Actor,
+    ) -> Result<(), Error> {
+        self.outer_tx_token.assert_current(session).await?;
+        check_actor_identity(actor)?;
+        if actor.id != self.actor_id {
+            return Err(denied());
+        }
+        for proof in self.project_proofs.values() {
+            proof.assert_actor(actor)?;
+            if !proof.is_full_project()
+                || proof.tx_pid != self.outer_tx_token.pid
+                || proof.tx_xid != self.outer_tx_token.xid
+                || proof.tx_nonce != self.outer_tx_token.nonce
+                || (self.write && !proof.can_operating_write())
+            {
+                return Err(denied());
+            }
+        }
+        Ok(())
+    }
+}
+
+pub async fn verify_access_set<'tx>(
+    session: &mut CommonSession<'_, '_>,
+    project_ids: &[Uuid],
+    actor: &Actor,
+    write: bool,
+    token: &'tx OuterTxToken,
+) -> Result<VerifiedOperatingAccessSet<'tx>, Error> {
+    token.assert_current(session).await?;
+    check_actor_identity(actor)?;
+    let ids = project_ids.iter().copied().collect::<BTreeSet<_>>();
+    if ids.is_empty() {
+        return Err(Error::BadRequest(
+            "A project access set cannot be empty".into(),
+        ));
+    }
+    let mut projects = Vec::with_capacity(ids.len());
+    // Complete project lock set first; never acquire partial project locks and
+    // subsequently grow the set while D freshness is in progress.
+    for id in ids {
+        projects.push(project_state(session, id).await?);
+    }
+    let orgs = projects
+        .iter()
+        .filter_map(|p| p.owner_org_id)
+        .collect::<BTreeSet<_>>()
+        .into_iter()
+        .collect::<Vec<_>>();
+    let security = security_facts(session, actor, &[], &orgs).await?;
+    let action = if write {
+        ProjectAction::OperatingWrite
+    } else {
+        ProjectAction::OperatingRead
+    };
+    let mut project_proofs = BTreeMap::new();
+    for project in projects {
+        let proof = evaluate(
+            session,
+            actor,
+            action,
+            ProjectActionTarget::Project { id: project.id },
+            &project,
+            &security,
+            token,
+        )
+        .await?;
+        if !proof.is_full_project() {
+            return Err(denied());
+        }
+        project_proofs.insert(project.id, proof);
+    }
+    token.assert_current(session).await?;
+    Ok(VerifiedOperatingAccessSet {
+        actor_id: actor.id,
+        project_proofs,
+        outer_tx_token: token,
+        write,
+    })
+}
+
+type RefIdentity = (String, Uuid, i32, String);
+fn source_ref_set(refs: &[SourceRef]) -> Result<BTreeSet<RefIdentity>, Error> {
+    let mut result = BTreeSet::new();
+    for source in refs {
+        if source.kind.trim().is_empty()
+            || source.row_version <= 0
+            || source.payload_hash.len() != 64
+            || !source
+                .payload_hash
+                .bytes()
+                .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))
+        {
+            return Err(changed("A restatement source identity is invalid"));
+        }
+        if !result.insert((
+            source.kind.clone(),
+            source.id,
+            source.row_version,
+            source.payload_hash.clone(),
+        )) {
+            return Err(changed("A restatement source identity is duplicated"));
+        }
+    }
+    Ok(result)
+}
+
+/// G alone discovers the complete reverse source/project/terminal set, takes
+/// real source locks and compares expectedInputHash to its factual whitelist.
+/// This Root mint binds those already verified inputs to active project scopes
+/// and the exact outer TX. It never hashes SELECT * JSON or invents a new input
+/// hash, source completeness certificate, source transition or business fact.
+#[allow(clippy::too_many_arguments)]
+pub(crate) async fn verify_restatement_scope_with_session<'tx>(
+    session: &mut CommonSession<'_, '_>,
+    actor: &Actor,
+    input_hash: Sha256,
+    access: &'tx VerifiedOperatingAccessSet<'tx>,
+    locked_projects: Vec<OperatingLockedProjectState>,
+    consumed_context_refs: Vec<SourceRef>,
+    locked_source_refs: Vec<SourceRef>,
+    complete_terminal_target_refs: Vec<SourceRef>,
+) -> Result<VerifiedRestatementScope<'tx>, Error> {
+    access.assert_session(session, actor).await?;
+    if !access.write {
+        return Err(denied());
+    }
+    let mut project_ids = BTreeSet::new();
+    let mut terminal_refs = Vec::new();
+    for project in &locked_projects {
+        access.assert_project(project.project_id)?;
+        let proof = access
+            .project_proofs
+            .get(&project.project_id)
+            .ok_or_else(missing)?;
+        if !proof.can_operating_write()
+            || project.project_row_version != proof.project_row_version
+            || project.project_row_version <= 0
+            || project.head_row_version < 0
+            || !project_ids.insert(project.project_id)
+        {
+            return Err(changed(
+                "The restatement project/version lock set no longer matches its verified scopes",
+            ));
+        }
+        if let Some(source) = &project.baseline_package_ref {
+            source_ref_set(std::slice::from_ref(source))?;
+        }
+        if let Some(source) = &project.current_snapshot_ref {
+            source_ref_set(std::slice::from_ref(source))?;
+        }
+        terminal_refs.extend(project.terminal_root_refs.iter().cloned());
+    }
+    let access_ids = access
+        .project_proofs
+        .keys()
+        .copied()
+        .collect::<BTreeSet<_>>();
+    if project_ids != access_ids {
+        return Err(changed(
+            "Every impacted project needs its own verified operating write scope",
+        ));
+    }
+    source_ref_set(&consumed_context_refs)?;
+    source_ref_set(&locked_source_refs)?;
+    if source_ref_set(&terminal_refs)? != source_ref_set(&complete_terminal_target_refs)? {
+        return Err(changed(
+            "The complete terminal target set differs from the locked project terminal roots",
+        ));
+    }
+    Ok(VerifiedRestatementScope {
+        outer_tx_token: access.outer_tx_token,
+        operation_id: new_uuid()?,
+        actor_id: actor.id,
+        input_hash,
+        access,
+        locked_projects,
+        consumed_context_refs,
+        locked_source_refs,
+        complete_terminal_target_refs,
+    })
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn missing_owner_org_is_a_legacy_anchor_and_never_full_owner_read() {
+        let actor = Uuid::from_u128(10);
+        let org = Uuid::from_u128(20);
+        assert_eq!(owner_read_relation(Some(actor), None, actor), (false, true));
+        assert_eq!(
+            owner_read_relation(Some(actor), Some(org), actor),
+            (true, false)
+        );
+        assert_eq!(
+            owner_read_relation(Some(Uuid::from_u128(30)), None, actor),
+            (false, false)
+        );
+        assert!(matches!(outside_full_scope(true), Error::Forbidden(_)));
+        assert!(matches!(outside_full_scope(false), Error::NotFound(_)));
+        assert!(legacy_anchor_permits(
+            ProjectAction::ReadProjectAnchor,
+            ProjectActionTarget::Project {
+                id: Uuid::from_u128(40)
+            }
+        ));
+        for action in [
+            ProjectAction::OperatingRead,
+            ProjectAction::OperatingWrite,
+            ProjectAction::ReadCommissionAssignment,
+            ProjectAction::CreateCommissionAssignmentDraft,
+            ProjectAction::FreezeCommissionAssignment,
+            ProjectAction::ReadProjectAnchorOrIList,
+            ProjectAction::ReadOwnCompletionTask,
+            ProjectAction::PrepareHandover,
+            ProjectAction::ConfirmHandoverSelf,
+            ProjectAction::ParticipantConfirm,
+            ProjectAction::FinalizeHandover,
+            ProjectAction::HandoverFinalize,
+            ProjectAction::RebaselineHandover,
+            ProjectAction::StartExecution,
+            ProjectAction::StartAcceptanceConfirmAcceptanceConfirmCompletion,
+            ProjectAction::CreateReplaceVoidArchive,
+            ProjectAction::CloseCompletionCondition,
+            ProjectAction::OwnerReassign,
+            ProjectAction::ReassignCurrentOwner,
+            ProjectAction::FirstAssignOwner,
+        ] {
+            assert!(!legacy_anchor_permits(
+                action,
+                ProjectActionTarget::Project {
+                    id: Uuid::from_u128(40)
+                }
+            ));
+        }
+        assert_eq!(
+            ProjectAction::ReadProjectAnchor.permission(),
+            "project:read"
+        );
+    }
+    #[test]
+    fn legacy_anchor_proof_cannot_be_reused_as_an_operating_access_proof() {
+        let actor_id = Uuid::from_u128(10);
+        let project_id = Uuid::from_u128(40);
+        let nonce = Uuid::from_u128(50);
+        let proof = ProjectAccessProof {
+            project_id,
+            actor_id,
+            session_id: Uuid::from_u128(60),
+            permissions: BTreeSet::from(["contract:finance:manage".into(), "project:read".into()]),
+            action: ProjectAction::ReadProjectAnchor,
+            scope_kind: ScopeKind::LegacyOwnerAnchorOnly,
+            project_row_version: 1,
+            owner_write: false,
+            owner_org_active: false,
+            active_membership_ids: Vec::new(),
+            own_condition_binding: None,
+            // Even an accidentally true internal flag cannot override the
+            // explicit narrow proof class. This is a pure boundary test only.
+            can_operating_write: true,
+            tx_pid: 1,
+            tx_xid: "test-only-outer-xid".into(),
+            tx_nonce: nonce,
+        };
+        assert_eq!(proof.scope_kind(), "legacy-owner-anchor-only");
+        assert!(proof.is_legacy_owner_anchor_only());
+        assert!(!proof.is_full_project());
+        assert!(!proof.can_operating_write());
+        let token = OuterTxToken {
+            pid: 1,
+            xid: "test-only-outer-xid".into(),
+            nonce,
+        };
+        let access = VerifiedOperatingAccessSet {
+            actor_id,
+            project_proofs: BTreeMap::from([(project_id, proof)]),
+            outer_tx_token: &token,
+            write: false,
+        };
+        assert!(matches!(
+            access.assert_project(project_id),
+            Err(Error::Forbidden(_))
+        ));
+        assert!(matches!(
+            access.assert_project(Uuid::from_u128(99)),
+            Err(Error::NotFound(_))
+        ));
+    }
+    #[test]
+    fn exact_permissions_keep_self_confirmation_at_project_read() {
+        assert_eq!(
+            ProjectAction::ParticipantConfirm.permission(),
+            "project:read"
+        );
+        assert_eq!(
+            ProjectAction::ConfirmHandoverSelf.permission(),
+            "project:read"
+        );
+        assert_eq!(
+            ProjectAction::OperatingRead.permission(),
+            "contract:finance:manage"
+        );
+        assert_eq!(
+            ProjectAction::OperatingWrite.permission(),
+            "contract:finance:manage"
+        );
+        assert_eq!(
+            ProjectAction::CreateCommissionAssignmentDraft.permission(),
+            "commission:assignments:manage"
+        );
+        assert_eq!(
+            ProjectAction::FreezeCommissionAssignment.permission(),
+            "commission:assignments:manage"
+        );
+        assert_eq!(
+            ProjectAction::CloseCompletionCondition.permission(),
+            "project:write"
+        );
+    }
+    #[test]
+    fn ownership_does_not_impersonate_execution_or_self_confirmation() {
+        assert!(owner_suffices(ProjectAction::PrepareHandover, true, true));
+        assert!(owner_suffices(ProjectAction::OwnerReassign, true, true));
+        assert!(!owner_suffices(ProjectAction::StartExecution, true, true));
+        assert!(!owner_suffices(
+            ProjectAction::StartAcceptanceConfirmAcceptanceConfirmCompletion,
+            true,
+            true
+        ));
+        assert!(!owner_suffices(
+            ProjectAction::ParticipantConfirm,
+            true,
+            true
+        ));
+        assert!(!owner_suffices(
+            ProjectAction::CloseCompletionCondition,
+            true,
+            true
+        ));
+        assert!(!owner_suffices(ProjectAction::PrepareHandover, true, false));
+    }
+    #[test]
+    fn reference_versions_hashes_and_duplicates_are_checked_before_a_permit() {
+        let reference = SourceRef {
+            kind: "test-only-immutable-source".into(),
+            id: Uuid::from_u128(1),
+            row_version: 1,
+            payload_hash: "a".repeat(64),
+        };
+        assert!(source_ref_set(std::slice::from_ref(&reference)).is_ok());
+        assert!(source_ref_set(&[reference.clone(), reference.clone()]).is_err());
+        let mut missing_version = reference;
+        missing_version.row_version = 0;
+        assert!(source_ref_set(&[missing_version]).is_err());
+    }
+}

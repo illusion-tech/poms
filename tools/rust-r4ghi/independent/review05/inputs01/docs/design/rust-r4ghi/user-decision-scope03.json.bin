@@ -1,0 +1,20 @@
+{
+  "kind":"actual-user-project-scope-decision-and-Root-refinement",
+  "date":"2026-11-06",
+  "batchIssue":110,
+  "question":"授权复核发现，当前没有组织主管或项目数据范围的配置机制。对于尚无个人主责的组织项目，建议允许创建人做首次主责指派；之后改派、移交和阶段推进只认当前主责及真实移交职责，同组织或持有 ProjectWrite 不自动获得项目权限。采用哪种规则？",
+  "answer":"创建人负责首次指派，之后按真实责任链授权（推荐）",
+  "source":"explicit user reply in this chat",
+  "RootTechnicalRefinements":{
+    "authority":"project-scope-v1-direct-relations",
+    "bootstrap":"Only true new org-owned ownership-origin, verified creator, no ever-personal owner, unconsumed, active memberships and project-write plus CAS. First personal assignment permanently consumes; returning to org does not reactivate creator privileges. No origin or historical unknown fails closed.",
+    "initialProducer":"Direct CreateProject starts with real actor as personal owner and consumed origin; Lead.convertToProject uses actual conversion operator as project creator and actual inherited owner, creates origin in the same transaction. No historical synthetic backfill.",
+    "supportingCorrections":["Existing owner reassignment verifies prior owner or exact first-assignment bootstrap before writing new owner","Existing D prepare verifies real current owner before producing any participant delegation"],
+    "GHWrite":"Finance-manage permission AND (OwnerWrite OR delegated confirmed finance duty OR delegated confirmed business-admin duty). Duties must be real current handover facts.",
+    "GHRead":"OwnerRead or actual project participant, independently enforce sensitive projections. Own-condition-only and creator-first-assignment-only do not grant operating or commission detail access.",
+    "unmodeledManagerExceptions":"Fail closed; same org, ancestor org, roleKey, system-role flag or a bare write permission never manufacture project scope.",
+    "conditionClose":"Designated condition responsible user acts as self with exact parent-child-project binding, action permission, active relationships and double CAS; no owner/admin impersonation."
+  },
+  "G1Certified":false,
+  "productImplementationAuthorizedByThisFile":false
+}

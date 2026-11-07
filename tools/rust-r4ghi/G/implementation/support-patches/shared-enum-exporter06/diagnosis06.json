@@ -1,0 +1,159 @@
+{
+  "kind": "read-only-R1B-source-and-closed-module-diagnosis",
+  "rootProductModified": false,
+  "gitExecuted": false,
+  "actualOldSourceHead": "4f78bd486ca2118e4700bae560cb25ff08c4b47d",
+  "oldSourceGuard": "Not invoked by child: invokes Git. Preserved unchanged; Root must deliberately advance reviewed reference after source freeze.",
+  "actualOldAnalyzerFailure": "libs/shared/contracts/src/lib/shared-contracts.ts:1:1: Unsupported shared import; the offline oracle permits only the existing named Zod import",
+  "historicalR0Preserved": {
+    "sha256": "3d126e07d5abf2c56f41c35fc25b78a13dbe094450b470e8bb4c950ce8a2986c",
+    "constants": 455,
+    "enumOccurrences": 224
+  },
+  "registeredModules": [
+    {
+      "path": "libs/shared/contracts/src/index.ts",
+      "declarations": 1,
+      "enumOccurrences": 0,
+      "normalizedTextSha256": "6ebfa5afd35d3eb2bbea4c1681643591c8e39e584df751d1b9e2c9a27e11ba31"
+    },
+    {
+      "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "declarations": 1922,
+      "enumOccurrences": 195,
+      "normalizedTextSha256": "96bffc5b999037db52ab3bcc1e30ae15bffa9e944759607e33d46b99c7ee6004"
+    },
+    {
+      "path": "libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts",
+      "declarations": 266,
+      "enumOccurrences": 124,
+      "normalizedTextSha256": "91d067afb8b7041235e53f3b2800fd020c075b57176ea3bb399000f98f45b0ca"
+    }
+  ],
+  "currentStageValues": [
+    "assessment",
+    "scope-confirmation",
+    "commercial-closure",
+    "contracting",
+    "handover",
+    "execution",
+    "acceptance",
+    "completed",
+    "closed-lost",
+    "closed-terminated",
+    "conditional-completed"
+  ],
+  "runtime": {
+    "node": "24.19.0",
+    "typescript": "6.0.3",
+    "zod": "4.6.1"
+  },
+  "negativeControls": [
+    {
+      "name": "new function/host capability",
+      "rejected": true,
+      "message": "libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts: unreviewed module bytes\n+ actual - expected\n\n+ '2453f41aec60e5bce86d25cc6db7e1f4b3938137e7eab857019f4a7ce18c1f84'\n- '91d067afb8b7041235e53f3b2800fd020c075b57176ea3bb399000f98f45b0ca'\n"
+    },
+    {
+      "name": "unregistered module",
+      "rejected": true,
+      "message": "Unregistered module import node:fs"
+    },
+    {
+      "name": "wire mutation",
+      "rejected": true,
+      "message": "libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts: unreviewed module bytes\n+ actual - expected\n\n+ '1034df179caf13dc3dbb105085321b7ad2447e521d51fd5f41b2ed4221458953'\n- '91d067afb8b7041235e53f3b2800fd020c075b57176ea3bb399000f98f45b0ca'\n"
+    },
+    {
+      "name": "unknown top-level construct",
+      "rejected": true,
+      "message": "libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts: unregistered top-level construct ClassDeclaration"
+    }
+  ],
+  "sourceStable": true,
+  "inputsBefore": [
+    {
+      "path": "tools/rust-r1b/export-shared.mjs",
+      "bytes": 63064,
+      "rawSha256": "c6cf0836f7f497745b2e86009fbf93cffc8f96d883c4de78368e3f9b024c0be6"
+    },
+    {
+      "path": "libs/shared/contracts/src/index.ts",
+      "bytes": 40,
+      "rawSha256": "6ebfa5afd35d3eb2bbea4c1681643591c8e39e584df751d1b9e2c9a27e11ba31"
+    },
+    {
+      "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "bytes": 470728,
+      "rawSha256": "ae2f43023d7b465bd362ea0945e2746b2169a69d94c838e8b19fd4e073c34c28"
+    },
+    {
+      "path": "libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts",
+      "bytes": 272561,
+      "rawSha256": "709fa4c268e7f890b8988b3cf97e76b59b7633fb0fe435eb868be7defc376a94"
+    },
+    {
+      "path": "libs/shared/api-spec/openapi.json",
+      "bytes": 1399565,
+      "rawSha256": "2c236f5a1058dbfbb9ffd22869034ff829824e0bab29d8dc5a9af5da841cbe2a"
+    },
+    {
+      "path": "docs/design/rust-r0-api-operations.json",
+      "bytes": 2607939,
+      "rawSha256": "3d126e07d5abf2c56f41c35fc25b78a13dbe094450b470e8bb4c950ce8a2986c"
+    },
+    {
+      "path": "apps/poms-api-rust/src/shared/generated.rs",
+      "bytes": 321222,
+      "rawSha256": "1638c282c664df348f1b0633e9a1fd0728dd1aa51d072f0132a4441626d6c62b"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_operating_common/model.rs",
+      "bytes": 198928,
+      "rawSha256": "3a69cfb6648c44b953034b1e3da4f40f13ae2ad7cf53343bdf4b1314868da44a"
+    }
+  ],
+  "inputsAfter": [
+    {
+      "path": "tools/rust-r1b/export-shared.mjs",
+      "bytes": 63064,
+      "rawSha256": "c6cf0836f7f497745b2e86009fbf93cffc8f96d883c4de78368e3f9b024c0be6"
+    },
+    {
+      "path": "libs/shared/contracts/src/index.ts",
+      "bytes": 40,
+      "rawSha256": "6ebfa5afd35d3eb2bbea4c1681643591c8e39e584df751d1b9e2c9a27e11ba31"
+    },
+    {
+      "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "bytes": 470728,
+      "rawSha256": "ae2f43023d7b465bd362ea0945e2746b2169a69d94c838e8b19fd4e073c34c28"
+    },
+    {
+      "path": "libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts",
+      "bytes": 272561,
+      "rawSha256": "709fa4c268e7f890b8988b3cf97e76b59b7633fb0fe435eb868be7defc376a94"
+    },
+    {
+      "path": "libs/shared/api-spec/openapi.json",
+      "bytes": 1399565,
+      "rawSha256": "2c236f5a1058dbfbb9ffd22869034ff829824e0bab29d8dc5a9af5da841cbe2a"
+    },
+    {
+      "path": "docs/design/rust-r0-api-operations.json",
+      "bytes": 2607939,
+      "rawSha256": "3d126e07d5abf2c56f41c35fc25b78a13dbe094450b470e8bb4c950ce8a2986c"
+    },
+    {
+      "path": "apps/poms-api-rust/src/shared/generated.rs",
+      "bytes": 321222,
+      "rawSha256": "1638c282c664df348f1b0633e9a1fd0728dd1aa51d072f0132a4441626d6c62b"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_operating_common/model.rs",
+      "bytes": 198928,
+      "rawSha256": "3a69cfb6648c44b953034b1e3da4f40f13ae2ad7cf53343bdf4b1314868da44a"
+    }
+  ],
+  "status": "Pure closed graph analysis/negative controls only; full R1B --check/--write still incomplete and not claimed"
+}

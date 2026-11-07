@@ -1,0 +1,16 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import {fileURLToPath} from 'node:url';
+const root='E:/projects/worktrees/poms-r3hijk-next28/poms';
+const sha=x=>createHash('sha256').update(x).digest('hex');
+const win=file=>file.startsWith('/mnt/e/')?'E:/'+file.slice(7):file.startsWith('/')?'\\\\wsl.localhost\\Debian'+file.replaceAll('/','\\'):file;
+const readPin=pin=>{const b=fs.readFileSync(win(pin.file));assert.equal(sha(b),pin.rawBytesSha256);return JSON.parse(b);};
+const planPin={file:'/home/wangzishi/.local/share/poms-r4ghi/private/retention/consumer11-admission54-02/admission-plan54.json',rawBytesSha256:'2c9777d33dd773cf1a1a2bdb2b5a8e90a5834211a5a922262b48bfd146c3beeb'};
+const plan=readPin(planPin),old=readPin(plan.producer.frozenState),current=readPin(plan.consumer.sourcePins);assert.equal(sha(JSON.stringify(old.sourcePins)),plan.producer.sourcePinsSHA256);assert.equal(sha(JSON.stringify(current)),plan.consumer.sourcePinsSHA256);assert.equal(current.length,405);assert.equal(old.sourcePins.length,404);
+const oldBy=new Map(old.sourcePins.map(p=>[p.file,p.sha256])),newBy=new Map(current.map(p=>[p.file,p.sha256]));
+const changed=current.filter(p=>oldBy.has(p.file)&&oldBy.get(p.file)!==p.sha256).map(p=>({file:p.file,oldSHA256:oldBy.get(p.file),newSHA256:p.sha256}));const added=current.filter(p=>!oldBy.has(p.file)),removed=old.sourcePins.filter(p=>!newBy.has(p.file));
+for(const p of current)assert.equal(sha(fs.readFileSync(path.join(root,p.file))),p.sha256,'Current product source changed from actual plan02: '+p.file);
+const report={kind:'FS-only-exact-source404-to405-plan02-delta57',plan:planPin,oldSourcePinsSHA256:plan.producer.sourcePinsSHA256,newSourcePinsSHA256:plan.consumer.sourcePinsSHA256,oldSourceCount:old.sourcePins.length,newSourceCount:current.length,oldBinarySHA256:old.apiProcess.record.binarySha256,newBinarySHA256:plan.consumer.binarySHA256,changed,added,removed,unchanged:current.length-changed.length-added.length,current405ProductBytesMatchPlan02:true,old53StateRawPin:plan.producer.frozenState,source11AdmissionMintExecutedByReviewer:false,SQLExecuted:false,HTTPExecuted:false,old133AcceptanceRelabeled134:false};
+fs.writeFileSync(fileURLToPath(new URL('./source-delta57.json',import.meta.url)),JSON.stringify(report,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(report,null,2));

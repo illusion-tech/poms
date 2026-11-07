@@ -1,0 +1,58 @@
+{
+  "kind": "Root-non-author-reviewed-real-organization-project-producer",
+  "capturedAt": "2026-11-07T11:25:42.306Z",
+  "manifest": "tools/rust-r4ghi/I/implementation/support-patches/organization-create22/apply-manifest22.json",
+  "manifestSHA256": "4cd11cde4c9372aa7a3a10673fef3079a00b9a4c7959843ef352c93e8a312349",
+  "files": [
+    {
+      "path": "apps/poms-api-rust/src/projects/model.rs",
+      "beforeSHA256": "a89fa0e013641d1e6639a0afc884bd15e1dc55570a6d37b9bd1d8e6aa9cba568",
+      "afterSHA256": "01544af8e19cb296df821e34cf7fd8b56a3f02c6eb628043537296094e084be8"
+    },
+    {
+      "path": "apps/poms-api-rust/src/projects/validation.rs",
+      "beforeSHA256": "e309a24165c7500460143ef4c98c5a95fcf6e0975caa81621fdd3aa49a63fd1a",
+      "afterSHA256": "f5275a6f3b0d9054e4450f3d9a2c86e1d4e88b26301b7eda403e6fcfe7700789"
+    },
+    {
+      "path": "apps/poms-api-rust/src/projects/store.rs",
+      "beforeSHA256": "f733e349183f8c65f5a8f4cb5985471ee5286cacb82d6770e67fedde3c187aef",
+      "afterSHA256": "23ed76140b91e5627f503ddbc1687077f11f1d4d036b0a5c544ebfb7a1cce94c"
+    },
+    {
+      "path": "apps/poms-api-rust/src/projects/service.rs",
+      "beforeSHA256": "13a2cd19f6ce84c307271b2ce5a02649705191a4bdb0155b39588373157e0f79",
+      "afterSHA256": "66dc2a2b26e710fb8217e77193c5590cdb8a9dac25fd0afb1d0870849762cdc4"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_action_authorization/ownership.rs",
+      "beforeSHA256": "964b61d0b97e13e8f88211bcdeb12dbb9c87061639ad57bb6b5352976354b87d",
+      "afterSHA256": "33afd58d5ce0a5c4b965651668b4721c188eb84cd7300ebe7f3f5fd13ec797b3"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_action_authorization/mod.rs",
+      "beforeSHA256": "7d244d84199972b1b458e9b0258a5b04d1b4b5cab5f56f7749fb536a122b22ed",
+      "afterSHA256": "df4073a4a6d744d70924f48d39d4c7149701e40584e5d9a21419630dd574814b"
+    }
+  ],
+  "input": "docs/design/rust-r4ghi/g2-initial-ownership03.sql",
+  "inputSHA256": "8631da1ffc3674ab222017def07a4d9176461c271e693728df143af1f8848461",
+  "target": "apps/poms-api/src/migrations/Migration20261107110000_rust_project_initial_ownership.ts",
+  "targetSHA256": "b20ddcabb6d82bc6c737ca1b1ef96a92e2a4c23a01fb4366b3848701a6c08f24",
+  "proposalSQLSHA256": "011d4be7a2cd1c6b3720c632eb6bed2a7cc5281d507eb812a4fd0180eab515a5",
+  "functionBodyIdenticalToReviewedProposal": true,
+  "migrationCountBefore": 96,
+  "migrationCountAfter": 97,
+  "plannedTablesAfter": 139,
+  "sourceMatrix": "tools/rust-r4ghi/I/implementation/support-patches/organization-create22/bootstrap-source-audit-matrix22.json",
+  "updateMetadataProtectedBytesEqual": true,
+  "reassign200Preserved": true,
+  "oldOriginBackfilled": false,
+  "sourceXminUsedOnlyAtCreation": true,
+  "actualCargoPending": true,
+  "executed": false,
+  "actualHTTPPending": true,
+  "newHTTP": 0,
+  "G3Certified": false,
+  "G4Certified": false
+}

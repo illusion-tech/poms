@@ -1,0 +1,61 @@
+{
+  "kind": "actual-API132-early-ownership-probes-completed-and-cleaned",
+  "candidate": "API132",
+  "epoch": "g2-business09",
+  "binarySHA256": "205b0faa96800df5b248d189ccaa99e1da4aaf6bc0d6aba3cbe88d3621523477",
+  "sourcePinsSHA256": "bd956eabf7d69c4ef79010d6bb599a15459019f19f5f15540aee05ad1d46c683",
+  "sourceFiles": 404,
+  "actualCreator": {
+    "personal": 2,
+    "organization": 3,
+    "firstAssignmentAndPermanentConsumePassed": true,
+    "creatorAllPermissionsDoNotRetainReadOrWrite": true,
+    "twoRealSessionsAndTwoObservedLockWaiters": true,
+    "raceStatuses": [
+      200,
+      409
+    ]
+  },
+  "legacy": {
+    "controlledNewPKs": 1,
+    "actualHistoricalProducer": false,
+    "exactMinimumReadAndFullCommandDenialsPassed": true,
+    "source": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business09/main01/000124-legacy-controlled-created.json",
+      "bytes": 2376,
+      "rawBytesSha256": "24031bd45b29c225ade3e12af5b46bb3fe2c653eba9f683b774eb00657a67a0b"
+    }
+  },
+  "retainedFailures": [
+    {
+      "phase": "000092",
+      "kind": "proof-harness-timezone-assumption",
+      "committedDefaultCreateNotReplayed": true
+    },
+    {
+      "phase": "000112",
+      "kind": "proof-harness-noncanonical-operation-name",
+      "noMissingOperationHTTPRequestSent": true
+    }
+  ],
+  "recovery": {
+    "phase": "000158",
+    "businessRequests": 0,
+    "businessWrites": 0,
+    "ownedHashesRebased": 0
+  },
+  "cleanup": {
+    "planSHA256": "f24350e9c4f462979b44c10ef3eccd4896f7497d7036f10026799fc61ac25521",
+    "deletes": 208,
+    "restores": 1,
+    "objectDeletes": 0,
+    "freshNoops": 2,
+    "originalReceiptSHA256": "ed2271351dd7fba713a74ebd332bd01e730940f786827db16c6498ac521d16f2",
+    "rowXminRestoredClaim": false
+  },
+  "newCandidateRequired": "API133/new10 after canonical metadata audit correction and final source fixes",
+  "eligibleContractPeriodSourcesDeleted": 0,
+  "finalPeriodSourceRetentionStillRequired": true,
+  "G3Certified": false,
+  "G4Certified": false
+}

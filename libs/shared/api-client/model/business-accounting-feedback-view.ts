@@ -7,19 +7,23 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { OperatingEvaluationContext } from './operating-evaluation-context';
 import { OperatingSnapshotActionLevel } from './operating-snapshot-action-level';
+import { OperatingMetricKnowledge } from './operating-metric-knowledge';
+import { OperatingReasonView } from './operating-reason-view';
 import { OperatingDataMaturityLevel } from './operating-data-maturity-level';
 import { SensitiveStringFieldProjection } from './sensitive-string-field-projection';
+import { OperatingGateFeedbackItem } from './operating-gate-feedback-item';
 import { OperatingSignalLevel } from './operating-signal-level';
 
 
 export interface BusinessAccountingFeedbackView {
     projectId: string;
     signalLevel: OperatingSignalLevel;
-    currentActionLevel: OperatingSnapshotActionLevel;
+    currentActionLevel: BusinessAccountingFeedbackViewCurrentActionLevelEnum;
     taxImpactSummaryProjection: SensitiveStringFieldProjection;
-    allocationStabilitySummary: string | null;
-    unmappedCostSummary: string | null;
+    allocationStabilitySummary: BusinessAccountingFeedbackViewAllocationStabilitySummaryEnum | null;
+    unmappedCostSummary: BusinessAccountingFeedbackViewUnmappedCostSummaryEnum | null;
     dataMaturityLevel: OperatingDataMaturityLevel;
     costActionRecommendation: OperatingSnapshotActionLevel;
     referencedBaselineVersion: string;
@@ -27,4 +31,26 @@ export interface BusinessAccountingFeedbackView {
     nextActionSummaryProjection: SensitiveStringFieldProjection;
     downstreamConsumerSummaryProjection: SensitiveStringFieldProjection;
     allowedActions: Array<string>;
+    evaluationContext: OperatingEvaluationContext;
+    reasonItems: Array<OperatingReasonView>;
+    reviewState: BusinessAccountingFeedbackViewReviewStateEnum;
+    metricKnowledge: OperatingMetricKnowledge;
+    signalEvaluationId: string;
+    stageBindings: Array<OperatingGateFeedbackItem>;
+    allocationStabilitySummaryProjection: SensitiveStringFieldProjection;
+    unmappedCostSummaryProjection: SensitiveStringFieldProjection;
 }
+export enum BusinessAccountingFeedbackViewCurrentActionLevelEnum {
+    Prompt = 'prompt',
+    Review = 'review',
+    Block = 'block'
+};
+export type BusinessAccountingFeedbackViewAllocationStabilitySummaryEnum = null;;
+export type BusinessAccountingFeedbackViewUnmappedCostSummaryEnum = null;;
+export enum BusinessAccountingFeedbackViewReviewStateEnum {
+    NotRequired = 'not-required',
+    Pending = 'pending',
+    Acknowledged = 'acknowledged',
+    ManualConfirmed = 'manual-confirmed',
+    Stale = 'stale'
+};

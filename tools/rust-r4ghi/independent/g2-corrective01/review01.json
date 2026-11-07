@@ -1,0 +1,252 @@
+{
+  "kind": "independent-limited-G2-static-corrective-prereview",
+  "reviewedAt": "2026-11-06T14:30:34.165Z",
+  "decision": "Needs-correction in captured proposal/common",
+  "G3Certified": false,
+  "G4Certified": false,
+  "nonAuthor": true,
+  "roots": {
+    "Root": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+    "I": "E:/projects/worktrees/poms-r4i-lifecycle/poms"
+  },
+  "heads": {
+    "Root": "ba775dd291171bde361d8fc145ead9e5bb1887a5",
+    "I": "9e010077e3010ff09447e9d77cb1bf1f7adbf68d"
+  },
+  "inputManifest": "tools/rust-r4ghi/independent/g2-corrective01/input-manifest02.json",
+  "scopeProposalSHA256": "673a1d159f4a021061f353325b5977523c827f2cee91601fb962cdaede1584b5",
+  "findings": [
+    {
+      "id": "G2S-01",
+      "priority": 1,
+      "classification": "new-real-drift",
+      "status": "open-in-captured-unapplied-proposal",
+      "title": "Legacy owner with no ownerOrg gets full project operating/commission read scope",
+      "file": "E:\\projects\\worktrees\\poms-r4i-lifecycle\\poms\\tools\\rust-r4ghi\\I\\implementation\\support-patches\\project-action-authorization.rs.txt",
+      "start": 699,
+      "end": 708,
+      "sourceSHA256": "673a1d159f4a021061f353325b5977523c827f2cee91601fb962cdaede1584b5",
+      "evidence": [
+        "scope proposal699-708 defines owner_read solely by owner UUID, with no bounded-legacy distinction",
+        "scope proposal737-756 skips D for the allowed owner and sets full=owner_read||part",
+        "scope proposal775-845 grants FullProject to OperatingRead/ReadCommissionAssignment/ReadProjectAnchor and allows the read",
+        "scope proposal1017-1073 accepts that full proof into the read access set",
+        "frozen blueprint.scope.OwnerRead and IRefinements.factDefinitions.ownerRead allow only bounded non-sensitive anchor reading when ownerOrg is missing"
+      ],
+      "reproducibleFacts": "Matching active actor/session IDs; project.owner_user_id=actor.id; project.owner_org_id=NULL; no D participant; contract:finance:manage permission; even empty current memberships. require(OperatingRead,Project{id}) follows the recorded branches to FullProject.",
+      "consequence": "This expands an explicitly bounded legacy relation into the G/H or commission project scope. Per-field sensitive permissions cannot replace the missing project-scope boundary.",
+      "correction": "Distinguish bounded legacy anchor eligibility from full OwnerRead. Operating/commission/detail consumers must not receive FullProject from the old missing-org branch. Preserve an explicit bounded anchor response or fail closed for protected full reads.",
+      "verification": "Static branch trace only; proposal not applied, Rust/HTTP/DB not run."
+    },
+    {
+      "id": "G2S-02",
+      "priority": 2,
+      "classification": "new-real-drift",
+      "status": "open-in-captured-uncompiled-common",
+      "title": "Finite schema validator ignores the frozen not constraint",
+      "file": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\apps\\poms-api-rust\\src\\project_operating_common\\schema.rs",
+      "start": 137,
+      "end": 178,
+      "sourceSHA256": "4ea88a79a5f7221b48b76cfd30066658407c5c03550837e04908a0c9b28e875e",
+      "evidence": [
+        "matches_schema implements composition/if branches but has no not check",
+        "CreateProjectCompletionRecordRequest.allOf[0].else.not prohibits completionConditions for completed",
+        "normalize retains the known completionConditions field; generated request model1336-1357 accepts it as Option<Vec<...>>"
+      ],
+      "reproducibleRequest": "tools/rust-r4ghi/independent/g2-corrective01/counterexamples01.json#/completionNotKeyword/request",
+      "expected": "400 modern structural validation before lifecycle/DB processing.",
+      "staticConsequence": "A completed request carrying a valid nonempty completionConditions array reaches typed deserialization despite violating the frozen contract. No claim that downstream lifecycle/SQL accepts bad facts.",
+      "correction": "Implement not for the frozen schema closure and add the supplied request rejection case. Keep unknown validation keywords fail closed when extending the finite closure.",
+      "verification": "tools/rust-r4ghi/independent/g2-corrective01/reference-check01.json proves the reference schema rejects exactly through allOf/0/else/not and accepts the same body without conditions; Rust runtime was not executed."
+    }
+  ],
+  "unresolvedP1": 1,
+  "unresolvedP2": 1,
+  "positiveStaticObservations": [
+    "Actor/session/snapshot equality and fresh active-account checks are explicit; physical transaction PID/XID is checked, request_id is not token authority. Access sets also bind actor/session permission snapshot and token nonce.",
+    "Cross-department Delegated authority uses real D participant/confirmed role facts plus active organization conditions. The D bridge calls sources::fresh and does not add a second D collector.",
+    "Creator bootstrap checks exact origin payload/hash, actual lead conversion, available never-personal state, membership, owner/project CAS prerequisites; direct personal or consumed origins do not regain creator privileges.",
+    "Own-condition lookup binds parent/child/project and true acceptance/execution/terminal chain to the actual responsible actor. Closing by a full owner/admin still requires the own-condition relation.",
+    "Ordinary DB failures propagate through await?. Optional independently-authorized branches only discard stale-domain Conflict/CodedConflict from D, not Database errors.",
+    "ResourceKeys preserves completionRecordId and id independently; exact integer/weight normalization occurs before general Value/f64 parsing; StoredMaterialityReview remains distinct from non-Deserialize VerifiedMaterialityReview."
+  ],
+  "correctiveInputBoundary": "Read g2-corrective01.md/.sql and g2-public-delta01.json. Receipt NULL authority, classification public decision version/private head CAS, correctionSourceRefs/proposedAffectedTargets, inherited classification hard eligibility and head/H binding ordering remain required implementation/acceptance inputs; this review does not certify their runtime implementation.",
+  "pendingUserDecision": "Whether historical period closing advances live current remains Pending as instructed. No dependent implementation or publication conclusion is signed.",
+  "freshness": {
+    "checkedAt": "2026-11-06T14:30:34.166Z",
+    "records": [
+      {
+        "workspace": "I",
+        "file": "tools/rust-r4ghi/I/implementation/support-patches/project-action-authorization.rs.txt",
+        "capturedSHA256": "673a1d159f4a021061f353325b5977523c827f2cee91601fb962cdaede1584b5",
+        "currentSHA256": "673a1d159f4a021061f353325b5977523c827f2cee91601fb962cdaede1584b5"
+      },
+      {
+        "workspace": "Root",
+        "file": "apps/poms-api-rust/src/project_operating_common/mod.rs",
+        "capturedSHA256": "d9c5481b4404a084261112b27c34b22afc0d18ac8c8b91b4f7a119c754e088fb",
+        "currentSHA256": "d9c5481b4404a084261112b27c34b22afc0d18ac8c8b91b4f7a119c754e088fb"
+      },
+      {
+        "workspace": "Root",
+        "file": "apps/poms-api-rust/src/project_operating_common/model.rs",
+        "capturedSHA256": "9e4d96d34c6b35a7a59aa76f480899f92e0ac222f914a746752cf60d686a6213",
+        "currentSHA256": "9e4d96d34c6b35a7a59aa76f480899f92e0ac222f914a746752cf60d686a6213"
+      },
+      {
+        "workspace": "I",
+        "file": "apps/poms-api-rust/src/project_operating_common/model.rs",
+        "capturedSHA256": "9e4d96d34c6b35a7a59aa76f480899f92e0ac222f914a746752cf60d686a6213",
+        "currentSHA256": "9e4d96d34c6b35a7a59aa76f480899f92e0ac222f914a746752cf60d686a6213"
+      },
+      {
+        "workspace": "Root",
+        "file": "apps/poms-api-rust/src/project_operating_common/request.rs",
+        "capturedSHA256": "93d59bb759662654f92bd627e163601447d566bdeff8a84c35aa3ad2142d3935",
+        "currentSHA256": "93d59bb759662654f92bd627e163601447d566bdeff8a84c35aa3ad2142d3935"
+      },
+      {
+        "workspace": "Root",
+        "file": "apps/poms-api-rust/src/project_operating_common/runtime.rs",
+        "capturedSHA256": "8e9761e73ff467e22faf85127dd59820bb1b586ba21d6f0954a6a325e6a864bd",
+        "currentSHA256": "8e9761e73ff467e22faf85127dd59820bb1b586ba21d6f0954a6a325e6a864bd"
+      },
+      {
+        "workspace": "I",
+        "file": "apps/poms-api-rust/src/project_operating_common/runtime.rs",
+        "capturedSHA256": "8e9761e73ff467e22faf85127dd59820bb1b586ba21d6f0954a6a325e6a864bd",
+        "currentSHA256": "8e9761e73ff467e22faf85127dd59820bb1b586ba21d6f0954a6a325e6a864bd"
+      },
+      {
+        "workspace": "Root",
+        "file": "apps/poms-api-rust/src/project_operating_common/scalars.rs",
+        "capturedSHA256": "b1ae6b2f1eee880875c135134e2b66cc955b2539b6a1309f3c485d58be627b2b",
+        "currentSHA256": "b1ae6b2f1eee880875c135134e2b66cc955b2539b6a1309f3c485d58be627b2b"
+      },
+      {
+        "workspace": "I",
+        "file": "apps/poms-api-rust/src/project_operating_common/scalars.rs",
+        "capturedSHA256": "b1ae6b2f1eee880875c135134e2b66cc955b2539b6a1309f3c485d58be627b2b",
+        "currentSHA256": "b1ae6b2f1eee880875c135134e2b66cc955b2539b6a1309f3c485d58be627b2b"
+      },
+      {
+        "workspace": "Root",
+        "file": "apps/poms-api-rust/src/project_operating_common/schema.rs",
+        "capturedSHA256": "4ea88a79a5f7221b48b76cfd30066658407c5c03550837e04908a0c9b28e875e",
+        "currentSHA256": "4ea88a79a5f7221b48b76cfd30066658407c5c03550837e04908a0c9b28e875e"
+      },
+      {
+        "workspace": "Root",
+        "file": "docs/design/rust-r4ghi/g2-corrective01.md",
+        "capturedSHA256": "4fb71720ab7a0c45e48190e6675f32fa3a4de4dc4d57662914a7e92b87c0f1f0",
+        "currentSHA256": "4fb71720ab7a0c45e48190e6675f32fa3a4de4dc4d57662914a7e92b87c0f1f0"
+      },
+      {
+        "workspace": "Root",
+        "file": "docs/design/rust-r4ghi/g2-corrective01.sql",
+        "capturedSHA256": "3a18709a4536814ff4dc0c8a17f053e47dcc44b07aa53864641bf0e9b4df7063",
+        "currentSHA256": "3a18709a4536814ff4dc0c8a17f053e47dcc44b07aa53864641bf0e9b4df7063"
+      },
+      {
+        "workspace": "Root",
+        "file": "docs/design/rust-r4ghi/g2-public-delta01.json",
+        "capturedSHA256": "cd7846d37a7fc561ebdb5ab6d52510462d37ac2d443b27aa366cebb48ff0b471",
+        "currentSHA256": "cd7846d37a7fc561ebdb5ab6d52510462d37ac2d443b27aa366cebb48ff0b471"
+      },
+      {
+        "workspace": "Root",
+        "file": "apps/poms-api-rust/src/project_handover/mod.rs",
+        "capturedSHA256": "c9d72d00c74f6d7cc00d8e53397889b078febca3ae6ef0a5075d1e0e376334f4",
+        "currentSHA256": "c9d72d00c74f6d7cc00d8e53397889b078febca3ae6ef0a5075d1e0e376334f4"
+      },
+      {
+        "workspace": "Root",
+        "file": "apps/poms-api-rust/src/project_handover/sources.rs",
+        "capturedSHA256": "e5d33db8ebe4cdd537f8c0006c9bb16ab6c8f1652e55c4923444a70499863ff4",
+        "currentSHA256": "e5d33db8ebe4cdd537f8c0006c9bb16ab6c8f1652e55c4923444a70499863ff4"
+      },
+      {
+        "workspace": "Root",
+        "file": "apps/poms-api-rust/src/contract_support/mod.rs",
+        "capturedSHA256": "6cec1689b96b232674b9b080da3daef79853aaa47b23293eb695f46e8428eb3e",
+        "currentSHA256": "6cec1689b96b232674b9b080da3daef79853aaa47b23293eb695f46e8428eb3e"
+      },
+      {
+        "workspace": "Root",
+        "file": "apps/poms-api-rust/src/approval_common/session.rs",
+        "capturedSHA256": "f1c29e9eaace917504af0b7cea26337f28e3c65ae81263c73ba3022f2da76c96",
+        "currentSHA256": "f1c29e9eaace917504af0b7cea26337f28e3c65ae81263c73ba3022f2da76c96"
+      },
+      {
+        "workspace": "Root",
+        "file": "tools/rust-r4ghi/joint-g1/effective-v2/public-contracts.schema.json",
+        "capturedSHA256": "97fea5becea4b1f81f5c99daa1dac4d76646886c8888a9f3d4ff4923d3a3fbd0",
+        "currentSHA256": "97fea5becea4b1f81f5c99daa1dac4d76646886c8888a9f3d4ff4923d3a3fbd0"
+      },
+      {
+        "workspace": "Root",
+        "file": "tools/rust-r4ghi/joint-g1/effective-v2/source-context.schema.json",
+        "capturedSHA256": "f0abc899fc121ff68b2c8f50625f8f4b8e1dd3b9f15e90ff274c6a6c5c718f3c",
+        "currentSHA256": "f0abc899fc121ff68b2c8f50625f8f4b8e1dd3b9f15e90ff274c6a6c5c718f3c"
+      },
+      {
+        "workspace": "Root",
+        "file": "tools/rust-r4ghi/joint-g1/effective-v2/interface-targets.json",
+        "capturedSHA256": "ae89c78d55db470f5632fcfed1ba82c67a4a704c8541b510f6892d1c98799fdb",
+        "currentSHA256": "ae89c78d55db470f5632fcfed1ba82c67a4a704c8541b510f6892d1c98799fdb"
+      },
+      {
+        "workspace": "Root",
+        "file": "tools/rust-r4ghi/joint-g1/effective-v2/scope-response-contract.json",
+        "capturedSHA256": "cda71a19968c081ca40241facf14dfd7f0d69f422bea8b767237fdbb5e0594c1",
+        "currentSHA256": "cda71a19968c081ca40241facf14dfd7f0d69f422bea8b767237fdbb5e0594c1"
+      },
+      {
+        "workspace": "Root",
+        "file": "tools/rust-r4ghi/joint-g1/effective-v2/blueprint.json",
+        "capturedSHA256": "0cf2795adf7f94196f5af4e268ebf48268e0be7ec1d493124907b63b881395e9",
+        "currentSHA256": "0cf2795adf7f94196f5af4e268ebf48268e0be7ec1d493124907b63b881395e9"
+      }
+    ],
+    "changedAfterCapture": []
+  },
+  "limits": {
+    "scopeProposalApplied": false,
+    "unifiedCompilationRun": false,
+    "productHTTPRun": false,
+    "SQLRun": false,
+    "databaseConnections": 0,
+    "productWrites": false,
+    "gitMutations": false,
+    "GitHubMutations": false,
+    "userfix115Retested": false,
+    "hashLoaderNotReviewed": "Root writing concurrently; excluded from this limited input capture",
+    "missingAuthorCommonFiles": [
+      {
+        "workspace": "I",
+        "file": "apps/poms-api-rust/src/project_operating_common/mod.rs",
+        "absoluteSource": "E:\\projects\\worktrees\\poms-r4i-lifecycle\\poms\\apps\\poms-api-rust\\src\\project_operating_common\\mod.rs",
+        "exists": false
+      },
+      {
+        "workspace": "I",
+        "file": "apps/poms-api-rust/src/project_operating_common/request.rs",
+        "absoluteSource": "E:\\projects\\worktrees\\poms-r4i-lifecycle\\poms\\apps\\poms-api-rust\\src\\project_operating_common\\request.rs",
+        "exists": false
+      },
+      {
+        "workspace": "I",
+        "file": "apps/poms-api-rust/src/project_operating_common/schema.rs",
+        "absoluteSource": "E:\\projects\\worktrees\\poms-r4i-lifecycle\\poms\\apps\\poms-api-rust\\src\\project_operating_common\\schema.rs",
+        "exists": false
+      }
+    ],
+    "onlyWritableBoundary": "tools/rust-r4ghi/independent/g2-corrective01/**",
+    "runtimeModelIndependentlyVerified": false,
+    "Fast": "unverified"
+  },
+  "evidence": [
+    "tools/rust-r4ghi/independent/g2-corrective01/counterexamples01.json",
+    "tools/rust-r4ghi/independent/g2-corrective01/reference-check01.json"
+  ]
+}

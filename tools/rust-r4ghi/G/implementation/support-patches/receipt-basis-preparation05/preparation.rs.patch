@@ -1,0 +1,78 @@
+--- a/apps/poms-api-rust/src/project_operating/preparation.rs
++++ b/apps/poms-api-rust/src/project_operating/preparation.rs
+@@ -373,24 +373,33 @@
+     states: &[OperatingLockedProjectState],
+     actor: &Actor,
+ ) -> Result<OperatingPreparation, Error> {
+     let mut blocks = Vec::<String>::new();
+-    let current =
++    let current = if matches!(intent, OperatingPreparationIntent::ReceiptBasis { .. }) {
++        None
++    } else {
+         match store::semantic_current_baseline(session.connection, project_id, false).await {
+             Ok(v) => v,
+             Err(Error::CodedConflict { code, .. }) => {
+                 blocks.push(code.into());
+                 None
+             }
+             Err(e) => return Err(e),
+-        };
+-    let draft = match baseline::derive(session, project_id, catalog).await {
+-        Ok(d) => Some(d),
+-        Err(Error::CodedConflict { code, .. }) => {
+-            blocks.push(code.into());
+-            None
+-        }
+-        Err(e) => return Err(e),
++        }
++    };
++    // Cash-basis certification consumes its contract terms and documentary
++    // currency proof. It does not require an operating budget or handover.
++    let draft = if matches!(intent, OperatingPreparationIntent::ReceiptBasis { .. }) {
++        None
++    } else {
++        match baseline::derive(session, project_id, catalog).await {
++            Ok(d) => Some(d),
++            Err(Error::CodedConflict { code, .. }) => {
++                blocks.push(code.into());
++                None
++            }
++            Err(e) => return Err(e),
++        }
+     };
+     if !matches!(
+         intent,
+         OperatingPreparationIntent::BaselineActivation
+@@ -407,17 +416,31 @@
+                 Err(e) => return Err(e),
+             }
+         }
+     }
+-    let source_rows = context::source_rows(
++    let mut source_rows = context::source_rows(
+         session,
+         project_id,
+         catalog,
+         window,
+         matches!(intent, OperatingPreparationIntent::Restatement { .. }),
+         actor,
+     )
+     .await?;
++    if let OperatingPreparationIntent::ReceiptBasis { receipt } = intent {
++        blocks.extend(
++            context::receipt_basis_source_members(
++                session,
++                project_id,
++                receipt,
++                catalog,
++                window,
++                &mut source_rows,
++                actor,
++            )
++            .await?,
++        );
++    }
+     if !matches!(
+         intent,
+         OperatingPreparationIntent::BaselineActivation
+             | OperatingPreparationIntent::ReceiptBasis { .. }

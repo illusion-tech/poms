@@ -1,0 +1,54 @@
+--- a/apps/poms-api-rust/src/project_handover/service.rs
++++ b/apps/poms-api-rust/src/project_handover/service.rs
+@@ -264,6 +264,11 @@
+     lineage: Option<Vec<Value>>,
+ ) -> Result<Value, Error> {
+     lock_project(session.connection, project).await?;
++    if anchor.is_none() {
++        crate::project_action_authorization::require(session, actor,
++            crate::project_action_authorization::ProjectAction::PrepareHandover,
++            crate::project_action_authorization::ProjectActionTarget::Project { id: project }).await?;
++    }
+     let old = match old_override {
+         Some(v) => Some(v),
+         None => sources::current(session, project).await?,
+@@ -496,6 +501,10 @@
+     }
+     let h = sources::row(session, handover, false).await?;
+     if anchor.is_none() {
++        crate::project_lifecycle::enter_handover_with_session(session, project, handover,
++            rv(&s.project)?, actor).await?;
++    }
++    if anchor.is_none() {
+         record(session,actor,"ProjectHandoverController_prepareProjectHandover",handover,project,old.as_ref().map(|h|json!({"id":h["id"],"version":h["version"]})),json!({"id":handover,"basisId":basis,"summarySnapshotId":hs,"sourceHash":s.hash}),json!({"version":version,"confirmationRecordId":confirmation,"contractSummarySnapshotId":cs})).await?;
+     }
+     Ok(h)
+@@ -787,3 +796,19 @@
+         assert!(validate_duties(&body(), Uuid::from_u128(1)).is_err());
+     }
+ }
++
++/// Reuse D's existing fixed basis/summary/current-source and actual duty checks.
++pub async fn verify_confirmed_handover_with_session(
++    session:&mut CommonSession<'_, '_>,project_id:Uuid,handover_id:Uuid,
++)->Result<Value,Error>{
++    lock_project(session.connection,project_id).await?;
++    let h=sources::row(session,handover_id,true).await?;
++    if h["project_id"]!=project_id.to_string()||h["producer_version"]!=1||h["is_current"]!=true||h["status"]!="confirmed"||h["confirmed_at"].is_null()||h["confirmed_by"].is_null(){
++        return Err(Error::Conflict("须引用本项目真实当前确认移交。".into()));
++    }
++    sources::fresh(session,&h).await?;
++    let confirmed:bool=sqlx::query_scalar("SELECT EXISTS(SELECT 1 FROM poms.confirmation_record c WHERE c.id=$1 AND c.target_type='project-handover' AND c.target_id=$2 AND c.project_id=$3 AND c.status='confirmed' AND c.required_count>0 AND c.required_count=c.confirmed_count AND NOT EXISTS(SELECT 1 FROM poms.confirmation_participant cp WHERE cp.confirmation_record_id=c.id AND (cp.participant_status<>'confirmed' OR cp.confirmed_at IS NULL)))")
++        .bind(id(&h,"confirmation_record_id")?).bind(handover_id).bind(project_id).fetch_one(&mut *session.connection).await?;
++    if !confirmed{return Err(Error::Conflict("全部参与人须真实确认本人职责。".into()));}
++    Ok(h)
++}
+--- a/apps/poms-api-rust/src/project_handover/mod.rs
++++ b/apps/poms-api-rust/src/project_handover/mod.rs
+@@ -4,5 +4,5 @@
+ mod sources;
+ mod view;
+ 
+-pub use service::execute;
++pub use service::{execute, verify_confirmed_handover_with_session};
+ pub use sources::load_handover_facts_in_session;

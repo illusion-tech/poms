@@ -1,3 +1,6 @@
+import { AcceptanceRecordListSchema, AcceptanceRecordSummarySchema, ActivateOperatingBaselinePackageRequestSchema, AffectedRestatementTargetSchema, AllocationCorrectionSchema, AllocationShareInputSchema, BaselineSelectionSourceSchema, BusinessAccountingFeedbackViewSchema, CloseProjectCompletionConditionRequestSchema, CloseProjectCompletionConditionResultSchema, CommissionGateBindingHistoryViewSchema, CommissionParticipantInputSchema, CommissionParticipantReadSchema, CommissionRoleAssignmentDetailViewSchema, CommissionRoleAssignmentStatusSchema, CommissionRoleAssignmentSummarySchema, ConfirmReceiptRecordRequestSchema, ContractHandoverCurrentBaselineSourceTypeSchema, ContractHandoverCurrentBaselineStatusSchema, ContractHandoverCurrentBaselineSummarySchema, CostDecisionInputSchema, CreateAcceptanceRecordRequestSchema, CreateCommissionRoleAssignmentRequestSchema, CreateOperatingRestatementRequestSchema, CreatePeriodClosingSnapshotRequestSchema, CreateProjectArchiveRecordRequestSchema, CreateProjectCompletionRecordRequestSchema, CreateProjectOperatingSnapshotRequestSchema, CreateProjectRequestSchema, CreatorFirstAssignmentAnchorViewSchema, CurrentCommissionRoleAssignmentResponseSchema, EvaluationRefsSchema, ExpectedRefSchema, FinancialGroupSchema, FinancialProjectionSchema, FormalEligibilitySchema, FreezeCommissionRoleAssignmentRequestSchema, FreezeCommissionRoleAssignmentResultSchema, FrozenLifecycleEvidenceSchema, FullProjectCompletionRecordListViewSchema, FullProjectConditionCloseResultSchema, FullProjectDetailViewSchema, LaborCorrectionSchema, LeadStatusSchema, LegacyAssertionsSchema, LegacyOwnerAnchorViewSchema, LifecycleEvidenceRefSchema, ManualOperatingMaterialityReviewSchema, MoneyFactSchema, OperatingAccountingPreparationViewSchema, OperatingBaselinePackageSummarySchema, OperatingCommandResultSchema, OperatingDataMaturityLevelSchema, OperatingEvaluationCertificationSchema, OperatingEvaluationContextSchema, OperatingEvaluationNotReadyErrorSchema, OperatingGateFeedbackItemSchema, OperatingGateReviewDecisionSchema, OperatingGateStageSchema, OperatingMetricKnowledgeSchema, OperatingPreparationSchema, OperatingReasonCodeSchema, OperatingReasonViewSchema, OperatingRestatementListViewSchema, OperatingRestatementSummarySchema, OperatingRiskLevelSchema, OperatingSignalEvaluationViewSchema, OperatingSignalLevelSchema, OperatingSnapshotActionLevelSchema, OwnCompletionConditionClosureSchema, OwnCompletionConditionTaskSchema, OwnCompletionTaskListViewSchema, OwnCompletionTaskParentSchema, OwnConditionCloseResultSchema, PeriodClosingSnapshotSummarySchema, PrepareProjectHandoverRequestSchema, ProjectArchiveRecordListSchema, ProjectArchiveRecordSummarySchema, ProjectBusinessOutcomeOverviewViewSchema, ProjectCompletionConditionInputSchema, ProjectCompletionConditionSummarySchema, ProjectCompletionRecordListSchema, ProjectCompletionRecordSummarySchema, ProjectDetailApprovalSummarySchema, ProjectDetailBidSummarySchema, ProjectDetailConfirmationSummarySchema, ProjectDetailContractSummarySchema, ProjectDetailStageSummarySchema, ProjectDetailViewSchema, ProjectHandoverParticipantInputSchema, ProjectHandoverReceiptJudgmentFreezeStatusSchema, ProjectHandoverReceiptJudgmentModeSummarySchema, ProjectHandoverReceiptJudgmentSourceTypeSchema, ProjectHandoverResponsibilityInputSchema, ProjectHandoverResponsibilityRoleSchema, ProjectOperatingSnapshotSummarySchema, ProjectReceiptJudgmentModeSchema, ProjectSourceLeadSummarySchema, ProjectStageSchema, ProjectStageTransitionResultSchema, ProjectStatusSchema, ProjectUnifiedAccountingResponseSchema, ProjectUnifiedAccountingViewSchema, ProjectVarianceRiskExplanationViewSchema, ReceiptBasisInputSchema, ReplaceProjectArchiveRecordRequestSchema, RestatementAccountingTaxDeductibilityStatusSchema, RestatementR4FGovernanceEvidenceSchema, RestatementR4FManualAssessmentEvidenceSchema, RestatementR4FSourceEvidenceSchema, RestatementStageProducerRequestSchema, RestatementTaxProducerRequestSchema, ReviewCommissionGateBindingRequestSchema, ReviewCommissionGateBindingResultSchema, ReviewOperatingSignalEvaluationRequestSchema, ReviewOperatingSignalEvaluationResultSchema, SensitiveFieldPackageKeySchema, SensitiveProjectionModeSchema, SensitiveProjectionReasonCodeSchema, SensitiveStringFieldProjectionSchema, SourceFinancialGroupSchema, SourceFinancialProjectionSchema, SourceRefSchema, SourceRowSchema, StageReclassificationCorrectionSchema, StartProjectAcceptanceRequestSchema, StartProjectExecutionRequestSchema, TaxTreatmentReplacementCorrectionSchema, VoidProjectArchiveRecordRequestSchema, type AcceptanceRecordList, type AcceptanceRecordSummary, type ActivateOperatingBaselinePackageRequest, type AffectedRestatementTarget, type AllocationCorrection, type AllocationShareInput, type BaselineSelectionSource, type BusinessAccountingFeedbackView, type CloseProjectCompletionConditionRequest, type CloseProjectCompletionConditionResult, type CommissionGateBindingHistoryView, type CommissionParticipantInput, type CommissionParticipantRead, type CommissionRoleAssignmentDetailView, type CommissionRoleAssignmentStatus, type CommissionRoleAssignmentSummary, type ConfirmReceiptRecordRequest, type ContractHandoverCurrentBaselineSourceType, type ContractHandoverCurrentBaselineStatus, type ContractHandoverCurrentBaselineSummary, type CostDecisionInput, type CreateAcceptanceRecordRequest, type CreateCommissionRoleAssignmentRequest, type CreateOperatingRestatementRequest, type CreatePeriodClosingSnapshotRequest, type CreateProjectArchiveRecordRequest, type CreateProjectCompletionRecordRequest, type CreateProjectOperatingSnapshotRequest, type CreateProjectRequest, type CreatorFirstAssignmentAnchorView, type CurrentCommissionRoleAssignmentResponse, type EvaluationRefs, type ExpectedRef, type FinancialGroup, type FinancialProjection, type FormalEligibility, type FreezeCommissionRoleAssignmentRequest, type FreezeCommissionRoleAssignmentResult, type FrozenLifecycleEvidence, type FullProjectCompletionRecordListView, type FullProjectConditionCloseResult, type FullProjectDetailView, type LaborCorrection, type LeadStatus, type LegacyAssertions, type LegacyOwnerAnchorView, type LifecycleEvidenceRef, type ManualOperatingMaterialityReview, type MoneyFact, type OperatingAccountingPreparationView, type OperatingBaselinePackageSummary, type OperatingCommandResult, type OperatingDataMaturityLevel, type OperatingEvaluationCertification, type OperatingEvaluationContext, type OperatingEvaluationNotReadyError, type OperatingGateFeedbackItem, type OperatingGateReviewDecision, type OperatingGateStage, type OperatingMetricKnowledge, type OperatingPreparation, type OperatingReasonCode, type OperatingReasonView, type OperatingRestatementListView, type OperatingRestatementSummary, type OperatingRiskLevel, type OperatingSignalEvaluationView, type OperatingSignalLevel, type OperatingSnapshotActionLevel, type OwnCompletionConditionClosure, type OwnCompletionConditionTask, type OwnCompletionTaskListView, type OwnCompletionTaskParent, type OwnConditionCloseResult, type PeriodClosingSnapshotSummary, type PrepareProjectHandoverRequest, type ProjectArchiveRecordList, type ProjectArchiveRecordSummary, type ProjectBusinessOutcomeOverviewView, type ProjectCompletionConditionInput, type ProjectCompletionConditionSummary, type ProjectCompletionRecordList, type ProjectCompletionRecordSummary, type ProjectDetailApprovalSummary, type ProjectDetailBidSummary, type ProjectDetailConfirmationSummary, type ProjectDetailContractSummary, type ProjectDetailStageSummary, type ProjectDetailView, type ProjectHandoverParticipantInput, type ProjectHandoverReceiptJudgmentFreezeStatus, type ProjectHandoverReceiptJudgmentModeSummary, type ProjectHandoverReceiptJudgmentSourceType, type ProjectHandoverResponsibilityInput, type ProjectHandoverResponsibilityRole, type ProjectOperatingSnapshotSummary, type ProjectReceiptJudgmentMode, type ProjectSourceLeadSummary, type ProjectStage, type ProjectStageTransitionResult, type ProjectStatus, type ProjectUnifiedAccountingResponse, type ProjectUnifiedAccountingView, type ProjectVarianceRiskExplanationView, type ReceiptBasisInput, type ReplaceProjectArchiveRecordRequest, type RestatementAccountingTaxDeductibilityStatus, type RestatementR4FGovernanceEvidence, type RestatementR4FManualAssessmentEvidence, type RestatementR4FSourceEvidence, type RestatementStageProducerRequest, type RestatementTaxProducerRequest, type ReviewCommissionGateBindingRequest, type ReviewCommissionGateBindingResult, type ReviewOperatingSignalEvaluationRequest, type ReviewOperatingSignalEvaluationResult, type SensitiveFieldPackageKey, type SensitiveProjectionMode, type SensitiveProjectionReasonCode, type SensitiveStringFieldProjection, type SourceFinancialGroup, type SourceFinancialProjection, type SourceRef, type SourceRow, type StageReclassificationCorrection, type StartProjectAcceptanceRequest, type StartProjectExecutionRequest, type TaxTreatmentReplacementCorrection, type VoidProjectArchiveRecordRequest , ExecutionAdmissionContextViewSchema, type ExecutionAdmissionContextView, ProjectInitialOwnershipSchema, type ProjectInitialOwnership} from './rust-r4ghi-contracts.generated';
+export { AcceptanceRecordListSchema, AcceptanceRecordSummarySchema, ActivateOperatingBaselinePackageRequestSchema, AffectedRestatementTargetSchema, AllocationCorrectionSchema, AllocationShareInputSchema, BaselineSelectionSourceSchema, BusinessAccountingFeedbackViewSchema, CloseProjectCompletionConditionRequestSchema, CloseProjectCompletionConditionResultSchema, CommissionGateBindingHistoryViewSchema, CommissionParticipantInputSchema, CommissionParticipantReadSchema, CommissionRoleAssignmentDetailViewSchema, CommissionRoleAssignmentStatusSchema, CommissionRoleAssignmentSummarySchema, ConfirmReceiptRecordRequestSchema, ContractHandoverCurrentBaselineSourceTypeSchema, ContractHandoverCurrentBaselineStatusSchema, ContractHandoverCurrentBaselineSummarySchema, CostDecisionInputSchema, CreateAcceptanceRecordRequestSchema, CreateCommissionRoleAssignmentRequestSchema, CreateOperatingRestatementRequestSchema, CreatePeriodClosingSnapshotRequestSchema, CreateProjectArchiveRecordRequestSchema, CreateProjectCompletionRecordRequestSchema, CreateProjectOperatingSnapshotRequestSchema, CreateProjectRequestSchema, CreatorFirstAssignmentAnchorViewSchema, CurrentCommissionRoleAssignmentResponseSchema, EvaluationRefsSchema, ExpectedRefSchema, FinancialGroupSchema, FinancialProjectionSchema, FormalEligibilitySchema, FreezeCommissionRoleAssignmentRequestSchema, FreezeCommissionRoleAssignmentResultSchema, FrozenLifecycleEvidenceSchema, FullProjectCompletionRecordListViewSchema, FullProjectConditionCloseResultSchema, FullProjectDetailViewSchema, LaborCorrectionSchema, LeadStatusSchema, LegacyAssertionsSchema, LegacyOwnerAnchorViewSchema, LifecycleEvidenceRefSchema, ManualOperatingMaterialityReviewSchema, MoneyFactSchema, OperatingAccountingPreparationViewSchema, OperatingBaselinePackageSummarySchema, OperatingCommandResultSchema, OperatingDataMaturityLevelSchema, OperatingEvaluationCertificationSchema, OperatingEvaluationContextSchema, OperatingEvaluationNotReadyErrorSchema, OperatingGateFeedbackItemSchema, OperatingGateReviewDecisionSchema, OperatingGateStageSchema, OperatingMetricKnowledgeSchema, OperatingPreparationSchema, OperatingReasonCodeSchema, OperatingReasonViewSchema, OperatingRestatementListViewSchema, OperatingRestatementSummarySchema, OperatingRiskLevelSchema, OperatingSignalEvaluationViewSchema, OperatingSignalLevelSchema, OperatingSnapshotActionLevelSchema, OwnCompletionConditionClosureSchema, OwnCompletionConditionTaskSchema, OwnCompletionTaskListViewSchema, OwnCompletionTaskParentSchema, OwnConditionCloseResultSchema, PeriodClosingSnapshotSummarySchema, PrepareProjectHandoverRequestSchema, ProjectArchiveRecordListSchema, ProjectArchiveRecordSummarySchema, ProjectBusinessOutcomeOverviewViewSchema, ProjectCompletionConditionInputSchema, ProjectCompletionConditionSummarySchema, ProjectCompletionRecordListSchema, ProjectCompletionRecordSummarySchema, ProjectDetailApprovalSummarySchema, ProjectDetailBidSummarySchema, ProjectDetailConfirmationSummarySchema, ProjectDetailContractSummarySchema, ProjectDetailStageSummarySchema, ProjectDetailViewSchema, ProjectHandoverParticipantInputSchema, ProjectHandoverReceiptJudgmentFreezeStatusSchema, ProjectHandoverReceiptJudgmentModeSummarySchema, ProjectHandoverReceiptJudgmentSourceTypeSchema, ProjectHandoverResponsibilityInputSchema, ProjectHandoverResponsibilityRoleSchema, ProjectOperatingSnapshotSummarySchema, ProjectReceiptJudgmentModeSchema, ProjectSourceLeadSummarySchema, ProjectStageSchema, ProjectStageTransitionResultSchema, ProjectStatusSchema, ProjectUnifiedAccountingResponseSchema, ProjectUnifiedAccountingViewSchema, ProjectVarianceRiskExplanationViewSchema, ReceiptBasisInputSchema, ReplaceProjectArchiveRecordRequestSchema, RestatementAccountingTaxDeductibilityStatusSchema, RestatementR4FGovernanceEvidenceSchema, RestatementR4FManualAssessmentEvidenceSchema, RestatementR4FSourceEvidenceSchema, RestatementStageProducerRequestSchema, RestatementTaxProducerRequestSchema, ReviewCommissionGateBindingRequestSchema, ReviewCommissionGateBindingResultSchema, ReviewOperatingSignalEvaluationRequestSchema, ReviewOperatingSignalEvaluationResultSchema, SensitiveFieldPackageKeySchema, SensitiveProjectionModeSchema, SensitiveProjectionReasonCodeSchema, SensitiveStringFieldProjectionSchema, SourceFinancialGroupSchema, SourceFinancialProjectionSchema, SourceRefSchema, SourceRowSchema, StageReclassificationCorrectionSchema, StartProjectAcceptanceRequestSchema, StartProjectExecutionRequestSchema, TaxTreatmentReplacementCorrectionSchema, VoidProjectArchiveRecordRequestSchema , ExecutionAdmissionContextViewSchema, ProjectInitialOwnershipSchema};
+export type { AcceptanceRecordList, AcceptanceRecordSummary, ActivateOperatingBaselinePackageRequest, AffectedRestatementTarget, AllocationCorrection, AllocationShareInput, BaselineSelectionSource, BusinessAccountingFeedbackView, CloseProjectCompletionConditionRequest, CloseProjectCompletionConditionResult, CommissionGateBindingHistoryView, CommissionParticipantInput, CommissionParticipantRead, CommissionRoleAssignmentDetailView, CommissionRoleAssignmentStatus, CommissionRoleAssignmentSummary, ConfirmReceiptRecordRequest, ContractHandoverCurrentBaselineSourceType, ContractHandoverCurrentBaselineStatus, ContractHandoverCurrentBaselineSummary, CostDecisionInput, CreateAcceptanceRecordRequest, CreateCommissionRoleAssignmentRequest, CreateOperatingRestatementRequest, CreatePeriodClosingSnapshotRequest, CreateProjectArchiveRecordRequest, CreateProjectCompletionRecordRequest, CreateProjectOperatingSnapshotRequest, CreateProjectRequest, CreatorFirstAssignmentAnchorView, CurrentCommissionRoleAssignmentResponse, EvaluationRefs, ExpectedRef, FinancialGroup, FinancialProjection, FormalEligibility, FreezeCommissionRoleAssignmentRequest, FreezeCommissionRoleAssignmentResult, FrozenLifecycleEvidence, FullProjectCompletionRecordListView, FullProjectConditionCloseResult, FullProjectDetailView, LaborCorrection, LeadStatus, LegacyAssertions, LegacyOwnerAnchorView, LifecycleEvidenceRef, ManualOperatingMaterialityReview, MoneyFact, OperatingAccountingPreparationView, OperatingBaselinePackageSummary, OperatingCommandResult, OperatingDataMaturityLevel, OperatingEvaluationCertification, OperatingEvaluationContext, OperatingEvaluationNotReadyError, OperatingGateFeedbackItem, OperatingGateReviewDecision, OperatingGateStage, OperatingMetricKnowledge, OperatingPreparation, OperatingReasonCode, OperatingReasonView, OperatingRestatementListView, OperatingRestatementSummary, OperatingRiskLevel, OperatingSignalEvaluationView, OperatingSignalLevel, OperatingSnapshotActionLevel, OwnCompletionConditionClosure, OwnCompletionConditionTask, OwnCompletionTaskListView, OwnCompletionTaskParent, OwnConditionCloseResult, PeriodClosingSnapshotSummary, PrepareProjectHandoverRequest, ProjectArchiveRecordList, ProjectArchiveRecordSummary, ProjectBusinessOutcomeOverviewView, ProjectCompletionConditionInput, ProjectCompletionConditionSummary, ProjectCompletionRecordList, ProjectCompletionRecordSummary, ProjectDetailApprovalSummary, ProjectDetailBidSummary, ProjectDetailConfirmationSummary, ProjectDetailContractSummary, ProjectDetailStageSummary, ProjectDetailView, ProjectHandoverParticipantInput, ProjectHandoverReceiptJudgmentFreezeStatus, ProjectHandoverReceiptJudgmentModeSummary, ProjectHandoverReceiptJudgmentSourceType, ProjectHandoverResponsibilityInput, ProjectHandoverResponsibilityRole, ProjectOperatingSnapshotSummary, ProjectReceiptJudgmentMode, ProjectSourceLeadSummary, ProjectStage, ProjectStageTransitionResult, ProjectStatus, ProjectUnifiedAccountingResponse, ProjectUnifiedAccountingView, ProjectVarianceRiskExplanationView, ReceiptBasisInput, ReplaceProjectArchiveRecordRequest, RestatementAccountingTaxDeductibilityStatus, RestatementR4FGovernanceEvidence, RestatementR4FManualAssessmentEvidence, RestatementR4FSourceEvidence, RestatementStageProducerRequest, RestatementTaxProducerRequest, ReviewCommissionGateBindingRequest, ReviewCommissionGateBindingResult, ReviewOperatingSignalEvaluationRequest, ReviewOperatingSignalEvaluationResult, SensitiveFieldPackageKey, SensitiveProjectionMode, SensitiveProjectionReasonCode, SensitiveStringFieldProjection, SourceFinancialGroup, SourceFinancialProjection, SourceRef, SourceRow, StageReclassificationCorrection, StartProjectAcceptanceRequest, StartProjectExecutionRequest, TaxTreatmentReplacementCorrection, VoidProjectArchiveRecordRequest , ExecutionAdmissionContextView, ProjectInitialOwnership};
 import { z } from "zod";
 
 type NonEmptyReadonlyArray<T> = readonly [T, ...T[]];
@@ -258,10 +261,6 @@ export const SENSITIVE_FIELD_PACKAGE_KEYS = [
     "exception-approval-opinion",
 ] as const;
 
-export type SensitiveFieldPackageKey = (typeof SENSITIVE_FIELD_PACKAGE_KEYS)[number];
-
-export const SensitiveFieldPackageKeySchema = z.enum(SENSITIVE_FIELD_PACKAGE_KEYS).meta({ id: "SensitiveFieldPackageKey" });
-
 export const SensitiveFieldPackageKeyValue = {
     ContractFinance: "contract-finance",
     OperatingFinance: "operating-finance",
@@ -280,10 +279,6 @@ export const SENSITIVE_FIELD_PACKAGE_REQUIRED_PERMISSIONS: Record<SensitiveField
 
 export const SENSITIVE_PROJECTION_MODES = ["full", "summary", "masked", "denied"] as const;
 
-export type SensitiveProjectionMode = (typeof SENSITIVE_PROJECTION_MODES)[number];
-
-export const SensitiveProjectionModeSchema = z.enum(SENSITIVE_PROJECTION_MODES).meta({ id: "SensitiveProjectionMode" });
-
 export const SensitiveProjectionModeValue = {
     Full: "full",
     Summary: "summary",
@@ -293,45 +288,12 @@ export const SensitiveProjectionModeValue = {
 
 export const SENSITIVE_PROJECTION_REASON_CODES = ["allowed", "summary-only", "missing-sensitive-read-permission", "field-package-not-applicable"] as const;
 
-export type SensitiveProjectionReasonCode = (typeof SENSITIVE_PROJECTION_REASON_CODES)[number];
-
-export const SensitiveProjectionReasonCodeSchema = z.enum(SENSITIVE_PROJECTION_REASON_CODES).meta({ id: "SensitiveProjectionReasonCode" });
-
 export const SensitiveProjectionReasonCodeValue = {
     Allowed: "allowed",
     SummaryOnly: "summary-only",
     MissingSensitiveReadPermission: "missing-sensitive-read-permission",
     FieldPackageNotApplicable: "field-package-not-applicable",
 } as const satisfies Record<string, SensitiveProjectionReasonCode>;
-
-export const SensitiveStringFieldProjectionSchema = z
-    .object({
-        fieldPackageKey: SensitiveFieldPackageKeySchema,
-        mode: SensitiveProjectionModeSchema,
-        value: z.string().nullable(),
-        displayText: z.string().min(1).max(2000),
-        reasonCode: SensitiveProjectionReasonCodeSchema,
-    })
-    .superRefine((input, ctx) => {
-        if ((input.mode === "masked" || input.mode === "denied") && input.value !== null) {
-            ctx.addIssue({
-                code: "custom",
-                path: ["value"],
-                message: "value must be null when sensitive projection mode is masked or denied",
-            });
-        }
-
-        if ((input.mode === "masked" || input.mode === "denied") && input.reasonCode === "allowed") {
-            ctx.addIssue({
-                code: "custom",
-                path: ["reasonCode"],
-                message: "reasonCode cannot be allowed when sensitive projection mode is masked or denied",
-            });
-        }
-    })
-    .meta({ id: "SensitiveStringFieldProjection" });
-
-export type SensitiveStringFieldProjection = z.infer<typeof SensitiveStringFieldProjectionSchema>;
 
 // ---------------------------------------------------------------------------
 // Shared lifecycle candidates
@@ -2134,10 +2096,6 @@ export const LeadStatusValue = enumDefinitionValueObject(LEAD_STATUS_DEFINITIONS
 
 export const LEAD_STATUSES = enumDefinitionValues(LEAD_STATUS_DEFINITIONS);
 
-export type LeadStatus = (typeof LEAD_STATUSES)[number];
-
-export const LeadStatusSchema = z.enum(LEAD_STATUSES).meta({ id: "LeadStatus" });
-
 export const LeadStatusLabel = enumDefinitionLabels(LEAD_STATUS_DEFINITIONS);
 
 export const LeadStatusSeverity = enumDefinitionSeverities(LEAD_STATUS_DEFINITIONS);
@@ -2246,15 +2204,13 @@ export const PROJECT_STAGE_DEFINITIONS = defineSeverityEnumDefinitions([
     { key: "Completed", value: "completed", label: "已完成", severity: "contrast", order: 80 },
     { key: "ClosedLost", value: "closed-lost", label: "已丢单", severity: "danger", order: 90 },
     { key: "ClosedTerminated", value: "closed-terminated", label: "已终止", severity: "danger", order: 100 },
+
+    { key: "ConditionalCompleted", value: "conditional-completed", label: "有条件完成", severity: "warn", order: 85 },
 ] as const);
 
 export const ProjectStageValue = enumDefinitionValueObject(PROJECT_STAGE_DEFINITIONS);
 
 export const PROJECT_STAGES = enumDefinitionValues(PROJECT_STAGE_DEFINITIONS);
-
-export type ProjectStage = (typeof PROJECT_STAGES)[number];
-
-export const ProjectStageSchema = z.enum(PROJECT_STAGES).meta({ id: "ProjectStage" });
 
 export const ProjectStageLabel = enumDefinitionLabels(PROJECT_STAGE_DEFINITIONS);
 
@@ -2274,10 +2230,6 @@ export const PROJECT_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
 export const ProjectStatusValue = enumDefinitionValueObject(PROJECT_STATUS_DEFINITIONS);
 
 export const PROJECT_STATUSES = enumDefinitionValues(PROJECT_STATUS_DEFINITIONS);
-
-export type ProjectStatus = (typeof PROJECT_STATUSES)[number];
-
-export const ProjectStatusSchema = z.enum(PROJECT_STATUSES).meta({ id: "ProjectStatus" });
 
 export const ProjectStatusLabel = enumDefinitionLabels(PROJECT_STATUS_DEFINITIONS);
 
@@ -4038,12 +3990,19 @@ export const ATTACHMENT_UPLOAD_TARGET_METHODS = ["PUT"] as const;
 export type AttachmentUploadTargetMethod = (typeof ATTACHMENT_UPLOAD_TARGET_METHODS)[number];
 export const AttachmentUploadTargetMethodSchema = z.enum(ATTACHMENT_UPLOAD_TARGET_METHODS).meta({ id: "AttachmentUploadTargetMethod" });
 
+export const CompletionConditionAttachmentContextSchema = z.strictObject({
+    completionRecordId: z.uuid(),
+    conditionId: z.uuid(),
+}).meta({ id: "CompletionConditionAttachmentContext" });
+export type CompletionConditionAttachmentContext = z.infer<typeof CompletionConditionAttachmentContextSchema>;
+
 export const CreateAttachmentUploadSessionRequestSchema = z
     .object({
         operationType: AttachmentUploadSessionOperationTypeSchema,
         targetType: AttachmentTargetTypeSchema.optional(),
         targetId: z.uuid().optional(),
         baseAttachmentId: z.uuid().optional(),
+        completionConditionContext: CompletionConditionAttachmentContextSchema.optional(),
         originalName: z.string().trim().min(1).max(255),
         displayName: z.string().trim().min(1).max(255).optional(),
         mimeType: z.string().trim().min(1).max(255).optional(),
@@ -4056,6 +4015,9 @@ export const CreateAttachmentUploadSessionRequestSchema = z
         changeNote: z.string().trim().min(1).max(2000).optional(),
     })
     .superRefine((value, ctx) => {
+        if (value.completionConditionContext && (value.operationType !== AttachmentUploadSessionOperationTypeValue.CreateAttachment || value.targetType !== AttachmentTargetTypeValue.Project || value.baseAttachmentId !== undefined)) {
+            ctx.addIssue({ code: "custom", path: ["completionConditionContext"], message: "Condition-purpose upload requires create-attachment, project target and no baseAttachmentId" });
+        }
         if (value.operationType === AttachmentUploadSessionOperationTypeValue.CreateAttachment) {
             if (!value.targetType) {
                 ctx.addIssue({ code: "custom", path: ["targetType"], message: "targetType is required for create-attachment upload sessions" });
@@ -4441,103 +4403,6 @@ export type ProjectListView = z.infer<typeof ProjectListViewSchema>;
 export const ProjectListSchema = z.array(ProjectListViewSchema).meta({ id: "ProjectList" });
 
 export type ProjectList = z.infer<typeof ProjectListSchema>;
-
-export const ProjectDetailStageSummarySchema = z
-    .object({
-        currentStage: ProjectStageSchema,
-        status: ProjectStatusSchema,
-        plannedSignAt: z.iso.datetime().nullable(),
-        closedAt: z.iso.datetime().nullable(),
-        closedReason: z.string().nullable(),
-        blockingReasons: z.array(z.string()),
-    })
-    .meta({ id: "ProjectDetailStageSummary" });
-
-export type ProjectDetailStageSummary = z.infer<typeof ProjectDetailStageSummarySchema>;
-
-export const ProjectDetailBidSummarySchema = z
-    .object({
-        bidProcessId: z.uuid().nullable(),
-        bidStatus: z.string(),
-        resultStatus: z.string().nullable(),
-        tenderNo: z.string().nullable(),
-        bidPackageNo: z.string().nullable(),
-        summary: z.string().nullable(),
-    })
-    .meta({ id: "ProjectDetailBidSummary" });
-
-export type ProjectDetailBidSummary = z.infer<typeof ProjectDetailBidSummarySchema>;
-
-export const ProjectDetailContractSummarySchema = z
-    .object({
-        activeContractCount: z.number().int().nonnegative(),
-        latestContractId: z.uuid().nullable(),
-        latestContractNo: z.string().nullable(),
-        latestContractStatus: z.string().nullable(),
-        signedAmountProjection: SensitiveStringFieldProjectionSchema,
-        currencyCode: z.string().nullable(),
-        signedAt: z.iso.datetime().nullable(),
-        currentSnapshotId: z.uuid().nullable(),
-    })
-    .meta({ id: "ProjectDetailContractSummary" });
-
-export type ProjectDetailContractSummary = z.infer<typeof ProjectDetailContractSummarySchema>;
-
-export const ProjectDetailApprovalSummarySchema = z
-    .object({
-        summarySnapshotId: z.uuid().nullable(),
-        summaryPackageKey: z.string().nullable(),
-        projectionLevel: z.string().nullable(),
-        exportPolicy: z.string().nullable(),
-        generatedAt: z.iso.datetime().nullable(),
-    })
-    .meta({ id: "ProjectDetailApprovalSummary" });
-
-export type ProjectDetailApprovalSummary = z.infer<typeof ProjectDetailApprovalSummarySchema>;
-
-export const ProjectDetailConfirmationSummarySchema = z
-    .object({
-        confirmationRecordId: z.uuid().nullable(),
-        status: z.string(),
-        requiredCount: z.number().int().nonnegative(),
-        confirmedCount: z.number().int().nonnegative(),
-        pendingCount: z.number().int().nonnegative(),
-        confirmedAt: z.iso.datetime().nullable(),
-    })
-    .meta({ id: "ProjectDetailConfirmationSummary" });
-
-export type ProjectDetailConfirmationSummary = z.infer<typeof ProjectDetailConfirmationSummarySchema>;
-
-export const ProjectSourceLeadSummarySchema = z
-    .object({
-        id: z.uuid(),
-        leadNo: z.string(),
-        leadName: z.string(),
-        customerId: z.uuid(),
-        customerName: z.string(),
-        status: LeadStatusSchema,
-    })
-    .meta({ id: "ProjectSourceLeadSummary" });
-
-export type ProjectSourceLeadSummary = z.infer<typeof ProjectSourceLeadSummarySchema>;
-
-export const ProjectDetailViewSchema = ProjectSummarySchema.extend({
-    ownerName: z.string().nullable(),
-    ownerOrgName: z.string().nullable(),
-    sourceLeadSummary: ProjectSourceLeadSummarySchema.nullable(),
-    stageSummary: ProjectDetailStageSummarySchema,
-    currentBidSummary: ProjectDetailBidSummarySchema,
-    currentContractSummary: ProjectDetailContractSummarySchema,
-    currentApprovalSummary: ProjectDetailApprovalSummarySchema,
-    currentConfirmationSummary: ProjectDetailConfirmationSummarySchema,
-    summarySnapshotId: z.uuid().nullable(),
-    projectionLevel: z.string().nullable(),
-    exportPolicy: z.string().nullable(),
-    allowedActions: z.array(z.string()),
-    generatedAt: z.iso.datetime(),
-}).meta({ id: "ProjectDetailView" });
-
-export type ProjectDetailView = z.infer<typeof ProjectDetailViewSchema>;
 
 export const ProjectWorkspaceBasisSummarySchema = z
     .object({
@@ -5249,45 +5114,6 @@ export const ACCEPTANCE_RECORD_RESULTS = ["accepted", "conditional", "rejected"]
 
 export type AcceptanceRecordResult = (typeof ACCEPTANCE_RECORD_RESULTS)[number];
 
-export const AcceptanceRecordSummarySchema = z
-    .object({
-        id: z.uuid(),
-        projectId: z.uuid(),
-        acceptanceType: z.enum(ACCEPTANCE_RECORD_TYPES),
-        acceptanceResult: z.enum(ACCEPTANCE_RECORD_RESULTS),
-        status: z.enum(ACCEPTANCE_RECORD_STATUSES),
-        scopeSummary: z.string(),
-        evidenceSummary: z.string(),
-        comment: z.string().nullable(),
-        confirmationRecordId: z.uuid().nullable(),
-        confirmedAt: z.iso.datetime(),
-        confirmedBy: z.uuid().nullable(),
-        createdAt: z.iso.datetime(),
-        createdBy: z.uuid().nullable(),
-        updatedAt: z.iso.datetime(),
-        updatedBy: z.uuid().nullable(),
-        rowVersion: z.number().int(),
-    })
-    .meta({ id: "AcceptanceRecordSummary" });
-
-export type AcceptanceRecordSummary = z.infer<typeof AcceptanceRecordSummarySchema>;
-
-export const AcceptanceRecordListSchema = z.array(AcceptanceRecordSummarySchema).meta({ id: "AcceptanceRecordList" });
-
-export type AcceptanceRecordList = z.infer<typeof AcceptanceRecordListSchema>;
-
-export const CreateAcceptanceRecordRequestSchema = z
-    .object({
-        acceptanceType: z.enum(ACCEPTANCE_RECORD_TYPES),
-        acceptanceResult: z.enum(ACCEPTANCE_RECORD_RESULTS),
-        scopeSummary: z.string().trim().min(1).max(2000),
-        evidenceSummary: z.string().trim().min(1).max(2000),
-        comment: z.string().trim().min(1).max(1000).nullable().optional(),
-    })
-    .meta({ id: "CreateAcceptanceRecordRequest" });
-
-export type CreateAcceptanceRecordRequest = z.infer<typeof CreateAcceptanceRecordRequestSchema>;
-
 export const PROJECT_COMPLETION_RECORD_RESULTS = ["completed", "conditional-completed"] as const;
 
 export type ProjectCompletionRecordResult = (typeof PROJECT_COMPLETION_RECORD_RESULTS)[number];
@@ -5295,44 +5121,6 @@ export type ProjectCompletionRecordResult = (typeof PROJECT_COMPLETION_RECORD_RE
 export const PROJECT_COMPLETION_RECORD_STATUSES = ["confirmed"] as const;
 
 export type ProjectCompletionRecordStatus = (typeof PROJECT_COMPLETION_RECORD_STATUSES)[number];
-
-export const ProjectCompletionRecordSummarySchema = z
-    .object({
-        id: z.uuid(),
-        projectId: z.uuid(),
-        acceptanceRecordId: z.uuid(),
-        completionResult: z.enum(PROJECT_COMPLETION_RECORD_RESULTS),
-        status: z.enum(PROJECT_COMPLETION_RECORD_STATUSES),
-        completedAt: z.iso.datetime(),
-        completedBy: z.uuid().nullable(),
-        completedByName: z.string().nullable(),
-        completionSummary: z.string(),
-        evidenceSummary: z.string(),
-        createdAt: z.iso.datetime(),
-        createdBy: z.uuid().nullable(),
-        updatedAt: z.iso.datetime(),
-        updatedBy: z.uuid().nullable(),
-        rowVersion: z.number().int(),
-    })
-    .meta({ id: "ProjectCompletionRecordSummary" });
-
-export type ProjectCompletionRecordSummary = z.infer<typeof ProjectCompletionRecordSummarySchema>;
-
-export const ProjectCompletionRecordListSchema = z.array(ProjectCompletionRecordSummarySchema).meta({ id: "ProjectCompletionRecordList" });
-
-export type ProjectCompletionRecordList = z.infer<typeof ProjectCompletionRecordListSchema>;
-
-export const CreateProjectCompletionRecordRequestSchema = z
-    .object({
-        acceptanceRecordId: z.uuid(),
-        completionResult: z.enum(PROJECT_COMPLETION_RECORD_RESULTS),
-        completedAt: z.iso.datetime(),
-        completionSummary: z.string().trim().min(1).max(2000),
-        evidenceSummary: z.string().trim().min(1).max(2000),
-    })
-    .meta({ id: "CreateProjectCompletionRecordRequest" });
-
-export type CreateProjectCompletionRecordRequest = z.infer<typeof CreateProjectCompletionRecordRequestSchema>;
 
 export const PROJECT_ARCHIVE_ANCHOR_STAGES = ["completed", "closed-lost", "closed-terminated"] as const;
 
@@ -5345,72 +5133,6 @@ export type ProjectArchiveAnchorSourceType = (typeof PROJECT_ARCHIVE_ANCHOR_SOUR
 export const PROJECT_ARCHIVE_RECORD_STATUSES = ["recorded", "voided", "superseded"] as const;
 
 export type ProjectArchiveRecordStatus = (typeof PROJECT_ARCHIVE_RECORD_STATUSES)[number];
-
-export const ProjectArchiveRecordSummarySchema = z
-    .object({
-        id: z.uuid(),
-        projectId: z.uuid(),
-        archiveAnchorStage: z.enum(PROJECT_ARCHIVE_ANCHOR_STAGES),
-        archiveAnchorSourceType: z.enum(PROJECT_ARCHIVE_ANCHOR_SOURCE_TYPES),
-        archiveAnchorSourceId: z.uuid(),
-        status: z.enum(PROJECT_ARCHIVE_RECORD_STATUSES),
-        archivedAt: z.iso.datetime(),
-        archivedBy: z.uuid().nullable(),
-        archivedByName: z.string().nullable(),
-        archiveSummary: z.string(),
-        evidenceSummary: z.string(),
-        supersedesArchiveRecordId: z.uuid().nullable(),
-        replacementReason: z.string().nullable(),
-        voidedAt: z.iso.datetime().nullable(),
-        voidedBy: z.uuid().nullable(),
-        voidedByName: z.string().nullable(),
-        voidReason: z.string().nullable(),
-        createdAt: z.iso.datetime(),
-        createdBy: z.uuid().nullable(),
-        updatedAt: z.iso.datetime(),
-        updatedBy: z.uuid().nullable(),
-        rowVersion: z.number().int(),
-        allowedActions: z.array(z.string()),
-    })
-    .meta({ id: "ProjectArchiveRecordSummary" });
-
-export type ProjectArchiveRecordSummary = z.infer<typeof ProjectArchiveRecordSummarySchema>;
-
-export const ProjectArchiveRecordListSchema = z.array(ProjectArchiveRecordSummarySchema).meta({ id: "ProjectArchiveRecordList" });
-
-export type ProjectArchiveRecordList = z.infer<typeof ProjectArchiveRecordListSchema>;
-
-export const CreateProjectArchiveRecordRequestSchema = z
-    .object({
-        archivedAt: z.iso.datetime(),
-        archiveSummary: z.string().trim().min(1).max(2000),
-        evidenceSummary: z.string().trim().min(1).max(2000),
-    })
-    .meta({ id: "CreateProjectArchiveRecordRequest" });
-
-export type CreateProjectArchiveRecordRequest = z.infer<typeof CreateProjectArchiveRecordRequestSchema>;
-
-export const ReplaceProjectArchiveRecordRequestSchema = z
-    .object({
-        archivedAt: z.iso.datetime(),
-        archiveSummary: z.string().trim().min(1).max(2000),
-        evidenceSummary: z.string().trim().min(1).max(2000),
-        replacementReason: z.string().trim().min(1).max(1000),
-        expectedVersion: z.number().int().positive().optional(),
-    })
-    .meta({ id: "ReplaceProjectArchiveRecordRequest" });
-
-export type ReplaceProjectArchiveRecordRequest = z.infer<typeof ReplaceProjectArchiveRecordRequestSchema>;
-
-export const VoidProjectArchiveRecordRequestSchema = z
-    .object({
-        reason: z.string().trim().min(1).max(1000),
-        comment: z.string().trim().max(1000).nullable().optional(),
-        expectedVersion: z.number().int().positive().optional(),
-    })
-    .meta({ id: "VoidProjectArchiveRecordRequest" });
-
-export type VoidProjectArchiveRecordRequest = z.infer<typeof VoidProjectArchiveRecordRequestSchema>;
 
 export const PROJECT_TIMELINE_EVENT_TYPES = ["stage-entered", "stage-completed", "milestone"] as const;
 
@@ -5455,18 +5177,6 @@ export const ProjectTimelineViewSchema = z
     .meta({ id: "ProjectTimelineView" });
 
 export type ProjectTimelineView = z.infer<typeof ProjectTimelineViewSchema>;
-
-export const CreateProjectRequestSchema = z
-    .object({
-        projectName: z.string().trim().min(1).max(255),
-        customerId: z.uuid(),
-        customerProjectNo: z.string().trim().min(1).max(128).nullable().optional(),
-        currentStage: ProjectStageSchema.optional(),
-        plannedSignAt: z.iso.datetime().nullable().optional(),
-    })
-    .meta({ id: "CreateProjectRequest" });
-
-export type CreateProjectRequest = z.infer<typeof CreateProjectRequestSchema>;
 
 export const ProjectListQuerySchema = z
     .object({
@@ -6312,12 +6022,6 @@ export const ContractHandoverCurrentBaselineStatusValue = enumDefinitionValueObj
 
 export const CONTRACT_HANDOVER_CURRENT_BASELINE_STATUSES = enumDefinitionValues(CONTRACT_HANDOVER_CURRENT_BASELINE_STATUS_DEFINITIONS);
 
-export type ContractHandoverCurrentBaselineStatus = (typeof CONTRACT_HANDOVER_CURRENT_BASELINE_STATUSES)[number];
-
-export const ContractHandoverCurrentBaselineStatusSchema = z
-    .enum(CONTRACT_HANDOVER_CURRENT_BASELINE_STATUSES)
-    .meta({ id: "ContractHandoverCurrentBaselineStatus" });
-
 export const ContractHandoverCurrentBaselineStatusLabel = enumDefinitionLabels(CONTRACT_HANDOVER_CURRENT_BASELINE_STATUS_DEFINITIONS);
 
 export const ContractHandoverCurrentBaselineStatusSeverity = enumDefinitionSeverities(CONTRACT_HANDOVER_CURRENT_BASELINE_STATUS_DEFINITIONS);
@@ -6332,12 +6036,6 @@ export const CONTRACT_HANDOVER_CURRENT_BASELINE_SOURCE_TYPE_DEFINITIONS = define
 export const ContractHandoverCurrentBaselineSourceTypeValue = enumDefinitionValueObject(CONTRACT_HANDOVER_CURRENT_BASELINE_SOURCE_TYPE_DEFINITIONS);
 
 export const CONTRACT_HANDOVER_CURRENT_BASELINE_SOURCE_TYPES = enumDefinitionValues(CONTRACT_HANDOVER_CURRENT_BASELINE_SOURCE_TYPE_DEFINITIONS);
-
-export type ContractHandoverCurrentBaselineSourceType = (typeof CONTRACT_HANDOVER_CURRENT_BASELINE_SOURCE_TYPES)[number];
-
-export const ContractHandoverCurrentBaselineSourceTypeSchema = z
-    .enum(CONTRACT_HANDOVER_CURRENT_BASELINE_SOURCE_TYPES)
-    .meta({ id: "ContractHandoverCurrentBaselineSourceType" });
 
 export const ContractHandoverCurrentBaselineSourceTypeLabel = enumDefinitionLabels(CONTRACT_HANDOVER_CURRENT_BASELINE_SOURCE_TYPE_DEFINITIONS);
 
@@ -6420,18 +6118,6 @@ export const ContractHandoverBaselineValidationSummarySchema = z
     .meta({ id: "ContractHandoverBaselineValidationSummary" });
 
 export type ContractHandoverBaselineValidationSummary = z.infer<typeof ContractHandoverBaselineValidationSummarySchema>;
-
-export const ContractHandoverCurrentBaselineSummarySchema = z
-    .object({
-        status: ContractHandoverCurrentBaselineStatusSchema,
-        baselineSnapshotId: z.uuid().nullable(),
-        sourceType: ContractHandoverCurrentBaselineSourceTypeSchema,
-        sourceId: z.uuid().nullable(),
-        summary: z.string(),
-    })
-    .meta({ id: "ContractHandoverCurrentBaselineSummary" });
-
-export type ContractHandoverCurrentBaselineSummary = z.infer<typeof ContractHandoverCurrentBaselineSummarySchema>;
 
 export const ContractHandoverLatestRebaselineSummarySchema = z
     .object({
@@ -6557,12 +6243,6 @@ export const ProjectHandoverReceiptJudgmentFreezeStatusValue = enumDefinitionVal
 
 export const PROJECT_HANDOVER_RECEIPT_JUDGMENT_FREEZE_STATUSES = enumDefinitionValues(PROJECT_HANDOVER_RECEIPT_JUDGMENT_FREEZE_STATUS_DEFINITIONS);
 
-export type ProjectHandoverReceiptJudgmentFreezeStatus = (typeof PROJECT_HANDOVER_RECEIPT_JUDGMENT_FREEZE_STATUSES)[number];
-
-export const ProjectHandoverReceiptJudgmentFreezeStatusSchema = z
-    .enum(PROJECT_HANDOVER_RECEIPT_JUDGMENT_FREEZE_STATUSES)
-    .meta({ id: "ProjectHandoverReceiptJudgmentFreezeStatus" });
-
 export const ProjectHandoverReceiptJudgmentFreezeStatusLabel = enumDefinitionLabels(PROJECT_HANDOVER_RECEIPT_JUDGMENT_FREEZE_STATUS_DEFINITIONS);
 
 export const ProjectHandoverReceiptJudgmentFreezeStatusSeverity = enumDefinitionSeverities(PROJECT_HANDOVER_RECEIPT_JUDGMENT_FREEZE_STATUS_DEFINITIONS);
@@ -6576,12 +6256,6 @@ export const PROJECT_HANDOVER_RECEIPT_JUDGMENT_SOURCE_TYPE_DEFINITIONS = defineE
 export const ProjectHandoverReceiptJudgmentSourceTypeValue = enumDefinitionValueObject(PROJECT_HANDOVER_RECEIPT_JUDGMENT_SOURCE_TYPE_DEFINITIONS);
 
 export const PROJECT_HANDOVER_RECEIPT_JUDGMENT_SOURCE_TYPES = enumDefinitionValues(PROJECT_HANDOVER_RECEIPT_JUDGMENT_SOURCE_TYPE_DEFINITIONS);
-
-export type ProjectHandoverReceiptJudgmentSourceType = (typeof PROJECT_HANDOVER_RECEIPT_JUDGMENT_SOURCE_TYPES)[number];
-
-export const ProjectHandoverReceiptJudgmentSourceTypeSchema = z
-    .enum(PROJECT_HANDOVER_RECEIPT_JUDGMENT_SOURCE_TYPES)
-    .meta({ id: "ProjectHandoverReceiptJudgmentSourceType" });
 
 export const ProjectHandoverReceiptJudgmentSourceTypeLabel = enumDefinitionLabels(PROJECT_HANDOVER_RECEIPT_JUDGMENT_SOURCE_TYPE_DEFINITIONS);
 
@@ -6604,18 +6278,6 @@ export const ProjectHandoverStatusSchema = z.enum(PROJECT_HANDOVER_STATUSES).met
 export const ProjectHandoverStatusLabel = enumDefinitionLabels(PROJECT_HANDOVER_STATUS_DEFINITIONS);
 
 export const ProjectHandoverStatusSeverity = enumDefinitionSeverities(PROJECT_HANDOVER_STATUS_DEFINITIONS);
-
-// R4 DEF: independently frozen public contract additions.
-export const ProjectHandoverResponsibilityRoleSchema = z
-    .enum(["sales-owner", "business-admin", "technical-support", "execution-owner", "finance"])
-    .meta({ id: "ProjectHandoverResponsibilityRole" });
-export type ProjectHandoverResponsibilityRole = z.infer<typeof ProjectHandoverResponsibilityRoleSchema>;
-
-export const ProjectHandoverResponsibilityInputSchema = z
-    .object({ roleKey: ProjectHandoverResponsibilityRoleSchema, responsibilitySummary: z.string().trim().min(1).max(1000) })
-    .strict()
-    .meta({ id: "ProjectHandoverResponsibilityInput" });
-export type ProjectHandoverResponsibilityInput = z.infer<typeof ProjectHandoverResponsibilityInputSchema>;
 
 export const ProjectHandoverParticipantConfirmationItemSchema = z
     .object({
@@ -6649,18 +6311,6 @@ export const ProjectHandoverParticipantConfirmationSummarySchema = z
     .meta({ id: "ProjectHandoverParticipantConfirmationSummary" });
 
 export type ProjectHandoverParticipantConfirmationSummary = z.infer<typeof ProjectHandoverParticipantConfirmationSummarySchema>;
-
-export const ProjectHandoverReceiptJudgmentModeSummarySchema = z
-    .object({
-        status: ProjectHandoverReceiptJudgmentFreezeStatusSchema,
-        receiptJudgmentMode: z.string().nullable(),
-        sourceType: ProjectHandoverReceiptJudgmentSourceTypeSchema,
-        sourceId: z.uuid().nullable(),
-        summary: z.string(),
-    })
-    .meta({ id: "ProjectHandoverReceiptJudgmentModeSummary" });
-
-export type ProjectHandoverReceiptJudgmentModeSummary = z.infer<typeof ProjectHandoverReceiptJudgmentModeSummarySchema>;
 
 // R4 DEF: independently frozen public contract additions.
 export const ProjectHandoverBasisItemSummarySchema = z
@@ -6773,10 +6423,6 @@ export const ConfirmProjectHandoverParticipantConfirmationInputSchema = z
     .meta({ id: "ConfirmProjectHandoverParticipantConfirmationInput" });
 
 export type ConfirmProjectHandoverParticipantConfirmationInput = z.infer<typeof ConfirmProjectHandoverParticipantConfirmationInputSchema>;
-
-// R4 DEF: independently frozen public contract additions.
-export const ProjectReceiptJudgmentModeSchema = z.enum(["project-aggregate", "contract-separate"]).meta({ id: "ProjectReceiptJudgmentMode" });
-export type ProjectReceiptJudgmentMode = z.infer<typeof ProjectReceiptJudgmentModeSchema>;
 
 export const ConfirmProjectHandoverRequestSchema = z
     .object({
@@ -7071,14 +6717,6 @@ export const CreateReceiptRecordRequestSchema = z
     .meta({ id: "CreateReceiptRecordRequest" });
 
 export type CreateReceiptRecordRequest = z.infer<typeof CreateReceiptRecordRequestSchema>;
-
-export const ConfirmReceiptRecordRequestSchema = z
-    .object({
-        expectedVersion: z.number().int().positive().optional(),
-    })
-    .meta({ id: "ConfirmReceiptRecordRequest" });
-
-export type ConfirmReceiptRecordRequest = z.infer<typeof ConfirmReceiptRecordRequestSchema>;
 
 export const PAYABLE_RECORD_STATUS_DEFINITIONS = defineSeverityEnumDefinitions([
     { key: "Draft", value: "draft", label: "草稿", severity: "secondary", order: 10 },
@@ -8034,8 +7672,6 @@ export const COMMISSION_ROLE_ASSIGNMENT_STATUS_DEFINITIONS = defineSeverityEnumD
 
 export const CommissionRoleAssignmentStatusValue = enumDefinitionValueObject(COMMISSION_ROLE_ASSIGNMENT_STATUS_DEFINITIONS);
 export const COMMISSION_ROLE_ASSIGNMENT_STATUSES = enumDefinitionValues(COMMISSION_ROLE_ASSIGNMENT_STATUS_DEFINITIONS);
-export type CommissionRoleAssignmentStatus = (typeof COMMISSION_ROLE_ASSIGNMENT_STATUSES)[number];
-export const CommissionRoleAssignmentStatusSchema = z.enum(COMMISSION_ROLE_ASSIGNMENT_STATUSES).meta({ id: "CommissionRoleAssignmentStatus" });
 export const CommissionRoleAssignmentStatusLabel = enumDefinitionLabels(COMMISSION_ROLE_ASSIGNMENT_STATUS_DEFINITIONS);
 export const CommissionRoleAssignmentStatusSeverity = enumDefinitionSeverities(COMMISSION_ROLE_ASSIGNMENT_STATUS_DEFINITIONS);
 export const CommissionRoleAssignmentStatusOptions = enumDefinitionOptions(COMMISSION_ROLE_ASSIGNMENT_STATUS_DEFINITIONS);
@@ -8341,85 +7977,6 @@ export const CommissionParticipantSchema = z.object({
 });
 
 export type CommissionParticipant = z.infer<typeof CommissionParticipantSchema>;
-
-export const CommissionRoleAssignmentSummarySchema = z
-    .object({
-        id: z.uuid(),
-        projectId: z.uuid(),
-        version: z.number().int(),
-        rowVersion: z.number().int().positive(),
-        isCurrent: z.boolean(),
-        status: CommissionRoleAssignmentStatusSchema,
-        participantsJson: z.array(CommissionParticipantSchema),
-        sourceHandoverId: z.uuid().nullable(),
-        sourceHandoverRebaselineRecordId: z.uuid().nullable(),
-        contractSummarySnapshotId: z.uuid().nullable(),
-        handoverSummarySnapshotId: z.uuid().nullable(),
-        effectiveHandoverBaselineSnapshotId: z.uuid().nullable(),
-        frozenAt: z.iso.datetime().nullable(),
-        createdAt: z.iso.datetime(),
-        updatedAt: z.iso.datetime(),
-    })
-    .meta({ id: "CommissionRoleAssignmentSummary" });
-
-export type CommissionRoleAssignmentSummary = z.infer<typeof CommissionRoleAssignmentSummarySchema>;
-
-export const CreateCommissionRoleAssignmentRequestSchema = z
-    .object({
-        participants: z.array(CommissionParticipantSchema).min(1),
-    })
-    .meta({ id: "CreateCommissionRoleAssignmentRequest" });
-
-export type CreateCommissionRoleAssignmentRequest = z.infer<typeof CreateCommissionRoleAssignmentRequestSchema>;
-
-export const FreezeCommissionRoleAssignmentRequestSchema = z
-    .object({
-        comment: z.string().trim().max(1000).optional(),
-        sourceHandoverId: z.uuid(),
-        handoverSummarySnapshotId: z.uuid(),
-        expectedVersion: z.number().int().positive().optional(),
-    })
-    .meta({ id: "FreezeCommissionRoleAssignmentRequest" });
-
-export type FreezeCommissionRoleAssignmentRequest = z.infer<typeof FreezeCommissionRoleAssignmentRequestSchema>;
-
-export const FreezeCommissionRoleAssignmentResultSchema = z
-    .object({
-        targetId: z.uuid(),
-        businessStatusAfter: z.literal("frozen"),
-        newVersionId: z.uuid(),
-        sourceHandoverId: z.uuid(),
-        contractSummarySnapshotId: z.uuid(),
-        handoverSummarySnapshotId: z.uuid(),
-        effectiveHandoverBaselineSnapshotId: z.uuid(),
-        summarySnapshotId: z.uuid(),
-        projectionLevel: z.string(),
-        exportPolicy: z.string(),
-    })
-    .meta({ id: "FreezeCommissionRoleAssignmentResult" });
-
-export type FreezeCommissionRoleAssignmentResult = z.infer<typeof FreezeCommissionRoleAssignmentResultSchema>;
-
-export const CommissionRoleAssignmentDetailViewSchema = z
-    .object({
-        roleAssignmentId: z.uuid(),
-        projectId: z.uuid(),
-        freezeVersionSummary: CommissionRoleAssignmentSummarySchema,
-        sourceHandoverId: z.uuid().nullable(),
-        contractSummarySnapshotId: z.uuid().nullable(),
-        handoverSummarySnapshotId: z.uuid().nullable(),
-        effectiveHandoverBaselineSummary: ContractHandoverCurrentBaselineSummarySchema,
-        receiptJudgmentModeSummary: ProjectHandoverReceiptJudgmentModeSummarySchema,
-        summaryPackageKey: z.string().nullable(),
-        summarySnapshotId: z.uuid().nullable(),
-        projectionLevel: z.string().nullable(),
-        exportPolicy: z.string().nullable(),
-        allowedActions: z.array(z.string()),
-        generatedAt: z.iso.datetime(),
-    })
-    .meta({ id: "CommissionRoleAssignmentDetailView" });
-
-export type CommissionRoleAssignmentDetailView = z.infer<typeof CommissionRoleAssignmentDetailViewSchema>;
 
 export const CommissionDepartureExceptionDecisionStatusSchema = z
     .enum(COMMISSION_LIFECYCLE_SNAPSHOT_STATUSES)
@@ -9212,8 +8769,6 @@ export const BASELINE_SELECTION_SOURCE_DEFINITIONS = defineEnumDefinitions([
 
 export const BaselineSelectionSourceValue = enumDefinitionValueObject(BASELINE_SELECTION_SOURCE_DEFINITIONS);
 export const BASELINE_SELECTION_SOURCES = enumDefinitionValues(BASELINE_SELECTION_SOURCE_DEFINITIONS);
-export type BaselineSelectionSource = (typeof BASELINE_SELECTION_SOURCES)[number];
-export const BaselineSelectionSourceSchema = z.enum(BASELINE_SELECTION_SOURCES).meta({ id: "BaselineSelectionSource" });
 export const BaselineSelectionSourceLabel = enumDefinitionLabels(BASELINE_SELECTION_SOURCE_DEFINITIONS);
 export const BaselineSelectionSourceOptions = enumDefinitionOptions(BASELINE_SELECTION_SOURCE_DEFINITIONS);
 
@@ -9225,8 +8780,6 @@ export const OPERATING_SNAPSHOT_ACTION_LEVEL_DEFINITIONS = defineSeverityEnumDef
 
 export const OperatingSnapshotActionLevelValue = enumDefinitionValueObject(OPERATING_SNAPSHOT_ACTION_LEVEL_DEFINITIONS);
 export const OPERATING_SNAPSHOT_ACTION_LEVELS = enumDefinitionValues(OPERATING_SNAPSHOT_ACTION_LEVEL_DEFINITIONS);
-export type OperatingSnapshotActionLevel = (typeof OPERATING_SNAPSHOT_ACTION_LEVELS)[number];
-export const OperatingSnapshotActionLevelSchema = z.enum(OPERATING_SNAPSHOT_ACTION_LEVELS).meta({ id: "OperatingSnapshotActionLevel" });
 export const OperatingSnapshotActionLevelLabel = enumDefinitionLabels(OPERATING_SNAPSHOT_ACTION_LEVEL_DEFINITIONS);
 export const OperatingSnapshotActionLevelSeverity = enumDefinitionSeverities(OPERATING_SNAPSHOT_ACTION_LEVEL_DEFINITIONS);
 export const OperatingSnapshotActionLevelOptions = enumDefinitionOptions(OPERATING_SNAPSHOT_ACTION_LEVEL_DEFINITIONS);
@@ -9323,33 +8876,31 @@ export const OPERATING_DATA_MATURITY_LEVEL_DEFINITIONS = defineEnumDefinitions([
 
 export const OperatingDataMaturityLevelValue = enumDefinitionValueObject(OPERATING_DATA_MATURITY_LEVEL_DEFINITIONS);
 export const OPERATING_DATA_MATURITY_LEVELS = enumDefinitionValues(OPERATING_DATA_MATURITY_LEVEL_DEFINITIONS);
-export type OperatingDataMaturityLevel = (typeof OPERATING_DATA_MATURITY_LEVELS)[number];
-export const OperatingDataMaturityLevelSchema = z.enum(OPERATING_DATA_MATURITY_LEVELS).meta({ id: "OperatingDataMaturityLevel" });
 export const OperatingDataMaturityLevelLabel = enumDefinitionLabels(OPERATING_DATA_MATURITY_LEVEL_DEFINITIONS);
 export const OperatingDataMaturityLevelOptions = enumDefinitionOptions(OPERATING_DATA_MATURITY_LEVEL_DEFINITIONS);
 
 export const OPERATING_SIGNAL_LEVEL_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: "Normal", value: "normal", label: "正常", severity: "success", order: 0 },
+    { key: "Unknown", value: "unknown", label: "未知", severity: "secondary", order: 5 },
     { key: "Attention", value: "attention", label: "关注", severity: "warn", order: 10 },
     { key: "Alert", value: "alert", label: "警报", severity: "danger", order: 20 },
 ] as const);
 
 export const OperatingSignalLevelValue = enumDefinitionValueObject(OPERATING_SIGNAL_LEVEL_DEFINITIONS);
 export const OPERATING_SIGNAL_LEVELS = enumDefinitionValues(OPERATING_SIGNAL_LEVEL_DEFINITIONS);
-export type OperatingSignalLevel = (typeof OPERATING_SIGNAL_LEVELS)[number];
-export const OperatingSignalLevelSchema = z.enum(OPERATING_SIGNAL_LEVELS).meta({ id: "OperatingSignalLevel" });
 export const OperatingSignalLevelLabel = enumDefinitionLabels(OPERATING_SIGNAL_LEVEL_DEFINITIONS);
 export const OperatingSignalLevelSeverity = enumDefinitionSeverities(OPERATING_SIGNAL_LEVEL_DEFINITIONS);
 export const OperatingSignalLevelOptions = enumDefinitionOptions(OPERATING_SIGNAL_LEVEL_DEFINITIONS);
 
 export const OPERATING_RISK_LEVEL_DEFINITIONS = defineSeverityEnumDefinitions([
+    { key: "Normal", value: "normal", label: "正常", severity: "success", order: 0 },
+    { key: "Unknown", value: "unknown", label: "未知", severity: "secondary", order: 5 },
     { key: "Attention", value: "attention", label: "关注", severity: "warn", order: 10 },
     { key: "Risk", value: "risk", label: "风险", severity: "danger", order: 20 },
 ] as const);
 
 export const OperatingRiskLevelValue = enumDefinitionValueObject(OPERATING_RISK_LEVEL_DEFINITIONS);
 export const OPERATING_RISK_LEVELS = enumDefinitionValues(OPERATING_RISK_LEVEL_DEFINITIONS);
-export type OperatingRiskLevel = (typeof OPERATING_RISK_LEVELS)[number];
-export const OperatingRiskLevelSchema = z.enum(OPERATING_RISK_LEVELS).meta({ id: "OperatingRiskLevel" });
 export const OperatingRiskLevelLabel = enumDefinitionLabels(OPERATING_RISK_LEVEL_DEFINITIONS);
 export const OperatingRiskLevelSeverity = enumDefinitionSeverities(OPERATING_RISK_LEVEL_DEFINITIONS);
 export const OperatingRiskLevelOptions = enumDefinitionOptions(OPERATING_RISK_LEVEL_DEFINITIONS);
@@ -9434,206 +8985,6 @@ export const ChangePackageBaselineInputSchema = z.object({
     changeSummary: z.string().trim().min(1).max(1000).nullable().optional(),
     effectiveAt: z.iso.datetime().nullable().optional(),
 });
-
-export const ActivateOperatingBaselinePackageRequestSchema = z
-    .object({
-        projectId: z.uuid(),
-        originalBaselineCost: z.string().trim().min(1).max(64),
-        baselineSelectionSource: BaselineSelectionSourceSchema.default(BaselineSelectionSourceValue.Original),
-        effectiveOperatingBaselineId: z.uuid().nullable().optional(),
-        baselineSummary: z.string().trim().min(1).max(2000).nullable().optional(),
-        changePackages: z.array(ChangePackageBaselineInputSchema).default([]),
-        expectedCurrentPackageVersion: z.number().int().positive().optional(),
-    })
-    .meta({ id: "ActivateOperatingBaselinePackageRequest" });
-
-export type ActivateOperatingBaselinePackageRequest = z.infer<typeof ActivateOperatingBaselinePackageRequestSchema>;
-
-export const OperatingBaselinePackageSummarySchema = z
-    .object({
-        id: z.uuid(),
-        projectId: z.uuid(),
-        originalBaselineCost: z.string(),
-        changePackageTotal: z.string(),
-        currentEffectiveBaselineCost: z.string(),
-        baselineSelectionSource: BaselineSelectionSourceSchema,
-        effectiveOperatingBaselineId: z.uuid().nullable(),
-        baselineSummary: z.string().nullable(),
-        isCurrent: z.boolean(),
-        status: OperatingBaselinePackageStatusSchema,
-        effectiveAt: z.iso.datetime().nullable(),
-        rowVersion: z.number().int().positive(),
-        createdAt: z.iso.datetime(),
-        updatedAt: z.iso.datetime(),
-    })
-    .meta({ id: "OperatingBaselinePackageSummary" });
-
-export type OperatingBaselinePackageSummary = z.infer<typeof OperatingBaselinePackageSummarySchema>;
-
-const OperatingSnapshotAmountInputSchema = z.object({
-    effectiveContractTotal: z.string().trim().min(1).max(64),
-    receivableConfirmedTotal: z.string().trim().min(1).max(64),
-    includedCostTotal: z.string().trim().min(1).max(64),
-    originalBaselineCost: z.string().trim().min(1).max(64),
-    currentEffectiveBaselineCost: z.string().trim().min(1).max(64),
-    taxImpactSummary: z.string().trim().min(1).max(2000),
-    taxImpactPendingAmount: z.string().trim().min(1).max(64).default("0"),
-    allocationStabilitySummary: z.string().trim().min(1).max(2000).nullable().optional(),
-    unmappedCostSummary: z.string().trim().min(1).max(2000).nullable().optional(),
-    currentActionLevel: OperatingSnapshotActionLevelSchema,
-    referencedBaselineVersion: z.string().trim().min(1).max(64),
-    baselineSelectionSource: BaselineSelectionSourceSchema,
-    handoverRebaselineRecordId: z.uuid().nullable().optional(),
-});
-
-function assertOperatingSnapshotBaselineSelection(
-    input: { baselineSelectionSource: BaselineSelectionSource; handoverRebaselineRecordId?: string | null },
-    ctx: z.RefinementCtx,
-) {
-    if (input.baselineSelectionSource === BaselineSelectionSourceValue.HandoverRebaseline && !input.handoverRebaselineRecordId) {
-        ctx.addIssue({
-            code: "custom",
-            path: ["handoverRebaselineRecordId"],
-            message: "handoverRebaselineRecordId is required when baselineSelectionSource is handover-rebaseline",
-        });
-    }
-
-    if (input.baselineSelectionSource === BaselineSelectionSourceValue.Original && input.handoverRebaselineRecordId) {
-        ctx.addIssue({
-            code: "custom",
-            path: ["handoverRebaselineRecordId"],
-            message: "handoverRebaselineRecordId must be null when baselineSelectionSource is original",
-        });
-    }
-}
-
-export const CreateProjectOperatingSnapshotRequestSchema = OperatingSnapshotAmountInputSchema.extend({
-    projectId: z.uuid(),
-    snapshotMode: CreatableOperatingSnapshotModeSchema,
-    sourceWindowStart: z.iso.date().nullable().optional(),
-    sourceWindowEnd: z.iso.date().nullable().optional(),
-})
-    .superRefine(assertOperatingSnapshotBaselineSelection)
-    .meta({ id: "CreateProjectOperatingSnapshotRequest" });
-
-export type CreateProjectOperatingSnapshotRequest = z.infer<typeof CreateProjectOperatingSnapshotRequestSchema>;
-
-export const ProjectOperatingSnapshotSummarySchema = z
-    .object({
-        id: z.uuid(),
-        projectId: z.uuid(),
-        snapshotMode: OperatingSnapshotModeSchema,
-        snapshotAt: z.iso.datetime(),
-        sourceWindowStart: z.iso.date().nullable(),
-        sourceWindowEnd: z.iso.date().nullable(),
-        effectiveContractTotal: z.string(),
-        receivableConfirmedTotal: z.string(),
-        includedCostTotal: z.string(),
-        originalBaselineCost: z.string(),
-        currentEffectiveBaselineCost: z.string(),
-        grossMarginAmount: z.string(),
-        grossMarginRate: z.string().nullable(),
-        taxImpactSummary: z.string(),
-        taxImpactPendingAmount: z.string(),
-        allocationStabilitySummary: z.string().nullable(),
-        unmappedCostSummary: z.string().nullable(),
-        currentActionLevel: OperatingSnapshotActionLevelSchema,
-        referencedBaselineVersion: z.string(),
-        baselineSelectionSource: BaselineSelectionSourceSchema,
-        handoverRebaselineRecordId: z.uuid().nullable(),
-        status: OperatingLifecycleStatusSchema,
-        supersedesId: z.uuid().nullable(),
-        rowVersion: z.number().int().positive(),
-        createdAt: z.iso.datetime(),
-        updatedAt: z.iso.datetime(),
-    })
-    .meta({ id: "ProjectOperatingSnapshotSummary" });
-
-export type ProjectOperatingSnapshotSummary = z.infer<typeof ProjectOperatingSnapshotSummarySchema>;
-
-export const CreatePeriodClosingSnapshotRequestSchema = OperatingSnapshotAmountInputSchema.extend({
-    projectId: z.uuid(),
-    periodKey: z.string().trim().min(1).max(32),
-    expectedCurrentSnapshotVersion: z.number().int().positive().optional(),
-})
-    .superRefine(assertOperatingSnapshotBaselineSelection)
-    .meta({ id: "CreatePeriodClosingSnapshotRequest" });
-
-export type CreatePeriodClosingSnapshotRequest = z.infer<typeof CreatePeriodClosingSnapshotRequestSchema>;
-
-export const PeriodClosingSnapshotSummarySchema = z
-    .object({
-        id: z.uuid(),
-        projectId: z.uuid(),
-        periodKey: z.string(),
-        snapshotMode: z.literal(OperatingSnapshotModeValue.PeriodEnd),
-        snapshotAt: z.iso.datetime(),
-        effectiveContractTotal: z.string(),
-        receivableConfirmedTotal: z.string(),
-        includedCostTotal: z.string(),
-        originalBaselineCost: z.string(),
-        currentEffectiveBaselineCost: z.string(),
-        grossMarginAmount: z.string(),
-        grossMarginRate: z.string().nullable(),
-        taxImpactSummary: z.string(),
-        taxImpactPendingAmount: z.string(),
-        allocationStabilitySummary: z.string().nullable(),
-        unmappedCostSummary: z.string().nullable(),
-        currentActionLevel: OperatingSnapshotActionLevelSchema,
-        referencedBaselineVersion: z.string(),
-        baselineSelectionSource: BaselineSelectionSourceSchema,
-        handoverRebaselineRecordId: z.uuid().nullable(),
-        status: OperatingLifecycleStatusSchema,
-        rowVersion: z.number().int().positive(),
-        createdAt: z.iso.datetime(),
-        updatedAt: z.iso.datetime(),
-    })
-    .meta({ id: "PeriodClosingSnapshotSummary" });
-
-export type PeriodClosingSnapshotSummary = z.infer<typeof PeriodClosingSnapshotSummarySchema>;
-
-const OperatingRestatementOverrideSchema = OperatingSnapshotAmountInputSchema.partial().extend({
-    sourceWindowStart: z.iso.date().nullable().optional(),
-    sourceWindowEnd: z.iso.date().nullable().optional(),
-});
-
-export const CreateOperatingRestatementRequestSchema = z
-    .object({
-        projectId: z.uuid(),
-        periodEndSnapshotId: z.uuid(),
-        restatesSnapshotId: z.uuid(),
-        restatementReason: z.string().trim().min(1).max(256),
-        restatementSummary: z.string().trim().min(1).max(2000),
-        restatedValues: OperatingRestatementOverrideSchema,
-        expectedRestatesSnapshotVersion: z.number().int().positive().optional(),
-    })
-    .meta({ id: "CreateOperatingRestatementRequest" });
-
-export type CreateOperatingRestatementRequest = z.infer<typeof CreateOperatingRestatementRequestSchema>;
-
-export const OperatingRestatementSummarySchema = z
-    .object({
-        id: z.uuid(),
-        projectId: z.uuid(),
-        periodEndSnapshotId: z.uuid(),
-        restatesSnapshotId: z.uuid(),
-        restatedSnapshotId: z.uuid(),
-        restatementReason: z.string(),
-        restatementSummary: z.string(),
-        status: OperatingLifecycleStatusSchema,
-        handledAt: z.iso.datetime(),
-        handledBy: z.uuid().nullable(),
-        rowVersion: z.number().int().positive(),
-        createdAt: z.iso.datetime(),
-        updatedAt: z.iso.datetime(),
-    })
-    .meta({ id: "OperatingRestatementSummary" });
-
-export type OperatingRestatementSummary = z.infer<typeof OperatingRestatementSummarySchema>;
-
-export const OperatingRestatementListViewSchema = z.array(OperatingRestatementSummarySchema).meta({ id: "OperatingRestatementListView" });
-
-export type OperatingRestatementListView = z.infer<typeof OperatingRestatementListViewSchema>;
 
 export const SharedCostAllocationShareItemSchema = z.object({
     projectId: z.uuid(),
@@ -9926,215 +9277,6 @@ export const AccountingTaxTreatmentListViewSchema = z.array(AccountingTaxTreatme
 
 export type AccountingTaxTreatmentListView = z.infer<typeof AccountingTaxTreatmentListViewSchema>;
 
-export const ReviewOperatingSignalEvaluationRequestSchema = z
-    .object({
-        reviewDecision: OperatingSignalReviewDecisionSchema,
-        resolvedDataMaturityLevel: OperatingDataMaturityLevelSchema,
-        costActionRecommendation: OperatingSnapshotActionLevelSchema,
-        referencedBaselineVersion: z.string().trim().min(1).max(64),
-        referencedSnapshotVersion: z.string().trim().min(1).max(64),
-        reviewComment: z.string().trim().min(1).max(1000).nullable().optional(),
-        expectedVersion: z.number().int().positive().optional(),
-    })
-    .meta({ id: "ReviewOperatingSignalEvaluationRequest" });
-
-export type ReviewOperatingSignalEvaluationRequest = z.infer<typeof ReviewOperatingSignalEvaluationRequestSchema>;
-
-export const ReviewOperatingSignalEvaluationResultSchema = z
-    .object({
-        targetId: z.uuid(),
-        signalEvaluationId: z.uuid(),
-        reviewRecordId: z.uuid(),
-        taxImpactSummary: z.string(),
-        dataMaturityLevel: OperatingDataMaturityLevelSchema,
-        costActionRecommendation: OperatingSnapshotActionLevelSchema,
-        currentActionLevel: OperatingSnapshotActionLevelSchema,
-        referencedBaselineVersion: z.string(),
-        referencedSnapshotVersion: z.string(),
-        resultStatus: z.string().min(1),
-    })
-    .meta({ id: "ReviewOperatingSignalEvaluationResult" });
-
-export type ReviewOperatingSignalEvaluationResult = z.infer<typeof ReviewOperatingSignalEvaluationResultSchema>;
-
-export const OperatingSignalEvaluationViewSchema = z
-    .object({
-        signalEvaluationId: z.uuid(),
-        projectId: z.uuid(),
-        formulaBoundaryAction: OperatingSnapshotActionLevelSchema,
-        signalLevel: OperatingSignalLevelSchema,
-        taxImpactSummary: z.string(),
-        allocationStabilitySummary: z.string().nullable(),
-        unmappedCostSummary: z.string().nullable(),
-        dataMaturityLevel: OperatingDataMaturityLevelSchema,
-        costActionRecommendation: OperatingSnapshotActionLevelSchema,
-        currentActionLevel: OperatingSnapshotActionLevelSchema,
-        referencedBaselineVersion: z.string(),
-        referencedSnapshotVersion: z.string(),
-        reviewRequired: z.boolean(),
-        reviewSummary: z.string().nullable(),
-    })
-    .meta({ id: "OperatingSignalEvaluationView" });
-
-export type OperatingSignalEvaluationView = z.infer<typeof OperatingSignalEvaluationViewSchema>;
-
-export const ReviewCommissionGateBindingRequestSchema = z
-    .object({
-        bindingAction: OperatingSnapshotActionLevelSchema,
-        gateReviewDecision: z.string().trim().min(1).max(32),
-        blockingReasonCode: z.string().trim().min(1).max(64).nullable().optional(),
-        baselineSelectionSource: BaselineSelectionSourceSchema,
-        summaryPackageKey: z.string().trim().min(1).max(64),
-        summarySnapshotId: z.uuid(),
-        referencedBaselineVersion: z.string().trim().min(1).max(64),
-        referencedSnapshotVersion: z.string().trim().min(1).max(64),
-        comment: z.string().trim().min(1).max(1000).nullable().optional(),
-        expectedVersion: z.number().int().positive().optional(),
-    })
-    .meta({ id: "ReviewCommissionGateBindingRequest" });
-
-export type ReviewCommissionGateBindingRequest = z.infer<typeof ReviewCommissionGateBindingRequestSchema>;
-
-export const ReviewCommissionGateBindingResultSchema = z
-    .object({
-        targetId: z.uuid(),
-        bindingResultId: z.uuid(),
-        gateReviewRecordId: z.uuid(),
-        taxImpactSummary: z.string(),
-        taxImpactPendingAmount: z.string(),
-        dataMaturityLevel: OperatingDataMaturityLevelSchema,
-        costActionRecommendation: OperatingSnapshotActionLevelSchema,
-        currentActionLevel: OperatingSnapshotActionLevelSchema,
-        baselineSelectionSource: BaselineSelectionSourceSchema,
-        referencedBaselineVersion: z.string(),
-        referencedSnapshotVersion: z.string(),
-        summaryPackageKey: z.string(),
-        summarySnapshotId: z.uuid(),
-        projectionLevel: z.string(),
-        exportPolicy: z.string(),
-        nextActionSummary: z.string().nullable(),
-        businessStatusAfter: z.string().min(1),
-    })
-    .meta({ id: "ReviewCommissionGateBindingResult" });
-
-export type ReviewCommissionGateBindingResult = z.infer<typeof ReviewCommissionGateBindingResultSchema>;
-
-export const CommissionGateBindingHistoryViewSchema = z
-    .object({
-        bindingId: z.uuid(),
-        projectId: z.uuid(),
-        signalEvaluationId: z.uuid(),
-        gateStageType: z.string(),
-        signalLevel: OperatingSignalLevelSchema,
-        taxImpactSummary: z.string(),
-        taxImpactPendingAmount: z.string(),
-        dataMaturityLevel: OperatingDataMaturityLevelSchema,
-        costActionRecommendation: OperatingSnapshotActionLevelSchema,
-        currentActionLevel: OperatingSnapshotActionLevelSchema,
-        baselineSelectionSource: BaselineSelectionSourceSchema,
-        referencedBaselineVersion: z.string(),
-        referencedSnapshotVersion: z.string(),
-        bindingAction: OperatingSnapshotActionLevelSchema,
-        gateReviewDecision: z.string().nullable(),
-        blockingReasonSummary: z.string().nullable(),
-        summaryPackageKey: z.string().nullable(),
-        summarySnapshotId: z.uuid().nullable(),
-        projectionLevel: z.string().nullable(),
-        exportPolicy: z.string().nullable(),
-        nextActionSummary: z.string().nullable(),
-        handledBy: z.uuid().nullable(),
-        handledAt: z.iso.datetime().nullable(),
-        allowedActions: z.array(z.string()),
-    })
-    .meta({ id: "CommissionGateBindingHistoryView" });
-
-export type CommissionGateBindingHistoryView = z.infer<typeof CommissionGateBindingHistoryViewSchema>;
-
-export const ProjectBusinessOutcomeOverviewViewSchema = z
-    .object({
-        projectId: z.uuid(),
-        effectiveContractSetSummaryProjection: SensitiveStringFieldProjectionSchema,
-        receivableConfirmedAmountSummaryProjection: SensitiveStringFieldProjectionSchema,
-        includedCostTotalSummaryProjection: SensitiveStringFieldProjectionSchema,
-        currentEffectiveBaselineCostSummaryProjection: SensitiveStringFieldProjectionSchema,
-        grossMarginAmountProjection: SensitiveStringFieldProjectionSchema,
-        grossMarginRateProjection: SensitiveStringFieldProjectionSchema,
-        taxImpactSummaryProjection: SensitiveStringFieldProjectionSchema,
-        allocationStabilitySummary: z.string().nullable(),
-        unmappedCostSummary: z.string().nullable(),
-        dataMaturityLevel: OperatingDataMaturityLevelSchema,
-        currentActionLevel: OperatingSnapshotActionLevelSchema,
-        referencedBaselineVersion: z.string(),
-        referencedSnapshotVersion: z.string(),
-        allowedActions: z.array(z.string()),
-    })
-    .meta({ id: "ProjectBusinessOutcomeOverviewView" });
-
-export type ProjectBusinessOutcomeOverviewView = z.infer<typeof ProjectBusinessOutcomeOverviewViewSchema>;
-
-export const ProjectUnifiedAccountingViewSchema = z
-    .object({
-        projectId: z.uuid(),
-        snapshotId: z.uuid(),
-        originalBaselineCostSummaryProjection: SensitiveStringFieldProjectionSchema,
-        currentEffectiveBaselineCostSummaryProjection: SensitiveStringFieldProjectionSchema,
-        includedCostTotalSummaryProjection: SensitiveStringFieldProjectionSchema,
-        receivableConfirmedAmountSummaryProjection: SensitiveStringFieldProjectionSchema,
-        taxImpactSummaryProjection: SensitiveStringFieldProjectionSchema,
-        taxImpactPendingAmountProjection: SensitiveStringFieldProjectionSchema,
-        allocationStabilitySummary: z.string().nullable(),
-        unmappedCostSummary: z.string().nullable(),
-        dataMaturityLevel: OperatingDataMaturityLevelSchema,
-        costActionRecommendation: OperatingSnapshotActionLevelSchema,
-        referencedBaselineVersion: z.string(),
-        referencedSnapshotVersion: z.string(),
-        allowedActions: z.array(z.string()),
-    })
-    .meta({ id: "ProjectUnifiedAccountingView" });
-
-export type ProjectUnifiedAccountingView = z.infer<typeof ProjectUnifiedAccountingViewSchema>;
-
-export const ProjectVarianceRiskExplanationViewSchema = z
-    .object({
-        projectId: z.uuid(),
-        signalEvaluationId: z.uuid(),
-        varianceSourceSummaryProjection: SensitiveStringFieldProjectionSchema,
-        riskLevel: OperatingRiskLevelSchema,
-        taxImpactSummaryProjection: SensitiveStringFieldProjectionSchema,
-        allocationStabilitySummary: z.string().nullable(),
-        unmappedCostSummary: z.string().nullable(),
-        dataMaturityLevel: OperatingDataMaturityLevelSchema,
-        costActionRecommendation: OperatingSnapshotActionLevelSchema,
-        currentActionLevel: OperatingSnapshotActionLevelSchema,
-        referencedBaselineVersion: z.string(),
-        referencedSnapshotVersion: z.string(),
-        recommendedActionSummary: z.string().nullable(),
-        allowedActions: z.array(z.string()),
-    })
-    .meta({ id: "ProjectVarianceRiskExplanationView" });
-
-export type ProjectVarianceRiskExplanationView = z.infer<typeof ProjectVarianceRiskExplanationViewSchema>;
-
-export const BusinessAccountingFeedbackViewSchema = z
-    .object({
-        projectId: z.uuid(),
-        signalLevel: OperatingSignalLevelSchema,
-        currentActionLevel: OperatingSnapshotActionLevelSchema,
-        taxImpactSummaryProjection: SensitiveStringFieldProjectionSchema,
-        allocationStabilitySummary: z.string().nullable(),
-        unmappedCostSummary: z.string().nullable(),
-        dataMaturityLevel: OperatingDataMaturityLevelSchema,
-        costActionRecommendation: OperatingSnapshotActionLevelSchema,
-        referencedBaselineVersion: z.string(),
-        referencedSnapshotVersion: z.string(),
-        nextActionSummaryProjection: SensitiveStringFieldProjectionSchema,
-        downstreamConsumerSummaryProjection: SensitiveStringFieldProjectionSchema,
-        allowedActions: z.array(z.string()),
-    })
-    .meta({ id: "BusinessAccountingFeedbackView" });
-
-export type BusinessAccountingFeedbackView = z.infer<typeof BusinessAccountingFeedbackViewSchema>;
-
 export const CreatePaymentFactProjectActualCostRecordRequestSchema = z
     .object({
         costType: z.literal(ProjectActualCostTypeValue.PaymentFact),
@@ -10306,31 +9448,6 @@ export const ConfirmSharedCostAllocationBasisResultSchema = z
     .strict()
     .meta({ id: "ConfirmSharedCostAllocationBasisResult" });
 export type ConfirmSharedCostAllocationBasisResult = z.infer<typeof ConfirmSharedCostAllocationBasisResultSchema>;
-
-export const ProjectHandoverParticipantInputSchema = z
-    .object({ userId: z.uuid(), responsibilities: z.array(ProjectHandoverResponsibilityInputSchema).min(1) })
-    .strict()
-    .meta({ id: "ProjectHandoverParticipantInput" });
-export type ProjectHandoverParticipantInput = z.infer<typeof ProjectHandoverParticipantInputSchema>;
-
-export const PrepareProjectHandoverRequestSchema = z
-    .object({
-        executionOwnerUserId: z.uuid(),
-        participants: z.array(ProjectHandoverParticipantInputSchema).min(1),
-        financeConfirmationRequired: z.boolean(),
-        receiptJudgmentMode: ProjectReceiptJudgmentModeSchema,
-        expectedProjectVersion: z.number().int().min(1).max(9007199254740991),
-        expectedSourceHash: z
-            .string()
-            .min(64)
-            .max(64)
-            .regex(/^[0-9a-f]{64}$/),
-        expectedCurrentHandoverVersion: z.number().int().min(1).max(9007199254740991).optional(),
-        comment: z.string().trim().max(1000).optional(),
-    })
-    .strict()
-    .meta({ id: "PrepareProjectHandoverRequest" });
-export type PrepareProjectHandoverRequest = z.infer<typeof PrepareProjectHandoverRequestSchema>;
 
 export const ReclassifyCostStageAttributionResultSchema = z
     .object({

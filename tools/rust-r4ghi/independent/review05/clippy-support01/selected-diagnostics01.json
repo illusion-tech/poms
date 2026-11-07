@@ -1,0 +1,170 @@
+[
+  {
+    "file": "apps/poms-api-rust/src/attachments/project_scope.rs",
+    "line": 13,
+    "col": 25,
+    "message": "error: unused import: `json`",
+    "block": "error: unused import: `json`\n  --> src/attachments/project_scope.rs:13:25\n   |\n13 | use serde_json::{Value, json};\n   |                         ^^^^\n   |\n   = note: `-D unused-imports` implied by `-D warnings`\n   = help: to override `-D warnings` add `#[allow(unused_imports)]`\n\n"
+  },
+  {
+    "file": "apps/poms-api-rust/src/attachments/service.rs",
+    "line": 1720,
+    "col": 13,
+    "message": "error: unused variable: `links`",
+    "block": "error: unused variable: `links`\n    --> src/attachments/service.rs:1720:13\n     |\n1720 |         let links =\n     |             ^^^^^ help: if this is intentional, prefix it with an underscore: `_links`\n     |\n     = note: `-D unused-variables` implied by `-D warnings`\n     = help: to override `-D warnings` add `#[allow(unused_variables)]`\n\n"
+  },
+  {
+    "file": "apps/poms-api-rust/src/attachments/project_scope.rs",
+    "line": 45,
+    "col": 9,
+    "message": "error: field `own_only` is never read",
+    "block": "error: field `own_only` is never read\n  --> src/attachments/project_scope.rs:45:9\n   |\n41 | pub(super) struct Readable {\n   |                   -------- field in this struct\n...\n45 |     pub own_only: bool,\n   |         ^^^^^^^^\n   |\n   = note: `-D dead-code` implied by `-D warnings`\n   = help: to override `-D warnings` add `#[expect(dead_code)]` or `#[allow(dead_code)]`\n\n"
+  },
+  {
+    "file": "apps/poms-api-rust/src/attachments/project_scope.rs",
+    "line": 764,
+    "col": 21,
+    "message": "error: function `authorize_mutation` is never used",
+    "block": "error: function `authorize_mutation` is never used\n   --> src/attachments/project_scope.rs:764:21\n    |\n764 | pub(super) async fn authorize_mutation(\n    |                     ^^^^^^^^^^^^^^^^^^\n\n"
+  },
+  {
+    "file": "apps/poms-api-rust/src/projects/service.rs",
+    "line": 82,
+    "col": 5,
+    "message": "error: field `auth` is never read",
+    "block": "error: field `auth` is never read\n  --> src/projects/service.rs:82:5\n   |\n79 | pub struct ProjectsService {\n   |            --------------- field in this struct\n...\n82 |     auth: Arc<AuthService>,\n   |     ^^^^\n   |\n   = note: `ProjectsService` has a derived impl for the trait `Clone`, but this is intentionally ignored during dead code analysis\n\n"
+  },
+  {
+    "file": "apps/poms-api-rust/src/projects/service.rs",
+    "line": 641,
+    "col": 4,
+    "message": "error: function `random_uuid` is never used",
+    "block": "error: function `random_uuid` is never used\n   --> src/projects/service.rs:641:4\n    |\n641 | fn random_uuid() -> Result<Uuid, ProjectsError> {\n    |    ^^^^^^^^^^^\n\n"
+  },
+  {
+    "file": "apps/poms-api-rust/src/attachments/project_scope.rs",
+    "line": 425,
+    "col": 5,
+    "message": "error: this loop never actually loops",
+    "block": "error: this loop never actually loops\n   --> src/attachments/project_scope.rs:425:5\n    |\n425 | /     for reference in refs {\n426 | |         let frozen = &reference[\"payload\"][\"source\"];\n427 | |         if canonical_hash(&reference[\"payload\"])\n428 | |             .map_err(scope_error)?\n...   |\n453 | |         return Ok(true);\n454 | |     }\n    | |_____^\n    |\n    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#never_loop\n    = note: `#[deny(clippy::never_loop)]` on by default\nhelp: if you need the first element of the iterator, try writing\n    |\n425 -     for reference in refs {\n425 +     if let Some(reference) = refs.into_iter().next() {\n    |\n\n"
+  },
+  {
+    "file": "apps/poms-api-rust/src/attachments/project_scope.rs",
+    "line": 460,
+    "col": 5,
+    "message": "error: this loop never actually loops",
+    "block": "error: this loop never actually loops\n   --> src/attachments/project_scope.rs:460:5\n    |\n460 | /     for session in sessions {\n461 | |         if !security(actor, session[\"security_level\"].as_str()) {\n462 | |             return Err(denied());\n...   |\n474 | |         return Ok(true);\n475 | |     }\n    | |_____^\n    |\n    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#never_loop\nhelp: if you need the first element of the iterator, try writing\n    |\n460 -     for session in sessions {\n460 +     if let Some(session) = sessions.into_iter().next() {\n    |\n\n"
+  },
+  {
+    "file": "apps/poms-api-rust/src/attachments/project_scope.rs",
+    "line": 529,
+    "col": 74,
+    "message": "error: this expression creates a reference which is immediately dereferenced by the compiler",
+    "block": "error: this expression creates a reference which is immediately dereferenced by the compiler\n   --> src/attachments/project_scope.rs:529:74\n    |\n529 |                 if allow_own && own_link(connection, actor, &attachment, &link).await? {\n    |                                                                          ^^^^^ help: change this to: `link`\n    |\n    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#needless_borrow\n    = note: `-D clippy::needless-borrow` implied by `-D warnings`\n    = help: to override `-D warnings` add `#[allow(clippy::needless_borrow)]`\n\n"
+  },
+  {
+    "file": "apps/poms-api-rust/src/attachments/project_scope.rs",
+    "line": 810,
+    "col": 9,
+    "message": "error: this `if` statement can be collapsed",
+    "block": "error: this `if` statement can be collapsed\n   --> src/attachments/project_scope.rs:810:9\n    |\n810 | /         if matches!(entity.table, Table::Session | Table::Link) {\n811 | |             if let (Some(kind), Some(id)) = (\n812 | |                 entity.data[\"target_type\"].as_str(),\n813 | |                 entity.data[\"target_id\"].as_str(),\n...   |\n817 | |         }\n    | |_________^\n    |\n    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#collapsible_if\n    = note: `-D clippy::collapsible-if` implied by `-D warnings`\n    = help: to override `-D warnings` add `#[allow(clippy::collapsible_if)]`\nhelp: collapse nested if block\n    |\n810 ~         if matches!(entity.table, Table::Session | Table::Link)\n811 ~             && let (Some(kind), Some(id)) = (\n812 |                 entity.data[\"target_type\"].as_str(),\n...\n815 |                 lock_keys.push((kind.to_owned(), id.to_owned()));\n816 ~             }\n    |\n\n"
+  },
+  {
+    "file": "apps/poms-api-rust/src/lifecycle_evidence/mod.rs",
+    "line": 182,
+    "col": 9,
+    "message": "error: this `if` statement can be collapsed",
+    "block": "error: this `if` statement can be collapsed\n   --> src/lifecycle_evidence/mod.rs:182:9\n    |\n182 | /         if let EvidenceAccess::OwnCondition {\n183 | |             completion_record_id,\n184 | |             condition_id,\n185 | |         } = access\n...   |\n200 | |         }\n    | |_________^\n    |\n    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#collapsible_if\nhelp: collapse nested if block\n    |\n185 ~         } = access\n186 ~             && let Some(purpose) = require_own_condition_evidence(\n187 |                 session,\n...\n197 |                 row[\"conditionUploadPurpose\"] = purpose;\n198 ~             }\n    |\n\n"
+  },
+  {
+    "file": "apps/poms-api-rust/src/lifecycle_evidence/mod.rs",
+    "line": 299,
+    "col": 5,
+    "message": "error: this loop never actually loops",
+    "block": "error: this loop never actually loops\n   --> src/lifecycle_evidence/mod.rs:299:5\n    |\n299 | /     for row in existing {\n300 | |         let payload = &row[\"source_payload\"];\n301 | |         let frozen = &payload[\"source\"];\n302 | |         if payload[\"projectId\"] != project.to_string()\n...   |\n311 | |         return Ok(None);\n312 | |     }\n    | |_____^\n    |\n    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#never_loop\nhelp: if you need the first element of the iterator, try writing\n    |\n299 -     for row in existing {\n299 +     if let Some(row) = existing.into_iter().next() {\n    |\n\n"
+  },
+  {
+    "file": "apps/poms-api-rust/src/openapi_registry.rs",
+    "line": 10,
+    "col": 33,
+    "message": "error: used `expect()` on an `Option` value",
+    "block": "error: used `expect()` on an `Option` value\n  --> src/openapi_registry.rs:10:33\n   |\n10 |                 let reference = reference.as_str().expect(\"OpenAPI $ref must be a string\");\n   |                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n   |\n   = note: if this value is `None`, it will panic\n   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#expect_used\n   = note: `-D clippy::expect-used` implied by `-D warnings`\n   = help: to override `-D warnings` add `#[allow(clippy::expect_used)]`\n\n"
+  },
+  {
+    "file": "apps/poms-api-rust/src/openapi_registry.rs",
+    "line": 11,
+    "col": 31,
+    "message": "error: used `expect()` on an `Option` value",
+    "block": "error: used `expect()` on an `Option` value\n  --> src/openapi_registry.rs:11:31\n   |\n11 |                   let pointer = reference\n   |  _______________________________^\n12 | |                     .strip_prefix('#')\n13 | |                     .filter(|p| p.starts_with('/'))\n14 | |                     .expect(\"external OpenAPI references are not registered\");\n   | |_____________________________________________________________________________^\n   |\n   = note: if this value is `None`, it will panic\n   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#expect_used\n\n"
+  },
+  {
+    "file": "apps/poms-api-rust/src/openapi_registry.rs",
+    "line": 36,
+    "col": 13,
+    "message": "error: used `expect()` on a `Result` value",
+    "block": "error: used `expect()` on a `Result` value\n  --> src/openapi_registry.rs:36:13\n   |\n36 | /             serde_json::from_str(include_str!(\"../../../libs/shared/api-spec/openapi.json\"))\n37 | |                 .expect(\"invalid current full shared OpenAPI\");\n   | |______________________________________________________________^\n   |\n   = note: if this value is an `Err`, it will panic\n   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#expect_used\n\n"
+  },
+  {
+    "file": "apps/poms-api-rust/src/project_action_authorization/mod.rs",
+    "line": 862,
+    "col": 13,
+    "message": "error: this `if` statement can be collapsed",
+    "block": "error: this `if` statement can be collapsed\n   --> src/project_action_authorization/mod.rs:862:13\n    |\n862 | /             if let ProjectActionTarget::OwnerReassignment {\n863 | |                 expected_version, ..\n864 | |             } = target\n...   |\n871 | |             }\n    | |_____________^\n    |\n    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#collapsible_if\nhelp: collapse nested if block\n    |\n864 ~             } = target\n865 ~                 && expected_version != project.row_version {\n866 |                     return Err(changed(\n867 |                         \"The first personal assignment was already consumed\",\n868 |                     ));\n869 ~                 }\n    |\n\n"
+  },
+  {
+    "file": "apps/poms-api-rust/src/project_cost_governance/correction.rs",
+    "line": 351,
+    "col": 13,
+    "message": "error: explicit call to `.into_iter()` in function argument accepting `IntoIterator`",
+    "block": "error: explicit call to `.into_iter()` in function argument accepting `IntoIterator`\n   --> src/project_cost_governance/correction.rs:351:13\n    |\n351 | /             batch\n352 | |                 .results\n353 | |                 .iter()\n354 | |                 .map(|r| {\n...   |\n358 | |                 .collect::<Result<Vec<_>, _>>()?\n359 | |                 .into_iter(),\n    | |____________________________^\n    |\nnote: this parameter accepts any `IntoIterator`, so you don't need to call `.into_iter()`\n   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/iter/traits/iterator.rs:513:11\n    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#useless_conversion\n    = note: `-D clippy::useless-conversion` implied by `-D warnings`\n    = help: to override `-D warnings` add `#[allow(clippy::useless_conversion)]`\nhelp: consider removing the `.into_iter()`\n    |\n358 -                 .collect::<Result<Vec<_>, _>>()?\n359 -                 .into_iter(),\n358 +                 .collect::<Result<Vec<_>, _>>()?,\n    |\n\n"
+  },
+  {
+    "file": "apps/poms-api-rust/src/project_cost_governance/service.rs",
+    "line": 573,
+    "col": 5,
+    "message": "error: this `if` statement can be collapsed",
+    "block": "error: this `if` statement can be collapsed\n   --> src/project_cost_governance/service.rs:573:5\n    |\n573 | /     if scope.is_some() {\n574 | |         if let Some(old_basis) = &old_basis {\n575 | |             let previous_totals = evidence::layers(\n576 | |                 old_basis,\n...   |\n607 | |     }\n    | |_____^\n    |\n    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#collapsible_if\nhelp: collapse nested if block\n    |\n573 ~     if scope.is_some()\n574 ~         && let Some(old_basis) = &old_basis {\n575 |             let previous_totals = evidence::layers(\n...\n605 |             }\n606 ~         }\n    |\n\n"
+  },
+  {
+    "file": "apps/poms-api-rust/src/project_lifecycle/stage_fact.rs",
+    "line": 22,
+    "col": 9,
+    "message": "error: used `expect()` on a `Result` value",
+    "block": "error: used `expect()` on a `Result` value\n  --> src/project_lifecycle/stage_fact.rs:22:9\n   |\n22 |         id(&self.row, \"id\").expect(\"verified stage id\")\n   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n   |\n   = note: if this value is an `Err`, it will panic\n   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#expect_used\n\n"
+  },
+  {
+    "file": "apps/poms-api-rust/src/project_lifecycle/stage_fact.rs",
+    "line": 25,
+    "col": 9,
+    "message": "error: used `expect()` on a `Result` value",
+    "block": "error: used `expect()` on a `Result` value\n  --> src/project_lifecycle/stage_fact.rs:25:9\n   |\n25 |         id(&self.row, \"project_id\").expect(\"verified stage project\")\n   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n   |\n   = note: if this value is an `Err`, it will panic\n   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#expect_used\n\n"
+  },
+  {
+    "file": "apps/poms-api-rust/src/project_lifecycle/stage_fact.rs",
+    "line": 31,
+    "col": 9,
+    "message": "error: used `expect()` on an `Option` value",
+    "block": "error: used `expect()` on an `Option` value\n  --> src/project_lifecycle/stage_fact.rs:31:9\n   |\n31 |         self.row[\"to_stage\"].as_str().expect(\"verified stage\")\n   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n   |\n   = note: if this value is `None`, it will panic\n   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#expect_used\n\n"
+  },
+  {
+    "file": "apps/poms-api-rust/src/project_lifecycle/stage_fact.rs",
+    "line": 37,
+    "col": 9,
+    "message": "error: used `expect()` on an `Option` value",
+    "block": "error: used `expect()` on an `Option` value\n  --> src/project_lifecycle/stage_fact.rs:37:9\n   |\n37 | /         self.row[\"source_payload_hash\"]\n38 | |             .as_str()\n39 | |             .expect(\"verified nested hash\")\n   | |___________________________________________^\n   |\n   = note: if this value is `None`, it will panic\n   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#expect_used\n\n"
+  },
+  {
+    "file": "apps/poms-api-rust/src/project_lifecycle/stage_fact.rs",
+    "line": 214,
+    "col": 9,
+    "message": "error: this `if` statement can be collapsed",
+    "block": "error: this `if` statement can be collapsed\n   --> src/project_lifecycle/stage_fact.rs:214:9\n    |\n214 | /         if stage == \"execution\" || stage == \"acceptance\" {\n215 | |             if payload[\"commissionRoleAssignmentId\"] != row[\"source_role_assignment_id\"]\n216 | |                 || payload[\"roleFreezePayloadHash\"] != frozen[\"source_payload_hash\"]\n...   |\n220 | |         }\n    | |_________^\n    |\n    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#collapsible_if\nhelp: collapse nested if block\n    |\n214 ~         if (stage == \"execution\" || stage == \"acceptance\") {\n215 ~             && (payload[\"commissionRoleAssignmentId\"] != row[\"source_role_assignment_id\"]\n216 ~                 || payload[\"roleFreezePayloadHash\"] != frozen[\"source_payload_hash\"])\n217 |             {\n218 |                 return Err(invalid());\n219 ~             }\n    |\n\n"
+  },
+  {
+    "file": "apps/poms-api-rust/src/projects/service.rs",
+    "line": 915,
+    "col": 22,
+    "message": "error: very complex type used. Consider factoring parts into `type` definitions",
+    "block": "error: very complex type used. Consider factoring parts into `type` definitions\n   --> src/projects/service.rs:915:22\n    |\n915 |     let confirmation:Option<(Uuid,String,i32,i32,i32,Option<DateTime<Utc>>)>=sqlx::query_as(\"SELECT c.id,c.stat...\n    |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    |\n    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#type_complexity\n    = note: `-D clippy::type-complexity` implied by `-D warnings`\n    = help: to override `-D warnings` add `#[allow(clippy::type_complexity)]`\n\n"
+  }
+]

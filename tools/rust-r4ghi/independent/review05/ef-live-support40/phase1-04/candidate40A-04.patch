@@ -1,0 +1,94 @@
+--- a/tools/rust-r4ghi/business/ef-live-producer40.mjs
++++ b/tools/rust-r4ghi/business/ef-live-producer40.mjs
+@@ -25,6 +25,35 @@
+   });
+   rootCtx.persist(); return { ctx: { ...rootCtx, state, fixtureViewKey: 'ef-receiver40' }, record };
+ }
++export function assertEFPublicContract40(api) {
++  for (const op of ['ProjectCostController_getProjectUnifiedAccounting','ProjectCostController_activateOperatingBaselinePackage',
++    'ProjectCostController_getCurrentOperatingBaselinePackage','ProjectCostController_publishInternalCostRateVersion',
++    'ProjectCostController_createProjectActualCostRecord','ProjectCostController_getProjectActualCostRecordDetail',
++    'ProjectCostController_confirmCostStageAttribution','ProjectCostController_createExpenseRecord',
++    'ProjectCostController_confirmExpenseRecord','ProjectCostController_confirmAccountingTaxTreatment',
++    'ProjectCostController_confirmSharedCostAllocationBasis','ProjectCostController_createProjectOperatingSnapshot']) {
++    assert(api.operations.has(op), 'Unregistered EF fixture operationId: '+op);
++  }
++  const resolve = rule => {
++    if (rule.$ref) return resolve(api.spec.components.schemas[rule.$ref.split('/').at(-1)]);
++    if (rule.allOf?.length === 1) return resolve(rule.allOf[0]);
++    return rule;
++  };
++  const enumeration = (name, property, values) => {
++    const schema = api.spec.components.schemas[name]; assert(schema, 'Missing canonical schema '+name);
++    const rule=resolve(property ? schema.properties[property] : schema);assert(Array.isArray(rule?.enum));
++    for(const value of values) assert(rule.enum.includes(value), 'Unregistered canonical enum '+name+(property?'.'+property:'')+': '+value);
++  };
++  enumeration('CostDecisionInput','reasonCode',['shared-source-delegated','executed-labor','actual-expense']);
++  enumeration('CostDecisionInput','decision',['include','exclude']);
++  enumeration('CostDecisionInput','recognitionRole',['direct-source','allocation-share']);
++  enumeration('InternalCostRateScopeType',null,['role']);enumeration('InternalCostRateUnit',null,['hour']);
++  enumeration('LaborCostPeriodType',null,['week']);enumeration('ConfirmCostStageAttributionMode',null,['auto']);
++  enumeration('AccountingTaxDeductibilityStatus',null,['pending']);
++  enumeration('ConfirmSharedCostAllocationBasisRequest','measurementBasis',['excluding-tax']);
++  enumeration('CreateProjectOperatingSnapshotRequest','snapshotMode',['realtime']);
++}
++
+ async function checkpointStage(ctx, record, key, run) {
+   const prior = record.stages[key];
+   if (prior) { assert.equal(prior.phase, 'verified', 'Interrupted stage requires exact original reconciliation, never command replay'); artifact(prior.result); return; }
+@@ -51,10 +80,12 @@
+ }
+ export async function prepareEFLiveReceiver40(rootCtx) {
+   const main = rootCtx.state.fixtures, { ctx, record } = receiverView(rootCtx), api = createApi(ctx), f = ctx.state.fixtures;
++  assertEFPublicContract40(api);
+   const { projectSources } = await import('./upstream.mjs'); const { produceActualSummary } = await import('./trusted.mjs');
+   const { contractPrepare, contractFinish } = await import('./contracts.mjs'); const { receipts, handover } = await import('./handover.mjs');
+   const { rolesAndExecution } = await import('./roles.mjs');
+   await api.login('manager');
++  await api.login('unrelated'); // A cookie's presence is not a live-session proof.
+   await checkpointStage(ctx, record, 'project-sources', () => projectSources(ctx, api));
+   await checkpointStage(ctx, record, 'summary', () => produceActualSummary(ctx));
+   await api.login('manager'); await checkpointStage(ctx, record, 'contract-prepare', () => contractPrepare(ctx, api));
+@@ -70,6 +101,7 @@
+ }
+ 
+ async function write(ctx, api, state, key, operationId, params, body, binding) {
++  assertEFPublicContract40(api);
+   if (state[key]) { assert.equal(state[key].phase, 'actual-success'); artifact(state[key].original); return state[key].value; }
+   assert(!state.pending, 'An uncertain previously started producer needs exact Root reconciliation before another write');
+   state.pending = { key, operationId, params, bodySHA256: sha(JSON.stringify(body)), startedAt: new Date().toISOString() }; ctx.persist();
+@@ -80,7 +112,7 @@
+     { operationId, params, request: body, value, receiptId: response.receiptId, before: response.before, after: response.after }) };
+   delete state.pending; ctx.persist(); return value;
+ }
+-function classifyNewRows(p, { laborId, expenseCostId, shareIds }) {
++export function classifyNewRows(p, { laborId, expenseCostId, shareIds }) {
+   const decisions = [];
+   for (const row of p.sourceRows) {
+     if (!['direct-cost', 'allocation-share', 'supporting-source'].includes(row.rowKind)) continue;
+@@ -92,13 +124,14 @@
+     assert(isLabor || isExpense || isShare, 'Explicitly classify every other actual source before this fixture capture');
+     const role = isShare ? 'allocation-share' : 'direct-source';
+     decisions.push({ target: expectedRef(row.sourceRef), expectedVersion: 0, decision: isLabor ? 'exclude' : 'include', recognitionRole: role,
+-      reasonCode: isLabor ? 'shared-pool-no-direct-duplication' : isShare ? 'actual-shared-cost-share' : 'actual-expense',
++      reasonCode: isLabor ? 'shared-source-delegated' : isShare ? 'executed-labor' : 'actual-expense',
+       reasonText: isLabor ? '真实共享池来源只通过完整项目份额累计，明确排除其再次直接累计。' : isShare ? '显式纳入真实F完整批次对本项目计算的份额，金额不由客户端计算。' : '显式纳入本项目真实已确认费用与F归属。',
+       primaryCostRef: null, supportingSourceRefs: row.sourceMembers.map(expectedRef), evidenceRefs: [expectedRef(row.sourceRef), ...row.sourceMembers.map(expectedRef)] });
+   }
+   return decisions;
+ }
+ export async function produceEFLiveCrossProjectFixture40(ctx, api) {
++  assertEFPublicContract40(api);
+   const main = ctx.state.fixtures, receiver = main.efReceiver40?.fixtures;
+   assert(main.executionComplete && main.operatingComplete && !main.lifecycleComplete, 'Main real live producer chain must stop before lifecycle completion');
+   assert(receiver?.executionComplete && receiver.efOperatingBaseline40, 'Run the ordinary real receiver producer stage first');
+--- a/tools/rust-r4ghi/business/ui-spares23.mjs
++++ b/tools/rust-r4ghi/business/ui-spares23.mjs
+@@ -38,6 +38,7 @@
+   const { receipts, handover } = await import('./handover.mjs');
+   const { rolesAndExecution } = await import('./roles.mjs');
+   await api.login('manager');
++  await api.login('unrelated'); // projectSources exercises the real unrelated404 branch.
+   await stage(ctx, record, 'project-sources', 'projectSourcesComplete', () => projectSources(ctx, api));
+   await stage(ctx, record, 'summary', 'summary', () => produceActualSummary(ctx));
+   await api.login('manager');

@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "proposal": "I-offset-and-exact-metadata-recovery24",
+  "state": "frozen-prepared-unrun",
+  "files": [
+    {
+      "file": "tools/rust-r4ghi/business/creator-proofs.mjs",
+      "beforeSHA256": "e1448232766125ccf8e7291861fe1c47d8eee0e820d52c52e28b6b470381e788",
+      "afterSHA256": "f564046a8c073f7a1137a89c05eecdcf63ab6fdd3d0a6c7e423d3cadf363e571",
+      "candidate": "proposed/tools/rust-r4ghi/business/creator-proofs.mjs",
+      "beforeCandidate": "before/tools/rust-r4ghi/business/creator-proofs.mjs",
+      "kind": "modify"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/creator-ownership.mjs",
+      "beforeSHA256": "999f15f3b5faf98f193d82c164409b07023be26fe6590f9052a1b6000877a8e7",
+      "afterSHA256": "f1f8cbc5100d54aa7cfe0896d992c0681b04b947938a33ceadc34566281294b4",
+      "candidate": "proposed/tools/rust-r4ghi/business/creator-ownership.mjs",
+      "beforeCandidate": "before/tools/rust-r4ghi/business/creator-ownership.mjs",
+      "kind": "modify"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/legacy-compatibility.mjs",
+      "beforeSHA256": "b55f4fea3c68dfb9d50704f77dd69fc5a93e3b38ae4a2e39c75d19c0caf2a560",
+      "afterSHA256": "5ad4e2dc8fc670fdb6841c7358351a226fd4ca7a0a2bd1556d55dedbe3bee876",
+      "candidate": "proposed/tools/rust-r4ghi/business/legacy-compatibility.mjs",
+      "beforeCandidate": "before/tools/rust-r4ghi/business/legacy-compatibility.mjs",
+      "kind": "modify"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/recover-creator-slot24.mjs",
+      "beforeSHA256": null,
+      "afterSHA256": "c5092660b9a0b22ab16e156b9b1717cd3f67b1f77e7c738b0dad53dc0ce41e1c",
+      "candidate": "proposed/tools/rust-r4ghi/business/recover-creator-slot24.mjs",
+      "beforeCandidate": null,
+      "kind": "add"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/run-creator-slot-recovery24.mjs",
+      "beforeSHA256": null,
+      "afterSHA256": "a0306f1d0b267463a23938eca05662415c48d401588b911598ea07e53b621334",
+      "candidate": "proposed/tools/rust-r4ghi/business/run-creator-slot-recovery24.mjs",
+      "beforeCandidate": null,
+      "kind": "add"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/offset-proof24.test.mjs",
+      "beforeSHA256": null,
+      "afterSHA256": "4d9bb0eec8b259c15df733604cd08e4e5086fd99e38ce9dd0e9c9434b630efc2",
+      "candidate": "proposed/tools/rust-r4ghi/business/offset-proof24.test.mjs",
+      "beforeCandidate": null,
+      "kind": "add"
+    }
+  ],
+  "apply": "Only proposed/ six files. Exact before SHA or already-exact after SHA; no product/source404 changes. Frozen23 originals remain unchanged.",
+  "fault": "Proof-only UTC-display restriction rejected actual equivalent PG +08:00 and payload Z after the original default creator command had already committed201 with complete ownership ledger.",
+  "fix": "Gregorian civil whole seconds minus signed offset plus BigInt nanosecond fraction. No Date.parse or millisecond truncation. Preserve true creator/origin/audit/one-TX checks. Correct both tool PATCH operationIds to canonical updateBasicInfo and precheck all fixed ownership operationIds before any new HTTP.",
+  "recovery": {
+    "plan": "recovery-plan24.json",
+    "sha256": "16da19881237e447acbe41dee6fc1d7e20a63270b33e391656106422c2d539da",
+    "executedByAuthor": false,
+    "businessRequestsSent": 0,
+    "businessDatabaseWrites": 0,
+    "ownedRowHashesRebased": 0,
+    "blockedObservationCleared": false,
+    "wholeStateSHARequired": false,
+    "bindings": "Exact original default slot SHA, true HTTP request/response+complete ledger+partial+before/after pins; re-evaluate the same exported creationProof; exact current project/origin/creation-audit SHA+xmin; full current existing assertRecorded for legitimate intervening Legacy/login."
+  },
+  "offline": {
+    "node": "v26.13.0",
+    "syntaxFiles": 57,
+    "actualTests": 62,
+    "fail": 0,
+    "log": "offline-tests24.log",
+    "sha256": "032092c477bb35ef0f674c3fad66141892702bb18395ea08e7997f6763b5b35e",
+    "originalFrozenProofReadOnlyPassed": true,
+    "actualCommonXmin": "1703",
+    "targets": 3
+  },
+  "boundaries": {
+    "SQLExecutedByAuthor": false,
+    "HTTPExecutedByAuthor": false,
+    "metadataRecoveryExecutedByAuthor": false,
+    "RootProductModifiedByAuthor": false,
+    "RootSource404Modified": false,
+    "originalsRewritten": false,
+    "G3Certified": false,
+    "G4Certified": false
+  },
+  "futureEpoch": "After Root cleanup09 and canonical Rust audit correction/rebuild133, Root must independently refreeze reviewed ownership source pins for the new epoch; this09 recovery plan cannot authorize another epoch/source."
+}

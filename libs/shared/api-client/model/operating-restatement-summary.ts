@@ -7,21 +7,59 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { OperatingLifecycleStatus } from './operating-lifecycle-status';
+import { FinancialProjection } from './financial-projection';
+import { SourceRow } from './source-row';
+import { SourceRef } from './source-ref';
 
 
 export interface OperatingRestatementSummary {
+    outputVersion: OperatingRestatementSummaryOutputVersionEnum;
     id: string;
     projectId: string;
-    periodEndSnapshotId: string;
-    restatesSnapshotId: string;
-    restatedSnapshotId: string;
-    restatementReason: string;
-    restatementSummary: string;
-    status: OperatingLifecycleStatus;
-    handledAt: string;
-    handledBy: string | null;
     rowVersion: number;
+    capturedRowVersion: number;
+    headVersion: number;
+    producerVersion: OperatingRestatementSummaryProducerVersionEnum;
+    certification: OperatingRestatementSummaryCertificationEnum;
+    sourceHash: string;
+    sourceContextId: string;
+    sourcePayloadHash: string;
+    containsLabor: OperatingRestatementSummaryContainsLaborEnum;
+    financialProjection: FinancialProjection;
+    sourceRows: Array<SourceRow>;
     createdAt: string;
     updatedAt: string;
+    scope: OperatingRestatementSummaryScopeEnum;
+    periodEndSnapshotRef: SourceRef | null;
+    restatesSnapshotRef: SourceRef;
+    restatedSnapshotRef: SourceRef;
+    rootSnapshotRef: SourceRef;
+    causalitySourceRefs: Array<SourceRef>;
+    affectedRestatementRefs: Array<SourceRef>;
+    reasonProjection: FinancialProjection;
+    handledAt: string;
+    handledBy: string;
+    status: OperatingRestatementSummaryStatusEnum;
 }
+export enum OperatingRestatementSummaryOutputVersionEnum {
+    ServerDerivedV1 = 'server-derived-v1'
+};
+export enum OperatingRestatementSummaryProducerVersionEnum {
+    NUMBER_1 = 1
+};
+export enum OperatingRestatementSummaryCertificationEnum {
+    Verified = 'verified'
+};
+export enum OperatingRestatementSummaryContainsLaborEnum {
+    Yes = 'yes',
+    No = 'no',
+    Unknown = 'unknown'
+};
+export enum OperatingRestatementSummaryScopeEnum {
+    Live = 'live',
+    Period = 'period'
+};
+export enum OperatingRestatementSummaryStatusEnum {
+    Active = 'active',
+    Superseded = 'superseded'
+};

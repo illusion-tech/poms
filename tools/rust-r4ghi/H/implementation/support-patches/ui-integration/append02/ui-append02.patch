@@ -1,0 +1,121 @@
+--- a/apps/poms-admin/src/app/features/project/project-governance-api.ts
++++ b/apps/poms-admin/src/app/features/project/project-governance-api.ts
+@@ -230,7 +230,7 @@
+             closeCondition: async (completionRecordId, conditionId, body) => {
+                 const target = closeTargets.get(conditionId);
+                 if (!target || target.completionRecordId !== completionRecordId || target.completionVersion !== body.expectedCompletionVersion || target.conditionVersion !== body.expectedConditionVersion) throw new Error('本人条件或父记录版本已变化，请重新读取任务。');
+-                const result = CloseProjectCompletionConditionResultSchema.parse(await firstValueFrom(this.projects.projectCompletionRecordControllerCloseCompletionCondition({ completionRecordId, conditionId, closeProjectCompletionConditionRequest: body })));
++                const result = CloseProjectCompletionConditionResultSchema.parse(await firstValueFrom(this.projects.projectCompletionRecordControllerCloseCompletionCondition({ id: conditionId, completionRecordId, closeProjectCompletionConditionRequest: body })));
+                 closeTargets.delete(conditionId);
+                 return result;
+             },
+--- a/apps/poms-admin/src/app/features/project/project-governance-facts.ts
++++ b/apps/poms-admin/src/app/features/project/project-governance-facts.ts
+@@ -1,6 +1,6 @@
+ import type {
+     ConfirmReceiptRecordRequest, ExpectedRef, FullProjectDetailView, OperatingPreparation,
+-    ProjectHandoverDetailView, CommissionRoleAssignmentSummary, ReceiptRecordSummary, SourceRef
++    ReceiptRecordSummary, SourceRef
+ } from '@poms/shared-contracts';
+ import type { LifecycleAuthoringContext } from './project-lifecycle-authoring';
+ 
+@@ -60,28 +60,16 @@
+     };
+ }
+ 
+-export function lifecycleContext(
+-    project: FullProjectDetailView, canWrite: boolean,
+-    handover: ProjectHandoverDetailView | null, role: CommissionRoleAssignmentSummary | null
+-): LifecycleAuthoringContext {
+-    let executionAdmission: LifecycleAuthoringContext['executionAdmission'] = null;
+-    if (canWrite && handover && role && handover.projectId === project.id && handover.handoverStatus === 'confirmed' && !handover.sourceChanged
+-        && handover.executionAdmission.allowed && handover.handoverId && handover.summarySnapshotId && handover.sourcePayloadHash
+-        && project.currentStage === 'handover' && project.currentStageRecordId
+-        && role.projectId === project.id && role.isCurrent && role.status === 'frozen' && role.sourceQualification === 'verified-producer'
+-        && role.sourceHandoverId === handover.handoverId && role.handoverSummarySnapshotId === handover.summarySnapshotId && role.freezeSummarySnapshotId) {
+-        executionAdmission = {
+-            commissionRoleAssignmentId: role.id, expectedRoleAssignmentVersion: role.rowVersion,
+-            sourceHandoverId: handover.handoverId, handoverSummarySnapshotId: handover.summarySnapshotId,
+-            handoverStageRecordId: project.currentStageRecordId,
+-            // Handover payload hash and role-freeze payload hash are different authorities.
+-            sourcePayloadHash: handover.sourcePayloadHash
+-        };
+-    }
++/** Admission references are issued only by the same server FullProject detail read. */
++export function lifecycleContext(project: FullProjectDetailView, canWrite: boolean): LifecycleAuthoringContext {
++    const admission = project.executionAdmissionContext;
+     return {
+-        projectRowVersion: project.projectRowVersion, currentStage: project.currentStage,
++        projectRowVersion: project.projectRowVersion,
++        currentStage: project.currentStage,
+         currentStageRecordId: project.currentStageRecordId,
+-        canWriteLifecycle: canWrite && project.status !== 'closed', canArchive: canWrite && project.status !== 'closed',
+-        executionAdmission
++        canWriteLifecycle: canWrite && project.status !== 'closed',
++        canArchive: canWrite && project.status !== 'closed',
++        executionAdmission: canWrite && project.currentStage === 'handover' && admission
++            && admission.handoverStageRecordId === project.currentStageRecordId ? admission : null
+     };
+ }
+--- a/apps/poms-admin/src/app/features/project/project-governance.ts
++++ b/apps/poms-admin/src/app/features/project/project-governance.ts
+@@ -7,7 +7,7 @@
+     OperatingEvaluationNotReadyErrorSchema, ProjectStageLabel, type BusinessAccountingFeedbackView,
+     type CommissionGateBindingHistoryView, type OperatingCommandResult, type OperatingPreparation,
+     type OperatingSignalEvaluationView, type ProjectDetailView, type ProjectOperatingSnapshotSummary,
+-    type ProjectUnifiedAccountingView, type ProjectHandoverDetailView, type CommissionRoleAssignmentSummary
++    type ProjectUnifiedAccountingView
+ } from '@poms/shared-contracts';
+ import { ProjectRoleAssignmentAuthoring } from '../commission/project-role-assignment-authoring';
+ import { ProjectCreatorFirstAssignment } from './project-creator-first-assignment';
+@@ -79,7 +79,7 @@
+                             }
+                             @case ('lifecycle') {
+                                 @if (lifecycleApi(); as api) {
+-                                    @if (!canRole() && detail.currentStage === 'handover') { <p role="status">执行准入需要读取真实已冻结角色。当前账号没有角色读取能力，尚不能装配执行准入依据。</p> }
++                                    @if (!detail.executionAdmissionContext && detail.currentStage === 'handover') { <p role="status">当前执行准入尚未就绪，请核对真实移交、角色冻结与本人责任范围后重新读取。</p> }
+                                     <app-project-lifecycle-authoring [projectId]="detail.id" [api]="api" [context]="lifecycleContext()" [actorUserId]="actorId()"
+                                         [conditionOwners]="conditionOwners()" [canCloseOwnConditions]="canWrite()" (changed)="refreshAfterLifecycle()" />
+                                 }
+@@ -121,18 +121,16 @@
+     readonly feedback = signal<BusinessAccountingFeedbackView | null>(null);
+     readonly accounting = signal<ProjectUnifiedAccountingView | null>(null);
+     readonly gate = signal<CommissionGateBindingHistoryView | null>(null);
+-    readonly handover = signal<ProjectHandoverDetailView | null>(null);
+-    readonly role = signal<CommissionRoleAssignmentSummary | null>(null);
+     readonly lifecycleApi = computed(() => this.fullProject() ? this.api.lifecycleApi(this.projectId(), false, this.actorId()) : null);
+     readonly roleApi = computed(() => this.canRole() ? this.api.roleApi(this.projectId()) : null);
+-    readonly lifecycleContext = computed(() => { const project = this.fullProject(); return project ? lifecycleContext(project, this.canWrite(), this.handover(), this.role()) : null; });
++    readonly lifecycleContext = computed(() => { const project = this.fullProject(); return project ? lifecycleContext(project, this.canWrite()) : null; });
+     readonly conditionOwners = computed(() => this.platform.ownerUsers().filter((user) => user.isActive).map((user) => ({ id: user.id, displayName: user.displayName })));
+     private epoch = 0;
+     constructor() { effect(() => { const id = this.projectId(); void this.loadAnchor(id); }); }
+     reload() { void this.loadAnchor(this.projectId()); }
+     private resetFacts() {
+         this.preparation.set(null); this.originalSnapshot.set(null); this.snapshots.set([]); this.lastResult.set(null);
+-        this.evaluation.set(null); this.feedback.set(null); this.accounting.set(null); this.gate.set(null); this.handover.set(null); this.role.set(null);
++        this.evaluation.set(null); this.feedback.set(null); this.accounting.set(null); this.gate.set(null);
+     }
+     private async loadAnchor(projectId: string) {
+         const epoch = ++this.epoch;
+@@ -218,15 +216,11 @@
+         if (!this.panelError()) await this.loadReview();
+     }
+     private async loadLifecycleContext() {
+-        const epoch = this.epoch; this.panelError.set(''); this.handover.set(null); this.role.set(null);
+-        try {
+-            const sources: Promise<void>[] = [];
+-            if (this.canWrite()) sources.push(this.platform.loadOwnerReferenceData().then(() => undefined));
+-            if (this.canRole()) {
+-                const api = this.roleApi();
+-                if (api) sources.push(Promise.all([api.loadCurrent(this.projectId()), api.loadHandover(this.projectId())]).then(([role, handover]) => { if (epoch === this.epoch) { this.role.set(role); this.handover.set(handover); } }));
+-            }
+-            await Promise.all(sources);
++        const epoch = this.epoch; this.panelError.set('');
++        try {
++            // EO admission comes directly from the current detail. Role GET keeps
++            // its own permission and is called only by the separate Role panel.
++            if (this.canWrite()) await this.platform.loadOwnerReferenceData();
+         } catch (error) { if (epoch === this.epoch) this.panelError.set(this.errorText(error)); }
+     }
+     refreshAfterLifecycle() { this.reload(); }

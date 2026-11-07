@@ -1,0 +1,15 @@
+{
+  "kind": "actual isolated exact candidate10 context serde/UUID tests",
+  "command": "cargo test --offline --manifest-path tools/rust-r4ghi/I/implementation/support-patches/attachment-scope08/unit-context10/Cargo.toml --target-dir tools/rust-r4ghi/I/implementation/support-patches/attachment-scope08/unit-context10/target",
+  "exitCode": 0,
+  "compiler": "rustc 1.99.0 (b940084d7 2026-09-28)",
+  "passed": 2,
+  "failed": 0,
+  "ignored": 0,
+  "tests": [
+    "condition_context_rejects_uuid_parser_only_alias_shapes",
+    "condition_context_is_strict_and_requires_both_real_uuid_fields"
+  ],
+  "inputBinding": "unit-context10/input-extraction.json",
+  "limits": "Extracted exact context struct, serde deserializer, existing J UUID validator and actual two tests only. Does not compile complete attachment service or SQL/Scope integration. Root full pinned toolchain, PG and HTTP validation pending. Isolated lib emits expected unused-definition warnings outside test build."
+}

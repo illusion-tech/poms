@@ -54,15 +54,9 @@ export interface ExpenseRecordSummary {
     updatedAt: string;
     financialProjection: ExpenseFinancialProjection;
 }
-export enum ExpenseRecordSummaryExpenseDescriptionEnum {
-};
-export enum ExpenseRecordSummaryAmountIncludingTaxEnum {
-};
-export enum ExpenseRecordSummaryTaxAmountEnum {
-};
-export enum ExpenseRecordSummaryAmountExcludingTaxEnum {
-};
-export enum ExpenseRecordSummaryEvidenceSummaryEnum {
-};
-export enum ExpenseRecordSummaryVoidReasonEnum {
-};
+export type ExpenseRecordSummaryExpenseDescriptionEnum = null;;
+export type ExpenseRecordSummaryAmountIncludingTaxEnum = null;;
+export type ExpenseRecordSummaryTaxAmountEnum = null;;
+export type ExpenseRecordSummaryAmountExcludingTaxEnum = null;;
+export type ExpenseRecordSummaryEvidenceSummaryEnum = null;;
+export type ExpenseRecordSummaryVoidReasonEnum = null;;

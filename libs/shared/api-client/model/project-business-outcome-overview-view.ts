@@ -7,9 +7,13 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { OperatingSnapshotActionLevel } from './operating-snapshot-action-level';
+import { OperatingEvaluationContext } from './operating-evaluation-context';
+import { OperatingRiskLevel } from './operating-risk-level';
+import { OperatingMetricKnowledge } from './operating-metric-knowledge';
+import { OperatingReasonView } from './operating-reason-view';
 import { OperatingDataMaturityLevel } from './operating-data-maturity-level';
 import { SensitiveStringFieldProjection } from './sensitive-string-field-projection';
+import { OperatingSignalLevel } from './operating-signal-level';
 
 
 export interface ProjectBusinessOutcomeOverviewView {
@@ -21,11 +25,39 @@ export interface ProjectBusinessOutcomeOverviewView {
     grossMarginAmountProjection: SensitiveStringFieldProjection;
     grossMarginRateProjection: SensitiveStringFieldProjection;
     taxImpactSummaryProjection: SensitiveStringFieldProjection;
-    allocationStabilitySummary: string | null;
-    unmappedCostSummary: string | null;
+    allocationStabilitySummary: ProjectBusinessOutcomeOverviewViewAllocationStabilitySummaryEnum | null;
+    unmappedCostSummary: ProjectBusinessOutcomeOverviewViewUnmappedCostSummaryEnum | null;
     dataMaturityLevel: OperatingDataMaturityLevel;
-    currentActionLevel: OperatingSnapshotActionLevel;
+    currentActionLevel: ProjectBusinessOutcomeOverviewViewCurrentActionLevelEnum;
     referencedBaselineVersion: string;
     referencedSnapshotVersion: string;
     allowedActions: Array<string>;
+    evaluationContext: OperatingEvaluationContext;
+    reasonItems: Array<OperatingReasonView>;
+    reviewState: ProjectBusinessOutcomeOverviewViewReviewStateEnum;
+    metricKnowledge: OperatingMetricKnowledge;
+    signalLevel: OperatingSignalLevel;
+    riskLevel: OperatingRiskLevel;
+    costActionRecommendation: ProjectBusinessOutcomeOverviewViewCostActionRecommendationEnum;
+    allocationStabilitySummaryProjection: SensitiveStringFieldProjection;
+    unmappedCostSummaryProjection: SensitiveStringFieldProjection;
 }
+export type ProjectBusinessOutcomeOverviewViewAllocationStabilitySummaryEnum = null;;
+export type ProjectBusinessOutcomeOverviewViewUnmappedCostSummaryEnum = null;;
+export enum ProjectBusinessOutcomeOverviewViewCurrentActionLevelEnum {
+    Prompt = 'prompt',
+    Review = 'review',
+    Block = 'block'
+};
+export enum ProjectBusinessOutcomeOverviewViewReviewStateEnum {
+    NotRequired = 'not-required',
+    Pending = 'pending',
+    Acknowledged = 'acknowledged',
+    ManualConfirmed = 'manual-confirmed',
+    Stale = 'stale'
+};
+export enum ProjectBusinessOutcomeOverviewViewCostActionRecommendationEnum {
+    Prompt = 'prompt',
+    Review = 'review',
+    Block = 'block'
+};

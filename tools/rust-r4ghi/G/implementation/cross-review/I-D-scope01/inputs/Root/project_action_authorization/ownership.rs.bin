@@ -1,0 +1,37 @@
+//! Proposed Root-owned project_action_authorization/ownership.rs.
+//! New-project producers call this once, inside their existing transaction.
+use crate::contract_support::{Error, canonical_hash, new_uuid};
+use serde_json::{Value,json};
+use sqlx::PgConnection;
+use uuid::Uuid;
+
+pub(crate) async fn record_new_origin_with_connection(
+    connection:&mut PgConnection, project_id:Uuid, creator_id:Uuid,
+    source_type:&str, source_record_id:Uuid, request_id:Option<&str>,
+)->Result<(),Error>{
+    let p:Value=sqlx::query_scalar("SELECT to_jsonb(p) FROM poms.project p WHERE id=$1 FOR UPDATE")
+        .bind(project_id).fetch_optional(&mut *connection).await?.ok_or(Error::Internal)?;
+    let owner=p["owner_user_id"].as_str().and_then(|s|Uuid::parse_str(s).ok());
+    let owner_org=p["owner_org_id"].as_str().and_then(|s|Uuid::parse_str(s).ok());
+    let valid_source=match source_type{
+        "direct-create"=>source_record_id==project_id&&owner==Some(creator_id)&&p["source_lead_id"].is_null(),
+        "lead-conversion"=>p["source_lead_id"]==source_record_id.to_string(),
+        _=>false,
+    };
+    if !valid_source||p["created_by"]!=creator_id.to_string()||p["current_stage"]!="assessment"||p["row_version"]!=1||(owner.is_none()&&owner_org.is_none()){
+        return Err(Error::Conflict("新项目 ownership-origin 与真实创建/转换来源不一致。".into()));
+    }
+    let created_at=chrono::DateTime::parse_from_rfc3339(p["created_at"].as_str().ok_or(Error::Internal)?).map_err(|_|Error::Internal)?.with_timezone(&chrono::Utc);
+    let kind=if owner.is_some(){"personal"}else{"org-owned"};
+    let payload=json!({"schemaVersion":1,"projectId":project_id,"creatorUserId":creator_id,"sourceType":source_type,"sourceRecordId":source_record_id,"initialKind":kind,"initialOwnerUserId":owner,"initialOwnerOrgId":owner_org,"createdAt":created_at});
+    let hash=canonical_hash(&payload)?;
+    sqlx::query("INSERT INTO poms.project_ownership_origin(project_id,producer_version,creator_user_id,source_type,source_record_id,initial_kind,initial_owner_user_id,initial_owner_org_id,source_payload,source_payload_hash,bootstrap_state,first_personal_owner_user_id,first_personal_assigned_at,bootstrap_consumed_at,row_version,created_at) VALUES($1,1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$6,$11,$11,1,$12)")
+        .bind(project_id).bind(creator_id).bind(source_type).bind(source_record_id).bind(kind).bind(owner).bind(owner_org).bind(&payload).bind(&hash)
+        .bind(if owner.is_some(){"consumed"}else{"available"}).bind(owner.map(|_|created_at)).bind(created_at)
+        .execute(&mut *connection).await?;
+    sqlx::query("INSERT INTO poms.audit_log(id,event_type,target_type,target_id,operator_id,request_id,result,after_snapshot,metadata,occurred_at) VALUES($1,'project.ownership-origin-created','project',$2,$3,$4,'success',$5,$6,$7)")
+        .bind(new_uuid()?).bind(project_id.to_string()).bind(creator_id).bind(request_id)
+        .bind(payload).bind(json!({"schemaVersion":1,"projectId":project_id,"sourcePayloadHash":hash,"sourceType":source_type})).bind(created_at)
+        .execute(&mut *connection).await?;
+    Ok(())
+}

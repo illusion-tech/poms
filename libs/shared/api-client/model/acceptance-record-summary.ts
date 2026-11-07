@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { FrozenLifecycleEvidence } from './frozen-lifecycle-evidence';
 
 
 export interface AcceptanceRecordSummary {
@@ -26,6 +27,11 @@ export interface AcceptanceRecordSummary {
     updatedAt: string;
     updatedBy: string | null;
     rowVersion: number;
+    sourcePayloadHash: string | null;
+    sourceQualification: AcceptanceRecordSummarySourceQualificationEnum;
+    sourceStageRecordId: string | null;
+    evidenceRefs: Array<FrozenLifecycleEvidence>;
+    conditionalSummary: string | null;
 }
 export enum AcceptanceRecordSummaryAcceptanceTypeEnum {
     StageOutcome = 'stage-outcome',
@@ -40,4 +46,8 @@ export enum AcceptanceRecordSummaryAcceptanceResultEnum {
 export enum AcceptanceRecordSummaryStatusEnum {
     Confirmed = 'confirmed',
     Voided = 'voided'
+};
+export enum AcceptanceRecordSummarySourceQualificationEnum {
+    VerifiedProducer = 'verified-producer',
+    LegacyUnverified = 'legacy-unverified'
 };

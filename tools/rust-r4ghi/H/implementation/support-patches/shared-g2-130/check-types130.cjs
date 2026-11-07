@@ -1,0 +1,10 @@
+const fs=require('node:fs'),path=require('node:path'),{createRequire}=require('node:module');
+const ts=createRequire('E:/projects/poms/package.json')('typescript');
+const own=__dirname,plan=JSON.parse(fs.readFileSync(path.join(own,'plan130.json'),'utf8')),root=plan.productReadRoot,proposed=path.join(own,'proposed');
+const configFile=path.join(root,'tsconfig.base.json');const config=ts.readConfigFile(configFile,ts.sys.readFile);const parsed=ts.parseJsonConfigFileContent(config.config,ts.sys,path.dirname(configFile));
+const options={...parsed.options,noEmit:true,types:[],skipLibCheck:true};
+const physical=file=>{const rel=path.relative(root,file),candidate=path.join(proposed,rel);return !rel.startsWith('..')&&fs.existsSync(candidate)?candidate:file;};
+const host=ts.createCompilerHost(options),get=host.getSourceFile.bind(host);host.readFile=file=>ts.sys.readFile(physical(file));host.fileExists=file=>ts.sys.fileExists(physical(file));host.getSourceFile=(file,version,...rest)=>physical(file)!==file?ts.createSourceFile(file,host.readFile(file),version,true):get(file,version,...rest);host.resolveModuleNames=(names,from)=>names.map(name=>ts.resolveModuleName(name,from,options,host).resolvedModule);
+const program=ts.createProgram([path.join(root,plan.generatedTarget),path.join(root,plan.canonicalTarget)],options,host);
+const errors=ts.getPreEmitDiagnostics(program).map(d=>({file:d.file?.fileName,code:d.code,line:d.file&&d.start!==undefined?d.file.getLineAndCharacterOfPosition(d.start).line+1:null,message:ts.flattenDiagnosticMessageText(d.messageText,'\n')}));
+const result={status:errors.length?'failed':'passed',phase:'isolated-canonical130-and-existing-local-helpers',productWrites:false,fullAppBuild:false,errors};fs.writeFileSync(path.join(own,'typecheck130.json'),JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result));if(errors.length)process.exitCode=1;

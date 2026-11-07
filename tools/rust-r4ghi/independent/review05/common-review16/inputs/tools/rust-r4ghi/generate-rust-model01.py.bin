@@ -1,0 +1,189 @@
+"""Root-owned, one-way typed model generation from the frozen G1 schemas."""
+import copy
+import json
+import re
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+FROZEN = ROOT / 'tools/rust-r4ghi/joint-g1/effective-v2'
+PUBLIC = json.loads((FROZEN / 'public-contracts.schema.json').read_text(encoding='utf-8'))['components']['schemas']
+for delta_file in ['g2-public-delta01.json', 'g2-public-delta02.json']:
+    delta = json.loads((ROOT / 'docs/design/rust-r4ghi' / delta_file).read_text(encoding='utf-8'))
+    PUBLIC.update(delta.get('addSchemas', {}))
+    for name, changes in delta['components'].items():
+        assert set(changes) <= {'addProperties', 'addRequired', 'appendOneOf'}, f'Unknown G2 change for {name}'
+        if changes.get('addProperties'): PUBLIC[name].setdefault('properties', {}).update(changes['addProperties'])
+        if changes.get('addRequired'): PUBLIC[name]['required'] = sorted(set(PUBLIC[name].get('required', [])) | set(changes['addRequired']))
+        if changes.get('appendOneOf'): PUBLIC[name]['oneOf'].extend(changes['appendOneOf'])
+CONTEXT = json.loads((FROZEN / 'source-context.schema.json').read_text(encoding='utf-8'))
+DEFINITIONS = {**CONTEXT['$defs'], **PUBLIC, 'OperatingSourceContext': CONTEXT}
+assert set(CONTEXT['$defs']) & set(PUBLIC) == {'SourceRef'}
+# The shared public SourceRef only adds a kind maxLength constraint. Its Rust
+# field types are identical to the context definition; validate each wire schema
+# independently and use this single structural type.
+assert CONTEXT['$defs']['SourceRef']['properties'].keys() == PUBLIC['SourceRef']['properties'].keys()
+OUTPUT = ROOT / 'apps/poms-api-rust/src/project_operating_common/model.rs'
+
+def pascal(text):
+    return ''.join(part[:1].upper() + part[1:] for part in re.split(r'[^A-Za-z0-9]+', text) if part)
+
+def snake(text):
+    return re.sub(r'(?<!^)(?=[A-Z])', '_', text).lower().replace('-', '_')
+
+def field_name(text):
+    result = snake(text)
+    return 'r#' + result if result in {'type', 'ref', 'self', 'super', 'crate', 'match', 'final', 'enum', 'struct', 'mod', 'use', 'loop', 'move', 'where', 'in', 'fn', 'pub', 'async', 'await', 'return'} else result
+
+PREFERRED_ENUMS = ['OperatingSnapshotActionLevel', 'OperatingGateStage', 'OperatingDataMaturityLevel', 'OperatingSignalLevel', 'OperatingRiskLevel', 'OperatingEvaluationStatus', 'OperatingEvaluationCertification']
+ENUM_NAMES = {}
+for name in PREFERRED_ENUMS + sorted(PUBLIC):
+    schema = PUBLIC.get(name, {})
+    if 'enum' in schema and all(isinstance(value, str) for value in schema['enum']):
+        ENUM_NAMES.setdefault(tuple(schema['enum']), name)
+ENUM_NAMES[('known', 'unknown')] = 'Knowledge'
+ratio_use = PUBLIC['OperatingMetricKnowledge']['properties']['grossMarginRateUse']
+if 'enum' in ratio_use: ENUM_NAMES[tuple(ratio_use['enum'])] = 'GrossMarginRateUse'
+ENUM_NAMES[tuple(PUBLIC['OperatingEvaluationContext']['properties']['evaluationStatus']['enum'])] = 'OperatingEvaluationStatus'
+ENUM_NAMES[tuple(PUBLIC['OperatingReasonView']['properties']['category']['enum'])] = 'OperatingReasonCategory'
+
+ROOT_NAMES = {
+    ('OperatingSourceContext', 'formalEligibility'): 'FormalEligibility',
+    ('OperatingSourceContext', 'snapshot'): 'OperatingSnapshotIdentity',
+    ('OperatingSourceContext', 'baseline'): 'OperatingBaselineContext',
+    ('OperatingSourceContext', 'scope'): 'OperatingScope',
+    ('OperatingSourceContext', 'laborLineage'): 'OperatingLaborLineage',
+    ('OperatingScope', 'collectionStatus'): 'OperatingCollectionStatus',
+    ('OperatingPreparation', 'intent'): 'OperatingPreparationIntentCode',
+}
+declarations = {}
+busy = set()
+
+def referenced(schema):
+    return schema['$ref'].split('/')[-1]
+
+def merged(schema):
+    result = copy.deepcopy(schema)
+    for member in result.get('allOf', []):
+        if '$ref' in member:
+            parent = merged(DEFINITIONS[referenced(member)])
+            result.setdefault('properties', {}).update({**parent.get('properties', {}), **result.get('properties', {})})
+            result['required'] = sorted(set(result.get('required', [])) | set(parent.get('required', [])))
+            result.setdefault('type', parent.get('type', 'object'))
+    return result
+
+def enum_decl(name, values):
+    variants, names = [], set()
+    for index, value in enumerate(values):
+        variant = pascal(str(value)) or 'Empty'
+        if variant[0].isdigit(): variant = 'V' + variant
+        if variant in names: variant += str(index + 1)
+        names.add(variant)
+        variants.append((variant, str(value)))
+    lines = ['#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize)]', f'pub enum {name} {{']
+    for variant, value in variants:
+        lines += [f'    #[serde(rename = {json.dumps(value, ensure_ascii=False)})]', f'    {variant},']
+    lines += ['}', f'impl {name} {{', "    pub const fn as_str(&self) -> &'static str {", '        match self {']
+    lines += [f'            Self::{variant} => {json.dumps(value, ensure_ascii=False)},' for variant, value in variants]
+    lines += ['        }', '    }', '}']
+    return '\n'.join(lines)
+
+def rust_type(schema, hint, force=False):
+    schema = merged(schema)
+    if '$ref' in schema:
+        name = referenced(schema)
+        generate(name, DEFINITIONS[name])
+        return name
+    alternatives = schema.get('anyOf', schema.get('oneOf'))
+    if alternatives:
+        nonnull = [part for part in alternatives if part.get('type') != 'null']
+        if len(nonnull) == 1 and len(nonnull) != len(alternatives):
+            return 'Option<' + rust_type(nonnull[0], hint, force) + '>'
+        if hint not in declarations:
+            declarations[hint] = ''
+            lines = ['#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]', '#[serde(untagged)]', f'pub enum {hint} {{']
+            used = set()
+            for index, member in enumerate(alternatives):
+                kind = rust_type(member, hint + 'Variant' + str(index + 1))
+                # Box the large wire unions; serde preserves the same JSON shape.
+                if hint in {'ProjectDetailView', 'ProjectUnifiedAccountingResponse'} and '$ref' in member:
+                    kind = 'Box<' + kind + '>'
+                variant = referenced(member) if '$ref' in member else {'integer': 'Integer', 'number': 'Number', 'string': 'String', 'null': 'Null'}.get(member.get('type'), 'Variant' + str(index + 1))
+                if variant in used: variant += str(index + 1)
+                used.add(variant)
+                lines.append(f'    {variant}({kind}),')
+            declarations[hint] = '\n'.join(lines + ['}'])
+        return hint
+    kind = schema.get('type')
+    if kind is None and 'enum' in schema and all(isinstance(value, str) for value in schema['enum']): kind = 'string'
+    if kind is None and 'const' in schema:
+        value = schema['const']
+        kind = 'boolean' if isinstance(value, bool) else 'integer' if isinstance(value, int) else 'string' if isinstance(value, str) else 'null' if value is None else None
+    if kind == 'null': return '()'
+    if kind == 'boolean': return 'bool'
+    if kind == 'integer': return 'i32'
+    if kind == 'number':
+        if schema.get('x-exact-decimal-scale') == 6 or ('weight' in hint.lower() and schema.get('maximum') == 1): return 'Millionths'
+        return 'serde_json::Number'
+    if kind == 'string':
+        if 'enum' in schema:
+            name = hint if force else ENUM_NAMES.get(tuple(schema['enum']), hint)
+            if name not in declarations: declarations[name] = enum_decl(name, schema['enum'])
+            return name
+        return {'uuid': 'Uuid', 'date-time': 'DateTime<Utc>', 'date': 'NaiveDate'}.get(schema.get('format'), 'String')
+    if kind == 'array': return 'Vec<' + rust_type(schema['items'], hint + 'Item') + '>'
+    if kind == 'object' or 'properties' in schema:
+        properties = schema.get('properties', {})
+        if set(properties) == {'first', 'second', 'final', 'retention'} and len({json.dumps(v, sort_keys=True) for v in properties.values()}) == 1:
+            value_type = rust_type(next(iter(properties.values())), hint + 'Value')
+            return f'BTreeMap<OperatingGateStage, {value_type}>'
+        if not properties:
+            additional = schema.get('additionalProperties')
+            return 'BTreeMap<String, ' + (rust_type(additional, hint + 'Value') if isinstance(additional, dict) else 'serde_json::Value') + '>'
+        if hint not in declarations:
+            declarations[hint] = ''
+            required = set(schema.get('required', []))
+            lines = ['#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]', '#[serde(deny_unknown_fields)]', f'pub struct {hint} {{']
+            for key, value in properties.items():
+                child_name = ROOT_NAMES.get((hint, key), hint + pascal(key))
+                child = rust_type(value, child_name)
+                if key not in required:
+                    if not child.startswith('Option<'): child = 'Option<' + child + '>'
+                    lines.append('    #[serde(default, skip_serializing_if = "Option::is_none")]')
+                lines += [f'    #[serde(rename = {json.dumps(key)})]', f'    pub {field_name(key)}: {child},']
+            declarations[hint] = '\n'.join(lines + ['}'])
+        return hint
+    # Frozen unrestricted source payloads and projection values deliberately
+    # remain JSON; money/weights/versions never use this branch.
+    return 'serde_json::Value'
+
+def generate(name, schema):
+    if name in declarations or name in busy: return
+    busy.add(name)
+    target = rust_type(schema, name, True)
+    if target != name: declarations[name] = f'pub type {name} = {target};'
+    busy.remove(name)
+
+for name in sorted(DEFINITIONS): generate(name, DEFINITIONS[name])
+assert all(declarations.values())
+header = '''//! Generated once from the immutable R4 GHI G1 public/context schemas.
+//! Root owns regeneration; domain authors import this single model.
+use std::collections::BTreeMap;
+use chrono::{DateTime, NaiveDate, Utc};
+use uuid::Uuid;
+pub use super::scalars::{Millionths, OperatingMoneyCents, Sha256};
+pub use super::runtime::*;
+
+pub type Int4Version = i32;
+pub type HeadVersion = i32;
+pub type CurrencyCode = String;
+pub type UtcInstant = DateTime<Utc>;
+pub type BusinessDate = NaiveDate;
+pub type PeriodKey = String;
+pub type OperatingSourceRow = SourceRow;
+
+'''
+OUTPUT.parent.mkdir(parents=True, exist_ok=True)
+OUTPUT.write_text(header + '\n\n'.join(declarations[name] for name in sorted(declarations)) + '\n', encoding='utf-8')
+index = {'kind': 'actual-Root-generated-Rust-model', 'source': 'effective-v2 public-contracts and source-context', 'path': str(OUTPUT.relative_to(ROOT)).replace('\\', '/'), 'declarations': len(declarations), 'names': sorted(declarations), 'modelOnlyNotAcceptance': True}
+(ROOT / 'tmp/rust-r4ghi/root/rust-model-generation01.json').write_text(json.dumps(index, indent=2) + '\n', encoding='utf-8')
+print(json.dumps({'declarations': len(declarations), 'model': index['path'], 'productAcceptance': False}))

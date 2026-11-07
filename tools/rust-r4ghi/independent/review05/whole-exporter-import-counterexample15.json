@@ -1,0 +1,25 @@
+{
+  "kind": "independent-pure-closed-import-grammar-counterexample",
+  "noProductSourcesChanged": true,
+  "noProductionGuardBypass": true,
+  "noProductionOutputsWritten": true,
+  "source": "tools/rust-r1b/s5/registered-module-graph.mjs",
+  "candidateLines": [
+    42,
+    49
+  ],
+  "specifier": "../../../../../foreign/libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated",
+  "actualResolvedLogicalPath": "foreign/libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts",
+  "closedModules": [
+    "libs/shared/contracts/src/index.ts",
+    "libs/shared/contracts/src/lib/shared-contracts.ts",
+    "libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts"
+  ],
+  "proposerAcceptedUnregisteredPrefix": true,
+  "incorrectlyMappedTarget": "libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts",
+  "currentPinnedAUnmodifiedAndStillProtected": true,
+  "reason": "Suffix matching aliases a foreign directory to an exact registered logical module. Existing source hashes reject edits, but the grammar would accept this newly proposed import and the closed-graph oracle would redirect its module identity.",
+  "error": null,
+  "G3Certified": false,
+  "G4Certified": false
+}

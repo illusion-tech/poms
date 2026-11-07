@@ -1,0 +1,61 @@
+{
+  "kind": "non-author-key-path-review-Root-common",
+  "authorUnderReview": "Root",
+  "reviewer": "G; G factual collector/producer/projection implementation excluded",
+  "status": "one-confirmed-P2-open",
+  "actualTestEvidence": "result03.json and result03.log",
+  "sourceCopies": "source-freeze03.json and inputs/",
+  "actualTests": {
+    "total": 14,
+    "passed": 13,
+    "failed": 1,
+    "sourceStable": true,
+    "limits": "Exact Root scalars/schema/hash imports, verbatim Root canonical_hash excerpt. Test-only Error adapter and serialized Value context carrier. No compiled request model/SQL loader/HTTP claim."
+  },
+  "findings": [
+    {
+      "id": "Common-P2-01",
+      "severity": "P2",
+      "file": "apps/poms-api-rust/src/project_operating_common/schema.rs",
+      "sourceSha256": "d9723d8054726eeb1650662649784d8763258087bd6a1f159a4148dd156aafaa",
+      "function": "pattern_matches, registered UTC datetime branch",
+      "problem": "The finite validator approximates the frozen UTC regex with ends_with('Z') plus chrono RFC3339 parsing, admitting a space separator that the frozen literal T grammar forbids.",
+      "actualCounterexample": "Complete otherwise valid CreateProjectCompletionRecordRequest with completedAt=2026-11-06 12:00:00Z normalizes successfully; expected rejection from frozen UTC pattern.",
+      "failedTest": "acceptance::frozen_utc_datetime_pattern_rejects_space_lowercase_t_and_leap_seconds",
+      "scopeOfActualFailure": "The first space-separator case failed. Lowercase t and leap-second cases were not reached and are not claimed independently reproduced.",
+      "minimumCorrection": "Match the registered datetime grammar exactly (literal T, UTC Z, bounded HH:MM:SS with seconds below 60 and actual calendar date), preserving accepted fractional precision. Do not relax the frozen regex.",
+      "ownerNotified": true,
+      "rootProductEditedByReviewer": false
+    }
+  ],
+  "verifiedPureBehaviors": [
+    "Exact int4 equal-value exponent/decimal tokens accepted, fine nonintegers/MAX overflow rejected before floating conversion",
+    "Millionths original raw tokens preserve six-decimal precision and required zero-weight reason; positive-weight zero reason forbidden",
+    "Conditional acceptance summary required only in conditional branch",
+    "Client actorId/status/currentStage/producerVersion cannot pass modern request shape",
+    "Money maximum/checked arithmetic and sub-cent refusal retain exact cents",
+    "Generated context/snapshot/result IDs do not change sourceHash while source business cutoff does",
+    "Set-like source refs sort by numeric rowVersion; approved business history order remains significant",
+    "Actual canonical policy hash equals frozen registration"
+  ],
+  "staticRequestReview": [
+    "RawValue header reads protocol before normalization; unsupported old protocol is typed 422",
+    "Exact integer and weight normalization precedes any Value number conversion",
+    "TypedRequest maps registered modern command names to full deny-unknown-fields DTO types; actor/proof authority is never a request DTO",
+    "ResourceKeys preserves completion parent and condition child separately; legacy_single rejects multi-key use"
+  ],
+  "staticLoaderReview": [
+    "Reads only exact snapshot and frozen context via caller connection, FOR SHARE",
+    "Legacy/unverified snapshot rejected; immutable captured version is distinguished from mutable status row version",
+    "Payload hash/schema/type, producer/context version, bidirectional snapshot/context/project references checked",
+    "Snapshot/context/expected source hash, recomputed factual hash, registered policy version/hash all checked",
+    "Generated restatement/result refs may not be backfilled into immutable capture",
+    "No live producer recomputation, new pool or commit in loader"
+  ],
+  "staticAuthorityReview": [
+    "OuterTxToken and VerifiedRestatementScope/producer permits are non-serializable authority objects bound to real scope/session; stored review data has a separate deserializeable type",
+    "Financial projection DTO Option values serialize literal null; legacy intentionally null raw keys use unit/null types",
+    "Common schema validates shape and does not itself grant masking permission. Existing G/H projection mappings and mandatory security events require their separate non-author/runtime review; no self-review claim here"
+  ],
+  "gateDecision": "No overall G3/G4 approval; Root correction, exact-source rerun and integrated PG/HTTP/projection acceptance remain required"
+}

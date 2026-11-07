@@ -1,0 +1,9 @@
+{
+  "kind": "independent-probe-harness-failure",
+  "command": "node tools/rust-r4ghi/independent/review05/probe-static01.cjs",
+  "exitCode": 1,
+  "classification": "tool-noise",
+  "reason": "Node vm object prototypes differ from the host realm; deepStrictEqual rejected matching purpose objects before business assertions. Corrected probe compares serialized scalar UUID fields.",
+  "productChanged": false,
+  "HTTPOrDatabaseRun": false
+}

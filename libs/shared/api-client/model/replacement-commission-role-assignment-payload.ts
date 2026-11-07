@@ -7,9 +7,9 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { CommissionRoleAssignmentSummaryParticipantsJsonInner } from './commission-role-assignment-summary-participants-json-inner';
+import { ReplacementCommissionRoleAssignmentPayloadParticipantsInner } from './replacement-commission-role-assignment-payload-participants-inner';
 
 
 export interface ReplacementCommissionRoleAssignmentPayload {
-    participants: Array<CommissionRoleAssignmentSummaryParticipantsJsonInner>;
+    participants: Array<ReplacementCommissionRoleAssignmentPayloadParticipantsInner>;
 }

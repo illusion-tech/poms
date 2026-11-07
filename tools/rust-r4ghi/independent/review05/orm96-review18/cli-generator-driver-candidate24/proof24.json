@@ -1,0 +1,69 @@
+{
+  "kind": "reviewer-authored-supported-driver-platform-hook-for-CLI-generator-registration",
+  "capturedAt": "2026-11-07T09:50:24.263667+00:00",
+  "files": [
+    {
+      "path": "apps/poms-api/src/app/core/persistence/poms-postgresql-driver.ts",
+      "baseSHA256": null,
+      "candidateSHA256": "23816bd00c20470b3385c837999364d933af5655d76ac4e5ee12bc1418fa0c0d",
+      "candidateBytes": 606
+    },
+    {
+      "path": "apps/poms-api/src/app/core/persistence/persistence.config.ts",
+      "baseSHA256": "ac68d3fc8f87c4a804f464e1d0bf3ad50f9ef53e7b865b3c8708bfb3b338d90e",
+      "candidateSHA256": "94cbe7bedfb09b3bf7404d3402124841423d294af0d02d8639e656ce1abe5974",
+      "candidateBytes": 2411
+    }
+  ],
+  "rootCause": "CLIHelper.getConfiguration first autoloads options.extensions and mergeConfig later replaces configured custom extensions. Exact library loader+merge execution reproduces loss.",
+  "MigratorClassIsNotTheCause": "Actual 7.0.11 Migrator stores config schema-generator once; checkSchema and normal/initial create diff paths use it. Windows and actual WSL files rawSHA equal. No PomsMigrator is necessary.",
+  "formalHook": "Custom PostgreSqlPlatform.lookupExtensions calls super then existing PomsSchemaGenerator.register. Custom driver selects this platform; CLI default extensions do not override it. Existing scalar generator code unchanged.",
+  "fullTargetTableCount": 135,
+  "sourceCount": 89,
+  "actualCLIMergeStillDropsCustomConfiguredExtension": true,
+  "baseGenerator": "SqlSchemaGenerator",
+  "candidateGenerator": "PomsSchemaGenerator",
+  "candidateDriver": "PomsPostgreSqlDriver",
+  "completeTargetDelta": [
+    {
+      "path": "tables/project/columns/id/default",
+      "before": null,
+      "after": "gen_random_uuid()"
+    },
+    {
+      "path": "tables/project_operating_snapshot/columns/id/default",
+      "before": null,
+      "after": "gen_random_uuid()"
+    }
+  ],
+  "allOtherDefaultsColumnsOrderFKsChecksIndexesEqual": true,
+  "checkAndCreateProof": {
+    "pureInMemoryFromSchemaOnly": true,
+    "baseCheckHasChanges": true,
+    "baseCreateUp": [
+      "alter table \"poms\".\"project\" alter column \"id\" drop default;",
+      "",
+      "alter table \"poms\".\"project_operating_snapshot\" alter column \"id\" drop default;"
+    ],
+    "candidateCheckHasChanges": false,
+    "candidateCreateUp": [],
+    "candidateNormalAndInitialCreateTargetCallCounts": [
+      1,
+      2,
+      3
+    ],
+    "migrationFilesWritten": false,
+    "SQLExecuted": false
+  },
+  "strictTypecheck": {
+    "kind": "actual-typescript-real-MikroORM7-generator-extension-typecheck-no-emit",
+    "version": "6.0.3",
+    "diagnostics": []
+  },
+  "existingGenerator21SHA256": "457fed18cb696f55fe1353877fc3d1cf16d3220cc0eaf0d0368e9abf4e7cced0",
+  "RootFilesEditedByReviewer": false,
+  "reviewerAuthoredNeedsRootIndependentReview": true,
+  "actualOwnerCheckAndDumpStillRequired": true,
+  "G3Certified": false,
+  "G4Certified": false
+}

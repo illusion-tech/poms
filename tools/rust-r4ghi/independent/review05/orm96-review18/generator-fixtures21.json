@@ -1,0 +1,562 @@
+{
+  "kind": "actual-MikroORM7-offline-schema-extension-positive-and-negative-fixtures",
+  "supportedExtensionActuallyActive": true,
+  "declaredUUIDDefaultRestored": true,
+  "declaredNonUUIDLiteralDefaultRestoredExactly": true,
+  "noDefaultOnSharedOtherFKColumn": true,
+  "singleColumnRelationOutsideScopeUnchanged": true,
+  "ownedCompositeRelationOutsideScopeUnchanged": true,
+  "FKAndIndexAndColumnOrderPreserved": true,
+  "actualComparatorStillDetectsMissingDefault": true,
+  "generatedFixSQLWasNotExecuted": true,
+  "baseline": {
+    "name": "poms",
+    "namespaces": [
+      "poms"
+    ],
+    "tables": [
+      {
+        "name": "default_fixture_target",
+        "schema": "poms",
+        "columns": {
+          "id": {
+            "name": "id",
+            "type": "uuid",
+            "unsigned": false,
+            "autoincrement": false,
+            "primary": true,
+            "nullable": false,
+            "unique": false,
+            "length": null,
+            "precision": null,
+            "scale": null,
+            "default": null,
+            "comment": null,
+            "enumItems": [],
+            "mappedType": "uuid"
+          },
+          "tenant_id": {
+            "name": "tenant_id",
+            "type": "uuid",
+            "unsigned": false,
+            "autoincrement": false,
+            "primary": false,
+            "nullable": false,
+            "unique": false,
+            "length": null,
+            "precision": null,
+            "scale": null,
+            "default": null,
+            "comment": null,
+            "enumItems": [],
+            "mappedType": "uuid"
+          },
+          "code": {
+            "name": "code",
+            "type": "varchar(8)",
+            "unsigned": false,
+            "autoincrement": false,
+            "primary": false,
+            "nullable": false,
+            "unique": false,
+            "length": 8,
+            "precision": null,
+            "scale": null,
+            "default": null,
+            "comment": null,
+            "enumItems": [],
+            "mappedType": "string"
+          }
+        },
+        "indexes": [
+          {
+            "keyName": "default_fixture_target_id_tenant_id_unique",
+            "columnNames": [
+              "id",
+              "tenant_id"
+            ],
+            "composite": true,
+            "constraint": true,
+            "primary": false,
+            "unique": true
+          },
+          {
+            "keyName": "default_fixture_target_code_tenant_id_unique",
+            "columnNames": [
+              "code",
+              "tenant_id"
+            ],
+            "composite": true,
+            "constraint": true,
+            "primary": false,
+            "unique": true
+          },
+          {
+            "keyName": "default_fixture_target_pkey",
+            "columnNames": [
+              "id"
+            ],
+            "composite": false,
+            "constraint": true,
+            "primary": true,
+            "unique": true
+          }
+        ],
+        "checks": [],
+        "foreignKeys": {},
+        "nativeEnums": {}
+      },
+      {
+        "name": "default_fixture_child",
+        "schema": "poms",
+        "columns": {
+          "id": {
+            "name": "id",
+            "type": "uuid",
+            "unsigned": false,
+            "autoincrement": false,
+            "primary": false,
+            "nullable": false,
+            "unique": false,
+            "length": null,
+            "precision": null,
+            "scale": null,
+            "default": null,
+            "comment": null,
+            "enumItems": [],
+            "mappedType": "uuid"
+          },
+          "tenant_id": {
+            "name": "tenant_id",
+            "type": "uuid",
+            "unsigned": false,
+            "autoincrement": false,
+            "primary": false,
+            "nullable": true,
+            "unique": false,
+            "length": 8,
+            "precision": null,
+            "scale": null,
+            "default": null,
+            "comment": null,
+            "enumItems": [],
+            "mappedType": "uuid"
+          },
+          "code": {
+            "name": "code",
+            "type": "varchar(8)",
+            "unsigned": false,
+            "autoincrement": false,
+            "primary": false,
+            "nullable": false,
+            "unique": false,
+            "length": 8,
+            "precision": null,
+            "scale": null,
+            "default": null,
+            "comment": null,
+            "enumItems": [],
+            "mappedType": "string"
+          },
+          "single_id": {
+            "name": "single_id",
+            "type": "uuid",
+            "unsigned": false,
+            "autoincrement": false,
+            "primary": false,
+            "nullable": true,
+            "unique": false,
+            "length": null,
+            "precision": null,
+            "scale": null,
+            "default": "gen_random_uuid()",
+            "comment": null,
+            "enumItems": [],
+            "mappedType": "uuid"
+          },
+          "owned_id": {
+            "name": "owned_id",
+            "type": "uuid",
+            "unsigned": false,
+            "autoincrement": false,
+            "primary": false,
+            "nullable": true,
+            "unique": false,
+            "length": null,
+            "precision": null,
+            "scale": null,
+            "default": "gen_random_uuid()",
+            "comment": null,
+            "enumItems": [],
+            "mappedType": "uuid"
+          },
+          "owned_tenant_id": {
+            "name": "owned_tenant_id",
+            "type": "uuid",
+            "unsigned": false,
+            "autoincrement": false,
+            "primary": false,
+            "nullable": true,
+            "unique": false,
+            "length": null,
+            "precision": null,
+            "scale": null,
+            "default": "gen_random_uuid()",
+            "comment": null,
+            "enumItems": [],
+            "mappedType": "uuid"
+          }
+        },
+        "indexes": [
+          {
+            "keyName": "default_fixture_child_pkey",
+            "columnNames": [
+              "id"
+            ],
+            "composite": false,
+            "constraint": true,
+            "primary": true,
+            "unique": true
+          }
+        ],
+        "checks": [],
+        "foreignKeys": {
+          "default_fixture_child_id_tenant_id_foreign": {
+            "constraintName": "default_fixture_child_id_tenant_id_foreign",
+            "columnNames": [
+              "id",
+              "tenant_id"
+            ],
+            "localTableName": "poms.default_fixture_child",
+            "referencedColumnNames": [
+              "id",
+              "tenant_id"
+            ],
+            "referencedTableName": "poms.default_fixture_target",
+            "deleteRule": "set null"
+          },
+          "default_fixture_child_code_tenant_id_foreign": {
+            "constraintName": "default_fixture_child_code_tenant_id_foreign",
+            "columnNames": [
+              "code",
+              "tenant_id"
+            ],
+            "localTableName": "poms.default_fixture_child",
+            "referencedColumnNames": [
+              "code",
+              "tenant_id"
+            ],
+            "referencedTableName": "poms.default_fixture_target",
+            "deleteRule": "set null"
+          },
+          "default_fixture_child_single_id_foreign": {
+            "constraintName": "default_fixture_child_single_id_foreign",
+            "columnNames": [
+              "single_id"
+            ],
+            "localTableName": "poms.default_fixture_child",
+            "referencedColumnNames": [
+              "id"
+            ],
+            "referencedTableName": "poms.default_fixture_target",
+            "deleteRule": "set null"
+          },
+          "default_fixture_child_owned_id_owned_tenant_id_foreign": {
+            "constraintName": "default_fixture_child_owned_id_owned_tenant_id_foreign",
+            "columnNames": [
+              "owned_id",
+              "owned_tenant_id"
+            ],
+            "localTableName": "poms.default_fixture_child",
+            "referencedColumnNames": [
+              "id",
+              "tenant_id"
+            ],
+            "referencedTableName": "poms.default_fixture_target",
+            "deleteRule": "set null"
+          }
+        },
+        "nativeEnums": {}
+      }
+    ],
+    "views": [],
+    "nativeEnums": {}
+  },
+  "candidate": {
+    "name": "poms",
+    "namespaces": [
+      "poms"
+    ],
+    "tables": [
+      {
+        "name": "default_fixture_target",
+        "schema": "poms",
+        "columns": {
+          "id": {
+            "name": "id",
+            "type": "uuid",
+            "unsigned": false,
+            "autoincrement": false,
+            "primary": true,
+            "nullable": false,
+            "unique": false,
+            "length": null,
+            "precision": null,
+            "scale": null,
+            "default": null,
+            "comment": null,
+            "enumItems": [],
+            "mappedType": "uuid"
+          },
+          "tenant_id": {
+            "name": "tenant_id",
+            "type": "uuid",
+            "unsigned": false,
+            "autoincrement": false,
+            "primary": false,
+            "nullable": false,
+            "unique": false,
+            "length": null,
+            "precision": null,
+            "scale": null,
+            "default": null,
+            "comment": null,
+            "enumItems": [],
+            "mappedType": "uuid"
+          },
+          "code": {
+            "name": "code",
+            "type": "varchar(8)",
+            "unsigned": false,
+            "autoincrement": false,
+            "primary": false,
+            "nullable": false,
+            "unique": false,
+            "length": 8,
+            "precision": null,
+            "scale": null,
+            "default": null,
+            "comment": null,
+            "enumItems": [],
+            "mappedType": "string"
+          }
+        },
+        "indexes": [
+          {
+            "keyName": "default_fixture_target_id_tenant_id_unique",
+            "columnNames": [
+              "id",
+              "tenant_id"
+            ],
+            "composite": true,
+            "constraint": true,
+            "primary": false,
+            "unique": true
+          },
+          {
+            "keyName": "default_fixture_target_code_tenant_id_unique",
+            "columnNames": [
+              "code",
+              "tenant_id"
+            ],
+            "composite": true,
+            "constraint": true,
+            "primary": false,
+            "unique": true
+          },
+          {
+            "keyName": "default_fixture_target_pkey",
+            "columnNames": [
+              "id"
+            ],
+            "composite": false,
+            "constraint": true,
+            "primary": true,
+            "unique": true
+          }
+        ],
+        "checks": [],
+        "foreignKeys": {},
+        "nativeEnums": {}
+      },
+      {
+        "name": "default_fixture_child",
+        "schema": "poms",
+        "columns": {
+          "id": {
+            "name": "id",
+            "type": "uuid",
+            "unsigned": false,
+            "autoincrement": false,
+            "primary": false,
+            "nullable": false,
+            "unique": false,
+            "length": null,
+            "precision": null,
+            "scale": null,
+            "default": "gen_random_uuid()",
+            "comment": null,
+            "enumItems": [],
+            "mappedType": "uuid"
+          },
+          "tenant_id": {
+            "name": "tenant_id",
+            "type": "uuid",
+            "unsigned": false,
+            "autoincrement": false,
+            "primary": false,
+            "nullable": true,
+            "unique": false,
+            "length": 8,
+            "precision": null,
+            "scale": null,
+            "default": null,
+            "comment": null,
+            "enumItems": [],
+            "mappedType": "uuid"
+          },
+          "code": {
+            "name": "code",
+            "type": "varchar(8)",
+            "unsigned": false,
+            "autoincrement": false,
+            "primary": false,
+            "nullable": false,
+            "unique": false,
+            "length": 8,
+            "precision": null,
+            "scale": null,
+            "default": "'fixed'",
+            "comment": null,
+            "enumItems": [],
+            "mappedType": "string"
+          },
+          "single_id": {
+            "name": "single_id",
+            "type": "uuid",
+            "unsigned": false,
+            "autoincrement": false,
+            "primary": false,
+            "nullable": true,
+            "unique": false,
+            "length": null,
+            "precision": null,
+            "scale": null,
+            "default": "gen_random_uuid()",
+            "comment": null,
+            "enumItems": [],
+            "mappedType": "uuid"
+          },
+          "owned_id": {
+            "name": "owned_id",
+            "type": "uuid",
+            "unsigned": false,
+            "autoincrement": false,
+            "primary": false,
+            "nullable": true,
+            "unique": false,
+            "length": null,
+            "precision": null,
+            "scale": null,
+            "default": "gen_random_uuid()",
+            "comment": null,
+            "enumItems": [],
+            "mappedType": "uuid"
+          },
+          "owned_tenant_id": {
+            "name": "owned_tenant_id",
+            "type": "uuid",
+            "unsigned": false,
+            "autoincrement": false,
+            "primary": false,
+            "nullable": true,
+            "unique": false,
+            "length": null,
+            "precision": null,
+            "scale": null,
+            "default": "gen_random_uuid()",
+            "comment": null,
+            "enumItems": [],
+            "mappedType": "uuid"
+          }
+        },
+        "indexes": [
+          {
+            "keyName": "default_fixture_child_pkey",
+            "columnNames": [
+              "id"
+            ],
+            "composite": false,
+            "constraint": true,
+            "primary": true,
+            "unique": true
+          }
+        ],
+        "checks": [],
+        "foreignKeys": {
+          "default_fixture_child_id_tenant_id_foreign": {
+            "constraintName": "default_fixture_child_id_tenant_id_foreign",
+            "columnNames": [
+              "id",
+              "tenant_id"
+            ],
+            "localTableName": "poms.default_fixture_child",
+            "referencedColumnNames": [
+              "id",
+              "tenant_id"
+            ],
+            "referencedTableName": "poms.default_fixture_target",
+            "deleteRule": "set null"
+          },
+          "default_fixture_child_code_tenant_id_foreign": {
+            "constraintName": "default_fixture_child_code_tenant_id_foreign",
+            "columnNames": [
+              "code",
+              "tenant_id"
+            ],
+            "localTableName": "poms.default_fixture_child",
+            "referencedColumnNames": [
+              "code",
+              "tenant_id"
+            ],
+            "referencedTableName": "poms.default_fixture_target",
+            "deleteRule": "set null"
+          },
+          "default_fixture_child_single_id_foreign": {
+            "constraintName": "default_fixture_child_single_id_foreign",
+            "columnNames": [
+              "single_id"
+            ],
+            "localTableName": "poms.default_fixture_child",
+            "referencedColumnNames": [
+              "id"
+            ],
+            "referencedTableName": "poms.default_fixture_target",
+            "deleteRule": "set null"
+          },
+          "default_fixture_child_owned_id_owned_tenant_id_foreign": {
+            "constraintName": "default_fixture_child_owned_id_owned_tenant_id_foreign",
+            "columnNames": [
+              "owned_id",
+              "owned_tenant_id"
+            ],
+            "localTableName": "poms.default_fixture_child",
+            "referencedColumnNames": [
+              "id",
+              "tenant_id"
+            ],
+            "referencedTableName": "poms.default_fixture_target",
+            "deleteRule": "set null"
+          }
+        },
+        "nativeEnums": {}
+      }
+    ],
+    "views": [],
+    "nativeEnums": {}
+  },
+  "DBConnected": false,
+  "SQLExecuted": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

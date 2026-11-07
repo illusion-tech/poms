@@ -7,13 +7,17 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { ProjectStage } from './project-stage';
+import { ProjectInitialOwnership } from './project-initial-ownership';
 
 
 export interface CreateProjectRequest {
     projectName: string;
     customerId: string;
     customerProjectNo?: string | null;
-    currentStage?: ProjectStage;
+    currentStage?: CreateProjectRequestCurrentStageEnum;
     plannedSignAt?: string | null;
+    initialOwnership?: ProjectInitialOwnership;
 }
+export enum CreateProjectRequestCurrentStageEnum {
+    Assessment = 'assessment'
+};

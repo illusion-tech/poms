@@ -1,0 +1,92 @@
+{
+  "kind": "typescript-transpile-and-angular-template-syntax-plus-actual-pure-weight-function",
+  "installedDependenciesFrom": "E:/projects/poms/node_modules",
+  "results": [
+    {
+      "file": "apps/poms-admin/src/app/features/commission/project-role-assignment-authoring.ts",
+      "sha256": "3ee4d3fe76bf55e15e6cbea7472e06c66abe37a434673d2f33e7ddc12ac18fa5",
+      "errors": []
+    },
+    {
+      "file": "apps/poms-admin/src/app/features/project/project-lifecycle-authoring.ts",
+      "sha256": "614b00da9878b941060afc02e24d4d74e1c8ea1dd7199c9dd3223114c62ac956",
+      "errors": []
+    },
+    {
+      "file": "apps/poms-admin/src/app/features/commission/project-role-assignment-authoring.spec.ts",
+      "sha256": "2241b7a5dca8e2ab383589ca62203975c6e3a584c6460d7290834a3adff31d26",
+      "errors": []
+    },
+    {
+      "file": "apps/poms-admin/src/app/features/project/project-lifecycle-authoring.spec.ts",
+      "sha256": "55b316eca31e4bcfac195781a10c076846a900ac4cddd5280579f70d039fc9c3",
+      "errors": []
+    }
+  ],
+  "weightCases": [
+    {
+      "input": "1e-6",
+      "expected": 1,
+      "actual": 1,
+      "pass": true
+    },
+    {
+      "input": "0.1000000",
+      "expected": 100000,
+      "actual": 100000,
+      "pass": true
+    },
+    {
+      "input": "1",
+      "expected": 1000000,
+      "actual": 1000000,
+      "pass": true
+    },
+    {
+      "input": "0",
+      "expected": 0,
+      "actual": 0,
+      "pass": true
+    },
+    {
+      "input": "1e-7",
+      "expected": null,
+      "actual": null,
+      "pass": true
+    },
+    {
+      "input": "0.10000000000000001",
+      "expected": null,
+      "actual": null,
+      "pass": true
+    },
+    {
+      "input": "-1",
+      "expected": null,
+      "actual": null,
+      "pass": true
+    },
+    {
+      "input": "NaN",
+      "expected": null,
+      "actual": null,
+      "pass": true
+    },
+    {
+      "input": "1.000001",
+      "expected": null,
+      "actual": null,
+      "pass": true
+    },
+    {
+      "input": "Infinity",
+      "expected": null,
+      "actual": null,
+      "pass": true
+    }
+  ],
+  "pass": true,
+  "fullBuild": "Root integration pending",
+  "angularTestbed": "Root integration pending",
+  "browser": "not run"
+}

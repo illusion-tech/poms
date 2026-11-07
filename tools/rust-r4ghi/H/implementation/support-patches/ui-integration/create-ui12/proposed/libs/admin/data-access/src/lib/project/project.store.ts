@@ -1,0 +1,252 @@
+import { computed, inject, Injectable, signal } from '@angular/core';
+import type {
+    CreateProjectArchiveRecordRequest,
+    CreateProjectRequest,
+    ProjectArchiveRecordSummary,
+    FullProjectDetailView,
+    ProjectListView,
+    ReassignProjectOwnerRequest,
+    ProjectTimelineView,
+    ReplaceProjectArchiveRecordRequest,
+    UpdateProjectBasicInfoRequest,
+    VoidProjectArchiveRecordRequest
+} from '@poms/shared-api-client';
+import { ProjectApi, ProjectInitialOwnership, ProjectStatus } from '@poms/shared-api-client';
+import { firstValueFrom } from 'rxjs';
+
+@Injectable()
+export class ProjectStore {
+    readonly #projectApi = inject(ProjectApi);
+    #projectLoadEpoch = 0;
+
+    readonly #projects = signal<ProjectListView[]>([]);
+    readonly #selectedProject = signal<FullProjectDetailView | null>(null);
+    readonly #selectedProjectTimeline = signal<ProjectTimelineView | null>(null);
+    readonly #selectedProjectArchiveRecords = signal<ProjectArchiveRecordSummary[]>([]);
+    readonly #loading = signal(false);
+    readonly #loadingTimeline = signal(false);
+    readonly #loadingArchiveRecords = signal(false);
+    readonly #saving = signal(false);
+    readonly #savingArchiveCommand = signal(false);
+    readonly #loaded = signal(false);
+    readonly #timelineError = signal<string | null>(null);
+    readonly #archiveRecordsError = signal<string | null>(null);
+
+    readonly projects = this.#projects.asReadonly();
+    readonly selectedProject = this.#selectedProject.asReadonly();
+    readonly selectedProjectTimeline = this.#selectedProjectTimeline.asReadonly();
+    readonly selectedProjectArchiveRecords = this.#selectedProjectArchiveRecords.asReadonly();
+    readonly loading = this.#loading.asReadonly();
+    readonly loadingTimeline = this.#loadingTimeline.asReadonly();
+    readonly loadingArchiveRecords = this.#loadingArchiveRecords.asReadonly();
+    readonly saving = this.#saving.asReadonly();
+    readonly savingArchiveCommand = this.#savingArchiveCommand.asReadonly();
+    readonly loaded = this.#loaded.asReadonly();
+    readonly timelineError = this.#timelineError.asReadonly();
+    readonly archiveRecordsError = this.#archiveRecordsError.asReadonly();
+    readonly recentProjects = computed(() => this.#projects().slice(0, 5));
+    readonly activeProjectCount = computed(() => this.#projects().filter((project) => project.status === ProjectStatus.Active).length);
+    readonly closedProjectCount = computed(() => this.#projects().filter((project) => project.status === ProjectStatus.Closed).length);
+
+    async loadProjects() {
+        this.#loading.set(true);
+
+        try {
+            const projects = await firstValueFrom(this.#projectApi.projectControllerList());
+            this.#projects.set(projects);
+            this.#loaded.set(true);
+            return projects;
+        } finally {
+            this.#loading.set(false);
+        }
+    }
+
+    async loadProject(id: string) {
+        const epoch = ++this.#projectLoadEpoch;
+        this.#loading.set(true);
+
+        try {
+            if (this.#selectedProject()?.id !== id) {
+                this.#selectedProject.set(null);
+                this.#selectedProjectTimeline.set(null);
+                this.#selectedProjectArchiveRecords.set([]);
+                this.#timelineError.set(null);
+                this.#archiveRecordsError.set(null);
+            }
+
+            const project = await firstValueFrom(this.#projectApi.projectControllerGetById({ id }));
+            if (epoch !== this.#projectLoadEpoch) throw new Error('项目已变化，请重新读取。');
+            if (project.scopeKind !== 'full-project') throw new Error('当前入口只读取完整项目范围，请返回项目责任锚点。');
+            this.#selectedProject.set(project);
+            return project;
+        } catch (error) {
+            if (epoch === this.#projectLoadEpoch) this.#selectedProject.set(null);
+            throw error;
+        } finally {
+            if (epoch === this.#projectLoadEpoch) this.#loading.set(false);
+        }
+    }
+
+    async loadProjectTimeline(id: string) {
+        this.#loadingTimeline.set(true);
+        this.#timelineError.set(null);
+
+        try {
+            const timeline = await firstValueFrom(
+                this.#projectApi.projectControllerGetTimeline({
+                    projectId: id
+                })
+            );
+            this.#selectedProjectTimeline.set(timeline);
+            return timeline;
+        } catch (error) {
+            this.#selectedProjectTimeline.set(null);
+            this.#timelineError.set('项目生命周期完成时间暂时读取失败，当前仅显示阶段状态。');
+            throw error;
+        } finally {
+            this.#loadingTimeline.set(false);
+        }
+    }
+
+    async loadProjectArchiveRecords(projectId: string) {
+        this.#loadingArchiveRecords.set(true);
+        this.#archiveRecordsError.set(null);
+
+        try {
+            const records = await firstValueFrom(
+                this.#projectApi.projectControllerListProjectArchiveRecords({
+                    projectId
+                })
+            );
+            this.#selectedProjectArchiveRecords.set(records ?? []);
+            return records ?? [];
+        } catch (error) {
+            this.#selectedProjectArchiveRecords.set([]);
+            this.#archiveRecordsError.set('项目归档记录暂时读取失败，请稍后重试。');
+            throw error;
+        } finally {
+            this.#loadingArchiveRecords.set(false);
+        }
+    }
+
+    async createProject(request: CreateProjectRequest) {
+        this.#saving.set(true);
+
+        try {
+            const project = await firstValueFrom(this.#projectApi.projectControllerCreate({ createProjectRequest: request }));
+            if (request.initialOwnership === ProjectInitialOwnership.Organization) {
+                // The creator-only anchor is selected by its own route. No list/full/finance fan-out here.
+                this.#loaded.set(false);
+            } else if (this.#loaded()) {
+                await this.loadProjects();
+            }
+            return project;
+        } finally {
+            this.#saving.set(false);
+        }
+    }
+
+    async updateProject(id: string, request: UpdateProjectBasicInfoRequest) {
+        this.#saving.set(true);
+
+        try {
+            await firstValueFrom(
+                this.#projectApi.projectControllerUpdateBasicInfo({
+                    id,
+                    updateProjectBasicInfoRequest: request
+                })
+            );
+            const project = await this.loadProject(id);
+            if (this.#loaded()) {
+                await this.loadProjects();
+            }
+            return project;
+        } finally {
+            this.#saving.set(false);
+        }
+    }
+
+    async reassignProjectOwner(id: string, request: ReassignProjectOwnerRequest) {
+        this.#saving.set(true);
+
+        try {
+            const result = await firstValueFrom(
+                this.#projectApi.projectControllerReassignOwner({
+                    id,
+                    reassignProjectOwnerRequest: request
+                })
+            );
+            await this.loadProject(id);
+            if (this.#loaded()) {
+                await this.loadProjects();
+            }
+            return result;
+        } finally {
+            this.#saving.set(false);
+        }
+    }
+
+    async createProjectArchiveRecord(projectId: string, request: CreateProjectArchiveRecordRequest) {
+        this.#savingArchiveCommand.set(true);
+
+        try {
+            const record = await firstValueFrom(
+                this.#projectApi.projectControllerCreateProjectArchiveRecord({
+                    projectId,
+                    createProjectArchiveRecordRequest: request
+                })
+            );
+            await this.#reloadProjectArchiveContext(record.projectId);
+            return record;
+        } finally {
+            this.#savingArchiveCommand.set(false);
+        }
+    }
+
+    async replaceProjectArchiveRecord(id: string, request: ReplaceProjectArchiveRecordRequest) {
+        this.#savingArchiveCommand.set(true);
+
+        try {
+            const record = await firstValueFrom(
+                this.#projectApi.projectArchiveRecordControllerReplaceProjectArchiveRecord({
+                    id,
+                    replaceProjectArchiveRecordRequest: request
+                })
+            );
+            await this.#reloadProjectArchiveContext(record.projectId);
+            return record;
+        } finally {
+            this.#savingArchiveCommand.set(false);
+        }
+    }
+
+    async voidProjectArchiveRecord(id: string, request: VoidProjectArchiveRecordRequest) {
+        this.#savingArchiveCommand.set(true);
+
+        try {
+            const record = await firstValueFrom(
+                this.#projectApi.projectArchiveRecordControllerVoidProjectArchiveRecord({
+                    id,
+                    voidProjectArchiveRecordRequest: request
+                })
+            );
+            await this.#reloadProjectArchiveContext(record.projectId);
+            return record;
+        } finally {
+            this.#savingArchiveCommand.set(false);
+        }
+    }
+
+    clearSelectedProject() {
+        this.#selectedProject.set(null);
+        this.#selectedProjectTimeline.set(null);
+        this.#selectedProjectArchiveRecords.set([]);
+        this.#timelineError.set(null);
+        this.#archiveRecordsError.set(null);
+    }
+
+    async #reloadProjectArchiveContext(projectId: string) {
+        await this.loadProject(projectId);
+        await Promise.all([this.loadProjectTimeline(projectId).catch(() => undefined), this.loadProjectArchiveRecords(projectId).catch(() => undefined)]);
+    }
+}

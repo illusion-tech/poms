@@ -1,3 +1,5 @@
+import { OperatingSourceContext } from './rust-r4ghi-entities.entity';
+import { ProjectOperatingSnapshot } from './project-operating-snapshot.entity';
 import { defineEntity } from '@mikro-orm/core';
 import {
     BASELINE_SELECTION_SOURCES,
@@ -37,7 +39,8 @@ export const PeriodClosingSnapshotSchema = defineEntity({
             name: 'uq_pcs_project_period_current',
             expression: (columns, table, indexName) =>
                 `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.projectId}", "${columns.periodKey}") where "${columns.snapshotMode}" = '${OperatingSnapshotModeValue.PeriodEnd}' and "${columns.status}" = '${OperatingLifecycleStatusValue.Active}'`
-        }
+        },
+        {"name":"uq_r4g_period_project","properties":["id","projectId"]}
     ],
     checks: [
         {
@@ -55,7 +58,9 @@ export const PeriodClosingSnapshotSchema = defineEntity({
         {
             name: 'chk_period_closing_snapshot_status',
             expression: `"status" in (${toSqlStringList(OPERATING_LIFECYCLE_STATUSES)})`
-        }
+        },
+        {"name":"chk_r4g_period_verified","expression":"producer_version=0 OR\n    (producer_version=1 AND project_snapshot_id IS NOT NULL AND period_start IS NOT NULL\n     AND period_end IS NOT NULL AND period_start<=period_end AND source_context_id IS NOT NULL\n     AND source_hash IS NOT NULL AND source_hash~'^[0-9a-f]{64}$'\n     AND business_timezone IS NOT NULL AND business_timezone='Asia/Hong_Kong')"},
+        {"name":"ck_jghi_period_pending_tax_v1","expression":"producer_version=0 OR\n  (producer_version=1 AND tax_pending_knowledge IS NOT NULL AND\n   ((tax_pending_knowledge='known' AND tax_impact_pending_amount IS NOT NULL)\n    OR (tax_pending_knowledge='unknown' AND tax_impact_pending_amount IS NULL)))"}
     ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
@@ -69,9 +74,9 @@ export const PeriodClosingSnapshotSchema = defineEntity({
         originalBaselineCost: p.decimal().precision(18).scale(2).default(0).fieldName('original_baseline_cost').comment('原始签约基线成本'),
         currentEffectiveBaselineCost: p.decimal().precision(18).scale(2).default(0).fieldName('current_effective_baseline_cost').comment('当前有效基线成本'),
         grossMarginAmount: p.decimal().precision(18).scale(2).default(0).fieldName('gross_margin_amount').comment('毛利金额'),
-        grossMarginRate: p.decimal().precision(9).scale(6).nullable().fieldName('gross_margin_rate').comment('毛利率'),
+        grossMarginRate: p.decimal().precision(38).scale(6).nullable().fieldName('gross_margin_rate').comment('毛利率'),
         taxImpactSummary: p.text().fieldName('tax_impact_summary').comment('税务影响摘要'),
-        taxImpactPendingAmount: p.decimal().precision(18).scale(2).default(0).fieldName('tax_impact_pending_amount').comment('待确认税务影响金额'),
+        taxImpactPendingAmount: p.decimal().precision(18).scale(2).default(0).fieldName('tax_impact_pending_amount').comment('待确认税务影响金额').nullable(),
         allocationStabilitySummary: p.text().nullable().fieldName('allocation_stability_summary').comment('分摊稳定性摘要'),
         unmappedCostSummary: p.text().nullable().fieldName('unmapped_cost_summary').comment('未映射成本摘要'),
         currentActionLevel: p.string().$type<OperatingSnapshotActionLevel>().length(32).fieldName('current_action_level').comment('当前动作等级：prompt/review/block'),
@@ -93,6 +98,17 @@ export const PeriodClosingSnapshotSchema = defineEntity({
         updatedAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).onUpdate(() => new Date()).fieldName('updated_at').comment('最后更新时间'),
         updatedBy: p.uuid().nullable().fieldName('updated_by').comment('最后更新人'),
         rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号')
+    ,
+        producerVersion: p.smallint().default(0).fieldName("producer_version"),
+        projectSnapshotId: p.uuid().nullable().fieldName("project_snapshot_id"),
+        periodStart: p.date().nullable().fieldName("period_start"),
+        periodEnd: p.date().nullable().fieldName("period_end"),
+        businessTimezone: p.string().length(64).nullable().fieldName("business_timezone"),
+        sourceContextId: p.uuid().nullable().fieldName("source_context_id"),
+        sourceHash: p.string().length(64).nullable().fieldName("source_hash"),
+        taxPendingKnowledge: p.string().length(16).nullable().fieldName("tax_pending_knowledge"),
+        jghiScopeConstraint1: () => p.manyToOne(ProjectOperatingSnapshot).mapToPk().joinColumns("project_snapshot_id","project_id").referencedColumnNames("id","project_id").columnTypes("uuid","uuid").ownColumns().hydrate(false).hidden().foreignKeyName("fk_r4g_period_snapshot").deleteRule("no action").updateRule("no action").deferMode('deferred').nullable(),
+        jghiScopeConstraint2: () => p.manyToOne(OperatingSourceContext).mapToPk().joinColumns("source_context_id","project_id","project_snapshot_id").referencedColumnNames("id","project_id","snapshot_id").columnTypes("uuid","uuid","uuid").ownColumns().hydrate(false).hidden().foreignKeyName("fk_r4g_period_context").deleteRule("no action").updateRule("no action").deferMode('deferred').nullable()
     }
 });
 

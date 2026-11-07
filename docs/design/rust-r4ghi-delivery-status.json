@@ -1,9 +1,9 @@
 {
   "kind": "GitHub-mirrored-R4-third-batch-delivery-index",
-  "date": "2026-11-06",
+  "date": "2026-11-08",
   "base": "aaa4b16ac66092f0cb1dc6646a02cf14e80823ee",
   "branch": "codex/poms-r4ghi-next25",
-  "stage": "G1ReviewInput",
+  "stage": "Doing",
   "issues": {
     "root": 57,
     "stage": 101,
@@ -20,14 +20,14 @@
     "I": 11,
     "G": 9,
     "total": 32,
-    "exactContractFreezePending": true,
+    "exactContractFreezePending": false,
     "H": 8,
     "existingR5Minimum": 4,
     "newR4Routes": 3,
     "existingR4": 25
   },
-  "G1Certified": false,
-  "G2Authorized": false,
+  "G1Certified": true,
+  "G2Authorized": true,
   "officialNewDelivered": 0,
   "officialRustOperations": 240,
   "r4Progress": {
@@ -76,6 +76,74 @@
   "effectiveTechnicalInput": "../../tools/rust-r4ghi/joint-g1/effective-v2/blueprint.json",
   "userDecisionSources": [
     "rust-r4ghi/user-decisions02.json",
-    "rust-r4ghi/user-decision-scope03.json"
-  ]
+    "rust-r4ghi/user-decision-scope03.json",
+    "rust-r4ghi/user-decision-org-create04.json",
+    "rust-r4ghi/user-decision-period05.json",
+    "rust-r4ghi/user-decision-period-retention06.json"
+  ],
+  "g1InputCommit": "9e010077e3010ff09447e9d77cb1bf1f7adbf68d",
+  "g1Review": "tools/rust-r4ghi/independent/business-g1/round02/g1-review02.json",
+  "g1Online": "rust-r4ghi/g1-online01.json",
+  "g1Admission": "rust-r4ghi/g1-admission01.json",
+  "productBase": "d5c79b260fc58f78ff9adb4ac9fd69ed5bc838d5",
+  "implementationWorktrees": {
+    "G": "E:/projects/worktrees/poms-r4g-operating/poms",
+    "H": "E:/projects/worktrees/poms-r4h-signals/poms",
+    "I": "E:/projects/worktrees/poms-r4i-lifecycle/poms"
+  },
+  "G3Certified": false,
+  "G4Certified": false,
+  "g2CurrentOnline": "../../tmp/rust-r4ghi/root/g2-online-status06/receipt.json",
+  "periodAcceptance": {
+    "status": "waiting-natural-period-with-approved-retention",
+    "earliestHongKong": "2026-11-09T00:00:00+08:00",
+    "earliestTokyo": "2026-11-09T01:00:00+09:00",
+    "passed": false
+  },
+  "currentCorrective": {
+    "checkpoint": "rust-r4ghi/g2-consumed-evidence-corrective54.md",
+    "status": "Block",
+    "classification": "new-real-drift",
+    "originalSourceEpoch": "g2-business10",
+    "originalAPI": 133,
+    "originalAPIStopped": true,
+    "originalDataRetained": true,
+    "retention": "rust-r4ghi/retained-source10-before-correction53.json",
+    "requiredWriteFamilies": 102,
+    "originalPassedFamilies": 21,
+    "originalSeries": "partial-no-successful-restatement",
+    "nextConsumerAdmission": "completed-and-independently-read-back",
+    "G3Certified": false,
+    "G4Certified": false,
+    "consumerAdmission": "rust-r4ghi/consumer11-admission54-actual.json",
+    "currentSourceEpoch": "g2-business11",
+    "currentAPI": 134,
+    "newSourceCount": 405,
+    "newSourcePinsSHA256": "06d80fa6e766c2704664dc1828ccbedadd6bb5fba2798e3e5b42cc02a759274e",
+    "currentCandidate": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/002348-candidate-source-binding11.json",
+      "rawSHA256": "910ffeefb2d9b0322b53476034104fbc58aeb520e8de159790458eebbbc440fc"
+    },
+    "currentBinarySHA256": "c73fcaa6cc9063e9a6b7dc481a51f9f52d4ed3f9855c55201d1ab46f0695bee4",
+    "currentRustValidation": {
+      "fmt": "rust-fmt07",
+      "clippy": "rust-clippy09",
+      "test": "rust-test08",
+      "build": "rust-build08",
+      "passed": 511,
+      "historicalIgnored": 54,
+      "failed": 0
+    },
+    "current102Series": "in-progress-no-certification"
+  },
+  "currentUIValidation": {
+    "build": "../../tmp/rust-r4ghi/root/admin-build06/receipt.json",
+    "tests": 463,
+    "suites": 66,
+    "testReceipt": "../../tmp/rust-r4ghi/root/admin-test05/receipt.json",
+    "completeInputBoundValidation": "rust-r4ghi/current-static-validation64.json",
+    "inputFiles": 2838,
+    "realDOMPassed": false
+  },
+  "currentStaticValidation": "rust-r4ghi/current-static-validation64.json"
 }

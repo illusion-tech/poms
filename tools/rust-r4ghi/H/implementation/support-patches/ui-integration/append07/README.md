@@ -1,0 +1,9 @@
+本组只更新两个真实测试文件，没有修改产品或弱化 Full guard。Root admin-test01 的两失败 suite 已定位：ProjectStore旧fixture缺scopeKind/required metadata；ProjectDetail三项仍期待旧归档body，另一个来源时间断言把15:20Z硬当UTC日期，在JST跨日。测试时间改为08:20Z保留“authoritative source”意图，没有改产品时区/展示策略。
+
+两套 Full fixture 都增加真实 required nullable executionAdmissionContext/currentStageRecordId、projectRowVersion、customerProjectNo、tenderNo/bidPackageNo等字段，统一合法UUID，并用正式 FullProjectDetailViewSchema逐次验证。scopeKind不存在或narrow不能靠填字段成为Full。测试的类型收窄来自该独立schema验证，不是裸as-cast。
+
+新增7项独立回归：真实Creator/Legacy两个分支拒绝且清Full缓存、无标签旧形状拒绝、较旧Full在两种响应交错中不覆盖最新项目/不提前结束loading、下一项目失败不保留旧Full、非Full归档重载不继续请求timeline/archive列表。现代归档期望明确inputVersion及真实项目/记录CAS版本。
+
+实际Root自身物理依赖和Jest配置，仅两个spec文本overlay，2套/38项通过。没有写Root测试文件，没有运行HTTP/浏览器/DB，也没有把这些mock端口单元当作业务验收。最早自有runner的双Angular物理副本ngModule环境错误与fixture诊断原件保留，最终transform07复用Root jest-preset-angular，只替换对应spec内存文本。
+
+Root按manifest07校验两原SHA后单写晋升，再跑原全量64套。候选不更改任何业务helper pins，append06真实DOM候选另行准备。

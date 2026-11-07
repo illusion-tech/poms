@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "proposal": "I-explicit-retained-source10-consumer11-admission54",
+  "state": "frozen-tool-schema-consumer-pins-pending-unrun",
+  "files": [
+    {
+      "file": "tools/rust-r4ghi/business/consumer-admission54.mjs",
+      "beforeSHA256": null,
+      "afterSHA256": "618511bf763bf3838c3a7dcae40b9a4c7f45e918eb79a6c7e8497dea37c5ec72",
+      "candidate": "proposed/tools/rust-r4ghi/business/consumer-admission54.mjs",
+      "beforeCandidate": null
+    },
+    {
+      "file": "tools/rust-r4ghi/business/retained-admission54.mjs",
+      "beforeSHA256": null,
+      "afterSHA256": "92417400dd8db07fa72ad27c0e2645d943d18617c15c6f7f41757d4e100956ca",
+      "candidate": "proposed/tools/rust-r4ghi/business/retained-admission54.mjs",
+      "beforeCandidate": null
+    },
+    {
+      "file": "tools/rust-r4ghi/business/run-retained-admission54.mjs",
+      "beforeSHA256": null,
+      "afterSHA256": "2f3168abf5269672a5f890df7d0cbcd0c1e5780b5869a65c43847d1e1881f37c",
+      "candidate": "proposed/tools/rust-r4ghi/business/run-retained-admission54.mjs",
+      "beforeCandidate": null
+    },
+    {
+      "file": "tools/rust-r4ghi/business/consumer-admission54.test.mjs",
+      "beforeSHA256": null,
+      "afterSHA256": "632ea1acd2edd91c8030e548f834fc17eebf8404803b6ccbd8b0cd2fc848e79e",
+      "candidate": "proposed/tools/rust-r4ghi/business/consumer-admission54.test.mjs",
+      "beforeCandidate": null
+    },
+    {
+      "file": "tools/rust-r4ghi/business/context.mjs",
+      "beforeSHA256": "a24847f5098a4f5ca3237b57545abafb7c42936a7793c7259a632d542817b409",
+      "afterSHA256": "9b8378d349828b8e6505a83d668a7beb77801b22c7fabc8b12469bfdffdd8470",
+      "candidate": "proposed/tools/rust-r4ghi/business/context.mjs",
+      "beforeCandidate": "before/tools/rust-r4ghi/business/context.mjs"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/fixture-view23.mjs",
+      "beforeSHA256": "5e8721d83b82b993dac0b3bf20e963f15e8b6fde1c107c6dc99da0d69ce7c5a0",
+      "afterSHA256": "4f5df7b9ba2d37a73069475d83374c68330acf3cca965fc6efff728614eb8840",
+      "candidate": "proposed/tools/rust-r4ghi/business/fixture-view23.mjs",
+      "beforeCandidate": "before/tools/rust-r4ghi/business/fixture-view23.mjs"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/a05-view26.mjs",
+      "beforeSHA256": "6eab807e1088c3aa3231ac9f56c7281a0095876989f16d0af7c42889bc19492d",
+      "afterSHA256": "d466f04cce7fd5d0274c1e4f27862f45adf2e71b7603c880bdcab6dbbc3e22b6",
+      "candidate": "proposed/tools/rust-r4ghi/business/a05-view26.mjs",
+      "beforeCandidate": "before/tools/rust-r4ghi/business/a05-view26.mjs"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/report.mjs",
+      "beforeSHA256": "9caf5f70127469154be8e59aadc53315ca2195c08ced09d6c1f68b1aba90f3eb",
+      "afterSHA256": "15b66e8031a7e9be74a3bea3f3cf97a02b77f939bc5073313bb06189bf9eaeef",
+      "candidate": "proposed/tools/rust-r4ghi/business/report.mjs",
+      "beforeCandidate": "before/tools/rust-r4ghi/business/report.mjs"
+    }
+  ],
+  "apply": "Only proposed eight files after exact beforeSHA/absent add. Template consumer inputs are NULL and NOT executable; Root fills actual new source/candidate/process134 pins and reviews exact plan SHA.",
+  "interfaces": {
+    "module": "tools/rust-r4ghi/business/consumer-admission54.mjs",
+    "synchronous": [
+      "assertAdmittedFixtureSource(ctx,{registryPath,record,projectIds,producerReceipt})",
+      "readAdmittedConsumerContext({statePin})"
+    ],
+    "fixtureMutation": false,
+    "projectIds": "nonempty admitted subset for old source, only fresh same-source empty producer initialization allowed",
+    "UIProducerOverlayOnly": [
+      "UICommandObserved",
+      "UICommandObserverReceipt",
+      "UICommandResponseOriginal",
+      "UICommandOperationId"
+    ],
+    "readAdapter": "Current private state JSON values preserved exactly, source/registry/process/binary/proc checked; no owner-password/DB/HTTP/persist"
+  },
+  "admission": {
+    "producer53PinsActual": true,
+    "producerStateRawSHA256": "5c3e2303cfcab63b2f41af413094c4de4074ca52fa76cc7afa5bd07e36ab8495",
+    "freshBothDBRowsAndXminMetaObjectsMustEqual53": true,
+    "namespaceDBOIDsM97Tables139CheckedByExistingGuard": true,
+    "oldPrivateOriginalsUntouched": true,
+    "oldBaselineOwnedBorrowedFixturesObjectsDeepEqual": true,
+    "newStateEpoch": "g2-business11",
+    "newRun": "main01",
+    "currentProcessExplicit": true,
+    "newSourceListExplicit": true,
+    "source54InDirectFiles": true,
+    "hardcoded404": false,
+    "noRestore": true,
+    "businessWrites": 0,
+    "businessHTTP": 0
+  },
+  "newConsumerRegistryDisposition": {
+    "oldSuccessfulProducerAndFI": "preserved in original53 state and inheritedProducerEvidence54; not certified as API134 acceptance",
+    "newActiveAuthAndFIRegistries": "empty current consumer maps, with full originals archived by exact reference/value",
+    "oldTrustedSummarySeam": "archived original binding, new actual trusted producer must bind its current binary separately",
+    "legacyReceiptEpoch": "never modified, exact pinned seed admitted as producer10 compatibility only",
+    "oldFixtureSourceHash": "retained, validated by explicit registry not rewritten"
+  },
+  "schema": "admission-plan54.schema.json",
+  "inputTemplate": "admission-input54.template.json",
+  "producerResources": "producer-resource-inventory54.json",
+  "consumerExecutionExecutedByAuthor": false,
+  "RootProductModified": false,
+  "offline": {
+    "node": "v26.13.0",
+    "syntaxFiles": 81,
+    "tests": 76,
+    "fail": 0,
+    "log": "offline-tests54.log",
+    "sha256": "4458017821f8c057e7cb2a017b31af089dc31ed74368a5b26c72233af76685cb",
+    "CLIHelpPassed": true,
+    "actual53ResourceInspectionFSOnly": 5
+  },
+  "G3Certified": false,
+  "G4Certified": false
+}

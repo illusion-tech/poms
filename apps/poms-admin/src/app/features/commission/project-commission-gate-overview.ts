@@ -61,7 +61,7 @@ export class ProjectCommissionGateOverview implements OnInit {
             return '--';
         }
 
-        return gateOverview.allowedActions.includes('reviewCommissionGateBinding') ? '当前仍需人工复核 gate 结果后再进入发放判断。' : '当前 gate 已具备下游使用条件。';
+        return gateOverview.currentActionLevel === 'block' ? '当前存在经营阻断，请处理后重新读取具体阶段门禁。' : gateOverview.currentActionLevel === 'review' ? '当前仍需复核，具体阶段须按各自门禁处理。' : '当前为提示；能否进入后续办理仍由具体阶段门禁和权限决定。';
     });
 
     readonly gateConclusionItems = computed<WorkspaceFactGridItem[]>(() => {

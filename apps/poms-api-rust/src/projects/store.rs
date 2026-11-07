@@ -278,6 +278,21 @@ pub async fn lead(
     .transpose()
 }
 
+/// Lock and select the actual creating account's current primary organization.
+/// The origin producer separately locks and validates active organization/M facts.
+pub(crate) async fn lock_creation_org(
+    connection: &mut PgConnection,
+    creator: Uuid,
+) -> Result<Option<Uuid>, sqlx::Error> {
+    let current: Option<Option<Uuid>> = sqlx::query_scalar(
+        "SELECT primary_org_unit_id FROM poms.platform_user WHERE id=$1 AND is_active FOR SHARE",
+    )
+    .bind(creator)
+    .fetch_optional(connection)
+    .await?;
+    Ok(current.flatten())
+}
+
 pub struct NewProject {
     pub project_no: String,
     pub project_name: String,
@@ -286,7 +301,8 @@ pub struct NewProject {
     pub customer_project_no: Option<String>,
     pub current_stage: String,
     pub owner_org_id: Option<Uuid>,
-    pub owner_user_id: Uuid,
+    pub owner_user_id: Option<Uuid>,
+    pub creator_user_id: Uuid,
     pub planned_sign_at: Option<DateTime<Utc>>,
     pub created_at: DateTime<Utc>,
     pub updated_at: DateTime<Utc>,
@@ -296,10 +312,10 @@ pub async fn insert(
     connection: &mut PgConnection,
     input: &NewProject,
 ) -> Result<ProjectRow, sqlx::Error> {
-    let row = sqlx::query("INSERT INTO poms.project (project_no,project_name,source_lead_id,customer_id,customer_name,customer_project_no,status,current_stage,owner_org_id,owner_user_id,planned_sign_at,closed_at,closed_reason,created_at,created_by,updated_at,updated_by) VALUES ($1,$2,NULL,$3,$4,$5,'active',$6,$7,$8,$9,NULL,NULL,$10,$8,$11,$8) RETURNING *")
+    let row = sqlx::query("INSERT INTO poms.project (project_no,project_name,source_lead_id,customer_id,customer_name,customer_project_no,status,current_stage,owner_org_id,owner_user_id,planned_sign_at,closed_at,closed_reason,created_at,created_by,updated_at,updated_by) VALUES ($1,$2,NULL,$3,$4,$5,'active',$6,$7,$8,$9,NULL,NULL,$10,$12,$11,$12) RETURNING *")
         .bind(&input.project_no).bind(&input.project_name).bind(input.customer_id).bind(&input.customer_name)
         .bind(&input.customer_project_no).bind(&input.current_stage).bind(input.owner_org_id).bind(input.owner_user_id)
-        .bind(input.planned_sign_at).bind(input.created_at).bind(input.updated_at).fetch_one(connection).await?;
+        .bind(input.planned_sign_at).bind(input.created_at).bind(input.updated_at).bind(input.creator_user_id).fetch_one(connection).await?;
     project(row)
 }
 

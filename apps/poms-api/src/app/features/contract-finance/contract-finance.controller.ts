@@ -1,3 +1,8 @@
+import { RustR4GhiNativeProtocolGuard } from "../../core/rust-r4ghi-native-protocol.guard";
+import { UseGuards } from "@nestjs/common";
+import { ApiBody } from "@nestjs/swagger";
+import { ZodValidationPipe } from "@poms/vendor-nestjs-zod";
+import { ConfirmReceiptRecordRequestSchema, type ConfirmReceiptRecordRequest } from "../../core/rust-r4ghi-frozen-native-reference";
 import type { InvoiceRecordDetailView, InvoiceRecordSummary } from "../../core/rust-r4def-frozen-native-reference";
 import { CreateInvoiceRecordRequestSchema, UpdateInvoiceRecordRequestSchema, parseFrozenNativeReference } from "../../core/rust-r4def-frozen-native-reference";
 import { Inject, Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Request } from '@nestjs/common';
@@ -53,12 +58,14 @@ export class ContractFinanceController {
         return this.contractFinanceService.createReceipt(contractId, body);
     }
 
+    @UseGuards(RustR4GhiNativeProtocolGuard)
+    @ApiBody({ type: ConfirmReceiptRecordRequestDto })
     @Post('receipt-records/:id\\:confirm')
     @HasPermissions('contract:finance:manage')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: '确认合同回款记录生效' })
     @ApiOkResponse({ type: ReceiptRecordDto })
-    confirmReceipt(@Param('id') id: string, @Request() req: { user: UserPayload }, @Body() body: ConfirmReceiptRecordRequestDto): Promise<ReceiptRecordSummary> {
+    confirmReceipt(@Param('id') id: string, @Request() req: { user: UserPayload }, @Body(new ZodValidationPipe(ConfirmReceiptRecordRequestSchema)) body: ConfirmReceiptRecordRequest): Promise<ReceiptRecordSummary> {
         return this.contractFinanceService.confirmReceipt(id, req.user.sub, body);
     }
 

@@ -1,0 +1,362 @@
+[
+  {
+    "table": "operating_command_receipt",
+    "name": "ck_jghi_receipt_real_evaluation",
+    "target": "(operation_id='ProjectCostController_activateOperatingBaselinePackage' AND evaluation_hash IS NULL)\n  OR (operation_id<>'ProjectCostController_activateOperatingBaselinePackage' AND evaluation_hash IS NOT NULL)",
+    "actual": {
+      "oid": "26664",
+      "schema": "poms",
+      "table_name": "operating_command_receipt",
+      "conname": "ck_jghi_receipt_real_evaluation",
+      "definition": "CHECK (operation_id::text = 'ProjectCostController_activateOperatingBaselinePackage'::text AND evaluation_hash IS NULL OR operation_id::text <> 'ProjectCostController_activateOperatingBaselinePackage'::text AND evaluation_hash IS NOT NULL)"
+    }
+  },
+  {
+    "table": "operating_command_receipt",
+    "name": "operating_command_receipt_http_status_check",
+    "target": "http_status BETWEEN 200 AND 299",
+    "actual": {
+      "oid": "26455",
+      "schema": "poms",
+      "table_name": "operating_command_receipt",
+      "conname": "operating_command_receipt_http_status_check",
+      "definition": "CHECK (http_status >= 200 AND http_status <= 299)"
+    }
+  },
+  {
+    "table": "project",
+    "name": "chk_project_current_stage",
+    "target": "current_stage IN\n ('assessment','scope-confirmation','commercial-closure','contracting','handover','execution','acceptance',\n  'completed','conditional-completed','closed-lost','closed-terminated')",
+    "actual": {
+      "oid": "26653",
+      "schema": "poms",
+      "table_name": "project",
+      "conname": "chk_project_current_stage",
+      "definition": "CHECK (current_stage::text = ANY (ARRAY['assessment'::character varying, 'scope-confirmation'::character varying, 'commercial-closure'::character varying, 'contracting'::character varying, 'handover'::character varying, 'execution'::character varying, 'acceptance'::character varying, 'completed'::character varying, 'conditional-completed'::character varying, 'closed-lost'::character varying, 'closed-terminated'::character varying]::text[]))"
+    }
+  },
+  {
+    "table": "project_stage_record",
+    "name": "project_stage_record_reason_check",
+    "target": "length(btrim(reason)) BETWEEN 1 AND 2000",
+    "actual": {
+      "oid": "25957",
+      "schema": "poms",
+      "table_name": "project_stage_record",
+      "conname": "project_stage_record_reason_check",
+      "definition": "CHECK (length(btrim(reason)) >= 1 AND length(btrim(reason)) <= 2000)"
+    }
+  },
+  {
+    "table": "project_handover_basis_snapshot",
+    "name": "project_handover_basis_snapshot_status_check",
+    "target": "(((status)::text = ANY ((ARRAY['active'::character varying, 'superseded'::character varying, 'voided'::character varying])::text[])))",
+    "actual": {
+      "oid": "20523",
+      "schema": "poms",
+      "table_name": "project_handover_basis_snapshot",
+      "conname": "project_handover_basis_snapshot_status_check",
+      "definition": "CHECK (status::text = ANY (ARRAY['active'::character varying, 'superseded'::character varying, 'voided'::character varying]::text[]))"
+    }
+  },
+  {
+    "table": "project_handover_basis_item",
+    "name": "project_handover_basis_item_item_type_check",
+    "target": "(((item_type)::text = ANY ((ARRAY['scope'::character varying, 'risk'::character varying, 'receivable'::character varying, 'cost'::character varying, 'responsibility'::character varying, 'attachment'::character varying, 'contract'::character varying])::text[])))",
+    "actual": {
+      "oid": "20608",
+      "schema": "poms",
+      "table_name": "project_handover_basis_item",
+      "conname": "project_handover_basis_item_item_type_check",
+      "definition": "CHECK (item_type::text = ANY (ARRAY['scope'::character varying, 'risk'::character varying, 'receivable'::character varying, 'cost'::character varying, 'responsibility'::character varying, 'attachment'::character varying, 'contract'::character varying]::text[]))"
+    }
+  },
+  {
+    "table": "project_archive_record",
+    "name": "archive_new_producer_check",
+    "target": "producer_version=0 OR (producer_version=1\n    AND source_payload_hash IS NOT NULL AND source_payload_hash ~ '^[0-9a-f]{64}$' AND archived_by IS NOT NULL\n    AND source_qualification IS NOT NULL\n    AND ((archive_anchor_stage IN ('completed','conditional-completed') AND archive_anchor_source_type='project-completion-record'\n         AND ((source_stage_record_id IS NOT NULL AND source_qualification='verified-producer') OR source_qualification='legacy-unverified'))\n      OR (archive_anchor_stage IN ('closed-lost','closed-terminated') AND archive_anchor_source_type='project'\n         AND source_qualification='legacy-unverified')))",
+    "actual": {
+      "oid": "26203",
+      "schema": "poms",
+      "table_name": "project_archive_record",
+      "conname": "archive_new_producer_check",
+      "definition": "CHECK (producer_version = 0 OR producer_version = 1 AND source_payload_hash IS NOT NULL AND source_payload_hash::text ~ '^[0-9a-f]{64}$'::text AND archived_by IS NOT NULL AND source_qualification IS NOT NULL AND ((archive_anchor_stage::text = ANY (ARRAY['completed'::character varying, 'conditional-completed'::character varying]::text[])) AND archive_anchor_source_type::text = 'project-completion-record'::text AND (source_stage_record_id IS NOT NULL AND source_qualification = 'verified-producer'::text OR source_qualification = 'legacy-unverified'::text) OR (archive_anchor_stage::text = ANY (ARRAY['closed-lost'::character varying, 'closed-terminated'::character varying]::text[])) AND archive_anchor_source_type::text = 'project'::text AND source_qualification = 'legacy-unverified'::text))"
+    }
+  },
+  {
+    "table": "project_actual_cost_record",
+    "name": "chk_r4e_basis_origin",
+    "target": "(((basis_origin)::text = ANY ((ARRAY['captured'::character varying, 'legacy-unavailable'::character varying])::text[])))",
+    "actual": {
+      "oid": "20827",
+      "schema": "poms",
+      "table_name": "project_actual_cost_record",
+      "conname": "chk_r4e_basis_origin",
+      "definition": "CHECK (basis_origin::text = ANY (ARRAY['captured'::character varying, 'legacy-unavailable'::character varying]::text[]))"
+    }
+  },
+  {
+    "table": "operating_source_context",
+    "name": "operating_source_context_business_timezone_check",
+    "target": "business_timezone='Asia/Hong_Kong'",
+    "actual": {
+      "oid": "25791",
+      "schema": "poms",
+      "table_name": "operating_source_context",
+      "conname": "operating_source_context_business_timezone_check",
+      "definition": "CHECK (business_timezone::text = 'Asia/Hong_Kong'::text)"
+    }
+  },
+  {
+    "table": "operating_source_context",
+    "name": "operating_source_context_formal_eligibility_check",
+    "target": "formal_eligibility='eligible'",
+    "actual": {
+      "oid": "25796",
+      "schema": "poms",
+      "table_name": "operating_source_context",
+      "conname": "operating_source_context_formal_eligibility_check",
+      "definition": "CHECK (formal_eligibility::text = 'eligible'::text)"
+    }
+  },
+  {
+    "table": "operating_evaluation_evidence",
+    "name": "operating_evaluation_evidence_policy_version_check",
+    "target": "policy_version='r4h-operating-v1'",
+    "actual": {
+      "oid": "26273",
+      "schema": "poms",
+      "table_name": "operating_evaluation_evidence",
+      "conname": "operating_evaluation_evidence_policy_version_check",
+      "definition": "CHECK (policy_version::text = 'r4h-operating-v1'::text)"
+    }
+  },
+  {
+    "table": "operating_restatement_record",
+    "name": "chk_r4g_restatement_verified",
+    "target": "producer_version=0 OR\n    (producer_version=1 AND restatement_scope IS NOT NULL AND restatement_scope IN ('live','period') AND root_snapshot_id IS NOT NULL\n     AND (restatement_scope='period')=(period_end_snapshot_id IS NOT NULL)\n     AND causal_source_refs IS NOT NULL AND jsonb_typeof(causal_source_refs)='array'\n     AND before_source_hash IS NOT NULL AND before_source_hash~'^[0-9a-f]{64}$'\n     AND after_source_hash IS NOT NULL AND after_source_hash~'^[0-9a-f]{64}$' AND restatement_batch_id IS NOT NULL)",
+    "actual": {
+      "oid": "25919",
+      "schema": "poms",
+      "table_name": "operating_restatement_record",
+      "conname": "chk_r4g_restatement_verified",
+      "definition": "CHECK (producer_version = 0 OR producer_version = 1 AND restatement_scope IS NOT NULL AND (restatement_scope::text = ANY (ARRAY['live'::character varying, 'period'::character varying]::text[])) AND root_snapshot_id IS NOT NULL AND (restatement_scope::text = 'period'::text) = (period_end_snapshot_id IS NOT NULL) AND causal_source_refs IS NOT NULL AND jsonb_typeof(causal_source_refs) = 'array'::text AND before_source_hash IS NOT NULL AND before_source_hash::text ~ '^[0-9a-f]{64}$'::text AND after_source_hash IS NOT NULL AND after_source_hash::text ~ '^[0-9a-f]{64}$'::text AND restatement_batch_id IS NOT NULL)"
+    }
+  },
+  {
+    "table": "data_maturity_evaluation_result",
+    "name": "ck_jghi_dmer_v1",
+    "target": "producer_version=0 OR (producer_version=1 AND evidence_id IS NOT NULL\n  AND tax_pending_knowledge IS NOT NULL AND tax_pending_knowledge IN ('known','unknown')\n  AND ((tax_pending_knowledge='known' AND tax_impact_pending_amount IS NOT NULL)\n    OR (tax_pending_knowledge='unknown' AND tax_impact_pending_amount IS NULL)))",
+    "actual": {
+      "oid": "26328",
+      "schema": "poms",
+      "table_name": "data_maturity_evaluation_result",
+      "conname": "ck_jghi_dmer_v1",
+      "definition": "CHECK (producer_version = 0 OR producer_version = 1 AND evidence_id IS NOT NULL AND tax_pending_knowledge IS NOT NULL AND (tax_pending_knowledge::text = ANY (ARRAY['known'::character varying, 'unknown'::character varying]::text[])) AND (tax_pending_knowledge::text = 'known'::text AND tax_impact_pending_amount IS NOT NULL OR tax_pending_knowledge::text = 'unknown'::text AND tax_impact_pending_amount IS NULL))"
+    }
+  },
+  {
+    "table": "operating_signal_gate_binding",
+    "name": "ck_jghi_binding_v1",
+    "target": "producer_version=0 OR\n  (producer_version=1 AND evidence_id IS NOT NULL AND system_binding_action IS NOT NULL\n   AND system_binding_action IN ('prompt','review','block') AND gate_stage_type IN ('first','second','final','retention')\n   AND evaluation_hash IS NOT NULL AND evaluation_hash~'^[0-9a-f]{64}$' AND current_summary_id IS NOT NULL\n   AND tax_pending_knowledge IS NOT NULL AND tax_pending_knowledge IN ('known','unknown')\n   AND ((tax_pending_knowledge='known' AND tax_impact_pending_amount IS NOT NULL)\n     OR (tax_pending_knowledge='unknown' AND tax_impact_pending_amount IS NULL)))",
+    "actual": {
+      "oid": "26380",
+      "schema": "poms",
+      "table_name": "operating_signal_gate_binding",
+      "conname": "ck_jghi_binding_v1",
+      "definition": "CHECK (producer_version = 0 OR producer_version = 1 AND evidence_id IS NOT NULL AND system_binding_action IS NOT NULL AND (system_binding_action::text = ANY (ARRAY['prompt'::character varying, 'review'::character varying, 'block'::character varying]::text[])) AND (gate_stage_type::text = ANY (ARRAY['first'::character varying, 'second'::character varying, 'final'::character varying, 'retention'::character varying]::text[])) AND evaluation_hash IS NOT NULL AND evaluation_hash::text ~ '^[0-9a-f]{64}$'::text AND current_summary_id IS NOT NULL AND tax_pending_knowledge IS NOT NULL AND (tax_pending_knowledge::text = ANY (ARRAY['known'::character varying, 'unknown'::character varying]::text[])) AND (tax_pending_knowledge::text = 'known'::text AND tax_impact_pending_amount IS NOT NULL OR tax_pending_knowledge::text = 'unknown'::text AND tax_impact_pending_amount IS NULL))"
+    }
+  },
+  {
+    "table": "commission_gate_review_record",
+    "name": "ck_jghi_gate_review_v1",
+    "target": "producer_version=0 OR\n  (producer_version=1 AND evidence_id IS NOT NULL AND source_summary_snapshot_id IS NOT NULL\n   AND source_hash IS NOT NULL AND source_hash~'^[0-9a-f]{64}$'\n   AND evaluation_hash IS NOT NULL AND evaluation_hash~'^[0-9a-f]{64}$'\n   AND policy_hash IS NOT NULL AND policy_hash~'^[0-9a-f]{64}$'\n   AND evidence_hash IS NOT NULL AND evidence_hash~'^[0-9a-f]{64}$'\n   AND review_action IS NOT NULL AND review_action IN ('acknowledge','tighten-review','tighten-block')\n   AND review_payload IS NOT NULL AND jsonb_typeof(review_payload)='object' AND handled_by IS NOT NULL)",
+    "actual": {
+      "oid": "26397",
+      "schema": "poms",
+      "table_name": "commission_gate_review_record",
+      "conname": "ck_jghi_gate_review_v1",
+      "definition": "CHECK (producer_version = 0 OR producer_version = 1 AND evidence_id IS NOT NULL AND source_summary_snapshot_id IS NOT NULL AND source_hash IS NOT NULL AND source_hash::text ~ '^[0-9a-f]{64}$'::text AND evaluation_hash IS NOT NULL AND evaluation_hash::text ~ '^[0-9a-f]{64}$'::text AND policy_hash IS NOT NULL AND policy_hash::text ~ '^[0-9a-f]{64}$'::text AND evidence_hash IS NOT NULL AND evidence_hash::text ~ '^[0-9a-f]{64}$'::text AND review_action IS NOT NULL AND (review_action::text = ANY (ARRAY['acknowledge'::character varying, 'tighten-review'::character varying, 'tighten-block'::character varying]::text[])) AND review_payload IS NOT NULL AND jsonb_typeof(review_payload) = 'object'::text AND handled_by IS NOT NULL)"
+    }
+  },
+  {
+    "table": "cost_governance_evidence",
+    "name": "cost_governance_evidence_evidence_kind_check",
+    "target": "(((evidence_kind)::text = ANY ((ARRAY['source-facts'::character varying, 'manual-stage'::character varying, 'manual-finance'::character varying])::text[])))",
+    "actual": {
+      "oid": "20868",
+      "schema": "poms",
+      "table_name": "cost_governance_evidence",
+      "conname": "cost_governance_evidence_evidence_kind_check",
+      "definition": "CHECK (evidence_kind::text = ANY (ARRAY['source-facts'::character varying, 'manual-stage'::character varying, 'manual-finance'::character varying]::text[]))"
+    }
+  },
+  {
+    "table": "cost_governance_evidence",
+    "name": "cost_governance_evidence_target_type_check",
+    "target": "(((target_type)::text = ANY ((ARRAY['SharedCostAllocationBasis'::character varying, 'SharedCostAllocationResult'::character varying, 'CostStageAttributionSnapshot'::character varying, 'AccountingTaxTreatmentSnapshot'::character varying])::text[])))",
+    "actual": {
+      "oid": "20867",
+      "schema": "poms",
+      "table_name": "cost_governance_evidence",
+      "conname": "cost_governance_evidence_target_type_check",
+      "definition": "CHECK (target_type::text = ANY (ARRAY['SharedCostAllocationBasis'::character varying, 'SharedCostAllocationResult'::character varying, 'CostStageAttributionSnapshot'::character varying, 'AccountingTaxTreatmentSnapshot'::character varying]::text[]))"
+    }
+  },
+  {
+    "table": "contract_term_preparation",
+    "name": "contract_term_preparation_down_payment_rate_check",
+    "target": "\"down_payment_rate\" between 0 and 1",
+    "actual": {
+      "oid": "20257",
+      "schema": "poms",
+      "table_name": "contract_term_preparation",
+      "conname": "contract_term_preparation_down_payment_rate_check",
+      "definition": "CHECK (down_payment_rate >= 0::numeric AND down_payment_rate <= 1::numeric)"
+    }
+  },
+  {
+    "table": "contract_term_preparation",
+    "name": "contract_term_preparation_retention_rate_check",
+    "target": "\"retention_rate\" between 0 and 1",
+    "actual": {
+      "oid": "20258",
+      "schema": "poms",
+      "table_name": "contract_term_preparation",
+      "conname": "contract_term_preparation_retention_rate_check",
+      "definition": "CHECK (retention_rate >= 0::numeric AND retention_rate <= 1::numeric)"
+    }
+  },
+  {
+    "table": "contract_term_preparation",
+    "name": "contract_term_preparation_tax_rate_check",
+    "target": "\"tax_rate\" between 0 and 1",
+    "actual": {
+      "oid": "20256",
+      "schema": "poms",
+      "table_name": "contract_term_preparation",
+      "conname": "contract_term_preparation_tax_rate_check",
+      "definition": "CHECK (tax_rate >= 0::numeric AND tax_rate <= 1::numeric)"
+    }
+  },
+  {
+    "table": "project_handover_participant_role",
+    "name": "project_handover_participant_role_role_key_check",
+    "target": "(((role_key)::text = ANY ((ARRAY['sales-owner'::character varying, 'business-admin'::character varying, 'technical-support'::character varying, 'execution-owner'::character varying, 'finance'::character varying])::text[])))",
+    "actual": {
+      "oid": "20669",
+      "schema": "poms",
+      "table_name": "project_handover_participant_role",
+      "conname": "project_handover_participant_role_role_key_check",
+      "definition": "CHECK (role_key::text = ANY (ARRAY['sales-owner'::character varying, 'business-admin'::character varying, 'technical-support'::character varying, 'execution-owner'::character varying, 'finance'::character varying]::text[]))"
+    }
+  },
+  {
+    "table": "acceptance_record",
+    "name": "acceptance_new_producer_check",
+    "target": "producer_version=0 OR (producer_version=1 AND source_stage_record_id IS NOT NULL\n    AND source_payload_hash IS NOT NULL AND source_payload_hash ~ '^[0-9a-f]{64}$' AND confirmed_by IS NOT NULL AND confirmed_at IS NOT NULL\n    AND acceptance_type IN ('stage-outcome','stage-acceptance','final-acceptance')\n    AND acceptance_result IN ('accepted','conditional','rejected')\n    AND (acceptance_result<>'conditional' OR (conditional_summary IS NOT NULL AND length(btrim(conditional_summary))>0)))",
+    "actual": {
+      "oid": "26109",
+      "schema": "poms",
+      "table_name": "acceptance_record",
+      "conname": "acceptance_new_producer_check",
+      "definition": "CHECK (producer_version = 0 OR producer_version = 1 AND source_stage_record_id IS NOT NULL AND source_payload_hash IS NOT NULL AND source_payload_hash::text ~ '^[0-9a-f]{64}$'::text AND confirmed_by IS NOT NULL AND confirmed_at IS NOT NULL AND (acceptance_type::text = ANY (ARRAY['stage-outcome'::character varying, 'stage-acceptance'::character varying, 'final-acceptance'::character varying]::text[])) AND (acceptance_result::text = ANY (ARRAY['accepted'::character varying, 'conditional'::character varying, 'rejected'::character varying]::text[])) AND (acceptance_result::text <> 'conditional'::text OR conditional_summary IS NOT NULL AND length(btrim(conditional_summary)) > 0))"
+    }
+  },
+  {
+    "table": "project_completion_condition",
+    "name": "project_completion_condition_summary_check",
+    "target": "length(btrim(summary)) BETWEEN 1 AND 2000",
+    "actual": {
+      "oid": "26125",
+      "schema": "poms",
+      "table_name": "project_completion_condition",
+      "conname": "project_completion_condition_summary_check",
+      "definition": "CHECK (length(btrim(summary)) >= 1 AND length(btrim(summary)) <= 2000)"
+    }
+  },
+  {
+    "table": "project_completion_condition_closure",
+    "name": "project_completion_condition_closure_closure_summary_check",
+    "target": "length(btrim(closure_summary)) BETWEEN 1 AND 2000",
+    "actual": {
+      "oid": "26164",
+      "schema": "poms",
+      "table_name": "project_completion_condition_closure",
+      "conname": "project_completion_condition_closure_closure_summary_check",
+      "definition": "CHECK (length(btrim(closure_summary)) >= 1 AND length(btrim(closure_summary)) <= 2000)"
+    }
+  },
+  {
+    "table": "commission_role_assignment_participant",
+    "name": "commission_role_assignment_partici_responsibility_summary_check",
+    "target": "length(btrim(responsibility_summary)) BETWEEN 1 AND 2000",
+    "actual": {
+      "oid": "26018",
+      "schema": "poms",
+      "table_name": "commission_role_assignment_participant",
+      "conname": "commission_role_assignment_partici_responsibility_summary_check",
+      "definition": "CHECK (length(btrim(responsibility_summary)) >= 1 AND length(btrim(responsibility_summary)) <= 2000)"
+    }
+  },
+  {
+    "table": "commission_role_assignment_participant",
+    "name": "commission_role_assignment_participant_check",
+    "target": "(weight_units=0 AND zero_weight_reason IS NOT NULL AND length(btrim(zero_weight_reason)) BETWEEN 1 AND 1000)\n        OR (weight_units>0 AND zero_weight_reason IS NULL)",
+    "actual": {
+      "oid": "26021",
+      "schema": "poms",
+      "table_name": "commission_role_assignment_participant",
+      "conname": "commission_role_assignment_participant_check",
+      "definition": "CHECK (weight_units = 0 AND zero_weight_reason IS NOT NULL AND length(btrim(zero_weight_reason)) >= 1 AND length(btrim(zero_weight_reason)) <= 1000 OR weight_units > 0 AND zero_weight_reason IS NULL)"
+    }
+  },
+  {
+    "table": "commission_role_assignment_participant",
+    "name": "commission_role_assignment_participant_weight_units_check",
+    "target": "weight_units BETWEEN 0 AND 1000000",
+    "actual": {
+      "oid": "26019",
+      "schema": "poms",
+      "table_name": "commission_role_assignment_participant",
+      "conname": "commission_role_assignment_participant_weight_units_check",
+      "definition": "CHECK (weight_units >= 0 AND weight_units <= 1000000)"
+    }
+  },
+  {
+    "table": "commission_role_assignment_freeze_payload",
+    "name": "commission_role_assignment_freeze__weights_policy_version_check",
+    "target": "weights_policy_version='normalized-six-v1-zero-reason'",
+    "actual": {
+      "oid": "26043",
+      "schema": "poms",
+      "table_name": "commission_role_assignment_freeze_payload",
+      "conname": "commission_role_assignment_freeze__weights_policy_version_check",
+      "definition": "CHECK (weights_policy_version = 'normalized-six-v1-zero-reason'::text)"
+    }
+  },
+  {
+    "table": "receipt_accounting_basis",
+    "name": "receipt_accounting_basis_rounding_policy_check",
+    "target": "rounding_policy='gross-net-HALF_UP-cents-v1'",
+    "actual": {
+      "oid": "25601",
+      "schema": "poms",
+      "table_name": "receipt_accounting_basis",
+      "conname": "receipt_accounting_basis_rounding_policy_check",
+      "definition": "CHECK (rounding_policy::text = 'gross-net-HALF_UP-cents-v1'::text)"
+    }
+  },
+  {
+    "table": "project_cost_inclusion_decision",
+    "name": "chk_r4g_support_not_primary",
+    "target": "recognition_role NOT IN ('tax-support','evidence-only') OR decision='exclude'",
+    "actual": {
+      "oid": "25721",
+      "schema": "poms",
+      "table_name": "project_cost_inclusion_decision",
+      "conname": "chk_r4g_support_not_primary",
+      "definition": "CHECK ((recognition_role::text <> ALL (ARRAY['tax-support'::character varying, 'evidence-only'::character varying]::text[])) OR decision::text = 'exclude'::text)"
+    }
+  }
+]

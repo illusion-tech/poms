@@ -1,0 +1,245 @@
+--- a/tools/rust-r4ghi/business/roles.mjs
++++ b/tools/rust-r4ghi/business/roles.mjs
+@@ -1,60 +1,57 @@
+-import assert from 'node:assert/strict';
+-import { data, uuid } from './pure.mjs';
+-
+-const rv = row => { assert(Number.isSafeInteger(row?.rowVersion) && row.rowVersion > 0 && row.rowVersion <= 2147483647); return row.rowVersion; };
+-export async function rolesAndExecution(ctx, api, { auditFaults = false } = {}) {
+-  const f = ctx.state.fixtures; assert(f.handoverComplete && !f.executionComplete);
+-  const call = async (op, params, body = null, binding = {}, actor = 'manager') => data(await api.request(op, params, body, actor, binding));
+-  const write = async (op, params, body, binding, actor = 'manager') => {
+-    if (!auditFaults) return call(op, params, body, binding, actor);
+-    const { faultAndRetry } = await import('./faults.mjs');
+-    const pair = await faultAndRetry(ctx, api, { operationId: op, params, body, binding, actor,
+-      fault: { table: 'audit_log', event: 'INSERT', field: 'request_id', eventType: op } });
+-    f.requiredAuditFaults ??= {}; f.requiredAuditFaults[op] = pair.receipt; ctx.persist(); return data(pair.successful);
+-  };
+-  const participants = [
+-    { userId: ctx.state.actors.manager.id, roleType: 'sales-owner', weight: 0.5, zeroWeightReason: null, responsibilitySummary: '真实项目M承担销售主责。' },
+-    { userId: ctx.state.actors.execution.id, roleType: 'execution-owner', weight: 0.499999, zeroWeightReason: null, responsibilitySummary: '真实EO承担交付执行职责。' },
+-    { userId: ctx.state.actors.finance.id, roleType: 'finance', weight: 0.000001, zeroWeightReason: null, responsibilitySummary: '真实财务参与者承担回款核验职责，精确百万分之一。' },
+-    { userId: ctx.state.actors.manager.id, roleType: 'business-admin', weight: 0, zeroWeightReason: '本次真实兼任商务资料治理职责，不另计提成权重。', responsibilitySummary: '真实M兼任已确认的商务资料治理职责。' },
+-  ];
+-  if (!f.roleAssignment) {
+-    const current = await call('CommissionController_getCurrentRoleAssignment', { projectId: f.project.id }); assert.equal(current, null, 'Fresh project must have actual 200/null current assignment');
+-    if (!f.roleWeightNegativesComplete) {
+-      const base = { inputVersion: 'server-derived-v1', expectedCurrentAssignmentId: null, expectedCurrentRowVersion: null, participants };
+-      for (const token of ['1e-7', '0.10000000000000001']) {
+-        const rawJson = JSON.stringify(base).replace('"weight":0.5', `"weight":${token}`); assert.notEqual(rawJson, JSON.stringify(base));
+-        await call('CommissionController_createRoleAssignment', { projectId: f.project.id }, null, { rawJson, expectedStatus: 400 });
+-        assert.equal(await call('CommissionController_getCurrentRoleAssignment', { projectId: f.project.id }), null, 'Rejected precision may not create any assignment');
+-      }
+-      f.roleWeightNegativesComplete = true; ctx.persist();
+-    }
+-    f.roleAssignment = await write('CommissionController_createRoleAssignment', { projectId: f.project.id }, { inputVersion: 'server-derived-v1', expectedCurrentAssignmentId: null, expectedCurrentRowVersion: null, participants },
+-      { responseBirths: [{ table: 'commission_role_assignment', pointer: '/id' }] }); ctx.persist();
+-  }
+-  let detail = await call('CommissionRoleAssignmentController_getRoleAssignmentDetail', { id: f.roleAssignment.id });
+-  if (detail.freezeVersionSummary.status !== 'frozen') {
+-    const handover = await call('ProjectHandoverController_getProjectHandoverDetailByProject', { projectId: f.project.id });
+-    f.roleFreezeResult = await write('CommissionRoleAssignmentController_freezeRoleAssignment', { id: f.roleAssignment.id }, { inputVersion: 'server-derived-v1', sourceHandoverId: uuid(handover.handoverId),
+-      handoverSummarySnapshotId: uuid(handover.summarySnapshotId), handoverBasisSnapshotId: uuid(handover.handoverBasisSnapshotId), expectedSourceHash: handover.sourcePayloadHash,
+-      expectedHandoverVersion: rv(handover), expectedVersion: rv(detail.freezeVersionSummary), comment: '按真实本人职责、固定材料和精确百万分权重冻结本项目角色。' },
+-      { mutableTables: ['commission_role_assignment', 'project_handover', 'approval_summary_snapshot'], updatedAnchors: [{ table: 'commission_role_assignment', id: f.roleAssignment.id, requestBinding: 'path:id' }] }); ctx.persist();
+-  }
+-  detail = await call('CommissionRoleAssignmentController_getRoleAssignmentDetail', { id: f.roleAssignment.id });
+-  assert.equal(detail.freezeVersionSummary.status, 'frozen'); assert.equal(detail.sourceQualification, 'verified-producer');
+-  assert(detail.freezeVersionSummary.participantsJson.some(p => p.weightExact === '0.000001') && detail.freezeVersionSummary.participantsJson.some(p => p.weightExact === '0.000000' && p.zeroWeightReason));
+-  f.frozenRoleDetail = detail;
+-  const handover = await call('ProjectHandoverController_getProjectHandoverDetailByProject', { projectId: f.project.id });
+-  f.project = await call('ProjectController_getById', { id: f.project.id });
+-  const ledger = await ctx.db(async c => (await c.query("SELECT id::text FROM poms.project_stage_record WHERE project_id=$1::uuid AND to_stage='handover' ORDER BY sequence_no DESC", [f.project.id])).rows);
+-  assert.equal(ledger.length, 1, 'Actual unique handover stage record required; do not derive it from current stage');
+-  f.execution = await write('ProjectController_startExecution', { id: f.project.id }, { inputVersion: 'server-derived-v1', sourceHandoverId: uuid(handover.handoverId),
+-    handoverStageRecordId: uuid(ledger[0].id), handoverSummarySnapshotId: uuid(handover.summarySnapshotId), commissionRoleAssignmentId: uuid(detail.roleAssignmentId),
+-    expectedProjectVersion: rv(f.project), expectedRoleAssignmentVersion: rv(detail.freezeVersionSummary), sourcePayloadHash: handover.sourcePayloadHash,
+-    reason: '实际EO在真实移交和有效角色冻结后按受控入口进入执行。' },
+-    { responseBirths: [{ table: 'project_stage_record', pointer: '/projectStageRecordId' }], mutableTables: ['project'], updatedAnchors: [{ table: 'project', id: f.project.id, requestBinding: 'path:id' }] }, 'execution');
+-  assert.equal(f.execution.businessStatusAfter, 'execution'); assert.equal(f.execution.enteredBy, ctx.state.actors.execution.id);
+-  f.executionComplete = true; ctx.persist();
+-  return { kind: 'actual-minimal-R5-and-EO-controlled-execution', completed: true, roleOperations: 4, precisionNegatives: 2, acceptedExactMillionth: true, frozenZeroReasonMember: true,
+-    fullR5Claim: false, requiredAuditFI: auditFaults ? 'only-actually-recorded-families-in-this-stage' : 'not-run', directDatabaseRoleMutationTests: 'not-run', nextStage: 'actual-costs-and-operating', G3Certified: false, G4Certified: false };
+-}
++import assert from 'node:assert/strict';
++import { data, uuid } from './pure.mjs';
++import { restrictExecutionRole, executionAdmissionFromEO } from './execution-admission.mjs';
++
++const rv = row => { assert(Number.isSafeInteger(row?.rowVersion) && row.rowVersion > 0 && row.rowVersion <= 2147483647); return row.rowVersion; };
++export async function rolesAndExecution(ctx, api, { auditFaults = false } = {}) {
++  const f = ctx.state.fixtures; assert(f.handoverComplete && !f.executionComplete);
++  await restrictExecutionRole(ctx, api);
++  const call = async (op, params, body = null, binding = {}, actor = 'manager') => data(await api.request(op, params, body, actor, binding));
++  const write = async (op, params, body, binding, actor = 'manager') => {
++    if (!auditFaults) return call(op, params, body, binding, actor);
++    const { faultAndRetry } = await import('./faults.mjs');
++    const pair = await faultAndRetry(ctx, api, { operationId: op, params, body, binding, actor,
++      fault: { table: 'audit_log', event: 'INSERT', field: 'request_id', eventType: op } });
++    f.requiredAuditFaults ??= {}; f.requiredAuditFaults[op] = pair.receipt; ctx.persist(); return data(pair.successful);
++  };
++  const participants = [
++    { userId: ctx.state.actors.manager.id, roleType: 'sales-owner', weight: 0.5, zeroWeightReason: null, responsibilitySummary: '真实项目M承担销售主责。' },
++    { userId: ctx.state.actors.execution.id, roleType: 'execution-owner', weight: 0.499999, zeroWeightReason: null, responsibilitySummary: '真实EO承担交付执行职责。' },
++    { userId: ctx.state.actors.finance.id, roleType: 'finance', weight: 0.000001, zeroWeightReason: null, responsibilitySummary: '真实财务参与者承担回款核验职责，精确百万分之一。' },
++    { userId: ctx.state.actors.manager.id, roleType: 'business-admin', weight: 0, zeroWeightReason: '本次真实兼任商务资料治理职责，不另计提成权重。', responsibilitySummary: '真实M兼任已确认的商务资料治理职责。' },
++  ];
++  if (!f.roleAssignment) {
++    const current = await call('CommissionController_getCurrentRoleAssignment', { projectId: f.project.id }); assert.equal(current, null, 'Fresh project must have actual 200/null current assignment');
++    if (!f.roleWeightNegativesComplete) {
++      const base = { inputVersion: 'server-derived-v1', expectedCurrentAssignmentId: null, expectedCurrentRowVersion: null, participants };
++      for (const token of ['1e-7', '0.10000000000000001']) {
++        const rawJson = JSON.stringify(base).replace('"weight":0.5', `"weight":${token}`); assert.notEqual(rawJson, JSON.stringify(base));
++        await call('CommissionController_createRoleAssignment', { projectId: f.project.id }, null, { rawJson, expectedStatus: 400 });
++        assert.equal(await call('CommissionController_getCurrentRoleAssignment', { projectId: f.project.id }), null, 'Rejected precision may not create any assignment');
++      }
++      f.roleWeightNegativesComplete = true; ctx.persist();
++    }
++    f.roleAssignment = await write('CommissionController_createRoleAssignment', { projectId: f.project.id }, { inputVersion: 'server-derived-v1', expectedCurrentAssignmentId: null, expectedCurrentRowVersion: null, participants },
++      { responseBirths: [{ table: 'commission_role_assignment', pointer: '/id' }] }); ctx.persist();
++  }
++  let detail = await call('CommissionRoleAssignmentController_getRoleAssignmentDetail', { id: f.roleAssignment.id });
++  if (detail.freezeVersionSummary.status !== 'frozen') {
++    const handover = await call('ProjectHandoverController_getProjectHandoverDetailByProject', { projectId: f.project.id });
++    f.roleFreezeResult = await write('CommissionRoleAssignmentController_freezeRoleAssignment', { id: f.roleAssignment.id }, { inputVersion: 'server-derived-v1', sourceHandoverId: uuid(handover.handoverId),
++      handoverSummarySnapshotId: uuid(handover.summarySnapshotId), handoverBasisSnapshotId: uuid(handover.handoverBasisSnapshotId), expectedSourceHash: handover.sourcePayloadHash,
++      expectedHandoverVersion: rv(handover), expectedVersion: rv(detail.freezeVersionSummary), comment: '按真实本人职责、固定材料和精确百万分权重冻结本项目角色。' },
++      { mutableTables: ['commission_role_assignment', 'project_handover', 'approval_summary_snapshot'], updatedAnchors: [{ table: 'commission_role_assignment', id: f.roleAssignment.id, requestBinding: 'path:id' }] }); ctx.persist();
++  }
++  detail = await call('CommissionRoleAssignmentController_getRoleAssignmentDetail', { id: f.roleAssignment.id });
++  assert.equal(detail.freezeVersionSummary.status, 'frozen'); assert.equal(detail.sourceQualification, 'verified-producer');
++  assert(detail.freezeVersionSummary.participantsJson.some(p => p.weightExact === '0.000001') && detail.freezeVersionSummary.participantsJson.some(p => p.weightExact === '0.000000' && p.zeroWeightReason));
++  f.frozenRoleDetail = detail;
++  const { body: executionBody } = await executionAdmissionFromEO(ctx, api);
++  f.execution = await write('ProjectController_startExecution', { id: f.project.id }, executionBody,
++    { responseBirths: [{ table: 'project_stage_record', pointer: '/projectStageRecordId' }], mutableTables: ['project'], updatedAnchors: [{ table: 'project', id: f.project.id, requestBinding: 'path:id' }] }, 'execution');
++  assert.equal(f.execution.businessStatusAfter, 'execution'); assert.equal(f.execution.enteredBy, ctx.state.actors.execution.id);
++  f.executionComplete = true; ctx.persist();
++  return { kind: 'actual-minimal-R5-and-EO-controlled-execution', completed: true, roleOperations: 4, precisionNegatives: 2, acceptedExactMillionth: true, frozenZeroReasonMember: true,
++    EOProfile: 'actual-project-read-write-only', RoleGETForEO: 'actual403', executionAdmission: 'actual-EO-ProjectDetail-six-refs',
++    fullR5Claim: false, requiredAuditFI: auditFaults ? 'only-actually-recorded-families-in-this-stage' : 'not-run', directDatabaseRoleMutationTests: 'not-run', nextStage: 'actual-costs-and-operating', G3Certified: false, G4Certified: false };
++}
+--- a/tools/rust-r4ghi/business/ledger.mjs
++++ b/tools/rust-r4ghi/business/ledger.mjs
+@@ -4,6 +4,7 @@
+ import { loadSnapshot, readRows, difference } from './snapshot.mjs';
+ import { assertObjectsRecorded, reconcileObjects } from './objects.mjs';
+ import { platformBirthProof } from './platform-bindings.mjs';
++import { executionRoleRevocationProof } from './execution-role-bindings.mjs';
+ import { readinessDiffReviewMutationProof } from './readiness-bindings.mjs';
+ 
+ export async function changedColumns(ctx, before, after) {
+@@ -102,13 +103,14 @@
+       const counterProof = change.table === 'business_number_sequence' ? numberProof(pair.after, pair.before, binding.number, numberBody, numberSpecs) : null;
+       if (change.table === 'business_number_sequence' && !counterProof) { blockers.push({ kind: 'counter-change-not-bound-to-real-returned-number', key: pair.after.key }); continue; }
+       if (owned) {
++        const exactEORevocation = binding.executionRoleNarrowing === true ? executionRoleRevocationProof(ctx, change.table, pair.before, pair.after, attempt) : null;
+         const exactReadinessReview = binding.readinessDiffReviewItems === true
+           ? readinessDiffReviewMutationProof({ database: change.database, table: change.table, beforeRow: pair.before, afterRow: pair.after, attempt, before, after, readRows }) : null;
+-        if (owned.latestSha256 !== pair.before.sha256 || (owned.latestXmin && owned.latestXmin !== pair.before.xmin) || !(['auth_session', 'platform_user'].includes(change.table) || counterProof || (binding.mutableTables ?? []).includes(change.table) || exactReadinessReview)) {
++        if (owned.latestSha256 !== pair.before.sha256 || (owned.latestXmin && owned.latestXmin !== pair.before.xmin) || !(['auth_session', 'platform_user'].includes(change.table) || counterProof || (binding.mutableTables ?? []).includes(change.table) || exactEORevocation || exactReadinessReview)) {
+           blockers.push({ kind: 'owned-mutation-not-in-command-allowlist', table: change.table, key: pair.after.key }); continue;
+         }
+         ctx.own(change.database, change.table, pair.after, { kind: 'HTTP-owned-row-update', requestId: attempt.requestId, operationId: attempt.operationId,
+-          beforeSha256: pair.before.sha256, beforeSnapshot: before.manifest, afterSnapshot: after.manifest, ...(exactReadinessReview ? { exactReadinessReview } : {}), ...(counterProof ? { counterProof } : {}) });
++          beforeSha256: pair.before.sha256, beforeSnapshot: before.manifest, afterSnapshot: after.manifest, ...(exactEORevocation ? { exactEORevocation } : {}), ...(exactReadinessReview ? { exactReadinessReview } : {}), ...(counterProof ? { counterProof } : {}) });
+         recorded.push({ kind: 'owned-update', table: change.table, key: pair.after.key });
+       } else if (borrowed && borrowed.latestSha256 === pair.before.sha256) {
+         const columns = await changedColumns(ctx, pair.before.raw, pair.after.raw);
+--- /dev/null
++++ b/tools/rust-r4ghi/business/execution-admission.mjs
+@@ -0,0 +1,54 @@
++import assert from 'node:assert/strict';
++import { data, uuid, keyOf } from './pure.mjs';
++import { capture, readRows } from './snapshot.mjs';
++import { assertRecorded } from './ledger.mjs';
++
++const permissions = Object.freeze(['project:read', 'project:write']);
++export async function restrictExecutionRole(ctx, api) {
++  const f = ctx.state.fixtures, actor = ctx.state.actors.execution, role = f.roles?.execution;
++  assert(f.handoverComplete && !f.executionComplete && actor && role && role.id === actor.roleId);
++  assert(ctx.state.owned[keyOf(ctx.database, 'role', [uuid(role.id)])], 'Never restrict an original/shared seed role');
++  if (!f.executionMinimalRole) {
++    const before = await capture(ctx, ctx.next('eo-role-before')); assertRecorded(ctx, before);
++    const memberships = readRows(before.databases[ctx.database].tables.user_role_assignment).map(row => ({ row, value: JSON.parse(row.raw) }))
++      .filter(({ value }) => value.role_id === role.id && value.status === 'active');
++    assert.equal(memberships.length, 1, 'This dedicated new EO role must not affect any other user');
++    assert.equal(memberships[0].value.user_id, actor.id);
++    assert(ctx.state.owned[keyOf(ctx.database, 'user_role_assignment', memberships[0].row.key)]);
++    const result = await api.request('PlatformController_assignRolePermissions', { id: role.id }, { permissionKeys: [...permissions] }, 'manager',
++      { mutableTables: ['role'], executionRoleNarrowing: true });
++    assert.equal(data(result).id, role.id);
++    f.executionMinimalRole = { roleId: role.id, commandReceipt: result.receiptId, actualBefore: before.manifest, expectedPermissions: [...permissions] }; ctx.persist();
++  }
++  await api.login('execution');
++  assert.deepEqual([...actor.permissions].sort(), [...permissions], 'Actual EO session must have exactly project:read/write');
++  assert(!actor.permissions.includes('commission:assignments:manage'));
++  f.executionMinimalRole.effectivePermissionsObserved = true; ctx.persist();
++}
++
++export async function executionAdmissionFromEO(ctx, api) {
++  const f = ctx.state.fixtures;
++  assert(f.executionMinimalRole?.effectivePermissionsObserved && f.roleAssignment && !f.executionComplete);
++  if (!f.executionRoleGetDenied) {
++    const current = await api.request('CommissionController_getCurrentRoleAssignment', { projectId: f.project.id }, null, 'execution', { expectedStatus: 403 });
++    const detail = await api.request('CommissionRoleAssignmentController_getRoleAssignmentDetail', { id: f.roleAssignment.id }, null, 'execution', { expectedStatus: 403 });
++    f.executionRoleGetDenied = { currentReceipt: current.receiptId, detailReceipt: detail.receiptId }; ctx.persist();
++  }
++  const observed = await api.request('ProjectController_getById', { id: f.project.id }, null, 'execution');
++  const project = data(observed), context = project.executionAdmissionContext;
++  assert.equal(project.scopeKind, 'full-project'); assert.equal(project.currentStage, 'handover');
++  assert(context && typeof context === 'object' && !Array.isArray(context));
++  const start = api.spec.components.schemas.StartProjectExecutionRequest;
++  const keys = Object.keys(start.properties).filter(key => !['inputVersion', 'expectedProjectVersion', 'reason'].includes(key)).sort();
++  assert.equal(keys.length, 6); assert.deepEqual(Object.keys(context).sort(), keys);
++  assert.equal(uuid(context.handoverStageRecordId), project.currentStageRecordId);
++  assert.equal(uuid(context.commissionRoleAssignmentId), f.roleAssignment.id);
++  for (const key of ['handoverSummarySnapshotId', 'sourceHandoverId']) uuid(context[key]);
++  assert(Number.isSafeInteger(context.expectedRoleAssignmentVersion) && context.expectedRoleAssignmentVersion > 0 && context.expectedRoleAssignmentVersion <= 2147483647);
++  assert(/^[a-f0-9]{64}$/.test(context.sourcePayloadHash));
++  assert(Number.isSafeInteger(project.projectRowVersion) && project.projectRowVersion > 0 && project.projectRowVersion <= 2147483647);
++  f.executionAdmissionFromEO = { projectDetailReceipt: observed.receiptId, permissionKeys: [...ctx.state.actors.execution.permissions], context, projectRowVersion: project.projectRowVersion };
++  ctx.persist();
++  return { project, body: { ...context, inputVersion: 'server-derived-v1', expectedProjectVersion: project.projectRowVersion,
++    reason: '真实EO仅以ProjectRead/Write读取本人的真实执行准入六项并提交；没有RoleGET权限，不由manager/SQL代构。' } };
++}
+--- /dev/null
++++ b/tools/rust-r4ghi/business/execution-role-bindings.mjs
+@@ -0,0 +1,26 @@
++// Actual R2 RolePermissions removes rights by revoking owned relation rows.
++// No DELETE, SQL permission fixture, seed role or table-wide mutation allowance.
++import assert from 'node:assert/strict';
++import { keyOf, uuid } from './pure.mjs';
++
++export function executionRoleRevocationProof(ctx, table, beforeRow, afterRow, attempt) {
++  if (table !== 'role_permission_assignment' || attempt.operationId !== 'PlatformController_assignRolePermissions'
++    || attempt.status !== 200 || !attempt.responseComplete || attempt.transportFailure || attempt.actorKey !== 'manager') return null;
++  const roleId = uuid(attempt.pathParams.id), wanted = attempt.requestValue?.permissionKeys;
++  if (roleId !== ctx.state.fixtures.roles?.execution?.id || attempt.body?.id !== roleId
++    || !Array.isArray(wanted) || JSON.stringify([...wanted].sort()) !== JSON.stringify(['project:read', 'project:write'])) return null;
++  const ownedRole = ctx.state.owned[keyOf(ctx.database, 'role', [roleId])];
++  const ownedRelation = ctx.state.owned[keyOf(ctx.database, table, beforeRow.key)];
++  assert(ownedRole && !ownedRole.deleted && ownedRelation && !ownedRelation.deleted, 'Only this run dedicated owned EO role/relations may be restricted');
++  const a = JSON.parse(beforeRow.raw), b = JSON.parse(afterRow.raw);
++  if (JSON.stringify(beforeRow.key) !== JSON.stringify(afterRow.key) || a.role_id !== roleId || b.role_id !== roleId
++    || wanted.includes(a.permission_key) || a.status !== 'active' || b.status !== 'revoked' || b.revoked_by !== attempt.actorId
++    || typeof b.revoked_at !== 'string' || !Number.isFinite(Date.parse(b.revoked_at))) return null;
++  const mutable = new Set(['status', 'revoked_at', 'revoked_by']);
++  if (JSON.stringify(Object.keys(a).sort()) !== JSON.stringify(Object.keys(b).sort())
++    || Object.keys(a).some(key => !mutable.has(key) && JSON.stringify(a[key]) !== JSON.stringify(b[key]))) return null;
++  return { kind: 'HTTP-source-bound-exact-owned-EO-permission-revocation', roleId, relationId: beforeRow.key[0], permissionKey: a.permission_key,
++    actorId: attempt.actorId, changedColumns: ['status', 'revoked_at', 'revoked_by'], beforeSHA256: beforeRow.sha256, afterSHA256: afterRow.sha256,
++    sourcePin: ctx.pins.find(pin => pin.file === 'apps/poms-api-rust/src/roles/store.rs'),
++    separateLegacyPermissionAndAuditTransactionsPreserved: true, physicalRelationDeleted: false };
++}
+--- /dev/null
++++ b/tools/rust-r4ghi/business/execution-role-bindings.test.mjs
+@@ -0,0 +1,9 @@
++import test from 'node:test';
++import assert from 'node:assert/strict';
++import { executionRoleRevocationProof } from './execution-role-bindings.mjs';
++const role='11111111-1111-4111-8111-111111111111',rel='22222222-2222-4222-8222-222222222222',actor='33333333-3333-4333-8333-333333333333';
++const raw=(x)=>({key:[rel],raw:JSON.stringify(x),sha256:'a'.repeat(64),xmin:'11'});
++function fixture(){const a={id:rel,role_id:role,permission_key:'commission:assignments:manage',status:'active',assigned_by:actor,revoked_at:null,revoked_by:null};const b={...a,status:'revoked',revoked_at:'2026-11-07T00:00:00Z',revoked_by:actor};return {ctx:{database:'rust',pins:[],state:{fixtures:{roles:{execution:{id:role}}},owned:{[JSON.stringify(['rust','role',[role]])]:{},[JSON.stringify(['rust','role_permission_assignment',[rel]])]:{}}}},a,b,attempt:{operationId:'PlatformController_assignRolePermissions',status:200,responseComplete:true,transportFailure:false,actorKey:'manager',actorId:actor,pathParams:{id:role},requestValue:{permissionKeys:['project:read','project:write']},body:{id:role}}};}
++test('exact owned EO permission revocation qualifies and keeps legacy TX classification',()=>{const {ctx,a,b,attempt}=fixture();const p=executionRoleRevocationProof(ctx,'role_permission_assignment',raw(a),raw(b),attempt);assert(p);assert.equal(p.physicalRelationDeleted,false);assert.equal(p.separateLegacyPermissionAndAuditTransactionsPreserved,true);});
++test('another role, retained permission, or unrelated column change is not allowed',()=>{for(const change of [b=>({...b,role_id:actor}),b=>({...b,permission_key:'project:read'}),b=>({...b,assigned_by:role})]){const {ctx,a,b,attempt}=fixture();assert.equal(executionRoleRevocationProof(ctx,'role_permission_assignment',raw(a),raw(change(b)),attempt),null);}});
++test('broad replacement body is not the minimal EO case',()=>{const {ctx,a,b,attempt}=fixture();attempt.requestValue.permissionKeys.push('commission:assignments:manage');assert.equal(executionRoleRevocationProof(ctx,'role_permission_assignment',raw(a),raw(b),attempt),null);});

@@ -1,0 +1,66 @@
+{
+  "kind": "review05-independent-SDK-D-model-repair-actual-full-A-check",
+  "verifiedAt": "2026-11-07T08:09:39.784Z",
+  "inputs": [
+    {
+      "file": "tools/openapi/shared-api-client.mjs",
+      "bytes": 21009,
+      "sha256": "4741cb72411fad9267a90c70e8ec7effcbf3ddcca5c9b790941aa6b7fc62bad2"
+    },
+    {
+      "file": "tools/openapi/repair-generated-models.mjs",
+      "bytes": 10255,
+      "sha256": "efc77985246d3c86b985dfe48cfdd6926de140e99d9b1cecd4924a89000aaace"
+    },
+    {
+      "file": "tools/openapi/repair-generated-models.test.mjs",
+      "bytes": 4759,
+      "sha256": "70c7bff8bfd935249eb198fdb0a6466d3237532b0b2196429cbc645416efbd21"
+    },
+    {
+      "file": "tools/openapi/shared-api-client.test.mjs",
+      "bytes": 15537,
+      "sha256": "77005b31beaa1af8847a05a4b70f52a92746838c37048e35c6bd3105f8419704"
+    },
+    {
+      "file": "tools/openapi/shared-api-client-baseline.json",
+      "bytes": 88204,
+      "sha256": "a9323bb005d36bca2c4bcd9b41b3ed058d62f2299f0a882bc475a5b5217c1fcd"
+    },
+    {
+      "file": "libs/shared/api-spec/openapi.json",
+      "bytes": 1401247,
+      "sha256": "8965393af9264e0805c3174520816673a1a56920944428bb8a9321e81da74ab0"
+    }
+  ],
+  "exactRepairTestsPassed": 7,
+  "exactRepairTestsFailed": 0,
+  "actualJARGeneration": true,
+  "nodeVersion": "24.19.0",
+  "generator": {
+    "version": "7.20.0",
+    "jarSha256": "871e0155287a87b579ff31096b2d45b1f95a115edfe631411ec6cff4848d0f03",
+    "javaVersion": "17.0.12",
+    "directJar": true,
+    "stdoutSha256": "2f3a2cde8330145ffc3f3794a2eaa0a515830aefba82d996e5521da18cd7d6bc",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "spec": {
+    "file": "libs/shared/api-spec/openapi.json",
+    "sha256": "8965393af9264e0805c3174520816673a1a56920944428bb8a9321e81da74ab0",
+    "paths": 242,
+    "operations": 296,
+    "schemas": 689
+  },
+  "sourceHead": "883f88fdf4fd609bb8b0725b28bda011d408d6ee",
+  "fullFiles": 682,
+  "manifestSha256": "57f644666d8668afd1127e0582b99e108e77a9bf06cf113c15fc73043445885f",
+  "modelRepairCount": 70,
+  "modelRepairFiles": 23,
+  "entireExpectedTreeAndRepairLedgerExactlyMatchesRoot05": true,
+  "RootTargetEveryByteAndMtimeUnchanged": true,
+  "ToolAndCanonicalInputHashesStable": true,
+  "purpose": "Onlyisolatedtemporarygenerationandreadonlycheck;noSDKwriteorDB/HTTPcallsbyreviewer.",
+  "G3Certified": false,
+  "G4Certified": false
+}

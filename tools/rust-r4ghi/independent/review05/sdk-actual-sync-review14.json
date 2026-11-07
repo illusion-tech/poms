@@ -1,0 +1,98 @@
+{
+  "kind": "independent-review05-actual-S5-SDK-sync-and-partial-integration-review",
+  "verifiedAt": "2026-11-07T07:41:28.659Z",
+  "A": "883f88fdf4fd609bb8b0725b28bda011d408d6ee",
+  "spec": {
+    "file": "libs/shared/api-spec/openapi.json",
+    "sha256": "8965393af9264e0805c3174520816673a1a56920944428bb8a9321e81da74ab0",
+    "paths": 242,
+    "operations": 296,
+    "schemas": 689
+  },
+  "generator": {
+    "version": "7.20.0",
+    "jarSha256": "871e0155287a87b579ff31096b2d45b1f95a115edfe631411ec6cff4848d0f03",
+    "javaVersion": "17.0.12",
+    "directJar": true,
+    "stdoutSha256": "402f61e65c2c4f0a03607b11d5dd7ea4001d1e6883be120b3dff84c9cbeb8a5b",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "nodeVersion": "24.19.0",
+  "actualWriteThenCheckCertified": true,
+  "beforeFiles": 616,
+  "currentCompleteFiles": 682,
+  "fullExpectedManifestSHA256": "56a4c9c1c15815fa50b6b43f84c14711cc3f671435662c38d9bcab36c3f1213b",
+  "currentFullTargetMatchesAll682Files": true,
+  "targetUnchangedSinceAfterCheck": true,
+  "metadata": [
+    {
+      "file": "project.json",
+      "sha256": "c0ee6159a0de1071ea10b07707393d1a69e8a68c5aaba926b624bc05ef5d79fa",
+      "mtimeAndBytesUnchanged": true
+    },
+    {
+      "file": "tsconfig.json",
+      "sha256": "ad6576e9bc540527d7a43003e55b74471a77a92a3caf43c2fb9cb68635913208",
+      "mtimeAndBytesUnchanged": true
+    },
+    {
+      "file": "tsconfig.lib.json",
+      "sha256": "4055b9753b63413b239616fb118f97f37aedccc7e5cc184e7f1b9aa6eed752f8",
+      "mtimeAndBytesUnchanged": true
+    }
+  ],
+  "actualIntegration01": {
+    "exitCode": 1,
+    "passed": 2,
+    "failed": 2,
+    "actualConcurrentJARChecksPassed": true,
+    "actualCLIOverridesRejected": true,
+    "failures": "BothWindowsPowerShelladapterscannotfindnodeintheisolatedchildPATH",
+    "classification": "tool-noise/environment;driverPATHfixandre-runrequired;donotskiptestorrelaxguards"
+  },
+  "wholeActualIntegrationCertified": false,
+  "evidence": [
+    {
+      "file": "tmp/rust-r4ghi/root/client-generation04/receipt.json",
+      "bytes": 1800,
+      "sha256": "221398349309db8dfcfa88c271e3be2df7904634b87f1827215ca84ae3817fe8"
+    },
+    {
+      "file": "tmp/rust-r4ghi/root/client-generation04/write-stdout.json",
+      "bytes": 96455,
+      "sha256": "2bdbd6ef3216e4315d86644728901feb41a3441a7541b354605e479546cabe1b"
+    },
+    {
+      "file": "tmp/rust-r4ghi/root/client-generation04/check-stdout.json",
+      "bytes": 88444,
+      "sha256": "810a6cd6e036fc5542bc8658e541265a5dd7f0e79aa6bf24542f48545fc64750"
+    },
+    {
+      "file": "tmp/rust-r4ghi/root/client-generation04/target-before.json",
+      "bytes": 112954,
+      "sha256": "9d6e91c215382df5fe147483eedd44b1fb27e0b078a8bf11fb92cf1513100f4f"
+    },
+    {
+      "file": "tmp/rust-r4ghi/root/client-generation04/target-after.json",
+      "bytes": 124917,
+      "sha256": "e76713192c6f7c33739b83b9164823de9ba9df6d457d53b4e2395acb40adcbd9"
+    },
+    {
+      "file": "tmp/rust-r4ghi/root/sdk-integration01/receipt.json",
+      "bytes": 670,
+      "sha256": "52ea742cb1fc2111943e7b135a823afc824db6536b2f24dc899d71d8b35ee14f"
+    },
+    {
+      "file": "tmp/rust-r4ghi/root/sdk-integration01/stdout.log",
+      "bytes": 3309,
+      "sha256": "036e9d9dc6eca94b3d84cab15421b3570a200f97ba9b3c09c08ccdba8f07b1e1"
+    },
+    {
+      "file": "tmp/rust-r4ghi/root/sdk-integration01/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "G3Certified": false,
+  "G4Certified": false
+}

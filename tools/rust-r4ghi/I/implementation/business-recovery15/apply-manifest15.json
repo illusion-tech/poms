@@ -1,0 +1,74 @@
+{
+  "kind": "source-bound exact R3 diff review observation binding and recovery proposal",
+  "createdAt": "2026-11-07T08:33:43.187320+00:00",
+  "rootHarnessProductsPrivateDBModified": false,
+  "files": [
+    {
+      "path": "tools/rust-r4ghi/business/contracts.mjs",
+      "newFile": false,
+      "beforeSHA256": "40e9309c3ba80c28dbdcd54aad9d72712f51166c3dc471c0a361794b0f77ac35",
+      "afterSHA256": "350a83d6b98189699152909e40aca6239bf70aaf2993101fd9019ca9220dc406",
+      "currentRootSHA256": "40e9309c3ba80c28dbdcd54aad9d72712f51166c3dc471c0a361794b0f77ac35",
+      "beforeMatchesRoot": true,
+      "bytes": 8054
+    },
+    {
+      "path": "tools/rust-r4ghi/business/ledger.mjs",
+      "newFile": false,
+      "beforeSHA256": "d5ae09a3d1cfe2195cb4ead96610794dbc97442ba522153d8dddead9b6349799",
+      "afterSHA256": "4cd1eb7741c2776f80c69c3e36a105e8ff724ea8c803aa631612ffd09cf096bc",
+      "currentRootSHA256": "d5ae09a3d1cfe2195cb4ead96610794dbc97442ba522153d8dddead9b6349799",
+      "beforeMatchesRoot": true,
+      "bytes": 13832
+    },
+    {
+      "path": "tools/rust-r4ghi/business/readiness-bindings.mjs",
+      "newFile": true,
+      "beforeSHA256": null,
+      "afterSHA256": "be58715b551a87cedfa80d5d6b72e9be23bd8f5afb7b305bfbb3ccc5ea9255c8",
+      "currentRootSHA256": null,
+      "beforeMatchesRoot": true,
+      "bytes": 7039
+    },
+    {
+      "path": "tools/rust-r4ghi/business/recover-readiness-observation.mjs",
+      "newFile": true,
+      "beforeSHA256": null,
+      "afterSHA256": "28d2757fc2b4a9346cad54d166d65ca9cf9cf2f8b4f980b1c79b1ebb80b5a58d",
+      "currentRootSHA256": null,
+      "beforeMatchesRoot": true,
+      "bytes": 9219
+    },
+    {
+      "path": "tools/rust-r4ghi/business/readiness-bindings.test.mjs",
+      "newFile": true,
+      "beforeSHA256": null,
+      "afterSHA256": "c3e88b7b54efd1f1fe85d59b1503ff7cb2ff875fe1dd2df4a08d5dd18db36e00",
+      "currentRootSHA256": null,
+      "beforeMatchesRoot": true,
+      "bytes": 1433
+    }
+  ],
+  "patchSHA256": "912001d15ca0e03645643b592f64ae62d1e0770c308859b5155b65eafa6cc1f3",
+  "recoveryPlanSHA256": "d616758e4b4ef4e5a802724e6d06546e1f79e16ce113f30e190d8c408ee7067c",
+  "actualReadOnlyFinding": {
+    "GET": "000120 getDiffHistory, 000121 ledger recorded/blockers empty; history source SELECT only",
+    "realBlocked": "000124 reviewDiff /000125 ledger, one exact-contract-diff child status blocked->ready, real transaction1435",
+    "alreadyProducedDiff": "000118 createContractReadinessPackage real transaction1434; not lazy GET",
+    "newEvidence": "full actual private original SHA and parsed exact request/response/actor-cookie audit/source/xmin proof in recovery-plan15.json"
+  },
+  "proofScope": "Only existing owned contract_readiness_package_item for exact reviewed baseline/contract/diff/package/item, only raw-byte status transition, only observed 200 complete review+fresh exact audit/review/parent same real xmin. No new table-wide mutable allowance.",
+  "recoveryScope": "Root reviewed exact plan SHA; only private ownership metadata/fixture response state after fresh complete snapshot and prospective full ownership audit; no business request/DB mutation/cleanup/original rewrite. Old incomplete ledger remains false; linked new reconciliation receipt records the resolution.",
+  "validation": {
+    "nodeCheck": "all five module syntax passed",
+    "pureTests": "3 passed/0failed",
+    "actualOriginalProofOffline": "passed using immutable captured files only, no private changes",
+    "recoveryExecution": "not-run; Root review/execution pending",
+    "DBHTTPByAuthor": 0
+  },
+  "followups": [
+    "EO minimal ProjectRead/Write role path using actual EO ProjectDetail six refs and RoleGET403",
+    "source-bound faultSweepAndRetry across necessary writes with all failures before exactly one final success",
+    "G real restatement3 and period-safe preparation/read/guarded future close; user decision7 not assumed"
+  ]
+}

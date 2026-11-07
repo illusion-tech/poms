@@ -1,0 +1,1622 @@
+{
+  "kind": "Root-actual-R4-99-operation-dispatch-input",
+  "sourceInputs": [
+    {
+      "path": "tools/rust-r4def/combined-operation-map16.json",
+      "sha256": "51fe8bca788218aa1f84c371f6dba782e4b1be8b48b67e2fa5c2ae1254aae0cc"
+    },
+    {
+      "path": "docs/design/rust-r4ghi/operation-map01.json",
+      "sha256": "73b82726b2c87053e019d35191803a608c56054a49ce5408567709d097a90769"
+    }
+  ],
+  "operationCount": 99,
+  "operations": [
+    {
+      "group": "A",
+      "method": "POST",
+      "path": "/api/commercial-release-baselines",
+      "operationId": "ContractReadinessController_createCommercialReleaseBaseline",
+      "permissions": [
+        "project:write"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.controller.ts",
+        "class": "ContractReadinessController",
+        "handler": "createCommercialReleaseBaseline",
+        "rawSha256": "650819fe5cba1833f963be95f2f3d386d039c9863a75cf212439a88b768a0ba8"
+      }
+    },
+    {
+      "group": "A",
+      "method": "GET",
+      "path": "/api/commercial-release-baselines/{id}",
+      "operationId": "ContractReadinessController_getCommercialReleaseBaseline",
+      "permissions": [
+        "project:read"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.controller.ts",
+        "class": "ContractReadinessController",
+        "handler": "getCommercialReleaseBaseline",
+        "rawSha256": "650819fe5cba1833f963be95f2f3d386d039c9863a75cf212439a88b768a0ba8"
+      }
+    },
+    {
+      "group": "A",
+      "method": "GET",
+      "path": "/api/commercial-release-baselines/{id}/diff-history",
+      "operationId": "ContractReadinessController_getDiffHistory",
+      "permissions": [
+        "project:read"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.controller.ts",
+        "class": "ContractReadinessController",
+        "handler": "getDiffHistory",
+        "rawSha256": "650819fe5cba1833f963be95f2f3d386d039c9863a75cf212439a88b768a0ba8"
+      }
+    },
+    {
+      "group": "A",
+      "method": "POST",
+      "path": "/api/commercial-release-baselines/{id}:reviewDiff",
+      "operationId": "ContractReadinessController_reviewDiff",
+      "permissions": [
+        "project:write"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.controller.ts",
+        "class": "ContractReadinessController",
+        "handler": "reviewDiff",
+        "rawSha256": "650819fe5cba1833f963be95f2f3d386d039c9863a75cf212439a88b768a0ba8"
+      }
+    },
+    {
+      "group": "A",
+      "method": "POST",
+      "path": "/api/contract-readiness-packages",
+      "operationId": "ContractReadinessController_createContractReadinessPackage",
+      "permissions": [
+        "project:write"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.controller.ts",
+        "class": "ContractReadinessController",
+        "handler": "createContractReadinessPackage",
+        "rawSha256": "650819fe5cba1833f963be95f2f3d386d039c9863a75cf212439a88b768a0ba8"
+      }
+    },
+    {
+      "group": "A",
+      "method": "GET",
+      "path": "/api/contract-readiness-packages/{id}",
+      "operationId": "ContractReadinessController_getContractReadinessPackage",
+      "permissions": [
+        "project:read"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.controller.ts",
+        "class": "ContractReadinessController",
+        "handler": "getContractReadinessPackage",
+        "rawSha256": "650819fe5cba1833f963be95f2f3d386d039c9863a75cf212439a88b768a0ba8"
+      }
+    },
+    {
+      "group": "A",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/contract-readiness",
+      "operationId": "ContractReadinessController_getCurrentContractReadiness",
+      "permissions": [
+        "project:read"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.controller.ts",
+        "class": "ContractReadinessController",
+        "handler": "getCurrentContractReadiness",
+        "rawSha256": "650819fe5cba1833f963be95f2f3d386d039c9863a75cf212439a88b768a0ba8"
+      }
+    },
+    {
+      "group": "A",
+      "method": "POST",
+      "path": "/api/contract-readiness-packages/{id}:initializeContractSnapshot",
+      "operationId": "ContractReadinessController_initializeContractSnapshot",
+      "permissions": [
+        "project:write"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.controller.ts",
+        "class": "ContractReadinessController",
+        "handler": "initializeContractSnapshot",
+        "rawSha256": "650819fe5cba1833f963be95f2f3d386d039c9863a75cf212439a88b768a0ba8"
+      }
+    },
+    {
+      "group": "A",
+      "method": "POST",
+      "path": "/api/contract-readiness-packages/{id}:initializeReceivablePlan",
+      "operationId": "ContractReadinessController_initializeReceivablePlan",
+      "permissions": [
+        "project:write"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-readiness/contract-readiness.controller.ts",
+        "class": "ContractReadinessController",
+        "handler": "initializeReceivablePlan",
+        "rawSha256": "650819fe5cba1833f963be95f2f3d386d039c9863a75cf212439a88b768a0ba8"
+      }
+    },
+    {
+      "group": "B",
+      "method": "GET",
+      "path": "/api/contracts",
+      "operationId": "ContractController_list",
+      "permissions": [
+        "project:read"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract/contract.controller.ts",
+        "class": "ContractController",
+        "handler": "list",
+        "rawSha256": "bfa483d3231081ee541b5fac7bcdb4dd169085b49bcb82f978fb658f0991fd23"
+      }
+    },
+    {
+      "group": "B",
+      "method": "GET",
+      "path": "/api/contracts/{id}",
+      "operationId": "ContractController_getById",
+      "permissions": [
+        "project:read"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract/contract.controller.ts",
+        "class": "ContractController",
+        "handler": "getById",
+        "rawSha256": "bfa483d3231081ee541b5fac7bcdb4dd169085b49bcb82f978fb658f0991fd23"
+      }
+    },
+    {
+      "group": "B",
+      "method": "GET",
+      "path": "/api/contracts/{id}/approval-record",
+      "operationId": "ContractController_getCurrentApproval",
+      "permissions": [
+        "project:read"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract/contract.controller.ts",
+        "class": "ContractController",
+        "handler": "getCurrentApproval",
+        "rawSha256": "bfa483d3231081ee541b5fac7bcdb4dd169085b49bcb82f978fb658f0991fd23"
+      }
+    },
+    {
+      "group": "B",
+      "method": "POST",
+      "path": "/api/contracts",
+      "operationId": "ContractController_create",
+      "permissions": [
+        "project:write"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract/contract.controller.ts",
+        "class": "ContractController",
+        "handler": "create",
+        "rawSha256": "bfa483d3231081ee541b5fac7bcdb4dd169085b49bcb82f978fb658f0991fd23"
+      }
+    },
+    {
+      "group": "B",
+      "method": "PATCH",
+      "path": "/api/contracts/{id}",
+      "operationId": "ContractController_updateBasicInfo",
+      "permissions": [
+        "project:write"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract/contract.controller.ts",
+        "class": "ContractController",
+        "handler": "updateBasicInfo",
+        "rawSha256": "bfa483d3231081ee541b5fac7bcdb4dd169085b49bcb82f978fb658f0991fd23"
+      }
+    },
+    {
+      "group": "B",
+      "method": "POST",
+      "path": "/api/contracts/{id}:submitReview",
+      "operationId": "ContractController_submitReview",
+      "permissions": [
+        "project:write"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract/contract.controller.ts",
+        "class": "ContractController",
+        "handler": "submitReview",
+        "rawSha256": "bfa483d3231081ee541b5fac7bcdb4dd169085b49bcb82f978fb658f0991fd23"
+      }
+    },
+    {
+      "group": "B",
+      "method": "POST",
+      "path": "/api/contracts/{id}:activate",
+      "operationId": "ContractController_activate",
+      "permissions": [
+        "project:write"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract/contract.controller.ts",
+        "class": "ContractController",
+        "handler": "activate",
+        "rawSha256": "bfa483d3231081ee541b5fac7bcdb4dd169085b49bcb82f978fb658f0991fd23"
+      }
+    },
+    {
+      "group": "B",
+      "method": "GET",
+      "path": "/api/contracts:lookup",
+      "operationId": "ContractController_getByNo",
+      "permissions": [
+        "project:read"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract/contract.controller.ts",
+        "class": "ContractLookupController",
+        "handler": "getByNo",
+        "rawSha256": "bfa483d3231081ee541b5fac7bcdb4dd169085b49bcb82f978fb658f0991fd23"
+      }
+    },
+    {
+      "group": "B",
+      "method": "GET",
+      "path": "/api/contract-term-snapshots/{id}",
+      "operationId": "ContractTermSnapshotController_getById",
+      "permissions": [
+        "project:read"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract/contract-term-snapshot.controller.ts",
+        "class": "ContractTermSnapshotController",
+        "handler": "getById",
+        "rawSha256": "3e069a4875437013442aa0ada5de147b0fd289873194c7b3b4820924e824242f"
+      }
+    },
+    {
+      "group": "C",
+      "method": "GET",
+      "path": "/api/contracts/{contractId}/receipt-records",
+      "operationId": "ContractFinanceController_listReceipts",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+        "class": "ContractFinanceController",
+        "handler": "listReceipts",
+        "rawSha256": "df4022f9071c404b638ce00b1704ee6828361f5a43ceca4469a4568ed53723d0"
+      }
+    },
+    {
+      "group": "C",
+      "method": "POST",
+      "path": "/api/contracts/{contractId}/receipt-records",
+      "operationId": "ContractFinanceController_createReceipt",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+        "class": "ContractFinanceController",
+        "handler": "createReceipt",
+        "rawSha256": "df4022f9071c404b638ce00b1704ee6828361f5a43ceca4469a4568ed53723d0"
+      }
+    },
+    {
+      "group": "C",
+      "method": "POST",
+      "path": "/api/receipt-records/{id}:confirm",
+      "operationId": "ContractFinanceController_confirmReceipt",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+        "class": "ContractFinanceController",
+        "handler": "confirmReceipt",
+        "rawSha256": "df4022f9071c404b638ce00b1704ee6828361f5a43ceca4469a4568ed53723d0"
+      }
+    },
+    {
+      "group": "C",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/payable-records",
+      "operationId": "ContractFinanceController_listPayables",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+        "class": "ContractFinanceController",
+        "handler": "listPayables",
+        "rawSha256": "df4022f9071c404b638ce00b1704ee6828361f5a43ceca4469a4568ed53723d0"
+      }
+    },
+    {
+      "group": "C",
+      "method": "GET",
+      "path": "/api/payable-records/{id}",
+      "operationId": "ContractFinanceController_getPayable",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+        "class": "ContractFinanceController",
+        "handler": "getPayable",
+        "rawSha256": "df4022f9071c404b638ce00b1704ee6828361f5a43ceca4469a4568ed53723d0"
+      }
+    },
+    {
+      "group": "C",
+      "method": "POST",
+      "path": "/api/projects/{projectId}/payable-records",
+      "operationId": "ContractFinanceController_createPayable",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+        "class": "ContractFinanceController",
+        "handler": "createPayable",
+        "rawSha256": "df4022f9071c404b638ce00b1704ee6828361f5a43ceca4469a4568ed53723d0"
+      }
+    },
+    {
+      "group": "C",
+      "method": "PATCH",
+      "path": "/api/payable-records/{id}",
+      "operationId": "ContractFinanceController_updatePayable",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+        "class": "ContractFinanceController",
+        "handler": "updatePayable",
+        "rawSha256": "df4022f9071c404b638ce00b1704ee6828361f5a43ceca4469a4568ed53723d0"
+      }
+    },
+    {
+      "group": "C",
+      "method": "POST",
+      "path": "/api/payable-records/{id}:close",
+      "operationId": "ContractFinanceController_closePayable",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+        "class": "ContractFinanceController",
+        "handler": "closePayable",
+        "rawSha256": "df4022f9071c404b638ce00b1704ee6828361f5a43ceca4469a4568ed53723d0"
+      }
+    },
+    {
+      "group": "C",
+      "method": "POST",
+      "path": "/api/payable-records/{id}:void",
+      "operationId": "ContractFinanceController_voidPayable",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+        "class": "ContractFinanceController",
+        "handler": "voidPayable",
+        "rawSha256": "df4022f9071c404b638ce00b1704ee6828361f5a43ceca4469a4568ed53723d0"
+      }
+    },
+    {
+      "group": "C",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/invoice-records",
+      "operationId": "ContractFinanceController_listInvoices",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+        "class": "ContractFinanceController",
+        "handler": "listInvoices",
+        "rawSha256": "df4022f9071c404b638ce00b1704ee6828361f5a43ceca4469a4568ed53723d0"
+      }
+    },
+    {
+      "group": "C",
+      "method": "GET",
+      "path": "/api/invoice-records/{id}",
+      "operationId": "ContractFinanceController_getInvoice",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+        "class": "ContractFinanceController",
+        "handler": "getInvoice",
+        "rawSha256": "df4022f9071c404b638ce00b1704ee6828361f5a43ceca4469a4568ed53723d0"
+      }
+    },
+    {
+      "group": "C",
+      "method": "POST",
+      "path": "/api/projects/{projectId}/invoice-records",
+      "operationId": "ContractFinanceController_createInvoice",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+        "class": "ContractFinanceController",
+        "handler": "createInvoice",
+        "rawSha256": "df4022f9071c404b638ce00b1704ee6828361f5a43ceca4469a4568ed53723d0"
+      }
+    },
+    {
+      "group": "C",
+      "method": "PATCH",
+      "path": "/api/invoice-records/{id}",
+      "operationId": "ContractFinanceController_updateInvoice",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+        "class": "ContractFinanceController",
+        "handler": "updateInvoice",
+        "rawSha256": "df4022f9071c404b638ce00b1704ee6828361f5a43ceca4469a4568ed53723d0"
+      }
+    },
+    {
+      "group": "C",
+      "method": "POST",
+      "path": "/api/invoice-records/{id}:markException",
+      "operationId": "ContractFinanceController_markInvoiceException",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+        "class": "ContractFinanceController",
+        "handler": "markInvoiceException",
+        "rawSha256": "df4022f9071c404b638ce00b1704ee6828361f5a43ceca4469a4568ed53723d0"
+      }
+    },
+    {
+      "group": "C",
+      "method": "POST",
+      "path": "/api/invoice-records/{id}:resolveException",
+      "operationId": "ContractFinanceController_resolveInvoiceException",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+        "class": "ContractFinanceController",
+        "handler": "resolveInvoiceException",
+        "rawSha256": "df4022f9071c404b638ce00b1704ee6828361f5a43ceca4469a4568ed53723d0"
+      }
+    },
+    {
+      "group": "C",
+      "method": "POST",
+      "path": "/api/invoice-records/{id}:close",
+      "operationId": "ContractFinanceController_closeInvoiceRecord",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+        "class": "ContractFinanceController",
+        "handler": "closeInvoiceRecord",
+        "rawSha256": "df4022f9071c404b638ce00b1704ee6828361f5a43ceca4469a4568ed53723d0"
+      }
+    },
+    {
+      "group": "C",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/payment-records",
+      "operationId": "ContractFinanceController_listPayments",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+        "class": "ContractFinanceController",
+        "handler": "listPayments",
+        "rawSha256": "df4022f9071c404b638ce00b1704ee6828361f5a43ceca4469a4568ed53723d0"
+      }
+    },
+    {
+      "group": "C",
+      "method": "POST",
+      "path": "/api/projects/{projectId}/payment-records",
+      "operationId": "ContractFinanceController_createPayment",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+        "class": "ContractFinanceController",
+        "handler": "createPayment",
+        "rawSha256": "df4022f9071c404b638ce00b1704ee6828361f5a43ceca4469a4568ed53723d0"
+      }
+    },
+    {
+      "group": "C",
+      "method": "POST",
+      "path": "/api/payment-records/{id}:confirm",
+      "operationId": "ContractFinanceController_confirmPayment",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+        "class": "ContractFinanceController",
+        "handler": "confirmPayment",
+        "rawSha256": "df4022f9071c404b638ce00b1704ee6828361f5a43ceca4469a4568ed53723d0"
+      }
+    },
+    {
+      "group": "D",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/contract-handover",
+      "operationId": "ProjectHandoverController_getContractHandoverSummary",
+      "permissions": [
+        "project:read"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-handover/project-handover.controller.ts",
+        "class": "ProjectHandoverController",
+        "handler": "getContractHandoverSummary",
+        "line": 20,
+        "rawSha256": "7f75269b6c018147833c36283bc0eeab21294b5384cab3b159c4ba17105dd4dd"
+      }
+    },
+    {
+      "group": "D",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/project-handover",
+      "operationId": "ProjectHandoverController_getProjectHandoverDetailByProject",
+      "permissions": [
+        "project:read"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-handover/project-handover.controller.ts",
+        "class": "ProjectHandoverController",
+        "handler": "getProjectHandoverDetailByProject",
+        "line": 28,
+        "rawSha256": "7f75269b6c018147833c36283bc0eeab21294b5384cab3b159c4ba17105dd4dd"
+      }
+    },
+    {
+      "group": "D",
+      "method": "GET",
+      "path": "/api/project-handovers/{id}",
+      "operationId": "ProjectHandoverController_getProjectHandoverDetailByHandover",
+      "permissions": [
+        "project:read"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-handover/project-handover.controller.ts",
+        "class": "ProjectHandoverController",
+        "handler": "getProjectHandoverDetailByHandover",
+        "line": 36,
+        "rawSha256": "7f75269b6c018147833c36283bc0eeab21294b5384cab3b159c4ba17105dd4dd"
+      }
+    },
+    {
+      "group": "D",
+      "method": "POST",
+      "path": "/api/project-handovers/{id}:confirm",
+      "operationId": "ProjectHandoverController_confirmProjectHandover",
+      "permissions": [
+        "project:write"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-handover/project-handover.controller.ts",
+        "class": "ProjectHandoverController",
+        "handler": "confirmProjectHandover",
+        "line": 44,
+        "rawSha256": "7f75269b6c018147833c36283bc0eeab21294b5384cab3b159c4ba17105dd4dd"
+      }
+    },
+    {
+      "group": "D",
+      "method": "POST",
+      "path": "/api/contract-handover-rebaselines",
+      "operationId": "ProjectHandoverController_rebaselineContractHandover",
+      "permissions": [
+        "project:write"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-handover/project-handover.controller.ts",
+        "class": "ProjectHandoverController",
+        "handler": "rebaselineContractHandover",
+        "line": 53,
+        "rawSha256": "7f75269b6c018147833c36283bc0eeab21294b5384cab3b159c4ba17105dd4dd"
+      }
+    },
+    {
+      "group": "D",
+      "method": "POST",
+      "path": "/api/projects/{projectId}/project-handovers",
+      "operationId": "ProjectHandoverController_prepareProjectHandover",
+      "permissions": [
+        "project:write"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-handover/project-handover.controller.ts",
+        "class": "ProjectHandoverController",
+        "handler": "prepareProjectHandover",
+        "rawSha256": "7f75269b6c018147833c36283bc0eeab21294b5384cab3b159c4ba17105dd4dd"
+      }
+    },
+    {
+      "group": "D",
+      "method": "POST",
+      "path": "/api/project-handovers/{id}/participant-confirmations",
+      "operationId": "ProjectHandoverController_confirmProjectHandoverParticipant",
+      "permissions": [
+        "project:read"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-handover/project-handover.controller.ts",
+        "class": "ProjectHandoverController",
+        "handler": "confirmProjectHandoverParticipant",
+        "rawSha256": "7f75269b6c018147833c36283bc0eeab21294b5384cab3b159c4ba17105dd4dd"
+      }
+    },
+    {
+      "group": "E",
+      "method": "POST",
+      "path": "/api/internal-cost-rate-versions",
+      "operationId": "ProjectCostController_publishInternalCostRateVersion",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "publishInternalCostRateVersion",
+        "line": 104,
+        "rawSha256": "88546c3723ab44367e3a184495a41d3d93fe3cad11eb62b82030cc27e7550ef0"
+      }
+    },
+    {
+      "group": "E",
+      "method": "POST",
+      "path": "/api/projects/{projectId}/actual-cost-records",
+      "operationId": "ProjectCostController_createProjectActualCostRecord",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "createProjectActualCostRecord",
+        "line": 113,
+        "rawSha256": "88546c3723ab44367e3a184495a41d3d93fe3cad11eb62b82030cc27e7550ef0"
+      }
+    },
+    {
+      "group": "E",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/expense-records",
+      "operationId": "ProjectCostController_listExpenseRecords",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "listExpenseRecords",
+        "line": 401,
+        "rawSha256": "88546c3723ab44367e3a184495a41d3d93fe3cad11eb62b82030cc27e7550ef0"
+      }
+    },
+    {
+      "group": "E",
+      "method": "GET",
+      "path": "/api/expense-records/{id}",
+      "operationId": "ProjectCostController_getExpenseRecordDetail",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "getExpenseRecordDetail",
+        "line": 409,
+        "rawSha256": "88546c3723ab44367e3a184495a41d3d93fe3cad11eb62b82030cc27e7550ef0"
+      }
+    },
+    {
+      "group": "E",
+      "method": "POST",
+      "path": "/api/projects/{projectId}/expense-records",
+      "operationId": "ProjectCostController_createExpenseRecord",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "createExpenseRecord",
+        "line": 417,
+        "rawSha256": "88546c3723ab44367e3a184495a41d3d93fe3cad11eb62b82030cc27e7550ef0"
+      }
+    },
+    {
+      "group": "E",
+      "method": "PATCH",
+      "path": "/api/expense-records/{id}",
+      "operationId": "ProjectCostController_updateExpenseRecord",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "updateExpenseRecord",
+        "line": 426,
+        "rawSha256": "88546c3723ab44367e3a184495a41d3d93fe3cad11eb62b82030cc27e7550ef0"
+      }
+    },
+    {
+      "group": "E",
+      "method": "POST",
+      "path": "/api/expense-records/{id}:confirm",
+      "operationId": "ProjectCostController_confirmExpenseRecord",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "confirmExpenseRecord",
+        "line": 434,
+        "rawSha256": "88546c3723ab44367e3a184495a41d3d93fe3cad11eb62b82030cc27e7550ef0"
+      }
+    },
+    {
+      "group": "E",
+      "method": "POST",
+      "path": "/api/expense-records/{id}:void",
+      "operationId": "ProjectCostController_voidExpenseRecord",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "voidExpenseRecord",
+        "line": 444,
+        "rawSha256": "88546c3723ab44367e3a184495a41d3d93fe3cad11eb62b82030cc27e7550ef0"
+      }
+    },
+    {
+      "group": "E",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/actual-cost-records",
+      "operationId": "ProjectCostController_listProjectActualCostRecords",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "listProjectActualCostRecords",
+        "line": 453,
+        "rawSha256": "88546c3723ab44367e3a184495a41d3d93fe3cad11eb62b82030cc27e7550ef0"
+      }
+    },
+    {
+      "group": "E",
+      "method": "GET",
+      "path": "/api/project-actual-cost-records/{id}",
+      "operationId": "ProjectCostController_getProjectActualCostRecordDetail",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "getProjectActualCostRecordDetail",
+        "line": 461,
+        "rawSha256": "88546c3723ab44367e3a184495a41d3d93fe3cad11eb62b82030cc27e7550ef0"
+      }
+    },
+    {
+      "group": "E",
+      "method": "POST",
+      "path": "/api/project-actual-cost-records/{id}:replace",
+      "operationId": "ProjectCostController_replaceLaborCostRecord",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "replaceLaborCostRecord",
+        "line": 469,
+        "rawSha256": "88546c3723ab44367e3a184495a41d3d93fe3cad11eb62b82030cc27e7550ef0"
+      }
+    },
+    {
+      "group": "F",
+      "method": "POST",
+      "path": "/api/shared-cost-allocation-bases",
+      "operationId": "ProjectCostController_confirmSharedCostAllocationBasis",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "confirmSharedCostAllocationBasis",
+        "line": 231,
+        "rawSha256": "88546c3723ab44367e3a184495a41d3d93fe3cad11eb62b82030cc27e7550ef0"
+      }
+    },
+    {
+      "group": "F",
+      "method": "GET",
+      "path": "/api/shared-cost-allocation-bases/{id}",
+      "operationId": "ProjectCostController_getSharedCostAllocationBasis",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "getSharedCostAllocationBasis",
+        "line": 240,
+        "rawSha256": "88546c3723ab44367e3a184495a41d3d93fe3cad11eb62b82030cc27e7550ef0"
+      }
+    },
+    {
+      "group": "F",
+      "method": "GET",
+      "path": "/api/shared-cost-allocation-bases/{id}/results",
+      "operationId": "ProjectCostController_listSharedCostAllocationResults",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "listSharedCostAllocationResults",
+        "line": 248,
+        "rawSha256": "88546c3723ab44367e3a184495a41d3d93fe3cad11eb62b82030cc27e7550ef0"
+      }
+    },
+    {
+      "group": "F",
+      "method": "POST",
+      "path": "/api/shared-cost-allocation-results/{id}:replace",
+      "operationId": "ProjectCostController_replaceSharedCostAllocationResult",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "replaceSharedCostAllocationResult",
+        "line": 256,
+        "rawSha256": "88546c3723ab44367e3a184495a41d3d93fe3cad11eb62b82030cc27e7550ef0"
+      }
+    },
+    {
+      "group": "F",
+      "method": "POST",
+      "path": "/api/project-actual-cost-records/{id}/stage-attributions",
+      "operationId": "ProjectCostController_confirmCostStageAttribution",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "confirmCostStageAttribution",
+        "line": 265,
+        "rawSha256": "88546c3723ab44367e3a184495a41d3d93fe3cad11eb62b82030cc27e7550ef0"
+      }
+    },
+    {
+      "group": "F",
+      "method": "POST",
+      "path": "/api/cost-stage-attributions/{id}:reclassify",
+      "operationId": "ProjectCostController_reclassifyCostStageAttribution",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "reclassifyCostStageAttribution",
+        "line": 274,
+        "rawSha256": "88546c3723ab44367e3a184495a41d3d93fe3cad11eb62b82030cc27e7550ef0"
+      }
+    },
+    {
+      "group": "F",
+      "method": "GET",
+      "path": "/api/project-actual-cost-records/{costRecordId}/stage-attributions",
+      "operationId": "ProjectCostController_listCostStageAttributions",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "listCostStageAttributions",
+        "line": 283,
+        "rawSha256": "88546c3723ab44367e3a184495a41d3d93fe3cad11eb62b82030cc27e7550ef0"
+      }
+    },
+    {
+      "group": "F",
+      "method": "GET",
+      "path": "/api/cost-stage-attributions/{id}",
+      "operationId": "ProjectCostController_getCostStageAttribution",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "getCostStageAttribution",
+        "line": 291,
+        "rawSha256": "88546c3723ab44367e3a184495a41d3d93fe3cad11eb62b82030cc27e7550ef0"
+      }
+    },
+    {
+      "group": "F",
+      "method": "POST",
+      "path": "/api/projects/{projectId}/accounting-tax-treatments",
+      "operationId": "ProjectCostController_confirmAccountingTaxTreatment",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "confirmAccountingTaxTreatment",
+        "line": 299,
+        "rawSha256": "88546c3723ab44367e3a184495a41d3d93fe3cad11eb62b82030cc27e7550ef0"
+      }
+    },
+    {
+      "group": "F",
+      "method": "POST",
+      "path": "/api/accounting-tax-treatments/{id}:replace",
+      "operationId": "ProjectCostController_replaceAccountingTaxTreatment",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "replaceAccountingTaxTreatment",
+        "line": 308,
+        "rawSha256": "88546c3723ab44367e3a184495a41d3d93fe3cad11eb62b82030cc27e7550ef0"
+      }
+    },
+    {
+      "group": "F",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/accounting-tax-treatments",
+      "operationId": "ProjectCostController_listAccountingTaxTreatments",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "listAccountingTaxTreatments",
+        "line": 317,
+        "rawSha256": "88546c3723ab44367e3a184495a41d3d93fe3cad11eb62b82030cc27e7550ef0"
+      }
+    },
+    {
+      "group": "F",
+      "method": "GET",
+      "path": "/api/accounting-tax-treatments/{id}",
+      "operationId": "ProjectCostController_getAccountingTaxTreatment",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "controller": {
+        "file": "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "class": "ProjectCostController",
+        "handler": "getAccountingTaxTreatment",
+        "line": 325,
+        "rawSha256": "88546c3723ab44367e3a184495a41d3d93fe3cad11eb62b82030cc27e7550ef0"
+      }
+    },
+    {
+      "group": "G",
+      "method": "POST",
+      "path": "/api/operating-baseline-packages",
+      "operationId": "ProjectCostController_activateOperatingBaselinePackage",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "modernInput": true,
+      "responseDto": "OperatingCommandResult",
+      "responseNullable": false,
+      "namedResourceKeys": {}
+    },
+    {
+      "group": "G",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/operating-baseline-package",
+      "operationId": "ProjectCostController_getCurrentOperatingBaselinePackage",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "modernInput": false,
+      "responseDto": "OperatingBaselinePackageSummary",
+      "responseNullable": false,
+      "namedResourceKeys": {
+        "projectId": "UUID"
+      }
+    },
+    {
+      "group": "G",
+      "method": "POST",
+      "path": "/api/project-operating-snapshots",
+      "operationId": "ProjectCostController_createProjectOperatingSnapshot",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "modernInput": true,
+      "responseDto": "OperatingCommandResult",
+      "responseNullable": false,
+      "namedResourceKeys": {}
+    },
+    {
+      "group": "G",
+      "method": "GET",
+      "path": "/api/project-operating-snapshots/{id}",
+      "operationId": "ProjectCostController_getProjectOperatingSnapshot",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "modernInput": false,
+      "responseDto": "ProjectOperatingSnapshotSummary",
+      "responseNullable": false,
+      "namedResourceKeys": {
+        "id": "UUID"
+      }
+    },
+    {
+      "group": "G",
+      "method": "POST",
+      "path": "/api/period-closing-snapshots",
+      "operationId": "ProjectCostController_createPeriodClosingSnapshot",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "modernInput": true,
+      "responseDto": "OperatingCommandResult",
+      "responseNullable": false,
+      "namedResourceKeys": {}
+    },
+    {
+      "group": "G",
+      "method": "GET",
+      "path": "/api/period-closing-snapshots/{id}",
+      "operationId": "ProjectCostController_getPeriodClosingSnapshot",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "modernInput": false,
+      "responseDto": "PeriodClosingSnapshotSummary",
+      "responseNullable": false,
+      "namedResourceKeys": {
+        "id": "UUID"
+      }
+    },
+    {
+      "group": "G",
+      "method": "POST",
+      "path": "/api/operating-restatements",
+      "operationId": "ProjectCostController_createOperatingRestatement",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 201,
+      "modernInput": true,
+      "responseDto": "OperatingCommandResult",
+      "responseNullable": false,
+      "namedResourceKeys": {}
+    },
+    {
+      "group": "G",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/operating-restatements",
+      "operationId": "ProjectCostController_listOperatingRestatements",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "modernInput": false,
+      "responseDto": "OperatingRestatementListView",
+      "responseNullable": false,
+      "namedResourceKeys": {
+        "projectId": "UUID"
+      }
+    },
+    {
+      "group": "G",
+      "method": "GET",
+      "path": "/api/operating-restatements/{id}",
+      "operationId": "ProjectCostController_getOperatingRestatement",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "modernInput": false,
+      "responseDto": "OperatingRestatementSummary",
+      "responseNullable": false,
+      "namedResourceKeys": {
+        "id": "UUID"
+      }
+    },
+    {
+      "group": "H",
+      "method": "POST",
+      "path": "/api/operating-signal-evaluations/{id}:review",
+      "operationId": "ProjectCostController_reviewOperatingSignalEvaluation",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "modernInput": true,
+      "responseDto": "ReviewOperatingSignalEvaluationResult",
+      "responseNullable": false,
+      "namedResourceKeys": {
+        "id": "UUID"
+      }
+    },
+    {
+      "group": "H",
+      "method": "GET",
+      "path": "/api/operating-signal-evaluations/{id}",
+      "operationId": "ProjectCostController_getOperatingSignalEvaluation",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "modernInput": false,
+      "responseDto": "OperatingSignalEvaluationView",
+      "responseNullable": false,
+      "namedResourceKeys": {
+        "id": "UUID"
+      }
+    },
+    {
+      "group": "H",
+      "method": "POST",
+      "path": "/api/commission-gate-bindings/{id}:review",
+      "operationId": "ProjectCostController_reviewCommissionGateBinding",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "modernInput": true,
+      "responseDto": "ReviewCommissionGateBindingResult",
+      "responseNullable": false,
+      "namedResourceKeys": {
+        "id": "UUID"
+      }
+    },
+    {
+      "group": "H",
+      "method": "GET",
+      "path": "/api/commission-gate-bindings/{id}",
+      "operationId": "ProjectCostController_getCommissionGateBinding",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "modernInput": false,
+      "responseDto": "CommissionGateBindingHistoryView",
+      "responseNullable": false,
+      "namedResourceKeys": {
+        "id": "UUID"
+      }
+    },
+    {
+      "group": "H",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/business-outcome-overview",
+      "operationId": "ProjectCostController_getProjectBusinessOutcomeOverview",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "modernInput": false,
+      "responseDto": "ProjectBusinessOutcomeOverviewView",
+      "responseNullable": false,
+      "namedResourceKeys": {
+        "projectId": "UUID"
+      }
+    },
+    {
+      "group": "H",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/unified-accounting",
+      "operationId": "ProjectCostController_getProjectUnifiedAccounting",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "modernInput": false,
+      "responseDto": "ProjectUnifiedAccountingResponse",
+      "responseNullable": false,
+      "namedResourceKeys": {
+        "projectId": "UUID"
+      }
+    },
+    {
+      "group": "H",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/variance-risk-explanation",
+      "operationId": "ProjectCostController_getProjectVarianceRiskExplanation",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "modernInput": false,
+      "responseDto": "ProjectVarianceRiskExplanationView",
+      "responseNullable": false,
+      "namedResourceKeys": {
+        "projectId": "UUID"
+      }
+    },
+    {
+      "group": "H",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/business-accounting-feedback",
+      "operationId": "ProjectCostController_getBusinessAccountingFeedback",
+      "permissions": [
+        "contract:finance:manage"
+      ],
+      "successStatus": 200,
+      "modernInput": false,
+      "responseDto": "BusinessAccountingFeedbackView",
+      "responseNullable": false,
+      "namedResourceKeys": {
+        "projectId": "UUID"
+      }
+    },
+    {
+      "group": "R5-min",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/commission-role-assignment",
+      "operationId": "CommissionController_getCurrentRoleAssignment",
+      "permissions": [
+        "commission:assignments:manage"
+      ],
+      "successStatus": 200,
+      "modernInput": false,
+      "responseDto": "CurrentCommissionRoleAssignmentResponse",
+      "responseNullable": false,
+      "namedResourceKeys": {
+        "projectId": "UUID"
+      }
+    },
+    {
+      "group": "R5-min",
+      "method": "POST",
+      "path": "/api/projects/{projectId}/commission-role-assignments",
+      "operationId": "CommissionController_createRoleAssignment",
+      "permissions": [
+        "commission:assignments:manage"
+      ],
+      "successStatus": 200,
+      "modernInput": true,
+      "responseDto": "CommissionRoleAssignmentSummary",
+      "responseNullable": false,
+      "namedResourceKeys": {
+        "projectId": "UUID"
+      }
+    },
+    {
+      "group": "R5-min",
+      "method": "GET",
+      "path": "/api/commission-role-assignments/{id}",
+      "operationId": "CommissionRoleAssignmentController_getRoleAssignmentDetail",
+      "permissions": [
+        "commission:assignments:manage"
+      ],
+      "successStatus": 200,
+      "modernInput": false,
+      "responseDto": "CommissionRoleAssignmentDetailView",
+      "responseNullable": false,
+      "namedResourceKeys": {
+        "id": "UUID"
+      }
+    },
+    {
+      "group": "R5-min",
+      "method": "POST",
+      "path": "/api/commission-role-assignments/{id}:freeze",
+      "operationId": "CommissionRoleAssignmentController_freezeRoleAssignment",
+      "permissions": [
+        "commission:assignments:manage"
+      ],
+      "successStatus": 200,
+      "modernInput": true,
+      "responseDto": "FreezeCommissionRoleAssignmentResult",
+      "responseNullable": false,
+      "namedResourceKeys": {
+        "id": "UUID"
+      }
+    },
+    {
+      "group": "I",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/acceptance-records",
+      "operationId": "ProjectController_listAcceptanceRecords",
+      "permissions": [
+        "project:read"
+      ],
+      "successStatus": 200,
+      "modernInput": false,
+      "responseDto": "AcceptanceRecordList",
+      "responseNullable": false,
+      "namedResourceKeys": {
+        "projectId": "UUID"
+      }
+    },
+    {
+      "group": "I",
+      "method": "POST",
+      "path": "/api/projects/{projectId}/acceptance-records",
+      "operationId": "ProjectController_createAcceptanceRecord",
+      "permissions": [
+        "project:write"
+      ],
+      "successStatus": 201,
+      "modernInput": true,
+      "responseDto": "AcceptanceRecordSummary",
+      "responseNullable": false,
+      "namedResourceKeys": {
+        "projectId": "UUID"
+      }
+    },
+    {
+      "group": "I",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/completion-records",
+      "operationId": "ProjectController_listProjectCompletionRecords",
+      "permissions": [
+        "project:read"
+      ],
+      "successStatus": 200,
+      "modernInput": false,
+      "responseDto": "ProjectCompletionRecordList",
+      "responseNullable": false,
+      "namedResourceKeys": {
+        "projectId": "UUID"
+      }
+    },
+    {
+      "group": "I",
+      "method": "POST",
+      "path": "/api/projects/{projectId}/completion-records",
+      "operationId": "ProjectController_createProjectCompletionRecord",
+      "permissions": [
+        "project:write"
+      ],
+      "successStatus": 201,
+      "modernInput": true,
+      "responseDto": "ProjectCompletionRecordSummary",
+      "responseNullable": false,
+      "namedResourceKeys": {
+        "projectId": "UUID"
+      }
+    },
+    {
+      "group": "I",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/archive-records",
+      "operationId": "ProjectController_listProjectArchiveRecords",
+      "permissions": [
+        "project:read"
+      ],
+      "successStatus": 200,
+      "modernInput": false,
+      "responseDto": "ProjectArchiveRecordList",
+      "responseNullable": false,
+      "namedResourceKeys": {
+        "projectId": "UUID"
+      }
+    },
+    {
+      "group": "I",
+      "method": "POST",
+      "path": "/api/projects/{projectId}/archive-records",
+      "operationId": "ProjectController_createProjectArchiveRecord",
+      "permissions": [
+        "project:write"
+      ],
+      "successStatus": 201,
+      "modernInput": true,
+      "responseDto": "ProjectArchiveRecordSummary",
+      "responseNullable": false,
+      "namedResourceKeys": {
+        "projectId": "UUID"
+      }
+    },
+    {
+      "group": "I",
+      "method": "POST",
+      "path": "/api/project-archive-records/{id}:replace",
+      "operationId": "ProjectArchiveRecordController_replaceProjectArchiveRecord",
+      "permissions": [
+        "project:write"
+      ],
+      "successStatus": 200,
+      "modernInput": true,
+      "responseDto": "ProjectArchiveRecordSummary",
+      "responseNullable": false,
+      "namedResourceKeys": {
+        "id": "UUID"
+      }
+    },
+    {
+      "group": "I",
+      "method": "POST",
+      "path": "/api/project-archive-records/{id}:void",
+      "operationId": "ProjectArchiveRecordController_voidProjectArchiveRecord",
+      "permissions": [
+        "project:write"
+      ],
+      "successStatus": 200,
+      "modernInput": true,
+      "responseDto": "ProjectArchiveRecordSummary",
+      "responseNullable": false,
+      "namedResourceKeys": {
+        "id": "UUID"
+      }
+    },
+    {
+      "group": "I",
+      "method": "POST",
+      "path": "/api/projects/{id}:startExecution",
+      "operationId": "ProjectController_startExecution",
+      "permissions": [
+        "project:write"
+      ],
+      "successStatus": 200,
+      "modernInput": true,
+      "responseDto": "ProjectStageTransitionResult",
+      "responseNullable": false,
+      "namedResourceKeys": {
+        "id": "UUID"
+      }
+    },
+    {
+      "group": "I",
+      "method": "POST",
+      "path": "/api/projects/{id}:startAcceptance",
+      "operationId": "ProjectController_startAcceptance",
+      "permissions": [
+        "project:write"
+      ],
+      "successStatus": 200,
+      "modernInput": true,
+      "responseDto": "ProjectStageTransitionResult",
+      "responseNullable": false,
+      "namedResourceKeys": {
+        "id": "UUID"
+      }
+    },
+    {
+      "group": "I",
+      "method": "POST",
+      "path": "/api/project-completion-records/{completionRecordId}/conditions/{id}:close",
+      "operationId": "ProjectCompletionRecordController_closeCompletionCondition",
+      "permissions": [
+        "project:write"
+      ],
+      "successStatus": 200,
+      "modernInput": true,
+      "responseDto": "CloseProjectCompletionConditionResult",
+      "responseNullable": false,
+      "namedResourceKeys": {
+        "completionRecordId": "UUID",
+        "id": "UUID"
+      }
+    }
+  ],
+  "runtimeAcceptancePassed": false
+}

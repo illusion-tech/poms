@@ -1,0 +1,110 @@
+{
+  "kind": "pure-exact-catalog-comparison-against-captured-actual-PG15-catalog",
+  "catalogSHA256": "ad44e4d97284736cef09f875ea9b1c6e5e07a4abfca7711a7067f077b112c472",
+  "results": {
+    "poms_r4ghi_native": {
+      "checkedColumns": 362,
+      "checkedForeignKeys": 125,
+      "checkedNewTableCheckNames": 139,
+      "mismatches": [],
+      "purposeFields": {
+        "project_scope_context_version": {
+          "schema": "poms",
+          "table_name": "attachment_upload_session",
+          "attnum": 33,
+          "attname": "project_scope_context_version",
+          "type": "integer",
+          "attnotnull": true,
+          "attidentity": "",
+          "attgenerated": "",
+          "acl": null,
+          "default_expr": "0"
+        },
+        "completion_record_id": {
+          "schema": "poms",
+          "table_name": "attachment_upload_session",
+          "attnum": 34,
+          "attname": "completion_record_id",
+          "type": "uuid",
+          "attnotnull": false,
+          "attidentity": "",
+          "attgenerated": "",
+          "acl": null,
+          "default_expr": null
+        },
+        "completion_condition_id": {
+          "schema": "poms",
+          "table_name": "attachment_upload_session",
+          "attnum": 35,
+          "attname": "completion_condition_id",
+          "type": "uuid",
+          "attnotnull": false,
+          "attidentity": "",
+          "attgenerated": "",
+          "acl": null,
+          "default_expr": null
+        }
+      },
+      "purposeFK": {
+        "oid": "27757",
+        "schema": "poms",
+        "table_name": "attachment_upload_session",
+        "conname": "fk_jghi_upload_condition_scope",
+        "definition": "FOREIGN KEY (completion_condition_id, completion_record_id, target_id) REFERENCES poms.project_completion_condition(id, completion_record_id, project_id) ON DELETE RESTRICT"
+      }
+    },
+    "poms_r4ghi_rust": {
+      "checkedColumns": 362,
+      "checkedForeignKeys": 125,
+      "checkedNewTableCheckNames": 139,
+      "mismatches": [],
+      "purposeFields": {
+        "project_scope_context_version": {
+          "schema": "poms",
+          "table_name": "attachment_upload_session",
+          "attnum": 33,
+          "attname": "project_scope_context_version",
+          "type": "integer",
+          "attnotnull": true,
+          "attidentity": "",
+          "attgenerated": "",
+          "acl": null,
+          "default_expr": "0"
+        },
+        "completion_record_id": {
+          "schema": "poms",
+          "table_name": "attachment_upload_session",
+          "attnum": 34,
+          "attname": "completion_record_id",
+          "type": "uuid",
+          "attnotnull": false,
+          "attidentity": "",
+          "attgenerated": "",
+          "acl": null,
+          "default_expr": null
+        },
+        "completion_condition_id": {
+          "schema": "poms",
+          "table_name": "attachment_upload_session",
+          "attnum": 35,
+          "attname": "completion_condition_id",
+          "type": "uuid",
+          "attnotnull": false,
+          "attidentity": "",
+          "attgenerated": "",
+          "acl": null,
+          "default_expr": null
+        }
+      },
+      "purposeFK": {
+        "oid": "27766",
+        "schema": "poms",
+        "table_name": "attachment_upload_session",
+        "conname": "fk_jghi_upload_condition_scope",
+        "definition": "FOREIGN KEY (completion_condition_id, completion_record_id, target_id) REFERENCES poms.project_completion_condition(id, completion_record_id, project_id) ON DELETE RESTRICT"
+      }
+    }
+  },
+  "checkExpressionEquivalenceClaimed": false,
+  "G3Certified": false
+}

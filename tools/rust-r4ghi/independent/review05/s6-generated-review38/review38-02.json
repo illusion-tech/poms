@@ -1,0 +1,263 @@
+{
+  "kind": "independent-S6-generated-output-and-actual-receipt-review",
+  "at": "2026-11-07T13:22:51.991Z",
+  "sourceHead": "2cd1be6029cf1b14ebfb1fc4530af894507a4c5a",
+  "toolingCommit": "8c6e98db9cae598787da095084965c434ee1105a",
+  "toolingCommittedFiles": [
+    "tools/openapi/README.md",
+    "tools/openapi/checkpoints/r4ghi-s6-tooling/.gitattributes",
+    "tools/openapi/checkpoints/r4ghi-s6-tooling/before/01.bin",
+    "tools/openapi/checkpoints/r4ghi-s6-tooling/before/02.bin",
+    "tools/openapi/checkpoints/r4ghi-s6-tooling/before/03.bin",
+    "tools/openapi/checkpoints/r4ghi-s6-tooling/before/04.bin",
+    "tools/openapi/checkpoints/r4ghi-s6-tooling/before/05.bin",
+    "tools/openapi/checkpoints/r4ghi-s6-tooling/before/06.bin",
+    "tools/openapi/checkpoints/r4ghi-s6-tooling/before/07.bin",
+    "tools/openapi/checkpoints/r4ghi-s6-tooling/before/08.bin",
+    "tools/openapi/checkpoints/r4ghi-s6-tooling/before/09.bin",
+    "tools/openapi/checkpoints/r4ghi-s6-tooling/proposal02.json",
+    "tools/openapi/shared-api-client-baseline.json",
+    "tools/openapi/shared-api-client.integration.test.mjs",
+    "tools/openapi/shared-api-client.mjs",
+    "tools/rust-r1b/s5-reviewed-registry.json",
+    "tools/rust-r1b/s5/README.md",
+    "tools/rust-r1b/s5/export-s5.probes.mjs",
+    "tools/rust-r1b/s5/review.mjs",
+    "tools/rust-r1b/s5/source-access.mjs"
+  ],
+  "permanentS4Ancestor": true,
+  "pureReconstruction": {
+    "mode": "published --s5 --check with all source/metadata guards and current renderer; memory construction plus read-only artifact comparisons",
+    "manifestDeepEqual": true,
+    "sourceStable": true,
+    "independentlyRanFullGuardedWholeCheck": true,
+    "families": 331,
+    "occurrences": 339,
+    "values": 1161,
+    "original338OccurrenceFamilyAndValueHashesExact": true,
+    "old330FamiliesValuesAndAliasesExact": true,
+    "oldFamilyComparisonProvenance": "pinned G09 candidate selected by the earlier reviewed S5 tooling; this comparison is not recast as an old runtime run",
+    "unchangedHistoricalIdentityRawSha256": "9f5f1e044f0e5ea57023238cd5d6e2d2f5caf1b58f1977add5faaeb713daa335",
+    "newFamily": "ProjectInitialOwnership"
+  },
+  "rootActualWholeCheck": {
+    "receipt": "tmp/rust-r4ghi/root/whole-s6-check05/receipt.json",
+    "logsAndThreeCurrentOutputsExact": true,
+    "noWriteClaim": true
+  },
+  "sdk": {
+    "actualRootWriteAndCheckLogsExact": true,
+    "actualRootDirectFixedJar": true,
+    "independentlyReranJar": false,
+    "current683RawFileHashesEqualActualAfterReceipt": true,
+    "metadata3RawHashesAndMtimsPreservedInRootRun": true,
+    "addedFiles": [
+      "model/project-initial-ownership.ts"
+    ],
+    "canonicalWireUnchangedByRepair": true,
+    "sourceSpecSha256": "942661f06947136bbdaf5621bdef9e531a7ab3fe350271f6ca054e01b495a19c"
+  },
+  "sourcePins": [
+    {
+      "file": "tools/openapi/checkpoints/r4ghi-s6-tooling/proposal02.json",
+      "sha256": "248dbb29c923321376824efaa190ae25fdef0fa9d76206ca1f9fb64f0f07e94d"
+    },
+    {
+      "file": "tools/openapi/README.md",
+      "sha256": "d57b5434357baee949ba9f2cadd1d25f676d0551fdd6d834d275b09f4c061d1d"
+    },
+    {
+      "file": "tools/openapi/checkpoints/r4ghi-s6-tooling/.gitattributes",
+      "sha256": "cdd63c95776ce6972a3fc74f93c8d37d017d8f12d8f9d827d498c07e26096110"
+    },
+    {
+      "file": "tools/openapi/checkpoints/r4ghi-s6-tooling/before/01.bin",
+      "sha256": "a9323bb005d36bca2c4bcd9b41b3ed058d62f2299f0a882bc475a5b5217c1fcd"
+    },
+    {
+      "file": "tools/openapi/checkpoints/r4ghi-s6-tooling/before/02.bin",
+      "sha256": "4741cb72411fad9267a90c70e8ec7effcbf3ddcca5c9b790941aa6b7fc62bad2"
+    },
+    {
+      "file": "tools/openapi/checkpoints/r4ghi-s6-tooling/before/03.bin",
+      "sha256": "07b05a45788c62f9732564848d781b80310a829d07a3d216e2b92403a8c6d465"
+    },
+    {
+      "file": "tools/openapi/checkpoints/r4ghi-s6-tooling/before/04.bin",
+      "sha256": "9cda2598ee7e6f552fac31a529be42f2cd05ab3d8070ea96aa17ea8514870422"
+    },
+    {
+      "file": "tools/openapi/checkpoints/r4ghi-s6-tooling/before/05.bin",
+      "sha256": "b53d297ddee6bef57db0c43183958e7ea42b91029ef8662cb1956b5c4188e2a2"
+    },
+    {
+      "file": "tools/openapi/checkpoints/r4ghi-s6-tooling/before/06.bin",
+      "sha256": "0c0d873ac31398cc916a1a21e7ed0b63544c08484c610cb41dc76558972fc806"
+    },
+    {
+      "file": "tools/openapi/checkpoints/r4ghi-s6-tooling/before/07.bin",
+      "sha256": "f7fa0d173770e70260e450d181d742810170575a0c3eb0596b5199c76fe35625"
+    },
+    {
+      "file": "tools/openapi/checkpoints/r4ghi-s6-tooling/before/08.bin",
+      "sha256": "8c8b390a4e7e18f8085ceeeabf03d927e0b245905131a7b27d48e3c7ba304f29"
+    },
+    {
+      "file": "tools/openapi/checkpoints/r4ghi-s6-tooling/before/09.bin",
+      "sha256": "d404079ac418f68070f62ad9dd4a239f51da75da58555f5aeac16cf2bbdd631f"
+    },
+    {
+      "file": "tools/openapi/shared-api-client-baseline.json",
+      "sha256": "3e557c82538f5c3376a84c7238e06a1c7887c13129fd4d5d278934303cd9381b"
+    },
+    {
+      "file": "tools/openapi/shared-api-client.integration.test.mjs",
+      "sha256": "fdc8aa405e39e1745b939bc51db00f118780e0aaf30de735d7e11e5ea1efed73"
+    },
+    {
+      "file": "tools/openapi/shared-api-client.mjs",
+      "sha256": "db14bea8c6dbcbc3beae9d4a68f00893f2f892db4e5c28e6e547bf93d63b883f"
+    },
+    {
+      "file": "tools/rust-r1b/s5-reviewed-registry.json",
+      "sha256": "fdc5e6b3e4c4caca5b7c2218c3a0aedd1c6bef0d777e453aff4f4342f547bc8e"
+    },
+    {
+      "file": "tools/rust-r1b/s5/README.md",
+      "sha256": "138f1329bf58207c8f7ccc9a3b9b9e3ab663068331ed157e4e23772b18488208"
+    },
+    {
+      "file": "tools/rust-r1b/s5/export-s5.probes.mjs",
+      "sha256": "5d09fbfd6ddeb3b8bc579b978461b0a5ad0cd025cc131f4724403d2bf4860494"
+    },
+    {
+      "file": "tools/rust-r1b/s5/review.mjs",
+      "sha256": "e4625f11408a8412fd3d7ad68a9ac1a2e0029f3cad7c744527818ffd5b283a22"
+    },
+    {
+      "file": "tools/rust-r1b/s5/source-access.mjs",
+      "sha256": "464c2588cf00cc1b6c00d9ad8efabbd6e1d195f64807d10ac3eab4e58d59333f"
+    },
+    {
+      "file": "libs/shared/api-spec/openapi.json",
+      "sha256": "942661f06947136bbdaf5621bdef9e531a7ab3fe350271f6ca054e01b495a19c"
+    },
+    {
+      "file": "tools/openapi/typescript-angular.config.json",
+      "sha256": "66ab0dcda041e7a04d1adec65827d89269d30bd3336f6a707fdbd99dc5e9512d"
+    },
+    {
+      "file": "openapitools.json",
+      "sha256": "4be43efe5b956ff9d7eb5905b30d8b2b48f8b2620af7f164b540835471dafcce"
+    },
+    {
+      "file": "package.json",
+      "sha256": "7bb812cbdfad7356fc835e18ff250c399706eb881f9f2b491f6c1257cc3c3b75"
+    },
+    {
+      "file": "pnpm-lock.yaml",
+      "sha256": "a1c27270b7f13b93454434785fe9bb593ebfe9ff05623f671cb862b90d0c3533"
+    },
+    {
+      "file": ".gitattributes",
+      "sha256": "bce12666cc06f2a09ee2fb51b98d290295804f5472e466b9455d3f6c03c65141"
+    },
+    {
+      "file": "tools/openapi/checkpoints/r4ghi-s6/input-manifest01.json",
+      "sha256": "ddb2d8e44ed6897d75d0181093b49b3a27540560d2df73f789fd476bf1d91b35"
+    },
+    {
+      "file": "tools/rust-r1b/history/s3-nominal-identity.json",
+      "sha256": "9f5f1e044f0e5ea57023238cd5d6e2d2f5caf1b58f1977add5faaeb713daa335"
+    },
+    {
+      "file": "tools/rust-r1b/export-shared.mjs",
+      "sha256": "450ef3b2a5239bc3f7228a9ebe58924009b10dfed024243efcff0d7e82e5c666"
+    },
+    {
+      "file": "tools/rust-r1b/s5/export-s5.mjs",
+      "sha256": "8ccb6df3f645154cfb08a39baea17fe651b71867cf5760977f2f6a18bebac1d5"
+    },
+    {
+      "file": "tools/rust-r1b/s5/full-build.mjs",
+      "sha256": "96f510b0737d79826e6a663faabf0d32dccbf2a69c0c88f66348cdf0247a36e3"
+    },
+    {
+      "file": "tools/rust-r1b/s5/registered-module-graph.mjs",
+      "sha256": "bf9db24cf463f06d81e639d0772f16a5d284074e0f9d2b0ac4a85da4212aa308"
+    },
+    {
+      "file": "tools/rust-r1b/s5/static-data-oracle.mjs",
+      "sha256": "2c534359b27d7165c1b702b29d73132124e1a815a075b2f2c2e4ca92ee535576"
+    },
+    {
+      "file": "tools/rust-r1b/shared-manifest.json",
+      "sha256": "c265674443567aa3a8764f32db68ff0a352ab45b45ec7a841217981f2c793b52"
+    },
+    {
+      "file": "tools/rust-r4ghi/G/implementation/support-patches/shared-enum-exporter09/manifest09.candidate.json",
+      "sha256": "7124f3276110071f781c77ff59b2da09dc137077bc194fad59095c5f7e5520df"
+    },
+    {
+      "file": "tmp/rust-r4ghi/root/whole-s6-check05/receipt.json",
+      "sha256": "943a193d52b146c1ff69978cac46caa42afca041f8278c4af61571b6722e7d5f"
+    },
+    {
+      "file": "apps/poms-api-rust/src/shared/generated.rs",
+      "sha256": "822ce5850391728f73424825c87a3ac95061865fe9ea032f1abcb56c4eb29324"
+    },
+    {
+      "file": "apps/poms-api-rust/tests/shared_generated.rs",
+      "sha256": "f9fde7164dfe17cf8734eae44c4b5ea5d8b928ea15f5ba034a67ab7dd697dfec"
+    },
+    {
+      "file": "tmp/rust-r4ghi/root/whole-s6-check05/stdout.json",
+      "sha256": "b53c037de06e35c065175fb72c5eaa5c210f005159b47027b1f5d9721763db5c"
+    },
+    {
+      "file": "tmp/rust-r4ghi/root/whole-s6-check05/stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "tmp/rust-r4ghi/root/client-generation06/receipt.json",
+      "sha256": "aa7e9f828f0e1c2215d66af2a05830ed137719fb8cb5267da6fa23c8e57d5454"
+    },
+    {
+      "file": "tmp/rust-r4ghi/root/client-generation06/write-stdout.json",
+      "sha256": "8c046d62b8d3d27308a1b32119e6d2adeabd01a47566d2e2bbf037d4f83af43b"
+    },
+    {
+      "file": "tmp/rust-r4ghi/root/client-generation06/write-stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "tmp/rust-r4ghi/root/client-generation06/check-stdout.json",
+      "sha256": "354a726b55fbd612f984d9ae325029fc5040a73e94bf6390b4b1670350ac01ba"
+    },
+    {
+      "file": "tmp/rust-r4ghi/root/client-generation06/check-stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "tmp/rust-r4ghi/root/client-generation06/target-before.json",
+      "sha256": "656468cb9f4625ecdb3cace60002c659b8a341822630ba2cdb1bb1ed820a47d4"
+    },
+    {
+      "file": "tmp/rust-r4ghi/root/client-generation06/target-after.json",
+      "sha256": "46c8e589dafe4cf5fc5e13257719c65ac544ffe536fd30d9fcae3c59e55e8e96"
+    },
+    {
+      "file": "libs/shared/api-client/model/project-initial-ownership.ts",
+      "sha256": "32a4d657f9acbcc8a8cba4e1b296589faf326dfcd4f640f558a7ce1f21fd3a89"
+    },
+    {
+      "file": "libs/shared/api-client/model/create-project-request.ts",
+      "sha256": "9d881a8c3ab93cb50e89a7d776f9ee22073145f126a938cc2162c6442fbabab5"
+    }
+  ],
+  "rootProductsWrittenByThisReview": false,
+  "DBOrHTTPSent": false,
+  "certifiesBusinessAcceptance": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

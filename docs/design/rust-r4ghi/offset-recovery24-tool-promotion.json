@@ -1,0 +1,60 @@
+{
+  "kind": "Root-non-author-reviewed-timezone-proof-and-exact-slot-recovery",
+  "manifest": "tools/rust-r4ghi/I/implementation/business-offset-recovery24/manifest24.json",
+  "manifestSHA256": "b70c49f49e7412c3fcca03de34646e8040b70a9df34c0a04a48f71cd5c02b0fc",
+  "files": [
+    {
+      "file": "tools/rust-r4ghi/business/creator-proofs.mjs",
+      "beforeSHA256": "e1448232766125ccf8e7291861fe1c47d8eee0e820d52c52e28b6b470381e788",
+      "afterSHA256": "f564046a8c073f7a1137a89c05eecdcf63ab6fdd3d0a6c7e423d3cadf363e571",
+      "candidate": "proposed/tools/rust-r4ghi/business/creator-proofs.mjs",
+      "beforeCandidate": "before/tools/rust-r4ghi/business/creator-proofs.mjs",
+      "kind": "modify"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/creator-ownership.mjs",
+      "beforeSHA256": "999f15f3b5faf98f193d82c164409b07023be26fe6590f9052a1b6000877a8e7",
+      "afterSHA256": "f1f8cbc5100d54aa7cfe0896d992c0681b04b947938a33ceadc34566281294b4",
+      "candidate": "proposed/tools/rust-r4ghi/business/creator-ownership.mjs",
+      "beforeCandidate": "before/tools/rust-r4ghi/business/creator-ownership.mjs",
+      "kind": "modify"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/legacy-compatibility.mjs",
+      "beforeSHA256": "b55f4fea3c68dfb9d50704f77dd69fc5a93e3b38ae4a2e39c75d19c0caf2a560",
+      "afterSHA256": "5ad4e2dc8fc670fdb6841c7358351a226fd4ca7a0a2bd1556d55dedbe3bee876",
+      "candidate": "proposed/tools/rust-r4ghi/business/legacy-compatibility.mjs",
+      "beforeCandidate": "before/tools/rust-r4ghi/business/legacy-compatibility.mjs",
+      "kind": "modify"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/recover-creator-slot24.mjs",
+      "beforeSHA256": null,
+      "afterSHA256": "c5092660b9a0b22ab16e156b9b1717cd3f67b1f77e7c738b0dad53dc0ce41e1c",
+      "candidate": "proposed/tools/rust-r4ghi/business/recover-creator-slot24.mjs",
+      "beforeCandidate": null,
+      "kind": "add"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/run-creator-slot-recovery24.mjs",
+      "beforeSHA256": null,
+      "afterSHA256": "a0306f1d0b267463a23938eca05662415c48d401588b911598ea07e53b621334",
+      "candidate": "proposed/tools/rust-r4ghi/business/run-creator-slot-recovery24.mjs",
+      "beforeCandidate": null,
+      "kind": "add"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/offset-proof24.test.mjs",
+      "beforeSHA256": null,
+      "afterSHA256": "4d9bb0eec8b259c15df733604cd08e4e5086fd99e38ce9dd0e9c9434b630efc2",
+      "candidate": "proposed/tools/rust-r4ghi/business/offset-proof24.test.mjs",
+      "beforeCandidate": null,
+      "kind": "add"
+    }
+  ],
+  "review": "Gregorian integral seconds plus signed offset and exact BigInt fractional nanoseconds; all original producer/source/audit/xmin checks retained. Canonical operation precheck before HTTP. Recovery only proves the exact already-committed default slot from pinned originals and current exact targets; no new business write or ownership/hash/blocked rewrite.",
+  "approvedRecoveryPlanSHA256": "16da19881237e447acbe41dee6fc1d7e20a63270b33e391656106422c2d539da",
+  "businessRecoveryExecuted": false,
+  "productSourceChanged": false,
+  "G3Certified": false
+}

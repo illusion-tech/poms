@@ -1,0 +1,45 @@
+{
+  "route": "POST /operating-restatements",
+  "operationId": "ProjectCostController_createOperatingRestatement",
+  "newHTTP": 0,
+  "supportedKinds": [
+    "labor-replacement",
+    "allocation-batch-replacement",
+    "stage-reclassification",
+    "tax-treatment-replacement"
+  ],
+  "DTO": "CreateOperatingRestatementRequest now requires stageCorrections[] and taxCorrections[] (explicit empty allowed); full concrete nested fields in public-contracts.schema.json",
+  "permit": "private sealed RestatementPermit enum variants LaborReplacement/AllocationBatchReplacement/StageReclassification/TaxTreatmentReplacement with exact locked source IDs/versions/hashes, same Root-minted private OuterTxToken/borrowed TX lifetime (not HTTP request_id), operation ID, complete affected projects+terminal roots and scope proofs; no client permit boolean/public constructor/serialization",
+  "stage": {
+    "producer": "project_cost_governance::reclassify_with_permit(session,ValidatedStageCorrection,StageReclassificationPermit,actor)",
+    "refactor": "Extract real existing service::stage/evidence/store producer, not a new direct SQL fake. Normal F route keeps all old guards; internal permit only relaxes consumed membership/occupied checks for its exact locked graph.",
+    "CAS": "For consumed included cost preserve record_status=included/is_included=true and original confirmedAt/By/all source/money. Update only execution-stage attribution fields + row_version/audit; do not use current unconditional SET record_status=confirmed or reset included flag.",
+    "facts": "Validate actual new attribution evidence against the real original business date/currency/registered stage. Persist new real governance evidence + attribution with predecessor, preserve old snapshot/attribution payload bytes.",
+    "sharedLineage": "If target participates in any consumed allocation source-set, use existing complete allocation producer with actual frozen measurement/weights and full source set to refresh provenance atomically; unchanged economic inputs must conserve existing cents. New basis/source snapshots/results carry real predecessor/version proof. No partial share or synthetic cost.",
+    "transitionProof": "Actual stage governance evidence records costBefore/After and old/new attribution IDs. A typed validated stage-only transition (same cost/source/money/confirmation, only documented stage/version fields differ) is consumed by the real allocation source loader. Never relax general compare_source_transition to allow arbitrary row changes."
+  },
+  "tax": {
+    "producer": "project_cost_governance::replace_tax_with_permit(session,ValidatedTaxCorrection,TaxTreatmentReplacementPermit,actor)",
+    "facts": "Call real existing tax/evidence/store replacement with active exact predecessor/CAS and actual sourceReferences/currency/responsible human assessment. TaxImpactAmount fields belong to the existing authorized F assessment, not a G aggregate override.",
+    "effects": "Append new real tax snapshot/evidence and predecessor; preserve prior row payload. G collects new actual F refs; deductible VAT not added to cost and taxImpactAmount never automatically summed as a new cost component."
+  },
+  "affectedClosure": "Discover reverse membership for direct costs, shared source members, stage/tax refs and every affected live or period current terminal root. Require action+project scope+all sensitive-write grants for every impacted project. Lock full sorted set, rediscover after batch locks, restart on expansion. Restate every target; no partial success or unacknowledged missing target.",
+  "inputHash": "The pre-effect whitelist binds complete impacted project/head/target/source versions; include affectedProjects [{projectId,projectRowVersion,headRowVersion,baselinePackageId,currentSnapshotId,terminalRootRefs}] in the preparation/input hash. Assert before producer effects. Source hashes use actual post-producer refs and previously frozen acyclic output-ref policy.",
+  "period": "Keep each original business cutoff/window; advance actual knowledge cutoff. New stage/tax evidence must refer to original in-window business facts; late-produced proof is labelled. No mixed-cutoff partial shared batch inference.",
+  "overlaps": "Reject duplicate/conflicting primary correction targets before writes. Multiple independent corrections allowed. A labor replacement plus a stage correction of its now-old cost is conflicting; labor replacement already requires true new stage evidence. Any dependent allocation refresh caused by stage correction is server-derived from the exact locked prior batch, not a second conflicting arbitrary correction.",
+  "atomic": "All real F/E source changes, classifications, all G contexts/snapshots/period/restatements, H evaluations/four gates/summaries, audit/security/pending-auth one borrowed CommonSession/outerTX. Capacity preinsert422 rolls everything back. Original published snapshots/context bytes never rewritten.",
+  "unsupported": [
+    "non-labor payment/invoice/payable principal mutation without real correction producer",
+    "ordinary receipt reversal or re-rating of existing receipt basis without separately frozen producer",
+    "client monetary aggregate/conclusion override",
+    "only-one-project reclassification of shared batch"
+  ],
+  "errors": {
+    "unsupported": "409 operating_source_correction_unsupported",
+    "incompleteAffectedSet": "409 operating_restatement_scope_incomplete",
+    "conflictingTargets": "422 conflicting_correction_targets",
+    "changedSource": "409",
+    "moneyOverflow": "422 operating_money_capacity_exceeded"
+  },
+  "normalPaths": "Consumed facts on ordinary E/F mutation still409 operating_restatement_required. Unconsumed old protocols unchanged; no gratuitous input tag requirement."
+}

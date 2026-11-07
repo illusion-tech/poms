@@ -1,0 +1,3382 @@
+{
+  "schemaVersion": 2,
+  "kind": "R4-GHI-and-minimal-R5-joint-G1-review-input",
+  "status": "EFFECTIVE-V2-ROOT-FREEZE-CANDIDATE-NOT-G1-PASS",
+  "workspace": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+  "providedBranch": "codex/poms-r4ghi-next25",
+  "providedHead": "d5c79b260fc58f78ff9adb4ac9fd69ed5bc838d5",
+  "headVerification": "Provided by Root; Git operations prohibited in this assignment. Byte manifest is actual local observed evidence, not Git certification.",
+  "previousOfficialBase": "aaa4b16ac66092f0cb1dc6646a02cf14e80823ee",
+  "gates": {
+    "G1Passed": false,
+    "G2Authorized": false,
+    "userfixIsSeparate": true,
+    "promotion": "Root alone writes canonical+baseline+source manifest; independent G1 must pass before any G2/new public DTO/controller/OpenAPI/client product files"
+  },
+  "counts": {
+    "G": 9,
+    "H": 8,
+    "I-existing": 8,
+    "I-new-stage": 2,
+    "I-new-condition": 1,
+    "I-total": 11,
+    "R4-target": 28,
+    "R5-min-existing": 4,
+    "batchTotal": 32,
+    "newPublic": 3,
+    "supportingCountDelta": 0,
+    "previousRustOfficial": 240,
+    "previousR4Delivered": 67,
+    "previousR4Total": 92,
+    "targetR4TotalAfterRouteFreeze": 95,
+    "forecastRustAfterAcceptance": 272,
+    "forecastR4DeliveredAfterAcceptance": 95,
+    "forecastIsNotDeliveryEvidence": true
+  },
+  "operationMap": [
+    {
+      "operationId": "ProjectCostController_activateOperatingBaselinePackage",
+      "group": "G",
+      "issue": 111,
+      "businessOwner": "G",
+      "publicWiringOwner": "Root",
+      "method": "POST",
+      "runtimePath": "/api/operating-baseline-packages",
+      "canonical": "POST /operating-baseline-packages",
+      "observedRows": [
+        {
+          "line": 162,
+          "row": "| `project-cost` | `activateOperatingBaselinePackage`   | `POST /operating-baseline-packages`                    | `POST /operating-baseline-packages`                   | `POST /operating-baseline-packages`                    | `ADR-015` + `EX-15E2A`           | `N/A`      | `EX-15E2A` 已清退旧 `project-cost/*` action path                    | `B2`  | `aligned` |"
+        }
+      ],
+      "inventoryStatus": "existing-aligned",
+      "namedResourceKeys": {},
+      "requestDto": "ActivateOperatingBaselinePackageRequest",
+      "responseDto": "OperatingCommandResult",
+      "successStatus": 201,
+      "permission": "contract:finance:manage",
+      "csrf": true,
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "authentication": "active session + exact route permission",
+      "scopePolicy": "operating-write",
+      "legacySpec": {
+        "method": "POST",
+        "path": "/api/operating-baseline-packages",
+        "declaredSuccessStatuses": [
+          "201"
+        ]
+      },
+      "requestProtocol": {
+        "requiredInputVersion": "server-derived-v1",
+        "NativeModernStatus": 422,
+        "RustMissingOrLegacyStatus": 422
+      },
+      "requestSchemaPointer": "#/components/schemas/ActivateOperatingBaselinePackageRequest",
+      "responseSchemaPointer": "#/components/schemas/OperatingCommandResult"
+    },
+    {
+      "operationId": "ProjectCostController_getCurrentOperatingBaselinePackage",
+      "group": "G",
+      "issue": 111,
+      "businessOwner": "G",
+      "publicWiringOwner": "Root",
+      "method": "GET",
+      "runtimePath": "/api/projects/{projectId}/operating-baseline-package",
+      "canonical": "GET /projects/{projectId}/operating-baseline-package",
+      "observedRows": [
+        {
+          "line": 163,
+          "row": "| `project-cost` | `getCurrentOperatingBaselinePackage` | `GET /projects/{projectId}/operating-baseline-package` | `GET /projects/:projectId/operating-baseline-package` | `GET /projects/{projectId}/operating-baseline-package` | `ADR-015` + `EX-15E2A`           | `N/A`      | `EX-15E2A` 已去掉 `/current` page suffix                            | `B2`  | `aligned` |"
+        }
+      ],
+      "inventoryStatus": "existing-aligned",
+      "namedResourceKeys": {
+        "projectId": "UUID"
+      },
+      "requestDto": null,
+      "responseDto": "OperatingBaselinePackageSummary",
+      "successStatus": 200,
+      "permission": "contract:finance:manage",
+      "csrf": false,
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "authentication": "active session + exact route permission",
+      "scopePolicy": "operating-read",
+      "legacySpec": {
+        "method": "GET",
+        "path": "/api/projects/{projectId}/operating-baseline-package",
+        "declaredSuccessStatuses": [
+          "200"
+        ]
+      },
+      "requestSchemaPointer": null,
+      "responseSchemaPointer": "#/components/schemas/OperatingBaselinePackageSummary"
+    },
+    {
+      "operationId": "ProjectCostController_createProjectOperatingSnapshot",
+      "group": "G",
+      "issue": 111,
+      "businessOwner": "G",
+      "publicWiringOwner": "Root",
+      "method": "POST",
+      "runtimePath": "/api/project-operating-snapshots",
+      "canonical": "POST /project-operating-snapshots",
+      "observedRows": [
+        {
+          "line": 164,
+          "row": "| `project-cost` | `createProjectOperatingSnapshot`     | `POST /project-operating-snapshots`                    | `POST /project-operating-snapshots`                   | `POST /project-operating-snapshots`                    | `ADR-015` + `EX-15E2A`           | `N/A`      | `EX-15E2A` 已把快照创建命令收口为 resource-first collection create  | `B2`  | `aligned` |"
+        }
+      ],
+      "inventoryStatus": "existing-aligned",
+      "namedResourceKeys": {},
+      "requestDto": "CreateProjectOperatingSnapshotRequest",
+      "responseDto": "OperatingCommandResult",
+      "successStatus": 201,
+      "permission": "contract:finance:manage",
+      "csrf": true,
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "authentication": "active session + exact route permission",
+      "scopePolicy": "operating-write",
+      "legacySpec": {
+        "method": "POST",
+        "path": "/api/project-operating-snapshots",
+        "declaredSuccessStatuses": [
+          "201"
+        ]
+      },
+      "requestProtocol": {
+        "requiredInputVersion": "server-derived-v1",
+        "NativeModernStatus": 422,
+        "RustMissingOrLegacyStatus": 422
+      },
+      "requestSchemaPointer": "#/components/schemas/CreateProjectOperatingSnapshotRequest",
+      "responseSchemaPointer": "#/components/schemas/OperatingCommandResult"
+    },
+    {
+      "operationId": "ProjectCostController_getProjectOperatingSnapshot",
+      "group": "G",
+      "issue": 111,
+      "businessOwner": "G",
+      "publicWiringOwner": "Root",
+      "method": "GET",
+      "runtimePath": "/api/project-operating-snapshots/{id}",
+      "canonical": "GET /project-operating-snapshots/{id}",
+      "observedRows": [
+        {
+          "line": 550,
+          "row": "| `project-cost`  | `getProjectOperatingSnapshot`      | `GET /project-operating-snapshots/{id}`                              | `GET /project-operating-snapshots/{id}`                              | `GET /project-operating-snapshots/{id}`                              | `ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)             | `N/A`      | R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。                                                                                                                                                                     | `B19` | `aligned` |"
+        }
+      ],
+      "inventoryStatus": "existing-aligned",
+      "namedResourceKeys": {
+        "id": "UUID"
+      },
+      "requestDto": null,
+      "responseDto": "ProjectOperatingSnapshotSummary",
+      "successStatus": 200,
+      "permission": "contract:finance:manage",
+      "csrf": false,
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "authentication": "active session + exact route permission",
+      "scopePolicy": "operating-read",
+      "legacySpec": {
+        "method": "GET",
+        "path": "/api/project-operating-snapshots/{id}",
+        "declaredSuccessStatuses": [
+          "200"
+        ]
+      },
+      "requestSchemaPointer": null,
+      "responseSchemaPointer": "#/components/schemas/ProjectOperatingSnapshotSummary"
+    },
+    {
+      "operationId": "ProjectCostController_createPeriodClosingSnapshot",
+      "group": "G",
+      "issue": 111,
+      "businessOwner": "G",
+      "publicWiringOwner": "Root",
+      "method": "POST",
+      "runtimePath": "/api/period-closing-snapshots",
+      "canonical": "POST /period-closing-snapshots",
+      "observedRows": [
+        {
+          "line": 165,
+          "row": "| `project-cost` | `createPeriodClosingSnapshot`        | `POST /period-closing-snapshots`                       | `POST /period-closing-snapshots`                      | `POST /period-closing-snapshots`                       | `ADR-015` + `EX-15E2A`           | `N/A`      | `EX-15E2A` 已把期末冻结快照创建命令收口为独立资源创建               | `B2`  | `aligned` |"
+        }
+      ],
+      "inventoryStatus": "existing-aligned",
+      "namedResourceKeys": {},
+      "requestDto": "CreatePeriodClosingSnapshotRequest",
+      "responseDto": "OperatingCommandResult",
+      "successStatus": 201,
+      "permission": "contract:finance:manage",
+      "csrf": true,
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "authentication": "active session + exact route permission",
+      "scopePolicy": "operating-write",
+      "legacySpec": {
+        "method": "POST",
+        "path": "/api/period-closing-snapshots",
+        "declaredSuccessStatuses": [
+          "201"
+        ]
+      },
+      "requestProtocol": {
+        "requiredInputVersion": "server-derived-v1",
+        "NativeModernStatus": 422,
+        "RustMissingOrLegacyStatus": 422
+      },
+      "requestSchemaPointer": "#/components/schemas/CreatePeriodClosingSnapshotRequest",
+      "responseSchemaPointer": "#/components/schemas/OperatingCommandResult"
+    },
+    {
+      "operationId": "ProjectCostController_getPeriodClosingSnapshot",
+      "group": "G",
+      "issue": 111,
+      "businessOwner": "G",
+      "publicWiringOwner": "Root",
+      "method": "GET",
+      "runtimePath": "/api/period-closing-snapshots/{id}",
+      "canonical": "GET /period-closing-snapshots/{id}",
+      "observedRows": [
+        {
+          "line": 533,
+          "row": "| `project-cost`  | `getPeriodClosingSnapshot`         | `GET /period-closing-snapshots/{id}`                                 | `GET /period-closing-snapshots/{id}`                                 | `GET /period-closing-snapshots/{id}`                                 | `ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)             | `N/A`      | R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。                                                                                                                                                                     | `B19` | `aligned` |"
+        }
+      ],
+      "inventoryStatus": "existing-aligned",
+      "namedResourceKeys": {
+        "id": "UUID"
+      },
+      "requestDto": null,
+      "responseDto": "PeriodClosingSnapshotSummary",
+      "successStatus": 200,
+      "permission": "contract:finance:manage",
+      "csrf": false,
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "authentication": "active session + exact route permission",
+      "scopePolicy": "operating-read",
+      "legacySpec": {
+        "method": "GET",
+        "path": "/api/period-closing-snapshots/{id}",
+        "declaredSuccessStatuses": [
+          "200"
+        ]
+      },
+      "requestSchemaPointer": null,
+      "responseSchemaPointer": "#/components/schemas/PeriodClosingSnapshotSummary"
+    },
+    {
+      "operationId": "ProjectCostController_createOperatingRestatement",
+      "group": "G",
+      "issue": 111,
+      "businessOwner": "G",
+      "publicWiringOwner": "Root",
+      "method": "POST",
+      "runtimePath": "/api/operating-restatements",
+      "canonical": "POST /operating-restatements",
+      "observedRows": [
+        {
+          "line": 166,
+          "row": "| `project-cost` | `createOperatingRestatement`         | `POST /operating-restatements`                         | `POST /operating-restatements`                        | `POST /operating-restatements`                         | `ADR-015` + `EX-15E2A`           | `N/A`      | `EX-15E2A` 已把重述创建命令收口为 resource-first collection create  | `B2`  | `aligned` |"
+        }
+      ],
+      "inventoryStatus": "existing-aligned",
+      "namedResourceKeys": {},
+      "requestDto": "CreateOperatingRestatementRequest",
+      "responseDto": "OperatingCommandResult",
+      "successStatus": 201,
+      "permission": "contract:finance:manage",
+      "csrf": true,
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "authentication": "active session + exact route permission",
+      "scopePolicy": "operating-write",
+      "legacySpec": {
+        "method": "POST",
+        "path": "/api/operating-restatements",
+        "declaredSuccessStatuses": [
+          "201"
+        ]
+      },
+      "requestProtocol": {
+        "requiredInputVersion": "server-derived-v1",
+        "NativeModernStatus": 422,
+        "RustMissingOrLegacyStatus": 422
+      },
+      "requestSchemaPointer": "#/components/schemas/CreateOperatingRestatementRequest",
+      "responseSchemaPointer": "#/components/schemas/OperatingCommandResult"
+    },
+    {
+      "operationId": "ProjectCostController_listOperatingRestatements",
+      "group": "G",
+      "issue": 111,
+      "businessOwner": "G",
+      "publicWiringOwner": "Root",
+      "method": "GET",
+      "runtimePath": "/api/projects/{projectId}/operating-restatements",
+      "canonical": "GET /projects/{projectId}/operating-restatements",
+      "observedRows": [
+        {
+          "line": 556,
+          "row": "| `project-cost`  | `listOperatingRestatements`        | `GET /projects/{projectId}/operating-restatements`                   | `GET /projects/{projectId}/operating-restatements`                   | `GET /projects/{projectId}/operating-restatements`                   | `ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)             | `N/A`      | R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。                                                                                                                                                                     | `B19` | `aligned` |"
+        }
+      ],
+      "inventoryStatus": "existing-aligned",
+      "namedResourceKeys": {
+        "projectId": "UUID"
+      },
+      "requestDto": null,
+      "responseDto": "OperatingRestatementListView",
+      "successStatus": 200,
+      "permission": "contract:finance:manage",
+      "csrf": false,
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "authentication": "active session + exact route permission",
+      "scopePolicy": "operating-read",
+      "legacySpec": {
+        "method": "GET",
+        "path": "/api/projects/{projectId}/operating-restatements",
+        "declaredSuccessStatuses": [
+          "200"
+        ]
+      },
+      "requestSchemaPointer": null,
+      "responseSchemaPointer": "#/components/schemas/OperatingRestatementListView"
+    },
+    {
+      "operationId": "ProjectCostController_getOperatingRestatement",
+      "group": "G",
+      "issue": 111,
+      "businessOwner": "G",
+      "publicWiringOwner": "Root",
+      "method": "GET",
+      "runtimePath": "/api/operating-restatements/{id}",
+      "canonical": "GET /operating-restatements/{id}",
+      "observedRows": [
+        {
+          "line": 532,
+          "row": "| `project-cost`  | `getOperatingRestatement`          | `GET /operating-restatements/{id}`                                   | `GET /operating-restatements/{id}`                                   | `GET /operating-restatements/{id}`                                   | `ADR-015` + [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)             | `N/A`      | R0F 依据 ADR-015 与现行 controller 补录当前设计/实现；本次不改接口，R4 按该能力契约交付。                                                                                                                                                                     | `B19` | `aligned` |"
+        }
+      ],
+      "inventoryStatus": "existing-aligned",
+      "namedResourceKeys": {
+        "id": "UUID"
+      },
+      "requestDto": null,
+      "responseDto": "OperatingRestatementSummary",
+      "successStatus": 200,
+      "permission": "contract:finance:manage",
+      "csrf": false,
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "authentication": "active session + exact route permission",
+      "scopePolicy": "operating-read",
+      "legacySpec": {
+        "method": "GET",
+        "path": "/api/operating-restatements/{id}",
+        "declaredSuccessStatuses": [
+          "200"
+        ]
+      },
+      "requestSchemaPointer": null,
+      "responseSchemaPointer": "#/components/schemas/OperatingRestatementSummary"
+    },
+    {
+      "operationId": "ProjectCostController_reviewOperatingSignalEvaluation",
+      "group": "H",
+      "issue": 112,
+      "businessOwner": "H",
+      "publicWiringOwner": "Root",
+      "method": "POST",
+      "runtimePath": "/api/operating-signal-evaluations/{id}:review",
+      "canonical": "POST /operating-signal-evaluations/{id}:review",
+      "observedRows": [
+        {
+          "line": 286,
+          "row": "| `project-cost` | `reviewOperatingSignalEvaluation`   | `POST /operating-signal-evaluations/{id}:review`         | `POST /operating-signal-evaluations/{id}:review`         | `POST /operating-signal-evaluations/{id}:review`         | `ADR-015` + `EX-15G` + `EX-13B`              | `N/A`      | `EX-13B` 已完成 direct cutover；不保留 slash-action 或 project-scoped write alias | `B3`  | `aligned` |"
+        }
+      ],
+      "inventoryStatus": "existing-aligned",
+      "namedResourceKeys": {
+        "id": "UUID"
+      },
+      "requestDto": "ReviewOperatingSignalEvaluationRequest",
+      "responseDto": "ReviewOperatingSignalEvaluationResult",
+      "successStatus": 200,
+      "permission": "contract:finance:manage",
+      "csrf": true,
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "authentication": "active session + exact route permission",
+      "scopePolicy": "operating-write",
+      "legacySpec": {
+        "method": "POST",
+        "path": "/api/operating-signal-evaluations/{id}:review",
+        "declaredSuccessStatuses": [
+          "200"
+        ]
+      },
+      "requestProtocol": {
+        "requiredInputVersion": "server-derived-v1",
+        "NativeModernStatus": 422,
+        "RustMissingOrLegacyStatus": 422
+      },
+      "requestSchemaPointer": "#/components/schemas/ReviewOperatingSignalEvaluationRequest",
+      "responseSchemaPointer": "#/components/schemas/ReviewOperatingSignalEvaluationResult"
+    },
+    {
+      "operationId": "ProjectCostController_getOperatingSignalEvaluation",
+      "group": "H",
+      "issue": 112,
+      "businessOwner": "H",
+      "publicWiringOwner": "Root",
+      "method": "GET",
+      "runtimePath": "/api/operating-signal-evaluations/{id}",
+      "canonical": "GET /operating-signal-evaluations/{id}",
+      "observedRows": [
+        {
+          "line": 287,
+          "row": "| `project-cost` | `getOperatingSignalEvaluation`      | `GET /operating-signal-evaluations/{id}`                 | `GET /operating-signal-evaluations/{id}`                 | `GET /operating-signal-evaluations/{id}`                 | `ADR-015` + `EX-15G` + `query-view-boundary` | `N/A`      | item detail query 保持 resource-first                                             | `B3`  | `aligned` |"
+        }
+      ],
+      "inventoryStatus": "existing-aligned",
+      "namedResourceKeys": {
+        "id": "UUID"
+      },
+      "requestDto": null,
+      "responseDto": "OperatingSignalEvaluationView",
+      "successStatus": 200,
+      "permission": "contract:finance:manage",
+      "csrf": false,
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "authentication": "active session + exact route permission",
+      "scopePolicy": "operating-read",
+      "legacySpec": {
+        "method": "GET",
+        "path": "/api/operating-signal-evaluations/{id}",
+        "declaredSuccessStatuses": [
+          "200"
+        ]
+      },
+      "requestSchemaPointer": null,
+      "responseSchemaPointer": "#/components/schemas/OperatingSignalEvaluationView"
+    },
+    {
+      "operationId": "ProjectCostController_reviewCommissionGateBinding",
+      "group": "H",
+      "issue": 112,
+      "businessOwner": "H",
+      "publicWiringOwner": "Root",
+      "method": "POST",
+      "runtimePath": "/api/commission-gate-bindings/{id}:review",
+      "canonical": "POST /commission-gate-bindings/{id}:review",
+      "observedRows": [
+        {
+          "line": 288,
+          "row": "| `project-cost` | `reviewCommissionGateBinding`       | `POST /commission-gate-bindings/{id}:review`             | `POST /commission-gate-bindings/{id}:review`             | `POST /commission-gate-bindings/{id}:review`             | `ADR-015` + `EX-15G` + `EX-13B`              | `N/A`      | `EX-13B` 已完成 direct cutover；不保留 slash-action 或 project-scoped write alias | `B3`  | `aligned` |"
+        }
+      ],
+      "inventoryStatus": "existing-aligned",
+      "namedResourceKeys": {
+        "id": "UUID"
+      },
+      "requestDto": "ReviewCommissionGateBindingRequest",
+      "responseDto": "ReviewCommissionGateBindingResult",
+      "successStatus": 200,
+      "permission": "contract:finance:manage",
+      "csrf": true,
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "authentication": "active session + exact route permission",
+      "scopePolicy": "operating-write",
+      "legacySpec": {
+        "method": "POST",
+        "path": "/api/commission-gate-bindings/{id}:review",
+        "declaredSuccessStatuses": [
+          "200"
+        ]
+      },
+      "requestProtocol": {
+        "requiredInputVersion": "server-derived-v1",
+        "NativeModernStatus": 422,
+        "RustMissingOrLegacyStatus": 422
+      },
+      "requestSchemaPointer": "#/components/schemas/ReviewCommissionGateBindingRequest",
+      "responseSchemaPointer": "#/components/schemas/ReviewCommissionGateBindingResult"
+    },
+    {
+      "operationId": "ProjectCostController_getCommissionGateBinding",
+      "group": "H",
+      "issue": 112,
+      "businessOwner": "H",
+      "publicWiringOwner": "Root",
+      "method": "GET",
+      "runtimePath": "/api/commission-gate-bindings/{id}",
+      "canonical": "GET /commission-gate-bindings/{id}",
+      "observedRows": [
+        {
+          "line": 289,
+          "row": "| `project-cost` | `getCommissionGateBinding`          | `GET /commission-gate-bindings/{id}`                     | `GET /commission-gate-bindings/{id}`                     | `GET /commission-gate-bindings/{id}`                     | `ADR-015` + `EX-15G` + `query-view-boundary` | `N/A`      | gate binding detail 保持 top-level identity                                       | `B3`  | `aligned` |"
+        }
+      ],
+      "inventoryStatus": "existing-aligned",
+      "namedResourceKeys": {
+        "id": "UUID"
+      },
+      "requestDto": null,
+      "responseDto": "CommissionGateBindingHistoryView",
+      "successStatus": 200,
+      "permission": "contract:finance:manage",
+      "csrf": false,
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "authentication": "active session + exact route permission",
+      "scopePolicy": "operating-read",
+      "legacySpec": {
+        "method": "GET",
+        "path": "/api/commission-gate-bindings/{id}",
+        "declaredSuccessStatuses": [
+          "200"
+        ]
+      },
+      "requestSchemaPointer": null,
+      "responseSchemaPointer": "#/components/schemas/CommissionGateBindingHistoryView"
+    },
+    {
+      "operationId": "ProjectCostController_getProjectBusinessOutcomeOverview",
+      "group": "H",
+      "issue": 112,
+      "businessOwner": "H",
+      "publicWiringOwner": "Root",
+      "method": "GET",
+      "runtimePath": "/api/projects/{projectId}/business-outcome-overview",
+      "canonical": "GET /projects/{projectId}/business-outcome-overview",
+      "observedRows": [
+        {
+          "line": 290,
+          "row": "| `project-cost` | `getProjectBusinessOutcomeOverview` | `GET /projects/{projectId}/business-outcome-overview`    | `GET /projects/{projectId}/business-outcome-overview`    | `GET /projects/{projectId}/business-outcome-overview`    | `ADR-015` + `EX-15G` + `query-view-boundary` | `N/A`      | 作为项目稳定名词型子资源，不使用 `/summary` / `/detail` 后缀                      | `B3`  | `aligned` |"
+        }
+      ],
+      "inventoryStatus": "existing-aligned",
+      "namedResourceKeys": {
+        "projectId": "UUID"
+      },
+      "requestDto": null,
+      "responseDto": "ProjectBusinessOutcomeOverviewView",
+      "successStatus": 200,
+      "permission": "contract:finance:manage",
+      "csrf": false,
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "authentication": "active session + exact route permission",
+      "scopePolicy": "operating-read",
+      "legacySpec": {
+        "method": "GET",
+        "path": "/api/projects/{projectId}/business-outcome-overview",
+        "declaredSuccessStatuses": [
+          "200"
+        ]
+      },
+      "requestSchemaPointer": null,
+      "responseSchemaPointer": "#/components/schemas/ProjectBusinessOutcomeOverviewView"
+    },
+    {
+      "operationId": "ProjectCostController_getProjectUnifiedAccounting",
+      "group": "H",
+      "issue": 112,
+      "businessOwner": "H",
+      "publicWiringOwner": "Root",
+      "method": "GET",
+      "runtimePath": "/api/projects/{projectId}/unified-accounting",
+      "canonical": "GET /projects/{projectId}/unified-accounting",
+      "observedRows": [
+        {
+          "line": 291,
+          "row": "| `project-cost` | `getProjectUnifiedAccounting`       | `GET /projects/{projectId}/unified-accounting`           | `GET /projects/{projectId}/unified-accounting`           | `GET /projects/{projectId}/unified-accounting`           | `ADR-015` + `EX-15G` + `query-view-boundary` | `N/A`      | 作为项目稳定名词型子资源，不使用 `/current` / `/detail` 后缀                      | `B3`  | `aligned` |"
+        }
+      ],
+      "inventoryStatus": "existing-aligned",
+      "namedResourceKeys": {
+        "projectId": "UUID"
+      },
+      "requestDto": null,
+      "responseDto": "ProjectUnifiedAccountingResponse",
+      "successStatus": 200,
+      "permission": "contract:finance:manage",
+      "csrf": false,
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "authentication": "active session + exact route permission",
+      "scopePolicy": "operating-read",
+      "legacySpec": {
+        "method": "GET",
+        "path": "/api/projects/{projectId}/unified-accounting",
+        "declaredSuccessStatuses": [
+          "200"
+        ]
+      },
+      "requestSchemaPointer": null,
+      "responseSchemaPointer": "#/components/schemas/ProjectUnifiedAccountingResponse"
+    },
+    {
+      "operationId": "ProjectCostController_getProjectVarianceRiskExplanation",
+      "group": "H",
+      "issue": 112,
+      "businessOwner": "H",
+      "publicWiringOwner": "Root",
+      "method": "GET",
+      "runtimePath": "/api/projects/{projectId}/variance-risk-explanation",
+      "canonical": "GET /projects/{projectId}/variance-risk-explanation",
+      "observedRows": [
+        {
+          "line": 292,
+          "row": "| `project-cost` | `getProjectVarianceRiskExplanation` | `GET /projects/{projectId}/variance-risk-explanation`    | `GET /projects/{projectId}/variance-risk-explanation`    | `GET /projects/{projectId}/variance-risk-explanation`    | `ADR-015` + `EX-15G` + `query-view-boundary` | `N/A`      | 作为项目稳定名词型子资源，不使用页面投影后缀                                      | `B3`  | `aligned` |"
+        }
+      ],
+      "inventoryStatus": "existing-aligned",
+      "namedResourceKeys": {
+        "projectId": "UUID"
+      },
+      "requestDto": null,
+      "responseDto": "ProjectVarianceRiskExplanationView",
+      "successStatus": 200,
+      "permission": "contract:finance:manage",
+      "csrf": false,
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "authentication": "active session + exact route permission",
+      "scopePolicy": "operating-read",
+      "legacySpec": {
+        "method": "GET",
+        "path": "/api/projects/{projectId}/variance-risk-explanation",
+        "declaredSuccessStatuses": [
+          "200"
+        ]
+      },
+      "requestSchemaPointer": null,
+      "responseSchemaPointer": "#/components/schemas/ProjectVarianceRiskExplanationView"
+    },
+    {
+      "operationId": "ProjectCostController_getBusinessAccountingFeedback",
+      "group": "H",
+      "issue": 112,
+      "businessOwner": "H",
+      "publicWiringOwner": "Root",
+      "method": "GET",
+      "runtimePath": "/api/projects/{projectId}/business-accounting-feedback",
+      "canonical": "GET /projects/{projectId}/business-accounting-feedback",
+      "observedRows": [
+        {
+          "line": 293,
+          "row": "| `project-cost` | `getBusinessAccountingFeedback`     | `GET /projects/{projectId}/business-accounting-feedback` | `GET /projects/{projectId}/business-accounting-feedback` | `GET /projects/{projectId}/business-accounting-feedback` | `ADR-015` + `EX-15G` + `query-view-boundary` | `N/A`      | 作为项目稳定名词型子资源，不使用页面投影后缀                                      | `B3`  | `aligned` |"
+        }
+      ],
+      "inventoryStatus": "existing-aligned",
+      "namedResourceKeys": {
+        "projectId": "UUID"
+      },
+      "requestDto": null,
+      "responseDto": "BusinessAccountingFeedbackView",
+      "successStatus": 200,
+      "permission": "contract:finance:manage",
+      "csrf": false,
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "authentication": "active session + exact route permission",
+      "scopePolicy": "operating-read",
+      "legacySpec": {
+        "method": "GET",
+        "path": "/api/projects/{projectId}/business-accounting-feedback",
+        "declaredSuccessStatuses": [
+          "200"
+        ]
+      },
+      "requestSchemaPointer": null,
+      "responseSchemaPointer": "#/components/schemas/BusinessAccountingFeedbackView"
+    },
+    {
+      "operationId": "CommissionController_getCurrentRoleAssignment",
+      "group": "R5-min",
+      "issue": 117,
+      "businessOwner": "I",
+      "publicWiringOwner": "Root",
+      "method": "GET",
+      "runtimePath": "/api/projects/{projectId}/commission-role-assignment",
+      "canonical": "GET /projects/{projectId}/commission-role-assignment",
+      "observedRows": [
+        {
+          "line": 200,
+          "row": "| `commission` | `getCurrentRoleAssignment`           | `GET /projects/{projectId}/commission-role-assignment`   | `GET /projects/{projectId}/commission-role-assignment`   | `GET /projects/{projectId}/commission-role-assignment`   | `ADR-015` + `EX-15E3` | `N/A`      | `EX-15E3` 已保留当前角色分配为项目稳定单例子资源                                                  | `B2`  | `aligned` |"
+        }
+      ],
+      "inventoryStatus": "existing-aligned",
+      "namedResourceKeys": {
+        "projectId": "UUID"
+      },
+      "requestDto": null,
+      "responseDto": "CurrentCommissionRoleAssignmentResponse",
+      "successStatus": 200,
+      "permission": "commission:assignments:manage",
+      "csrf": false,
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "authentication": "active session + exact route permission",
+      "scopePolicy": "read",
+      "legacySpec": {
+        "method": "GET",
+        "path": "/api/projects/{projectId}/commission-role-assignment",
+        "declaredSuccessStatuses": [
+          "200"
+        ]
+      },
+      "nullableResponse": true,
+      "requestSchemaPointer": null,
+      "responseSchemaPointer": "#/components/schemas/CurrentCommissionRoleAssignmentResponse"
+    },
+    {
+      "operationId": "CommissionController_createRoleAssignment",
+      "group": "R5-min",
+      "issue": 117,
+      "businessOwner": "I",
+      "publicWiringOwner": "Root",
+      "method": "POST",
+      "runtimePath": "/api/projects/{projectId}/commission-role-assignments",
+      "canonical": "POST /projects/{projectId}/commission-role-assignments",
+      "observedRows": [
+        {
+          "line": 201,
+          "row": "| `commission` | `createRoleAssignment`               | `POST /projects/{projectId}/commission-role-assignments` | `POST /projects/{projectId}/commission-role-assignments` | `POST /projects/{projectId}/commission-role-assignments` | `ADR-015` + `EX-15E3` | `N/A`      | `EX-15E3` 已把新建角色分配收口到项目子集合 create，不再复用 singleton path                        | `B2`  | `aligned` |"
+        }
+      ],
+      "inventoryStatus": "existing-aligned",
+      "namedResourceKeys": {
+        "projectId": "UUID"
+      },
+      "requestDto": "CreateCommissionRoleAssignmentRequest",
+      "responseDto": "CommissionRoleAssignmentSummary",
+      "successStatus": 200,
+      "permission": "commission:assignments:manage",
+      "csrf": true,
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "authentication": "active session + exact route permission",
+      "scopePolicy": "draft",
+      "legacySpec": {
+        "method": "POST",
+        "path": "/api/projects/{projectId}/commission-role-assignments",
+        "declaredSuccessStatuses": [
+          "200"
+        ]
+      },
+      "requestProtocol": {
+        "requiredInputVersion": "server-derived-v1",
+        "NativeModernStatus": 422,
+        "RustMissingOrLegacyStatus": 422
+      },
+      "requestSchemaPointer": "#/components/schemas/CreateCommissionRoleAssignmentRequest",
+      "responseSchemaPointer": "#/components/schemas/CommissionRoleAssignmentSummary",
+      "legacyNativeSuccessStatus": 201,
+      "statusDriftClass": "existing-baseline-drift",
+      "legacyRule": "Preserve implicit Native201 reference branch; modern Rust200. No blanket HttpCode200 or old reference rewrite."
+    },
+    {
+      "operationId": "CommissionRoleAssignmentController_getRoleAssignmentDetail",
+      "group": "R5-min",
+      "issue": 117,
+      "businessOwner": "I",
+      "publicWiringOwner": "Root",
+      "method": "GET",
+      "runtimePath": "/api/commission-role-assignments/{id}",
+      "canonical": "GET /commission-role-assignments/{id}",
+      "observedRows": [
+        {
+          "line": 118,
+          "row": "| `commission` | `getCommissionRoleAssignment`      | `GET /commission-role-assignments/{id}`           | `GET /commission-role-assignments/:id`            | `GET /commission-role-assignments/{id}`           | `ADR-015` + `EX-09` route governance                              | `N/A`      | 已在 `EX-15D` 去掉 `/detail`，统一 item detail canonical path                                                                | `B1`  | `aligned` |"
+        }
+      ],
+      "inventoryStatus": "existing-aligned",
+      "namedResourceKeys": {
+        "id": "UUID"
+      },
+      "requestDto": null,
+      "responseDto": "CommissionRoleAssignmentDetailView",
+      "successStatus": 200,
+      "permission": "commission:assignments:manage",
+      "csrf": false,
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "authentication": "active session + exact route permission",
+      "scopePolicy": "read",
+      "legacySpec": {
+        "method": "GET",
+        "path": "/api/commission-role-assignments/{id}",
+        "declaredSuccessStatuses": [
+          "200"
+        ]
+      },
+      "requestSchemaPointer": null,
+      "responseSchemaPointer": "#/components/schemas/CommissionRoleAssignmentDetailView"
+    },
+    {
+      "operationId": "CommissionRoleAssignmentController_freezeRoleAssignment",
+      "group": "R5-min",
+      "issue": 117,
+      "businessOwner": "I",
+      "publicWiringOwner": "Root",
+      "method": "POST",
+      "runtimePath": "/api/commission-role-assignments/{id}:freeze",
+      "canonical": "POST /commission-role-assignments/{id}:freeze",
+      "observedRows": [
+        {
+          "line": 119,
+          "row": "| `commission` | `freezeCommissionRoleAssignment`   | `POST /commission-role-assignments/{id}:freeze`   | `POST /commission-role-assignments/:id:freeze`    | `POST /commission-role-assignments/{id}:freeze`   | `ADR-015` + `interface-openapi-dto-design.md`                     | `N/A`      | project-scoped legacy freeze alias 已在 `EX-15D` 清退，当前实现与 canonical inventory 一致                                   | `B1`  | `aligned` |"
+        }
+      ],
+      "inventoryStatus": "existing-aligned",
+      "namedResourceKeys": {
+        "id": "UUID"
+      },
+      "requestDto": "FreezeCommissionRoleAssignmentRequest",
+      "responseDto": "FreezeCommissionRoleAssignmentResult",
+      "successStatus": 200,
+      "permission": "commission:assignments:manage",
+      "csrf": true,
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "authentication": "active session + exact route permission",
+      "scopePolicy": "freeze",
+      "legacySpec": {
+        "method": "POST",
+        "path": "/api/commission-role-assignments/{id}:freeze",
+        "declaredSuccessStatuses": [
+          "200"
+        ]
+      },
+      "requestProtocol": {
+        "requiredInputVersion": "server-derived-v1",
+        "NativeModernStatus": 422,
+        "RustMissingOrLegacyStatus": 422
+      },
+      "requestSchemaPointer": "#/components/schemas/FreezeCommissionRoleAssignmentRequest",
+      "responseSchemaPointer": "#/components/schemas/FreezeCommissionRoleAssignmentResult"
+    },
+    {
+      "operationId": "ProjectController_listAcceptanceRecords",
+      "group": "I",
+      "issue": 113,
+      "businessOwner": "I",
+      "publicWiringOwner": "Root",
+      "method": "GET",
+      "runtimePath": "/api/projects/{projectId}/acceptance-records",
+      "canonical": "GET /projects/{projectId}/acceptance-records",
+      "observedRows": [
+        {
+          "line": 252,
+          "row": "| `project`          | `listProjectAcceptanceRecords`      | `GET /projects/{projectId}/acceptance-records`        | `GET /projects/{projectId}/acceptance-records`        | `GET /projects/{projectId}/acceptance-records`        | `ADR-015` + `EX-23`                         | `N/A`      | `EX-23` 新增项目验收事实读侧集合，供项目时间线与后续前端读取型体验消费                                                   | `B3`  | `aligned` |"
+        }
+      ],
+      "inventoryStatus": "existing-aligned",
+      "namedResourceKeys": {
+        "projectId": "UUID"
+      },
+      "requestDto": null,
+      "responseDto": "AcceptanceRecordList",
+      "successStatus": 200,
+      "permission": "project:read",
+      "csrf": false,
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "authentication": "active session + exact route permission",
+      "scopePolicy": "read",
+      "legacySpec": {
+        "method": "GET",
+        "path": "/api/projects/{projectId}/acceptance-records",
+        "declaredSuccessStatuses": [
+          "200"
+        ]
+      },
+      "requestSchemaPointer": null,
+      "responseSchemaPointer": "#/components/schemas/AcceptanceRecordList"
+    },
+    {
+      "operationId": "ProjectController_createAcceptanceRecord",
+      "group": "I",
+      "issue": 113,
+      "businessOwner": "I",
+      "publicWiringOwner": "Root",
+      "method": "POST",
+      "runtimePath": "/api/projects/{projectId}/acceptance-records",
+      "canonical": "POST /projects/{projectId}/acceptance-records",
+      "observedRows": [
+        {
+          "line": 251,
+          "row": "| `project`          | `createAcceptanceRecord`            | `POST /projects/{projectId}/acceptance-records`       | `POST /projects/{projectId}/acceptance-records`       | `POST /projects/{projectId}/acceptance-records`       | `ADR-015` + `EX-23`                         | `N/A`      | `EX-23` 新增项目验收事实子集合创建，作为项目生命周期验收里程碑权威来源                                                   | `B3`  | `aligned` |"
+        }
+      ],
+      "inventoryStatus": "existing-aligned",
+      "namedResourceKeys": {
+        "projectId": "UUID"
+      },
+      "requestDto": "CreateAcceptanceRecordRequest",
+      "responseDto": "AcceptanceRecordSummary",
+      "successStatus": 201,
+      "permission": "project:write",
+      "csrf": true,
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "authentication": "active session + exact route permission",
+      "scopePolicy": "acceptance",
+      "legacySpec": {
+        "method": "POST",
+        "path": "/api/projects/{projectId}/acceptance-records",
+        "declaredSuccessStatuses": [
+          "201"
+        ]
+      },
+      "requestProtocol": {
+        "requiredInputVersion": "server-derived-v1",
+        "NativeModernStatus": 422,
+        "RustMissingOrLegacyStatus": 422
+      },
+      "requestSchemaPointer": "#/components/schemas/CreateAcceptanceRecordRequest",
+      "responseSchemaPointer": "#/components/schemas/AcceptanceRecordSummary"
+    },
+    {
+      "operationId": "ProjectController_listProjectCompletionRecords",
+      "group": "I",
+      "issue": 113,
+      "businessOwner": "I",
+      "publicWiringOwner": "Root",
+      "method": "GET",
+      "runtimePath": "/api/projects/{projectId}/completion-records",
+      "canonical": "GET /projects/{projectId}/completion-records",
+      "observedRows": [
+        {
+          "line": 254,
+          "row": "| `project`          | `listProjectCompletionRecords`      | `GET /projects/{projectId}/completion-records`        | `GET /projects/{projectId}/completion-records`        | `GET /projects/{projectId}/completion-records`        | `ADR-015` + `EX-24`                         | `N/A`      | `EX-24` 已新增项目完成事实读侧集合，供项目时间线与后续前端读取型体验消费                                                 | `B3`  | `aligned` |"
+        }
+      ],
+      "inventoryStatus": "existing-aligned",
+      "namedResourceKeys": {
+        "projectId": "UUID"
+      },
+      "requestDto": null,
+      "responseDto": "ProjectCompletionRecordList",
+      "successStatus": 200,
+      "permission": "project:read",
+      "csrf": false,
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "authentication": "active session + exact route permission",
+      "scopePolicy": "read",
+      "legacySpec": {
+        "method": "GET",
+        "path": "/api/projects/{projectId}/completion-records",
+        "declaredSuccessStatuses": [
+          "200"
+        ]
+      },
+      "requestSchemaPointer": null,
+      "responseSchemaPointer": "#/components/schemas/ProjectCompletionRecordList"
+    },
+    {
+      "operationId": "ProjectController_createProjectCompletionRecord",
+      "group": "I",
+      "issue": 113,
+      "businessOwner": "I",
+      "publicWiringOwner": "Root",
+      "method": "POST",
+      "runtimePath": "/api/projects/{projectId}/completion-records",
+      "canonical": "POST /projects/{projectId}/completion-records",
+      "observedRows": [
+        {
+          "line": 253,
+          "row": "| `project`          | `createProjectCompletionRecord`     | `POST /projects/{projectId}/completion-records`       | `POST /projects/{projectId}/completion-records`       | `POST /projects/{projectId}/completion-records`       | `ADR-015` + `EX-24`                         | `N/A`      | `EX-24` 已新增项目完成事实子集合创建，作为项目生命周期完成里程碑权威来源                                                 | `B3`  | `aligned` |"
+        }
+      ],
+      "inventoryStatus": "existing-aligned",
+      "namedResourceKeys": {
+        "projectId": "UUID"
+      },
+      "requestDto": "CreateProjectCompletionRecordRequest",
+      "responseDto": "ProjectCompletionRecordSummary",
+      "successStatus": 201,
+      "permission": "project:write",
+      "csrf": true,
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "authentication": "active session + exact route permission",
+      "scopePolicy": "completion",
+      "legacySpec": {
+        "method": "POST",
+        "path": "/api/projects/{projectId}/completion-records",
+        "declaredSuccessStatuses": [
+          "201"
+        ]
+      },
+      "requestProtocol": {
+        "requiredInputVersion": "server-derived-v1",
+        "NativeModernStatus": 422,
+        "RustMissingOrLegacyStatus": 422
+      },
+      "requestSchemaPointer": "#/components/schemas/CreateProjectCompletionRecordRequest",
+      "responseSchemaPointer": "#/components/schemas/ProjectCompletionRecordSummary"
+    },
+    {
+      "operationId": "ProjectController_listProjectArchiveRecords",
+      "group": "I",
+      "issue": 113,
+      "businessOwner": "I",
+      "publicWiringOwner": "Root",
+      "method": "GET",
+      "runtimePath": "/api/projects/{projectId}/archive-records",
+      "canonical": "GET /projects/{projectId}/archive-records",
+      "observedRows": [
+        {
+          "line": 256,
+          "row": "| `project`          | `listProjectArchiveRecords`         | `GET /projects/{projectId}/archive-records`           | `GET /projects/{projectId}/archive-records`           | `GET /projects/{projectId}/archive-records`           | `ADR-015` + `EX-25`                         | `N/A`      | `EX-25` 已新增项目归档事实读侧集合；后续 `FE-24` 只消费附属 milestone / 完成态详情，不新增第九个 stage node              | `B3`  | `aligned` |"
+        }
+      ],
+      "inventoryStatus": "existing-aligned",
+      "namedResourceKeys": {
+        "projectId": "UUID"
+      },
+      "requestDto": null,
+      "responseDto": "ProjectArchiveRecordList",
+      "successStatus": 200,
+      "permission": "project:read",
+      "csrf": false,
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "authentication": "active session + exact route permission",
+      "scopePolicy": "read",
+      "legacySpec": {
+        "method": "GET",
+        "path": "/api/projects/{projectId}/archive-records",
+        "declaredSuccessStatuses": [
+          "200"
+        ]
+      },
+      "requestSchemaPointer": null,
+      "responseSchemaPointer": "#/components/schemas/ProjectArchiveRecordList"
+    },
+    {
+      "operationId": "ProjectController_createProjectArchiveRecord",
+      "group": "I",
+      "issue": 113,
+      "businessOwner": "I",
+      "publicWiringOwner": "Root",
+      "method": "POST",
+      "runtimePath": "/api/projects/{projectId}/archive-records",
+      "canonical": "POST /projects/{projectId}/archive-records",
+      "observedRows": [
+        {
+          "line": 255,
+          "row": "| `project`          | `createProjectArchiveRecord`        | `POST /projects/{projectId}/archive-records`          | `POST /projects/{projectId}/archive-records`          | `POST /projects/{projectId}/archive-records`          | `ADR-015` + `EX-25`                         | `N/A`      | `EX-25` 已新增项目归档事实子集合创建；archive 固定为终态附属 milestone，而不是新的主生命周期阶段                         | `B3`  | `aligned` |"
+        }
+      ],
+      "inventoryStatus": "existing-aligned",
+      "namedResourceKeys": {
+        "projectId": "UUID"
+      },
+      "requestDto": "CreateProjectArchiveRecordRequest",
+      "responseDto": "ProjectArchiveRecordSummary",
+      "successStatus": 201,
+      "permission": "project:write",
+      "csrf": true,
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "authentication": "active session + exact route permission",
+      "scopePolicy": "archive",
+      "legacySpec": {
+        "method": "POST",
+        "path": "/api/projects/{projectId}/archive-records",
+        "declaredSuccessStatuses": [
+          "201"
+        ]
+      },
+      "requestProtocol": {
+        "requiredInputVersion": "server-derived-v1",
+        "NativeModernStatus": 422,
+        "RustMissingOrLegacyStatus": 422
+      },
+      "requestSchemaPointer": "#/components/schemas/CreateProjectArchiveRecordRequest",
+      "responseSchemaPointer": "#/components/schemas/ProjectArchiveRecordSummary"
+    },
+    {
+      "operationId": "ProjectArchiveRecordController_replaceProjectArchiveRecord",
+      "group": "I",
+      "issue": 113,
+      "businessOwner": "I",
+      "publicWiringOwner": "Root",
+      "method": "POST",
+      "runtimePath": "/api/project-archive-records/{id}:replace",
+      "canonical": "POST /project-archive-records/{id}:replace",
+      "observedRows": [
+        {
+          "line": 257,
+          "row": "| `project`          | `replaceProjectArchiveRecord`       | `POST /project-archive-records/{id}:replace`          | `POST /project-archive-records/{id}:replace`          | `POST /project-archive-records/{id}:replace`          | `ADR-015` + `EX-34` / `EX-34A`              | `N/A`      | `EX-34A` 已实现归档替代版本链；path `{id}` 是被替代归档记录 identity SSOT，replacement 创建新 `recorded` 记录            | `B3`  | `aligned` |"
+        }
+      ],
+      "inventoryStatus": "existing-aligned",
+      "namedResourceKeys": {
+        "id": "UUID"
+      },
+      "requestDto": "ReplaceProjectArchiveRecordRequest",
+      "responseDto": "ProjectArchiveRecordSummary",
+      "successStatus": 200,
+      "permission": "project:write",
+      "csrf": true,
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "authentication": "active session + exact route permission",
+      "scopePolicy": "archive",
+      "legacySpec": {
+        "method": "POST",
+        "path": "/api/project-archive-records/{id}:replace",
+        "declaredSuccessStatuses": [
+          "200"
+        ]
+      },
+      "requestProtocol": {
+        "requiredInputVersion": "server-derived-v1",
+        "NativeModernStatus": 422,
+        "RustMissingOrLegacyStatus": 422
+      },
+      "requestSchemaPointer": "#/components/schemas/ReplaceProjectArchiveRecordRequest",
+      "responseSchemaPointer": "#/components/schemas/ProjectArchiveRecordSummary",
+      "legacyNativeSuccessStatus": 201,
+      "statusDriftClass": "existing-baseline-drift",
+      "legacyRule": "Preserve implicit Native201 reference branch; modern Rust200. No blanket HttpCode200 or old reference rewrite."
+    },
+    {
+      "operationId": "ProjectArchiveRecordController_voidProjectArchiveRecord",
+      "group": "I",
+      "issue": 113,
+      "businessOwner": "I",
+      "publicWiringOwner": "Root",
+      "method": "POST",
+      "runtimePath": "/api/project-archive-records/{id}:void",
+      "canonical": "POST /project-archive-records/{id}:void",
+      "observedRows": [
+        {
+          "line": 258,
+          "row": "| `project`          | `voidProjectArchiveRecord`          | `POST /project-archive-records/{id}:void`             | `POST /project-archive-records/{id}:void`             | `POST /project-archive-records/{id}:void`             | `ADR-015` + `EX-34` / `EX-34A`              | `N/A`      | `EX-34A` 已实现归档撤销；作废指定 current recorded 归档事实，不删除审计记录，不影响既有 project-scoped list route        | `B3`  | `aligned` |"
+        }
+      ],
+      "inventoryStatus": "existing-aligned",
+      "namedResourceKeys": {
+        "id": "UUID"
+      },
+      "requestDto": "VoidProjectArchiveRecordRequest",
+      "responseDto": "ProjectArchiveRecordSummary",
+      "successStatus": 200,
+      "permission": "project:write",
+      "csrf": true,
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "authentication": "active session + exact route permission",
+      "scopePolicy": "archive",
+      "legacySpec": {
+        "method": "POST",
+        "path": "/api/project-archive-records/{id}:void",
+        "declaredSuccessStatuses": [
+          "200"
+        ]
+      },
+      "requestProtocol": {
+        "requiredInputVersion": "server-derived-v1",
+        "NativeModernStatus": 422,
+        "RustMissingOrLegacyStatus": 422
+      },
+      "requestSchemaPointer": "#/components/schemas/VoidProjectArchiveRecordRequest",
+      "responseSchemaPointer": "#/components/schemas/ProjectArchiveRecordSummary",
+      "legacyNativeSuccessStatus": 201,
+      "statusDriftClass": "existing-baseline-drift",
+      "legacyRule": "Preserve implicit Native201 reference branch; modern Rust200. No blanket HttpCode200 or old reference rewrite."
+    },
+    {
+      "operationId": "ProjectController_startExecution",
+      "group": "I",
+      "issue": 113,
+      "businessOwner": "I",
+      "publicWiringOwner": "Root",
+      "method": "POST",
+      "runtimePath": "/api/projects/{id}:startExecution",
+      "canonical": "POST /projects/{id}:startExecution",
+      "observedRows": [
+        {
+          "line": 568,
+          "row": "| `project` | `startExecution`           | `POST /projects/{id}:startExecution`                                          | N/A（尚未实现）           | `POST /projects/{id}:startExecution`                                          | `ADR-015` + `rust-r4ghi-next32-baseline.md` §3 / #110 / #113 | `N/A`      | 校验真实移交、本人职责确认及有效角色冻结后，原子记录进入执行          | `RUST-R4I` | `planned` |"
+        }
+      ],
+      "inventoryStatus": "planned",
+      "namedResourceKeys": {
+        "id": "UUID"
+      },
+      "requestDto": "StartProjectExecutionRequest",
+      "responseDto": "ProjectStageTransitionResult",
+      "successStatus": 200,
+      "permission": "project:write",
+      "csrf": true,
+      "newPublicOperation": true,
+      "countedOnce": true,
+      "authentication": "active session + exact route permission",
+      "scopePolicy": "execution-entry",
+      "typedResourceKeys": {
+        "id": "ProjectId"
+      },
+      "requestProtocol": {
+        "requiredInputVersion": "server-derived-v1",
+        "NativeModernStatus": 422,
+        "RustMissingOrLegacyStatus": 422
+      },
+      "requestSchemaPointer": "#/components/schemas/StartProjectExecutionRequest",
+      "responseSchemaPointer": "#/components/schemas/ProjectStageTransitionResult"
+    },
+    {
+      "operationId": "ProjectController_startAcceptance",
+      "group": "I",
+      "issue": 113,
+      "businessOwner": "I",
+      "publicWiringOwner": "Root",
+      "method": "POST",
+      "runtimePath": "/api/projects/{id}:startAcceptance",
+      "canonical": "POST /projects/{id}:startAcceptance",
+      "observedRows": [
+        {
+          "line": 569,
+          "row": "| `project` | `startAcceptance`          | `POST /projects/{id}:startAcceptance`                                         | N/A（尚未实现）           | `POST /projects/{id}:startAcceptance`                                         | `ADR-015` + `rust-r4ghi-next32-baseline.md` §3 / #110 / #113 | `N/A`      | 校验真实执行及交付依据后，原子记录进入验收                            | `RUST-R4I` | `planned` |"
+        }
+      ],
+      "inventoryStatus": "planned",
+      "namedResourceKeys": {
+        "id": "UUID"
+      },
+      "requestDto": "StartProjectAcceptanceRequest",
+      "responseDto": "ProjectStageTransitionResult",
+      "successStatus": 200,
+      "permission": "project:write",
+      "csrf": true,
+      "newPublicOperation": true,
+      "countedOnce": true,
+      "authentication": "active session + exact route permission",
+      "scopePolicy": "acceptance-entry",
+      "typedResourceKeys": {
+        "id": "ProjectId"
+      },
+      "requestProtocol": {
+        "requiredInputVersion": "server-derived-v1",
+        "NativeModernStatus": 422,
+        "RustMissingOrLegacyStatus": 422
+      },
+      "requestSchemaPointer": "#/components/schemas/StartProjectAcceptanceRequest",
+      "responseSchemaPointer": "#/components/schemas/ProjectStageTransitionResult"
+    },
+    {
+      "operationId": "ProjectCompletionRecordController_closeCompletionCondition",
+      "group": "I",
+      "issue": 113,
+      "businessOwner": "I",
+      "publicWiringOwner": "Root",
+      "method": "POST",
+      "runtimePath": "/api/project-completion-records/{completionRecordId}/conditions/{id}:close",
+      "canonical": "POST /project-completion-records/{completionRecordId}/conditions/{id}:close",
+      "observedRows": [
+        {
+          "line": 570,
+          "row": "| `project` | `closeCompletionCondition` | `POST /project-completion-records/{completionRecordId}/conditions/{id}:close` | N/A（尚未实现）           | `POST /project-completion-records/{completionRecordId}/conditions/{id}:close` | `ADR-015` + `rust-r4ghi-next32-baseline.md` §3 / #110 / #113 | `N/A`      | 本人提交证据、核父子双 CAS 并追加不可变关闭事实；全体条件由服务端聚合 | `RUST-R4I` | `planned` |"
+        }
+      ],
+      "inventoryStatus": "planned",
+      "namedResourceKeys": {
+        "completionRecordId": "UUID",
+        "id": "UUID"
+      },
+      "requestDto": "CloseProjectCompletionConditionRequest",
+      "responseDto": "CloseProjectCompletionConditionResult",
+      "successStatus": 200,
+      "permission": "project:write",
+      "csrf": true,
+      "newPublicOperation": true,
+      "countedOnce": true,
+      "authentication": "active session + exact route permission",
+      "scopePolicy": "condition-close-own-only",
+      "typedResourceKeys": {
+        "completionRecordId": "CompletionRecordId",
+        "id": "CompletionConditionId"
+      },
+      "requestProtocol": {
+        "requiredInputVersion": "server-derived-v1",
+        "NativeModernStatus": 422,
+        "RustMissingOrLegacyStatus": 422
+      },
+      "requestSchemaPointer": "#/components/schemas/CloseProjectCompletionConditionRequest",
+      "responseSchemaPointer": "#/components/schemas/CloseProjectCompletionConditionResult"
+    }
+  ],
+  "supportingExistingOperations": [
+    {
+      "area": "C",
+      "operationId": "ContractFinanceController_confirmReceipt",
+      "method": "POST",
+      "canonical": "/receipt-records/{id}:confirm",
+      "newHttp": false,
+      "countDelta": 0,
+      "dto": "ConfirmReceiptRecordRequest",
+      "owner": "Root",
+      "source": "tools/rust-r4ghi/G/final-g1/target-dto.schema.json#/$defs/ConfirmReceiptRecordRequest",
+      "contract": {
+        "route": "Existing POST /api/receipt-records/{id}:confirm / ContractFinanceController_confirmReceipt, 200",
+        "targetDto": "ConfirmReceiptRecordRequest in target-dto.schema.json, mandatory expectedVersion",
+        "confirm": "pending-confirmation only; exact selected real same-contract activated terms + currency evidence + expected versions; derive cents_net=HALF_UP(gross_cents*10000/(10000+rate4)), tax=gross-net; insert immutable basis and CAS receipt confirmed in caller outerTX with audit/auth",
+        "historicalCertification": "mode certify-existing-basis requires status confirmed and no existing basis; explicit original same-contract terms/currency evidence, actor/reason/evidence refs, scoped attachment/activation validation; do not change receiptAmount/date/status/confirmedAt/confirmedBy. CAS receipt row_version+1, append basis+create audit atomically. No infer-from-current-rate, no zero backfill.",
+        "snapshotSelection": "UI default can nominate uniquely proven receipt-date effective snapshot. Otherwise operator must explicitly select actual previously activated terms and documentary evidence; server verifies identity/version/hash and actual approval lineage, never chooses latest/current silently. A legacy term missing tax/currency authority cannot be repaired by guessing in this command.",
+        "currency": "Certified activation commercial baseline currency plus same-contract immutable-after-draft currency check; optional new term snapshot currency_code frozen by actual activation for future rows. Legacy rows remain null unless same-command explicit source evidence proves it, never migration mass backfill.",
+        "immutable": "Single basis per receipt for this slice. Existing basis re-rate/correction needs a separately authorized correction semantic; reject instead of replacing current-rate basis. Historical operating contexts remain unknown until explicit new restatement consumes basis; no old context backfill."
+      }
+    },
+    {
+      "area": "B",
+      "operationId": "existing contract term activation producer",
+      "newHttp": false,
+      "countDelta": 0,
+      "owner": "Root",
+      "contract": "On true activation freeze term.currency_code from actual linked CommercialReleaseBaseline and hash it. Legacy NULL remains NULL; no guessed current/latest tax/currency. Actual immutable term or actual commercial baseline rowVersion is currency authority; no fake ProjectHandoverContractBasis version."
+    },
+    {
+      "area": "E/F",
+      "operationId": "existing labor/source/stage/tax/allocation replacements",
+      "newHttp": false,
+      "countDelta": 0,
+      "owner": "Root",
+      "contract": {
+        "persistence": "Append project_cost_inclusion_decision + CAS project_cost_inclusion_head. Per-snapshot operating_snapshot_cost_member immutable; copying same actual decision into later snapshot does not reinclude or reprice it.",
+        "directProducer": "UPDATE project_actual_cost_record SET record_status='included',is_included_in_project_cost=true,included_at=now(),included_by=actor,row_version=row_version+1 WHERE id=... AND row_version=expected AND record_status='confirmed' AND NOT is_included_in_project_cost RETURNING ...; exactly one row, after real qualification.",
+        "includedMeaning": "Sticky consumed-ever fact; never reset flag/status to confirmed merely to bypass E/F guards. Live inclusion head can only change through explicit restatement when previously published inclusion changes. Replaced old record remains historical flag=true,status=replaced; original membership never changes.",
+        "sharedProducer": "Do not flip confirmed shared pool source to included as full direct cost. CAS actual F result is_included_in_project_cost=true/included_at/by and increment result row_version, record causal metadata transition; membership consumes only result project share.",
+        "exclusion": "Unconsumed candidate exclude creates reasoned classification only, no included cost flag; explicit registered/no-stage exclusion is pending/not-yet-applicable and H retains gap. New source candidates cannot disappear from exhaustive scope.",
+        "ordinaryReplacement": "E direct labor replace, F stage/tax/whole-allocation replace and C source mutation must check actual consumed membership; normal paths return 409 operating_restatement_required if changing a consumed factual component. No fake reset/uninclude.",
+        "restatementReplacement": "Existing operating-restatements handles live or period roots. Sealed internal RestatementPermit is produced only after true referenced snapshots/source hashes/versions and full affected-project set are locked. It allows actual E labor recalculation and F complete-batch replacement using real business inputs, fresh stage/source proof, predecessor links and all necessary G/H restatements atomically. It is never a client boolean.",
+        "bound": "Unsupported non-labor source correction stays blocked until its real upstream producer exists; G accepts only actual corrected source IDs/versions, never correction money. Do not invent a refund/source row or certify a fixture."
+      }
+    },
+    {
+      "area": "D",
+      "operationId": "ProjectHandoverController_prepareProjectHandover",
+      "newHttp": false,
+      "countDelta": 0,
+      "owner": "Root",
+      "contract": "Pre-change OwnerWrite first; verify actual approved activated contract/plan/pre-signing producer; insert stage handover or true handover requalification + project CAS in same outerTX. Never regress execution/acceptance/terminal and never authorize from body duties."
+    },
+    {
+      "area": "D",
+      "operationId": "existing handover current/material/self-confirm/finalize/rebaseline",
+      "newHttp": false,
+      "countDelta": 0,
+      "owner": "Root",
+      "contract": "Use same exact current (no latest fallback), project-scope proof and true self-confirmation. Current scope helper never substitutes for contract/source freshness and domain admission."
+    },
+    {
+      "area": "Project",
+      "operationId": "ProjectController_create",
+      "newHttp": false,
+      "countDelta": 0,
+      "owner": "Root",
+      "contract": "currentStage omitted or literal assessment only; advanced requested stage is400, no coercion. Server createdBy=actor, initial personal owner=actor; persist true project_ownership_origin already consumed, no future reset."
+    },
+    {
+      "area": "Lead",
+      "operationId": "LeadController_convertToProject",
+      "newHttp": false,
+      "countDelta": 0,
+      "owner": "Root",
+      "contract": "Preserve actual inherited lead owner/org and actual converting creator. New immutable ownership origin freezes initial state; only genuinely org-owned/never-personal origin can be unconsumed. Real conversion scope remains required; no new authorization from body."
+    },
+    {
+      "area": "Project",
+      "operationId": "ProjectController_reassignOwner",
+      "newHttp": false,
+      "countDelta": 0,
+      "owner": "Root",
+      "contract": "Pre-change OwnerWrite or I's precise unconsumed creator bootstrap. Active target has actual target-org membership; project CAS+true reassignment row+permanent origin consumption+audit atomic. Setting owner NULL later never revives bootstrap."
+    },
+    {
+      "area": "Project",
+      "operationId": "ProjectController_getById / ProjectController_getTimeline",
+      "newHttp": false,
+      "countDelta": 0,
+      "owner": "Root",
+      "contract": "Expose projectRowVersion/currentStageRecordId and genuine stage ledger events; completion event anchored once to actual completion. Explicit touched-read scope narrowing; do not claim all old R3/ABCDEF scope fixed."
+    },
+    {
+      "area": "H preparation query",
+      "operationId": "ProjectCostController_getProjectUnifiedAccounting",
+      "newHttp": false,
+      "countDelta": 0,
+      "owner": "Root+G/H",
+      "contract": "Default without real evaluation=>typed409 OperatingEvaluationNotReadyError. Explicit view=preparation=>200 typed preparation envelope even before first snapshot; officialCurrent is explicit null or real current view. Read-only collector+pure derive; preparation cannot create facts. Intent/period/receipt/restatement IDs typed. This overload is same HTTP operation, never counted twice."
+    },
+    {
+      "area": "Shared infrastructure",
+      "operationId": "attachment upload/complete/link, auth/sensitive/audit/summary",
+      "newHttp": false,
+      "countDelta": 0,
+      "owner": "Root",
+      "contract": "Consume actual existing authority; required events and audit/auth pending flush fail entire write; sensitive GET event failure emits no protected payload. No fixtures, new permissive scope, or stand-alone commits."
+    }
+  ],
+  "ssot": {
+    "sourceContext": "source-context.schema.json",
+    "collector": "G",
+    "policy": "H",
+    "commonModelHashLoader": "Root",
+    "sourceBeforeEffect": {
+      "algorithm": "contract_support::canonical_hash of this exact object, with set-like arrays sorted kind/id/rowVersion/payloadHash",
+      "fields": {
+        "schemaVersion": 1,
+        "projectId": "real scoped project UUID",
+        "intent": "baseline-activation|snapshot-create|period-close|restatement|receipt-basis",
+        "projectRowVersion": "positive real version",
+        "head": "{rowVersion,baselinePackageId|null,currentSnapshotId|null}",
+        "businessScope": "{mode,periodKey|null,businessCutoff,restatesSnapshotRef|null,periodEndSnapshotRef|null}",
+        "sourceRows": "[{sourceKind,id,rowVersion,payloadHash,currentClassificationHeadRef|null}] for complete actual source/transitive evidence set before new writes",
+        "affectedProjects": {
+          "ordering": "complete real impacted set sorted projectId; each terminal set sorted scope/root/terminal id",
+          "items": {
+            "projectId": "actual affected projectUUID",
+            "projectRowVersion": "actual locked positive int4",
+            "headRowVersion": "actual operating-head int4;0 only absent",
+            "baselinePackageId": "actual UUID|null",
+            "currentSnapshotId": "actual UUID|null",
+            "terminalRootRefs": "all impacted live/period roots and their current terminal refs with actual IDs/rowVersions/payloadHashes; existing period anchor explicit|null"
+          }
+        }
+      },
+      "exclude": [
+        "financial projection modes/user identity",
+        "prepare generated UUID",
+        "preparedAt/transport timestamps",
+        "client-proposed decisions not yet committed",
+        "new snapshot/context/random IDs",
+        "policy conclusions"
+      ],
+      "compare": "After all actual scope/source locks but before G/E/F classification or correction writes, recompute and require request expectedInputHash equality; 409 on mismatch. New client decisions have their own exact expected target/decision versions, identity/scope/evidence validation.",
+      "postProducer": "Only after actual classification IDs, direct included CAS and shared-result included CAS exist, collect final immutable context and compute H sourceHash factual whitelist. External expectedInputHash and internal evaluate expected_source_hash are deliberately different authorities."
+    },
+    "finalSourceHash": {
+      "top": [
+        "schemaVersion",
+        "producerVersion",
+        "projectId",
+        "currency",
+        "scopeHash",
+        "baseline",
+        "contracts",
+        "receipts",
+        "costs",
+        "allocations",
+        "taxTreatments",
+        "pendingFacts",
+        "unclassifiedSourceRefs",
+        "upstreamCostConstraints",
+        "scope",
+        "laborLineage"
+      ],
+      "snapshot": [
+        "mode",
+        "knowledgeCutoff",
+        "sourceWindowStart",
+        "sourceWindowEnd",
+        "periodKey",
+        "businessTimezone",
+        "periodEndSnapshotRef",
+        "restatesSnapshotRef",
+        "restatementStatus"
+      ],
+      "exclude": [
+        "sourceHash",
+        "contextId",
+        "snapshot.id",
+        "snapshot.rowVersion",
+        "snapshot.version",
+        "snapshot.snapshotAt",
+        "snapshot.supersedesSnapshotId",
+        "policyVersion",
+        "policyHash",
+        "formalEligibility",
+        "metrics",
+        "all evaluation/review/generated-result identifiers",
+        "snapshot.restatementRef (this command output)",
+        "snapshot.restatedSnapshotRef (this snapshot result)",
+        "new paired snapshot.periodEndSnapshotRef (null at capture)"
+      ],
+      "algorithm": "Construct exact nested whitelist object, sort set-like arrays kind/id/rowVersion/payloadHash, then contract_support::canonical_hash. No arbitrary SELECT * JSON participates. Same factual source scope has same sourceHash regardless new generated IDs.",
+      "evaluationHash": "canonical_hash({sourceHash,policyVersion,policyHash,normalizedDerivedOutput,verifiedReviewOverlayHash|null}); exclude generated DMER/OSER/binding/summary IDs and wall-clock timestamps. Review overlay hash binds real actor/evidence/source and immutable review content."
+    },
+    "payloadAndOutputHashes": {
+      "schema": "source-context.schema.json",
+      "canonicalization": "Exact sourceHashFactualWhitelist supersedes broad hash wording. Shared serializer and tests Root-owned. H independently recomputes derived metric assertions; payloadHash hashes the complete stored context excluding only its self-hash field.",
+      "semantics": [
+        "All fields required, absent explicit null. Unknown amount value=null+nonempty reason; known amount decimal string+null reason. Proven zero needs zeroProof and exact source/scope evidence.",
+        "Known gross=net+tax in cents. Receipt cashGross=amounts.gross and net/tax from frozen confirmation contract basis, never current tax rate.",
+        "Missing receipt basis or included hard source/tax/stage/classification/amount evidence => formalEligibility missing-evidence and official G/H publication rejects. Legacy/preview may expose unavailable state but cannot publish certified current summaries or releasable gates.",
+        "Every registered cost has one explicit validated current include/exclude classification. Duplicate canonicalAccumulationKey across invoice/payment/procurement rejects. Allocated project share uses exact F frozen cents, not recomputed rounded ratio.",
+        "Empty registered scope may prove a point-in-time aggregate zero only with exhaustive collector scope hash; this does not prove mature business data. Without actual classified cost-scope evidence, maturity remains insufficient even if registered sum is zero.",
+        "All-excluded validated known records can prove included sum zero; unknown or missing hard facts cannot be hidden by an implicit exclude.",
+        "containsLabor=yes if any transitive lineage labor, no only if all verified nonlabor, otherwise unknown; unknown uses strongest sensitive group."
+      ],
+      "sourceHashFactualWhitelist": {
+        "top": [
+          "schemaVersion",
+          "producerVersion",
+          "projectId",
+          "currency",
+          "scopeHash",
+          "baseline",
+          "contracts",
+          "receipts",
+          "costs",
+          "allocations",
+          "taxTreatments",
+          "pendingFacts",
+          "unclassifiedSourceRefs",
+          "upstreamCostConstraints",
+          "scope",
+          "laborLineage"
+        ],
+        "snapshot": [
+          "mode",
+          "knowledgeCutoff",
+          "sourceWindowStart",
+          "sourceWindowEnd",
+          "periodKey",
+          "businessTimezone",
+          "periodEndSnapshotRef",
+          "restatesSnapshotRef",
+          "restatementStatus"
+        ],
+        "exclude": [
+          "sourceHash",
+          "contextId",
+          "snapshot.id",
+          "snapshot.rowVersion",
+          "snapshot.version",
+          "snapshot.snapshotAt",
+          "snapshot.supersedesSnapshotId",
+          "policyVersion",
+          "policyHash",
+          "formalEligibility",
+          "metrics",
+          "all evaluation/review/generated-result identifiers",
+          "snapshot.restatementRef (this command output)",
+          "snapshot.restatedSnapshotRef (this snapshot result)",
+          "new paired snapshot.periodEndSnapshotRef (null at capture)"
+        ],
+        "algorithm": "Construct exact nested whitelist object, sort set-like arrays kind/id/rowVersion/payloadHash, then contract_support::canonical_hash. No arbitrary SELECT * JSON participates. Same factual source scope has same sourceHash regardless new generated IDs.",
+        "evaluationHash": "canonical_hash({sourceHash,policyVersion,policyHash,normalizedDerivedOutput,verifiedReviewOverlayHash|null}); exclude generated DMER/OSER/binding/summary IDs and wall-clock timestamps. Review overlay hash binds real actor/evidence/source and immutable review content."
+      },
+      "preparation": "Pure derive context may use server-preallocated IDs without business persistence; preparation knowledgeCutoff is explicit, stable and included in sourceHash. H pure derive never certifies current or writes. Final formal publication reloads source assertions and rejects changed sources.",
+      "excludeStageSemantics": "Cost.stageAttributionRef/attributedStage nullable only for expressing real excluded not-yet-applicable/missing stage evidence. Include requires recordStatus confirmed/included, stageEvidenceState verified and exact nonnull stage refs plus all hard layers. Registered source explicitly excluded for a permitted stage-not-ready reason remains traceable with pendingFacts(requiredForFormalAccounting=false), preserves uncertainty and cannot become mature/normal. It does not waive confirmed receipt accounting basis or hard facts of an included source.",
+      "arrayOrdering": {
+        "contracts": "contractRef.id",
+        "receipts": "receiptRef.id",
+        "costs": "canonicalAccumulationKey,recognitionRole,sourceRef.id,costRef.id-or-null; shares sorted by actual F result identity",
+        "allocations": "resultRef.id",
+        "taxTreatments": "taxTreatmentRef.id",
+        "pendingFacts": "kind then sourceRef.id",
+        "sourceRefSets": "kind,id,rowVersion,payloadHash",
+        "upstreamCostConstraints": "ruleId,reasonCode,sorted basis refs",
+        "approvedChangeRefs": "preserve authoritative approved delta application chain order; never reorder commutative-looking business history arbitrarily"
+      },
+      "costRecognitionUniqueness": {
+        "canonicalAccumulationKey": "Uniqueness among included primary economic measurement shares in this project snapshot only; not among excluded support rows or historical snapshots.",
+        "sourceChainKey": "Separate chain constraint: payable commitment/procurement exception principal and its payment principals cannot both be included. Multiple genuine installment paymentIds under one payable remain separate primary economic units.",
+        "supportingEvidence": "Invoice/tax/evidence support rows explicitly exclude with real reason and primaryCostRef; same sourceChainKey is not a duplicate principal.",
+        "allocation": "Share key includes actual F source-set hash+project/result identity. Same source full principal and corresponding project allocation share cannot be counted simultaneously; lock/validate source-set overlap, not a rounded allocation ratio.",
+        "rule": "These exact rules supersede the broad earlier duplicate canonicalAccumulationKey across invoice/payment/procurement wording."
+      },
+      "currency": "Preparation with no proven source currency or multi-currency has currency=null (and unavailable aggregate Triple.currency=null); never CNY/UNKNOWN placeholder. Only formalEligibility eligible forces a unique evidenced three-letter currency. Different source currencies reject formal publication unless a separately frozen actual conversion policy exists (none here).",
+      "sharedShare": "No fabricated ProjectActualCostRecord. allocation-share costRef/recordStatus null, sourceRef is actual F SharedCostAllocationResult, allocationResultRef/source-set hash exact. allocationSourceMembers carries real source costs/stages/governance/labor refs. Included shares require all member hard eligibility/stage evidence valid; per-source refs remain authoritative, aggregate stageEvidenceState verified only when all members qualify. Share costType=null when representing actual allocation result (never invent a unified-cost enum); members retain actual costType/businessDate. Share businessDate is actual F result effective business date under G frozen window policy, not a guessed member date.",
+      "outputRefCapturePolicy": "Only upstream facts enter sourceHash. New self/result restatedSnapshotRef/restatementRef/new-paired-periodEndSnapshotRef are null at immutable capture and never backfilled; result links use SQL FK/response. Existing restatesSnapshotRef and actual existing period root remain sources."
+    },
+    "baselineOnly": {
+      "contextTable": "operating_baseline_source",
+      "forbidden": "No fake OperatingSourceContext/snapshot/H evaluation for baseline-only activation",
+      "sequence": "activateOperatingBaselinePackage validates only adopted estimate/approved transition/handover provenance and freezes operating_baseline_source; it does not require receipts/cost classifications or create a fake ProjectOperatingSnapshot/H evaluation. Its sourceContextId is a baseline evidence ID, not an OperatingSourceContext row. Snapshot creation separately applies the full G/H pipeline."
+    },
+    "dtoSources": {
+      "G": "tools/rust-r4ghi/G/final-g1/target-dto.schema.json",
+      "H": "tools/rust-r4ghi/H/final-g1/dto-delta01.json",
+      "I-R5": "tools/rust-r4ghi/I/final-g1/contracts.json#components"
+    }
+  },
+  "transaction": {
+    "sequence": [
+      "Discover complete impacted project set without acquiring a partial set of locks; sorted project UUID locks; rediscover and restart on new scope",
+      "Lock head/baseline/contract/receipt and all source-family/source/cost/F governance rows in shared deterministic order; assert all versions and expectedInputHash",
+      "Apply real receipt certification/labor/allocation correction producer calls only when explicitly requested and authorized; persist explicit classifications; CAS direct cost included transition; preserve actual source-state before/after proof",
+      "Allocate target snapshot/context UUIDs server-side; collect exact post-producer immutable context and sourceRows; calculate exact primary facts; H pure derive owns action/readiness",
+      "Reject formalEligibility missing-evidence; write G source context/members and snapshot with final action once at captured row version 1",
+      "For period: write paired period anchor with exactly same source context; for restatement: append restatement+causal links and metadata-only old terminal supersede",
+      "H evaluate reloads real new context/hash/v1, recomputes/asserts final facts/action and writes DMER/OSER/four binding/summary chains; no G facts writeback",
+      "CAS project_operating_head/new period terminal pointers, required business audit/security/auth coflush, one outer COMMIT; any necessary write failure rolls back all"
+    ],
+    "lockOrder": [
+      "Guard/session/CSRF + precise route permission before domain; preserve parsed raw body numeric token provenance.",
+      "Resolve only minimal true FK identity; discover complete impacted project set WITHOUT partial project locks. Lock project UUIDs ascending; rediscover all affected sources/projects; restart outer transaction if expanded.",
+      "Fresh active accounts/orgs/memberships in stable UUID order FOR SHARE after project locks; verify Owner/Part/duty/condition relation; no independent pool/connection.",
+      "Acquire required existing rows using lockFamilyRank: handover/scope-source rows before operating head and baseline/contract/receipt; then assignment and stage/acceptance/completion/conditions/archive. Each family stable UUID order. Shared allocation operation/basis/result/source families precede member costs. Domain validation sequences never override the common lock rank; a coordinator prelocks the full relevant plan before calling borrowed helpers.",
+      "Lock E/F source/governance/stage/tax/full allocation batch + inclusion decisions/heads + affected frozen members in fixed family rank and UUID order; compare complete versions/hash + expectedInputHash BEFORE requested producer side effects.",
+      "After real source/certification/classification/CAS, collect final context, pure H derive, insert G final v1 once; evaluate reload snapshot v1+finalSourceHash; insert evidence/DMER/OSER/4 bindings/reasons/summaries; advance heads atomically.",
+      "Write business audit, required sensitive security event, idempotency receipt, pending authentication coflush in same CommonSession/outerTX. One COMMIT; uncertain COMMIT remains unknown, never auto-replayed as proven failure."
+    ],
+    "lockFamilyRank": {
+      "00": "complete impacted project IDs ascending; rediscover/restart on expansion",
+      "10-12": "platform_user,org_unit,user_org_membership fresh shared locks; UUID order",
+      "20-25": "handover,basis,confirmation_record,confirmation_participant,duty,receipt judgment freeze (scope proof first)",
+      "30-36": "operating_head,baseline,contract,term,commercial baseline,receipt,receipt accounting basis",
+      "37": "all E labor rate-family advisory keys (person/role) for complete source set, sorted lexical via existing family_locks; never acquire one family per source after cost locks",
+      "38": "real labor rate versions/current family rows in stable UUID order",
+      "39": "actual business source rows in registered Payable->Payment->Invoice->Expense family order, stable UUIDs",
+      "40-42": "assignment,assignment participants,assignment freeze payload",
+      "50-55": "stage,acceptance,completion,conditions,closure,archive",
+      "60-63": "shared allocation operation,basis,result,source-snapshot full batch",
+      "70-73": "actual cost,cost governance,stage attribution,tax treatment",
+      "80-81": "inclusion decision/head; verify all source-set/primary-chain overlaps under prior source locks",
+      "90-94": "immutable context/snapshot/period/restatement/evidence; existing predecessors first, inserted rows don't invert locks",
+      "100-112": "DMER,OSER,signal review,current four-stage bindings,gate review,source/review summaries,command receipt"
+    },
+    "lockRule": "One Root-owned rank registry used by new G/H/I and touched E/F restatement branches; within family sort stable UUIDs. Borrowed helper may reacquire already-owned rows, never lock an earlier unowned family. Final source-set discovery after global batch locks; expansion restarts outer TX, no incremental project locking.",
+    "noNestedTransactions": true,
+    "noGSnapshotWritebackFromManualReview": true
+  },
+  "policy": {
+    "version": "r4h-operating-v1",
+    "maturity": [
+      "insufficient if necessary effective contract/confirmed receipt basis/explicit classified cost scope/factual layer missing. Ordinary review cannot change this. Official eligibility guard applies separately.",
+      "preliminary if necessary evidence exists but pending/unmapped/tax/allocation/restatement uncertainty remains, even when its qualitative materiality has been reviewed.",
+      "mature only complete classified known current-scope sources with no pending gaps/corrections/restatements; maturity is not risk normality."
+    ],
+    "formulas": [
+      "grossMarginNet=confirmedReceiptNet-includedCostNet; margin ratio denominator confirmedReceiptNet",
+      "zero known receipt denominator=>null rate/zero-denominator; unknown=>null/missing-evidence; immature ratios explicitly unstable",
+      "low receipt ratio exact comparison confirmed gross cash/effective contract gross <0.20, same frozen currency/gross layer; no tax-layer mixing",
+      "extreme margin ratio <-1 or >1; exact -1/1 not extreme by this rule. No fabricated abnormal-jump threshold."
+    ],
+    "risk": [
+      "Auto risk/alert for proven negative margin only when known facts, mature, receipt ratio>=0.20 and receipt net>0. Independent authoritative cost BLOCK survives regardless receipt ratio.",
+      "Negative observed margin at low/zero receipts or immature data => qualitative-materiality-unassessed, unknown risk/signal and explicit manual review; preserve independent cost/formula/maturity/restatement actions.",
+      "Any adverse positive cost variance or pending impact with only qualitative materiality adds unassessed review. No invented amount/percentage threshold. Verified manual review classifies only exact qualitative issues normal/attention/risk, not facts or maturity.",
+      "normal only complete facts and no automatic risk/attention or unresolved qualitative issues. unknown never means normal or confirmed release."
+    ],
+    "ruleRows": [
+      {
+        "id": "H01",
+        "code": "missing-hard-evidence",
+        "project": "review",
+        "stages": {
+          "first": "prompt",
+          "second": "block",
+          "final": "block",
+          "retention": "block"
+        }
+      },
+      {
+        "id": "H02",
+        "code": "pending-optional-facts",
+        "project": "review",
+        "stages": {
+          "first": "prompt",
+          "second": "review",
+          "final": "review",
+          "retention": "review"
+        }
+      },
+      {
+        "id": "H03",
+        "code": "low-receipt-ratio",
+        "project": "prompt",
+        "stages": {
+          "first": "prompt",
+          "second": "prompt",
+          "final": "prompt",
+          "retention": "prompt"
+        }
+      },
+      {
+        "id": "H04",
+        "code": "risk-attention",
+        "project": "review",
+        "stages": {
+          "first": "prompt",
+          "second": "review",
+          "final": "review",
+          "retention": "review"
+        }
+      },
+      {
+        "id": "H05",
+        "code": "risk-confirmed",
+        "project": "block",
+        "stages": {
+          "first": "review",
+          "second": "block",
+          "final": "block",
+          "retention": "block"
+        }
+      },
+      {
+        "id": "H06",
+        "code": "restatement-pending",
+        "project": "review",
+        "stages": {
+          "first": "review",
+          "second": "block",
+          "final": "block",
+          "retention": "block"
+        }
+      },
+      {
+        "id": "H07",
+        "code": "extreme-ratio",
+        "project": "review",
+        "stages": {
+          "first": "review",
+          "second": "review",
+          "final": "block",
+          "retention": "block"
+        }
+      },
+      {
+        "id": "H08",
+        "code": "qualitative-materiality-unassessed",
+        "project": "review",
+        "stages": {
+          "first": "review",
+          "second": "review",
+          "final": "review",
+          "retention": "review"
+        }
+      },
+      {
+        "id": "H09",
+        "code": "authoritative-cost-block",
+        "project": "block",
+        "stages": {
+          "first": "review",
+          "second": "block",
+          "final": "block",
+          "retention": "block"
+        }
+      },
+      {
+        "id": "H10",
+        "code": "authoritative-cost-review",
+        "project": "review",
+        "stages": {
+          "first": "prompt",
+          "second": "review",
+          "final": "review",
+          "retention": "review"
+        }
+      },
+      {
+        "id": "H11",
+        "code": "normal-complete",
+        "project": "prompt",
+        "stages": {
+          "first": "prompt",
+          "second": "prompt",
+          "final": "prompt",
+          "retention": "prompt"
+        }
+      }
+    ],
+    "aggregate": "Project=max(costAction floor, all project candidates). Four gates independently max per-stage including explicit H09/H10 standalone-cost mappings; do not copy project action. Persist all reasons and flag all equal-max project/stage primaries; sort code/evidenceHash.",
+    "manual": "Manual materiality review may resolve unknown qualitative issues to an evidenced classification. It cannot replace automatic/proven normal-attention-risk findings, downgrade source floor/BLOCK, change maturity or supply missing hard facts. Generic exception downgrade excluded pending separate authorized approval/expiry baseline."
+  },
+  "reviews": {
+    "signal": [
+      "Require session/CSRF/finance action and source-derived sensitive-write permissions; expectedVersion/sourceHash/evaluationHash/requestKey all mandatory.",
+      "Lock project+evaluation, compare every source assertion, CAS OSER WHERE version+active and increment version even child-only review. System generated values stay immutable.",
+      "Append unique-active signal review with actor/rationale/source+effective hashes; regenerate all four current bindings/source summaries under effective overlay sameTX. Old binding reviews become historical/stale."
+    ],
+    "gate": [
+      "Lock exact current project/stage/binding; validate source assertions, complete blocking codes and source summary exact target/project/stage/source/evaluation/policy hashes/package/projection/export.",
+      "bindingAction is pre-review assertion. acknowledge preserves action; tighten-review/block only increases severity. Decision is server assertion: block=>blocked, incomplete evidence/materiality=>review-required, otherwise confirmed when exact human duties satisfied.",
+      "Advice REVIEW may stay REVIEW after confirmed manual review; confirmed means review satisfied, not payout authorization. BLOCK cannot be confirmed away.",
+      "CAS binding; append single-active gate review and produce new reviewed summary+projection+payload. Request summarySnapshotId asserted pre-review source summary; response points to new reviewed summary.",
+      "Preallocate review ID in immutable summary payload then insert review FK to summary, avoiding FK cycle; never rewrite prior summary payload/projections."
+    ],
+    "summary": {
+      "approvalScenarioKey": "commission-gate-review",
+      "summaryPackageKey": "project-operating-commission-gate-v1",
+      "projectionLevel": "commission-gate-review",
+      "exportPolicy": "internal-only",
+      "fieldRuleVersion": "r4h-operating-v1",
+      "targetType": "operating-signal-gate-binding",
+      "targetId": "exact binding UUID",
+      "identity": [
+        "projectId",
+        "gateStageType",
+        "snapshotId",
+        "sourceHash",
+        "policyVersion",
+        "policyHash",
+        "evaluationHash",
+        "signalEvaluationId",
+        "signalReviewRecordId",
+        "bindingId",
+        "bindingRowVersion",
+        "gateReviewRecordId|null",
+        "sourceSummarySnapshotId|null"
+      ],
+      "data": "Authorized field projections and internal immutable payload/hash only; e2e-v1 package never production."
+    },
+    "idempotency": "scope operation+targetScope+actor+requestKey. Hash validated body+source/evaluation/policy. Exact authenticated same-actor committed replay before stale CAS returns receipt, changed payload conflicts. Receipt/audit sameTX."
+  },
+  "period": {
+    "timezone": "Asia/Hong_Kong (existing business pipeline); do not change DB timezone",
+    "acceptedKeys": "Valid actual YYYY-MM or ISO YYYY-Www, reject impossible week 53 and future unfinished period",
+    "accumulation": "Cumulative project inception through periodEnd; sourceWindowStart=null explicitly means all history, sourceWindowEnd=periodEnd. UI says cumulative, not period-only increment.",
+    "capture": "knowledgeCutoff is actual coherent source collection time; normal closing uses then-known effective producers; original period context never rewritten",
+    "laterFacts": "Restatement retains exact old business cutoff, advances knowledgeCutoff, names actual late/corrected producers; historical status/source histories must be reconstructible or publication rejects",
+    "shared": "Normal freeze requires actual F result already effective and all real source members in scope. Explicit restatement may adopt later-effective full F batch when every member actually occurred by old cutoff, marked late-recognized with both dates. Cross-cutoff mixed batch cannot be partially inferred; needs actual F period-split producer or missing-evidence."
+  },
+  "baselineAmounts": "originalBaselineCost = earliest formally adopted PROJECT estimate net; handoverBaselineCost = exact adopted handover effective project estimate net (or original when no absorbed rebaseline); executionChangePackageTotal = sum approved post-execution successor net minus predecessor net once each; changePackageTotal compatibility = handoverBaselineCost-originalBaselineCost+executionChangePackageTotal; currentEffectiveBaselineCost=handoverBaselineCost+executionChangePackageTotal. Keep all components distinct in source payload/UI; original never overwritten.",
+  "inclusion": {
+    "persistence": "Append project_cost_inclusion_decision + CAS project_cost_inclusion_head. Per-snapshot operating_snapshot_cost_member immutable; copying same actual decision into later snapshot does not reinclude or reprice it.",
+    "directProducer": "UPDATE project_actual_cost_record SET record_status='included',is_included_in_project_cost=true,included_at=now(),included_by=actor,row_version=row_version+1 WHERE id=... AND row_version=expected AND record_status='confirmed' AND NOT is_included_in_project_cost RETURNING ...; exactly one row, after real qualification.",
+    "includedMeaning": "Sticky consumed-ever fact; never reset flag/status to confirmed merely to bypass E/F guards. Live inclusion head can only change through explicit restatement when previously published inclusion changes. Replaced old record remains historical flag=true,status=replaced; original membership never changes.",
+    "sharedProducer": "Do not flip confirmed shared pool source to included as full direct cost. CAS actual F result is_included_in_project_cost=true/included_at/by and increment result row_version, record causal metadata transition; membership consumes only result project share.",
+    "exclusion": "Unconsumed candidate exclude creates reasoned classification only, no included cost flag; explicit registered/no-stage exclusion is pending/not-yet-applicable and H retains gap. New source candidates cannot disappear from exhaustive scope.",
+    "ordinaryReplacement": "E direct labor replace, F stage/tax/whole-allocation replace and C source mutation must check actual consumed membership; normal paths return 409 operating_restatement_required if changing a consumed factual component. No fake reset/uninclude.",
+    "restatementReplacement": "Sealed four-kind permit; All real F/E source changes, classifications, all G contexts/snapshots/period/restatements, H evaluations/four gates/summaries, audit/security/pending-auth one borrowed CommonSession/outerTX. Capacity preinsert422 rolls everything back. Original published snapshots/context bytes never rewritten.",
+    "bound": "Unsupported non-labor source correction stays blocked until its real upstream producer exists; G accepts only actual corrected source IDs/versions, never correction money. Do not invent a refund/source row or certify a fixture."
+  },
+  "receiptBasis": {
+    "route": "Existing POST /api/receipt-records/{id}:confirm / ContractFinanceController_confirmReceipt, 200",
+    "targetDto": "ConfirmReceiptRecordRequest in target-dto.schema.json, mandatory expectedVersion",
+    "confirm": "pending-confirmation only; exact selected real same-contract activated terms + currency evidence + expected versions; derive cents_net=HALF_UP(gross_cents*10000/(10000+rate4)), tax=gross-net; insert immutable basis and CAS receipt confirmed in caller outerTX with audit/auth",
+    "historicalCertification": "mode certify-existing-basis requires status confirmed and no existing basis; explicit original same-contract terms/currency evidence, actor/reason/evidence refs, scoped attachment/activation validation; do not change receiptAmount/date/status/confirmedAt/confirmedBy. CAS receipt row_version+1, append basis+create audit atomically. No infer-from-current-rate, no zero backfill.",
+    "snapshotSelection": "UI default can nominate uniquely proven receipt-date effective snapshot. Otherwise operator must explicitly select actual previously activated terms and documentary evidence; server verifies identity/version/hash and actual approval lineage, never chooses latest/current silently. A legacy term missing tax/currency authority cannot be repaired by guessing in this command.",
+    "currency": "Certified activation commercial baseline currency plus same-contract immutable-after-draft currency check; optional new term snapshot currency_code frozen by actual activation for future rows. Legacy rows remain null unless same-command explicit source evidence proves it, never migration mass backfill.",
+    "immutable": "Single basis per receipt for this slice. Existing basis re-rate/correction needs a separately authorized correction semantic; reject instead of replacing current-rate basis. Historical operating contexts remain unknown until explicit new restatement consumes basis; no old context backfill."
+  },
+  "policyIdentity": {
+    "file": "policy-definition.json",
+    "policyVersion": "r4h-operating-v1",
+    "policyHash": "7e9cfcedc496bd5d4ffd6fc158371e3db069110798926c63a5156ee4614a1aec",
+    "canonicalBytes": 4723,
+    "algorithm": "same sorted-key/preserved-array compact JSON SHA-256 as contract_support::canonical_hash; Root/H must verify compiled policy constant against pinned artifact before G3"
+  },
+  "scope": {
+    "version": "project-scope-v1-direct-relations",
+    "source": "tools/rust-r4ghi/I/final-g1/refinements03.json",
+    "freshActor": "actor.id=session.user.user_id=session.user_snapshot.id; DB platform_user active; guard permission exact; cached profile organization is not a grant",
+    "membership": "fresh active user_org_membership, revoked_at IS NULL, type primary/secondary, JOIN org_unit.is_active=true",
+    "OwnerRead": "project.owner_user_id=actor.id; old missing-org permits only non-sensitive anchor read",
+    "OwnerWrite": "OwnerRead AND active project.owner_org_id AND actor has exact current membership in that org",
+    "Part": "exact current producer_version=1 handover draft/confirmed + basis matching project/current sales owner + actual confirmation/participant/duty joins; verify frozen payload/hash",
+    "ConfirmedDuty": "Part AND handover/confirmation/self participant all confirmed; EO also equals handover.execution_owner_user_id",
+    "DelegatedWrite": "active project ownerOrg AND actor at least one active org membership AND exact required ConfirmedDuty; cross-department explicit duty permitted",
+    "OwnCondition": "true parent-completion/condition/project match; v1 conditional completion; actor strictly condition.responsible_user_id; active membership+ownerOrg; own-task scope only",
+    "Bootstrap": "Only the new explicit project_ownership_origin fact can authorize creator's first personal assignment. Direct create starts consumed. Never infer neverPersonal from current NULL, empty reassignment history, role, or org membership. Old missing-origin stays fail-closed.",
+    "actions": {
+      "read": "route permission AND (OwnerRead OR Part); condition-only returns only own completion/task minimal view",
+      "draft": "commission:assignments:manage AND OwnerWrite",
+      "freeze": "commission:assignments:manage AND (OwnerWrite OR DelegatedWrite+BA)",
+      "execution-entry": "project:write AND DelegatedWrite+EO",
+      "acceptance-entry/acceptance/completion": "project:write AND DelegatedWrite+EO consistent with true execution stage owner",
+      "archive": "project:write AND (OwnerWrite OR DelegatedWrite+(EO OR BA))",
+      "condition-close-own-only": "project:write AND OwnCondition; current owner/admin cannot act as responsible user",
+      "prepare": "project:write AND OwnerWrite before applying requested participants",
+      "participant-confirm": "project:read AND Part AND self-confirmation; preserve D7 permission",
+      "handover-finalize/rebaseline": "project:write AND (OwnerWrite OR DelegatedWrite+BA)",
+      "reassignOwner": "project:write AND pre-change OwnerWrite, OR precise unconsumed creator bootstrap from I final origin fact; lock old project before deciding",
+      "operating-read": "contract:finance:manage AND (OwnerRead OR Part); no ConditionOnly finance expansion; exact sensitive projections still apply",
+      "operating-write": "contract:finance:manage AND (OwnerWrite OR DelegatedWrite+ConfirmedDuty(finance) OR DelegatedWrite+BA); Root explicitly adopted in this assignment. BA is the actual current handover duty, never a platform roleKey",
+      "first-assignment-anchor": "project:read AND exact CreatorFirstAssignmentOnly; strict minimal DTO, no finance/commission scope"
+    },
+    "denials": "same org/ancestor org/admin roleKey/is_system_role/project:write/finance permission alone grants no project scope; no manufactured new manager/setting/seed",
+    "errors": {
+      "outsideScope": 404,
+      "insideScopeWrongAction": 403,
+      "changedSourceOrCAS": 409,
+      "invalidShape": 400,
+      "databaseFailure": 500
+    },
+    "listFiltering": "SQL relation predicate before projection/pagination. OwnCondition-only filters conditions to own while whole-parent conditionStatus derives all real conditions.",
+    "proof": "private nonserializable ProjectAccessProof, bound to actor/project/action/current facts and caller TX; never body-supplied responsibilities; no second connection/cache"
+  },
+  "IRefinements": {
+    "refinement": 3,
+    "status": "ReviewReady-Root-joint-G1-pending",
+    "providedHead": "aaa4b16ac66092f0cb1dc6646a02cf14e80823ee",
+    "headIndependentlyVerified": false,
+    "userDecision": {
+      "safeV1Accepted": true,
+      "ownerAndDPrepareProducerGatesAccepted": true,
+      "bootstrapNeverRevives": true,
+      "creatorOnceOnlyFirstAssignment": true,
+      "historyUnknownFailClosed": true,
+      "source": "Root message; actual user Q/A receipt user-decision-scope03.json to be registered by Root"
+    },
+    "canonicalDelta": [
+      {
+        "operationId": "ProjectController_startExecution",
+        "method": "POST",
+        "parameters": {
+          "id": "ProjectId"
+        },
+        "old": "/projects/{projectId}:startExecution",
+        "target": "/projects/{id}:startExecution"
+      },
+      {
+        "operationId": "ProjectController_startAcceptance",
+        "method": "POST",
+        "parameters": {
+          "id": "ProjectId"
+        },
+        "old": "/projects/{projectId}:startAcceptance",
+        "target": "/projects/{id}:startAcceptance"
+      },
+      {
+        "operationId": "ProjectCompletionRecordController_closeCompletionCondition",
+        "method": "POST",
+        "parameters": {
+          "id": "CompletionConditionId",
+          "completionRecordId": "CompletionRecordId"
+        },
+        "old": "/project-completion-records/{id}/conditions/{conditionId}:close",
+        "target": "/project-completion-records/{completionRecordId}/conditions/{id}:close"
+      }
+    ],
+    "canonicalRules": "Runtime adds /api; keep operationIds/request DTOs/status/15-target count. New named ResourceKeys map retains both UUIDs. Legacy ABCDEF single-id APIs unchanged.",
+    "currentCapabilities": {
+      "noSeedAuthority": true,
+      "projectDataScopeSettingProducer": false,
+      "orgManagerProducer": false,
+      "registeredSettingKeys": [
+        "attachment.max-upload-size-mb"
+      ],
+      "roleMeaning": "Permission set only",
+      "noAdminStringBypass": true,
+      "managerScopeProducer": false,
+      "roleDataScopeFields": false,
+      "noNewGlobalPermission": true
+    },
+    "factDefinitions": {
+      "actor": "Actor.id == session.user.user_id == session.user_snapshot.id; authenticated request; fresh platform_user.is_active",
+      "permission": "Exact known PermissionKey in actor.session.user.permissions, produced by the existing request-local active-role/active-assignment guard; no role-name/superuser override",
+      "membership": "Fresh active nonrevoked user_org_membership primary/secondary JOIN active org_unit; cached primaryOrg/profile orgUnits alone never suffice",
+      "ownerRead": "project.owner_user_id == actor.id; old missing org only permits bounded anchor read, not new business admission",
+      "ownerWrite": "ownerRead AND active project.owner_org_id AND actor current membership contains exact ownerOrg",
+      "handover": "Exactly current producer_version=1, status draft/confirmed; basis project and salesOwner match current project; payload/hash valid; no latest fallback",
+      "participant": "Matched handover role + confirmation_record target/project + exact confirmation_participant actor; c and cp pending/confirmed",
+      "confirmedDuty": "participant AND h/c/cp all confirmed; execution-owner additionally h.execution_owner_user_id equals actor",
+      "delegatedOrg": "Project ownerOrg active and actor has current active organization membership; cross-department explicit duty is a project-bound delegation, same-org alone grants nothing",
+      "ownCondition": "Exact path completion+condition+project; true producer completion conditional-completed; condition.responsible_user_id equals actor; narrow task scope only",
+      "bootstrapSource": "Current org-owned, new verified ownership-origin initial org-owned, never any personal owner, available state, exact real creator/source/payload, actor current exact ownerOrg membership"
+    },
+    "actionMatrix": [
+      {
+        "allow": [
+          "owner-read",
+          "current-participant"
+        ],
+        "sensitive": "Still apply existing package projection",
+        "proof": "FullProject",
+        "permissions": [
+          "project:read"
+        ],
+        "action": "ReadProjectAnchorOrIList"
+      },
+      {
+        "allow": [
+          "own-condition"
+        ],
+        "filter": "Only own completion parents/own conditions; aggregate conditionStatus from all conditions",
+        "proof": "OwnConditionOnly",
+        "permissions": [
+          "project:read"
+        ],
+        "action": "ReadOwnCompletionTask"
+      },
+      {
+        "allow": [
+          "bootstrap-source"
+        ],
+        "filter": "Minimal owner-assignment context only, not G/H/R5 business data",
+        "proof": "CreatorFirstAssignmentOnly",
+        "permissions": [
+          "project:read"
+        ],
+        "action": "ReadFirstAssignmentAnchor"
+      },
+      {
+        "allow": [
+          "bootstrap-source"
+        ],
+        "operationId": "ProjectController_reassignOwner",
+        "extra": [
+          "expectedVersion required and exact",
+          "active target user with same ownerOrg active membership",
+          "project+origin lock and CAS",
+          "consume bootstrap permanently in same TX"
+        ],
+        "action": "FirstAssignOwner",
+        "permissions": [
+          "project:write"
+        ],
+        "proof": "CreatorFirstAssignmentOnly"
+      },
+      {
+        "allow": [
+          "owner-write"
+        ],
+        "operationId": "ProjectController_reassignOwner",
+        "extra": [
+          "Authorize old state, never body new owner",
+          "new owner active and true target-org member",
+          "project CAS/history/audit same TX",
+          "creator identity irrelevant after first personal assignment"
+        ],
+        "permissions": [
+          "project:write"
+        ],
+        "action": "ReassignCurrentOwner"
+      },
+      {
+        "allow": [
+          "owner-write"
+        ],
+        "operationId": "ProjectHandoverController_prepareProjectHandover",
+        "extra": [
+          "New body duty claims cannot authorize own request"
+        ],
+        "permissions": [
+          "project:write"
+        ],
+        "action": "PrepareHandover"
+      },
+      {
+        "allow": [
+          "current-participant-self"
+        ],
+        "operationId": "ProjectHandoverController_confirmProjectHandoverParticipant",
+        "action": "ConfirmHandoverSelf",
+        "permissions": [
+          "project:read"
+        ],
+        "csrf": true,
+        "extra": [
+          "draft current handover",
+          "only actor confirmation participant",
+          "all own duties, no proxy"
+        ]
+      },
+      {
+        "allow": [
+          "owner-write",
+          "delegated-org AND confirmed-business-admin"
+        ],
+        "operationId": "ProjectHandoverController_confirmProjectHandover",
+        "extra": [
+          "Domain verifies all real self confirmations and fixed source refs"
+        ],
+        "permissions": [
+          "project:write"
+        ],
+        "action": "FinalizeHandover"
+      },
+      {
+        "allow": [
+          "owner-write",
+          "delegated-org AND confirmed-business-admin"
+        ],
+        "operationId": "ProjectHandoverController_rebaselineContractHandover",
+        "extra": [
+          "Real approved amendment/rebaseline chain and CAS"
+        ],
+        "permissions": [
+          "project:write"
+        ],
+        "action": "RebaselineHandover"
+      },
+      {
+        "allow": [
+          "owner-read",
+          "current-participant"
+        ],
+        "sensitive": "Scope is separate from commission-compensation projection and existing commission:amount:sensitive:read",
+        "permissions": [
+          "commission:assignments:manage"
+        ],
+        "action": "ReadCommissionAssignment"
+      },
+      {
+        "allow": [
+          "owner-write"
+        ],
+        "operationId": "CommissionController_createRoleAssignment",
+        "extra": [
+          "No manager producer or creator fallback",
+          "Current frozen cannot be downgraded"
+        ],
+        "permissions": [
+          "commission:assignments:manage"
+        ],
+        "action": "CreateCommissionAssignmentDraft"
+      },
+      {
+        "allow": [
+          "owner-write",
+          "delegated-org AND confirmed-business-admin"
+        ],
+        "operationId": "CommissionRoleAssignmentController_freezeRoleAssignment",
+        "extra": [
+          "Current true confirmed handover/receipt freeze, same source chain; no automatic execution"
+        ],
+        "permissions": [
+          "commission:assignments:manage"
+        ],
+        "action": "FreezeCommissionAssignment"
+      },
+      {
+        "allow": [
+          "delegated-org AND confirmed-execution-owner"
+        ],
+        "operationId": "ProjectController_startExecution",
+        "extra": [
+          "Same true current frozen role/handover chain"
+        ],
+        "permissions": [
+          "project:write"
+        ],
+        "action": "StartExecution"
+      },
+      {
+        "allow": [
+          "delegated-org AND confirmed-execution-owner"
+        ],
+        "extra": [
+          "Match true execution stage source owner",
+          "Evidence/final-result/CAS checks remain domain-owned"
+        ],
+        "permissions": [
+          "project:write"
+        ],
+        "action": "StartAcceptanceConfirmAcceptanceConfirmCompletion"
+      },
+      {
+        "allow": [
+          "owner-write",
+          "delegated-org AND confirmed-execution-owner",
+          "delegated-org AND confirmed-business-admin"
+        ],
+        "extra": [
+          "Terminal source/current chain/CAS",
+          "No pending conditions"
+        ],
+        "permissions": [
+          "project:write"
+        ],
+        "action": "CreateReplaceVoidArchive"
+      },
+      {
+        "allow": [
+          "own-condition AND delegated-org"
+        ],
+        "operationId": "ProjectCompletionRecordController_closeCompletionCondition",
+        "extra": [
+          "actor strictly responsible person",
+          "two target UUIDs verified",
+          "completion and condition CAS",
+          "no manager/project-owner proxy fallback"
+        ],
+        "action": "CloseCompletionCondition",
+        "permissions": [
+          "project:write"
+        ],
+        "proof": "OwnConditionOnly"
+      }
+    ],
+    "signature": "pub async fn require(session: &mut CommonSession<_,_>, actor: &Actor, action: ProjectAction, target: ProjectActionTarget) -> Result<ProjectAccessProof, contract_support::Error>",
+    "actualFields": {
+      "CommonSession": [
+        "connection:&mut PgConnection",
+        "state:&mut CommonState",
+        "participant:Option<CommonFlushParticipant>",
+        "request_id"
+      ],
+      "Actor": [
+        "id:Uuid",
+        "request_id:Option<String>",
+        "session:ResolvedSession",
+        "request_context:ProjectionRequestContext"
+      ],
+      "absent": [
+        "actor.dataScope",
+        "role.orgScope",
+        "org.managerUserId",
+        "system project-scope setting"
+      ],
+      "ResolvedSession": [
+        "session",
+        "user",
+        "user_snapshot",
+        "role_snapshots",
+        "pending_flush"
+      ]
+    },
+    "targetKinds": [
+      "Project{id}",
+      "OwnerReassignment{project_id,expected_version,new_owner_user_id,new_owner_org_id}",
+      "Handover{id}",
+      "Assignment{id}",
+      "Archive{id}",
+      "Condition{completion_record_id,condition_id}"
+    ],
+    "proofKinds": {
+      "OwnConditionOnly": "Only relevant parent completion and own conditions/close; never full project data scope",
+      "CreatorFirstAssignmentOnly": "Only minimal assignment anchor/once first-person assignment; never valid G/H/R5 proof",
+      "FullProject": "Current owner or exact current handover role relation; still action- and field-limited"
+    },
+    "bootstrap": {
+      "writeExtra": [
+        "ProjectWrite",
+        "mandatory expectedVersion",
+        "active target individual with same ownerOrg membership",
+        "project/origin locks plus CAS/history/audit/auth flush one outer TX"
+      ],
+      "consume": "Atomic available->consumed, first personal owner/time/history ref. Once consumed forever, including current owner later returning to NULL. Creator is no longer privileged after assignment.",
+      "existingProducerAudit": [
+        {
+          "initialPersonalOwner": "actor",
+          "operationId": "ProjectController_create",
+          "originInitialization": "personal + consumed + firstPersonal actor at actual creation; no bootstrap ever",
+          "createdByReliable": true,
+          "source": "projects/service.rs158-166 + store.rs299"
+        },
+        {
+          "creator": "actual conversion operator",
+          "operationId": "LeadController_convertToProject",
+          "originInitialization": "same TX: org-owned available only if real ownerOrg, otherwise initial personal consumed",
+          "createdByReliable": true,
+          "initialOwner": "actual lead owner inherited, may be org-owned",
+          "source": "leads/service.rs1470-1477"
+        }
+      ],
+      "newGlobalPermissionDelta": 0,
+      "originTable": "poms.project_ownership_origin; proposed new-production-only provenance, not a manager configuration producer",
+      "sourceEligibility": [
+        "current owner_user_id NULL and owner_org_id present/active",
+        "verified new origin initial org-owned with exact same initial ownerOrg",
+        "origin creator equals project.created_by equals actor",
+        "origin source matches project id/direct-create or source lead/conversion",
+        "source payload/hash verified",
+        "bootstrap available and no first personal owner/time",
+        "no history previous/new personal owner ever",
+        "actor current exact ownerOrg membership"
+      ],
+      "routeDelta": 0,
+      "newOwnershipModeOrReturnToOrgRoute": false,
+      "historical": "No backfill. createdBy equality or no reassignment rows alone cannot establish never-personal ownership. Missing/unverified origin fails first assignment closed."
+    },
+    "producerGateFixes": [
+      {
+        "operationId": "ProjectController_reassignOwner",
+        "currentGap": "projects/service.rs462-565 only status/target user-org/CAS, no calling-owner check",
+        "target": "old-state current owner branch OR strict once bootstrap branch; never body target grants self authority"
+      },
+      {
+        "operationId": "ProjectHandoverController_prepareProjectHandover",
+        "currentGap": "service.rs86-90 require_write only; prepare266-315 has no actor-project check",
+        "target": "current OwnerWrite before minting duty grant; no body participant self-grant"
+      }
+    ],
+    "managerPolicy": "No data-scope/manager producer: deny manager/ancestor/same-org/system-role bypass. A manager may act only through a separately true current owner/duty relationship.",
+    "transactionAndFailure": {
+      "writeLocks": "project -> stable account/org/membership -> current handover/confirmation or own condition/origin; re-read after locks",
+      "rbac": "existing request-local resolved permission snapshot",
+      "secondPool": false,
+      "helperCommitOrFlush": false,
+      "sourceOrCasChanged": "409",
+      "actionDeniedWithinKnownScope": "403",
+      "organization": "fresh same-TX joined rows, never profile cache",
+      "DBError": "500",
+      "scopeFailure": "opaque404 same as missing",
+      "oneOuterTx": true
+    },
+    "crossGH": "Reuse FullProject facts and private proof constructors; finance permission alone grants no global scope. Domain permissions/relation map frozen per G/H action. Global no-project objects keep their own existing guard, never fabricated project scope.",
+    "formalDeltas": [
+      "Role is not data scope; direct relation safe v1 adopted by user",
+      "Creator org-owned bootstrap is explicit once-only business decision, not a general createdBy grant",
+      "Current sales owner with C is bounded draft actor mapping, not inferred sales-manager role",
+      "Cross-functional current project assignment grants project-bound duty, same organization alone grants nothing",
+      "Legacy global routes not all declared fixed; only touched/new scope plus necessary fact producers are certified"
+    ],
+    "verification": {
+      "type": "static source and proposed contract review",
+      "HTTP": "not run",
+      "SQL": "not executed",
+      "credentials": "not read",
+      "product": "not changed",
+      "sealedArtifacts": [
+        {
+          "path": "sources.json",
+          "sha256": "aca0bf5f9901e08a75a159ba38f2d08054f4f88db434fbdfdfeeebc4cd59f79a",
+          "unchanged": true
+        },
+        {
+          "path": "contracts.json",
+          "sha256": "4b91cc1b1f42a526368fdb3b4dbd29ee0b87b847305642d457a385c220459913",
+          "unchanged": true
+        },
+        {
+          "path": "ddl-proposal.sql",
+          "sha256": "b7a550b60b72f0531999788051ac29fa6752b522635c4c1190e97526b188153d",
+          "unchanged": true
+        },
+        {
+          "path": "contract.md",
+          "sha256": "8d3f220d50da87cc1411d3b41e2b60a8dc5cc510eac70b0bc3e8b439031c1786",
+          "unchanged": true
+        }
+      ],
+      "DB": "not started",
+      "Git": "not used"
+    },
+    "sources": [
+      {
+        "path": "docs/design/business-authorization-matrix.md",
+        "bytes": 69303,
+        "rawSha256": "e7b43df3298b1cf8c34d4de2fd6e928d082214d0be249c63cb1333342ad292b8"
+      },
+      {
+        "path": "docs/design/phase2-data-permission-and-sensitive-visibility-design.md",
+        "bytes": 25385,
+        "rawSha256": "a9539e575e5b2274e63017d8fab1bde412c1737cf4b97a23744bb229e1d5ab6f"
+      },
+      {
+        "path": "docs/design/platform-governance/role-permission-design.md",
+        "bytes": 15225,
+        "rawSha256": "84e0c176e9bfbf10be6c56bafc6d72aad01121d6a172d401b788945924941df3"
+      },
+      {
+        "path": "apps/poms-api/src/app/features/system-setting/system-setting.registry.ts",
+        "bytes": 1524,
+        "rawSha256": "0fc10c652bf99992536e242e8d67670265249308cec5e48207e8f57d205a1b60"
+      },
+      {
+        "path": "apps/poms-api-rust/src/system_settings/mod.rs",
+        "bytes": 1190,
+        "rawSha256": "9899d45f5cb1d31ede7be43082f82e0a6a8463927fbbc20eb274a50b2a1e2858"
+      },
+      {
+        "path": "tools/rust-r2ef/e-authority.json",
+        "bytes": 1772,
+        "rawSha256": "bba14d3b8bce83eb2df8da6fe4babd0061e2cb6f2d4ee5adaf9761dec4e385b6"
+      },
+      {
+        "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+        "bytes": 483396,
+        "rawSha256": "d962b8267030c8277f760b8bd6471e62491ee7fbd6353226f6291d3ff3a18db1"
+      },
+      {
+        "path": "apps/poms-api/src/app/features/platform/role.entity.ts",
+        "bytes": 1379,
+        "rawSha256": "6bec29616302462af68e65e1529734b1cbc9347be1f93e4411f1f219ef108877"
+      },
+      {
+        "path": "apps/poms-api/src/app/features/platform/org-unit.entity.ts",
+        "bytes": 2409,
+        "rawSha256": "e1e45d41fe21759f3605a92eebce06ef1d4a278fc1c57740e292a34e4b7ba6d3"
+      },
+      {
+        "path": "apps/poms-api/src/app/features/platform/user-role-assignment.entity.ts",
+        "bytes": 2269,
+        "rawSha256": "cbbaafd90c8ce4237314f153b09cc9fbc44138a88692c6d55c75bc66eee35ca5"
+      },
+      {
+        "path": "apps/poms-api/src/app/features/platform/user-org-membership.entity.ts",
+        "bytes": 2676,
+        "rawSha256": "5e70a10cd11deb07270affaaa831c7a1be7d1ffd01682b344c09f3a79d2a18de"
+      },
+      {
+        "path": "apps/poms-api/src/app/features/project/project.entity.ts",
+        "bytes": 4183,
+        "rawSha256": "a9429eece23ead9845ba85ab55c8e9497731f39e7cb8c0443843581c04d8f00f"
+      },
+      {
+        "path": "apps/poms-api/src/app/features/project/project-owner-reassignment-record.entity.ts",
+        "bytes": 2092,
+        "rawSha256": "1f402d15cce9287a615bfdf64cabde7061feb3a11bf326b8b76948c57c5282bd"
+      },
+      {
+        "path": "apps/poms-api-rust/src/auth/model.rs",
+        "bytes": 10433,
+        "rawSha256": "042f4418cee854566d942c5fe723a6221f4fd2e8c61bb35dcc8dbeca157d6312"
+      },
+      {
+        "path": "apps/poms-api-rust/src/auth/store.rs",
+        "bytes": 22695,
+        "rawSha256": "14ba9d8e7171e6a6fbd00fa68c25a283d53521e17921b5d0e2ac760fec1a3f40"
+      },
+      {
+        "path": "apps/poms-api-rust/src/auth/guards.rs",
+        "bytes": 12029,
+        "rawSha256": "58f7e67c075f3ee4918a0df433d0a055de81c4e99abb95ab7f0950d9c40c6082"
+      },
+      {
+        "path": "apps/poms-api-rust/src/compat/permissions.rs",
+        "bytes": 2414,
+        "rawSha256": "ec0ba1477897c74cc78a737987bfe1b84ff98ba2bca90196378f26f1ed0654e2"
+      },
+      {
+        "path": "apps/poms-api-rust/src/contract_support/mod.rs",
+        "bytes": 18888,
+        "rawSha256": "4d031a9f2a67342c9896237e499d84448173841c91698478718a7a9bb1fabdc4"
+      },
+      {
+        "path": "apps/poms-api-rust/src/approval_common/session.rs",
+        "bytes": 5265,
+        "rawSha256": "f1c29e9eaace917504af0b7cea26337f28e3c65ae81263c73ba3022f2da76c96"
+      },
+      {
+        "path": "apps/poms-api-rust/src/projects/service.rs",
+        "bytes": 32780,
+        "rawSha256": "06ee76e45d684df23de9fb7f1d3fcc4d6743bf5c7df7a3d827580e3837b16101"
+      },
+      {
+        "path": "apps/poms-api-rust/src/projects/store.rs",
+        "bytes": 15141,
+        "rawSha256": "f733e349183f8c65f5a8f4cb5985471ee5286cacb82d6770e67fedde3c187aef"
+      },
+      {
+        "path": "apps/poms-api-rust/src/project_handover/service.rs",
+        "bytes": 42969,
+        "rawSha256": "283107428b312d641a2a8330e2c684b2a77163d16bdfa9a9dc9ecead655e4fc3"
+      },
+      {
+        "path": "apps/poms-api-rust/src/project_handover/sources.rs",
+        "bytes": 31707,
+        "rawSha256": "e5d33db8ebe4cdd537f8c0006c9bb16ab6c8f1652e55c4923444a70499863ff4"
+      },
+      {
+        "path": "apps/poms-api-rust/src/leads/service.rs",
+        "bytes": 85846,
+        "rawSha256": "a59fb2e9eb07c5df40dfa4573d9431bb99dcb098ce13dc8f9525a35cafe83334"
+      },
+      {
+        "path": "apps/poms-api-rust/src/leads/store.rs",
+        "bytes": 40084,
+        "rawSha256": "b0f1eed385a18f4903ab55dc3e337a60cfb2fe61c0ee932a385c084baa8aeca8"
+      },
+      {
+        "path": "tools/rust-r4def/combined-operation-map16.json",
+        "bytes": 40235,
+        "rawSha256": "51fe8bca788218aa1f84c371f6dba782e4b1be8b48b67e2fa5c2ae1254aae0cc"
+      }
+    ],
+    "artifacts": {
+      "generator": "refinements03.ps1",
+      "review": "refinements03.md",
+      "queriesAndOriginDDL": "refinements03.sql"
+    }
+  },
+  "scopeUserDecision": {
+    "kind": "actual-user-project-scope-decision-and-Root-refinement",
+    "date": "2026-11-06",
+    "batchIssue": 110,
+    "question": "授权复核发现，当前没有组织主管或项目数据范围的配置机制。对于尚无个人主责的组织项目，建议允许创建人做首次主责指派；之后改派、移交和阶段推进只认当前主责及真实移交职责，同组织或持有 ProjectWrite 不自动获得项目权限。采用哪种规则？",
+    "answer": "创建人负责首次指派，之后按真实责任链授权（推荐）",
+    "source": "explicit user reply in this chat",
+    "RootTechnicalRefinements": {
+      "authority": "project-scope-v1-direct-relations",
+      "bootstrap": "Only true new org-owned ownership-origin, verified creator, no ever-personal owner, unconsumed, active memberships and project-write plus CAS. First personal assignment permanently consumes; returning to org does not reactivate creator privileges. No origin or historical unknown fails closed.",
+      "initialProducer": "Direct CreateProject starts with real actor as personal owner and consumed origin; Lead.convertToProject uses actual conversion operator as project creator and actual inherited owner, creates origin in the same transaction. No historical synthetic backfill.",
+      "supportingCorrections": [
+        "Existing owner reassignment verifies prior owner or exact first-assignment bootstrap before writing new owner",
+        "Existing D prepare verifies real current owner before producing any participant delegation"
+      ],
+      "GHWrite": "Finance-manage permission AND (OwnerWrite OR delegated confirmed finance duty OR delegated confirmed business-admin duty). Duties must be real current handover facts.",
+      "GHRead": "OwnerRead or actual project participant, independently enforce sensitive projections. Own-condition-only and creator-first-assignment-only do not grant operating or commission detail access.",
+      "unmodeledManagerExceptions": "Fail closed; same org, ancestor org, roleKey, system-role flag or a bare write permission never manufacture project scope.",
+      "conditionClose": "Designated condition responsible user acts as self with exact parent-child-project binding, action permission, active relationships and double CAS; no owner/admin impersonation."
+    },
+    "G1Certified": false,
+    "productImplementationAuthorizedByThisFile": false
+  },
+  "lifecycleContract": {
+    "rulesProducerDependency": {
+      "source": [
+        "docs/design/commission-settlement-design.md:110-134,401-417",
+        "docs/design/interface-command-design.md:136",
+        "apps/poms-api/src/app/features/commission/commission.service.ts:260-361,715-725"
+      ],
+      "additionalOperations": [],
+      "seedAllowed": false,
+      "note": "Rule version is a calculation input; freeze validates assignment policy separately",
+      "required": false
+    },
+    "runtimeInvariants": [
+      "All write actors from session, no supplied user/approver/status/stage truth",
+      "Exact weight raw token -> checked millionths -> sum exactly1000000; no f64 epsilon; zero reason required",
+      "CreateAssignment expectedCurrentAssignmentId/expectedCurrentRowVersion both null or both match current draft; current frozen rejected",
+      "Freeze has exact current true handover, actual self-confirmations, basis/hash/summaries/current receipt freeze and project scope",
+      "Own immutable freeze summarySnapshotId differs in meaning from upstream handoverSummarySnapshotId",
+      "D real prepare enters handover atomically; does not invent early history or auto-enter execution",
+      "startExecution only handover+true frozen same chain; startAcceptance only true execution+real attachment evidence",
+      "Final accepted maps only completed; final conditional maps only conditional-completed; stage or rejected cannot complete project",
+      "Condition closer actor equals responsibleUserId and has same-project data scope; no generic ProjectWrite override",
+      "Last closed condition updates conditionStatus only; original completionResult immutable; pending blocks archive",
+      "Archive terminal ancillary fact; recorded is single current; replacement and void keep complete audited chain",
+      "One borrowed CommonSession inside outer TX; domain+summary+audit+pending auth atomic; unknown commit remains unknown"
+    ],
+    "legacyCertification": "Read/display only for upstream old advanced stages. Archive compatibility commands may retain real existing terminal anchors but remain legacy-unverified; they certify this archive write/audit, never a fresh close/completion producer. Unknown conditional completion cannot archive.",
+    "adapterConstraints": {
+      "openapiMultipleOf": "Contract annotation only; never sufficient runtime validation",
+      "weightParser": "Validate raw JSON numeric tokens before Value/f64 conversion; retain exact weightUnits. Reject0.10000000000000001, accept1e-6, reject1e-7.",
+      "resourceKeys": "Preserve both completionRecordId(path id) and conditionId. Current last-id-only matcher cannot represent this route."
+    },
+    "services": [
+      "commission_assignment::execute(&mut CommonSession,Operation,ResourceKeys,AssignmentRequestWithRawWeights,&Actor)->Result<Value>",
+      "commission_assignment::require_current_frozen(&mut CommonSession,projectId,exactRefs)->FrozenAssignmentFacts",
+      "project_lifecycle::execute(&mut CommonSession,Operation,ResourceKeys,LifecycleRequest,&Actor)->Result<Value>",
+      "project_lifecycle::enter_handover(&mut CommonSession,&Actor,projectLocked,handover,basis,expectedProjectVersion)->StageFact",
+      "lifecycle_evidence::validate_and_freeze(&mut CommonSession,projectId,refs)->FrozenEvidenceSet",
+      "project_action_authorization::require(&mut CommonSession,&Actor,project,action,trueResponsibilities)->Result<()>"
+    ],
+    "dependencyDAG": "R4 source and handover facts -> R5-P1 role freeze -> R4 explicit execution -> acceptance evidence -> I acceptance -> completion/conditions -> archive. No wait for full R5 rules/calculation/payout or H recommendation producer.",
+    "conditionalStageBinding": "Final accepted writes project/ledger completed; final conditional writes project/ledger conditional-completed. ProjectStatus uses existing completed terminal status. Condition closure changes only conditionStatus, never original completionResult/stage. Archive retains true terminal anchor and requires all conditions closed."
+  },
+  "publicContractInputs": {
+    "assembled": "public-contracts.schema.json",
+    "index": "dto-index.json",
+    "NativeFrozenReference": "native-reference.schemas.json",
+    "sourceTypes": "All modern row_version and int4 logical version bounds1..2147483647, missing head0 only. externalSourceVersion textual/UUID untouched."
+  },
+  "interfaces": {
+    "authority": "Root alone owns these types in apps/poms-api-rust/src/project_operating_common/model.rs; G/H import exactly this model. No independent shadows or policy in common.",
+    "modules": {
+      "model": "apps/poms-api-rust/src/project_operating_common/model.rs",
+      "hash": "apps/poms-api-rust/src/project_operating_common/hash.rs",
+      "loader": "apps/poms-api-rust/src/project_operating_common/loader.rs",
+      "scope": "apps/poms-api-rust/src/project_action_authorization/mod.rs",
+      "collector": "apps/poms-api-rust/src/project_operating/collector.rs",
+      "preparation": "apps/poms-api-rust/src/project_operating/preparation.rs",
+      "GService": "apps/poms-api-rust/src/project_operating/service.rs",
+      "HPolicy": "apps/poms-api-rust/src/project_operating_signals/policy.rs",
+      "HService": "apps/poms-api-rust/src/project_operating_signals/service.rs",
+      "correctionFacade": "apps/poms-api-rust/src/project_cost_governance/mod.rs"
+    },
+    "schemaAliases": {
+      "OperatingPreparation": "public-contracts.schema.json#/components/schemas/OperatingPreparation",
+      "OperatingSourceRow": "public-contracts.schema.json#/components/schemas/SourceRow",
+      "ExpectedRef": "public-contracts.schema.json#/components/schemas/ExpectedRef",
+      "SourceRef": "source-context.schema.json#/$defs/SourceRef",
+      "OperatingSourceContext": "source-context.schema.json (entire object)",
+      "OperatingCommandInput": "validated modern32 operation DTOs from dto-index.json, never raw Value/f64 money",
+      "CostDecisionInput": "public-contracts.schema.json#/components/schemas/CostDecisionInput",
+      "AffectedRestatementTarget": "public-contracts.schema.json#/components/schemas/AffectedRestatementTarget",
+      "FormalEligibility": "source-context.schema.json#/properties/formalEligibility",
+      "OperatingMetricKnowledge": "public-contracts.schema.json#/components/schemas/OperatingMetricKnowledge",
+      "OperatingGateStage": "public-contracts.schema.json#/components/schemas/OperatingGateStage",
+      "OperatingDataMaturityLevel": "public-contracts.schema.json#/components/schemas/OperatingDataMaturityLevel",
+      "OperatingSnapshotActionLevel": "public-contracts.schema.json#/components/schemas/OperatingSnapshotActionLevel",
+      "OperatingSignalLevel": "public-contracts.schema.json#/components/schemas/OperatingSignalLevel",
+      "OperatingRiskLevel": "public-contracts.schema.json#/components/schemas/OperatingRiskLevel",
+      "StageReclassificationCorrection": "public-contracts.schema.json#/components/schemas/StageReclassificationCorrection",
+      "TaxTreatmentReplacementCorrection": "public-contracts.schema.json#/components/schemas/TaxTreatmentReplacementCorrection"
+    },
+    "scalarTypes": {
+      "Uuid": "uuid::Uuid",
+      "Int4Version": "i32; actual row/logical1..2147483647",
+      "HeadVersion": "i32;0 means absent only",
+      "Sha256": "String exactly lower64 hex, private validated constructor",
+      "CurrencyCode": "String exactly proven[A-Z]{3}",
+      "OperatingMoneyCents": "private i128 wrapper,abs<=999999999999999999, exact cents; per-field nonnegative where required",
+      "UtcInstant": "chrono::DateTime<chrono::Utc>",
+      "BusinessDate": "chrono::NaiveDate",
+      "PeriodKey": "validated actual month/ISOweek String",
+      "OuterTxToken": "Root private opaque lifetime-bound token minted by the server for this exact borrowed outer transaction; no Serialize/Deserialize/public constructor and unrelated to HTTP request_id/correlation IDs",
+      "VerifiedOperatingAccessSet": "Root private nonserializable struct VerifiedOperatingAccessSet<'tx> {actor_id:Uuid,project_proofs:BTreeMap<Uuid,ProjectAccessProof>,outer_tx_token:&'tx OuterTxToken}; no public/request constructor"
+    },
+    "enums": {
+      "CollectLockMode": {
+        "ReadCoherent": "domain read-only; no business/source/classification writes; existing required security audit still participates",
+        "WriteLocked": "only validated write input; full impacted project/source rank locks and expected hash before effects"
+      },
+      "OperatingPreparationIntent": {
+        "BaselineActivation": {},
+        "SnapshotCreate": {
+          "mode": "SnapshotMode[Realtime|PeriodEnd]",
+          "period_key": "Option<PeriodKey>"
+        },
+        "PeriodClose": {
+          "period_key": "PeriodKey"
+        },
+        "Restatement": {
+          "scope": "RestatementScope[Live|Period]",
+          "restates_snapshot": "ExpectedRef",
+          "period_end_snapshot": "Option<ExpectedRef>"
+        },
+        "ReceiptBasis": {
+          "receipt": "ExpectedRef"
+        }
+      },
+      "OperatingCollectInput": {
+        "Preview": "OperatingPreparationIntent",
+        "ActivateBaseline": "ActivateOperatingBaselinePackageRequest",
+        "CaptureSnapshot": "CreateProjectOperatingSnapshotRequest",
+        "ClosePeriod": "CreatePeriodClosingSnapshotRequest",
+        "Restate": "CreateOperatingRestatementRequest"
+      },
+      "OperatingCollectionContext": {
+        "BaselineOnly": "OperatingBaselineSourceDraft",
+        "Snapshot": "OperatingSourceContext"
+      }
+    },
+    "structs": {
+      "OperatingBusinessWindow": {
+        "business_cutoff": "BusinessDate",
+        "knowledge_cutoff": "UtcInstant",
+        "source_window_start": "Option<BusinessDate>",
+        "source_window_end": "Option<BusinessDate>",
+        "period_key": "Option<PeriodKey>",
+        "business_timezone": "String fixed Asia/Hong_Kong"
+      },
+      "OperatingGeneratedIds": {
+        "baseline_source_id": "Option<Uuid>",
+        "snapshot_id": "Option<Uuid>",
+        "context_id": "Option<Uuid>",
+        "paired_period_id": "Option<Uuid>",
+        "restatement_batch_id": "Option<Uuid>"
+      },
+      "OperatingCollectPlan": {
+        "project_id": "Uuid",
+        "intent": "OperatingPreparationIntent",
+        "input": "OperatingCollectInput",
+        "window": "OperatingBusinessWindow",
+        "generated_ids": "OperatingGeneratedIds",
+        "access": "VerifiedOperatingAccessSet<'tx>; plan is OperatingCollectPlan<'tx>"
+      },
+      "OperatingLockedProjectState": {
+        "project_id": "Uuid",
+        "project_row_version": "Int4Version",
+        "head_row_version": "HeadVersion",
+        "baseline_package_ref": "Option<SourceRef>",
+        "current_snapshot_ref": "Option<SourceRef>",
+        "terminal_root_refs": "Vec<SourceRef>"
+      },
+      "ApprovedProjectCostTransition": {
+        "before_cost_ref": "SourceRef",
+        "after_cost_ref": "SourceRef",
+        "approval_source_refs": "Vec<SourceRef>",
+        "delta_net_cents": "OperatingMoneyCents"
+      },
+      "OperatingBaselineSourceDraft": {
+        "id": "Uuid",
+        "project_id": "Uuid",
+        "original_cost_ref": "SourceRef",
+        "current_cost_ref": "SourceRef",
+        "handover_basis_ref": "Option<SourceRef>",
+        "handover_rebaseline_ref": "Option<SourceRef>",
+        "currency": "CurrencyCode",
+        "approved_transitions": "Vec<ApprovedProjectCostTransition>",
+        "original_baseline_cost": "OperatingMoneyCents",
+        "handover_baseline_cost": "OperatingMoneyCents",
+        "execution_change_package_total": "OperatingMoneyCents",
+        "change_package_total": "OperatingMoneyCents",
+        "current_effective_baseline_cost": "OperatingMoneyCents",
+        "source_hash": "Sha256",
+        "payload_hash": "Sha256"
+      },
+      "VerifiedProducerTransition": {
+        "kind": "CorrectionKind[LaborReplacement|AllocationBatchReplacement|StageReclassification|TaxTreatmentReplacement]",
+        "before_refs": "Vec<SourceRef>",
+        "after_refs": "Vec<SourceRef>",
+        "evidence_refs": "Vec<SourceRef>",
+        "affected_project_ids": "Vec<Uuid>"
+      },
+      "OperatingCollection": {
+        "context": "OperatingCollectionContext",
+        "preparation": "OperatingPreparation",
+        "source_rows": "Vec<OperatingSourceRow>",
+        "locked_projects": "Vec<OperatingLockedProjectState>",
+        "producer_transitions": "Vec<VerifiedProducerTransition>",
+        "generated_ids": "OperatingGeneratedIds"
+      },
+      "VerifiedRestatementScope": {
+        "outer_tx_token": "&'tx OuterTxToken",
+        "operation_id": "Uuid server-generated correction batch",
+        "actor_id": "Uuid",
+        "input_hash": "Sha256 pre-effect whitelist",
+        "access": "&'tx VerifiedOperatingAccessSet<'tx>",
+        "locked_projects": "Vec<OperatingLockedProjectState>",
+        "consumed_context_refs": "Vec<SourceRef>",
+        "locked_source_refs": "Vec<SourceRef>",
+        "complete_terminal_target_refs": "Vec<SourceRef>"
+      },
+      "ValidatedStageCorrection": {
+        "request": "StageReclassificationCorrection exact schema alias",
+        "project_id": "Uuid",
+        "cost_before_ref": "SourceRef",
+        "attribution_before_ref": "SourceRef",
+        "verified_evidence_refs": "Vec<SourceRef>"
+      },
+      "ValidatedTaxCorrection": {
+        "request": "TaxTreatmentReplacementCorrection exact schema alias",
+        "project_id": "Uuid",
+        "tax_before_ref": "SourceRef",
+        "verified_source_refs": "Vec<SourceRef>",
+        "verified_evidence_refs": "Vec<SourceRef>"
+      },
+      "StageReclassificationPermit": {
+        "scope": "&'tx VerifiedRestatementScope<'tx>",
+        "cost_id": "Uuid",
+        "attribution_id": "Uuid",
+        "affected_allocation_basis_ids": "Vec<Uuid>"
+      },
+      "TaxTreatmentReplacementPermit": {
+        "scope": "&'tx VerifiedRestatementScope<'tx>",
+        "tax_treatment_id": "Uuid",
+        "project_id": "Uuid"
+      },
+      "OperatingEvaluationRefs": {
+        "snapshot_id": "Uuid",
+        "source_hash": "Sha256",
+        "evaluation_hash": "Sha256",
+        "maturity_evaluation_id": "Uuid",
+        "signal_evaluation_id": "Uuid",
+        "signal_row_version": "Int4Version",
+        "binding_ids": "BTreeMap<OperatingGateStage,Uuid> exactly4",
+        "summary_snapshot_ids": "BTreeMap<OperatingGateStage,Uuid> exactly4",
+        "current_action_level": "OperatingSnapshotActionLevel",
+        "policy_version": "String fixed r4h-operating-v1",
+        "certification": "OperatingEvaluationCertification"
+      },
+      "CostReadiness": {
+        "data_maturity_level": "OperatingDataMaturityLevel",
+        "cost_action_recommendation": "OperatingSnapshotActionLevel",
+        "reason_items": "Vec<OperatingReasonInternal>",
+        "known_metric_states": "OperatingMetricKnowledge",
+        "formal_eligibility": "FormalEligibility"
+      },
+      "OperatingReasonInternal": {
+        "reason_id": "Sha256",
+        "code": "String registered actual rule code",
+        "category": "OperatingReasonCategory",
+        "rule_id": "String",
+        "project_action": "OperatingSnapshotActionLevel",
+        "stage_actions": "BTreeMap<OperatingGateStage,OperatingSnapshotActionLevel> exactly4",
+        "is_primary_project_reason": "bool",
+        "primary_stages": "Vec<OperatingGateStage>",
+        "detail": "String private sensitive text",
+        "evidence_refs": "Vec<SourceRef>"
+      },
+      "OperatingGateDraft": {
+        "stage": "OperatingGateStage",
+        "system_action": "OperatingSnapshotActionLevel",
+        "effective_action": "OperatingSnapshotActionLevel",
+        "reason_ids": "Vec<Sha256>",
+        "primary_reason_ids": "Vec<Sha256>"
+      },
+      "OperatingEvaluationDraft": {
+        "cost_readiness": "CostReadiness",
+        "system_signal_level": "OperatingSignalLevel",
+        "system_risk_level": "OperatingRiskLevel",
+        "effective_signal_level": "OperatingSignalLevel",
+        "effective_risk_level": "OperatingRiskLevel",
+        "current_action_level": "OperatingSnapshotActionLevel",
+        "four_stage_drafts": "BTreeMap<OperatingGateStage,OperatingGateDraft> exactly4",
+        "all_reasons": "Vec<OperatingReasonInternal>",
+        "ratio_use": "GrossMarginRateUse[Unavailable|ObservationOnly|BusinessJudgment]",
+        "evaluation_status": "OperatingEvaluationStatus",
+        "certification": "OperatingEvaluationCertification",
+        "evaluation_hash": "Sha256"
+      },
+      "VerifiedMaterialityReview": {
+        "source_hash": "Sha256",
+        "evaluation_hash_before": "Sha256",
+        "policy_hash": "Sha256",
+        "actor_id": "Uuid",
+        "risk_decision": "OperatingRiskLevel only Normal|Attention|Risk",
+        "issue_codes": "Vec<String> verified unresolved actual issues",
+        "evidence_refs": "Vec<SourceRef> exact frozen-context members",
+        "rationale": "String nonempty<=2000 sensitive",
+        "overlay_hash": "Sha256"
+      }
+    },
+    "rules": [
+      "Intent and plan.project_id must exactly match the validated write DTO; expectedVersion/project/hash/refs/corrections read only from that one typed input, not duplicated shadows.",
+      "Preview input can only use ReadCoherent. Write input only WriteLocked. Root access set binds every impacted project and same caller TX. generated IDs never factual hash authority.",
+      "BaselineOnly never invents full context/snapshot/H evaluation. Snapshot branch always uses complete shared context; H pure derive precedes one final G INSERT.",
+      "OperatingPreparation is the exact public schema type, including all required explicit-null fields. No separate guessed G/H preparation object.",
+      "Actual source-set expansion returns typed409 scope-changed or restarts whole outerTX through Root coordinator; never add out-of-order project locks.",
+      "H alone constructs VerifiedMaterialityReview through verification; internal reason text/evidence never serializes directly into public DTO. Public projection produces OperatingReasonView.",
+      "Access proofs and every permit bind the same Root-minted private OuterTxToken/borrowed TX lifetime. HTTP request_id may be reused/client-correlated and is audit metadata only, never transaction identity."
+    ],
+    "signatures": {
+      "prepare": "pub async fn prepare_with_session(session:&mut CommonSession<'_,'_>, project_id:Uuid, intent:&OperatingPreparationIntent, actor:&Actor)->Result<OperatingPreparation,Error>",
+      "collect": "pub async fn collect_with_session(session:&mut CommonSession<'_,'_>, plan:&OperatingCollectPlan<'_>, lock_mode:CollectLockMode, actor:&Actor)->Result<OperatingCollection,Error>",
+      "load": "pub async fn load_frozen_context_with_session(session:&mut CommonSession<'_,'_>, snapshot_id:Uuid, expected_row_version:i32, expected_source_hash:&str)->Result<OperatingSourceContext,Error>",
+      "derive": "pub fn derive_operating_evaluation(context:&OperatingSourceContext, review:Option<&VerifiedMaterialityReview>)->Result<OperatingEvaluationDraft,Error>",
+      "readiness": "pub fn derive_cost_readiness(context:&OperatingSourceContext)->Result<CostReadiness,Error>",
+      "evaluate": "pub async fn evaluate_with_session(session:&mut CommonSession<'_,'_>, snapshot_id:Uuid, expected_row_version:i32, expected_source_hash:&str, actor:&Actor)->Result<OperatingEvaluationRefs,Error>",
+      "stageCorrection": "pub(crate) async fn reclassify_with_permit(session:&mut CommonSession<'_,'_>, input:&ValidatedStageCorrection, permit:&StageReclassificationPermit, actor:&Actor)->Result<VerifiedProducerTransition,Error>",
+      "taxCorrection": "pub(crate) async fn replace_tax_with_permit(session:&mut CommonSession<'_,'_>, input:&ValidatedTaxCorrection, permit:&TaxTreatmentReplacementPermit, actor:&Actor)->Result<VerifiedProducerTransition,Error>"
+    }
+  },
+  "owners": [
+    {
+      "owner": "Root",
+      "paths": [
+        "apps/poms-api-rust/Cargo.toml",
+        "apps/poms-api-rust/src/lib.rs",
+        "apps/poms-api-rust/src/contract_support/http.rs",
+        "apps/poms-api-rust/src/contract_support/mod.rs",
+        "apps/poms-api-rust/src/contract_support/validation.rs",
+        "apps/poms-api-rust/src/project_operating_common/**",
+        "apps/poms-api-rust/src/project_action_authorization/**",
+        "apps/poms-api/src/migrations/Migration20261106060000_rust_r4ghi_joint_operating_lifecycle.ts",
+        "libs/shared/contracts/**",
+        "libs/shared/api-spec/**",
+        "libs/shared/api-client/**",
+        "libs/admin/data-access/**",
+        "apps/poms-api/src/app/features/project-cost/project-cost.controller.ts",
+        "apps/poms-api/src/app/features/project-cost/project-cost.service.ts",
+        "apps/poms-api/src/app/features/commission/commission.controller.ts",
+        "apps/poms-api/src/app/features/commission/commission.service.ts",
+        "apps/poms-api/src/app/features/commission/commission-role-assignment.controller.ts",
+        "apps/poms-api/src/app/features/project/project.controller.ts",
+        "apps/poms-api/src/app/features/project-handover/project-handover.controller.ts",
+        "apps/poms-api/src/app/features/contract-finance/contract-finance.controller.ts",
+        "apps/poms-api/src/app/features/lead/lead.controller.ts",
+        "apps/poms-api-rust/src/projects/**",
+        "apps/poms-api-rust/src/leads/**",
+        "apps/poms-api-rust/src/project_handover/**",
+        "apps/poms-api-rust/src/contract_finance/**",
+        "apps/poms-api-rust/src/project_actual_cost/**",
+        "apps/poms-api-rust/src/project_cost_governance/**",
+        "apps/poms-api-rust/src/approval_common/**"
+      ],
+      "also": "Native frozen-reference extraction/controllers/services type adapters; existing B/C/D/E/F and project/lead producer gates; common summary registration, runtime enums; central UI workspace and router. Authors provide exact patches for Root review; one writer per shared file."
+    },
+    {
+      "owner": "G",
+      "paths": [
+        "apps/poms-api-rust/src/project_operating/**",
+        "apps/poms-admin/src/app/features/project/project-operating-authoring.ts"
+      ],
+      "role": "real collector, immutable capture, baseline/period/restatement/inclusion business orchestration; independent authoring UI child"
+    },
+    {
+      "owner": "H",
+      "paths": [
+        "apps/poms-api-rust/src/project_operating_signals/**",
+        "apps/poms-admin/src/app/features/project/project-operating-review.ts"
+      ],
+      "role": "pure rules, same-TX evaluate, reads, 2 reviews, protected projection and review UI child"
+    },
+    {
+      "owner": "I",
+      "paths": [
+        "apps/poms-api-rust/src/commission_assignment/**",
+        "apps/poms-api-rust/src/project_lifecycle/**",
+        "apps/poms-api-rust/src/lifecycle_evidence/**",
+        "apps/poms-admin/src/app/features/project/project-lifecycle-authoring.ts",
+        "apps/poms-admin/src/app/features/commission/project-role-assignment-authoring.ts",
+        "apps/poms-admin/src/app/features/project/project-condition-tasks.ts",
+        "apps/poms-admin/src/app/features/project/project-first-owner-assignment.ts"
+      ],
+      "role": "4 role assignments + 11 lifecycle operations, typed actor responsibility, genuine evidence, independent UI children"
+    }
+  ],
+  "compatibility": {
+    "frozenNativeReference": "native-reference.schemas.json exact legacy source closure. Root creates new rust-r4ghi-native-reference.ts from pinned pre-change shapes, records extraction SHA; never edits prior frozen file.",
+    "legacyNativeCommands": "Modern discriminator checked explicitly before historical DTO validation/service: server-derived-v1=>422 reference_runtime_unsupported unless a real Node producer exists. Only explicit legacy-reference or genuine old untagged request validated against frozen old schema can call historical producer. Incomplete modern body can never fall into legacy based on field-presence heuristics.",
+    "rustCommands": "All 32-operation modern writes and C confirm require inputVersion='server-derived-v1'. Missing/legacy=>422 legacy_reference_input_unsupported before modern DTO validation; modern invalid shape400. Monetary/conclusion fields only explicit assertions with exact comparison, mismatch409; never legacy monetary authority. Other delivered E/F ordinary unconsumed protocols unchanged; sealed restatement branch explicitly versioned.",
+    "discriminator": "All modern write inputVersion='server-derived-v1'. Official G result/views outputVersion='server-derived-v1'; reference outputVersion='legacy-reference',producerVersion=0/legacy-unverified. H evaluationContext and I/R5 sourceQualification/weightsPolicyVersion remain required certification discriminators; absent tag never means certified.",
+    "currentQueries": "Official current getters select only true v1 context/evidence. Legacy reference object is explicit separate tagged data, never a current certified object/head/gate. Missing official eval default409, item unknown404.",
+    "nativeTypes": "Node service/controller Promise types use Native aliases; Swagger decorators use modern public DTO and explicit response branching. Four widened H enum slots use Pick<CurrentSharedShape, key>; no any/as-cast/optional weakening.",
+    "oldG200201": "Actual response status, declared OpenAPI status and blueprint status compared individually in operationMap. The 3 existing platform create 201-vs200 mismatches are separate existing-baseline-drift, never counted as GHI route novelty or hidden by changing all POST statuses.",
+    "generation": "Only after Root canonical rows+formal baseline+manifest and independent G1: shared TS->createZodDto->OpenAPI->generated client/Rust->admin. No DTO/OpenAPI/client product generated by this tools-only input work."
+  },
+  "rootAdoptions": {
+    "source": "Explicit Root assignment messages in this task; to be promoted into Root formal baseline, not a substitute for independent G1",
+    "GHScope": "Finance permission AND (OwnerWrite OR delegated confirmed finance OR delegated confirmed business-admin); read OwnerRead/Part; condition-only and creator-bootstrap-only never expand finance/commission reads",
+    "outputReferenceAcyclicity": "Only upstream facts enter sourceHash. New self/result restatedSnapshotRef/restatementRef/new-paired-periodEndSnapshotRef are null at immutable capture and never backfilled; result links use SQL FK/response. Existing restatesSnapshotRef and actual existing period root remain sources.",
+    "pendingTax": "Unknown pending tax amount is SQL NULL with explicit knowledge; never zero fallback",
+    "modernInputProtocol": "All 32-operation modern write DTOs plus supporting C confirm require inputVersion='server-derived-v1'. Native modern returns explicit422; Rust legacy/missing tag422. Other existing E/F ordinary unconsumed protocols keep existing tags; new sealed restatement branch explicitly versioned.",
+    "summaryDefinitions": "Root adopted exact R5/stage scenario/package/projection/export/field-rule names from the joint proposal; configuration definitions only, no business approval rows"
+  },
+  "productionSummaryDefinitions": [
+    {
+      "scenario": "commission-gate-review",
+      "package": "project-operating-commission-gate-v1",
+      "projection": "commission-gate-review",
+      "export": "internal-only",
+      "fieldRule": "r4h-operating-v1",
+      "targetType": "operating-signal-gate-binding"
+    },
+    {
+      "scenario": "commission-role-freeze",
+      "package": "commission-role-freeze-confirmation",
+      "projection": "commission-role-freeze",
+      "export": "commission-controlled",
+      "fieldRule": "r4i-role-freeze-v1",
+      "targetType": "commission-role-assignment"
+    },
+    {
+      "scenario": "project-stage-transition",
+      "package": "project-handover-stage",
+      "projection": "project-stage-admission",
+      "export": "internal-only",
+      "fieldRule": "r4i-lifecycle-v1",
+      "targetType": "project-stage-record"
+    },
+    {
+      "scenario": "project-stage-transition",
+      "package": "project-execution-admission",
+      "projection": "project-stage-admission",
+      "export": "internal-only",
+      "fieldRule": "r4i-lifecycle-v1",
+      "targetType": "project-stage-record"
+    },
+    {
+      "scenario": "project-stage-transition",
+      "package": "project-acceptance-admission",
+      "projection": "project-stage-admission",
+      "export": "internal-only",
+      "fieldRule": "r4i-lifecycle-v1",
+      "targetType": "project-stage-record"
+    },
+    {
+      "scenario": "project-stage-transition",
+      "package": "project-completion-stage",
+      "projection": "project-stage-admission",
+      "export": "internal-only",
+      "fieldRule": "r4i-lifecycle-v1",
+      "targetType": "project-stage-record"
+    }
+  ],
+  "existingBaselineDrift": [
+    {
+      "classification": "existing-baseline-drift",
+      "operationId": "PlatformController_createUser",
+      "runtimePath": "/api/platform/users",
+      "observedOrRootProvidedRuntimeSuccess": 201,
+      "currentDeclaredSuccess": [
+        "200"
+      ],
+      "inThisBatchOperationCount": false,
+      "scope": "Separate platform baseline drift, not changed by GHI route addition/protocol work"
+    },
+    {
+      "classification": "existing-baseline-drift",
+      "operationId": "PlatformController_createRole",
+      "runtimePath": "/api/platform/roles",
+      "observedOrRootProvidedRuntimeSuccess": 201,
+      "currentDeclaredSuccess": [
+        "200"
+      ],
+      "inThisBatchOperationCount": false,
+      "scope": "Separate platform baseline drift, not changed by GHI route addition/protocol work"
+    },
+    {
+      "classification": "existing-baseline-drift",
+      "operationId": "PlatformController_createOrgUnit",
+      "runtimePath": "/api/platform/org-units",
+      "observedOrRootProvidedRuntimeSuccess": 201,
+      "currentDeclaredSuccess": [
+        "200"
+      ],
+      "inThisBatchOperationCount": false,
+      "scope": "Separate platform baseline drift, not changed by GHI route addition/protocol work"
+    }
+  ],
+  "migration": {
+    "draft": "migration.sql",
+    "forwardOnly": true,
+    "proposedClass": "Migration20261106060000_rust_r4ghi_joint_operating_lifecycle",
+    "observedMigrationFiles": 94,
+    "targetMigrationFiles": 95,
+    "existingPomsTablesProvided": 120,
+    "tablesVerification": "Repository migration SQL structurally inspected; no DB queried. Do not claim DB table count measured.",
+    "legacy": "New producer_version columns default0; never synthesize old facts/roles/stages/bases/origins. Existing older nullable producer columns keep their original legacy semantics.",
+    "noSQLExecution": true,
+    "runtimePredicates": [
+      {
+        "id": "receipt-basis",
+        "owner": "Root/C+G",
+        "predicate": "locked confirmed receipt gross equals immutable basis gross; same project+contract+actual activated term+frozen currency lineage; gross=net+tax; cents HALF_UP exact; one basis per receipt, historical certify does not change receipt fact timestamps/actor/cash/date"
+      },
+      {
+        "id": "baseline-chain",
+        "owner": "G",
+        "predicate": "original and current packages are real approved adopted PROJECT estimates of same project; one connected predecessor/successor chain, no forks or duplicate contract-counted packages; approved successor net-minus-predecessor deltas exactly once"
+      },
+      {
+        "id": "source-exhaustiveness",
+        "owner": "G",
+        "predicate": "complete real source universe partitioned include/exclude with reason/current decision; no omitted unclassified row; known-zero proof explicit; hard included and confirmed receipt basis gaps reject formal publication"
+      },
+      {
+        "id": "inclusion-protection",
+        "owner": "Root/E/F+G",
+        "predicate": "sticky direct consumed flag/status or F result project-share flag; all membership history preserved; ordinary source/labor/stage/tax/whole-allocation mutation finds any published membership and409 operating_restatement_required; sealed same-TX permit only after full affected-project/source locks"
+      },
+      {
+        "id": "double-measurement",
+        "owner": "G",
+        "predicate": "included primary canonicalAccumulationKey unique per snapshot; commitment principal and linked payments cannot coexist; genuine distinct installment payment IDs permitted; exclude support requires actual primary ref; source-set full principal and allocation project share overlap forbidden"
+      },
+      {
+        "id": "hash-layers",
+        "owner": "Root+G/H",
+        "predicate": "pre-effect expectedInputHash uses G exact whitelist; after producers use H finalSourceHash whitelist; complete stored payloadHash excluding self; evaluationHash includes final source+policy+normalized derived result+verified overlay. Do not confuse hashes or hash derived metrics as source facts"
+      },
+      {
+        "id": "capture-versus-overlay",
+        "owner": "G/H",
+        "predicate": "G immutable captured final facts/action inserted once v1; H reloads v1/hash and recomputes equality; later review adds append-only overlay/new effective bindings and summary without writing G snapshot"
+      },
+      {
+        "id": "policy-exact",
+        "owner": "H",
+        "predicate": "all11 reason rows+all tied primaries; project cost floor and independent stage matrix; negative auto-risk only known+mature+gross receipt ratio>=20%+net>0; preserve independent BLOCK; all qualitative missing-threshold issues require manual materiality review"
+      },
+      {
+        "id": "numeric",
+        "owner": "Root+G/H/I",
+        "predicate": "money integer cents/DB numeric(18,2), tax fraction four places; ratio derived rational unrounded for thresholds, six-place half-away display and explicit overflow; only gross_margin_rate DB numeric(38,6) widens. Raw exact weights=>millionths0..1000000,sum1000000,zero reason; no f64 or epsilon"
+      },
+      {
+        "id": "role-freeze",
+        "owner": "I",
+        "predicate": "true current draft+same current confirmed handover/basis/all actual self confirmations/receipt freeze+contract/handover summaries; normalized real participants and sum exact1; freeze own new summary distinct upstream; no R5 rules/payout/H prerequisite"
+      },
+      {
+        "id": "lifecycle",
+        "owner": "I",
+        "predicate": "assessment->real handover->frozen roles+EO startExecution->EO startAcceptance+actual evidence->final acceptance only->completion. accepted=>completed,conditional=>conditional-completed+nonempty owned dated evidenced conditions; original result immutable; all actual closed only changes conditionStatus; pending blocks archive"
+      },
+      {
+        "id": "scope-producers",
+        "owner": "Root+I",
+        "predicate": "true pre-change owner/creator origin branch before reassign; OwnerWrite before D prepare; no self-grant from requested owner/participants. Initial individual origin permanently consumed, org-owned never-personal origin creator branch atomically consumed; legacy missing origin denies"
+      },
+      {
+        "id": "summary-and-sensitive",
+        "owner": "Root+H/I",
+        "predicate": "true same-chain summary definitions/target/source hash+versions; source summary assertion before review,new reviewed summary in response; all raw protected keys literal null; labor yes/unknown applies strictest reversible projection groups to text/reasons/evidence/aggregates; no sensitive payload when event fails"
+      }
+    ],
+    "newTables": [
+      "receipt_accounting_basis",
+      "operating_baseline_source",
+      "project_cost_inclusion_decision",
+      "project_cost_inclusion_head",
+      "operating_source_context",
+      "operating_snapshot_cost_member",
+      "operating_source_member",
+      "project_operating_head",
+      "project_stage_record",
+      "commission_role_assignment_participant",
+      "commission_role_assignment_freeze_payload",
+      "project_completion_condition",
+      "project_completion_condition_closure",
+      "project_lifecycle_evidence_ref",
+      "operating_evaluation_evidence",
+      "operating_evaluation_reason",
+      "operating_gate_summary_payload",
+      "operating_command_receipt",
+      "project_ownership_origin"
+    ],
+    "newTableCount": 19,
+    "forecastTableCountFromProvidedBase": 139,
+    "originDDLIncluded": true,
+    "notValidCompositeConstraints": "Preserve legacy rows; enforce new DML. Source semantic facts still need true producers, never a backfill.",
+    "capacityChanges": 0,
+    "GUnknownPendingTax": "snapshot/period nullable+knowledge and deferred context consistency",
+    "participantParent": "assignment_id immutable; DELETE checksOLD, all frozen membership immutable"
+  },
+  "minimumUI": {
+    "G": [
+      "Existing operating-overview workspace adds preparation empty/setup state and sourceRows table with IDs/versions/eligibility, scoped projection and real repair links",
+      "Activate adopted baseline from approved project estimate chain; choose actual source refs and reason, no amount editor",
+      "Classify every new current cost candidate include/exclude with role/evidence/reason; unknown/stale/source conflict blocks submit and reloads preparation",
+      "Create realtime snapshot and month/ISO-week closing from exact same form; show final server action, sourceHash and four independent stage bindings",
+      "History drawer opens original frozen context and later restatement side-by-side, actual late-source differences/reason; corrections route through existing real E/F forms under governed transaction",
+      "Receipt confirmation/historical-basis action selects exact original terms/currency evidence and shows gross vs derived net/tax; no direct net input",
+      "No duplicate policy in browser; loading/conflict/403/missing basis/unknown values versus zero and labor masks remain explicit"
+    ],
+    "H": [
+      "Use projection helpers for protected text and shared normal/unknown labels.",
+      "Require evaluation/source hashes match across overview/accounting store responses; consume four explicit stageBindings, unknown/stale/reviewState; no empty-actions=>payout-ready conclusion.",
+      "Real finance review forms post returned IDs/versions/hashes, immutable source assertions read-only; manual form only qualitative issues/evidence. No editable maturity or gate downgrade selector.",
+      "Update shared/current client fixtures with all required fields; no real author flow exists in original H UI.",
+      "409 typed evaluationStatus renders not-evaluated/missing-evidence and source-author action links; unknown/null never becomes zero. Use grossMarginRateUse to label observation-only under low receipts."
+    ],
+    "I": "real R5 weights/zero reason + self-confirmed true chain; controlled stage buttons; acceptance/final completion/own conditions/archive forms; visible missing scope/source/unknown/conflict, hide no required business states; central Root workspace mounts independent children"
+  },
+  "rootDecisionItems": [],
+  "verification": {
+    "plannedOnly": [
+      "source pin and canonical final rows",
+      "Native/shared/Rust/admin compilation",
+      "SQL migration/entity/schema alignment",
+      "exact rational policy/raw weight tests",
+      "transaction failpoints+source replacement/review/CAS races",
+      "real human authoring path and sensitive projections",
+      "same-org unrelated/cross-org assigned/scope producer self-grant denial/creator consume and revoke races"
+    ],
+    "thisArtifact": "read-only local structure and source-byte checks only; no product/SQL/HTTP/UI/runtime acceptance"
+  },
+  "acceptancePlan": {
+    "owner": "Root/#114 independently checks G/H/I/R5 from actual new HTTP-produced fixtures; source authors provide business tests, not their own G1/G3 admission",
+    "G": [
+      "Real signed contracts/readiness/activated terms plus actual gross receipts -> certified basis -> E actual cost -> F real stage/allocation/tax -> explicit G classifications -> G v1 snapshot -> H actual four-stage producers -> real I/R5 consumer",
+      "Expected versions/hash and duplicate/current/period/successor concurrency reject coherently; share replacement includes every impacted project target",
+      "Fault each direct cost CAS/shared result CAS/classification/head/member/context/snapshot/period/restatement/H/audit/auth write; whole outerTX rollback (pre-existing independent auth raw touch label preserved)",
+      "Original period/member/source payload hashes immutable after true backdated producer correction and restatement; no historical current-source reinterpretation",
+      "Exact cents/tax HALF_UP; all-classified excluded zero versus unknown; source-chain no duplicate promise/payment/invoice; same project estimate reused by multiple contracts counted once; selected F cents never recomputed ratios",
+      "Native build+Angular build/client regeneration required after Root compatibility promotion; actual UI source selection and historical certification, all sensitive permission combinations"
+    ],
+    "H": [
+      "Actual upstream APIs -> contract receipt frozen basis/cost classifications -> G snapshot -> H maturity/evaluation/four gates/source summaries -> both human forms -> six GET/old UI same hash. No seeded result acceptance.",
+      "net receipt100.00/cost60.00 => margin40.00/rate0.400000; gross reconciles net+tax; legacy unknown basis formal rejection; proven zero vs absent facts.",
+      "All H01-H11 and ties plus exact20%/-100%/100% edges, immature negative result review; immutable system vs review overlay.",
+      "Barrier same-source producers/same CAS reviews/source replace-vs-evaluate/signal-vs-gate review/idempotency same-different payload. One current, no orphan summary.",
+      "Fault each insert/current flip/audit/summary/projection/auth flush => wholeTX rollback. GET event failure closed.",
+      "Finance route only and four sensitive permission combos; labor yes/no/unknown/admin; JSON/DOM/tooltip/free text/audit/summary/errors/difference leak assertions.",
+      "Real minimal R5/lifecycle chain by owners; no H commission/freeze/payout certification."
+    ],
+    "I-R5": [
+      "Actual project->activated contracts/receipt plan->authorized D prepare->each real participant self-confirm->D finalize->real role draft/freeze->EO startExecution->actual uploaded/linked acceptance evidence->EO startAcceptance->final acceptance->completion->all owned condition closures->archive; no seeded frozen role/stage/approval/condition facts",
+      "Final accepted maps completed only; final conditional requires nonempty owned/dated/evidenced conditions and maps conditional-completed; stage acceptance/rejected cannot complete; last closure changes conditionStatus only and pending/unknown blocks archive",
+      "Raw number: accept1e-6,0.1000000,zero with reason; reject1e-7,0.10000000000000001,sum!=1000000,negative,duplicate user/role and missing zero reason; inspect exact stored integer units and frozen source payload",
+      "Real org-owned lead-conversion creator first assignment succeeds once; different creator/same-org unrelated/absent origin/initial personal/consumed even if ownerNULL fails; both target and creator membership true; assigning another removes creator privilege; double first assignment one success/one409",
+      "No scope self-grant through reassign target body or D prepare participant body; owner notEO cannot execution; EO cannot role-draft unlessOwnerWrite; actual confirmed BA can freeze/finalize but never confirm others; condition assignee closes only self",
+      "Named dual UUID parent-child-project mismatch, each URL-encoded UUID, missing/invalid key; preserve old single-key routes; current stage/row preconditions survive hard refresh and typed409 reload",
+      "Fault each project/history/origin,source,evidence,summary,domain,audit,security,pending-auth,commit boundary; all required writes atomic and unknown commit labeled unknown; membership revoke/owner transfer/handovers/freeze/two-conditions/replace races use stable rank and double CAS"
+    ],
+    "evidenceLabels": "All above planned-not-run in this input assignment. Structural PASS is never HTTP/UI/SQL acceptance or G1 Pass."
+  },
+  "providedState": {
+    "source": "Root explicit current-state message; no Git/API used here",
+    "userFix115": "actualG4/Closed confirmed byRoot; separate from GHI admission",
+    "canonicalThreeNew": "registered planned in6.25; none implemented"
+  },
+  "scopeResponseContract": {
+    "proofToWire": {
+      "FullProject": "full-project",
+      "OwnConditionOnly": "own-condition-only",
+      "CreatorFirstAssignmentOnly": "creator-first-assignment-only"
+    },
+    "completionList": {
+      "operationId": "ProjectController_listProjectCompletionRecords",
+      "dto": "ProjectCompletionRecordList",
+      "FullProject": "FullProjectCompletionRecordListView with all existing full required values",
+      "OwnConditionOnly": "OwnCompletionTaskListView: parent completion ID/rowVersion/global conditionStatus; only actor-owned tasks and their own frozen/closure evidence",
+      "query": "SQL restrict parents to EXISTS own condition first, select own tasks only; parent aggregate computed from all real conditions in one coherent read. No parent acceptance/completion summary or evidence joins into the narrow projection."
+    },
+    "conditionClose": {
+      "dto": "CloseProjectCompletionConditionResult",
+      "sourceHashPayloadWhitelist": [
+        "schemaVersion",
+        "projectId",
+        "completionRecordId",
+        "expectedCompletionVersion",
+        "conditionId",
+        "expectedConditionVersion",
+        "responsibleUserId",
+        "closedBy",
+        "closedAt",
+        "closureSummary",
+        "ownConditionEvidenceRefs",
+        "closureEvidenceRefs"
+      ],
+      "rule": "Actor equals responsible user and has project:write; both proof branches return only own closure result and parent ID/version/global aggregate status. Never embed full parent DTO, acceptance IDs, parent summaries or parent evidence."
+    },
+    "creatorAnchor": {
+      "operationId": "ProjectController_getById",
+      "dto": "CreatorFirstAssignmentAnchorView",
+      "rule": "Exact new org-owned origin+creator+active ownerOrg membership; only assignment anchor IDs/versions/projectNo/currentNULL owner. Read requires project:read; allowedActions includes reassign-owner only if separate project:write and exact bootstrap still available. First write consumes forever."
+    },
+    "evidence": "OwnConditionOnly may read only exact frozen evidence attached to its owned condition or own closure, with existing attachment permission/classification still AND. Validate actual project/link/attachment/version/checksum; no parent acceptance/completion evidence copying or project-wide attachment listing.",
+    "frontend": {
+      "ownTasks": {
+        "path": "existing frontend project route with own-conditions task mode, or independent frontend /project-condition-tasks/:projectId route",
+        "firstRequest": "existing GET /api/projects/{projectId}/completion-records directly; never require full ProjectDetail before task access",
+        "components": [
+          "Root data-access typed loadCompletionRecords union",
+          "I project-condition-tasks.ts child",
+          "Root router mounts task child without full workspace preload"
+        ],
+        "write": "post existing named dual-UUID close route with returned parent/task versions; replace safe result and refresh same list"
+      },
+      "creator": {
+        "firstRequest": "existing GET /api/projects/{id}",
+        "components": [
+          "Root project-workspace store ProjectDetailView union",
+          "I project-first-owner-assignment.ts child"
+        ],
+        "rule": "Narrow by scopeKind before loading panels. Creator branch mounts only assignment form, calls existing owner reference lookup with its actual guard and reassignOwner; never loads G/H/R5/full evidence. No fill-empty/as-cast to FullProjectDetailView."
+      }
+    },
+    "backendGetDelta": 0,
+    "noGeneralSummaryHTTPFinding": "Independent review found no registered generic L summary HTTP GET; do not report this unproven earlier concern as a confirmed vulnerability. Actual domain responses and summary consumers still require scope/projection."
+  },
+  "restatementContract": {
+    "route": "POST /operating-restatements",
+    "operationId": "ProjectCostController_createOperatingRestatement",
+    "newHTTP": 0,
+    "supportedKinds": [
+      "labor-replacement",
+      "allocation-batch-replacement",
+      "stage-reclassification",
+      "tax-treatment-replacement"
+    ],
+    "DTO": "CreateOperatingRestatementRequest now requires stageCorrections[] and taxCorrections[] (explicit empty allowed); full concrete nested fields in public-contracts.schema.json",
+    "permit": "private sealed RestatementPermit enum variants LaborReplacement/AllocationBatchReplacement/StageReclassification/TaxTreatmentReplacement with exact locked source IDs/versions/hashes, same Root-minted private OuterTxToken/borrowed TX lifetime (not HTTP request_id), operation ID, complete affected projects+terminal roots and scope proofs; no client permit boolean/public constructor/serialization",
+    "stage": {
+      "producer": "project_cost_governance::reclassify_with_permit(session,ValidatedStageCorrection,StageReclassificationPermit,actor)",
+      "refactor": "Extract real existing service::stage/evidence/store producer, not a new direct SQL fake. Normal F route keeps all old guards; internal permit only relaxes consumed membership/occupied checks for its exact locked graph.",
+      "CAS": "For consumed included cost preserve record_status=included/is_included=true and original confirmedAt/By/all source/money. Update only execution-stage attribution fields + row_version/audit; do not use current unconditional SET record_status=confirmed or reset included flag.",
+      "facts": "Validate actual new attribution evidence against the real original business date/currency/registered stage. Persist new real governance evidence + attribution with predecessor, preserve old snapshot/attribution payload bytes.",
+      "sharedLineage": "If target participates in any consumed allocation source-set, use existing complete allocation producer with actual frozen measurement/weights and full source set to refresh provenance atomically; unchanged economic inputs must conserve existing cents. New basis/source snapshots/results carry real predecessor/version proof. No partial share or synthetic cost.",
+      "transitionProof": "Actual stage governance evidence records costBefore/After and old/new attribution IDs. A typed validated stage-only transition (same cost/source/money/confirmation, only documented stage/version fields differ) is consumed by the real allocation source loader. Never relax general compare_source_transition to allow arbitrary row changes."
+    },
+    "tax": {
+      "producer": "project_cost_governance::replace_tax_with_permit(session,ValidatedTaxCorrection,TaxTreatmentReplacementPermit,actor)",
+      "facts": "Call real existing tax/evidence/store replacement with active exact predecessor/CAS and actual sourceReferences/currency/responsible human assessment. TaxImpactAmount fields belong to the existing authorized F assessment, not a G aggregate override.",
+      "effects": "Append new real tax snapshot/evidence and predecessor; preserve prior row payload. G collects new actual F refs; deductible VAT not added to cost and taxImpactAmount never automatically summed as a new cost component."
+    },
+    "affectedClosure": "Discover reverse membership for direct costs, shared source members, stage/tax refs and every affected live or period current terminal root. Require action+project scope+all sensitive-write grants for every impacted project. Lock full sorted set, rediscover after batch locks, restart on expansion. Restate every target; no partial success or unacknowledged missing target.",
+    "inputHash": "The pre-effect whitelist binds complete impacted project/head/target/source versions; include affectedProjects [{projectId,projectRowVersion,headRowVersion,baselinePackageId,currentSnapshotId,terminalRootRefs}] in the preparation/input hash. Assert before producer effects. Source hashes use actual post-producer refs and previously frozen acyclic output-ref policy.",
+    "period": "Keep each original business cutoff/window; advance actual knowledge cutoff. New stage/tax evidence must refer to original in-window business facts; late-produced proof is labelled. No mixed-cutoff partial shared batch inference.",
+    "overlaps": "Reject duplicate/conflicting primary correction targets before writes. Multiple independent corrections allowed. A labor replacement plus a stage correction of its now-old cost is conflicting; labor replacement already requires true new stage evidence. Any dependent allocation refresh caused by stage correction is server-derived from the exact locked prior batch, not a second conflicting arbitrary correction.",
+    "atomic": "All real F/E source changes, classifications, all G contexts/snapshots/period/restatements, H evaluations/four gates/summaries, audit/security/pending-auth one borrowed CommonSession/outerTX. Capacity preinsert422 rolls everything back. Original published snapshots/context bytes never rewritten.",
+    "unsupported": [
+      "non-labor payment/invoice/payable principal mutation without real correction producer",
+      "ordinary receipt reversal or re-rating of existing receipt basis without separately frozen producer",
+      "client monetary aggregate/conclusion override",
+      "only-one-project reclassification of shared batch"
+    ],
+    "errors": {
+      "unsupported": "409 operating_source_correction_unsupported",
+      "incompleteAffectedSet": "409 operating_restatement_scope_incomplete",
+      "conflictingTargets": "422 conflicting_correction_targets",
+      "changedSource": "409",
+      "moneyOverflow": "422 operating_money_capacity_exceeded"
+    },
+    "normalPaths": "Consumed facts on ordinary E/F mutation still409 operating_restatement_required. Unconsumed old protocols unchanged; no gratuitous input tag requirement."
+  },
+  "legacyCurrentContract": {
+    "baseline": "Under project lock query all is_current baseline rows across every producer before interpreting a missing new head. Legacy current producer0 has no admission protocol in this batch:409 legacy_operating_baseline_admission_required. Do not initialize a new head or silently supersede legacy baseline. Truly absent current baseline remains normal initial creation.",
+    "baselineGET": "Official current getter with only legacy current returns typed409 admission-required; genuinely absent baseline404. Preparation200 exposes safe blocking code/empty formal commands, never a fake empty state.",
+    "period": "Query active/current(project,periodKey) across all producers. Legacy existing period409 legacy_period_reconciliation_required; v1 existing period409 period_snapshot_exists/use actual v1 restatement. Legacy predecessor/restatement source cannot be promoted without real certified admission, absent here.",
+    "assignment": "Current role assignment query is cross-producer. Absent200/null. Any current frozen, including legacy,409 commission_frozen_change_requires_dispute on create/replace. Actual current draft replacement requires exact ID/version and newly verified participants; do not treat legacy as missing.",
+    "unique": "Retain existing cross-producer current/version unique indexes; semantic guards/CAS precede INSERT. Concurrent residual23505 maps to a typed409 after known constraint classification; it is not the primary eligibility test."
+  },
+  "capacityContract": {
+    "version": "operating-money-v1-capacity-confirmation",
+    "precision": 18,
+    "scale": 2,
+    "integerDigits": 16,
+    "maximumCents": "999999999999999999",
+    "minimumSignedCents": "-999999999999999999",
+    "maximumAmount": "9999999999999999.99",
+    "minimumSignedAmount": "-9999999999999999.99",
+    "representation": "exact decimal strings / checked integer cents (i128); no f64/JS Number totals or money formatter as authority",
+    "knownSourceAdmission": "Actual money may have trailing zero scale from storage/text, but converting to cents must be exact. Strip only insignificant zeros; nonzero sub-cent digits reject422, never round legacy money into a new baseline. Do not apply this money rule to legitimate quantity/unit_price/rate precision.",
+    "aggregateAdmission": "Each known published monetary aggregate independently fits +/-MAX_CENTS with its field sign constraint: baseline components/deltas, contract totals, confirmed receipt totals, included/excluded cost totals, pending tax/recognized adjustment, cost variance and margin. Amounts in context JSON are not unlimited sidecars.",
+    "sourceEconomicLayers": "Validate net/tax/gross and actual source sets separately; gross=net+tax exactly. Do not sum receipt+cost as a monetary precondition for a later subtraction, or reject a valid zero margin from two separately bounded maxima.",
+    "overflow": {
+      "httpStatus": 422,
+      "code": "operating_money_capacity_exceeded",
+      "safeResponseFields": [
+        "statusCode",
+        "code",
+        "field",
+        "maximumAmount"
+      ],
+      "neverReturnUnprojectedComputedAmount": true,
+      "timing": "checked sums/products/differences and full aggregate bounds before snapshot/baseline/period/H aggregate INSERT or returned certified current result. Producer changes within the same outer transaction must roll back if later capacity validation fails. Never rely on PostgreSQL22003 for a valid source.",
+      "i128Overflow": "checked arithmetic failure maps to the same typed422, never500 or wrap"
+    },
+    "nonCentHistory": {
+      "httpStatus": 422,
+      "code": "operating_money_precision_unsupported",
+      "rule": "retain original source/history bytes; formal new V1 consumption blocked until a real separately authorized corrected source exists; no migration mass rounding/backfill"
+    },
+    "unknown": "unknown is null+knowledge+reason, not known zero; no numeric range test on null and no COALESCE to0",
+    "zero": "known0.00 is permitted only with existing source/complete-scope proof; exact derived zero margin from equal known amounts is known, not missing",
+    "negative": "margin/cost variance/change delta can be negative; preserve signed cents and H low-receipt/maturity policy. Nonnegative totals remain nonnegative.",
+    "ratios": "Unrounded rational for classification, six-place half-away-from-zero display, existing frozen numeric(38,6) for gross_margin_rate. Zero denominator gives null/reason, not0; money MAX is not a ratio bound.",
+    "persistence": "20 existing monetary targets and8 new monetary fields already numeric(18,2). No sidecar-only workaround needed; v1 actually writes legacy aggregate columns and must honor their full common capacity.",
+    "rootWiring": {
+      "common": "Root owns a single exact money type/range guard in project_operating_common; G collector/writer and H context/policy assertion validator consume the same guard. Match existing E MONEY_MAX; do not expand C/E/F ordinary amount admission.",
+      "errors": "Root adds typed422 mapping and current shared error schema; G/H cannot throw database overflow as normal source rejection.",
+      "beforeG1": "Append this capacity delta as input clarification to the formal baseline/manifest; do not rewrite or retrospectively claim the sealed v1 audit included it."
+    }
+  },
+  "inputPreEffectHash": {
+    "algorithm": "contract_support::canonical_hash of this exact object, with set-like arrays sorted kind/id/rowVersion/payloadHash",
+    "fields": {
+      "schemaVersion": 1,
+      "projectId": "real scoped project UUID",
+      "intent": "baseline-activation|snapshot-create|period-close|restatement|receipt-basis",
+      "projectRowVersion": "positive real version",
+      "head": "{rowVersion,baselinePackageId|null,currentSnapshotId|null}",
+      "businessScope": "{mode,periodKey|null,businessCutoff,restatesSnapshotRef|null,periodEndSnapshotRef|null}",
+      "sourceRows": "[{sourceKind,id,rowVersion,payloadHash,currentClassificationHeadRef|null}] for complete actual source/transitive evidence set before new writes",
+      "affectedProjects": {
+        "ordering": "complete real impacted set sorted projectId; each terminal set sorted scope/root/terminal id",
+        "items": {
+          "projectId": "actual affected projectUUID",
+          "projectRowVersion": "actual locked positive int4",
+          "headRowVersion": "actual operating-head int4;0 only absent",
+          "baselinePackageId": "actual UUID|null",
+          "currentSnapshotId": "actual UUID|null",
+          "terminalRootRefs": "all impacted live/period roots and their current terminal refs with actual IDs/rowVersions/payloadHashes; existing period anchor explicit|null"
+        }
+      }
+    },
+    "exclude": [
+      "financial projection modes/user identity",
+      "prepare generated UUID",
+      "preparedAt/transport timestamps",
+      "client-proposed decisions not yet committed",
+      "new snapshot/context/random IDs",
+      "policy conclusions"
+    ],
+    "compare": "After all actual scope/source locks but before G/E/F classification or correction writes, recompute and require request expectedInputHash equality; 409 on mismatch. New client decisions have their own exact expected target/decision versions, identity/scope/evidence validation.",
+    "postProducer": "Only after actual classification IDs, direct included CAS and shared-result included CAS exist, collect final immutable context and compute H sourceHash factual whitelist. External expectedInputHash and internal evaluate expected_source_hash are deliberately different authorities."
+  },
+  "effectiveFiles": {
+    "publicDTO": "public-contracts.schema.json",
+    "dtoIndex": "dto-index.json",
+    "sourceContext": "source-context.schema.json",
+    "migration": "migration.sql",
+    "ORM": "orm-delta.json",
+    "scope": "scope-response-contract.json",
+    "restatement": "restatement-contract.json",
+    "legacy": "legacy-current-contract.json",
+    "tests": "tests-plan.json",
+    "interfaces": "interface-targets.json"
+  }
+}

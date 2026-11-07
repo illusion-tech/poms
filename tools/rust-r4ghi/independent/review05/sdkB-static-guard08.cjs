@@ -1,0 +1,24 @@
+const fs=require('node:fs'),path=require('node:path'),{pathToFileURL}=require('node:url'),assert=require('node:assert/strict'),{createHash}=require('node:crypto');
+(async()=>{
+ const root=process.cwd(),out=path.join(root,'tools/rust-r4ghi/independent/review05'),sha=b=>createHash('sha256').update(b).digest('hex');
+ const old=JSON.parse(fs.readFileSync(path.join(out,'inputs01/tools/openapi/shared-api-client-baseline.json.bin'),'utf8'));
+ const current=JSON.parse(fs.readFileSync('tools/openapi/shared-api-client-baseline.json','utf8'));
+ assert.equal(current.sourceHead,'883f88fdf4fd609bb8b0725b28bda011d408d6ee');
+ for(const key of Object.keys(old))if(!['sourceHead','spec','protectedSources'].includes(key))assert.deepEqual(current[key],old[key]);
+ assert.deepEqual(current.protectedSources.map(x=>x.file),old.protectedSources.map(x=>x.file));
+ for(let i=1;i<6;i++)assert.deepEqual(current.protectedSources[i],old.protectedSources[i]);
+ const prior=fs.readFileSync(path.join(out,'inputs01/tools/openapi/shared-api-client.mjs.bin'),'utf8');
+ const now=fs.readFileSync('tools/openapi/shared-api-client.mjs','utf8');
+ const expected=prior.replace('baseline.spec.operations.length, 293,','baseline.spec.operations.length, 296,').replace('baseline.spec.schemas.length, 626,','baseline.spec.schemas.length, 689,');
+ assert.equal(now,expected);
+ const tool=await import(pathToFileURL(path.resolve('tools/openapi/shared-api-client.mjs')).href);
+ const baseline=tool.loadBaseline(root);const before=tool.treeManifest(path.resolve('libs/shared/api-client'),{timestamps:true});
+ tool.assertFrozenSources(root,baseline);
+ const after=tool.treeManifest(path.resolve('libs/shared/api-client'),{timestamps:true});assert.deepEqual(after,before);
+ const metadata=current.client.metadata.map(file=>({file,sha256:sha(fs.readFileSync(path.join('libs/shared/api-client',file)))}));
+ const saved=JSON.parse(fs.readFileSync(path.join(out,'incremental-input-manifest03.json'),'utf8')).handManagedMetadata;
+ for(const m of metadata)assert.equal(m.sha256,saved.find(x=>x.file.endsWith('/'+m.file)).sha256);
+ const report={kind:'independent-review05-S5-B-static-source-and-actual-A-guard-check',capturedAt:new Date().toISOString(),sourceHead:current.sourceHead,baselineSHA256:sha(fs.readFileSync('tools/openapi/shared-api-client-baseline.json')),toolSHA256:sha(Buffer.from(now)),toolChangeOnlyTwoExactInventoryCounts:true,protectedSources:current.protectedSources,generatorUnchanged:true,handManagedMetadataUnchanged:true,metadata,fullInventory:{paths:current.spec.paths.length,operations:current.spec.operations.length,schemas:current.spec.schemas.length},actualFrozenSourceGuardPassed:true,SDKUnchangedDuringGuard:true,SDKFiles:before.length,generatorInvoked:false,SDKWrite:false,SDKFullWriteCheckCertified:false,G3Certified:false,G4Certified:false};
+ fs.writeFileSync(path.join(out,'sdkB-static-guard08.json'),JSON.stringify(report,null,2)+'\n',{flag:'wx'});
+ console.log(JSON.stringify(report));
+})().catch(error=>{console.error(error.stack);process.exitCode=1});

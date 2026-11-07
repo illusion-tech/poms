@@ -11,6 +11,7 @@ import { dirname, resolve } from 'node:path';
 import { AppModule } from './app/app.module';
 import { PersistenceModule } from './app/core/persistence/persistence.module';
 import { GLOBAL_PREFIX, buildOpenApiConfig } from './config/openapi.config';
+import { applyR4ghiOpenApi } from './config/r4ghi-openapi';
 
 @Global()
 @Module({
@@ -41,6 +42,7 @@ async function exportOpenApi() {
     const openApiDoc = SwaggerModule.createDocument(app, buildOpenApiConfig());
     const cleaned = cleanupOpenApiDoc(openApiDoc);
     normalizeNullableRefs(cleaned);
+    applyR4ghiOpenApi(cleaned);
 
     const outFile = resolve(process.cwd(), 'libs/shared/api-spec/openapi.json');
     mkdirSync(dirname(outFile), { recursive: true });

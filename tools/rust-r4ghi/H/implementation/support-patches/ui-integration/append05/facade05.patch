@@ -1,0 +1,120 @@
+--- /dev/null
++++ b/libs/admin/data-access/src/lib/project/project-governance-client.ts
+@@ -0,0 +1,72 @@
++// Exact SDK bridge for the project governance authoring surface.
++// No app interface is imported; the generated client remains the type authority.
++export {
++    ActivateOperatingBaselinePackageRequestInputVersionEnum,
++    BaselineSelectionSource,
++    CloseProjectCompletionConditionRequestInputVersionEnum,
++    ConfirmReceiptRecordRequestInputVersionEnum,
++    ConfirmReceiptRecordRequestModeEnum,
++    CostDecisionInputDecisionEnum,
++    CostDecisionInputReasonCodeEnum,
++    CostDecisionInputRecognitionRoleEnum,
++    CreateAcceptanceRecordRequestAcceptanceResultEnum,
++    CreateAcceptanceRecordRequestAcceptanceTypeEnum,
++    CreateAcceptanceRecordRequestInputVersionEnum,
++    CreateCommissionRoleAssignmentRequestInputVersionEnum,
++    CreateOperatingRestatementRequestInputVersionEnum,
++    CreateOperatingRestatementRequestScopeEnum,
++    CreatePeriodClosingSnapshotRequestInputVersionEnum,
++    CreateProjectArchiveRecordRequestInputVersionEnum,
++    CreateProjectCompletionRecordRequestCompletionResultEnum,
++    CreateProjectCompletionRecordRequestInputVersionEnum,
++    CreateProjectOperatingSnapshotRequestInputVersionEnum,
++    CreateProjectOperatingSnapshotRequestSnapshotModeEnum,
++    FreezeCommissionRoleAssignmentRequestInputVersionEnum,
++    LegacyAssertionsCurrentActionLevelEnum,
++    ManualOperatingMaterialityReviewPolicyVersionEnum,
++    ManualOperatingMaterialityReviewRiskDecisionEnum,
++    OperatingDataMaturityLevel,
++    OperatingGateReviewDecision,
++    OperatingSnapshotActionLevel,
++    ReceiptBasisInputSelectionPolicyEnum,
++    ReplaceProjectArchiveRecordRequestInputVersionEnum,
++    RestatementAccountingTaxDeductibilityStatus,
++    RestatementR4FManualAssessmentEvidenceKindEnum,
++    RestatementR4FSourceEvidenceKindEnum,
++    ReviewCommissionGateBindingRequestInputVersionEnum,
++    ReviewCommissionGateBindingRequestReviewActionEnum,
++    ReviewOperatingSignalEvaluationRequestInputVersionEnum,
++    ReviewOperatingSignalEvaluationRequestReviewDecisionEnum,
++    StageReclassificationCorrectionCorrectionKindEnum,
++    StageReclassificationCorrectionCostRefKindEnum,
++    StageReclassificationCorrectionStageAttributionRefKindEnum,
++    StartProjectAcceptanceRequestInputVersionEnum,
++    StartProjectExecutionRequestInputVersionEnum,
++    TaxTreatmentReplacementCorrectionCorrectionKindEnum,
++    TaxTreatmentReplacementCorrectionTaxTreatmentRefKindEnum,
++    VoidProjectArchiveRecordRequestInputVersionEnum,
++} from '@poms/shared-api-client';
++export type {
++    ActivateOperatingBaselinePackageRequest,
++    CloseProjectCompletionConditionRequest,
++    ConfirmReceiptRecordRequest,
++    CostDecisionInput,
++    CreateAcceptanceRecordRequest,
++    CreateCommissionRoleAssignmentRequest,
++    CreateOperatingRestatementRequest,
++    CreatePeriodClosingSnapshotRequest,
++    CreateProjectArchiveRecordRequest,
++    CreateProjectCompletionRecordRequest,
++    CreateProjectOperatingSnapshotRequest,
++    FreezeCommissionRoleAssignmentRequest,
++    LegacyAssertions,
++    ReplaceProjectArchiveRecordRequest,
++    RestatementR4FGovernanceEvidence,
++    ReviewCommissionGateBindingRequest,
++    ReviewOperatingSignalEvaluationRequest,
++    StageReclassificationCorrection,
++    StartProjectAcceptanceRequest,
++    StartProjectExecutionRequest,
++    TaxTreatmentReplacementCorrection,
++    VoidProjectArchiveRecordRequest,
++} from '@poms/shared-api-client';
+--- a/libs/admin/data-access/src/index.ts
++++ b/libs/admin/data-access/src/index.ts
+@@ -406,3 +406,5 @@
+ export * from './lib/sales-follow-up/sales-follow-up.store';
+ export * from './lib/sales-intelligence/sales-intelligence.store';
+ export * from './lib/system-setting/system-setting.store';
++export { ContractFinanceApi, CreateProjectArchiveRecordRequestInputVersionEnum, ReplaceProjectArchiveRecordRequestInputVersionEnum, VoidProjectArchiveRecordRequestInputVersionEnum, type FullProjectDetailView } from '@poms/shared-api-client';
++export * as ProjectGovernanceClient from './lib/project/project-governance-client';
+--- a/apps/poms-admin/src/app/features/project/project-governance-client-values.ts
++++ b/apps/poms-admin/src/app/features/project/project-governance-client-values.ts
+@@ -1,4 +1,4 @@
+-import * as Api from '@poms/shared-api-client';
++import { ProjectGovernanceClient as Api } from '@poms/admin-data-access';
+ import * as Contract from '@poms/shared-contracts';
+ 
+ /** Select the real generated enum member by its wire value; no nominal cast. */
+--- a/apps/poms-admin/src/app/features/project/project-governance-api.ts
++++ b/apps/poms-admin/src/app/features/project/project-governance-api.ts
+@@ -1,10 +1,9 @@
+ import * as ClientValue from './project-governance-client-values';
+ import { inject, Injectable } from '@angular/core';
+-import { AttachmentStore, type UploadAttachmentInput } from '@poms/admin-data-access';
+ import {
+-    ActiveInactiveStatus, AttachmentRelationType, AttachmentTargetType, CommissionApi, CommissionRoleAssignmentsApi,
++    AttachmentStore, type UploadAttachmentInput, ActiveInactiveStatus, AttachmentRelationType, AttachmentTargetType, CommissionApi, CommissionRoleAssignmentsApi,
+     ContractApi, ContractFinanceApi, DictionaryApi, DictionaryDomain, ProjectApi, ProjectCostApi, ProjectHandoverApi
+-} from '@poms/shared-api-client';
++} from '@poms/admin-data-access';
+ import {
+     AcceptanceRecordListSchema, AcceptanceRecordSummarySchema, BusinessAccountingFeedbackViewSchema,
+     CloseProjectCompletionConditionResultSchema, CommissionGateBindingHistoryViewSchema,
+--- a/apps/poms-admin/src/app/features/project/project-detail.ts
++++ b/apps/poms-admin/src/app/features/project/project-detail.ts
+@@ -1,10 +1,10 @@
+-import { CreateProjectArchiveRecordRequestInputVersionEnum, ReplaceProjectArchiveRecordRequestInputVersionEnum, VoidProjectArchiveRecordRequestInputVersionEnum, type FullProjectDetailView as ProjectDetailView } from '@poms/shared-api-client';
+ import { CommonModule, formatDate } from '@angular/common';
+ import { Component, computed, DestroyRef, inject, OnInit, signal, ChangeDetectionStrategy } from '@angular/core';
+ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+ import { FormsModule } from '@angular/forms';
+ import { ActivatedRoute, Router } from '@angular/router';
+ import {
++    CreateProjectArchiveRecordRequestInputVersionEnum, ReplaceProjectArchiveRecordRequestInputVersionEnum, VoidProjectArchiveRecordRequestInputVersionEnum, type FullProjectDetailView as ProjectDetailView,
+     AttachmentTargetType,
+     AuthStore,
+     BusinessDiscussionTargetObjectType,

@@ -1,0 +1,46 @@
+{
+  "kind": "static-authorization-counterexample-only-not-executed-SQL-or-HTTP",
+  "sourceSHA256": "b40ee3a8091d233e90737a693f4a27f060d9aa41df7b1f1a37fd3c332a83e5fb",
+  "actor": {
+    "scope": "own-condition-only",
+    "permissions": [
+      "project:read",
+      "project:write"
+    ],
+    "activeRelationships": true,
+    "hasFullProjectScope": false
+  },
+  "project": "P",
+  "targetCondition": {
+    "project": "P",
+    "completion": "C",
+    "id": "K",
+    "responsibleUser": "A",
+    "status": "pending",
+    "currentValidImmutableLifecycleChain": true,
+    "expectedVersionsMatch": true
+  },
+  "submittedEvidence": {
+    "link": "L",
+    "targetType": "project",
+    "targetId": "P",
+    "linkStatus": "active",
+    "attachmentStatus": "active",
+    "uploadedBy": "A",
+    "securityReadable": true,
+    "positiveVersionAndValidChecksum": true,
+    "originalTaskFrozenRefExists": false,
+    "uploadSessionContextVersion": 0,
+    "matchingCompletedPurposeForKExists": false,
+    "knownLinkIdFromEarlierAccess": true
+  },
+  "before": "Attachment exact-read has neither task-frozen ref nor purpose1 session and no FullProject proof, so it is denied.",
+  "currentReachablePath": [
+    "OwnCondition Scope authorizes K.",
+    "The source179-185 predicate accepts because uploadedBy==actor.",
+    "Closure persists L as its evidence, updates K and completion aggregate.",
+    "Attachment exact read now sees authentic closure evidence→K→A and permits read/download."
+  ],
+  "expected": "Reject unrelated L before producing closure authority; possession of link UUID and historical uploader equality cannot mint task scope.",
+  "boundary": "All other money/lifecycle/source fields remain real and valid; no forged JSON payload, synthetic row insertion, guessed project ID or cross-project link is required."
+}

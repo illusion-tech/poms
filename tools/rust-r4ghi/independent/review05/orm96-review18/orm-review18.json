@@ -1,0 +1,324 @@
+{
+  "kind": "independent-M95-M96-ORM-readonly-dump-classification",
+  "capturedAt": "2026-11-07T08:42:28.333611+00:00",
+  "status": "no-new-P1-physical-schema-drift-found-in-registered-targets; two-P2-ORM-mapping-differences-remain",
+  "inputs": [
+    {
+      "file": "apps/poms-api/src/app/features/project/project.entity.ts",
+      "bytes": 4801,
+      "sha256": "56cc104f6307695c5358e6cde6003272534a99e31406e3e12a2aab340c824a70"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project-cost/project-operating-snapshot.entity.ts",
+      "bytes": 9805,
+      "sha256": "3dbe3c83a70f6f940054052f0db0b5c56db76d2b180a9e8f210adcdd6198694a"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/project-cost/operating-restatement-record.entity.ts",
+      "bytes": 7373,
+      "sha256": "eb632c177a34fb39d30d87f5c0fc7306f7ded42382494f770fc8b65ed41a070c"
+    },
+    {
+      "file": "apps/poms-api/src/app/features/attachment/attachment-upload-session.entity.ts",
+      "bytes": 8396,
+      "sha256": "af1500f6b25fca9f0496f762dc50af72b0ec15e7c35963617a614607e74236bd"
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20261107060000_rust_r4ghi_operating_lifecycle.ts",
+      "bytes": 83996,
+      "sha256": "8fa614a3eca1b01f744592e392cc37baab53ea102439840394b0abed316bc68d"
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20261107083000_rust_condition_upload_context.ts",
+      "bytes": 1873,
+      "sha256": "37f5082c5c40c79c5d12fd76513b13bf66c98f7d37ae1caeb28fd2da54843cd8"
+    },
+    {
+      "file": "tools/rust-r4ghi/joint-g1/effective-v2/migration.sql",
+      "bytes": 80764,
+      "sha256": "ee5305d17f692efa97a66ded226ce041d95bb1926667a62f709e0118f11f5c00"
+    },
+    {
+      "file": "docs/design/rust-r4ghi/g2-corrective01.sql",
+      "bytes": 558,
+      "sha256": "3a18709a4536814ff4dc0c8a17f053e47dcc44b07aa53864641bf0e9b4df7063"
+    },
+    {
+      "file": "docs/design/rust-r4ghi/orm-promotion01.json",
+      "bytes": 6461,
+      "sha256": "d27db3217795eac16446da9a5d316de2c757427d53b97ae9f66f244c8046cc74"
+    },
+    {
+      "file": "tools/rust-r4ghi/check-orm-diff96-03.mjs",
+      "bytes": 2596,
+      "sha256": "881aa93d42563f4c0af680102a5ccd1c2cbba8a738e56e537d6306cc93903ab0"
+    },
+    {
+      "file": "tools/rust-r4ghi/check-migration96-02.mjs",
+      "bytes": 2571,
+      "sha256": "0aee0ec2887feb934b0ca7b147607516ba4745b785a090440ec7c34036cd80fd"
+    },
+    {
+      "file": "apps/poms-api/src/config/load-env.ts",
+      "bytes": 2798,
+      "sha256": "20627df84a3f9812f08de541c8add9a8ae5a6ce927155da4c19026846ec5edf0"
+    }
+  ],
+  "actualDump": {
+    "sha256": "2c147060fbc05d258f4763dcca86f485fe5d609a6b11df209969141adc78d4b9",
+    "bytes": 93097,
+    "actualMigrationCheckExit": 1,
+    "actualDumpExit": 0,
+    "neitherIsProductAcceptance": true
+  },
+  "statementClassification": {
+    "alterTableStatements": 466,
+    "dropFK": 46,
+    "addCHECK": 417,
+    "addFKRuleRewrite": 1,
+    "dropUUIDDefault": 2,
+    "comments": 21,
+    "createOrDropTableOrColumn": 0,
+    "typeOrNullabilityDDL": 0,
+    "noIndexDDL": "No CREATE/DROP/RENAME INDEX appears in this dump; do not call all remaining changes historical index-name noise."
+  },
+  "extraFKDrops": {
+    "historicalMainSQLGuardNames": [
+      "fk_r4_readiness_contract_project",
+      "fk_r4_readiness_current_preparation",
+      "fk_r4_readiness_diff_scope",
+      "fk_r4d_readiness_amendment",
+      "fk_r4d_amendment_after",
+      "fk_r4d_amendment_before",
+      "fk_r4d_amendment_preparation",
+      "fk_r4d_amendment_project",
+      "fk_r4d_amendment_readiness",
+      "fk_r4d_amendment_review",
+      "fk_r4d_impact_basis_item",
+      "fk_r4d_impact_rebaseline",
+      "fk_r4_diff_baseline_project",
+      "fk_r4_diff_contract_project",
+      "fk_r4_preparation_activated_snapshot",
+      "fk_r4_preparation_contract_project",
+      "fk_r4_preparation_diff_scope",
+      "fk_r4_preparation_readiness_scope",
+      "fk_r4d_preparation_amendment",
+      "fk_r4d_preparation_before",
+      "fk_r4_snapshot_preparation_contract",
+      "fk_r4d_snapshot_amendment",
+      "fk_r4d_handover_basis",
+      "fk_r4d_receipt_freeze_basis",
+      "fk_r4d_receipt_freeze_handover",
+      "fk_r4d_payload_basis",
+      "fk_r4d_payload_handover",
+      "fk_r4d_role_handover",
+      "fk_r4d_role_person",
+      "fk_r4e_invoice_currency_snapshot",
+      "fk_r4_review_preparation_contract",
+      "fk_r4d_review_amendment",
+      "fk_r4_plan_contract_project",
+      "fk_r4_plan_preparation_source",
+      "fk_r4_plan_snapshot_scope",
+      "fk_r4_plan_init_contract",
+      "fk_r4_plan_init_snapshot",
+      "fk_r4d_member_amendment",
+      "fk_r4d_member_basis",
+      "fk_r4d_member_contract",
+      "fk_r4d_member_plan",
+      "fk_r4d_member_preparation",
+      "fk_r4d_member_readiness",
+      "fk_r4d_member_snapshot"
+    ],
+    "M96SQLPurposeGuard": "fk_jghi_upload_condition_scope",
+    "existingSingleFKRuleRewrite": "operating_restatement_record_period_end_snapshot_id_foreign",
+    "classification": "44 historical + 1 M96 SQL guard absent current ORM target, plus 1 actual rules mismatch. Guard absence from ORM target does not authorize removal from DB or imply ORM cannot represent every such guard."
+  },
+  "checkReadds": {
+    "count": 417,
+    "allNamesAlreadyExistInActualCatalog": true,
+    "explanation": "App role read via explicit native.env overrides initial owner env; PostgreSqlSchemaHelper.getChecksSQL joins information_schema.constraint_column_usage, whose owner-only visibility filters non-owned table columns. Parent confirmed app role; reviewer did not send SQL. Owner read-only follow-up remains parent work.",
+    "postgres15OfficialSource": "https://www.postgresql.org/docs/15/infoschema-constraint-column-usage.html",
+    "expressionEquivalenceClaimed": false
+  },
+  "registeredTargets": {
+    "sourceFileCount": 22,
+    "existingAffectedTables": 20,
+    "newTables": 19,
+    "newPhysicalColumns": 269,
+    "allTargetColumns": 362,
+    "allTargetFKs": 125,
+    "newTableFKs": 90,
+    "newTableCheckNames": 139,
+    "bothDatabasesMismatches": [],
+    "catalogComparisonArtifact": "catalog-all-targets-check18.json"
+  },
+  "M96ActualPurpose": {
+    "poms_r4ghi_native": {
+      "columns": [
+        {
+          "schema": "poms",
+          "table_name": "attachment_upload_session",
+          "attnum": 33,
+          "attname": "project_scope_context_version",
+          "type": "integer",
+          "attnotnull": true,
+          "attidentity": "",
+          "attgenerated": "",
+          "acl": null,
+          "default_expr": "0"
+        },
+        {
+          "schema": "poms",
+          "table_name": "attachment_upload_session",
+          "attnum": 34,
+          "attname": "completion_record_id",
+          "type": "uuid",
+          "attnotnull": false,
+          "attidentity": "",
+          "attgenerated": "",
+          "acl": null,
+          "default_expr": null
+        },
+        {
+          "schema": "poms",
+          "table_name": "attachment_upload_session",
+          "attnum": 35,
+          "attname": "completion_condition_id",
+          "type": "uuid",
+          "attnotnull": false,
+          "attidentity": "",
+          "attgenerated": "",
+          "acl": null,
+          "default_expr": null
+        }
+      ],
+      "FK": [
+        {
+          "oid": "27757",
+          "schema": "poms",
+          "table_name": "attachment_upload_session",
+          "conname": "fk_jghi_upload_condition_scope",
+          "definition": "FOREIGN KEY (completion_condition_id, completion_record_id, target_id) REFERENCES poms.project_completion_condition(id, completion_record_id, project_id) ON DELETE RESTRICT"
+        }
+      ],
+      "immutableTrigger": [
+        {
+          "oid": "27763",
+          "schema": "poms",
+          "table_name": "attachment_upload_session",
+          "tgname": "jghi_upload_condition_context_immutable",
+          "definition": "CREATE TRIGGER jghi_upload_condition_context_immutable BEFORE UPDATE ON poms.attachment_upload_session FOR EACH ROW EXECUTE FUNCTION poms.jghi_upload_condition_context_immutable()",
+          "tgenabled": "O"
+        }
+      ]
+    },
+    "poms_r4ghi_rust": {
+      "columns": [
+        {
+          "schema": "poms",
+          "table_name": "attachment_upload_session",
+          "attnum": 33,
+          "attname": "project_scope_context_version",
+          "type": "integer",
+          "attnotnull": true,
+          "attidentity": "",
+          "attgenerated": "",
+          "acl": null,
+          "default_expr": "0"
+        },
+        {
+          "schema": "poms",
+          "table_name": "attachment_upload_session",
+          "attnum": 34,
+          "attname": "completion_record_id",
+          "type": "uuid",
+          "attnotnull": false,
+          "attidentity": "",
+          "attgenerated": "",
+          "acl": null,
+          "default_expr": null
+        },
+        {
+          "schema": "poms",
+          "table_name": "attachment_upload_session",
+          "attnum": 35,
+          "attname": "completion_condition_id",
+          "type": "uuid",
+          "attnotnull": false,
+          "attidentity": "",
+          "attgenerated": "",
+          "acl": null,
+          "default_expr": null
+        }
+      ],
+      "FK": [
+        {
+          "oid": "27766",
+          "schema": "poms",
+          "table_name": "attachment_upload_session",
+          "conname": "fk_jghi_upload_condition_scope",
+          "definition": "FOREIGN KEY (completion_condition_id, completion_record_id, target_id) REFERENCES poms.project_completion_condition(id, completion_record_id, project_id) ON DELETE RESTRICT"
+        }
+      ],
+      "immutableTrigger": [
+        {
+          "oid": "27772",
+          "schema": "poms",
+          "table_name": "attachment_upload_session",
+          "tgname": "jghi_upload_condition_context_immutable",
+          "definition": "CREATE TRIGGER jghi_upload_condition_context_immutable BEFORE UPDATE ON poms.attachment_upload_session FOR EACH ROW EXECUTE FUNCTION poms.jghi_upload_condition_context_immutable()",
+          "tgenabled": "O"
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "id": "IR05-05",
+      "priority": "P2",
+      "status": "open-mapping-limitation-DB-defaults-remain-correct",
+      "files": [
+        {
+          "file": "apps/poms-api/src/app/features/project/project.entity.ts",
+          "line": 63
+        },
+        {
+          "file": "apps/poms-api/src/app/features/project-cost/project-operating-snapshot.entity.ts",
+          "line": 108
+        }
+      ],
+      "counterexample": "MikroORM7 target columns project.id/project_operating_snapshot.id have default:null and primary:false after shared composite relation overwrites; actual catalog both defaults gen_random_uuid() and PK indexes remain correct. Dump proposes DROP DEFAULT at physical lines188/289 (statement tokenizer offset differs by banner/blank lines).",
+      "cause": "Metadata.sync always sorts primary props first (core/typings.js145); DatabaseTable.addColumnFromProperty overwrites shared field default/comment/primary using later relation options (sql/schema/DatabaseTable.js88-117).",
+      "failedCandidate": "Move unchanged scalar primary id after hidden relation declarations; actual 135-table offline schema remains byte-semantically equal; candidate is not admissible.",
+      "requiredBoundary": "Preserve SQL default/PK and exact FK scope; do not assign gen_random_uuid to every composite column, remove FK, or hide changes with broad ignoreSchemaChanges.",
+      "dumpPhysicalLines": [
+        188,
+        289
+      ]
+    },
+    {
+      "id": "IR05-06",
+      "priority": "P2",
+      "status": "open-explicit-FK-rule-mapping-difference",
+      "files": [
+        {
+          "file": "apps/poms-api/src/app/features/project-cost/operating-restatement-record.entity.ts",
+          "line": 49
+        }
+      ],
+      "counterexample": "Existing operating_restatement_record_period_end_snapshot_id_foreign actual/catalog NO ACTION; nullable ORM relation derives deleteRule:set null. Dump drops and re-adds it ON DELETE SET NULL at physical lines21/346. Same-project new composite fk_r4g_restatement_period remains NO ACTION.",
+      "requiredBoundary": "Explicitly map original delete/update rules to keep current SQL authority; do not treat as a harmless index rename or execute the generated FK rewrite.",
+      "dumpPhysicalLines": [
+        21,
+        346
+      ]
+    }
+  ],
+  "commandStabilityArtifact": "command-evidence-check18.json",
+  "offlineSourceMirrorArtifact": "mirror-source-hash-check18.json",
+  "noSQLExecutedByReviewer": true,
+  "noProductOrGitMutationByReviewer": true,
+  "reviewerAuthoredPKCandidateNeedsRootReview": true,
+  "G3Certified": false,
+  "G4Certified": false
+}

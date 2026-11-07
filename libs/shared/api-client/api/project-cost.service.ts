@@ -59,6 +59,8 @@ import { ExpenseRecordSummary } from '../model/expense-record-summary';
 // @ts-ignore
 import { OperatingBaselinePackageSummary } from '../model/operating-baseline-package-summary';
 // @ts-ignore
+import { OperatingCommandResult } from '../model/operating-command-result';
+// @ts-ignore
 import { OperatingRestatementSummary } from '../model/operating-restatement-summary';
 // @ts-ignore
 import { OperatingSignalEvaluationView } from '../model/operating-signal-evaluation-view';
@@ -73,7 +75,7 @@ import { ProjectBusinessOutcomeOverviewView } from '../model/project-business-ou
 // @ts-ignore
 import { ProjectOperatingSnapshotSummary } from '../model/project-operating-snapshot-summary';
 // @ts-ignore
-import { ProjectUnifiedAccountingView } from '../model/project-unified-accounting-view';
+import { ProjectUnifiedAccountingResponse } from '../model/project-unified-accounting-response';
 // @ts-ignore
 import { ProjectVarianceRiskExplanationView } from '../model/project-variance-risk-explanation-view';
 // @ts-ignore
@@ -210,6 +212,15 @@ export interface ProjectCostControllerGetProjectOperatingSnapshotRequestParams {
 
 export interface ProjectCostControllerGetProjectUnifiedAccountingRequestParams {
     projectId: string;
+    view?: 'preparation';
+    intent?: 'baseline-activation' | 'snapshot-create' | 'period-close' | 'restatement' | 'receipt-basis';
+    snapshotMode?: 'realtime' | 'period-end';
+    periodKey?: string;
+    restatesSnapshotId?: string;
+    periodEndSnapshotId?: string;
+    receiptId?: string;
+    /** JSON 编码的 exact ExpectedRef 数组；服务端发现并核对真实完整影响闭包。 */
+    correctionSourceRefs?: string;
 }
 
 export interface ProjectCostControllerGetProjectVarianceRiskExplanationRequestParams {
@@ -309,10 +320,10 @@ export class ProjectCostApi extends BaseService {
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public projectCostControllerActivateOperatingBaselinePackage(requestParameters: ProjectCostControllerActivateOperatingBaselinePackageRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public projectCostControllerActivateOperatingBaselinePackage(requestParameters: ProjectCostControllerActivateOperatingBaselinePackageRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public projectCostControllerActivateOperatingBaselinePackage(requestParameters: ProjectCostControllerActivateOperatingBaselinePackageRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public projectCostControllerActivateOperatingBaselinePackage(requestParameters: ProjectCostControllerActivateOperatingBaselinePackageRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public projectCostControllerActivateOperatingBaselinePackage(requestParameters: ProjectCostControllerActivateOperatingBaselinePackageRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<OperatingCommandResult>;
+    public projectCostControllerActivateOperatingBaselinePackage(requestParameters: ProjectCostControllerActivateOperatingBaselinePackageRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<OperatingCommandResult>>;
+    public projectCostControllerActivateOperatingBaselinePackage(requestParameters: ProjectCostControllerActivateOperatingBaselinePackageRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<OperatingCommandResult>>;
+    public projectCostControllerActivateOperatingBaselinePackage(requestParameters: ProjectCostControllerActivateOperatingBaselinePackageRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const activateOperatingBaselinePackageRequest = requestParameters?.activateOperatingBaselinePackageRequest;
         if (activateOperatingBaselinePackageRequest === null || activateOperatingBaselinePackageRequest === undefined) {
             throw new Error('Required parameter activateOperatingBaselinePackageRequest was null or undefined when calling projectCostControllerActivateOperatingBaselinePackage.');
@@ -323,6 +334,7 @@ export class ProjectCostApi extends BaseService {
         // authentication (pomsSession) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
         ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -355,7 +367,7 @@ export class ProjectCostApi extends BaseService {
 
         let localVarPath = `/api/operating-baseline-packages`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
+        return this.httpClient.request<OperatingCommandResult>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: activateOperatingBaselinePackageRequest,
@@ -738,10 +750,10 @@ export class ProjectCostApi extends BaseService {
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public projectCostControllerCreateOperatingRestatement(requestParameters: ProjectCostControllerCreateOperatingRestatementRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public projectCostControllerCreateOperatingRestatement(requestParameters: ProjectCostControllerCreateOperatingRestatementRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public projectCostControllerCreateOperatingRestatement(requestParameters: ProjectCostControllerCreateOperatingRestatementRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public projectCostControllerCreateOperatingRestatement(requestParameters: ProjectCostControllerCreateOperatingRestatementRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public projectCostControllerCreateOperatingRestatement(requestParameters: ProjectCostControllerCreateOperatingRestatementRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<OperatingCommandResult>;
+    public projectCostControllerCreateOperatingRestatement(requestParameters: ProjectCostControllerCreateOperatingRestatementRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<OperatingCommandResult>>;
+    public projectCostControllerCreateOperatingRestatement(requestParameters: ProjectCostControllerCreateOperatingRestatementRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<OperatingCommandResult>>;
+    public projectCostControllerCreateOperatingRestatement(requestParameters: ProjectCostControllerCreateOperatingRestatementRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const createOperatingRestatementRequest = requestParameters?.createOperatingRestatementRequest;
         if (createOperatingRestatementRequest === null || createOperatingRestatementRequest === undefined) {
             throw new Error('Required parameter createOperatingRestatementRequest was null or undefined when calling projectCostControllerCreateOperatingRestatement.');
@@ -752,6 +764,7 @@ export class ProjectCostApi extends BaseService {
         // authentication (pomsSession) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
         ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -784,7 +797,7 @@ export class ProjectCostApi extends BaseService {
 
         let localVarPath = `/api/operating-restatements`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
+        return this.httpClient.request<OperatingCommandResult>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: createOperatingRestatementRequest,
@@ -806,10 +819,10 @@ export class ProjectCostApi extends BaseService {
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public projectCostControllerCreatePeriodClosingSnapshot(requestParameters: ProjectCostControllerCreatePeriodClosingSnapshotRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public projectCostControllerCreatePeriodClosingSnapshot(requestParameters: ProjectCostControllerCreatePeriodClosingSnapshotRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public projectCostControllerCreatePeriodClosingSnapshot(requestParameters: ProjectCostControllerCreatePeriodClosingSnapshotRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public projectCostControllerCreatePeriodClosingSnapshot(requestParameters: ProjectCostControllerCreatePeriodClosingSnapshotRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public projectCostControllerCreatePeriodClosingSnapshot(requestParameters: ProjectCostControllerCreatePeriodClosingSnapshotRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<OperatingCommandResult>;
+    public projectCostControllerCreatePeriodClosingSnapshot(requestParameters: ProjectCostControllerCreatePeriodClosingSnapshotRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<OperatingCommandResult>>;
+    public projectCostControllerCreatePeriodClosingSnapshot(requestParameters: ProjectCostControllerCreatePeriodClosingSnapshotRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<OperatingCommandResult>>;
+    public projectCostControllerCreatePeriodClosingSnapshot(requestParameters: ProjectCostControllerCreatePeriodClosingSnapshotRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const createPeriodClosingSnapshotRequest = requestParameters?.createPeriodClosingSnapshotRequest;
         if (createPeriodClosingSnapshotRequest === null || createPeriodClosingSnapshotRequest === undefined) {
             throw new Error('Required parameter createPeriodClosingSnapshotRequest was null or undefined when calling projectCostControllerCreatePeriodClosingSnapshot.');
@@ -820,6 +833,7 @@ export class ProjectCostApi extends BaseService {
         // authentication (pomsSession) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
         ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -852,7 +866,7 @@ export class ProjectCostApi extends BaseService {
 
         let localVarPath = `/api/period-closing-snapshots`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
+        return this.httpClient.request<OperatingCommandResult>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: createPeriodClosingSnapshotRequest,
@@ -947,10 +961,10 @@ export class ProjectCostApi extends BaseService {
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public projectCostControllerCreateProjectOperatingSnapshot(requestParameters: ProjectCostControllerCreateProjectOperatingSnapshotRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public projectCostControllerCreateProjectOperatingSnapshot(requestParameters: ProjectCostControllerCreateProjectOperatingSnapshotRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public projectCostControllerCreateProjectOperatingSnapshot(requestParameters: ProjectCostControllerCreateProjectOperatingSnapshotRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public projectCostControllerCreateProjectOperatingSnapshot(requestParameters: ProjectCostControllerCreateProjectOperatingSnapshotRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public projectCostControllerCreateProjectOperatingSnapshot(requestParameters: ProjectCostControllerCreateProjectOperatingSnapshotRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<OperatingCommandResult>;
+    public projectCostControllerCreateProjectOperatingSnapshot(requestParameters: ProjectCostControllerCreateProjectOperatingSnapshotRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<OperatingCommandResult>>;
+    public projectCostControllerCreateProjectOperatingSnapshot(requestParameters: ProjectCostControllerCreateProjectOperatingSnapshotRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<OperatingCommandResult>>;
+    public projectCostControllerCreateProjectOperatingSnapshot(requestParameters: ProjectCostControllerCreateProjectOperatingSnapshotRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const createProjectOperatingSnapshotRequest = requestParameters?.createProjectOperatingSnapshotRequest;
         if (createProjectOperatingSnapshotRequest === null || createProjectOperatingSnapshotRequest === undefined) {
             throw new Error('Required parameter createProjectOperatingSnapshotRequest was null or undefined when calling projectCostControllerCreateProjectOperatingSnapshot.');
@@ -961,6 +975,7 @@ export class ProjectCostApi extends BaseService {
         // authentication (pomsSession) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
         ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -993,7 +1008,7 @@ export class ProjectCostApi extends BaseService {
 
         let localVarPath = `/api/project-operating-snapshots`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
+        return this.httpClient.request<OperatingCommandResult>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: createProjectOperatingSnapshotRequest,
@@ -1723,14 +1738,96 @@ export class ProjectCostApi extends BaseService {
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public projectCostControllerGetProjectUnifiedAccounting(requestParameters: ProjectCostControllerGetProjectUnifiedAccountingRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ProjectUnifiedAccountingView>;
-    public projectCostControllerGetProjectUnifiedAccounting(requestParameters: ProjectCostControllerGetProjectUnifiedAccountingRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ProjectUnifiedAccountingView>>;
-    public projectCostControllerGetProjectUnifiedAccounting(requestParameters: ProjectCostControllerGetProjectUnifiedAccountingRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ProjectUnifiedAccountingView>>;
+    public projectCostControllerGetProjectUnifiedAccounting(requestParameters: ProjectCostControllerGetProjectUnifiedAccountingRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ProjectUnifiedAccountingResponse>;
+    public projectCostControllerGetProjectUnifiedAccounting(requestParameters: ProjectCostControllerGetProjectUnifiedAccountingRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ProjectUnifiedAccountingResponse>>;
+    public projectCostControllerGetProjectUnifiedAccounting(requestParameters: ProjectCostControllerGetProjectUnifiedAccountingRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ProjectUnifiedAccountingResponse>>;
     public projectCostControllerGetProjectUnifiedAccounting(requestParameters: ProjectCostControllerGetProjectUnifiedAccountingRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const projectId = requestParameters?.projectId;
         if (projectId === null || projectId === undefined) {
             throw new Error('Required parameter projectId was null or undefined when calling projectCostControllerGetProjectUnifiedAccounting.');
         }
+        const view = requestParameters?.view;
+        const intent = requestParameters?.intent;
+        const snapshotMode = requestParameters?.snapshotMode;
+        const periodKey = requestParameters?.periodKey;
+        const restatesSnapshotId = requestParameters?.restatesSnapshotId;
+        const periodEndSnapshotId = requestParameters?.periodEndSnapshotId;
+        const receiptId = requestParameters?.receiptId;
+        const correctionSourceRefs = requestParameters?.correctionSourceRefs;
+
+        let localVarQueryParameters = new OpenApiHttpParams(this.encoder);
+
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            'view',
+            <any>view,
+            QueryParamStyle.Form,
+            true,
+        );
+
+
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            'intent',
+            <any>intent,
+            QueryParamStyle.Form,
+            true,
+        );
+
+
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            'snapshotMode',
+            <any>snapshotMode,
+            QueryParamStyle.Form,
+            true,
+        );
+
+
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            'periodKey',
+            <any>periodKey,
+            QueryParamStyle.Form,
+            true,
+        );
+
+
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            'restatesSnapshotId',
+            <any>restatesSnapshotId,
+            QueryParamStyle.Form,
+            true,
+        );
+
+
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            'periodEndSnapshotId',
+            <any>periodEndSnapshotId,
+            QueryParamStyle.Form,
+            true,
+        );
+
+
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            'receiptId',
+            <any>receiptId,
+            QueryParamStyle.Form,
+            true,
+        );
+
+
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            'correctionSourceRefs',
+            <any>correctionSourceRefs,
+            QueryParamStyle.Form,
+            true,
+        );
+
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -1761,9 +1858,10 @@ export class ProjectCostApi extends BaseService {
 
         let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/unified-accounting`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<ProjectUnifiedAccountingView>('get', `${basePath}${localVarPath}`,
+        return this.httpClient.request<ProjectUnifiedAccountingResponse>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                params: localVarQueryParameters.toHttpParams(),
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,

@@ -7,16 +7,26 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ProjectCompletionConditionInput } from './project-completion-condition-input';
+import { LifecycleEvidenceRef } from './lifecycle-evidence-ref';
 
 
 export interface CreateProjectCompletionRecordRequest {
-    acceptanceRecordId: string;
     completionResult: CreateProjectCompletionRecordRequestCompletionResultEnum;
+    acceptanceRecordId: string;
     completedAt: string;
     completionSummary: string;
     evidenceSummary: string;
+    expectedProjectVersion: number;
+    evidenceRefs: Array<LifecycleEvidenceRef>;
+    expectedAcceptanceVersion: number;
+    completionConditions?: Array<ProjectCompletionConditionInput>;
+    inputVersion: CreateProjectCompletionRecordRequestInputVersionEnum;
 }
 export enum CreateProjectCompletionRecordRequestCompletionResultEnum {
     Completed = 'completed',
     ConditionalCompleted = 'conditional-completed'
+};
+export enum CreateProjectCompletionRecordRequestInputVersionEnum {
+    ServerDerivedV1 = 'server-derived-v1'
 };

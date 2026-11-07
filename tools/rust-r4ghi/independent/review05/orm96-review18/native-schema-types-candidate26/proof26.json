@@ -1,0 +1,114 @@
+{
+  "kind": "full-Native-project-type-projection-correction-proof",
+  "capturedAt": "2026-11-07T10:05:52.291967+00:00",
+  "manifest": {
+    "kind": "reviewer-authored-exact-public-MikroORM-schema-type-forwarder",
+    "path": "apps/poms-api/src/types/mikro-orm-schema.d.ts",
+    "baseSHA256": null,
+    "candidateSHA256": "c8f58d580d2354190ba4335899614c5f4c24663dcb7e1ef8040c2e396ffd12a3",
+    "candidateBytes": 567,
+    "reviewerAuthoredNeedsRootReview": true,
+    "G3Certified": false
+  },
+  "inputs": [
+    {
+      "file": "apps/poms-api/tsconfig.app.json",
+      "sha256": "495e0f03c8d1f673c91e690a9a6db2b563eadcfe1f73f8110e08e50e2acee115"
+    },
+    {
+      "file": "apps/poms-api/tsconfig.json",
+      "sha256": "a7e6c56b43639878fee3d7123f028a7ae337a9a7f5ca3274e2db3f3cee865727"
+    },
+    {
+      "file": "tsconfig.base.json",
+      "sha256": "dbc80f2af10676eafcd3a6bf9e83beb0dc24f57edf4f510af36773fe22d14242"
+    },
+    {
+      "file": "node_modules/@mikro-orm/core/package.json",
+      "sha256": "504ba0239af796c71407eec88c65915046ac2bd3deed870ff97ef014c21f215c"
+    },
+    {
+      "file": "node_modules/@mikro-orm/core/utils/AbstractSchemaGenerator.d.ts",
+      "sha256": "1ea453ce62e29c52bf0a8dce5f66cdf9dc3f305c052d2b7a5c531de6ecad629b"
+    }
+  ],
+  "rootCause": "App Node10 module resolver does not follow core/schema package exports. SqlSchemaGenerator.d.ts unresolved base is hidden by existing skipLibCheck, so inherited ctor/config/platform vanish. Root isolated bundler resolver did resolve public export.",
+  "fullAppBaseDiagnostics": [
+    {
+      "code": 2554,
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/core/persistence/poms-schema-generator.ts",
+      "text": "Expected 0 arguments, but got 1."
+    },
+    {
+      "code": 2339,
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/core/persistence/poms-schema-generator.ts",
+      "text": "Property 'config' does not exist on type 'PomsSchemaGenerator'."
+    },
+    {
+      "code": 2339,
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/core/persistence/poms-schema-generator.ts",
+      "text": "Property 'platform' does not exist on type 'PomsSchemaGenerator'."
+    },
+    {
+      "code": 2339,
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/core/persistence/poms-schema-generator.ts",
+      "text": "Property 'config' does not exist on type 'PomsSchemaGenerator'."
+    },
+    {
+      "code": 2339,
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/core/persistence/poms-schema-generator.ts",
+      "text": "Property 'platform' does not exist on type 'PomsSchemaGenerator'."
+    },
+    {
+      "code": 2339,
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/core/persistence/poms-schema-generator.ts",
+      "text": "Property 'config' does not exist on type 'PomsSchemaGenerator'."
+    }
+  ],
+  "fullAppCandidateDiagnostics": [],
+  "sameAppOptions": {
+    "module": "CommonJS",
+    "moduleResolution": "Node10",
+    "skipLibCheckUnchanged": true,
+    "noEmit": true
+  },
+  "fullAppRootCount": 364,
+  "actualNonDeclarationSourceCount": 402,
+  "allBaseCandidateNegativeSourcePinsSame": true,
+  "realTypeForwardingEvidence": {
+    "constructorSignatureCount": 1,
+    "constructorParameter": "AbstractSqlDriver<AbstractSqlConnection, AbstractSqlPlatform> | SqlEntityManager<AbstractSqlDriver<AbstractSqlConnection, AbstractSqlPlatform>>",
+    "constructorParameterIsAny": false,
+    "inherited": {
+      "config": {
+        "present": true,
+        "type": "Configuration<IDatabaseDriver<Connection>, EntityManager<IDatabaseDriver<Connection>>>",
+        "isAny": false
+      },
+      "platform": {
+        "present": true,
+        "type": "AbstractSqlPlatform",
+        "isAny": false
+      }
+    }
+  },
+  "negativeConstructorDiagnostics": [
+    {
+      "code": 2345,
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/types/__schema_type_negative_probe26.ts",
+      "text": "Argument of type 'string' is not assignable to parameter of type 'AbstractSqlDriver<AbstractSqlConnection, AbstractSqlPlatform> | SqlEntityManager<AbstractSqlDriver<AbstractSqlConnection, AbstractSqlPlatform>>'."
+    },
+    {
+      "code": 2554,
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/types/__schema_type_negative_probe26.ts",
+      "text": "Expected 1 arguments, but got 0."
+    }
+  ],
+  "noAnyOrUncheckedCast": true,
+  "noHandwrittenConstructorOrProtectedFieldStubs": true,
+  "declarationOnlyNoRuntimeJSChange": true,
+  "RootFilesEditedByReviewer": false,
+  "SQLExecuted": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

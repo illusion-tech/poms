@@ -1,0 +1,48 @@
+{
+  "qualification": "Static counterexamples against captured, uncompiled candidates. No live product or database requests executed.",
+  "scopeLegacyMissingOrg": {
+    "proposalSHA256": "673a1d159f4a021061f353325b5977523c827f2cee91601fb962cdaede1584b5",
+    "inputFacts": {
+      "actorIdsMatchSessionAndSnapshot": true,
+      "actorAccountActive": true,
+      "routePermission": "contract:finance:manage",
+      "projectOwnerEqualsActor": true,
+      "projectOwnerOrgId": null,
+      "currentDParticipant": false,
+      "actorMemberships": [],
+      "requestedAction": "OperatingRead"
+    },
+    "sourceBranchTrace": [
+      {"lines": "699-708", "owner_read": true, "owner_org_active": false, "owner_write": false, "owner_allowed": true},
+      {"lines": "737-755", "duty_needed": false, "optional_duty": false, "part": null},
+      {"lines": "756-783", "full": true, "scope_kind": "FullProject"},
+      {"lines": "837-845", "permitted": true, "allowed": true},
+      {"lines": "1017-1073", "readAccessSetAcceptsFullProof": true}
+    ],
+    "expected": "Frozen OwnerRead explicitly restricts old missing-org cases to a bounded non-sensitive anchor. It must not yield FullProject for OperatingRead or CommissionAssignment read.",
+    "observedByStaticBranchEvaluation": "Returns a FullProject proof and can enter a read VerifiedOperatingAccessSet without a real organization membership or D relationship. The proposal is not applied yet."
+  },
+  "completionNotKeyword": {
+    "operationId": "ProjectController_createProjectCompletionRecord",
+    "request": {
+      "inputVersion": "server-derived-v1",
+      "acceptanceRecordId": "11111111-1111-4111-8111-111111111111",
+      "completionResult": "completed",
+      "completedAt": "2026-11-06T00:00:00Z",
+      "completionSummary": "complete",
+      "evidenceSummary": "real completion evidence",
+      "expectedProjectVersion": 1,
+      "expectedAcceptanceVersion": 1,
+      "evidenceRefs": [{"attachmentLinkId": "11111111-1111-4111-8111-111111111111"}],
+      "completionConditions": [{
+        "summary": "a condition which cannot accompany completed",
+        "responsibleUserId": "11111111-1111-4111-8111-111111111111",
+        "dueAt": "2026-11-07T00:00:00Z",
+        "evidenceRefs": [{"attachmentLinkId": "11111111-1111-4111-8111-111111111111"}]
+      }]
+    },
+    "expected": "400 at modern structural validation: CreateProjectCompletionRecordRequest.allOf[0].else.not prohibits completionConditions for completed.",
+    "staticImplementationTrace": "schema::normalize retains the known property. matches_schema implements allOf/anyOf/oneOf/if/then/else but omits not. The generated request struct has completion_conditions: Option<Vec<...>>, so deserialization is not a second rejection boundary.",
+    "notClaimed": "No claim that downstream lifecycle validation or SQL accepts inconsistent completion facts."
+  }
+}

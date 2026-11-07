@@ -1,0 +1,272 @@
+{
+  "authority": "Root alone owns these types in apps/poms-api-rust/src/project_operating_common/model.rs; G/H import exactly this model. No independent shadows or policy in common.",
+  "modules": {
+    "model": "apps/poms-api-rust/src/project_operating_common/model.rs",
+    "hash": "apps/poms-api-rust/src/project_operating_common/hash.rs",
+    "loader": "apps/poms-api-rust/src/project_operating_common/loader.rs",
+    "scope": "apps/poms-api-rust/src/project_action_authorization/mod.rs",
+    "collector": "apps/poms-api-rust/src/project_operating/collector.rs",
+    "preparation": "apps/poms-api-rust/src/project_operating/preparation.rs",
+    "GService": "apps/poms-api-rust/src/project_operating/service.rs",
+    "HPolicy": "apps/poms-api-rust/src/project_operating_signals/policy.rs",
+    "HService": "apps/poms-api-rust/src/project_operating_signals/service.rs",
+    "correctionFacade": "apps/poms-api-rust/src/project_cost_governance/mod.rs"
+  },
+  "schemaAliases": {
+    "OperatingPreparation": "public-contracts.schema.json#/components/schemas/OperatingPreparation",
+    "OperatingSourceRow": "public-contracts.schema.json#/components/schemas/SourceRow",
+    "ExpectedRef": "public-contracts.schema.json#/components/schemas/ExpectedRef",
+    "SourceRef": "source-context.schema.json#/$defs/SourceRef",
+    "OperatingSourceContext": "source-context.schema.json (entire object)",
+    "OperatingCommandInput": "validated modern32 operation DTOs from dto-index.json, never raw Value/f64 money",
+    "CostDecisionInput": "public-contracts.schema.json#/components/schemas/CostDecisionInput",
+    "AffectedRestatementTarget": "public-contracts.schema.json#/components/schemas/AffectedRestatementTarget",
+    "FormalEligibility": "source-context.schema.json#/properties/formalEligibility",
+    "OperatingMetricKnowledge": "public-contracts.schema.json#/components/schemas/OperatingMetricKnowledge",
+    "OperatingGateStage": "public-contracts.schema.json#/components/schemas/OperatingGateStage",
+    "OperatingDataMaturityLevel": "public-contracts.schema.json#/components/schemas/OperatingDataMaturityLevel",
+    "OperatingSnapshotActionLevel": "public-contracts.schema.json#/components/schemas/OperatingSnapshotActionLevel",
+    "OperatingSignalLevel": "public-contracts.schema.json#/components/schemas/OperatingSignalLevel",
+    "OperatingRiskLevel": "public-contracts.schema.json#/components/schemas/OperatingRiskLevel",
+    "StageReclassificationCorrection": "public-contracts.schema.json#/components/schemas/StageReclassificationCorrection",
+    "TaxTreatmentReplacementCorrection": "public-contracts.schema.json#/components/schemas/TaxTreatmentReplacementCorrection"
+  },
+  "scalarTypes": {
+    "Uuid": "uuid::Uuid",
+    "Int4Version": "i32; actual row/logical1..2147483647",
+    "HeadVersion": "i32;0 means absent only",
+    "Sha256": "String exactly lower64 hex, private validated constructor",
+    "CurrencyCode": "String exactly proven[A-Z]{3}",
+    "OperatingMoneyCents": "private i128 wrapper,abs<=999999999999999999, exact cents; per-field nonnegative where required",
+    "UtcInstant": "chrono::DateTime<chrono::Utc>",
+    "BusinessDate": "chrono::NaiveDate",
+    "PeriodKey": "validated actual month/ISOweek String",
+    "OuterTxToken": "Root private opaque lifetime-bound token minted by the server for this exact borrowed outer transaction; no Serialize/Deserialize/public constructor and unrelated to HTTP request_id/correlation IDs",
+    "VerifiedOperatingAccessSet": "Root private nonserializable struct VerifiedOperatingAccessSet<'tx> {actor_id:Uuid,project_proofs:BTreeMap<Uuid,ProjectAccessProof>,outer_tx_token:&'tx OuterTxToken}; no public/request constructor"
+  },
+  "enums": {
+    "CollectLockMode": {
+      "ReadCoherent": "domain read-only; no business/source/classification writes; existing required security audit still participates",
+      "WriteLocked": "only validated write input; full impacted project/source rank locks and expected hash before effects"
+    },
+    "OperatingPreparationIntent": {
+      "BaselineActivation": {},
+      "SnapshotCreate": {
+        "mode": "SnapshotMode[Realtime|PeriodEnd]",
+        "period_key": "Option<PeriodKey>"
+      },
+      "PeriodClose": {
+        "period_key": "PeriodKey"
+      },
+      "Restatement": {
+        "scope": "RestatementScope[Live|Period]",
+        "restates_snapshot": "ExpectedRef",
+        "period_end_snapshot": "Option<ExpectedRef>"
+      },
+      "ReceiptBasis": {
+        "receipt": "ExpectedRef"
+      }
+    },
+    "OperatingCollectInput": {
+      "Preview": "OperatingPreparationIntent",
+      "ActivateBaseline": "ActivateOperatingBaselinePackageRequest",
+      "CaptureSnapshot": "CreateProjectOperatingSnapshotRequest",
+      "ClosePeriod": "CreatePeriodClosingSnapshotRequest",
+      "Restate": "CreateOperatingRestatementRequest"
+    },
+    "OperatingCollectionContext": {
+      "BaselineOnly": "OperatingBaselineSourceDraft",
+      "Snapshot": "OperatingSourceContext"
+    }
+  },
+  "structs": {
+    "OperatingBusinessWindow": {
+      "business_cutoff": "BusinessDate",
+      "knowledge_cutoff": "UtcInstant",
+      "source_window_start": "Option<BusinessDate>",
+      "source_window_end": "Option<BusinessDate>",
+      "period_key": "Option<PeriodKey>",
+      "business_timezone": "String fixed Asia/Hong_Kong"
+    },
+    "OperatingGeneratedIds": {
+      "baseline_source_id": "Option<Uuid>",
+      "snapshot_id": "Option<Uuid>",
+      "context_id": "Option<Uuid>",
+      "paired_period_id": "Option<Uuid>",
+      "restatement_batch_id": "Option<Uuid>"
+    },
+    "OperatingCollectPlan": {
+      "project_id": "Uuid",
+      "intent": "OperatingPreparationIntent",
+      "input": "OperatingCollectInput",
+      "window": "OperatingBusinessWindow",
+      "generated_ids": "OperatingGeneratedIds",
+      "access": "VerifiedOperatingAccessSet<'tx>; plan is OperatingCollectPlan<'tx>"
+    },
+    "OperatingLockedProjectState": {
+      "project_id": "Uuid",
+      "project_row_version": "Int4Version",
+      "head_row_version": "HeadVersion",
+      "baseline_package_ref": "Option<SourceRef>",
+      "current_snapshot_ref": "Option<SourceRef>",
+      "terminal_root_refs": "Vec<SourceRef>"
+    },
+    "ApprovedProjectCostTransition": {
+      "before_cost_ref": "SourceRef",
+      "after_cost_ref": "SourceRef",
+      "approval_source_refs": "Vec<SourceRef>",
+      "delta_net_cents": "OperatingMoneyCents"
+    },
+    "OperatingBaselineSourceDraft": {
+      "id": "Uuid",
+      "project_id": "Uuid",
+      "original_cost_ref": "SourceRef",
+      "current_cost_ref": "SourceRef",
+      "handover_basis_ref": "Option<SourceRef>",
+      "handover_rebaseline_ref": "Option<SourceRef>",
+      "currency": "CurrencyCode",
+      "approved_transitions": "Vec<ApprovedProjectCostTransition>",
+      "original_baseline_cost": "OperatingMoneyCents",
+      "handover_baseline_cost": "OperatingMoneyCents",
+      "execution_change_package_total": "OperatingMoneyCents",
+      "change_package_total": "OperatingMoneyCents",
+      "current_effective_baseline_cost": "OperatingMoneyCents",
+      "source_hash": "Sha256",
+      "payload_hash": "Sha256"
+    },
+    "VerifiedProducerTransition": {
+      "kind": "CorrectionKind[LaborReplacement|AllocationBatchReplacement|StageReclassification|TaxTreatmentReplacement]",
+      "before_refs": "Vec<SourceRef>",
+      "after_refs": "Vec<SourceRef>",
+      "evidence_refs": "Vec<SourceRef>",
+      "affected_project_ids": "Vec<Uuid>"
+    },
+    "OperatingCollection": {
+      "context": "OperatingCollectionContext",
+      "preparation": "OperatingPreparation",
+      "source_rows": "Vec<OperatingSourceRow>",
+      "locked_projects": "Vec<OperatingLockedProjectState>",
+      "producer_transitions": "Vec<VerifiedProducerTransition>",
+      "generated_ids": "OperatingGeneratedIds"
+    },
+    "VerifiedRestatementScope": {
+      "outer_tx_token": "&'tx OuterTxToken",
+      "operation_id": "Uuid server-generated correction batch",
+      "actor_id": "Uuid",
+      "input_hash": "Sha256 pre-effect whitelist",
+      "access": "&'tx VerifiedOperatingAccessSet<'tx>",
+      "locked_projects": "Vec<OperatingLockedProjectState>",
+      "consumed_context_refs": "Vec<SourceRef>",
+      "locked_source_refs": "Vec<SourceRef>",
+      "complete_terminal_target_refs": "Vec<SourceRef>"
+    },
+    "ValidatedStageCorrection": {
+      "request": "StageReclassificationCorrection exact schema alias",
+      "project_id": "Uuid",
+      "cost_before_ref": "SourceRef",
+      "attribution_before_ref": "SourceRef",
+      "verified_evidence_refs": "Vec<SourceRef>"
+    },
+    "ValidatedTaxCorrection": {
+      "request": "TaxTreatmentReplacementCorrection exact schema alias",
+      "project_id": "Uuid",
+      "tax_before_ref": "SourceRef",
+      "verified_source_refs": "Vec<SourceRef>",
+      "verified_evidence_refs": "Vec<SourceRef>"
+    },
+    "StageReclassificationPermit": {
+      "scope": "&'tx VerifiedRestatementScope<'tx>",
+      "cost_id": "Uuid",
+      "attribution_id": "Uuid",
+      "affected_allocation_basis_ids": "Vec<Uuid>"
+    },
+    "TaxTreatmentReplacementPermit": {
+      "scope": "&'tx VerifiedRestatementScope<'tx>",
+      "tax_treatment_id": "Uuid",
+      "project_id": "Uuid"
+    },
+    "OperatingEvaluationRefs": {
+      "snapshot_id": "Uuid",
+      "source_hash": "Sha256",
+      "evaluation_hash": "Sha256",
+      "maturity_evaluation_id": "Uuid",
+      "signal_evaluation_id": "Uuid",
+      "signal_row_version": "Int4Version",
+      "binding_ids": "BTreeMap<OperatingGateStage,Uuid> exactly4",
+      "summary_snapshot_ids": "BTreeMap<OperatingGateStage,Uuid> exactly4",
+      "current_action_level": "OperatingSnapshotActionLevel",
+      "policy_version": "String fixed r4h-operating-v1",
+      "certification": "OperatingEvaluationCertification"
+    },
+    "CostReadiness": {
+      "data_maturity_level": "OperatingDataMaturityLevel",
+      "cost_action_recommendation": "OperatingSnapshotActionLevel",
+      "reason_items": "Vec<OperatingReasonInternal>",
+      "known_metric_states": "OperatingMetricKnowledge",
+      "formal_eligibility": "FormalEligibility"
+    },
+    "OperatingReasonInternal": {
+      "reason_id": "Sha256",
+      "code": "String registered actual rule code",
+      "category": "OperatingReasonCategory",
+      "rule_id": "String",
+      "project_action": "OperatingSnapshotActionLevel",
+      "stage_actions": "BTreeMap<OperatingGateStage,OperatingSnapshotActionLevel> exactly4",
+      "is_primary_project_reason": "bool",
+      "primary_stages": "Vec<OperatingGateStage>",
+      "detail": "String private sensitive text",
+      "evidence_refs": "Vec<SourceRef>"
+    },
+    "OperatingGateDraft": {
+      "stage": "OperatingGateStage",
+      "system_action": "OperatingSnapshotActionLevel",
+      "effective_action": "OperatingSnapshotActionLevel",
+      "reason_ids": "Vec<Sha256>",
+      "primary_reason_ids": "Vec<Sha256>"
+    },
+    "OperatingEvaluationDraft": {
+      "cost_readiness": "CostReadiness",
+      "system_signal_level": "OperatingSignalLevel",
+      "system_risk_level": "OperatingRiskLevel",
+      "effective_signal_level": "OperatingSignalLevel",
+      "effective_risk_level": "OperatingRiskLevel",
+      "current_action_level": "OperatingSnapshotActionLevel",
+      "four_stage_drafts": "BTreeMap<OperatingGateStage,OperatingGateDraft> exactly4",
+      "all_reasons": "Vec<OperatingReasonInternal>",
+      "ratio_use": "GrossMarginRateUse[Unavailable|ObservationOnly|BusinessJudgment]",
+      "evaluation_status": "OperatingEvaluationStatus",
+      "certification": "OperatingEvaluationCertification",
+      "evaluation_hash": "Sha256"
+    },
+    "VerifiedMaterialityReview": {
+      "source_hash": "Sha256",
+      "evaluation_hash_before": "Sha256",
+      "policy_hash": "Sha256",
+      "actor_id": "Uuid",
+      "risk_decision": "OperatingRiskLevel only Normal|Attention|Risk",
+      "issue_codes": "Vec<String> verified unresolved actual issues",
+      "evidence_refs": "Vec<SourceRef> exact frozen-context members",
+      "rationale": "String nonempty<=2000 sensitive",
+      "overlay_hash": "Sha256"
+    }
+  },
+  "rules": [
+    "Intent and plan.project_id must exactly match the validated write DTO; expectedVersion/project/hash/refs/corrections read only from that one typed input, not duplicated shadows.",
+    "Preview input can only use ReadCoherent. Write input only WriteLocked. Root access set binds every impacted project and same caller TX. generated IDs never factual hash authority.",
+    "BaselineOnly never invents full context/snapshot/H evaluation. Snapshot branch always uses complete shared context; H pure derive precedes one final G INSERT.",
+    "OperatingPreparation is the exact public schema type, including all required explicit-null fields. No separate guessed G/H preparation object.",
+    "Actual source-set expansion returns typed409 scope-changed or restarts whole outerTX through Root coordinator; never add out-of-order project locks.",
+    "H alone constructs VerifiedMaterialityReview through verification; internal reason text/evidence never serializes directly into public DTO. Public projection produces OperatingReasonView.",
+    "Access proofs and every permit bind the same Root-minted private OuterTxToken/borrowed TX lifetime. HTTP request_id may be reused/client-correlated and is audit metadata only, never transaction identity."
+  ],
+  "signatures": {
+    "prepare": "pub async fn prepare_with_session(session:&mut CommonSession<'_,'_>, project_id:Uuid, intent:&OperatingPreparationIntent, actor:&Actor)->Result<OperatingPreparation,Error>",
+    "collect": "pub async fn collect_with_session(session:&mut CommonSession<'_,'_>, plan:&OperatingCollectPlan<'_>, lock_mode:CollectLockMode, actor:&Actor)->Result<OperatingCollection,Error>",
+    "load": "pub async fn load_frozen_context_with_session(session:&mut CommonSession<'_,'_>, snapshot_id:Uuid, expected_row_version:i32, expected_source_hash:&str)->Result<OperatingSourceContext,Error>",
+    "derive": "pub fn derive_operating_evaluation(context:&OperatingSourceContext, review:Option<&VerifiedMaterialityReview>)->Result<OperatingEvaluationDraft,Error>",
+    "readiness": "pub fn derive_cost_readiness(context:&OperatingSourceContext)->Result<CostReadiness,Error>",
+    "evaluate": "pub async fn evaluate_with_session(session:&mut CommonSession<'_,'_>, snapshot_id:Uuid, expected_row_version:i32, expected_source_hash:&str, actor:&Actor)->Result<OperatingEvaluationRefs,Error>",
+    "stageCorrection": "pub(crate) async fn reclassify_with_permit(session:&mut CommonSession<'_,'_>, input:&ValidatedStageCorrection, permit:&StageReclassificationPermit, actor:&Actor)->Result<VerifiedProducerTransition,Error>",
+    "taxCorrection": "pub(crate) async fn replace_tax_with_permit(session:&mut CommonSession<'_,'_>, input:&ValidatedTaxCorrection, permit:&TaxTreatmentReplacementPermit, actor:&Actor)->Result<VerifiedProducerTransition,Error>"
+  }
+}

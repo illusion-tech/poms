@@ -1,3 +1,5 @@
+import { parseR4GhiFrozenNativeValue } from "../../core/rust-r4ghi-native-protocol.guard";
+import { ProjectOperatingSnapshotSummarySchema, OperatingRestatementSummarySchema, OperatingSignalLevelSchema, OperatingRiskLevelSchema } from "../../core/rust-r4ghi-frozen-native-reference";
 import type {AccountingTaxTreatmentListView, CostStageAttributionHistoryView, SharedCostAllocationResultListView} from "../../core/rust-r4def-frozen-native-reference";
 import type {
     AccountingTaxTreatmentSnapshotSummary,
@@ -42,8 +44,8 @@ import {
     PaymentRecordStatusValue,
     type LaborCostPeriodType,
     type OperatingDataMaturityLevel,
-} from "@poms/shared-contracts";
-import type {ActivateOperatingBaselinePackageRequest, BusinessAccountingFeedbackView, CommissionGateBindingHistoryView, CommandResult, ConfirmExpenseRecordRequest, CreateExpenseProjectActualCostRecordRequest, CreateExpenseRecordRequest, CreateInvoiceProjectActualCostRecordRequest, CreateLaborProjectActualCostRecordRequest, CreateOperatingRestatementRequest, CreatePeriodClosingSnapshotRequest, CreatePaymentFactProjectActualCostRecordRequest, CreateProcurementProjectActualCostRecordRequest, CreateProjectActualCostRecordRequest, CreateProjectOperatingSnapshotRequest, OperatingBaselinePackageSummary, OperatingSignalEvaluationView, OperatingRestatementSummary, PeriodClosingSnapshotSummary, ProjectBusinessOutcomeOverviewView, ProjectOperatingSnapshotSummary, ProjectUnifiedAccountingView, ProjectVarianceRiskExplanationView, PublishInternalCostRateVersionRequest, ReviewCommissionGateBindingRequest, ReviewCommissionGateBindingResult, ReviewOperatingSignalEvaluationRequest, ReviewOperatingSignalEvaluationResult, ReplaceLaborCostRecordRequest, SensitiveStringFieldProjection, UpdateExpenseRecordRequest, UserPayload, VoidExpenseRecordRequest} from '@poms/shared-contracts';
+} from "../../core/rust-r4ghi-frozen-native-reference";
+import type {ActivateOperatingBaselinePackageRequest, BusinessAccountingFeedbackView, CommissionGateBindingHistoryView, CommandResult, ConfirmExpenseRecordRequest, CreateExpenseProjectActualCostRecordRequest, CreateExpenseRecordRequest, CreateInvoiceProjectActualCostRecordRequest, CreateLaborProjectActualCostRecordRequest, CreateOperatingRestatementRequest, CreatePeriodClosingSnapshotRequest, CreatePaymentFactProjectActualCostRecordRequest, CreateProcurementProjectActualCostRecordRequest, CreateProjectActualCostRecordRequest, CreateProjectOperatingSnapshotRequest, OperatingBaselinePackageSummary, OperatingSignalEvaluationView, OperatingRestatementSummary, PeriodClosingSnapshotSummary, ProjectBusinessOutcomeOverviewView, ProjectOperatingSnapshotSummary, ProjectUnifiedAccountingView, ProjectVarianceRiskExplanationView, PublishInternalCostRateVersionRequest, ReviewCommissionGateBindingRequest, ReviewCommissionGateBindingResult, ReviewOperatingSignalEvaluationRequest, ReviewOperatingSignalEvaluationResult, ReplaceLaborCostRecordRequest, SensitiveStringFieldProjection, UpdateExpenseRecordRequest, UserPayload, VoidExpenseRecordRequest} from "../../core/rust-r4ghi-frozen-native-reference";
 import { BusinessNumberService } from "../business-number/business-number.service";
 import { ContractFinanceRepository } from "../contract-finance/contract-finance.repository";
 import { DictionaryService } from "../dictionary/dictionary.service";
@@ -815,7 +817,7 @@ export class ProjectCostService {
             sourceWindowEnd: input.sourceWindowEnd ?? null,
             ...calculated,
             taxImpactSummary: input.taxImpactSummary,
-            taxImpactPendingAmount: this.formatAmount(this.parseNonNegativeDecimal(input.taxImpactPendingAmount, "taxImpactPendingAmount")),
+            taxImpactPendingAmount: this.formatAmount(this.parseNonNegativeDecimal(parseR4GhiFrozenNativeValue(ProjectOperatingSnapshotSummarySchema.shape.taxImpactPendingAmount, input.taxImpactPendingAmount), "taxImpactPendingAmount")),
             allocationStabilitySummary: input.allocationStabilitySummary ?? null,
             unmappedCostSummary: input.unmappedCostSummary ?? null,
             currentActionLevel: input.currentActionLevel,
@@ -875,7 +877,7 @@ export class ProjectCostService {
             snapshotAt: new Date(),
             ...calculated,
             taxImpactSummary: input.taxImpactSummary,
-            taxImpactPendingAmount: this.formatAmount(this.parseNonNegativeDecimal(input.taxImpactPendingAmount, "taxImpactPendingAmount")),
+            taxImpactPendingAmount: this.formatAmount(this.parseNonNegativeDecimal(parseR4GhiFrozenNativeValue(ProjectOperatingSnapshotSummarySchema.shape.taxImpactPendingAmount, input.taxImpactPendingAmount), "taxImpactPendingAmount")),
             allocationStabilitySummary: input.allocationStabilitySummary ?? null,
             unmappedCostSummary: input.unmappedCostSummary ?? null,
             currentActionLevel: input.currentActionLevel,
@@ -902,13 +904,13 @@ export class ProjectCostService {
 
     async createOperatingRestatement(input: CreateOperatingRestatementRequest, userId: string): Promise<CommandResult> {
         const [periodEndSnapshot, restatesSnapshot, existingRestatement] = await Promise.all([
-            this.periodClosingSnapshotRepository.findById(input.periodEndSnapshotId),
+            this.periodClosingSnapshotRepository.findById(parseR4GhiFrozenNativeValue(OperatingRestatementSummarySchema.shape.periodEndSnapshotId, input.periodEndSnapshotId)),
             this.projectOperatingSnapshotRepository.findById(input.restatesSnapshotId),
             this.operatingRestatementRecordRepository.findActiveByRestatesSnapshotId(input.restatesSnapshotId),
         ]);
 
         if (!periodEndSnapshot) {
-            throw new NotFoundException(`PeriodClosingSnapshot ${input.periodEndSnapshotId} not found`);
+            throw new NotFoundException(`PeriodClosingSnapshot ${parseR4GhiFrozenNativeValue(OperatingRestatementSummarySchema.shape.periodEndSnapshotId, input.periodEndSnapshotId)} not found`);
         }
         if (!restatesSnapshot) {
             throw new NotFoundException(`ProjectOperatingSnapshot ${input.restatesSnapshotId} not found`);
@@ -917,7 +919,7 @@ export class ProjectCostService {
             throw new ConflictException(`Restatement snapshots do not belong to project ${input.projectId}`);
         }
         if (periodEndSnapshot.status !== OperatingLifecycleStatusValue.Active) {
-            throw new ConflictException(`PeriodClosingSnapshot ${input.periodEndSnapshotId} is not active`);
+            throw new ConflictException(`PeriodClosingSnapshot ${parseR4GhiFrozenNativeValue(OperatingRestatementSummarySchema.shape.periodEndSnapshotId, input.periodEndSnapshotId)} is not active`);
         }
         if (restatesSnapshot.status !== OperatingLifecycleStatusValue.Active) {
             throw new ConflictException(`ProjectOperatingSnapshot ${input.restatesSnapshotId} is not active`);
@@ -944,7 +946,7 @@ export class ProjectCostService {
             grossMarginAmount: restatedValues.grossMarginAmount,
             grossMarginRate: restatedValues.grossMarginRate,
             taxImpactSummary: restatedValues.taxImpactSummary,
-            taxImpactPendingAmount: restatedValues.taxImpactPendingAmount,
+            taxImpactPendingAmount: parseR4GhiFrozenNativeValue(ProjectOperatingSnapshotSummarySchema.shape.taxImpactPendingAmount, restatedValues.taxImpactPendingAmount),
             allocationStabilitySummary: restatedValues.allocationStabilitySummary,
             unmappedCostSummary: restatedValues.unmappedCostSummary,
             currentActionLevel: restatedValues.currentActionLevel,
@@ -1299,7 +1301,7 @@ export class ProjectCostService {
             taxImpactAmount: this.formatAmount(this.parseDecimal(input.taxImpactAmount, "taxImpactAmount")),
             taxPendingFlag: input.taxPendingFlag,
             taxImpactSummary: input.taxImpactSummary,
-            taxImpactPendingAmount: this.formatAmount(this.parseNonNegativeDecimal(input.taxImpactPendingAmount, "taxImpactPendingAmount")),
+            taxImpactPendingAmount: this.formatAmount(this.parseNonNegativeDecimal(parseR4GhiFrozenNativeValue(ProjectOperatingSnapshotSummarySchema.shape.taxImpactPendingAmount, input.taxImpactPendingAmount), "taxImpactPendingAmount")),
             basisSummary: input.basisSummary ?? null,
             status: OperatingPendingLifecycleStatusValue.Active,
             supersedesId: null,
@@ -1357,7 +1359,7 @@ export class ProjectCostService {
             taxImpactAmount: this.formatAmount(this.parseDecimal(input.taxImpactAmount, "taxImpactAmount")),
             taxPendingFlag: input.taxPendingFlag,
             taxImpactSummary: input.taxImpactSummary,
-            taxImpactPendingAmount: this.formatAmount(this.parseNonNegativeDecimal(input.taxImpactPendingAmount, "taxImpactPendingAmount")),
+            taxImpactPendingAmount: this.formatAmount(this.parseNonNegativeDecimal(parseR4GhiFrozenNativeValue(ProjectOperatingSnapshotSummarySchema.shape.taxImpactPendingAmount, input.taxImpactPendingAmount), "taxImpactPendingAmount")),
             basisSummary: input.basisSummary ?? null,
             status: OperatingPendingLifecycleStatusValue.Active,
             supersedesId: superseded.id,
@@ -1491,7 +1493,7 @@ export class ProjectCostService {
             signalEvaluationId: evaluation.id,
             projectId: evaluation.projectId,
             formulaBoundaryAction: evaluation.formulaBoundaryAction,
-            signalLevel: evaluation.signalLevel,
+            signalLevel: parseR4GhiFrozenNativeValue(OperatingSignalLevelSchema, evaluation.signalLevel),
             taxImpactSummary: evaluation.taxImpactSummary,
             allocationStabilitySummary: evaluation.allocationStabilitySummary ?? dataMaturity.allocationStabilitySummary ?? null,
             unmappedCostSummary: evaluation.unmappedCostSummary ?? dataMaturity.unmappedCostSummary ?? null,
@@ -1585,7 +1587,7 @@ export class ProjectCostService {
             bindingResultId: binding.id,
             gateReviewRecordId: reviewRecord.id,
             taxImpactSummary: binding.taxImpactSummary,
-            taxImpactPendingAmount: this.toNullableDecimal(binding.taxImpactPendingAmount) ?? "0.0000",
+            taxImpactPendingAmount: this.toNullableDecimal(parseR4GhiFrozenNativeValue(ProjectOperatingSnapshotSummarySchema.shape.taxImpactPendingAmount, binding.taxImpactPendingAmount)) ?? "0.0000",
             dataMaturityLevel: binding.dataMaturityLevel,
             costActionRecommendation: binding.costActionRecommendation as ReviewCommissionGateBindingResult["costActionRecommendation"],
             currentActionLevel: binding.currentActionLevel as ReviewCommissionGateBindingResult["currentActionLevel"],
@@ -1629,9 +1631,9 @@ export class ProjectCostService {
             projectId: binding.projectId,
             signalEvaluationId: binding.signalEvaluationId,
             gateStageType: binding.gateStageType,
-            signalLevel: evaluation.signalLevel,
+            signalLevel: parseR4GhiFrozenNativeValue(OperatingSignalLevelSchema, evaluation.signalLevel),
             taxImpactSummary: binding.taxImpactSummary,
-            taxImpactPendingAmount: this.toNullableDecimal(binding.taxImpactPendingAmount) ?? "0.0000",
+            taxImpactPendingAmount: this.toNullableDecimal(parseR4GhiFrozenNativeValue(ProjectOperatingSnapshotSummarySchema.shape.taxImpactPendingAmount, binding.taxImpactPendingAmount)) ?? "0.0000",
             dataMaturityLevel: resolvedSignalInput.dataMaturityLevel,
             costActionRecommendation: resolvedSignalInput.costActionRecommendation,
             currentActionLevel: resolvedSignalInput.currentActionLevel,
@@ -1720,7 +1722,7 @@ export class ProjectCostService {
         const includedCostTotalSummary = this.toNullableDecimal(context.snapshot.includedCostTotal) ?? "0.0000";
         const receivableConfirmedAmountSummary = this.toNullableDecimal(context.snapshot.receivableConfirmedTotal) ?? "0.0000";
         const taxImpactSummary = context.snapshot.taxImpactSummary;
-        const taxImpactPendingAmount = this.toNullableDecimal(context.snapshot.taxImpactPendingAmount) ?? "0.0000";
+        const taxImpactPendingAmount = this.toNullableDecimal(parseR4GhiFrozenNativeValue(ProjectOperatingSnapshotSummarySchema.shape.taxImpactPendingAmount, context.snapshot.taxImpactPendingAmount)) ?? "0.0000";
         const {
             originalBaselineCostSummaryProjection,
             currentEffectiveBaselineCostSummaryProjection,
@@ -1773,7 +1775,7 @@ export class ProjectCostService {
             projectId,
             signalEvaluationId: context.evaluation.id,
             varianceSourceSummaryProjection,
-            riskLevel: context.evaluation.riskLevel,
+            riskLevel: parseR4GhiFrozenNativeValue(OperatingRiskLevelSchema, context.evaluation.riskLevel),
             taxImpactSummaryProjection,
             allocationStabilitySummary: context.evaluation.allocationStabilitySummary ?? context.dataMaturity.allocationStabilitySummary ?? null,
             unmappedCostSummary: context.evaluation.unmappedCostSummary ?? context.dataMaturity.unmappedCostSummary ?? null,
@@ -1823,7 +1825,7 @@ export class ProjectCostService {
 
         return {
             projectId,
-            signalLevel: selectedEvaluation.signalLevel,
+            signalLevel: parseR4GhiFrozenNativeValue(OperatingSignalLevelSchema, selectedEvaluation.signalLevel),
             currentActionLevel: context.resolvedSignalInput.currentActionLevel,
             taxImpactSummaryProjection,
             allocationStabilitySummary: selectedBinding.allocationStabilitySummary ?? null,
@@ -2210,7 +2212,7 @@ export class ProjectCostService {
             grossMarginAmount: this.toNullableDecimal(entity.grossMarginAmount) ?? "0.0000",
             grossMarginRate: this.toNullableDecimal(entity.grossMarginRate),
             taxImpactSummary: entity.taxImpactSummary,
-            taxImpactPendingAmount: this.toNullableDecimal(entity.taxImpactPendingAmount) ?? "0.0000",
+            taxImpactPendingAmount: this.toNullableDecimal(parseR4GhiFrozenNativeValue(ProjectOperatingSnapshotSummarySchema.shape.taxImpactPendingAmount, entity.taxImpactPendingAmount)) ?? "0.0000",
             allocationStabilitySummary: entity.allocationStabilitySummary ?? null,
             unmappedCostSummary: entity.unmappedCostSummary ?? null,
             currentActionLevel: entity.currentActionLevel as ProjectOperatingSnapshotSummary["currentActionLevel"],
@@ -2240,7 +2242,7 @@ export class ProjectCostService {
             grossMarginAmount: this.toNullableDecimal(entity.grossMarginAmount) ?? "0.0000",
             grossMarginRate: this.toNullableDecimal(entity.grossMarginRate),
             taxImpactSummary: entity.taxImpactSummary,
-            taxImpactPendingAmount: this.toNullableDecimal(entity.taxImpactPendingAmount) ?? "0.0000",
+            taxImpactPendingAmount: this.toNullableDecimal(parseR4GhiFrozenNativeValue(ProjectOperatingSnapshotSummarySchema.shape.taxImpactPendingAmount, entity.taxImpactPendingAmount)) ?? "0.0000",
             allocationStabilitySummary: entity.allocationStabilitySummary ?? null,
             unmappedCostSummary: entity.unmappedCostSummary ?? null,
             currentActionLevel: entity.currentActionLevel as PeriodClosingSnapshotSummary["currentActionLevel"],
@@ -2258,7 +2260,7 @@ export class ProjectCostService {
         return {
             id: entity.id,
             projectId: entity.projectId,
-            periodEndSnapshotId: entity.periodEndSnapshotId,
+            periodEndSnapshotId: parseR4GhiFrozenNativeValue(OperatingRestatementSummarySchema.shape.periodEndSnapshotId, entity.periodEndSnapshotId),
             restatesSnapshotId: entity.restatesSnapshotId,
             restatedSnapshotId: entity.restatedSnapshotId,
             restatementReason: entity.restatementReason,
@@ -2334,7 +2336,7 @@ export class ProjectCostService {
             taxImpactAmount: this.toNullableDecimal(entity.taxImpactAmount) ?? "0.0000",
             taxPendingFlag: entity.taxPendingFlag,
             taxImpactSummary: entity.taxImpactSummary,
-            taxImpactPendingAmount: this.toNullableDecimal(entity.taxImpactPendingAmount) ?? "0.0000",
+            taxImpactPendingAmount: this.toNullableDecimal(parseR4GhiFrozenNativeValue(ProjectOperatingSnapshotSummarySchema.shape.taxImpactPendingAmount, entity.taxImpactPendingAmount)) ?? "0.0000",
             basisSummary: entity.basisSummary ?? null,
             status: entity.status as AccountingTaxTreatmentSnapshotSummary["status"],
             supersedesId: entity.supersedesId ?? null,
@@ -2417,7 +2419,7 @@ export class ProjectCostService {
             taxImpactSummary: overrides.taxImpactSummary ?? current.taxImpactSummary,
             taxImpactPendingAmount: this.formatAmount(
                 this.parseNonNegativeDecimal(
-                    overrides.taxImpactPendingAmount ?? this.toNullableDecimal(current.taxImpactPendingAmount) ?? "0",
+                    parseR4GhiFrozenNativeValue(ProjectOperatingSnapshotSummarySchema.shape.taxImpactPendingAmount, overrides.taxImpactPendingAmount) ?? this.toNullableDecimal(parseR4GhiFrozenNativeValue(ProjectOperatingSnapshotSummarySchema.shape.taxImpactPendingAmount, current.taxImpactPendingAmount)) ?? "0",
                     "taxImpactPendingAmount",
                 ),
             ),
@@ -2583,7 +2585,7 @@ export class ProjectCostService {
         const candidates = [
             costActionRecommendation,
             this.mapDataMaturityLevelToActionLevel(resolvedDataMaturityLevel),
-            this.mapRiskLevelToActionLevel(evaluation.riskLevel),
+            this.mapRiskLevelToActionLevel(parseR4GhiFrozenNativeValue(OperatingRiskLevelSchema, evaluation.riskLevel)),
             this.normalizeActionLevel(evaluation.formulaBoundaryAction),
             this.normalizeActionLevel(evaluation.currentActionLevel),
             this.normalizeActionLevel(dataMaturity.costActionRecommendation),

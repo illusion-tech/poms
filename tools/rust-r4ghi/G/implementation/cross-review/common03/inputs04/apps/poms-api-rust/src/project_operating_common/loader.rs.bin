@@ -1,0 +1,49 @@
+//! H consumes the exact immutable G capture, never a live source recomputation.
+use sqlx::Row;
+use uuid::Uuid;
+use serde_json::Value;
+use crate::{approval_common::CommonSession, contract_support::Error};
+use super::{hash, model::OperatingSourceContext, schema};
+
+pub async fn load_frozen_context_with_session(
+    session: &mut CommonSession<'_, '_>, snapshot_id: Uuid,
+    expected_row_version: i32, expected_source_hash: &str,
+) -> Result<OperatingSourceContext, Error> {
+    if expected_row_version <= 0 { return Err(Error::BadRequest("Expected a positive captured snapshot version".into())); }
+    let row = sqlx::query("SELECT s.id AS snapshot_id,s.project_id,s.source_context_id,s.source_hash,s.captured_row_version,c.producer_version,c.row_version AS context_row_version,c.frozen_payload,c.payload_hash,c.policy_version,c.policy_hash,c.id AS context_id,c.snapshot_id AS context_snapshot_id,c.source_hash AS context_source_hash,c.project_id AS context_project_id FROM poms.project_operating_snapshot s JOIN poms.operating_source_context c ON c.id=s.source_context_id WHERE s.id=$1 AND s.producer_version=1 FOR SHARE OF s,c")
+        .bind(snapshot_id).fetch_optional(&mut *session.connection).await?
+        .ok_or_else(|| Error::CodedConflict { code: "operating_snapshot_unverified", message: "This snapshot has no certified operating capture".into() })?;
+    let payload: Value = row.try_get("frozen_payload")?;
+    let stored_payload_hash: String = row.try_get("payload_hash")?;
+    if hash::canonical_hash(&payload)?.as_str() != stored_payload_hash { return Err(Error::Conflict("Frozen context payload integrity check failed".into())); }
+    schema::validate_context_value(&payload)?;
+    let context: OperatingSourceContext = serde_json::from_value(payload).map_err(|_| Error::Conflict("Frozen context has invalid typed facts".into()))?;
+    let project: Uuid = row.try_get("project_id")?;
+    let context_project: Uuid = row.try_get("context_project_id")?;
+    let context_id: Uuid = row.try_get("context_id")?;
+    let linked_context: Uuid = row.try_get("source_context_id")?;
+    let linked_snapshot: Uuid = row.try_get("context_snapshot_id")?;
+    let source_hash: String = row.try_get("source_hash")?;
+    let context_source_hash: String = row.try_get("context_source_hash")?;
+    let captured: i32 = row.try_get("captured_row_version")?;
+    let producer: i16 = row.try_get("producer_version")?;
+    let context_version: i32 = row.try_get("context_row_version")?;
+    let policy_version: String = row.try_get("policy_version")?;
+    let policy_hash: String = row.try_get("policy_hash")?;
+    if producer != 1 || context_version != 1 || captured != expected_row_version
+        || context.context_id != context_id || context_id != linked_context
+        || context.project_id != project || project != context_project
+        || linked_snapshot != snapshot_id || context.snapshot.id != snapshot_id
+        || context.snapshot.row_version != expected_row_version
+        || context.source_hash != source_hash || source_hash != context_source_hash || source_hash != expected_source_hash
+        || context.policy_version != policy_version || context.policy_hash != policy_hash
+        || context.schema_version != 1 || context.producer_version != 1
+        || policy_version != "r4h-operating-v1" || hash::policy_hash()?.as_str() != policy_hash
+        || hash::source_hash(&context)?.as_str() != source_hash {
+        return Err(Error::Conflict("Frozen snapshot, context and policy references differ".into()));
+    }
+    if context.snapshot.restated_snapshot_ref.is_some() || context.snapshot.restatement_ref.is_some() {
+        return Err(Error::Conflict("Generated result references cannot be filled back into an immutable capture".into()));
+    }
+    Ok(context)
+}

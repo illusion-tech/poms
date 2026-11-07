@@ -1,0 +1,13 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+const input = 'docs/design/rust-r4ghi/g2-attachment-context02.sql';
+const target = 'apps/poms-api/src/migrations/Migration20261107083000_rust_condition_upload_context.ts';
+const sql = fs.readFileSync(input, 'utf8');
+assert(sql.includes('fk_jghi_upload_condition_scope') && !/\b(?:UPDATE|DELETE)\s+poms\./.test(sql));
+const source = 'import { Migration } from "@mikro-orm/migrations";\n\n/** G2 correction18: real purpose binding for own-condition evidence upload. */\nexport class Migration20261107083000 extends Migration {\n    override async up(): Promise<void> {\n        this.addSql(' + JSON.stringify(sql) + ');\n    }\n}\n';
+fs.writeFileSync(target, source, { flag: 'wx' });
+const sha = b => createHash('sha256').update(b).digest('hex');
+const receipt = { kind: 'SQL-first-condition-upload-context-promotion', capturedAt: new Date().toISOString(), input, inputSHA256: sha(Buffer.from(sql)), target, targetSHA256: sha(Buffer.from(source)), migrationCountBefore: 95, migrationCountAfter: 96, plannedTablesAfter: 139, existingUploadsCertified: false, executed: false, G3: false };
+fs.writeFileSync('docs/design/rust-r4ghi/attachment-migration-promotion02.json', JSON.stringify(receipt, null, 2) + '\n', { flag: 'wx' });
+console.log(JSON.stringify(receipt));

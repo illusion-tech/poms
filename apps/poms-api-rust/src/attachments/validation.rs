@@ -29,10 +29,46 @@ pub fn query_raw(query: Option<&str>) -> String {
     crate::dictionary::validation::query_raw(query)
 }
 pub fn validate(schema: &str, raw: Option<&str>) -> Result<RequestData, ApiError> {
+    // This additive context is parsed from raw input before the legacy descriptor
+    // strips unknown keys. Its two UUID fields are strict; no relatedField alias.
+    let condition_context = if schema == "CreateAttachmentUploadSessionRequest" {
+        raw.and_then(|raw| JsObject::parse(raw).ok())
+            .and_then(|object| object.get("completionConditionContext"))
+            .map(|value| serde_json::from_str::<super::model::CompletionConditionContext>(value.get()))
+            .transpose().map_err(|_| ApiError::message(StatusCode::BAD_REQUEST, "completionConditionContext requires exactly completionRecordId and conditionId UUIDs"))?
+    } else {
+        None
+    };
     let rule = &rules()["schemas"][schema];
     let value = raw.and_then(|raw| serde_json::from_str::<&RawValue>(raw).ok());
     let mut errors = Vec::new();
-    let output = check(rule, value, &[], &mut errors)?;
+    let mut output = check(rule, value, &[], &mut errors)?;
+    if let Some(context) = condition_context {
+        let object = output.as_deref().and_then(|raw| JsObject::parse(raw).ok());
+        let field = |key: &str| {
+            object
+                .as_ref()
+                .and_then(|o| o.get(key))
+                .and_then(|v| decode_string(v.get()).ok())
+                .map(|v| v.to_utf8_lossy())
+        };
+        if field("operationType").as_deref() != Some("create-attachment")
+            || field("targetType").as_deref() != Some("project")
+            || object
+                .as_ref()
+                .is_some_and(|o| o.get("baseAttachmentId").is_some())
+        {
+            return Err(ApiError::message(
+                StatusCode::BAD_REQUEST,
+                "Condition-purpose upload requires create-attachment, project target and no baseAttachmentId",
+            ));
+        }
+        let context = serde_json::to_string(&context).map_err(|_| ApiError::internal())?;
+        if let Some(raw) = output.take() {
+            let head = raw.strip_suffix('}').ok_or_else(ApiError::internal)?;
+            output = Some(format!("{head},\"completionConditionContext\":{context}}}"));
+        }
+    }
     if schema == "CreateAttachmentUploadSessionRequest"
         && !errors
             .iter()
@@ -164,7 +200,7 @@ fn length_error(
         errors.push(json!({"origin":origin,"code":"too_big","maximum":max,"inclusive":true,"path":path,"message":message}));
     }
 }
-fn valid_uuid(s: &str) -> bool {
+pub(super) fn valid_uuid(s: &str) -> bool {
     if s == "00000000-0000-0000-0000-000000000000" || s == "ffffffff-ffff-ffff-ffff-ffffffffffff" {
         return true;
     }

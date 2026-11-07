@@ -1,0 +1,45 @@
+{
+  "decisionSource": "docs/design/rust-r4ghi/user-decision-org-create04.json",
+  "RootOwnedNotAppliedByAuthor": true,
+  "enumName": "ProjectInitialOwnership",
+  "enumWireValues": [
+    "creator",
+    "organization"
+  ],
+  "CreateProjectRequest": {
+    "optionalProperty": "initialOwnership",
+    "schema": {
+      "$ref": "#/components/schemas/ProjectInitialOwnership"
+    },
+    "nullable": false,
+    "required": false,
+    "missingSemantics": "creator",
+    "jsonDefaultRequired": false
+  },
+  "enumSchema": {
+    "type": "string",
+    "enum": [
+      "creator",
+      "organization"
+    ]
+  },
+  "RustGeneratedDependency": {
+    "path": "apps/poms-api-rust/src/shared/generated.rs",
+    "export": "ProjectInitialOwnership",
+    "requiredAPI": [
+      "Creator",
+      "Organization",
+      "ALL",
+      "as_str()",
+      "FromStr"
+    ],
+    "noParallelHandwrittenRustEnum": true
+  },
+  "SDK_S6": [
+    "Regenerate existing ProjectController_create request property and enum from Shared/OpenAPI.",
+    "Forward organization exactly; omitted remains omitted/creator; do not cast or substitute null.",
+    "No new route; ProjectCreate response already has nullable ownerUserId; ProjectDetail existing Creator union is reused."
+  ],
+  "NativeReference": "If Native reference does not implement organization mode, it must explicitly422 organization mode before number reservation/business write rather than silently creating a personal project. Root owns this guard.",
+  "counts": "Root measures generated declaration/schema/SDK counts; author does not invent counts."
+}

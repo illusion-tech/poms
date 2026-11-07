@@ -1,0 +1,23 @@
+{
+  "reviewer": "H non-author",
+  "status": "static-PASS-with-runtime-acceptance-outstanding",
+  "scope": "Only exact G workspace-scope05 service/http candidates; no product edit",
+  "candidateSHA256": {
+    "service.rs": "c1e260366fa4d1e163c18b0b3bc88b13121d677c098cd6bdccd4f0b1c552cfbc",
+    "http.rs": "4f1a8fd632c070fe3b9d0931559b79a02bd3ec1e7f15132c160fff30634acde8"
+  },
+  "checks": [
+    "Both base/candidate/patch raw SHA256 values match the G manifest05",
+    "service162-186: require ReadProjectAnchorOrIList, explicit FullProject and assert_session precede project find and every workspace fact query",
+    "service98-152: one existing service-owned outer transaction; one CommonSession borrows tx/state/pending participant; no new pool or nested business transaction",
+    "service124-148 and actual common_store.flush460-535: pending authentication flush uses the same open transaction; read/projection/flush failures rollback; uncertain commit returns an error",
+    "service195-275: all user/org/snapshot/contracts/handover/acceptance/completion/archive queries use borrowed session.connection",
+    "http68-111: real resolved guard session and request metadata construct Actor for both guidance and timeline entrypoints",
+    "HTTP GET/HEAD normalization, route get(dispatch), validation and response helper are unchanged; successful guidance/timeline payload selection is preserved",
+    "Original rendering/enum/sort/projection/test tail from iso onward is normalized-text identical"
+  ],
+  "findingsP1": [],
+  "findingsP2": [],
+  "notRun": ["cargo", "HTTP", "PostgreSQL", "rollback fault injection", "HEAD byte comparison"],
+  "remaining": "Root integrated compile and actual authorized/unauthorized GET+HEAD, pending-auth failure and rollback/unknown-commit acceptance. This static review is not G3/G4 certification."
+}

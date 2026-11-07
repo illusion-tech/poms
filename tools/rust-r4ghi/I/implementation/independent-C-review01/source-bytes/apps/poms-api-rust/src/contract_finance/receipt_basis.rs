@@ -1,0 +1,140 @@
+//! Gross cash confirmation freezes actual contract tax/currency provenance.
+use super::*;
+use crate::project_operating_common::{hash, model::{ConfirmReceiptRecordRequest, ConfirmReceiptRecordRequestMode, ExpectedRef, ReceiptBasisInputSelectionPolicy, OperatingMoneyCents}};
+
+fn changed_basis(message: &str) -> Error { Error::CodedConflict { code: "receipt_accounting_basis_changed", message: message.into() } }
+
+async fn actual_ref(session: &mut CommonSession<'_, '_>, expected: &ExpectedRef, kind: &str) -> Result<crate::project_operating_common::model::SourceRef, Error> {
+    if expected.kind != kind { return Err(Error::BadRequest("Receipt basis reference has an incorrect producer kind".into())); }
+    let actual = crate::project_operating::sources::source_reference_with_session(session, kind, expected.id).await?;
+    if actual.row_version != expected.expected_version || actual.payload_hash != expected.payload_hash { return Err(changed_basis("Receipt basis source version or hash changed")); }
+    Ok(actual)
+}
+
+async fn document_evidence(session: &mut CommonSession<'_, '_>, expected: &ExpectedRef, project: Uuid, contract: Uuid, actor: &Actor) -> Result<Value, Error> {
+    if expected.kind != "Attachment" { return Err(Error::BadRequest("Explicit receipt basis evidence must identify a real attachment".into())); }
+    let row = sqlx::query("SELECT a.id,a.row_version,a.checksum_sha256,a.security_level,l.id AS link_id,l.target_type,l.target_id FROM poms.attachment a JOIN poms.attachment_link l ON l.attachment_id=a.id AND l.status='active' WHERE a.id=$1 AND a.status='active' AND ((l.target_type='project' AND l.target_id=$2) OR (l.target_type='contract' AND l.target_id=$3)) ORDER BY l.id LIMIT 1 FOR SHARE OF a,l")
+        .bind(expected.id).bind(project).bind(contract).fetch_optional(&mut *session.connection).await?.ok_or_else(|| Error::NotFound("Receipt basis evidence is unavailable in this project".into()))?;
+    let version: i32 = row.try_get("row_version")?;
+    let checksum: Option<String> = row.try_get("checksum_sha256")?;
+    let checksum = checksum.filter(|value| value.len() == 64 && value.bytes().all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))).ok_or_else(|| Error::Unprocessable("Receipt evidence has no verified content checksum".into()))?;
+    let reference = actual_ref(session, expected, "Attachment").await?;
+    if version != reference.row_version { return Err(changed_basis("Receipt evidence attachment changed")); }
+    let classification: String = row.try_get("security_level")?;
+    if matches!(classification.as_str(), "confidential" | "restricted") && !actor.session.user.permissions.iter().any(|permission| matches!(permission.as_str(), "contract:finance:sensitive:read" | "operating:finance:sensitive:read" | "commission:amount:sensitive:read" | "platform:roles:manage")) { return Err(Error::Forbidden("Receipt evidence classification is not readable".into())); }
+    Ok(json!({"sourceRef":reference,"contentChecksumSHA256":checksum,"linkId":row.try_get::<Uuid,_>("link_id")?,"targetType":row.try_get::<String,_>("target_type")?,"targetId":row.try_get::<Uuid,_>("target_id")?,"securityLevel":classification}))
+}
+
+fn split_gross(gross: i128, rate: i128) -> Result<(i128, i128), Error> {
+    if gross <= 0 || !(0..=10_000).contains(&rate) { return Err(Error::Unprocessable("Receipt cash and its actual tax rate are invalid".into())); }
+    let denominator = 10_000 + rate;
+    let numerator = gross.checked_mul(10_000).ok_or_else(|| crate::project_operating_common::scalars::capacity_error("receipt net"))?;
+    let quotient = numerator / denominator;
+    let net = quotient + i128::from((numerator % denominator) * 2 >= denominator);
+    let tax = gross - net;
+    OperatingMoneyCents::from_cents(net, "receipt net")?;
+    OperatingMoneyCents::from_cents(tax, "receipt tax")?;
+    Ok((net, tax))
+}
+
+pub(super) async fn confirm(session: &mut CommonSession<'_, '_>, operation: &str, id: Uuid, body: &Value, actor: &Actor) -> Result<Value, Error> {
+    let input: ConfirmReceiptRecordRequest = serde_json::from_value(body.clone()).map_err(|_| Error::BadRequest("Receipt confirmation requires its modern exact DTO".into()))?;
+    if input.input_version != "server-derived-v1" { return Err(Error::CodedUnprocessable { code: "legacy_reference_input_unsupported", message: "A server-derived receipt basis is required".into() }); }
+    let discovered = receipt(session.connection, id, false).await?;
+    crate::project_action_authorization::authorize_operating_write_with_session(session, discovered.project_id, actor).await?;
+    let contract_row = sqlx::query("SELECT row_version,status FROM poms.contract WHERE id=$1 AND project_id=$2 FOR UPDATE").bind(discovered.contract_id).bind(discovered.project_id).fetch_optional(&mut *session.connection).await?.ok_or_else(|| Error::NotFound("Receipt contract is unavailable".into()))?;
+    let current = receipt(session.connection, id, true).await?;
+    same_project(current.project_id, discovered.project_id)?;
+    let request_hash = hash::canonical_hash(&json!({"operationId":operation,"actorId":actor.id,"receiptId":id,"input":input}))?;
+    let existing: Option<Value> = sqlx::query_scalar("SELECT to_jsonb(b) FROM poms.receipt_accounting_basis b WHERE receipt_id=$1 FOR SHARE").bind(id).fetch_optional(&mut *session.connection).await?;
+    if let Some(basis) = existing {
+        if current.status == "confirmed" && input.expected_version.checked_add(1) == Some(current.row_version)
+            && basis["producer_version"] == 1 && basis["receipt_row_version"] == current.row_version
+            && basis["frozen_payload"]["requestHash"].as_str() == Some(request_hash.as_str())
+            && hash::canonical_hash(&basis["frozen_payload"])?.as_str() == basis["payload_hash"].as_str().unwrap_or("") {
+            return Ok(current.summary());
+        }
+        return Err(changed_basis("Receipt already has immutable accounting evidence"));
+    }
+    if current.row_version != input.expected_version || input.expected_version <= 0 { return Err(stale("ReceiptRecord")); }
+    if contract_row.try_get::<i32,_>("row_version")? != input.expected_contract_version || input.expected_contract_version <= 0 { return Err(stale("Contract")); }
+    match input.mode {
+        ConfirmReceiptRecordRequestMode::Confirm if current.status != "pending-confirmation" => return Err(Error::Conflict("Only a pending receipt can be confirmed".into())),
+        ConfirmReceiptRecordRequestMode::Confirm if contract_row.try_get::<String,_>("status")? != "active" => return Err(Error::Conflict("An effective contract is required for ordinary cash confirmation".into())),
+        ConfirmReceiptRecordRequestMode::CertifyExistingBasis if current.status != "confirmed" || current.confirmed_at.is_none() || current.confirmed_by.is_none() => return Err(Error::Conflict("Only an originally confirmed receipt with missing basis can be certified".into())),
+        _ => {}
+    }
+    let term = sqlx::query("SELECT id,contract_id,version,row_version,snapshot_status,effective_at,source_baseline_id,payload_hash,currency_code,tax_rate::text AS tax_rate FROM poms.contract_term_snapshot WHERE id=$1 AND contract_id=$2 FOR SHARE")
+        .bind(input.basis.term_snapshot_ref.id).bind(current.contract_id).fetch_optional(&mut *session.connection).await?.ok_or_else(|| Error::NotFound("Actual receipt contract terms are unavailable".into()))?;
+    if !matches!(term.try_get::<String,_>("snapshot_status")?.as_str(), "active" | "superseded") { return Err(Error::Conflict("Receipt terms must have actually been activated".into())); }
+    let term_ref = actual_ref(session, &input.basis.term_snapshot_ref, "ContractTermSnapshot").await?;
+    let term_currency: Option<String> = term.try_get("currency_code")?;
+    let (currency_ref, currency) = match input.basis.currency_basis_ref.kind.as_str() {
+        "ContractTermSnapshot" => {
+            if input.basis.currency_basis_ref.id != input.basis.term_snapshot_ref.id { return Err(Error::BadRequest("Currency evidence must be the selected terms".into())); }
+            let reference = actual_ref(session, &input.basis.currency_basis_ref, "ContractTermSnapshot").await?;
+            (reference, term_currency.clone().ok_or_else(|| Error::Unprocessable("Historical terms have no frozen currency; select their actual activated commercial basis".into()))?)
+        }
+        "CommercialReleaseBaseline" => {
+            if term.try_get::<Option<Uuid>,_>("source_baseline_id")? != Some(input.basis.currency_basis_ref.id) { return Err(Error::Conflict("Currency evidence is not the actual source of these terms".into())); }
+            let row = sqlx::query("SELECT currency_code,baseline_status FROM poms.commercial_release_baseline WHERE id=$1 AND project_id=$2 FOR SHARE").bind(input.basis.currency_basis_ref.id).bind(current.project_id).fetch_optional(&mut *session.connection).await?.ok_or_else(|| Error::NotFound("Activated commercial currency evidence is unavailable".into()))?;
+            if !matches!(row.try_get::<String,_>("baseline_status")?.as_str(), "effective" | "superseded") { return Err(Error::Conflict("Currency evidence must be an activated immutable baseline".into())); }
+            let currency: String = row.try_get("currency_code")?;
+            if term_currency.as_ref().is_some_and(|term| term != &currency) { return Err(Error::Conflict("Term currency and commercial evidence disagree".into())); }
+            (actual_ref(session, &input.basis.currency_basis_ref, "CommercialReleaseBaseline").await?, currency)
+        }
+        _ => return Err(Error::BadRequest("Unsupported actual currency producer".into())),
+    };
+    if currency.len() != 3 || !currency.bytes().all(|value| value.is_ascii_uppercase()) { return Err(Error::Unprocessable("Receipt currency evidence is not certified".into())); }
+    let effective: DateTime<Utc> = term.try_get("effective_at")?;
+    if input.basis.selection_policy == ReceiptBasisInputSelectionPolicy::ReceiptDateEffectiveTerms {
+        let later: bool = sqlx::query_scalar("SELECT EXISTS(SELECT 1 FROM poms.contract_term_snapshot WHERE contract_id=$1 AND id<>$2 AND snapshot_status IN ('active','superseded') AND effective_at>$3 AND effective_at<=$4)")
+            .bind(current.contract_id).bind(input.basis.term_snapshot_ref.id).bind(effective).bind(current.receipt_date).fetch_one(&mut *session.connection).await?;
+        if effective > current.receipt_date || later { return Err(Error::Unprocessable("Selected terms were not effective at the actual receipt date".into())); }
+    }
+    if (input.mode == ConfirmReceiptRecordRequestMode::CertifyExistingBasis || input.basis.selection_policy == ReceiptBasisInputSelectionPolicy::ExplicitActivatedTermsEvidence) && input.basis.evidence_refs.is_empty() { return Err(Error::Unprocessable("Historical or explicit receipt basis requires actual document evidence".into())); }
+    let mut evidence = Vec::new(); let mut seen = BTreeSet::new();
+    let mut requested = input.basis.evidence_refs.iter().collect::<Vec<_>>(); requested.sort_by_key(|reference| reference.id);
+    for expected in requested {
+        if !seen.insert((expected.kind.clone(), expected.id)) { return Err(Error::BadRequest("Receipt evidence references must be unique".into())); }
+        evidence.push(document_evidence(session, expected, current.project_id, current.contract_id, actor).await?);
+    }
+    let rate_text: Option<String> = term.try_get("tax_rate")?;
+    let rate_text = rate_text.ok_or_else(|| Error::Unprocessable("The actual activated terms have no traceable tax rate".into()))?;
+    let rate = contract_support::ratio(&rate_text)?;
+    let gross = OperatingMoneyCents::parse_exact(&current.receipt_amount, "receipt gross")?;
+    let (net, tax) = split_gross(gross.cents(), i128::from(rate))?;
+    let captured_at = clock_now(); let basis_id = new_uuid()?;
+    let mut after = current.clone();
+    if input.mode == ConfirmReceiptRecordRequestMode::Confirm { after.status = "confirmed".into(); after.confirmed_at = Some(captured_at); after.confirmed_by = Some(actor.id); }
+    after.row_version = next_version(current.row_version)?; after.updated_at = captured_at;
+    let rate_wire = format!("{}.{:04}", rate / 10_000, rate % 10_000);
+    let term_payload_hash: String = term.try_get("payload_hash")?;
+    let payload = json!({"schemaVersion":1,"producerVersion":1,"id":basis_id,"receiptId":id,"projectId":current.project_id,"contractId":current.contract_id,"receiptRowVersion":after.row_version,"originalConfirmedAt":current.confirmed_at.map(model::iso),"confirmedAt":after.confirmed_at.map(model::iso),"termSnapshotRef":term_ref,"termSnapshotVersion":term.try_get::<i32,_>("version")?,"termPayloadHash":term_payload_hash,"currencyBasisRef":currency_ref,"currency":currency,"taxRate":rate_wire,"cashGross":gross.decimal_string(),"amountExcludingTax":money_string(net),"taxAmount":money_string(tax),"captureMode":input.mode,"selectionPolicy":input.basis.selection_policy,"roundingPolicy":"gross-net-HALF_UP-cents-v1","reason":input.basis.reason,"evidenceRefs":evidence,"capturedAt":model::iso(captured_at),"capturedBy":actor.id,"requestHash":request_hash});
+    let payload_hash = hash::canonical_hash(&payload)?;
+    sqlx::query("INSERT INTO poms.receipt_accounting_basis(id,receipt_id,project_id,contract_id,receipt_row_version,term_snapshot_id,term_snapshot_version,term_snapshot_row_version,term_payload_hash,currency,currency_source_kind,currency_source_id,currency_source_version,currency_source_hash,cash_gross,amount_excluding_tax,tax_amount,tax_rate,capture_mode,selection_policy,rounding_policy,reason,evidence_refs,frozen_payload,payload_hash,producer_version,row_version,captured_at,captured_by) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15::text::numeric,$16::text::numeric,$17::text::numeric,$18::text::numeric,$19,$20,'gross-net-HALF_UP-cents-v1',$21,$22,$23,$24,1,1,$25,$26)")
+        .bind(basis_id).bind(id).bind(current.project_id).bind(current.contract_id).bind(after.row_version)
+        .bind(input.basis.term_snapshot_ref.id).bind(term.try_get::<i32,_>("version")?).bind(term.try_get::<i32,_>("row_version")?).bind(&term_payload_hash)
+        .bind(&currency).bind(currency_ref.kind).bind(currency_ref.id).bind(currency_ref.row_version).bind(currency_ref.payload_hash)
+        .bind(gross.decimal_string()).bind(money_string(net)).bind(money_string(tax)).bind(rate_wire).bind(input.mode.as_str()).bind(input.basis.selection_policy.as_str()).bind(&input.basis.reason)
+        .bind(json!(evidence)).bind(&payload).bind(payload_hash.as_str()).bind(captured_at).bind(actor.id).execute(&mut *session.connection).await?;
+    if !store::update_receipt(session.connection, &after, current.row_version).await? { return Err(stale("ReceiptRecord")); }
+    let result = after.summary();
+    contract_support::audit(session, actor, AuditWrite { operation_id: operation.into(), target_type: "Receipt".into(), target_id: id, project_id: current.project_id, contract_id: Some(current.contract_id), before: Some(current.summary()), after: Some(result.clone()), reason: Some(input.basis.reason), metadata: json!({"accountingBasisId":basis_id,"captureMode":input.mode,"basisPayloadHash":payload_hash}) }).await?;
+    Ok(result)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn gross_cash_split_rounds_net_explicitly_and_conserves_cents() {
+        assert_eq!(split_gross(3, 10_000).ok(), Some((2,1)));
+        assert_eq!(split_gross(1, 10_000).ok(), Some((1,0)));
+        assert_eq!(split_gross(113, 1300).ok(), Some((100,13)));
+        let max = 999_999_999_999_999_999;
+        let (net, tax) = split_gross(max, 1300).unwrap_or_else(|_| panic!("max split"));
+        assert_eq!(net + tax, max);
+        assert!(split_gross(0, 0).is_err());
+    }
+}

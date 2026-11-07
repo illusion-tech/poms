@@ -1,0 +1,66 @@
+{
+  "kind": "actual minimal-permission EO execution harness proposal",
+  "createdAt": "2026-11-07T08:44:06.217260+00:00",
+  "RootHarnessPrivateDBChanged": false,
+  "files": [
+    {
+      "path": "tools/rust-r4ghi/business/roles.mjs",
+      "newFile": false,
+      "beforeSHA256": "abb4152e55df009a3f39bcab2d41cc1b983eea39e6668f0f3cc8672714c94df1",
+      "afterSHA256": "f6afbb33045a9941f1a55bd9b61824d229822ae1989fd9afbeb86ba886f58125",
+      "currentRootSHA256": "abb4152e55df009a3f39bcab2d41cc1b983eea39e6668f0f3cc8672714c94df1",
+      "beforeMatchesRoot": true
+    },
+    {
+      "path": "tools/rust-r4ghi/business/ledger.mjs",
+      "newFile": false,
+      "beforeSHA256": "4cd1eb7741c2776f80c69c3e36a105e8ff724ea8c803aa631612ffd09cf096bc",
+      "afterSHA256": "da29f9cc6a6acbeefc661bbecb1ede5d52c94614270c335b8119ccec70668909",
+      "currentRootSHA256": "4cd1eb7741c2776f80c69c3e36a105e8ff724ea8c803aa631612ffd09cf096bc",
+      "beforeMatchesRoot": true
+    },
+    {
+      "path": "tools/rust-r4ghi/business/execution-admission.mjs",
+      "newFile": true,
+      "beforeSHA256": null,
+      "afterSHA256": "130eeded4e1666e55be318f0401557ebb4f829609df92c31d174b92a4cc9bffb",
+      "currentRootSHA256": null,
+      "beforeMatchesRoot": true
+    },
+    {
+      "path": "tools/rust-r4ghi/business/execution-role-bindings.mjs",
+      "newFile": true,
+      "beforeSHA256": null,
+      "afterSHA256": "7100fbdb7cf447c6fb4e6790d94090b264358561414625f1ecd094fb232ed2fb",
+      "currentRootSHA256": null,
+      "beforeMatchesRoot": true
+    },
+    {
+      "path": "tools/rust-r4ghi/business/execution-role-bindings.test.mjs",
+      "newFile": true,
+      "beforeSHA256": null,
+      "afterSHA256": "641f5f470844b773ed198d477ba82e982c2001db018b0a27221a8a19871a114d",
+      "currentRootSHA256": null,
+      "beforeMatchesRoot": true
+    }
+  ],
+  "patchSHA256": "fe9f658323409e740755868943d38d685d8b4e765fb90255311a49cac7748320",
+  "behavior": [
+    "Before Role/execution stage, restrict only the dedicated owned execution role through public RolePermissions command to project:read/write.",
+    "Actual source revokes existing relation rows; exact owned role, response role ID, permission omitted from requested pair, actor and only status/revoked_at/by qualify mutation. No table-wide permission mutation/delete allowance.",
+    "Before restriction require exactly one actual active owned user-role relation to execution actor; original seed roles/users never touched.",
+    "Log in execution again; actual AuthSession permissions must exactly equal the pair.",
+    "Under EO actor make CurrentRole and RoleDetail GET return exact403.",
+    "Only actual EO ProjectDetail.executionAdmissionContext six fields plus same detail.projectRowVersion/inputVersion/reason construct StartExecution body. No manager/SQL-derived IDs/hash/version."
+  ],
+  "verification": {
+    "nodeSyntax": "all five files passed",
+    "pureRoleProofTests": "3 passed/0failed",
+    "actualPublicRoleCommandAndEO403/Detail/Execution": "not-run; Root unique executor"
+  },
+  "dependencies": [
+    "Existing applied11/130 schema/S5 SDK field",
+    "Preserves any already applied15 readiness-specific ledger proof; compare beforeSHA before replacing",
+    "17 full required-write sweep still separate; existing auditFaults option remains only one audit FI until17 applied"
+  ]
+}

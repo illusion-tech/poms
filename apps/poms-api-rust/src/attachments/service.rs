@@ -1,6 +1,7 @@
 //! Attachment commands persist their necessary audit and managed auth atomically.
 use super::{
     model::{RequestData, Wire, js, trim_js},
+    project_scope::{self, Intent},
     store::{self, AuditWrite, Entity, Table},
 };
 #[path = "handover.rs"]
@@ -191,12 +192,14 @@ pub struct CallContext {
     guard: store::FlushGuard,
     checkpoint: Option<CallCheckpoint>,
     poisoned: bool,
+    scope_intents: std::sync::Mutex<Vec<Intent>>,
 }
 struct CallCheckpoint {
     entities: Vec<Entity>,
     pending: Option<SessionFlush>,
     guard: store::FlushGuard,
     targets: HashSet<String>,
+    scope_intents: Vec<Intent>,
 }
 impl CallContext {
     fn ensure_usable(&self) -> Result<()> {
@@ -215,7 +218,15 @@ impl CallContext {
             guard: store::FlushGuard::default(),
             checkpoint: None,
             poisoned: false,
+            scope_intents: std::sync::Mutex::new(Vec::new()),
         }
+    }
+    fn note_scope(&self, intent: Intent) -> Result<()> {
+        self.scope_intents
+            .lock()
+            .map_err(|_| StorageFailure::internal())?
+            .push(intent);
+        Ok(())
     }
     fn checkpoint(&mut self) {
         if self.checkpoint.is_none() {
@@ -223,6 +234,11 @@ impl CallContext {
                 entities: self.entities.clone(),
                 pending: self.pending.clone(),
                 guard: self.guard.clone(),
+                scope_intents: self
+                    .scope_intents
+                    .lock()
+                    .map(|v| v.clone())
+                    .unwrap_or_default(),
                 targets: self
                     .target_cache
                     .lock()
@@ -236,6 +252,9 @@ impl CallContext {
             self.entities = before.entities;
             self.pending = before.pending;
             self.guard = before.guard;
+            if let Ok(mut intents) = self.scope_intents.lock() {
+                *intents = before.scope_intents;
+            }
             if let Ok(mut targets) = self.target_cache.lock() {
                 *targets = before.targets;
             }
@@ -387,18 +406,31 @@ impl AttachmentsService {
             });
         }
         ctx.checkpoint();
+        let mut guarded = ctx.guard.clone();
+        guarded.scope_actor = Some(ctx.session.clone());
+        guarded.scope_intents = match ctx.scope_intents.lock() {
+            Ok(intents) => intents.clone(),
+            Err(_) => {
+                return Err(store::FlushFailure {
+                    error: StorageFailure::internal(),
+                    disposition: store::CommitDisposition::Unknown,
+                });
+            }
+        };
         match store::flush_guarded(
             &self.database,
             &mut ctx.entities,
             &mut ctx.pending,
             audit,
-            ctx.guard.clone(),
+            guarded,
         )
         .await
         {
             Ok(()) => {
                 ctx.checkpoint = None;
                 ctx.guard = store::FlushGuard::default();
+                // Keep request-local target keys for later K AUTO flushes. Every
+                // commit recomputes actual Scope; these keys carry no authority.
                 Ok(())
             }
             Err(failure) => {
@@ -458,6 +490,16 @@ impl AttachmentsService {
         if !ctx.target_permission(kind, mode) {
             return Err(forbidden(format!("Missing {kind} {mode} permission")));
         }
+        if project_scope::project_kind(kind) {
+            project_scope::target_access(&self.database, &ctx.session, kind, id, mode == "write")
+                .await?;
+            ctx.note_scope(Intent::Target {
+                kind: kind.into(),
+                id: id.into(),
+                write: mode == "write",
+            })?;
+            return Ok(());
+        }
         let cache_key = format!("{kind}:{id}");
         if ctx
             .target_cache
@@ -485,6 +527,11 @@ impl AttachmentsService {
         Ok(())
     }
     fn mutate(&self, attachment: &Entity, links: &[Entity], ctx: &CallContext) -> Result<()> {
+        ctx.note_scope(Intent::Attachment {
+            id: attachment.id(),
+            mutation: true,
+            allow_own: false,
+        })?;
         if attachment.str("uploaded_by") == ctx.user_id()
             || links
                 .iter()
@@ -495,35 +542,58 @@ impl AttachmentsService {
             Err(forbidden("Insufficient attachment mutation permission"))
         }
     }
-    async fn any_link(&self, links: &[Entity], mode: &str, ctx: &CallContext) -> bool {
+    async fn any_link(&self, links: &[Entity], mode: &str, ctx: &CallContext) -> Result<bool> {
         for link in links {
-            if self
+            match self
                 .target_access(link.str("target_type"), link.str("target_id"), mode, ctx)
                 .await
-                .is_ok()
             {
-                return true;
+                Ok(()) => return Ok(true),
+                Err(error) if project_scope::authorization_denied(&error) => {}
+                Err(error) => return Err(error),
             }
         }
-        false
+        Ok(false)
     }
     async fn readable(&self, id: &str, ctx: &mut CallContext) -> Result<(usize, Vec<Entity>)> {
-        let i = self.load(Table::Attachment, id, ctx).await?;
-        let links = self.links(id, ctx).await?;
-        let attachment = &ctx.entities[i];
-        if attachment.str("status") != "active" {
-            return Err(missing(format!("Attachment {id} not found")));
-        }
-        if !ctx.can_read_security(attachment) {
-            return Err(forbidden("Insufficient attachment security permission"));
-        }
-        if !self.any_link(&links, "read", ctx).await {
-            return Err(forbidden("Insufficient attachment target permission"));
+        self.readable_source(id, true, ctx).await
+    }
+    async fn readable_source(
+        &self,
+        id: &str,
+        allow_own: bool,
+        ctx: &mut CallContext,
+    ) -> Result<(usize, Vec<Entity>)> {
+        let source = project_scope::read(&self.database, &ctx.session, id, allow_own, None).await?;
+        ctx.note_scope(Intent::Attachment {
+            id: source.attachment.id(),
+            mutation: false,
+            allow_own,
+        })?;
+        ctx.guard
+            .active_links
+            .entry(source.attachment.id())
+            .or_insert_with(|| store::link_proof(&source.all_links));
+        let i = ctx.track(source.attachment);
+        let mut links = Vec::new();
+        for link in source.links {
+            let n = ctx.track(link);
+            links.push(ctx.entities[n].clone());
         }
         Ok((i, links))
     }
     async fn session_access(&self, i: usize, mode: &str, ctx: &mut CallContext) -> Result<()> {
         let session = ctx.entities[i].clone();
+        if session.data["project_scope_context_version"] == 1 {
+            project_scope::upload_session(&self.database, &ctx.session, &session.data).await?;
+            ctx.note_scope(Intent::Session {
+                row: session.data.clone(),
+            })?;
+            return Ok(());
+        }
+        ctx.note_scope(Intent::Session {
+            row: session.data.clone(),
+        })?;
         if session
             .text("created_by")
             .is_some_and(|v| v != ctx.user_id())
@@ -547,7 +617,7 @@ impl AttachmentsService {
             return Err(forbidden("Insufficient attachment security permission"));
         }
         if ctx.entities[attachment].str("uploaded_by") != ctx.user_id()
-            && !self.any_link(&links, "read", ctx).await
+            && !self.any_link(&links, "read", ctx).await?
         {
             return Err(forbidden("Insufficient attachment target permission"));
         }
@@ -614,6 +684,18 @@ impl AttachmentsService {
     ) -> Result<Wire> {
         ctx.ensure_usable()?;
         ctx.checkpoint();
+        let condition_context = input
+            .completion_condition_context()
+            .map_err(|_| bad("Invalid strict completionConditionContext"))?;
+        if condition_context.is_some()
+            && (input.text("operationType").as_deref() != Some("create-attachment")
+                || input.text("targetType").as_deref() != Some("project")
+                || input.has("baseAttachmentId"))
+        {
+            return Err(bad(
+                "Condition-purpose upload requires create-attachment project target without baseAttachmentId",
+            ));
+        }
         let max = self
             .settings
             .get_attachment_max_upload_size_bytes()
@@ -640,7 +722,12 @@ impl AttachmentsService {
                 ));
             }
             self.category(&category).await?;
-            self.target_access(&kind, &id, "write", ctx).await?;
+            if let Some(context) = condition_context.as_ref() {
+                let purpose = json!({"project_scope_context_version":1,"completion_record_id":context.completion_record_id,"completion_condition_id":context.condition_id,"target_type":"project","target_id":id,"operation_type":"create-attachment","base_attachment_id":null,"created_by":ctx.user_id()});
+                project_scope::upload_session(&self.database, &ctx.session, &purpose).await?;
+            } else {
+                self.target_access(&kind, &id, "write", ctx).await?;
+            }
             let security = input
                 .text("securityLevel")
                 .unwrap_or_else(|| default_security(&category).into());
@@ -700,6 +787,14 @@ impl AttachmentsService {
             Table::Session,
             json!({"id":id,"operation_type":mode,"status":"pending","upload_mode":plan.upload_mode,"provider_type":plan.location.storage_provider,"storage_bucket":plan.location.storage_bucket,"storage_key":plan.location.storage_key,"target_type":target_kind,"target_id":target_id,"base_attachment_id":base,"completed_attachment_id":null,"original_name":name.to_utf8_lossy(),"display_name":"","extension":ext.to_utf8_lossy(),"mime_type":"","size_bytes":size as i64,"max_size_bytes":max,"checksum_sha256":input.text("checksumSha256"),"category":category,"security_level":security,"relation_type":relation,"description":null,"change_note":null,"expires_at":now+Duration::hours(1),"uploaded_at":null,"completed_at":null,"aborted_at":null,"failed_reason":null,"created_at":now,"created_by":ctx.user_id(),"updated_at":now}),
         );
+        if let Some(context) = condition_context.as_ref() {
+            entity.set("project_scope_context_version", json!(1));
+            entity.set("completion_record_id", json!(context.completion_record_id));
+            entity.set("completion_condition_id", json!(context.condition_id));
+        }
+        ctx.note_scope(Intent::Session {
+            row: entity.data.clone(),
+        })?;
         entity.set_text(
             "checksum_sha256",
             input.string("checksumSha256").filter(|v| !v.is_empty()),
@@ -1070,7 +1165,14 @@ impl AttachmentsService {
                     "Attachment upload session is missing create-attachment metadata",
                 ));
             }
-            self.target_access(&kind, &target, "write", ctx).await?;
+            if session.data["project_scope_context_version"] == 1 {
+                project_scope::upload_session(&self.database, &ctx.session, &session.data).await?;
+                ctx.note_scope(Intent::Session {
+                    row: session.data.clone(),
+                })?;
+            } else {
+                self.target_access(&kind, &target, "write", ctx).await?;
+            }
             (None, Vec::new())
         };
         let uploaded = session.time("uploaded_at").unwrap_or_else(clock_now);
@@ -1186,11 +1288,23 @@ impl AttachmentsService {
         Ok((attachment_index, created, audit))
     }
 
-    async fn summary(&self, i: usize, links: &[Entity], ctx: &CallContext) -> Result<Wire> {
-        let e = &ctx.entities[i];
-        let ids = e.text("uploaded_by").into_iter().collect();
+    async fn summary(&self, i: usize, _links: &[Entity], ctx: &CallContext) -> Result<Wire> {
+        let source = project_scope::read_row(
+            &self.database,
+            &ctx.session,
+            &ctx.entities[i].id(),
+            true,
+            ctx.entities[i].str("status") == "active",
+            None,
+        )
+        .await?;
+        let ids = source.attachment.text("uploaded_by").into_iter().collect();
         let users = store::uploaders(&self.database, ids).await?;
-        Ok(attachment_summary(e, links, users.first()))
+        Ok(attachment_summary(
+            &source.attachment,
+            &source.links,
+            users.first(),
+        ))
     }
     pub async fn get(&self, id: &str, ctx: &mut CallContext) -> Result<Wire> {
         let (i, links) = self.readable(id, ctx).await?;
@@ -1204,7 +1318,7 @@ impl AttachmentsService {
             &self.database,
             Table::Link,
             store::ReadFilter::LinksByTarget,
-            vec![kind, id],
+            vec![kind.clone(), id.clone()],
         )
         .await?;
         let ids = unique(
@@ -1224,17 +1338,15 @@ impl AttachmentsService {
             .into_iter()
             .filter(|e| ctx.can_read_security(e))
             .collect::<Vec<_>>();
-        self.list_summaries(visible, ctx).await
+        self.list_summaries(visible, ctx, Some((kind, id))).await
     }
     async fn list_summaries(
         &self,
         attachments: Vec<Entity>,
         ctx: &mut CallContext,
+        required: Option<(String, String)>,
     ) -> Result<Wire> {
-        let links =
-            store::all_active_links(&self.database, attachments.iter().map(Entity::id).collect())
-                .await?;
-        let uploaders = store::uploaders(
+        let users = store::uploaders(
             &self.database,
             unique(
                 attachments
@@ -1243,72 +1355,43 @@ impl AttachmentsService {
                     .collect(),
             ),
         )
-        .await?;
-        let users = uploaders
-            .into_iter()
-            .map(|v| (v["id"].as_str().unwrap_or("").to_owned(), v))
-            .collect::<HashMap<_, _>>();
-        let mut result = Vec::new();
-        for row in attachments {
-            let n = ctx.track(row);
-            let e = &ctx.entities[n];
-            let own = links
-                .iter()
-                .filter(|l| l.str("attachment_id") == e.id())
-                .cloned()
-                .collect::<Vec<_>>();
-            result.push(attachment_summary(
-                e,
-                &own,
-                e.text("uploaded_by").as_ref().and_then(|id| users.get(id)),
-            ));
-        }
-        Ok(Wire::array(result))
-    }
-    pub async fn history(&self, id: &str, ctx: &mut CallContext) -> Result<Wire> {
-        let (i, _) = self.readable(id, ctx).await?;
-        let group = group_id(&ctx.entities[i]);
-        let mut indices = self.versions(&group, ctx).await?;
-        if indices.is_empty() {
-            indices.push(i);
-        }
-        indices.retain(|n| ctx.can_read_security(&ctx.entities[*n]));
-        let users = store::uploaders(
-            &self.database,
-            unique(
-                indices
-                    .iter()
-                    .filter_map(|n| ctx.entities[*n].text("uploaded_by"))
-                    .collect(),
-            ),
-        )
         .await?
         .into_iter()
         .map(|v| (v["id"].as_str().unwrap_or("").to_owned(), v))
         .collect::<HashMap<_, _>>();
-        let links = futures_util::future::try_join_all(indices.iter().map(|n| {
-            let id = ctx.entities[*n].id();
-            async move { store::links(&self.database, &id).await }
-        }))
-        .await?;
-        let mut output = Vec::new();
-        for (n, links) in indices.into_iter().zip(links) {
-            let mut managed = Vec::new();
-            for row in links {
-                let p = ctx.track(row);
-                managed.push(ctx.entities[p].clone());
-            }
-            let entity = &ctx.entities[n];
-            output.push(attachment_summary(
-                entity,
-                &managed,
-                entity
+        let mut result = Vec::new();
+        for attachment in attachments {
+            let source = match project_scope::read_row(
+                &self.database,
+                &ctx.session,
+                &attachment.id(),
+                false,
+                false,
+                required.clone(),
+            )
+            .await
+            {
+                Ok(source) => source,
+                Err(error) if project_scope::authorization_denied(&error) => continue,
+                Err(error) => return Err(error),
+            };
+            result.push(attachment_summary(
+                &source.attachment,
+                &source.links,
+                source
+                    .attachment
                     .text("uploaded_by")
                     .as_ref()
                     .and_then(|id| users.get(id)),
             ));
         }
-        Ok(Wire::array(output))
+        Ok(Wire::array(result))
+    }
+    pub async fn history(&self, id: &str, ctx: &mut CallContext) -> Result<Wire> {
+        let source = project_scope::read(&self.database, &ctx.session, id, false, None).await?;
+        let group = group_id(&source.attachment);
+        let rows = store::group(&self.database, &group).await?;
+        self.list_summaries(rows, ctx, None).await
     }
     pub async fn binary(
         &self,
@@ -1526,7 +1609,7 @@ impl AttachmentsService {
         ctx: &mut CallContext,
     ) -> Result<Wire> {
         ctx.checkpoint();
-        let (i, _) = self.readable(id, ctx).await?;
+        let (i, _) = self.readable_source(id, false, ctx).await?;
         let kind = input.text("targetType").unwrap_or_default();
         let target = input.text("targetId").unwrap_or_default();
         let relation = input
@@ -1613,13 +1696,7 @@ impl AttachmentsService {
             return Ok(Wire::array(Vec::new()));
         }
         // The closed target-type literals are source enums, never request interpolation.
-        let target_links = store::rows(
-            &self.database,
-            Table::Link,
-            store::ReadFilter::Center(types.clone()),
-            Vec::new(),
-        )
-        .await?;
+        let target_links = project_scope::center_links(&self.database, &ctx.session).await?;
         let ids = unique(
             target_links
                 .iter()
@@ -1640,7 +1717,7 @@ impl AttachmentsService {
             .filter(|l| attachments.contains_key(l.str("attachment_id")))
             .cloned()
             .collect::<Vec<_>>();
-        let links =
+        let _links =
             store::all_active_links(&self.database, rows.iter().map(Entity::id).collect()).await?;
         let mut lookup = HashMap::new();
         let mut contracts = Vec::new();
@@ -1718,11 +1795,21 @@ impl AttachmentsService {
             )) else {
                 continue;
             };
-            let own = links
-                .iter()
-                .filter(|l| l.str("attachment_id") == attachment.id())
-                .cloned()
-                .collect::<Vec<_>>();
+            let source = match project_scope::read(
+                &self.database,
+                &ctx.session,
+                &attachment.id(),
+                false,
+                Some((link.str("target_type").into(), link.str("target_id").into())),
+            )
+            .await
+            {
+                Ok(source) => source,
+                Err(error) if project_scope::authorization_denied(&error) => continue,
+                Err(error) => return Err(error),
+            };
+            let attachment = &source.attachment;
+            let own = source.links;
             selected.push((
                 attachment.time("uploaded_at"),
                 Wire::nested(

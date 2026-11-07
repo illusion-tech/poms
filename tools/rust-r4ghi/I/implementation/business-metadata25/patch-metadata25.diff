@@ -1,0 +1,323 @@
+--- /dev/null
++++ b/tools/rust-r4ghi/business/metadata-write-inventory25.mjs
+@@ -0,0 +1,32 @@
++import assert from 'node:assert/strict';
++import { uuid, keyOf } from './pure.mjs';
++
++export const metadataOperation = 'ProjectController_updateBasicInfo';
++export const isMetadataWrite = operationId => operationId === metadataOperation;
++export function deriveMetadataWriteFacts(ctx, snapshot, scope, readRows) {
++  assert.equal(scope.params.id, uuid(scope.projectId)); uuid(scope.actorId);
++  assert.deepEqual(Object.keys(scope.body), ['projectName']);
++  assert(typeof scope.body.projectName === 'string' && /^[A-Za-z0-9_-]{1,120}$/.test(scope.body.projectName));
++  const rows = readRows(snapshot.databases[ctx.database].tables.project).filter(row => row.key[0] === scope.projectId); assert.equal(rows.length, 1);
++  const row = rows[0], value = JSON.parse(row.raw), owned = ctx.state.owned[keyOf(ctx.database, 'project', [scope.projectId])];
++  assert(owned && !owned.deleted && owned.latestSha256 === row.sha256 && owned.latestXmin === row.xmin);
++  assert.equal(value.owner_user_id, scope.actorId); assert(value.owner_org_id && value.status === 'active');
++  assert(Number.isSafeInteger(value.row_version) && value.row_version > 0 && value.row_version < 2147483647);
++  assert.notEqual(value.project_name, scope.body.projectName, 'A true no-op does not have the three dirty-path necessary writes');
++  return { version: 1, projectId: scope.projectId, actorId: scope.actorId, beforeProjectSHA256: row.sha256, beforeProjectXmin: row.xmin,
++    beforeRowVersion: value.row_version, oldProjectName: value.project_name, newProjectName: scope.body.projectName, currentOwnerOrgId: value.owner_org_id };
++}
++export function metadataWriteInventory(operationId, scope) {
++  assert(isMetadataWrite(operationId)); const { projectId, actorId, params, body, metadataFacts: facts } = scope;
++  uuid(projectId); uuid(actorId); assert.equal(params.id, projectId); assert.equal(facts?.version, 1); assert.equal(facts.projectId, projectId); assert.equal(facts.actorId, actorId);
++  assert.deepEqual(Object.keys(body), ['projectName']); assert.equal(body.projectName, facts.newProjectName); assert.notEqual(body.projectName, facts.oldProjectName);
++  const entry = (key, table, event, match, source, rationale) => ({ key, table, event, match, source, rationale });
++  return [
++    entry('metadata-project-cas', 'project', 'UPDATE', { kind: 'equals', values: { id: projectId, project_name: body.projectName, row_version: facts.beforeRowVersion + 1, updated_by: actorId } },
++      'apps/poms-api-rust/src/projects/store.rs', 'Actual dirty store::update uses the locked current int4 version CAS; this public PATCH has no client expectedVersion field.'),
++    entry('required-success-audit', 'audit_log', 'INSERT', { kind: 'audit', operationId, actorId, projectId },
++      'apps/poms-api-rust/src/contract_support/mod.rs', 'Actual canonical metadata audit is mandatory only for the dirty path, inside the same borrowed CommonSession.'),
++    entry('pending-auth-coflush', 'auth_session', 'UPDATE', { kind: 'auth-coflush', operationId, actorId, projectId },
++      'apps/poms-api-rust/src/auth/store.rs', 'Real due managed-auth write after this exact canonical request audit; raw independent touch is not counted.'),
++  ];
++}
+--- /dev/null
++++ b/tools/rust-r4ghi/business/metadata-patch25.mjs
+@@ -0,0 +1,103 @@
++// Root-only actual canonical metadata acceptance on a genuine run-owned project.
++import assert from 'node:assert/strict';
++import { randomUUID } from 'node:crypto';
++import { data, uuid, sha } from './pure.mjs';
++import { capture, loadSnapshot, readRows } from './snapshot.mjs';
++import { assertRecorded, changedColumns } from './ledger.mjs';
++import { faultSweepAndRetry } from './fault-sweep.mjs';
++import { ownershipProtocol } from './creator-ownership.mjs';
++import { metadataOperation } from './metadata-write-inventory25.mjs';
++
++const rows = (ctx, snapshot, table) => readRows(snapshot.databases[ctx.database].tables[table]);
++const facts = list => list.map(row => ({ key: row.key, sha256: row.sha256, xmin: row.xmin }));
++const projectRow = (ctx, snapshot, id) => { const found = rows(ctx, snapshot, 'project').filter(row => row.key[0] === id); assert.equal(found.length, 1); return found[0]; };
++export function assertMetadataAudit25(audit, { projectId, actorId, oldName, newName, beforeVersion }) {
++  assert.equal(audit.event_type, metadataOperation); assert.equal(audit.target_type, 'project'); assert.equal(audit.target_id, projectId);
++  assert.equal(audit.operator_id, actorId); assert.equal(audit.result, 'success');
++  assert.equal(audit.metadata.projectId, projectId); assert.equal(audit.metadata.scopeKind, 'full-project'); assert.equal(audit.metadata.ownerWrite, true);
++  assert.equal(audit.before_snapshot.id, projectId); assert.equal(audit.after_snapshot.id, projectId);
++  assert.equal(audit.before_snapshot.projectName, oldName); assert.equal(audit.after_snapshot.projectName, newName);
++  assert.equal(audit.before_snapshot.rowVersion, beforeVersion); assert.equal(audit.after_snapshot.rowVersion, beforeVersion + 1);
++}
++function assertOwnershipFactsUnchanged(ctx, before, after, projectId) {
++  for (const table of ['project_ownership_origin', 'project_owner_reassignment_record']) assert.deepEqual(facts(rows(ctx, before, table)), facts(rows(ctx, after, table)), 'Metadata PATCH changed an ownership fact');
++  assert.deepEqual(facts(rows(ctx, before, 'project').filter(row => row.key[0] !== projectId)), facts(rows(ctx, after, 'project').filter(row => row.key[0] !== projectId)), 'Metadata PATCH changed another owned project');
++}
++function noBusinessChange(ctx, response, projectId) {
++  const before = loadSnapshot(ctx, response.before), after = loadSnapshot(ctx, response.after);
++  const old = projectRow(ctx, before, projectId), current = projectRow(ctx, after, projectId);
++  assert.equal(current.sha256, old.sha256); assert.equal(current.xmin, old.xmin, 'No-op/denied/failed validation changed the project version or any bytes');
++  assertOwnershipFactsUnchanged(ctx, before, after, projectId);
++  assert.deepEqual(facts(rows(ctx, before, 'audit_log')), facts(rows(ctx, after, 'audit_log')), 'No-op/denied/failed validation added or changed business audit');
++  return { projectId, rowVersion: JSON.parse(old.raw).row_version, rowSHA256: old.sha256, xmin: old.xmin, projectVersionTimeAndBytesUnchanged: true, businessAuditUnchanged: true, ordinaryAuthBehaviorStillLedgerBound: true };
++}
++async function positiveProof(ctx, response, body) {
++  const before = loadSnapshot(ctx, response.before), after = loadSnapshot(ctx, response.after), id = uuid(response.pathParams.id);
++  const old = projectRow(ctx, before, id), current = projectRow(ctx, after, id), a = JSON.parse(old.raw), b = JSON.parse(current.raw);
++  assert.equal(a.owner_user_id, ctx.state.actors.manager.id); assert.equal(b.owner_user_id, a.owner_user_id); assert.equal(b.owner_org_id, a.owner_org_id);
++  assert.equal(b.project_name, body.projectName); assert.equal(b.row_version, a.row_version + 1); assert.equal(b.updated_by, ctx.state.actors.manager.id);
++  assert.equal(data(response).id, id); assert.equal(data(response).projectName, body.projectName); assert.equal(data(response).rowVersion, b.row_version);
++  const columns = await changedColumns(ctx, old.raw, current.raw);
++  assert(columns.includes('project_name') && columns.includes('row_version') && columns.includes('updated_at'));
++  assert(columns.every(key => ['project_name', 'row_version', 'updated_at', 'updated_by'].includes(key)));
++  assertOwnershipFactsUnchanged(ctx, before, after, id);
++  const audits = rows(ctx, after, 'audit_log').filter(row => { const value = JSON.parse(row.raw); return value.request_id === response.requestId && value.event_type === metadataOperation; });
++  assert.equal(audits.length, 1); assert.equal(audits[0].xmin, current.xmin);
++  assertMetadataAudit25(JSON.parse(audits[0].raw), { projectId: id, actorId: ctx.state.actors.manager.id, oldName: a.project_name, newName: body.projectName, beforeVersion: a.row_version });
++  return { projectId: id, beforeRowVersion: a.row_version, afterRowVersion: b.row_version, actualProjectAuditXmin: current.xmin,
++    columns, project: { sha256: current.sha256, xmin: current.xmin }, audit: { key: audits[0].key, sha256: audits[0].sha256, xmin: audits[0].xmin },
++    noPublicExpectedVersionInvented: true, ownershipFactsAndOtherProjectsUnchanged: true };
++}
++export async function metadataPatch25(ctx, api) {
++  ownershipProtocol(ctx, api); const f = ctx.state.fixtures, creator = f.creatorOwnership23;
++  const operation = api.operations.get(metadataOperation); assert.equal(operation.method, 'PATCH'); assert.equal(operation.template, '/api/projects/{id}');
++  const requestSchema = operation.op.requestBody.content['application/json'].schema;
++  const request = requestSchema.$ref ? api.spec.components.schemas[requestSchema.$ref.split('/').at(-1)] : requestSchema;
++  assert(request.properties.projectName && request.properties.customerId && !request.properties.expectedVersion, 'Bind the actual public metadata request, without inventing client CAS');
++  assert(creator?.completed && creator.projects.default.proof && creator.projects.default.proofPending === false, 'Actual real default-creator project and its original producer proof are required');
++  assert(f.legacyCompatibilityFixture?.verified, 'The403 case uses the same-run actual controlled Legacy anchor, not a guessed inside-scope relationship');
++  const id = uuid(creator.projects.default.project.id), state = f.metadataPatch25 ??= { projectId: id, negatives: {}, body: { projectName: `${ctx.state.prefix}-metadata-atomic25` } }; ctx.persist();
++  assert.equal(state.projectId, id);
++  if (state.completed) return { ...state.result, alreadyCompleteWithoutCommandReplay: true };
++  assert(!state.positive?.proofPending, 'An already successful PATCH needs proof reconciliation, never another POST/PATCH');
++  await api.login('manager'); assert(ctx.state.actors.manager.permissions.includes('project:write'));
++  if (!state.negatives.outside404) {
++    await api.login('unrelated'); assert(ctx.state.actors.unrelated.permissions.includes('project:write'));
++    const response = await api.request(metadataOperation, { id }, { projectName: `${ctx.state.prefix}-forbidden25` }, 'unrelated', { expectedStatus: 404 });
++    state.negatives.outside404 = ctx.artifact(`${ctx.next('metadata25-outside404')}.json`, { receipt: response.receiptId, proof: noBusinessChange(ctx, response, id), realProjectWritePresent: true }); ctx.persist();
++  }
++  if (!state.negatives.inside403) {
++    const legacyId = uuid(f.legacyCompatibilityFixture.projectId);
++    const response = await api.request(metadataOperation, { id: legacyId }, { projectName: `${ctx.state.prefix}-legacy-forbidden25` }, 'manager', { expectedStatus: 403 });
++    state.negatives.inside403 = ctx.artifact(`${ctx.next('metadata25-inside403')}.json`, { receipt: response.receiptId, proof: noBusinessChange(ctx, response, legacyId), actualLegacyAnchorOnly: true, controlledCompatibilityFixture: true }); ctx.persist();
++  }
++  if (!state.negatives.missingCustomer404) {
++    const observation = await capture(ctx, ctx.next('metadata25-missing-customer')); assertRecorded(ctx, observation);
++    state.missingCustomerId ??= randomUUID(); assert(!rows(ctx, observation, 'customer').some(row => row.key[0] === state.missingCustomerId)); ctx.persist();
++    const response = await api.request(metadataOperation, { id }, { projectName: `${ctx.state.prefix}-local-name-must-rollback25`, customerId: state.missingCustomerId }, 'manager', { expectedStatus: 404 });
++    state.negatives.missingCustomer404 = ctx.artifact(`${ctx.next('metadata25-customer404')}.json`, { receipt: response.receiptId, proof: noBusinessChange(ctx, response, id), missingCustomerBefore: observation.manifest, localNameAssignmentDidNotPersist: true }); ctx.persist();
++  }
++  if (!state.positive) {
++    const result = await faultSweepAndRetry(ctx, api, { operationId: metadataOperation, projectId: id, params: { id }, body: state.body, actor: 'manager',
++      binding: { mutableTables: ['project'], updatedAnchors: [{ table: 'project', id, requestBinding: 'path:id' }] } });
++    state.positive = { receipt: result.successful.receiptId, sweepReceipt: result.receipt, requestId: result.successful.requestId, before: result.successful.before, after: result.successful.after, proofPending: true }; ctx.persist();
++    const proof = await positiveProof(ctx, result.successful, state.body);
++    state.positive.proof = ctx.artifact(`${ctx.next('metadata25-positive')}.json`, { proof, sweepReceipt: result.receipt, sourceRequiredFamilies: 3, allThreeActuallyHitOnceThenOneSuccess: true });
++    state.positive.proofPending = false; ctx.persist();
++  }
++  assert(state.positive.proof && state.positive.proofPending === false);
++  if (!state.noop) {
++    state.noop = { phase: 'request-starting', bodySHA256: sha(JSON.stringify(state.body)) }; ctx.persist();
++    const response = await api.request(metadataOperation, { id }, state.body, 'manager');
++    state.noop = { ...state.noop, phase: 'proof-pending', receipt: response.receiptId, before: response.before, after: response.after }; ctx.persist();
++    const proof = noBusinessChange(ctx, response, id); assert.equal(data(response).projectName, state.body.projectName);
++    assert.equal(data(response).rowVersion, proof.rowVersion);
++    state.noop.proof = ctx.artifact(`${ctx.next('metadata25-noop')}.json`, { proof, receipt: response.receiptId, sameBodyAsSingleDirtySuccess: true }); state.noop.phase = 'verified'; ctx.persist();
++  }
++  assert.equal(state.noop.phase, 'verified', 'An interrupted noop must be reconciled from originals, not blindly repeated');
++  state.result = { kind: 'actual-current-owner-metadata-PATCH-and-source-bound-three-write-sweep', completed: true, projectId: id, canonicalOperationId: metadataOperation,
++    requiredWritePrimaryHitFailures: 3, finalDirtySuccesses: 1, sameBodyNoopObserved: true, outside404WithProjectWrite: true, actualInsideLegacy403: true,
++    missingCustomerLocalAssignmentRollback: true, versionAtomicity: 'failed sweeps preserve exact bytes/xmin; one dirty success increments1; noop preserves exact bytes/xmin',
++    publicClientCASInvented: false, source17and19Changed: false, mainFIProjectAndNestedUISparesReplaced: false, counted32NewProducer: false, G3Certified: false, G4Certified: false };
++  state.completed = true; ctx.persist(); return state.result;
++}
+--- /dev/null
++++ b/tools/rust-r4ghi/business/metadata-patch25.test.mjs
+@@ -0,0 +1,48 @@
++import test from 'node:test';
++import assert from 'node:assert/strict';
++import { sha, keyOf } from './pure.mjs';
++import { deriveMetadataWriteFacts, metadataOperation } from './metadata-write-inventory25.mjs';
++import { requiredWriteInventory, selectorSql, writeMatches } from './required-write-inventory.mjs';
++import { assertMetadataAudit25 } from './metadata-patch25.mjs';
++
++const id = '11111111-1111-4111-8111-111111111111', actorId = '22222222-2222-4222-8222-222222222222', orgId = '33333333-3333-4333-8333-333333333333';
++function fixture() {
++  const raw = JSON.stringify({ id, project_name: 'old actual owned name', row_version: 1, status: 'active', owner_user_id: actorId, owner_org_id: orgId });
++  const row = { key: [id], raw, sha256: sha(raw), xmin: '321' };
++  const ctx = { database: 'rust', state: { owned: { [keyOf('rust', 'project', [id])]: { latestSha256: row.sha256, latestXmin: row.xmin } } } };
++  const snapshot = { databases: { rust: { tables: { project: [row] } } } };
++  const scope = { projectId: id, actorId, params: { id }, body: { projectName: 'bg0000000000-metadata-atomic25' } };
++  scope.metadataFacts = deriveMetadataWriteFacts(ctx, snapshot, scope, rows => rows); return { row, ctx, snapshot, scope };
++}
++test('metadata inventory is the actual dirty canonical PATCH project/audit/managed-auth path only', () => {
++  const { scope } = fixture(), inventory = requiredWriteInventory(metadataOperation, scope);
++  assert.deepEqual(inventory.map(item => [item.key, item.table, item.event]), [['metadata-project-cas', 'project', 'UPDATE'], ['required-success-audit', 'audit_log', 'INSERT'], ['pending-auth-coflush', 'auth_session', 'UPDATE']]);
++  assert.equal(inventory[0].match.values.row_version, 2); assert.equal(inventory[1].match.operationId, 'ProjectController_updateBasicInfo');
++  assert(!Object.hasOwn(scope.body, 'expectedVersion'));
++  const sql = selectorSql(inventory[2], { requestId: 'exact-request25', sessionId: orgId });
++  assert(sql.includes("a.event_type='ProjectController_updateBasicInfo'") && sql.includes('EXISTS(SELECT 1 FROM poms.audit_log'));
++});
++test('true noop, changed owner, unowned bytes and forged public CAS cannot manufacture a dirty-path inventory', () => {
++  for (const mutate of [f => { f.scope.body.projectName = 'old actual owned name'; }, f => { f.scope.actorId = orgId; },
++    f => { f.ctx.state.owned[keyOf('rust', 'project', [id])].latestSha256 = 'foreign'; }, f => { f.scope.body.expectedVersion = 1; }]) {
++    const f = fixture(); mutate(f); assert.throws(() => deriveMetadataWriteFacts(f.ctx, f.snapshot, f.scope, rows => rows));
++  }
++});
++test('exact project version/name and canonical audit matching exclude unrelated/misnamed writes', () => {
++  const { scope } = fixture(), inventory = requiredWriteInventory(metadataOperation, scope), row = value => ({ raw: JSON.stringify(value) });
++  const project = { id, project_name: scope.body.projectName, row_version: 2, updated_by: actorId };
++  assert(writeMatches(inventory[0], row(project), () => [], {})); assert(!writeMatches(inventory[0], row({ ...project, row_version: 3 }), () => [], {}));
++  const audit = { request_id: 'r25', event_type: metadataOperation, operator_id: actorId, result: 'success', metadata: { projectId: id } };
++  assert(writeMatches(inventory[1], row(audit), () => [], { requestId: 'r25' }));
++  assert(!writeMatches(inventory[1], row({ ...audit, event_type: 'ProjectController_update' }), () => [], { requestId: 'r25' }));
++  assert(!writeMatches(inventory[1], row({ ...audit, request_id: 'different-request' }), () => [], { requestId: 'r25' }));
++});
++test('successful audit proves true owner scope and exact before/after versions, not just a200', () => {
++  const expected = { projectId: id, actorId, oldName: 'old', newName: 'new', beforeVersion: 1 };
++  const audit = { event_type: metadataOperation, target_type: 'project', target_id: id, operator_id: actorId, result: 'success',
++    metadata: { projectId: id, scopeKind: 'full-project', ownerWrite: true }, before_snapshot: { id, projectName: 'old', rowVersion: 1 }, after_snapshot: { id, projectName: 'new', rowVersion: 2 } };
++  assertMetadataAudit25(audit, expected);
++  for (const mutate of [a => { a.metadata.ownerWrite = false; }, a => { a.after_snapshot.rowVersion = 3; }, a => { a.event_type = 'ProjectController_update'; }]) {
++    const changed = structuredClone(audit); mutate(changed); assert.throws(() => assertMetadataAudit25(changed, expected));
++  }
++});
+--- /dev/null
++++ b/tools/rust-r4ghi/business/required-write-sources25.json
+@@ -0,0 +1,46 @@
++[
++  {
++    "file": "apps/poms-api-rust/src/projects/service.rs",
++    "sha256": "f46a61cb295dd9caab7652b0cbc076ec3c8ef42bfea5d10601f92570079406ef"
++  },
++  {
++    "file": "apps/poms-api-rust/src/projects/store.rs",
++    "sha256": "23ed76140b91e5627f503ddbc1687077f11f1d4d036b0a5c544ebfb7a1cce94c"
++  },
++  {
++    "file": "apps/poms-api-rust/src/projects/http.rs",
++    "sha256": "132c2a4e0dd19e453f65d33558c579eb95e91208d27ce89882fc5ebf245d7a81"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_action_authorization/mod.rs",
++    "sha256": "df4073a4a6d744d70924f48d39d4c7149701e40584e5d9a21419630dd574814b"
++  },
++  {
++    "file": "apps/poms-api-rust/src/contract_support/mod.rs",
++    "sha256": "f0152a5b1fd36f5d0a5eb0daa55ec52d1bac26a068850d6ae624104d268244f8"
++  },
++  {
++    "file": "apps/poms-api-rust/src/auth/service.rs",
++    "sha256": "3f216c2be127ca22e536f0413c91a72c29c37f2e97212089ac3a2611169ee650"
++  },
++  {
++    "file": "apps/poms-api-rust/src/auth/store.rs",
++    "sha256": "14ba9d8e7171e6a6fbd00fa68c25a283d53521e17921b5d0e2ac760fec1a3f40"
++  },
++  {
++    "file": "apps/poms-api-rust/src/config.rs",
++    "sha256": "71857aacb627ee7180a32a0985b055322fd60e082b6a842b52cf2e249b8830d7"
++  },
++  {
++    "file": "apps/poms-api-rust/src/approval/context.rs",
++    "sha256": "949be75195aec51c29d38b6b8999ccb510c9dbf77dc6de3513187785a765525a"
++  },
++  {
++    "file": "apps/poms-api-rust/src/approval_common/session.rs",
++    "sha256": "f1c29e9eaace917504af0b7cea26337f28e3c65ae81263c73ba3022f2da76c96"
++  },
++  {
++    "file": "apps/poms-api-rust/src/approval_common/store.rs",
++    "sha256": "b69ae15fdaaa7a1032432e57c6c13f244c8c58a0f0c6dc14ca016bcc5e523b86"
++  }
++]
+--- a/tools/rust-r4ghi/business/fault-sweep.mjs
++++ b/tools/rust-r4ghi/business/fault-sweep.mjs
+@@ -8,12 +8,13 @@
+ import { isGHWrite, deriveGHWriteFacts } from './gh-write-facts.mjs';
+ import { requiredWriteInventory, selectorSql, writeMatches, requireOwnedScope } from './required-write-inventory.mjs';
+ import { loadActualAuthConfig } from './auth-config-binding.mjs';
++import { isMetadataWrite, deriveMetadataWriteFacts } from './metadata-write-inventory25.mjs';
+ 
+ const kind = 'source-bound-required-write-sweep17';
+ const identitySHA = value => sha(JSON.stringify(value));
+ const exactStatus = attempt => assert(attempt.status === 500 && attempt.responseComplete === true && attempt.transportFailure === false, 'FI requires an actual complete500; no missing-ACK rollback inference');
+ function verifySources(ctx, operationId = null) {
+-  const pins = JSON.parse(fs.readFileSync(new URL(isGHWrite(operationId) ? './required-write-sources19.json' : './required-write-sources17.json', import.meta.url)));
++  const pins = JSON.parse(fs.readFileSync(new URL(isMetadataWrite(operationId) ? './required-write-sources25.json' : isGHWrite(operationId) ? './required-write-sources19.json' : './required-write-sources17.json', import.meta.url)));
+   for (const pin of pins) assert.equal(ctx.pins.find(p => p.file === pin.file)?.sha256, pin.sha256, `Reviewed FI source changed: ${pin.file}`);
+   return pins;
+ }
+@@ -56,6 +57,7 @@
+   assertPeriodSweepPolicy(descriptor.operationId, descriptor.scope.body);
+   const sourcePins = verifySources(ctx, descriptor.operationId);
+   if (isGHWrite(descriptor.operationId)) assert.deepEqual(deriveGHWriteFacts(ctx, before, descriptor.operationId, descriptor.scope, readRows), descriptor.scope.ghFacts, 'Actual source write branches changed; never trust a preflight-only facts object');
++  if (isMetadataWrite(descriptor.operationId)) assert.deepEqual(deriveMetadataWriteFacts(ctx, before, descriptor.scope, readRows), descriptor.scope.metadataFacts, 'Actual dirty project/version changed before this FI attempt');
+   const inventory = requiredWriteInventory(descriptor.operationId, descriptor.scope);
+   const selected = inventory.find(d => d.key === descriptor.key); assert(selected);
+   assert.deepEqual(selected, descriptor.selected, 'Never accept client-provided SQL or an altered write inventory');
+@@ -204,11 +206,15 @@
+   assert.equal(decision.policy.currentHead, 'realtime-only'); assert.equal(decision.policy.lateClosingMayReplaceRealtimeCurrent, false);
+   assert.equal(decision.policy.periodSnapshotMayBecomeCurrent, false); assert.equal(decision.policy.periodEvaluationMayReplaceCurrentCommissionBindings, false);
+ }
+-export async function faultSweepAndRetry(ctx, api, { operationId, params, body, actor = 'manager', binding = {} }) {
++export async function faultSweepAndRetry(ctx, api, { operationId, params, body, actor = 'manager', binding = {}, projectId = null }) {
+   assert(!binding.fi && !binding.expectedStatus && !binding.rawJson && !binding.bytes);
+   assertPeriodSweepPolicy(operationId, body, ctx);
+   const sourcePins = verifySources(ctx, operationId), f = ctx.state.fixtures;
+-  const scope = { projectId: uuid(f.project.id), actorId: uuid(ctx.state.actors[actor].id), actorKey: actor, params, body };
++  const scope = { projectId: uuid(projectId ?? f.project?.id), actorId: uuid(ctx.state.actors[actor].id), actorKey: actor, params, body };
++  if (isMetadataWrite(operationId)) {
++    const observation = await capture(ctx, ctx.next('metadata-write-facts25')); assertRecorded(ctx, observation);
++    scope.metadataFacts = deriveMetadataWriteFacts(ctx, observation, scope, readRows); scope.metadataObservation = observation.manifest;
++  }
+   if (isGHWrite(operationId)) {
+     const observation = await capture(ctx, ctx.next('GH-write-facts')); assertRecorded(ctx, observation);
+     scope.ghFacts = deriveGHWriteFacts(ctx, observation, operationId, scope, readRows); scope.ghObservation = observation.manifest;
+--- a/tools/rust-r4ghi/business/required-write-inventory.mjs
++++ b/tools/rust-r4ghi/business/required-write-inventory.mjs
+@@ -4,6 +4,7 @@
+ import { readRows } from './snapshot.mjs';
+ import { isGHWrite } from './gh-write-facts.mjs';
+ import { ghWriteInventory, ghSelectorSql, ghWriteMatches } from './gh-write-inventory.mjs';
++import { isMetadataWrite, metadataWriteInventory } from './metadata-write-inventory25.mjs';
+ 
+ const roleSource = 'apps/poms-api-rust/src/commission_assignment/service.rs';
+ const lifecycleSource = 'apps/poms-api-rust/src/project_lifecycle/service.rs';
+@@ -16,6 +17,7 @@
+   return { key, table, event, match, source, rationale };
+ }
+ export function requiredWriteInventory(operationId, scope) {
++  if (isMetadataWrite(operationId)) return metadataWriteInventory(operationId, scope);
+   if (isGHWrite(operationId)) return ghWriteInventory(operationId, scope);
+   const { projectId, actorId, params, body } = scope;
+   uuid(projectId); uuid(actorId); assert(body && typeof body === 'object');
+--- a/tools/rust-r4ghi/business/upstream.mjs
++++ b/tools/rust-r4ghi/business/upstream.mjs
+@@ -76,6 +76,7 @@
+ }
+ 
+ export async function runBusinessStage(ctx, api, stage) {
++  if (stage === 'metadata-patch-sweep') { const { metadataPatch25 } = await import('./metadata-patch25.mjs'); return metadataPatch25(ctx, api); }
+   if (stage === 'creator-ownership') { const { creatorOwnership } = await import('./creator-ownership.mjs'); return creatorOwnership(ctx, api); }
+   if (stage === 'legacy-compatibility') { const { legacyCompatibility } = await import('./legacy-compatibility.mjs'); return legacyCompatibility(ctx, api); }
+   if (stage === 'ui-eo-spare' || stage === 'ui-own-spare') { const { prepareUISpare } = await import('./ui-spares23.mjs'); return prepareUISpare(ctx, stage === 'ui-eo-spare' ? 'eo' : 'own'); }
+--- a/tools/rust-r4ghi/business/driver.mjs
++++ b/tools/rust-r4ghi/business/driver.mjs
+@@ -9,7 +9,7 @@
+ 
+ export const HELP = `business/driver.mjs preflight|baseline|run|report|cycle-sandbox|disarm-fi|plan-cleanup|apply-cleanup|noop
+   --epoch NEW_BUSINESS_EPOCH --run RUN [--phase UNIQUE_PHASE]
+-  [--stage platform|project-sources|summary|contract-prepare|contract-finish|receipt|handover|roles-and-execution|roles-and-execution-sweep|actual-costs|operating|operating-sweep|operating-restatement-sweep|lifecycle|lifecycle-sweep|creator-ownership|legacy-compatibility|ui-eo-spare|ui-own-spare]
++  [--stage platform|project-sources|summary|contract-prepare|contract-finish|receipt|handover|roles-and-execution|roles-and-execution-sweep|actual-costs|operating|operating-sweep|operating-restatement-sweep|lifecycle|lifecycle-sweep|creator-ownership|legacy-compatibility|ui-eo-spare|ui-own-spare|metadata-patch-sweep]
+   [--provision-receipt ORIGINAL_NAMESPACE_PROVISION_JSON]
+   [--api-process-record PRIVATE_ACTUAL_PROCESS_JSON]
+   [--approved-plan-sha SHA --api-stopped-receipt PRIVATE_ACTUAL_STOP_JSON]

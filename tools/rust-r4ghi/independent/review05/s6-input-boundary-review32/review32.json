@@ -1,0 +1,68 @@
+{
+  "kind": "independent-S6-minimal-source-and-tooling-checkpoint-boundary-review",
+  "capturedAt": "2026-11-07T11:26:47.367277+00:00",
+  "conclusion": "Plan boundary is coherent for G2 feature input/tooling evolution; actual A2/registry/tool/SDK pins and results still need review. No product G3/main delivery approval.",
+  "pinsRead": [
+    {
+      "file": "tools/rust-r1b/s5/source-access.mjs",
+      "sha256": "b53d297ddee6bef57db0c43183958e7ea42b91029ef8662cb1956b5c4188e2a2"
+    },
+    {
+      "file": "tools/rust-r1b/s5/full-build.mjs",
+      "sha256": "96f510b0737d79826e6a663faabf0d32dccbf2a69c0c88f66348cdf0247a36e3"
+    },
+    {
+      "file": "tools/rust-r1b/s5/export-s5.mjs",
+      "sha256": "8ccb6df3f645154cfb08a39baea17fe651b71867cf5760977f2f6a18bebac1d5"
+    },
+    {
+      "file": "tools/rust-r1b/s5/review.mjs",
+      "sha256": "f7fa0d173770e70260e450d181d742810170575a0c3eb0596b5199c76fe35625"
+    },
+    {
+      "file": "tools/rust-r1b/history/s3-nominal-identity.json",
+      "sha256": "9f5f1e044f0e5ea57023238cd5d6e2d2f5caf1b58f1977add5faaeb713daa335"
+    },
+    {
+      "file": "tools/openapi/shared-api-client.mjs",
+      "sha256": "4741cb72411fad9267a90c70e8ec7effcbf3ddcca5c9b790941aa6b7fc62bad2"
+    }
+  ],
+  "A2": "Only new full canonical spec plus new r4ghi-s6 checkpoint/raw complete closure/provenance; final M97/Nativeguard/shared bytes first. S4/S5 checkpoints and commits retained. No product/SDK WIP staged.",
+  "sourceGuards": "Two checkpoint constants plus exact actual input count updates in both validation/provenance; retain original strict record/path schema, duplicates/UTF8/raw-normalized fingerprints, exact A2 blob checks, directory working/index/untracked and live six before/after equality, clean tracked exact tools. Prefer existing inputs/ format for manifest01.",
+  "historicalIdentity": {
+    "unchangedRawSHA256": "9f5f1e044f0e5ea57023238cd5d6e2d2f5caf1b58f1977add5faaeb713daa335",
+    "oldNominalFamilies": 209,
+    "requiredOriginalPreviousManifestObjectSHA256": "b7119bffe53300cf4102d72aba4c275a37238158cda87178a2ee8cb8ce054e61",
+    "verifiedGitObject": "f072f7d58fa3ef551d7194f8305f176678aedb79:tools/rust-r1b/shared-manifest.json",
+    "currentGeneratedManifestIsNotThatInput": true,
+    "specificTrap": "proposeS5 always calls proposeIdentity(previousManifest,r0). Passing current generated S5 as previous silently rewrites identity. Use exact original object verified by identity hash, or explicitly existing pinned identity, then compare output identity raw bytes before accepting."
+  },
+  "expectedCoverageNotCertificate": {
+    "families": [
+      330,
+      331
+    ],
+    "occurrences": [
+      338,
+      339
+    ],
+    "newFamily": "ProjectInitialOwnership",
+    "oldValuesAliasesAndNominalNamesMustAllRemain": true,
+    "requiredPublicClosure": [
+      130,
+      131
+    ],
+    "requiredFullSchemas": [
+      689,
+      690
+    ],
+    "requiredFullOperations": 296,
+    "scopeOfExpectedWireChange": "one new ownership enum/schema and the existing CreateProjectRequest optional defaultcreator property; old schema names/operations retained, unrelated wire unchanged. Counts alone cannot establish this."
+  },
+  "toolingC2": "Freeze exact registry/review/source-access/probe changes in separate tooling feature commit after actual A2 source commit; identity unchanged; no null/auto pins or live unregistered source. S5 path/flag may remain a generator format name with explicit S6 source provenance.",
+  "SDK_B2": "Baseline exact A2 and full690 array inventory; six protected working/index/untracked and before/after guards, fixed Java/JAR7.20.0/config, three managed metadata and fail-does-not-overwrite intact; full actual JAR write/check and Windows/Linux entry/integration checks; deterministic repairs preserve canonical wire.",
+  "notApprovedOrExecutedByReviewer": true,
+  "G3Certified": false,
+  "G4Certified": false
+}

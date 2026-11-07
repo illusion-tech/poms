@@ -1,0 +1,30 @@
+// Proposed Root-owned project_workspace/service.rs helper.
+// Invoke only after same-session ReadProjectAnchorOrIList scope; own-condition /
+// creator bootstrap never gets project timeline/evidence scope. Existing source
+// milestone reads must use this same borrowed session too.
+// CONTRACT HOLD: existing ProjectTimelineSourceType is closed and lacks
+// project-stage-record. Root must freeze/sync that supporting delta before
+// applying this optional helper. FullProjectDetail.currentStageRecordId already
+// supplies the frozen minimum entry without adding a timeline enum member.
+async fn actual_stage_events_with_session(
+    session:&mut crate::approval_common::CommonSession<'_, '_>,project_id:Uuid,
+    actor:&crate::contract_support::Actor,
+)->Result<Vec<serde_json::Value>,crate::contract_support::Error>{
+    use crate::project_action_authorization::{self as scope,ProjectAction,ProjectActionTarget};
+    scope::require(session,actor,ProjectAction::ReadProjectAnchorOrIList,ProjectActionTarget::Project{id:project_id}).await?;
+    let rows:Vec<serde_json::Value>=sqlx::query_scalar(r#"SELECT jsonb_build_object(
+      'eventKey','project-stage:'||s.id::text,'stage',s.to_stage,
+      'stageLabel',CASE s.to_stage WHEN 'handover' THEN '移交' WHEN 'execution' THEN '执行' WHEN 'acceptance' THEN '验收' WHEN 'completed' THEN '完成' WHEN 'conditional-completed' THEN '有条件完成' END,
+      'eventType','stage-entered','occurredAt',s.entered_at,'actorUserId',s.entered_by,
+      'actorName',u.display_name,'resultLabel',s.reason,'sourceType','project-stage-record',
+      'sourceId',s.id,'evidenceLabel','已固定的真实阶段准入','isAuthoritative',true)
+      FROM poms.project_stage_record s LEFT JOIN poms.platform_user u ON u.id=s.entered_by
+      WHERE s.project_id=$1 AND s.producer_version=1 ORDER BY s.sequence_no,s.id"#)
+        .bind(project_id).fetch_all(&mut *session.connection).await?;
+    Ok(rows)
+}
+// Merge these actual events with the existing actual source milestones by stored
+// instants, retaining every distinct source identity. Never derive stage events
+// from current_stage, and never fabricate assessment->... history for legacy rows.
+// A completion whose result is conditional-completed must retain that stage in
+// its existing milestone; archive/replace/void stay ancillary milestones.

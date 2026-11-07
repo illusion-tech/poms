@@ -29,7 +29,7 @@ import type {
     ProjectWorkspaceGuidanceView
 } from '@poms/shared-api-client';
 import { AttachmentHandoverApi, BASE_PATH, CommissionApi, CommissionRoleAssignmentsApi, ContractApi, ContractReadinessApi, ProjectApi, ProjectCostApi, ProjectHandoverApi } from '@poms/shared-api-client';
-import { firstValueFrom, type Observable } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 
 type WorkspaceErrorKind =
     | 'guidance'
@@ -666,6 +666,7 @@ export class ProjectWorkspaceStore {
                 )
             ]);
 
+            if ('view' in accounting) throw new Error('正式经营视图尚未返回，请进入经营编制核对来源。');
             this.#businessOutcomeOverview.set(overview);
             this.#unifiedAccounting.set(accounting);
             return { overview, accounting };
@@ -730,7 +731,7 @@ export class ProjectWorkspaceStore {
                 firstValueFrom(
                     this.#commissionApi.commissionControllerGetCurrentRoleAssignment({
                         projectId
-                    }) as unknown as Observable<CommissionRoleAssignmentSummary | null>
+                    })
                 ),
                 firstValueFrom(
                     this.#projectHandoverApi.projectHandoverControllerGetProjectHandoverDetailByProject({

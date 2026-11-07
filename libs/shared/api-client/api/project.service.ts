@@ -19,6 +19,10 @@ import { OpenApiHttpParams, QueryParamStyle } from '../query.params';
 // @ts-ignore
 import { AcceptanceRecordSummary } from '../model/acceptance-record-summary';
 // @ts-ignore
+import { CloseProjectCompletionConditionRequest } from '../model/close-project-completion-condition-request';
+// @ts-ignore
+import { CloseProjectCompletionConditionResult } from '../model/close-project-completion-condition-result';
+// @ts-ignore
 import { CreateAcceptanceRecordRequest } from '../model/create-acceptance-record-request';
 // @ts-ignore
 import { CreateProjectArchiveRecordRequest } from '../model/create-project-archive-record-request';
@@ -39,6 +43,8 @@ import { ProjectBidCommercialProcessSummary } from '../model/project-bid-commerc
 // @ts-ignore
 import { ProjectBidCommercialWorkspaceView } from '../model/project-bid-commercial-workspace-view';
 // @ts-ignore
+import { ProjectCompletionRecordList } from '../model/project-completion-record-list';
+// @ts-ignore
 import { ProjectCompletionRecordSummary } from '../model/project-completion-record-summary';
 // @ts-ignore
 import { ProjectDetailView } from '../model/project-detail-view';
@@ -52,6 +58,8 @@ import { ProjectPricingMarginReviewSummary } from '../model/project-pricing-marg
 import { ProjectPricingMarginWorkspaceView } from '../model/project-pricing-margin-workspace-view';
 // @ts-ignore
 import { ProjectStage } from '../model/project-stage';
+// @ts-ignore
+import { ProjectStageTransitionResult } from '../model/project-stage-transition-result';
 // @ts-ignore
 import { ProjectStatus } from '../model/project-status';
 // @ts-ignore
@@ -68,6 +76,10 @@ import { ProjectWorkspaceGuidanceView } from '../model/project-workspace-guidanc
 import { ReassignProjectOwnerRequest } from '../model/reassign-project-owner-request';
 // @ts-ignore
 import { ReplaceProjectArchiveRecordRequest } from '../model/replace-project-archive-record-request';
+// @ts-ignore
+import { StartProjectAcceptanceRequest } from '../model/start-project-acceptance-request';
+// @ts-ignore
+import { StartProjectExecutionRequest } from '../model/start-project-execution-request';
 // @ts-ignore
 import { UpdateProjectBasicInfoRequest } from '../model/update-project-basic-info-request';
 // @ts-ignore
@@ -87,6 +99,12 @@ export interface ProjectArchiveRecordControllerReplaceProjectArchiveRecordReques
 export interface ProjectArchiveRecordControllerVoidProjectArchiveRecordRequestParams {
     id: string;
     voidProjectArchiveRecordRequest: VoidProjectArchiveRecordRequest;
+}
+
+export interface ProjectCompletionRecordControllerCloseCompletionConditionRequestParams {
+    completionRecordId: string;
+    id: string;
+    closeProjectCompletionConditionRequest: CloseProjectCompletionConditionRequest;
 }
 
 export interface ProjectControllerCreateRequestParams {
@@ -185,6 +203,16 @@ export interface ProjectControllerListProjectTechnicalCostPackagesRequestParams 
 export interface ProjectControllerReassignOwnerRequestParams {
     id: string;
     reassignProjectOwnerRequest: ReassignProjectOwnerRequest;
+}
+
+export interface ProjectControllerStartAcceptanceRequestParams {
+    id: string;
+    startProjectAcceptanceRequest: StartProjectAcceptanceRequest;
+}
+
+export interface ProjectControllerStartExecutionRequestParams {
+    id: string;
+    startProjectExecutionRequest: StartProjectExecutionRequest;
 }
 
 export interface ProjectControllerUpdateBasicInfoRequestParams {
@@ -338,6 +366,83 @@ export class ProjectApi extends BaseService {
             {
                 context: localVarHttpContext,
                 body: voidProjectArchiveRecordRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 关闭本人条件（Native参考显式不支持）
+     * @endpoint post /api/project-completion-records/{completionRecordId}/conditions/{id}:close
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public projectCompletionRecordControllerCloseCompletionCondition(requestParameters: ProjectCompletionRecordControllerCloseCompletionConditionRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<CloseProjectCompletionConditionResult>;
+    public projectCompletionRecordControllerCloseCompletionCondition(requestParameters: ProjectCompletionRecordControllerCloseCompletionConditionRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<CloseProjectCompletionConditionResult>>;
+    public projectCompletionRecordControllerCloseCompletionCondition(requestParameters: ProjectCompletionRecordControllerCloseCompletionConditionRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<CloseProjectCompletionConditionResult>>;
+    public projectCompletionRecordControllerCloseCompletionCondition(requestParameters: ProjectCompletionRecordControllerCloseCompletionConditionRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const completionRecordId = requestParameters?.completionRecordId;
+        if (completionRecordId === null || completionRecordId === undefined) {
+            throw new Error('Required parameter completionRecordId was null or undefined when calling projectCompletionRecordControllerCloseCompletionCondition.');
+        }
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling projectCompletionRecordControllerCloseCompletionCondition.');
+        }
+        const closeProjectCompletionConditionRequest = requestParameters?.closeProjectCompletionConditionRequest;
+        if (closeProjectCompletionConditionRequest === null || closeProjectCompletionConditionRequest === undefined) {
+            throw new Error('Required parameter closeProjectCompletionConditionRequest was null or undefined when calling projectCompletionRecordControllerCloseCompletionCondition.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (pomsSession) required
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/project-completion-records/${this.configuration.encodeParam({name: "completionRecordId", value: completionRecordId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/conditions/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:close`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<CloseProjectCompletionConditionResult>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: closeProjectCompletionConditionRequest,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
@@ -1563,9 +1668,9 @@ export class ProjectApi extends BaseService {
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public projectControllerListProjectCompletionRecords(requestParameters: ProjectControllerListProjectCompletionRecordsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<ProjectCompletionRecordSummary>>;
-    public projectControllerListProjectCompletionRecords(requestParameters: ProjectControllerListProjectCompletionRecordsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<ProjectCompletionRecordSummary>>>;
-    public projectControllerListProjectCompletionRecords(requestParameters: ProjectControllerListProjectCompletionRecordsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<ProjectCompletionRecordSummary>>>;
+    public projectControllerListProjectCompletionRecords(requestParameters: ProjectControllerListProjectCompletionRecordsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ProjectCompletionRecordList>;
+    public projectControllerListProjectCompletionRecords(requestParameters: ProjectControllerListProjectCompletionRecordsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ProjectCompletionRecordList>>;
+    public projectControllerListProjectCompletionRecords(requestParameters: ProjectControllerListProjectCompletionRecordsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ProjectCompletionRecordList>>;
     public projectControllerListProjectCompletionRecords(requestParameters: ProjectControllerListProjectCompletionRecordsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const projectId = requestParameters?.projectId;
         if (projectId === null || projectId === undefined) {
@@ -1601,7 +1706,7 @@ export class ProjectApi extends BaseService {
 
         let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/completion-records`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<Array<ProjectCompletionRecordSummary>>('get', `${basePath}${localVarPath}`,
+        return this.httpClient.request<ProjectCompletionRecordList>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -1795,6 +1900,152 @@ export class ProjectApi extends BaseService {
             {
                 context: localVarHttpContext,
                 body: reassignProjectOwnerRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 进入验收（Native参考显式不支持）
+     * @endpoint post /api/projects/{id}:startAcceptance
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public projectControllerStartAcceptance(requestParameters: ProjectControllerStartAcceptanceRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ProjectStageTransitionResult>;
+    public projectControllerStartAcceptance(requestParameters: ProjectControllerStartAcceptanceRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ProjectStageTransitionResult>>;
+    public projectControllerStartAcceptance(requestParameters: ProjectControllerStartAcceptanceRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ProjectStageTransitionResult>>;
+    public projectControllerStartAcceptance(requestParameters: ProjectControllerStartAcceptanceRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling projectControllerStartAcceptance.');
+        }
+        const startProjectAcceptanceRequest = requestParameters?.startProjectAcceptanceRequest;
+        if (startProjectAcceptanceRequest === null || startProjectAcceptanceRequest === undefined) {
+            throw new Error('Required parameter startProjectAcceptanceRequest was null or undefined when calling projectControllerStartAcceptance.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (pomsSession) required
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:startAcceptance`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<ProjectStageTransitionResult>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: startProjectAcceptanceRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 进入执行（Native参考显式不支持）
+     * @endpoint post /api/projects/{id}:startExecution
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public projectControllerStartExecution(requestParameters: ProjectControllerStartExecutionRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ProjectStageTransitionResult>;
+    public projectControllerStartExecution(requestParameters: ProjectControllerStartExecutionRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ProjectStageTransitionResult>>;
+    public projectControllerStartExecution(requestParameters: ProjectControllerStartExecutionRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ProjectStageTransitionResult>>;
+    public projectControllerStartExecution(requestParameters: ProjectControllerStartExecutionRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling projectControllerStartExecution.');
+        }
+        const startProjectExecutionRequest = requestParameters?.startProjectExecutionRequest;
+        if (startProjectExecutionRequest === null || startProjectExecutionRequest === undefined) {
+            throw new Error('Required parameter startProjectExecutionRequest was null or undefined when calling projectControllerStartExecution.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (pomsSession) required
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}:startExecution`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<ProjectStageTransitionResult>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: startProjectExecutionRequest,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,

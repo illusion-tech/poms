@@ -1,0 +1,179 @@
+{
+  "kind": "I-and-minimum-R5-author-implementation-handoff",
+  "status": "product code authored; Root integration/compile/PG/HTTP/UI/full checks and independent gates pending",
+  "providedBranch": "codex/poms-r4i-lifecycle",
+  "providedBase": "9e010077e3010ff09447e9d77cb1bf1f7adbf68d",
+  "gitIndependentlyVerified": false,
+  "gateAuthority": "Root explicitly admitted G2 after actual online G1 and non-author review; retained Pending fields in original inputs are historical captured bytes",
+  "providedNonAuthorG1ReviewSha256": "8aa3860a0fe10daa6905b1d1ed14a23ee8d43644dc4227b854194e63322487a7",
+  "expectedSourceManifestSha256": "89a2ebeba984320afe9b883910be742edb15e97ce19b409eab0c3b4372d27da9",
+  "actualSourceManifestSha256": "89a2ebeba984320afe9b883910be742edb15e97ce19b409eab0c3b4372d27da9",
+  "sourceManifestMatched": true,
+  "productFiles": [
+    {
+      "path": "apps/poms-admin/src/app/features/commission/project-role-assignment-authoring.spec.ts",
+      "bytes": 584,
+      "sha256": "2241b7a5dca8e2ab383589ca62203975c6e3a584c6460d7290834a3adff31d26"
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/commission/project-role-assignment-authoring.ts",
+      "bytes": 15703,
+      "sha256": "3ee4d3fe76bf55e15e6cbea7472e06c66abe37a434673d2f33e7ddc12ac18fa5"
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/project/project-lifecycle-authoring.spec.ts",
+      "bytes": 4789,
+      "sha256": "55b316eca31e4bcfac195781a10c076846a900ac4cddd5280579f70d039fc9c3"
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/project/project-lifecycle-authoring.ts",
+      "bytes": 38509,
+      "sha256": "614b00da9878b941060afc02e24d4d74e1c8ea1dd7199c9dd3223114c62ac956"
+    },
+    {
+      "path": "apps/poms-api-rust/src/commission_assignment/mod.rs",
+      "bytes": 367,
+      "sha256": "cfe6f4d4f99b0945f4dfa53ddaeb82651bb27d50779bb4e1713fd77372280c4f"
+    },
+    {
+      "path": "apps/poms-api-rust/src/commission_assignment/service.rs",
+      "bytes": 30014,
+      "sha256": "f68d44bcdebcbd2bb78ce035f122fa7cbc72c55b92dcce98f6fbbebf5ac02598"
+    },
+    {
+      "path": "apps/poms-api-rust/src/lifecycle_evidence/mod.rs",
+      "bytes": 9843,
+      "sha256": "d05ebb03bc491afddaadeaac96446e8c253d96ed552285bb72e9de6b4befa04c"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_lifecycle/facts.rs",
+      "bytes": 11527,
+      "sha256": "c185236d83e0675d77ec8a51b3dc7a195b6839ed36b4c7ce72ab4f74c4f0830c"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_lifecycle/mod.rs",
+      "bytes": 190,
+      "sha256": "9cad1d3d13a2c0a17b8e9d2d55c793d14c794576d909fa3b90498426593f6b20"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_lifecycle/service.rs",
+      "bytes": 50398,
+      "sha256": "1cc1879425477af69004bef5cb8d104d0890eebafb1f661cfbdf641228a5e0a6"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_lifecycle/view.rs",
+      "bytes": 8821,
+      "sha256": "f0d51df246f58cc715ccd6eadc77eeb9abd98bbc9f73ae0b7e4d7d52451eb764"
+    }
+  ],
+  "operations": [
+    {
+      "operationId": "CommissionController_getCurrentRoleAssignment",
+      "successStatus": 200,
+      "typedDispatchSourcePresent": true
+    },
+    {
+      "operationId": "CommissionController_createRoleAssignment",
+      "successStatus": 200,
+      "typedDispatchSourcePresent": true
+    },
+    {
+      "operationId": "CommissionRoleAssignmentController_getRoleAssignmentDetail",
+      "successStatus": 200,
+      "typedDispatchSourcePresent": true
+    },
+    {
+      "operationId": "CommissionRoleAssignmentController_freezeRoleAssignment",
+      "successStatus": 200,
+      "typedDispatchSourcePresent": true
+    },
+    {
+      "operationId": "ProjectController_listAcceptanceRecords",
+      "successStatus": 200,
+      "typedDispatchSourcePresent": true
+    },
+    {
+      "operationId": "ProjectController_createAcceptanceRecord",
+      "successStatus": 201,
+      "typedDispatchSourcePresent": true
+    },
+    {
+      "operationId": "ProjectController_listProjectCompletionRecords",
+      "successStatus": 200,
+      "typedDispatchSourcePresent": true
+    },
+    {
+      "operationId": "ProjectController_createProjectCompletionRecord",
+      "successStatus": 201,
+      "typedDispatchSourcePresent": true
+    },
+    {
+      "operationId": "ProjectController_listProjectArchiveRecords",
+      "successStatus": 200,
+      "typedDispatchSourcePresent": true
+    },
+    {
+      "operationId": "ProjectController_createProjectArchiveRecord",
+      "successStatus": 201,
+      "typedDispatchSourcePresent": true
+    },
+    {
+      "operationId": "ProjectArchiveRecordController_replaceProjectArchiveRecord",
+      "successStatus": 200,
+      "typedDispatchSourcePresent": true
+    },
+    {
+      "operationId": "ProjectArchiveRecordController_voidProjectArchiveRecord",
+      "successStatus": 200,
+      "typedDispatchSourcePresent": true
+    },
+    {
+      "operationId": "ProjectController_startExecution",
+      "successStatus": 200,
+      "typedDispatchSourcePresent": true
+    },
+    {
+      "operationId": "ProjectController_startAcceptance",
+      "successStatus": 200,
+      "typedDispatchSourcePresent": true
+    },
+    {
+      "operationId": "ProjectCompletionRecordController_closeCompletionCondition",
+      "successStatus": 200,
+      "typedDispatchSourcePresent": true
+    }
+  ],
+  "actualInsertWriteFamilies": [
+    "acceptance_record",
+    "approval_summary_field_projection",
+    "approval_summary_snapshot",
+    "commission_role_assignment",
+    "commission_role_assignment_freeze_payload",
+    "commission_role_assignment_participant",
+    "project_archive_record",
+    "project_completion_condition",
+    "project_completion_condition_closure",
+    "project_completion_record",
+    "project_lifecycle_evidence_ref",
+    "project_stage_record"
+  ],
+  "checks": {
+    "rustfmt": "passed on all seven owned Rust files; no shared formatting",
+    "typescriptAndAngularTemplateSyntax": "passed four owned TS/spec files using installed primary dependency compiler only",
+    "actualFrontendPureWeightFunction": "10 cases passed; not HTTP evidence",
+    "angularCLI": "attempted dry runs; blocked by Nx worktree missing node_modules/.modules.yaml / Angular workspace discovery",
+    "fullRustCompileAndUnitTests": "Root integration pending; owned modules import Root shared request/scope/D wrapper",
+    "angularTestbedLintBuild": "Root dependency/shared/generated-client integration pending",
+    "postgresMigrationHTTPBrowserFaultConcurrency": "not run by author; Root owns actual environment acceptance",
+    "governance": "no author G3/G4 signature, no issue closeout"
+  },
+  "supportingProducerProposals": "support-patches/README.md and patch-inputs.json; not applied",
+  "constraints": {
+    "gitUsed": false,
+    "githubUsed": false,
+    "databaseConnected": false,
+    "migrationExecuted": false,
+    "serviceStarted": false,
+    "sharedProductFilesWritten": false
+  }
+}

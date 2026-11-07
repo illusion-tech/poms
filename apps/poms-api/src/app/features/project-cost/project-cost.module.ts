@@ -1,3 +1,4 @@
+import { RUST_R4_GHI_ENTITIES } from './rust-r4ghi-entities.entity';
 import { Module } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { BusinessNumberModule } from '../business-number/business-number.module';
@@ -49,6 +50,7 @@ import { ProjectCostController } from './project-cost.controller';
 @Module({
     imports: [
         MikroOrmModule.forFeature([
+            ...RUST_R4_GHI_ENTITIES,
             CostGovernanceEvidence,
             SharedCostAllocationSourceSnapshot,
             AccountingTaxTreatmentSnapshot,

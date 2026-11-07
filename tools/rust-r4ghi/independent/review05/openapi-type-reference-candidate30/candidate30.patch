@@ -1,0 +1,7 @@
+--- a/apps/poms-api/src/app/core/persistence/poms-schema-generator.ts
++++ b/apps/poms-api/src/app/core/persistence/poms-schema-generator.ts
+@@ -1,3 +1,4 @@
++/// <reference types="../../../types/mikro-orm-schema" />
+ import { ReferenceKind, type MikroORM } from '@mikro-orm/core';
+ import { DatabaseTable, EntityManager, SqlSchemaGenerator, type DatabaseSchema } from '@mikro-orm/postgresql';
+ 

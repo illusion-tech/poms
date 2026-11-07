@@ -1,0 +1,16 @@
+{
+  "kind": "author-40A02-minimal-PG-alias-correction",
+  "old40AUnchanged": true,
+  "ordinaryFixtureExecuted": false,
+  "SQLActuallyExecuted": false,
+  "syntaxExitCode": 0,
+  "file": "tools/rust-r4ghi/business/ef-live-producer40.mjs",
+  "oldCandidateRawSha256": "598ebe25d5a31307532a14e9f384034e8790916f6788406e8810afae07b47542",
+  "newCandidateRawSha256": "1f57a3837767286c7fa2390e4815da6a76c48e397543eca54bca439cdfe461c6",
+  "onlyChanges": [
+    "SELECT expression day -> SELECT expression AS business_date",
+    "row.day -> row.business_date"
+  ],
+  "upstreamDispatchCandidateUnchangedSHA256": "d4539d7b1cee2aa92f3987aff466de1858ff0e10432c9f04bae48ee94a47fe56",
+  "G3Certified": false
+}

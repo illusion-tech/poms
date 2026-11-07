@@ -1,0 +1,182 @@
+{
+  "schemaVersion": 1,
+  "proposal": "I-owner-metadata-three-write-sweep25",
+  "state": "frozen-prepared-unrun",
+  "files": [
+    {
+      "file": "tools/rust-r4ghi/business/metadata-write-inventory25.mjs",
+      "kind": "add",
+      "beforeSHA256": null,
+      "afterSHA256": "439fcfceeec092a0f12505aa5fb10b5f07dba7c6e4fc840c0465cf4c5212f4b7",
+      "beforeCandidate": null,
+      "candidate": "proposed/tools/rust-r4ghi/business/metadata-write-inventory25.mjs"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/metadata-patch25.mjs",
+      "kind": "add",
+      "beforeSHA256": null,
+      "afterSHA256": "2964d93297072aade0bedd168bb739b45361669339ada3ffe1af7fa04b719240",
+      "beforeCandidate": null,
+      "candidate": "proposed/tools/rust-r4ghi/business/metadata-patch25.mjs"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/metadata-patch25.test.mjs",
+      "kind": "add",
+      "beforeSHA256": null,
+      "afterSHA256": "4258f132c82b450f09138447af7c7dc3e5a98a02d5c3c0f05633ac79a0deb726",
+      "beforeCandidate": null,
+      "candidate": "proposed/tools/rust-r4ghi/business/metadata-patch25.test.mjs"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/required-write-sources25.json",
+      "kind": "add",
+      "beforeSHA256": null,
+      "afterSHA256": "1b7ba19075571c299f414a5b609eb2d3bbf754728af3787773f80cf40cd9f006",
+      "beforeCandidate": null,
+      "candidate": "proposed/tools/rust-r4ghi/business/required-write-sources25.json"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/fault-sweep.mjs",
+      "kind": "modify",
+      "beforeSHA256": "95a87a8e6c40dffa6137ea7f28ab4360e4285f2e6a5675c32d5c36f19a11e3e8",
+      "afterSHA256": "7bd3b8c29cf83a31a77f145a57679dca242838676f206f9a3815daf5a93df7f5",
+      "beforeCandidate": "before/tools/rust-r4ghi/business/fault-sweep.mjs",
+      "candidate": "proposed/tools/rust-r4ghi/business/fault-sweep.mjs"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/required-write-inventory.mjs",
+      "kind": "modify",
+      "beforeSHA256": "800603c96d70ba8f80f21ac33147bdd61bbf47200e7dd9c192a0a4cf5b620a84",
+      "afterSHA256": "81b82dc7a1188025ece833a6ef58630178e188ef5d7c7a729455df5869f6fd63",
+      "beforeCandidate": "before/tools/rust-r4ghi/business/required-write-inventory.mjs",
+      "candidate": "proposed/tools/rust-r4ghi/business/required-write-inventory.mjs"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/upstream.mjs",
+      "kind": "modify",
+      "beforeSHA256": "d5b44a98338a08e47fc0ec09059ba8a94ffdcf7772fc8a6082b39bde83476fd8",
+      "afterSHA256": "e9591dc2f6e83d456ebaf8ad202dcba09da116ee64c351f3421c03d70c2c2083",
+      "beforeCandidate": "before/tools/rust-r4ghi/business/upstream.mjs",
+      "candidate": "proposed/tools/rust-r4ghi/business/upstream.mjs"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/driver.mjs",
+      "kind": "modify",
+      "beforeSHA256": "c86c60b15395b28c847fe70ecdb576752ef2943f360817e17e074cd583c06bfd",
+      "afterSHA256": "6a2e52b5e26cdbd689d585e082124dd29a813234971e944ff14b806966e0449c",
+      "beforeCandidate": "before/tools/rust-r4ghi/business/driver.mjs",
+      "candidate": "proposed/tools/rust-r4ghi/business/driver.mjs"
+    }
+  ],
+  "applyPolicy": "Only proposed/ eight manifest files, exact before SHA or absent add. candidate/ is an offline dependency sandbox; never copy whole sandbox over Root. Pin-only25 was separately promoted by Root.",
+  "runtimeSources": [
+    {
+      "file": "apps/poms-api-rust/src/projects/service.rs",
+      "sha256": "f46a61cb295dd9caab7652b0cbc076ec3c8ef42bfea5d10601f92570079406ef"
+    },
+    {
+      "file": "apps/poms-api-rust/src/projects/store.rs",
+      "sha256": "23ed76140b91e5627f503ddbc1687077f11f1d4d036b0a5c544ebfb7a1cce94c"
+    },
+    {
+      "file": "apps/poms-api-rust/src/projects/http.rs",
+      "sha256": "132c2a4e0dd19e453f65d33558c579eb95e91208d27ce89882fc5ebf245d7a81"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_action_authorization/mod.rs",
+      "sha256": "df4073a4a6d744d70924f48d39d4c7149701e40584e5d9a21419630dd574814b"
+    },
+    {
+      "file": "apps/poms-api-rust/src/contract_support/mod.rs",
+      "sha256": "f0152a5b1fd36f5d0a5eb0daa55ec52d1bac26a068850d6ae624104d268244f8"
+    },
+    {
+      "file": "apps/poms-api-rust/src/auth/service.rs",
+      "sha256": "3f216c2be127ca22e536f0413c91a72c29c37f2e97212089ac3a2611169ee650"
+    },
+    {
+      "file": "apps/poms-api-rust/src/auth/store.rs",
+      "sha256": "14ba9d8e7171e6a6fbd00fa68c25a283d53521e17921b5d0e2ac760fec1a3f40"
+    },
+    {
+      "file": "apps/poms-api-rust/src/config.rs",
+      "sha256": "71857aacb627ee7180a32a0985b055322fd60e082b6a842b52cf2e249b8830d7"
+    },
+    {
+      "file": "apps/poms-api-rust/src/approval/context.rs",
+      "sha256": "949be75195aec51c29d38b6b8999ccb510c9dbf77dc6de3513187785a765525a"
+    },
+    {
+      "file": "apps/poms-api-rust/src/approval_common/session.rs",
+      "sha256": "f1c29e9eaace917504af0b7cea26337f28e3c65ae81263c73ba3022f2da76c96"
+    },
+    {
+      "file": "apps/poms-api-rust/src/approval_common/store.rs",
+      "sha256": "b69ae15fdaaa7a1032432e57c6c13f244c8c58a0f0c6dc14ca016bcc5e523b86"
+    }
+  ],
+  "RootHTTPAndLedgerWritten": false,
+  "runtimeToolDependencies": [
+    {
+      "file": "tools/rust-r4ghi/business/http.mjs",
+      "sha256": "33a982bb918b65e88f6a250491d788b3ce8a22715a628cad6fa98d04a657a947"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/ledger.mjs",
+      "sha256": "d743d736cb3b6528214d21ca0aa152b78be8906cbcab73c40f0a3d7563e6bb5b"
+    }
+  ],
+  "stage": "metadata-patch-sweep",
+  "prerequisites": [
+    "new-source-epoch after exact09 cleanup + canonical service audit fix",
+    "same-run platform + creator-ownership completed with actual default personal project proof",
+    "same-run verified controlled Legacy compatibility fixture"
+  ],
+  "cases": [
+    "manager actual currentOwner PATCH; three exact required-write FI primary hit1/fallback0, same body/full rollback then only one success",
+    "same body200 true noop; actual project bytes/xmin/version/time and business audits unchanged",
+    "fresh unrelated with ProjectWrite404; no business changes",
+    "actual controlled Legacy owner anchor with ProjectWrite403; no business changes",
+    "real owner valid new local name + actual absent customerUUID404; no partial name/version/audit persistence"
+  ],
+  "sourceBoundFI": {
+    "families": 3,
+    "operationId": "ProjectController_updateBasicInfo",
+    "method": "PATCH",
+    "path": "/api/projects/{id}",
+    "publicExpectedVersionInvented": false,
+    "tables": [
+      "project UPDATE",
+      "audit_log INSERT",
+      "auth_session UPDATE"
+    ],
+    "existing17MechanicsReused": true,
+    "scopeFactsRederivedBeforeEveryInstall": true,
+    "failedSameBodyMustFullyRollback": true,
+    "oneFinalDirtySuccess": true
+  },
+  "protection": {
+    "Source17JSONUnchanged": true,
+    "Source19JSONUnchanged": true,
+    "BD1PolicyAdmissionBytesUnchanged": true,
+    "old10RoleILifecyclesDefaultScopeUnchanged": true,
+    "explicitActualOwnedProjectIdAddedToSweep": true,
+    "mainFixtureProjectReplaced": false,
+    "nestedEOOwnViewContractChanged": false,
+    "RootProductEdited": false,
+    "SQLExecutedByAuthor": false,
+    "HTTPExecutedByAuthor": false,
+    "businessFactsSQLFixture": false,
+    "old23and24Preserved": true
+  },
+  "offline": {
+    "node": "v26.13.0",
+    "syntaxFiles": 62,
+    "tests": 66,
+    "fail": 0,
+    "log": "offline-tests25.log",
+    "sha256": "df2129d865a796859c4bf7f2ae40f0cb875a7c147d984f135541fcffa0cd3abb"
+  },
+  "G3Certified": false,
+  "G4Certified": false
+}

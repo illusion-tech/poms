@@ -3,9 +3,12 @@ use std::collections::BTreeMap;
 use chrono::{DateTime, Utc};
 use serde_json::Value;
 
+pub use crate::shared::generated::ProjectInitialOwnership;
+
 use crate::{
     auth::js_json::JsString,
     compat::json::Field,
+    project_operating_common::model::ProjectStage as QueryProjectStage,
     shared::generated::{ProjectStage, ProjectStatus},
 };
 
@@ -15,6 +18,7 @@ pub struct CreateProject {
     pub customer_id: String,
     pub customer_project_no: Field<JsString>,
     pub current_stage: Option<ProjectStage>,
+    pub initial_ownership: ProjectInitialOwnership,
     pub planned_sign_at: Field<DateTime<Utc>>,
 }
 
@@ -37,7 +41,7 @@ pub struct ReassignProjectOwner {
 #[derive(Clone, Default)]
 pub struct ProjectListQuery {
     pub status: Option<ProjectStatus>,
-    pub current_stage: Option<ProjectStage>,
+    pub current_stage: Option<QueryProjectStage>,
     pub owner_org_id: Option<String>,
     pub keyword: Option<JsString>,
 }

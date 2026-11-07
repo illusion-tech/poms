@@ -1,0 +1,91 @@
+{
+  "status": "planned Root actual validation; author executed none",
+  "implementation": "apply-manifest09.json",
+  "routes": "Existing original attachment HTTP routes only; suffixes/canonical route parsing remain original",
+  "cases": [
+    {
+      "id": "AS09-01",
+      "actorAndPrecondition": "FullProject owner/true participant with appropriate existing RBAC",
+      "operation": "ordinary create-session -> target/object/complete -> exact GET/list/history/center",
+      "expectedEvidence": "ordinary positive; immutable purpose version0/null; existing category/security/byte/audit/auth behavior retained"
+    },
+    {
+      "id": "AS09-02",
+      "actorAndPrecondition": "OwnCondition-only fresh actor outside D participants, real pending condition",
+      "operation": "POST /api/attachment-upload-sessions with create-attachment, project target, actual completionConditionContext",
+      "expectedEvidence": "201; session fields version1 and exact real parent/child/project; no full detail/list read"
+    },
+    {
+      "id": "AS09-03",
+      "actorAndPrecondition": "same purpose actor",
+      "operation": "target/object/complete, then GET/download exact produced attachment, then normal condition close using actual link",
+      "expectedEvidence": "current pending proof at each phase; genuine actor-owned version1 file plus unique same-project link; close CAS and exact frozen closure evidence"
+    },
+    {
+      "id": "AS09-04",
+      "actorAndPrecondition": "OwnCondition-only actor or bare ProjectRead/Write, creator anchor, legacy owner anchor",
+      "operation": "project/contract list, center rows, group history; ordinary project create-session/create-version/mutation",
+      "expectedEvidence": "no project-wide data or writes; non-project business access still independent"
+    },
+    {
+      "id": "AS09-05",
+      "actorAndPrecondition": "same own actor",
+      "operation": "new context with wrong parent, other project, other responsible user, closed condition, revoked membership",
+      "expectedEvidence": "403/404/409 according to real scope/changed-state classification; zero business/audit inserts"
+    },
+    {
+      "id": "AS09-06",
+      "actorAndPrecondition": "same own actor",
+      "operation": "omit context, context null/array/string, missing UUID, extra context key/projectId, malformed UUID, create-version+context, contract+context, baseAttachmentId+context",
+      "expectedEvidence": "strict DTO rejection; no stripped new context silently accepted as ordinary; no SQL or storage-side capability output"
+    },
+    {
+      "id": "AS09-07",
+      "actorAndPrecondition": "same own actor",
+      "operation": "POST existing other-user attachment ID /links or supply baseAttachmentId to purpose request",
+      "expectedEvidence": "cannot bind arbitrary other-user file or create a normal new version; exact completed purpose provenance required"
+    },
+    {
+      "id": "AS09-08",
+      "actorAndPrecondition": "FullProject actor then own actor",
+      "operation": "freeze normal/internal/sensitive evidence; PATCH actual attachment classification to restricted/confidential; own I refs and original attachment GET/download",
+      "expectedEvidence": "403 without name/checksum/id payload even if version also changes; existing sensitive literal semantics preserved"
+    },
+    {
+      "id": "AS09-09",
+      "actorAndPrecondition": "same own actor",
+      "operation": "withdraw exact link, void/deactivate actual attachment, replace link target or version/checksum drift",
+      "expectedEvidence": "no exact evidence projection or stream. Missing/inactive/reparent404; readable but changed frozen source409"
+    },
+    {
+      "id": "AS09-10",
+      "actorAndPrecondition": "same own actor plus another task/file",
+      "operation": "read this task frozen file; attempt unowned task file, another upload-session owner file, unrelated project attachment, other version-group member",
+      "expectedEvidence": "only exact owned frozen ref or actual own-purpose completed attachment/link; summary.links carries no unauthorized project/contract associations"
+    },
+    {
+      "id": "AS09-11",
+      "actorAndPrecondition": "FullProject or same own actor; Root controlled failure injection",
+      "operation": "fail necessary attachment/link/session update, audit insert, managed auth flush, source CAS, context FK/immutability check",
+      "expectedEvidence": "single actual outer transaction rollback; no known-rollback row retention. Object snapshot cleanup only on known-not-committed and fresh unreferenced proof; Unknown retained"
+    },
+    {
+      "id": "AS09-12",
+      "actorAndPrecondition": "actual concurrent commands, no sleep-only approximation",
+      "operation": "close condition/revoke active relation or change source between HTTP preflight and flush guard",
+      "expectedEvidence": "actual commit Scope recheck catches change on same connection; no stale preflight proof accepted"
+    },
+    {
+      "id": "AS09-13",
+      "actorAndPrecondition": "native runtime after shared strict validation",
+      "operation": "new context create-session versus ordinary no-context request",
+      "expectedEvidence": "new context explicit422 native_completion_condition_context_unsupported, no writes. Ordinary Native differences documented separately; no parity claim"
+    },
+    {
+      "id": "AS09-14",
+      "actorAndPrecondition": "Root migration/ORM validation",
+      "operation": "new three fields, composite FK wrong condition/parent/project, immutable context update, old version0/null sessions",
+      "expectedEvidence": "migration96 real SQL; no old upload re-certified; total139 tables remains; ORM/shared metadata exact review"
+    }
+  ]
+}

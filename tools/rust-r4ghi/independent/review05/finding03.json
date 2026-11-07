@@ -1,0 +1,61 @@
+{
+  "kind": "independent-static-security-finding",
+  "id": "IR05-03",
+  "priority": "P1",
+  "status": "open-static-reachable-not-HTTP-reproduced",
+  "title": "OwnCondition closure can promote unrelated ordinary self-upload into task read authority",
+  "source": "apps/poms-api-rust/src/lifecycle_evidence/mod.rs",
+  "sourceSHA256": "b40ee3a8091d233e90737a693f4a27f060d9aa41df7b1f1a37fd3c332a83e5fb",
+  "line": 179,
+  "lineEnd": 185,
+  "reviewedAt": "2026-11-07T06:20:11.013070+00:00",
+  "G3Certified": false,
+  "G4Certified": false,
+  "counterexample": "scope-counterexample01.json",
+  "flow": [
+    {
+      "source": "apps/poms-api-rust/src/project_lifecycle/service.rs",
+      "lines": [
+        742,
+        784
+      ],
+      "effect": "Exact own condition Scope passes; closure always validates with EvidenceAccess::OwnCondition(conditionId)."
+    },
+    {
+      "source": "apps/poms-api-rust/src/lifecycle_evidence/mod.rs",
+      "lines": [
+        179,
+        185
+      ],
+      "effect": "Self-uploaded attachment bypasses task binding regardless of ordinary/purpose session or a different child."
+    },
+    {
+      "source": "apps/poms-api-rust/src/lifecycle_evidence/mod.rs",
+      "lines": [
+        212,
+        230
+      ],
+      "effect": "The accepted active same-project link is persisted as authenticated closure evidence with a valid hash."
+    },
+    {
+      "source": "apps/poms-api-rust/src/attachments/project_scope.rs",
+      "lines": [
+        419,
+        453
+      ],
+      "effect": "Later exact read joins newly written closure evidence to actor condition and accepts it as frozen task authority."
+    }
+  ],
+  "requiredFix": "For OwnConditionOnly, accept only correctly verified existing task refs or an exact matching actual completed purpose session for this parent/child/project/actor and file/link identity. uploaded_by alone grants no purpose. Reuse one sealed same-outer-TX verification boundary; avoid any own-condition fallback that can match another child. FullProject authority, if intentionally supported for evidence selection, must be separately proven, not inferred from uploader.",
+  "requiredActualAcceptance": [
+    "ordinary purpose0 old self-upload, not task-frozen: close rejected and no closure/ref/CAS aggregate business effect survives",
+    "self-upload for another condition same project: close rejected for requested child",
+    "matching true completed condition-purpose file: close succeeds and exact read succeeds",
+    "already frozen original own-task evidence, including another uploader: allowed with current classification/identity guards",
+    "expired or noncompleted session, wrong creator, parent/project mismatch, changed file/link/checksum/version: rejected",
+    "necessary evidence/closure/audit/auth write fault: rollback and same-body retry, not merely probe"
+  ],
+  "noDatabase": true,
+  "noHTTP": true,
+  "noAuthorizationAcceptance": true
+}

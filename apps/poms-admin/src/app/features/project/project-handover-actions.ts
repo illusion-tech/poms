@@ -351,7 +351,7 @@ export class ProjectHandoverActions implements OnChanges {
             this.summary.set(summary);
             this.detail.set(detail);
             const sales = this.duties.find((duty) => duty.roleKey === 'sales-owner');
-            if (sales && !sales.userId) sales.userId = project.ownerUserId ?? '';
+            if (project.scopeKind === 'full-project' && sales && !sales.userId) sales.userId = project.ownerUserId ?? '';
         } catch (error) {
             if (this.#epoch.accepts(ticket) && serial === this.#loadVersion) this.error.set(this.message(error));
         }

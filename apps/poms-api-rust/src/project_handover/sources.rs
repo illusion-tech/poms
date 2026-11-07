@@ -148,6 +148,15 @@ pub(super) async fn collect(
     lock: bool,
     inherited: Option<&Value>,
 ) -> Result<Sources, Error> {
+    collect_scoped(session, project, lock, inherited, None).await
+}
+async fn collect_scoped(
+    session: &mut CommonSession<'_, '_>,
+    project: Uuid,
+    lock: bool,
+    inherited: Option<&Value>,
+    fixed_materials: Option<&[Value]>,
+) -> Result<Sources, Error> {
     if lock {
         lock_project(session.connection, project).await?;
     }
@@ -283,48 +292,53 @@ pub(super) async fn collect(
     if pending {
         blockers.push("再基线化仍在处理中。".into());
     }
-    let inherited_ids: Vec<Uuid> = inherited
-        .and_then(|v| v["materials"].as_array())
-        .map(|rows| {
-            rows.iter()
-                .filter_map(|v| id(v, "attachmentId").ok())
-                .collect()
-        })
-        .unwrap_or_default();
-    let material_sql = r#"WITH groups AS (SELECT DISTINCT a.version_group_id FROM poms.attachment a WHERE a.id=ANY($2::uuid[]) OR EXISTS(
-        SELECT 1 FROM poms.attachment_link l WHERE l.attachment_id=a.id AND l.status='active' AND
-        ((l.target_type='project' AND l.target_id=$1) OR (l.target_type='lead' AND l.target_id=(SELECT source_lead_id FROM poms.project WHERE id=$1))
-        OR (l.target_type='contract' AND l.target_id IN (SELECT id FROM poms.contract WHERE project_id=$1))
-        OR (l.target_type='sales-follow-up' AND l.target_id IN (SELECT id FROM poms.sales_follow_up_record WHERE project_id=$1 OR lead_id=(SELECT source_lead_id FROM poms.project WHERE id=$1)))))
-      ) SELECT jsonb_build_object('attachmentId',a.id,'versionGroupId',a.version_group_id,
-        'contentHash',a.checksum_sha256,'securityLevel',a.security_level,'status',a.status,'version',a.version_no,
-        'included',a.status='active' AND a.security_level IN ('normal','internal'))
-      FROM groups g JOIN LATERAL (SELECT * FROM poms.attachment a WHERE a.version_group_id=g.version_group_id
-        ORDER BY (a.status='active') DESC,a.is_final DESC,a.is_latest DESC,a.version_no DESC,a.id LIMIT 1) a ON true
-      ORDER BY a.version_group_id"#;
-    let materials: Vec<Value> = sqlx::query_scalar(material_sql)
-        .bind(project)
-        .bind(&inherited_ids)
-        .fetch_all(&mut *session.connection)
-        .await?;
-    if lock && !materials.is_empty() {
-        let ids: Vec<Uuid> = materials
-            .iter()
-            .map(|m| id(m, "attachmentId"))
-            .collect::<Result<_, _>>()?;
-        sqlx::query("SELECT id FROM poms.attachment WHERE id=ANY($1) ORDER BY id FOR SHARE")
-            .bind(&ids)
-            .fetch_all(&mut *session.connection)
-            .await?;
-        let locked_materials: Vec<Value> = sqlx::query_scalar(material_sql)
+    let materials = if let Some(captured) = fixed_materials {
+        captured.to_vec()
+    } else {
+        let inherited_ids: Vec<Uuid> = inherited
+            .and_then(|v| v["materials"].as_array())
+            .map(|rows| {
+                rows.iter()
+                    .filter_map(|v| id(v, "attachmentId").ok())
+                    .collect()
+            })
+            .unwrap_or_default();
+        let material_sql = r#"WITH groups AS (SELECT DISTINCT a.version_group_id FROM poms.attachment a WHERE a.id=ANY($2::uuid[]) OR EXISTS(
+            SELECT 1 FROM poms.attachment_link l WHERE l.attachment_id=a.id AND l.status='active' AND
+            ((l.target_type='project' AND l.target_id=$1) OR (l.target_type='lead' AND l.target_id=(SELECT source_lead_id FROM poms.project WHERE id=$1))
+            OR (l.target_type='contract' AND l.target_id IN (SELECT id FROM poms.contract WHERE project_id=$1))
+            OR (l.target_type='sales-follow-up' AND l.target_id IN (SELECT id FROM poms.sales_follow_up_record WHERE project_id=$1 OR lead_id=(SELECT source_lead_id FROM poms.project WHERE id=$1)))))
+          ) SELECT jsonb_build_object('attachmentId',a.id,'versionGroupId',a.version_group_id,
+            'contentHash',a.checksum_sha256,'securityLevel',a.security_level,'status',a.status,'version',a.version_no,
+            'included',a.status='active' AND a.security_level IN ('normal','internal'))
+          FROM groups g JOIN LATERAL (SELECT * FROM poms.attachment a WHERE a.version_group_id=g.version_group_id
+            ORDER BY (a.status='active') DESC,a.is_final DESC,a.is_latest DESC,a.version_no DESC,a.id LIMIT 1) a ON true
+          ORDER BY a.version_group_id"#;
+        let materials: Vec<Value> = sqlx::query_scalar(material_sql)
             .bind(project)
             .bind(&inherited_ids)
             .fetch_all(&mut *session.connection)
             .await?;
-        if locked_materials != materials {
-            return Err(changed());
+        if lock && !materials.is_empty() {
+            let ids: Vec<Uuid> = materials
+                .iter()
+                .map(|m| id(m, "attachmentId"))
+                .collect::<Result<_, _>>()?;
+            sqlx::query("SELECT id FROM poms.attachment WHERE id=ANY($1) ORDER BY id FOR SHARE")
+                .bind(&ids)
+                .fetch_all(&mut *session.connection)
+                .await?;
+            let locked_materials: Vec<Value> = sqlx::query_scalar(material_sql)
+                .bind(project)
+                .bind(&inherited_ids)
+                .fetch_all(&mut *session.connection)
+                .await?;
+            if locked_materials != materials {
+                return Err(changed());
+            }
         }
-    }
+        materials
+    };
     let hash = canonical_hash(
         &json!({"projectId":project,"salesOwnerUserId":p["owner_user_id"],"members":members,"materials":materials}),
     )?;
@@ -419,6 +433,264 @@ pub(super) async fn basis(session: &mut CommonSession<'_, '_>, h: &Value) -> Res
     }
     Ok(v)
 }
+// Root-owned additions to project_handover/sources.rs. Used by the generated
+// handover-fixed-evidence03.patch; not a new HTTP/provider or a new producer.
+
+fn captured_source_hash(payload: &Value) -> Result<String, Error> {
+    id(payload, "projectId")?;
+    if payload["members"].as_array().is_none() || payload["materials"].as_array().is_none() {
+        return Err(changed());
+    }
+    canonical_hash(
+        &json!({"projectId":payload["projectId"],"salesOwnerUserId":payload["salesOwnerUserId"],"members":payload["members"],"materials":payload["materials"]}),
+    )
+}
+
+pub(super) fn confirmed_source_hash(
+    project: &Value,
+    members: &[Value],
+    payload: &Value,
+) -> Result<String, Error> {
+    // The business comparison uses the actual current owner/contracts but the
+    // exact original material set. New groups and new latest versions are not
+    // sources of an already confirmed handover.
+    captured_source_hash(
+        &json!({"projectId":project["id"],"salesOwnerUserId":project["owner_user_id"],"members":members,"materials":payload["materials"]}),
+    )
+}
+
+async fn fixed_duties_with_basis(
+    session: &mut CommonSession<'_, '_>,
+    h: &Value,
+    b: &Value,
+) -> Result<(), Error> {
+    let project = id(h, "project_id")?;
+    if h["producer_version"] != 1
+        || h["is_current"] != true
+        || !matches!(h["status"].as_str(), Some("draft" | "confirmed"))
+        || b["status"] != "active"
+        || b["is_current"] != true
+        || b["version"] != h["version"]
+    {
+        return Err(changed());
+    }
+    let owner: Option<Uuid> =
+        sqlx::query_scalar("SELECT owner_user_id FROM poms.project WHERE id=$1 FOR UPDATE")
+            .bind(project)
+            .fetch_optional(&mut *session.connection)
+            .await?
+            .ok_or_else(changed)?;
+    let payload = &b["source_payload"];
+    if payload["projectId"] != project.to_string()
+        || owner != Some(id(payload, "salesOwnerUserId")?)
+        || payload["executionOwnerUserId"] != h["execution_owner_user_id"]
+        || payload["financeConfirmationRequired"] != h["finance_confirmation_required"]
+        || payload["receiptJudgmentMode"] != h["prepared_receipt_judgment_mode"]
+        || captured_source_hash(payload)? != text(h, "source_payload_hash")?
+        || !payload["members"]
+            .as_array()
+            .ok_or_else(changed)?
+            .iter()
+            .any(|m| m["snapshotId"] == h["effective_handover_baseline_snapshot_id"])
+    {
+        return Err(changed());
+    }
+    let mut expected = std::collections::BTreeSet::new();
+    let mut people = std::collections::BTreeSet::new();
+    for user in payload["participants"].as_array().ok_or_else(changed)? {
+        let user_id = id(user, "userId")?;
+        if !people.insert(user_id) {
+            return Err(changed());
+        }
+        let duties = user["responsibilities"]
+            .as_array()
+            .filter(|v| !v.is_empty())
+            .ok_or_else(changed)?;
+        for duty in duties {
+            if !expected.insert((
+                user_id,
+                text(duty, "roleKey")?.to_owned(),
+                text(duty, "responsibilitySummary")?.trim().to_owned(),
+            )) {
+                return Err(changed());
+            }
+        }
+    }
+    if people.is_empty() {
+        return Err(changed());
+    }
+    let role_rows:Vec<(Uuid,String,String,bool)>=sqlx::query_as(r#"SELECT r.participant_user_id,r.role_key,r.responsibility_summary,
+      (r.confirmation_record_id=$2 AND p.id IS NOT NULL AND p.confirmation_record_id=$2 AND p.participant_id=r.participant_user_id
+        AND p.participant_status IN ('pending','confirmed') AND (p.participant_status<>'confirmed' OR p.confirmed_at IS NOT NULL))
+      FROM poms.project_handover_participant_role r LEFT JOIN poms.confirmation_participant p ON p.id=r.confirmation_participant_id
+      WHERE r.handover_id=$1 ORDER BY r.participant_user_id,r.role_key"#)
+        .bind(id(h,"id")?).bind(id(h,"confirmation_record_id")?).fetch_all(&mut *session.connection).await?;
+    let actual = role_rows
+        .iter()
+        .map(|(user, role, summary, _)| (*user, role.clone(), summary.clone()))
+        .collect::<std::collections::BTreeSet<_>>();
+    if actual != expected
+        || role_rows.len() != expected.len()
+        || role_rows.iter().any(|(_, _, _, valid)| !*valid)
+    {
+        return Err(changed());
+    }
+    let participants:Vec<(Uuid,String,Option<chrono::DateTime<chrono::Utc>>)>=sqlx::query_as("SELECT participant_id,participant_status,confirmed_at FROM poms.confirmation_participant WHERE confirmation_record_id=$1 ORDER BY participant_id,id FOR SHARE")
+        .bind(id(h,"confirmation_record_id")?).fetch_all(&mut *session.connection).await?;
+    let actual_people = participants
+        .iter()
+        .map(|(user, _, _)| *user)
+        .collect::<std::collections::BTreeSet<_>>();
+    if people != actual_people
+        || participants.len() != people.len()
+        || participants.iter().any(|(_, status, at)| {
+            !matches!(status.as_str(), "pending" | "confirmed")
+                || (status == "confirmed" && at.is_none())
+        })
+    {
+        return Err(changed());
+    }
+    let c:Value=sqlx::query_scalar("SELECT to_jsonb(c) FROM poms.confirmation_record c WHERE id=$1 AND target_type='project-handover' AND confirmation_type='project-handover' AND target_id=$2 AND project_id=$3 FOR UPDATE")
+        .bind(id(h,"confirmation_record_id")?).bind(id(h,"id")?).bind(project).fetch_optional(&mut *session.connection).await?.ok_or_else(changed)?;
+    let confirmed = participants
+        .iter()
+        .filter(|(_, status, _)| status == "confirmed")
+        .count();
+    if c["required_count"].as_u64() != Some(people.len() as u64)
+        || c["confirmed_count"].as_u64() != Some(confirmed as u64)
+        || c["status"]
+            != if confirmed == people.len() {
+                "confirmed"
+            } else {
+                "pending"
+            }
+    {
+        return Err(changed());
+    }
+    if h["status"] == "confirmed"
+        && (h["confirmed_at"].is_null()
+            || h["confirmed_by"].is_null()
+            || confirmed != people.len()
+            || c["confirmed_at"].is_null())
+    {
+        return Err(changed());
+    }
+    Ok(())
+}
+
+/// Authorization verifies the immutable package and real current duty relation.
+/// Current attachment groups, later receipt/cost data and unrelated user profile
+/// changes cannot revoke this relation. Root separately checks the active actor.
+pub(super) async fn intrinsic_frozen_duties(
+    session: &mut CommonSession<'_, '_>,
+    h: &Value,
+) -> Result<Value, Error> {
+    let b = basis(session, h).await?; // Recomputes basis + both actual summary payload hashes.
+    fixed_duties_with_basis(session, h, &b).await?;
+    Ok(b)
+}
+
+async fn all_participants_active(
+    session: &mut CommonSession<'_, '_>,
+    h: &Value,
+) -> Result<bool, Error> {
+    let inactive:bool=sqlx::query_scalar("SELECT EXISTS(SELECT 1 FROM poms.project_handover_participant_role r LEFT JOIN poms.platform_user u ON u.id=r.participant_user_id WHERE r.handover_id=$1 AND (u.id IS NULL OR NOT u.is_active))")
+        .bind(id(h,"id")?).fetch_one(&mut *session.connection).await?;
+    Ok(!inactive)
+}
+
+pub(super) async fn fixed_included_materials_current(
+    session: &mut CommonSession<'_, '_>,
+    payload: &Value,
+) -> Result<bool, Error> {
+    let mut included = std::collections::BTreeMap::new();
+    for material in payload["materials"].as_array().ok_or_else(changed)? {
+        let include = material["included"].as_bool().ok_or_else(changed)?;
+        if !include {
+            continue;
+        }
+        let key = id(material, "attachmentId")?;
+        let hash = text(material, "contentHash")?;
+        if hash.len() != 64
+            || !hash
+                .bytes()
+                .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))
+            || material["status"] != "active"
+            || !matches!(
+                material["securityLevel"].as_str(),
+                Some("normal" | "internal")
+            )
+            || material["version"].as_i64().is_none_or(|v| v <= 0)
+            || included.insert(key, material).is_some()
+        {
+            return Err(changed());
+        }
+    }
+    if included.is_empty() {
+        return Ok(true);
+    }
+    let ids = included.keys().copied().collect::<Vec<_>>();
+    // Exact captured IDs only. Do not select by version group, latest or final.
+    let current:Vec<Value>=sqlx::query_scalar("SELECT jsonb_build_object('attachmentId',id,'versionGroupId',version_group_id,'contentHash',checksum_sha256,'securityLevel',security_level,'status',status,'version',version_no) FROM poms.attachment WHERE id=ANY($1) ORDER BY id FOR SHARE")
+        .bind(ids).fetch_all(&mut *session.connection).await?;
+    if current.len() != included.len() {
+        return Ok(false);
+    }
+    for actual in current {
+        let key = id(&actual, "attachmentId")?;
+        let Some(expected) = included.get(&key) else {
+            return Ok(false);
+        };
+        if actual["status"] != "active"
+            || [
+                "attachmentId",
+                "versionGroupId",
+                "contentHash",
+                "securityLevel",
+                "version",
+            ]
+            .iter()
+            .any(|field| actual[*field] != expected[*field])
+        {
+            return Ok(false);
+        }
+    }
+    Ok(true)
+}
+
+/// Business admission additionally validates real current contracts/snapshots/
+/// formal plans and the originally included immutable attachment identities.
+pub(super) async fn confirmed_sources(
+    session: &mut CommonSession<'_, '_>,
+    h: &Value,
+) -> Result<Sources, Error> {
+    if h["status"] != "confirmed" {
+        return Err(changed());
+    }
+    let b = intrinsic_frozen_duties(session, h).await?;
+    let materials = b["source_payload"]["materials"]
+        .as_array()
+        .ok_or_else(changed)?;
+    let s = collect_scoped(
+        session,
+        id(h, "project_id")?,
+        true,
+        Some(&b["source_payload"]),
+        Some(materials),
+    )
+    .await?;
+    if !s.blockers.is_empty()
+        || s.hash != text(h, "source_payload_hash")?
+        || !all_participants_active(session, h).await?
+        || !fixed_included_materials_current(session, &b["source_payload"]).await?
+    {
+        return Err(changed());
+    }
+    Ok(s)
+}
+
+// Replaces the original fresh body. Draft self-confirm/finalize still compare
+// the complete current live fingerprint, including any new material groups.
 pub(super) async fn fresh(
     session: &mut CommonSession<'_, '_>,
     h: &Value,
@@ -431,48 +703,16 @@ pub(super) async fn fresh(
         Some(&b["source_payload"]),
     )
     .await?;
-    let inactive:bool=sqlx::query_scalar("SELECT EXISTS(SELECT 1 FROM poms.project_handover_participant_role r LEFT JOIN poms.platform_user u ON u.id=r.participant_user_id WHERE r.handover_id=$1 AND (u.id IS NULL OR NOT u.is_active))")
-        .bind(id(h,"id")?).fetch_one(&mut *session.connection).await?;
-    let mut expected = std::collections::BTreeSet::new();
-    let mut people = std::collections::BTreeSet::new();
-    for user in b["source_payload"]["participants"]
-        .as_array()
-        .ok_or(Error::Internal)?
+    fixed_duties_with_basis(session, h, &b).await?;
+    if !all_participants_active(session, h).await?
+        || !s.blockers.is_empty()
+        || s.hash != text(h, "source_payload_hash")?
     {
-        let user_id = id(user, "userId")?;
-        people.insert(user_id);
-        for role in user["responsibilities"].as_array().ok_or(Error::Internal)? {
-            expected.insert((
-                user_id,
-                text(role, "roleKey")?.to_owned(),
-                text(role, "responsibilitySummary")?.trim().to_owned(),
-            ));
-        }
-    }
-    let rows:Vec<(Uuid,String,String)>=sqlx::query_as("SELECT participant_user_id,role_key,responsibility_summary FROM poms.project_handover_participant_role WHERE handover_id=$1 AND confirmation_record_id=$2 ORDER BY participant_user_id,role_key")
-        .bind(id(h,"id")?).bind(id(h,"confirmation_record_id")?).fetch_all(&mut *session.connection).await?;
-    let actual: std::collections::BTreeSet<_> = rows.into_iter().collect();
-    let actual_people:Vec<Uuid>=sqlx::query_scalar("SELECT participant_id FROM poms.confirmation_participant WHERE confirmation_record_id=$1 ORDER BY participant_id").bind(id(h,"confirmation_record_id")?).fetch_all(&mut *session.connection).await?;
-    if expected != actual
-        || actual_people
-            .into_iter()
-            .collect::<std::collections::BTreeSet<_>>()
-            != people
-    {
-        return Err(Error::Conflict("实际确认职责与已固定材料不一致。".into()));
-    }
-    let counts:Option<(i32,i32,i64)>=sqlx::query_as("SELECT required_count,confirmed_count,(SELECT count(*) FROM poms.confirmation_participant p WHERE p.confirmation_record_id=c.id AND participant_status='confirmed') FROM poms.confirmation_record c WHERE id=$1 AND target_type='project-handover' AND confirmation_type='project-handover' AND target_id=$2 AND project_id=$3 FOR UPDATE")
-        .bind(id(h,"confirmation_record_id")?).bind(id(h,"id")?).bind(id(h,"project_id")?).fetch_optional(&mut *session.connection).await?;
-    if counts.is_none_or(|(required, confirmed, actual)| {
-        usize::try_from(required).ok() != Some(people.len()) || i64::from(confirmed) != actual
-    }) {
-        return Err(Error::Conflict("实际确认进度与固定参与人不一致。".into()));
-    }
-    if inactive || !s.blockers.is_empty() || s.hash != text(h, "source_payload_hash")? {
         return Err(changed());
     }
     Ok(s)
 }
+
 /// Historical facts for F; confirmedAt is a fact, never an invented execution interval.
 pub async fn load_handover_facts_in_session(
     session: &mut CommonSession<'_, '_>,

@@ -1,0 +1,136 @@
+--- a/apps/poms-api-rust/src/project_operating/collector.rs
++++ b/apps/poms-api-rust/src/project_operating/collector.rs
+@@ -367,11 +367,19 @@
+             ));
+         }
+     };
++    // Hash/CAS preflight keeps the original request window. Actual producer
++    // and classification writes are now complete on the same locked session;
++    // the published primary context must include those genuinely new facts.
++    let final_window = final_collection_window(
++        &plan.window,
++        write && matches!(plan.intent, OperatingPreparationIntent::Restatement { .. }),
++        crate::auth::model::clock_now(),
++    );
+     let ctx = context::build(
+         session,
+         plan.project_id,
+         &final_catalog,
+-        &plan.window,
++        &final_window,
+         &plan.generated_ids,
+         mode,
+         restates,
+@@ -383,7 +391,7 @@
+         session,
+         plan.project_id,
+         &final_catalog,
+-        &plan.window,
++        &final_window,
+         matches!(plan.intent, OperatingPreparationIntent::Restatement { .. }),
+         actor,
+     )
+@@ -396,6 +404,18 @@
+         producer_transitions: transitions,
+         generated_ids: plan.generated_ids.clone(),
+     })
++}
++
++fn final_collection_window(
++    original: &OperatingBusinessWindow,
++    governed_write: bool,
++    completed_at: UtcInstant,
++) -> OperatingBusinessWindow {
++    let mut finalized = original.clone();
++    if governed_write {
++        finalized.knowledge_cutoff = completed_at;
++    }
++    finalized
+ }
+ 
+ fn correction_scope_refs(
+@@ -492,3 +512,84 @@
+         _ => Err(store::conflict("operating_source_changed")),
+     }
+ }
++
++#[cfg(test)]
++mod final_knowledge_window_tests {
++    use super::*;
++    use serde_json::json;
++    fn instant(s: &str) -> UtcInstant {
++        s.parse().expect("fixed synthetic instant")
++    }
++    fn window(period: bool) -> OperatingBusinessWindow {
++        OperatingBusinessWindow {
++            business_cutoff: if period { "2026-10-31" } else { "2026-11-07" }
++                .parse()
++                .expect("business cutoff"),
++            knowledge_cutoff: instant("2026-11-07T12:00:00.000Z"),
++            source_window_start: None,
++            source_window_end: Some(
++                if period { "2026-10-31" } else { "2026-11-07" }
++                    .parse()
++                    .expect("old window end"),
++            ),
++            period_key: if period { Some("2026-10".into()) } else { None },
++            business_timezone: "Asia/Hong_Kong".into(),
++        }
++    }
++    #[test]
++    fn genuinely_later_created_replacement_is_known_in_the_final_primary_context() {
++        let original = window(false);
++        let created = json!({"created_at":"2026-11-07T12:00:00.050Z"});
++        assert!(!sources::known_at(&created, original.knowledge_cutoff));
++        let finalized =
++            final_collection_window(&original, true, instant("2026-11-07T12:00:00.100Z"));
++        assert!(sources::known_at(&created, finalized.knowledge_cutoff));
++        assert_eq!(
++            original.knowledge_cutoff,
++            instant("2026-11-07T12:00:00.000Z")
++        );
++    }
++    #[test]
++    fn live_and_period_finalization_preserve_every_business_window_field() {
++        for period in [false, true] {
++            let original = window(period);
++            let finalized =
++                final_collection_window(&original, true, instant("2026-11-07T12:00:00.100Z"));
++            assert_eq!(finalized.business_cutoff, original.business_cutoff);
++            assert_eq!(finalized.source_window_start, original.source_window_start);
++            assert_eq!(finalized.source_window_end, original.source_window_end);
++            assert_eq!(finalized.period_key, original.period_key);
++            assert_eq!(finalized.business_timezone, original.business_timezone);
++        }
++    }
++    #[test]
++    fn read_only_or_non_restatement_collection_does_not_advance_its_window() {
++        let original = window(false);
++        let unchanged =
++            final_collection_window(&original, false, instant("2026-11-07T12:00:00.100Z"));
++        assert_eq!(unchanged.knowledge_cutoff, original.knowledge_cutoff);
++    }
++    #[test]
++    fn primary_and_fresh_other_terminal_include_the_same_completed_producer_set() {
++        let original = window(false);
++        let primary = final_collection_window(&original, true, instant("2026-11-07T12:00:00.100Z"));
++        let other = OperatingBusinessWindow {
++            knowledge_cutoff: instant("2026-11-07T12:00:00.120Z"),
++            ..original.clone()
++        };
++        let rows = [
++            json!({"id":"old","created_at":"2026-11-07T11:00:00Z"}),
++            json!({"id":"actual-new-producer","created_at":"2026-11-07T12:00:00.050Z"}),
++            json!({"id":"genuinely-future","created_at":"2026-11-07T12:00:00.200Z"}),
++        ];
++        let collected = |w: &OperatingBusinessWindow| {
++            rows.iter()
++                .filter(|r| sources::known_at(r, w.knowledge_cutoff))
++                .map(|r| r["id"].as_str().expect("id"))
++                .collect::<Vec<_>>()
++        };
++        assert_eq!(collected(&primary), vec!["old", "actual-new-producer"]);
++        assert_eq!(collected(&primary), collected(&other));
++        assert_ne!(collected(&original), collected(&other));
++    }
++}

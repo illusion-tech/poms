@@ -11,6 +11,7 @@ import { AttachmentUploadSessionOperationType } from './attachment-upload-sessio
 import { AttachmentSecurityLevel } from './attachment-security-level';
 import { AttachmentTargetType } from './attachment-target-type';
 import { AttachmentRelationType } from './attachment-relation-type';
+import { CompletionConditionAttachmentContext } from './completion-condition-attachment-context';
 
 
 export interface CreateAttachmentUploadSessionRequest {
@@ -18,6 +19,7 @@ export interface CreateAttachmentUploadSessionRequest {
     targetType?: AttachmentTargetType;
     targetId?: string;
     baseAttachmentId?: string;
+    completionConditionContext?: CompletionConditionAttachmentContext;
     originalName: string;
     displayName?: string;
     mimeType?: string;

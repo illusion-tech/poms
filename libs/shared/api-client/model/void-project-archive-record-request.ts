@@ -12,5 +12,9 @@
 export interface VoidProjectArchiveRecordRequest {
     reason: string;
     comment?: string | null;
-    expectedVersion?: number;
+    expectedVersion: number;
+    inputVersion: VoidProjectArchiveRecordRequestInputVersionEnum;
 }
+export enum VoidProjectArchiveRecordRequestInputVersionEnum {
+    ServerDerivedV1 = 'server-derived-v1'
+};

@@ -69,6 +69,18 @@ export const appRoutes: Routes = [
                 }
             },
             {
+                path: 'projects/:id/condition-tasks',
+                loadComponent: () => import('./app/features/project/project-own-condition-tasks').then((c) => c.ProjectOwnConditionTasks),
+                canActivate: [permissionGuard],
+                data: { breadcrumb: '本人的完成条件', requiredPermissions: ['project:read'], requiredPermissionsMode: 'all' }
+            },
+            {
+                path: 'projects/:id/governance',
+                loadComponent: () => import('./app/features/project/project-governance').then((c) => c.ProjectGovernance),
+                canActivate: [permissionGuard],
+                data: { breadcrumb: '经营与交付办理', requiredPermissions: ['project:read'], requiredPermissionsMode: 'all' }
+            },
+            {
                 path: 'projects/:id/workspace',
                 loadComponent: () => import('./app/features/project/project-workspace-shell').then((c) => c.ProjectWorkspaceShell),
                 canActivate: [permissionGuard],
@@ -234,7 +246,7 @@ export const appRoutes: Routes = [
             },
             {
                 path: 'projects/:id',
-                loadComponent: () => import('./app/features/project/project-detail').then((c) => c.ProjectDetail),
+                loadComponent: () => import('./app/features/project/project-detail-scope-entry').then((c) => c.ProjectDetailScopeEntry),
                 canActivate: [permissionGuard],
                 data: {
                     breadcrumb: '项目详情',

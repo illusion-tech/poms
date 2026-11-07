@@ -1,0 +1,65 @@
+{
+  "kind": "17-followup-actual-auth-config-precedence-binding",
+  "createdAt": "2026-11-07T09:09:53.914812+00:00",
+  "applyOrder": "16 then17 then17a; preserve original17",
+  "RootPrivateProductsDBHTTPChanged": false,
+  "files": [
+    {
+      "path": "tools/rust-r4ghi/business/fault-sweep.mjs",
+      "newFile": false,
+      "beforeSHA256": "8d704c37279bdc704670d4f56f09ca7a10e08c9b4d4910a79d14932da2e67ec8",
+      "afterSHA256": "b25651034d738d33be905817e769009b095839685a1fd29aaed05da941083cab",
+      "currentRootSHA256": null,
+      "baseDependency": "exact17after"
+    },
+    {
+      "path": "tools/rust-r4ghi/business/auth-config-binding.mjs",
+      "newFile": true,
+      "beforeSHA256": null,
+      "afterSHA256": "cb21f169d5d9ef1512466eb82e273495e977ef07f77d6dd3b170409a03e96d89",
+      "currentRootSHA256": null,
+      "baseDependency": null
+    },
+    {
+      "path": "tools/rust-r4ghi/business/auth-config-binding.test.mjs",
+      "newFile": true,
+      "beforeSHA256": null,
+      "afterSHA256": "ac12952c833a2fbadc038b62135c57ae1fbc226fee8cfb714d410636b50d9ee7",
+      "currentRootSHA256": null,
+      "baseDependency": null
+    },
+    {
+      "path": "tools/rust-r4ghi/business/auth-config-oracle17a.json",
+      "newFile": true,
+      "beforeSHA256": null,
+      "afterSHA256": "569fb94ce34d94f51376d127ff3aa24d4401d09d172be4edc3d8e83c075e98a3",
+      "currentRootSHA256": null,
+      "baseDependency": null
+    },
+    {
+      "path": "tools/rust-r4ghi/business/auth-config-sources17a.json",
+      "newFile": true,
+      "beforeSHA256": null,
+      "afterSHA256": "aca953a4ddb08d08381bd5be45e520e314a071a76ce9d0ab932b96aa04d9f847",
+      "currentRootSHA256": null,
+      "baseDependency": null
+    }
+  ],
+  "patchSHA256": "874ed6450df03d0c7879f286f99e95f1a3938206a26b3c90c230126474835709",
+  "staticCheckSHA256": "e09022a96f7f3b0cbf0097ab0b0958a14392f82a7e36747813fca5bfc40583de",
+  "verification": {
+    "nodeSyntax": "3PASS",
+    "pureTests": "31PASS/0fail including26dotenv oracle vectors",
+    "actualLinuxProcessBinding": "Root-only not-run",
+    "realFIHTTPDB": "not-run"
+  },
+  "rules": [
+    "Pin actual config/main/process-runtime and wx launcher source; mirror startup source must match.",
+    "Revalidate bound process record SHA/PID/startTime/binary/cwd.",
+    "Rust precedence: explicit trimmed POMS_ENV_FILE overrides process; default first-existing env fills only absent process keys. Actual namespace reader only accepts exact private process-edition file.",
+    "Only selected two auth keys plus POMS file path retained; all other env content discarded, never printed or copied.",
+    "File is regular/no redirect/single-link/owner equals actual process UID/mode0600; birth/mtime/ctime<=recorded process.startedAt and before/after identity same. Full env SHA/stat only private receipt.",
+    "Use pinned60/900 only when respective key absent from BOTH process and selected file. Empty value is0, so idle empty is invalid; actual Rust safe-integer numeric syntax respected.",
+    "Re-read and compare immutable private config receipt each use; no SQL session backdating."
+  ]
+}

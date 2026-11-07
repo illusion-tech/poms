@@ -1,0 +1,16 @@
+{
+  "kind": "actual-typescript-real-MikroORM7-generator-extension-typecheck-no-emit",
+  "version": "6.0.3",
+  "diagnostics": [
+    {
+      "code": 2322,
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/core/persistence/persistence.config.ts",
+      "text": "Type 'typeof PomsSchemaGenerator' is not assignable to type '{ register: (orm: MikroORM<IDatabaseDriver<Connection>, EntityManager<IDatabaseDriver<Connection>>, (string | EntityClass<...> | EntitySchema<...>)[]>) => void; }'.\n  Types of property 'register' are incompatible.\n    Type '(orm: PostgreSqlMikroORM<PostgreSqlEntityManager<PostgreSqlDriver>, (string | EntityClass<Partial<any>> | EntitySchema<any, never, EntityCtor<...>>)[]>) => void' is not assignable to type '(orm: MikroORM<IDatabaseDriver<Connection>, EntityManager<IDatabaseDriver<Connection>>, (string | EntityClass<...> | EntitySchema<...>)[]>) => void'.\n      Types of parameters 'orm' and 'orm' are incompatible.\n        Type 'MikroORM<IDatabaseDriver<Connection>, EntityManager<IDatabaseDriver<Connection>>, (string | EntityClass<Partial<any>> | EntitySchema<...>)[]>' is not assignable to type 'PostgreSqlMikroORM<PostgreSqlEntityManager<PostgreSqlDriver>, (string | EntityClass<Partial<any>> | EntitySchema<any, never, EntityCtor<...>>)[]>'.\n          Types of property 'em' are incompatible.\n            Type 'EntityManager<IDatabaseDriver<Connection>> & { '~entities'?: (string | EntityClass<Partial<any>> | EntitySchema<...>)[] | undefined; }' is not assignable to type 'PostgreSqlEntityManager<PostgreSqlDriver> & { '~entities'?: (string | EntityClass<Partial<any>> | EntitySchema<any, never, EntityCtor<...>>)[] | undefined; }'.\n              Type 'EntityManager<IDatabaseDriver<Connection>> & { '~entities'?: (string | EntityClass<Partial<any>> | EntitySchema<...>)[] | undefined; }' is missing the following properties from type 'PostgreSqlEntityManager<PostgreSqlDriver>': refreshMaterializedView, createQueryBuilder, qb, getKysely, execute"
+    },
+    {
+      "code": 2322,
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/app/core/persistence/poms-schema-generator.ts",
+      "text": "Type 'string | number' is not assignable to type 'string | null | undefined'.\n  Type 'number' is not assignable to type 'string'."
+    }
+  ]
+}

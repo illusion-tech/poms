@@ -1,0 +1,62 @@
+--- a/tools/rust-r1b/export-shared.mjs
++++ b/tools/rust-r1b/export-shared.mjs
+@@ -5,8 +5,9 @@
+ import { createRequire } from 'node:module';
+ import { dirname, resolve } from 'node:path';
+ import { fileURLToPath } from 'node:url';
+ import { Script } from 'node:vm';
++import { analyzeRegisteredGraph } from './registered-module-graph.mjs';
+ 
+ const require = createRequire(import.meta.url);
+ const ts = require('typescript');
+ const zodVersion = require('zod/package.json').version;
+@@ -15,8 +16,10 @@
+ }
+ export const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
+ export const SOURCE_HEAD = '4f78bd486ca2118e4700bae560cb25ff08c4b47d';
+ export const SHARED_PATH = 'libs/shared/contracts/src/lib/shared-contracts.ts';
++export const CANONICAL_SHARED_PATH = 'libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts';
++export const MODULE_REGISTRY_PATH = 'tools/rust-r1b/current-module-registry.json';
+ export const SPEC_PATH = 'libs/shared/api-spec/openapi.json';
+ export const R0_PATH = 'docs/design/rust-r0-api-operations.json';
+ export const GENERATOR_PATH = 'tools/rust-r1b/export-shared.mjs';
+ export const MANIFEST_PATH = 'tools/rust-r1b/shared-manifest.json';
+@@ -25,10 +28,10 @@
+ const ENTITY_PATH = 'apps/poms-api/src/app/core/auth/auth-session.entity.ts';
+ const SERVICE_PATH = 'apps/poms-api/src/app/core/auth/auth-session.service.ts';
+ // Review these source identities deliberately when advancing the one-way export.
+ // No generated wire values are used as an alternative source of truth.
+-export const SOURCE_SCOPE = ['.gitattributes', ':(glob)libs/shared/contracts/src/**/*.ts', SPEC_PATH, ENTITY_PATH, SERVICE_PATH, R0_PATH];
+-const SOURCE_PATHS = ['.gitattributes', 'libs/shared/contracts/src/index.ts', SHARED_PATH, SPEC_PATH, ENTITY_PATH, SERVICE_PATH, R0_PATH];
++export const SOURCE_SCOPE = ['.gitattributes', ':(glob)libs/shared/contracts/src/**/*.ts', MODULE_REGISTRY_PATH, SPEC_PATH, ENTITY_PATH, SERVICE_PATH, R0_PATH];
++const SOURCE_PATHS = ['.gitattributes', 'libs/shared/contracts/src/index.ts', SHARED_PATH, CANONICAL_SHARED_PATH, MODULE_REGISTRY_PATH, SPEC_PATH, ENTITY_PATH, SERVICE_PATH, R0_PATH];
+ // Supported helper semantics are reviewed against these exact declarations, then
+ // independently checked by executing the original TS module with only Zod loaded.
+ export const HELPER_HASHES = Object.freeze({
+     defineEnumDefinitions: '74f91dd0ac8ccaa5ebf310fc56f2b678ac4324a8a6119e98877f2e233977ebb9',
+@@ -1002,9 +1005,25 @@
+         if (actual !== text) throw new Error(`Stale or modified generated artifact: ${path}; edit TS authority and regenerate explicitly`);
+     }
+ }
+ 
++// This is an inspection seam, not a replacement of compareR0/buildManifest.
++// Root must freeze the exact source reference and independently approve the
++// closed registry before use; no CLI/source override disables the original gate.
++export function inspectRegisteredModules({ root = ROOT } = {}) {
++    assertSourceGuard(root);
++    const registry = JSON.parse(read(root, MODULE_REGISTRY_PATH));
++    assert.equal(registry.reviewStatus, 'Root-reviewed-module-registry', 'Module registration needs independent review');
++    assert.equal(registry.sourceHead, SOURCE_HEAD, 'Module registry and reviewed Git source must match');
++    return analyzeRegisteredGraph(root, registry);
++}
++
+ export function main(args = process.argv.slice(2), root = ROOT) {
++    if (args.length === 1 && args[0] === '--inspect-registered-modules') {
++        const result = inspectRegisteredModules({ root });
++        console.log(JSON.stringify(result, null, 2));
++        return result;
++    }
+     if (args.length !== 1 || !['--write', '--check'].includes(args[0])) throw new Error('Usage: node tools/rust-r1b/export-shared.mjs --write|--check');
+     const manifest = buildManifest({ root });
+     const outputs = artifacts(manifest);
+     if (args[0] === '--write')

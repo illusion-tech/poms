@@ -14,5 +14,9 @@ export interface ReplaceProjectArchiveRecordRequest {
     archiveSummary: string;
     evidenceSummary: string;
     replacementReason: string;
-    expectedVersion?: number;
+    expectedVersion: number;
+    inputVersion: ReplaceProjectArchiveRecordRequestInputVersionEnum;
 }
+export enum ReplaceProjectArchiveRecordRequestInputVersionEnum {
+    ServerDerivedV1 = 'server-derived-v1'
+};

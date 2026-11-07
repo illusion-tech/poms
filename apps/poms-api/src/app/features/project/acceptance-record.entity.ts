@@ -1,3 +1,4 @@
+import { ProjectStageRecord } from '../project-cost/rust-r4ghi-entities.entity';
 import { defineEntity } from '@mikro-orm/core';
 import { Project } from './project.entity';
 
@@ -8,6 +9,12 @@ export type AcceptanceRecordResult = 'accepted' | 'conditional' | 'rejected';
 const p = defineEntity.properties;
 
 export const AcceptanceRecordSchema = defineEntity({
+    uniques: [
+        {"name":"uq_jghi_acceptance_project","properties":["id","projectId"]}
+    ],
+    checks: [
+        {"name":"acceptance_new_producer_check","expression":"producer_version=0 OR (producer_version=1 AND source_stage_record_id IS NOT NULL\n    AND source_payload_hash IS NOT NULL AND source_payload_hash ~ '^[0-9a-f]{64}$' AND confirmed_by IS NOT NULL AND confirmed_at IS NOT NULL\n    AND acceptance_type IN ('stage-outcome','stage-acceptance','final-acceptance')\n    AND acceptance_result IN ('accepted','conditional','rejected')\n    AND (acceptance_result<>'conditional' OR (conditional_summary IS NOT NULL AND length(btrim(conditional_summary))>0)))"}
+    ],
     name: 'AcceptanceRecord',
     tableName: 'acceptance_record',
     schema: 'poms',
@@ -41,6 +48,12 @@ export const AcceptanceRecordSchema = defineEntity({
         updatedAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).onUpdate(() => new Date()).fieldName('updated_at').comment('最后更新时间'),
         updatedBy: p.uuid().nullable().fieldName('updated_by').comment('最后更新人'),
         rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号')
+    ,
+        producerVersion: p.smallint().default(0).fieldName("producer_version"),
+        sourceStageRecordId: () => p.manyToOne(ProjectStageRecord).mapToPk().joinColumns("source_stage_record_id").referencedColumnNames("id").foreignKeyName("acceptance_record_source_stage_record_id_fkey").deleteRule("restrict").updateRule("no action").nullable(),
+        sourcePayloadHash: p.string().length(64).nullable().fieldName("source_payload_hash"),
+        conditionalSummary: p.text().nullable().fieldName("conditional_summary"),
+        jghiScopeConstraint1: () => p.manyToOne(ProjectStageRecord).mapToPk().joinColumns("source_stage_record_id","project_id").referencedColumnNames("id","project_id").columnTypes("uuid","uuid").ownColumns().hydrate(false).hidden().foreignKeyName("fk_jghi_acceptance_stage_project").deleteRule("no action").updateRule("no action").nullable()
     }
 });
 

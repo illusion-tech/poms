@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { FrozenLifecycleEvidence } from './frozen-lifecycle-evidence';
 
 
 export interface ProjectArchiveRecordSummary {
@@ -33,11 +34,16 @@ export interface ProjectArchiveRecordSummary {
     updatedBy: string | null;
     rowVersion: number;
     allowedActions: Array<string>;
+    sourcePayloadHash: string | null;
+    sourceQualification: ProjectArchiveRecordSummarySourceQualificationEnum;
+    sourceStageRecordId: string | null;
+    evidenceRefs: Array<FrozenLifecycleEvidence>;
 }
 export enum ProjectArchiveRecordSummaryArchiveAnchorStageEnum {
     Completed = 'completed',
     ClosedLost = 'closed-lost',
-    ClosedTerminated = 'closed-terminated'
+    ClosedTerminated = 'closed-terminated',
+    ConditionalCompleted = 'conditional-completed'
 };
 export enum ProjectArchiveRecordSummaryArchiveAnchorSourceTypeEnum {
     Project = 'project',
@@ -47,4 +53,8 @@ export enum ProjectArchiveRecordSummaryStatusEnum {
     Recorded = 'recorded',
     Voided = 'voided',
     Superseded = 'superseded'
+};
+export enum ProjectArchiveRecordSummarySourceQualificationEnum {
+    VerifiedProducer = 'verified-producer',
+    LegacyUnverified = 'legacy-unverified'
 };

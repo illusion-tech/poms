@@ -1,3 +1,11 @@
+import { parseR4GhiFrozenNativeValue } from "../../core/rust-r4ghi-native-protocol.guard";
+import { ProjectStageSchema } from "../../core/rust-r4ghi-frozen-native-reference";
+import { StartProjectExecutionRequestDto, StartProjectAcceptanceRequestDto, ProjectStageTransitionResultDto, CloseProjectCompletionConditionRequestDto, CloseProjectCompletionConditionResultDto } from "@poms/api-contracts";
+import { RustR4GhiNativeProtocolGuard, nativeR4GhiUnsupported } from "../../core/rust-r4ghi-native-protocol.guard";
+import { UseGuards, HttpCode, HttpStatus } from "@nestjs/common";
+import { ApiBody } from "@nestjs/swagger";
+import { ZodValidationPipe } from "@poms/vendor-nestjs-zod";
+import { CreateProjectRequestSchema, CreateAcceptanceRecordRequestSchema, CreateProjectCompletionRecordRequestSchema, CreateProjectArchiveRecordRequestSchema, ReplaceProjectArchiveRecordRequestSchema, VoidProjectArchiveRecordRequestSchema, type CreateProjectRequest, type CreateAcceptanceRecordRequest, type CreateProjectCompletionRecordRequest, type CreateProjectArchiveRecordRequest, type ReplaceProjectArchiveRecordRequest, type VoidProjectArchiveRecordRequest } from "../../core/rust-r4ghi-frozen-native-reference";
 import { Inject, Body, Controller, Get, NotFoundException, Param, Patch, Post, Query, Request } from '@nestjs/common';
 import { ApiCookieAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
@@ -57,7 +65,7 @@ import type {
     ProjectTimelineView,
     ProjectWorkspaceGuidanceView,
     UserPayload
-} from '@poms/shared-contracts';
+} from "../../core/rust-r4ghi-frozen-native-reference";
 import { HasPermissions } from '../../core/auth/decorators/has-permissions.decorator';
 import { buildSensitiveFieldProjectionRequestContext } from '../../core/sensitive-field-projection/sensitive-field-projection-request-context';
 import type { RuntimeAuditRequestLike } from '../../core/runtime-audit/runtime-audit-request.utils';
@@ -87,7 +95,7 @@ export class ProjectController {
     async list(@Query() query: ProjectListQueryDto): Promise<ProjectListView[]> {
         const listQuery: ProjectListQuery = {
             status: query.status,
-            currentStage: query.currentStage,
+            currentStage: parseR4GhiFrozenNativeValue(ProjectStageSchema.optional(), query.currentStage),
             ownerOrgId: query.ownerOrgId,
             keyword: query.keyword
         };
@@ -191,11 +199,13 @@ export class ProjectController {
         return this.projectQueryService.getProjectDetail(id, req.user, buildSensitiveFieldProjectionRequestContext(req, `/projects/${id}`));
     }
 
+    @UseGuards(RustR4GhiNativeProtocolGuard)
+    @ApiBody({ type: CreateProjectRequestDto })
     @Post()
     @HasPermissions('project:write')
     @ApiOperation({ summary: '创建项目基础台账' })
     @ApiCreatedResponse({ type: ProjectDto })
-    async create(@Body() body: CreateProjectRequestDto, @Request() req: { user: UserPayload }): Promise<ProjectSummary> {
+    async create(@Body(new ZodValidationPipe(CreateProjectRequestSchema)) body: CreateProjectRequest, @Request() req: { user: UserPayload }): Promise<ProjectSummary> {
         const project = await this.projectService.createAndSave(
             {
                 projectName: body.projectName,
@@ -227,11 +237,13 @@ export class ProjectController {
         );
     }
 
+    @UseGuards(RustR4GhiNativeProtocolGuard)
+    @ApiBody({ type: CreateAcceptanceRecordRequestDto })
     @Post(':projectId/acceptance-records')
     @HasPermissions('project:write')
     @ApiOperation({ summary: '创建项目验收确认记录' })
     @ApiCreatedResponse({ type: AcceptanceRecordDto })
-    async createAcceptanceRecord(@Param('projectId') projectId: string, @Body() body: CreateAcceptanceRecordRequestDto, @Request() req: { user: UserPayload }): Promise<AcceptanceRecordSummary> {
+    async createAcceptanceRecord(@Param('projectId') projectId: string, @Body(new ZodValidationPipe(CreateAcceptanceRecordRequestSchema)) body: CreateAcceptanceRecordRequest, @Request() req: { user: UserPayload }): Promise<AcceptanceRecordSummary> {
         const record = await this.projectService.createAcceptanceRecord(
             projectId,
             {
@@ -247,11 +259,13 @@ export class ProjectController {
         return mapAcceptanceRecordToSummary(record);
     }
 
+    @UseGuards(RustR4GhiNativeProtocolGuard)
+    @ApiBody({ type: CreateProjectCompletionRecordRequestDto })
     @Post(':projectId/completion-records')
     @HasPermissions('project:write')
     @ApiOperation({ summary: '创建项目完成确认记录' })
     @ApiCreatedResponse({ type: ProjectCompletionRecordDto })
-    async createProjectCompletionRecord(@Param('projectId') projectId: string, @Body() body: CreateProjectCompletionRecordRequestDto, @Request() req: { user: UserPayload }): Promise<ProjectCompletionRecordSummary> {
+    async createProjectCompletionRecord(@Param('projectId') projectId: string, @Body(new ZodValidationPipe(CreateProjectCompletionRecordRequestSchema)) body: CreateProjectCompletionRecordRequest, @Request() req: { user: UserPayload }): Promise<ProjectCompletionRecordSummary> {
         const record = await this.projectService.createProjectCompletionRecord(
             projectId,
             {
@@ -267,11 +281,13 @@ export class ProjectController {
         return mapProjectCompletionRecordToSummary(record);
     }
 
+    @UseGuards(RustR4GhiNativeProtocolGuard)
+    @ApiBody({ type: CreateProjectArchiveRecordRequestDto })
     @Post(':projectId/archive-records')
     @HasPermissions('project:write')
     @ApiOperation({ summary: '创建项目归档记录' })
     @ApiCreatedResponse({ type: ProjectArchiveRecordDto })
-    async createProjectArchiveRecord(@Param('projectId') projectId: string, @Body() body: CreateProjectArchiveRecordRequestDto, @Request() req: { user: UserPayload }): Promise<ProjectArchiveRecordSummary> {
+    async createProjectArchiveRecord(@Param('projectId') projectId: string, @Body(new ZodValidationPipe(CreateProjectArchiveRecordRequestSchema)) body: CreateProjectArchiveRecordRequest, @Request() req: { user: UserPayload }): Promise<ProjectArchiveRecordSummary> {
         const record = await this.projectService.createProjectArchiveRecord(
             projectId,
             {
@@ -342,6 +358,24 @@ export class ProjectController {
 
         return mapProjectToSummary(project);
     }
+
+    @Post(':id\\:startExecution')
+    @HasPermissions('project:write')
+    @UseGuards(RustR4GhiNativeProtocolGuard)
+    @HttpCode(HttpStatus.OK)
+    @ApiBody({ type: StartProjectExecutionRequestDto })
+    @ApiOkResponse({ type: ProjectStageTransitionResultDto })
+    @ApiOperation({ operationId: 'ProjectController_startExecution', summary: '进入执行（Native参考显式不支持）' })
+    startExecution(@Param('id') id: string, @Body() body: unknown): never { void id; void body; return nativeR4GhiUnsupported('startExecution'); }
+
+    @Post(':id\\:startAcceptance')
+    @HasPermissions('project:write')
+    @UseGuards(RustR4GhiNativeProtocolGuard)
+    @HttpCode(HttpStatus.OK)
+    @ApiBody({ type: StartProjectAcceptanceRequestDto })
+    @ApiOkResponse({ type: ProjectStageTransitionResultDto })
+    @ApiOperation({ operationId: 'ProjectController_startAcceptance', summary: '进入验收（Native参考显式不支持）' })
+    startAcceptance(@Param('id') id: string, @Body() body: unknown): never { void id; void body; return nativeR4GhiUnsupported('startAcceptance'); }
 }
 
 @ApiTags('project')
@@ -370,11 +404,13 @@ export class ProjectLookupController {
 export class ProjectArchiveRecordController {
     constructor(@Inject(ProjectService) private readonly projectService: ProjectService) {}
 
+    @UseGuards(RustR4GhiNativeProtocolGuard)
+    @ApiBody({ type: ReplaceProjectArchiveRecordRequestDto })
     @Post(':id\\:replace')
     @HasPermissions('project:write')
     @ApiOperation({ summary: '替代项目归档记录' })
     @ApiOkResponse({ type: ProjectArchiveRecordDto })
-    async replaceProjectArchiveRecord(@Param('id') id: string, @Body() body: ReplaceProjectArchiveRecordRequestDto, @Request() req: { user: UserPayload }): Promise<ProjectArchiveRecordSummary> {
+    async replaceProjectArchiveRecord(@Param('id') id: string, @Body(new ZodValidationPipe(ReplaceProjectArchiveRecordRequestSchema)) body: ReplaceProjectArchiveRecordRequest, @Request() req: { user: UserPayload }): Promise<ProjectArchiveRecordSummary> {
         const record = await this.projectService.replaceProjectArchiveRecord(
             id,
             {
@@ -390,11 +426,13 @@ export class ProjectArchiveRecordController {
         return mapProjectArchiveRecordToSummary(record);
     }
 
+    @UseGuards(RustR4GhiNativeProtocolGuard)
+    @ApiBody({ type: VoidProjectArchiveRecordRequestDto })
     @Post(':id\\:void')
     @HasPermissions('project:write')
     @ApiOperation({ summary: '撤销项目归档记录' })
     @ApiOkResponse({ type: ProjectArchiveRecordDto })
-    async voidProjectArchiveRecord(@Param('id') id: string, @Body() body: VoidProjectArchiveRecordRequestDto, @Request() req: { user: UserPayload }): Promise<ProjectArchiveRecordSummary> {
+    async voidProjectArchiveRecord(@Param('id') id: string, @Body(new ZodValidationPipe(VoidProjectArchiveRecordRequestSchema)) body: VoidProjectArchiveRecordRequest, @Request() req: { user: UserPayload }): Promise<ProjectArchiveRecordSummary> {
         const record = await this.projectService.voidProjectArchiveRecord(
             id,
             {
@@ -585,7 +623,7 @@ function mapProjectToSummary(project: Project): ProjectSummary {
         customerName: project.customerName ?? null,
         customerProjectNo: project.customerProjectNo ?? null,
         status: project.status,
-        currentStage: project.currentStage,
+        currentStage: parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage),
         ownerOrgId: project.ownerOrgId ?? null,
         ownerUserId: project.ownerUserId ?? null,
         plannedSignAt: project.plannedSignAt?.toISOString() ?? null,
@@ -609,4 +647,18 @@ function toNullableDecimalString(value: string | number | null | undefined): str
     }
 
     return toDecimalString(value);
+}
+
+@ApiTags('project')
+@ApiCookieAuth('pomsSession')
+@Controller()
+export class ProjectCompletionRecordController {
+    @Post('project-completion-records/:completionRecordId/conditions/:id\\:close')
+    @HasPermissions('project:write')
+    @UseGuards(RustR4GhiNativeProtocolGuard)
+    @HttpCode(HttpStatus.OK)
+    @ApiBody({ type: CloseProjectCompletionConditionRequestDto })
+    @ApiOkResponse({ type: CloseProjectCompletionConditionResultDto })
+    @ApiOperation({ operationId: 'ProjectCompletionRecordController_closeCompletionCondition', summary: '关闭本人条件（Native参考显式不支持）' })
+    closeCompletionCondition(@Param('completionRecordId') parent: string, @Param('id') id: string, @Body() body: unknown): never { void parent; void id; void body; return nativeR4GhiUnsupported('closeCompletionCondition'); }
 }

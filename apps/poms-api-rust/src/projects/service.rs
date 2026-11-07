@@ -18,7 +18,7 @@ use crate::{
     auth::{
         guards::RequestMetadata,
         js_json::JsString,
-        model::{ResolvedSession, SessionFlush, UserReadSnapshot, clock_now},
+        model::{ResolvedSession, UserReadSnapshot, clock_now},
         projection::{
             self, ProjectionInput, ProjectionRequestContext, ProjectionUser, StringField,
         },
@@ -41,6 +41,7 @@ pub enum ProjectsError {
     Conflict(String),
     Customer(CustomersError),
     Database(DbError),
+    Business(crate::contract_support::Error),
     Internal,
 }
 
@@ -51,6 +52,7 @@ impl ProjectsError {
             Self::BadRequest(message) => ApiError::message(StatusCode::BAD_REQUEST, message),
             Self::Conflict(message) => ApiError::message(StatusCode::CONFLICT, message),
             Self::Customer(error) => error.into_api_error(),
+            Self::Business(error) => error.into_api_error(),
             Self::Database(_) | Self::Internal => ApiError::internal(),
         }
     }
@@ -77,7 +79,7 @@ impl From<CustomersError> for ProjectsError {
 pub struct ProjectsService {
     database: Database,
     customers: Arc<CustomersService>,
-    auth: Arc<AuthService>,
+    _auth: Arc<AuthService>,
 }
 
 impl ProjectsService {
@@ -89,7 +91,7 @@ impl ProjectsService {
         Self {
             database,
             customers,
-            auth,
+            _auth: auth,
         }
     }
 
@@ -103,8 +105,14 @@ impl ProjectsService {
             customer_id,
             customer_project_no,
             current_stage,
+            initial_ownership,
             planned_sign_at,
         } = input;
+        if current_stage.is_some_and(|stage| stage != ProjectStage::Assessment) {
+            return Err(ProjectsError::BadRequest(
+                "New projects must begin at assessment".into(),
+            ));
+        }
         // Preserve source preflight before BEGIN; this is A's actual internal
         // customer producer contract, not a duplicate customer SQL predicate.
         let operator = self
@@ -133,7 +141,7 @@ impl ProjectsService {
             .with_connection(move |connection| {
                 Box::pin(async move {
                     let mut transaction = connection.begin().await?;
-                    let result: Result<ProjectRow, sqlx::Error> = async {
+                    let result: Result<ProjectRow, crate::contract_support::Error> = async {
                         // Native oracle02 and the independently accepted corrective:
                         // BEGIN(business), NEXT(independent physical connection), then
                         // project INSERT and pending-session UPDATE. A business failure
@@ -144,6 +152,11 @@ impl ProjectsService {
                             .map_err(|_| {
                                 sqlx::Error::Protocol("project number persistence failed".into())
                             })?;
+                        let owner_org_id = store::lock_creation_org(&mut transaction, operator.id).await?;
+                        let owner_user_id = match initial_ownership {
+                            super::model::ProjectInitialOwnership::Creator => Some(operator.id),
+                            super::model::ProjectInitialOwnership::Organization => None,
+                        };
                         let now = clock_now();
                         let project = store::insert(
                             &mut transaction,
@@ -155,18 +168,18 @@ impl ProjectsService {
                                 customer_project_no: customer_project_no
                                     .as_ref()
                                     .map(JsString::to_utf8_lossy),
-                                current_stage: current_stage
-                                    .unwrap_or(ProjectStage::Assessment)
-                                    .as_str()
-                                    .to_owned(),
-                                owner_org_id: operator.primary_org_unit_id,
-                                owner_user_id: operator.id,
+                                current_stage: ProjectStage::Assessment.as_str().to_owned(),
+                                owner_org_id,
+                                owner_user_id,
+                                creator_user_id: operator.id,
                                 planned_sign_at,
                                 created_at: now,
                                 updated_at: now,
                             },
                         )
                         .await?;
+                        crate::project_action_authorization::ownership::record_new_origin_with_connection(
+                            &mut transaction,project.id,operator.id,"direct-create",project.id,None).await?;
                         if let Some(pending) = pending.as_ref() {
                             flush_managed_session(&mut transaction, pending).await?;
                         }
@@ -176,16 +189,17 @@ impl ProjectsService {
                     match result {
                         Ok(project) => {
                             transaction.commit().await?;
-                            Ok(project)
+                            Ok(Ok(project))
                         }
                         Err(error) => {
                             transaction.rollback().await?;
-                            Err(error)
+                            Ok(Err(error))
                         }
                     }
                 })
             })
-            .await?;
+            .await?
+            .map_err(ProjectsError::Business)?;
         raw_summary(&project, &original_text)
     }
 
@@ -262,111 +276,57 @@ impl ProjectsService {
         session: &ResolvedSession,
         metadata: &RequestMetadata,
     ) -> Result<Wire, ProjectsError> {
-        let project = self.require_project(id).await?;
-        let user_ids = project.owner_user_id.into_iter().collect::<Vec<_>>();
-        let org_ids = project.owner_org_id.into_iter().collect::<Vec<_>>();
-        let project_id = project.id;
-        let lead_id = project.source_lead_id;
-        let (users, orgs, contracts, snapshot, bid, lead) = tokio::try_join!(
-            self.database
-                .with_connection(move |connection| Box::pin(async move {
-                    store::user_names(connection, &user_ids).await
-                })),
-            self.database
-                .with_connection(move |connection| Box::pin(async move {
-                    store::org_names(connection, &org_ids).await
-                })),
-            self.database
-                .with_connection(move |connection| Box::pin(async move {
-                    store::contracts(connection, project_id).await
-                })),
-            self.database
-                .with_connection(move |connection| Box::pin(async move {
-                    store::approval_snapshot(connection, project_id).await
-                })),
-            self.database
-                .with_connection(move |connection| Box::pin(async move {
-                    store::current_bid(connection, project_id).await
-                })),
-            self.database
-                .with_connection(move |connection| Box::pin(async move {
-                    store::lead(connection, lead_id).await
-                })),
-        )?;
-        let latest = contracts.first();
-        let input = ProjectionInput {
-            field_package_key: SensitiveFieldPackageKey::ContractFinance,
-            fields: vec![StringField {
-                key: "field".into(),
-                raw_value: latest.map(|row| row.signed_amount.clone()),
-                display_text_when_full: latest
-                    .map(|row| format!("{} {}", row.signed_amount, row.currency_code)),
-                masked_display_text: None,
-                denied_display_text: None,
-            }],
-            user: Some(ProjectionUser {
-                sub: session.user.user_id,
-                username: session.user.username.clone(),
-                permissions: session
-                    .user
-                    .permissions
-                    .iter()
-                    .map(|value| value.as_ref().to_owned())
-                    .collect(),
-            }),
-            target_type: "project".into(),
-            target_id: project.id.to_string(),
-            request_context: ProjectionRequestContext {
-                request_id: metadata.request_id.clone(),
-                path: metadata.path.clone(),
-                method: metadata.method.clone(),
-                ip: metadata.info.ip.clone(),
-                user_agent: metadata.info.user_agent.clone(),
-            },
-            mode_when_unauthorized: None,
-            masked_display_text: None,
-            denied_display_text: None,
-        };
-        let mut projected = projection::plan(&input).map_err(|_| ProjectsError::Internal)?;
-        if let Some(event) = projected.event {
-            self.auth
-                .record_security_event_with_session(event, session.pending_flush.as_ref())
-                .await
-                .map_err(|_| ProjectsError::Internal)?;
-        }
-        let signed_amount = projected
-            .fields
-            .remove("field")
-            .ok_or(ProjectsError::Internal)?;
-        let approval = match snapshot.as_ref() {
-            Some(snapshot) => {
-                json!({"summarySnapshotId":snapshot.id,"summaryPackageKey":snapshot.summary_package_key,"projectionLevel":snapshot.projection_level,"exportPolicy":snapshot.export_policy,"generatedAt":iso(snapshot.generated_at)?})
-            }
-            None => {
-                json!({"summarySnapshotId":null,"summaryPackageKey":null,"projectionLevel":null,"exportPolicy":null,"generatedAt":null})
-            }
-        };
-        let mut result = summary(&project)?;
-        let fields = result.as_object_mut().ok_or(ProjectsError::Internal)?;
-        let extra = json!({
-            "ownerName":project.owner_user_id.and_then(|id| users.get(&id)),
-            "ownerOrgName":project.owner_org_id.and_then(|id| orgs.get(&id)),
-            "sourceLeadSummary":lead.as_ref().map(|row| json!({"id":row.id,"leadNo":row.lead_no,"leadName":row.lead_name,"customerId":row.customer_id,"customerName":row.customer_name,"status":row.status})),
-            "stageSummary":{"currentStage":project.current_stage,"status":project.status,"plannedSignAt":optional_iso(project.planned_sign_at)?,"closedAt":optional_iso(project.closed_at)?,"closedReason":project.closed_reason,"blockingReasons":stage_reasons(&project)},
-            "currentBidSummary":bid.as_ref().map_or_else(|| json!({"bidProcessId":null,"bidStatus":"not_configured","resultStatus":null,"tenderNo":null,"bidPackageNo":null,"summary":null}), |row| json!({"bidProcessId":row.id,"bidStatus":row.current_stage,"resultStatus":row.result_status,"tenderNo":row.tender_no,"bidPackageNo":row.bid_package_no,"summary":row.process_summary})),
-            "currentContractSummary":{
-                "activeContractCount":contracts.iter().filter(|row| row.status == "active").count(),
-                "latestContractId":latest.map(|row| row.id),"latestContractNo":latest.map(|row| &row.contract_no),"latestContractStatus":latest.map(|row| &row.status),
-                "signedAmountProjection":signed_amount,"currencyCode":latest.map(|row| &row.currency_code),
-                "signedAt":optional_iso(latest.and_then(|row| row.signed_at))?,"currentSnapshotId":latest.and_then(|row| row.current_snapshot_id),
-            },
-            "currentApprovalSummary":approval,
-            "currentConfirmationSummary":{"confirmationRecordId":null,"status":"not_configured","requiredCount":0,"confirmedCount":0,"pendingCount":0,"confirmedAt":null},
-            "summarySnapshotId":snapshot.as_ref().map(|row| row.id),"projectionLevel":snapshot.as_ref().map(|row| &row.projection_level),"exportPolicy":snapshot.as_ref().map(|row| &row.export_policy),
-            "allowedActions":allowed_actions(&project, session),"generatedAt":iso(clock_now())?,
-        });
-        fields.extend(extra.as_object().ok_or(ProjectsError::Internal)?.clone());
-        Ok(Wire::value(result))
+        let project_id = Uuid::parse_str(id)
+            .map_err(|_| ProjectsError::BadRequest("Invalid project UUID".into()))?;
+        let actor = scoped_actor(session, metadata);
+        self.database
+            .with_connection(move |connection| {
+                Box::pin(async move {
+                    let mut transaction = connection.begin().await?;
+                    let mut state = crate::approval_common::CommonState::default();
+                    state.trace.begin(true);
+                    let mut participant =
+                        crate::approval::context::PendingAuthentication::from_resolved(
+                            &actor.session,
+                        );
+                    let result = {
+                        let mut borrowed =
+                            crate::approval_common::CommonSession::borrow_with_participant(
+                                &mut transaction,
+                                &mut state,
+                                &mut participant,
+                            );
+                        borrowed.request_id = actor.request_id.clone();
+                        match detail_with_session(&mut borrowed, project_id, &actor).await {
+                            Ok(value) => crate::approval_common::store::flush(&mut borrowed)
+                                .await
+                                .map_err(crate::contract_support::Error::from)
+                                .map(|()| value),
+                            Err(error) => Err(error),
+                        }
+                    };
+                    match result {
+                        Ok(value) => match transaction.commit().await {
+                            Ok(()) => {
+                                state.trace.commit_succeeded();
+                                Ok(Ok(value))
+                            }
+                            Err(error) => {
+                                state.trace.unknown_commit();
+                                Err(error)
+                            }
+                        },
+                        Err(error) => {
+                            let rollback = transaction.rollback().await;
+                            state.trace.rolled_back();
+                            rollback?;
+                            Ok(Err(error))
+                        }
+                    }
+                })
+            })
+            .await?
+            .map_err(ProjectsError::Business)
     }
 
     pub async fn update(
@@ -374,89 +334,61 @@ impl ProjectsService {
         id: &str,
         input: UpdateProject,
         session: &ResolvedSession,
+        metadata: &RequestMetadata,
     ) -> Result<Wire, ProjectsError> {
-        let mut project = self.require_project(id).await?;
-        if !editable(&project) {
-            return Err(ProjectsError::BadRequest(format!(
-                "Project {id} cannot be edited in status {}",
-                project.status
-            )));
-        }
-        let mut changes = store::ProjectUpdate::default();
-        let mut original_text = BTreeMap::new();
-        if let Some(value) = input.project_name {
-            if js(&project.project_name) != value {
-                changes.project_name = Some(value.to_utf8_lossy());
-            }
-            project.project_name = value.to_utf8_lossy();
-            original_text.insert("projectName".into(), value);
-        }
-        // Native witness01 name+missing customer retains its original DB row:
-        // the preceding managed name assignment does not auto-flush here.
-        if let Some(id) = input.customer_id {
-            let customer = self.customers.require_active_customer(&id).await?;
-            if project.customer_id != Some(customer.id) {
-                changes.customer_id = Some(Some(customer.id));
-            }
-            if project.customer_name.as_ref() != Some(&customer.display_name) {
-                changes.customer_name = Some(Some(customer.display_name.clone()));
-            }
-            project.customer_id = Some(customer.id);
-            project.customer_name = Some(customer.display_name);
-        }
-        match input.customer_project_no {
-            Field::Missing => {}
-            Field::Null => {
-                if project.customer_project_no.is_some() {
-                    changes.customer_project_no = Some(None);
-                }
-                project.customer_project_no = None;
-            }
-            Field::Value(value) => {
-                let value = trim_js(value);
-                let value = (!value.is_empty()).then_some(value);
-                if project.customer_project_no.as_ref().map(|value| js(value)) != value {
-                    changes.customer_project_no = Some(value.as_ref().map(JsString::to_utf8_lossy));
-                }
-                project.customer_project_no = value.as_ref().map(JsString::to_utf8_lossy);
-                if let Some(value) = value {
-                    original_text.insert("customerProjectNo".into(), value);
-                }
-            }
-        }
-        match input.planned_sign_at {
-            Field::Missing => {}
-            Field::Null => {
-                if project.planned_sign_at.is_some() {
-                    changes.planned_sign_at = Some(None);
-                }
-                project.planned_sign_at = None;
-            }
-            Field::Value(value) => {
-                if project
-                    .planned_sign_at
-                    .map(|value| value.timestamp_millis())
-                    != Some(value.timestamp_millis())
-                {
-                    changes.planned_sign_at = Some(Some(value));
-                }
-                project.planned_sign_at = Some(value);
-            }
-        }
-        if project.updated_by != Some(session.user.user_id) {
-            changes.updated_by = Some(Some(session.user.user_id));
-        }
-        project.updated_by = Some(session.user.user_id);
-        let dirty = changes.is_dirty();
-        let at = clock_now();
-        let version = self
-            .flush_project(&project, changes, at, session.pending_flush.as_ref())
-            .await?;
-        if dirty {
-            project.row_version = version;
-            project.updated_at = at;
-        }
-        raw_summary(&project, &original_text)
+        let project_id = Uuid::parse_str(id)
+            .map_err(|_| ProjectsError::BadRequest("Invalid project UUID".into()))?;
+        let actor = scoped_actor(session, metadata);
+        // Preserve one existing service-owned outer transaction. All old-state
+        // authorization, source reads and necessary writes now borrow it.
+        self.database
+            .with_connection(move |connection| {
+                Box::pin(async move {
+                    let mut transaction = connection.begin().await?;
+                    let mut state = crate::approval_common::CommonState::default();
+                    state.trace.begin(true);
+                    let mut participant =
+                        crate::approval::context::PendingAuthentication::from_resolved(
+                            &actor.session,
+                        );
+                    let result = {
+                        let mut borrowed =
+                            crate::approval_common::CommonSession::borrow_with_participant(
+                                &mut transaction,
+                                &mut state,
+                                &mut participant,
+                            );
+                        borrowed.request_id = actor.request_id.clone();
+                        match update_with_session(&mut borrowed, project_id, input, &actor).await {
+                            Ok(value) => crate::approval_common::store::flush(&mut borrowed)
+                                .await
+                                .map_err(crate::contract_support::Error::from)
+                                .map(|()| value),
+                            Err(error) => Err(error),
+                        }
+                    };
+                    match result {
+                        Ok(value) => match transaction.commit().await {
+                            Ok(()) => {
+                                state.trace.commit_succeeded();
+                                Ok(Ok(value))
+                            }
+                            Err(error) => {
+                                state.trace.unknown_commit();
+                                Err(error)
+                            }
+                        },
+                        Err(error) => {
+                            let rollback = transaction.rollback().await;
+                            state.trace.rolled_back();
+                            rollback?;
+                            Ok(Err(error))
+                        }
+                    }
+                })
+            })
+            .await?
+            .map_err(ProjectsError::Business)
     }
 
     pub async fn reassign(
@@ -464,179 +396,62 @@ impl ProjectsService {
         id: &str,
         input: ReassignProjectOwner,
         session: &ResolvedSession,
+        metadata: &RequestMetadata,
     ) -> Result<Wire, ProjectsError> {
-        let project = self.require_project(id).await?;
-        if let Some(expected) = input.expected_version
-            && i64::from(project.row_version) != expected
-        {
-            return Err(ProjectsError::Conflict(format!(
-                "project version {expected} does not match current version {}",
-                project.row_version
-            )));
-        }
-        if !editable(&project) {
-            return Err(ProjectsError::BadRequest(format!(
-                "Project {id} cannot reassign owner in status {}",
-                project.status
-            )));
-        }
-        let target = self.require_user(&input.owner_user_id, session).await?;
-        if !target.is_active {
-            return Err(ProjectsError::BadRequest(format!(
-                "Platform user {} is not active",
-                input.owner_user_id
-            )));
-        }
-        let next_org = match input.owner_org_id {
-            Field::Missing => target.primary_org_unit_id.map(|value| value.to_string()),
-            Field::Null => None,
-            Field::Value(value) => Some(value),
-        };
-        if let Some(id) = next_org.as_ref() {
-            let key = id.clone();
-            let org = self
-                .database
-                .with_connection(move |connection| {
-                    Box::pin(async move { crate::org_units::store::find(connection, &key).await })
-                })
-                .await?
-                .ok_or_else(|| ProjectsError::NotFound(format!("Org unit {id} not found")))?;
-            if !org.is_active {
-                return Err(ProjectsError::BadRequest(format!(
-                    "Org unit {id} is not active"
-                )));
-            }
-        }
-        // Keep original strict string identity, including valid uppercase input.
-        let previous_user = project.owner_user_id.map(|value| value.to_string());
-        let previous_org = project.owner_org_id.map(|value| value.to_string());
-        if previous_user.as_deref() == Some(input.owner_user_id.as_str())
-            && previous_org == next_org
-        {
-            return Err(ProjectsError::BadRequest(format!(
-                "Project {id} already has the requested owner"
-            )));
-        }
-        let owner_id =
-            Uuid::parse_str(&input.owner_user_id).map_err(|_| ProjectsError::Internal)?;
-        let org_id = next_org
-            .as_ref()
-            .map(|value| Uuid::parse_str(value))
-            .transpose()
-            .map_err(|_| ProjectsError::Internal)?;
-        let record_id = random_uuid()?;
-        let record = store::OwnerReassignmentRecord {
-            id: record_id,
-            project_id: project.id,
-            previous_owner_org_id: project.owner_org_id,
-            previous_owner_user_id: project.owner_user_id,
-            new_owner_org_id: org_id,
-            new_owner_user_id: owner_id,
-            reason: trim_js(input.reason).to_utf8_lossy(),
-            at: clock_now(),
-            operator_id: session.user.user_id,
-        };
-        let mut changes = store::ProjectUpdate::default();
-        if previous_user.as_deref() != Some(input.owner_user_id.as_str()) {
-            changes.owner_user_id = Some(Some(owner_id));
-        }
-        if previous_org != next_org {
-            changes.owner_org_id = Some(org_id);
-        }
-        if project.updated_by != Some(session.user.user_id) {
-            changes.updated_by = Some(Some(session.user.user_id));
-        }
-        let pending = session.pending_flush.clone();
-        let project_id = project.id;
-        let version = project.row_version;
-        let at = clock_now();
+        let project_id = Uuid::parse_str(id)
+            .map_err(|_| ProjectsError::BadRequest("Invalid project UUID".into()))?;
+        let actor = scoped_actor(session, metadata);
+        // Preserve one existing service-owned outer transaction. All old-state
+        // authorization, source reads and necessary writes now borrow it.
         self.database
             .with_connection(move |connection| {
                 Box::pin(async move {
                     let mut transaction = connection.begin().await?;
-                    let result: Result<(), sqlx::Error> = async {
-                        // Native witness01: CREATE(history), UPDATE(managed session),
-                        // UPDATE(project CAS), COMMIT. A CAS miss rolls all three back.
-                        store::insert_reassignment(&mut transaction, &record).await?;
-                        if let Some(pending) = pending.as_ref() {
-                            flush_managed_session(&mut transaction, pending).await?;
-                        }
-                        if store::update(&mut transaction, project_id, version, &changes, at)
-                            .await?
-                            .is_none()
+                    let mut state = crate::approval_common::CommonState::default();
+                    state.trace.begin(true);
+                    let mut participant =
+                        crate::approval::context::PendingAuthentication::from_resolved(
+                            &actor.session,
+                        );
+                    let result = {
+                        let mut borrowed =
+                            crate::approval_common::CommonSession::borrow_with_participant(
+                                &mut transaction,
+                                &mut state,
+                                &mut participant,
+                            );
+                        borrowed.request_id = actor.request_id.clone();
+                        match reassign_with_session(&mut borrowed, project_id, &input, &actor).await
                         {
-                            return Err(sqlx::Error::Protocol(
-                                "project managed version conflict".into(),
-                            ));
+                            Ok(value) => crate::approval_common::store::flush(&mut borrowed)
+                                .await
+                                .map_err(crate::contract_support::Error::from)
+                                .map(|()| value),
+                            Err(error) => Err(error),
                         }
-                        Ok(())
-                    }
-                    .await;
+                    };
                     match result {
-                        Ok(()) => {
-                            transaction.commit().await?;
-                            Ok(())
-                        }
+                        Ok(value) => match transaction.commit().await {
+                            Ok(()) => {
+                                state.trace.commit_succeeded();
+                                Ok(Ok(value))
+                            }
+                            Err(error) => {
+                                state.trace.unknown_commit();
+                                Err(error)
+                            }
+                        },
                         Err(error) => {
-                            transaction.rollback().await?;
-                            Err(error)
+                            let rollback = transaction.rollback().await;
+                            state.trace.rolled_back();
+                            rollback?;
+                            Ok(Err(error))
                         }
                     }
                 })
             })
-            .await?;
-        Ok(Wire::value(json!({
-            "targetId":project.id,"projectOwnerReassignmentRecordId":record_id,
-            "previousOwnerUserId":project.owner_user_id,"previousOwnerOrgId":project.owner_org_id,
-            "newOwnerUserId":input.owner_user_id,"newOwnerOrgId":next_org,"businessStatusAfter":project.status,
-        })))
-    }
-
-    async fn flush_project(
-        &self,
-        project: &ProjectRow,
-        changes: store::ProjectUpdate,
-        at: DateTime<Utc>,
-        pending: Option<&SessionFlush>,
-    ) -> Result<i32, ProjectsError> {
-        let id = project.id;
-        let version = project.row_version;
-        if !changes.is_dirty() && pending.is_none() {
-            return Ok(version);
-        }
-        let pending = pending.cloned();
-        Ok(self
-            .database
-            .with_connection(move |connection| {
-                Box::pin(async move {
-                    let mut transaction = connection.begin().await?;
-                    let result: Result<i32, sqlx::Error> = async {
-                        if let Some(pending) = pending.as_ref() {
-                            flush_managed_session(&mut transaction, pending).await?;
-                        }
-                        if !changes.is_dirty() {
-                            return Ok(version);
-                        }
-                        store::update(&mut transaction, id, version, &changes, at)
-                            .await?
-                            .ok_or_else(|| {
-                                sqlx::Error::Protocol("project managed version conflict".into())
-                            })
-                    }
-                    .await;
-                    match result {
-                        Ok(value) => {
-                            transaction.commit().await?;
-                            Ok(value)
-                        }
-                        Err(error) => {
-                            transaction.rollback().await?;
-                            Err(error)
-                        }
-                    }
-                })
-            })
-            .await?)
+            .await?
+            .map_err(ProjectsError::Business)
     }
 
     async fn require_user(
@@ -665,16 +480,6 @@ impl ProjectsService {
             user.primary_org_unit_id = session.user_snapshot.primary_org_unit_id;
         }
         Ok(user)
-    }
-
-    async fn require_project(&self, id: &str) -> Result<ProjectRow, ProjectsError> {
-        let key = id.to_owned();
-        self.database
-            .with_connection(move |connection| {
-                Box::pin(async move { store::find(connection, &key).await })
-            })
-            .await?
-            .ok_or_else(|| ProjectsError::NotFound(format!("Project {id} not found")))
     }
 }
 
@@ -755,10 +560,461 @@ fn raw_summary(
     Ok(Wire::object(summary(project)?, text))
 }
 
-fn random_uuid() -> Result<Uuid, ProjectsError> {
+fn _random_uuid() -> Result<Uuid, ProjectsError> {
     let mut bytes = [0_u8; 16];
     getrandom::fill(&mut bytes).map_err(|_| ProjectsError::Internal)?;
     bytes[6] = (bytes[6] & 0x0f) | 0x40;
     bytes[8] = (bytes[8] & 0x3f) | 0x80;
     Ok(Uuid::from_bytes(bytes))
+}
+
+fn scoped_actor(
+    session: &ResolvedSession,
+    metadata: &RequestMetadata,
+) -> crate::contract_support::Actor {
+    crate::contract_support::Actor {
+        id: session.user.user_id,
+        request_id: metadata.request_id.clone(),
+        session: session.clone(),
+        request_context: ProjectionRequestContext {
+            request_id: metadata.request_id.clone(),
+            path: metadata.path.clone(),
+            method: metadata.method.clone(),
+            ip: metadata.info.ip.clone(),
+            user_agent: metadata.info.user_agent.clone(),
+        },
+    }
+}
+
+async fn update_with_session(
+    session: &mut crate::approval_common::CommonSession<'_, '_>,
+    project_id: Uuid,
+    input: UpdateProject,
+    actor: &crate::contract_support::Actor,
+) -> Result<Wire, crate::contract_support::Error> {
+    use crate::{
+        contract_support::{AuditWrite, Error as BusinessError, audit},
+        project_action_authorization::{self as scope, ProjectAction, ProjectActionTarget},
+    };
+    // Scope owns the project/security locks. No project materials or requested
+    // customer are loaded before the real current OwnerWrite gate succeeds.
+    let proof = scope::require(
+        session,
+        actor,
+        ProjectAction::UpdateProjectMetadata,
+        ProjectActionTarget::Project { id: project_id },
+    )
+    .await?;
+    if !proof.is_full_project() || !proof.owner_write() {
+        return Err(BusinessError::Forbidden(
+            "Only the current project owner may edit project metadata".into(),
+        ));
+    }
+    drop(proof);
+    let mut project = store::find(session.connection, &project_id.to_string())
+        .await?
+        .ok_or_else(|| BusinessError::NotFound(format!("Project {project_id} not found")))?;
+    if !editable(&project) {
+        return Err(BusinessError::BadRequest(format!(
+            "Project {project_id} cannot be edited in status {}",
+            project.status
+        )));
+    }
+    let before = summary(&project).map_err(|_| BusinessError::Internal)?;
+    let mut changes = store::ProjectUpdate::default();
+    let mut original_text = BTreeMap::new();
+    if let Some(value) = input.project_name {
+        if js(&project.project_name) != value {
+            changes.project_name = Some(value.to_utf8_lossy());
+        }
+        project.project_name = value.to_utf8_lossy();
+        original_text.insert("projectName".into(), value);
+    }
+    // Native witness01 name+missing customer retains its original DB row:
+    // the preceding managed name assignment does not auto-flush here.
+    if let Some(id) = input.customer_id {
+        let customer =
+            CustomersService::require_active_customer_with_connection(session.connection, &id)
+                .await?;
+        if project.customer_id != Some(customer.id) {
+            changes.customer_id = Some(Some(customer.id));
+        }
+        if project.customer_name.as_ref() != Some(&customer.display_name) {
+            changes.customer_name = Some(Some(customer.display_name.clone()));
+        }
+        project.customer_id = Some(customer.id);
+        project.customer_name = Some(customer.display_name);
+    }
+    match input.customer_project_no {
+        Field::Missing => {}
+        Field::Null => {
+            if project.customer_project_no.is_some() {
+                changes.customer_project_no = Some(None);
+            }
+            project.customer_project_no = None;
+        }
+        Field::Value(value) => {
+            let value = trim_js(value);
+            let value = (!value.is_empty()).then_some(value);
+            if project.customer_project_no.as_ref().map(|value| js(value)) != value {
+                changes.customer_project_no = Some(value.as_ref().map(JsString::to_utf8_lossy));
+            }
+            project.customer_project_no = value.as_ref().map(JsString::to_utf8_lossy);
+            if let Some(value) = value {
+                original_text.insert("customerProjectNo".into(), value);
+            }
+        }
+    }
+    match input.planned_sign_at {
+        Field::Missing => {}
+        Field::Null => {
+            if project.planned_sign_at.is_some() {
+                changes.planned_sign_at = Some(None);
+            }
+            project.planned_sign_at = None;
+        }
+        Field::Value(value) => {
+            if project
+                .planned_sign_at
+                .map(|value| value.timestamp_millis())
+                != Some(value.timestamp_millis())
+            {
+                changes.planned_sign_at = Some(Some(value));
+            }
+            project.planned_sign_at = Some(value);
+        }
+    }
+    if project.updated_by != Some(actor.id) {
+        changes.updated_by = Some(Some(actor.id));
+    }
+    project.updated_by = Some(actor.id);
+    let dirty = changes.is_dirty();
+    if dirty {
+        project
+            .row_version
+            .checked_add(1)
+            .ok_or_else(|| BusinessError::Conflict("Project version capacity exhausted".into()))?;
+        let at = clock_now();
+        let version = store::update(
+            session.connection,
+            project.id,
+            project.row_version,
+            &changes,
+            at,
+        )
+        .await?
+        .ok_or_else(|| BusinessError::Conflict("Project metadata version changed".into()))?;
+        project.row_version = version;
+        project.updated_at = at;
+        audit(
+            session,
+            actor,
+            AuditWrite {
+                operation_id: "ProjectController_updateBasicInfo".into(),
+                target_type: "project".into(),
+                target_id: project_id,
+                project_id,
+                contract_id: None,
+                before: Some(before),
+                after: Some(summary(&project).map_err(|_| BusinessError::Internal)?),
+                reason: None,
+                metadata: json!({"scopeKind":"full-project","ownerWrite":true}),
+            },
+        )
+        .await?;
+    }
+    // A true no-op keeps project version/time and adds no business audit; the
+    // common participant still co-flushes any necessary managed auth update.
+    raw_summary(&project, &original_text).map_err(|_| BusinessError::Internal)
+}
+
+async fn reassign_with_session(
+    session: &mut crate::approval_common::CommonSession<'_, '_>,
+    project_id: Uuid,
+    input: &ReassignProjectOwner,
+    actor: &crate::contract_support::Actor,
+) -> Result<Wire, crate::contract_support::Error> {
+    use crate::{
+        contract_support::{AuditWrite, Error as BusinessError, audit, new_uuid},
+        project_action_authorization::{self as scope, ProjectAction, ProjectActionTarget},
+    };
+    let expected = input
+        .expected_version
+        .and_then(|v| i32::try_from(v).ok())
+        .filter(|v| *v > 0)
+        .ok_or_else(|| {
+            BusinessError::BadRequest("expectedVersion must be a positive int4".into())
+        })?;
+    let owner_id = Uuid::parse_str(&input.owner_user_id)
+        .map_err(|_| BusinessError::BadRequest("Invalid target owner UUID".into()))?;
+    crate::contract_support::lock_project(session.connection, project_id).await?;
+    let p = store::find(session.connection, &project_id.to_string())
+        .await?
+        .ok_or_else(|| BusinessError::NotFound("Project resource not found".into()))?;
+    // Resolve only a requested/default target reference here. No target failure
+    // is surfaced and no grant is produced before the old relationship gate.
+    let default_org = matches!(&input.owner_org_id, Field::Missing);
+    let org_id=match &input.owner_org_id{
+        Field::Value(raw)=>Some(Uuid::parse_str(raw).map_err(|_|BusinessError::BadRequest("Invalid target organization UUID".into()))?),
+        Field::Null=>None,
+        Field::Missing=>sqlx::query_scalar("SELECT m.org_unit_id FROM poms.user_org_membership m JOIN poms.org_unit o ON o.id=m.org_unit_id AND o.is_active WHERE m.user_id=$1 AND m.status='active' AND m.revoked_at IS NULL AND m.membership_type='primary' ORDER BY m.id LIMIT 1").bind(owner_id).fetch_optional(&mut *session.connection).await?,
+    };
+    let proof = scope::require(
+        session,
+        actor,
+        ProjectAction::OwnerReassign,
+        ProjectActionTarget::OwnerReassignment {
+            project_id,
+            expected_version: expected,
+            new_owner_user_id: owner_id,
+            new_owner_org_id: org_id,
+        },
+    )
+    .await?;
+    let scope_kind = proof.scope_kind();
+    if !matches!(scope_kind, "full-project" | "creator-first-assignment-only") {
+        return Err(BusinessError::Forbidden(
+            "This scope cannot assign an owner".into(),
+        ));
+    }
+    let bootstrap = scope_kind == "creator-first-assignment-only";
+    drop(proof);
+    if !editable(&p) {
+        return Err(BusinessError::Conflict(
+            "Project status does not allow owner reassignment".into(),
+        ));
+    }
+    if expected != p.row_version {
+        return Err(BusinessError::Conflict(
+            "Project owner version changed".into(),
+        ));
+    }
+    p.row_version
+        .checked_add(1)
+        .ok_or_else(|| BusinessError::Conflict("Project version capacity exhausted".into()))?;
+    let org_id = org_id.ok_or_else(|| {
+        BusinessError::BadRequest("A real target organization membership is required".into())
+    })?;
+    if default_org {
+        let current:Option<Uuid>=sqlx::query_scalar("SELECT m.org_unit_id FROM poms.user_org_membership m JOIN poms.org_unit o ON o.id=m.org_unit_id AND o.is_active WHERE m.user_id=$1 AND m.status='active' AND m.revoked_at IS NULL AND m.membership_type='primary' ORDER BY m.id LIMIT 1").bind(owner_id).fetch_optional(&mut *session.connection).await?;
+        if current != Some(org_id) {
+            return Err(BusinessError::Conflict(
+                "Target primary organization changed; reload the whole command".into(),
+            ));
+        }
+    }
+    if p.owner_user_id == Some(owner_id) && p.owner_org_id == Some(org_id) {
+        return Err(BusinessError::BadRequest(
+            "Project already has this owner".into(),
+        ));
+    }
+    let record_id = new_uuid()?;
+    let at = clock_now();
+    let record = store::OwnerReassignmentRecord {
+        id: record_id,
+        project_id,
+        previous_owner_org_id: p.owner_org_id,
+        previous_owner_user_id: p.owner_user_id,
+        new_owner_org_id: Some(org_id),
+        new_owner_user_id: owner_id,
+        reason: trim_js(input.reason.clone()).to_utf8_lossy(),
+        at,
+        operator_id: actor.id,
+    };
+    store::insert_reassignment(session.connection, &record).await?;
+    session
+        .state
+        .trace
+        .inserted("project_owner_reassignment_record", &record_id.to_string());
+    let changes = store::ProjectUpdate {
+        owner_user_id: Some(Some(owner_id)),
+        owner_org_id: Some(Some(org_id)),
+        updated_by: Some(Some(actor.id)),
+        ..Default::default()
+    };
+    if store::update(session.connection, project_id, expected, &changes, at)
+        .await?
+        .is_none()
+    {
+        return Err(BusinessError::Conflict(
+            "Project owner version changed".into(),
+        ));
+    }
+    if bootstrap {
+        let version:i32=sqlx::query_scalar("SELECT row_version FROM poms.project_ownership_origin WHERE project_id=$1 AND bootstrap_state='available' FOR UPDATE").bind(project_id).fetch_optional(&mut *session.connection).await?.ok_or_else(||BusinessError::Conflict("First owner assignment was already consumed".into()))?;
+        version.checked_add(1).ok_or_else(|| {
+            BusinessError::Conflict("Ownership origin version capacity exhausted".into())
+        })?;
+        let changed=sqlx::query("UPDATE poms.project_ownership_origin SET bootstrap_state='consumed',first_personal_owner_user_id=$1,first_personal_assigned_at=$2,bootstrap_consumed_at=$2,bootstrap_assignment_record_id=$3,row_version=row_version+1 WHERE project_id=$4 AND row_version=$5 AND bootstrap_state='available'")
+            .bind(owner_id).bind(at).bind(record_id).bind(project_id).bind(version).execute(&mut *session.connection).await?.rows_affected();
+        if changed != 1 {
+            return Err(BusinessError::Conflict(
+                "First owner assignment was already consumed".into(),
+            ));
+        }
+    }
+    audit(session,actor,AuditWrite{operation_id:"ProjectController_reassignOwner".into(),target_type:"project".into(),target_id:project_id,project_id,contract_id:None,before:Some(json!({"ownerUserId":p.owner_user_id,"ownerOrgId":p.owner_org_id,"rowVersion":p.row_version})),after:Some(json!({"ownerUserId":owner_id,"ownerOrgId":org_id,"rowVersion":expected+1,"projectOwnerReassignmentRecordId":record_id})),reason:Some(record.reason),metadata:json!({"scopeKind":scope_kind,"bootstrapConsumed":bootstrap})}).await?;
+    Ok(Wire::value(
+        json!({"targetId":project_id,"projectOwnerReassignmentRecordId":record_id,"previousOwnerUserId":p.owner_user_id,"previousOwnerOrgId":p.owner_org_id,"newOwnerUserId":owner_id,"newOwnerOrgId":org_id,"businessStatusAfter":p.status}),
+    ))
+}
+
+async fn detail_with_session(
+    session: &mut crate::approval_common::CommonSession<'_, '_>,
+    project_id: Uuid,
+    actor: &crate::contract_support::Actor,
+) -> Result<Wire, crate::contract_support::Error> {
+    use crate::{
+        contract_support::Error as BusinessError,
+        project_action_authorization::{self as scope, ProjectAction, ProjectActionTarget},
+    };
+    let proof = scope::require(
+        session,
+        actor,
+        ProjectAction::ReadProjectAnchor,
+        ProjectActionTarget::Project { id: project_id },
+    )
+    .await?;
+    let scope_kind = proof.scope_kind();
+    let owner_write = proof.owner_write();
+    drop(proof);
+    let narrow = match scope_kind {
+        "legacy-owner-anchor-only" => {
+            // Only real basic anchor fields. No finance/D/approval list query,
+            // no creator fallback, and no full-project required field padding.
+            let view:Option<Value>=sqlx::query_scalar("SELECT jsonb_build_object('scopeKind','legacy-owner-anchor-only','projectId',p.id,'projectNo',p.project_no,'projectName',p.project_name,'currentStage',p.current_stage,'rowVersion',p.row_version,'ownerUserId',p.owner_user_id,'ownerOrgId',NULL,'sourceQualification','legacy-unverified','allowedActions','[]'::jsonb,'explanation',$3::text) FROM poms.project p WHERE p.id=$1 AND p.owner_user_id=$2 AND p.owner_org_id IS NULL")
+                .bind(project_id).bind(actor.id).bind("历史项目缺少主责组织来源，仅可查看基础锚点；完成受控来源补正前不提供业务操作。").fetch_optional(&mut *session.connection).await?;
+            Some(view.ok_or_else(|| BusinessError::NotFound("Project resource not found".into()))?)
+        }
+        "creator-first-assignment-only" => {
+            let mut view:Value=sqlx::query_scalar("SELECT jsonb_build_object('scopeKind','creator-first-assignment-only','projectId',p.id,'projectNo',p.project_no,'projectRowVersion',p.row_version,'ownerOrgId',p.owner_org_id,'ownerUserId',NULL,'creatorUserId',o.creator_user_id,'ownershipOriginRowVersion',o.row_version) FROM poms.project p JOIN poms.project_ownership_origin o ON o.project_id=p.id WHERE p.id=$1 AND p.owner_user_id IS NULL AND o.bootstrap_state='available' AND o.creator_user_id=$2")
+                .bind(project_id).bind(actor.id).fetch_optional(&mut *session.connection).await?.ok_or_else(||BusinessError::NotFound("Project resource not found".into()))?;
+            view["allowedActions"] = json!(if actor
+                .session
+                .user
+                .permissions
+                .iter()
+                .any(|p| p.as_str() == "project:write")
+            {
+                vec!["reassign-owner"]
+            } else {
+                vec![]
+            });
+            Some(view)
+        }
+        "full-project" => None,
+        _ => return Err(BusinessError::NotFound("Project resource not found".into())),
+    };
+    if let Some(view) = narrow {
+        crate::project_operating_common::schema::validate_public_value("ProjectDetailView", &view)?;
+        return Ok(Wire::value(view));
+    }
+    let project = store::find(session.connection, &project_id.to_string())
+        .await?
+        .ok_or_else(|| BusinessError::NotFound("Project resource not found".into()))?;
+    let users = store::user_names(
+        session.connection,
+        &project.owner_user_id.into_iter().collect::<Vec<_>>(),
+    )
+    .await?;
+    let orgs = store::org_names(
+        session.connection,
+        &project.owner_org_id.into_iter().collect::<Vec<_>>(),
+    )
+    .await?;
+    let contracts = store::contracts(session.connection, project_id).await?;
+    let snapshot = store::approval_snapshot(session.connection, project_id).await?;
+    let bid = store::current_bid(session.connection, project_id).await?;
+    let lead = store::lead(session.connection, project.source_lead_id).await?;
+    let latest = contracts.first();
+    let mut projected = projection::plan(&ProjectionInput {
+        field_package_key: SensitiveFieldPackageKey::ContractFinance,
+        fields: vec![StringField {
+            key: "field".into(),
+            raw_value: latest.map(|r| r.signed_amount.clone()),
+            display_text_when_full: latest
+                .map(|r| format!("{} {}", r.signed_amount, r.currency_code)),
+            masked_display_text: None,
+            denied_display_text: None,
+        }],
+        user: Some(ProjectionUser {
+            sub: actor.id,
+            username: actor.session.user.username.clone(),
+            permissions: actor
+                .session
+                .user
+                .permissions
+                .iter()
+                .map(|p| p.as_str().to_owned())
+                .collect(),
+        }),
+        target_type: "project".into(),
+        target_id: project_id.to_string(),
+        request_context: actor.request_context.clone(),
+        mode_when_unauthorized: None,
+        masked_display_text: None,
+        denied_display_text: None,
+    })
+    .map_err(|_| BusinessError::Internal)?;
+    if let Some(event) = projected.event {
+        crate::auth::audit::insert_security_event(session.connection, &event).await?;
+    }
+    let signed_amount = projected
+        .fields
+        .remove("field")
+        .ok_or(BusinessError::Internal)?;
+    let approval = match snapshot.as_ref() {
+        Some(s) => {
+            json!({"summarySnapshotId":s.id,"summaryPackageKey":s.summary_package_key,"projectionLevel":s.projection_level,"exportPolicy":s.export_policy,"generatedAt":iso(s.generated_at).map_err(|_|BusinessError::Internal)?})
+        }
+        None => {
+            json!({"summarySnapshotId":null,"summaryPackageKey":null,"projectionLevel":null,"exportPolicy":null,"generatedAt":null})
+        }
+    };
+    let stage_id: Option<Uuid> =
+        sqlx::query_scalar("SELECT current_stage_record_id FROM poms.project WHERE id=$1")
+            .bind(project_id)
+            .fetch_one(&mut *session.connection)
+            .await?;
+    type HandoverConfirmationRow = (Uuid, String, i32, i32, i32, Option<DateTime<Utc>>);
+    let confirmation: Option<HandoverConfirmationRow> = sqlx::query_as("SELECT c.id,c.status,c.required_count,c.confirmed_count,(SELECT count(*)::integer FROM poms.confirmation_participant cp WHERE cp.confirmation_record_id=c.id AND cp.participant_status='pending'),c.confirmed_at FROM poms.project_handover h JOIN poms.confirmation_record c ON c.id=h.confirmation_record_id AND c.project_id=h.project_id AND c.target_type='project-handover' AND c.target_id=h.id WHERE h.project_id=$1 AND h.producer_version=1 AND h.is_current AND h.status IN ('draft','confirmed') ORDER BY h.id LIMIT 1")
+        .bind(project_id).fetch_optional(&mut *session.connection).await?;
+    let confirmation = match confirmation {
+        Some((id, status, required, confirmed, pending, at)) => {
+            json!({"confirmationRecordId":id,"status":status,"requiredCount":required,"confirmedCount":confirmed,"pendingCount":pending,"confirmedAt":at})
+        }
+        None => {
+            json!({"confirmationRecordId":null,"status":"not_configured","requiredCount":0,"confirmedCount":0,"pendingCount":0,"confirmedAt":null})
+        }
+    };
+    let mut actions = allowed_actions(&project, &actor.session);
+    if !owner_write {
+        actions.retain(|action| {
+            !matches!(
+                *action,
+                "reassign-project-owner" | "edit-project-basic-info"
+            )
+        });
+    }
+    let execution_admission_context =
+        crate::project_lifecycle::prepare_execution_admission_with_session(
+            session, project_id, actor,
+        )
+        .await?;
+    let mut result = summary(&project).map_err(|_| BusinessError::Internal)?;
+    let extra = json!({"executionAdmissionContext":execution_admission_context,"scopeKind":"full-project","projectRowVersion":project.row_version,"currentStageRecordId":stage_id,
+        "ownerName":project.owner_user_id.and_then(|id|users.get(&id)),"ownerOrgName":project.owner_org_id.and_then(|id|orgs.get(&id)),
+        "sourceLeadSummary":lead.as_ref().map(|r|json!({"id":r.id,"leadNo":r.lead_no,"leadName":r.lead_name,"customerId":r.customer_id,"customerName":r.customer_name,"status":r.status})),
+        "stageSummary":{"currentStage":project.current_stage,"status":project.status,"plannedSignAt":optional_iso(project.planned_sign_at).map_err(|_|BusinessError::Internal)?,"closedAt":optional_iso(project.closed_at).map_err(|_|BusinessError::Internal)?,"closedReason":project.closed_reason,"blockingReasons":stage_reasons(&project)},
+        "currentBidSummary":bid.as_ref().map_or_else(||json!({"bidProcessId":null,"bidStatus":"not_configured","resultStatus":null,"tenderNo":null,"bidPackageNo":null,"summary":null}),|r|json!({"bidProcessId":r.id,"bidStatus":r.current_stage,"resultStatus":r.result_status,"tenderNo":r.tender_no,"bidPackageNo":r.bid_package_no,"summary":r.process_summary})),
+        "currentContractSummary":{"activeContractCount":contracts.iter().filter(|r|r.status=="active").count(),"latestContractId":latest.map(|r|r.id),"latestContractNo":latest.map(|r|&r.contract_no),"latestContractStatus":latest.map(|r|&r.status),"signedAmountProjection":signed_amount,"currencyCode":latest.map(|r|&r.currency_code),"signedAt":optional_iso(latest.and_then(|r|r.signed_at)).map_err(|_|BusinessError::Internal)?,"currentSnapshotId":latest.and_then(|r|r.current_snapshot_id)},
+        "currentApprovalSummary":approval,"currentConfirmationSummary":confirmation,
+        "summarySnapshotId":snapshot.as_ref().map(|r|r.id),"projectionLevel":snapshot.as_ref().map(|r|&r.projection_level),"exportPolicy":snapshot.as_ref().map(|r|&r.export_policy),"allowedActions":actions,"generatedAt":iso(clock_now()).map_err(|_|BusinessError::Internal)?,
+    });
+    result
+        .as_object_mut()
+        .ok_or(BusinessError::Internal)?
+        .extend(extra.as_object().ok_or(BusinessError::Internal)?.clone());
+    crate::project_operating_common::schema::validate_public_value("ProjectDetailView", &result)?;
+    Ok(Wire::value(result))
 }

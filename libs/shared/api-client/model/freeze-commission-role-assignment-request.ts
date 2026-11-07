@@ -10,8 +10,15 @@
 
 
 export interface FreezeCommissionRoleAssignmentRequest {
+    handoverSummarySnapshotId: string;
+    handoverBasisSnapshotId: string;
+    expectedSourceHash: string;
+    expectedHandoverVersion: number;
+    expectedVersion: number;
     comment?: string;
     sourceHandoverId: string;
-    handoverSummarySnapshotId: string;
-    expectedVersion?: number;
+    inputVersion: FreezeCommissionRoleAssignmentRequestInputVersionEnum;
 }
+export enum FreezeCommissionRoleAssignmentRequestInputVersionEnum {
+    ServerDerivedV1 = 'server-derived-v1'
+};

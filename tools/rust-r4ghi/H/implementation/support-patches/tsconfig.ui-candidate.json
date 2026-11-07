@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "noEmit": true,
+    "strict": true,
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "Bundler",
+    "skipLibCheck": true,
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "types": [],
+    "paths": {
+      "zod": ["E:/projects/poms/node_modules/zod"],
+      "@angular/core": ["E:/projects/poms/node_modules/@angular/core/types/core.d.ts"],
+      "@angular/core/testing": ["E:/projects/poms/node_modules/@angular/core/types/testing.d.ts"],
+      "@angular/forms/signals": ["E:/projects/poms/node_modules/@angular/forms/types/signals.d.ts"],
+      "jest-preset-angular/*": ["E:/projects/poms/node_modules/jest-preset-angular/*"],
+      "@poms/shared-contracts": ["./ui-contract-harness.ts"]
+    }
+  },
+  "files": ["../../../../../apps/poms-admin/src/app/features/project/project-operating-review.ts"],
+  "angularCompilerOptions": {
+    "strictTemplates": true,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true
+  }
+}

@@ -9,7 +9,6 @@ import {
     OperatingDataMaturityLevel,
     OperatingRiskLevel,
     OperatingSignalLevel,
-    OperatingSnapshotActionLevel,
     ProjectStage,
     ProjectStatus
 } from '@poms/admin-data-access';
@@ -53,11 +52,11 @@ export interface ProjectWorkspaceGuide {
     owner: string;
 }
 
-const ACTION_LEVEL_LABELS = OperatingSnapshotActionLevelLabel as Record<OperatingSnapshotActionLevel, string>;
+const ACTION_LEVEL_LABELS = OperatingSnapshotActionLevelLabel;
 
-export type ActionLevelCode = OperatingSnapshotActionLevel;
+export type ActionLevelCode = keyof typeof ACTION_LEVEL_LABELS;
 
-const ACTION_LEVEL_SEVERITIES = OperatingSnapshotActionLevelSeverity as Record<ActionLevelCode, UiTagSeverityValue>;
+const ACTION_LEVEL_SEVERITIES = OperatingSnapshotActionLevelSeverity;
 
 export type SignalLevelCode = OperatingSignalLevel | OperatingRiskLevel;
 

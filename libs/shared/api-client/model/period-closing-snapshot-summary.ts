@@ -7,37 +7,58 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { OperatingSnapshotActionLevel } from './operating-snapshot-action-level';
-import { BaselineSelectionSource } from './baseline-selection-source';
-import { OperatingLifecycleStatus } from './operating-lifecycle-status';
+import { FinancialProjection } from './financial-projection';
+import { SourceRow } from './source-row';
+import { SourceRef } from './source-ref';
 
 
 export interface PeriodClosingSnapshotSummary {
+    outputVersion: PeriodClosingSnapshotSummaryOutputVersionEnum;
     id: string;
     projectId: string;
-    periodKey: string;
-    snapshotMode: PeriodClosingSnapshotSummarySnapshotModeEnum;
-    snapshotAt: string;
-    effectiveContractTotal: string;
-    receivableConfirmedTotal: string;
-    includedCostTotal: string;
-    originalBaselineCost: string;
-    currentEffectiveBaselineCost: string;
-    grossMarginAmount: string;
-    grossMarginRate: string | null;
-    taxImpactSummary: string;
-    taxImpactPendingAmount: string;
-    allocationStabilitySummary: string | null;
-    unmappedCostSummary: string | null;
-    currentActionLevel: OperatingSnapshotActionLevel;
-    referencedBaselineVersion: string;
-    baselineSelectionSource: BaselineSelectionSource;
-    handoverRebaselineRecordId: string | null;
-    status: OperatingLifecycleStatus;
     rowVersion: number;
+    capturedRowVersion: number;
+    headVersion: number;
+    producerVersion: PeriodClosingSnapshotSummaryProducerVersionEnum;
+    certification: PeriodClosingSnapshotSummaryCertificationEnum;
+    sourceHash: string;
+    sourceContextId: string;
+    sourcePayloadHash: string;
+    containsLabor: PeriodClosingSnapshotSummaryContainsLaborEnum;
+    financialProjection: FinancialProjection;
+    sourceRows: Array<SourceRow>;
     createdAt: string;
     updatedAt: string;
+    periodKey: string;
+    periodStart: string;
+    periodEnd: string;
+    businessTimezone: PeriodClosingSnapshotSummaryBusinessTimezoneEnum;
+    projectSnapshotRef: SourceRef;
+    snapshotAt: string;
+    originalFrozenUnchanged: PeriodClosingSnapshotSummaryOriginalFrozenUnchangedEnum;
+    latestRestatementRef: SourceRef | null;
+    status: PeriodClosingSnapshotSummaryStatusEnum;
 }
-export enum PeriodClosingSnapshotSummarySnapshotModeEnum {
-    PeriodEnd = 'period-end'
+export enum PeriodClosingSnapshotSummaryOutputVersionEnum {
+    ServerDerivedV1 = 'server-derived-v1'
+};
+export enum PeriodClosingSnapshotSummaryProducerVersionEnum {
+    NUMBER_1 = 1
+};
+export enum PeriodClosingSnapshotSummaryCertificationEnum {
+    Verified = 'verified'
+};
+export enum PeriodClosingSnapshotSummaryContainsLaborEnum {
+    Yes = 'yes',
+    No = 'no',
+    Unknown = 'unknown'
+};
+export enum PeriodClosingSnapshotSummaryBusinessTimezoneEnum {
+    AsiaHongKong = 'Asia/Hong_Kong'
+};
+export type PeriodClosingSnapshotSummaryOriginalFrozenUnchangedEnum = true;
+export const PeriodClosingSnapshotSummaryOriginalFrozenUnchangedEnum = { True: true } as const;;
+export enum PeriodClosingSnapshotSummaryStatusEnum {
+    Active = 'active',
+    Superseded = 'superseded'
 };

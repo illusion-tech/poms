@@ -1,0 +1,236 @@
+//! One final v1 capture, then H reloads that exact immutable context.
+use super::{
+    sources::{self, Catalog},
+    store::{self, Table},
+};
+use crate::{
+    approval_common::CommonSession,
+    auth::model::clock_now,
+    contract_support::{Actor, Error, canonical_hash, new_uuid},
+    project_operating_common::model::*,
+};
+use serde_json::{Value, json};
+use uuid::Uuid;
+
+pub(crate) struct Captured {
+    pub snapshot_id: Uuid,
+    pub period_id: Option<Uuid>,
+    pub source_hash: String,
+    pub evaluation: OperatingEvaluationRefs,
+    pub new_head_version: Option<i32>,
+}
+
+pub(crate) async fn snapshot(
+    session: &mut CommonSession<'_, '_>,
+    context: OperatingSourceContext,
+    catalog: &Catalog,
+    paired_period: Option<Uuid>,
+    head: Option<(i32, Uuid, bool)>,
+    actor: &Actor,
+) -> Result<Captured, Error> {
+    if context.formal_eligibility.status.as_str() != "eligible" {
+        return Err(store::conflict("operating_formal_evidence_missing"));
+    }
+    let draft =
+        crate::project_operating_signals::policy::derive_operating_evaluation(&context, None)?;
+    let payload = serde_json::to_value(&context).map_err(|_| Error::Internal)?;
+    let hash = canonical_hash(&payload)?;
+    let project = context.project_id;
+    let snapshot_id = context.snapshot.id;
+    let currency = context
+        .currency
+        .as_ref()
+        .ok_or_else(|| store::conflict("operating_currency_unproven"))?;
+    store::insert(session,Table::Context,&json!({"id":context.context_id,"project_id":project,"snapshot_id":snapshot_id,"schema_version":1,"producer_version":1,"policy_version":context.policy_version,"policy_hash":context.policy_hash,"currency":currency,"business_cutoff":context.snapshot.source_window_end,"knowledge_cutoff":context.snapshot.knowledge_cutoff,"business_timezone":context.snapshot.business_timezone,"scope_hash":context.scope_hash,"source_hash":context.source_hash,"payload_hash":hash,"frozen_payload":payload,"formal_eligibility":"eligible","contains_labor":context.labor_lineage.contains_labor,"captured_at":clock_now(),"captured_by":actor.id,"row_version":1})).await?;
+    let values = &payload["metrics"];
+    let mut row = json!({"id":snapshot_id,"project_id":project,"snapshot_mode":context.snapshot.mode,"snapshot_at":context.snapshot.snapshot_at,"source_window_start":context.snapshot.source_window_start,"source_window_end":context.snapshot.source_window_end,"effective_contract_total":values["effectiveContractAmounts"]["net"]["value"],"receivable_confirmed_total":values["confirmedReceiptAmounts"]["net"]["value"],"included_cost_total":values["includedCostAmounts"]["net"]["value"],"original_baseline_cost":payload["baseline"]["originalNetCost"]["value"],"current_effective_baseline_cost":payload["baseline"]["currentEffectiveNetCost"]["value"],"gross_margin_amount":values["grossMarginNet"]["value"],"gross_margin_rate":values["grossMarginRate"]["value"],"tax_impact_summary":"采用不可变来源上下文；税务待确认额保留已知/未知状态，可抵扣税额不作为成本重复累计。","tax_impact_pending_amount":values["taxPendingAmount"]["value"],"tax_pending_knowledge":values["taxPendingAmount"]["knowledge"],"allocation_stability_summary":"共享成本只采用完整真实F来源批次的项目份额。","unmapped_cost_summary":format!("registered={},unclassified={},unmapped={}",context.scope.registered_cost_count,context.scope.unclassified_cost_count,context.scope.unmapped_cost_count),"current_action_level":draft.current_action_level,"referenced_baseline_version":context.baseline.referenced_baseline_version,"baseline_selection_source":context.baseline.selection_source,"handover_rebaseline_record_id":context.baseline.handover_rebaseline_ref.as_ref().map(|r|r.id),"status":"active","supersedes_id":context.snapshot.supersedes_snapshot_id,"created_at":clock_now(),"created_by":actor.id,"updated_at":clock_now(),"updated_by":actor.id,"row_version":1,"producer_version":1,"captured_row_version":1,"source_context_id":context.context_id,"source_hash":context.source_hash,"currency":currency,"period_end_snapshot_id":paired_period.or_else(||context.snapshot.period_end_snapshot_ref.as_ref().map(|r|r.id)),"root_snapshot_id":match context.snapshot.restates_snapshot_ref.as_ref(){Some(r)=>{let old=catalog.find(Table::Snapshot,r.id).ok_or(Error::Internal)?;Some(store::id(old,"root_snapshot_id").unwrap_or(r.id))},None=>Some(snapshot_id)}});
+    // Every required legacy aggregate must be a known exact amount. Nullable
+    // pending tax is the sole deliberately nullable aggregate in this capture.
+    for key in [
+        "effective_contract_total",
+        "receivable_confirmed_total",
+        "included_cost_total",
+        "original_baseline_cost",
+        "current_effective_baseline_cost",
+        "gross_margin_amount",
+    ] {
+        if row[key].is_null() {
+            return Err(store::conflict("operating_formal_monetary_layer_missing"));
+        }
+    }
+    store::insert(session, Table::Snapshot, &row).await?;
+    let required = context
+        .scope
+        .closure_evidence_refs
+        .iter()
+        .map(|r| format!("{}:{}:{}:{}", r.kind, r.id, r.row_version, r.payload_hash))
+        .collect::<std::collections::BTreeSet<_>>();
+    let mut stored = std::collections::BTreeSet::new();
+    for (reference, factual) in catalog.members()? {
+        let key = member_key(&reference)?;
+        if required.contains(&key) {
+            store::source_member(session, context.context_id, &reference, &factual).await?;
+            stored.insert(key);
+        }
+    }
+    if let Some(period) = context.snapshot.period_end_snapshot_ref.as_ref() {
+        let anchor = store::row(session.connection, Table::Period, period.id, false).await?;
+        let originals:Vec<Value>=sqlx::query_scalar("SELECT jsonb_build_object('reference',jsonb_build_object('kind',m.source_kind,'id',m.source_id,'rowVersion',m.source_row_version,'payloadHash',m.source_payload_hash),'payload',m.captured_payload) FROM poms.operating_source_member m JOIN poms.operating_source_context c ON c.id=m.context_id WHERE c.snapshot_id=$1 ORDER BY m.member_key").bind(store::id(&anchor,"project_snapshot_id")?).fetch_all(&mut *session.connection).await?;
+        for member in originals {
+            let reference = &member["reference"];
+            let key = member_key(reference)?;
+            if required.contains(&key) && !stored.contains(&key) {
+                if canonical_hash(&member["payload"])? != reference["payloadHash"] {
+                    return Err(store::conflict("period_baseline_reconciliation_required"));
+                }
+                store::source_member(session, context.context_id, reference, &member["payload"])
+                    .await?;
+                stored.insert(key);
+            }
+        }
+    }
+    if stored != required {
+        return Err(store::conflict(
+            if context.snapshot.period_end_snapshot_ref.is_some() {
+                "period_baseline_reconciliation_required"
+            } else {
+                "operating_source_member_unverified"
+            },
+        ));
+    }
+    for cost in payload["costs"].as_array().ok_or(Error::Internal)? {
+        let direct = !cost["costRef"].is_null();
+        let reference = if direct {
+            &cost["costRef"]
+        } else {
+            &cost["allocationResultRef"]
+        };
+        let unit = format!(
+            "{}:{}",
+            if direct { "cost" } else { "allocation" },
+            reference["id"].as_str().ok_or(Error::Internal)?
+        );
+        store::insert(session,Table::CostMember,&json!({"snapshot_id":snapshot_id,"project_id":project,"unit_key":unit,"decision_id":cost["classification"]["decisionId"],"captured_source_version":reference["rowVersion"],"captured_payload_hash":reference["payloadHash"],"net_knowledge":cost["amounts"]["net"]["knowledge"],"amount_excluding_tax":cost["amounts"]["net"]["value"],"tax_cost_amount":cost["amounts"]["tax"]["value"],"amount_including_tax":cost["amounts"]["gross"]["value"],"frozen_payload":cost})).await?;
+    }
+    if let Some(period_id) = paired_period {
+        let key = context
+            .snapshot
+            .period_key
+            .as_deref()
+            .ok_or(Error::Internal)?;
+        let (start, end) = super::preparation::period_bounds(
+            key,
+            clock_now()
+                .with_timezone(&chrono_tz::Asia::Hong_Kong)
+                .date_naive(),
+        )?;
+        let fields = row.as_object_mut().ok_or(Error::Internal)?;
+        for key in [
+            "source_window_start",
+            "source_window_end",
+            "supersedes_id",
+            "captured_row_version",
+            "currency",
+            "period_end_snapshot_id",
+            "root_snapshot_id",
+        ] {
+            fields.remove(key);
+        }
+        fields.insert("id".into(), json!(period_id));
+        fields.insert("snapshot_mode".into(), json!("period-end"));
+        fields.insert("period_key".into(), json!(key));
+        fields.insert("project_snapshot_id".into(), json!(snapshot_id));
+        fields.insert("period_start".into(), json!(start));
+        fields.insert("period_end".into(), json!(end));
+        fields.insert("business_timezone".into(), json!("Asia/Hong_Kong"));
+        store::insert(session, Table::Period, &row).await?;
+    }
+    let new_head_version = match head {
+        Some((expected, baseline, selected)) => Some(
+            store::advance_head(
+                session,
+                project,
+                expected,
+                baseline,
+                if selected { Some(snapshot_id) } else { None },
+                actor.id,
+            )
+            .await?,
+        ),
+        None => None,
+    };
+    // H is the only policy writer. It reloads by id/v1/hash on this connection;
+    // no G snapshot action or facts are subsequently changed.
+    let evaluation = crate::project_operating_signals::service::evaluate_with_session(
+        session,
+        snapshot_id,
+        1,
+        &context.source_hash,
+        actor,
+    )
+    .await?;
+    if evaluation.current_action_level != draft.current_action_level
+        || evaluation.source_hash.as_str() != context.source_hash
+    {
+        return Err(Error::Internal);
+    }
+    Ok(Captured {
+        snapshot_id,
+        period_id: paired_period,
+        source_hash: context.source_hash,
+        evaluation,
+        new_head_version,
+    })
+}
+
+fn member_key(reference: &Value) -> Result<String, Error> {
+    Ok(format!(
+        "{}:{}:{}:{}",
+        store::text(reference, "kind")?,
+        store::id(reference, "id")?,
+        reference["rowVersion"].as_i64().ok_or(Error::Internal)?,
+        store::text(reference, "payloadHash")?
+    ))
+}
+
+pub(crate) async fn baseline(
+    session: &mut CommonSession<'_, '_>,
+    draft: &OperatingBaselineSourceDraft,
+    old: Option<&Value>,
+    reason: &str,
+    actor: &Actor,
+) -> Result<Uuid, Error> {
+    let id = new_uuid()?;
+    let payload = serde_json::to_value(draft).map_err(|_| Error::Internal)?;
+    let original_version: i32 = sqlx::query_scalar(
+        "SELECT version FROM poms.project_technical_cost_package WHERE id=$1 AND project_id=$2",
+    )
+    .bind(draft.original_cost_ref.id)
+    .bind(draft.project_id)
+    .fetch_one(&mut *session.connection)
+    .await?;
+    let current_version: i32 = sqlx::query_scalar(
+        "SELECT version FROM poms.project_technical_cost_package WHERE id=$1 AND project_id=$2",
+    )
+    .bind(draft.current_cost_ref.id)
+    .bind(draft.project_id)
+    .fetch_one(&mut *session.connection)
+    .await?;
+    store::insert(session,Table::BaselineSource,&json!({"id":draft.id,"project_id":draft.project_id,"original_cost_package_id":draft.original_cost_ref.id,"original_cost_package_version":original_version,"current_cost_package_id":draft.current_cost_ref.id,"current_cost_package_version":current_version,"handover_basis_id":draft.handover_basis_ref.as_ref().map(|r|r.id),"handover_rebaseline_id":draft.handover_rebaseline_ref.as_ref().map(|r|r.id),"currency":draft.currency,"approved_transitions":draft.approved_transitions,"frozen_payload":payload,"source_hash":draft.source_hash,"payload_hash":draft.payload_hash,"producer_version":1,"row_version":1,"captured_at":clock_now(),"captured_by":actor.id})).await?;
+    if let Some(old) = old {
+        let n=sqlx::query("UPDATE poms.operating_baseline_package SET is_current=false,status='superseded',row_version=row_version+1,updated_at=now(),updated_by=$1 WHERE id=$2 AND row_version=$3 AND is_current AND producer_version=1").bind(actor.id).bind(store::id(old,"id")?).bind(store::version(old)?).execute(&mut *session.connection).await?.rows_affected();
+        if n != 1 {
+            return Err(store::conflict("operating_baseline_changed"));
+        }
+    }
+    store::insert(session,Table::Baseline,&json!({"id":id,"project_id":draft.project_id,"original_baseline_cost":draft.original_baseline_cost.decimal_string(),"handover_baseline_cost":draft.handover_baseline_cost.decimal_string(),"execution_change_package_total":draft.execution_change_package_total.decimal_string(),"change_package_total":draft.change_package_total.decimal_string(),"current_effective_baseline_cost":draft.current_effective_baseline_cost.decimal_string(),"baseline_selection_source":if draft.handover_rebaseline_ref.is_some(){"handover-rebaseline"}else{"original"},"effective_operating_baseline_id":draft.handover_rebaseline_ref.as_ref().map(|r|r.id),"baseline_summary":reason,"is_current":true,"status":"active","effective_at":clock_now(),"effective_by":actor.id,"created_at":clock_now(),"created_by":actor.id,"updated_at":clock_now(),"updated_by":actor.id,"row_version":1,"producer_version":1,"source_context_id":draft.id,"currency":draft.currency,"source_hash":draft.source_hash})).await?;
+    for transition in &draft.approved_transitions {
+        let proof = transition
+            .approval_source_refs
+            .first()
+            .ok_or(Error::Internal)?;
+        sqlx::query("INSERT INTO poms.change_package_baseline(id,baseline_package_id,change_package_id,change_amount,change_summary,status,effective_at,created_by,source_kind,source_id,source_row_version,before_cost_package_id,after_cost_package_id,source_payload_hash) VALUES($1,$2,$3,$4::numeric,$5,'active',now(),$6,$7,$8,$9,$10,$11,$12)")
+            .bind(new_uuid()?).bind(id).bind(transition.after_cost_ref.id).bind(transition.delta_net_cents.decimal_string()).bind("真实批准项目估算前后净额差").bind(actor.id).bind(&proof.kind).bind(proof.id).bind(proof.row_version).bind(transition.before_cost_ref.id).bind(transition.after_cost_ref.id).bind(&proof.payload_hash).execute(&mut *session.connection).await?;
+    }
+    Ok(id)
+}

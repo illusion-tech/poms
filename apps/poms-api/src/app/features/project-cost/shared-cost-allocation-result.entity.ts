@@ -1,3 +1,4 @@
+import { PlatformUser } from '../platform/platform-user.entity';
 import { CostGovernanceEvidence } from "./cost-governance-evidence.entity";
 import { defineEntity } from '@mikro-orm/core';
 import { OPERATING_PENDING_LIFECYCLE_STATUSES, OperatingPendingLifecycleStatusValue, type OperatingPendingLifecycleStatus } from '@poms/shared-contracts';
@@ -30,7 +31,8 @@ export const SharedCostAllocationResultSchema = defineEntity({
             expression: `"status" in (${toSqlStringList(OPERATING_PENDING_LIFECYCLE_STATUSES)})`
         },
         { name: "chk_r4f_result_money_layers", expression: "((((allocated_amount_excluding_tax IS NULL) OR (allocated_amount_excluding_tax >= (0)::numeric)) AND ((allocated_tax_cost_amount IS NULL) OR (allocated_tax_cost_amount >= (0)::numeric)) AND ((allocated_amount_including_tax IS NULL) OR (allocated_amount_including_tax >= (0)::numeric)) AND ((allocated_amount_excluding_tax IS NULL) OR (allocated_tax_cost_amount IS NULL) OR (allocated_amount_including_tax IS NULL) OR ((allocated_amount_excluding_tax + allocated_tax_cost_amount) = allocated_amount_including_tax))))" },
-        { name: "chk_r4f_result_v1", expression: "(((governance_schema_version = 0) OR ((governance_schema_version = 1) AND (currency IS NOT NULL) AND (allocation_weight IS NOT NULL) AND (allocation_weight >= (0)::numeric) AND (allocated_amount >= (0)::numeric) AND ((allocation_ratio IS NULL) OR ((allocation_ratio >= (0)::numeric) AND (allocation_ratio <= (1)::numeric))) AND (residual_minor_units IS NOT NULL) AND ((residual_minor_units >= 0) AND (residual_minor_units <= 2)) AND (governance_evidence_id IS NOT NULL) AND ((supersedes_id IS NULL) OR ((replacement_reason IS NOT NULL) AND (length(btrim(replacement_reason)) > 0))))))" }
+        { name: "chk_r4f_result_v1", expression: "(((governance_schema_version = 0) OR ((governance_schema_version = 1) AND (currency IS NOT NULL) AND (allocation_weight IS NOT NULL) AND (allocation_weight >= (0)::numeric) AND (allocated_amount >= (0)::numeric) AND ((allocation_ratio IS NULL) OR ((allocation_ratio >= (0)::numeric) AND (allocation_ratio <= (1)::numeric))) AND (residual_minor_units IS NOT NULL) AND ((residual_minor_units >= 0) AND (residual_minor_units <= 2)) AND (governance_evidence_id IS NOT NULL) AND ((supersedes_id IS NULL) OR ((replacement_reason IS NOT NULL) AND (length(btrim(replacement_reason)) > 0))))))" },
+        {"name":"ck_jghi_share_consumed","expression":"(NOT is_included_in_project_cost AND included_at IS NULL AND included_by IS NULL)\n    OR (is_included_in_project_cost AND included_at IS NOT NULL AND included_by IS NOT NULL)"}
     ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
@@ -57,6 +59,10 @@ export const SharedCostAllocationResultSchema = defineEntity({
         replacementReason: p.text().nullable().fieldName("replacement_reason"),
         governanceEvidenceId: () => p.manyToOne(CostGovernanceEvidence).mapToPk().nullable().fieldName("governance_evidence_id").foreignKeyName("shared_cost_allocation_result_governance_evidence_id_fkey").updateRule('no action').deleteRule("no action"),
         governanceSchemaVersion: p.integer().columnType('smallint').default(1).fieldName("governance_schema_version")
+    ,
+        isIncludedInProjectCost: p.boolean().default(false).fieldName("is_included_in_project_cost"),
+        includedAt: p.datetime().columnType('timestamptz').nullable().fieldName("included_at"),
+        includedBy: () => p.manyToOne(PlatformUser).mapToPk().joinColumns("included_by").referencedColumnNames("id").foreignKeyName("shared_cost_allocation_result_included_by_fkey").deleteRule("restrict").updateRule("no action").nullable()
     }
 });
 

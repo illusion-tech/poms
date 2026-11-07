@@ -7,37 +7,78 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { OperatingSnapshotActionLevel } from './operating-snapshot-action-level';
-import { OperatingSnapshotMode } from './operating-snapshot-mode';
-import { BaselineSelectionSource } from './baseline-selection-source';
-import { OperatingLifecycleStatus } from './operating-lifecycle-status';
+import { FinancialProjection } from './financial-projection';
+import { FormalEligibility } from './formal-eligibility';
+import { EvaluationRefs } from './evaluation-refs';
+import { SourceRow } from './source-row';
+import { SourceRef } from './source-ref';
 
 
 export interface ProjectOperatingSnapshotSummary {
+    outputVersion: ProjectOperatingSnapshotSummaryOutputVersionEnum;
     id: string;
     projectId: string;
-    snapshotMode: OperatingSnapshotMode;
-    snapshotAt: string;
-    sourceWindowStart: string | null;
-    sourceWindowEnd: string | null;
-    effectiveContractTotal: string;
-    receivableConfirmedTotal: string;
-    includedCostTotal: string;
-    originalBaselineCost: string;
-    currentEffectiveBaselineCost: string;
-    grossMarginAmount: string;
-    grossMarginRate: string | null;
-    taxImpactSummary: string;
-    taxImpactPendingAmount: string;
-    allocationStabilitySummary: string | null;
-    unmappedCostSummary: string | null;
-    currentActionLevel: OperatingSnapshotActionLevel;
-    referencedBaselineVersion: string;
-    baselineSelectionSource: BaselineSelectionSource;
-    handoverRebaselineRecordId: string | null;
-    status: OperatingLifecycleStatus;
-    supersedesId: string | null;
     rowVersion: number;
+    capturedRowVersion: number;
+    headVersion: number;
+    producerVersion: ProjectOperatingSnapshotSummaryProducerVersionEnum;
+    certification: ProjectOperatingSnapshotSummaryCertificationEnum;
+    sourceHash: string;
+    sourceContextId: string;
+    sourcePayloadHash: string;
+    containsLabor: ProjectOperatingSnapshotSummaryContainsLaborEnum;
+    financialProjection: FinancialProjection;
+    sourceRows: Array<SourceRow>;
     createdAt: string;
     updatedAt: string;
+    snapshotMode: ProjectOperatingSnapshotSummarySnapshotModeEnum;
+    snapshotAt: string;
+    sourceWindowStart: ProjectOperatingSnapshotSummarySourceWindowStartEnum | null;
+    sourceWindowEnd: string;
+    knowledgeCutoff: string;
+    businessTimezone: ProjectOperatingSnapshotSummaryBusinessTimezoneEnum;
+    status: ProjectOperatingSnapshotSummaryStatusEnum;
+    supersedesId: string | null;
+    baselinePackageRef: SourceRef;
+    periodEndSnapshotRef: SourceRef | null;
+    restatementRef: SourceRef | null;
+    currentActionLevel: ProjectOperatingSnapshotSummaryCurrentActionLevelEnum;
+    formalEligibility: FormalEligibility;
+    evaluationStatus: ProjectOperatingSnapshotSummaryEvaluationStatusEnum;
+    evaluationRefs: EvaluationRefs;
 }
+export enum ProjectOperatingSnapshotSummaryOutputVersionEnum {
+    ServerDerivedV1 = 'server-derived-v1'
+};
+export enum ProjectOperatingSnapshotSummaryProducerVersionEnum {
+    NUMBER_1 = 1
+};
+export enum ProjectOperatingSnapshotSummaryCertificationEnum {
+    Verified = 'verified'
+};
+export enum ProjectOperatingSnapshotSummaryContainsLaborEnum {
+    Yes = 'yes',
+    No = 'no',
+    Unknown = 'unknown'
+};
+export enum ProjectOperatingSnapshotSummarySnapshotModeEnum {
+    Realtime = 'realtime',
+    PeriodEnd = 'period-end',
+    Restated = 'restated'
+};
+export type ProjectOperatingSnapshotSummarySourceWindowStartEnum = null;;
+export enum ProjectOperatingSnapshotSummaryBusinessTimezoneEnum {
+    AsiaHongKong = 'Asia/Hong_Kong'
+};
+export enum ProjectOperatingSnapshotSummaryStatusEnum {
+    Active = 'active',
+    Superseded = 'superseded'
+};
+export enum ProjectOperatingSnapshotSummaryCurrentActionLevelEnum {
+    Prompt = 'prompt',
+    Review = 'review',
+    Block = 'block'
+};
+export enum ProjectOperatingSnapshotSummaryEvaluationStatusEnum {
+    Evaluated = 'evaluated'
+};

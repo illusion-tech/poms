@@ -1,0 +1,48 @@
+// Proposed replacement business helper in Root-owned projects/service.rs.
+// Root's existing HTTP/service outer TX lends CommonSession and authenticated Actor.
+// It preserves the old response anchors and never returns full project details.
+async fn reassign_with_session(
+    session:&mut crate::approval_common::CommonSession<'_, '_>,
+    project_id:Uuid,input:&ReassignProjectOwner,actor:&crate::contract_support::Actor,
+)->Result<Wire,crate::contract_support::Error>{
+    use crate::{contract_support::{Error as BusinessError,AuditWrite,audit,new_uuid},project_action_authorization::{self as scope,ProjectAction,ProjectActionTarget}};
+    crate::contract_support::lock_project(session.connection,project_id).await?;
+    let p=store::find(session.connection,&project_id.to_string()).await?.ok_or_else(||BusinessError::NotFound("项目不存在。".into()))?;
+    let expected=input.expected_version.and_then(|v|i32::try_from(v).ok()).filter(|v|*v>0).ok_or_else(||BusinessError::BadRequest("expectedVersion 必须是正 int4 版本。".into()))?;
+    if expected!=p.row_version{return Err(BusinessError::Conflict("项目版本已变化。".into()));}
+    p.row_version.checked_add(1).ok_or_else(||BusinessError::Conflict("项目版本容量已耗尽。".into()))?;
+    if !editable(&p){return Err(BusinessError::Conflict("项目当前状态不允许改派主责。".into()));}
+    let owner_id=Uuid::parse_str(&input.owner_user_id).map_err(|_|BusinessError::BadRequest("目标用户标识无效。".into()))?;
+    let org_id=match &input.owner_org_id{
+        Field::Value(raw)=>Some(Uuid::parse_str(raw).map_err(|_|BusinessError::BadRequest("目标组织标识无效。".into()))?),
+        Field::Null=>None,
+        Field::Missing=>sqlx::query_scalar("SELECT m.org_unit_id FROM poms.user_org_membership m JOIN poms.org_unit o ON o.id=m.org_unit_id AND o.is_active WHERE m.user_id=$1 AND m.status='active' AND m.revoked_at IS NULL AND m.membership_type='primary' ORDER BY m.id LIMIT 1").bind(owner_id).fetch_optional(&mut *session.connection).await?,
+    }.ok_or_else(||BusinessError::BadRequest("目标个人必须有真实有效组织关系。".into()))?;
+    let target_valid:bool=sqlx::query_scalar("SELECT EXISTS(SELECT 1 FROM poms.platform_user u JOIN poms.user_org_membership m ON m.user_id=u.id AND m.org_unit_id=$2 AND m.status='active' AND m.revoked_at IS NULL AND m.membership_type IN ('primary','secondary') JOIN poms.org_unit o ON o.id=m.org_unit_id AND o.is_active WHERE u.id=$1 AND u.is_active)")
+        .bind(owner_id).bind(org_id).fetch_one(&mut *session.connection).await?;
+    if !target_valid{return Err(BusinessError::BadRequest("目标用户及组织关系无效。".into()));}
+    let target=||ProjectActionTarget::OwnerReassignment{project_id,expected_version:expected,new_owner_user_id:owner_id,new_owner_org_id:Some(org_id)};
+    // Authorize the old relationship; the requested new owner never grants scope.
+    let proof=match scope::require(session,actor,ProjectAction::ReassignCurrentOwner,target()).await{
+        Ok(proof)=>proof,
+        Err(BusinessError::NotFound(_))=>scope::require(session,actor,ProjectAction::FirstAssignOwner,target()).await?,
+        Err(error)=>return Err(error),
+    };
+    if p.owner_user_id==Some(owner_id)&&p.owner_org_id==Some(org_id){return Err(BusinessError::BadRequest("当前主责已经相同。".into()));}
+    let at=clock_now();
+    let record_id=new_uuid()?;
+    let record=store::OwnerReassignmentRecord{id:record_id,project_id,previous_owner_org_id:p.owner_org_id,previous_owner_user_id:p.owner_user_id,new_owner_org_id:Some(org_id),new_owner_user_id:owner_id,reason:trim_js(input.reason.clone()).to_utf8_lossy(),at,operator_id:actor.id};
+    store::insert_reassignment(session.connection,&record).await?;
+    session.state.trace.inserted("project_owner_reassignment_record",&record_id.to_string());
+    let changes=store::ProjectUpdate{owner_user_id:Some(Some(owner_id)),owner_org_id:Some(Some(org_id)),updated_by:Some(Some(actor.id)),..Default::default()};
+    if store::update(session.connection,project_id,expected,&changes,at).await?.is_none(){return Err(BusinessError::Conflict("项目主责版本已变化。".into()));}
+    if proof.scope_kind()=="creator-first-assignment-only"{
+        let origin_version:i32=sqlx::query_scalar("SELECT row_version FROM poms.project_ownership_origin WHERE project_id=$1 AND bootstrap_state='available' FOR UPDATE").bind(project_id).fetch_optional(&mut *session.connection).await?.ok_or_else(||BusinessError::Conflict("首次个人指派已被消费。".into()))?;
+        origin_version.checked_add(1).ok_or_else(||BusinessError::Conflict("ownership-origin版本容量已耗尽。".into()))?;
+        let changed=sqlx::query("UPDATE poms.project_ownership_origin SET bootstrap_state='consumed',first_personal_owner_user_id=$1,first_personal_assigned_at=$2,bootstrap_consumed_at=$2,bootstrap_assignment_record_id=$3,row_version=row_version+1 WHERE project_id=$4 AND row_version=$5 AND bootstrap_state='available'")
+            .bind(owner_id).bind(at).bind(record_id).bind(project_id).bind(origin_version).execute(&mut *session.connection).await?.rows_affected();
+        if changed!=1{return Err(BusinessError::Conflict("首次个人指派已被消费。".into()));}
+    }
+    audit(session,actor,AuditWrite{operation_id:"ProjectController_reassignOwner".into(),target_type:"project".into(),target_id:project_id,project_id,contract_id:None,before:Some(json!({"ownerUserId":p.owner_user_id,"ownerOrgId":p.owner_org_id,"rowVersion":p.row_version})),after:Some(json!({"ownerUserId":owner_id,"ownerOrgId":org_id,"rowVersion":expected+1,"projectOwnerReassignmentRecordId":record_id})),reason:Some(record.reason),metadata:json!({"scopeKind":proof.scope_kind(),"bootstrapConsumed":proof.scope_kind()=="creator-first-assignment-only"})}).await?;
+    Ok(Wire::value(json!({"targetId":project_id,"projectOwnerReassignmentRecordId":record_id,"previousOwnerUserId":p.owner_user_id,"previousOwnerOrgId":p.owner_org_id,"newOwnerUserId":owner_id,"newOwnerOrgId":org_id,"businessStatusAfter":p.status})))
+}

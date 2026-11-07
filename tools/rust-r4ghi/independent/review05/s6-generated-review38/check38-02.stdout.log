@@ -1,0 +1,60 @@
+{
+  "mode": "--s5 --check",
+  "sourceHead": "2cd1be6029cf1b14ebfb1fc4530af894507a4c5a",
+  "actualNodeVersion": "24.19.0",
+  "sourceAccess": {
+    "kind": "committed-raw-checkpoint-source-reader",
+    "manifestPath": "tools/openapi/checkpoints/r4ghi-s6/input-manifest01.json",
+    "manifestRawBytesSha256": "ddb2d8e44ed6897d75d0181093b49b3a27540560d2df73f789fd476bf1d91b35",
+    "manifestInputRecords": 420,
+    "actualSnapshotLogicalInputs": [
+      ".gitattributes",
+      "libs/shared/contracts/src/index.ts",
+      "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts",
+      "apps/poms-api/src/app/core/auth/auth-session.entity.ts",
+      "apps/poms-api/src/app/core/auth/auth-session.service.ts"
+    ],
+    "directReviewedAInputs": [
+      "libs/shared/api-spec/openapi.json",
+      "docs/design/rust-r0-api-operations.json"
+    ],
+    "physicalSourceScope": [
+      "tools/openapi/checkpoints/r4ghi-s6",
+      "libs/shared/api-spec/openapi.json",
+      "docs/design/rust-r0-api-operations.json"
+    ],
+    "liveLogicalEquality": "exact raw bytes before and after generation; no dirty-source override"
+  },
+  "coverage": {
+    "sharedTopLevelVariables": 1410,
+    "sharedClassifiedDataDeclarations": 666,
+    "sharedSchemaDeclarations": 742,
+    "explicitSchemaShapeExclusions": 2,
+    "historicalR0SnapshotCount": 455,
+    "historicalR0EnumOccurrences": 224,
+    "declaredPostR0SnapshotCount": 1,
+    "zEnumOccurrences": 339,
+    "generatedEnumFamilies": 331,
+    "generatedEnumValues": 1161,
+    "sharedEnumFamilies": 328,
+    "backendAuthEnumFamilies": 3,
+    "completenessRule": "All closed-module statements and enum calls pinned; semantic AST z member recognition; every current enum maps to nominal source identity, never equal-value merging."
+  },
+  "sourceStable": true,
+  "artifacts": [
+    {
+      "path": "tools/rust-r1b/shared-manifest.json",
+      "normalizedTextSha256": "c265674443567aa3a8764f32db68ff0a352ab45b45ec7a841217981f2c793b52"
+    },
+    {
+      "path": "apps/poms-api-rust/src/shared/generated.rs",
+      "normalizedTextSha256": "822ce5850391728f73424825c87a3ac95061865fe9ea032f1abcb56c4eb29324"
+    },
+    {
+      "path": "apps/poms-api-rust/tests/shared_generated.rs",
+      "normalizedTextSha256": "f9fde7164dfe17cf8734eae44c4b5ea5d8b928ea15f5ba034a67ab7dd697dfec"
+    }
+  ]
+}
+{"result":"pass","report":"E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\tools\\rust-r4ghi\\independent\\review05\\s6-generated-review38\\review38-02.json","families":331,"occurrences":339,"values":1161,"SDKFiles":683}

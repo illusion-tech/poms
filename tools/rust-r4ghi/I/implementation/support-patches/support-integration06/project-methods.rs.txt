@@ -1,0 +1,57 @@
+    pub async fn get(
+        &self,id:&str,session:&ResolvedSession,metadata:&RequestMetadata,
+    )->Result<Wire,ProjectsError>{
+        let project_id=Uuid::parse_str(id).map_err(|_|ProjectsError::BadRequest("Invalid project UUID".into()))?;
+        let actor=scoped_actor(session,metadata);
+        self.database.with_connection(move|connection|Box::pin(async move{
+            let mut transaction=connection.begin().await?;
+            let mut state=crate::approval_common::CommonState::default();
+            state.trace.begin(true);
+            let mut participant=crate::approval::context::PendingAuthentication::from_resolved(&actor.session);
+            let result={
+                let mut borrowed=crate::approval_common::CommonSession::borrow_with_participant(&mut transaction,&mut state,&mut participant);
+                borrowed.request_id=actor.request_id.clone();
+                match detail_with_session(&mut borrowed,project_id,&actor).await{
+                    Ok(value)=>crate::approval_common::store::flush(&mut borrowed).await.map_err(crate::contract_support::Error::from).map(|()|value),
+                    Err(error)=>Err(error),
+                }
+            };
+            match result{
+                Ok(value)=>match transaction.commit().await{
+                    Ok(())=>{state.trace.commit_succeeded();Ok(Ok(value))},
+                    Err(error)=>{state.trace.unknown_commit();Err(error)},
+                },
+                Err(error)=>{let rollback=transaction.rollback().await;state.trace.rolled_back();rollback?;Ok(Err(error))},
+            }
+        })).await?.map_err(ProjectsError::Business)
+    }
+
+    pub async fn reassign(
+        &self,id:&str,input:ReassignProjectOwner,session:&ResolvedSession,metadata:&RequestMetadata,
+    )->Result<Wire,ProjectsError>{
+        let project_id=Uuid::parse_str(id).map_err(|_|ProjectsError::BadRequest("Invalid project UUID".into()))?;
+        let actor=scoped_actor(session,metadata);
+        // Preserve one existing service-owned outer transaction. All old-state
+        // authorization, source reads and necessary writes now borrow it.
+        self.database.with_connection(move|connection|Box::pin(async move{
+            let mut transaction=connection.begin().await?;
+            let mut state=crate::approval_common::CommonState::default();
+            state.trace.begin(true);
+            let mut participant=crate::approval::context::PendingAuthentication::from_resolved(&actor.session);
+            let result={
+                let mut borrowed=crate::approval_common::CommonSession::borrow_with_participant(&mut transaction,&mut state,&mut participant);
+                borrowed.request_id=actor.request_id.clone();
+                match reassign_with_session(&mut borrowed,project_id,&input,&actor).await{
+                    Ok(value)=>crate::approval_common::store::flush(&mut borrowed).await.map_err(crate::contract_support::Error::from).map(|()|value),
+                    Err(error)=>Err(error),
+                }
+            };
+            match result{
+                Ok(value)=>match transaction.commit().await{
+                    Ok(())=>{state.trace.commit_succeeded();Ok(Ok(value))},
+                    Err(error)=>{state.trace.unknown_commit();Err(error)},
+                },
+                Err(error)=>{let rollback=transaction.rollback().await;state.trace.rolled_back();rollback?;Ok(Err(error))},
+            }
+        })).await?.map_err(ProjectsError::Business)
+    }

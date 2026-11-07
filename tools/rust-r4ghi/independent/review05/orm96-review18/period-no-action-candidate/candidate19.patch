@@ -1,0 +1,11 @@
+--- a/apps/poms-api/src/app/features/project-cost/operating-restatement-record.entity.ts
++++ b/apps/poms-api/src/app/features/project-cost/operating-restatement-record.entity.ts
+@@ -46,7 +46,7 @@
+     properties: {
+         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
+         projectId: () => p.manyToOne(Project).mapToPk().fieldName('project_id').comment('关联项目'),
+-        periodEndSnapshotId: () => p.manyToOne(PeriodClosingSnapshot).mapToPk().fieldName('period_end_snapshot_id').comment('关联期末冻结快照').nullable(),
++        periodEndSnapshotId: () => p.manyToOne(PeriodClosingSnapshot).mapToPk().fieldName('period_end_snapshot_id').deleteRule('no action').updateRule('no action').comment('关联期末冻结快照').nullable(),
+         restatesSnapshotId: () => p.manyToOne(ProjectOperatingSnapshot).mapToPk().fieldName('restates_snapshot_id').comment('被重述 / 被替代的经营快照'),
+         restatedSnapshotId: () => p.manyToOne(ProjectOperatingSnapshot).mapToPk().fieldName('restated_snapshot_id').comment('新生成的重述经营快照'),
+         handoverRebaselineRecordId: () =>

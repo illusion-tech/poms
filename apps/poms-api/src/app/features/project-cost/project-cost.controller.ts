@@ -1,3 +1,6 @@
+import { RustR4GhiNativeProtocolGuard } from "../../core/rust-r4ghi-native-protocol.guard";
+import { UseGuards } from "@nestjs/common";
+import { ActivateOperatingBaselinePackageRequestSchema, CreateProjectOperatingSnapshotRequestSchema, CreatePeriodClosingSnapshotRequestSchema, CreateOperatingRestatementRequestSchema, ReviewOperatingSignalEvaluationRequestSchema, ReviewCommissionGateBindingRequestSchema, type ActivateOperatingBaselinePackageRequest, type CreateProjectOperatingSnapshotRequest, type CreatePeriodClosingSnapshotRequest, type CreateOperatingRestatementRequest, type ReviewOperatingSignalEvaluationRequest, type ReviewCommissionGateBindingRequest } from "../../core/rust-r4ghi-frozen-native-reference";
 import type {AccountingTaxTreatmentListView, CostStageAttributionHistoryView, ExpenseRecordList, ProjectActualCostRecordListView, SharedCostAllocationResultListView} from "../../core/rust-r4def-frozen-native-reference";
 import type {
     AccountingTaxTreatmentSnapshotSummary,
@@ -79,8 +82,8 @@ import {
     ProjectActualCostTypeValue,
     ProjectActualCostRecordStatusValue,
     ProjectActualCostSourceTypeValue,
-} from "@poms/shared-contracts";
-import type {BusinessAccountingFeedbackView, CommissionGateBindingHistoryView, CommandResult, CreateProjectActualCostRecordRequest, OperatingBaselinePackageSummary, OperatingSignalEvaluationView, OperatingRestatementListView, OperatingRestatementSummary, PeriodClosingSnapshotSummary, ProjectBusinessOutcomeOverviewView, ProjectOperatingSnapshotSummary, ProjectUnifiedAccountingView, ProjectVarianceRiskExplanationView, ReviewCommissionGateBindingResult, ReviewOperatingSignalEvaluationResult, UserPayload} from '@poms/shared-contracts';
+} from "../../core/rust-r4ghi-frozen-native-reference";
+import type {BusinessAccountingFeedbackView, CommissionGateBindingHistoryView, CommandResult, CreateProjectActualCostRecordRequest, OperatingBaselinePackageSummary, OperatingSignalEvaluationView, OperatingRestatementListView, OperatingRestatementSummary, PeriodClosingSnapshotSummary, ProjectBusinessOutcomeOverviewView, ProjectOperatingSnapshotSummary, ProjectUnifiedAccountingView, ProjectVarianceRiskExplanationView, ReviewCommissionGateBindingResult, ReviewOperatingSignalEvaluationResult, UserPayload} from "../../core/rust-r4ghi-frozen-native-reference";
 import { HasPermissions } from "../../core/auth/decorators/has-permissions.decorator";
 import type { RuntimeAuditRequestLike } from "../../core/runtime-audit/runtime-audit-request.utils";
 import { buildSensitiveFieldProjectionRequestContext } from "../../core/sensitive-field-projection/sensitive-field-projection-request-context";
@@ -154,12 +157,14 @@ export class ProjectCostController {
         return this.projectCostService.createProjectActualCostRecord(projectId, body, userId);
     }
 
+    @UseGuards(RustR4GhiNativeProtocolGuard)
+    @ApiBody({ type: ActivateOperatingBaselinePackageRequestDto })
     @Post("operating-baseline-packages")
     @HasPermissions("contract:finance:manage")
     @ApiOperation({ summary: "生效项目经营基线包" })
     @ApiCreatedResponse({ description: "The command result" })
     async activateOperatingBaselinePackage(
-        @Body() body: ActivateOperatingBaselinePackageRequestDto,
+        @Body(new ZodValidationPipe(ActivateOperatingBaselinePackageRequestSchema)) body: ActivateOperatingBaselinePackageRequest,
         @Request() req: AuthenticatedRequest,
     ): Promise<CommandResult> {
         const userId = req.user?.sub ?? "system";
@@ -174,11 +179,13 @@ export class ProjectCostController {
         return this.projectCostService.getCurrentOperatingBaselinePackage(projectId);
     }
 
+    @UseGuards(RustR4GhiNativeProtocolGuard)
+    @ApiBody({ type: CreateProjectOperatingSnapshotRequestDto })
     @Post("project-operating-snapshots")
     @HasPermissions("contract:finance:manage")
     @ApiOperation({ summary: "创建项目经营快照" })
     @ApiCreatedResponse({ description: "The command result" })
-    async createProjectOperatingSnapshot(@Body() body: CreateProjectOperatingSnapshotRequestDto, @Request() req: AuthenticatedRequest): Promise<CommandResult> {
+    async createProjectOperatingSnapshot(@Body(new ZodValidationPipe(CreateProjectOperatingSnapshotRequestSchema)) body: CreateProjectOperatingSnapshotRequest, @Request() req: AuthenticatedRequest): Promise<CommandResult> {
         const userId = req.user?.sub ?? "system";
         return this.projectCostService.createProjectOperatingSnapshot(body, userId);
     }
@@ -191,11 +198,13 @@ export class ProjectCostController {
         return this.projectCostService.getProjectOperatingSnapshot(id);
     }
 
+    @UseGuards(RustR4GhiNativeProtocolGuard)
+    @ApiBody({ type: CreatePeriodClosingSnapshotRequestDto })
     @Post("period-closing-snapshots")
     @HasPermissions("contract:finance:manage")
     @ApiOperation({ summary: "创建期末冻结经营快照" })
     @ApiCreatedResponse({ description: "The command result" })
-    async createPeriodClosingSnapshot(@Body() body: CreatePeriodClosingSnapshotRequestDto, @Request() req: AuthenticatedRequest): Promise<CommandResult> {
+    async createPeriodClosingSnapshot(@Body(new ZodValidationPipe(CreatePeriodClosingSnapshotRequestSchema)) body: CreatePeriodClosingSnapshotRequest, @Request() req: AuthenticatedRequest): Promise<CommandResult> {
         const userId = req.user?.sub ?? "system";
         return this.projectCostService.createPeriodClosingSnapshot(body, userId);
     }
@@ -208,11 +217,13 @@ export class ProjectCostController {
         return this.projectCostService.getPeriodClosingSnapshot(id);
     }
 
+    @UseGuards(RustR4GhiNativeProtocolGuard)
+    @ApiBody({ type: CreateOperatingRestatementRequestDto })
     @Post("operating-restatements")
     @HasPermissions("contract:finance:manage")
     @ApiOperation({ summary: "创建经营快照重述记录" })
     @ApiCreatedResponse({ description: "The command result" })
-    async createOperatingRestatement(@Body() body: CreateOperatingRestatementRequestDto, @Request() req: AuthenticatedRequest): Promise<CommandResult> {
+    async createOperatingRestatement(@Body(new ZodValidationPipe(CreateOperatingRestatementRequestSchema)) body: CreateOperatingRestatementRequest, @Request() req: AuthenticatedRequest): Promise<CommandResult> {
         const userId = req.user?.sub ?? "system";
         return this.projectCostService.createOperatingRestatement(body, userId);
     }
@@ -281,6 +292,7 @@ export class ProjectCostController {
         );
     }
 
+    @UseGuards(RustR4GhiNativeProtocolGuard)
     @Post("project-actual-cost-records/:id/stage-attributions")
     @HasPermissions("contract:finance:manage")
     @ApiOperation({ summary: "创建成本阶段归属快照" })
@@ -298,6 +310,7 @@ export class ProjectCostController {
         );
     }
 
+    @UseGuards(RustR4GhiNativeProtocolGuard)
     @Post("cost-stage-attributions/:id\\:reclassify")
     @HasPermissions("contract:finance:manage")
     @ApiOperation({ summary: "重分类成本阶段归属快照" })
@@ -331,6 +344,7 @@ export class ProjectCostController {
         return this.projectCostService.getCostStageAttribution(id);
     }
 
+    @UseGuards(RustR4GhiNativeProtocolGuard)
     @Post("projects/:projectId/accounting-tax-treatments")
     @HasPermissions("contract:finance:manage")
     @ApiOperation({ summary: "创建项目税务处理快照" })
@@ -348,6 +362,7 @@ export class ProjectCostController {
         );
     }
 
+    @UseGuards(RustR4GhiNativeProtocolGuard)
     @Post("accounting-tax-treatments/:id\\:replace")
     @HasPermissions("contract:finance:manage")
     @ApiOperation({ summary: "替代项目税务处理快照" })
@@ -381,6 +396,8 @@ export class ProjectCostController {
         return this.projectCostService.getAccountingTaxTreatment(id);
     }
 
+    @UseGuards(RustR4GhiNativeProtocolGuard)
+    @ApiBody({ type: ReviewOperatingSignalEvaluationRequestDto })
     @Post("operating-signal-evaluations/:id\\:review")
     @HasPermissions("contract:finance:manage")
     @HttpCode(HttpStatus.OK)
@@ -388,7 +405,7 @@ export class ProjectCostController {
     @ApiOkResponse({ type: ReviewOperatingSignalEvaluationResultDto })
     async reviewOperatingSignalEvaluation(
         @Param("id") id: string,
-        @Body() body: ReviewOperatingSignalEvaluationRequestDto,
+        @Body(new ZodValidationPipe(ReviewOperatingSignalEvaluationRequestSchema)) body: ReviewOperatingSignalEvaluationRequest,
         @Request() req: AuthenticatedRequest,
     ): Promise<ReviewOperatingSignalEvaluationResult> {
         const userId = req.user?.sub ?? "system";
@@ -403,6 +420,8 @@ export class ProjectCostController {
         return this.projectCostService.getOperatingSignalEvaluation(id);
     }
 
+    @UseGuards(RustR4GhiNativeProtocolGuard)
+    @ApiBody({ type: ReviewCommissionGateBindingRequestDto })
     @Post("commission-gate-bindings/:id\\:review")
     @HasPermissions("contract:finance:manage")
     @HttpCode(HttpStatus.OK)
@@ -410,7 +429,7 @@ export class ProjectCostController {
     @ApiOkResponse({ type: ReviewCommissionGateBindingResultDto })
     async reviewCommissionGateBinding(
         @Param("id") id: string,
-        @Body() body: ReviewCommissionGateBindingRequestDto,
+        @Body(new ZodValidationPipe(ReviewCommissionGateBindingRequestSchema)) body: ReviewCommissionGateBindingRequest,
         @Request() req: AuthenticatedRequest,
     ): Promise<ReviewCommissionGateBindingResult> {
         const userId = req.user?.sub ?? "system";

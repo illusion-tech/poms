@@ -1,6 +1,6 @@
 # 系统设计文档
 
-> 2026-11-06 当前迁移边界：#115 用户创建关联修复已独立 G4 并 Closed，见[归档及证书](archive/slices/rust-r2-user-create-fix115/README.md)。R4 GHI 与最小 R5 的[32项联合基线](rust-r4ghi-next32-baseline.md)正在独立 G1 复核，尚未准入 G2；新3路由已登记，R4规划95、正式已交付67，Rust正式仍240。#57/#101/#110/#116/#117保持Open；以[状态索引](rust-r4ghi-delivery-status.json)和线上读回区分计划与实际交付。
+> 2026-11-06 当前迁移边界：#115 用户创建关联修复已独立 G4 并 Closed，见[归档及证书](archive/slices/rust-r2-user-create-fix115/README.md)。R4 GHI 与最小 R5 的[32项联合基线](rust-r4ghi-next32-baseline.md)已完成独立 G1 与线上冻结，三线进入 G2，验收和 G3/G4 待完成；新3路由已登记，R4规划95、正式已交付67，Rust正式仍240。#57/#101/#110/#116/#117保持Open；以[状态索引](rust-r4ghi-delivery-status.json)和线上读回区分计划与实际交付。
 
 本目录用于沉淀 `POMS` 的系统设计资产，重点回答以下问题：
 

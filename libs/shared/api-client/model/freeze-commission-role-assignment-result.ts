@@ -18,9 +18,23 @@ export interface FreezeCommissionRoleAssignmentResult {
     handoverSummarySnapshotId: string;
     effectiveHandoverBaselineSnapshotId: string;
     summarySnapshotId: string;
-    projectionLevel: string;
-    exportPolicy: string;
+    projectionLevel: FreezeCommissionRoleAssignmentResultProjectionLevelEnum;
+    exportPolicy: FreezeCommissionRoleAssignmentResultExportPolicyEnum;
+    sourcePayloadHash: string;
+    summaryPackageKey: FreezeCommissionRoleAssignmentResultSummaryPackageKeyEnum;
+    receiptJudgmentFreezeId: string;
+    handoverBasisSnapshotId: string;
+    rowVersion: number;
 }
 export enum FreezeCommissionRoleAssignmentResultBusinessStatusAfterEnum {
     Frozen = 'frozen'
+};
+export enum FreezeCommissionRoleAssignmentResultProjectionLevelEnum {
+    CommissionRoleFreeze = 'commission-role-freeze'
+};
+export enum FreezeCommissionRoleAssignmentResultExportPolicyEnum {
+    CommissionControlled = 'commission-controlled'
+};
+export enum FreezeCommissionRoleAssignmentResultSummaryPackageKeyEnum {
+    CommissionRoleFreezeConfirmation = 'commission-role-freeze-confirmation'
 };

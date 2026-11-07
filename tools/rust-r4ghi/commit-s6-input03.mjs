@@ -1,0 +1,17 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import {execFileSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
+const sha=b=>createHash('sha256').update(b).digest('hex'),git=args=>execFileSync('git',args,{encoding:'utf8',maxBuffer:20000000});
+assert.equal(git(['rev-parse','HEAD']).trim(),'2cb80d6ec9b8c915b514c22e02db337dfa85bb7b');
+const review='tools/rust-r4ghi/independent/review05/s6-input-boundary-review32/A2-input-review33.json';assert(fs.existsSync(review));
+const manifest='tools/openapi/checkpoints/r4ghi-s6/input-manifest01.json',raw=fs.readFileSync(manifest);assert.equal(sha(raw),'ddb2d8e44ed6897d75d0181093b49b3a27540560d2df73f789fd476bf1d91b35');
+const input=JSON.parse(raw);assert.equal(input.inputs.length,420);for(const row of input.inputs)assert.equal(sha(fs.readFileSync(row.file)),row.rawBytesSHA256);
+const files=git(['diff','--cached','--name-only','-z']).split('\0').filter(Boolean);assert.equal(files.length,423);assert(files.every(f=>f==='libs/shared/api-spec/openapi.json'||f.startsWith('tools/openapi/checkpoints/r4ghi-s6/')));
+git(['diff','--cached','--check']);
+const body='tmp/rust-r4ghi/root/commit-s6-input03.txt';fs.writeFileSync(body,'build(openapi): 冻结组织承接契约的完整 S6 生成输入\n\n保留永久 S4 与完整 S5 原件，冻结 420 项实际编译输入。\n完整规范保持 242 条路径和 296 项操作，新增归属枚举及可选创建字段后为 690 个 schema。\n\n独立 A2 input review33 已核原始快照、暂存 blob、保护来源及标准导出13。\n本提交仅固定 G2 生成输入；产品实现、SDK、验收及 G3/G4 尚未认证。\n',{flag:'wx'});
+const result=git(['commit','--file',body]);const head=git(['rev-parse','HEAD']).trim();
+const committed=git(['diff-tree','--no-commit-id','--name-only','-r','-z',head]).split('\0').filter(Boolean);assert.deepEqual(committed.sort(),files.sort());
+const blob=execFileSync('git',['show',head+':'+manifest],{encoding:null,maxBuffer:20000000});assert(blob.equals(raw));
+fs.writeFileSync('docs/design/rust-r4ghi/s6-input-commit03.json',JSON.stringify({kind:'actual-S6-input-only-feature-commit',commit:head,parent:'2cb80d6ec9b8c915b514c22e02db337dfa85bb7b',paths:423,manifest,manifestSHA256:sha(raw),review,oldS4AndS5Retained:true,productG3Certified:false,mainAdvanced:false},null,2)+'\n',{flag:'wx'});
+console.log(JSON.stringify({commit:head,committedPaths:committed.length,sourceRawVerified:true,productG3:false,gitOutputTail:result.slice(-220)}));

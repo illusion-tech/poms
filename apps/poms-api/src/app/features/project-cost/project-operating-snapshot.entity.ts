@@ -1,3 +1,5 @@
+import { PeriodClosingSnapshot } from './period-closing-snapshot.entity';
+import { OperatingSourceContext } from './rust-r4ghi-entities.entity';
 import { defineEntity } from '@mikro-orm/core';
 import {
     BASELINE_SELECTION_SOURCES,
@@ -18,6 +20,10 @@ const p = defineEntity.properties;
 const toSqlStringList = (values: readonly string[]): string => values.map((value) => `'${value.replaceAll("'", "''")}'`).join(', ');
 
 export const ProjectOperatingSnapshotSchema = defineEntity({
+    uniques: [
+        {"name":"uq_r4g_project_snapshot_scope","properties":["id","projectId"]},
+        {"name":"uq_r4g_snapshot_successor","expression":"CREATE UNIQUE INDEX uq_r4g_snapshot_successor ON poms.project_operating_snapshot(supersedes_id)\n  WHERE producer_version=1 AND supersedes_id IS NOT NULL"}
+    ],
     name: 'ProjectOperatingSnapshot',
     tableName: 'project_operating_snapshot',
     schema: 'poms',
@@ -48,7 +54,9 @@ export const ProjectOperatingSnapshotSchema = defineEntity({
         {
             name: 'chk_project_operating_snapshot_status',
             expression: `"status" in (${toSqlStringList(OPERATING_LIFECYCLE_STATUSES)})`
-        }
+        },
+        {"name":"chk_r4g_snapshot_verified","expression":"producer_version=0 OR\n    (producer_version=1 AND captured_row_version IS NOT NULL AND captured_row_version=1\n     AND source_context_id IS NOT NULL AND source_hash IS NOT NULL\n     AND source_hash~'^[0-9a-f]{64}$' AND currency IS NOT NULL AND currency~'^[A-Z]{3}$')"},
+        {"name":"ck_jghi_snapshot_pending_tax_v1","expression":"producer_version=0 OR\n  (producer_version=1 AND tax_pending_knowledge IS NOT NULL AND\n   ((tax_pending_knowledge='known' AND tax_impact_pending_amount IS NOT NULL)\n    OR (tax_pending_knowledge='unknown' AND tax_impact_pending_amount IS NULL)))"}
     ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
@@ -63,9 +71,9 @@ export const ProjectOperatingSnapshotSchema = defineEntity({
         originalBaselineCost: p.decimal().precision(18).scale(2).default(0).fieldName('original_baseline_cost').comment('原始签约基线成本'),
         currentEffectiveBaselineCost: p.decimal().precision(18).scale(2).default(0).fieldName('current_effective_baseline_cost').comment('当前有效基线成本'),
         grossMarginAmount: p.decimal().precision(18).scale(2).default(0).fieldName('gross_margin_amount').comment('毛利金额'),
-        grossMarginRate: p.decimal().precision(9).scale(6).nullable().fieldName('gross_margin_rate').comment('毛利率'),
+        grossMarginRate: p.decimal().precision(38).scale(6).nullable().fieldName('gross_margin_rate').comment('毛利率'),
         taxImpactSummary: p.text().fieldName('tax_impact_summary').comment('税务影响摘要（供 L4/L5 稳定消费）'),
-        taxImpactPendingAmount: p.decimal().precision(18).scale(2).default(0).fieldName('tax_impact_pending_amount').comment('待确认税务影响金额'),
+        taxImpactPendingAmount: p.decimal().precision(18).scale(2).default(0).fieldName('tax_impact_pending_amount').comment('待确认税务影响金额').nullable(),
         allocationStabilitySummary: p.text().nullable().fieldName('allocation_stability_summary').comment('分摊稳定性摘要'),
         unmappedCostSummary: p.text().nullable().fieldName('unmapped_cost_summary').comment('未映射成本摘要'),
         currentActionLevel: p.string().$type<OperatingSnapshotActionLevel>().length(32).fieldName('current_action_level').comment('当前动作等级：prompt/review/block'),
@@ -88,6 +96,19 @@ export const ProjectOperatingSnapshotSchema = defineEntity({
         updatedAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).onUpdate(() => new Date()).fieldName('updated_at').comment('最后更新时间'),
         updatedBy: p.uuid().nullable().fieldName('updated_by').comment('最后更新人'),
         rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号')
+    ,
+        producerVersion: p.smallint().default(0).fieldName("producer_version"),
+        capturedRowVersion: p.integer().nullable().fieldName("captured_row_version"),
+        sourceContextId: p.uuid().nullable().fieldName("source_context_id"),
+        sourceHash: p.string().length(64).nullable().fieldName("source_hash"),
+        currency: p.string().length(3).nullable().fieldName("currency"),
+        periodEndSnapshotId: p.uuid().nullable().fieldName("period_end_snapshot_id"),
+        rootSnapshotId: p.uuid().nullable().fieldName("root_snapshot_id"),
+        taxPendingKnowledge: p.string().length(16).nullable().fieldName("tax_pending_knowledge"),
+        jghiScopeConstraint1: () => p.manyToOne(OperatingSourceContext).mapToPk().joinColumns("source_context_id","project_id","id").referencedColumnNames("id","project_id","snapshot_id").columnTypes("uuid","uuid","uuid").ownColumns().hydrate(false).hidden().foreignKeyName("fk_r4g_snapshot_context").deleteRule("no action").updateRule("no action").deferMode('deferred').nullable(),
+        jghiScopeConstraint2: () => p.manyToOne(ProjectOperatingSnapshot).mapToPk().joinColumns("supersedes_id","project_id").referencedColumnNames("id","project_id").columnTypes("uuid","uuid").ownColumns().hydrate(false).hidden().foreignKeyName("fk_r4g_snapshot_supersedes").deleteRule("restrict").updateRule("no action"),
+        jghiScopeConstraint3: () => p.manyToOne(ProjectOperatingSnapshot).mapToPk().joinColumns("root_snapshot_id","project_id").referencedColumnNames("id","project_id").columnTypes("uuid","uuid").ownColumns().hydrate(false).hidden().foreignKeyName("fk_r4g_snapshot_root").deleteRule("restrict").updateRule("no action").nullable(),
+        jghiScopeConstraint4: () => p.manyToOne(PeriodClosingSnapshot).mapToPk().joinColumns("period_end_snapshot_id","project_id").referencedColumnNames("id","project_id").columnTypes("uuid","uuid").ownColumns().hydrate(false).hidden().foreignKeyName("fk_r4g_snapshot_period").deleteRule("no action").updateRule("no action").deferMode('deferred').nullable()
     }
 });
 

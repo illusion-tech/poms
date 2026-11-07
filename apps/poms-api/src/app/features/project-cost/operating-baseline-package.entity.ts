@@ -1,3 +1,4 @@
+import { OperatingBaselineSource } from './rust-r4ghi-entities.entity';
 import { defineEntity } from '@mikro-orm/core';
 import {
     BASELINE_SELECTION_SOURCES,
@@ -26,7 +27,8 @@ export const OperatingBaselinePackageSchema = defineEntity({
             name: 'uq_obp_project_current',
             expression: (columns, table, indexName) =>
                 `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.projectId}") where "${columns.isCurrent}" = true`
-        }
+        },
+        {"name":"uq_r4g_baseline_package_project","properties":["id","projectId"]}
     ],
     checks: [
         {
@@ -36,7 +38,8 @@ export const OperatingBaselinePackageSchema = defineEntity({
         {
             name: 'chk_operating_baseline_package_status',
             expression: `"status" in (${toSqlStringList(OPERATING_BASELINE_PACKAGE_STATUSES)})`
-        }
+        },
+        {"name":"chk_r4g_baseline_certified","expression":"producer_version=0 OR\n    (producer_version=1 AND source_context_id IS NOT NULL AND currency IS NOT NULL\n     AND currency~'^[A-Z]{3}$' AND source_hash IS NOT NULL AND source_hash~'^[0-9a-f]{64}$'\n     AND handover_baseline_cost IS NOT NULL AND execution_change_package_total IS NOT NULL)"}
     ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
@@ -56,6 +59,14 @@ export const OperatingBaselinePackageSchema = defineEntity({
         updatedAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).onUpdate(() => new Date()).fieldName('updated_at').comment('最后更新时间'),
         updatedBy: p.uuid().nullable().fieldName('updated_by').comment('最后更新人'),
         rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号')
+    ,
+        producerVersion: p.smallint().default(0).fieldName("producer_version"),
+        sourceContextId: p.uuid().nullable().fieldName("source_context_id"),
+        currency: p.string().length(3).nullable().fieldName("currency"),
+        sourceHash: p.string().length(64).nullable().fieldName("source_hash"),
+        handoverBaselineCost: p.decimal().precision(18).scale(2).nullable().fieldName("handover_baseline_cost"),
+        executionChangePackageTotal: p.decimal().precision(18).scale(2).nullable().fieldName("execution_change_package_total"),
+        jghiScopeConstraint1: () => p.manyToOne(OperatingBaselineSource).mapToPk().joinColumns("source_context_id","project_id").referencedColumnNames("id","project_id").columnTypes("uuid","uuid").ownColumns().hydrate(false).hidden().foreignKeyName("fk_r4g_baseline_source").deleteRule("restrict").updateRule("no action").nullable()
     }
 });
 

@@ -1,0 +1,33 @@
+{
+  "kind": "I-owned lifecycle evidence current permission correction",
+  "createdAt": "2026-11-06T19:35:57.691054+00:00",
+  "rootProductModified": false,
+  "file": "apps/poms-api-rust/src/lifecycle_evidence/mod.rs",
+  "baseSHA256": "d05ebb03bc491afddaadeaac96446e8c253d96ed552285bb72e9de6b4befa04c",
+  "candidateSHA256": "89345b02746994dadc31ea44878e60705c150db4ac1600aef4772416187e6e91",
+  "patchSHA256": "753fa855eef4801d82e1f09f6acbb0c506977ced95fd805ba7232154f536ccc9",
+  "reviewTrigger": "G independent P1: frozen normal attachment metadata remains readable after live classification upgrade/unlink/deactivation",
+  "behavior": [
+    "Read keeps immutable evidence/source payload unchanged.",
+    "Only exact frozen attachment_link and attachment ids are read and locked FOR SHARE in caller CommonSession; no project attachment list.",
+    "project:read and frozen/current security classification are required. Classification denial returns 403 before version error. Unknown classification fails closed.",
+    "Exact project target, link/attachment active and identities required; missing/reparented/inactive source returns generic 404.",
+    "Current attachment row_version and checksum must match frozen reference; mismatch returns 409 without reference projection.",
+    "All acceptance/completion/own-condition/closure/archive views already use this one reader."
+  ],
+  "testsAdded": [
+    "normal frozen source later confidential/restricted returns Forbidden (even when row version also advances)",
+    "withdrawn link or attachment returns NotFound",
+    "changed project/target type/link/attachment cannot project metadata",
+    "changed row version or checksum returns Conflict without replacing frozen reference",
+    "project read permission and known current classification required",
+    "unchanged normal and authorized restricted sources return only original frozen five-field reference"
+  ],
+  "verification": {
+    "rustfmt": "passed",
+    "unitTests": "Added to production module; not executed locally because local lib does not yet enlist this module. Root must run integrated cargo tests.",
+    "actualHTTP": "Pending Root actual PG/HTTP: acceptance/completion/own-condition reads after classification upgrade, unlink/deactivation, version/checksum drift; ordinary unchanged readable evidence positive.",
+    "independentReview": "Pending G non-author review"
+  },
+  "integrationNote": "Apply only this single-file delta if Root base matches; no D/support06/Scope/stage-provider05 changes."
+}

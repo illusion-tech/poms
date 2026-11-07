@@ -1,0 +1,46 @@
+--- a/apps/poms-api-rust/src/projects/service.rs
++++ b/apps/poms-api-rust/src/projects/service.rs
+@@ -105,6 +105,9 @@
+             current_stage,
+             planned_sign_at,
+         } = input;
++        if current_stage.is_some_and(|stage| stage != ProjectStage::Assessment) {
++            return Err(ProjectsError::BadRequest("新项目只允许从 assessment 创建。".into()));
++        }
+         // Preserve source preflight before BEGIN; this is A's actual internal
+         // customer producer contract, not a duplicate customer SQL predicate.
+         let operator = self
+@@ -155,10 +158,7 @@
+                                 customer_project_no: customer_project_no
+                                     .as_ref()
+                                     .map(JsString::to_utf8_lossy),
+-                                current_stage: current_stage
+-                                    .unwrap_or(ProjectStage::Assessment)
+-                                    .as_str()
+-                                    .to_owned(),
++                                current_stage: ProjectStage::Assessment.as_str().to_owned(),
+                                 owner_org_id: operator.primary_org_unit_id,
+                                 owner_user_id: operator.id,
+                                 planned_sign_at,
+@@ -167,6 +167,9 @@
+                             },
+                         )
+                         .await?;
++                        crate::project_action_authorization::ownership::record_new_origin_with_connection(
++                            &mut transaction,project.id,operator.id,"direct-create",project.id,None)
++                            .await.map_err(|_|sqlx::Error::Protocol("new project ownership origin failed".into()))?;
+                         if let Some(pending) = pending.as_ref() {
+                             flush_managed_session(&mut transaction, pending).await?;
+                         }
+--- a/apps/poms-api-rust/src/leads/service.rs
++++ b/apps/poms-api-rust/src/leads/service.rs
+@@ -1475,6 +1475,9 @@
+             let system=refresh_score(connection,&mut lead).await?;
+             let candidates=store::conversion_attachments(connection,lead.id).await?;
+             project.row_version=store::insert_conversion_project(connection,&project).await?;
++            crate::project_action_authorization::ownership::record_new_origin_with_connection(
++                connection,project.id,operator.id,"lead-conversion",before.id,None)
++                .await.map_err(|_|LeadsError::Internal)?;
+             save_lead(connection,&before,&mut lead).await?;
+             let mut copied=0;
+             for attachment_id in candidates {

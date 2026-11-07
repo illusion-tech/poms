@@ -1,0 +1,745 @@
+{
+  "status": "Root-proposal-not-applied",
+  "productReadRoot": "E:\\projects\\worktrees\\poms-r4h-signals\\poms",
+  "tables": [
+    {
+      "table": "receipt_record",
+      "path": "apps/poms-api/src/app/features/contract-finance/receipt-record.entity.ts",
+      "changes": [],
+      "compositeRelations": 0,
+      "notValidConstraints": []
+    },
+    {
+      "table": "contract_term_snapshot",
+      "path": "apps/poms-api/src/app/features/contract/contract.entity.ts",
+      "changes": [
+        {
+          "column": "currency_code",
+          "kind": "add",
+          "expression": "p.string().length(3).nullable().fieldName(\"currency_code\")"
+        }
+      ],
+      "compositeRelations": 0,
+      "notValidConstraints": []
+    },
+    {
+      "table": "operating_baseline_package",
+      "path": "apps/poms-api/src/app/features/project-cost/operating-baseline-package.entity.ts",
+      "changes": [
+        {
+          "column": "producer_version",
+          "kind": "add",
+          "expression": "p.smallint().default(0).fieldName(\"producer_version\")"
+        },
+        {
+          "column": "source_context_id",
+          "kind": "add",
+          "expression": "p.uuid().nullable().fieldName(\"source_context_id\")"
+        },
+        {
+          "column": "currency",
+          "kind": "add",
+          "expression": "p.string().length(3).nullable().fieldName(\"currency\")"
+        },
+        {
+          "column": "source_hash",
+          "kind": "add",
+          "expression": "p.string().length(64).nullable().fieldName(\"source_hash\")"
+        },
+        {
+          "column": "handover_baseline_cost",
+          "kind": "add",
+          "expression": "p.decimal().precision(18).scale(2).nullable().fieldName(\"handover_baseline_cost\")"
+        },
+        {
+          "column": "execution_change_package_total",
+          "kind": "add",
+          "expression": "p.decimal().precision(18).scale(2).nullable().fieldName(\"execution_change_package_total\")"
+        }
+      ],
+      "compositeRelations": 1,
+      "notValidConstraints": []
+    },
+    {
+      "table": "change_package_baseline",
+      "path": "apps/poms-api/src/app/features/project-cost/change-package-baseline.entity.ts",
+      "changes": [
+        {
+          "column": "source_kind",
+          "kind": "add",
+          "expression": "p.string().length(64).nullable().fieldName(\"source_kind\")"
+        },
+        {
+          "column": "source_id",
+          "kind": "add",
+          "expression": "p.uuid().nullable().fieldName(\"source_id\")"
+        },
+        {
+          "column": "source_row_version",
+          "kind": "add",
+          "expression": "p.integer().nullable().fieldName(\"source_row_version\")"
+        },
+        {
+          "column": "before_cost_package_id",
+          "kind": "add",
+          "expression": "() => p.manyToOne(ProjectTechnicalCostPackage).mapToPk().joinColumns(\"before_cost_package_id\").referencedColumnNames(\"id\").foreignKeyName(\"change_package_baseline_before_cost_package_id_fkey\").deleteRule(\"restrict\").updateRule(\"no action\").nullable()"
+        },
+        {
+          "column": "after_cost_package_id",
+          "kind": "add",
+          "expression": "() => p.manyToOne(ProjectTechnicalCostPackage).mapToPk().joinColumns(\"after_cost_package_id\").referencedColumnNames(\"id\").foreignKeyName(\"change_package_baseline_after_cost_package_id_fkey\").deleteRule(\"restrict\").updateRule(\"no action\").nullable()"
+        },
+        {
+          "column": "source_payload_hash",
+          "kind": "add",
+          "expression": "p.string().length(64).nullable().fieldName(\"source_payload_hash\")"
+        }
+      ],
+      "compositeRelations": 0,
+      "notValidConstraints": []
+    },
+    {
+      "table": "shared_cost_allocation_result",
+      "path": "apps/poms-api/src/app/features/project-cost/shared-cost-allocation-result.entity.ts",
+      "changes": [
+        {
+          "column": "is_included_in_project_cost",
+          "kind": "add",
+          "expression": "p.boolean().default(false).fieldName(\"is_included_in_project_cost\")"
+        },
+        {
+          "column": "included_at",
+          "kind": "add",
+          "expression": "p.datetime().columnType('timestamptz').nullable().fieldName(\"included_at\")"
+        },
+        {
+          "column": "included_by",
+          "kind": "add",
+          "expression": "() => p.manyToOne(PlatformUser).mapToPk().joinColumns(\"included_by\").referencedColumnNames(\"id\").foreignKeyName(\"shared_cost_allocation_result_included_by_fkey\").deleteRule(\"restrict\").updateRule(\"no action\").nullable()"
+        }
+      ],
+      "compositeRelations": 0,
+      "notValidConstraints": []
+    },
+    {
+      "table": "project_operating_snapshot",
+      "path": "apps/poms-api/src/app/features/project-cost/project-operating-snapshot.entity.ts",
+      "changes": [
+        {
+          "column": "producer_version",
+          "kind": "add",
+          "expression": "p.smallint().default(0).fieldName(\"producer_version\")"
+        },
+        {
+          "column": "captured_row_version",
+          "kind": "add",
+          "expression": "p.integer().nullable().fieldName(\"captured_row_version\")"
+        },
+        {
+          "column": "source_context_id",
+          "kind": "add",
+          "expression": "p.uuid().nullable().fieldName(\"source_context_id\")"
+        },
+        {
+          "column": "source_hash",
+          "kind": "add",
+          "expression": "p.string().length(64).nullable().fieldName(\"source_hash\")"
+        },
+        {
+          "column": "currency",
+          "kind": "add",
+          "expression": "p.string().length(3).nullable().fieldName(\"currency\")"
+        },
+        {
+          "column": "period_end_snapshot_id",
+          "kind": "add",
+          "expression": "p.uuid().nullable().fieldName(\"period_end_snapshot_id\")"
+        },
+        {
+          "column": "root_snapshot_id",
+          "kind": "add",
+          "expression": "p.uuid().nullable().fieldName(\"root_snapshot_id\")"
+        },
+        {
+          "column": "gross_margin_rate",
+          "kind": "alter",
+          "expression": "p.decimal().precision(38).scale(6).nullable().fieldName('gross_margin_rate').comment('毛利率')"
+        },
+        {
+          "column": "tax_impact_pending_amount",
+          "kind": "alter",
+          "expression": "p.decimal().precision(18).scale(2).default(0).fieldName('tax_impact_pending_amount').comment('待确认税务影响金额').nullable()"
+        },
+        {
+          "column": "tax_pending_knowledge",
+          "kind": "add",
+          "expression": "p.string().length(16).nullable().fieldName(\"tax_pending_knowledge\")"
+        }
+      ],
+      "compositeRelations": 4,
+      "notValidConstraints": []
+    },
+    {
+      "table": "period_closing_snapshot",
+      "path": "apps/poms-api/src/app/features/project-cost/period-closing-snapshot.entity.ts",
+      "changes": [
+        {
+          "column": "gross_margin_rate",
+          "kind": "alter",
+          "expression": "p.decimal().precision(38).scale(6).nullable().fieldName('gross_margin_rate').comment('毛利率')"
+        },
+        {
+          "column": "producer_version",
+          "kind": "add",
+          "expression": "p.smallint().default(0).fieldName(\"producer_version\")"
+        },
+        {
+          "column": "project_snapshot_id",
+          "kind": "add",
+          "expression": "p.uuid().nullable().fieldName(\"project_snapshot_id\")"
+        },
+        {
+          "column": "period_start",
+          "kind": "add",
+          "expression": "p.date().nullable().fieldName(\"period_start\")"
+        },
+        {
+          "column": "period_end",
+          "kind": "add",
+          "expression": "p.date().nullable().fieldName(\"period_end\")"
+        },
+        {
+          "column": "business_timezone",
+          "kind": "add",
+          "expression": "p.string().length(64).nullable().fieldName(\"business_timezone\")"
+        },
+        {
+          "column": "source_context_id",
+          "kind": "add",
+          "expression": "p.uuid().nullable().fieldName(\"source_context_id\")"
+        },
+        {
+          "column": "source_hash",
+          "kind": "add",
+          "expression": "p.string().length(64).nullable().fieldName(\"source_hash\")"
+        },
+        {
+          "column": "tax_impact_pending_amount",
+          "kind": "alter",
+          "expression": "p.decimal().precision(18).scale(2).default(0).fieldName('tax_impact_pending_amount').comment('待确认税务影响金额').nullable()"
+        },
+        {
+          "column": "tax_pending_knowledge",
+          "kind": "add",
+          "expression": "p.string().length(16).nullable().fieldName(\"tax_pending_knowledge\")"
+        }
+      ],
+      "compositeRelations": 2,
+      "notValidConstraints": []
+    },
+    {
+      "table": "operating_restatement_record",
+      "path": "apps/poms-api/src/app/features/project-cost/operating-restatement-record.entity.ts",
+      "changes": [
+        {
+          "column": "period_end_snapshot_id",
+          "kind": "alter",
+          "expression": "() => p.manyToOne(PeriodClosingSnapshot).mapToPk().fieldName('period_end_snapshot_id').comment('关联期末冻结快照').nullable()"
+        },
+        {
+          "column": "producer_version",
+          "kind": "add",
+          "expression": "p.smallint().default(0).fieldName(\"producer_version\")"
+        },
+        {
+          "column": "restatement_scope",
+          "kind": "add",
+          "expression": "p.string().length(16).nullable().fieldName(\"restatement_scope\")"
+        },
+        {
+          "column": "root_snapshot_id",
+          "kind": "add",
+          "expression": "p.uuid().nullable().fieldName(\"root_snapshot_id\")"
+        },
+        {
+          "column": "causal_source_refs",
+          "kind": "add",
+          "expression": "p.json<unknown>().columnType('jsonb').nullable().fieldName(\"causal_source_refs\")"
+        },
+        {
+          "column": "before_source_hash",
+          "kind": "add",
+          "expression": "p.string().length(64).nullable().fieldName(\"before_source_hash\")"
+        },
+        {
+          "column": "after_source_hash",
+          "kind": "add",
+          "expression": "p.string().length(64).nullable().fieldName(\"after_source_hash\")"
+        },
+        {
+          "column": "restatement_batch_id",
+          "kind": "add",
+          "expression": "p.uuid().nullable().fieldName(\"restatement_batch_id\")"
+        }
+      ],
+      "compositeRelations": 4,
+      "notValidConstraints": []
+    },
+    {
+      "table": "project",
+      "path": "apps/poms-api/src/app/features/project/project.entity.ts",
+      "changes": [
+        {
+          "column": "current_stage_record_id",
+          "kind": "add",
+          "expression": "p.uuid().nullable().fieldName(\"current_stage_record_id\")"
+        }
+      ],
+      "compositeRelations": 1,
+      "notValidConstraints": []
+    },
+    {
+      "table": "commission_role_assignment",
+      "path": "apps/poms-api/src/app/features/commission/commission-role-assignment.entity.ts",
+      "changes": [
+        {
+          "column": "producer_version",
+          "kind": "add",
+          "expression": "p.smallint().default(0).fieldName(\"producer_version\")"
+        },
+        {
+          "column": "weights_policy_version",
+          "kind": "add",
+          "expression": "p.text().nullable().fieldName(\"weights_policy_version\")"
+        },
+        {
+          "column": "freeze_payload_id",
+          "kind": "add",
+          "expression": "() => p.manyToOne(CommissionRoleAssignmentFreezePayload).mapToPk().joinColumns(\"freeze_payload_id\").referencedColumnNames(\"assignment_id\").foreignKeyName(\"cra_freeze_payload_fk\").deleteRule(\"restrict\").updateRule(\"no action\").nullable()"
+        }
+      ],
+      "compositeRelations": 0,
+      "notValidConstraints": []
+    },
+    {
+      "table": "acceptance_record",
+      "path": "apps/poms-api/src/app/features/project/acceptance-record.entity.ts",
+      "changes": [
+        {
+          "column": "producer_version",
+          "kind": "add",
+          "expression": "p.smallint().default(0).fieldName(\"producer_version\")"
+        },
+        {
+          "column": "source_stage_record_id",
+          "kind": "add",
+          "expression": "() => p.manyToOne(ProjectStageRecord).mapToPk().joinColumns(\"source_stage_record_id\").referencedColumnNames(\"id\").foreignKeyName(\"acceptance_record_source_stage_record_id_fkey\").deleteRule(\"restrict\").updateRule(\"no action\").nullable()"
+        },
+        {
+          "column": "source_payload_hash",
+          "kind": "add",
+          "expression": "p.string().length(64).nullable().fieldName(\"source_payload_hash\")"
+        },
+        {
+          "column": "conditional_summary",
+          "kind": "add",
+          "expression": "p.text().nullable().fieldName(\"conditional_summary\")"
+        }
+      ],
+      "compositeRelations": 1,
+      "notValidConstraints": [
+        "fk_jghi_acceptance_stage_project"
+      ]
+    },
+    {
+      "table": "project_completion_record",
+      "path": "apps/poms-api/src/app/features/project/project-completion-record.entity.ts",
+      "changes": [
+        {
+          "column": "producer_version",
+          "kind": "add",
+          "expression": "p.smallint().default(0).fieldName(\"producer_version\")"
+        },
+        {
+          "column": "source_stage_record_id",
+          "kind": "add",
+          "expression": "() => p.manyToOne(ProjectStageRecord).mapToPk().joinColumns(\"source_stage_record_id\").referencedColumnNames(\"id\").foreignKeyName(\"project_completion_record_source_stage_record_id_fkey\").deleteRule(\"restrict\").updateRule(\"no action\").nullable()"
+        },
+        {
+          "column": "source_payload_hash",
+          "kind": "add",
+          "expression": "p.string().length(64).nullable().fieldName(\"source_payload_hash\")"
+        },
+        {
+          "column": "condition_status",
+          "kind": "add",
+          "expression": "p.text().nullable().fieldName(\"condition_status\")"
+        }
+      ],
+      "compositeRelations": 2,
+      "notValidConstraints": [
+        "fk_jghi_completion_stage_project",
+        "fk_jghi_completion_acceptance_project"
+      ]
+    },
+    {
+      "table": "project_archive_record",
+      "path": "apps/poms-api/src/app/features/project/project-archive-record.entity.ts",
+      "changes": [
+        {
+          "column": "producer_version",
+          "kind": "add",
+          "expression": "p.smallint().default(0).fieldName(\"producer_version\")"
+        },
+        {
+          "column": "source_stage_record_id",
+          "kind": "add",
+          "expression": "() => p.manyToOne(ProjectStageRecord).mapToPk().joinColumns(\"source_stage_record_id\").referencedColumnNames(\"id\").foreignKeyName(\"project_archive_record_source_stage_record_id_fkey\").deleteRule(\"restrict\").updateRule(\"no action\").nullable()"
+        },
+        {
+          "column": "source_payload_hash",
+          "kind": "add",
+          "expression": "p.string().length(64).nullable().fieldName(\"source_payload_hash\")"
+        },
+        {
+          "column": "source_qualification",
+          "kind": "add",
+          "expression": "p.text().nullable().fieldName(\"source_qualification\")"
+        }
+      ],
+      "compositeRelations": 1,
+      "notValidConstraints": [
+        "fk_jghi_archive_stage_project"
+      ]
+    },
+    {
+      "table": "data_maturity_evaluation_result",
+      "path": "apps/poms-api/src/app/features/project-cost/data-maturity-evaluation-result.entity.ts",
+      "changes": [
+        {
+          "column": "producer_version",
+          "kind": "add",
+          "expression": "p.smallint().default(0).fieldName(\"producer_version\")"
+        },
+        {
+          "column": "evidence_id",
+          "kind": "add",
+          "expression": "p.uuid().nullable().fieldName(\"evidence_id\")"
+        },
+        {
+          "column": "tax_pending_knowledge",
+          "kind": "add",
+          "expression": "p.string().length(16).nullable().fieldName(\"tax_pending_knowledge\")"
+        },
+        {
+          "column": "tax_impact_pending_amount",
+          "kind": "alter",
+          "expression": "p.decimal().precision(18).scale(2).default(0).fieldName('tax_impact_pending_amount').comment('待闭合税务影响金额').nullable()"
+        }
+      ],
+      "compositeRelations": 1,
+      "notValidConstraints": []
+    },
+    {
+      "table": "operating_signal_evaluation_result",
+      "path": "apps/poms-api/src/app/features/project-cost/operating-signal-evaluation-result.entity.ts",
+      "changes": [
+        {
+          "column": "producer_version",
+          "kind": "add",
+          "expression": "p.smallint().default(0).fieldName(\"producer_version\")"
+        },
+        {
+          "column": "evidence_id",
+          "kind": "add",
+          "expression": "p.uuid().nullable().fieldName(\"evidence_id\")"
+        }
+      ],
+      "compositeRelations": 2,
+      "notValidConstraints": [
+        "fk_jghi_oser_maturity_scope"
+      ]
+    },
+    {
+      "table": "operating_signal_review_record",
+      "path": "apps/poms-api/src/app/features/project-cost/operating-signal-review-record.entity.ts",
+      "changes": [
+        {
+          "column": "producer_version",
+          "kind": "add",
+          "expression": "p.smallint().default(0).fieldName(\"producer_version\")"
+        },
+        {
+          "column": "evidence_id",
+          "kind": "add",
+          "expression": "() => p.manyToOne(OperatingEvaluationEvidence).mapToPk().joinColumns(\"evidence_id\").referencedColumnNames(\"id\").foreignKeyName(\"operating_signal_review_record_evidence_id_fkey\").deleteRule(\"no action\").updateRule(\"no action\").nullable()"
+        },
+        {
+          "column": "source_hash",
+          "kind": "add",
+          "expression": "p.string().length(64).nullable().fieldName(\"source_hash\")"
+        },
+        {
+          "column": "evaluation_hash",
+          "kind": "add",
+          "expression": "p.string().length(64).nullable().fieldName(\"evaluation_hash\")"
+        },
+        {
+          "column": "expected_signal_version",
+          "kind": "add",
+          "expression": "p.integer().nullable().fieldName(\"expected_signal_version\")"
+        },
+        {
+          "column": "review_payload",
+          "kind": "add",
+          "expression": "p.json<unknown>().columnType('jsonb').nullable().fieldName(\"review_payload\")"
+        },
+        {
+          "column": "payload_hash",
+          "kind": "add",
+          "expression": "p.string().length(64).nullable().fieldName(\"payload_hash\")"
+        },
+        {
+          "column": "supersedes_id",
+          "kind": "add",
+          "expression": "() => p.manyToOne(OperatingSignalReviewRecord).mapToPk().joinColumns(\"supersedes_id\").referencedColumnNames(\"id\").foreignKeyName(\"operating_signal_review_record_supersedes_id_fkey\").deleteRule(\"no action\").updateRule(\"no action\").nullable()"
+        }
+      ],
+      "compositeRelations": 0,
+      "notValidConstraints": []
+    },
+    {
+      "table": "operating_signal_gate_binding",
+      "path": "apps/poms-api/src/app/features/project-cost/operating-signal-gate-binding.entity.ts",
+      "changes": [
+        {
+          "column": "producer_version",
+          "kind": "add",
+          "expression": "p.smallint().default(0).fieldName(\"producer_version\")"
+        },
+        {
+          "column": "evidence_id",
+          "kind": "add",
+          "expression": "() => p.manyToOne(OperatingEvaluationEvidence).mapToPk().joinColumns(\"evidence_id\").referencedColumnNames(\"id\").foreignKeyName(\"operating_signal_gate_binding_evidence_id_fkey\").deleteRule(\"no action\").updateRule(\"no action\").nullable()"
+        },
+        {
+          "column": "signal_review_id",
+          "kind": "add",
+          "expression": "() => p.manyToOne(OperatingSignalReviewRecord).mapToPk().joinColumns(\"signal_review_id\").referencedColumnNames(\"id\").foreignKeyName(\"operating_signal_gate_binding_signal_review_id_fkey\").deleteRule(\"no action\").updateRule(\"no action\").nullable()"
+        },
+        {
+          "column": "system_binding_action",
+          "kind": "add",
+          "expression": "p.string().length(16).nullable().fieldName(\"system_binding_action\")"
+        },
+        {
+          "column": "tax_pending_knowledge",
+          "kind": "add",
+          "expression": "p.string().length(16).nullable().fieldName(\"tax_pending_knowledge\")"
+        },
+        {
+          "column": "evaluation_hash",
+          "kind": "add",
+          "expression": "p.string().length(64).nullable().fieldName(\"evaluation_hash\")"
+        },
+        {
+          "column": "current_summary_id",
+          "kind": "add",
+          "expression": "() => p.manyToOne(ApprovalSummarySnapshot).mapToPk().joinColumns(\"current_summary_id\").referencedColumnNames(\"id\").foreignKeyName(\"operating_signal_gate_binding_current_summary_id_fkey\").deleteRule(\"no action\").updateRule(\"no action\").deferMode('deferred').nullable()"
+        },
+        {
+          "column": "supersedes_id",
+          "kind": "add",
+          "expression": "() => p.manyToOne(OperatingSignalToCommissionGateBinding).mapToPk().joinColumns(\"supersedes_id\").referencedColumnNames(\"id\").foreignKeyName(\"operating_signal_gate_binding_supersedes_id_fkey\").deleteRule(\"no action\").updateRule(\"no action\").nullable()"
+        },
+        {
+          "column": "tax_impact_pending_amount",
+          "kind": "alter",
+          "expression": "p.decimal().precision(18).scale(2).default(0).fieldName('tax_impact_pending_amount').comment('待闭合税务影响金额').nullable()"
+        }
+      ],
+      "compositeRelations": 0,
+      "notValidConstraints": []
+    },
+    {
+      "table": "commission_gate_review_record",
+      "path": "apps/poms-api/src/app/features/project-cost/commission-gate-review-record.entity.ts",
+      "changes": [
+        {
+          "column": "producer_version",
+          "kind": "add",
+          "expression": "p.smallint().default(0).fieldName(\"producer_version\")"
+        },
+        {
+          "column": "evidence_id",
+          "kind": "add",
+          "expression": "() => p.manyToOne(OperatingEvaluationEvidence).mapToPk().joinColumns(\"evidence_id\").referencedColumnNames(\"id\").foreignKeyName(\"commission_gate_review_record_evidence_id_fkey\").deleteRule(\"no action\").updateRule(\"no action\").nullable()"
+        },
+        {
+          "column": "source_summary_snapshot_id",
+          "kind": "add",
+          "expression": "() => p.manyToOne(ApprovalSummarySnapshot).mapToPk().joinColumns(\"source_summary_snapshot_id\").referencedColumnNames(\"id\").foreignKeyName(\"commission_gate_review_record_source_summary_snapshot_id_fkey\").deleteRule(\"no action\").updateRule(\"no action\").nullable()"
+        },
+        {
+          "column": "source_hash",
+          "kind": "add",
+          "expression": "p.string().length(64).nullable().fieldName(\"source_hash\")"
+        },
+        {
+          "column": "evaluation_hash",
+          "kind": "add",
+          "expression": "p.string().length(64).nullable().fieldName(\"evaluation_hash\")"
+        },
+        {
+          "column": "policy_hash",
+          "kind": "add",
+          "expression": "p.string().length(64).nullable().fieldName(\"policy_hash\")"
+        },
+        {
+          "column": "evidence_hash",
+          "kind": "add",
+          "expression": "p.string().length(64).nullable().fieldName(\"evidence_hash\")"
+        },
+        {
+          "column": "review_action",
+          "kind": "add",
+          "expression": "p.string().length(32).nullable().fieldName(\"review_action\")"
+        },
+        {
+          "column": "review_payload",
+          "kind": "add",
+          "expression": "p.json<unknown>().columnType('jsonb').nullable().fieldName(\"review_payload\")"
+        },
+        {
+          "column": "supersedes_id",
+          "kind": "add",
+          "expression": "() => p.manyToOne(CommissionGateReviewRecord).mapToPk().joinColumns(\"supersedes_id\").referencedColumnNames(\"id\").foreignKeyName(\"commission_gate_review_record_supersedes_id_fkey\").deleteRule(\"no action\").updateRule(\"no action\").nullable()"
+        }
+      ],
+      "compositeRelations": 0,
+      "notValidConstraints": []
+    },
+    {
+      "table": "project_handover",
+      "path": "apps/poms-api/src/app/features/project-handover/project-handover.entity.ts",
+      "changes": [],
+      "compositeRelations": 0,
+      "notValidConstraints": []
+    },
+    {
+      "table": "project_owner_reassignment_record",
+      "path": "apps/poms-api/src/app/features/project/project-owner-reassignment-record.entity.ts",
+      "changes": [],
+      "compositeRelations": 0,
+      "notValidConstraints": []
+    }
+  ],
+  "files": [
+    {
+      "path": "apps/poms-api/src/app/features/contract-finance/receipt-record.entity.ts",
+      "sourceSHA256": "fd0dc3b431826558d18eb85019ae5dd31c05d9220c6830176b9f04ac0fa2fcd5",
+      "proposedSHA256": "67b23259f5d994baf64e43759555d2481e02318db07a76a313762412c0c44ddc"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/contract/contract.entity.ts",
+      "sourceSHA256": "e256fd8d17a1e71466e6cd127f5fcf6c992ee125de3670043136fc8ec5ec3193",
+      "proposedSHA256": "6792631829f53bddfb5566ebeb09a8c0594b524eacecca47e3609fcd414cfeb1"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project-cost/operating-baseline-package.entity.ts",
+      "sourceSHA256": "795b8248a1a63ce2c78ccabe0ea1d7336094c4a6593557ec9b64bc7fa93c1ed0",
+      "proposedSHA256": "0cfebe87cac3e42470e80f711e48373f8f1d7aa03a97a30c6e2c695728255721"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project-cost/change-package-baseline.entity.ts",
+      "sourceSHA256": "d3b78d596bb2c1bba4c7565a8f404523616af5aa3657593ac44ea511bf9aaacf",
+      "proposedSHA256": "1a20a4ea259b92e786ca37783e0db10165f6cf8e648f545bc32573f0dda9fa1e"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project-cost/shared-cost-allocation-result.entity.ts",
+      "sourceSHA256": "40dd1dd3dd6536da192c8e67e83a9cf2a9afbc4a54dd74eadb35e7b1ec943c56",
+      "proposedSHA256": "4d05c1b2cfb2de3db9d2340c8535dddeb5649f9db90e909acf89d6b4e8a701d6"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project-cost/project-operating-snapshot.entity.ts",
+      "sourceSHA256": "3702f0f560f9830a4c5648cde336e104a84b7d08a9fadb88bc2642a4a9e41217",
+      "proposedSHA256": "3dbe3c83a70f6f940054052f0db0b5c56db76d2b180a9e8f210adcdd6198694a"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project-cost/period-closing-snapshot.entity.ts",
+      "sourceSHA256": "5feea7ff3dddf568944a7b5cc5826682266fc16fe31cd0c67179161d73b7ab29",
+      "proposedSHA256": "be40fbfee7cd6a9c153fff723327966f218626516bfc1f2b28731fec62d47cfe"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project-cost/operating-restatement-record.entity.ts",
+      "sourceSHA256": "30d473fccc52df30bea0b8ccb418b26443835a45bd93e04c9640d25234fcc056",
+      "proposedSHA256": "eb632c177a34fb39d30d87f5c0fc7306f7ded42382494f770fc8b65ed41a070c"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project/project.entity.ts",
+      "sourceSHA256": "a9429eece23ead9845ba85ab55c8e9497731f39e7cb8c0443843581c04d8f00f",
+      "proposedSHA256": "03b79fa293454f9f2e3622d82e10cf4a67f7a3a1f0586388767e4f4d98d2a39c"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/commission/commission-role-assignment.entity.ts",
+      "sourceSHA256": "67feb8bec6560d204dbe3ce3ebb71f5cae23eb3b7b74fab6dbe63c1647175832",
+      "proposedSHA256": "7d2759a14a57ca2a8b07f4f5d9af693cb9399fdd6be071a7b2b69e2006cf3e15"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project/acceptance-record.entity.ts",
+      "sourceSHA256": "be03d67e90b2b87b3a344cacc3ea881de4e0fee361542a985905dc2323c4c204",
+      "proposedSHA256": "1099f02ab4e5a42fa8575c2196ce7f173cd41bd6ff11836a67bd9c9d1efc2d6f"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project/project-completion-record.entity.ts",
+      "sourceSHA256": "e273441788e66df70eca4b48c8cf122f950ce6e9c26854c5e7b55642a6904942",
+      "proposedSHA256": "e9544faba532a0869ee70c11e5d48e36df9ca9a3bbf312ba082b500bb5dcd749"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project/project-archive-record.entity.ts",
+      "sourceSHA256": "d30319f184e2cf958e932583505999d86824bdd1c637968067de2f6b26706f58",
+      "proposedSHA256": "d99804267f33c6caacae35913245bc77205bea32372324a9742d44ac056efae2"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project-cost/data-maturity-evaluation-result.entity.ts",
+      "sourceSHA256": "23140327d6de2b55dd89e699ffccbecd56605eb92ca6037c23652388214a559e",
+      "proposedSHA256": "a538e0b4e6a66a8b16e9b417a3f5ca6ef53a65be7502403a521271b5cb1af8eb"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project-cost/operating-signal-evaluation-result.entity.ts",
+      "sourceSHA256": "fa9d42f4ed6321e466eb84f0081a38115dc8c47070fa76c1e0359edfa8298635",
+      "proposedSHA256": "60554d514799195f008ff1fd1e9f2fa6abf24f8bb4f5f166809f7d74ed2416d6"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project-cost/operating-signal-review-record.entity.ts",
+      "sourceSHA256": "043c72413a5e32317f7af4780d819c490773596a4701dfec3e8e3e6f0a4e1fa8",
+      "proposedSHA256": "7b0aad58ea9056750e73b236735dc196a6ef7754c7fe7b3a41604f67a5bef266"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project-cost/operating-signal-gate-binding.entity.ts",
+      "sourceSHA256": "46df73dae2b9e08405dccdbe9bb13e21c946b83e993c387a6ba894c7be1f2c47",
+      "proposedSHA256": "56372c038d164e6c7fb87cf9d4ebe487197b3c900af25f1fbe00fa288075e77b"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project-cost/commission-gate-review-record.entity.ts",
+      "sourceSHA256": "8aa44f6aafab3a9a9413387837e6c64d2b1c457504e8b4abc49634e20ec586d0",
+      "proposedSHA256": "3cf7fff9cac32834beada590e9e1fa0803710ac3174ae82474ed0aff8a87b044"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project-handover/project-handover.entity.ts",
+      "sourceSHA256": "cfedf393aea2b265cbcc23389e782011a44ef0d4cc0fbf26b3828332ef8efbc8",
+      "proposedSHA256": "de3891d3863aeefa477cd874734ca23af506ec5a686fe82d1341f6f80d879159"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project/project-owner-reassignment-record.entity.ts",
+      "sourceSHA256": "1f402d15cce9287a615bfdf64cabde7061feb3a11bf326b8b76948c57c5282bd",
+      "proposedSHA256": "d9d83ffeca9956e3f9e37fc6bb4c7d2e6f0b519abfbc157775655f93405aea0a"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project-cost/project-cost.module.ts",
+      "sourceSHA256": "dfc99945c60960b463dd6b136f63950250033ce885fece18b65cb94d1e418998",
+      "proposedSHA256": "438e5de870797b0194289faad61c333813fe43971be17b9014e78b0899f2fd2c"
+    }
+  ],
+  "registration": "apps/poms-api/src/app/features/project-cost/project-cost.module.ts"
+}

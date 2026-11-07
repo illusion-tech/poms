@@ -1,0 +1,181 @@
+--- a/apps/poms-api-rust/src/project_operating_signals/policy.rs
++++ b/apps/poms-api-rust/src/project_operating_signals/policy.rs
+@@ -593,14 +593,37 @@
+             &format!("excludedCostAmounts.{label}"),
+         )?;
+     }
+-    assert_amount(
+-        &m.tax_pending_amount,
++    // No assessed tax member does not prove zero when a frozen cost carries
++    // nonzero or unknown tax. Replay G's source-knowledge distinction, rather
++    // than turning an empty assessment sum into an invented known zero.
++    let mut tax_assessment_missing = false;
++    if context.tax_treatments.is_empty() {
++        for cost in &context.costs {
++            if amount(&cost.amounts.tax, "source.cost.tax")?.is_none_or(|tax| tax != 0) {
++                tax_assessment_missing = true;
++            }
++        }
++    }
++    let expected_pending_tax = if tax_assessment_missing {
++        None
++    } else {
+         sum(
+             context.tax_treatments.iter().map(|t| &t.pending_amount),
+             "taxPendingAmount",
+-        )?,
++        )?
++    };
++    assert_amount(
++        &m.tax_pending_amount,
++        expected_pending_tax,
+         "taxPendingAmount",
+     )?;
++    if tax_assessment_missing
++        && m.tax_pending_amount.unknown_reason_code.as_deref() != Some("tax-assessment-missing")
++    {
++        return Err(domain(
++            "Unassessed source tax requires the tax-assessment-missing reason",
++        ));
++    }
+     let receipts = amount(&m.confirmed_receipt_amounts.net, "confirmedReceiptNet")?;
+     let included = amount(&m.included_cost_amounts.net, "includedCostNet")?;
+     let baseline = amount(
+@@ -696,6 +719,7 @@
+ }
+ fn optional_pending(context: &OperatingSourceContext) -> bool {
+     !named(&context.scope.collection_status, "closed")
++        || !named(&context.metrics.tax_pending_amount.knowledge, "known")
+         || !context.pending_facts.is_empty()
+         || context.scope.unmapped_cost_count > 0
+         || context.scope.pending_cost_count > 0
+--- a/apps/poms-api-rust/src/project_operating_signals/tests.rs
++++ b/apps/poms-api-rust/src/project_operating_signals/tests.rs
+@@ -215,6 +215,127 @@
+         Knowledge::Unknown
+     );
+ }
++
++fn unassessed_taxed_expense_fixture() -> OperatingSourceContext {
++    let mut context = fixture(10_000_000, 10_000_000, 500_000, 500_000);
++    let tax: Amount = serde_json::from_value(amount(65_000)).expect("exact source tax650.00");
++    let gross: Amount = serde_json::from_value(amount(565_000)).expect("exact source gross5650.00");
++    context.costs[0].amounts.tax = tax.clone();
++    context.costs[0].amounts.gross = gross.clone();
++    context.metrics.included_cost_amounts.tax = tax;
++    context.metrics.included_cost_amounts.gross = gross;
++    context.metrics.tax_pending_amount = serde_json::from_value(json!({
++        "knowledge":"unknown","value":null,"unknownReasonCode":"tax-assessment-missing",
++        "basisRefs":[],"zeroProof":null
++    }))
++    .expect("G unassessed-tax knowledge shape");
++    refresh(&mut context);
++    context
++}
++
++#[test]
++fn taxed_expense_without_assessment_replays_g_unknown_instead_of_empty_sum_zero() {
++    let context = unassessed_taxed_expense_fixture();
++    assert!(context.tax_treatments.is_empty());
++    assert_eq!(
++        context.costs[0].amounts.tax.value.as_deref(),
++        Some("650.00")
++    );
++    assert_metrics(&context).expect("actual G unknown rule remains valid");
++    let evaluation = derive(&context);
++    assert_eq!(
++        evaluation.cost_readiness.known_metric_states.tax_pending,
++        Knowledge::Unknown
++    );
++    assert_eq!(
++        evaluation.cost_readiness.data_maturity_level,
++        OperatingDataMaturityLevel::Preliminary
++    );
++    assert!(context.metrics.tax_pending_amount.value.is_none());
++    assert_eq!(evaluation.effective_risk_level, OperatingRiskLevel::Unknown);
++    assert!(
++        evaluation
++            .all_reasons
++            .iter()
++            .any(|reason| reason.rule_id == "H02")
++    );
++    assert!(
++        !evaluation
++            .all_reasons
++            .iter()
++            .any(|reason| reason.rule_id == "H11")
++    );
++}
++
++#[test]
++fn unassessed_tax_cannot_be_forged_into_a_known_zero_even_with_a_valid_context_hash() {
++    let mut context = unassessed_taxed_expense_fixture();
++    context.metrics.tax_pending_amount = serde_json::from_value(amount(0)).expect("zero");
++    refresh(&mut context);
++    assert!(assert_metrics(&context).is_err());
++    assert!(derive_operating_evaluation(&context, None).is_err());
++}
++
++#[test]
++fn unassessed_tax_keeps_null_and_the_actual_missing_assessment_reason() {
++    let mut context = unassessed_taxed_expense_fixture();
++    context.metrics.tax_pending_amount.value = Some("650.00".into());
++    refresh(&mut context);
++    assert!(assert_metrics(&context).is_err());
++    context.metrics.tax_pending_amount.value = None;
++    context.metrics.tax_pending_amount.unknown_reason_code = Some("scope-not-closed".into());
++    refresh(&mut context);
++    assert!(assert_metrics(&context).is_err());
++}
++
++#[test]
++fn zero_tax_source_without_assessment_still_has_factual_known_zero_pending_tax() {
++    let mut context = fixture(10_000, 10_000, 100, 100);
++    assert!(context.tax_treatments.is_empty());
++    assert_metrics(&context).expect("real zero-tax source proves this empty assessment sum zero");
++    context.metrics.tax_pending_amount = unassessed_taxed_expense_fixture()
++        .metrics
++        .tax_pending_amount;
++    refresh(&mut context);
++    assert!(assert_metrics(&context).is_err());
++}
++
++#[test]
++fn real_assessment_pending_amount_is_still_replayed_and_not_replaced_by_cost_tax() {
++    let mut context = unassessed_taxed_expense_fixture();
++    context.tax_treatments.push(
++        serde_json::from_value(json!({
++            "taxTreatmentRef":source("AccountingTaxTreatmentSnapshot",77),
++            "evidenceRefs":[source("CostGovernanceEvidence",78)],"deductibility":"pending",
++            "pendingAmount":amount(12_345),"recognizedAdjustmentNet":amount(0),
++            "adjustmentOverlapKey":"tax:77","containsLabor":"no"
++        }))
++        .expect("actual assessed pending123.45 fixture"),
++    );
++    context.metrics.tax_pending_amount = serde_json::from_value(amount(12_345)).expect("pending");
++    refresh(&mut context);
++    assert_metrics(&context).expect("actual pending assessment is123.45, not source tax650");
++    context.metrics.tax_pending_amount = serde_json::from_value(amount(0)).expect("forged zero");
++    refresh(&mut context);
++    assert!(assert_metrics(&context).is_err());
++}
++
++#[test]
++fn unknown_source_tax_without_assessment_also_requires_unknown_pending_tax() {
++    let mut context = unassessed_taxed_expense_fixture();
++    let tax: Amount = serde_json::from_value(json!({
++        "knowledge":"unknown","value":null,"unknownReasonCode":"source-monetary-layer-missing",
++        "basisRefs":[source("ProjectActualCostRecord",9)],"zeroProof":null
++    }))
++    .expect("unknown source tax");
++    context.costs[0].amounts.tax = tax.clone();
++    context.metrics.included_cost_amounts.tax = tax;
++    refresh(&mut context);
++    assert_metrics(&context).expect("unknown source tax is not assumed zero");
++    context.metrics.tax_pending_amount = serde_json::from_value(amount(0)).expect("forged zero");
++    refresh(&mut context);
++    assert!(assert_metrics(&context).is_err());
++}
+ #[test]
+ fn materiality_review_keeps_source_block_and_immutable_system_unknown() {
+     let mut context = fixture(10_000, 100, 101, 101);

@@ -1,0 +1,709 @@
+--- a/apps/poms-api-rust/src/project_cost_governance/correction.rs
++++ b/apps/poms-api-rust/src/project_cost_governance/correction.rs
+@@ -9,7 +9,7 @@
+ use crate::{
+     approval_common::CommonSession,
+     contract_support::{Actor, Error},
+-    project_operating::sources::source_reference_with_session,
++    project_operating::sources::{allocation_source_reference, source_reference_with_session},
+     project_operating_common::model::*,
+ };
+ use serde_json::{Value, json};
+@@ -334,7 +334,7 @@
+     // Each old batch is rebuilt exactly once, including dependencies of a true
+     // stage/tax correction. No synthetic receiver cost row or partial share.
+     for batch in batches.into_values() {
+-        let before = std::iter::once(
++        let mut before = std::iter::once(
+             source_reference_with_session(
+                 session,
+                 "SharedCostAllocationBasis",
+@@ -353,6 +353,17 @@
+                 .collect::<Result<Vec<_>, _>>()?,
+         )
+         .collect::<Vec<_>>();
++        for source in &batch.sources {
++            let reference = allocation_source_reference(source)?;
++            if !scope
++                .locked_source_refs
++                .iter()
++                .any(|locked| same_ref(locked, &reference))
++            {
++                return Err(changed());
++            }
++            before.push(reference);
++        }
+         let mut shares = Vec::new();
+         for result in &batch.results {
+             let project = store::id(result, "project_id")?;
+@@ -387,12 +398,18 @@
+         let new_basis =
+             source_reference_with_session(session, "SharedCostAllocationBasis", basis_id).await?;
+         let results = store::children(session.connection, Table::Result, basis_id, false).await?;
++        let new_basis_row = store::row(session.connection, Table::Basis, basis_id, false).await?;
++        let new_sources =
++            store::children(session.connection, Table::Source, basis_id, false).await?;
+         let mut after = vec![new_basis];
++        for source in &new_sources {
++            after.push(allocation_source_reference(source)?);
++        }
+         let mut evidence_refs = vec![
+             source_reference_with_session(
+                 session,
+                 "CostGovernanceEvidence",
+-                value_id(&response, "evidenceId")?,
++                store::id(&new_basis_row, "governance_evidence_id")?,
+             )
+             .await?,
+         ];
+--- a/apps/poms-api-rust/src/project_operating/inclusion.rs
++++ b/apps/poms-api-rust/src/project_operating/inclusion.rs
+@@ -7,7 +7,10 @@
+     approval_common::CommonSession,
+     auth::model::clock_now,
+     contract_support::{Actor, Error, canonical_hash, new_uuid},
+-    project_operating_common::model::{CostDecisionInput, OperatingMoneyCents},
++    project_operating_common::model::{
++        CorrectionKind, CostDecisionInput, ExpectedRef, OperatingMoneyCents, SourceRef,
++        VerifiedProducerTransition,
++    },
+ };
+ use chrono::NaiveDate;
+ use serde_json::{Value, json};
+@@ -584,32 +587,32 @@
+                 .map(store::version)
+                 .transpose()?
+                 .unwrap_or(0);
+-            let mut decision=match output.remove(&old.id){Some(mut value)=>{value.target=target.clone();value.expected_version=new_head;value},None=>serde_json::from_value(json!({"target":target,"expectedVersion":new_head,"decision":prior["decision"],"recognitionRole":prior["recognition_role"],"reasonCode":prior["reason_code"],"reasonText":reason,"primaryCostRef":prior["primary_cost_id"].as_str().and_then(|id|Uuid::parse_str(id).ok()).and_then(|id|after.find(Table::Cost,id)).map(|r|sources::reference(Table::Cost,r)).transpose()?.map(|mut r|{let version=r["rowVersion"].take();r.as_object_mut().map(|m|m.remove("rowVersion"));r["expectedVersion"]=version;r}),"supportingSourceRefs":prior["supporting_source_refs"],"evidenceRefs":prior["evidence_refs"]})).map_err(|_|Error::Internal)?};
++            let mut decision=match output.remove(&old.id){Some(mut value)=>{value.target=target.clone();value.expected_version=new_head;value},None=>serde_json::from_value(json!({"target":target,"expectedVersion":new_head,"decision":prior["decision"],"recognitionRole":prior["recognition_role"],"reasonCode":prior["reason_code"],"reasonText":reason,"primaryCostRef":prior["frozen_payload"]["input"]["primaryCostRef"],"supportingSourceRefs":prior["supporting_source_refs"],"evidenceRefs":prior["evidence_refs"]})).map_err(|_|Error::Internal)?};
+             decision.primary_cost_ref = decision
+                 .primary_cost_ref
+                 .as_ref()
+-                .map(|r| rebind_reference(r, transitions, after))
++                .map(|r| {
++                    let sealed = consumption_reference(r, before)?;
++                    rebind_reference(&sealed, transitions, before, after)
++                })
+                 .transpose()?;
+             decision.supporting_source_refs = decision
+                 .supporting_source_refs
+                 .iter()
+-                .map(|r| rebind_reference(r, transitions, after))
++                .map(|r| {
++                    let sealed = consumption_reference(r, before)?;
++                    rebind_reference(&sealed, transitions, before, after)
++                })
+                 .collect::<Result<Vec<_>, _>>()?;
+             decision.evidence_refs = decision
+                 .evidence_refs
+                 .iter()
+-                .map(|r| rebind_reference(r, transitions, after))
++                .map(|r| {
++                    let sealed = consumption_reference(r, before)?;
++                    rebind_reference(&sealed, transitions, before, after)
++                })
+                 .collect::<Result<Vec<_>, _>>()?;
+-            for reference in &transition.evidence_refs {
+-                decision
+-                    .evidence_refs
+-                    .push(crate::project_operating_common::model::ExpectedRef {
+-                        kind: reference.kind.clone(),
+-                        id: reference.id,
+-                        expected_version: reference.row_version,
+-                        payload_hash: reference.payload_hash.clone(),
+-                    });
+-            }
++            append_transition_evidence(&mut decision, &transition.evidence_refs, after)?;
+             predecessors.insert(new.id, store::id(prior, "id")?);
+             output.insert(new.id, decision);
+         }
+@@ -617,67 +620,524 @@
+     Ok((output.into_values().collect(), predecessors))
+ }
+ 
++/// Restrict automatic additions to the exact post-producer project catalog.
++/// Preserve all explicit/inherited refs unchanged for strict membership checks.
++fn append_transition_evidence(
++    decision: &mut CostDecisionInput,
++    references: &[SourceRef],
++    after: &Catalog,
++) -> Result<(), Error> {
++    let admitted = after.members()?;
++    for reference in references {
++        let expected = as_expected(reference);
++        let value = serde_json::to_value(&expected).map_err(|_| Error::Internal)?;
++        if admitted
++            .iter()
++            .any(|(actual, _)| sources::assert_expected(actual, &value).is_ok())
++        {
++            decision.evidence_refs.push(expected);
++        }
++    }
++    Ok(())
++}
++
++fn as_expected(reference: &SourceRef) -> ExpectedRef {
++    ExpectedRef {
++        kind: reference.kind.clone(),
++        id: reference.id,
++        expected_version: reference.row_version,
++        payload_hash: reference.payload_hash.clone(),
++    }
++}
++fn same_expected(left: &ExpectedRef, right: &ExpectedRef) -> bool {
++    left.kind == right.kind
++        && left.id == right.id
++        && left.expected_version == right.expected_version
++        && left.payload_hash == right.payload_hash
++}
++fn transition_error() -> Error {
++    store::conflict("operating_classification_evidence_changed")
++}
++
++/// G's own sealed pre-consumption target -> final sourceRef is the only bridge.
++/// Reconstruct the exact registered consumption-only factual delta, preserving
++/// amounts, currency, source, stage and dates; never refresh arbitrary old refs.
++fn consumption_reference(reference: &ExpectedRef, before: &Catalog) -> Result<ExpectedRef, Error> {
++    let table = match reference.kind.as_str() {
++        "ProjectActualCostRecord" => Table::Cost,
++        "SharedCostAllocationResult" => Table::AllocationResult,
++        _ => return Ok(reference.clone()),
++    };
++    let Some(row) = before.find(table, reference.id) else {
++        return Ok(reference.clone());
++    };
++    let project = store::id(row, "project_id")?;
++    let Some(prior) = current_decision(before, project, &unit_key(table, row)?) else {
++        return Ok(reference.clone());
++    };
++    let frozen = &prior["frozen_payload"];
++    let original: ExpectedRef = serde_json::from_value(frozen["input"]["target"].clone())
++        .map_err(|_| transition_error())?;
++    if !same_expected(reference, &original) {
++        return Ok(reference.clone());
++    }
++    if prior["producer_version"] != 1 || canonical_hash(frozen)? != prior["payload_hash"] {
++        return Err(transition_error());
++    }
++    let final_ref: SourceRef =
++        serde_json::from_value(frozen["sourceRef"].clone()).map_err(|_| transition_error())?;
++    let prior_id = if table == Table::Cost {
++        "cost_record_id"
++    } else {
++        "allocation_result_id"
++    };
++    if final_ref.kind != original.kind
++        || final_ref.id != original.id
++        || prior[prior_id] != original.id.to_string()
++        || prior["project_id"] != row["project_id"]
++        || prior["source_row_version"].as_i64() != Some(i64::from(final_ref.row_version))
++    {
++        return Err(transition_error());
++    }
++    let final_expected = as_expected(&final_ref);
++    sources::assert_expected(
++        &sources::reference(table, row)?,
++        &serde_json::to_value(&final_expected).map_err(|_| Error::Internal)?,
++    )?;
++    if original.expected_version == final_ref.row_version {
++        return if same_expected(&original, &final_expected) {
++            Ok(final_expected)
++        } else {
++            Err(transition_error())
++        };
++    }
++    let role = if table == Table::Cost {
++        "direct-source"
++    } else {
++        "allocation-share"
++    };
++    if original.expected_version <= 0
++        || original.expected_version.checked_add(1) != Some(final_ref.row_version)
++        || frozen["input"]["decision"] != "include"
++        || frozen["input"]["recognitionRole"] != role
++        || row["is_included_in_project_cost"] != true
++        || (table == Table::Cost && row["record_status"] != "included")
++    {
++        return Err(transition_error());
++    }
++    let mut pre_consumption = sources::factual_payload(table, row);
++    pre_consumption["row_version"] = json!(original.expected_version);
++    pre_consumption["is_included_in_project_cost"] = json!(false);
++    pre_consumption["included_at"] = Value::Null;
++    pre_consumption["included_by"] = Value::Null;
++    if table == Table::Cost {
++        pre_consumption["record_status"] = json!("confirmed");
++    }
++    if canonical_hash(&pre_consumption)? != original.payload_hash {
++        return Err(transition_error());
++    }
++    Ok(final_expected)
++}
++
++fn source_matches(reference: &ExpectedRef, table: Table, row: &Value) -> bool {
++    sources::reference(table, row)
++        .and_then(|actual| {
++            sources::assert_expected(
++                &actual,
++                &serde_json::to_value(reference).map_err(|_| Error::Internal)?,
++            )
++        })
++        .is_ok()
++}
++fn rebind_allocation_source(
++    reference: &ExpectedRef,
++    transition: &VerifiedProducerTransition,
++    transitions: &[VerifiedProducerTransition],
++    before: &Catalog,
++    after: &Catalog,
++) -> Result<ExpectedRef, Error> {
++    if !matches!(transition.kind, CorrectionKind::AllocationBatchReplacement) {
++        return Err(transition_error());
++    }
++    let old_bases = transition
++        .before_refs
++        .iter()
++        .filter(|r| r.kind == "SharedCostAllocationBasis")
++        .collect::<Vec<_>>();
++    let new_bases = transition
++        .after_refs
++        .iter()
++        .filter(|r| r.kind == "SharedCostAllocationBasis")
++        .collect::<Vec<_>>();
++    if old_bases.len() != 1 || new_bases.len() != 1 {
++        return Err(transition_error());
++    }
++    let old_basis = before
++        .find(Table::AllocationBasis, old_bases[0].id)
++        .ok_or_else(transition_error)?;
++    let new_basis = after
++        .find(Table::AllocationBasis, new_bases[0].id)
++        .ok_or_else(transition_error)?;
++    if !source_matches(
++        &as_expected(old_bases[0]),
++        Table::AllocationBasis,
++        old_basis,
++    ) || !source_matches(
++        &as_expected(new_bases[0]),
++        Table::AllocationBasis,
++        new_basis,
++    ) || new_basis["supersedes_id"] != old_basis["id"]
++    {
++        return Err(transition_error());
++    }
++    let old_slots = before
++        .all(Table::AllocationSource)
++        .iter()
++        .filter(|row| {
++            row["basis_id"] == old_basis["id"]
++                && row["cost_record_id"] == reference.id.to_string()
++                && row["is_current"] == true
++                && source_matches(reference, Table::AllocationSource, row)
++        })
++        .collect::<Vec<_>>();
++    if old_slots.len() != 1 {
++        return Err(transition_error());
++    }
++    let old_cost = before
++        .find(Table::Cost, reference.id)
++        .ok_or_else(transition_error)?;
++    let old_cost_ref: SourceRef =
++        serde_json::from_value(sources::reference(Table::Cost, old_cost)?)
++            .map_err(|_| Error::Internal)?;
++    let mapped_cost = rebind_reference(&as_expected(&old_cost_ref), transitions, before, after)?;
++    let new_cost = after
++        .find(Table::Cost, mapped_cost.id)
++        .ok_or_else(transition_error)?;
++    if !source_matches(&mapped_cost, Table::Cost, new_cost) {
++        return Err(transition_error());
++    }
++    let slots = after
++        .all(Table::AllocationSource)
++        .iter()
++        .filter(|row| {
++            row["basis_id"] == new_basis["id"]
++                && row["cost_record_id"] == mapped_cost.id.to_string()
++                && row["is_current"] == true
++                && row["cost_row_version"].as_i64() == Some(i64::from(mapped_cost.expected_version))
++        })
++        .collect::<Vec<_>>();
++    if slots.len() != 1 {
++        return Err(transition_error());
++    }
++    let actual = sources::allocation_source_reference(slots[0])?;
++    let expected = as_expected(&actual);
++    if !transition
++        .after_refs
++        .iter()
++        .any(|candidate| same_expected(&as_expected(candidate), &expected))
++    {
++        return Err(transition_error());
++    }
++    Ok(expected)
++}
++
+ fn rebind_reference(
+-    reference: &crate::project_operating_common::model::ExpectedRef,
+-    transitions: &[crate::project_operating_common::model::VerifiedProducerTransition],
++    reference: &ExpectedRef,
++    transitions: &[VerifiedProducerTransition],
++    before: &Catalog,
+     after: &Catalog,
+-) -> Result<crate::project_operating_common::model::ExpectedRef, Error> {
++) -> Result<ExpectedRef, Error> {
+     for transition in transitions {
+-        if !transition.before_refs.iter().any(|old| {
+-            old.kind == reference.kind
+-                && old.id == reference.id
+-                && old.row_version == reference.expected_version
+-                && old.payload_hash == reference.payload_hash
+-        }) {
++        if !transition
++            .before_refs
++            .iter()
++            .any(|old| same_expected(reference, &as_expected(old)))
++        {
+             continue;
+         }
++        if reference.kind == "SharedCostAllocationSourceSnapshot" {
++            return rebind_allocation_source(reference, transition, transitions, before, after);
++        }
++        let table = match reference.kind.as_str() {
++            "ProjectActualCostRecord" => Table::Cost,
++            "SharedCostAllocationResult" => Table::AllocationResult,
++            "SharedCostAllocationBasis" => Table::AllocationBasis,
++            "CostStageAttributionSnapshot" => Table::Stage,
++            "AccountingTaxTreatmentSnapshot" => Table::Tax,
++            _ => return Err(transition_error()),
++        };
+         let candidates = transition
+             .after_refs
+             .iter()
+-            .filter(|new| new.kind == reference.kind)
++            .filter(|new| {
++                new.kind == reference.kind
++                    && after.find(table, new.id).is_some_and(|row| {
++                        (new.id == reference.id
++                            || row[if table == Table::Cost {
++                                "supersedes_record_id"
++                            } else {
++                                "supersedes_id"
++                            }] == reference.id.to_string())
++                            && source_matches(&as_expected(new), table, row)
++                    })
++            })
+             .collect::<Vec<_>>();
+-        let selected = candidates
+-            .iter()
+-            .find(|new| new.id == reference.id)
+-            .copied()
+-            .or_else(|| {
+-                if candidates.len() == 1 {
+-                    Some(candidates[0])
+-                } else {
+-                    let table = match reference.kind.as_str() {
+-                        "ProjectActualCostRecord" => Table::Cost,
+-                        "SharedCostAllocationResult" => Table::AllocationResult,
+-                        "CostStageAttributionSnapshot" => Table::Stage,
+-                        "AccountingTaxTreatmentSnapshot" => Table::Tax,
+-                        _ => return None,
+-                    };
+-                    candidates
+-                        .iter()
+-                        .find(|new| {
+-                            after.find(table, new.id).is_some_and(|row| {
+-                                row[if table == Table::Cost {
+-                                    "supersedes_record_id"
+-                                } else {
+-                                    "supersedes_id"
+-                                }] == reference.id.to_string()
+-                            })
+-                        })
+-                        .copied()
+-                }
+-            });
+-        if let Some(new) = selected {
+-            return Ok(crate::project_operating_common::model::ExpectedRef {
+-                kind: new.kind.clone(),
+-                id: new.id,
+-                expected_version: new.row_version,
+-                payload_hash: new.payload_hash.clone(),
+-            });
+-        }
+-        if !candidates.is_empty() {
++        if candidates.len() != 1 {
+             return Err(store::conflict(
+                 "operating_correction_reference_transition_ambiguous",
+             ));
+         }
++        return Ok(as_expected(candidates[0]));
+     }
+     Ok(reference.clone())
+ }
++
++#[cfg(test)]
++mod reference_transition_tests {
++    use super::*;
++    fn uid(n: u128) -> Uuid {
++        Uuid::from_u128(n)
++    }
++    fn reference(table: Table, row: &Value) -> SourceRef {
++        serde_json::from_value(sources::reference(table, row).expect("central factual ref"))
++            .expect("typed ref")
++    }
++    fn cost(n: u128, version: i32, included: bool) -> Value {
++        json!({"id":uid(n),"project_id":uid(100),"row_version":version,"cost_type":"expense","source_type":"expense-record","source_id":uid(n+1000),
++            "currency":"CNY","amount_excluding_tax":"5000.00","tax_cost_amount":"650.00","amount_including_tax":"5650.00","occurred_on":"2026-11-07",
++            "record_status":if included{"included"}else{"confirmed"},"is_included_in_project_cost":included,
++            "included_at":if included{Some("2026-11-07T12:00:00Z")}else{None},"included_by":if included{Some(uid(999))}else{None}})
++    }
++    fn result(n: u128, version: i32, included: bool) -> Value {
++        json!({"id":uid(n),"project_id":uid(100),"basis_id":uid(200),"row_version":version,"status":"active","is_included_in_project_cost":included,
++            "included_at":if included{Some("2026-11-07T12:00:00Z")}else{None},"included_by":if included{Some(uid(999))}else{None},
++            "currency":"CNY","allocated_amount_excluding_tax":"400.00","allocated_tax_cost_amount":"0.00","allocated_amount_including_tax":"400.00"})
++    }
++    fn decision_frame(table: Table, pre: Value, post: Value) -> (Catalog, ExpectedRef) {
++        let target = as_expected(&reference(table, &pre));
++        let final_ref = reference(table, &post);
++        let role = if table == Table::Cost {
++            "direct-source"
++        } else {
++            "allocation-share"
++        };
++        let input = json!({"target":target,"expectedVersion":0,"decision":"include","recognitionRole":role,"reasonCode":if table==Table::Cost{"actual-expense"}else{"executed-labor"},
++            "reasonText":"explicit fixture classification","primaryCostRef":null,"supportingSourceRefs":[],"evidenceRefs":[target]});
++        let frozen = json!({"schemaVersion":1,"sourceRef":final_ref,"input":input,"actorId":uid(999),"decidedAt":"2026-11-07T12:00:00Z"});
++        let mut prior = json!({"id":uid(300),"project_id":post["project_id"],"row_version":1,"producer_version":1,"source_row_version":post["row_version"],
++            "frozen_payload":frozen,"payload_hash":canonical_hash(&frozen).expect("seal"),"cost_record_id":null,"allocation_result_id":null});
++        prior[if table == Table::Cost {
++            "cost_record_id"
++        } else {
++            "allocation_result_id"
++        }] = post["id"].clone();
++        let mut catalog = Catalog::default();
++        catalog.rows.insert(table, vec![post.clone()]);
++        catalog.rows.insert(Table::Decision, vec![prior]);
++        catalog.rows.insert(Table::DecisionHead,vec![json!({"project_id":post["project_id"],"unit_key":unit_key(table,&post).expect("unit"),"decision_id":uid(300)})]);
++        (catalog, target)
++    }
++    #[test]
++    fn sealed_cost_consumption_bridges_only_the_original_pre_cas_reference() {
++        let (before, old) = decision_frame(Table::Cost, cost(1, 2, false), cost(1, 3, true));
++        let bridged = consumption_reference(&old, &before).expect("sealed consumption bridge");
++        assert_eq!(bridged.expected_version, 3);
++        let mut new = cost(1, 4, true);
++        new["stage_derived_from_id"] = json!(uid(400));
++        let mut after = Catalog::default();
++        after.rows.insert(Table::Cost, vec![new.clone()]);
++        let transition = VerifiedProducerTransition {
++            kind: CorrectionKind::StageReclassification,
++            before_refs: vec![reference(Table::Cost, &cost(1, 3, true))],
++            after_refs: vec![reference(Table::Cost, &new)],
++            evidence_refs: vec![],
++            affected_project_ids: vec![uid(100)],
++        };
++        let mapped =
++            rebind_reference(&bridged, &[transition], &before, &after).expect("real next producer");
++        assert_eq!(mapped.expected_version, 4);
++        assert!(same_expected(
++            &mapped,
++            &as_expected(&reference(Table::Cost, &new))
++        ));
++    }
++    #[test]
++    fn share_self_evidence_bridges_one_to_two_without_changing_its_economic_basis() {
++        let (before, old) = decision_frame(
++            Table::AllocationResult,
++            result(1, 1, false),
++            result(1, 2, true),
++        );
++        let bridged = consumption_reference(&old, &before).expect("share consume bridge");
++        assert!(same_expected(
++            &bridged,
++            &as_expected(&reference(Table::AllocationResult, &result(1, 2, true)))
++        ));
++    }
++    #[test]
++    fn a_rehashed_but_unproved_pre_cas_payload_does_not_become_a_current_reference() {
++        let (mut before, _) = decision_frame(Table::Cost, cost(1, 2, false), cost(1, 3, true));
++        let prior = &mut before.rows.get_mut(&Table::Decision).expect("decision")[0];
++        prior["frozen_payload"]["input"]["target"]["payloadHash"] = json!("f".repeat(64));
++        prior["payload_hash"] =
++            json!(canonical_hash(&prior["frozen_payload"]).expect("seal alone is insufficient"));
++        let forged: ExpectedRef =
++            serde_json::from_value(prior["frozen_payload"]["input"]["target"].clone())
++                .expect("reference shape");
++        assert!(consumption_reference(&forged, &before).is_err());
++    }
++    #[test]
++    fn a_two_version_jump_or_changed_currency_is_not_a_consumption_bridge() {
++        let (before, old) = decision_frame(Table::Cost, cost(1, 2, false), cost(1, 4, true));
++        assert!(consumption_reference(&old, &before).is_err());
++        let (mut before, old) = decision_frame(Table::Cost, cost(1, 2, false), cost(1, 3, true));
++        before.rows.get_mut(&Table::Cost).expect("cost")[0]["currency"] = json!("USD");
++        assert!(consumption_reference(&old, &before).is_err());
++    }
++    #[test]
++    fn an_unrelated_old_version_is_never_blindly_refreshed() {
++        let (before, mut old) = decision_frame(Table::Cost, cost(1, 2, false), cost(1, 3, true));
++        old.expected_version = 1;
++        old.payload_hash = "e".repeat(64);
++        let retained = consumption_reference(&old, &before)
++            .expect("unrelated ref is retained for strict rejection");
++        assert!(same_expected(&retained, &old));
++        assert!(!source_matches(&retained, Table::Cost, &cost(1, 3, true)));
++    }
++    fn basis(n: u128, previous: Option<Uuid>) -> Value {
++        json!({"id":uid(n),"row_version":1,"status":"active","supersedes_id":previous})
++    }
++    fn slot(basis: u128, cost: u128) -> Value {
++        json!({"basis_id":uid(basis),"cost_record_id":uid(cost),"cost_row_version":2,"is_current":true,"currency":"CNY", "source_payload":{"actualFixtureCostId":uid(cost)},"source_payload_hash":"a".repeat(64)})
++    }
++    fn batch_frame() -> (
++        Catalog,
++        Catalog,
++        Vec<VerifiedProducerTransition>,
++        ExpectedRef,
++        ExpectedRef,
++    ) {
++        let old_a = cost(1, 2, false);
++        let old_b = cost(2, 2, false);
++        let mut new_a = cost(3, 2, false);
++        new_a["supersedes_record_id"] = json!(uid(1));
++        let old_basis = basis(20, None);
++        let new_basis = basis(21, Some(uid(20)));
++        let old_slot_a = slot(20, 1);
++        let old_slot_b = slot(20, 2);
++        let new_slot_a = slot(21, 3);
++        let new_slot_b = slot(21, 2);
++        let old_a_ref =
++            as_expected(&sources::allocation_source_reference(&old_slot_a).expect("old slot A"));
++        let old_b_ref =
++            as_expected(&sources::allocation_source_reference(&old_slot_b).expect("old slot B"));
++        let mut before = Catalog::default();
++        before
++            .rows
++            .insert(Table::Cost, vec![old_a.clone(), old_b.clone()]);
++        before
++            .rows
++            .insert(Table::AllocationBasis, vec![old_basis.clone()]);
++        before.rows.insert(
++            Table::AllocationSource,
++            vec![old_slot_a.clone(), old_slot_b.clone()],
++        );
++        let mut after = Catalog::default();
++        after.rows.insert(Table::Cost, vec![new_a.clone(), old_b]);
++        after
++            .rows
++            .insert(Table::AllocationBasis, vec![new_basis.clone()]);
++        after.rows.insert(
++            Table::AllocationSource,
++            vec![new_slot_a.clone(), new_slot_b.clone()],
++        );
++        let transitions = vec![
++            VerifiedProducerTransition {
++                kind: CorrectionKind::LaborReplacement,
++                before_refs: vec![reference(Table::Cost, &old_a)],
++                after_refs: vec![reference(Table::Cost, &new_a)],
++                evidence_refs: vec![],
++                affected_project_ids: vec![uid(100)],
++            },
++            VerifiedProducerTransition {
++                kind: CorrectionKind::AllocationBatchReplacement,
++                before_refs: vec![
++                    reference(Table::AllocationBasis, &old_basis),
++                    sources::allocation_source_reference(&old_slot_a).expect("old A"),
++                    sources::allocation_source_reference(&old_slot_b).expect("old B"),
++                ],
++                after_refs: vec![
++                    reference(Table::AllocationBasis, &new_basis),
++                    sources::allocation_source_reference(&new_slot_a).expect("new A"),
++                    sources::allocation_source_reference(&new_slot_b).expect("new B"),
++                ],
++                evidence_refs: vec![],
++                affected_project_ids: vec![uid(100), uid(101)],
++            },
++        ];
++        (before, after, transitions, old_a_ref, old_b_ref)
++    }
++    #[test]
++    fn composite_batch_slots_follow_actual_cost_successors_and_preserved_sources() {
++        let (before, after, transitions, old_a, old_b) = batch_frame();
++        let a = rebind_reference(&old_a, &transitions, &before, &after)
++            .expect("changed cost's exact new slot");
++        assert_eq!(a.id, uid(3));
++        let b = rebind_reference(&old_b, &transitions, &before, &after)
++            .expect("unchanged cost's exact new-basis slot");
++        assert_eq!(b.id, uid(2));
++        assert!(same_expected(
++            &a,
++            &as_expected(
++                &sources::allocation_source_reference(&slot(21, 3)).expect("actual new slot")
++            )
++        ));
++        assert!(same_expected(
++            &b,
++            &as_expected(
++                &sources::allocation_source_reference(&slot(21, 2))
++                    .expect("actual retained-cost new slot")
++            )
++        ));
++    }
++    #[test]
++    fn an_equal_cost_id_in_another_basis_or_an_unregistered_slot_is_not_a_successor() {
++        let (before, mut after, transitions, old_a, _) = batch_frame();
++        after
++            .rows
++            .get_mut(&Table::AllocationSource)
++            .expect("sources")[0]["basis_id"] = json!(uid(22));
++        assert!(rebind_reference(&old_a, &transitions, &before, &after).is_err());
++        let (before, after, mut transitions, old_a, _) = batch_frame();
++        transitions[1]
++            .after_refs
++            .retain(|r| r.kind != "SharedCostAllocationSourceSnapshot");
++        assert!(rebind_reference(&old_a, &transitions, &before, &after).is_err());
++    }
++    #[test]
++    fn producer_evidence_augmentation_is_project_local_without_dropping_prior_evidence() {
++        let evidence = |n, project| json!({"id":uid(n),"project_id":uid(project),"schema_version":1,"target_type":"SharedCostAllocationResult","target_id":uid(n+100)});
++        let own = evidence(70, 100);
++        let foreign = evidence(71, 101);
++        let historical = evidence(72, 100);
++        let mut after = Catalog::default();
++        after
++            .rows
++            .insert(Table::Evidence, vec![own.clone(), historical.clone()]);
++        let old = as_expected(&reference(Table::Evidence, &historical));
++        let mut input:CostDecisionInput=serde_json::from_value(json!({"target":as_expected(&reference(Table::Cost,&cost(1,2,false))),"expectedVersion":0,"decision":"exclude","recognitionRole":"direct-source","reasonCode":"shared-source-delegated","reasonText":"explicit preserved evidence","primaryCostRef":null,"supportingSourceRefs":[],"evidenceRefs":[old]})).expect("decision");
++        append_transition_evidence(
++            &mut input,
++            &[
++                reference(Table::Evidence, &own),
++                reference(Table::Evidence, &foreign),
++            ],
++            &after,
++        )
++        .expect("scoped producer additions");
++        assert_eq!(input.evidence_refs.len(), 2);
++        assert!(input.evidence_refs.iter().any(|r| same_expected(r, &old)));
++        assert!(input.evidence_refs.iter().any(|r| r.id == uid(70)));
++        assert!(!input.evidence_refs.iter().any(|r| r.id == uid(71)));
++    }
++}
+--- a/apps/poms-api-rust/src/project_operating/sources.rs
++++ b/apps/poms-api-rust/src/project_operating/sources.rs
+@@ -750,6 +750,14 @@
+     Ok(())
+ }
+ 
++/// Composite allocation-source rows have no independent UUID. Preserve their
++/// existing cost-id/version plus full basis-bound factual hash identity.
++pub(crate) fn allocation_source_reference(
++    row: &Value,
++) -> Result<crate::project_operating_common::model::SourceRef, Error> {
++    serde_json::from_value(reference(Table::AllocationSource, row)?).map_err(|_| Error::Internal)
++}
++
+ pub async fn source_reference_with_session(
+     session: &mut CommonSession<'_, '_>,
+     source_kind: &str,

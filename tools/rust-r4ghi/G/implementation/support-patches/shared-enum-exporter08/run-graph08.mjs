@@ -1,0 +1,12 @@
+import { readFileSync, writeFileSync } from 'node:fs';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { createHash } from 'node:crypto';
+import { proposeRegistry, analyzeRegisteredGraph } from './registered-module-graph08.candidate.mjs';
+const root='E:/projects/worktrees/poms-r3hijk-next28/poms';
+const out=dirname(fileURLToPath(import.meta.url));
+const registry=proposeRegistry(root);
+const result=analyzeRegisteredGraph(root,registry);
+writeFileSync(resolve(out,'module-registry08.candidate.json'),JSON.stringify(registry,null,2)+'\n');
+writeFileSync(resolve(out,'runtime-observations08.json'),JSON.stringify(result,null,2)+'\n');
+console.log(JSON.stringify({modules:result.modules.map((m)=>({path:m.path,declarations:m.declarations,data:m.data.length,enums:m.enumOccurrences.length,top:m.actualTopZodEnumsCompared})),stage:result.projectSourceChecks,sha256:createHash('sha256').update(readFileSync(resolve(out,'runtime-observations08.json'))).digest('hex')},null,2));

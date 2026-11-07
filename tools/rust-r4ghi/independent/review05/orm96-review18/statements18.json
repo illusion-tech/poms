@@ -1,0 +1,3425 @@
+[
+  {
+    "startLine": 1,
+    "sql": "◇ injected env (16) from ../../.local/share/poms-r4ghi/private/native.env // tip: ⌘ multiple files { path: ['.env.local', '.env'] }\nset names 'utf8';",
+    "operation": "other",
+    "table": null,
+    "kind": "other"
+  },
+  {
+    "startLine": 2,
+    "sql": "alter table \"poms\".\"attachment_upload_session\" drop constraint \"fk_jghi_upload_condition_scope\";",
+    "operation": "alter table",
+    "table": "attachment_upload_session",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 4,
+    "sql": "alter table \"poms\".\"contract_readiness_package\" drop constraint \"fk_r4_readiness_contract_project\";",
+    "operation": "alter table",
+    "table": "contract_readiness_package",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 6,
+    "sql": "alter table \"poms\".\"contract_readiness_package\" drop constraint \"fk_r4_readiness_current_preparation\";",
+    "operation": "alter table",
+    "table": "contract_readiness_package",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 7,
+    "sql": "alter table \"poms\".\"contract_readiness_package\" drop constraint \"fk_r4_readiness_diff_scope\";",
+    "operation": "alter table",
+    "table": "contract_readiness_package",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 8,
+    "sql": "alter table \"poms\".\"contract_readiness_package\" drop constraint \"fk_r4d_readiness_amendment\";",
+    "operation": "alter table",
+    "table": "contract_readiness_package",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 9,
+    "sql": "alter table \"poms\".\"contract_amendment\" drop constraint \"fk_r4d_amendment_after\";",
+    "operation": "alter table",
+    "table": "contract_amendment",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 11,
+    "sql": "alter table \"poms\".\"contract_amendment\" drop constraint \"fk_r4d_amendment_before\";",
+    "operation": "alter table",
+    "table": "contract_amendment",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 12,
+    "sql": "alter table \"poms\".\"contract_amendment\" drop constraint \"fk_r4d_amendment_preparation\";",
+    "operation": "alter table",
+    "table": "contract_amendment",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 13,
+    "sql": "alter table \"poms\".\"contract_amendment\" drop constraint \"fk_r4d_amendment_project\";",
+    "operation": "alter table",
+    "table": "contract_amendment",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 14,
+    "sql": "alter table \"poms\".\"contract_amendment\" drop constraint \"fk_r4d_amendment_readiness\";",
+    "operation": "alter table",
+    "table": "contract_amendment",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 15,
+    "sql": "alter table \"poms\".\"contract_amendment\" drop constraint \"fk_r4d_amendment_review\";",
+    "operation": "alter table",
+    "table": "contract_amendment",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 16,
+    "sql": "alter table \"poms\".\"handover_baseline_impact_item\" drop constraint \"fk_r4d_impact_basis_item\";",
+    "operation": "alter table",
+    "table": "handover_baseline_impact_item",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 18,
+    "sql": "alter table \"poms\".\"handover_baseline_impact_item\" drop constraint \"fk_r4d_impact_rebaseline\";",
+    "operation": "alter table",
+    "table": "handover_baseline_impact_item",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 19,
+    "sql": "alter table \"poms\".\"operating_restatement_record\" drop constraint \"operating_restatement_record_period_end_snapshot_id_foreign\";",
+    "operation": "alter table",
+    "table": "operating_restatement_record",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 21,
+    "sql": "alter table \"poms\".\"commercial_baseline_diff_result\" drop constraint \"fk_r4_diff_baseline_project\";",
+    "operation": "alter table",
+    "table": "commercial_baseline_diff_result",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 23,
+    "sql": "alter table \"poms\".\"commercial_baseline_diff_result\" drop constraint \"fk_r4_diff_contract_project\";",
+    "operation": "alter table",
+    "table": "commercial_baseline_diff_result",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 24,
+    "sql": "alter table \"poms\".\"contract_term_preparation\" drop constraint \"fk_r4_preparation_activated_snapshot\";",
+    "operation": "alter table",
+    "table": "contract_term_preparation",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 26,
+    "sql": "alter table \"poms\".\"contract_term_preparation\" drop constraint \"fk_r4_preparation_contract_project\";",
+    "operation": "alter table",
+    "table": "contract_term_preparation",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 27,
+    "sql": "alter table \"poms\".\"contract_term_preparation\" drop constraint \"fk_r4_preparation_diff_scope\";",
+    "operation": "alter table",
+    "table": "contract_term_preparation",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 28,
+    "sql": "alter table \"poms\".\"contract_term_preparation\" drop constraint \"fk_r4_preparation_readiness_scope\";",
+    "operation": "alter table",
+    "table": "contract_term_preparation",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 29,
+    "sql": "alter table \"poms\".\"contract_term_preparation\" drop constraint \"fk_r4d_preparation_amendment\";",
+    "operation": "alter table",
+    "table": "contract_term_preparation",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 30,
+    "sql": "alter table \"poms\".\"contract_term_preparation\" drop constraint \"fk_r4d_preparation_before\";",
+    "operation": "alter table",
+    "table": "contract_term_preparation",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 31,
+    "sql": "alter table \"poms\".\"contract_term_snapshot\" drop constraint \"fk_r4_snapshot_preparation_contract\";",
+    "operation": "alter table",
+    "table": "contract_term_snapshot",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 33,
+    "sql": "alter table \"poms\".\"contract_term_snapshot\" drop constraint \"fk_r4d_snapshot_amendment\";",
+    "operation": "alter table",
+    "table": "contract_term_snapshot",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 34,
+    "sql": "alter table \"poms\".\"project_handover\" drop constraint \"fk_r4d_handover_basis\";",
+    "operation": "alter table",
+    "table": "project_handover",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 36,
+    "sql": "alter table \"poms\".\"project_receipt_judgment_freeze\" drop constraint \"fk_r4d_receipt_freeze_basis\";",
+    "operation": "alter table",
+    "table": "project_receipt_judgment_freeze",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 38,
+    "sql": "alter table \"poms\".\"project_receipt_judgment_freeze\" drop constraint \"fk_r4d_receipt_freeze_handover\";",
+    "operation": "alter table",
+    "table": "project_receipt_judgment_freeze",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 39,
+    "sql": "alter table \"poms\".\"project_handover_summary_payload\" drop constraint \"fk_r4d_payload_basis\";",
+    "operation": "alter table",
+    "table": "project_handover_summary_payload",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 41,
+    "sql": "alter table \"poms\".\"project_handover_summary_payload\" drop constraint \"fk_r4d_payload_handover\";",
+    "operation": "alter table",
+    "table": "project_handover_summary_payload",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 42,
+    "sql": "alter table \"poms\".\"project_handover_participant_role\" drop constraint \"fk_r4d_role_handover\";",
+    "operation": "alter table",
+    "table": "project_handover_participant_role",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 44,
+    "sql": "alter table \"poms\".\"project_handover_participant_role\" drop constraint \"fk_r4d_role_person\";",
+    "operation": "alter table",
+    "table": "project_handover_participant_role",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 45,
+    "sql": "alter table \"poms\".\"invoice_record\" drop constraint \"fk_r4e_invoice_currency_snapshot\";",
+    "operation": "alter table",
+    "table": "invoice_record",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 47,
+    "sql": "alter table \"poms\".\"contract_review_binding\" drop constraint \"fk_r4_review_preparation_contract\";",
+    "operation": "alter table",
+    "table": "contract_review_binding",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 49,
+    "sql": "alter table \"poms\".\"contract_review_binding\" drop constraint \"fk_r4d_review_amendment\";",
+    "operation": "alter table",
+    "table": "contract_review_binding",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 50,
+    "sql": "alter table \"poms\".\"receivable_plan_version\" drop constraint \"fk_r4_plan_contract_project\";",
+    "operation": "alter table",
+    "table": "receivable_plan_version",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 52,
+    "sql": "alter table \"poms\".\"receivable_plan_version\" drop constraint \"fk_r4_plan_preparation_source\";",
+    "operation": "alter table",
+    "table": "receivable_plan_version",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 53,
+    "sql": "alter table \"poms\".\"receivable_plan_version\" drop constraint \"fk_r4_plan_snapshot_scope\";",
+    "operation": "alter table",
+    "table": "receivable_plan_version",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 54,
+    "sql": "alter table \"poms\".\"receivable_plan_init_record\" drop constraint \"fk_r4_plan_init_contract\";",
+    "operation": "alter table",
+    "table": "receivable_plan_init_record",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 56,
+    "sql": "alter table \"poms\".\"receivable_plan_init_record\" drop constraint \"fk_r4_plan_init_snapshot\";",
+    "operation": "alter table",
+    "table": "receivable_plan_init_record",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 57,
+    "sql": "alter table \"poms\".\"project_handover_contract_basis\" drop constraint \"fk_r4d_member_amendment\";",
+    "operation": "alter table",
+    "table": "project_handover_contract_basis",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 59,
+    "sql": "alter table \"poms\".\"project_handover_contract_basis\" drop constraint \"fk_r4d_member_basis\";",
+    "operation": "alter table",
+    "table": "project_handover_contract_basis",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 60,
+    "sql": "alter table \"poms\".\"project_handover_contract_basis\" drop constraint \"fk_r4d_member_contract\";",
+    "operation": "alter table",
+    "table": "project_handover_contract_basis",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 61,
+    "sql": "alter table \"poms\".\"project_handover_contract_basis\" drop constraint \"fk_r4d_member_plan\";",
+    "operation": "alter table",
+    "table": "project_handover_contract_basis",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 62,
+    "sql": "alter table \"poms\".\"project_handover_contract_basis\" drop constraint \"fk_r4d_member_preparation\";",
+    "operation": "alter table",
+    "table": "project_handover_contract_basis",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 63,
+    "sql": "alter table \"poms\".\"project_handover_contract_basis\" drop constraint \"fk_r4d_member_readiness\";",
+    "operation": "alter table",
+    "table": "project_handover_contract_basis",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 64,
+    "sql": "alter table \"poms\".\"project_handover_contract_basis\" drop constraint \"fk_r4d_member_snapshot\";",
+    "operation": "alter table",
+    "table": "project_handover_contract_basis",
+    "kind": "drop constraint"
+  },
+  {
+    "startLine": 65,
+    "sql": "alter table \"poms\".\"approval_record\" add constraint \"chk_approval_record_approval_type\" check (\"approval_type\" in ('contract-review', 'commission-payout-approval', 'commission-adjustment-approval'));",
+    "operation": "alter table",
+    "table": "approval_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 67,
+    "sql": "alter table \"poms\".\"approval_record\" add constraint \"chk_approval_record_business_domain\" check (\"business_domain\" in ('contract-finance', 'commission', 'sales', 'project-handover'));",
+    "operation": "alter table",
+    "table": "approval_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 68,
+    "sql": "alter table \"poms\".\"approval_record\" add constraint \"chk_approval_record_target_object_type\" check (\"target_object_type\" in ('contract', 'commission-payout', 'commission-adjustment', 'project', 'lead', 'customer', 'project-handover'));",
+    "operation": "alter table",
+    "table": "approval_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 69,
+    "sql": "alter table \"poms\".\"approval_record\" add constraint \"chk_approval_record_current_status\" check (\"current_status\" in ('pending', 'approved', 'rejected'));",
+    "operation": "alter table",
+    "table": "approval_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 70,
+    "sql": "alter table \"poms\".\"approval_record\" add constraint \"chk_approval_record_decision\" check (\"decision\" in ('approved', 'rejected'));",
+    "operation": "alter table",
+    "table": "approval_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 71,
+    "sql": "alter table \"poms\".\"attachment\" add constraint \"chk_attachment_security_level\" check (\"security_level\" in ('normal', 'internal', 'sensitive', 'confidential', 'restricted'));",
+    "operation": "alter table",
+    "table": "attachment",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 73,
+    "sql": "alter table \"poms\".\"attachment\" add constraint \"chk_attachment_status\" check (\"status\" in ('active', 'voided', 'deleted', 'failed'));",
+    "operation": "alter table",
+    "table": "attachment",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 74,
+    "sql": "alter table \"poms\".\"attachment_link\" add constraint \"chk_attachment_link_target_type\" check (\"target_type\" in ('lead', 'customer', 'project', 'contract', 'sales-follow-up', 'project-handover'));",
+    "operation": "alter table",
+    "table": "attachment_link",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 76,
+    "sql": "alter table \"poms\".\"attachment_link\" add constraint \"chk_attachment_link_relation_type\" check (\"relation_type\" in ('normal', 'source', 'evidence', 'final', 'handover'));",
+    "operation": "alter table",
+    "table": "attachment_link",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 77,
+    "sql": "alter table \"poms\".\"attachment_link\" add constraint \"chk_attachment_link_status\" check (\"status\" in ('active', 'unlinked'));",
+    "operation": "alter table",
+    "table": "attachment_link",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 78,
+    "sql": "alter table \"poms\".\"attachment_storage_provider_config\" add constraint \"chk_attachment_storage_provider_type\" check (\"provider_type\" in ('local', 'huawei-obs-s3'));",
+    "operation": "alter table",
+    "table": "attachment_storage_provider_config",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 80,
+    "sql": "alter table \"poms\".\"attachment_storage_provider_config\" add constraint \"chk_attachment_storage_provider_status\" check (\"status\" in ('draft', 'active', 'disabled', 'misconfigured'));",
+    "operation": "alter table",
+    "table": "attachment_storage_provider_config",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 81,
+    "sql": "comment on column \"poms\".\"attachment_upload_session\".\"project_scope_context_version\" is '0 ordinary; 1 immutable condition-purpose upload';",
+    "operation": "comment on",
+    "table": "attachment_upload_session",
+    "kind": "comment on"
+  },
+  {
+    "startLine": 83,
+    "sql": "comment on column \"poms\".\"attachment_upload_session\".\"completion_record_id\" is 'Bound actual parent completion; not read authority by itself';",
+    "operation": "comment on",
+    "table": "attachment_upload_session",
+    "kind": "comment on"
+  },
+  {
+    "startLine": 84,
+    "sql": "comment on column \"poms\".\"attachment_upload_session\".\"completion_condition_id\" is 'Bound actual own pending condition';",
+    "operation": "comment on",
+    "table": "attachment_upload_session",
+    "kind": "comment on"
+  },
+  {
+    "startLine": 85,
+    "sql": "alter table \"poms\".\"attachment_upload_session\" add constraint \"chk_jghi_upload_condition_context\" check ((project_scope_context_version = 0 and completion_record_id is null and completion_condition_id is null) or (project_scope_context_version = 1 and completion_record_id is not null and completion_condition_id is not null and target_type = 'project' and target_id is not null and operation_type = 'create-attachment'));",
+    "operation": "alter table",
+    "table": "attachment_upload_session",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 86,
+    "sql": "alter table \"poms\".\"attachment_upload_session\" add constraint \"chk_attachment_upload_session_operation_type\" check (\"operation_type\" in ('create-attachment', 'create-version'));",
+    "operation": "alter table",
+    "table": "attachment_upload_session",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 87,
+    "sql": "alter table \"poms\".\"attachment_upload_session\" add constraint \"chk_attachment_upload_session_status\" check (\"status\" in ('pending', 'uploading', 'uploaded', 'validating', 'completed', 'failed', 'expired', 'aborted'));",
+    "operation": "alter table",
+    "table": "attachment_upload_session",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 88,
+    "sql": "alter table \"poms\".\"attachment_upload_session\" add constraint \"chk_attachment_upload_session_upload_mode\" check (\"upload_mode\" in ('proxy', 'presigned-put', 'multipart'));",
+    "operation": "alter table",
+    "table": "attachment_upload_session",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 89,
+    "sql": "alter table \"poms\".\"attachment_upload_session\" add constraint \"chk_attachment_upload_session_provider_type\" check (\"provider_type\" in ('local', 'huawei-obs-s3'));",
+    "operation": "alter table",
+    "table": "attachment_upload_session",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 90,
+    "sql": "alter table \"poms\".\"attachment_upload_session\" add constraint \"chk_attachment_upload_session_max_size_bytes\" check (\"max_size_bytes\" > 0);",
+    "operation": "alter table",
+    "table": "attachment_upload_session",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 91,
+    "sql": "alter table \"poms\".\"attachment_upload_session\" add constraint \"chk_attachment_upload_session_target_type\" check (\"target_type\" is null or \"target_type\" = any (array['lead'::character varying, 'customer'::character varying, 'project'::character varying, 'contract'::character varying, 'sales-follow-up'::character varying, 'project-handover'::character varying]));",
+    "operation": "alter table",
+    "table": "attachment_upload_session",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 92,
+    "sql": "alter table \"poms\".\"attachment_upload_session\" add constraint \"chk_attachment_upload_session_security_level\" check (\"security_level\" is null or \"security_level\" = any (array['normal'::character varying, 'internal'::character varying, 'sensitive'::character varying, 'confidential'::character varying, 'restricted'::character varying]));",
+    "operation": "alter table",
+    "table": "attachment_upload_session",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 93,
+    "sql": "alter table \"poms\".\"attachment_upload_session\" add constraint \"chk_attachment_upload_session_relation_type\" check (\"relation_type\" is null or \"relation_type\" = any (array['normal'::character varying, 'source'::character varying, 'evidence'::character varying, 'final'::character varying, 'handover'::character varying]));",
+    "operation": "alter table",
+    "table": "attachment_upload_session",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 94,
+    "sql": "alter table \"poms\".\"commission_rule_version\" add constraint \"chk_commission_rule_version_status\" check (\"status\" in ('draft', 'active', 'stopped'));",
+    "operation": "alter table",
+    "table": "commission_rule_version",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 96,
+    "sql": "alter table \"poms\".\"dictionary_item\" add constraint \"chk_dictionary_item_domain\" check (\"domain\" in ('attachment-category', 'sales-follow-up-type', 'expense-category', 'lead-source'));",
+    "operation": "alter table",
+    "table": "dictionary_item",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 98,
+    "sql": "alter table \"poms\".\"dictionary_item\" add constraint \"chk_dictionary_item_status\" check (\"status\" in ('active', 'inactive'));",
+    "operation": "alter table",
+    "table": "dictionary_item",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 99,
+    "sql": "alter table \"poms\".\"dictionary_item\" add constraint \"chk_dictionary_item_code_format\" check (\"code\" ~ '^[a-z][a-z0-9-]*$');",
+    "operation": "alter table",
+    "table": "dictionary_item",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 100,
+    "sql": "alter table \"poms\".\"identity_provider_config\" add constraint \"chk_identity_provider_config_provider\" check (\"provider\" in ('feishu'));",
+    "operation": "alter table",
+    "table": "identity_provider_config",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 102,
+    "sql": "alter table \"poms\".\"identity_provider_config\" add constraint \"chk_identity_provider_config_status\" check (\"status\" in ('draft', 'active', 'disabled', 'misconfigured'));",
+    "operation": "alter table",
+    "table": "identity_provider_config",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 103,
+    "sql": "alter table \"poms\".\"identity_provider_config\" add constraint \"chk_identity_provider_config_search_grant_mode\" check (\"search_grant_mode\" in ('per-admin', 'service-account'));",
+    "operation": "alter table",
+    "table": "identity_provider_config",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 104,
+    "sql": "alter table \"poms\".\"internal_cost_rate_version\" add constraint \"chk_internal_cost_rate_version_status\" check (\"status\" in ('active', 'superseded', 'retired'));",
+    "operation": "alter table",
+    "table": "internal_cost_rate_version",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 106,
+    "sql": "alter table \"poms\".\"internal_cost_rate_version\" add constraint \"chk_internal_cost_rate_version_scope_type\" check (\"rate_scope_type\" in ('person', 'role'));",
+    "operation": "alter table",
+    "table": "internal_cost_rate_version",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 107,
+    "sql": "alter table \"poms\".\"internal_cost_rate_version\" add constraint \"chk_internal_cost_rate_version_rate_unit\" check (\"rate_unit\" in ('hour', 'day'));",
+    "operation": "alter table",
+    "table": "internal_cost_rate_version",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 108,
+    "sql": "alter table \"poms\".\"internal_cost_rate_version\" add constraint \"chk_r4e_rate_dates\" check ((((effective_to IS NULL) OR (effective_to >= effective_from))));",
+    "operation": "alter table",
+    "table": "internal_cost_rate_version",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 109,
+    "sql": "alter table \"poms\".\"internal_cost_rate_version\" add constraint \"chk_r4e_rate_positive\" check (((rate_value > (0)::numeric)));",
+    "operation": "alter table",
+    "table": "internal_cost_rate_version",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 110,
+    "sql": "alter table \"poms\".\"internal_cost_rate_version\" add constraint \"chk_r4e_rate_published\" check (((((status)::text <> ALL ((ARRAY['active'::character varying, 'superseded'::character varying])::text[])) OR ((published_at IS NOT NULL) AND (published_by IS NOT NULL)))));",
+    "operation": "alter table",
+    "table": "internal_cost_rate_version",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 111,
+    "sql": "alter table \"poms\".\"internal_cost_rate_version\" add constraint \"chk_r4e_rate_scope\" check ((((((rate_scope_type)::text = 'person'::text) AND (person_id IS NOT NULL) AND (role_code IS NULL)) OR (((rate_scope_type)::text = 'role'::text) AND (person_id IS NULL) AND (role_code IS NOT NULL) AND ((length(btrim((role_code)::text)) >= 1) AND (length(btrim((role_code)::text)) <= 64))))));",
+    "operation": "alter table",
+    "table": "internal_cost_rate_version",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 112,
+    "sql": "alter table \"poms\".\"internal_cost_rate_version\" add constraint \"chk_r4e_rate_version\" check ((((version > 0) AND (row_version > 0))));",
+    "operation": "alter table",
+    "table": "internal_cost_rate_version",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 113,
+    "sql": "alter table \"poms\".\"org_unit\" add constraint \"chk_org_unit_parent_not_self\" check ((\"parent_id\" is null or \"parent_id\" <> \"id\"));",
+    "operation": "alter table",
+    "table": "org_unit",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 115,
+    "sql": "alter table \"poms\".\"external_org_source\" add constraint \"chk_external_org_source_provider\" check (\"provider\" in ('feishu', 'dingtalk', 'wecom'));",
+    "operation": "alter table",
+    "table": "external_org_source",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 117,
+    "sql": "alter table \"poms\".\"external_org_source\" add constraint \"chk_external_org_source_status\" check (\"status\" in ('draft', 'active', 'paused', 'archived'));",
+    "operation": "alter table",
+    "table": "external_org_source",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 118,
+    "sql": "alter table \"poms\".\"external_department_mapping\" add constraint \"chk_external_department_mapping_status\" check (\"status\" in ('unmapped', 'mapped', 'conflict', 'ignored'));",
+    "operation": "alter table",
+    "table": "external_department_mapping",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 120,
+    "sql": "alter table \"poms\".\"org_sync_run\" add constraint \"chk_org_sync_run_status\" check (\"status\" in ('previewing', 'previewed', 'applying', 'applied', 'failed', 'cancelled'));",
+    "operation": "alter table",
+    "table": "org_sync_run",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 122,
+    "sql": "alter table \"poms\".\"org_sync_diff_item\" add constraint \"chk_org_sync_diff_item_action\" check (\"action\" in ('create_org_unit', 'update_org_unit', 'move_org_unit', 'disable_org_unit', 'map_existing_org_unit', 'ignore', 'conflict'));",
+    "operation": "alter table",
+    "table": "org_sync_diff_item",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 124,
+    "sql": "alter table \"poms\".\"org_sync_diff_item\" add constraint \"chk_org_sync_diff_item_status\" check (\"status\" in ('pending', 'approved', 'skipped', 'applied', 'failed'));",
+    "operation": "alter table",
+    "table": "org_sync_diff_item",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 125,
+    "sql": "alter table \"poms\".\"operating_command_receipt\" add constraint \"operating_command_receipt_request_hash_check\" check (request_hash~'^[0-9a-f]{64}$');",
+    "operation": "alter table",
+    "table": "operating_command_receipt",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 127,
+    "sql": "alter table \"poms\".\"operating_command_receipt\" add constraint \"operating_command_receipt_authorized_response_check\" check (jsonb_typeof(authorized_response)='object');",
+    "operation": "alter table",
+    "table": "operating_command_receipt",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 128,
+    "sql": "alter table \"poms\".\"operating_command_receipt\" add constraint \"operating_command_receipt_http_status_check\" check (http_status BETWEEN 200 AND 299);",
+    "operation": "alter table",
+    "table": "operating_command_receipt",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 129,
+    "sql": "alter table \"poms\".\"operating_command_receipt\" add constraint \"operating_command_receipt_source_hash_check\" check (source_hash~'^[0-9a-f]{64}$');",
+    "operation": "alter table",
+    "table": "operating_command_receipt",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 130,
+    "sql": "alter table \"poms\".\"operating_command_receipt\" add constraint \"operating_command_receipt_evaluation_hash_check\" check (evaluation_hash~'^[0-9a-f]{64}$');",
+    "operation": "alter table",
+    "table": "operating_command_receipt",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 131,
+    "sql": "alter table \"poms\".\"operating_command_receipt\" add constraint \"ck_jghi_receipt_real_evaluation\" check ((operation_id='ProjectCostController_activateOperatingBaselinePackage' AND evaluation_hash IS NULL)\n  OR (operation_id<>'ProjectCostController_activateOperatingBaselinePackage' AND evaluation_hash IS NOT NULL));",
+    "operation": "alter table",
+    "table": "operating_command_receipt",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 133,
+    "sql": "alter table \"poms\".\"identity_provider_oauth_grant\" add constraint \"chk_identity_provider_oauth_grant_provider\" check (\"provider\" in ('feishu'));",
+    "operation": "alter table",
+    "table": "identity_provider_oauth_grant",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 135,
+    "sql": "alter table \"poms\".\"identity_provider_oauth_grant\" add constraint \"chk_identity_provider_oauth_grant_status\" check (\"status\" in ('missing', 'active', 'expired', 'revoked'));",
+    "operation": "alter table",
+    "table": "identity_provider_oauth_grant",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 136,
+    "sql": "alter table \"poms\".\"external_identity\" add constraint \"chk_external_identity_provider\" check (\"provider\" in ('feishu'));",
+    "operation": "alter table",
+    "table": "external_identity",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 138,
+    "sql": "alter table \"poms\".\"external_identity\" add constraint \"chk_external_identity_status\" check (\"status\" in ('active', 'revoked'));",
+    "operation": "alter table",
+    "table": "external_identity",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 139,
+    "sql": "alter table \"poms\".\"external_login_ticket\" add constraint \"chk_external_login_ticket_provider\" check (\"provider\" in ('feishu'));",
+    "operation": "alter table",
+    "table": "external_login_ticket",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 141,
+    "sql": "alter table \"poms\".\"external_login_ticket\" add constraint \"chk_external_login_ticket_status\" check (\"status\" in ('issued', 'consumed', 'expired'));",
+    "operation": "alter table",
+    "table": "external_login_ticket",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 142,
+    "sql": "alter table \"poms\".\"customer\" add constraint \"chk_customer_status\" check (\"status\" in ('active', 'inactive', 'merged'));",
+    "operation": "alter table",
+    "table": "customer",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 144,
+    "sql": "alter table \"poms\".\"lead\" add constraint \"chk_lead_status\" check (\"status\" in ('registered', 'qualified', 'converted', 'closed'));",
+    "operation": "alter table",
+    "table": "lead",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 146,
+    "sql": "alter table \"poms\".\"lead\" add constraint \"chk_lead_budget_status\" check (\"budget_status\" in ('unknown', 'no-budget', 'rough-budget', 'budget-confirmed', 'budget-approved'));",
+    "operation": "alter table",
+    "table": "lead",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 147,
+    "sql": "alter table \"poms\".\"lead\" add constraint \"chk_lead_urgency\" check (\"urgency\" in ('low', 'normal', 'high', 'critical'));",
+    "operation": "alter table",
+    "table": "lead",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 148,
+    "sql": "alter table \"poms\".\"lead\" add constraint \"chk_lead_estimated_amount_non_negative\" check (\"estimated_amount\" is null or \"estimated_amount\" >= 0);",
+    "operation": "alter table",
+    "table": "lead",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 149,
+    "sql": "alter table \"poms\".\"lead\" add constraint \"chk_lead_score_range\" check (\"score\" >= 0 and \"score\" <= 100);",
+    "operation": "alter table",
+    "table": "lead",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 150,
+    "sql": "alter table \"poms\".\"lead\" add constraint \"chk_lead_rating\" check (\"rating\" in ('A', 'B', 'C', 'D'));",
+    "operation": "alter table",
+    "table": "lead",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 151,
+    "sql": "alter table \"poms\".\"lead_score_snapshot\" add constraint \"chk_lss_snapshot_kind\" check (\"snapshot_kind\" in ('system', 'manual-override', 'override-revoked'));",
+    "operation": "alter table",
+    "table": "lead_score_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 153,
+    "sql": "alter table \"poms\".\"lead_score_snapshot\" add constraint \"chk_lss_system_score_range\" check (\"system_score\" >= 0 and \"system_score\" <= 100);",
+    "operation": "alter table",
+    "table": "lead_score_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 154,
+    "sql": "alter table \"poms\".\"lead_score_snapshot\" add constraint \"chk_lss_effective_score_range\" check (\"effective_score\" >= 0 and \"effective_score\" <= 100);",
+    "operation": "alter table",
+    "table": "lead_score_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 155,
+    "sql": "alter table \"poms\".\"lead_score_snapshot\" add constraint \"chk_lss_system_rating\" check (\"system_rating\" in ('A', 'B', 'C', 'D'));",
+    "operation": "alter table",
+    "table": "lead_score_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 156,
+    "sql": "alter table \"poms\".\"lead_score_snapshot\" add constraint \"chk_lss_effective_rating\" check (\"effective_rating\" in ('A', 'B', 'C', 'D'));",
+    "operation": "alter table",
+    "table": "lead_score_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 157,
+    "sql": "alter table \"poms\".\"lead_score_snapshot\" add constraint \"chk_lss_effective_score_source\" check (\"effective_score_source\" in ('system', 'manual-override'));",
+    "operation": "alter table",
+    "table": "lead_score_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 158,
+    "sql": "comment on column \"poms\".\"lead_score_override\".\"status\" is '覆盖状态';",
+    "operation": "comment on",
+    "table": "lead_score_override",
+    "kind": "comment on"
+  },
+  {
+    "startLine": 160,
+    "sql": "alter table \"poms\".\"lead_score_override\" add constraint \"chk_lso_status\" check (\"status\" in ('pending', 'approved', 'rejected', 'revoked', 'superseded'));",
+    "operation": "alter table",
+    "table": "lead_score_override",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 161,
+    "sql": "alter table \"poms\".\"lead_score_override\" add constraint \"chk_lso_requested_score_range\" check (\"requested_score\" >= 0 and \"requested_score\" <= 100);",
+    "operation": "alter table",
+    "table": "lead_score_override",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 162,
+    "sql": "alter table \"poms\".\"lead_score_override\" add constraint \"chk_lso_requested_rating\" check (\"requested_rating\" in ('A', 'B', 'C', 'D'));",
+    "operation": "alter table",
+    "table": "lead_score_override",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 163,
+    "sql": "alter table \"poms\".\"lead_score_override\" add constraint \"chk_lso_system_score_at_request_range\" check (\"system_score_at_request\" >= 0 and \"system_score_at_request\" <= 100);",
+    "operation": "alter table",
+    "table": "lead_score_override",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 164,
+    "sql": "alter table \"poms\".\"lead_score_override\" add constraint \"chk_lso_system_rating_at_request\" check (\"system_rating_at_request\" in ('A', 'B', 'C', 'D'));",
+    "operation": "alter table",
+    "table": "lead_score_override",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 165,
+    "sql": "alter table \"poms\".\"lead_owner_assignment_record\" add constraint \"chk_lead_owner_assignment_type\" check (\"assignment_type\" in ('claimed', 'assigned', 'reassigned'));",
+    "operation": "alter table",
+    "table": "lead_owner_assignment_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 167,
+    "sql": "alter table \"poms\".\"customer_contact\" add constraint \"chk_customer_contact_status\" check (\"status\" in ('active', 'inactive'));",
+    "operation": "alter table",
+    "table": "customer_contact",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 169,
+    "sql": "alter table \"poms\".\"customer_contact\" add constraint \"chk_customer_contact_gender\" check (\"gender\" in ('unknown', 'male', 'female'));",
+    "operation": "alter table",
+    "table": "customer_contact",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 170,
+    "sql": "alter table \"poms\".\"customer_alias\" add constraint \"chk_customer_alias_type\" check (\"alias_type\" in ('legal-name', 'short-name', 'legacy-input', 'import-name', 'alias'));",
+    "operation": "alter table",
+    "table": "customer_alias",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 172,
+    "sql": "alter table \"poms\".\"auth_session\" add constraint \"chk_auth_session_status\" check (\"status\" in ('active', 'revoked', 'expired'));",
+    "operation": "alter table",
+    "table": "auth_session",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 174,
+    "sql": "alter table \"poms\".\"auth_session\" add constraint \"chk_auth_session_revoked_reason\" check ((\"revoked_reason\" is null or (\"revoked_reason\")::text = any ((array['logout'::character varying, 'admin-revoked'::character varying, 'password-reset'::character varying, 'account-disabled'::character varying, 'session-rotated'::character varying])::text[])));",
+    "operation": "alter table",
+    "table": "auth_session",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 175,
+    "sql": "alter table \"poms\".\"contract_amendment\" add constraint \"chk_r4d_amendment_producer\" check ((((producer_version IS NULL) OR ((producer_version = 1) AND (project_id IS NOT NULL) AND (source_readiness_id IS NOT NULL) AND (before_snapshot_id IS NOT NULL) AND (amendment_reason IS NOT NULL) AND (length(btrim((amendment_reason)::text)) > 0) AND (payload_hash IS NOT NULL) AND ((payload_hash)::text ~ '^[0-9a-f]{64}$'::text) AND (((status)::text <> ALL ((ARRAY['submitted'::character varying, 'approved'::character varying, 'effective'::character varying, 'superseded'::character varying])::text[])) OR ((source_preparation_id IS NOT NULL) AND (source_review_id IS NOT NULL))) AND (((status)::text <> ALL ((ARRAY['effective'::character varying, 'superseded'::character varying])::text[])) OR ((after_snapshot_id IS NOT NULL) AND (after_snapshot_id <> before_snapshot_id) AND (effective_at IS NOT NULL) AND (effective_by IS NOT NULL)))))));",
+    "operation": "alter table",
+    "table": "contract_amendment",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 177,
+    "sql": "alter table \"poms\".\"contract_handover_rebaseline_record\" add constraint \"chk_r4d_rebaseline_producer\" check ((((producer_version IS NULL) OR ((producer_version = 1) AND (basis_before_id IS NOT NULL) AND (basis_after_id IS NOT NULL) AND (basis_before_id <> basis_after_id) AND (source_handover_id IS NOT NULL) AND (replacement_handover_id IS NOT NULL) AND (source_handover_id <> replacement_handover_id)))));",
+    "operation": "alter table",
+    "table": "contract_handover_rebaseline_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 179,
+    "sql": "alter table \"poms\".\"commission_role_assignment\" add constraint \"chk_commission_role_assignment_status\" check (\"status\" in ('draft', 'frozen', 'superseded'));",
+    "operation": "alter table",
+    "table": "commission_role_assignment",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 181,
+    "sql": "alter table \"poms\".\"commission_role_assignment\" add constraint \"cra_new_producer_qualification_check\" check (producer_version=0 OR\n    (producer_version=1 AND weights_policy_version IS NOT NULL AND weights_policy_version='normalized-six-v1-zero-reason'\n     AND (status<>'frozen' OR (freeze_payload_id IS NOT NULL AND freeze_payload_id=id AND frozen_at IS NOT NULL AND frozen_by IS NOT NULL\n         AND source_handover_id IS NOT NULL AND contract_summary_snapshot_id IS NOT NULL\n         AND handover_summary_snapshot_id IS NOT NULL AND effective_handover_baseline_snapshot_id IS NOT NULL))));",
+    "operation": "alter table",
+    "table": "commission_role_assignment",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 186,
+    "sql": "alter table \"poms\".\"project\" alter column \"id\" drop default;",
+    "operation": "alter table",
+    "table": "project",
+    "kind": "alter column"
+  },
+  {
+    "startLine": 188,
+    "sql": "alter table \"poms\".\"project\" add constraint \"chk_project_status\" check (\"status\" in ('active', 'pending-approval', 'blocked', 'on-hold', 'completed', 'closed'));",
+    "operation": "alter table",
+    "table": "project",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 189,
+    "sql": "alter table \"poms\".\"project\" add constraint \"chk_project_current_stage\" check (current_stage IN\n ('assessment','scope-confirmation','commercial-closure','contracting','handover','execution','acceptance',\n  'completed','conditional-completed','closed-lost','closed-terminated'));",
+    "operation": "alter table",
+    "table": "project",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 192,
+    "sql": "alter table \"poms\".\"project_stage_record\" add constraint \"project_stage_record_sequence_no_check\" check (sequence_no > 0);",
+    "operation": "alter table",
+    "table": "project_stage_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 194,
+    "sql": "alter table \"poms\".\"project_stage_record\" add constraint \"project_stage_record_event_type_check\" check (event_type IN ('stage-entered','stage-requalified'));",
+    "operation": "alter table",
+    "table": "project_stage_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 195,
+    "sql": "alter table \"poms\".\"project_stage_record\" add constraint \"project_stage_record_to_stage_check\" check (to_stage IN ('handover','execution','acceptance','completed','conditional-completed'));",
+    "operation": "alter table",
+    "table": "project_stage_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 196,
+    "sql": "alter table \"poms\".\"project_stage_record\" add constraint \"project_stage_record_project_row_version_before_check\" check (project_row_version_before > 0);",
+    "operation": "alter table",
+    "table": "project_stage_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 197,
+    "sql": "alter table \"poms\".\"project_stage_record\" add constraint \"project_stage_record_reason_check\" check (length(btrim(reason)) BETWEEN 1 AND 2000);",
+    "operation": "alter table",
+    "table": "project_stage_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 198,
+    "sql": "alter table \"poms\".\"project_stage_record\" add constraint \"project_stage_record_source_payload_hash_check\" check (source_payload_hash ~ '^[0-9a-f]{64}$');",
+    "operation": "alter table",
+    "table": "project_stage_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 199,
+    "sql": "alter table \"poms\".\"project_stage_record\" add constraint \"project_stage_record_producer_version_check\" check (producer_version = 1);",
+    "operation": "alter table",
+    "table": "project_stage_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 200,
+    "sql": "alter table \"poms\".\"project_stage_record\" add constraint \"project_stage_record_check\" check (previous_stage_record_id IS DISTINCT FROM id);",
+    "operation": "alter table",
+    "table": "project_stage_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 201,
+    "sql": "alter table \"poms\".\"project_stage_record\" add constraint \"project_stage_record_check1\" check (project_row_version_after = project_row_version_before + 1);",
+    "operation": "alter table",
+    "table": "project_stage_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 202,
+    "sql": "alter table \"poms\".\"project_stage_record\" add constraint \"project_stage_record_check2\" check ((to_stage='handover' AND from_stage IN ('assessment','scope-confirmation','commercial-closure','contracting','handover'))\n        OR (to_stage='execution' AND from_stage='handover' AND previous_stage_record_id IS NOT NULL AND source_role_assignment_id IS NOT NULL)\n        OR (to_stage='acceptance' AND from_stage='execution' AND previous_stage_record_id IS NOT NULL AND source_role_assignment_id IS NOT NULL)\n        OR (to_stage IN ('completed','conditional-completed') AND from_stage='acceptance' AND previous_stage_record_id IS NOT NULL AND source_role_assignment_id IS NOT NULL AND source_completion_record_id IS NOT NULL));",
+    "operation": "alter table",
+    "table": "project_stage_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 206,
+    "sql": "alter table \"poms\".\"project_stage_record\" add constraint \"project_stage_record_check3\" check ((event_type='stage-requalified') = (from_stage='handover' AND to_stage='handover'));",
+    "operation": "alter table",
+    "table": "project_stage_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 207,
+    "sql": "alter table \"poms\".\"project_stage_record\" add constraint \"ck_jghi_stage_payload_object\" check (jsonb_typeof(source_payload)='object');",
+    "operation": "alter table",
+    "table": "project_stage_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 208,
+    "sql": "alter table \"poms\".\"project_ownership_origin\" add constraint \"project_ownership_origin_producer_version_check\" check (producer_version=1);",
+    "operation": "alter table",
+    "table": "project_ownership_origin",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 210,
+    "sql": "alter table \"poms\".\"project_ownership_origin\" add constraint \"project_ownership_origin_source_type_check\" check (source_type IN ('direct-create','lead-conversion'));",
+    "operation": "alter table",
+    "table": "project_ownership_origin",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 211,
+    "sql": "alter table \"poms\".\"project_ownership_origin\" add constraint \"project_ownership_origin_initial_kind_check\" check (initial_kind IN ('personal','org-owned'));",
+    "operation": "alter table",
+    "table": "project_ownership_origin",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 212,
+    "sql": "alter table \"poms\".\"project_ownership_origin\" add constraint \"project_ownership_origin_source_payload_hash_check\" check (source_payload_hash ~ '^[0-9a-f]{64}$');",
+    "operation": "alter table",
+    "table": "project_ownership_origin",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 213,
+    "sql": "alter table \"poms\".\"project_ownership_origin\" add constraint \"project_ownership_origin_bootstrap_state_check\" check (bootstrap_state IN ('available','consumed'));",
+    "operation": "alter table",
+    "table": "project_ownership_origin",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 214,
+    "sql": "alter table \"poms\".\"project_ownership_origin\" add constraint \"project_ownership_origin_row_version_check\" check (row_version>0);",
+    "operation": "alter table",
+    "table": "project_ownership_origin",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 215,
+    "sql": "alter table \"poms\".\"project_ownership_origin\" add constraint \"project_ownership_origin_check\" check ((initial_kind='personal' AND initial_owner_user_id IS NOT NULL)\n        OR (initial_kind='org-owned' AND initial_owner_user_id IS NULL AND initial_owner_org_id IS NOT NULL));",
+    "operation": "alter table",
+    "table": "project_ownership_origin",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 217,
+    "sql": "alter table \"poms\".\"project_ownership_origin\" add constraint \"project_ownership_origin_check1\" check ((bootstrap_state='available' AND initial_kind='org-owned'\n         AND first_personal_owner_user_id IS NULL AND first_personal_assigned_at IS NULL\n         AND bootstrap_consumed_at IS NULL AND bootstrap_assignment_record_id IS NULL)\n        OR (bootstrap_state='consumed' AND first_personal_owner_user_id IS NOT NULL\n         AND first_personal_assigned_at IS NOT NULL AND bootstrap_consumed_at IS NOT NULL));",
+    "operation": "alter table",
+    "table": "project_ownership_origin",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 222,
+    "sql": "alter table \"poms\".\"project_ownership_origin\" add constraint \"project_ownership_origin_check2\" check (initial_kind<>'personal' OR (bootstrap_state='consumed'\n         AND first_personal_owner_user_id=initial_owner_user_id));",
+    "operation": "alter table",
+    "table": "project_ownership_origin",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 224,
+    "sql": "alter table \"poms\".\"project_ownership_origin\" add constraint \"project_ownership_origin_check3\" check (initial_kind<>'org-owned' OR bootstrap_state<>'consumed'\n         OR bootstrap_assignment_record_id IS NOT NULL);",
+    "operation": "alter table",
+    "table": "project_ownership_origin",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 226,
+    "sql": "alter table \"poms\".\"project_handover_basis_snapshot\" add constraint \"chk_r4d_basis_current\" check ((((NOT is_current) OR ((status)::text = 'active'::text))));",
+    "operation": "alter table",
+    "table": "project_handover_basis_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 228,
+    "sql": "alter table \"poms\".\"project_handover_basis_snapshot\" add constraint \"project_handover_basis_snapshot_payload_hash_check\" check ((((payload_hash)::text ~ '^[0-9a-f]{64}$'::text)));",
+    "operation": "alter table",
+    "table": "project_handover_basis_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 229,
+    "sql": "alter table \"poms\".\"project_handover_basis_snapshot\" add constraint \"project_handover_basis_snapshot_row_version_check\" check (((row_version > 0)));",
+    "operation": "alter table",
+    "table": "project_handover_basis_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 230,
+    "sql": "alter table \"poms\".\"project_handover_basis_snapshot\" add constraint \"project_handover_basis_snapshot_source_hash_check\" check ((((source_hash)::text ~ '^[0-9a-f]{64}$'::text)));",
+    "operation": "alter table",
+    "table": "project_handover_basis_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 231,
+    "sql": "alter table \"poms\".\"project_handover_basis_snapshot\" add constraint \"project_handover_basis_snapshot_source_payload_check\" check (((jsonb_typeof(source_payload) = 'object'::text)));",
+    "operation": "alter table",
+    "table": "project_handover_basis_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 232,
+    "sql": "alter table \"poms\".\"project_handover_basis_snapshot\" add constraint \"project_handover_basis_snapshot_status_check\" check ((((status)::text = ANY ((ARRAY['active'::character varying, 'superseded'::character varying, 'voided'::character varying])::text[]))));",
+    "operation": "alter table",
+    "table": "project_handover_basis_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 233,
+    "sql": "alter table \"poms\".\"project_handover_basis_snapshot\" add constraint \"project_handover_basis_snapshot_version_check\" check (((version > 0)));",
+    "operation": "alter table",
+    "table": "project_handover_basis_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 234,
+    "sql": "alter table \"poms\".\"project_handover_basis_item\" add constraint \"project_handover_basis_item_item_key_check\" check (((length(btrim((item_key)::text)) > 0)));",
+    "operation": "alter table",
+    "table": "project_handover_basis_item",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 236,
+    "sql": "alter table \"poms\".\"project_handover_basis_item\" add constraint \"project_handover_basis_item_item_type_check\" check ((((item_type)::text = ANY ((ARRAY['scope'::character varying, 'risk'::character varying, 'receivable'::character varying, 'cost'::character varying, 'responsibility'::character varying, 'attachment'::character varying, 'contract'::character varying])::text[]))));",
+    "operation": "alter table",
+    "table": "project_handover_basis_item",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 237,
+    "sql": "alter table \"poms\".\"project_handover_basis_item\" add constraint \"project_handover_basis_item_payload_check\" check (((jsonb_typeof(payload) = 'object'::text)));",
+    "operation": "alter table",
+    "table": "project_handover_basis_item",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 238,
+    "sql": "alter table \"poms\".\"project_handover_basis_item\" add constraint \"project_handover_basis_item_source_hash_check\" check ((((source_hash IS NULL) OR ((source_hash)::text ~ '^[0-9a-f]{64}$'::text))));",
+    "operation": "alter table",
+    "table": "project_handover_basis_item",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 239,
+    "sql": "alter table \"poms\".\"project_handover_basis_item\" add constraint \"project_handover_basis_item_source_type_check\" check (((length(btrim((source_type)::text)) > 0)));",
+    "operation": "alter table",
+    "table": "project_handover_basis_item",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 240,
+    "sql": "alter table \"poms\".\"handover_baseline_impact_item\" add constraint \"chk_r4d_impact_producer\" check ((((producer_version IS NULL) OR ((producer_version = 1) AND (basis_before_id IS NOT NULL) AND (source_basis_item_id IS NOT NULL) AND (affected_handover_item_id = source_basis_item_id)))));",
+    "operation": "alter table",
+    "table": "handover_baseline_impact_item",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 242,
+    "sql": "comment on column \"poms\".\"project_archive_record\".\"project_id\" is null;",
+    "operation": "comment on",
+    "table": "project_archive_record",
+    "kind": "comment on"
+  },
+  {
+    "startLine": 244,
+    "sql": "alter table \"poms\".\"project_archive_record\" add constraint \"chk_project_archive_record_status\" check (\"status\" in ('recorded', 'voided', 'superseded'));",
+    "operation": "alter table",
+    "table": "project_archive_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 245,
+    "sql": "alter table \"poms\".\"project_archive_record\" add constraint \"archive_new_producer_check\" check (producer_version=0 OR (producer_version=1\n    AND source_payload_hash IS NOT NULL AND source_payload_hash ~ '^[0-9a-f]{64}$' AND archived_by IS NOT NULL\n    AND source_qualification IS NOT NULL\n    AND ((archive_anchor_stage IN ('completed','conditional-completed') AND archive_anchor_source_type='project-completion-record'\n         AND ((source_stage_record_id IS NOT NULL AND source_qualification='verified-producer') OR source_qualification='legacy-unverified'))\n      OR (archive_anchor_stage IN ('closed-lost','closed-terminated') AND archive_anchor_source_type='project'\n         AND source_qualification='legacy-unverified'))));",
+    "operation": "alter table",
+    "table": "project_archive_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 252,
+    "sql": "alter table \"poms\".\"project_actual_cost_record\" add constraint \"chk_project_actual_cost_record_cost_type\" check (\"cost_type\" in ('procurement', 'invoice', 'expense', 'payment-fact', 'labor'));",
+    "operation": "alter table",
+    "table": "project_actual_cost_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 254,
+    "sql": "alter table \"poms\".\"project_actual_cost_record\" add constraint \"chk_project_actual_cost_record_record_status\" check (\"record_status\" in ('draft', 'registered', 'confirmed', 'included', 'voided', 'replaced'));",
+    "operation": "alter table",
+    "table": "project_actual_cost_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 255,
+    "sql": "alter table \"poms\".\"project_actual_cost_record\" add constraint \"chk_project_actual_cost_record_labor_period_type\" check (\"labor_period_type\" is null or (\"labor_period_type\")::text = ANY ((ARRAY['week'::character varying, 'month'::character varying])::text[]));",
+    "operation": "alter table",
+    "table": "project_actual_cost_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 256,
+    "sql": "alter table \"poms\".\"project_actual_cost_record\" add constraint \"chk_project_actual_cost_record_source_type\" check (\"source_type\" is null or (\"source_type\")::text = ANY ((ARRAY['payment-record'::character varying, 'invoice-record'::character varying, 'expense-record'::character varying, 'payable-record'::character varying, 'labor'::character varying])::text[]));",
+    "operation": "alter table",
+    "table": "project_actual_cost_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 257,
+    "sql": "alter table \"poms\".\"project_actual_cost_record\" add constraint \"chk_r4e_basis_origin\" check ((((basis_origin)::text = ANY ((ARRAY['captured'::character varying, 'legacy-unavailable'::character varying])::text[]))));",
+    "operation": "alter table",
+    "table": "project_actual_cost_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 258,
+    "sql": "alter table \"poms\".\"project_actual_cost_record\" add constraint \"chk_r4e_calculation_basis\" check ((((calculation_basis IS NULL) OR (jsonb_typeof(calculation_basis) = 'object'::text))));",
+    "operation": "alter table",
+    "table": "project_actual_cost_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 259,
+    "sql": "alter table \"poms\".\"project_actual_cost_record\" add constraint \"chk_r4e_captured_basis\" check (((((basis_origin)::text <> 'captured'::text) OR ((source_basis IS NOT NULL) AND (((cost_type)::text <> 'labor'::text) OR (calculation_basis IS NOT NULL))))));",
+    "operation": "alter table",
+    "table": "project_actual_cost_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 260,
+    "sql": "alter table \"poms\".\"project_actual_cost_record\" add constraint \"chk_r4e_cost_attachment_count\" check (((attachment_count >= 0)));",
+    "operation": "alter table",
+    "table": "project_actual_cost_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 261,
+    "sql": "alter table \"poms\".\"project_actual_cost_record\" add constraint \"chk_r4e_cost_money\" check (((((amount_excluding_tax IS NULL) OR (amount_excluding_tax >= (0)::numeric)) AND ((tax_cost_amount IS NULL) OR (tax_cost_amount >= (0)::numeric)) AND ((amount_including_tax IS NULL) OR (amount_including_tax > (0)::numeric)) AND ((amount_excluding_tax IS NULL) OR (tax_cost_amount IS NULL) OR (amount_including_tax IS NULL) OR (amount_including_tax = (amount_excluding_tax + tax_cost_amount))) AND (((cost_type)::text <> ALL ((ARRAY['payment-fact'::character varying, 'procurement'::character varying])::text[])) OR ((amount_excluding_tax IS NOT NULL) AND (amount_excluding_tax > (0)::numeric))) AND (((cost_type)::text <> ALL ((ARRAY['invoice'::character varying, 'expense'::character varying])::text[])) OR ((amount_including_tax IS NOT NULL) AND (amount_including_tax > (0)::numeric))))));",
+    "operation": "alter table",
+    "table": "project_actual_cost_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 262,
+    "sql": "alter table \"poms\".\"project_actual_cost_record\" add constraint \"chk_r4e_cost_source_binding\" check ((((source_id IS NOT NULL) AND ((((cost_type)::text = 'payment-fact'::text) AND (NOT ((source_type)::text IS DISTINCT FROM 'payment-record'::text))) OR (((cost_type)::text = 'invoice'::text) AND (NOT ((source_type)::text IS DISTINCT FROM 'invoice-record'::text))) OR (((cost_type)::text = 'expense'::text) AND (NOT ((source_type)::text IS DISTINCT FROM 'expense-record'::text))) OR (((cost_type)::text = 'procurement'::text) AND (NOT ((source_type)::text IS DISTINCT FROM 'payable-record'::text))) OR (((cost_type)::text = 'labor'::text) AND (NOT ((source_type)::text IS DISTINCT FROM 'labor'::text)))))));",
+    "operation": "alter table",
+    "table": "project_actual_cost_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 263,
+    "sql": "alter table \"poms\".\"project_actual_cost_record\" add constraint \"chk_r4e_cost_stage_truth\" check (((((record_status)::text <> ALL ((ARRAY['confirmed'::character varying, 'included'::character varying])::text[])) OR ((execution_stage_code IS NOT NULL) AND (stage_derived_from_type IS NOT NULL) AND (stage_derived_from_id IS NOT NULL) AND (stage_derived_at IS NOT NULL) AND (stage_locked_at IS NOT NULL)))));",
+    "operation": "alter table",
+    "table": "project_actual_cost_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 264,
+    "sql": "alter table \"poms\".\"project_actual_cost_record\" add constraint \"chk_r4e_labor_basis\" check (((((cost_type)::text <> 'labor'::text) OR ((rate_version_id IS NOT NULL) AND (labor_scope_key IS NOT NULL) AND (labor_period_type IS NOT NULL) AND (labor_period_start IS NOT NULL) AND (labor_period_end IS NOT NULL) AND (labor_period_start <= labor_period_end) AND (internal_cost_rate IS NOT NULL) AND (internal_cost_rate > (0)::numeric) AND (labor_amount IS NOT NULL) AND (labor_amount > (0)::numeric) AND (amount_excluding_tax IS NOT NULL) AND (amount_including_tax IS NOT NULL) AND (tax_cost_amount IS NOT NULL) AND (amount_excluding_tax = labor_amount) AND (amount_including_tax = labor_amount) AND (tax_cost_amount = (0)::numeric) AND (((actual_hours IS NOT NULL) AND (actual_hours > (0)::numeric) AND (actual_person_days IS NULL)) OR ((actual_person_days IS NOT NULL) AND (actual_person_days > (0)::numeric) AND (actual_hours IS NULL)))))));",
+    "operation": "alter table",
+    "table": "project_actual_cost_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 265,
+    "sql": "alter table \"poms\".\"project_actual_cost_record\" add constraint \"chk_r4e_source_basis\" check ((((source_basis IS NULL) OR (jsonb_typeof(source_basis) = 'object'::text))));",
+    "operation": "alter table",
+    "table": "project_actual_cost_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 266,
+    "sql": "alter table \"poms\".\"opportunity_stakeholder\" add constraint \"chk_opportunity_stakeholder_anchor\" check (\"lead_id\" is not null or \"project_id\" is not null);",
+    "operation": "alter table",
+    "table": "opportunity_stakeholder",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 268,
+    "sql": "alter table \"poms\".\"opportunity_stakeholder\" add constraint \"chk_opportunity_stakeholder_role\" check (\"role\" in ('decision-maker', 'influencer', 'end-user', 'technical-evaluator', 'procurement-contact', 'finance-legal', 'sponsor', 'blocker', 'unknown', 'other'));",
+    "operation": "alter table",
+    "table": "opportunity_stakeholder",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 269,
+    "sql": "alter table \"poms\".\"opportunity_stakeholder\" add constraint \"chk_opportunity_stakeholder_attitude\" check (\"attitude\" in ('supportive', 'neutral', 'resistant', 'unknown'));",
+    "operation": "alter table",
+    "table": "opportunity_stakeholder",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 270,
+    "sql": "alter table \"poms\".\"opportunity_stakeholder\" add constraint \"chk_opportunity_stakeholder_influence\" check (\"influence_level\" in ('high', 'medium', 'low', 'unknown'));",
+    "operation": "alter table",
+    "table": "opportunity_stakeholder",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 271,
+    "sql": "alter table \"poms\".\"opportunity_stakeholder\" add constraint \"chk_opportunity_stakeholder_access\" check (\"access_level\" in ('direct', 'indirect', 'unknown', 'blocked'));",
+    "operation": "alter table",
+    "table": "opportunity_stakeholder",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 272,
+    "sql": "comment on column \"poms\".\"period_closing_snapshot\".\"project_id\" is null;",
+    "operation": "comment on",
+    "table": "period_closing_snapshot",
+    "kind": "comment on"
+  },
+  {
+    "startLine": 274,
+    "sql": "alter table \"poms\".\"period_closing_snapshot\" add constraint \"chk_period_closing_snapshot_snapshot_mode\" check (\"snapshot_mode\" in ('period-end'));",
+    "operation": "alter table",
+    "table": "period_closing_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 275,
+    "sql": "alter table \"poms\".\"period_closing_snapshot\" add constraint \"chk_period_closing_snapshot_current_action_level\" check (\"current_action_level\" in ('prompt', 'review', 'block'));",
+    "operation": "alter table",
+    "table": "period_closing_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 276,
+    "sql": "alter table \"poms\".\"period_closing_snapshot\" add constraint \"chk_period_closing_snapshot_baseline_selection_source\" check (\"baseline_selection_source\" in ('original', 'handover-rebaseline'));",
+    "operation": "alter table",
+    "table": "period_closing_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 277,
+    "sql": "alter table \"poms\".\"period_closing_snapshot\" add constraint \"chk_period_closing_snapshot_status\" check (\"status\" in ('active', 'superseded', 'voided'));",
+    "operation": "alter table",
+    "table": "period_closing_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 278,
+    "sql": "alter table \"poms\".\"period_closing_snapshot\" add constraint \"chk_r4g_period_verified\" check (producer_version=0 OR\n    (producer_version=1 AND project_snapshot_id IS NOT NULL AND period_start IS NOT NULL\n     AND period_end IS NOT NULL AND period_start<=period_end AND source_context_id IS NOT NULL\n     AND source_hash IS NOT NULL AND source_hash~'^[0-9a-f]{64}$'\n     AND business_timezone IS NOT NULL AND business_timezone='Asia/Hong_Kong'));",
+    "operation": "alter table",
+    "table": "period_closing_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 283,
+    "sql": "alter table \"poms\".\"period_closing_snapshot\" add constraint \"ck_jghi_period_pending_tax_v1\" check (producer_version=0 OR\n  (producer_version=1 AND tax_pending_knowledge IS NOT NULL AND\n   ((tax_pending_knowledge='known' AND tax_impact_pending_amount IS NOT NULL)\n    OR (tax_pending_knowledge='unknown' AND tax_impact_pending_amount IS NULL))));",
+    "operation": "alter table",
+    "table": "period_closing_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 287,
+    "sql": "alter table \"poms\".\"project_operating_snapshot\" alter column \"id\" drop default;",
+    "operation": "alter table",
+    "table": "project_operating_snapshot",
+    "kind": "alter column"
+  },
+  {
+    "startLine": 289,
+    "sql": "comment on column \"poms\".\"project_operating_snapshot\".\"project_id\" is null;",
+    "operation": "comment on",
+    "table": "project_operating_snapshot",
+    "kind": "comment on"
+  },
+  {
+    "startLine": 290,
+    "sql": "comment on column \"poms\".\"project_operating_snapshot\".\"supersedes_id\" is null;",
+    "operation": "comment on",
+    "table": "project_operating_snapshot",
+    "kind": "comment on"
+  },
+  {
+    "startLine": 291,
+    "sql": "alter table \"poms\".\"project_operating_snapshot\" add constraint \"chk_project_operating_snapshot_snapshot_mode\" check (\"snapshot_mode\" in ('realtime', 'period-end', 'restated'));",
+    "operation": "alter table",
+    "table": "project_operating_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 292,
+    "sql": "alter table \"poms\".\"project_operating_snapshot\" add constraint \"chk_project_operating_snapshot_current_action_level\" check (\"current_action_level\" in ('prompt', 'review', 'block'));",
+    "operation": "alter table",
+    "table": "project_operating_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 293,
+    "sql": "alter table \"poms\".\"project_operating_snapshot\" add constraint \"chk_project_operating_snapshot_baseline_selection_source\" check (\"baseline_selection_source\" in ('original', 'handover-rebaseline'));",
+    "operation": "alter table",
+    "table": "project_operating_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 294,
+    "sql": "alter table \"poms\".\"project_operating_snapshot\" add constraint \"chk_project_operating_snapshot_status\" check (\"status\" in ('active', 'superseded', 'voided'));",
+    "operation": "alter table",
+    "table": "project_operating_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 295,
+    "sql": "alter table \"poms\".\"project_operating_snapshot\" add constraint \"chk_r4g_snapshot_verified\" check (producer_version=0 OR\n    (producer_version=1 AND captured_row_version IS NOT NULL AND captured_row_version=1\n     AND source_context_id IS NOT NULL AND source_hash IS NOT NULL\n     AND source_hash~'^[0-9a-f]{64}$' AND currency IS NOT NULL AND currency~'^[A-Z]{3}$'));",
+    "operation": "alter table",
+    "table": "project_operating_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 299,
+    "sql": "alter table \"poms\".\"project_operating_snapshot\" add constraint \"ck_jghi_snapshot_pending_tax_v1\" check (producer_version=0 OR\n  (producer_version=1 AND tax_pending_knowledge IS NOT NULL AND\n   ((tax_pending_knowledge='known' AND tax_impact_pending_amount IS NOT NULL)\n    OR (tax_pending_knowledge='unknown' AND tax_impact_pending_amount IS NULL))));",
+    "operation": "alter table",
+    "table": "project_operating_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 303,
+    "sql": "alter table \"poms\".\"operating_source_context\" add constraint \"operating_source_context_schema_version_check\" check (schema_version=1);",
+    "operation": "alter table",
+    "table": "operating_source_context",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 305,
+    "sql": "alter table \"poms\".\"operating_source_context\" add constraint \"operating_source_context_producer_version_check\" check (producer_version=1);",
+    "operation": "alter table",
+    "table": "operating_source_context",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 306,
+    "sql": "alter table \"poms\".\"operating_source_context\" add constraint \"operating_source_context_policy_hash_check\" check (policy_hash~'^[0-9a-f]{64}$');",
+    "operation": "alter table",
+    "table": "operating_source_context",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 307,
+    "sql": "alter table \"poms\".\"operating_source_context\" add constraint \"operating_source_context_currency_check\" check (currency~'^[A-Z]{3}$');",
+    "operation": "alter table",
+    "table": "operating_source_context",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 308,
+    "sql": "alter table \"poms\".\"operating_source_context\" add constraint \"operating_source_context_business_timezone_check\" check (business_timezone='Asia/Hong_Kong');",
+    "operation": "alter table",
+    "table": "operating_source_context",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 309,
+    "sql": "alter table \"poms\".\"operating_source_context\" add constraint \"operating_source_context_scope_hash_check\" check (scope_hash~'^[0-9a-f]{64}$');",
+    "operation": "alter table",
+    "table": "operating_source_context",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 310,
+    "sql": "alter table \"poms\".\"operating_source_context\" add constraint \"operating_source_context_source_hash_check\" check (source_hash~'^[0-9a-f]{64}$');",
+    "operation": "alter table",
+    "table": "operating_source_context",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 311,
+    "sql": "alter table \"poms\".\"operating_source_context\" add constraint \"operating_source_context_payload_hash_check\" check (payload_hash~'^[0-9a-f]{64}$');",
+    "operation": "alter table",
+    "table": "operating_source_context",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 312,
+    "sql": "alter table \"poms\".\"operating_source_context\" add constraint \"operating_source_context_frozen_payload_check\" check (jsonb_typeof(frozen_payload)='object');",
+    "operation": "alter table",
+    "table": "operating_source_context",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 313,
+    "sql": "alter table \"poms\".\"operating_source_context\" add constraint \"operating_source_context_formal_eligibility_check\" check (formal_eligibility='eligible');",
+    "operation": "alter table",
+    "table": "operating_source_context",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 314,
+    "sql": "alter table \"poms\".\"operating_source_context\" add constraint \"operating_source_context_contains_labor_check\" check (contains_labor IN ('yes','no','unknown'));",
+    "operation": "alter table",
+    "table": "operating_source_context",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 315,
+    "sql": "alter table \"poms\".\"operating_source_context\" add constraint \"operating_source_context_row_version_check\" check (row_version=1);",
+    "operation": "alter table",
+    "table": "operating_source_context",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 316,
+    "sql": "alter table \"poms\".\"operating_source_member\" add constraint \"operating_source_member_source_row_version_check\" check (source_row_version>0);",
+    "operation": "alter table",
+    "table": "operating_source_member",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 318,
+    "sql": "alter table \"poms\".\"operating_source_member\" add constraint \"operating_source_member_source_payload_hash_check\" check (source_payload_hash~'^[0-9a-f]{64}$');",
+    "operation": "alter table",
+    "table": "operating_source_member",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 319,
+    "sql": "alter table \"poms\".\"operating_source_member\" add constraint \"operating_source_member_captured_payload_check\" check (jsonb_typeof(captured_payload)='object');",
+    "operation": "alter table",
+    "table": "operating_source_member",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 320,
+    "sql": "alter table \"poms\".\"operating_evaluation_evidence\" add constraint \"operating_evaluation_evidence_producer_version_check\" check (producer_version=1);",
+    "operation": "alter table",
+    "table": "operating_evaluation_evidence",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 322,
+    "sql": "alter table \"poms\".\"operating_evaluation_evidence\" add constraint \"operating_evaluation_evidence_policy_version_check\" check (policy_version='r4h-operating-v1');",
+    "operation": "alter table",
+    "table": "operating_evaluation_evidence",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 323,
+    "sql": "alter table \"poms\".\"operating_evaluation_evidence\" add constraint \"operating_evaluation_evidence_policy_hash_check\" check (policy_hash~'^[0-9a-f]{64}$');",
+    "operation": "alter table",
+    "table": "operating_evaluation_evidence",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 324,
+    "sql": "alter table \"poms\".\"operating_evaluation_evidence\" add constraint \"operating_evaluation_evidence_source_hash_check\" check (source_hash~'^[0-9a-f]{64}$');",
+    "operation": "alter table",
+    "table": "operating_evaluation_evidence",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 325,
+    "sql": "alter table \"poms\".\"operating_evaluation_evidence\" add constraint \"operating_evaluation_evidence_evaluation_hash_check\" check (evaluation_hash~'^[0-9a-f]{64}$');",
+    "operation": "alter table",
+    "table": "operating_evaluation_evidence",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 326,
+    "sql": "alter table \"poms\".\"operating_evaluation_evidence\" add constraint \"operating_evaluation_evidence_frozen_output_check\" check (jsonb_typeof(frozen_output)='object');",
+    "operation": "alter table",
+    "table": "operating_evaluation_evidence",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 327,
+    "sql": "alter table \"poms\".\"operating_evaluation_evidence\" add constraint \"operating_evaluation_evidence_output_payload_hash_check\" check (output_payload_hash~'^[0-9a-f]{64}$');",
+    "operation": "alter table",
+    "table": "operating_evaluation_evidence",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 328,
+    "sql": "alter table \"poms\".\"operating_evaluation_evidence\" add constraint \"operating_evaluation_evidence_contains_labor_check\" check (contains_labor IN ('yes','no','unknown'));",
+    "operation": "alter table",
+    "table": "operating_evaluation_evidence",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 329,
+    "sql": "alter table \"poms\".\"operating_evaluation_evidence\" add constraint \"operating_evaluation_evidence_row_version_check\" check (row_version=1);",
+    "operation": "alter table",
+    "table": "operating_evaluation_evidence",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 330,
+    "sql": "alter table \"poms\".\"operating_evaluation_reason\" add constraint \"operating_evaluation_reason_reason_index_check\" check (reason_index>=0);",
+    "operation": "alter table",
+    "table": "operating_evaluation_reason",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 332,
+    "sql": "alter table \"poms\".\"operating_evaluation_reason\" add constraint \"operating_evaluation_reason_reason_code_check\" check (length(btrim(reason_code))>0);",
+    "operation": "alter table",
+    "table": "operating_evaluation_reason",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 333,
+    "sql": "alter table \"poms\".\"operating_evaluation_reason\" add constraint \"operating_evaluation_reason_project_action_check\" check (project_action IN ('prompt','review','block'));",
+    "operation": "alter table",
+    "table": "operating_evaluation_reason",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 334,
+    "sql": "alter table \"poms\".\"operating_evaluation_reason\" add constraint \"operating_evaluation_reason_stage_actions_check\" check (jsonb_typeof(stage_actions)='object');",
+    "operation": "alter table",
+    "table": "operating_evaluation_reason",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 335,
+    "sql": "alter table \"poms\".\"operating_evaluation_reason\" add constraint \"operating_evaluation_reason_stage_primaries_check\" check (jsonb_typeof(stage_primaries)='array');",
+    "operation": "alter table",
+    "table": "operating_evaluation_reason",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 336,
+    "sql": "alter table \"poms\".\"operating_evaluation_reason\" add constraint \"operating_evaluation_reason_source_refs_check\" check (jsonb_typeof(source_refs)='array');",
+    "operation": "alter table",
+    "table": "operating_evaluation_reason",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 337,
+    "sql": "alter table \"poms\".\"operating_evaluation_reason\" add constraint \"operating_evaluation_reason_frozen_payload_check\" check (jsonb_typeof(frozen_payload)='object');",
+    "operation": "alter table",
+    "table": "operating_evaluation_reason",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 338,
+    "sql": "alter table \"poms\".\"operating_evaluation_reason\" add constraint \"operating_evaluation_reason_payload_hash_check\" check (payload_hash~'^[0-9a-f]{64}$');",
+    "operation": "alter table",
+    "table": "operating_evaluation_reason",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 339,
+    "sql": "alter table \"poms\".\"operating_evaluation_reason\" add constraint \"operating_evaluation_reason_rule_id_check\" check (rule_id IN ('H01','H02','H03','H04','H05','H06','H07','H08','H09','H10','H11'));",
+    "operation": "alter table",
+    "table": "operating_evaluation_reason",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 340,
+    "sql": "comment on column \"poms\".\"operating_restatement_record\".\"project_id\" is null;",
+    "operation": "comment on",
+    "table": "operating_restatement_record",
+    "kind": "comment on"
+  },
+  {
+    "startLine": 342,
+    "sql": "comment on column \"poms\".\"operating_restatement_record\".\"period_end_snapshot_id\" is null;",
+    "operation": "comment on",
+    "table": "operating_restatement_record",
+    "kind": "comment on"
+  },
+  {
+    "startLine": 343,
+    "sql": "comment on column \"poms\".\"operating_restatement_record\".\"restates_snapshot_id\" is null;",
+    "operation": "comment on",
+    "table": "operating_restatement_record",
+    "kind": "comment on"
+  },
+  {
+    "startLine": 344,
+    "sql": "comment on column \"poms\".\"operating_restatement_record\".\"restated_snapshot_id\" is null;",
+    "operation": "comment on",
+    "table": "operating_restatement_record",
+    "kind": "comment on"
+  },
+  {
+    "startLine": 345,
+    "sql": "alter table \"poms\".\"operating_restatement_record\" add constraint \"operating_restatement_record_period_end_snapshot_id_foreign\" foreign key (\"period_end_snapshot_id\") references \"poms\".\"period_closing_snapshot\" (\"id\") on delete set null;",
+    "operation": "alter table",
+    "table": "operating_restatement_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 346,
+    "sql": "alter table \"poms\".\"operating_restatement_record\" add constraint \"chk_operating_restatement_record_status\" check (\"status\" in ('active', 'superseded', 'voided'));",
+    "operation": "alter table",
+    "table": "operating_restatement_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 347,
+    "sql": "alter table \"poms\".\"operating_restatement_record\" add constraint \"chk_r4g_restatement_verified\" check (producer_version=0 OR\n    (producer_version=1 AND restatement_scope IS NOT NULL AND restatement_scope IN ('live','period') AND root_snapshot_id IS NOT NULL\n     AND (restatement_scope='period')=(period_end_snapshot_id IS NOT NULL)\n     AND causal_source_refs IS NOT NULL AND jsonb_typeof(causal_source_refs)='array'\n     AND before_source_hash IS NOT NULL AND before_source_hash~'^[0-9a-f]{64}$'\n     AND after_source_hash IS NOT NULL AND after_source_hash~'^[0-9a-f]{64}$' AND restatement_batch_id IS NOT NULL));",
+    "operation": "alter table",
+    "table": "operating_restatement_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 353,
+    "sql": "alter table \"poms\".\"operating_baseline_source\" add constraint \"operating_baseline_source_original_cost_package_version_check\" check (original_cost_package_version>0);",
+    "operation": "alter table",
+    "table": "operating_baseline_source",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 355,
+    "sql": "alter table \"poms\".\"operating_baseline_source\" add constraint \"operating_baseline_source_current_cost_package_version_check\" check (current_cost_package_version>0);",
+    "operation": "alter table",
+    "table": "operating_baseline_source",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 356,
+    "sql": "alter table \"poms\".\"operating_baseline_source\" add constraint \"operating_baseline_source_currency_check\" check (currency~'^[A-Z]{3}$');",
+    "operation": "alter table",
+    "table": "operating_baseline_source",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 357,
+    "sql": "alter table \"poms\".\"operating_baseline_source\" add constraint \"operating_baseline_source_approved_transitions_check\" check (jsonb_typeof(approved_transitions)='array');",
+    "operation": "alter table",
+    "table": "operating_baseline_source",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 358,
+    "sql": "alter table \"poms\".\"operating_baseline_source\" add constraint \"operating_baseline_source_frozen_payload_check\" check (jsonb_typeof(frozen_payload)='object');",
+    "operation": "alter table",
+    "table": "operating_baseline_source",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 359,
+    "sql": "alter table \"poms\".\"operating_baseline_source\" add constraint \"operating_baseline_source_source_hash_check\" check (source_hash~'^[0-9a-f]{64}$');",
+    "operation": "alter table",
+    "table": "operating_baseline_source",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 360,
+    "sql": "alter table \"poms\".\"operating_baseline_source\" add constraint \"operating_baseline_source_payload_hash_check\" check (payload_hash~'^[0-9a-f]{64}$');",
+    "operation": "alter table",
+    "table": "operating_baseline_source",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 361,
+    "sql": "alter table \"poms\".\"operating_baseline_source\" add constraint \"operating_baseline_source_producer_version_check\" check (producer_version=1);",
+    "operation": "alter table",
+    "table": "operating_baseline_source",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 362,
+    "sql": "alter table \"poms\".\"operating_baseline_source\" add constraint \"operating_baseline_source_row_version_check\" check (row_version=1);",
+    "operation": "alter table",
+    "table": "operating_baseline_source",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 363,
+    "sql": "comment on column \"poms\".\"operating_baseline_package\".\"project_id\" is null;",
+    "operation": "comment on",
+    "table": "operating_baseline_package",
+    "kind": "comment on"
+  },
+  {
+    "startLine": 365,
+    "sql": "alter table \"poms\".\"operating_baseline_package\" add constraint \"chk_operating_baseline_package_baseline_selection_source\" check (\"baseline_selection_source\" in ('original', 'handover-rebaseline'));",
+    "operation": "alter table",
+    "table": "operating_baseline_package",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 366,
+    "sql": "alter table \"poms\".\"operating_baseline_package\" add constraint \"chk_operating_baseline_package_status\" check (\"status\" in ('draft', 'active', 'superseded'));",
+    "operation": "alter table",
+    "table": "operating_baseline_package",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 367,
+    "sql": "alter table \"poms\".\"operating_baseline_package\" add constraint \"chk_r4g_baseline_certified\" check (producer_version=0 OR\n    (producer_version=1 AND source_context_id IS NOT NULL AND currency IS NOT NULL\n     AND currency~'^[A-Z]{3}$' AND source_hash IS NOT NULL AND source_hash~'^[0-9a-f]{64}$'\n     AND handover_baseline_cost IS NOT NULL AND execution_change_package_total IS NOT NULL));",
+    "operation": "alter table",
+    "table": "operating_baseline_package",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 371,
+    "sql": "alter table \"poms\".\"project_operating_head\" add constraint \"project_operating_head_row_version_check\" check (row_version>=0);",
+    "operation": "alter table",
+    "table": "project_operating_head",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 373,
+    "sql": "comment on column \"poms\".\"data_maturity_evaluation_result\".\"project_id\" is null;",
+    "operation": "comment on",
+    "table": "data_maturity_evaluation_result",
+    "kind": "comment on"
+  },
+  {
+    "startLine": 375,
+    "sql": "comment on column \"poms\".\"data_maturity_evaluation_result\".\"referenced_snapshot_id\" is null;",
+    "operation": "comment on",
+    "table": "data_maturity_evaluation_result",
+    "kind": "comment on"
+  },
+  {
+    "startLine": 376,
+    "sql": "alter table \"poms\".\"data_maturity_evaluation_result\" add constraint \"chk_data_maturity_evaluation_result_data_maturity_level\" check (\"data_maturity_level\" in ('insufficient', 'preliminary', 'mature'));",
+    "operation": "alter table",
+    "table": "data_maturity_evaluation_result",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 377,
+    "sql": "alter table \"poms\".\"data_maturity_evaluation_result\" add constraint \"chk_data_maturity_evaluation_result_cost_action_recommendation\" check (\"cost_action_recommendation\" in ('prompt', 'review', 'block'));",
+    "operation": "alter table",
+    "table": "data_maturity_evaluation_result",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 378,
+    "sql": "alter table \"poms\".\"data_maturity_evaluation_result\" add constraint \"chk_data_maturity_evaluation_result_status\" check (\"status\" in ('active', 'superseded', 'voided'));",
+    "operation": "alter table",
+    "table": "data_maturity_evaluation_result",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 379,
+    "sql": "alter table \"poms\".\"data_maturity_evaluation_result\" add constraint \"ck_jghi_dmer_v1\" check (producer_version=0 OR (producer_version=1 AND evidence_id IS NOT NULL\n  AND tax_pending_knowledge IS NOT NULL AND tax_pending_knowledge IN ('known','unknown')\n  AND ((tax_pending_knowledge='known' AND tax_impact_pending_amount IS NOT NULL)\n    OR (tax_pending_knowledge='unknown' AND tax_impact_pending_amount IS NULL))));",
+    "operation": "alter table",
+    "table": "data_maturity_evaluation_result",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 383,
+    "sql": "comment on column \"poms\".\"operating_signal_evaluation_result\".\"project_id\" is null;",
+    "operation": "comment on",
+    "table": "operating_signal_evaluation_result",
+    "kind": "comment on"
+  },
+  {
+    "startLine": 385,
+    "sql": "comment on column \"poms\".\"operating_signal_evaluation_result\".\"referenced_snapshot_id\" is null;",
+    "operation": "comment on",
+    "table": "operating_signal_evaluation_result",
+    "kind": "comment on"
+  },
+  {
+    "startLine": 386,
+    "sql": "comment on column \"poms\".\"operating_signal_evaluation_result\".\"data_maturity_evaluation_id\" is null;",
+    "operation": "comment on",
+    "table": "operating_signal_evaluation_result",
+    "kind": "comment on"
+  },
+  {
+    "startLine": 387,
+    "sql": "alter table \"poms\".\"operating_signal_evaluation_result\" add constraint \"chk_operating_signal_evaluation_result_formula_boundary_action\" check (\"formula_boundary_action\" in ('prompt', 'review', 'block'));",
+    "operation": "alter table",
+    "table": "operating_signal_evaluation_result",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 388,
+    "sql": "alter table \"poms\".\"operating_signal_evaluation_result\" add constraint \"chk_operating_signal_evaluation_result_current_action_level\" check (\"current_action_level\" in ('prompt', 'review', 'block'));",
+    "operation": "alter table",
+    "table": "operating_signal_evaluation_result",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 389,
+    "sql": "alter table \"poms\".\"operating_signal_evaluation_result\" add constraint \"chk_operating_signal_evaluation_result_status\" check (\"status\" in ('active', 'superseded', 'voided'));",
+    "operation": "alter table",
+    "table": "operating_signal_evaluation_result",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 390,
+    "sql": "alter table \"poms\".\"operating_signal_evaluation_result\" add constraint \"ck_jghi_oser_v1\" check (producer_version=0 OR (producer_version=1 AND evidence_id IS NOT NULL));",
+    "operation": "alter table",
+    "table": "operating_signal_evaluation_result",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 391,
+    "sql": "alter table \"poms\".\"operating_signal_evaluation_result\" add constraint \"ck_jghi_signal_level\" check (signal_level IN ('attention','alert','normal','unknown'));",
+    "operation": "alter table",
+    "table": "operating_signal_evaluation_result",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 392,
+    "sql": "alter table \"poms\".\"operating_signal_evaluation_result\" add constraint \"ck_jghi_risk_level\" check (risk_level IN ('attention','risk','normal','unknown'));",
+    "operation": "alter table",
+    "table": "operating_signal_evaluation_result",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 393,
+    "sql": "alter table \"poms\".\"operating_signal_review_record\" add constraint \"chk_os_review_review_decision\" check (\"review_decision\" in ('approve', 'manual-confirmed'));",
+    "operation": "alter table",
+    "table": "operating_signal_review_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 395,
+    "sql": "alter table \"poms\".\"operating_signal_review_record\" add constraint \"chk_os_review_resolved_cost_action\" check (\"resolved_cost_action_recommendation\" is null or (\"resolved_cost_action_recommendation\")::text = ANY ((ARRAY['prompt'::character varying, 'review'::character varying, 'block'::character varying])::text[]));",
+    "operation": "alter table",
+    "table": "operating_signal_review_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 396,
+    "sql": "alter table \"poms\".\"operating_signal_review_record\" add constraint \"chk_os_review_resolved_current_action\" check (\"resolved_current_action_level\" in ('prompt', 'review', 'block'));",
+    "operation": "alter table",
+    "table": "operating_signal_review_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 397,
+    "sql": "alter table \"poms\".\"operating_signal_review_record\" add constraint \"chk_os_review_resolved_data_maturity\" check (\"resolved_data_maturity_level\" is null or (\"resolved_data_maturity_level\")::text = ANY ((ARRAY['insufficient'::character varying, 'preliminary'::character varying, 'mature'::character varying])::text[]));",
+    "operation": "alter table",
+    "table": "operating_signal_review_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 398,
+    "sql": "alter table \"poms\".\"operating_signal_review_record\" add constraint \"chk_os_review_status\" check (\"status\" in ('active', 'superseded', 'voided'));",
+    "operation": "alter table",
+    "table": "operating_signal_review_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 399,
+    "sql": "alter table \"poms\".\"operating_signal_review_record\" add constraint \"ck_jghi_osreview_v1\" check (producer_version=0 OR\n  (producer_version=1 AND evidence_id IS NOT NULL AND source_hash IS NOT NULL AND source_hash~'^[0-9a-f]{64}$'\n   AND evaluation_hash IS NOT NULL AND evaluation_hash~'^[0-9a-f]{64}$'\n   AND expected_signal_version IS NOT NULL AND expected_signal_version>0\n   AND review_payload IS NOT NULL AND jsonb_typeof(review_payload)='object'\n   AND payload_hash IS NOT NULL AND payload_hash~'^[0-9a-f]{64}$' AND handled_by IS NOT NULL));",
+    "operation": "alter table",
+    "table": "operating_signal_review_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 405,
+    "sql": "alter table \"poms\".\"operating_signal_gate_binding\" add constraint \"chk_operating_signal_gate_binding_binding_action\" check (\"binding_action\" in ('prompt', 'review', 'block'));",
+    "operation": "alter table",
+    "table": "operating_signal_gate_binding",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 407,
+    "sql": "alter table \"poms\".\"operating_signal_gate_binding\" add constraint \"chk_operating_signal_gate_binding_baseline_selection_source\" check (\"baseline_selection_source\" in ('original', 'handover-rebaseline'));",
+    "operation": "alter table",
+    "table": "operating_signal_gate_binding",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 408,
+    "sql": "alter table \"poms\".\"operating_signal_gate_binding\" add constraint \"chk_operating_signal_gate_binding_data_maturity_level\" check (\"data_maturity_level\" in ('insufficient', 'preliminary', 'mature'));",
+    "operation": "alter table",
+    "table": "operating_signal_gate_binding",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 409,
+    "sql": "alter table \"poms\".\"operating_signal_gate_binding\" add constraint \"chk_operating_signal_gate_binding_cost_action_recommendation\" check (\"cost_action_recommendation\" in ('prompt', 'review', 'block'));",
+    "operation": "alter table",
+    "table": "operating_signal_gate_binding",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 410,
+    "sql": "alter table \"poms\".\"operating_signal_gate_binding\" add constraint \"chk_operating_signal_gate_binding_current_action_level\" check (\"current_action_level\" in ('prompt', 'review', 'block'));",
+    "operation": "alter table",
+    "table": "operating_signal_gate_binding",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 411,
+    "sql": "alter table \"poms\".\"operating_signal_gate_binding\" add constraint \"chk_operating_signal_gate_binding_status\" check (\"status\" in ('active', 'superseded', 'voided'));",
+    "operation": "alter table",
+    "table": "operating_signal_gate_binding",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 412,
+    "sql": "alter table \"poms\".\"operating_signal_gate_binding\" add constraint \"ck_jghi_binding_v1\" check (producer_version=0 OR\n  (producer_version=1 AND evidence_id IS NOT NULL AND system_binding_action IS NOT NULL\n   AND system_binding_action IN ('prompt','review','block') AND gate_stage_type IN ('first','second','final','retention')\n   AND evaluation_hash IS NOT NULL AND evaluation_hash~'^[0-9a-f]{64}$' AND current_summary_id IS NOT NULL\n   AND tax_pending_knowledge IS NOT NULL AND tax_pending_knowledge IN ('known','unknown')\n   AND ((tax_pending_knowledge='known' AND tax_impact_pending_amount IS NOT NULL)\n     OR (tax_pending_knowledge='unknown' AND tax_impact_pending_amount IS NULL))));",
+    "operation": "alter table",
+    "table": "operating_signal_gate_binding",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 419,
+    "sql": "alter table \"poms\".\"commission_gate_review_record\" add constraint \"ck_jghi_gate_review_v1\" check (producer_version=0 OR\n  (producer_version=1 AND evidence_id IS NOT NULL AND source_summary_snapshot_id IS NOT NULL\n   AND source_hash IS NOT NULL AND source_hash~'^[0-9a-f]{64}$'\n   AND evaluation_hash IS NOT NULL AND evaluation_hash~'^[0-9a-f]{64}$'\n   AND policy_hash IS NOT NULL AND policy_hash~'^[0-9a-f]{64}$'\n   AND evidence_hash IS NOT NULL AND evidence_hash~'^[0-9a-f]{64}$'\n   AND review_action IS NOT NULL AND review_action IN ('acknowledge','tighten-review','tighten-block')\n   AND review_payload IS NOT NULL AND jsonb_typeof(review_payload)='object' AND handled_by IS NOT NULL));",
+    "operation": "alter table",
+    "table": "commission_gate_review_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 428,
+    "sql": "alter table \"poms\".\"operating_gate_summary_payload\" add constraint \"operating_gate_summary_payload_binding_row_version_check\" check (binding_row_version>0);",
+    "operation": "alter table",
+    "table": "operating_gate_summary_payload",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 430,
+    "sql": "alter table \"poms\".\"operating_gate_summary_payload\" add constraint \"operating_gate_summary_payload_gate_stage_type_check\" check (gate_stage_type IN ('first','second','final','retention'));",
+    "operation": "alter table",
+    "table": "operating_gate_summary_payload",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 431,
+    "sql": "alter table \"poms\".\"operating_gate_summary_payload\" add constraint \"operating_gate_summary_payload_source_hash_check\" check (source_hash~'^[0-9a-f]{64}$');",
+    "operation": "alter table",
+    "table": "operating_gate_summary_payload",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 432,
+    "sql": "alter table \"poms\".\"operating_gate_summary_payload\" add constraint \"operating_gate_summary_payload_evaluation_hash_check\" check (evaluation_hash~'^[0-9a-f]{64}$');",
+    "operation": "alter table",
+    "table": "operating_gate_summary_payload",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 433,
+    "sql": "alter table \"poms\".\"operating_gate_summary_payload\" add constraint \"operating_gate_summary_payload_policy_hash_check\" check (policy_hash~'^[0-9a-f]{64}$');",
+    "operation": "alter table",
+    "table": "operating_gate_summary_payload",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 434,
+    "sql": "alter table \"poms\".\"operating_gate_summary_payload\" add constraint \"operating_gate_summary_payload_frozen_payload_check\" check (jsonb_typeof(frozen_payload)='object');",
+    "operation": "alter table",
+    "table": "operating_gate_summary_payload",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 435,
+    "sql": "alter table \"poms\".\"operating_gate_summary_payload\" add constraint \"operating_gate_summary_payload_payload_hash_check\" check (payload_hash~'^[0-9a-f]{64}$');",
+    "operation": "alter table",
+    "table": "operating_gate_summary_payload",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 436,
+    "sql": "alter table \"poms\".\"cost_governance_evidence\" add constraint \"cost_governance_evidence_evidence_kind_check\" check ((((evidence_kind)::text = ANY ((ARRAY['source-facts'::character varying, 'manual-stage'::character varying, 'manual-finance'::character varying])::text[]))));",
+    "operation": "alter table",
+    "table": "cost_governance_evidence",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 438,
+    "sql": "alter table \"poms\".\"cost_governance_evidence\" add constraint \"cost_governance_evidence_frozen_payload_check\" check (((jsonb_typeof(frozen_payload) = 'object'::text)));",
+    "operation": "alter table",
+    "table": "cost_governance_evidence",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 439,
+    "sql": "alter table \"poms\".\"cost_governance_evidence\" add constraint \"cost_governance_evidence_payload_hash_check\" check (((payload_hash ~ '^[0-9a-f]{64}$'::text)));",
+    "operation": "alter table",
+    "table": "cost_governance_evidence",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 440,
+    "sql": "alter table \"poms\".\"cost_governance_evidence\" add constraint \"cost_governance_evidence_reason_check\" check (((length(btrim(reason)) > 0)));",
+    "operation": "alter table",
+    "table": "cost_governance_evidence",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 441,
+    "sql": "alter table \"poms\".\"cost_governance_evidence\" add constraint \"cost_governance_evidence_schema_version_check\" check (((schema_version = 1)));",
+    "operation": "alter table",
+    "table": "cost_governance_evidence",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 442,
+    "sql": "alter table \"poms\".\"cost_governance_evidence\" add constraint \"cost_governance_evidence_source_references_check\" check (((jsonb_typeof(source_references) = 'array'::text)));",
+    "operation": "alter table",
+    "table": "cost_governance_evidence",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 443,
+    "sql": "alter table \"poms\".\"cost_governance_evidence\" add constraint \"cost_governance_evidence_target_type_check\" check ((((target_type)::text = ANY ((ARRAY['SharedCostAllocationBasis'::character varying, 'SharedCostAllocationResult'::character varying, 'CostStageAttributionSnapshot'::character varying, 'AccountingTaxTreatmentSnapshot'::character varying])::text[]))));",
+    "operation": "alter table",
+    "table": "cost_governance_evidence",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 444,
+    "sql": "alter table \"poms\".\"cost_stage_attribution_snapshot\" add constraint \"chk_cost_stage_attribution_snapshot_attribution_mode\" check (\"attribution_mode\" in ('auto', 'manual', 'reclassified'));",
+    "operation": "alter table",
+    "table": "cost_stage_attribution_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 446,
+    "sql": "alter table \"poms\".\"cost_stage_attribution_snapshot\" add constraint \"chk_cost_stage_attribution_snapshot_status\" check (\"status\" in ('active', 'superseded', 'voided'));",
+    "operation": "alter table",
+    "table": "cost_stage_attribution_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 447,
+    "sql": "alter table \"poms\".\"cost_stage_attribution_snapshot\" add constraint \"chk_r4f_stage_v1\" check ((((governance_schema_version = 0) OR ((governance_schema_version = 1) AND (evidence_business_date IS NOT NULL) AND (governance_evidence_id IS NOT NULL) AND (handled_at IS NOT NULL) AND (handled_by IS NOT NULL)))));",
+    "operation": "alter table",
+    "table": "cost_stage_attribution_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 448,
+    "sql": "alter table \"poms\".\"contract\" add constraint \"chk_contract_status\" check (\"status\" in ('draft', 'pending-review', 'active', 'terminated', 'completed'));",
+    "operation": "alter table",
+    "table": "contract",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 450,
+    "sql": "alter table \"poms\".\"payable_record\" add constraint \"chk_payable_record_status\" check (\"status\" in ('draft', 'recorded', 'partially-paid', 'completed', 'closed', 'voided'));",
+    "operation": "alter table",
+    "table": "payable_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 452,
+    "sql": "alter table \"poms\".\"payment_record\" add constraint \"chk_payment_record_status\" check (\"status\" in ('draft', 'recorded', 'confirmed', 'voided'));",
+    "operation": "alter table",
+    "table": "payment_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 454,
+    "sql": "alter table \"poms\".\"expense_record\" add constraint \"chk_expense_record_source_type\" check (\"source_type\" in ('manual', 'reimbursement', 'import'));",
+    "operation": "alter table",
+    "table": "expense_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 456,
+    "sql": "alter table \"poms\".\"expense_record\" add constraint \"chk_expense_record_status\" check (\"status\" in ('draft', 'recorded', 'confirmed', 'voided'));",
+    "operation": "alter table",
+    "table": "expense_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 457,
+    "sql": "alter table \"poms\".\"expense_record\" add constraint \"chk_r4e_expense_attachment_count\" check (((attachment_count >= 0)));",
+    "operation": "alter table",
+    "table": "expense_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 458,
+    "sql": "alter table \"poms\".\"expense_record\" add constraint \"chk_r4e_expense_confirmation\" check (((((status)::text <> 'confirmed'::text) OR ((confirmed_at IS NOT NULL) AND (confirmed_by IS NOT NULL)))));",
+    "operation": "alter table",
+    "table": "expense_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 459,
+    "sql": "alter table \"poms\".\"expense_record\" add constraint \"chk_r4e_expense_money\" check ((((amount_including_tax > (0)::numeric) AND ((tax_amount IS NULL) OR ((tax_amount >= (0)::numeric) AND (tax_amount <= amount_including_tax))) AND ((amount_excluding_tax IS NULL) OR ((amount_excluding_tax >= (0)::numeric) AND (amount_excluding_tax <= amount_including_tax))) AND ((tax_amount IS NULL) OR (amount_excluding_tax IS NULL) OR (amount_including_tax = (tax_amount + amount_excluding_tax))))));",
+    "operation": "alter table",
+    "table": "expense_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 460,
+    "sql": "alter table \"poms\".\"expense_record\" add constraint \"chk_r4e_expense_void\" check (((((status)::text <> 'voided'::text) OR ((voided_at IS NOT NULL) AND (void_reason IS NOT NULL) AND (length(btrim(void_reason)) > 0)))));",
+    "operation": "alter table",
+    "table": "expense_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 461,
+    "sql": "alter table \"poms\".\"competitor_intelligence_record\" add constraint \"chk_competitor_intelligence_anchor\" check (\"lead_id\" is not null or \"project_id\" is not null);",
+    "operation": "alter table",
+    "table": "competitor_intelligence_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 463,
+    "sql": "alter table \"poms\".\"competitor_intelligence_record\" add constraint \"chk_competitor_position\" check (\"position\" in ('incumbent', 'active-competitor', 'potential-competitor', 'unknown'));",
+    "operation": "alter table",
+    "table": "competitor_intelligence_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 464,
+    "sql": "alter table \"poms\".\"competitor_intelligence_record\" add constraint \"chk_competitor_customer_preference\" check (\"customer_preference\" in ('toward-us', 'neutral', 'toward-competitor', 'unknown'));",
+    "operation": "alter table",
+    "table": "competitor_intelligence_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 465,
+    "sql": "alter table \"poms\".\"competitor_intelligence_record\" add constraint \"chk_competitor_win_probability\" check (\"win_probability\" in ('high', 'medium', 'low', 'unknown'));",
+    "operation": "alter table",
+    "table": "competitor_intelligence_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 466,
+    "sql": "alter table \"poms\".\"commission_calculation\" add constraint \"chk_commission_calculation_status\" check (\"status\" in ('pending', 'calculated', 'effective', 'superseded'));",
+    "operation": "alter table",
+    "table": "commission_calculation",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 468,
+    "sql": "alter table \"poms\".\"commission_payout\" add constraint \"chk_commission_payout_stage_type\" check (\"stage_type\" in ('first', 'second', 'final', 'retention'));",
+    "operation": "alter table",
+    "table": "commission_payout",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 470,
+    "sql": "alter table \"poms\".\"commission_payout\" add constraint \"chk_commission_payout_payout_kind\" check (\"payout_kind\" in ('primary', 'supplement'));",
+    "operation": "alter table",
+    "table": "commission_payout",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 471,
+    "sql": "alter table \"poms\".\"commission_payout\" add constraint \"chk_commission_payout_selected_tier\" check (\"selected_tier\" in ('basic', 'mid', 'premium'));",
+    "operation": "alter table",
+    "table": "commission_payout",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 472,
+    "sql": "alter table \"poms\".\"commission_payout\" add constraint \"chk_commission_payout_status\" check (\"status\" in ('draft', 'pending-approval', 'approved', 'paid', 'suspended', 'reversed'));",
+    "operation": "alter table",
+    "table": "commission_payout",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 473,
+    "sql": "alter table \"poms\".\"commission_adjustment\" add constraint \"chk_commission_adjustment_adjustment_type\" check (\"adjustment_type\" in ('suspend-payout', 'reverse-payout', 'clawback', 'supplement', 'recalculate'));",
+    "operation": "alter table",
+    "table": "commission_adjustment",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 475,
+    "sql": "alter table \"poms\".\"commission_adjustment\" add constraint \"chk_commission_adjustment_status\" check (\"status\" in ('draft', 'pending-approval', 'approved', 'executed', 'rejected', 'closed'));",
+    "operation": "alter table",
+    "table": "commission_adjustment",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 476,
+    "sql": "alter table \"poms\".\"commercial_release_baseline\" add constraint \"chk_r4_baseline_contract_terms\" check (jsonb_typeof(\"contract_terms\") = 'array');",
+    "operation": "alter table",
+    "table": "commercial_release_baseline",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 478,
+    "sql": "alter table \"poms\".\"contract_term_preparation\" add constraint \"contract_term_preparation_version_check\" check (\"version\" > 0);",
+    "operation": "alter table",
+    "table": "contract_term_preparation",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 480,
+    "sql": "alter table \"poms\".\"contract_term_preparation\" add constraint \"contract_term_preparation_row_version_check\" check (\"row_version\" > 0);",
+    "operation": "alter table",
+    "table": "contract_term_preparation",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 481,
+    "sql": "alter table \"poms\".\"contract_term_preparation\" add constraint \"contract_term_preparation_status_check\" check (\"status\" in ('prepared', 'superseded', 'activated'));",
+    "operation": "alter table",
+    "table": "contract_term_preparation",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 482,
+    "sql": "alter table \"poms\".\"contract_term_preparation\" add constraint \"contract_term_preparation_contract_row_version_at_prepara_check\" check (\"contract_row_version_at_preparation\" > 0);",
+    "operation": "alter table",
+    "table": "contract_term_preparation",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 483,
+    "sql": "alter table \"poms\".\"contract_term_preparation\" add constraint \"contract_term_preparation_amount_tax_inclusive_check\" check (\"amount_tax_inclusive\" > 0);",
+    "operation": "alter table",
+    "table": "contract_term_preparation",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 484,
+    "sql": "alter table \"poms\".\"contract_term_preparation\" add constraint \"contract_term_preparation_amount_tax_exclusive_check\" check (\"amount_tax_exclusive\" > 0);",
+    "operation": "alter table",
+    "table": "contract_term_preparation",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 485,
+    "sql": "alter table \"poms\".\"contract_term_preparation\" add constraint \"contract_term_preparation_tax_rate_check\" check (\"tax_rate\" between 0 and 1);",
+    "operation": "alter table",
+    "table": "contract_term_preparation",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 486,
+    "sql": "alter table \"poms\".\"contract_term_preparation\" add constraint \"contract_term_preparation_down_payment_rate_check\" check (\"down_payment_rate\" between 0 and 1);",
+    "operation": "alter table",
+    "table": "contract_term_preparation",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 487,
+    "sql": "alter table \"poms\".\"contract_term_preparation\" add constraint \"contract_term_preparation_retention_rate_check\" check (\"retention_rate\" between 0 and 1);",
+    "operation": "alter table",
+    "table": "contract_term_preparation",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 488,
+    "sql": "alter table \"poms\".\"contract_term_preparation\" add constraint \"contract_term_preparation_receivable_plan_seeds_check\" check (jsonb_typeof(\"receivable_plan_seeds\") = 'array' and jsonb_array_length(\"receivable_plan_seeds\") > 0);",
+    "operation": "alter table",
+    "table": "contract_term_preparation",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 489,
+    "sql": "alter table \"poms\".\"contract_term_preparation\" add constraint \"contract_term_preparation_source_facts_check\" check (jsonb_typeof(\"source_facts\") = 'object');",
+    "operation": "alter table",
+    "table": "contract_term_preparation",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 490,
+    "sql": "alter table \"poms\".\"contract_term_preparation\" add constraint \"contract_term_preparation_contract_core_hash_check\" check (\"contract_core_hash\" ~ '^[0-9a-f]{64}$');",
+    "operation": "alter table",
+    "table": "contract_term_preparation",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 491,
+    "sql": "alter table \"poms\".\"contract_term_preparation\" add constraint \"contract_term_preparation_payload_hash_check\" check (\"payload_hash\" ~ '^[0-9a-f]{64}$');",
+    "operation": "alter table",
+    "table": "contract_term_preparation",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 492,
+    "sql": "alter table \"poms\".\"contract_term_preparation\" add constraint \"chk_r4_preparation_activation\" check ((\"status\" = 'activated' and \"activated_snapshot_id\" is not null and \"activated_at\" is not null and \"activated_by\" is not null) or (\"status\" <> 'activated' and \"activated_snapshot_id\" is null and \"activated_at\" is null and \"activated_by\" is null));",
+    "operation": "alter table",
+    "table": "contract_term_preparation",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 493,
+    "sql": "alter table \"poms\".\"contract_term_preparation\" add constraint \"chk_r4d_preparation_amendment\" check (((((contract_amendment_id IS NULL) AND (before_snapshot_id IS NULL)) OR ((contract_amendment_id IS NOT NULL) AND (before_snapshot_id IS NOT NULL)))));",
+    "operation": "alter table",
+    "table": "contract_term_preparation",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 494,
+    "sql": "alter table \"poms\".\"contract_term_snapshot\" add constraint \"chk_contract_term_snapshot_status\" check (\"snapshot_status\" in ('active', 'superseded', 'voided'));",
+    "operation": "alter table",
+    "table": "contract_term_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 496,
+    "sql": "alter table \"poms\".\"contract_term_snapshot\" add constraint \"chk_r4g_term_currency\" check (currency_code IS NULL OR currency_code~'^[A-Z]{3}$');",
+    "operation": "alter table",
+    "table": "contract_term_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 497,
+    "sql": "alter table \"poms\".\"project_handover\" add constraint \"chk_r4d_handover_producer\" check ((((producer_version IS NULL) OR ((producer_version = 1) AND (basis_snapshot_id IS NOT NULL) AND (version IS NOT NULL) AND (execution_owner_user_id IS NOT NULL) AND (confirmation_record_id IS NOT NULL) AND (finance_confirmation_required IS NOT NULL) AND (prepared_receipt_judgment_mode IS NOT NULL) AND ((prepared_receipt_judgment_mode)::text = ANY ((ARRAY['project-aggregate'::character varying, 'contract-separate'::character varying])::text[])) AND (source_payload_hash IS NOT NULL) AND ((source_payload_hash)::text ~ '^[0-9a-f]{64}$'::text) AND (((status)::text <> 'confirmed'::text) OR ((confirmed_at IS NOT NULL) AND (confirmed_by IS NOT NULL))) AND (((status)::text <> 'draft'::text) OR ((confirmed_at IS NULL) AND (confirmed_by IS NULL))) AND ((NOT is_current) OR ((status)::text = ANY ((ARRAY['draft'::character varying, 'confirmed'::character varying])::text[])))))));",
+    "operation": "alter table",
+    "table": "project_handover",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 499,
+    "sql": "alter table \"poms\".\"project_handover\" add constraint \"project_handover_version_check\" check ((((version IS NULL) OR (version > 0))));",
+    "operation": "alter table",
+    "table": "project_handover",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 500,
+    "sql": "alter table \"poms\".\"project_receipt_judgment_freeze\" add constraint \"chk_r4d_receipt_freeze_producer\" check ((((producer_version IS NULL) OR ((producer_version = 1) AND (basis_snapshot_id IS NOT NULL) AND (version IS NOT NULL) AND ((receipt_judgment_mode)::text = ANY ((ARRAY['project-aggregate'::character varying, 'contract-separate'::character varying])::text[])) AND ((source_type)::text = ANY ((ARRAY['project-handover'::character varying, 'project-receipt-judgment-freeze'::character varying])::text[])) AND (((source_type)::text <> 'project-handover'::text) OR (source_id = source_handover_id))))));",
+    "operation": "alter table",
+    "table": "project_receipt_judgment_freeze",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 502,
+    "sql": "alter table \"poms\".\"project_receipt_judgment_freeze\" add constraint \"project_receipt_judgment_freeze_version_check\" check ((((version IS NULL) OR (version > 0))));",
+    "operation": "alter table",
+    "table": "project_receipt_judgment_freeze",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 503,
+    "sql": "alter table \"poms\".\"project_handover_summary_payload\" add constraint \"chk_r4d_payload_kind\" check (((((handover_id IS NULL) AND (contract_summary_snapshot_id IS NULL)) OR ((handover_id IS NOT NULL) AND (contract_summary_snapshot_id IS NOT NULL)))));",
+    "operation": "alter table",
+    "table": "project_handover_summary_payload",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 505,
+    "sql": "alter table \"poms\".\"project_handover_summary_payload\" add constraint \"project_handover_summary_payload_payload_check\" check (((jsonb_typeof(payload) = 'object'::text)));",
+    "operation": "alter table",
+    "table": "project_handover_summary_payload",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 506,
+    "sql": "alter table \"poms\".\"project_handover_summary_payload\" add constraint \"project_handover_summary_payload_payload_hash_check\" check ((((payload_hash)::text ~ '^[0-9a-f]{64}$'::text)));",
+    "operation": "alter table",
+    "table": "project_handover_summary_payload",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 507,
+    "sql": "alter table \"poms\".\"project_handover_summary_payload\" add constraint \"project_handover_summary_payload_source_hash_check\" check ((((source_hash)::text ~ '^[0-9a-f]{64}$'::text)));",
+    "operation": "alter table",
+    "table": "project_handover_summary_payload",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 508,
+    "sql": "alter table \"poms\".\"project_handover_participant_role\" add constraint \"project_handover_participant_role_responsibility_summary_check\" check (((length(btrim((responsibility_summary)::text)) > 0)));",
+    "operation": "alter table",
+    "table": "project_handover_participant_role",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 510,
+    "sql": "alter table \"poms\".\"project_handover_participant_role\" add constraint \"project_handover_participant_role_role_key_check\" check ((((role_key)::text = ANY ((ARRAY['sales-owner'::character varying, 'business-admin'::character varying, 'technical-support'::character varying, 'execution-owner'::character varying, 'finance'::character varying])::text[]))));",
+    "operation": "alter table",
+    "table": "project_handover_participant_role",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 511,
+    "sql": "alter table \"poms\".\"project_handover_attachment_selection\" add constraint \"chk_phas_status\" check (\"status\" in ('included', 'missing', 'excluded', 'sensitive-excluded', 'stale-version'));",
+    "operation": "alter table",
+    "table": "project_handover_attachment_selection",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 513,
+    "sql": "alter table \"poms\".\"invoice_record\" add constraint \"chk_invoice_record_invoice_type\" check (\"invoice_type\" in ('input', 'output'));",
+    "operation": "alter table",
+    "table": "invoice_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 515,
+    "sql": "alter table \"poms\".\"invoice_record\" add constraint \"chk_invoice_record_status\" check (\"status\" in ('draft', 'pending-issue', 'issued', 'received', 'verified', 'exception', 'closed'));",
+    "operation": "alter table",
+    "table": "invoice_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 516,
+    "sql": "alter table \"poms\".\"invoice_record\" add constraint \"chk_invoice_record_exception_status\" check (\"exception_status\" in ('none', 'open', 'resolved'));",
+    "operation": "alter table",
+    "table": "invoice_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 517,
+    "sql": "alter table \"poms\".\"invoice_record\" add constraint \"chk_r4e_invoice_currency\" check (((((currency_code IS NULL) AND (currency_source IS NULL) AND (currency_source_snapshot_id IS NULL)) OR ((currency_code IS NOT NULL) AND ((currency_code)::text ~ '^[A-Z]{3}$'::text) AND (currency_source IS NOT NULL) AND ((currency_source)::text = ANY ((ARRAY['explicit'::character varying, 'contract-snapshot'::character varying])::text[])) AND ((((currency_source)::text = 'explicit'::text) AND (currency_source_snapshot_id IS NULL)) OR (((currency_source)::text = 'contract-snapshot'::text) AND (contract_id IS NOT NULL) AND (currency_source_snapshot_id IS NOT NULL)))))));",
+    "operation": "alter table",
+    "table": "invoice_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 518,
+    "sql": "alter table \"poms\".\"contract_review_binding\" add constraint \"contract_review_binding_preparation_version_check\" check (\"preparation_version\" > 0);",
+    "operation": "alter table",
+    "table": "contract_review_binding",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 520,
+    "sql": "alter table \"poms\".\"contract_review_binding\" add constraint \"contract_review_binding_payload_hash_check\" check (\"payload_hash\" ~ '^[0-9a-f]{64}$');",
+    "operation": "alter table",
+    "table": "contract_review_binding",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 521,
+    "sql": "alter table \"poms\".\"business_discussion_thread\" add constraint \"chk_business_discussion_thread_target\" check (\"target_object_type\" in ('customer', 'lead', 'project'));",
+    "operation": "alter table",
+    "table": "business_discussion_thread",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 523,
+    "sql": "alter table \"poms\".\"attachment_download_package\" add constraint \"chk_adp_status\" check (\"status\" in ('pending', 'running', 'ready', 'failed', 'expired', 'cancelled'));",
+    "operation": "alter table",
+    "table": "attachment_download_package",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 525,
+    "sql": "alter table \"poms\".\"attachment_download_package_item\" add constraint \"chk_adpi_status\" check (\"status\" in ('included', 'excluded'));",
+    "operation": "alter table",
+    "table": "attachment_download_package_item",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 527,
+    "sql": "alter table \"poms\".\"accounting_tax_treatment_snapshot\" add constraint \"chk_accounting_tax_treatment_snapshot_deductibility_status\" check (\"deductibility_status\" in ('pending', 'deductible', 'non-deductible'));",
+    "operation": "alter table",
+    "table": "accounting_tax_treatment_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 529,
+    "sql": "alter table \"poms\".\"accounting_tax_treatment_snapshot\" add constraint \"chk_accounting_tax_treatment_snapshot_status\" check (\"status\" in ('pending', 'active', 'superseded', 'voided'));",
+    "operation": "alter table",
+    "table": "accounting_tax_treatment_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 530,
+    "sql": "alter table \"poms\".\"accounting_tax_treatment_snapshot\" add constraint \"chk_r4f_tax_v1\" check ((((governance_schema_version = 0) OR ((governance_schema_version = 1) AND (currency IS NOT NULL) AND (governance_evidence_id IS NOT NULL) AND (confirmed_at IS NOT NULL) AND (confirmed_by IS NOT NULL) AND (tax_impact_pending_amount >= (0)::numeric) AND (tax_pending_flag OR (tax_impact_pending_amount = (0)::numeric)) AND (((deductibility_status)::text <> 'pending'::text) OR tax_pending_flag) AND (length(btrim(tax_impact_summary)) > 0) AND ((supersedes_id IS NULL) OR ((replacement_reason IS NOT NULL) AND (length(btrim(replacement_reason)) > 0)))))));",
+    "operation": "alter table",
+    "table": "accounting_tax_treatment_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 531,
+    "sql": "comment on column \"poms\".\"acceptance_record\".\"project_id\" is null;",
+    "operation": "comment on",
+    "table": "acceptance_record",
+    "kind": "comment on"
+  },
+  {
+    "startLine": 533,
+    "sql": "alter table \"poms\".\"acceptance_record\" add constraint \"acceptance_new_producer_check\" check (producer_version=0 OR (producer_version=1 AND source_stage_record_id IS NOT NULL\n    AND source_payload_hash IS NOT NULL AND source_payload_hash ~ '^[0-9a-f]{64}$' AND confirmed_by IS NOT NULL AND confirmed_at IS NOT NULL\n    AND acceptance_type IN ('stage-outcome','stage-acceptance','final-acceptance')\n    AND acceptance_result IN ('accepted','conditional','rejected')\n    AND (acceptance_result<>'conditional' OR (conditional_summary IS NOT NULL AND length(btrim(conditional_summary))>0))));",
+    "operation": "alter table",
+    "table": "acceptance_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 538,
+    "sql": "comment on column \"poms\".\"project_completion_record\".\"project_id\" is null;",
+    "operation": "comment on",
+    "table": "project_completion_record",
+    "kind": "comment on"
+  },
+  {
+    "startLine": 540,
+    "sql": "comment on column \"poms\".\"project_completion_record\".\"acceptance_record_id\" is null;",
+    "operation": "comment on",
+    "table": "project_completion_record",
+    "kind": "comment on"
+  },
+  {
+    "startLine": 541,
+    "sql": "alter table \"poms\".\"project_completion_record\" add constraint \"completion_new_producer_check\" check (producer_version=0 OR (producer_version=1 AND source_stage_record_id IS NOT NULL\n    AND source_payload_hash IS NOT NULL AND source_payload_hash ~ '^[0-9a-f]{64}$' AND completed_by IS NOT NULL AND condition_status IS NOT NULL\n    AND ((completion_result='completed' AND condition_status='not-applicable')\n      OR (completion_result='conditional-completed' AND condition_status IN ('pending','closed')))));",
+    "operation": "alter table",
+    "table": "project_completion_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 545,
+    "sql": "alter table \"poms\".\"project_completion_condition\" add constraint \"project_completion_condition_sort_order_check\" check (sort_order >= 0);",
+    "operation": "alter table",
+    "table": "project_completion_condition",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 547,
+    "sql": "alter table \"poms\".\"project_completion_condition\" add constraint \"project_completion_condition_summary_check\" check (length(btrim(summary)) BETWEEN 1 AND 2000);",
+    "operation": "alter table",
+    "table": "project_completion_condition",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 548,
+    "sql": "alter table \"poms\".\"project_completion_condition\" add constraint \"project_completion_condition_status_check\" check (status IN ('pending','closed'));",
+    "operation": "alter table",
+    "table": "project_completion_condition",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 549,
+    "sql": "alter table \"poms\".\"project_completion_condition\" add constraint \"project_completion_condition_row_version_check\" check (row_version > 0);",
+    "operation": "alter table",
+    "table": "project_completion_condition",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 550,
+    "sql": "alter table \"poms\".\"project_completion_condition\" add constraint \"project_completion_condition_check\" check ((status='pending' AND closure_record_id IS NULL AND closed_at IS NULL AND closed_by IS NULL)\n      OR (status='closed' AND closure_record_id IS NOT NULL AND closed_at IS NOT NULL AND closed_by IS NOT NULL AND closed_by=responsible_user_id));",
+    "operation": "alter table",
+    "table": "project_completion_condition",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 552,
+    "sql": "alter table \"poms\".\"project_completion_condition_closure\" add constraint \"project_completion_condition_closure_closure_summary_check\" check (length(btrim(closure_summary)) BETWEEN 1 AND 2000);",
+    "operation": "alter table",
+    "table": "project_completion_condition_closure",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 554,
+    "sql": "alter table \"poms\".\"project_completion_condition_closure\" add constraint \"project_completion_condition_closure_source_payload_hash_check\" check (source_payload_hash ~ '^[0-9a-f]{64}$');",
+    "operation": "alter table",
+    "table": "project_completion_condition_closure",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 555,
+    "sql": "alter table \"poms\".\"project_completion_condition_closure\" add constraint \"ck_jghi_closure_payload_object\" check (jsonb_typeof(source_payload)='object');",
+    "operation": "alter table",
+    "table": "project_completion_condition_closure",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 556,
+    "sql": "alter table \"poms\".\"project_lifecycle_evidence_ref\" add constraint \"project_lifecycle_evidence_ref_attachment_row_version_check\" check (attachment_row_version>0);",
+    "operation": "alter table",
+    "table": "project_lifecycle_evidence_ref",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 558,
+    "sql": "alter table \"poms\".\"project_lifecycle_evidence_ref\" add constraint \"project_lifecycle_evidence_ref_checksum_sha256_check\" check (checksum_sha256 ~ '^[0-9a-f]{64}$');",
+    "operation": "alter table",
+    "table": "project_lifecycle_evidence_ref",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 559,
+    "sql": "alter table \"poms\".\"project_lifecycle_evidence_ref\" add constraint \"project_lifecycle_evidence_ref_source_payload_hash_check\" check (source_payload_hash ~ '^[0-9a-f]{64}$');",
+    "operation": "alter table",
+    "table": "project_lifecycle_evidence_ref",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 560,
+    "sql": "alter table \"poms\".\"project_lifecycle_evidence_ref\" add constraint \"project_lifecycle_evidence_ref_check\" check (num_nonnulls(stage_record_id,acceptance_record_id,completion_record_id,completion_condition_id,condition_closure_id,archive_record_id)=1);",
+    "operation": "alter table",
+    "table": "project_lifecycle_evidence_ref",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 561,
+    "sql": "alter table \"poms\".\"project_lifecycle_evidence_ref\" add constraint \"ck_jghi_lifecycle_payload_object\" check (jsonb_typeof(source_payload)='object');",
+    "operation": "alter table",
+    "table": "project_lifecycle_evidence_ref",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 562,
+    "sql": "alter table \"poms\".\"commission_role_assignment_participant\" add constraint \"commission_role_assignment_participant_role_type_check\" check (length(btrim(role_type)) > 0);",
+    "operation": "alter table",
+    "table": "commission_role_assignment_participant",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 564,
+    "sql": "alter table \"poms\".\"commission_role_assignment_participant\" add constraint \"commission_role_assignment_partici_responsibility_summary_check\" check (length(btrim(responsibility_summary)) BETWEEN 1 AND 2000);",
+    "operation": "alter table",
+    "table": "commission_role_assignment_participant",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 565,
+    "sql": "alter table \"poms\".\"commission_role_assignment_participant\" add constraint \"commission_role_assignment_participant_weight_units_check\" check (weight_units BETWEEN 0 AND 1000000);",
+    "operation": "alter table",
+    "table": "commission_role_assignment_participant",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 566,
+    "sql": "alter table \"poms\".\"commission_role_assignment_participant\" add constraint \"commission_role_assignment_participant_sort_order_check\" check (sort_order >= 0);",
+    "operation": "alter table",
+    "table": "commission_role_assignment_participant",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 567,
+    "sql": "alter table \"poms\".\"commission_role_assignment_participant\" add constraint \"commission_role_assignment_participant_check\" check ((weight_units=0 AND zero_weight_reason IS NOT NULL AND length(btrim(zero_weight_reason)) BETWEEN 1 AND 1000)\n        OR (weight_units>0 AND zero_weight_reason IS NULL));",
+    "operation": "alter table",
+    "table": "commission_role_assignment_participant",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 569,
+    "sql": "alter table \"poms\".\"commission_role_assignment_freeze_payload\" add constraint \"commission_role_assignment_freeze__weights_policy_version_check\" check (weights_policy_version='normalized-six-v1-zero-reason');",
+    "operation": "alter table",
+    "table": "commission_role_assignment_freeze_payload",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 571,
+    "sql": "alter table \"poms\".\"commission_role_assignment_freeze_payload\" add constraint \"commission_role_assignment_freeze_pay_source_payload_hash_check\" check (source_payload_hash ~ '^[0-9a-f]{64}$');",
+    "operation": "alter table",
+    "table": "commission_role_assignment_freeze_payload",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 572,
+    "sql": "alter table \"poms\".\"commission_role_assignment_freeze_payload\" add constraint \"commission_role_assignment_freeze_payload_check\" check (freeze_summary_snapshot_id <> handover_summary_snapshot_id);",
+    "operation": "alter table",
+    "table": "commission_role_assignment_freeze_payload",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 573,
+    "sql": "alter table \"poms\".\"commission_role_assignment_freeze_payload\" add constraint \"ck_jghi_freeze_payload_object\" check (jsonb_typeof(source_payload)='object');",
+    "operation": "alter table",
+    "table": "commission_role_assignment_freeze_payload",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 574,
+    "sql": "alter table \"poms\".\"commission_freeze_dispute_record\" add constraint \"chk_cfdr_arbitration_status\" check (\"arbitration_status\" in ('pending', 'arbitrated'));",
+    "operation": "alter table",
+    "table": "commission_freeze_dispute_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 576,
+    "sql": "alter table \"poms\".\"commission_freeze_dispute_record\" add constraint \"chk_cfdr_status\" check (\"status\" in ('submitted', 'closed'));",
+    "operation": "alter table",
+    "table": "commission_freeze_dispute_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 577,
+    "sql": "alter table \"poms\".\"commission_freeze_change_request\" add constraint \"chk_cfcr_status\" check (\"status\" in ('effective', 'closed'));",
+    "operation": "alter table",
+    "table": "commission_freeze_change_request",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 579,
+    "sql": "alter table \"poms\".\"commission_departure_exception_decision\" add constraint \"chk_cded_status\" check (\"status\" in ('active', 'superseded', 'voided'));",
+    "operation": "alter table",
+    "table": "commission_departure_exception_decision",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 581,
+    "sql": "alter table \"poms\".\"change_package_baseline\" add constraint \"chk_change_package_baseline_status\" check (\"status\" in ('active', 'voided'));",
+    "operation": "alter table",
+    "table": "change_package_baseline",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 583,
+    "sql": "alter table \"poms\".\"receipt_record\" add constraint \"chk_receipt_record_status\" check (\"status\" in ('draft', 'pending-confirmation', 'confirmed', 'reversed', 'voided'));",
+    "operation": "alter table",
+    "table": "receipt_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 585,
+    "sql": "alter table \"poms\".\"receipt_accounting_basis\" add constraint \"receipt_accounting_basis_receipt_row_version_check\" check (receipt_row_version>0);",
+    "operation": "alter table",
+    "table": "receipt_accounting_basis",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 587,
+    "sql": "alter table \"poms\".\"receipt_accounting_basis\" add constraint \"receipt_accounting_basis_term_snapshot_version_check\" check (term_snapshot_version>0);",
+    "operation": "alter table",
+    "table": "receipt_accounting_basis",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 588,
+    "sql": "alter table \"poms\".\"receipt_accounting_basis\" add constraint \"receipt_accounting_basis_term_snapshot_row_version_check\" check (term_snapshot_row_version>0);",
+    "operation": "alter table",
+    "table": "receipt_accounting_basis",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 589,
+    "sql": "alter table \"poms\".\"receipt_accounting_basis\" add constraint \"receipt_accounting_basis_term_payload_hash_check\" check (term_payload_hash~'^[0-9a-f]{64}$');",
+    "operation": "alter table",
+    "table": "receipt_accounting_basis",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 590,
+    "sql": "alter table \"poms\".\"receipt_accounting_basis\" add constraint \"receipt_accounting_basis_currency_check\" check (currency~'^[A-Z]{3}$');",
+    "operation": "alter table",
+    "table": "receipt_accounting_basis",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 591,
+    "sql": "alter table \"poms\".\"receipt_accounting_basis\" add constraint \"receipt_accounting_basis_currency_source_version_check\" check (currency_source_version>0);",
+    "operation": "alter table",
+    "table": "receipt_accounting_basis",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 592,
+    "sql": "alter table \"poms\".\"receipt_accounting_basis\" add constraint \"receipt_accounting_basis_currency_source_hash_check\" check (currency_source_hash~'^[0-9a-f]{64}$');",
+    "operation": "alter table",
+    "table": "receipt_accounting_basis",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 593,
+    "sql": "alter table \"poms\".\"receipt_accounting_basis\" add constraint \"receipt_accounting_basis_cash_gross_check\" check (cash_gross>0);",
+    "operation": "alter table",
+    "table": "receipt_accounting_basis",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 594,
+    "sql": "alter table \"poms\".\"receipt_accounting_basis\" add constraint \"receipt_accounting_basis_amount_excluding_tax_check\" check (amount_excluding_tax>=0);",
+    "operation": "alter table",
+    "table": "receipt_accounting_basis",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 595,
+    "sql": "alter table \"poms\".\"receipt_accounting_basis\" add constraint \"receipt_accounting_basis_tax_amount_check\" check (tax_amount>=0);",
+    "operation": "alter table",
+    "table": "receipt_accounting_basis",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 596,
+    "sql": "alter table \"poms\".\"receipt_accounting_basis\" add constraint \"receipt_accounting_basis_tax_rate_check\" check (tax_rate>=0 AND tax_rate<=1);",
+    "operation": "alter table",
+    "table": "receipt_accounting_basis",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 597,
+    "sql": "alter table \"poms\".\"receipt_accounting_basis\" add constraint \"receipt_accounting_basis_capture_mode_check\" check (capture_mode IN ('confirm','certify-existing-basis'));",
+    "operation": "alter table",
+    "table": "receipt_accounting_basis",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 598,
+    "sql": "alter table \"poms\".\"receipt_accounting_basis\" add constraint \"receipt_accounting_basis_selection_policy_check\" check (selection_policy IN ('receipt-date-effective-terms','explicit-activated-terms-evidence'));",
+    "operation": "alter table",
+    "table": "receipt_accounting_basis",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 599,
+    "sql": "alter table \"poms\".\"receipt_accounting_basis\" add constraint \"receipt_accounting_basis_rounding_policy_check\" check (rounding_policy='gross-net-HALF_UP-cents-v1');",
+    "operation": "alter table",
+    "table": "receipt_accounting_basis",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 600,
+    "sql": "alter table \"poms\".\"receipt_accounting_basis\" add constraint \"receipt_accounting_basis_reason_check\" check (length(btrim(reason))>0);",
+    "operation": "alter table",
+    "table": "receipt_accounting_basis",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 601,
+    "sql": "alter table \"poms\".\"receipt_accounting_basis\" add constraint \"receipt_accounting_basis_evidence_refs_check\" check (jsonb_typeof(evidence_refs)='array');",
+    "operation": "alter table",
+    "table": "receipt_accounting_basis",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 602,
+    "sql": "alter table \"poms\".\"receipt_accounting_basis\" add constraint \"receipt_accounting_basis_frozen_payload_check\" check (jsonb_typeof(frozen_payload)='object');",
+    "operation": "alter table",
+    "table": "receipt_accounting_basis",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 603,
+    "sql": "alter table \"poms\".\"receipt_accounting_basis\" add constraint \"receipt_accounting_basis_payload_hash_check\" check (payload_hash~'^[0-9a-f]{64}$');",
+    "operation": "alter table",
+    "table": "receipt_accounting_basis",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 604,
+    "sql": "alter table \"poms\".\"receipt_accounting_basis\" add constraint \"receipt_accounting_basis_producer_version_check\" check (producer_version=1);",
+    "operation": "alter table",
+    "table": "receipt_accounting_basis",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 605,
+    "sql": "alter table \"poms\".\"receipt_accounting_basis\" add constraint \"receipt_accounting_basis_row_version_check\" check (row_version=1);",
+    "operation": "alter table",
+    "table": "receipt_accounting_basis",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 606,
+    "sql": "alter table \"poms\".\"receipt_accounting_basis\" add constraint \"chk_r4g_receipt_split\" check (cash_gross=amount_excluding_tax+tax_amount);",
+    "operation": "alter table",
+    "table": "receipt_accounting_basis",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 607,
+    "sql": "alter table \"poms\".\"commission_final_settlement_snapshot\" add constraint \"chk_cfss_data_maturity_level\" check (\"data_maturity_level\" in ('insufficient', 'preliminary', 'mature'));",
+    "operation": "alter table",
+    "table": "commission_final_settlement_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 609,
+    "sql": "alter table \"poms\".\"commission_final_settlement_snapshot\" add constraint \"chk_cfss_final_settlement_status\" check (\"final_settlement_status\" in ('pending-final-settlement', 'pending-retention-settlement', 'settled-all'));",
+    "operation": "alter table",
+    "table": "commission_final_settlement_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 610,
+    "sql": "alter table \"poms\".\"commission_final_settlement_snapshot\" add constraint \"chk_cfss_non_retention_settlement_status\" check (\"non_retention_settlement_status\" in ('pending-non-retention', 'settled-non-retention'));",
+    "operation": "alter table",
+    "table": "commission_final_settlement_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 611,
+    "sql": "alter table \"poms\".\"commission_final_settlement_snapshot\" add constraint \"chk_cfss_retention_settlement_status\" check (\"retention_settlement_status\" in ('waiting-retention', 'ready-retention', 'settled-retention'));",
+    "operation": "alter table",
+    "table": "commission_final_settlement_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 612,
+    "sql": "alter table \"poms\".\"commission_final_settlement_snapshot\" add constraint \"chk_cfss_baseline_selection_source\" check (\"baseline_selection_source\" in ('original', 'handover-rebaseline'));",
+    "operation": "alter table",
+    "table": "commission_final_settlement_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 613,
+    "sql": "alter table \"poms\".\"commission_final_settlement_snapshot\" add constraint \"chk_cfss_cost_action_recommendation\" check (\"cost_action_recommendation\" in ('prompt', 'review', 'block'));",
+    "operation": "alter table",
+    "table": "commission_final_settlement_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 614,
+    "sql": "alter table \"poms\".\"commission_final_settlement_snapshot\" add constraint \"chk_cfss_current_action_level\" check (\"current_action_level\" in ('prompt', 'review', 'block'));",
+    "operation": "alter table",
+    "table": "commission_final_settlement_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 615,
+    "sql": "alter table \"poms\".\"commission_final_settlement_snapshot\" add constraint \"chk_cfss_status\" check (\"status\" in ('active', 'superseded', 'voided'));",
+    "operation": "alter table",
+    "table": "commission_final_settlement_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 616,
+    "sql": "alter table \"poms\".\"commission_rule_explanation_snapshot\" add constraint \"chk_cres_current_stage_status\" check (\"current_stage_status\" in ('pending-final-settlement', 'blocked-retention', 'ready-retention', 'settled-retention'));",
+    "operation": "alter table",
+    "table": "commission_rule_explanation_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 618,
+    "sql": "alter table \"poms\".\"commission_rule_explanation_snapshot\" add constraint \"chk_cres_gate_decision_code\" check (\"gate_decision_code\" in ('allow-final-settlement', 'settled-retention', 'block-retention', 'review-retention', 'allow-retention'));",
+    "operation": "alter table",
+    "table": "commission_rule_explanation_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 619,
+    "sql": "alter table \"poms\".\"commission_rule_explanation_snapshot\" add constraint \"chk_cres_status\" check (\"status\" in ('active', 'superseded', 'voided'));",
+    "operation": "alter table",
+    "table": "commission_rule_explanation_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 620,
+    "sql": "alter table \"poms\".\"receivable_plan_version\" add constraint \"receivable_plan_version_version_check\" check (\"version\" > 0);",
+    "operation": "alter table",
+    "table": "receivable_plan_version",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 622,
+    "sql": "alter table \"poms\".\"receivable_plan_version\" add constraint \"receivable_plan_version_row_version_check\" check (\"row_version\" > 0);",
+    "operation": "alter table",
+    "table": "receivable_plan_version",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 623,
+    "sql": "alter table \"poms\".\"receivable_plan_version\" add constraint \"receivable_plan_version_status_check\" check (\"status\" in ('active', 'superseded', 'voided'));",
+    "operation": "alter table",
+    "table": "receivable_plan_version",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 624,
+    "sql": "alter table \"poms\".\"receivable_plan_version\" add constraint \"receivable_plan_version_amount_tax_inclusive_check\" check (\"amount_tax_inclusive\" > 0);",
+    "operation": "alter table",
+    "table": "receivable_plan_version",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 625,
+    "sql": "alter table \"poms\".\"receivable_plan_version\" add constraint \"receivable_plan_version_payload_hash_check\" check (\"payload_hash\" ~ '^[0-9a-f]{64}$');",
+    "operation": "alter table",
+    "table": "receivable_plan_version",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 626,
+    "sql": "alter table \"poms\".\"receivable_plan_node\" add constraint \"receivable_plan_node_planned_amount_check\" check (\"planned_amount\" > 0);",
+    "operation": "alter table",
+    "table": "receivable_plan_node",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 628,
+    "sql": "alter table \"poms\".\"receivable_plan_node\" add constraint \"receivable_plan_node_sort_order_check\" check (\"sort_order\" >= 0);",
+    "operation": "alter table",
+    "table": "receivable_plan_node",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 629,
+    "sql": "alter table \"poms\".\"project_handover_contract_basis\" add constraint \"project_handover_contract_basis_amount_tax_exclusive_check\" check (((amount_tax_exclusive > (0)::numeric)));",
+    "operation": "alter table",
+    "table": "project_handover_contract_basis",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 631,
+    "sql": "alter table \"poms\".\"project_handover_contract_basis\" add constraint \"project_handover_contract_basis_amount_tax_inclusive_check\" check (((amount_tax_inclusive > (0)::numeric)));",
+    "operation": "alter table",
+    "table": "project_handover_contract_basis",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 632,
+    "sql": "alter table \"poms\".\"project_handover_contract_basis\" add constraint \"project_handover_contract_basis_currency_code_check\" check (((length(btrim((currency_code)::text)) > 0)));",
+    "operation": "alter table",
+    "table": "project_handover_contract_basis",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 633,
+    "sql": "alter table \"poms\".\"project_handover_contract_basis\" add constraint \"project_handover_contract_basis_signed_amount_check\" check (((signed_amount > (0)::numeric)));",
+    "operation": "alter table",
+    "table": "project_handover_contract_basis",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 634,
+    "sql": "alter table \"poms\".\"project_handover_contract_basis\" add constraint \"project_handover_contract_basis_source_payload_hash_check\" check ((((source_payload_hash)::text ~ '^[0-9a-f]{64}$'::text)));",
+    "operation": "alter table",
+    "table": "project_handover_contract_basis",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 635,
+    "sql": "alter table \"poms\".\"sales_discovery_record\" add constraint \"chk_sales_discovery_anchor\" check (\"lead_id\" is not null or \"project_id\" is not null);",
+    "operation": "alter table",
+    "table": "sales_discovery_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 637,
+    "sql": "alter table \"poms\".\"sales_follow_up_record\" add constraint \"chk_sales_follow_up_outcome\" check (\"outcome\" in ('progress', 'waiting-customer', 'risk-discovered', 'deferred', 'close-recommended', 'no-response', 'other'));",
+    "operation": "alter table",
+    "table": "sales_follow_up_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 639,
+    "sql": "alter table \"poms\".\"sales_follow_up_record\" add constraint \"chk_sales_follow_up_record_status\" check (\"status\" in ('active', 'superseded', 'voided'));",
+    "operation": "alter table",
+    "table": "sales_follow_up_record",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 640,
+    "sql": "alter table \"poms\".\"business_discussion_comment\" add constraint \"chk_business_discussion_type\" check (\"discussion_type\" in ('intelligence-supplement', 'decision-chain', 'competition', 'strategy', 'risk', 'general'));",
+    "operation": "alter table",
+    "table": "business_discussion_comment",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 642,
+    "sql": "alter table \"poms\".\"shared_cost_allocation_basis\" add constraint \"chk_shared_cost_allocation_basis_status\" check (\"status\" in ('pending', 'active', 'superseded', 'voided'));",
+    "operation": "alter table",
+    "table": "shared_cost_allocation_basis",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 644,
+    "sql": "alter table \"poms\".\"shared_cost_allocation_basis\" add constraint \"chk_r4f_basis_money_layers\" check (((((source_amount_excluding_tax IS NULL) OR (source_amount_excluding_tax >= (0)::numeric)) AND ((source_tax_cost_amount IS NULL) OR (source_tax_cost_amount >= (0)::numeric)) AND ((source_amount_including_tax IS NULL) OR (source_amount_including_tax >= (0)::numeric)) AND ((source_amount_excluding_tax IS NULL) OR (source_tax_cost_amount IS NULL) OR (source_amount_including_tax IS NULL) OR ((source_amount_excluding_tax + source_tax_cost_amount) = source_amount_including_tax)))));",
+    "operation": "alter table",
+    "table": "shared_cost_allocation_basis",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 645,
+    "sql": "alter table \"poms\".\"shared_cost_allocation_basis\" add constraint \"chk_r4f_basis_v1\" check ((((governance_schema_version = 0) OR ((governance_schema_version = 1) AND (currency IS NOT NULL) AND (measurement_basis IS NOT NULL) AND ((measurement_basis)::text = ANY ((ARRAY['excluding-tax'::character varying, 'tax'::character varying, 'including-tax'::character varying])::text[])) AND (measurement_amount IS NOT NULL) AND (measurement_amount >= (0)::numeric) AND (allocation_algorithm IS NOT NULL) AND ((allocation_algorithm)::text = 'largest-remainder-cents-v1'::text) AND (governance_evidence_id IS NOT NULL) AND ((supersedes_id IS NULL) OR ((replacement_reason IS NOT NULL) AND (length(btrim(replacement_reason)) > 0)))))));",
+    "operation": "alter table",
+    "table": "shared_cost_allocation_basis",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 646,
+    "sql": "alter table \"poms\".\"shared_cost_allocation_result\" add constraint \"chk_shared_cost_allocation_result_status\" check (\"status\" in ('pending', 'active', 'superseded', 'voided'));",
+    "operation": "alter table",
+    "table": "shared_cost_allocation_result",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 648,
+    "sql": "alter table \"poms\".\"shared_cost_allocation_result\" add constraint \"chk_r4f_result_money_layers\" check (((((allocated_amount_excluding_tax IS NULL) OR (allocated_amount_excluding_tax >= (0)::numeric)) AND ((allocated_tax_cost_amount IS NULL) OR (allocated_tax_cost_amount >= (0)::numeric)) AND ((allocated_amount_including_tax IS NULL) OR (allocated_amount_including_tax >= (0)::numeric)) AND ((allocated_amount_excluding_tax IS NULL) OR (allocated_tax_cost_amount IS NULL) OR (allocated_amount_including_tax IS NULL) OR ((allocated_amount_excluding_tax + allocated_tax_cost_amount) = allocated_amount_including_tax)))));",
+    "operation": "alter table",
+    "table": "shared_cost_allocation_result",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 649,
+    "sql": "alter table \"poms\".\"shared_cost_allocation_result\" add constraint \"chk_r4f_result_v1\" check ((((governance_schema_version = 0) OR ((governance_schema_version = 1) AND (currency IS NOT NULL) AND (allocation_weight IS NOT NULL) AND (allocation_weight >= (0)::numeric) AND (allocated_amount >= (0)::numeric) AND ((allocation_ratio IS NULL) OR ((allocation_ratio >= (0)::numeric) AND (allocation_ratio <= (1)::numeric))) AND (residual_minor_units IS NOT NULL) AND ((residual_minor_units >= 0) AND (residual_minor_units <= 2)) AND (governance_evidence_id IS NOT NULL) AND ((supersedes_id IS NULL) OR ((replacement_reason IS NOT NULL) AND (length(btrim(replacement_reason)) > 0)))))));",
+    "operation": "alter table",
+    "table": "shared_cost_allocation_result",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 650,
+    "sql": "alter table \"poms\".\"shared_cost_allocation_result\" add constraint \"ck_jghi_share_consumed\" check ((NOT is_included_in_project_cost AND included_at IS NULL AND included_by IS NULL)\n    OR (is_included_in_project_cost AND included_at IS NOT NULL AND included_by IS NOT NULL));",
+    "operation": "alter table",
+    "table": "shared_cost_allocation_result",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 652,
+    "sql": "alter table \"poms\".\"project_cost_inclusion_decision\" add constraint \"project_cost_inclusion_decision_source_row_version_check\" check (source_row_version>0);",
+    "operation": "alter table",
+    "table": "project_cost_inclusion_decision",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 654,
+    "sql": "alter table \"poms\".\"project_cost_inclusion_decision\" add constraint \"project_cost_inclusion_decision_decision_check\" check (decision IN ('include','exclude'));",
+    "operation": "alter table",
+    "table": "project_cost_inclusion_decision",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 655,
+    "sql": "alter table \"poms\".\"project_cost_inclusion_decision\" add constraint \"project_cost_inclusion_decision_recognition_role_check\" check (recognition_role IN ('direct-source','allocation-share','tax-support','evidence-only'));",
+    "operation": "alter table",
+    "table": "project_cost_inclusion_decision",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 656,
+    "sql": "alter table \"poms\".\"project_cost_inclusion_decision\" add constraint \"project_cost_inclusion_decision_reason_text_check\" check (length(btrim(reason_text))>0);",
+    "operation": "alter table",
+    "table": "project_cost_inclusion_decision",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 657,
+    "sql": "alter table \"poms\".\"project_cost_inclusion_decision\" add constraint \"project_cost_inclusion_decision_supporting_source_refs_check\" check (jsonb_typeof(supporting_source_refs)='array');",
+    "operation": "alter table",
+    "table": "project_cost_inclusion_decision",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 658,
+    "sql": "alter table \"poms\".\"project_cost_inclusion_decision\" add constraint \"project_cost_inclusion_decision_evidence_refs_check\" check (jsonb_typeof(evidence_refs)='array');",
+    "operation": "alter table",
+    "table": "project_cost_inclusion_decision",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 659,
+    "sql": "alter table \"poms\".\"project_cost_inclusion_decision\" add constraint \"project_cost_inclusion_decision_frozen_payload_check\" check (jsonb_typeof(frozen_payload)='object');",
+    "operation": "alter table",
+    "table": "project_cost_inclusion_decision",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 660,
+    "sql": "alter table \"poms\".\"project_cost_inclusion_decision\" add constraint \"project_cost_inclusion_decision_payload_hash_check\" check (payload_hash~'^[0-9a-f]{64}$');",
+    "operation": "alter table",
+    "table": "project_cost_inclusion_decision",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 661,
+    "sql": "alter table \"poms\".\"project_cost_inclusion_decision\" add constraint \"project_cost_inclusion_decision_producer_version_check\" check (producer_version=1);",
+    "operation": "alter table",
+    "table": "project_cost_inclusion_decision",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 662,
+    "sql": "alter table \"poms\".\"project_cost_inclusion_decision\" add constraint \"project_cost_inclusion_decision_row_version_check\" check (row_version=1);",
+    "operation": "alter table",
+    "table": "project_cost_inclusion_decision",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 663,
+    "sql": "alter table \"poms\".\"project_cost_inclusion_decision\" add constraint \"chk_r4g_inclusion_target\" check ((cost_record_id IS NULL)<>(allocation_result_id IS NULL));",
+    "operation": "alter table",
+    "table": "project_cost_inclusion_decision",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 664,
+    "sql": "alter table \"poms\".\"project_cost_inclusion_decision\" add constraint \"chk_r4g_support_not_primary\" check (recognition_role NOT IN ('tax-support','evidence-only') OR decision='exclude');",
+    "operation": "alter table",
+    "table": "project_cost_inclusion_decision",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 665,
+    "sql": "alter table \"poms\".\"project_cost_inclusion_head\" add constraint \"project_cost_inclusion_head_row_version_check\" check (row_version>0);",
+    "operation": "alter table",
+    "table": "project_cost_inclusion_head",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 667,
+    "sql": "alter table \"poms\".\"operating_snapshot_cost_member\" add constraint \"operating_snapshot_cost_member_captured_source_version_check\" check (captured_source_version>0);",
+    "operation": "alter table",
+    "table": "operating_snapshot_cost_member",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 669,
+    "sql": "alter table \"poms\".\"operating_snapshot_cost_member\" add constraint \"operating_snapshot_cost_member_captured_payload_hash_check\" check (captured_payload_hash~'^[0-9a-f]{64}$');",
+    "operation": "alter table",
+    "table": "operating_snapshot_cost_member",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 670,
+    "sql": "alter table \"poms\".\"operating_snapshot_cost_member\" add constraint \"operating_snapshot_cost_member_net_knowledge_check\" check (net_knowledge IN ('known','unknown'));",
+    "operation": "alter table",
+    "table": "operating_snapshot_cost_member",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 671,
+    "sql": "alter table \"poms\".\"operating_snapshot_cost_member\" add constraint \"operating_snapshot_cost_member_frozen_payload_check\" check (jsonb_typeof(frozen_payload)='object');",
+    "operation": "alter table",
+    "table": "operating_snapshot_cost_member",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 672,
+    "sql": "alter table \"poms\".\"operating_snapshot_cost_member\" add constraint \"operating_snapshot_cost_member_check\" check ((net_knowledge='known')=(amount_excluding_tax IS NOT NULL));",
+    "operation": "alter table",
+    "table": "operating_snapshot_cost_member",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 673,
+    "sql": "alter table \"poms\".\"shared_cost_allocation_source_snapshot\" add constraint \"shared_cost_allocation_source_snapsho_source_payload_hash_check\" check (((source_payload_hash ~ '^[0-9a-f]{64}$'::text)));",
+    "operation": "alter table",
+    "table": "shared_cost_allocation_source_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 675,
+    "sql": "alter table \"poms\".\"shared_cost_allocation_source_snapshot\" add constraint \"shared_cost_allocation_source_snapshot_check\" check (((((amount_excluding_tax IS NULL) OR (amount_excluding_tax >= (0)::numeric)) AND ((tax_cost_amount IS NULL) OR (tax_cost_amount >= (0)::numeric)) AND ((amount_including_tax IS NULL) OR (amount_including_tax >= (0)::numeric)) AND ((amount_excluding_tax IS NULL) OR (tax_cost_amount IS NULL) OR (amount_including_tax IS NULL) OR ((amount_excluding_tax + tax_cost_amount) = amount_including_tax)))));",
+    "operation": "alter table",
+    "table": "shared_cost_allocation_source_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 676,
+    "sql": "alter table \"poms\".\"shared_cost_allocation_source_snapshot\" add constraint \"shared_cost_allocation_source_snapshot_cost_row_version_check\" check (((cost_row_version > 0)));",
+    "operation": "alter table",
+    "table": "shared_cost_allocation_source_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 677,
+    "sql": "alter table \"poms\".\"shared_cost_allocation_source_snapshot\" add constraint \"shared_cost_allocation_source_snapshot_source_payload_check\" check (((jsonb_typeof(source_payload) = 'object'::text)));",
+    "operation": "alter table",
+    "table": "shared_cost_allocation_source_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 678,
+    "sql": "alter table \"poms\".\"shared_cost_allocation_source_snapshot\" add constraint \"shared_cost_allocation_source_snapshot_source_row_version_check\" check (((source_row_version > 0)));",
+    "operation": "alter table",
+    "table": "shared_cost_allocation_source_snapshot",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 679,
+    "sql": "alter table \"poms\".\"system_setting\" add constraint \"chk_system_setting_value_type\" check (\"value_type\" in ('integer'));",
+    "operation": "alter table",
+    "table": "system_setting",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 681,
+    "sql": "alter table \"poms\".\"todo_item\" add constraint \"chk_todo_item_source_type\" check (\"source_type\" in ('approval-record', 'confirmation-record', 'sales-follow-up-record'));",
+    "operation": "alter table",
+    "table": "todo_item",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 683,
+    "sql": "alter table \"poms\".\"todo_item\" add constraint \"chk_todo_item_todo_type\" check (\"todo_type\" in ('approval', 'confirmation', 'sales-follow-up-reminder'));",
+    "operation": "alter table",
+    "table": "todo_item",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 684,
+    "sql": "alter table \"poms\".\"todo_item\" add constraint \"chk_todo_item_business_domain\" check (\"business_domain\" in ('contract-finance', 'commission', 'sales', 'project-handover'));",
+    "operation": "alter table",
+    "table": "todo_item",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 685,
+    "sql": "alter table \"poms\".\"todo_item\" add constraint \"chk_todo_item_target_object_type\" check (\"target_object_type\" in ('contract', 'commission-payout', 'commission-adjustment', 'project', 'lead', 'customer', 'project-handover'));",
+    "operation": "alter table",
+    "table": "todo_item",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 686,
+    "sql": "alter table \"poms\".\"todo_item\" add constraint \"chk_todo_item_status\" check (\"status\" in ('open', 'processing', 'completed', 'canceled'));",
+    "operation": "alter table",
+    "table": "todo_item",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 687,
+    "sql": "alter table \"poms\".\"todo_item\" add constraint \"chk_todo_item_priority\" check (\"priority\" in ('low', 'normal', 'high', 'urgent'));",
+    "operation": "alter table",
+    "table": "todo_item",
+    "kind": "add constraint"
+  },
+  {
+    "startLine": 688,
+    "sql": "\u001b[32m\u001b[39m",
+    "operation": "other",
+    "table": null,
+    "kind": "other"
+  }
+]

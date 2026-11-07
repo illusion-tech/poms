@@ -1,0 +1,696 @@
+--- a/tools/rust-r4ghi/business/contracts.mjs
++++ b/tools/rust-r4ghi/business/contracts.mjs
+@@ -1,91 +1,91 @@
+-import assert from 'node:assert/strict';
+-import * as payload from '../../rust-r4abc/upstream-payloads01.mjs';
+-import { data, uuid } from './pure.mjs';
+-import { requireSummary } from './upstream.mjs';
+-import { actualActorFor } from './actors.mjs';
+-
+-const rv = row => { assert(Number.isSafeInteger(row?.rowVersion) && row.rowVersion > 0 && row.rowVersion <= 2147483647); return row.rowVersion; };
+-const births = (table, pointer = '/id') => [{ table, pointer }];
+-function context(ctx, slot = null) {
+-  const f = ctx.state.fixtures;
+-  return { ...f, ...(slot ?? {}), actorId: ctx.state.actors.manager.id, tag: ctx.state.prefix, plannedDate: f.plannedDate,
+-    contractInclusive: '56500.00', contractExclusive: '50000.00', summary: requireSummary(ctx) };
+-}
+-export async function contractPrepare(ctx, api) {
+-  const f = ctx.state.fixtures; assert(f.projectSourcesComplete && !f.contractPrepareComplete);
+-  const call = async (op, params, body = null, binding = {}) => data(await api.request(op, params, body, 'manager', binding));
+-  if (!f.pricing) { f.pricing = await call('ProjectController_createProjectPricingMarginReview', { projectId: f.project.id }, payload.pricing(context(ctx)).body, { responseBirths: births('project_pricing_margin_review'), mutableTables: ['project'] }); ctx.persist(); }
+-  assert.equal(f.pricing.readyForContracting, true, 'Actual R3 pricing release required');
+-  f.contractRuns ??= [f.contract, f.secondContract].map(contract => ({ contract })); ctx.persist();
+-  for (const slot of f.contractRuns) {
+-    if (slot.preparation) continue;
+-    let c = context(ctx, slot);
+-    if (!slot.readiness) {
+-      slot.readiness = await call('ContractReadinessController_createContractReadinessPackage', {}, payload.readiness(c, { lightReview: true }).body,
+-        { responseBirths: births('contract_readiness_package'), mutableTables: ['commercial_release_baseline'] }); ctx.persist();
+-    }
+-    c = context(ctx, slot);
+-    slot.diffHistory = await call('ContractReadinessController_getDiffHistory', { id: f.baseline.id }, null, { query: { contractId: slot.contract.id } });
+-    f.baseline = await call('ContractReadinessController_getCommercialReleaseBaseline', { id: f.baseline.id }); ctx.persist();
+-    if (!slot.diffReview) {
+-      c = context(ctx, slot); const fields = slot.diffHistory?.diffItems ?? [];
+-      if (fields.length) {
+-        slot.diffReview = await call('ContractReadinessController_reviewDiff', { id: f.baseline.id }, payload.reviewDiff(c).body,
+-          { mutableTables: ['commercial_release_baseline', 'contract_readiness_package', 'commercial_baseline_diff_result'],
+-            updatedAnchors: [{ table: 'commercial_release_baseline', id: f.baseline.id, requestBinding: 'path:id' }] }); ctx.persist();
+-      }
+-    }
+-    slot.readiness = await call('ContractReadinessController_getCurrentContractReadiness', { projectId: f.project.id }, null, { query: { contractId: slot.contract.id } }); ctx.persist();
+-    assert.equal(slot.readiness.guardDecision, 'allowed', 'Real readiness prerequisite/diff review required');
+-    slot.preparation = await call('ContractReadinessController_initializeContractSnapshot', { id: slot.readiness.id }, payload.prepare(context(ctx, slot)).body,
+-      { responseBirths: births('contract_term_preparation', '/preparationId'), mutableTables: ['contract_readiness_package'],
+-        updatedAnchors: [{ table: 'contract_readiness_package', id: slot.readiness.id, requestBinding: 'path:id' }] });
+-    uuid(slot.preparation.preparationId); assert.equal(slot.preparation.snapshotId, null); ctx.persist();
+-  }
+-  f.contractPrepareComplete = true; ctx.persist();
+-  return { kind: 'actual-R3-pricing-and-two-contract-readiness-preparations', completed: true, contracts: f.contractRuns.length, summaryIsApproval: false,
+-    contractApprovalAndActivation: 'not-run', nextStage: 'contract-finish', G3Certified: false, G4Certified: false };
+-}
+-export async function contractFinish(ctx, api) {
+-  const f = ctx.state.fixtures; assert(f.contractPrepareComplete && !f.contractFinishComplete);
+-  const call = async (op, params, body = null, binding = {}, actor = 'manager') => data(await api.request(op, params, body, actor, binding));
+-  const approvalTables = ['contract', 'contract_term_preparation', 'contract_readiness_package', 'approval_record', 'todo_item', 'approval_summary_snapshot'];
+-  for (const slot of f.contractRuns) {
+-    if (slot.plan) continue;
+-    slot.contract = await call('ContractController_getById', { id: slot.contract.id }); ctx.persist();
+-    if (!slot.submitted) {
+-      slot.submitted = await call('ContractController_submitReview', { id: slot.contract.id }, payload.submit(context(ctx, slot)).body,
+-        { responseBirths: births('approval_record', '/approvalRecordId'), mutableTables: approvalTables,
+-          updatedAnchors: [{ table: 'contract', id: slot.contract.id, requestBinding: 'path:id' }] }); ctx.persist();
+-    }
+-    for (let n = 0; n < 8; n++) {
+-      slot.approval = await call('ContractController_getCurrentApproval', { id: slot.contract.id }); ctx.persist();
+-      assert.equal(slot.approval.id, slot.submitted.approvalRecordId);
+-      if (slot.approval.currentStatus === 'approved') break;
+-      assert.equal(slot.approval.currentStatus, 'pending');
+-      const actor = await actualActorFor(ctx, api, uuid(slot.approval.currentApproverUserId));
+-      await call('ApprovalController_approveRecord', { id: slot.approval.id }, { expectedVersion: rv(slot.approval), comment: '本人按实际指定审批职责批准本隔离验收真实合同准备版本。' },
+-        { mutableTables: approvalTables, updatedAnchors: [{ table: 'approval_record', id: slot.approval.id, requestBinding: 'path:id' }] }, actor);
+-    }
+-    slot.approval = await call('ContractController_getCurrentApproval', { id: slot.contract.id }); ctx.persist();
+-    assert.equal(slot.approval.currentStatus, 'approved', 'Actual approval chain did not reach approved');
+-    slot.contract = await call('ContractController_getById', { id: slot.contract.id }); ctx.persist();
+-    if (!slot.activated) {
+-      slot.activated = await call('ContractController_activate', { id: slot.contract.id }, payload.activate(context(ctx, slot)).body,
+-        { responseBirths: births('contract_term_snapshot', '/snapshotId'), mutableTables: [...approvalTables, 'project'],
+-          updatedAnchors: [{ table: 'contract', id: slot.contract.id, requestBinding: 'path:id' }] }); ctx.persist();
+-    }
+-    slot.contract = await call('ContractController_getById', { id: slot.contract.id }); assert.equal(slot.contract.status, 'active');
+-    slot.effective = await call('ContractTermSnapshotController_getById', { id: uuid(slot.activated.snapshotId) });
+-    assert.equal(slot.effective.snapshotStatus, 'active'); assert.equal(slot.effective.sourcePreparationId, slot.preparation.preparationId); ctx.persist();
+-    slot.readiness = await call('ContractReadinessController_getContractReadinessPackage', { id: slot.readiness.id }); ctx.persist();
+-    slot.plan = await call('ContractReadinessController_initializeReceivablePlan', { id: slot.readiness.id }, payload.plan(context(ctx, slot)).body,
+-      { responseBirths: births('receivable_plan_version', '/planVersionId'), mutableTables: ['contract_readiness_package'],
+-        updatedAnchors: [{ table: 'contract_readiness_package', id: slot.readiness.id, requestBinding: 'path:id' }] });
+-    uuid(slot.plan.planVersionId); uuid(slot.plan.initRecordId); assert.equal(slot.plan.snapshotId, slot.activated.snapshotId); ctx.persist();
+-  }
+-  f.project = await call('ProjectController_getById', { id: f.project.id });
+-  f.contractFinishComplete = true; ctx.persist();
+-  return { kind: 'actual-two-contract-approval-activation-formal-plan', completed: true, contracts: f.contractRuns.length,
+-    actualDesignatedActorsUsed: true, seedPasswordsRolesAndMembershipsChanged: false, receiptAndHandover: 'not-run', G3Certified: false, G4Certified: false };
+-}
++import assert from 'node:assert/strict';
++import * as payload from '../../rust-r4abc/upstream-payloads01.mjs';
++import { data, uuid } from './pure.mjs';
++import { requireSummary } from './upstream.mjs';
++import { actualActorFor } from './actors.mjs';
++
++const rv = row => { assert(Number.isSafeInteger(row?.rowVersion) && row.rowVersion > 0 && row.rowVersion <= 2147483647); return row.rowVersion; };
++const births = (table, pointer = '/id') => [{ table, pointer }];
++function context(ctx, slot = null) {
++  const f = ctx.state.fixtures;
++  return { ...f, ...(slot ?? {}), actorId: ctx.state.actors.manager.id, tag: ctx.state.prefix, plannedDate: f.plannedDate,
++    contractInclusive: '56500.00', contractExclusive: '50000.00', summary: requireSummary(ctx) };
++}
++export async function contractPrepare(ctx, api) {
++  const f = ctx.state.fixtures; assert(f.projectSourcesComplete && !f.contractPrepareComplete);
++  const call = async (op, params, body = null, binding = {}) => data(await api.request(op, params, body, 'manager', binding));
++  if (!f.pricing) { f.pricing = await call('ProjectController_createProjectPricingMarginReview', { projectId: f.project.id }, payload.pricing(context(ctx)).body, { responseBirths: births('project_pricing_margin_review'), mutableTables: ['project'] }); ctx.persist(); }
++  assert.equal(f.pricing.readyForContracting, true, 'Actual R3 pricing release required');
++  f.contractRuns ??= [f.contract, f.secondContract].map(contract => ({ contract })); ctx.persist();
++  for (const slot of f.contractRuns) {
++    if (slot.preparation) continue;
++    let c = context(ctx, slot);
++    if (!slot.readiness) {
++      slot.readiness = await call('ContractReadinessController_createContractReadinessPackage', {}, payload.readiness(c, { lightReview: true }).body,
++        { responseBirths: births('contract_readiness_package'), mutableTables: ['commercial_release_baseline'] }); ctx.persist();
++    }
++    c = context(ctx, slot);
++    slot.diffHistory = await call('ContractReadinessController_getDiffHistory', { id: f.baseline.id }, null, { query: { contractId: slot.contract.id } });
++    f.baseline = await call('ContractReadinessController_getCommercialReleaseBaseline', { id: f.baseline.id }); ctx.persist();
++    if (!slot.diffReview) {
++      c = context(ctx, slot); const fields = slot.diffHistory?.diffItems ?? [];
++      if (fields.length) {
++        slot.diffReview = await call('ContractReadinessController_reviewDiff', { id: f.baseline.id }, payload.reviewDiff(c).body,
++          { readinessDiffReviewItems: true, mutableTables: ['commercial_release_baseline', 'contract_readiness_package', 'commercial_baseline_diff_result'],
++            updatedAnchors: [{ table: 'commercial_release_baseline', id: f.baseline.id, requestBinding: 'path:id' }] }); ctx.persist();
++      }
++    }
++    slot.readiness = await call('ContractReadinessController_getCurrentContractReadiness', { projectId: f.project.id }, null, { query: { contractId: slot.contract.id } }); ctx.persist();
++    assert.equal(slot.readiness.guardDecision, 'allowed', 'Real readiness prerequisite/diff review required');
++    slot.preparation = await call('ContractReadinessController_initializeContractSnapshot', { id: slot.readiness.id }, payload.prepare(context(ctx, slot)).body,
++      { responseBirths: births('contract_term_preparation', '/preparationId'), mutableTables: ['contract_readiness_package'],
++        updatedAnchors: [{ table: 'contract_readiness_package', id: slot.readiness.id, requestBinding: 'path:id' }] });
++    uuid(slot.preparation.preparationId); assert.equal(slot.preparation.snapshotId, null); ctx.persist();
++  }
++  f.contractPrepareComplete = true; ctx.persist();
++  return { kind: 'actual-R3-pricing-and-two-contract-readiness-preparations', completed: true, contracts: f.contractRuns.length, summaryIsApproval: false,
++    contractApprovalAndActivation: 'not-run', nextStage: 'contract-finish', G3Certified: false, G4Certified: false };
++}
++export async function contractFinish(ctx, api) {
++  const f = ctx.state.fixtures; assert(f.contractPrepareComplete && !f.contractFinishComplete);
++  const call = async (op, params, body = null, binding = {}, actor = 'manager') => data(await api.request(op, params, body, actor, binding));
++  const approvalTables = ['contract', 'contract_term_preparation', 'contract_readiness_package', 'approval_record', 'todo_item', 'approval_summary_snapshot'];
++  for (const slot of f.contractRuns) {
++    if (slot.plan) continue;
++    slot.contract = await call('ContractController_getById', { id: slot.contract.id }); ctx.persist();
++    if (!slot.submitted) {
++      slot.submitted = await call('ContractController_submitReview', { id: slot.contract.id }, payload.submit(context(ctx, slot)).body,
++        { responseBirths: births('approval_record', '/approvalRecordId'), mutableTables: approvalTables,
++          updatedAnchors: [{ table: 'contract', id: slot.contract.id, requestBinding: 'path:id' }] }); ctx.persist();
++    }
++    for (let n = 0; n < 8; n++) {
++      slot.approval = await call('ContractController_getCurrentApproval', { id: slot.contract.id }); ctx.persist();
++      assert.equal(slot.approval.id, slot.submitted.approvalRecordId);
++      if (slot.approval.currentStatus === 'approved') break;
++      assert.equal(slot.approval.currentStatus, 'pending');
++      const actor = await actualActorFor(ctx, api, uuid(slot.approval.currentApproverUserId));
++      await call('ApprovalController_approveRecord', { id: slot.approval.id }, { expectedVersion: rv(slot.approval), comment: '本人按实际指定审批职责批准本隔离验收真实合同准备版本。' },
++        { mutableTables: approvalTables, updatedAnchors: [{ table: 'approval_record', id: slot.approval.id, requestBinding: 'path:id' }] }, actor);
++    }
++    slot.approval = await call('ContractController_getCurrentApproval', { id: slot.contract.id }); ctx.persist();
++    assert.equal(slot.approval.currentStatus, 'approved', 'Actual approval chain did not reach approved');
++    slot.contract = await call('ContractController_getById', { id: slot.contract.id }); ctx.persist();
++    if (!slot.activated) {
++      slot.activated = await call('ContractController_activate', { id: slot.contract.id }, payload.activate(context(ctx, slot)).body,
++        { responseBirths: births('contract_term_snapshot', '/snapshotId'), mutableTables: [...approvalTables, 'project'],
++          updatedAnchors: [{ table: 'contract', id: slot.contract.id, requestBinding: 'path:id' }] }); ctx.persist();
++    }
++    slot.contract = await call('ContractController_getById', { id: slot.contract.id }); assert.equal(slot.contract.status, 'active');
++    slot.effective = await call('ContractTermSnapshotController_getById', { id: uuid(slot.activated.snapshotId) });
++    assert.equal(slot.effective.snapshotStatus, 'active'); assert.equal(slot.effective.sourcePreparationId, slot.preparation.preparationId); ctx.persist();
++    slot.readiness = await call('ContractReadinessController_getContractReadinessPackage', { id: slot.readiness.id }); ctx.persist();
++    slot.plan = await call('ContractReadinessController_initializeReceivablePlan', { id: slot.readiness.id }, payload.plan(context(ctx, slot)).body,
++      { responseBirths: births('receivable_plan_version', '/planVersionId'), mutableTables: ['contract_readiness_package'],
++        updatedAnchors: [{ table: 'contract_readiness_package', id: slot.readiness.id, requestBinding: 'path:id' }] });
++    uuid(slot.plan.planVersionId); uuid(slot.plan.initRecordId); assert.equal(slot.plan.snapshotId, slot.activated.snapshotId); ctx.persist();
++  }
++  f.project = await call('ProjectController_getById', { id: f.project.id });
++  f.contractFinishComplete = true; ctx.persist();
++  return { kind: 'actual-two-contract-approval-activation-formal-plan', completed: true, contracts: f.contractRuns.length,
++    actualDesignatedActorsUsed: true, seedPasswordsRolesAndMembershipsChanged: false, receiptAndHandover: 'not-run', G3Certified: false, G4Certified: false };
++}
+--- a/tools/rust-r4ghi/business/ledger.mjs
++++ b/tools/rust-r4ghi/business/ledger.mjs
+@@ -1,135 +1,138 @@
+-import assert from 'node:assert/strict';
+-import fs from 'node:fs';
+-import { sha, keyOf, birthProof, valueAt, uuid, numberProof } from './pure.mjs';
+-import { loadSnapshot, readRows, difference } from './snapshot.mjs';
+-import { assertObjectsRecorded, reconcileObjects } from './objects.mjs';
+-import { platformBirthProof } from './platform-bindings.mjs';
+-
+-export async function changedColumns(ctx, before, after) {
+-  return ctx.db(async c => (await c.query('SELECT k FROM jsonb_object_keys($1::jsonb) AS keys(k) WHERE ($1::jsonb->k) IS DISTINCT FROM ($2::jsonb->k) ORDER BY k', [before, after])).rows.map(r => r.k));
+-}
+-export function allowBorrowed(ctx, table, key, columns, reason) {
+-  assert(typeof reason === 'string' && reason.trim().length > 8);
+-  const baseline = loadSnapshot(ctx), meta = baseline.databases[ctx.database].tables[table]; assert(meta && meta.pk.length);
+-  const row = readRows(meta).find(r => JSON.stringify(r.key) === JSON.stringify(key)); assert(row, 'Only actual original baseline rows may be borrowed');
+-  assert(columns.length && columns.every(c => meta.columns.includes(c)));
+-  const k = keyOf(ctx.database, table, key), existing = ctx.state.borrowed[k];
+-  const entry = { database: ctx.database, table, key, allowedColumns: [...columns].sort(), reason, baselineSha256: row.sha256, latestSha256: row.sha256 };
+-  if (existing) { assert.deepEqual(existing.allowedColumns, entry.allowedColumns); assert.equal(existing.baselineSha256, row.sha256); }
+-  else ctx.state.borrowed[k] = entry;
+-  ctx.persist(); return entry;
+-}
+-export async function allowNumberCounter(ctx, scope) {
+-  const specs = JSON.parse(fs.readFileSync(`${ctx.win}/tools/rust-r2ef/e-authority.json`)).businessNumbers; assert(specs[scope]);
+-  const period = await ctx.db(async c => (await c.query("SELECT to_char(timezone('UTC',now()),'YYYY') period")).rows[0].period);
+-  const baseline = loadSnapshot(ctx), rows = readRows(baseline.databases[ctx.database].tables.business_number_sequence).filter(r => { const cell = JSON.parse(r.raw); return cell.scope === scope && cell.period === period; });
+-  assert(rows.length <= 1);
+-  for (const row of rows) allowBorrowed(ctx, 'business_number_sequence', row.key, ['next_value', 'prefix', 'padding', 'description', 'updated_at'], `Exact actual ${scope}/${period} API number producer counter; preserve original full row for reviewed cleanup`);
+-}
+-export function assertRecorded(ctx, observed) {
+-  const baseline = loadSnapshot(ctx), blockers = [];
+-  assertObjectsRecorded(ctx, baseline, observed);
+-  for (const database of ctx.databases) {
+-    assert.deepEqual(observed.databases[database].meta.normative, baseline.databases[database].meta.normative, 'Original catalog/OIDs/ACL/functions/triggers/roles changed');
+-    assert.deepEqual(observed.databases[database].meta.sequences, baseline.databases[database].meta.sequences, 'Unowned SQL sequence drift');
+-  }
+-  for (const change of difference(baseline, observed)) {
+-    if (change.database !== ctx.database) { blockers.push({ kind: 'native-database-drift', database: change.database, table: change.table }); continue; }
+-    for (const row of change.added) {
+-      const owned = ctx.state.owned[keyOf(change.database, change.table, row.key)];
+-      if (!owned || owned.latestSha256 !== row.sha256 || (owned.latestXmin && owned.latestXmin !== row.xmin) || owned.deleted) blockers.push({ kind: 'unknown-added-row-or-unobserved-change', table: change.table, key: row.key });
+-    }
+-    for (const pair of change.changed) {
+-      const borrowed = ctx.state.borrowed[keyOf(change.database, change.table, pair.after.key)];
+-      if (!borrowed || borrowed.baselineSha256 !== pair.before.sha256 || borrowed.latestSha256 !== pair.after.sha256) blockers.push({ kind: 'unobserved-original-row-change', table: change.table, key: pair.after.key });
+-    }
+-    for (const row of change.missing) blockers.push({ kind: 'original-row-deleted', table: change.table, key: row.key });
+-  }
+-  assert.equal(blockers.length, 0, 'Unattributed state before command; inspect private full before snapshot');
+-}
+-export async function reconcileAttempt(ctx, before, after, attempt, binding = {}) {
+-  const baseline = loadSnapshot(ctx), changes = difference(before, after), blockers = [], recorded = [];
+-  const numberSpecs = JSON.parse(fs.readFileSync(`${ctx.win}/tools/rust-r2ef/e-authority.json`)).businessNumbers;
+-  const additions = changes.flatMap(ch => ch.added.map(row => ({ database: ch.database, table: ch.table, row })));
+-  const anchors = [];
+-  for (const item of binding.responseBirths ?? []) {
+-    assert(baseline.databases[ctx.database].tables[item.table]);
+-    const value = valueAt(attempt.body, item.pointer);
+-    if (value === undefined || value === null) { if (attempt.status === attempt.expectedStatus && attempt.status >= 200 && attempt.status < 300 && !item.optional) blockers.push({ kind: 'expected-real-response-ID-missing', table: item.table, pointer: item.pointer }); continue; }
+-    const id = uuid(value), match = additions.find(a => a.database === ctx.database && a.table === item.table && a.row.key.length === 1 && a.row.key[0].toLowerCase() === id.toLowerCase());
+-    // A returned reference may point to an existing immutable row. It cannot
+-    // create an xmin ownership anchor for other rows in that case.
+-    if (match) anchors.push({ table: item.table, id, pointer: item.pointer, xmin: match.row.xmin });
+-  }
+-  let numberBody = attempt.body, storedNumberProof = null;
+-  if (binding.number?.rowSource && attempt.status >= 200 && attempt.status < 300) {
+-    const source = binding.number.rowSource, id = valueAt(attempt.body, source.responsePointer);
+-    const actual = additions.find(a => a.database === ctx.database && a.table === source.table && a.row.key.length === 1 && a.row.key[0] === id);
+-    assert(actual && anchors.some(a => a.table === source.table && a.id === id), 'Stored number must come from the actual newly returned owned command root');
+-    const value = JSON.parse(actual.row.raw)[source.column]; assert(typeof value === 'string' && /^\/[A-Za-z][A-Za-z0-9]*$/.test(binding.number.pointer));
+-    numberBody = { [binding.number.pointer.slice(1)]: value }; storedNumberProof = { numberSource: 'actual-new-response-root-stored-number', table: source.table, id, column: source.column, responsePointer: source.responsePointer, rowSha256: actual.row.sha256 };
+-  }
+-  // An explicitly addressed owned row that really changed can anchor its own
+-  // actual new transaction. The caller must bind that ID to the request path
+-  // or a request JSON pointer; existing read-only references grant nothing.
+-  for (const item of binding.updatedAnchors ?? []) {
+-    const id = uuid(item.id), change = changes.find(ch => ch.database === ctx.database && ch.table === item.table);
+-    const pair = change?.changed.find(p => p.after.key.length === 1 && p.after.key[0] === id);
+-    const owned = ctx.state.owned[keyOf(ctx.database, item.table, [id])];
+-    if (pair && owned?.latestSha256 === pair.before.sha256 && (binding.mutableTables ?? []).includes(item.table)) anchors.push({ table: item.table, id, pointer: `actual-updated-request-${item.requestBinding}`, xmin: pair.after.xmin });
+-  }
+-  const cookies = Object.values(ctx.state.actors).flatMap(a => a.cookies?.poms_session ? [sha(decodeURIComponent(a.cookies.poms_session))] : []);
+-  for (const a of additions.filter(a => a.database === ctx.database && ['audit_log', 'security_event', 'auth_session'].includes(a.table))) {
+-    const proof = birthProof(a.row, a.table, attempt, [], cookies);
+-    if (proof) anchors.push({ table: a.table, id: a.row.key[0], pointer: proof.kind, xmin: a.row.xmin });
+-  }
+-  for (const change of changes) {
+-    if (change.database !== ctx.database) { blockers.push({ kind: 'native-database-changed', table: change.table }); continue; }
+-    for (const row of change.added) {
+-      const oldMeta = baseline.databases[change.database].tables[change.table];
+-      if (!oldMeta.pk.length || readRows(oldMeta).some(r => JSON.stringify(r.key) === JSON.stringify(row.key))) { blockers.push({ kind: 'new-PK-not-proven-or-original-reused', table: change.table, key: row.key }); continue; }
+-      let proof = change.table === 'business_number_sequence' ? numberProof(row, null, binding.number, numberBody, numberSpecs) : birthProof(row, change.table, attempt, anchors, cookies);
+-      proof ??= platformBirthProof(ctx, change.table, row, attempt, anchors);
+-      if (proof && storedNumberProof && change.table === 'business_number_sequence') proof = { ...proof, ...storedNumberProof };
+-      if (!proof) { blockers.push({ kind: 'unknown-new-row', table: change.table, key: row.key, rowSha256: row.sha256 }); continue; }
+-      ctx.own(change.database, change.table, row, { ...proof, transport: attempt.transport ?? 'HTTP', requestId: attempt.requestId, operationId: attempt.operationId,
+-        status: attempt.status, responseComplete: attempt.responseComplete, beforeSnapshot: before.manifest, afterSnapshot: after.manifest, beforeAbsent: true });
+-      recorded.push({ kind: 'birth', table: change.table, key: row.key, proofKind: proof.kind });
+-    }
+-    for (const pair of change.changed) {
+-      const key = keyOf(change.database, change.table, pair.after.key), owned = ctx.state.owned[key], borrowed = ctx.state.borrowed[key];
+-      const counterProof = change.table === 'business_number_sequence' ? numberProof(pair.after, pair.before, binding.number, numberBody, numberSpecs) : null;
+-      if (change.table === 'business_number_sequence' && !counterProof) { blockers.push({ kind: 'counter-change-not-bound-to-real-returned-number', key: pair.after.key }); continue; }
+-      if (owned) {
+-        if (owned.latestSha256 !== pair.before.sha256 || (owned.latestXmin && owned.latestXmin !== pair.before.xmin) || !(['auth_session', 'platform_user'].includes(change.table) || counterProof || (binding.mutableTables ?? []).includes(change.table))) {
+-          blockers.push({ kind: 'owned-mutation-not-in-command-allowlist', table: change.table, key: pair.after.key }); continue;
+-        }
+-        ctx.own(change.database, change.table, pair.after, { kind: 'HTTP-owned-row-update', requestId: attempt.requestId, operationId: attempt.operationId,
+-          beforeSha256: pair.before.sha256, beforeSnapshot: before.manifest, afterSnapshot: after.manifest, ...(counterProof ? { counterProof } : {}) });
+-        recorded.push({ kind: 'owned-update', table: change.table, key: pair.after.key });
+-      } else if (borrowed && borrowed.latestSha256 === pair.before.sha256) {
+-        const columns = await changedColumns(ctx, pair.before.raw, pair.after.raw);
+-        if (!columns.every(c => borrowed.allowedColumns.includes(c))) { blockers.push({ kind: 'original-column-outside-exact-allowlist', table: change.table, key: pair.after.key, columns }); continue; }
+-        borrowed.latestSha256 = pair.after.sha256; borrowed.latestProof = { requestId: attempt.requestId, operationId: attempt.operationId, columns, beforeSha256: pair.before.sha256, afterSha256: pair.after.sha256, ...(counterProof ? { counterProof } : {}) };
+-        recorded.push({ kind: 'borrowed-allowlisted-update', table: change.table, key: pair.after.key, columns }); ctx.persist();
+-      } else blockers.push({ kind: 'original-row-unapproved-change', table: change.table, key: pair.after.key });
+-    }
+-    for (const row of change.missing) {
+-      const key = keyOf(change.database, change.table, row.key), owned = ctx.state.owned[key];
+-      if (!owned || owned.latestSha256 !== row.sha256 || !(binding.deleteTables ?? []).includes(change.table)) blockers.push({ kind: 'missing-row-without-exact-command-authority', table: change.table, key: row.key });
+-      else { owned.deleted = true; owned.deletionProof = { requestId: attempt.requestId, operationId: attempt.operationId, beforeSha256: row.sha256 }; ctx.persist(); }
+-    }
+-  }
+-  for (const database of ctx.databases) {
+-    if (JSON.stringify(before.databases[database].meta.normative) !== JSON.stringify(after.databases[database].meta.normative)) blockers.push({ kind: 'catalog-drift-during-HTTP', database });
+-    if (JSON.stringify(before.databases[database].meta.sequences) !== JSON.stringify(after.databases[database].meta.sequences)) blockers.push({ kind: 'SQL-sequence-drift-during-HTTP', database });
+-  }
+-  const objectResult = reconcileObjects(ctx, before, after, attempt, readRows); blockers.push(...objectResult.blockers); recorded.push(...objectResult.recorded);
+-  const result = { requestId: attempt.requestId, operationId: attempt.operationId, transport: attempt.transport ?? 'HTTP', before: before.manifest, after: after.manifest, recorded, blockers,
+-    ownershipComplete: blockers.length === 0, responseStatusIsAcceptance: false };
+-  const pin = ctx.artifact(`${ctx.next('ledger')}.json`, result, { kind: 'actual-command-ownership-reconciliation', transport: attempt.transport ?? 'HTTP', operationId: attempt.operationId, requestId: attempt.requestId,
+-    recordedCount: recorded.length, blockerCount: blockers.length, ownershipComplete: result.ownershipComplete });
+-  if (blockers.length) { ctx.state.blockedObservation = pin; ctx.persist(); }
+-  assert.equal(blockers.length, 0, 'HTTP ownership incomplete; inspect immutable private before/after/ledger before proceeding');
+-  return pin;
+-}
++import assert from 'node:assert/strict';
++import fs from 'node:fs';
++import { sha, keyOf, birthProof, valueAt, uuid, numberProof } from './pure.mjs';
++import { loadSnapshot, readRows, difference } from './snapshot.mjs';
++import { assertObjectsRecorded, reconcileObjects } from './objects.mjs';
++import { platformBirthProof } from './platform-bindings.mjs';
++import { readinessDiffReviewMutationProof } from './readiness-bindings.mjs';
++
++export async function changedColumns(ctx, before, after) {
++  return ctx.db(async c => (await c.query('SELECT k FROM jsonb_object_keys($1::jsonb) AS keys(k) WHERE ($1::jsonb->k) IS DISTINCT FROM ($2::jsonb->k) ORDER BY k', [before, after])).rows.map(r => r.k));
++}
++export function allowBorrowed(ctx, table, key, columns, reason) {
++  assert(typeof reason === 'string' && reason.trim().length > 8);
++  const baseline = loadSnapshot(ctx), meta = baseline.databases[ctx.database].tables[table]; assert(meta && meta.pk.length);
++  const row = readRows(meta).find(r => JSON.stringify(r.key) === JSON.stringify(key)); assert(row, 'Only actual original baseline rows may be borrowed');
++  assert(columns.length && columns.every(c => meta.columns.includes(c)));
++  const k = keyOf(ctx.database, table, key), existing = ctx.state.borrowed[k];
++  const entry = { database: ctx.database, table, key, allowedColumns: [...columns].sort(), reason, baselineSha256: row.sha256, latestSha256: row.sha256 };
++  if (existing) { assert.deepEqual(existing.allowedColumns, entry.allowedColumns); assert.equal(existing.baselineSha256, row.sha256); }
++  else ctx.state.borrowed[k] = entry;
++  ctx.persist(); return entry;
++}
++export async function allowNumberCounter(ctx, scope) {
++  const specs = JSON.parse(fs.readFileSync(`${ctx.win}/tools/rust-r2ef/e-authority.json`)).businessNumbers; assert(specs[scope]);
++  const period = await ctx.db(async c => (await c.query("SELECT to_char(timezone('UTC',now()),'YYYY') period")).rows[0].period);
++  const baseline = loadSnapshot(ctx), rows = readRows(baseline.databases[ctx.database].tables.business_number_sequence).filter(r => { const cell = JSON.parse(r.raw); return cell.scope === scope && cell.period === period; });
++  assert(rows.length <= 1);
++  for (const row of rows) allowBorrowed(ctx, 'business_number_sequence', row.key, ['next_value', 'prefix', 'padding', 'description', 'updated_at'], `Exact actual ${scope}/${period} API number producer counter; preserve original full row for reviewed cleanup`);
++}
++export function assertRecorded(ctx, observed) {
++  const baseline = loadSnapshot(ctx), blockers = [];
++  assertObjectsRecorded(ctx, baseline, observed);
++  for (const database of ctx.databases) {
++    assert.deepEqual(observed.databases[database].meta.normative, baseline.databases[database].meta.normative, 'Original catalog/OIDs/ACL/functions/triggers/roles changed');
++    assert.deepEqual(observed.databases[database].meta.sequences, baseline.databases[database].meta.sequences, 'Unowned SQL sequence drift');
++  }
++  for (const change of difference(baseline, observed)) {
++    if (change.database !== ctx.database) { blockers.push({ kind: 'native-database-drift', database: change.database, table: change.table }); continue; }
++    for (const row of change.added) {
++      const owned = ctx.state.owned[keyOf(change.database, change.table, row.key)];
++      if (!owned || owned.latestSha256 !== row.sha256 || (owned.latestXmin && owned.latestXmin !== row.xmin) || owned.deleted) blockers.push({ kind: 'unknown-added-row-or-unobserved-change', table: change.table, key: row.key });
++    }
++    for (const pair of change.changed) {
++      const borrowed = ctx.state.borrowed[keyOf(change.database, change.table, pair.after.key)];
++      if (!borrowed || borrowed.baselineSha256 !== pair.before.sha256 || borrowed.latestSha256 !== pair.after.sha256) blockers.push({ kind: 'unobserved-original-row-change', table: change.table, key: pair.after.key });
++    }
++    for (const row of change.missing) blockers.push({ kind: 'original-row-deleted', table: change.table, key: row.key });
++  }
++  assert.equal(blockers.length, 0, 'Unattributed state before command; inspect private full before snapshot');
++}
++export async function reconcileAttempt(ctx, before, after, attempt, binding = {}) {
++  const baseline = loadSnapshot(ctx), changes = difference(before, after), blockers = [], recorded = [];
++  const numberSpecs = JSON.parse(fs.readFileSync(`${ctx.win}/tools/rust-r2ef/e-authority.json`)).businessNumbers;
++  const additions = changes.flatMap(ch => ch.added.map(row => ({ database: ch.database, table: ch.table, row })));
++  const anchors = [];
++  for (const item of binding.responseBirths ?? []) {
++    assert(baseline.databases[ctx.database].tables[item.table]);
++    const value = valueAt(attempt.body, item.pointer);
++    if (value === undefined || value === null) { if (attempt.status === attempt.expectedStatus && attempt.status >= 200 && attempt.status < 300 && !item.optional) blockers.push({ kind: 'expected-real-response-ID-missing', table: item.table, pointer: item.pointer }); continue; }
++    const id = uuid(value), match = additions.find(a => a.database === ctx.database && a.table === item.table && a.row.key.length === 1 && a.row.key[0].toLowerCase() === id.toLowerCase());
++    // A returned reference may point to an existing immutable row. It cannot
++    // create an xmin ownership anchor for other rows in that case.
++    if (match) anchors.push({ table: item.table, id, pointer: item.pointer, xmin: match.row.xmin });
++  }
++  let numberBody = attempt.body, storedNumberProof = null;
++  if (binding.number?.rowSource && attempt.status >= 200 && attempt.status < 300) {
++    const source = binding.number.rowSource, id = valueAt(attempt.body, source.responsePointer);
++    const actual = additions.find(a => a.database === ctx.database && a.table === source.table && a.row.key.length === 1 && a.row.key[0] === id);
++    assert(actual && anchors.some(a => a.table === source.table && a.id === id), 'Stored number must come from the actual newly returned owned command root');
++    const value = JSON.parse(actual.row.raw)[source.column]; assert(typeof value === 'string' && /^\/[A-Za-z][A-Za-z0-9]*$/.test(binding.number.pointer));
++    numberBody = { [binding.number.pointer.slice(1)]: value }; storedNumberProof = { numberSource: 'actual-new-response-root-stored-number', table: source.table, id, column: source.column, responsePointer: source.responsePointer, rowSha256: actual.row.sha256 };
++  }
++  // An explicitly addressed owned row that really changed can anchor its own
++  // actual new transaction. The caller must bind that ID to the request path
++  // or a request JSON pointer; existing read-only references grant nothing.
++  for (const item of binding.updatedAnchors ?? []) {
++    const id = uuid(item.id), change = changes.find(ch => ch.database === ctx.database && ch.table === item.table);
++    const pair = change?.changed.find(p => p.after.key.length === 1 && p.after.key[0] === id);
++    const owned = ctx.state.owned[keyOf(ctx.database, item.table, [id])];
++    if (pair && owned?.latestSha256 === pair.before.sha256 && (binding.mutableTables ?? []).includes(item.table)) anchors.push({ table: item.table, id, pointer: `actual-updated-request-${item.requestBinding}`, xmin: pair.after.xmin });
++  }
++  const cookies = Object.values(ctx.state.actors).flatMap(a => a.cookies?.poms_session ? [sha(decodeURIComponent(a.cookies.poms_session))] : []);
++  for (const a of additions.filter(a => a.database === ctx.database && ['audit_log', 'security_event', 'auth_session'].includes(a.table))) {
++    const proof = birthProof(a.row, a.table, attempt, [], cookies);
++    if (proof) anchors.push({ table: a.table, id: a.row.key[0], pointer: proof.kind, xmin: a.row.xmin });
++  }
++  for (const change of changes) {
++    if (change.database !== ctx.database) { blockers.push({ kind: 'native-database-changed', table: change.table }); continue; }
++    for (const row of change.added) {
++      const oldMeta = baseline.databases[change.database].tables[change.table];
++      if (!oldMeta.pk.length || readRows(oldMeta).some(r => JSON.stringify(r.key) === JSON.stringify(row.key))) { blockers.push({ kind: 'new-PK-not-proven-or-original-reused', table: change.table, key: row.key }); continue; }
++      let proof = change.table === 'business_number_sequence' ? numberProof(row, null, binding.number, numberBody, numberSpecs) : birthProof(row, change.table, attempt, anchors, cookies);
++      proof ??= platformBirthProof(ctx, change.table, row, attempt, anchors);
++      if (proof && storedNumberProof && change.table === 'business_number_sequence') proof = { ...proof, ...storedNumberProof };
++      if (!proof) { blockers.push({ kind: 'unknown-new-row', table: change.table, key: row.key, rowSha256: row.sha256 }); continue; }
++      ctx.own(change.database, change.table, row, { ...proof, transport: attempt.transport ?? 'HTTP', requestId: attempt.requestId, operationId: attempt.operationId,
++        status: attempt.status, responseComplete: attempt.responseComplete, beforeSnapshot: before.manifest, afterSnapshot: after.manifest, beforeAbsent: true });
++      recorded.push({ kind: 'birth', table: change.table, key: row.key, proofKind: proof.kind });
++    }
++    for (const pair of change.changed) {
++      const key = keyOf(change.database, change.table, pair.after.key), owned = ctx.state.owned[key], borrowed = ctx.state.borrowed[key];
++      const counterProof = change.table === 'business_number_sequence' ? numberProof(pair.after, pair.before, binding.number, numberBody, numberSpecs) : null;
++      if (change.table === 'business_number_sequence' && !counterProof) { blockers.push({ kind: 'counter-change-not-bound-to-real-returned-number', key: pair.after.key }); continue; }
++      if (owned) {
++        const exactReadinessReview = binding.readinessDiffReviewItems === true
++          ? readinessDiffReviewMutationProof({ database: change.database, table: change.table, beforeRow: pair.before, afterRow: pair.after, attempt, before, after, readRows }) : null;
++        if (owned.latestSha256 !== pair.before.sha256 || (owned.latestXmin && owned.latestXmin !== pair.before.xmin) || !(['auth_session', 'platform_user'].includes(change.table) || counterProof || (binding.mutableTables ?? []).includes(change.table) || exactReadinessReview)) {
++          blockers.push({ kind: 'owned-mutation-not-in-command-allowlist', table: change.table, key: pair.after.key }); continue;
++        }
++        ctx.own(change.database, change.table, pair.after, { kind: 'HTTP-owned-row-update', requestId: attempt.requestId, operationId: attempt.operationId,
++          beforeSha256: pair.before.sha256, beforeSnapshot: before.manifest, afterSnapshot: after.manifest, ...(exactReadinessReview ? { exactReadinessReview } : {}), ...(counterProof ? { counterProof } : {}) });
++        recorded.push({ kind: 'owned-update', table: change.table, key: pair.after.key });
++      } else if (borrowed && borrowed.latestSha256 === pair.before.sha256) {
++        const columns = await changedColumns(ctx, pair.before.raw, pair.after.raw);
++        if (!columns.every(c => borrowed.allowedColumns.includes(c))) { blockers.push({ kind: 'original-column-outside-exact-allowlist', table: change.table, key: pair.after.key, columns }); continue; }
++        borrowed.latestSha256 = pair.after.sha256; borrowed.latestProof = { requestId: attempt.requestId, operationId: attempt.operationId, columns, beforeSha256: pair.before.sha256, afterSha256: pair.after.sha256, ...(counterProof ? { counterProof } : {}) };
++        recorded.push({ kind: 'borrowed-allowlisted-update', table: change.table, key: pair.after.key, columns }); ctx.persist();
++      } else blockers.push({ kind: 'original-row-unapproved-change', table: change.table, key: pair.after.key });
++    }
++    for (const row of change.missing) {
++      const key = keyOf(change.database, change.table, row.key), owned = ctx.state.owned[key];
++      if (!owned || owned.latestSha256 !== row.sha256 || !(binding.deleteTables ?? []).includes(change.table)) blockers.push({ kind: 'missing-row-without-exact-command-authority', table: change.table, key: row.key });
++      else { owned.deleted = true; owned.deletionProof = { requestId: attempt.requestId, operationId: attempt.operationId, beforeSha256: row.sha256 }; ctx.persist(); }
++    }
++  }
++  for (const database of ctx.databases) {
++    if (JSON.stringify(before.databases[database].meta.normative) !== JSON.stringify(after.databases[database].meta.normative)) blockers.push({ kind: 'catalog-drift-during-HTTP', database });
++    if (JSON.stringify(before.databases[database].meta.sequences) !== JSON.stringify(after.databases[database].meta.sequences)) blockers.push({ kind: 'SQL-sequence-drift-during-HTTP', database });
++  }
++  const objectResult = reconcileObjects(ctx, before, after, attempt, readRows); blockers.push(...objectResult.blockers); recorded.push(...objectResult.recorded);
++  const result = { requestId: attempt.requestId, operationId: attempt.operationId, transport: attempt.transport ?? 'HTTP', before: before.manifest, after: after.manifest, recorded, blockers,
++    ownershipComplete: blockers.length === 0, responseStatusIsAcceptance: false };
++  const pin = ctx.artifact(`${ctx.next('ledger')}.json`, result, { kind: 'actual-command-ownership-reconciliation', transport: attempt.transport ?? 'HTTP', operationId: attempt.operationId, requestId: attempt.requestId,
++    recordedCount: recorded.length, blockerCount: blockers.length, ownershipComplete: result.ownershipComplete });
++  if (blockers.length) { ctx.state.blockedObservation = pin; ctx.persist(); }
++  assert.equal(blockers.length, 0, 'HTTP ownership incomplete; inspect immutable private before/after/ledger before proceeding');
++  return pin;
++}
+--- /dev/null
++++ b/tools/rust-r4ghi/business/readiness-bindings.mjs
+@@ -0,0 +1,99 @@
++// Exact observed R3 diff-review child transition. This is ownership evidence,
++// never an additional product authorization policy or a table-wide write permit.
++import assert from 'node:assert/strict';
++
++const same = (a, b) => typeof a === 'string' && typeof b === 'string' && a.toLowerCase() === b.toLowerCase();
++const cell = row => JSON.parse(row.raw);
++const key = row => JSON.stringify(row.key);
++
++function stringEnd(raw, start) {
++  assert.equal(raw[start], '"');
++  for (let n = start + 1; n < raw.length; n++) {
++    if (raw[n] === '\\') { n++; continue; }
++    if (raw[n] === '"') return n + 1;
++  }
++  throw new Error('Invalid captured JSON string');
++}
++function valueEnd(raw, start) {
++  if (raw[start] === '"') return stringEnd(raw, start);
++  if (raw[start] === '{' || raw[start] === '[') {
++    let depth = 1;
++    for (let n = start + 1; n < raw.length; n++) {
++      if (raw[n] === '"') { n = stringEnd(raw, n) - 1; continue; }
++      if (raw[n] === '{' || raw[n] === '[') depth++;
++      if (raw[n] === '}' || raw[n] === ']') depth--;
++      if (depth === 0) return n + 1;
++    }
++    throw new Error('Invalid captured JSON container');
++  }
++  let n = start;
++  while (n < raw.length && ![',', '}'].includes(raw[n])) n++;
++  return n;
++}
++// Compare raw JSON without rounding monetary/numeric cells through JS Number.
++export function onlyStatusTransition(before, after, from = 'blocked', to = 'ready') {
++  let n = 0, found = null;
++  const whitespace = () => { while (/\s/.test(before[n] ?? '') && n < before.length) n++; };
++  whitespace(); if (before[n++] !== '{') return false;
++  while (n < before.length) {
++    whitespace(); if (before[n] === '}') break;
++    const end = stringEnd(before, n), name = JSON.parse(before.slice(n, end)); n = end;
++    whitespace(); if (before[n++] !== ':') return false;
++    whitespace(); const start = n; n = valueEnd(before, start);
++    if (name === 'status') { if (found) return false; found = { start, end: n }; }
++    whitespace(); if (before[n] === ',') { n++; continue; }
++    if (before[n] === '}') break;
++    return false;
++  }
++  if (!found || JSON.parse(before.slice(found.start, found.end)) !== from) return false;
++  return before.slice(0, found.start) + JSON.stringify(to) + before.slice(found.end) === after;
++}
++
++export function readinessDiffReviewMutationProof({ database, table, beforeRow, afterRow, attempt, before, after, readRows }) {
++  if (table !== 'contract_readiness_package_item' || attempt.operationId !== 'ContractReadinessController_reviewDiff'
++    || attempt.status !== 200 || attempt.expectedStatus !== 200 || !attempt.responseComplete || attempt.transportFailure) return null;
++  const body = attempt.requestValue, response = attempt.body?.data ?? attempt.body;
++  const baselineId = attempt.pathParams?.id, contractId = body?.contractId, diffId = body?.diffResultId;
++  if (body?.diffDecision !== 'approved' || !Array.isArray(body.reviewedFieldKeys) || !Array.isArray(body.attachmentIds) || body.attachmentIds.length
++    || response?.resultStatus !== 'reviewed' || response.baselineReviewDecision !== 'approved'
++    || !same(response.targetId, baselineId) || !same(response.diffResultId, diffId)) return null;
++  if (key(beforeRow) !== key(afterRow) || beforeRow.key.length !== 1 || !onlyStatusTransition(beforeRow.raw, afterRow.raw)) return null;
++  const old = cell(beforeRow), next = cell(afterRow);
++  if (old.item_key !== 'exact-contract-diff' || next.item_key !== 'exact-contract-diff' || !same(old.package_id, next.package_id)) return null;
++  const rows = (snapshot, name) => readRows(snapshot.databases[database].tables[name]);
++  const get = (snapshot, name, id) => rows(snapshot, name).find(row => row.key.length === 1 && same(row.key[0], id));
++  const parentBefore = get(before, 'contract_readiness_package', old.package_id), parentAfter = get(after, 'contract_readiness_package', old.package_id);
++  const diffBefore = get(before, 'commercial_baseline_diff_result', diffId), diffAfter = get(after, 'commercial_baseline_diff_result', diffId);
++  const baselineBefore = get(before, 'commercial_release_baseline', baselineId), baselineAfter = get(after, 'commercial_release_baseline', baselineId);
++  if (![parentBefore, parentAfter, diffBefore, diffAfter, baselineBefore, baselineAfter].every(Boolean)) return null;
++  const p = cell(parentBefore), q = cell(parentAfter), d = cell(diffBefore), e = cell(diffAfter), b = cell(baselineBefore);
++  if (!same(p.source_baseline_id, baselineId) || !same(p.latest_diff_result_id, diffId) || !same(p.contract_id, contractId)
++    || !same(q.id, p.id) || !same(q.contract_id, contractId) || !same(q.source_baseline_id, baselineId) || !same(q.latest_diff_result_id, diffId)
++    || q.guard_decision !== 'allowed' || q.package_status !== 'ready'
++    || !same(d.baseline_id, baselineId) || !same(d.contract_id, contractId) || e.review_status !== 'approved'
++    || !same(d.project_id, p.project_id) || !same(b.project_id, p.project_id) || b.row_version !== body.expectedVersion) return null;
++  const fresh = name => {
++    const previous = new Set(rows(before, name).map(key));
++    return rows(after, name).filter(row => !previous.has(key(row)));
++  };
++  const audits = fresh('audit_log').filter(row => {
++    const a = cell(row);
++    return a.request_id === attempt.requestId && a.event_type === attempt.operationId && a.target_type === 'CommercialReleaseBaseline'
++      && same(a.target_id, baselineId) && same(a.operator_id, attempt.actorId) && a.result === 'success';
++  });
++  const reviewed = [...body.reviewedFieldKeys].sort();
++  const reviews = fresh('commercial_baseline_review_record').filter(row => {
++    const a = cell(row);
++    return same(a.baseline_id, baselineId) && same(a.diff_result_id, diffId) && same(a.project_id, p.project_id)
++      && same(a.reviewer_user_id, attempt.actorId) && a.decision === body.diffDecision
++      && Array.isArray(a.reviewed_field_keys) && JSON.stringify([...a.reviewed_field_keys].sort()) === JSON.stringify(reviewed);
++  });
++  if (audits.length !== 1 || reviews.length !== 1) return null;
++  const xmin = afterRow.xmin;
++  if (typeof xmin !== 'string' || !/^\d+$/.test(xmin) || ![audits[0], reviews[0], parentAfter, diffAfter, baselineAfter].every(row => row.xmin === xmin)) return null;
++  return { kind: 'HTTP-exact-review-audit-and-real-transaction-child-status', requestId: attempt.requestId, operationId: attempt.operationId,
++    actorId: attempt.actorId, table, key: afterRow.key, changedColumns: ['status'], beforeSHA256: beforeRow.sha256, afterSHA256: afterRow.sha256,
++    beforeXmin: beforeRow.xmin, actualCommitXmin: xmin, baselineId, contractId, diffResultId: diffId, projectId: p.project_id,
++    packageId: p.id, itemKey: 'exact-contract-diff', auditId: audits[0].key[0], reviewRecordId: reviews[0].key[0],
++    auditAuthority: 'exact request/op/actor/target; audit ID is observed, not claimed as returned HTTP ID', sourceMutation: 'contract_readiness/service.rs review() exact-contract-diff status only' };
++}
+--- /dev/null
++++ b/tools/rust-r4ghi/business/recover-readiness-observation.mjs
+@@ -0,0 +1,107 @@
++// Root-only metadata reconciliation of one already committed, fully captured
++// request. No business request, fixture SQL, cleanup or original rewrite.
++import fs from 'node:fs';
++import assert from 'node:assert/strict';
++import { sha, keyOf } from './pure.mjs';
++import { ownedFile } from './context.mjs';
++import { capture, loadSnapshot, readRows } from './snapshot.mjs';
++import { assertRecorded } from './ledger.mjs';
++import { readinessDiffReviewMutationProof } from './readiness-bindings.mjs';
++
++function original(ctx, descriptor) {
++  assert(descriptor.file.startsWith(ctx.priv + '/'), 'Only this run immutable private originals');
++  const bytes = ownedFile(descriptor.file);
++  assert.equal(sha(bytes), descriptor.sha256);
++  return bytes;
++}
++function jsonOriginal(ctx, plan, name) { return JSON.parse(original(ctx, plan.originals[name])); }
++function noDrift(ctx, observed, current) {
++  for (const database of ctx.databases) {
++    assert.deepEqual(current.databases[database].meta, observed.databases[database].meta, 'Catalog/sequence identity drift after blocked observation');
++    assert.deepEqual(current.objects[database], observed.objects[database], 'Object drift after blocked observation');
++    const before = observed.databases[database].tables, after = current.databases[database].tables;
++    assert.deepEqual(Object.keys(after), Object.keys(before));
++    for (const table of Object.keys(before)) {
++      assert.deepEqual(readRows(after[table]).map(row => [row.key, row.sha256, row.xmin]),
++        readRows(before[table]).map(row => [row.key, row.sha256, row.xmin]), 'Any intervening row or xmin change blocks metadata recovery');
++    }
++  }
++}
++
++export async function recoverReadinessObservation(ctx, { planFile, approvedPlanSHA256 }) {
++  assert.equal(process.platform, 'linux', 'Only Root executes this after reviewing the exact plan');
++  assert(/^[a-f0-9]{64}$/.test(approvedPlanSHA256));
++  const bytes = ownedFile(planFile); assert.equal(sha(bytes), approvedPlanSHA256, 'Exact Root-reviewed plan SHA required');
++  const plan = JSON.parse(bytes);
++  assert.equal(plan.kind, 'proposed exact blocked observation reconciliation; not executed');
++  assert.equal(plan.epoch, ctx.epoch); assert.equal(plan.run, ctx.run); assert.equal(plan.marker, ctx.state.marker);
++  assert(!ctx.state.cleaned && !ctx.state.cleanupPlan && !ctx.state.activeFault);
++  assert.deepEqual(ctx.state.blockedObservation, plan.blockedObservation, 'Only the pinned incomplete observation is eligible');
++  const lock = `${ctx.priv}/driver.lock`;
++  fs.writeFileSync(lock, JSON.stringify({ pid: process.pid, mode: 'exact-readiness-observation-recovery', approvedPlanSHA256 }) + '\n', { flag: 'wx', mode: 0o600 });
++  try {
++    const ledger = JSON.parse(original(ctx, { file: plan.blockedObservation.file, sha256: plan.blockedObservation.rawBytesSha256 }));
++    assert.equal(ledger.ownershipComplete, false); assert.equal(ledger.blockers.length, 1);
++    assert.deepEqual(ledger.before, plan.before); assert.deepEqual(ledger.after, plan.after);
++    const before = loadSnapshot(ctx, plan.before), after = loadSnapshot(ctx, plan.after);
++    const request = jsonOriginal(ctx, plan, '000124-http-request.json');
++    const body = jsonOriginal(ctx, plan, '000124-http-request-body.bin');
++    const response = jsonOriginal(ctx, plan, '000124-http-response-body.bin');
++    const responseHeaders = jsonOriginal(ctx, plan, '000124-http-response-headers.json');
++    assert(plan.httpReceipt.file.startsWith(ctx.out + '/'));
++    const httpBytes = ownedFile(plan.httpReceipt.file); assert.equal(sha(httpBytes), plan.httpReceipt.sha256);
++    const http = JSON.parse(httpBytes);
++    assert.equal(http.requestId, plan.requestId); assert.equal(http.status, 200); assert.equal(http.expectedStatus, 200);
++    assert.equal(http.responseComplete, true); assert.equal(http.transportFailure, false);
++    for (const descriptor of Object.values(http.originals)) {
++      if (descriptor?.file && descriptor.rawBytesSha256) original(ctx, { file: descriptor.file, sha256: descriptor.rawBytesSha256 });
++    }
++    assert.equal(request.method, 'POST'); assert.equal(responseHeaders.status, http.status);
++    assert.equal(request.operationId, plan.operationId); assert.equal(request.requestId, plan.requestId);
++    assert.equal(request.headers['X-Request-Id'], plan.requestId);
++    const url = new URL(request.url); assert.equal(url.origin, ctx.api);
++    const match = /^\/api\/commercial-release-baselines\/([a-f0-9-]+):reviewDiff$/.exec(url.pathname); assert(match && !url.search);
++    const cookies = Object.fromEntries(request.headers.Cookie.split(';').map(part => {
++      const value = part.trim(), at = value.indexOf('='); return [value.slice(0, at), value.slice(at + 1)];
++    }));
++    const sessions = readRows(before.databases[ctx.database].tables.auth_session).map(row => JSON.parse(row.raw));
++    const session = sessions.find(row => row.token_hash === sha(decodeURIComponent(cookies.poms_session)));
++    assert(session && session.user_id === plan.proof.actorId, 'Actual original authenticated cookie must bind the observed audit actor');
++    const attempt = { operationId: request.operationId, requestId: request.requestId, actorId: session.user_id, pathParams: { id: match[1] },
++      requestValue: body, body: response, status: http.status, expectedStatus: http.expectedStatus, responseComplete: http.responseComplete, transportFailure: http.transportFailure };
++    const blocker = ledger.blockers[0];
++    assert.equal(blocker.kind, 'owned-mutation-not-in-command-allowlist'); assert.equal(blocker.table, 'contract_readiness_package_item');
++    const find = snapshot => readRows(snapshot.databases[ctx.database].tables[blocker.table]).find(row => JSON.stringify(row.key) === JSON.stringify(blocker.key));
++    const beforeRow = find(before), afterRow = find(after); assert(beforeRow && afterRow);
++    const proof = readinessDiffReviewMutationProof({ database: ctx.database, table: blocker.table, beforeRow, afterRow, attempt, before, after, readRows });
++    assert(proof); assert.deepEqual(proof, plan.proof, 'Re-evaluated producer/PK/audit/xmin proof must equal the exact reviewed plan');
++    assert(!readRows(loadSnapshot(ctx).databases[ctx.database].tables[blocker.table]).some(row => JSON.stringify(row.key) === JSON.stringify(blocker.key)), 'This PK must not be a borrowed original');
++    const ownershipKey = keyOf(ctx.database, blocker.table, blocker.key), owned = ctx.state.owned[ownershipKey]; assert(owned && !owned.deleted);
++    const alreadyRecorded = owned.latestSha256 === afterRow.sha256 && owned.latestXmin === afterRow.xmin
++      && owned.latestProof?.recoveryPlanSHA256 === approvedPlanSHA256 && owned.latestProof?.requestId === plan.requestId;
++    assert(alreadyRecorded || (owned.latestSha256 === beforeRow.sha256 && owned.latestXmin === beforeRow.xmin), 'Do not rebase over another ownership observation');
++    const slot = ctx.state.fixtures.contractRuns.find(item => item.contract.id === proof.contractId);
++    assert(slot && slot.readiness.id === proof.packageId && !slot.preparation);
++    if (slot.diffReview) assert.deepEqual(slot.diffReview, response);
++    const current = await capture(ctx, ctx.next('recovery-current'));
++    noDrift(ctx, after, current);
++    const prospective = structuredClone(ctx.state);
++    Object.assign(prospective.owned[ownershipKey], { latestSha256: afterRow.sha256, latestXmin: afterRow.xmin });
++    assertRecorded({ ...ctx, state: prospective }, current);
++    const intent = ctx.artifact(`${ctx.next('recovery-proof')}.json`, { kind: 'Root-reviewed-exact-readiness-observation-reconciliation', approvedPlanSHA256,
++      originalIncompleteLedger: plan.blockedObservation, proof, actualCompleteHTTP: plan.httpReceipt, freshCurrent: current.manifest,
++      oldOriginalsUnchanged: true, businessDatabaseWrites: 0, newBusinessRequests: 0 },
++    { kind: 'exact-source-proven-observation-reconciliation', changedOwnedRows: 1, businessDatabaseWrites: 0, originalIncompleteLedgerPreserved: true, G3Certified: false, G4Certified: false });
++    if (!alreadyRecorded) ctx.own(ctx.database, blocker.table, afterRow, { kind: 'Root-reviewed-exact-readiness-owned-status-update', recoveryPlanSHA256: approvedPlanSHA256,
++      exactReadinessReview: proof, requestId: plan.requestId, operationId: plan.operationId, beforeSnapshot: plan.before, afterSnapshot: plan.after, reconciliation: intent });
++    slot.diffReview = response;
++    ctx.state.observationReconciliations ??= [];
++    ctx.state.observationReconciliations.push({ originalIncomplete: plan.blockedObservation, completed: intent, recoveryPlanSHA256: approvedPlanSHA256 });
++    delete ctx.state.blockedObservation;
++    ctx.persist();
++    return { kind: 'completed-exact-readiness-observation-reconciliation', receipt: intent, metadataOnly: true, originalLedgerStillIncompleteAndPreserved: true,
++      stateDiffReviewBoundToActualResponse: true, businessRequestsSent: 0, businessDatabaseWrites: 0, G3Certified: false, G4Certified: false };
++  } finally {
++    const owner = JSON.parse(fs.readFileSync(lock)); assert.equal(owner.pid, process.pid); fs.unlinkSync(lock);
++  }
++}
+--- /dev/null
++++ b/tools/rust-r4ghi/business/readiness-bindings.test.mjs
+@@ -0,0 +1,20 @@
++import test from 'node:test';
++import assert from 'node:assert/strict';
++import { onlyStatusTransition } from './readiness-bindings.mjs';
++test('status transition compares complete raw bytes without numeric rounding',()=>{
++ const before='{"id":"i","large":9999999999999999.99,"status":"blocked","nested":{"status":"blocked"}}';
++ const after='{"id":"i","large":9999999999999999.99,"status":"ready","nested":{"status":"blocked"}}';
++ assert(onlyStatusTransition(before,after));
++ assert(!onlyStatusTransition(before,after.replace('9999999999999999.99','9999999999999999.98')));
++ assert(!onlyStatusTransition(before,after.replace('"nested":{"status":"blocked"}','"nested":{"status":"ready"}')));
++});
++test('unrelated or already-ready rows are not eligible',()=>{
++ assert(!onlyStatusTransition('{"status":"ready"}','{"status":"ready"}'));
++ assert(!onlyStatusTransition('{"status":"blocked","package_id":"a"}','{"status":"ready","package_id":"b"}'));
++ assert(!onlyStatusTransition('{"nested":{"status":"blocked"}}','{"nested":{"status":"ready"}}'));
++});
++test('escaped quotes in descriptions do not become authorization cells',()=>{
++ const raw=JSON.stringify({description:'a "status":"blocked" label',status:'blocked'});
++ assert(onlyStatusTransition(raw,JSON.stringify({description:'a "status":"blocked" label',status:'ready'})));
++ assert(!onlyStatusTransition(raw,JSON.stringify({description:'a "status":"ready" label',status:'ready'})));
++});

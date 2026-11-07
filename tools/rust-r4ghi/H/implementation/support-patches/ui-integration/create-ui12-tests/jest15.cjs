@@ -1,0 +1,4 @@
+const path=require('node:path'),{createRequire}=require('node:module');
+const root='E:/projects/worktrees/poms-r3hijk-next28/poms',rootRequire=createRequire(path.join(root,'package.json'));
+const original=rootRequire(path.join(root,'apps/poms-admin/jest.config.cjs'));
+module.exports={...original,preset:path.join(root,'jest.preset.js'),rootDir:path.join(root,'apps/poms-admin'),roots:[path.join(root,'apps/poms-admin/src')],displayName:'H-S6-UI12-Root-real-products-spec-overlay',cacheDirectory:path.join(__dirname,'jest-root-dependency-cache'),testMatch:['**/project/project-store.spec.ts','**/project/project-list.spec.ts'],transform:{'^.+\\.(ts|js|mjs|html|svg)$':[path.join(__dirname,'transform15.cjs'),{tsconfig:path.join(root,'apps/poms-admin/tsconfig.spec.json'),stringifyContentPathRegex:'\\.(html|svg)$'}]}};

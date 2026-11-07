@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 1,
+  "reviewId": "I-independent-C-review01",
+  "reviewerDomain": "I (non-author of reviewed C/B delta)",
+  "rootReadOnly": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms",
+  "capturedAt": "2026-11-06T19:32:51.900485+00:00",
+  "scope": [
+    "C receipt accounting basis actual tax/currency/evidence refs, exact cents, transaction/audit/idempotency/CAS/authorization call site",
+    "B initial/amendment activation currency_code source binding"
+  ],
+  "excluded": [
+    "I/D/support06 and Scope implementation self-review",
+    "full joint G3 certification",
+    "Git/GitHub/DB/HTTP/server/build execution"
+  ],
+  "result": "limited-static-review-with-one-P2-runtime-evidence-gap",
+  "resolvedFindings": [
+    {
+      "id": "C-P1-01",
+      "title": "ratio i64 passed to i128 split_gross",
+      "status": "Root-fixed-and-current-source-verified",
+      "evidence": "receipt_basis.rs:106 uses i128::from(rate)",
+      "originalBytesCaptured": false
+    },
+    {
+      "id": "C-P1-02",
+      "title": "Commercial fallback used nonexistent status column and incorrect active state",
+      "status": "Root-fixed-and-current-source-verified",
+      "evidence": "receipt_basis.rs:80-81 reads baseline_status and accepts effective|superseded",
+      "originalBytesCaptured": false
+    }
+  ],
+  "openFindings": [
+    {
+      "id": "C-P2-03",
+      "priority": 2,
+      "title": "New immutable basis PK absent from committed INSERT trace",
+      "file": "apps/poms-api-rust/src/contract_finance/receipt_basis.rs",
+      "line": 120,
+      "effect": "Successful new basis creation omits receipt_accounting_basis from rust-insert-outer-commit evidence. Database audit includes accountingBasisId and remains in same transaction; this is a runtime evidence/precise cleanup gap, not an audit omission or atomicity claim.",
+      "minimalFix": "Immediately after successful basis INSERT call session.state.trace.inserted(\"receipt_accounting_basis\", &basis_id.to_string()); exact retry must remain no-op."
+    }
+  ],
+  "staticChecks": [
+    {
+      "name": "Actual refs",
+      "result": "Verified live same-contract term ref and version/hash; commercial fallback same source baseline/project and active immutable state; exact attachment/project-or-contract association, active attachment/link, checksum, version/hash, sensitive guard."
+    },
+    {
+      "name": "Exact cents",
+      "result": "OperatingMoneyCents parses cash; i128 gross*10000/(10000+rate) HALF_UP; tax=gross-net; bounded exact decimal bindings. G actual source selection casts DB decimals to text before factual hashing."
+    },
+    {
+      "name": "Same transaction and CAS",
+      "result": "Borrowed CommonSession throughout; same project scope authorization before contract/receipt locks; receipt and contract CAS; required INSERT/update/audit use same connection; no nested commit/new pool/UOW clear in reviewed delta."
+    },
+    {
+      "name": "Idempotency",
+      "result": "Existing immutable basis requires same actor/input request hash, original expected receipt version+1, frozen hash and real producer/receipt version; returns original without new INSERT or audit."
+    },
+    {
+      "name": "B currency activation",
+      "result": "Initial and amendment snapshot INSERT bind actual verified prepared currencyCode; load_preparation and approval binding validate immutable preparation/hash/current source. No client/default currency fallback introduced."
+    }
+  ],
+  "dynamicValidation": {
+    "executedByReviewer": false,
+    "requiredAtRoot": [
+      "Post-fix actual SQL commercial fallback with old null-currency term",
+      "confirm and certify same-body retry plus stale contract/receipt/source refusals",
+      "sub-cent/max-capacity HALF_UP values and exact G factual references",
+      "fault-injected basis/receipt/audit/auth rollback",
+      "initial and amendment snapshot currency_code actual SQL"
+    ],
+    "rootReportedOnly": "Joint cargo check02 source-stable; only unrelated G facade helper missing. Not rerun or independently certified here."
+  },
+  "inputManifest": [
+    {
+      "path": "apps/poms-api-rust/src/contract_finance/receipt_basis.rs",
+      "sha256": "8da0a9fb93f4a0fe59b4f6e11987ed1afb43899671f9cfa6e7d9ef72da0e5205",
+      "bytes": 15789
+    },
+    {
+      "path": "apps/poms-api-rust/src/contract_finance/mod.rs",
+      "sha256": "904f4f81def7dbdf0536d35d4d3a41d38d623088e67fb6a1758cc478b0102149",
+      "bytes": 39998
+    },
+    {
+      "path": "apps/poms-api-rust/src/contract_finance/store.rs",
+      "sha256": "122851a092b31bc376af7dc423dabaa6da4874caf44d8603463ed0f47f78410b",
+      "bytes": 17218
+    },
+    {
+      "path": "apps/poms-api-rust/src/contracts/service.rs",
+      "sha256": "ad21f60803c5f8aed103696738b80c7da0a21782737fe35a8b7710fe72cea957",
+      "bytes": 31626
+    },
+    {
+      "path": "apps/poms-api-rust/src/contracts/amendment.rs",
+      "sha256": "646c41e15703a75026df054e4e3c1135c75485148eeab05769b7655cecf1d02a",
+      "bytes": 18116
+    },
+    {
+      "path": "apps/poms-api-rust/src/contract_readiness/service.rs",
+      "sha256": "f62bfa680eccb1ec1a233fa4a75fcc74b4bbb1f6a7658bec0be7ad73230b1e4a",
+      "bytes": 56755
+    },
+    {
+      "path": "apps/poms-api-rust/src/contract_readiness/source.rs",
+      "sha256": "8451a749d2a566b70ad3fd00e379388c88304be1ce1a3f0bf35de68f006e9f6f",
+      "bytes": 13813
+    },
+    {
+      "path": "apps/poms-api-rust/src/contract_support/http.rs",
+      "sha256": "f632ea9f0650521d104301fd35396b3e64f3bf959048ee76bd3ed82871b225ed",
+      "bytes": 18850
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_operating/store.rs",
+      "sha256": "13850ed78ab5e2619becc91311afdd8eff415adcf3ff30b7b8272868d75382bb",
+      "bytes": 19892
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_operating/sources.rs",
+      "sha256": "96112ed17471ede323fad1dc6a069e777bf258d2a8bacae5d55c27323c50df2f",
+      "bytes": 28883
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_operating_common/scalars.rs",
+      "sha256": "b1ae6b2f1eee880875c135134e2b66cc955b2539b6a1309f3c485d58be627b2b",
+      "bytes": 8868
+    },
+    {
+      "path": "apps/poms-api-rust/src/approval_common/receipt.rs",
+      "sha256": "b707f25ecbaceceb90989c3dae6cfa8dd57e2fb9c1b56005aa3eccbeba58d757",
+      "bytes": 3713
+    }
+  ]
+}

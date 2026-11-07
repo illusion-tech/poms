@@ -1,0 +1,66 @@
+{
+  "kind": "independent-owner-readonly-ORM-differ-classification-addendum",
+  "capturedAt": "2026-11-07T08:51:38.283576+00:00",
+  "originalEvidence": "owner-command-evidence19.json",
+  "originalZeroCHECKExpectationWasFalse": true,
+  "meaning": "The original owner evidence flag tested zero CHECK rewrites; 30 rewrites remain, so that flag is false. This does not mean owner visibility had no effect. All 417 current CHECK names become visible: 387 formerly missing additions disappear and 30 are now reported as same-name changed expressions.",
+  "appAddCHECK": 417,
+  "ownerAddCHECK": 30,
+  "eliminatedMissingCHECKAdditions": 387,
+  "remaining30AllExistAndRestrictedASTsEqual": true,
+  "ownerCheckExit": 1,
+  "ownerDumpExit": 0,
+  "ownerDumpSHA256": "b4eb31f4253e30ddbb32e27c51bc4c084ece5c2485bfdfa0ab410dccfabfe719",
+  "currentRemainingDDL": {
+    "DROP constraint": 76,
+    "ADD CHECK": 30,
+    "DROP default": 2,
+    "ADD FK": 1
+  },
+  "classification": {
+    "between-to-inclusive-comparisons": [
+      "operating_command_receipt_http_status_check",
+      "project_stage_record_reason_check",
+      "contract_term_preparation_down_payment_rate_check",
+      "contract_term_preparation_retention_rate_check",
+      "contract_term_preparation_tax_rate_check",
+      "project_completion_condition_summary_check",
+      "project_completion_condition_closure_closure_summary_check",
+      "commission_role_assignment_partici_responsibility_summary_check",
+      "commission_role_assignment_participant_check",
+      "commission_role_assignment_participant_weight_units_check"
+    ],
+    "in-any-or-not-in-all": [
+      "chk_project_current_stage",
+      "archive_new_producer_check",
+      "chk_r4g_restatement_verified",
+      "ck_jghi_dmer_v1",
+      "ck_jghi_binding_v1",
+      "ck_jghi_gate_review_v1",
+      "acceptance_new_producer_check",
+      "chk_r4g_support_not_primary"
+    ],
+    "primitive-casts-parentheses-and-boolean-grouping": [
+      "ck_jghi_receipt_real_evaluation",
+      "project_handover_basis_snapshot_status_check",
+      "project_handover_basis_item_item_type_check",
+      "chk_r4e_basis_origin",
+      "operating_source_context_business_timezone_check",
+      "operating_source_context_formal_eligibility_check",
+      "operating_evaluation_evidence_policy_version_check",
+      "cost_governance_evidence_evidence_kind_check",
+      "cost_governance_evidence_target_type_check",
+      "project_handover_participant_role_role_key_check",
+      "commission_role_assignment_freeze__weights_policy_version_check",
+      "receipt_accounting_basis_rounding_policy_check"
+    ]
+  },
+  "sourceOfExpressionDifference": "PG deparser formatting/casts/IN-ANY/BETWEEN expansion versus declared expressions; all30 exact restricted AST equality with preserved boolean grouping, literals, range bounds and actual primitive column type checks. Pure evidence parser only, no product normalization or SQL execution.",
+  "periodCandidate": "period-no-action-candidate/manifest19.json and proof19.json; Root review/apply and actual owner rerun still required",
+  "IR05-05": "Two UUID defaults remain an explicit unresolved metadata projection limitation. Actual DB default/PK remain correct. No failed order-only candidate promotion.",
+  "IR05-06": "Explicit original NO ACTION rule candidate prepared; not claimed applied by this reviewer.",
+  "G3Boundary": "G1 requires DDL/entity alignment and classified existing differences. These facts support a narrowly identified mapping-limitation record, not a passing migration:check or automatic overall G3. Final independent G3 must explicitly decide residual P2 under the frozen acceptance contract after current product/actual business checks; no blanket ignored diff or generated DDL execution.",
+  "SQLExecutedByReviewer": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

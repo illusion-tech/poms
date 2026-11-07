@@ -1,0 +1,728 @@
+    Checking poms-api-rust v0.1.0 (/home/wangzishi/projects/poms-rust-r4ghi/apps/poms-api-rust)
+error: unused import: `json`
+  --> src/attachments/project_scope.rs:13:25
+   |
+13 | use serde_json::{Value, json};
+   |                         ^^^^
+   |
+   = note: `-D unused-imports` implied by `-D warnings`
+   = help: to override `-D warnings` add `#[allow(unused_imports)]`
+
+error: unused import: `self`
+ --> src/project_operating/capture.rs:3:15
+  |
+3 |     sources::{self, Catalog},
+  |               ^^^^
+
+error: unused import: `json`
+ --> src/project_operating/restatement.rs:9:25
+  |
+9 | use serde_json::{Value, json};
+  |                         ^^^^
+
+error: unused variable: `links`
+    --> src/attachments/service.rs:1720:13
+     |
+1720 |         let links =
+     |             ^^^^^ help: if this is intentional, prefix it with an underscore: `_links`
+     |
+     = note: `-D unused-variables` implied by `-D warnings`
+     = help: to override `-D warnings` add `#[allow(unused_variables)]`
+
+error: field `own_only` is never read
+  --> src/attachments/project_scope.rs:45:9
+   |
+41 | pub(super) struct Readable {
+   |                   -------- field in this struct
+...
+45 |     pub own_only: bool,
+   |         ^^^^^^^^
+   |
+   = note: `-D dead-code` implied by `-D warnings`
+   = help: to override `-D warnings` add `#[expect(dead_code)]` or `#[allow(dead_code)]`
+
+error: function `authorize_mutation` is never used
+   --> src/attachments/project_scope.rs:764:21
+    |
+764 | pub(super) async fn authorize_mutation(
+    |                     ^^^^^^^^^^^^^^^^^^
+
+error: method `legacy_single` is never used
+  --> src/project_operating_common/request.rs:54:19
+   |
+10 | impl ResourceKeys {
+   | ----------------- method in this implementation
+...
+54 |     pub(crate) fn legacy_single(&self) -> Result<Option<Uuid>, Error> {
+   |                   ^^^^^^^^^^^^^
+
+error: fields `outer_tx_token`, `operation_id`, and `consumed_context_refs` are never read
+   --> src/project_operating_common/runtime.rs:148:16
+    |
+147 | pub struct VerifiedRestatementScope<'tx> {
+    |            ------------------------ fields in this struct
+148 |     pub(crate) outer_tx_token: &'tx OuterTxToken,
+    |                ^^^^^^^^^^^^^^
+149 |     pub(crate) operation_id: Uuid,
+    |                ^^^^^^^^^^^^
+...
+154 |     pub(crate) consumed_context_refs: Vec<SourceRef>,
+    |                ^^^^^^^^^^^^^^^^^^^^^
+
+error: field `verified_evidence_refs` is never read
+   --> src/project_operating_common/runtime.rs:164:16
+    |
+159 | pub struct ValidatedStageCorrection {
+    |            ------------------------ field in this struct
+...
+164 |     pub(crate) verified_evidence_refs: Vec<SourceRef>,
+    |                ^^^^^^^^^^^^^^^^^^^^^^
+
+error: fields `verified_source_refs` and `verified_evidence_refs` are never read
+   --> src/project_operating_common/runtime.rs:170:16
+    |
+166 | pub struct ValidatedTaxCorrection {
+    |            ---------------------- fields in this struct
+...
+170 |     pub(crate) verified_source_refs: Vec<SourceRef>,
+    |                ^^^^^^^^^^^^^^^^^^^^
+171 |     pub(crate) verified_evidence_refs: Vec<SourceRef>,
+    |                ^^^^^^^^^^^^^^^^^^^^^^
+
+error: field `project_id` is never read
+  --> src/project_operating_signals/store.rs:14:9
+   |
+12 | pub(crate) struct EvaluationRow {
+   |                   ------------- field in this struct
+13 |     pub id: Uuid,
+14 |     pub project_id: Uuid,
+   |         ^^^^^^^^^^
+   |
+   = note: `EvaluationRow` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+error: field `project_id` is never read
+   --> src/project_operating_signals/store.rs:108:9
+    |
+106 | pub(crate) struct BindingRow {
+    |                   ---------- field in this struct
+107 |     pub id: Uuid,
+108 |     pub project_id: Uuid,
+    |         ^^^^^^^^^^
+    |
+    = note: `BindingRow` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+error: field `auth` is never read
+  --> src/projects/service.rs:82:5
+   |
+79 | pub struct ProjectsService {
+   |            --------------- field in this struct
+...
+82 |     auth: Arc<AuthService>,
+   |     ^^^^
+   |
+   = note: `ProjectsService` has a derived impl for the trait `Clone`, but this is intentionally ignored during dead code analysis
+
+error: function `random_uuid` is never used
+   --> src/projects/service.rs:641:4
+    |
+641 | fn random_uuid() -> Result<Uuid, ProjectsError> {
+    |    ^^^^^^^^^^^
+
+error: this loop never actually loops
+   --> src/attachments/project_scope.rs:425:5
+    |
+425 | /     for reference in refs {
+426 | |         let frozen = &reference["payload"]["source"];
+427 | |         if canonical_hash(&reference["payload"])
+428 | |             .map_err(scope_error)?
+...   |
+453 | |         return Ok(true);
+454 | |     }
+    | |_____^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#never_loop
+    = note: `#[deny(clippy::never_loop)]` on by default
+help: if you need the first element of the iterator, try writing
+    |
+425 -     for reference in refs {
+425 +     if let Some(reference) = refs.into_iter().next() {
+    |
+
+error: this loop never actually loops
+   --> src/attachments/project_scope.rs:460:5
+    |
+460 | /     for session in sessions {
+461 | |         if !security(actor, session["security_level"].as_str()) {
+462 | |             return Err(denied());
+...   |
+474 | |         return Ok(true);
+475 | |     }
+    | |_____^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#never_loop
+help: if you need the first element of the iterator, try writing
+    |
+460 -     for session in sessions {
+460 +     if let Some(session) = sessions.into_iter().next() {
+    |
+
+error: this expression creates a reference which is immediately dereferenced by the compiler
+   --> src/attachments/project_scope.rs:529:74
+    |
+529 |                 if allow_own && own_link(connection, actor, &attachment, &link).await? {
+    |                                                                          ^^^^^ help: change this to: `link`
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#needless_borrow
+    = note: `-D clippy::needless-borrow` implied by `-D warnings`
+    = help: to override `-D warnings` add `#[allow(clippy::needless_borrow)]`
+
+error: this `if` statement can be collapsed
+   --> src/attachments/project_scope.rs:810:9
+    |
+810 | /         if matches!(entity.table, Table::Session | Table::Link) {
+811 | |             if let (Some(kind), Some(id)) = (
+812 | |                 entity.data["target_type"].as_str(),
+813 | |                 entity.data["target_id"].as_str(),
+...   |
+817 | |         }
+    | |_________^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#collapsible_if
+    = note: `-D clippy::collapsible-if` implied by `-D warnings`
+    = help: to override `-D warnings` add `#[allow(clippy::collapsible_if)]`
+help: collapse nested if block
+    |
+810 ~         if matches!(entity.table, Table::Session | Table::Link)
+811 ~             && let (Some(kind), Some(id)) = (
+812 |                 entity.data["target_type"].as_str(),
+...
+815 |                 lock_keys.push((kind.to_owned(), id.to_owned()));
+816 ~             }
+    |
+
+error: this `if` statement can be collapsed
+   --> src/lifecycle_evidence/mod.rs:182:9
+    |
+182 | /         if let EvidenceAccess::OwnCondition {
+183 | |             completion_record_id,
+184 | |             condition_id,
+185 | |         } = access
+...   |
+200 | |         }
+    | |_________^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#collapsible_if
+help: collapse nested if block
+    |
+185 ~         } = access
+186 ~             && let Some(purpose) = require_own_condition_evidence(
+187 |                 session,
+...
+197 |                 row["conditionUploadPurpose"] = purpose;
+198 ~             }
+    |
+
+error: this loop never actually loops
+   --> src/lifecycle_evidence/mod.rs:299:5
+    |
+299 | /     for row in existing {
+300 | |         let payload = &row["source_payload"];
+301 | |         let frozen = &payload["source"];
+302 | |         if payload["projectId"] != project.to_string()
+...   |
+311 | |         return Ok(None);
+312 | |     }
+    | |_____^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#never_loop
+help: if you need the first element of the iterator, try writing
+    |
+299 -     for row in existing {
+299 +     if let Some(row) = existing.into_iter().next() {
+    |
+
+error: used `expect()` on an `Option` value
+  --> src/openapi_registry.rs:10:33
+   |
+10 |                 let reference = reference.as_str().expect("OpenAPI $ref must be a string");
+   |                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: if this value is `None`, it will panic
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#expect_used
+   = note: `-D clippy::expect-used` implied by `-D warnings`
+   = help: to override `-D warnings` add `#[allow(clippy::expect_used)]`
+
+error: used `expect()` on an `Option` value
+  --> src/openapi_registry.rs:11:31
+   |
+11 |                   let pointer = reference
+   |  _______________________________^
+12 | |                     .strip_prefix('#')
+13 | |                     .filter(|p| p.starts_with('/'))
+14 | |                     .expect("external OpenAPI references are not registered");
+   | |_____________________________________________________________________________^
+   |
+   = note: if this value is `None`, it will panic
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#expect_used
+
+error: used `expect()` on a `Result` value
+  --> src/openapi_registry.rs:36:13
+   |
+36 | /             serde_json::from_str(include_str!("../../../libs/shared/api-spec/openapi.json"))
+37 | |                 .expect("invalid current full shared OpenAPI");
+   | |______________________________________________________________^
+   |
+   = note: if this value is an `Err`, it will panic
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#expect_used
+
+error: this `if` statement can be collapsed
+   --> src/project_action_authorization/mod.rs:862:13
+    |
+862 | /             if let ProjectActionTarget::OwnerReassignment {
+863 | |                 expected_version, ..
+864 | |             } = target
+...   |
+871 | |             }
+    | |_____________^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#collapsible_if
+help: collapse nested if block
+    |
+864 ~             } = target
+865 ~                 && expected_version != project.row_version {
+866 |                     return Err(changed(
+867 |                         "The first personal assignment was already consumed",
+868 |                     ));
+869 ~                 }
+    |
+
+error: explicit call to `.into_iter()` in function argument accepting `IntoIterator`
+   --> src/project_cost_governance/correction.rs:351:13
+    |
+351 | /             batch
+352 | |                 .results
+353 | |                 .iter()
+354 | |                 .map(|r| {
+...   |
+358 | |                 .collect::<Result<Vec<_>, _>>()?
+359 | |                 .into_iter(),
+    | |____________________________^
+    |
+note: this parameter accepts any `IntoIterator`, so you don't need to call `.into_iter()`
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library/core/src/iter/traits/iterator.rs:513:11
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#useless_conversion
+    = note: `-D clippy::useless-conversion` implied by `-D warnings`
+    = help: to override `-D warnings` add `#[allow(clippy::useless_conversion)]`
+help: consider removing the `.into_iter()`
+    |
+358 -                 .collect::<Result<Vec<_>, _>>()?
+359 -                 .into_iter(),
+358 +                 .collect::<Result<Vec<_>, _>>()?,
+    |
+
+error: this `if` statement can be collapsed
+   --> src/project_cost_governance/service.rs:573:5
+    |
+573 | /     if scope.is_some() {
+574 | |         if let Some(old_basis) = &old_basis {
+575 | |             let previous_totals = evidence::layers(
+576 | |                 old_basis,
+...   |
+607 | |     }
+    | |_____^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#collapsible_if
+help: collapse nested if block
+    |
+573 ~     if scope.is_some()
+574 ~         && let Some(old_basis) = &old_basis {
+575 |             let previous_totals = evidence::layers(
+...
+605 |             }
+606 ~         }
+    |
+
+error: used `expect()` on a `Result` value
+  --> src/project_lifecycle/stage_fact.rs:22:9
+   |
+22 |         id(&self.row, "id").expect("verified stage id")
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: if this value is an `Err`, it will panic
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#expect_used
+
+error: used `expect()` on a `Result` value
+  --> src/project_lifecycle/stage_fact.rs:25:9
+   |
+25 |         id(&self.row, "project_id").expect("verified stage project")
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: if this value is an `Err`, it will panic
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#expect_used
+
+error: used `expect()` on an `Option` value
+  --> src/project_lifecycle/stage_fact.rs:31:9
+   |
+31 |         self.row["to_stage"].as_str().expect("verified stage")
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: if this value is `None`, it will panic
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#expect_used
+
+error: used `expect()` on an `Option` value
+  --> src/project_lifecycle/stage_fact.rs:37:9
+   |
+37 | /         self.row["source_payload_hash"]
+38 | |             .as_str()
+39 | |             .expect("verified nested hash")
+   | |___________________________________________^
+   |
+   = note: if this value is `None`, it will panic
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#expect_used
+
+error: this `if` statement can be collapsed
+   --> src/project_lifecycle/stage_fact.rs:214:9
+    |
+214 | /         if stage == "execution" || stage == "acceptance" {
+215 | |             if payload["commissionRoleAssignmentId"] != row["source_role_assignment_id"]
+216 | |                 || payload["roleFreezePayloadHash"] != frozen["source_payload_hash"]
+...   |
+220 | |         }
+    | |_________^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#collapsible_if
+help: collapse nested if block
+    |
+214 ~         if (stage == "execution" || stage == "acceptance") {
+215 ~             && (payload["commissionRoleAssignmentId"] != row["source_role_assignment_id"]
+216 ~                 || payload["roleFreezePayloadHash"] != frozen["source_payload_hash"])
+217 |             {
+218 |                 return Err(invalid());
+219 ~             }
+    |
+
+error: this `if` statement can be collapsed
+   --> src/project_operating/collector.rs:210:5
+    |
+210 | /     if let Some(key) = plan.window.period_key.as_deref() {
+211 | |         if !matches!(plan.intent, OperatingPreparationIntent::Restatement { .. }) {
+212 | |             store::assert_period_absent(session.connection, plan.project_id, key, false).await?;
+213 | |         }
+214 | |     }
+    | |_____^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#collapsible_if
+help: collapse nested if block
+    |
+210 ~     if let Some(key) = plan.window.period_key.as_deref()
+211 ~         && !matches!(plan.intent, OperatingPreparationIntent::Restatement { .. }) {
+212 |             store::assert_period_absent(session.connection, plan.project_id, key, false).await?;
+213 ~         }
+    |
+
+error: this function has too many arguments (9/7)
+   --> src/project_operating/context.rs:804:1
+    |
+804 | / pub(crate) async fn build(
+805 | |     session: &mut CommonSession<'_, '_>,
+806 | |     project: Uuid,
+807 | |     catalog: &Catalog,
+...   |
+813 | |     baseline_draft: Option<&Value>,
+814 | | ) -> Result<OperatingSourceContext, Error> {
+    | |__________________________________________^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#too_many_arguments
+    = note: `-D clippy::too-many-arguments` implied by `-D warnings`
+    = help: to override `-D warnings` add `#[allow(clippy::too_many_arguments)]`
+
+error: this `if` statement can be collapsed
+    --> src/project_operating/context.rs:1497:5
+     |
+1497 | /     if let Some(estimate) = draft
+1498 | |         .as_ref()
+1499 | |         .and_then(|d| catalog.by(Table::Estimate, "id", &d["currentCostRef"]["id"]))
+...    |
+1506 | |     }
+     | |_____^
+     |
+     = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#collapsible_if
+help: collapse nested if block
+     |
+1499 ~         .and_then(|d| catalog.by(Table::Estimate, "id", &d["currentCostRef"]["id"]))
+1500 ~         && (estimate["allow_next_stage"] == false
+1501 ~             || estimate["blocker_count"].as_i64().is_some_and(|n| n > 0))
+1502 |         {
+1503 |             constraints.push(json!({"ruleId":"project-technical-cost-allow-next-stage","ruleVersion":"actual-adopted-estimate-v1","action":"block","reasonCode":"adopted-technical-cost-blocked","basisRefs":[sources::reference(Table::Estimate,estimate)?]}));
+1504 ~         }
+     |
+
+error: this `if` statement can be collapsed
+    --> src/project_operating/context.rs:1508:5
+     |
+1508 | /     if lineage == "unknown" {
+1509 | |         if let Some(draft) = draft.as_ref() {
+1510 | |             let references = payload["laborLineage"]["basisRefs"]
+1511 | |                 .as_array_mut()
+...    |
+1521 | |     }
+     | |_____^
+     |
+     = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#collapsible_if
+help: collapse nested if block
+     |
+1508 ~     if lineage == "unknown"
+1509 ~         && let Some(draft) = draft.as_ref() {
+1510 |             let references = payload["laborLineage"]["basisRefs"]
+ ...
+1519 |             references.dedup();
+1520 ~         }
+     |
+
+error: this function has too many arguments (8/7)
+   --> src/project_operating/inclusion.rs:152:1
+    |
+152 | / pub(crate) async fn apply_with_predecessors(
+153 | |     session: &mut CommonSession<'_, '_>,
+154 | |     project: Uuid,
+155 | |     inputs: &[CostDecisionInput],
+...   |
+160 | |     predecessors: &BTreeMap<Uuid, Uuid>,
+161 | | ) -> Result<(), Error> {
+    | |______________________^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#too_many_arguments
+
+error: this function has too many arguments (8/7)
+   --> src/project_operating/preparation.rs:366:1
+    |
+366 | / pub(crate) async fn from_catalog(
+367 | |     session: &mut CommonSession<'_, '_>,
+368 | |     project_id: Uuid,
+369 | |     intent: &OperatingPreparationIntent,
+...   |
+374 | |     actor: &Actor,
+375 | | ) -> Result<OperatingPreparation, Error> {
+    | |________________________________________^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#too_many_arguments
+
+error: this `if` statement can be collapsed
+   --> src/project_operating/preparation.rs:411:5
+    |
+411 | /     if let Some(key) = window.period_key.as_deref() {
+412 | |         if !matches!(intent, OperatingPreparationIntent::Restatement { .. }) {
+413 | |             match store::assert_period_absent(session.connection, project_id, key, false).await {
+414 | |                 Ok(()) => {}
+...   |
+419 | |     }
+    | |_____^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#collapsible_if
+help: collapse nested if block
+    |
+411 ~     if let Some(key) = window.period_key.as_deref()
+412 ~         && !matches!(intent, OperatingPreparationIntent::Restatement { .. }) {
+413 |             match store::assert_period_absent(session.connection, project_id, key, false).await {
+...
+417 |             }
+418 ~         }
+    |
+
+error: this function has too many arguments (8/7)
+  --> src/project_operating/projection.rs:83:1
+   |
+83 | / pub(crate) async fn source(
+84 | |     session: &mut CommonSession<'_, '_>,
+85 | |     actor: &Actor,
+86 | |     project: Uuid,
+...  |
+91 | |     detail: Option<&str>,
+92 | | ) -> Result<SourceFinancialProjection, Error> {
+   | |_____________________________________________^
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#too_many_arguments
+
+error: this `if` statement can be collapsed
+   --> src/project_operating/restatement.rs:137:9
+    |
+137 | /         if let Some(prior) = prior {
+138 | |             if prior["source_row_version"].as_i64()
+139 | |                 == Some(i64::from(decision.target.expected_version))
+140 | |                 && !super::inclusion::decision_unchanged(decision, &prior)
+...   |
+150 | |         }
+    | |_________^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#collapsible_if
+help: collapse nested if block
+    |
+137 ~         if let Some(prior) = prior
+138 ~             && prior["source_row_version"].as_i64()
+139 |                 == Some(i64::from(decision.target.expected_version))
+...
+148 |                 });
+149 ~             }
+    |
+
+error: this function has too many arguments (8/7)
+   --> src/project_operating/service.rs:272:1
+    |
+272 | / async fn restate_all(
+273 | |     session: &mut CommonSession<'_, '_>,
+274 | |     input: &CreateOperatingRestatementRequest,
+275 | |     primary_context: OperatingSourceContext,
+...   |
+280 | |     actor: &Actor,
+281 | | ) -> Result<OperatingCommandResult, Error> {
+    | |__________________________________________^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#too_many_arguments
+
+error: this function has too many arguments (8/7)
+   --> src/project_operating/service.rs:415:1
+    |
+415 | / fn command_result(
+416 | |     target: Uuid,
+417 | |     kind: &str,
+418 | |     head: i32,
+...   |
+423 | |     evaluation: Option<&OperatingEvaluationRefs>,
+424 | | ) -> Result<OperatingCommandResult, Error> {
+    | |__________________________________________^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#too_many_arguments
+
+error: this function has too many arguments (8/7)
+   --> src/project_operating/service.rs:429:1
+    |
+429 | / async fn audit(
+430 | |     session: &mut CommonSession<'_, '_>,
+431 | |     actor: &Actor,
+432 | |     op: &str,
+...   |
+437 | |     after: Value,
+438 | | ) -> Result<(), Error> {
+    | |______________________^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#too_many_arguments
+
+error: this `if` statement can be collapsed
+   --> src/project_operating/service.rs:520:13
+    |
+520 | /             if let Some(s) = a[key].as_str() {
+521 | |                 if OperatingMoneyCents::parse_exact(s, key)?.cents() != actual.cents() {
+522 | |                     return Err(Error::Unprocessable(
+523 | |                         "Legacy assertion does not match server-derived baseline".into(),
+...   |
+526 | |             }
+    | |_____________^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#collapsible_if
+help: collapse nested if block
+    |
+520 ~             if let Some(s) = a[key].as_str()
+521 ~                 && OperatingMoneyCents::parse_exact(s, key)?.cents() != actual.cents() {
+522 |                     return Err(Error::Unprocessable(
+523 |                         "Legacy assertion does not match server-derived baseline".into(),
+524 |                     ));
+525 ~                 }
+    |
+
+error: this function has too many arguments (9/7)
+   --> src/project_operating/view.rs:447:1
+    |
+447 | / async fn frozen_row(
+448 | |     session: &mut CommonSession<'_, '_>,
+449 | |     actor: &Actor,
+450 | |     project: Uuid,
+...   |
+456 | |     members: Vec<Value>,
+457 | | ) -> Result<OperatingSourceRow, Error> {
+    | |______________________________________^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#too_many_arguments
+
+error: large size difference between variants
+    --> src/project_operating_common/model.rs:4134:1
+     |
+4134 | / pub enum ProjectDetailView {
+4135 | |     FullProjectDetailView(FullProjectDetailView),
+     | |     -------------------------------------------- the largest variant contains at least 1280 bytes
+4136 | |     CreatorFirstAssignmentAnchorView(CreatorFirstAssignmentAnchorView),
+4137 | |     LegacyOwnerAnchorView(LegacyOwnerAnchorView),
+     | |     -------------------------------------------- the second-largest variant contains at least 184 bytes
+4138 | | }
+     | |_^ the entire enum is at least 1280 bytes
+     |
+     = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#large_enum_variant
+     = note: `-D clippy::large-enum-variant` implied by `-D warnings`
+     = help: to override `-D warnings` add `#[allow(clippy::large_enum_variant)]`
+help: consider boxing the large fields or introducing indirection in some other way to reduce the total size of the enum
+     |
+4135 -     FullProjectDetailView(FullProjectDetailView),
+4135 +     FullProjectDetailView(Box<FullProjectDetailView>),
+     |
+
+error: large size difference between variants
+    --> src/project_operating_common/model.rs:4521:1
+     |
+4521 | / pub enum ProjectUnifiedAccountingResponse {
+4522 | |     ProjectUnifiedAccountingView(ProjectUnifiedAccountingView),
+     | |     ---------------------------------------------------------- the second-largest variant contains at least 792 bytes
+4523 | |     OperatingAccountingPreparationView(OperatingAccountingPreparationView),
+     | |     ---------------------------------------------------------------------- the largest variant contains at least 1352 bytes
+4524 | | }
+     | |_^ the entire enum is at least 1352 bytes
+     |
+     = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#large_enum_variant
+help: consider boxing the large fields or introducing indirection in some other way to reduce the total size of the enum
+     |
+4523 -     OperatingAccountingPreparationView(OperatingAccountingPreparationView),
+4523 +     OperatingAccountingPreparationView(Box<OperatingAccountingPreparationView>),
+     |
+
+error: large size difference between variants
+   --> src/project_operating_common/runtime.rs:115:1
+    |
+115 | / pub enum OperatingCollectionContext {
+116 | |     BaselineOnly(OperatingBaselineSourceDraft),
+    | |     ------------------------------------------ the second-largest variant contains at least 496 bytes
+117 | |     Snapshot(OperatingSourceContext),
+    | |     -------------------------------- the largest variant contains at least 2920 bytes
+118 | | }
+    | |_^ the entire enum is at least 2928 bytes
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#large_enum_variant
+help: consider boxing the large fields or introducing indirection in some other way to reduce the total size of the enum
+    |
+117 -     Snapshot(OperatingSourceContext),
+117 +     Snapshot(Box<OperatingSourceContext>),
+    |
+
+error: expression can be simplified using `Option::unwrap_or()`
+  --> src/project_operating_common/schema.rs:91:28
+   |
+91 |     let (base, exponent) = raw.split_once(['e', 'E']).map_or((raw, "0"), |v| v);
+   |                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#map_or_identity
+   = note: `-D clippy::map-or-identity` implied by `-D warnings`
+   = help: to override `-D warnings` add `#[allow(clippy::map_or_identity)]`
+help: consider using `unwrap_or`
+   |
+91 -     let (base, exponent) = raw.split_once(['e', 'E']).map_or((raw, "0"), |v| v);
+91 +     let (base, exponent) = raw.split_once(['e', 'E']).unwrap_or((raw, "0"));
+   |
+
+error: very complex type used. Consider factoring parts into `type` definitions
+   --> src/projects/service.rs:915:22
+    |
+915 |     let confirmation:Option<(Uuid,String,i32,i32,i32,Option<DateTime<Utc>>)>=sqlx::query_as("SELECT c.id,c.stat...
+    |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#type_complexity
+    = note: `-D clippy::type-complexity` implied by `-D warnings`
+    = help: to override `-D warnings` add `#[allow(clippy::type_complexity)]`
+
+error: could not compile `poms-api-rust` (lib) due to 50 previous errors

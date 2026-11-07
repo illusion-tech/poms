@@ -1,0 +1,26 @@
+{
+  "kind": "Root-non-author-reviewed-post-producer-knowledge-cutoff-correction",
+  "proposalSHA256": "ed1f5aa507938a545bac9d2c00dcc5532c41c61c0ea81d47df6d32df88a233d7",
+  "files": [
+    {
+      "file": "apps/poms-api-rust/src/project_operating/collector.rs",
+      "baseRawSHA256": "093c982188db4f5e2bb4fecb0e90cf309cf66d8f38745fcf294bf22ecf1c7d17",
+      "candidateRawSHA256": "386235765190448b021025b5a9954dacd52d6dbde5a04938e2074a750c8d395e",
+      "candidateBytes": 23650
+    }
+  ],
+  "review": [
+    "Only final write+Restatement context and source rows use actual post-producer/classification clock",
+    "Original request window, pre-effect hash/CAS, business cutoff/start/end/period/timezone and known_at remain unchanged",
+    "Newly created real replacement is no longer silently excluded from primary while other terminals use a later window",
+    "Read-only and non-restatement paths retain their original cutoff",
+    "Four meaningful application regressions distinguish actual later creation from future data and preserve windows"
+  ],
+  "applicationRegressionsAdded": 4,
+  "wholeCargoValidation": "pending",
+  "source11Minted": false,
+  "oldRecordsOrClockModified": false,
+  "publicSchemaOrPolicyChanged": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

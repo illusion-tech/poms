@@ -1,0 +1,20 @@
+{
+  "evidenceClass": "candidate-development-iterations-only",
+  "rootProductModified": false,
+  "preservedOutcomes": [
+    {
+      "command": "node diagnose.mjs",
+      "actualNode": "26.13.0",
+      "result": "Original exporter correctly rejected runtime; requires Node24/TS6.0.3/Zod4.6.1. No guard relaxed."
+    },
+    {
+      "command": "installed Node24 diagnose.mjs",
+      "result": "Initial candidate rejected legitimate registered z.lazy schema callback containing enum.",
+      "correction": "Allow only the recognized z.lazy constructor callback; keep opaque callbacks and ordinary function bodies forbidden for hidden enums."
+    },
+    {
+      "command": "installed Node24 diagnose.mjs",
+      "result": "Closed graph/original TS plus Zod options and four negative controls passed with sourceStable=true. Not a full exporter or Git guard run."
+    }
+  ]
+}

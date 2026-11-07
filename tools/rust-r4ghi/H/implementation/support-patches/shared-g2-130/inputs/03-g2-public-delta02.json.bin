@@ -1,0 +1,74 @@
+{
+  "kind": "G2-exact-EO-execution-admission-public-delta",
+  "base": [
+    "tools/rust-r4ghi/joint-g1/effective-v2/public-contracts.schema.json",
+    "docs/design/rust-r4ghi/g2-public-delta01.json"
+  ],
+  "sourceProposal": "tools/rust-r4ghi/I/implementation/support-patches/execution-admission11/public-schema11.json",
+  "sourceProposalSHA256": "f3e6294d7dd04c5a1153a0accad5ad439746b559e577905ff2cc98b4aababed5",
+  "operationCountChanged": false,
+  "newHttpOperations": 0,
+  "addSchemas": {
+    "ExecutionAdmissionContextView": {
+      "additionalProperties": false,
+      "required": [
+        "commissionRoleAssignmentId",
+        "expectedRoleAssignmentVersion",
+        "handoverStageRecordId",
+        "handoverSummarySnapshotId",
+        "sourceHandoverId",
+        "sourcePayloadHash"
+      ],
+      "type": "object",
+      "properties": {
+        "handoverStageRecordId": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "handoverSummarySnapshotId": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "expectedRoleAssignmentVersion": {
+          "minimum": 1,
+          "maximum": 2147483647,
+          "type": "integer"
+        },
+        "commissionRoleAssignmentId": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "sourceHandoverId": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "sourcePayloadHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "description": "Actual same-transaction execution admission references for the current real execution owner only; no role weights, amounts or access to Role GET."
+    }
+  },
+  "components": {
+    "FullProjectDetailView": {
+      "addProperties": {
+        "executionAdmissionContext": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/ExecutionAdmissionContextView"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "addRequired": [
+        "executionAdmissionContext"
+      ]
+    }
+  },
+  "G3Certified": false,
+  "actualAcceptancePassed": false
+}

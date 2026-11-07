@@ -1,3 +1,6 @@
+import { RustR4GhiNativeProtocolGuard } from "../../core/rust-r4ghi-native-protocol.guard";
+import { UseGuards } from "@nestjs/common";
+import { CreateCommissionRoleAssignmentRequestSchema, type CreateCommissionRoleAssignmentRequest } from "../../core/rust-r4ghi-frozen-native-reference";
 import type {
     CommissionAdjustmentSummary,
     CommissionCalculationSummary,
@@ -9,8 +12,8 @@ import type {
     CommissionRuleVersionSummary,
     SubmitCommissionPayoutApprovalRequest,
     UserPayload
-} from '@poms/shared-contracts';
-import { RegisterCommissionPayoutRequestSchema, SubmitCommissionPayoutApprovalRequestSchema } from '@poms/shared-contracts';
+} from "../../core/rust-r4ghi-frozen-native-reference";
+import { RegisterCommissionPayoutRequestSchema, SubmitCommissionPayoutApprovalRequestSchema } from "../../core/rust-r4ghi-frozen-native-reference";
 import {
     ApproveCommissionPayoutRequestDto,
     CommissionAdjustmentListDto,
@@ -122,11 +125,13 @@ export class CommissionController {
         return this.commissionService.getCommissionRuleExplanation(projectId, req.user ?? null, buildSensitiveFieldProjectionRequestContext(req, `/projects/${projectId}/commission-rule-explanation`));
     }
 
+    @UseGuards(RustR4GhiNativeProtocolGuard)
+    @ApiBody({ type: CreateCommissionRoleAssignmentRequestDto })
     @Post('projects/:projectId/commission-role-assignments')
     @HasPermissions('commission:assignments:manage')
     @ApiOperation({ summary: '新建项目提成角色分配（新版本）' })
     @ApiOkResponse({ type: CommissionRoleAssignmentSummaryDto })
-    createRoleAssignment(@Param('projectId') projectId: string, @Body() body: CreateCommissionRoleAssignmentRequestDto): Promise<CommissionRoleAssignmentSummary> {
+    createRoleAssignment(@Param('projectId') projectId: string, @Body(new ZodValidationPipe(CreateCommissionRoleAssignmentRequestSchema)) body: CreateCommissionRoleAssignmentRequest): Promise<CommissionRoleAssignmentSummary> {
         return this.commissionService.createRoleAssignment(projectId, body);
     }
 

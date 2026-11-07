@@ -1,6 +1,7 @@
 //! Finite request-schema interpreter for the reviewed shared 37+30 closure.
 //! Generated input combines current OpenAPI with statically admitted Shared
 //! trim/default/refine rules. No Node runtime, database or transaction access.
+pub use crate::project_operating_common::TypedRequest;
 use std::collections::BTreeSet;
 use std::sync::OnceLock;
 

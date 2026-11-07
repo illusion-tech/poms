@@ -7,27 +7,27 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { OperatingSnapshotActionLevel } from './operating-snapshot-action-level';
-import { BaselineSelectionSource } from './baseline-selection-source';
-import { CreatableOperatingSnapshotMode } from './creatable-operating-snapshot-mode';
+import { CostDecisionInput } from './cost-decision-input';
+import { LegacyAssertions } from './legacy-assertions';
+import { ExpectedRef } from './expected-ref';
 
 
 export interface CreateProjectOperatingSnapshotRequest {
-    effectiveContractTotal: string;
-    receivableConfirmedTotal: string;
-    includedCostTotal: string;
-    originalBaselineCost: string;
-    currentEffectiveBaselineCost: string;
-    taxImpactSummary: string;
-    taxImpactPendingAmount?: string;
-    allocationStabilitySummary?: string | null;
-    unmappedCostSummary?: string | null;
-    currentActionLevel: OperatingSnapshotActionLevel;
-    referencedBaselineVersion: string;
-    baselineSelectionSource: BaselineSelectionSource;
-    handoverRebaselineRecordId?: string | null;
+    snapshotMode: CreateProjectOperatingSnapshotRequestSnapshotModeEnum;
+    periodKey: string | null;
+    inputVersion: CreateProjectOperatingSnapshotRequestInputVersionEnum;
     projectId: string;
-    snapshotMode: CreatableOperatingSnapshotMode;
-    sourceWindowStart?: string | null;
-    sourceWindowEnd?: string | null;
+    expectedVersion: number;
+    expectedProjectVersion: number;
+    expectedInputHash: string;
+    assertions: LegacyAssertions | null;
+    baselinePackageRef: ExpectedRef;
+    costDecisions: Array<CostDecisionInput>;
 }
+export enum CreateProjectOperatingSnapshotRequestSnapshotModeEnum {
+    Realtime = 'realtime',
+    PeriodEnd = 'period-end'
+};
+export enum CreateProjectOperatingSnapshotRequestInputVersionEnum {
+    ServerDerivedV1 = 'server-derived-v1'
+};

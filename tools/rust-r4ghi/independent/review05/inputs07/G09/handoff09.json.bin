@@ -1,0 +1,259 @@
+{
+  "kind": "R1B-whole-S5-checkpoint-exporter09-frozen-author-proposal",
+  "capturedAt": "2026-11-07T07:24:26.595229+00:00",
+  "rootOwnedApplied": false,
+  "gitCommandsRun": false,
+  "rootSourceCommitA": null,
+  "reviewPins": "null until independent Root A/B review; no auto HEAD/reference advance",
+  "rootLegacyExporterBaseRawSHA256": "c6cf0836f7f497745b2e86009fbf93cffc8f96d883c4de78368e3f9b024c0be6",
+  "actualCheckpointManifest": {
+    "path": "tools/openapi/checkpoints/r4ghi-s5/input-manifest02.json",
+    "rawSHA256": "3b9bea8727a4c89c1a8ad5c0a3891d0718d1435d4913c285dedebb4d524ec602",
+    "records": 414
+  },
+  "preservedHistoricalR0": {
+    "normalizedSHA256": "3d126e07d5abf2c56f41c35fc25b78a13dbe094450b470e8bb4c950ce8a2986c",
+    "constants": 455,
+    "enumOccurrences": 224,
+    "rewritten": false
+  },
+  "coverage": {
+    "sharedTopLevelVariables": 1409,
+    "sharedClassifiedDataDeclarations": 666,
+    "sharedSchemaDeclarations": 741,
+    "explicitSchemaShapeExclusions": 2,
+    "historicalR0SnapshotCount": 455,
+    "historicalR0EnumOccurrences": 224,
+    "declaredPostR0SnapshotCount": 1,
+    "zEnumOccurrences": 338,
+    "generatedEnumFamilies": 330,
+    "generatedEnumValues": 1159,
+    "sharedEnumFamilies": 327,
+    "backendAuthEnumFamilies": 3,
+    "completenessRule": "All closed-module statements and enum calls pinned; semantic AST z member recognition; every current enum maps to nominal source identity, never equal-value merging."
+  },
+  "explicitRegistrations": {
+    "historicalConstants": {
+      "retained-value": 446,
+      "explicit-value-replacement": 9
+    },
+    "historicalEnums": {
+      "same-owner-property-source-retained": 197,
+      "explicit-module-or-named-provider-migration": 27
+    },
+    "newEnumSources": 114,
+    "retainedHistoricalFamilies": 209,
+    "canonicalImportReexportBindings": 16
+  },
+  "checks": {
+    "snapshotPureBuild": {
+      "passed": true,
+      "sourceStable": true
+    },
+    "pureProbes": {
+      "passed": 43,
+      "failed": 0,
+      "sourceStable": true
+    },
+    "nodeSyntaxOnly": {
+      "passed": 8,
+      "failed": 0
+    },
+    "isolatedGeneratedRustCargoTest": {
+      "command": "cargo test --offline --manifest-path tools/rust-r4ghi/G/implementation/support-patches/shared-enum-exporter09/proposal-poms/apps/poms-api-rust/Cargo.toml --target-dir tools/rust-r4ghi/G/implementation/support-patches/shared-enum-exporter08/proposal-target",
+      "exitCode": 0,
+      "actualTests": 1,
+      "passed": 1,
+      "failed": 0
+    }
+  },
+  "repoCandidates": [
+    {
+      "path": "tools/rust-r1b/export-shared.mjs",
+      "baseNormalizedSha256": "c6cf0836f7f497745b2e86009fbf93cffc8f96d883c4de78368e3f9b024c0be6",
+      "candidateNormalizedSha256": "450ef3b2a5239bc3f7228a9ebe58924009b10dfed024243efcff0d7e82e5c666",
+      "bytes": 63200
+    },
+    {
+      "path": "tools/rust-r1b/s5/full-build.mjs",
+      "baseNormalizedSha256": null,
+      "candidateNormalizedSha256": "1369ddc803b14e868e4571f2df9d00a7c05bed8b8b3e711ce0ca4dff6113e7a0",
+      "bytes": 29448
+    },
+    {
+      "path": "tools/rust-r1b/s5/registered-module-graph.mjs",
+      "baseNormalizedSha256": null,
+      "candidateNormalizedSha256": "7fc0fcdece3ea3ff908b4dd7cbce8075ef89bd4c64e9eb7f22c064326b452243",
+      "bytes": 20857
+    },
+    {
+      "path": "tools/rust-r1b/s5/static-data-oracle.mjs",
+      "baseNormalizedSha256": null,
+      "candidateNormalizedSha256": "2c534359b27d7165c1b702b29d73132124e1a815a075b2f2c2e4ca92ee535576",
+      "bytes": 7469
+    },
+    {
+      "path": "tools/rust-r1b/s5/export-s5.mjs",
+      "baseNormalizedSha256": null,
+      "candidateNormalizedSha256": "8ccb6df3f645154cfb08a39baea17fe651b71867cf5760977f2f6a18bebac1d5",
+      "bytes": 11593
+    },
+    {
+      "path": "tools/rust-r1b/s5/review.mjs",
+      "baseNormalizedSha256": null,
+      "candidateNormalizedSha256": "a17e0bb77d93cd853bd777408dbefe571df049cfd65e5e68384e28d3b302a968",
+      "bytes": 378
+    },
+    {
+      "path": "tools/rust-r1b/s5/source-access.mjs",
+      "baseNormalizedSha256": null,
+      "candidateNormalizedSha256": "b53d297ddee6bef57db0c43183958e7ea42b91029ef8662cb1956b5c4188e2a2",
+      "bytes": 7119
+    },
+    {
+      "path": "tools/rust-r1b/history/s3-nominal-identity.json",
+      "baseNormalizedSha256": null,
+      "candidateNormalizedSha256": "9f5f1e044f0e5ea57023238cd5d6e2d2f5caf1b58f1977add5faaeb713daa335",
+      "bytes": 196301
+    },
+    {
+      "path": "tools/rust-r1b/s5-reviewed-registry.json",
+      "baseNormalizedSha256": null,
+      "candidateNormalizedSha256": "498f97a0c1cedd46f09a066e1d3f575b7cce6b4619e4a96a93c977f2ea10c14b",
+      "bytes": 1901254
+    },
+    {
+      "path": "tools/rust-r1b/s5/README.md",
+      "baseNormalizedSha256": null,
+      "candidateNormalizedSha256": "d404079ac418f68070f62ad9dd4a239f51da75da58555f5aeac16cf2bbdd631f",
+      "bytes": 4988
+    },
+    {
+      "path": "tools/rust-r1b/s5/export-s5.probes.mjs",
+      "baseNormalizedSha256": null,
+      "candidateNormalizedSha256": "8c8b390a4e7e18f8085ceeeabf03d927e0b245905131a7b27d48e3c7ba304f29",
+      "bytes": 15128
+    }
+  ],
+  "frozenFiles": [
+    {
+      "file": "full-build09.candidate.mjs",
+      "bytes": 29484,
+      "rawSHA256": "ed6c527bcc3d98843482fd527fb0a14ae728f4de6b9bce69382de2be28bcedd3"
+    },
+    {
+      "file": "registered-module-graph09.candidate.mjs",
+      "bytes": 20857,
+      "rawSHA256": "7fc0fcdece3ea3ff908b4dd7cbce8075ef89bd4c64e9eb7f22c064326b452243"
+    },
+    {
+      "file": "static-data-oracle09.candidate.mjs",
+      "bytes": 7469,
+      "rawSHA256": "2c534359b27d7165c1b702b29d73132124e1a815a075b2f2c2e4ca92ee535576"
+    },
+    {
+      "file": "s5-entry09.candidate.mjs",
+      "bytes": 11632,
+      "rawSHA256": "7aced13f0c9f0dfad5fd74da16186e1cc91eb284304620d7582e59ae165c9e7f"
+    },
+    {
+      "file": "s5-review09.candidate.mjs",
+      "bytes": 378,
+      "rawSHA256": "a17e0bb77d93cd853bd777408dbefe571df049cfd65e5e68384e28d3b302a968"
+    },
+    {
+      "file": "source-access09.candidate.mjs",
+      "bytes": 7119,
+      "rawSHA256": "b53d297ddee6bef57db0c43183958e7ea42b91029ef8662cb1956b5c4188e2a2"
+    },
+    {
+      "file": "run-full09.mjs",
+      "bytes": 3165,
+      "rawSHA256": "4582eb3cb306a727ce70a439b96f83bfa2b8710131a6f09a74952ec5a513da93"
+    },
+    {
+      "file": "whole-tests09.mjs",
+      "bytes": 14961,
+      "rawSHA256": "53e974edf66438d950def0173151f90c4c81eeac2ed793f02d9ad3b814696c2a"
+    },
+    {
+      "file": "package09.py",
+      "bytes": 5667,
+      "rawSHA256": "1beb8e16d44adbcb0339c3c9b6b4c9d90cacc98e1c16bb11275eb17ee4ffa54a"
+    },
+    {
+      "file": "S5-README09.md",
+      "bytes": 4988,
+      "rawSHA256": "d404079ac418f68070f62ad9dd4a239f51da75da58555f5aeac16cf2bbdd631f"
+    },
+    {
+      "file": "s3-nominal-identity09.json",
+      "bytes": 196301,
+      "rawSHA256": "9f5f1e044f0e5ea57023238cd5d6e2d2f5caf1b58f1977add5faaeb713daa335"
+    },
+    {
+      "file": "s5-registry09.candidate.json",
+      "bytes": 1901254,
+      "rawSHA256": "498f97a0c1cedd46f09a066e1d3f575b7cce6b4619e4a96a93c977f2ea10c14b"
+    },
+    {
+      "file": "registrations09.json",
+      "bytes": 1430180,
+      "rawSHA256": "b8e5de4701c9ae5794ea8141ebdaa57b3ba7dee363ca1ff021679b380b740509"
+    },
+    {
+      "file": "manifest09.candidate.json",
+      "bytes": 3226042,
+      "rawSHA256": "7124f3276110071f781c77ff59b2da09dc137077bc194fad59095c5f7e5520df"
+    },
+    {
+      "file": "whole-s5-exporter09.patch",
+      "bytes": 2242929,
+      "rawSHA256": "840aedb517f221e9560fc9c5d77fc35b103fc2a9aae9083d4d42c155661550ea"
+    },
+    {
+      "file": "proposal-files09.json",
+      "bytes": 2427,
+      "rawSHA256": "9656f7be96e73c21d299f285289db32913a58ef3a40edbcf0621e1fe825f7c0f"
+    },
+    {
+      "file": "review-values09.candidate.json",
+      "bytes": 1147,
+      "rawSHA256": "61fb1ba5fa2e231dd7f1d13b701cda691fae2eb5e2a934e2c04dbe271d0ba1d8"
+    },
+    {
+      "file": "snapshot-build09.json",
+      "bytes": 7583,
+      "rawSHA256": "f79fb9160b8afd7e0271f307ec5ed5f76fece97d957851628150f3f3b0f40a79"
+    },
+    {
+      "file": "pure-probes09.json",
+      "bytes": 6053,
+      "rawSHA256": "af2cb723c6db0d84beeffc45d8438f6e476cb31589543a9d9fcf2809958bd55a"
+    },
+    {
+      "file": "syntax-check09.json",
+      "bytes": 1118,
+      "rawSHA256": "6a4bfd929c08f29943638d5c2129b0bab3c997a8cc347dc39cbed2b700dc0ce1"
+    },
+    {
+      "file": "proposal-cargo-test09.log",
+      "bytes": 1086,
+      "rawSHA256": "ce476c4c10cc2b41f3192bcd2209febc9393f2ad60180493ad1e1d13417f6bc2"
+    }
+  ],
+  "requiredRootActions": [
+    "Independent review of the 224 explicit historical source migrations, 9 replacements, 114 additions, closed modules and nominal proofs",
+    "Commit A only within independently authorized spec/checkpoint/provenance scope, including actual raw snapshot blobs",
+    "Apply candidate files/patch, freeze registry reviewStatus/sourceHead=A and exact review.mjs pins, commit independent B metadata/code",
+    "Run portable pure probes and actual Git-guarded --s5 --write and --s5 --check, inspect all three output diffs",
+    "Run generated Rust tests and real Root crate checks; retain actual source/guard/test evidence"
+  ],
+  "limitations": [
+    "No Root Git apply/check, source guard commands or artifact --s5 write/check executed by author",
+    "Candidate sourceHead/pins are deliberately unfrozen and production entry fails closed",
+    "Isolated generated-enum test is not a full Root crate or HTTP/DB/UI verification",
+    "Old inspection06/07 and failed08 duplicate-alias compile evidence remain unchanged",
+    "Not G3/G4 certification"
+  ]
+}

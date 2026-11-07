@@ -16,6 +16,7 @@ use icu_collator::{
     preferences::{CollationCaseFirst, CollationNumericOrdering},
 };
 use serde_json::{Value, json};
+use sqlx::Connection;
 use uuid::Uuid;
 
 use super::{
@@ -23,10 +24,14 @@ use super::{
     store::{self, Acceptance, Archive, Completion, Contract, Handover},
 };
 use crate::{
-    auth::model::{ResolvedSession, clock_now},
+    approval::context::PendingAuthentication,
+    approval_common::{CommonSession, CommonState, store as common_store},
+    auth::model::clock_now,
     compat::scalars::js_iso_string,
+    contract_support::{Actor, Error as BusinessError},
     database::{Database, DbError},
     error::ApiError,
+    project_action_authorization::{self as scope, ProjectAction, ProjectActionTarget},
     projects::{model::Wire, store::ProjectRow},
 };
 
@@ -34,6 +39,7 @@ use crate::{
 pub enum Error {
     NotFound(String),
     Database(DbError),
+    Business(BusinessError),
     Internal,
 }
 impl fmt::Display for Error {
@@ -47,10 +53,16 @@ impl From<DbError> for Error {
         Self::Database(value)
     }
 }
+impl From<sqlx::Error> for Error {
+    fn from(value: sqlx::Error) -> Self {
+        Self::Business(value.into())
+    }
+}
 impl Error {
     pub fn into_api_error(self) -> ApiError {
         match self {
             Self::NotFound(message) => ApiError::message(StatusCode::NOT_FOUND, message),
+            Self::Business(error) => error.into_api_error(),
             Self::Database(_) | Self::Internal => ApiError::internal(),
         }
     }
@@ -75,115 +87,189 @@ impl Service {
         Self { database }
     }
 
-    pub async fn guidance(
+    pub async fn guidance(&self, project_id: &str, actor: Actor) -> Result<Wire, Error> {
+        self.read(project_id, WorkspaceRead::Guidance, actor).await
+    }
+
+    pub async fn timeline(&self, project_id: &str, actor: Actor) -> Result<Wire, Error> {
+        self.read(project_id, WorkspaceRead::Timeline, actor).await
+    }
+
+    async fn read(
         &self,
         project_id: &str,
-        session: &ResolvedSession,
+        kind: WorkspaceRead,
+        actor: Actor,
     ) -> Result<Wire, Error> {
-        let project = self.require_project(project_id).await?;
-        let id = project.id;
-        let owner_user_id = project.owner_user_id;
-        let owner_org_id = project.owner_org_id;
-        let (users, orgs, snapshot) = self
-            .database
-            .with_connection(move |connection| {
-                Box::pin(async move {
-                    let users = store::user_names(
-                        connection,
-                        &owner_user_id.into_iter().collect::<Vec<_>>(),
-                    )
-                    .await?;
-                    let orgs =
-                        store::org_names(connection, &owner_org_id.into_iter().collect::<Vec<_>>())
-                            .await?;
-                    let snapshot = store::snapshot(connection, id).await?;
-                    Ok((users, orgs, snapshot))
-                })
-            })
-            .await?;
-        let owner_name = owner_user_id
-            .and_then(|id| users.get(&id))
-            .map(String::as_str);
-        let owner_org_name = owner_org_id
-            .and_then(|id| orgs.get(&id))
-            .map(String::as_str);
-        let permissions = session
-            .user
-            .permissions
-            .iter()
-            .map(|value| value.as_ref())
-            .collect::<Vec<&str>>();
-        Ok(Wire::value(guidance::view(
-            &project,
-            owner_name,
-            owner_org_name,
-            snapshot.as_ref(),
-            &permissions,
-            iso(clock_now())?,
-        )?))
-    }
-
-    pub async fn timeline(&self, project_id: &str) -> Result<Wire, Error> {
-        let project = self.require_project(project_id).await?;
-        let id = project.id;
-        let facts = self
-            .database
-            .with_connection(move |connection| {
-                Box::pin(async move {
-                    let contracts = store::contracts(connection, id).await?;
-                    let handover = store::handover(connection, id).await?;
-                    let acceptance = store::acceptance(connection, id).await?;
-                    let completion = store::completion(connection, id).await?;
-                    let archive = store::archive(connection, id).await?;
-                    Ok(Facts {
-                        contract: first_signed_contract(contracts),
-                        handover,
-                        acceptance,
-                        completion,
-                        archive,
-                    })
-                })
-            })
-            .await?;
-        let mut seen = HashSet::new();
-        let actor_ids = [
-            project.created_by,
-            facts
-                .contract
-                .as_ref()
-                .and_then(|row| row.updated_by.or(row.created_by)),
-            facts.handover.as_ref().and_then(|row| row.confirmed_by),
-            facts.acceptance.as_ref().and_then(|row| row.confirmed_by),
-            facts.completion.as_ref().and_then(|row| row.completed_by),
-            facts.archive.as_ref().and_then(|row| row.archived_by),
-            project.closed_at.and(project.updated_by),
-        ]
-        .into_iter()
-        .flatten()
-        .filter(|id| seen.insert(*id))
-        .collect::<Vec<_>>();
-        let users = self
-            .database
-            .with_connection(move |connection| {
-                Box::pin(async move { store::user_names(connection, &actor_ids).await })
-            })
-            .await?;
-        Ok(Wire::value(json!({
-            "projectId":project.id,"events":timeline_events(&project, &facts, &users)?,"generatedAt":iso(clock_now())?,
-        })))
-    }
-
-    async fn require_project(&self, project_id: &str) -> Result<ProjectRow, Error> {
-        // The HTTP boundary validates recognized UUID paths. Preserve the
-        // accepted request spelling for a missing-object error here.
-        let key = project_id.to_owned();
+        let project_id = Uuid::parse_str(project_id).map_err(|_| {
+            Error::Business(BusinessError::BadRequest("Invalid project UUID".into()))
+        })?;
+        // This existing service owns the outer TX. Authorization, source reads,
+        // projection and pending authentication use only its borrowed session.
         self.database
             .with_connection(move |connection| {
-                Box::pin(async move { crate::projects::store::find(connection, &key).await })
+                Box::pin(async move {
+                    let mut tx = connection.begin().await?;
+                    let mut state = CommonState::default();
+                    state.trace.begin(true);
+                    let mut participant = PendingAuthentication::from_resolved(&actor.session);
+                    let result = {
+                        let mut session = CommonSession::borrow_with_participant(
+                            &mut tx,
+                            &mut state,
+                            &mut participant,
+                        );
+                        session.request_id = actor.request_id.clone();
+                        match read_with_session(&mut session, project_id, kind, &actor).await {
+                            Ok(value) => common_store::flush(&mut session)
+                                .await
+                                .map_err(BusinessError::from)
+                                .map_err(Error::Business)
+                                .map(|()| value),
+                            Err(error) => Err(error),
+                        }
+                    };
+                    match result {
+                        Ok(value) => match tx.commit().await {
+                            Ok(()) => {
+                                state.trace.commit_succeeded();
+                                Ok(Ok(value))
+                            }
+                            Err(error) => {
+                                state.trace.unknown_commit();
+                                Err(error)
+                            }
+                        },
+                        Err(error) => {
+                            let rollback = tx.rollback().await;
+                            state.trace.rolled_back();
+                            rollback?;
+                            Ok(Err(error))
+                        }
+                    }
+                })
             })
             .await?
-            .ok_or_else(|| Error::NotFound(format!("Project {project_id} not found")))
     }
+}
+
+#[derive(Clone, Copy)]
+enum WorkspaceRead {
+    Guidance,
+    Timeline,
+}
+
+async fn read_with_session(
+    session: &mut CommonSession<'_, '_>,
+    project_id: Uuid,
+    kind: WorkspaceRead,
+    actor: &Actor,
+) -> Result<Wire, Error> {
+    let proof = scope::require(
+        session,
+        actor,
+        ProjectAction::ReadProjectAnchorOrIList,
+        ProjectActionTarget::Project { id: project_id },
+    )
+    .await
+    .map_err(Error::Business)?;
+    if !proof.is_full_project() {
+        return Err(Error::Business(BusinessError::Forbidden(
+            "Project workspace requires full project responsibility".into(),
+        )));
+    }
+    proof
+        .assert_session(session, actor)
+        .await
+        .map_err(Error::Business)?;
+    // Scope has locked the true project before any workspace source query.
+    let project = crate::projects::store::find(session.connection, &project_id.to_string())
+        .await?
+        .ok_or_else(|| Error::NotFound(format!("Project {project_id} not found")))?;
+    match kind {
+        WorkspaceRead::Guidance => guidance_with_session(session, &project, actor).await,
+        WorkspaceRead::Timeline => timeline_with_session(session, &project).await,
+    }
+}
+
+async fn guidance_with_session(
+    session: &mut CommonSession<'_, '_>,
+    project: &ProjectRow,
+    actor: &Actor,
+) -> Result<Wire, Error> {
+    let users = store::user_names(
+        session.connection,
+        &project.owner_user_id.into_iter().collect::<Vec<_>>(),
+    )
+    .await?;
+    let orgs = store::org_names(
+        session.connection,
+        &project.owner_org_id.into_iter().collect::<Vec<_>>(),
+    )
+    .await?;
+    let snapshot = store::snapshot(session.connection, project.id).await?;
+    let owner_name = project
+        .owner_user_id
+        .and_then(|id| users.get(&id))
+        .map(String::as_str);
+    let owner_org_name = project
+        .owner_org_id
+        .and_then(|id| orgs.get(&id))
+        .map(String::as_str);
+    let permissions = actor
+        .session
+        .user
+        .permissions
+        .iter()
+        .map(|value| value.as_ref())
+        .collect::<Vec<&str>>();
+    Ok(Wire::value(guidance::view(
+        project,
+        owner_name,
+        owner_org_name,
+        snapshot.as_ref(),
+        &permissions,
+        iso(clock_now())?,
+    )?))
+}
+
+async fn timeline_with_session(
+    session: &mut CommonSession<'_, '_>,
+    project: &ProjectRow,
+) -> Result<Wire, Error> {
+    let contracts = store::contracts(session.connection, project.id).await?;
+    let handover = store::handover(session.connection, project.id).await?;
+    let acceptance = store::acceptance(session.connection, project.id).await?;
+    let completion = store::completion(session.connection, project.id).await?;
+    let archive = store::archive(session.connection, project.id).await?;
+    let facts = Facts {
+        contract: first_signed_contract(contracts),
+        handover,
+        acceptance,
+        completion,
+        archive,
+    };
+    let mut seen = HashSet::new();
+    let actor_ids = [
+        project.created_by,
+        facts
+            .contract
+            .as_ref()
+            .and_then(|row| row.updated_by.or(row.created_by)),
+        facts.handover.as_ref().and_then(|row| row.confirmed_by),
+        facts.acceptance.as_ref().and_then(|row| row.confirmed_by),
+        facts.completion.as_ref().and_then(|row| row.completed_by),
+        facts.archive.as_ref().and_then(|row| row.archived_by),
+        project.closed_at.and(project.updated_by),
+    ]
+    .into_iter()
+    .flatten()
+    .filter(|id| seen.insert(*id))
+    .collect::<Vec<_>>();
+    let users = store::user_names(session.connection, &actor_ids).await?;
+    Ok(Wire::value(json!({
+        "projectId":project.id,"events":timeline_events(project, &facts, &users)?,"generatedAt":iso(clock_now())?,
+    })))
 }
 
 pub(crate) fn iso(value: DateTime<Utc>) -> Result<String, Error> {

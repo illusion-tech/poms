@@ -34,6 +34,7 @@ export interface AttachmentListFilters extends AttachmentTargetRef {
 }
 
 export interface UploadAttachmentInput extends AttachmentTargetRef {
+    completionConditionContext?: CreateAttachmentUploadSessionRequest['completionConditionContext'];
     file: File;
     category: string;
     securityLevel?: AttachmentSecurityLevel;
@@ -198,6 +199,7 @@ export class AttachmentStore {
             return await this.runUploadSession(
                 {
                     operationType: AttachmentUploadSessionOperationType.CreateAttachment,
+                    ...(input.completionConditionContext ? { completionConditionContext: input.completionConditionContext } : {}),
                     targetType: input.targetType,
                     targetId: input.targetId,
                     category: input.category,

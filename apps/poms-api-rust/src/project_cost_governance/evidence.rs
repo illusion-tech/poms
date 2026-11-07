@@ -334,6 +334,7 @@ pub(super) async fn reference(
         "project-actual-cost-record"
             | "source-cost-fact"
             | "project-handover"
+            | "project-stage-record"
             | "acceptance-record"
             | "contract-term-snapshot"
             | "invoice-record"
@@ -349,6 +350,28 @@ pub(super) async fn reference(
         .and_then(Value::as_i64)
         .filter(|v| *v > 0)
         .ok_or_else(|| Error::BadRequest("A source version is required".into()))?;
+    if source == "project-stage-record" {
+        let sequence = i32::try_from(version).map_err(|_| {
+            Error::BadRequest("A stage source version must fit positive int4".into())
+        })?;
+        let fact = crate::project_lifecycle::load_verified_stage_fact_with_session(
+            session, project, id, sequence,
+        )
+        .await?;
+        let source_date = business_date(&fact.occurred_at().to_rfc3339())?;
+        if source_date != supplied_date {
+            return Err(Error::Unprocessable(
+                "Evidence date does not match the actual stage entry".into(),
+            ));
+        }
+        return Ok(Reference {
+            snapshot: json!({"reference":input,"source":fact.evidence_snapshot()?}),
+            labor: false,
+            date: source_date,
+            stage: Some(fact.stage().to_owned()),
+            currency: None,
+        });
+    }
     if source == "project-actual-cost-record" || source == "source-cost-fact" {
         let cost = store::row(session.connection, Table::Cost, id, true).await?;
         if store::id(&cost, "project_id")? != project {
@@ -359,12 +382,20 @@ pub(super) async fn reference(
         if i64::from(store::version(&cost)?) != version {
             return Err(Error::Conflict("Evidence source version changed".into()));
         }
-        if !logic::valid_confirmation_state(
-            store::text(&cost, "record_status")?,
-            cost["is_included_in_project_cost"]
-                .as_bool()
-                .unwrap_or(true),
-        ) {
+        // This branch reads evidence and never changes the referenced cost.
+        // Actual target stage/allocation/tax write guards remain in service.
+        let included_readable = cost["record_status"] == "included"
+            && cost["is_included_in_project_cost"] == true
+            && !cost["confirmed_at"].is_null()
+            && !cost["confirmed_by"].is_null();
+        if !included_readable
+            && !logic::valid_confirmation_state(
+                store::text(&cost, "record_status")?,
+                cost["is_included_in_project_cost"]
+                    .as_bool()
+                    .unwrap_or(true),
+            )
+        {
             return Err(Error::Conflict(
                 "Evidence cost is not an eligible current fact".into(),
             ));

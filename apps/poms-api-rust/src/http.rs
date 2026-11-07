@@ -174,14 +174,6 @@ pub fn openapi() -> serde_json::Value {
     // Keep the TS-owned OpenAPI 3.0 schema vocabulary intact. Deserializing it
     // as Utoipa's OpenAPI 3.1 types would narrow or discard existing metadata.
     document["openapi"] = authentication["openapi"].clone();
-    let r4_overrides: serde_json::Value = serde_json::from_str(include_str!(
-        "../../../tools/rust-r4abc/component-overrides01.json"
-    ))
-    .unwrap_or_else(|_| panic!("invalid declared R4 component delta"));
-    let r4_def_overrides: serde_json::Value = serde_json::from_str(include_str!(
-        "../../../tools/rust-r4def/component-overrides27.json"
-    ))
-    .unwrap_or_else(|_| panic!("invalid declared R4 DEF component delta"));
     for subset in [
         authentication,
         crate::navigation::http::openapi(),
@@ -204,6 +196,7 @@ pub fn openapi() -> serde_json::Value {
             .unwrap_or_else(|_| panic!("invalid original final28 OpenAPI subset")),
         crate::contract_support::http::openapi(),
     ] {
+        let subset = crate::openapi_registry::fragment(subset);
         assert_eq!(document["openapi"], subset["openapi"]);
         for (path, operation) in subset["paths"].as_object().into_iter().flatten() {
             assert!(
@@ -212,45 +205,13 @@ pub fn openapi() -> serde_json::Value {
             );
             document["paths"][path] = operation.clone();
         }
-        for (kind, entries) in subset["components"].as_object().into_iter().flatten() {
-            for (name, value) in entries.as_object().into_iter().flatten() {
-                if document["components"][kind].is_null() {
-                    document["components"][kind] = json!({});
-                }
-                let existing = &document["components"][kind][name];
-                let replacement = &r4_overrides["overrides"][name];
-                let current_replacement = &r4_def_overrides["overrides"][name];
-                if kind == "schemas" && !current_replacement.is_null() {
-                    assert!(
-                        value == &current_replacement["before"]
-                            || value == &current_replacement["after"]
-                            || (!replacement.is_null()
-                                && (value == &replacement["before"]
-                                    || value == &replacement["after"])),
-                        "undeclared R4 DEF component shape {name}"
-                    );
-                    document["components"][kind][name] = current_replacement["after"].clone();
-                } else if kind == "schemas" && !replacement.is_null() {
-                    assert!(
-                        value == &replacement["before"] || value == &replacement["after"],
-                        "undeclared R4 component shape {name}"
-                    );
-                    document["components"][kind][name] = replacement["after"].clone();
-                } else {
-                    assert!(
-                        existing.is_null() || existing == value,
-                        "conflicting OpenAPI component {kind}/{name}"
-                    );
-                    document["components"][kind][name] = value.clone();
-                }
-            }
-        }
+        crate::openapi_registry::merge_components(&mut document, &subset);
     }
     document
 }
 
 pub fn router(state: AppState, cors_origins: &[String]) -> Router {
-    wrap_router(health_routes(state), cors_origins)
+    wrap_router(health_routes(state), cors_origins, None)
 }
 
 pub fn router_with_auth(
@@ -297,6 +258,10 @@ pub fn router_with_runtime_settings(
     ));
     let approval = crate::approval::ApprovalService::new(state.database.clone());
     let contract_database = state.database.clone();
+    let project_commands = crate::contract_support::http::ProjectCommandState {
+        auth: auth.clone(),
+        database: contract_database.clone(),
+    };
     let support = crate::provider_support::ProviderSupport::new(provider_settings);
     let directory = crate::external_org_sync::DirectoryAdapter::new(support.clone());
     let identity_providers =
@@ -436,6 +401,7 @@ pub fn router_with_runtime_settings(
             ))
             .merge(crate::approval::http::router(auth, approval)),
         cors_origins,
+        Some(project_commands),
     )
 }
 
@@ -447,7 +413,11 @@ fn health_routes(state: AppState) -> Router {
         .with_state(state)
 }
 
-fn wrap_router(application: Router, cors_origins: &[String]) -> Router {
+fn wrap_router(
+    application: Router,
+    cors_origins: &[String],
+    project_commands: Option<crate::contract_support::http::ProjectCommandState>,
+) -> Router {
     let policy = CorsPolicy {
         origins: cors_origins
             .iter()
@@ -461,8 +431,15 @@ fn wrap_router(application: Router, cors_origins: &[String]) -> Router {
         .fallback(not_found);
     // MethodRouter adds Allow after its route-level layers finish. Enclose the
     // complete router so the Nest 404 normalization runs after that final step.
-    Router::new()
-        .fallback_service(application)
+    let outer = Router::new().fallback_service(application);
+    let outer = match project_commands {
+        Some(state) => outer.layer(middleware::from_fn_with_state(
+            state,
+            crate::contract_support::http::project_command_bridge,
+        )),
+        None => outer,
+    };
+    outer
         .layer(middleware::from_fn(crate::roles::http::normalize_uri))
         .layer(middleware::from_fn(crate::org_units::http::normalize_uri))
         .layer(middleware::from_fn(crate::users::http::normalize_uri))

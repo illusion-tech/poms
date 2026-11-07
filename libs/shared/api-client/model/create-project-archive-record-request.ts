@@ -13,4 +13,9 @@ export interface CreateProjectArchiveRecordRequest {
     archivedAt: string;
     archiveSummary: string;
     evidenceSummary: string;
+    expectedProjectVersion: number;
+    inputVersion: CreateProjectArchiveRecordRequestInputVersionEnum;
 }
+export enum CreateProjectArchiveRecordRequestInputVersionEnum {
+    ServerDerivedV1 = 'server-derived-v1'
+};

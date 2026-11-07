@@ -1,0 +1,147 @@
+{
+  "kind": "independent-review05-initial-G2-static-and-evidence-gap-review",
+  "reviewedAt": "2026-11-07T06:15:08.816334+00:00",
+  "reviewer": "r4ghi_independent_review",
+  "author": false,
+  "head": "ba775dd291171bde361d8fc145ead9e5bb1887a5",
+  "branch": "codex/poms-r4ghi-next25",
+  "main": "d5c79b260fc58f78ff9adb4ac9fd69ed5bc838d5",
+  "permanentS4": "4f0ad88e78622a75b88b4e3cc72aded9da67458a",
+  "G1AdmissionRead": true,
+  "G2Authorized": true,
+  "G3Certified": false,
+  "G4Certified": false,
+  "overallApproval": false,
+  "writeBoundary": "tools/rust-r4ghi/independent/review05 only; no product/Git/GitHub/DB/existing-process mutation",
+  "inputManifest": "input-manifest01.json",
+  "findings": [
+    {
+      "id": "IR05-01",
+      "priority": "P2",
+      "status": "open-candidate-only-not-applied",
+      "title": "关闭条件的generated-client参数键与canonical不一致",
+      "source": "tools/rust-r4ghi/H/implementation/support-patches/ui-integration/proposed/apps/poms-admin/src/app/features/project/project-governance-api.ts",
+      "sourceSHA256": "8547e6e9a1e4bb00635be5e175a3c39f05acbf66b5965f3c28c9fc8fd7780923",
+      "line": 233,
+      "lineEnd": 233,
+      "scenario": "本人待办已加载，用户上传证据后提交closeCondition。",
+      "actual": "候选向SDK传completionRecordId和conditionId；当前完整OpenAPI要求completionRecordId和id。旧SDK尚无该方法，所以当前13项旧SDK诊断不能覆盖该新方法真实参数类型。",
+      "impact": "S5重生后该调用无法通过严格类型检查；若绕过类型则缺id，无法形成正确关闭URL。",
+      "requiredFix": "保持canonical占位符id，调用传id: conditionId；保留上传purpose中的conditionId。",
+      "evidence": "candidate-ui-probe01.json",
+      "realHTTPReproduced": false
+    },
+    {
+      "id": "IR05-02",
+      "priority": "P2",
+      "status": "open-product-known-remediation-in-progress",
+      "title": "Runtime OpenAPI仍混合历史与当前schema authority，实际整测试因冲突中断",
+      "source": "apps/poms-api-rust/src/http.rs",
+      "sourceSHA256": "d85fd9e2ec29a3fabbcba2e84af51f6df241e4942c9b9b3ee04b92b08444095d",
+      "line": 223,
+      "lineEnd": 244,
+      "scenario": "调用http::openapi()生成完整已注册Rust文档。",
+      "actual": "当前contract_support片段带完整现代schema，与R3冻结fragment的AcceptanceRecordSummary不同；不在旧R4ABC/DEF override登记内，故240行严格merge panic。",
+      "impact": "真实rust-test02的http套件3项失败、整命令exit101，后续套件未运行；不能签完整Rust回归或runtime contract。",
+      "requiredFix": "保留严格merge；将历史片段只作route/status元数据，经封闭helper消费当前完整canonical components.schemas，拒未知名/悬空refs/操作元数据漂移，不改冻结JSON。",
+      "evidence": [
+        "tmp/rust-r4ghi/root/rust-test02/receipt.json",
+        "tmp/rust-r4ghi/root/rust-test02/stdout.log",
+        "runtime-fragment-comparison01.json"
+      ],
+      "realHTTPReproduced": false,
+      "actualRustTestFailureInspected": true
+    }
+  ],
+  "countsInThisReviewedBoundaryOnly": {
+    "newP1": 0,
+    "newP2": 2
+  },
+  "scopeLimit": "Not a whole-product P1/P2=0 certificate; broad actual business/authorization/FI/concurrency/UI acceptance remains incomplete.",
+  "knownDeliveryGaps": [
+    {
+      "id": "IR05-GAP-UI",
+      "state": "G3-blocked",
+      "detail": "Working product still has only standalone G/H/I/R5 components and no central route/adapters. The original I component uploadEvidence(projectId,file) lacks condition purpose; H10 candidate repairs purpose but is unapplied and old SDK compilation has13 errors."
+    },
+    {
+      "id": "IR05-GAP-EO",
+      "state": "planned-author-correction",
+      "detail": "EO with ProjectRead/Write cannot read role GET; new exact read-only executionAdmissionContext plus UI delta not yet in this captured final contract. No permission broadening or weights exposure accepted."
+    },
+    {
+      "id": "IR05-GAP-PERIOD",
+      "state": "user-decision-pending",
+      "detail": "Normal period close selecting current operating authority remains undecided. selected=false is an unapproved candidate, not accepted business policy."
+    },
+    {
+      "id": "IR05-GAP-ACCEPTANCE",
+      "state": "not-certified",
+      "detail": "No unified real R3→B/C→D/R5→execution→E/F/G/H→final acceptance→conditional closure→archive acceptance; no complete required-write FI or true race/lock matrix/JSON-DOM sensitive results."
+    }
+  ],
+  "independentlyExecutedPureProbes": [
+    "candidate-ui-probe01.json",
+    "sdk-guard-probe01.json"
+  ],
+  "pureProbeLimits": "UI schema parsers and services are explicit synthetic stubs; no HTTP/DB/authorization acceptance. SDK guard invokes actual existing function and checks original616-file target unchanged; generator not invoked.",
+  "inspectedActualReceipts": {
+    "libCheck04": {
+      "exitCode": 0,
+      "errors": 0,
+      "sourceStable": true,
+      "database": false
+    },
+    "rustTest02": {
+      "exitCode": 101,
+      "sourceStable": true,
+      "httpPassed": 14,
+      "httpFailed": 3,
+      "suiteIncomplete": true
+    },
+    "fullOpenAPI07": {
+      "exitCode": 0,
+      "paths": 242,
+      "operations": 296,
+      "schemas": 688,
+      "specSHA256": "2c236f5a1058dbfbb9ffd22869034ff829824e0bab29d8dc5a9af5da841cbe2a",
+      "businessRuntimeAcceptance": false
+    },
+    "specValidate02": {
+      "exitCode": 0,
+      "input": "earlier06 spec, not final07/EO contract certificate",
+      "recommendations": 5
+    },
+    "migration95": {
+      "native": "environment03 adopts already committed95; current catalog/no-op only, original before image absent from verifier02",
+      "rust": "94→95 applied with original-column before/after data evidence"
+    },
+    "migration96": {
+      "native": "95→96 applied; original-column before/after data preserved",
+      "rust": "95→96 applied; original-column before/after data preserved",
+      "businessHTTPAcceptance": false
+    },
+    "apiAdminTsc01": "past receipt only; no final current source binding; unappliedUI not covered"
+  },
+  "immutableChecks": {
+    "effectiveV2Entries": 20,
+    "effectiveV2AllHashesMatch": true,
+    "uiCandidateEntries": 10,
+    "uiCandidateAllHashesMatch": true,
+    "uiManifestSHA256": "a138b237faedac017910947cd140d652e5e941a767c82591c20e309dee949d45",
+    "S4AncestorOfHEAD": true,
+    "S4AncestorOfMain": true
+  },
+  "notedSourceChangesAfterCapture": [
+    {
+      "path": "apps/poms-api-rust/src/projects/model.rs",
+      "capturedSHA256": "e33a1ef1c78b83b109fd72ae90a750167e2848aef968c5a8bae6bb2b800680e4",
+      "currentSHA256": "a89fa0e013641d1e6639a0afc884bd15e1dc55570a6d37b9bd1d8e6aa9cba568"
+    },
+    {
+      "path": "apps/poms-api-rust/src/projects/validation.rs",
+      "capturedSHA256": "d06dd792e89d449cdcf74f25730cb0dc6cf5c99b0fcf4f519fa750b8884b1ec8",
+      "currentSHA256": "e309a24165c7500460143ef4c98c5a95fcf6e0975caa81621fdd3aa49a63fd1a"
+    }
+  ]
+}

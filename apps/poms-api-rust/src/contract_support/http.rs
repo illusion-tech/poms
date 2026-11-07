@@ -1,5 +1,6 @@
 //! The 67 frozen operations share one authorization and outer transaction adapter.
 use super::{Actor, Error};
+pub use crate::project_operating_common::ResourceKeys;
 use crate::{
     approval::context::PendingAuthentication,
     approval_common::{CommonSession, CommonState, store},
@@ -24,7 +25,10 @@ use axum::{
 use serde::Deserialize;
 use serde_json::{Value, json};
 use sqlx::Connection;
-use std::{collections::BTreeSet, sync::OnceLock};
+use std::{
+    collections::{BTreeMap, BTreeSet},
+    sync::OnceLock,
+};
 use uuid::Uuid;
 
 #[derive(Clone, Deserialize)]
@@ -36,6 +40,8 @@ struct Operation {
     operation_id: String,
     permissions: Vec<String>,
     success_status: u16,
+    #[serde(default)]
+    response_dto: Option<String>,
 }
 #[derive(Deserialize)]
 struct Inventory {
@@ -45,7 +51,7 @@ fn operations() -> &'static [Operation] {
     static OPS: OnceLock<Vec<Operation>> = OnceLock::new();
     OPS.get_or_init(|| {
         serde_json::from_str::<Inventory>(include_str!(
-            "../../../../tools/rust-r4def/combined-operation-map16.json"
+            "../../../../tools/rust-r4ghi/combined-operation-map02.json"
         ))
         .unwrap_or_else(|_| panic!("invalid frozen R4 operation map"))
         .operations
@@ -54,6 +60,7 @@ fn operations() -> &'static [Operation] {
 
 struct Matched {
     id: Option<String>,
+    keys: BTreeMap<String, String>,
     canonical: String,
 }
 fn matched(template: &str, path: &str) -> Option<Matched> {
@@ -68,6 +75,7 @@ fn matched(template: &str, path: &str) -> Option<Matched> {
     }
     let mut canonical = Vec::new();
     let mut id = None;
+    let mut keys = BTreeMap::new();
     for (pattern, part) in expected.iter().zip(actual) {
         if pattern.starts_with('{') {
             let close = pattern.find('}')?;
@@ -78,6 +86,10 @@ fn matched(template: &str, path: &str) -> Option<Matched> {
                 return None;
             }
             id = Some(identity.to_owned());
+            let name = pattern.get(1..close)?;
+            if keys.insert(name.to_owned(), identity.to_owned()).is_some() {
+                return None;
+            }
             canonical.push(format!("{identity}{suffix}"));
         } else {
             if !pattern.eq_ignore_ascii_case(part) {
@@ -88,6 +100,7 @@ fn matched(template: &str, path: &str) -> Option<Matched> {
     }
     Some(Matched {
         id,
+        keys,
         canonical: canonical.join("/"),
     })
 }
@@ -100,9 +113,22 @@ fn operation(method: &Method, path: &str) -> Option<(Operation, Matched)> {
         .find_map(|op| matched(&op.path, path).map(|m| (op.clone(), m)))
 }
 fn collapsed(template: &str) -> String {
+    let mut resource = 0;
     template
         .split('/')
-        .map(|part| if part.starts_with('{') { "{id}" } else { part })
+        .map(|part| {
+            if part.starts_with('{') {
+                let key = if resource == 0 {
+                    "{id}".to_owned()
+                } else {
+                    format!("{{resource{resource}}}")
+                };
+                resource += 1;
+                key
+            } else {
+                part.to_owned()
+            }
+        })
         .collect::<Vec<_>>()
         .join("/")
 }
@@ -110,12 +136,67 @@ pub fn router(auth: AuthHttpState, database: Database) -> Router {
     let mut router = Router::new();
     let paths = operations()
         .iter()
+        // These colon commands share Project's item path shape. The one outer
+        // command bridge dispatches them before the existing Project router.
+        .filter(|op| {
+            !matches!(
+                op.operation_id.as_str(),
+                "ProjectController_startExecution" | "ProjectController_startAcceptance"
+            )
+        })
         .map(|op| collapsed(&op.path))
         .collect::<BTreeSet<_>>();
     for path in paths {
         router = router.route(&path, any(dispatch));
     }
     router.layer(Extension(database)).with_state(auth)
+}
+
+#[derive(Clone)]
+pub(crate) struct ProjectCommandState {
+    pub auth: AuthHttpState,
+    pub database: Database,
+}
+pub(crate) async fn project_command_bridge(
+    State(state): State<ProjectCommandState>,
+    request: Request,
+    next: Next,
+) -> Response {
+    let command_path = operations().iter().any(|op| {
+        matches!(
+            op.operation_id.as_str(),
+            "ProjectController_startExecution" | "ProjectController_startAcceptance"
+        ) && matched(&op.path, request.uri().path()).is_some()
+    });
+    if command_path {
+        dispatch(State(state.auth), Extension(state.database), request).await
+    } else {
+        next.run(request).await
+    }
+}
+
+fn modern_query(query: Option<&str>) -> Result<Value, Error> {
+    let mut values = serde_json::Map::new();
+    for (key, value) in url::form_urlencoded::parse(query.unwrap_or("").as_bytes()) {
+        if !matches!(
+            key.as_ref(),
+            "view"
+                | "intent"
+                | "snapshotMode"
+                | "periodKey"
+                | "restatesSnapshotId"
+                | "periodEndSnapshotId"
+                | "receiptId"
+                | "correctionSourceRefs"
+        ) || values.contains_key(key.as_ref())
+        {
+            return Err(Error::BadRequest(
+                "Unknown or repeated operating query parameter".into(),
+            ));
+        }
+        values.insert(key.into_owned(), Value::String(value.into_owned()));
+    }
+    Ok(Value::Object(values))
 }
 pub async fn normalize_uri(mut request: Request, next: Next) -> Response {
     let selected = operation(request.method(), request.uri().path())
@@ -126,14 +207,14 @@ pub async fn normalize_uri(mut request: Request, next: Next) -> Response {
                 .find_map(|op| matched(&op.path, request.uri().path()))
         });
     if let Some(matched) = selected {
-        if let Some(id) = &matched.id
-            && decode_uri_component(id).is_err()
-        {
-            return ApiError::message(
-                StatusCode::BAD_REQUEST,
-                format!("Failed to decode param '{id}'"),
-            )
-            .into_response();
+        for id in matched.keys.values() {
+            if decode_uri_component(id).is_err() {
+                return ApiError::message(
+                    StatusCode::BAD_REQUEST,
+                    format!("Failed to decode param '{id}'"),
+                )
+                .into_response();
+            }
         }
         if matched.canonical != request.uri().path() {
             if request.extensions().get::<OriginalUri>().is_none() {
@@ -195,7 +276,12 @@ async fn dispatch(
         Ok(None) => return ApiError::internal().into_response(),
         Err(response) => return response,
     };
-    let id = match matched.id {
+    let named = match ResourceKeys::from_raw(&matched.keys) {
+        Ok(keys) => keys,
+        Err(error) => return error.into_api_error().into_response(),
+    };
+    let modern_group = matches!(op.group.as_str(), "G" | "H" | "I" | "R5-min");
+    let id = match if modern_group { None } else { matched.id } {
         None => None,
         Some(raw) => match decode_uri_component(&raw)
             .ok()
@@ -208,14 +294,38 @@ async fn dispatch(
             }
         },
     };
-    let query = match super::validation::validate_query(&op.operation_id, parts.uri.query()) {
+    let query_result = if modern_group {
+        modern_query(parts.uri.query()).map_err(Error::into_api_error)
+    } else {
+        super::validation::validate_query(&op.operation_id, parts.uri.query())
+    };
+    let query = match query_result {
         Ok(query) => query,
         Err(error) => return error.into_response(),
     };
     let parsed = parts.extensions.remove::<ParsedBody>().unwrap_or_default();
-    let body = match super::validation::validate_body(&op.operation_id, parsed.raw()) {
-        Ok(body) => body,
-        Err(error) => return error.into_response(),
+    let typed = if crate::project_operating_common::request::request_name(&op.operation_id)
+        .is_some()
+    {
+        match crate::project_operating_common::TypedRequest::parse(&op.operation_id, parsed.raw()) {
+            Ok(body) => body,
+            Err(error) => return error.into_api_error().into_response(),
+        }
+    } else {
+        crate::project_operating_common::TypedRequest::None
+    };
+    let body = if !matches!(typed, crate::project_operating_common::TypedRequest::None) {
+        match typed.value() {
+            Ok(value) => value,
+            Err(error) => return error.into_api_error().into_response(),
+        }
+    } else if modern_group {
+        Value::Null
+    } else {
+        match super::validation::validate_body(&op.operation_id, parsed.raw()) {
+            Ok(body) => body,
+            Err(error) => return error.into_response(),
+        }
     };
     let actor = Actor {
         id: resolved.user.user_id,
@@ -311,8 +421,62 @@ async fn dispatch(
                             )
                             .await
                         }
+                        "G" => {
+                            crate::project_operating::execute_with_session(
+                                &mut session,
+                                &op.operation_id,
+                                &named,
+                                &query,
+                                &typed,
+                                &actor,
+                            )
+                            .await
+                        }
+                        "H" => {
+                            crate::project_operating_signals::execute_with_session(
+                                &mut session,
+                                &op.operation_id,
+                                &named,
+                                &query,
+                                &typed,
+                                &actor,
+                            )
+                            .await
+                        }
+                        "I" => {
+                            crate::project_lifecycle::execute_with_session(
+                                &mut session,
+                                &op.operation_id,
+                                &named,
+                                &query,
+                                &typed,
+                                &actor,
+                            )
+                            .await
+                        }
+                        "R5-min" => {
+                            crate::commission_assignment::execute_with_session(
+                                &mut session,
+                                &op.operation_id,
+                                &named,
+                                &query,
+                                &typed,
+                                &actor,
+                            )
+                            .await
+                        }
                         _ => Err(Error::Internal),
                     };
+                    let result = result.and_then(|value| {
+                        if modern_group {
+                            let schema_name = op.response_dto.as_deref().ok_or(Error::Internal)?;
+                            crate::project_operating_common::schema::validate_public_value(
+                                schema_name,
+                                &value,
+                            )?;
+                        }
+                        Ok(value)
+                    });
                     match result {
                         Ok(value) => store::flush(&mut session)
                             .await
@@ -385,14 +549,36 @@ mod tests {
         );
     }
     #[test]
-    fn all_sixty_seven_operations_have_effective_permission() {
-        assert_eq!(operations().len(), 67);
+    fn all_ninety_nine_operations_have_effective_permission() {
+        assert_eq!(operations().len(), 99);
         assert!(operations().iter().all(|o| !o.permissions.is_empty()));
         assert!(
             operations()
                 .iter()
                 .filter(|o| o.group == "C")
                 .all(|o| o.permissions == ["contract:finance:manage"])
+        );
+    }
+    #[test]
+    fn dual_uuid_and_project_colon_routes_preserve_unique_resource_identity() {
+        let result = matched(
+            "/api/project-completion-records/{completionRecordId}/conditions/{id}:close",
+            "/api/project-completion-records/parent/conditions/child:close",
+        )
+        .unwrap_or_else(|| panic!("route"));
+        assert_eq!(
+            result.keys.get("completionRecordId").map(String::as_str),
+            Some("parent")
+        );
+        assert_eq!(result.keys.get("id").map(String::as_str), Some("child"));
+        assert_eq!(
+            collapsed("/api/project-completion-records/{completionRecordId}/conditions/{id}:close"),
+            "/api/project-completion-records/{id}/conditions/{resource1}"
+        );
+        assert!(
+            operations()
+                .iter()
+                .any(|op| op.operation_id == "ProjectController_startExecution")
         );
     }
 }

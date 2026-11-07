@@ -201,6 +201,39 @@ pub(super) async fn allocation(
     body: &Value,
     actor: &Actor,
 ) -> Result<Value, Error> {
+    allocation_inner(session, op, replaced, body, actor, None, &[]).await
+}
+
+pub(crate) async fn allocation_with_restatement_scope(
+    session: &mut CommonSession<'_, '_>,
+    op: &str,
+    replaced: Uuid,
+    body: &Value,
+    actor: &Actor,
+    scope: &crate::project_operating_common::model::VerifiedRestatementScope<'_>,
+    transitions: &[crate::project_operating_common::model::VerifiedProducerTransition],
+) -> Result<Value, Error> {
+    allocation_inner(
+        session,
+        op,
+        Some(replaced),
+        body,
+        actor,
+        Some(scope),
+        transitions,
+    )
+    .await
+}
+
+async fn allocation_inner(
+    session: &mut CommonSession<'_, '_>,
+    op: &str,
+    replaced: Option<Uuid>,
+    body: &Value,
+    actor: &Actor,
+    scope: Option<&crate::project_operating_common::model::VerifiedRestatementScope<'_>>,
+    transitions: &[crate::project_operating_common::model::VerifiedProducerTransition],
+) -> Result<Value, Error> {
     if replaced.is_none()
         && ["basisType", "allocationMethod"].iter().any(|k| {
             body.get(*k)
@@ -238,7 +271,7 @@ pub(super) async fn allocation(
         }
         None => Vec::new(),
     };
-    let sources = if first_basis.is_some() {
+    let mut sources = if first_basis.is_some() {
         old_source
             .iter()
             .map(|r| store::id(r, "cost_record_id"))
@@ -246,6 +279,17 @@ pub(super) async fn allocation(
     } else {
         uuid_list(body, "sourceCostRecordIds")?
     };
+    if scope.is_some() {
+        for source in &mut sources {
+            *source = restatement_successor_cost(*source, transitions)?;
+        }
+        sources.sort();
+        if sources.windows(2).any(|p| p[0] == p[1]) {
+            return Err(domain(
+                "Correction cannot collapse two real allocation members",
+            ));
+        }
+    }
     if sources.is_empty() {
         return Err(Error::Conflict(
             "Allocation has no certified source membership".into(),
@@ -269,6 +313,17 @@ pub(super) async fn allocation(
         .await?
         {
             projects.insert(store::id(&item, "project_id")?);
+        }
+    }
+    if let Some(scope) = scope {
+        scope.access.assert_session(session, actor).await?;
+        if scope.actor_id != actor.id {
+            return Err(Error::Forbidden(
+                "Allocation correction actor mismatch".into(),
+            ));
+        }
+        for project in &projects {
+            scope.access.assert_project(*project)?;
         }
     }
     store::locks(session.connection, projects.iter().copied()).await?;
@@ -307,6 +362,21 @@ pub(super) async fn allocation(
         labor,
     )
     .await?;
+    if scope.is_none() {
+        let mut consumed_ids = sources.clone();
+        consumed_ids.extend(
+            old_results
+                .iter()
+                .map(|r| store::id(r, "id"))
+                .collect::<Result<Vec<_>, _>>()?,
+        );
+        if let Some(basis) = &old_basis {
+            consumed_ids.push(store::id(basis, "id")?);
+        }
+        if sqlx::query_scalar::<_,bool>("SELECT EXISTS(SELECT 1 FROM poms.operating_source_member WHERE source_id=ANY($1::uuid[]))").bind(consumed_ids).fetch_one(&mut *session.connection).await? {
+            return Err(Error::CodedConflict{code:"operating_restatement_required",message:"Consumed complete allocation batch requires atomic restatement".into()});
+        }
+    }
     crate::project_actual_cost::lock_source_families(&mut *session.connection, &costs).await?;
     costs.clear();
     for id in &sources {
@@ -377,10 +447,30 @@ pub(super) async fn allocation(
         }
     } else {
         for source in &old_source {
-            expected.insert(
-                store::id(source, "cost_record_id")?,
-                source["cost_row_version"].as_i64().ok_or(Error::Internal)?,
-            );
+            let old_id = store::id(source, "cost_record_id")?;
+            let current_id = if scope.is_some() {
+                restatement_successor_cost(old_id, transitions)?
+            } else {
+                old_id
+            };
+            let version = if let Some(scope) = scope {
+                let current = costs
+                    .iter()
+                    .find(|c| store::id(c, "id").ok() == Some(current_id))
+                    .ok_or(Error::Internal)?;
+                validate_restatement_allocation_source(
+                    session,
+                    scope,
+                    source,
+                    current,
+                    transitions,
+                )
+                .await?;
+                i64::from(store::version(current)?)
+            } else {
+                source["cost_row_version"].as_i64().ok_or(Error::Internal)?
+            };
+            expected.insert(current_id, version);
         }
     }
     let mut source_snapshots = Vec::new();
@@ -404,7 +494,15 @@ pub(super) async fn allocation(
         if let Some(b) = &old_basis {
             let source = old_source
                 .iter()
-                .find(|s| store::id(s, "cost_record_id").ok() == Some(id))
+                .find(|s| {
+                    store::id(s, "cost_record_id").ok().and_then(|old| {
+                        if scope.is_some() {
+                            restatement_successor_cost(old, transitions).ok()
+                        } else {
+                            Some(old)
+                        }
+                    }) == Some(id)
+                })
                 .ok_or(Error::Internal)?;
             if source["is_current"] != true || store::id(source, "basis_id")? != store::id(b, "id")?
             {
@@ -469,6 +567,43 @@ pub(super) async fn allocation(
             .find(|a| a.project == *project.as_bytes())
             .ok_or(Error::Internal)?;
         assertions(body, allocation)?;
+    }
+    // Unchanged economic layers and actual frozen weights must reproduce every
+    // prior project cent, even when stage provenance was refreshed late.
+    if scope.is_some()
+        && let Some(old_basis) = &old_basis
+    {
+        let previous_totals = evidence::layers(
+            old_basis,
+            [
+                "source_amount_excluding_tax",
+                "source_tax_cost_amount",
+                "source_amount_including_tax",
+            ],
+        )?;
+        let unchanged_weights=items.len()==old_by_project.len() && items.iter().all(|item|store::id(item,"projectId").ok().and_then(|id|old_by_project.get(&id)).is_some_and(|old|{
+                matches!((logic::decimal(store::text(item,"allocationWeight").unwrap_or(""),6,logic::MAX_MONEY),logic::decimal(store::text(old,"allocation_weight").unwrap_or(""),6,logic::MAX_MONEY)),(Ok(a),Ok(b))if a==b)
+            }));
+        if previous_totals == totals && unchanged_weights {
+            for allocation in &allocated {
+                let old = old_by_project
+                    .get(&Uuid::from_bytes(allocation.project))
+                    .ok_or(Error::Internal)?;
+                if evidence::layers(
+                    old,
+                    [
+                        "allocated_amount_excluding_tax",
+                        "allocated_tax_cost_amount",
+                        "allocated_amount_including_tax",
+                    ],
+                )? != allocation.layers
+                {
+                    return Err(Error::Conflict(
+                        "Stage-only allocation refresh changed conserved project cents".into(),
+                    ));
+                }
+            }
+        }
     }
     let basis_id = contract_support::new_uuid()?;
     let operation = contract_support::new_uuid()?;
@@ -601,6 +736,29 @@ pub(super) async fn stage(
     body: &Value,
     actor: &Actor,
 ) -> Result<Value, Error> {
+    stage_inner(session, op, id, reclassify, body, actor, None).await
+}
+
+pub(crate) async fn stage_with_restatement_permit(
+    session: &mut CommonSession<'_, '_>,
+    op: &str,
+    id: Uuid,
+    body: &Value,
+    actor: &Actor,
+    permit: &crate::project_operating_common::model::StageReclassificationPermit<'_>,
+) -> Result<Value, Error> {
+    stage_inner(session, op, id, true, body, actor, Some(permit)).await
+}
+
+async fn stage_inner(
+    session: &mut CommonSession<'_, '_>,
+    op: &str,
+    id: Uuid,
+    reclassify: bool,
+    body: &Value,
+    actor: &Actor,
+    permit: Option<&crate::project_operating_common::model::StageReclassificationPermit<'_>>,
+) -> Result<Value, Error> {
     let previous = if reclassify {
         Some(store::row(session.connection, Table::Stage, id, false).await?)
     } else {
@@ -642,12 +800,26 @@ pub(super) async fn stage(
     .await?;
     crate::project_actual_cost::lock_source_families(&mut *session.connection, &family_costs)
         .await?;
-    if !logic::valid_confirmation_state(
-        store::text(&cost, "record_status")?,
-        cost["is_included_in_project_cost"]
-            .as_bool()
-            .unwrap_or(true),
-    ) {
+    if let Some(permit) = permit {
+        validate_stage_restatement_permit(session, actor, permit, cost_id, id, project).await?;
+    } else if operating_source_consumed(session, cost_id).await?
+        && !is_true_first_stage_append(session, &cost, reclassify).await?
+    {
+        return Err(crate::contract_support::Error::CodedConflict {
+            code: "operating_restatement_required",
+            message: "Consumed cost facts require an atomic restatement".into(),
+        });
+    }
+    if !(permit.is_some()
+        && cost["record_status"] == "included"
+        && cost["is_included_in_project_cost"] == true)
+        && !logic::valid_confirmation_state(
+            store::text(&cost, "record_status")?,
+            cost["is_included_in_project_cost"]
+                .as_bool()
+                .unwrap_or(true),
+        )
+    {
         return Err(Error::Conflict(
             "Cost is not an eligible current confirmation fact".into(),
         ));
@@ -670,7 +842,7 @@ pub(super) async fn stage(
                 "Stage attribution current pointer changed".into(),
             ));
         }
-        if !old["locked_by_snapshot_id"].is_null() {
+        if !old["locked_by_snapshot_id"].is_null() && permit.is_none() {
             return Err(Error::Conflict(
                 "A frozen historical attribution requires an explicit restatement".into(),
             ));
@@ -687,7 +859,7 @@ pub(super) async fn stage(
             ));
         }
     }
-    if store::occupied(session.connection, cost_id).await? {
+    if store::occupied(session.connection, cost_id).await? && permit.is_none() {
         return Err(Error::Conflict(
             "Cost is frozen by a current allocation".into(),
         ));
@@ -788,7 +960,9 @@ pub(super) async fn stage(
         cost_after["confirmed_at"] = json!(now);
         cost_after["confirmed_by"] = json!(actor.id);
     }
-    cost_after["record_status"] = json!("confirmed");
+    if cost["record_status"] != "included" {
+        cost_after["record_status"] = json!("confirmed");
+    }
     cost_after["execution_stage_code"] = json!(target);
     cost_after["stage_derived_from_type"] = json!("CostStageAttributionSnapshot");
     cost_after["stage_derived_from_id"] = json!(attribution_id);
@@ -840,8 +1014,8 @@ pub(super) async fn stage(
         store::supersede(session, Table::Stage, old, actor.id).await?;
     }
     store::insert(session, Table::Stage, &attribution).await?;
-    let result=sqlx::query("UPDATE poms.project_actual_cost_record SET record_status='confirmed',confirmed_at=CASE WHEN record_status='registered' THEN $1 ELSE confirmed_at END,confirmed_by=CASE WHEN record_status='registered' THEN $2 ELSE confirmed_by END,execution_stage_code=$3,stage_derived_from_type='CostStageAttributionSnapshot',stage_derived_from_id=$4,stage_derived_at=$1,stage_locked_at=$1,row_version=row_version+1,updated_at=$1,updated_by=$2 WHERE id=$5 AND project_id=$6 AND row_version=$7 AND record_status IN ('registered','confirmed') AND NOT is_included_in_project_cost")
-        .bind(handled_at).bind(actor.id).bind(target).bind(attribution_id.to_string()).bind(cost_id).bind(project).bind(store::version(&cost)?).execute(&mut *session.connection).await?;
+    let result=sqlx::query("UPDATE poms.project_actual_cost_record SET record_status=CASE WHEN $8 AND record_status='included' THEN record_status ELSE 'confirmed' END,confirmed_at=CASE WHEN record_status='registered' THEN $1 ELSE confirmed_at END,confirmed_by=CASE WHEN record_status='registered' THEN $2 ELSE confirmed_by END,execution_stage_code=$3,stage_derived_from_type='CostStageAttributionSnapshot',stage_derived_from_id=$4,stage_derived_at=$1,stage_locked_at=$1,row_version=row_version+1,updated_at=$1,updated_by=$2 WHERE id=$5 AND project_id=$6 AND row_version=$7 AND ((record_status IN ('registered','confirmed') AND NOT is_included_in_project_cost) OR ($8 AND record_status='included' AND is_included_in_project_cost))")
+        .bind(handled_at).bind(actor.id).bind(target).bind(attribution_id.to_string()).bind(cost_id).bind(project).bind(store::version(&cost)?).bind(permit.is_some()).execute(&mut *session.connection).await?;
     if result.rows_affected() != 1 {
         return Err(Error::Conflict("Cost confirmation version changed".into()));
     }
@@ -876,6 +1050,29 @@ pub(super) async fn tax(
     replacing: bool,
     body: &Value,
     actor: &Actor,
+) -> Result<Value, Error> {
+    tax_inner(session, op, id, replacing, body, actor, None).await
+}
+
+pub(crate) async fn tax_with_restatement_permit(
+    session: &mut CommonSession<'_, '_>,
+    op: &str,
+    id: Uuid,
+    body: &Value,
+    actor: &Actor,
+    permit: &crate::project_operating_common::model::TaxTreatmentReplacementPermit<'_>,
+) -> Result<Value, Error> {
+    tax_inner(session, op, id, true, body, actor, Some(permit)).await
+}
+
+async fn tax_inner(
+    session: &mut CommonSession<'_, '_>,
+    op: &str,
+    id: Uuid,
+    replacing: bool,
+    body: &Value,
+    actor: &Actor,
+    permit: Option<&crate::project_operating_common::model::TaxTreatmentReplacementPermit<'_>>,
 ) -> Result<Value, Error> {
     let initial = if replacing {
         Some(store::row(session.connection, Table::Tax, id, false).await?)
@@ -918,6 +1115,30 @@ pub(super) async fn tax(
             store::version(old)?,
             "AccountingTaxTreatmentSnapshot",
         )?;
+    }
+    if let Some(permit) = permit {
+        permit.scope.access.assert_session(session, actor).await?;
+        permit.scope.access.assert_project(project)?;
+        if permit.tax_treatment_id != id
+            || permit.project_id != project
+            || permit.scope.actor_id != actor.id
+        {
+            return Err(Error::Forbidden(
+                "Tax correction permit does not match this exact producer".into(),
+            ));
+        }
+        validate_locked_reference(
+            session,
+            &permit.scope.locked_source_refs,
+            "AccountingTaxTreatmentSnapshot",
+            id,
+        )
+        .await?;
+    } else if replacing && operating_source_consumed(session, id).await? {
+        return Err(crate::contract_support::Error::CodedConflict {
+            code: "operating_restatement_required",
+            message: "Consumed tax facts require an atomic restatement".into(),
+        });
     }
     let currency = evidence::currency(store::text(body, "currency")?)?;
     let mut source_snapshots = Vec::new();
@@ -1131,4 +1352,199 @@ mod tests {
             assert!(metadata.get(key).is_none());
         }
     }
+}
+
+async fn operating_source_consumed(
+    session: &mut CommonSession<'_, '_>,
+    id: Uuid,
+) -> Result<bool, Error> {
+    Ok(sqlx::query_scalar(
+        "SELECT EXISTS(SELECT 1 FROM poms.operating_source_member WHERE source_id=$1)",
+    )
+    .bind(id)
+    .fetch_one(&mut *session.connection)
+    .await?)
+}
+
+async fn validate_locked_reference(
+    session: &mut CommonSession<'_, '_>,
+    locked: &[crate::project_operating_common::model::SourceRef],
+    kind: &str,
+    id: Uuid,
+) -> Result<(), Error> {
+    let actual =
+        crate::project_operating::sources::source_reference_with_session(session, kind, id).await?;
+    if !locked.iter().any(|r| {
+        r.kind == kind
+            && r.id == id
+            && r.row_version == actual.row_version
+            && r.payload_hash == actual.payload_hash
+    }) {
+        return Err(Error::Conflict("Sealed correction source changed".into()));
+    }
+    Ok(())
+}
+
+async fn validate_stage_restatement_permit(
+    session: &mut CommonSession<'_, '_>,
+    actor: &Actor,
+    permit: &crate::project_operating_common::model::StageReclassificationPermit<'_>,
+    cost_id: Uuid,
+    attribution_id: Uuid,
+    project_id: Uuid,
+) -> Result<(), Error> {
+    permit.scope.access.assert_session(session, actor).await?;
+    permit.scope.access.assert_project(project_id)?;
+    if permit.cost_id != cost_id
+        || permit.attribution_id != attribution_id
+        || permit.scope.actor_id != actor.id
+    {
+        return Err(Error::Forbidden(
+            "Stage correction permit does not match this exact producer".into(),
+        ));
+    }
+    validate_locked_reference(
+        session,
+        &permit.scope.locked_source_refs,
+        "ProjectActualCostRecord",
+        cost_id,
+    )
+    .await?;
+    validate_locked_reference(
+        session,
+        &permit.scope.locked_source_refs,
+        "CostStageAttributionSnapshot",
+        attribution_id,
+    )
+    .await?;
+    let mut actual: Vec<Uuid> = sqlx::query_scalar("SELECT DISTINCT basis_id FROM poms.shared_cost_allocation_source_snapshot WHERE cost_record_id=$1 AND is_current ORDER BY basis_id")
+        .bind(cost_id).fetch_all(&mut *session.connection).await?;
+    let mut authorized = permit.affected_allocation_basis_ids.clone();
+    actual.sort();
+    authorized.sort();
+    authorized.dedup();
+    if actual != authorized {
+        return Err(Error::Conflict(
+            "Sealed allocation source set changed".into(),
+        ));
+    }
+    Ok(())
+}
+
+fn restatement_successor_cost(
+    old: Uuid,
+    transitions: &[crate::project_operating_common::model::VerifiedProducerTransition],
+) -> Result<Uuid, Error> {
+    let relevant = transitions
+        .iter()
+        .filter(|t| {
+            t.before_refs
+                .iter()
+                .any(|r| r.kind == "ProjectActualCostRecord" && r.id == old)
+        })
+        .collect::<Vec<_>>();
+    if relevant.is_empty() {
+        return Ok(old);
+    }
+    if relevant.len() != 1 {
+        return Err(Error::Conflict(
+            "Conflicting allocation source transitions".into(),
+        ));
+    }
+    let after = relevant[0]
+        .after_refs
+        .iter()
+        .filter(|r| r.kind == "ProjectActualCostRecord")
+        .collect::<Vec<_>>();
+    if after.len() != 1 {
+        return Err(Error::Conflict(
+            "Ambiguous allocation source successor".into(),
+        ));
+    }
+    Ok(after[0].id)
+}
+
+async fn validate_restatement_allocation_source(
+    session: &mut CommonSession<'_, '_>,
+    scope: &crate::project_operating_common::model::VerifiedRestatementScope<'_>,
+    frozen: &Value,
+    current: &Value,
+    transitions: &[crate::project_operating_common::model::VerifiedProducerTransition],
+) -> Result<(), Error> {
+    if frozen["source_payload_hash"] != contract_support::canonical_hash(&frozen["source_payload"])?
+    {
+        return Err(Error::Conflict(
+            "Frozen allocation member hash changed".into(),
+        ));
+    }
+    let old = store::id(frozen, "cost_record_id")?;
+    let current_id = store::id(current, "id")?;
+    let before_version = frozen["cost_row_version"].as_i64().ok_or(Error::Internal)?;
+    if !scope.locked_source_refs.iter().any(|r| {
+        r.kind == "ProjectActualCostRecord"
+            && r.id == old
+            && i64::from(r.row_version) == before_version
+    }) {
+        return Err(Error::Conflict(
+            "Allocation predecessor is outside sealed scope".into(),
+        ));
+    }
+    if current_id == old && i64::from(store::version(current)?) == before_version {
+        return Ok(());
+    }
+    let transition = transitions
+        .iter()
+        .find(|t| {
+            t.before_refs.iter().any(|r| {
+                r.kind == "ProjectActualCostRecord"
+                    && r.id == old
+                    && i64::from(r.row_version) == before_version
+            })
+        })
+        .ok_or_else(|| {
+            Error::Conflict("Allocation source change lacks real producer transition".into())
+        })?;
+    let actual = crate::project_operating::sources::source_reference_with_session(
+        session,
+        "ProjectActualCostRecord",
+        current_id,
+    )
+    .await?;
+    if !transition.after_refs.iter().any(|r| {
+        r.kind == actual.kind
+            && r.id == actual.id
+            && r.row_version == actual.row_version
+            && r.payload_hash == actual.payload_hash
+    }) {
+        return Err(Error::Conflict(
+            "Allocation successor does not match actual producer output".into(),
+        ));
+    }
+    if current_id == old {
+        crate::project_operating::sources::validate_stage_only_cost_transition(
+            &frozen["source_payload"]["cost"],
+            current,
+        )?;
+    } else if current["supersedes_record_id"] != old.to_string() || current["cost_type"] != "labor"
+    {
+        return Err(Error::Conflict(
+            "Only a true E labor successor may replace an allocation cost member".into(),
+        ));
+    }
+    Ok(())
+}
+
+// A pending/excluded reference is not prior recognition. This exception only
+// appends the first actual stage and never revises a pre-existing stage/batch.
+async fn is_true_first_stage_append(
+    session: &mut CommonSession<'_, '_>,
+    cost: &Value,
+    reclassify: bool,
+) -> Result<bool, Error> {
+    if reclassify || cost["is_included_in_project_cost"] != false {
+        return Ok(false);
+    }
+    let id = store::id(cost, "id")?;
+    Ok(sqlx::query_scalar::<_,bool>("SELECT NOT EXISTS(SELECT 1 FROM poms.cost_stage_attribution_snapshot WHERE cost_record_id=$1) AND NOT EXISTS(SELECT 1 FROM poms.shared_cost_allocation_source_snapshot WHERE cost_record_id=$1)")
+        .bind(id).fetch_one(&mut *session.connection).await?)
 }

@@ -1,0 +1,26 @@
+//! One source model, serializer, loader and exact request boundary for G/H/I.
+pub mod model;
+pub mod runtime;
+pub mod scalars;
+pub mod request;
+pub mod schema;
+pub mod hash;
+pub mod loader;
+pub use request::{ResourceKeys, TypedRequest};
+use crate::contract_support::Error;
+use crate::project_action_authorization::VerifiedOperatingAccessSet;
+use model::*;
+use uuid::Uuid;
+
+pub fn make_plan<'tx>(project_id: Uuid, intent: OperatingPreparationIntent, input: OperatingCollectInput, window: OperatingBusinessWindow, generated_ids: OperatingGeneratedIds, access: VerifiedOperatingAccessSet<'tx>) -> Result<OperatingCollectPlan<'tx>, Error> {
+    access.assert_project(project_id)?;
+    let input_project = match &input {
+        OperatingCollectInput::Preview(_) => project_id,
+        OperatingCollectInput::ActivateBaseline(value) => value.project_id,
+        OperatingCollectInput::CaptureSnapshot(value) => value.project_id,
+        OperatingCollectInput::ClosePeriod(value) => value.project_id,
+        OperatingCollectInput::Restate(value) => value.project_id,
+    };
+    if input_project != project_id || window.business_timezone != "Asia/Hong_Kong" { return Err(Error::BadRequest("Operating plan and actual input scope differ".into())); }
+    Ok(OperatingCollectPlan { project_id, intent, input, window, generated_ids, access })
+}

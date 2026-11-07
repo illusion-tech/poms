@@ -1,0 +1,13 @@
+# R4 GHI 实现纠偏 01
+
+来源是已冻结候选 `9e010077e3010ff09447e9d77cb1bf1f7adbf68d`、独立 G1 和实际线上冻结；不改写其原件。本记录是 G2 实现中发现的具体缺口，作为本批独立 G3 的必审输入；G3/G4 尚未通过。当前批准范围仍为 G9/H8/I11/R5最小4共32项，新HTTP仍3，不增加部署或切流范围。
+
+1. 基线启用只产生真实基线来源，不产生 H 评价。`operating_command_receipt.evaluation_hash` 对该操作必须 NULL，对其余 G 命令必须为真实非 NULL 评价哈希；不用请求哈希或内部标记假扮评价。以 `g2-corrective01.sql` 追加到本批唯一 forward migration，保留冻结 SQL。
+2. `CostDecisionInput.expectedVersion` 核对公开的当前不可变 decision ref 的 rowVersion（没有则0）；前置 expectedInputHash 同时绑定真实 classification head/ref，写入在同一锁内对真实 head row_version 和 decision_id 作私有 CAS。客户端不需猜一个没有公开的 head 版本，不降低并发保护。
+3. 重述需要准备与执行采用同一实际影响闭包。既有 preparation GET 增加可选 `correctionSourceRefs` query：JSON 编码的 exact ExpectedRef 数组，表示用户选中的原真实纠正来源。内部 Restatement intent 增加同义 `correction_source_refs`；服务端验证其真实版本/hash并发现全部影响项目/终端。为空时是无显式 producer 纠正的 late-facts 模式，依据完整当前来源与原 context 的差异发现闭包。执行从四组真实纠正请求提取原 refs，重新发现、锁定并核同一前置哈希，不能忽略 affectedProjects 或猜新 ID。
+4. `OperatingPreparation` 增加 required `proposedAffectedTargets: AffectedRestatementTarget[]`：可执行重述返回完整真实终端、项目/版本及期间 ref，供客户端构造 affectedTargets；非重述为空数组。分类继续消费真实既有 explicit decision 或用户显式决定，不生成虚拟金额/来源。对无完整权限的影响集合整体拒绝，不暴露无权限项目详情。
+5. producer 产生新 source/result ID 后，仅沿 `VerifiedProducerTransition` 继承其真实前驱的 include/exclude/recognitionRole，追加新 decision、前驱/证据及纠正原因；included 不重置。阶段、税务、币种、期间和 hard eligibility 仍逐项复核，失效则受控显式处理或整命令回滚。
+6. G 在同一外层事务先 CAS 实际选定 head，再调用 H evaluate。每份 snapshot 仍产生四阶段 binding/真实摘要；只有该 snapshot 是真实 current head 时才替代全局 active，历史期间 binding 保存为 superseded。补关期末是否选择 live current 尚待本聊天用户裁决；该依赖部分不作提前发布，其他实现继续。
+7. 人工复核的持久化 payload 仅反序列化为 `StoredMaterialityReview` 数据；H 复核实际 producer row、来源、policy、evidence 与 overlay hash 后才构造私有 verified proof。不能将请求或任意 JSON 直接反序列化为 authority。金额精度拒绝码使用冻结的 `operating_money_precision_unsupported`。
+
+共享 TS/DTO、Rust、Native 明确参考拒绝、OpenAPI/client、最小 UI 与真实验收须消费上述同一 delta。验证补充：基线 receipt NULL/非基线必要评价原子性；第二次分类及竞态；选择真实纠正来源后的完整 prepare/write hash；跨项目新 ID/期间目标可由真实界面构造；全局 head 与四阶段 binding 一致；stored review 不能越过验证。未执行项保持 planned，不把纯模型/候选编译升为真实 PG/HTTP/UI 通过。

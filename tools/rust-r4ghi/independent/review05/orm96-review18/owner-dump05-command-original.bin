@@ -1,0 +1,214 @@
+◇ injected env (16) from ../../.local/share/poms-r4ghi/private/orm-owner-dump05.env // tip: ⌘ enable debugging { debug: true }
+set names 'utf8';
+
+alter table "poms"."attachment_upload_session" drop constraint "fk_jghi_upload_condition_scope";
+
+alter table "poms"."contract_readiness_package" drop constraint "fk_r4_readiness_contract_project";
+alter table "poms"."contract_readiness_package" drop constraint "fk_r4_readiness_current_preparation";
+alter table "poms"."contract_readiness_package" drop constraint "fk_r4_readiness_diff_scope";
+alter table "poms"."contract_readiness_package" drop constraint "fk_r4d_readiness_amendment";
+
+alter table "poms"."contract_amendment" drop constraint "fk_r4d_amendment_after";
+alter table "poms"."contract_amendment" drop constraint "fk_r4d_amendment_before";
+alter table "poms"."contract_amendment" drop constraint "fk_r4d_amendment_preparation";
+alter table "poms"."contract_amendment" drop constraint "fk_r4d_amendment_project";
+alter table "poms"."contract_amendment" drop constraint "fk_r4d_amendment_readiness";
+alter table "poms"."contract_amendment" drop constraint "fk_r4d_amendment_review";
+
+alter table "poms"."handover_baseline_impact_item" drop constraint "fk_r4d_impact_basis_item";
+alter table "poms"."handover_baseline_impact_item" drop constraint "fk_r4d_impact_rebaseline";
+
+alter table "poms"."operating_restatement_record" drop constraint "operating_restatement_record_period_end_snapshot_id_foreign";
+
+alter table "poms"."commercial_baseline_diff_result" drop constraint "fk_r4_diff_baseline_project";
+alter table "poms"."commercial_baseline_diff_result" drop constraint "fk_r4_diff_contract_project";
+
+alter table "poms"."contract_term_preparation" drop constraint "fk_r4_preparation_activated_snapshot";
+alter table "poms"."contract_term_preparation" drop constraint "fk_r4_preparation_contract_project";
+alter table "poms"."contract_term_preparation" drop constraint "fk_r4_preparation_diff_scope";
+alter table "poms"."contract_term_preparation" drop constraint "fk_r4_preparation_readiness_scope";
+alter table "poms"."contract_term_preparation" drop constraint "fk_r4d_preparation_amendment";
+alter table "poms"."contract_term_preparation" drop constraint "fk_r4d_preparation_before";
+
+alter table "poms"."contract_term_snapshot" drop constraint "fk_r4_snapshot_preparation_contract";
+alter table "poms"."contract_term_snapshot" drop constraint "fk_r4d_snapshot_amendment";
+
+alter table "poms"."project_handover" drop constraint "fk_r4d_handover_basis";
+
+alter table "poms"."project_receipt_judgment_freeze" drop constraint "fk_r4d_receipt_freeze_basis";
+alter table "poms"."project_receipt_judgment_freeze" drop constraint "fk_r4d_receipt_freeze_handover";
+
+alter table "poms"."project_handover_summary_payload" drop constraint "fk_r4d_payload_basis";
+alter table "poms"."project_handover_summary_payload" drop constraint "fk_r4d_payload_handover";
+
+alter table "poms"."project_handover_participant_role" drop constraint "fk_r4d_role_handover";
+alter table "poms"."project_handover_participant_role" drop constraint "fk_r4d_role_person";
+
+alter table "poms"."invoice_record" drop constraint "fk_r4e_invoice_currency_snapshot";
+
+alter table "poms"."contract_review_binding" drop constraint "fk_r4_review_preparation_contract";
+alter table "poms"."contract_review_binding" drop constraint "fk_r4d_review_amendment";
+
+alter table "poms"."receivable_plan_version" drop constraint "fk_r4_plan_contract_project";
+alter table "poms"."receivable_plan_version" drop constraint "fk_r4_plan_preparation_source";
+alter table "poms"."receivable_plan_version" drop constraint "fk_r4_plan_snapshot_scope";
+
+alter table "poms"."receivable_plan_init_record" drop constraint "fk_r4_plan_init_contract";
+alter table "poms"."receivable_plan_init_record" drop constraint "fk_r4_plan_init_snapshot";
+
+alter table "poms"."project_handover_contract_basis" drop constraint "fk_r4d_member_amendment";
+alter table "poms"."project_handover_contract_basis" drop constraint "fk_r4d_member_basis";
+alter table "poms"."project_handover_contract_basis" drop constraint "fk_r4d_member_contract";
+alter table "poms"."project_handover_contract_basis" drop constraint "fk_r4d_member_plan";
+alter table "poms"."project_handover_contract_basis" drop constraint "fk_r4d_member_preparation";
+alter table "poms"."project_handover_contract_basis" drop constraint "fk_r4d_member_readiness";
+alter table "poms"."project_handover_contract_basis" drop constraint "fk_r4d_member_snapshot";
+
+comment on column "poms"."attachment_upload_session"."project_scope_context_version" is '0 ordinary; 1 immutable condition-purpose upload';
+comment on column "poms"."attachment_upload_session"."completion_record_id" is 'Bound actual parent completion; not read authority by itself';
+comment on column "poms"."attachment_upload_session"."completion_condition_id" is 'Bound actual own pending condition';
+
+alter table "poms"."operating_command_receipt" drop constraint "ck_jghi_receipt_real_evaluation";
+alter table "poms"."operating_command_receipt" drop constraint "operating_command_receipt_http_status_check";
+alter table "poms"."operating_command_receipt" add constraint "ck_jghi_receipt_real_evaluation" check ((operation_id='ProjectCostController_activateOperatingBaselinePackage' AND evaluation_hash IS NULL)
+  OR (operation_id<>'ProjectCostController_activateOperatingBaselinePackage' AND evaluation_hash IS NOT NULL));
+alter table "poms"."operating_command_receipt" add constraint "operating_command_receipt_http_status_check" check (http_status BETWEEN 200 AND 299);
+
+alter table "poms"."project" drop constraint "chk_project_current_stage";
+alter table "poms"."project" alter column "id" drop default;
+alter table "poms"."project" add constraint "chk_project_current_stage" check (current_stage IN
+ ('assessment','scope-confirmation','commercial-closure','contracting','handover','execution','acceptance',
+  'completed','conditional-completed','closed-lost','closed-terminated'));
+
+alter table "poms"."project_stage_record" drop constraint "project_stage_record_reason_check";
+alter table "poms"."project_stage_record" add constraint "project_stage_record_reason_check" check (length(btrim(reason)) BETWEEN 1 AND 2000);
+
+alter table "poms"."project_handover_basis_snapshot" drop constraint "project_handover_basis_snapshot_status_check";
+alter table "poms"."project_handover_basis_snapshot" add constraint "project_handover_basis_snapshot_status_check" check ((((status)::text = ANY ((ARRAY['active'::character varying, 'superseded'::character varying, 'voided'::character varying])::text[]))));
+
+alter table "poms"."project_handover_basis_item" drop constraint "project_handover_basis_item_item_type_check";
+alter table "poms"."project_handover_basis_item" add constraint "project_handover_basis_item_item_type_check" check ((((item_type)::text = ANY ((ARRAY['scope'::character varying, 'risk'::character varying, 'receivable'::character varying, 'cost'::character varying, 'responsibility'::character varying, 'attachment'::character varying, 'contract'::character varying])::text[]))));
+
+alter table "poms"."project_archive_record" drop constraint "archive_new_producer_check";
+comment on column "poms"."project_archive_record"."project_id" is null;
+alter table "poms"."project_archive_record" add constraint "archive_new_producer_check" check (producer_version=0 OR (producer_version=1
+    AND source_payload_hash IS NOT NULL AND source_payload_hash ~ '^[0-9a-f]{64}$' AND archived_by IS NOT NULL
+    AND source_qualification IS NOT NULL
+    AND ((archive_anchor_stage IN ('completed','conditional-completed') AND archive_anchor_source_type='project-completion-record'
+         AND ((source_stage_record_id IS NOT NULL AND source_qualification='verified-producer') OR source_qualification='legacy-unverified'))
+      OR (archive_anchor_stage IN ('closed-lost','closed-terminated') AND archive_anchor_source_type='project'
+         AND source_qualification='legacy-unverified'))));
+
+alter table "poms"."project_actual_cost_record" drop constraint "chk_r4e_basis_origin";
+alter table "poms"."project_actual_cost_record" add constraint "chk_r4e_basis_origin" check ((((basis_origin)::text = ANY ((ARRAY['captured'::character varying, 'legacy-unavailable'::character varying])::text[]))));
+
+comment on column "poms"."period_closing_snapshot"."project_id" is null;
+
+alter table "poms"."project_operating_snapshot" alter column "id" drop default;
+comment on column "poms"."project_operating_snapshot"."project_id" is null;
+comment on column "poms"."project_operating_snapshot"."supersedes_id" is null;
+
+alter table "poms"."operating_source_context" drop constraint "operating_source_context_business_timezone_check";
+alter table "poms"."operating_source_context" drop constraint "operating_source_context_formal_eligibility_check";
+alter table "poms"."operating_source_context" add constraint "operating_source_context_business_timezone_check" check (business_timezone='Asia/Hong_Kong');
+alter table "poms"."operating_source_context" add constraint "operating_source_context_formal_eligibility_check" check (formal_eligibility='eligible');
+
+alter table "poms"."operating_evaluation_evidence" drop constraint "operating_evaluation_evidence_policy_version_check";
+alter table "poms"."operating_evaluation_evidence" add constraint "operating_evaluation_evidence_policy_version_check" check (policy_version='r4h-operating-v1');
+
+alter table "poms"."operating_restatement_record" drop constraint "chk_r4g_restatement_verified";
+comment on column "poms"."operating_restatement_record"."project_id" is null;
+comment on column "poms"."operating_restatement_record"."period_end_snapshot_id" is null;
+comment on column "poms"."operating_restatement_record"."restates_snapshot_id" is null;
+comment on column "poms"."operating_restatement_record"."restated_snapshot_id" is null;
+alter table "poms"."operating_restatement_record" add constraint "operating_restatement_record_period_end_snapshot_id_foreign" foreign key ("period_end_snapshot_id") references "poms"."period_closing_snapshot" ("id") on delete set null;
+alter table "poms"."operating_restatement_record" add constraint "chk_r4g_restatement_verified" check (producer_version=0 OR
+    (producer_version=1 AND restatement_scope IS NOT NULL AND restatement_scope IN ('live','period') AND root_snapshot_id IS NOT NULL
+     AND (restatement_scope='period')=(period_end_snapshot_id IS NOT NULL)
+     AND causal_source_refs IS NOT NULL AND jsonb_typeof(causal_source_refs)='array'
+     AND before_source_hash IS NOT NULL AND before_source_hash~'^[0-9a-f]{64}$'
+     AND after_source_hash IS NOT NULL AND after_source_hash~'^[0-9a-f]{64}$' AND restatement_batch_id IS NOT NULL));
+
+comment on column "poms"."operating_baseline_package"."project_id" is null;
+
+alter table "poms"."data_maturity_evaluation_result" drop constraint "ck_jghi_dmer_v1";
+comment on column "poms"."data_maturity_evaluation_result"."project_id" is null;
+comment on column "poms"."data_maturity_evaluation_result"."referenced_snapshot_id" is null;
+alter table "poms"."data_maturity_evaluation_result" add constraint "ck_jghi_dmer_v1" check (producer_version=0 OR (producer_version=1 AND evidence_id IS NOT NULL
+  AND tax_pending_knowledge IS NOT NULL AND tax_pending_knowledge IN ('known','unknown')
+  AND ((tax_pending_knowledge='known' AND tax_impact_pending_amount IS NOT NULL)
+    OR (tax_pending_knowledge='unknown' AND tax_impact_pending_amount IS NULL))));
+
+comment on column "poms"."operating_signal_evaluation_result"."project_id" is null;
+comment on column "poms"."operating_signal_evaluation_result"."referenced_snapshot_id" is null;
+comment on column "poms"."operating_signal_evaluation_result"."data_maturity_evaluation_id" is null;
+
+alter table "poms"."operating_signal_gate_binding" drop constraint "ck_jghi_binding_v1";
+alter table "poms"."operating_signal_gate_binding" add constraint "ck_jghi_binding_v1" check (producer_version=0 OR
+  (producer_version=1 AND evidence_id IS NOT NULL AND system_binding_action IS NOT NULL
+   AND system_binding_action IN ('prompt','review','block') AND gate_stage_type IN ('first','second','final','retention')
+   AND evaluation_hash IS NOT NULL AND evaluation_hash~'^[0-9a-f]{64}$' AND current_summary_id IS NOT NULL
+   AND tax_pending_knowledge IS NOT NULL AND tax_pending_knowledge IN ('known','unknown')
+   AND ((tax_pending_knowledge='known' AND tax_impact_pending_amount IS NOT NULL)
+     OR (tax_pending_knowledge='unknown' AND tax_impact_pending_amount IS NULL))));
+
+alter table "poms"."commission_gate_review_record" drop constraint "ck_jghi_gate_review_v1";
+alter table "poms"."commission_gate_review_record" add constraint "ck_jghi_gate_review_v1" check (producer_version=0 OR
+  (producer_version=1 AND evidence_id IS NOT NULL AND source_summary_snapshot_id IS NOT NULL
+   AND source_hash IS NOT NULL AND source_hash~'^[0-9a-f]{64}$'
+   AND evaluation_hash IS NOT NULL AND evaluation_hash~'^[0-9a-f]{64}$'
+   AND policy_hash IS NOT NULL AND policy_hash~'^[0-9a-f]{64}$'
+   AND evidence_hash IS NOT NULL AND evidence_hash~'^[0-9a-f]{64}$'
+   AND review_action IS NOT NULL AND review_action IN ('acknowledge','tighten-review','tighten-block')
+   AND review_payload IS NOT NULL AND jsonb_typeof(review_payload)='object' AND handled_by IS NOT NULL));
+
+alter table "poms"."cost_governance_evidence" drop constraint "cost_governance_evidence_evidence_kind_check";
+alter table "poms"."cost_governance_evidence" drop constraint "cost_governance_evidence_target_type_check";
+alter table "poms"."cost_governance_evidence" add constraint "cost_governance_evidence_evidence_kind_check" check ((((evidence_kind)::text = ANY ((ARRAY['source-facts'::character varying, 'manual-stage'::character varying, 'manual-finance'::character varying])::text[]))));
+alter table "poms"."cost_governance_evidence" add constraint "cost_governance_evidence_target_type_check" check ((((target_type)::text = ANY ((ARRAY['SharedCostAllocationBasis'::character varying, 'SharedCostAllocationResult'::character varying, 'CostStageAttributionSnapshot'::character varying, 'AccountingTaxTreatmentSnapshot'::character varying])::text[]))));
+
+alter table "poms"."contract_term_preparation" drop constraint "contract_term_preparation_down_payment_rate_check";
+alter table "poms"."contract_term_preparation" drop constraint "contract_term_preparation_retention_rate_check";
+alter table "poms"."contract_term_preparation" drop constraint "contract_term_preparation_tax_rate_check";
+alter table "poms"."contract_term_preparation" add constraint "contract_term_preparation_down_payment_rate_check" check ("down_payment_rate" between 0 and 1);
+alter table "poms"."contract_term_preparation" add constraint "contract_term_preparation_retention_rate_check" check ("retention_rate" between 0 and 1);
+alter table "poms"."contract_term_preparation" add constraint "contract_term_preparation_tax_rate_check" check ("tax_rate" between 0 and 1);
+
+alter table "poms"."project_handover_participant_role" drop constraint "project_handover_participant_role_role_key_check";
+alter table "poms"."project_handover_participant_role" add constraint "project_handover_participant_role_role_key_check" check ((((role_key)::text = ANY ((ARRAY['sales-owner'::character varying, 'business-admin'::character varying, 'technical-support'::character varying, 'execution-owner'::character varying, 'finance'::character varying])::text[]))));
+
+alter table "poms"."acceptance_record" drop constraint "acceptance_new_producer_check";
+comment on column "poms"."acceptance_record"."project_id" is null;
+alter table "poms"."acceptance_record" add constraint "acceptance_new_producer_check" check (producer_version=0 OR (producer_version=1 AND source_stage_record_id IS NOT NULL
+    AND source_payload_hash IS NOT NULL AND source_payload_hash ~ '^[0-9a-f]{64}$' AND confirmed_by IS NOT NULL AND confirmed_at IS NOT NULL
+    AND acceptance_type IN ('stage-outcome','stage-acceptance','final-acceptance')
+    AND acceptance_result IN ('accepted','conditional','rejected')
+    AND (acceptance_result<>'conditional' OR (conditional_summary IS NOT NULL AND length(btrim(conditional_summary))>0))));
+
+comment on column "poms"."project_completion_record"."project_id" is null;
+comment on column "poms"."project_completion_record"."acceptance_record_id" is null;
+
+alter table "poms"."project_completion_condition" drop constraint "project_completion_condition_summary_check";
+alter table "poms"."project_completion_condition" add constraint "project_completion_condition_summary_check" check (length(btrim(summary)) BETWEEN 1 AND 2000);
+
+alter table "poms"."project_completion_condition_closure" drop constraint "project_completion_condition_closure_closure_summary_check";
+alter table "poms"."project_completion_condition_closure" add constraint "project_completion_condition_closure_closure_summary_check" check (length(btrim(closure_summary)) BETWEEN 1 AND 2000);
+
+alter table "poms"."commission_role_assignment_participant" drop constraint "commission_role_assignment_partici_responsibility_summary_check";
+alter table "poms"."commission_role_assignment_participant" drop constraint "commission_role_assignment_participant_check";
+alter table "poms"."commission_role_assignment_participant" drop constraint "commission_role_assignment_participant_weight_units_check";
+alter table "poms"."commission_role_assignment_participant" add constraint "commission_role_assignment_partici_responsibility_summary_check" check (length(btrim(responsibility_summary)) BETWEEN 1 AND 2000);
+alter table "poms"."commission_role_assignment_participant" add constraint "commission_role_assignment_participant_check" check ((weight_units=0 AND zero_weight_reason IS NOT NULL AND length(btrim(zero_weight_reason)) BETWEEN 1 AND 1000)
+        OR (weight_units>0 AND zero_weight_reason IS NULL));
+alter table "poms"."commission_role_assignment_participant" add constraint "commission_role_assignment_participant_weight_units_check" check (weight_units BETWEEN 0 AND 1000000);
+
+alter table "poms"."commission_role_assignment_freeze_payload" drop constraint "commission_role_assignment_freeze__weights_policy_version_check";
+alter table "poms"."commission_role_assignment_freeze_payload" add constraint "commission_role_assignment_freeze__weights_policy_version_check" check (weights_policy_version='normalized-six-v1-zero-reason');
+
+alter table "poms"."receipt_accounting_basis" drop constraint "receipt_accounting_basis_rounding_policy_check";
+alter table "poms"."receipt_accounting_basis" add constraint "receipt_accounting_basis_rounding_policy_check" check (rounding_policy='gross-net-HALF_UP-cents-v1');
+
+alter table "poms"."project_cost_inclusion_decision" drop constraint "chk_r4g_support_not_primary";
+alter table "poms"."project_cost_inclusion_decision" add constraint "chk_r4g_support_not_primary" check (recognition_role NOT IN ('tax-support','evidence-only') OR decision='exclude');
+
+[32m[39m

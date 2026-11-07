@@ -24,6 +24,81 @@ pub async fn execute(
         return Err(Error::Internal);
     }
     let name = operation_id.rsplit('_').next().unwrap_or(operation_id);
+    use crate::project_action_authorization::{ProjectAction, ProjectActionTarget, require};
+    let scope = match name {
+        "getContractHandoverSummary" | "getProjectHandoverDetailByProject" => {
+            require(
+                session,
+                actor,
+                ProjectAction::ReadProjectAnchor,
+                ProjectActionTarget::Project {
+                    id: key.ok_or(Error::Internal)?,
+                },
+            )
+            .await?
+        }
+        "getProjectHandoverDetailByHandover" => {
+            require(
+                session,
+                actor,
+                ProjectAction::ReadProjectAnchor,
+                ProjectActionTarget::Handover {
+                    id: key.ok_or(Error::Internal)?,
+                },
+            )
+            .await?
+        }
+        "prepareProjectHandover" => {
+            require(
+                session,
+                actor,
+                ProjectAction::PrepareHandover,
+                ProjectActionTarget::Project {
+                    id: key.ok_or(Error::Internal)?,
+                },
+            )
+            .await?
+        }
+        "confirmProjectHandoverParticipant" => {
+            require(
+                session,
+                actor,
+                ProjectAction::ConfirmHandoverSelf,
+                ProjectActionTarget::Handover {
+                    id: key.ok_or(Error::Internal)?,
+                },
+            )
+            .await?
+        }
+        "confirmProjectHandover" => {
+            require(
+                session,
+                actor,
+                ProjectAction::FinalizeHandover,
+                ProjectActionTarget::Handover {
+                    id: key.ok_or(Error::Internal)?,
+                },
+            )
+            .await?
+        }
+        "rebaselineContractHandover" => {
+            require(
+                session,
+                actor,
+                ProjectAction::RebaselineHandover,
+                ProjectActionTarget::Handover {
+                    id: id(body, "sourceHandoverId")?,
+                },
+            )
+            .await?
+        }
+        _ => return Err(Error::Internal),
+    };
+    if scope.scope_kind() != "full-project" {
+        return Err(Error::Forbidden(
+            "Current handover requires verified project responsibility".into(),
+        ));
+    }
     match name {
         "getContractHandoverSummary" | "getProjectHandoverDetailByProject" => {
             let project = key.ok_or(Error::Internal)?;
@@ -264,6 +339,18 @@ async fn prepare(
     lineage: Option<Vec<Value>>,
 ) -> Result<Value, Error> {
     lock_project(session.connection, project).await?;
+    let authority = crate::project_action_authorization::require(
+        session,
+        actor,
+        if anchor.is_some() {
+            crate::project_action_authorization::ProjectAction::RebaselineHandover
+        } else {
+            crate::project_action_authorization::ProjectAction::PrepareHandover
+        },
+        crate::project_action_authorization::ProjectActionTarget::Project { id: project },
+    )
+    .await?;
+    guard_unfrozen_handover_change(session, project).await?;
     let old = match old_override {
         Some(v) => Some(v),
         None => sources::current(session, project).await?,
@@ -495,6 +582,15 @@ async fn prepare(
         .await?;
     }
     let h = sources::row(session, handover, false).await?;
+    crate::project_lifecycle::enter_handover_with_verified_authority(
+        session,
+        project,
+        handover,
+        rv(&s.project)?,
+        actor,
+        &authority,
+    )
+    .await?;
     if anchor.is_none() {
         record(session,actor,"ProjectHandoverController_prepareProjectHandover",handover,project,old.as_ref().map(|h|json!({"id":h["id"],"version":h["version"]})),json!({"id":handover,"basisId":basis,"summarySnapshotId":hs,"sourceHash":s.hash}),json!({"version":version,"confirmationRecordId":confirmation,"contractSummarySnapshotId":cs})).await?;
     }
@@ -513,6 +609,38 @@ async fn insert_item(
     payload: &Value,
 ) -> Result<(), Error> {
     sqlx::query("INSERT INTO poms.project_handover_basis_item(basis_snapshot_id,item_key,item_type,source_type,source_id,source_version,source_hash,payload,created_by) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)").bind(basis).bind(key).bind(kind).bind(source).bind(source_id).bind(version).bind(canonical_hash(payload)?).bind(payload).bind(actor.id).execute(&mut *session.connection).await?;
+    Ok(())
+}
+
+async fn guard_unfrozen_handover_change(
+    session: &mut CommonSession<'_, '_>,
+    project: Uuid,
+) -> Result<(), Error> {
+    let (stage, status): (String, String) =
+        sqlx::query_as("SELECT current_stage,status FROM poms.project WHERE id=$1 FOR UPDATE")
+            .bind(project)
+            .fetch_one(&mut *session.connection)
+            .await?;
+    if status != "active"
+        || !matches!(
+            stage.as_str(),
+            "assessment" | "scope-confirmation" | "commercial-closure" | "contracting" | "handover"
+        )
+    {
+        return Err(Error::CodedConflict {
+            code: "project_stage_requalification_required",
+            message: "已推进项目须使用完整受控执行变更链，不能直接替换移交准入。".into(),
+        });
+    }
+    let frozen: bool = sqlx::query_scalar("SELECT EXISTS(SELECT 1 FROM poms.commission_role_assignment WHERE project_id=$1 AND is_current AND status='frozen')")
+        .bind(project).fetch_one(&mut *session.connection).await?;
+    if frozen {
+        return Err(Error::CodedConflict {
+            code: "commission_frozen_change_requires_dispute",
+            message: "已有冻结角色分配，须先经正式争议和替代冻结链处理，不能撤换其移交来源。"
+                .into(),
+        });
+    }
     Ok(())
 }
 async fn locked(session: &mut CommonSession<'_, '_>, key: Uuid) -> Result<(Value, Sources), Error> {

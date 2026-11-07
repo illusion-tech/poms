@@ -9,7 +9,7 @@ mod generated_values {
     }
     impl std::error::Error for UnknownEnumValue {}
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:81; PERMISSION_KEYS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:105; PERMISSION_KEYS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum PermissionKey {
         #[serde(rename = "platform:users:manage")]
@@ -178,7 +178,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:183; SYSTEM_SETTING_KEYS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:207; SYSTEM_SETTING_KEYS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum SystemSettingKey {
         #[serde(rename = "attachment.max-upload-size-mb")]
@@ -203,7 +203,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:191; SYSTEM_SETTING_VALUE_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:215; SYSTEM_SETTING_VALUE_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum SystemSettingValueType {
         #[serde(rename = "integer")]
@@ -228,7 +228,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:232; SENSITIVE_FIELD_PACKAGE_KEYS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:256; SENSITIVE_FIELD_PACKAGE_KEYS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum SensitiveFieldPackageKey {
         #[serde(rename = "contract-finance")]
@@ -269,7 +269,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:254; SENSITIVE_PROJECTION_MODES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:280; SENSITIVE_PROJECTION_MODES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum SensitiveProjectionMode {
         #[serde(rename = "full")]
@@ -306,7 +306,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:267; SENSITIVE_PROJECTION_REASON_CODES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:289; SENSITIVE_PROJECTION_REASON_CODES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum SensitiveProjectionReasonCode {
         #[serde(rename = "allowed")]
@@ -343,7 +343,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:318; ACTIVE_INACTIVE_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:307; ACTIVE_INACTIVE_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ActiveInactiveStatus {
         #[serde(rename = "active")]
@@ -372,7 +372,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:328; VERSION_LIFECYCLE_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:317; VERSION_LIFECYCLE_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum VersionLifecycleStatus {
         #[serde(rename = "active")]
@@ -405,7 +405,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:337; EFFECTIVE_SUPERSEDED_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:326; EFFECTIVE_SUPERSEDED_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum EffectiveSupersededStatus {
         #[serde(rename = "effective")]
@@ -434,7 +434,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:347; READY_BLOCKED_MISSING_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:336; READY_BLOCKED_MISSING_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ReadyBlockedMissingStatus {
         #[serde(rename = "ready")]
@@ -467,7 +467,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:356; AVAILABLE_MISSING_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:345; AVAILABLE_MISSING_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum AvailableMissingStatus {
         #[serde(rename = "available")]
@@ -496,7 +496,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:366; PENDING_CONFIRMED_CLOSED_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:355; PENDING_CONFIRMED_CLOSED_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum PendingConfirmedClosedStatus {
         #[serde(rename = "pending")]
@@ -529,7 +529,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:421; USER_ORG_UNIT_MEMBERSHIP_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:410; USER_ORG_UNIT_MEMBERSHIP_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum UserOrgUnitMembershipType {
         #[serde(rename = "primary")]
@@ -558,7 +558,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:510; PLATFORM_PERMISSION_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:499; PLATFORM_PERMISSION_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum PlatformPermissionStatus {
         #[serde(rename = "active")]
@@ -591,7 +591,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:518; PLATFORM_PERMISSION_SOURCE_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:507; PLATFORM_PERMISSION_SOURCE_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum PlatformPermissionSourceType {
         #[serde(rename = "system-seeded")]
@@ -616,7 +616,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:549; IDENTITY_PROVIDERS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:538; IDENTITY_PROVIDERS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum IdentityProvider {
         #[serde(rename = "feishu")]
@@ -641,7 +641,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:560; IDENTITY_PROVIDER_CONFIG_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:549; IDENTITY_PROVIDER_CONFIG_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum IdentityProviderConfigStatus {
         #[serde(rename = "draft")]
@@ -678,7 +678,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:569; IDENTITY_PROVIDER_SEARCH_GRANT_MODES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:558; IDENTITY_PROVIDER_SEARCH_GRANT_MODES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum IdentityProviderSearchGrantMode {
         #[serde(rename = "per-admin")]
@@ -707,7 +707,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:578; IDENTITY_PROVIDER_CONNECTION_TEST_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:567; IDENTITY_PROVIDER_CONNECTION_TEST_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum IdentityProviderConnectionTestStatus {
         #[serde(rename = "success")]
@@ -736,7 +736,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:587; IDENTITY_PROVIDER_CONNECTION_TEST_CAPABILITIES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:578; IDENTITY_PROVIDER_CONNECTION_TEST_CAPABILITIES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum IdentityProviderConnectionTestCapability {
         #[serde(rename = "basic")]
@@ -765,7 +765,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:598; IDENTITY_PROVIDER_CONNECTION_DIAGNOSTIC_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:591; IDENTITY_PROVIDER_CONNECTION_DIAGNOSTIC_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum IdentityProviderConnectionDiagnosticStatus {
         #[serde(rename = "passed")]
@@ -802,7 +802,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:758; EXTERNAL_ORG_PROVIDERS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:753; EXTERNAL_ORG_PROVIDERS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ExternalOrgProvider {
         #[serde(rename = "feishu")]
@@ -835,7 +835,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:769; EXTERNAL_ORG_SOURCE_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:764; EXTERNAL_ORG_SOURCE_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ExternalOrgSourceStatus {
         #[serde(rename = "draft")]
@@ -872,7 +872,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:780; EXTERNAL_DEPARTMENT_MAPPING_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:775; EXTERNAL_DEPARTMENT_MAPPING_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ExternalDepartmentMappingStatus {
         #[serde(rename = "unmapped")]
@@ -909,7 +909,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:792; EXTERNAL_DEPARTMENT_MAPPING_REVIEW_STATES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:787; EXTERNAL_DEPARTMENT_MAPPING_REVIEW_STATES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ExternalDepartmentMappingReviewState {
         #[serde(rename = "unmapped")]
@@ -950,7 +950,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:805; ORG_SYNC_RUN_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:802; ORG_SYNC_RUN_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OrgSyncRunStatus {
         #[serde(rename = "previewing")]
@@ -995,7 +995,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:833; ORG_SYNC_DIFF_ACTIONS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:830; ORG_SYNC_DIFF_ACTIONS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OrgSyncDiffAction {
         #[serde(rename = "create_org_unit")]
@@ -1044,7 +1044,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:845; ORG_SYNC_DIFF_ITEM_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:842; ORG_SYNC_DIFF_ITEM_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OrgSyncDiffItemStatus {
         #[serde(rename = "pending")]
@@ -1085,7 +1085,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:1144; IDENTITY_PROVIDER_OAUTH_GRANT_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:1149; IDENTITY_PROVIDER_OAUTH_GRANT_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum IdentityProviderOAuthGrantStatus {
         #[serde(rename = "missing")]
@@ -1122,7 +1122,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:1206; EXTERNAL_USER_CANDIDATE_FIELD_AVAILABILITY_VALUES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:1211; EXTERNAL_USER_CANDIDATE_FIELD_AVAILABILITY_VALUES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ExternalUserCandidateFieldAvailability {
         #[serde(rename = "available")]
@@ -1155,7 +1155,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:1312; EXTERNAL_IDENTITY_BINDING_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:1319; EXTERNAL_IDENTITY_BINDING_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ExternalIdentityBindingStatus {
         #[serde(rename = "active")]
@@ -1184,7 +1184,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:1632; NAVIGATION_ITEM_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:1639; NAVIGATION_ITEM_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum NavigationItemType {
         #[serde(rename = "basic")]
@@ -1221,7 +1221,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:1698; CURRENT_AUTH_SESSION_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:1705; CURRENT_AUTH_SESSION_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CurrentAuthSessionStatus {
         #[serde(rename = "active")]
@@ -1246,7 +1246,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:1774; AUDIT_LOG_RESULTS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:1781; AUDIT_LOG_RESULTS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum AuditLogResult {
         #[serde(rename = "success")]
@@ -1279,7 +1279,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:1828; ENTITY_AUDIT_TARGET_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:1835; ENTITY_AUDIT_TARGET_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum EntityAuditTargetType {
         #[serde(rename = "lead")]
@@ -1336,7 +1336,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:1850; SECURITY_EVENT_RESULTS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:1857; SECURITY_EVENT_RESULTS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum SecurityEventResult {
         #[serde(rename = "blocked")]
@@ -1369,7 +1369,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:1860; SECURITY_EVENT_SEVERITIES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:1867; SECURITY_EVENT_SEVERITIES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum SecurityEventSeverity {
         #[serde(rename = "info")]
@@ -1402,7 +1402,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:1927; CUSTOMER_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:1934; CUSTOMER_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CustomerStatus {
         #[serde(rename = "active")]
@@ -1435,7 +1435,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:1939; CUSTOMER_ALIAS_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:1946; CUSTOMER_ALIAS_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CustomerAliasType {
         #[serde(rename = "legal-name")]
@@ -1476,7 +1476,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2090; LEAD_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2097; LEAD_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum LeadStatus {
         #[serde(rename = "registered")]
@@ -1513,7 +1513,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2115; LEAD_WORKBENCH_SCOPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2118; LEAD_WORKBENCH_SCOPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum LeadWorkbenchScope {
         #[serde(rename = "active")]
@@ -1566,7 +1566,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2139; LEAD_BUDGET_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2142; LEAD_BUDGET_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum LeadBudgetStatus {
         #[serde(rename = "unknown")]
@@ -1607,7 +1607,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2160; LEAD_URGENCIES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2163; LEAD_URGENCIES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum LeadUrgency {
         #[serde(rename = "low")]
@@ -1644,7 +1644,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2181; LEAD_RATINGS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2184; LEAD_RATINGS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum LeadRating {
         #[serde(rename = "A")]
@@ -1681,7 +1681,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2208; PROJECT_STAGES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2213; PROJECT_STAGES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectStage {
         #[serde(rename = "assessment")]
@@ -1704,9 +1704,11 @@ mod generated_values {
         ClosedLost,
         #[serde(rename = "closed-terminated")]
         ClosedTerminated,
+        #[serde(rename = "conditional-completed")]
+        ConditionalCompleted,
     }
     impl ProjectStage {
-        pub const ALL: &'static [Self] = &[Self::Assessment, Self::ScopeConfirmation, Self::CommercialClosure, Self::Contracting, Self::Handover, Self::Execution, Self::Acceptance, Self::Completed, Self::ClosedLost, Self::ClosedTerminated];
+        pub const ALL: &'static [Self] = &[Self::Assessment, Self::ScopeConfirmation, Self::CommercialClosure, Self::Contracting, Self::Handover, Self::Execution, Self::Acceptance, Self::Completed, Self::ClosedLost, Self::ClosedTerminated, Self::ConditionalCompleted];
         pub const fn as_str(self) -> &'static str {
             match self {
                 Self::Assessment => "assessment",
@@ -1719,6 +1721,7 @@ mod generated_values {
                 Self::Completed => "completed",
                 Self::ClosedLost => "closed-lost",
                 Self::ClosedTerminated => "closed-terminated",
+                Self::ConditionalCompleted => "conditional-completed",
             }
         }
     }
@@ -1737,12 +1740,13 @@ mod generated_values {
                 "completed" => Ok(Self::Completed),
                 "closed-lost" => Ok(Self::ClosedLost),
                 "closed-terminated" => Ok(Self::ClosedTerminated),
+                "conditional-completed" => Ok(Self::ConditionalCompleted),
                 _ => Err(UnknownEnumValue { enum_name: "ProjectStage" }),
             }
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2231; PROJECT_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2232; PROJECT_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectStatus {
         #[serde(rename = "active")]
@@ -1787,7 +1791,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2243; LEAD_GATE_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2240; LEAD_GATE_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum LeadGateStatus {
         #[serde(rename = "ready")]
@@ -1816,7 +1820,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2270; LEAD_GATE_MISSING_ITEMS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2267; LEAD_GATE_MISSING_ITEMS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum LeadGateMissingItem {
         #[serde(rename = "source")]
@@ -1881,7 +1885,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2280; LEAD_OWNERSHIP_SCOPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2277; LEAD_OWNERSHIP_SCOPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum LeadOwnershipScope {
         #[serde(rename = "all")]
@@ -1914,7 +1918,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2292; LEAD_ALLOWED_ACTIONS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2289; LEAD_ALLOWED_ACTIONS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum LeadAllowedAction {
         #[serde(rename = "claim-lead-owner")]
@@ -1943,7 +1947,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2303; LEAD_OWNER_ASSIGNMENT_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2300; LEAD_OWNER_ASSIGNMENT_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum LeadOwnerAssignmentType {
         #[serde(rename = "claimed")]
@@ -1976,7 +1980,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2322; LEAD_EFFECTIVE_SCORE_SOURCES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2319; LEAD_EFFECTIVE_SCORE_SOURCES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum LeadEffectiveScoreSource {
         #[serde(rename = "system")]
@@ -2005,7 +2009,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2340; LEAD_SCORE_SNAPSHOT_KINDS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2337; LEAD_SCORE_SNAPSHOT_KINDS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum LeadScoreSnapshotKind {
         #[serde(rename = "system")]
@@ -2038,7 +2042,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2360; LEAD_SCORE_OVERRIDE_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2357; LEAD_SCORE_OVERRIDE_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum LeadScoreOverrideStatus {
         #[serde(rename = "pending")]
@@ -2079,7 +2083,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2798; DICTIONARY_DOMAINS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2795; DICTIONARY_DOMAINS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum DictionaryDomain {
         #[serde(rename = "attachment-category")]
@@ -2116,7 +2120,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2889; CUSTOMER_CONTACT_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2886; CUSTOMER_CONTACT_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CustomerContactStatus {
         #[serde(rename = "active")]
@@ -2145,7 +2149,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2903; CUSTOMER_CONTACT_GENDERS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2900; CUSTOMER_CONTACT_GENDERS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CustomerContactGender {
         #[serde(rename = "unknown")]
@@ -2178,7 +2182,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2923; OPPORTUNITY_STAKEHOLDER_ROLES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2920; OPPORTUNITY_STAKEHOLDER_ROLES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OpportunityStakeholderRole {
         #[serde(rename = "decision-maker")]
@@ -2239,7 +2243,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2937; OPPORTUNITY_STAKEHOLDER_ATTITUDES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2934; OPPORTUNITY_STAKEHOLDER_ATTITUDES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OpportunityStakeholderAttitude {
         #[serde(rename = "supportive")]
@@ -2276,7 +2280,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2952; OPPORTUNITY_STAKEHOLDER_INFLUENCE_LEVELS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2949; OPPORTUNITY_STAKEHOLDER_INFLUENCE_LEVELS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OpportunityStakeholderInfluenceLevel {
         #[serde(rename = "high")]
@@ -2313,7 +2317,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2967; OPPORTUNITY_STAKEHOLDER_ACCESS_LEVELS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2964; OPPORTUNITY_STAKEHOLDER_ACCESS_LEVELS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OpportunityStakeholderAccessLevel {
         #[serde(rename = "direct")]
@@ -2350,7 +2354,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2982; COMPETITOR_POSITIONS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2979; COMPETITOR_POSITIONS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CompetitorPosition {
         #[serde(rename = "incumbent")]
@@ -2387,7 +2391,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2996; CUSTOMER_PREFERENCES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2993; CUSTOMER_PREFERENCES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CustomerPreference {
         #[serde(rename = "toward-us")]
@@ -2424,7 +2428,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:3011; WIN_PROBABILITY_LEVELS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:3008; WIN_PROBABILITY_LEVELS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum WinProbabilityLevel {
         #[serde(rename = "high")]
@@ -2461,7 +2465,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:3029; SALES_INTELLIGENCE_GAP_ITEMS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:3026; SALES_INTELLIGENCE_GAP_ITEMS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum SalesIntelligenceGapItem {
         #[serde(rename = "decision-maker")]
@@ -2510,7 +2514,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:3041; SALES_INTELLIGENCE_GAP_SEVERITIES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:3038; SALES_INTELLIGENCE_GAP_SEVERITIES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum SalesIntelligenceGapSeverity {
         #[serde(rename = "attention")]
@@ -2539,7 +2543,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:3058; BUSINESS_DISCUSSION_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:3055; BUSINESS_DISCUSSION_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum BusinessDiscussionType {
         #[serde(rename = "intelligence-supplement")]
@@ -2584,7 +2588,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:3071; BUSINESS_DISCUSSION_TARGET_OBJECT_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:3068; BUSINESS_DISCUSSION_TARGET_OBJECT_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum BusinessDiscussionTargetObjectType {
         #[serde(rename = "customer")]
@@ -2617,7 +2621,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:3476; SALES_FOLLOW_UP_OUTCOMES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:3482; SALES_FOLLOW_UP_OUTCOMES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum SalesFollowUpOutcome {
         #[serde(rename = "progress")]
@@ -2666,7 +2670,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:3494; SALES_FOLLOW_UP_RECORD_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:3500; SALES_FOLLOW_UP_RECORD_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum SalesFollowUpRecordStatus {
         #[serde(rename = "active")]
@@ -2699,7 +2703,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:3506; SALES_FOLLOW_UP_RECORD_LIFECYCLE_SCOPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:3512; SALES_FOLLOW_UP_RECORD_LIFECYCLE_SCOPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum SalesFollowUpRecordLifecycleScope {
         #[serde(rename = "active")]
@@ -2728,7 +2732,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:3626; ATTACHMENT_STORAGE_PROVIDER_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:3632; ATTACHMENT_STORAGE_PROVIDER_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum AttachmentStorageProviderType {
         #[serde(rename = "local")]
@@ -2757,7 +2761,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:3637; ATTACHMENT_STORAGE_PROVIDER_CONFIG_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:3643; ATTACHMENT_STORAGE_PROVIDER_CONFIG_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum AttachmentStorageProviderConfigStatus {
         #[serde(rename = "draft")]
@@ -2794,7 +2798,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:3646; ATTACHMENT_STORAGE_PROVIDER_CONNECTION_TEST_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:3654; ATTACHMENT_STORAGE_PROVIDER_CONNECTION_TEST_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum AttachmentStorageProviderConnectionTestStatus {
         #[serde(rename = "success")]
@@ -2823,7 +2827,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:3784; ATTACHMENT_SECURITY_LEVELS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:3796; ATTACHMENT_SECURITY_LEVELS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum AttachmentSecurityLevel {
         #[serde(rename = "normal")]
@@ -2864,7 +2868,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:3796; ATTACHMENT_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:3808; ATTACHMENT_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum AttachmentStatus {
         #[serde(rename = "active")]
@@ -2901,7 +2905,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:3809; ATTACHMENT_TARGET_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:3821; ATTACHMENT_TARGET_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum AttachmentTargetType {
         #[serde(rename = "lead")]
@@ -2946,7 +2950,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:3824; ATTACHMENT_RELATION_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:3836; ATTACHMENT_RELATION_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum AttachmentRelationType {
         #[serde(rename = "normal")]
@@ -2987,7 +2991,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:3838; ATTACHMENT_LINK_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:3850; ATTACHMENT_LINK_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum AttachmentLinkStatus {
         #[serde(rename = "active")]
@@ -3016,7 +3020,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:3946; ATTACHMENT_UPLOAD_SESSION_OPERATION_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:3958; ATTACHMENT_UPLOAD_SESSION_OPERATION_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum AttachmentUploadSessionOperationType {
         #[serde(rename = "create-attachment")]
@@ -3045,7 +3049,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:3961; ATTACHMENT_UPLOAD_SESSION_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:3975; ATTACHMENT_UPLOAD_SESSION_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum AttachmentUploadSessionStatus {
         #[serde(rename = "pending")]
@@ -3098,7 +3102,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:3971; ATTACHMENT_UPLOAD_MODES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:3985; ATTACHMENT_UPLOAD_MODES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum AttachmentUploadMode {
         #[serde(rename = "proxy")]
@@ -3131,7 +3135,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:3975; ATTACHMENT_UPLOAD_TARGET_METHODS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:3989; ATTACHMENT_UPLOAD_TARGET_METHODS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum AttachmentUploadTargetMethod {
         #[serde(rename = "PUT")]
@@ -3156,7 +3160,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:4168; PROJECT_HANDOVER_ATTACHMENT_CHECKLIST_ITEM_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:4192; PROJECT_HANDOVER_ATTACHMENT_CHECKLIST_ITEM_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectHandoverAttachmentChecklistItemStatus {
         #[serde(rename = "included")]
@@ -3197,7 +3201,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:4182; ATTACHMENT_DOWNLOAD_PACKAGE_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:4208; ATTACHMENT_DOWNLOAD_PACKAGE_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum AttachmentDownloadPackageStatus {
         #[serde(rename = "pending")]
@@ -3242,7 +3246,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:4197; ATTACHMENT_DOWNLOAD_PACKAGE_ITEM_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:4223; ATTACHMENT_DOWNLOAD_PACKAGE_ITEM_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum AttachmentDownloadPackageItemStatus {
         #[serde(rename = "included")]
@@ -3271,7 +3275,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:4530; TECHNICAL_FEASIBILITY_DECISIONS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:4459; TECHNICAL_FEASIBILITY_DECISIONS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum TechnicalFeasibilityDecision {
         #[serde(rename = "feasible")]
@@ -3304,7 +3308,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:4542; TECHNICAL_SCOPE_ITEM_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:4471; TECHNICAL_SCOPE_ITEM_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum TechnicalScopeItemType {
         #[serde(rename = "in-scope")]
@@ -3337,7 +3341,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:4555; PRESIGNING_RISK_LEVELS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:4484; PRESIGNING_RISK_LEVELS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum PreSigningRiskLevel {
         #[serde(rename = "R1")]
@@ -3374,7 +3378,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:4568; PRESIGNING_RISK_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:4497; PRESIGNING_RISK_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum PreSigningRiskStatus {
         #[serde(rename = "open")]
@@ -3411,7 +3415,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:4580; COST_ESTIMATE_CONFIDENCE_LEVELS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:4509; COST_ESTIMATE_CONFIDENCE_LEVELS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CostEstimateConfidenceLevel {
         #[serde(rename = "high")]
@@ -3444,7 +3448,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:4592; TAX_REVIEW_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:4521; TAX_REVIEW_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum TaxReviewStatus {
         #[serde(rename = "pending")]
@@ -3477,7 +3481,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:4598; PROJECT_TECHNICAL_COST_PACKAGE_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:4527; PROJECT_TECHNICAL_COST_PACKAGE_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectTechnicalCostPackageStatus {
         #[serde(rename = "effective")]
@@ -3506,7 +3510,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:4779; BID_COMMERCIAL_MODES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:4708; BID_COMMERCIAL_MODES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum BidCommercialMode {
         #[serde(rename = "public-tender")]
@@ -3555,7 +3559,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:4794; BID_COMMERCIAL_STAGES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:4723; BID_COMMERCIAL_STAGES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum BidCommercialStage {
         #[serde(rename = "not-started")]
@@ -3600,7 +3604,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:4807; BID_COMMERCIAL_DECISIONS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:4736; BID_COMMERCIAL_DECISIONS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum BidCommercialDecision {
         #[serde(rename = "pending")]
@@ -3637,7 +3641,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:4821; BID_COMMERCIAL_RESULT_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:4750; BID_COMMERCIAL_RESULT_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum BidCommercialResultStatus {
         #[serde(rename = "pending")]
@@ -3678,7 +3682,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:4834; BID_COMMERCIAL_MATERIAL_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:4763; BID_COMMERCIAL_MATERIAL_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum BidCommercialMaterialStatus {
         #[serde(rename = "missing")]
@@ -3715,7 +3719,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:4846; BID_COMMERCIAL_TIMELINE_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:4775; BID_COMMERCIAL_TIMELINE_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum BidCommercialTimelineStatus {
         #[serde(rename = "pending")]
@@ -3748,7 +3752,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:4852; PROJECT_BID_COMMERCIAL_PROCESS_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:4781; PROJECT_BID_COMMERCIAL_PROCESS_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectBidCommercialProcessStatus {
         #[serde(rename = "effective")]
@@ -3777,7 +3781,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:4986; PRICING_MARGIN_PATHS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:4915; PRICING_MARGIN_PATHS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum PricingMarginPath {
         #[serde(rename = "bid")]
@@ -3806,7 +3810,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5000; PRICING_MARGIN_DECISIONS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:4929; PRICING_MARGIN_DECISIONS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum PricingMarginDecision {
         #[serde(rename = "pending")]
@@ -3847,7 +3851,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5013; GROSS_MARGIN_BANDS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:4942; GROSS_MARGIN_BANDS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum GrossMarginBand {
         #[serde(rename = "below-redline")]
@@ -3884,7 +3888,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5028; PRICING_MARGIN_CONDITION_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:4957; PRICING_MARGIN_CONDITION_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum PricingMarginConditionType {
         #[serde(rename = "financial")]
@@ -3929,7 +3933,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5040; PRICING_MARGIN_CONDITION_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:4969; PRICING_MARGIN_CONDITION_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum PricingMarginConditionStatus {
         #[serde(rename = "open")]
@@ -3962,7 +3966,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5046; PROJECT_PRICING_MARGIN_REVIEW_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:4975; PROJECT_PRICING_MARGIN_REVIEW_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectPricingMarginReviewStatus {
         #[serde(rename = "effective")]
@@ -3991,7 +3995,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5176; ACCEPTANCE_RECORD_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5105; ACCEPTANCE_RECORD_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum AcceptanceRecordType {
         #[serde(rename = "stage-outcome")]
@@ -4024,7 +4028,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5180; ACCEPTANCE_RECORD_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5109; ACCEPTANCE_RECORD_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum AcceptanceRecordStatus {
         #[serde(rename = "confirmed")]
@@ -4053,7 +4057,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5184; ACCEPTANCE_RECORD_RESULTS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5113; ACCEPTANCE_RECORD_RESULTS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum AcceptanceRecordResult {
         #[serde(rename = "accepted")]
@@ -4086,7 +4090,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5227; PROJECT_COMPLETION_RECORD_RESULTS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5117; PROJECT_COMPLETION_RECORD_RESULTS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectCompletionRecordResult {
         #[serde(rename = "completed")]
@@ -4115,7 +4119,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5231; PROJECT_COMPLETION_RECORD_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5121; PROJECT_COMPLETION_RECORD_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectCompletionRecordStatus {
         #[serde(rename = "confirmed")]
@@ -4140,7 +4144,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5273; PROJECT_ARCHIVE_ANCHOR_STAGES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5125; PROJECT_ARCHIVE_ANCHOR_STAGES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectArchiveAnchorStage {
         #[serde(rename = "completed")]
@@ -4173,7 +4177,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5277; PROJECT_ARCHIVE_ANCHOR_SOURCE_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5129; PROJECT_ARCHIVE_ANCHOR_SOURCE_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectArchiveAnchorSourceType {
         #[serde(rename = "project")]
@@ -4202,7 +4206,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5281; PROJECT_ARCHIVE_RECORD_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5133; PROJECT_ARCHIVE_RECORD_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectArchiveRecordStatus {
         #[serde(rename = "recorded")]
@@ -4235,7 +4239,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5351; PROJECT_TIMELINE_EVENT_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5137; PROJECT_TIMELINE_EVENT_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectTimelineEventType {
         #[serde(rename = "stage-entered")]
@@ -4268,7 +4272,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5355; PROJECT_TIMELINE_SOURCE_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5141; PROJECT_TIMELINE_SOURCE_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectTimelineSourceType {
         #[serde(rename = "project")]
@@ -4313,7 +4317,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5472; CONTRACT_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5257; CONTRACT_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ContractStatus {
         #[serde(rename = "draft")]
@@ -4354,7 +4358,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5484; CONTRACT_TERM_SNAPSHOT_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5269; CONTRACT_TERM_SNAPSHOT_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ContractTermSnapshotStatus {
         #[serde(rename = "active")]
@@ -4387,7 +4391,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5619; CUSTOMER_WORKSPACE_ACTION_INTENTS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5404; CUSTOMER_WORKSPACE_ACTION_INTENTS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CustomerWorkspaceActionIntent {
         #[serde(rename = "open-leads")]
@@ -4428,7 +4432,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5625; CUSTOMER_WORKSPACE_TARGET_OBJECT_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5410; CUSTOMER_WORKSPACE_TARGET_OBJECT_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CustomerWorkspaceTargetObjectType {
         #[serde(rename = "customer")]
@@ -4473,7 +4477,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5646; CUSTOMER_WORKSPACE_TIMELINE_EVENT_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5431; CUSTOMER_WORKSPACE_TIMELINE_EVENT_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CustomerWorkspaceTimelineEventType {
         #[serde(rename = "lead-updated")]
@@ -4514,7 +4518,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5652; CUSTOMER_WORKSPACE_TIMELINE_SOURCE_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5443; CUSTOMER_WORKSPACE_TIMELINE_SOURCE_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CustomerWorkspaceTimelineSourceType {
         #[serde(rename = "lead")]
@@ -4555,7 +4559,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5763; CONTRACT_TERM_PREPARATION_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5554; CONTRACT_TERM_PREPARATION_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ContractTermPreparationStatus {
         #[serde(rename = "prepared")]
@@ -4588,7 +4592,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5903; COMMERCIAL_DIFF_LEVELS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5704; COMMERCIAL_DIFF_LEVELS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommercialDiffLevel {
         #[serde(rename = "prompt")]
@@ -4621,7 +4625,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5915; COMMERCIAL_DIFF_REVIEW_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5716; COMMERCIAL_DIFF_REVIEW_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommercialDiffReviewStatus {
         #[serde(rename = "not-required")]
@@ -4658,7 +4662,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5928; COMMERCIAL_BASELINE_REVIEW_DECISIONS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5729; COMMERCIAL_BASELINE_REVIEW_DECISIONS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommercialBaselineReviewDecision {
         #[serde(rename = "approved")]
@@ -4687,7 +4691,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5939; COMMERCIAL_RELEASE_BASELINE_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5740; COMMERCIAL_RELEASE_BASELINE_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommercialReleaseBaselineStatus {
         #[serde(rename = "draft")]
@@ -4720,7 +4724,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5959; CONTRACT_READINESS_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5760; CONTRACT_READINESS_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ContractReadinessStatus {
         #[serde(rename = "ready")]
@@ -4753,7 +4757,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5977; CONTRACT_READINESS_GUARD_DECISIONS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5778; CONTRACT_READINESS_GUARD_DECISIONS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ContractReadinessGuardDecision {
         #[serde(rename = "allowed")]
@@ -4786,7 +4790,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5996; CONTRACT_READINESS_ITEM_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5797; CONTRACT_READINESS_ITEM_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ContractReadinessItemType {
         #[serde(rename = "checklist")]
@@ -4823,7 +4827,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6013; CONTRACT_READINESS_ITEM_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:5814; CONTRACT_READINESS_ITEM_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ContractReadinessItemStatus {
         #[serde(rename = "ready")]
@@ -4860,7 +4864,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6190; CONTRACT_HANDOVER_BASELINE_VALIDATION_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6004; CONTRACT_HANDOVER_BASELINE_VALIDATION_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ContractHandoverBaselineValidationStatus {
         #[serde(rename = "ready")]
@@ -4893,7 +4897,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6207; CONTRACT_HANDOVER_CURRENT_BASELINE_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6023; CONTRACT_HANDOVER_CURRENT_BASELINE_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ContractHandoverCurrentBaselineStatus {
         #[serde(rename = "available")]
@@ -4922,7 +4926,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6226; CONTRACT_HANDOVER_CURRENT_BASELINE_SOURCE_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6038; CONTRACT_HANDOVER_CURRENT_BASELINE_SOURCE_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ContractHandoverCurrentBaselineSourceType {
         #[serde(rename = "contract-readiness")]
@@ -4959,7 +4963,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6245; CONTRACT_HANDOVER_REBASELINE_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6053; CONTRACT_HANDOVER_REBASELINE_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ContractHandoverRebaselineStatus {
         #[serde(rename = "none")]
@@ -5004,7 +5008,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6263; CONTRACT_HANDOVER_REBASELINE_BLOCKING_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6071; CONTRACT_HANDOVER_REBASELINE_BLOCKING_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ContractHandoverRebaselineBlockingStatus {
         #[serde(rename = "none")]
@@ -5037,7 +5041,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6281; CONTRACT_HANDOVER_RECEIVABLE_PLAN_INIT_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6091; CONTRACT_HANDOVER_RECEIVABLE_PLAN_INIT_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ContractHandoverReceivablePlanInitStatus {
         #[serde(rename = "initialized")]
@@ -5070,7 +5074,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6376; PROJECT_HANDOVER_PARTICIPANT_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6206; PROJECT_HANDOVER_PARTICIPANT_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectHandoverParticipantStatus {
         #[serde(rename = "pending")]
@@ -5103,7 +5107,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6395; PROJECT_HANDOVER_PARTICIPANT_CONFIRMATION_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6225; PROJECT_HANDOVER_PARTICIPANT_CONFIRMATION_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectHandoverParticipantConfirmationStatus {
         #[serde(rename = "not-started")]
@@ -5140,7 +5144,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6412; PROJECT_HANDOVER_RECEIPT_JUDGMENT_FREEZE_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6244; PROJECT_HANDOVER_RECEIPT_JUDGMENT_FREEZE_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectHandoverReceiptJudgmentFreezeStatus {
         #[serde(rename = "not-frozen")]
@@ -5169,7 +5173,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6430; PROJECT_HANDOVER_RECEIPT_JUDGMENT_SOURCE_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6258; PROJECT_HANDOVER_RECEIPT_JUDGMENT_SOURCE_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectHandoverReceiptJudgmentSourceType {
         #[serde(rename = "project-handover")]
@@ -5202,7 +5206,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6448; PROJECT_HANDOVER_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6272; PROJECT_HANDOVER_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectHandoverStatus {
         #[serde(rename = "not-started")]
@@ -5243,7 +5247,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6742; RECEIPT_RECORD_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6681; RECEIPT_RECORD_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ReceiptRecordStatus {
         #[serde(rename = "draft")]
@@ -5284,7 +5288,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6800; PAYABLE_RECORD_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6731; PAYABLE_RECORD_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum PayableRecordStatus {
         #[serde(rename = "draft")]
@@ -5329,7 +5333,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6928; PAYMENT_RECORD_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6859; PAYMENT_RECORD_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum PaymentRecordStatus {
         #[serde(rename = "draft")]
@@ -5366,7 +5370,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6993; INVOICE_RECORD_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6924; INVOICE_RECORD_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum InvoiceRecordType {
         #[serde(rename = "input")]
@@ -5395,7 +5399,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7010; INVOICE_RECORD_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6941; INVOICE_RECORD_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum InvoiceRecordStatus {
         #[serde(rename = "draft")]
@@ -5444,7 +5448,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7024; INVOICE_RECORD_EXCEPTION_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6955; INVOICE_RECORD_EXCEPTION_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum InvoiceRecordExceptionStatus {
         #[serde(rename = "none")]
@@ -5477,7 +5481,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7076; INVOICE_RECORD_PATCHABLE_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7040; INVOICE_RECORD_PATCHABLE_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum InvoiceRecordPatchableStatus {
         #[serde(rename = "draft")]
@@ -5518,7 +5522,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7139; EXPENSE_SOURCE_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7121; EXPENSE_SOURCE_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ExpenseSourceType {
         #[serde(rename = "manual")]
@@ -5551,7 +5555,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7153; EXPENSE_RECORD_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7135; EXPENSE_RECORD_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ExpenseRecordStatus {
         #[serde(rename = "draft")]
@@ -5588,7 +5592,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7281; APPROVAL_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7376; APPROVAL_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ApprovalType {
         #[serde(rename = "contract-review")]
@@ -5621,7 +5625,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7295; BUSINESS_DOMAINS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7390; BUSINESS_DOMAINS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum BusinessDomain {
         #[serde(rename = "contract-finance")]
@@ -5658,7 +5662,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7312; TARGET_OBJECT_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7407; TARGET_OBJECT_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum TargetObjectType {
         #[serde(rename = "contract")]
@@ -5707,7 +5711,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7325; APPROVAL_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7420; APPROVAL_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ApprovalStatus {
         #[serde(rename = "pending")]
@@ -5740,7 +5744,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7338; APPROVAL_DECISIONS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7433; APPROVAL_DECISIONS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ApprovalDecision {
         #[serde(rename = "approved")]
@@ -5769,7 +5773,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7352; TODO_SOURCE_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7447; TODO_SOURCE_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum TodoSourceType {
         #[serde(rename = "approval-record")]
@@ -5802,7 +5806,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7365; TODO_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7460; TODO_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum TodoType {
         #[serde(rename = "approval")]
@@ -5835,7 +5839,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7379; TODO_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7474; TODO_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum TodoStatus {
         #[serde(rename = "open")]
@@ -5872,7 +5876,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7394; TODO_PRIORITIES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7489; TODO_PRIORITIES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum TodoPriority {
         #[serde(rename = "low")]
@@ -5909,7 +5913,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7532; COMMISSION_RULE_VERSION_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7655; COMMISSION_RULE_VERSION_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionRuleVersionStatus {
         #[serde(rename = "draft")]
@@ -5942,7 +5946,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7551; COMMISSION_ROLE_ASSIGNMENT_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7674; COMMISSION_ROLE_ASSIGNMENT_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionRoleAssignmentStatus {
         #[serde(rename = "draft")]
@@ -5975,7 +5979,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7566; COMMISSION_CALCULATION_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7687; COMMISSION_CALCULATION_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionCalculationStatus {
         #[serde(rename = "pending")]
@@ -6012,7 +6016,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7583; COMMISSION_PAYOUT_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7704; COMMISSION_PAYOUT_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionPayoutStatus {
         #[serde(rename = "draft")]
@@ -6057,7 +6061,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7590; COMMISSION_PAYOUT_STAGES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7711; COMMISSION_PAYOUT_STAGES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionPayoutStage {
         #[serde(rename = "first")]
@@ -6094,7 +6098,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7603; NON_RETENTION_COMMISSION_PAYOUT_STAGES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7724; NON_RETENTION_COMMISSION_PAYOUT_STAGES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum NonRetentionCommissionPayoutStage {
         #[serde(rename = "first")]
@@ -6127,7 +6131,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7609; COMMISSION_PAYOUT_TIERS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7734; COMMISSION_PAYOUT_TIERS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionPayoutTier {
         #[serde(rename = "basic")]
@@ -6160,7 +6164,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7621; COMMISSION_PAYOUT_KINDS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7746; COMMISSION_PAYOUT_KINDS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionPayoutKind {
         #[serde(rename = "primary")]
@@ -6189,7 +6193,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7632; COMMISSION_ADJUSTMENT_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7757; COMMISSION_ADJUSTMENT_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionAdjustmentType {
         #[serde(rename = "suspend-payout")]
@@ -6230,7 +6234,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7656; COMMISSION_ADJUSTMENT_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7781; COMMISSION_ADJUSTMENT_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionAdjustmentStatus {
         #[serde(rename = "draft")]
@@ -6275,7 +6279,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7663; COMMISSION_FREEZE_DISPUTE_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7788; COMMISSION_FREEZE_DISPUTE_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionFreezeDisputeStatus {
         #[serde(rename = "submitted")]
@@ -6304,7 +6308,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7674; COMMISSION_FREEZE_DISPUTE_ARBITRATION_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7799; COMMISSION_FREEZE_DISPUTE_ARBITRATION_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionFreezeDisputeArbitrationStatus {
         #[serde(rename = "pending")]
@@ -6333,7 +6337,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7685; COMMISSION_FREEZE_CHANGE_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7812; COMMISSION_FREEZE_CHANGE_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionFreezeChangeStatus {
         #[serde(rename = "effective")]
@@ -6362,7 +6366,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7696; COMMISSION_LIFECYCLE_SNAPSHOT_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7823; COMMISSION_LIFECYCLE_SNAPSHOT_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionLifecycleSnapshotStatus {
         #[serde(rename = "active")]
@@ -6397,7 +6401,7 @@ mod generated_values {
     /// TS alias proven to use the same source array as CommissionLifecycleSnapshotStatus; no independent schema identity.
     pub type CommissionDepartureExceptionDecisionStatus = CommissionLifecycleSnapshotStatus;
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7715; COMMISSION_FINAL_SETTLEMENT_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7842; COMMISSION_FINAL_SETTLEMENT_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionFinalSettlementStatus {
         #[serde(rename = "pending-final-settlement")]
@@ -6430,7 +6434,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7728; COMMISSION_NON_RETENTION_SETTLEMENT_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7855; COMMISSION_NON_RETENTION_SETTLEMENT_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionNonRetentionSettlementStatus {
         #[serde(rename = "pending-non-retention")]
@@ -6459,7 +6463,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7742; COMMISSION_RETENTION_SETTLEMENT_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7871; COMMISSION_RETENTION_SETTLEMENT_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionRetentionSettlementStatus {
         #[serde(rename = "waiting-retention")]
@@ -6492,7 +6496,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7757; COMMISSION_RULE_EXPLANATION_STAGE_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7886; COMMISSION_RULE_EXPLANATION_STAGE_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionRuleExplanationStageStatus {
         #[serde(rename = "pending-final-settlement")]
@@ -6529,7 +6533,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7773; COMMISSION_RULE_EXPLANATION_GATE_DECISIONS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7904; COMMISSION_RULE_EXPLANATION_GATE_DECISIONS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionRuleExplanationGateDecision {
         #[serde(rename = "allow-final-settlement")]
@@ -6570,7 +6574,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7780; COMMISSION_RETENTION_DUE_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7913; COMMISSION_RETENTION_DUE_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionRetentionDueStatus {
         #[serde(rename = "missing")]
@@ -6603,7 +6607,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8293; INTERNAL_COST_RATE_VERSION_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8353; INTERNAL_COST_RATE_VERSION_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum InternalCostRateVersionStatus {
         #[serde(rename = "active")]
@@ -6636,7 +6640,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8305; INTERNAL_COST_RATE_SCOPE_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8365; INTERNAL_COST_RATE_SCOPE_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum InternalCostRateScopeType {
         #[serde(rename = "person")]
@@ -6665,7 +6669,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8316; INTERNAL_COST_RATE_UNITS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8376; INTERNAL_COST_RATE_UNITS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum InternalCostRateUnit {
         #[serde(rename = "hour")]
@@ -6694,7 +6698,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8371; PROJECT_ACTUAL_COST_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8431; PROJECT_ACTUAL_COST_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectActualCostType {
         #[serde(rename = "procurement")]
@@ -6735,7 +6739,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8385; PROJECT_ACTUAL_COST_RECORD_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8445; PROJECT_ACTUAL_COST_RECORD_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectActualCostRecordStatus {
         #[serde(rename = "draft")]
@@ -6780,7 +6784,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8400; PROJECT_ACTUAL_COST_SOURCE_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8460; PROJECT_ACTUAL_COST_SOURCE_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectActualCostSourceType {
         #[serde(rename = "payment-record")]
@@ -6821,7 +6825,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8414; LABOR_COST_PERIOD_TYPES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8474; LABOR_COST_PERIOD_TYPES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum LaborCostPeriodType {
         #[serde(rename = "week")]
@@ -6850,7 +6854,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8503; BASELINE_SELECTION_SOURCES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8771; BASELINE_SELECTION_SOURCES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum BaselineSelectionSource {
         #[serde(rename = "original")]
@@ -6879,7 +6883,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8516; OPERATING_SNAPSHOT_ACTION_LEVELS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8782; OPERATING_SNAPSHOT_ACTION_LEVELS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OperatingSnapshotActionLevel {
         #[serde(rename = "prompt")]
@@ -6912,7 +6916,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8523; OPERATING_BASELINE_PACKAGE_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8787; OPERATING_BASELINE_PACKAGE_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OperatingBaselinePackageStatus {
         #[serde(rename = "draft")]
@@ -6945,7 +6949,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8535; CHANGE_PACKAGE_BASELINE_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8799; CHANGE_PACKAGE_BASELINE_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ChangePackageBaselineStatus {
         #[serde(rename = "active")]
@@ -6974,7 +6978,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8546; OPERATING_LIFECYCLE_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8810; OPERATING_LIFECYCLE_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OperatingLifecycleStatus {
         #[serde(rename = "active")]
@@ -7007,7 +7011,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8558; OPERATING_PENDING_LIFECYCLE_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8822; OPERATING_PENDING_LIFECYCLE_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OperatingPendingLifecycleStatus {
         #[serde(rename = "pending")]
@@ -7044,7 +7048,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8571; OPERATING_SNAPSHOT_MODES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8835; OPERATING_SNAPSHOT_MODES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OperatingSnapshotMode {
         #[serde(rename = "realtime")]
@@ -7077,7 +7081,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8583; CREATABLE_OPERATING_SNAPSHOT_MODES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8847; CREATABLE_OPERATING_SNAPSHOT_MODES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CreatableOperatingSnapshotMode {
         #[serde(rename = "realtime")]
@@ -7106,7 +7110,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8589; COST_STAGE_ATTRIBUTION_MODES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8853; COST_STAGE_ATTRIBUTION_MODES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CostStageAttributionMode {
         #[serde(rename = "auto")]
@@ -7139,7 +7143,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8601; CONFIRM_COST_STAGE_ATTRIBUTION_MODES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8865; CONFIRM_COST_STAGE_ATTRIBUTION_MODES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ConfirmCostStageAttributionMode {
         #[serde(rename = "auto")]
@@ -7168,7 +7172,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8614; OPERATING_DATA_MATURITY_LEVELS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8878; OPERATING_DATA_MATURITY_LEVELS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OperatingDataMaturityLevel {
         #[serde(rename = "insufficient")]
@@ -7201,18 +7205,24 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8626; OPERATING_SIGNAL_LEVELS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8890; OPERATING_SIGNAL_LEVELS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OperatingSignalLevel {
+        #[serde(rename = "normal")]
+        Normal,
+        #[serde(rename = "unknown")]
+        Unknown,
         #[serde(rename = "attention")]
         Attention,
         #[serde(rename = "alert")]
         Alert,
     }
     impl OperatingSignalLevel {
-        pub const ALL: &'static [Self] = &[Self::Attention, Self::Alert];
+        pub const ALL: &'static [Self] = &[Self::Normal, Self::Unknown, Self::Attention, Self::Alert];
         pub const fn as_str(self) -> &'static str {
             match self {
+                Self::Normal => "normal",
+                Self::Unknown => "unknown",
                 Self::Attention => "attention",
                 Self::Alert => "alert",
             }
@@ -7223,6 +7233,8 @@ mod generated_values {
         type Err = UnknownEnumValue;
         fn from_str(value: &str) -> Result<Self, Self::Err> {
             match value {
+                "normal" => Ok(Self::Normal),
+                "unknown" => Ok(Self::Unknown),
                 "attention" => Ok(Self::Attention),
                 "alert" => Ok(Self::Alert),
                 _ => Err(UnknownEnumValue { enum_name: "OperatingSignalLevel" }),
@@ -7230,18 +7242,24 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8639; OPERATING_RISK_LEVELS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8903; OPERATING_RISK_LEVELS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OperatingRiskLevel {
+        #[serde(rename = "normal")]
+        Normal,
+        #[serde(rename = "unknown")]
+        Unknown,
         #[serde(rename = "attention")]
         Attention,
         #[serde(rename = "risk")]
         Risk,
     }
     impl OperatingRiskLevel {
-        pub const ALL: &'static [Self] = &[Self::Attention, Self::Risk];
+        pub const ALL: &'static [Self] = &[Self::Normal, Self::Unknown, Self::Attention, Self::Risk];
         pub const fn as_str(self) -> &'static str {
             match self {
+                Self::Normal => "normal",
+                Self::Unknown => "unknown",
                 Self::Attention => "attention",
                 Self::Risk => "risk",
             }
@@ -7252,6 +7270,8 @@ mod generated_values {
         type Err = UnknownEnumValue;
         fn from_str(value: &str) -> Result<Self, Self::Err> {
             match value {
+                "normal" => Ok(Self::Normal),
+                "unknown" => Ok(Self::Unknown),
                 "attention" => Ok(Self::Attention),
                 "risk" => Ok(Self::Risk),
                 _ => Err(UnknownEnumValue { enum_name: "OperatingRiskLevel" }),
@@ -7259,7 +7279,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8646; OPERATING_SIGNAL_REVIEW_DECISIONS.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8908; OPERATING_SIGNAL_REVIEW_DECISIONS.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OperatingSignalReviewDecision {
         #[serde(rename = "approve")]
@@ -7288,7 +7308,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8657; ACCOUNTING_TAX_DEDUCTIBILITY_STATUSES.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8919; ACCOUNTING_TAX_DEDUCTIBILITY_STATUSES.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum AccountingTaxDeductibilityStatus {
         #[serde(rename = "pending")]
@@ -7321,7 +7341,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2044; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:2051; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum UpdateCustomerRequestStatus {
         #[serde(rename = "active")]
@@ -7350,7 +7370,130 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6713; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6161; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ProjectHandoverContractReadinessStatus {
+        #[serde(rename = "ready")]
+        Ready,
+        #[serde(rename = "blocked")]
+        Blocked,
+        #[serde(rename = "missing")]
+        Missing,
+    }
+    impl ProjectHandoverContractReadinessStatus {
+        pub const ALL: &'static [Self] = &[Self::Ready, Self::Blocked, Self::Missing];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Ready => "ready",
+                Self::Blocked => "blocked",
+                Self::Missing => "missing",
+            }
+        }
+    }
+    impl AsRef<str> for ProjectHandoverContractReadinessStatus { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ProjectHandoverContractReadinessStatus {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "ready" => Ok(Self::Ready),
+                "blocked" => Ok(Self::Blocked),
+                "missing" => Ok(Self::Missing),
+                _ => Err(UnknownEnumValue { enum_name: "ProjectHandoverContractReadinessStatus" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6319; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ProjectHandoverBasisItemSummaryItemType {
+        #[serde(rename = "scope")]
+        Scope,
+        #[serde(rename = "risk")]
+        Risk,
+        #[serde(rename = "receivable")]
+        Receivable,
+        #[serde(rename = "cost")]
+        Cost,
+        #[serde(rename = "responsibility")]
+        Responsibility,
+        #[serde(rename = "attachment")]
+        Attachment,
+        #[serde(rename = "contract")]
+        Contract,
+    }
+    impl ProjectHandoverBasisItemSummaryItemType {
+        pub const ALL: &'static [Self] = &[Self::Scope, Self::Risk, Self::Receivable, Self::Cost, Self::Responsibility, Self::Attachment, Self::Contract];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Scope => "scope",
+                Self::Risk => "risk",
+                Self::Receivable => "receivable",
+                Self::Cost => "cost",
+                Self::Responsibility => "responsibility",
+                Self::Attachment => "attachment",
+                Self::Contract => "contract",
+            }
+        }
+    }
+    impl AsRef<str> for ProjectHandoverBasisItemSummaryItemType { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ProjectHandoverBasisItemSummaryItemType {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "scope" => Ok(Self::Scope),
+                "risk" => Ok(Self::Risk),
+                "receivable" => Ok(Self::Receivable),
+                "cost" => Ok(Self::Cost),
+                "responsibility" => Ok(Self::Responsibility),
+                "attachment" => Ok(Self::Attachment),
+                "contract" => Ok(Self::Contract),
+                _ => Err(UnknownEnumValue { enum_name: "ProjectHandoverBasisItemSummaryItemType" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6333; canonical-top-level-inline.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ProjectHandoverClosureStatus {
+        #[serde(rename = "not-started")]
+        NotStarted,
+        #[serde(rename = "handover-in-progress")]
+        HandoverInProgress,
+        #[serde(rename = "handover-confirmed-freeze-pending")]
+        HandoverConfirmedFreezePending,
+        #[serde(rename = "handover-completed-with-commission-freeze")]
+        HandoverCompletedWithCommissionFreeze,
+        #[serde(rename = "review-required")]
+        ReviewRequired,
+    }
+    impl ProjectHandoverClosureStatus {
+        pub const ALL: &'static [Self] = &[Self::NotStarted, Self::HandoverInProgress, Self::HandoverConfirmedFreezePending, Self::HandoverCompletedWithCommissionFreeze, Self::ReviewRequired];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::NotStarted => "not-started",
+                Self::HandoverInProgress => "handover-in-progress",
+                Self::HandoverConfirmedFreezePending => "handover-confirmed-freeze-pending",
+                Self::HandoverCompletedWithCommissionFreeze => "handover-completed-with-commission-freeze",
+                Self::ReviewRequired => "review-required",
+            }
+        }
+    }
+    impl AsRef<str> for ProjectHandoverClosureStatus { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ProjectHandoverClosureStatus {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "not-started" => Ok(Self::NotStarted),
+                "handover-in-progress" => Ok(Self::HandoverInProgress),
+                "handover-confirmed-freeze-pending" => Ok(Self::HandoverConfirmedFreezePending),
+                "handover-completed-with-commission-freeze" => Ok(Self::HandoverCompletedWithCommissionFreeze),
+                "review-required" => Ok(Self::ReviewRequired),
+                _ => Err(UnknownEnumValue { enum_name: "ProjectHandoverClosureStatus" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6653; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ReadinessInitializationResultTargetType {
         #[serde(rename = "contract-term-preparation")]
@@ -7379,7 +7522,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6716; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6656; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ReadinessInitializationResultResultStatus {
         #[serde(rename = "prepared")]
@@ -7408,7 +7551,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6717; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:6657; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ReadinessInitializationResultBusinessStatusAfter {
         #[serde(rename = "prepared")]
@@ -7433,6 +7576,3921 @@ mod generated_values {
                 "prepared" => Ok(Self::Prepared),
                 "active" => Ok(Self::Active),
                 _ => Err(UnknownEnumValue { enum_name: "ReadinessInitializationResultBusinessStatusAfter" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7146; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum OperatingFinanceSensitiveStringProjectionMode {
+        #[serde(rename = "full")]
+        Full,
+        #[serde(rename = "masked")]
+        Masked,
+        #[serde(rename = "denied")]
+        Denied,
+    }
+    impl OperatingFinanceSensitiveStringProjectionMode {
+        pub const ALL: &'static [Self] = &[Self::Full, Self::Masked, Self::Denied];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Full => "full",
+                Self::Masked => "masked",
+                Self::Denied => "denied",
+            }
+        }
+    }
+    impl AsRef<str> for OperatingFinanceSensitiveStringProjectionMode { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for OperatingFinanceSensitiveStringProjectionMode {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "full" => Ok(Self::Full),
+                "masked" => Ok(Self::Masked),
+                "denied" => Ok(Self::Denied),
+                _ => Err(UnknownEnumValue { enum_name: "OperatingFinanceSensitiveStringProjectionMode" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:7149; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum OperatingFinanceSensitiveStringProjectionReasonCode {
+        #[serde(rename = "allowed")]
+        Allowed,
+        #[serde(rename = "field-package-not-applicable")]
+        FieldPackageNotApplicable,
+        #[serde(rename = "missing-sensitive-read-permission")]
+        MissingSensitiveReadPermission,
+    }
+    impl OperatingFinanceSensitiveStringProjectionReasonCode {
+        pub const ALL: &'static [Self] = &[Self::Allowed, Self::FieldPackageNotApplicable, Self::MissingSensitiveReadPermission];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Allowed => "allowed",
+                Self::FieldPackageNotApplicable => "field-package-not-applicable",
+                Self::MissingSensitiveReadPermission => "missing-sensitive-read-permission",
+            }
+        }
+    }
+    impl AsRef<str> for OperatingFinanceSensitiveStringProjectionReasonCode { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for OperatingFinanceSensitiveStringProjectionReasonCode {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "allowed" => Ok(Self::Allowed),
+                "field-package-not-applicable" => Ok(Self::FieldPackageNotApplicable),
+                "missing-sensitive-read-permission" => Ok(Self::MissingSensitiveReadPermission),
+                _ => Err(UnknownEnumValue { enum_name: "OperatingFinanceSensitiveStringProjectionReasonCode" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8489; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum LaborCostRateSensitiveStringProjectionMode {
+        #[serde(rename = "full")]
+        Full,
+        #[serde(rename = "masked")]
+        Masked,
+        #[serde(rename = "denied")]
+        Denied,
+    }
+    impl LaborCostRateSensitiveStringProjectionMode {
+        pub const ALL: &'static [Self] = &[Self::Full, Self::Masked, Self::Denied];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Full => "full",
+                Self::Masked => "masked",
+                Self::Denied => "denied",
+            }
+        }
+    }
+    impl AsRef<str> for LaborCostRateSensitiveStringProjectionMode { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for LaborCostRateSensitiveStringProjectionMode {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "full" => Ok(Self::Full),
+                "masked" => Ok(Self::Masked),
+                "denied" => Ok(Self::Denied),
+                _ => Err(UnknownEnumValue { enum_name: "LaborCostRateSensitiveStringProjectionMode" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:8492; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum LaborCostRateSensitiveStringProjectionReasonCode {
+        #[serde(rename = "allowed")]
+        Allowed,
+        #[serde(rename = "field-package-not-applicable")]
+        FieldPackageNotApplicable,
+        #[serde(rename = "missing-sensitive-read-permission")]
+        MissingSensitiveReadPermission,
+    }
+    impl LaborCostRateSensitiveStringProjectionReasonCode {
+        pub const ALL: &'static [Self] = &[Self::Allowed, Self::FieldPackageNotApplicable, Self::MissingSensitiveReadPermission];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Allowed => "allowed",
+                Self::FieldPackageNotApplicable => "field-package-not-applicable",
+                Self::MissingSensitiveReadPermission => "missing-sensitive-read-permission",
+            }
+        }
+    }
+    impl AsRef<str> for LaborCostRateSensitiveStringProjectionReasonCode { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for LaborCostRateSensitiveStringProjectionReasonCode {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "allowed" => Ok(Self::Allowed),
+                "field-package-not-applicable" => Ok(Self::FieldPackageNotApplicable),
+                "missing-sensitive-read-permission" => Ok(Self::MissingSensitiveReadPermission),
+                _ => Err(UnknownEnumValue { enum_name: "LaborCostRateSensitiveStringProjectionReasonCode" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:9030; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ConfirmSharedCostAllocationBasisRequestMeasurementBasis {
+        #[serde(rename = "excluding-tax")]
+        ExcludingTax,
+        #[serde(rename = "tax")]
+        Tax,
+        #[serde(rename = "including-tax")]
+        IncludingTax,
+    }
+    impl ConfirmSharedCostAllocationBasisRequestMeasurementBasis {
+        pub const ALL: &'static [Self] = &[Self::ExcludingTax, Self::Tax, Self::IncludingTax];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::ExcludingTax => "excluding-tax",
+                Self::Tax => "tax",
+                Self::IncludingTax => "including-tax",
+            }
+        }
+    }
+    impl AsRef<str> for ConfirmSharedCostAllocationBasisRequestMeasurementBasis { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ConfirmSharedCostAllocationBasisRequestMeasurementBasis {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "excluding-tax" => Ok(Self::ExcludingTax),
+                "tax" => Ok(Self::Tax),
+                "including-tax" => Ok(Self::IncludingTax),
+                _ => Err(UnknownEnumValue { enum_name: "ConfirmSharedCostAllocationBasisRequestMeasurementBasis" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:9071; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum SharedCostAllocationResultSummaryGovernanceCertification {
+        #[serde(rename = "verified")]
+        Verified,
+        #[serde(rename = "legacy-unverified")]
+        LegacyUnverified,
+    }
+    impl SharedCostAllocationResultSummaryGovernanceCertification {
+        pub const ALL: &'static [Self] = &[Self::Verified, Self::LegacyUnverified];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Verified => "verified",
+                Self::LegacyUnverified => "legacy-unverified",
+            }
+        }
+    }
+    impl AsRef<str> for SharedCostAllocationResultSummaryGovernanceCertification { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for SharedCostAllocationResultSummaryGovernanceCertification {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "verified" => Ok(Self::Verified),
+                "legacy-unverified" => Ok(Self::LegacyUnverified),
+                _ => Err(UnknownEnumValue { enum_name: "SharedCostAllocationResultSummaryGovernanceCertification" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:9095; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum SharedCostAllocationBasisSummaryMeasurementBasis {
+        #[serde(rename = "excluding-tax")]
+        ExcludingTax,
+        #[serde(rename = "tax")]
+        Tax,
+        #[serde(rename = "including-tax")]
+        IncludingTax,
+    }
+    impl SharedCostAllocationBasisSummaryMeasurementBasis {
+        pub const ALL: &'static [Self] = &[Self::ExcludingTax, Self::Tax, Self::IncludingTax];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::ExcludingTax => "excluding-tax",
+                Self::Tax => "tax",
+                Self::IncludingTax => "including-tax",
+            }
+        }
+    }
+    impl AsRef<str> for SharedCostAllocationBasisSummaryMeasurementBasis { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for SharedCostAllocationBasisSummaryMeasurementBasis {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "excluding-tax" => Ok(Self::ExcludingTax),
+                "tax" => Ok(Self::Tax),
+                "including-tax" => Ok(Self::IncludingTax),
+                _ => Err(UnknownEnumValue { enum_name: "SharedCostAllocationBasisSummaryMeasurementBasis" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:9098; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum SharedCostAllocationBasisSummaryGovernanceCertification {
+        #[serde(rename = "verified")]
+        Verified,
+        #[serde(rename = "legacy-unverified")]
+        LegacyUnverified,
+    }
+    impl SharedCostAllocationBasisSummaryGovernanceCertification {
+        pub const ALL: &'static [Self] = &[Self::Verified, Self::LegacyUnverified];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Verified => "verified",
+                Self::LegacyUnverified => "legacy-unverified",
+            }
+        }
+    }
+    impl AsRef<str> for SharedCostAllocationBasisSummaryGovernanceCertification { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for SharedCostAllocationBasisSummaryGovernanceCertification {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "verified" => Ok(Self::Verified),
+                "legacy-unverified" => Ok(Self::LegacyUnverified),
+                _ => Err(UnknownEnumValue { enum_name: "SharedCostAllocationBasisSummaryGovernanceCertification" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:9185; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum CostStageAttributionSnapshotSummaryGovernanceCertification {
+        #[serde(rename = "verified")]
+        Verified,
+        #[serde(rename = "legacy-unverified")]
+        LegacyUnverified,
+    }
+    impl CostStageAttributionSnapshotSummaryGovernanceCertification {
+        pub const ALL: &'static [Self] = &[Self::Verified, Self::LegacyUnverified];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Verified => "verified",
+                Self::LegacyUnverified => "legacy-unverified",
+            }
+        }
+    }
+    impl AsRef<str> for CostStageAttributionSnapshotSummaryGovernanceCertification { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for CostStageAttributionSnapshotSummaryGovernanceCertification {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "verified" => Ok(Self::Verified),
+                "legacy-unverified" => Ok(Self::LegacyUnverified),
+                _ => Err(UnknownEnumValue { enum_name: "CostStageAttributionSnapshotSummaryGovernanceCertification" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/shared-contracts.ts:9269; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum AccountingTaxTreatmentSnapshotSummaryGovernanceCertification {
+        #[serde(rename = "verified")]
+        Verified,
+        #[serde(rename = "legacy-unverified")]
+        LegacyUnverified,
+    }
+    impl AccountingTaxTreatmentSnapshotSummaryGovernanceCertification {
+        pub const ALL: &'static [Self] = &[Self::Verified, Self::LegacyUnverified];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Verified => "verified",
+                Self::LegacyUnverified => "legacy-unverified",
+            }
+        }
+    }
+    impl AsRef<str> for AccountingTaxTreatmentSnapshotSummaryGovernanceCertification { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for AccountingTaxTreatmentSnapshotSummaryGovernanceCertification {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "verified" => Ok(Self::Verified),
+                "legacy-unverified" => Ok(Self::LegacyUnverified),
+                _ => Err(UnknownEnumValue { enum_name: "AccountingTaxTreatmentSnapshotSummaryGovernanceCertification" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:84; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum FreezeCommissionRoleAssignmentResultBusinessStatusAfter {
+        #[serde(rename = "frozen")]
+        Frozen,
+    }
+    impl FreezeCommissionRoleAssignmentResultBusinessStatusAfter {
+        pub const ALL: &'static [Self] = &[Self::Frozen];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Frozen => "frozen",
+            }
+        }
+    }
+    impl AsRef<str> for FreezeCommissionRoleAssignmentResultBusinessStatusAfter { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for FreezeCommissionRoleAssignmentResultBusinessStatusAfter {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "frozen" => Ok(Self::Frozen),
+                _ => Err(UnknownEnumValue { enum_name: "FreezeCommissionRoleAssignmentResultBusinessStatusAfter" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:90; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum LegacyAssertionsCurrentActionLevel {
+        #[serde(rename = "prompt")]
+        Prompt,
+        #[serde(rename = "review")]
+        Review,
+        #[serde(rename = "block")]
+        Block,
+    }
+    impl LegacyAssertionsCurrentActionLevel {
+        pub const ALL: &'static [Self] = &[Self::Prompt, Self::Review, Self::Block];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Prompt => "prompt",
+                Self::Review => "review",
+                Self::Block => "block",
+            }
+        }
+    }
+    impl AsRef<str> for LegacyAssertionsCurrentActionLevel { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for LegacyAssertionsCurrentActionLevel {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "prompt" => Ok(Self::Prompt),
+                "review" => Ok(Self::Review),
+                "block" => Ok(Self::Block),
+                _ => Err(UnknownEnumValue { enum_name: "LegacyAssertionsCurrentActionLevel" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:96; canonical-top-level-inline.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum OperatingEvaluationCertification {
+        #[serde(rename = "verified")]
+        Verified,
+        #[serde(rename = "missing-evidence")]
+        MissingEvidence,
+        #[serde(rename = "legacy-unverified")]
+        LegacyUnverified,
+    }
+    impl OperatingEvaluationCertification {
+        pub const ALL: &'static [Self] = &[Self::Verified, Self::MissingEvidence, Self::LegacyUnverified];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Verified => "verified",
+                Self::MissingEvidence => "missing-evidence",
+                Self::LegacyUnverified => "legacy-unverified",
+            }
+        }
+    }
+    impl AsRef<str> for OperatingEvaluationCertification { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for OperatingEvaluationCertification {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "verified" => Ok(Self::Verified),
+                "missing-evidence" => Ok(Self::MissingEvidence),
+                "legacy-unverified" => Ok(Self::LegacyUnverified),
+                _ => Err(UnknownEnumValue { enum_name: "OperatingEvaluationCertification" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:98; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum OperatingEvaluationNotReadyErrorEvaluationStatus {
+        #[serde(rename = "not-evaluated")]
+        NotEvaluated,
+        #[serde(rename = "missing-evidence")]
+        MissingEvidence,
+    }
+    impl OperatingEvaluationNotReadyErrorEvaluationStatus {
+        pub const ALL: &'static [Self] = &[Self::NotEvaluated, Self::MissingEvidence];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::NotEvaluated => "not-evaluated",
+                Self::MissingEvidence => "missing-evidence",
+            }
+        }
+    }
+    impl AsRef<str> for OperatingEvaluationNotReadyErrorEvaluationStatus { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for OperatingEvaluationNotReadyErrorEvaluationStatus {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "not-evaluated" => Ok(Self::NotEvaluated),
+                "missing-evidence" => Ok(Self::MissingEvidence),
+                _ => Err(UnknownEnumValue { enum_name: "OperatingEvaluationNotReadyErrorEvaluationStatus" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:100; canonical-top-level-inline.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum OperatingGateReviewDecision {
+        #[serde(rename = "confirmed")]
+        Confirmed,
+        #[serde(rename = "review-required")]
+        ReviewRequired,
+        #[serde(rename = "blocked")]
+        Blocked,
+    }
+    impl OperatingGateReviewDecision {
+        pub const ALL: &'static [Self] = &[Self::Confirmed, Self::ReviewRequired, Self::Blocked];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Confirmed => "confirmed",
+                Self::ReviewRequired => "review-required",
+                Self::Blocked => "blocked",
+            }
+        }
+    }
+    impl AsRef<str> for OperatingGateReviewDecision { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for OperatingGateReviewDecision {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "confirmed" => Ok(Self::Confirmed),
+                "review-required" => Ok(Self::ReviewRequired),
+                "blocked" => Ok(Self::Blocked),
+                _ => Err(UnknownEnumValue { enum_name: "OperatingGateReviewDecision" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:102; canonical-top-level-inline.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum OperatingGateStage {
+        #[serde(rename = "first")]
+        First,
+        #[serde(rename = "second")]
+        Second,
+        #[serde(rename = "final")]
+        Final,
+        #[serde(rename = "retention")]
+        Retention,
+    }
+    impl OperatingGateStage {
+        pub const ALL: &'static [Self] = &[Self::First, Self::Second, Self::Final, Self::Retention];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::First => "first",
+                Self::Second => "second",
+                Self::Final => "final",
+                Self::Retention => "retention",
+            }
+        }
+    }
+    impl AsRef<str> for OperatingGateStage { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for OperatingGateStage {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "first" => Ok(Self::First),
+                "second" => Ok(Self::Second),
+                "final" => Ok(Self::Final),
+                "retention" => Ok(Self::Retention),
+                _ => Err(UnknownEnumValue { enum_name: "OperatingGateStage" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:104; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum OperatingMetricKnowledgeConfirmedReceipts {
+        #[serde(rename = "known")]
+        Known,
+        #[serde(rename = "unknown")]
+        Unknown,
+    }
+    impl OperatingMetricKnowledgeConfirmedReceipts {
+        pub const ALL: &'static [Self] = &[Self::Known, Self::Unknown];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Known => "known",
+                Self::Unknown => "unknown",
+            }
+        }
+    }
+    impl AsRef<str> for OperatingMetricKnowledgeConfirmedReceipts { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for OperatingMetricKnowledgeConfirmedReceipts {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "known" => Ok(Self::Known),
+                "unknown" => Ok(Self::Unknown),
+                _ => Err(UnknownEnumValue { enum_name: "OperatingMetricKnowledgeConfirmedReceipts" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:104; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum OperatingMetricKnowledgeIncludedCost {
+        #[serde(rename = "known")]
+        Known,
+        #[serde(rename = "unknown")]
+        Unknown,
+    }
+    impl OperatingMetricKnowledgeIncludedCost {
+        pub const ALL: &'static [Self] = &[Self::Known, Self::Unknown];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Known => "known",
+                Self::Unknown => "unknown",
+            }
+        }
+    }
+    impl AsRef<str> for OperatingMetricKnowledgeIncludedCost { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for OperatingMetricKnowledgeIncludedCost {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "known" => Ok(Self::Known),
+                "unknown" => Ok(Self::Unknown),
+                _ => Err(UnknownEnumValue { enum_name: "OperatingMetricKnowledgeIncludedCost" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:104; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum OperatingMetricKnowledgeTaxPending {
+        #[serde(rename = "known")]
+        Known,
+        #[serde(rename = "unknown")]
+        Unknown,
+    }
+    impl OperatingMetricKnowledgeTaxPending {
+        pub const ALL: &'static [Self] = &[Self::Known, Self::Unknown];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Known => "known",
+                Self::Unknown => "unknown",
+            }
+        }
+    }
+    impl AsRef<str> for OperatingMetricKnowledgeTaxPending { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for OperatingMetricKnowledgeTaxPending {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "known" => Ok(Self::Known),
+                "unknown" => Ok(Self::Unknown),
+                _ => Err(UnknownEnumValue { enum_name: "OperatingMetricKnowledgeTaxPending" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:104; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum OperatingMetricKnowledgeGrossMargin {
+        #[serde(rename = "known")]
+        Known,
+        #[serde(rename = "unknown")]
+        Unknown,
+    }
+    impl OperatingMetricKnowledgeGrossMargin {
+        pub const ALL: &'static [Self] = &[Self::Known, Self::Unknown];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Known => "known",
+                Self::Unknown => "unknown",
+            }
+        }
+    }
+    impl AsRef<str> for OperatingMetricKnowledgeGrossMargin { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for OperatingMetricKnowledgeGrossMargin {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "known" => Ok(Self::Known),
+                "unknown" => Ok(Self::Unknown),
+                _ => Err(UnknownEnumValue { enum_name: "OperatingMetricKnowledgeGrossMargin" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:104; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum OperatingMetricKnowledgeGrossMarginRate {
+        #[serde(rename = "known")]
+        Known,
+        #[serde(rename = "unknown")]
+        Unknown,
+    }
+    impl OperatingMetricKnowledgeGrossMarginRate {
+        pub const ALL: &'static [Self] = &[Self::Known, Self::Unknown];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Known => "known",
+                Self::Unknown => "unknown",
+            }
+        }
+    }
+    impl AsRef<str> for OperatingMetricKnowledgeGrossMarginRate { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for OperatingMetricKnowledgeGrossMarginRate {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "known" => Ok(Self::Known),
+                "unknown" => Ok(Self::Unknown),
+                _ => Err(UnknownEnumValue { enum_name: "OperatingMetricKnowledgeGrossMarginRate" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:104; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum OperatingMetricKnowledgeGrossMarginRateReason {
+        #[serde(rename = "zero-denominator")]
+        ZeroDenominator,
+        #[serde(rename = "missing-evidence")]
+        MissingEvidence,
+        #[serde(rename = "low-receipt-ratio")]
+        LowReceiptRatio,
+        #[serde(rename = "unstable")]
+        Unstable,
+    }
+    impl OperatingMetricKnowledgeGrossMarginRateReason {
+        pub const ALL: &'static [Self] = &[Self::ZeroDenominator, Self::MissingEvidence, Self::LowReceiptRatio, Self::Unstable];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::ZeroDenominator => "zero-denominator",
+                Self::MissingEvidence => "missing-evidence",
+                Self::LowReceiptRatio => "low-receipt-ratio",
+                Self::Unstable => "unstable",
+            }
+        }
+    }
+    impl AsRef<str> for OperatingMetricKnowledgeGrossMarginRateReason { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for OperatingMetricKnowledgeGrossMarginRateReason {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "zero-denominator" => Ok(Self::ZeroDenominator),
+                "missing-evidence" => Ok(Self::MissingEvidence),
+                "low-receipt-ratio" => Ok(Self::LowReceiptRatio),
+                "unstable" => Ok(Self::Unstable),
+                _ => Err(UnknownEnumValue { enum_name: "OperatingMetricKnowledgeGrossMarginRateReason" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:104; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum OperatingMetricKnowledgeGrossMarginRateUse {
+        #[serde(rename = "unavailable")]
+        Unavailable,
+        #[serde(rename = "observation-only")]
+        ObservationOnly,
+        #[serde(rename = "business-judgment")]
+        BusinessJudgment,
+    }
+    impl OperatingMetricKnowledgeGrossMarginRateUse {
+        pub const ALL: &'static [Self] = &[Self::Unavailable, Self::ObservationOnly, Self::BusinessJudgment];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Unavailable => "unavailable",
+                Self::ObservationOnly => "observation-only",
+                Self::BusinessJudgment => "business-judgment",
+            }
+        }
+    }
+    impl AsRef<str> for OperatingMetricKnowledgeGrossMarginRateUse { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for OperatingMetricKnowledgeGrossMarginRateUse {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "unavailable" => Ok(Self::Unavailable),
+                "observation-only" => Ok(Self::ObservationOnly),
+                "business-judgment" => Ok(Self::BusinessJudgment),
+                _ => Err(UnknownEnumValue { enum_name: "OperatingMetricKnowledgeGrossMarginRateUse" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:124; canonical-top-level-inline.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ProjectHandoverResponsibilityRole {
+        #[serde(rename = "sales-owner")]
+        SalesOwner,
+        #[serde(rename = "business-admin")]
+        BusinessAdmin,
+        #[serde(rename = "technical-support")]
+        TechnicalSupport,
+        #[serde(rename = "execution-owner")]
+        ExecutionOwner,
+        #[serde(rename = "finance")]
+        Finance,
+    }
+    impl ProjectHandoverResponsibilityRole {
+        pub const ALL: &'static [Self] = &[Self::SalesOwner, Self::BusinessAdmin, Self::TechnicalSupport, Self::ExecutionOwner, Self::Finance];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::SalesOwner => "sales-owner",
+                Self::BusinessAdmin => "business-admin",
+                Self::TechnicalSupport => "technical-support",
+                Self::ExecutionOwner => "execution-owner",
+                Self::Finance => "finance",
+            }
+        }
+    }
+    impl AsRef<str> for ProjectHandoverResponsibilityRole { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ProjectHandoverResponsibilityRole {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "sales-owner" => Ok(Self::SalesOwner),
+                "business-admin" => Ok(Self::BusinessAdmin),
+                "technical-support" => Ok(Self::TechnicalSupport),
+                "execution-owner" => Ok(Self::ExecutionOwner),
+                "finance" => Ok(Self::Finance),
+                _ => Err(UnknownEnumValue { enum_name: "ProjectHandoverResponsibilityRole" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:126; canonical-top-level-inline.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ProjectInitialOwnership {
+        #[serde(rename = "creator")]
+        Creator,
+        #[serde(rename = "organization")]
+        Organization,
+    }
+    impl ProjectInitialOwnership {
+        pub const ALL: &'static [Self] = &[Self::Creator, Self::Organization];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Creator => "creator",
+                Self::Organization => "organization",
+            }
+        }
+    }
+    impl AsRef<str> for ProjectInitialOwnership { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ProjectInitialOwnership {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "creator" => Ok(Self::Creator),
+                "organization" => Ok(Self::Organization),
+                _ => Err(UnknownEnumValue { enum_name: "ProjectInitialOwnership" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:128; canonical-top-level-inline.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ProjectReceiptJudgmentMode {
+        #[serde(rename = "project-aggregate")]
+        ProjectAggregate,
+        #[serde(rename = "contract-separate")]
+        ContractSeparate,
+    }
+    impl ProjectReceiptJudgmentMode {
+        pub const ALL: &'static [Self] = &[Self::ProjectAggregate, Self::ContractSeparate];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::ProjectAggregate => "project-aggregate",
+                Self::ContractSeparate => "contract-separate",
+            }
+        }
+    }
+    impl AsRef<str> for ProjectReceiptJudgmentMode { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ProjectReceiptJudgmentMode {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "project-aggregate" => Ok(Self::ProjectAggregate),
+                "contract-separate" => Ok(Self::ContractSeparate),
+                _ => Err(UnknownEnumValue { enum_name: "ProjectReceiptJudgmentMode" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:132; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ProjectStageTransitionResultBusinessStatusAfter {
+        #[serde(rename = "execution")]
+        Execution,
+        #[serde(rename = "acceptance")]
+        Acceptance,
+    }
+    impl ProjectStageTransitionResultBusinessStatusAfter {
+        pub const ALL: &'static [Self] = &[Self::Execution, Self::Acceptance];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Execution => "execution",
+                Self::Acceptance => "acceptance",
+            }
+        }
+    }
+    impl AsRef<str> for ProjectStageTransitionResultBusinessStatusAfter { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ProjectStageTransitionResultBusinessStatusAfter {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "execution" => Ok(Self::Execution),
+                "acceptance" => Ok(Self::Acceptance),
+                _ => Err(UnknownEnumValue { enum_name: "ProjectStageTransitionResultBusinessStatusAfter" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:138; canonical-top-level-inline.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum RestatementAccountingTaxDeductibilityStatus {
+        #[serde(rename = "pending")]
+        Pending,
+        #[serde(rename = "deductible")]
+        Deductible,
+        #[serde(rename = "non-deductible")]
+        NonDeductible,
+    }
+    impl RestatementAccountingTaxDeductibilityStatus {
+        pub const ALL: &'static [Self] = &[Self::Pending, Self::Deductible, Self::NonDeductible];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Pending => "pending",
+                Self::Deductible => "deductible",
+                Self::NonDeductible => "non-deductible",
+            }
+        }
+    }
+    impl AsRef<str> for RestatementAccountingTaxDeductibilityStatus { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for RestatementAccountingTaxDeductibilityStatus {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "pending" => Ok(Self::Pending),
+                "deductible" => Ok(Self::Deductible),
+                "non-deductible" => Ok(Self::NonDeductible),
+                _ => Err(UnknownEnumValue { enum_name: "RestatementAccountingTaxDeductibilityStatus" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:140; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum RestatementR4FManualAssessmentEvidenceKind {
+        #[serde(rename = "manual")]
+        Manual,
+    }
+    impl RestatementR4FManualAssessmentEvidenceKind {
+        pub const ALL: &'static [Self] = &[Self::Manual];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Manual => "manual",
+            }
+        }
+    }
+    impl AsRef<str> for RestatementR4FManualAssessmentEvidenceKind { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for RestatementR4FManualAssessmentEvidenceKind {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "manual" => Ok(Self::Manual),
+                _ => Err(UnknownEnumValue { enum_name: "RestatementR4FManualAssessmentEvidenceKind" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:142; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum RestatementR4FSourceEvidenceKind {
+        #[serde(rename = "source")]
+        Source,
+    }
+    impl RestatementR4FSourceEvidenceKind {
+        pub const ALL: &'static [Self] = &[Self::Source];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Source => "source",
+            }
+        }
+    }
+    impl AsRef<str> for RestatementR4FSourceEvidenceKind { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for RestatementR4FSourceEvidenceKind {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "source" => Ok(Self::Source),
+                _ => Err(UnknownEnumValue { enum_name: "RestatementR4FSourceEvidenceKind" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:156; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum AcceptanceRecordSummaryAcceptanceType {
+        #[serde(rename = "stage-outcome")]
+        StageOutcome,
+        #[serde(rename = "stage-acceptance")]
+        StageAcceptance,
+        #[serde(rename = "final-acceptance")]
+        FinalAcceptance,
+    }
+    impl AcceptanceRecordSummaryAcceptanceType {
+        pub const ALL: &'static [Self] = &[Self::StageOutcome, Self::StageAcceptance, Self::FinalAcceptance];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::StageOutcome => "stage-outcome",
+                Self::StageAcceptance => "stage-acceptance",
+                Self::FinalAcceptance => "final-acceptance",
+            }
+        }
+    }
+    impl AsRef<str> for AcceptanceRecordSummaryAcceptanceType { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for AcceptanceRecordSummaryAcceptanceType {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "stage-outcome" => Ok(Self::StageOutcome),
+                "stage-acceptance" => Ok(Self::StageAcceptance),
+                "final-acceptance" => Ok(Self::FinalAcceptance),
+                _ => Err(UnknownEnumValue { enum_name: "AcceptanceRecordSummaryAcceptanceType" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:156; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum AcceptanceRecordSummaryAcceptanceResult {
+        #[serde(rename = "accepted")]
+        Accepted,
+        #[serde(rename = "conditional")]
+        Conditional,
+        #[serde(rename = "rejected")]
+        Rejected,
+    }
+    impl AcceptanceRecordSummaryAcceptanceResult {
+        pub const ALL: &'static [Self] = &[Self::Accepted, Self::Conditional, Self::Rejected];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Accepted => "accepted",
+                Self::Conditional => "conditional",
+                Self::Rejected => "rejected",
+            }
+        }
+    }
+    impl AsRef<str> for AcceptanceRecordSummaryAcceptanceResult { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for AcceptanceRecordSummaryAcceptanceResult {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "accepted" => Ok(Self::Accepted),
+                "conditional" => Ok(Self::Conditional),
+                "rejected" => Ok(Self::Rejected),
+                _ => Err(UnknownEnumValue { enum_name: "AcceptanceRecordSummaryAcceptanceResult" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:156; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum AcceptanceRecordSummaryStatus {
+        #[serde(rename = "confirmed")]
+        Confirmed,
+        #[serde(rename = "voided")]
+        Voided,
+    }
+    impl AcceptanceRecordSummaryStatus {
+        pub const ALL: &'static [Self] = &[Self::Confirmed, Self::Voided];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Confirmed => "confirmed",
+                Self::Voided => "voided",
+            }
+        }
+    }
+    impl AsRef<str> for AcceptanceRecordSummaryStatus { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for AcceptanceRecordSummaryStatus {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "confirmed" => Ok(Self::Confirmed),
+                "voided" => Ok(Self::Voided),
+                _ => Err(UnknownEnumValue { enum_name: "AcceptanceRecordSummaryStatus" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:156; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum AcceptanceRecordSummarySourceQualification {
+        #[serde(rename = "verified-producer")]
+        VerifiedProducer,
+        #[serde(rename = "legacy-unverified")]
+        LegacyUnverified,
+    }
+    impl AcceptanceRecordSummarySourceQualification {
+        pub const ALL: &'static [Self] = &[Self::VerifiedProducer, Self::LegacyUnverified];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::VerifiedProducer => "verified-producer",
+                Self::LegacyUnverified => "legacy-unverified",
+            }
+        }
+    }
+    impl AsRef<str> for AcceptanceRecordSummarySourceQualification { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for AcceptanceRecordSummarySourceQualification {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "verified-producer" => Ok(Self::VerifiedProducer),
+                "legacy-unverified" => Ok(Self::LegacyUnverified),
+                _ => Err(UnknownEnumValue { enum_name: "AcceptanceRecordSummarySourceQualification" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:164; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum CommissionRoleAssignmentSummarySourceQualification {
+        #[serde(rename = "verified-producer")]
+        VerifiedProducer,
+        #[serde(rename = "legacy-unverified")]
+        LegacyUnverified,
+    }
+    impl CommissionRoleAssignmentSummarySourceQualification {
+        pub const ALL: &'static [Self] = &[Self::VerifiedProducer, Self::LegacyUnverified];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::VerifiedProducer => "verified-producer",
+                Self::LegacyUnverified => "legacy-unverified",
+            }
+        }
+    }
+    impl AsRef<str> for CommissionRoleAssignmentSummarySourceQualification { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for CommissionRoleAssignmentSummarySourceQualification {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "verified-producer" => Ok(Self::VerifiedProducer),
+                "legacy-unverified" => Ok(Self::LegacyUnverified),
+                _ => Err(UnknownEnumValue { enum_name: "CommissionRoleAssignmentSummarySourceQualification" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:168; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum CostDecisionInputDecision {
+        #[serde(rename = "include")]
+        Include,
+        #[serde(rename = "exclude")]
+        Exclude,
+    }
+    impl CostDecisionInputDecision {
+        pub const ALL: &'static [Self] = &[Self::Include, Self::Exclude];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Include => "include",
+                Self::Exclude => "exclude",
+            }
+        }
+    }
+    impl AsRef<str> for CostDecisionInputDecision { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for CostDecisionInputDecision {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "include" => Ok(Self::Include),
+                "exclude" => Ok(Self::Exclude),
+                _ => Err(UnknownEnumValue { enum_name: "CostDecisionInputDecision" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:168; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum CostDecisionInputRecognitionRole {
+        #[serde(rename = "direct-source")]
+        DirectSource,
+        #[serde(rename = "allocation-share")]
+        AllocationShare,
+        #[serde(rename = "tax-support")]
+        TaxSupport,
+        #[serde(rename = "evidence-only")]
+        EvidenceOnly,
+    }
+    impl CostDecisionInputRecognitionRole {
+        pub const ALL: &'static [Self] = &[Self::DirectSource, Self::AllocationShare, Self::TaxSupport, Self::EvidenceOnly];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::DirectSource => "direct-source",
+                Self::AllocationShare => "allocation-share",
+                Self::TaxSupport => "tax-support",
+                Self::EvidenceOnly => "evidence-only",
+            }
+        }
+    }
+    impl AsRef<str> for CostDecisionInputRecognitionRole { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for CostDecisionInputRecognitionRole {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "direct-source" => Ok(Self::DirectSource),
+                "allocation-share" => Ok(Self::AllocationShare),
+                "tax-support" => Ok(Self::TaxSupport),
+                "evidence-only" => Ok(Self::EvidenceOnly),
+                _ => Err(UnknownEnumValue { enum_name: "CostDecisionInputRecognitionRole" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:168; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum CostDecisionInputReasonCode {
+        #[serde(rename = "actual-payment")]
+        ActualPayment,
+        #[serde(rename = "actual-expense")]
+        ActualExpense,
+        #[serde(rename = "executed-labor")]
+        ExecutedLabor,
+        #[serde(rename = "approved-commitment-exception")]
+        ApprovedCommitmentException,
+        #[serde(rename = "duplicate-support")]
+        DuplicateSupport,
+        #[serde(rename = "pending-confirmation")]
+        PendingConfirmation,
+        #[serde(rename = "pending-monetary-layer")]
+        PendingMonetaryLayer,
+        #[serde(rename = "shared-source-delegated")]
+        SharedSourceDelegated,
+        #[serde(rename = "outside-cutoff")]
+        OutsideCutoff,
+        #[serde(rename = "other-evidenced")]
+        OtherEvidenced,
+    }
+    impl CostDecisionInputReasonCode {
+        pub const ALL: &'static [Self] = &[Self::ActualPayment, Self::ActualExpense, Self::ExecutedLabor, Self::ApprovedCommitmentException, Self::DuplicateSupport, Self::PendingConfirmation, Self::PendingMonetaryLayer, Self::SharedSourceDelegated, Self::OutsideCutoff, Self::OtherEvidenced];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::ActualPayment => "actual-payment",
+                Self::ActualExpense => "actual-expense",
+                Self::ExecutedLabor => "executed-labor",
+                Self::ApprovedCommitmentException => "approved-commitment-exception",
+                Self::DuplicateSupport => "duplicate-support",
+                Self::PendingConfirmation => "pending-confirmation",
+                Self::PendingMonetaryLayer => "pending-monetary-layer",
+                Self::SharedSourceDelegated => "shared-source-delegated",
+                Self::OutsideCutoff => "outside-cutoff",
+                Self::OtherEvidenced => "other-evidenced",
+            }
+        }
+    }
+    impl AsRef<str> for CostDecisionInputReasonCode { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for CostDecisionInputReasonCode {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "actual-payment" => Ok(Self::ActualPayment),
+                "actual-expense" => Ok(Self::ActualExpense),
+                "executed-labor" => Ok(Self::ExecutedLabor),
+                "approved-commitment-exception" => Ok(Self::ApprovedCommitmentException),
+                "duplicate-support" => Ok(Self::DuplicateSupport),
+                "pending-confirmation" => Ok(Self::PendingConfirmation),
+                "pending-monetary-layer" => Ok(Self::PendingMonetaryLayer),
+                "shared-source-delegated" => Ok(Self::SharedSourceDelegated),
+                "outside-cutoff" => Ok(Self::OutsideCutoff),
+                "other-evidenced" => Ok(Self::OtherEvidenced),
+                _ => Err(UnknownEnumValue { enum_name: "CostDecisionInputReasonCode" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:170; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum CreateAcceptanceRecordRequestAcceptanceType {
+        #[serde(rename = "stage-outcome")]
+        StageOutcome,
+        #[serde(rename = "stage-acceptance")]
+        StageAcceptance,
+        #[serde(rename = "final-acceptance")]
+        FinalAcceptance,
+    }
+    impl CreateAcceptanceRecordRequestAcceptanceType {
+        pub const ALL: &'static [Self] = &[Self::StageOutcome, Self::StageAcceptance, Self::FinalAcceptance];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::StageOutcome => "stage-outcome",
+                Self::StageAcceptance => "stage-acceptance",
+                Self::FinalAcceptance => "final-acceptance",
+            }
+        }
+    }
+    impl AsRef<str> for CreateAcceptanceRecordRequestAcceptanceType { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for CreateAcceptanceRecordRequestAcceptanceType {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "stage-outcome" => Ok(Self::StageOutcome),
+                "stage-acceptance" => Ok(Self::StageAcceptance),
+                "final-acceptance" => Ok(Self::FinalAcceptance),
+                _ => Err(UnknownEnumValue { enum_name: "CreateAcceptanceRecordRequestAcceptanceType" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:170; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum CreateAcceptanceRecordRequestAcceptanceResult {
+        #[serde(rename = "accepted")]
+        Accepted,
+        #[serde(rename = "conditional")]
+        Conditional,
+        #[serde(rename = "rejected")]
+        Rejected,
+    }
+    impl CreateAcceptanceRecordRequestAcceptanceResult {
+        pub const ALL: &'static [Self] = &[Self::Accepted, Self::Conditional, Self::Rejected];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Accepted => "accepted",
+                Self::Conditional => "conditional",
+                Self::Rejected => "rejected",
+            }
+        }
+    }
+    impl AsRef<str> for CreateAcceptanceRecordRequestAcceptanceResult { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for CreateAcceptanceRecordRequestAcceptanceResult {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "accepted" => Ok(Self::Accepted),
+                "conditional" => Ok(Self::Conditional),
+                "rejected" => Ok(Self::Rejected),
+                _ => Err(UnknownEnumValue { enum_name: "CreateAcceptanceRecordRequestAcceptanceResult" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:176; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum FormalEligibilityStatus {
+        #[serde(rename = "eligible")]
+        Eligible,
+        #[serde(rename = "missing-evidence")]
+        MissingEvidence,
+    }
+    impl FormalEligibilityStatus {
+        pub const ALL: &'static [Self] = &[Self::Eligible, Self::MissingEvidence];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Eligible => "eligible",
+                Self::MissingEvidence => "missing-evidence",
+            }
+        }
+    }
+    impl AsRef<str> for FormalEligibilityStatus { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for FormalEligibilityStatus {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "eligible" => Ok(Self::Eligible),
+                "missing-evidence" => Ok(Self::MissingEvidence),
+                _ => Err(UnknownEnumValue { enum_name: "FormalEligibilityStatus" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:178; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum FullProjectConditionCloseResultCompletionConditionStatus {
+        #[serde(rename = "pending")]
+        Pending,
+        #[serde(rename = "closed")]
+        Closed,
+    }
+    impl FullProjectConditionCloseResultCompletionConditionStatus {
+        pub const ALL: &'static [Self] = &[Self::Pending, Self::Closed];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Pending => "pending",
+                Self::Closed => "closed",
+            }
+        }
+    }
+    impl AsRef<str> for FullProjectConditionCloseResultCompletionConditionStatus { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for FullProjectConditionCloseResultCompletionConditionStatus {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "pending" => Ok(Self::Pending),
+                "closed" => Ok(Self::Closed),
+                _ => Err(UnknownEnumValue { enum_name: "FullProjectConditionCloseResultCompletionConditionStatus" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:184; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ManualOperatingMaterialityReviewRiskDecision {
+        #[serde(rename = "normal")]
+        Normal,
+        #[serde(rename = "attention")]
+        Attention,
+        #[serde(rename = "risk")]
+        Risk,
+    }
+    impl ManualOperatingMaterialityReviewRiskDecision {
+        pub const ALL: &'static [Self] = &[Self::Normal, Self::Attention, Self::Risk];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Normal => "normal",
+                Self::Attention => "attention",
+                Self::Risk => "risk",
+            }
+        }
+    }
+    impl AsRef<str> for ManualOperatingMaterialityReviewRiskDecision { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ManualOperatingMaterialityReviewRiskDecision {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "normal" => Ok(Self::Normal),
+                "attention" => Ok(Self::Attention),
+                "risk" => Ok(Self::Risk),
+                _ => Err(UnknownEnumValue { enum_name: "ManualOperatingMaterialityReviewRiskDecision" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:186; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum MoneyFactKnowledge {
+        #[serde(rename = "known")]
+        Known,
+        #[serde(rename = "unknown")]
+        Unknown,
+    }
+    impl MoneyFactKnowledge {
+        pub const ALL: &'static [Self] = &[Self::Known, Self::Unknown];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Known => "known",
+                Self::Unknown => "unknown",
+            }
+        }
+    }
+    impl AsRef<str> for MoneyFactKnowledge { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for MoneyFactKnowledge {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "known" => Ok(Self::Known),
+                "unknown" => Ok(Self::Unknown),
+                _ => Err(UnknownEnumValue { enum_name: "MoneyFactKnowledge" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:186; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum MoneyFactZeroProof {
+        #[serde(rename = "source-basis-value")]
+        SourceBasisValue,
+        #[serde(rename = "sum-known-members-zero")]
+        SumKnownMembersZero,
+        #[serde(rename = "exhaustive-classified-scope-zero")]
+        ExhaustiveClassifiedScopeZero,
+    }
+    impl MoneyFactZeroProof {
+        pub const ALL: &'static [Self] = &[Self::SourceBasisValue, Self::SumKnownMembersZero, Self::ExhaustiveClassifiedScopeZero];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::SourceBasisValue => "source-basis-value",
+                Self::SumKnownMembersZero => "sum-known-members-zero",
+                Self::ExhaustiveClassifiedScopeZero => "exhaustive-classified-scope-zero",
+            }
+        }
+    }
+    impl AsRef<str> for MoneyFactZeroProof { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for MoneyFactZeroProof {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "source-basis-value" => Ok(Self::SourceBasisValue),
+                "sum-known-members-zero" => Ok(Self::SumKnownMembersZero),
+                "exhaustive-classified-scope-zero" => Ok(Self::ExhaustiveClassifiedScopeZero),
+                _ => Err(UnknownEnumValue { enum_name: "MoneyFactZeroProof" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:188; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum OperatingCommandResultTargetType {
+        #[serde(rename = "OperatingBaselinePackage")]
+        OperatingBaselinePackage,
+        #[serde(rename = "ProjectOperatingSnapshot")]
+        ProjectOperatingSnapshot,
+        #[serde(rename = "PeriodClosingSnapshot")]
+        PeriodClosingSnapshot,
+        #[serde(rename = "OperatingRestatementRecord")]
+        OperatingRestatementRecord,
+    }
+    impl OperatingCommandResultTargetType {
+        pub const ALL: &'static [Self] = &[Self::OperatingBaselinePackage, Self::ProjectOperatingSnapshot, Self::PeriodClosingSnapshot, Self::OperatingRestatementRecord];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::OperatingBaselinePackage => "OperatingBaselinePackage",
+                Self::ProjectOperatingSnapshot => "ProjectOperatingSnapshot",
+                Self::PeriodClosingSnapshot => "PeriodClosingSnapshot",
+                Self::OperatingRestatementRecord => "OperatingRestatementRecord",
+            }
+        }
+    }
+    impl AsRef<str> for OperatingCommandResultTargetType { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for OperatingCommandResultTargetType {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "OperatingBaselinePackage" => Ok(Self::OperatingBaselinePackage),
+                "ProjectOperatingSnapshot" => Ok(Self::ProjectOperatingSnapshot),
+                "PeriodClosingSnapshot" => Ok(Self::PeriodClosingSnapshot),
+                "OperatingRestatementRecord" => Ok(Self::OperatingRestatementRecord),
+                _ => Err(UnknownEnumValue { enum_name: "OperatingCommandResultTargetType" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:190; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum OperatingEvaluationContextSnapshotMode {
+        #[serde(rename = "realtime")]
+        Realtime,
+        #[serde(rename = "period-end")]
+        PeriodEnd,
+        #[serde(rename = "restated")]
+        Restated,
+    }
+    impl OperatingEvaluationContextSnapshotMode {
+        pub const ALL: &'static [Self] = &[Self::Realtime, Self::PeriodEnd, Self::Restated];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Realtime => "realtime",
+                Self::PeriodEnd => "period-end",
+                Self::Restated => "restated",
+            }
+        }
+    }
+    impl AsRef<str> for OperatingEvaluationContextSnapshotMode { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for OperatingEvaluationContextSnapshotMode {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "realtime" => Ok(Self::Realtime),
+                "period-end" => Ok(Self::PeriodEnd),
+                "restated" => Ok(Self::Restated),
+                _ => Err(UnknownEnumValue { enum_name: "OperatingEvaluationContextSnapshotMode" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:190; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum OperatingEvaluationContextEvaluationStatus {
+        #[serde(rename = "complete")]
+        Complete,
+        #[serde(rename = "missing-evidence")]
+        MissingEvidence,
+        #[serde(rename = "manual-review-required")]
+        ManualReviewRequired,
+        #[serde(rename = "stale")]
+        Stale,
+    }
+    impl OperatingEvaluationContextEvaluationStatus {
+        pub const ALL: &'static [Self] = &[Self::Complete, Self::MissingEvidence, Self::ManualReviewRequired, Self::Stale];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Complete => "complete",
+                Self::MissingEvidence => "missing-evidence",
+                Self::ManualReviewRequired => "manual-review-required",
+                Self::Stale => "stale",
+            }
+        }
+    }
+    impl AsRef<str> for OperatingEvaluationContextEvaluationStatus { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for OperatingEvaluationContextEvaluationStatus {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "complete" => Ok(Self::Complete),
+                "missing-evidence" => Ok(Self::MissingEvidence),
+                "manual-review-required" => Ok(Self::ManualReviewRequired),
+                "stale" => Ok(Self::Stale),
+                _ => Err(UnknownEnumValue { enum_name: "OperatingEvaluationContextEvaluationStatus" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:194; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum OwnConditionCloseResultCompletionConditionStatus {
+        #[serde(rename = "pending")]
+        Pending,
+        #[serde(rename = "closed")]
+        Closed,
+    }
+    impl OwnConditionCloseResultCompletionConditionStatus {
+        pub const ALL: &'static [Self] = &[Self::Pending, Self::Closed];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Pending => "pending",
+                Self::Closed => "closed",
+            }
+        }
+    }
+    impl AsRef<str> for OwnConditionCloseResultCompletionConditionStatus { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for OwnConditionCloseResultCompletionConditionStatus {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "pending" => Ok(Self::Pending),
+                "closed" => Ok(Self::Closed),
+                _ => Err(UnknownEnumValue { enum_name: "OwnConditionCloseResultCompletionConditionStatus" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:196; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ProjectArchiveRecordSummaryArchiveAnchorStage {
+        #[serde(rename = "completed")]
+        Completed,
+        #[serde(rename = "closed-lost")]
+        ClosedLost,
+        #[serde(rename = "closed-terminated")]
+        ClosedTerminated,
+        #[serde(rename = "conditional-completed")]
+        ConditionalCompleted,
+    }
+    impl ProjectArchiveRecordSummaryArchiveAnchorStage {
+        pub const ALL: &'static [Self] = &[Self::Completed, Self::ClosedLost, Self::ClosedTerminated, Self::ConditionalCompleted];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Completed => "completed",
+                Self::ClosedLost => "closed-lost",
+                Self::ClosedTerminated => "closed-terminated",
+                Self::ConditionalCompleted => "conditional-completed",
+            }
+        }
+    }
+    impl AsRef<str> for ProjectArchiveRecordSummaryArchiveAnchorStage { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ProjectArchiveRecordSummaryArchiveAnchorStage {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "completed" => Ok(Self::Completed),
+                "closed-lost" => Ok(Self::ClosedLost),
+                "closed-terminated" => Ok(Self::ClosedTerminated),
+                "conditional-completed" => Ok(Self::ConditionalCompleted),
+                _ => Err(UnknownEnumValue { enum_name: "ProjectArchiveRecordSummaryArchiveAnchorStage" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:196; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ProjectArchiveRecordSummaryArchiveAnchorSourceType {
+        #[serde(rename = "project")]
+        Project,
+        #[serde(rename = "project-completion-record")]
+        ProjectCompletionRecord,
+    }
+    impl ProjectArchiveRecordSummaryArchiveAnchorSourceType {
+        pub const ALL: &'static [Self] = &[Self::Project, Self::ProjectCompletionRecord];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Project => "project",
+                Self::ProjectCompletionRecord => "project-completion-record",
+            }
+        }
+    }
+    impl AsRef<str> for ProjectArchiveRecordSummaryArchiveAnchorSourceType { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ProjectArchiveRecordSummaryArchiveAnchorSourceType {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "project" => Ok(Self::Project),
+                "project-completion-record" => Ok(Self::ProjectCompletionRecord),
+                _ => Err(UnknownEnumValue { enum_name: "ProjectArchiveRecordSummaryArchiveAnchorSourceType" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:196; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ProjectArchiveRecordSummaryStatus {
+        #[serde(rename = "recorded")]
+        Recorded,
+        #[serde(rename = "voided")]
+        Voided,
+        #[serde(rename = "superseded")]
+        Superseded,
+    }
+    impl ProjectArchiveRecordSummaryStatus {
+        pub const ALL: &'static [Self] = &[Self::Recorded, Self::Voided, Self::Superseded];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Recorded => "recorded",
+                Self::Voided => "voided",
+                Self::Superseded => "superseded",
+            }
+        }
+    }
+    impl AsRef<str> for ProjectArchiveRecordSummaryStatus { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ProjectArchiveRecordSummaryStatus {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "recorded" => Ok(Self::Recorded),
+                "voided" => Ok(Self::Voided),
+                "superseded" => Ok(Self::Superseded),
+                _ => Err(UnknownEnumValue { enum_name: "ProjectArchiveRecordSummaryStatus" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:196; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ProjectArchiveRecordSummarySourceQualification {
+        #[serde(rename = "verified-producer")]
+        VerifiedProducer,
+        #[serde(rename = "legacy-unverified")]
+        LegacyUnverified,
+    }
+    impl ProjectArchiveRecordSummarySourceQualification {
+        pub const ALL: &'static [Self] = &[Self::VerifiedProducer, Self::LegacyUnverified];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::VerifiedProducer => "verified-producer",
+                Self::LegacyUnverified => "legacy-unverified",
+            }
+        }
+    }
+    impl AsRef<str> for ProjectArchiveRecordSummarySourceQualification { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ProjectArchiveRecordSummarySourceQualification {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "verified-producer" => Ok(Self::VerifiedProducer),
+                "legacy-unverified" => Ok(Self::LegacyUnverified),
+                _ => Err(UnknownEnumValue { enum_name: "ProjectArchiveRecordSummarySourceQualification" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:200; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ProjectCompletionConditionSummaryStatus {
+        #[serde(rename = "pending")]
+        Pending,
+        #[serde(rename = "closed")]
+        Closed,
+    }
+    impl ProjectCompletionConditionSummaryStatus {
+        pub const ALL: &'static [Self] = &[Self::Pending, Self::Closed];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Pending => "pending",
+                Self::Closed => "closed",
+            }
+        }
+    }
+    impl AsRef<str> for ProjectCompletionConditionSummaryStatus { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ProjectCompletionConditionSummaryStatus {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "pending" => Ok(Self::Pending),
+                "closed" => Ok(Self::Closed),
+                _ => Err(UnknownEnumValue { enum_name: "ProjectCompletionConditionSummaryStatus" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:210; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ReceiptBasisInputSelectionPolicy {
+        #[serde(rename = "receipt-date-effective-terms")]
+        ReceiptDateEffectiveTerms,
+        #[serde(rename = "explicit-activated-terms-evidence")]
+        ExplicitActivatedTermsEvidence,
+    }
+    impl ReceiptBasisInputSelectionPolicy {
+        pub const ALL: &'static [Self] = &[Self::ReceiptDateEffectiveTerms, Self::ExplicitActivatedTermsEvidence];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::ReceiptDateEffectiveTerms => "receipt-date-effective-terms",
+                Self::ExplicitActivatedTermsEvidence => "explicit-activated-terms-evidence",
+            }
+        }
+    }
+    impl AsRef<str> for ReceiptBasisInputSelectionPolicy { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ReceiptBasisInputSelectionPolicy {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "receipt-date-effective-terms" => Ok(Self::ReceiptDateEffectiveTerms),
+                "explicit-activated-terms-evidence" => Ok(Self::ExplicitActivatedTermsEvidence),
+                _ => Err(UnknownEnumValue { enum_name: "ReceiptBasisInputSelectionPolicy" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:214; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ReviewCommissionGateBindingRequestReviewAction {
+        #[serde(rename = "acknowledge")]
+        Acknowledge,
+        #[serde(rename = "tighten-review")]
+        TightenReview,
+        #[serde(rename = "tighten-block")]
+        TightenBlock,
+    }
+    impl ReviewCommissionGateBindingRequestReviewAction {
+        pub const ALL: &'static [Self] = &[Self::Acknowledge, Self::TightenReview, Self::TightenBlock];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Acknowledge => "acknowledge",
+                Self::TightenReview => "tighten-review",
+                Self::TightenBlock => "tighten-block",
+            }
+        }
+    }
+    impl AsRef<str> for ReviewCommissionGateBindingRequestReviewAction { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ReviewCommissionGateBindingRequestReviewAction {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "acknowledge" => Ok(Self::Acknowledge),
+                "tighten-review" => Ok(Self::TightenReview),
+                "tighten-block" => Ok(Self::TightenBlock),
+                _ => Err(UnknownEnumValue { enum_name: "ReviewCommissionGateBindingRequestReviewAction" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:231; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum CommissionRoleAssignmentDetailViewSourceQualification {
+        #[serde(rename = "verified-producer")]
+        VerifiedProducer,
+        #[serde(rename = "legacy-unverified")]
+        LegacyUnverified,
+    }
+    impl CommissionRoleAssignmentDetailViewSourceQualification {
+        pub const ALL: &'static [Self] = &[Self::VerifiedProducer, Self::LegacyUnverified];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::VerifiedProducer => "verified-producer",
+                Self::LegacyUnverified => "legacy-unverified",
+            }
+        }
+    }
+    impl AsRef<str> for CommissionRoleAssignmentDetailViewSourceQualification { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for CommissionRoleAssignmentDetailViewSourceQualification {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "verified-producer" => Ok(Self::VerifiedProducer),
+                "legacy-unverified" => Ok(Self::LegacyUnverified),
+                _ => Err(UnknownEnumValue { enum_name: "CommissionRoleAssignmentDetailViewSourceQualification" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:233; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ConfirmReceiptRecordRequestMode {
+        #[serde(rename = "confirm")]
+        Confirm,
+        #[serde(rename = "certify-existing-basis")]
+        CertifyExistingBasis,
+    }
+    impl ConfirmReceiptRecordRequestMode {
+        pub const ALL: &'static [Self] = &[Self::Confirm, Self::CertifyExistingBasis];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Confirm => "confirm",
+                Self::CertifyExistingBasis => "certify-existing-basis",
+            }
+        }
+    }
+    impl AsRef<str> for ConfirmReceiptRecordRequestMode { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ConfirmReceiptRecordRequestMode {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "confirm" => Ok(Self::Confirm),
+                "certify-existing-basis" => Ok(Self::CertifyExistingBasis),
+                _ => Err(UnknownEnumValue { enum_name: "ConfirmReceiptRecordRequestMode" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:237; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum CreateProjectCompletionRecordRequestCompletionResult {
+        #[serde(rename = "completed")]
+        Completed,
+        #[serde(rename = "conditional-completed")]
+        ConditionalCompleted,
+    }
+    impl CreateProjectCompletionRecordRequestCompletionResult {
+        pub const ALL: &'static [Self] = &[Self::Completed, Self::ConditionalCompleted];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Completed => "completed",
+                Self::ConditionalCompleted => "conditional-completed",
+            }
+        }
+    }
+    impl AsRef<str> for CreateProjectCompletionRecordRequestCompletionResult { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for CreateProjectCompletionRecordRequestCompletionResult {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "completed" => Ok(Self::Completed),
+                "conditional-completed" => Ok(Self::ConditionalCompleted),
+                _ => Err(UnknownEnumValue { enum_name: "CreateProjectCompletionRecordRequestCompletionResult" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:239; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum CreateProjectOperatingSnapshotRequestSnapshotMode {
+        #[serde(rename = "realtime")]
+        Realtime,
+        #[serde(rename = "period-end")]
+        PeriodEnd,
+    }
+    impl CreateProjectOperatingSnapshotRequestSnapshotMode {
+        pub const ALL: &'static [Self] = &[Self::Realtime, Self::PeriodEnd];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Realtime => "realtime",
+                Self::PeriodEnd => "period-end",
+            }
+        }
+    }
+    impl AsRef<str> for CreateProjectOperatingSnapshotRequestSnapshotMode { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for CreateProjectOperatingSnapshotRequestSnapshotMode {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "realtime" => Ok(Self::Realtime),
+                "period-end" => Ok(Self::PeriodEnd),
+                _ => Err(UnknownEnumValue { enum_name: "CreateProjectOperatingSnapshotRequestSnapshotMode" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:243; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum FinancialGroupGrossMarginRateState {
+        #[serde(rename = "known")]
+        Known,
+        #[serde(rename = "zero-denominator")]
+        ZeroDenominator,
+        #[serde(rename = "unknown")]
+        Unknown,
+    }
+    impl FinancialGroupGrossMarginRateState {
+        pub const ALL: &'static [Self] = &[Self::Known, Self::ZeroDenominator, Self::Unknown];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Known => "known",
+                Self::ZeroDenominator => "zero-denominator",
+                Self::Unknown => "unknown",
+            }
+        }
+    }
+    impl AsRef<str> for FinancialGroupGrossMarginRateState { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for FinancialGroupGrossMarginRateState {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "known" => Ok(Self::Known),
+                "zero-denominator" => Ok(Self::ZeroDenominator),
+                "unknown" => Ok(Self::Unknown),
+                _ => Err(UnknownEnumValue { enum_name: "FinancialGroupGrossMarginRateState" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:245; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum OperatingReasonViewCategory {
+        #[serde(rename = "evidence")]
+        Evidence,
+        #[serde(rename = "maturity")]
+        Maturity,
+        #[serde(rename = "cost")]
+        Cost,
+        #[serde(rename = "receipt")]
+        Receipt,
+        #[serde(rename = "risk")]
+        Risk,
+        #[serde(rename = "restatement")]
+        Restatement,
+        #[serde(rename = "formula")]
+        Formula,
+        #[serde(rename = "manual")]
+        Manual,
+    }
+    impl OperatingReasonViewCategory {
+        pub const ALL: &'static [Self] = &[Self::Evidence, Self::Maturity, Self::Cost, Self::Receipt, Self::Risk, Self::Restatement, Self::Formula, Self::Manual];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Evidence => "evidence",
+                Self::Maturity => "maturity",
+                Self::Cost => "cost",
+                Self::Receipt => "receipt",
+                Self::Risk => "risk",
+                Self::Restatement => "restatement",
+                Self::Formula => "formula",
+                Self::Manual => "manual",
+            }
+        }
+    }
+    impl AsRef<str> for OperatingReasonViewCategory { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for OperatingReasonViewCategory {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "evidence" => Ok(Self::Evidence),
+                "maturity" => Ok(Self::Maturity),
+                "cost" => Ok(Self::Cost),
+                "receipt" => Ok(Self::Receipt),
+                "risk" => Ok(Self::Risk),
+                "restatement" => Ok(Self::Restatement),
+                "formula" => Ok(Self::Formula),
+                "manual" => Ok(Self::Manual),
+                _ => Err(UnknownEnumValue { enum_name: "OperatingReasonViewCategory" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:245; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum OperatingReasonViewProjectAction {
+        #[serde(rename = "prompt")]
+        Prompt,
+        #[serde(rename = "review")]
+        Review,
+        #[serde(rename = "block")]
+        Block,
+    }
+    impl OperatingReasonViewProjectAction {
+        pub const ALL: &'static [Self] = &[Self::Prompt, Self::Review, Self::Block];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Prompt => "prompt",
+                Self::Review => "review",
+                Self::Block => "block",
+            }
+        }
+    }
+    impl AsRef<str> for OperatingReasonViewProjectAction { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for OperatingReasonViewProjectAction {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "prompt" => Ok(Self::Prompt),
+                "review" => Ok(Self::Review),
+                "block" => Ok(Self::Block),
+                _ => Err(UnknownEnumValue { enum_name: "OperatingReasonViewProjectAction" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:245; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum OperatingReasonViewStageActionsFirst {
+        #[serde(rename = "prompt")]
+        Prompt,
+        #[serde(rename = "review")]
+        Review,
+        #[serde(rename = "block")]
+        Block,
+    }
+    impl OperatingReasonViewStageActionsFirst {
+        pub const ALL: &'static [Self] = &[Self::Prompt, Self::Review, Self::Block];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Prompt => "prompt",
+                Self::Review => "review",
+                Self::Block => "block",
+            }
+        }
+    }
+    impl AsRef<str> for OperatingReasonViewStageActionsFirst { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for OperatingReasonViewStageActionsFirst {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "prompt" => Ok(Self::Prompt),
+                "review" => Ok(Self::Review),
+                "block" => Ok(Self::Block),
+                _ => Err(UnknownEnumValue { enum_name: "OperatingReasonViewStageActionsFirst" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:245; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum OperatingReasonViewStageActionsSecond {
+        #[serde(rename = "prompt")]
+        Prompt,
+        #[serde(rename = "review")]
+        Review,
+        #[serde(rename = "block")]
+        Block,
+    }
+    impl OperatingReasonViewStageActionsSecond {
+        pub const ALL: &'static [Self] = &[Self::Prompt, Self::Review, Self::Block];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Prompt => "prompt",
+                Self::Review => "review",
+                Self::Block => "block",
+            }
+        }
+    }
+    impl AsRef<str> for OperatingReasonViewStageActionsSecond { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for OperatingReasonViewStageActionsSecond {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "prompt" => Ok(Self::Prompt),
+                "review" => Ok(Self::Review),
+                "block" => Ok(Self::Block),
+                _ => Err(UnknownEnumValue { enum_name: "OperatingReasonViewStageActionsSecond" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:245; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum OperatingReasonViewStageActionsFinal {
+        #[serde(rename = "prompt")]
+        Prompt,
+        #[serde(rename = "review")]
+        Review,
+        #[serde(rename = "block")]
+        Block,
+    }
+    impl OperatingReasonViewStageActionsFinal {
+        pub const ALL: &'static [Self] = &[Self::Prompt, Self::Review, Self::Block];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Prompt => "prompt",
+                Self::Review => "review",
+                Self::Block => "block",
+            }
+        }
+    }
+    impl AsRef<str> for OperatingReasonViewStageActionsFinal { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for OperatingReasonViewStageActionsFinal {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "prompt" => Ok(Self::Prompt),
+                "review" => Ok(Self::Review),
+                "block" => Ok(Self::Block),
+                _ => Err(UnknownEnumValue { enum_name: "OperatingReasonViewStageActionsFinal" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:245; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum OperatingReasonViewStageActionsRetention {
+        #[serde(rename = "prompt")]
+        Prompt,
+        #[serde(rename = "review")]
+        Review,
+        #[serde(rename = "block")]
+        Block,
+    }
+    impl OperatingReasonViewStageActionsRetention {
+        pub const ALL: &'static [Self] = &[Self::Prompt, Self::Review, Self::Block];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Prompt => "prompt",
+                Self::Review => "review",
+                Self::Block => "block",
+            }
+        }
+    }
+    impl AsRef<str> for OperatingReasonViewStageActionsRetention { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for OperatingReasonViewStageActionsRetention {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "prompt" => Ok(Self::Prompt),
+                "review" => Ok(Self::Review),
+                "block" => Ok(Self::Block),
+                _ => Err(UnknownEnumValue { enum_name: "OperatingReasonViewStageActionsRetention" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:247; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum OwnCompletionConditionTaskStatus {
+        #[serde(rename = "pending")]
+        Pending,
+        #[serde(rename = "closed")]
+        Closed,
+    }
+    impl OwnCompletionConditionTaskStatus {
+        pub const ALL: &'static [Self] = &[Self::Pending, Self::Closed];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Pending => "pending",
+                Self::Closed => "closed",
+            }
+        }
+    }
+    impl AsRef<str> for OwnCompletionConditionTaskStatus { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for OwnCompletionConditionTaskStatus {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "pending" => Ok(Self::Pending),
+                "closed" => Ok(Self::Closed),
+                _ => Err(UnknownEnumValue { enum_name: "OwnCompletionConditionTaskStatus" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:251; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ProjectCompletionRecordSummaryCompletionResult {
+        #[serde(rename = "completed")]
+        Completed,
+        #[serde(rename = "conditional-completed")]
+        ConditionalCompleted,
+    }
+    impl ProjectCompletionRecordSummaryCompletionResult {
+        pub const ALL: &'static [Self] = &[Self::Completed, Self::ConditionalCompleted];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Completed => "completed",
+                Self::ConditionalCompleted => "conditional-completed",
+            }
+        }
+    }
+    impl AsRef<str> for ProjectCompletionRecordSummaryCompletionResult { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ProjectCompletionRecordSummaryCompletionResult {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "completed" => Ok(Self::Completed),
+                "conditional-completed" => Ok(Self::ConditionalCompleted),
+                _ => Err(UnknownEnumValue { enum_name: "ProjectCompletionRecordSummaryCompletionResult" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:251; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ProjectCompletionRecordSummaryStatus {
+        #[serde(rename = "confirmed")]
+        Confirmed,
+    }
+    impl ProjectCompletionRecordSummaryStatus {
+        pub const ALL: &'static [Self] = &[Self::Confirmed];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Confirmed => "confirmed",
+            }
+        }
+    }
+    impl AsRef<str> for ProjectCompletionRecordSummaryStatus { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ProjectCompletionRecordSummaryStatus {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "confirmed" => Ok(Self::Confirmed),
+                _ => Err(UnknownEnumValue { enum_name: "ProjectCompletionRecordSummaryStatus" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:251; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ProjectCompletionRecordSummarySourceQualification {
+        #[serde(rename = "verified-producer")]
+        VerifiedProducer,
+        #[serde(rename = "legacy-unverified")]
+        LegacyUnverified,
+    }
+    impl ProjectCompletionRecordSummarySourceQualification {
+        pub const ALL: &'static [Self] = &[Self::VerifiedProducer, Self::LegacyUnverified];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::VerifiedProducer => "verified-producer",
+                Self::LegacyUnverified => "legacy-unverified",
+            }
+        }
+    }
+    impl AsRef<str> for ProjectCompletionRecordSummarySourceQualification { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ProjectCompletionRecordSummarySourceQualification {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "verified-producer" => Ok(Self::VerifiedProducer),
+                "legacy-unverified" => Ok(Self::LegacyUnverified),
+                _ => Err(UnknownEnumValue { enum_name: "ProjectCompletionRecordSummarySourceQualification" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:251; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ProjectCompletionRecordSummaryConditionStatus {
+        #[serde(rename = "not-applicable")]
+        NotApplicable,
+        #[serde(rename = "pending")]
+        Pending,
+        #[serde(rename = "closed")]
+        Closed,
+        #[serde(rename = "legacy-unverified")]
+        LegacyUnverified,
+    }
+    impl ProjectCompletionRecordSummaryConditionStatus {
+        pub const ALL: &'static [Self] = &[Self::NotApplicable, Self::Pending, Self::Closed, Self::LegacyUnverified];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::NotApplicable => "not-applicable",
+                Self::Pending => "pending",
+                Self::Closed => "closed",
+                Self::LegacyUnverified => "legacy-unverified",
+            }
+        }
+    }
+    impl AsRef<str> for ProjectCompletionRecordSummaryConditionStatus { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ProjectCompletionRecordSummaryConditionStatus {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "not-applicable" => Ok(Self::NotApplicable),
+                "pending" => Ok(Self::Pending),
+                "closed" => Ok(Self::Closed),
+                "legacy-unverified" => Ok(Self::LegacyUnverified),
+                _ => Err(UnknownEnumValue { enum_name: "ProjectCompletionRecordSummaryConditionStatus" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:261; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ReviewOperatingSignalEvaluationRequestReviewDecision {
+        #[serde(rename = "approve")]
+        Approve,
+        #[serde(rename = "manual-confirmed")]
+        ManualConfirmed,
+    }
+    impl ReviewOperatingSignalEvaluationRequestReviewDecision {
+        pub const ALL: &'static [Self] = &[Self::Approve, Self::ManualConfirmed];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Approve => "approve",
+                Self::ManualConfirmed => "manual-confirmed",
+            }
+        }
+    }
+    impl AsRef<str> for ReviewOperatingSignalEvaluationRequestReviewDecision { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ReviewOperatingSignalEvaluationRequestReviewDecision {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "approve" => Ok(Self::Approve),
+                "manual-confirmed" => Ok(Self::ManualConfirmed),
+                _ => Err(UnknownEnumValue { enum_name: "ReviewOperatingSignalEvaluationRequestReviewDecision" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:265; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum CommissionGateBindingHistoryViewCurrentActionLevel {
+        #[serde(rename = "prompt")]
+        Prompt,
+        #[serde(rename = "review")]
+        Review,
+        #[serde(rename = "block")]
+        Block,
+    }
+    impl CommissionGateBindingHistoryViewCurrentActionLevel {
+        pub const ALL: &'static [Self] = &[Self::Prompt, Self::Review, Self::Block];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Prompt => "prompt",
+                Self::Review => "review",
+                Self::Block => "block",
+            }
+        }
+    }
+    impl AsRef<str> for CommissionGateBindingHistoryViewCurrentActionLevel { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for CommissionGateBindingHistoryViewCurrentActionLevel {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "prompt" => Ok(Self::Prompt),
+                "review" => Ok(Self::Review),
+                "block" => Ok(Self::Block),
+                _ => Err(UnknownEnumValue { enum_name: "CommissionGateBindingHistoryViewCurrentActionLevel" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:265; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum CommissionGateBindingHistoryViewReviewState {
+        #[serde(rename = "not-required")]
+        NotRequired,
+        #[serde(rename = "pending")]
+        Pending,
+        #[serde(rename = "acknowledged")]
+        Acknowledged,
+        #[serde(rename = "manual-confirmed")]
+        ManualConfirmed,
+        #[serde(rename = "stale")]
+        Stale,
+    }
+    impl CommissionGateBindingHistoryViewReviewState {
+        pub const ALL: &'static [Self] = &[Self::NotRequired, Self::Pending, Self::Acknowledged, Self::ManualConfirmed, Self::Stale];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::NotRequired => "not-required",
+                Self::Pending => "pending",
+                Self::Acknowledged => "acknowledged",
+                Self::ManualConfirmed => "manual-confirmed",
+                Self::Stale => "stale",
+            }
+        }
+    }
+    impl AsRef<str> for CommissionGateBindingHistoryViewReviewState { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for CommissionGateBindingHistoryViewReviewState {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "not-required" => Ok(Self::NotRequired),
+                "pending" => Ok(Self::Pending),
+                "acknowledged" => Ok(Self::Acknowledged),
+                "manual-confirmed" => Ok(Self::ManualConfirmed),
+                "stale" => Ok(Self::Stale),
+                _ => Err(UnknownEnumValue { enum_name: "CommissionGateBindingHistoryViewReviewState" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:265; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum CommissionGateBindingHistoryViewSystemBindingAction {
+        #[serde(rename = "prompt")]
+        Prompt,
+        #[serde(rename = "review")]
+        Review,
+        #[serde(rename = "block")]
+        Block,
+    }
+    impl CommissionGateBindingHistoryViewSystemBindingAction {
+        pub const ALL: &'static [Self] = &[Self::Prompt, Self::Review, Self::Block];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Prompt => "prompt",
+                Self::Review => "review",
+                Self::Block => "block",
+            }
+        }
+    }
+    impl AsRef<str> for CommissionGateBindingHistoryViewSystemBindingAction { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for CommissionGateBindingHistoryViewSystemBindingAction {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "prompt" => Ok(Self::Prompt),
+                "review" => Ok(Self::Review),
+                "block" => Ok(Self::Block),
+                _ => Err(UnknownEnumValue { enum_name: "CommissionGateBindingHistoryViewSystemBindingAction" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:267; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum FinancialProjectionMode {
+        #[serde(rename = "full")]
+        Full,
+        #[serde(rename = "masked")]
+        Masked,
+        #[serde(rename = "denied")]
+        Denied,
+    }
+    impl FinancialProjectionMode {
+        pub const ALL: &'static [Self] = &[Self::Full, Self::Masked, Self::Denied];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Full => "full",
+                Self::Masked => "masked",
+                Self::Denied => "denied",
+            }
+        }
+    }
+    impl AsRef<str> for FinancialProjectionMode { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for FinancialProjectionMode {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "full" => Ok(Self::Full),
+                "masked" => Ok(Self::Masked),
+                "denied" => Ok(Self::Denied),
+                _ => Err(UnknownEnumValue { enum_name: "FinancialProjectionMode" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:267; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum FinancialProjectionFieldPackageKeys {
+        #[serde(rename = "operating-finance")]
+        OperatingFinance,
+        #[serde(rename = "labor-cost-rate")]
+        LaborCostRate,
+    }
+    impl FinancialProjectionFieldPackageKeys {
+        pub const ALL: &'static [Self] = &[Self::OperatingFinance, Self::LaborCostRate];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::OperatingFinance => "operating-finance",
+                Self::LaborCostRate => "labor-cost-rate",
+            }
+        }
+    }
+    impl AsRef<str> for FinancialProjectionFieldPackageKeys { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for FinancialProjectionFieldPackageKeys {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "operating-finance" => Ok(Self::OperatingFinance),
+                "labor-cost-rate" => Ok(Self::LaborCostRate),
+                _ => Err(UnknownEnumValue { enum_name: "FinancialProjectionFieldPackageKeys" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:273; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum OperatingGateFeedbackItemSystemBindingAction {
+        #[serde(rename = "prompt")]
+        Prompt,
+        #[serde(rename = "review")]
+        Review,
+        #[serde(rename = "block")]
+        Block,
+    }
+    impl OperatingGateFeedbackItemSystemBindingAction {
+        pub const ALL: &'static [Self] = &[Self::Prompt, Self::Review, Self::Block];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Prompt => "prompt",
+                Self::Review => "review",
+                Self::Block => "block",
+            }
+        }
+    }
+    impl AsRef<str> for OperatingGateFeedbackItemSystemBindingAction { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for OperatingGateFeedbackItemSystemBindingAction {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "prompt" => Ok(Self::Prompt),
+                "review" => Ok(Self::Review),
+                "block" => Ok(Self::Block),
+                _ => Err(UnknownEnumValue { enum_name: "OperatingGateFeedbackItemSystemBindingAction" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:273; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum OperatingGateFeedbackItemBindingAction {
+        #[serde(rename = "prompt")]
+        Prompt,
+        #[serde(rename = "review")]
+        Review,
+        #[serde(rename = "block")]
+        Block,
+    }
+    impl OperatingGateFeedbackItemBindingAction {
+        pub const ALL: &'static [Self] = &[Self::Prompt, Self::Review, Self::Block];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Prompt => "prompt",
+                Self::Review => "review",
+                Self::Block => "block",
+            }
+        }
+    }
+    impl AsRef<str> for OperatingGateFeedbackItemBindingAction { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for OperatingGateFeedbackItemBindingAction {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "prompt" => Ok(Self::Prompt),
+                "review" => Ok(Self::Review),
+                "block" => Ok(Self::Block),
+                _ => Err(UnknownEnumValue { enum_name: "OperatingGateFeedbackItemBindingAction" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:273; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum OperatingGateFeedbackItemReviewState {
+        #[serde(rename = "not-required")]
+        NotRequired,
+        #[serde(rename = "pending")]
+        Pending,
+        #[serde(rename = "acknowledged")]
+        Acknowledged,
+        #[serde(rename = "manual-confirmed")]
+        ManualConfirmed,
+        #[serde(rename = "stale")]
+        Stale,
+    }
+    impl OperatingGateFeedbackItemReviewState {
+        pub const ALL: &'static [Self] = &[Self::NotRequired, Self::Pending, Self::Acknowledged, Self::ManualConfirmed, Self::Stale];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::NotRequired => "not-required",
+                Self::Pending => "pending",
+                Self::Acknowledged => "acknowledged",
+                Self::ManualConfirmed => "manual-confirmed",
+                Self::Stale => "stale",
+            }
+        }
+    }
+    impl AsRef<str> for OperatingGateFeedbackItemReviewState { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for OperatingGateFeedbackItemReviewState {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "not-required" => Ok(Self::NotRequired),
+                "pending" => Ok(Self::Pending),
+                "acknowledged" => Ok(Self::Acknowledged),
+                "manual-confirmed" => Ok(Self::ManualConfirmed),
+                "stale" => Ok(Self::Stale),
+                _ => Err(UnknownEnumValue { enum_name: "OperatingGateFeedbackItemReviewState" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:275; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum OperatingSignalEvaluationViewCurrentActionLevel {
+        #[serde(rename = "prompt")]
+        Prompt,
+        #[serde(rename = "review")]
+        Review,
+        #[serde(rename = "block")]
+        Block,
+    }
+    impl OperatingSignalEvaluationViewCurrentActionLevel {
+        pub const ALL: &'static [Self] = &[Self::Prompt, Self::Review, Self::Block];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Prompt => "prompt",
+                Self::Review => "review",
+                Self::Block => "block",
+            }
+        }
+    }
+    impl AsRef<str> for OperatingSignalEvaluationViewCurrentActionLevel { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for OperatingSignalEvaluationViewCurrentActionLevel {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "prompt" => Ok(Self::Prompt),
+                "review" => Ok(Self::Review),
+                "block" => Ok(Self::Block),
+                _ => Err(UnknownEnumValue { enum_name: "OperatingSignalEvaluationViewCurrentActionLevel" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:275; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum OperatingSignalEvaluationViewReviewState {
+        #[serde(rename = "not-required")]
+        NotRequired,
+        #[serde(rename = "pending")]
+        Pending,
+        #[serde(rename = "acknowledged")]
+        Acknowledged,
+        #[serde(rename = "manual-confirmed")]
+        ManualConfirmed,
+        #[serde(rename = "stale")]
+        Stale,
+    }
+    impl OperatingSignalEvaluationViewReviewState {
+        pub const ALL: &'static [Self] = &[Self::NotRequired, Self::Pending, Self::Acknowledged, Self::ManualConfirmed, Self::Stale];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::NotRequired => "not-required",
+                Self::Pending => "pending",
+                Self::Acknowledged => "acknowledged",
+                Self::ManualConfirmed => "manual-confirmed",
+                Self::Stale => "stale",
+            }
+        }
+    }
+    impl AsRef<str> for OperatingSignalEvaluationViewReviewState { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for OperatingSignalEvaluationViewReviewState {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "not-required" => Ok(Self::NotRequired),
+                "pending" => Ok(Self::Pending),
+                "acknowledged" => Ok(Self::Acknowledged),
+                "manual-confirmed" => Ok(Self::ManualConfirmed),
+                "stale" => Ok(Self::Stale),
+                _ => Err(UnknownEnumValue { enum_name: "OperatingSignalEvaluationViewReviewState" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:277; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum OwnCompletionTaskParentConditionStatus {
+        #[serde(rename = "pending")]
+        Pending,
+        #[serde(rename = "closed")]
+        Closed,
+    }
+    impl OwnCompletionTaskParentConditionStatus {
+        pub const ALL: &'static [Self] = &[Self::Pending, Self::Closed];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Pending => "pending",
+                Self::Closed => "closed",
+            }
+        }
+    }
+    impl AsRef<str> for OwnCompletionTaskParentConditionStatus { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for OwnCompletionTaskParentConditionStatus {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "pending" => Ok(Self::Pending),
+                "closed" => Ok(Self::Closed),
+                _ => Err(UnknownEnumValue { enum_name: "OwnCompletionTaskParentConditionStatus" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:281; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ProjectBusinessOutcomeOverviewViewCurrentActionLevel {
+        #[serde(rename = "prompt")]
+        Prompt,
+        #[serde(rename = "review")]
+        Review,
+        #[serde(rename = "block")]
+        Block,
+    }
+    impl ProjectBusinessOutcomeOverviewViewCurrentActionLevel {
+        pub const ALL: &'static [Self] = &[Self::Prompt, Self::Review, Self::Block];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Prompt => "prompt",
+                Self::Review => "review",
+                Self::Block => "block",
+            }
+        }
+    }
+    impl AsRef<str> for ProjectBusinessOutcomeOverviewViewCurrentActionLevel { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ProjectBusinessOutcomeOverviewViewCurrentActionLevel {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "prompt" => Ok(Self::Prompt),
+                "review" => Ok(Self::Review),
+                "block" => Ok(Self::Block),
+                _ => Err(UnknownEnumValue { enum_name: "ProjectBusinessOutcomeOverviewViewCurrentActionLevel" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:281; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ProjectBusinessOutcomeOverviewViewReviewState {
+        #[serde(rename = "not-required")]
+        NotRequired,
+        #[serde(rename = "pending")]
+        Pending,
+        #[serde(rename = "acknowledged")]
+        Acknowledged,
+        #[serde(rename = "manual-confirmed")]
+        ManualConfirmed,
+        #[serde(rename = "stale")]
+        Stale,
+    }
+    impl ProjectBusinessOutcomeOverviewViewReviewState {
+        pub const ALL: &'static [Self] = &[Self::NotRequired, Self::Pending, Self::Acknowledged, Self::ManualConfirmed, Self::Stale];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::NotRequired => "not-required",
+                Self::Pending => "pending",
+                Self::Acknowledged => "acknowledged",
+                Self::ManualConfirmed => "manual-confirmed",
+                Self::Stale => "stale",
+            }
+        }
+    }
+    impl AsRef<str> for ProjectBusinessOutcomeOverviewViewReviewState { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ProjectBusinessOutcomeOverviewViewReviewState {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "not-required" => Ok(Self::NotRequired),
+                "pending" => Ok(Self::Pending),
+                "acknowledged" => Ok(Self::Acknowledged),
+                "manual-confirmed" => Ok(Self::ManualConfirmed),
+                "stale" => Ok(Self::Stale),
+                _ => Err(UnknownEnumValue { enum_name: "ProjectBusinessOutcomeOverviewViewReviewState" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:281; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ProjectBusinessOutcomeOverviewViewCostActionRecommendation {
+        #[serde(rename = "prompt")]
+        Prompt,
+        #[serde(rename = "review")]
+        Review,
+        #[serde(rename = "block")]
+        Block,
+    }
+    impl ProjectBusinessOutcomeOverviewViewCostActionRecommendation {
+        pub const ALL: &'static [Self] = &[Self::Prompt, Self::Review, Self::Block];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Prompt => "prompt",
+                Self::Review => "review",
+                Self::Block => "block",
+            }
+        }
+    }
+    impl AsRef<str> for ProjectBusinessOutcomeOverviewViewCostActionRecommendation { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ProjectBusinessOutcomeOverviewViewCostActionRecommendation {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "prompt" => Ok(Self::Prompt),
+                "review" => Ok(Self::Review),
+                "block" => Ok(Self::Block),
+                _ => Err(UnknownEnumValue { enum_name: "ProjectBusinessOutcomeOverviewViewCostActionRecommendation" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:283; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ProjectUnifiedAccountingViewReviewState {
+        #[serde(rename = "not-required")]
+        NotRequired,
+        #[serde(rename = "pending")]
+        Pending,
+        #[serde(rename = "acknowledged")]
+        Acknowledged,
+        #[serde(rename = "manual-confirmed")]
+        ManualConfirmed,
+        #[serde(rename = "stale")]
+        Stale,
+    }
+    impl ProjectUnifiedAccountingViewReviewState {
+        pub const ALL: &'static [Self] = &[Self::NotRequired, Self::Pending, Self::Acknowledged, Self::ManualConfirmed, Self::Stale];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::NotRequired => "not-required",
+                Self::Pending => "pending",
+                Self::Acknowledged => "acknowledged",
+                Self::ManualConfirmed => "manual-confirmed",
+                Self::Stale => "stale",
+            }
+        }
+    }
+    impl AsRef<str> for ProjectUnifiedAccountingViewReviewState { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ProjectUnifiedAccountingViewReviewState {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "not-required" => Ok(Self::NotRequired),
+                "pending" => Ok(Self::Pending),
+                "acknowledged" => Ok(Self::Acknowledged),
+                "manual-confirmed" => Ok(Self::ManualConfirmed),
+                "stale" => Ok(Self::Stale),
+                _ => Err(UnknownEnumValue { enum_name: "ProjectUnifiedAccountingViewReviewState" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:283; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ProjectUnifiedAccountingViewCurrentActionLevel {
+        #[serde(rename = "prompt")]
+        Prompt,
+        #[serde(rename = "review")]
+        Review,
+        #[serde(rename = "block")]
+        Block,
+    }
+    impl ProjectUnifiedAccountingViewCurrentActionLevel {
+        pub const ALL: &'static [Self] = &[Self::Prompt, Self::Review, Self::Block];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Prompt => "prompt",
+                Self::Review => "review",
+                Self::Block => "block",
+            }
+        }
+    }
+    impl AsRef<str> for ProjectUnifiedAccountingViewCurrentActionLevel { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ProjectUnifiedAccountingViewCurrentActionLevel {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "prompt" => Ok(Self::Prompt),
+                "review" => Ok(Self::Review),
+                "block" => Ok(Self::Block),
+                _ => Err(UnknownEnumValue { enum_name: "ProjectUnifiedAccountingViewCurrentActionLevel" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:285; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ProjectVarianceRiskExplanationViewCurrentActionLevel {
+        #[serde(rename = "prompt")]
+        Prompt,
+        #[serde(rename = "review")]
+        Review,
+        #[serde(rename = "block")]
+        Block,
+    }
+    impl ProjectVarianceRiskExplanationViewCurrentActionLevel {
+        pub const ALL: &'static [Self] = &[Self::Prompt, Self::Review, Self::Block];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Prompt => "prompt",
+                Self::Review => "review",
+                Self::Block => "block",
+            }
+        }
+    }
+    impl AsRef<str> for ProjectVarianceRiskExplanationViewCurrentActionLevel { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ProjectVarianceRiskExplanationViewCurrentActionLevel {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "prompt" => Ok(Self::Prompt),
+                "review" => Ok(Self::Review),
+                "block" => Ok(Self::Block),
+                _ => Err(UnknownEnumValue { enum_name: "ProjectVarianceRiskExplanationViewCurrentActionLevel" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:285; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ProjectVarianceRiskExplanationViewReviewState {
+        #[serde(rename = "not-required")]
+        NotRequired,
+        #[serde(rename = "pending")]
+        Pending,
+        #[serde(rename = "acknowledged")]
+        Acknowledged,
+        #[serde(rename = "manual-confirmed")]
+        ManualConfirmed,
+        #[serde(rename = "stale")]
+        Stale,
+    }
+    impl ProjectVarianceRiskExplanationViewReviewState {
+        pub const ALL: &'static [Self] = &[Self::NotRequired, Self::Pending, Self::Acknowledged, Self::ManualConfirmed, Self::Stale];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::NotRequired => "not-required",
+                Self::Pending => "pending",
+                Self::Acknowledged => "acknowledged",
+                Self::ManualConfirmed => "manual-confirmed",
+                Self::Stale => "stale",
+            }
+        }
+    }
+    impl AsRef<str> for ProjectVarianceRiskExplanationViewReviewState { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ProjectVarianceRiskExplanationViewReviewState {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "not-required" => Ok(Self::NotRequired),
+                "pending" => Ok(Self::Pending),
+                "acknowledged" => Ok(Self::Acknowledged),
+                "manual-confirmed" => Ok(Self::ManualConfirmed),
+                "stale" => Ok(Self::Stale),
+                _ => Err(UnknownEnumValue { enum_name: "ProjectVarianceRiskExplanationViewReviewState" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:287; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ReviewCommissionGateBindingResultCurrentActionLevel {
+        #[serde(rename = "prompt")]
+        Prompt,
+        #[serde(rename = "review")]
+        Review,
+        #[serde(rename = "block")]
+        Block,
+    }
+    impl ReviewCommissionGateBindingResultCurrentActionLevel {
+        pub const ALL: &'static [Self] = &[Self::Prompt, Self::Review, Self::Block];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Prompt => "prompt",
+                Self::Review => "review",
+                Self::Block => "block",
+            }
+        }
+    }
+    impl AsRef<str> for ReviewCommissionGateBindingResultCurrentActionLevel { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ReviewCommissionGateBindingResultCurrentActionLevel {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "prompt" => Ok(Self::Prompt),
+                "review" => Ok(Self::Review),
+                "block" => Ok(Self::Block),
+                _ => Err(UnknownEnumValue { enum_name: "ReviewCommissionGateBindingResultCurrentActionLevel" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:287; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ReviewCommissionGateBindingResultReviewState {
+        #[serde(rename = "not-required")]
+        NotRequired,
+        #[serde(rename = "pending")]
+        Pending,
+        #[serde(rename = "acknowledged")]
+        Acknowledged,
+        #[serde(rename = "manual-confirmed")]
+        ManualConfirmed,
+        #[serde(rename = "stale")]
+        Stale,
+    }
+    impl ReviewCommissionGateBindingResultReviewState {
+        pub const ALL: &'static [Self] = &[Self::NotRequired, Self::Pending, Self::Acknowledged, Self::ManualConfirmed, Self::Stale];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::NotRequired => "not-required",
+                Self::Pending => "pending",
+                Self::Acknowledged => "acknowledged",
+                Self::ManualConfirmed => "manual-confirmed",
+                Self::Stale => "stale",
+            }
+        }
+    }
+    impl AsRef<str> for ReviewCommissionGateBindingResultReviewState { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ReviewCommissionGateBindingResultReviewState {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "not-required" => Ok(Self::NotRequired),
+                "pending" => Ok(Self::Pending),
+                "acknowledged" => Ok(Self::Acknowledged),
+                "manual-confirmed" => Ok(Self::ManualConfirmed),
+                "stale" => Ok(Self::Stale),
+                _ => Err(UnknownEnumValue { enum_name: "ReviewCommissionGateBindingResultReviewState" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:287; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ReviewCommissionGateBindingResultSystemBindingAction {
+        #[serde(rename = "prompt")]
+        Prompt,
+        #[serde(rename = "review")]
+        Review,
+        #[serde(rename = "block")]
+        Block,
+    }
+    impl ReviewCommissionGateBindingResultSystemBindingAction {
+        pub const ALL: &'static [Self] = &[Self::Prompt, Self::Review, Self::Block];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Prompt => "prompt",
+                Self::Review => "review",
+                Self::Block => "block",
+            }
+        }
+    }
+    impl AsRef<str> for ReviewCommissionGateBindingResultSystemBindingAction { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ReviewCommissionGateBindingResultSystemBindingAction {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "prompt" => Ok(Self::Prompt),
+                "review" => Ok(Self::Review),
+                "block" => Ok(Self::Block),
+                _ => Err(UnknownEnumValue { enum_name: "ReviewCommissionGateBindingResultSystemBindingAction" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:287; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ReviewCommissionGateBindingResultBindingAction {
+        #[serde(rename = "prompt")]
+        Prompt,
+        #[serde(rename = "review")]
+        Review,
+        #[serde(rename = "block")]
+        Block,
+    }
+    impl ReviewCommissionGateBindingResultBindingAction {
+        pub const ALL: &'static [Self] = &[Self::Prompt, Self::Review, Self::Block];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Prompt => "prompt",
+                Self::Review => "review",
+                Self::Block => "block",
+            }
+        }
+    }
+    impl AsRef<str> for ReviewCommissionGateBindingResultBindingAction { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ReviewCommissionGateBindingResultBindingAction {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "prompt" => Ok(Self::Prompt),
+                "review" => Ok(Self::Review),
+                "block" => Ok(Self::Block),
+                _ => Err(UnknownEnumValue { enum_name: "ReviewCommissionGateBindingResultBindingAction" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:289; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ReviewOperatingSignalEvaluationResultCurrentActionLevel {
+        #[serde(rename = "prompt")]
+        Prompt,
+        #[serde(rename = "review")]
+        Review,
+        #[serde(rename = "block")]
+        Block,
+    }
+    impl ReviewOperatingSignalEvaluationResultCurrentActionLevel {
+        pub const ALL: &'static [Self] = &[Self::Prompt, Self::Review, Self::Block];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Prompt => "prompt",
+                Self::Review => "review",
+                Self::Block => "block",
+            }
+        }
+    }
+    impl AsRef<str> for ReviewOperatingSignalEvaluationResultCurrentActionLevel { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ReviewOperatingSignalEvaluationResultCurrentActionLevel {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "prompt" => Ok(Self::Prompt),
+                "review" => Ok(Self::Review),
+                "block" => Ok(Self::Block),
+                _ => Err(UnknownEnumValue { enum_name: "ReviewOperatingSignalEvaluationResultCurrentActionLevel" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:289; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ReviewOperatingSignalEvaluationResultReviewState {
+        #[serde(rename = "not-required")]
+        NotRequired,
+        #[serde(rename = "pending")]
+        Pending,
+        #[serde(rename = "acknowledged")]
+        Acknowledged,
+        #[serde(rename = "manual-confirmed")]
+        ManualConfirmed,
+        #[serde(rename = "stale")]
+        Stale,
+    }
+    impl ReviewOperatingSignalEvaluationResultReviewState {
+        pub const ALL: &'static [Self] = &[Self::NotRequired, Self::Pending, Self::Acknowledged, Self::ManualConfirmed, Self::Stale];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::NotRequired => "not-required",
+                Self::Pending => "pending",
+                Self::Acknowledged => "acknowledged",
+                Self::ManualConfirmed => "manual-confirmed",
+                Self::Stale => "stale",
+            }
+        }
+    }
+    impl AsRef<str> for ReviewOperatingSignalEvaluationResultReviewState { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ReviewOperatingSignalEvaluationResultReviewState {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "not-required" => Ok(Self::NotRequired),
+                "pending" => Ok(Self::Pending),
+                "acknowledged" => Ok(Self::Acknowledged),
+                "manual-confirmed" => Ok(Self::ManualConfirmed),
+                "stale" => Ok(Self::Stale),
+                _ => Err(UnknownEnumValue { enum_name: "ReviewOperatingSignalEvaluationResultReviewState" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:291; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum SourceFinancialProjectionMode {
+        #[serde(rename = "full")]
+        Full,
+        #[serde(rename = "masked")]
+        Masked,
+        #[serde(rename = "denied")]
+        Denied,
+    }
+    impl SourceFinancialProjectionMode {
+        pub const ALL: &'static [Self] = &[Self::Full, Self::Masked, Self::Denied];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Full => "full",
+                Self::Masked => "masked",
+                Self::Denied => "denied",
+            }
+        }
+    }
+    impl AsRef<str> for SourceFinancialProjectionMode { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for SourceFinancialProjectionMode {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "full" => Ok(Self::Full),
+                "masked" => Ok(Self::Masked),
+                "denied" => Ok(Self::Denied),
+                _ => Err(UnknownEnumValue { enum_name: "SourceFinancialProjectionMode" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:291; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum SourceFinancialProjectionFieldPackageKeys {
+        #[serde(rename = "operating-finance")]
+        OperatingFinance,
+        #[serde(rename = "labor-cost-rate")]
+        LaborCostRate,
+    }
+    impl SourceFinancialProjectionFieldPackageKeys {
+        pub const ALL: &'static [Self] = &[Self::OperatingFinance, Self::LaborCostRate];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::OperatingFinance => "operating-finance",
+                Self::LaborCostRate => "labor-cost-rate",
+            }
+        }
+    }
+    impl AsRef<str> for SourceFinancialProjectionFieldPackageKeys { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for SourceFinancialProjectionFieldPackageKeys {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "operating-finance" => Ok(Self::OperatingFinance),
+                "labor-cost-rate" => Ok(Self::LaborCostRate),
+                _ => Err(UnknownEnumValue { enum_name: "SourceFinancialProjectionFieldPackageKeys" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:297; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum BusinessAccountingFeedbackViewCurrentActionLevel {
+        #[serde(rename = "prompt")]
+        Prompt,
+        #[serde(rename = "review")]
+        Review,
+        #[serde(rename = "block")]
+        Block,
+    }
+    impl BusinessAccountingFeedbackViewCurrentActionLevel {
+        pub const ALL: &'static [Self] = &[Self::Prompt, Self::Review, Self::Block];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Prompt => "prompt",
+                Self::Review => "review",
+                Self::Block => "block",
+            }
+        }
+    }
+    impl AsRef<str> for BusinessAccountingFeedbackViewCurrentActionLevel { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for BusinessAccountingFeedbackViewCurrentActionLevel {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "prompt" => Ok(Self::Prompt),
+                "review" => Ok(Self::Review),
+                "block" => Ok(Self::Block),
+                _ => Err(UnknownEnumValue { enum_name: "BusinessAccountingFeedbackViewCurrentActionLevel" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:297; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum BusinessAccountingFeedbackViewReviewState {
+        #[serde(rename = "not-required")]
+        NotRequired,
+        #[serde(rename = "pending")]
+        Pending,
+        #[serde(rename = "acknowledged")]
+        Acknowledged,
+        #[serde(rename = "manual-confirmed")]
+        ManualConfirmed,
+        #[serde(rename = "stale")]
+        Stale,
+    }
+    impl BusinessAccountingFeedbackViewReviewState {
+        pub const ALL: &'static [Self] = &[Self::NotRequired, Self::Pending, Self::Acknowledged, Self::ManualConfirmed, Self::Stale];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::NotRequired => "not-required",
+                Self::Pending => "pending",
+                Self::Acknowledged => "acknowledged",
+                Self::ManualConfirmed => "manual-confirmed",
+                Self::Stale => "stale",
+            }
+        }
+    }
+    impl AsRef<str> for BusinessAccountingFeedbackViewReviewState { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for BusinessAccountingFeedbackViewReviewState {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "not-required" => Ok(Self::NotRequired),
+                "pending" => Ok(Self::Pending),
+                "acknowledged" => Ok(Self::Acknowledged),
+                "manual-confirmed" => Ok(Self::ManualConfirmed),
+                "stale" => Ok(Self::Stale),
+                _ => Err(UnknownEnumValue { enum_name: "BusinessAccountingFeedbackViewReviewState" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:299; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum CreateOperatingRestatementRequestScope {
+        #[serde(rename = "live")]
+        Live,
+        #[serde(rename = "period")]
+        Period,
+    }
+    impl CreateOperatingRestatementRequestScope {
+        pub const ALL: &'static [Self] = &[Self::Live, Self::Period];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Live => "live",
+                Self::Period => "period",
+            }
+        }
+    }
+    impl AsRef<str> for CreateOperatingRestatementRequestScope { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for CreateOperatingRestatementRequestScope {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "live" => Ok(Self::Live),
+                "period" => Ok(Self::Period),
+                _ => Err(UnknownEnumValue { enum_name: "CreateOperatingRestatementRequestScope" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:305; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum SourceRowRowKind {
+        #[serde(rename = "contract")]
+        Contract,
+        #[serde(rename = "receipt")]
+        Receipt,
+        #[serde(rename = "direct-cost")]
+        DirectCost,
+        #[serde(rename = "allocation-share")]
+        AllocationShare,
+        #[serde(rename = "supporting-source")]
+        SupportingSource,
+        #[serde(rename = "tax-treatment")]
+        TaxTreatment,
+        #[serde(rename = "baseline")]
+        Baseline,
+        #[serde(rename = "stage-evidence")]
+        StageEvidence,
+    }
+    impl SourceRowRowKind {
+        pub const ALL: &'static [Self] = &[Self::Contract, Self::Receipt, Self::DirectCost, Self::AllocationShare, Self::SupportingSource, Self::TaxTreatment, Self::Baseline, Self::StageEvidence];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Contract => "contract",
+                Self::Receipt => "receipt",
+                Self::DirectCost => "direct-cost",
+                Self::AllocationShare => "allocation-share",
+                Self::SupportingSource => "supporting-source",
+                Self::TaxTreatment => "tax-treatment",
+                Self::Baseline => "baseline",
+                Self::StageEvidence => "stage-evidence",
+            }
+        }
+    }
+    impl AsRef<str> for SourceRowRowKind { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for SourceRowRowKind {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "contract" => Ok(Self::Contract),
+                "receipt" => Ok(Self::Receipt),
+                "direct-cost" => Ok(Self::DirectCost),
+                "allocation-share" => Ok(Self::AllocationShare),
+                "supporting-source" => Ok(Self::SupportingSource),
+                "tax-treatment" => Ok(Self::TaxTreatment),
+                "baseline" => Ok(Self::Baseline),
+                "stage-evidence" => Ok(Self::StageEvidence),
+                _ => Err(UnknownEnumValue { enum_name: "SourceRowRowKind" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:305; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum SourceRowState {
+        #[serde(rename = "ready")]
+        Ready,
+        #[serde(rename = "pending")]
+        Pending,
+        #[serde(rename = "unclassified")]
+        Unclassified,
+        #[serde(rename = "legacy-unverified")]
+        LegacyUnverified,
+    }
+    impl SourceRowState {
+        pub const ALL: &'static [Self] = &[Self::Ready, Self::Pending, Self::Unclassified, Self::LegacyUnverified];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Ready => "ready",
+                Self::Pending => "pending",
+                Self::Unclassified => "unclassified",
+                Self::LegacyUnverified => "legacy-unverified",
+            }
+        }
+    }
+    impl AsRef<str> for SourceRowState { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for SourceRowState {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "ready" => Ok(Self::Ready),
+                "pending" => Ok(Self::Pending),
+                "unclassified" => Ok(Self::Unclassified),
+                "legacy-unverified" => Ok(Self::LegacyUnverified),
+                _ => Err(UnknownEnumValue { enum_name: "SourceRowState" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:305; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum SourceRowContainsLabor {
+        #[serde(rename = "yes")]
+        Yes,
+        #[serde(rename = "no")]
+        No,
+        #[serde(rename = "unknown")]
+        Unknown,
+    }
+    impl SourceRowContainsLabor {
+        pub const ALL: &'static [Self] = &[Self::Yes, Self::No, Self::Unknown];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Yes => "yes",
+                Self::No => "no",
+                Self::Unknown => "unknown",
+            }
+        }
+    }
+    impl AsRef<str> for SourceRowContainsLabor { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for SourceRowContainsLabor {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "yes" => Ok(Self::Yes),
+                "no" => Ok(Self::No),
+                "unknown" => Ok(Self::Unknown),
+                _ => Err(UnknownEnumValue { enum_name: "SourceRowContainsLabor" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:305; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum SourceRowAllowedRecognitionRoles {
+        #[serde(rename = "direct-source")]
+        DirectSource,
+        #[serde(rename = "allocation-share")]
+        AllocationShare,
+        #[serde(rename = "tax-support")]
+        TaxSupport,
+        #[serde(rename = "evidence-only")]
+        EvidenceOnly,
+    }
+    impl SourceRowAllowedRecognitionRoles {
+        pub const ALL: &'static [Self] = &[Self::DirectSource, Self::AllocationShare, Self::TaxSupport, Self::EvidenceOnly];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::DirectSource => "direct-source",
+                Self::AllocationShare => "allocation-share",
+                Self::TaxSupport => "tax-support",
+                Self::EvidenceOnly => "evidence-only",
+            }
+        }
+    }
+    impl AsRef<str> for SourceRowAllowedRecognitionRoles { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for SourceRowAllowedRecognitionRoles {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "direct-source" => Ok(Self::DirectSource),
+                "allocation-share" => Ok(Self::AllocationShare),
+                "tax-support" => Ok(Self::TaxSupport),
+                "evidence-only" => Ok(Self::EvidenceOnly),
+                _ => Err(UnknownEnumValue { enum_name: "SourceRowAllowedRecognitionRoles" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:307; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum OperatingBaselinePackageSummaryContainsLabor {
+        #[serde(rename = "yes")]
+        Yes,
+        #[serde(rename = "no")]
+        No,
+        #[serde(rename = "unknown")]
+        Unknown,
+    }
+    impl OperatingBaselinePackageSummaryContainsLabor {
+        pub const ALL: &'static [Self] = &[Self::Yes, Self::No, Self::Unknown];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Yes => "yes",
+                Self::No => "no",
+                Self::Unknown => "unknown",
+            }
+        }
+    }
+    impl AsRef<str> for OperatingBaselinePackageSummaryContainsLabor { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for OperatingBaselinePackageSummaryContainsLabor {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "yes" => Ok(Self::Yes),
+                "no" => Ok(Self::No),
+                "unknown" => Ok(Self::Unknown),
+                _ => Err(UnknownEnumValue { enum_name: "OperatingBaselinePackageSummaryContainsLabor" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:307; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum OperatingBaselinePackageSummaryStatus {
+        #[serde(rename = "active")]
+        Active,
+        #[serde(rename = "superseded")]
+        Superseded,
+    }
+    impl OperatingBaselinePackageSummaryStatus {
+        pub const ALL: &'static [Self] = &[Self::Active, Self::Superseded];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Active => "active",
+                Self::Superseded => "superseded",
+            }
+        }
+    }
+    impl AsRef<str> for OperatingBaselinePackageSummaryStatus { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for OperatingBaselinePackageSummaryStatus {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "active" => Ok(Self::Active),
+                "superseded" => Ok(Self::Superseded),
+                _ => Err(UnknownEnumValue { enum_name: "OperatingBaselinePackageSummaryStatus" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:309; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum OperatingPreparationIntent {
+        #[serde(rename = "baseline-activation")]
+        BaselineActivation,
+        #[serde(rename = "snapshot-create")]
+        SnapshotCreate,
+        #[serde(rename = "period-close")]
+        PeriodClose,
+        #[serde(rename = "restatement")]
+        Restatement,
+        #[serde(rename = "receipt-basis")]
+        ReceiptBasis,
+    }
+    impl OperatingPreparationIntent {
+        pub const ALL: &'static [Self] = &[Self::BaselineActivation, Self::SnapshotCreate, Self::PeriodClose, Self::Restatement, Self::ReceiptBasis];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::BaselineActivation => "baseline-activation",
+                Self::SnapshotCreate => "snapshot-create",
+                Self::PeriodClose => "period-close",
+                Self::Restatement => "restatement",
+                Self::ReceiptBasis => "receipt-basis",
+            }
+        }
+    }
+    impl AsRef<str> for OperatingPreparationIntent { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for OperatingPreparationIntent {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "baseline-activation" => Ok(Self::BaselineActivation),
+                "snapshot-create" => Ok(Self::SnapshotCreate),
+                "period-close" => Ok(Self::PeriodClose),
+                "restatement" => Ok(Self::Restatement),
+                "receipt-basis" => Ok(Self::ReceiptBasis),
+                _ => Err(UnknownEnumValue { enum_name: "OperatingPreparationIntent" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:309; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum OperatingPreparationEvaluationStatus {
+        #[serde(rename = "not-evaluated")]
+        NotEvaluated,
+        #[serde(rename = "preview-only")]
+        PreviewOnly,
+    }
+    impl OperatingPreparationEvaluationStatus {
+        pub const ALL: &'static [Self] = &[Self::NotEvaluated, Self::PreviewOnly];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::NotEvaluated => "not-evaluated",
+                Self::PreviewOnly => "preview-only",
+            }
+        }
+    }
+    impl AsRef<str> for OperatingPreparationEvaluationStatus { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for OperatingPreparationEvaluationStatus {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "not-evaluated" => Ok(Self::NotEvaluated),
+                "preview-only" => Ok(Self::PreviewOnly),
+                _ => Err(UnknownEnumValue { enum_name: "OperatingPreparationEvaluationStatus" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:311; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum OperatingRestatementSummaryContainsLabor {
+        #[serde(rename = "yes")]
+        Yes,
+        #[serde(rename = "no")]
+        No,
+        #[serde(rename = "unknown")]
+        Unknown,
+    }
+    impl OperatingRestatementSummaryContainsLabor {
+        pub const ALL: &'static [Self] = &[Self::Yes, Self::No, Self::Unknown];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Yes => "yes",
+                Self::No => "no",
+                Self::Unknown => "unknown",
+            }
+        }
+    }
+    impl AsRef<str> for OperatingRestatementSummaryContainsLabor { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for OperatingRestatementSummaryContainsLabor {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "yes" => Ok(Self::Yes),
+                "no" => Ok(Self::No),
+                "unknown" => Ok(Self::Unknown),
+                _ => Err(UnknownEnumValue { enum_name: "OperatingRestatementSummaryContainsLabor" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:311; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum OperatingRestatementSummaryScope {
+        #[serde(rename = "live")]
+        Live,
+        #[serde(rename = "period")]
+        Period,
+    }
+    impl OperatingRestatementSummaryScope {
+        pub const ALL: &'static [Self] = &[Self::Live, Self::Period];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Live => "live",
+                Self::Period => "period",
+            }
+        }
+    }
+    impl AsRef<str> for OperatingRestatementSummaryScope { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for OperatingRestatementSummaryScope {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "live" => Ok(Self::Live),
+                "period" => Ok(Self::Period),
+                _ => Err(UnknownEnumValue { enum_name: "OperatingRestatementSummaryScope" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:311; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum OperatingRestatementSummaryStatus {
+        #[serde(rename = "active")]
+        Active,
+        #[serde(rename = "superseded")]
+        Superseded,
+    }
+    impl OperatingRestatementSummaryStatus {
+        pub const ALL: &'static [Self] = &[Self::Active, Self::Superseded];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Active => "active",
+                Self::Superseded => "superseded",
+            }
+        }
+    }
+    impl AsRef<str> for OperatingRestatementSummaryStatus { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for OperatingRestatementSummaryStatus {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "active" => Ok(Self::Active),
+                "superseded" => Ok(Self::Superseded),
+                _ => Err(UnknownEnumValue { enum_name: "OperatingRestatementSummaryStatus" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:313; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum PeriodClosingSnapshotSummaryContainsLabor {
+        #[serde(rename = "yes")]
+        Yes,
+        #[serde(rename = "no")]
+        No,
+        #[serde(rename = "unknown")]
+        Unknown,
+    }
+    impl PeriodClosingSnapshotSummaryContainsLabor {
+        pub const ALL: &'static [Self] = &[Self::Yes, Self::No, Self::Unknown];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Yes => "yes",
+                Self::No => "no",
+                Self::Unknown => "unknown",
+            }
+        }
+    }
+    impl AsRef<str> for PeriodClosingSnapshotSummaryContainsLabor { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for PeriodClosingSnapshotSummaryContainsLabor {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "yes" => Ok(Self::Yes),
+                "no" => Ok(Self::No),
+                "unknown" => Ok(Self::Unknown),
+                _ => Err(UnknownEnumValue { enum_name: "PeriodClosingSnapshotSummaryContainsLabor" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:313; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum PeriodClosingSnapshotSummaryStatus {
+        #[serde(rename = "active")]
+        Active,
+        #[serde(rename = "superseded")]
+        Superseded,
+    }
+    impl PeriodClosingSnapshotSummaryStatus {
+        pub const ALL: &'static [Self] = &[Self::Active, Self::Superseded];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Active => "active",
+                Self::Superseded => "superseded",
+            }
+        }
+    }
+    impl AsRef<str> for PeriodClosingSnapshotSummaryStatus { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for PeriodClosingSnapshotSummaryStatus {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "active" => Ok(Self::Active),
+                "superseded" => Ok(Self::Superseded),
+                _ => Err(UnknownEnumValue { enum_name: "PeriodClosingSnapshotSummaryStatus" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:317; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ProjectOperatingSnapshotSummaryContainsLabor {
+        #[serde(rename = "yes")]
+        Yes,
+        #[serde(rename = "no")]
+        No,
+        #[serde(rename = "unknown")]
+        Unknown,
+    }
+    impl ProjectOperatingSnapshotSummaryContainsLabor {
+        pub const ALL: &'static [Self] = &[Self::Yes, Self::No, Self::Unknown];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Yes => "yes",
+                Self::No => "no",
+                Self::Unknown => "unknown",
+            }
+        }
+    }
+    impl AsRef<str> for ProjectOperatingSnapshotSummaryContainsLabor { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ProjectOperatingSnapshotSummaryContainsLabor {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "yes" => Ok(Self::Yes),
+                "no" => Ok(Self::No),
+                "unknown" => Ok(Self::Unknown),
+                _ => Err(UnknownEnumValue { enum_name: "ProjectOperatingSnapshotSummaryContainsLabor" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:317; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ProjectOperatingSnapshotSummarySnapshotMode {
+        #[serde(rename = "realtime")]
+        Realtime,
+        #[serde(rename = "period-end")]
+        PeriodEnd,
+        #[serde(rename = "restated")]
+        Restated,
+    }
+    impl ProjectOperatingSnapshotSummarySnapshotMode {
+        pub const ALL: &'static [Self] = &[Self::Realtime, Self::PeriodEnd, Self::Restated];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Realtime => "realtime",
+                Self::PeriodEnd => "period-end",
+                Self::Restated => "restated",
+            }
+        }
+    }
+    impl AsRef<str> for ProjectOperatingSnapshotSummarySnapshotMode { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ProjectOperatingSnapshotSummarySnapshotMode {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "realtime" => Ok(Self::Realtime),
+                "period-end" => Ok(Self::PeriodEnd),
+                "restated" => Ok(Self::Restated),
+                _ => Err(UnknownEnumValue { enum_name: "ProjectOperatingSnapshotSummarySnapshotMode" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:317; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ProjectOperatingSnapshotSummaryStatus {
+        #[serde(rename = "active")]
+        Active,
+        #[serde(rename = "superseded")]
+        Superseded,
+    }
+    impl ProjectOperatingSnapshotSummaryStatus {
+        pub const ALL: &'static [Self] = &[Self::Active, Self::Superseded];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Active => "active",
+                Self::Superseded => "superseded",
+            }
+        }
+    }
+    impl AsRef<str> for ProjectOperatingSnapshotSummaryStatus { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ProjectOperatingSnapshotSummaryStatus {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "active" => Ok(Self::Active),
+                "superseded" => Ok(Self::Superseded),
+                _ => Err(UnknownEnumValue { enum_name: "ProjectOperatingSnapshotSummaryStatus" }),
+            }
+        }
+    }
+
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:317; shared-inline-subset.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
+    pub enum ProjectOperatingSnapshotSummaryCurrentActionLevel {
+        #[serde(rename = "prompt")]
+        Prompt,
+        #[serde(rename = "review")]
+        Review,
+        #[serde(rename = "block")]
+        Block,
+    }
+    impl ProjectOperatingSnapshotSummaryCurrentActionLevel {
+        pub const ALL: &'static [Self] = &[Self::Prompt, Self::Review, Self::Block];
+        pub const fn as_str(self) -> &'static str {
+            match self {
+                Self::Prompt => "prompt",
+                Self::Review => "review",
+                Self::Block => "block",
+            }
+        }
+    }
+    impl AsRef<str> for ProjectOperatingSnapshotSummaryCurrentActionLevel { fn as_ref(&self) -> &str { self.as_str() } }
+    impl std::str::FromStr for ProjectOperatingSnapshotSummaryCurrentActionLevel {
+        type Err = UnknownEnumValue;
+        fn from_str(value: &str) -> Result<Self, Self::Err> {
+            match value {
+                "prompt" => Ok(Self::Prompt),
+                "review" => Ok(Self::Review),
+                "block" => Ok(Self::Block),
+                _ => Err(UnknownEnumValue { enum_name: "ProjectOperatingSnapshotSummaryCurrentActionLevel" }),
             }
         }
     }

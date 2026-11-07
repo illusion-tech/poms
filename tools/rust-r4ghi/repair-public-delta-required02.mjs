@@ -1,0 +1,15 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+const file='docs/design/rust-r4ghi/g2-public-delta02.json',raw=fs.readFileSync(file);
+const sha=b=>createHash('sha256').update(b).digest('hex');
+assert.equal(sha(raw),'5cff5d0ddf36e4b6b03d66902ec45011f506764fb876066e909cf728c48fb103');
+const out='tools/rust-r4ghi/joint-g1/g2-delta02-required-repair';fs.mkdirSync(out,{recursive:true});
+fs.writeFileSync(out+'/before-original.json.bin',raw,{flag:'wx'});
+const value=JSON.parse(raw),source=fs.readFileSync(value.sourceProposal);assert.equal(sha(source),value.sourceProposalSHA256);
+const required=JSON.parse(source).components.FullProjectDetailView.addRequired;
+assert.deepEqual(required,['executionAdmissionContext']);assert(!value.components.FullProjectDetailView.addRequired);
+value.components.FullProjectDetailView.addRequired=required;
+const after=Buffer.from(JSON.stringify(value,null,2)+'\n');fs.writeFileSync(file,after);
+fs.writeFileSync(out+'/repair-receipt02.json',JSON.stringify({kind:'actual-generator-required-field-omission-correction',capturedAt:new Date().toISOString(),sourceProposalSHA256:sha(source),beforeSHA256:sha(raw),afterSHA256:sha(after),missingRequired:['executionAdmissionContext'],G3:false},null,2)+'\n',{flag:'wx'});
+console.log(JSON.stringify({file,afterSHA256:sha(after),required,originalPreserved:true}));

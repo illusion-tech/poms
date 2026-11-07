@@ -1,0 +1,1143 @@
+--- /dev/null
++++ b/apps/poms-admin/src/app/features/project/project-creator-first-assignment.ts
+@@ -0,0 +1,75 @@
++import { ChangeDetectionStrategy, Component, computed, inject, input, output, signal } from '@angular/core';
++import { disabled, form, FormField, maxLength, required } from '@angular/forms/signals';
++import { AuthStore, PlatformStore } from '@poms/admin-data-access';
++import type { CreatorFirstAssignmentAnchorView } from '@poms/shared-contracts';
++import { ProjectGovernanceApi } from './project-governance-api';
++
++@Component({
++    selector: 'app-project-creator-first-assignment', standalone: true, imports: [FormField], providers: [PlatformStore],
++    changeDetection: ChangeDetectionStrategy.OnPush,
++    template: `
++        <section class="grid gap-4 rounded-xl border border-surface p-4" aria-label="首次项目主责指派">
++            <h2 class="text-lg font-semibold">首次指派项目主责</h2>
++            <p>项目 {{ anchor().projectNo }} · 版本 {{ anchor().projectRowVersion }}。创建者入口只提供本次首次指派。</p>
++            @if (error()) { <p role="alert">{{ error() }}</p> }
++            @if (canAssign()) {
++                <button type="button" class="justify-self-start rounded border px-3 py-2" [disabled]="busy()" (click)="loadPeople()">读取可指派人员和组织</button>
++                @if (referencesLoaded()) {
++                    <form class="grid gap-4" (submit)="assign($event)">
++                        <label>首次主责人
++                            <select class="block w-full rounded border p-2" [formField]="assignmentForm.ownerUserId">
++                                <option value="">请选择真实在职人员</option>
++                                @for (user of users(); track user.id) { <option [value]="user.id">{{ user.displayName }}{{ user.primaryOrgUnitName ? ' · ' + user.primaryOrgUnitName : '' }}</option> }
++                            </select>
++                        </label>
++                        <label>主责组织
++                            <select class="block w-full rounded border p-2" [formField]="assignmentForm.ownerOrgId">
++                                <option value="">请选择有效组织</option>
++                                @for (org of organizations(); track org.id) { <option [value]="org.id">{{ org.name }}</option> }
++                            </select>
++                        </label>
++                        <label>指派说明 <textarea rows="3" class="block w-full rounded border p-2" [formField]="assignmentForm.reason"></textarea></label>
++                        <button type="submit" class="justify-self-start rounded bg-primary px-4 py-2 text-white" [disabled]="busy() || !assignmentForm().valid()">确认首次指派</button>
++                    </form>
++                }
++            } @else { <p>当前锚点未授权首次指派，请重新读取责任范围。</p> }
++        </section>
++    `
++})
++export class ProjectCreatorFirstAssignment {
++    readonly anchor = input.required<CreatorFirstAssignmentAnchorView>();
++    readonly changed = output<void>();
++    private readonly platform = inject(PlatformStore);
++    private readonly auth = inject(AuthStore);
++    private readonly api = inject(ProjectGovernanceApi);
++    readonly busy = signal(false);
++    readonly error = signal('');
++    readonly referencesLoaded = signal(false);
++    readonly users = computed(() => this.platform.ownerUsers().filter((user) => user.isActive));
++    readonly organizations = computed(() => this.platform.ownerOrgUnits().filter((org) => org.isActive));
++    readonly canAssign = computed(() => this.anchor().allowedActions.includes('reassign-owner') && this.auth.hasAnyPermission(['project:write']));
++    readonly model = signal({ ownerUserId: '', ownerOrgId: '', reason: '' });
++    readonly assignmentForm = form(this.model, (fields) => {
++        required(fields.ownerUserId); required(fields.ownerOrgId); required(fields.reason); maxLength(fields.reason, 1000);
++        disabled(fields, () => this.busy() || !this.canAssign());
++    });
++    async loadPeople() {
++        if (!this.canAssign() || this.busy()) return;
++        this.busy.set(true); this.error.set('');
++        try { await this.platform.loadOwnerReferenceData(); this.referencesLoaded.set(true); this.model.update((value) => ({ ...value, ownerOrgId: this.anchor().ownerOrgId })); }
++        catch { this.referencesLoaded.set(false); this.error.set('可指派人员和组织读取失败，请重试。'); }
++        finally { this.busy.set(false); }
++    }
++    async assign(event: Event) {
++        event.preventDefault();
++        if (!this.canAssign() || this.busy() || !this.assignmentForm().valid()) return;
++        const anchor = this.anchor(), selection = this.model();
++        if (!this.users().some((user) => user.id === selection.ownerUserId) || !this.organizations().some((org) => org.id === selection.ownerOrgId)) { this.error.set('请从当前有效人员和组织选择。'); return; }
++        this.busy.set(true); this.error.set('');
++        try {
++            await this.api.reassignFirstOwner(anchor.projectId, { ownerUserId: selection.ownerUserId, ownerOrgId: selection.ownerOrgId, expectedVersion: anchor.projectRowVersion, reason: selection.reason.trim() });
++            this.changed.emit();
++        } catch { this.referencesLoaded.set(false); this.error.set('首次指派未成功，请重新读取锚点后核对版本和人员。'); }
++        finally { this.busy.set(false); }
++    }
++}
+--- /dev/null
++++ b/apps/poms-admin/src/app/features/project/project-detail-scope-entry.ts
+@@ -0,0 +1,61 @@
++import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
++import { toSignal } from '@angular/core/rxjs-interop';
++import { ActivatedRoute, RouterLink } from '@angular/router';
++import { AttachmentStore } from '@poms/admin-data-access';
++import { ProjectStageLabel, type ProjectDetailView } from '@poms/shared-contracts';
++import { ProjectCreatorFirstAssignment } from './project-creator-first-assignment';
++import { ProjectDetail } from './project-detail';
++import { ProjectGovernanceApi } from './project-governance-api';
++
++/** Keeps the existing complete project page behind a real full-project anchor. */
++@Component({
++    selector: 'app-project-detail-scope-entry', standalone: true,
++    imports: [RouterLink, ProjectCreatorFirstAssignment, ProjectDetail], providers: [AttachmentStore, ProjectGovernanceApi],
++    changeDetection: ChangeDetectionStrategy.OnPush,
++    template: `
++        @if (loading()) { <p role="status">正在读取项目责任范围…</p> }
++        @if (error()) { <p role="alert">{{ error() }}</p> }
++        @if (anchor(); as detail) {
++            @switch (detail.scopeKind) {
++                @case ('full-project') {
++                    <nav class="mb-4 flex flex-wrap gap-3" aria-label="项目办理入口">
++                        <a class="rounded border px-3 py-2" [routerLink]="['/projects', detail.id, 'governance']">经营、角色与交付办理</a>
++                        <a class="rounded border px-3 py-2" [routerLink]="['/projects', detail.id, 'condition-tasks']">本人的完成条件</a>
++                    </nav>
++                    <app-project-detail />
++                }
++                @case ('creator-first-assignment-only') { <app-project-creator-first-assignment [anchor]="detail" (changed)="reload()" /> }
++                @case ('legacy-owner-anchor-only') {
++                    <section class="grid gap-3 rounded border p-4" aria-label="历史项目基础锚点">
++                        <h1 class="text-2xl font-semibold">{{ detail.projectNo }} · {{ detail.projectName }}</h1>
++                        <p>{{ stageLabel[detail.currentStage] }} · 版本 {{ detail.rowVersion }}</p>
++                        <p>{{ detail.explanation }}</p>
++                    </section>
++                }
++            }
++        }
++        <button type="button" class="my-3 rounded border px-3 py-2" [disabled]="loading()" (click)="reload()">重新读取责任范围</button>
++    `
++})
++export class ProjectDetailScopeEntry {
++    private readonly route = inject(ActivatedRoute);
++    private readonly api = inject(ProjectGovernanceApi);
++    private readonly params = toSignal(this.route.paramMap, { initialValue: this.route.snapshot.paramMap });
++    readonly anchor = signal<ProjectDetailView | null>(null);
++    readonly stageLabel = ProjectStageLabel;
++    readonly loading = signal(false);
++    readonly error = signal('');
++    private epoch = 0;
++    constructor() { effect(() => { const id = this.params().get('id'); void this.load(id); }); }
++    reload() { void this.load(this.params().get('id')); }
++    private async load(id: string | null) {
++        const epoch = ++this.epoch;
++        this.anchor.set(null); this.loading.set(true); this.error.set('');
++        try {
++            if (!id) throw new Error('缺少实际项目。');
++            const anchor = await this.api.loadAnchor(id);
++            if (epoch === this.epoch) this.anchor.set(anchor);
++        } catch { if (epoch === this.epoch) this.error.set('无法读取项目责任范围，请从项目或本人任务重新打开。'); }
++        finally { if (epoch === this.epoch) this.loading.set(false); }
++    }
++}
+--- /dev/null
++++ b/apps/poms-admin/src/app/features/project/project-governance-api.ts
+@@ -0,0 +1,262 @@
++import { inject, Injectable } from '@angular/core';
++import { AttachmentStore, type UploadAttachmentInput } from '@poms/admin-data-access';
++import {
++    ActiveInactiveStatus, AttachmentRelationType, AttachmentTargetType, CommissionApi, CommissionRoleAssignmentsApi,
++    ContractApi, ContractFinanceApi, DictionaryApi, DictionaryDomain, ProjectApi, ProjectCostApi, ProjectHandoverApi
++} from '@poms/shared-api-client';
++import {
++    AcceptanceRecordListSchema, AcceptanceRecordSummarySchema, BusinessAccountingFeedbackViewSchema,
++    CloseProjectCompletionConditionResultSchema, CommissionGateBindingHistoryViewSchema,
++    CommissionRoleAssignmentDetailViewSchema, CommissionRoleAssignmentSummarySchema,
++    ContractListSchema, CurrentCommissionRoleAssignmentResponseSchema, FreezeCommissionRoleAssignmentResultSchema,
++    OperatingAccountingPreparationViewSchema, OperatingCommandResultSchema, OperatingSignalEvaluationViewSchema,
++    ProjectArchiveRecordListSchema, ProjectArchiveRecordSummarySchema, ProjectCompletionRecordListSchema,
++    ProjectCompletionRecordSummarySchema, ProjectDetailViewSchema, ProjectHandoverDetailViewSchema,
++    ProjectOperatingSnapshotSummarySchema, ProjectStageTransitionResultSchema,
++    ProjectUnifiedAccountingViewSchema, ReceiptRecordSummarySchema, ReviewCommissionGateBindingResultSchema,
++    ReviewOperatingSignalEvaluationResultSchema, type ConfirmReceiptRecordRequest, type FullProjectDetailView,
++    type ProjectCompletionRecordList, type ReviewCommissionGateBindingRequest,
++    type ReviewOperatingSignalEvaluationRequest, type ReassignProjectOwnerRequest,
++    type CreatorFirstAssignmentAnchorView, type OperatingPreparation
++} from '@poms/shared-contracts';
++import { firstValueFrom } from 'rxjs';
++import type { RoleAssignmentAuthoringApi } from '../commission/project-role-assignment-authoring';
++import type { ProjectLifecycleAuthoringApi, LifecycleEvidenceSelection } from './project-lifecycle-authoring';
++import type { OperatingAuthorCommand, OperatingPreparationQuery } from './project-operating-authoring';
++
++export type GovernancePreparationQuery = OperatingPreparationQuery | { view: 'preparation'; intent: 'receipt-basis'; receiptId: string };
++
++/** Uses only existing generated methods. New method names follow the frozen operationIds. */
++@Injectable()
++export class ProjectGovernanceApi {
++    private readonly projects = inject(ProjectApi);
++    private readonly costs = inject(ProjectCostApi);
++    private readonly commissions = inject(CommissionApi);
++    private readonly assignments = inject(CommissionRoleAssignmentsApi);
++    private readonly handovers = inject(ProjectHandoverApi);
++    private readonly contracts = inject(ContractApi);
++    private readonly finance = inject(ContractFinanceApi);
++    private readonly attachments = inject(AttachmentStore);
++    private readonly dictionary = inject(DictionaryApi);
++    private fullProject: FullProjectDetailView | null = null;
++    private firstAssignmentAnchor: CreatorFirstAssignmentAnchorView | null = null;
++    private ownEvidence = new Map<string, LifecycleEvidenceSelection>();
++    private receiptEvidenceIds = new Set<string>();
++    private anchorEpoch = 0;
++
++    async loadAnchor(projectId: string) {
++        const epoch = ++this.anchorEpoch;
++        this.fullProject = null;
++        this.firstAssignmentAnchor = null;
++        this.receiptEvidenceIds.clear();
++        const detail = ProjectDetailViewSchema.parse(await firstValueFrom(this.projects.projectControllerGetById({ id: projectId })));
++        if (epoch === this.anchorEpoch && detail.scopeKind === 'full-project') this.fullProject = detail;
++        if (epoch === this.anchorEpoch && detail.scopeKind === 'creator-first-assignment-only') this.firstAssignmentAnchor = detail;
++        return detail;
++    }
++    private requireFull(projectId: string): FullProjectDetailView {
++        if (!this.fullProject || this.fullProject.id !== projectId) throw new Error('请先取得此项目的完整责任范围。');
++        return this.fullProject;
++    }
++    async reassignFirstOwner(projectId: string, request: ReassignProjectOwnerRequest) {
++        const anchor = this.firstAssignmentAnchor;
++        if (!anchor || anchor.projectId !== projectId || !anchor.allowedActions.includes('reassign-owner') || request.expectedVersion !== anchor.projectRowVersion) throw new Error('本次首次指派已失效，请重新读取项目锚点。');
++        return firstValueFrom(this.projects.projectControllerReassignOwner({ id: projectId, reassignProjectOwnerRequest: request }));
++    }
++    async prepare(projectId: string, query: GovernancePreparationQuery) {
++        this.requireFull(projectId);
++        const payload = query.intent === 'receipt-basis'
++            ? { projectId, view: query.view, intent: query.intent, receiptId: query.receiptId }
++            : {
++                projectId, view: query.view, intent: query.intent, snapshotMode: query.snapshotMode,
++                ...(query.periodKey ? { periodKey: query.periodKey } : {}),
++                ...(query.restatesSnapshotId ? { restatesSnapshotId: query.restatesSnapshotId } : {}),
++                ...(query.periodEndSnapshotId ? { periodEndSnapshotId: query.periodEndSnapshotId } : {}),
++                ...(query.correctionSourceRefs ? { correctionSourceRefs: query.correctionSourceRefs } : {})
++            };
++        return OperatingAccountingPreparationViewSchema.parse(await firstValueFrom(this.costs.projectCostControllerGetProjectUnifiedAccounting(payload)));
++    }
++    async accounting(projectId: string) {
++        this.requireFull(projectId);
++        return ProjectUnifiedAccountingViewSchema.parse(await firstValueFrom(this.costs.projectCostControllerGetProjectUnifiedAccounting({ projectId })));
++    }
++    async feedback(projectId: string) {
++        this.requireFull(projectId);
++        return BusinessAccountingFeedbackViewSchema.parse(await firstValueFrom(this.costs.projectCostControllerGetBusinessAccountingFeedback({ projectId })));
++    }
++    async evaluation(id: string) {
++        if (!this.fullProject) throw new Error('请先取得完整项目范围。');
++        const value = OperatingSignalEvaluationViewSchema.parse(await firstValueFrom(this.costs.projectCostControllerGetOperatingSignalEvaluation({ id })));
++        this.requireFull(value.projectId);
++        return value;
++    }
++    async binding(id: string) {
++        if (!this.fullProject) throw new Error('请先取得完整项目范围。');
++        const value = CommissionGateBindingHistoryViewSchema.parse(await firstValueFrom(this.costs.projectCostControllerGetCommissionGateBinding({ id })));
++        this.requireFull(value.projectId);
++        return value;
++    }
++    async snapshot(id: string) {
++        if (!this.fullProject) throw new Error('请先取得完整项目范围。');
++        const value = ProjectOperatingSnapshotSummarySchema.parse(await firstValueFrom(this.costs.projectCostControllerGetProjectOperatingSnapshot({ id })));
++        this.requireFull(value.projectId);
++        return value;
++    }
++    async command(command: OperatingAuthorCommand) {
++        this.requireFull(command.request.projectId);
++        switch (command.kind) {
++            case 'activate-baseline': return OperatingCommandResultSchema.parse(await firstValueFrom(this.costs.projectCostControllerActivateOperatingBaselinePackage({ activateOperatingBaselinePackageRequest: command.request })));
++            case 'create-snapshot': return OperatingCommandResultSchema.parse(await firstValueFrom(this.costs.projectCostControllerCreateProjectOperatingSnapshot({ createProjectOperatingSnapshotRequest: command.request })));
++            case 'close-period': return OperatingCommandResultSchema.parse(await firstValueFrom(this.costs.projectCostControllerCreatePeriodClosingSnapshot({ createPeriodClosingSnapshotRequest: command.request })));
++            case 'restate': return OperatingCommandResultSchema.parse(await firstValueFrom(this.costs.projectCostControllerCreateOperatingRestatement({ createOperatingRestatementRequest: command.request })));
++        }
++    }
++    async reviewSignal(projectId: string, id: string, request: ReviewOperatingSignalEvaluationRequest) {
++        this.requireFull(projectId);
++        return ReviewOperatingSignalEvaluationResultSchema.parse(await firstValueFrom(this.costs.projectCostControllerReviewOperatingSignalEvaluation({ id, reviewOperatingSignalEvaluationRequest: request })));
++    }
++    async reviewBinding(projectId: string, id: string, request: ReviewCommissionGateBindingRequest) {
++        this.requireFull(projectId);
++        return ReviewCommissionGateBindingResultSchema.parse(await firstValueFrom(this.costs.projectCostControllerReviewCommissionGateBinding({ id, reviewCommissionGateBindingRequest: request })));
++    }
++    async receiptChoices(projectId: string) {
++        this.requireFull(projectId);
++        const contracts = ContractListSchema.parse(await firstValueFrom(this.contracts.contractControllerList({ projectId })));
++        return Promise.all(contracts.map(async (contract) => ({
++            contract,
++            receipts: (await firstValueFrom(this.finance.contractFinanceControllerListReceipts({ contractId: contract.id }))).map((receipt) => ReceiptRecordSummarySchema.parse(receipt))
++        })));
++    }
++    async confirmReceipt(projectId: string, receiptId: string, request: ConfirmReceiptRecordRequest) {
++        this.requireFull(projectId);
++        return ReceiptRecordSummarySchema.parse(await firstValueFrom(this.finance.contractFinanceControllerConfirmReceipt({ id: receiptId, confirmReceiptRecordRequest: request })));
++    }
++    async receiptEvidenceFiles(projectId: string, contractId: string, preparation: OperatingPreparation) {
++        this.requireFull(projectId);
++        this.receiptEvidenceIds.clear();
++        if (preparation.projectId !== projectId || preparation.intent !== 'receipt-basis' || !preparation.sourceRows.some((row) => row.sourceRef.kind === 'Contract' && row.sourceRef.id === contractId)) throw new Error('回款来源范围已变化。');
++        const allowed = new Set(preparation.sourceRows.filter((row) => row.sourceRef.kind === 'Attachment' && row.state === 'ready').map((row) => row.sourceRef.id));
++        if (!allowed.size) return [];
++        const groups = await Promise.all([
++            this.attachments.loadAttachments({ targetType: AttachmentTargetType.Project, targetId: projectId }),
++            this.attachments.loadAttachments({ targetType: AttachmentTargetType.Contract, targetId: contractId })
++        ]);
++        const files = [...new Map(groups.flat().filter((file) => allowed.has(file.id) && file.status === 'active').map((file) => [file.id, file])).values()];
++        this.receiptEvidenceIds = new Set(files.map((file) => file.id));
++        return files.map((file) => ({ id: file.id, fileName: file.displayName }));
++    }
++    async downloadReceiptEvidence(projectId: string, attachmentId: string) {
++        this.requireFull(projectId);
++        if (!this.receiptEvidenceIds.has(attachmentId)) throw new Error('附件不在当前回款依据的可读范围。');
++        return this.downloadFile(attachmentId);
++    }
++    async uploadProjectEvidence(projectId: string, file: File): Promise<LifecycleEvidenceSelection> {
++        this.requireFull(projectId);
++        return this.uploadLinkedEvidence(projectId, file, 'delivery');
++    }
++    async uploadReceiptEvidence(projectId: string, file: File): Promise<LifecycleEvidenceSelection> {
++        this.requireFull(projectId);
++        return this.uploadLinkedEvidence(projectId, file, 'finance');
++    }
++    private async uploadLinkedEvidence(projectId: string, file: File, category: 'delivery' | 'acceptance' | 'finance', purpose?: NonNullable<UploadAttachmentInput['completionConditionContext']>): Promise<LifecycleEvidenceSelection> {
++        const categories = await firstValueFrom(this.dictionary.dictionaryControllerList({ domain: DictionaryDomain.AttachmentCategory, status: ActiveInactiveStatus.Active }));
++        if (!categories.some((item) => item.domain === 'attachment-category' && item.code === category && item.status === 'active')) throw new Error('当前附件业务分类未启用，请核对附件分类配置后重试。');
++        const attachment = await this.attachments.uploadAttachment({
++            targetType: AttachmentTargetType.Project, targetId: projectId,
++            file, category, relationType: AttachmentRelationType.Evidence,
++            ...(purpose ? { completionConditionContext: purpose } : {})
++        });
++        const link = attachment.links.find((candidate) => candidate.targetType === 'project' && candidate.targetId === projectId && candidate.status === 'active');
++        if (!link) throw new Error('上传已完成，但未返回当前项目的有效附件关联。请重新核对附件。');
++        // R2 upload response does not expose rowVersion. The server freezes it on command.
++        return { attachmentLinkId: link.id, attachmentId: attachment.id, fileName: attachment.displayName, checksumSha256: attachment.checksumSha256 };
++    }
++    private rememberOwnEvidence(records: ProjectCompletionRecordList, actorId: string | null) {
++        this.ownEvidence.clear();
++        if (records.scopeKind === 'full-project') {
++            for (const parent of records.items) for (const task of parent.conditions) {
++                if (task.responsibleUserId === actorId) for (const ref of [...task.evidenceRefs, ...task.closureEvidenceRefs]) this.ownEvidence.set(ref.attachmentLinkId, ref);
++            }
++            return;
++        }
++        for (const parent of records.items) for (const task of parent.ownTasks) {
++            for (const ref of [...task.evidenceRefs, ...(task.closure?.evidenceRefs ?? [])]) this.ownEvidence.set(ref.attachmentLinkId, ref);
++        }
++    }
++    private async openEvidence(evidence: LifecycleEvidenceSelection, ownOnly: boolean) {
++        if (ownOnly) {
++            const allowed = this.ownEvidence.get(evidence.attachmentLinkId);
++            if (!allowed || allowed.attachmentId !== evidence.attachmentId || allowed.checksumSha256 !== evidence.checksumSha256) throw new Error('附件不在本次本人条件任务的证据范围内。');
++        }
++        await this.downloadFile(evidence.attachmentId);
++    }
++    private async downloadFile(attachmentId: string) {
++        const download = await this.attachments.downloadAttachment(attachmentId);
++        const url = URL.createObjectURL(download.blob);
++        const link = document.createElement('a');
++        link.href = url; link.download = download.fileName; link.click();
++        setTimeout(() => URL.revokeObjectURL(url), 0);
++    }
++    lifecycleApi(projectId: string, ownOnly: boolean, actorId: string | null): ProjectLifecycleAuthoringApi {
++        const full = () => { if (ownOnly) throw new Error('本人条件任务仅提供本人的任务和证据。'); this.requireFull(projectId); };
++        const closeTargets = new Map<string, { completionRecordId: string; completionVersion: number; conditionVersion: number }>();
++        return {
++            loadCompletionRecords: async (id) => {
++                if (id !== projectId) throw new Error('项目已变化，请重新打开任务。');
++                const records = ProjectCompletionRecordListSchema.parse(await firstValueFrom(this.projects.projectControllerListProjectCompletionRecords({ projectId: id })));
++                if (records.projectId !== projectId) throw new Error('任务项目不匹配。');
++                closeTargets.clear();
++                if (records.scopeKind === 'own-condition-only') {
++                    for (const parent of records.items) for (const task of parent.ownTasks) if (task.status === 'pending' && task.responsibleUserId === actorId) {
++                        closeTargets.set(task.conditionId, { completionRecordId: parent.completionRecordId, completionVersion: parent.completionRowVersion, conditionVersion: task.conditionRowVersion });
++                    }
++                } else {
++                    for (const parent of records.items) for (const task of parent.conditions) if (task.allowedActions.includes('close-completion-condition') && task.responsibleUserId === actorId) {
++                        closeTargets.set(task.id, { completionRecordId: parent.id, completionVersion: parent.rowVersion, conditionVersion: task.rowVersion });
++                    }
++                }
++                this.rememberOwnEvidence(records, actorId);
++                return records;
++            },
++            loadAcceptanceRecords: async (id) => { full(); return AcceptanceRecordListSchema.parse(await firstValueFrom(this.projects.projectControllerListAcceptanceRecords({ projectId: id }))); },
++            loadArchiveRecords: async (id) => { full(); return ProjectArchiveRecordListSchema.parse(await firstValueFrom(this.projects.projectControllerListProjectArchiveRecords({ projectId: id }))); },
++            startExecution: async (id, body) => { full(); return ProjectStageTransitionResultSchema.parse(await firstValueFrom(this.projects.projectControllerStartExecution({ projectId: id, startProjectExecutionRequest: body }))); },
++            startAcceptance: async (id, body) => { full(); return ProjectStageTransitionResultSchema.parse(await firstValueFrom(this.projects.projectControllerStartAcceptance({ projectId: id, startProjectAcceptanceRequest: body }))); },
++            createAcceptance: async (id, body) => { full(); return AcceptanceRecordSummarySchema.parse(await firstValueFrom(this.projects.projectControllerCreateAcceptanceRecord({ projectId: id, createAcceptanceRecordRequest: body }))); },
++            createCompletion: async (id, body) => { full(); return ProjectCompletionRecordSummarySchema.parse(await firstValueFrom(this.projects.projectControllerCreateProjectCompletionRecord({ projectId: id, createProjectCompletionRecordRequest: body }))); },
++            createArchive: async (id, body) => { full(); return ProjectArchiveRecordSummarySchema.parse(await firstValueFrom(this.projects.projectControllerCreateProjectArchiveRecord({ projectId: id, createProjectArchiveRecordRequest: body }))); },
++            replaceArchive: async (id, body) => { full(); return ProjectArchiveRecordSummarySchema.parse(await firstValueFrom(this.projects.projectArchiveRecordControllerReplaceProjectArchiveRecord({ id, replaceProjectArchiveRecordRequest: body }))); },
++            voidArchive: async (id, body) => { full(); return ProjectArchiveRecordSummarySchema.parse(await firstValueFrom(this.projects.projectArchiveRecordControllerVoidProjectArchiveRecord({ id, voidProjectArchiveRecordRequest: body }))); },
++            closeCondition: async (completionRecordId, conditionId, body) => {
++                const target = closeTargets.get(conditionId);
++                if (!target || target.completionRecordId !== completionRecordId || target.completionVersion !== body.expectedCompletionVersion || target.conditionVersion !== body.expectedConditionVersion) throw new Error('本人条件或父记录版本已变化，请重新读取任务。');
++                const result = CloseProjectCompletionConditionResultSchema.parse(await firstValueFrom(this.projects.projectCompletionRecordControllerCloseCompletionCondition({ completionRecordId, conditionId, closeProjectCompletionConditionRequest: body })));
++                closeTargets.delete(conditionId);
++                return result;
++            },
++            uploadEvidence: async (id, file) => { full(); return this.uploadProjectEvidence(id, file); },
++            uploadConditionEvidence: async (id, completionRecordId, conditionId, file) => {
++                const target = closeTargets.get(conditionId);
++                if (id !== projectId || !target || target.completionRecordId !== completionRecordId) throw new Error('请从本次返回的本人待办条件选择上传目标。');
++                const evidence = await this.uploadLinkedEvidence(id, file, 'acceptance', { completionRecordId, conditionId });
++                this.ownEvidence.set(evidence.attachmentLinkId, evidence);
++                return evidence;
++            },
++            openEvidence: (evidence) => this.openEvidence(evidence, ownOnly)
++        };
++    }
++    roleApi(projectId: string): RoleAssignmentAuthoringApi {
++        const full = () => this.requireFull(projectId);
++        return {
++            loadCurrent: async (id) => { full(); return CurrentCommissionRoleAssignmentResponseSchema.parse(await firstValueFrom(this.commissions.commissionControllerGetCurrentRoleAssignment({ projectId: id }))); },
++            loadDetail: async (id) => { full(); return CommissionRoleAssignmentDetailViewSchema.parse(await firstValueFrom(this.assignments.commissionRoleAssignmentControllerGetRoleAssignmentDetail({ id }))); },
++            loadHandover: async (id) => { full(); return this.handover(id); },
++            create: async (id, request) => { full(); return CommissionRoleAssignmentSummarySchema.parse(await firstValueFrom(this.commissions.commissionControllerCreateRoleAssignment({ projectId: id, createCommissionRoleAssignmentRequest: request }))); },
++            freeze: async (id, request) => { full(); return FreezeCommissionRoleAssignmentResultSchema.parse(await firstValueFrom(this.assignments.commissionRoleAssignmentControllerFreezeRoleAssignment({ id, freezeCommissionRoleAssignmentRequest: request }))); }
++        };
++    }
++    async handover(projectId: string) {
++        this.requireFull(projectId);
++        return ProjectHandoverDetailViewSchema.parse(await firstValueFrom(this.handovers.projectHandoverControllerGetProjectHandoverDetailByProject({ projectId })));
++    }
++}
+--- /dev/null
++++ b/apps/poms-admin/src/app/features/project/project-governance-facts.ts
+@@ -0,0 +1,87 @@
++import type {
++    ConfirmReceiptRecordRequest, ExpectedRef, FullProjectDetailView, OperatingPreparation,
++    ProjectHandoverDetailView, CommissionRoleAssignmentSummary, ReceiptRecordSummary, SourceRef
++} from '@poms/shared-contracts';
++import type { LifecycleAuthoringContext } from './project-lifecycle-authoring';
++
++export function sourceIdentity(ref: SourceRef): string {
++    return `${ref.kind}:${ref.id}:${ref.rowVersion}:${ref.payloadHash}`;
++}
++export function expectedSource(ref: SourceRef): ExpectedRef {
++    return { kind: ref.kind, id: ref.id, expectedVersion: ref.rowVersion, payloadHash: ref.payloadHash };
++}
++/** Choice values stay opaque in the browser; versions and hashes come from server rows. */
++export function receiptBasisChoices(preparation: OperatingPreparation, contractId: string) {
++    const contract = preparation.sourceRows.find((row) => row.sourceRef.kind === 'Contract' && row.sourceRef.id === contractId);
++    const members = contract?.sourceMembers ?? [];
++    const terms = members.filter((ref) => ref.kind === 'ContractTermSnapshot' && preparation.sourceRows.some((row) => row.sourceRef.kind === ref.kind && sourceIdentity(row.sourceRef) === sourceIdentity(ref) && row.state === 'ready'));
++    const currencies = members.filter((ref) => ref.kind === 'ContractTermSnapshot' || ref.kind === 'CommercialReleaseBaseline');
++    const evidence = preparation.sourceRows.filter((row) => row.sourceRef.kind === 'Attachment' && row.state === 'ready').map((row) => row.sourceRef);
++    return { contract: contract?.sourceRef ?? null, terms, currencies, evidence };
++}
++export function receiptCurrencyChoices(preparation: OperatingPreparation, termKey: string): SourceRef[] {
++    const term = preparation.sourceRows.find((row) => row.sourceRef.kind === 'ContractTermSnapshot' && sourceIdentity(row.sourceRef) === termKey && row.state === 'ready');
++    if (!term) return [];
++    const commercial = term.sourceMembers.filter((ref) => ref.kind === 'CommercialReleaseBaseline');
++    // A ready term with no commercial member must carry its own proven currency.
++    // Prefer actual commercial provenance when supplied, including historical terms.
++    return commercial.length ? commercial : [term.sourceRef];
++}
++export function receiptConfirmation(
++    preparation: OperatingPreparation, receipt: ReceiptRecordSummary,
++    selection: { termKey: string; currencyKey: string; evidenceKeys: string[]; selectionPolicy: string; reason: string }
++): ConfirmReceiptRecordRequest {
++    if (preparation.projectId !== receipt.projectId || preparation.intent !== 'receipt-basis') throw new Error('请重新读取当前回款的正式依据。');
++    const choices = receiptBasisChoices(preparation, receipt.contractId);
++    const term = choices.terms.find((ref) => sourceIdentity(ref) === selection.termKey);
++    const currency = receiptCurrencyChoices(preparation, selection.termKey).find((ref) => sourceIdentity(ref) === selection.currencyKey);
++    const receiptRow = preparation.sourceRows.find((row) => row.sourceRef.kind === 'ReceiptRecord' && row.sourceRef.id === receipt.id);
++    const receiptRef = receiptRow?.sourceRef;
++    if (receiptRow?.state === 'ready') throw new Error('该回款已有不可变依据，不能覆盖。');
++    if (!term || !currency || !choices.contract || !receiptRef || receiptRef.rowVersion !== receipt.rowVersion) throw new Error('回款或依据版本发生变化，请重新读取。');
++    if (currency.kind === 'ContractTermSnapshot' && sourceIdentity(currency) !== sourceIdentity(term)) throw new Error('条款币种依据必须来自所选条款。');
++    const termRow = preparation.sourceRows.find((row) => sourceIdentity(row.sourceRef) === sourceIdentity(term));
++    if (currency.kind === 'CommercialReleaseBaseline' && !termRow?.sourceMembers.some((ref) => sourceIdentity(ref) === sourceIdentity(currency))) throw new Error('商业币种依据不是所选条款的真实来源。');
++    if (new Set(selection.evidenceKeys).size !== selection.evidenceKeys.length) throw new Error('佐证材料不能重复选择。');
++    const evidence = selection.evidenceKeys.map((key) => {
++        const ref = choices.evidence.find((candidate) => sourceIdentity(candidate) === key);
++        if (!ref) throw new Error('佐证已不在当前来源白名单内，请重新读取。');
++        return expectedSource(ref);
++    });
++    if (!selection.reason.trim()) throw new Error('请说明选择依据。');
++    if (selection.selectionPolicy !== 'receipt-date-effective-terms' && selection.selectionPolicy !== 'explicit-activated-terms-evidence') throw new Error('请选择实际条款选择方式。');
++    if (receipt.status !== 'pending-confirmation' && receipt.status !== 'confirmed') throw new Error('当前回款状态不支持确认依据。');
++    if ((receipt.status === 'confirmed' || selection.selectionPolicy === 'explicit-activated-terms-evidence') && evidence.length === 0) throw new Error('历史补正或显式条款选择须提供真实附件证据。');
++    if (preparation.sourceRows.some((row) => row.sourceRef.kind === 'ReceiptAccountingBasis' && row.sourceMembers.some((ref) => ref.kind === 'ReceiptRecord' && ref.id === receipt.id))) throw new Error('该回款已有不可变依据，不能覆盖。');
++    return {
++        inputVersion: 'server-derived-v1', mode: receipt.status === 'confirmed' ? 'certify-existing-basis' : 'confirm',
++        expectedVersion: receiptRef.rowVersion, expectedContractVersion: choices.contract.rowVersion,
++        basis: { termSnapshotRef: expectedSource(term), currencyBasisRef: expectedSource(currency), evidenceRefs: evidence, selectionPolicy: selection.selectionPolicy, reason: selection.reason.trim() }
++    };
++}
++
++export function lifecycleContext(
++    project: FullProjectDetailView, canWrite: boolean,
++    handover: ProjectHandoverDetailView | null, role: CommissionRoleAssignmentSummary | null
++): LifecycleAuthoringContext {
++    let executionAdmission: LifecycleAuthoringContext['executionAdmission'] = null;
++    if (canWrite && handover && role && handover.projectId === project.id && handover.handoverStatus === 'confirmed' && !handover.sourceChanged
++        && handover.executionAdmission.allowed && handover.handoverId && handover.summarySnapshotId && handover.sourcePayloadHash
++        && project.currentStage === 'handover' && project.currentStageRecordId
++        && role.projectId === project.id && role.isCurrent && role.status === 'frozen' && role.sourceQualification === 'verified-producer'
++        && role.sourceHandoverId === handover.handoverId && role.handoverSummarySnapshotId === handover.summarySnapshotId && role.freezeSummarySnapshotId) {
++        executionAdmission = {
++            commissionRoleAssignmentId: role.id, expectedRoleAssignmentVersion: role.rowVersion,
++            sourceHandoverId: handover.handoverId, handoverSummarySnapshotId: handover.summarySnapshotId,
++            handoverStageRecordId: project.currentStageRecordId,
++            // Handover payload hash and role-freeze payload hash are different authorities.
++            sourcePayloadHash: handover.sourcePayloadHash
++        };
++    }
++    return {
++        projectRowVersion: project.projectRowVersion, currentStage: project.currentStage,
++        currentStageRecordId: project.currentStageRecordId,
++        canWriteLifecycle: canWrite && project.status !== 'closed', canArchive: canWrite && project.status !== 'closed',
++        executionAdmission
++    };
++}
+--- /dev/null
++++ b/apps/poms-admin/src/app/features/project/project-governance.ts
+@@ -0,0 +1,244 @@
++import { HttpErrorResponse } from '@angular/common/http';
++import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
++import { toSignal } from '@angular/core/rxjs-interop';
++import { ActivatedRoute, RouterLink } from '@angular/router';
++import { AttachmentStore, AuthStore, PlatformStore } from '@poms/admin-data-access';
++import {
++    OperatingEvaluationNotReadyErrorSchema, ProjectStageLabel, type BusinessAccountingFeedbackView,
++    type CommissionGateBindingHistoryView, type OperatingCommandResult, type OperatingPreparation,
++    type OperatingSignalEvaluationView, type ProjectDetailView, type ProjectOperatingSnapshotSummary,
++    type ProjectUnifiedAccountingView, type ProjectHandoverDetailView, type CommissionRoleAssignmentSummary
++} from '@poms/shared-contracts';
++import { ProjectRoleAssignmentAuthoring } from '../commission/project-role-assignment-authoring';
++import { ProjectCreatorFirstAssignment } from './project-creator-first-assignment';
++import { ProjectGovernanceApi } from './project-governance-api';
++import { lifecycleContext } from './project-governance-facts';
++import { ProjectLifecycleAuthoring } from './project-lifecycle-authoring';
++import { ProjectOperatingAuthoring, type OperatingAuthorCommand, type OperatingPreparationQuery } from './project-operating-authoring';
++import { ProjectOperatingReview, type OperatingSignalReviewSubmission, type OperatingGateReviewSubmission } from './project-operating-review';
++import { ProjectReceiptBasisAuthoring } from './project-receipt-basis-authoring';
++
++type Panel = 'anchor' | 'operating' | 'review' | 'lifecycle' | 'roles' | 'receipts';
++const defaultQuery: OperatingPreparationQuery = { view: 'preparation', intent: 'snapshot-create', snapshotMode: 'realtime', periodKey: null, restatesSnapshotId: null, periodEndSnapshotId: null, correctionSourceRefs: null };
++
++/** One anchor request selects the exact scope branch before any panel request. */
++@Component({
++    selector: 'app-project-governance', standalone: true,
++    imports: [RouterLink, ProjectCreatorFirstAssignment, ProjectOperatingAuthoring, ProjectOperatingReview, ProjectLifecycleAuthoring, ProjectRoleAssignmentAuthoring, ProjectReceiptBasisAuthoring],
++    providers: [AttachmentStore, PlatformStore, ProjectGovernanceApi], changeDetection: ChangeDetectionStrategy.OnPush,
++    template: `
++        <main class="mx-auto grid max-w-7xl gap-4 p-4">
++            <h1 class="text-2xl font-semibold">项目经营与交付办理</h1>
++            @if (loading()) { <p role="status">正在核对项目责任范围…</p> }
++            @if (error()) { <p role="alert" class="rounded border border-red-300 p-3">{{ error() }}</p> }
++            <div class="flex flex-wrap gap-3">
++                <button type="button" class="rounded border px-3 py-2" [disabled]="loading() || busy()" (click)="reload()">重新读取项目范围</button>
++                <a class="rounded border px-3 py-2" [routerLink]="['/projects', projectId(), 'condition-tasks']">本人的条件任务</a>
++            </div>
++            @if (anchor(); as detail) {
++                @switch (detail.scopeKind) {
++                    @case ('creator-first-assignment-only') { <app-project-creator-first-assignment [anchor]="detail" (changed)="reload()" /> }
++                    @case ('legacy-owner-anchor-only') {
++                        <section class="rounded border p-4" aria-label="历史项目基础锚点">
++                            <h2 class="text-lg font-semibold">{{ detail.projectNo }} · {{ detail.projectName }}</h2>
++                            <p>当前阶段 {{ stageLabel[detail.currentStage] }} · 基础版本 {{ detail.rowVersion }}</p>
++                            <p>{{ detail.explanation }}</p>
++                        </section>
++                    }
++                    @case ('full-project') {
++                        <section class="rounded border p-4" aria-label="项目基本责任范围">
++                            <h2 class="text-lg font-semibold">{{ detail.projectNo }} · {{ detail.projectName }}</h2>
++                            <p>当前阶段 {{ stageLabel[detail.currentStage] }} · 项目版本 {{ detail.projectRowVersion }}</p>
++                            <p>项目主责 {{ detail.ownerName ?? '未指定' }} · {{ detail.ownerOrgName ?? '待核对组织' }}</p>
++                        </section>
++                        <nav class="flex flex-wrap gap-2" aria-label="项目办理事项">
++                            <button type="button" class="rounded border px-3 py-2" [attr.aria-pressed]="panel() === 'lifecycle'" [disabled]="busy()" (click)="openPanel('lifecycle')">执行、验收与完成</button>
++                            @if (canRole()) { <button type="button" class="rounded border px-3 py-2" [attr.aria-pressed]="panel() === 'roles'" [disabled]="busy()" (click)="openPanel('roles')">提成角色职责</button> }
++                            @if (canFinance()) {
++                                <button type="button" class="rounded border px-3 py-2" [attr.aria-pressed]="panel() === 'operating'" [disabled]="busy()" (click)="openPanel('operating')">经营核算编制</button>
++                                <button type="button" class="rounded border px-3 py-2" [attr.aria-pressed]="panel() === 'review'" [disabled]="busy()" (click)="openPanel('review')">经营与提成门禁复核</button>
++                                <button type="button" class="rounded border px-3 py-2" [attr.aria-pressed]="panel() === 'receipts'" [disabled]="busy()" (click)="openPanel('receipts')">回款净税依据</button>
++                            }
++                        </nav>
++                        @switch (panel()) {
++                            @case ('anchor') { <p>请选择办理事项。各项依据按当前责任范围分别读取。</p> }
++                            @case ('operating') {
++                                @if (snapshots().length) {
++                                    <label>重述时对照的已冻结口径
++                                        <select class="ml-2 rounded border p-2" [value]="originalSnapshot()?.id ?? ''" [disabled]="busy()" (change)="chooseOriginal($event)">
++                                            @for (snapshot of snapshots(); track snapshot.id) { <option [value]="snapshot.id">{{ snapshot.snapshotMode === 'period-end' ? '期末累计' : snapshot.snapshotMode === 'restated' ? '重述口径' : '实时口径' }} · {{ snapshot.snapshotAt }}</option> }
++                                        </select>
++                                    </label>
++                                }
++                                <app-project-operating-authoring [preparation]="preparation()" [busy]="busy()" [error]="panelError() || null" [lastResult]="lastResult()" [originalSnapshot]="originalSnapshot()"
++                                    (prepareRequested)="prepare($event)" (commandRequested)="command($event)" />
++                            }
++                            @case ('review') {
++                                <app-project-operating-review [evaluation]="evaluation()" [feedback]="feedback()" [accounting]="accounting()" [gate]="gate()" [busy]="busy()" [error]="panelError()"
++                                    (reloadRequested)="loadReview()" (gateSelected)="selectBinding($event)" (signalReviewSubmitted)="reviewSignal($event)" (gateReviewSubmitted)="reviewBinding($event)" />
++                            }
++                            @case ('lifecycle') {
++                                @if (lifecycleApi(); as api) {
++                                    @if (!canRole() && detail.currentStage === 'handover') { <p role="status">执行准入需要读取真实已冻结角色。当前账号没有角色读取能力，尚不能装配执行准入依据。</p> }
++                                    <app-project-lifecycle-authoring [projectId]="detail.id" [api]="api" [context]="lifecycleContext()" [actorUserId]="actorId()"
++                                        [conditionOwners]="conditionOwners()" [canCloseOwnConditions]="canWrite()" (changed)="refreshAfterLifecycle()" />
++                                }
++                            }
++                            @case ('roles') { @if (roleApi(); as api) { <app-project-role-assignment-authoring [projectId]="detail.id" [api]="api" [canCreate]="canRole()" (changed)="refreshAfterLifecycle()" /> } }
++                            @case ('receipts') { <app-project-receipt-basis-authoring [projectId]="detail.id" (changed)="receiptChanged()" /> }
++                        }
++                        @if (panelError() && panel() !== 'review' && panel() !== 'operating') { <p role="alert">{{ panelError() }}</p> }
++                    }
++                }
++            }
++        </main>
++    `
++})
++export class ProjectGovernance {
++    private readonly route = inject(ActivatedRoute);
++    private readonly auth = inject(AuthStore);
++    private readonly platform = inject(PlatformStore);
++    private readonly api = inject(ProjectGovernanceApi);
++    private readonly params = toSignal(this.route.paramMap, { initialValue: this.route.snapshot.paramMap });
++    readonly projectId = computed(() => this.params().get('id') ?? '');
++    readonly actorId = computed(() => this.auth.currentUser()?.id ?? null);
++    readonly stageLabel = ProjectStageLabel;
++    readonly anchor = signal<ProjectDetailView | null>(null);
++    readonly fullProject = computed(() => { const value = this.anchor(); return value?.scopeKind === 'full-project' ? value : null; });
++    readonly loading = signal(false);
++    readonly busy = signal(false);
++    readonly error = signal('');
++    readonly panelError = signal('');
++    readonly panel = signal<Panel>('anchor');
++    readonly canWrite = computed(() => !!this.fullProject() && this.auth.hasAnyPermission(['project:write']));
++    readonly canFinance = computed(() => !!this.fullProject() && this.auth.hasAnyPermission(['contract:finance:manage']));
++    readonly canRole = computed(() => !!this.fullProject()?.allowedActions.includes('manage-project-commission') && this.auth.hasAnyPermission(['commission:assignments:manage']));
++    readonly preparation = signal<OperatingPreparation | null>(null);
++    readonly originalSnapshot = signal<ProjectOperatingSnapshotSummary | null>(null);
++    readonly snapshots = signal<ProjectOperatingSnapshotSummary[]>([]);
++    readonly lastResult = signal<OperatingCommandResult | null>(null);
++    readonly evaluation = signal<OperatingSignalEvaluationView | null>(null);
++    readonly feedback = signal<BusinessAccountingFeedbackView | null>(null);
++    readonly accounting = signal<ProjectUnifiedAccountingView | null>(null);
++    readonly gate = signal<CommissionGateBindingHistoryView | null>(null);
++    readonly handover = signal<ProjectHandoverDetailView | null>(null);
++    readonly role = signal<CommissionRoleAssignmentSummary | null>(null);
++    readonly lifecycleApi = computed(() => this.fullProject() ? this.api.lifecycleApi(this.projectId(), false, this.actorId()) : null);
++    readonly roleApi = computed(() => this.canRole() ? this.api.roleApi(this.projectId()) : null);
++    readonly lifecycleContext = computed(() => { const project = this.fullProject(); return project ? lifecycleContext(project, this.canWrite(), this.handover(), this.role()) : null; });
++    readonly conditionOwners = computed(() => this.platform.ownerUsers().filter((user) => user.isActive).map((user) => ({ id: user.id, displayName: user.displayName })));
++    private epoch = 0;
++    constructor() { effect(() => { const id = this.projectId(); void this.loadAnchor(id); }); }
++    reload() { void this.loadAnchor(this.projectId()); }
++    private resetFacts() {
++        this.preparation.set(null); this.originalSnapshot.set(null); this.snapshots.set([]); this.lastResult.set(null);
++        this.evaluation.set(null); this.feedback.set(null); this.accounting.set(null); this.gate.set(null); this.handover.set(null); this.role.set(null);
++    }
++    private async loadAnchor(projectId: string) {
++        const epoch = ++this.epoch;
++        this.anchor.set(null); this.loading.set(true); this.busy.set(false); this.error.set(''); this.panelError.set(''); this.panel.set('anchor'); this.resetFacts();
++        try {
++            if (!projectId) throw new Error('缺少实际项目。');
++            const anchor = await this.api.loadAnchor(projectId);
++            if (epoch === this.epoch) this.anchor.set(anchor);
++        } catch (error) { if (epoch === this.epoch) this.error.set(this.errorText(error)); }
++        finally { if (epoch === this.epoch) this.loading.set(false); }
++    }
++    async openPanel(panel: Panel) {
++        if (!this.fullProject() || this.busy() || (['operating', 'review', 'receipts'].includes(panel) && !this.canFinance()) || (panel === 'roles' && !this.canRole())) return;
++        this.panel.set(panel); this.panelError.set('');
++        if (panel === 'operating') await this.prepare(defaultQuery);
++        if (panel === 'review') await this.loadReview();
++        if (panel === 'lifecycle') await this.loadLifecycleContext();
++    }
++    async prepare(query: OperatingPreparationQuery) {
++        if (!this.canFinance() || this.busy()) return;
++        const epoch = this.epoch; this.busy.set(true); this.panelError.set(''); this.preparation.set(null);
++        try {
++            const result = await this.api.prepare(this.projectId(), query);
++            if (epoch !== this.epoch) return;
++            this.preparation.set(result.preparation);
++            const currentRef = result.preparation.officialSnapshotRef;
++            if (currentRef && !this.originalSnapshot()) this.rememberSnapshot(await this.api.snapshot(currentRef.id), true);
++        } catch (error) { if (epoch === this.epoch) this.panelError.set(this.errorText(error)); }
++        finally { if (epoch === this.epoch) this.busy.set(false); }
++    }
++    private rememberSnapshot(snapshot: ProjectOperatingSnapshotSummary, select = false) {
++        this.snapshots.update((items) => [snapshot, ...items.filter((item) => item.id !== snapshot.id)]);
++        if (select) this.originalSnapshot.set(snapshot);
++    }
++    chooseOriginal(event: Event) {
++        const select = event.target; if (!(select instanceof HTMLSelectElement)) return;
++        this.originalSnapshot.set(this.snapshots().find((snapshot) => snapshot.id === select.value) ?? null);
++        this.preparation.set(null);
++    }
++    async command(command: OperatingAuthorCommand) {
++        if (!this.canFinance() || this.busy() || !this.preparation()) return;
++        const epoch = this.epoch; this.busy.set(true); this.panelError.set('');
++        try {
++            const result = await this.api.command(command);
++            if (epoch !== this.epoch) return;
++            this.lastResult.set(result); this.preparation.set(null);
++            if (result.snapshotId) this.rememberSnapshot(await this.api.snapshot(result.snapshotId), true);
++        } catch (error) { if (epoch === this.epoch) { this.preparation.set(null); this.panelError.set(this.errorText(error)); } }
++        finally { if (epoch === this.epoch) this.busy.set(false); }
++    }
++    async loadReview() {
++        if (!this.canFinance() || this.busy()) return;
++        const epoch = this.epoch; this.busy.set(true); this.panelError.set(''); this.evaluation.set(null); this.feedback.set(null); this.accounting.set(null); this.gate.set(null);
++        try {
++            const [accounting, feedback] = await Promise.all([this.api.accounting(this.projectId()), this.api.feedback(this.projectId())]);
++            const evaluation = await this.api.evaluation(feedback.signalEvaluationId);
++            if (epoch !== this.epoch) return;
++            this.accounting.set(accounting); this.feedback.set(feedback); this.evaluation.set(evaluation);
++        } catch (error) { if (epoch === this.epoch) this.panelError.set(this.errorText(error)); }
++        finally { if (epoch === this.epoch) this.busy.set(false); }
++    }
++    async selectBinding(id: string) {
++        if (!this.feedback()?.stageBindings.some((binding) => binding.bindingId === id) || this.busy()) return;
++        const epoch = this.epoch; this.busy.set(true); this.panelError.set(''); this.gate.set(null);
++        try { const gate = await this.api.binding(id); if (epoch === this.epoch) this.gate.set(gate); }
++        catch (error) { if (epoch === this.epoch) this.panelError.set(this.errorText(error)); }
++        finally { if (epoch === this.epoch) this.busy.set(false); }
++    }
++    async reviewSignal(submission: OperatingSignalReviewSubmission) {
++        if (!this.canFinance() || this.busy() || this.evaluation()?.signalEvaluationId !== submission.evaluationId || !this.feedback()?.allowedActions.includes('reviewOperatingSignalEvaluation')) return;
++        this.busy.set(true); this.panelError.set('');
++        try { await this.api.reviewSignal(this.projectId(), submission.evaluationId, submission.request); }
++        catch (error) { this.evaluation.set(null); this.panelError.set(this.errorText(error)); }
++        finally { this.busy.set(false); }
++        if (!this.panelError()) await this.loadReview();
++    }
++    async reviewBinding(submission: OperatingGateReviewSubmission) {
++        if (!this.canFinance() || this.busy() || this.gate()?.bindingId !== submission.bindingId || !this.gate()?.allowedActions.includes('reviewCommissionGateBinding')) return;
++        this.busy.set(true); this.panelError.set('');
++        try { await this.api.reviewBinding(this.projectId(), submission.bindingId, submission.request); }
++        catch (error) { this.gate.set(null); this.panelError.set(this.errorText(error)); }
++        finally { this.busy.set(false); }
++        if (!this.panelError()) await this.loadReview();
++    }
++    private async loadLifecycleContext() {
++        const epoch = this.epoch; this.panelError.set(''); this.handover.set(null); this.role.set(null);
++        try {
++            const sources: Promise<void>[] = [];
++            if (this.canWrite()) sources.push(this.platform.loadOwnerReferenceData().then(() => undefined));
++            if (this.canRole()) {
++                const api = this.roleApi();
++                if (api) sources.push(Promise.all([api.loadCurrent(this.projectId()), api.loadHandover(this.projectId())]).then(([role, handover]) => { if (epoch === this.epoch) { this.role.set(role); this.handover.set(handover); } }));
++            }
++            await Promise.all(sources);
++        } catch (error) { if (epoch === this.epoch) this.panelError.set(this.errorText(error)); }
++    }
++    refreshAfterLifecycle() { this.reload(); }
++    receiptChanged() { this.preparation.set(null); this.evaluation.set(null); this.feedback.set(null); this.accounting.set(null); this.gate.set(null); }
++    private errorText(error: unknown) {
++        if (error instanceof HttpErrorResponse) {
++            const notReady = OperatingEvaluationNotReadyErrorSchema.safeParse(error.error);
++            if (error.status === 409 && notReady.success) return '尚无当前正式经营评估，请先通过真实来源编制经营快照。';
++            if (error.status === 409) return '来源或版本已经变化，请重新读取后核对；本次操作未自动重试。';
++            if (error.status === 403 || error.status === 404) return '当前责任范围无法读取或办理此项目事项。';
++            return `请求未完成（HTTP ${error.status}），请重新读取依据。`;
++        }
++        return error instanceof Error ? error.message : '读取或办理未完成，请重新核对真实来源。';
++    }
++}
+--- a/apps/poms-admin/src/app/features/project/project-lifecycle-authoring.ts
++++ b/apps/poms-admin/src/app/features/project/project-lifecycle-authoring.ts
+@@ -19,6 +19,9 @@
+     VoidProjectArchiveRecordRequest
+ } from '@poms/shared-contracts';
+ import { SectionCard } from '../../shared/ui/sectioncard';
++
++/** Upload selection carries real R2 summary fields; the server owns the frozen row version. */
++export type LifecycleEvidenceSelection = Pick<FrozenLifecycleEvidence, 'attachmentLinkId' | 'attachmentId' | 'checksumSha256' | 'fileName'>;
+ 
+ export interface LifecycleAuthoringContext {
+     projectRowVersion: number;
+@@ -42,14 +45,15 @@
+     replaceArchive(archiveId: string, body: ReplaceProjectArchiveRecordRequest): Promise<ProjectArchiveRecordSummary>;
+     voidArchive(archiveId: string, body: VoidProjectArchiveRecordRequest): Promise<ProjectArchiveRecordSummary>;
+     closeCondition(completionRecordId: string, conditionId: string, body: CloseProjectCompletionConditionRequest): Promise<CloseProjectCompletionConditionResult>;
+-    uploadEvidence(projectId: string, file: File): Promise<FrozenLifecycleEvidence>;
+-    openEvidence(evidence: FrozenLifecycleEvidence): Promise<void>;
++    uploadEvidence(projectId: string, file: File): Promise<LifecycleEvidenceSelection>;
++    uploadConditionEvidence(projectId: string, completionRecordId: string, conditionId: string, file: File): Promise<LifecycleEvidenceSelection>;
++    openEvidence(evidence: LifecycleEvidenceSelection): Promise<void>;
+ }
+ interface ConditionDraft {
+     summary: string;
+     responsibleUserId: string;
+     dueAt: string;
+-    evidence: FrozenLifecycleEvidence[];
++    evidence: LifecycleEvidenceSelection[];
+ }
+ interface TaskRow {
+     completionRecordId: string;
+@@ -60,9 +64,9 @@
+     summary: string;
+     dueAt: string;
+     status: string;
+-    evidence: FrozenLifecycleEvidence[];
++    evidence: LifecycleEvidenceSelection[];
+     closureSummary: string | null;
+-    closureEvidence: FrozenLifecycleEvidence[];
++    closureEvidence: LifecycleEvidenceSelection[];
+     canClose: boolean;
+ }
+ 
+@@ -184,7 +188,7 @@
+                             <label>上传已完成的交付或验收材料 <input type="file" [disabled]="busy()" (change)="upload($event)" /></label>
+                             @for (file of evidence(); track file.attachmentLinkId) {
+                                 <p class="my-2">
+-                                    <button type="button" class="underline" (click)="open(file)">{{ file.fileName }}</button> · 版本 {{ file.attachmentRowVersion }}
++                                    <button type="button" class="underline" (click)="open(file)">{{ file.fileName }}</button> · 已上传，提交时由服务器固定证据版本
+                                     <button type="button" class="ml-2 underline" [disabled]="busy()" (click)="removeEvidence(file.attachmentLinkId)">移除本次选择</button>
+                                 </p>
+                             } @empty {
+@@ -226,7 +230,9 @@
+                     @if (task.status === 'pending' && task.canClose) {
+                         <form class="grid gap-3" (ngSubmit)="close(task)">
+                             <label>本人闭合说明 <textarea [name]="'closure-summary-' + task.conditionId" [(ngModel)]="closureSummaries[task.conditionId]" required maxlength="2000"></textarea></label>
+-                            <label>上传本人闭合证据 <input type="file" [disabled]="busy()" (change)="uploadClosure($event, task.conditionId)" /></label>
++                            @if (!ownTasksOnly() || canUploadOwnConditionEvidence()) {
++                                <label>上传本人闭合证据 <input type="file" [disabled]="busy()" (change)="uploadClosure($event, task)" /></label>
++                            }
+                             @for (file of closureFiles[task.conditionId] ?? []; track file.attachmentLinkId) {
+                                 <p>{{ file.fileName }}</p>
+                             }
+@@ -308,6 +314,8 @@
+     readonly api = input.required<ProjectLifecycleAuthoringApi>();
+     readonly context = input<LifecycleAuthoringContext | null>(null);
+     readonly ownTasksOnly = input(false);
++    /** Enable only when a real condition-scoped upload adapter is available. */
++    readonly canUploadOwnConditionEvidence = input(false);
+     readonly canCloseOwnConditions = input(false);
+     readonly actorUserId = input<string | null>(null);
+     readonly conditionOwners = input<readonly { id: string; displayName: string }[]>([]);
+@@ -315,7 +323,7 @@
+     readonly records = signal<ProjectCompletionRecordList | null>(null);
+     readonly acceptances = signal<AcceptanceRecordSummary[]>([]);
+     readonly archives = signal<ProjectArchiveRecordSummary[]>([]);
+-    readonly evidence = signal<FrozenLifecycleEvidence[]>([]);
++    readonly evidence = signal<LifecycleEvidenceSelection[]>([]);
+     readonly busy = signal(false);
+     readonly error = signal('');
+     readonly notice = signal('');
+@@ -378,7 +386,7 @@
+     completionSummary = '';
+     conditionDrafts: ConditionDraft[] = [this.blankCondition()];
+     closureSummaries: Record<string, string> = {};
+-    closureFiles: Record<string, FrozenLifecycleEvidence[]> = {};
++    closureFiles: Record<string, LifecycleEvidenceSelection[]> = {};
+     reuseTaskEvidence: Record<string, boolean> = {};
+     archivedAt = '';
+     archiveSummary = '';
+@@ -429,7 +437,7 @@
+     removeEvidence(linkId: string): void {
+         this.evidence.update((files) => files.filter((f) => f.attachmentLinkId !== linkId));
+     }
+-    private refs(files: readonly FrozenLifecycleEvidence[]): LifecycleEvidenceRef[] {
++    private refs(files: readonly LifecycleEvidenceSelection[]): LifecycleEvidenceRef[] {
+         return [...new Set(files.map((f) => f.attachmentLinkId))].map((attachmentLinkId) => ({ attachmentLinkId }));
+     }
+     private iso(value: string): string {
+@@ -560,7 +568,8 @@
+         }, '已撤销归档事实，项目仍保持原终态。');
+     }
+     async upload(event: Event, conditionIndex?: number): Promise<void> {
+-        const file = (event.target as HTMLInputElement).files?.[0];
++        const input = event.target;
++        const file = input instanceof HTMLInputElement ? input.files?.[0] : undefined;
+         if (!file || this.busy()) return;
+         const epoch = this.epoch;
+         const projectId = this.projectId();
+@@ -578,14 +587,20 @@
+             false
+         );
+     }
+-    async uploadClosure(event: Event, conditionId: string): Promise<void> {
+-        const file = (event.target as HTMLInputElement).files?.[0];
++    async uploadClosure(event: Event, task: TaskRow): Promise<void> {
++        const conditionId = task.conditionId;
++        if (this.ownTasksOnly() && !this.canUploadOwnConditionEvidence()) {
++            this.error.set('当前本人任务尚未接通条件范围的新证据上传，请等待服务支持后重新打开。');
++            return;
++        }
++        const input = event.target;
++        const file = input instanceof HTMLInputElement ? input.files?.[0] : undefined;
+         if (!file || this.busy()) return;
+         const epoch = this.epoch;
+         const projectId = this.projectId();
+         await this.run(
+             async () => {
+-                const evidence = await this.api().uploadEvidence(projectId, file);
++                const evidence = await this.api().uploadConditionEvidence(projectId, task.completionRecordId, task.conditionId, file);
+                 if (epoch !== this.epoch) return;
+                 this.closureFiles[conditionId] = [...(this.closureFiles[conditionId] ?? []), evidence];
+             },
+@@ -593,7 +608,7 @@
+             false
+         );
+     }
+-    async open(evidence: FrozenLifecycleEvidence): Promise<void> {
++    async open(evidence: LifecycleEvidenceSelection): Promise<void> {
+         try {
+             await this.api().openEvidence(evidence);
+         } catch (error) {
+--- /dev/null
++++ b/apps/poms-admin/src/app/features/project/project-own-condition-tasks.ts
+@@ -0,0 +1,33 @@
++import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
++import { toSignal } from '@angular/core/rxjs-interop';
++import { ActivatedRoute } from '@angular/router';
++import { AttachmentStore, AuthStore } from '@poms/admin-data-access';
++import { ProjectGovernanceApi } from './project-governance-api';
++import { ProjectLifecycleAuthoring } from './project-lifecycle-authoring';
++
++/** Standalone route: no workspace store, project detail, resolver or finance request. */
++@Component({
++    selector: 'app-project-own-condition-tasks', standalone: true, imports: [ProjectLifecycleAuthoring],
++    providers: [AttachmentStore, ProjectGovernanceApi], changeDetection: ChangeDetectionStrategy.OnPush,
++    template: `
++        <main class="mx-auto grid max-w-5xl gap-4 p-4">
++            <h1 class="text-2xl font-semibold">我的项目完成条件</h1>
++            <p>先读取本人的条件任务。父记录只用于核对版本和全体条件状态。</p>
++            @if (projectId(); as id) {
++                <app-project-lifecycle-authoring [projectId]="id" [api]="lifecycleApi()" [ownTasksOnly]="true"
++                    [actorUserId]="actorId()" [canCloseOwnConditions]="canClose()" [canUploadOwnConditionEvidence]="true" />
++                <p class="text-sm">请在对应条件中上传闭合证明并提交说明。任务证据按本人责任范围读取。</p>
++            } @else { <p role="alert">路由中没有实际项目，请从本人任务重新打开。</p> }
++        </main>
++    `
++})
++export class ProjectOwnConditionTasks {
++    private readonly route = inject(ActivatedRoute);
++    private readonly auth = inject(AuthStore);
++    private readonly api = inject(ProjectGovernanceApi);
++    private readonly params = toSignal(this.route.paramMap, { initialValue: this.route.snapshot.paramMap });
++    readonly projectId = computed(() => this.params().get('id') ?? '');
++    readonly actorId = computed(() => this.auth.currentUser()?.id ?? null);
++    readonly canClose = computed(() => this.auth.hasAnyPermission(['project:write']));
++    readonly lifecycleApi = computed(() => this.api.lifecycleApi(this.projectId(), true, this.actorId()));
++}
+--- /dev/null
++++ b/apps/poms-admin/src/app/features/project/project-receipt-basis-authoring.ts
+@@ -0,0 +1,170 @@
++import { ChangeDetectionStrategy, Component, computed, effect, inject, input, output, signal } from '@angular/core';
++import { disabled, form, FormField, maxLength, required } from '@angular/forms/signals';
++import type { OperatingPreparation, ReceiptRecordSummary } from '@poms/shared-contracts';
++import { ProjectGovernanceApi } from './project-governance-api';
++import { receiptBasisChoices, receiptConfirmation, receiptCurrencyChoices, sourceIdentity } from './project-governance-facts';
++
++@Component({
++    selector: 'app-project-receipt-basis-authoring', standalone: true, imports: [FormField],
++    changeDetection: ChangeDetectionStrategy.OnPush,
++    template: `
++        <section class="grid gap-4 rounded-xl border border-surface p-4" aria-label="回款净税依据确认">
++            <h2 class="text-lg font-semibold">确认回款净税依据</h2>
++            <p>选择真实回款和已激活条款。净额、税额与币种由服务器依来源计算。</p>
++            @if (busy()) { <p role="status">正在读取或固定回款依据…</p> }
++            @if (error()) { <p role="alert">{{ error() }}</p> }
++            @if (notice()) { <p role="status">{{ notice() }}</p> }
++            <label>实际回款
++                <select class="block w-full rounded border p-2" [value]="selectedReceiptId()" [disabled]="busy()" (change)="chooseReceipt($event)">
++                    <option value="">请选择实际回款</option>
++                    @for (receipt of receipts(); track receipt.id) {
++                        <option [value]="receipt.id">{{ receipt.receiptDate }} · {{ receipt.status === 'confirmed' ? '历史已确认回款补证' : '待确认回款' }} · 版本 {{ receipt.rowVersion }}</option>
++                    }
++                </select>
++            </label>
++            @if (selectedReceipt(); as receipt) {
++                <button type="button" class="justify-self-start rounded border px-3 py-2" [disabled]="busy()" (click)="prepareReceipt(receipt)">重新核对回款和来源</button>
++            }
++            @if (preparation(); as prepared) {
++                @if (!prepared.allowedCommandCodes.includes('receipt-basis')) {
++                    <p role="status">当前依据尚不允许确认：{{ prepared.blockingReasonCodes.join('；') }}</p>
++                }
++                @if (!choices().terms.length) { <p role="status">本次来源中尚无经过认证的已激活条款。请先完成条款来源认证后重新读取。</p> }
++                <form class="grid gap-4" (submit)="confirm($event)">
++                    <label>已激活合同条款
++                        <select class="block w-full rounded border p-2" [formField]="basisForm.termKey">
++                            <option value="">请选择服务器返回的条款</option>
++                            @for (ref of choices().terms; track identity(ref)) { <option [value]="identity(ref)">{{ termLabel(ref.id) }} · {{ ref.id.slice(0, 8) }} · 来源版本 {{ ref.rowVersion }}</option> }
++                        </select>
++                    </label>
++                    <label>真实币种来源
++                        <select class="block w-full rounded border p-2" [formField]="basisForm.currencyKey">
++                            <option value="">请选择实际币种依据</option>
++                            @for (ref of currencyChoices(); track identity(ref)) { <option [value]="identity(ref)">{{ ref.kind === 'ContractTermSnapshot' ? '所选条款的已固定币种' : '所选条款的已激活商务来源' }} · 版本 {{ ref.rowVersion }}</option> }
++                        </select>
++                    </label>
++                    <label>条款选择方式
++                        <select class="block w-full rounded border p-2" [formField]="basisForm.selectionPolicy">
++                            <option value="receipt-date-effective-terms">回款当日有效条款</option>
++                            <option value="explicit-activated-terms-evidence">有附件证据的显式已激活条款</option>
++                        </select>
++                    </label>
++                    <fieldset class="grid gap-2 rounded border p-3">
++                        <legend>真实佐证附件</legend>
++                        @for (ref of evidenceChoices(); track identity(ref)) {
++                            <div class="flex flex-wrap items-center gap-2"><label class="flex items-center gap-2"><input type="checkbox" [checked]="model().evidenceKeys.includes(identity(ref))" [disabled]="busy()" (change)="toggleEvidence($event, identity(ref))" />{{ attachmentNames()[ref.id] }} · 来源版本 {{ ref.rowVersion }}</label><button type="button" class="underline" [disabled]="busy()" (click)="download(ref.id)">读取附件</button></div>
++                        }
++                        @if (!evidenceChoices().length) { <p>尚无可读取并引用的有效附件。</p> }
++                        <label>上传回款依据附件 <input type="file" [disabled]="busy()" (change)="upload($event)" /></label>
++                        <p class="text-sm">上传经现有附件会话挂载项目，重新读取后才会出现在真实来源中。</p>
++                    </fieldset>
++                    <label>依据说明 <textarea class="block w-full rounded border p-2" rows="3" [formField]="basisForm.reason"></textarea></label>
++                    <button type="submit" class="justify-self-start rounded bg-primary px-4 py-2 text-white" [disabled]="busy() || !canSubmit()">{{ selectedReceipt()?.status === 'confirmed' ? '追加认证历史回款依据' : '确认回款并固定依据' }}</button>
++                </form>
++            }
++        </section>
++    `
++})
++export class ProjectReceiptBasisAuthoring {
++    readonly projectId = input.required<string>();
++    readonly changed = output<void>();
++    private readonly api = inject(ProjectGovernanceApi);
++    readonly receipts = signal<ReceiptRecordSummary[]>([]);
++    readonly selectedReceiptId = signal('');
++    readonly selectedReceipt = computed(() => this.receipts().find((receipt) => receipt.id === this.selectedReceiptId()) ?? null);
++    readonly preparation = signal<OperatingPreparation | null>(null);
++    readonly busy = signal(false);
++    readonly error = signal('');
++    readonly notice = signal('');
++    readonly attachmentNames = signal<Record<string, string>>({});
++    readonly model = signal<{ termKey: string; currencyKey: string; evidenceKeys: string[]; selectionPolicy: string; reason: string }>({ termKey: '', currencyKey: '', evidenceKeys: [], selectionPolicy: 'receipt-date-effective-terms', reason: '' });
++    readonly basisForm = form(this.model, (fields) => {
++        required(fields.termKey); required(fields.currencyKey); required(fields.reason); maxLength(fields.reason, 2000);
++        disabled(fields, () => this.busy());
++    });
++    readonly identity = sourceIdentity;
++    readonly choices = computed(() => {
++        const preparation = this.preparation(), receipt = this.selectedReceipt();
++        return preparation && receipt ? receiptBasisChoices(preparation, receipt.contractId) : { contract: null, terms: [], currencies: [], evidence: [] };
++    });
++    readonly currencyChoices = computed(() => {
++        const preparation = this.preparation();
++        return preparation ? receiptCurrencyChoices(preparation, this.model().termKey) : [];
++    });
++    readonly evidenceChoices = computed(() => this.choices().evidence.filter((ref) => this.attachmentNames()[ref.id]));
++    readonly canSubmit = computed(() => {
++        const preparation = this.preparation(), receipt = this.selectedReceipt();
++        if (!preparation || !receipt || !preparation.allowedCommandCodes.includes('receipt-basis') || !this.basisForm().valid()) return false;
++        try { receiptConfirmation(preparation, receipt, this.model()); return true; } catch { return false; }
++    });
++    private epoch = 0;
++    constructor() { effect(() => { const id = this.projectId(); void this.load(id); }); }
++    private async load(projectId: string) {
++        const epoch = ++this.epoch;
++        this.receipts.set([]); this.preparation.set(null); this.attachmentNames.set({}); this.selectedReceiptId.set(''); this.busy.set(true); this.error.set('');
++        try {
++            const groups = await this.api.receiptChoices(projectId);
++            if (epoch === this.epoch) this.receipts.set(groups.flatMap((group) => group.receipts).filter((receipt) => receipt.projectId === projectId));
++        } catch (error) { if (epoch === this.epoch) this.error.set(this.errorText(error)); }
++        finally { if (epoch === this.epoch) this.busy.set(false); }
++    }
++    chooseReceipt(event: Event) {
++        const select = event.target;
++        if (!(select instanceof HTMLSelectElement)) return;
++        this.selectedReceiptId.set(select.value);
++        this.preparation.set(null);
++        this.attachmentNames.set({});
++        this.model.set({ termKey: '', currencyKey: '', evidenceKeys: [], selectionPolicy: 'receipt-date-effective-terms', reason: '' });
++        const receipt = this.selectedReceipt(); if (receipt) void this.prepareReceipt(receipt);
++    }
++    async prepareReceipt(receipt: ReceiptRecordSummary) {
++        const epoch = ++this.epoch;
++        this.busy.set(true); this.error.set(''); this.preparation.set(null);
++        try {
++            const response = await this.api.prepare(this.projectId(), { view: 'preparation', intent: 'receipt-basis', receiptId: receipt.id });
++            const files = await this.api.receiptEvidenceFiles(this.projectId(), receipt.contractId, response.preparation);
++            if (epoch === this.epoch && this.selectedReceiptId() === receipt.id) {
++                this.attachmentNames.set(Object.fromEntries(files.map((file) => [file.id, file.fileName])));
++                this.preparation.set(response.preparation);
++            }
++        } catch (error) { if (epoch === this.epoch) this.error.set(this.errorText(error)); }
++        finally { if (epoch === this.epoch) this.busy.set(false); }
++    }
++    toggleEvidence(event: Event, key: string) {
++        const checkbox = event.target; if (!(checkbox instanceof HTMLInputElement)) return;
++        if (!this.evidenceChoices().some((ref) => sourceIdentity(ref) === key)) return;
++        this.model.update((value) => ({ ...value, evidenceKeys: checkbox.checked ? [...new Set([...value.evidenceKeys, key])] : value.evidenceKeys.filter((candidate) => candidate !== key) }));
++    }
++    async upload(event: Event) {
++        const input = event.target, receipt = this.selectedReceipt();
++        const file = input instanceof HTMLInputElement ? input.files?.[0] : undefined;
++        if (!file || !receipt || this.busy()) return;
++        this.busy.set(true); this.error.set('');
++        try { await this.api.uploadReceiptEvidence(this.projectId(), file); await this.prepareReceipt(receipt); }
++        catch (error) { this.error.set(this.errorText(error)); }
++        finally { this.busy.set(false); }
++    }
++    async confirm(event: Event) {
++        event.preventDefault();
++        const preparation = this.preparation(), receipt = this.selectedReceipt();
++        if (!preparation || !receipt || !this.canSubmit() || this.busy()) return;
++        this.busy.set(true); this.error.set('');
++        try {
++            const result = await this.api.confirmReceipt(this.projectId(), receipt.id, receiptConfirmation(preparation, receipt, this.model()));
++            this.receipts.update((items) => items.map((item) => item.id === result.id ? result : item));
++            this.preparation.set(null); this.notice.set('已追加不可变回款依据。净税与币种按真实来源固定。'); this.changed.emit();
++        } catch (error) { this.preparation.set(null); this.error.set(this.errorText(error)); }
++        finally { this.busy.set(false); }
++    }
++    async download(attachmentId: string) {
++        if (!this.evidenceChoices().some((ref) => ref.id === attachmentId)) return;
++        try { await this.api.downloadReceiptEvidence(this.projectId(), attachmentId); }
++        catch (error) { this.error.set(this.errorText(error)); }
++    }
++    private errorText(error: unknown) { return error instanceof Error ? error.message : '操作失败，请重新核对回款和真实来源。'; }
++    termLabel(id: string) {
++        const row = this.preparation()?.sourceRows.find((source) => source.sourceRef.kind === 'ContractTermSnapshot' && source.sourceRef.id === id);
++        const date = row?.sourceEffectiveBusinessDate ?? row?.sourceBusinessDate;
++        return date ? `${date} 生效条款` : '已激活合同条款';
++    }
++}
+--- a/apps/poms-admin/src/app.routes.ts
++++ b/apps/poms-admin/src/app.routes.ts
+@@ -69,6 +69,18 @@
+                 }
+             },
+             {
++                path: 'projects/:id/condition-tasks',
++                loadComponent: () => import('./app/features/project/project-own-condition-tasks').then((c) => c.ProjectOwnConditionTasks),
++                canActivate: [permissionGuard],
++                data: { breadcrumb: '本人的完成条件', requiredPermissions: ['project:read'], requiredPermissionsMode: 'all' }
++            },
++            {
++                path: 'projects/:id/governance',
++                loadComponent: () => import('./app/features/project/project-governance').then((c) => c.ProjectGovernance),
++                canActivate: [permissionGuard],
++                data: { breadcrumb: '经营与交付办理', requiredPermissions: ['project:read'], requiredPermissionsMode: 'all' }
++            },
++            {
+                 path: 'projects/:id/workspace',
+                 loadComponent: () => import('./app/features/project/project-workspace-shell').then((c) => c.ProjectWorkspaceShell),
+                 canActivate: [permissionGuard],
+@@ -234,7 +246,7 @@
+             },
+             {
+                 path: 'projects/:id',
+-                loadComponent: () => import('./app/features/project/project-detail').then((c) => c.ProjectDetail),
++                loadComponent: () => import('./app/features/project/project-detail-scope-entry').then((c) => c.ProjectDetailScopeEntry),
+                 canActivate: [permissionGuard],
+                 data: {
+                     breadcrumb: '项目详情',
+--- a/libs/admin/data-access/src/lib/attachment/attachment.store.ts
++++ b/libs/admin/data-access/src/lib/attachment/attachment.store.ts
+@@ -34,6 +34,7 @@
+ }
+ 
+ export interface UploadAttachmentInput extends AttachmentTargetRef {
++    completionConditionContext?: CreateAttachmentUploadSessionRequest['completionConditionContext'];
+     file: File;
+     category: string;
+     securityLevel?: AttachmentSecurityLevel;
+@@ -198,6 +199,7 @@
+             return await this.runUploadSession(
+                 {
+                     operationType: AttachmentUploadSessionOperationType.CreateAttachment,
++                    ...(input.completionConditionContext ? { completionConditionContext: input.completionConditionContext } : {}),
+                     targetType: input.targetType,
+                     targetId: input.targetId,
+                     category: input.category,

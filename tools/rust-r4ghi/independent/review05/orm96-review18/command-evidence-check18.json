@@ -1,0 +1,65 @@
+{
+  "kind": "independent-read-only-review-of-actual-ORM-command-originals",
+  "capturedAt": "2026-11-07T08:39:52.514967+00:00",
+  "results": [
+    {
+      "run": "dump03",
+      "privateReceiptSHA256": "c19b7fa3e7becf685a2b3fccdd0e0da348860246a1ec5bc3420e14f4e6e0333e",
+      "exitCode": 0,
+      "errorCode": null,
+      "readonlyRequested": true,
+      "catalogAndDataStableReported": true,
+      "databases": [
+        {
+          "database": "poms_r4ghi_native",
+          "tables": 139,
+          "normativeExact": true,
+          "sequencesExact": true,
+          "allTableRowReceiptFieldsExact": true,
+          "tableReceiptDifferences": []
+        },
+        {
+          "database": "poms_r4ghi_rust",
+          "tables": 139,
+          "normativeExact": true,
+          "sequencesExact": true,
+          "allTableRowReceiptFieldsExact": true,
+          "tableReceiptDifferences": []
+        }
+      ],
+      "commandLogBytes": 93097,
+      "commandLogSHA256": "2c147060fbc05d258f4763dcca86f485fe5d609a6b11df209969141adc78d4b9"
+    },
+    {
+      "run": "check02",
+      "privateReceiptSHA256": "e201c5bc4eab4d66973b7343fa0539bd4446723712372f6af6019a2576dbe8d5",
+      "exitCode": 1,
+      "errorCode": null,
+      "readonlyRequested": true,
+      "catalogAndDataStableReported": true,
+      "databases": [
+        {
+          "database": "poms_r4ghi_native",
+          "tables": 139,
+          "normativeExact": true,
+          "sequencesExact": true,
+          "allTableRowReceiptFieldsExact": true,
+          "tableReceiptDifferences": []
+        },
+        {
+          "database": "poms_r4ghi_rust",
+          "tables": 139,
+          "normativeExact": true,
+          "sequencesExact": true,
+          "allTableRowReceiptFieldsExact": true,
+          "tableReceiptDifferences": []
+        }
+      ],
+      "commandLogBytes": 191,
+      "commandLogSHA256": "1879cebe1183b75d502940b187411357e6572cce4ef37778d9d6838bfd3b1aa6"
+    }
+  ],
+  "actualRowPayloadsRead": false,
+  "SQLExecutedByReviewer": false,
+  "G3Certified": false
+}

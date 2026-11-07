@@ -1,0 +1,296 @@
+//! Non-wire orchestration types from the frozen G1 interface targets.
+use super::model::*;
+pub use crate::project_action_authorization::{OuterTxToken, VerifiedOperatingAccessSet};
+use chrono::{DateTime, NaiveDate, Utc};
+use std::collections::BTreeMap;
+use uuid::Uuid;
+
+pub type SnapshotMode = CreateProjectOperatingSnapshotRequestSnapshotMode;
+pub type RestatementScope = CreateOperatingRestatementRequestScope;
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CollectLockMode {
+    ReadCoherent,
+    WriteLocked,
+}
+
+#[derive(Clone, Debug)]
+pub enum OperatingPreparationIntent {
+    BaselineActivation,
+    SnapshotCreate {
+        mode: SnapshotMode,
+        period_key: Option<PeriodKey>,
+    },
+    PeriodClose {
+        period_key: PeriodKey,
+    },
+    Restatement {
+        scope: RestatementScope,
+        restates_snapshot: ExpectedRef,
+        period_end_snapshot: Option<ExpectedRef>,
+        correction_source_refs: Vec<ExpectedRef>,
+    },
+    ReceiptBasis {
+        receipt: ExpectedRef,
+    },
+}
+
+#[derive(Clone, Debug)]
+pub enum OperatingCollectInput {
+    Preview(OperatingPreparationIntent),
+    ActivateBaseline(ActivateOperatingBaselinePackageRequest),
+    CaptureSnapshot(CreateProjectOperatingSnapshotRequest),
+    ClosePeriod(CreatePeriodClosingSnapshotRequest),
+    Restate(CreateOperatingRestatementRequest),
+}
+
+#[derive(Clone, Debug)]
+pub struct OperatingBusinessWindow {
+    pub business_cutoff: NaiveDate,
+    pub knowledge_cutoff: DateTime<Utc>,
+    pub source_window_start: Option<NaiveDate>,
+    pub source_window_end: Option<NaiveDate>,
+    pub period_key: Option<String>,
+    pub business_timezone: String,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct OperatingGeneratedIds {
+    pub baseline_source_id: Option<Uuid>,
+    pub snapshot_id: Option<Uuid>,
+    pub context_id: Option<Uuid>,
+    pub paired_period_id: Option<Uuid>,
+    pub restatement_batch_id: Option<Uuid>,
+}
+
+pub struct OperatingCollectPlan<'tx> {
+    pub project_id: Uuid,
+    pub intent: OperatingPreparationIntent,
+    pub input: OperatingCollectInput,
+    pub window: OperatingBusinessWindow,
+    pub generated_ids: OperatingGeneratedIds,
+    pub access: VerifiedOperatingAccessSet<'tx>,
+}
+
+#[derive(Clone, Debug, serde::Serialize)]
+pub struct OperatingLockedProjectState {
+    pub project_id: Uuid,
+    pub project_row_version: i32,
+    pub head_row_version: i32,
+    pub baseline_package_ref: Option<SourceRef>,
+    pub current_snapshot_ref: Option<SourceRef>,
+    pub terminal_root_refs: Vec<SourceRef>,
+}
+
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ApprovedProjectCostTransition {
+    pub before_cost_ref: SourceRef,
+    pub after_cost_ref: SourceRef,
+    pub approval_source_refs: Vec<SourceRef>,
+    pub delta_net_cents: OperatingMoneyCents,
+}
+
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct OperatingBaselineSourceDraft {
+    pub id: Uuid,
+    pub project_id: Uuid,
+    pub original_cost_ref: SourceRef,
+    pub current_cost_ref: SourceRef,
+    pub handover_basis_ref: Option<SourceRef>,
+    pub handover_rebaseline_ref: Option<SourceRef>,
+    pub currency: String,
+    pub approved_transitions: Vec<ApprovedProjectCostTransition>,
+    pub original_baseline_cost: OperatingMoneyCents,
+    pub handover_baseline_cost: OperatingMoneyCents,
+    pub execution_change_package_total: OperatingMoneyCents,
+    pub change_package_total: OperatingMoneyCents,
+    pub current_effective_baseline_cost: OperatingMoneyCents,
+    pub source_hash: Sha256,
+    pub payload_hash: Sha256,
+}
+
+#[derive(Clone, Debug)]
+pub enum OperatingCollectionContext {
+    BaselineOnly(Box<OperatingBaselineSourceDraft>),
+    Snapshot(Box<OperatingSourceContext>),
+}
+
+#[derive(Clone, Copy, Debug, serde::Serialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum CorrectionKind {
+    LaborReplacement,
+    AllocationBatchReplacement,
+    StageReclassification,
+    TaxTreatmentReplacement,
+}
+
+#[derive(Clone, Debug, serde::Serialize)]
+pub struct VerifiedProducerTransition {
+    pub kind: CorrectionKind,
+    pub before_refs: Vec<SourceRef>,
+    pub after_refs: Vec<SourceRef>,
+    pub evidence_refs: Vec<SourceRef>,
+    pub affected_project_ids: Vec<Uuid>,
+}
+
+pub struct OperatingCollection {
+    pub context: OperatingCollectionContext,
+    pub preparation: OperatingPreparation,
+    pub source_rows: Vec<OperatingSourceRow>,
+    pub locked_projects: Vec<OperatingLockedProjectState>,
+    pub producer_transitions: Vec<VerifiedProducerTransition>,
+    pub generated_ids: OperatingGeneratedIds,
+}
+
+pub struct VerifiedRestatementScope<'tx> {
+    pub(crate) outer_tx_token: &'tx OuterTxToken,
+    pub(crate) actor_id: Uuid,
+    pub(crate) input_hash: Sha256,
+    pub(crate) access: &'tx VerifiedOperatingAccessSet<'tx>,
+    pub(crate) locked_projects: Vec<OperatingLockedProjectState>,
+    pub(crate) consumed_context_refs: Vec<SourceRef>,
+    pub(crate) locked_source_refs: Vec<SourceRef>,
+    pub(crate) complete_terminal_target_refs: Vec<SourceRef>,
+}
+impl VerifiedRestatementScope<'_> {
+    pub(crate) async fn assert_session(
+        &self,
+        session: &mut crate::approval_common::CommonSession<'_, '_>,
+        actor: &crate::contract_support::Actor,
+    ) -> Result<(), crate::contract_support::Error> {
+        self.outer_tx_token.assert_current(session).await?;
+        self.access.assert_session(session, actor).await?;
+        if self.consumed_context_refs.iter().any(|consumed| {
+            !self.locked_source_refs.iter().any(|locked| {
+                locked.kind == consumed.kind
+                    && locked.id == consumed.id
+                    && locked.row_version == consumed.row_version
+                    && locked.payload_hash == consumed.payload_hash
+            })
+        }) {
+            return Err(crate::contract_support::Error::CodedConflict {
+                code: "operating_correction_lock_plan_incomplete",
+                message: "A consumed operating context is absent from the locked source set".into(),
+            });
+        }
+        Ok(())
+    }
+}
+
+pub struct ValidatedStageCorrection {
+    pub(crate) request: StageReclassificationCorrection,
+    pub(crate) project_id: Uuid,
+    pub(crate) cost_before_ref: SourceRef,
+    pub(crate) attribution_before_ref: SourceRef,
+}
+pub struct ValidatedTaxCorrection {
+    pub(crate) request: TaxTreatmentReplacementCorrection,
+    pub(crate) project_id: Uuid,
+    pub(crate) tax_before_ref: SourceRef,
+}
+pub struct StageReclassificationPermit<'tx> {
+    pub(crate) scope: &'tx VerifiedRestatementScope<'tx>,
+    pub(crate) cost_id: Uuid,
+    pub(crate) attribution_id: Uuid,
+    pub(crate) affected_allocation_basis_ids: Vec<Uuid>,
+}
+pub struct TaxTreatmentReplacementPermit<'tx> {
+    pub(crate) scope: &'tx VerifiedRestatementScope<'tx>,
+    pub(crate) tax_treatment_id: Uuid,
+    pub(crate) project_id: Uuid,
+}
+
+#[derive(Clone, Debug, serde::Serialize)]
+pub struct OperatingEvaluationRefs {
+    pub snapshot_id: Uuid,
+    pub source_hash: Sha256,
+    pub evaluation_hash: Sha256,
+    pub maturity_evaluation_id: Uuid,
+    pub signal_evaluation_id: Uuid,
+    pub signal_row_version: i32,
+    pub binding_ids: BTreeMap<OperatingGateStage, Uuid>,
+    pub summary_snapshot_ids: BTreeMap<OperatingGateStage, Uuid>,
+    pub current_action_level: OperatingSnapshotActionLevel,
+    pub policy_version: String,
+    pub certification: OperatingEvaluationCertification,
+}
+
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct CostReadiness {
+    pub data_maturity_level: OperatingDataMaturityLevel,
+    pub cost_action_recommendation: OperatingSnapshotActionLevel,
+    pub reason_items: Vec<OperatingReasonInternal>,
+    pub known_metric_states: OperatingMetricKnowledge,
+    pub formal_eligibility: FormalEligibility,
+}
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct OperatingReasonInternal {
+    pub reason_id: Sha256,
+    pub code: String,
+    pub category: OperatingReasonCategory,
+    pub rule_id: String,
+    pub project_action: OperatingSnapshotActionLevel,
+    pub stage_actions: BTreeMap<OperatingGateStage, OperatingSnapshotActionLevel>,
+    pub is_primary_project_reason: bool,
+    pub primary_stages: Vec<OperatingGateStage>,
+    pub detail: String,
+    pub evidence_refs: Vec<SourceRef>,
+}
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct OperatingGateDraft {
+    pub stage: OperatingGateStage,
+    pub system_action: OperatingSnapshotActionLevel,
+    pub effective_action: OperatingSnapshotActionLevel,
+    pub reason_ids: Vec<Sha256>,
+    pub primary_reason_ids: Vec<Sha256>,
+}
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct OperatingEvaluationDraft {
+    pub cost_readiness: CostReadiness,
+    pub system_signal_level: OperatingSignalLevel,
+    pub system_risk_level: OperatingRiskLevel,
+    pub effective_signal_level: OperatingSignalLevel,
+    pub effective_risk_level: OperatingRiskLevel,
+    pub current_action_level: OperatingSnapshotActionLevel,
+    pub four_stage_drafts: BTreeMap<OperatingGateStage, OperatingGateDraft>,
+    pub all_reasons: Vec<OperatingReasonInternal>,
+    pub ratio_use: GrossMarginRateUse,
+    pub evaluation_status: OperatingEvaluationStatus,
+    pub certification: OperatingEvaluationCertification,
+    pub evaluation_hash: Sha256,
+}
+#[derive(Clone, Debug, serde::Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct VerifiedMaterialityReview {
+    pub(crate) source_hash: Sha256,
+    pub(crate) evaluation_hash_before: Sha256,
+    pub(crate) policy_hash: Sha256,
+    pub(crate) actor_id: Uuid,
+    pub(crate) risk_decision: OperatingRiskLevel,
+    pub(crate) issue_codes: Vec<String>,
+    pub(crate) evidence_refs: Vec<SourceRef>,
+    pub(crate) rationale: String,
+    pub(crate) overlay_hash: Sha256,
+}
+
+/// Stored payload is data. H verifies the actual immutable producer row and
+/// source/policy/overlay/evidence before converting it to an authority proof.
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct StoredMaterialityReview {
+    pub source_hash: Sha256,
+    pub evaluation_hash_before: Sha256,
+    pub policy_hash: Sha256,
+    pub actor_id: Uuid,
+    pub risk_decision: OperatingRiskLevel,
+    pub issue_codes: Vec<String>,
+    pub evidence_refs: Vec<SourceRef>,
+    pub rationale: String,
+    pub overlay_hash: Sha256,
+}

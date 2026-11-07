@@ -1,0 +1,128 @@
+warning: unused import: `json`
+  --> src/attachments/project_scope.rs:13:25
+   |
+13 | use serde_json::{Value, json};
+   |                         ^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `self`
+ --> src/project_operating/capture.rs:3:15
+  |
+3 |     sources::{self, Catalog},
+  |               ^^^^
+
+warning: unused import: `json`
+ --> src/project_operating/restatement.rs:9:25
+  |
+9 | use serde_json::{Value, json};
+  |                         ^^^^
+
+warning: unused variable: `links`
+    --> src/attachments/service.rs:1720:13
+     |
+1720 |         let links =
+     |             ^^^^^ help: if this is intentional, prefix it with an underscore: `_links`
+     |
+     = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: field `own_only` is never read
+  --> src/attachments/project_scope.rs:45:9
+   |
+41 | pub(super) struct Readable {
+   |                   -------- field in this struct
+...
+45 |     pub own_only: bool,
+   |         ^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `authorize_mutation` is never used
+   --> src/attachments/project_scope.rs:764:21
+    |
+764 | pub(super) async fn authorize_mutation(
+    |                     ^^^^^^^^^^^^^^^^^^
+
+warning: method `legacy_single` is never used
+  --> src/project_operating_common/request.rs:54:19
+   |
+10 | impl ResourceKeys {
+   | ----------------- method in this implementation
+...
+54 |     pub(crate) fn legacy_single(&self) -> Result<Option<Uuid>, Error> {
+   |                   ^^^^^^^^^^^^^
+
+warning: fields `outer_tx_token`, `operation_id`, and `consumed_context_refs` are never read
+   --> src/project_operating_common/runtime.rs:148:16
+    |
+147 | pub struct VerifiedRestatementScope<'tx> {
+    |            ------------------------ fields in this struct
+148 |     pub(crate) outer_tx_token: &'tx OuterTxToken,
+    |                ^^^^^^^^^^^^^^
+149 |     pub(crate) operation_id: Uuid,
+    |                ^^^^^^^^^^^^
+...
+154 |     pub(crate) consumed_context_refs: Vec<SourceRef>,
+    |                ^^^^^^^^^^^^^^^^^^^^^
+
+warning: field `verified_evidence_refs` is never read
+   --> src/project_operating_common/runtime.rs:164:16
+    |
+159 | pub struct ValidatedStageCorrection {
+    |            ------------------------ field in this struct
+...
+164 |     pub(crate) verified_evidence_refs: Vec<SourceRef>,
+    |                ^^^^^^^^^^^^^^^^^^^^^^
+
+warning: fields `verified_source_refs` and `verified_evidence_refs` are never read
+   --> src/project_operating_common/runtime.rs:170:16
+    |
+166 | pub struct ValidatedTaxCorrection {
+    |            ---------------------- fields in this struct
+...
+170 |     pub(crate) verified_source_refs: Vec<SourceRef>,
+    |                ^^^^^^^^^^^^^^^^^^^^
+171 |     pub(crate) verified_evidence_refs: Vec<SourceRef>,
+    |                ^^^^^^^^^^^^^^^^^^^^^^
+
+warning: field `project_id` is never read
+  --> src/project_operating_signals/store.rs:14:9
+   |
+12 | pub(crate) struct EvaluationRow {
+   |                   ------------- field in this struct
+13 |     pub id: Uuid,
+14 |     pub project_id: Uuid,
+   |         ^^^^^^^^^^
+   |
+   = note: `EvaluationRow` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+warning: field `project_id` is never read
+   --> src/project_operating_signals/store.rs:108:9
+    |
+106 | pub(crate) struct BindingRow {
+    |                   ---------- field in this struct
+107 |     pub id: Uuid,
+108 |     pub project_id: Uuid,
+    |         ^^^^^^^^^^
+    |
+    = note: `BindingRow` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+warning: field `auth` is never read
+  --> src/projects/service.rs:82:5
+   |
+79 | pub struct ProjectsService {
+   |            --------------- field in this struct
+...
+82 |     auth: Arc<AuthService>,
+   |     ^^^^
+   |
+   = note: `ProjectsService` has a derived impl for the trait `Clone`, but this is intentionally ignored during dead code analysis
+
+warning: function `random_uuid` is never used
+   --> src/projects/service.rs:641:4
+    |
+641 | fn random_uuid() -> Result<Uuid, ProjectsError> {
+    |    ^^^^^^^^^^^
+
+warning: `poms-api-rust` (lib) generated 14 warnings (run `cargo fix --lib -p poms-api-rust` to apply 4 suggestions)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.24s

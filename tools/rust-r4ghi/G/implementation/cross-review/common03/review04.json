@@ -1,0 +1,31 @@
+{
+  "kind": "non-author-Common-P2-01-recheck",
+  "originalFailedRound": "result03.json/log and failed03-harness retained unchanged",
+  "result": "addressed on exact new Root schema source",
+  "schemaSha256": "639274d6da4888688bba001e446b2b309e61a400575209f9604bbd08f36272c2",
+  "actualTests": {
+    "samePrevious14Checks": "passed",
+    "additionalRootRegression": 1,
+    "total": 15,
+    "passed": 15,
+    "failed": 0,
+    "ignored": 0,
+    "sourceStable": true
+  },
+  "negativeCasesActuallyExecuted": [
+    "space separator",
+    "lowercase t",
+    "leap second 60",
+    "invalid nonleap 1900-02-29",
+    "+00:00 offset instead of UTC Z"
+  ],
+  "limits": [
+    "Exact actual scalars/schema/hash imported",
+    "Verbatim actual canonical_hash function excerpt; no alternate algorithm",
+    "Test-only minimal Error adapter and serialized Value context carrier",
+    "Typed request model and SQL loader statically reviewed only; no test claim for them",
+    "No database/HTTP/UI/product integration or G3/G4 certification",
+    "No Root product edits, dependency installation or service startup"
+  ],
+  "gateDecision": "No overall G3/G4; typed model/loader SQL/PG/HTTP/projection acceptance still needs Root integrated validation"
+}

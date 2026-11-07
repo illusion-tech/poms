@@ -1,0 +1,44 @@
+{
+  "kind": "complete-new-origin-source-and-audit-map",
+  "branches": [
+    {
+      "input": "missing or creator",
+      "projectOwner": "real creator",
+      "createdByUpdatedBy": "real creator independent from owner binding",
+      "origin": "direct-create/personal/v1/consumed-at-creation",
+      "sourceRule": "sourceRecordId=projectId, no sourceLead, initialOwner=creator; same physical creationTX/assessment/RV1",
+      "scope": "current owner rights only; personal origin never bootstrap even if someone later clears owner"
+    },
+    {
+      "input": "organization",
+      "projectOwner": null,
+      "ownerOrg": "creating account current DB primaryOrg; active org + fresh primary/secondary creator membership required",
+      "createdByUpdatedBy": "real creator",
+      "origin": "direct-create/org-owned/v1/available",
+      "sourceRule": "sourceRecordId=projectId, no sourceLead, initialOwnerNULL; same physical creationTX/assessment/RV1",
+      "scope": "exact creator/source/payload hash/creation audit/active ownerOrg M/no personal history => bounded anchor+one first assignment; permanent consume thereafter"
+    },
+    {
+      "input": "lead-conversion unchanged",
+      "projectOwner": "real inherited owner",
+      "origin": "unchanged actual convertedLead/project/source record; currently personal gate remains required",
+      "sourceRule": "convertedProject/convertedBy/status/owner/org match in original producer; new project must be inserted in same outerTX",
+      "scope": "existing static lineage/payload/audit validation, no Lead gate relaxation"
+    }
+  ],
+  "creationAudit": {
+    "eventType": "project.ownership-origin-created",
+    "targetType": "project",
+    "targetId": "actual new project UUID text",
+    "operatorId": "true creator",
+    "result": "success",
+    "afterSnapshot": "exact immutable source_payload",
+    "metadata": "actual projectId/sourcePayloadHash/sourceType",
+    "occurredAt": "actual project.created_at",
+    "requiredCount": 1,
+    "requestId": "may remainNULL as existing contract; never physical-TX authority"
+  },
+  "immediateProductionTX": "active actual PgConnection transaction + project.xmin=current physical xid low32; required on producer/M97 insert guard only",
+  "longLivedScope": "never compare historical xmin; exact immutable payload/source/audit/live account/org/membership/history only",
+  "retainedScopeAfterConsume": false
+}

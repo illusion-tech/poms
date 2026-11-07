@@ -1,3 +1,4 @@
+import { StartProjectExecutionRequestSchema, StartProjectAcceptanceRequestSchema, ProjectStageTransitionResultSchema, CloseProjectCompletionConditionRequestSchema, CloseProjectCompletionConditionResultSchema } from "@poms/shared-contracts";
 import {
     AcceptanceRecordListSchema,
     AcceptanceRecordSummarySchema,
@@ -72,7 +73,9 @@ export class CreateProjectPricingMarginReviewRequestDto extends createZodDto(Cre
 
 export class ProjectCompletionRecordDto extends createZodDto(ProjectCompletionRecordSummarySchema) {}
 
-export class ProjectCompletionRecordListDto extends createZodDto(ProjectCompletionRecordListSchema) {}
+export const ProjectCompletionRecordListDto = createZodDto(ProjectCompletionRecordListSchema);
+Object.defineProperty(ProjectCompletionRecordListDto, 'name', { value: 'ProjectCompletionRecordListDto' });
+export type ProjectCompletionRecordListDto = ReturnType<typeof ProjectCompletionRecordListDto.create>;
 
 export class CreateProjectCompletionRecordRequestDto extends createZodDto(CreateProjectCompletionRecordRequestSchema) {}
 
@@ -86,7 +89,9 @@ export class CreateProjectTechnicalCostPackageRequestDto extends createZodDto(Cr
 
 export class ProjectDto extends createZodDto(ProjectSummarySchema) {}
 
-export class ProjectDetailViewDto extends createZodDto(ProjectDetailViewSchema) {}
+export const ProjectDetailViewDto = createZodDto(ProjectDetailViewSchema);
+Object.defineProperty(ProjectDetailViewDto, 'name', { value: 'ProjectDetailViewDto' });
+export type ProjectDetailViewDto = ReturnType<typeof ProjectDetailViewDto.create>;
 
 export class ProjectWorkspaceGuidanceViewDto extends createZodDto(ProjectWorkspaceGuidanceViewSchema) {}
 
@@ -109,3 +114,11 @@ export class ProjectOwnerReassignmentResultDto extends createZodDto(ProjectOwner
 export class PrepareProjectHandoverRequestDto extends createZodDto(PrepareProjectHandoverRequestSchema) {}
 
 export class ConfirmProjectHandoverParticipantRequestDto extends createZodDto(ConfirmProjectHandoverParticipantRequestSchema) {}
+
+export class StartProjectExecutionRequestDto extends createZodDto(StartProjectExecutionRequestSchema) {}
+export class StartProjectAcceptanceRequestDto extends createZodDto(StartProjectAcceptanceRequestSchema) {}
+export class ProjectStageTransitionResultDto extends createZodDto(ProjectStageTransitionResultSchema) {}
+export class CloseProjectCompletionConditionRequestDto extends createZodDto(CloseProjectCompletionConditionRequestSchema) {}
+export const CloseProjectCompletionConditionResultDto = createZodDto(CloseProjectCompletionConditionResultSchema);
+Object.defineProperty(CloseProjectCompletionConditionResultDto, 'name', { value: 'CloseProjectCompletionConditionResultDto' });
+export type CloseProjectCompletionConditionResultDto = ReturnType<typeof CloseProjectCompletionConditionResultDto.create>;

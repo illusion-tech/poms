@@ -1,0 +1,108 @@
+{
+  "kind": "independent-read-only-cleanup-plan-drain-source-and-actual-evidence-review",
+  "capturedAt": "2026-11-07T11:17:22.795576+00:00",
+  "privateRawPinsVerified": [
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business08/main01/000707-cleanup-plan01-cleanup-plan.json",
+      "sha256": "251559c774dee9ad7a62d1a8f35f06e3f432c45f98c6b122e48f309079f7e378",
+      "bytes": 3713224
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business08/main01/000711-cleanup-plan02-cleanup-plan.json",
+      "sha256": "c38056a21dcb768cffa6d52ca410a1cca0f6b16d40f993087a4721d5e4c81075",
+      "bytes": 3713564
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business08/main01/000709-cleanup-drain31-result.json",
+      "sha256": "8e4ab15e80ce3fd2085297fa031ded0ac85a485d24086495e4c45605c64473bc",
+      "bytes": 1488
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business08/main01/000710-cleanup-drain31-result.json",
+      "sha256": "7a6a53c4d6377fba491a2a75d771dd057b0b22ae157b40ec8660a2e0ad9733cf",
+      "bytes": 1488
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business08/main01/000708-cleanup-apply01-partial.json",
+      "sha256": "10a421aad1dd025d52298619d190ecb988db32f9ff2087a66f65b94c91f5928b",
+      "bytes": 1091
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business08/main01/000712-cleanup-apply02-complete.json",
+      "sha256": "6e9415c0957d4d106b029c7791e45ce3c004f4de758a8ef77bfaf94bf72f66f4",
+      "bytes": 1599
+    }
+  ],
+  "oldAndNewPlans": {
+    "oldSHA256": "251559c774dee9ad7a62d1a8f35f06e3f432c45f98c6b122e48f309079f7e378",
+    "newSHA256": "c38056a21dcb768cffa6d52ca410a1cca0f6b16d40f993087a4721d5e4c81075",
+    "ownedRows": 398,
+    "ownedTables": 61,
+    "borrowedRestores": 1,
+    "objects": 0,
+    "identicalRowsRestoresCatalogGuardsExactDeleteSQLAndParameters": true,
+    "maintenanceNewDrainFields": {
+      "constraintDrainSandbox": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business08/main01/000710-cleanup-drain31-result.json",
+        "bytes": 1488,
+        "rawBytesSha256": "7a6a53c4d6377fba491a2a75d771dd057b0b22ae157b40ec8660a2e0ad9733cf"
+      },
+      "validateDeferredConstraintsBeforeGuardRestore": true
+    }
+  },
+  "sandboxSummaries": [
+    {
+      "source": "000709-cleanup-drain31-result.json.receipt.json",
+      "states": [
+        "55006",
+        null,
+        "23503"
+      ],
+      "allTempRolledBack": true,
+      "businessRowsXminCatalogSequencesObjectsUnchanged": true
+    },
+    {
+      "source": "000710-cleanup-drain31-result.json.receipt.json",
+      "states": [
+        "55006",
+        null,
+        "23503"
+      ],
+      "allTempRolledBack": true,
+      "businessRowsXminCatalogSequencesObjectsUnchanged": true
+    }
+  ],
+  "sourceSHA256": "00001e0ab5f85bd80c25d63f9772525536cc8e886c251680c257e6efe089f4c1",
+  "noDBOrProcessMutationByReviewer": true,
+  "noPrivateRowPayloadPublished": true,
+  "actualCompletionKeys": [
+    "kind",
+    "planSha256",
+    "deletes",
+    "restores",
+    "objectDeletes",
+    "DBAndFilesystemAtomicity",
+    "noop",
+    "privateEvidenceRetained"
+  ],
+  "G3Certified": false,
+  "G4Certified": false,
+  "completeResultShape": {
+    "kind": "str",
+    "planSha256": "str",
+    "deletes": "int",
+    "restores": "int",
+    "objectDeletes": "int",
+    "DBAndFilesystemAtomicity": "bool",
+    "noop": [
+      "kind",
+      "stop",
+      "freshRounds",
+      "tablesPerDatabase",
+      "receipts",
+      "rowXminRestoredClaim",
+      "exactLogicalRowsAndCatalogAndSequences"
+    ],
+    "privateEvidenceRetained": "bool"
+  }
+}

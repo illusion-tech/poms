@@ -9,11 +9,12 @@
  */
 import { OperatingSnapshotActionLevel } from './operating-snapshot-action-level';
 import { BaselineSelectionSource } from './baseline-selection-source';
+import { OperatingGateReviewDecision } from './operating-gate-review-decision';
 
 
 export interface ReviewCommissionGateBindingRequest {
     bindingAction: OperatingSnapshotActionLevel;
-    gateReviewDecision: string;
+    gateReviewDecision: OperatingGateReviewDecision;
     blockingReasonCode?: string | null;
     baselineSelectionSource: BaselineSelectionSource;
     summaryPackageKey: string;
@@ -21,5 +22,19 @@ export interface ReviewCommissionGateBindingRequest {
     referencedBaselineVersion: string;
     referencedSnapshotVersion: string;
     comment?: string | null;
-    expectedVersion?: number;
+    expectedVersion: number;
+    expectedSourceHash: string;
+    expectedEvaluationHash: string;
+    requestKey: string;
+    reviewAction: ReviewCommissionGateBindingRequestReviewActionEnum;
+    blockingReasonCodes: Array<string>;
+    inputVersion: ReviewCommissionGateBindingRequestInputVersionEnum;
 }
+export enum ReviewCommissionGateBindingRequestReviewActionEnum {
+    Acknowledge = 'acknowledge',
+    TightenReview = 'tighten-review',
+    TightenBlock = 'tighten-block'
+};
+export enum ReviewCommissionGateBindingRequestInputVersionEnum {
+    ServerDerivedV1 = 'server-derived-v1'
+};

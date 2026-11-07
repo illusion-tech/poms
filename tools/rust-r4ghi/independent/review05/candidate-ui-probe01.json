@@ -1,0 +1,70 @@
+{
+  "kind": "independent-review05-pure-candidate-UI-call-probe",
+  "source": "tools/rust-r4ghi/H/implementation/support-patches/ui-integration/proposed/apps/poms-admin/src/app/features/project/project-governance-api.ts",
+  "sourceSHA256": "8547e6e9a1e4bb00635be5e175a3c39f05acbf66b5965f3c28c9fc8fd7780923",
+  "syntheticFixtures": true,
+  "schemaValidationStubbed": true,
+  "noHTTP": true,
+  "noDatabase": true,
+  "noAuthorizationAcceptance": true,
+  "firstRequestIsOwnCompletionList": true,
+  "rejectedCrossParent": true,
+  "purposeDualUUIDsPassedToAttachmentStore": true,
+  "requiredPathKeys": [
+    "completionRecordId",
+    "id"
+  ],
+  "missingPathKeys": [
+    "id"
+  ],
+  "extraIdentityKeys": [
+    "conditionId"
+  ],
+  "events": [
+    {
+      "kind": "completion-list",
+      "args": {
+        "projectId": "00000000-0000-4000-8000-000000000001"
+      }
+    },
+    {
+      "kind": "dictionary-list",
+      "args": {
+        "domain": "attachment-category",
+        "status": "active"
+      }
+    },
+    {
+      "kind": "attachment-store-upload",
+      "args": {
+        "targetType": "project",
+        "targetId": "00000000-0000-4000-8000-000000000001",
+        "file": "synthetic-file",
+        "category": "acceptance",
+        "relationType": "evidence",
+        "completionConditionContext": {
+          "completionRecordId": "00000000-0000-4000-8000-000000000002",
+          "conditionId": "00000000-0000-4000-8000-000000000003"
+        }
+      }
+    },
+    {
+      "kind": "close-client-call",
+      "args": {
+        "completionRecordId": "00000000-0000-4000-8000-000000000002",
+        "conditionId": "00000000-0000-4000-8000-000000000003",
+        "closeProjectCompletionConditionRequest": {
+          "inputVersion": "server-derived-v1",
+          "expectedCompletionVersion": 7,
+          "expectedConditionVersion": 3,
+          "closureSummary": "synthetic",
+          "evidenceRefs": [
+            {
+              "attachmentLinkId": "00000000-0000-4000-8000-000000000006"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,379 @@
+--- a/apps/poms-api-rust/src/attachments/project_scope.rs
++++ b/apps/poms-api-rust/src/attachments/project_scope.rs
+@@ -10,7 +10,7 @@
+     project_action_authorization::{self as scope, ProjectAction, ProjectActionTarget},
+ };
+ use axum::http::StatusCode;
+-use serde_json::{Value, json};
++use serde_json::Value;
+ use sqlx::{Connection, PgConnection};
+ use std::{collections::BTreeSet, future::Future, pin::Pin};
+ use uuid::Uuid;
+@@ -42,7 +42,7 @@
+     pub attachment: Entity,
+     pub links: Vec<Entity>,
+     pub all_links: Vec<Entity>,
+-    pub own_only: bool,
++    pub _own_only: bool,
+ }
+ 
+ fn actor(session: &ResolvedSession) -> Actor {
+@@ -422,7 +422,7 @@
+       JOIN poms.project_completion_condition c ON c.id=COALESCE(e.completion_condition_id,closure.condition_id) AND c.project_id=e.project_id
+       WHERE e.project_id=$1 AND e.attachment_link_id=$2 AND e.attachment_id=$3 AND c.responsible_user_id=$4
+       ORDER BY c.id,e.id"#).bind(project).bind(link_id).bind(attachment_id).bind(actor.id).fetch_all(&mut *connection).await.map_err(sql_error)?;
+-    for reference in refs {
++    if let Some(reference) = refs.into_iter().next() {
+         let frozen = &reference["payload"]["source"];
+         if canonical_hash(&reference["payload"])
+             .map_err(scope_error)?
+@@ -457,7 +457,7 @@
+     }
+     let sessions: Vec<Value> = sqlx::query_scalar("SELECT to_jsonb(s) FROM poms.attachment_upload_session s WHERE completed_attachment_id=$1 AND target_type='project' AND target_id=$2 AND created_by=$3 AND project_scope_context_version=1 AND operation_type='create-attachment' AND status='completed' ORDER BY id")
+         .bind(attachment_id).bind(project).bind(actor.id).fetch_all(&mut *connection).await.map_err(sql_error)?;
+-    for session in sessions {
++    if let Some(session) = sessions.into_iter().next() {
+         if !security(actor, session["security_level"].as_str()) {
+             return Err(denied());
+         }
+@@ -526,7 +526,7 @@
+                 visible.push(Entity::loaded(Table::Link, link.clone()));
+             }
+             Err(error) if authorization_denied(&error) => {
+-                if allow_own && own_link(connection, actor, &attachment, &link).await? {
++                if allow_own && own_link(connection, actor, &attachment, link).await? {
+                     visible.push(Entity::loaded(Table::Link, link.clone()));
+                 }
+             }
+@@ -563,7 +563,7 @@
+             .into_iter()
+             .map(|row| Entity::loaded(Table::Link, row))
+             .collect(),
+-        own_only,
++        _own_only: own_only,
+     })
+ }
+ 
+@@ -761,7 +761,7 @@
+     }
+     Ok(())
+ }
+-pub(super) async fn authorize_mutation(
++pub(super) async fn _authorize_mutation(
+     database: &Database,
+     session: &ResolvedSession,
+     id: &str,
+@@ -807,13 +807,13 @@
+     let mut lock_keys = Vec::new();
+     let mut source_ids = BTreeSet::new();
+     for entity in entities {
+-        if matches!(entity.table, Table::Session | Table::Link) {
+-            if let (Some(kind), Some(id)) = (
++        if matches!(entity.table, Table::Session | Table::Link)
++            && let (Some(kind), Some(id)) = (
+                 entity.data["target_type"].as_str(),
+                 entity.data["target_id"].as_str(),
+-            ) {
+-                lock_keys.push((kind.to_owned(), id.to_owned()));
+-            }
++            )
++        {
++            lock_keys.push((kind.to_owned(), id.to_owned()));
+         }
+         if entity.table == Table::Attachment && entity.original.is_some() {
+             source_ids.insert(parse_id(&entity.id())?);
+--- a/apps/poms-api-rust/src/attachments/service.rs
++++ b/apps/poms-api-rust/src/attachments/service.rs
+@@ -1717,7 +1717,7 @@
+             .filter(|l| attachments.contains_key(l.str("attachment_id")))
+             .cloned()
+             .collect::<Vec<_>>();
+-        let links =
++        let _links =
+             store::all_active_links(&self.database, rows.iter().map(Entity::id).collect()).await?;
+         let mut lookup = HashMap::new();
+         let mut contracts = Vec::new();
+--- a/apps/poms-api-rust/src/lifecycle_evidence/mod.rs
++++ b/apps/poms-api-rust/src/lifecycle_evidence/mod.rs
+@@ -183,8 +183,7 @@
+             completion_record_id,
+             condition_id,
+         } = access
+-        {
+-            if let Some(purpose) = require_own_condition_evidence(
++            && let Some(purpose) = require_own_condition_evidence(
+                 session,
+                 project_id,
+                 completion_record_id,
+@@ -193,10 +192,9 @@
+                 actor,
+             )
+             .await?
+-            {
+-                // Private immutable provenance; public_ref still projects five fields.
+-                row["conditionUploadPurpose"] = purpose;
+-            }
++        {
++            // Private immutable provenance; public_ref still projects five fields.
++            row["conditionUploadPurpose"] = purpose;
+         }
+         let checksum = row["checksumSha256"].as_str().unwrap_or_default();
+         let version = row["attachmentRowVersion"].as_i64().unwrap_or(0);
+@@ -296,7 +294,7 @@
+         AND (e.completion_condition_id=c.id OR closure.id IS NOT NULL) ORDER BY e.id FOR SHARE OF e,c"#)
+         .bind(project).bind(parent).bind(child).bind(uuid_field(source,"attachmentLinkId")?).bind(uuid_field(source,"attachmentId")?).bind(actor.id)
+         .fetch_all(&mut *session.connection).await?;
+-    for row in existing {
++    if let Some(row) = existing.into_iter().next() {
+         let payload = &row["source_payload"];
+         let frozen = &payload["source"];
+         if payload["projectId"] != project.to_string()
+--- a/apps/poms-api-rust/src/openapi_registry.rs
++++ b/apps/poms-api-rust/src/openapi_registry.rs
+@@ -7,11 +7,13 @@
+     match value {
+         Value::Object(fields) => {
+             if let Some(reference) = fields.get("$ref") {
+-                let reference = reference.as_str().expect("OpenAPI $ref must be a string");
+-                let pointer = reference
+-                    .strip_prefix('#')
+-                    .filter(|p| p.starts_with('/'))
+-                    .expect("external OpenAPI references are not registered");
++                let Some(reference) = reference.as_str() else {
++                    panic!("OpenAPI $ref must be a string");
++                };
++                let Some(pointer) = reference.strip_prefix('#').filter(|p| p.starts_with('/'))
++                else {
++                    panic!("external OpenAPI references are not registered");
++                };
+                 assert!(
+                     canonical.pointer(pointer).is_some(),
+                     "unregistered OpenAPI reference {reference}"
+@@ -32,9 +34,12 @@
+ fn canonical() -> &'static Value {
+     static DOCUMENT: OnceLock<Value> = OnceLock::new();
+     DOCUMENT.get_or_init(|| {
+-        let value: Value =
+-            serde_json::from_str(include_str!("../../../libs/shared/api-spec/openapi.json"))
+-                .expect("invalid current full shared OpenAPI");
++        let value: Value = match serde_json::from_str(include_str!(
++            "../../../libs/shared/api-spec/openapi.json"
++        )) {
++            Ok(value) => value,
++            Err(error) => panic!("invalid current full shared OpenAPI: {error:?}"),
++        };
+         assert_refs(&value, &value);
+         value
+     })
+--- a/apps/poms-api-rust/src/project_action_authorization/mod.rs
++++ b/apps/poms-api-rust/src/project_action_authorization/mod.rs
+@@ -862,12 +862,11 @@
+             if let ProjectActionTarget::OwnerReassignment {
+                 expected_version, ..
+             } = target
++                && expected_version != project.row_version
+             {
+-                if expected_version != project.row_version {
+-                    return Err(changed(
+-                        "The first personal assignment was already consumed",
+-                    ));
+-                }
++                return Err(changed(
++                    "The first personal assignment was already consumed",
++                ));
+             }
+             return Err(if full {
+                 denied()
+--- a/apps/poms-api-rust/src/project_cost_governance/correction.rs
++++ b/apps/poms-api-rust/src/project_cost_governance/correction.rs
+@@ -355,8 +355,7 @@
+                     store::id(r, "id")
+                         .and_then(|id| source_ref_locked(scope, "SharedCostAllocationResult", id))
+                 })
+-                .collect::<Result<Vec<_>, _>>()?
+-                .into_iter(),
++                .collect::<Result<Vec<_>, _>>()?,
+         )
+         .collect::<Vec<_>>();
+         let mut shares = Vec::new();
+--- a/apps/poms-api-rust/src/project_cost_governance/service.rs
++++ b/apps/poms-api-rust/src/project_cost_governance/service.rs
+@@ -570,37 +570,37 @@
+     }
+     // Unchanged economic layers and actual frozen weights must reproduce every
+     // prior project cent, even when stage provenance was refreshed late.
+-    if scope.is_some() {
+-        if let Some(old_basis) = &old_basis {
+-            let previous_totals = evidence::layers(
+-                old_basis,
+-                [
+-                    "source_amount_excluding_tax",
+-                    "source_tax_cost_amount",
+-                    "source_amount_including_tax",
+-                ],
+-            )?;
+-            let unchanged_weights=items.len()==old_by_project.len() && items.iter().all(|item|store::id(item,"projectId").ok().and_then(|id|old_by_project.get(&id)).is_some_and(|old|{
++    if scope.is_some()
++        && let Some(old_basis) = &old_basis
++    {
++        let previous_totals = evidence::layers(
++            old_basis,
++            [
++                "source_amount_excluding_tax",
++                "source_tax_cost_amount",
++                "source_amount_including_tax",
++            ],
++        )?;
++        let unchanged_weights=items.len()==old_by_project.len() && items.iter().all(|item|store::id(item,"projectId").ok().and_then(|id|old_by_project.get(&id)).is_some_and(|old|{
+                 matches!((logic::decimal(store::text(item,"allocationWeight").unwrap_or(""),6,logic::MAX_MONEY),logic::decimal(store::text(old,"allocation_weight").unwrap_or(""),6,logic::MAX_MONEY)),(Ok(a),Ok(b))if a==b)
+             }));
+-            if previous_totals == totals && unchanged_weights {
+-                for allocation in &allocated {
+-                    let old = old_by_project
+-                        .get(&Uuid::from_bytes(allocation.project))
+-                        .ok_or(Error::Internal)?;
+-                    if evidence::layers(
+-                        old,
+-                        [
+-                            "allocated_amount_excluding_tax",
+-                            "allocated_tax_cost_amount",
+-                            "allocated_amount_including_tax",
+-                        ],
+-                    )? != allocation.layers
+-                    {
+-                        return Err(Error::Conflict(
+-                            "Stage-only allocation refresh changed conserved project cents".into(),
+-                        ));
+-                    }
++        if previous_totals == totals && unchanged_weights {
++            for allocation in &allocated {
++                let old = old_by_project
++                    .get(&Uuid::from_bytes(allocation.project))
++                    .ok_or(Error::Internal)?;
++                if evidence::layers(
++                    old,
++                    [
++                        "allocated_amount_excluding_tax",
++                        "allocated_tax_cost_amount",
++                        "allocated_amount_including_tax",
++                    ],
++                )? != allocation.layers
++                {
++                    return Err(Error::Conflict(
++                        "Stage-only allocation refresh changed conserved project cents".into(),
++                    ));
+                 }
+             }
+         }
+--- a/apps/poms-api-rust/src/project_lifecycle/stage_fact.rs
++++ b/apps/poms-api-rust/src/project_lifecycle/stage_fact.rs
+@@ -16,27 +16,29 @@
+     row: Value,
+     occurred_at: DateTime<Utc>,
+     version: i32,
++    stage_id: Uuid,
++    project_id: Uuid,
++    stage: String,
++    nested_integrity_hash: String,
+ }
+ impl VerifiedProjectStageFact {
+     pub fn id(&self) -> Uuid {
+-        id(&self.row, "id").expect("verified stage id")
++        self.stage_id
+     }
+     pub fn project_id(&self) -> Uuid {
+-        id(&self.row, "project_id").expect("verified stage project")
++        self.project_id
+     }
+     pub fn version(&self) -> i32 {
+         self.version
+     }
+     pub fn stage(&self) -> &str {
+-        self.row["to_stage"].as_str().expect("verified stage")
++        &self.stage
+     }
+     pub fn occurred_at(&self) -> DateTime<Utc> {
+         self.occurred_at
+     }
+     pub fn nested_integrity_hash(&self) -> &str {
+-        self.row["source_payload_hash"]
+-            .as_str()
+-            .expect("verified nested hash")
++        &self.nested_integrity_hash
+     }
+     pub fn source_ref(&self) -> Result<SourceRef, Error> {
+         // G owns the sole full factual whitelist/hash. It uses sequence_no as
+@@ -211,12 +213,11 @@
+             Some("frozen"),
+         )
+         .await?;
+-        if stage == "execution" || stage == "acceptance" {
+-            if payload["commissionRoleAssignmentId"] != row["source_role_assignment_id"]
+-                || payload["roleFreezePayloadHash"] != frozen["source_payload_hash"]
+-            {
+-                return Err(invalid());
+-            }
++        if (stage == "execution" || stage == "acceptance")
++            && (payload["commissionRoleAssignmentId"] != row["source_role_assignment_id"]
++                || payload["roleFreezePayloadHash"] != frozen["source_payload_hash"])
++        {
++            return Err(invalid());
+         }
+         if stage == "execution"
+             && (payload["executionOwnerUserId"] != row["entered_by"]
+@@ -373,10 +374,16 @@
+     let occurred_at = DateTime::parse_from_rfc3339(text(&target, "entered_at")?)
+         .map_err(|_| invalid())?
+         .with_timezone(&Utc);
++    let stage = text(&target, "to_stage")?.to_owned();
++    let nested_integrity_hash = text(&target, "source_payload_hash")?.to_owned();
+     let fact = VerifiedProjectStageFact {
+         row: target,
+         occurred_at,
+         version: expected_sequence_no,
++        stage_id,
++        project_id,
++        stage,
++        nested_integrity_hash,
+     };
+     let source = fact.source_ref()?;
+     if source.kind != "ProjectStageRecord"
+--- a/apps/poms-api-rust/src/projects/service.rs
++++ b/apps/poms-api-rust/src/projects/service.rs
+@@ -79,7 +79,7 @@
+ pub struct ProjectsService {
+     database: Database,
+     customers: Arc<CustomersService>,
+-    auth: Arc<AuthService>,
++    _auth: Arc<AuthService>,
+ }
+ 
+ impl ProjectsService {
+@@ -91,7 +91,7 @@
+         Self {
+             database,
+             customers,
+-            auth,
++            _auth: auth,
+         }
+     }
+ 
+@@ -638,7 +638,7 @@
+     Ok(Wire::object(summary(project)?, text))
+ }
+ 
+-fn random_uuid() -> Result<Uuid, ProjectsError> {
++fn _random_uuid() -> Result<Uuid, ProjectsError> {
+     let mut bytes = [0_u8; 16];
+     getrandom::fill(&mut bytes).map_err(|_| ProjectsError::Internal)?;
+     bytes[6] = (bytes[6] & 0x0f) | 0x40;
+@@ -912,7 +912,8 @@
+             .bind(project_id)
+             .fetch_one(&mut *session.connection)
+             .await?;
+-    let confirmation:Option<(Uuid,String,i32,i32,i32,Option<DateTime<Utc>>)>=sqlx::query_as("SELECT c.id,c.status,c.required_count,c.confirmed_count,(SELECT count(*)::integer FROM poms.confirmation_participant cp WHERE cp.confirmation_record_id=c.id AND cp.participant_status='pending'),c.confirmed_at FROM poms.project_handover h JOIN poms.confirmation_record c ON c.id=h.confirmation_record_id AND c.project_id=h.project_id AND c.target_type='project-handover' AND c.target_id=h.id WHERE h.project_id=$1 AND h.producer_version=1 AND h.is_current AND h.status IN ('draft','confirmed') ORDER BY h.id LIMIT 1")
++    type HandoverConfirmationRow = (Uuid, String, i32, i32, i32, Option<DateTime<Utc>>);
++    let confirmation: Option<HandoverConfirmationRow> = sqlx::query_as("SELECT c.id,c.status,c.required_count,c.confirmed_count,(SELECT count(*)::integer FROM poms.confirmation_participant cp WHERE cp.confirmation_record_id=c.id AND cp.participant_status='pending'),c.confirmed_at FROM poms.project_handover h JOIN poms.confirmation_record c ON c.id=h.confirmation_record_id AND c.project_id=h.project_id AND c.target_type='project-handover' AND c.target_id=h.id WHERE h.project_id=$1 AND h.producer_version=1 AND h.is_current AND h.status IN ('draft','confirmed') ORDER BY h.id LIMIT 1")
+         .bind(project_id).fetch_optional(&mut *session.connection).await?;
+     let confirmation = match confirmation {
+         Some((id, status, required, confirmed, pending, at)) => {

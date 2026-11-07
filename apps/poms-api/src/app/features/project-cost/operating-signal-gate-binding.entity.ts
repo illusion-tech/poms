@@ -1,3 +1,6 @@
+import { ApprovalSummarySnapshot } from '../approval-summary/approval-summary.entity';
+import { OperatingSignalReviewRecord } from './operating-signal-review-record.entity';
+import { OperatingEvaluationEvidence } from './rust-r4ghi-entities.entity';
 import { defineEntity } from '@mikro-orm/core';
 import {
     BASELINE_SELECTION_SOURCES,
@@ -38,7 +41,8 @@ export const OperatingSignalToCommissionGateBindingSchema = defineEntity({
             name: 'uq_osgb_project_gate_stage_active',
             expression: (columns, table, indexName) =>
                 `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.projectId}", "${columns.gateStageType}") where "${columns.status}" = '${OperatingLifecycleStatusValue.Active}'`
-        }
+        },
+        {"name":"uq_jghi_binding_project","properties":["id","projectId"]}
     ],
     checks: [
         {
@@ -64,7 +68,8 @@ export const OperatingSignalToCommissionGateBindingSchema = defineEntity({
         {
             name: 'chk_operating_signal_gate_binding_status',
             expression: `"status" in (${toSqlStringList(OPERATING_LIFECYCLE_STATUSES)})`
-        }
+        },
+        {"name":"ck_jghi_binding_v1","expression":"producer_version=0 OR\n  (producer_version=1 AND evidence_id IS NOT NULL AND system_binding_action IS NOT NULL\n   AND system_binding_action IN ('prompt','review','block') AND gate_stage_type IN ('first','second','final','retention')\n   AND evaluation_hash IS NOT NULL AND evaluation_hash~'^[0-9a-f]{64}$' AND current_summary_id IS NOT NULL\n   AND tax_pending_knowledge IS NOT NULL AND tax_pending_knowledge IN ('known','unknown')\n   AND ((tax_pending_knowledge='known' AND tax_impact_pending_amount IS NOT NULL)\n     OR (tax_pending_knowledge='unknown' AND tax_impact_pending_amount IS NULL)))"}
     ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
@@ -75,7 +80,7 @@ export const OperatingSignalToCommissionGateBindingSchema = defineEntity({
         gateStageType: p.string().length(32).fieldName('gate_stage_type').comment('gate 阶段类型'),
         baselineSelectionSource: p.string().$type<BaselineSelectionSource>().length(32).default(BaselineSelectionSourceValue.Original).fieldName('baseline_selection_source').comment('基线选择来源'),
         taxImpactSummary: p.text().fieldName('tax_impact_summary').comment('税务影响摘要'),
-        taxImpactPendingAmount: p.decimal().precision(18).scale(2).default(0).fieldName('tax_impact_pending_amount').comment('待闭合税务影响金额'),
+        taxImpactPendingAmount: p.decimal().precision(18).scale(2).default(0).fieldName('tax_impact_pending_amount').comment('待闭合税务影响金额').nullable(),
         allocationStabilitySummary: p.text().nullable().fieldName('allocation_stability_summary').comment('分摊稳定性摘要'),
         unmappedCostSummary: p.text().nullable().fieldName('unmapped_cost_summary').comment('未映射成本摘要'),
         dataMaturityLevel: p.string().$type<OperatingDataMaturityLevel>().length(32).default(OperatingDataMaturityLevelValue.Insufficient).fieldName('data_maturity_level').comment('数据成熟度等级'),
@@ -92,6 +97,15 @@ export const OperatingSignalToCommissionGateBindingSchema = defineEntity({
         updatedAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).onUpdate(() => new Date()).fieldName('updated_at').comment('最后更新时间'),
         updatedBy: p.uuid().nullable().fieldName('updated_by').comment('最后更新人'),
         rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号')
+    ,
+        producerVersion: p.smallint().default(0).fieldName("producer_version"),
+        evidenceId: () => p.manyToOne(OperatingEvaluationEvidence).mapToPk().joinColumns("evidence_id").referencedColumnNames("id").foreignKeyName("operating_signal_gate_binding_evidence_id_fkey").deleteRule("no action").updateRule("no action").nullable(),
+        signalReviewId: () => p.manyToOne(OperatingSignalReviewRecord).mapToPk().joinColumns("signal_review_id").referencedColumnNames("id").foreignKeyName("operating_signal_gate_binding_signal_review_id_fkey").deleteRule("no action").updateRule("no action").nullable(),
+        systemBindingAction: p.string().length(16).nullable().fieldName("system_binding_action"),
+        taxPendingKnowledge: p.string().length(16).nullable().fieldName("tax_pending_knowledge"),
+        evaluationHash: p.string().length(64).nullable().fieldName("evaluation_hash"),
+        currentSummaryId: () => p.manyToOne(ApprovalSummarySnapshot).mapToPk().joinColumns("current_summary_id").referencedColumnNames("id").foreignKeyName("operating_signal_gate_binding_current_summary_id_fkey").deleteRule("no action").updateRule("no action").deferMode('deferred').nullable(),
+        supersedesId: () => p.manyToOne(OperatingSignalToCommissionGateBinding).mapToPk().joinColumns("supersedes_id").referencedColumnNames("id").foreignKeyName("operating_signal_gate_binding_supersedes_id_fkey").deleteRule("no action").updateRule("no action").nullable()
     }
 });
 

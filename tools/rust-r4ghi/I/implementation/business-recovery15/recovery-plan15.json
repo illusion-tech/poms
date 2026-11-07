@@ -1,0 +1,112 @@
+{
+  "kind": "proposed exact blocked observation reconciliation; not executed",
+  "epoch": "g2-business08",
+  "run": "main01",
+  "marker": "0ca66699-053b-4f40-ad5c-82fed4cf1a6f",
+  "blockedObservation": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business08/main01/000125-ledger.json",
+    "bytes": 1811,
+    "rawBytesSha256": "be87f1c831f3339a4757eec22053dad793e05f8fd9379a91ae9beab4944f20dd"
+  },
+  "before": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business08/main01/snapshot-000124-http-before.json",
+    "bytes": 3111440,
+    "rawBytesSha256": "8aa2c67e6638addf0e359420e6e85c398c23f90bb3be7a164c6b917c3f9d68d0"
+  },
+  "after": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business08/main01/snapshot-000124-http-after.json",
+    "bytes": 3111161,
+    "rawBytesSha256": "5417bcafbb82da811e4b438a605c942ffab7084f152567cbb63465f5d8e3a0ae"
+  },
+  "requestId": "bg91075d6347-000124-http-8e1f0a0e",
+  "operationId": "ContractReadinessController_reviewDiff",
+  "status": 200,
+  "actualHeaderCookieBoundToActor": true,
+  "httpReceipt": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business08/main01/000124-http-http.json",
+    "sha256": "8ce110f4c031219d51ddd32b50527688f867c998122713c30fbb46e0e81c2b49"
+  },
+  "proof": {
+    "kind": "HTTP-exact-review-audit-and-real-transaction-child-status",
+    "requestId": "bg91075d6347-000124-http-8e1f0a0e",
+    "operationId": "ContractReadinessController_reviewDiff",
+    "actorId": "c9c2060f-8e01-4841-8991-1d9e467650e1",
+    "table": "contract_readiness_package_item",
+    "key": [
+      "84615a5a-7d94-40b1-b7d1-0c6929bc8b43"
+    ],
+    "changedColumns": [
+      "status"
+    ],
+    "beforeSHA256": "c74c0dc7cf81c673473ad4c7b778ab2271891616dcd4cc40b3eea6ddaef2cb45",
+    "afterSHA256": "438a87cbb2ab2188bb3d22b2b757b7047b40fae24478b3eebd47a42014f353aa",
+    "beforeXmin": "1434",
+    "actualCommitXmin": "1435",
+    "baselineId": "6959b889-0574-4a24-a4a7-d9dcca252840",
+    "contractId": "44dfdd04-a736-4272-92c6-23d36082b1a7",
+    "diffResultId": "4234d260-d7a2-46db-8bf0-dd4d71f28b44",
+    "projectId": "4a6817f5-5c0b-4769-8546-9991fc0b9432",
+    "packageId": "3147725c-9ef1-45fc-854c-b081c76c769c",
+    "itemKey": "exact-contract-diff",
+    "auditId": "1e17d756-bb18-4389-8641-ac3b70590cbb",
+    "reviewRecordId": "879bb08b-c748-42d3-a8c4-a3fbec78dffb",
+    "auditAuthority": "exact request/op/actor/target; audit ID is observed, not claimed as returned HTTP ID",
+    "sourceMutation": "contract_readiness/service.rs review() exact-contract-diff status only"
+  },
+  "originals": {
+    "000114-prepare01-partial.json": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business08/main01/000114-prepare01-partial.json",
+      "sha256": "dcfd8d9ff3737d2f04f1057cfd194d5e93bac47e1254bc48aec7133d41816937"
+    },
+    "000120-http-request.json": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business08/main01/000120-http-request.json",
+      "sha256": "1fd454d691768f2f0c8421edab79055abcfea2e97c1b13bb84d32f26c2a8ce12"
+    },
+    "000120-http-response-body.bin": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business08/main01/000120-http-response-body.bin",
+      "sha256": "d93ed8b9cf697aef2fbbbd81d64a126d53949a8a75e1e29dc097c2119f113fd9"
+    },
+    "000121-ledger.json": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business08/main01/000121-ledger.json",
+      "sha256": "b938f409b27f597a95bcc7d2a9572aae12f79973b8a4690bbfe08f15dad5f55c"
+    },
+    "000124-http-request.json": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business08/main01/000124-http-request.json",
+      "sha256": "3c32ac82706033f9f38c5b7dcd32a7d48d0591c6e1b0ea0345a45719095168ee"
+    },
+    "000124-http-request-body.bin": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business08/main01/000124-http-request-body.bin",
+      "sha256": "4f46061bb0477690522beb194ad9202107a7af423adba247bc5d563e27e417ff"
+    },
+    "000124-http-response-body.bin": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business08/main01/000124-http-response-body.bin",
+      "sha256": "bbb55a717363ae6c05d79a3f6bdaa67732cea4b53c95584a85d9fbc461a22373"
+    },
+    "000124-http-response-headers.json": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business08/main01/000124-http-response-headers.json",
+      "sha256": "a088e82e3401bdef541072338416f04849ac2a6016d12a9697a91d1cf1545c60"
+    },
+    "000125-ledger.json": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business08/main01/000125-ledger.json",
+      "sha256": "be87f1c831f3339a4757eec22053dad793e05f8fd9379a91ae9beab4944f20dd"
+    }
+  },
+  "oldGET": {
+    "operationId": "ContractReadinessController_getDiffHistory",
+    "requestId": "bg91075d6347-000120-http-957d63de",
+    "actualRecorded": [],
+    "actualBlockers": [],
+    "lazyWriteCertified": false
+  },
+  "proposedRecovery": [
+    "Root reviews exact code and plan SHA; never modify original partial/ledger/HTTP originals.",
+    "Before apply capture a fresh complete two-DB/catalog/object snapshot and require same logical rows/catalog/objects as pinned after.",
+    "Revalidate exact request/actor/audit/review/parent/item status proof and existing ownership; dry-run prospective one-row ownership state through assertRecorded.",
+    "Append one exact source-proven ownership update for this child only; keep blocked pin until all checks pass.",
+    "Bind actual successful HTTP review response into matching contractRuns slot.diffReview to prevent duplicate POST; append immutable recovery receipt that references old incomplete ledger.",
+    "Only after prospective full ownership validation, replace blockedObservation with a completed reconciliation entry; original false receipt remains unchanged."
+  ],
+  "businessDBChangedByAuthor": false,
+  "privateStateChangedByAuthor": false,
+  "rootExecutionPending": true
+}

@@ -7,25 +7,23 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { OperatingSnapshotActionLevel } from './operating-snapshot-action-level';
-import { BaselineSelectionSource } from './baseline-selection-source';
+import { CostDecisionInput } from './cost-decision-input';
+import { LegacyAssertions } from './legacy-assertions';
+import { ExpectedRef } from './expected-ref';
 
 
 export interface CreatePeriodClosingSnapshotRequest {
-    effectiveContractTotal: string;
-    receivableConfirmedTotal: string;
-    includedCostTotal: string;
-    originalBaselineCost: string;
-    currentEffectiveBaselineCost: string;
-    taxImpactSummary: string;
-    taxImpactPendingAmount?: string;
-    allocationStabilitySummary?: string | null;
-    unmappedCostSummary?: string | null;
-    currentActionLevel: OperatingSnapshotActionLevel;
-    referencedBaselineVersion: string;
-    baselineSelectionSource: BaselineSelectionSource;
-    handoverRebaselineRecordId?: string | null;
+    inputVersion: CreatePeriodClosingSnapshotRequestInputVersionEnum;
     projectId: string;
+    expectedVersion: number;
+    expectedProjectVersion: number;
+    expectedInputHash: string;
+    assertions: LegacyAssertions | null;
+    baselinePackageRef: ExpectedRef;
     periodKey: string;
-    expectedCurrentSnapshotVersion?: number;
+    expectedPeriodSnapshotRef: ExpectedRef | null;
+    costDecisions: Array<CostDecisionInput>;
 }
+export enum CreatePeriodClosingSnapshotRequestInputVersionEnum {
+    ServerDerivedV1 = 'server-derived-v1'
+};

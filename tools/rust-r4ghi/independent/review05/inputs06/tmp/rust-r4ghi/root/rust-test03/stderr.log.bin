@@ -1,0 +1,156 @@
+   Compiling poms-api-rust v0.1.0 (/home/wangzishi/projects/poms-rust-r4ghi/apps/poms-api-rust)
+warning: unused import: `json`
+  --> src/attachments/project_scope.rs:13:25
+   |
+13 | use serde_json::{Value, json};
+   |                         ^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `self`
+ --> src/project_operating/capture.rs:3:15
+  |
+3 |     sources::{self, Catalog},
+  |               ^^^^
+
+warning: unused import: `json`
+ --> src/project_operating/restatement.rs:9:25
+  |
+9 | use serde_json::{Value, json};
+  |                         ^^^^
+
+warning: unused variable: `links`
+    --> src/attachments/service.rs:1720:13
+     |
+1720 |         let links =
+     |             ^^^^^ help: if this is intentional, prefix it with an underscore: `_links`
+     |
+     = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: field `own_only` is never read
+  --> src/attachments/project_scope.rs:45:9
+   |
+41 | pub(super) struct Readable {
+   |                   -------- field in this struct
+...
+45 |     pub own_only: bool,
+   |         ^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `authorize_mutation` is never used
+   --> src/attachments/project_scope.rs:764:21
+    |
+764 | pub(super) async fn authorize_mutation(
+    |                     ^^^^^^^^^^^^^^^^^^
+
+warning: method `legacy_single` is never used
+  --> src/project_operating_common/request.rs:54:19
+   |
+10 | impl ResourceKeys {
+   | ----------------- method in this implementation
+...
+54 |     pub(crate) fn legacy_single(&self) -> Result<Option<Uuid>, Error> {
+   |                   ^^^^^^^^^^^^^
+
+warning: fields `outer_tx_token`, `operation_id`, and `consumed_context_refs` are never read
+   --> src/project_operating_common/runtime.rs:148:16
+    |
+147 | pub struct VerifiedRestatementScope<'tx> {
+    |            ------------------------ fields in this struct
+148 |     pub(crate) outer_tx_token: &'tx OuterTxToken,
+    |                ^^^^^^^^^^^^^^
+149 |     pub(crate) operation_id: Uuid,
+    |                ^^^^^^^^^^^^
+...
+154 |     pub(crate) consumed_context_refs: Vec<SourceRef>,
+    |                ^^^^^^^^^^^^^^^^^^^^^
+
+warning: field `verified_evidence_refs` is never read
+   --> src/project_operating_common/runtime.rs:164:16
+    |
+159 | pub struct ValidatedStageCorrection {
+    |            ------------------------ field in this struct
+...
+164 |     pub(crate) verified_evidence_refs: Vec<SourceRef>,
+    |                ^^^^^^^^^^^^^^^^^^^^^^
+
+warning: fields `verified_source_refs` and `verified_evidence_refs` are never read
+   --> src/project_operating_common/runtime.rs:170:16
+    |
+166 | pub struct ValidatedTaxCorrection {
+    |            ---------------------- fields in this struct
+...
+170 |     pub(crate) verified_source_refs: Vec<SourceRef>,
+    |                ^^^^^^^^^^^^^^^^^^^^
+171 |     pub(crate) verified_evidence_refs: Vec<SourceRef>,
+    |                ^^^^^^^^^^^^^^^^^^^^^^
+
+warning: field `project_id` is never read
+  --> src/project_operating_signals/store.rs:14:9
+   |
+12 | pub(crate) struct EvaluationRow {
+   |                   ------------- field in this struct
+13 |     pub id: Uuid,
+14 |     pub project_id: Uuid,
+   |         ^^^^^^^^^^
+   |
+   = note: `EvaluationRow` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+warning: field `project_id` is never read
+   --> src/project_operating_signals/store.rs:108:9
+    |
+106 | pub(crate) struct BindingRow {
+    |                   ---------- field in this struct
+107 |     pub id: Uuid,
+108 |     pub project_id: Uuid,
+    |         ^^^^^^^^^^
+    |
+    = note: `BindingRow` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+warning: field `auth` is never read
+  --> src/projects/service.rs:82:5
+   |
+79 | pub struct ProjectsService {
+   |            --------------- field in this struct
+...
+82 |     auth: Arc<AuthService>,
+   |     ^^^^
+   |
+   = note: `ProjectsService` has a derived impl for the trait `Clone`, but this is intentionally ignored during dead code analysis
+
+warning: function `random_uuid` is never used
+   --> src/projects/service.rs:641:4
+    |
+641 | fn random_uuid() -> Result<Uuid, ProjectsError> {
+    |    ^^^^^^^^^^^
+
+warning: `poms-api-rust` (lib test) generated 13 warnings (13 duplicates)
+warning: `poms-api-rust` (lib) generated 14 warnings (run `cargo fix --lib -p poms-api-rust` to apply 4 suggestions)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1m 17s
+     Running unittests src/lib.rs (/home/wangzishi/.cache/poms-r4ghi-target-ROOT/debug/deps/poms_api_rust-33ca5c806a54bb6d)
+     Running unittests src/main.rs (/home/wangzishi/.cache/poms-r4ghi-target-ROOT/debug/deps/poms_api_rust-1bc66aff385a72b8)
+     Running tests/approval_common_helpers.rs (/home/wangzishi/.cache/poms-r4ghi-target-ROOT/debug/deps/approval_common_helpers-3f04923336aac5bc)
+     Running tests/approval_common_required.rs (/home/wangzishi/.cache/poms-r4ghi-target-ROOT/debug/deps/approval_common_required-1179a4d84567b10f)
+     Running tests/auth_cookie.rs (/home/wangzishi/.cache/poms-r4ghi-target-ROOT/debug/deps/auth_cookie-4525a5af8c12f7c7)
+     Running tests/auth_crypto.rs (/home/wangzishi/.cache/poms-r4ghi-target-ROOT/debug/deps/auth_crypto-a2b3bff9d57848b0)
+     Running tests/auth_database.rs (/home/wangzishi/.cache/poms-r4ghi-target-ROOT/debug/deps/auth_database-6a12c5222383c288)
+     Running tests/auth_guards.rs (/home/wangzishi/.cache/poms-r4ghi-target-ROOT/debug/deps/auth_guards-162c5d1718755d9e)
+     Running tests/auth_http.rs (/home/wangzishi/.cache/poms-r4ghi-target-ROOT/debug/deps/auth_http-95ffd8d8e45e2498)
+     Running tests/auth_projection.rs (/home/wangzishi/.cache/poms-r4ghi-target-ROOT/debug/deps/auth_projection-78733725a02e385c)
+     Running tests/auth_projection_db.rs (/home/wangzishi/.cache/poms-r4ghi-target-ROOT/debug/deps/auth_projection_db-854a1793ae82296a)
+     Running tests/database.rs (/home/wangzishi/.cache/poms-r4ghi-target-ROOT/debug/deps/database-1a4cad153283567d)
+     Running tests/e_foundation_database.rs (/home/wangzishi/.cache/poms-r4ghi-target-ROOT/debug/deps/e_foundation_database-64ce2e0d4401799e)
+     Running tests/http.rs (/home/wangzishi/.cache/poms-r4ghi-target-ROOT/debug/deps/http-9603ec29f26699b6)
+     Running tests/json_compat.rs (/home/wangzishi/.cache/poms-r4ghi-target-ROOT/debug/deps/json_compat-de05a68ec3b10372)
+     Running tests/navigation.rs (/home/wangzishi/.cache/poms-r4ghi-target-ROOT/debug/deps/navigation-46505d200386838b)
+     Running tests/navigation_audit_db.rs (/home/wangzishi/.cache/poms-r4ghi-target-ROOT/debug/deps/navigation_audit_db-30191a827a66aa06)
+     Running tests/org_units_database.rs (/home/wangzishi/.cache/poms-r4ghi-target-ROOT/debug/deps/org_units_database-a6462db4407aefb1)
+     Running tests/permissions.rs (/home/wangzishi/.cache/poms-r4ghi-target-ROOT/debug/deps/permissions-b7d4c42e1ca441bb)
+     Running tests/process_runtime.rs (/home/wangzishi/.cache/poms-r4ghi-target-ROOT/debug/deps/process_runtime-d7a19bc12bda72f6)
+     Running tests/roles_database.rs (/home/wangzishi/.cache/poms-r4ghi-target-ROOT/debug/deps/roles_database-213cf589bdbe32fb)
+     Running tests/scalars.rs (/home/wangzishi/.cache/poms-r4ghi-target-ROOT/debug/deps/scalars-af29d68c456bd9c6)
+     Running tests/shared_compat_regression.rs (/home/wangzishi/.cache/poms-r4ghi-target-ROOT/debug/deps/shared_compat_regression-fa94f610d8acb410)
+     Running tests/shared_generated.rs (/home/wangzishi/.cache/poms-r4ghi-target-ROOT/debug/deps/shared_generated-9c08eab6f923ac4f)
+     Running tests/users_database.rs (/home/wangzishi/.cache/poms-r4ghi-target-ROOT/debug/deps/users_database-f6e6fcc3f5f33d6d)
+   Doc-tests poms_api_rust

@@ -1,6 +1,7 @@
 //! R4C's nineteen existing operations on Root's borrowed outer transaction.
 //! Root owns transport validation, authorization, final auth flush and COMMIT.
 mod model;
+mod receipt_basis;
 mod store;
 
 use std::collections::{BTreeMap, BTreeSet};
@@ -329,53 +330,7 @@ async fn confirm_receipt(
     body: &Value,
     actor: &Actor,
 ) -> Result<Value, Error> {
-    let discovered = receipt(session.connection, id, false).await?;
-    contract_support::lock_project(session.connection, discovered.project_id).await?;
-    let current = receipt(session.connection, id, false).await?;
-    same_project(current.project_id, discovered.project_id)?;
-    expected_version(body, current.row_version, "ReceiptRecord")?;
-    lock_contracts(
-        session.connection,
-        current.project_id,
-        [Some(current.contract_id)],
-    )
-    .await?;
-    let current = receipt(session.connection, id, true).await?;
-    same_project(current.project_id, discovered.project_id)?;
-    expected_version(body, current.row_version, "ReceiptRecord")?;
-    if current.status != "pending-confirmation" {
-        return Err(Error::Unprocessable(format!(
-            "只有待确认状态的回款记录可以确认，当前状态: {}",
-            current.status
-        )));
-    }
-    let mut row = current.clone();
-    row.status = "confirmed".into();
-    row.confirmed_at = Some(clock_now());
-    row.confirmed_by = Some(actor.id);
-    row.row_version = next_version(current.row_version)?;
-    row.updated_at = clock_now();
-    if !store::update_receipt(session.connection, &row, current.row_version).await? {
-        return Err(stale("ReceiptRecord"));
-    }
-    let result = row.summary();
-    contract_support::audit(
-        session,
-        actor,
-        AuditWrite {
-            operation_id: operation.into(),
-            target_type: "Receipt".into(),
-            target_id: id,
-            project_id: row.project_id,
-            contract_id: Some(row.contract_id),
-            before: Some(current.summary()),
-            after: Some(result.clone()),
-            reason: None,
-            metadata: json!({}),
-        },
-    )
-    .await?;
-    Ok(result)
+    receipt_basis::confirm(session, operation, id, body, actor).await
 }
 
 async fn create_payable(

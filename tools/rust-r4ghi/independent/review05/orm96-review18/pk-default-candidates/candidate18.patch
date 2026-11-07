@@ -1,0 +1,40 @@
+--- a/apps/poms-api/src/app/features/project/project.entity.ts
++++ b/apps/poms-api/src/app/features/project/project.entity.ts
+@@ -28,7 +28,6 @@
+         {"name":"chk_project_current_stage","expression":"current_stage IN\n ('assessment','scope-confirmation','commercial-closure','contracting','handover','execution','acceptance',\n  'completed','conditional-completed','closed-lost','closed-terminated')"}
+     ],
+     properties: {
+-        id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('项目主键'),
+         projectNo: p.string().length(64).unique().fieldName('project_no').comment('项目编号'),
+         projectName: p.string().length(255).fieldName('project_name').comment('项目名称'),
+         sourceLeadId: () => p.manyToOne(Lead).mapToPk().nullable().fieldName('source_lead_id').foreignKeyName('project_source_lead_id_foreign').updateRule('cascade').deleteRule('restrict').comment('项目来源线索标识'),
+@@ -60,7 +59,8 @@
+         updatedBy: p.uuid().nullable().fieldName('updated_by').comment('最后更新人标识')
+     ,
+         currentStageRecordId: p.uuid().nullable().fieldName("current_stage_record_id"),
+-        jghiScopeConstraint1: () => p.manyToOne(ProjectStageRecord).mapToPk().joinColumns("current_stage_record_id","id").referencedColumnNames("id","project_id").columnTypes("uuid","uuid").ownColumns().hydrate(false).hidden().foreignKeyName("project_current_stage_record_same_project_fk").deleteRule("restrict").updateRule("no action").nullable()
++        jghiScopeConstraint1: () => p.manyToOne(ProjectStageRecord).mapToPk().joinColumns("current_stage_record_id","id").referencedColumnNames("id","project_id").columnTypes("uuid","uuid").ownColumns().hydrate(false).hidden().foreignKeyName("project_current_stage_record_same_project_fk").deleteRule("restrict").updateRule("no action").nullable(),
++        id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('项目主键'),
+     }
+ });
+ 
+--- a/apps/poms-api/src/app/features/project-cost/project-operating-snapshot.entity.ts
++++ b/apps/poms-api/src/app/features/project-cost/project-operating-snapshot.entity.ts
+@@ -59,7 +59,6 @@
+         {"name":"ck_jghi_snapshot_pending_tax_v1","expression":"producer_version=0 OR\n  (producer_version=1 AND tax_pending_knowledge IS NOT NULL AND\n   ((tax_pending_knowledge='known' AND tax_impact_pending_amount IS NOT NULL)\n    OR (tax_pending_knowledge='unknown' AND tax_impact_pending_amount IS NULL)))"}
+     ],
+     properties: {
+-        id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
+         projectId: () => p.manyToOne(Project).mapToPk().fieldName('project_id').comment('关联项目'),
+         snapshotMode: p.string().$type<OperatingSnapshotMode>().length(32).fieldName('snapshot_mode').comment('快照模式：realtime/period-end/restated'),
+         snapshotAt: p.datetime().defaultRaw('now()').fieldName('snapshot_at').comment('快照时点'),
+@@ -108,7 +107,8 @@
+         jghiScopeConstraint1: () => p.manyToOne(OperatingSourceContext).mapToPk().joinColumns("source_context_id","project_id","id").referencedColumnNames("id","project_id","snapshot_id").columnTypes("uuid","uuid","uuid").ownColumns().hydrate(false).hidden().foreignKeyName("fk_r4g_snapshot_context").deleteRule("no action").updateRule("no action").deferMode('deferred').nullable(),
+         jghiScopeConstraint2: () => p.manyToOne(ProjectOperatingSnapshot).mapToPk().joinColumns("supersedes_id","project_id").referencedColumnNames("id","project_id").columnTypes("uuid","uuid").ownColumns().hydrate(false).hidden().foreignKeyName("fk_r4g_snapshot_supersedes").deleteRule("restrict").updateRule("no action"),
+         jghiScopeConstraint3: () => p.manyToOne(ProjectOperatingSnapshot).mapToPk().joinColumns("root_snapshot_id","project_id").referencedColumnNames("id","project_id").columnTypes("uuid","uuid").ownColumns().hydrate(false).hidden().foreignKeyName("fk_r4g_snapshot_root").deleteRule("restrict").updateRule("no action").nullable(),
+-        jghiScopeConstraint4: () => p.manyToOne(PeriodClosingSnapshot).mapToPk().joinColumns("period_end_snapshot_id","project_id").referencedColumnNames("id","project_id").columnTypes("uuid","uuid").ownColumns().hydrate(false).hidden().foreignKeyName("fk_r4g_snapshot_period").deleteRule("no action").updateRule("no action").deferMode('deferred').nullable()
++        jghiScopeConstraint4: () => p.manyToOne(PeriodClosingSnapshot).mapToPk().joinColumns("period_end_snapshot_id","project_id").referencedColumnNames("id","project_id").columnTypes("uuid","uuid").ownColumns().hydrate(false).hidden().foreignKeyName("fk_r4g_snapshot_period").deleteRule("no action").updateRule("no action").deferMode('deferred').nullable(),
++        id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
+     }
+ });
+ 

@@ -9,8 +9,8 @@ import {
     PaymentRecordStatusValue,
     ProjectActualCostSourceTypeValue,
     ReceiptRecordStatusValue
-} from '@poms/shared-contracts';
-import type { InvoiceRecordType, ClosePayableRecordRequest, CloseInvoiceRecordRequest, ConfirmPaymentRecordRequest, ConfirmReceiptRecordRequest, CreatePayableRecordRequest, CreatePaymentRecordRequest, CreateReceiptRecordRequest, MarkInvoiceExceptionRequest, PayableRecordDetailView, PayableRecordSummary, PaymentRecordSummary, ReceiptRecordSummary, ResolveInvoiceExceptionRequest, UpdatePayableRecordRequest, VoidPayableRecordRequest, ProjectActualCostSourceType } from '@poms/shared-contracts';
+} from "../../core/rust-r4ghi-frozen-native-reference";
+import type { InvoiceRecordType, ClosePayableRecordRequest, CloseInvoiceRecordRequest, ConfirmPaymentRecordRequest, ConfirmReceiptRecordRequest, CreatePayableRecordRequest, CreatePaymentRecordRequest, CreateReceiptRecordRequest, MarkInvoiceExceptionRequest, PayableRecordDetailView, PayableRecordSummary, PaymentRecordSummary, ReceiptRecordSummary, ResolveInvoiceExceptionRequest, UpdatePayableRecordRequest, VoidPayableRecordRequest, ProjectActualCostSourceType } from "../../core/rust-r4ghi-frozen-native-reference";
 import { ContractFinanceRepository } from './contract-finance.repository';
 import type { InvoiceRecord } from './invoice-record.entity';
 import type { PayableRecord } from './payable-record.entity';

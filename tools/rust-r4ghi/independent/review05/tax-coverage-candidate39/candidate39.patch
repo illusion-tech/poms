@@ -1,0 +1,337 @@
+--- a/apps/poms-api-rust/src/project_operating/context.rs
++++ b/apps/poms-api-rust/src/project_operating/context.rs
+@@ -1447,14 +1447,7 @@
+     )?;
+     let tax_pending = if currency.is_none() {
+         facts::unknown("currency-unproven-or-multiple")
+-    } else if taxes.is_empty()
+-        && costs.iter().any(|c| {
+-            facts::cents(&c["amounts"]["tax"])
+-                .ok()
+-                .flatten()
+-                .is_none_or(|v| v.cents() != 0)
+-        })
+-    {
++    } else if tax_assessment_missing(&costs, &taxes)? {
+         facts::unknown("tax-assessment-missing")
+     } else {
+         facts::sum_amounts(
+@@ -1552,6 +1545,29 @@
+         .ok_or_else(|| store::conflict("operating_cost_source_missing"))?;
+     sources::reference(table, row)
+ }
++// Tax pending covers every registered cost retained in the frozen scope,
++// including excluded principals. Classification is not a zero-tax proof.
++// Allocation shares with a nonzero/unknown tax layer remain unknown unless a
++// genuine project-local F producer has supplied this exact share's tax refs;
++// never copy or ratio-scale a source project's whole pending assessment.
++fn tax_assessment_missing(costs: &[Value], taxes: &[Value]) -> Result<bool, Error> {
++    for cost in costs {
++        if facts::cents(&cost["amounts"]["tax"])?.is_some_and(|value| value.cents() == 0) {
++            continue;
++        }
++        let covered = cost["taxTreatmentRefs"].as_array().is_some_and(|refs| {
++            refs.iter().any(|reference| {
++                reference["kind"] == "AccountingTaxTreatmentSnapshot"
++                    && taxes.iter().any(|tax| tax["taxTreatmentRef"] == *reference)
++            })
++        });
++        if !covered {
++            return Ok(true);
++        }
++    }
++    Ok(false)
++}
++
+ fn cost_tax_refs(catalog: &Catalog, cost: &Value) -> Result<Vec<Value>, Error> {
+     catalog
+         .all(Table::Tax)
+@@ -1563,7 +1579,12 @@
+                     .and_then(|e| e["source_references"].as_array())
+                     .is_some_and(|refs| {
+                         refs.iter().any(|r| {
+-                            r["sourceId"] == cost["id"] || r["sourceId"] == cost["source_id"]
++                            r["kind"] == "source"
++                                && (((r["sourceType"] == "project-actual-cost-record"
++                                    || r["sourceType"] == "source-cost-fact")
++                                    && r["sourceId"] == cost["id"])
++                                    || (r["sourceType"] == cost["source_type"]
++                                        && r["sourceId"] == cost["source_id"]))
+                         })
+                     })
+         })
+@@ -1675,3 +1696,99 @@
+         );
+     }
+ }
++
++#[cfg(test)]
++mod tax_coverage_tests {
++    use super::*;
++
++    fn reference(n: u128) -> Value {
++        json!({"kind":"AccountingTaxTreatmentSnapshot","id":Uuid::from_u128(n),"rowVersion":1,"payloadHash":"a".repeat(64)})
++    }
++    fn cost(tax: Option<&str>, references: Vec<Value>) -> Value {
++        json!({"amounts":{"tax":match tax {
++            Some(value)=>json!({"knowledge":"known","value":value}),
++            None=>json!({"knowledge":"unknown","value":null})
++        }},"taxTreatmentRefs":references})
++    }
++    fn assessed(reference: Value) -> Value {
++        json!({"taxTreatmentRef":reference})
++    }
++    #[test]
++    fn unrelated_assessment_cannot_cover_another_taxed_cost() {
++        let tax = reference(2);
++        let costs = vec![
++            cost(Some("650.00"), vec![]),
++            cost(Some("130.00"), vec![tax.clone()]),
++        ];
++        assert!(tax_assessment_missing(&costs, &[assessed(tax)]).expect("pure coverage"));
++    }
++    #[test]
++    fn every_taxed_cost_needs_its_own_exact_admitted_reference() {
++        let a = reference(1);
++        let b = reference(2);
++        let costs = vec![
++            cost(Some("650.00"), vec![a.clone()]),
++            cost(Some("130.00"), vec![b.clone()]),
++        ];
++        assert!(
++            !tax_assessment_missing(&costs, &[assessed(a.clone()), assessed(b)]).expect("covered")
++        );
++        for (field, value) in [
++            ("rowVersion", json!(2)),
++            ("payloadHash", json!("b".repeat(64))),
++            ("kind", json!("CostGovernanceEvidence")),
++        ] {
++            let mut stale = a.clone();
++            stale[field] = value;
++            assert!(
++                tax_assessment_missing(
++                    &[cost(Some("650.00"), vec![stale])],
++                    &[assessed(a.clone())]
++                )
++                .expect("exact refs")
++            );
++        }
++    }
++    #[test]
++    fn zero_tax_is_a_factual_zero_but_unknown_tax_is_not() {
++        assert!(!tax_assessment_missing(&[cost(Some("0.00"), vec![])], &[]).expect("zero"));
++        assert!(
++            tax_assessment_missing(&[cost(None, vec![])], &[assessed(reference(2))])
++                .expect("unknown")
++        );
++    }
++    #[test]
++    fn excluded_and_shared_costs_do_not_acquire_coverage_from_an_unrelated_project_assessment() {
++        for role in ["direct-source", "allocation-share"] {
++            let mut source = cost(Some("65.00"), vec![]);
++            source["recognitionRole"] = json!(role);
++            source["classification"] = json!({"decision":"exclude"});
++            assert!(
++                tax_assessment_missing(&[source], &[assessed(reference(2))])
++                    .expect("scope preserved")
++            );
++        }
++    }
++    #[test]
++    fn a_tax_relation_requires_the_real_source_kind_and_identity() {
++        let input = json!({"id":Uuid::from_u128(9),"source_id":Uuid::from_u128(10),"source_type":"expense-record"});
++        let tax = json!({"id":Uuid::from_u128(77),"row_version":1,"status":"active","governance_evidence_id":Uuid::from_u128(78)});
++        let mut catalog = Catalog::default();
++        catalog.rows.insert(Table::Tax, vec![tax]);
++        let proof = json!({"id":Uuid::from_u128(78),"source_references":[{"kind":"source","sourceType":"expense-record","sourceId":input["source_id"]}]});
++        catalog.rows.insert(Table::Evidence, vec![proof]);
++        assert_eq!(
++            cost_tax_refs(&catalog, &input)
++                .expect("real expense source")
++                .len(),
++            1
++        );
++        catalog.rows.get_mut(&Table::Evidence).expect("evidence")[0]["source_references"][0]["sourceType"] =
++            json!("project-stage-record");
++        assert!(
++            cost_tax_refs(&catalog, &input)
++                .expect("wrong source kind")
++                .is_empty()
++        );
++    }
++}
+--- a/apps/poms-api-rust/src/project_operating_signals/policy.rs
++++ b/apps/poms-api-rust/src/project_operating_signals/policy.rs
+@@ -350,6 +350,28 @@
+ 
+ /// Independent assertion verification consumes only G's frozen source model.
+ /// It never recollects live SQL sources or invents another accounting model.
++pub(crate) fn tax_assessment_missing(context: &OperatingSourceContext) -> Result<bool, Error> {
++    for cost in &context.costs {
++        if amount(&cost.amounts.tax, "source.cost.tax")?.is_some_and(|tax| tax == 0) {
++            continue;
++        }
++        let covered = cost.tax_treatment_refs.iter().any(|reference| {
++            reference.kind == "AccountingTaxTreatmentSnapshot"
++                && context.tax_treatments.iter().any(|tax| {
++                    let actual = &tax.tax_treatment_ref;
++                    reference.kind == actual.kind
++                        && reference.id == actual.id
++                        && reference.row_version == actual.row_version
++                        && reference.payload_hash == actual.payload_hash
++                })
++        });
++        if !covered {
++            return Ok(true);
++        }
++    }
++    Ok(false)
++}
++
+ pub(crate) fn assert_metrics(context: &OperatingSourceContext) -> Result<(), Error> {
+     fn component(triple: &Triple, index: u8) -> &Amount {
+         match index {
+@@ -593,17 +615,9 @@
+             &format!("excludedCostAmounts.{label}"),
+         )?;
+     }
+-    // No assessed tax member does not prove zero when a frozen cost carries
+-    // nonzero or unknown tax. Replay G's source-knowledge distinction, rather
+-    // than turning an empty assessment sum into an invented known zero.
+-    let mut tax_assessment_missing = false;
+-    if context.tax_treatments.is_empty() {
+-        for cost in &context.costs {
+-            if amount(&cost.amounts.tax, "source.cost.tax")?.is_none_or(|tax| tax != 0) {
+-                tax_assessment_missing = true;
+-            }
+-        }
+-    }
++    // An unrelated assessment cannot certify another nonzero/unknown-tax cost.
++    // Preserve G's complete frozen cost scope, including excluded costs/shares.
++    let tax_assessment_missing = tax_assessment_missing(context)?;
+     let expected_pending_tax = if tax_assessment_missing {
+         None
+     } else {
+--- a/apps/poms-api-rust/src/project_operating_signals/tests.rs
++++ b/apps/poms-api-rust/src/project_operating_signals/tests.rs
+@@ -312,6 +312,9 @@
+         }))
+         .expect("actual assessed pending123.45 fixture"),
+     );
++    context.costs[0]
++        .tax_treatment_refs
++        .push(context.tax_treatments[0].tax_treatment_ref.clone());
+     context.metrics.tax_pending_amount = serde_json::from_value(amount(12_345)).expect("pending");
+     refresh(&mut context);
+     assert_metrics(&context).expect("actual pending assessment is123.45, not source tax650");
+@@ -515,3 +518,110 @@
+         OperatingEvaluationCertification::MissingEvidence
+     );
+ }
++
++// Mixed source coverage is independent of the count of project assessments.
++fn partially_assessed_tax_fixture() -> OperatingSourceContext {
++    let mut context = fixture(10_000_000, 10_000_000, 600_000, 500_000);
++    let mut first = serde_json::to_value(&context.costs[0]).expect("cost");
++    first["amounts"] = json!({"currency":"CNY","net":amount(500_000),"tax":amount(65_000),"gross":amount(565_000)});
++    let mut second = first.clone();
++    second["costRef"] = source("ProjectActualCostRecord", 19);
++    second["sourceRef"] = source("ExpenseRecord", 20);
++    second["canonicalAccumulationKey"] = json!("expense:20");
++    second["sourceChainKey"] = json!("expense:20");
++    second["classification"]["decisionId"] = json!(uuid::Uuid::from_u128(21));
++    second["amounts"] = json!({"currency":"CNY","net":amount(100_000),"tax":amount(13_000),"gross":amount(113_000)});
++    let assessed = source("AccountingTaxTreatmentSnapshot", 77);
++    second["taxTreatmentRefs"] = json!([assessed.clone()]);
++    context.costs =
++        serde_json::from_value(json!([first, second])).expect("two actual-shaped source costs");
++    context.scope.registered_cost_count = 2;
++    context.scope.included_cost_count = 2;
++    context.metrics.included_cost_amounts=serde_json::from_value(json!({"currency":"CNY","net":amount(600_000),"tax":amount(78_000),"gross":amount(678_000)})).expect("aggregate layers");
++    context.tax_treatments.push(serde_json::from_value(json!({"taxTreatmentRef":assessed,"evidenceRefs":[source("CostGovernanceEvidence",78)],"deductibility":"pending","pendingAmount":amount(12_345),"recognizedAdjustmentNet":amount(0),"adjustmentOverlapKey":"tax:77","containsLabor":"no"})).expect("C2 actual assessment shape"));
++    context.metrics.tax_pending_amount = unassessed_taxed_expense_fixture()
++        .metrics
++        .tax_pending_amount;
++    refresh(&mut context);
++    context
++}
++#[test]
++fn an_assessed_second_cost_does_not_turn_the_first_unassessed_tax_into_known_zero() {
++    let mut context = partially_assessed_tax_fixture();
++    assert_metrics(&context).expect("mixed coverage stays unknown");
++    let result = derive(&context);
++    assert_eq!(
++        result.cost_readiness.known_metric_states.tax_pending,
++        Knowledge::Unknown
++    );
++    assert_eq!(
++        result.cost_readiness.data_maturity_level,
++        OperatingDataMaturityLevel::Preliminary
++    );
++    assert!(
++        result
++            .all_reasons
++            .iter()
++            .any(|reason| reason.rule_id == "H02")
++    );
++    context.metrics.tax_pending_amount =
++        serde_json::from_value(amount(12_345)).expect("forged partial total");
++    refresh(&mut context);
++    assert!(assert_metrics(&context).is_err());
++}
++#[test]
++fn complete_distinct_cost_assessments_sum_real_pending_values_not_source_tax() {
++    let mut context = partially_assessed_tax_fixture();
++    let reference = source("AccountingTaxTreatmentSnapshot", 79);
++    context.costs[0]
++        .tax_treatment_refs
++        .push(serde_json::from_value(reference.clone()).expect("C1 relation"));
++    context.tax_treatments.push(serde_json::from_value(json!({"taxTreatmentRef":reference,"evidenceRefs":[source("CostGovernanceEvidence",80)],"deductibility":"pending","pendingAmount":amount(5_000),"recognizedAdjustmentNet":amount(0),"adjustmentOverlapKey":"tax:79","containsLabor":"no"})).expect("C1 actual assessment shape"));
++    context.metrics.tax_pending_amount =
++        serde_json::from_value(amount(17_345)).expect("exact actual pending sum");
++    refresh(&mut context);
++    assert_metrics(&context).expect("all taxed sources covered by actual distinct refs");
++    context.costs[0].tax_treatment_refs[0].row_version = 2;
++    refresh(&mut context);
++    assert!(assert_metrics(&context).is_err());
++    context.metrics.tax_pending_amount = unassessed_taxed_expense_fixture()
++        .metrics
++        .tax_pending_amount;
++    refresh(&mut context);
++    assert_metrics(&context).expect("stale ref is unknown, not coverage");
++}
++#[test]
++fn excluded_taxed_source_remains_in_the_frozen_tax_scope() {
++    let mut context = partially_assessed_tax_fixture();
++    context.costs[0].classification.decision =
++        serde_json::from_value(json!("exclude")).expect("exclude");
++    context.metrics.included_cost_amounts = context.costs[1].amounts.clone();
++    context.metrics.excluded_cost_amounts = context.costs[0].amounts.clone();
++    context.metrics.gross_margin_net = serde_json::from_value(amount(9_900_000)).expect("margin");
++    context.metrics.gross_margin_rate =
++        serde_json::from_value(ratio(9_900_000, 10_000_000)).expect("ratio");
++    context.metrics.cost_variance_net = serde_json::from_value(amount(-400_000)).expect("variance");
++    context.scope.included_cost_count = 1;
++    context.scope.excluded_cost_count = 1;
++    refresh(&mut context);
++    assert_metrics(&context).expect("excluded source tax does not disappear");
++    context.metrics.tax_pending_amount =
++        serde_json::from_value(amount(12_345)).expect("unrelated partial total");
++    refresh(&mut context);
++    assert!(assert_metrics(&context).is_err());
++}
++#[test]
++fn a_taxed_share_without_local_share_coverage_cannot_copy_the_source_project_pending_assessment() {
++    let mut context = partially_assessed_tax_fixture();
++    context.costs[0].cost_ref = None;
++    context.costs[0].recognition_role =
++        serde_json::from_value(json!("allocation-share")).expect("share");
++    context.costs[0].source_ref =
++        serde_json::from_value(source("SharedCostAllocationResult", 89)).expect("share ref");
++    // This exercises the exact coverage predicate; it is not a full allocation
++    // context/PG/F producer certificate and deliberately has no invented refs.
++    assert!(tax_assessment_missing(&context).expect("share is uncovered"));
++    context.costs[0].amounts.tax =
++        serde_json::from_value(amount(0)).expect("actual zero share tax");
++    assert!(!tax_assessment_missing(&context).expect("zero layer needs no invented assessment"));
++}

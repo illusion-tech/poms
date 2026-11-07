@@ -1,0 +1,28 @@
+{
+  "kind": "user-approved-business-decision-addendum",
+  "date": "2026-11-07",
+  "key": "period-closing-current-head-policy",
+  "status": "approved-implementation-and-acceptance-pending",
+  "questionItemId": "call_680169224bd346c3a98a451e8c33a65d:0",
+  "answer": "实时维护当前，期末保留期间历史（推荐）",
+  "policy": {
+    "currentHead": "realtime-only",
+    "normalPeriodClosing": "independent-period-history",
+    "periodRestatement": "preserve-each-verified-period-or-live-terminal-lineage",
+    "periodSnapshotMayBecomeCurrent": false,
+    "lateClosingMayReplaceRealtimeCurrent": false,
+    "periodEvaluationMayReplaceCurrentCommissionBindings": false,
+    "headCASVersionMayAdvanceWithoutChangingCurrentSnapshot": true
+  },
+  "acceptance": [
+    "有当前实时快照后补关旧期间，当前快照ID及当前经营/提成绑定保持一致",
+    "无实时快照时，关账仍不将期间记录提升为当前依据",
+    "期间终端不提升为当前；若真实来源纠正同时影响实时终端，按完整实际闭包分别重述各终端，并按真实当前关系处理",
+    "使用真实生产者及服务端日期边界，不改服务器时间或SQL伪造历史资格"
+  ],
+  "newHTTPRoutes": 0,
+  "G1OriginalUnchanged": true,
+  "runtimeAccepted": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

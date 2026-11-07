@@ -1,0 +1,11 @@
+{
+  "kind": "append-only-evidence-label-clarification",
+  "originals": ["000709-cleanup-drain31-result.json", "000710-cleanup-drain31-result.json"],
+  "clarification": "原件在无drain失败分支将allSystemFKTriggersEnabled按drain=false赋值，表示该分支没有完成肯定查询；不能据此推断系统FK被禁用。系统FK没有关闭命令。drain正向分支实际查询全部触发器为O，并以真实23503验证约束仍执行。",
+  "failedCleanup": "000708-cleanup-apply01-partial.json 保留，已由完整双库rows/xmin/catalog/sequence/object核对证明事务回滚",
+  "completedCleanup": "000712-cleanup-apply02-complete.json 实际完成398个已证明主键删除、1个获准原业务号行字段恢复、0对象删除及两次fresh noop",
+  "independentReview": "tools/rust-r4ghi/independent/review05/cleanup-drain-review31/review31.json",
+  "rowXminRestoredClaim": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

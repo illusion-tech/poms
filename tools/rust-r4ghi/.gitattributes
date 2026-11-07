@@ -7,3 +7,9 @@
 userfix/*.mjs whitespace=cr-at-eol,-blank-at-eof
 # The sealed H design proposal is a preserved raw input.
 H/final-g1/proposal01.md whitespace=cr-at-eol,-blank-at-eof
+# Preserve sealed streams, patch context and executed runtime bytes.
+*.log whitespace=cr-at-eol,-blank-at-eof
+*.diff whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof
+H/implementation/support-patches/ui-integration/runtime13/max13.mjs whitespace=cr-at-eol,-blank-at-eof
+H/implementation/support-patches/ui-integration/runtime13/mask13.mjs whitespace=cr-at-eol,-blank-at-eof
+H/implementation/support-patches/ui-integration/runtime14/browser-cases14.mjs whitespace=cr-at-eol,-blank-at-eof

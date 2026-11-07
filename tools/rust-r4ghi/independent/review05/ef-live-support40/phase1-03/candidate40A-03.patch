@@ -1,0 +1,20 @@
+--- a/tools/rust-r4ghi/business/ef-live-producer40.mjs
++++ b/tools/rust-r4ghi/business/ef-live-producer40.mjs
+@@ -55,6 +55,7 @@
+   const { contractPrepare, contractFinish } = await import('./contracts.mjs'); const { receipts, handover } = await import('./handover.mjs');
+   const { rolesAndExecution } = await import('./roles.mjs');
+   await api.login('manager');
++  await api.login('unrelated'); // A cookie's presence is not a live-session proof.
+   await checkpointStage(ctx, record, 'project-sources', () => projectSources(ctx, api));
+   await checkpointStage(ctx, record, 'summary', () => produceActualSummary(ctx));
+   await api.login('manager'); await checkpointStage(ctx, record, 'contract-prepare', () => contractPrepare(ctx, api));
+--- a/tools/rust-r4ghi/business/ui-spares23.mjs
++++ b/tools/rust-r4ghi/business/ui-spares23.mjs
+@@ -38,6 +38,7 @@
+   const { receipts, handover } = await import('./handover.mjs');
+   const { rolesAndExecution } = await import('./roles.mjs');
+   await api.login('manager');
++  await api.login('unrelated'); // projectSources exercises the real unrelated404 branch.
+   await stage(ctx, record, 'project-sources', 'projectSourcesComplete', () => projectSources(ctx, api));
+   await stage(ctx, record, 'summary', 'summary', () => produceActualSummary(ctx));
+   await api.login('manager');

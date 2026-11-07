@@ -78,3 +78,9 @@ D#107/E#108/F#109及本批#106已按[独立关闭许可](archive/slices/rust-r4d
 三业务作者从同一冻结输入独立工作，Root统一共享契约、迁移/实体、真实producer支撑、接线、生成物与环境。完整R4阶段验收及独立G3/G4通过后才可关闭#101；本批只能在各自通过后关闭#111/#112/#113/#117/#114/#110，完整R5父#116和总体#57保持Open。#115已独立G4并Closed，不重复计本批新增。
 
 <!-- /poms-r4ghi-next32-input -->
+
+<!-- poms-r4ghi-actual-g1-admission -->
+
+### 2026-11-06 R4 GHI 联合 G1 实际准入
+
+候选 `9e010077` 的223项输入及133项未改产品源已通过[非作者G1](../../tools/rust-r4ghi/independent/business-g1/round02/g1-review02.json)；[实际线上冻结](rust-r4ghi/g1-online01.json)与[准入索引](rust-r4ghi/g1-admission01.json)已读回，三线从同一输入进入G2。此前Pending基线/失败为保留的原始检查点，不改写。G9/H8/I11/R5最小4共32项尚未正式验收或G3/G4，Rust仍240、R4已交付67/规划95；#57/#101/#110/#116/#117保持Open。

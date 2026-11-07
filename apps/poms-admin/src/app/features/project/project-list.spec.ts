@@ -1,12 +1,13 @@
+import { ProjectSummarySchema, CreateProjectRequestSchema } from '@poms/shared-contracts';
 import { computed, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { AuthStore, CustomerStatus, CustomerStore, ProjectStage, ProjectStatus, ProjectStore, type CustomerListView, type ProjectListView, type SanitizedUserWithOrgUnits } from '@poms/admin-data-access';
+import { AuthStore, CustomerStatus, CustomerStore, ProjectInitialOwnership, ProjectStage, ProjectStatus, ProjectStore, type CustomerListView, type ProjectListView, type ProjectSummary, type SanitizedUserWithOrgUnits } from '@poms/admin-data-access';
 import { ProjectList } from './project-list';
 
 function createCustomer(overrides: Partial<CustomerListView> = {}): CustomerListView {
     return {
-        id: 'customer-1',
+        id: '00000000-0000-4000-8000-000000002001',
         customerNo: 'CUST-2026-001',
         displayName: '华南地铁集团',
         legalName: null,
@@ -33,10 +34,10 @@ function createCustomer(overrides: Partial<CustomerListView> = {}): CustomerList
 
 function createProject(overrides: Partial<ProjectListView> = {}): ProjectListView {
     return {
-        id: 'project-1',
+        id: '00000000-0000-4000-8000-000000001001',
         projectNo: 'P-2026-001',
         projectName: '华南地铁运营平台',
-        customerId: 'customer-1',
+        customerId: '00000000-0000-4000-8000-000000002001',
         customerName: '华南地铁集团',
         customerProjectNo: null,
         currentStage: ProjectStage.CommercialClosure,
@@ -47,6 +48,18 @@ function createProject(overrides: Partial<ProjectListView> = {}): ProjectListVie
         createdAt: '2026-04-19T10:00:00.000Z',
         ...overrides
     };
+}
+
+function createPublicSummary(organization = false): ProjectSummary {
+    const summary: ProjectSummary = {
+        id: '00000000-0000-4000-8000-000000001099', projectNo: 'P-2026-0099', projectName: '真实公开DTO形状的单元测试项目',
+        sourceLeadId: null, customerId: '00000000-0000-4000-8000-000000002002', customerName: '城市交通集团', customerProjectNo: null,
+        status: ProjectStatus.Active, currentStage: ProjectStage.Assessment, ownerOrgId: '00000000-0000-4000-8000-000000010001',
+        ownerUserId: organization ? null : '00000000-0000-4000-8000-000000009001', plannedSignAt: null, closedAt: null, closedReason: null,
+        rowVersion: 1, createdAt: '2026-11-07T00:00:00Z', createdBy: '00000000-0000-4000-8000-000000009001', updatedAt: '2026-11-07T00:00:00Z', updatedBy: '00000000-0000-4000-8000-000000009001'
+    };
+    ProjectSummarySchema.parse(summary);
+    return summary;
 }
 
 describe('ProjectList', () => {
@@ -73,14 +86,14 @@ describe('ProjectList', () => {
 
     beforeEach(async () => {
         projectStoreMock = {
-            createProject: jest.fn().mockResolvedValue(createProject()),
+            createProject: jest.fn().mockResolvedValue(createPublicSummary()),
             loadProjects: jest.fn().mockResolvedValue([createProject()]),
             loading: signal(false),
             projects: signal([createProject()]),
             saving: signal(false)
         };
         currentUser = signal<SanitizedUserWithOrgUnits | null>({
-            id: 'user-1',
+            id: '00000000-0000-4000-8000-000000009001',
             displayName: '张销售',
             username: 'sales_rep',
             roles: ['销售代表'],
@@ -96,7 +109,7 @@ describe('ProjectList', () => {
         });
         canCreateProject = signal(true);
         canCreateLead = signal(true);
-        customers = signal<CustomerListView[]>([createCustomer(), createCustomer({ id: 'customer-2', customerNo: 'CUST-2026-002', displayName: '城市交通集团' })]);
+        customers = signal<CustomerListView[]>([createCustomer(), createCustomer({ id: '00000000-0000-4000-8000-000000002002', customerNo: 'CUST-2026-002', displayName: '城市交通集团' })]);
         routerMock = { navigate: jest.fn() };
         customerStoreMock = {
             activeCustomers: computed(() => customers().filter((customer) => customer.status === CustomerStatus.Active)),
@@ -166,28 +179,29 @@ describe('ProjectList', () => {
 
     it('creates a project without legacy stage, status, owner or audit fields', async () => {
         component.showCreateDialog();
+        expect(component.createForm().initialOwnership).toBe(ProjectInitialOwnership.Creator);
         component.updateCreateField('customerProjectNo', '  CUS-PRJ-NEW  ');
         component.updateCreateField('projectName', '  城市交通项目  ');
-        component.updateCreateCustomer('customer-2');
+        component.updateCreateCustomer('00000000-0000-4000-8000-000000002002');
 
         await component.createProject();
 
         expect(projectStoreMock.createProject).toHaveBeenCalledWith({
             projectName: '城市交通项目',
-            customerId: 'customer-2',
+            customerId: '00000000-0000-4000-8000-000000002002',
             customerProjectNo: 'CUS-PRJ-NEW'
         });
         expect(customerStoreMock.loadCustomers).toHaveBeenCalledWith({ status: CustomerStatus.Active });
     });
 
-    it('uses the lead conversion chain as the visible project creation entry', () => {
+    it('keeps Lead conversion alongside the authorized assessment creation entry', () => {
         const leadConversionButton = fixture.nativeElement.querySelector('button[aria-label="选择线索转项目"]') as HTMLButtonElement | null;
         const buttonText = Array.from(fixture.nativeElement.querySelectorAll('button'))
             .map((button) => (button as HTMLButtonElement).textContent ?? '')
             .join(' ');
 
         expect(leadConversionButton).not.toBeNull();
-        expect(buttonText).not.toContain('新建项目');
+        expect(buttonText).toContain('创建评估项目');
 
         component.navigateToLeadEntry();
 
@@ -200,14 +214,59 @@ describe('ProjectList', () => {
         fixture.detectChanges();
 
         expect(fixture.nativeElement.textContent).toContain('当前账号只能查看项目。');
-        expect(fixture.nativeElement.textContent).not.toContain('新建项目');
+        expect(fixture.nativeElement.querySelector('button[aria-label="创建评估项目"]')).toBeNull();
     });
 
     it('explains the route change when project write exists without lead write', () => {
         canCreateLead.set(false);
         fixture.detectChanges();
 
-        expect(fixture.nativeElement.textContent).toContain('正式项目入口需要从已确认有效线索转入。');
-        expect(fixture.nativeElement.textContent).not.toContain('新建项目');
+        expect(fixture.nativeElement.textContent).toContain('可创建评估项目；线索转入仍需负责人完成资格确认。');
+        expect(fixture.nativeElement.querySelector('button[aria-label="创建评估项目"]')).not.toBeNull();
     });
+    it('sends the real organization enum and navigates using the actual created response ID', async () => {
+        const actual = createPublicSummary(true);
+        projectStoreMock.createProject.mockResolvedValue(actual);
+        routerMock.navigate.mockResolvedValue(true);
+        component.showCreateDialog();
+        component.updateCreateField('projectName', '组织承接项目');
+        component.updateCreateCustomer('00000000-0000-4000-8000-000000002002');
+        component.updateInitialOwnership(ProjectInitialOwnership.Organization);
+        const listCallsBefore = projectStoreMock.loadProjects.mock.calls.length;
+        await component.createProject();
+        const expected = { projectName: '组织承接项目', customerId: '00000000-0000-4000-8000-000000002002', customerProjectNo: null, initialOwnership: ProjectInitialOwnership.Organization };
+        CreateProjectRequestSchema.parse(expected);
+        expect(projectStoreMock.createProject).toHaveBeenCalledWith(expected);
+        expect(routerMock.navigate).toHaveBeenCalledWith(['/projects', actual.id]);
+        expect(projectStoreMock.loadProjects).toHaveBeenCalledTimes(listCallsBefore);
+    });
+
+    it('keeps a successful creation when navigation fails and retries only its actual anchor', async () => {
+        const actual = createPublicSummary(true);
+        projectStoreMock.createProject.mockResolvedValue(actual);
+        routerMock.navigate.mockRejectedValueOnce(new Error('navigation-only failure'));
+        component.showCreateDialog();
+        component.updateCreateField('projectName', '组织承接项目');
+        component.updateCreateCustomer('00000000-0000-4000-8000-000000002002');
+        component.updateInitialOwnership(ProjectInitialOwnership.Organization);
+        await component.createProject();
+        expect(component.createdProjectId()).toBe(actual.id);
+        expect(component.createdProjectNavigationError()).toContain('无需再次创建');
+        expect(component.createError()).toBeNull();
+        routerMock.navigate.mockResolvedValue(true);
+        await component.openCreatedProject();
+        expect(projectStoreMock.createProject).toHaveBeenCalledTimes(1);
+        expect(routerMock.navigate).toHaveBeenLastCalledWith(['/projects', actual.id]);
+    });
+
+    it('does not silently create a personal project for an unsupported selection', async () => {
+        component.showCreateDialog();
+        component.updateCreateField('projectName', '不得回落个人创建');
+        component.updateCreateCustomer('00000000-0000-4000-8000-000000002002');
+        component.updateInitialOwnership('unsupported-selection');
+        expect(component.isCreateFormValid()).toBe(false);
+        await component.createProject();
+        expect(projectStoreMock.createProject).not.toHaveBeenCalled();
+    });
+
 });

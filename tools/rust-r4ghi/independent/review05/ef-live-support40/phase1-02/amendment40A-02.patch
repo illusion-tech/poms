@@ -1,0 +1,11 @@
+--- 40A/tools/rust-r4ghi/business/ef-live-producer40.mjs
++++ 40A02/tools/rust-r4ghi/business/ef-live-producer40.mjs
+@@ -126,7 +126,7 @@
+   }
+   const stageId = uuid(main.execution.projectStageRecordId), stage = actualRow('project_stage_record', stageId);
+   assert.equal(stage.project_id, projectIds[0]); assert.equal(stage.to_stage, 'execution'); assert.equal(stage.producer_version, 1);
+-  const businessDate = await ctx.db(async c => (await c.query("SELECT timezone('Asia/Hong_Kong',now())::date::text day")).rows[0].day);
++  const businessDate = await ctx.db(async c => (await c.query("SELECT timezone('Asia/Hong_Kong',now())::date::text AS business_date")).rows[0].business_date);
+   const stageDate = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Hong_Kong', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(stage.entered_at));
+   assert.equal(stageDate, businessDate, 'Today cannot be used as fabricated historical stage evidence');
+   state.businessDate ??= businessDate; assert.equal(state.businessDate, businessDate, 'Cross-day resume requires a fresh reviewed scenario, not backdating'); ctx.persist();

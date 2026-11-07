@@ -1,0 +1,82 @@
+{
+  "kind": "independent-cleanup-drain31-tool-support-review-not-product-G3",
+  "capturedAt": "2026-11-07T11:19:02.652688+00:00",
+  "sourceBeforeSHA256": "a2adbbd8b1d6a982581331008efa03b5f4b2d6bbf692926ede2062fd419610d9",
+  "sourceCurrentSHA256": "00001e0ab5f85bd80c25d63f9772525536cc8e886c251680c257e6efe089f4c1",
+  "newApprovedPlanSHA256": "c38056a21dcb768cffa6d52ca410a1cca0f6b16d40f993087a4721d5e4c81075",
+  "designConclusion": "Correct minimal ordering correction: validate queued deferrable RI/constraint events after exact DELETE CTE and before ALTER restores user guards. SQL constraints/FKs stay enabled and definitions unchanged. Any validation failure rolls back.",
+  "sourcePositions": {
+    "exactDelete": 21496,
+    "constraintDrain": 22205,
+    "userGuardRestore": 22448
+  },
+  "actualApply": {
+    "deletes": 398,
+    "tables": 61,
+    "borrowedRestores": 1,
+    "objects": 0,
+    "positiveCommitAcknowledged": true,
+    "privateEvidenceRetained": true
+  },
+  "freshNoopRounds": [
+    {
+      "manifestSHA256": "88acd6b357c53ccb0e8c8c9d487b97eaa8205a2af2d93cd7320a14258db8eb42",
+      "databases": 2,
+      "totalTablesCompared": 278,
+      "logicalRowsCatalogSequencesObjectsEqualBaseline": true
+    },
+    {
+      "manifestSHA256": "bcf95873ff9207f1154fb2ac9cd6dad6f61d2d01f4dd76ad390245abc5ccb5e4",
+      "databases": 2,
+      "totalTablesCompared": 278,
+      "logicalRowsCatalogSequencesObjectsEqualBaseline": true
+    }
+  ],
+  "rowXminRestorationNotClaimed": true,
+  "sourceGuardBoundaryRetained": [
+    "exact plan SHA/namespace/gates/OIDs",
+    "stopped bound PID/refused port/app connections0",
+    "all poms tables deterministically locked",
+    "full-row/hash/xmin exact owned checks",
+    "foreign references outside deletion set reject",
+    "only same reviewed user guard OIDs/names/states disabled/restored",
+    "no system FK trigger disable, no cascade, no fact rewrite",
+    "all original logical rows/catalog/sequences compared inside transaction",
+    "two fresh postcommit noops and objects equality"
+  ],
+  "evidenceNotation": "No-drain sandbox allSystemFKTriggersEnabled=false is assigned from drain flag after expected55006, not an observation of disabled RI. Positive case does execute/assert pg_trigger all O; real missing-row23503 proves enforcement. Preserve false case original, do not cite it as FK-disable evidence.",
+  "specificOmissionsForObservedRun": [],
+  "documentation": "https://www.postgresql.org/docs/15/sql-set-constraints.html",
+  "DBOrProcessMutationByReviewer": false,
+  "privateRowPayloadPublished": false,
+  "productImmutabilityOrWORMCertified": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "verifiedPrivateEvidencePins": [
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business08/main01/000711-cleanup-plan02-cleanup-plan.json",
+      "bytes": 3713564,
+      "sha256": "c38056a21dcb768cffa6d52ca410a1cca0f6b16d40f993087a4721d5e4c81075"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business08/main01/snapshot-baseline-000002-baseline01.json",
+      "bytes": 3113669,
+      "sha256": "6cc2947a8c07227afc2dbba99b7e41a6bc424df755f890cc9f5fb6359e22b591"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business08/main01/000712-cleanup-apply02-complete.json",
+      "bytes": 1599,
+      "sha256": "6e9415c0957d4d106b029c7791e45ce3c004f4de758a8ef77bfaf94bf72f66f4"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business08/main01/snapshot-000712-cleanup-apply02-postcommit-noop-1.json",
+      "bytes": 3117575,
+      "sha256": "88acd6b357c53ccb0e8c8c9d487b97eaa8205a2af2d93cd7320a14258db8eb42"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business08/main01/snapshot-000712-cleanup-apply02-postcommit-noop-2.json",
+      "bytes": 3117575,
+      "sha256": "bcf95873ff9207f1154fb2ac9cd6dad6f61d2d01f4dd76ad390245abc5ccb5e4"
+    }
+  ]
+}

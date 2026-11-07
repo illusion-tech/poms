@@ -1,0 +1,160 @@
+{
+  "kind": "actual-feature-C-tooling-and-whole-export-evidence-review",
+  "capturedAt": "2026-11-07T08:45:40.241798+00:00",
+  "scope": [
+    {
+      "commit": "2fd1db7d2003db5ebfbd56d77192ff17aa37e4af",
+      "parent": "f072f7d58fa3ef551d7194f8305f176678aedb79",
+      "files": [
+        "tools/openapi/checkpoints/r4ghi-s5-rust-tooling/.gitattributes",
+        "tools/openapi/checkpoints/r4ghi-s5-rust-tooling/README.md",
+        "tools/openapi/checkpoints/r4ghi-s5-rust-tooling/correction-regression15.json",
+        "tools/openapi/checkpoints/r4ghi-s5-rust-tooling/provenance.json",
+        "tools/openapi/checkpoints/r4ghi-s5-rust-tooling/receipt.json",
+        "tools/openapi/checkpoints/r4ghi-s5-rust-tooling/two-file-correction15.patch.bin",
+        "tools/openapi/checkpoints/r4ghi-s5-rust-tooling/whole-exporter-C-addendum15.json",
+        "tools/openapi/checkpoints/r4ghi-s5-rust-tooling/whole-exporter-C-review12.json",
+        "tools/rust-r1b/export-shared.mjs",
+        "tools/rust-r1b/history/s3-nominal-identity.json",
+        "tools/rust-r1b/s5-reviewed-registry.json",
+        "tools/rust-r1b/s5/README.md",
+        "tools/rust-r1b/s5/export-s5.mjs",
+        "tools/rust-r1b/s5/export-s5.probes.mjs",
+        "tools/rust-r1b/s5/full-build.mjs",
+        "tools/rust-r1b/s5/registered-module-graph.mjs",
+        "tools/rust-r1b/s5/review.mjs",
+        "tools/rust-r1b/s5/source-access.mjs",
+        "tools/rust-r1b/s5/static-data-oracle.mjs"
+      ],
+      "hasBusinessOrSDK": false,
+      "hasSourceInputACheckpoint": false
+    },
+    {
+      "commit": "d6e2d7bf8f454c98f5aed0ebd524e4d451378f30",
+      "parent": "2fd1db7d2003db5ebfbd56d77192ff17aa37e4af",
+      "files": [
+        "tools/openapi/checkpoints/r4ghi-s5-rust-tooling/.gitattributes"
+      ],
+      "hasBusinessOrSDK": false,
+      "hasSourceInputACheckpoint": false
+    }
+  ],
+  "reviewedC15MatchesTreeAndWorking": {
+    "tools/rust-r1b/s5/full-build.mjs": {
+      "reviewedRawSHA256": "96f510b0737d79826e6a663faabf0d32dccbf2a69c0c88f66348cdf0247a36e3",
+      "CCommitRawSHA256": "96f510b0737d79826e6a663faabf0d32dccbf2a69c0c88f66348cdf0247a36e3",
+      "currentRawSHA256": "96f510b0737d79826e6a663faabf0d32dccbf2a69c0c88f66348cdf0247a36e3",
+      "exact": true
+    },
+    "tools/rust-r1b/s5/registered-module-graph.mjs": {
+      "reviewedRawSHA256": "bf9db24cf463f06d81e639d0772f16a5d284074e0f9d2b0ac4a85da4212aa308",
+      "CCommitRawSHA256": "bf9db24cf463f06d81e639d0772f16a5d284074e0f9d2b0ac4a85da4212aa308",
+      "currentRawSHA256": "bf9db24cf463f06d81e639d0772f16a5d284074e0f9d2b0ac4a85da4212aa308",
+      "exact": true
+    },
+    "tools/rust-r1b/s5/review.mjs": {
+      "reviewedRawSHA256": "f7fa0d173770e70260e450d181d742810170575a0c3eb0596b5199c76fe35625",
+      "CCommitRawSHA256": "f7fa0d173770e70260e450d181d742810170575a0c3eb0596b5199c76fe35625",
+      "currentRawSHA256": "f7fa0d173770e70260e450d181d742810170575a0c3eb0596b5199c76fe35625",
+      "exact": true
+    },
+    "tools/rust-r1b/s5-reviewed-registry.json": {
+      "reviewedRawSHA256": "0c0d873ac31398cc916a1a21e7ed0b63544c08484c610cb41dc76558972fc806",
+      "CCommitRawSHA256": "0c0d873ac31398cc916a1a21e7ed0b63544c08484c610cb41dc76558972fc806",
+      "currentRawSHA256": "0c0d873ac31398cc916a1a21e7ed0b63544c08484c610cb41dc76558972fc806",
+      "exact": true
+    }
+  },
+  "actualWriteAndCheck": [
+    {
+      "mode": "--s5 --write",
+      "rawLogSHA256": "b0a4c485d68b3945deec88ec1b7e0e2e3309fc27b8d007877d2e8a71f064abec",
+      "sourceHead": "883f88fdf4fd609bb8b0725b28bda011d408d6ee",
+      "node": "24.19.0",
+      "sourceStable": true,
+      "coverage": {
+        "sharedTopLevelVariables": 1409,
+        "sharedClassifiedDataDeclarations": 666,
+        "sharedSchemaDeclarations": 741,
+        "explicitSchemaShapeExclusions": 2,
+        "historicalR0SnapshotCount": 455,
+        "historicalR0EnumOccurrences": 224,
+        "declaredPostR0SnapshotCount": 1,
+        "zEnumOccurrences": 338,
+        "generatedEnumFamilies": 330,
+        "generatedEnumValues": 1159,
+        "sharedEnumFamilies": 327,
+        "backendAuthEnumFamilies": 3,
+        "completenessRule": "All closed-module statements and enum calls pinned; semantic AST z member recognition; every current enum maps to nominal source identity, never equal-value merging."
+      },
+      "artifacts": [
+        {
+          "path": "tools/rust-r1b/shared-manifest.json",
+          "normalizedTextSha256": "c5490253c2a0b38d122b7e6759436ba7998e32f40941fb0344d706a38749b886",
+          "currentNormalizedTextSha256": "c5490253c2a0b38d122b7e6759436ba7998e32f40941fb0344d706a38749b886",
+          "exact": true
+        },
+        {
+          "path": "apps/poms-api-rust/src/shared/generated.rs",
+          "normalizedTextSha256": "a6a23780b17c5aa71ee564429e45a63fcc379cf2b60ef78fbaad1e84a50a2d26",
+          "currentNormalizedTextSha256": "a6a23780b17c5aa71ee564429e45a63fcc379cf2b60ef78fbaad1e84a50a2d26",
+          "exact": true
+        },
+        {
+          "path": "apps/poms-api-rust/tests/shared_generated.rs",
+          "normalizedTextSha256": "4a8da7c552a5f9b43e4004028b8b6439191c92754ff7dab2810381efe2ce3bcf",
+          "currentNormalizedTextSha256": "4a8da7c552a5f9b43e4004028b8b6439191c92754ff7dab2810381efe2ce3bcf",
+          "exact": true
+        }
+      ]
+    },
+    {
+      "mode": "--s5 --check",
+      "rawLogSHA256": "24523eaa6c595e219c38bebf43e5d733a3db21f017486a8bfa640c8f4d05c425",
+      "sourceHead": "883f88fdf4fd609bb8b0725b28bda011d408d6ee",
+      "node": "24.19.0",
+      "sourceStable": true,
+      "coverage": {
+        "sharedTopLevelVariables": 1409,
+        "sharedClassifiedDataDeclarations": 666,
+        "sharedSchemaDeclarations": 741,
+        "explicitSchemaShapeExclusions": 2,
+        "historicalR0SnapshotCount": 455,
+        "historicalR0EnumOccurrences": 224,
+        "declaredPostR0SnapshotCount": 1,
+        "zEnumOccurrences": 338,
+        "generatedEnumFamilies": 330,
+        "generatedEnumValues": 1159,
+        "sharedEnumFamilies": 327,
+        "backendAuthEnumFamilies": 3,
+        "completenessRule": "All closed-module statements and enum calls pinned; semantic AST z member recognition; every current enum maps to nominal source identity, never equal-value merging."
+      },
+      "artifacts": [
+        {
+          "path": "tools/rust-r1b/shared-manifest.json",
+          "normalizedTextSha256": "c5490253c2a0b38d122b7e6759436ba7998e32f40941fb0344d706a38749b886",
+          "currentNormalizedTextSha256": "c5490253c2a0b38d122b7e6759436ba7998e32f40941fb0344d706a38749b886",
+          "exact": true
+        },
+        {
+          "path": "apps/poms-api-rust/src/shared/generated.rs",
+          "normalizedTextSha256": "a6a23780b17c5aa71ee564429e45a63fcc379cf2b60ef78fbaad1e84a50a2d26",
+          "currentNormalizedTextSha256": "a6a23780b17c5aa71ee564429e45a63fcc379cf2b60ef78fbaad1e84a50a2d26",
+          "exact": true
+        },
+        {
+          "path": "apps/poms-api-rust/tests/shared_generated.rs",
+          "normalizedTextSha256": "4a8da7c552a5f9b43e4004028b8b6439191c92754ff7dab2810381efe2ce3bcf",
+          "currentNormalizedTextSha256": "4a8da7c552a5f9b43e4004028b8b6439191c92754ff7dab2810381efe2ce3bcf",
+          "exact": true
+        }
+      ]
+    }
+  ],
+  "receipt16Note": "Root receipt16 changes[].candidateNormalizedSha256 retains original proposal values for changed C15 entries; selectedSha256 is the actual selected C15 digest. Verify tree/current against selectedSha256, not the stale original candidate field. Original receipt preserved.",
+  "reviewerAuthoredC15TwoFiles": true,
+  "notNonAuthorCertificateForOwnFix": true,
+  "RootIndependentReviewAcknowledged": true,
+  "G3Certified": false,
+  "G4Certified": false
+}

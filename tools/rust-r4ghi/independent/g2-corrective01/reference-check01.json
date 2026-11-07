@@ -1,0 +1,18 @@
+{
+  "kind": "independent-reference-schema-counterexample-check",
+  "validCompletedRequestAccepted": true,
+  "completedWithConditionsRejected": true,
+  "errors": [
+    {
+      "instancePath": [],
+      "schemaPath": [
+        "allOf",
+        0,
+        "else",
+        "not"
+      ],
+      "message": "{'inputVersion': 'server-derived-v1', 'acceptanceRecordId': '11111111-1111-4111-8111-111111111111', 'completionResult': 'completed', 'completedAt': '2026-11-06T00:00:00Z', 'completionSummary': 'complete', 'evidenceSummary': 'real completion evidence', 'expectedProjectVersion': 1, 'expectedAcceptanceVersion': 1, 'evidenceRefs': [{'attachmentLinkId': '11111111-1111-4111-8111-111111111111'}], 'completionConditions': [{'summary': 'a condition which cannot accompany completed', 'responsibleUserId': '11111111-1111-4111-8111-111111111111', 'dueAt': '2026-11-07T00:00:00Z', 'evidenceRefs': [{'attachmentLinkId': '11111111-1111-4111-8111-111111111111'}]}]} should not be valid under {'required': ['completionConditions']}"
+    }
+  ],
+  "qualification": "Runs the frozen JSON Schema only. Rust candidate, HTTP, product, SQL and G3 acceptance were not run."
+}

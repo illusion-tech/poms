@@ -1,0 +1,62 @@
+{
+  "kind": "IR05-04-static-contradiction-in-new-common-scope-lock-check",
+  "capturedAt": "2026-11-07T08:03:20.256395+00:00",
+  "priority": "P1",
+  "status": "open-static-proven-not-HTTP-run",
+  "inputs": [
+    {
+      "file": "apps/poms-api-rust/src/project_operating_common/runtime.rs",
+      "bytes": 10719,
+      "sha256": "182e4ccc9bf82b84eae91917615d9bb2a5cb6f484a69d0096f0a17e4f338f511"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_operating_common/model.rs",
+      "bytes": 195084,
+      "sha256": "0308427147f475d73d4b9b577b374b5c6be44e29d8cfb13862bb8be028e27bb0"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_operating_common/request.rs",
+      "bytes": 10923,
+      "sha256": "0d344e15b2fe9b9626dd99aeb1b891d6a319bb708641265ba3e6bf302804ff7a"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_action_authorization/mod.rs",
+      "bytes": 55759,
+      "sha256": "7c9515ee5717eca11e1a892246fa816d9beadfd5c5dcac9e3af0a7e4c819a8c2"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_cost_governance/correction.rs",
+      "bytes": 43991,
+      "sha256": "2a1f999dc9840e6e05e37eb78332b5f8d9f85a98e4fd25cd5ccba8425f47bdc5"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_operating/collector.rs",
+      "bytes": 19293,
+      "sha256": "093c982188db4f5e2bb4fecb0e90cf309cf66d8f38745fcf294bf22ecf1c7d17"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_operating/sources.rs",
+      "bytes": 28883,
+      "sha256": "96112ed17471ede323fad1dc6a069e777bf258d2a8bacae5d55c27323c50df2f"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_operating/restatement.rs",
+      "bytes": 27076,
+      "sha256": "097bc607b8a1388b477faf427e66bea8c7fbcd1a2f390e0bce610008c248a893"
+    },
+    {
+      "file": "tools/rust-r4ghi/generate-rust-model01.py",
+      "bytes": 11068,
+      "sha256": "b6bc0920269b5357bc9e0ac415a79bdc10da44f6d525efc76b467ef13be42dca"
+    }
+  ],
+  "fact1": "collector locked_source_refs is catalog.members(); sources.members explicitly skips Table::Context.",
+  "fact2": "collector consumed_context_refs enumerates catalog.all(Table::Context).",
+  "fact3": "newScope.assert_session requires every consumed context exactref inlocked_source_refs.",
+  "consequence": "Any nonempty actualoldcontext set necessarilyfails operating_correction_lock_plan_incomplete beforecorrection effects, even withrealphysicalContextlocks.",
+  "currentPhysicalLockingAlreadyIncludesContext": true,
+  "requiredFix": "Keep economic/sourceHash members exclusions; build distinct actual locked refs including realalreadylockedconsumedContexts or separatetypedset. Do not fabricateproofbymerelylabellingthe economicmembers complete.",
+  "otherCommonChanges": "Placeholder removal andrealproducer preflight/evidence validation audit pendingindependentreview.",
+  "G3Certified": false,
+  "G4Certified": false
+}

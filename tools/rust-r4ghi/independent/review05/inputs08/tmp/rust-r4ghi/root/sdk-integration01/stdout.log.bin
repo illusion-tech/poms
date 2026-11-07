@@ -1,0 +1,65 @@
+✔ two concurrent actual 7.20.0 checks agree on all files and preserve the target (23972.8864ms)
+ℹ {"platform":"win32","node":"24.19.0","java":"17.0.12","generator":"7.20.0","files":682,"manifestSha256":"56a4c9c1c15815fa50b6b43f84c14711cc3f671435662c38d9bcab36c3f1213b","clientWritten":false,"concurrentUniqueDirectories":true}
+✔ actual CLI rejects arbitrary Rust subset/output overrides before any client write (309.0677ms)
+✖ old PowerShell check entry delegates to the same full-client implementation (2684.7142ms)
+✖ old PowerShell normalization entry delegates without changing BOM compatibility (2666.5812ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 2
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 29829.9082
+
+✖ failing tests:
+
+test at tools\openapi\shared-api-client.integration.test.mjs:73:5
+✖ old PowerShell check entry delegates to the same full-client implementation (2684.7142ms)
+  AssertionError [ERR_ASSERTION]: & : The term 'node' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the sp
+  elling of the name, or if a path was included, verify that the path is correct and try again.
+  At E:\projects\worktrees\poms-r3hijk-next28\poms\tools\openapi\check-shared-api-client.ps1:3 char:3
+  + & node (Join-Path $PSScriptRoot 'shared-api-client.mjs') --check @arg ...
+  +   ~~~~
+      + CategoryInfo          : ObjectNotFound: (node:String) [], ParentContainsErrorRecordException
+      + FullyQualifiedErrorId : CommandNotFoundException
+   
+  
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (file:///E:/projects/worktrees/poms-r3hijk-next28/poms/tools/openapi/shared-api-client.integration.test.mjs:76:16)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tools\openapi\shared-api-client.integration.test.mjs:83:5
+✖ old PowerShell normalization entry delegates without changing BOM compatibility (2666.5812ms)
+  AssertionError [ERR_ASSERTION]: E:\projects\worktrees\poms-r3hijk-next28\poms\tools\openapi\normalize-line-endings.ps1 : The term 'node' is not recogni
+  zed as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path w
+  as included, verify that the path is correct and try again.
+      + CategoryInfo          : ObjectNotFound: (node:String) [normalize-line-endings.ps1], CommandNotFoundException
+      + FullyQualifiedErrorId : CommandNotFoundException,normalize-line-endings.ps1
+   
+  
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (file:///E:/projects/worktrees/poms-r3hijk-next28/poms/tools/openapi/shared-api-client.integration.test.mjs:89:20)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

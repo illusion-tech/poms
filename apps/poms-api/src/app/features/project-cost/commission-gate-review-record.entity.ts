@@ -1,3 +1,4 @@
+import { OperatingEvaluationEvidence } from './rust-r4ghi-entities.entity';
 import { defineEntity } from '@mikro-orm/core';
 import { ApprovalSummarySnapshot } from '../approval-summary/approval-summary.entity';
 import { OperatingSignalToCommissionGateBinding } from './operating-signal-gate-binding.entity';
@@ -5,6 +6,12 @@ import { OperatingSignalToCommissionGateBinding } from './operating-signal-gate-
 const p = defineEntity.properties;
 
 export const CommissionGateReviewRecordSchema = defineEntity({
+    uniques: [
+        {"name":"uq_jghi_gate_review_current","expression":"CREATE UNIQUE INDEX uq_jghi_gate_review_current ON poms.commission_gate_review_record(binding_id)\n WHERE producer_version=1 AND status='active'"}
+    ],
+    checks: [
+        {"name":"ck_jghi_gate_review_v1","expression":"producer_version=0 OR\n  (producer_version=1 AND evidence_id IS NOT NULL AND source_summary_snapshot_id IS NOT NULL\n   AND source_hash IS NOT NULL AND source_hash~'^[0-9a-f]{64}$'\n   AND evaluation_hash IS NOT NULL AND evaluation_hash~'^[0-9a-f]{64}$'\n   AND policy_hash IS NOT NULL AND policy_hash~'^[0-9a-f]{64}$'\n   AND evidence_hash IS NOT NULL AND evidence_hash~'^[0-9a-f]{64}$'\n   AND review_action IS NOT NULL AND review_action IN ('acknowledge','tighten-review','tighten-block')\n   AND review_payload IS NOT NULL AND jsonb_typeof(review_payload)='object' AND handled_by IS NOT NULL)"}
+    ],
     name: 'CommissionGateReviewRecord',
     tableName: 'commission_gate_review_record',
     schema: 'poms',
@@ -45,6 +52,17 @@ export const CommissionGateReviewRecordSchema = defineEntity({
         updatedAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).onUpdate(() => new Date()).fieldName('updated_at').comment('最后更新时间'),
         updatedBy: p.uuid().nullable().fieldName('updated_by').comment('最后更新人'),
         rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号')
+    ,
+        producerVersion: p.smallint().default(0).fieldName("producer_version"),
+        evidenceId: () => p.manyToOne(OperatingEvaluationEvidence).mapToPk().joinColumns("evidence_id").referencedColumnNames("id").foreignKeyName("commission_gate_review_record_evidence_id_fkey").deleteRule("no action").updateRule("no action").nullable(),
+        sourceSummarySnapshotId: () => p.manyToOne(ApprovalSummarySnapshot).mapToPk().joinColumns("source_summary_snapshot_id").referencedColumnNames("id").foreignKeyName("commission_gate_review_record_source_summary_snapshot_id_fkey").deleteRule("no action").updateRule("no action").nullable(),
+        sourceHash: p.string().length(64).nullable().fieldName("source_hash"),
+        evaluationHash: p.string().length(64).nullable().fieldName("evaluation_hash"),
+        policyHash: p.string().length(64).nullable().fieldName("policy_hash"),
+        evidenceHash: p.string().length(64).nullable().fieldName("evidence_hash"),
+        reviewAction: p.string().length(32).nullable().fieldName("review_action"),
+        reviewPayload: p.json<unknown>().columnType('jsonb').nullable().fieldName("review_payload"),
+        supersedesId: () => p.manyToOne(CommissionGateReviewRecord).mapToPk().joinColumns("supersedes_id").referencedColumnNames("id").foreignKeyName("commission_gate_review_record_supersedes_id_fkey").deleteRule("no action").updateRule("no action").nullable()
     }
 });
 

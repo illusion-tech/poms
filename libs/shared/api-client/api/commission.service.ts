@@ -45,6 +45,8 @@ import { CreateCommissionRoleAssignmentRequest } from '../model/create-commissio
 // @ts-ignore
 import { CreateCommissionRuleVersionRequest } from '../model/create-commission-rule-version-request';
 // @ts-ignore
+import { CurrentCommissionRoleAssignmentResponse } from '../model/current-commission-role-assignment-response';
+// @ts-ignore
 import { ExecuteCommissionAdjustmentRequest } from '../model/execute-commission-adjustment-request';
 // @ts-ignore
 import { RecalculateCommissionRequest } from '../model/recalculate-commission-request';
@@ -927,9 +929,9 @@ export class CommissionApi extends BaseService {
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public commissionControllerGetCurrentRoleAssignment(requestParameters: CommissionControllerGetCurrentRoleAssignmentRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<CommissionRoleAssignmentSummary>;
-    public commissionControllerGetCurrentRoleAssignment(requestParameters: CommissionControllerGetCurrentRoleAssignmentRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<CommissionRoleAssignmentSummary>>;
-    public commissionControllerGetCurrentRoleAssignment(requestParameters: CommissionControllerGetCurrentRoleAssignmentRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<CommissionRoleAssignmentSummary>>;
+    public commissionControllerGetCurrentRoleAssignment(requestParameters: CommissionControllerGetCurrentRoleAssignmentRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<CurrentCommissionRoleAssignmentResponse>;
+    public commissionControllerGetCurrentRoleAssignment(requestParameters: CommissionControllerGetCurrentRoleAssignmentRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<CurrentCommissionRoleAssignmentResponse>>;
+    public commissionControllerGetCurrentRoleAssignment(requestParameters: CommissionControllerGetCurrentRoleAssignmentRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<CurrentCommissionRoleAssignmentResponse>>;
     public commissionControllerGetCurrentRoleAssignment(requestParameters: CommissionControllerGetCurrentRoleAssignmentRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const projectId = requestParameters?.projectId;
         if (projectId === null || projectId === undefined) {
@@ -965,7 +967,7 @@ export class CommissionApi extends BaseService {
 
         let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/commission-role-assignment`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<CommissionRoleAssignmentSummary>('get', `${basePath}${localVarPath}`,
+        return this.httpClient.request<CurrentCommissionRoleAssignmentResponse>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,

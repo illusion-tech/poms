@@ -1,0 +1,74 @@
+{
+  "kind": "non-author-static-recheck-D17-I-read07b",
+  "reviewer": "G; reviewed D/I/Root implementation only. G-authored workspace-scope05 and receipt-preparation05 are excluded.",
+  "originalReport": "../I-D-scope01/review01.json; original bytes preserved",
+  "inputs": [
+    {
+      "source": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\apps\\poms-api-rust\\src\\project_handover\\service.rs",
+      "copy": "cross-review\\I-D-scope02\\inputs\\poms-r3hijk-next28\\apps\\poms-api-rust\\src\\project_handover\\service.rs.bin",
+      "bytes": 46342,
+      "sha256": "2288ff8deb6d2a35855f588304e50a23ec087bfca94a38841a68af11124cb72f",
+      "unchangedDuringCopy": true
+    },
+    {
+      "source": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\apps\\poms-api-rust\\src\\project_lifecycle\\service.rs",
+      "copy": "cross-review\\I-D-scope02\\inputs\\poms-r3hijk-next28\\apps\\poms-api-rust\\src\\project_lifecycle\\service.rs.bin",
+      "bytes": 51514,
+      "sha256": "bbd61d489a88ab730ec61dd4b195cab33c85598e666738c17a035562822a5da3",
+      "unchangedDuringCopy": true
+    },
+    {
+      "source": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\apps\\poms-api-rust\\src\\project_lifecycle\\mod.rs",
+      "copy": "cross-review\\I-D-scope02\\inputs\\poms-r3hijk-next28\\apps\\poms-api-rust\\src\\project_lifecycle\\mod.rs.bin",
+      "bytes": 358,
+      "sha256": "651e87f35be6b2c9cc9de77007c88ea20db013e232edc29349792b3c4ce313fc",
+      "unchangedDuringCopy": true
+    },
+    {
+      "source": "E:\\projects\\worktrees\\poms-r4i-lifecycle\\poms\\apps\\poms-api-rust\\src\\lifecycle_evidence\\mod.rs",
+      "copy": "cross-review\\I-D-scope02\\inputs\\poms-r4i-lifecycle\\apps\\poms-api-rust\\src\\lifecycle_evidence\\mod.rs.bin",
+      "bytes": 16501,
+      "sha256": "b40ee3a8091d233e90737a693f4a27f060d9aa41df7b1f1a37fd3c332a83e5fb",
+      "unchangedDuringCopy": true
+    }
+  ],
+  "D17": {
+    "finding": "IDScope-P1-02",
+    "staticResult": "addressed on these exact input hashes",
+    "checks": [
+      "D prepare captures actual PrepareHandover or RebaselineHandover authority before closing old confirmation/current handover",
+      "Guard before business effects rejects advanced/terminal lifecycle and any current frozen role assignment, including handover-before-execution frozen window",
+      "Every anchor calls actual I verified authority helper rather than skipping rebaseline",
+      "Helper validates actor/request session/physical TX, project, FullProject, permitted action and exact project version",
+      "New actual draft handover and basis, source hashes and original current stage verified",
+      "Actual facts::write_stage appends stage-requalified for handover-to-handover with true previous/new handover IDs, then project CAS and stage audit in the same borrowed session",
+      "Valid confirmed BA uses old-chain Rebaseline authority; no requirement to acquire OwnerWrite after old duties were superseded",
+      "No silent unfreeze, automatic execution admission, invented old stage history or new full R5 controlled-change semantics"
+    ],
+    "runtime": "Root must validate owner/BA positives, true new self-confirmations/freeze/startExecution, frozen/advanced no-effect negatives and necessary ledger/CAS/audit failure rollback"
+  },
+  "IRead07b": {
+    "finding": "IDScope-P1-01",
+    "staticResult": "addressed on candidate b40ee3a8091d233e90737a693f4a27f060d9aa41df7b1f1a37fd3c332a83e5fb",
+    "checks": [
+      "Exact frozen attachment/link pair read and locked through current CommonSession",
+      "Real same-project active link/attachment, exact version/checksum, project permission, frozen/current classification AND",
+      "Existing K literal sensitive remains ordinarily readable; confidential/restricted require exact additional permission; unknown classification fails closed",
+      "Output remains original five-field frozen reference; no broad project listing or new connection"
+    ],
+    "runtime": "Root integrated pure tests and live PG/HTTP classification/withdrawal/version negatives pending"
+  },
+  "remainingOriginalFindings": [
+    "IDScope-P1-03 workspace timeline/guidance: G proposal workspace-scope05 needs I/H non-author review and Root integrated acceptance",
+    "IDScope-P1-04 existing attachment list/by-ID target scope: Root-owned remediation/acceptance pending"
+  ],
+  "notRunByReviewer": [
+    "Git/GitHub",
+    "DB/old DB",
+    "HTTP/UI",
+    "service/process mutation",
+    "cargo tests"
+  ],
+  "rootProductsModifiedByReviewer": false,
+  "gate": "Static recheck only. No all-batch G3 or G4 decision."
+}

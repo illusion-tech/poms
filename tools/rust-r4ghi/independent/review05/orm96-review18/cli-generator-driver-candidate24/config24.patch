@@ -1,0 +1,33 @@
+--- a/apps/poms-api/src/app/core/persistence/persistence.config.ts
++++ b/apps/poms-api/src/app/core/persistence/persistence.config.ts
+@@ -1,10 +1,10 @@
+ import type { MigrationsOptions, SeederOptions } from '@mikro-orm/core';
+ import { Migrator } from '@mikro-orm/migrations';
+ import type { MikroOrmModuleOptions } from '@mikro-orm/nestjs';
+-import { type Options as PostgreSqlOptions, PostgreSqlDriver } from '@mikro-orm/postgresql';
++import { type Options as PostgreSqlOptions } from '@mikro-orm/postgresql';
+ import { SeedManager } from '@mikro-orm/seeder';
+ import { loadValidatedEnv } from '../../../config/load-env';
+-import { PomsSchemaGenerator } from './poms-schema-generator';
++import { PomsPostgreSqlDriver } from './poms-postgresql-driver';
+ 
+ type MikroOrmConfigOverrides = Partial<PostgreSqlOptions> & {
+     connect?: boolean;
+@@ -34,7 +34,7 @@
+     };
+ 
+     return {
+-        driver: PostgreSqlDriver,
++        driver: PomsPostgreSqlDriver,
+         clientUrl: env.DATABASE_URL,
+         host: env.DB_HOST,
+         port: env.DB_PORT,
+@@ -47,7 +47,7 @@
+         baseDir: process.cwd(),
+         entities: ['./dist/apps/poms-api/**/*.entity.js'],
+         entitiesTs: ['apps/poms-api/src/**/*.entity.ts'],
+-        extensions: [PomsSchemaGenerator, Migrator, SeedManager],
++        extensions: [Migrator, SeedManager],
+         debug: env.DB_DEBUG,
+         seeder,
+         migrations,

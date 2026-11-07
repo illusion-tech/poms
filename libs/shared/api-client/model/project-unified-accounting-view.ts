@@ -7,7 +7,10 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { OperatingEvaluationContext } from './operating-evaluation-context';
 import { OperatingSnapshotActionLevel } from './operating-snapshot-action-level';
+import { OperatingMetricKnowledge } from './operating-metric-knowledge';
+import { OperatingReasonView } from './operating-reason-view';
 import { OperatingDataMaturityLevel } from './operating-data-maturity-level';
 import { SensitiveStringFieldProjection } from './sensitive-string-field-projection';
 
@@ -21,11 +24,32 @@ export interface ProjectUnifiedAccountingView {
     receivableConfirmedAmountSummaryProjection: SensitiveStringFieldProjection;
     taxImpactSummaryProjection: SensitiveStringFieldProjection;
     taxImpactPendingAmountProjection: SensitiveStringFieldProjection;
-    allocationStabilitySummary: string | null;
-    unmappedCostSummary: string | null;
+    allocationStabilitySummary: ProjectUnifiedAccountingViewAllocationStabilitySummaryEnum | null;
+    unmappedCostSummary: ProjectUnifiedAccountingViewUnmappedCostSummaryEnum | null;
     dataMaturityLevel: OperatingDataMaturityLevel;
     costActionRecommendation: OperatingSnapshotActionLevel;
     referencedBaselineVersion: string;
     referencedSnapshotVersion: string;
     allowedActions: Array<string>;
+    evaluationContext: OperatingEvaluationContext;
+    reasonItems: Array<OperatingReasonView>;
+    reviewState: ProjectUnifiedAccountingViewReviewStateEnum;
+    metricKnowledge: OperatingMetricKnowledge;
+    currentActionLevel: ProjectUnifiedAccountingViewCurrentActionLevelEnum;
+    allocationStabilitySummaryProjection: SensitiveStringFieldProjection;
+    unmappedCostSummaryProjection: SensitiveStringFieldProjection;
 }
+export type ProjectUnifiedAccountingViewAllocationStabilitySummaryEnum = null;;
+export type ProjectUnifiedAccountingViewUnmappedCostSummaryEnum = null;;
+export enum ProjectUnifiedAccountingViewReviewStateEnum {
+    NotRequired = 'not-required',
+    Pending = 'pending',
+    Acknowledged = 'acknowledged',
+    ManualConfirmed = 'manual-confirmed',
+    Stale = 'stale'
+};
+export enum ProjectUnifiedAccountingViewCurrentActionLevelEnum {
+    Prompt = 'prompt',
+    Review = 'review',
+    Block = 'block'
+};

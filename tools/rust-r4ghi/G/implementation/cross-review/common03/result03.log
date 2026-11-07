@@ -1,0 +1,61 @@
+
+running 14 tests
+test project_operating_common::hash::tests::source_sets_sort_but_approved_history_keeps_business_order ... ok
+test project_operating_common::schema::tests::completed_cannot_carry_conditional_tasks ... ok
+test project_operating_common::schema::tests::normalized_weight_cannot_hide_precision_in_float ... ok
+test project_operating_common::schema::tests::integer_tokens_are_exact_and_never_round_to_an_expected_version ... ok
+test project_operating_common::scalars::tests::weight_uses_original_token_before_float_rounding ... ok
+test project_operating_common::scalars::tests::exact_cent_boundary_preserves_history_and_refuses_overflow ... ok
+test project_operating_common::hash::tests::actual_policy_matches_frozen_registration ... ok
+test acceptance::source_hash_excludes_generated_results_but_binds_business_scope ... ok
+test acceptance::source_set_permutation_is_stable_but_approved_history_order_matters ... ok
+test acceptance::actual_request_does_not_admit_a_client_actor_or_status ... ok
+test acceptance::exact_weight_conditions_require_zero_reason_and_cannot_round ... ok
+test acceptance::complete_request_accepts_exact_int4_tokens_and_rejects_rounding ... ok
+test acceptance::frozen_utc_datetime_pattern_rejects_space_lowercase_t_and_leap_seconds ... FAILED
+test acceptance::conditional_acceptance_summary_is_required_and_forbidden_elsewhere ... ok
+
+failures:
+
+---- acceptance::frozen_utc_datetime_pattern_rejects_space_lowercase_t_and_leap_seconds stdout ----
+
+thread 'acceptance::frozen_utc_datetime_pattern_rejects_space_lowercase_t_and_leap_seconds' (25536) panicked at src\lib.rs:73:13:
+accepted outside frozen UTC regex: 2026-11-06 12:00:00Z
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    acceptance::frozen_utc_datetime_pattern_rejects_space_lowercase_t_and_leap_seconds
+
+test result: FAILED. 13 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Locking 53 packages to highest Rust 1.99.0 compatible versions
+   Compiling proc-macro2 v1.0.107
+   Compiling quote v1.0.47
+   Compiling serde_core v1.0.229
+   Compiling unicode-ident v1.0.27
+   Compiling typenum v1.20.1
+   Compiling autocfg v1.5.1
+   Compiling zmij v1.0.23
+   Compiling serde v1.0.229
+   Compiling const-oid v0.10.2
+   Compiling serde_json v1.0.154
+   Compiling windows-link v0.2.1
+   Compiling cpufeatures v0.3.1
+   Compiling memchr v2.8.3
+   Compiling cfg-if v1.0.5
+   Compiling itoa v1.0.18
+   Compiling r4-root-common-readonly-review v0.0.0 (E:\projects\worktrees\poms-r4g-operating\poms\tools\rust-r4ghi\G\implementation\cross-review\common03\harness)
+   Compiling num-traits v0.2.19
+   Compiling hybrid-array v0.4.15
+   Compiling crypto-common v0.2.2
+   Compiling block-buffer v0.12.1
+   Compiling syn v3.0.9
+   Compiling digest v0.11.3
+   Compiling sha2 v0.11.1
+   Compiling uuid v1.29.0
+   Compiling serde_derive v1.0.229
+   Compiling chrono v0.4.45
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 6.97s
+     Running unittests src\lib.rs (target\debug\deps\r4_root_common_readonly_review-90513bfef6178917.exe)
+error: test failed, to rerun pass `--lib`

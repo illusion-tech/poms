@@ -118,8 +118,9 @@ export class ProjectCommissionShell implements OnInit, OnDestroy {
     ngOnInit() {
         const projectId = this.projectId();
         if (projectId) {
-            void this.#projectStore.loadProject(projectId);
-            void this.#workspaceStore.loadGuidance(projectId).catch(() => undefined);
+            void this.#projectStore.loadProject(projectId).then(() => this.#workspaceStore.loadGuidance(projectId)).catch(() => {
+                void this.#router.navigate(['/projects', projectId]);
+            });
         }
     }
 
@@ -145,7 +146,7 @@ export class ProjectCommissionShell implements OnInit, OnDestroy {
 
     reloadGuidance() {
         const projectId = this.projectId();
-        if (projectId) {
+        if (projectId && this.project()?.id === projectId) {
             void this.#workspaceStore.loadGuidance(projectId).catch(() => undefined);
         }
     }

@@ -1,0 +1,156 @@
+--- a/apps/poms-api-rust/src/project_cost_governance/correction.rs
++++ b/apps/poms-api-rust/src/project_cost_governance/correction.rs
+@@ -219,8 +219,9 @@
+                 costs.extend(cost_ids_for_legacy_reference(session, source).await?);
+             }
+         }
+-        let mut normalized=correction.clone();
+-        normalized.request.source_references=complete_tax_source_references(session,correction).await?;
++        let mut normalized = correction.clone();
++        normalized.request.source_references =
++            complete_tax_source_references(session, correction).await?;
+         let body = serde_json::to_value(&normalized.request).map_err(|_| Error::Internal)?;
+         validate_tax_request(session, scope, project, tax.id, &body, actor).await?;
+         for basis in basis_ids_for_costs(session, &costs.into_iter().collect::<Vec<_>>()).await? {
+@@ -309,9 +310,11 @@
+     }
+     for mut plan in stages {
+         plan.input.request.request.attribution_evidence = rebind_governance_evidence(
++            session,
+             &plan.input.request.request.attribution_evidence,
+             &transitions,
+-        )?;
++        )
++        .await?;
+         let permit = StageReclassificationPermit {
+             scope,
+             cost_id: plan.input.cost_before_ref.id,
+@@ -321,14 +324,11 @@
+         transitions.push(reclassify_with_permit(session, &plan.input, &permit, actor).await?);
+     }
+     for mut plan in taxes {
+-        plan.input.request.request.source_references = plan
+-            .input
+-            .request
+-            .request
+-            .source_references
+-            .iter()
+-            .map(|source| rebind_governance_evidence(source, &transitions))
+-            .collect::<Result<Vec<_>, _>>()?;
++        let mut rebound = Vec::new();
++        for source in &plan.input.request.request.source_references {
++            rebound.push(rebind_governance_evidence(session, source, &transitions).await?);
++        }
++        plan.input.request.request.source_references = rebound;
+         let permit = TaxTreatmentReplacementPermit {
+             scope,
+             tax_treatment_id: plan.input.tax_before_ref.id,
+@@ -988,7 +988,8 @@
+     Ok(())
+ }
+ 
+-fn rebind_governance_evidence(
++async fn rebind_governance_evidence(
++    session: &mut CommonSession<'_, '_>,
+     input: &RestatementR4FGovernanceEvidence,
+     transitions: &[VerifiedProducerTransition],
+ ) -> Result<RestatementR4FGovernanceEvidence, Error> {
+@@ -1021,8 +1022,98 @@
+                     .ok_or_else(changed)?;
+                 source.source_id = next.id.to_string();
+                 source.source_version = next.row_version;
++                let row = store::row(session.connection, Table::Cost, next.id, false).await?;
++                source.business_date = chrono::NaiveDate::parse_from_str(
++                    store::text(&row, "occurred_on")?,
++                    "%Y-%m-%d",
++                )
++                .map_err(|_| Error::Internal)?;
+             }
+         }
+     }
+     Ok(result)
+ }
++
++async fn complete_tax_source_references(
++    session: &mut CommonSession<'_, '_>,
++    input: &TaxTreatmentReplacementCorrection,
++) -> Result<Vec<RestatementR4FGovernanceEvidence>, Error> {
++    let mut references = input.request.source_references.clone();
++    for reference in &references {
++        match reference {
++            RestatementR4FGovernanceEvidence::RestatementR4FSourceEvidence(source) => {
++                let kind = match source.source_type.as_str() {
++                    "project-actual-cost-record" | "source-cost-fact" => "ProjectActualCostRecord",
++                    "payment-record" => "PaymentRecord",
++                    "payable-record" => "PayableRecord",
++                    "expense-record" => "ExpenseRecord",
++                    "invoice-record" => "InvoiceRecord",
++                    "contract-term-snapshot" => "ContractTermSnapshot",
++                    "project-handover" => "ProjectHandover",
++                    "project-stage-record" => "ProjectStageRecord",
++                    _ => return Err(unsupported()),
++                };
++                let id = Uuid::parse_str(&source.source_id)
++                    .map_err(|_| Error::BadRequest("Expected actual tax source UUID".into()))?;
++                if !input.expected_source_refs.iter().any(|r| {
++                    r.kind == kind && r.id == id && r.expected_version == source.source_version
++                }) {
++                    return Err(Error::CodedConflict {
++                        code: "operating_tax_source_assertions_incomplete",
++                        message:
++                            "Every selected real source must have its exact ExpectedRef assertion"
++                                .into(),
++                    });
++                }
++            }
++            RestatementR4FGovernanceEvidence::RestatementR4FManualAssessmentEvidence(manual) => {
++                for id in manual.attachment_ids.iter().flatten() {
++                    if !input
++                        .expected_source_refs
++                        .iter()
++                        .any(|r| r.kind == "Attachment" && r.id == *id)
++                    {
++                        return Err(Error::CodedConflict {
++                            code: "operating_tax_source_assertions_incomplete",
++                            message: "Every manual evidence attachment needs its exact reference"
++                                .into(),
++                        });
++                    }
++                }
++            }
++        }
++    }
++    for reference in &input.expected_source_refs {
++        let Some((kind, table, column)) = (match reference.kind.as_str() {
++            "ProjectActualCostRecord" => Some((
++                "project-actual-cost-record",
++                "project_actual_cost_record",
++                "occurred_on",
++            )),
++            "PaymentRecord" => Some(("payment-record", "payment_record", "payment_date")),
++            "PayableRecord" => Some(("payable-record", "payable_record", "expected_payment_date")),
++            "ExpenseRecord" => Some(("expense-record", "expense_record", "expense_date")),
++            "InvoiceRecord" => Some(("invoice-record", "invoice_record", "invoice_date")),
++            "ContractTermSnapshot" => Some((
++                "contract-term-snapshot",
++                "contract_term_snapshot",
++                "effective_at",
++            )),
++            _ => None,
++        }) else {
++            continue;
++        };
++        if references.iter().any(|r|matches!(r,RestatementR4FGovernanceEvidence::RestatementR4FSourceEvidence(s)if s.source_id==reference.id.to_string()&&(s.source_type==kind||(kind=="project-actual-cost-record"&&s.source_type=="source-cost-fact")))){continue;}
++        // The user selected this exact existing fiscal source. Persist its
++        // genuine source reference through F too, so later corrections can
++        // rediscover the relationship without guessing a project-wide batch.
++        let sql = format!("SELECT to_jsonb(t)->'{column}' FROM poms.{table} t WHERE t.id=$1");
++        let raw: Value = sqlx::query_scalar(&sql)
++            .bind(reference.id)
++            .fetch_one(&mut *session.connection)
++            .await?;
++        let day = evidence::business_date(raw.as_str().ok_or_else(changed)?)?;
++        references.push(serde_json::from_value(json!({"kind":"source","sourceType":kind,"sourceId":reference.id,"sourceVersion":reference.expected_version,"businessDate":day,"reason":input.request.replacement_reason})).map_err(|_|Error::Internal)?);
++    }
++    Ok(references)
++}

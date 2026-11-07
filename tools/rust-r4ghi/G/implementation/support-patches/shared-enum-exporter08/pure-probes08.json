@@ -1,0 +1,151 @@
+{
+  "kind": "S5-pure-proposal-probes08",
+  "startedAt": "2026-11-07T07:09:56.101Z",
+  "finishedAt": "2026-11-07T07:10:01.387Z",
+  "results": [
+    {
+      "name": "candidate builds all semantic occurrences and retains historical names",
+      "passed": true
+    },
+    {
+      "name": "production builder refuses candidate registry",
+      "passed": true
+    },
+    {
+      "name": "unfrozen review does not authorize metadata",
+      "passed": true
+    },
+    {
+      "name": "pure review matcher accepts only exact reviewed metadata",
+      "passed": true
+    },
+    {
+      "name": "changed metadata cannot self-authorize by reviewStatus",
+      "passed": true
+    },
+    {
+      "name": "changed identity bytes cannot keep a reviewed pin",
+      "passed": true
+    },
+    {
+      "name": "registry source head must match independently pinned review",
+      "passed": true
+    },
+    {
+      "name": "missing current enum registration is rejected",
+      "passed": true
+    },
+    {
+      "name": "unreviewed historical migration is rejected",
+      "passed": true
+    },
+    {
+      "name": "unreviewed historical value replacement is rejected",
+      "passed": true
+    },
+    {
+      "name": "coverage cannot be silently lowered",
+      "passed": true
+    },
+    {
+      "name": "historical consumer type alias cannot be replaced",
+      "passed": true
+    },
+    {
+      "name": "unknown module import remains closed",
+      "passed": true
+    },
+    {
+      "name": "opaque top-level construct is rejected before repinning",
+      "passed": true
+    },
+    {
+      "name": "computed Zod enum construction cannot evade semantic inventory",
+      "passed": true
+    },
+    {
+      "name": "unknown Zod factory remains rejected even before repinning",
+      "passed": true
+    },
+    {
+      "name": "enum cannot hide in a helper body",
+      "passed": true
+    },
+    {
+      "name": "new helper declaration needs independent registration",
+      "passed": true
+    },
+    {
+      "name": "equivalent CRLF normalization retains exact reviewed source",
+      "passed": true
+    },
+    {
+      "name": "empty working/staged/untracked source guard reports pass",
+      "passed": true
+    },
+    {
+      "name": "source guard rejects changed input",
+      "passed": true
+    },
+    {
+      "name": "source guard rejects staged input",
+      "passed": true
+    },
+    {
+      "name": "source guard rejects untracked input",
+      "passed": true
+    },
+    {
+      "name": "pure artifact write/check roundtrip produces every expected file",
+      "passed": true
+    },
+    {
+      "name": "unexpected artifact target is rejected",
+      "passed": true
+    },
+    {
+      "name": "stale artifact is rejected without automatic repair",
+      "passed": true
+    },
+    {
+      "name": "actual Root source bytes remained stable during pure probes",
+      "passed": true
+    }
+  ],
+  "passed": 27,
+  "failed": 0,
+  "inputsBefore": [
+    {
+      "path": "libs/shared/contracts/src/index.ts",
+      "rawSha256": "6ebfa5afd35d3eb2bbea4c1681643591c8e39e584df751d1b9e2c9a27e11ba31"
+    },
+    {
+      "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "rawSha256": "e835ce085e0cfd19fa2d49030f1b286ed8f774164fbbddbafc98e04e2d13fdab"
+    },
+    {
+      "path": "libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts",
+      "rawSha256": "c4b156574f4486b2f02eccc8b75f4cac7ef1ff1d6a85eb0de665ab9de797e7d9"
+    }
+  ],
+  "inputsAfter": [
+    {
+      "path": "libs/shared/contracts/src/index.ts",
+      "rawSha256": "6ebfa5afd35d3eb2bbea4c1681643591c8e39e584df751d1b9e2c9a27e11ba31"
+    },
+    {
+      "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "rawSha256": "e835ce085e0cfd19fa2d49030f1b286ed8f774164fbbddbafc98e04e2d13fdab"
+    },
+    {
+      "path": "libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts",
+      "rawSha256": "c4b156574f4486b2f02eccc8b75f4cac7ef1ff1d6a85eb0de665ab9de797e7d9"
+    }
+  ],
+  "limitations": [
+    "No Git source guard command executed by this author",
+    "No Root --s5 --write or --check executed",
+    "The non-null source head in review matcher is a pure fixture, never an authorized Git reference",
+    "Root must freeze final canonical130 registry and S5 reference after independent review"
+  ]
+}
