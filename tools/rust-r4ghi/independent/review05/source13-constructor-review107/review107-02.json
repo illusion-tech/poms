@@ -1,0 +1,127 @@
+{
+  "kind": "non-author-incremental-constructor02-review107-02",
+  "verdict": "hold02-nonexecuting-cargo-flags",
+  "source": {
+    "file": "tools/rust-r4ghi/construct-source13-bindings.mjs",
+    "rawBytesSha256": "64587795d83f2d8583c73e38453668730373d2f352f8a6271fbd06ce9daa85bf"
+  },
+  "closed": [
+    {
+      "id": "IR107-01",
+      "scope": "Two independent typed Root inventory-copy and mirror cargo observations; distinct file/hash, absolute matching roots/copy targets, four distinct step pointers and observed binary. Root directory is not claimed compiled."
+    }
+  ],
+  "findings": [
+    {
+      "id": "IR107-02",
+      "priority": "P2",
+      "line": 49,
+      "problem": "Checking cargo basename/subcommand and exit0 accepts help/version paths or cargo test --no-run/list as real completed checks/tests/build.",
+      "counterexample": {
+        "file": "probe108.json",
+        "rawBytesSha256": "60ff0ec4df205f19975ce7f7f2423992333aa28aece6804a601a3772750c7522"
+      },
+      "fix": "Reject nonexecuting help/version flags for all steps and test no-run/list, or enforce Root reviewed exact actual command protocol. Preserve normal one-mirror-build semantics; do not widen acceptable exits."
+    }
+  ],
+  "verified": {
+    "onlyBuildFactsFunctionChanged": true,
+    "allOtherConstructorBytesUnchanged": true,
+    "manifestAndSidecarsExact": true,
+    "RootInventoryIsNotSecondCompilation": true,
+    "oldB0R3B1And139ContractsPreserved": true
+  },
+  "actual": {
+    "Source13": null,
+    "M98": null,
+    "B0": null,
+    "R3": null,
+    "B1": null,
+    "rawRootInventory": null,
+    "rawMirrorBuild": null
+  },
+  "actions": {
+    "RootWrites": 0,
+    "SQL": 0,
+    "HTTP": 0,
+    "actualConstructorMode": 0,
+    "cargo": 0,
+    "migration": 0,
+    "processActions": 0,
+    "GitWrites": 0
+  },
+  "G3Certified": false,
+  "G4Certified": false,
+  "inputPins": [
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1-02/manifest13-02.json",
+      "rawBytesSha256": "c973ce7f9f4ace3f5a50c7c04c92cab47498d3f6dc7042806f39f845f2f16ec4",
+      "bytes": 3725
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1-02/before13/tools/rust-r4ghi/construct-source13-bindings.mjs",
+      "rawBytesSha256": "5e59a9a7fd698ab2f25161ac2aad7082e89788949cef315317a45a306edac527",
+      "bytes": 21816
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1-02/proposed/tools/rust-r4ghi/construct-source13-bindings.mjs",
+      "rawBytesSha256": "64587795d83f2d8583c73e38453668730373d2f352f8a6271fbd06ce9daa85bf",
+      "bytes": 23919
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1-02/README02.md",
+      "rawBytesSha256": "6a904a6b0fa388ada19b1f81e8755d45f84d912705b1f7edd8fcc6e09c3afae7",
+      "bytes": 3465
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1-02/build-shapes02.json",
+      "rawBytesSha256": "9ffc7196b0b569bca0773807888d673e5ca35e0829fcfa3cf05075838e787e39",
+      "bytes": 1674
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1-02/input-templates13.json",
+      "rawBytesSha256": "2f2a13006e0a8bc7f00b52b85d6becdfa5e4590cf37eca02e8125761a59d852c",
+      "bytes": 2892
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1-02/construct13.test.mjs",
+      "rawBytesSha256": "a27db04a98bbcf69faddccdc27fc7d2ae6f0736714b98fa3efff3df395227f0f",
+      "bytes": 8525
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1-02/validation13.json",
+      "rawBytesSha256": "6b1f802e42f10d5600b9f8a9082ed60ad0d4ae5678ddd82a5bd719844979d0d2",
+      "bytes": 673
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1-02/pure13.stdout.log",
+      "rawBytesSha256": "524438ded94a78cb22ad11b768ff4cf5b9f0da1a2a6fde6e43b80116b1325625",
+      "bytes": 2483
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1-02/pure13.stderr.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1-02/syntax13.stdout.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1-02/syntax13.stderr.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1-02/help13.stdout.log",
+      "rawBytesSha256": "20032a3f5c4f266012ecad975122ffb347f97e421b66d7328e9215bdeb5aa207",
+      "bytes": 202
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\tools\\rust-r4ghi\\independent\\review05\\source13-constructor-review107/probe108.json",
+      "rawBytesSha256": "60ff0ec4df205f19975ce7f7f2423992333aa28aece6804a601a3772750c7522",
+      "bytes": 884
+    }
+  ]
+}

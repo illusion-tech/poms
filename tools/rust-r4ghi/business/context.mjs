@@ -12,7 +12,7 @@ export const FIXED = Object.freeze({ namespace: 'poms-r4ghi', base: 'aaa4b16ac66
   stateRoot: '/home/wangzishi/.local/share/poms-r4ghi', private: '/home/wangzishi/.local/share/poms-r4ghi/private',
   host: '127.0.0.1', port: 25434, owner: 'poms_r0e_owner', database: 'poms_r4ghi_rust',
   databases: ['poms_r4ghi_native', 'poms_r4ghi_rust'], apps: ['poms_r4ghi_native_app', 'poms_r4ghi_rust_app'],
-  api: 'http://127.0.0.1:31441', origin: 'http://127.0.0.1:44551', tables: 139, migrations: 97 });
+  api: 'http://127.0.0.1:31441', origin: 'http://127.0.0.1:44551', tables: 139, migrations: 98 });
 
 export function ownedFile(file) {
   const st = fs.lstatSync(file);
@@ -23,6 +23,13 @@ export function ownedFile(file) {
 const directFiles = ['docs/design/rust-r4ghi/acceptance-plan01.json', 'docs/design/rust-r4ghi/operation-map01.json',
   'docs/design/rust-r4ghi/g2-consumed-evidence-corrective54.md',
   'docs/design/rust-r4ghi/g2-project-metadata-noop61.md',
+  'docs/design/rust-r4ghi/g2-frozen-participant-parent-lock65.sql',
+  'docs/design/rust-r4ghi/source13-g2-freeze136.json',
+  'tools/rust-r4ghi/migrate-frozen-parent98-136.mjs',
+  'tools/rust-r4abc/upstream-payloads01.mjs',
+  'tools/rust-r4ghi/run-tax-continuation13.mjs',
+  'tools/rust-r4ghi/userfix/pure.mjs',
+  'tools/rust-r4ghi/userfix/status.mjs',
   'docs/design/rust-r4ghi/g1-online01.json', 'docs/design/rust-r4ghi/g2-corrective01.md',
   'docs/design/rust-r4ghi/g2-public-delta01.json', 'docs/design/rust-r4ghi/g2-public-delta02.json',
   'docs/design/rust-r4ghi/g2-public-delta03.json', 'docs/design/rust-r4ghi/user-decision-org-create04.json',
@@ -67,6 +74,7 @@ export function createContext(options, admissionBootstrap = null) {
   assert.deepEqual(state.sourcePins, pins, 'Frozen source bytes changed: preserve this run and review a new input epoch');
   if (state.admissionPending54) assert.equal(admissionBootstrap?.admissionPlanSHA256, state.admissionPending54, 'Pending retained-data context is unavailable to ordinary drivers');
   if (admissionBootstrap) assert(/^[a-f0-9]{64}$/.test(admissionBootstrap.admissionPlanSHA256));
+  if (!admissionBootstrap) assert(state.consumerAdmission54 && state.schemaComparison108, 'M98 may only consume retained data through explicit schema3 admission; never reset its business baseline');
   if (state.consumerAdmission54) assertAdmittedContext54({ ...FIXED, epoch, run, priv, state, pins });
   const password = ownedFile(`${FIXED.private}/owner-password`).toString(); assert(/^[a-f0-9]{64}$/.test(password));
   const require = createRequire(`${FIXED.mirror}/package.json`), { Client } = createRequire(require.resolve('@mikro-orm/postgresql'))('pg');

@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import assert from 'node:assert/strict';
 import { sha, quote, diffRows, segment } from './pure.mjs';
 import { captureObjects } from './objects.mjs';
+import { comparisonBaselinePin108 } from './schema-comparison108.mjs';
 
 export async function catalog(c, expectedTables = 139) {
   const tables = (await c.query(`SELECT c.relname name,c.oid::text oid,COALESCE((SELECT array_agg(a.attname::text ORDER BY k.n) FROM pg_index i CROSS JOIN LATERAL unnest(i.indkey) WITH ORDINALITY k(attnum,n) JOIN pg_attribute a ON a.attrelid=c.oid AND a.attnum=k.attnum WHERE i.indrelid=c.oid AND i.indisprimary),'{}'::text[]) pk,
@@ -62,6 +63,9 @@ export async function capture(ctx, label) {
 export function loadSnapshot(ctx, input = 'baseline') {
   const pin = input === 'baseline' ? ctx.state.baseline : input;
   assert(pin?.file && pin.rawBytesSha256, 'Immutable snapshot pin required'); const bytes = fs.readFileSync(pin.file); assert.equal(sha(bytes), pin.rawBytesSha256); return JSON.parse(bytes);
+}
+export function loadComparisonSnapshot108(ctx) {
+  return loadSnapshot(ctx, comparisonBaselinePin108(ctx));
 }
 export function readRows(table) {
   const bytes = fs.readFileSync(table.file); assert.equal(sha(bytes), table.rawBytesSha256);

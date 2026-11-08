@@ -1,0 +1,224 @@
+{
+  "kind": "non-author-exact58-resource-admission-and-tooling-successor-design118",
+  "verdict": "design-boundary-for-author-implementation-not-execution-admission",
+  "findings": [
+    {
+      "id": "IR118-01",
+      "priority": "P1-tooling-blocker",
+      "problem": "Current factory/mint omits exact58 resource path; Tax and H47 cannot consume real retained record."
+    },
+    {
+      "id": "IR118-02",
+      "priority": "P1-tooling-blocker",
+      "problem": "Existing lineage conflates new record path birth12 and project HTTP birth10; a blind registry append or fake birthSource10 is rejected and must not be used."
+    }
+  ],
+  "immutableBase": {
+    "R3": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000004-consumer-admission108-registry.json",
+      "rawBytesSha256": "23cc54f891fb5200a1bad30083f75805e27a1d046096705381034ff32493971c",
+      "schemaVersion": 3,
+      "producer": {
+        "epoch": "g2-business12",
+        "run": "main01",
+        "sourcePinsSHA256": "5263ad894591ac682fe7ebf9ca5cfa2aaac3334d4481ae5de4dd63d83b4681fa",
+        "sourceCount": 406,
+        "binarySHA256": "de8eaaf6ce15a2054380e25f3151c21611cf0bf760230c7336745d80850d9cff"
+      },
+      "consumer": {
+        "epoch": "g2-business13",
+        "run": "main01",
+        "sourcePinsSHA256": "5e467b677cfe08e44c8cb1c71cac62478e416e394ba4a5ec8651dab5732c255e",
+        "sourceCount": 416
+      },
+      "entries": [
+        {
+          "registryPath": "/fixtures/uiFixtureViews23/eo",
+          "mode": "immutable-ui-producer",
+          "projectIds": [
+            "d2f48264-6c18-4fe7-9d96-606e3fd09b2f"
+          ]
+        },
+        {
+          "registryPath": "/fixtures/uiFixtureViews23/own",
+          "mode": "immutable-ui-producer",
+          "projectIds": [
+            "89df00c2-3342-4454-9974-6685c210d2e8"
+          ]
+        },
+        {
+          "registryPath": "/fixtures/creatorOwnership23",
+          "mode": "immutable-ui-producer",
+          "projectIds": [
+            "3d4ed663-b861-46cf-90e5-824c94648a86"
+          ]
+        },
+        {
+          "registryPath": "/fixtures/legacyCompatibilityFixture",
+          "mode": "legacy-compatibility",
+          "projectIds": [
+            "619f9faa-f7f9-4303-80b1-f06bbe3ded5c"
+          ]
+        },
+        {
+          "registryPath": "/fixtures/a05Boundaries26/views/max-zero",
+          "mode": "continuable-project-producer",
+          "projectIds": [
+            "7518a44d-1381-4e36-ba81-c6e595ea8666"
+          ]
+        },
+        {
+          "registryPath": "/fixtures/a05Boundaries26/views/cent-max",
+          "mode": "continuable-project-producer",
+          "projectIds": [
+            "5a2a50b1-6445-4cac-94b8-ea7e5d879e66"
+          ]
+        },
+        {
+          "registryPath": "/fixtures/a05Boundaries26/views/max-tax13",
+          "mode": "continuable-project-producer",
+          "projectIds": [
+            "aacc4f4b-b1ba-46ea-8191-03b1b86d13d4"
+          ]
+        }
+      ],
+      "priorRegistry": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/000002-consumer-admission54-registry.json",
+        "bytes": 31417,
+        "rawBytesSha256": "3ed7bd387b6f4f3b8e44201e7985043b18b71cefceba3194f83ab19300f7d29c"
+      }
+    },
+    "candidateB1": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/B1-Source13-admitted.json",
+      "rawBytesSha256": "4c4ff2dc98e7c604470b9e82e9dd807f5cc06ac4a886125177d57e66527d6ebd"
+    },
+    "producerRecord": {
+      "registryPath": "/fixtures/sharedSourceFollowup58",
+      "producerRecordSHA256": "cec766f7d5aba5bffca2e0e73a7eb25b339c567562781c263e54745ea159a6f7",
+      "sourcePinsSHA256": "5263ad894591ac682fe7ebf9ca5cfa2aaac3334d4481ae5de4dd63d83b4681fa",
+      "projectIds": [
+        "4d9e57ad-4890-4f53-80da-c6d224ce576b",
+        "51d60c76-6de2-432a-8714-10e3ed3234f3"
+      ],
+      "stageKeys": [
+        "input",
+        "input40",
+        "ordinaryDenied",
+        "prepared"
+      ],
+      "taxKeys": [
+        "predecessorStage",
+        "initialInput",
+        "businessDate",
+        "expense",
+        "expenseConfirmed",
+        "cost",
+        "stage",
+        "tax",
+        "originalTaxRequest",
+        "allocation",
+        "snapshot:4d9e57ad-4890-4f53-80da-c6d224ce576b",
+        "knownFailureReconciliation97",
+        "failedMainSnapshot97"
+      ],
+      "callerPathCorrect": true,
+      "missingFromCurrentR3": true,
+      "missingFromDirectPriorR2": true
+    },
+    "projectBirthProofs": [
+      {
+        "id": "4d9e57ad-4890-4f53-80da-c6d224ce576b",
+        "birthEpoch": "g2-business10",
+        "afterEpoch": "g2-business10",
+        "actualHTTPBirth": true,
+        "beforeSnapshot": {
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business10/main01/snapshot-001094-http-before.json",
+          "bytes": 3112455,
+          "rawBytesSha256": "5a7bab465fd4a6724fec6ae506075de6c6b26ac6b7337119d2cdf76945b2999d"
+        },
+        "afterSnapshot": {
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business10/main01/snapshot-001094-http-after.json",
+          "bytes": 3112176,
+          "rawBytesSha256": "2c635441e641087b9d4199a43a0188dac8d03c3c7594128c3979cad62ec3ebe0"
+        },
+        "firstSha256": "7edb08404407147b66073af1cc35ad664c3b897b57d5863cafb6b13eaf1fcb97",
+        "currentRetainedSha256": "629472f7137d48aaccd68659782d77337242f93dfb8fb4b27438bf65439000bf",
+        "currentRetainedXmin": "2314"
+      },
+      {
+        "id": "51d60c76-6de2-432a-8714-10e3ed3234f3",
+        "birthEpoch": "g2-business10",
+        "afterEpoch": "g2-business10",
+        "actualHTTPBirth": true,
+        "beforeSnapshot": {
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business10/main01/snapshot-000313-http-before.json",
+          "bytes": 3112450,
+          "rawBytesSha256": "6df891f1ec5b0ca57c96be4b00a022674fce0f01e57099c9ec3d13ecf286deb6"
+        },
+        "afterSnapshot": {
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business10/main01/snapshot-000313-http-after.json",
+          "bytes": 3112171,
+          "rawBytesSha256": "893d0c27626421b9ec320fc6e2923b0709e0874b68b85d2f762f205a132c4d42"
+        },
+        "firstSha256": "4d29b141828bf30fe2d040bfb529998387f0e934bd0ea37b2acfd0c85cff307f",
+        "currentRetainedSha256": "96932030e08f9e093fab3944e422e4d4a7971448860d62d77f39210480c00569",
+        "currentRetainedXmin": "3314"
+      }
+    ]
+  },
+  "currentCodeFacts": {
+    "source416ExcludesMostBusinessHelpers": true,
+    "TaxCLIIsDirectSourceLeaf": true,
+    "existing108LocksEntireOriginalConsumerIncludingH0AndB0": true,
+    "existingTaxAndH46RequireOriginalH0Exact": true,
+    "oldConstructorHasNoB2SuccessorMode": true,
+    "noExistingResourceSupplementHook": true,
+    "record12AndProject10AreBothReal": true
+  },
+  "minimalSuccessor": {
+    "backendSourceDigest": "5e467b677cfe08e44c8cb1c71cac62478e416e394ba4a5ec8651dab5732c255e",
+    "backendSourceCount": 416,
+    "backendAndAPI136NeedNotChange": "Only if complete416/direct Tax CLI/G2 canonical/Rust/Shared/Native inputs stay byte-exact and same real process/binary/schema are proved. Actual old build retains its original label.",
+    "originalRegistryAndSchemaBinding": "Keep R2/R3/B0/B1 and originalM98 comparison baseline unchanged; no direct consumer/helper replacement.",
+    "newAdmission": "Separate reviewed119 sidecar + full H1 + B2, typed state119 pointer; new reader code is necessary and not yet present.",
+    "newResource": "exact /fixtures/sharedSourceFollowup58 only; record producer12 stays5263; each project real birth10 is independently proved through already-verified lineage.",
+    "necessaryReaders": [
+      "new synchronous119 verifier",
+      "consumer-admission54 typed supplemental resolution and effectiveGraph validation",
+      "tax13-provenance exact effectiveH1 and B2 binding",
+      "policy-runtime46 exact effectiveH1 and B2 binding"
+    ],
+    "notRequiredByDesign": [
+      "No Rust/public DTO/schema business-policy change",
+      "No repeat M98 execution",
+      "No automatic current-row import or producer relabel",
+      "No generic lineage skip or missing-path auto-admit"
+    ]
+  },
+  "authorPlan": {
+    "file": "tools/rust-r4ghi/independent/review05/resource-admission-review118/README118.md",
+    "rawBytesSha256": "7dd9d6fbe986fec29e50fbe0270137c9f2bd52663fe9b20a78c97e5f4d6a6d39"
+  },
+  "diagnosis": {
+    "file": "tools/rust-r4ghi/independent/review05/resource-admission-review118/diagnosis118.json",
+    "rawBytesSha256": "e1cbc3936dac2d6dd0eb73205bd506eb5d1e4e3174b1b40d14c249a7f1c6bd1e"
+  },
+  "actual": {
+    "H1": null,
+    "revision119": null,
+    "B2": null,
+    "statePublication": null,
+    "TaxHTTPAfterCorrection": null
+  },
+  "actions": {
+    "RootInputWrites": 0,
+    "SQL": 0,
+    "HTTP": 0,
+    "liveStateRead": false,
+    "actualContext": 0,
+    "productProcessActions": 0,
+    "GitWrites": 0
+  },
+  "G3Certified": false,
+  "G4Certified": false
+}

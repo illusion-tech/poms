@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { sha, keyOf, birthProof, valueAt, uuid, numberProof } from './pure.mjs';
-import { loadSnapshot, readRows, difference } from './snapshot.mjs';
+import { loadSnapshot, loadComparisonSnapshot108, readRows, difference } from './snapshot.mjs';
 import { assertObjectsRecorded, reconcileObjects } from './objects.mjs';
 import { platformBirthProof } from './platform-bindings.mjs';
 import { executionRoleRevocationProof } from './execution-role-bindings.mjs';
@@ -30,13 +30,14 @@ export async function allowNumberCounter(ctx, scope) {
   for (const row of rows) allowBorrowed(ctx, 'business_number_sequence', row.key, ['next_value', 'prefix', 'padding', 'description', 'updated_at'], `Exact actual ${scope}/${period} API number producer counter; preserve original full row for reviewed cleanup`);
 }
 export function assertRecorded(ctx, observed) {
-  const baseline = loadSnapshot(ctx), blockers = [];
+  const baseline = loadComparisonSnapshot108(ctx), blockers = [];
   assertObjectsRecorded(ctx, baseline, observed);
   for (const database of ctx.databases) {
     assert.deepEqual(observed.databases[database].meta.normative, baseline.databases[database].meta.normative, 'Original catalog/OIDs/ACL/functions/triggers/roles changed');
     assert.deepEqual(observed.databases[database].meta.sequences, baseline.databases[database].meta.sequences, 'Unowned SQL sequence drift');
   }
   for (const change of difference(baseline, observed)) {
+    if (ctx.state.schemaComparison108 && change.table === 'poms_migrations') { blockers.push({ kind: 'canonical-M98-registration-drift-not-fixture-authority', database: change.database }); continue; }
     if (change.database !== ctx.database) { blockers.push({ kind: 'native-database-drift', database: change.database, table: change.table }); continue; }
     for (const row of change.added) {
       const owned = ctx.state.owned[keyOf(change.database, change.table, row.key)];

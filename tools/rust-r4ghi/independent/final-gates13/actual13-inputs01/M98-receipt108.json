@@ -1,0 +1,190 @@
+{
+  "kind": "actual-normal-forward-M98-migration-receipt108",
+  "namespace": "poms-r4ghi",
+  "marker": "0ca66699-053b-4f40-ad5c-82fed4cf1a6f",
+  "normalForward": true,
+  "fromMigrations": 97,
+  "toMigrations": 98,
+  "tablesPerDatabase": 139,
+  "migrationName": "Migration20261108090000_rust_frozen_assignment_parent_lock",
+  "approvedSQL": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/docs/design/rust-r4ghi/g2-frozen-participant-parent-lock65.sql",
+    "rawBytesSha256": "90b091eb36a7f58ae0cf3a9504b2426ea6de868a4bab9af5a2c1e6bd89e0106e"
+  },
+  "approvedMigrationSource": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/migrations/Migration20261108090000_rust_frozen_assignment_parent_lock.ts",
+    "rawBytesSha256": "daf3656ec2a726c30ebaba8b0ba91945404f9b7a5848d8d293546bc3c7fa4916"
+  },
+  "before": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-007492-retained139-after.json",
+    "bytes": 3137240,
+    "rawBytesSha256": "106c66efc668090d4605b6a953ebfddfa65aa2df8c13c3e7531a51bf57130d15"
+  },
+  "after": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/migration98-136/after164/snapshot-migration-after164.json",
+    "bytes": 3136656,
+    "rawBytesSha256": "3e7451dafcefa08fed059648e975910b7251cc86a1639b22ad03a0fa577a39ab"
+  },
+  "databases": {
+    "poms_r4ghi_native": {
+      "functionOID": "26561",
+      "beforeDefinitionSHA256": "7c19987f55488919f71fa8af9f67617f91c0c2c9ee58ecd0787089e67c450b28",
+      "afterDefinitionSHA256": "9680c5a7503af1cca41f05b07155050a004d5f3c6c77f736c02c54a3fe753801",
+      "afterBodySHA256": "67f4c84b72f323000b6d28aded561acff94b2a79e37de0a0ec232dfee92036e6",
+      "migrationRow": {
+        "key": [
+          "98"
+        ],
+        "rowSHA256": "df760d69a633bf6b36dfbae48442a5af80c835c953a5f09b00ff888d7e81844d",
+        "xmin": "4693",
+        "name": "Migration20261108090000_rust_frozen_assignment_parent_lock"
+      },
+      "actualSequenceDeltas": [
+        {
+          "before": {
+            "schema": "poms",
+            "name": "poms_migrations_id_seq",
+            "oid": "16409",
+            "value": "97",
+            "is_called": true
+          },
+          "after": {
+            "schema": "poms",
+            "name": "poms_migrations_id_seq",
+            "oid": "16409",
+            "value": "98",
+            "is_called": true
+          }
+        }
+      ]
+    },
+    "poms_r4ghi_rust": {
+      "functionOID": "27648",
+      "beforeDefinitionSHA256": "7c19987f55488919f71fa8af9f67617f91c0c2c9ee58ecd0787089e67c450b28",
+      "afterDefinitionSHA256": "9680c5a7503af1cca41f05b07155050a004d5f3c6c77f736c02c54a3fe753801",
+      "afterBodySHA256": "67f4c84b72f323000b6d28aded561acff94b2a79e37de0a0ec232dfee92036e6",
+      "migrationRow": {
+        "key": [
+          "98"
+        ],
+        "rowSHA256": "07123c440adbc881ecb5b9d9eaceebf44b5cace9f2f56c6ab416a6d16b5dccfb",
+        "xmin": "4695",
+        "name": "Migration20261108090000_rust_frozen_assignment_parent_lock"
+      },
+      "actualSequenceDeltas": [
+        {
+          "before": {
+            "schema": "poms",
+            "name": "poms_migrations_id_seq",
+            "oid": "20974",
+            "value": "97",
+            "is_called": true
+          },
+          "after": {
+            "schema": "poms",
+            "name": "poms_migrations_id_seq",
+            "oid": "20974",
+            "value": "98",
+            "is_called": true
+          }
+        }
+      ]
+    }
+  },
+  "commandProtocol": "fixed-programmatic-up-only-136",
+  "commands": [
+    {
+      "kind": "captured-fixed-programmatic-M98-command136",
+      "database": "poms_r4ghi_native",
+      "direction": "up",
+      "migrationName": "Migration20261108090000_rust_frozen_assignment_parent_lock",
+      "exitCode": 0,
+      "argv": [
+        "/home/wangzishi/.local/share/fnm/node-versions/v24.19.0/installation/bin/node",
+        "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/migrate-frozen-parent98-136.mjs",
+        "--database",
+        "poms_r4ghi_native",
+        "--execute"
+      ],
+      "runner": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/migrate-frozen-parent98-136.mjs",
+        "rawBytesSha256": "29e195b4e80c6089387d66e384eb7b7eef28f5c58cf047a7ce87726e6cc0e5e1"
+      },
+      "node": {
+        "file": "/home/wangzishi/.local/share/fnm/node-versions/v24.19.0/installation/bin/node",
+        "rawBytesSha256": "bc17c508ffeed0ec622934f9b7fa72f8e78da65350e63c3eceb56fa688aa5e12"
+      },
+      "approval": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/docs/design/rust-r4ghi/source13-g2-freeze136.json",
+        "rawBytesSha256": "b15582a0d32e60f9f7f462c9ce3db7ef1d90431b5edfb22a0c12b430c567328d"
+      },
+      "intent": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/migration98-136/poms_r4ghi_native/intent.json",
+        "rawBytesSha256": "96573182f4d83ec6a316f6ef49fb69aeb556846e7fa59f02a5b853f69f7f8787"
+      },
+      "executionReceipt": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/migration98-136/poms_r4ghi_native/execution.json",
+        "rawBytesSha256": "fde424f5b724970f6afb3efede194288f011a9aea9b7c0efa144650ea97a0082"
+      },
+      "stdout": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/migration98-136/commands168/poms_r4ghi_native/stdout.json",
+        "rawBytesSha256": "bbed225f6c4e67cf74eb1aceb9b90641785c9d52bba7d8da82b4498553f97aef"
+      },
+      "stderr": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/migration98-136/commands168/poms_r4ghi_native/stderr.log",
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "kind": "captured-fixed-programmatic-M98-command136",
+      "database": "poms_r4ghi_rust",
+      "direction": "up",
+      "migrationName": "Migration20261108090000_rust_frozen_assignment_parent_lock",
+      "exitCode": 0,
+      "argv": [
+        "/home/wangzishi/.local/share/fnm/node-versions/v24.19.0/installation/bin/node",
+        "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/migrate-frozen-parent98-136.mjs",
+        "--database",
+        "poms_r4ghi_rust",
+        "--execute"
+      ],
+      "runner": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/migrate-frozen-parent98-136.mjs",
+        "rawBytesSha256": "29e195b4e80c6089387d66e384eb7b7eef28f5c58cf047a7ce87726e6cc0e5e1"
+      },
+      "node": {
+        "file": "/home/wangzishi/.local/share/fnm/node-versions/v24.19.0/installation/bin/node",
+        "rawBytesSha256": "bc17c508ffeed0ec622934f9b7fa72f8e78da65350e63c3eceb56fa688aa5e12"
+      },
+      "approval": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/docs/design/rust-r4ghi/source13-g2-freeze136.json",
+        "rawBytesSha256": "b15582a0d32e60f9f7f462c9ce3db7ef1d90431b5edfb22a0c12b430c567328d"
+      },
+      "intent": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/migration98-136/poms_r4ghi_rust/intent.json",
+        "rawBytesSha256": "ba7c2ef73ee96aabe416064358535cd60ebeb3d09fdadac0d4c7db47780080d3"
+      },
+      "executionReceipt": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/migration98-136/poms_r4ghi_rust/execution.json",
+        "rawBytesSha256": "059ab0ab9cfcbbda2865b35c1daa4c70fb33cb5518f8351161995218a2b5c505"
+      },
+      "stdout": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/migration98-136/commands168/poms_r4ghi_rust/stdout.json",
+        "rawBytesSha256": "7d8e7cf30f7d70635ec1422287da91d6bd23ee9ed3dfe773a16dacd92049baac"
+      },
+      "stderr": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/migration98-136/commands168/poms_r4ghi_rust/stderr.log",
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "actualCommandsBundle": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/migration98-136/commands168/actual-commands168.json",
+    "rawBytesSha256": "dff57fbd51b760a1d9de2a2d0852b8b2d159aae55996fde718ae250669b1895b"
+  },
+  "afterObservation": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/migration98-136/after164/receipt164.json",
+    "rawBytesSha256": "90202b4935a4bebbdbb3292435fa8624c68256875da3ba50de2debf849e4d419"
+  },
+  "G3Certified": false
+}

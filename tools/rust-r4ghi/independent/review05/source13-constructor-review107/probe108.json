@@ -1,0 +1,36 @@
+{
+  "kind": "pure-nonexecuting-cargo-step-acceptance-probe108",
+  "constructorSHA256": "64587795d83f2d8583c73e38453668730373d2f352f8a6271fbd06ce9daa85bf",
+  "accepted": true,
+  "argv": {
+    "fmt": [
+      "/home/wangzishi/.cargo/bin/cargo",
+      "+1.99.1",
+      "fmt",
+      "--help"
+    ],
+    "clippy": [
+      "/home/wangzishi/.cargo/bin/cargo",
+      "+1.99.1",
+      "clippy",
+      "--help"
+    ],
+    "test": [
+      "/home/wangzishi/.cargo/bin/cargo",
+      "+1.99.1",
+      "test",
+      "--no-run"
+    ],
+    "build": [
+      "/home/wangzishi/.cargo/bin/cargo",
+      "+1.99.1",
+      "build",
+      "--help"
+    ]
+  },
+  "meaning": "Command name plus zero exit does not distinguish help/version or test --no-run from real checks/tests/build. This probe executes no cargo or constructor mode.",
+  "RootWrites": 0,
+  "SQL": 0,
+  "HTTP": 0,
+  "actualModeExecuted": false
+}

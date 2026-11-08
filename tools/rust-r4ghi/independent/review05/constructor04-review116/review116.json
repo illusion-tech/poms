@@ -1,0 +1,237 @@
+{
+  "kind": "non-author-constructor04-exact-library-clippy-protocol-review116",
+  "verdict": "bounded-tooling-admission",
+  "manifest": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1-04/manifest13-04.json",
+    "rawBytesSha256": "8464fb868ec602267bfda1a9ee7292f9e6fa31c5152b35722047b26465b42dd8"
+  },
+  "constructor": {
+    "file": "tools/rust-r4ghi/construct-source13-bindings.mjs",
+    "rawBytesSha256": "3d0f1f6368f24a2f2e88125f1dffe5441a31450b0b0bab33f4e2b896ec7d7b5c"
+  },
+  "findings": [],
+  "verified": {
+    "allCandidateAndSidecarPinsExact": true,
+    "entireSourceOnlyOneClippySuffixReplacement": true,
+    "allOtherGuardsAndB0PlanMigrationReceiptR3B1BodiesByteIdentical": true,
+    "productionLibraryClippyStillDWarningsAndNoDeps": true,
+    "fullTestAllTargetsUnchanged": true,
+    "ApiAndCommonExampleBuildUnchanged": true,
+    "allSourceAndCopyInputsExact": true,
+    "syntheticPositiveAndNegatives": [
+      "IR107-01-same-receipt",
+      "same-observation-bytes-under-new-name",
+      "same-raw-root-as-mirror",
+      "fmt --help",
+      "fmt --version",
+      "fmt -h",
+      "fmt -V",
+      "clippy --help",
+      "clippy --version",
+      "clippy -h",
+      "clippy -V",
+      "test --help",
+      "test --version",
+      "test -h",
+      "test -V",
+      "build --help",
+      "build --version",
+      "build -h",
+      "build -V",
+      "test --no-run",
+      "test -- --no-run",
+      "test --list",
+      "test -- --list",
+      "wrong-cargo-executable",
+      "wrong-toolchain",
+      "wrong-manifest",
+      "test-filter",
+      "omitted-Common-example",
+      "relative-Root-inputs",
+      "wrong-copy-target",
+      "copy-target-hash-changed",
+      "duplicate-step-pointer",
+      "nonzero-test-exit",
+      "wrong-observed-binary",
+      "old-broad-clippy",
+      "clippy-no-deps-omitted",
+      "clippy-lib-omitted",
+      "clippy-D-warnings-omitted"
+    ],
+    "syntaxExitCode": 0
+  },
+  "scopeEvidence": {
+    "frozenRequirement": "Applicable Rust fmt/clippy/build/full regression; no all-targets Clippy argv was required in the G1 acceptance-plan checks.",
+    "priorActualUnappliedComposition": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/evidence/composed118/clippy-receipt.json",
+      "rawBytesSha256": "253e19d451cde4f23b6778c75ed5f47a20c0a6a4b5fc238a4f57dd2c8e9e87f3",
+      "args": [
+        "+1.99.1",
+        "clippy",
+        "--manifest-path",
+        "apps/poms-api-rust/Cargo.toml",
+        "--locked",
+        "--offline",
+        "--lib",
+        "--no-deps",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exitCode": 0,
+      "sourceStable": true,
+      "notCurrentBuild": true
+    },
+    "actualFailed18002": {
+      "command": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-build180-02/clippy-command.json",
+        "rawBytesSha256": "0d1d706371d6b85014af279426bef246eeae0de50b94405dcb132f089c288ab3"
+      },
+      "stderr": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-build180-02/clippy-stderr.log",
+        "rawBytesSha256": "cdf4ff5aa81a601eeb7f38b3836085fadf1232b0d80508eed838965004954e97"
+      },
+      "exitCode": 101,
+      "libTestDiagnostics": 166,
+      "keptFailed": true
+    },
+    "newProtocolMeaning": "Production library Clippy only. It does not certify Clippy of cfg(test), examples, integration tests or dependencies. Full all-target runtime regression and API/Common compilation remain required."
+  },
+  "admission": {
+    "allowed": "Root may exact-install04 from0b89 and explicitly revise the unexecuted G2 constructor pin plus a separately reviewed unique build runner using the exact04 suffix. Preserve old03 and failed18002. Actual library Clippy/full tests/API+Common build must then really execute under the new frozen inputs.",
+    "notGranted": [
+      "No new actual Cargo result",
+      "No all-targets Clippy pass claimed",
+      "No166 style fixes or blanket lint allow added",
+      "No G3/G4 or business HTTP/migration acceptance"
+    ]
+  },
+  "actual": {
+    "newBuild": null,
+    "libraryClippy": null,
+    "fullTests": null,
+    "M98": null,
+    "API136": null,
+    "B0": null,
+    "R3": null,
+    "B1": null
+  },
+  "actions": {
+    "RootWrites": 0,
+    "SQL": 0,
+    "HTTP": 0,
+    "Cargo": 0,
+    "actualConstructorMode": 0,
+    "processActions": 0,
+    "GitWrites": 0
+  },
+  "inputPins": [
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1-04/manifest13-04.json",
+      "rawBytesSha256": "8464fb868ec602267bfda1a9ee7292f9e6fa31c5152b35722047b26465b42dd8",
+      "bytes": 5774
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1-04/before13/tools/rust-r4ghi/construct-source13-bindings.mjs",
+      "rawBytesSha256": "0b89c24251ab561a08e15983e9931bc9b2a3b433d1aa66866621d3c607471c4e",
+      "bytes": 24195
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1-04/proposed/tools/rust-r4ghi/construct-source13-bindings.mjs",
+      "rawBytesSha256": "3d0f1f6368f24a2f2e88125f1dffe5441a31450b0b0bab33f4e2b896ec7d7b5c",
+      "bytes": 24200
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1-04/README04.md",
+      "rawBytesSha256": "d6a6e5428661870022af5486ea9a99361b638ac3518b051e15a2f30ad824805d",
+      "bytes": 1459
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1-04/build-shapes04.json",
+      "rawBytesSha256": "add0852a24d5be3b759fc4d38aba1661c4673637d05e1d933311a97e1d65e453",
+      "bytes": 3131
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1-04/input-templates13.json",
+      "rawBytesSha256": "2f2a13006e0a8bc7f00b52b85d6becdfa5e4590cf37eca02e8125761a59d852c",
+      "bytes": 2892
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1-04/construct13.test.mjs",
+      "rawBytesSha256": "9a0f51dfcb1a3e5bf5a18788d1f401a3eeddc4ae1c29ff273e71cc94a1732041",
+      "bytes": 10985
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1-04/check13.mjs",
+      "rawBytesSha256": "cb83ead8f46f4338ec173dc54d70cd457cdf7633787b19fff946ab81cabd6d6d",
+      "bytes": 2320
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1-04/prepare04.mjs",
+      "rawBytesSha256": "5774324168ca17e96b48ac45c15c057711260385b3cb4fd5188b0723e46c2d61",
+      "bytes": 2521
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1-04/seal04.mjs",
+      "rawBytesSha256": "fe8bd0e0cf5b84e77235f03b9219bb8aab88c3a476bc7736d995dcf33e9881ed",
+      "bytes": 3600
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1-04/validation13.json",
+      "rawBytesSha256": "1e20d6829c3f12049ecad64823734011fc624116b072976cb25ec306eca21125",
+      "bytes": 674
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1-04/pure13.stdout.log",
+      "rawBytesSha256": "830d2a8b9ada7a09b24dc98b7bea32dd47a97424cc3c3d3282adc08b95be2fa7",
+      "bytes": 3476
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1-04/pure13.stderr.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1-04/syntax13.stdout.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1-04/syntax13.stderr.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1-04/help13.stdout.log",
+      "rawBytesSha256": "20032a3f5c4f266012ecad975122ffb347f97e421b66d7328e9215bdeb5aa207",
+      "bytes": 202
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1-04/help13.stderr.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/evidence/composed118/clippy-receipt.json",
+      "rawBytesSha256": "253e19d451cde4f23b6778c75ed5f47a20c0a6a4b5fc238a4f57dd2c8e9e87f3",
+      "bytes": 100563
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-build180-02/clippy-command.json",
+      "rawBytesSha256": "0d1d706371d6b85014af279426bef246eeae0de50b94405dcb132f089c288ab3",
+      "bytes": 959
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-build180-02/clippy-stderr.log",
+      "rawBytesSha256": "cdf4ff5aa81a601eeb7f38b3836085fadf1232b0d80508eed838965004954e97",
+      "bytes": 81400
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/docs/design/rust-r4ghi/acceptance-plan01.json",
+      "rawBytesSha256": "57881bb732c0fc816d99227a9f55cfc1451c29c0b879181d65575970c39462a2",
+      "bytes": 10585
+    }
+  ],
+  "G3Certified": false,
+  "G4Certified": false
+}

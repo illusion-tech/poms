@@ -1,0 +1,176 @@
+{
+  "kind": "non-author-final-external-M98-negative02-review108-02",
+  "verdict": "bounded-tooling-admission",
+  "manifest": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/m98-frozen-negative-external-02/manifest02.json",
+    "rawBytesSha256": "300d12ef6ee924982a787be2d57e9ba34936813e8c79f63cb23b1baf5b8f03be"
+  },
+  "candidate": {
+    "file": "tools/rust-r4ghi/probe-m98-frozen-external.mjs",
+    "rawBytesSha256": "f340e65e2ee59d184c5711587d24c79e4f5ca43fabd0f356a4485ce542cad37a"
+  },
+  "closedFinding": "IR108-01",
+  "findings": [],
+  "verified": {
+    "lockBeforeModuleLoadsCreateContextAndPersist": true,
+    "productionCLIUsesDefaultRealFSOnly": true,
+    "pidNonceRegularSingleLinkOwnerReleaseOnly": true,
+    "controlledAttemptAndFiveNegativeBuildersByteIdentical": true,
+    "wholeSQLLoopAndFullRollbackChecksByteIdentical": true,
+    "oldM97ProofPreservationByteIdentical": true,
+    "nullPlanTemplateByteIdentical": true,
+    "explicitContext181Dependency9862AndOtherSixUnchanged": true,
+    "pureLockPositive": true,
+    "pureNegatives": [
+      "existing-lock-zero-context-zero-persist",
+      "action-failure-releases-own-lock",
+      "foreign-pid-not-deleted",
+      "foreign-nonce-not-deleted",
+      "invalid-phase-before-lock"
+    ],
+    "syntaxExitCode": 0
+  },
+  "admission": {
+    "allowed": "Root may exact-install external02 if absent or exact26340 before, pin f340e65e in G2.supportingTools.postM98FrozenNegative, then only after actual M98/R3 execute the separately approved plan serially. Original five actual facts/whole-snapshot guards remain mandatory.",
+    "notGranted": [
+      "No actualSQL guard result",
+      "No parentless window",
+      "No old006965 relabel or replay",
+      "No G3/G4"
+    ]
+  },
+  "actual": {
+    "Source13": null,
+    "M98Negative": null,
+    "R3": null
+  },
+  "actions": {
+    "RootWrites": 0,
+    "RootLockWrites": 0,
+    "SQL": 0,
+    "HTTP": 0,
+    "migration": 0,
+    "processActions": 0,
+    "browser": 0,
+    "GitWrites": 0
+  },
+  "G3Certified": false,
+  "G4Certified": false,
+  "inputPins": [
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/m98-frozen-negative-external-02/manifest02.json",
+      "rawBytesSha256": "300d12ef6ee924982a787be2d57e9ba34936813e8c79f63cb23b1baf5b8f03be",
+      "bytes": 5994
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/m98-frozen-negative-external-02/before/tools/rust-r4ghi/probe-m98-frozen-external.mjs",
+      "rawBytesSha256": "26340aa2fa5cd1b8f99e8a0a54e6cbf552fd366d40343a096a2681310975ef60",
+      "bytes": 14849
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/m98-frozen-negative-external-02/proposed/tools/rust-r4ghi/probe-m98-frozen-external.mjs",
+      "rawBytesSha256": "f340e65e2ee59d184c5711587d24c79e4f5ca43fabd0f356a4485ce542cad37a",
+      "bytes": 15252
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/m98-frozen-negative-external-02/README02.md",
+      "rawBytesSha256": "2a6eec9c265dd3d33269a6ab0ff497e9e5805e5a61ff6c1752ad309dfaddd602",
+      "bytes": 2130
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/m98-frozen-negative-external-02/plan-template.json",
+      "rawBytesSha256": "bda67ead64dae035d12e489857222e93e7fcfb774ce94fe942901d8a4746f522",
+      "bytes": 496
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/m98-frozen-negative-external-02/frozen-external.test.mjs",
+      "rawBytesSha256": "a0ba8e46a0b7178852a8eec953afd669e7cf87bc581668770eeb0be998fc80c2",
+      "bytes": 12416
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/m98-frozen-negative-external-02/check.mjs",
+      "rawBytesSha256": "b60299e51c57d817a642b8b2a6dcdb85d42a3641d8a24d8a1de6e73ebb13c4e5",
+      "bytes": 1557
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/m98-frozen-negative-external-02/prepare02.mjs",
+      "rawBytesSha256": "b4b0dfcdf90c994c5f130bd6ee454dff8b80965c4c7ecfbf1eb52f411558faa8",
+      "bytes": 3372
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/m98-frozen-negative-external-02/seal02.mjs",
+      "rawBytesSha256": "6415ea7430a451848f017f5d852dfc526114f45935a82aadcc8a4cf7ae70d5c5",
+      "bytes": 4458
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/m98-frozen-negative-external-02/validation.json",
+      "rawBytesSha256": "e8aa5f5283c6bbf2042fecaf7dc21dfb304d38b186bfe93a96a8661ac5be020b",
+      "bytes": 505
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/m98-frozen-negative-external-02/pure.stdout.log",
+      "rawBytesSha256": "7a6e9cfd93858bcc5992b02b79401792eab18d8b1860b40427919e75fa6f6542",
+      "bytes": 3949
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/m98-frozen-negative-external-02/pure.stderr.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/m98-frozen-negative-external-02/syntax.stdout.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/m98-frozen-negative-external-02/syntax.stderr.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/m98-frozen-negative-external-02/help.stdout.log",
+      "rawBytesSha256": "128ec42933c165b418773b3abaf2a7cb74ece44223fe3fff131b059120f3af12",
+      "bytes": 238
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/m98-frozen-negative-external-02/help.stderr.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/context.mjs",
+      "rawBytesSha256": "9862d325c82f8823cc76499ca20a202322e22347864d9cec3a52a1bccf24ac3d",
+      "bytes": 11496
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/consumer-admission54.mjs",
+      "rawBytesSha256": "5e67049e566ea27eb28b7e4ea6a4b1e4affab6fe5a06f7540ebcf308527bf9de",
+      "bytes": 12711
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/schema-comparison108.mjs",
+      "rawBytesSha256": "99e05df11f1c59ec2322d910ceae12a543936b6fc5c90440309927f6f4bdd6ae",
+      "bytes": 18559
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/snapshot.mjs",
+      "rawBytesSha256": "0ab579d978d6d8e4b6401ff6004f9d4dc42d88be88391c34621d8135356fb7fa",
+      "bytes": 9906
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/ledger.mjs",
+      "rawBytesSha256": "ca72e96a2485b84372f703be879adb5e0d7a0e93db8d8bbe87f65a9283b959c9",
+      "bytes": 14909
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/fault-sweep.mjs",
+      "rawBytesSha256": "986afb297db23a425d13384b312c8b80f26b2aaeba13ec66ac93b853bd064e36",
+      "bytes": 23605
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/pure.mjs",
+      "rawBytesSha256": "42f1d133ad6b279235c8c2b7c3f10c129958e4aa7b42fa1da5287f160a88fa1a",
+      "bytes": 9121
+    }
+  ]
+}

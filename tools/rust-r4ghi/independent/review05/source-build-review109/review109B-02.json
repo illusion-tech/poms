@@ -1,0 +1,65 @@
+{
+  "kind": "non-author-final-build180-variant-review109B-02",
+  "verdict": "bounded-tooling-admission",
+  "source": {
+    "file": "tools/rust-r4ghi/build-source13-180.mjs",
+    "rawBytesSha256": "d35ef3b022c0e9905121d794781992978079f3fb0490ee7333fdc6450744dbaa"
+  },
+  "closedFinding": "IR109-01",
+  "findings": [],
+  "originalHold": {
+    "file": "review109B-180.json",
+    "rawBytesSha256": "f025b34a6185c82784133049d29743f34ad51e9c94b2179887669f2355c29b03"
+  },
+  "verified": {
+    "RootAndMirrorCompiledScopeExplicitlyEnumerated": true,
+    "srcTestsExamplesBenchesAutoBuildConfigToolchainAndDeclaredPathsCovered": true,
+    "unknownMirrorExtraRejectedBeforeOutputOrCopy": true,
+    "noUnknownDeleteOrAutoAdopt": true,
+    "postCopyAndEachCargoExactRootMirrorScopeAndSHARechecked": true,
+    "originalKnownTargetOld140OrNewRootHashAndDirectorySingleLinkGuardsPreserved": true,
+    "syntheticNormalScopeAccepted": true,
+    "syntheticNegativesRejected": [
+      "apps/poms-api-rust/src/ghost.rs",
+      "apps/poms-api-rust/tests/ghost.rs",
+      "apps/poms-api-rust/examples/ghost.rs",
+      "apps/poms-api-rust/benches/ghost.rs",
+      "apps/poms-api-rust/build.rs",
+      ".cargo/config.toml",
+      "apps/poms-api-rust/.cargo/config",
+      "apps/poms-api-rust/rust-toolchain.toml",
+      "mirror-only-declared-Cargo-path",
+      "Root-scope-added-after-copy",
+      "mirror-symlink",
+      "mirror-source-hardlink"
+    ],
+    "exactConstructor03CargoProtocolPreserved": true,
+    "RootReceiptInventoryCopyOnly": true,
+    "mirrorOnlyFourActualCargoStepsAndApiCommonTargets": true,
+    "privateStreamsActualExitsAndPlanPinsStable": true,
+    "syntaxExitCode": 0
+  },
+  "ordering": {
+    "buildBeforeNormalM98": "Allowed within the final G2/H0 plan: no context/state mint or DB guard/query occurs. It detects real compile/test failures before a migration is committed.",
+    "limits": "Actual Cargo remains pending. The future actual run must establish exit0/sourceStable and default ignored counts; this review does not certify SQL/PG or Cargo results."
+  },
+  "actual": {
+    "Source13Build": null,
+    "RootInventory": null,
+    "mirrorCargo": null,
+    "API136": null,
+    "M98": null,
+    "actualMirrorExtra": null
+  },
+  "actions": {
+    "RootWrites": 0,
+    "actualMirrorWrites": 0,
+    "SQL": 0,
+    "HTTP": 0,
+    "cargo": 0,
+    "processActions": 0,
+    "GitWrites": 0
+  },
+  "G3Certified": false,
+  "G4Certified": false
+}

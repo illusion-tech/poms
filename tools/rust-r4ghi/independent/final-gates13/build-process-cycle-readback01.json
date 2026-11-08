@@ -1,0 +1,430 @@
+{
+  "kind": "independent-fixed-build-M98-process-B0-R3-B1-readback01",
+  "reviewer": "/root/r4ghi_final_gates13",
+  "mode": "FS only; no Cargo/helper/SQL/HTTP/process probe/live state",
+  "sourceCount": 416,
+  "sourcePinsSHA256": "5e467b677cfe08e44c8cb1c71cac62478e416e394ba4a5ec8651dab5732c255e",
+  "helperH0Count": 195,
+  "RootObservation": "Inventory/copy only; RootCompilationExecuted=false",
+  "RootInputAndCopiedAndMirrorCapturedEntriesEqual": 523,
+  "fullRootMirrorCompiledScopeEntriesEqual": 323,
+  "sourceStableRootAndMirror": true,
+  "actualMirrorCommands": [
+    {
+      "command": "fmt",
+      "argv": [
+        "/home/wangzishi/.cargo/bin/cargo",
+        "+1.99.1",
+        "fmt",
+        "--manifest-path",
+        "/home/wangzishi/projects/poms-rust-r4ghi/apps/poms-api-rust/Cargo.toml",
+        "--",
+        "--check"
+      ],
+      "exitCode": 0,
+      "sourceStable": true,
+      "startedAt": "2026-11-08T15:32:11.152Z",
+      "completedAt": "2026-11-08T15:32:12.704Z",
+      "stdout": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-build180-03/fmt-stdout.log",
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-build180-03/fmt-stderr.log",
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "command": "clippy",
+      "argv": [
+        "/home/wangzishi/.cargo/bin/cargo",
+        "+1.99.1",
+        "clippy",
+        "--manifest-path",
+        "/home/wangzishi/projects/poms-rust-r4ghi/apps/poms-api-rust/Cargo.toml",
+        "--lib",
+        "--no-deps",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exitCode": 0,
+      "sourceStable": true,
+      "startedAt": "2026-11-08T15:32:27.851Z",
+      "completedAt": "2026-11-08T15:32:37.080Z",
+      "stdout": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-build180-03/clippy-stdout.log",
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-build180-03/clippy-stderr.log",
+        "rawBytesSha256": "2c4400c1b8aece82d2f941bfcf762e9540f395b1447aeb95e67dcd9afe20cfd1"
+      }
+    },
+    {
+      "command": "test",
+      "argv": [
+        "/home/wangzishi/.cargo/bin/cargo",
+        "+1.99.1",
+        "test",
+        "--manifest-path",
+        "/home/wangzishi/projects/poms-rust-r4ghi/apps/poms-api-rust/Cargo.toml",
+        "--all-targets"
+      ],
+      "exitCode": 0,
+      "sourceStable": true,
+      "startedAt": "2026-11-08T15:32:51.872Z",
+      "completedAt": "2026-11-08T15:33:49.903Z",
+      "stdout": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-build180-03/test-stdout.log",
+        "rawBytesSha256": "a292a00fd70299c44d66f3225fc51086bb65f8290632dd637807c77323392644"
+      },
+      "stderr": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-build180-03/test-stderr.log",
+        "rawBytesSha256": "3f053aae74d6565baac7f00d194520f49dc86f1fde8b56dabe4d60be5aa73b9d"
+      }
+    },
+    {
+      "command": "build",
+      "argv": [
+        "/home/wangzishi/.cargo/bin/cargo",
+        "+1.99.1",
+        "build",
+        "--manifest-path",
+        "/home/wangzishi/projects/poms-rust-r4ghi/apps/poms-api-rust/Cargo.toml",
+        "--bin",
+        "poms-api-rust",
+        "--example",
+        "r4ghi_summary_producer08"
+      ],
+      "exitCode": 0,
+      "sourceStable": true,
+      "startedAt": "2026-11-08T15:34:05.098Z",
+      "completedAt": "2026-11-08T15:34:06.189Z",
+      "stdout": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-build180-03/build-stdout.log",
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-build180-03/build-stderr.log",
+        "rawBytesSha256": "0c863cfbb85a72ec335e6c280c7c70373ab43792f59aaa94708f615e0a20de3c"
+      }
+    }
+  ],
+  "actualTestTotals": {
+    "passed": 535,
+    "failed": 0,
+    "ignored": 54
+  },
+  "actualTestSummaryLines": 34,
+  "ignoredTestsNotBusinessDBAcceptance": true,
+  "apiBinary": {
+    "file": "/home/wangzishi/.cache/poms-r4ghi-target-ROOT/debug/poms-api-rust",
+    "rawBytesSha256": "2d9ed8f711818b83b1cff440b72265bcacf9ff2f31f409d2d7d5a9aabd346e13"
+  },
+  "commonProducer": {
+    "file": "/home/wangzishi/.cache/poms-r4ghi-target-ROOT/debug/examples/r4ghi_summary_producer08",
+    "rawBytesSha256": "45efe528cb5045b8f9f46293144990fbd8641025f3e805f3847c15a5d6bb0f24"
+  },
+  "normalM98Commands": [
+    {
+      "database": "poms_r4ghi_native",
+      "exitCode": 0,
+      "argv": [
+        "/home/wangzishi/.local/share/fnm/node-versions/v24.19.0/installation/bin/node",
+        "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/migrate-frozen-parent98-136.mjs",
+        "--database",
+        "poms_r4ghi_native",
+        "--execute"
+      ],
+      "migratorMethod": "up",
+      "migratorOptions": {
+        "migrations": [
+          "Migration20261108090000_rust_frozen_assignment_parent_lock"
+        ]
+      },
+      "from": 97,
+      "to": 98,
+      "pendingBefore": [
+        "Migration20261108090000_rust_frozen_assignment_parent_lock"
+      ],
+      "applied": [
+        "Migration20261108090000_rust_frozen_assignment_parent_lock"
+      ],
+      "executedAfter": 98,
+      "execution": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/migration98-136/poms_r4ghi_native/execution.json",
+        "rawBytesSha256": "fde424f5b724970f6afb3efede194288f011a9aea9b7c0efa144650ea97a0082"
+      },
+      "intent": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/migration98-136/poms_r4ghi_native/intent.json",
+        "rawBytesSha256": "96573182f4d83ec6a316f6ef49fb69aeb556846e7fa59f02a5b853f69f7f8787"
+      },
+      "stdout": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/migration98-136/commands168/poms_r4ghi_native/stdout.json",
+        "rawBytesSha256": "bbed225f6c4e67cf74eb1aceb9b90641785c9d52bba7d8da82b4498553f97aef"
+      }
+    },
+    {
+      "database": "poms_r4ghi_rust",
+      "exitCode": 0,
+      "argv": [
+        "/home/wangzishi/.local/share/fnm/node-versions/v24.19.0/installation/bin/node",
+        "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/migrate-frozen-parent98-136.mjs",
+        "--database",
+        "poms_r4ghi_rust",
+        "--execute"
+      ],
+      "migratorMethod": "up",
+      "migratorOptions": {
+        "migrations": [
+          "Migration20261108090000_rust_frozen_assignment_parent_lock"
+        ]
+      },
+      "from": 97,
+      "to": 98,
+      "pendingBefore": [
+        "Migration20261108090000_rust_frozen_assignment_parent_lock"
+      ],
+      "applied": [
+        "Migration20261108090000_rust_frozen_assignment_parent_lock"
+      ],
+      "executedAfter": 98,
+      "execution": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/migration98-136/poms_r4ghi_rust/execution.json",
+        "rawBytesSha256": "059ab0ab9cfcbbda2865b35c1daa4c70fb33cb5518f8351161995218a2b5c505"
+      },
+      "intent": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/migration98-136/poms_r4ghi_rust/intent.json",
+        "rawBytesSha256": "ba7c2ef73ee96aabe416064358535cd60ebeb3d09fdadac0d4c7db47780080d3"
+      },
+      "stdout": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/migration98-136/commands168/poms_r4ghi_rust/stdout.json",
+        "rawBytesSha256": "7d8e7cf30f7d70635ec1422287da91d6bd23ee9ed3dfe773a16dacd92049baac"
+      }
+    }
+  ],
+  "twoDatabasesNotClaimedAtomic": true,
+  "processRecordPin": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/rust-api136-process.json",
+    "rawBytesSha256": "0b5817a0f32f4ad12fce36a4035c59c06d852611f65891dec349e6eccf505f6f"
+  },
+  "physicalProcess": {
+    "pid": 99398,
+    "startTime": "2781292",
+    "startedAt": "2026-11-08T16:07:33.503Z",
+    "binarySha256": "2d9ed8f711818b83b1cff440b72265bcacf9ff2f31f409d2d7d5a9aabd346e13",
+    "port": 31441
+  },
+  "readinessOriginal": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/api136-start182/stdout.json",
+    "rawBytesSha256": "2a475fb83c09225259f79fd495427e948a08cb1b3fa73b646698d1ea7f702348"
+  },
+  "readiness": 200,
+  "currentLivenessNotProbed": true,
+  "B0": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/B0-Source13-bootstrap.json",
+    "rawBytesSha256": "11530fcd47ee59f1929832b28c03fa022021cff9f0a18d3b7f95d761abd7acf2"
+  },
+  "finalPlan": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/Source13-final-plan108.json",
+    "rawBytesSha256": "060b52d132b3cfb4384085f77f9c1637d60e50ad9c5510a249bab60dd2143f8c"
+  },
+  "R3": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000004-consumer-admission108-registry.json",
+    "bytes": 33514,
+    "rawBytesSha256": "23cc54f891fb5200a1bad30083f75805e27a1d046096705381034ff32493971c"
+  },
+  "B1": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/B1-Source13-admitted.json",
+    "rawBytesSha256": "4c4ff2dc98e7c604470b9e82e9dd807f5cc06ac4a886125177d57e66527d6ebd"
+  },
+  "criticalConstructionGraph": [
+    [
+      "B1",
+      "B0"
+    ],
+    [
+      "B1",
+      "R3"
+    ],
+    [
+      "R3",
+      "final plan"
+    ],
+    [
+      "R3",
+      "B0"
+    ],
+    [
+      "final plan",
+      "B0"
+    ],
+    [
+      "B0",
+      "build/process/readiness/source/H0"
+    ]
+  ],
+  "criticalPinGraphAcyclic": true,
+  "R3NeverPointsToB1": true,
+  "B1DoesNotModifyB0Fields": true,
+  "approvedPlanSHA256": "060b52d132b3cfb4384085f77f9c1637d60e50ad9c5510a249bab60dd2143f8c",
+  "finalPlanRawPinAndConsumerB0Verified": true,
+  "actorBindingsFinal": false,
+  "R3FixtureAdmissionCount": 7,
+  "sharedSourceFollowup58PathAdmitted": false,
+  "businessAcceptanceGranted": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "newCertifiedOperations": 0,
+  "inputPins": [
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-build180-03/actual-build-binding.json",
+      "rawBytesSha256": "15e088cf71f68880d3985fe18133338d281403fc999ef65f6fbbe4e4c0944d29"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-build180-03/Root-source-inventory-copy.json",
+      "rawBytesSha256": "cb1702be337bf86bcdfe6738544485256479431cd258a9f2d845d6607a020940"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-build180-03/mirror-cargo-checks-build.json",
+      "rawBytesSha256": "e3fb002f640b81cd31b743c29796940fb5d595090240eaf6618d830565b2f386"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-preparation193/sourcePins.json",
+      "rawBytesSha256": "e95a9c8e3cabf30095c463a577d2d70eb681eb7b22d6c7ee31375dbdcf55e22c"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-preparation183/helperH0.json",
+      "rawBytesSha256": "e65db96998f5dc15ed406bf5d30b2a1bfa95c82affb448b625ca3295227d0459"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-build180-03/fmt-stdout.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-build180-03/fmt-stderr.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-build180-03/clippy-stdout.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-build180-03/clippy-stderr.log",
+      "rawBytesSha256": "2c4400c1b8aece82d2f941bfcf762e9540f395b1447aeb95e67dcd9afe20cfd1"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-build180-03/test-stdout.log",
+      "rawBytesSha256": "a292a00fd70299c44d66f3225fc51086bb65f8290632dd637807c77323392644"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-build180-03/test-stderr.log",
+      "rawBytesSha256": "3f053aae74d6565baac7f00d194520f49dc86f1fde8b56dabe4d60be5aa73b9d"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-build180-03/build-stdout.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-build180-03/build-stderr.log",
+      "rawBytesSha256": "0c863cfbb85a72ec335e6c280c7c70373ab43792f59aaa94708f615e0a20de3c"
+    },
+    {
+      "file": "/home/wangzishi/.cache/poms-r4ghi-target-ROOT/debug/poms-api-rust",
+      "rawBytesSha256": "2d9ed8f711818b83b1cff440b72265bcacf9ff2f31f409d2d7d5a9aabd346e13"
+    },
+    {
+      "file": "/home/wangzishi/.cache/poms-r4ghi-target-ROOT/debug/examples/r4ghi_summary_producer08",
+      "rawBytesSha256": "45efe528cb5045b8f9f46293144990fbd8641025f3e805f3847c15a5d6bb0f24"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/Source13-M98-receipt108.json",
+      "rawBytesSha256": "fad604ce8850cae183055774e5e97366f547e583b3bbbb0b59fce2298104fc88"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/migration98-136/commands168/actual-commands168.json",
+      "rawBytesSha256": "dff57fbd51b760a1d9de2a2d0852b8b2d159aae55996fde718ae250669b1895b"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/migrate-frozen-parent98-136.mjs",
+      "rawBytesSha256": "29e195b4e80c6089387d66e384eb7b7eef28f5c58cf047a7ce87726e6cc0e5e1"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/fnm/node-versions/v24.19.0/installation/bin/node",
+      "rawBytesSha256": "bc17c508ffeed0ec622934f9b7fa72f8e78da65350e63c3eceb56fa688aa5e12"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/docs/design/rust-r4ghi/source13-g2-freeze136.json",
+      "rawBytesSha256": "b15582a0d32e60f9f7f462c9ce3db7ef1d90431b5edfb22a0c12b430c567328d"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/migration98-136/commands168/poms_r4ghi_native/stderr.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/migration98-136/poms_r4ghi_native/intent.json",
+      "rawBytesSha256": "96573182f4d83ec6a316f6ef49fb69aeb556846e7fa59f02a5b853f69f7f8787"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/migration98-136/poms_r4ghi_native/execution.json",
+      "rawBytesSha256": "fde424f5b724970f6afb3efede194288f011a9aea9b7c0efa144650ea97a0082"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/migration98-136/commands168/poms_r4ghi_native/stdout.json",
+      "rawBytesSha256": "bbed225f6c4e67cf74eb1aceb9b90641785c9d52bba7d8da82b4498553f97aef"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/migration98-136/commands168/poms_r4ghi_rust/stderr.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/migration98-136/poms_r4ghi_rust/intent.json",
+      "rawBytesSha256": "ba7c2ef73ee96aabe416064358535cd60ebeb3d09fdadac0d4c7db47780080d3"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/migration98-136/poms_r4ghi_rust/execution.json",
+      "rawBytesSha256": "059ab0ab9cfcbbda2865b35c1daa4c70fb33cb5518f8351161995218a2b5c505"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/migration98-136/commands168/poms_r4ghi_rust/stdout.json",
+      "rawBytesSha256": "7d8e7cf30f7d70635ec1422287da91d6bd23ee9ed3dfe773a16dacd92049baac"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/api136-start182/receipt182.json",
+      "rawBytesSha256": "d284d45277118c3cbf7b91dbac7af9ebd4fb2218ca13d26b301d40f2b3cd3018"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/rust-api136-process.json",
+      "rawBytesSha256": "0b5817a0f32f4ad12fce36a4035c59c06d852611f65891dec349e6eccf505f6f"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/api136-start182/stdout.json",
+      "rawBytesSha256": "2a475fb83c09225259f79fd495427e948a08cb1b3fa73b646698d1ea7f702348"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/api136-start182/stderr.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/B0-Source13-bootstrap.json",
+      "rawBytesSha256": "11530fcd47ee59f1929832b28c03fa022021cff9f0a18d3b7f95d761abd7acf2"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/B1-Source13-admitted.json",
+      "rawBytesSha256": "4c4ff2dc98e7c604470b9e82e9dd807f5cc06ac4a886125177d57e66527d6ebd"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000004-consumer-admission108-registry.json",
+      "rawBytesSha256": "23cc54f891fb5200a1bad30083f75805e27a1d046096705381034ff32493971c"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/Source13-final-plan108.json",
+      "rawBytesSha256": "060b52d132b3cfb4384085f77f9c1637d60e50ad9c5510a249bab60dd2143f8c"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000003-schema108-verification.json",
+      "rawBytesSha256": "1480d9f724e32573b5bf53a6b5e78e2be8497378e09a70c2641aee90bc214b93"
+    }
+  ]
+}

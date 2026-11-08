@@ -4,6 +4,7 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { validateRegistryLineage62, entrySource62 } from './registry-lineage62.mjs';
+import { verifySchemaBinding108 } from './schema-comparison108.mjs';
 import { effectiveProcessBinding1351 } from './same-source-process1351.mjs';
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 export const CONSUMER_OBSERVER_FIELDS54 = Object.freeze(['UICommandObserved', 'UICommandObserverReceipt', 'UICommandResponseOriginal', 'UICommandOperationId']);
@@ -84,11 +85,14 @@ export function assertAdmittedContext54(ctx, { liveProcess = false, sourceFiles 
   const digest = sha(JSON.stringify(ctx.pins)); assert.equal(digest, registry.consumer.sourcePinsSHA256); assert.deepEqual(ctx.state.sourcePins, ctx.pins);
   const pins = JSON.parse(readPin54(registry.consumer.sourcePins)); assert.deepEqual(pins, ctx.pins);
   assert(pins.some(pin => pin.file === 'docs/design/rust-r4ghi/g2-consumed-evidence-corrective54.md'), 'Consumer correction54 must be a real source pin');
-  if (pins.some(pin => pin.file === 'docs/design/rust-r4ghi/g2-project-metadata-noop61.md')) assert.equal(registry.schemaVersion, 2, 'A chained retained consumer requires explicit schema2, never an old one-hop relabel');
+  assert([1, 2, 3].includes(registry.schemaVersion));
+  if (pins.some(pin => pin.file === 'docs/design/rust-r4ghi/g2-project-metadata-noop61.md')) assert([2, 3].includes(registry.schemaVersion), 'A chained retained consumer requires an explicit chained registry, never a one-hop relabel');
+  if (registry.schemaVersion === 3) { assert(!ctx.state.processRestart1351 && !ctx.state.processRestartPreparation1351, 'Old active12 process overlay must be quarantined before schema3'); assert.equal(ctx.migrations, 98); verifySchemaBinding108(ctx, ctx.state.schemaComparison108, registry); }
+  else { assert.equal(ctx.migrations, 97); assert(!ctx.state.schemaComparison108, 'M97 registry cannot conceal schema advancement'); }
   if (sourceFiles) for (const pin of pins) { assert(!path.isAbsolute(pin.file) && !pin.file.split('/').includes('..')); assert.equal(sha(fs.readFileSync(`${ctx.win}/${pin.file}`)), pin.sha256); }
-  const currentProcess = apiProcess54(ctx, effectiveProcessBinding1351(ctx, registry), liveProcess); assert.equal(currentProcess.binarySha256, registry.consumer.binarySHA256);
+  const currentProcess = apiProcess54(ctx, registry.schemaVersion === 3 ? registry.consumer.apiProcess : effectiveProcessBinding1351(ctx, registry), liveProcess); assert.equal(currentProcess.binarySha256, registry.consumer.binarySHA256);
   readPin54(registry.retentionIndex); readPin54(registry.producerState); readPin54(registry.retainedSnapshot);
-  if (registry.schemaVersion === 2) validateRegistryLineage62(ctx, registry);
+  if ([2, 3].includes(registry.schemaVersion)) validateRegistryLineage62(ctx, registry);
   return registry;
 }
 export function assertAdmittedFixtureSource(ctx, { registryPath, record, projectIds, producerReceipt = null }) {
@@ -117,13 +121,15 @@ export function assertAdmittedFixtureSource(ctx, { registryPath, record, project
   assert(entry.mode !== 'legacy-compatibility' || producerReceipt, 'Legacy compatibility requires its exact real seed receipt');
   return { registryPath, producerEpoch: birthSource.epoch, consumerEpoch: registry.consumer.epoch, producerSourcePinsSHA256: birthSource.sourcePinsSHA256,
     consumerSourcePinsSHA256: registry.consumer.sourcePinsSHA256, retainedProducerOnly: true,
-    ...(registry.schemaVersion === 2 ? { retainedAtEpoch: entry.retainedAt.epoch, retainedAtSourcePinsSHA256: entry.retainedAt.sourcePinsSHA256 } : {}) };
+    ...([2, 3].includes(registry.schemaVersion) ? { retainedAtEpoch: entry.retainedAt.epoch, retainedAtSourcePinsSHA256: entry.retainedAt.sourcePinsSHA256 } : {}) };
 }
 export function readAdmittedConsumerContext({ statePin }) {
   assert.equal(process.platform, 'linux'); const privateRoot = '/home/wangzishi/.local/share/poms-r4ghi/private', win = '/mnt/e/projects/worktrees/poms-r3hijk-next28/poms';
   within54(privateRoot + '/business', statePin.file); const state = JSON.parse(readPin54(statePin));
   assert(/^[A-Za-z0-9_-]{1,48}$/.test(state.epoch) && /^[A-Za-z0-9_-]{1,48}$/.test(state.run));
   const priv = `${privateRoot}/business/${state.epoch}/${state.run}`; assert.equal(statePin.file, `${priv}/state.json`); assert(!state.admissionPending54);
-  const ctx = { namespace: state.namespace, epoch: state.epoch, run: state.run, private: privateRoot, priv, win, pins: state.sourcePins, state, mirror: '/home/wangzishi/projects/poms-rust-r4ghi', tables: 139, migrations: 97, database: 'poms_r4ghi_rust' };
+  const ctx = { namespace: state.namespace, epoch: state.epoch, run: state.run, private: privateRoot, priv, win, pins: state.sourcePins, state, mirror: '/home/wangzishi/projects/poms-rust-r4ghi', tables: 139, migrations: state.schemaComparison108 ? 98 : 97, database: 'poms_r4ghi_rust' };
+  // The proposed version is only accepted after the full binding and registry
+  // checks below, never merely because an unverified state field exists.
   assertAdmittedContext54(ctx, { liveProcess: true, sourceFiles: true }); return ctx;
 }

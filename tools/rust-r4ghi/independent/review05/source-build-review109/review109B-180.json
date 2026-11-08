@@ -1,0 +1,59 @@
+{
+  "kind": "non-author-FS-only-Source13-build180-review109B",
+  "verdict": "hold-mirror-only-input-closure",
+  "source": {
+    "file": "tools/rust-r4ghi/build-source13-180.mjs",
+    "rawBytesSha256": "cbedd4c95a17b0b65669a59263e5c9dad3b82aea6902a0ba482569c85d25e85e"
+  },
+  "findings": [
+    {
+      "id": "IR109-01",
+      "priority": "P2",
+      "line": 36,
+      "problem": "Preflight and stability enumerate only Root-selected expected files. Mirror-only Rust targets are neither rejected nor included in receipts; an extra tests/ghost.rs passes the preflight and stable()==true model and can be auto-discovered by --all-targets.",
+      "counterexample": {
+        "expectedCopies": 1,
+        "extraMirrorFileSeenByGuard": false,
+        "stableAcceptedWithExtra": true,
+        "actualMirrorExtraClaimed": false
+      },
+      "fix": "Before any copy, enumerate controlled mirror Rust compilation roots and reject unknown files absent from the explicitly approved Root input/old140 inventory. Cover auto-discovered tests/examples, src and possible build.rs/config inputs; recheck the exact set after copy/Cargo. Preserve unknown files, do not delete or auto-adopt them."
+    }
+  ],
+  "accepted": {
+    "checksAllKnownTargetsBeforeFirstCopy": true,
+    "knownTargetOnlyNewRootOrActual140Hash": true,
+    "regularSingleLinkAndDirectoryRealpathGuards": true,
+    "noAPIOr136StateOrOld1351Active": true,
+    "G2ToolSourcePinAndSourceH0ActualPins": true,
+    "RootInventoryCopyNotRootCompile": true,
+    "exactMirrorCargoProtocolMatchesConstructor03": true,
+    "apiAndCommonBuilt": true,
+    "privateRawStdoutStderrAndExitRetained": true,
+    "sourceAndH0PlanStableKnownFiles": true,
+    "syntaxExitCode": 0
+  },
+  "ordering": {
+    "buildBeforeNormalM98": "Feasible and preferable for early compile failure detection: this tool does not create context or query DB. FIXED.migrations98 is only checked as a FS constant; no guard98 DB connection is opened.",
+    "databaseOptIn": "Cargo receives a fixed allowlist environment without POMS/PG/DATABASE opt-ins; actual default54 ignored and noDB behavior must still be read from real run. This review runs no Cargo or SQL."
+  },
+  "actual": {
+    "Source13Build": null,
+    "M98": null,
+    "RootInventory": null,
+    "mirrorCargo": null,
+    "API136": null,
+    "extraMirrorFile": null
+  },
+  "actions": {
+    "RootWrites": 0,
+    "mirrorWrites": 0,
+    "SQL": 0,
+    "HTTP": 0,
+    "cargo": 0,
+    "processActions": 0,
+    "GitWrites": 0
+  },
+  "G3Certified": false,
+  "G4Certified": false
+}

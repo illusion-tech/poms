@@ -1,0 +1,67 @@
+{
+  "kind": "non-author-FS-only-API136-start182-review111",
+  "verdict": "bounded-tooling-admission",
+  "findings": [],
+  "source": {
+    "file": "tools/rust-r4ghi/start-api136-182.mjs",
+    "rawBytesSha256": "5607b9e95ea3837d205ff696516a5be3c8bef9e556c9becb8a9f4aa9b6e38b81"
+  },
+  "verified": {
+    "fixedLauncher7f570AndExactStart136Argv": true,
+    "G2PinsWrapperAndLauncher": true,
+    "realConstructor03BuildShapeAndExactCargoProtocolConsumed": true,
+    "after164PinApprovalSourceH0AndSchemaArtifactBound": true,
+    "currentBinaryHashRegularNoSymlinkAndCargoHardlinkAllowed": true,
+    "no136recordOr13stateOrOldDriverBeforeSpawn": true,
+    "rawStdoutStderrActualExitAndProcessReadyFieldsCaptured": true,
+    "readinessOriginalDirectlyConsumableByB0": true,
+    "noStateActorOrDBMutationInWrapper": true,
+    "sourceH0RecheckedAfterLaunch": true,
+    "syntheticPositiveCompatible": true,
+    "syntheticNegatives": [
+      "preexisting136-record",
+      "preexisting13state",
+      "bad-after-source-pin",
+      "bad-build-cargo",
+      "current-binary-mismatch",
+      "unknown-start-cannot-restart",
+      "bad-ready-cannot-restart"
+    ],
+    "syntaxExitCode": 0
+  },
+  "testBoundary": {
+    "inMemoryFS": true,
+    "spawnDouble": true,
+    "realLauncherNotExecuted": true,
+    "realConstructor03PureBuildReaderUsed": true,
+    "afterObservationSyntheticForShapeOnly": true
+  },
+  "failureBoundary": "Nonzero/timeout retains partial/raw originals and noBlindRestart. Post-success parse/assert failures may have no new partial JSON, but raw logs/process descriptor remain and existing process/out directory prevents a second launch; Root must reconcile.",
+  "admission": {
+    "allowed": "After real final G2/build180/normal M98 and bound164 observation, Root may pin this exact182 and7f570 launcher, supply actual approved input and execute the one normal start. B0 still independently verifies actual process/proc/build/readiness.",
+    "notGranted": [
+      "No actual process or readiness accepted by reviewer",
+      "No Source13 state/actor certification",
+      "No M98 or G3/G4 certification"
+    ]
+  },
+  "actual": {
+    "API136": null,
+    "readiness": null,
+    "B0": null,
+    "R3": null,
+    "Source13": null
+  },
+  "actions": {
+    "RootWrites": 0,
+    "actualLauncherSpawn": 0,
+    "SQL": 0,
+    "HTTP": 0,
+    "migration": 0,
+    "processActions": 0,
+    "browser": 0,
+    "GitWrites": 0
+  },
+  "G3Certified": false,
+  "G4Certified": false
+}

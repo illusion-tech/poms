@@ -1,0 +1,130 @@
+TAP version 13
+# Subtest: exact public permission setup permits two actual child births and separate legacy audit TX
+ok 1 - exact public permission setup permits two actual child births and separate legacy audit TX
+  ---
+  duration_ms: 2.3198
+  type: 'test'
+  ...
+# Subtest: real raw plus managed M auth is accepted only on the actual permission business xmin
+ok 2 - real raw plus managed M auth is accepted only on the actual permission business xmin
+  ---
+  duration_ms: 0.6998
+  type: 'test'
+  ...
+# Subtest: reject additional permission birth
+ok 3 - reject additional permission birth
+  ---
+  duration_ms: 0.935
+  type: 'test'
+  ...
+# Subtest: reject wrong role or operator
+ok 4 - reject wrong role or operator
+  ---
+  duration_ms: 0.5384
+  type: 'test'
+  ...
+# Subtest: reject old permission update
+ok 5 - reject old permission update
+  ---
+  duration_ms: 0.4892
+  type: 'test'
+  ...
+# Subtest: reject old permission xmin-only rewrite
+ok 6 - reject old permission xmin-only rewrite
+  ---
+  duration_ms: 0.4195
+  type: 'test'
+  ...
+# Subtest: reject user FK reassign
+ok 7 - reject user FK reassign
+  ---
+  duration_ms: 0.4045
+  type: 'test'
+  ...
+# Subtest: reject unnecessary role stamp
+ok 8 - reject unnecessary role stamp
+  ---
+  duration_ms: 0.4189
+  type: 'test'
+  ...
+# Subtest: reject unrelated domain write
+ok 9 - reject unrelated domain write
+  ---
+  duration_ms: 0.3696
+  type: 'test'
+  ...
+# Subtest: reject native DB mutation
+ok 10 - reject native DB mutation
+  ---
+  duration_ms: 2.6276
+  type: 'test'
+  ...
+# Subtest: reject audit wrong request scope
+ok 11 - reject audit wrong request scope
+  ---
+  duration_ms: 0.4592
+  type: 'test'
+  ...
+# Subtest: reject audit operands or wrong before keys
+ok 12 - reject audit operands or wrong before keys
+  ---
+  duration_ms: 0.8221
+  type: 'test'
+  ...
+# Subtest: reject old row removal
+ok 13 - reject old row removal
+  ---
+  duration_ms: 0.7045
+  type: 'test'
+  ...
+# Subtest: reject audit absent after partial legacy commit
+ok 14 - reject audit absent after partial legacy commit
+  ---
+  duration_ms: 0.3785
+  type: 'test'
+  ...
+# Subtest: raw-only, wrong session/TX and extra auth changes cannot be relabelled as the successful coflush
+ok 15 - raw-only, wrong session/TX and extra auth changes cannot be relabelled as the successful coflush
+  ---
+  duration_ms: 1.229
+  type: 'test'
+  ...
+# Subtest: snapshot equality compares actual rows/xmin, never capture-folder metadata paths
+ok 16 - snapshot equality compares actual rows/xmin, never capture-folder metadata paths
+  ---
+  duration_ms: 0.6361
+  type: 'test'
+  ...
+# Subtest: the owned active EO role is isolated to exactly one real user/FK with only original two rights
+ok 17 - the owned active EO role is isolated to exactly one real user/FK with only original two rights
+  ---
+  duration_ms: 0.5932
+  type: 'test'
+  ...
+# Subtest: null/old source or extra private input keys are refused before execution
+ok 18 - null/old source or extra private input keys are refused before execution
+  ---
+  duration_ms: 0.3869
+  type: 'test'
+  ...
+# Subtest: canonical operation and original fixture source keep exact enum, ID and intended two additions
+ok 19 - canonical operation and original fixture source keep exact enum, ID and intended two additions
+  ---
+  duration_ms: 6.2766
+  type: 'test'
+  ...
+# Subtest: the source-bound separate R2 audit cannot share the actual permission business xmin
+ok 20 - the source-bound separate R2 audit cannot share the actual permission business xmin
+  ---
+  duration_ms: 1.2583
+  type: 'test'
+  ...
+1..20
+# tests 20
+# suites 0
+# pass 20
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 93.062

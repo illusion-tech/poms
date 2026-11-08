@@ -1,0 +1,25 @@
+{
+  "kind": "pure-counterexample-H49-same-xmin-audit-accepted-as-separate",
+  "candidateSHA256": "7384f03cde7b04a1f17641ea1ac4ca0c22bbf900da10c9cfa9e38a694d5e4010",
+  "finding": {
+    "id": "IR115-01",
+    "priority": "P2",
+    "file": "setup-role49.mjs",
+    "function": "verifyPermissionDelta49",
+    "problem": "The verifier accepts an audit row with the same xmin as both new permission children, yet emits separateR2BusinessAndAuditTransactionsPreserved=true. The pinned roles/service.rs flush_permissions commits the permission TX before its later separate audit() commit.",
+    "requiredFix": "Assert the audit xmin differs from actual businessXmin, while retaining atomicClaim=false; add a same-xmin negative. No product change or public retry."
+  },
+  "observedSyntheticProof": {
+    "permissionXmin": "20",
+    "auditXmin": "20",
+    "separateClaim": true,
+    "atomicClaim": false
+  },
+  "actualRoleGrant": false,
+  "RootWrites": 0,
+  "SQL": 0,
+  "HTTP": 0,
+  "actualContext": 0,
+  "G3Certified": false,
+  "G4Certified": false
+}

@@ -1,0 +1,167 @@
+{
+  "kind": "non-author-FS-only-Source13-constructor-review107",
+  "verdict": "hold-original-build-observation-alias",
+  "manifest": {
+    "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1/manifest13.json",
+    "rawBytesSha256": "1b74d4363eac608347fff1d8ce82f5db5244b13adeb84066d3c73153aedb60e6"
+  },
+  "constructor": {
+    "file": "tools/rust-r4ghi/construct-source13-bindings.mjs",
+    "rawBytesSha256": "5e59a9a7fd698ab2f25161ac2aad7082e89788949cef315317a45a306edac527"
+  },
+  "findings": [
+    {
+      "id": "IR107-01",
+      "priority": "P2",
+      "line": 38,
+      "problem": "Root and mirror may use one identical receipt+three-pointer observation tuple. Relative inputs pass for both bases, so one Root observation can be counted twice as dual-side provenance.",
+      "counterexample": {
+        "file": "probe107.json",
+        "rawBytesSha256": "775137e03e31ddaa8d63f23473ef06ec00908ee754740f1d73b4f27ba5c0387c"
+      },
+      "fix": "Reject reuse of the same observation tuple; retain explicit side identity/source root in each actual observation. A combined receipt may remain supported if it contains distinct side-specific observations. Do not solve this merely by renaming the same receipt."
+    }
+  ],
+  "accepted": {
+    "fourModesFSOnlyAndNoCreateContextStateCounter": true,
+    "actual139IndexStateAndAfterPinsMatch": true,
+    "private139ReceiptAfterAndStoppedAPIRealFields": true,
+    "sourceArrayCountAndCompleteH0Dynamic": true,
+    "G2ConstructorSourcePinAndNoH1": true,
+    "migrationBundleThen164AfterThenTotalReceiptNoCycle": true,
+    "B0NoRegistryAndPlanStablePointers": true,
+    "B1OnlyAfterR3AndPermanentB0Reference": true,
+    "B1ProcessBytesShapePreservedAndObjectsUnchanged": true,
+    "actualLauncherReadinessFieldShapeCompatible": true,
+    "outputWxPrivateNonCounterNames": true,
+    "syntaxExitCode": 0
+  },
+  "limits": {
+    "actual13": null,
+    "actualM98": null,
+    "actualBuild": null,
+    "actualAPI136": null,
+    "actualB0": null,
+    "actualR3": null,
+    "actualB1": null,
+    "noActualConstructorModeRun": true
+  },
+  "actions": {
+    "RootWrites": 0,
+    "SQL": 0,
+    "HTTP": 0,
+    "migration": 0,
+    "processActions": 0,
+    "browser": 0,
+    "GitWrites": 0
+  },
+  "G3Certified": false,
+  "G4Certified": false,
+  "inputPins": [
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1/manifest13.json",
+      "bytes": 4600,
+      "rawBytesSha256": "1b74d4363eac608347fff1d8ce82f5db5244b13adeb84066d3c73153aedb60e6"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1/proposed/tools/rust-r4ghi/construct-source13-bindings.mjs",
+      "bytes": 21816,
+      "rawBytesSha256": "5e59a9a7fd698ab2f25161ac2aad7082e89788949cef315317a45a306edac527"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1/README13.md",
+      "bytes": 8811,
+      "rawBytesSha256": "4abe4401929b8d73df85e2750b57f7394ec52f0c7d761c204273b7f14df0432d"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1/input-templates13.json",
+      "bytes": 2801,
+      "rawBytesSha256": "cbfe053a842a9862b87f041e13446360d5a9cec169d7a506cc7e2caed13003e7"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1/construct13.test.mjs",
+      "bytes": 6403,
+      "rawBytesSha256": "83c808d65c5d6e2087d40b51ed58389b482becfdf723c3ea3c925e137409dc92"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1/validation13.json",
+      "bytes": 671,
+      "rawBytesSha256": "28153961f4650902f47f23029a3cbd34792ce12507193d2e9c4db26aaa822db4"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1/pure13.stdout.log",
+      "bytes": 1988,
+      "rawBytesSha256": "004696758174d8ecad21fdfd55ee41d838d329a89d4fb704a81b795262e4d300"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1/pure13.stderr.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1/syntax13.stdout.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1/syntax13.stderr.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source13-b0-plan-b1/help13.stdout.log",
+      "bytes": 202,
+      "rawBytesSha256": "20032a3f5c4f266012ecad975122ffb347f97e421b66d7328e9215bdeb5aa207"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/review05/source13-bootstrap-contract93/contract93.json",
+      "bytes": 3725,
+      "rawBytesSha256": "cbbea307a61c60d8de2c88bacff2b021f25667791a09975737d7a01300fc3377"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/review05/source13-bootstrap-contract93/resolved-external-binding93-02.json",
+      "bytes": 1700,
+      "rawBytesSha256": "5fb2abeec1f298100bece972caa3505568cdb6369aaabe6a8b6b2928687c6d8f"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/review05/source13-freeze-contract97/README97.md",
+      "bytes": 3715,
+      "rawBytesSha256": "5ec1b1f0e47febe2f59dd3f07d41f64de09ec731e623e4c604aa49cde84cee01"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/review05/source13-operation-bridge102/capture-adapter-contract102.json",
+      "bytes": 2747,
+      "rawBytesSha256": "09cc52b0764cba20f2a122d353a9b30ff3d3010d93a7e1cc5132c14dd6ac6adc"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/review05/m98-after-adapter-review104/README104-02.md",
+      "bytes": 3612,
+      "rawBytesSha256": "6dd72c920eae96002947ccd8b042b1595c8fdb7f36737d5a29c531faff87cad8"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/retention/epoch12-before-source13-139/index.json",
+      "bytes": 146138,
+      "rawBytesSha256": "fed889a2c467945656d7c317f006b5ba2bc9780435459460863b3735dacb17b7"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/retention/epoch12-before-source13-139/state-at-retention139.json",
+      "bytes": 12362792,
+      "rawBytesSha256": "ee7371dc4fc5d388f6898fb1c6eb90bebb6404eca6c31d23599469445804a628"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-007492-retained139-after.json",
+      "bytes": 3137240,
+      "rawBytesSha256": "106c66efc668090d4605b6a953ebfddfa65aa2df8c13c3e7531a51bf57130d15"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/007493-retention139-complete.json",
+      "bytes": 122891,
+      "rawBytesSha256": "5b9949ebe20058971ba924e01da0f984043aa50f0961e17fb266451ee0948cc4"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\tools\\rust-r4ghi\\independent\\review05\\source13-constructor-review107/probe107.json",
+      "bytes": 535,
+      "rawBytesSha256": "775137e03e31ddaa8d63f23473ef06ec00908ee754740f1d73b4f27ba5c0387c"
+    }
+  ]
+}

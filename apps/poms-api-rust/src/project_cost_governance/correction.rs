@@ -213,7 +213,7 @@ pub(crate) async fn apply_corrections_with_session(
             .flatten()
         {
             if source["kind"] == "source" {
-                costs.extend(cost_ids_for_legacy_reference(session, source).await?);
+                costs.extend(cost_ids_for_evidence_reference(session, source).await?);
             }
         }
         let mut normalized = correction.clone();
@@ -782,7 +782,7 @@ async fn cost_ids_for_source(
     };
     Ok(sqlx::query_scalar("SELECT id FROM poms.project_actual_cost_record WHERE source_type=$1 AND source_id=$2 ORDER BY id").bind(source).bind(reference.id.to_string()).fetch_all(&mut *session.connection).await?)
 }
-async fn cost_ids_for_legacy_reference(
+pub(crate) async fn cost_ids_for_evidence_reference(
     session: &mut CommonSession<'_, '_>,
     source: &Value,
 ) -> Result<Vec<Uuid>, Error> {

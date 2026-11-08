@@ -5,7 +5,7 @@ mod logic;
 mod projection;
 mod service;
 mod store;
-pub(crate) use correction::apply_corrections_with_session;
+pub(crate) use correction::{apply_corrections_with_session, cost_ids_for_evidence_reference};
 
 use crate::{
     approval_common::CommonSession,

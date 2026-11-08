@@ -47,7 +47,7 @@ function consumer62(f, value) {
   const process = { namespace: f.ctx.namespace, root: '/home/wangzishi/projects/poms-rust-r4ghi', port: 31441, binarySha256: 'd'.repeat(64) }, processPin = f.pin('business/e12/main/process.json', process);
   value.consumer.apiProcess = processPin; value.consumer.binarySHA256 = process.binarySha256;
   const registry = f.pin('business/e12/main/registry.json', value);
-  return { ...f.ctx, epoch: 'e12', run: 'main', priv: `${f.dir}/business/e12/main`, pins: f.pins12, state: { ...structuredClone(f.state11), epoch: 'e12', sourcePins: f.pins12, apiProcess: { ...processPin, record: process }, consumerAdmission54: { registry } } };
+  return { ...f.ctx, migrations: 97, epoch: 'e12', run: 'main', priv: `${f.dir}/business/e12/main`, pins: f.pins12, state: { ...structuredClone(f.state11), epoch: 'e12', sourcePins: f.pins12, apiProcess: { ...processPin, record: process }, consumerAdmission54: { registry } } };
 }
 test('a second explicit admission retains old10 birth and new11 birth independently', () => {
   const f = synthetic62(); try {

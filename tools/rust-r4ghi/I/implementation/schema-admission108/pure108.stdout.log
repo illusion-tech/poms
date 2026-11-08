@@ -1,0 +1,298 @@
+TAP version 13
+# Subtest: consumer bridge preserves original source and accepts only explicit project subsets
+ok 1 - consumer bridge preserves original source and accepts only explicit project subsets
+  ---
+  duration_ms: 732.480402
+  type: 'test'
+  ...
+# Subtest: only four actual UI observer fields may differ from the retained producer projection
+ok 2 - only four actual UI observer fields may differ from the retained producer projection
+  ---
+  duration_ms: 580.691752
+  type: 'test'
+  ...
+# Subtest: unlisted record, changed source label and corrupt pinned registry cannot be admitted
+ok 3 - unlisted record, changed source label and corrupt pinned registry cannot be admitted
+  ---
+  duration_ms: 381.75938
+  type: 'test'
+  ...
+# Subtest: new-source empty producer view can initialize without expanding an old admitted view
+ok 4 - new-source empty producer view can initialize without expanding an old admitted view
+  ---
+  duration_ms: 0.53303
+  type: 'test'
+  ...
+# Subtest: an admitted old path cannot relabel itself current and bypass its original producer facts
+ok 5 - an admitted old path cannot relabel itself current and bypass its original producer facts
+  ---
+  duration_ms: 726.115255
+  type: 'test'
+  ...
+# Subtest: unregistered current labels cannot clone old main/receiver projects or omit actual anchors
+ok 6 - unregistered current labels cannot clone old main/receiver projects or omit actual anchors
+  ---
+  duration_ms: 1378.489193
+  type: 'test'
+  ...
+# Subtest: fresh cannot reuse an original baseline project absent from old owned registry
+ok 7 - fresh cannot reuse an original baseline project absent from old owned registry
+  ---
+  duration_ms: 432.151994
+  type: 'test'
+  ...
+# Subtest: Legacy retains all producer qualification/hash/xmin/denial facts plus the exact old seed
+ok 8 - Legacy retains all producer qualification/hash/xmin/denial facts plus the exact old seed
+  ---
+  duration_ms: 1676.991942
+  type: 'test'
+  ...
+# Subtest: lexical prefix with parent traversal cannot redirect the registry outside consumer root
+ok 9 - lexical prefix with parent traversal cannot redirect the registry outside consumer root
+  ---
+  duration_ms: 132.908682
+  type: 'test'
+  ...
+# Subtest: snapshot admission rejects row xmin/catalog/object drift even with identical logical money
+ok 10 - snapshot admission rejects row xmin/catalog/object drift even with identical logical money
+  ---
+  duration_ms: 5.234907
+  type: 'test'
+  ...
+# Subtest: a second explicit admission retains old10 birth and new11 birth independently
+ok 11 - a second explicit admission retains old10 birth and new11 birth independently
+  ---
+  duration_ms: 4173.372219
+  type: 'test'
+  ...
+# Subtest: dropping the prior registry, changing its raw bytes or lying about birth source fails closed
+ok 12 - dropping the prior registry, changing its raw bytes or lying about birth source fails closed
+  ---
+  duration_ms: 4740.56304
+  type: 'test'
+  ...
+# Subtest: the new11 published proof is explicit and cannot be reassigned to old10 or replaced with an unpinned proof
+ok 13 - the new11 published proof is explicit and cannot be reassigned to old10 or replaced with an unpinned proof
+  ---
+  duration_ms: 7026.764415
+  type: 'test'
+  ...
+# Subtest: an old project cloned into an unregistered new11 view lacks a genuine new11 HTTP birth
+ok 14 - an old project cloned into an unregistered new11 view lacks a genuine new11 HTTP birth
+  ---
+  duration_ms: 2174.418835
+  type: 'test'
+  ...
+# Subtest: a pinned impact review never promotes old results to new consumer certification
+ok 15 - a pinned impact review never promotes old results to new consumer certification
+  ---
+  duration_ms: 785.929123
+  type: 'test'
+  ...
+# Subtest: the existing synchronous H bridge returns per-entry birth rather than the immediate producer for old10/new11
+ok 16 - the existing synchronous H bridge returns per-entry birth rather than the immediate producer for old10/new11
+  ---
+  duration_ms: 9054.796022
+  type: 'test'
+  ...
+# Subtest: new12 current labels cannot clone an unregistered old11 project or omit the real anchor
+ok 17 - new12 current labels cannot clone an unregistered old11 project or omit the real anchor
+  ---
+  duration_ms: 6184.703425
+  type: 'test'
+  ...
+# Subtest: new consumer keeps both historical generations and empties active FI/auth/seam without rebasing owned facts
+ok 18 - new consumer keeps both historical generations and empties active FI/auth/seam without rebasing owned facts
+  ---
+  duration_ms: 0.402865
+  type: 'test'
+  ...
+# Subtest: normal forward accepts exact function/log/sequence; original objects may have real owned additions
+ok 19 - normal forward accepts exact function/log/sequence; original objects may have real owned additions
+  ---
+  duration_ms: 26.024967
+  type: 'test'
+  ...
+# Subtest: schema delta rejects business row SHA change
+ok 20 - schema delta rejects business row SHA change
+  ---
+  duration_ms: 8.85281
+  type: 'test'
+  ...
+# Subtest: schema delta rejects original business xmin change
+ok 21 - schema delta rejects original business xmin change
+  ---
+  duration_ms: 7.333221
+  type: 'test'
+  ...
+# Subtest: schema delta rejects original migration xmin change
+ok 22 - schema delta rejects original migration xmin change
+  ---
+  duration_ms: 8.095772
+  type: 'test'
+  ...
+# Subtest: schema delta rejects function OID replacement
+ok 23 - schema delta rejects function OID replacement
+  ---
+  duration_ms: 6.845908
+  type: 'test'
+  ...
+# Subtest: schema delta rejects function ACL change
+ok 24 - schema delta rejects function ACL change
+  ---
+  duration_ms: 7.588449
+  type: 'test'
+  ...
+# Subtest: schema delta rejects function security/config change
+ok 25 - schema delta rejects function security/config change
+  ---
+  duration_ms: 6.186852
+  type: 'test'
+  ...
+# Subtest: schema delta rejects unapproved function body
+ok 26 - schema delta rejects unapproved function body
+  ---
+  duration_ms: 7.237301
+  type: 'test'
+  ...
+# Subtest: schema delta rejects function language/header change with correct approved body
+ok 27 - schema delta rejects function language/header change with correct approved body
+  ---
+  duration_ms: 6.167114
+  type: 'test'
+  ...
+# Subtest: schema delta rejects trigger drift
+ok 28 - schema delta rejects trigger drift
+  ---
+  duration_ms: 10.159481
+  type: 'test'
+  ...
+# Subtest: schema delta rejects role privilege drift
+ok 29 - schema delta rejects role privilege drift
+  ---
+  duration_ms: 8.208542
+  type: 'test'
+  ...
+# Subtest: schema delta rejects second added migration row
+ok 30 - schema delta rejects second added migration row
+  ---
+  duration_ms: 6.841038
+  type: 'test'
+  ...
+# Subtest: schema delta rejects missing original migration row
+ok 31 - schema delta rejects missing original migration row
+  ---
+  duration_ms: 6.763237
+  type: 'test'
+  ...
+# Subtest: schema delta rejects migration name substitution
+ok 32 - schema delta rejects migration name substitution
+  ---
+  duration_ms: 8.908501
+  type: 'test'
+  ...
+# Subtest: schema delta rejects missing sequence evidence
+ok 33 - schema delta rejects missing sequence evidence
+  ---
+  duration_ms: 6.345559
+  type: 'test'
+  ...
+# Subtest: schema delta rejects two nextvals instead of normal one
+ok 34 - schema delta rejects two nextvals instead of normal one
+  ---
+  duration_ms: 7.229948
+  type: 'test'
+  ...
+# Subtest: schema delta rejects unrelated sequence registered as migration delta
+ok 35 - schema delta rejects unrelated sequence registered as migration delta
+  ---
+  duration_ms: 10.088165
+  type: 'test'
+  ...
+# Subtest: schema delta rejects namespace marker switch
+ok 36 - schema delta rejects namespace marker switch
+  ---
+  duration_ms: 6.173016
+  type: 'test'
+  ...
+# Subtest: schema delta rejects object drift during migration
+ok 37 - schema delta rejects object drift during migration
+  ---
+  duration_ms: 7.322822
+  type: 'test'
+  ...
+# Subtest: schema delta rejects fresh post-migration business drift
+ok 38 - schema delta rejects fresh post-migration business drift
+  ---
+  duration_ms: 5.430093
+  type: 'test'
+  ...
+# Subtest: schema delta rejects 139th table excluded
+ok 39 - schema delta rejects 139th table excluded
+  ---
+  duration_ms: 8.84532
+  type: 'test'
+  ...
+# Subtest: M98 may not silently use original baseline when schema binding is absent
+ok 40 - M98 may not silently use original baseline when schema binding is absent
+  ---
+  duration_ms: 0.249548
+  type: 'test'
+  ...
+# Subtest: all-null future plan remains non-executable rather than certifying a future Source13
+ok 41 - all-null future plan remains non-executable rather than certifying a future Source13
+  ---
+  duration_ms: 0.286537
+  type: 'test'
+  ...
+# Subtest: read-only binding reproduces exact derived comparison and keeps original baseline separate
+ok 42 - read-only binding reproduces exact derived comparison and keeps original baseline separate
+  ---
+  duration_ms: 8323.518631
+  type: 'test'
+  ...
+# Subtest: derived comparison cannot launder all retained business rows into original
+ok 43 - derived comparison cannot launder all retained business rows into original
+  ---
+  duration_ms: 4976.425109
+  type: 'test'
+  ...
+# Subtest: only real zero-exit migration receipt may explain canonical advancement
+ok 44 - only real zero-exit migration receipt may explain canonical advancement
+  ---
+  duration_ms: 3615.525988
+  type: 'test'
+  ...
+# Subtest: matching new consumer baseline fields cannot override the frozen producer original baseline pin
+ok 45 - matching new consumer baseline fields cannot override the frozen producer original baseline pin
+  ---
+  duration_ms: 2887.325938
+  type: 'test'
+  ...
+# Subtest: wrapper success cannot replace a different exit code in the real execution receipt pin
+ok 46 - wrapper success cannot replace a different exit code in the real execution receipt pin
+  ---
+  duration_ms: 3666.791915
+  type: 'test'
+  ...
+# Subtest: ledger sees canonical M98 in both databases but still requires each HTTP-owned business/object addition
+ok 47 - ledger sees canonical M98 in both databases but still requires each HTTP-owned business/object addition
+  ---
+  duration_ms: 29741.448509
+  type: 'test'
+  ...
+# Subtest: schema3 preserves mixed10/11/12 births, late published receipts and exact legacy/UI projections
+ok 48 - schema3 preserves mixed10/11/12 births, late published receipts and exact legacy/UI projections
+  ---
+  duration_ms: 39574.731431
+  type: 'test'
+  ...
+1..48
+# tests 48
+# suites 0
+# pass 48
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 134043.230173

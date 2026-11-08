@@ -3,7 +3,8 @@ import net from 'node:net';
 import assert from 'node:assert/strict';
 import { ownedFile, guard } from './context.mjs';
 import { sha, quote, keyOf, deleteOrder, foreignReferences, exactDeleteCTE } from './pure.mjs';
-import { capture, loadSnapshot, readRows, difference, catalog } from './snapshot.mjs';
+import { capture, loadComparisonSnapshot108, readRows, difference, catalog } from './snapshot.mjs';
+import { comparisonBaselinePin108 } from './schema-comparison108.mjs';
 import { changedColumns } from './ledger.mjs';
 import { objectDiff, objectPath, objectRoot, captureObjects } from './objects.mjs';
 
@@ -25,9 +26,10 @@ function actualCycleEvidence(ctx) {
 }
 
 export async function planCleanup(ctx, label) {
-  const baseline = loadSnapshot(ctx), current = await capture(ctx, `${label}-cleanup-current`);
+  const baseline = loadComparisonSnapshot108(ctx), current = await capture(ctx, `${label}-cleanup-current`);
   const blockers = [], deletes = [], restores = [], deleteObjects = [], deleteDirectories = [];
   for (const change of difference(baseline, current)) {
+    if (ctx.state.schemaComparison108 && change.table === 'poms_migrations') { blockers.push({ kind: 'canonical-M98-registration-drift-not-fixture-cleanup-authority', database: change.database }); continue; }
     if (change.database !== ctx.database) { blockers.push({ kind: 'Native-database-drift', table: change.table }); continue; }
     const meta = current.databases[change.database].tables[change.table];
     for (const row of change.added) {
@@ -98,7 +100,8 @@ export async function planCleanup(ctx, label) {
     if (hasCycle) blockers.push({ kind: 'exact-row-FK-cycle-needs-actual-sandbox-and-reviewed-maintenance-plan' });
     for (const { value } of guardTriggers) blockers.push({ kind: 'actual-delete-guard-requires-reviewed-isolated-maintenance', table: value.table_name, trigger: value.tgname, triggerOID: value.oid });
   }
-  const plan = { schemaVersion: 1, kind: 'business-exact-owned-PK-cleanup-plan', marker: ctx.identity.marker, namespace: ctx.namespace, epoch: ctx.epoch, run: ctx.run,
+  const schemaFields = ctx.state.schemaComparison108 ? { originalBaseline: ctx.state.baseline, comparisonBaseline: comparisonBaselinePin108(ctx), schemaComparison108: ctx.state.schemaComparison108, canonicalM98RegistrationRetained: true } : {};
+  const plan = { schemaVersion: ctx.state.schemaComparison108 ? 2 : 1, ...schemaFields, kind: 'business-exact-owned-PK-cleanup-plan', marker: ctx.identity.marker, namespace: ctx.namespace, epoch: ctx.epoch, run: ctx.run,
     status: blockers.length ? 'blocked-no-mutation-authority' : 'ready-for-Root-review', baseline: ctx.state.baseline, current: current.manifest, generatedAt: new Date().toISOString(),
     blockers, deleteRows, restoreRows: restores, maintenance, maintenanceCandidate: { allProvenOwnedDeletes: deletes, foreignReferences: foreign, guardTriggers: guardTriggers.map(({ raw }) => raw), actualSandboxReceipt: ctx.state.cycleSandbox ?? null, strategy: maintenance?.strategy ?? 'unresolved-do-not-disable-or-break-facts-yet' },
     deleteObjects, deleteDirectories: deleteDirectories.sort((a, b) => b.key.split('/').length - a.key.split('/').length || b.key.localeCompare(a.key)),
@@ -133,7 +136,7 @@ async function assertBaseline(c, expected, tables) {
   }
 }
 export async function noopCleanup(ctx, label, stopped = null) {
-  const stop = stopped ?? await assertStopped(ctx), baseline = loadSnapshot(ctx), receipts = [];
+  const stop = stopped ?? await assertStopped(ctx), baseline = loadComparisonSnapshot108(ctx), receipts = [];
   for (let n = 1; n <= 2; n++) {
     const current = await capture(ctx, `${label}-noop-${n}`); assert.equal(difference(baseline, current).length, 0);
     for (const database of ctx.databases) {
@@ -144,14 +147,20 @@ export async function noopCleanup(ctx, label, stopped = null) {
     }
     receipts.push(current.manifest);
   }
-  return { kind: 'actual-two-fresh-connection-cleanup-noops', stop, freshRounds: 2, tablesPerDatabase: ctx.tables, receipts, rowXminRestoredClaim: false, exactLogicalRowsAndCatalogAndSequences: true };
+  return { kind: 'actual-two-fresh-connection-cleanup-noops', ...(ctx.state.schemaComparison108 ? { originalBaseline: ctx.state.baseline, comparisonBaseline: comparisonBaselinePin108(ctx), schemaComparison108: ctx.state.schemaComparison108, canonicalM98RegistrationRetained: true } : {}), stop, freshRounds: 2, tablesPerDatabase: ctx.tables, receipts, rowXminRestoredClaim: false, exactLogicalRowsAndCatalogAndSequences: true };
 }
 export async function applyCleanup(ctx, label) {
   assert(ctx.state.cleanupPlan && !ctx.state.cleaned);
   const bytes = ownedFile(ctx.state.cleanupPlan.file), hash = sha(bytes); assert.equal(hash, ctx.state.cleanupPlan.rawBytesSha256); assert.equal(hash, ctx.options['approved-plan-sha']);
   const plan = JSON.parse(bytes); assert.equal(plan.marker, ctx.identity.marker); assert.equal(plan.epoch, ctx.epoch); assert.equal(plan.run, ctx.run); assert.equal(plan.status, 'ready-for-Root-review'); assert.equal(plan.blockers.length, 0);
   assert([...plan.deleteRows, ...plan.restoreRows].every(row => row.database === ctx.database), 'Native/other databases never receive cleanup DML');
-  const stopped = await assertStopped(ctx), baseline = loadSnapshot(ctx);
+  if (ctx.state.schemaComparison108) {
+    assert.equal(plan.schemaVersion, 2); assert.deepEqual(plan.originalBaseline, ctx.state.baseline); assert.deepEqual(plan.baseline, ctx.state.baseline);
+    assert.deepEqual(plan.comparisonBaseline, comparisonBaselinePin108(ctx)); assert.deepEqual(plan.schemaComparison108, ctx.state.schemaComparison108);
+    assert.equal(plan.canonicalM98RegistrationRetained, true);
+    assert([...plan.deleteRows, ...plan.restoreRows].every(row => row.table !== 'poms_migrations'), 'Canonical M98 is never fixture cleanup authority');
+  } else assert.equal(plan.schemaVersion, 1);
+  const stopped = await assertStopped(ctx), baseline = loadComparisonSnapshot108(ctx);
   for (const database of ctx.databases) assert.deepEqual(captureObjects(ctx, database), plan.expectedObjects[database], 'Object file/hash/directory inventory changed since Root reviewed plan');
   for (const [index, object] of plan.deleteObjects.entries()) {
     const file = objectPath(ctx, object.database, object.key), bytes = ownedFile(file); assert.equal(sha(bytes), object.sha256); assert.equal(bytes.length, object.bytes);

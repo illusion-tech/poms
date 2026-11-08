@@ -1,0 +1,980 @@
+TAP version 13
+# Subtest: consumer bridge preserves original source and accepts only explicit project subsets
+ok 1 - consumer bridge preserves original source and accepts only explicit project subsets
+  ---
+  duration_ms: 702.627177
+  type: 'test'
+  ...
+# Subtest: only four actual UI observer fields may differ from the retained producer projection
+ok 2 - only four actual UI observer fields may differ from the retained producer projection
+  ---
+  duration_ms: 492.503444
+  type: 'test'
+  ...
+# Subtest: unlisted record, changed source label and corrupt pinned registry cannot be admitted
+ok 3 - unlisted record, changed source label and corrupt pinned registry cannot be admitted
+  ---
+  duration_ms: 357.519447
+  type: 'test'
+  ...
+# Subtest: new-source empty producer view can initialize without expanding an old admitted view
+ok 4 - new-source empty producer view can initialize without expanding an old admitted view
+  ---
+  duration_ms: 0.819882
+  type: 'test'
+  ...
+# Subtest: an admitted old path cannot relabel itself current and bypass its original producer facts
+ok 5 - an admitted old path cannot relabel itself current and bypass its original producer facts
+  ---
+  duration_ms: 702.518511
+  type: 'test'
+  ...
+# Subtest: unregistered current labels cannot clone old main/receiver projects or omit actual anchors
+ok 6 - unregistered current labels cannot clone old main/receiver projects or omit actual anchors
+  ---
+  duration_ms: 1383.235162
+  type: 'test'
+  ...
+# Subtest: fresh cannot reuse an original baseline project absent from old owned registry
+ok 7 - fresh cannot reuse an original baseline project absent from old owned registry
+  ---
+  duration_ms: 387.871633
+  type: 'test'
+  ...
+# Subtest: Legacy retains all producer qualification/hash/xmin/denial facts plus the exact old seed
+ok 8 - Legacy retains all producer qualification/hash/xmin/denial facts plus the exact old seed
+  ---
+  duration_ms: 1554.305918
+  type: 'test'
+  ...
+# Subtest: lexical prefix with parent traversal cannot redirect the registry outside consumer root
+ok 9 - lexical prefix with parent traversal cannot redirect the registry outside consumer root
+  ---
+  duration_ms: 129.425009
+  type: 'test'
+  ...
+# Subtest: snapshot admission rejects row xmin/catalog/object drift even with identical logical money
+ok 10 - snapshot admission rejects row xmin/catalog/object drift even with identical logical money
+  ---
+  duration_ms: 3.224405
+  type: 'test'
+  ...
+# Subtest: a second explicit admission retains old10 birth and new11 birth independently
+ok 11 - a second explicit admission retains old10 birth and new11 birth independently
+  ---
+  duration_ms: 3867.134748
+  type: 'test'
+  ...
+# Subtest: dropping the prior registry, changing its raw bytes or lying about birth source fails closed
+ok 12 - dropping the prior registry, changing its raw bytes or lying about birth source fails closed
+  ---
+  duration_ms: 4318.37077
+  type: 'test'
+  ...
+# Subtest: the new11 published proof is explicit and cannot be reassigned to old10 or replaced with an unpinned proof
+ok 13 - the new11 published proof is explicit and cannot be reassigned to old10 or replaced with an unpinned proof
+  ---
+  duration_ms: 6217.774166
+  type: 'test'
+  ...
+# Subtest: an old project cloned into an unregistered new11 view lacks a genuine new11 HTTP birth
+ok 14 - an old project cloned into an unregistered new11 view lacks a genuine new11 HTTP birth
+  ---
+  duration_ms: 2164.55117
+  type: 'test'
+  ...
+# Subtest: a pinned impact review never promotes old results to new consumer certification
+ok 15 - a pinned impact review never promotes old results to new consumer certification
+  ---
+  duration_ms: 781.893272
+  type: 'test'
+  ...
+# Subtest: the existing synchronous H bridge returns per-entry birth rather than the immediate producer for old10/new11
+ok 16 - the existing synchronous H bridge returns per-entry birth rather than the immediate producer for old10/new11
+  ---
+  duration_ms: 9147.22409
+  type: 'test'
+  ...
+# Subtest: new12 current labels cannot clone an unregistered old11 project or omit the real anchor
+ok 17 - new12 current labels cannot clone an unregistered old11 project or omit the real anchor
+  ---
+  duration_ms: 6168.4283
+  type: 'test'
+  ...
+# Subtest: new consumer keeps both historical generations and empties active FI/auth/seam without rebasing owned facts
+ok 18 - new consumer keeps both historical generations and empties active FI/auth/seam without rebasing owned facts
+  ---
+  duration_ms: 0.438593
+  type: 'test'
+  ...
+# Subtest: normal forward accepts exact function/log/sequence; original objects may have real owned additions
+ok 19 - normal forward accepts exact function/log/sequence; original objects may have real owned additions
+  ---
+  duration_ms: 28.308
+  type: 'test'
+  ...
+# Subtest: schema delta rejects business row SHA change
+ok 20 - schema delta rejects business row SHA change
+  ---
+  duration_ms: 8.909368
+  type: 'test'
+  ...
+# Subtest: schema delta rejects original business xmin change
+ok 21 - schema delta rejects original business xmin change
+  ---
+  duration_ms: 7.435363
+  type: 'test'
+  ...
+# Subtest: schema delta rejects original migration xmin change
+ok 22 - schema delta rejects original migration xmin change
+  ---
+  duration_ms: 8.824774
+  type: 'test'
+  ...
+# Subtest: schema delta rejects function OID replacement
+ok 23 - schema delta rejects function OID replacement
+  ---
+  duration_ms: 8.266191
+  type: 'test'
+  ...
+# Subtest: schema delta rejects function ACL change
+ok 24 - schema delta rejects function ACL change
+  ---
+  duration_ms: 7.817885
+  type: 'test'
+  ...
+# Subtest: schema delta rejects function security/config change
+ok 25 - schema delta rejects function security/config change
+  ---
+  duration_ms: 6.306676
+  type: 'test'
+  ...
+# Subtest: schema delta rejects unapproved function body
+ok 26 - schema delta rejects unapproved function body
+  ---
+  duration_ms: 7.413568
+  type: 'test'
+  ...
+# Subtest: schema delta rejects function language/header change with correct approved body
+ok 27 - schema delta rejects function language/header change with correct approved body
+  ---
+  duration_ms: 6.736854
+  type: 'test'
+  ...
+# Subtest: schema delta rejects trigger drift
+ok 28 - schema delta rejects trigger drift
+  ---
+  duration_ms: 9.128257
+  type: 'test'
+  ...
+# Subtest: schema delta rejects role privilege drift
+ok 29 - schema delta rejects role privilege drift
+  ---
+  duration_ms: 8.075729
+  type: 'test'
+  ...
+# Subtest: schema delta rejects second added migration row
+ok 30 - schema delta rejects second added migration row
+  ---
+  duration_ms: 6.772111
+  type: 'test'
+  ...
+# Subtest: schema delta rejects missing original migration row
+ok 31 - schema delta rejects missing original migration row
+  ---
+  duration_ms: 6.314892
+  type: 'test'
+  ...
+# Subtest: schema delta rejects migration name substitution
+ok 32 - schema delta rejects migration name substitution
+  ---
+  duration_ms: 7.527736
+  type: 'test'
+  ...
+# Subtest: schema delta rejects missing sequence evidence
+ok 33 - schema delta rejects missing sequence evidence
+  ---
+  duration_ms: 6.168337
+  type: 'test'
+  ...
+# Subtest: schema delta rejects two nextvals instead of normal one
+ok 34 - schema delta rejects two nextvals instead of normal one
+  ---
+  duration_ms: 7.05477
+  type: 'test'
+  ...
+# Subtest: schema delta rejects unrelated sequence registered as migration delta
+ok 35 - schema delta rejects unrelated sequence registered as migration delta
+  ---
+  duration_ms: 10.184598
+  type: 'test'
+  ...
+# Subtest: schema delta rejects namespace marker switch
+ok 36 - schema delta rejects namespace marker switch
+  ---
+  duration_ms: 4.853411
+  type: 'test'
+  ...
+# Subtest: schema delta rejects object drift during migration
+ok 37 - schema delta rejects object drift during migration
+  ---
+  duration_ms: 6.203053
+  type: 'test'
+  ...
+# Subtest: schema delta rejects fresh post-migration business drift
+ok 38 - schema delta rejects fresh post-migration business drift
+  ---
+  duration_ms: 7.307854
+  type: 'test'
+  ...
+# Subtest: schema delta rejects 139th table excluded
+ok 39 - schema delta rejects 139th table excluded
+  ---
+  duration_ms: 10.233381
+  type: 'test'
+  ...
+# Subtest: M98 may not silently use original baseline when schema binding is absent
+ok 40 - M98 may not silently use original baseline when schema binding is absent
+  ---
+  duration_ms: 0.465633
+  type: 'test'
+  ...
+# Subtest: all-null future plan remains non-executable rather than certifying a future Source13
+ok 41 - all-null future plan remains non-executable rather than certifying a future Source13
+  ---
+  duration_ms: 0.301736
+  type: 'test'
+  ...
+# Subtest: read-only binding reproduces exact derived comparison and keeps original baseline separate
+not ok 42 - read-only binding reproduces exact derived comparison and keeps original baseline separate
+  ---
+  duration_ms: 378.093578
+  type: 'test'
+  location: '/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:139:1'
+  failureType: 'testCodeFailure'
+  error: 'Exactly one approved PL function body is required'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: ~
+  operator: '=='
+  stack: |-
+    plBody108 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.mjs:23:85)
+    disk108 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:116:399)
+    TestContext.<anonymous> (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:140:13)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: derived comparison cannot launder all retained business rows into original
+not ok 43 - derived comparison cannot launder all retained business rows into original
+  ---
+  duration_ms: 6.8227
+  type: 'test'
+  location: '/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:142:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert(!activeVirtual136)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    virtual136 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:26:3)
+    disk108 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:111:19)
+    TestContext.<anonymous> (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:143:13)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: only real zero-exit migration receipt may explain canonical advancement
+not ok 44 - only real zero-exit migration receipt may explain canonical advancement
+  ---
+  duration_ms: 4.625262
+  type: 'test'
+  location: '/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:146:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert(!activeVirtual136)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    virtual136 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:26:3)
+    disk108 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:111:19)
+    TestContext.<anonymous> (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:147:13)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: matching new consumer baseline fields cannot override the frozen producer original baseline pin
+not ok 45 - matching new consumer baseline fields cannot override the frozen producer original baseline pin
+  ---
+  duration_ms: 3.835156
+  type: 'test'
+  location: '/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:149:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert(!activeVirtual136)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    virtual136 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:26:3)
+    disk108 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:111:19)
+    TestContext.<anonymous> (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:150:13)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: wrapper success cannot replace a different exit code in the real execution receipt pin
+not ok 46 - wrapper success cannot replace a different exit code in the real execution receipt pin
+  ---
+  duration_ms: 4.180824
+  type: 'test'
+  location: '/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:156:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert(!activeVirtual136)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    virtual136 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:26:3)
+    disk108 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:111:19)
+    TestContext.<anonymous> (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:157:13)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: ledger sees canonical M98 in both databases but still requires each HTTP-owned business/object addition
+not ok 47 - ledger sees canonical M98 in both databases but still requires each HTTP-owned business/object addition
+  ---
+  duration_ms: 4.207511
+  type: 'test'
+  location: '/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:164:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert(!activeVirtual136)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    virtual136 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:26:3)
+    disk108 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:111:19)
+    TestContext.<anonymous> (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:165:13)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: schema3 preserves mixed10/11/12 births, late published receipts and exact legacy/UI projections
+not ok 48 - schema3 preserves mixed10/11/12 births, late published receipts and exact legacy/UI projections
+  ---
+  duration_ms: 4.308771
+  type: 'test'
+  location: '/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:183:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert(!activeVirtual136)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    virtual136 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:26:3)
+    disk108 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:111:19)
+    TestContext.<anonymous> (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:184:13)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 136 receipt chain rejects mutually identical DOWN argv with UP labels
+not ok 49 - 136 receipt chain rejects mutually identical DOWN argv with UP labels
+  ---
+  duration_ms: 3.515994
+  type: 'test'
+  location: '/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:275:4'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert(!activeVirtual136)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    virtual136 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:26:3)
+    disk108 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:111:19)
+    TestContext.<anonymous> (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:275:64)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 136 receipt chain rejects unrelated program with matching UP labels
+not ok 50 - 136 receipt chain rejects unrelated program with matching UP labels
+  ---
+  duration_ms: 3.845005
+  type: 'test'
+  location: '/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:275:4'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert(!activeVirtual136)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    virtual136 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:26:3)
+    disk108 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:111:19)
+    TestContext.<anonymous> (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:275:64)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 136 receipt chain rejects wrong runner path with mutually matching source labels
+not ok 51 - 136 receipt chain rejects wrong runner path with mutually matching source labels
+  ---
+  duration_ms: 4.017394
+  type: 'test'
+  location: '/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:275:4'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert(!activeVirtual136)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    virtual136 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:26:3)
+    disk108 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:111:19)
+    TestContext.<anonymous> (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:275:64)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 136 receipt chain rejects wrong target database consistently labelled
+not ok 52 - 136 receipt chain rejects wrong target database consistently labelled
+  ---
+  duration_ms: 3.567397
+  type: 'test'
+  location: '/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:275:4'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert(!activeVirtual136)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    virtual136 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:26:3)
+    disk108 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:111:19)
+    TestContext.<anonymous> (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:275:64)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 136 receipt chain rejects other allowed DB in argv while receipt names Native
+not ok 53 - 136 receipt chain rejects other allowed DB in argv while receipt names Native
+  ---
+  duration_ms: 3.632901
+  type: 'test'
+  location: '/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:275:4'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert(!activeVirtual136)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    virtual136 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:26:3)
+    disk108 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:111:19)
+    TestContext.<anonymous> (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:275:64)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 136 receipt chain rejects wrong migration name consistently labelled
+not ok 54 - 136 receipt chain rejects wrong migration name consistently labelled
+  ---
+  duration_ms: 3.588424
+  type: 'test'
+  location: '/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:275:4'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert(!activeVirtual136)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    virtual136 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:26:3)
+    disk108 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:111:19)
+    TestContext.<anonymous> (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:275:64)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 136 receipt chain rejects extra free direction argument
+not ok 55 - 136 receipt chain rejects extra free direction argument
+  ---
+  duration_ms: 3.467338
+  type: 'test'
+  location: '/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:275:4'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert(!activeVirtual136)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    virtual136 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:26:3)
+    disk108 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:111:19)
+    TestContext.<anonymous> (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:275:64)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 136 receipt chain rejects down Migrator method behind fixed UP invocation
+not ok 56 - 136 receipt chain rejects down Migrator method behind fixed UP invocation
+  ---
+  duration_ms: 3.014523
+  type: 'test'
+  location: '/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:275:4'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert(!activeVirtual136)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    virtual136 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:26:3)
+    disk108 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:111:19)
+    TestContext.<anonymous> (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:275:64)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 136 receipt chain rejects non-unique or extra Migrator options
+not ok 57 - 136 receipt chain rejects non-unique or extra Migrator options
+  ---
+  duration_ms: 3.772103
+  type: 'test'
+  location: '/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:275:4'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert(!activeVirtual136)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    virtual136 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:26:3)
+    disk108 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:111:19)
+    TestContext.<anonymous> (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:275:64)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 136 receipt chain rejects different intent than actual execution
+not ok 58 - 136 receipt chain rejects different intent than actual execution
+  ---
+  duration_ms: 3.447505
+  type: 'test'
+  location: '/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:275:4'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert(!activeVirtual136)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    virtual136 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:26:3)
+    disk108 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:111:19)
+    TestContext.<anonymous> (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:275:64)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 136 receipt chain rejects additional pending migration
+not ok 59 - 136 receipt chain rejects additional pending migration
+  ---
+  duration_ms: 3.692398
+  type: 'test'
+  location: '/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:275:4'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert(!activeVirtual136)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    virtual136 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:26:3)
+    disk108 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:111:19)
+    TestContext.<anonymous> (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:275:64)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 136 receipt chain rejects wrong applied migration
+not ok 60 - 136 receipt chain rejects wrong applied migration
+  ---
+  duration_ms: 4.22388
+  type: 'test'
+  location: '/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:275:4'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert(!activeVirtual136)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    virtual136 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:26:3)
+    disk108 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:111:19)
+    TestContext.<anonymous> (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:275:64)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 136 receipt chain rejects executed count97 despite wrapper success
+not ok 61 - 136 receipt chain rejects executed count97 despite wrapper success
+  ---
+  duration_ms: 3.782639
+  type: 'test'
+  location: '/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:275:4'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert(!activeVirtual136)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    virtual136 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:26:3)
+    disk108 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:111:19)
+    TestContext.<anonymous> (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:275:64)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 136 receipt chain rejects stdout points at another execution raw original
+not ok 62 - 136 receipt chain rejects stdout points at another execution raw original
+  ---
+  duration_ms: 3.971242
+  type: 'test'
+  location: '/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:275:4'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert(!activeVirtual136)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    virtual136 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:26:3)
+    disk108 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:111:19)
+    TestContext.<anonymous> (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:275:64)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 136 receipt chain rejects stdout completion false despite successful execution record
+not ok 63 - 136 receipt chain rejects stdout completion false despite successful execution record
+  ---
+  duration_ms: 4.618641
+  type: 'test'
+  location: '/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:275:4'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert(!activeVirtual136)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    virtual136 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:26:3)
+    disk108 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:111:19)
+    TestContext.<anonymous> (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:275:64)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 136 receipt requires the actual frozen G2 original rather than an absent file with a claimed pin
+not ok 64 - 136 receipt requires the actual frozen G2 original rather than an absent file with a claimed pin
+  ---
+  duration_ms: 4.199611
+  type: 'test'
+  location: '/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:276:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert(!activeVirtual136)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    virtual136 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:26:3)
+    disk108 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:111:19)
+    TestContext.<anonymous> (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:277:13)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 136 receipt rejects altered reviewed runner bytes despite matching runner labels
+not ok 65 - 136 receipt rejects altered reviewed runner bytes despite matching runner labels
+  ---
+  duration_ms: 4.159054
+  type: 'test'
+  location: '/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:279:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert(!activeVirtual136)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    virtual136 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:26:3)
+    disk108 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:111:19)
+    TestContext.<anonymous> (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:280:13)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 136 receipt binds actual Node bytes to the exact Node pin in G2, intent and execution
+not ok 66 - 136 receipt binds actual Node bytes to the exact Node pin in G2, intent and execution
+  ---
+  duration_ms: 4.035457
+  type: 'test'
+  location: '/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:282:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert(!activeVirtual136)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    virtual136 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:26:3)
+    disk108 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:111:19)
+    TestContext.<anonymous> (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:283:13)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: 136 receipt rejects changed G2 mechanism even when both command chains adopt its new hash
+not ok 67 - 136 receipt rejects changed G2 mechanism even when both command chains adopt its new hash
+  ---
+  duration_ms: 4.307167
+  type: 'test'
+  location: '/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:285:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert(!activeVirtual136)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    virtual136 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:26:3)
+    disk108 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:111:19)
+    TestContext.<anonymous> (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/isolated108/schema-comparison108.test.mjs:286:13)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+1..67
+# tests 67
+# suites 0
+# pass 41
+# fail 26
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 39938.857982

@@ -191,6 +191,19 @@ impl Table {
                 "t.id IN (SELECT approval_record_id FROM poms.contract_review_binding WHERE contract_id IN (SELECT id FROM poms.contract WHERE project_id=$1))"
             }
             Self::ReceiptBasis => "t.project_id=$1",
+            Self::Payable => {
+                "t.project_id=$1 OR t.id::text IN (SELECT c.source_id FROM poms.project_actual_cost_record c WHERE c.source_type='payable-record' AND c.id IN (SELECT s.cost_record_id FROM poms.shared_cost_allocation_source_snapshot s JOIN poms.shared_cost_allocation_result r ON r.basis_id=s.basis_id WHERE r.project_id=$1))"
+            }
+            Self::Payment => {
+                "t.project_id=$1 OR t.id::text IN (SELECT c.source_id FROM poms.project_actual_cost_record c WHERE c.source_type='payment-record' AND c.id IN (SELECT s.cost_record_id FROM poms.shared_cost_allocation_source_snapshot s JOIN poms.shared_cost_allocation_result r ON r.basis_id=s.basis_id WHERE r.project_id=$1))"
+            }
+            Self::Invoice => {
+                "t.project_id=$1 OR t.id::text IN (SELECT c.source_id FROM poms.project_actual_cost_record c WHERE c.source_type='invoice-record' AND c.id IN (SELECT s.cost_record_id FROM poms.shared_cost_allocation_source_snapshot s JOIN poms.shared_cost_allocation_result r ON r.basis_id=s.basis_id WHERE r.project_id=$1))"
+            }
+            Self::Expense => {
+                "t.project_id=$1 OR t.id::text IN (SELECT c.source_id FROM poms.project_actual_cost_record c WHERE c.source_type='expense-record' AND c.id IN (SELECT s.cost_record_id FROM poms.shared_cost_allocation_source_snapshot s JOIN poms.shared_cost_allocation_result r ON r.basis_id=s.basis_id WHERE r.project_id=$1))"
+            }
+
             Self::AllocationBasis => {
                 "t.id IN (SELECT basis_id FROM poms.shared_cost_allocation_result WHERE project_id=$1) OR t.id IN (SELECT s.basis_id FROM poms.shared_cost_allocation_source_snapshot s JOIN poms.project_actual_cost_record c ON c.id=s.cost_record_id WHERE c.project_id=$1)"
             }
@@ -473,4 +486,30 @@ pub(crate) async fn source_member(
         reference["payloadHash"].as_str().ok_or(Error::Internal)?
     );
     insert(session,Table::SourceMember,&json!({"context_id":context,"member_key":key,"source_kind":reference["kind"],"source_id":reference["id"],"source_row_version":reference["rowVersion"],"source_payload_hash":reference["payloadHash"],"captured_payload":payload})).await
+}
+
+#[cfg(test)]
+mod foreign_fiscal_predicate84_tests {
+    use super::*;
+
+    #[test]
+    fn foreign_fiscal_predicate84_requires_the_actual_share_cost_source_identity() {
+        for (table, source_type) in [
+            (Table::Expense, "expense-record"),
+            (Table::Invoice, "invoice-record"),
+            (Table::Payment, "payment-record"),
+            (Table::Payable, "payable-record"),
+        ] {
+            let predicate = table
+                .project_predicate()
+                .expect("closed fiscal parent predicate");
+            assert!(predicate.starts_with("t.project_id=$1 OR t.id::text IN (SELECT c.source_id"));
+            assert!(predicate.contains(&format!("c.source_type='{source_type}'")));
+            assert!(predicate.contains("c.id IN (SELECT s.cost_record_id FROM poms.shared_cost_allocation_source_snapshot s JOIN poms.shared_cost_allocation_result r ON r.basis_id=s.basis_id WHERE r.project_id=$1)"));
+            assert!(
+                !predicate.contains("OR t.project_id IN"),
+                "Import only exact referenced parents, never every fiscal record of the source project"
+            );
+        }
+    }
 }

@@ -1,0 +1,47 @@
+{
+  "kind": "fixed-M97-guard-before183",
+  "snapshot": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-007492-retained139-after.json",
+    "rawBytesSha256": "106c66efc668090d4605b6a953ebfddfa65aa2df8c13c3e7531a51bf57130d15"
+  },
+  "functions": [
+    {
+      "database": "poms_r4ghi_native",
+      "oid": "26561",
+      "schema": "poms",
+      "proname": "jghi_assignment_participant_guard",
+      "arguments": "",
+      "owner": "poms_r0e_owner",
+      "acl": null,
+      "prosecdef": false,
+      "proconfig": null,
+      "definition": "CREATE OR REPLACE FUNCTION poms.jghi_assignment_participant_guard()\n RETURNS trigger\n LANGUAGE plpgsql\nAS $function$\r\nDECLARE parent_id uuid;\r\nBEGIN\r\n IF TG_OP='UPDATE' AND NEW.assignment_id IS DISTINCT FROM OLD.assignment_id THEN\r\n  RAISE EXCEPTION 'assignment participant cannot be reparented' USING ERRCODE='23514';\r\n END IF;\r\n IF TG_OP='DELETE' THEN parent_id:=OLD.assignment_id; ELSE parent_id:=NEW.assignment_id; END IF;\r\n IF EXISTS(SELECT 1 FROM poms.commission_role_assignment a WHERE a.id=parent_id AND a.status='frozen') THEN\r\n  RAISE EXCEPTION 'frozen assignment participants immutable' USING ERRCODE='23514';\r\n END IF;\r\n IF TG_OP='DELETE' THEN RETURN OLD; END IF; RETURN NEW;\r\nEND $function$\n",
+      "requiredAfterSameOID": "26561",
+      "actualM98AfterOID": null,
+      "actualM98AfterDefinition": null
+    },
+    {
+      "database": "poms_r4ghi_rust",
+      "oid": "27648",
+      "schema": "poms",
+      "proname": "jghi_assignment_participant_guard",
+      "arguments": "",
+      "owner": "poms_r0e_owner",
+      "acl": null,
+      "prosecdef": false,
+      "proconfig": null,
+      "definition": "CREATE OR REPLACE FUNCTION poms.jghi_assignment_participant_guard()\n RETURNS trigger\n LANGUAGE plpgsql\nAS $function$\r\nDECLARE parent_id uuid;\r\nBEGIN\r\n IF TG_OP='UPDATE' AND NEW.assignment_id IS DISTINCT FROM OLD.assignment_id THEN\r\n  RAISE EXCEPTION 'assignment participant cannot be reparented' USING ERRCODE='23514';\r\n END IF;\r\n IF TG_OP='DELETE' THEN parent_id:=OLD.assignment_id; ELSE parent_id:=NEW.assignment_id; END IF;\r\n IF EXISTS(SELECT 1 FROM poms.commission_role_assignment a WHERE a.id=parent_id AND a.status='frozen') THEN\r\n  RAISE EXCEPTION 'frozen assignment participants immutable' USING ERRCODE='23514';\r\n END IF;\r\n IF TG_OP='DELETE' THEN RETURN OLD; END IF; RETURN NEW;\r\nEND $function$\n",
+      "requiredAfterSameOID": "27648",
+      "actualM98AfterOID": null,
+      "actualM98AfterDefinition": null
+    }
+  ],
+  "newSQL": {
+    "file": "docs/design/rust-r4ghi/g2-frozen-participant-parent-lock65.sql",
+    "rawBytesSha256": "90b091eb36a7f58ae0cf3a9504b2426ea6de868a4bab9af5a2c1e6bd89e0106e"
+  },
+  "actualM98Receipt": null,
+  "SQLExecutedByReviewer": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

@@ -1,0 +1,185 @@
+{
+  "kind": "Root-reviewable-Source13-constructor03-exact-mirror-cargo-protocol",
+  "schemaVersion": 1,
+  "closesInToolScope": "IR107-02",
+  "predecessorManifestSHA256": "c973ce7f9f4ace3f5a50c7c04c92cab47498d3f6dc7042806f39f845f2f16ec4",
+  "predecessorsUnmodified": true,
+  "candidate": {
+    "target": "tools/rust-r4ghi/construct-source13-bindings.mjs",
+    "file": "proposed/tools/rust-r4ghi/construct-source13-bindings.mjs",
+    "observedRootTargetSHA256": null,
+    "applyIfAbsentOrExactBeforeSHA256": "64587795d83f2d8583c73e38453668730373d2f352f8a6271fbd06ce9daa85bf",
+    "beforeConstructorSHA256": "64587795d83f2d8583c73e38453668730373d2f352f8a6271fbd06ce9daa85bf",
+    "afterSHA256": "0b89c24251ab561a08e15983e9931bc9b2a3b433d1aa66866621d3c607471c4e",
+    "beforeConstructor": "before13/tools/rust-r4ghi/construct-source13-bindings.mjs",
+    "bytes": 24195
+  },
+  "onlyAssertBuildFactsChanged": true,
+  "nullInputTemplatesByteIdentical": true,
+  "exactArgvProtocol": {
+    "cwd": "/home/wangzishi/projects/poms-rust-r4ghi",
+    "argvByCommand": {
+      "fmt": [
+        "/home/wangzishi/.cargo/bin/cargo",
+        "+1.99.1",
+        "fmt",
+        "--manifest-path",
+        "/home/wangzishi/projects/poms-rust-r4ghi/apps/poms-api-rust/Cargo.toml",
+        "--",
+        "--check"
+      ],
+      "clippy": [
+        "/home/wangzishi/.cargo/bin/cargo",
+        "+1.99.1",
+        "clippy",
+        "--manifest-path",
+        "/home/wangzishi/projects/poms-rust-r4ghi/apps/poms-api-rust/Cargo.toml",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "test": [
+        "/home/wangzishi/.cargo/bin/cargo",
+        "+1.99.1",
+        "test",
+        "--manifest-path",
+        "/home/wangzishi/projects/poms-rust-r4ghi/apps/poms-api-rust/Cargo.toml",
+        "--all-targets"
+      ],
+      "build": [
+        "/home/wangzishi/.cargo/bin/cargo",
+        "+1.99.1",
+        "build",
+        "--manifest-path",
+        "/home/wangzishi/projects/poms-rust-r4ghi/apps/poms-api-rust/Cargo.toml",
+        "--bin",
+        "poms-api-rust",
+        "--example",
+        "r4ghi_summary_producer08"
+      ]
+    },
+    "executionRecordedByConstructor": false
+  },
+  "sidecars": [
+    {
+      "file": "README03.md",
+      "rawBytesSha256": "5e6c14441dfb51b28888fe11f4399cf54174da8902278696c79a618e0a65c393",
+      "bytes": 2366
+    },
+    {
+      "file": "build-shapes03.json",
+      "rawBytesSha256": "64cb69827ffc7295f9d8609659b16826a49b977e53ad3feb8b436c9e05aa3953",
+      "bytes": 3118
+    },
+    {
+      "file": "input-templates13.json",
+      "rawBytesSha256": "2f2a13006e0a8bc7f00b52b85d6becdfa5e4590cf37eca02e8125761a59d852c",
+      "bytes": 2892
+    },
+    {
+      "file": "construct13.test.mjs",
+      "rawBytesSha256": "ac2b9fd3610f998146a1738c8198bbfe5e3d5b100803512f2ce291945cd99a31",
+      "bytes": 10455
+    },
+    {
+      "file": "check13.mjs",
+      "rawBytesSha256": "567da24c4e74990eae32ae44ec2f084dcbcd691ee0ee00ab80a2af9db2f7215e",
+      "bytes": 2320
+    },
+    {
+      "file": "prepare03.mjs",
+      "rawBytesSha256": "b75e00003495089f27d76bfd757afdbe23b824f5d8f4006b626be9d4717167b4",
+      "bytes": 5869
+    },
+    {
+      "file": "seal03.mjs",
+      "rawBytesSha256": "1811a620ef6bb4a5f570aa6c718e0b1728d7850d13c256eae686aa42fccc26a8",
+      "bytes": 3892
+    },
+    {
+      "file": "validation13.json",
+      "rawBytesSha256": "8ca265517eb0193264e146837c4a27aebb08c64223947f8a799310eebcb06fc2",
+      "bytes": 674
+    },
+    {
+      "file": "pure13.stdout.log",
+      "rawBytesSha256": "8f83ee92c2e8568b8698e785f4351cc1d13718d40d63a03be9bbf14e67de1520",
+      "bytes": 3229
+    },
+    {
+      "file": "pure13.stderr.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "syntax13.stdout.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "syntax13.stderr.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "help13.stdout.log",
+      "rawBytesSha256": "20032a3f5c4f266012ecad975122ffb347f97e421b66d7328e9215bdeb5aa207",
+      "bytes": 202
+    },
+    {
+      "file": "help13.stderr.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    }
+  ],
+  "validation": {
+    "kind": "I-Source13-constructor03-pure-and-FS-only-validation",
+    "nodeVersion": "v24.19.0",
+    "steps": [
+      {
+        "name": "syntax13",
+        "exitCode": 0
+      },
+      {
+        "name": "help13",
+        "exitCode": 0
+      },
+      {
+        "name": "pure13",
+        "exitCode": 0
+      }
+    ],
+    "purePass": 12,
+    "pureFail": 0,
+    "constructorSourceStable": true,
+    "actual139IndexStateAfterPinsVerified": true,
+    "constructorsExecutedAgainstRoot": false,
+    "RootWrites": 0,
+    "SQLConnections": 0,
+    "HTTPRequests": 0,
+    "stateCounterUsed": false,
+    "actualSource13": null,
+    "actualB0": null,
+    "actualPlan": null,
+    "actualR3": null,
+    "actualB1": null,
+    "G3Certified": false
+  },
+  "RootObservationSemantics": "actual-source-inventory-and-copy-no-Root-compile",
+  "mirrorObservationSemantics": "one-actual-owned-mirror-fixed-fmt-clippy-test-build-and-summary-example",
+  "actualSource13": null,
+  "actualRootInventory": null,
+  "actualMirrorCargo": null,
+  "actualAPI136": null,
+  "actualB0": null,
+  "actualR3": null,
+  "actualB1": null,
+  "RootWritesByAuthor": 0,
+  "SQLConnectionsByAuthor": 0,
+  "HTTPRequestsByAuthor": 0,
+  "actualModeExecutedByAuthor": false,
+  "processesStartedByAuthor": 0,
+  "G3Certified": false,
+  "G4Certified": false
+}

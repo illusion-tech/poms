@@ -1,0 +1,33 @@
+{
+  "kind": "Root-reviewable-isolated-owned-EO-role-permission-test-fixture-only47",
+  "status": "not-executed-source13-values-unbound",
+  "actorKey": "execution",
+  "userId": "e7dbe7a0-11ce-488d-8f09-4f1401e17f98",
+  "roleId": "001fa53e-71c7-4e0e-9649-e1f7c3324271",
+  "retainedRoleBirthProofSource": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/retention/epoch12-before-source13-139/state-at-retention139.json",
+    "rawBytesSha256": "ee7371dc4fc5d388f6898fb1c6eb90bebb6404eca6c31d23599469445804a628"
+  },
+  "ownedProofKeys": [
+    ["poms_r4ghi_rust", "role", ["001fa53e-71c7-4e0e-9649-e1f7c3324271"]],
+    ["poms_r4ghi_rust", "platform_user", ["e7dbe7a0-11ce-488d-8f09-4f1401e17f98"]]
+  ],
+  "oldSource12PermissionsKeepOldLabels": ["project:read", "project:write"],
+  "addOnly": ["contract:finance:manage", "operating:finance:sensitive:read"],
+  "expectedCompletePermissions": ["project:read", "project:write", "contract:finance:manage", "operating:finance:sensitive:read"],
+  "forbiddenPermission": "labor-cost-rate:sensitive:read",
+  "publicSetup": {
+    "readOperations": ["PlatformController_getRole", "PlatformController_getUser"],
+    "operationId": "PlatformController_assignRolePermissions",
+    "params": {"id": "001fa53e-71c7-4e0e-9649-e1f7c3324271"},
+    "requestDto": "AssignRolePermissionsRequest",
+    "body": {"permissionKeys": ["project:read", "project:write", "contract:finance:manage", "operating:finance:sensitive:read"]},
+    "requiredActualLedger": "exact two new role_permission_assignment births, same owned role and permission keys; zero old permission deletes/updates; no user-role reassign",
+    "freshLoginRequired": true,
+    "freshCurrentAuthRequired": true,
+    "actualCommandReceipt": null
+  },
+  "grantsBusinessApproval": false,
+  "authorExecuted": false,
+  "G3Certified": false
+}

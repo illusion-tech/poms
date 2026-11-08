@@ -1,0 +1,305 @@
+TAP version 13
+# Subtest: consumer bridge preserves original source and accepts only explicit project subsets
+ok 1 - consumer bridge preserves original source and accepts only explicit project subsets
+  ---
+  duration_ms: 689.44245
+  type: 'test'
+  ...
+# Subtest: only four actual UI observer fields may differ from the retained producer projection
+ok 2 - only four actual UI observer fields may differ from the retained producer projection
+  ---
+  duration_ms: 477.714637
+  type: 'test'
+  ...
+# Subtest: unlisted record, changed source label and corrupt pinned registry cannot be admitted
+ok 3 - unlisted record, changed source label and corrupt pinned registry cannot be admitted
+  ---
+  duration_ms: 352.168271
+  type: 'test'
+  ...
+# Subtest: new-source empty producer view can initialize without expanding an old admitted view
+ok 4 - new-source empty producer view can initialize without expanding an old admitted view
+  ---
+  duration_ms: 0.523652
+  type: 'test'
+  ...
+# Subtest: an admitted old path cannot relabel itself current and bypass its original producer facts
+ok 5 - an admitted old path cannot relabel itself current and bypass its original producer facts
+  ---
+  duration_ms: 704.354915
+  type: 'test'
+  ...
+# Subtest: unregistered current labels cannot clone old main/receiver projects or omit actual anchors
+ok 6 - unregistered current labels cannot clone old main/receiver projects or omit actual anchors
+  ---
+  duration_ms: 1326.953016
+  type: 'test'
+  ...
+# Subtest: fresh cannot reuse an original baseline project absent from old owned registry
+ok 7 - fresh cannot reuse an original baseline project absent from old owned registry
+  ---
+  duration_ms: 378.327257
+  type: 'test'
+  ...
+# Subtest: Legacy retains all producer qualification/hash/xmin/denial facts plus the exact old seed
+ok 8 - Legacy retains all producer qualification/hash/xmin/denial facts plus the exact old seed
+  ---
+  duration_ms: 1523.912889
+  type: 'test'
+  ...
+# Subtest: lexical prefix with parent traversal cannot redirect the registry outside consumer root
+ok 9 - lexical prefix with parent traversal cannot redirect the registry outside consumer root
+  ---
+  duration_ms: 131.156548
+  type: 'test'
+  ...
+# Subtest: snapshot admission rejects row xmin/catalog/object drift even with identical logical money
+ok 10 - snapshot admission rejects row xmin/catalog/object drift even with identical logical money
+  ---
+  duration_ms: 2.719449
+  type: 'test'
+  ...
+# Subtest: a second explicit admission retains old10 birth and new11 birth independently
+ok 11 - a second explicit admission retains old10 birth and new11 birth independently
+  ---
+  duration_ms: 3986.788338
+  type: 'test'
+  ...
+# Subtest: dropping the prior registry, changing its raw bytes or lying about birth source fails closed
+ok 12 - dropping the prior registry, changing its raw bytes or lying about birth source fails closed
+  ---
+  duration_ms: 4453.662609
+  type: 'test'
+  ...
+# Subtest: the new11 published proof is explicit and cannot be reassigned to old10 or replaced with an unpinned proof
+ok 13 - the new11 published proof is explicit and cannot be reassigned to old10 or replaced with an unpinned proof
+  ---
+  duration_ms: 6371.698431
+  type: 'test'
+  ...
+# Subtest: an old project cloned into an unregistered new11 view lacks a genuine new11 HTTP birth
+ok 14 - an old project cloned into an unregistered new11 view lacks a genuine new11 HTTP birth
+  ---
+  duration_ms: 2144.135014
+  type: 'test'
+  ...
+# Subtest: a pinned impact review never promotes old results to new consumer certification
+ok 15 - a pinned impact review never promotes old results to new consumer certification
+  ---
+  duration_ms: 775.261435
+  type: 'test'
+  ...
+# Subtest: the existing synchronous H bridge returns per-entry birth rather than the immediate producer for old10/new11
+ok 16 - the existing synchronous H bridge returns per-entry birth rather than the immediate producer for old10/new11
+  ---
+  duration_ms: 9186.697282
+  type: 'test'
+  ...
+# Subtest: new12 current labels cannot clone an unregistered old11 project or omit the real anchor
+ok 17 - new12 current labels cannot clone an unregistered old11 project or omit the real anchor
+  ---
+  duration_ms: 6228.340012
+  type: 'test'
+  ...
+# Subtest: new consumer keeps both historical generations and empties active FI/auth/seam without rebasing owned facts
+ok 18 - new consumer keeps both historical generations and empties active FI/auth/seam without rebasing owned facts
+  ---
+  duration_ms: 0.51029
+  type: 'test'
+  ...
+# Subtest: normal forward accepts exact function/log/sequence; original objects may have real owned additions
+ok 19 - normal forward accepts exact function/log/sequence; original objects may have real owned additions
+  ---
+  duration_ms: 29.063457
+  type: 'test'
+  ...
+# Subtest: schema delta rejects business row SHA change
+ok 20 - schema delta rejects business row SHA change
+  ---
+  duration_ms: 10.263136
+  type: 'test'
+  ...
+# Subtest: schema delta rejects original business xmin change
+ok 21 - schema delta rejects original business xmin change
+  ---
+  duration_ms: 8.411686
+  type: 'test'
+  ...
+# Subtest: schema delta rejects original migration xmin change
+ok 22 - schema delta rejects original migration xmin change
+  ---
+  duration_ms: 7.783726
+  type: 'test'
+  ...
+# Subtest: schema delta rejects function OID replacement
+ok 23 - schema delta rejects function OID replacement
+  ---
+  duration_ms: 7.875846
+  type: 'test'
+  ...
+# Subtest: schema delta rejects function ACL change
+ok 24 - schema delta rejects function ACL change
+  ---
+  duration_ms: 8.580703
+  type: 'test'
+  ...
+# Subtest: schema delta rejects function security/config change
+ok 25 - schema delta rejects function security/config change
+  ---
+  duration_ms: 6.273463
+  type: 'test'
+  ...
+# Subtest: schema delta rejects unapproved function body
+ok 26 - schema delta rejects unapproved function body
+  ---
+  duration_ms: 7.624438
+  type: 'test'
+  ...
+# Subtest: schema delta rejects trigger drift
+ok 27 - schema delta rejects trigger drift
+  ---
+  duration_ms: 9.197076
+  type: 'test'
+  ...
+# Subtest: schema delta rejects role privilege drift
+ok 28 - schema delta rejects role privilege drift
+  ---
+  duration_ms: 7.266577
+  type: 'test'
+  ...
+# Subtest: schema delta rejects second added migration row
+ok 29 - schema delta rejects second added migration row
+  ---
+  duration_ms: 7.225185
+  type: 'test'
+  ...
+# Subtest: schema delta rejects missing original migration row
+ok 30 - schema delta rejects missing original migration row
+  ---
+  duration_ms: 7.299048
+  type: 'test'
+  ...
+# Subtest: schema delta rejects migration name substitution
+ok 31 - schema delta rejects migration name substitution
+  ---
+  duration_ms: 8.573718
+  type: 'test'
+  ...
+# Subtest: schema delta rejects missing sequence evidence
+ok 32 - schema delta rejects missing sequence evidence
+  ---
+  duration_ms: 8.424457
+  type: 'test'
+  ...
+# Subtest: schema delta rejects two nextvals instead of normal one
+ok 33 - schema delta rejects two nextvals instead of normal one
+  ---
+  duration_ms: 6.842491
+  type: 'test'
+  ...
+# Subtest: schema delta rejects unrelated sequence registered as migration delta
+ok 34 - schema delta rejects unrelated sequence registered as migration delta
+  ---
+  duration_ms: 9.259032
+  type: 'test'
+  ...
+# Subtest: schema delta rejects namespace marker switch
+ok 35 - schema delta rejects namespace marker switch
+  ---
+  duration_ms: 5.845221
+  type: 'test'
+  ...
+# Subtest: schema delta rejects object drift during migration
+ok 36 - schema delta rejects object drift during migration
+  ---
+  duration_ms: 7.274303
+  type: 'test'
+  ...
+# Subtest: schema delta rejects fresh post-migration business drift
+ok 37 - schema delta rejects fresh post-migration business drift
+  ---
+  duration_ms: 4.683052
+  type: 'test'
+  ...
+# Subtest: schema delta rejects 139th table excluded
+ok 38 - schema delta rejects 139th table excluded
+  ---
+  duration_ms: 5.759821
+  type: 'test'
+  ...
+# Subtest: M98 may not silently use original baseline when schema binding is absent
+ok 39 - M98 may not silently use original baseline when schema binding is absent
+  ---
+  duration_ms: 0.176861
+  type: 'test'
+  ...
+# Subtest: all-null future plan remains non-executable rather than certifying a future Source13
+ok 40 - all-null future plan remains non-executable rather than certifying a future Source13
+  ---
+  duration_ms: 0.326052
+  type: 'test'
+  ...
+# Subtest: read-only binding reproduces exact derived comparison and keeps original baseline separate
+ok 41 - read-only binding reproduces exact derived comparison and keeps original baseline separate
+  ---
+  duration_ms: 7955.581714
+  type: 'test'
+  ...
+# Subtest: derived comparison cannot launder all retained business rows into original
+ok 42 - derived comparison cannot launder all retained business rows into original
+  ---
+  duration_ms: 4928.813475
+  type: 'test'
+  ...
+# Subtest: only real zero-exit migration receipt may explain canonical advancement
+ok 43 - only real zero-exit migration receipt may explain canonical advancement
+  ---
+  duration_ms: 3538.015902
+  type: 'test'
+  ...
+# Subtest: ledger sees canonical M98 in both databases but still requires each HTTP-owned business/object addition
+ok 44 - ledger sees canonical M98 in both databases but still requires each HTTP-owned business/object addition
+  ---
+  duration_ms: 23380.993664
+  type: 'test'
+  ...
+# Subtest: schema3 preserves mixed10/11/12 births, late published receipts and exact legacy/UI projections
+not ok 45 - schema3 preserves mixed10/11/12 births, late published receipts and exact legacy/UI projections
+  ---
+  duration_ms: 8120.491384
+  type: 'test'
+  location: '/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/isolated108/schema-comparison108.test.mjs:123:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'a8198524f58e72b56283ab71ebddada22840f108b46ef7165bb3fca9919c5558'
+    - '0b858d389afd1a66bc9561247d722051f0054e28cf1fa99f547189d82ed1263b'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: '0b858d389afd1a66bc9561247d722051f0054e28cf1fa99f547189d82ed1263b'
+  actual: 'a8198524f58e72b56283ab71ebddada22840f108b46ef7165bb3fca9919c5558'
+  operator: 'strictEqual'
+  stack: |-
+    readSchemaPin108 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/isolated108/schema-comparison108.mjs:12:51)
+    json (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/isolated108/schema-comparison108.mjs:14:40)
+    verifySchemaBinding108 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/isolated108/schema-comparison108.mjs:155:61)
+    frame (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/isolated108/registry-lineage62.mjs:51:37)
+    makeChainedAdmissions62 (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/isolated108/registry-lineage62.mjs:120:19)
+    TestContext.<anonymous> (file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/isolated108/schema-comparison108.test.mjs:176:99)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+  ...
+1..45
+# tests 45
+# suites 0
+# pass 44
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 87654.64404

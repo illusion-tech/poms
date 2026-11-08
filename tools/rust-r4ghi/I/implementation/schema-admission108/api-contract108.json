@@ -1,0 +1,18 @@
+{
+  "kind": "proposed-explicit-schema-admission-API108",
+  "registrySchemaVersion": 3,
+  "migrationBoundary": { "from": 97, "to": 98, "tablesPerDatabase": 139, "onlyNormalForward": true },
+  "synchronousReadOnly": ["verifySchemaBinding108(ctx,binding,registry?)", "comparisonBaselinePin108(ctx)", "loadComparisonSnapshot108(ctx)", "assertAdmittedContext54(ctx)", "assertAdmittedFixtureSource(ctx,args)", "readAdmittedConsumerContext({statePin})", "validateRegistryLineage62(ctx,registry)"],
+  "pureWithOptionalPinnedRowReader": ["verifyM98Transition108(inputs,readRows?)", "deriveComparisonBaseline108(original,verified)"],
+  "metadataMintOnlyRoot": "admitSchemaRetained108({planFile,approvedPlanSHA256})",
+  "originalBusinessReader": "loadSnapshot(ctx) continues to use state.baseline",
+  "comparisonReaders": ["ledger.assertRecorded", "cleanup.planCleanup", "cleanup.applyCleanup", "cleanup.noopCleanup"],
+  "notModified": ["retained-admission54 schema1/2 equality rules", "HTTP source/authorization calculators", "original owned/borrowed/fixtures/objects", "Native92 original proof and cleanup phase", "historical baseline selection"],
+  "freshRetainedSnapshotEquivalent": false,
+  "Source13Inputs": null,
+  "actualM98Receipt": null,
+  "actualSource13Process": null,
+  "actualRegistry": null,
+  "G3Certified": false,
+  "G4Certified": false
+}

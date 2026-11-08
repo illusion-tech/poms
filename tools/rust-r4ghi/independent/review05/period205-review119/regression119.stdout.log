@@ -1,0 +1,94 @@
+TAP version 13
+# Subtest: source inventory covers ten concrete commands with branch-specific evidence, audit and pending-auth
+ok 1 - source inventory covers ten concrete commands with branch-specific evidence, audit and pending-auth
+  ---
+  duration_ms: 2.287364
+  type: 'test'
+  ...
+# Subtest: conditional branches cannot be claimed without actual evidence/input and unknown operations fail closed
+ok 2 - conditional branches cannot be claimed without actual evidence/input and unknown operations fail closed
+  ---
+  duration_ms: 4.042743
+  type: 'test'
+  ...
+# Subtest: auth primary can only fire after exact request audit, so raw touch is not coflush coverage
+ok 3 - auth primary can only fire after exact request audit, so raw touch is not coflush coverage
+  ---
+  duration_ms: 1.17492
+  type: 'test'
+  ...
+# Subtest: last participant FI binds the actual new assignment project and final input order
+ok 4 - last participant FI binds the actual new assignment project and final input order
+  ---
+  duration_ms: 0.55509
+  type: 'test'
+  ...
+# Subtest: same link cannot satisfy closure FI through another parent or child
+ok 5 - same link cannot satisfy closure FI through another parent or child
+  ---
+  duration_ms: 0.329918
+  type: 'test'
+  ...
+# Subtest: rollback permits only exact current actor raw auth touch, not status/CSRF/session changes
+ok 6 - rollback permits only exact current actor raw auth touch, not status/CSRF/session changes
+  ---
+  duration_ms: 0.38973
+  type: 'test'
+  ...
+# Subtest: rollback checks xmin-only writes, additions/deletions and never exempts audit/security/platform
+ok 7 - rollback checks xmin-only writes, additions/deletions and never exempts audit/security/platform
+  ---
+  duration_ms: 0.938327
+  type: 'test'
+  ...
+# Subtest: first baseline source inventory is real source/package/head/audit/receipt/auth and no H evaluation
+ok 8 - first baseline source inventory is real source/package/head/audit/receipt/auth and no H evaluation
+  ---
+  duration_ms: 1.703842
+  type: 'test'
+  ...
+# Subtest: first expense snapshot declares20 real write families, including consumption and decision/head inserts
+ok 9 - first expense snapshot declares20 real write families, including consumption and decision/head inserts
+  ---
+  duration_ms: 1.342675
+  type: 'test'
+  ...
+# Subtest: existing frozen pre-consumption refs genuinely trigger a new decision and UPDATE head
+ok 10 - existing frozen pre-consumption refs genuinely trigger a new decision and UPDATE head
+  ---
+  duration_ms: 0.684342
+  type: 'test'
+  ...
+# Subtest: H signal and gate review inventories follow actual existing binding/summary rows
+ok 11 - H signal and gate review inventories follow actual existing binding/summary rows
+  ---
+  duration_ms: 0.439604
+  type: 'test'
+  ...
+# Subtest: actual operation type keeps summary INSERT separate from predecessor UPDATE
+ok 12 - actual operation type keeps summary INSERT separate from predecessor UPDATE
+  ---
+  duration_ms: 0.220232
+  type: 'test'
+  ...
+# Subtest: period inventory is preparable but runtime cannot infer decision7 approval from any flag
+ok 13 - period inventory is preparable but runtime cannot infer decision7 approval from any flag
+  ---
+  duration_ms: 0.752159
+  type: 'test'
+  ...
+# Subtest: unproduced F tax stays unknown; real knowledge is not replaced with a fixture default
+ok 14 - unproduced F tax stays unknown; real knowledge is not replaced with a fixture default
+  ---
+  duration_ms: 0.499365
+  type: 'test'
+  ...
+1..14
+# tests 14
+# suites 0
+# pass 14
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 198.469704

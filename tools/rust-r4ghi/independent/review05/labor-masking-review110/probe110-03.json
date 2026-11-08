@@ -1,0 +1,21 @@
+{
+  "kind": "non-author-H47-02-exact-SSOT-audit-field-counterexample",
+  "candidateSHA256": "e79c552f2ee9c34a3e7c0d8315502ed85c7531c5410f38a88a5f871d37771cec",
+  "finding": {
+    "id": "IR110-03",
+    "priority": "P2",
+    "line": 55,
+    "problem": "G actual operatingFinancialGroup is absent from allowset; invented financialGroup is accepted. Actual masked aggregate audit will be rejected.",
+    "source": "apps/poms-api-rust/src/project_operating/projection.rs:132"
+  },
+  "originalCounterexamplesNowRejected": {
+    "MNonNullEFalseAbsent": true,
+    "independentNoLaborDenied": true,
+    "canonical500ExtraPayload": true
+  },
+  "actualSource13": null,
+  "RootWrites": 0,
+  "HTTP": 0,
+  "SQL": 0,
+  "actualModeExecuted": false
+}

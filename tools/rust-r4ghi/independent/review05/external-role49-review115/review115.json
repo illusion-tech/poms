@@ -1,0 +1,202 @@
+{
+  "kind": "non-author-external-H47-owned-EO-role-setup49-review115",
+  "verdict": "hold-only-IR115-01-before-public-grant",
+  "manifest": {
+    "file": "E:/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/labor-role-setup49/manifest49.json",
+    "rawBytesSha256": "01aa2e8450a9e04336b427e324c7cf4ea983382117579bbaee6388927d8b3b37"
+  },
+  "source": {
+    "file": "E:/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/labor-role-setup49/setup-role49.mjs",
+    "rawBytesSha256": "7384f03cde7b04a1f17641ea1ac4ca0c22bbf900da10c9cfa9e38a694d5e4010"
+  },
+  "findings": [
+    {
+      "id": "IR115-01",
+      "priority": "P2",
+      "file": "setup-role49.mjs",
+      "function": "verifyPermissionDelta49",
+      "problem": "The verifier accepts an audit row with the same xmin as both new permission children, yet emits separateR2BusinessAndAuditTransactionsPreserved=true. The pinned roles/service.rs flush_permissions commits the permission TX before its later separate audit() commit.",
+      "requiredFix": "Assert the audit xmin differs from actual businessXmin, while retaining atomicClaim=false; add a same-xmin negative. No product change or public retry."
+    }
+  ],
+  "accepted": {
+    "externalOnlyNoBusinessH0OrTemplateChange": true,
+    "lockBeforeContextAndOwnedNonceRelease": true,
+    "fullSchema3R3B1SourceH0NodeAndRuntimeBinding": true,
+    "TaxAndH46CompletionBeforeGrantWithEOOldTwoPermissions": true,
+    "retained139OwnedRoleUserAndUniqueFK": true,
+    "onePublicGrantFourPermissionsOnly": true,
+    "twoExactPermissionBirthsAssignedCreatedByM": true,
+    "allOldPermissionRoleUserFKAndOtherRowsXminPreserved": true,
+    "exactNULLRequestPlatformAuditShape": true,
+    "successfulDueAuthRawPlusManagedVersion2OnPermissionXmin": true,
+    "sourceR2SeparateTransactionsNotClaimedAtomic": true,
+    "privatePartialAndBlockNoReplay": true,
+    "oldFixtureAndH46RecordsHashedUnchanged": true,
+    "EOFreshAuthExactlyFourAndNoLaborS": true
+  },
+  "probe": {
+    "file": "tools/rust-r4ghi/independent/review05/external-role49-review115/probe115.json",
+    "rawBytesSha256": "b09550ef464c42d306b2a51eb5eda8244e200dcd081c9a1d2d7c6a11a88d0b32"
+  },
+  "neededDelta": "Separate49-02 audit xmin inequality and same-xmin regression; preserve original49 and no product/helper changes.",
+  "actual": {
+    "Source13": null,
+    "R3": null,
+    "Tax": null,
+    "H46": null,
+    "roleGrant": null
+  },
+  "actions": {
+    "RootWrites": 0,
+    "SQL": 0,
+    "HTTP": 0,
+    "actualContext": 0,
+    "actualRoleSetup": 0,
+    "GitWrites": 0
+  },
+  "inputPins": [
+    {
+      "file": "E:/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/labor-role-setup49/manifest49.json",
+      "rawBytesSha256": "01aa2e8450a9e04336b427e324c7cf4ea983382117579bbaee6388927d8b3b37",
+      "bytes": 2172
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/labor-role-setup49/checks49.json",
+      "rawBytesSha256": "832f9b175ae103dc0561e35fe14eeeeeb0a0a5f7cb67fc46ac8a0c5fc22f9877",
+      "bytes": 346
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/labor-role-setup49/input49.null.json",
+      "rawBytesSha256": "b71044895dc5dc4acc0084c61cf8af45a133fcb1223b33489dbb48d1df319647",
+      "bytes": 275
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/labor-role-setup49/pure49.stderr.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/labor-role-setup49/pure49.stdout.log",
+      "rawBytesSha256": "09beb50bf0c9cc0e16e1666ccfd155df4ba1ec81ff9e2dd2664cf600816f8717",
+      "bytes": 1404
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/labor-role-setup49/README49.md",
+      "rawBytesSha256": "23a97b0ff63df81459040cc0124dd01f27e04535dfb897d3c9d7c2ae7e10d3b0",
+      "bytes": 4860
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/labor-role-setup49/role-fixture47.json",
+      "rawBytesSha256": "fe69b73212b4ff8fc9f27eace4c02ac149b702d7935940c905389ba34a1dc1a5",
+      "bytes": 1834
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/labor-role-setup49/seal49.mjs",
+      "rawBytesSha256": "3a03076362ec095da7d89bae20fe7966154747dcaf3826f2218e59af212df370",
+      "bytes": 3790
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/labor-role-setup49/setup-role49.mjs",
+      "rawBytesSha256": "7384f03cde7b04a1f17641ea1ac4ca0c22bbf900da10c9cfa9e38a694d5e4010",
+      "bytes": 23389
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/labor-role-setup49/setup49.test.mjs",
+      "rawBytesSha256": "525226ba44fd818c70b494f21eba4ac248bb0e5852b4fe59e52e9fd29e64b79e",
+      "bytes": 9256
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/labor-role-setup49/source-review49.json",
+      "rawBytesSha256": "30c277d5c494e3a149e2d53334c24cc10b92f20ca5e9866945ce863f552e1117",
+      "bytes": 2924
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/context.mjs",
+      "rawBytesSha256": "9862d325c82f8823cc76499ca20a202322e22347864d9cec3a52a1bccf24ac3d",
+      "bytes": 11496
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/http.mjs",
+      "rawBytesSha256": "7eb4ca4a5c15bccfd85256e7ea0b18e8ad2b905341f876e1ab21a25f2745ae86",
+      "bytes": 11472
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/policy-runtime46.mjs",
+      "rawBytesSha256": "c4dab4871b22d67871eb323ba565054d24428f8f814d72fa16e6d79c86e8e12a",
+      "bytes": 10163
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/platform-bindings.mjs",
+      "rawBytesSha256": "3036d38119daa14b810ab65801cc2b847d52f42f9aedd33dc71a65883bbee9f6",
+      "bytes": 3107
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/ledger.mjs",
+      "rawBytesSha256": "ca72e96a2485b84372f703be879adb5e0d7a0e93db8d8bbe87f65a9283b959c9",
+      "bytes": 14909
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/snapshot.mjs",
+      "rawBytesSha256": "0ab579d978d6d8e4b6401ff6004f9d4dc42d88be88391c34621d8135356fb7fa",
+      "bytes": 9906
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/consumer-admission54.mjs",
+      "rawBytesSha256": "5e67049e566ea27eb28b7e4ea6a4b1e4affab6fe5a06f7540ebcf308527bf9de",
+      "bytes": 12711
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/tax13-sweep.mjs",
+      "rawBytesSha256": "c265ef7f7743c4dac46d2f8a6af2fdc76a06ccaae5d0d5a10a8bb67cac3b5ec1",
+      "bytes": 17407
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/policy-boundary-run26.mjs",
+      "rawBytesSha256": "a0e361220ddefc55b6be3db6f6e4013fe7149b1d091204982fdf51a257f21e4b",
+      "bytes": 16259
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/roles/service.rs",
+      "rawBytesSha256": "41944f8f62263fbcb61a6d0e4ca5809e53646dbe83ad300f217fc25988656da3",
+      "bytes": 33205
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/roles/store.rs",
+      "rawBytesSha256": "8c124fe3c93303a5f55c3fbf35fe4019802da507def4ec0abbfd39638b98309c",
+      "bytes": 9212
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/auth/service.rs",
+      "rawBytesSha256": "3f216c2be127ca22e536f0413c91a72c29c37f2e97212089ac3a2611169ee650",
+      "bytes": 21730
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/auth/store.rs",
+      "rawBytesSha256": "14ba9d8e7171e6a6fbd00fa68c25a283d53521e17921b5d0e2ac760fec1a3f40",
+      "bytes": 22695
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/auth/model.rs",
+      "rawBytesSha256": "042f4418cee854566d942c5fe723a6221f4fd2e8c61bb35dcc8dbeca157d6312",
+      "bytes": 10433
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/libs/shared/api-spec/openapi.json",
+      "rawBytesSha256": "942661f06947136bbdaf5621bdef9e531a7ab3fe350271f6ca054e01b495a19c",
+      "bytes": 1401652
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/labor-role-setup49/setup-role49.mjs",
+      "rawBytesSha256": "7384f03cde7b04a1f17641ea1ac4ca0c22bbf900da10c9cfa9e38a694d5e4010",
+      "bytes": 23389
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\tools\\rust-r4ghi\\independent\\review05\\external-role49-review115/probe115.json",
+      "rawBytesSha256": "b09550ef464c42d306b2a51eb5eda8244e200dcd081c9a1d2d7c6a11a88d0b32",
+      "bytes": 1040
+    }
+  ],
+  "G3Certified": false,
+  "G4Certified": false
+}

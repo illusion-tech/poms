@@ -34,6 +34,11 @@ fn labor(row: &Value) -> &'static str {
         "unknown"
     }
 }
+// A linked foreign fiscal row is an internal source parent for an actual
+// shared allocation. It is not a new unmapped fiscal fact of this project.
+fn locally_registered_upstream(row: &Value, project: Uuid) -> bool {
+    row["project_id"] == project.to_string()
+}
 fn classification(row: &Value) -> Value {
     json!({"decisionId":row["id"],"rowVersion":row["row_version"],"decision":row["decision"],"reasonCode":row["reason_code"],"reasonText":row["reason_text"],"decidedBy":row["decided_by"],"decidedAt":row["decided_at"],"evidenceHash":row["payload_hash"]})
 }
@@ -402,6 +407,9 @@ pub(crate) async fn source_rows(
         Table::Expense,
     ] {
         for row in catalog.all(table) {
+            if !locally_registered_upstream(row, project) {
+                continue;
+            }
             if matches!(row["status"].as_str(), Some("voided" | "draft")) {
                 continue;
             }
@@ -893,6 +901,18 @@ pub(crate) async fn build(
             .and_then(|b| catalog.by(Table::BaselineSource, "id", &b["source_context_id"]))
             .map(|r| r["frozen_payload"].clone())
     });
+    // First-period publication must prove business-time adoption. Capturing a
+    // G package later is legitimate; adopting future estimate facts is not.
+    if window.period_key.is_some() && historical_period.is_none() {
+        super::period_baseline::assert_adoption(
+            catalog,
+            project,
+            draft
+                .as_ref()
+                .ok_or_else(|| store::conflict("period_baseline_reconciliation_required"))?,
+            window,
+        )?;
+    }
     if let Some(draft) = draft.as_ref().filter(|_| historical_period.is_none()) {
         let mut adopted_ids = BTreeSet::new();
         if let Some(id) = draft["originalCostRef"]["id"].as_str() {
@@ -1298,6 +1318,9 @@ pub(crate) async fn build(
         Table::Expense,
     ] {
         for row in catalog.all(table) {
+            if !locally_registered_upstream(row, project) {
+                continue;
+            }
             if !matches!(row["status"].as_str(), Some("voided" | "draft"))
                 && source_day(table, row)? <= window.business_cutoff
                 && sources::known_at(row, window.knowledge_cutoff)
@@ -1545,6 +1568,7 @@ fn cost_source_ref(catalog: &Catalog, cost: &Value) -> Result<Value, Error> {
         .ok_or_else(|| store::conflict("operating_cost_source_missing"))?;
     sources::reference(table, row)
 }
+
 // Tax pending covers every registered cost retained in the frozen scope,
 // including excluded principals. Classification is not a zero-tax proof.
 // Allocation shares with a nonzero/unknown tax layer remain unknown unless a
@@ -1790,5 +1814,54 @@ mod tax_coverage_tests {
                 .expect("wrong source kind")
                 .is_empty()
         );
+    }
+}
+
+#[cfg(test)]
+mod foreign_fiscal_source84_tests {
+    use super::*;
+
+    #[test]
+    fn foreign_fiscal_source84_exact_imported_parent_resolves_all_nonlabor_cost_kinds() {
+        for (source_type, table, kind) in [
+            ("expense-record", Table::Expense, "ExpenseRecord"),
+            ("invoice-record", Table::Invoice, "InvoiceRecord"),
+            ("payment-record", Table::Payment, "PaymentRecord"),
+            ("payable-record", Table::Payable, "PayableRecord"),
+        ] {
+            let parent_id = Uuid::from_u128(20);
+            let cost = json!({"source_type":source_type,"source_id":parent_id,"project_id":Uuid::from_u128(11)});
+            let mut catalog = Catalog::default();
+            catalog.rows.insert(table, vec![json!({"id":Uuid::from_u128(21),"row_version":2,"project_id":Uuid::from_u128(10)})]);
+            assert!(
+                cost_source_ref(&catalog, &cost).is_err(),
+                "An unrelated local record cannot satisfy the foreign source ID"
+            );
+            catalog
+                .rows
+                .get_mut(&table)
+                .expect("fixture table")
+                .push(json!({"id":parent_id,"row_version":2,"project_id":Uuid::from_u128(11)}));
+            let source = cost_source_ref(&catalog, &cost).expect("exact imported parent");
+            assert_eq!(source["kind"], kind);
+            assert_eq!(source["id"], parent_id.to_string());
+            assert_eq!(source["rowVersion"], 2);
+        }
+    }
+
+    #[test]
+    fn foreign_fiscal_source84_imported_parent_is_never_an_own_unmapped_fact() {
+        let project = Uuid::from_u128(10);
+        let foreign = json!({"id":Uuid::from_u128(20),"project_id":Uuid::from_u128(11),"status":"confirmed","amount_including_tax":"1130.00"});
+        let own = json!({"id":Uuid::from_u128(21),"project_id":project,"status":"confirmed","amount_including_tax":"1130.00"});
+        assert!(!locally_registered_upstream(&foreign, project));
+        assert!(
+            locally_registered_upstream(&own, project),
+            "Real own-project unmapped facts must retain their blocking/projection path"
+        );
+        assert!(!locally_registered_upstream(
+            &json!({"project_id":null}),
+            project
+        ));
     }
 }

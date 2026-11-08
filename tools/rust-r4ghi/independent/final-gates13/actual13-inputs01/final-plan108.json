@@ -1,0 +1,162 @@
+{
+  "kind": "retained-schema-consumer-admission108",
+  "schemaVersion": 3,
+  "policy": {
+    "fromMigrations": 97,
+    "toMigrations": 98,
+    "tablesPerDatabase": 139,
+    "normalForwardOnly": true,
+    "businessBaselineReset": false,
+    "historicalBaselineReselection": false
+  },
+  "producer": {
+    "epoch": "g2-business12",
+    "run": "main01",
+    "retentionIndex": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/retention/epoch12-before-source13-139/index.json",
+      "rawBytesSha256": "fed889a2c467945656d7c317f006b5ba2bc9780435459460863b3735dacb17b7"
+    },
+    "frozenState": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/retention/epoch12-before-source13-139/state-at-retention139.json",
+      "bytes": 12362792,
+      "rawBytesSha256": "ee7371dc4fc5d388f6898fb1c6eb90bebb6404eca6c31d23599469445804a628"
+    },
+    "retainedSnapshot": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-007492-retained139-after.json",
+      "bytes": 3137240,
+      "rawBytesSha256": "106c66efc668090d4605b6a953ebfddfa65aa2df8c13c3e7531a51bf57130d15"
+    },
+    "sourcePinsSHA256": "5263ad894591ac682fe7ebf9ca5cfa2aaac3334d4481ae5de4dd63d83b4681fa",
+    "priorRegistry": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/000002-consumer-admission54-registry.json",
+      "bytes": 31417,
+      "rawBytesSha256": "3ed7bd387b6f4f3b8e44201e7985043b18b71cefceba3194f83ab19300f7d29c"
+    }
+  },
+  "schemaAdvance": {
+    "approvedSQL": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/docs/design/rust-r4ghi/g2-frozen-participant-parent-lock65.sql",
+      "rawBytesSha256": "90b091eb36a7f58ae0cf3a9504b2426ea6de868a4bab9af5a2c1e6bd89e0106e"
+    },
+    "approvedMigrationSource": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/migrations/Migration20261108090000_rust_frozen_assignment_parent_lock.ts",
+      "rawBytesSha256": "daf3656ec2a726c30ebaba8b0ba91945404f9b7a5848d8d293546bc3c7fa4916"
+    },
+    "actualMigrationReceipt": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/Source13-M98-receipt108.json",
+      "rawBytesSha256": "fad604ce8850cae183055774e5e97366f547e583b3bbbb0b59fce2298104fc88"
+    },
+    "migrationName": "Migration20261108090000_rust_frozen_assignment_parent_lock",
+    "migrationBefore": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-007492-retained139-after.json",
+      "bytes": 3137240,
+      "rawBytesSha256": "106c66efc668090d4605b6a953ebfddfa65aa2df8c13c3e7531a51bf57130d15"
+    },
+    "migrationAfter": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/migration98-136/after164/snapshot-migration-after164.json",
+      "bytes": 3136656,
+      "rawBytesSha256": "3e7451dafcefa08fed059648e975910b7251cc86a1639b22ad03a0fa577a39ab"
+    },
+    "databases": {
+      "poms_r4ghi_native": {
+        "functionOID": "26561",
+        "beforeDefinitionSHA256": "7c19987f55488919f71fa8af9f67617f91c0c2c9ee58ecd0787089e67c450b28",
+        "afterDefinitionSHA256": "9680c5a7503af1cca41f05b07155050a004d5f3c6c77f736c02c54a3fe753801",
+        "afterBodySHA256": "67f4c84b72f323000b6d28aded561acff94b2a79e37de0a0ec232dfee92036e6",
+        "migrationRow": {
+          "key": [
+            "98"
+          ],
+          "rowSHA256": "df760d69a633bf6b36dfbae48442a5af80c835c953a5f09b00ff888d7e81844d",
+          "xmin": "4693",
+          "name": "Migration20261108090000_rust_frozen_assignment_parent_lock"
+        },
+        "actualSequenceDeltas": [
+          {
+            "before": {
+              "schema": "poms",
+              "name": "poms_migrations_id_seq",
+              "oid": "16409",
+              "value": "97",
+              "is_called": true
+            },
+            "after": {
+              "schema": "poms",
+              "name": "poms_migrations_id_seq",
+              "oid": "16409",
+              "value": "98",
+              "is_called": true
+            }
+          }
+        ]
+      },
+      "poms_r4ghi_rust": {
+        "functionOID": "27648",
+        "beforeDefinitionSHA256": "7c19987f55488919f71fa8af9f67617f91c0c2c9ee58ecd0787089e67c450b28",
+        "afterDefinitionSHA256": "9680c5a7503af1cca41f05b07155050a004d5f3c6c77f736c02c54a3fe753801",
+        "afterBodySHA256": "67f4c84b72f323000b6d28aded561acff94b2a79e37de0a0ec232dfee92036e6",
+        "migrationRow": {
+          "key": [
+            "98"
+          ],
+          "rowSHA256": "07123c440adbc881ecb5b9d9eaceebf44b5cace9f2f56c6ab416a6d16b5dccfb",
+          "xmin": "4695",
+          "name": "Migration20261108090000_rust_frozen_assignment_parent_lock"
+        },
+        "actualSequenceDeltas": [
+          {
+            "before": {
+              "schema": "poms",
+              "name": "poms_migrations_id_seq",
+              "oid": "20974",
+              "value": "97",
+              "is_called": true
+            },
+            "after": {
+              "schema": "poms",
+              "name": "poms_migrations_id_seq",
+              "oid": "20974",
+              "value": "98",
+              "is_called": true
+            }
+          }
+        ]
+      }
+    }
+  },
+  "consumer": {
+    "epoch": "g2-business13",
+    "run": "main01",
+    "sourcePins": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-preparation193/sourcePins.json",
+      "rawBytesSha256": "e95a9c8e3cabf30095c463a577d2d70eb681eb7b22d6c7ee31375dbdcf55e22c"
+    },
+    "sourcePinsSHA256": "5e467b677cfe08e44c8cb1c71cac62478e416e394ba4a5ec8651dab5732c255e",
+    "sourceCount": 416,
+    "binarySHA256": "2d9ed8f711818b83b1cff440b72265bcacf9ff2f31f409d2d7d5a9aabd346e13",
+    "apiProcess": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/rust-api136-process.json",
+      "rawBytesSha256": "0b5817a0f32f4ad12fce36a4035c59c06d852611f65891dec349e6eccf505f6f"
+    },
+    "candidateReceipt": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/B0-Source13-bootstrap.json",
+      "rawBytesSha256": "11530fcd47ee59f1929832b28c03fa022021cff9f0a18d3b7f95d761abd7acf2"
+    },
+    "helperPins": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-preparation183/helperH0.json",
+      "rawBytesSha256": "e65db96998f5dc15ed406bf5d30b2a1bfa95c82affb448b625ca3295227d0459"
+    },
+    "candidateSourceDigestPointer": "/sourcePinsSHA256",
+    "candidateBinaryHashPointer": "/process/record/binarySha256",
+    "impactReview": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/impact-review62-193.json",
+      "rawBytesSha256": "e4808affba9ceb3a1a3b5d7e59dd796d2dedc6ab2728ba15de44ae3a084a9980"
+    }
+  },
+  "derivedComparisonBaseline": null,
+  "registry": null,
+  "actualM98Applied": true,
+  "Source13Certified": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

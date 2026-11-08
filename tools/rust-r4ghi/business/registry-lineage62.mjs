@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
+import { verifySchemaBinding108 } from './schema-comparison108.mjs';
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const observers = new Set(['UICommandObserved', 'UICommandObserverReceipt', 'UICommandResponseOriginal', 'UICommandOperationId']);
 const projection = value => Object.fromEntries(Object.entries(value).filter(([key]) => !observers.has(key)));
@@ -28,7 +29,7 @@ const sourceTuple = (state, statePin) => ({ epoch: state.epoch, run: state.run, 
 function sameSource(a, b) {
   return a?.epoch === b?.epoch && a?.run === b?.run && a?.sourcePinsSHA256 === b?.sourcePinsSHA256 && a?.sourceCount === b?.sourceCount && samePin(a?.sourceState, b?.sourceState);
 }
-export function entrySource62(registry, entry) { return registry.schemaVersion === 2 ? entry.birthSource : registry.producer; }
+export function entrySource62(registry, entry) { return [2, 3].includes(registry.schemaVersion) ? entry.birthSource : registry.producer; }
 export function assertImpactReview62(impact, producer, consumer) {
   assert.equal(impact.kind, 'approved-retained-evidence-impact-review62'); assert.equal(impact.producerEpoch, producer.epoch); assert.equal(impact.consumerEpoch, consumer.epoch);
   assert.equal(impact.producerSourcePinsSHA256, producer.sourcePinsSHA256); assert.equal(impact.consumerSourcePinsSHA256, consumer.sourcePinsSHA256);
@@ -46,7 +47,8 @@ function retainedEntry(registry, entry, record) {
 
 function frame(ctx, registry, seen, depth) {
   assert(depth < 12, 'Retained registry chain is bounded'); assert.equal(registry.kind, 'verified-retained-data-consumer-registry54'); assert.equal(registry.namespace, ctx.namespace); assert.equal(registry.marker, ctx.state.marker);
-  assert([1, 2].includes(registry.schemaVersion));
+  assert([1, 2, 3].includes(registry.schemaVersion));
+  if (registry.schemaVersion === 3) verifySchemaBinding108(ctx, registry.schemaComparison108, registry);
   for (const pin of [registry.retentionIndex, registry.producerState, registry.retainedSnapshot]) within(ctx.private, pin.file);
   const producerState = read(registry.producerState), retainedSnapshot = read(registry.retainedSnapshot), index = read(registry.retentionIndex), source = sourceTuple(producerState, registry.producerState);
   assert.equal(source.epoch, registry.producer.epoch); assert.equal(source.run, registry.producer.run); assert.equal(source.sourcePinsSHA256, registry.producer.sourcePinsSHA256); assert.equal(source.sourceCount, registry.producer.sourceCount);
@@ -54,7 +56,7 @@ function frame(ctx, registry, seen, depth) {
   assert.equal(index.producerEpoch, producerState.epoch); assert.equal(index.run, producerState.run); assert(samePin(index.frozenState, registry.producerState)); assert(samePin(index.retainedSnapshot, registry.retainedSnapshot));
   const consumerPins = read(registry.consumer.sourcePins); assert.equal(sha(JSON.stringify(consumerPins)), registry.consumer.sourcePinsSHA256); assert.equal(consumerPins.length, registry.consumer.sourceCount);
   let previous = null;
-  if (registry.schemaVersion === 2) {
+  if ([2, 3].includes(registry.schemaVersion)) {
     assert(samePin(registry.impactReview, registry.consumer.impactReview)); const impact = read(registry.impactReview);
     assertImpactReview62(impact, source, registry.consumer);
     assert(samePin(registry.priorRegistry, producerState.consumerAdmission54?.registry), 'The direct producer original registry is mandatory, never silently rebound');
@@ -62,7 +64,7 @@ function frame(ctx, registry, seen, depth) {
     previous = frame(ctx, read(registry.priorRegistry), seen, depth + 1);
     assert.equal(previous.registry.consumer.epoch, producerState.epoch); assert.equal(previous.registry.consumer.run, producerState.run); assert.equal(previous.registry.consumer.sourcePinsSHA256, source.sourcePinsSHA256);
   } else {
-    assert(!producerState.consumerAdmission54, 'A subsequent retained consumer must use chained registry schema2');
+    assert(!producerState.consumerAdmission54, 'A subsequent retained consumer must use a chained registry');
   }
   return { registry, producerState, retainedSnapshot, source, previous };
 }
@@ -92,13 +94,13 @@ function receiptSource(ctx, pin, sources) {
 
 export function validateRegistryLineage62(ctx, registry) {
   const current = frame(ctx, registry, new Set(), 0), sources = sourceHistory(current);
-  if (registry.schemaVersion !== 2) return { current, sources };
+  if (![2, 3].includes(registry.schemaVersion)) return { current, sources };
   assert.deepEqual(registry.sourceHistory, sources);
   for (const entry of registry.fixtureAdmissions) {
     const record = pointer(current.producerState, entry.registryPath); assert(record); assert.equal(entry.retainedRecordSHA256, sha(JSON.stringify(record)));
     assert.deepEqual(entry.retainedAt, { ...current.source, retainedSnapshot: registry.retainedSnapshot });
     const prior = current.previous.registry.fixtureAdmissions.find(value => value.registryPath === entry.registryPath);
-    const birth = prior ? (current.previous.registry.schemaVersion === 2 ? prior.birthSource : current.previous.source) : current.source;
+    const birth = prior ? ([2, 3].includes(current.previous.registry.schemaVersion) ? prior.birthSource : current.previous.source) : current.source;
     assert(sameSource(entry.birthSource, birth)); assert(sources.some(source => sameSource(source, entry.birthSource)));
     if (prior) { retainedEntry(current.previous.registry, prior, record); assert(prior.projectIds.every(id => entry.projectIds.includes(id))); }
     for (const id of entry.projectIds) { const owned = ownedProject(ctx, current.producerState, current.retainedSnapshot, id); if (!prior) newHTTPBirth(ctx, current, id, owned); }
@@ -118,7 +120,7 @@ export function makeChainedAdmissions62(ctx, registry, entries) {
   const current = frame(ctx, registry, new Set(), 0), sources = sourceHistory(current);
   const output = entries.map(value => {
     const entry = structuredClone(value), record = pointer(current.producerState, entry.registryPath), prior = current.previous.registry.fixtureAdmissions.find(item => item.registryPath === entry.registryPath);
-    entry.birthSource = prior ? (current.previous.registry.schemaVersion === 2 ? prior.birthSource : current.previous.source) : current.source;
+    entry.birthSource = prior ? ([2, 3].includes(current.previous.registry.schemaVersion) ? prior.birthSource : current.previous.source) : current.source;
     entry.birthProducerRecordSHA256 = prior?.birthProducerRecordSHA256 ?? prior?.producerRecordSHA256 ?? entry.producerRecordSHA256;
     entry.retainedRecordSHA256 = sha(JSON.stringify(record)); entry.retainedAt = { ...current.source, retainedSnapshot: registry.retainedSnapshot };
     if (prior) for (const identity of prior.identity) { const found = entry.identity.find(item => item.path === identity.path); if (found) assert.deepEqual(found, identity); else entry.identity.push(identity); }

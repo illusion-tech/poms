@@ -1,0 +1,278 @@
+{
+  "kind": "Root-reviewable-schema-admission108-candidate",
+  "schemaVersion": 1,
+  "author": "I",
+  "RootProductsChanged": false,
+  "RootToolsChanged": false,
+  "basedOn": "Root current Source12/M97 tools; future Source13/M98 normal-forward admission only",
+  "designInputs": [
+    {
+      "file": "tools/rust-r4ghi/schema-admission108-draft.md",
+      "sha256": "bccff3524a9c1c5753dd072a5b490ac448974b33d69c553d4f90fcf41f04c1dc",
+      "purpose": "read-only-current-design-input"
+    },
+    {
+      "file": "docs/design/rust-r4ghi/acceptance-plan01.json",
+      "sha256": "57881bb732c0fc816d99227a9f55cfc1451c29c0b879181d65575970c39462a2",
+      "purpose": "read-only-current-design-input"
+    },
+    {
+      "file": "docs/design/rust-r4ghi/operation-map01.json",
+      "sha256": "73b82726b2c87053e019d35191803a608c56054a49ce5408567709d097a90769",
+      "purpose": "read-only-current-design-input"
+    }
+  ],
+  "candidates": [
+    {
+      "target": "tools/rust-r4ghi/business/cleanup.mjs",
+      "candidate": "proposed/tools/rust-r4ghi/business/cleanup.mjs",
+      "before": "before/tools/rust-r4ghi/business/cleanup.mjs",
+      "beforeSHA256": "00001e0ab5f85bd80c25d63f9772525536cc8e886c251680c257e6efe089f4c1",
+      "afterSHA256": "8006d6263a458904a472a8db20077ae2534a81fb0c481b8018a11f01930b0851",
+      "bytes": 26430,
+      "disposition": "replace-only-on-exact-beforeSHA"
+    },
+    {
+      "target": "tools/rust-r4ghi/business/consumer-admission54.mjs",
+      "candidate": "proposed/tools/rust-r4ghi/business/consumer-admission54.mjs",
+      "before": "before/tools/rust-r4ghi/business/consumer-admission54.mjs",
+      "beforeSHA256": "08f49d66466deb6fb150b4a788ffe1c3d132f1cb2eb692a043020dd5cb4811b2",
+      "afterSHA256": "0ec2ec4fbf0c11c8a3599b5221200f0c4e374833ac6a9eef75bfe6abea671d1b",
+      "bytes": 12356,
+      "disposition": "replace-only-on-exact-beforeSHA"
+    },
+    {
+      "target": "tools/rust-r4ghi/business/consumer-admission54.test.mjs",
+      "candidate": "proposed/tools/rust-r4ghi/business/consumer-admission54.test.mjs",
+      "before": "before/tools/rust-r4ghi/business/consumer-admission54.test.mjs",
+      "beforeSHA256": "2f4f86fa6782b9d3271df52f4d9e33519a6b748d75aba4970c2afc93eeda22be",
+      "afterSHA256": "745bda1b38024293f6b8570f36b68596ab8c9e0e64f6e48a99ecbe0ca0f52ca2",
+      "bytes": 12639,
+      "disposition": "replace-only-on-exact-beforeSHA"
+    },
+    {
+      "target": "tools/rust-r4ghi/business/context.mjs",
+      "candidate": "proposed/tools/rust-r4ghi/business/context.mjs",
+      "before": "before/tools/rust-r4ghi/business/context.mjs",
+      "beforeSHA256": "ce995535f6bec182dc189bcef41f8f3d6a7e75bc160ed92df6e5d41c18507ffd",
+      "afterSHA256": "a3b03d321ce7a3e65823d01000c19b09a062ef4cec124fc5489c5631391f06aa",
+      "bytes": 11212,
+      "disposition": "replace-only-on-exact-beforeSHA"
+    },
+    {
+      "target": "tools/rust-r4ghi/business/ledger.mjs",
+      "candidate": "proposed/tools/rust-r4ghi/business/ledger.mjs",
+      "before": "before/tools/rust-r4ghi/business/ledger.mjs",
+      "beforeSHA256": "d743d736cb3b6528214d21ca0aa152b78be8906cbcab73c40f0a3d7563e6bb5b",
+      "afterSHA256": "ca72e96a2485b84372f703be879adb5e0d7a0e93db8d8bbe87f65a9283b959c9",
+      "bytes": 14909,
+      "disposition": "replace-only-on-exact-beforeSHA"
+    },
+    {
+      "target": "tools/rust-r4ghi/business/registry-lineage62.mjs",
+      "candidate": "proposed/tools/rust-r4ghi/business/registry-lineage62.mjs",
+      "before": "before/tools/rust-r4ghi/business/registry-lineage62.mjs",
+      "beforeSHA256": "3ef58286d777b40e835210ffc0a1acb8238ebaa36d647175075ba04d181c015b",
+      "afterSHA256": "28add87a09918f682862e6ac87ad6f8637dc1f5e9891159320054354fdcf59cc",
+      "bytes": 13668,
+      "disposition": "replace-only-on-exact-beforeSHA"
+    },
+    {
+      "target": "tools/rust-r4ghi/business/registry-lineage62.test.mjs",
+      "candidate": "proposed/tools/rust-r4ghi/business/registry-lineage62.test.mjs",
+      "before": "before/tools/rust-r4ghi/business/registry-lineage62.test.mjs",
+      "beforeSHA256": "ce97ade8c3e34cceb1cb3960ca5b7c1fbe97264a8494307f193c147517eb5d8e",
+      "afterSHA256": "efc3cb452159e1d01b70c6c41326841e51884ff77ac9573b4f80681a6ae5e694",
+      "bytes": 14356,
+      "disposition": "replace-only-on-exact-beforeSHA"
+    },
+    {
+      "target": "tools/rust-r4ghi/business/retained-schema-admission108.mjs",
+      "candidate": "proposed/tools/rust-r4ghi/business/retained-schema-admission108.mjs",
+      "before": null,
+      "beforeSHA256": null,
+      "afterSHA256": "95f0254efdb880b101b955f5b7bfee789e827a94e4b6d0ef84d3ad7d88f8c462",
+      "bytes": 14846,
+      "disposition": "new-path-must-be-absent"
+    },
+    {
+      "target": "tools/rust-r4ghi/business/schema-comparison108.mjs",
+      "candidate": "proposed/tools/rust-r4ghi/business/schema-comparison108.mjs",
+      "before": null,
+      "beforeSHA256": null,
+      "afterSHA256": "adcf196d4b224156fb9eb575e8a982b2dd07ef14a672136680b9d04df40384bc",
+      "bytes": 19560,
+      "disposition": "new-path-must-be-absent"
+    },
+    {
+      "target": "tools/rust-r4ghi/business/schema-comparison108.test.mjs",
+      "candidate": "proposed/tools/rust-r4ghi/business/schema-comparison108.test.mjs",
+      "before": null,
+      "beforeSHA256": null,
+      "afterSHA256": "59804ea90335a8e59bb631cc6a978a5cb59a9475e5ce32b08c01da14e811529f",
+      "bytes": 32035,
+      "disposition": "new-path-must-be-absent"
+    },
+    {
+      "target": "tools/rust-r4ghi/business/snapshot.mjs",
+      "candidate": "proposed/tools/rust-r4ghi/business/snapshot.mjs",
+      "before": "before/tools/rust-r4ghi/business/snapshot.mjs",
+      "beforeSHA256": "c9a72d7e763045bed175dfe16386ae9d95d683b84f1445b34b59d78934877aed",
+      "afterSHA256": "0ab579d978d6d8e4b6401ff6004f9d4dc42d88be88391c34621d8135356fb7fa",
+      "bytes": 9906,
+      "disposition": "replace-only-on-exact-beforeSHA"
+    }
+  ],
+  "unchangedRootDependencies": [
+    {
+      "path": "tools/rust-r4ghi/business/execution-role-bindings.mjs",
+      "sha256": "7100fbdb7cf447c6fb4e6790d94090b264358561414625f1ecd094fb232ed2fb",
+      "origin": "read-only-current-Root-dependency"
+    },
+    {
+      "path": "tools/rust-r4ghi/business/objects.mjs",
+      "sha256": "990a24b83dd494aedd4e5d6380c96eb63d40ceea48b8d4645d819394ec073fcc",
+      "origin": "read-only-current-Root-dependency"
+    },
+    {
+      "path": "tools/rust-r4ghi/business/platform-bindings.mjs",
+      "sha256": "3036d38119daa14b810ab65801cc2b847d52f42f9aedd33dc71a65883bbee9f6",
+      "origin": "read-only-current-Root-dependency"
+    },
+    {
+      "path": "tools/rust-r4ghi/business/pure.mjs",
+      "sha256": "42f1d133ad6b279235c8c2b7c3f10c129958e4aa7b42fa1da5287f160a88fa1a",
+      "origin": "read-only-current-Root-dependency"
+    },
+    {
+      "path": "tools/rust-r4ghi/business/readiness-bindings.mjs",
+      "sha256": "be58715b551a87cedfa80d5d6b72e9be23bd8f5afb7b305bfbb3ccc5ea9255c8",
+      "origin": "read-only-current-Root-dependency"
+    },
+    {
+      "path": "tools/rust-r4ghi/business/restatement-labor-number.mjs",
+      "sha256": "6a5e61caeed561956a5d241f4834b4f54971e1039b409bf99f073e53d0f7c316",
+      "origin": "read-only-current-Root-dependency"
+    },
+    {
+      "path": "tools/rust-r4ghi/business/retained-admission54.mjs",
+      "sha256": "f213aaab615d3c4a9284437dc68e74d1faa98df0a4609dba5ab9dde31848b86b",
+      "origin": "read-only-current-Root-dependency"
+    }
+  ],
+  "sidecars": [
+    {
+      "file": "README108.md",
+      "rawBytesSha256": "0328808f3e754534f314d903ee8d4b2c113c296f770730e84791cb1aecd565a5",
+      "bytes": 6706
+    },
+    {
+      "file": "risks-api108.md",
+      "rawBytesSha256": "f6779b5db3250af5e7f82f4bfd1e26790cc86507387afdd2b53f996749d29b42",
+      "bytes": 5003
+    },
+    {
+      "file": "api-contract108.json",
+      "rawBytesSha256": "2849b58fe313e2732ed6c6321adc8e7d2aa64470c0af3b4bee1ee6fe1750ffaf",
+      "bytes": 1345
+    },
+    {
+      "file": "plan-template108.json",
+      "rawBytesSha256": "c1e730d04f00fe03f960c240d6cb38762324d9f78ca6eda530b0456854dc3571",
+      "bytes": 1468
+    },
+    {
+      "file": "migration-receipt-template108.json",
+      "rawBytesSha256": "bd700e38c867955905c2d25750c0c29fb378aa9854321d96880a378b12fdc19a",
+      "bytes": 1090
+    },
+    {
+      "file": "migration-command-template108.json",
+      "rawBytesSha256": "ba43ab4ffe5f8be50f8f89677f047c9f0ffa1d22f28f969681bb9321ed209cde",
+      "bytes": 311
+    },
+    {
+      "file": "candidate-bases108.json",
+      "rawBytesSha256": "c27be44d0411132ebac0abeebba7d53e264ae712c7e4814eb1dd5e4f97588277",
+      "bytes": 2108
+    },
+    {
+      "file": "isolated-dependencies108.json",
+      "rawBytesSha256": "35431415bbd02f6ba7056f4f9a34259d1985a024601786457c9d8e5aec762100",
+      "bytes": 3526
+    },
+    {
+      "file": "offline-receipt108.json",
+      "rawBytesSha256": "91a400e4d8ed1ede369e0d9669e61af3240e44cfb5abc8cad7e91d04aa4c2e9b",
+      "bytes": 1739
+    },
+    {
+      "file": "pure108.stdout.log",
+      "rawBytesSha256": "839d7e5f9614a1204805a52823477bfef8ccd55b8b8cb1676e9b05a56f27aebd",
+      "bytes": 10541
+    },
+    {
+      "file": "pure108.stderr.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "offline-attempt01-stopped108.json",
+      "rawBytesSha256": "f8241511e7c39f7523c492368d1935489682048a3f81e9e73aa9dadd7ccb6976",
+      "bytes": 525
+    },
+    {
+      "file": "pure108-attempt02.stdout.log",
+      "rawBytesSha256": "12e1183a784ea548241e4273b3e1a3c2d543fc7a683b9f39a0bcaf2c14e95c4e",
+      "bytes": 11776
+    },
+    {
+      "file": "pure108-attempt02.stderr.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    }
+  ],
+  "APIContract": "api-contract108.json",
+  "admissionEntrypoint": "tools/rust-r4ghi/business/retained-schema-admission108.mjs",
+  "oldRetained54EqualityUnchanged": true,
+  "originalM97BusinessBaselineKept": true,
+  "canonicalM98IsNotOwnedFixtureAuthority": true,
+  "validation": {
+    "tests": {
+      "tests": 48,
+      "pass": 48,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "nodeVersion": "v24.19.0",
+    "syntaxFiles": 11,
+    "helpChecks": 1,
+    "staticImportClosureFiles": 18,
+    "RootInputsStable": true,
+    "candidateInputsStable": true
+  },
+  "actualSource13": null,
+  "actualSourceCount": null,
+  "actualBinary": null,
+  "actualProcess": null,
+  "actualMigrationReceipt": null,
+  "actualRetention": null,
+  "actualRegistry": null,
+  "SQLConnectionsByAuthor": 0,
+  "HTTPRequestsByAuthor": 0,
+  "migrationsExecutedByAuthor": 0,
+  "productWritesByAuthor": 0,
+  "RootWritesByAuthor": 0,
+  "Source13Certified": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "remaining": [
+    "Root non-author static review",
+    "Finish and retain actual Source12 state/source/archives/objects, stop old API",
+    "New G2 and normal M98 registration/application by Root",
+    "Actual Source13 checks/source/binary/process/impact/complete helper pins",
+    "Actual read-only schema3 mint and new-source business checks; preserve all original labels",
+    "Historical first-period baseline package selection remains outside this proposal"
+  ]
+}

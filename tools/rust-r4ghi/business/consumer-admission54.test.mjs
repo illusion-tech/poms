@@ -15,11 +15,11 @@ function synthetic() {
   const process = { namespace: 'poms-r4ghi', root: '/home/wangzishi/projects/poms-rust-r4ghi', port: 31441, binarySha256: 'c'.repeat(64) }, apiPin = pin('process.json', process);
   const entry = { registryPath: '/fixtures/uiFixtureViews23/eo', mode: 'immutable-ui-producer', projectIds: ['project-a', 'project-b'], identity: [{ path: '/fixtures/project/id', value: 'project-a' }],
     producerProjectionSHA256: sha(JSON.stringify(producerProjection54(record))), receipts: [] };
-  const registry = { kind: 'verified-retained-data-consumer-registry54', namespace: 'poms-r4ghi', marker: 'marker', producer: { epoch: 'old10', sourcePinsSHA256: old },
+  const registry = { schemaVersion: 1, kind: 'verified-retained-data-consumer-registry54', namespace: 'poms-r4ghi', marker: 'marker', producer: { epoch: 'old10', sourcePinsSHA256: old },
     consumer: { epoch: 'new11', run: 'main', sourcePinsSHA256: current, sourcePins: pin('sources.json', pins), apiProcess: apiPin, binarySHA256: process.binarySha256 },
     retentionIndex: pin('retention.json', {}), producerState: pin('old-state.json', { owned: { old: { table: 'project', key: ['old-main-project'] } } }), retainedSnapshot: pin('retained.json', {}), fixtureAdmissions: [entry] };
   const registryPin = pin('registry.json', registry), state = { marker: 'marker', sourcePins: pins, apiProcess: { ...apiPin, record: process }, consumerAdmission54: { registry: registryPin }, fixtures: { uiFixtureViews23: { eo: record } } };
-  const ctx = { namespace: 'poms-r4ghi', epoch: 'new11', run: 'main', priv: dir.split(path.sep).join('/'), pins, state };
+  const ctx = { migrations: 97, namespace: 'poms-r4ghi', epoch: 'new11', run: 'main', priv: dir.split(path.sep).join('/'), pins, state };
   return { dir, pin, ctx, record, entry, registry };
 }
 function removeUnitDir54(dir) {

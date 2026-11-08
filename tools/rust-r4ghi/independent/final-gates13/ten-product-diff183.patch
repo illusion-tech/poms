@@ -1,0 +1,993 @@
+--- /dev/null
++++ Staged106/docs/design/rust-r4ghi/g2-frozen-participant-parent-lock65.sql
+@@ -1,0 +1,53 @@
++-- CONDITIONAL FORWARD CANDIDATE ONLY. Root decides registration/application.
++-- Keep M95/M97, existing triggers, frozen columns and deferred totals unchanged.
++-- No table/column/data/origin backfill. Only replace this existing guard body.
++CREATE OR REPLACE FUNCTION poms.jghi_assignment_participant_guard()
++RETURNS trigger LANGUAGE plpgsql AS $$
++DECLARE
++ parent_ids uuid[];
++ parent_row record;
++ has_frozen_parent boolean := false;
++ expected_parent_count integer := 0;
++ locked_parent_count integer := 0;
++BEGIN
++ IF TG_OP='INSERT' THEN
++  parent_ids := ARRAY[NEW.assignment_id];
++ ELSIF TG_OP='DELETE' THEN
++  parent_ids := ARRAY[OLD.assignment_id];
++ ELSE
++  parent_ids := ARRAY[OLD.assignment_id,NEW.assignment_id];
++ END IF;
++
++ SELECT count(DISTINCT p.id)::integer INTO expected_parent_count
++ FROM unnest(parent_ids) AS p(id) WHERE p.id IS NOT NULL;
++
++ -- One deterministic order, with duplicate IDs naturally removed by the PK
++ -- lookup. Take every existing OLD/NEW parent lock before making a decision.
++ FOR parent_row IN
++  SELECT a.id,a.status
++  FROM poms.commission_role_assignment a
++  WHERE a.id=ANY(parent_ids)
++  ORDER BY a.id
++  FOR UPDATE OF a
++ LOOP
++  locked_parent_count := locked_parent_count+1;
++  has_frozen_parent := has_frozen_parent OR parent_row.status='frozen';
++ END LOOP;
++
++ -- Moving any participant, including zero weight and draft-to-draft, remains
++ -- forbidden. Preserve the existing SQLSTATE and diagnostic text.
++ IF TG_OP='UPDATE' AND NEW.assignment_id IS DISTINCT FROM OLD.assignment_id THEN
++  RAISE EXCEPTION 'assignment participant cannot be reparented' USING ERRCODE='23514';
++ END IF;
++ -- I/U must have locked every nonnull actual parent. Preserve DELETE's
++ -- previous missing-parent behavior and let original not-null handle NULL.
++ IF TG_OP IN ('INSERT','UPDATE') AND locked_parent_count<>expected_parent_count THEN
++  RAISE EXCEPTION 'assignment participant parent unavailable' USING ERRCODE='23503';
++ END IF;
++ IF has_frozen_parent THEN
++  RAISE EXCEPTION 'frozen assignment participants immutable' USING ERRCODE='23514';
++ END IF;
++ IF TG_OP='DELETE' THEN RETURN OLD; END IF;
++ RETURN NEW;
++END $$;
++
+--- /dev/null
++++ Staged106/apps/poms-api/src/migrations/Migration20261108090000_rust_frozen_assignment_parent_lock.ts
+@@ -1,0 +1,9 @@
++import { Migration } from "@mikro-orm/migrations";
++
++/** Conditional forward-only guard; Root has not registered or executed it. */
++export class Migration20261108090000 extends Migration {
++    override async up(): Promise<void> {
++        this.addSql("-- CONDITIONAL FORWARD CANDIDATE ONLY. Root decides registration/application.\n-- Keep M95/M97, existing triggers, frozen columns and deferred totals unchanged.\n-- No table/column/data/origin backfill. Only replace this existing guard body.\nCREATE OR REPLACE FUNCTION poms.jghi_assignment_participant_guard()\nRETURNS trigger LANGUAGE plpgsql AS $$\nDECLARE\n parent_ids uuid[];\n parent_row record;\n has_frozen_parent boolean := false;\n expected_parent_count integer := 0;\n locked_parent_count integer := 0;\nBEGIN\n IF TG_OP='INSERT' THEN\n  parent_ids := ARRAY[NEW.assignment_id];\n ELSIF TG_OP='DELETE' THEN\n  parent_ids := ARRAY[OLD.assignment_id];\n ELSE\n  parent_ids := ARRAY[OLD.assignment_id,NEW.assignment_id];\n END IF;\n\n SELECT count(DISTINCT p.id)::integer INTO expected_parent_count\n FROM unnest(parent_ids) AS p(id) WHERE p.id IS NOT NULL;\n\n -- One deterministic order, with duplicate IDs naturally removed by the PK\n -- lookup. Take every existing OLD/NEW parent lock before making a decision.\n FOR parent_row IN\n  SELECT a.id,a.status\n  FROM poms.commission_role_assignment a\n  WHERE a.id=ANY(parent_ids)\n  ORDER BY a.id\n  FOR UPDATE OF a\n LOOP\n  locked_parent_count := locked_parent_count+1;\n  has_frozen_parent := has_frozen_parent OR parent_row.status='frozen';\n END LOOP;\n\n -- Moving any participant, including zero weight and draft-to-draft, remains\n -- forbidden. Preserve the existing SQLSTATE and diagnostic text.\n IF TG_OP='UPDATE' AND NEW.assignment_id IS DISTINCT FROM OLD.assignment_id THEN\n  RAISE EXCEPTION 'assignment participant cannot be reparented' USING ERRCODE='23514';\n END IF;\n -- I/U must have locked every nonnull actual parent. Preserve DELETE's\n -- previous missing-parent behavior and let original not-null handle NULL.\n IF TG_OP IN ('INSERT','UPDATE') AND locked_parent_count<>expected_parent_count THEN\n  RAISE EXCEPTION 'assignment participant parent unavailable' USING ERRCODE='23503';\n END IF;\n IF has_frozen_parent THEN\n  RAISE EXCEPTION 'frozen assignment participants immutable' USING ERRCODE='23514';\n END IF;\n IF TG_OP='DELETE' THEN RETURN OLD; END IF;\n RETURN NEW;\nEND $$;\n");
++    }
++}
++
+--- Source12/apps/poms-api-rust/src/project_operating/mod.rs
++++ Staged106/apps/poms-api-rust/src/project_operating/mod.rs
+@@ -6,6 +6,7 @@
+ mod context;
+ mod facts;
+ mod inclusion;
++mod period_baseline;
+ pub mod preparation;
+ mod projection;
+ mod restatement;
+--- Source12/apps/poms-api-rust/src/project_operating/context.rs
++++ Staged106/apps/poms-api-rust/src/project_operating/context.rs
+@@ -34,6 +34,11 @@
+         "unknown"
+     }
+ }
++// A linked foreign fiscal row is an internal source parent for an actual
++// shared allocation. It is not a new unmapped fiscal fact of this project.
++fn locally_registered_upstream(row: &Value, project: Uuid) -> bool {
++    row["project_id"] == project.to_string()
++}
+ fn classification(row: &Value) -> Value {
+     json!({"decisionId":row["id"],"rowVersion":row["row_version"],"decision":row["decision"],"reasonCode":row["reason_code"],"reasonText":row["reason_text"],"decidedBy":row["decided_by"],"decidedAt":row["decided_at"],"evidenceHash":row["payload_hash"]})
+ }
+@@ -402,6 +407,9 @@
+         Table::Expense,
+     ] {
+         for row in catalog.all(table) {
++            if !locally_registered_upstream(row, project) {
++                continue;
++            }
+             if matches!(row["status"].as_str(), Some("voided" | "draft")) {
+                 continue;
+             }
+@@ -893,6 +901,18 @@
+             .and_then(|b| catalog.by(Table::BaselineSource, "id", &b["source_context_id"]))
+             .map(|r| r["frozen_payload"].clone())
+     });
++    // First-period publication must prove business-time adoption. Capturing a
++    // G package later is legitimate; adopting future estimate facts is not.
++    if window.period_key.is_some() && historical_period.is_none() {
++        super::period_baseline::assert_adoption(
++            catalog,
++            project,
++            draft
++                .as_ref()
++                .ok_or_else(|| store::conflict("period_baseline_reconciliation_required"))?,
++            window,
++        )?;
++    }
+     if let Some(draft) = draft.as_ref().filter(|_| historical_period.is_none()) {
+         let mut adopted_ids = BTreeSet::new();
+         if let Some(id) = draft["originalCostRef"]["id"].as_str() {
+@@ -1298,6 +1318,9 @@
+         Table::Expense,
+     ] {
+         for row in catalog.all(table) {
++            if !locally_registered_upstream(row, project) {
++                continue;
++            }
+             if !matches!(row["status"].as_str(), Some("voided" | "draft"))
+                 && source_day(table, row)? <= window.business_cutoff
+                 && sources::known_at(row, window.knowledge_cutoff)
+@@ -1545,6 +1568,7 @@
+         .ok_or_else(|| store::conflict("operating_cost_source_missing"))?;
+     sources::reference(table, row)
+ }
++
+ // Tax pending covers every registered cost retained in the frozen scope,
+ // including excluded principals. Classification is not a zero-tax proof.
+ // Allocation shares with a nonzero/unknown tax layer remain unknown unless a
+@@ -1793,3 +1817,52 @@
+     }
+ }
+ 
++#[cfg(test)]
++mod foreign_fiscal_source84_tests {
++    use super::*;
++
++    #[test]
++    fn foreign_fiscal_source84_exact_imported_parent_resolves_all_nonlabor_cost_kinds() {
++        for (source_type, table, kind) in [
++            ("expense-record", Table::Expense, "ExpenseRecord"),
++            ("invoice-record", Table::Invoice, "InvoiceRecord"),
++            ("payment-record", Table::Payment, "PaymentRecord"),
++            ("payable-record", Table::Payable, "PayableRecord"),
++        ] {
++            let parent_id = Uuid::from_u128(20);
++            let cost = json!({"source_type":source_type,"source_id":parent_id,"project_id":Uuid::from_u128(11)});
++            let mut catalog = Catalog::default();
++            catalog.rows.insert(table, vec![json!({"id":Uuid::from_u128(21),"row_version":2,"project_id":Uuid::from_u128(10)})]);
++            assert!(
++                cost_source_ref(&catalog, &cost).is_err(),
++                "An unrelated local record cannot satisfy the foreign source ID"
++            );
++            catalog
++                .rows
++                .get_mut(&table)
++                .expect("fixture table")
++                .push(json!({"id":parent_id,"row_version":2,"project_id":Uuid::from_u128(11)}));
++            let source = cost_source_ref(&catalog, &cost).expect("exact imported parent");
++            assert_eq!(source["kind"], kind);
++            assert_eq!(source["id"], parent_id.to_string());
++            assert_eq!(source["rowVersion"], 2);
++        }
++    }
++
++    #[test]
++    fn foreign_fiscal_source84_imported_parent_is_never_an_own_unmapped_fact() {
++        let project = Uuid::from_u128(10);
++        let foreign = json!({"id":Uuid::from_u128(20),"project_id":Uuid::from_u128(11),"status":"confirmed","amount_including_tax":"1130.00"});
++        let own = json!({"id":Uuid::from_u128(21),"project_id":project,"status":"confirmed","amount_including_tax":"1130.00"});
++        assert!(!locally_registered_upstream(&foreign, project));
++        assert!(
++            locally_registered_upstream(&own, project),
++            "Real own-project unmapped facts must retain their blocking/projection path"
++        );
++        assert!(!locally_registered_upstream(
++            &json!({"project_id":null}),
++            project
++        ));
++    }
++}
++
+--- /dev/null
++++ Staged106/apps/poms-api-rust/src/project_operating/period_baseline.rs
+@@ -1,0 +1,213 @@
++//! Fail closed when the first period's adopted baseline cannot be proved as-of.
++//! The G package may be captured later; its actual adopted business facts may not.
++use super::{
++    sources::{self, Catalog},
++    store::{self, Table},
++};
++use crate::{contract_support::Error, project_operating_common::model::OperatingBusinessWindow};
++use chrono::{DateTime, Utc};
++use serde_json::Value;
++use std::collections::BTreeMap;
++use uuid::Uuid;
++
++fn reconcile() -> Error {
++    store::conflict("period_baseline_reconciliation_required")
++}
++
++fn instant(row: &Value, field: &str) -> Option<DateTime<Utc>> {
++    DateTime::parse_from_rfc3339(row[field].as_str()?)
++        .ok()
++        .map(|at| at.with_timezone(&Utc))
++}
++
++fn known(row: &Value, field: &str, window: &OperatingBusinessWindow) -> bool {
++    instant(row, field).is_some_and(|at| at <= window.knowledge_cutoff)
++}
++
++fn effective(row: &Value, field: &str, window: &OperatingBusinessWindow) -> bool {
++    instant(row, field).is_some_and(|at| {
++        at <= window.knowledge_cutoff
++            && at.with_timezone(&chrono_tz::Asia::Hong_Kong).date_naive() <= window.business_cutoff
++    })
++}
++
++fn exact<'a>(catalog: &'a Catalog, table: Table, reference: &Value) -> Result<&'a Value, Error> {
++    let row = if table == Table::ReviewBinding {
++        catalog.by(table, "approval_record_id", &reference["id"])
++    } else {
++        catalog.find(table, store::id(reference, "id").map_err(|_| reconcile())?)
++    }
++    .ok_or_else(reconcile)?;
++    if sources::reference(table, row)? != *reference {
++        return Err(reconcile());
++    }
++    Ok(row)
++}
++
++fn approval_table(reference: &Value) -> Result<Table, Error> {
++    match reference["kind"].as_str() {
++        Some("ContractTermSnapshot") => Ok(Table::Term),
++        Some("ContractTermPreparation") => Ok(Table::Preparation),
++        Some("ContractReviewBinding") => Ok(Table::ReviewBinding),
++        _ => Err(reconcile()),
++    }
++}
++
++fn has_adoption(
++    catalog: &Catalog,
++    project: Uuid,
++    estimate: &Value,
++    required_refs: Option<&[Value]>,
++    window: &OperatingBusinessWindow,
++) -> Result<bool, Error> {
++    for term in catalog.all(Table::Term) {
++        if !matches!(
++            term["snapshot_status"].as_str(),
++            Some("active" | "superseded")
++        ) {
++            continue;
++        }
++        let Some(preparation) =
++            catalog.by(Table::Preparation, "id", &term["source_preparation_id"])
++        else {
++            continue;
++        };
++        if preparation["source_cost_package_id"] != estimate["id"]
++            || preparation["project_id"] != project.to_string()
++            || preparation["source_facts"]["cost"]["id"] != estimate["id"]
++            || preparation["source_facts"]["cost"]["version"] != estimate["version"]
++            || preparation["contract_id"] != term["contract_id"]
++            || preparation["activated_snapshot_id"] != term["id"]
++            || preparation["payload_hash"] != term["payload_hash"]
++            || preparation["status"] != "activated"
++        {
++            continue;
++        }
++        let Some(contract) = catalog.by(Table::Contract, "id", &term["contract_id"]) else {
++            continue;
++        };
++        if contract["project_id"] != project.to_string()
++            || !known(contract, "created_at", window)
++            || (!contract["signed_at"].is_null() && !effective(contract, "signed_at", window))
++            || !known(term, "created_at", window)
++            || !effective(term, "effective_at", window)
++            || !known(preparation, "created_at", window)
++            || !effective(preparation, "activated_at", window)
++        {
++            continue;
++        }
++        for binding in catalog.all(Table::ReviewBinding) {
++            if binding["preparation_id"] != preparation["id"]
++                || binding["preparation_version"] != preparation["version"]
++                || binding["contract_id"] != term["contract_id"]
++                || binding["payload_hash"] != preparation["payload_hash"]
++                || binding["contract_amendment_id"] != term["source_amendment_id"]
++                || !known(binding, "created_at", window)
++            {
++                continue;
++            }
++            let Some(approval) = catalog.by(Table::Approval, "id", &binding["approval_record_id"])
++            else {
++                continue;
++            };
++            // The actual approval table has decided_at, not an invented approved_at.
++            if approval["current_status"] != "approved"
++                || approval["target_object_id"] != term["contract_id"]
++                || approval["approval_type"] != "contract-review"
++                || !known(approval, "created_at", window)
++                || !effective(approval, "decided_at", window)
++            {
++                continue;
++            }
++            let refs = [
++                sources::reference(Table::Term, term)?,
++                sources::reference(Table::Preparation, preparation)?,
++                sources::reference(Table::ReviewBinding, binding)?,
++            ];
++            if required_refs.is_none_or(|required| refs.iter().all(|r| required.contains(r))) {
++                return Ok(true);
++            }
++        }
++    }
++    Ok(false)
++}
++
++/// Called only for the first period capture/preview, after the collector's locks.
++/// This verifies the selected frozen draft; it never selects or recalculates a budget.
++pub(crate) fn assert_adoption(
++    catalog: &Catalog,
++    project: Uuid,
++    draft: &Value,
++    window: &OperatingBusinessWindow,
++) -> Result<(), Error> {
++    let original = exact(catalog, Table::Estimate, &draft["originalCostRef"])?;
++    let current = exact(catalog, Table::Estimate, &draft["currentCostRef"])?;
++    let transitions = draft["approvedTransitions"]
++        .as_array()
++        .ok_or_else(reconcile)?;
++    let mut packages = BTreeMap::new();
++    packages.insert(store::id(original, "id")?, (original, None));
++    let mut previous = &draft["originalCostRef"];
++    for transition in transitions {
++        if transition["beforeCostRef"] != *previous {
++            return Err(reconcile());
++        }
++        exact(catalog, Table::Estimate, &transition["beforeCostRef"])?;
++        let after = exact(catalog, Table::Estimate, &transition["afterCostRef"])?;
++        let approvals = transition["approvalSourceRefs"]
++            .as_array()
++            .ok_or_else(reconcile)?;
++        for reference in approvals {
++            exact(catalog, approval_table(reference)?, reference)?;
++        }
++        if after["supersedes_id"] != previous["id"]
++            || packages
++                .insert(store::id(after, "id")?, (after, Some(approvals.as_slice())))
++                .is_some()
++        {
++            return Err(reconcile());
++        }
++        previous = &transition["afterCostRef"];
++    }
++    if *previous != draft["currentCostRef"] || current["project_id"] != project.to_string() {
++        return Err(reconcile());
++    }
++    for (estimate, approvals) in packages.values() {
++        if estimate["project_id"] != project.to_string()
++            || !known(estimate, "created_at", window)
++            || !effective(estimate, "effective_at", window)
++            || !has_adoption(catalog, project, estimate, *approvals, window)?
++        {
++            return Err(reconcile());
++        }
++    }
++    for (field, table, business, knowledge) in [
++        (
++            "handoverBasisRef",
++            Table::HandoverBasis,
++            "generated_at",
++            "generated_at",
++        ),
++        (
++            "handoverRebaselineRef",
++            Table::Rebaseline,
++            "handled_at",
++            "created_at",
++        ),
++    ] {
++        if !draft[field].is_null() {
++            let row = exact(catalog, table, &draft[field])?;
++            if row["project_id"] != project.to_string()
++                || !known(row, knowledge, window)
++                || !effective(row, business, window)
++            {
++                return Err(reconcile());
++            }
++        }
++    }
++    Ok(())
++}
++
++#[cfg(test)]
++mod tests;
++
+--- /dev/null
++++ Staged106/apps/poms-api-rust/src/project_operating/period_baseline/tests.rs
+@@ -1,0 +1,224 @@
++use super::*;
++use serde_json::json;
++
++fn id(n: u128) -> Uuid {
++    Uuid::from_u128(n)
++}
++
++fn fixture() -> (Catalog, Uuid, Value, OperatingBusinessWindow) {
++    let project = id(1);
++    let mut catalog = Catalog::default();
++    catalog.rows.insert(
++        Table::Contract,
++        vec![json!({
++            "id":id(2),"project_id":project,"created_at":"2026-10-01T00:00:00Z",
++            "signed_at":"2026-10-02T00:00:00Z","row_version":1
++        })],
++    );
++    add_package(&mut catalog, project, 3, None);
++    let reference = sources::reference(Table::Estimate, &catalog.all(Table::Estimate)[0]).unwrap();
++    let draft = json!({"originalCostRef":reference,"currentCostRef":reference,
++        "approvedTransitions":[],"handoverBasisRef":null,"handoverRebaselineRef":null});
++    let window = OperatingBusinessWindow {
++        business_cutoff: "2026-10-31".parse().unwrap(),
++        knowledge_cutoff: DateTime::parse_from_rfc3339("2026-11-08T00:00:00Z")
++            .unwrap()
++            .with_timezone(&Utc),
++        source_window_start: None,
++        source_window_end: Some("2026-10-31".parse().unwrap()),
++        period_key: Some("2026-10".into()),
++        business_timezone: "Asia/Hong_Kong".into(),
++    };
++    (catalog, project, draft, window)
++}
++
++fn add_package(catalog: &mut Catalog, project: Uuid, n: u128, parent: Option<Uuid>) {
++    let estimate = json!({"id":id(n),"project_id":project,"version":1,"row_version":1,
++        "supersedes_id":parent,"created_at":"2026-10-01T00:00:00Z","effective_at":"2026-10-03T00:00:00Z"});
++    let preparation = json!({"id":id(n+10),"project_id":project,"contract_id":id(2),
++        "source_cost_package_id":id(n),"source_facts":{"cost":{"id":id(n),"version":1}},
++        "status":"activated","activated_snapshot_id":id(n+20),"payload_hash":"exact-terms",
++        "version":1,"row_version":1,"created_at":"2026-10-03T00:00:00Z","activated_at":"2026-10-05T00:00:00Z"});
++    let term = json!({"id":id(n+20),"contract_id":id(2),"source_preparation_id":id(n+10),
++        "source_amendment_id":null,"snapshot_status":"active","payload_hash":"exact-terms",
++        "version":1,"row_version":1,"created_at":"2026-10-05T00:00:00Z","effective_at":"2026-10-05T00:00:00Z"});
++    let binding = json!({"approval_record_id":id(n+30),"preparation_id":id(n+10),
++        "preparation_version":1,"contract_id":id(2),"contract_amendment_id":null,
++        "payload_hash":"exact-terms","created_at":"2026-10-04T00:00:00Z"});
++    let approval = json!({"id":id(n+30),"row_version":1,"approval_type":"contract-review",
++        "target_object_id":id(2),"current_status":"approved","created_at":"2026-10-04T00:00:00Z",
++        "decided_at":"2026-10-04T01:00:00Z"});
++    for (table, row) in [
++        (Table::Estimate, estimate),
++        (Table::Preparation, preparation),
++        (Table::Term, term),
++        (Table::ReviewBinding, binding),
++        (Table::Approval, approval),
++    ] {
++        catalog.rows.entry(table).or_default().push(row);
++    }
++}
++
++fn rejected(result: Result<(), Error>) {
++    assert!(matches!(
++        result,
++        Err(Error::CodedConflict {
++            code: "period_baseline_reconciliation_required",
++            ..
++        })
++    ));
++}
++
++fn refresh_estimate(catalog: &Catalog, draft: &mut Value) {
++    let reference = sources::reference(Table::Estimate, &catalog.all(Table::Estimate)[0]).unwrap();
++    draft["originalCostRef"] = reference.clone();
++    draft["currentCostRef"] = reference;
++}
++
++#[test]
++fn real_historical_adoption_allows_later_knowledge_and_g_capture() {
++    let (catalog, project, draft, window) = fixture();
++    assert!(assert_adoption(&catalog, project, &draft, &window).is_ok());
++}
++
++#[test]
++fn future_effective_estimate_is_not_turned_into_past_budget() {
++    let (mut catalog, project, mut draft, window) = fixture();
++    catalog.rows.get_mut(&Table::Estimate).unwrap()[0]["effective_at"] =
++        json!("2026-11-01T00:00:00+08:00");
++    refresh_estimate(&catalog, &mut draft);
++    rejected(assert_adoption(&catalog, project, &draft, &window));
++}
++
++#[test]
++fn missing_or_invalid_source_time_is_not_implicitly_known() {
++    for value in [Value::Null, json!("not-a-time")] {
++        let (mut catalog, project, mut draft, window) = fixture();
++        catalog.rows.get_mut(&Table::Estimate).unwrap()[0]["created_at"] = value;
++        refresh_estimate(&catalog, &mut draft);
++        rejected(assert_adoption(&catalog, project, &draft, &window));
++    }
++}
++
++#[test]
++fn knowledge_cutoff_rejects_a_not_yet_known_source() {
++    let (mut catalog, project, mut draft, window) = fixture();
++    catalog.rows.get_mut(&Table::Estimate).unwrap()[0]["created_at"] =
++        json!("2026-11-09T00:00:00Z");
++    refresh_estimate(&catalog, &mut draft);
++    rejected(assert_adoption(&catalog, project, &draft, &window));
++}
++
++#[test]
++fn activated_terms_after_business_cutoff_do_not_prove_old_adoption() {
++    let (mut catalog, project, draft, window) = fixture();
++    catalog.rows.get_mut(&Table::Term).unwrap()[0]["effective_at"] = json!("2026-11-01T00:00:00Z");
++    rejected(assert_adoption(&catalog, project, &draft, &window));
++}
++
++#[test]
++fn preparation_activation_and_approval_decision_must_be_historical() {
++    for (table, field) in [
++        (Table::Preparation, "activated_at"),
++        (Table::Approval, "decided_at"),
++    ] {
++        let (mut catalog, project, draft, window) = fixture();
++        catalog.rows.get_mut(&table).unwrap()[0][field] = json!("2026-11-01T00:00:00Z");
++        rejected(assert_adoption(&catalog, project, &draft, &window));
++    }
++}
++
++#[test]
++fn activation_link_and_exact_payload_approval_are_both_required() {
++    for (table, field) in [
++        (Table::Preparation, "activated_snapshot_id"),
++        (Table::ReviewBinding, "payload_hash"),
++    ] {
++        let (mut catalog, project, draft, window) = fixture();
++        catalog.rows.get_mut(&table).unwrap()[0][field] = json!("wrong");
++        rejected(assert_adoption(&catalog, project, &draft, &window));
++    }
++}
++
++#[test]
++fn immutable_reference_hash_cannot_be_relabelled() {
++    let (catalog, project, mut draft, window) = fixture();
++    draft["currentCostRef"]["payloadHash"] = json!("f".repeat(64));
++    rejected(assert_adoption(&catalog, project, &draft, &window));
++}
++
++#[test]
++fn unrelated_project_or_contract_is_not_an_adoption_proof() {
++    for table in [Table::Contract, Table::Preparation] {
++        let (mut catalog, project, draft, window) = fixture();
++        catalog.rows.get_mut(&table).unwrap()[0]["project_id"] = json!(id(999));
++        rejected(assert_adoption(&catalog, project, &draft, &window));
++    }
++}
++
++#[test]
++fn hong_kong_day_is_used_at_the_period_boundary() {
++    let (mut catalog, project, mut draft, window) = fixture();
++    catalog.rows.get_mut(&Table::Estimate).unwrap()[0]["effective_at"] =
++        json!("2026-10-31T15:59:59.999999Z");
++    refresh_estimate(&catalog, &mut draft);
++    assert!(assert_adoption(&catalog, project, &draft, &window).is_ok());
++    catalog.rows.get_mut(&Table::Estimate).unwrap()[0]["effective_at"] =
++        json!("2026-10-31T16:00:00Z");
++    refresh_estimate(&catalog, &mut draft);
++    rejected(assert_adoption(&catalog, project, &draft, &window));
++}
++
++fn with_successor() -> (Catalog, Uuid, Value, OperatingBusinessWindow) {
++    let (mut catalog, project, mut draft, window) = fixture();
++    add_package(&mut catalog, project, 50, Some(id(3)));
++    let after = sources::reference(Table::Estimate, &catalog.all(Table::Estimate)[1]).unwrap();
++    let approvals = [Table::Term, Table::Preparation, Table::ReviewBinding]
++        .map(|table| sources::reference(table, &catalog.all(table)[1]).unwrap());
++    draft["approvedTransitions"] = json!([{"beforeCostRef":draft["originalCostRef"],
++        "afterCostRef":after,"approvalSourceRefs":approvals}]);
++    draft["currentCostRef"] = after;
++    (catalog, project, draft, window)
++}
++
++#[test]
++fn exact_historical_successor_chain_is_accepted_without_recalculating_amounts() {
++    let (catalog, project, draft, window) = with_successor();
++    let unchanged = draft.clone();
++    assert!(assert_adoption(&catalog, project, &draft, &window).is_ok());
++    assert_eq!(draft, unchanged);
++}
++
++#[test]
++fn future_successor_is_rejected_without_selecting_the_original_instead() {
++    let (mut catalog, project, mut draft, window) = with_successor();
++    catalog.rows.get_mut(&Table::Estimate).unwrap()[1]["effective_at"] =
++        json!("2026-11-01T00:00:00Z");
++    let after = sources::reference(Table::Estimate, &catalog.all(Table::Estimate)[1]).unwrap();
++    draft["currentCostRef"] = after.clone();
++    draft["approvedTransitions"][0]["afterCostRef"] = after;
++    let unchanged = draft.clone();
++    rejected(assert_adoption(&catalog, project, &draft, &window));
++    assert_eq!(draft, unchanged);
++}
++
++#[test]
++fn successor_cannot_borrow_another_adoption_binding() {
++    let (catalog, project, mut draft, window) = with_successor();
++    draft["approvedTransitions"][0]["approvalSourceRefs"] = json!([
++        sources::reference(Table::Term, &catalog.all(Table::Term)[0]).unwrap(),
++        sources::reference(Table::Preparation, &catalog.all(Table::Preparation)[0]).unwrap(),
++        sources::reference(Table::ReviewBinding, &catalog.all(Table::ReviewBinding)[0]).unwrap()
++    ]);
++    rejected(assert_adoption(&catalog, project, &draft, &window));
++}
++
++#[test]
++fn future_handover_basis_cannot_supply_historical_business_facts() {
++    let (mut catalog, project, mut draft, window) = fixture();
++    let row = json!({"id":id(500),"project_id":project,"row_version":1,"generated_at":"2026-11-01T00:00:00Z"});
++    draft["handoverBasisRef"] = sources::reference(Table::HandoverBasis, &row).unwrap();
++    catalog.rows.insert(Table::HandoverBasis, vec![row]);
++    rejected(assert_adoption(&catalog, project, &draft, &window));
++}
++
+--- Source12/apps/poms-api-rust/src/project_operating/restatement.rs
++++ Staged106/apps/poms-api-rust/src/project_operating/restatement.rs
+@@ -263,6 +263,77 @@
+     day: Option<chrono::NaiveDate>,
+     producer: bool,
+ }
++// Tax evidence is immutable F producer output, not a caller-supplied cost
++// list. Bind its metadata references back to its hashed original assessment.
++fn tax_dependency_sources(tax: &Value, evidence: &Value) -> Result<Vec<Value>, Error> {
++    if tax["governance_schema_version"] != 1
++        || tax["status"] != "active"
++        || evidence["schema_version"] != 1
++        || evidence["id"] != tax["governance_evidence_id"]
++        || evidence["target_type"] != "AccountingTaxTreatmentSnapshot"
++        || evidence["target_id"] != tax["id"]
++        || evidence["project_id"] != tax["project_id"]
++        || !evidence["frozen_payload"].is_object()
++        || evidence["payload_hash"]
++            != crate::contract_support::canonical_hash(&evidence["frozen_payload"])?
++        || evidence["source_references"]
++            != evidence["frozen_payload"]["assessment"]["sourceReferences"]
++    {
++        return Err(store::conflict("operating_tax_dependency_evidence_changed"));
++    }
++    let references = evidence["source_references"]
++        .as_array()
++        .filter(|refs| !refs.is_empty())
++        .ok_or_else(|| store::conflict("operating_tax_dependency_evidence_changed"))?;
++    let mut sources = Vec::new();
++    for reference in references {
++        match reference["kind"].as_str() {
++            Some("source") => sources.push(reference.clone()),
++            Some("manual") => {}
++            _ => return Err(store::conflict("operating_tax_dependency_evidence_changed")),
++        }
++    }
++    Ok(sources)
++}
++
++fn append_dependency_cost(
++    cost: &Value,
++    ids: &mut BTreeSet<Uuid>,
++    impacts: &mut Vec<Impact>,
++) -> Result<(), Error> {
++    let id = store::id(cost, "id")?;
++    ids.insert(id);
++    impacts.push(Impact {
++        id,
++        project: Some(store::id(cost, "project_id")?),
++        day: Some(sources::business_day(&cost["occurred_on"])?),
++        producer: true,
++    });
++    Ok(())
++}
++
++fn append_batch_impacts(
++    rows: &[Value],
++    ids: &mut BTreeSet<Uuid>,
++    impacts: &mut Vec<Impact>,
++) -> Result<(), Error> {
++    for row in rows {
++        let day = Some(sources::business_day(&row["businessDate"])?);
++        for (id_key, p_key) in [("resultId", "projectId"), ("costId", "costProjectId")] {
++            let id = store::id(row, id_key)?;
++            ids.insert(id);
++            impacts.push(Impact {
++                id,
++                project: Some(store::id(row, p_key)?),
++                day,
++                producer: true,
++            });
++        }
++        ids.insert(store::id(row, "basisId")?);
++    }
++    Ok(())
++}
++
+ async fn impact_graph(
+     session: &mut CommonSession<'_, '_>,
+     roots: &[ExpectedRef],
+@@ -374,14 +445,30 @@
+                 ids.insert(store::id(&cost, "id")?);
+                 row["evidence_business_date"].clone()
+             }
+-            Table::Tax => store::row(
+-                session.connection,
+-                Table::Evidence,
+-                store::id(&row, "governance_evidence_id")?,
+-                false,
+-            )
+-            .await?["business_date"]
+-                .clone(),
++            Table::Tax => {
++                let evidence = store::row(
++                    session.connection,
++                    Table::Evidence,
++                    store::id(&row, "governance_evidence_id")?,
++                    false,
++                )
++                .await?;
++                for source in tax_dependency_sources(&row, &evidence)? {
++                    // The exact same read-only source-to-cost relation used by
++                    // F plans seeds G's existing transitive whole-batch graph.
++                    // Historical evidence versions are not silently rebound.
++                    for cost_id in crate::project_cost_governance::cost_ids_for_evidence_reference(
++                        session, &source,
++                    )
++                    .await?
++                    {
++                        let cost =
++                            store::row(session.connection, Table::Cost, cost_id, false).await?;
++                        append_dependency_cost(&cost, &mut ids, &mut impacts)?;
++                    }
++                }
++                evidence["business_date"].clone()
++            }
+             Table::Contract => row["signed_at"].clone(),
+             Table::Baseline => row["effective_at"].clone(),
+             _ => Value::Null,
+@@ -401,20 +488,7 @@
+         let known = ids.iter().copied().collect::<Vec<_>>();
+         let rows:Vec<Value>=sqlx::query_scalar("SELECT jsonb_build_object('resultId',r.id,'projectId',r.project_id,'basisId',r.basis_id,'costId',m.cost_record_id,'costProjectId',c.project_id,'businessDate',c.occurred_on) FROM poms.shared_cost_allocation_result r JOIN poms.shared_cost_allocation_source_snapshot m ON m.basis_id=r.basis_id JOIN poms.project_actual_cost_record c ON c.id=m.cost_record_id WHERE m.cost_record_id=ANY($1::uuid[]) OR m.basis_id=ANY($1::uuid[]) OR r.id=ANY($1::uuid[]) ORDER BY r.id,m.cost_record_id").bind(&known).fetch_all(&mut *session.connection).await?;
+         let prior = ids.len();
+-        for row in rows {
+-            let day = Some(sources::business_day(&row["businessDate"])?);
+-            for (id_key, p_key) in [("resultId", "projectId"), ("costId", "costProjectId")] {
+-                let id = store::id(&row, id_key)?;
+-                ids.insert(id);
+-                impacts.push(Impact {
+-                    id,
+-                    project: Some(store::id(&row, p_key)?),
+-                    day,
+-                    producer: true,
+-                });
+-            }
+-            ids.insert(store::id(&row, "basisId")?);
+-        }
++        append_batch_impacts(&rows, &mut ids, &mut impacts)?;
+         if ids.len() == prior {
+             break;
+         }
+@@ -664,3 +738,133 @@
+     Ok(out)
+ }
+ 
++#[cfg(test)]
++mod tax_dependency83_tests {
++    use super::*;
++    use serde_json::json;
++
++    fn uid(n: u128) -> Uuid {
++        Uuid::from_u128(n)
++    }
++
++    fn evidence_pair(references: Value) -> (Value, Value) {
++        let payload = json!({"assessment":{"sourceReferences":references},"actorId":uid(90)});
++        let tax = json!({"id":uid(1),"project_id":uid(10),"status":"active","governance_schema_version":1,"governance_evidence_id":uid(2),"tax_impact_pending_amount":"130.00"});
++        let evidence = json!({"id":uid(2),"project_id":uid(10),"target_type":"AccountingTaxTreatmentSnapshot","target_id":uid(1),"schema_version":1,"business_date":"2026-11-08","source_references":references,"frozen_payload":payload,"payload_hash":crate::contract_support::canonical_hash(&payload).expect("fixture hash")});
++        (tax, evidence)
++    }
++
++    #[test]
++    fn tax_dependency83_reads_the_sealed_cost_relation_without_rebinding_its_version() {
++        let (tax, evidence) = evidence_pair(
++            json!([{"kind":"source","sourceType":"project-actual-cost-record","sourceId":uid(20),"sourceVersion":2,"businessDate":"2026-11-08"}]),
++        );
++        let original = (tax.clone(), evidence.clone());
++        let selected = tax_dependency_sources(&tax, &evidence).expect("real relation");
++        assert_eq!(selected.len(), 1);
++        assert_eq!(selected[0]["sourceId"], uid(20).to_string());
++        assert_eq!(selected[0]["sourceVersion"], 2);
++        // G uses this ID only for dependency discovery. A later consumption
++        // version remains the responsibility of the unchanged F assertions.
++        let mut ids = BTreeSet::from([uid(1)]);
++        let mut impacts = vec![];
++        append_dependency_cost(
++            &json!({"id":uid(20),"project_id":uid(10),"occurred_on":"2026-11-08","row_version":3}),
++            &mut ids,
++            &mut impacts,
++        )
++        .expect("actual current cost row");
++        assert!(ids.contains(&uid(20)));
++        assert_eq!(impacts[0].project, Some(uid(10)));
++        assert_eq!((tax, evidence), original);
++    }
++
++    #[test]
++    fn tax_dependency83_cost_seed_reaches_the_complete_cross_project_transitive_batch() {
++        let mut ids = BTreeSet::from([uid(1)]);
++        let mut impacts = vec![];
++        append_dependency_cost(
++            &json!({"id":uid(20),"project_id":uid(10),"occurred_on":"2026-11-08"}),
++            &mut ids,
++            &mut impacts,
++        )
++        .expect("tax source cost");
++        let rows = vec![
++            json!({"resultId":uid(40),"projectId":uid(10),"basisId":uid(30),"costId":uid(20),"costProjectId":uid(10),"businessDate":"2026-11-08"}),
++            json!({"resultId":uid(41),"projectId":uid(11),"basisId":uid(30),"costId":uid(20),"costProjectId":uid(10),"businessDate":"2026-11-08"}),
++            json!({"resultId":uid(40),"projectId":uid(10),"basisId":uid(30),"costId":uid(21),"costProjectId":uid(12),"businessDate":"2026-11-07"}),
++            json!({"resultId":uid(42),"projectId":uid(13),"basisId":uid(31),"costId":uid(21),"costProjectId":uid(12),"businessDate":"2026-11-07"}),
++            json!({"resultId":uid(99),"projectId":uid(99),"basisId":uid(98),"costId":uid(97),"costProjectId":uid(99),"businessDate":"2026-11-01"}),
++        ];
++        // Rows returned by the unchanged real join are added as a complete
++        // batch; its next query uses the expanded cost/basis/result ID set.
++        loop {
++            let before = ids.len();
++            let joined = rows
++                .iter()
++                .filter(|r| {
++                    ["costId", "basisId", "resultId"]
++                        .iter()
++                        .any(|k| ids.contains(&store::id(r, k).expect("actual join id")))
++                })
++                .cloned()
++                .collect::<Vec<_>>();
++            append_batch_impacts(&joined, &mut ids, &mut impacts).expect("whole batch rows");
++            if ids.len() == before {
++                break;
++            }
++        }
++        let projects = impacts
++            .iter()
++            .filter_map(|i| i.project)
++            .collect::<BTreeSet<_>>();
++        assert_eq!(
++            projects,
++            BTreeSet::from([uid(10), uid(11), uid(12), uid(13)])
++        );
++        assert!(ids.contains(&uid(42)));
++        assert!(!ids.contains(&uid(99)));
++        assert!(impacts.iter().any(|i| i.project == Some(uid(11))
++            && i.day == chrono::NaiveDate::from_ymd_opt(2026, 11, 8)
++            && i.producer));
++    }
++
++    #[test]
++    fn tax_dependency83_rejects_mutated_hash_target_project_schema_and_current_marker() {
++        let refs = json!([{"kind":"source","sourceType":"expense-record","sourceId":uid(20),"sourceVersion":2,"businessDate":"2026-11-08"}]);
++        for field in ["payload_hash", "target_id", "project_id", "schema_version"] {
++            let (tax, mut evidence) = evidence_pair(refs.clone());
++            evidence[field] = if field == "schema_version" {
++                json!(0)
++            } else {
++                json!("changed")
++            };
++            assert!(tax_dependency_sources(&tax, &evidence).is_err(), "{field}");
++        }
++        let (mut tax, evidence) = evidence_pair(refs);
++        tax["status"] = json!("superseded");
++        assert!(tax_dependency_sources(&tax, &evidence).is_err());
++    }
++
++    #[test]
++    fn tax_dependency83_unhashed_metadata_cannot_substitute_a_foreign_cost_relation() {
++        let (tax, mut evidence) = evidence_pair(
++            json!([{"kind":"source","sourceType":"project-actual-cost-record","sourceId":uid(20),"sourceVersion":2,"businessDate":"2026-11-08"}]),
++        );
++        evidence["source_references"][0]["sourceId"] = json!(uid(999));
++        assert!(tax_dependency_sources(&tax, &evidence).is_err());
++    }
++
++    #[test]
++    fn tax_dependency83_manual_assessment_does_not_guess_project_wide_costs() {
++        let (tax, evidence) = evidence_pair(
++            json!([{"kind":"manual","businessDate":"2026-11-08","reason":"actual manual assessment","evidenceSummary":"pending review","attachmentIds":[]}]),
++        );
++        assert!(
++            tax_dependency_sources(&tax, &evidence)
++                .expect("qualified manual evidence")
++                .is_empty()
++        );
++    }
++}
++
+--- Source12/apps/poms-api-rust/src/project_cost_governance/correction.rs
++++ Staged106/apps/poms-api-rust/src/project_cost_governance/correction.rs
+@@ -213,7 +213,7 @@
+             .flatten()
+         {
+             if source["kind"] == "source" {
+-                costs.extend(cost_ids_for_legacy_reference(session, source).await?);
++                costs.extend(cost_ids_for_evidence_reference(session, source).await?);
+             }
+         }
+         let mut normalized = correction.clone();
+@@ -782,7 +782,7 @@
+     };
+     Ok(sqlx::query_scalar("SELECT id FROM poms.project_actual_cost_record WHERE source_type=$1 AND source_id=$2 ORDER BY id").bind(source).bind(reference.id.to_string()).fetch_all(&mut *session.connection).await?)
+ }
+-async fn cost_ids_for_legacy_reference(
++pub(crate) async fn cost_ids_for_evidence_reference(
+     session: &mut CommonSession<'_, '_>,
+     source: &Value,
+ ) -> Result<Vec<Uuid>, Error> {
+--- Source12/apps/poms-api-rust/src/project_cost_governance/mod.rs
++++ Staged106/apps/poms-api-rust/src/project_cost_governance/mod.rs
+@@ -5,7 +5,7 @@
+ mod projection;
+ mod service;
+ mod store;
+-pub(crate) use correction::apply_corrections_with_session;
++pub(crate) use correction::{apply_corrections_with_session, cost_ids_for_evidence_reference};
+ 
+ use crate::{
+     approval_common::CommonSession,
+--- Source12/apps/poms-api-rust/src/project_operating/store.rs
++++ Staged106/apps/poms-api-rust/src/project_operating/store.rs
+@@ -191,6 +191,19 @@
+                 "t.id IN (SELECT approval_record_id FROM poms.contract_review_binding WHERE contract_id IN (SELECT id FROM poms.contract WHERE project_id=$1))"
+             }
+             Self::ReceiptBasis => "t.project_id=$1",
++            Self::Payable => {
++                "t.project_id=$1 OR t.id::text IN (SELECT c.source_id FROM poms.project_actual_cost_record c WHERE c.source_type='payable-record' AND c.id IN (SELECT s.cost_record_id FROM poms.shared_cost_allocation_source_snapshot s JOIN poms.shared_cost_allocation_result r ON r.basis_id=s.basis_id WHERE r.project_id=$1))"
++            }
++            Self::Payment => {
++                "t.project_id=$1 OR t.id::text IN (SELECT c.source_id FROM poms.project_actual_cost_record c WHERE c.source_type='payment-record' AND c.id IN (SELECT s.cost_record_id FROM poms.shared_cost_allocation_source_snapshot s JOIN poms.shared_cost_allocation_result r ON r.basis_id=s.basis_id WHERE r.project_id=$1))"
++            }
++            Self::Invoice => {
++                "t.project_id=$1 OR t.id::text IN (SELECT c.source_id FROM poms.project_actual_cost_record c WHERE c.source_type='invoice-record' AND c.id IN (SELECT s.cost_record_id FROM poms.shared_cost_allocation_source_snapshot s JOIN poms.shared_cost_allocation_result r ON r.basis_id=s.basis_id WHERE r.project_id=$1))"
++            }
++            Self::Expense => {
++                "t.project_id=$1 OR t.id::text IN (SELECT c.source_id FROM poms.project_actual_cost_record c WHERE c.source_type='expense-record' AND c.id IN (SELECT s.cost_record_id FROM poms.shared_cost_allocation_source_snapshot s JOIN poms.shared_cost_allocation_result r ON r.basis_id=s.basis_id WHERE r.project_id=$1))"
++            }
++
+             Self::AllocationBasis => {
+                 "t.id IN (SELECT basis_id FROM poms.shared_cost_allocation_result WHERE project_id=$1) OR t.id IN (SELECT s.basis_id FROM poms.shared_cost_allocation_source_snapshot s JOIN poms.project_actual_cost_record c ON c.id=s.cost_record_id WHERE c.project_id=$1)"
+             }
+@@ -475,3 +488,29 @@
+     insert(session,Table::SourceMember,&json!({"context_id":context,"member_key":key,"source_kind":reference["kind"],"source_id":reference["id"],"source_row_version":reference["rowVersion"],"source_payload_hash":reference["payloadHash"],"captured_payload":payload})).await
+ }
+ 
++#[cfg(test)]
++mod foreign_fiscal_predicate84_tests {
++    use super::*;
++
++    #[test]
++    fn foreign_fiscal_predicate84_requires_the_actual_share_cost_source_identity() {
++        for (table, source_type) in [
++            (Table::Expense, "expense-record"),
++            (Table::Invoice, "invoice-record"),
++            (Table::Payment, "payment-record"),
++            (Table::Payable, "payable-record"),
++        ] {
++            let predicate = table
++                .project_predicate()
++                .expect("closed fiscal parent predicate");
++            assert!(predicate.starts_with("t.project_id=$1 OR t.id::text IN (SELECT c.source_id"));
++            assert!(predicate.contains(&format!("c.source_type='{source_type}'")));
++            assert!(predicate.contains("c.id IN (SELECT s.cost_record_id FROM poms.shared_cost_allocation_source_snapshot s JOIN poms.shared_cost_allocation_result r ON r.basis_id=s.basis_id WHERE r.project_id=$1)"));
++            assert!(
++                !predicate.contains("OR t.project_id IN"),
++                "Import only exact referenced parents, never every fiscal record of the source project"
++            );
++        }
++    }
++}
++

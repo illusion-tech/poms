@@ -1,0 +1,9 @@
+{
+  "kind": "preserved-first-retention-projection-stop47",
+  "cause": "Physical OSER table uses referenced_snapshot_id, whereas the Rust store aliases it to snapshot_id. The first pure FS projection used the alias on the physical row and stopped.",
+  "correction": "Use the actual physical field and require producer1; no legacy fallback or row fabrication.",
+  "Source13ContextCreated": false,
+  "RootWritten": false,
+  "HTTP": false,
+  "SQL": false
+}
