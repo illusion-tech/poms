@@ -1,3 +1,4 @@
+import { wrapCookieContext27 } from '../../../../../business/ui-cookie-scope27.mjs';
 import { validateBindingShape } from '../runtime13/binding13.mjs';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -72,7 +73,7 @@ async function execute(plan, planFile, approvedBindingSHA256) {
         const context = await chromium.launchPersistentContext(profileDirectory, { ...options, executablePath: executable, downloadsPath: path.join(locations.windowsPrivate, `downloads-${index}`), headless: true, timeout: 60_000, args: ['--no-first-run', '--no-default-browser-check', '--disable-background-networking', '--disable-component-update', '--disable-sync'] });
         contexts.add(context); const browser = context.browser(); assert(browser); const actual = browser.version(); assert.equal(actual, plan.windows.browser.browserVersion); windows.actualBrowserVersion = actual;
         context.on('page', page => page.on('framenavigated', frame => { if (frame === page.mainFrame() && frame.url().startsWith(`${fixed.origin}/projects/`)) actualProjectNavigationObserved = true; }));
-        return context;
+        return wrapCookieContext27(context, { plan, binding, metadataFile: path.join(caseDirectory, 'cookie-metadata27.jsonl') });
       } };
       const bridge = { get exchanges() { const status = readJson(path.join(locations.windowsIPC, 'exchanges.json')); assert.equal(status.nonce, ready.nonce); return status.exchanges; }, async settle() { await command('drain'); } };
       let result;

@@ -1,0 +1,273 @@
+{
+  "schemaVersion": 1,
+  "review": "IR-I65-02-independent-static-review79",
+  "at": "2026-11-07T21:29:46.994568+00:00",
+  "scope": "Non-author static review of exact two-file forward candidate; historical frozen catalog filesystem readback only.",
+  "decision": "bounded-static-admission-for-Root-registration-and-real-checks",
+  "manifest65": {
+    "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/support-patches/frozen-participant-parent-lock65/manifest65.json",
+    "bytes": 2726,
+    "sha256": "a73a95b2b603f32b967b36a81f126b5d5438bd2eb722d4396edc3fa9e0539bff"
+  },
+  "manifest65_02": {
+    "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/support-patches/frozen-participant-parent-lock65-02/manifest65-02.json",
+    "bytes": 1834,
+    "sha256": "bd9e27b844871a640be652022e32df21502f250e2c50c9e6053518f731a14d55"
+  },
+  "candidates": [
+    {
+      "target": "docs/design/rust-r4ghi/g2-frozen-participant-parent-lock65.sql",
+      "old65": {
+        "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/support-patches/frozen-participant-parent-lock65/proposed/docs/design/rust-r4ghi/g2-frozen-participant-parent-lock65.sql",
+        "bytes": 1546,
+        "sha256": "12aaa6107a9ea45b4f49e56db56e548ba75a18f2e3c529e146711855b3f932dd"
+      },
+      "candidate65_02": {
+        "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/support-patches/frozen-participant-parent-lock65-02/proposed/docs/design/rust-r4ghi/g2-frozen-participant-parent-lock65.sql",
+        "bytes": 2117,
+        "sha256": "90b091eb36a7f58ae0cf3a9504b2426ea6de868a4bab9af5a2c1e6bd89e0106e"
+      },
+      "rootTargetAbsent": true
+    },
+    {
+      "target": "apps/poms-api/src/migrations/Migration20261108090000_rust_frozen_assignment_parent_lock.ts",
+      "old65": {
+        "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/support-patches/frozen-participant-parent-lock65/proposed/apps/poms-api/src/migrations/Migration20261108090000_rust_frozen_assignment_parent_lock.ts",
+        "bytes": 1849,
+        "sha256": "a7bbc990342728ab6ae3058221bb533746301a2aa9c8cab73f089eb7420ad4d8"
+      },
+      "candidate65_02": {
+        "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/support-patches/frozen-participant-parent-lock65-02/proposed/apps/poms-api/src/migrations/Migration20261108090000_rust_frozen_assignment_parent_lock.ts",
+        "bytes": 2431,
+        "sha256": "daf3656ec2a726c30ebaba8b0ba91945404f9b7a5848d8d293546bc3c7fa4916"
+      },
+      "rootTargetAbsent": true
+    }
+  ],
+  "sourceBases": [
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/migrations/Migration20261107060000_rust_r4ghi_operating_lifecycle.ts",
+      "bytes": 83996,
+      "sha256": "8fa614a3eca1b01f744592e392cc37baab53ea102439840394b0abed316bc68d"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/migrations/Migration20261107110000_rust_project_initial_ownership.ts",
+      "bytes": 1824,
+      "sha256": "b20ddcabb6d82bc6c737ca1b1ef96a92e2a4c23a01fb4366b3848701a6c08f24"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/joint-g1/effective-v2/migration.sql",
+      "bytes": 80764,
+      "sha256": "ee5305d17f692efa97a66ded226ce041d95bb1926667a62f709e0118f11f5c00"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/commission_assignment/service.rs",
+      "bytes": 30014,
+      "sha256": "f68d44bcdebcbd2bb78ce035f122fa7cbc72c55b92dcce98f6fbbebf5ac02598"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_lifecycle/facts.rs",
+      "bytes": 11527,
+      "sha256": "c185236d83e0675d77ec8a51b3dc7a195b6839ed36b4c7ce72ab4f74c4f0830c"
+    }
+  ],
+  "SQLTSPayloadByteEqual": true,
+  "frozenCatalogEvidence": {
+    "completion": {
+      "file": "//wsl.localhost/Debian/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/003079-ef40-complete.json",
+      "bytes": 513097,
+      "sha256": "360ff7f813c05dae0ef2f21d2351c7c4bc9130e377428605868dc07ca67c6eac"
+    },
+    "snapshot": {
+      "file": "//wsl.localhost/Debian/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/snapshot-003077-http-after.json",
+      "bytes": 3115924,
+      "sha256": "5702dc2c86ecb62fddb355b5e2e3b05033656a4e3a61cfeff3761a298a8df445"
+    },
+    "catalog": {
+      "poms_r4ghi_native": {
+        "participantAssignmentFK": {
+          "name": "commission_role_assignment_participant_assignment_id_fkey",
+          "child": "commission_role_assignment_participant",
+          "parent": "commission_role_assignment",
+          "childColumns": [
+            "assignment_id"
+          ],
+          "parentColumns": [
+            "id"
+          ],
+          "deleteRule": "r"
+        },
+        "assignmentProjectFK": {
+          "name": "commission_role_assignment_project_id_foreign",
+          "child": "commission_role_assignment",
+          "parent": "project",
+          "childColumns": [
+            "project_id"
+          ],
+          "parentColumns": [
+            "id"
+          ],
+          "deleteRule": "c"
+        },
+        "payloadAssignmentFK": {
+          "name": "commission_role_assignment_freeze_payload_assignment_id_fkey",
+          "child": "commission_role_assignment_freeze_payload",
+          "parent": "commission_role_assignment",
+          "childColumns": [
+            "assignment_id"
+          ],
+          "parentColumns": [
+            "id"
+          ],
+          "deleteRule": "r"
+        },
+        "parentNonInternalTriggers": [
+          {
+            "oid": "26564",
+            "schema": "poms",
+            "table_name": "commission_role_assignment",
+            "tgname": "jghi_assignment_total",
+            "definition": "CREATE CONSTRAINT TRIGGER jghi_assignment_total AFTER INSERT OR UPDATE ON poms.commission_role_assignment DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE FUNCTION poms.jghi_assignment_total_guard()",
+            "tgenabled": "O"
+          }
+        ],
+        "payloadImmutableTrigger": {
+          "oid": "26558",
+          "schema": "poms",
+          "table_name": "commission_role_assignment_freeze_payload",
+          "tgname": "jghi_immutable",
+          "definition": "CREATE TRIGGER jghi_immutable BEFORE DELETE OR UPDATE ON poms.commission_role_assignment_freeze_payload FOR EACH ROW EXECUTE FUNCTION poms.jghi_reject_immutable_change()",
+          "tgenabled": "O"
+        },
+        "participantGuardTrigger": {
+          "oid": "26562",
+          "schema": "poms",
+          "table_name": "commission_role_assignment_participant",
+          "tgname": "jghi_frozen_participant",
+          "definition": "CREATE TRIGGER jghi_frozen_participant BEFORE INSERT OR DELETE OR UPDATE ON poms.commission_role_assignment_participant FOR EACH ROW EXECUTE FUNCTION poms.jghi_assignment_participant_guard()",
+          "tgenabled": "O"
+        },
+        "existingFunctionIdentity": {
+          "oid": "26561",
+          "schema": "poms",
+          "proname": "jghi_assignment_participant_guard",
+          "arguments": "",
+          "owner": "poms_r0e_owner",
+          "acl": null,
+          "prosecdef": false,
+          "proconfig": null
+        }
+      },
+      "poms_r4ghi_rust": {
+        "participantAssignmentFK": {
+          "name": "commission_role_assignment_participant_assignment_id_fkey",
+          "child": "commission_role_assignment_participant",
+          "parent": "commission_role_assignment",
+          "childColumns": [
+            "assignment_id"
+          ],
+          "parentColumns": [
+            "id"
+          ],
+          "deleteRule": "r"
+        },
+        "assignmentProjectFK": {
+          "name": "commission_role_assignment_project_id_foreign",
+          "child": "commission_role_assignment",
+          "parent": "project",
+          "childColumns": [
+            "project_id"
+          ],
+          "parentColumns": [
+            "id"
+          ],
+          "deleteRule": "c"
+        },
+        "payloadAssignmentFK": {
+          "name": "commission_role_assignment_freeze_payload_assignment_id_fkey",
+          "child": "commission_role_assignment_freeze_payload",
+          "parent": "commission_role_assignment",
+          "childColumns": [
+            "assignment_id"
+          ],
+          "parentColumns": [
+            "id"
+          ],
+          "deleteRule": "r"
+        },
+        "parentNonInternalTriggers": [
+          {
+            "oid": "27651",
+            "schema": "poms",
+            "table_name": "commission_role_assignment",
+            "tgname": "jghi_assignment_total",
+            "definition": "CREATE CONSTRAINT TRIGGER jghi_assignment_total AFTER INSERT OR UPDATE ON poms.commission_role_assignment DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE FUNCTION poms.jghi_assignment_total_guard()",
+            "tgenabled": "O"
+          }
+        ],
+        "payloadImmutableTrigger": {
+          "oid": "27645",
+          "schema": "poms",
+          "table_name": "commission_role_assignment_freeze_payload",
+          "tgname": "jghi_immutable",
+          "definition": "CREATE TRIGGER jghi_immutable BEFORE DELETE OR UPDATE ON poms.commission_role_assignment_freeze_payload FOR EACH ROW EXECUTE FUNCTION poms.jghi_reject_immutable_change()",
+          "tgenabled": "O"
+        },
+        "participantGuardTrigger": {
+          "oid": "27649",
+          "schema": "poms",
+          "table_name": "commission_role_assignment_participant",
+          "tgname": "jghi_frozen_participant",
+          "definition": "CREATE TRIGGER jghi_frozen_participant BEFORE INSERT OR DELETE OR UPDATE ON poms.commission_role_assignment_participant FOR EACH ROW EXECUTE FUNCTION poms.jghi_assignment_participant_guard()",
+          "tgenabled": "O"
+        },
+        "existingFunctionIdentity": {
+          "oid": "27648",
+          "schema": "poms",
+          "proname": "jghi_assignment_participant_guard",
+          "arguments": "",
+          "owner": "poms_r0e_owner",
+          "acl": null,
+          "prosecdef": false,
+          "proconfig": null
+        }
+      }
+    }
+  },
+  "resolvedFinding": {
+    "id": "IR-I65-01",
+    "kind": "static-defensive-gap-not-experimented",
+    "initial65": "Zero matched parents could leave has_frozen_parent false without proving an actual locked parent.",
+    "repair65_02": "I/U compare locked rows with distinct nonnull OLD/NEW parent IDs; missing raises 23503. Reparent 23514 remains earlier. DELETE does not gain a missing-parent rejection."
+  },
+  "conclusions": [
+    "Parent UUID order is deterministic, duplicate OLD/NEW IDs lock once, and every existing parent is locked before frozen/reparent decisions.",
+    "Frozen INSERT/UPDATE/DELETE reject through the existing trigger, and unconditional reparent rejection is preserved including zero-weight draft movement.",
+    "NULL INSERT remains for the original NOT NULL check; NULL-changing UPDATE retains the pre-existing reparent rejection.",
+    "There is no parent-to-participant CASCADE: both frozen catalogs and M95 declare participant.assignment_id RESTRICT. Draft child-first deletion remains possible; parent deletion with children was already restricted.",
+    "There is no independent frozen-parent BEFORE DELETE trigger. Qualified frozen parents are protected by the immutable freeze payload plus RESTRICT references; the assignment total trigger is only AFTER INSERT/UPDATE.",
+    "Public revised-create and freeze both take the project lock before assignment locks; freeze reads participants without acquiring participant row locks. No public new-lock inversion is established by the reviewed change.",
+    "This is a function-body-only forward candidate. No frozen migration, table, column, trigger definition, weight policy, totals validator, or source row is changed in these files."
+  ],
+  "requiredActualFollowup": [
+    "Root alone decides explicit forward M98 registration and application. Keep old M95/M97 immutable.",
+    "Validate candidate TS/build and migration discovery; run the exact registered forward migration against owned databases with before/after catalog, rows+xmin, sequences and objects receipts.",
+    "Require same function OID/owner/ACL/security/config and all original triggers/FKs/checks, with only expected function-body and migration-log/sequence deltas; 139 tables and existing business rows unchanged.",
+    "An applied migration changes catalog/source closure. Explicitly refreeze registered migration/doc inputs and tool migration count, and perform the next source/data admission; do not claim equality to old retained catalog or relabel API134 evidence as API135.",
+    "Run the safe public two-session freeze versus revised-create barrier scenario with actual waiters and raw HTTP/one-winner ledger. This static review is not concurrency acceptance."
+  ],
+  "checksExecuted": {
+    "filesystemHashChecks": true,
+    "SQLTSPayloadComparison": true,
+    "frozenCatalogReadback": true,
+    "SQL": false,
+    "HTTP": false,
+    "databaseConnection": false,
+    "unsafeWindowReproduction": false,
+    "TSCompile": false,
+    "RootProductMutation": false,
+    "GitMutation": false
+  },
+  "G3Certified": false,
+  "G4Certified": false
+}

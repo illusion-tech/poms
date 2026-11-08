@@ -1,0 +1,12 @@
+import test from 'node:test'; import assert from 'node:assert/strict';
+import { privateIPv4_24, relayPaths24, validateRelay24, args24 } from './proposed/tools/rust-r4ghi/business/ui-relay-common24.mjs';
+const plan = () => ({ namespace: 'poms-r4ghi', uiRun: 'dom14-source12-03', overallTimeoutSeconds: 1800, relay24: { schemaVersion: 1, workerKind: 'runtime14', interfaceName: 'eth0', wslIPv4: '172.22.207.203',
+  linuxListen: { address: '172.22.207.203', port: 44552 }, linuxTarget: { address: '127.0.0.1', port: 44551 }, windowsListen: { address: '127.0.0.1', port: 44551 }, windowsTarget: { address: '172.22.207.203', port: 44552 },
+  paths: relayPaths24('dom14-source12-03'), readyTimeoutMs: 15000, stopTimeoutMs: 10000, lifetimeSeconds: 2100 } });
+test('exact private eth0/loopback endpoint pair is accepted', () => { assert(privateIPv4_24('172.22.207.203')); assert.equal(validateRelay24(plan()).linuxTarget.address, '127.0.0.1'); });
+test('public targets and the non-eth0 loopback alias are rejected', () => { for (const wslIPv4 of ['8.8.8.8', '127.0.0.1', '10.255.255.254']) { const value = plan(); value.relay24.wslIPv4 = wslIPv4; assert.throws(() => validateRelay24(value)); } });
+test('ports and interfaces cannot silently expand to another bind or server', () => { for (const mutate of [r => r.interfaceName='lo', r => r.windowsListen.address='0.0.0.0', r => r.linuxTarget.port=31441, r => r.windowsTarget.port=44551]) { const value=plan(); mutate(value.relay24); assert.throws(()=>validateRelay24(value)); } });
+test('lifetime and readiness/stop have explicit bounded ranges', () => { for (const mutate of [r=>r.lifetimeSeconds=1800,r=>r.lifetimeSeconds=999999,r=>r.readyTimeoutMs=0,r=>r.stopTimeoutMs=60000]) { const value=plan();mutate(value.relay24);assert.throws(()=>validateRelay24(value)); } });
+test('only original14/four18 worker names can be selected',()=>{const value=plan();value.relay24.workerKind='../../other';assert.throws(()=>validateRelay24(value));});
+test('fresh relay paths stay in the single task namespace',()=>{assert.throws(()=>relayPaths24('../old'));const value=plan();value.relay24.paths.windows='C:/unrelated';assert.throws(()=>validateRelay24(value));});
+test('CLI pins cannot be repeated or omit values',()=>{assert.deepEqual(args24(['--plan','exact','--nonce','actual']),{'--plan':'exact','--nonce':'actual'});assert.throws(()=>args24(['--plan','a','--plan','b']));assert.throws(()=>args24(['--plan']));});

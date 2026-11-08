@@ -1,0 +1,25 @@
+// Pure/source-FS checks only. No browser, HTTP, PG or authorization service.
+import test from 'node:test'; import assert from 'node:assert/strict'; import fs from 'node:fs';
+import { creatorReadbackProof29, resolveReadbackCases29, assertReadbackRequest29, READBACK29 } from './checks/tools/rust-r4ghi/business/ui-creator-readback-source29.mjs';
+import { usedActorKeys, assertFinalFixtures } from './checks/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/handoff16/binding-input16.mjs';
+const id = '3d4ed663-b861-46cf-90e5-824c94648a86', owner = '44e8c02b-6b46-44a5-b90e-bd7422b420bf', org = 'af72f711-feeb-490c-8c77-693ea2b9f579';
+const pin = (file, rawBytesSha256) => ({ file: '//wsl.localhost/Debian/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/' + file, rawBytesSha256 });
+const receipt = pin('006371-creator28-origin-metadata-recovered.json', 'f3e7f192aecfd5a1403ae7756735960f23cccd5597649d50d2e2e7b1cf1e2f14');
+const response = pin('006367-ui10-http-browser-response.json', 'f4e5fec75c16dec1fa1fcc567d40eb946659be70cfeaf82d93089e9ccec2e2e3');
+const scene = { kind: READBACK29, actorKey: 'manager', projectIdPointer: '/fixtures/creatorOwnership23/uiSpareProjectId', forbiddenTextPointers: [] };
+function state() { return { fixtures: { creatorOwnership23: { uiSpareProjectId: id, UICommandObserved: false } }, consumerChecks: { creatorAssignmentRecovery28: { [id]: { phase: 'verified', committed: true, receipt, actualResponse: response } } },
+  actors: { manager: { id: owner, orgId: org, cookies: { poms_session: 'PURE-TEST-NOT-A-SESSION', poms_csrf: 'PURE-TEST-NOT-A-CSRF' }, permissions: ['project:read'] } } }; }
+test('real006371 plus actual200 response identifies the consumed Owner without claiming old04 passed', () => { const value = creatorReadbackProof29(state(), scene); assert.equal(value.projectId, id); assert.equal(value.readback28.expectedOwnerUserId, owner); assert.equal(value.readback28.expectedProjectRowVersion, 2); assert.equal(value.readback28.original04Passed, false); });
+test('readback source proof rejects absent/unverified recovery, another project or another actor', () => {
+  for (const alter of [s => { delete s.consumerChecks; }, s => { s.consumerChecks.creatorAssignmentRecovery28[id].phase = 'intent'; }, s => { s.actors.manager.id = 'other'; }, s => { s.actors.manager.orgId = 'other'; }, s => { s.actors.manager.permissions = []; }]) { const value = state(); alter(value); assert.throws(() => creatorReadbackProof29(value, scene)); }
+  assert.throws(() => creatorReadbackProof29(state(), { ...scene, extra: 'unsupported' }));
+});
+test('readback is a separate declared case and cannot be mixed with a fresh assignment or substituted as a money case', () => { const value = resolveReadbackCases29(state(), [scene]); assert.equal(value[0].kind, READBACK29); assert.throws(() => resolveReadbackCases29(state(), [scene, { ...scene, kind: 'creator' }])); assert.throws(() => resolveReadbackCases29(state(), [scene, scene])); assert.throws(() => resolveReadbackCases29(state(), [{ ...scene, kind: 'invented' }])); });
+test('GET admission is limited to own exact project plus known bootstrap, never financial/role/list or writes', () => {
+  const resolved = creatorReadbackProof29(state(), scene), project = { operationId: 'ProjectController_getById', pathParams: { id } };
+  assertReadbackRequest29(resolved, { method: 'GET', path: '/api/projects/' + id }, project);
+  for (const path of ['/api/auth/session', '/api/auth/csrf-token', '/api/me/navigation', '/api/me/todos']) assertReadbackRequest29(resolved, { method: 'GET', path }, {});
+  for (const request of [{ method: 'POST', path: '/api/projects/' + id }, { method: 'PUT', path: '/api/projects/' + id }, { method: 'GET', path: '/api/projects/' + id + '/unified-accounting' }, { method: 'GET', path: '/api/projects' }, { method: 'GET', path: '/api/projects/' + id + '?guess=1' }]) assert.throws(() => assertReadbackRequest29(resolved, request, project));
+});
+test('final binding uses actual case actor and refuses a readonly-case writeAction', () => { const plan = { cases: [scene], writeActions: [] }; assert.deepEqual(usedActorKeys(plan), ['manager']); assertFinalFixtures(state(), plan); assert.throws(() => assertFinalFixtures(state(), { ...plan, writeActions: [{ kind: READBACK29, actorKey: 'manager' }] })); assert.throws(() => assertFinalFixtures(state(), { cases: [{ ...scene, kind: 'creator' }], writeActions: [] })); });
+test('browser action contains actual name/region/reload checks with no write action and retains failed04 label', () => { const source = fs.readFileSync(new URL('./proposed/tools/rust-r4ghi/business/ui-creator-readback-browser29.mjs', import.meta.url), 'utf8'); assert(source.includes('项目基本责任范围')); assert(source.includes('await page.reload')); assert(source.includes("name: '重新读取项目范围'")); assert(source.includes('businessWritePerformed: false')); assert(source.includes('original04Passed: false')); assert(!source.includes('performWriteAction14')); assert(!/api\.request\(|\.post\(/.test(source)); });

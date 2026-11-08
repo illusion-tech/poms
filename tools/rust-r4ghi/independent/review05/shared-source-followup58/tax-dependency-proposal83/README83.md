@@ -1,0 +1,17 @@
+这是未应用的Source13/G2产品候选，不能改当前Source12/API135及正在执行的152-helper图。旧80/81/82、005514 partial、实际134/135原件全部保留；83不是Tax-only实际PG/HTTP通过证书。
+
+G原command_root_refs对Tax只含Tax ref。Tax已在真实共享消费之前创建且primary新G已封存全部经济源时，inferred_late_roots可能为空；原impact_graph只读取Tax evidence.business_date，没有把真实来源Cost ID放入现有whole-batch join，因而可能只发现source project。F执行却从旧evidence与expected_source_refs解析真实Cost并要求整批每个项目都在scope中，形成安全拒绝但分支无法完成的缺口。
+
+三个文件的最小纠偏如下。
+
+- F correction.rs现有cost_ids_for_legacy_reference仅更名为pub(crate) cost_ids_for_evidence_reference，并通过mod.rs只读重导出；F调用同名新函数。其sourceType映射、actual source_reference_with_session查询、Cost映射SQL、当前版本校验、scoped_project、整个batch加载、物理事务和锁不变。
+- G Tax分支先绑定真实旧evidence：schema1/current active Tax、目标/项目/证据ID、frozen payload hash，以及source_references与hashed assessment.sourceReferences完全相等。manual证据不猜成本；source证据交同一F只读resolver得到实际E Cost ID，再以实际Cost project/occurred_on加入现有依赖图。
+- 原Cost/Basis/Result transitive整批SQL、source/project全锁、重发现、完整target CAS都保留。只把其原循环体抽为纯append_batch_impacts便于验证真实形状闭包。无客户端额外Cost root、allocationOverride、路由/DTO/schema/阈值变化，foreignTax仍不进入receiver-local税务依据。
+
+五项候选内单测验证sealed来源版本不改、Tax Cost seed的多项目完整/传递批次与无关批排除、hash/target/project/schema/current资格拒绝、未hash的metadata来源冒换拒绝、manual不猜全项目Cost。已用1.99.1、精确候选pure helper/test字节和当前hash/id/date adapter隔离编译运行5/5。复用Root缓存的五个依赖仅只读，指纹原件在harness-inputs83-02.json；没有编译完整async产品适配器。隔离harness因摘取上下文有2条dead_code warning，未称全产品clippy通过。第一次harness漏chrono_tz extern而失败的原log保留，补正式依赖后compile02通过，没有改产品算法绕过。
+
+额外FS-only实际003079 after activeTax/evidence检查1/1通过，验证旧F真实assessment/source_references/hash及目标绑定格式（仍标API134历史，非当前135验收）。rustfmt对三个候选实际通过。Root尚须非作者审核、完整Rust编译/clippy/tests，并在新G2/Source13明确提升；当前Stage82不受影响。
+
+真实Tax producer/公共preparation应先保留Root当前Source12观测。若实际少receiver或scope拒绝，原件仍是缺口证据，不可补客户端Cost root、宽化状态或裁剪target。后续新源完整prep与POST共享同一个impact_graph规则；需真实Tax-only整批必要FI与正常201，不能把旧混合102结果改标。
+
+Tax工具的旧指标相等断言仍须独立pre-POST条件审阅：每个真实target旧context已包含该批真实经济份额时才适用。若旧同日root合法新增E/share，应按真实current classified pre-effect source与原窗口计算新的派生指标，保留旧不可变事实；83不通过丢事实让指标相等，也不预授Tax sweep。

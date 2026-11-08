@@ -12,6 +12,7 @@ export function fixtureFactsHash(ctx) {
 /** Returns the real persisted record itself; never clones ctx/state/owned or swaps root fixtures. */
 export function actualSpareRecord(ctx, scene, action) {
   if (scene.kind === 'creator') {
+    assert(!ctx.state.consumerChecks?.creatorAssignmentRecovery28?.[scene.projectId]?.committed, 'This actual UI assignment already committed; use read-only reload, never replay first assignment');
     const record = ctx.state.fixtures.creatorOwnership23; assert(record && record.uiSpareProjectId === scene.projectId, 'Only I23/24 actual Creator UI spare is eligible'); return record;
   }
   const key = scene.kind === 'execution-owner' ? 'eo' : scene.kind === 'own-condition' ? 'own' : null; assert(key && action.fixtureViewKey === key);

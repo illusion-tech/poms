@@ -76,6 +76,10 @@ export function requireSummary(ctx) {
 }
 
 export async function runBusinessStage(ctx, api, stage) {
+  if (stage === 'shared-stage-race58') { await api.login('manager'); const { prepareSharedStage58 } = await import('./shared-source-preparation58.mjs'); await prepareSharedStage58(ctx, api); const { runSharedCorrectionSweep58 } = await import('./shared-source-sweep58.mjs'); return runSharedCorrectionSweep58(ctx, api, 'stage', { successMode: 'ordered-race' }); }
+  if (stage === 'shared-stage-sweep58') { await api.login('manager'); const { prepareSharedStage58 } = await import('./shared-source-preparation58.mjs'); await prepareSharedStage58(ctx, api); const { runSharedCorrectionSweep58 } = await import('./shared-source-sweep58.mjs'); return runSharedCorrectionSweep58(ctx, api, 'stage'); }
+  if (stage === 'shared-tax-fixture58') { await api.login('manager'); const { produceSharedTaxFixture58 } = await import('./shared-tax-producer58.mjs'); return produceSharedTaxFixture58(ctx, api); }
+  if (stage === 'shared-tax-sweep58') { await api.login('manager'); const { runSharedCorrectionSweep58 } = await import('./shared-source-sweep58.mjs'); return runSharedCorrectionSweep58(ctx, api, 'tax'); }
   if (['a05-max-zero', 'a05-cent-max', 'a05-max-tax13', 'a05-overflow'].includes(stage)) { const { runA05Boundary26 } = await import('./a05-runner26.mjs'); return runA05Boundary26(ctx, stage === 'a05-overflow' ? 'max-zero' : stage.slice(4), { overflow: stage === 'a05-overflow' }); }
   if (stage === 'metadata-patch-sweep') { const { metadataPatch25 } = await import('./metadata-patch25.mjs'); return metadataPatch25(ctx, api); }
   if (stage === 'ef-correction-sweep40') { const { runEFCorrectionSweep40 } = await import('./ef-fault-sweep40.mjs'); return runEFCorrectionSweep40(ctx, api); }

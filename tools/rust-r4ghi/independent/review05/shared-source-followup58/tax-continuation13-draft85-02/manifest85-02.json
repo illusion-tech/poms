@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "kind": "author-unbound-Source13-tax-continuation-candidate-binding02",
+  "at": "2026-11-08T00:38:21.542118+00:00",
+  "applyAfter85": {
+    "file": "../tax-continuation13-draft85/manifest85.json",
+    "sha256": "699e69811117a3b40d41ebba288b8161a359881d5b6bfaef2605695e989d46ea"
+  },
+  "files": [
+    {
+      "file": "tools/rust-r4ghi/business/tax13-provenance.mjs",
+      "applyAfter85SHA256": "ec7abb7c946fd4a9bc0d6131a3fae53896962f3ac20ef6c885fa5f232269fdb7",
+      "afterSHA256": "357e72d387bfd6b469f783345c64bac75934d0e49c80ffc189d8960d8cf3188e",
+      "candidate": "candidate/tools/rust-r4ghi/business/tax13-provenance.mjs",
+      "before85Candidate": "before85/tools/rust-r4ghi/business/tax13-provenance.mjs"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/tax13.test.mjs",
+      "applyAfter85SHA256": "e730c75ecbefac84d6fd126c99b1473ceac4859340ea8868496611ad715751ad",
+      "afterSHA256": "1c5275e4e8152218e1d044de3f3aa2c1c7b6ed77b9f8fc520fc3729db5aae7dc",
+      "candidate": "candidate/tools/rust-r4ghi/business/tax13.test.mjs",
+      "before85Candidate": "before85/tools/rust-r4ghi/business/tax13.test.mjs"
+    }
+  ],
+  "scope": "Require actual13 candidate epoch/run/source pins/process/registry/readiness, reject composed535 or old12 candidate; unbound guard tests construct a fixture so future actual binding does not invalidate negative tests.",
+  "Source13FinalPins": {
+    "epoch": "g2-business13",
+    "run": "main01",
+    "sourceCount": null,
+    "sourcePinsSHA256": null,
+    "sourcePins": null,
+    "binarySHA256": null,
+    "apiProcess": null,
+    "candidate": null,
+    "helperCount": null,
+    "helperSources": null,
+    "registry": null,
+    "retentionIndex": null,
+    "retainedProducerState": null,
+    "producerProjectionSHA256": null,
+    "migrations": null
+  },
+  "RootMustStillProvideActualFinal13Inputs": true,
+  "businessOrAmountOrSplitSTOPLogicChanged": false,
+  "tests": {
+    "Node": "24.19.0",
+    "targeted85-02": {
+      "passed": 9,
+      "failed": 0,
+      "stdoutSHA256": "8c8bdc946dba403c6bc0dd21a7a8fbd674a126b1eabaa8653599c9c4cd6c8793",
+      "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "linux85-02": {
+      "passed": 9,
+      "failed": 0,
+      "stdoutSHA256": "319da895e437c0bf037b6c04733156d7754ed4a343d4f7b9e3e3054044882ab5",
+      "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "syntaxChangedFiles": 2,
+    "syntaxExit0": true,
+    "syntaxSHA256": "03d994e2bbf4906fd59541c7a643dca5263abfaa9cf97c3f11a68a134ca5b215"
+  },
+  "RootWritten": false,
+  "SQL": false,
+  "HTTP": false,
+  "GitMutated": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

@@ -1,0 +1,128 @@
+{
+  "schemaVersion": 1,
+  "kind": "author-product-corrective-proposal-exact-foreign-fiscal-source-parents84",
+  "at": "2026-11-07T22:50:36.869614+00:00",
+  "state": "unapplied-new-G2-Source13-candidate-only",
+  "files": [
+    {
+      "file": "apps/poms-api-rust/src/project_operating/context.rs",
+      "beforeSHA256": "cd485efbf0408cee829cb138617afb2195411317d14b9f9175decb5ba1d09cf5",
+      "afterSHA256": "114a500db3f83af477eb4b3558a5d6cd71239e8cc108f91c1020bfcbd7bce566",
+      "candidate": "candidate/apps/poms-api-rust/src/project_operating/context.rs",
+      "beforeCandidate": "before/apps/poms-api-rust/src/project_operating/context.rs"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_operating/store.rs",
+      "beforeSHA256": "13850ed78ab5e2619becc91311afdd8eff415adcf3ff30b7b8272868d75382bb",
+      "afterSHA256": "e9ab61611d23064fbe376c4633b404d9bba70dedf7026ff8259329cde6fef303",
+      "candidate": "candidate/apps/poms-api-rust/src/project_operating/store.rs",
+      "beforeCandidate": "before/apps/poms-api-rust/src/project_operating/store.rs"
+    }
+  ],
+  "actualDefectEvidence": {
+    "file": "evidence84.json",
+    "sha256": "b5fe57ed89e56083630bdfb6afefdbea0aa75b878c15ad040c8159e850ab7393",
+    "producer": "API135/source12",
+    "failedHTTP": "006224",
+    "status": 409,
+    "code": "operating_cost_source_missing",
+    "all139x2RowsXminUnchanged": true
+  },
+  "boundary": "Load only actual shared-cost-linked fiscal source IDs into G internal catalog and same family locks; imported parents never become current-project upstream unmapped facts.",
+  "costSourceRefByteUnchanged": true,
+  "taxCoverageAndRelationFunctionsByteUnchanged": true,
+  "SQLDecimalTextSelectionByteUnchanged": true,
+  "familyLockAlgorithmByteUnchanged": true,
+  "publicDTOOrRouteOrThresholdChanged": false,
+  "foreignTaxReceiverLocalRuleUnchanged": true,
+  "tests": {
+    "rustToolchain": "1.99.1",
+    "rustfmtCandidateFiles": 2,
+    "isolatedExactPureTestsPassed": 3,
+    "isolatedExactPureTestsFailed": 0,
+    "actualFrozenCatalogIdentityReplayPassed": 1,
+    "actualFrozenCatalogIdentityReplaySQLExecuted": false,
+    "currentHTTPAcceptance": false,
+    "asyncProductionAdapterCompiled": false,
+    "fullCargoOrClippyCertified": false,
+    "harnessCompile02WarningLines": 4,
+    "harnessCompile01Failure": "Missing json macro import in isolated copied source module; original preserved; product imports unchanged.",
+    "inputs": "harness-inputs84-02.json",
+    "inputsSHA256": "6a7b2d6813aec03725f56f4d8b3cb821ded541802436f9ad3c05aaced9bed1e7",
+    "logs": [
+      {
+        "file": "rustfmt84.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "file": "rustfmt84.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "file": "rustc-pure84.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "file": "rustc-pure84.stderr.log",
+        "sha256": "c761ebb13fb8cb0c797bf4aa3362173f97ef28ff118438b33f5f444368280ae2",
+        "bytes": 1316
+      },
+      {
+        "file": "rustc-pure84-02.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "file": "rustc-pure84-02.stderr.log",
+        "sha256": "7aff4ddbd12334c8ad4bd32a9e7b12bc1c88525ff1a6ec7dc05305553a5fe2a5",
+        "bytes": 3138
+      },
+      {
+        "file": "pure-tests84.stdout.log",
+        "sha256": "c0978e3a55dd2682bd2ccdc343cbe1b652d4db9d072edfe2691671055ba59148",
+        "bytes": 475
+      },
+      {
+        "file": "pure-tests84.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "file": "rustc-fs84.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "file": "rustc-fs84.stderr.log",
+        "sha256": "51ba7a06b3098969e50cfefd555c7a9927c9d0619cd5a9f2a8607de8c0caa4bb",
+        "bytes": 3138
+      },
+      {
+        "file": "frozen-source84.stdout.log",
+        "sha256": "934a221ff9520c176d524982fb33218ef1e427139570157af07e3f98c8bbbfcb",
+        "bytes": 365
+      },
+      {
+        "file": "frozen-source84.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    ]
+  },
+  "README": {
+    "file": "README84.md",
+    "sha256": "21789a3f1d6bb2205c7afb2ec05959f0ce41122e53803e9f79d4eb5c1bd2c2bc"
+  },
+  "requiresRootNonAuthorReviewAndFullSource13Validation": true,
+  "rootMustRefetchPreparationAfterCatalogChange": true,
+  "noRePOSTOfPriorFailedBodyImplied": true,
+  "83ArtifactsChanged": false,
+  "RootToolsOrProductWritten": false,
+  "SQLExecutedByAuthor": false,
+  "HTTPExecutedByAuthor": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

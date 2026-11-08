@@ -1,0 +1,23 @@
+warning: field `id` is never read
+  --> /mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/review05/shared-source-followup58/tax-dependency-proposal83/pure-harness83-fs.rs:69:5
+   |
+68 | struct Impact {
+   |        ------ field in this struct
+69 |     id: Uuid,
+   |     ^^
+   |
+   = note: `Impact` has a derived impl for the trait `Clone`, but this is intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: fields `code` and `message` are never read
+  --> /mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/review05/shared-source-followup58/tax-dependency-proposal83/pure-harness83-fs.rs:11:44
+   |
+11 |  pub enum Error { Internal, CodedConflict {code: &'static str,message:String} }
+   |                             -------------  ^^^^               ^^^^^^^
+   |                             |
+   |                             fields in this variant
+   |
+   = note: `Error` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+warning: 2 warnings emitted
+

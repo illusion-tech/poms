@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "kind": "source-only-normal-public-role-command-race-design",
+  "ordinaryPublicOperations": [
+    { "operationId": "CommissionRoleAssignmentController_freezeRoleAssignment", "successStatus": 200, "origin": "actual-UI" },
+    { "operationId": "CommissionController_createRoleAssignment", "expectedStatus": 409, "expectedCode": "commission_frozen_change_requires_dispute", "origin": "second-valid-owner-session" }
+  ],
+  "fixture": "existing-role-create-spare-after-actual-UI-first-create200",
+  "sourceSHA256": "f68d44bcdebcbd2bb78ce035f122fa7cbc72c55b92dcce98f6fbbebf5ac02598",
+  "controlSQL": ["BEGIN", "SELECT exact-owned-project FOR UPDATE", "ROLLBACK"],
+  "controlBusinessDML": false,
+  "participantSQL": false,
+  "setConstraints": false,
+  "commit": false,
+  "needsSeparateFinalActorProof": true,
+  "proposedActionMetadata": {
+    "publicRevisedDraftRace": { "actorKey": "Root-must-bind-real-owner-peer-session", "expectedVerdict": "freeze200-peer-revised409" }
+  },
+  "necessaryFutureDelta": [
+    { "file": "business/ui-role18-linux.mjs", "boundary": "cache actual successful UI create inputs; optional start after freeze admit; await both HTTP before after capture/ledger; verify exact loser and no extra births" },
+    { "file": "handoff16/binding-input16.mjs", "boundary": "derive extra actual publicRevisedDraftRace.actorKey from writeActions, require actual final current-auth proof; no fake DOM case" },
+    { "file": "business/new-normal-public-role-race-helper", "boundary": "exact ordinary route/project/body/session, read-only Project barrier, raw HTTP originals, rollback/end cleanup; no participant or constraints DML" }
+  ],
+  "runtimeDeltaImplementedOrPromoted": false,
+  "safePublicPlanDoesNotResumeStoppedSQLProbe": true,
+  "HTTPExecuted": false,
+  "DBExecuted": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

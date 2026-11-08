@@ -1,0 +1,12 @@
+// Filesystem-only fixture shape check. This is not current HTTP acceptance.
+import fs from 'node:fs';import assert from 'node:assert/strict';import {createHash} from 'node:crypto';
+import {verifySharedCashValues58} from './sandbox/tools/rust-r4ghi/business/shared-cash-proof58.mjs';
+const privateRoot=process.platform==='win32'?'\\\\wsl.localhost\\Debian\\home\\wangzishi\\.local\\share\\poms-r4ghi\\private':'/home/wangzishi/.local/share/poms-r4ghi/private';
+const hash=b=>createHash('sha256').update(b).digest('hex');
+const completeFile=privateRoot+'/business/g2-business11/main01/003079-ef40-complete.json',completeBytes=fs.readFileSync(completeFile);assert.equal(hash(completeBytes),'360ff7f813c05dae0ef2f21d2351c7c4bc9130e377428605868dc07ca67c6eac');const complete=JSON.parse(completeBytes);
+const translate=p=>process.platform==='win32'?'\\\\wsl.localhost\\Debian'+p.replaceAll('/','\\'):p;
+const load=pin=>{const b=fs.readFileSync(translate(pin.file));assert.equal(hash(b),pin.rawBytesSha256);return JSON.parse(b);},before=load(complete.finalSuccess.before),after=load(complete.finalSuccess.after),database='poms_r4ghi_rust';
+const rows=(s,table)=>{const meta=s.databases[database].tables[table],bytes=fs.readFileSync(translate(meta.file));assert.equal(hash(bytes),meta.rawBytesSha256);return bytes.toString().split('\n').filter(Boolean).map(line=>JSON.parse(JSON.parse(line).raw,(key,v,context)=>typeof v==='number'&&/amount|total|ratio|rate|weight|margin|variance|^cash_gross$/.test(key)?context.source:v));};
+const snapshots=rows(after,'project_operating_snapshot'),contexts=rows(after,'operating_source_context'),catalog={receipts:rows(before,'receipt_record'),bases:rows(before,'receipt_accounting_basis'),terms:rows(before,'contract_term_snapshot')};const checks=[];
+for(const target of complete.actualDerivedInventory?complete.finalSuccess.actualAmounts.snapshots:[]){const snapshot=snapshots.find(s=>s.id===target.id);assert(snapshot);const context=contexts.find(c=>c.id===snapshot.source_context_id)?.frozen_payload;assert(context);const preparation={projectId:context.projectId,sourceRows:context.receipts.map(r=>({rowKind:'receipt',sourceRef:r.receiptRef}))};checks.push({snapshotId:snapshot.id,...verifySharedCashValues58(context,snapshot,catalog,preparation)});}
+assert.equal(checks.length,3);console.log(JSON.stringify({kind:'FS-only-historical-cash-catalog-shape-regression80',producer:'API134/source11',currentAcceptance:false,realFreshPreparationUsed:false,frozenCompletionSHA256:hash(completeBytes),checks,SQL:false,HTTP:false}));

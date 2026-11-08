@@ -1,0 +1,27 @@
+{
+  "relay24": {
+    "schemaVersion": 1,
+    "workerKind": "runtime14",
+    "interfaceName": "eth0",
+    "wslIPv4": "172.22.207.203",
+    "linuxListen": { "address": "172.22.207.203", "port": 44552 },
+    "linuxTarget": { "address": "127.0.0.1", "port": 44551 },
+    "windowsListen": { "address": "127.0.0.1", "port": 44551 },
+    "windowsTarget": { "address": "172.22.207.203", "port": 44552 },
+    "readyTimeoutMs": 15000,
+    "stopTimeoutMs": 10000,
+    "lifetimeSeconds": 2100,
+    "wsl": {
+      "executablePath": "C:/Windows/System32/wsl.exe",
+      "rawBytesSha256": "97b8172d68ef95e47fe07ab6de231f9b00a73cc5b37f9ffa3d9b5ca13cf8d950"
+    },
+    "paths": {
+      "windows": "ROOT_MUST_DERIVE_FROM_FRESH_UI_RUN",
+      "linux": "ROOT_MUST_DERIVE_FROM_FRESH_UI_RUN",
+      "unc": "ROOT_MUST_DERIVE_FROM_FRESH_UI_RUN"
+    }
+  },
+  "RootMustRecheckActualEth0AndExecutableBeforeReview": true,
+  "OriginalWorkerAndLinuxHTTPServerUnchanged": true,
+  "OldRun02MustNotBeReused": true
+}

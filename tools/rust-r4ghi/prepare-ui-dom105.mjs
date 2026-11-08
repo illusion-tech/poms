@@ -1,0 +1,15 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+const priv = '/home/wangzishi/.local/share/poms-r4ghi/private/ui-config/runtime14';
+const sha = bytes => createHash('sha256').update(bytes).digest('hex'), pin = file => ({ file, rawBytesSha256: sha(fs.readFileSync(file)) });
+assert.equal(process.platform, 'linux');
+const old = priv + '/dom14-source12-03-prepare-input16.json'; assert.equal(pin(old).rawBytesSha256, '2d9a4a385ff0516ef8c592211b30939fbc64c6cf4c07fb03e1f2ca04aaade1c8');
+const input = JSON.parse(fs.readFileSync(old, 'utf8').replaceAll('dom14-source12-03', 'dom14-source12-04'));
+input.promotedToolClosure = pin(priv + '/consumer12-promoted20-cookie104-01.json'); assert.equal(input.promotedToolClosure.rawBytesSha256, 'a22d70983d2d30fbfdda79865fb929f0d1b43778e6c122e716f6950baa558167');
+input.plan.cookieScopeProof = pin(priv + '/dom14-source12-04-cookie-scope27.json'); assert.equal(input.plan.cookieScopeProof.rawBytesSha256, '5adc614c63a431f6661c3fadd58dfbfc311c2bf7e974ca15522b6f1ff48a6030');
+const proof = JSON.parse(fs.readFileSync(input.plan.cookieScopeProof.file)); assert.equal(proof.grantsAuthentication, false); assert.equal(proof.cookieValuesStored, false);
+assert(proof.scopes.every(scope => scope.path === '/api' && scope.hostOnly && scope.domain === '127.0.0.1'));
+assert.equal(input.plan.cases.length, 6); assert.equal(input.plan.writeActions.length, 3); assert(!Object.hasOwn(input.plan, 'actorProofKeys'));
+const file = priv + '/dom14-source12-04-prepare-input16.json'; fs.writeFileSync(file, JSON.stringify(input, null, 2) + '\n', { flag: 'wx', mode: 0o600 });
+console.log(JSON.stringify({ input: pin(file), actualIssuerScopesPinned: true, actorAuthenticationStillRequiresFresh04Proof: true, old03Preserved: true, HTTPExecuted: false }));

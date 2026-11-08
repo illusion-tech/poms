@@ -6,7 +6,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { randomBytes, randomUUID } from 'node:crypto';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { resolveCases, fixturePointer } from '../append06/ui06.candidate08.mjs';
+import { fixturePointer } from '../append06/ui06.candidate08.mjs';
+import { resolveReadbackCases29 as resolveCases, assertReadbackRequest29 } from '../../../../../business/ui-creator-readback-source29.mjs';
 import { startRecordedServer } from './server14.mjs';
 import { fixed, sha, jsonBytes, readJson, validatePlanIdentity, readPinned, writeNew, atomicJson, resolveOperation, cookieMap } from './dom-common14.mjs';
 
@@ -37,6 +38,7 @@ async function execute(plan, planFile, approvedBindingSHA256) {
       const test = cases[activeCase], actor = ctx.state.actors[test.actorKey]; assert(actor?.id === test.actor.id);
       const cookies = cookieMap(request.headers.cookie); assert.equal(cookies.poms_session, actor.cookies.poms_session, 'Actual browser cookie is not the bound actor');
       const operation = resolveOperation(api.operations, request.method, request.path), requestLabel = ctx.next('ui10-http'), requestId = `${ctx.state.prefix}-${requestLabel}-${randomUUID().slice(0, 8)}`;
+      if(test.kind==='creator-assigned-readback') assertReadbackRequest29(test,request,operation);
       const before = await capture(ctx, `${requestLabel}-before`); assertRecorded(ctx, before);
       const isWrite=!['GET','HEAD'].includes(request.method); const requestValue=isWrite && /application\/json/i.test(String(request.headers['content-type']))?JSON.parse(request.body.toString('utf8')):null; const writeAdmission=isWrite?(assert(activePolicy,'No business write in a readonly case'),activePolicy.admit({operationId:operation.operationId,params:operation.pathParams,method:request.method,body:requestValue,bytes:request.body,before})):null;
       const intent = ctx.artifact(`${requestLabel}-browser-request.json`, { ...request, body: undefined, bodyBase64: request.body.toString('base64'), actorKey: test.actorKey, requestId, operationId: operation.operationId, pathParams: operation.pathParams, before: before.manifest });
@@ -56,10 +58,14 @@ async function execute(plan, planFile, approvedBindingSHA256) {
       let policyError=null, exactBinding=observation.writeAdmission?.binding ?? {};
       if(observation.writeAdmission){try{activePolicy.validateMutationRows(changes);}catch(error){policyError=error;exactBinding={...exactBinding,mutableTables:[],updatedAnchors:[]};}}
       const ledger = await reconcileAttempt(ctx, observation.before, after, attempt, exactBinding);
+      if(cases[activeCase].kind==='creator-assigned-readback') {
+        try { for(const table of ['project','project_ownership_origin','project_owner_reassignment_record']) assert.deepEqual(readRows(observation.before.databases[ctx.database].tables[table]),readRows(after.databases[ctx.database].tables[table]),'Readback must not alter business rows/xmin'); }
+        catch(error){ctx.state.blockedObservation=ctx.artifact(ctx.next('creator29-readback-invariant')+'.json',{before:observation.before.manifest,after:after.manifest,ledger,originals,message:'Read-only Creator reload changed a protected business row or xmin'});ctx.persist();throw error;}
+      }
       if(policyError) throw policyError;
       if(observation.writeAdmission){
         assert.equal(attempt.status,attempt.expectedStatus,'Exact canonical write response status required; no status widening');
-        activePolicy.observeWrite(observation.operationId,body,after,changes);
+        activePolicy.observeWrite(observation.operationId,body,after,changes,attempt);
         if(activePolicy.completed()) recordActualUIReceipt(ctx,{scene:activePolicy.scene,action:activePolicy.action,operationId:observation.operationId,ledger,originals});
       }else if(activePolicy && attempt.status===200) activePolicy.observeRead(observation.operationId,body);
       const publicReceipt = `${observation.requestLabel}-browser-http.json`;
@@ -83,6 +89,7 @@ async function execute(plan, planFile, approvedBindingSHA256) {
           assert.equal(activeCase, null); assert.equal(command.index, nextCase); assert(cases[command.index]); activeCase = command.index;
           const test = cases[activeCase], actor = ctx.state.actors[test.actorKey], configured=plan.writeActions.find(value=>value.kind===test.kind);
           assert(report.actualSourceBinding.actorKeys.includes(test.actorKey),'Every browser actor must be in the actual reviewed manifest');
+          if(test.kind==='creator-assigned-readback') assert(!configured,'Assigned Creator readback must be explicitly readonly');
           if(['creator','execution-owner','own-condition'].includes(test.kind)) assert(configured,'Required closure scene cannot run as readonly DOM');
           let writeAction=null;
           if(configured){assert(['creator','execution-owner','own-condition'].includes(test.kind));assert.equal(configured.actorKey,test.actorKey);writeAction={...configured};if(test.kind==='creator'){assert(report.actualSourceBinding.actorKeys.includes(configured.targetOwnerActorKey));const owner=ctx.state.actors[configured.targetOwnerActorKey];assert(owner);writeAction.targetOwnerUserId=owner.id;writeAction.targetOwnerOrgId=owner.orgId;}if(test.kind==='own-condition')writeAction.completionRecordId=fixturePointer(ctx.state,configured.completionRecordIdPointer);actualSpareRecord(ctx,test,writeAction);activePolicy=createWritePolicy({ctx,scene:test,action:writeAction,readRows});}else activePolicy=null;

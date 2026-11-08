@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { creatorReadbackProof29 } from '../../../../../business/ui-creator-readback-source29.mjs';
 import { createHash } from 'node:crypto';
 
 export const sha = bytes => createHash('sha256').update(bytes).digest('hex');
@@ -24,6 +25,13 @@ export function usedActorKeys(plan) {
     if (!Object.hasOwn(item, 'participants')) return [];
     assert(Array.isArray(item.participants)); return item.participants.map(row => row.actorKey);
   });
+  const observerActors = plan.writeActions.flatMap(item => {
+    if (!Object.hasOwn(item, 'publicRevisedDraftRace')) return [];
+    assert.equal(item.kind, 'role-forms'); exactKeys(item.publicRevisedDraftRace, ['actorKey', 'expectedVerdict']);
+    assert.equal(item.publicRevisedDraftRace.expectedVerdict, 'freeze200-peer-revised409');
+    assert.notEqual(item.publicRevisedDraftRace.actorKey, item.actorKey);
+    return [item.publicRevisedDraftRace.actorKey];
+  });
   let additional = [];
   if (Object.hasOwn(plan, 'actorProofKeys')) {
     assert.equal(plan.metadata16?.purpose, 'fixtures', 'Additional actor proofs are fixture metadata only, never DOM cases');
@@ -31,7 +39,7 @@ export function usedActorKeys(plan) {
     assert.equal(new Set(plan.actorProofKeys).size, plan.actorProofKeys.length, 'Additional actor keys must be explicit and unique');
     additional = plan.actorProofKeys;
   }
-  const result = [...new Set([...plan.cases.map(item => item.actorKey), ...plan.writeActions.filter(item => item.targetOwnerActorKey).map(item => item.targetOwnerActorKey), ...participants, ...additional])];
+  const result = [...new Set([...plan.cases.map(item => item.actorKey), ...plan.writeActions.filter(item => item.targetOwnerActorKey).map(item => item.targetOwnerActorKey), ...participants, ...observerActors, ...additional])];
   assert(result.length > 0 && result.every(key => typeof key === 'string' && /^[a-z][a-z0-9-]*$/.test(key)));
   return result;
 }
@@ -43,6 +51,8 @@ export function assertActorResponse(response, actor) {
   return actual.permissions;
 }
 export function assertFinalFixtures(state, plan) {
+  for(const scene of plan.cases.filter(value=>value.kind==='creator-assigned-readback')) { assert(!plan.writeActions.some(value=>value.kind===scene.kind),'Creator assigned readback has no write action');creatorReadbackProof29(state,scene); }
+  for(const scene of plan.cases.filter(value=>value.kind==='creator')) assert(!state.consumerChecks?.creatorAssignmentRecovery28?.[state.fixtures.creatorOwnership23?.uiSpareProjectId]?.committed,'Already committed Creator spare requires readonly readback');
   const f = state.fixtures;
   for (const kind of ['creator', 'execution-owner', 'own-condition']) {
     if (!plan.cases.some(item => item.kind === kind)) continue;

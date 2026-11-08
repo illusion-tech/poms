@@ -1,0 +1,75 @@
+{
+  "kind": "Source12-fixed-code-first-period-source-cutoff-inspection",
+  "source": {
+    "epoch": "g2-business12",
+    "sourcePinsSHA256": "5263ad894591ac682fe7ebf9ca5cfa2aaac3334d4481ae5de4dd63d83b4681fa",
+    "sourceCount": 406,
+    "binarySHA256": "de8eaaf6ce15a2054380e25f3151c21611cf0bf760230c7336745d80850d9cff",
+    "API": "API135",
+    "sourceState": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/state.json",
+      "rawBytesSha256": "3f8bd3adb426300196fe3f3b5f6175ca89ec5f7f249e52ee437116e7411f0b85"
+    }
+  },
+  "decision7": {
+    "status": "approved",
+    "original": {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/docs/design/rust-r4ghi/user-decision-period05.json",
+      "rawBytesSha256": "bd1a7556d369c67e8dd13b53882c6c1248318b1d163363827f761213462c90ec"
+    }
+  },
+  "files": [
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_operating/preparation.rs",
+      "rawBytesSha256": "ccff8729cf6f77749f435c5d429b88bcc54a8166431ba452da0328251baaf185"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_operating/context.rs",
+      "rawBytesSha256": "cd485efbf0408cee829cb138617afb2195411317d14b9f9175decb5ba1d09cf5"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_operating/baseline.rs",
+      "rawBytesSha256": "5146be07aae708162d0aead9ba415456ef8857680114b44e9d0851bb2d4bdb0d"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_operating/sources.rs",
+      "rawBytesSha256": "298bf7ee91fc6a27b7f555942f660d2e1644f57a9d6fae9ea4bd8d124d99c9bf"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_operating/collector.rs",
+      "rawBytesSha256": "386235765190448b021025b5a9954dacd52d6dbde5a04938e2074a750c8d395e"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_operating/capture.rs",
+      "rawBytesSha256": "e4bb0fc676ef669e211da400b8421662f12560c6eed8faccdd5e3f09366e6151"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_operating/service.rs",
+      "rawBytesSha256": "8e7a18f8349a5b9545ae9fde56ec4a11668338de7b2f9580d30a2e80ccb7599c"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_operating/store.rs",
+      "rawBytesSha256": "13850ed78ab5e2619becc91311afdd8eff415adcf3ff30b7b8272868d75382bb"
+    }
+  ],
+  "findings": [
+    {
+      "id": "PER67-01",
+      "classification": "confirmed-static-guard",
+      "contract": "signed/effective business cutoff, current knowledge cutoff; no qualified contracts -> effective-contract-required -> capture operating_formal_evidence_missing"
+    },
+    {
+      "id": "PER67-02",
+      "classification": "static-baseline-provenance-time-gap",
+      "actualPath": "first period chooses current baseline draft without an as-of adopted estimate/successor filter; derive has no business window",
+      "notClaimed": "Late-close G row captured now is not itself invalid; no executed period command or observed bypass"
+    }
+  ],
+  "authorExecution": {
+    "FSOnly": true,
+    "SQL": false,
+    "HTTP": false,
+    "RootWritten": false
+  },
+  "G3Certified": false
+}

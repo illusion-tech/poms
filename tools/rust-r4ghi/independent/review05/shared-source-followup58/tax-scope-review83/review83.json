@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "review": "IR-Tax-only-scope-and-metric-preconditions83",
+  "evidenceClass": "exact-source static review and immutable filesystem evidence; no actual Tax-only fixture or request",
+  "sourceEdition": "g2-business12/API135",
+  "sourcePinsSHA256": "5263ad894591ac682fe7ebf9ca5cfa2aaac3334d4481ae5de4dd63d83b4681fa",
+  "binarySHA256": "de8eaaf6ce15a2054380e25f3151c21611cf0bf760230c7336745d80850d9cff",
+  "sourcePins": [
+    {"file":"apps/poms-api-rust/src/project_operating/restatement.rs","sha256":"097bc607b8a1388b477faf427e66bea8c7fbcd1a2f390e0bce610008c248a893"},
+    {"file":"apps/poms-api-rust/src/project_operating/store.rs","sha256":"13850ed78ab5e2619becc91311afdd8eff415adcf3ff30b7b8272868d75382bb"},
+    {"file":"apps/poms-api-rust/src/project_operating/collector.rs","sha256":"386235765190448b021025b5a9954dacd52d6dbde5a04938e2074a750c8d395e"},
+    {"file":"apps/poms-api-rust/src/project_operating/inclusion.rs","sha256":"8eba692031e3551be6f6458387b660855b6697d735178d262b93361b950ca6f3"},
+    {"file":"apps/poms-api-rust/src/project_operating/context.rs","sha256":"cd485efbf0408cee829cb138617afb2195411317d14b9f9175decb5ba1d09cf5"},
+    {"file":"apps/poms-api-rust/src/project_cost_governance/correction.rs","sha256":"f00aebb54871e3baca47b88a72f55315050f2fd7867d40c285421d21c2d288e2"}
+  ],
+  "findings": [
+    {
+      "id": "IR-G83-01",
+      "priority": "P1",
+      "status": "static reachable gap; actual Tax fixture/preparation still required",
+      "summary": "Pure Tax replacement does not expand its real source costs before project/batch discovery.",
+      "locations": [
+        {"file":"apps/poms-api-rust/src/project_operating/restatement.rs","line":100,"fact":"command_root_refs adds Tax ref alone; expectedSourceRefs are not command roots."},
+        {"file":"apps/poms-api-rust/src/project_operating/restatement.rs","line":159,"fact":"scope roots also include inferred_late_roots, but a freshly captured current snapshot can have no late economic refs."},
+        {"file":"apps/poms-api-rust/src/project_operating/restatement.rs","line":377,"fact":"Tax impact reads evidence business_date without adding that evidence's source cost IDs."},
+        {"file":"apps/poms-api-rust/src/project_operating/restatement.rs","line":409,"fact":"Whole-batch SQL expands only when an existing known ID equals cost_record_id, basis_id or result id; a Tax id does not match this path."},
+        {"file":"apps/poms-api-rust/src/project_operating/store.rs","line":222,"fact":"Tax uses default project_id predicate; a share receiver catalog does not load foreign-project Tax rows."},
+        {"file":"apps/poms-api-rust/src/project_cost_governance/correction.rs","line":194,"fact":"Actual F Tax execution resolves expected_source_refs and old evidence source_references to costs and loads every dependent batch."},
+        {"file":"apps/poms-api-rust/src/project_cost_governance/correction.rs","line":849,"fact":"load_batch demands scoped_project for every result/source cost project; incomplete G discovery therefore fails closed rather than completing the intended automatic whole batch."}
+      ],
+      "reachableScenario": "Create real shared Expense, F stage and source-project F Tax before either project's real G snapshot; consume the complete batch in both projects; request same-pending Tax evidence replacement on the source project's newly current snapshot, with no other late economic changes. Tax-only selected roots may leave G project discovery at the source project, while F's real source evidence still requires both batch projects.",
+      "impact": "The intended A06 Tax-only automatic complete-batch branch can return incomplete public targets or reject during scope proof. It must not be certified from the old mixed labor/stage/tax/explicit-basis102 case, whose other roots can mask the omission.",
+      "minimumCorrectiveBoundary": "Resolve Tax's actual immutable governance source relation to real current E cost IDs in the server discovery graph, then run the existing transitive whole-batch expansion and full project/terminal locks. Reuse an exact source resolver with F where possible, validate source evidence/hash, and reject unsupported/missing mappings. No public schema, thresholds, caller-made source IDs or receiver tax conclusions need change.",
+      "forbiddenWorkaround": "Do not insert an extra client Cost query root, change command-root hash rules, supply an allocationOverride, omit the foreign project, or widen the accepted status. Tax expectedSourceRefs are actual assertions; they are not permission to forge an unrelated prepare/body root set."
+    },
+    {
+      "id": "IR-TOOL83-02",
+      "priority": "P2",
+      "status": "confirmed conditional verifier limit; actual target set not yet available",
+      "summary": "Preserving old snapshot aggregates is valid only when each target already contains the complete corrected economic facts.",
+      "locations": [
+        {"file":"apps/poms-api-rust/src/project_operating/restatement.rs","line":470,"fact":"affected_states includes a producer's same-project facts with business day <= old context cutoff even if operating_source_member did not yet consume them."},
+        {"file":"apps/poms-api-rust/src/project_operating/inclusion.rs","line":578,"fact":"Transition inheritance uses the current project decision, not only decisions frozen in each old terminal."},
+        {"file":"apps/poms-api-rust/src/project_operating/collector.rs","line":273,"fact":"Every project's mapped current decisions are applied before publishing all old terminal replacements."},
+        {"file":"apps/poms-api-rust/src/project_operating/context.rs","line":1110,"fact":"Final context recollects current real costs known at the new knowledge cutoff, within the preserved business window."},
+        {"file":"apps/poms-api-rust/src/project_operating/context.rs","line":1188,"fact":"Current allocation shares and their current decisions enter the restated context; no rule requires their earlier inclusion in that terminal."},
+        {"file":"tools/rust-r4ghi/business/shared-source-sweep58.mjs","line":105,"fact":"Authored verifier compares old/new included, excluded and tax aggregates; it is currently suitable only for already-consumed complete economic inputs."}
+      ],
+      "counterexampleBoundary": "An old same-day terminal predates the new Expense/share, but its business cutoff covers that fact. After real current classification and complete-batch inheritance, its replacement can legitimately gain the share and change included cost/tax pending. Old immutable source rows stay unchanged; the derived replacement aggregate must change.",
+      "prePOSTAdmissionRequired": [
+        "After actual Tax fixture/preparation, freeze every returned targetPreparation and the real source/terminal row snapshots before any Tax correction POST.",
+        "For every actual target, verify project, head/version/root/window, completeness against all server targets and its old context's explicit consumption of that project's current Tax batch result.",
+        "Verify all old cost/contract/tax metric inputs already equal the current classified pre-effect economic set for that target window. Only then is the existing preservation verifier applicable.",
+        "If any old terminal legitimately lacks new same-window facts, stop before FI/normal POST and prepare a separate verifier based on exact current pre-effect source rows/classifications and target windows, preserving immutable old facts while expecting the actual new totals. Do not drop that target or ignore its new source."
+      ],
+      "knownHistoricalBoundary": "The three immutable003079 terminals have sourceWindowEnd2026-11-07. They do not by themselves prove the future Tax target set: the actual Expense business date, later roots, Stage result and fresh server discovery must be read. A newly confirmed0.01 receipt alone is not a new G terminal."
+    }
+  ],
+  "executionBoundary": "Do not block or hot-edit the current Stage82 graph. Root completes Stage, then ordinary Tax fixture/preparation, then independently reviews the actual whole target set before deciding Tax sweep admission or a new G2/source epoch. M98 and period-cutoff90 remain separate proposals.",
+  "SQLExecuted": false,
+  "HTTPExecuted": false,
+  "RootProductOrToolWritten": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

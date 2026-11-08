@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "kind": "H23-02-exact-observed-raw-and-managed-auth-correction",
+  "applyAfter": {
+    "file": "../public-role-race23/runtime-seal23.json",
+    "rawBytesSha256": "b4a4920a66b1dafa77d9f3a9717b9e23381d1be3e35a90ae3bf2946d8e461b31"
+  },
+  "products": [
+    {
+      "file": "tools/rust-r4ghi/business/ui-role-public-race23.mjs",
+      "candidate": "proposed/tools/rust-r4ghi/business/ui-role-public-race23.mjs",
+      "beforeSHA256": "5a0220345d65bb906f5dbb8efae6ad0f09a45f54ba0ad6ff68ec9b80642ac557",
+      "afterSHA256": "26886bebb584132d16275f19c55e94e3b74d2c52e76ff20fc49c402137f768f1",
+      "applyAfter": "public-role-race23/runtime-seal23.json"
+    }
+  ],
+  "files": [
+    {
+      "file": "README23-02.md",
+      "rawBytesSha256": "2f3836f0cdf5565ba05758c31a2f3744a1bc22e8271161bc27dc53edb8deac94"
+    },
+    {
+      "file": "build23-02.mjs",
+      "rawBytesSha256": "b2196795abd127455c995466322ba6bbd7228e9ba5c337c3b97638f96a0f0d8c"
+    },
+    {
+      "file": "seal23-02.mjs",
+      "rawBytesSha256": "b501fd5d2969330c0a39d1ce44436fc22fe3b6d965b6774029c93fbcacc7c02a"
+    },
+    {
+      "file": "runtime23-02.test.mjs",
+      "rawBytesSha256": "330151689c86e50a9fe8ac1f597b7f0640482950ad3a13bce27459c7fa14850c"
+    },
+    {
+      "file": "products23-02.json",
+      "rawBytesSha256": "f0d944988388e0fa3af117f16853e1e523e54cea13db9358ec7726f063b26c91"
+    },
+    {
+      "file": "source-pins23-02.json",
+      "rawBytesSha256": "5ddd2844d3226c56c66002eb4ff747c2277a4c71c4ba82120b7b375a49655fc3"
+    },
+    {
+      "file": "check-graph23-02.json",
+      "rawBytesSha256": "69e520282e4f2a320aaa56c0d94c6d3e54d5774d3b886869a3cda098744d7ffa"
+    },
+    {
+      "file": "validation23-02.json",
+      "rawBytesSha256": "9c3f86259a724fc3084b2ebbb0c49aa45e9ae816998e0cb50d31a05b014b3d3c"
+    },
+    {
+      "file": "proposed/tools/rust-r4ghi/business/ui-role-public-race23.mjs",
+      "rawBytesSha256": "26886bebb584132d16275f19c55e94e3b74d2c52e76ff20fc49c402137f768f1"
+    }
+  ],
+  "validation": {
+    "node": "v24.19.0",
+    "purePassed": 8,
+    "pureFailed": 0,
+    "syntaxChecked": 1,
+    "actualFSDependencyGraphFiles": 17
+  },
+  "intermediateRowsObservedReadOnly": true,
+  "intermediateRowsOwned": false,
+  "peerGuardWeakened": false,
+  "commonLedgerRewritten": false,
+  "stoppedSQLWindowResumed": false,
+  "SQLExecutedByAuthor": false,
+  "HTTPExecutedByAuthor": false,
+  "RootWritten": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

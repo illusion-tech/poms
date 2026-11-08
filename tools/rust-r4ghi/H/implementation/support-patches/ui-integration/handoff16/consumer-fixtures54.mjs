@@ -6,7 +6,7 @@ export function admittedPlanFixtures54(ctx, plan) {
   const receipts = [], seen = new Set();
   for (const scene of plan.cases) {
     let registryPath, record, projectId, producerReceipt;
-    if (scene.kind === 'creator') { registryPath = '/fixtures/creatorOwnership23'; record = ctx.state.fixtures.creatorOwnership23; projectId = record?.uiSpareProjectId; }
+    if (scene.kind === 'creator' || scene.kind === 'creator-assigned-readback') { registryPath = '/fixtures/creatorOwnership23'; record = ctx.state.fixtures.creatorOwnership23; projectId = record?.uiSpareProjectId; }
     else if (scene.kind === 'execution-owner' || scene.kind === 'own-condition') { const key = scene.kind === 'execution-owner' ? 'eo' : 'own'; registryPath = `/fixtures/uiFixtureViews23/${key}`; record = ctx.state.fixtures.uiFixtureViews23?.[key]; projectId = record?.pause?.result?.projectId; }
     else if (scene.kind === 'legacy-anchor') { registryPath = '/fixtures/legacyCompatibilityFixture'; record = ctx.state.fixtures.legacyCompatibilityFixture; projectId = record?.projectId; producerReceipt = record?.receipt; }
     else continue;

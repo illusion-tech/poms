@@ -21,6 +21,7 @@ async function execute(plan, planFile, approvedBindingSHA256) {
   const nonce = randomBytes(32).toString('hex'), lock = `${fixed.stateRoot}/private/business/${plan.epoch}/${plan.run}/driver.lock`;
   writeNew(lock, { pid: process.pid, mode: 'H-ui-runtime14', nonce });
   let ctx, proxy, label, activeCase = null, activePolicy = null, nextCase = 0, stopped = false, successfulFinish = false;
+  let successfulUICreate23 = null;
   const actualCases = [], receipts = [], report = { schemaVersion: 1, namespace: fixed.namespace, epoch: plan.epoch, run: plan.run, uiRun: plan.uiRun, origin: fixed.origin, backendPort: fixed.apiPort, status: 'failed', actualDOMExecuted: false, G3Certified: false, G4Certified: false };
   try {
     const helper = async name => import(pathToFileURL(`${fixed.linuxRoot}/tools/rust-r4ghi/business/${name}.mjs`).href);
@@ -40,9 +41,17 @@ async function execute(plan, planFile, approvedBindingSHA256) {
       const before = await capture(ctx, `${requestLabel}-before`); assertRecorded(ctx, before);
       const isWrite=!['GET','HEAD'].includes(request.method); if(!isWrite){assert(activePolicy);activePolicy.admitRead({operationId:operation.operationId,params:operation.pathParams,rawPath:request.path});} const requestValue=isWrite && /application\/json/i.test(String(request.headers['content-type']))?JSON.parse(request.body.toString('utf8')):null; const writeAdmission=isWrite?(assert(activePolicy,'No business write in a readonly case'),activePolicy.admit({operationId:operation.operationId,params:operation.pathParams,method:request.method,body:requestValue,bytes:request.body,before})):null;
       const intent = ctx.artifact(`${requestLabel}-browser-request.json`, { ...request, body: undefined, bodyBase64: request.body.toString('base64'), actorKey: test.actorKey, requestId, operationId: operation.operationId, pathParams: operation.pathParams, before: before.manifest });
-      return { ...operation, before, requestLabel, requestId, actorKey: test.actorKey, actorId: actor.id, method: request.method, intent, requestValue, requestBodySHA256:sha(request.body), writeAdmission };
+      let publicRoleRace23 = null;
+      if(operation.operationId==='CommissionRoleAssignmentController_freezeRoleAssignment'&&activePolicy?.action.publicRevisedDraftRace){
+        assert(successfulUICreate23,'The peer revision must use this actual successful UI create');
+        assert(plan.sourceBases.some(pin=>pin.file==='tools/rust-r4ghi/business/ui-role-public-race23.mjs'));
+        const {beginPublicRoleRace23}=await import(pathToFileURL(fixed.linuxRoot+'/tools/rust-r4ghi/business/ui-role-public-race23.mjs').href);
+        publicRoleRace23=await beginPublicRoleRace23(ctx,api,{scene:activePolicy.scene,action:activePolicy.action,before,freezeInput:requestValue,requestId,successfulCreate:successfulUICreate23,boundActorKeys:report.actualSourceBinding.actorKeys});
+      }
+      return { ...operation, before, requestLabel, requestId, actorKey: test.actorKey, actorId: actor.id, method: request.method, intent, requestValue, requestBodySHA256:sha(request.body), writeAdmission, publicRoleRace23 };
     };
     const afterResponse = async ({ observation, upstream, bytes, failure }) => {
+      if(observation.publicRoleRace23) await observation.publicRoleRace23.settleBeforeCapture();
       const actor = ctx.state.actors[observation.actorKey];
       for (const cookie of upstream.headers['set-cookie'] ?? []) {
         const first = cookie.split(';', 1)[0], at = first.indexOf('='); assert(at > 0); const key = first.slice(0, at); assert(['poms_session', 'poms_csrf'].includes(key));
@@ -66,6 +75,8 @@ async function execute(plan, planFile, approvedBindingSHA256) {
           const proof=await probeFrozenReparent58(ctx,{draftAssignmentId:body.id,projectId:activePolicy.scene.projectId,createReceipt:originals,createLedger:ledger});
           ctx.state.consumerChecks??={};ctx.state.consumerChecks.uiRoleFrozenReparent58=proof;ctx.persist();
         }
+        if(observation.operationId==='CommissionController_createRoleAssignment') successfulUICreate23={attempt,originals,ledger};
+        if(observation.publicRoleRace23) await observation.publicRoleRace23.verifyAfterLedger({attempt,originals,ledger,after});
         if(activePolicy.completed()) recordActualUIReceipt(ctx,{scene:activePolicy.scene,action:activePolicy.action,operationId:observation.operationId,ledger,originals,writes:structuredClone(activePolicy.cache.writes)});
       }else if(activePolicy && attempt.status===200) activePolicy.observeRead(observation.operationId,body,{headers:upstream.headers});
       const publicReceipt = `${observation.requestLabel}-browser-http.json`;

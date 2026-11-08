@@ -1,4 +1,5 @@
 import { performWriteAction14 } from './browser-actions14.mjs';
+import { executeCreatorReadback29 } from '../../../../../business/ui-creator-readback-browser29.mjs';
 // Derived without case behavior changes from sealed DOM08. Only observer-aware deadlines differ.
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -33,6 +34,7 @@ function sensitiveVariants(text) {
 }
 
 export async function executeCase(browser, expect, test, directory, server) {
+  if(test.kind==='creator-assigned-readback') return executeCreatorReadback29(browser,expect,test,directory,server);
   const context = await browser.newContext({ baseURL: fixed.origin, locale: 'zh-CN', timezoneId: 'Asia/Shanghai', viewport: { width: 1440, height: 1000 }, serviceWorkers: 'block', acceptDownloads: true });
   const page = await context.newPage(), requests = [], pageErrors = [], consoleErrors = [], blockedOrigins = [];
   const privateWrite = (file, bytes) => fs.writeFileSync(path.join(directory, file), bytes, { flag: 'wx', mode: 0o600 });

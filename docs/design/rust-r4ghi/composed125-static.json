@@ -1,0 +1,92 @@
+{
+  "kind": "published-source-pinned-unapplied-composition106-validation125",
+  "actualStaticChecks": [
+    {
+      "mode": "fmt",
+      "args": [
+        "+1.99.1",
+        "fmt",
+        "--manifest-path",
+        "apps/poms-api-rust/Cargo.toml",
+        "--check"
+      ],
+      "startedAt": "2026-11-08T00:07:22.296Z",
+      "completedAt": "2026-11-08T00:07:25.312Z",
+      "exitCode": 0,
+      "errorCode": null,
+      "sourceStable": true
+    },
+    {
+      "mode": "clippy",
+      "args": [
+        "+1.99.1",
+        "clippy",
+        "--manifest-path",
+        "apps/poms-api-rust/Cargo.toml",
+        "--locked",
+        "--offline",
+        "--lib",
+        "--no-deps",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "startedAt": "2026-11-08T00:07:25.322Z",
+      "completedAt": "2026-11-08T00:09:29.896Z",
+      "exitCode": 0,
+      "errorCode": null,
+      "sourceStable": true
+    },
+    {
+      "mode": "test",
+      "args": [
+        "+1.99.1",
+        "test",
+        "--manifest-path",
+        "apps/poms-api-rust/Cargo.toml",
+        "--locked",
+        "--offline"
+      ],
+      "startedAt": "2026-11-08T00:09:29.904Z",
+      "completedAt": "2026-11-08T00:12:51.938Z",
+      "exitCode": 0,
+      "errorCode": null,
+      "sourceStable": true
+    },
+    {
+      "mode": "build",
+      "args": [
+        "+1.99.1",
+        "build",
+        "--manifest-path",
+        "apps/poms-api-rust/Cargo.toml",
+        "--locked",
+        "--offline",
+        "--bin",
+        "poms-api-rust"
+      ],
+      "startedAt": "2026-11-08T00:12:51.947Z",
+      "completedAt": "2026-11-08T00:12:53.506Z",
+      "exitCode": 0,
+      "errorCode": null,
+      "sourceStable": true
+    }
+  ],
+  "evidence": {
+    "file": "tools/rust-r4ghi/evidence/composed118/manifest125.json",
+    "rawBytesSha256": "7435598f6929fd2ee044f5f7b7a13734691e3facc0cca47e8cc5ed5f60bcf075"
+  },
+  "tests": {
+    "passed": 535,
+    "failed": 0,
+    "ignored": 54,
+    "suites": 26
+  },
+  "activeRuntimeChanged": false,
+  "M98Applied": false,
+  "Source13RuntimeValidated": false,
+  "formalRustDelivered": 240,
+  "newBatchCertified": 0,
+  "G3Certified": false,
+  "G4Certified": false
+}

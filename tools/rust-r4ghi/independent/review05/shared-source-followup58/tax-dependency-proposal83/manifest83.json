@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 1,
+  "kind": "author-product-corrective-proposal-tax-evidence-dependency83",
+  "at": "2026-11-07T22:30:18.185021+00:00",
+  "state": "unapplied-new-G2-Source13-candidate-only",
+  "files": [
+    {
+      "file": "apps/poms-api-rust/src/project_operating/restatement.rs",
+      "beforeSHA256": "097bc607b8a1388b477faf427e66bea8c7fbcd1a2f390e0bce610008c248a893",
+      "afterSHA256": "b4a0e399ead4702c2bcfad83b22011f9c12b649233f706d011588f9889fa0fd6",
+      "candidate": "candidate/apps/poms-api-rust/src/project_operating/restatement.rs",
+      "beforeCandidate": "before/apps/poms-api-rust/src/project_operating/restatement.rs"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_cost_governance/correction.rs",
+      "beforeSHA256": "f00aebb54871e3baca47b88a72f55315050f2fd7867d40c285421d21c2d288e2",
+      "afterSHA256": "ee1c495b4b5985ae5d2bd39eeac760f71aab6a19b434ea1f1bfcb1e4149d2798",
+      "candidate": "candidate/apps/poms-api-rust/src/project_cost_governance/correction.rs",
+      "beforeCandidate": "before/apps/poms-api-rust/src/project_cost_governance/correction.rs"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_cost_governance/mod.rs",
+      "beforeSHA256": "7fbe80a6539d13fa85392a364b9bffaa22a00192864c1e92c8406c26871f7d51",
+      "afterSHA256": "42c0c3d991ebd02c7ba97b68f83351fcf903f69620ab476bbd4780ad3638a17b",
+      "candidate": "candidate/apps/poms-api-rust/src/project_cost_governance/mod.rs",
+      "beforeCandidate": "before/apps/poms-api-rust/src/project_cost_governance/mod.rs"
+    }
+  ],
+  "baseSourceEdition": "g2-business12/API135",
+  "baseSourcePinsSHA256": "5263ad894591ac682fe7ebf9ca5cfa2aaac3334d4481ae5de4dd63d83b4681fa",
+  "boundary": "Read real qualified old F Tax evidence source relation through the same F readonly resolver, seed actual Cost IDs, retain existing complete batch/project/terminal discovery and all physical guards.",
+  "FResolverBodyAndQueriesUnchangedExceptNameVisibility": true,
+  "commandRootRefsByteUnchanged": true,
+  "wholeBatchSQLByteUnchanged": true,
+  "foreignTaxReceiverLocalRuleUnchanged": true,
+  "publicDTOOrRouteOrThresholdChanged": false,
+  "RootActive152HelperGraphChanged": false,
+  "tests": {
+    "rustToolchain": "1.99.1",
+    "rustfmtCandidateFiles": 3,
+    "pureExactHelperTestsPassed": 5,
+    "pureExactHelperTestsFailed": 0,
+    "actualFrozenTaxEvidenceFSChecksPassed": 1,
+    "actualFrozenProducer": "API134/source11",
+    "currentHTTPAcceptance": false,
+    "asyncProductionAdapterCompiled": false,
+    "fullCargoOrClippyCertified": false,
+    "harnessCompile02Warnings": 2,
+    "harnessCompile01Failure": "missing chrono_tz extern in isolated harness; original preserved",
+    "inputs": "harness-inputs83-02.json",
+    "inputsSHA256": "b566b2e3c990f8a0dcaddcf8f6314aadc5c869df5e50152ee8e79cd97f32c4c4",
+    "logs": [
+      {
+        "file": "rustfmt83.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "file": "rustfmt83.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "file": "rustc-pure83.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "file": "rustc-pure83.stderr.log",
+        "sha256": "6729f5b4c73a61362b4bf0cce6a5f8848d8cbf82d7e19d752bf0f433aed8a989",
+        "bytes": 1185
+      },
+      {
+        "file": "rustc-pure83-02.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "file": "rustc-pure83-02.stderr.log",
+        "sha256": "4f0484d9d24783bda5ab77fa071ff5524138d772add473111e793f014f8b280c",
+        "bytes": 1163
+      },
+      {
+        "file": "pure-tests83.stdout.log",
+        "sha256": "a5dfa622e18e5d8501caf486dee022d889a0afee7e53d2628c932f8c9384f267",
+        "bytes": 675
+      },
+      {
+        "file": "pure-tests83.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "file": "rustc-fs83.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "file": "rustc-fs83.stderr.log",
+        "sha256": "0c25b6359729901cd9e27ad45049d09ef06816d32804180d21b83a9c6291d6d8",
+        "bytes": 1163
+      },
+      {
+        "file": "frozen-tax83.stdout.log",
+        "sha256": "58d5dcd61fd464fc6218243d3ccb8df3cd286ee62e5c4a27edc0309585f88c53",
+        "bytes": 277
+      },
+      {
+        "file": "frozen-tax83.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    ]
+  },
+  "README": {
+    "file": "README83.md",
+    "sha256": "eefef232cb6b482e135c1384a79d488d4f72d6cf7849204f9e6aced55ad28f2d"
+  },
+  "requiresRootNonAuthorReviewAndFullSource13Validation": true,
+  "RootToolsOrProductWritten": false,
+  "SQLExecutedByAuthor": false,
+  "HTTPExecutedByAuthor": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

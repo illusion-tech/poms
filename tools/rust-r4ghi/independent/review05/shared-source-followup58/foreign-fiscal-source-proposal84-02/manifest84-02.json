@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "kind": "author-support-product84-test-layout-only02",
+  "at": "2026-11-07T23:07:04.720999+00:00",
+  "state": "unapplied-Source13-candidate-only",
+  "applyAfter84": {
+    "file": "../foreign-fiscal-source-proposal84/manifest84.json",
+    "sha256": "b4a22ea2f436c9d7c8d38667b2c7483025e6a3f1e172cf0feb7a054bca36af9a"
+  },
+  "files": [
+    {
+      "file": "apps/poms-api-rust/src/project_operating/context.rs",
+      "rootBaseBeforeSHA256": "cd485efbf0408cee829cb138617afb2195411317d14b9f9175decb5ba1d09cf5",
+      "applyAfter84SHA256": "114a500db3f83af477eb4b3558a5d6cd71239e8cc108f91c1020bfcbd7bce566",
+      "afterSHA256": "6329a3a3e10bebe29425cd3afd7e9c67000bde0692c7cd6b6b39b1b45ae9beb0",
+      "candidate": "candidate/apps/poms-api-rust/src/project_operating/context.rs",
+      "before84Candidate": "before84/apps/poms-api-rust/src/project_operating/context.rs",
+      "testModuleByteUnchangedSHA256": "150fefc620fdabf0283689eda1ba8908473db87ffed0202df06c73fb2835ebb3",
+      "nonTestCodeUnchangedExceptBlankLineLayout": true
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_operating/store.rs",
+      "rootBaseBeforeSHA256": "13850ed78ab5e2619becc91311afdd8eff415adcf3ff30b7b8272868d75382bb",
+      "applyAfter84SHA256": "e9ab61611d23064fbe376c4633b404d9bba70dedf7026ff8259329cde6fef303",
+      "afterSHA256": "3295742a9318cbc5d17aea5a1c72758eb4f0e74848c8d9175d6ab33e078d5637",
+      "candidate": "candidate/apps/poms-api-rust/src/project_operating/store.rs",
+      "before84Candidate": "before84/apps/poms-api-rust/src/project_operating/store.rs",
+      "testModuleByteUnchangedSHA256": "c4eace0720aaa09e8cc10546f57b181081a4d4830aad505ff12667fd0d077734",
+      "nonTestCodeUnchangedExceptBlankLineLayout": true
+    }
+  ],
+  "scope": "Move the exact two84 test modules to each file EOF; all non-test code and test bodies unchanged except separating blank lines. Prevent items_after_test_module layout warning.",
+  "RootProductWritten": false,
+  "Root152HelperGraphChanged": false,
+  "SQLExecuted": false,
+  "HTTPExecuted": false,
+  "validation": {
+    "rustfmtFiles": 2,
+    "rustfmtExit0": true,
+    "rustfmtStdoutSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "rustfmtStderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "exactPriorPureAndFSInputsUnchanged": true,
+    "priorPureTests": 3,
+    "priorActualFSReplay": 1,
+    "fullCargoOrClippyCertified": false
+  },
+  "G3Certified": false,
+  "G4Certified": false
+}

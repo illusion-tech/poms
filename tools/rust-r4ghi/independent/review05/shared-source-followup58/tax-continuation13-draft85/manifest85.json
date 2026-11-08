@@ -1,0 +1,144 @@
+{
+  "schemaVersion": 1,
+  "kind": "author-unbound-Source13-tax-continuation-tool-proposal85",
+  "at": "2026-11-08T00:18:19.401610+00:00",
+  "state": "reviewable-unbound-draft-NOT-runtime-admitted",
+  "files": [
+    {
+      "file": "tools/rust-r4ghi/business/faults.mjs",
+      "beforeCurrentObservedSHA256": "b93815c0bff6855e6d0cae1572542e3ceb33c23c22fd61a6eeb39b7f01cc8465",
+      "afterSHA256": "0bbce71ab57945cd3f56463ec953b03a3092198d3b19cfe7a0d078a7cbcc7307",
+      "candidate": "candidate/tools/rust-r4ghi/business/faults.mjs",
+      "requiresFinalSource13ExactBaseAndGraphReview": true
+    },
+    {
+      "file": "tools/rust-r4ghi/business/tax13-bindings.json",
+      "beforeCurrentObservedSHA256": null,
+      "afterSHA256": "73717a789791d6b2bcf1e8e4a1c891e9b55d12fedf9a8067b0053e5d2330319f",
+      "candidate": "candidate/tools/rust-r4ghi/business/tax13-bindings.json",
+      "requiresFinalSource13ExactBaseAndGraphReview": true
+    },
+    {
+      "file": "tools/rust-r4ghi/business/tax13-facts.mjs",
+      "beforeCurrentObservedSHA256": null,
+      "afterSHA256": "e55e6cb5dce6169e1ae2737881d946638ce709414ad6633c829fa2eb7c8eee9b",
+      "candidate": "candidate/tools/rust-r4ghi/business/tax13-facts.mjs",
+      "requiresFinalSource13ExactBaseAndGraphReview": true
+    },
+    {
+      "file": "tools/rust-r4ghi/business/tax13-main.mjs",
+      "beforeCurrentObservedSHA256": null,
+      "afterSHA256": "694b26151304f95ba4650d4f84b028d10aeb5bca7c0de5243040f2f638f5a070",
+      "candidate": "candidate/tools/rust-r4ghi/business/tax13-main.mjs",
+      "requiresFinalSource13ExactBaseAndGraphReview": true
+    },
+    {
+      "file": "tools/rust-r4ghi/business/tax13-provenance.mjs",
+      "beforeCurrentObservedSHA256": null,
+      "afterSHA256": "ec7abb7c946fd4a9bc0d6131a3fae53896962f3ac20ef6c885fa5f232269fdb7",
+      "candidate": "candidate/tools/rust-r4ghi/business/tax13-provenance.mjs",
+      "requiresFinalSource13ExactBaseAndGraphReview": true
+    },
+    {
+      "file": "tools/rust-r4ghi/business/tax13-semantics.mjs",
+      "beforeCurrentObservedSHA256": null,
+      "afterSHA256": "0c8cf1a203769174424097c24ba4e18de393da0dfe45e1aefe14695daf7c1120",
+      "candidate": "candidate/tools/rust-r4ghi/business/tax13-semantics.mjs",
+      "requiresFinalSource13ExactBaseAndGraphReview": true
+    },
+    {
+      "file": "tools/rust-r4ghi/business/tax13-sweep.mjs",
+      "beforeCurrentObservedSHA256": null,
+      "afterSHA256": "c265ef7f7743c4dac46d2f8a6af2fdc76a06ccaae5d0d5a10a8bb67cac3b5ec1",
+      "candidate": "candidate/tools/rust-r4ghi/business/tax13-sweep.mjs",
+      "requiresFinalSource13ExactBaseAndGraphReview": true
+    },
+    {
+      "file": "tools/rust-r4ghi/business/tax13.test.mjs",
+      "beforeCurrentObservedSHA256": null,
+      "afterSHA256": "e730c75ecbefac84d6fd126c99b1473ceac4859340ea8868496611ad715751ad",
+      "candidate": "candidate/tools/rust-r4ghi/business/tax13.test.mjs",
+      "requiresFinalSource13ExactBaseAndGraphReview": true
+    },
+    {
+      "file": "tools/rust-r4ghi/run-tax-continuation13.mjs",
+      "beforeCurrentObservedSHA256": null,
+      "afterSHA256": "6ea2139431b01743064570a90ee467cd399f723755275e29786e1dbe1fa469c9",
+      "candidate": "candidate/tools/rust-r4ghi/run-tax-continuation13.mjs",
+      "requiresFinalSource13ExactBaseAndGraphReview": true
+    }
+  ],
+  "Source13FinalPins": {
+    "epoch": "g2-business13",
+    "run": "main01",
+    "sourceCount": null,
+    "sourcePinsSHA256": null,
+    "sourcePins": null,
+    "binarySHA256": null,
+    "apiProcess": null,
+    "candidate": null,
+    "helperCount": null,
+    "helperSources": null,
+    "registry": null,
+    "retentionIndex": null,
+    "retainedProducerState": null,
+    "producerProjectionSHA256": null,
+    "migrations": null
+  },
+  "RootMustProvideActualSource13PinsAndExplicitOldResourceAdmission": true,
+  "observedTestSandboxOnly": "test-only-base85.json",
+  "observedTestSandboxSHA256": "b6510f0d9f0d17d0854dceaa43ff95e422390a0a336d6aa75c7e430fcf03a47d",
+  "oldSource12Or159GraphReFrozen": false,
+  "runtimeModes": [
+    "inspect",
+    "finish-main",
+    "prepare-tax-STOP",
+    "fi-tax-STOP",
+    "commit-tax-separate-normal",
+    "disarm-fi"
+  ],
+  "automaticFIOrNormalFromPreparation": false,
+  "automaticNormalAfterFI": false,
+  "oldProducerRecordsOrSourceLabelsMutable": false,
+  "normalMainUsesFreshHashRatherThanC964": true,
+  "TaxQueryRootOnlyRealTaxRef": true,
+  "completeTargetsNeverTrimmed": true,
+  "oldSnapshotAggregateEqualityAssumed": false,
+  "foreignTaxPendingCopiedOrScaled": false,
+  "historicalBaselinePolicyAccepted": false,
+  "tests": {
+    "Node": "24.19.0",
+    "targeted85-02": {
+      "passed": 8,
+      "failed": 0,
+      "stdoutSHA256": "5b39b8282e191e657846bfe67b95630a75b9dae6c537b0c215d5db453c35f044",
+      "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "linux-targeted85": {
+      "passed": 8,
+      "failed": 0,
+      "stdoutSHA256": "ae79bcc2aeae909ef26d36b411c878bfce4ebd497456f94152514b5d2a7af773",
+      "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "syntaxFiles": 8,
+    "syntaxAllExit0": true,
+    "syntaxSHA256": "832af42cfb8728b21812c3784c81353cbddd7ab6d9fab3f3f01f2b2ab52e3a5f",
+    "actualSource12FSCompatibility": {
+      "currentSource13Acceptance": false,
+      "stdoutSHA256": "012fe1d3007dee02d1c182db3230500c85c9a012d0fd4be30e3d6a462b67015a",
+      "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actualMainCurrentPreparedNet": "10933.33",
+      "actualReceiverContextRelationsPassed": true
+    }
+  },
+  "README": {
+    "file": "README85.md",
+    "sha256": "02998f5969672d10ef10ce7146a1ff7e5aa7f33f2ae6f7f4bb4558ef3e935a85"
+  },
+  "RootToolsOrProductWritten": false,
+  "SQLExecutedByAuthor": false,
+  "HTTPExecutedByAuthor": false,
+  "GitMutatedByAuthor": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

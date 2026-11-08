@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "review": "IR-G84-real-foreign-fiscal-parent-catalog-omission",
+  "at": "2026-11-07T22:43:12.979198+00:00",
+  "priority": "P1",
+  "evidenceClass": "actualAPI135 failedHTTP409 plus immutable complete before/after filesystem readback",
+  "sourceEdition": "g2-business12/API135",
+  "originals": {
+    "partial": {
+      "file": "//wsl.localhost/Debian/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/006185-shared-tax-fixture82-01-partial.json",
+      "bytes": 1025,
+      "rawBytesSha256": "e6ae5532d0ab49e889cf3fda89c72dea83820944ac5debb7988f3897623359b9"
+    },
+    "requestBody": {
+      "file": "//wsl.localhost/Debian/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/006224-http-request-body.bin",
+      "bytes": 1556,
+      "rawBytesSha256": "c964db7e6fb628f8a42032aaf91dd18c3d6c4cb0c6e69f8817e9105a2431cb06"
+    },
+    "responseBody": {
+      "file": "//wsl.localhost/Debian/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/006224-http-response-body.bin",
+      "bytes": 118,
+      "rawBytesSha256": "90e56882f5b12601240e878972e83416e380f5609e78fc59fb108ad28c6e3dc1"
+    },
+    "ledger": {
+      "file": "//wsl.localhost/Debian/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/006225-ledger.json",
+      "bytes": 765,
+      "rawBytesSha256": "46f166b813d409e679759ccfbb63175c8a266a0c7c6dedfff2f511d38395e7f7"
+    },
+    "before": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-006224-http-before.json",
+      "bytes": 3128687,
+      "rawBytesSha256": "311016a880d58f37ba43334585d7099371621ad4453d19391abd4c8407763aa2"
+    },
+    "after": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-006224-http-after.json",
+      "bytes": 3128408,
+      "rawBytesSha256": "1ecc72297ee7eaf414bd55df9dca6798509e5822b31a204fc26c436c40c6228e"
+    }
+  },
+  "sourcePins": [
+    {
+      "file": "apps/poms-api-rust/src/project_operating/context.rs",
+      "sha256": "cd485efbf0408cee829cb138617afb2195411317d14b9f9175decb5ba1d09cf5"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_operating/store.rs",
+      "sha256": "13850ed78ab5e2619becc91311afdd8eff415adcf3ff30b7b8272868d75382bb"
+    }
+  ],
+  "actualRelation": {
+    "targetProject": "51d60c76-6de2-432a-8714-10e3ed3234f3",
+    "allocationResult": "aee83f0a-4ae1-4add-9dc3-8a25526ef7c5",
+    "basisId": "e37f5802-ee92-4964-a06d-ebeeedd53930",
+    "sourceCost": {
+      "id": "c941b1e8-41e4-44d0-b759-68d6864f7ba2",
+      "projectId": "4d9e57ad-4890-4f53-80da-c6d224ce576b",
+      "sourceType": "expense-record",
+      "sourceId": "59072e22-bcda-44df-b0de-302fb271ceb7",
+      "rowVersion": 2,
+      "rowSHA256": "0a2d596a67abd64617249c8b9630315200b1e91b7de29b551481626dcdb584a2",
+      "xmin": "4348"
+    },
+    "physicalExpense": {
+      "id": "59072e22-bcda-44df-b0de-302fb271ceb7",
+      "projectId": "4d9e57ad-4890-4f53-80da-c6d224ce576b",
+      "status": "confirmed",
+      "rowVersion": 2,
+      "rowSHA256": "945c5ffdac1d3ad99b680bcd59d4eaf0c19db60a1283fb2268babf846dec4734",
+      "xmin": "4346"
+    },
+    "slotCostVersion": 2
+  },
+  "beforeAfter": {
+    "databases": 2,
+    "tablesPerDB": 139,
+    "tablePairsRawFilesVerified": 278,
+    "allRowsAndXminExactEqual": true,
+    "catalogSequencesObjectsEqual": true,
+    "recorded": 0,
+    "blockers": 0
+  },
+  "diagnosis": "Foreign E cost is collected through actual share source snapshots; its real Expense parent exists but Expense still uses onlylocal project predicate. Allocation context asks cost_source_ref and fails on missing catalog parent. No business source is missing in PG.",
+  "followup": "Fix only exact linked fiscal parent catalog/family-lock closure, keep imported parents out of own-project unmapped/upstream projections. Preserve failed request; do not rePOST or synthesize costs.",
+  "SQLExecuted": false,
+  "HTTPExecuted": false,
+  "RootWritten": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

@@ -1,3 +1,4 @@
+import { assertOriginBefore28, assertOriginTransition28, assertOriginCommit28 } from '../../../../../business/ui-creator-origin28.mjs';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 export const sha = bytes => createHash('sha256').update(bytes).digest('hex');
@@ -43,7 +44,9 @@ export function createWritePolicy({ ctx, scene, action, readRows }) {
       exact(body, ['ownerUserId', 'ownerOrgId', 'expectedVersion', 'reason']); assert.equal(body.ownerUserId, target.id); assert.equal(body.ownerOrgId, target.orgId); assert.equal(body.reason, action.reason);
       const project = one(ctx, before, 'project', scene.projectId, readRows); assert.equal(project.owner_user_id, null); assert.equal(project.row_version, anchor.projectRowVersion); assert.equal(body.expectedVersion, project.row_version);
       assert(sourceRows(ctx, before, 'user_org_membership', readRows).some(({ cell }) => cell.user_id === target.id && cell.org_unit_id === target.orgId && cell.status === 'active' && cell.revoked_at === null && ['primary', 'secondary'].includes(cell.membership_type)));
-      binding = { responseBirths: [{ table: 'project_owner_reassignment_record', pointer: '/projectOwnerReassignmentRecordId' }], mutableTables: ['project'], updatedAnchors: [{ table: 'project', id: scene.projectId, requestBinding: 'path:id' }] }; mutableRows = { project: [scene.projectId] }; purpose = 'creator-first-assignment';
+      const origins = sourceRows(ctx, before, 'project_ownership_origin', readRows).filter(item => item.row.key[0] === scene.projectId); assert.equal(origins.length, 1);
+      assertOriginBefore28(origins[0].cell, { projectId: scene.projectId, creatorId: actor.id, orgId: anchor.ownerOrgId, expectedOriginVersion: anchor.ownershipOriginRowVersion }); cache.originBefore28 = origins[0].row;
+      binding = { responseBirths: [{ table: 'project_owner_reassignment_record', pointer: '/projectOwnerReassignmentRecordId' }], mutableTables: ['project', 'project_ownership_origin'], updatedAnchors: [{ table: 'project', id: scene.projectId, requestBinding: 'path:id' }, { table: 'project_ownership_origin', id: scene.projectId, requestBinding: 'path:id' }] }; mutableRows = { project: [scene.projectId], project_ownership_origin: [scene.projectId] }; purpose = 'creator-first-assignment';
     } else if (scene.kind === 'execution-owner') {
       assert.equal(operationId, 'ProjectController_startExecution'); assert.equal(method, 'POST'); assert.equal(params.id, scene.projectId); assert.equal(cache.phase, 'initial');
       const anchor = cache.anchor; assert(anchor?.scopeKind === 'full-project' && anchor.currentStage === 'handover' && anchor.executionAdmissionContext);
@@ -88,7 +91,7 @@ export function createWritePolicy({ ctx, scene, action, readRows }) {
       cache.own = value;
     }
   }
-  function observeWrite(operationId, response, after, differences) {
+  function observeWrite(operationId, response, after, differences, attempt) {
     const intent = cache.inflight; assert(intent?.operationId === operationId); const value = unwrap(response);
     for (const change of differences) for (const changed of change.changed) {
       if ((intent.binding.mutableTables ?? []).includes(change.table)) assert(change.database === ctx.database && intent.mutableRows[change.table]?.includes(changed.after.key[0]), 'No mutation of another row in an allowed table');
@@ -112,13 +115,25 @@ export function createWritePolicy({ ctx, scene, action, readRows }) {
     }
     else {
       assert.equal(value.targetId, scene.projectId); assert.equal(value.newOwnerUserId, ctx.state.actors[action.targetOwnerActorKey].id); const project = one(ctx, after, 'project', scene.projectId, readRows), record = one(ctx, after, 'project_owner_reassignment_record', value.projectOwnerReassignmentRecordId, readRows);
-      assert.equal(project.owner_user_id, value.newOwnerUserId); assert.equal(project.owner_org_id, value.newOwnerOrgId); assert.equal(project.row_version, intent.requestValue.expectedVersion + 1); assert.equal(record.project_id, scene.projectId); assert.equal(record.new_owner_user_id, value.newOwnerUserId); assert.equal(record.reassigned_by, actor.id); cache.phase = 'assigned';
+      assert.equal(project.owner_user_id, value.newOwnerUserId); assert.equal(project.owner_org_id, value.newOwnerOrgId); assert.equal(project.row_version, intent.requestValue.expectedVersion + 1); assert.equal(record.project_id, scene.projectId); assert.equal(record.new_owner_user_id, value.newOwnerUserId); assert.equal(record.reassigned_by, actor.id);
+      assert(attempt && attempt.operationId === operationId && attempt.actorId === actor.id && attempt.pathParams.id === scene.projectId && attempt.status === 200 && attempt.responseComplete && !attempt.transportFailure);
+      const row = (table, id) => { const found = sourceRows(ctx, after, table, readRows).filter(item => item.row.key[0] === id); assert.equal(found.length, 1); return found[0].row; };
+      const audits = sourceRows(ctx, after, 'audit_log', readRows).filter(item => item.cell.event_type === 'ProjectController_reassignOwner' && item.cell.target_id === scene.projectId && item.row.xmin === row('project', scene.projectId).xmin); assert.equal(audits.length, 1);
+      assertOriginCommit28({ beforeOrigin: cache.originBefore28, origin: row('project_ownership_origin', scene.projectId), project: row('project', scene.projectId), record: row('project_owner_reassignment_record', value.projectOwnerReassignmentRecordId), audit: audits[0].row,
+        requestId: attempt.requestId, actorId: actor.id, projectId: scene.projectId, targetOwnerId: value.newOwnerUserId, targetOrgId: value.newOwnerOrgId, expectedProjectVersion: intent.requestValue.expectedVersion }); cache.phase = 'assigned';
     }
     cache.writes.push({ operationId, purpose: intent.purpose, responseTargetId: value.id ?? value.targetId ?? value.conditionId ?? value.sessionId }); cache.inflight = null;
   }
   function validateMutationRows(differences) {
     const intent = cache.inflight; assert(intent);
     for (const change of differences) for (const changed of change.changed) if ((intent.binding.mutableTables ?? []).includes(change.table)) assert(change.database === ctx.database && intent.mutableRows[change.table]?.includes(changed.after.key[0]), 'Write changed another row in the same table');
+    if (scene.kind === 'creator') for (const change of differences.filter(value => value.table === 'project_ownership_origin')) {
+      assert.equal((change.added ?? []).length, 0); assert.equal((change.missing ?? []).length, 0); assert.equal(change.changed.length, 1);
+      for (const pair of change.changed) {
+      assert.equal(change.database, ctx.database); assert.equal(pair.after.key[0], scene.projectId); assert.equal(pair.before.sha256, cache.originBefore28.sha256); assert.equal(pair.before.xmin, cache.originBefore28.xmin);
+      assertOriginTransition28(JSON.parse(pair.before.raw), JSON.parse(pair.after.raw), { projectId: scene.projectId, targetOwnerId: intent.requestValue.ownerUserId });
+      }
+    }
   }
   return { admit, observeRead, observeWrite, validateMutationRows, cache, action, scene, completed: () => scene.kind === 'creator' ? cache.phase === 'assigned' : scene.kind === 'execution-owner' ? cache.phase === 'executed' : cache.phase === 'closed' };
 }

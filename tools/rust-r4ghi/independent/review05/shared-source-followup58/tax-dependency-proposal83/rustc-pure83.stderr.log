@@ -1,0 +1,23 @@
+error[E0433]: cannot find module or crate `chrono_tz` in this scope
+  --> /mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/review05/shared-source-followup58/tax-dependency-proposal83/pure-harness83.rs:62:25
+   |
+62 |         .with_timezone(&chrono_tz::Asia::Hong_Kong)
+   |                         ^^^^^^^^^ use of unresolved module or unlinked crate `chrono_tz`
+   |
+help: there is a crate or module with a similar name
+   |
+62 -         .with_timezone(&chrono_tz::Asia::Hong_Kong)
+62 +         .with_timezone(&chrono::Asia::Hong_Kong)
+   |
+
+warning: unused import: `Utc`
+  --> /mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/review05/shared-source-followup58/tax-dependency-proposal83/pure-harness83.rs:51:77
+   |
+51 | mod sources {use crate::{Error,Value,store};use chrono::{DateTime,NaiveDate,Utc};
+   |                                                                             ^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+error: aborting due to 1 previous error; 1 warning emitted
+
+For more information about this error, try `rustc --explain E0433`.
