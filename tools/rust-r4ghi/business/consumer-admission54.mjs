@@ -4,6 +4,7 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { validateRegistryLineage62, entrySource62 } from './registry-lineage62.mjs';
+import { effectiveProcessBinding1351 } from './same-source-process1351.mjs';
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 export const CONSUMER_OBSERVER_FIELDS54 = Object.freeze(['UICommandObserved', 'UICommandObserverReceipt', 'UICommandResponseOriginal', 'UICommandOperationId']);
 export function producerProjection54(record) { return Object.fromEntries(Object.entries(record).filter(([key]) => !CONSUMER_OBSERVER_FIELDS54.includes(key))); }
@@ -85,7 +86,7 @@ export function assertAdmittedContext54(ctx, { liveProcess = false, sourceFiles 
   assert(pins.some(pin => pin.file === 'docs/design/rust-r4ghi/g2-consumed-evidence-corrective54.md'), 'Consumer correction54 must be a real source pin');
   if (pins.some(pin => pin.file === 'docs/design/rust-r4ghi/g2-project-metadata-noop61.md')) assert.equal(registry.schemaVersion, 2, 'A chained retained consumer requires explicit schema2, never an old one-hop relabel');
   if (sourceFiles) for (const pin of pins) { assert(!path.isAbsolute(pin.file) && !pin.file.split('/').includes('..')); assert.equal(sha(fs.readFileSync(`${ctx.win}/${pin.file}`)), pin.sha256); }
-  const currentProcess = apiProcess54(ctx, registry.consumer.apiProcess, liveProcess); assert.equal(currentProcess.binarySha256, registry.consumer.binarySHA256);
+  const currentProcess = apiProcess54(ctx, effectiveProcessBinding1351(ctx, registry), liveProcess); assert.equal(currentProcess.binarySha256, registry.consumer.binarySHA256);
   readPin54(registry.retentionIndex); readPin54(registry.producerState); readPin54(registry.retainedSnapshot);
   if (registry.schemaVersion === 2) validateRegistryLineage62(ctx, registry);
   return registry;
@@ -123,6 +124,6 @@ export function readAdmittedConsumerContext({ statePin }) {
   within54(privateRoot + '/business', statePin.file); const state = JSON.parse(readPin54(statePin));
   assert(/^[A-Za-z0-9_-]{1,48}$/.test(state.epoch) && /^[A-Za-z0-9_-]{1,48}$/.test(state.run));
   const priv = `${privateRoot}/business/${state.epoch}/${state.run}`; assert.equal(statePin.file, `${priv}/state.json`); assert(!state.admissionPending54);
-  const ctx = { namespace: state.namespace, epoch: state.epoch, run: state.run, private: privateRoot, priv, win, pins: state.sourcePins, state, tables: 139, migrations: 97, database: 'poms_r4ghi_rust' };
+  const ctx = { namespace: state.namespace, epoch: state.epoch, run: state.run, private: privateRoot, priv, win, pins: state.sourcePins, state, mirror: '/home/wangzishi/projects/poms-rust-r4ghi', tables: 139, migrations: 97, database: 'poms_r4ghi_rust' };
   assertAdmittedContext54(ctx, { liveProcess: true, sourceFiles: true }); return ctx;
 }

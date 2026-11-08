@@ -1,3 +1,4 @@
+import { observeFontBoundary32 } from './ui-font-boundary32.mjs';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -7,7 +8,7 @@ function operations() { const spec = JSON.parse(fs.readFileSync(`${root}/libs/sh
 export async function executeCase(browser, expect, test, directory, server) {
   assert.equal(test.kind, 'expense-cost-forms'); const action = test.writeAction; assert.equal(action.kind, test.kind);
   const map = operations(), requests = [], errors = [], consoleErrors = [], blocked = [], observed = [], context = await browser.newContext({ baseURL: origin, locale: 'zh-CN', timezoneId: 'Asia/Shanghai', viewport: { width: 1440, height: 1000 }, serviceWorkers: 'block' });
-  const page = await context.newPage(); page.setDefaultTimeout(90_000); const component = page.locator('app-project-expense-cost-authoring');
+  const page = await context.newPage(); page.setDefaultTimeout(90_000); const fontBoundary32 = observeFontBoundary32(page); const component = page.locator('app-project-expense-cost-authoring');
   const save = (name, value) => fs.writeFileSync(path.join(directory, name), Buffer.isBuffer(value) ? value : Buffer.from(JSON.stringify(value, null, 2) + '\n'), { flag: 'wx', mode: 0o600 });
   const watch = (id, params = null) => { const op = map.get(id); assert(op); const exact = params ? op.template.replace(/\{([^}]+)\}/g, (_, key) => { assert(params[key]); return encodeURIComponent(params[key]); }) : null; const waiting = page.waitForResponse(res => res.request().method() === op.method && (exact ? new URL(res.url()).pathname === exact : op.pattern.test(new URL(res.url()).pathname))); void waiting.catch(() => {}); return waiting; };
   const actual = async (id, waiting) => { const res = await waiting; assert.equal(res.status(), map.get(id).status); assert(res.headers()['x-poms-r4ghi-ui-run']); const data = unwrap(await res.json()); observed.push({ operationId: id, status: res.status() }); await server.settle(); return { data, res }; };
@@ -33,9 +34,9 @@ export async function executeCase(browser, expect, test, directory, server) {
     const costCommand = (await actual('ProjectCostController_createProjectActualCostRecord', posting)).data, cost = (await actual('ProjectCostController_getProjectActualCostRecordDetail', costDetail)).data; assert.equal(cost.id, costCommand.targetId); assert.equal(cost.sourceId, null); assert.equal(cost.financialProjection.sourceId.value, created.id);
     const stage = component.getByRole('form', { name: '人工评估成本阶段归属', exact: true }); await stage.locator('label').filter({ hasText: /^有依据的归属阶段/ }).locator('select').selectOption('execution'); await stage.getByLabel('人工判断理由', { exact: true }).fill(action.attributionReason); await stage.getByLabel('人工评估事实与依据', { exact: true }).fill(action.attributionEvidenceSummary);
     const attributing = watch('ProjectCostController_confirmCostStageAttribution', { id: cost.id }); await stage.getByRole('button', { name: '固定人工评估的成本阶段归属', exact: true }).click(); const attributed = (await actual('ProjectCostController_confirmCostStageAttribution', attributing)).data; assert.equal(attributed.costRecordId, cost.id); assert(attributed.attributionSnapshotId && attributed.evidenceId);
-    await server.settle(); assert.equal(errors.length, 0); assert.equal(consoleErrors.length, 0); assert.equal(blocked.length, 0);
+    await server.settle(); assert.equal(errors.length, 0); fontBoundary32.assertExpected({ consoleErrors, blocked: blocked }); 
     result = { kind: test.kind, status: 'passed', actualProjectNavigationObserved: true, businessDateFromActualBackendHeader: date, expenseId: created.id, costId: cost.id, attributionSnapshotId: attributed.attributionSnapshotId, actualOperations: observed, allA08FormsPassed: false, G3Certified: false };
   } catch (error) { save('failure.log', Buffer.from(error.stack || String(error))); result = { kind: test.kind, status: 'failed', actualOperations: observed, allA08FormsPassed: false, G3Certified: false }; }
-  finally { save('requests.json', requests); save('errors.json', { errors, consoleErrors, blocked }); save('result.json', result); save('page.html', Buffer.from(await page.content())); await page.screenshot({ path: path.join(directory, 'page.png'), fullPage: true }); await context.close(); }
+  finally { save('font-boundary32.json', fontBoundary32.snapshot()); save('requests.json', requests); save('errors.json', { errors, consoleErrors, blocked }); save('result.json', result); save('page.html', Buffer.from(await page.content())); await page.screenshot({ path: path.join(directory, 'page.png'), fullPage: true }); await context.close(); }
   return result;
 }

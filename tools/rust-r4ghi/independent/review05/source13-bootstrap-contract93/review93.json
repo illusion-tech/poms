@@ -1,0 +1,139 @@
+{
+  "kind": "FS-Source13-bootstrap-contract-review93",
+  "createdAt": "2026-11-08T08:29:12.304Z",
+  "status": "bounded-field-and-order-plan-no-actual13-inputs",
+  "conclusions": [
+    "The proposed pure-FS pre-state B0 is supported by10802; capture-candidate12 is post-admission and cannot bootstrap unchanged.",
+    "Using one immutable candidate for both108 plan and85 final registry creates a reference cycle. B0 and admittedB1 are separate originals, both genuinely new13.",
+    "85-03 external private input removes the helper cycle: final code/template H0 remains exactly the admitted runtime graph; no H1 refreeze is selected."
+  ],
+  "order": [
+    "Finalize source/G2/M98/build/code/helperH0 while old Source12 originals remain preserved.",
+    "Capture real new136 process/readiness and pure sourcePins before/after, write B0 inside new priv without state or ctx.next.",
+    "Freeze final10802 plan using B0/source JSON/process JSON/helperH0/retention/M98/impact pins.",
+    "Run10802 admissionBootstrap; retain originalM97 baseline and mint actual registryR3.",
+    "Separately capture admittedB1 inside same ctx.priv with R3; keep R3.consumer.candidateReceipt pointing to B0.",
+    "Approve new private runtime JSON pin for85-03; full helperSources includes the immutable null template and equals R3 helper graph.",
+    "Run finish-main, prepare-tax STOP, later explicit fi-tax STOP, later separate commit-tax."
+  ],
+  "exactMappings": [
+    {
+      "consumer": "108.consumer.candidateReceipt",
+      "source": "B0 pin"
+    },
+    {
+      "consumer": "108.consumer.candidateSourceDigestPointer",
+      "source": "/sourcePinsSHA256"
+    },
+    {
+      "consumer": "108.consumer.candidateBinaryHashPointer",
+      "source": "/process/record/binarySha256"
+    },
+    {
+      "consumer": "108.consumer.sourcePins",
+      "source": "Independent private JSON containing exactly B0.sourcePins; same digest/count as current pure sourcePins()"
+    },
+    {
+      "consumer": "108.consumer.apiProcess",
+      "source": "Independent process JSON pin, preferably only file/rawBytesSha256"
+    },
+    {
+      "consumer": "B0.process and B1.process",
+      "source": "Same process pin plus parsed record; binarySHA/source/build/physicalPID/start/exe and actual readiness must agree"
+    },
+    {
+      "consumer": "108.consumer.helperPins",
+      "source": "Independent private JSON of full final code/template helperH0; no private runtime input inside business directory"
+    },
+    {
+      "consumer": "85.current.candidate",
+      "source": "B1 pin inside actual ctx.priv; no assertion equates it to registry.consumer.candidateReceipt"
+    },
+    {
+      "consumer": "B1.consumerAdmission.registry and85.current.registry",
+      "source": "Exact final state.consumerAdmission54.registry object, retaining any bytes field"
+    },
+    {
+      "consumer": "85.current.apiProcess",
+      "source": "Exact registry.consumer.apiProcess object; B1.process must retain any required bytes even though108 state pinOnly strips it"
+    },
+    {
+      "consumer": "85.current.retentionIndex and retainedProducerState",
+      "source": "Exact registry.retentionIndex and registry.producerState objects"
+    },
+    {
+      "consumer": "85.current.helperSources",
+      "source": "All business mjs/json including unchanged all-null template, plus explicitly used external entry sources; actual registry helper graph must match"
+    }
+  ],
+  "noCycles": [
+    "G2 JSON is a source leaf, not a container for a digest that includes itself or later B0/plan/registry pins.",
+    "source/helper JSON manifests live outside enumerated helper code paths.",
+    "B0 omits future registry/state/baseline/actor acceptance.",
+    "B1 does not contain its own hash or a private binding containing B1 hash.",
+    "Private runtime JSON carries no own SHA; approval is the explicit CLI argument and state identity."
+  ],
+  "actual13": {
+    "sourcePins": null,
+    "sourceCount": null,
+    "sourceDigest": null,
+    "actualBuild": null,
+    "binary": null,
+    "process": null,
+    "readiness": null,
+    "B0": null,
+    "plan": null,
+    "registry": null,
+    "B1": null,
+    "privateRuntimeBinding": null
+  },
+  "sourceInputs": [
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/capture-candidate12.mjs",
+      "rawBytesSha256": "4f0de66c8b57fa419140aad8bbe58031b364b4a4678cff9c8bc40ef4bd55ea33",
+      "bytes": 2117
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/proposed/tools/rust-r4ghi/business/retained-schema-admission108.mjs",
+      "rawBytesSha256": "95f0254efdb880b101b955f5b7bfee789e827a94e4b6d0ef84d3ad7d88f8c462",
+      "bytes": 14846
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/review05/shared-source-followup58/tax-continuation13-draft85-02/candidate/tools/rust-r4ghi/business/tax13-provenance.mjs",
+      "rawBytesSha256": "357e72d387bfd6b469f783345c64bac75934d0e49c80ffc189d8960d8cf3188e",
+      "bytes": 13256
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/review05/shared-source-followup58/tax-continuation13-draft85-03/manifest85-03.json",
+      "rawBytesSha256": "e253246a1181c3360293a2288521021677921e12728302bb2fe0aec65053c006",
+      "bytes": 7195
+    }
+  ],
+  "documents": [
+    {
+      "file": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\tools\\rust-r4ghi\\independent\\review05\\source13-bootstrap-contract93/README93.md",
+      "rawBytesSha256": "d27367258b77f33ec332d0cdf0927d9d50c7346731446da78409fdbfa705bfca",
+      "bytes": 3690
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\tools\\rust-r4ghi\\independent\\review05\\source13-bootstrap-contract93/contract93.json",
+      "rawBytesSha256": "cbbea307a61c60d8de2c88bacff2b021f25667791a09975737d7a01300fc3377",
+      "bytes": 3725
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\tools\\rust-r4ghi\\independent\\review05\\source13-bootstrap-contract93/resolved-external-binding93-02.json",
+      "rawBytesSha256": "5fb2abeec1f298100bece972caa3505568cdb6369aaabe6a8b6b2928687c6d8f",
+      "bytes": 1700
+    }
+  ],
+  "note": "85-03 is authored support and requires Root non-author review;93 is contract analysis, not a permission mint or product G3.",
+  "SQL": 0,
+  "HTTP": 0,
+  "browserActions": 0,
+  "RootProductOrHelperWrites": 0,
+  "actualCaptureExecuted": false,
+  "actualM98Certified": false,
+  "actualSource13Certified": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

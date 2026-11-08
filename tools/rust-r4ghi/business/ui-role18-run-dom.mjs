@@ -33,7 +33,7 @@ function main() {
   assert.equal(process.platform, 'win32'); const args = process.argv.slice(2); assert(args.length === 5 && args[0] === '--plan' && args[2] === '--approved-binding-sha' && args[4] === '--execute');
   const initialPlan = JSON.parse(fs.readFileSync(args[1])), locations = validatePlanIdentity(initialPlan), before = verify(args[1], locations.windowsBinding, args[3]);
   assert.equal(path.resolve(process.execPath).toLowerCase(), path.resolve(before.plan.windows.node.executablePath).toLowerCase());
-  assert.equal(before.plan.cases.length,1);assert.equal(before.plan.cases[0].kind,'role-forms');const child = spawnSync(process.execPath, [`${ROOT}/tools/rust-r4ghi/business/ui-role18-windows.mjs`, '--plan', args[1], '--approved-binding-sha', args[3], '--execute'], { cwd: ROOT, windowsHide: true, stdio: 'inherit' });
+  assert.equal(before.plan.cases.length,1);assert(['role-forms','frozen-role-readback'].includes(before.plan.cases[0].kind));if(before.plan.cases[0].kind==='frozen-role-readback')assert.equal(before.plan.writeActions.length,0);const child = spawnSync(process.execPath, [`${ROOT}/tools/rust-r4ghi/business/ui-role18-windows.mjs`, '--plan', args[1], '--approved-binding-sha', args[3], '--execute'], { cwd: ROOT, windowsHide: true, stdio: 'inherit' });
   verify(args[1], locations.windowsBinding, args[3]); if (child.error) throw child.error; assert(child.status !== null, 'Owned child did not exit with a status');
   console.log(JSON.stringify({ kind: 'exact-plan-and-build-outer-runtime16', childExitCode: child.status, beforeAfterPlanBuildPinsEqual: true, approvedBindingSHA256: before.bindingSHA256, G3Certified: false })); process.exitCode = child.status;
 }

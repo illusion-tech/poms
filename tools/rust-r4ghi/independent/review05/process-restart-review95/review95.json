@@ -1,0 +1,205 @@
+{
+  "kind": "1351-02-H16-source-array-incremental-independent-review95",
+  "createdAt": "2026-11-08T09:26:26.530Z",
+  "nonAuthor": true,
+  "manifest": {
+    "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/process-restart1351-02/manifest1351-02.json",
+    "rawBytesSha256": "2d926a49a1bbc50e54328fa92c6ea540395d2855ba731ed652f992eb1c0b818b"
+  },
+  "conclusion": "Root-discovered-candidate-array-consumption-gap-closed-in-tooling-scope",
+  "rootDiscoveredGap": "Original1351 candidate omitted sourcePins consumed by unchanged prepare-plan16 lines17-18; review94 missed this prepare step. Original94 kept unchanged.",
+  "newP1P2": [],
+  "checks": {
+    "writerUsesActualCtxPins": true,
+    "writerOnlyOneFieldAdded": true,
+    "readerDeepArrayCountAndBothJsonDigestsStrict": true,
+    "actualUnchangedPrepareHeaderExecutedInPureVM": true,
+    "independentArrayNegativeCases": [
+      "missing array",
+      "different array under old digest",
+      "property-order digest drift",
+      "wrong count",
+      "wrong digest"
+    ],
+    "allFourHandoffStagesRead": true,
+    "old25TestsInSameOrderPlusOne": true,
+    "currentConsumerAndHttpUnchanged": true,
+    "futureTwoAndBefore6feDeclarationsByteExact": true
+  },
+  "handoffContract": {
+    "prepare": "candidate epoch/run/tables139/migrations97/process.record/process pin and source.sourcePins equality plus JSON digest",
+    "collect": "same source==state pins; candidate marker/digest/process==actual context; actual new auth pair",
+    "generate": "same source/state/digest and candidate/process tuple, fresh actor index and real auth originals",
+    "runtime": "new candidate/process pins and physical PID/start/exe, overlay/index/actors bound before HTTP",
+    "inputPinShape": "prepare readPin exactKeys requires two-field file/rawBytesSha256 UI input pins; keep internal artifact bytes where its own reader requires them, normalize only this explicit UI boundary"
+  },
+  "actual1351Process": null,
+  "actualCandidate1351": null,
+  "actualStartupAdmission": null,
+  "actualActor1351": null,
+  "actualSource13": null,
+  "SQL": 0,
+  "HTTP": 0,
+  "browserActions": 0,
+  "RootProductOrHelperWrites": 0,
+  "GitWrites": 0,
+  "G3Certified": false,
+  "G4Certified": false,
+  "inputs": [
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/process-restart1351-02/manifest1351-02.json",
+      "rawBytesSha256": "2d926a49a1bbc50e54328fa92c6ea540395d2855ba731ed652f992eb1c0b818b",
+      "bytes": 6632
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/process-restart1351/manifest1351.json",
+      "rawBytesSha256": "714c58b74bba60d89367a7c5826b24f555046f49f6ac89230521623f894106db",
+      "bytes": 7121
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/process-restart1351-02/proposed/tools/rust-r4ghi/business/consumer-admission54.mjs",
+      "rawBytesSha256": "6fe5e30042956a776e122eff7adb3507cec873ccbc0dd570c6e9c017bd18963b",
+      "bytes": 11874
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/process-restart1351/before/tools/rust-r4ghi/business/consumer-admission54.mjs",
+      "rawBytesSha256": "08f49d66466deb6fb150b4a788ffe1c3d132f1cb2eb692a043020dd5cb4811b2",
+      "bytes": 11731
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/consumer-admission54.mjs",
+      "rawBytesSha256": "08f49d66466deb6fb150b4a788ffe1c3d132f1cb2eb692a043020dd5cb4811b2",
+      "bytes": 11731
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/process-restart1351/proposed/tools/rust-r4ghi/business/consumer-admission54.mjs",
+      "rawBytesSha256": "6fe5e30042956a776e122eff7adb3507cec873ccbc0dd570c6e9c017bd18963b",
+      "bytes": 11874
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/process-restart1351-02/proposed/tools/rust-r4ghi/business/http.mjs",
+      "rawBytesSha256": "7eb4ca4a5c15bccfd85256e7ea0b18e8ad2b905341f876e1ab21a25f2745ae86",
+      "bytes": 11472
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/process-restart1351/before/tools/rust-r4ghi/business/http.mjs",
+      "rawBytesSha256": "33a982bb918b65e88f6a250491d788b3ce8a22715a628cad6fa98d04a657a947",
+      "bytes": 11218
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/http.mjs",
+      "rawBytesSha256": "33a982bb918b65e88f6a250491d788b3ce8a22715a628cad6fa98d04a657a947",
+      "bytes": 11218
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/process-restart1351/proposed/tools/rust-r4ghi/business/http.mjs",
+      "rawBytesSha256": "7eb4ca4a5c15bccfd85256e7ea0b18e8ad2b905341f876e1ab21a25f2745ae86",
+      "bytes": 11472
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/process-restart1351-02/proposed/tools/rust-r4ghi/business/run-process-restart1351.mjs",
+      "rawBytesSha256": "7bc3624ff49ac5d3d86d85e696d74162c2fedbc4ec809b29817090f67fce5d25",
+      "bytes": 12052
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/process-restart1351-02/proposed/tools/rust-r4ghi/business/same-source-process1351.mjs",
+      "rawBytesSha256": "48e977dbf3ba0b2067f18625409af3ade3fdd0aa94a147636a7182bbe587481a",
+      "bytes": 16253
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/process-restart1351-02/proposed/tools/rust-r4ghi/business/same-source-process1351.test.mjs",
+      "rawBytesSha256": "681237db9c2841493a1ae2c976cabbe47183b84798caf0e4c281a29d48a17ae0",
+      "bytes": 9241
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/process-restart1351-02/future-source13/tools/rust-r4ghi/business/consumer-admission54.mjs",
+      "rawBytesSha256": "5e67049e566ea27eb28b7e4ea6a4b1e4affab6fe5a06f7540ebcf308527bf9de",
+      "bytes": 12711
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/process-restart1351/future-source13/tools/rust-r4ghi/business/consumer-admission54.mjs",
+      "rawBytesSha256": "5e67049e566ea27eb28b7e4ea6a4b1e4affab6fe5a06f7540ebcf308527bf9de",
+      "bytes": 12711
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/process-restart1351-02/future-source13/tools/rust-r4ghi/business/retained-schema-admission108.mjs",
+      "rawBytesSha256": "4e87c06567a2ede0eae6fcf17e031b323d4d4b0c94b87e935a9c15effde7669d",
+      "bytes": 15330
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/process-restart1351/future-source13/tools/rust-r4ghi/business/retained-schema-admission108.mjs",
+      "rawBytesSha256": "4e87c06567a2ede0eae6fcf17e031b323d4d4b0c94b87e935a9c15effde7669d",
+      "bytes": 15330
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/process-restart1351-02/README1351-02.md",
+      "rawBytesSha256": "3261253ec56106f0ae680d218a780aaeda6754e46313b7465474c1438d4df316",
+      "bytes": 1506
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/process-restart1351-02/validation1351.json",
+      "rawBytesSha256": "3872174ca6d0ff67142d16a765e8a627ae689ba19cf9b4b23d1b944ac72fa894",
+      "bytes": 1188
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/process-restart1351-02/pure1351.stdout.log",
+      "rawBytesSha256": "7a27dc5bc377671960ceab20ef881fd00726caa1e295273a9f5ff48a81b1cc03",
+      "bytes": 6831
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/process-restart1351-02/pure1351.stderr.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/process-restart1351-02/future-composition1351.json",
+      "rawBytesSha256": "71f0df8e4809ff438014cde88f14c97c7c73504fd72fdae62e6799ae783f6dab",
+      "bytes": 1047
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/process-restart1351-02/dependencies1351.json",
+      "rawBytesSha256": "761f3abd31e44ededd81bd02471a51e232516de3e4a178eb23292aad917399b5",
+      "bytes": 3473
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/handoff16/prepare-plan16.mjs",
+      "rawBytesSha256": "383ca572ea1a0d2f1497855fee09e3c9bbe3c9b24a4ac434158e912d140b3e86",
+      "bytes": 5334
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/restart-ui39/proposed/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/handoff16/collect-actor-proof16.mjs",
+      "rawBytesSha256": "65a11d145ddf5fd99d904f265e340e435f8230ff1556538c9cf2d2c50e6539e8",
+      "bytes": 6213
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/restart-ui39/proposed/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/handoff16/generate-binding16.mjs",
+      "rawBytesSha256": "c14147f36a04441bfaa28f3c45f09cf1c3bda029b09a41caf25c049dc2f3461f",
+      "bytes": 9242
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/restart-ui39/proposed/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/runtime13/binding13.mjs",
+      "rawBytesSha256": "865a1899e16363ff645e027a9ca28caae470458c6fe191b5799c0d718edcfa4a",
+      "bytes": 6950
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/process-restart1351-02/proposed/tools/rust-r4ghi/business/run-process-restart1351.mjs",
+      "rawBytesSha256": "7bc3624ff49ac5d3d86d85e696d74162c2fedbc4ec809b29817090f67fce5d25",
+      "bytes": 12052
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/process-restart1351/proposed/tools/rust-r4ghi/business/run-process-restart1351.mjs",
+      "rawBytesSha256": "f55494eff722ee60d670eb0e3997e29b2e4ff17b0346fb57c0a3fced125a658a",
+      "bytes": 12030
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/process-restart1351/pure1351.stdout.log",
+      "rawBytesSha256": "4329ccd548e6651bb9f6814e3c8f5725fd6eac16a61199e3ba4b2ca6fafa7012",
+      "bytes": 6568
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/process-restart1351-02/pure1351.stdout.log",
+      "rawBytesSha256": "7a27dc5bc377671960ceab20ef881fd00726caa1e295273a9f5ff48a81b1cc03",
+      "bytes": 6831
+    }
+  ]
+}

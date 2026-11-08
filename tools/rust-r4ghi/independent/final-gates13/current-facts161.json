@@ -1,0 +1,1399 @@
+{
+  "kind": "independent-preparation-current-fixed-Source12-fact-audit161",
+  "reviewer": "/root/r4ghi_final_gates13",
+  "status": "bounded-fixed-file-facts-reviewed-no-unified-Gate-review",
+  "exclusiveWriteBoundary": "tools/rust-r4ghi/independent/final-gates13/",
+  "G3Reviewed": false,
+  "G3Certified": false,
+  "G4Reviewed": false,
+  "G4Certified": false,
+  "newCertifiedOperations": 0,
+  "officialRust": 240,
+  "R4Delivered": 67,
+  "R4Planned": 95,
+  "R4Remaining": 28,
+  "originalPreparationPreserved": [
+    "preparation13.md",
+    "operation-checklist13.json",
+    "manifest13.json"
+  ],
+  "formalInputsRemain": "manifest13.json",
+  "recoveryReport": {
+    "path": "docs/design/rust-r4ghi/process1351-recovery161-actual.json",
+    "rawBytesSHA256": "b1078370ddb2516239676d75b2773fe553bb7df7e365ecd264703f7a695e46d6"
+  },
+  "recoveryReadback": "recovery-readback161.json",
+  "sameSourcePhysicalRecovery": {
+    "epoch": "g2-business12",
+    "sourceCount": 406,
+    "sourcePinsSHA256": "5263ad894591ac682fe7ebf9ca5cfa2aaac3334d4481ae5de4dd63d83b4681fa",
+    "sameCompleteProductSourceVector": true,
+    "actualSourceArrayCount": 406,
+    "binarySHA256": "de8eaaf6ce15a2054380e25f3151c21611cf0bf760230c7336745d80850d9cff",
+    "migrations": 97,
+    "tablesPerDatabase": 139,
+    "oldPhysicalIdentity": {
+      "startedAt": "2026-11-07T19:40:53.492Z",
+      "startTime": "4977486",
+      "pid": 108720
+    },
+    "newPhysicalIdentity": {
+      "startedAt": "2026-11-08T09:38:25.556Z",
+      "startTime": "446482",
+      "pid": 11616
+    },
+    "oldProcessPin": "a42333c74b7afd8aa7359bb3cf915444cc7cbbfebff9049a467c2cdb33ccef06",
+    "newProcessPin": "fd81b926dbaad79debc0343ac63b6cff7c967ac4a52cd64db0a7d0e7d4dbc2a1",
+    "oldSchema2RegistryPin": "3ed7bd387b6f4f3b8e44201e7985043b18b71cefceba3194f83ab19300f7d29c",
+    "newCandidatePin": "1dde0fda6f0c23682568f8256ea98da4137ebd7793da7915238e0ac066a9740c",
+    "newOverlayRegistryPin": "05985940f4a4085fab81d0711d2285931818a2b78fb29a9612bfcc1365b1667b",
+    "oldAndNewBinaryEqual": true,
+    "originalBaselineMatches": true,
+    "overlayDoesNotRelabelOldEvidence": true,
+    "overlayDoesNotResetBaseline": true,
+    "containerInspectPins": [
+      {
+        "path": "\\\\wsl.localhost\\Debian\\home\\wangzishi\\.local\\share\\poms-r4ghi\\private\\environment-recovery147\\inspect-before-stdout.json",
+        "sha256": "0f24632309a008fd9894a22ed8f4dd4c0dae75760c0dd208ca64310d669b16b9",
+        "containers": [
+          {
+            "id": "513925616f4e1c1c988753e385be7f441dc98f6fb490101537498f60e8d5e00f",
+            "name": "poms-r4ghi-pg15",
+            "running": false,
+            "mounts": [
+              {
+                "Type": "volume",
+                "Name": "poms-r4ghi-pg15-data",
+                "Destination": "/var/lib/postgresql/data"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "path": "\\\\wsl.localhost\\Debian\\home\\wangzishi\\.local\\share\\poms-r4ghi\\private\\environment-recovery147\\inspect-after-stdout.json",
+        "sha256": "1ff97d36ae1e9114ae42be11cba36442406b60f7fed0cfa0ac5df1c53d174d93",
+        "containers": [
+          {
+            "id": "513925616f4e1c1c988753e385be7f441dc98f6fb490101537498f60e8d5e00f",
+            "name": "poms-r4ghi-pg15",
+            "running": true,
+            "mounts": [
+              {
+                "Type": "volume",
+                "Name": "poms-r4ghi-pg15-data",
+                "Destination": "/var/lib/postgresql/data"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "recoveryBoundary": "Five sealed snapshots before subsequent acknowledged authentication/UI requests; later actual writes have separate ledgers. This is not current-live-state equivalence or Source13/schema3 admission."
+  },
+  "uiFacts": [
+    {
+      "label": "role03",
+      "uiRun": "role18-source12-03",
+      "path": "tmp/rust-r4ghi/root/ui-runtime14/role18-source12-03/receipt18-05.json",
+      "bytes": 100045,
+      "rawBytesSHA256": "4a63f6c2a1f031c8796a3bbb6d095b6d2b55652dcc739b1fd85c37f6fa4cfeb3",
+      "status": "passed-bound-cases-only",
+      "actualDOMExecuted": true,
+      "epoch": "g2-business12",
+      "physicalCandidate": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/004534-candidate-source-binding12.json",
+        "rawBytesSha256": "b5c86c8882657aac1e1affc153510a728bc304943265e51a230b6be19a0429b7"
+      },
+      "processBinarySHA256": "de8eaaf6ce15a2054380e25f3151c21611cf0bf760230c7336745d80850d9cff",
+      "migrations": 97,
+      "tables": 139,
+      "exchangeCount": 14,
+      "methodStatusCounts": {
+        "GET-200": 13,
+        "POST-200": 1
+      },
+      "operationStatusCounts": {
+        "AuthController_getCurrentAuthSession:200": 2,
+        "AuthController_getCsrfToken:200": 2,
+        "NavigationController_getNavigation:200": 2,
+        "ApprovalController_getMyTodos:200": 2,
+        "ProjectController_getById:200": 2,
+        "CommissionController_getCurrentRoleAssignment:200": 1,
+        "ProjectHandoverController_getProjectHandoverDetailByProject:200": 1,
+        "CommissionRoleAssignmentController_getRoleAssignmentDetail:200": 1,
+        "CommissionRoleAssignmentController_freezeRoleAssignment:200": 1
+      },
+      "caseStatuses": [
+        {
+          "kind": "role-forms",
+          "status": "passed"
+        }
+      ],
+      "actualWriteObserver": [
+        {
+          "operationId": "CommissionRoleAssignmentController_freezeRoleAssignment",
+          "purpose": "real-UI-role-freeze",
+          "responseTargetId": "1817b9ae-ec3a-4910-aebd-07a2b6963975"
+        }
+      ],
+      "allA08FormsPassed": false,
+      "close": {
+        "serverClosed": true,
+        "pending": 0,
+        "failures": 0,
+        "allRawExchangesRetained": true
+      },
+      "G3Certified": false,
+      "G4Certified": false
+    },
+    {
+      "label": "expense02",
+      "uiRun": "expense18-source12-02",
+      "path": "tmp/rust-r4ghi/root/ui-runtime14/expense18-source12-02/receipt18-04.json",
+      "bytes": 127250,
+      "rawBytesSHA256": "e5af97c68eb02c554dce90f18ae75306f7a5c3ecedfc19522324467e1342b882",
+      "status": "passed-bound-cases-only",
+      "actualDOMExecuted": true,
+      "epoch": "g2-business12",
+      "physicalCandidate": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/004534-candidate-source-binding12.json",
+        "rawBytesSha256": "b5c86c8882657aac1e1affc153510a728bc304943265e51a230b6be19a0429b7"
+      },
+      "processBinarySHA256": "de8eaaf6ce15a2054380e25f3151c21611cf0bf760230c7336745d80850d9cff",
+      "migrations": 97,
+      "tables": 139,
+      "exchangeCount": 40,
+      "methodStatusCounts": {
+        "GET-200": 36,
+        "POST-201": 3,
+        "POST-200": 1
+      },
+      "operationStatusCounts": {
+        "AuthController_getCurrentAuthSession:200": 2,
+        "AuthController_getCsrfToken:200": 2,
+        "NavigationController_getNavigation:200": 2,
+        "ApprovalController_getMyTodos:200": 2,
+        "ProjectController_getById:200": 1,
+        "DictionaryController_list:200": 5,
+        "ContractController_list:200": 5,
+        "ProjectCostController_listExpenseRecords:200": 5,
+        "ProjectCostController_listProjectActualCostRecords:200": 5,
+        "ProjectCostController_createExpenseRecord:201": 1,
+        "ProjectCostController_getExpenseRecordDetail:200": 4,
+        "ProjectCostController_confirmExpenseRecord:200": 1,
+        "ProjectCostController_createProjectActualCostRecord:201": 1,
+        "ProjectCostController_getProjectActualCostRecordDetail:200": 2,
+        "ProjectCostController_listCostStageAttributions:200": 1,
+        "ProjectCostController_confirmCostStageAttribution:201": 1
+      },
+      "caseStatuses": [
+        {
+          "kind": "expense-cost-forms",
+          "status": "passed"
+        }
+      ],
+      "actualWriteObserver": [
+        {
+          "operationId": "ProjectCostController_createExpenseRecord",
+          "purpose": "real-UI-expense-create",
+          "responseTargetId": "6ef4b622-210d-40f0-bfd6-54515e89352c"
+        },
+        {
+          "operationId": "ProjectCostController_confirmExpenseRecord",
+          "purpose": "real-UI-expense-confirm",
+          "responseTargetId": "6ef4b622-210d-40f0-bfd6-54515e89352c"
+        },
+        {
+          "operationId": "ProjectCostController_createProjectActualCostRecord",
+          "purpose": "real-UI-source-only-E-cost",
+          "responseTargetId": "aa2366e0-e7e2-4c9c-91d8-3d7c73be9b18"
+        },
+        {
+          "operationId": "ProjectCostController_confirmCostStageAttribution",
+          "purpose": "real-UI-F-manual-stage-attribution",
+          "responseTargetId": "949a725c-f210-4309-bb88-e49624006114"
+        }
+      ],
+      "allA08FormsPassed": false,
+      "close": {
+        "serverClosed": true,
+        "pending": 0,
+        "failures": 0,
+        "allRawExchangesRetained": true
+      },
+      "G3Certified": false,
+      "G4Certified": false
+    },
+    {
+      "label": "coldrole",
+      "uiRun": "role18-source12-frozen01",
+      "path": "tmp/rust-r4ghi/root/ui-runtime14/role18-source12-frozen01/receipt18-05.json",
+      "bytes": 97116,
+      "rawBytesSHA256": "75a4afd447ae0b85cd1380292a982c67b6bab76219dd299e6a84b1f969d4e747",
+      "status": "passed-bound-cases-only",
+      "actualDOMExecuted": true,
+      "epoch": "g2-business12",
+      "physicalCandidate": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/007133-p1351-candidate.json",
+        "rawBytesSha256": "1dde0fda6f0c23682568f8256ea98da4137ebd7793da7915238e0ac066a9740c"
+      },
+      "processBinarySHA256": "de8eaaf6ce15a2054380e25f3151c21611cf0bf760230c7336745d80850d9cff",
+      "migrations": 97,
+      "tables": 139,
+      "exchangeCount": 12,
+      "methodStatusCounts": {
+        "GET-200": 12
+      },
+      "operationStatusCounts": {
+        "AuthController_getCurrentAuthSession:200": 2,
+        "AuthController_getCsrfToken:200": 2,
+        "NavigationController_getNavigation:200": 2,
+        "ApprovalController_getMyTodos:200": 2,
+        "ProjectController_getById:200": 1,
+        "CommissionController_getCurrentRoleAssignment:200": 1,
+        "ProjectHandoverController_getProjectHandoverDetailByProject:200": 1,
+        "CommissionRoleAssignmentController_getRoleAssignmentDetail:200": 1
+      },
+      "caseStatuses": [
+        {
+          "kind": "frozen-role-readback",
+          "status": "passed"
+        }
+      ],
+      "actualWriteObserver": [],
+      "allA08FormsPassed": false,
+      "close": {
+        "serverClosed": true,
+        "pending": 0,
+        "failures": 0,
+        "allRawExchangesRetained": true
+      },
+      "G3Certified": false,
+      "G4Certified": false
+    },
+    {
+      "label": "gh02",
+      "uiRun": "gh18-source12-02",
+      "path": "tmp/rust-r4ghi/root/ui-runtime14/gh18-source12-02/receipt18-06.json",
+      "bytes": 95038,
+      "rawBytesSHA256": "f999ef43fa6c2b2bf82aafd21cade195c9aba906739c60516ff0b1592d4770a9",
+      "status": "failed",
+      "actualDOMExecuted": true,
+      "epoch": "g2-business12",
+      "physicalCandidate": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/007133-p1351-candidate.json",
+        "rawBytesSha256": "1dde0fda6f0c23682568f8256ea98da4137ebd7793da7915238e0ac066a9740c"
+      },
+      "processBinarySHA256": "de8eaaf6ce15a2054380e25f3151c21611cf0bf760230c7336745d80850d9cff",
+      "migrations": 97,
+      "tables": 139,
+      "exchangeCount": 10,
+      "methodStatusCounts": {
+        "GET-200": 10
+      },
+      "operationStatusCounts": {
+        "AuthController_getCurrentAuthSession:200": 2,
+        "AuthController_getCsrfToken:200": 2,
+        "NavigationController_getNavigation:200": 2,
+        "ApprovalController_getMyTodos:200": 2,
+        "ProjectController_getById:200": 1,
+        "ProjectCostController_getProjectUnifiedAccounting:200": 1
+      },
+      "caseStatuses": [
+        {
+          "kind": "gh-forms",
+          "status": "failed"
+        }
+      ],
+      "actualWriteObserver": [],
+      "allA08FormsPassed": false,
+      "close": {
+        "serverClosed": true,
+        "pending": 0,
+        "failures": 0,
+        "allRawExchangesRetained": true
+      },
+      "G3Certified": false,
+      "G4Certified": false
+    },
+    {
+      "label": "life01",
+      "uiRun": "lifecycle18-source12-01",
+      "path": "tmp/rust-r4ghi/root/ui-runtime14/lifecycle18-source12-01/receipt18-03.json",
+      "bytes": 97983,
+      "rawBytesSHA256": "897264dadbdbbe851372447cb30ec451afafd6d3c589f6194e2cb3701d3262c2",
+      "status": "failed",
+      "actualDOMExecuted": true,
+      "epoch": "g2-business12",
+      "physicalCandidate": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/007133-p1351-candidate.json",
+        "rawBytesSha256": "1dde0fda6f0c23682568f8256ea98da4137ebd7793da7915238e0ac066a9740c"
+      },
+      "processBinarySHA256": "de8eaaf6ce15a2054380e25f3151c21611cf0bf760230c7336745d80850d9cff",
+      "migrations": 97,
+      "tables": 139,
+      "exchangeCount": 13,
+      "methodStatusCounts": {
+        "GET-200": 13
+      },
+      "operationStatusCounts": {
+        "AuthController_getCurrentAuthSession:200": 2,
+        "AuthController_getCsrfToken:200": 2,
+        "NavigationController_getNavigation:200": 2,
+        "ApprovalController_getMyTodos:200": 2,
+        "ProjectController_getById:200": 1,
+        "PlatformController_listOwnerReferenceData:200": 1,
+        "ProjectController_listProjectCompletionRecords:200": 1,
+        "ProjectController_listAcceptanceRecords:200": 1,
+        "ProjectController_listProjectArchiveRecords:200": 1
+      },
+      "caseStatuses": [
+        {
+          "kind": "eo-lifecycle",
+          "status": "failed"
+        }
+      ],
+      "actualWriteObserver": [],
+      "allA08FormsPassed": false,
+      "close": {
+        "serverClosed": true,
+        "pending": 0,
+        "failures": 0,
+        "allRawExchangesRetained": true
+      },
+      "G3Certified": false,
+      "G4Certified": false
+    },
+    {
+      "label": "gh03",
+      "uiRun": "gh18-source12-03",
+      "path": "tmp/rust-r4ghi/root/ui-runtime14/gh18-source12-03/receipt18-06.json",
+      "bytes": 98766,
+      "rawBytesSHA256": "cd59d801d6380843207863dcfa2a7bd1528dcad9d43b5c070bc8052f3721395f",
+      "status": "failed",
+      "actualDOMExecuted": true,
+      "epoch": "g2-business12",
+      "physicalCandidate": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/007133-p1351-candidate.json",
+        "rawBytesSha256": "1dde0fda6f0c23682568f8256ea98da4137ebd7793da7915238e0ac066a9740c"
+      },
+      "processBinarySHA256": "de8eaaf6ce15a2054380e25f3151c21611cf0bf760230c7336745d80850d9cff",
+      "migrations": 97,
+      "tables": 139,
+      "exchangeCount": 13,
+      "methodStatusCounts": {
+        "GET-200": 12,
+        "POST-201": 1
+      },
+      "operationStatusCounts": {
+        "AuthController_getCurrentAuthSession:200": 2,
+        "AuthController_getCsrfToken:200": 2,
+        "NavigationController_getNavigation:200": 2,
+        "ApprovalController_getMyTodos:200": 2,
+        "ProjectController_getById:200": 1,
+        "ProjectCostController_getProjectUnifiedAccounting:200": 3,
+        "ProjectCostController_activateOperatingBaselinePackage:201": 1
+      },
+      "caseStatuses": [
+        {
+          "kind": "gh-forms",
+          "status": "failed"
+        }
+      ],
+      "actualWriteObserver": [
+        {
+          "operationId": "ProjectCostController_activateOperatingBaselinePackage",
+          "purpose": "real-UI-G-baseline",
+          "responseTargetId": "ca89ca5c-b482-4155-a327-6e56d4a4ad1a"
+        }
+      ],
+      "allA08FormsPassed": false,
+      "close": {
+        "serverClosed": true,
+        "pending": 0,
+        "failures": 0,
+        "allRawExchangesRetained": true
+      },
+      "G3Certified": false,
+      "G4Certified": false
+    },
+    {
+      "label": "life02",
+      "uiRun": "lifecycle18-source12-02",
+      "path": "tmp/rust-r4ghi/root/ui-runtime14/lifecycle18-source12-02/receipt18-03.json",
+      "bytes": 159649,
+      "rawBytesSHA256": "14a66bdd00019794534b739ce321a2d364f3036c9b1caadb41416fbb1e88962f",
+      "status": "passed-bound-cases-only",
+      "actualDOMExecuted": true,
+      "epoch": "g2-business12",
+      "physicalCandidate": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/007133-p1351-candidate.json",
+        "rawBytesSha256": "1dde0fda6f0c23682568f8256ea98da4137ebd7793da7915238e0ac066a9740c"
+      },
+      "processBinarySHA256": "de8eaaf6ce15a2054380e25f3151c21611cf0bf760230c7336745d80850d9cff",
+      "migrations": 97,
+      "tables": 139,
+      "exchangeCount": 66,
+      "methodStatusCounts": {
+        "GET-200": 50,
+        "POST-201": 6,
+        "POST-200": 7,
+        "PUT-200": 3
+      },
+      "operationStatusCounts": {
+        "AuthController_getCurrentAuthSession:200": 2,
+        "AuthController_getCsrfToken:200": 2,
+        "NavigationController_getNavigation:200": 2,
+        "ApprovalController_getMyTodos:200": 2,
+        "ProjectController_getById:200": 5,
+        "PlatformController_listOwnerReferenceData:200": 4,
+        "ProjectController_listProjectCompletionRecords:200": 10,
+        "ProjectController_listAcceptanceRecords:200": 10,
+        "ProjectController_listProjectArchiveRecords:200": 10,
+        "DictionaryController_list:200": 3,
+        "AttachmentUploadSessionController_create:201": 3,
+        "AttachmentUploadSessionController_createUploadTarget:200": 3,
+        "AttachmentUploadSessionController_proxyUploadObject:200": 3,
+        "AttachmentUploadSessionController_complete:200": 3,
+        "ProjectController_startAcceptance:200": 1,
+        "ProjectController_createAcceptanceRecord:201": 1,
+        "ProjectController_createProjectCompletionRecord:201": 1,
+        "ProjectController_createProjectArchiveRecord:201": 1
+      },
+      "caseStatuses": [
+        {
+          "kind": "eo-lifecycle",
+          "status": "passed"
+        }
+      ],
+      "actualWriteObserver": [
+        {
+          "operationId": "AttachmentUploadSessionController_create",
+          "purpose": "actual-delivery-normal-project-evidence",
+          "responseTargetId": "fb175646-5424-4dc6-8d61-84857c48f432"
+        },
+        {
+          "operationId": "AttachmentUploadSessionController_createUploadTarget",
+          "purpose": "exact-normal-project-session-target",
+          "responseTargetId": "fb175646-5424-4dc6-8d61-84857c48f432"
+        },
+        {
+          "operationId": "AttachmentUploadSessionController_proxyUploadObject",
+          "purpose": "exact-approved-lifecycle-file-bytes",
+          "responseTargetId": "fb175646-5424-4dc6-8d61-84857c48f432"
+        },
+        {
+          "operationId": "AttachmentUploadSessionController_complete",
+          "purpose": "complete-exact-normal-project-evidence",
+          "responseTargetId": "f045f902-5b9c-4070-acf0-0660f7d62e5d"
+        },
+        {
+          "operationId": "ProjectController_startAcceptance",
+          "purpose": "EO-real-UI-start-acceptance",
+          "responseTargetId": "62e55eab-ea7d-4204-9d20-cd2434935aba"
+        },
+        {
+          "operationId": "AttachmentUploadSessionController_create",
+          "purpose": "actual-acceptance-normal-project-evidence",
+          "responseTargetId": "f55bb256-5a41-40c1-8fe1-9bea518d0068"
+        },
+        {
+          "operationId": "AttachmentUploadSessionController_createUploadTarget",
+          "purpose": "exact-normal-project-session-target",
+          "responseTargetId": "f55bb256-5a41-40c1-8fe1-9bea518d0068"
+        },
+        {
+          "operationId": "AttachmentUploadSessionController_proxyUploadObject",
+          "purpose": "exact-approved-lifecycle-file-bytes",
+          "responseTargetId": "f55bb256-5a41-40c1-8fe1-9bea518d0068"
+        },
+        {
+          "operationId": "AttachmentUploadSessionController_complete",
+          "purpose": "complete-exact-normal-project-evidence",
+          "responseTargetId": "196a36af-d17e-475b-a251-10fb57f82d57"
+        },
+        {
+          "operationId": "ProjectController_createAcceptanceRecord",
+          "purpose": "EO-real-UI-final-accepted",
+          "responseTargetId": "9acecc1c-11f4-437c-9794-943f409d8334"
+        },
+        {
+          "operationId": "AttachmentUploadSessionController_create",
+          "purpose": "actual-completion-normal-project-evidence",
+          "responseTargetId": "88db85f7-d162-43f2-9020-d230d8f5efb3"
+        },
+        {
+          "operationId": "AttachmentUploadSessionController_createUploadTarget",
+          "purpose": "exact-normal-project-session-target",
+          "responseTargetId": "88db85f7-d162-43f2-9020-d230d8f5efb3"
+        },
+        {
+          "operationId": "AttachmentUploadSessionController_proxyUploadObject",
+          "purpose": "exact-approved-lifecycle-file-bytes",
+          "responseTargetId": "88db85f7-d162-43f2-9020-d230d8f5efb3"
+        },
+        {
+          "operationId": "AttachmentUploadSessionController_complete",
+          "purpose": "complete-exact-normal-project-evidence",
+          "responseTargetId": "8dc5c40a-27e8-47f1-b14e-80d9a63cc107"
+        },
+        {
+          "operationId": "ProjectController_createProjectCompletionRecord",
+          "purpose": "EO-real-UI-completion",
+          "responseTargetId": "1280ca75-3895-476c-ae2b-191a6f6c7081"
+        },
+        {
+          "operationId": "ProjectController_createProjectArchiveRecord",
+          "purpose": "EO-real-UI-terminal-archive",
+          "responseTargetId": "b0970ac6-e9f8-40ac-b220-b25bcc70b355"
+        }
+      ],
+      "allA08FormsPassed": false,
+      "close": {
+        "serverClosed": true,
+        "pending": 0,
+        "failures": 0,
+        "allRawExchangesRetained": true
+      },
+      "G3Certified": false,
+      "G4Certified": false
+    }
+  ],
+  "uiOriginalHashAudit": {
+    "verifiedFiles": 222,
+    "verifiedLedgerCount": 168,
+    "verifiedCaseArtifactCount": 54,
+    "allLedgerOwnershipComplete": true,
+    "blockers": [],
+    "noLedgerClaimsResponseStatusIsAcceptance": true,
+    "commandRecords": [
+      {
+        "run": "role03",
+        "type": "ledger",
+        "method": "POST",
+        "operationId": "CommissionRoleAssignmentController_freezeRoleAssignment",
+        "ownershipComplete": true,
+        "blockerCount": 0,
+        "responseStatusIsAcceptance": false,
+        "recordedTableCounts": [
+          {
+            "Name": "approval_summary_field_projection",
+            "Count": 6
+          },
+          {
+            "Name": "approval_summary_snapshot",
+            "Count": 1
+          },
+          {
+            "Name": "audit_log",
+            "Count": 1
+          },
+          {
+            "Name": "auth_session",
+            "Count": 1
+          },
+          {
+            "Name": "commission_role_assignment",
+            "Count": 1
+          },
+          {
+            "Name": "commission_role_assignment_freeze_payload",
+            "Count": 1
+          }
+        ]
+      },
+      {
+        "run": "expense02",
+        "type": "ledger",
+        "method": "POST",
+        "operationId": "ProjectCostController_createExpenseRecord",
+        "ownershipComplete": true,
+        "blockerCount": 0,
+        "responseStatusIsAcceptance": false,
+        "recordedTableCounts": [
+          {
+            "Name": "audit_log",
+            "Count": 1
+          },
+          {
+            "Name": "expense_record",
+            "Count": 1
+          }
+        ]
+      },
+      {
+        "run": "expense02",
+        "type": "ledger",
+        "method": "POST",
+        "operationId": "ProjectCostController_confirmExpenseRecord",
+        "ownershipComplete": true,
+        "blockerCount": 0,
+        "responseStatusIsAcceptance": false,
+        "recordedTableCounts": [
+          {
+            "Name": "audit_log",
+            "Count": 1
+          },
+          {
+            "Name": "expense_record",
+            "Count": 1
+          }
+        ]
+      },
+      {
+        "run": "expense02",
+        "type": "ledger",
+        "method": "POST",
+        "operationId": "ProjectCostController_createProjectActualCostRecord",
+        "ownershipComplete": true,
+        "blockerCount": 0,
+        "responseStatusIsAcceptance": false,
+        "recordedTableCounts": [
+          {
+            "Name": "audit_log",
+            "Count": 1
+          },
+          {
+            "Name": "business_number_sequence",
+            "Count": 1
+          },
+          {
+            "Name": "project_actual_cost_record",
+            "Count": 1
+          }
+        ]
+      },
+      {
+        "run": "expense02",
+        "type": "ledger",
+        "method": "POST",
+        "operationId": "ProjectCostController_confirmCostStageAttribution",
+        "ownershipComplete": true,
+        "blockerCount": 0,
+        "responseStatusIsAcceptance": false,
+        "recordedTableCounts": [
+          {
+            "Name": "audit_log",
+            "Count": 1
+          },
+          {
+            "Name": "cost_governance_evidence",
+            "Count": 1
+          },
+          {
+            "Name": "cost_stage_attribution_snapshot",
+            "Count": 1
+          },
+          {
+            "Name": "project_actual_cost_record",
+            "Count": 1
+          }
+        ]
+      },
+      {
+        "run": "gh03",
+        "type": "ledger",
+        "method": "POST",
+        "operationId": "ProjectCostController_activateOperatingBaselinePackage",
+        "ownershipComplete": true,
+        "blockerCount": 0,
+        "responseStatusIsAcceptance": false,
+        "recordedTableCounts": [
+          {
+            "Name": "audit_log",
+            "Count": 1
+          },
+          {
+            "Name": "operating_baseline_package",
+            "Count": 1
+          },
+          {
+            "Name": "operating_baseline_source",
+            "Count": 1
+          },
+          {
+            "Name": "operating_command_receipt",
+            "Count": 1
+          },
+          {
+            "Name": "project_operating_head",
+            "Count": 1
+          }
+        ]
+      },
+      {
+        "run": "life02",
+        "type": "ledger",
+        "method": "POST",
+        "operationId": "AttachmentUploadSessionController_create",
+        "ownershipComplete": true,
+        "blockerCount": 0,
+        "responseStatusIsAcceptance": false,
+        "recordedTableCounts": [
+          {
+            "Name": "attachment_upload_session",
+            "Count": 1
+          },
+          {
+            "Name": "audit_log",
+            "Count": 1
+          }
+        ]
+      },
+      {
+        "run": "life02",
+        "type": "ledger",
+        "method": "POST",
+        "operationId": "AttachmentUploadSessionController_createUploadTarget",
+        "ownershipComplete": true,
+        "blockerCount": 0,
+        "responseStatusIsAcceptance": false,
+        "recordedTableCounts": {
+          "Name": "attachment_upload_session",
+          "Count": 1
+        }
+      },
+      {
+        "run": "life02",
+        "type": "ledger",
+        "method": "PUT",
+        "operationId": "AttachmentUploadSessionController_proxyUploadObject",
+        "ownershipComplete": true,
+        "blockerCount": 0,
+        "responseStatusIsAcceptance": false,
+        "recordedTableCounts": [
+          {
+            "Name": "attachment_upload_session",
+            "Count": 1
+          },
+          {
+            "Name": "",
+            "Count": 1
+          }
+        ]
+      },
+      {
+        "run": "life02",
+        "type": "ledger",
+        "method": "POST",
+        "operationId": "AttachmentUploadSessionController_complete",
+        "ownershipComplete": true,
+        "blockerCount": 0,
+        "responseStatusIsAcceptance": false,
+        "recordedTableCounts": [
+          {
+            "Name": "attachment",
+            "Count": 1
+          },
+          {
+            "Name": "attachment_link",
+            "Count": 1
+          },
+          {
+            "Name": "attachment_upload_session",
+            "Count": 1
+          },
+          {
+            "Name": "audit_log",
+            "Count": 1
+          },
+          {
+            "Name": "",
+            "Count": 1
+          }
+        ]
+      },
+      {
+        "run": "life02",
+        "type": "ledger",
+        "method": "POST",
+        "operationId": "ProjectController_startAcceptance",
+        "ownershipComplete": true,
+        "blockerCount": 0,
+        "responseStatusIsAcceptance": false,
+        "recordedTableCounts": [
+          {
+            "Name": "approval_summary_field_projection",
+            "Count": 6
+          },
+          {
+            "Name": "approval_summary_snapshot",
+            "Count": 1
+          },
+          {
+            "Name": "audit_log",
+            "Count": 1
+          },
+          {
+            "Name": "project",
+            "Count": 1
+          },
+          {
+            "Name": "project_lifecycle_evidence_ref",
+            "Count": 1
+          },
+          {
+            "Name": "project_stage_record",
+            "Count": 1
+          }
+        ]
+      },
+      {
+        "run": "life02",
+        "type": "ledger",
+        "method": "POST",
+        "operationId": "AttachmentUploadSessionController_create",
+        "ownershipComplete": true,
+        "blockerCount": 0,
+        "responseStatusIsAcceptance": false,
+        "recordedTableCounts": [
+          {
+            "Name": "attachment_upload_session",
+            "Count": 1
+          },
+          {
+            "Name": "audit_log",
+            "Count": 1
+          }
+        ]
+      },
+      {
+        "run": "life02",
+        "type": "ledger",
+        "method": "POST",
+        "operationId": "AttachmentUploadSessionController_createUploadTarget",
+        "ownershipComplete": true,
+        "blockerCount": 0,
+        "responseStatusIsAcceptance": false,
+        "recordedTableCounts": {
+          "Name": "attachment_upload_session",
+          "Count": 1
+        }
+      },
+      {
+        "run": "life02",
+        "type": "ledger",
+        "method": "PUT",
+        "operationId": "AttachmentUploadSessionController_proxyUploadObject",
+        "ownershipComplete": true,
+        "blockerCount": 0,
+        "responseStatusIsAcceptance": false,
+        "recordedTableCounts": [
+          {
+            "Name": "attachment_upload_session",
+            "Count": 1
+          },
+          {
+            "Name": "",
+            "Count": 1
+          }
+        ]
+      },
+      {
+        "run": "life02",
+        "type": "ledger",
+        "method": "POST",
+        "operationId": "AttachmentUploadSessionController_complete",
+        "ownershipComplete": true,
+        "blockerCount": 0,
+        "responseStatusIsAcceptance": false,
+        "recordedTableCounts": [
+          {
+            "Name": "attachment",
+            "Count": 1
+          },
+          {
+            "Name": "attachment_link",
+            "Count": 1
+          },
+          {
+            "Name": "attachment_upload_session",
+            "Count": 1
+          },
+          {
+            "Name": "audit_log",
+            "Count": 1
+          },
+          {
+            "Name": "",
+            "Count": 1
+          }
+        ]
+      },
+      {
+        "run": "life02",
+        "type": "ledger",
+        "method": "POST",
+        "operationId": "ProjectController_createAcceptanceRecord",
+        "ownershipComplete": true,
+        "blockerCount": 0,
+        "responseStatusIsAcceptance": false,
+        "recordedTableCounts": [
+          {
+            "Name": "acceptance_record",
+            "Count": 1
+          },
+          {
+            "Name": "audit_log",
+            "Count": 1
+          },
+          {
+            "Name": "project",
+            "Count": 1
+          },
+          {
+            "Name": "project_lifecycle_evidence_ref",
+            "Count": 1
+          }
+        ]
+      },
+      {
+        "run": "life02",
+        "type": "ledger",
+        "method": "POST",
+        "operationId": "AttachmentUploadSessionController_create",
+        "ownershipComplete": true,
+        "blockerCount": 0,
+        "responseStatusIsAcceptance": false,
+        "recordedTableCounts": [
+          {
+            "Name": "attachment_upload_session",
+            "Count": 1
+          },
+          {
+            "Name": "audit_log",
+            "Count": 1
+          }
+        ]
+      },
+      {
+        "run": "life02",
+        "type": "ledger",
+        "method": "POST",
+        "operationId": "AttachmentUploadSessionController_createUploadTarget",
+        "ownershipComplete": true,
+        "blockerCount": 0,
+        "responseStatusIsAcceptance": false,
+        "recordedTableCounts": {
+          "Name": "attachment_upload_session",
+          "Count": 1
+        }
+      },
+      {
+        "run": "life02",
+        "type": "ledger",
+        "method": "PUT",
+        "operationId": "AttachmentUploadSessionController_proxyUploadObject",
+        "ownershipComplete": true,
+        "blockerCount": 0,
+        "responseStatusIsAcceptance": false,
+        "recordedTableCounts": [
+          {
+            "Name": "attachment_upload_session",
+            "Count": 1
+          },
+          {
+            "Name": "",
+            "Count": 1
+          }
+        ]
+      },
+      {
+        "run": "life02",
+        "type": "ledger",
+        "method": "POST",
+        "operationId": "AttachmentUploadSessionController_complete",
+        "ownershipComplete": true,
+        "blockerCount": 0,
+        "responseStatusIsAcceptance": false,
+        "recordedTableCounts": [
+          {
+            "Name": "attachment",
+            "Count": 1
+          },
+          {
+            "Name": "attachment_link",
+            "Count": 1
+          },
+          {
+            "Name": "attachment_upload_session",
+            "Count": 1
+          },
+          {
+            "Name": "audit_log",
+            "Count": 1
+          },
+          {
+            "Name": "",
+            "Count": 1
+          }
+        ]
+      },
+      {
+        "run": "life02",
+        "type": "ledger",
+        "method": "POST",
+        "operationId": "ProjectController_createProjectCompletionRecord",
+        "ownershipComplete": true,
+        "blockerCount": 0,
+        "responseStatusIsAcceptance": false,
+        "recordedTableCounts": [
+          {
+            "Name": "approval_summary_field_projection",
+            "Count": 6
+          },
+          {
+            "Name": "approval_summary_snapshot",
+            "Count": 1
+          },
+          {
+            "Name": "audit_log",
+            "Count": 1
+          },
+          {
+            "Name": "project",
+            "Count": 1
+          },
+          {
+            "Name": "project_completion_record",
+            "Count": 1
+          },
+          {
+            "Name": "project_lifecycle_evidence_ref",
+            "Count": 1
+          },
+          {
+            "Name": "project_stage_record",
+            "Count": 1
+          }
+        ]
+      },
+      {
+        "run": "life02",
+        "type": "ledger",
+        "method": "POST",
+        "operationId": "ProjectController_createProjectArchiveRecord",
+        "ownershipComplete": true,
+        "blockerCount": 0,
+        "responseStatusIsAcceptance": false,
+        "recordedTableCounts": [
+          {
+            "Name": "audit_log",
+            "Count": 1
+          },
+          {
+            "Name": "project",
+            "Count": 1
+          },
+          {
+            "Name": "project_archive_record",
+            "Count": 1
+          }
+        ]
+      }
+    ],
+    "byRun": [
+      {
+        "run": "role03",
+        "files": 22,
+        "ledgers": 14,
+        "caseArtifacts": 8
+      },
+      {
+        "run": "expense02",
+        "files": 47,
+        "ledgers": 40,
+        "caseArtifacts": 7
+      },
+      {
+        "run": "coldrole",
+        "files": 20,
+        "ledgers": 12,
+        "caseArtifacts": 8
+      },
+      {
+        "run": "gh02",
+        "files": 18,
+        "ledgers": 10,
+        "caseArtifacts": 8
+      },
+      {
+        "run": "life01",
+        "files": 21,
+        "ledgers": 13,
+        "caseArtifacts": 8
+      },
+      {
+        "run": "gh03",
+        "files": 21,
+        "ledgers": 13,
+        "caseArtifacts": 8
+      },
+      {
+        "run": "life02",
+        "files": 73,
+        "ledgers": 66,
+        "caseArtifacts": 7
+      }
+    ]
+  },
+  "roleVersionAndColdRead": {
+    "actualDataPin": "57277c09a225b607c660702bdaee77eb6975ade51bb20723ea831958ef4736ef",
+    "actualDataPath": "tmp/rust-r4ghi/private/ui-runtime14/role18-source12-frozen01/case-0/actual-frozen-role38.json",
+    "assignmentId": "1817b9ae-ec3a-4910-aebd-07a2b6963975",
+    "businessVersion": 1,
+    "rowVersion": 2,
+    "status": "frozen",
+    "members": 4,
+    "weightsExact": [
+      "0.500000",
+      "0.499999",
+      "0.000001",
+      "0.000000"
+    ],
+    "zeroWeightReasonPresent": true,
+    "currentMatchesDetailSummary": true,
+    "role03PostReadsClaimed": false,
+    "htmlReadback": {
+      "path": "tmp\\rust-r4ghi\\private\\ui-runtime14\\role18-source12-frozen01\\case-0\\page.html",
+      "sha256": "5da7ed23e0416557860d08e4afed486758b9d00f4f9f5261f763b717a3988ab1",
+      "hasBusinessVersion1Frozen": true,
+      "hasZeroWeightReason": true,
+      "containsFourRoleLabels": true
+    },
+    "oldRole02StillFailed": true,
+    "coldReadDoesNotPassWholeRoleForms": true
+  },
+  "peerRace": {
+    "proof": {
+      "file": "\\\\wsl.localhost\\Debian\\home\\wangzishi\\.local\\share\\poms-r4ghi\\private\\business\\g2-business12\\main01\\007034-role-public23-proof.json",
+      "rawBytesSHA256": "c6ee4804ff5b6e46960adc1d82873e6edc20ac8dd34e2381bb33cfccbe7b2d0f"
+    },
+    "observation": {
+      "file": "\\\\wsl.localhost\\Debian\\home\\wangzishi\\.local\\share\\poms-r4ghi\\private\\business\\g2-business12\\main01\\007032-role-public23-observation.json",
+      "rawBytesSHA256": "f4a917caf6ea6cb6bff3145975e2613c7673ddb2074ab29da82757530472a62d"
+    },
+    "separateFromRole03BrowserTape": true,
+    "operationId": "CommissionController_createRoleAssignment",
+    "actorKey": "manager-role-peer",
+    "inputVersion": "server-derived-v1",
+    "expectedCurrentAssignmentId": "1817b9ae-ec3a-4910-aebd-07a2b6963975",
+    "expectedCurrentRowVersion": 1,
+    "participants": 4,
+    "status": 409,
+    "code": "commission_frozen_change_requires_dispute",
+    "responseComplete": true,
+    "transportFailure": false,
+    "firstWaiter": {
+      "file": "\\\\wsl.localhost\\Debian\\home\\wangzishi\\.local\\share\\poms-r4ghi\\private\\business\\g2-business12\\main01\\007027-role-public23-first.json",
+      "sha256": "90708a5c6d8796ff33fdae9f305a5482ad45818be1bf6c91dea0f4f0d172f1a6",
+      "data": {
+        "graph": [
+          {
+            "pid": 18614,
+            "usename": "poms_r4ghi_rust_app",
+            "state": "active",
+            "wait_event_type": "Lock",
+            "blocked_by": [
+              18755
+            ]
+          },
+          {
+            "pid": 18615,
+            "usename": "poms_r4ghi_rust_app",
+            "state": "idle",
+            "wait_event_type": "Client",
+            "blocked_by": []
+          },
+          {
+            "pid": 18755,
+            "usename": "poms_r0e_owner",
+            "state": "idle in transaction",
+            "wait_event_type": "Client",
+            "blocked_by": []
+          },
+          {
+            "pid": 18756,
+            "usename": "poms_r0e_owner",
+            "state": "active",
+            "wait_event_type": null,
+            "blocked_by": []
+          }
+        ],
+        "row": {
+          "pid": 18614,
+          "usename": "poms_r4ghi_rust_app",
+          "state": "active",
+          "wait_event_type": "Lock",
+          "blocked_by": [
+            18755
+          ]
+        }
+      }
+    },
+    "secondWaiter": {
+      "file": "\\\\wsl.localhost\\Debian\\home\\wangzishi\\.local\\share\\poms-r4ghi\\private\\business\\g2-business12\\main01\\007030-role-public23-second.json",
+      "sha256": "90248c4c4618ae52780235176639cfad1b36fa84ab43c9aff34c73ad90a33e9b",
+      "data": {
+        "graph": [
+          {
+            "pid": 18614,
+            "usename": "poms_r4ghi_rust_app",
+            "state": "active",
+            "wait_event_type": "Lock",
+            "blocked_by": [
+              18755
+            ]
+          },
+          {
+            "pid": 18615,
+            "usename": "poms_r4ghi_rust_app",
+            "state": "active",
+            "wait_event_type": "Lock",
+            "blocked_by": [
+              18614
+            ]
+          },
+          {
+            "pid": 18755,
+            "usename": "poms_r0e_owner",
+            "state": "idle in transaction",
+            "wait_event_type": "Client",
+            "blocked_by": []
+          },
+          {
+            "pid": 18759,
+            "usename": "poms_r4ghi_rust_app",
+            "state": "idle",
+            "wait_event_type": "Client",
+            "blocked_by": []
+          },
+          {
+            "pid": 18761,
+            "usename": "poms_r0e_owner",
+            "state": "active",
+            "wait_event_type": null,
+            "blocked_by": []
+          }
+        ],
+        "row": {
+          "pid": 18615,
+          "usename": "poms_r4ghi_rust_app",
+          "state": "active",
+          "wait_event_type": "Lock",
+          "blocked_by": [
+            18614
+          ]
+        }
+      }
+    },
+    "controlRollback": true,
+    "controlClosed": true,
+    "schedulingFailure": null,
+    "exactRequestResponseOriginalPinsVerified": 4,
+    "freezeOriginal": {
+      "file": "\\\\wsl.localhost\\Debian\\home\\wangzishi\\.local\\share\\poms-r4ghi\\private\\business\\g2-business12\\main01\\007026-ui10-http-browser-response.json",
+      "rawBytesSHA256": "ec1c46211e5cdf3fbf54b70c032677ae6a19544c4f0d670e1a0e5ab84345b5ae"
+    },
+    "freezeStatus": 200,
+    "actualSourceEpoch": "g2-business12",
+    "notM98TriggerOrParentlessProbeCertification": true,
+    "rawSessionTouchAndManagedFlushPhasesRemainSeparatelyLabelled": [
+      {
+        "command": "peer-revised409",
+        "rawTouched": true,
+        "managedFlushed": false
+      },
+      {
+        "command": "winner-freeze200",
+        "rawTouched": false,
+        "managedFlushed": false
+      }
+    ],
+    "proofReportedPeerBusinessBirths": 0
+  },
+  "life02": {
+    "caseResultPin": "b3a64ad449451ec43b16cb7c23d6b4ed6e9f7fcfa82be14aa1c72436d9d4acbe",
+    "records": {
+      "stageRecordId": "62e55eab-ea7d-4204-9d20-cd2434935aba",
+      "acceptanceId": "9acecc1c-11f4-437c-9794-943f409d8334",
+      "completionId": "1280ca75-3895-476c-ae2b-191a6f6c7081",
+      "archiveId": "b0970ac6-e9f8-40ac-b220-b25bcc70b355"
+    },
+    "businessTimes": [
+      {
+        "sourceInstant": "2026-11-08T10:17:45.254Z",
+        "actualBackendReadDate": "Sun, 08 Nov 2026 10:18:05 GMT",
+        "exactUTC": "2026-11-08T10:18:05Z",
+        "enteredLocal": "2026-11-08T18:18:05"
+      },
+      {
+        "sourceInstant": "2026-11-08T10:18:05Z",
+        "actualBackendReadDate": "Sun, 08 Nov 2026 10:18:21 GMT",
+        "exactUTC": "2026-11-08T10:18:21Z",
+        "enteredLocal": "2026-11-08T18:18:21"
+      }
+    ],
+    "noRoleAssignmentGET": true,
+    "noStartExecutionReplay": true,
+    "boundFourFormsPassed": true,
+    "allA08Passed": false
+  },
+  "gh03": {
+    "preserveFailed": true,
+    "preservedCommittedBaseline": "ca89ca5c-b482-4155-a327-6e56d4a4ad1a",
+    "baselinePOST201Count": 1,
+    "snapshotPOSTCount": 0,
+    "failureLog": {
+      "sha256": "b26c502cb267aac2abaa8a78da529ae3facecc6f61d46f0cf4d1e3850dd5ffce",
+      "content": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(prepared.allowedCommandCodes.includes('snapshot-create'))\n\n    at executeCase (file:///E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/ui-gh18-browser.mjs:12:511)\n    at async execute (file:///E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/ui-gh18-windows.mjs:80:22)\n    at async main (file:///E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/ui-gh18-windows.mjs:102:194)"
+    },
+    "continuation": "Retain exact committed baseline and real source facts; classification/preparation and G/H remainder need fixed precise continuation. No baseline POST replay."
+  },
+  "handoffClaimsNotIndependentlyReverifiedHere": [
+    "Current175 helper graph and currentdist are intentionally not read.",
+    "Old135 normal exit cause; fixed records establish distinct identities and absence in preparation, not exit mechanism.",
+    "E actor minimal project read/write permissions; tape independently shows no RoleAssignment GET, which alone is not a full authorization proof.",
+    "Life02 worker0/two relays stopped/no activeFault or blockedObservation beyond sealed receipt close.pending0/failures0/serverClosed.",
+    "I1351-02/H39 tooling admission review conclusions; this audit verifies fixed runtime products and conservation, not those tool source reviews.",
+    "Old Role02 create006937/ledger006938, safe-parent always-ROLLBACK five-probe006965, Own06b and I57 same-taskCAS remain original fixed evidence to be separately read when needed.",
+    "Remaining per-proxy http-xxxx.json raw exchange bodies await the exact fixed FS directory from Root; receipt exchange tables, 168 ledgers, 54 case artifacts, and special freeze/peer originals were independently checked, not all proxy raw bodies."
+  ],
+  "actualSource13Candidate": null,
+  "actualM98Receipt": null,
+  "actualSchema3Admission": null,
+  "naturalPeriod": {
+    "earliestUTC": "2026-11-08T16:00:00Z",
+    "earliestHongKong": "2026-11-09T00:00:00+08:00",
+    "earliestTokyo": "2026-11-09T01:00:00+09:00",
+    "actualCurrentPeriod201": null,
+    "historicalFirstBudgetAutomaticSelectionApproved": false
+  },
+  "gateGaps": [
+    "Actual unified Source13 G2/candidate/full source-helper graph/count/binary/physical runtime/registry.",
+    "Normal exact per-DB M98 UP and strict schema3 three-stage evidence with original M97 business baseline preserved.",
+    "65-02/90/83/84 actual business effects, complete necessary write inventory/fault-retry/all-or-nothing transaction and controlled concurrency evidence.",
+    "G/H precise continuation after preserved GH03 baseline and classification block; full H policy/money/tax/maturity/mask/audit coverage.",
+    "Complete32 operations and A01-A08 fixed evidence with impact-limited historical reuse; other I conditional/CAS/replace/void/cross-parent boundaries not waived by Life02 final accepted path.",
+    "Actual qualified natural period closing; pending historical selection user decision remains unanswered.",
+    "Final checks/publication/main-and-S4-facts/retention/owned cleanup/two fresh no-ops/archive/online readback and independent actualG3/G4."
+  ],
+  "noRootMutationOrLiveProbe": true,
+  "protectedOpen": [
+    57,
+    101,
+    110,
+    111,
+    112,
+    113,
+    114,
+    116,
+    117
+  ],
+  "protectedClosed": [
+    115
+  ],
+  "mainMergeAuthorized": false,
+  "deploymentAuthorized": false
+}

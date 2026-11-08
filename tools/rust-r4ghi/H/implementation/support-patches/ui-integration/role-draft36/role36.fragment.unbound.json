@@ -1,0 +1,66 @@
+{
+  "cases": [
+    {
+      "kind": "role-forms",
+      "actorKey": "manager",
+      "projectIdPointer": "/fixtures/uiFormFixtureViews18/role-create/pause/result/projectId",
+      "forbiddenTextPointers": []
+    }
+  ],
+  "writeActions": [
+    {
+      "kind": "role-forms",
+      "actorKey": "manager",
+      "freezeComment": "本人核对本项目真实已确认职责、移交材料及精确权重，冻结本次分配。",
+      "participants": [
+        {
+          "actorKey": "manager",
+          "roleType": "sales-owner",
+          "weight": "0.5",
+          "zeroWeightReason": null,
+          "responsibilitySummary": "本人真实承担本隔离验收项目 sales-owner 职责并核对固定材料。"
+        },
+        {
+          "actorKey": "execution",
+          "roleType": "execution-owner",
+          "weight": "0.499999",
+          "zeroWeightReason": null,
+          "responsibilitySummary": "本人真实承担本隔离验收项目 execution-owner 职责并核对固定材料。"
+        },
+        {
+          "actorKey": "finance",
+          "roleType": "finance",
+          "weight": "0.000001",
+          "zeroWeightReason": null,
+          "responsibilitySummary": "本人真实承担本隔离验收项目 finance 职责并核对固定材料。"
+        },
+        {
+          "actorKey": "manager",
+          "roleType": "business-admin",
+          "weight": "0",
+          "zeroWeightReason": "本次兼任已确认的商务资料治理职责，不另计提成权重。",
+          "responsibilitySummary": "本人真实承担本隔离验收项目 business-admin 职责并核对固定材料。"
+        }
+      ],
+      "frozenReparentProbe": false,
+      "publicRevisedDraftRace": {
+        "actorKey": "manager-role-peer",
+        "expectedVerdict": "freeze200-peer-revised409"
+      },
+      "existingDraftContinuation": {
+        "assignmentId": "1817b9ae-ec3a-4910-aebd-07a2b6963975",
+        "createResponse": {
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/006937-ui10-http-browser-response.json",
+          "bytes": 6891,
+          "rawBytesSha256": "97da24bb0bc675bf217e2f99d2b65bef5e75490b54035491aa276962193752d7"
+        },
+        "createLedger": {
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/006938-ledger.json",
+          "bytes": 2028,
+          "rawBytesSha256": "dfd7c3f0f41bec528163a89e8f1771617d7d756da62df986192a87351a26dc8c"
+        },
+        "frozenProbeProof": null
+      }
+    }
+  ]
+}

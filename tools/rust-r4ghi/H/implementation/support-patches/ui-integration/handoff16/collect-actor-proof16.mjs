@@ -1,3 +1,4 @@
+import {currentRestartFields1351, assertReceiptProcess1351} from '../../../../../business/ui-process-proof1351.mjs';
 // Root execution proposal only. Sends actual recorded current-auth GETs using Root's original API/ledger.
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -30,6 +31,7 @@ export async function collect(input, inputBytes, approvedInputSHA256) {
     assert.equal(candidate.epoch, ctx.epoch); assert.equal(candidate.run, ctx.run); assert.equal(candidate.marker, ctx.state.marker); assert.equal(candidate.sourcePinsSHA256, source.sourcePinsSHA256);
     assert.equal(candidate.migrations, ctx.migrations); assert.equal(candidate.tables, ctx.tables); assert.deepEqual(candidate.process.record, processRecord);
     assert.equal(candidate.process.rawBytesSha256, input.apiProcess.rawBytesSha256); assert.deepEqual(ctx.state.apiProcess.record, processRecord);
+    const restart1351 = currentRestartFields1351(ctx.state, input.apiProcess, ctx.state.processRestart1351 ? readPin(ctx.state.processRestart1351.registry) : null);
     const api = createApi(ctx); if (input.purpose === 'dom') assertFinalFixtures(ctx.state, plan);
     const fixtureProducerAdmissions54 = admittedPlanFixtures54(ctx, plan);
     label = ctx.next('H-actual-actor-proof16'); ctx.persist(); const proofs = [];
@@ -38,11 +40,12 @@ export async function collect(input, inputBytes, approvedInputSHA256) {
       assertActorResponse(result.body, ctx.state.actors[actorKey]);
       const bytes = fs.readFileSync(result.receiptId); const receipt = JSON.parse(bytes);
       assert.equal(receipt.operationId, result.operationId); assert.equal(receipt.actorKey, actorKey); assert.equal(receipt.status, 200);
+      assertReceiptProcess1351(receipt, {file:result.receiptId,rawBytesSha256:sha(bytes)}, restart1351);
       proofs.push({ actorKey, httpReceipt: { file: result.receiptId, rawBytesSha256: sha(bytes) } });
     }
     if (input.purpose === 'dom') assertFinalFixtures(ctx.state, plan); verifyPreparedPlan(ROOT, plan);
     const index = { kind: 'actual-recorded-current-auth-session-index16', namespace: ctx.namespace, epoch: ctx.epoch, run: ctx.run, marker: ctx.state.marker,
-      purpose: input.purpose, actorBindingsFinal: input.purpose === 'dom', actualInputRawSHA256: approvedInputSHA256, actualPlan: input.plan, fixtureProducerAdmissions54, proofs };
+      purpose: input.purpose, actorBindingsFinal: input.purpose === 'dom', actualInputRawSHA256: approvedInputSHA256, actualPlan: input.plan, fixtureProducerAdmissions54, proofs, ...(restart1351 ? {processRestart1351:restart1351.processRestart1351,apiProcess:restart1351.apiProcess} : {}) };
     const actorProofIndex = ctx.artifact(`${label}-index.json`, index, { kind: index.kind, purpose: index.purpose, actorBindingsFinal: index.actorBindingsFinal,
       actualGETCount: proofs.length, passwordOrCookiePublished: false, fixtureOrDOMExecuted: false, G3Certified: false });
     return { actorProofIndex, actorBindingsFinal: index.actorBindingsFinal, purpose: input.purpose, actualGETCount: proofs.length, browserExecuted: false, businessPOSTExecuted: false };

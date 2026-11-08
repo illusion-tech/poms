@@ -1,3 +1,4 @@
+import { observeFontBoundary32 } from './ui-font-boundary32.mjs';
 // Real locator/input/click actions only. No substitute API calls, response fulfillment or DOM injection.
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -20,13 +21,33 @@ export async function executeCase(browser, expect, test, directory, server) {
   assert.equal(test.kind, 'eo-lifecycle'); assert(test.writeAction?.kind === test.kind);
   const action = test.writeAction, map = operations(), requests = [], errors = [], consoleErrors = [], blockedOrigins = [], actual = [], businessTimes = [];
   const context = await browser.newContext({ baseURL: origin, locale: 'zh-CN', timezoneId: 'Asia/Shanghai', viewport: { width: 1440, height: 1000 }, serviceWorkers: 'block', acceptDownloads: true });
-  const page = await context.newPage(); page.setDefaultTimeout(90_000);
+  const page = await context.newPage(); page.setDefaultTimeout(90_000); const fontBoundary32 = observeFontBoundary32(page);
   const save = (name, value) => fs.writeFileSync(path.join(directory, name), Buffer.isBuffer(value) ? value : json(value), { flag: 'wx', mode: 0o600 });
   const watch = (id, params = null) => { const operation = map.get(id); assert(operation); const exactPath = params ? operation.template.replace(/\{([^}]+)\}/g, (_, key) => { assert(params[key]); return encodeURIComponent(params[key]); }) : null;
     const waiting = page.waitForResponse(response => response.request().method() === operation.method && (exactPath ? new URL(response.url()).pathname === exactPath : operation.pattern.test(new URL(response.url()).pathname))); void waiting.catch(() => {}); return waiting; };
   const response = async (id, waiting) => { const value = await waiting, operation = map.get(id); assert.equal(value.status(), operation.status, 'One actual canonical status required'); assert(value.headers()['x-poms-r4ghi-ui-run']); const data = unwrap(await value.json()); actual.push({ operationId: id, status: value.status() }); await server.settle(); return { data, response: value }; };
   const component = () => page.locator('app-project-lifecycle-authoring');
-  async function openLifecycle() { await expect(page.getByRole('button', { name: '执行、验收与完成', exact: true })).toBeEnabled(); await page.getByRole('button', { name: '执行、验收与完成', exact: true }).click(); await expect(component()).toBeVisible(); await expect(component().getByRole('button', { name: '重新核对当前事实', exact: true })).toBeEnabled(); }
+  // Each actual reload awaits its three real canonical reads before checking UI readiness.
+  const readIds = ['ProjectController_listProjectCompletionRecords', 'ProjectController_listAcceptanceRecords', 'ProjectController_listProjectArchiveRecords'];
+  const watchLifecycleFacts = () => readIds.map(id => [id, watch(id, { projectId: test.projectId })]);
+  async function readLifecycleFacts(pending) {
+    const received = new Map();
+    for (const [id, waiting] of pending) {
+      const value = await response(id, waiting);
+      if (id === 'ProjectController_listProjectCompletionRecords') { assert.equal(value.data.projectId, test.projectId); assert.equal(value.data.scopeKind, 'full-project'); }
+      else { assert(Array.isArray(value.data)); assert(value.data.every(row => row.projectId === test.projectId)); }
+      received.set(id, value);
+    }
+    await expect(component().getByRole('button', { name: '重新核对当前事实', exact: true })).toBeEnabled({ timeout: 10_000 });
+    await expect(component().getByRole('alert')).toHaveCount(0, { timeout: 10_000 });
+    return received;
+  }
+  async function openLifecycle() {
+    const open = page.getByRole('button', { name: '执行、验收与完成', exact: true });
+    await expect(open).toBeEnabled({ timeout: 10_000 });
+    const pending = watchLifecycleFacts(); await open.click();
+    await expect(component()).toBeVisible({ timeout: 10_000 }); await readLifecycleFacts(pending);
+  }
   async function upload(phase) {
     const file = lifecycleEvidence18({ projectId: test.projectId, actorId: test.actor.id, evidenceText: action.evidenceText }, phase), completed = watch('AttachmentUploadSessionController_complete');
     await component().getByLabel('上传已完成的交付或验收材料', { exact: true }).setInputFiles({ name: file.name, mimeType: file.mimeType, buffer: file.bytes });
@@ -37,10 +58,10 @@ export async function executeCase(browser, expect, test, directory, server) {
   // source instant, so no host-clock guess, truncation or future business time.
   async function businessLocal(minimum) {
     for (let count = 0; count < 8; count++) {
-      const current = watch('ProjectController_listAcceptanceRecords', { projectId: test.projectId });
-      await component().getByRole('button', { name: '重新核对当前事实', exact: true }).click(); const value = await current; assert.equal(value.status(), map.get('ProjectController_listAcceptanceRecords').status);
-      const header = value.headers().date; assert(header, 'Actual backend Date required'); const iso = new Date(header).toISOString(); await server.settle();
-      await expect(component().getByRole('button', { name: '重新核对当前事实', exact: true })).toBeEnabled();
+      const pending = watchLifecycleFacts();
+      await component().getByRole('button', { name: '重新核对当前事实', exact: true }).click(); const facts = await readLifecycleFacts(pending);
+      const value = facts.get('ProjectController_listAcceptanceRecords').response;
+      const header = value.headers().date; assert(header, 'Actual backend Date required'); const iso = new Date(header).toISOString();
       if (instant(iso) >= instant(minimum)) { const local = new Date(Date.parse(iso) + 8 * 3_600_000).toISOString().slice(0, 19); businessTimes.push({ sourceInstant: minimum, actualBackendReadDate: header, exactUTC: iso, enteredLocal: local }); return local; }
       await page.waitForTimeout(200);
     }
@@ -79,10 +100,10 @@ export async function executeCase(browser, expect, test, directory, server) {
     const archived = (await response('ProjectController_createProjectArchiveRecord', archiving)).data; assert.equal(archived.archiveAnchorStage, 'completed'); assert.equal(archived.status, 'recorded');
     assert.equal((await response('ProjectController_getById', afterArchive)).data.currentStage, 'completed');
     await server.settle(); for (const id of ['CommissionController_getCurrentRoleAssignment', 'CommissionRoleAssignmentController_getRoleAssignmentDetail']) assert(!requests.some(request => map.get(id).method === request.method && map.get(id).pattern.test(request.path)), 'EO lifecycle requested Role GET');
-    assert.equal(errors.length, 0); assert.equal(consoleErrors.length, 0); assert.equal(blockedOrigins.length, 0);
+    assert.equal(errors.length, 0); fontBoundary32.assertExpected({ consoleErrors, blocked: blockedOrigins }); 
     result = { kind: test.kind, status: 'passed', actualProjectNavigationObserved: true, actualFormGroups: ['start-acceptance', 'final-acceptance', 'completion', 'archive'], actualOperations: actual,
       stageRecordId: entry.projectStageRecordId, acceptanceId: accepted.id, completionId: completed.id, archiveId: archived.id, businessTimes, allA08FormsPassed: false, G3Certified: false };
   } catch (error) { save('failure.log', Buffer.from(error.stack || String(error))); result = { kind: test.kind, status: 'failed', actualOperations: actual, allA08FormsPassed: false, G3Certified: false }; }
-  finally { save('requests.json', requests); save('page-errors.json', { errors, consoleErrors, blockedOrigins }); save('result.json', result); save('page.html', Buffer.from(await page.content())); await page.screenshot({ path: path.join(directory, 'page.png'), fullPage: true }); await context.close(); }
+  finally { save('font-boundary32.json', fontBoundary32.snapshot()); save('requests.json', requests); save('page-errors.json', { errors, consoleErrors, blockedOrigins }); save('result.json', result); save('page.html', Buffer.from(await page.content())); await page.screenshot({ path: path.join(directory, 'page.png'), fullPage: true }); await context.close(); }
   return result;
 }

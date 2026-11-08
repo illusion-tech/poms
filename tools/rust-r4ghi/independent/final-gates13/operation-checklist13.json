@@ -1,0 +1,1779 @@
+{
+  "kind": "independent-non-author-unified-G3-G4-preparation13",
+  "reviewer": "/root/r4ghi_final_gates13",
+  "stage": "preparation-only-awaiting-actual-unified-candidate-and-fixed-evidence-package",
+  "G3Reviewed": false,
+  "G3Certified": false,
+  "G4Reviewed": false,
+  "G4Certified": false,
+  "mainMergeAuthorized": false,
+  "deploymentAuthorized": false,
+  "newCertifiedOperations": 0,
+  "workspace": "E:/projects/worktrees/poms-r3hijk-next28/poms",
+  "exclusiveWriteBoundary": "tools/rust-r4ghi/independent/final-gates13/",
+  "gitAndRuntimeNotQueriedThisReview": true,
+  "handoffPublishedHead": "6ca4f722cbbdea4fb3d8043712b827e5ad18be6b",
+  "handoffBranch": "codex/poms-r4ghi-next25",
+  "handoffMain": "d5c79b260fc58f78ff9adb4ac9fd69ed5bc838d5",
+  "mustRetainS4CommitPrefix": "4f0ad88e",
+  "fullS4CommitAndAncestryEvidence": null,
+  "officialCounts": {"Rust": 240, "newThisBatch": 0, "R4Delivered": 67, "R4Planned": 95, "R4Remaining": 28},
+  "distinctNonDeliveryDenominators": {"targetRuntimeOperations": 272, "canonicalOperations": 296, "schemas": 690},
+  "scope": {"G": 9, "H": 8, "I": 11, "R5Minimum": 4, "totalOperations": 32, "modernWriteContracts": 16, "CProtocolSupportOutside32": 1, "newCanonical": 3},
+  "currentFrozenIndex": {"sourceEpoch": "g2-business12", "API": 135, "migrations": 97, "tablesPerDatabase": 139, "sourceCount": 406},
+  "actualUnifiedCandidate": null,
+  "source13G2ApprovalObservedPresent": false,
+  "source13G2Approval": null,
+  "actualM98Receipt": null,
+  "actualSource13Count": null,
+  "actualSource13Runtime": null,
+  "actualSource13Registry": null,
+  "actualSource12FinalRetention": null,
+  "protectedOpen": [57, 101, 110, 111, 112, 113, 114, 116, 117],
+  "protectedClosed": [115],
+  "liveIssueReadbackExecuted": false,
+  "storyRequirements": ["A01", "A02", "A03", "A04", "A05", "A06", "A07", "A08"],
+  "storyRequirementsSource": "docs/design/rust-r4ghi/acceptance-plan01.json#/stories",
+  "preparationNarrative": "preparation13.md",
+  "commonEvidenceRequirements": {
+    "E01": "Exact fixed commit/product and helper source pins/full actual source array count, epoch, binary, physical PID/start/exe/readiness, candidate and registry lineage; distinguish producer epoch from later reader epoch.",
+    "E02": "Raw actual Rust HTTP request/response and transport status with immutable file bytes/hash; real persisted source/project/record identities and before/after business assertions; private credential material stays private.",
+    "E03": "Exact route permission and current responsibility scope, CSRF for writes, owner/confirmed duties/participants/creator-only/own-condition-only/unrelated same and cross-org controls according to frozen contract.",
+    "E04": "Sensitive raw keys literal null; authorized projections only; strongest labor/unknown-lineage masking; required sensitive GET audit fault returns no protected payload.",
+    "E05": "Actual SQL/UoW necessary-write inventory including domain/snapshot/audit/managed-auth flush under stipulated outer transaction. One-hit actual fault per applicable write family, full rollback, then same-body no-fault retry. Independent raw session-touch precondition separately labelled. Explicit source reason when a write family is not applicable.",
+    "E06": "Where concurrency matters: actual row-lock/pg activity or controlled-barrier evidence, exact participants and winner/loser/fresh-retry assertions, all unrelated state conserved. Sequential HTTP calls do not certify a race.",
+    "E07": "16 modern write contracts require server-derived-v1: Rust missing/legacy422, invalid modern shape400, business errors retain actual labels. Native17 dedicated422 is unsupported-reference only; C basis support is outside32.",
+    "E08": "Immutable source/snapshot/classification/period/evidence history, pre-effect expectedInputHash and final factual sourceHash, current authority CAS and acyclic references as applicable.",
+    "E09": "Required checks and real-browser/generated-client evidence bound to exact inputs. Any reused static or historical HTTP evidence needs explicit dependency/impact argument and original epoch/result label.",
+    "E10": "Only proven owned added PK/object keys or explicit exact original-row restoration; original baseline preserved; catalog/ACL/trigger/sequence/row identity/xmin and object conservation; final two fresh no-ops and owned-resource stop receipts, excluding canonical M98 from fixture cleanup."
+  },
+  "requiredConcurrencyCases": [
+    "source-and-project-CAS",
+    "two-creator-first-owner-assignments",
+    "role-freeze-vs-participant-movement",
+    "source-correction-vs-capture",
+    "complete-affected-allocation-project-locks",
+    "receipt-basis-vs-original-terms-mutation",
+    "same-and-different-completion-condition-closes",
+    "legacy-and-modern-period-current-authorities"
+  ],
+  "strictReuseRules": [
+    "Old Source10/API133, Source11/API134 and Source12/API135 keep distinct birth/source/candidate/process/retention/registry/receipt identities. They are never relabelled as Source13 execution.",
+    "Legacy pass/fail/partial/ignored/stopped/unsupported labels and original failed UI04/05, Role01/02 remain unchanged.",
+    "Any route/shared dependency/DTO/permission/schema/toolgraph change needs new actual evidence or a precise independently reviewed impact proof; no blanket unchanged claim.",
+    "535-pass/54-ignored/26-suite composition106 checks are isolated unapplied static evidence; exact input/toolchain/command equivalence can reuse static scope only.",
+    "I108-02 67 pure passes and Review89 are offline tool admission only. Actual approval, normal per-DB M98 and schema3 runtime mint remain required.",
+    "Native122 conserves its actual dedicated unsupported protocol and exact cookie-born-session cleanup boundary; not a modern business producer or Rust operation delivery.",
+    "Completed Source12 Tax Expense/E/F/ReceiverG POSTs are not replayed. MainG006224 stays actual409 operating_cost_source_missing with zero domain writes; fresh preparation precedes only the missing MainG.",
+    "The disabled parentless committable-window probe is never retried. I58 five actual23514 cases remain their old safe-parent/always-ROLLBACK proof, not new M98 locking certification."
+  ],
+  "candidateImpactRequirements": {
+    "65-02": "Frozen participant OLD/NEW actual parents locked in UUID order; all actual parents present;23514 reparent,23503 missing,23502 null boundaries; frozen identity/duty/weight including zero protection; actual freeze/move race and I stage consumption.",
+    "90": "First historical closing validates real selected baseline underlying business and knowledge timestamps, not new G package creation time; unknown/future source blocks review; old period restatement roots unchanged; no automatic historical budget selection approval.",
+    "83": "TaxRef-only starts from verified real F evidence through one read-only resolver to actual Cost IDs, full allocation batches/all affected projects/endpoints and authorization; no fabricated roots or receiver-local tax evidence.",
+    "84-84-02": "Fresh MainG loads explicit real cross-project financial parents only through share-slot-Cost lineage, same-family locking; imported external parents excluded from local projection loops; amount/tax/permission/write algorithms remain correct and deduplicated.",
+    "108-02-and-M98": "UP-only reviewed runner136 and exact normal argv/DB/name/SQL/TS/intent/execution/rawstdout; per-DB three-stage schema3 comparison; preserve original M97 state.baseline and original138 business-table/object pointers; canonical M98 never owned cleanup."
+  },
+  "periodAcceptance": {
+    "userDecision": "retain-real-sources-and-continue-after-natural-period-end",
+    "earliestHongKong": "2026-11-09T00:00:00+08:00",
+    "earliestTokyo": "2026-11-09T01:00:00+09:00",
+    "requiresActualServerTimeAndQualifiedSourceEvidence": true,
+    "actualCurrentPeriod201Receipt": null,
+    "historicalAutomaticSelectionApproved": false
+  },
+  "G3RequiredPackage": [
+    "Immutable actual unified Source13 candidate, complete product/helper pins and source count, Source12 retention and new physical runtime/registry lineage.",
+    "Approved exact Source13 G2 freeze, normal per-DB M98 evidence, strict schema3 comparison and preserved original M97 business baseline.",
+    "32-operation actual HTTP matrix and A01-A08 story evidence, including required writes/fault-retry inventory, controlled races, financial/date/version/source semantics, permission/masking/audit, protocol, real UI and natural closing.",
+    "Exact checks or justified impact-limited reuse; classified drift, concrete exceptions if any; original failures retained and all blockers resolved.",
+    "Non-author independent line-by-line and evidence review of fixed candidate; no premature P1/P2=0 claim."
+  ],
+  "G4RequiredPackage": [
+    "Actual G3 first; verify exact committed/published workflow state and actual main facts, S4 retained and #115 preserved; no inferred authorization to merge/deploy/cutover.",
+    "Immutable lifecycle archive and original raw bytes, bounded proven-owned cleanup/conservation/two fresh no-ops/owned process stops, original volume/private sources retained.",
+    "Issue checklist/dependencies/PR or local checkpoint/tracker/docs and archive align; actual online write-and-readback receipts; separate non-author actual G4 review.",
+    "Close only proven delivered child scope; #101 requires full R4 audit; #57/#116 stay open; no automatic historical baseline selection."
+  ],
+  "operations": [
+    {
+      "checklistIndex": 1,
+      "operationId": "ProjectCostController_activateOperatingBaselinePackage",
+      "group": "G",
+      "issue": 111,
+      "method": "POST",
+      "runtimePath": "/api/operating-baseline-packages",
+      "canonical": "POST /operating-baseline-packages",
+      "inventoryStatus": "existing-aligned",
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "requestDto": "ActivateOperatingBaselinePackageRequest",
+      "responseDto": "OperatingCommandResult",
+      "requestSchemaPointer": "#/components/schemas/ActivateOperatingBaselinePackageRequest",
+      "responseSchemaPointer": "#/components/schemas/OperatingCommandResult",
+      "successStatus": 201,
+      "permission": "contract:finance:manage",
+      "csrf": true,
+      "scopePolicy": "operating-write",
+      "requestProtocol": {
+        "requiredInputVersion": "server-derived-v1",
+        "NativeModernStatus": 422,
+        "RustMissingOrLegacyStatus": 422
+      },
+      "storyIds": [
+        "A04",
+        "A05",
+        "A06",
+        "A08"
+      ],
+      "requiredBusinessAssertions": [
+        "真实技术/商务/准备/批准/条款/移交链；基线采用一次；current authority CAS及legacy冲突前置阻断。"
+      ],
+      "potentialImpactRequiresReachabilityReview": [
+        "90-period-and-shared-context",
+        "83-restatement-and-downstream",
+        "84-foreign-parent-and-context"
+      ],
+      "commonEvidencePolicy": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "E06-where-concurrency-applies",
+        "E07-for-write",
+        "E08",
+        "E09",
+        "E10-at-bundle-closeout"
+      ],
+      "status": "not-reviewed-awaiting-fixed-unified-candidate",
+      "actualCandidateReceipts": [],
+      "historicalReuseClaims": [],
+      "independentFindings": null,
+      "independentResult": null
+    },
+    {
+      "checklistIndex": 2,
+      "operationId": "ProjectCostController_getCurrentOperatingBaselinePackage",
+      "group": "G",
+      "issue": 111,
+      "method": "GET",
+      "runtimePath": "/api/projects/{projectId}/operating-baseline-package",
+      "canonical": "GET /projects/{projectId}/operating-baseline-package",
+      "inventoryStatus": "existing-aligned",
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "requestDto": null,
+      "responseDto": "OperatingBaselinePackageSummary",
+      "requestSchemaPointer": null,
+      "responseSchemaPointer": "#/components/schemas/OperatingBaselinePackageSummary",
+      "successStatus": 200,
+      "permission": "contract:finance:manage",
+      "csrf": false,
+      "scopePolicy": "operating-read",
+      "requestProtocol": null,
+      "storyIds": [
+        "A04",
+        "A05",
+        "A06",
+        "A08"
+      ],
+      "requiredBusinessAssertions": [
+        "按真实项目与scope返回当前基线；原immutable包及current指针可核；金额/税/证据仅授权projection。"
+      ],
+      "potentialImpactRequiresReachabilityReview": [
+        "90-period-and-shared-context",
+        "83-restatement-and-downstream",
+        "84-foreign-parent-and-context"
+      ],
+      "commonEvidencePolicy": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "E06-where-concurrency-applies",
+        "E07-for-write",
+        "E08",
+        "E09",
+        "E10-at-bundle-closeout"
+      ],
+      "status": "not-reviewed-awaiting-fixed-unified-candidate",
+      "actualCandidateReceipts": [],
+      "historicalReuseClaims": [],
+      "independentFindings": null,
+      "independentResult": null
+    },
+    {
+      "checklistIndex": 3,
+      "operationId": "ProjectCostController_createProjectOperatingSnapshot",
+      "group": "G",
+      "issue": 111,
+      "method": "POST",
+      "runtimePath": "/api/project-operating-snapshots",
+      "canonical": "POST /project-operating-snapshots",
+      "inventoryStatus": "existing-aligned",
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "requestDto": "CreateProjectOperatingSnapshotRequest",
+      "responseDto": "OperatingCommandResult",
+      "requestSchemaPointer": "#/components/schemas/CreateProjectOperatingSnapshotRequest",
+      "responseSchemaPointer": "#/components/schemas/OperatingCommandResult",
+      "successStatus": 201,
+      "permission": "contract:finance:manage",
+      "csrf": true,
+      "scopePolicy": "operating-write",
+      "requestProtocol": {
+        "requiredInputVersion": "server-derived-v1",
+        "NativeModernStatus": 422,
+        "RustMissingOrLegacyStatus": 422
+      },
+      "storyIds": [
+        "A04",
+        "A05",
+        "A06",
+        "A08"
+      ],
+      "requiredBusinessAssertions": [
+        "完整真实当前来源分类、精确分摊与去重；expectedInputHash在effect前，final sourceHash在effect后；快照/H输出整体事务且引用无环。"
+      ],
+      "potentialImpactRequiresReachabilityReview": [
+        "90-period-and-shared-context",
+        "83-restatement-and-downstream",
+        "84-foreign-parent-and-context"
+      ],
+      "commonEvidencePolicy": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "E06-where-concurrency-applies",
+        "E07-for-write",
+        "E08",
+        "E09",
+        "E10-at-bundle-closeout"
+      ],
+      "status": "not-reviewed-awaiting-fixed-unified-candidate",
+      "actualCandidateReceipts": [],
+      "historicalReuseClaims": [],
+      "independentFindings": null,
+      "independentResult": null
+    },
+    {
+      "checklistIndex": 4,
+      "operationId": "ProjectCostController_getProjectOperatingSnapshot",
+      "group": "G",
+      "issue": 111,
+      "method": "GET",
+      "runtimePath": "/api/project-operating-snapshots/{id}",
+      "canonical": "GET /project-operating-snapshots/{id}",
+      "inventoryStatus": "existing-aligned",
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "requestDto": null,
+      "responseDto": "ProjectOperatingSnapshotSummary",
+      "requestSchemaPointer": null,
+      "responseSchemaPointer": "#/components/schemas/ProjectOperatingSnapshotSummary",
+      "successStatus": 200,
+      "permission": "contract:finance:manage",
+      "csrf": false,
+      "scopePolicy": "operating-read",
+      "requestProtocol": null,
+      "storyIds": [
+        "A04",
+        "A05",
+        "A06",
+        "A08"
+      ],
+      "requiredBusinessAssertions": [
+        "精确读取真实immutable快照及授权projection；unknown税=null/legacy0保留；读取不回填旧快照。"
+      ],
+      "potentialImpactRequiresReachabilityReview": [
+        "90-period-and-shared-context",
+        "83-restatement-and-downstream",
+        "84-foreign-parent-and-context"
+      ],
+      "commonEvidencePolicy": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "E06-where-concurrency-applies",
+        "E07-for-write",
+        "E08",
+        "E09",
+        "E10-at-bundle-closeout"
+      ],
+      "status": "not-reviewed-awaiting-fixed-unified-candidate",
+      "actualCandidateReceipts": [],
+      "historicalReuseClaims": [],
+      "independentFindings": null,
+      "independentResult": null
+    },
+    {
+      "checklistIndex": 5,
+      "operationId": "ProjectCostController_createPeriodClosingSnapshot",
+      "group": "G",
+      "issue": 111,
+      "method": "POST",
+      "runtimePath": "/api/period-closing-snapshots",
+      "canonical": "POST /period-closing-snapshots",
+      "inventoryStatus": "existing-aligned",
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "requestDto": "CreatePeriodClosingSnapshotRequest",
+      "responseDto": "OperatingCommandResult",
+      "requestSchemaPointer": "#/components/schemas/CreatePeriodClosingSnapshotRequest",
+      "responseSchemaPointer": "#/components/schemas/OperatingCommandResult",
+      "successStatus": 201,
+      "permission": "contract:finance:manage",
+      "csrf": true,
+      "scopePolicy": "operating-write",
+      "requestProtocol": {
+        "requiredInputVersion": "server-derived-v1",
+        "NativeModernStatus": 422,
+        "RustMissingOrLegacyStatus": 422
+      },
+      "storyIds": [
+        "A04",
+        "A05",
+        "A06",
+        "A08"
+      ],
+      "requiredBusinessAssertions": [
+        "真实期间及底层业务/知识时间资格；current package出生时间不能替来源时间；自然跨期正向201；旧period roots不变。"
+      ],
+      "potentialImpactRequiresReachabilityReview": [
+        "90-period-and-shared-context",
+        "83-restatement-and-downstream",
+        "84-foreign-parent-and-context"
+      ],
+      "commonEvidencePolicy": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "E06-where-concurrency-applies",
+        "E07-for-write",
+        "E08",
+        "E09",
+        "E10-at-bundle-closeout"
+      ],
+      "status": "not-reviewed-awaiting-fixed-unified-candidate",
+      "actualCandidateReceipts": [],
+      "historicalReuseClaims": [],
+      "independentFindings": null,
+      "independentResult": null
+    },
+    {
+      "checklistIndex": 6,
+      "operationId": "ProjectCostController_getPeriodClosingSnapshot",
+      "group": "G",
+      "issue": 111,
+      "method": "GET",
+      "runtimePath": "/api/period-closing-snapshots/{id}",
+      "canonical": "GET /period-closing-snapshots/{id}",
+      "inventoryStatus": "existing-aligned",
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "requestDto": null,
+      "responseDto": "PeriodClosingSnapshotSummary",
+      "requestSchemaPointer": null,
+      "responseSchemaPointer": "#/components/schemas/PeriodClosingSnapshotSummary",
+      "successStatus": 200,
+      "permission": "contract:finance:manage",
+      "csrf": false,
+      "scopePolicy": "operating-read",
+      "requestProtocol": null,
+      "storyIds": [
+        "A04",
+        "A05",
+        "A06",
+        "A08"
+      ],
+      "requiredBusinessAssertions": [
+        "按真实id读取已封存期间事实、资格/knowledge/来源与授权projection；不得把别期间/准备冒称本周期末。"
+      ],
+      "potentialImpactRequiresReachabilityReview": [
+        "90-period-and-shared-context",
+        "83-restatement-and-downstream",
+        "84-foreign-parent-and-context"
+      ],
+      "commonEvidencePolicy": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "E06-where-concurrency-applies",
+        "E07-for-write",
+        "E08",
+        "E09",
+        "E10-at-bundle-closeout"
+      ],
+      "status": "not-reviewed-awaiting-fixed-unified-candidate",
+      "actualCandidateReceipts": [],
+      "historicalReuseClaims": [],
+      "independentFindings": null,
+      "independentResult": null
+    },
+    {
+      "checklistIndex": 7,
+      "operationId": "ProjectCostController_createOperatingRestatement",
+      "group": "G",
+      "issue": 111,
+      "method": "POST",
+      "runtimePath": "/api/operating-restatements",
+      "canonical": "POST /operating-restatements",
+      "inventoryStatus": "existing-aligned",
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "requestDto": "CreateOperatingRestatementRequest",
+      "responseDto": "OperatingCommandResult",
+      "requestSchemaPointer": "#/components/schemas/CreateOperatingRestatementRequest",
+      "responseSchemaPointer": "#/components/schemas/OperatingCommandResult",
+      "successStatus": 201,
+      "permission": "contract:finance:manage",
+      "csrf": true,
+      "scopePolicy": "operating-write",
+      "requestProtocol": {
+        "requiredInputVersion": "server-derived-v1",
+        "NativeModernStatus": 422,
+        "RustMissingOrLegacyStatus": 422
+      },
+      "storyIds": [
+        "A04",
+        "A05",
+        "A06",
+        "A08"
+      ],
+      "requiredBusinessAssertions": [
+        "真实sealed producer与TaxRef/Cost/全分摊批次/全部项目/全部终端发现锁授权；目标不剪裁；旧证据不变而current authority CAS。"
+      ],
+      "potentialImpactRequiresReachabilityReview": [
+        "90-period-and-shared-context",
+        "83-restatement-and-downstream",
+        "84-foreign-parent-and-context"
+      ],
+      "commonEvidencePolicy": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "E06-where-concurrency-applies",
+        "E07-for-write",
+        "E08",
+        "E09",
+        "E10-at-bundle-closeout"
+      ],
+      "status": "not-reviewed-awaiting-fixed-unified-candidate",
+      "actualCandidateReceipts": [],
+      "historicalReuseClaims": [],
+      "independentFindings": null,
+      "independentResult": null
+    },
+    {
+      "checklistIndex": 8,
+      "operationId": "ProjectCostController_listOperatingRestatements",
+      "group": "G",
+      "issue": 111,
+      "method": "GET",
+      "runtimePath": "/api/projects/{projectId}/operating-restatements",
+      "canonical": "GET /projects/{projectId}/operating-restatements",
+      "inventoryStatus": "existing-aligned",
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "requestDto": null,
+      "responseDto": "OperatingRestatementListView",
+      "requestSchemaPointer": null,
+      "responseSchemaPointer": "#/components/schemas/OperatingRestatementListView",
+      "successStatus": 200,
+      "permission": "contract:finance:manage",
+      "csrf": false,
+      "scopePolicy": "operating-read",
+      "requestProtocol": null,
+      "storyIds": [
+        "A04",
+        "A05",
+        "A06",
+        "A08"
+      ],
+      "requiredBusinessAssertions": [
+        "真实项目的重述链列表、原producer epoch与当前read epoch分离；scope/来源/不可变历史与projection可核。"
+      ],
+      "potentialImpactRequiresReachabilityReview": [
+        "90-period-and-shared-context",
+        "83-restatement-and-downstream",
+        "84-foreign-parent-and-context"
+      ],
+      "commonEvidencePolicy": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "E06-where-concurrency-applies",
+        "E07-for-write",
+        "E08",
+        "E09",
+        "E10-at-bundle-closeout"
+      ],
+      "status": "not-reviewed-awaiting-fixed-unified-candidate",
+      "actualCandidateReceipts": [],
+      "historicalReuseClaims": [],
+      "independentFindings": null,
+      "independentResult": null
+    },
+    {
+      "checklistIndex": 9,
+      "operationId": "ProjectCostController_getOperatingRestatement",
+      "group": "G",
+      "issue": 111,
+      "method": "GET",
+      "runtimePath": "/api/operating-restatements/{id}",
+      "canonical": "GET /operating-restatements/{id}",
+      "inventoryStatus": "existing-aligned",
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "requestDto": null,
+      "responseDto": "OperatingRestatementSummary",
+      "requestSchemaPointer": null,
+      "responseSchemaPointer": "#/components/schemas/OperatingRestatementSummary",
+      "successStatus": 200,
+      "permission": "contract:finance:manage",
+      "csrf": false,
+      "scopePolicy": "operating-read",
+      "requestProtocol": null,
+      "storyIds": [
+        "A04",
+        "A05",
+        "A06",
+        "A08"
+      ],
+      "requiredBusinessAssertions": [
+        "真实重述、完整影响闭包及新的终端/authority指针可追溯，旧快照/period roots/证据不被改写。"
+      ],
+      "potentialImpactRequiresReachabilityReview": [
+        "90-period-and-shared-context",
+        "83-restatement-and-downstream",
+        "84-foreign-parent-and-context"
+      ],
+      "commonEvidencePolicy": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "E06-where-concurrency-applies",
+        "E07-for-write",
+        "E08",
+        "E09",
+        "E10-at-bundle-closeout"
+      ],
+      "status": "not-reviewed-awaiting-fixed-unified-candidate",
+      "actualCandidateReceipts": [],
+      "historicalReuseClaims": [],
+      "independentFindings": null,
+      "independentResult": null
+    },
+    {
+      "checklistIndex": 10,
+      "operationId": "ProjectCostController_reviewOperatingSignalEvaluation",
+      "group": "H",
+      "issue": 112,
+      "method": "POST",
+      "runtimePath": "/api/operating-signal-evaluations/{id}:review",
+      "canonical": "POST /operating-signal-evaluations/{id}:review",
+      "inventoryStatus": "existing-aligned",
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "requestDto": "ReviewOperatingSignalEvaluationRequest",
+      "responseDto": "ReviewOperatingSignalEvaluationResult",
+      "requestSchemaPointer": "#/components/schemas/ReviewOperatingSignalEvaluationRequest",
+      "responseSchemaPointer": "#/components/schemas/ReviewOperatingSignalEvaluationResult",
+      "successStatus": 200,
+      "permission": "contract:finance:manage",
+      "csrf": true,
+      "scopePolicy": "operating-write",
+      "requestProtocol": {
+        "requiredInputVersion": "server-derived-v1",
+        "NativeModernStatus": 422,
+        "RustMissingOrLegacyStatus": 422
+      },
+      "storyIds": [
+        "A04",
+        "A05",
+        "A06",
+        "A08"
+      ],
+      "requiredBusinessAssertions": [
+        "仅append证据overlay及新effective bindings；不能改事实、maturity或硬block，必要写入与审计整体事务。"
+      ],
+      "potentialImpactRequiresReachabilityReview": [
+        "90-period-and-shared-context",
+        "83-restatement-and-downstream",
+        "84-foreign-parent-and-context"
+      ],
+      "commonEvidencePolicy": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "E06-where-concurrency-applies",
+        "E07-for-write",
+        "E08",
+        "E09",
+        "E10-at-bundle-closeout"
+      ],
+      "status": "not-reviewed-awaiting-fixed-unified-candidate",
+      "actualCandidateReceipts": [],
+      "historicalReuseClaims": [],
+      "independentFindings": null,
+      "independentResult": null
+    },
+    {
+      "checklistIndex": 11,
+      "operationId": "ProjectCostController_getOperatingSignalEvaluation",
+      "group": "H",
+      "issue": 112,
+      "method": "GET",
+      "runtimePath": "/api/operating-signal-evaluations/{id}",
+      "canonical": "GET /operating-signal-evaluations/{id}",
+      "inventoryStatus": "existing-aligned",
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "requestDto": null,
+      "responseDto": "OperatingSignalEvaluationView",
+      "requestSchemaPointer": null,
+      "responseSchemaPointer": "#/components/schemas/OperatingSignalEvaluationView",
+      "successStatus": 200,
+      "permission": "contract:finance:manage",
+      "csrf": false,
+      "scopePolicy": "operating-read",
+      "requestProtocol": null,
+      "storyIds": [
+        "A04",
+        "A05",
+        "A06",
+        "A08"
+      ],
+      "requiredBusinessAssertions": [
+        "reload已存immutable context；DMER/OSER与11规则及精确边界、unknown/maturity/20%不按展示舍入，mask/audit正确。"
+      ],
+      "potentialImpactRequiresReachabilityReview": [
+        "90-period-and-shared-context",
+        "83-restatement-and-downstream",
+        "84-foreign-parent-and-context"
+      ],
+      "commonEvidencePolicy": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "E06-where-concurrency-applies",
+        "E07-for-write",
+        "E08",
+        "E09",
+        "E10-at-bundle-closeout"
+      ],
+      "status": "not-reviewed-awaiting-fixed-unified-candidate",
+      "actualCandidateReceipts": [],
+      "historicalReuseClaims": [],
+      "independentFindings": null,
+      "independentResult": null
+    },
+    {
+      "checklistIndex": 12,
+      "operationId": "ProjectCostController_reviewCommissionGateBinding",
+      "group": "H",
+      "issue": 112,
+      "method": "POST",
+      "runtimePath": "/api/commission-gate-bindings/{id}:review",
+      "canonical": "POST /commission-gate-bindings/{id}:review",
+      "inventoryStatus": "existing-aligned",
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "requestDto": "ReviewCommissionGateBindingRequest",
+      "responseDto": "ReviewCommissionGateBindingResult",
+      "requestSchemaPointer": "#/components/schemas/ReviewCommissionGateBindingRequest",
+      "responseSchemaPointer": "#/components/schemas/ReviewCommissionGateBindingResult",
+      "successStatus": 200,
+      "permission": "contract:finance:manage",
+      "csrf": true,
+      "scopePolicy": "operating-write",
+      "requestProtocol": {
+        "requiredInputVersion": "server-derived-v1",
+        "NativeModernStatus": 422,
+        "RustMissingOrLegacyStatus": 422
+      },
+      "storyIds": [
+        "A04",
+        "A05",
+        "A06",
+        "A08"
+      ],
+      "requiredBusinessAssertions": [
+        "四阶段独立gate/reason/summary；review不能取消阶段成本下限或硬约束；CAS/overlay历史及审计保留。"
+      ],
+      "potentialImpactRequiresReachabilityReview": [
+        "90-period-and-shared-context",
+        "83-restatement-and-downstream",
+        "84-foreign-parent-and-context"
+      ],
+      "commonEvidencePolicy": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "E06-where-concurrency-applies",
+        "E07-for-write",
+        "E08",
+        "E09",
+        "E10-at-bundle-closeout"
+      ],
+      "status": "not-reviewed-awaiting-fixed-unified-candidate",
+      "actualCandidateReceipts": [],
+      "historicalReuseClaims": [],
+      "independentFindings": null,
+      "independentResult": null
+    },
+    {
+      "checklistIndex": 13,
+      "operationId": "ProjectCostController_getCommissionGateBinding",
+      "group": "H",
+      "issue": 112,
+      "method": "GET",
+      "runtimePath": "/api/commission-gate-bindings/{id}",
+      "canonical": "GET /commission-gate-bindings/{id}",
+      "inventoryStatus": "existing-aligned",
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "requestDto": null,
+      "responseDto": "CommissionGateBindingHistoryView",
+      "requestSchemaPointer": null,
+      "responseSchemaPointer": "#/components/schemas/CommissionGateBindingHistoryView",
+      "successStatus": 200,
+      "permission": "contract:finance:manage",
+      "csrf": false,
+      "scopePolicy": "operating-read",
+      "requestProtocol": null,
+      "storyIds": [
+        "A04",
+        "A05",
+        "A06",
+        "A08"
+      ],
+      "requiredBusinessAssertions": [
+        "真实binding历史与effective overlay清楚分离；四阶段独立资格/理由可核且raw敏感键null。"
+      ],
+      "potentialImpactRequiresReachabilityReview": [
+        "90-period-and-shared-context",
+        "83-restatement-and-downstream",
+        "84-foreign-parent-and-context"
+      ],
+      "commonEvidencePolicy": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "E06-where-concurrency-applies",
+        "E07-for-write",
+        "E08",
+        "E09",
+        "E10-at-bundle-closeout"
+      ],
+      "status": "not-reviewed-awaiting-fixed-unified-candidate",
+      "actualCandidateReceipts": [],
+      "historicalReuseClaims": [],
+      "independentFindings": null,
+      "independentResult": null
+    },
+    {
+      "checklistIndex": 14,
+      "operationId": "ProjectCostController_getProjectBusinessOutcomeOverview",
+      "group": "H",
+      "issue": 112,
+      "method": "GET",
+      "runtimePath": "/api/projects/{projectId}/business-outcome-overview",
+      "canonical": "GET /projects/{projectId}/business-outcome-overview",
+      "inventoryStatus": "existing-aligned",
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "requestDto": null,
+      "responseDto": "ProjectBusinessOutcomeOverviewView",
+      "requestSchemaPointer": null,
+      "responseSchemaPointer": "#/components/schemas/ProjectBusinessOutcomeOverviewView",
+      "successStatus": 200,
+      "permission": "contract:finance:manage",
+      "csrf": false,
+      "scopePolicy": "operating-read",
+      "requestProtocol": null,
+      "storyIds": [
+        "A04",
+        "A05",
+        "A06",
+        "A08"
+      ],
+      "requiredBusinessAssertions": [
+        "真实当前经营事实与阶段binding；known0/unknown/null/maturity不混，manual review不改事实；最强传递mask。"
+      ],
+      "potentialImpactRequiresReachabilityReview": [
+        "90-period-and-shared-context",
+        "83-restatement-and-downstream",
+        "84-foreign-parent-and-context"
+      ],
+      "commonEvidencePolicy": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "E06-where-concurrency-applies",
+        "E07-for-write",
+        "E08",
+        "E09",
+        "E10-at-bundle-closeout"
+      ],
+      "status": "not-reviewed-awaiting-fixed-unified-candidate",
+      "actualCandidateReceipts": [],
+      "historicalReuseClaims": [],
+      "independentFindings": null,
+      "independentResult": null
+    },
+    {
+      "checklistIndex": 15,
+      "operationId": "ProjectCostController_getProjectUnifiedAccounting",
+      "group": "H",
+      "issue": 112,
+      "method": "GET",
+      "runtimePath": "/api/projects/{projectId}/unified-accounting",
+      "canonical": "GET /projects/{projectId}/unified-accounting",
+      "inventoryStatus": "existing-aligned",
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "requestDto": null,
+      "responseDto": "ProjectUnifiedAccountingResponse",
+      "requestSchemaPointer": null,
+      "responseSchemaPointer": "#/components/schemas/ProjectUnifiedAccountingResponse",
+      "successStatus": 200,
+      "permission": "contract:finance:manage",
+      "csrf": false,
+      "scopePolicy": "operating-read",
+      "requestProtocol": null,
+      "storyIds": [
+        "A04",
+        "A05",
+        "A06",
+        "A08"
+      ],
+      "requiredBusinessAssertions": [
+        "真实E/F/合同/receipt源链；gross=net+tax/精确分与MAX边界/项目估算只采纳一次；外部父不双计且真实币种。"
+      ],
+      "potentialImpactRequiresReachabilityReview": [
+        "90-period-and-shared-context",
+        "83-restatement-and-downstream",
+        "84-foreign-parent-and-context"
+      ],
+      "commonEvidencePolicy": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "E06-where-concurrency-applies",
+        "E07-for-write",
+        "E08",
+        "E09",
+        "E10-at-bundle-closeout"
+      ],
+      "status": "not-reviewed-awaiting-fixed-unified-candidate",
+      "actualCandidateReceipts": [],
+      "historicalReuseClaims": [],
+      "independentFindings": null,
+      "independentResult": null
+    },
+    {
+      "checklistIndex": 16,
+      "operationId": "ProjectCostController_getProjectVarianceRiskExplanation",
+      "group": "H",
+      "issue": 112,
+      "method": "GET",
+      "runtimePath": "/api/projects/{projectId}/variance-risk-explanation",
+      "canonical": "GET /projects/{projectId}/variance-risk-explanation",
+      "inventoryStatus": "existing-aligned",
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "requestDto": null,
+      "responseDto": "ProjectVarianceRiskExplanationView",
+      "requestSchemaPointer": null,
+      "responseSchemaPointer": "#/components/schemas/ProjectVarianceRiskExplanationView",
+      "successStatus": 200,
+      "permission": "contract:finance:manage",
+      "csrf": false,
+      "scopePolicy": "operating-read",
+      "requestProtocol": null,
+      "storyIds": [
+        "A04",
+        "A05",
+        "A06",
+        "A08"
+      ],
+      "requiredBusinessAssertions": [
+        "解释与next-action只来自真实来源及授权projection；raw敏感键null；劳动/未知血缘最强mask，未知税不伪造0。"
+      ],
+      "potentialImpactRequiresReachabilityReview": [
+        "90-period-and-shared-context",
+        "83-restatement-and-downstream",
+        "84-foreign-parent-and-context"
+      ],
+      "commonEvidencePolicy": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "E06-where-concurrency-applies",
+        "E07-for-write",
+        "E08",
+        "E09",
+        "E10-at-bundle-closeout"
+      ],
+      "status": "not-reviewed-awaiting-fixed-unified-candidate",
+      "actualCandidateReceipts": [],
+      "historicalReuseClaims": [],
+      "independentFindings": null,
+      "independentResult": null
+    },
+    {
+      "checklistIndex": 17,
+      "operationId": "ProjectCostController_getBusinessAccountingFeedback",
+      "group": "H",
+      "issue": 112,
+      "method": "GET",
+      "runtimePath": "/api/projects/{projectId}/business-accounting-feedback",
+      "canonical": "GET /projects/{projectId}/business-accounting-feedback",
+      "inventoryStatus": "existing-aligned",
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "requestDto": null,
+      "responseDto": "BusinessAccountingFeedbackView",
+      "requestSchemaPointer": null,
+      "responseSchemaPointer": "#/components/schemas/BusinessAccountingFeedbackView",
+      "successStatus": 200,
+      "permission": "contract:finance:manage",
+      "csrf": false,
+      "scopePolicy": "operating-read",
+      "requestProtocol": null,
+      "storyIds": [
+        "A04",
+        "A05",
+        "A06",
+        "A08"
+      ],
+      "requiredBusinessAssertions": [
+        "真实immutable context/evaluation/summary反馈、known0与unknown及资格分离；不构造未来/未合格来源或定性阈值。"
+      ],
+      "potentialImpactRequiresReachabilityReview": [
+        "90-period-and-shared-context",
+        "83-restatement-and-downstream",
+        "84-foreign-parent-and-context"
+      ],
+      "commonEvidencePolicy": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "E06-where-concurrency-applies",
+        "E07-for-write",
+        "E08",
+        "E09",
+        "E10-at-bundle-closeout"
+      ],
+      "status": "not-reviewed-awaiting-fixed-unified-candidate",
+      "actualCandidateReceipts": [],
+      "historicalReuseClaims": [],
+      "independentFindings": null,
+      "independentResult": null
+    },
+    {
+      "checklistIndex": 18,
+      "operationId": "CommissionController_getCurrentRoleAssignment",
+      "group": "R5-min",
+      "issue": 117,
+      "method": "GET",
+      "runtimePath": "/api/projects/{projectId}/commission-role-assignment",
+      "canonical": "GET /projects/{projectId}/commission-role-assignment",
+      "inventoryStatus": "existing-aligned",
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "requestDto": null,
+      "responseDto": "CurrentCommissionRoleAssignmentResponse",
+      "requestSchemaPointer": null,
+      "responseSchemaPointer": "#/components/schemas/CurrentCommissionRoleAssignmentResponse",
+      "successStatus": 200,
+      "permission": "commission:assignments:manage",
+      "csrf": false,
+      "scopePolicy": "read",
+      "requestProtocol": null,
+      "storyIds": [
+        "A03",
+        "A08"
+      ],
+      "requiredBusinessAssertions": [
+        "真实项目无current角色时200/null；有current时真实角色链、当前责任与敏感边界正确。"
+      ],
+      "potentialImpactRequiresReachabilityReview": [
+        "65-02-frozen-parent-and-I-consumption"
+      ],
+      "commonEvidencePolicy": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "E06-where-concurrency-applies",
+        "E07-for-write",
+        "E08",
+        "E09",
+        "E10-at-bundle-closeout"
+      ],
+      "status": "not-reviewed-awaiting-fixed-unified-candidate",
+      "actualCandidateReceipts": [],
+      "historicalReuseClaims": [],
+      "independentFindings": null,
+      "independentResult": null
+    },
+    {
+      "checklistIndex": 19,
+      "operationId": "CommissionController_createRoleAssignment",
+      "group": "R5-min",
+      "issue": 117,
+      "method": "POST",
+      "runtimePath": "/api/projects/{projectId}/commission-role-assignments",
+      "canonical": "POST /projects/{projectId}/commission-role-assignments",
+      "inventoryStatus": "existing-aligned",
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "requestDto": "CreateCommissionRoleAssignmentRequest",
+      "responseDto": "CommissionRoleAssignmentSummary",
+      "requestSchemaPointer": "#/components/schemas/CreateCommissionRoleAssignmentRequest",
+      "responseSchemaPointer": "#/components/schemas/CommissionRoleAssignmentSummary",
+      "successStatus": 200,
+      "permission": "commission:assignments:manage",
+      "csrf": true,
+      "scopePolicy": "draft",
+      "requestProtocol": {
+        "requiredInputVersion": "server-derived-v1",
+        "NativeModernStatus": 422,
+        "RustMissingOrLegacyStatus": 422
+      },
+      "storyIds": [
+        "A03",
+        "A08"
+      ],
+      "requiredBusinessAssertions": [
+        "真实角色package；token在f64前精确百万分比总和1000000，1e-6接受、1e-7及0.10000000000000001拒绝、zero reason；current/CAS与竞争不破坏冻结。"
+      ],
+      "potentialImpactRequiresReachabilityReview": [
+        "65-02-frozen-parent-and-I-consumption"
+      ],
+      "commonEvidencePolicy": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "E06-where-concurrency-applies",
+        "E07-for-write",
+        "E08",
+        "E09",
+        "E10-at-bundle-closeout"
+      ],
+      "status": "not-reviewed-awaiting-fixed-unified-candidate",
+      "actualCandidateReceipts": [],
+      "historicalReuseClaims": [],
+      "independentFindings": null,
+      "independentResult": null
+    },
+    {
+      "checklistIndex": 20,
+      "operationId": "CommissionRoleAssignmentController_getRoleAssignmentDetail",
+      "group": "R5-min",
+      "issue": 117,
+      "method": "GET",
+      "runtimePath": "/api/commission-role-assignments/{id}",
+      "canonical": "GET /commission-role-assignments/{id}",
+      "inventoryStatus": "existing-aligned",
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "requestDto": null,
+      "responseDto": "CommissionRoleAssignmentDetailView",
+      "requestSchemaPointer": null,
+      "responseSchemaPointer": "#/components/schemas/CommissionRoleAssignmentDetailView",
+      "successStatus": 200,
+      "permission": "commission:assignments:manage",
+      "csrf": false,
+      "scopePolicy": "read",
+      "requestProtocol": null,
+      "storyIds": [
+        "A03",
+        "A08"
+      ],
+      "requiredBusinessAssertions": [
+        "真实participant identity/duty/weight、summary/confirmation及freeze状态；角色source chain与scope真实且不泄露越权数据。"
+      ],
+      "potentialImpactRequiresReachabilityReview": [
+        "65-02-frozen-parent-and-I-consumption"
+      ],
+      "commonEvidencePolicy": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "E06-where-concurrency-applies",
+        "E07-for-write",
+        "E08",
+        "E09",
+        "E10-at-bundle-closeout"
+      ],
+      "status": "not-reviewed-awaiting-fixed-unified-candidate",
+      "actualCandidateReceipts": [],
+      "historicalReuseClaims": [],
+      "independentFindings": null,
+      "independentResult": null
+    },
+    {
+      "checklistIndex": 21,
+      "operationId": "CommissionRoleAssignmentController_freezeRoleAssignment",
+      "group": "R5-min",
+      "issue": 117,
+      "method": "POST",
+      "runtimePath": "/api/commission-role-assignments/{id}:freeze",
+      "canonical": "POST /commission-role-assignments/{id}:freeze",
+      "inventoryStatus": "existing-aligned",
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "requestDto": "FreezeCommissionRoleAssignmentRequest",
+      "responseDto": "FreezeCommissionRoleAssignmentResult",
+      "requestSchemaPointer": "#/components/schemas/FreezeCommissionRoleAssignmentRequest",
+      "responseSchemaPointer": "#/components/schemas/FreezeCommissionRoleAssignmentResult",
+      "successStatus": 200,
+      "permission": "commission:assignments:manage",
+      "csrf": true,
+      "scopePolicy": "freeze",
+      "requestProtocol": {
+        "requiredInputVersion": "server-derived-v1",
+        "NativeModernStatus": 422,
+        "RustMissingOrLegacyStatus": 422
+      },
+      "storyIds": [
+        "A03",
+        "A08"
+      ],
+      "requiredBusinessAssertions": [
+        "真实summary/confirmation才freeze；实际OLD/NEW父锁及完整父存在性；身份/职责/权重/零权重移动冻结后拒绝；freeze-vs-move竞争。"
+      ],
+      "potentialImpactRequiresReachabilityReview": [
+        "65-02-frozen-parent-and-I-consumption"
+      ],
+      "commonEvidencePolicy": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "E06-where-concurrency-applies",
+        "E07-for-write",
+        "E08",
+        "E09",
+        "E10-at-bundle-closeout"
+      ],
+      "status": "not-reviewed-awaiting-fixed-unified-candidate",
+      "actualCandidateReceipts": [],
+      "historicalReuseClaims": [],
+      "independentFindings": null,
+      "independentResult": null
+    },
+    {
+      "checklistIndex": 22,
+      "operationId": "ProjectController_listAcceptanceRecords",
+      "group": "I",
+      "issue": 113,
+      "method": "GET",
+      "runtimePath": "/api/projects/{projectId}/acceptance-records",
+      "canonical": "GET /projects/{projectId}/acceptance-records",
+      "inventoryStatus": "existing-aligned",
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "requestDto": null,
+      "responseDto": "AcceptanceRecordList",
+      "requestSchemaPointer": null,
+      "responseSchemaPointer": "#/components/schemas/AcceptanceRecordList",
+      "successStatus": 200,
+      "permission": "project:read",
+      "csrf": false,
+      "scopePolicy": "read",
+      "requestProtocol": null,
+      "storyIds": [
+        "A03",
+        "A07",
+        "A08"
+      ],
+      "requiredBusinessAssertions": [
+        "仅返回真实项目的实际验收记录，stage/final/conditional语义及证据不可混；scope最小与原始结论不变。"
+      ],
+      "potentialImpactRequiresReachabilityReview": [
+        "65-02-frozen-parent-and-I-consumption"
+      ],
+      "commonEvidencePolicy": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "E06-where-concurrency-applies",
+        "E07-for-write",
+        "E08",
+        "E09",
+        "E10-at-bundle-closeout"
+      ],
+      "status": "not-reviewed-awaiting-fixed-unified-candidate",
+      "actualCandidateReceipts": [],
+      "historicalReuseClaims": [],
+      "independentFindings": null,
+      "independentResult": null
+    },
+    {
+      "checklistIndex": 23,
+      "operationId": "ProjectController_createAcceptanceRecord",
+      "group": "I",
+      "issue": 113,
+      "method": "POST",
+      "runtimePath": "/api/projects/{projectId}/acceptance-records",
+      "canonical": "POST /projects/{projectId}/acceptance-records",
+      "inventoryStatus": "existing-aligned",
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "requestDto": "CreateAcceptanceRecordRequest",
+      "responseDto": "AcceptanceRecordSummary",
+      "requestSchemaPointer": "#/components/schemas/CreateAcceptanceRecordRequest",
+      "responseSchemaPointer": "#/components/schemas/AcceptanceRecordSummary",
+      "successStatus": 201,
+      "permission": "project:write",
+      "csrf": true,
+      "scopePolicy": "acceptance",
+      "requestProtocol": {
+        "requiredInputVersion": "server-derived-v1",
+        "NativeModernStatus": 422,
+        "RustMissingOrLegacyStatus": 422
+      },
+      "storyIds": [
+        "A03",
+        "A07",
+        "A08"
+      ],
+      "requiredBusinessAssertions": [
+        "真实执行和交付后验收；stage不能整项目完工；final accepted/conditional及真实owner/due/evidence；expected versions与整体事务。"
+      ],
+      "potentialImpactRequiresReachabilityReview": [
+        "65-02-frozen-parent-and-I-consumption"
+      ],
+      "commonEvidencePolicy": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "E06-where-concurrency-applies",
+        "E07-for-write",
+        "E08",
+        "E09",
+        "E10-at-bundle-closeout"
+      ],
+      "status": "not-reviewed-awaiting-fixed-unified-candidate",
+      "actualCandidateReceipts": [],
+      "historicalReuseClaims": [],
+      "independentFindings": null,
+      "independentResult": null
+    },
+    {
+      "checklistIndex": 24,
+      "operationId": "ProjectController_listProjectCompletionRecords",
+      "group": "I",
+      "issue": 113,
+      "method": "GET",
+      "runtimePath": "/api/projects/{projectId}/completion-records",
+      "canonical": "GET /projects/{projectId}/completion-records",
+      "inventoryStatus": "existing-aligned",
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "requestDto": null,
+      "responseDto": "ProjectCompletionRecordList",
+      "requestSchemaPointer": null,
+      "responseSchemaPointer": "#/components/schemas/ProjectCompletionRecordList",
+      "successStatus": 200,
+      "permission": "project:read",
+      "csrf": false,
+      "scopePolicy": "read",
+      "requestProtocol": null,
+      "storyIds": [
+        "A03",
+        "A07",
+        "A08"
+      ],
+      "requiredBusinessAssertions": [
+        "真实completion及条件server aggregate；own-task路径只给允许锚点/自己的条件证据/aggregate，无full ProjectDetail或parent证据泄漏。"
+      ],
+      "potentialImpactRequiresReachabilityReview": [
+        "65-02-frozen-parent-and-I-consumption"
+      ],
+      "commonEvidencePolicy": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "E06-where-concurrency-applies",
+        "E07-for-write",
+        "E08",
+        "E09",
+        "E10-at-bundle-closeout"
+      ],
+      "status": "not-reviewed-awaiting-fixed-unified-candidate",
+      "actualCandidateReceipts": [],
+      "historicalReuseClaims": [],
+      "independentFindings": null,
+      "independentResult": null
+    },
+    {
+      "checklistIndex": 25,
+      "operationId": "ProjectController_createProjectCompletionRecord",
+      "group": "I",
+      "issue": 113,
+      "method": "POST",
+      "runtimePath": "/api/projects/{projectId}/completion-records",
+      "canonical": "POST /projects/{projectId}/completion-records",
+      "inventoryStatus": "existing-aligned",
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "requestDto": "CreateProjectCompletionRecordRequest",
+      "responseDto": "ProjectCompletionRecordSummary",
+      "requestSchemaPointer": "#/components/schemas/CreateProjectCompletionRecordRequest",
+      "responseSchemaPointer": "#/components/schemas/ProjectCompletionRecordSummary",
+      "successStatus": 201,
+      "permission": "project:write",
+      "csrf": true,
+      "scopePolicy": "completion",
+      "requestProtocol": {
+        "requiredInputVersion": "server-derived-v1",
+        "NativeModernStatus": 422,
+        "RustMissingOrLegacyStatus": 422
+      },
+      "storyIds": [
+        "A03",
+        "A07",
+        "A08"
+      ],
+      "requiredBusinessAssertions": [
+        "真实final accepted才完工；conditional真实条件tasks且pending阻archive；double/current CAS、一次创建及audit整体事务。"
+      ],
+      "potentialImpactRequiresReachabilityReview": [
+        "65-02-frozen-parent-and-I-consumption"
+      ],
+      "commonEvidencePolicy": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "E06-where-concurrency-applies",
+        "E07-for-write",
+        "E08",
+        "E09",
+        "E10-at-bundle-closeout"
+      ],
+      "status": "not-reviewed-awaiting-fixed-unified-candidate",
+      "actualCandidateReceipts": [],
+      "historicalReuseClaims": [],
+      "independentFindings": null,
+      "independentResult": null
+    },
+    {
+      "checklistIndex": 26,
+      "operationId": "ProjectController_listProjectArchiveRecords",
+      "group": "I",
+      "issue": 113,
+      "method": "GET",
+      "runtimePath": "/api/projects/{projectId}/archive-records",
+      "canonical": "GET /projects/{projectId}/archive-records",
+      "inventoryStatus": "existing-aligned",
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "requestDto": null,
+      "responseDto": "ProjectArchiveRecordList",
+      "requestSchemaPointer": null,
+      "responseSchemaPointer": "#/components/schemas/ProjectArchiveRecordList",
+      "successStatus": 200,
+      "permission": "project:read",
+      "csrf": false,
+      "scopePolicy": "read",
+      "requestProtocol": null,
+      "storyIds": [
+        "A03",
+        "A07",
+        "A08"
+      ],
+      "requiredBusinessAssertions": [
+        "真实项目终态附属archive链、替换/作废事实与scope；不能借列表重开stage或泄漏protected evidence。"
+      ],
+      "potentialImpactRequiresReachabilityReview": [
+        "65-02-frozen-parent-and-I-consumption"
+      ],
+      "commonEvidencePolicy": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "E06-where-concurrency-applies",
+        "E07-for-write",
+        "E08",
+        "E09",
+        "E10-at-bundle-closeout"
+      ],
+      "status": "not-reviewed-awaiting-fixed-unified-candidate",
+      "actualCandidateReceipts": [],
+      "historicalReuseClaims": [],
+      "independentFindings": null,
+      "independentResult": null
+    },
+    {
+      "checklistIndex": 27,
+      "operationId": "ProjectController_createProjectArchiveRecord",
+      "group": "I",
+      "issue": 113,
+      "method": "POST",
+      "runtimePath": "/api/projects/{projectId}/archive-records",
+      "canonical": "POST /projects/{projectId}/archive-records",
+      "inventoryStatus": "existing-aligned",
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "requestDto": "CreateProjectArchiveRecordRequest",
+      "responseDto": "ProjectArchiveRecordSummary",
+      "requestSchemaPointer": "#/components/schemas/CreateProjectArchiveRecordRequest",
+      "responseSchemaPointer": "#/components/schemas/ProjectArchiveRecordSummary",
+      "successStatus": 201,
+      "permission": "project:write",
+      "csrf": true,
+      "scopePolicy": "archive",
+      "requestProtocol": {
+        "requiredInputVersion": "server-derived-v1",
+        "NativeModernStatus": 422,
+        "RustMissingOrLegacyStatus": 422
+      },
+      "storyIds": [
+        "A03",
+        "A07",
+        "A08"
+      ],
+      "requiredBusinessAssertions": [
+        "pending条件阻归档；真实已完成项目的终态附属事实、证据与版本检查；必要写入/audit整体事务且不重开stage。"
+      ],
+      "potentialImpactRequiresReachabilityReview": [
+        "65-02-frozen-parent-and-I-consumption"
+      ],
+      "commonEvidencePolicy": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "E06-where-concurrency-applies",
+        "E07-for-write",
+        "E08",
+        "E09",
+        "E10-at-bundle-closeout"
+      ],
+      "status": "not-reviewed-awaiting-fixed-unified-candidate",
+      "actualCandidateReceipts": [],
+      "historicalReuseClaims": [],
+      "independentFindings": null,
+      "independentResult": null
+    },
+    {
+      "checklistIndex": 28,
+      "operationId": "ProjectArchiveRecordController_replaceProjectArchiveRecord",
+      "group": "I",
+      "issue": 113,
+      "method": "POST",
+      "runtimePath": "/api/project-archive-records/{id}:replace",
+      "canonical": "POST /project-archive-records/{id}:replace",
+      "inventoryStatus": "existing-aligned",
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "requestDto": "ReplaceProjectArchiveRecordRequest",
+      "responseDto": "ProjectArchiveRecordSummary",
+      "requestSchemaPointer": "#/components/schemas/ReplaceProjectArchiveRecordRequest",
+      "responseSchemaPointer": "#/components/schemas/ProjectArchiveRecordSummary",
+      "successStatus": 200,
+      "permission": "project:write",
+      "csrf": true,
+      "scopePolicy": "archive",
+      "requestProtocol": {
+        "requiredInputVersion": "server-derived-v1",
+        "NativeModernStatus": 422,
+        "RustMissingOrLegacyStatus": 422
+      },
+      "storyIds": [
+        "A03",
+        "A07",
+        "A08"
+      ],
+      "requiredBusinessAssertions": [
+        "精确真实archive父/项目和版本；replace只增终态附属链，原证据/audit与stage不变，foreign IDs拒绝。"
+      ],
+      "potentialImpactRequiresReachabilityReview": [
+        "65-02-frozen-parent-and-I-consumption"
+      ],
+      "commonEvidencePolicy": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "E06-where-concurrency-applies",
+        "E07-for-write",
+        "E08",
+        "E09",
+        "E10-at-bundle-closeout"
+      ],
+      "status": "not-reviewed-awaiting-fixed-unified-candidate",
+      "actualCandidateReceipts": [],
+      "historicalReuseClaims": [],
+      "independentFindings": null,
+      "independentResult": null
+    },
+    {
+      "checklistIndex": 29,
+      "operationId": "ProjectArchiveRecordController_voidProjectArchiveRecord",
+      "group": "I",
+      "issue": 113,
+      "method": "POST",
+      "runtimePath": "/api/project-archive-records/{id}:void",
+      "canonical": "POST /project-archive-records/{id}:void",
+      "inventoryStatus": "existing-aligned",
+      "newPublicOperation": false,
+      "countedOnce": true,
+      "requestDto": "VoidProjectArchiveRecordRequest",
+      "responseDto": "ProjectArchiveRecordSummary",
+      "requestSchemaPointer": "#/components/schemas/VoidProjectArchiveRecordRequest",
+      "responseSchemaPointer": "#/components/schemas/ProjectArchiveRecordSummary",
+      "successStatus": 200,
+      "permission": "project:write",
+      "csrf": true,
+      "scopePolicy": "archive",
+      "requestProtocol": {
+        "requiredInputVersion": "server-derived-v1",
+        "NativeModernStatus": 422,
+        "RustMissingOrLegacyStatus": 422
+      },
+      "storyIds": [
+        "A03",
+        "A07",
+        "A08"
+      ],
+      "requiredBusinessAssertions": [
+        "精确真实archive父/项目和版本；void只增终态附属事实，原证据/audit与stage不变，foreign IDs拒绝。"
+      ],
+      "potentialImpactRequiresReachabilityReview": [
+        "65-02-frozen-parent-and-I-consumption"
+      ],
+      "commonEvidencePolicy": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "E06-where-concurrency-applies",
+        "E07-for-write",
+        "E08",
+        "E09",
+        "E10-at-bundle-closeout"
+      ],
+      "status": "not-reviewed-awaiting-fixed-unified-candidate",
+      "actualCandidateReceipts": [],
+      "historicalReuseClaims": [],
+      "independentFindings": null,
+      "independentResult": null
+    },
+    {
+      "checklistIndex": 30,
+      "operationId": "ProjectController_startExecution",
+      "group": "I",
+      "issue": 113,
+      "method": "POST",
+      "runtimePath": "/api/projects/{id}:startExecution",
+      "canonical": "POST /projects/{id}:startExecution",
+      "inventoryStatus": "new-planned-canonical-decided",
+      "newPublicOperation": true,
+      "countedOnce": true,
+      "requestDto": "StartProjectExecutionRequest",
+      "responseDto": "ProjectStageTransitionResult",
+      "requestSchemaPointer": "#/components/schemas/StartProjectExecutionRequest",
+      "responseSchemaPointer": "#/components/schemas/ProjectStageTransitionResult",
+      "successStatus": 200,
+      "permission": "project:write",
+      "csrf": true,
+      "scopePolicy": "execution-entry",
+      "requestProtocol": {
+        "requiredInputVersion": "server-derived-v1",
+        "NativeModernStatus": 422,
+        "RustMissingOrLegacyStatus": 422
+      },
+      "storyIds": [
+        "A03",
+        "A07",
+        "A08"
+      ],
+      "requiredBusinessAssertions": [
+        "真实已确认handover和同项目链有效frozen roles；预变更责任与expected version；historical advanced stage不能伪造准入。"
+      ],
+      "potentialImpactRequiresReachabilityReview": [
+        "65-02-frozen-parent-and-I-consumption"
+      ],
+      "commonEvidencePolicy": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "E06-where-concurrency-applies",
+        "E07-for-write",
+        "E08",
+        "E09",
+        "E10-at-bundle-closeout"
+      ],
+      "status": "not-reviewed-awaiting-fixed-unified-candidate",
+      "actualCandidateReceipts": [],
+      "historicalReuseClaims": [],
+      "independentFindings": null,
+      "independentResult": null
+    },
+    {
+      "checklistIndex": 31,
+      "operationId": "ProjectController_startAcceptance",
+      "group": "I",
+      "issue": 113,
+      "method": "POST",
+      "runtimePath": "/api/projects/{id}:startAcceptance",
+      "canonical": "POST /projects/{id}:startAcceptance",
+      "inventoryStatus": "new-planned-canonical-decided",
+      "newPublicOperation": true,
+      "countedOnce": true,
+      "requestDto": "StartProjectAcceptanceRequest",
+      "responseDto": "ProjectStageTransitionResult",
+      "requestSchemaPointer": "#/components/schemas/StartProjectAcceptanceRequest",
+      "responseSchemaPointer": "#/components/schemas/ProjectStageTransitionResult",
+      "successStatus": 200,
+      "permission": "project:write",
+      "csrf": true,
+      "scopePolicy": "acceptance-entry",
+      "requestProtocol": {
+        "requiredInputVersion": "server-derived-v1",
+        "NativeModernStatus": 422,
+        "RustMissingOrLegacyStatus": 422
+      },
+      "storyIds": [
+        "A03",
+        "A07",
+        "A08"
+      ],
+      "requiredBusinessAssertions": [
+        "真实execution与delivery及当前责任/expected version才进入acceptance；historical advanced stage不能伪造准入。"
+      ],
+      "potentialImpactRequiresReachabilityReview": [
+        "65-02-frozen-parent-and-I-consumption"
+      ],
+      "commonEvidencePolicy": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "E06-where-concurrency-applies",
+        "E07-for-write",
+        "E08",
+        "E09",
+        "E10-at-bundle-closeout"
+      ],
+      "status": "not-reviewed-awaiting-fixed-unified-candidate",
+      "actualCandidateReceipts": [],
+      "historicalReuseClaims": [],
+      "independentFindings": null,
+      "independentResult": null
+    },
+    {
+      "checklistIndex": 32,
+      "operationId": "ProjectCompletionRecordController_closeCompletionCondition",
+      "group": "I",
+      "issue": 113,
+      "method": "POST",
+      "runtimePath": "/api/project-completion-records/{completionRecordId}/conditions/{id}:close",
+      "canonical": "POST /project-completion-records/{completionRecordId}/conditions/{id}:close",
+      "inventoryStatus": "new-planned-canonical-decided",
+      "newPublicOperation": true,
+      "countedOnce": true,
+      "requestDto": "CloseProjectCompletionConditionRequest",
+      "responseDto": "CloseProjectCompletionConditionResult",
+      "requestSchemaPointer": "#/components/schemas/CloseProjectCompletionConditionRequest",
+      "responseSchemaPointer": "#/components/schemas/CloseProjectCompletionConditionResult",
+      "successStatus": 200,
+      "permission": "project:write",
+      "csrf": true,
+      "scopePolicy": "condition-close-own-only",
+      "requestProtocol": {
+        "requiredInputVersion": "server-derived-v1",
+        "NativeModernStatus": 422,
+        "RustMissingOrLegacyStatus": 422
+      },
+      "storyIds": [
+        "A03",
+        "A07",
+        "A08"
+      ],
+      "requiredBusinessAssertions": [
+        "登录实际owner、精确completionRecordId/id双UUID与double CAS；same/different-task竞争不跳任务/不重复closure；last-close只更新server aggregate，原conditional结论不变。"
+      ],
+      "potentialImpactRequiresReachabilityReview": [
+        "65-02-frozen-parent-and-I-consumption"
+      ],
+      "commonEvidencePolicy": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "E06-where-concurrency-applies",
+        "E07-for-write",
+        "E08",
+        "E09",
+        "E10-at-bundle-closeout"
+      ],
+      "status": "not-reviewed-awaiting-fixed-unified-candidate",
+      "actualCandidateReceipts": [],
+      "historicalReuseClaims": [],
+      "independentFindings": null,
+      "independentResult": null
+    }
+  ]
+}

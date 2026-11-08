@@ -1,0 +1,40 @@
+{
+  "kind": "required-state-free-M98-after-capture-adapter-contract102",
+  "status": "design-only-not-an-installed-or-approved-executable",
+  "actualAdapter": null,
+  "actualAdapterApproval": null,
+  "actualAfterSnapshot": null,
+  "actualSource13": null,
+  "reuse": {
+    "captureFunction": "tools/rust-r4ghi/business/snapshot.mjs::capture(ctx,label)",
+    "guardFunction": "tools/rust-r4ghi/business/context.mjs::guard(ctx,client,database)",
+    "context98SHA256": "3904197cc67eea28d1bf288df60e3e460f731b07c34eeb190ebe072c9435462f",
+    "snapshot98SHA256": "0ab579d978d6d8e4b6401ff6004f9d4dc42d88be88391c34621d8135356fb7fa",
+    "guardMigrations": 98,
+    "guardTables": 139
+  },
+  "observationContextFields": {
+    "fixed": "Exact FIXED from reviewed context98, including namespace/base/stateRoot/private/host/port/owner/databases/apps/tables/migrations.",
+    "identity": "Original namespace identity JSON, regular owned file and actual raw pin; never a regenerated marker.",
+    "provision": "Original provision receipt and DB OIDs, actual raw pin.",
+    "epoch": "Explicit observation label; does not assert consumer admission.",
+    "run": "Explicit observation run.",
+    "priv": "Fresh absolute private observation directory, realpath exact, never either consumer state directory.",
+    "db": "Fresh pg owner connection to each fixed DB; default_transaction_read_only=on; original connection timeouts; guard98 before invoking capture callback; close in finally.",
+    "artifact": "wx/0600 private manifest writer returning actual file/rawBytesSha256/bytes; may ignore public summary argument, must not call state persistence or sequence allocation."
+  },
+  "requiredGuards": [
+    "Only fixed owned native/rust DBs, original marker/OIDs/base/container scope and PG150012/port15432/Etc/GMT-8.",
+    "Both real normal136 commands successful, no active API31441/31442, no driver or app writer; approved adapter source and exact invocation pinned before execution.",
+    "No createContext, state.json, persist, next, baseline, owned, borrowed, fixtures, registry, actor, HTTP, migration or cleanup access.",
+    "capture itself uses per-DB BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY; catalog139, raw rows/SHA/xmin, all normative metadata/sequences, and original objects root.",
+    "Both DBs98 before this all-DB capture; no partial97/98 mixed completion accepted.",
+    "No cross-database atomicity claim. Failure leaves exact partial files and receipts; no overwrite or blind retry."
+  ],
+  "consumerEffect": "None. This creates only observation evidence, never a pending state or comparison/business baseline.",
+  "RootWritesByReviewer": 0,
+  "SQLByReviewer": 0,
+  "HTTPByReviewer": 0,
+  "G3Certified": false,
+  "G4Certified": false
+}

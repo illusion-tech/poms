@@ -1,9 +1,10 @@
+import { observeFontBoundary32 } from './ui-font-boundary32.mjs';
 // Root runs inside the already owned/pinned14 Windows adapter + Linux observer.
 import assert from 'node:assert/strict'; import fs from 'node:fs'; import path from 'node:path';
 const origin = 'http://127.0.0.1:44551', unwrap = value => value?.data ?? value;
 export async function executeCreatorReadback29(browser, expect, test, directory, server) {
   assert.equal(test.kind, 'creator-assigned-readback'); assert(!test.writeAction); assert(test.readback28 && test.readback28.original04Passed === false);
-  const context = await browser.newContext({ baseURL: origin, locale: 'zh-CN', timezoneId: 'Asia/Shanghai', viewport: { width: 1440, height: 1000 }, serviceWorkers: 'block' }), page = await context.newPage(); page.setDefaultTimeout(90000);
+  const context = await browser.newContext({ baseURL: origin, locale: 'zh-CN', timezoneId: 'Asia/Shanghai', viewport: { width: 1440, height: 1000 }, serviceWorkers: 'block' }), page = await context.newPage(); page.setDefaultTimeout(90000); const fontBoundary32 = observeFontBoundary32(page);
   const requests = [], errors = [], consoleErrors = [], blocked = [], views = [];
   const save = (name, value) => fs.writeFileSync(path.join(directory, name), Buffer.isBuffer(value) ? value : Buffer.from(JSON.stringify(value, null, 2) + '\n'), { flag: 'wx', mode: 0o600 });
   const watch = pathname => { const promise = page.waitForResponse(value => value.request().method() === 'GET' && new URL(value.url()).pathname === pathname); void promise.catch(() => {}); return promise; };
@@ -23,10 +24,10 @@ export async function executeCreatorReadback29(browser, expect, test, directory,
     const buttonRead = watch('/api/projects/' + test.projectId); await page.getByRole('button', { name: '重新读取项目范围', exact: true }).click(); await projectResult(buttonRead);
     const reloadRead = watch('/api/projects/' + test.projectId); await page.reload({ waitUntil: 'domcontentloaded' }); await projectResult(reloadRead); await page.waitForLoadState('networkidle');
     assert(requests.every(request => request.method === 'GET')); const global = new Set(['/api/auth/session', '/api/auth/csrf-token', '/api/me/navigation', '/api/me/todos']); assert(requests.every(request => global.has(new URL(request.path, origin).pathname) || request.path === '/api/projects/' + test.projectId));
-    assert.equal(blocked.length, 0); assert.equal(errors.length, 0); assert.equal(consoleErrors.length, 0);
+     assert.equal(errors.length, 0); fontBoundary32.assertExpected({ consoleErrors, blocked: blocked });
     const text = await page.locator('body').innerText(); for (const value of test.forbiddenTexts) assert(!text.includes(value));
     result = { kind: test.kind, status: 'passed', actualOwnerVisible: true, actualReadButtonAndFreshPageReload: true, verifiedProjectResponses: views.length, businessWritePerformed: false, original04Passed: false, originalAssignmentRequestId: test.readback28.originalRequestId, recoveryReceipt: test.readback28.recoveryReceipt, G3Certified: false };
   } catch (error) { save('failure.log', Buffer.from(error.stack || String(error))); result = { kind: test.kind, status: 'failed', businessWritePerformed: false, original04Passed: false, G3Certified: false }; }
-  finally { save('requests.json', requests); save('owner-readback-responses.json', views); save('browser-errors.json', { errors, consoleErrors, blocked }); save('result.json', result); save('dom.html', Buffer.from(await page.content())); await page.screenshot({ path: path.join(directory, 'page.png'), fullPage: true }); await context.close(); await server.settle(); }
+  finally { save('font-boundary32.json', fontBoundary32.snapshot()); save('requests.json', requests); save('owner-readback-responses.json', views); save('browser-errors.json', { errors, consoleErrors, blocked }); save('result.json', result); save('dom.html', Buffer.from(await page.content())); await page.screenshot({ path: path.join(directory, 'page.png'), fullPage: true }); await context.close(); await server.settle(); }
   return result;
 }

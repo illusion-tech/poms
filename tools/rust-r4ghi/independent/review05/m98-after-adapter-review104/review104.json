@@ -1,0 +1,86 @@
+{
+  "kind": "non-author-FS-only-M98-after-adapter164-review104",
+  "verdict": "hold-original-for-exact-receipt-contract",
+  "source": {
+    "file": "tools/rust-r4ghi/capture-m98-after164.mjs",
+    "rawBytesSha256": "21498ed240af5ed77b9703ed5c5d211a1ff8f4b0faf342dbe59e612921e5cfdc"
+  },
+  "findings": [
+    {
+      "id": "IR104-01",
+      "priority": "P2",
+      "line": 25,
+      "problem": "Private139 receipt has stoppedAPI/processGone and after, not API1351Stopped. The public summary has API1351Stopped but no after. No actual publisher output satisfies both164 requirements.",
+      "counterexample": "Actual139 publisher constructor was executed with synthetic scalar inputs; its private receipt has stoppedAPI and after and rejects the164 API1351Stopped assertion.",
+      "fix": "Consume exact private139 kind/producerEpoch/marker, stoppedAPI.mode=stop/pid11616/processGone=true, and activeExecution matching original1351 pins; use its actual after. Keep approval.retainedSource12.receipt as that exact private pin."
+    },
+    {
+      "id": "IR104-02",
+      "priority": "P2",
+      "line": 32,
+      "problem": "The required plan source-array file pin is not read or retained; only the independently supplied count/digest are checked. An arbitrary plan.sourcePins pin is ignored.",
+      "counterexample": "Exactline32 accepts a synthetic plan whose sourcePins pin is wrong, with correct current array digest/count. This is an explicit evidence-file contract gap, not a hash-collision or DB-safety claim.",
+      "fix": "Read and deep-compare the approved plain source-array JSON pin with sourcePins(), and retain the actual pin in receipt164."
+    },
+    {
+      "id": "IR104-03",
+      "priority": "P2",
+      "line": 42,
+      "problem": "After capture only product sourcePins are rechecked. Complete business H0 is checked only at entry, so same-H0-through-capture is not verified.",
+      "fix": "Recompute the exact complete helper array after capture and require equality with both entry array and pinned H0; retain this precise stability result."
+    }
+  ],
+  "accepted": {
+    "noCreateContextOrPendingMint": true,
+    "minimalStateOnlyMarker": true,
+    "defaultReadOnlyConnectionAndSHOW": true,
+    "guard98AndCaptureReadonly": true,
+    "verifiedTwoNormal136ChainsBeforeOutputOrConnections": true,
+    "noAPIAndOldPhysical1351StoppedGuards": true,
+    "privateWxObservationOnly": true,
+    "noOriginalStateRewriteAndNoBaselineReset": true,
+    "sourceBeforeAfterRechecked": true,
+    "normalComparisonDeferredTo108": true,
+    "syntaxExitCode": 0
+  },
+  "limits": {
+    "actualM98": null,
+    "actualAdapterPlan": null,
+    "actualAfterSnapshot": null,
+    "actualSource13": null,
+    "noReceiptOrProcessWasActuallyExecuted": true
+  },
+  "actions": {
+    "RootWrites": 0,
+    "SQL": 0,
+    "HTTP": 0,
+    "migration": 0,
+    "processActions": 0,
+    "browser": 0,
+    "GitWrites": 0
+  },
+  "G3Certified": false,
+  "G4Certified": false,
+  "inputPins": [
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/checkpoints/capture164/proposal-before-review104.mjs.bin",
+      "rawBytesSha256": "21498ed240af5ed77b9703ed5c5d211a1ff8f4b0faf342dbe59e612921e5cfdc",
+      "bytes": 8317
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/retention1351-139-140-02/manifest139-140-02.json",
+      "rawBytesSha256": "6fd13ad32179df6ab9d8545dc2adc18f81207d5cfb68da9735ac63a2c6ee8b5d",
+      "bytes": 4822
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/retention1351-139-140-02/proposed/tools/rust-r4ghi/retain-epoch12-before-source13-139.mjs",
+      "rawBytesSha256": "2ad85e4c7ff843077cfc1d14dfcea6413a6e2bb5f5401bfd16a9dfb989056a58",
+      "bytes": 12988
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/api-runtime01.mjs",
+      "rawBytesSha256": "7f5702e6a086900e73fe0afde106bb252485b9a4893b3d5f66ed9a286072dfaf",
+      "bytes": 3877
+    }
+  ]
+}

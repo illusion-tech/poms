@@ -1,0 +1,38 @@
+{
+  "kind": "exact-Root-approved-role-input-cases-not-runtime-evidence",
+  "actualDOMExecuted": false,
+  "supportedWorkerPositiveCases": [
+    {
+      "roleType": "sales-owner",
+      "inputLexeme": "0.5",
+      "expectedWeightUnits": "500000",
+      "zeroReasonRequired": false
+    },
+    {
+      "roleType": "execution-owner",
+      "inputLexeme": "0.499999",
+      "expectedWeightUnits": "499999",
+      "zeroReasonRequired": false
+    },
+    {
+      "roleType": "finance",
+      "inputLexeme": "0.000001",
+      "expectedWeightUnits": "1",
+      "zeroReasonRequired": false
+    },
+    {
+      "roleType": "business-admin",
+      "inputLexeme": "0",
+      "expectedWeightUnits": "0",
+      "zeroReasonRequired": true
+    }
+  ],
+  "expectedSumUnits": "1000000",
+  "realServerFreezePayloadMustPreserveMillionthAndZeroReason": true,
+  "negativePrecisionCasesNotImplementedByCurrentBrowserWorker": [
+    "1e-7",
+    "0.0000001"
+  ],
+  "pausedSetupNegativesWereNotSent": true,
+  "noNegativeUICoverageClaimed": true
+}

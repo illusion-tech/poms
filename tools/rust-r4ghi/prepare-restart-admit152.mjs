@@ -1,0 +1,15 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+const privateRoot = '//wsl.localhost/Debian/home/wangzishi/.local/share/poms-r4ghi/private', linuxPrivate = privateRoot.replace('//wsl.localhost/Debian', ''), ui = privateRoot + '/ui-config/runtime14';
+const sha = value => createHash('sha256').update(value).digest('hex'), prepareBytes = fs.readFileSync(ui + '/source12-restart1351-prepare150.json');
+assert.equal(sha(prepareBytes), '7e175d4bfcad735895482bb0b613ac6ced8a895cbc61746fd0f5fe805b009ed7');
+const preparedBytes = fs.readFileSync(ui + '/restart151-prepare/stdout.json'); assert.equal(sha(preparedBytes), '1b3ddd12090599cdf38199214c1ce8794406ae3ad9c1a570c8b43f9f6ee75b8e');
+const prepared = JSON.parse(preparedBytes), plan = JSON.parse(prepareBytes), processBytes = fs.readFileSync(privateRoot + '/rust-api1351-process.json'), processRecord = JSON.parse(processBytes);
+assert.equal(processRecord.binarySha256, plan.binarySHA256); assert.equal(processRecord.pid, 11616); assert.equal(processRecord.port, 31441);
+assert.equal(prepared.mode, 'prepare'); assert.equal(prepared.preparation.rawBytesSha256, '563cd3d3dac5754e95dfb2a70a6c0af89cae94ebc1e8aaa7a32a730a6fe1c278');
+for (const key of ['preparation', 'preparationPlanSHA256', 'newApiProcess']) assert.equal(plan[key], null);
+plan.newApiProcess = { file: linuxPrivate + '/rust-api1351-process.json', rawBytesSha256: sha(processBytes) };
+plan.preparation = prepared.preparation; plan.preparationPlanSHA256 = sha(prepareBytes);
+const bytes = Buffer.from(JSON.stringify(plan, null, 2) + '\n'), file = ui + '/source12-restart1351-admit152.json'; fs.writeFileSync(file, bytes, { flag: 'wx', mode: 0o600 });
+console.log(JSON.stringify({ admitPlan: { file: file.replace('//wsl.localhost/Debian', ''), rawBytesSha256: sha(bytes) }, actualProcess: plan.newApiProcess, changedPlanFieldsOnly: ['newApiProcess', 'preparation', 'preparationPlanSHA256'], businessOrAuthHTTPExecuted: false }));

@@ -1,0 +1,157 @@
+{
+  "kind": "FS-only-GH03-existing-real-baseline-classification-continuation",
+  "priorRunStatus": "failed-preserved",
+  "priorActualUIBaseline201": true,
+  "baselineId": "ca89ca5c-b482-4155-a327-6e56d4a4ad1a",
+  "projectId": "f9044951-dfa3-41ec-a655-66234697c672",
+  "priorBaselineCreate": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/007286-ui10-http-browser-response.json",
+    "rawBytesSha256": "810b686d71766439699c758f5dddca2bfd85000038595654714a67410a678a48"
+  },
+  "priorBaselineLedger": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/007287-ledger.json",
+    "rawBytesSha256": "c8d2071136f56755a475483674474a9ebbbbe23c811848d6267b29d3b4b4aa39"
+  },
+  "priorPreparation": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/007288-ui10-http-browser-response.json",
+    "rawBytesSha256": "6707cf03d65e6bdda410331808609356ada726a06e5a482b8f16a51402b31976"
+  },
+  "actualOnlyBlockingReason": "cost-classification-required",
+  "actualDirectCostSourceMembersEmpty": true,
+  "actualCurrentCostStageRelationship": {
+    "costId": "48961077-26e6-462b-b936-ae057b1cc1c2",
+    "stageId": "01e8c505-833e-4592-bdb4-5a8129beac44",
+    "evidenceId": "8fbde51c-7351-4eb2-8dd7-7be6280a4659"
+  },
+  "frozenRowPins": [
+    {
+      "table": "operating_baseline_package",
+      "key": [
+        "ca89ca5c-b482-4155-a327-6e56d4a4ad1a"
+      ],
+      "rowSHA256": "aef63d6f43fe2eccd82eebbe25bbae1737e19b81525301e1109979e943eb8e17",
+      "xmin": "4600"
+    },
+    {
+      "table": "project_operating_head",
+      "key": [
+        "f9044951-dfa3-41ec-a655-66234697c672"
+      ],
+      "rowSHA256": "c2537cd83ab1e2c23c5d1b3b005cda923cf28875d14609a2df5011b039562526",
+      "xmin": "4600"
+    },
+    {
+      "table": "project_actual_cost_record",
+      "key": [
+        "48961077-26e6-462b-b936-ae057b1cc1c2"
+      ],
+      "rowSHA256": "c553eeee354e71ec1ae7799a47c8eac3819254c5143208cee72a58b8ed3d532c",
+      "xmin": "3764"
+    },
+    {
+      "table": "cost_stage_attribution_snapshot",
+      "key": [
+        "01e8c505-833e-4592-bdb4-5a8129beac44"
+      ],
+      "rowSHA256": "57e69f2cde03f86140660bd2333cd98495d6a97c6d23d03b34e0154874b1663e",
+      "xmin": "3764"
+    },
+    {
+      "table": "cost_governance_evidence",
+      "key": [
+        "8fbde51c-7351-4eb2-8dd7-7be6280a4659"
+      ],
+      "rowSHA256": "06599a3b2f9ed6f1baa081d61b33a1b6224b2ff68ea1a1056279aa5c2898eabb",
+      "xmin": "3764"
+    }
+  ],
+  "sources": [
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/007286-ui10-http-browser-response.json",
+      "bytes": 2817,
+      "rawBytesSha256": "810b686d71766439699c758f5dddca2bfd85000038595654714a67410a678a48"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/007287-ledger.json",
+      "bytes": 1787,
+      "rawBytesSha256": "c8d2071136f56755a475483674474a9ebbbbe23c811848d6267b29d3b4b4aa39"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/007288-ui10-http-browser-response.json",
+      "bytes": 56364,
+      "rawBytesSha256": "6707cf03d65e6bdda410331808609356ada726a06e5a482b8f16a51402b31976"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-007286-ui10-http-after.json",
+      "bytes": 3133286,
+      "rawBytesSha256": "98f512a22af87a569fb22151228ae4fd027d42a36b39942f2756e5575272df01"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-007286-ui10-http-after/poms_r4ghi_rust-operating_baseline_package.jsonl",
+      "bytes": 11964,
+      "rawBytesSha256": "18cf9b7d06e9a9b96ac4827a13dea153c1e7a53023e677d36854b670877402f2"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-007286-ui10-http-after/poms_r4ghi_rust-project_operating_head.jsonl",
+      "bytes": 4112,
+      "rawBytesSha256": "f209b36a8d1ed5ecef14c2ade7d5c0a93dcd13511a2dd74fb65aae5f1d933a9a"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-007286-ui10-http-after/poms_r4ghi_rust-project_actual_cost_record.jsonl",
+      "bytes": 46711,
+      "rawBytesSha256": "0639b193b0046f8fe6f6e3d7bede7469d09b055e0dd7ad3f2e16f22719d4271a"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-007286-ui10-http-after/poms_r4ghi_rust-cost_stage_attribution_snapshot.jsonl",
+      "bytes": 14149,
+      "rawBytesSha256": "235fe9972055a893b55a9635e4fea9162100bc8821034f433d80e915dd53ee0d"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-007286-ui10-http-after/poms_r4ghi_rust-cost_governance_evidence.jsonl",
+      "bytes": 296179,
+      "rawBytesSha256": "acf694fc40e0d9cccb5187ebea514477170f99fe9482e44339da21af2445603c"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/form-plans33/gh33.fragment.json",
+      "bytes": 899,
+      "rawBytesSha256": "730ea13dc35e8e6a0756824e3cd6299963cd28bb26de029fc20883730df19cf5"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/ui-runtime14/gh18-source12-03/receipt18-06.json",
+      "bytes": 98766,
+      "rawBytesSha256": "cd59d801d6380843207863dcfa2a7bd1528dcad9d43b5c070bc8052f3721395f"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_operating/preparation.rs",
+      "bytes": 24839,
+      "rawBytesSha256": "ccff8729cf6f77749f435c5d429b88bcc54a8166431ba452da0328251baaf185"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_operating/collector.rs",
+      "bytes": 23650,
+      "rawBytesSha256": "386235765190448b021025b5a9954dacd52d6dbde5a04938e2074a750c8d395e"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_operating/inclusion.rs",
+      "bytes": 50122,
+      "rawBytesSha256": "8eba692031e3551be6f6458387b660855b6697d735178d262b93361b950ca6f3"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_operating/context.rs",
+      "bytes": 82198,
+      "rawBytesSha256": "cd485efbf0408cee829cb138617afb2195411317d14b9f9175decb5ba1d09cf5"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-admin/src/app/features/project/project-operating-authoring.ts",
+      "bytes": 26994,
+      "rawBytesSha256": "d2712e52cafde5100e40555b5851c479a2449cdf360637ab968c2a476d24e4c9"
+    }
+  ],
+  "rootCurrentOwnedChecksStillRequiredAtRuntime": true,
+  "newSnapshotOrReviewsExecuted": false,
+  "oldBaselineReplayed": false,
+  "RootWritten": false,
+  "HTTP": false,
+  "SQL": false,
+  "G3Certified": false
+}

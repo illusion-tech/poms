@@ -1,0 +1,456 @@
+{
+  "kind": "FS-only-actual-UI05-effects-before-tool-failures",
+  "originalUI05Passed": false,
+  "successfulWrites": [
+    {
+      "rawPin": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/ui/runtime14/dom14-source12-05/http/http-0032.json",
+        "rawBytesSha256": "143c4c1cfdb0d6d56f5d9b60d23dd484fe476542b744d1c66da47362d0a08889",
+        "bytes": 4387
+      },
+      "publicPin": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business12/main01/006472-ui10-http-browser-http.json",
+        "rawBytesSha256": "2f8a8b9d4fca7afe1ac49374f3ef706813e121a90399aa80904fccdbb4665b7c",
+        "bytes": 1785
+      },
+      "operationId": "ProjectController_startExecution",
+      "requestId": "bg383435b83c-006472-ui10-http-33477768",
+      "method": "POST",
+      "path": "/api/projects/d2f48264-6c18-4fe7-9d96-606e3fd09b2f:startExecution",
+      "status": 200,
+      "intent": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/006472-ui10-http-browser-request.json",
+        "bytes": 2359,
+        "rawBytesSha256": "5ac5f83a6e0d0fe4371c6abd60169e0a665d9b5f386616081133d250c6e7bf5e"
+      },
+      "originals": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/006472-ui10-http-browser-response.json",
+        "bytes": 2559,
+        "rawBytesSha256": "a2fe2a9d5429f344e768c31a6c69f5e065377b9100adab8884a157cdfea8f778"
+      },
+      "before": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-006472-ui10-http-before.json",
+        "bytes": 3130082,
+        "rawBytesSha256": "35f4092bccc885676f9bc46387219f326dfb02a9200caf84e68cf87af2f30666"
+      },
+      "after": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-006472-ui10-http-after.json",
+        "bytes": 3129803,
+        "rawBytesSha256": "37a0fc7dea5fe39b0863c20ca9b56c5e143ee98ba10fdce1b7b7bd62d3fa0304"
+      },
+      "ledger": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/006473-ledger.json",
+        "bytes": 2745,
+        "rawBytesSha256": "d55cf408c825582c71c50c391a42a2f16452557b153ed8f723b48f76befaff04"
+      },
+      "ownershipComplete": true,
+      "recorded": [
+        {
+          "kind": "birth",
+          "table": "approval_summary_field_projection",
+          "key": [
+            "09fd1fb4-ae9b-48a4-87a5-8c76370fb4e3"
+          ],
+          "proofKind": "HTTP-same-real-transaction"
+        },
+        {
+          "kind": "birth",
+          "table": "approval_summary_field_projection",
+          "key": [
+            "593b8355-91fa-4d91-9d95-84bba12d613f"
+          ],
+          "proofKind": "HTTP-same-real-transaction"
+        },
+        {
+          "kind": "birth",
+          "table": "approval_summary_field_projection",
+          "key": [
+            "5de6573b-6de0-4902-8b65-efe95d231330"
+          ],
+          "proofKind": "HTTP-same-real-transaction"
+        },
+        {
+          "kind": "birth",
+          "table": "approval_summary_field_projection",
+          "key": [
+            "c490c83f-db2e-40a1-8c4f-548860ea8970"
+          ],
+          "proofKind": "HTTP-same-real-transaction"
+        },
+        {
+          "kind": "birth",
+          "table": "approval_summary_field_projection",
+          "key": [
+            "e9948c0d-37dd-491d-850f-6cb497379d45"
+          ],
+          "proofKind": "HTTP-same-real-transaction"
+        },
+        {
+          "kind": "birth",
+          "table": "approval_summary_field_projection",
+          "key": [
+            "f00260f7-21c8-4da6-a49d-c7414f4417b9"
+          ],
+          "proofKind": "HTTP-same-real-transaction"
+        },
+        {
+          "kind": "birth",
+          "table": "approval_summary_snapshot",
+          "key": [
+            "d86165a0-9e22-4e7f-bbba-52c8a1d76213"
+          ],
+          "proofKind": "HTTP-same-real-transaction"
+        },
+        {
+          "kind": "birth",
+          "table": "audit_log",
+          "key": [
+            "5b93e5a7-85e4-469f-99ae-a679f3bbb656"
+          ],
+          "proofKind": "HTTP-real-response-ID"
+        },
+        {
+          "kind": "owned-update",
+          "table": "project",
+          "key": [
+            "d2f48264-6c18-4fe7-9d96-606e3fd09b2f"
+          ]
+        },
+        {
+          "kind": "birth",
+          "table": "project_stage_record",
+          "key": [
+            "aa02ca37-14b8-4781-b467-f4161a25552e"
+          ],
+          "proofKind": "HTTP-real-response-ID"
+        }
+      ],
+      "actorId": "e7dbe7a0-11ce-488d-8f09-4f1401e17f98",
+      "actualResponseIDs": {
+        "id": null,
+        "projectStageRecordId": "aa02ca37-14b8-4781-b467-f4161a25552e",
+        "links": []
+      }
+    },
+    {
+      "rawPin": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/ui/runtime14/dom14-source12-05/http/http-0045.json",
+        "rawBytesSha256": "bed077e274112f8ccd7b032457e4bf2b4ca4ebc82b2c9e6f332c6e72f55f7d7b",
+        "bytes": 4771
+      },
+      "publicPin": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business12/main01/006498-ui10-http-browser-http.json",
+        "rawBytesSha256": "ae4fc1127f557b9b59c418b41b794ee4538ecc3c0ebf45eb5554a9bf2cf2241d",
+        "bytes": 1791
+      },
+      "operationId": "AttachmentUploadSessionController_create",
+      "requestId": "bg383435b83c-006498-ui10-http-217a494e",
+      "method": "POST",
+      "path": "/api/attachment-upload-sessions",
+      "status": 201,
+      "intent": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/006498-ui10-http-browser-request.json",
+        "bytes": 2214,
+        "rawBytesSha256": "412a1ec9309f3c856d3df35cd6216530f5e3320747fccdd052dbf0fbf2c31a05"
+      },
+      "originals": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/006498-ui10-http-browser-response.json",
+        "bytes": 3491,
+        "rawBytesSha256": "915e6b85f37f943fe836ef6d84a076f951bd375d5ca6b7abdfa37cb8c5381161"
+      },
+      "before": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-006498-ui10-http-before.json",
+        "bytes": 3130082,
+        "rawBytesSha256": "8c7180b3c9c3e008ff5322d6c5f8eb76dd10cdf5ef903465ad17279b39c2be59"
+      },
+      "after": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-006498-ui10-http-after.json",
+        "bytes": 3129803,
+        "rawBytesSha256": "7a179d3f86a6383c09c05757a3b2e577935db43797663c80253cf369cd6b8e1c"
+      },
+      "ledger": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/006499-ledger.json",
+        "bytes": 1178,
+        "rawBytesSha256": "477feb62888ed3ee585f362cf177b563dc73f30f215525505cbbe7874373c2f1"
+      },
+      "ownershipComplete": true,
+      "recorded": [
+        {
+          "kind": "birth",
+          "table": "attachment_upload_session",
+          "key": [
+            "851ec38b-422e-46e0-b5ed-9a050d475de7"
+          ],
+          "proofKind": "HTTP-real-response-ID"
+        },
+        {
+          "kind": "birth",
+          "table": "audit_log",
+          "key": [
+            "edda933d-7256-48c3-98ac-f73ad114e5b0"
+          ],
+          "proofKind": "HTTP-real-response-ID"
+        }
+      ],
+      "actorId": "47d904fc-35f8-4c13-8b31-7655a0e773eb",
+      "actualResponseIDs": {
+        "id": "851ec38b-422e-46e0-b5ed-9a050d475de7",
+        "projectStageRecordId": null,
+        "links": []
+      }
+    },
+    {
+      "rawPin": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/ui/runtime14/dom14-source12-05/http/http-0046.json",
+        "rawBytesSha256": "9e372a7743fc8b1a90f95f50521dc3f91fd6dee8d9fd926ff0dfbab04fe12195",
+        "bytes": 3407
+      },
+      "publicPin": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business12/main01/006500-ui10-http-browser-http.json",
+        "rawBytesSha256": "d78f993f96bfe35f87d8a3a5f8f9a8c96597ae5e59b93f19adf06c21829f55a8",
+        "bytes": 1822
+      },
+      "operationId": "AttachmentUploadSessionController_createUploadTarget",
+      "requestId": "bg383435b83c-006500-ui10-http-1fe91cce",
+      "method": "POST",
+      "path": "/api/attachment-upload-sessions/851ec38b-422e-46e0-b5ed-9a050d475de7/upload-targets",
+      "status": 200,
+      "intent": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/006500-ui10-http-browser-request.json",
+        "bytes": 1704,
+        "rawBytesSha256": "b6c5c4760649065395293125e8517d975a8cc02db02c1ac76dbc01a6694e8e73"
+      },
+      "originals": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/006500-ui10-http-browser-response.json",
+        "bytes": 1440,
+        "rawBytesSha256": "85f72aeeb6c95970a64d74c25f4617864e1385337177e61b3b0f2f7b498a4507"
+      },
+      "before": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-006500-ui10-http-before.json",
+        "bytes": 3130082,
+        "rawBytesSha256": "34269118e76d52c9345c557ed5a59488d33634f836c8e75fa16684a778354574"
+      },
+      "after": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-006500-ui10-http-after.json",
+        "bytes": 3129803,
+        "rawBytesSha256": "ac919eb11a8eb572a1c6827e451d6f585f8f1dc15ba260b977033abb52cadbff"
+      },
+      "ledger": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/006501-ledger.json",
+        "bytes": 975,
+        "rawBytesSha256": "2525c67235fb2968939a9dee374800bdfb50778980f8aa8e1b78cbcb3edb68d2"
+      },
+      "ownershipComplete": true,
+      "recorded": [
+        {
+          "kind": "owned-update",
+          "table": "attachment_upload_session",
+          "key": [
+            "851ec38b-422e-46e0-b5ed-9a050d475de7"
+          ]
+        }
+      ],
+      "actorId": "47d904fc-35f8-4c13-8b31-7655a0e773eb",
+      "actualResponseIDs": {
+        "id": null,
+        "projectStageRecordId": null,
+        "links": []
+      }
+    },
+    {
+      "rawPin": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/ui/runtime14/dom14-source12-05/http/http-0047.json",
+        "rawBytesSha256": "5afcbfd35eef811fe03db31b5fb5357919d36394b89b72c1258d8e2cff233a47",
+        "bytes": 3574
+      },
+      "publicPin": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business12/main01/006502-ui10-http-browser-http.json",
+        "rawBytesSha256": "684bf6830bd0a88abea5f0b2ca9cfc23423517c2efaf20d9afbf0459fc827d75",
+        "bytes": 1812
+      },
+      "operationId": "AttachmentUploadSessionController_proxyUploadObject",
+      "requestId": "bg383435b83c-006502-ui10-http-4a341539",
+      "method": "PUT",
+      "path": "/api/attachment-upload-sessions/851ec38b-422e-46e0-b5ed-9a050d475de7/object",
+      "status": 200,
+      "intent": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/006502-ui10-http-browser-request.json",
+        "bytes": 2088,
+        "rawBytesSha256": "21c3ae13069edc64b219c6348622636a4def9f8a4a8fcb1dfb3b932865e55f33"
+      },
+      "originals": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/006502-ui10-http-browser-response.json",
+        "bytes": 993,
+        "rawBytesSha256": "b2dcac806ab248ff4efe433bb75da59aa0fc9d9c4a13e9020ba54d5b229fb4f4"
+      },
+      "before": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-006502-ui10-http-before.json",
+        "bytes": 3130082,
+        "rawBytesSha256": "27345e3fbe1ddf36391efc6cf7b77ef6c5e6fd500f88c3ed96be3a01b977e8ac"
+      },
+      "after": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-006502-ui10-http-after.json",
+        "bytes": 3130312,
+        "rawBytesSha256": "e5d9b987ed6c43fdfea949c963fa090abc7cd80f7487883913b538f7bdf10c8d"
+      },
+      "ledger": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/006503-ledger.json",
+        "bytes": 1184,
+        "rawBytesSha256": "0c05535c83db66e698f617113dfb686a585251fbf96d81eb256707f385f47842"
+      },
+      "ownershipComplete": true,
+      "recorded": [
+        {
+          "kind": "owned-update",
+          "table": "attachment_upload_session",
+          "key": [
+            "851ec38b-422e-46e0-b5ed-9a050d475de7"
+          ]
+        },
+        {
+          "kind": "object-birth",
+          "key": "attachments/uploads/2026/11/08/851ec38b-422e-46e0-b5ed-9a050d475de7/original.txt",
+          "proofKind": "actual-HTTP-upload-bytes-exact-owned-session-key"
+        }
+      ],
+      "actorId": "47d904fc-35f8-4c13-8b31-7655a0e773eb",
+      "actualResponseIDs": {
+        "id": null,
+        "projectStageRecordId": null,
+        "links": []
+      }
+    },
+    {
+      "rawPin": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/ui/runtime14/dom14-source12-05/http/http-0048.json",
+        "rawBytesSha256": "418514b5421db07e28159c3647cd4f309da30c09851c3b0e72f2b3c179b69d41",
+        "bytes": 4637
+      },
+      "publicPin": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business12/main01/006504-ui10-http-browser-http.json",
+        "rawBytesSha256": "00f6e375c87b80094439496578f72ea11ce98f1040fe1b04e4ce997be27fa9ae",
+        "bytes": 1807
+      },
+      "operationId": "AttachmentUploadSessionController_complete",
+      "requestId": "bg383435b83c-006504-ui10-http-23826424",
+      "method": "POST",
+      "path": "/api/attachment-upload-sessions/851ec38b-422e-46e0-b5ed-9a050d475de7:complete",
+      "status": 200,
+      "intent": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/006504-ui10-http-browser-request.json",
+        "bytes": 1801,
+        "rawBytesSha256": "eddeca83e39b5ed34268678a677d3ef0c54f4baee1887dcf9c0f9b4970ca1ad4"
+      },
+      "originals": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/006504-ui10-http-browser-response.json",
+        "bytes": 3776,
+        "rawBytesSha256": "6ead6c268bbb0ccf43dee2849c5726ff757f1e2cba0bd8e870cc33a81bdc0a18"
+      },
+      "before": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-006504-ui10-http-before.json",
+        "bytes": 3130591,
+        "rawBytesSha256": "0392122560a7478311c5bd851af463e7eebb8f60424942bc2b762a997b6a1abd"
+      },
+      "after": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-006504-ui10-http-after.json",
+        "bytes": 3131021,
+        "rawBytesSha256": "f961ee15ebb728341feaff9e36379b8fccc5fe81b79c32a8baaaac7aa049e301"
+      },
+      "ledger": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/006505-ledger.json",
+        "bytes": 1756,
+        "rawBytesSha256": "ba06113ba88b5a84e03d66bd2afc8633923473bef14ae2e9069e49409903d2dd"
+      },
+      "ownershipComplete": true,
+      "recorded": [
+        {
+          "kind": "birth",
+          "table": "attachment",
+          "key": [
+            "fe07ecbc-c2c7-4595-adb1-74e7a18190e3"
+          ],
+          "proofKind": "HTTP-real-response-ID"
+        },
+        {
+          "kind": "birth",
+          "table": "attachment_link",
+          "key": [
+            "c40cbc34-9abf-46f9-80b4-9e4129c3728e"
+          ],
+          "proofKind": "HTTP-same-real-transaction"
+        },
+        {
+          "kind": "owned-update",
+          "table": "attachment_upload_session",
+          "key": [
+            "851ec38b-422e-46e0-b5ed-9a050d475de7"
+          ]
+        },
+        {
+          "kind": "birth",
+          "table": "audit_log",
+          "key": [
+            "a99a855e-7470-4ce5-ac4b-76b774f39c49"
+          ],
+          "proofKind": "HTTP-real-response-ID"
+        },
+        {
+          "kind": "object-birth",
+          "key": "attachments/completed/2026/11/08/fe07ecbc-c2c7-4595-adb1-74e7a18190e3/c609fb74-8415-40cb-a18e-864fb10622a7/original.txt",
+          "proofKind": "actual-HTTP-completion-owned-object-transfer"
+        }
+      ],
+      "actorId": "47d904fc-35f8-4c13-8b31-7655a0e773eb",
+      "actualResponseIDs": {
+        "id": "fe07ecbc-c2c7-4595-adb1-74e7a18190e3",
+        "projectStageRecordId": null,
+        "links": [
+          {
+            "id": "c40cbc34-9abf-46f9-80b4-9e4129c3728e",
+            "targetId": "89df00c2-3342-4454-9974-6685c210d2e8",
+            "targetType": "project"
+          }
+        ]
+      }
+    }
+  ],
+  "EO": {
+    "projectId": "d2f48264-6c18-4fe7-9d96-606e3fd09b2f",
+    "actualStageRecordId": "aa02ca37-14b8-4781-b467-f4161a25552e",
+    "enteredBy": "e7dbe7a0-11ce-488d-8f09-4f1401e17f98",
+    "ProjectAndStageCommonXmin": "4418",
+    "oldStage": "handover",
+    "actualStage": "execution",
+    "consumed": true,
+    "replayAllowed": false
+  },
+  "Own": {
+    "projectId": "89df00c2-3342-4454-9974-6685c210d2e8",
+    "completionRecordId": "7d923602-3e01-4e17-be37-8aec28980862",
+    "conditionId": "f5704473-b662-4bb0-86e6-2de5cb7ddde0",
+    "responsibleUserId": "47d904fc-35f8-4c13-8b31-7655a0e773eb",
+    "actualPurposeSessionId": "851ec38b-422e-46e0-b5ed-9a050d475de7",
+    "actualCompletedAttachmentId": "fe07ecbc-c2c7-4595-adb1-74e7a18190e3",
+    "completedUploadChecksum": "59a608de4ee888a8d9cc6eaea7803a9c4554b3b91afc68c90a2b838b5d2f5987",
+    "completedUploadBytes": 289,
+    "closurePOSTObserved": false,
+    "parentAndChildSHAAndXminUnchangedAcrossUpload": true,
+    "conditionStillPending": true,
+    "oldUploadedEvidenceNotAdoptedIntoClosure": true,
+    "replayOldUploadAllowed": false
+  },
+  "font05": {
+    "recordedBlockedOrigins": [
+      "https://fonts.googleapis.com"
+    ],
+    "fullRequestfailedAndConsoleLocationNotRecorded": true,
+    "strictRetroactiveClassificationClaimed": false,
+    "new32MustCollectExactTuples": true
+  },
+  "RootStateRead": false,
+  "RootWritten": false,
+  "SQL": false,
+  "HTTP": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

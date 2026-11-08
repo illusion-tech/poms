@@ -1,3 +1,4 @@
+import { observeFontBoundary32 } from '../../../../../business/ui-font-boundary32.mjs';
 import { performWriteAction14 } from './browser-actions14.mjs';
 import { executeCreatorReadback29 } from '../../../../../business/ui-creator-readback-browser29.mjs';
 // Derived without case behavior changes from sealed DOM08. Only observer-aware deadlines differ.
@@ -37,6 +38,7 @@ export async function executeCase(browser, expect, test, directory, server) {
   if(test.kind==='creator-assigned-readback') return executeCreatorReadback29(browser,expect,test,directory,server);
   const context = await browser.newContext({ baseURL: fixed.origin, locale: 'zh-CN', timezoneId: 'Asia/Shanghai', viewport: { width: 1440, height: 1000 }, serviceWorkers: 'block', acceptDownloads: true });
   const page = await context.newPage(), requests = [], pageErrors = [], consoleErrors = [], blockedOrigins = [];
+  const fontBoundary32 = observeFontBoundary32(page);
   const privateWrite = (file, bytes) => fs.writeFileSync(path.join(directory, file), bytes, { flag: 'wx', mode: 0o600 });
   const start = server.exchanges.length;
   let result;
@@ -158,13 +160,13 @@ export async function executeCase(browser, expect, test, directory, server) {
     const text = await page.locator('body').innerText();
     for (const sentinel of test.forbiddenTexts) for (const variant of sensitiveVariants(sentinel)) assert(!text.includes(variant), 'A real private parent/sensitive sentinel leaked into the DOM');
     assert.equal(pageErrors.length, 0, 'Actual page raised a JavaScript exception');
-    assert.equal(consoleErrors.length, 0, 'Actual browser console errors require Root classification');
-    assert.equal(blockedOrigins.length, 0, 'Actual page attempted a non-namespace network request');
+    fontBoundary32.assertExpected({ consoleErrors, blocked: blockedOrigins });
+    
     result = { kind: test.kind, status: 'passed', requestCount: requests.length, exactOwnDownload: own, businessWritePerformed: Boolean(uiWriteResult), uiWriteResult };
   } catch (error) {
     privateWrite('failure.log', error.stack || String(error));
     result = { kind: test.kind, status: 'failed', failure: 'private-assertion-log', requestCount: requests.length, businessWritePerformed: false };
-  } finally {
+  } finally { privateWrite('font-boundary32.json', jsonBytes(fontBoundary32.snapshot()));
     try { privateWrite('dom.html', Buffer.from(await page.content())); const screenshot = path.join(directory, 'page.png'); await page.screenshot({ path: screenshot, fullPage: true }); fs.chmodSync(screenshot, 0o600); } catch (error) { privateWrite('capture-failure.log', error.stack || String(error)); result = { ...result, status: 'failed', failure: 'private-capture-log' }; }
     privateWrite('browser-log.json', jsonBytes({ requests, pageErrors, consoleErrors, blockedOrigins }));
     await context.close(); await server.settle();

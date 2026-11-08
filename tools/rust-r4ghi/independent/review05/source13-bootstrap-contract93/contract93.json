@@ -1,0 +1,65 @@
+{
+  "kind": "proposed-FS-only-Source13-bootstrap-candidate-contract93",
+  "status": "schema-order-review-only-no-capture-or-mint",
+  "expectedConsumer": { "epoch": "g2-business13", "run": "main01", "migrations": 98, "tables": 139 },
+  "actual13": {
+    "sourcePins": null, "sourcePinsSHA256": null, "sourceCount": null,
+    "buildReceipt": null, "binarySHA256": null, "apiProcess": null,
+    "readinessOriginal": null, "bootstrapCandidate": null, "bootstrapHelpersH0": null,
+    "approvedPlan": null, "registry": null, "admittedCandidate": null,
+    "runtimeBindings": null, "runtimeHelpersH1": null, "explicitRefreeze": null
+  },
+  "bootstrapB0": {
+    "expectedKind": "actual-new13-bootstrap-source-candidate-binding",
+    "mustBeInsideNewConsumerPrivateDirectory": true,
+    "requiresExistingState": false,
+    "requiredFields": ["epoch", "run", "sourcePins", "sourcePinsSHA256", "sourceCount", "process", "readiness", "readinessOriginal", "actualBuild"],
+    "processShape": "{file,rawBytesSha256,record: JSON.parse(the same pinned process JSON)}",
+    "processRecordRequired": ["namespace", "root", "port", "pid", "startTime", "binary", "binarySha256"],
+    "requiredActualReadiness": 200,
+    "mustOmitBeforeMint": ["consumerAdmission", "registry", "newBusinessBaseline"],
+    "actorBindingsFinal": false,
+    "formalG3Certified": false
+  },
+  "admission10802": {
+    "candidateReceipt": null,
+    "candidateSourceDigestPointer": "/sourcePinsSHA256",
+    "candidateBinaryHashPointer": "/process/record/binarySha256",
+    "consumerSourcePinsJSON": null,
+    "consumerApiProcessJSONPin": null,
+    "consumerHelperPinsH0": null,
+    "originalM97BusinessBaselineRetained": true,
+    "oldProducerLabelsRetained": true,
+    "actualM98Applied": false
+  },
+  "admittedB1": {
+    "expectedKind": "actual-new13-admitted-source-candidate-binding",
+    "mustBeInsideSameNewConsumerPrivateDirectory": true,
+    "requiresSuccessfulActualRegistry": true,
+    "additionalFields": ["consumerAdmission.registry", "bootstrapCandidate"],
+    "processAndSourceMustMatch108ActualConsumer": true,
+    "registryStillReferencesB0": true,
+    "mayNotReferenceItselfOrFinalBindingContainingItsHash": true,
+    "formalG3Certified": false
+  },
+  "tax85Binding": {
+    "currentCandidateUses": "B1; not the pre-mint B0",
+    "registryUses": "exact ctx.state.consumerAdmission54.registry object",
+    "processUses": "exact registry.consumer.apiProcess pin plus same JSON record inside B1.process",
+    "retentionUses": "exact registry.retentionIndex and registry.producerState objects",
+    "helperSourcesExcludeBindingsSelf": true,
+    "helperH0AndH1MustNotBeSilentlyRelabeled": true,
+    "explicitBindingOnlyRefreezeBeforeAnyTaxHTTP": true
+  },
+  "captureMinimumInputs": [
+    "Final sourcePins() before/after, actual Source13 applied source and G2/M98 SQL+TS leaves; no state construction",
+    "Actual Root/mirror build source-stable full input receipt linked to these source members and actual binary SHA; no composed535 substitution",
+    "Independent new process JSON pin and record; /proc PID start/exe/file SHA before/after, namespace/root/31441 and same binary",
+    "Actual new API readiness GET200 raw request/response pin while source/process remain stable",
+    "Original namespace/retention/normal-M98 evidence pins for subsequent plan; no copied old candidate body or old actor acceptance",
+    "Owned new private directory, unique non-counter filenames, wx/no overwrite, no state/driver counter side effects"
+  ],
+  "SQL": 0, "HTTP": 0, "browserActions": 0, "RootProductOrHelperWrites": 0,
+  "actualCaptureExecuted": false, "actualM98Certified": false, "actualSource13Certified": false,
+  "G3Certified": false, "G4Certified": false
+}

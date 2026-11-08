@@ -1,0 +1,10 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+const mode = process.argv[2]; assert(['role', 'expense'].includes(mode)); assert.equal(process.platform, 'linux');
+const dir = '/home/wangzishi/.local/share/poms-r4ghi/private/ui-config/runtime14', sha = b => createHash('sha256').update(b).digest('hex'), pin = file => ({ file, rawBytesSha256: sha(fs.readFileSync(file)) });
+const stem = mode === 'role' ? 'role18-source12-' : 'expense18-source12-', oldFile = dir + '/' + stem + '01-prepare-input16.json', raw = fs.readFileSync(oldFile);
+assert.equal(sha(raw), mode === 'role' ? '8d1c48baedacb0ff58a2b194f2b3df2fe182735241e281ca51d7d08879974ba8' : '8f82f82b95e29df083cc0cd89487065b1ab5d0f5cf5bdc60a0db2e107777f55c');
+const input = JSON.parse(raw.toString().replaceAll(stem + '01', stem + '02')); input.promotedToolClosure = pin(dir + '/consumer12-promoted20-role143-01.json'); assert.equal(input.promotedToolClosure.rawBytesSha256, '0e12a4b99350d5157715de916befcbc34c829c5eac8f665328ca972e018a1a9d');
+assert.equal(input.plan.sourceBases.length, 0); assert(!input.plan.metadata16); const file = dir + '/' + stem + '02-prepare-input16.json'; fs.writeFileSync(file, JSON.stringify(input, null, 2) + '\n', { flag: 'wx', mode: 0o600 });
+console.log(JSON.stringify({ mode, input: pin(file), original01NotRewritten: true, noDomainPOSTReplayed: true, HTTPExecuted: false }));

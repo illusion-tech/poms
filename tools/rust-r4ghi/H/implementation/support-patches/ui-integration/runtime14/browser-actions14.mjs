@@ -32,8 +32,8 @@ export async function performWriteAction14({ page, expect, test, primaryData }) 
   const completed = response(page, 'POST', pathname => /^\/api\/attachment-upload-sessions\/[0-9a-f-]+:complete$/i.test(pathname));
   await article.locator('input[type="file"]').setInputFiles({ name: file.name, mimeType: file.mimeType, buffer: file.bytes });
   const actualUpload = await completed; assert.equal(actualUpload.status(), 200); const attachment = await body(actualUpload); assert.equal(attachment.checksumSha256, file.checksumSha256); assert.equal(attachment.sizeBytes, file.sizeBytes);
-  await expect(article).toContainText(file.name); await article.locator(`textarea[name="closure-summary-${task.conditionId}"]`).fill(action.closureSummary);
-  const reuse = article.locator(`input[name="reuse-evidence-${task.conditionId}"]`); await reuse.uncheck();
+  await expect(article).toContainText(file.name); await article.getByLabel('本人闭合说明', { exact: true }).fill(action.closureSummary);
+  const reuse = article.getByLabel('同时提交本条件原有证据', { exact: true }); await reuse.uncheck();
   const closed = response(page, 'POST', pathname => pathname === `/api/project-completion-records/${parent.completionRecordId}/conditions/${task.conditionId}:close`);
   await article.getByRole('button', { name: '以本人身份闭合此条件', exact: true }).click();
   const actualClose = await closed; assert.equal(actualClose.status(), 200); const result = await body(actualClose); assert.equal(result.scopeKind, 'own-condition-only'); assert.equal(result.conditionId, task.conditionId); assert.equal(result.closedBy, test.actor.id); assert.equal(result.conditionStatus, 'closed');

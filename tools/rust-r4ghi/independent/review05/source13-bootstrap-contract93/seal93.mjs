@@ -1,0 +1,25 @@
+import fs from'node:fs';import path from'node:path';import{createHash}from'node:crypto';import{fileURLToPath}from'node:url';
+const out=path.dirname(fileURLToPath(import.meta.url)),root='E:/projects/worktrees/poms-r3hijk-next28/poms',sha=b=>createHash('sha256').update(b).digest('hex'),pin=file=>{const b=fs.readFileSync(file);return{file,rawBytesSha256:sha(b),bytes:b.length};};
+const sources=[root+'/tools/rust-r4ghi/capture-candidate12.mjs','E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108-02/proposed/tools/rust-r4ghi/business/retained-schema-admission108.mjs',root+'/tools/rust-r4ghi/independent/review05/shared-source-followup58/tax-continuation13-draft85-02/candidate/tools/rust-r4ghi/business/tax13-provenance.mjs',root+'/tools/rust-r4ghi/independent/review05/shared-source-followup58/tax-continuation13-draft85-03/manifest85-03.json'].map(pin);
+const report={kind:'FS-Source13-bootstrap-contract-review93',createdAt:new Date().toISOString(),status:'bounded-field-and-order-plan-no-actual13-inputs',
+ conclusions:['The proposed pure-FS pre-state B0 is supported by10802; capture-candidate12 is post-admission and cannot bootstrap unchanged.', 'Using one immutable candidate for both108 plan and85 final registry creates a reference cycle. B0 and admittedB1 are separate originals, both genuinely new13.', '85-03 external private input removes the helper cycle: final code/template H0 remains exactly the admitted runtime graph; no H1 refreeze is selected.'],
+ order:['Finalize source/G2/M98/build/code/helperH0 while old Source12 originals remain preserved.', 'Capture real new136 process/readiness and pure sourcePins before/after, write B0 inside new priv without state or ctx.next.', 'Freeze final10802 plan using B0/source JSON/process JSON/helperH0/retention/M98/impact pins.', 'Run10802 admissionBootstrap; retain originalM97 baseline and mint actual registryR3.', 'Separately capture admittedB1 inside same ctx.priv with R3; keep R3.consumer.candidateReceipt pointing to B0.', 'Approve new private runtime JSON pin for85-03; full helperSources includes the immutable null template and equals R3 helper graph.', 'Run finish-main, prepare-tax STOP, later explicit fi-tax STOP, later separate commit-tax.'],
+ exactMappings:[
+  {consumer:'108.consumer.candidateReceipt',source:'B0 pin'},
+  {consumer:'108.consumer.candidateSourceDigestPointer',source:'/sourcePinsSHA256'},
+  {consumer:'108.consumer.candidateBinaryHashPointer',source:'/process/record/binarySha256'},
+  {consumer:'108.consumer.sourcePins',source:'Independent private JSON containing exactly B0.sourcePins; same digest/count as current pure sourcePins()'},
+  {consumer:'108.consumer.apiProcess',source:'Independent process JSON pin, preferably only file/rawBytesSha256'},
+  {consumer:'B0.process and B1.process',source:'Same process pin plus parsed record; binarySHA/source/build/physicalPID/start/exe and actual readiness must agree'},
+  {consumer:'108.consumer.helperPins',source:'Independent private JSON of full final code/template helperH0; no private runtime input inside business directory'},
+  {consumer:'85.current.candidate',source:'B1 pin inside actual ctx.priv; no assertion equates it to registry.consumer.candidateReceipt'},
+  {consumer:'B1.consumerAdmission.registry and85.current.registry',source:'Exact final state.consumerAdmission54.registry object, retaining any bytes field'},
+  {consumer:'85.current.apiProcess',source:'Exact registry.consumer.apiProcess object; B1.process must retain any required bytes even though108 state pinOnly strips it'},
+  {consumer:'85.current.retentionIndex and retainedProducerState',source:'Exact registry.retentionIndex and registry.producerState objects'},
+  {consumer:'85.current.helperSources',source:'All business mjs/json including unchanged all-null template, plus explicitly used external entry sources; actual registry helper graph must match'}],
+ noCycles:['G2 JSON is a source leaf, not a container for a digest that includes itself or later B0/plan/registry pins.', 'source/helper JSON manifests live outside enumerated helper code paths.', 'B0 omits future registry/state/baseline/actor acceptance.', 'B1 does not contain its own hash or a private binding containing B1 hash.', 'Private runtime JSON carries no own SHA; approval is the explicit CLI argument and state identity.'],
+ actual13:{sourcePins:null,sourceCount:null,sourceDigest:null,actualBuild:null,binary:null,process:null,readiness:null,B0:null,plan:null,registry:null,B1:null,privateRuntimeBinding:null},
+ sourceInputs:sources,documents:['README93.md','contract93.json','resolved-external-binding93-02.json'].map(f=>pin(out+'/'+f)),
+ note:'85-03 is authored support and requires Root non-author review;93 is contract analysis, not a permission mint or product G3.',
+ SQL:0,HTTP:0,browserActions:0,RootProductOrHelperWrites:0,actualCaptureExecuted:false,actualM98Certified:false,actualSource13Certified:false,G3Certified:false,G4Certified:false};
+fs.writeFileSync(out+'/review93.json',JSON.stringify(report,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(pin(out+'/review93.json')));

@@ -1,0 +1,819 @@
+{
+  "kind": "independent-32-operation-preparation-status-addendum162",
+  "source": "operation-status161.json",
+  "sourceContractScopeUnchanged": true,
+  "scope": {
+    "G": 9,
+    "H": 8,
+    "I": 11,
+    "R5Minimum": 4,
+    "total": 32
+  },
+  "observedDistinctOperationIdsInThisBoundedSupplement": 20,
+  "observationCountIsNotDeliveryOrCompleteness": true,
+  "originalPreparationPreserved": true,
+  "formalRustDelivered": 240,
+  "newCertifiedOperations": 0,
+  "G3Certified": false,
+  "G4Certified": false,
+  "outside32ProducerEvidence": [
+    "Expense02 E/F four writes",
+    "Life02 four attachment operation families, three real uploads"
+  ],
+  "operations": [
+    {
+      "operationId": "ProjectCostController_activateOperatingBaselinePackage",
+      "group": "G",
+      "method": "POST",
+      "runtimePath": "/api/operating-baseline-packages",
+      "source12FixedObservations": [
+        {
+          "run": "gh18-source12-03",
+          "receiptPath": "tmp/rust-r4ghi/root/ui-runtime14/gh18-source12-03/receipt18-06.json",
+          "rawBytesSHA256": "cd59d801d6380843207863dcfa2a7bd1528dcad9d43b5c070bc8052f3721395f",
+          "receiptOverallStatus": "failed",
+          "statusCounts": {
+            "201": 1
+          },
+          "physicalCandidatePin": "1dde0fda6f0c23682568f8256ea98da4137ebd7793da7915238e0ac066a9740c",
+          "sourceEpoch": "g2-business12",
+          "isFinalUnifiedCandidateAcceptance": false,
+          "proxyRawOriginalsVerifiedIn162": true
+        }
+      ],
+      "otherHistoricalEvidenceNotReadInThisSupplementIsNotClaimedAbsent": true,
+      "Source13Evidence": [],
+      "historicalReuseForSource13Approved": false,
+      "finalUnifiedCandidateResult": null,
+      "G3Reviewed": false,
+      "G4Reviewed": false
+    },
+    {
+      "operationId": "ProjectCostController_getCurrentOperatingBaselinePackage",
+      "group": "G",
+      "method": "GET",
+      "runtimePath": "/api/projects/{projectId}/operating-baseline-package",
+      "source12FixedObservations": [],
+      "otherHistoricalEvidenceNotReadInThisSupplementIsNotClaimedAbsent": true,
+      "Source13Evidence": [],
+      "historicalReuseForSource13Approved": false,
+      "finalUnifiedCandidateResult": null,
+      "G3Reviewed": false,
+      "G4Reviewed": false
+    },
+    {
+      "operationId": "ProjectCostController_createProjectOperatingSnapshot",
+      "group": "G",
+      "method": "POST",
+      "runtimePath": "/api/project-operating-snapshots",
+      "source12FixedObservations": [
+        {
+          "run": "gh18-source12-04",
+          "receiptPath": "tmp/rust-r4ghi/root/ui-runtime14/gh18-source12-04/receipt18-06.json",
+          "rawBytesSHA256": "66c3bb8bde03a443304f6fedb89082383b47f39c9762a2dd94912516ca54b00e",
+          "receiptOverallStatus": "passed-bound-cases-only",
+          "statusCounts": {
+            "201": 1
+          },
+          "physicalCandidatePin": "1dde0fda6f0c23682568f8256ea98da4137ebd7793da7915238e0ac066a9740c",
+          "sourceEpoch": "g2-business12",
+          "proxyRawOriginalsVerifiedIn162": true,
+          "isFinalUnifiedCandidateAcceptance": false
+        }
+      ],
+      "otherHistoricalEvidenceNotReadInThisSupplementIsNotClaimedAbsent": true,
+      "Source13Evidence": [],
+      "historicalReuseForSource13Approved": false,
+      "finalUnifiedCandidateResult": null,
+      "G3Reviewed": false,
+      "G4Reviewed": false
+    },
+    {
+      "operationId": "ProjectCostController_getProjectOperatingSnapshot",
+      "group": "G",
+      "method": "GET",
+      "runtimePath": "/api/project-operating-snapshots/{id}",
+      "source12FixedObservations": [
+        {
+          "run": "gh18-source12-04",
+          "receiptPath": "tmp/rust-r4ghi/root/ui-runtime14/gh18-source12-04/receipt18-06.json",
+          "rawBytesSHA256": "66c3bb8bde03a443304f6fedb89082383b47f39c9762a2dd94912516ca54b00e",
+          "receiptOverallStatus": "passed-bound-cases-only",
+          "statusCounts": {
+            "200": 1
+          },
+          "physicalCandidatePin": "1dde0fda6f0c23682568f8256ea98da4137ebd7793da7915238e0ac066a9740c",
+          "sourceEpoch": "g2-business12",
+          "proxyRawOriginalsVerifiedIn162": true,
+          "isFinalUnifiedCandidateAcceptance": false
+        }
+      ],
+      "otherHistoricalEvidenceNotReadInThisSupplementIsNotClaimedAbsent": true,
+      "Source13Evidence": [],
+      "historicalReuseForSource13Approved": false,
+      "finalUnifiedCandidateResult": null,
+      "G3Reviewed": false,
+      "G4Reviewed": false
+    },
+    {
+      "operationId": "ProjectCostController_createPeriodClosingSnapshot",
+      "group": "G",
+      "method": "POST",
+      "runtimePath": "/api/period-closing-snapshots",
+      "source12FixedObservations": [],
+      "otherHistoricalEvidenceNotReadInThisSupplementIsNotClaimedAbsent": true,
+      "Source13Evidence": [],
+      "historicalReuseForSource13Approved": false,
+      "finalUnifiedCandidateResult": null,
+      "G3Reviewed": false,
+      "G4Reviewed": false
+    },
+    {
+      "operationId": "ProjectCostController_getPeriodClosingSnapshot",
+      "group": "G",
+      "method": "GET",
+      "runtimePath": "/api/period-closing-snapshots/{id}",
+      "source12FixedObservations": [],
+      "otherHistoricalEvidenceNotReadInThisSupplementIsNotClaimedAbsent": true,
+      "Source13Evidence": [],
+      "historicalReuseForSource13Approved": false,
+      "finalUnifiedCandidateResult": null,
+      "G3Reviewed": false,
+      "G4Reviewed": false
+    },
+    {
+      "operationId": "ProjectCostController_createOperatingRestatement",
+      "group": "G",
+      "method": "POST",
+      "runtimePath": "/api/operating-restatements",
+      "source12FixedObservations": [],
+      "otherHistoricalEvidenceNotReadInThisSupplementIsNotClaimedAbsent": true,
+      "Source13Evidence": [],
+      "historicalReuseForSource13Approved": false,
+      "finalUnifiedCandidateResult": null,
+      "G3Reviewed": false,
+      "G4Reviewed": false
+    },
+    {
+      "operationId": "ProjectCostController_listOperatingRestatements",
+      "group": "G",
+      "method": "GET",
+      "runtimePath": "/api/projects/{projectId}/operating-restatements",
+      "source12FixedObservations": [],
+      "otherHistoricalEvidenceNotReadInThisSupplementIsNotClaimedAbsent": true,
+      "Source13Evidence": [],
+      "historicalReuseForSource13Approved": false,
+      "finalUnifiedCandidateResult": null,
+      "G3Reviewed": false,
+      "G4Reviewed": false
+    },
+    {
+      "operationId": "ProjectCostController_getOperatingRestatement",
+      "group": "G",
+      "method": "GET",
+      "runtimePath": "/api/operating-restatements/{id}",
+      "source12FixedObservations": [],
+      "otherHistoricalEvidenceNotReadInThisSupplementIsNotClaimedAbsent": true,
+      "Source13Evidence": [],
+      "historicalReuseForSource13Approved": false,
+      "finalUnifiedCandidateResult": null,
+      "G3Reviewed": false,
+      "G4Reviewed": false
+    },
+    {
+      "operationId": "ProjectCostController_reviewOperatingSignalEvaluation",
+      "group": "H",
+      "method": "POST",
+      "runtimePath": "/api/operating-signal-evaluations/{id}:review",
+      "source12FixedObservations": [
+        {
+          "run": "gh18-source12-04",
+          "receiptPath": "tmp/rust-r4ghi/root/ui-runtime14/gh18-source12-04/receipt18-06.json",
+          "rawBytesSHA256": "66c3bb8bde03a443304f6fedb89082383b47f39c9762a2dd94912516ca54b00e",
+          "receiptOverallStatus": "passed-bound-cases-only",
+          "statusCounts": {
+            "200": 1
+          },
+          "physicalCandidatePin": "1dde0fda6f0c23682568f8256ea98da4137ebd7793da7915238e0ac066a9740c",
+          "sourceEpoch": "g2-business12",
+          "proxyRawOriginalsVerifiedIn162": true,
+          "isFinalUnifiedCandidateAcceptance": false
+        }
+      ],
+      "otherHistoricalEvidenceNotReadInThisSupplementIsNotClaimedAbsent": true,
+      "Source13Evidence": [],
+      "historicalReuseForSource13Approved": false,
+      "finalUnifiedCandidateResult": null,
+      "G3Reviewed": false,
+      "G4Reviewed": false
+    },
+    {
+      "operationId": "ProjectCostController_getOperatingSignalEvaluation",
+      "group": "H",
+      "method": "GET",
+      "runtimePath": "/api/operating-signal-evaluations/{id}",
+      "source12FixedObservations": [
+        {
+          "run": "gh18-source12-04",
+          "receiptPath": "tmp/rust-r4ghi/root/ui-runtime14/gh18-source12-04/receipt18-06.json",
+          "rawBytesSHA256": "66c3bb8bde03a443304f6fedb89082383b47f39c9762a2dd94912516ca54b00e",
+          "receiptOverallStatus": "passed-bound-cases-only",
+          "statusCounts": {
+            "200": 3
+          },
+          "physicalCandidatePin": "1dde0fda6f0c23682568f8256ea98da4137ebd7793da7915238e0ac066a9740c",
+          "sourceEpoch": "g2-business12",
+          "proxyRawOriginalsVerifiedIn162": true,
+          "isFinalUnifiedCandidateAcceptance": false
+        }
+      ],
+      "otherHistoricalEvidenceNotReadInThisSupplementIsNotClaimedAbsent": true,
+      "Source13Evidence": [],
+      "historicalReuseForSource13Approved": false,
+      "finalUnifiedCandidateResult": null,
+      "G3Reviewed": false,
+      "G4Reviewed": false
+    },
+    {
+      "operationId": "ProjectCostController_reviewCommissionGateBinding",
+      "group": "H",
+      "method": "POST",
+      "runtimePath": "/api/commission-gate-bindings/{id}:review",
+      "source12FixedObservations": [
+        {
+          "run": "gh18-source12-04",
+          "receiptPath": "tmp/rust-r4ghi/root/ui-runtime14/gh18-source12-04/receipt18-06.json",
+          "rawBytesSHA256": "66c3bb8bde03a443304f6fedb89082383b47f39c9762a2dd94912516ca54b00e",
+          "receiptOverallStatus": "passed-bound-cases-only",
+          "statusCounts": {
+            "200": 1
+          },
+          "physicalCandidatePin": "1dde0fda6f0c23682568f8256ea98da4137ebd7793da7915238e0ac066a9740c",
+          "sourceEpoch": "g2-business12",
+          "proxyRawOriginalsVerifiedIn162": true,
+          "isFinalUnifiedCandidateAcceptance": false
+        }
+      ],
+      "otherHistoricalEvidenceNotReadInThisSupplementIsNotClaimedAbsent": true,
+      "Source13Evidence": [],
+      "historicalReuseForSource13Approved": false,
+      "finalUnifiedCandidateResult": null,
+      "G3Reviewed": false,
+      "G4Reviewed": false
+    },
+    {
+      "operationId": "ProjectCostController_getCommissionGateBinding",
+      "group": "H",
+      "method": "GET",
+      "runtimePath": "/api/commission-gate-bindings/{id}",
+      "source12FixedObservations": [
+        {
+          "run": "gh18-source12-04",
+          "receiptPath": "tmp/rust-r4ghi/root/ui-runtime14/gh18-source12-04/receipt18-06.json",
+          "rawBytesSHA256": "66c3bb8bde03a443304f6fedb89082383b47f39c9762a2dd94912516ca54b00e",
+          "receiptOverallStatus": "passed-bound-cases-only",
+          "statusCounts": {
+            "200": 1
+          },
+          "physicalCandidatePin": "1dde0fda6f0c23682568f8256ea98da4137ebd7793da7915238e0ac066a9740c",
+          "sourceEpoch": "g2-business12",
+          "proxyRawOriginalsVerifiedIn162": true,
+          "isFinalUnifiedCandidateAcceptance": false
+        }
+      ],
+      "otherHistoricalEvidenceNotReadInThisSupplementIsNotClaimedAbsent": true,
+      "Source13Evidence": [],
+      "historicalReuseForSource13Approved": false,
+      "finalUnifiedCandidateResult": null,
+      "G3Reviewed": false,
+      "G4Reviewed": false
+    },
+    {
+      "operationId": "ProjectCostController_getProjectBusinessOutcomeOverview",
+      "group": "H",
+      "method": "GET",
+      "runtimePath": "/api/projects/{projectId}/business-outcome-overview",
+      "source12FixedObservations": [],
+      "otherHistoricalEvidenceNotReadInThisSupplementIsNotClaimedAbsent": true,
+      "Source13Evidence": [],
+      "historicalReuseForSource13Approved": false,
+      "finalUnifiedCandidateResult": null,
+      "G3Reviewed": false,
+      "G4Reviewed": false
+    },
+    {
+      "operationId": "ProjectCostController_getProjectUnifiedAccounting",
+      "group": "H",
+      "method": "GET",
+      "runtimePath": "/api/projects/{projectId}/unified-accounting",
+      "source12FixedObservations": [
+        {
+          "run": "gh18-source12-02",
+          "receiptPath": "tmp/rust-r4ghi/root/ui-runtime14/gh18-source12-02/receipt18-06.json",
+          "rawBytesSHA256": "f999ef43fa6c2b2bf82aafd21cade195c9aba906739c60516ff0b1592d4770a9",
+          "receiptOverallStatus": "failed",
+          "statusCounts": {
+            "200": 1
+          },
+          "physicalCandidatePin": "1dde0fda6f0c23682568f8256ea98da4137ebd7793da7915238e0ac066a9740c",
+          "sourceEpoch": "g2-business12",
+          "isFinalUnifiedCandidateAcceptance": false,
+          "proxyRawOriginalsVerifiedIn162": true
+        },
+        {
+          "run": "gh18-source12-03",
+          "receiptPath": "tmp/rust-r4ghi/root/ui-runtime14/gh18-source12-03/receipt18-06.json",
+          "rawBytesSHA256": "cd59d801d6380843207863dcfa2a7bd1528dcad9d43b5c070bc8052f3721395f",
+          "receiptOverallStatus": "failed",
+          "statusCounts": {
+            "200": 3
+          },
+          "physicalCandidatePin": "1dde0fda6f0c23682568f8256ea98da4137ebd7793da7915238e0ac066a9740c",
+          "sourceEpoch": "g2-business12",
+          "isFinalUnifiedCandidateAcceptance": false,
+          "proxyRawOriginalsVerifiedIn162": true
+        },
+        {
+          "run": "gh18-source12-04",
+          "receiptPath": "tmp/rust-r4ghi/root/ui-runtime14/gh18-source12-04/receipt18-06.json",
+          "rawBytesSHA256": "66c3bb8bde03a443304f6fedb89082383b47f39c9762a2dd94912516ca54b00e",
+          "receiptOverallStatus": "passed-bound-cases-only",
+          "statusCounts": {
+            "200": 4
+          },
+          "physicalCandidatePin": "1dde0fda6f0c23682568f8256ea98da4137ebd7793da7915238e0ac066a9740c",
+          "sourceEpoch": "g2-business12",
+          "proxyRawOriginalsVerifiedIn162": true,
+          "isFinalUnifiedCandidateAcceptance": false
+        }
+      ],
+      "otherHistoricalEvidenceNotReadInThisSupplementIsNotClaimedAbsent": true,
+      "Source13Evidence": [],
+      "historicalReuseForSource13Approved": false,
+      "finalUnifiedCandidateResult": null,
+      "G3Reviewed": false,
+      "G4Reviewed": false
+    },
+    {
+      "operationId": "ProjectCostController_getProjectVarianceRiskExplanation",
+      "group": "H",
+      "method": "GET",
+      "runtimePath": "/api/projects/{projectId}/variance-risk-explanation",
+      "source12FixedObservations": [],
+      "otherHistoricalEvidenceNotReadInThisSupplementIsNotClaimedAbsent": true,
+      "Source13Evidence": [],
+      "historicalReuseForSource13Approved": false,
+      "finalUnifiedCandidateResult": null,
+      "G3Reviewed": false,
+      "G4Reviewed": false
+    },
+    {
+      "operationId": "ProjectCostController_getBusinessAccountingFeedback",
+      "group": "H",
+      "method": "GET",
+      "runtimePath": "/api/projects/{projectId}/business-accounting-feedback",
+      "source12FixedObservations": [
+        {
+          "run": "gh18-source12-04",
+          "receiptPath": "tmp/rust-r4ghi/root/ui-runtime14/gh18-source12-04/receipt18-06.json",
+          "rawBytesSHA256": "66c3bb8bde03a443304f6fedb89082383b47f39c9762a2dd94912516ca54b00e",
+          "receiptOverallStatus": "passed-bound-cases-only",
+          "statusCounts": {
+            "200": 3
+          },
+          "physicalCandidatePin": "1dde0fda6f0c23682568f8256ea98da4137ebd7793da7915238e0ac066a9740c",
+          "sourceEpoch": "g2-business12",
+          "proxyRawOriginalsVerifiedIn162": true,
+          "isFinalUnifiedCandidateAcceptance": false
+        }
+      ],
+      "otherHistoricalEvidenceNotReadInThisSupplementIsNotClaimedAbsent": true,
+      "Source13Evidence": [],
+      "historicalReuseForSource13Approved": false,
+      "finalUnifiedCandidateResult": null,
+      "G3Reviewed": false,
+      "G4Reviewed": false
+    },
+    {
+      "operationId": "CommissionController_getCurrentRoleAssignment",
+      "group": "R5-min",
+      "method": "GET",
+      "runtimePath": "/api/projects/{projectId}/commission-role-assignment",
+      "source12FixedObservations": [
+        {
+          "run": "role18-source12-03",
+          "receiptPath": "tmp/rust-r4ghi/root/ui-runtime14/role18-source12-03/receipt18-05.json",
+          "rawBytesSHA256": "4a63f6c2a1f031c8796a3bbb6d095b6d2b55652dcc739b1fd85c37f6fa4cfeb3",
+          "receiptOverallStatus": "passed-bound-cases-only",
+          "statusCounts": {
+            "200": 1
+          },
+          "physicalCandidatePin": "b5c86c8882657aac1e1affc153510a728bc304943265e51a230b6be19a0429b7",
+          "sourceEpoch": "g2-business12",
+          "isFinalUnifiedCandidateAcceptance": false,
+          "proxyRawOriginalsVerifiedIn162": true
+        },
+        {
+          "run": "role18-source12-frozen01",
+          "receiptPath": "tmp/rust-r4ghi/root/ui-runtime14/role18-source12-frozen01/receipt18-05.json",
+          "rawBytesSHA256": "75a4afd447ae0b85cd1380292a982c67b6bab76219dd299e6a84b1f969d4e747",
+          "receiptOverallStatus": "passed-bound-cases-only",
+          "statusCounts": {
+            "200": 1
+          },
+          "physicalCandidatePin": "1dde0fda6f0c23682568f8256ea98da4137ebd7793da7915238e0ac066a9740c",
+          "sourceEpoch": "g2-business12",
+          "isFinalUnifiedCandidateAcceptance": false,
+          "proxyRawOriginalsVerifiedIn162": true
+        }
+      ],
+      "otherHistoricalEvidenceNotReadInThisSupplementIsNotClaimedAbsent": true,
+      "Source13Evidence": [],
+      "historicalReuseForSource13Approved": false,
+      "finalUnifiedCandidateResult": null,
+      "G3Reviewed": false,
+      "G4Reviewed": false
+    },
+    {
+      "operationId": "CommissionController_createRoleAssignment",
+      "group": "R5-min",
+      "method": "POST",
+      "runtimePath": "/api/projects/{projectId}/commission-role-assignments",
+      "source12FixedObservations": [
+        {
+          "run": "separate-public-peer23",
+          "receiptPath": "private/business/g2-business12/main01/007034-role-public23-proof.json",
+          "rawBytesSHA256": "c6ee4804ff5b6e46960adc1d82873e6edc20ac8dd34e2381bb33cfccbe7b2d0f",
+          "statusCounts": {
+            "409": 1
+          },
+          "sourceEpoch": "g2-business12",
+          "isBrowserTapeEntry": false,
+          "isFinalUnifiedCandidateAcceptance": false
+        }
+      ],
+      "otherHistoricalEvidenceNotReadInThisSupplementIsNotClaimedAbsent": true,
+      "Source13Evidence": [],
+      "historicalReuseForSource13Approved": false,
+      "finalUnifiedCandidateResult": null,
+      "G3Reviewed": false,
+      "G4Reviewed": false
+    },
+    {
+      "operationId": "CommissionRoleAssignmentController_getRoleAssignmentDetail",
+      "group": "R5-min",
+      "method": "GET",
+      "runtimePath": "/api/commission-role-assignments/{id}",
+      "source12FixedObservations": [
+        {
+          "run": "role18-source12-03",
+          "receiptPath": "tmp/rust-r4ghi/root/ui-runtime14/role18-source12-03/receipt18-05.json",
+          "rawBytesSHA256": "4a63f6c2a1f031c8796a3bbb6d095b6d2b55652dcc739b1fd85c37f6fa4cfeb3",
+          "receiptOverallStatus": "passed-bound-cases-only",
+          "statusCounts": {
+            "200": 1
+          },
+          "physicalCandidatePin": "b5c86c8882657aac1e1affc153510a728bc304943265e51a230b6be19a0429b7",
+          "sourceEpoch": "g2-business12",
+          "isFinalUnifiedCandidateAcceptance": false,
+          "proxyRawOriginalsVerifiedIn162": true
+        },
+        {
+          "run": "role18-source12-frozen01",
+          "receiptPath": "tmp/rust-r4ghi/root/ui-runtime14/role18-source12-frozen01/receipt18-05.json",
+          "rawBytesSHA256": "75a4afd447ae0b85cd1380292a982c67b6bab76219dd299e6a84b1f969d4e747",
+          "receiptOverallStatus": "passed-bound-cases-only",
+          "statusCounts": {
+            "200": 1
+          },
+          "physicalCandidatePin": "1dde0fda6f0c23682568f8256ea98da4137ebd7793da7915238e0ac066a9740c",
+          "sourceEpoch": "g2-business12",
+          "isFinalUnifiedCandidateAcceptance": false,
+          "proxyRawOriginalsVerifiedIn162": true
+        }
+      ],
+      "otherHistoricalEvidenceNotReadInThisSupplementIsNotClaimedAbsent": true,
+      "Source13Evidence": [],
+      "historicalReuseForSource13Approved": false,
+      "finalUnifiedCandidateResult": null,
+      "G3Reviewed": false,
+      "G4Reviewed": false
+    },
+    {
+      "operationId": "CommissionRoleAssignmentController_freezeRoleAssignment",
+      "group": "R5-min",
+      "method": "POST",
+      "runtimePath": "/api/commission-role-assignments/{id}:freeze",
+      "source12FixedObservations": [
+        {
+          "run": "role18-source12-03",
+          "receiptPath": "tmp/rust-r4ghi/root/ui-runtime14/role18-source12-03/receipt18-05.json",
+          "rawBytesSHA256": "4a63f6c2a1f031c8796a3bbb6d095b6d2b55652dcc739b1fd85c37f6fa4cfeb3",
+          "receiptOverallStatus": "passed-bound-cases-only",
+          "statusCounts": {
+            "200": 1
+          },
+          "physicalCandidatePin": "b5c86c8882657aac1e1affc153510a728bc304943265e51a230b6be19a0429b7",
+          "sourceEpoch": "g2-business12",
+          "isFinalUnifiedCandidateAcceptance": false,
+          "proxyRawOriginalsVerifiedIn162": true
+        }
+      ],
+      "otherHistoricalEvidenceNotReadInThisSupplementIsNotClaimedAbsent": true,
+      "Source13Evidence": [],
+      "historicalReuseForSource13Approved": false,
+      "finalUnifiedCandidateResult": null,
+      "G3Reviewed": false,
+      "G4Reviewed": false
+    },
+    {
+      "operationId": "ProjectController_listAcceptanceRecords",
+      "group": "I",
+      "method": "GET",
+      "runtimePath": "/api/projects/{projectId}/acceptance-records",
+      "source12FixedObservations": [
+        {
+          "run": "lifecycle18-source12-01",
+          "receiptPath": "tmp/rust-r4ghi/root/ui-runtime14/lifecycle18-source12-01/receipt18-03.json",
+          "rawBytesSHA256": "897264dadbdbbe851372447cb30ec451afafd6d3c589f6194e2cb3701d3262c2",
+          "receiptOverallStatus": "failed",
+          "statusCounts": {
+            "200": 1
+          },
+          "physicalCandidatePin": "1dde0fda6f0c23682568f8256ea98da4137ebd7793da7915238e0ac066a9740c",
+          "sourceEpoch": "g2-business12",
+          "isFinalUnifiedCandidateAcceptance": false,
+          "proxyRawOriginalsVerifiedIn162": true
+        },
+        {
+          "run": "lifecycle18-source12-02",
+          "receiptPath": "tmp/rust-r4ghi/root/ui-runtime14/lifecycle18-source12-02/receipt18-03.json",
+          "rawBytesSHA256": "14a66bdd00019794534b739ce321a2d364f3036c9b1caadb41416fbb1e88962f",
+          "receiptOverallStatus": "passed-bound-cases-only",
+          "statusCounts": {
+            "200": 10
+          },
+          "physicalCandidatePin": "1dde0fda6f0c23682568f8256ea98da4137ebd7793da7915238e0ac066a9740c",
+          "sourceEpoch": "g2-business12",
+          "isFinalUnifiedCandidateAcceptance": false,
+          "proxyRawOriginalsVerifiedIn162": true
+        }
+      ],
+      "otherHistoricalEvidenceNotReadInThisSupplementIsNotClaimedAbsent": true,
+      "Source13Evidence": [],
+      "historicalReuseForSource13Approved": false,
+      "finalUnifiedCandidateResult": null,
+      "G3Reviewed": false,
+      "G4Reviewed": false
+    },
+    {
+      "operationId": "ProjectController_createAcceptanceRecord",
+      "group": "I",
+      "method": "POST",
+      "runtimePath": "/api/projects/{projectId}/acceptance-records",
+      "source12FixedObservations": [
+        {
+          "run": "lifecycle18-source12-02",
+          "receiptPath": "tmp/rust-r4ghi/root/ui-runtime14/lifecycle18-source12-02/receipt18-03.json",
+          "rawBytesSHA256": "14a66bdd00019794534b739ce321a2d364f3036c9b1caadb41416fbb1e88962f",
+          "receiptOverallStatus": "passed-bound-cases-only",
+          "statusCounts": {
+            "201": 1
+          },
+          "physicalCandidatePin": "1dde0fda6f0c23682568f8256ea98da4137ebd7793da7915238e0ac066a9740c",
+          "sourceEpoch": "g2-business12",
+          "isFinalUnifiedCandidateAcceptance": false,
+          "proxyRawOriginalsVerifiedIn162": true
+        }
+      ],
+      "otherHistoricalEvidenceNotReadInThisSupplementIsNotClaimedAbsent": true,
+      "Source13Evidence": [],
+      "historicalReuseForSource13Approved": false,
+      "finalUnifiedCandidateResult": null,
+      "G3Reviewed": false,
+      "G4Reviewed": false
+    },
+    {
+      "operationId": "ProjectController_listProjectCompletionRecords",
+      "group": "I",
+      "method": "GET",
+      "runtimePath": "/api/projects/{projectId}/completion-records",
+      "source12FixedObservations": [
+        {
+          "run": "lifecycle18-source12-01",
+          "receiptPath": "tmp/rust-r4ghi/root/ui-runtime14/lifecycle18-source12-01/receipt18-03.json",
+          "rawBytesSHA256": "897264dadbdbbe851372447cb30ec451afafd6d3c589f6194e2cb3701d3262c2",
+          "receiptOverallStatus": "failed",
+          "statusCounts": {
+            "200": 1
+          },
+          "physicalCandidatePin": "1dde0fda6f0c23682568f8256ea98da4137ebd7793da7915238e0ac066a9740c",
+          "sourceEpoch": "g2-business12",
+          "isFinalUnifiedCandidateAcceptance": false,
+          "proxyRawOriginalsVerifiedIn162": true
+        },
+        {
+          "run": "lifecycle18-source12-02",
+          "receiptPath": "tmp/rust-r4ghi/root/ui-runtime14/lifecycle18-source12-02/receipt18-03.json",
+          "rawBytesSHA256": "14a66bdd00019794534b739ce321a2d364f3036c9b1caadb41416fbb1e88962f",
+          "receiptOverallStatus": "passed-bound-cases-only",
+          "statusCounts": {
+            "200": 10
+          },
+          "physicalCandidatePin": "1dde0fda6f0c23682568f8256ea98da4137ebd7793da7915238e0ac066a9740c",
+          "sourceEpoch": "g2-business12",
+          "isFinalUnifiedCandidateAcceptance": false,
+          "proxyRawOriginalsVerifiedIn162": true
+        }
+      ],
+      "otherHistoricalEvidenceNotReadInThisSupplementIsNotClaimedAbsent": true,
+      "Source13Evidence": [],
+      "historicalReuseForSource13Approved": false,
+      "finalUnifiedCandidateResult": null,
+      "G3Reviewed": false,
+      "G4Reviewed": false
+    },
+    {
+      "operationId": "ProjectController_createProjectCompletionRecord",
+      "group": "I",
+      "method": "POST",
+      "runtimePath": "/api/projects/{projectId}/completion-records",
+      "source12FixedObservations": [
+        {
+          "run": "lifecycle18-source12-02",
+          "receiptPath": "tmp/rust-r4ghi/root/ui-runtime14/lifecycle18-source12-02/receipt18-03.json",
+          "rawBytesSHA256": "14a66bdd00019794534b739ce321a2d364f3036c9b1caadb41416fbb1e88962f",
+          "receiptOverallStatus": "passed-bound-cases-only",
+          "statusCounts": {
+            "201": 1
+          },
+          "physicalCandidatePin": "1dde0fda6f0c23682568f8256ea98da4137ebd7793da7915238e0ac066a9740c",
+          "sourceEpoch": "g2-business12",
+          "isFinalUnifiedCandidateAcceptance": false,
+          "proxyRawOriginalsVerifiedIn162": true
+        }
+      ],
+      "otherHistoricalEvidenceNotReadInThisSupplementIsNotClaimedAbsent": true,
+      "Source13Evidence": [],
+      "historicalReuseForSource13Approved": false,
+      "finalUnifiedCandidateResult": null,
+      "G3Reviewed": false,
+      "G4Reviewed": false
+    },
+    {
+      "operationId": "ProjectController_listProjectArchiveRecords",
+      "group": "I",
+      "method": "GET",
+      "runtimePath": "/api/projects/{projectId}/archive-records",
+      "source12FixedObservations": [
+        {
+          "run": "lifecycle18-source12-01",
+          "receiptPath": "tmp/rust-r4ghi/root/ui-runtime14/lifecycle18-source12-01/receipt18-03.json",
+          "rawBytesSHA256": "897264dadbdbbe851372447cb30ec451afafd6d3c589f6194e2cb3701d3262c2",
+          "receiptOverallStatus": "failed",
+          "statusCounts": {
+            "200": 1
+          },
+          "physicalCandidatePin": "1dde0fda6f0c23682568f8256ea98da4137ebd7793da7915238e0ac066a9740c",
+          "sourceEpoch": "g2-business12",
+          "isFinalUnifiedCandidateAcceptance": false,
+          "proxyRawOriginalsVerifiedIn162": true
+        },
+        {
+          "run": "lifecycle18-source12-02",
+          "receiptPath": "tmp/rust-r4ghi/root/ui-runtime14/lifecycle18-source12-02/receipt18-03.json",
+          "rawBytesSHA256": "14a66bdd00019794534b739ce321a2d364f3036c9b1caadb41416fbb1e88962f",
+          "receiptOverallStatus": "passed-bound-cases-only",
+          "statusCounts": {
+            "200": 10
+          },
+          "physicalCandidatePin": "1dde0fda6f0c23682568f8256ea98da4137ebd7793da7915238e0ac066a9740c",
+          "sourceEpoch": "g2-business12",
+          "isFinalUnifiedCandidateAcceptance": false,
+          "proxyRawOriginalsVerifiedIn162": true
+        }
+      ],
+      "otherHistoricalEvidenceNotReadInThisSupplementIsNotClaimedAbsent": true,
+      "Source13Evidence": [],
+      "historicalReuseForSource13Approved": false,
+      "finalUnifiedCandidateResult": null,
+      "G3Reviewed": false,
+      "G4Reviewed": false
+    },
+    {
+      "operationId": "ProjectController_createProjectArchiveRecord",
+      "group": "I",
+      "method": "POST",
+      "runtimePath": "/api/projects/{projectId}/archive-records",
+      "source12FixedObservations": [
+        {
+          "run": "lifecycle18-source12-02",
+          "receiptPath": "tmp/rust-r4ghi/root/ui-runtime14/lifecycle18-source12-02/receipt18-03.json",
+          "rawBytesSHA256": "14a66bdd00019794534b739ce321a2d364f3036c9b1caadb41416fbb1e88962f",
+          "receiptOverallStatus": "passed-bound-cases-only",
+          "statusCounts": {
+            "201": 1
+          },
+          "physicalCandidatePin": "1dde0fda6f0c23682568f8256ea98da4137ebd7793da7915238e0ac066a9740c",
+          "sourceEpoch": "g2-business12",
+          "isFinalUnifiedCandidateAcceptance": false,
+          "proxyRawOriginalsVerifiedIn162": true
+        }
+      ],
+      "otherHistoricalEvidenceNotReadInThisSupplementIsNotClaimedAbsent": true,
+      "Source13Evidence": [],
+      "historicalReuseForSource13Approved": false,
+      "finalUnifiedCandidateResult": null,
+      "G3Reviewed": false,
+      "G4Reviewed": false
+    },
+    {
+      "operationId": "ProjectArchiveRecordController_replaceProjectArchiveRecord",
+      "group": "I",
+      "method": "POST",
+      "runtimePath": "/api/project-archive-records/{id}:replace",
+      "source12FixedObservations": [],
+      "otherHistoricalEvidenceNotReadInThisSupplementIsNotClaimedAbsent": true,
+      "Source13Evidence": [],
+      "historicalReuseForSource13Approved": false,
+      "finalUnifiedCandidateResult": null,
+      "G3Reviewed": false,
+      "G4Reviewed": false
+    },
+    {
+      "operationId": "ProjectArchiveRecordController_voidProjectArchiveRecord",
+      "group": "I",
+      "method": "POST",
+      "runtimePath": "/api/project-archive-records/{id}:void",
+      "source12FixedObservations": [],
+      "otherHistoricalEvidenceNotReadInThisSupplementIsNotClaimedAbsent": true,
+      "Source13Evidence": [],
+      "historicalReuseForSource13Approved": false,
+      "finalUnifiedCandidateResult": null,
+      "G3Reviewed": false,
+      "G4Reviewed": false
+    },
+    {
+      "operationId": "ProjectController_startExecution",
+      "group": "I",
+      "method": "POST",
+      "runtimePath": "/api/projects/{id}:startExecution",
+      "source12FixedObservations": [],
+      "otherHistoricalEvidenceNotReadInThisSupplementIsNotClaimedAbsent": true,
+      "Source13Evidence": [],
+      "historicalReuseForSource13Approved": false,
+      "finalUnifiedCandidateResult": null,
+      "G3Reviewed": false,
+      "G4Reviewed": false
+    },
+    {
+      "operationId": "ProjectController_startAcceptance",
+      "group": "I",
+      "method": "POST",
+      "runtimePath": "/api/projects/{id}:startAcceptance",
+      "source12FixedObservations": [
+        {
+          "run": "lifecycle18-source12-02",
+          "receiptPath": "tmp/rust-r4ghi/root/ui-runtime14/lifecycle18-source12-02/receipt18-03.json",
+          "rawBytesSHA256": "14a66bdd00019794534b739ce321a2d364f3036c9b1caadb41416fbb1e88962f",
+          "receiptOverallStatus": "passed-bound-cases-only",
+          "statusCounts": {
+            "200": 1
+          },
+          "physicalCandidatePin": "1dde0fda6f0c23682568f8256ea98da4137ebd7793da7915238e0ac066a9740c",
+          "sourceEpoch": "g2-business12",
+          "isFinalUnifiedCandidateAcceptance": false,
+          "proxyRawOriginalsVerifiedIn162": true
+        }
+      ],
+      "otherHistoricalEvidenceNotReadInThisSupplementIsNotClaimedAbsent": true,
+      "Source13Evidence": [],
+      "historicalReuseForSource13Approved": false,
+      "finalUnifiedCandidateResult": null,
+      "G3Reviewed": false,
+      "G4Reviewed": false
+    },
+    {
+      "operationId": "ProjectCompletionRecordController_closeCompletionCondition",
+      "group": "I",
+      "method": "POST",
+      "runtimePath": "/api/project-completion-records/{completionRecordId}/conditions/{id}:close",
+      "source12FixedObservations": [],
+      "otherHistoricalEvidenceNotReadInThisSupplementIsNotClaimedAbsent": true,
+      "Source13Evidence": [],
+      "historicalReuseForSource13Approved": false,
+      "finalUnifiedCandidateResult": null,
+      "G3Reviewed": false,
+      "G4Reviewed": false
+    }
+  ],
+  "GH04Receipt": {
+    "path": "tmp/rust-r4ghi/root/ui-runtime14/gh18-source12-04/receipt18-06.json",
+    "rawBytesSHA256": "66c3bb8bde03a443304f6fedb89082383b47f39c9762a2dd94912516ca54b00e"
+  },
+  "rawReadback": "raw-readback162.json",
+  "rawProxyGapFrom161ClosedForTheseEightRuns": true,
+  "crossRunSubsetCoverageDoesNotSetAllA08True": true,
+  "actualSource13UnifiedCandidate": null,
+  "remainingGates": "All final unified candidate results remain null; actualSource13/M98/Tax/period/unified acceptance pending."
+}

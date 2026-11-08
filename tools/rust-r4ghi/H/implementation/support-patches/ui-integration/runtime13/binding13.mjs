@@ -15,6 +15,7 @@ export function validateBindingShape(binding) {
   for (const key of ['sourceManifest', 'candidateReceipt', 'actorManifest', 'apiProcess']) {
     const pin = binding[key]; assert(pin && typeof pin.file === 'string' && path.isAbsolute(pin.file) && digest(pin.rawBytesSha256), `Actual ${key} pin is required before execution`);
   }
+  if (binding.processRestart1351 !== undefined) { const p=binding.processRestart1351; assert(p&&typeof p.file==='string'&&path.isAbsolute(p.file)&&digest(p.rawBytesSha256), 'Actual process-restart registry pin required'); }
   return binding;
 }
 function pinned(ctx, pin) {
@@ -35,6 +36,10 @@ export function bindActualContext(ctx, binding, approvedBindingSHA256, bindingBy
   assert.equal(fs.realpathSync(`/proc/${processRecord.pid}/exe`), processRecord.binary); assert.equal(sha(fs.readFileSync(processRecord.binary)), binding.expectedCandidateBinarySHA256);
   const actors = pinned(ctx, binding.actorManifest); assert.equal(actors.namespace, ctx.namespace); assert.equal(actors.epoch, ctx.epoch); assert.equal(actors.run, ctx.run); assert.equal(actors.marker, binding.marker);
   assert(Array.isArray(actors.actors) && actors.actors.length > 0);
+  if (ctx.state.processRestart1351) {
+    const { assertRestartUIBinding1351 } = createRequire(import.meta.url)('../../../../../business/same-source-process1351.mjs');
+    const proof = assertRestartUIBinding1351(ctx, binding, actors); assert(!(proof && typeof proof.then === 'function'), 'Process restart UI admission must finish synchronously before HTTP');
+  }
   for (const expected of actors.actors) {
     const actual = ctx.state.actors[expected.key]; assert(actual?.id === expected.id && actual.roleId === expected.roleId && actual.orgId === expected.orgId);
     assert.deepEqual([...actual.permissions].sort(), [...expected.permissions].sort(), 'Refresh the actual actor manifest after an authorized role change; never silently rebase');

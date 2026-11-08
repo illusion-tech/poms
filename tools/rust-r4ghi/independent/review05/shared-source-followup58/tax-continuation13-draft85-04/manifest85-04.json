@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "kind": "85-04-exact-private-candidate-path-append",
+  "createdAt": "2026-11-08T08:53:53.801Z",
+  "applyAfter85_03": "e253246a1181c3360293a2288521021677921e12728302bb2fe0aec65053c006",
+  "files": [
+    {
+      "file": "tools/rust-r4ghi/business/tax13-provenance.mjs",
+      "before85_03": "before85-03/tools/rust-r4ghi/business/tax13-provenance.mjs",
+      "applyAfter85_03SHA256": "bdaf43b195b9160db6ebd457aadee4421933bbb550bc8ba672dfad126ca19582",
+      "candidate": "candidate/tools/rust-r4ghi/business/tax13-provenance.mjs",
+      "afterSHA256": "efdc6331ed1b0f65ae0fb603b0abdf77c424a686441bcb4e7f58f4845b169744",
+      "bytes": 15939
+    },
+    {
+      "file": "tools/rust-r4ghi/business/tax13.test.mjs",
+      "before85_03": "before85-03/tools/rust-r4ghi/business/tax13.test.mjs",
+      "applyAfter85_03SHA256": "ceec99cdb1963948e4c02be281b93e914c2b8789e41866cabe55556e2787d7ca",
+      "candidate": "candidate/tools/rust-r4ghi/business/tax13.test.mjs",
+      "afterSHA256": "58dd97d9f7f639b1d32ea09db49754acc2f9f9ed00d1e4bfd3ad2af74bdd7e9d",
+      "bytes": 17408
+    }
+  ],
+  "scope": "Only candidate directory containment and one pure regression; original19/economic/STOP/approved-private-binding logic preserved",
+  "tests": {
+    "windows": {
+      "tests": 20,
+      "pass": 20,
+      "fail": 0
+    },
+    "linux": {
+      "tests": 20,
+      "pass": 20,
+      "fail": 0
+    },
+    "syntaxFiles": 2
+  },
+  "sidecars": [
+    {
+      "file": "README85-04.md",
+      "rawBytesSha256": "72b9bc9098861ce61a52272e5a6628d92b8a9f3d7ce51d9097e123251f49b1f3",
+      "bytes": 914
+    },
+    {
+      "file": "build85-04.mjs",
+      "rawBytesSha256": "67edacb18b4edf999d6da5a2f8f9ee84535a5364ac9f5e57c124aec5d41e614a",
+      "bytes": 2990
+    },
+    {
+      "file": "products85-04.json",
+      "rawBytesSha256": "b5b0d5dc2369aa6410d67fd3c3247f074048cff2c2c2a93d0bd5b215e8332fb9",
+      "bytes": 849
+    },
+    {
+      "file": "validation85-04.json",
+      "rawBytesSha256": "8f92bd8f9cdf8cb82d41cc7bcc584bfa3a4d5ad7eda4bcfbb1260fe1a483dd14",
+      "bytes": 553
+    },
+    {
+      "file": "pure85-04-windows.stdout.log",
+      "rawBytesSha256": "11dcab4efa3b50b36b35105474b6916d8279da4c8d4f1c1dc7ed93fc21be0241",
+      "bytes": 2163
+    },
+    {
+      "file": "pure85-04-windows.stderr.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "pure85-04-linux.stdout.log",
+      "rawBytesSha256": "a6b27bfd9c5bb8ff5356c71f6aa3e21af7c1638f91b0fbf72f5461a5b1687bdf",
+      "bytes": 2219
+    },
+    {
+      "file": "pure85-04-linux.stderr.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    }
+  ],
+  "RootNonAuthorReviewRequired": true,
+  "RootProductOrHelperWrites": 0,
+  "SQL": 0,
+  "HTTP": 0,
+  "GitWrites": 0,
+  "actualSource13": null,
+  "actualAPI13": null,
+  "actualCandidate13": null,
+  "actualRegistry13": null,
+  "G3Certified": false,
+  "G4Certified": false
+}

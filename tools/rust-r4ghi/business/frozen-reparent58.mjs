@@ -43,9 +43,27 @@ export function exactFrozenFailure58(failure, expectedMessage) {
   assert.equal(failure.code, '23514'); assert.equal(failure.message, expectedMessage);
 }
 
-// Called serially by the real Linux UI observer after create201 and its ledger,
+export function frozenProbeLabel58(index, phase) {
+  assert(Number.isInteger(index) && index >= 0 && index < 5); assert(['before', 'after'].includes(phase));
+  return `f58-c${index + 1}-${phase}`;
+}
+export function assertFrozenResumeCases58(record, completedFirstCase) {
+  assert(!record.proof); assert.deepEqual(Object.keys(record.cases), ['zero-reparent-to-draft']);
+  assert.equal(completedFirstCase.phase, 'verified'); assert.equal(completedFirstCase.rollback.allBusinessAuditSecurityRowsAndXminUnchanged, true); assert.equal(completedFirstCase.rollback.catalogSequencesAndObjectsUnchanged, true);
+  assert.deepEqual(record.cases['zero-reparent-to-draft'], completedFirstCase, 'The original completed case1 is immutable; no clearing or replay');
+}
+
+// Called serially by the real Linux UI observer after canonical create200 and its ledger,
 // before forwarding that actual response to Chrome. No HTTP or new driver here.
 export async function probeFrozenReparent58(ctx, { draftAssignmentId, projectId, createReceipt, createLedger }) {
+  return runFrozenReparent58(ctx, { draftAssignmentId, projectId, createReceipt, createLedger }, null);
+}
+export async function continueFrozenReparent58(ctx, args, continuation) {
+  assert.equal(args.draftAssignmentId, '1817b9ae-ec3a-4910-aebd-07a2b6963975'); assert.equal(args.projectId, '389793fb-0f5b-48ea-a5f1-8515ee572d7f');
+  assert.equal(continuation.kind, 'exact-case1-preserving-frozen58-continuation03'); assert(continuation.initial?.manifest); assert(/^[a-f0-9]{64}$/.test(continuation.approvedPlanSHA256));
+  return runFrozenReparent58(ctx, args, continuation);
+}
+async function runFrozenReparent58(ctx, { draftAssignmentId, projectId, createReceipt, createLedger }, continuation) {
   assert.equal(process.platform, 'linux'); uuid(draftAssignmentId); uuid(projectId);
   const lock = JSON.parse(fs.readFileSync(`${ctx.priv}/driver.lock`)); assert.equal(lock.pid, process.pid, 'Run inside the actual serial UI observer, not another driver');
   assert(ctx.state.baseline && !ctx.state.activeFault && !ctx.state.blockedObservation && !ctx.state.cleaned);
@@ -61,14 +79,16 @@ export async function probeFrozenReparent58(ctx, { draftAssignmentId, projectId,
   assert.notEqual(projectId, mainProjectId);
   ctx.state.consumerChecks ??= {}; ctx.state.consumerChecks.frozenReparent58 ??= {};
   const store = ctx.state.consumerChecks.frozenReparent58, existing = store[draftAssignmentId];
-  if (existing?.proof) { assert.deepEqual(existing.createReceipt, createReceipt); assert.deepEqual(existing.createLedger, createLedger); return existing.proof; }
-  assert(!existing, 'An interrupted probe requires exact original reconciliation, never blind rerun');
-  const record = store[draftAssignmentId] = { kind: 'actual-controlled-frozen-role-negative-probes', projectId, draftAssignmentId, mainProjectId, mainAssignmentId, createReceipt, createLedger, cases: {} }; ctx.persist();
-  const initial = await capture(ctx, ctx.next('frozen58-initial')); assertRecorded(ctx, initial);
+  if (!continuation && existing?.proof) { assert.deepEqual(existing.createReceipt, createReceipt); assert.deepEqual(existing.createLedger, createLedger); return existing.proof; }
+  if (continuation) { assert(existing); assertFrozenResumeCases58(existing, continuation.completedFirstCase); assert.deepEqual(existing, continuation.originalRecord); }
+  else assert(!existing, 'An interrupted probe requires exact original reconciliation, never blind rerun');
+  const record = continuation ? existing : (store[draftAssignmentId] = { kind: 'actual-controlled-frozen-role-negative-probes', projectId, draftAssignmentId, mainProjectId, mainAssignmentId, createReceipt, createLedger, cases: {} }); ctx.persist();
+  const initial = continuation ? continuation.initial : await capture(ctx, ctx.next('frozen58-initial')); assertRecorded(ctx, initial);
   const normative = initial.databases[ctx.database].meta.normative;
   const guard = normative.functions.find(raw => JSON.parse(raw).proname === 'jghi_assignment_participant_guard'); assert(guard);
   const trigger = normative.triggers.find(raw => { const value = JSON.parse(raw); return value.table_name === participantTable && value.tgname === 'jghi_frozen_participant' && value.tgenabled === 'O'; }); assert(trigger);
-  record.actualGuard = { initial: initial.manifest, functionSHA256: sha(guard), triggerSHA256: sha(trigger) }; ctx.persist();
+  if (continuation) { assert.equal(record.actualGuard.functionSHA256, sha(guard)); assert.equal(record.actualGuard.triggerSHA256, sha(trigger)); }
+  else { record.actualGuard = { initial: initial.manifest, functionSHA256: sha(guard), triggerSHA256: sha(trigger) }; ctx.persist(); }
   const rows = table => readRows(initial.databases[ctx.database].tables[table]);
   const actualRow = (table, id) => { const row = rows(table).find(item => item.key.length === 1 && item.key[0] === id); assert(row); const owned = ctx.state.owned[keyOf(ctx.database, table, [id])]; assert(owned && !owned.deleted && owned.latestSha256 === row.sha256 && owned.latestXmin === row.xmin, 'Probe may only address exact realOwned rows'); return row; };
   const frozenRow = actualRow(assignmentTable, mainAssignmentId), draftRow = actualRow(assignmentTable, draftAssignmentId);
@@ -83,8 +103,10 @@ export async function probeFrozenReparent58(ctx, { draftAssignmentId, projectId,
   assert(participants.some(row => row.assignment_id === draftAssignmentId), 'Destination draft must have its real UI-created participant set');
   for (const probe of probes) actualRow(participantTable, probe.participantId);
   const fields = { assignment_id: 'uuid', user_id: 'uuid', role_type: 'text', weight_units: 'integer' };
-  for (const probe of probes) {
-    const before = await capture(ctx, ctx.next(`frozen58-${probe.key}-before`)); assertRecorded(ctx, before);
+  for (const [index, probe] of probes.entries()) {
+    if (continuation && index === 0) { assert.deepEqual(record.cases[probe.key], continuation.completedFirstCase); continue; }
+    assert(!record.cases[probe.key], 'Never replay an already starting/pending/verified remaining case');
+    const before = await capture(ctx, ctx.next(frozenProbeLabel58(index, 'before'))); assertRecorded(ctx, before);
     const intent = ctx.artifact(`${ctx.next('frozen58-intent')}.json`, { probe, frozen: { id: mainAssignmentId, projectId: mainProjectId }, draft: { id: draftAssignmentId, projectId }, before: before.manifest, createReceipt, createLedger, onlyControlledDMLAndRollback: true });
     record.cases[probe.key] = { phase: 'DML-starting', intent }; ctx.persist();
     let failure = null, infrastructureFailure = null, control;
@@ -105,7 +127,7 @@ export async function probeFrozenReparent58(ctx, { draftAssignmentId, projectId,
         try { await control.end(); } catch (error) { infrastructureFailure ??= { name: error.name, code: error.code, message: error.message }; }
       }
     }
-    const after = await capture(ctx, ctx.next(`frozen58-${probe.key}-after`));
+    const after = await capture(ctx, ctx.next(frozenProbeLabel58(index, 'after')));
     const observation = ctx.artifact(`${ctx.next('frozen58-observation')}.json`, { intent, before: before.manifest, after: after.manifest, failure, infrastructureFailure, commitAttempted: false });
     record.cases[probe.key] = { phase: 'proof-pending', intent, observation }; ctx.persist();
     try {
@@ -115,6 +137,8 @@ export async function probeFrozenReparent58(ctx, { draftAssignmentId, projectId,
     } catch (error) { ctx.state.blockedObservation = observation; ctx.persist(); throw error; }
   }
   record.proof = ctx.artifact(`${ctx.next('frozen58-proof')}.json`, { kind: 'actual-frozen-zero-and-positive-reparent-to-real-draft-and-identity-weight-23514', mainProjectId, mainAssignmentId, projectId, draftAssignmentId,
-    cases: record.cases, createReceipt, createLedger, actualCaseCount: probes.length, actualGuard: record.actualGuard, sourcePins: sources, SQLFixtureOrCommittedDML: false, allRowsAndXminUnchangedAfterEachRollback: true, oldProducerRecordWritten: false, G3Certified: false, G4Certified: false });
+    cases: record.cases, createReceipt, createLedger, actualCaseCount: probes.length, actualGuard: record.actualGuard, sourcePins: sources,
+    ...(continuation ? { resume58_03: { approvedPlanSHA256: continuation.approvedPlanSHA256, reconciliation: continuation.reconciliation, originalCompletedCasePreserved: true, remainingActualCaseCount: 4 } } : {}),
+    SQLFixtureOrCommittedDML: false, allRowsAndXminUnchangedAfterEachRollback: true, oldProducerRecordWritten: false, G3Certified: false, G4Certified: false });
   ctx.persist(); return record.proof;
 }

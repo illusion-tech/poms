@@ -1,0 +1,170 @@
+{
+  "kind": "independent-fixed-FS-recovery161-readback",
+  "mode": "fixed-immutable-files-only-no-live-state-no-SQL-HTTP-service-or-product-command",
+  "snapshotCount": 5,
+  "pinnedTableFileReferences": 1390,
+  "independentlyHashedUniqueFiles": 1402,
+  "comparisonExclusions": [
+    "capture label",
+    "capture timestamp",
+    "per-capture table output path; exact referenced bytes were independently hashed"
+  ],
+  "comparisons": [
+    {
+      "comparison": "oldFinal->recoveryFresh1",
+      "namespaceEpochRunMarkerEqual": true,
+      "databases": [
+        {
+          "database": "poms_r4ghi_native",
+          "tableCount": 139,
+          "tableSetEqual": true,
+          "rawRowXminDescriptorFieldsEqual": true,
+          "changedTableFields": [],
+          "completeMetadataIncludingNormativeAndSequencesEqual": true,
+          "migrationRowCount": 97
+        },
+        {
+          "database": "poms_r4ghi_rust",
+          "tableCount": 139,
+          "tableSetEqual": true,
+          "rawRowXminDescriptorFieldsEqual": true,
+          "changedTableFields": [],
+          "completeMetadataIncludingNormativeAndSequencesEqual": true,
+          "migrationRowCount": 97
+        }
+      ],
+      "capturedObjectManifestsEqual": true
+    },
+    {
+      "comparison": "oldFinal->recoveryFresh2",
+      "namespaceEpochRunMarkerEqual": true,
+      "databases": [
+        {
+          "database": "poms_r4ghi_native",
+          "tableCount": 139,
+          "tableSetEqual": true,
+          "rawRowXminDescriptorFieldsEqual": true,
+          "changedTableFields": [],
+          "completeMetadataIncludingNormativeAndSequencesEqual": true,
+          "migrationRowCount": 97
+        },
+        {
+          "database": "poms_r4ghi_rust",
+          "tableCount": 139,
+          "tableSetEqual": true,
+          "rawRowXminDescriptorFieldsEqual": true,
+          "changedTableFields": [],
+          "completeMetadataIncludingNormativeAndSequencesEqual": true,
+          "migrationRowCount": 97
+        }
+      ],
+      "capturedObjectManifestsEqual": true
+    },
+    {
+      "comparison": "oldFinal->startup1",
+      "namespaceEpochRunMarkerEqual": true,
+      "databases": [
+        {
+          "database": "poms_r4ghi_native",
+          "tableCount": 139,
+          "tableSetEqual": true,
+          "rawRowXminDescriptorFieldsEqual": true,
+          "changedTableFields": [],
+          "completeMetadataIncludingNormativeAndSequencesEqual": true,
+          "migrationRowCount": 97
+        },
+        {
+          "database": "poms_r4ghi_rust",
+          "tableCount": 139,
+          "tableSetEqual": true,
+          "rawRowXminDescriptorFieldsEqual": true,
+          "changedTableFields": [],
+          "completeMetadataIncludingNormativeAndSequencesEqual": true,
+          "migrationRowCount": 97
+        }
+      ],
+      "capturedObjectManifestsEqual": true
+    },
+    {
+      "comparison": "oldFinal->startup2",
+      "namespaceEpochRunMarkerEqual": true,
+      "databases": [
+        {
+          "database": "poms_r4ghi_native",
+          "tableCount": 139,
+          "tableSetEqual": true,
+          "rawRowXminDescriptorFieldsEqual": true,
+          "changedTableFields": [],
+          "completeMetadataIncludingNormativeAndSequencesEqual": true,
+          "migrationRowCount": 97
+        },
+        {
+          "database": "poms_r4ghi_rust",
+          "tableCount": 139,
+          "tableSetEqual": true,
+          "rawRowXminDescriptorFieldsEqual": true,
+          "changedTableFields": [],
+          "completeMetadataIncludingNormativeAndSequencesEqual": true,
+          "migrationRowCount": 97
+        }
+      ],
+      "capturedObjectManifestsEqual": true
+    }
+  ],
+  "sameCompleteProductSourceVector": true,
+  "actualSourceArrayCount": 406,
+  "sourceCount": 406,
+  "sourcePinsSHA256": "5263ad894591ac682fe7ebf9ca5cfa2aaac3334d4481ae5de4dd63d83b4681fa",
+  "oldAndNewBinaryEqual": true,
+  "oldPhysicalIdentity": {
+    "startedAt": "2026-11-07T19:40:53.492Z",
+    "startTime": "4977486",
+    "pid": 108720
+  },
+  "newPhysicalIdentity": {
+    "startedAt": "2026-11-08T09:38:25.556Z",
+    "startTime": "446482",
+    "pid": 11616
+  },
+  "newProcessMatchesCandidate": true,
+  "originalSchema2StillPinned": true,
+  "overlayPinsOriginalSchema2": true,
+  "frozenStateBaselineMatchesOriginalRegistry": true,
+  "baselineStateType": "OrderedHashtable",
+  "originalRegistryBaselineType": "OrderedHashtable",
+  "overlayBusinessWrites": 0,
+  "overlayHTTPRequests": 0,
+  "oldEvidenceRelabelledAsNew": false,
+  "businessStateBaselineReset": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "allReferencedTableFileRawHashesMatched": true,
+  "fixedSnapshotInputPins": [
+    [
+      "oldFinal",
+      "business/g2-business12/main01/snapshot-007126-ui10-http-after.json",
+      "9205a910aa03686a0f70973f8b4c606b001e54a49b055d80abdd10d07ddaa9df"
+    ],
+    [
+      "recoveryFresh1",
+      "environment-recovery147/data-verification148/snapshot-environment148-fresh1.json",
+      "d30bb875bb22ba40bc3c2681272a8638ef8ebbbd2d67314bdf2bb85af48af1a5"
+    ],
+    [
+      "recoveryFresh2",
+      "environment-recovery147/data-verification148/snapshot-environment148-fresh2.json",
+      "8055dfadd14c817c16edcd488cf0191894a046198dfa55cd3b0d1b13ab6bb957"
+    ],
+    [
+      "startup1",
+      "business/g2-business12/main01/snapshot-007131-p1351-startup1.json",
+      "7dd28b78c8c5ec25942a4b94abdbbfab904d703fbc8108fc9784c7a2c9ff06f5"
+    ],
+    [
+      "startup2",
+      "business/g2-business12/main01/snapshot-007132-p1351-startup2.json",
+      "a65b384f60dfdef1fe167595fcced4e32480f5b79d59619164741922010ba063"
+    ]
+  ],
+  "pinVerificationRule": "Every file referenced by all five fixed snapshot table descriptors was independently SHA256 checked against that descriptor; any mismatch aborts this readback."
+}

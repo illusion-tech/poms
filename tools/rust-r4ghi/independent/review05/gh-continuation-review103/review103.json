@@ -1,0 +1,397 @@
+{
+  "kind": "non-author-FS-only-GH45-continuation-review103",
+  "verdict": "bounded-tooling-admission",
+  "findings": [],
+  "manifest": {
+    "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/gh-baseline45/manifest45.json",
+    "rawBytesSha256": "e8492e1e25e792b8ed93256de5b717f5fb897fb9793e72c2332502c731d5361f"
+  },
+  "verified": {
+    "fourCandidatesExact": true,
+    "diagnosisSourceCount": 16,
+    "frozenRows": [
+      {
+        "table": "operating_baseline_package",
+        "key": [
+          "ca89ca5c-b482-4155-a327-6e56d4a4ad1a"
+        ],
+        "rowSHA256": "aef63d6f43fe2eccd82eebbe25bbae1737e19b81525301e1109979e943eb8e17",
+        "xmin": "4600"
+      },
+      {
+        "table": "project_operating_head",
+        "key": [
+          "f9044951-dfa3-41ec-a655-66234697c672"
+        ],
+        "rowSHA256": "c2537cd83ab1e2c23c5d1b3b005cda923cf28875d14609a2df5011b039562526",
+        "xmin": "4600"
+      },
+      {
+        "table": "project_actual_cost_record",
+        "key": [
+          "48961077-26e6-462b-b936-ae057b1cc1c2"
+        ],
+        "rowSHA256": "c553eeee354e71ec1ae7799a47c8eac3819254c5143208cee72a58b8ed3d532c",
+        "xmin": "3764"
+      },
+      {
+        "table": "cost_stage_attribution_snapshot",
+        "key": [
+          "01e8c505-833e-4592-bdb4-5a8129beac44"
+        ],
+        "rowSHA256": "57e69f2cde03f86140660bd2333cd98495d6a97c6d23d03b34e0154874b1663e",
+        "xmin": "3764"
+      },
+      {
+        "table": "cost_governance_evidence",
+        "key": [
+          "8fbde51c-7351-4eb2-8dd7-7be6280a4659"
+        ],
+        "rowSHA256": "06599a3b2f9ed6f1baa081d61b33a1b6224b2ff68ea1a1056279aa5c2898eabb",
+        "xmin": "3764"
+      }
+    ],
+    "original201CompleteAndLedgerBound": true,
+    "exactCostStageEvidenceRelationship": true,
+    "directCostMembersActuallyEmpty": true,
+    "classificationOnlyFormalBlockRequired": true,
+    "fiveRowSHAAndXminAndOwnedLatestRechecked": true,
+    "continuationBeginsAtBaselinePhase": true,
+    "baselineRePOSTRejected": true,
+    "actualSourcePureLoaderAndSyntheticOwnedMapAccepted": true,
+    "canonicalSnapshotBodyPurePolicyAccepted": true,
+    "policyContextNotMutated": true,
+    "linuxOnlyTwoWiringChanges": true,
+    "H08AndGateMustRemainActual": true,
+    "negativeCasesRejected": [
+      "baseline-rePOST",
+      "other-block",
+      "extra-pending-cost",
+      "wrong-baseline-hash",
+      "wrong-evidence-hash",
+      "snapshot-already-exists",
+      "unrelated-F",
+      "wrong-classification-reason",
+      "missing-decision",
+      "stale-input-hash",
+      "current-owned-xmin-drift"
+    ],
+    "syntax": [
+      {
+        "file": "tools/rust-r4ghi/business/ui-gh18-policy.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "tools/rust-r4ghi/business/ui-gh18-linux.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "tools/rust-r4ghi/business/ui-gh18-browser.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "tools/rust-r4ghi/business/ui-gh-existing-baseline45.mjs",
+        "exitCode": 0
+      }
+    ]
+  },
+  "actualLimits": {
+    "runtimeOwnedMapRead": false,
+    "liveStateRead": false,
+    "actualContinuationExecuted": false,
+    "priorGH03Status": "failed-preserved",
+    "priorUIBaseline201Preserved": true,
+    "currentPureOwnedMap": "Constructed only from frozen five row pins to exercise loader/guard; actual current owned check remains mandatory at Root run."
+  },
+  "admission": {
+    "allowed": "Exact4-file promotion only after no active driver; fresh full helper/source/dist/plan and1351 actor binding; new GH run reads fresh preparation then sends only snapshot and two real reviews.",
+    "notGranted": [
+      "No baseline201 replay",
+      "No weakening of other block reasons",
+      "No new UI flags before actual completed gate",
+      "No product G3/G4"
+    ]
+  },
+  "actions": {
+    "RootWrites": 0,
+    "SQL": 0,
+    "HTTP": 0,
+    "browser": 0,
+    "processActions": 0,
+    "GitWrites": 0
+  },
+  "G3Certified": false,
+  "G4Certified": false,
+  "inputPins": [
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/gh-baseline45/manifest45.json",
+      "bytes": 4259,
+      "rawBytesSha256": "e8492e1e25e792b8ed93256de5b717f5fb897fb9793e72c2332502c731d5361f"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/gh-baseline45/build45.mjs",
+      "bytes": 8627,
+      "rawBytesSha256": "70ae43e0163a62ca0ac5a342bfca0f8d7e8173fa9a4e0af57a0fd8882667e70e"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/gh-baseline45/checks45.json",
+      "bytes": 279,
+      "rawBytesSha256": "2ffdc4a792d67ad0b614a04f7c618855e33708aa72374bc7ccbec9911a0ef3db"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/gh-baseline45/diagnosis45.json",
+      "bytes": 7061,
+      "rawBytesSha256": "9fe341196adbdbcce38a7e99d75f91321aeadf5d4de7b72f9c3b5e34a6709a86"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/gh-baseline45/gh45.fragment.json",
+      "bytes": 1805,
+      "rawBytesSha256": "b558b65cfb69e96a12d2c8b88f22a4b53c6f38a6d56dbc5bdd9daba6679c6123"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/gh-baseline45/guards45.test.mjs",
+      "bytes": 3585,
+      "rawBytesSha256": "98e286b97997eea8d0b91654140ffbaaf42827ace773d716873aff4ddef474c2"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/gh-baseline45/inspect45.mjs",
+      "bytes": 6567,
+      "rawBytesSha256": "f8fc4144d1fa73b7676527511b3c4482542497478b1f60d52383b25cdda961af"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/gh-baseline45/products45.json",
+      "bytes": 1257,
+      "rawBytesSha256": "ea1d6b1735debffe06bea3ebae08fb024b027b8a3a0b10bfb8ab68599fa75e68"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/gh-baseline45/proposed/tools/rust-r4ghi/business/ui-gh-existing-baseline45.mjs",
+      "bytes": 8504,
+      "rawBytesSha256": "8cc87c2430bd1ad108015858b22e55dd4ba513e36e0aed53be4fa4c0b2b58289"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/gh-baseline45/proposed/tools/rust-r4ghi/business/ui-gh18-browser.mjs",
+      "bytes": 12196,
+      "rawBytesSha256": "75185dc6db42a435762ba62d697e9a47e003d2ceacba75b6e67539527d320fba"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/gh-baseline45/proposed/tools/rust-r4ghi/business/ui-gh18-linux.mjs",
+      "bytes": 16370,
+      "rawBytesSha256": "5e4893875bbc82681a4e6432681f03465172682e7188e34ca1145be7b1005948"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/gh-baseline45/proposed/tools/rust-r4ghi/business/ui-gh18-policy.mjs",
+      "bytes": 15502,
+      "rawBytesSha256": "19bd0b4da8092fec61fdf0faefd48a1b46ac52adcfd4d88e14c0d0cc642f0cc3"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/gh-baseline45/pure45.stderr.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/gh-baseline45/pure45.stdout.log",
+      "bytes": 1061,
+      "rawBytesSha256": "f0bb1513300f9ba01a89b1a173f6371a3c378bfd0cfc3c61481ff4444dc230d8"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/gh-baseline45/README45.md",
+      "bytes": 4733,
+      "rawBytesSha256": "46fa0ab0b2540e0a93846591014458529f2c58db19958e3b8c20030157ffb12a"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/gh-baseline45/seal45.mjs",
+      "bytes": 2301,
+      "rawBytesSha256": "4cf7448149a4b1f190311e0e138c666b614c3576f3ff863c7218f27db921ccfa"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/docs/design/rust-r4ghi/gh18-source12-04-promotion162.json",
+      "bytes": 2060,
+      "rawBytesSha256": "44891f640d0240dd704cd9b2149ff97732cca9f48f9777df3bab05d45f712469"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/checkpoints/reviewed162/gh18-source12-04/tools/rust-r4ghi/business/ui-gh18-policy.mjs",
+      "bytes": 14808,
+      "rawBytesSha256": "6b534ba084b96578de59edca3c123d19b9994ec1955f4134b57e90ef9b93a0ac"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/ui-gh18-policy.mjs",
+      "bytes": 15502,
+      "rawBytesSha256": "19bd0b4da8092fec61fdf0faefd48a1b46ac52adcfd4d88e14c0d0cc642f0cc3"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/gh-baseline45/proposed/tools/rust-r4ghi/business/ui-gh18-policy.mjs",
+      "bytes": 15502,
+      "rawBytesSha256": "19bd0b4da8092fec61fdf0faefd48a1b46ac52adcfd4d88e14c0d0cc642f0cc3"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/checkpoints/reviewed162/gh18-source12-04/tools/rust-r4ghi/business/ui-gh18-linux.mjs",
+      "bytes": 16260,
+      "rawBytesSha256": "479d2b8d89daecb2676eda52faa6e15c1d64fa1a8c8e59e5827670e289326fde"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/ui-gh18-linux.mjs",
+      "bytes": 16370,
+      "rawBytesSha256": "5e4893875bbc82681a4e6432681f03465172682e7188e34ca1145be7b1005948"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/gh-baseline45/proposed/tools/rust-r4ghi/business/ui-gh18-linux.mjs",
+      "bytes": 16370,
+      "rawBytesSha256": "5e4893875bbc82681a4e6432681f03465172682e7188e34ca1145be7b1005948"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/checkpoints/reviewed162/gh18-source12-04/tools/rust-r4ghi/business/ui-gh18-browser.mjs",
+      "bytes": 11048,
+      "rawBytesSha256": "45a75f042e989ff4de2fb975e019107fe0a61ddc13a92d8c0ab4472a745687bd"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/ui-gh18-browser.mjs",
+      "bytes": 12196,
+      "rawBytesSha256": "75185dc6db42a435762ba62d697e9a47e003d2ceacba75b6e67539527d320fba"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/gh-baseline45/proposed/tools/rust-r4ghi/business/ui-gh18-browser.mjs",
+      "bytes": 12196,
+      "rawBytesSha256": "75185dc6db42a435762ba62d697e9a47e003d2ceacba75b6e67539527d320fba"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/ui-gh-existing-baseline45.mjs",
+      "bytes": 8504,
+      "rawBytesSha256": "8cc87c2430bd1ad108015858b22e55dd4ba513e36e0aed53be4fa4c0b2b58289"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/gh-baseline45/proposed/tools/rust-r4ghi/business/ui-gh-existing-baseline45.mjs",
+      "bytes": 8504,
+      "rawBytesSha256": "8cc87c2430bd1ad108015858b22e55dd4ba513e36e0aed53be4fa4c0b2b58289"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/007286-ui10-http-browser-response.json",
+      "bytes": 2817,
+      "rawBytesSha256": "810b686d71766439699c758f5dddca2bfd85000038595654714a67410a678a48"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/007287-ledger.json",
+      "bytes": 1787,
+      "rawBytesSha256": "c8d2071136f56755a475483674474a9ebbbbe23c811848d6267b29d3b4b4aa39"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/007288-ui10-http-browser-response.json",
+      "bytes": 56364,
+      "rawBytesSha256": "6707cf03d65e6bdda410331808609356ada726a06e5a482b8f16a51402b31976"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-007286-ui10-http-after.json",
+      "bytes": 3133286,
+      "rawBytesSha256": "98f512a22af87a569fb22151228ae4fd027d42a36b39942f2756e5575272df01"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-007286-ui10-http-after/poms_r4ghi_rust-operating_baseline_package.jsonl",
+      "bytes": 11964,
+      "rawBytesSha256": "18cf9b7d06e9a9b96ac4827a13dea153c1e7a53023e677d36854b670877402f2"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-007286-ui10-http-after/poms_r4ghi_rust-project_operating_head.jsonl",
+      "bytes": 4112,
+      "rawBytesSha256": "f209b36a8d1ed5ecef14c2ade7d5c0a93dcd13511a2dd74fb65aae5f1d933a9a"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-007286-ui10-http-after/poms_r4ghi_rust-project_actual_cost_record.jsonl",
+      "bytes": 46711,
+      "rawBytesSha256": "0639b193b0046f8fe6f6e3d7bede7469d09b055e0dd7ad3f2e16f22719d4271a"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-007286-ui10-http-after/poms_r4ghi_rust-cost_stage_attribution_snapshot.jsonl",
+      "bytes": 14149,
+      "rawBytesSha256": "235fe9972055a893b55a9635e4fea9162100bc8821034f433d80e915dd53ee0d"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-007286-ui10-http-after/poms_r4ghi_rust-cost_governance_evidence.jsonl",
+      "bytes": 296179,
+      "rawBytesSha256": "acf694fc40e0d9cccb5187ebea514477170f99fe9482e44339da21af2445603c"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/form-plans33/gh33.fragment.json",
+      "bytes": 899,
+      "rawBytesSha256": "730ea13dc35e8e6a0756824e3cd6299963cd28bb26de029fc20883730df19cf5"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/ui-runtime14/gh18-source12-03/receipt18-06.json",
+      "bytes": 98766,
+      "rawBytesSha256": "cd59d801d6380843207863dcfa2a7bd1528dcad9d43b5c070bc8052f3721395f"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_operating/preparation.rs",
+      "bytes": 24839,
+      "rawBytesSha256": "ccff8729cf6f77749f435c5d429b88bcc54a8166431ba452da0328251baaf185"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_operating/collector.rs",
+      "bytes": 23650,
+      "rawBytesSha256": "386235765190448b021025b5a9954dacd52d6dbde5a04938e2074a750c8d395e"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_operating/inclusion.rs",
+      "bytes": 50122,
+      "rawBytesSha256": "8eba692031e3551be6f6458387b660855b6697d735178d262b93361b950ca6f3"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_operating/context.rs",
+      "bytes": 82198,
+      "rawBytesSha256": "cd485efbf0408cee829cb138617afb2195411317d14b9f9175decb5ba1d09cf5"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-admin/src/app/features/project/project-operating-authoring.ts",
+      "bytes": 26994,
+      "rawBytesSha256": "d2712e52cafde5100e40555b5851c479a2449cdf360637ab968c2a476d24e4c9"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/007286-ui10-http-browser-response.json",
+      "bytes": 2817,
+      "rawBytesSha256": "810b686d71766439699c758f5dddca2bfd85000038595654714a67410a678a48"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/007287-ledger.json",
+      "bytes": 1787,
+      "rawBytesSha256": "c8d2071136f56755a475483674474a9ebbbbe23c811848d6267b29d3b4b4aa39"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/007288-ui10-http-browser-response.json",
+      "bytes": 56364,
+      "rawBytesSha256": "6707cf03d65e6bdda410331808609356ada726a06e5a482b8f16a51402b31976"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-007286-ui10-http-after.json",
+      "bytes": 3133286,
+      "rawBytesSha256": "98f512a22af87a569fb22151228ae4fd027d42a36b39942f2756e5575272df01"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-007286-ui10-http-after/poms_r4ghi_rust-operating_baseline_package.jsonl",
+      "bytes": 11964,
+      "rawBytesSha256": "18cf9b7d06e9a9b96ac4827a13dea153c1e7a53023e677d36854b670877402f2"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-007286-ui10-http-after/poms_r4ghi_rust-project_operating_head.jsonl",
+      "bytes": 4112,
+      "rawBytesSha256": "f209b36a8d1ed5ecef14c2ade7d5c0a93dcd13511a2dd74fb65aae5f1d933a9a"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-007286-ui10-http-after/poms_r4ghi_rust-project_actual_cost_record.jsonl",
+      "bytes": 46711,
+      "rawBytesSha256": "0639b193b0046f8fe6f6e3d7bede7469d09b055e0dd7ad3f2e16f22719d4271a"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-007286-ui10-http-after/poms_r4ghi_rust-cost_stage_attribution_snapshot.jsonl",
+      "bytes": 14149,
+      "rawBytesSha256": "235fe9972055a893b55a9635e4fea9162100bc8821034f433d80e915dd53ee0d"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-007286-ui10-http-after/poms_r4ghi_rust-cost_governance_evidence.jsonl",
+      "bytes": 296179,
+      "rawBytesSha256": "acf694fc40e0d9cccb5187ebea514477170f99fe9482e44339da21af2445603c"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-007286-ui10-http-after/poms_r4ghi_rust-project.jsonl",
+      "bytes": 32321,
+      "rawBytesSha256": "1398244599ee24017f6da917478dff82b11fb0a32ba33b22c04680c2eb1ff7a8"
+    }
+  ]
+}

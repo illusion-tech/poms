@@ -1,0 +1,215 @@
+{
+  "schemaVersion": 1,
+  "kind": "85-03-private-approved-runtime-binding-source-only",
+  "createdAt": "2026-11-08T08:27:29.350Z",
+  "author": "/root/r4ghi_independent_review",
+  "applyAfter85": {
+    "file": "manifest85.json",
+    "rawBytesSha256": "699e69811117a3b40d41ebba288b8161a359881d5b6bfaef2605695e989d46ea",
+    "bytes": 5931
+  },
+  "applyAfter85_02": {
+    "file": "manifest85-02.json",
+    "rawBytesSha256": "7d6f4677420e7c08099b1414a09ebf720200d6692989f6274350b644231b48dc",
+    "bytes": 2727
+  },
+  "products": [
+    {
+      "target": "tools/rust-r4ghi/business/tax13-provenance.mjs",
+      "before": "before85-02/tools/rust-r4ghi/business/tax13-provenance.mjs",
+      "beforeSHA256": "357e72d387bfd6b469f783345c64bac75934d0e49c80ffc189d8960d8cf3188e",
+      "candidate": "candidate/tools/rust-r4ghi/business/tax13-provenance.mjs",
+      "afterSHA256": "bdaf43b195b9160db6ebd457aadee4421933bbb550bc8ba672dfad126ca19582",
+      "bytes": 15803
+    },
+    {
+      "target": "tools/rust-r4ghi/run-tax-continuation13.mjs",
+      "before": "before85-02/tools/rust-r4ghi/run-tax-continuation13.mjs",
+      "beforeSHA256": "6ea2139431b01743064570a90ee467cd399f723755275e29786e1dbe1fa469c9",
+      "candidate": "candidate/tools/rust-r4ghi/run-tax-continuation13.mjs",
+      "afterSHA256": "f8051af205bc19ee5f4d9b97f51f6999f85d92ed0412a576023cc0d5535bc872",
+      "bytes": 4450
+    },
+    {
+      "target": "tools/rust-r4ghi/business/tax13.test.mjs",
+      "before": "before85-02/tools/rust-r4ghi/business/tax13.test.mjs",
+      "beforeSHA256": "1c5275e4e8152218e1d044de3f3aa2c1c7b6ed77b9f8fc520fc3729db5aae7dc",
+      "candidate": "candidate/tools/rust-r4ghi/business/tax13.test.mjs",
+      "afterSHA256": "ceec99cdb1963948e4c02be281b93e914c2b8789e41866cabe55556e2787d7ca",
+      "bytes": 16274
+    }
+  ],
+  "preservedUnchanged": [
+    {
+      "file": "tools/rust-r4ghi/business/tax13-bindings.json",
+      "rawBytesSha256": "73717a789791d6b2bcf1e8e4a1c891e9b55d12fedf9a8067b0053e5d2330319f",
+      "bytes": 2065
+    },
+    {
+      "file": "tools/rust-r4ghi/business/tax13-facts.mjs",
+      "rawBytesSha256": "e55e6cb5dce6169e1ae2737881d946638ce709414ad6633c829fa2eb7c8eee9b",
+      "bytes": 15429
+    },
+    {
+      "file": "tools/rust-r4ghi/business/tax13-main.mjs",
+      "rawBytesSha256": "694b26151304f95ba4650d4f84b028d10aeb5bca7c0de5243040f2f638f5a070",
+      "bytes": 10495
+    },
+    {
+      "file": "tools/rust-r4ghi/business/tax13-semantics.mjs",
+      "rawBytesSha256": "0c8cf1a203769174424097c24ba4e18de393da0dfe45e1aefe14695daf7c1120",
+      "bytes": 21359
+    },
+    {
+      "file": "tools/rust-r4ghi/business/tax13-sweep.mjs",
+      "rawBytesSha256": "c265ef7f7743c4dac46d2f8a6af2fdc76a06ccaae5d0d5a10a8bb67cac3b5ec1",
+      "bytes": 17407
+    },
+    {
+      "file": "tools/rust-r4ghi/business/faults.mjs",
+      "rawBytesSha256": "0bbce71ab57945cd3f56463ec953b03a3092198d3b19cfe7a0d078a7cbcc7307",
+      "bytes": 8813
+    }
+  ],
+  "runtimeBinding": {
+    "source": "Root-approved immutable private JSON inside actual ctx.priv",
+    "CLI": [
+      "--phase",
+      "--bindings",
+      "--approved-bindings-sha"
+    ],
+    "businessTemplateFilled": false,
+    "templateIncludedInAllHelperPins": true,
+    "helperGraphEqualsRegistryAdmissionGraph": true,
+    "stageRuntimeBindingIdentityPinned": true
+  },
+  "unchanged": {
+    "economicWorkers": true,
+    "bodyMoneyAndUnknown": true,
+    "completeTargetClosure": true,
+    "FIInventoryAndRollback": true,
+    "separateFinishMainPrepareTaxFITaxCommitTaxSTOP": true,
+    "oldProducerRecordsAndSourceLabels": true,
+    "oldBusinessTemplateRawBytes": true
+  },
+  "validation": {
+    "windowsPure": {
+      "tests": 19,
+      "pass": 19,
+      "fail": 0
+    },
+    "linuxPure": {
+      "tests": 19,
+      "pass": 19,
+      "fail": 0
+    },
+    "syntaxFiles": 3,
+    "helpPass": true,
+    "actualSource13": null,
+    "sandboxBaseRootHelpers": 170,
+    "finalRuntimeGraphFrozen": false
+  },
+  "sidecars": [
+    {
+      "file": "seal85-03.mjs",
+      "rawBytesSha256": "26a480e36088b0cfd03bd029870f4dbc8f3dcb5d12c850b7215211cd3f792c31",
+      "bytes": 3164
+    },
+    {
+      "file": "seal85-03-02.mjs",
+      "rawBytesSha256": "73a490b886ddbfdf6785bff8fb21fece258fc09af8c5b4e52adb83721d5003ef",
+      "bytes": 3253
+    },
+    {
+      "file": "seal-attempt01-stopped.json",
+      "rawBytesSha256": "378d272f7fe0da6ef04249d0a018f57530ed8dbf846d589f28b8b2006bbdac4e",
+      "bytes": 411
+    },
+    {
+      "file": "README85-03.md",
+      "rawBytesSha256": "95d6869856a800c2b9307524beedc9dee44b88fc115210fb1102b981f894470c",
+      "bytes": 3727
+    },
+    {
+      "file": "build85-03.mjs",
+      "rawBytesSha256": "75859b81dcdac1a0cc7ef30b25265ab7e545568f4a5b5cbd8933813be6a4b6fe",
+      "bytes": 9566
+    },
+    {
+      "file": "products85-03.json",
+      "rawBytesSha256": "c278c70d7e0b9d297fd82504c29d0132d38e04694688a4c43c7c25aefcb7b67e",
+      "bytes": 1235
+    },
+    {
+      "file": "private-binding-tests85-03.mjs",
+      "rawBytesSha256": "cc12fed9560f5a5f576416ba1e8de82eee8ce812517892c84b1ee05053fd4369",
+      "bytes": 6482
+    },
+    {
+      "file": "validate85-03.mjs",
+      "rawBytesSha256": "31ecc801585b910fe824cafc98e8e8924fd6fc89d490117d9e577d2d60d0815d",
+      "bytes": 4311
+    },
+    {
+      "file": "validate85-03-02.mjs",
+      "rawBytesSha256": "f2830ddf68fa5004cfc8995a17214df3e2ad7aecfb711646cf5efb45bcbf6f48",
+      "bytes": 4322
+    },
+    {
+      "file": "validation-attempt01-stopped.json",
+      "rawBytesSha256": "3214a8db80450a52bed11420167fdd67173e122e04b6c73ba2752e01814fec87",
+      "bytes": 387
+    },
+    {
+      "file": "validation85-03.json",
+      "rawBytesSha256": "ac06d934f771d94229322d87564666ffeecf7f61aff75b413b8daa548c65aec5",
+      "bytes": 49635
+    },
+    {
+      "file": "help85-03.stdout.log",
+      "rawBytesSha256": "69843a3dad3b132de1ff44d4fafbf3800247f3e5a5947bf660986eef2e5a8b6a",
+      "bytes": 251
+    },
+    {
+      "file": "help85-03.stderr.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "pure85-03.stdout.log",
+      "rawBytesSha256": "4c8490dfd244b783b747e3a3bb10d79e21e56eb82c927d8631908e9532de4f6b",
+      "bytes": 2047
+    },
+    {
+      "file": "pure85-03.stderr.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "validation85-03-linux.json",
+      "rawBytesSha256": "50a503c5514b3d39824eb0d0fc7c65947ae760877446918e551dcaa3f24ebfe6",
+      "bytes": 146
+    },
+    {
+      "file": "pure85-03-linux.stdout.log",
+      "rawBytesSha256": "0386a86eee2e996045fe4d8583250d8753cf0760f73c47734d9eae3093f5d7c7",
+      "bytes": 2105
+    },
+    {
+      "file": "pure85-03-linux.stderr.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    }
+  ],
+  "RootNonAuthorReviewRequired": true,
+  "RootProductOrHelperWrites": 0,
+  "SQL": 0,
+  "HTTP": 0,
+  "browserActions": 0,
+  "GitWrites": 0,
+  "actualCandidate13": null,
+  "actualRegistry13": null,
+  "actualPrivateBinding13": null,
+  "G3Certified": false,
+  "G4Certified": false
+}

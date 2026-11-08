@@ -1,0 +1,16 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+import { usedActorKeys } from './H/implementation/support-patches/ui-integration/handoff16/binding-input16.mjs';
+assert.equal(process.platform, 'linux'); const root = '/mnt/e/projects/worktrees/poms-r3hijk-next28/poms', priv = '/home/wangzishi/.local/share/poms-r4ghi/private', dir = priv + '/ui-config/runtime14';
+const sha = b => createHash('sha256').update(b).digest('hex'), pin = file => ({ file, rawBytesSha256: sha(fs.readFileSync(file)) });
+const source = fs.readFileSync(dir + '/role18-source12-02-prepare-input16.json'); assert.equal(sha(source), '6578c03fbe0b1601130b783eaa25366b11ed63038a4c8d203560e23b17dc84f0');
+const input = JSON.parse(source.toString().replaceAll('role18-source12-02', 'role18-source12-03'));
+const fragment = JSON.parse(fs.readFileSync(root + '/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/role-draft36/role36.fragment.unbound.json'));
+const state = JSON.parse(fs.readFileSync(priv + '/business/g2-business12/main01/state.json')), record = state.consumerChecks.frozenReparent58['1817b9ae-ec3a-4910-aebd-07a2b6963975'];
+assert(!state.blockedObservation && !state.activeFault); assert.equal(Object.values(record.cases).filter(c => c.phase === 'verified').length, 5); assert.equal(record.proof.rawBytesSha256, '731fe01317142c9a788758ca5f2a94c3c2f91b4ce3cea847061264df1c00b0c1');
+fragment.writeActions[0].existingDraftContinuation.frozenProbeProof = record.proof; assert.equal(fragment.writeActions[0].frozenReparentProbe, false);
+input.plan.cases = fragment.cases; input.plan.writeActions = fragment.writeActions; input.promotedToolClosure = pin(dir + '/consumer12-promoted20-role143-01.json');
+assert.equal(input.plan.sourceBases.length, 0); assert(!input.plan.metadata16); assert.deepEqual(usedActorKeys(input.plan), ['manager', 'execution', 'finance', 'manager-role-peer']);
+const file = dir + '/role18-source12-03-prepare-input16.json'; fs.writeFileSync(file, JSON.stringify(input, null, 2) + '\n', { flag: 'wx', mode: 0o600 });
+console.log(JSON.stringify({ input: pin(file), actorKeys: usedActorKeys(input.plan), actualExistingDraft: fragment.writeActions[0].existingDraftContinuation.assignmentId, actualFiveProbeProof: record.proof, createToBeReplayed: false, HTTPExecuted: false }));

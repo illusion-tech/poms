@@ -1,3 +1,5 @@
+import {createRequire} from 'node:module';
+import {currentRestartFields1351, assertReceiptProcess1351, assertIndexProcess1351, actorRestartFields1351} from '../../../../../business/ui-process-proof1351.mjs';
 // Metadata-only Root wrapper: no HTTP, DB, child process or browser execution.
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -34,6 +36,8 @@ export function generate(input, inputBytes, approvedInputSHA256) {
   assert.equal(fs.realpathSync(`/proc/${processRecord.pid}/exe`), processRecord.binary); assert.equal(sha(fs.readFileSync(processRecord.binary)), processRecord.binarySha256);
   assert.equal(index.kind, 'actual-recorded-current-auth-session-index16'); assert.equal(index.epoch, state.epoch); assert.equal(index.run, state.run); assert.equal(index.marker, state.marker); assert.equal(index.purpose, input.purpose);
   assert.deepEqual(index.actualPlan, input.plan);
+  const restart1351 = currentRestartFields1351(state, input.apiProcess, state.processRestart1351 ? original(state.processRestart1351.registry, roots) : null);
+  assertIndexProcess1351(index, restart1351);
   const stateFile = `${priv}/state.json`;
   const admittedContext = readAdmittedConsumerContext54({ file: stateFile, rawBytesSha256: sha(fs.readFileSync(stateFile)) });
   assert.deepEqual(admittedContext.state, state); assert.deepEqual(admittedPlanFixtures54(admittedContext, plan), index.fixtureProducerAdmissions54);
@@ -45,11 +49,13 @@ export function generate(input, inputBytes, approvedInputSHA256) {
     const proof = index.proofs.find(item => item.actorKey === key);
     const http = original(proof.httpReceipt, [`${sourceRoot}/tmp/rust-r4ghi/business/${state.epoch}/${state.run}`]);
     assert.equal(http.operationId, 'AuthController_getCurrentAuthSession'); assert.equal(http.actorKey, key); assert.equal(http.status, 200); assert.equal(http.expectedStatus, 200); assert(http.responseComplete && !http.transportFailure);
+    assertReceiptProcess1351(http, proof.httpReceipt, restart1351);
     const response = original(http.originals.responseBody, [priv]), actor = state.actors[key], permissions = assertActorResponse(response, actor);
     actors.push({ key, id: actor.id, roleId: actor.roleId, orgId: actor.orgId, permissions, actualCurrentAuthReceipt: proof.httpReceipt });
   }
   const actorFile = `${path.dirname(locations.linuxBinding)}/${plan.uiRun}-actors.json`; assert(!fs.existsSync(actorFile) && !fs.existsSync(locations.linuxBinding));
-  fs.writeFileSync(actorFile, JSON.stringify({ schemaVersion: 1, namespace: state.namespace, epoch: state.epoch, run: state.run, marker: state.marker, actorBindingsFinal: index.actorBindingsFinal, purpose: input.purpose, sourceActualProofIndex: input.actorProofIndex, actors }, null, 2) + '\n', { flag: 'wx', mode: 0o600 });
+  const actorManifestValue = { schemaVersion: 1, namespace: state.namespace, epoch: state.epoch, run: state.run, marker: state.marker, actorBindingsFinal: index.actorBindingsFinal, purpose: input.purpose, sourceActualProofIndex: input.actorProofIndex, actors, ...actorRestartFields1351(restart1351, input.actorProofIndex) };
+  fs.writeFileSync(actorFile, JSON.stringify(actorManifestValue, null, 2) + '\n', { flag: 'wx', mode: 0o600 });
   const compatibilityFixtures = [];
   if (plan.cases.some(scene => scene.kind === 'legacy-anchor')) {
     const scene = plan.cases.find(scene => scene.kind === 'legacy-anchor'), record = state.fixtures.legacyCompatibilityFixture;
@@ -60,8 +66,13 @@ export function generate(input, inputBytes, approvedInputSHA256) {
   const binding = { schemaVersion: 1, namespace: state.namespace, epoch: state.epoch, run: state.run, marker: state.marker, database: 'poms_r4ghi_rust', tables: 139, migrations: 97,
     sourcePinsSHA256, expectedCandidateBinarySHA256: processRecord.binarySha256, sourceManifest: input.sourceManifest, candidateReceipt: input.candidateReceipt, actorManifest: pin(actorFile), apiProcess: input.apiProcess,
     writeActionsSHA256: sha(Buffer.from(JSON.stringify(plan.writeActions))), actorBindingsFinal: index.actorBindingsFinal, purpose: input.purpose, plan: input.plan, metadata16: plan.metadata16,
-    fixtureProducerAdmissions54: index.fixtureProducerAdmissions54, compatibilityFixtures };
-  validateBindingShape(binding); fs.writeFileSync(locations.linuxBinding, JSON.stringify(binding, null, 2) + '\n', { flag: 'wx', mode: 0o600 });
+    fixtureProducerAdmissions54: index.fixtureProducerAdmissions54, compatibilityFixtures, ...(restart1351 ? {processRestart1351:restart1351.processRestart1351} : {}) };
+  validateBindingShape(binding);
+  if (restart1351) {
+    const {assertRestartUIBinding1351} = createRequire(import.meta.url)('../../../../../business/same-source-process1351.mjs');
+    const proof = assertRestartUIBinding1351(admittedContext, binding, actorManifestValue); assert(!(proof && typeof proof.then === 'function'), 'Restart binding must be verified synchronously before publication');
+  }
+  fs.writeFileSync(locations.linuxBinding, JSON.stringify(binding, null, 2) + '\n', { flag: 'wx', mode: 0o600 });
   return { kind: 'generated-real-recorded-input-closed-binding-only', purpose: input.purpose, actorsFinal: index.actorBindingsFinal, actualRootInputRawSHA256: approvedInputSHA256, actorManifest: pin(actorFile), closedBinding: pin(locations.linuxBinding), candidateBinarySHA256: processRecord.binarySha256, HTTPExecuted: false, DBExecuted: false, browserExecuted: false };
 }
 function main() { const args = process.argv.slice(2); assert(args.length === 5 && args[0] === '--input' && args[2] === '--approved-input-sha' && args[4] === '--execute'); const bytes = fs.readFileSync(args[1]); console.log(JSON.stringify(generate(JSON.parse(bytes), bytes, args[3]))); }

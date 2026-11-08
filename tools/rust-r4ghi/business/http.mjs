@@ -8,6 +8,7 @@ import { assertRecorded, reconcileAttempt, allowBorrowed, allowNumberCounter } f
 import { statusBindings } from '../userfix/status.mjs';
 import { ownedFile } from './context.mjs';
 import { assertRestatementLaborNumberBinding } from './restatement-labor-number.mjs';
+import { processReference1351 } from './same-source-process1351.mjs';
 
 function bindActualApi(ctx) {
   const file = ctx.options['api-process-record'] ?? ctx.state.apiProcess?.file;
@@ -81,9 +82,9 @@ export function createApi(ctx) {
     } catch (error) { failure = error; originals.failure = ctx.artifact(`${label}-transport-failure.json`, { name: error.name, message: error.message, stack: error.stack }); }
     const bytes = Buffer.concat(chunks); originals.responseBody = ctx.artifact(`${label}-response-body.bin`, bytes);
     let parsed = null; try { parsed = bytes.length ? JSON.parse(bytes.toString('utf8')) : null; } catch { /* Actual bytes are always retained. */ }
-    const attempt = { operationId, requestId, actorKey, actorId: actor.id, pathParams: params, requestValue: body, requestBodySha256: sha(payload), status: response?.status ?? null, expectedStatus, responseComplete: response?.complete === true, transportFailure: Boolean(failure), body: parsed };
+    const attempt = { ...(ctx.state.processRestart1351 ? { processBinding1351: processReference1351(ctx) } : {}), operationId, requestId, actorKey, actorId: actor.id, pathParams: params, requestValue: body, requestBodySha256: sha(payload), status: response?.status ?? null, expectedStatus, responseComplete: response?.complete === true, transportFailure: Boolean(failure), body: parsed };
     const publicReceipt = `${label}-http.json`;
-    ctx.public(publicReceipt, { kind: 'actual-business-HTTP-attempt', operationId, requestId, actorKey, method: op.method, canonicalTemplate: op.template,
+    ctx.public(publicReceipt, { ...(ctx.state.processRestart1351 ? { processBinding1351: processReference1351(ctx) } : {}), kind: 'actual-business-HTTP-attempt', operationId, requestId, actorKey, method: op.method, canonicalTemplate: op.template,
       querySha256: sha(url.search), status: attempt.status, expectedStatus, responseComplete: attempt.responseComplete, transportFailure: attempt.transportFailure,
       originals, bodyByteBoundary: 'Configured headers and Node HTTP transfer-decoded entity bytes; not raw TCP capture', secretsHeadersAndPayloadPublished: false });
     ctx.persist();

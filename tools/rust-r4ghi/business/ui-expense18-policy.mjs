@@ -18,7 +18,8 @@ export function createExpensePolicy18({ ctx, scene, action, readRows }) {
     if (url.pathname.startsWith('/api/auth/') || url.pathname.startsWith('/api/me/') || operationId.startsWith('NavigationController_') || operationId.startsWith('HealthController_')) return;
     if (operationId === 'ProjectController_getById') { assert.equal(params.id, projectId); return; }
     if (operationId === 'DictionaryController_list') { assert.equal(url.searchParams.get('domain'), 'expense-category'); assert.equal(url.searchParams.get('status'), 'active'); return; }
-    if (['ContractController_list', 'ProjectCostController_listExpenseRecords', 'ProjectCostController_listProjectActualCostRecords'].includes(operationId)) { assert.equal(params.projectId, projectId); return; }
+    if (operationId === 'ContractController_list') { assert.equal(url.origin, 'http://127.0.0.1:44551'); assert.equal(url.pathname, '/api/contracts'); assert.equal(url.searchParams.getAll('projectId').length, 1); assert.equal(url.searchParams.get('projectId'), projectId); return; }
+    if (['ProjectCostController_listExpenseRecords', 'ProjectCostController_listProjectActualCostRecords'].includes(operationId)) { assert.equal(params.projectId, projectId); return; }
     if (operationId === 'ProjectCostController_getExpenseRecordDetail') { assert(cache.expense && params.id === cache.expense.id); return; }
     if (operationId === 'ProjectCostController_getProjectActualCostRecordDetail') { assert(cache.cost && params.id === cache.cost.id); return; }
     if (operationId === 'ProjectCostController_listCostStageAttributions') { assert(cache.cost && params.costRecordId === cache.cost.id); return; }

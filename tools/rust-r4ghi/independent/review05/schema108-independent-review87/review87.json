@@ -1,0 +1,376 @@
+{
+  "kind": "I108-independent-schema-admission-review87",
+  "createdAt": "2026-11-08T01:13:23.877Z",
+  "reviewer": "/root/r4ghi_independent_review",
+  "nonAuthor": true,
+  "authorManifest": {
+    "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/manifest108.json",
+    "rawBytesSha256": "8943e0ac1fcabe40cee6171862cb6d2fca65186c78bf01784e61c75f372cba96"
+  },
+  "disposition": "preserve-reviewable-proposal-hold-executable-schema3-mint-for-IR87-01",
+  "exactInputs": {
+    "candidates": 11,
+    "unchangedRootDependencies": 7,
+    "sidecars": 14,
+    "designInputs": 3,
+    "allDeclaredRawHashesAndSizesAndRootBeforeHashesVerified": true
+  },
+  "acceptedStaticBoundaries": [
+    "Original M97 baseline remains pinned to frozen producer and direct prior registry; no whole business baseline reset.",
+    "Derived comparison replaces only exact approved function body at unchanged OID/owner/ACL/frame, one migration row and one actual ID nextval; other metadata stays exact.",
+    "All original migration rows retain full SHA/xmin; 138 business tables and objects are unchanged across normal migration.",
+    "loadSnapshot retains original semantics; ledger/cleanup opt in through explicit verified comparison reader.",
+    "Canonical M98 registration cannot be fixture owned/borrowed or cleanup deletion authority.",
+    "Schema3 preserves chained original birth/retainedAt/receipt provenance and original immutable producer projection rules.",
+    "New context ordinary baseline reset is refused; actual Source13 templates remain null/non-executable.",
+    "No pending historical baseline package choice is selected by this proposal."
+  ],
+  "findings": [
+    {
+      "id": "IR87-01",
+      "priority": "P2",
+      "file": "tools/rust-r4ghi/business/schema-comparison108.mjs",
+      "candidateSHA256": "adcf196d4b224156fb9eb575e8a982b2dd07ef14a672136680b9d04df40384bc",
+      "startLine": 125,
+      "endLine": 132,
+      "problem": "Consistent wrapper/execution annotations do not prove that actual argv invokes the authorized single forward migration on its target database.",
+      "counterexample": {
+        "name": "wrapper-and-execution-up-annotations-do-not-validate-actual-argv-direction",
+        "acceptedByVerifyMigrationReceipt108": true,
+        "actualArgvContains": "migration:down",
+        "commandsExecuted": 0,
+        "PGOrHTTPAuthority": false,
+        "candidateLocation": "schema-comparison108.mjs:125-132"
+      },
+      "impact": "A wrong-direction or unrelated command receipt can satisfy the claimed normal-forward execution chain; exact catalog delta checks do not establish which normal runner produced it.",
+      "requestedCorrection": "Bind the supported Root-chosen migration runner and its source pin, exact argv and target database/one forward migration configuration. Reject down/wrong migration/wrong database/unrelated invocation even if both receipt labels agree. Preserve programmatic MikroORM support when that is the reviewed real entry."
+    }
+  ],
+  "independentProbes": {
+    "exactDeltaPassed": true,
+    "rejectedDeltaMutations": [
+      "original business xmin drift",
+      "original migration xmin drift",
+      "function OID replacement",
+      "function frame changed with same approved body",
+      "additional migration record",
+      "extra nextval",
+      "objects changed during migration"
+    ],
+    "exactPinnedBindingPassed": true,
+    "rejectedBaselineMutations": [
+      "matching new fields cannot reset frozen producer/prior original baseline",
+      "whole current business rows cannot become original",
+      "owned objects cannot become original"
+    ],
+    "wrongDirectionArgvAcceptedByCurrentValidator": true,
+    "syntheticOnly": true
+  },
+  "actualSource13PinsBound": false,
+  "actualM98ExecutedOrCertified": false,
+  "requiredLater": [
+    "Non-author review of the exact IR87-01 corrective candidate.",
+    "Root final Source12 retention/stop/Native cleanup and normal M98 actual command originals.",
+    "Fresh Source13 code/count/binary/physical process/candidate/complete helper graph and new plan raw SHA.",
+    "Exact two-database M98 before/after/fresh and read-only schema3 admission originals; retain old epoch labels."
+  ],
+  "evidence": [
+    {
+      "file": "README87.md",
+      "rawBytesSha256": "8c20bdcbdc0785f4f84b911d7deb516785aa84cb162913975cf22eaa08e2bb50",
+      "bytes": 2090
+    },
+    {
+      "file": "probes87.mjs",
+      "rawBytesSha256": "2c1ebbd00f7626acc10ca2e76aa0f7316d8836b04f61effb08281743d477a7e2",
+      "bytes": 11221
+    },
+    {
+      "file": "probes87.json",
+      "rawBytesSha256": "757049cff930cd0fb7d1ac8ba213fa1cb1c3aa7aa9490a859ef17c098cc56a45",
+      "bytes": 14854
+    },
+    {
+      "file": "baseline-probes87b.mjs",
+      "rawBytesSha256": "4d7422282e33c7e274439309a799bab5039fa8329035b82286ab1468e66e735c",
+      "bytes": 6350
+    },
+    {
+      "file": "baseline-probes87b.json",
+      "rawBytesSha256": "ce5b8dc9f338ffe4631a08cc00b9b566739c0e07b8a83081194bda62359e85dc",
+      "bytes": 613
+    }
+  ],
+  "reviewedInputs": [
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/manifest108.json",
+      "rawBytesSha256": "8943e0ac1fcabe40cee6171862cb6d2fca65186c78bf01784e61c75f372cba96",
+      "bytes": 11276
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/proposed/tools/rust-r4ghi/business/cleanup.mjs",
+      "rawBytesSha256": "8006d6263a458904a472a8db20077ae2534a81fb0c481b8018a11f01930b0851",
+      "bytes": 26430
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/before/tools/rust-r4ghi/business/cleanup.mjs",
+      "rawBytesSha256": "00001e0ab5f85bd80c25d63f9772525536cc8e886c251680c257e6efe089f4c1",
+      "bytes": 24964
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/cleanup.mjs",
+      "rawBytesSha256": "00001e0ab5f85bd80c25d63f9772525536cc8e886c251680c257e6efe089f4c1",
+      "bytes": 24964
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/proposed/tools/rust-r4ghi/business/consumer-admission54.mjs",
+      "rawBytesSha256": "0ec2ec4fbf0c11c8a3599b5221200f0c4e374833ac6a9eef75bfe6abea671d1b",
+      "bytes": 12356
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/before/tools/rust-r4ghi/business/consumer-admission54.mjs",
+      "rawBytesSha256": "08f49d66466deb6fb150b4a788ffe1c3d132f1cb2eb692a043020dd5cb4811b2",
+      "bytes": 11731
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/consumer-admission54.mjs",
+      "rawBytesSha256": "08f49d66466deb6fb150b4a788ffe1c3d132f1cb2eb692a043020dd5cb4811b2",
+      "bytes": 11731
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/proposed/tools/rust-r4ghi/business/consumer-admission54.test.mjs",
+      "rawBytesSha256": "745bda1b38024293f6b8570f36b68596ab8c9e0e64f6e48a99ecbe0ca0f52ca2",
+      "bytes": 12639
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/before/tools/rust-r4ghi/business/consumer-admission54.test.mjs",
+      "rawBytesSha256": "2f4f86fa6782b9d3271df52f4d9e33519a6b748d75aba4970c2afc93eeda22be",
+      "bytes": 12605
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/consumer-admission54.test.mjs",
+      "rawBytesSha256": "2f4f86fa6782b9d3271df52f4d9e33519a6b748d75aba4970c2afc93eeda22be",
+      "bytes": 12605
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/proposed/tools/rust-r4ghi/business/context.mjs",
+      "rawBytesSha256": "a3b03d321ce7a3e65823d01000c19b09a062ef4cec124fc5489c5631391f06aa",
+      "bytes": 11212
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/before/tools/rust-r4ghi/business/context.mjs",
+      "rawBytesSha256": "ce995535f6bec182dc189bcef41f8f3d6a7e75bc160ed92df6e5d41c18507ffd",
+      "bytes": 10945
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/context.mjs",
+      "rawBytesSha256": "ce995535f6bec182dc189bcef41f8f3d6a7e75bc160ed92df6e5d41c18507ffd",
+      "bytes": 10945
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/proposed/tools/rust-r4ghi/business/ledger.mjs",
+      "rawBytesSha256": "ca72e96a2485b84372f703be879adb5e0d7a0e93db8d8bbe87f65a9283b959c9",
+      "bytes": 14909
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/before/tools/rust-r4ghi/business/ledger.mjs",
+      "rawBytesSha256": "d743d736cb3b6528214d21ca0aa152b78be8906cbcab73c40f0a3d7563e6bb5b",
+      "bytes": 14668
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/ledger.mjs",
+      "rawBytesSha256": "d743d736cb3b6528214d21ca0aa152b78be8906cbcab73c40f0a3d7563e6bb5b",
+      "bytes": 14668
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/proposed/tools/rust-r4ghi/business/registry-lineage62.mjs",
+      "rawBytesSha256": "28add87a09918f682862e6ac87ad6f8637dc1f5e9891159320054354fdcf59cc",
+      "bytes": 13668
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/before/tools/rust-r4ghi/business/registry-lineage62.mjs",
+      "rawBytesSha256": "3ef58286d777b40e835210ffc0a1acb8238ebaa36d647175075ba04d181c015b",
+      "bytes": 13441
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/registry-lineage62.mjs",
+      "rawBytesSha256": "3ef58286d777b40e835210ffc0a1acb8238ebaa36d647175075ba04d181c015b",
+      "bytes": 13441
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/proposed/tools/rust-r4ghi/business/registry-lineage62.test.mjs",
+      "rawBytesSha256": "efc3cb452159e1d01b70c6c41326841e51884ff77ac9573b4f80681a6ae5e694",
+      "bytes": 14356
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/before/tools/rust-r4ghi/business/registry-lineage62.test.mjs",
+      "rawBytesSha256": "ce97ade8c3e34cceb1cb3960ca5b7c1fbe97264a8494307f193c147517eb5d8e",
+      "bytes": 14340
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/registry-lineage62.test.mjs",
+      "rawBytesSha256": "ce97ade8c3e34cceb1cb3960ca5b7c1fbe97264a8494307f193c147517eb5d8e",
+      "bytes": 14340
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/proposed/tools/rust-r4ghi/business/retained-schema-admission108.mjs",
+      "rawBytesSha256": "95f0254efdb880b101b955f5b7bfee789e827a94e4b6d0ef84d3ad7d88f8c462",
+      "bytes": 14846
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/proposed/tools/rust-r4ghi/business/schema-comparison108.mjs",
+      "rawBytesSha256": "adcf196d4b224156fb9eb575e8a982b2dd07ef14a672136680b9d04df40384bc",
+      "bytes": 19560
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/proposed/tools/rust-r4ghi/business/schema-comparison108.test.mjs",
+      "rawBytesSha256": "59804ea90335a8e59bb631cc6a978a5cb59a9475e5ce32b08c01da14e811529f",
+      "bytes": 32035
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/proposed/tools/rust-r4ghi/business/snapshot.mjs",
+      "rawBytesSha256": "0ab579d978d6d8e4b6401ff6004f9d4dc42d88be88391c34621d8135356fb7fa",
+      "bytes": 9906
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/before/tools/rust-r4ghi/business/snapshot.mjs",
+      "rawBytesSha256": "c9a72d7e763045bed175dfe16386ae9d95d683b84f1445b34b59d78934877aed",
+      "bytes": 9725
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/snapshot.mjs",
+      "rawBytesSha256": "c9a72d7e763045bed175dfe16386ae9d95d683b84f1445b34b59d78934877aed",
+      "bytes": 9725
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/README108.md",
+      "rawBytesSha256": "0328808f3e754534f314d903ee8d4b2c113c296f770730e84791cb1aecd565a5",
+      "bytes": 6706
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/risks-api108.md",
+      "rawBytesSha256": "f6779b5db3250af5e7f82f4bfd1e26790cc86507387afdd2b53f996749d29b42",
+      "bytes": 5003
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/api-contract108.json",
+      "rawBytesSha256": "2849b58fe313e2732ed6c6321adc8e7d2aa64470c0af3b4bee1ee6fe1750ffaf",
+      "bytes": 1345
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/plan-template108.json",
+      "rawBytesSha256": "c1e730d04f00fe03f960c240d6cb38762324d9f78ca6eda530b0456854dc3571",
+      "bytes": 1468
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/migration-receipt-template108.json",
+      "rawBytesSha256": "bd700e38c867955905c2d25750c0c29fb378aa9854321d96880a378b12fdc19a",
+      "bytes": 1090
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/migration-command-template108.json",
+      "rawBytesSha256": "ba43ab4ffe5f8be50f8f89677f047c9f0ffa1d22f28f969681bb9321ed209cde",
+      "bytes": 311
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/candidate-bases108.json",
+      "rawBytesSha256": "c27be44d0411132ebac0abeebba7d53e264ae712c7e4814eb1dd5e4f97588277",
+      "bytes": 2108
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/isolated-dependencies108.json",
+      "rawBytesSha256": "35431415bbd02f6ba7056f4f9a34259d1985a024601786457c9d8e5aec762100",
+      "bytes": 3526
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/offline-receipt108.json",
+      "rawBytesSha256": "91a400e4d8ed1ede369e0d9669e61af3240e44cfb5abc8cad7e91d04aa4c2e9b",
+      "bytes": 1739
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/pure108.stdout.log",
+      "rawBytesSha256": "839d7e5f9614a1204805a52823477bfef8ccd55b8b8cb1676e9b05a56f27aebd",
+      "bytes": 10541
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/pure108.stderr.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/offline-attempt01-stopped108.json",
+      "rawBytesSha256": "f8241511e7c39f7523c492368d1935489682048a3f81e9e73aa9dadd7ccb6976",
+      "bytes": 525
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/pure108-attempt02.stdout.log",
+      "rawBytesSha256": "12e1183a784ea548241e4273b3e1a3c2d543fc7a683b9f39a0bcaf2c14e95c4e",
+      "bytes": 11776
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/schema-admission108/pure108-attempt02.stderr.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/execution-role-bindings.mjs",
+      "rawBytesSha256": "7100fbdb7cf447c6fb4e6790d94090b264358561414625f1ecd094fb232ed2fb",
+      "bytes": 2387
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/objects.mjs",
+      "rawBytesSha256": "990a24b83dd494aedd4e5d6380c96eb63d40ceea48b8d4645d819394ec073fcc",
+      "bytes": 7014
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/platform-bindings.mjs",
+      "rawBytesSha256": "3036d38119daa14b810ab65801cc2b847d52f42f9aedd33dc71a65883bbee9f6",
+      "bytes": 3107
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/pure.mjs",
+      "rawBytesSha256": "42f1d133ad6b279235c8c2b7c3f10c129958e4aa7b42fa1da5287f160a88fa1a",
+      "bytes": 9121
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/readiness-bindings.mjs",
+      "rawBytesSha256": "be58715b551a87cedfa80d5d6b72e9be23bd8f5afb7b305bfbb3ccc5ea9255c8",
+      "bytes": 7039
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/restatement-labor-number.mjs",
+      "rawBytesSha256": "6a5e61caeed561956a5d241f4834b4f54971e1039b409bf99f073e53d0f7c316",
+      "bytes": 6567
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/retained-admission54.mjs",
+      "rawBytesSha256": "f213aaab615d3c4a9284437dc68e74d1faa98df0a4609dba5ab9dde31848b86b",
+      "bytes": 13606
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/schema-admission108-draft.md",
+      "rawBytesSha256": "bccff3524a9c1c5753dd072a5b490ac448974b33d69c553d4f90fcf41f04c1dc",
+      "bytes": 2843
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/docs/design/rust-r4ghi/acceptance-plan01.json",
+      "rawBytesSha256": "57881bb732c0fc816d99227a9f55cfc1451c29c0b879181d65575970c39462a2",
+      "bytes": 10585
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/docs/design/rust-r4ghi/operation-map01.json",
+      "rawBytesSha256": "73b82726b2c87053e019d35191803a608c56054a49ce5408567709d097a90769",
+      "bytes": 57363
+    }
+  ],
+  "commandsExecutedFromReceipts": 0,
+  "SQL": 0,
+  "HTTP": 0,
+  "browserActions": 0,
+  "RootProductOrHelperWrites": 0,
+  "GitWrites": 0,
+  "registriesMinted": 0,
+  "authoredG83G84IndependentG3Granted": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

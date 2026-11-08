@@ -37,7 +37,13 @@
     "denominatorMeaning": "planned canonical including 3 new R4 routes; no new delivery certified"
   },
   "fullR4Complete": false,
-  "pendingBusinessDecisions": [],
+  "pendingBusinessDecisions": [
+    {
+      "decision": "historical-period-baseline-selection",
+      "status": "awaiting-user",
+      "currentBoundary": "only-real-source-validation-and-reconciliation-guard; no-automatic-historical-selection-approved"
+    }
+  ],
   "independentUserFix": {
     "issue": 115,
     "baseline": "archive/slices/rust-r2-user-create-fix115/baseline.md.bin",
@@ -93,7 +99,7 @@
   },
   "G3Certified": false,
   "G4Certified": false,
-  "g2CurrentOnline": "../../tmp/rust-r4ghi/root/g2-online-status08/receipt.json",
+  "g2CurrentOnline": "../../tmp/rust-r4ghi/root/g2-online-status09/receipt.json",
   "periodAcceptance": {
     "status": "waiting-natural-period-with-approved-retention",
     "earliestHongKong": "2026-11-09T00:00:00+08:00",
@@ -117,12 +123,12 @@
     "G4Certified": false,
     "consumerAdmission": "rust-r4ghi/consumer11-admission54-actual.json",
     "currentSourceEpoch": "g2-business12",
-    "currentAPI": 135,
+    "currentAPI": 1351,
     "newSourceCount": 406,
     "newSourcePinsSHA256": "5263ad894591ac682fe7ebf9ca5cfa2aaac3334d4481ae5de4dd63d83b4681fa",
     "currentCandidate": {
-      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/004534-candidate-source-binding12.json",
-      "rawBytesSha256": "b5c86c8882657aac1e1affc153510a728bc304943265e51a230b6be19a0429b7"
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/007133-p1351-candidate.json",
+      "rawBytesSha256": "1dde0fda6f0c23682568f8256ea98da4137ebd7793da7915238e0ac066a9740c"
     },
     "currentBinarySHA256": "de8eaaf6ce15a2054380e25f3151c21611cf0bf760230c7336745d80850d9cff",
     "currentRustValidation": {
@@ -141,7 +147,10 @@
     "newNoopCheckpoint": "rust-r4ghi/g2-project-metadata-noop61.md",
     "newSource12Admission": "actual-completed-with-immutable-FS-independent-readback",
     "newOwnerMetadataHTTP": "actual135-noop73-complete",
-    "newOwnerEvidence": "rust-r4ghi/current-source12-evidence75.json"
+    "newOwnerEvidence": "rust-r4ghi/current-source12-evidence75.json",
+    "currentAPIStopped": true,
+    "sameSourceProcessRestart": "rust-r4ghi/process1351-recovery161-actual.json",
+    "source12Retained139": "rust-r4ghi/retained-source12-before-source13-139.json"
   },
   "currentUIValidation": {
     "build": "../../tmp/rust-r4ghi/root/admin-build06/receipt.json",
@@ -150,9 +159,13 @@
     "testReceipt": "../../tmp/rust-r4ghi/root/admin-test05/receipt.json",
     "completeInputBoundValidation": "rust-r4ghi/current-static-validation64.json",
     "inputFiles": 2838,
-    "realDOMPassed": false
+    "realDOMPassed": false,
+    "source12TailEvidence": "rust-r4ghi/source12-tail170-actual.json",
+    "boundCaseResultsRecorded": true,
+    "certificationBoundary": "Recorded separate Source12 runs; unified Source13 and natural-period acceptance still required"
   },
   "currentStaticValidation": "rust-r4ghi/current-static-validation64.json",
-  "implementationCheckpointCommit": "d62e38b5c0705ac942ed5aea92a658dfabcc63fb",
-  "currentAcceptance86": "rust-r4ghi/current-source12-acceptance86.json"
+  "implementationCheckpointCommit": "6ca4f722cbbdea4fb3d8043712b827e5ad18be6b",
+  "currentAcceptance86": "rust-r4ghi/current-source12-acceptance86.json",
+  "native122": "rust-r4ghi/native122-actual-and-conservation.json"
 }
