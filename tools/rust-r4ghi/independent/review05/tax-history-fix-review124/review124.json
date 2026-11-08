@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "kind": "non-author-review-of-H125-helper-successor",
+  "status": "bounded-tool-technical-admission",
+  "closesToolFinding": "IR122-01",
+  "manifest": {"file": "tools/rust-r4ghi/H/implementation/support-patches/tax-historical-before125/manifest125-code01.json", "rawBytesSha256": "72ffefeb831cfedaf071d7e926351010114cbf3f7efdfad9753ec4c3539208a6"},
+  "product": {"file": "tools/rust-r4ghi/business/tax13-semantics.mjs", "beforeSHA256": "0c8cf1a203769174424097c24ba4e18de393da0dfe45e1aefe14695daf7c1120", "candidateSHA256": "50aebe4bba9900e778161c44fedab128fa19b4e4635a0306154f15d212faf5b4"},
+  "findings": [],
+  "scopeVerified": {
+    "inverseDeltaReconstructsExactBase": true,
+    "onlyDedicatedHistoryHelperImportsAndTaxOldReaderCallChanged": true,
+    "globalRowsTax13Unchanged": true,
+    "MainCompletionSemanticsUnchanged": true,
+    "allAfterReadersStayStrict": true,
+    "unchangedOldRowsUseExistingStrictReader": true,
+    "changedTablesRestricted": ["shared_cost_allocation_basis", "accounting_tax_treatment_snapshot", "shared_cost_allocation_result", "project_operating_snapshot"]
+  },
+  "authorityBridgeVerified": [
+    "Attempt and original public HTTP/response-header observations identify the same complete, non-transport-failed 201 restatement.",
+    "Both immutable snapshot pins are hash-checked and their parsed values equal the exact supplied snapshot objects; no nonexistent snapshot.manifest field is assumed.",
+    "The same-request/operation ledger binds those exact before/after pins, is ownership-complete, has no blockers and records this same PK as an owned update.",
+    "Original HTTP birth is retained, successful and complete, has a genuinely absent old PK and a single born row matching firstSha256.",
+    "The after row must still pass the original strict current-owned reader and match current latest SHA/xmin. The historical row can only cross the exact current HTTP-owned-row-update request/operation/before-SHA/before-pin/after-pin bridge.",
+    "The helper returns the old exact raw numeric values and does not replace ownership state or the original birth proof."
+  ],
+  "independentEvidence": {
+    "file": "tools/rust-r4ghi/independent/review05/tax-history-fix-review124/probe124-02.json",
+    "rawBytesSha256": "d08fe63301575ea54559df6d89ba48816726660411c1a33cb2f3116f711d0fae",
+    "actualSource12ChangedRowPositives": 6,
+    "actualUnchangedEvidencePositive": 1,
+    "independentNegativeCases": 38,
+    "strictGlobalBeforeRejectionPreserved": true,
+    "strictAfterAcceptancePreserved": true,
+    "syntaxExit": 0,
+    "importGlue": "The sealed candidate's relative import URLs were relocated in memory to existing Root helpers; no function body was changed for the FS test.",
+    "originalStageEnvelope": "The genuine Source12 Stage race attempt was augmented only in memory with its same-request existing success receipt, actual before/after pins and complete006183 ledger pin. This is a test input, not an edited producer record or a Tax execution."
+  },
+  "allowedNextStep": "Root may promote this exact single helper candidate through its explicit new helper revision, recompute the full H1/plain-array and plan pins, and perform a new inspect before any 119 publication. Preserve the old195,220,221,223 artifacts and labels. Recheck that all416 backend source leaves and API136 binding remain unchanged. Actual publication and Tax/period commands remain Root-owned subsequent observations.",
+  "limits": {
+    "RootProductModified": false,
+    "RootHelpersModified": false,
+    "GitModified": false,
+    "newSQL": 0,
+    "newHTTP": 0,
+    "contextCreated": false,
+    "liveStateRead": false,
+    "processObserved": false,
+    "actual119Published": false,
+    "actualTaxCorrection": false,
+    "businessG3": false,
+    "businessG4": false,
+    "role": "The original Tax helpers were earlier authored by this reviewer; this review independently checks H's new limited helper successor and does not self-sign product G3."
+  }
+}

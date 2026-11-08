@@ -1,0 +1,34 @@
+{
+  "kind": "non-author-code01-actual-helper-alias-counterexample120",
+  "manifest": {
+    "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/resource-tool-admission119/manifest119-code01.json",
+    "rawBytesSha256": "e6ccd4a3e3b8787fe8e91f5e4a3a6fb5ff0efaf92b60332a5d47bf8103d4c70e"
+  },
+  "sourceSHA256": "a73713780cf43a4ef5a692e991354597bfb88acf481210a0035436fb43655dd5",
+  "finding": {
+    "id": "IR120-01",
+    "priority": "P2",
+    "problem": "actualGraph119 and backend416 source checks read contents without validating the actual code leaf regular/no-symlink/realpath/nlink1. Same-bytes aliases pass while Node ESM can resolve relative imports outside the declared graph.",
+    "required": "Use strict owned-source reads for every current H1 and416 leaf plus publisher pre-import H1 verification; keep Cargo binary nlink2 as separate explicit artifact allowance."
+  },
+  "counterexamples": [
+    {
+      "type": "symbolic-link",
+      "acceptedAsOwnedGraph": true,
+      "metadataCalls": 0
+    },
+    {
+      "type": "hardlink2",
+      "acceptedAsOwnedGraph": true,
+      "metadataCalls": 0
+    }
+  ],
+  "RootInputWrites": 0,
+  "SQL": 0,
+  "HTTP": 0,
+  "PIDRead": false,
+  "actualContext": false,
+  "actual119": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-frozen-contract-error-priority-review-for-negative222",
+  "status": "CAS-race-plus-fresh-typed-legacy-negative-is-contract-compatible",
+  "inputs": [
+    {"file": "tools/rust-r4ghi/joint-g1/effective-v2/legacy-current-contract.json", "rawBytesSha256": "65a57f65a6964b45ba7d6aeaf67a4511224a6bf59f1e2f338513836f2729207c"},
+    {"file": "tools/rust-r4ghi/joint-g1/effective-v2/tests-plan.json", "rawBytesSha256": "26e02d7e108aba6b6aee7545fadf5dbfabed2b4b4cb76c1fa20bc2d551e8fdaa"},
+    {"file": "docs/design/rust-r4ghi/acceptance-plan01.json", "rawBytesSha256": "57881bb732c0fc816d99227a9f55cfc1451c29c0b879181d65575970c39462a2"},
+    {"file": "apps/poms-api-rust/src/project_operating/collector.rs", "rawBytesSha256": "386235765190448b021025b5a9954dacd52d6dbde5a04938e2074a750c8d395e"}
+  ],
+  "frozenRequirements": [
+    {"source": "legacy-current-contract.baseline", "requirement": "Query every producer's current baseline under the project lock before interpreting a missing head; legacy current yields typed409 admission-required, cannot initialize a head or silently supersede it."},
+    {"source": "legacy-current-contract.baselineGET", "requirement": "Legacy-only official current is typed409; preparation200 exposes the blocking reason and empty formal commands."},
+    {"source": "legacy-current-contract.unique", "exactText": "semantic guards/CAS precede INSERT"},
+    {"source": "acceptance-plan01.A06", "requirement": "Legacy baseline/period/frozen-role authorities block semantic conflicts before unique-constraint errors."},
+    {"source": "acceptance-plan01.transactionAndConcurrency", "requirement": "Period/current legacy-modern authority competition requires actual row-lock/barrier evidence; sequential HTTP calls alone are not a race certificate."}
+  ],
+  "decision": "The frozen requirements do not specify that a body made stale by a real competing baseline insertion must return the legacy code before its source CAS conflict. Current collector source checks the expected input hash before the later semantic-current baseline check. This source ordering is compatible with CAS and semantic guards both preceding INSERT.",
+  "boundedActualEvidenceCombination": [
+    "Use a genuine S0 prepared request and a real controlled lock/wait sequence. If the competing legacy baseline changes its source hash, assert exact409 operating_input_hash_changed, not an arbitrary409 set. Prove no new operating head and no losing command business writes.",
+    "Keep the competing legacy row in place and obtain a fresh actual preparation. Assert its real blocking reason and empty allowed commands; do not relabel it eligible or invent a fresh input hash.",
+    "Issue a separately labelled deliberate negative request using only the actual fresh preparation/CAS/source fields. Require exact409 legacy_operating_baseline_admission_required before head initialization or INSERT/unique failure. This is the semantic negative, not the race observation.",
+    "Keep the period case separate and assert the exact typed legacy period response actually specified for its own source/hash path. Do not broaden either test to any409 or claim that the sequential semantic negative supplies the missing race barrier."
+  ],
+  "productChangeNeededForThisPriorityQuestion": false,
+  "notAnException": "The combination preserves the frozen race requirement and the typed semantic legacy contract; it does not waive either requirement or change error expectations after an executed failure.",
+  "separateAdmissionRequired": "This review does not authorize the controlled negative fixture's SQL/setup, process/HTTP actions or cleanup. Those require the independently reviewed exact222 external protocol and actual evidence. No new product/source416 change is justified solely to force the stale S0 request to skip its input-hash CAS.",
+  "limits": {"RootFilesModified": false, "SQL": 0, "HTTP": 0, "processObserved": false, "liveStateRead": false, "actualRace": false, "actualLegacyNegative": false, "G3": false, "G4": false}
+}

@@ -1,0 +1,55 @@
+{
+  "kind": "independent-real-standard-Source13-snapshot-shape-counterexample",
+  "finding": "IR130-01",
+  "priority": "P2",
+  "manifest": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/I/implementation/mixed-period-allocation219-02/manifest219-02.json",
+    "rawBytesSha256": "9812a37664cce55041b99e5fee34670905c8e51df63634b3c7abbe07c677c2be"
+  },
+  "runtime": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/I/implementation/mixed-period-allocation219-02/runtime219.mjs",
+    "rawBytesSha256": "a991e0b0fde7161e38fbb6d16a4bb9a768de7a50635c93e9a4904a5bbe4b8581"
+  },
+  "standardCaptureSource": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/snapshot.mjs",
+    "rawBytesSha256": "0ab579d978d6d8e4b6401ff6004f9d4dc42d88be88391c34621d8135356fb7fa"
+  },
+  "captureHeader": "  const result = { schemaVersion: 1, label, marker: ctx.identity.marker, epoch: ctx.epoch, run: ctx.run, capturedAt: new Date().toISOString(), databases: {} };",
+  "actualSource13ReadLedger": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000033-ledger.json",
+    "rawBytesSha256": "5199b3215cc65f38d97fe366f59645e23811f34d54927f1d2fb2166ca9136a03"
+  },
+  "actualReadRequestId": "bg383435b83c-000032-http-13c2e405",
+  "actualStandardAfter": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/snapshot-000032-http-after.json",
+    "bytes": 3137767,
+    "rawBytesSha256": "e0068741ebc04f67645f5e9e699c071f627c341d17a789ef4376d95af47ea354"
+  },
+  "actualHeaderKeys": [
+    "schemaVersion",
+    "label",
+    "marker",
+    "epoch",
+    "run",
+    "capturedAt"
+  ],
+  "error": {
+    "name": "AssertionError",
+    "code": "ERR_ASSERTION",
+    "actual": null,
+    "expected": "poms-r4ghi",
+    "stack": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ undefined\n- 'poms-r4ghi'\n\n    at selectedTaxBasis219 (file:///mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/I/implementation/mixed-period-allocation219-02/runtime219.mjs:39:108)\n    at file:///mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/review05/mixed219-review130/shape130.mjs:12:15"
+  },
+  "minimumFix": "Use the standard snapshot schemaVersion/marker/epoch/run/actual DB set plus current private containment; keep namespace verified by the outer exact ctx/R3/source416/API binding. Do not change the standard Root capture helper or borrow the external216 observer extra namespace field.",
+  "limits": {
+    "nonmintableWrapperPrefixModel": true,
+    "actualTaxSuccessClaimed": false,
+    "newSQL": 0,
+    "newHTTP": 0,
+    "contextCreated": false,
+    "liveStateRead": false,
+    "RootWritten": false,
+    "G3": false,
+    "G4": false
+  }
+}

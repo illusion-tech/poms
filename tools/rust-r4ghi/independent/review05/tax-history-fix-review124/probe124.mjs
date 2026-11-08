@@ -1,0 +1,48 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import crypto from 'node:crypto';
+const R='/mnt/e/projects/worktrees/poms-r3hijk-next28/poms',H='/mnt/e/projects/worktrees/poms-r4h-signals/poms',P='/home/wangzishi/.local/share/poms-r4ghi/private';
+const D=H+'/tools/rust-r4ghi/H/implementation/support-patches/tax-historical-before125',OUT=R+'/tools/rust-r4ghi/independent/review05/tax-history-fix-review124';
+const hash=b=>crypto.createHash('sha256').update(b).digest('hex');
+const pin=file=>{const b=fs.readFileSync(file);return {file,bytes:b.length,rawBytesSha256:hash(b)};};
+const read=p=>{const b=fs.readFileSync(p.file);assert.equal(hash(b),p.rawBytesSha256);if(p.bytes!==undefined)assert.equal(b.length,p.bytes);return JSON.parse(b);};
+const manifestPin=pin(D+'/manifest125-code01.json');assert.equal(manifestPin.rawBytesSha256,'72ffefeb831cfedaf071d7e926351010114cbf3f7efdfad9753ec4c3539208a6');const manifest=read(manifestPin);
+const candidatePin=pin(D+'/'+manifest.products[0].candidate);assert.equal(candidatePin.rawBytesSha256,'50aebe4bba9900e778161c44fedab128fa19b4e4635a0306154f15d212faf5b4');
+const basePin=pin(D+'/base/tools/rust-r4ghi/business/tax13-semantics.mjs');assert.equal(basePin.rawBytesSha256,'0c8cf1a203769174424097c24ba4e18de393da0dfe45e1aefe14695daf7c1120');
+const candidate=fs.readFileSync(candidatePin.file,'utf8'),base=fs.readFileSync(basePin.file,'utf8');
+const from=candidate.indexOf('// A successful command already advanced current owned.latest.'),to=candidate.indexOf('const projectTax=');assert(from>0&&to>from);
+const inverse=candidate.slice(0,from)+candidate.slice(to);
+assert.equal(inverse.replace("import assert from 'node:assert/strict';import fs from 'node:fs';","import assert from 'node:assert/strict';").replace("import {sha,keyOf,uuid} from './pure.mjs';import {readRows} from './snapshot.mjs';\nimport {readPin54} from './consumer-admission54.mjs';","import {sha} from './pure.mjs';import {readRows} from './snapshot.mjs';").replace("export function verifyTax13Semantics(ctx,before,after,attempt,facts,packets,transaction,sessionId){\n const old=historicalOwnedRowsTax13(ctx,before,after,attempt)","export function verifyTax13Semantics(ctx,before,after,attempt,facts,packets,transaction,sessionId){\n const old=rowsTax13(ctx,before,readRows)"),base,'Only the dedicated helper, imports, and Tax old-reader call may change');
+// Import-location glue only. The sealed function bytes are otherwise unchanged.
+const relocated=candidate.replace(/from '(\.\/[^']+)'/g,(_,p)=>"from 'file://"+R+'/tools/rust-r4ghi/business/'+p.slice(2)+"'");
+const mod=await import('data:text/javascript;base64,'+Buffer.from(relocated).toString('base64'));
+const {rowsTax13,exactValueTax13}=await import('file://'+R+'/tools/rust-r4ghi/business/tax13-facts.mjs');
+const {readRows}=await import('file://'+R+'/tools/rust-r4ghi/business/snapshot.mjs');
+const statePin={file:P+'/retention/epoch12-before-source13-139/state-at-retention139.json',rawBytesSha256:'ee7371dc4fc5d388f6898fb1c6eb90bebb6404eca6c31d23599469445804a628'};
+const state=read(statePin),saved=Object.values(state.sharedRequiredWriteSweeps58).find(s=>s.branch==='stage'),success=saved.finalSuccess,before=read(success.before),after=read(success.after),observed=read(saved.raceAttempt.observation);
+const original=observed.attempts.find(a=>a.requestId===success.requestId);assert.equal(original.status,201);
+const ledgerPin=pin(P+'/business/g2-business12/main01/006183-ledger.json');
+const attempt={...original,receiptId:success.receipt,before:success.before,after:success.after,ledger:ledgerPin};
+const database='poms_r4ghi_rust',ctx={database,state:{owned:state.owned}};
+const cases=[['shared_cost_allocation_basis',saved.scope.sharedFacts.basisId],...saved.scope.sharedFacts.results.map(r=>['shared_cost_allocation_result',r.id]),...saved.scope.sharedFacts.targets.map(t=>['project_operating_snapshot',t.restatesSnapshotRef.id])];
+const reader=mod.historicalOwnedRowsTax13(ctx,before,after,attempt),positives=[];
+for(const[table,id]of cases){const expected=readRows(before.databases[database].tables[table]).find(r=>r.key[0]===id);assert.deepEqual(reader.owned(table,id),exactValueTax13(expected));rowsTax13(ctx,after,readRows).owned(table,id);assert.throws(()=>rowsTax13(ctx,before,readRows).owned(table,id));positives.push({table,id,oldBridgePassed:true,currentAfterStrictPassed:true,globalOldStrictStillRejected:true});}
+const basisId=saved.scope.sharedFacts.basisId,basisKey=JSON.stringify([database,'shared_cost_allocation_basis',[basisId]]),basisOld=reader.owned('shared_cost_allocation_basis',basisId);
+const evidenceId=basisOld.governance_evidence_id;assert.deepEqual(reader.owned('cost_governance_evidence',evidenceId),rowsTax13(ctx,before,readRows).owned('cost_governance_evidence',evidenceId));
+const negatives=[];
+function reject(name,change){const x={ctx:{database,state:{owned:{...state.owned,[basisKey]:structuredClone(state.owned[basisKey])}}},before,after,attempt:structuredClone(attempt)};change(x);assert.throws(()=>mod.historicalOwnedRowsTax13(x.ctx,x.before,x.after,x.attempt).owned('shared_cost_allocation_basis',basisId),name);negatives.push(name);}
+reject('wrong-operation',x=>x.attempt.operationId='ProjectCostController_createProjectOperatingSnapshot');
+reject('wrong-request',x=>x.attempt.requestId+='-wrong');reject('status-not-201',x=>x.attempt.status=200);reject('response-incomplete',x=>x.attempt.responseComplete=false);reject('transport-failed',x=>x.attempt.transportFailure=true);
+reject('missing-ledger',x=>delete x.attempt.ledger);reject('ledger-pin-hash',x=>x.attempt.ledger.rawBytesSha256='0'.repeat(64));
+reject('before-pin-hash',x=>x.attempt.before.rawBytesSha256='0'.repeat(64));reject('after-pin-hash',x=>x.attempt.after.rawBytesSha256='0'.repeat(64));
+reject('before-object-not-immutable',x=>x.before={...before,label:before.label+'-wrong'});reject('after-object-not-immutable',x=>x.after={...after,label:after.label+'-wrong'});
+reject('missing-owner',x=>delete x.ctx.state.owned[basisKey]);reject('deleted-owner',x=>x.ctx.state.owned[basisKey].deleted=true);
+reject('not-HTTP-birth',x=>x.ctx.state.owned[basisKey].proof.transport='SQL');reject('birth-not-complete',x=>x.ctx.state.owned[basisKey].proof.responseComplete=false);reject('birth-not-absent',x=>x.ctx.state.owned[basisKey].proof.beforeAbsent=false);
+reject('birth-first-SHA',x=>x.ctx.state.owned[basisKey].firstSha256='0'.repeat(64));reject('birth-before-pin',x=>x.ctx.state.owned[basisKey].proof.beforeSnapshot.rawBytesSha256='0'.repeat(64));
+reject('after-latest-SHA',x=>x.ctx.state.owned[basisKey].latestSha256='0'.repeat(64));reject('after-latest-xmin',x=>x.ctx.state.owned[basisKey].latestXmin='0');
+reject('wrong-update-kind',x=>x.ctx.state.owned[basisKey].latestProof.kind='HTTP-same-real-transaction');reject('wrong-update-request',x=>x.ctx.state.owned[basisKey].latestProof.requestId+='-wrong');
+reject('wrong-update-operation',x=>x.ctx.state.owned[basisKey].latestProof.operationId='ProjectCostController_createProjectOperatingSnapshot');reject('wrong-before-SHA',x=>x.ctx.state.owned[basisKey].latestProof.beforeSha256='0'.repeat(64));
+reject('wrong-update-before-pin',x=>x.ctx.state.owned[basisKey].latestProof.beforeSnapshot.rawBytesSha256='0'.repeat(64));reject('wrong-update-after-pin',x=>x.ctx.state.owned[basisKey].latestProof.afterSnapshot.rawBytesSha256='0'.repeat(64));
+assert.deepEqual(pin(candidatePin.file),candidatePin);assert.deepEqual(pin(basePin.file),basePin);read(statePin);read(success.before);read(success.after);
+const result={kind:'independent-actual-Source12-FS-proof-bridge-test-of-H125-candidate',manifest:manifestPin,candidate:candidatePin,base:basePin,singleFileDeltaInverseCompared:true,state:statePin,before:success.before,after:success.after,actual201RequestId:success.requestId,actualOriginalObservation:saved.raceAttempt.observation,ledger:ledgerPin,testEnvelopeNote:'The original Stage race observed attempt has no after/ledger fields. Only the exact same-request success receipt and complete006183 pin are supplied in a new in-memory test envelope; no producer record or artifact is edited and this is not a new HTTP or Tax success.',positives,unchangedOriginalEvidenceStrictReadPassed:true,independentNegatives:negatives,limits:{SQL:0,HTTP:0,contextCreated:false,liveStateRead:false,processRead:false,RootProductModified:false,RootHelpersModified:false,actualTaxCorrection:false,actual119:false,G3:false,G4:false}};
+fs.writeFileSync(OUT+'/probe124.json',JSON.stringify(result,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({status:'passed',actualChangedRowPositives:positives.length,unchangedPositive:true,negativeCases:negatives.length,output:pin(OUT+'/probe124.json')}));

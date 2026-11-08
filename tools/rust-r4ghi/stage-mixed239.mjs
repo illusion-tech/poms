@@ -1,0 +1,10 @@
+// Reviewed external code only; no dynamic FI mapping or domain execution grant.
+import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {fileURLToPath} from 'node:url';import {createHash} from 'node:crypto';
+const R=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..'),sha=v=>createHash('sha256').update(v).digest('hex');
+const pin=(file,expected)=>{const rawBytesSha256=sha(fs.readFileSync(R+'/'+file));if(expected)assert.equal(rawBytesSha256,expected);return{file,rawBytesSha256};};
+const manifestPin=pin('tools/rust-r4ghi/I/implementation/mixed-period-allocation219-03/manifest219-03.json','c2ec3a5543526fb1a9fd556a791d1ce9fcd06786cec069351ed672f5fb3ed0f0'),manifest=JSON.parse(fs.readFileSync(R+'/'+manifestPin.file));
+const review=pin('tools/rust-r4ghi/independent/review05/mixed219-review130/review130-03.json','074f9ab010e5092d13d965ad0fd42d2363035357da683b9308b6859909ee2b9d'),copies=[];
+for(const entry of manifest.proposedPromotion){pin(entry.source.file,entry.source.rawBytesSha256);assert(entry.target.startsWith('tools/rust-r4ghi/mixed-period-allocation219/')&&!entry.target.includes('..'));const target=R+'/'+entry.target;assert(!fs.existsSync(target));fs.mkdirSync(path.dirname(target),{recursive:true});fs.writeFileSync(target,fs.readFileSync(R+'/'+entry.source.file),{flag:'wx'});copies.push(pin(entry.target,entry.source.rawBytesSha256));}
+const result={kind:'actual-reviewed-external-mixed219-03-promotion239',manifest:manifestPin,independentReview:review,copies,RootExternalFilesPromoted:true,source416OrHelper198Changed:false,
+ actualPreparationExecuted:false,actualFIMappingApproved:false,actualEffectsExecuted:false,SQLOrHTTP:false,G3Certified:false,G4Certified:false};
+const file='docs/design/rust-r4ghi/mixed219-promotion239.json';fs.writeFileSync(R+'/'+file,JSON.stringify(result,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({promotion:pin(file),files:copies.length,actualEffectsExecuted:false,actualFIMappingApproved:false}));

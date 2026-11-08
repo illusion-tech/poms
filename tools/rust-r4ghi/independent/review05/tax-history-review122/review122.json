@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-static-and-immutable-FS-support-review",
+  "findingId": "IR122-01",
+  "priority": "P2",
+  "status": "confirmed-awaiting-reviewed-helper-successor",
+  "title": "Tax post-success semantic checks use the current ownership pin to read changed historical rows",
+  "locations": [
+    {"file": "tools/rust-r4ghi/business/tax13-facts.mjs", "line": 11, "rawBytesSha256": "e55e6cb5dce6169e1ae2737881d946638ce709414ad6633c829fa2eb7c8eee9b"},
+    {"file": "tools/rust-r4ghi/business/tax13-semantics.mjs", "line": 50, "rawBytesSha256": "0c8cf1a203769174424097c24ba4e18de393da0dfe45e1aefe14695daf7c1120"},
+    {"file": "tools/rust-r4ghi/business/tax13-sweep.mjs", "line": 31, "meaning": "The normal api.request completes its ledger reconciliation before semantic verification."}
+  ],
+  "evidence": {
+    "file": "tools/rust-r4ghi/independent/review05/tax-history-review122/probe122-03.json",
+    "rawBytesSha256": "a5639f0c6c98dbf762c798ba485b3dce234ea02e7e081296e5bb824ae34fd803",
+    "producer": "g2-business12",
+    "actualRequestId": "bg383435b83c-006179-shared58-race-http-598be254",
+    "actualOperationId": "ProjectCostController_createOperatingRestatement",
+    "actualStatus": 201,
+    "beforeSnapshotSHA256": "805a5c342ffe88f687c5a6862db543a44465b07659da33a40eeec9c9c3283299",
+    "afterSnapshotSHA256": "0330216f77b095e372f834d4a14e39872268d20907049e4b35b05648e4ada5a3",
+    "changedRows": 6,
+    "changedHistoricalStrictReadsRejected": 6,
+    "currentAfterStrictReadsPassed": 6,
+    "unchangedEvidenceStrictBeforeAndAfterPassed": true,
+    "originalHTTPBirthAndFirstSHAValidated": true,
+    "ownershipCompleteLedgerWithoutBlockersValidated": true,
+    "exactLatestUpdateProofValidated": true,
+    "exportedSemanticFirstExpressionReproduced": true
+  },
+  "impact": "After a legitimate Tax correction commits and the generic ledger advances current owned SHA/xmin, semantic verification would reject the original basis before it verifies the business invariants. Results and superseded old operating snapshots have the same mismatch. This is a helper correctness issue; the FS reproduction is not an executed Tax correction or a backend failure.",
+  "minimalRepairBoundary": {
+    "candidateAuthor": "H, separately authorized by Root",
+    "changeScope": "A dedicated attempt-bound historical reader used only by verifyTax13Semantics for old owned rows.",
+    "keepStrict": ["Global rowsTax13", "All after-state owned readers", "All unchanged historical owned rows"],
+    "requiredBridge": [
+      "Require a complete actual 201 attempt, matching operation/request identity, and an immutable ownership-complete ledger without blockers.",
+      "Read and hash-check attempt.before/after pins, and deep-compare their parsed immutable snapshots with the supplied before/after objects. loadSnapshot objects have no manifest property.",
+      "Require the same database/table/PK to exist once in both snapshots, an undeleted genuinely HTTP-owned birth, and the current latest SHA/xmin to equal the after row.",
+      "For changed rows require latestProof.kind HTTP-owned-row-update, this exact requestId/operationId, beforeSha256 equal to the old row, and exact beforeSnapshot/afterSnapshot pins.",
+      "Do not reset current latest ownership to a historical row. Do not edit producer source labels, original ledgers, original Stage receipts or 195/220/221/223 artifacts."
+    ],
+    "requiredIndependentNegatives": ["Wrong request/operation", "Wrong or absent ledger", "Ledger incomplete/blockers", "Wrong before/after pins or snapshot contents", "Wrong before SHA", "Wrong after SHA/xmin", "Missing/deleted/unowned row", "Wrong update kind", "Unchanged normal strict read", "Global and after readers remain strict"]
+  },
+  "publication": "Root reported that 119 has not been published. Hold publication until the small successor is separately reviewed and a new explicit H1/plain-array/plan revision is sealed; preserve the old promotion and inspect evidence.",
+  "limits": {
+    "RootProductModified": false,
+    "RootHelpersModified": false,
+    "GitModified": false,
+    "newSQL": 0,
+    "newHTTP": 0,
+    "liveProcessObserved": false,
+    "liveStateRead": false,
+    "TaxCorrectionExecuted": false,
+    "businessG3": false,
+    "businessG4": false,
+    "authorOfOriginalTaxHelpers": true,
+    "claim": "Support diagnosis and a verifiable regression input, not an independent product G3 certificate."
+  }
+}

@@ -1,0 +1,143 @@
+{
+  "kind": "independent-actual-Source12-FS-proof-bridge-test-of-H125-candidate",
+  "manifest": {
+    "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/tax-historical-before125/manifest125-code01.json",
+    "bytes": 1415,
+    "rawBytesSha256": "72ffefeb831cfedaf071d7e926351010114cbf3f7efdfad9753ec4c3539208a6"
+  },
+  "candidate": {
+    "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/tax-historical-before125/proposed/tools/rust-r4ghi/business/tax13-semantics.mjs",
+    "bytes": 26051,
+    "rawBytesSha256": "50aebe4bba9900e778161c44fedab128fa19b4e4635a0306154f15d212faf5b4"
+  },
+  "base": {
+    "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/tax-historical-before125/base/tools/rust-r4ghi/business/tax13-semantics.mjs",
+    "bytes": 21359,
+    "rawBytesSha256": "0c8cf1a203769174424097c24ba4e18de393da0dfe45e1aefe14695daf7c1120"
+  },
+  "singleFileDeltaInverseCompared": true,
+  "state": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/retention/epoch12-before-source13-139/state-at-retention139.json",
+    "rawBytesSha256": "ee7371dc4fc5d388f6898fb1c6eb90bebb6404eca6c31d23599469445804a628"
+  },
+  "before": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-006178-shared58-race-before.json",
+    "bytes": 3131195,
+    "rawBytesSha256": "805a5c342ffe88f687c5a6862db543a44465b07659da33a40eeec9c9c3283299"
+  },
+  "after": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-006181-shared58-race-after.json",
+    "bytes": 3130919,
+    "rawBytesSha256": "0330216f77b095e372f834d4a14e39872268d20907049e4b35b05648e4ada5a3"
+  },
+  "actual201RequestId": "bg383435b83c-006179-shared58-race-http-598be254",
+  "actualOriginalObservation": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/006182-shared58-race-observed.json",
+    "bytes": 14878,
+    "rawBytesSha256": "d6efadcdd9c14176d2f5ba396be3b99cf3b58a924ecc581dfb9c89a20519fc74"
+  },
+  "ledger": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/006183-ledger.json",
+    "bytes": 68935,
+    "rawBytesSha256": "a74d3e662eb62e253e46e16ed3b17b566a66503fd7e6f9015be97e649e15491d"
+  },
+  "testEnvelopeNote": "The original Stage race observed attempt has no after/ledger fields. Only the exact same-request success receipt and complete006183 pin are supplied in a new in-memory test envelope; no producer record or artifact is edited and this is not a new HTTP or Tax success.",
+  "positives": [
+    {
+      "table": "shared_cost_allocation_basis",
+      "id": "c1277c7c-5727-41c1-9f03-a88a8072ef5d",
+      "oldBridgePassed": true,
+      "currentAfterStrictPassed": true,
+      "globalOldStrictStillRejected": true
+    },
+    {
+      "table": "shared_cost_allocation_result",
+      "id": "6a66505e-fd79-480b-a4fa-786d96f637c4",
+      "oldBridgePassed": true,
+      "currentAfterStrictPassed": true,
+      "globalOldStrictStillRejected": true
+    },
+    {
+      "table": "shared_cost_allocation_result",
+      "id": "f4f0be5e-0136-4dc4-9e9e-99ec37e764cc",
+      "oldBridgePassed": true,
+      "currentAfterStrictPassed": true,
+      "globalOldStrictStillRejected": true
+    },
+    {
+      "table": "project_operating_snapshot",
+      "id": "a15755c9-77e8-47e2-9c43-63b3ef9c96da",
+      "oldBridgePassed": true,
+      "currentAfterStrictPassed": true,
+      "globalOldStrictStillRejected": true
+    },
+    {
+      "table": "project_operating_snapshot",
+      "id": "7aec44e9-a9db-4c40-a095-4dd8c3c4f85a",
+      "oldBridgePassed": true,
+      "currentAfterStrictPassed": true,
+      "globalOldStrictStillRejected": true
+    },
+    {
+      "table": "project_operating_snapshot",
+      "id": "b6dd18d3-1af4-49fc-a482-871c3c08a8a2",
+      "oldBridgePassed": true,
+      "currentAfterStrictPassed": true,
+      "globalOldStrictStillRejected": true
+    }
+  ],
+  "unchangedOriginalEvidenceStrictReadPassed": true,
+  "independentNegatives": [
+    "wrong-operation",
+    "wrong-request",
+    "status-not-201",
+    "response-incomplete",
+    "transport-failed",
+    "missing-ledger",
+    "ledger-pin-hash",
+    "before-pin-hash",
+    "after-pin-hash",
+    "before-object-not-immutable",
+    "after-object-not-immutable",
+    "missing-owner",
+    "deleted-owner",
+    "not-HTTP-birth",
+    "birth-not-complete",
+    "birth-not-absent",
+    "birth-first-SHA",
+    "birth-before-pin",
+    "after-latest-SHA",
+    "after-latest-xmin",
+    "wrong-update-kind",
+    "wrong-update-request",
+    "wrong-update-operation",
+    "wrong-before-SHA",
+    "wrong-update-before-pin",
+    "wrong-update-after-pin",
+    "ledger-content-incomplete",
+    "ledger-content-missing-complete",
+    "ledger-content-blocker",
+    "ledger-content-wrong-request",
+    "ledger-content-wrong-operation",
+    "ledger-content-wrong-before",
+    "ledger-content-wrong-after",
+    "ledger-content-missing-PK-update",
+    "ledger-content-wrong-update-kind",
+    "ledger-content-wrong-PK",
+    "original-birth-failed-status",
+    "missing-current-after-xmin"
+  ],
+  "limits": {
+    "SQL": 0,
+    "HTTP": 0,
+    "contextCreated": false,
+    "liveStateRead": false,
+    "processRead": false,
+    "RootProductModified": false,
+    "RootHelpersModified": false,
+    "actualTaxCorrection": false,
+    "actual119": false,
+    "G3": false,
+    "G4": false
+  }
+}

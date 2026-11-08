@@ -6,6 +6,7 @@ import { createHash } from 'node:crypto';
 import { validateRegistryLineage62, entrySource62 } from './registry-lineage62.mjs';
 import { verifySchemaBinding108 } from './schema-comparison108.mjs';
 import { effectiveProcessBinding1351 } from './same-source-process1351.mjs';
+import { assertToolAdmission119, supplementalFixture119, RESOURCE_PATH119 } from './resource-tool-admission119.mjs';
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 export const CONSUMER_OBSERVER_FIELDS54 = Object.freeze(['UICommandObserved', 'UICommandObserverReceipt', 'UICommandResponseOriginal', 'UICommandOperationId']);
 export function producerProjection54(record) { return Object.fromEntries(Object.entries(record).filter(([key]) => !CONSUMER_OBSERVER_FIELDS54.includes(key))); }
@@ -93,6 +94,7 @@ export function assertAdmittedContext54(ctx, { liveProcess = false, sourceFiles 
   const currentProcess = apiProcess54(ctx, registry.schemaVersion === 3 ? registry.consumer.apiProcess : effectiveProcessBinding1351(ctx, registry), liveProcess); assert.equal(currentProcess.binarySha256, registry.consumer.binarySHA256);
   readPin54(registry.retentionIndex); readPin54(registry.producerState); readPin54(registry.retainedSnapshot);
   if ([2, 3].includes(registry.schemaVersion)) validateRegistryLineage62(ctx, registry);
+  if (registry.schemaVersion === 3) assertToolAdmission119(ctx, registry);
   return registry;
 }
 export function assertAdmittedFixtureSource(ctx, { registryPath, record, projectIds, producerReceipt = null }) {
@@ -104,6 +106,7 @@ export function assertAdmittedFixtureSource(ctx, { registryPath, record, project
   // An explicitly retained path is permanently an old producer identity. Its
   // source label cannot turn it into a fresh record and bypass the projection.
   if (!entry) {
+    if (registryPath === RESOURCE_PATH119 && ctx.state.toolAdmission119) return supplementalFixture119(ctx, registry, { registryPath, record, projectIds, producerReceipt });
     assert.equal(record.sourcePinsSHA256, current, 'Old fixture is outside the reviewed consumer resource set');
     assertFreshProjects54(ctx, record, projectIds, registry);
     return { registryPath, producerEpoch: ctx.epoch, consumerEpoch: ctx.epoch, producerSourcePinsSHA256: current, consumerSourcePinsSHA256: current, retainedProducerOnly: false };

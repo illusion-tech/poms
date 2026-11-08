@@ -66,8 +66,11 @@ test('actual operation type keeps summary INSERT separate from predecessor UPDAT
   assert.deepEqual(rowsWritten([before], [changed, added], 'UPDATE').map(r => r.key[0]), [id(40)]);
 });
 test('period inventory is preparable but runtime cannot infer decision7 approval from any flag', () => {
-  const f = fixture(); f.base(); const s = f.scope({ projectId: project, expectedVersion: 1, periodKey: '2026-10', costDecisions: [f.input] });
-  const facts = f.derive(ghWriteOperations[2], s), inventory = ghWriteInventory(ghWriteOperations[2], { ...s, ghFacts: facts });
+  const f = fixture(); f.base(); const s = f.scope({ inputVersion: 'server-derived-v1', projectId: project, expectedVersion: 1, expectedProjectVersion: 1, expectedInputHash: 'a'.repeat(64), assertions: null, baselinePackageRef: { kind: 'OperatingBaselinePackage', id: baseline, expectedVersion: 1, payloadHash: 'b'.repeat(64) }, periodKey: '2026-10', expectedPeriodSnapshotRef: null, costDecisions: [f.input] });
+  assert.throws(() => f.derive(ghWriteOperations[2], s), /already classified/);
+  assert.throws(() => f.derive(ghWriteOperations[2], { ...s, body: { ...s.body, costDecisions: [] } }), /actual period preparation HTTP receipt is mandatory/);
+  const facts = { ...f.derive(ghWriteOperations[1], { ...s, body: { ...s.body, snapshotMode: 'realtime' } }), snapshotMode: 'period-end' };
+  const inventory = ghWriteInventory(ghWriteOperations[2], { ...s, ghFacts: facts });
   assert(inventory.some(d => d.key === 'G-paired-period')); assert.equal(inventory.find(d => d.key === 'G-snapshot').match.values.snapshot_mode, 'period-end');
   assert.throws(() => assertPeriodSweepPolicy(ghWriteOperations[2], { ...s.body, approved: true, decision7Approved: true }));
   assert.throws(() => assertPeriodSweepPolicy(ghWriteOperations[1], { snapshotMode: 'period-end', approved: true }));

@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-initial-review-of-external-mixed219",
+  "status": "hold-original-proposal-for-IR126-01-corrective-successor",
+  "manifest": {"file": "tools/rust-r4ghi/I/implementation/mixed-period-allocation219/manifest219.json", "rawBytesSha256": "1bfab12235131b15ec4e2b26dd84c9ff9e7f65a02dd0005a8e286f06be814ca6"},
+  "findings": [
+    {
+      "id": "IR126-01",
+      "priority": "P2",
+      "file": "tools/rust-r4ghi/I/implementation/mixed-period-allocation219/runtime219.mjs",
+      "function": "readPreparation219",
+      "rawBytesSha256": "d323778ed9d91c35e17e206ce6514250dc97a9f4038330e301287b701d6103c4",
+      "problem": "The actual HTTP preparation validator compares config.requestId with http.requestId without requiring either value to exist, and does not bind the actual X-Request-Id header or retained consumer prefix. Both undefined or empty nonce values are accepted. Contradictory inner formalEligibility.blockingReasonCodes also pass when the outer blockers are empty.",
+      "evidence": {"file": "tools/rust-r4ghi/independent/review05/mixed219-review126/nonce-probe126.json", "rawBytesSha256": "57d1bd680e32b5227b4b6bba3b62f5c785b7950fd1c84c6916248189afc497fd", "type": "Synthetic worker-only FS counterexamples, not actual HTTP"},
+      "minimumCorrection": "Require a nonempty exact string nonce bounded to100 characters, its retained ctx.state.prefix, and exact HTTP/config/actual-header equality, as in already reviewed period205-03/04. Require the inner formalEligibility blockers to be empty. Preserve all path/query/raw-response/snapshot and full-target checks. Keep the original proposal unchanged and seal a new successor."
+    }
+  ],
+  "verification": {
+    "sevenExecutionModulesRead": true,
+    "sealedFilesVerified": 21,
+    "syntaxPassed": 7,
+    "authorRegressionsIndependentlyRerun": {"passed": 14, "failed": 0, "skipped": 0},
+    "checks": {"file": "tools/rust-r4ghi/independent/review05/mixed219-review126/checks126.json", "rawBytesSha256": "6d0798a97de4871684897a0ca489fc569e42abbdd4d1f85fce91a5ca631c7847"}
+  },
+  "remainingProtocolAudit": [
+    "The historicalHTTPBefore flag is being checked against the new exact H125 successful-attempt history bridge. It must not be interpreted as a general new authority for arbitrary old owned rows.",
+    "The selected active batch must be bound to the actual Tax producer successor/source set rather than merely any shape-compatible owned Expense batch; the author has been asked for the exact existing call-chain binding or a minimal explicit correction.",
+    "FI branch-equivalence remains unapproved. No static review of this proposal authorizes an omitted target-specific descriptor. Only an independently reviewed actual full preparation, full normal inventory, selected FI inventory and exact mapping/analysis pins may authorize fi-only; otherwise use full necessary coverage."
+  ],
+  "limits": {"RootProductModified": false, "RootHelpersModified": false, "newSQL": 0, "newHTTP": 0, "liveStateRead": false, "processObserved": false, "actualMixedPreparation": false, "actualFI": false, "actualNormalCommit": false, "G3": false, "G4": false}
+}

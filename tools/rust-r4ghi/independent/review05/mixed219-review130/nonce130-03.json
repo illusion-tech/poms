@@ -1,0 +1,79 @@
+{
+  "kind": "independent-synthetic-FS-counterexample-not-an-HTTP-observation",
+  "finding": "IR126-01",
+  "severity": "P2",
+  "manifest": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/I/implementation/mixed-period-allocation219-03/manifest219-03.json",
+    "rawBytesSha256": "c2ec3a5543526fb1a9fd556a791d1ce9fcd06786cec069351ed672f5fb3ed0f0"
+  },
+  "runtime": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/I/implementation/mixed-period-allocation219-03/runtime219.mjs",
+    "rawBytesSha256": "45b5ec8a81c9b573f3ca0e9f64149e7d72c94d5d2f5be5227098530846287784"
+  },
+  "observations": [
+    {
+      "name": "valid-control",
+      "httpNonce": "bg383435b83c-review126-01234567",
+      "configNonce": "bg383435b83c-review126-01234567",
+      "headerNonce": "bg383435b83c-review126-01234567",
+      "innerBlocks": [],
+      "accepted": true
+    },
+    {
+      "name": "both-requestIds-absent",
+      "httpNonce": null,
+      "configNonce": null,
+      "headerNonce": null,
+      "innerBlocks": [],
+      "accepted": false
+    },
+    {
+      "name": "empty-requestIds",
+      "httpNonce": "",
+      "configNonce": "",
+      "headerNonce": "",
+      "innerBlocks": [],
+      "accepted": false
+    },
+    {
+      "name": "wrong-header",
+      "httpNonce": "bg383435b83c-review126-01234567",
+      "configNonce": "bg383435b83c-review126-01234567",
+      "headerNonce": "bg383435b83c-other-00000000",
+      "innerBlocks": [],
+      "accepted": false
+    },
+    {
+      "name": "wrong-consumer-prefix",
+      "httpNonce": "bg0000000000-wrong-01234567",
+      "configNonce": "bg0000000000-wrong-01234567",
+      "headerNonce": "bg0000000000-wrong-01234567",
+      "innerBlocks": [],
+      "accepted": false
+    },
+    {
+      "name": "contradictory-inner-block",
+      "httpNonce": "bg383435b83c-review126-01234567",
+      "configNonce": "bg383435b83c-review126-01234567",
+      "headerNonce": "bg383435b83c-review126-01234567",
+      "innerBlocks": [
+        "baseline-missing"
+      ],
+      "accepted": false
+    }
+  ],
+  "meaning": "The original independent five malformed-proof cases now reject in exact219-03, while the same valid control passes. This is a synthetic FS validator test, not an actual HTTP observation.",
+  "minimumFix": "Require nonempty <=100 exact nonce string, retained ctx.state.prefix, and exact HTTP/config/header equality; require formalEligibility.blockingReasonCodes empty. Keep all original path/query/snapshot/CAS and full-target checks.",
+  "limits": {
+    "productionFSReaderInjected": false,
+    "reviewWorkerFSWasTemporarilyVirtualized": true,
+    "realRootPathWritten": false,
+    "SQL": 0,
+    "HTTP": 0,
+    "contextCreated": false,
+    "liveStateRead": false,
+    "actual219": false,
+    "G3": false,
+    "G4": false
+  }
+}

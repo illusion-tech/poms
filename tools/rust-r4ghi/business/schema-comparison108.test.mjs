@@ -229,6 +229,11 @@ test('schema3 preserves mixed10/11/12 births, late published receipts and exact 
     const state12 = { ...clone(state11), epoch: 'old12', sourcePins: p12, consumerAdmission54: { registry: registry12Pin }, owned: { ...state11.owned, own: owned('own12-project', birth('old12', ['owned-http-project', 'legacy-project', 'cent11-project'], ['owned-http-project', 'legacy-project', 'cent11-project', 'own12-project'])) } }; state12.fixtures.uiFixtureViews23.own = own12;
     const statePin12 = f.pin('retention/old12/state.json', state12), index12 = index('old12', statePin12, f.receipt.retainedSnapshot);
     const p13 = [{ file: 'docs/design/rust-r4ghi/g2-consumed-evidence-corrective54.md', sha256: sha('54') }, { file: 'docs/design/rust-r4ghi/g2-project-metadata-noop61.md', sha256: sha('61') }], c13 = consumer('new13', p13), impact13 = impact(source('old12', p12), c13); c13.impactReview = impact13;
+    // The synthetic schema3 consumer also declares the complete actual code
+    // directory it is exercising. This is a unit fixture, not a live119 grant.
+    const helperDirectory = path.join(F136.root, 'tools/rust-r4ghi/business');
+    const completeHelpers = fs.readdirSync(helperDirectory).filter(name => /\.(mjs|json)$/.test(name)).sort().map(name => ({ file: 'tools/rust-r4ghi/business/' + name, sha256: sha(fs.readFileSync(path.join(helperDirectory, name))) }));
+    c13.helperPins = f.pin('business/new13/main/complete-helpers.json', completeHelpers); f.ctx.helperPins = completeHelpers;
     const process = { namespace: 'poms-r4ghi', root: '/home/wangzishi/projects/poms-rust-r4ghi', port: 31441, binarySha256: sha('synthetic-process') }, processPin = f.pin('business/new13/main/process.json', process); c13.apiProcess = processPin; c13.binarySHA256 = process.binarySha256;
     Object.assign(f.receipt, { producer: source('old12', p12), consumer: c13, producerState: statePin12, retentionIndex: index12, priorRegistry: registry12Pin }); f.binding.verificationReceipt = f.pin('business/new13/main/verification3.json', f.receipt);
     const state13 = { ...clone(state12), epoch: 'new13', sourcePins: p13, schemaComparison108: f.binding, apiProcess: { ...processPin, record: process } };

@@ -2,6 +2,7 @@
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';
 import {sha,uuid,keyOf,data} from './pure.mjs';
 import {readPin54,pointer54,assertAdmittedContext54,assertAdmittedFixtureSource} from './consumer-admission54.mjs';
+import {effectiveHelperPins119,assertRuntimeBinding119} from './resource-tool-admission119.mjs';
 export const TAX13_BINDINGS='tools/rust-r4ghi/business/tax13-bindings.json'; // Unexecutable immutable template only.
 
 // This WeakMap records only an explicit CLI-approved private original; it never
@@ -23,7 +24,7 @@ export function assertUnboundTax13Template(template){
 export function assertCompleteTax13HelperGraph(ctx,manifest,registry){
  const c=manifest.current;assert.equal(ctx.helperPins.length,c.helperCount);assert(ctx.helperPins.some(p=>p.file===TAX13_BINDINGS),'The immutable business template belongs to the complete code graph');
  const expected=c.helperSources.filter(p=>p.file.startsWith('tools/rust-r4ghi/business/')).map(p=>p.file).sort();assert.deepEqual(ctx.helperPins.map(p=>p.file).sort(),expected,'No helper or template may be omitted; the runtime input is outside this graph');
- assert.deepEqual(JSON.parse(readPin54(registry.consumer.helperPins)),ctx.helperPins,'Runtime helpers must equal the actual graph admitted by schema3; no post-mint silent refreeze');
+ assert.deepEqual(JSON.parse(readPin54(effectiveHelperPins119(ctx,registry))),ctx.helperPins,'Runtime helpers must equal the actual graph admitted by schema3; no post-mint silent refreeze');
 }
 
 const hash=value=>assert(typeof value==='string'&&/^[a-f0-9]{64}$/.test(value));
@@ -47,7 +48,7 @@ export function verifyTax13Sources(ctx,manifest){
  assertBoundTax13(manifest);const approved=assertApprovedTax13Bindings(ctx,manifest),c=manifest.current;assert.equal(ctx.epoch,c.epoch);assert.equal(ctx.run,c.run);assert.equal(ctx.migrations,c.migrations);assert.equal(ctx.tables,139);assert.deepEqual(ctx.pins,c.sourcePins);assert.equal(ctx.pins.length,c.sourceCount);assert.equal(ctx.state.apiProcess?.record?.binarySha256,c.binarySHA256);
  const templateBytes=fs.readFileSync(ctx.win+'/'+TAX13_BINDINGS);assertUnboundTax13Template(JSON.parse(templateBytes));assert.equal(ctx.helperPins.find(p=>p.file===TAX13_BINDINGS)?.sha256,sha(templateBytes));
  for(const p of [...c.sourcePins,...c.helperSources])assert.equal(sha(fs.readFileSync(ctx.win+'/'+p.file)),p.sha256,'Changed registered Source13 input: '+p.file);
- const registry=assertAdmittedContext54(ctx,{liveProcess:true,sourceFiles:true});assertCompleteTax13HelperGraph(ctx,manifest,registry);assert.deepEqual(ctx.state.consumerAdmission54.registry,c.registry);assert.deepEqual(registry.retentionIndex,c.retentionIndex);assert.deepEqual(registry.producerState,c.retainedProducerState);assert.deepEqual(registry.consumer.apiProcess,c.apiProcess);assertActualCandidateTax13(ctx,c,JSON.parse(readPin54(c.candidate)));
+ const registry=assertAdmittedContext54(ctx,{liveProcess:true,sourceFiles:true});assertCompleteTax13HelperGraph(ctx,manifest,registry);assert.deepEqual(ctx.state.consumerAdmission54.registry,c.registry);assert.deepEqual(registry.retentionIndex,c.retentionIndex);assert.deepEqual(registry.producerState,c.retainedProducerState);assert.deepEqual(registry.consumer.apiProcess,c.apiProcess);assertActualCandidateTax13(ctx,c,JSON.parse(readPin54(c.candidate)));assertRuntimeBinding119(ctx,registry,{toolAdmission119:c.toolAdmission119,candidate:c.candidate});
  assert.equal(sha(JSON.stringify(pointer54(ctx.state,manifest.legacy.registryPath))),c.producerProjectionSHA256,'A current consumer must not edit its old producer record');
  return {bindingSHA256:approved.rawBytesSha256,runtimeBindings:approved,sourcePinsSHA256:c.sourcePinsSHA256,registry:c.registry,retentionIndex:c.retentionIndex,retainedProducerState:c.retainedProducerState,binarySHA256:c.binarySHA256};
 }

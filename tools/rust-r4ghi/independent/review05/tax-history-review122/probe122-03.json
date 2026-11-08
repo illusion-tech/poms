@@ -1,0 +1,262 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-FS-replay-of-existing-Source12-observations",
+  "finding": "IR122-01",
+  "severity": "P2",
+  "status": "confirmed-helper-post-commit-false-rejection",
+  "sourcePins": [
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/tax13-facts.mjs",
+      "bytes": 15429,
+      "rawBytesSha256": "e55e6cb5dce6169e1ae2737881d946638ce709414ad6633c829fa2eb7c8eee9b"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/tax13-semantics.mjs",
+      "bytes": 21359,
+      "rawBytesSha256": "0c8cf1a203769174424097c24ba4e18de393da0dfe45e1aefe14695daf7c1120"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/tax13-sweep.mjs",
+      "bytes": 17407,
+      "rawBytesSha256": "c265ef7f7743c4dac46d2f8a6af2fdc76a06ccaae5d0d5a10a8bb67cac3b5ec1"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/ledger.mjs",
+      "bytes": 14909,
+      "rawBytesSha256": "ca72e96a2485b84372f703be879adb5e0d7a0e93db8d8bbe87f65a9283b959c9"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/snapshot.mjs",
+      "bytes": 9906,
+      "rawBytesSha256": "0ab579d978d6d8e4b6401ff6004f9d4dc42d88be88391c34621d8135356fb7fa"
+    }
+  ],
+  "statePin": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/retention/epoch12-before-source13-139/state-at-retention139.json",
+    "rawBytesSha256": "ee7371dc4fc5d388f6898fb1c6eb90bebb6404eca6c31d23599469445804a628"
+  },
+  "before": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-006178-shared58-race-before.json",
+    "bytes": 3131195,
+    "rawBytesSha256": "805a5c342ffe88f687c5a6862db543a44465b07659da33a40eeec9c9c3283299"
+  },
+  "after": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-006181-shared58-race-after.json",
+    "bytes": 3130919,
+    "rawBytesSha256": "0330216f77b095e372f834d4a14e39872268d20907049e4b35b05648e4ada5a3"
+  },
+  "observation": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/006182-shared58-race-observed.json",
+    "bytes": 14878,
+    "rawBytesSha256": "d6efadcdd9c14176d2f5ba396be3b99cf3b58a924ecc581dfb9c89a20519fc74"
+  },
+  "ledger": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/006183-ledger.json",
+    "bytes": 68935,
+    "rawBytesSha256": "a74d3e662eb62e253e46e16ed3b17b566a66503fd7e6f9015be97e649e15491d"
+  },
+  "actual201": {
+    "operationId": "ProjectCostController_createOperatingRestatement",
+    "requestId": "bg383435b83c-006179-shared58-race-http-598be254",
+    "status": 201,
+    "responseComplete": true,
+    "transportFailure": false,
+    "receipt": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business12/main01/006179-shared58-race-http-http.json",
+      "bytes": 1490,
+      "rawBytesSha256": "3afba2a4a4693bdfab38d4f7eee1b1d659b8ee20a32d9226a294485a4bce6595"
+    }
+  },
+  "observations": [
+    {
+      "table": "shared_cost_allocation_basis",
+      "id": "c1277c7c-5727-41c1-9f03-a88a8072ef5d",
+      "before": {
+        "sha256": "837f4d631807ab282ca1eb9db49cca810080b27cb595889fb65a5a6919c70854",
+        "xmin": "3082",
+        "status": "active",
+        "rowVersion": 1
+      },
+      "after": {
+        "sha256": "b1819bf9301b60cb0e6db200ced7bcbc27883eb86b4a6e864b86a93266a18ee4",
+        "xmin": "4339",
+        "status": "superseded",
+        "rowVersion": 2
+      },
+      "originalHttpBirthValidated": true,
+      "currentLatestAndExactUpdateBridgeValidated": true,
+      "historicalReadRejected": {
+        "name": "AssertionError",
+        "code": "ERR_ASSERTION",
+        "actual": "b1819bf9301b60cb0e6db200ced7bcbc27883eb86b4a6e864b86a93266a18ee4",
+        "expected": "837f4d631807ab282ca1eb9db49cca810080b27cb595889fb65a5a6919c70854"
+      },
+      "afterReadPassed": true
+    },
+    {
+      "table": "shared_cost_allocation_result",
+      "id": "6a66505e-fd79-480b-a4fa-786d96f637c4",
+      "before": {
+        "sha256": "6e8628f8c736e766be585e2f8cf545c75d6214f973d1fdb57f942eacbbf83ddc",
+        "xmin": "3082",
+        "status": "active",
+        "rowVersion": 2
+      },
+      "after": {
+        "sha256": "2b19ad4aef65a6b9571b6f00bbbe7d79e208afcfdc0405d9cc6716c25ad3067c",
+        "xmin": "4339",
+        "status": "superseded",
+        "rowVersion": 3
+      },
+      "originalHttpBirthValidated": true,
+      "currentLatestAndExactUpdateBridgeValidated": true,
+      "historicalReadRejected": {
+        "name": "AssertionError",
+        "code": "ERR_ASSERTION",
+        "actual": "2b19ad4aef65a6b9571b6f00bbbe7d79e208afcfdc0405d9cc6716c25ad3067c",
+        "expected": "6e8628f8c736e766be585e2f8cf545c75d6214f973d1fdb57f942eacbbf83ddc"
+      },
+      "afterReadPassed": true
+    },
+    {
+      "table": "shared_cost_allocation_result",
+      "id": "f4f0be5e-0136-4dc4-9e9e-99ec37e764cc",
+      "before": {
+        "sha256": "bf02c2ee07ce0708c5c9f65585a72b4118b4e194a2eb24d08686354d7a96651c",
+        "xmin": "3082",
+        "status": "active",
+        "rowVersion": 2
+      },
+      "after": {
+        "sha256": "31c7fbb1808953a8e66a33624944224aad6148bf1697fd48ed5080dbfd32a271",
+        "xmin": "4339",
+        "status": "superseded",
+        "rowVersion": 3
+      },
+      "originalHttpBirthValidated": true,
+      "currentLatestAndExactUpdateBridgeValidated": true,
+      "historicalReadRejected": {
+        "name": "AssertionError",
+        "code": "ERR_ASSERTION",
+        "actual": "31c7fbb1808953a8e66a33624944224aad6148bf1697fd48ed5080dbfd32a271",
+        "expected": "bf02c2ee07ce0708c5c9f65585a72b4118b4e194a2eb24d08686354d7a96651c"
+      },
+      "afterReadPassed": true
+    },
+    {
+      "table": "project_operating_snapshot",
+      "id": "a15755c9-77e8-47e2-9c43-63b3ef9c96da",
+      "before": {
+        "sha256": "d3588f3c1d9374a885fbbcfe81927073f4b4f16f0d98b4435ea9ad4b97c580f6",
+        "xmin": "3082",
+        "status": "active",
+        "rowVersion": 1
+      },
+      "after": {
+        "sha256": "7960a7d11ed8daf3ea65e63b7f3a42f36afd4dde424bd028cd92060ece53fd7c",
+        "xmin": "4339",
+        "status": "superseded",
+        "rowVersion": 2
+      },
+      "originalHttpBirthValidated": true,
+      "currentLatestAndExactUpdateBridgeValidated": true,
+      "historicalReadRejected": {
+        "name": "AssertionError",
+        "code": "ERR_ASSERTION",
+        "actual": "7960a7d11ed8daf3ea65e63b7f3a42f36afd4dde424bd028cd92060ece53fd7c",
+        "expected": "d3588f3c1d9374a885fbbcfe81927073f4b4f16f0d98b4435ea9ad4b97c580f6"
+      },
+      "afterReadPassed": true
+    },
+    {
+      "table": "project_operating_snapshot",
+      "id": "7aec44e9-a9db-4c40-a095-4dd8c3c4f85a",
+      "before": {
+        "sha256": "139618cfa0dccac43b66b30bdf4f5f3cbdde3e4f16c34aabd58575329524e295",
+        "xmin": "3082",
+        "status": "active",
+        "rowVersion": 1
+      },
+      "after": {
+        "sha256": "572748d283a25826cdfaa414fe3ea5bd1bd5f13252eced1ae2f494bdfa223733",
+        "xmin": "4339",
+        "status": "superseded",
+        "rowVersion": 2
+      },
+      "originalHttpBirthValidated": true,
+      "currentLatestAndExactUpdateBridgeValidated": true,
+      "historicalReadRejected": {
+        "name": "AssertionError",
+        "code": "ERR_ASSERTION",
+        "actual": "572748d283a25826cdfaa414fe3ea5bd1bd5f13252eced1ae2f494bdfa223733",
+        "expected": "139618cfa0dccac43b66b30bdf4f5f3cbdde3e4f16c34aabd58575329524e295"
+      },
+      "afterReadPassed": true
+    },
+    {
+      "table": "project_operating_snapshot",
+      "id": "b6dd18d3-1af4-49fc-a482-871c3c08a8a2",
+      "before": {
+        "sha256": "abab4ce8d6c7da8ecc20f9c1af112b30ef23b40071f3d4bf9d9234894650ddac",
+        "xmin": "3082",
+        "status": "active",
+        "rowVersion": 1
+      },
+      "after": {
+        "sha256": "390dbaead9a04c64cd3cba1537e0e0b0a518ca732de792d107f91b161625920f",
+        "xmin": "4339",
+        "status": "superseded",
+        "rowVersion": 2
+      },
+      "originalHttpBirthValidated": true,
+      "currentLatestAndExactUpdateBridgeValidated": true,
+      "historicalReadRejected": {
+        "name": "AssertionError",
+        "code": "ERR_ASSERTION",
+        "actual": "390dbaead9a04c64cd3cba1537e0e0b0a518ca732de792d107f91b161625920f",
+        "expected": "abab4ce8d6c7da8ecc20f9c1af112b30ef23b40071f3d4bf9d9234894650ddac"
+      },
+      "afterReadPassed": true
+    }
+  ],
+  "firstExpression": {
+    "name": "AssertionError",
+    "code": "ERR_ASSERTION",
+    "message": "Expected values to be strictly equal:\n+ actual - expected\n\n+ 'b1819bf9301b60cb0e6db200ced7bcbc27883eb86b4a6e864b86a93266a18ee4'\n- '837f4d631807ab282ca1eb9db49cca810080b27cb595889fb65a5a6919c70854'\n",
+    "stack": [
+      "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:",
+      "+ actual - expected",
+      "",
+      "+ 'b1819bf9301b60cb0e6db200ced7bcbc27883eb86b4a6e864b86a93266a18ee4'",
+      "- '837f4d631807ab282ca1eb9db49cca810080b27cb595889fb65a5a6919c70854'",
+      "",
+      "    at Object.owned (file:///mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/tax13-facts.mjs:11:277)",
+      "    at verifyTax13Semantics (file:///mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/tax13-semantics.mjs:50:90)",
+      "    at file:///mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/review05/tax-history-review122/probe122-03.mjs:53:25"
+    ]
+  },
+  "unchanged": {
+    "table": "cost_governance_evidence",
+    "id": "e1ea753e-eff8-4373-b280-7eb0828ff1e0",
+    "sha256": "3063759ba3e3c8fffb56f2f2c614e48cbe603edd20e65eabe2612dd27a8d8c99",
+    "xmin": "3082",
+    "bothStrictReadsPassed": true
+  },
+  "scope": {
+    "realNewHTTP": 0,
+    "SQL": 0,
+    "processReads": 0,
+    "contextCreated": false,
+    "liveStateRead": false,
+    "producer": "g2-business12",
+    "TaxCorrectionExecuted": false,
+    "businessG3": false,
+    "businessG4": false
+  },
+  "minimumRepair": [
+    "Keep rowsTax13 and every after reader strict against current latest SHA/xmin.",
+    "Use an attempt-scoped historical reader only for changed old rows: exact immutable before/after pins, supplied snapshot deep equality with readPin JSON, successful complete 201 attempt and ownership-complete ledger without blockers.",
+    "Require genuine original HTTP birth/first SHA, same database/table/PK in both snapshots, latest after SHA/xmin, exact update kind/request/operation/before SHA and snapshot pins; unchanged rows use the existing strict owned reader.",
+    "Do not edit old producer/ledger/220/221/223/195. A new helper revision/H1 and plan must be reviewed before 119 publication."
+  ]
+}

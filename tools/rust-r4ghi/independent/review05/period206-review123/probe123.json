@@ -1,0 +1,77 @@
+{
+  "kind": "independent-immutable-preTax-HTTP-compatibility-and-negative-tests",
+  "manifest": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/I/implementation/period-driver206-02/manifest206-02.json",
+    "bytes": 5270,
+    "rawBytesSha256": "362f18133f57e82ccc057f946231a16459c32c1d335f25aa9a677be251f1e338"
+  },
+  "facts": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/I/implementation/period-driver206/facts206.mjs",
+    "bytes": 19417,
+    "rawBytesSha256": "313c1450b61700e51505acb35cc15cb5bc7e49e71cc053a98c8a191c5e664660"
+  },
+  "actual204": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000034-period204-preparation.json",
+    "bytes": 50723,
+    "rawBytesSha256": "f3a85d3ca6d6eaa5b549a1e870248f6a80264e9d4f11deba13539ddb80684c6c"
+  },
+  "publicHTTP": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business13/main01/000032-http-http.json",
+    "bytes": 1703,
+    "rawBytesSha256": "242056af8f7f153dd70426087470d6ecab053048210ab7e60ba71f16ad28945b"
+  },
+  "preparationResponse": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000032-http-response-body.bin",
+    "bytes": 43038,
+    "rawBytesSha256": "bd8da8060d7cdabcb00bcca04d8ca6d3ff05598003e8409763c5838efe442183"
+  },
+  "actual204Status": 200,
+  "actual204ProjectId": "4d9e57ad-4890-4f53-80da-c6d224ce576b",
+  "sourceUnits": [
+    "allocation:81ab63b0-9e97-4a6e-aa07-61df8c64ec45",
+    "allocation:c4dc5b70-e95e-4a76-965f-3f3a5a5414f6",
+    "cost:c941b1e8-41e4-44d0-b759-68d6864f7ba2"
+  ],
+  "serverCASCopied": true,
+  "costDecisionsEmpty": true,
+  "independentNegativeCases": [
+    "wrong-kind",
+    "wrong-intent",
+    "wrong-project",
+    "wrong-week",
+    "wrong-cutoff",
+    "ineligible",
+    "inner-block",
+    "outer-block",
+    "missing-command",
+    "zero-head",
+    "fraction-head",
+    "missing-head",
+    "zero-project-version",
+    "missing-project-version",
+    "bad-input-hash",
+    "missing-input-hash",
+    "no-baseline",
+    "wrong-baseline-type",
+    "zero-baseline-version",
+    "missing-baseline-version",
+    "bad-baseline-hash",
+    "missing-baseline-hash",
+    "empty-cost-scope",
+    "unmapped-source",
+    "future-source"
+  ],
+  "calendarNegatives": 6,
+  "calendarBoundaryNote": "The actual204 GET records today/current/prior ISO week; prior-start/end here are the deterministic ISO dates for that recorded W45, not a new database/time observation.",
+  "limits": {
+    "SQL": 0,
+    "HTTP": 0,
+    "contextCreated": false,
+    "liveStateRead": false,
+    "actualPeriodPOST": false,
+    "postTaxFreshPreparation": false,
+    "effectAdmission": false,
+    "productG3": false,
+    "productG4": false
+  }
+}

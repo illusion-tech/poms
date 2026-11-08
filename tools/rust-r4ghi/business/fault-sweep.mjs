@@ -9,11 +9,22 @@ import { isGHWrite, deriveGHWriteFacts } from './gh-write-facts.mjs';
 import { requiredWriteInventory, selectorSql, writeMatches, requireOwnedScope } from './required-write-inventory.mjs';
 import { loadActualAuthConfig } from './auth-config-binding.mjs';
 import { isMetadataWrite, deriveMetadataWriteFacts } from './metadata-write-inventory25.mjs';
+import { assertAdmittedContext54 } from './consumer-admission54.mjs';
 
 const kind = 'source-bound-required-write-sweep17';
 const identitySHA = value => sha(JSON.stringify(value));
 const exactStatus = attempt => assert(attempt.status === 500 && attempt.responseComplete === true && attempt.transportFailure === false, 'FI requires an actual complete500; no missing-ACK rollback inference');
 function verifySources(ctx, operationId = null) {
+  if (ctx.epoch === 'g2-business13' && isGHWrite(operationId)) {
+    // This new tool generation is separately admitted. Keep the old19 pins as
+    // their original historical input; never silently refresh that old file.
+    assert(ctx.state.toolAdmission119, 'Source13 GH effects require the explicit reviewed H1 tool admission');
+    assertAdmittedContext54(ctx, { liveProcess: true, sourceFiles: true });
+    const current = JSON.parse(fs.readFileSync(new URL('./required-write-sources13.json', import.meta.url)));
+    assert.deepEqual(current, ctx.pins, 'Bind the complete actual416, including period-baseline and correction dependencies');
+    for (const pin of current) assert.equal(sha(fs.readFileSync(ctx.win + '/' + pin.file)), pin.sha256, 'Reviewed current FI input changed: ' + pin.file);
+    return current;
+  }
   const pins = JSON.parse(fs.readFileSync(new URL(isMetadataWrite(operationId) ? './required-write-sources25.json' : isGHWrite(operationId) ? './required-write-sources19.json' : './required-write-sources17.json', import.meta.url)));
   for (const pin of pins) assert.equal(ctx.pins.find(p => p.file === pin.file)?.sha256, pin.sha256, `Reviewed FI source changed: ${pin.file}`);
   return pins;

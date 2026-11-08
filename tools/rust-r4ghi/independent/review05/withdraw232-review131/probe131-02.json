@@ -1,0 +1,406 @@
+{
+  "kind": "independent-FS-only-232-action-model-no-real-withdrawal",
+  "script": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/withdraw-unconsumed119-232.mjs",
+    "rawBytesSha256": "e273ba7761c62af3ca0c39375c120909eb6e4703928c1d757af35ec585bee496"
+  },
+  "preWithdrawal": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/tool119-prewithdraw233/receipt233.json",
+    "rawBytesSha256": "b2817ce2186c0b8c0c9b9542508ef2dfacf18a6f3a11389273bfc621a7795799"
+  },
+  "actualImmutablePublishedState": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/tool119-prewithdraw233/published-state-before-withdraw233.json",
+    "rawBytesSha256": "b079c3644934ebdcd3a5167c975139704782e37147aa92b418dd391d5570f358"
+  },
+  "cases": [
+    {
+      "name": "inspect-positive",
+      "mode": "--inspect",
+      "accepted": true,
+      "renames": 0,
+      "counter": 38,
+      "verifierCalls": [
+        {
+          "pointerPresent": true,
+          "options": {
+            "liveProcess": true,
+            "sourceFiles": true
+          }
+        },
+        {
+          "pointerPresent": false,
+          "options": {
+            "liveProcess": false,
+            "sourceFiles": true
+          }
+        }
+      ],
+      "logs": [
+        "{\"inspected\":true,\"receipt\":{\"file\":\"/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/tool119-withdraw232/inspect232.json\",\"rawBytesSha256\":\"c48b6cf05226d4ee68b9d1c50ae24cb24b97bca3d1b9d3465b93897aa7fbbbbe\"},\"stateChanged\":false}"
+      ],
+      "outerError": null,
+      "writes": [
+        "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/tool119-withdraw232/inspect232.json"
+      ]
+    },
+    {
+      "name": "withdraw-positive",
+      "mode": "--withdraw",
+      "accepted": true,
+      "renames": 1,
+      "counter": 38,
+      "verifierCalls": [
+        {
+          "pointerPresent": true,
+          "options": {
+            "liveProcess": true,
+            "sourceFiles": true
+          }
+        },
+        {
+          "pointerPresent": false,
+          "options": {
+            "liveProcess": false,
+            "sourceFiles": true
+          }
+        }
+      ],
+      "logs": [
+        "{\"withdrawn\":true,\"receipt\":{\"file\":\"/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/tool119-withdraw232/withdrawal232.json\",\"rawBytesSha256\":\"03436cb5212e6fd1c937441a9d6c91d5f5a28ff034f4c11322e8294471a4a787\"},\"actualNewEntry\":{\"file\":\"/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/tool119-withdraw232/prospective-entry232.json\",\"rawBytesSha256\":\"6015c69e908859b6ea03607a5a7116efe0ae8509783f6ba31b024b8c189566a5\"},\"counterRetained\":38,\"ordinaryContextFailClosed\":true,\"SQLOrHTTP\":false}"
+      ],
+      "outerError": null,
+      "writes": [
+        "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/tool119-withdraw232/prospective-entry232.json",
+        "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/state-withdraw119-357c9fae-4340-4e0c-994e-4a9abce31ac6.tmp",
+        "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/tool119-withdraw232/withdrawal232.json"
+      ]
+    },
+    {
+      "name": "wrong-state-sha",
+      "mode": "--withdraw",
+      "accepted": false,
+      "renames": 0,
+      "counter": 38,
+      "verifierCalls": [],
+      "logs": [
+        "{\"completed\":false,\"withdrawn\":false,\"original\":{\"file\":\"/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/tool119-withdraw232/partial232-40ffa8a2-de0a-48c6-b9dc-8dbda2604c2f.json\",\"rawBytesSha256\":\"fcd14cebdb1e1620fbcddbb41b1a9456796f5969470c1bcfad7c615306d5fb8a\"},\"noBlindRetry\":true}"
+      ],
+      "outerError": null,
+      "writes": [
+        "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/tool119-withdraw232/partial232-40ffa8a2-de0a-48c6-b9dc-8dbda2604c2f.json"
+      ]
+    },
+    {
+      "name": "active-fault",
+      "mode": "--withdraw",
+      "accepted": false,
+      "renames": 0,
+      "counter": 38,
+      "verifierCalls": [],
+      "logs": [
+        "{\"completed\":false,\"withdrawn\":false,\"original\":{\"file\":\"/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/tool119-withdraw232/partial232-4894bc13-330e-4060-ac90-37c9c18c75ca.json\",\"rawBytesSha256\":\"179115024199e199803d0d86739df784a821f34842fdb20ad97e04c064891f27\"},\"noBlindRetry\":true}"
+      ],
+      "outerError": null,
+      "writes": [
+        "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/tool119-withdraw232/partial232-4894bc13-330e-4060-ac90-37c9c18c75ca.json"
+      ]
+    },
+    {
+      "name": "counter-change",
+      "mode": "--withdraw",
+      "accepted": false,
+      "renames": 0,
+      "counter": 39,
+      "verifierCalls": [],
+      "logs": [
+        "{\"completed\":false,\"withdrawn\":false,\"original\":{\"file\":\"/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/tool119-withdraw232/partial232-a34ed4db-d07b-466a-b3e3-1a5dad495421.json\",\"rawBytesSha256\":\"7bdde09db3d0899ab356eaf8ae77072178abfbf84ff558f243042ae0f75662c9\"},\"noBlindRetry\":true}"
+      ],
+      "outerError": null,
+      "writes": [
+        "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/tool119-withdraw232/partial232-a34ed4db-d07b-466a-b3e3-1a5dad495421.json"
+      ]
+    },
+    {
+      "name": "domain-consumer-record",
+      "mode": "--withdraw",
+      "accepted": false,
+      "renames": 0,
+      "counter": 38,
+      "verifierCalls": [],
+      "logs": [
+        "{\"completed\":false,\"withdrawn\":false,\"original\":{\"file\":\"/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/tool119-withdraw232/partial232-72cefee8-ece5-47e2-a82f-fa68ec4a35d8.json\",\"rawBytesSha256\":\"a42b1f600d11c112e9e866aff7896d9cf21f120357a1d9f04720a8a68fdc5134\"},\"noBlindRetry\":true}"
+      ],
+      "outerError": null,
+      "writes": [
+        "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/tool119-withdraw232/partial232-72cefee8-ece5-47e2-a82f-fa68ec4a35d8.json"
+      ]
+    },
+    {
+      "name": "wrong-registry-pin",
+      "mode": "--withdraw",
+      "accepted": false,
+      "renames": 0,
+      "counter": 38,
+      "verifierCalls": [],
+      "logs": [
+        "{\"completed\":false,\"withdrawn\":false,\"original\":{\"file\":\"/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/tool119-withdraw232/partial232-ca61d674-7729-43ec-a444-f0e7c442824e.json\",\"rawBytesSha256\":\"79f45fc1fbdd87cc34af37086593341be05aadeeeaf192ff07c2fc0d8c837a3d\"},\"noBlindRetry\":true}"
+      ],
+      "outerError": null,
+      "writes": [
+        "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/tool119-withdraw232/partial232-ca61d674-7729-43ec-a444-f0e7c442824e.json"
+      ]
+    },
+    {
+      "name": "wrong-B2-pin",
+      "mode": "--withdraw",
+      "accepted": false,
+      "renames": 0,
+      "counter": 38,
+      "verifierCalls": [],
+      "logs": [
+        "{\"completed\":false,\"withdrawn\":false,\"original\":{\"file\":\"/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/tool119-withdraw232/partial232-5831fa80-2c2d-49fc-959e-f4f521921c94.json\",\"rawBytesSha256\":\"8fbc6dff3320c74dbe3ca9988df760edcd9eab0b667d4dc7e725792f21c4538f\"},\"noBlindRetry\":true}"
+      ],
+      "outerError": null,
+      "writes": [
+        "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/tool119-withdraw232/partial232-5831fa80-2c2d-49fc-959e-f4f521921c94.json"
+      ]
+    },
+    {
+      "name": "approval-missing-withdraw",
+      "mode": "--withdraw",
+      "accepted": false,
+      "renames": 0,
+      "counter": 38,
+      "verifierCalls": [
+        {
+          "pointerPresent": true,
+          "options": {
+            "liveProcess": true,
+            "sourceFiles": true
+          }
+        }
+      ],
+      "logs": [
+        "{\"completed\":false,\"withdrawn\":false,\"original\":{\"file\":\"/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/tool119-withdraw232/partial232-14f0cf42-38fe-4cab-b8de-64017ded4ecc.json\",\"rawBytesSha256\":\"a9db3a70ce3339895a38038548bed6962ba70916159180d5f2228dfe1baf2e6f\"},\"noBlindRetry\":true}"
+      ],
+      "outerError": null,
+      "writes": [
+        "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/tool119-withdraw232/partial232-14f0cf42-38fe-4cab-b8de-64017ded4ecc.json"
+      ]
+    },
+    {
+      "name": "approval-missing-counter",
+      "mode": "--withdraw",
+      "accepted": false,
+      "renames": 0,
+      "counter": 38,
+      "verifierCalls": [
+        {
+          "pointerPresent": true,
+          "options": {
+            "liveProcess": true,
+            "sourceFiles": true
+          }
+        }
+      ],
+      "logs": [
+        "{\"completed\":false,\"withdrawn\":false,\"original\":{\"file\":\"/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/tool119-withdraw232/partial232-daaf2958-95e8-4785-a583-253592c88b67.json\",\"rawBytesSha256\":\"39ea36ab9a0c065fb86184b2fad6965a3dc9fdaf2f8653e51e7063fed11c51b3\"},\"noBlindRetry\":true}"
+      ],
+      "outerError": null,
+      "writes": [
+        "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/tool119-withdraw232/partial232-daaf2958-95e8-4785-a583-253592c88b67.json"
+      ]
+    },
+    {
+      "name": "approval-wrong-source",
+      "mode": "--withdraw",
+      "accepted": false,
+      "renames": 0,
+      "counter": 38,
+      "verifierCalls": [
+        {
+          "pointerPresent": true,
+          "options": {
+            "liveProcess": true,
+            "sourceFiles": true
+          }
+        }
+      ],
+      "logs": [
+        "{\"completed\":false,\"withdrawn\":false,\"original\":{\"file\":\"/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/tool119-withdraw232/partial232-6ed103db-251f-4913-8ab6-647561b78a7a.json\",\"rawBytesSha256\":\"a8d64aedcffe8bf65b7c16b0b237c2cdf483aa79d8e9b390777574c16983d123\"},\"noBlindRetry\":true}"
+      ],
+      "outerError": null,
+      "writes": [
+        "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/tool119-withdraw232/partial232-6ed103db-251f-4913-8ab6-647561b78a7a.json"
+      ]
+    },
+    {
+      "name": "wrong-source-array",
+      "mode": "--withdraw",
+      "accepted": false,
+      "renames": 0,
+      "counter": 38,
+      "verifierCalls": [
+        {
+          "pointerPresent": true,
+          "options": {
+            "liveProcess": true,
+            "sourceFiles": true
+          }
+        }
+      ],
+      "logs": [
+        "{\"completed\":false,\"withdrawn\":false,\"original\":{\"file\":\"/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/tool119-withdraw232/partial232-363c7c44-3f55-40e4-aa8e-c9d8dec500f3.json\",\"rawBytesSha256\":\"0bf87da41ab0971a4e1628f195f177efe2ab4b3a4fef39370d8aa043fe729f8c\"},\"noBlindRetry\":true}"
+      ],
+      "outerError": null,
+      "writes": [
+        "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/tool119-withdraw232/partial232-363c7c44-3f55-40e4-aa8e-c9d8dec500f3.json"
+      ]
+    },
+    {
+      "name": "wrong-H1",
+      "mode": "--withdraw",
+      "accepted": false,
+      "renames": 0,
+      "counter": 38,
+      "verifierCalls": [
+        {
+          "pointerPresent": true,
+          "options": {
+            "liveProcess": true,
+            "sourceFiles": true
+          }
+        }
+      ],
+      "logs": [
+        "{\"completed\":false,\"withdrawn\":false,\"original\":{\"file\":\"/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/tool119-withdraw232/partial232-de13276e-9d78-4593-b8ec-0f556aec7eaa.json\",\"rawBytesSha256\":\"6d93c70291f8c76d483be45ba021456dd465427f5364244b31d364170bfa34ea\"},\"noBlindRetry\":true}"
+      ],
+      "outerError": null,
+      "writes": [
+        "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/tool119-withdraw232/partial232-de13276e-9d78-4593-b8ec-0f556aec7eaa.json"
+      ]
+    },
+    {
+      "name": "helper-byte-drift",
+      "mode": "--withdraw",
+      "accepted": false,
+      "renames": 0,
+      "counter": 38,
+      "verifierCalls": [
+        {
+          "pointerPresent": true,
+          "options": {
+            "liveProcess": true,
+            "sourceFiles": true
+          }
+        }
+      ],
+      "logs": [
+        "{\"completed\":false,\"withdrawn\":false,\"original\":{\"file\":\"/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/tool119-withdraw232/partial232-be1d1812-70c9-48fa-a764-1b89ef9329c5.json\",\"rawBytesSha256\":\"fb58a7f139e6621b672d2e2e7650ade29580943dcca5712fad324b44f50bb03c\"},\"noBlindRetry\":true}"
+      ],
+      "outerError": null,
+      "writes": [
+        "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/tool119-withdraw232/partial232-be1d1812-70c9-48fa-a764-1b89ef9329c5.json"
+      ]
+    },
+    {
+      "name": "fixture-proposal-pin",
+      "mode": "--withdraw",
+      "accepted": false,
+      "renames": 0,
+      "counter": 38,
+      "verifierCalls": [
+        {
+          "pointerPresent": true,
+          "options": {
+            "liveProcess": true,
+            "sourceFiles": true
+          }
+        }
+      ],
+      "logs": [
+        "{\"completed\":false,\"withdrawn\":false,\"original\":{\"file\":\"/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/tool119-withdraw232/partial232-e511b7d0-247e-4191-b3c3-8db3e47e50c8.json\",\"rawBytesSha256\":\"03e6d04591c9758ecca072757af39aebb3bc7a327a4cd1687f70ed7e6fdf112a\"},\"noBlindRetry\":true}"
+      ],
+      "outerError": null,
+      "writes": [
+        "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/tool119-withdraw232/partial232-e511b7d0-247e-4191-b3c3-8db3e47e50c8.json"
+      ]
+    },
+    {
+      "name": "fixture-review-pin",
+      "mode": "--withdraw",
+      "accepted": false,
+      "renames": 0,
+      "counter": 38,
+      "verifierCalls": [
+        {
+          "pointerPresent": true,
+          "options": {
+            "liveProcess": true,
+            "sourceFiles": true
+          }
+        }
+      ],
+      "logs": [
+        "{\"completed\":false,\"withdrawn\":false,\"original\":{\"file\":\"/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/tool119-withdraw232/partial232-c1f5683f-adb7-4880-bdef-ed8d95ecceec.json\",\"rawBytesSha256\":\"970e68d9a584344770c35f17dec816e57a5ab2b0c3852b8576c0d3fe5557a9c2\"},\"noBlindRetry\":true}"
+      ],
+      "outerError": null,
+      "writes": [
+        "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/tool119-withdraw232/partial232-c1f5683f-adb7-4880-bdef-ed8d95ecceec.json"
+      ]
+    },
+    {
+      "name": "existing-driver-lock",
+      "mode": "--withdraw",
+      "accepted": false,
+      "renames": 0,
+      "counter": 38,
+      "verifierCalls": [],
+      "logs": [],
+      "outerError": "Virtual existing file",
+      "writes": []
+    },
+    {
+      "name": "snapshot-meta-drift",
+      "mode": "--withdraw",
+      "accepted": false,
+      "renames": 0,
+      "counter": 38,
+      "verifierCalls": [
+        {
+          "pointerPresent": true,
+          "options": {
+            "liveProcess": true,
+            "sourceFiles": true
+          }
+        }
+      ],
+      "logs": [
+        "{\"completed\":false,\"withdrawn\":false,\"original\":{\"file\":\"/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/tool119-withdraw232/partial232-bf88c2d7-6edf-4439-9509-1d116334f224.json\",\"rawBytesSha256\":\"e6afc8d99a50b20d7c380ca0443252607e241e8bb406127181d0f84922299261\"},\"noBlindRetry\":true}"
+      ],
+      "outerError": null,
+      "writes": [
+        "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/tool119-withdraw232/partial232-bf88c2d7-6edf-4439-9509-1d116334f224.json"
+      ]
+    }
+  ],
+  "normalPositives": 2,
+  "negativeCases": 16,
+  "fullSnapshotRowsComparedByActual232Code": true,
+  "limits": {
+    "wholeScriptEvaluatedInVM": false,
+    "sameRealmFunctionModel": true,
+    "onlyImportsAndImportMetaURLAdapted": true,
+    "writeOpenRenameUnlinkCallsWereVirtualOnly": true,
+    "actualCurrentStateRead": false,
+    "realStateOrRootWrites": false,
+    "processVerifierSimulated": true,
+    "processVerifierNote": "The production script exact liveProcess:true/sourceFiles:true call is retained and statically checked. This model does not read /proc or re-certify process/admission guards; only its metadata transition/failclosed call contract is simulated.",
+    "SQL": 0,
+    "HTTP": 0,
+    "contextCreated": false,
+    "actualWithdrawal": false,
+    "G3": false,
+    "G4": false
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "kind": "independent-synthetic-FS-counterexample-not-an-HTTP-observation",
+  "finding": "IR126-01",
+  "severity": "P2",
+  "manifest": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/I/implementation/mixed-period-allocation219/manifest219.json",
+    "rawBytesSha256": "1bfab12235131b15ec4e2b26dd84c9ff9e7f65a02dd0005a8e286f06be814ca6"
+  },
+  "runtime": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/I/implementation/mixed-period-allocation219/runtime219.mjs",
+    "rawBytesSha256": "d323778ed9d91c35e17e206ce6514250dc97a9f4038330e301287b701d6103c4"
+  },
+  "observations": [
+    {
+      "name": "valid-control",
+      "httpNonce": "bg383435b83c-review126-01234567",
+      "configNonce": "bg383435b83c-review126-01234567",
+      "headerNonce": "bg383435b83c-review126-01234567",
+      "innerBlocks": [],
+      "accepted": true
+    },
+    {
+      "name": "both-requestIds-absent",
+      "httpNonce": null,
+      "configNonce": null,
+      "headerNonce": null,
+      "innerBlocks": [],
+      "accepted": true
+    },
+    {
+      "name": "empty-requestIds",
+      "httpNonce": "",
+      "configNonce": "",
+      "headerNonce": "",
+      "innerBlocks": [],
+      "accepted": true
+    },
+    {
+      "name": "wrong-header",
+      "httpNonce": "bg383435b83c-review126-01234567",
+      "configNonce": "bg383435b83c-review126-01234567",
+      "headerNonce": "bg383435b83c-other-00000000",
+      "innerBlocks": [],
+      "accepted": true
+    },
+    {
+      "name": "wrong-consumer-prefix",
+      "httpNonce": "bg0000000000-wrong-01234567",
+      "configNonce": "bg0000000000-wrong-01234567",
+      "headerNonce": "bg0000000000-wrong-01234567",
+      "innerBlocks": [],
+      "accepted": true
+    },
+    {
+      "name": "contradictory-inner-block",
+      "httpNonce": "bg383435b83c-review126-01234567",
+      "configNonce": "bg383435b83c-review126-01234567",
+      "headerNonce": "bg383435b83c-review126-01234567",
+      "innerBlocks": [
+        "baseline-missing"
+      ],
+      "accepted": true
+    }
+  ],
+  "meaning": "The mandatory actual-public-preparation proof accepts absent/empty nonce pairs, a different actual X-Request-Id, a foreign consumer prefix, and contradictory inner eligibility blockers. The same absent-pair issue was already closed for period205 in IR119-03; this new external reader currently lacks the equivalent checks.",
+  "minimumFix": "Require nonempty <=100 exact nonce string, retained ctx.state.prefix, and exact HTTP/config/header equality; require formalEligibility.blockingReasonCodes empty. Keep all original path/query/snapshot/CAS and full-target checks.",
+  "limits": {
+    "productionFSReaderInjected": false,
+    "reviewWorkerFSWasTemporarilyVirtualized": true,
+    "realRootPathWritten": false,
+    "SQL": 0,
+    "HTTP": 0,
+    "contextCreated": false,
+    "liveStateRead": false,
+    "actual219": false,
+    "G3": false,
+    "G4": false
+  }
+}

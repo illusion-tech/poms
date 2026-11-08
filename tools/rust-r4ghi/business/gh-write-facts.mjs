@@ -1,6 +1,9 @@
 // Instrumentation inventory from actual owned rows, never an authorization or money calculator.
 import assert from 'node:assert/strict';
-import { keyOf, uuid } from './pure.mjs';
+import fs from 'node:fs';
+import path from 'node:path';
+import { readPin54 } from './consumer-admission54.mjs';
+import { keyOf, uuid, sha } from './pure.mjs';
 
 export const ghWriteOperations = Object.freeze([
   'ProjectCostController_activateOperatingBaselinePackage', 'ProjectCostController_createProjectOperatingSnapshot',
@@ -16,6 +19,48 @@ function unchangedDecision(input, prior) {
   if (['decision', 'recognitionRole', 'reasonCode', 'reasonText', 'primaryCostRef'].some(k => stable(input[k]) !== stable(previous[k]))) return false;
   return ['supportingSourceRefs', 'evidenceRefs'].every(k => Array.isArray(input[k]) && Array.isArray(previous[k]) && stable(input[k].map(stable).sort()) === stable(previous[k].map(stable).sort()));
 }
+
+function periodPreparation205(ctx, scope, currentSnapshotId) {
+  const { body, projectId } = scope;
+  assert(typeof body.expectedInputHash === 'string' && /^[a-f0-9]{64}$/.test(body.expectedInputHash));
+  assert(Number.isSafeInteger(body.expectedProjectVersion) && body.expectedProjectVersion > 0);
+  assert(typeof body.baselinePackageRef?.payloadHash === 'string' && /^[a-f0-9]{64}$/.test(body.baselinePackageRef.payloadHash));
+  assert(Array.isArray(body.costDecisions) && body.costDecisions.length === 0, 'This reviewed period fixture is already classified; do not introduce new decisions');
+  const pin = scope.periodPreparation; assert(pin, 'An actual period preparation HTTP receipt is mandatory before FI');
+  const within = (root, file) => { const rel = path.relative(fs.realpathSync(root), fs.realpathSync(file)); assert(rel && rel !== '..' && !rel.startsWith('..' + path.sep) && !path.isAbsolute(rel), 'Period proof escaped its actual current run'); };
+  within(ctx.out, pin.file); const http = JSON.parse(readPin54(pin));
+  assert.equal(http.kind, 'actual-business-HTTP-attempt'); assert.equal(http.operationId, 'ProjectCostController_getProjectUnifiedAccounting');
+  assert.equal(http.method, 'GET'); assert.equal(http.canonicalTemplate, '/api/projects/{projectId}/unified-accounting');
+  assert.equal(http.status, 200); assert.equal(http.expectedStatus, 200); assert.equal(http.responseComplete, true); assert.equal(http.transportFailure, false);
+  for (const key of ['requestConfig', 'requestBody', 'responseBody']) within(ctx.priv, http.originals[key].file);
+  const request = JSON.parse(readPin54(http.originals.requestConfig)); assert.equal(readPin54(http.originals.requestBody).length, 0);
+  assert(typeof ctx.state.prefix === 'string' && /^bg[a-f0-9]{10}$/.test(ctx.state.prefix));
+  assert(typeof http.requestId === 'string' && /^[A-Za-z0-9_-]{1,100}$/.test(http.requestId) && http.requestId.startsWith(ctx.state.prefix + '-'));
+  assert.equal(request.headers?.['X-Request-Id'], http.requestId, 'The actual harness request nonce must bind both original records');
+  assert.equal(request.operationId, http.operationId); assert.equal(request.requestId, http.requestId); assert.equal(request.method, 'GET');
+  const url = new URL(request.url); assert.equal(url.origin, ctx.api); assert.equal(url.pathname, '/api/projects/' + projectId + '/unified-accounting');
+  assert.deepEqual([...url.searchParams.keys()].sort(), ['intent', 'periodKey', 'view']); assert.equal(sha(url.search), http.querySha256);
+  assert.equal(url.searchParams.get('view'), 'preparation'); assert.equal(url.searchParams.get('intent'), 'period-close'); assert.equal(url.searchParams.get('periodKey'), body.periodKey);
+  within(ctx.priv, request.before.file); const before = JSON.parse(readPin54(request.before));
+  assert.equal(before.epoch, ctx.epoch); assert.equal(before.run, ctx.run); assert.equal(before.marker, ctx.state.marker);
+  const value = JSON.parse(readPin54(http.originals.responseBody)), p = (value.data ?? value).preparation;
+  assert.equal(p?.kind, 'preparation-only'); assert.equal(p.intent, 'period-close'); assert.equal(p.projectId, projectId); assert.equal(p.periodKey, body.periodKey);
+  assert.equal(p.headVersion, body.expectedVersion); assert.equal(p.projectVersion, body.expectedProjectVersion); assert.equal(p.expectedInputHash, body.expectedInputHash);
+  assert.equal(p.formalEligibility?.status, 'eligible'); assert.deepEqual(p.formalEligibility.blockingReasonCodes, []); assert.deepEqual(p.blockingReasonCodes, []);
+  assert(p.allowedCommandCodes.includes('period-close')); assert.equal(body.expectedPeriodSnapshotRef, null);
+  const baseline = p.selectedBaselinePackageRef; assert.equal(baseline.kind, 'OperatingBaselinePackage');
+  assert.deepEqual(body.baselinePackageRef, { kind: baseline.kind, id: baseline.id, expectedVersion: baseline.rowVersion, payloadHash: baseline.payloadHash });
+  assert.equal(p.officialSnapshotRef?.id, currentSnapshotId, 'The real preparation must use this selected live capture');
+  const inputs = p.sourceRows.filter(row => ['direct-cost', 'allocation-share'].includes(row.rowKind));
+  assert(inputs.length); const units = inputs.map(row => {
+    const kind = row.rowKind === 'direct-cost' ? 'ProjectActualCostRecord' : 'SharedCostAllocationResult';
+    assert.equal(row.sourceRef.kind, kind); uuid(row.sourceRef.id); assert.equal(row.state, 'ready'); assert.deepEqual(row.blockingReasonCodes, []);
+    return { unit: (kind === 'ProjectActualCostRecord' ? 'cost:' : 'allocation:') + row.sourceRef.id, row };
+  });
+  assert.equal(new Set(units.map(value => value.unit)).size, units.length);
+  return { preparation: p, units };
+}
+
 export function deriveGHWriteFacts(ctx, snapshot, operationId, scope, readRows) {
   assert(isGHWrite(operationId)); const { projectId, actorId, actorKey, params, body } = scope;
   const actor = ctx.state.actors[actorKey]; assert.equal(actor.id, actorId);
@@ -70,6 +115,11 @@ export function deriveGHWriteFacts(ctx, snapshot, operationId, scope, readRows) 
     // The runtime wrapper blocks period writes while decision7 is pending.
     if (result.snapshotMode === 'realtime') oldGates();
   }
+  const periodProof = result.snapshotMode === 'period-end' ? periodPreparation205(ctx, scope, result.currentSnapshotId) : null;
+  if (periodProof) {
+    assert.equal(periodProof.preparation.selectedBaselinePackageRef.id, result.baselineId);
+    assert.equal(periodProof.preparation.projectVersion, owned('project', projectId).row_version);
+  }
   const seen = new Map();
   for (const input of decisionInputs) {
     assert.equal(input.target.kind, 'ProjectActualCostRecord', 'Shared allocation correction/consumption is not silently covered by an expense fixture');
@@ -86,7 +136,42 @@ export function deriveGHWriteFacts(ctx, snapshot, operationId, scope, readRows) 
       assert.equal(input.recognitionRole, 'direct-source'); assert.equal(cost.record_status, 'confirmed'); result.costUpdates.push(cost.id);
     }
   }
+  if (!result.costUnits.length && result.snapshotMode === 'period-end') {
+    // A preclassified period does not consume every historical inclusion head.
+    // Use the actual selected live capture, and require every selected unit's
+    // current source/version/decision to be unchanged. The external period
+    // preflight also compares this whole set to the actual period preparation.
+    assert(result.currentSnapshotId, 'This bounded positive period fixture requires a real selected live capture');
+    const selected = owned('project_operating_snapshot', result.currentSnapshotId);
+    assert.equal(selected.project_id, projectId); assert.equal(selected.status, 'active');
+    assert.equal(selected.producer_version, 1); assert.equal(selected.period_end_snapshot_id, null);
+    assert.equal(periodProof.preparation.officialSnapshotRef.rowVersion, selected.row_version);
+    const members = rows('operating_snapshot_cost_member').filter(r => r.value.snapshot_id === selected.id);
+    assert(members.length, 'An empty current capture cannot certify cost membership FI');
+    assert.equal(new Set(members.map(r => r.value.unit_key)).size, members.length);
+    for (const member of members) {
+      assert(ctx.state.owned[keyOf(ctx.database, 'operating_snapshot_cost_member', member.row.key)]);
+      const value = member.value; assert.equal(value.project_id, projectId);
+      const match = /^(cost|allocation):([0-9a-f-]{36})$/.exec(value.unit_key); assert(match); uuid(match[2]);
+      const source = owned(match[1] === 'cost' ? 'project_actual_cost_record' : 'shared_cost_allocation_result', match[2]);
+      assert.equal(source.project_id, projectId); assert.equal(source.row_version, value.captured_source_version);
+      const heads = rows('project_cost_inclusion_head').filter(r => r.value.project_id === projectId && r.value.unit_key === value.unit_key);
+      assert.equal(heads.length, 1); assert(ctx.state.owned[keyOf(ctx.database, 'project_cost_inclusion_head', heads[0].row.key)]);
+      assert.equal(heads[0].value.decision_id, value.decision_id, 'Current classification changed after the selected capture');
+      const decision = owned('project_cost_inclusion_decision', value.decision_id); assert.equal(decision.project_id, projectId);
+      assert.equal(decision.unit_key, value.unit_key); assert.equal(decision.source_row_version, value.captured_source_version);
+      assert.equal(decision.cost_record_id, match[1] === 'cost' ? match[2] : null); assert.equal(decision.allocation_result_id, match[1] === 'allocation' ? match[2] : null);
+      const frozen = decision.frozen_payload?.sourceRef; assert.equal(frozen?.id, match[2]);
+      assert.equal(frozen.kind, match[1] === 'cost' ? 'ProjectActualCostRecord' : 'SharedCostAllocationResult');
+      assert.equal(frozen.rowVersion, value.captured_source_version); assert.equal(frozen.payloadHash, value.captured_payload_hash);
+      const prepared = periodProof.units.find(item => item.unit === value.unit_key); assert(prepared, 'Period preparation omitted an actual selected cost unit');
+      assert.deepEqual(prepared.row.sourceRef, frozen); assert.equal(prepared.row.currentDecisionRef?.id, decision.id);
+      assert.equal(prepared.row.currentDecisionRef.rowVersion, decision.row_version);
+      result.costUnits.push(value.unit_key);
+    }
+  }
   if (!result.costUnits.length) result.costUnits = values('project_cost_inclusion_head').filter(r => r.project_id === projectId).map(r => r.unit_key);
   result.costUnits = sorted(result.costUnits); assert(result.costUnits.length, 'Do not claim cost membership FI for an empty/unproven cost-scope case');
+  if (periodProof) assert.deepEqual(result.costUnits, sorted(periodProof.units.map(value => value.unit)), 'The complete period preparation and current membership must have exactly the same units');
   result.costUpdates = sorted(result.costUpdates); result.decisionInserts.sort((a, b) => a.unit.localeCompare(b.unit)); return result;
 }

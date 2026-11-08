@@ -1,0 +1,415 @@
+{
+  "kind": "non-author-final-period205-04-explicit-preparation-guard-review119-04",
+  "verdict": "bounded-tooling-admission-pending-explicit119-H1",
+  "manifest": {
+    "file": "tools/rust-r4ghi/period205-04/manifest205-04.json",
+    "rawBytesSha256": "f2ec3aefe405e1dc6b4d7dd12762d0c682e518d0fe40142ad083b9a45ec52073"
+  },
+  "closedFindings": [
+    "IR119-01",
+    "IR119-02",
+    "IR119-03"
+  ],
+  "findings": [],
+  "verified": {
+    "original205And02CandidatesUnchanged": true,
+    "all03BeforeAndAfterPinsExact": true,
+    "normalActual204HTTPAndRetained139ThreeMembersPassed": true,
+    "runtime04ExactlySameAs03With43NegativeResultsReusedByExactSHA": true,
+    "onlyPurePeriodTestFixtureChangedIn04": true,
+    "preparedSourceRefsAndFrozenHashesActuallyEqual": true,
+    "requestNonceTypeFormatCurrentRetainedPrefixAndActualHeaderRequired": true,
+    "actualProjectCASAndSnapshotVersionBound": true,
+    "wholeDirectAndShareUnitSetExactlyMatchesCurrentMembers": true,
+    "emptyDecisionsEligibleCASHashAndBaselineProofMandatory": true,
+    "decisionUnitSourceVersionTypedFKFrozenRefHashBound": true,
+    "all43NegativeCasesRejected": [
+      "missing-prep",
+      "nonempty-cost-decisions",
+      "wrong-http-operation",
+      "wrong-http-method",
+      "partial-http-response",
+      "http-transport-failure",
+      "non200-response",
+      "request-id-mismatch",
+      "missing-both-request-ids",
+      "wrong-query-hash",
+      "wrong-origin",
+      "wrong-request-project",
+      "wrong-before-epoch",
+      "wrong-before-marker",
+      "wrong-prep-project",
+      "wrong-prep-period",
+      "wrong-head-cas",
+      "wrong-project-cas",
+      "wrong-input-hash",
+      "blocked-eligibility",
+      "nonempty-blocks",
+      "missing-command",
+      "wrong-official",
+      "missing-whole-unit",
+      "duplicate-unit",
+      "wrong-source-version",
+      "wrong-source-hash",
+      "wrong-decision-id",
+      "wrong-decision-version",
+      "empty-both-request-ids",
+      "request-wrong-prefix",
+      "missing-header-nonce",
+      "header-nonce-mismatch",
+      "both-project-CAS-missing",
+      "both-project-CAS-stale-agree",
+      "both-input-hashes-missing",
+      "both-baseline-hashes-missing",
+      "official-snapshot-version-stale",
+      "decision-wrong-unit-key",
+      "decision-stale-source-version",
+      "decision-wrong-typed-FK",
+      "decision-frozen-ref-hash-mismatch",
+      "prepared-unit-extra"
+    ],
+    "baselineGHAndFaultRegressionsPassed": 14,
+    "syntax": [
+      {
+        "file": "tools/rust-r4ghi/period205-04/proposed/tools/rust-r4ghi/business/fault-sweep.mjs",
+        "status": 0
+      },
+      {
+        "file": "tools/rust-r4ghi/period205-04/proposed/tools/rust-r4ghi/business/gh-write-facts.mjs",
+        "status": 0
+      },
+      {
+        "file": "tools/rust-r4ghi/period205-04/proposed/tools/rust-r4ghi/business/gh-write-inventory.test.mjs",
+        "status": 0
+      }
+    ],
+    "completeSource416ListSameActual5e467": true,
+    "old19Kept": true
+  },
+  "qualification": {
+    "actualPoint": "Uses actual immutable204 Receiver prep HTTP with private raw request/response/before pins and immutable139 Receiver3 members. It does not issue a new GET, create a period, or test all later periods.",
+    "effectiveGuard": "installSweepFault rederives these facts before controlled SQL and compares them to descriptor.scope.ghFacts; a generic no-preparation path now rejects. Future206 driver is not yet reviewed or certified.",
+    "boundedPeriod": "Only eligible already-classified period-close preparation with exact full current unit equality and expectedPeriodSnapshotRef=null. Other scopes or legitimate differing period/member sets must stop; do not trim or relax to fit."
+  },
+  "admission": {
+    "allowed": "Root/H may include exactly this04 manifest in the reviewed full H1 expansion. Real effects remain blocked until119 itself passes independent review and is actually published; Source13 source guard must validate the real119/fullH1 through assertAdmittedContext54, not mere metadata presence. External206 must pin/reuse actual complete preparation and obtain separate inventory/driver review before effects.",
+    "notGranted": [
+      "No actual H1/119 execution",
+      "No period FI or normal period POST/readback",
+      "No Tax completion or unchanged-current actual result",
+      "No backend/full G3/G4 certification"
+    ]
+  },
+  "probe": {
+    "file": "tools/rust-r4ghi/independent/review05/period205-review119/negative205-03.json",
+    "rawBytesSha256": "98d01b2e60b43974a845284533bfcc547fc05c67059fad3263a5adc945bba3ee"
+  },
+  "inputPins": [
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/period205-03/manifest205-03.json",
+      "rawBytesSha256": "0e83850f5920a56cb5d656546c7183b1c78839ff33bb844633c809b9ea151dce",
+      "bytes": 4098
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/period205/before/tools/rust-r4ghi/business/fault-sweep.mjs",
+      "rawBytesSha256": "986afb297db23a425d13384b312c8b80f26b2aaeba13ec66ac93b853bd064e36",
+      "bytes": 23605
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/period205-03/proposed/tools/rust-r4ghi/business/fault-sweep.mjs",
+      "rawBytesSha256": "0fa7108fccdc065ad66b29375b0fca876b599f076bce6030bbe5bb6a14aa67cd",
+      "bytes": 24500
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/period205/before/tools/rust-r4ghi/business/gh-write-facts.mjs",
+      "rawBytesSha256": "400fa7b0d0a52e8c696b861e609e98432a9fd05502252b8e06d4714653598a87",
+      "bytes": 9405
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/period205-03/proposed/tools/rust-r4ghi/business/gh-write-facts.mjs",
+      "rawBytesSha256": "94cc54b98eba00cdd0f36015410928a1a33f35e401fd688e6c148105211e2800",
+      "bytes": 18068
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/period205-03/proposed/tools/rust-r4ghi/business/required-write-sources13.json",
+      "rawBytesSha256": "e95a9c8e3cabf30095c463a577d2d70eb681eb7b22d6c7ee31375dbdcf55e22c",
+      "bytes": 67729
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/period205-02/before/tools/rust-r4ghi/business/gh-write-inventory.test.mjs",
+      "rawBytesSha256": "0da7243aed5de8fc7dc3588700b72e1291e82ff99e99caa86f2380151b1e9cfa",
+      "bytes": 8698
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/period205-03/proposed/tools/rust-r4ghi/business/gh-write-inventory.test.mjs",
+      "rawBytesSha256": "76dcb10aea625076a1b7bfc853d14ab1dcc4595371b36539d098118c6b135fed",
+      "bytes": 8875
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000004-consumer-admission108-registry.json",
+      "rawBytesSha256": "23cc54f891fb5200a1bad30083f75805e27a1d046096705381034ff32493971c",
+      "bytes": 33514
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/retention/epoch12-before-source13-139/state-at-retention139.json",
+      "rawBytesSha256": "ee7371dc4fc5d388f6898fb1c6eb90bebb6404eca6c31d23599469445804a628",
+      "bytes": 12362792
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-007492-retained139-after.json",
+      "rawBytesSha256": "106c66efc668090d4605b6a953ebfddfa65aa2df8c13c3e7531a51bf57130d15",
+      "bytes": 3137240
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000034-period204-preparation.json",
+      "rawBytesSha256": "f3a85d3ca6d6eaa5b549a1e870248f6a80264e9d4f11deba13539ddb80684c6c",
+      "bytes": 50723
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business13/main01/000032-http-http.json",
+      "rawBytesSha256": "242056af8f7f153dd70426087470d6ecab053048210ab7e60ba71f16ad28945b",
+      "bytes": 1703
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-007492-retained139-after/poms_r4ghi_rust-project.jsonl",
+      "rawBytesSha256": "2e7ec576984aa888e33577786fe0acb23f07b07a15a85e1628de52adb1b47f60",
+      "bytes": 32324
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-007492-retained139-after/poms_r4ghi_rust-platform_user.jsonl",
+      "rawBytesSha256": "bab6817fe04e9cd000bc1db7f5850e89ceddf4d3b07a5beb2bbd01892668a163",
+      "bytes": 15661
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-007492-retained139-after/poms_r4ghi_rust-project_operating_head.jsonl",
+      "rawBytesSha256": "80f7aee92e89fa26f3a69e3b9d0eb647cbd4f2bde4375022170b46e8ec391f9a",
+      "bytes": 4182
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-007492-retained139-after/poms_r4ghi_rust-operating_baseline_package.jsonl",
+      "rawBytesSha256": "18cf9b7d06e9a9b96ac4827a13dea153c1e7a53023e677d36854b670877402f2",
+      "bytes": 11964
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000032-http-request-body.bin",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-007492-retained139-after/poms_r4ghi_rust-project_operating_snapshot.jsonl",
+      "rawBytesSha256": "a43b12575e45f23a3238e91895770502bd91adbf0f0220402d1ee881b6282fc1",
+      "bytes": 36149
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-007492-retained139-after/poms_r4ghi_rust-operating_snapshot_cost_member.jsonl",
+      "rawBytesSha256": "9d36a8fa520b72726da43a32b5d9a58e6627a7332e0b429e8e6b98ea502e182e",
+      "bytes": 134828
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-007492-retained139-after/poms_r4ghi_rust-shared_cost_allocation_result.jsonl",
+      "rawBytesSha256": "81bca38e5f0742ed23969a76f22833d998879d52a822f0bc1ea550c8c9649b83",
+      "bytes": 13328
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-007492-retained139-after/poms_r4ghi_rust-project_cost_inclusion_head.jsonl",
+      "rawBytesSha256": "e7cef7f98cb0e4975f416522b0df1423b29ab209e7afe7dad3ee635a315feac4",
+      "bytes": 8974
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-007492-retained139-after/poms_r4ghi_rust-project_cost_inclusion_decision.jsonl",
+      "rawBytesSha256": "35bc23ecfff3eea3cb126acf6fc724c7162d251e53f83d1a19336da6ef7e30ea",
+      "bytes": 63393
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-007492-retained139-after/poms_r4ghi_rust-project_actual_cost_record.jsonl",
+      "rawBytesSha256": "2d95bfac744d1feeae7ffb9d26044fa05232766a375f9be7cc86ac061660c89b",
+      "bytes": 46774
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000032-http-request-body.bin",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000032-http-request-body.bin",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000032-http-request-body.bin",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000032-http-request-body.bin",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000032-http-request-body.bin",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000032-http-request-body.bin",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000032-http-request-body.bin",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000032-http-request-body.bin",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000032-http-request-body.bin",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000032-http-request-body.bin",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000032-http-request-body.bin",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000032-http-request-body.bin",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000032-http-request-body.bin",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000032-http-request-body.bin",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000032-http-request-body.bin",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000032-http-request-body.bin",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000032-http-request-body.bin",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000032-http-request-body.bin",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000032-http-request-body.bin",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000032-http-request-body.bin",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000032-http-request-body.bin",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000032-http-request-body.bin",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000032-http-request-body.bin",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000032-http-request-body.bin",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000032-http-request-body.bin",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000032-http-request-body.bin",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000032-http-request-body.bin",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000032-http-request-body.bin",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000032-http-request-body.bin",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000032-http-request-body.bin",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000032-http-request-body.bin",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000032-http-request-body.bin",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000032-http-request-body.bin",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000032-http-request-body.bin",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    }
+  ],
+  "actual": {
+    "H1": null,
+    "revision119": null,
+    "periodFI": null,
+    "normalPeriodPOST": null
+  },
+  "actions": {
+    "RootInputWrites": 0,
+    "SQL": 0,
+    "HTTP": 0,
+    "actualContext": 0,
+    "productProcessActions": 0,
+    "GitWrites": 0
+  },
+  "G3Certified": false,
+  "G4Certified": false
+}
