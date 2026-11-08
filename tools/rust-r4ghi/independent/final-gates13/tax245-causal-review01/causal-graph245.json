@@ -1,0 +1,1251 @@
+{
+  "kind": "independent-fixed-Tax245-causal-root-and-target-reconstruction",
+  "reviewer": "/root/r4ghi_final_gates13",
+  "sourceEpoch": "g2-business13",
+  "sourcePinsSHA256": "5e467b677cfe08e44c8cb1c71cac62478e416e394ba4a5ec8651dab5732c255e",
+  "anchors": {
+    "failure": {
+      "file": "//wsl.localhost/Debian/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000055-tax242-prepare-tax-partial.json",
+      "rawBytesSha256": "dc4bca072272d1dd18fb76822907f1d676e5dd4c0e988adf8eb723195bdbb1aa",
+      "bytes": 1794
+    },
+    "retainedFailureState": {
+      "file": "//wsl.localhost/Debian/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/taxprepare-failure245/state-after-prepare-failure245.json",
+      "rawBytesSha256": "3bfd5d6869e0cf19ab330049bd6003749468020aedf10c365a5dbf8df945f6ba",
+      "bytes": 12655661
+    },
+    "failureReceipt": {
+      "file": "//wsl.localhost/Debian/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/taxprepare-failure245/receipt245.json",
+      "rawBytesSha256": "676b3553c381293208987ba4a64be9079dca558e6adeb88d44d77914fade9bcc",
+      "bytes": 993
+    },
+    "fullServerPacket": {
+      "file": "//wsl.localhost/Debian/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000078-tax13-complete-server-targets.json",
+      "rawBytesSha256": "8ef9a466d181ff75d9f10f3825be956921f3ac212afa88633c5ac79b706cf020",
+      "bytes": 518730
+    },
+    "fixedFacts79": {
+      "file": "//wsl.localhost/Debian/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/snapshot-000079-tax13-prepared-current-facts.json",
+      "rawBytesSha256": "40eb1d308fe7f321f5758cde3f7a300639fa48c02bc5ff9632d4b752935919a4",
+      "bytes": 3142789
+    },
+    "frozenSourcePins": {
+      "file": "//wsl.localhost/Debian/home/wangzishi/.local/share/poms-r4ghi/private/source13-preparation193/sourcePins.json",
+      "rawBytesSha256": "e95a9c8e3cabf30095c463a577d2d70eb681eb7b22d6c7ee31375dbdcf55e22c",
+      "bytes": 67729
+    },
+    "frozenH1": {
+      "file": "//wsl.localhost/Debian/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/helper-fixture234/H1-actual234.json",
+      "rawBytesSha256": "51b303a3fccbae5e7fd7b0cc6a042da5bfd12f43c4a7507dfb6479e1d0be579c"
+    },
+    "G1Acceptance": {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/docs/design/rust-r4ghi/acceptance-plan01.json",
+      "rawBytesSha256": "57881bb732c0fc816d99227a9f55cfc1451c29c0b879181d65575970c39462a2",
+      "bytes": 10585
+    },
+    "originalCheckpoint243": {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/tool119-checkpoint243/checkpoint243.json",
+      "rawBytesSha256": "be55ff1709734b5a1f20b9185586c246f167394b5984891a5aa810e79a351df7",
+      "bytes": 19000
+    },
+    "failedCommand": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/tax242-prepare-tax/command242.json",
+      "rawBytesSha256": "9e70ae5664292c5cf1af72c113c05561c4d663394582d336700eb0c02a5669ae"
+    }
+  },
+  "codePins": [
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_operating/sources.rs",
+      "rawBytesSha256": "298bf7ee91fc6a27b7f555942f660d2e1644f57a9d6fae9ea4bd8d124d99c9bf",
+      "bytes": 29268
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_operating/store.rs",
+      "rawBytesSha256": "3295742a9318cbc5d17aea5a1c72758eb4f0e74848c8d9175d6ab33e078d5637",
+      "bytes": 22537
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_operating/restatement.rs",
+      "rawBytesSha256": "b4a0e399ead4702c2bcfad83b22011f9c12b649233f706d011588f9889fa0fd6",
+      "bytes": 36190
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_operating/preparation.rs",
+      "rawBytesSha256": "ccff8729cf6f77749f435c5d429b88bcc54a8166431ba452da0328251baaf185",
+      "bytes": 24839
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_operating/collector.rs",
+      "rawBytesSha256": "386235765190448b021025b5a9954dacd52d6dbde5a04938e2074a750c8d395e",
+      "bytes": 23650
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_operating/service.rs",
+      "rawBytesSha256": "8e7a18f8349a5b9545ae9fde56ec4a11668338de7b2f9580d30a2e80ccb7599c",
+      "bytes": 22621
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_cost_governance/service.rs",
+      "rawBytesSha256": "40cfd49a18a592876b2a2ccf06176372fadc20ee3a9b22cdbc1c7b01a1171897",
+      "bytes": 61189
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/tax13-main.mjs",
+      "rawBytesSha256": "694b26151304f95ba4650d4f84b028d10aeb5bca7c0de5243040f2f638f5a070",
+      "bytes": 10495
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/tax13-facts.mjs",
+      "rawBytesSha256": "e55e6cb5dce6169e1ae2737881d946638ce709414ad6633c829fa2eb7c8eee9b",
+      "bytes": 15429
+    }
+  ],
+  "method": "Independent pure FS reconstruction of frozen Rust factual whitelists, SQL decimal text selection and project predicates; no Root module imported/executed and no SQL issued.",
+  "catalog": {
+    "projectId": "4d9e57ad-4890-4f53-80da-c6d224ce576b",
+    "inferredKindCount": 10,
+    "currentCatalogRootRows": 27,
+    "publicRefSignaturesCrossChecked": 14,
+    "publicRefHashMismatches": 0,
+    "changedCandidates": [
+      {
+        "kind": "ProjectActualCostRecord",
+        "id": "c253bc77-6935-4cc3-a829-bc0caffc2ddb",
+        "rowVersion": 3,
+        "payloadHash": "a99ca1aab34567cc560de272a229fd01fa685a479f3d4f0c0b23690b0feff40b",
+        "status": "replaced",
+        "costParentId": null,
+        "existingInferredStatusGuardAllows": false
+      },
+      {
+        "kind": "SharedCostAllocationBasis",
+        "id": "4464f2a5-eedf-40e6-9648-f945e8c62021",
+        "rowVersion": 2,
+        "payloadHash": "4d3ecc083a7f80997c182fdbdbef79f33cf48af684daf137b3655465f6893045",
+        "status": "superseded",
+        "costParentId": null,
+        "existingInferredStatusGuardAllows": false
+      },
+      {
+        "kind": "SharedCostAllocationBasis",
+        "id": "c1277c7c-5727-41c1-9f03-a88a8072ef5d",
+        "rowVersion": 2,
+        "payloadHash": "e61a707621b681a89a19304cd22364e096e739fc0d206a4eb47a17daae6c4375",
+        "status": "superseded",
+        "costParentId": null,
+        "existingInferredStatusGuardAllows": false
+      },
+      {
+        "kind": "SharedCostAllocationResult",
+        "id": "6a66505e-fd79-480b-a4fa-786d96f637c4",
+        "rowVersion": 3,
+        "payloadHash": "f1947358f250fef88f9dac4cbf926e3d12ef684a3cf34a28085e203fe6a14992",
+        "status": "superseded",
+        "costParentId": null,
+        "existingInferredStatusGuardAllows": false
+      },
+      {
+        "kind": "SharedCostAllocationResult",
+        "id": "e83ae5e2-a66d-41de-81b7-410c55bbdbec",
+        "rowVersion": 3,
+        "payloadHash": "9fc941e9cac93aa0a7e0455ec9b7fe01958f4e428ebbbd66d28c06d381b39eaf",
+        "status": "superseded",
+        "costParentId": null,
+        "existingInferredStatusGuardAllows": false
+      },
+      {
+        "kind": "CostStageAttributionSnapshot",
+        "id": "3c1f6107-a6c8-4393-928d-cab05770dc37",
+        "rowVersion": 2,
+        "payloadHash": "eb71662f6ef6fe905e8502500a5dd41a8e5e7f5b04944c1d8d7e958219ef397a",
+        "status": "superseded",
+        "costParentId": "814a85d7-ed00-4776-a4b9-da06a618b1a8",
+        "existingInferredStatusGuardAllows": false
+      },
+      {
+        "kind": "CostStageAttributionSnapshot",
+        "id": "57f193b3-0014-4e93-a41e-2985e631871d",
+        "rowVersion": 1,
+        "payloadHash": "7e18c54d2de2a674f8a8dc15704e234b519087a5b35935f2e1d7c244e33f945f",
+        "status": "active",
+        "costParentId": "c253bc77-6935-4cc3-a829-bc0caffc2ddb",
+        "existingInferredStatusGuardAllows": true
+      }
+    ],
+    "onlyAllowedInferredRoot": {
+      "kind": "CostStageAttributionSnapshot",
+      "id": "57f193b3-0014-4e93-a41e-2985e631871d",
+      "rowVersion": 1,
+      "payloadHash": "7e18c54d2de2a674f8a8dc15704e234b519087a5b35935f2e1d7c244e33f945f"
+    },
+    "selectedRoots": [
+      {
+        "kind": "AccountingTaxTreatmentSnapshot",
+        "id": "7ff268d8-d296-45ed-801b-b176e3db3bb3",
+        "expectedVersion": 1,
+        "payloadHash": "98d88c63278c36589ac2c6f4ea7da90fefaf82c1e784597a505fe94c28350be7"
+      }
+    ]
+  },
+  "historicalStage": {
+    "id": "57f193b3-0014-4e93-a41e-2985e631871d",
+    "status": "active",
+    "rowVersion": 1,
+    "createdAt": "2026-11-07T22:50:35.18+08:00",
+    "businessDate": "2026-11-07",
+    "parentCostId": "c253bc77-6935-4cc3-a829-bc0caffc2ddb",
+    "parentStatus": "replaced",
+    "parentVersion": 3,
+    "parentReplacedAt": "2026-11-08T02:31:42.109+08:00",
+    "successorCostId": "814a85d7-ed00-4776-a4b9-da06a618b1a8",
+    "successorSupersedes": "c253bc77-6935-4cc3-a829-bc0caffc2ddb",
+    "successorCurrentStageId": "855a4bec-190b-476c-962e-74b3bcbb6873",
+    "olderThanEveryTargetKnowledgeCutoff": true,
+    "absentFromAllFiveConsumedGraphMemberSets": true
+  },
+  "graphs": {
+    "explicitTaxOnly": {
+      "roots": [
+        {
+          "kind": "AccountingTaxTreatmentSnapshot",
+          "id": "7ff268d8-d296-45ed-801b-b176e3db3bb3"
+        }
+      ],
+      "ids": [
+        "7ff268d8-d296-45ed-801b-b176e3db3bb3",
+        "aee83f0a-4ae1-4add-9dc3-8a25526ef7c5",
+        "c4dc5b70-e95e-4a76-965f-3f3a5a5414f6",
+        "c941b1e8-41e4-44d0-b759-68d6864f7ba2",
+        "e37f5802-ee92-4964-a06d-ebeeedd53930"
+      ],
+      "impacts": [
+        {
+          "id": "c941b1e8-41e4-44d0-b759-68d6864f7ba2",
+          "project": "4d9e57ad-4890-4f53-80da-c6d224ce576b",
+          "day": "2026-11-08",
+          "producer": true,
+          "reason": "Tax immutable evidence -> actual Cost"
+        },
+        {
+          "id": "7ff268d8-d296-45ed-801b-b176e3db3bb3",
+          "project": "4d9e57ad-4890-4f53-80da-c6d224ce576b",
+          "day": "2026-11-08",
+          "producer": true,
+          "reason": "explicit Tax assessment"
+        },
+        {
+          "id": "aee83f0a-4ae1-4add-9dc3-8a25526ef7c5",
+          "project": "51d60c76-6de2-432a-8714-10e3ed3234f3",
+          "day": "2026-11-08",
+          "producer": true,
+          "reason": "full actual allocation batch result"
+        },
+        {
+          "id": "c4dc5b70-e95e-4a76-965f-3f3a5a5414f6",
+          "project": "4d9e57ad-4890-4f53-80da-c6d224ce576b",
+          "day": "2026-11-08",
+          "producer": true,
+          "reason": "full actual allocation batch result"
+        }
+      ],
+      "iterations": [
+        {
+          "iteration": 1,
+          "newIds": 3,
+          "joinedRows": [
+            {
+              "basisId": "e37f5802-ee92-4964-a06d-ebeeedd53930",
+              "resultId": "aee83f0a-4ae1-4add-9dc3-8a25526ef7c5",
+              "projectId": "51d60c76-6de2-432a-8714-10e3ed3234f3",
+              "costId": "c941b1e8-41e4-44d0-b759-68d6864f7ba2",
+              "costProjectId": "4d9e57ad-4890-4f53-80da-c6d224ce576b",
+              "day": "2026-11-08",
+              "sourceSnapshotCurrent": true,
+              "resultStatus": "active",
+              "basisStatus": "active"
+            },
+            {
+              "basisId": "e37f5802-ee92-4964-a06d-ebeeedd53930",
+              "resultId": "c4dc5b70-e95e-4a76-965f-3f3a5a5414f6",
+              "projectId": "4d9e57ad-4890-4f53-80da-c6d224ce576b",
+              "costId": "c941b1e8-41e4-44d0-b759-68d6864f7ba2",
+              "costProjectId": "4d9e57ad-4890-4f53-80da-c6d224ce576b",
+              "day": "2026-11-08",
+              "sourceSnapshotCurrent": true,
+              "resultStatus": "active",
+              "basisStatus": "active"
+            }
+          ]
+        },
+        {
+          "iteration": 2,
+          "newIds": 0,
+          "joinedRows": [
+            {
+              "basisId": "e37f5802-ee92-4964-a06d-ebeeedd53930",
+              "resultId": "aee83f0a-4ae1-4add-9dc3-8a25526ef7c5",
+              "projectId": "51d60c76-6de2-432a-8714-10e3ed3234f3",
+              "costId": "c941b1e8-41e4-44d0-b759-68d6864f7ba2",
+              "costProjectId": "4d9e57ad-4890-4f53-80da-c6d224ce576b",
+              "day": "2026-11-08",
+              "sourceSnapshotCurrent": true,
+              "resultStatus": "active",
+              "basisStatus": "active"
+            },
+            {
+              "basisId": "e37f5802-ee92-4964-a06d-ebeeedd53930",
+              "resultId": "c4dc5b70-e95e-4a76-965f-3f3a5a5414f6",
+              "projectId": "4d9e57ad-4890-4f53-80da-c6d224ce576b",
+              "costId": "c941b1e8-41e4-44d0-b759-68d6864f7ba2",
+              "costProjectId": "4d9e57ad-4890-4f53-80da-c6d224ce576b",
+              "day": "2026-11-08",
+              "sourceSnapshotCurrent": true,
+              "resultStatus": "active",
+              "basisStatus": "active"
+            }
+          ]
+        }
+      ]
+    },
+    "historicalStageOnly": {
+      "roots": [
+        {
+          "kind": "CostStageAttributionSnapshot",
+          "id": "57f193b3-0014-4e93-a41e-2985e631871d"
+        }
+      ],
+      "ids": [
+        "4464f2a5-eedf-40e6-9648-f945e8c62021",
+        "50f9de85-905e-4cf0-b7b3-96b9200a7702",
+        "57f193b3-0014-4e93-a41e-2985e631871d",
+        "c253bc77-6935-4cc3-a829-bc0caffc2ddb",
+        "e83ae5e2-a66d-41de-81b7-410c55bbdbec"
+      ],
+      "impacts": [
+        {
+          "id": "57f193b3-0014-4e93-a41e-2985e631871d",
+          "project": "51d60c76-6de2-432a-8714-10e3ed3234f3",
+          "day": "2026-11-07",
+          "producer": true,
+          "reason": "inferred Stage -> its real Cost parent"
+        },
+        {
+          "id": "50f9de85-905e-4cf0-b7b3-96b9200a7702",
+          "project": "51d60c76-6de2-432a-8714-10e3ed3234f3",
+          "day": "2026-11-07",
+          "producer": true,
+          "reason": "full actual allocation batch result"
+        },
+        {
+          "id": "c253bc77-6935-4cc3-a829-bc0caffc2ddb",
+          "project": "51d60c76-6de2-432a-8714-10e3ed3234f3",
+          "day": "2026-11-07",
+          "producer": true,
+          "reason": "full actual allocation source Cost"
+        },
+        {
+          "id": "e83ae5e2-a66d-41de-81b7-410c55bbdbec",
+          "project": "4d9e57ad-4890-4f53-80da-c6d224ce576b",
+          "day": "2026-11-07",
+          "producer": true,
+          "reason": "full actual allocation batch result"
+        }
+      ],
+      "iterations": [
+        {
+          "iteration": 1,
+          "newIds": 3,
+          "joinedRows": [
+            {
+              "basisId": "4464f2a5-eedf-40e6-9648-f945e8c62021",
+              "resultId": "50f9de85-905e-4cf0-b7b3-96b9200a7702",
+              "projectId": "51d60c76-6de2-432a-8714-10e3ed3234f3",
+              "costId": "c253bc77-6935-4cc3-a829-bc0caffc2ddb",
+              "costProjectId": "51d60c76-6de2-432a-8714-10e3ed3234f3",
+              "day": "2026-11-07",
+              "sourceSnapshotCurrent": false,
+              "resultStatus": "superseded",
+              "basisStatus": "superseded"
+            },
+            {
+              "basisId": "4464f2a5-eedf-40e6-9648-f945e8c62021",
+              "resultId": "e83ae5e2-a66d-41de-81b7-410c55bbdbec",
+              "projectId": "4d9e57ad-4890-4f53-80da-c6d224ce576b",
+              "costId": "c253bc77-6935-4cc3-a829-bc0caffc2ddb",
+              "costProjectId": "51d60c76-6de2-432a-8714-10e3ed3234f3",
+              "day": "2026-11-07",
+              "sourceSnapshotCurrent": false,
+              "resultStatus": "superseded",
+              "basisStatus": "superseded"
+            }
+          ]
+        },
+        {
+          "iteration": 2,
+          "newIds": 0,
+          "joinedRows": [
+            {
+              "basisId": "4464f2a5-eedf-40e6-9648-f945e8c62021",
+              "resultId": "50f9de85-905e-4cf0-b7b3-96b9200a7702",
+              "projectId": "51d60c76-6de2-432a-8714-10e3ed3234f3",
+              "costId": "c253bc77-6935-4cc3-a829-bc0caffc2ddb",
+              "costProjectId": "51d60c76-6de2-432a-8714-10e3ed3234f3",
+              "day": "2026-11-07",
+              "sourceSnapshotCurrent": false,
+              "resultStatus": "superseded",
+              "basisStatus": "superseded"
+            },
+            {
+              "basisId": "4464f2a5-eedf-40e6-9648-f945e8c62021",
+              "resultId": "e83ae5e2-a66d-41de-81b7-410c55bbdbec",
+              "projectId": "4d9e57ad-4890-4f53-80da-c6d224ce576b",
+              "costId": "c253bc77-6935-4cc3-a829-bc0caffc2ddb",
+              "costProjectId": "51d60c76-6de2-432a-8714-10e3ed3234f3",
+              "day": "2026-11-07",
+              "sourceSnapshotCurrent": false,
+              "resultStatus": "superseded",
+              "basisStatus": "superseded"
+            }
+          ]
+        }
+      ]
+    },
+    "actualUnion": {
+      "roots": [
+        {
+          "kind": "AccountingTaxTreatmentSnapshot",
+          "id": "7ff268d8-d296-45ed-801b-b176e3db3bb3"
+        },
+        {
+          "kind": "CostStageAttributionSnapshot",
+          "id": "57f193b3-0014-4e93-a41e-2985e631871d"
+        }
+      ],
+      "ids": [
+        "4464f2a5-eedf-40e6-9648-f945e8c62021",
+        "50f9de85-905e-4cf0-b7b3-96b9200a7702",
+        "57f193b3-0014-4e93-a41e-2985e631871d",
+        "7ff268d8-d296-45ed-801b-b176e3db3bb3",
+        "aee83f0a-4ae1-4add-9dc3-8a25526ef7c5",
+        "c253bc77-6935-4cc3-a829-bc0caffc2ddb",
+        "c4dc5b70-e95e-4a76-965f-3f3a5a5414f6",
+        "c941b1e8-41e4-44d0-b759-68d6864f7ba2",
+        "e37f5802-ee92-4964-a06d-ebeeedd53930",
+        "e83ae5e2-a66d-41de-81b7-410c55bbdbec"
+      ],
+      "impacts": [
+        {
+          "id": "c941b1e8-41e4-44d0-b759-68d6864f7ba2",
+          "project": "4d9e57ad-4890-4f53-80da-c6d224ce576b",
+          "day": "2026-11-08",
+          "producer": true,
+          "reason": "Tax immutable evidence -> actual Cost"
+        },
+        {
+          "id": "7ff268d8-d296-45ed-801b-b176e3db3bb3",
+          "project": "4d9e57ad-4890-4f53-80da-c6d224ce576b",
+          "day": "2026-11-08",
+          "producer": true,
+          "reason": "explicit Tax assessment"
+        },
+        {
+          "id": "57f193b3-0014-4e93-a41e-2985e631871d",
+          "project": "51d60c76-6de2-432a-8714-10e3ed3234f3",
+          "day": "2026-11-07",
+          "producer": true,
+          "reason": "inferred Stage -> its real Cost parent"
+        },
+        {
+          "id": "50f9de85-905e-4cf0-b7b3-96b9200a7702",
+          "project": "51d60c76-6de2-432a-8714-10e3ed3234f3",
+          "day": "2026-11-07",
+          "producer": true,
+          "reason": "full actual allocation batch result"
+        },
+        {
+          "id": "c253bc77-6935-4cc3-a829-bc0caffc2ddb",
+          "project": "51d60c76-6de2-432a-8714-10e3ed3234f3",
+          "day": "2026-11-07",
+          "producer": true,
+          "reason": "full actual allocation source Cost"
+        },
+        {
+          "id": "aee83f0a-4ae1-4add-9dc3-8a25526ef7c5",
+          "project": "51d60c76-6de2-432a-8714-10e3ed3234f3",
+          "day": "2026-11-08",
+          "producer": true,
+          "reason": "full actual allocation batch result"
+        },
+        {
+          "id": "c4dc5b70-e95e-4a76-965f-3f3a5a5414f6",
+          "project": "4d9e57ad-4890-4f53-80da-c6d224ce576b",
+          "day": "2026-11-08",
+          "producer": true,
+          "reason": "full actual allocation batch result"
+        },
+        {
+          "id": "e83ae5e2-a66d-41de-81b7-410c55bbdbec",
+          "project": "4d9e57ad-4890-4f53-80da-c6d224ce576b",
+          "day": "2026-11-07",
+          "producer": true,
+          "reason": "full actual allocation batch result"
+        }
+      ],
+      "iterations": [
+        {
+          "iteration": 1,
+          "newIds": 6,
+          "joinedRows": [
+            {
+              "basisId": "4464f2a5-eedf-40e6-9648-f945e8c62021",
+              "resultId": "50f9de85-905e-4cf0-b7b3-96b9200a7702",
+              "projectId": "51d60c76-6de2-432a-8714-10e3ed3234f3",
+              "costId": "c253bc77-6935-4cc3-a829-bc0caffc2ddb",
+              "costProjectId": "51d60c76-6de2-432a-8714-10e3ed3234f3",
+              "day": "2026-11-07",
+              "sourceSnapshotCurrent": false,
+              "resultStatus": "superseded",
+              "basisStatus": "superseded"
+            },
+            {
+              "basisId": "e37f5802-ee92-4964-a06d-ebeeedd53930",
+              "resultId": "aee83f0a-4ae1-4add-9dc3-8a25526ef7c5",
+              "projectId": "51d60c76-6de2-432a-8714-10e3ed3234f3",
+              "costId": "c941b1e8-41e4-44d0-b759-68d6864f7ba2",
+              "costProjectId": "4d9e57ad-4890-4f53-80da-c6d224ce576b",
+              "day": "2026-11-08",
+              "sourceSnapshotCurrent": true,
+              "resultStatus": "active",
+              "basisStatus": "active"
+            },
+            {
+              "basisId": "e37f5802-ee92-4964-a06d-ebeeedd53930",
+              "resultId": "c4dc5b70-e95e-4a76-965f-3f3a5a5414f6",
+              "projectId": "4d9e57ad-4890-4f53-80da-c6d224ce576b",
+              "costId": "c941b1e8-41e4-44d0-b759-68d6864f7ba2",
+              "costProjectId": "4d9e57ad-4890-4f53-80da-c6d224ce576b",
+              "day": "2026-11-08",
+              "sourceSnapshotCurrent": true,
+              "resultStatus": "active",
+              "basisStatus": "active"
+            },
+            {
+              "basisId": "4464f2a5-eedf-40e6-9648-f945e8c62021",
+              "resultId": "e83ae5e2-a66d-41de-81b7-410c55bbdbec",
+              "projectId": "4d9e57ad-4890-4f53-80da-c6d224ce576b",
+              "costId": "c253bc77-6935-4cc3-a829-bc0caffc2ddb",
+              "costProjectId": "51d60c76-6de2-432a-8714-10e3ed3234f3",
+              "day": "2026-11-07",
+              "sourceSnapshotCurrent": false,
+              "resultStatus": "superseded",
+              "basisStatus": "superseded"
+            }
+          ]
+        },
+        {
+          "iteration": 2,
+          "newIds": 0,
+          "joinedRows": [
+            {
+              "basisId": "4464f2a5-eedf-40e6-9648-f945e8c62021",
+              "resultId": "50f9de85-905e-4cf0-b7b3-96b9200a7702",
+              "projectId": "51d60c76-6de2-432a-8714-10e3ed3234f3",
+              "costId": "c253bc77-6935-4cc3-a829-bc0caffc2ddb",
+              "costProjectId": "51d60c76-6de2-432a-8714-10e3ed3234f3",
+              "day": "2026-11-07",
+              "sourceSnapshotCurrent": false,
+              "resultStatus": "superseded",
+              "basisStatus": "superseded"
+            },
+            {
+              "basisId": "e37f5802-ee92-4964-a06d-ebeeedd53930",
+              "resultId": "aee83f0a-4ae1-4add-9dc3-8a25526ef7c5",
+              "projectId": "51d60c76-6de2-432a-8714-10e3ed3234f3",
+              "costId": "c941b1e8-41e4-44d0-b759-68d6864f7ba2",
+              "costProjectId": "4d9e57ad-4890-4f53-80da-c6d224ce576b",
+              "day": "2026-11-08",
+              "sourceSnapshotCurrent": true,
+              "resultStatus": "active",
+              "basisStatus": "active"
+            },
+            {
+              "basisId": "e37f5802-ee92-4964-a06d-ebeeedd53930",
+              "resultId": "c4dc5b70-e95e-4a76-965f-3f3a5a5414f6",
+              "projectId": "4d9e57ad-4890-4f53-80da-c6d224ce576b",
+              "costId": "c941b1e8-41e4-44d0-b759-68d6864f7ba2",
+              "costProjectId": "4d9e57ad-4890-4f53-80da-c6d224ce576b",
+              "day": "2026-11-08",
+              "sourceSnapshotCurrent": true,
+              "resultStatus": "active",
+              "basisStatus": "active"
+            },
+            {
+              "basisId": "4464f2a5-eedf-40e6-9648-f945e8c62021",
+              "resultId": "e83ae5e2-a66d-41de-81b7-410c55bbdbec",
+              "projectId": "4d9e57ad-4890-4f53-80da-c6d224ce576b",
+              "costId": "c253bc77-6935-4cc3-a829-bc0caffc2ddb",
+              "costProjectId": "51d60c76-6de2-432a-8714-10e3ed3234f3",
+              "day": "2026-11-07",
+              "sourceSnapshotCurrent": false,
+              "resultStatus": "superseded",
+              "basisStatus": "superseded"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "targetEvaluation": {
+    "explicitTaxOnly": [
+      {
+        "snapshotId": "3d0fe4db-0ce6-4fca-9033-27571697c83b",
+        "projectId": "51d60c76-6de2-432a-8714-10e3ed3234f3",
+        "businessCutoff": "2026-11-09",
+        "knowledgeCutoff": "2026-11-09T04:13:39.805+08:00",
+        "createdAt": "2026-11-09T04:13:40.309+08:00",
+        "applicableGraphIds": [
+          "7ff268d8-d296-45ed-801b-b176e3db3bb3",
+          "aee83f0a-4ae1-4add-9dc3-8a25526ef7c5",
+          "c4dc5b70-e95e-4a76-965f-3f3a5a5414f6",
+          "c941b1e8-41e4-44d0-b759-68d6864f7ba2"
+        ],
+        "consumedGraphMemberIds": [
+          "aee83f0a-4ae1-4add-9dc3-8a25526ef7c5",
+          "c941b1e8-41e4-44d0-b759-68d6864f7ba2"
+        ],
+        "sameProjectInWindowGraphIds": [
+          "aee83f0a-4ae1-4add-9dc3-8a25526ef7c5"
+        ],
+        "affected": true
+      },
+      {
+        "snapshotId": "604f20c6-1815-4170-ab42-470824896e45",
+        "projectId": "4d9e57ad-4890-4f53-80da-c6d224ce576b",
+        "businessCutoff": "2026-11-08",
+        "knowledgeCutoff": "2026-11-08T06:33:20.244+08:00",
+        "createdAt": "2026-11-08T06:33:20.61+08:00",
+        "applicableGraphIds": [
+          "7ff268d8-d296-45ed-801b-b176e3db3bb3",
+          "aee83f0a-4ae1-4add-9dc3-8a25526ef7c5",
+          "c4dc5b70-e95e-4a76-965f-3f3a5a5414f6",
+          "c941b1e8-41e4-44d0-b759-68d6864f7ba2"
+        ],
+        "consumedGraphMemberIds": [
+          "7ff268d8-d296-45ed-801b-b176e3db3bb3",
+          "c4dc5b70-e95e-4a76-965f-3f3a5a5414f6",
+          "c941b1e8-41e4-44d0-b759-68d6864f7ba2"
+        ],
+        "sameProjectInWindowGraphIds": [
+          "7ff268d8-d296-45ed-801b-b176e3db3bb3",
+          "c4dc5b70-e95e-4a76-965f-3f3a5a5414f6",
+          "c941b1e8-41e4-44d0-b759-68d6864f7ba2"
+        ],
+        "affected": true
+      },
+      {
+        "snapshotId": "c900be0e-928e-4fef-869e-beb31b42f1da",
+        "projectId": "51d60c76-6de2-432a-8714-10e3ed3234f3",
+        "businessCutoff": "2026-11-07",
+        "knowledgeCutoff": "2026-11-08T06:26:42.013+08:00",
+        "createdAt": "2026-11-08T06:26:42.116+08:00",
+        "applicableGraphIds": [],
+        "consumedGraphMemberIds": [],
+        "sameProjectInWindowGraphIds": [],
+        "affected": false
+      },
+      {
+        "snapshotId": "d42a6b27-d0f1-4b22-a700-ffe3d7047da9",
+        "projectId": "51d60c76-6de2-432a-8714-10e3ed3234f3",
+        "businessCutoff": "2026-11-07",
+        "knowledgeCutoff": "2026-11-08T06:26:42.401+08:00",
+        "createdAt": "2026-11-08T06:26:42.445+08:00",
+        "applicableGraphIds": [],
+        "consumedGraphMemberIds": [],
+        "sameProjectInWindowGraphIds": [],
+        "affected": false
+      },
+      {
+        "snapshotId": "feffd675-db3e-4b2c-a5b5-b4ef92321829",
+        "projectId": "4d9e57ad-4890-4f53-80da-c6d224ce576b",
+        "businessCutoff": "2026-11-07",
+        "knowledgeCutoff": "2026-11-08T06:26:42.28+08:00",
+        "createdAt": "2026-11-08T06:26:42.309+08:00",
+        "applicableGraphIds": [],
+        "consumedGraphMemberIds": [],
+        "sameProjectInWindowGraphIds": [],
+        "affected": false
+      }
+    ],
+    "historicalStageOnly": [
+      {
+        "snapshotId": "3d0fe4db-0ce6-4fca-9033-27571697c83b",
+        "projectId": "51d60c76-6de2-432a-8714-10e3ed3234f3",
+        "businessCutoff": "2026-11-09",
+        "knowledgeCutoff": "2026-11-09T04:13:39.805+08:00",
+        "createdAt": "2026-11-09T04:13:40.309+08:00",
+        "applicableGraphIds": [
+          "50f9de85-905e-4cf0-b7b3-96b9200a7702",
+          "57f193b3-0014-4e93-a41e-2985e631871d",
+          "c253bc77-6935-4cc3-a829-bc0caffc2ddb",
+          "e83ae5e2-a66d-41de-81b7-410c55bbdbec"
+        ],
+        "consumedGraphMemberIds": [],
+        "sameProjectInWindowGraphIds": [
+          "50f9de85-905e-4cf0-b7b3-96b9200a7702",
+          "57f193b3-0014-4e93-a41e-2985e631871d",
+          "c253bc77-6935-4cc3-a829-bc0caffc2ddb"
+        ],
+        "affected": true
+      },
+      {
+        "snapshotId": "604f20c6-1815-4170-ab42-470824896e45",
+        "projectId": "4d9e57ad-4890-4f53-80da-c6d224ce576b",
+        "businessCutoff": "2026-11-08",
+        "knowledgeCutoff": "2026-11-08T06:33:20.244+08:00",
+        "createdAt": "2026-11-08T06:33:20.61+08:00",
+        "applicableGraphIds": [
+          "50f9de85-905e-4cf0-b7b3-96b9200a7702",
+          "57f193b3-0014-4e93-a41e-2985e631871d",
+          "c253bc77-6935-4cc3-a829-bc0caffc2ddb",
+          "e83ae5e2-a66d-41de-81b7-410c55bbdbec"
+        ],
+        "consumedGraphMemberIds": [],
+        "sameProjectInWindowGraphIds": [
+          "e83ae5e2-a66d-41de-81b7-410c55bbdbec"
+        ],
+        "affected": true
+      },
+      {
+        "snapshotId": "c900be0e-928e-4fef-869e-beb31b42f1da",
+        "projectId": "51d60c76-6de2-432a-8714-10e3ed3234f3",
+        "businessCutoff": "2026-11-07",
+        "knowledgeCutoff": "2026-11-08T06:26:42.013+08:00",
+        "createdAt": "2026-11-08T06:26:42.116+08:00",
+        "applicableGraphIds": [
+          "50f9de85-905e-4cf0-b7b3-96b9200a7702",
+          "57f193b3-0014-4e93-a41e-2985e631871d",
+          "c253bc77-6935-4cc3-a829-bc0caffc2ddb",
+          "e83ae5e2-a66d-41de-81b7-410c55bbdbec"
+        ],
+        "consumedGraphMemberIds": [],
+        "sameProjectInWindowGraphIds": [
+          "50f9de85-905e-4cf0-b7b3-96b9200a7702",
+          "57f193b3-0014-4e93-a41e-2985e631871d",
+          "c253bc77-6935-4cc3-a829-bc0caffc2ddb"
+        ],
+        "affected": true
+      },
+      {
+        "snapshotId": "d42a6b27-d0f1-4b22-a700-ffe3d7047da9",
+        "projectId": "51d60c76-6de2-432a-8714-10e3ed3234f3",
+        "businessCutoff": "2026-11-07",
+        "knowledgeCutoff": "2026-11-08T06:26:42.401+08:00",
+        "createdAt": "2026-11-08T06:26:42.445+08:00",
+        "applicableGraphIds": [
+          "50f9de85-905e-4cf0-b7b3-96b9200a7702",
+          "57f193b3-0014-4e93-a41e-2985e631871d",
+          "c253bc77-6935-4cc3-a829-bc0caffc2ddb",
+          "e83ae5e2-a66d-41de-81b7-410c55bbdbec"
+        ],
+        "consumedGraphMemberIds": [],
+        "sameProjectInWindowGraphIds": [
+          "50f9de85-905e-4cf0-b7b3-96b9200a7702",
+          "57f193b3-0014-4e93-a41e-2985e631871d",
+          "c253bc77-6935-4cc3-a829-bc0caffc2ddb"
+        ],
+        "affected": true
+      },
+      {
+        "snapshotId": "feffd675-db3e-4b2c-a5b5-b4ef92321829",
+        "projectId": "4d9e57ad-4890-4f53-80da-c6d224ce576b",
+        "businessCutoff": "2026-11-07",
+        "knowledgeCutoff": "2026-11-08T06:26:42.28+08:00",
+        "createdAt": "2026-11-08T06:26:42.309+08:00",
+        "applicableGraphIds": [
+          "50f9de85-905e-4cf0-b7b3-96b9200a7702",
+          "57f193b3-0014-4e93-a41e-2985e631871d",
+          "c253bc77-6935-4cc3-a829-bc0caffc2ddb",
+          "e83ae5e2-a66d-41de-81b7-410c55bbdbec"
+        ],
+        "consumedGraphMemberIds": [],
+        "sameProjectInWindowGraphIds": [
+          "e83ae5e2-a66d-41de-81b7-410c55bbdbec"
+        ],
+        "affected": true
+      }
+    ],
+    "actualUnion": [
+      {
+        "snapshotId": "3d0fe4db-0ce6-4fca-9033-27571697c83b",
+        "projectId": "51d60c76-6de2-432a-8714-10e3ed3234f3",
+        "businessCutoff": "2026-11-09",
+        "knowledgeCutoff": "2026-11-09T04:13:39.805+08:00",
+        "createdAt": "2026-11-09T04:13:40.309+08:00",
+        "applicableGraphIds": [
+          "50f9de85-905e-4cf0-b7b3-96b9200a7702",
+          "57f193b3-0014-4e93-a41e-2985e631871d",
+          "7ff268d8-d296-45ed-801b-b176e3db3bb3",
+          "aee83f0a-4ae1-4add-9dc3-8a25526ef7c5",
+          "c253bc77-6935-4cc3-a829-bc0caffc2ddb",
+          "c4dc5b70-e95e-4a76-965f-3f3a5a5414f6",
+          "c941b1e8-41e4-44d0-b759-68d6864f7ba2",
+          "e83ae5e2-a66d-41de-81b7-410c55bbdbec"
+        ],
+        "consumedGraphMemberIds": [
+          "aee83f0a-4ae1-4add-9dc3-8a25526ef7c5",
+          "c941b1e8-41e4-44d0-b759-68d6864f7ba2"
+        ],
+        "sameProjectInWindowGraphIds": [
+          "50f9de85-905e-4cf0-b7b3-96b9200a7702",
+          "57f193b3-0014-4e93-a41e-2985e631871d",
+          "aee83f0a-4ae1-4add-9dc3-8a25526ef7c5",
+          "c253bc77-6935-4cc3-a829-bc0caffc2ddb"
+        ],
+        "affected": true
+      },
+      {
+        "snapshotId": "604f20c6-1815-4170-ab42-470824896e45",
+        "projectId": "4d9e57ad-4890-4f53-80da-c6d224ce576b",
+        "businessCutoff": "2026-11-08",
+        "knowledgeCutoff": "2026-11-08T06:33:20.244+08:00",
+        "createdAt": "2026-11-08T06:33:20.61+08:00",
+        "applicableGraphIds": [
+          "50f9de85-905e-4cf0-b7b3-96b9200a7702",
+          "57f193b3-0014-4e93-a41e-2985e631871d",
+          "7ff268d8-d296-45ed-801b-b176e3db3bb3",
+          "aee83f0a-4ae1-4add-9dc3-8a25526ef7c5",
+          "c253bc77-6935-4cc3-a829-bc0caffc2ddb",
+          "c4dc5b70-e95e-4a76-965f-3f3a5a5414f6",
+          "c941b1e8-41e4-44d0-b759-68d6864f7ba2",
+          "e83ae5e2-a66d-41de-81b7-410c55bbdbec"
+        ],
+        "consumedGraphMemberIds": [
+          "7ff268d8-d296-45ed-801b-b176e3db3bb3",
+          "c4dc5b70-e95e-4a76-965f-3f3a5a5414f6",
+          "c941b1e8-41e4-44d0-b759-68d6864f7ba2"
+        ],
+        "sameProjectInWindowGraphIds": [
+          "7ff268d8-d296-45ed-801b-b176e3db3bb3",
+          "c4dc5b70-e95e-4a76-965f-3f3a5a5414f6",
+          "c941b1e8-41e4-44d0-b759-68d6864f7ba2",
+          "e83ae5e2-a66d-41de-81b7-410c55bbdbec"
+        ],
+        "affected": true
+      },
+      {
+        "snapshotId": "c900be0e-928e-4fef-869e-beb31b42f1da",
+        "projectId": "51d60c76-6de2-432a-8714-10e3ed3234f3",
+        "businessCutoff": "2026-11-07",
+        "knowledgeCutoff": "2026-11-08T06:26:42.013+08:00",
+        "createdAt": "2026-11-08T06:26:42.116+08:00",
+        "applicableGraphIds": [
+          "50f9de85-905e-4cf0-b7b3-96b9200a7702",
+          "57f193b3-0014-4e93-a41e-2985e631871d",
+          "c253bc77-6935-4cc3-a829-bc0caffc2ddb",
+          "e83ae5e2-a66d-41de-81b7-410c55bbdbec"
+        ],
+        "consumedGraphMemberIds": [],
+        "sameProjectInWindowGraphIds": [
+          "50f9de85-905e-4cf0-b7b3-96b9200a7702",
+          "57f193b3-0014-4e93-a41e-2985e631871d",
+          "c253bc77-6935-4cc3-a829-bc0caffc2ddb"
+        ],
+        "affected": true
+      },
+      {
+        "snapshotId": "d42a6b27-d0f1-4b22-a700-ffe3d7047da9",
+        "projectId": "51d60c76-6de2-432a-8714-10e3ed3234f3",
+        "businessCutoff": "2026-11-07",
+        "knowledgeCutoff": "2026-11-08T06:26:42.401+08:00",
+        "createdAt": "2026-11-08T06:26:42.445+08:00",
+        "applicableGraphIds": [
+          "50f9de85-905e-4cf0-b7b3-96b9200a7702",
+          "57f193b3-0014-4e93-a41e-2985e631871d",
+          "c253bc77-6935-4cc3-a829-bc0caffc2ddb",
+          "e83ae5e2-a66d-41de-81b7-410c55bbdbec"
+        ],
+        "consumedGraphMemberIds": [],
+        "sameProjectInWindowGraphIds": [
+          "50f9de85-905e-4cf0-b7b3-96b9200a7702",
+          "57f193b3-0014-4e93-a41e-2985e631871d",
+          "c253bc77-6935-4cc3-a829-bc0caffc2ddb"
+        ],
+        "affected": true
+      },
+      {
+        "snapshotId": "feffd675-db3e-4b2c-a5b5-b4ef92321829",
+        "projectId": "4d9e57ad-4890-4f53-80da-c6d224ce576b",
+        "businessCutoff": "2026-11-07",
+        "knowledgeCutoff": "2026-11-08T06:26:42.28+08:00",
+        "createdAt": "2026-11-08T06:26:42.309+08:00",
+        "applicableGraphIds": [
+          "50f9de85-905e-4cf0-b7b3-96b9200a7702",
+          "57f193b3-0014-4e93-a41e-2985e631871d",
+          "c253bc77-6935-4cc3-a829-bc0caffc2ddb",
+          "e83ae5e2-a66d-41de-81b7-410c55bbdbec"
+        ],
+        "consumedGraphMemberIds": [],
+        "sameProjectInWindowGraphIds": [
+          "e83ae5e2-a66d-41de-81b7-410c55bbdbec"
+        ],
+        "affected": true
+      }
+    ],
+    "frozenSnapshotAndPreparation": [
+      {
+        "snapshotId": "3d0fe4db-0ce6-4fca-9033-27571697c83b",
+        "projectId": "51d60c76-6de2-432a-8714-10e3ed3234f3",
+        "businessCutoff": "2026-11-09",
+        "knowledgeCutoff": "2026-11-09T04:13:39.805+08:00",
+        "createdAt": "2026-11-09T04:13:40.309+08:00",
+        "applicableGraphIds": [
+          "50f9de85-905e-4cf0-b7b3-96b9200a7702",
+          "57f193b3-0014-4e93-a41e-2985e631871d",
+          "7ff268d8-d296-45ed-801b-b176e3db3bb3",
+          "aee83f0a-4ae1-4add-9dc3-8a25526ef7c5",
+          "c253bc77-6935-4cc3-a829-bc0caffc2ddb",
+          "c4dc5b70-e95e-4a76-965f-3f3a5a5414f6",
+          "c941b1e8-41e4-44d0-b759-68d6864f7ba2",
+          "e83ae5e2-a66d-41de-81b7-410c55bbdbec"
+        ],
+        "consumedGraphMemberIds": [
+          "aee83f0a-4ae1-4add-9dc3-8a25526ef7c5",
+          "c941b1e8-41e4-44d0-b759-68d6864f7ba2"
+        ],
+        "sameProjectInWindowGraphIds": [
+          "50f9de85-905e-4cf0-b7b3-96b9200a7702",
+          "57f193b3-0014-4e93-a41e-2985e631871d",
+          "aee83f0a-4ae1-4add-9dc3-8a25526ef7c5",
+          "c253bc77-6935-4cc3-a829-bc0caffc2ddb"
+        ],
+        "affected": true,
+        "snapshotWindowEnd": "2026-11-09",
+        "periodEndSnapshotId": null,
+        "TaxRootMemberKinds": [
+          {
+            "id": "c941b1e8-41e4-44d0-b759-68d6864f7ba2",
+            "kind": "ProjectActualCostRecord"
+          },
+          {
+            "id": "e37f5802-ee92-4964-a06d-ebeeedd53930",
+            "kind": "SharedCostAllocationBasis"
+          },
+          {
+            "id": "aee83f0a-4ae1-4add-9dc3-8a25526ef7c5",
+            "kind": "SharedCostAllocationResult"
+          },
+          {
+            "id": "c941b1e8-41e4-44d0-b759-68d6864f7ba2",
+            "kind": "SharedCostAllocationSourceSnapshot"
+          }
+        ],
+        "TaxSelectedOnlyAffected": true,
+        "StageOnlyAffected": true,
+        "StageOnlyConsumedCount": 0,
+        "preparationEligibility": "eligible",
+        "preparationBlockingReasonCodes": []
+      },
+      {
+        "snapshotId": "604f20c6-1815-4170-ab42-470824896e45",
+        "projectId": "4d9e57ad-4890-4f53-80da-c6d224ce576b",
+        "businessCutoff": "2026-11-08",
+        "knowledgeCutoff": "2026-11-08T06:33:20.244+08:00",
+        "createdAt": "2026-11-08T06:33:20.61+08:00",
+        "applicableGraphIds": [
+          "50f9de85-905e-4cf0-b7b3-96b9200a7702",
+          "57f193b3-0014-4e93-a41e-2985e631871d",
+          "7ff268d8-d296-45ed-801b-b176e3db3bb3",
+          "aee83f0a-4ae1-4add-9dc3-8a25526ef7c5",
+          "c253bc77-6935-4cc3-a829-bc0caffc2ddb",
+          "c4dc5b70-e95e-4a76-965f-3f3a5a5414f6",
+          "c941b1e8-41e4-44d0-b759-68d6864f7ba2",
+          "e83ae5e2-a66d-41de-81b7-410c55bbdbec"
+        ],
+        "consumedGraphMemberIds": [
+          "7ff268d8-d296-45ed-801b-b176e3db3bb3",
+          "c4dc5b70-e95e-4a76-965f-3f3a5a5414f6",
+          "c941b1e8-41e4-44d0-b759-68d6864f7ba2"
+        ],
+        "sameProjectInWindowGraphIds": [
+          "7ff268d8-d296-45ed-801b-b176e3db3bb3",
+          "c4dc5b70-e95e-4a76-965f-3f3a5a5414f6",
+          "c941b1e8-41e4-44d0-b759-68d6864f7ba2",
+          "e83ae5e2-a66d-41de-81b7-410c55bbdbec"
+        ],
+        "affected": true,
+        "snapshotWindowEnd": "2026-11-08",
+        "periodEndSnapshotId": null,
+        "TaxRootMemberKinds": [
+          {
+            "id": "7ff268d8-d296-45ed-801b-b176e3db3bb3",
+            "kind": "AccountingTaxTreatmentSnapshot"
+          },
+          {
+            "id": "c941b1e8-41e4-44d0-b759-68d6864f7ba2",
+            "kind": "ProjectActualCostRecord"
+          },
+          {
+            "id": "e37f5802-ee92-4964-a06d-ebeeedd53930",
+            "kind": "SharedCostAllocationBasis"
+          },
+          {
+            "id": "c4dc5b70-e95e-4a76-965f-3f3a5a5414f6",
+            "kind": "SharedCostAllocationResult"
+          },
+          {
+            "id": "c941b1e8-41e4-44d0-b759-68d6864f7ba2",
+            "kind": "SharedCostAllocationSourceSnapshot"
+          }
+        ],
+        "TaxSelectedOnlyAffected": true,
+        "StageOnlyAffected": true,
+        "StageOnlyConsumedCount": 0,
+        "preparationEligibility": "eligible",
+        "preparationBlockingReasonCodes": []
+      },
+      {
+        "snapshotId": "c900be0e-928e-4fef-869e-beb31b42f1da",
+        "projectId": "51d60c76-6de2-432a-8714-10e3ed3234f3",
+        "businessCutoff": "2026-11-07",
+        "knowledgeCutoff": "2026-11-08T06:26:42.013+08:00",
+        "createdAt": "2026-11-08T06:26:42.116+08:00",
+        "applicableGraphIds": [
+          "50f9de85-905e-4cf0-b7b3-96b9200a7702",
+          "57f193b3-0014-4e93-a41e-2985e631871d",
+          "c253bc77-6935-4cc3-a829-bc0caffc2ddb",
+          "e83ae5e2-a66d-41de-81b7-410c55bbdbec"
+        ],
+        "consumedGraphMemberIds": [],
+        "sameProjectInWindowGraphIds": [
+          "50f9de85-905e-4cf0-b7b3-96b9200a7702",
+          "57f193b3-0014-4e93-a41e-2985e631871d",
+          "c253bc77-6935-4cc3-a829-bc0caffc2ddb"
+        ],
+        "affected": true,
+        "snapshotWindowEnd": "2026-11-07",
+        "periodEndSnapshotId": null,
+        "TaxRootMemberKinds": [],
+        "TaxSelectedOnlyAffected": false,
+        "StageOnlyAffected": true,
+        "StageOnlyConsumedCount": 0,
+        "preparationEligibility": "missing-evidence",
+        "preparationBlockingReasonCodes": [
+          "operating_cost_outside_cutoff"
+        ]
+      },
+      {
+        "snapshotId": "d42a6b27-d0f1-4b22-a700-ffe3d7047da9",
+        "projectId": "51d60c76-6de2-432a-8714-10e3ed3234f3",
+        "businessCutoff": "2026-11-07",
+        "knowledgeCutoff": "2026-11-08T06:26:42.401+08:00",
+        "createdAt": "2026-11-08T06:26:42.445+08:00",
+        "applicableGraphIds": [
+          "50f9de85-905e-4cf0-b7b3-96b9200a7702",
+          "57f193b3-0014-4e93-a41e-2985e631871d",
+          "c253bc77-6935-4cc3-a829-bc0caffc2ddb",
+          "e83ae5e2-a66d-41de-81b7-410c55bbdbec"
+        ],
+        "consumedGraphMemberIds": [],
+        "sameProjectInWindowGraphIds": [
+          "50f9de85-905e-4cf0-b7b3-96b9200a7702",
+          "57f193b3-0014-4e93-a41e-2985e631871d",
+          "c253bc77-6935-4cc3-a829-bc0caffc2ddb"
+        ],
+        "affected": true,
+        "snapshotWindowEnd": "2026-11-07",
+        "periodEndSnapshotId": null,
+        "TaxRootMemberKinds": [],
+        "TaxSelectedOnlyAffected": false,
+        "StageOnlyAffected": true,
+        "StageOnlyConsumedCount": 0,
+        "preparationEligibility": "missing-evidence",
+        "preparationBlockingReasonCodes": [
+          "operating_cost_outside_cutoff"
+        ]
+      },
+      {
+        "snapshotId": "feffd675-db3e-4b2c-a5b5-b4ef92321829",
+        "projectId": "4d9e57ad-4890-4f53-80da-c6d224ce576b",
+        "businessCutoff": "2026-11-07",
+        "knowledgeCutoff": "2026-11-08T06:26:42.28+08:00",
+        "createdAt": "2026-11-08T06:26:42.309+08:00",
+        "applicableGraphIds": [
+          "50f9de85-905e-4cf0-b7b3-96b9200a7702",
+          "57f193b3-0014-4e93-a41e-2985e631871d",
+          "c253bc77-6935-4cc3-a829-bc0caffc2ddb",
+          "e83ae5e2-a66d-41de-81b7-410c55bbdbec"
+        ],
+        "consumedGraphMemberIds": [],
+        "sameProjectInWindowGraphIds": [
+          "e83ae5e2-a66d-41de-81b7-410c55bbdbec"
+        ],
+        "affected": true,
+        "snapshotWindowEnd": "2026-11-07",
+        "periodEndSnapshotId": null,
+        "TaxRootMemberKinds": [],
+        "TaxSelectedOnlyAffected": false,
+        "StageOnlyAffected": true,
+        "StageOnlyConsumedCount": 0,
+        "preparationEligibility": "missing-evidence",
+        "preparationBlockingReasonCodes": [
+          "operating_cost_outside_cutoff"
+        ]
+      }
+    ]
+  },
+  "GETOriginals": [
+    {
+      "label": "initial",
+      "operationId": "ProjectCostController_getProjectUnifiedAccounting",
+      "method": "GET",
+      "status": 200,
+      "explicitRootCount": 0,
+      "explicitRootKinds": [],
+      "explicitRootIds": [],
+      "restatesSnapshotId": "604f20c6-1815-4170-ab42-470824896e45",
+      "targetCount": 5,
+      "queryMatchesFixedPacket": true,
+      "receiptPin": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business13/main01/000064-http-http.json",
+        "rawBytesSha256": "9e32f63a7e3fcb652ee17eeb30ebed7e9e5ea25e3b7f69e76f792ab7159a21d2",
+        "bytes": 1704
+      }
+    },
+    {
+      "label": "primary",
+      "operationId": "ProjectCostController_getProjectUnifiedAccounting",
+      "method": "GET",
+      "status": 200,
+      "explicitRootCount": 1,
+      "explicitRootKinds": [
+        "AccountingTaxTreatmentSnapshot"
+      ],
+      "explicitRootIds": [
+        "7ff268d8-d296-45ed-801b-b176e3db3bb3"
+      ],
+      "restatesSnapshotId": "604f20c6-1815-4170-ab42-470824896e45",
+      "targetCount": 5,
+      "queryMatchesFixedPacket": true,
+      "receiptPin": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business13/main01/000066-http-http.json",
+        "rawBytesSha256": "6d08ce62b50f7958c40e1b1caaaf7948e030da7cc3b4befa4f6e404a67609744",
+        "bytes": 1704
+      }
+    },
+    {
+      "label": "target0",
+      "operationId": "ProjectCostController_getProjectUnifiedAccounting",
+      "method": "GET",
+      "status": 200,
+      "explicitRootCount": 1,
+      "explicitRootKinds": [
+        "AccountingTaxTreatmentSnapshot"
+      ],
+      "explicitRootIds": [
+        "7ff268d8-d296-45ed-801b-b176e3db3bb3"
+      ],
+      "restatesSnapshotId": "604f20c6-1815-4170-ab42-470824896e45",
+      "targetCount": 5,
+      "queryMatchesFixedPacket": true,
+      "receiptPin": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business13/main01/000068-http-http.json",
+        "rawBytesSha256": "11fd97a74dedda26662ea22bafbbb489e0086954a89ce439bb6eeff17145c531",
+        "bytes": 1704
+      }
+    },
+    {
+      "label": "target1",
+      "operationId": "ProjectCostController_getProjectUnifiedAccounting",
+      "method": "GET",
+      "status": 200,
+      "explicitRootCount": 1,
+      "explicitRootKinds": [
+        "AccountingTaxTreatmentSnapshot"
+      ],
+      "explicitRootIds": [
+        "7ff268d8-d296-45ed-801b-b176e3db3bb3"
+      ],
+      "restatesSnapshotId": "feffd675-db3e-4b2c-a5b5-b4ef92321829",
+      "targetCount": 5,
+      "queryMatchesFixedPacket": true,
+      "receiptPin": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business13/main01/000070-http-http.json",
+        "rawBytesSha256": "cff4ef61a85ad9d4b2de0ba2e72ff75963dce6136dfe16befea610bef67cd6bd",
+        "bytes": 1704
+      }
+    },
+    {
+      "label": "target2",
+      "operationId": "ProjectCostController_getProjectUnifiedAccounting",
+      "method": "GET",
+      "status": 200,
+      "explicitRootCount": 1,
+      "explicitRootKinds": [
+        "AccountingTaxTreatmentSnapshot"
+      ],
+      "explicitRootIds": [
+        "7ff268d8-d296-45ed-801b-b176e3db3bb3"
+      ],
+      "restatesSnapshotId": "3d0fe4db-0ce6-4fca-9033-27571697c83b",
+      "targetCount": 5,
+      "queryMatchesFixedPacket": true,
+      "receiptPin": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business13/main01/000072-http-http.json",
+        "rawBytesSha256": "15e62815aff1fd6f04b5091fd8e3ef9a732f36c96475bec069882ae825eaea1a",
+        "bytes": 1704
+      }
+    },
+    {
+      "label": "target3",
+      "operationId": "ProjectCostController_getProjectUnifiedAccounting",
+      "method": "GET",
+      "status": 200,
+      "explicitRootCount": 1,
+      "explicitRootKinds": [
+        "AccountingTaxTreatmentSnapshot"
+      ],
+      "explicitRootIds": [
+        "7ff268d8-d296-45ed-801b-b176e3db3bb3"
+      ],
+      "restatesSnapshotId": "c900be0e-928e-4fef-869e-beb31b42f1da",
+      "targetCount": 5,
+      "queryMatchesFixedPacket": true,
+      "receiptPin": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business13/main01/000074-http-http.json",
+        "rawBytesSha256": "8e7e7f820ba7c3e5eb9e7eec2b29bd2c50e20f7c426b278a3997fe02c158433f",
+        "bytes": 1704
+      }
+    },
+    {
+      "label": "target4",
+      "operationId": "ProjectCostController_getProjectUnifiedAccounting",
+      "method": "GET",
+      "status": 200,
+      "explicitRootCount": 1,
+      "explicitRootKinds": [
+        "AccountingTaxTreatmentSnapshot"
+      ],
+      "explicitRootIds": [
+        "7ff268d8-d296-45ed-801b-b176e3db3bb3"
+      ],
+      "restatesSnapshotId": "d42a6b27-d0f1-4b22-a700-ffe3d7047da9",
+      "targetCount": 5,
+      "queryMatchesFixedPacket": true,
+      "receiptPin": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business13/main01/000076-http-http.json",
+        "rawBytesSha256": "0dfb36a9bc65667b863b008844ec0621a66873605e7260a1b20a988b349639e4",
+        "bytes": 1704
+      }
+    }
+  ],
+  "serverFiveExactlyReproduced": true,
+  "TaxSelectedOnlyAffectedCount": 2,
+  "StageHistoricalOnlyAffectedCount": 5,
+  "unionAffectedCount": 5,
+  "actualPOSTExecuted": false,
+  "FIStarted": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "newCertifiedOperations": 0,
+  "privateRawPayloadCopied": false
+}

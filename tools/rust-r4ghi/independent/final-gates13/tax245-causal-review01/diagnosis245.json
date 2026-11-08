@@ -1,0 +1,150 @@
+{
+  "kind": "independent-Tax245-5-versus-2-correctness-diagnosis",
+  "reviewer": "/root/r4ghi_final_gates13",
+  "verdict": "Confirmed product implicit Stage-root lifecycle error; helper date-only2 is not a general causal oracle and must not be used to trim current server5.",
+  "source": {
+    "epoch": "g2-business13",
+    "sourceCount": 416,
+    "sourcePinsSHA256": "5e467b677cfe08e44c8cb1c71cac62478e416e394ba4a5ec8651dab5732c255e",
+    "H1Count": 198
+  },
+  "facts": {
+    "serverTargets": 5,
+    "helperDateOnlyTerminals": 2,
+    "assertionDirection": "actual server5 minus expected date-only2",
+    "rawPacket": {
+      "file": "//wsl.localhost/Debian/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000078-tax13-complete-server-targets.json",
+      "rawBytesSha256": "8ef9a466d181ff75d9f10f3825be956921f3ac212afa88633c5ac79b706cf020",
+      "bytes": 518730
+    },
+    "GETsVerified": 7,
+    "sourceBlindGET": false,
+    "initialSelectedRoots": 0,
+    "primaryAndEveryTargetSelectedTaxRoots": 1,
+    "Main242AlreadyActual201": true,
+    "TaxCorrectionCommitted": false,
+    "FIStarted": false
+  },
+  "finding": {
+    "id": "T245-01",
+    "classification": "product-correctness-gap-before-G3; not a Gate verdict",
+    "location": "project_operating/restatement.rs:156-176,179-255",
+    "cause": "inferred_late_roots compares broad Catalog.members against the frozen factual whitelist, then accepts Stage by child.active without considering that its actual parent Cost is replaced. A pre-existing correctly retained historical Stage absent from the whitelist is misclassified as a new late fact.",
+    "actualUniqueSeed": {
+      "kind": "CostStageAttributionSnapshot",
+      "id": "57f193b3-0014-4e93-a41e-2985e631871d",
+      "rowVersion": 1,
+      "payloadHash": "7e18c54d2de2a674f8a8dc15704e234b519087a5b35935f2e1d7c244e33f945f"
+    },
+    "parentCost": {
+      "id": "c253bc77-6935-4cc3-a829-bc0caffc2ddb",
+      "status": "replaced",
+      "rowVersion": 3,
+      "successor": "814a85d7-ed00-4776-a4b9-da06a618b1a8"
+    },
+    "propagation": "Stage57f adds old Costc253; full historical batch4464 traversal reaches both project IDs/day07; affected_states:552-554 selects all5 by same-project/in-window despite zero consumed hits for this graph.",
+    "proof": "10 inferredKinds /27 scoped rows reconstructed;14 public factual hashes matched;7 changed candidates leave only Stage57f allowed. Tax-only→2, Stage-only→5, union→actual5 exactly.",
+    "notDataCorruption": "Old Stage.active is valid retained attribution for an old replaced Cost; do not rewrite its history to make the test pass."
+  },
+  "sourceAndTime": {
+    "explicitTaxCostBusinessDate": "2026-11-08",
+    "explicitTaxCostCreatedAt": "2026-11-08T06:33:02.764+08:00",
+    "explicitTaxCreatedAt": "2026-11-08T06:33:12.209+08:00",
+    "extraOldSnapshotCutoff": "2026-11-07",
+    "extraOldContextCutoff": "2026-11-07",
+    "extraOldKnowledgeEarlierThanTaxCost": true,
+    "extraOldTaxGraphMembers": 0,
+    "extraOldEligibility": "missing-evidence / operating_cost_outside_cutoff",
+    "oldBlockedTargetsMustNotBeForcedValid": true
+  },
+  "sharedGETPOSTPath": {
+    "GET": [
+      "preparation.rs:40-46 scope_roots_with_session(selected correctionSourceRefs)",
+      "preparation.rs:50-61 discover_for_roots + affected_states"
+    ],
+    "POST": [
+      "service.rs:97-106 command_selected_roots_with_session",
+      "service.rs:117-124 discover_projects and complete sorted project locks",
+      "collector.rs:25 discovery;51-59 scope_roots + affected_states;64-71 rediscovery",
+      "collector.rs:217 assert_complete_targets"
+    ],
+    "actualTaxBodySelectedRoot": "TaxRef only; expectedSourceRefs Cost is resolved through actual immutable F evidence; all other correction/decision/ack arrays empty.",
+    "sameFixedInputWouldDiscoverFiveInPOST": true,
+    "POSTStatusNotObserved": true,
+    "clientTrimWouldNotBeAValidFix": true
+  },
+  "minimalFix": {
+    "target": "Only implicit Stage eligibility at root inference.",
+    "requirements": [
+      "Require the real current non-replaced Cost parent and actual current attribution relation before treating a Stage as an implicit new source; missing required parent proof fails closed.",
+      "Do not silently discard explicitly selected correction roots; preserve real producer validation/CAS and exact complete affected targets.",
+      "Keep historical Stage/Cost/snapshots/contexts immutable."
+    ],
+    "preserve": [
+      "all-history allocation/source graph traversal needed by explicit true governed corrections",
+      "same-project/in-window late-fact discovery for genuinely new source absent from old members",
+      "independent/manual-finance Tax assessments; do not add must-have-live-Cost-parent symmetry",
+      "real business cutoffs and unknown/blocked evidence semantics"
+    ],
+    "notFixes": [
+      "Changing 2 to5 in the helper",
+      "Trimming three server targets client-side",
+      "Deleting project/day discovery or globally filtering batch rows by is_current",
+      "Treating old day07 targets as eligible for day08 Cost/Tax",
+      "Rewriting old data or copying Node behavior"
+    ]
+  },
+  "fixed79CompatibilityExpectation": {
+    "initialNoSelectedRoots": {
+      "inferredRoots": 0,
+      "targets": 0,
+      "expectedMeaning": "no applicable source change; still a valid ref lookup preparation GET"
+    },
+    "explicitTax": {
+      "targets": 2,
+      "snapshotIds": [
+        "3d0fe4db-0ce6-4fca-9033-27571697c83b",
+        "604f20c6-1815-4170-ab42-470824896e45"
+      ]
+    },
+    "futureStateRule": "Use fresh causal server discovery;2 is not a fixed cardinality after genuine new periods/late sources exist."
+  },
+  "businessDecisionRequiredForThisCase": false,
+  "largerModeRedesign": "Whether explicit and implicit modes should be redesigned more broadly is outside this minimum fix; no new policy is assumed.",
+  "source14ActualInputs": {
+    "sourceCount": null,
+    "sourcePinsSHA256": null,
+    "binarySHA256": null,
+    "APIProcess": null,
+    "candidate": null,
+    "retainedAdmission": null
+  },
+  "unchanged243Seal": {
+    "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/tool119-checkpoint243/checkpoint243.json",
+    "rawBytesSha256": "be55ff1709734b5a1f20b9185586c246f167394b5984891a5aa810e79a351df7",
+    "bytes": 19000
+  },
+  "actions": {
+    "readFixedFSOnly": true,
+    "Root416Or198Written": false,
+    "activeStateRead": false,
+    "SQL": 0,
+    "HTTP": 0,
+    "processReadOrWrite": 0,
+    "RootBusinessCodeExecuted": false,
+    "GitGitHub": 0,
+    "privatePayloadFilesCopied": 0,
+    "ownDirectoryWritesOnly": true
+  },
+  "G3Reviewed": false,
+  "G3Certified": false,
+  "G4Reviewed": false,
+  "G4Certified": false,
+  "newCertifiedOperations": 0,
+  "formalRustOperations": 240,
+  "causalGraph": {
+    "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/tax245-causal-review01/causal-graph245.json",
+    "bytes": 49324,
+    "rawBytesSha256": "878272bf55d2b7d7584b9044e3f1d87a810d2ab0c1ab724b272cd2f7ab5cadcd"
+  }
+}

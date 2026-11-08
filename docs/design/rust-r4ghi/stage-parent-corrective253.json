@@ -1,0 +1,92 @@
+{
+  "kind": "R4-GHI-bounded-corrective-checkpoint253",
+  "slice": "R4-GHI-32-existing-joint-G1",
+  "issues": [57, 101, 110, 111, 114],
+  "classification": "new-real-drift",
+  "finding": "IR133-01",
+  "state": "G2-corrective-proposals-under-validation; real-Source14-not-yet-minted",
+  "frozenBusinessScopeUnchanged": true,
+  "publicRouteOrDTOChange": false,
+  "persistenceSchemaChange": false,
+  "newBusinessDecisionRequired": false,
+  "actualFailure": {
+    "epoch": "g2-business13",
+    "phase": "Tax-explicit-root-GET-preparation",
+    "actualServerTargets": 5,
+    "helperDateOnlyTargets": 2,
+    "FIStarted": false,
+    "normalTaxPOST": false,
+    "cause": "Active historical Stage over a replaced Cost passes the implicit late-root status predicate and pulls three additional historical terminals into the complete scope.",
+    "clientTargetTrimmingAuthorized": false,
+    "initialUnselectedQueryOnFixedFactsAfterCorrectionExpectedTargets": 0,
+    "explicitTaxQueryOnFixedFactsAfterCorrectionExpectedTargets": 2,
+    "futureTargetCountMustBeDynamicallyRecomputed": true
+  },
+  "independentDiagnosis": [
+    {
+      "file": "tools/rust-r4ghi/independent/review05/tax245-causal-review133/review133.json",
+      "rawBytesSha256": "c2df7545f342d4e2d29de1684b294ee649bd1481d0cc6de891e89ddfc4c5e879"
+    },
+    {
+      "file": "tools/rust-r4ghi/independent/final-gates13/tax245-causal-review01/diagnosis245.json",
+      "rawBytesSha256": "057b61c2eff7edfddf4741048d426da45dfacc72b64d6edcc03e2ac88037434d"
+    },
+    {
+      "file": "tools/rust-r4ghi/independent/final-gates13/tax245-causal-review01/causal-graph245.json",
+      "rawBytesSha256": "878272bf55d2b7d7584b9044e3f1d87a810d2ab0c1ab724b272cd2f7ab5cadcd"
+    }
+  ],
+  "minimumProductCorrection": {
+    "file": "apps/poms-api-rust/src/project_operating/restatement.rs",
+    "beforeSHA256": "b4a0e399ead4702c2bcfad83b22011f9c12b649233f706d011588f9889fa0fd6",
+    "proposalSHA256": "7251664a65dd189b38ea9349ba6e54b8a2ea84ca307d128e3b01f29ba446890c",
+    "automaticStageParent": "Exact cost_record_id must resolve in the loaded Catalog to a Cost in its existing registered/confirmed/included current eligibility set.",
+    "preserve": [
+      "Explicit selected historical roots and their conflict/completeness checks",
+      "Full historical old/new allocation batch graph",
+      "Same-project and business-day discovery of genuine unconsumed late facts",
+      "Independent active/pending Tax, including manual-finance sources without a Cost parent",
+      "Existing source hashing, locks, permissions, original business facts and dates"
+    ],
+    "independentCodeReview": {
+      "file": "tools/rust-r4ghi/independent/review05/inferred249-review134/review134.json",
+      "rawBytesSha256": "1cc53a33ec05004e83fb4925d3a540a420efb51577fc6177fda9832ac9b45a8b"
+    },
+    "isolatedAuthorRustTests": 6,
+    "isolatedIndependentRustTests": 7,
+    "fullCrateChecks": "pending-separate-exact-source-isolated-run",
+    "appliedToCurrentRuntime": false
+  },
+  "runtimeBoundary": {
+    "currentSource": 13,
+    "currentProductInputs": 416,
+    "currentHelperInputs": 198,
+    "currentSourcePinsSHA256": "5e467b677cfe08e44c8cb1c71cac62478e416e394ba4a5ec8651dab5732c255e",
+    "currentHelperPinsRawSHA256": "51b303a3fccbae5e7fd7b0cc6a042da5bfd12f43c4a7507dfb6479e1d0be579c",
+    "Main242": "Source13 actual once201 with verified postconditions; never rePOST or relabel",
+    "H46": "Separate real project running under Source13; seal its actual outcome before new retained-data admission",
+    "nextSource": 14,
+    "nextSourcePins": null,
+    "nextBinary": null,
+    "nextProcess": null,
+    "nextRetainedAdmission": null,
+    "sameM98Required": true,
+    "originalM97BusinessBaselineMustRemain": true,
+    "originalM98CanonicalReceiptAnd108IdentityMustRemain": true,
+    "originalR3H0B0B1119B2MustRemain": true,
+    "hotSwapSource13PinsAuthorized": false,
+    "migrationReplayAuthorized": false
+  },
+  "remainingValidation": [
+    "Complete exact-source Rust fmt, production-library clippy, full tests and build",
+    "Independent same-M98 code-epoch retained-data admission and actual final Source13 conservation",
+    "New frozen source/helper graph, exact new binary/process and actual fresh dynamic GET/POST closure consistency",
+    "Independent full actual Tax target/body/necessary-write inventory review, real complete FI rollback and once-only same-body normal command",
+    "Actual downstream G/H reads; reprepare permission, Labor masking and necessary audit scope for new outputs",
+    "Existing206 natural-period,219 complete live-plus-period correction,222 legacy races, owned closeout and independent unified G3/G4"
+  ],
+  "formalRustOperations": 240,
+  "newCertifiedOperations": 0,
+  "G3Certified": false,
+  "G4Certified": false
+}

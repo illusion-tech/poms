@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "kind": "fixed-FS-product-cause-review-of-actual-Tax245-preparation-stop",
+  "findingId": "IR133-01",
+  "priority": "P1",
+  "status": "confirmed-implicit-historical-stage-root-contaminates-Tax-causal-target-set",
+  "location": {"file": "apps/poms-api-rust/src/project_operating/restatement.rs", "function": "inferred_late_roots", "branch": "CostStageAttributionSnapshot"},
+  "actualEvidence": {"file": "tools/rust-r4ghi/independent/review05/tax245-causal-review133/facts133.json", "rawBytesSha256": "e9005c3aad58b222cdd3c649309040164cf233f9285b7dd238771e4eac9cc8e5"},
+  "facts": [
+    "The complete000078 server packet and its original primary/every-target HTTP200 responses all propose five targets. The helper's Tax-date filter expects two. The earlier reversed reading of the assertion diff is explicitly corrected; no server target is trimmed by this review.",
+    "The actual Tax7ff268d8 and Costc941b1e8 belong to Receiver, business2026-11-08. Only the Receiver604f20c6 and Main3d0fe4db current roots contain the genuine Tax/cost/basis/share chain and have eligible preparation.",
+    "The three additional roots feffd675/c900be0e/d42a6b27 preserve2026-11-07 windows and identical context.business_cutoff values, were known aroundNov8 06:26 before the Cost/Tax were produced around06:33, and contain none of the new Tax-batch root IDs. Their actual preparation packets are missing-evidence with operating_cost_outside_cutoff.",
+    "The primary604f frozen members lack Stage57f193b3 and its original Costc253bc77. Current preparation exposes Stage57f as activev1, businessNov7, createdNov7 22:50; its actual parent Cost is record_status=replaced. This Stage is an existing historical child, not a genuinely newly produced current-cost fact.",
+    "changed_sources sees the newly visible historical Stage ref as absent from the primary frozen members. inferred_late_roots checks Stage child status only, while its direct Cost branch correctly rejects replaced costs. The historical Stage therefore enters the automatic roots alongside the explicit Tax ref.",
+    "impact_graph then deliberately follows full old/new batch history, including old noncurrent slot/basis4464 for the replaced cost. Its same-project/business-day branch can introduce the three earlier roots. This graph mechanism is valid for real selected or genuinely late sources; the invalid automatic root is the defect."
+  ],
+  "GETAndPOST": {
+    "actualQueryTaxRefPresent": true,
+    "sourceBlindHypothesisRejected": true,
+    "sameRule": "GET preparation and POST both use scope_roots_with_session, which unions inferred_late_roots with explicit selected refs, then discover_for_roots/affected_states. POST additionally checks complete targets. Consequently a client-side two-target trim is not a correction and cannot be approved.",
+    "initialRead": "The initial GET has no selected Tax root and only obtains actual source refs. After the historical auto-root fix its target set may legitimately be empty; do not force every GET to have two targets. The TaxRef primary and target packets must reflect the complete actual Tax causal set."
+  },
+  "frozenBoundary": [
+    "G1 restatement-contract affectedClosure requires actual reverse source membership and every genuinely affected live/period terminal, with full project/source locking and no omitted target.",
+    "The period/window contract keeps original business cutoffs and permits only original in-window business facts with real later knowledge. It does not authorize importing a Nov8 Tax correction into unrelated Nov7 historical windows.",
+    "True late sources may not have been consumed by an earlier snapshot. Keep affected_states' same-project/in-window branch; consumption-only filtering would hide genuine late-arriving facts.",
+    "Explicit corrections still require full historical/new batch tracing. Do not globally filter impact_graph to current slots/results, update old Stage/Cost/context rows, or alter the frozen policy/DTO to evade this failure."
+  ],
+  "minimalCorrectiveBoundary": {
+    "StageOnly": "Constrain automatic inferred Stage candidates to an actual available current parent Cost, using the existing live Cost status set registered/confirmed/included and retaining child-active qualification. Do not alter explicit selected roots, scope union, full batch graph, target completeness, source hash or historical data.",
+    "TaxNotSymmetric": "Do not impose a mandatory live Cost parent on Tax in this fix. F.tax service explicitly accepts manual-finance evidence; an active/pending Tax is an independent assessment and G context currently recognizes valid in-window assessments without automatically invalidating them when a referenced Cost is replaced. A broader Tax-parent policy would require separate business evidence rather than symmetry.",
+    "regressions": ["Active Stage over replaced/voided/unavailable Cost is not an automatic late root", "Active Stage over each current Cost status remains eligible", "Direct Cost current-status behavior unchanged", "Manual/no-Cost and actual current Tax automatic candidate semantics unchanged", "Explicit Stage/Tax roots and full old/new allocation graph unchanged", "Tax245 exact fixed-source candidate/target regression", "Genuine unconsumed in-window late source still discovers its targets"]
+  },
+  "effectAndGateBoundary": "Root has retained actual Main201 and all failed preparation/public GET/state245 originals. No Tax FI or normal Tax POST occurred. Current198/source416/API136 must not be hot-patched or marked passed; any product correction requires a separately reviewed new source/binary/admission and fresh actual preparation, then actual full FI and normal acceptance. This report is a diagnosis, not product G3/G4.",
+  "peerReview": "Final-gates13 independently rebuilt the complete inferred-candidate set and the Tax-only/Stage-only/union graphs; its separately sealed report is the independent graph certificate. This report pins the actual raw packet/window/member/parent evidence and avoids claiming that a date-only predicate is a general causal oracle.",
+  "limits": {"RootFilesModified": false, "oldProducerOrMainReplayed": false, "newSQL": 0, "newHTTP": 0, "liveStateRead": false, "processObserved": false, "serverTargetsChanged": false, "TaxFI": false, "normalTax": false, "G3": false, "G4": false, "originalG83G84AuthorWasThisReviewer": true}
+}
