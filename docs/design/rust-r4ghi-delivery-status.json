@@ -37,13 +37,7 @@
     "denominatorMeaning": "planned canonical including 3 new R4 routes; no new delivery certified"
   },
   "fullR4Complete": false,
-  "pendingBusinessDecisions": [
-    {
-      "decision": "historical-period-baseline-selection",
-      "status": "awaiting-user",
-      "currentBoundary": "only-real-source-validation-and-reconciliation-guard; no-automatic-historical-selection-approved"
-    }
-  ],
+  "pendingBusinessDecisions": [],
   "independentUserFix": {
     "issue": 115,
     "baseline": "archive/slices/rust-r2-user-create-fix115/baseline.md.bin",
@@ -164,7 +158,8 @@
     "continuationBlock": "confirmed-Stage-implicit-root-replaced-parent; Source14-and-same-M98-admission-in-preparation",
     "toolHelperCount": 198,
     "toolHelperPinsSHA256": "51b303a3fccbae5e7fd7b0cc6a042da5bfd12f43c4a7507dfb6479e1d0be579c",
-    "MainG": "actual-Source13-once201-postconditions-verified"
+    "MainG": "actual-Source13-once201-postconditions-verified",
+    "nextProductScope": "Stage-implicit-parent-current249 plus user-approved historical first-close budget-selection272; exact combined delta/build/helper/admission not yet frozen"
   },
   "currentUIValidation": {
     "build": "../../tmp/rust-r4ghi/root/admin-build06/receipt.json",
@@ -185,5 +180,15 @@
   "currentStaticValidationSource13": "rust-r4ghi/source13-native186-static.json",
   "currentProgress248": "rust-r4ghi/current-progress248.json",
   "independentToolCheckpoint243": "../../tools/rust-r4ghi/independent/final-gates13/tool119-checkpoint243/checkpoint243.json",
-  "stageParentCorrective253": "rust-r4ghi/stage-parent-corrective253.json"
+  "stageParentCorrective253": "rust-r4ghi/stage-parent-corrective253.json",
+  "acceptedBusinessDecisions": [
+    {
+      "decision": "historical-period-baseline-selection",
+      "status": "explicit-user-accepted",
+      "source": "rust-r4ghi/user-decision-historical-baseline272.json",
+      "implementation": "pending-new-frozen-product-candidate",
+      "rule": "real-historical-adoption-chain; latest-uniquely-valid-for-period; ambiguity-blocks"
+    }
+  ],
+  "historicalBaselineDecision272": "rust-r4ghi/user-decision-historical-baseline272.json"
 }
