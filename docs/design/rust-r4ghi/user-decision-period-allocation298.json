@@ -1,0 +1,47 @@
+{
+  "kind": "user-approved-first-historical-period-late-allocation-policy298",
+  "date": "2026-11-09",
+  "status": "approved-implementation-and-real-acceptance-pending",
+  "approvalSource": "explicit-user-reply-in-current-conversation",
+  "questionItemId": "call_c34c931aa4ad457e9625fb869716f075:0",
+  "answer": "按真实业务归属纳入，保留期后更正证据（推荐）",
+  "problem": "A genuine tax correction rebuilds the complete allocation batch at its actual current time; first historical closing currently excludes those replacement shares solely because their effective_at is after the period cutoff, although their underlying business costs belong to the period.",
+  "policy": {
+    "firstHistoricalClosing": "Recognize a traceable late-produced allocation by the real business attribution of its complete source costs, not solely by the allocation generation timestamp.",
+    "qualification": "Verify the complete actual source set, allocation lineage, source versions, amounts, classifications and applicable correction evidence under the existing producer and atomic-command boundaries.",
+    "allSourceCostsMustBelongToThePeriodWindow": true,
+    "genuinePostPeriodBusinessCostsRemainExcluded": true,
+    "recordActualGenerationAndCorrectionTimes": true,
+    "fabricateOrBackdateFactsOrEffectiveAt": false,
+    "trimFutureMembersToMakeAnAllocationEligible": false,
+    "replaceCurrentRealtimeOrCommissionAuthorityByLatePeriodClosing": false,
+    "rewriteAlreadyFrozenPeriodSnapshotsOrBaselineSelection": false,
+    "historicalBudgetSelection272RemainsInForce": true,
+    "necessaryDomainSnapshotAuditAndAuthWritesAtomic": true
+  },
+  "technicalG1": {
+    "kind": "Root-authorized-bounded-period-allocation298-corrective-freeze",
+    "scope": [
+      "First-period prepare/source rows, locked qualification and final capture use one consistent late-allocation qualification policy.",
+      "Retain genuine producer timestamps, full in-period source membership, immutable allocation/correction evidence and deterministic complete-batch amounts.",
+      "Keep realtime semantics, frozen-period restatement lineage, historical budget selection272 and current G/H authority boundaries intact.",
+      "Update the period270/271 acceptance adapters and public readiness presentation only where the actual changed behavior requires it; no route or persistence expansion."
+    ],
+    "minimumAcceptance": [
+      "Real post-period tax correction followed by first historical closing includes the complete eligible in-period allocation share.",
+      "A batch containing a genuine post-period source cost cannot enter the old period by trimming or relabeling its members.",
+      "Missing or changed source, allocation or correction evidence is rejected without partial necessary writes.",
+      "Nohead/head first closing and existing-period restatement preserve the frozen budget and realtime current authority rules.",
+      "Independent code review precedes exact combined build, admission and genuine end-to-end acceptance."
+    ],
+    "newHTTPRoutes": 0,
+    "schemaMigration": false,
+    "RootRuntimeMutationAuthorizedByThisFreeze": false,
+    "proposalImplementationAuthorized": true
+  },
+  "implementation": null,
+  "actualAcceptance": null,
+  "G3Certified": false,
+  "G4Certified": false,
+  "issue57": "OPEN"
+}
