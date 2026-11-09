@@ -1,0 +1,450 @@
+{
+  "kind": "273-additional-static-schema-and-canonical-name-evidence",
+  "baseInputSpec": {
+    "file": "libs/shared/api-spec/openapi.json",
+    "rawBytesSha256": "942661f06947136bbdaf5621bdef9e531a7ab3fe350271f6ca054e01b495a19c"
+  },
+  "canonicalSchemas": {
+    "CreatePeriodClosingSnapshotRequest": {
+      "type": "object",
+      "required": [
+        "assertions",
+        "baselinePackageRef",
+        "costDecisions",
+        "expectedInputHash",
+        "expectedPeriodSnapshotRef",
+        "expectedProjectVersion",
+        "expectedVersion",
+        "inputVersion",
+        "periodKey",
+        "projectId"
+      ],
+      "properties": {
+        "inputVersion": {
+          "type": "string",
+          "enum": [
+            "server-derived-v1"
+          ]
+        },
+        "projectId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "expectedProjectVersion": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "expectedInputHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "assertions": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/LegacyAssertions"
+            },
+            {
+              "type": "object",
+              "nullable": true,
+              "enum": [
+                null
+              ]
+            }
+          ]
+        },
+        "baselinePackageRef": {
+          "$ref": "#/components/schemas/ExpectedRef"
+        },
+        "periodKey": {
+          "type": "string",
+          "pattern": "^(?:[0-9]{4}-(?:0[1-9]|1[0-2])|[0-9]{4}-W(?:0[1-9]|[1-4][0-9]|5[0-3]))$"
+        },
+        "expectedPeriodSnapshotRef": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/ExpectedRef"
+            },
+            {
+              "type": "object",
+              "nullable": true,
+              "enum": [
+                null
+              ]
+            }
+          ]
+        },
+        "costDecisions": {
+          "type": "array",
+          "maxItems": 1000,
+          "items": {
+            "$ref": "#/components/schemas/CostDecisionInput"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "CreateProjectOperatingSnapshotRequest": {
+      "type": "object",
+      "required": [
+        "assertions",
+        "baselinePackageRef",
+        "costDecisions",
+        "expectedInputHash",
+        "expectedProjectVersion",
+        "expectedVersion",
+        "inputVersion",
+        "periodKey",
+        "projectId",
+        "snapshotMode"
+      ],
+      "properties": {
+        "inputVersion": {
+          "type": "string",
+          "enum": [
+            "server-derived-v1"
+          ]
+        },
+        "projectId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "expectedProjectVersion": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "expectedInputHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "assertions": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/LegacyAssertions"
+            },
+            {
+              "type": "object",
+              "nullable": true,
+              "enum": [
+                null
+              ]
+            }
+          ]
+        },
+        "baselinePackageRef": {
+          "$ref": "#/components/schemas/ExpectedRef"
+        },
+        "snapshotMode": {
+          "type": "string",
+          "enum": [
+            "realtime",
+            "period-end"
+          ]
+        },
+        "periodKey": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^(?:[0-9]{4}-(?:0[1-9]|1[0-2])|[0-9]{4}-W(?:0[1-9]|[1-4][0-9]|5[0-3]))$"
+            },
+            {
+              "type": "object",
+              "nullable": true,
+              "enum": [
+                null
+              ]
+            }
+          ]
+        },
+        "costDecisions": {
+          "type": "array",
+          "maxItems": 1000,
+          "items": {
+            "$ref": "#/components/schemas/CostDecisionInput"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "allOf": [
+            {},
+            {
+              "oneOf": [
+                {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "snapshotMode": {
+                          "enum": [
+                            "period-end"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "periodKey": {
+                          "type": "string",
+                          "pattern": "^(?:[0-9]{4}-(?:0[1-9]|1[0-2])|[0-9]{4}-W(?:0[1-9]|[1-4][0-9]|5[0-3]))$"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "allOf": [
+                    {
+                      "not": {
+                        "properties": {
+                          "snapshotMode": {
+                            "enum": [
+                              "period-end"
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "periodKey": {
+                          "type": "object",
+                          "nullable": true,
+                          "enum": [
+                            null
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "OperatingPreparation": {
+      "type": "object",
+      "required": [
+        "outputVersion",
+        "kind",
+        "officialSnapshotRef",
+        "intent",
+        "projectId",
+        "headVersion",
+        "projectVersion",
+        "expectedInputHash",
+        "preparedAt",
+        "businessCutoff",
+        "periodKey",
+        "formalEligibility",
+        "evaluationStatus",
+        "sourceRows",
+        "proposedOriginalCostRef",
+        "selectedBaselinePackageRef",
+        "allowedCommandCodes",
+        "blockingReasonCodes",
+        "proposedAffectedTargets"
+      ],
+      "properties": {
+        "outputVersion": {
+          "enum": [
+            "server-derived-v1"
+          ]
+        },
+        "kind": {
+          "enum": [
+            "preparation-only"
+          ]
+        },
+        "officialSnapshotRef": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/SourceRef"
+            },
+            {
+              "type": "object",
+              "nullable": true,
+              "enum": [
+                null
+              ]
+            }
+          ]
+        },
+        "intent": {
+          "type": "string",
+          "enum": [
+            "baseline-activation",
+            "snapshot-create",
+            "period-close",
+            "restatement",
+            "receipt-basis"
+          ]
+        },
+        "projectId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "headVersion": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "projectVersion": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "expectedInputHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "preparedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "businessCutoff": {
+          "type": "string",
+          "format": "date"
+        },
+        "periodKey": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^(?:[0-9]{4}-(?:0[1-9]|1[0-2])|[0-9]{4}-W(?:0[1-9]|[1-4][0-9]|5[0-3]))$"
+            },
+            {
+              "type": "object",
+              "nullable": true,
+              "enum": [
+                null
+              ]
+            }
+          ]
+        },
+        "formalEligibility": {
+          "$ref": "#/components/schemas/FormalEligibility"
+        },
+        "evaluationStatus": {
+          "type": "string",
+          "enum": [
+            "not-evaluated",
+            "preview-only"
+          ]
+        },
+        "sourceRows": {
+          "type": "array",
+          "maxItems": 1000,
+          "items": {
+            "$ref": "#/components/schemas/SourceRow"
+          }
+        },
+        "proposedOriginalCostRef": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/SourceRef"
+            },
+            {
+              "type": "object",
+              "nullable": true,
+              "enum": [
+                null
+              ]
+            }
+          ]
+        },
+        "selectedBaselinePackageRef": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/SourceRef"
+            },
+            {
+              "type": "object",
+              "nullable": true,
+              "enum": [
+                null
+              ]
+            }
+          ]
+        },
+        "allowedCommandCodes": {
+          "type": "array",
+          "maxItems": 1000,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          }
+        },
+        "blockingReasonCodes": {
+          "type": "array",
+          "maxItems": 1000,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          }
+        },
+        "proposedAffectedTargets": {
+          "type": "array",
+          "maxItems": 1000,
+          "description": "Complete real project/terminal targets discovered for this restatement preparation; empty for non-restatement. Never guessed IDs or financial values.",
+          "items": {
+            "$ref": "#/components/schemas/AffectedRestatementTarget"
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "inputs": [
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260414100000_ex07a_cost_accumulation_snapshot_model.ts",
+      "bytes": 21302,
+      "rawBytesSha256": "8efe816a18ebb9b6c348f7c1ccb0b229a6882df2026a4135bbe6a34ff2925c94"
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20260502120000_ex56d2_project_cost_operating_enum_checks.ts",
+      "bytes": 28473,
+      "rawBytesSha256": "51b76120a3fc144e3a24615d5d398ab6298f4c72da7877bf703bac3c91bccf2b"
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20261107060000_rust_r4ghi_operating_lifecycle.ts",
+      "bytes": 83996,
+      "rawBytesSha256": "8fa614a3eca1b01f744592e392cc37baab53ea102439840394b0abed316bc68d"
+    },
+    {
+      "file": "tools/rust-r4ghi/joint-g1/effective-v2/public-contracts.schema.json",
+      "bytes": 313620,
+      "rawBytesSha256": "97fea5becea4b1f81f5c99daa1dac4d76646886c8888a9f3d4ff4923d3a3fbd0"
+    },
+    {
+      "file": "tools/rust-r4ghi/joint-g1/effective-v2/source-context.schema.json",
+      "bytes": 60873,
+      "rawBytesSha256": "f0abc899fc121ff68b2c8f50625f8f4b8e1dd3b9f15e90ff274c6a6c5c718f3c"
+    },
+    {
+      "file": "tools/rust-r4ghi/joint-g1/effective-v2/legacy-current-contract.json",
+      "bytes": 1481,
+      "rawBytesSha256": "65a57f65a6964b45ba7d6aeaf67a4511224a6bf59f1e2f338513836f2729207c"
+    }
+  ],
+  "canonicalNameCorrection": "The first capture requested an absent CreatePeriodEndSnapshotRequest nickname; the actual unchanged canonical name is CreatePeriodClosingSnapshotRequest, confirmed by both OpenAPI operation request ref and this full schema.",
+  "periodStorageTable": "period_closing_snapshot",
+  "staticDDLIsNotPGExecution": true,
+  "RootProductEdited": false,
+  "SQL": false,
+  "HTTP": false
+}
