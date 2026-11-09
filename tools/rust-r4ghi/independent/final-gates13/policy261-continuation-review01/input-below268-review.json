@@ -1,0 +1,126 @@
+{
+  "kind": "non-author-exact-input-admission-H261-below268",
+  "reviewer": "/root/r4ghi_final_gates13",
+  "status": "admissible-for-one-exact-below-fresh-auth-and-real-H-GET-execution",
+  "approvedInput": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/policy261-below268.json",
+    "rawBytesSha256": "bb78c8aef62616f720787c3ccff18fc11f37cf96c8ddab63f95abaae2a8135de",
+    "bytes": 2827
+  },
+  "approvedMode": "below",
+  "approvedEpoch": "g2-business13",
+  "approvedRun": "main01",
+  "codeAdmission": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/policy261-continuation-review01/below-code-review261.json",
+    "rawBytesSha256": "e52d275888e22df77e6d473fc737dbc1f00d887e7dc3b8795b59db4de350da85"
+  },
+  "exactActualExecutionSources": [
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/policy-replayless261-continuation01/core261.mjs",
+      "rawBytesSha256": "0fe889f86e59c253ca8e397338b535509d5ec0485a8ab09f6c5a7abf5bfef6d3",
+      "bytes": 16340
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/policy-replayless261-continuation01/publish261.mjs",
+      "rawBytesSha256": "de377243da452609b38e8efac7e49f415cc26a4216ed4afc3cc3c1941dd5d9c0",
+      "bytes": 11933
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/policy-replayless261-continuation01/cases261.mjs",
+      "rawBytesSha256": "3417200789cb96c40f41f23b211abdd3b6dd54adf6b4698148a217ca8f581b92",
+      "bytes": 17697
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/policy-replayless261-continuation01/continue261.mjs",
+      "rawBytesSha256": "3c9f42104ff3a172da823fb88b7b63120b278a8407235d9bfc7c8d518bc8d7a5",
+      "bytes": 12737
+    }
+  ],
+  "expectedEntry": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/policy261-publication264/state-after-exact-block-removal261.json",
+    "rawBytesSha256": "7b68f60b85ad6b662603034f0f8434fe2b8b64320796da1bdb66be1106115979",
+    "bytes": 13437813
+  },
+  "actualReconciliation": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/policy261-publication264/published261.json",
+    "rawBytesSha256": "c4384a92025b489b0d84b8bf6fe68d33d7cd9cb5ff4c0398341bdd169dd0e929",
+    "bytes": 3256
+  },
+  "originalRuntime246": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/policy-runtime246.json",
+    "rawBytesSha256": "fdbb4760089dd3b9a8906dcfa9112f0cc03da3adb166cbbf20432b493e77ecba"
+  },
+  "parentArchive721": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-retained-inputs259/receipt259.json",
+    "rawBytesSha256": "f74400ab83c926e3a6593b1b2b2b2143608dbe7bb7914a9741963806f0d118e1"
+  },
+  "originalStopped260": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/policy247-failure260/state-after-policy-stop260.json",
+    "rawBytesSha256": "cce0b93984c9d554f3a6b5f6fdcca6a13b65c54d4964f7fb5c9c24d03da78e30"
+  },
+  "checks": {
+    "inputRawBytesMatched": true,
+    "strictInputKeysAndModeMatchCode": true,
+    "codeReviewApprovedOnlyBelow": true,
+    "all4ActualSourceFileHashesAndDeclaredBytesMatched": true,
+    "all4ActualSourcesRegularNonSymlinkNlink1": true,
+    "actualSourcesMatchCodeAdmissionAndOneRuntimeDirectory": true,
+    "entryIsImmutableNotLiveState": true,
+    "entryRaw7b68AndBytes13437813": true,
+    "fullAckC438AndBytes3256": true,
+    "ackOwnershipProofMatchesEntryHistory": true,
+    "counter320": true,
+    "noActiveBlockOrFIInFixedEntry": true,
+    "originalStoppedStageStillStopped": true,
+    "noPriorBelowPublishedOrContinuationInEntry": true,
+    "old246FdbAnd259F744And260PinObjectsPreserved": true,
+    "runtimeActualBytes209980CanonicalizeToRetainedRecord": true,
+    "runtimeSources416AndHelpers198AndSourceBasesByteHashVerified": true,
+    "sameAPI136BinaryAndM98": true,
+    "inputNotMutated": true,
+    "codeReviewStillHasNoActualInputReference": true,
+    "noSelfReviewInputHashCycle": true
+  },
+  "allowedEffects": [
+    "Fresh manager login/current-auth-session verification required by exact below branch.",
+    "Only real getOperatingSignalEvaluation and four getCommissionGateBinding H reads, including necessary security audit/session/ownership metadata.",
+    "Existing317 G command/snapshot/context read from fixed FS; append explicitly lineage-bound below proof only if actual H assertions succeed."
+  ],
+  "prohibitedEffects": [
+    "No G POST or G GET, no replay of317, no mocked/intercepted API return.",
+    "No h04/equal/above/complete mode under this review.",
+    "No historical-budget272 policy application, Source14 startup/admission, hot swap of416/198/API136, or relabel of Source13 execution.",
+    "No automatic retry of running/stopped/unknown result, no blanket ownership exemption or old failure rewrite."
+  ],
+  "executionPreconditions": [
+    "At actual start exact4 sources/input bytes remain pinned; use requiredNode24.19.0 and ordinary frozen API.",
+    "Nonce lock plus actual live entry CAS must still equal7b68 beforecontext; this reviewer did not read mutable current state or query live DB/PID.",
+    "Any drift/activefault/globalblock/partial must stop; retain actual command/stdout/HTTP/ledger and outcome without guessing success."
+  ],
+  "actualBelowExecution": null,
+  "actualBelowBusinessVerified": false,
+  "postExecutionState": null,
+  "nonGoals": {
+    "guard02OtherModeReview": false,
+    "Source14FinalGraph": null,
+    "user272DesignReview": false,
+    "Stage249256NotClaimedFinal14": true
+  },
+  "actions": {
+    "fixedFSRead": true,
+    "ownReviewFilesOnly": true,
+    "privateInputWrittenOrChanged": false,
+    "liveStateRead": false,
+    "SQL": false,
+    "HTTP": false,
+    "processQueryOrStartStop": false,
+    "executeContinuation": false,
+    "privatePayloadCopied": false
+  },
+  "formalRustOperations": 240,
+  "newCertifiedOperations": 0,
+  "G3Reviewed": false,
+  "G3Certified": false,
+  "G4Reviewed": false,
+  "G4Certified": false
+}

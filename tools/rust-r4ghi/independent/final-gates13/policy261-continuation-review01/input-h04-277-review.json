@@ -1,0 +1,130 @@
+{
+  "kind": "non-author-exact-input-admission-H261-h04-277",
+  "status": "admissible-for-one-exact-h04-fresh-auth-real-signal-review-and-four-H-GET-execution",
+  "reviewer": "/root/r4ghi_final_gates13",
+  "reviewerIsAuthor": false,
+  "reviewedAt": "2026-11-08T23:52:37.335Z",
+  "approvedInput": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/policy261-h04-277.json",
+    "rawBytesSha256": "61e71d5c234c0d623578720dd71f9ba7ca2d9da44170f3a4879750f4408febae",
+    "bytes": 2793
+  },
+  "approvedMode": "h04",
+  "codeAdmission": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/policy261-continuation-review01/guard03-code-review261.json",
+    "bytes": 8106,
+    "rawBytesSha256": "e1b61fb4caf4f8d417ddc12c426fd689c79af446c2abb0a794fdbed4894273be"
+  },
+  "exactActualExecutionSources": [
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/policy-replayless261-continuation03/core261.mjs",
+      "bytes": 16340,
+      "rawBytesSha256": "0fe889f86e59c253ca8e397338b535509d5ec0485a8ab09f6c5a7abf5bfef6d3"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/policy-replayless261-continuation03/publish261.mjs",
+      "bytes": 11933,
+      "rawBytesSha256": "de377243da452609b38e8efac7e49f415cc26a4216ed4afc3cc3c1941dd5d9c0"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/policy-replayless261-continuation03/cases261.mjs",
+      "bytes": 40332,
+      "rawBytesSha256": "a75d9dbed57869ca3299c7edcc2dd3bbdf526cf2a8cd21235e2aa8c0611f9331"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/policy-replayless261-continuation03/continue261.mjs",
+      "bytes": 12737,
+      "rawBytesSha256": "3c9f42104ff3a172da823fb88b7b63120b278a8407235d9bfc7c8d518bc8d7a5"
+    }
+  ],
+  "expectedEntry": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/policy269-below/state-after-below269.json",
+    "bytes": 13444372,
+    "rawBytesSha256": "4c36278e86c88f443480cac3f43dcc8c0d9c08bc3cc4183ed367c0adb7842813"
+  },
+  "actualReconciliation": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/policy261-publication264/published261.json",
+    "bytes": 3256,
+    "rawBytesSha256": "c4384a92025b489b0d84b8bf6fe68d33d7cd9cb5ff4c0398341bdd169dd0e929"
+  },
+  "baseProtocolPins": {
+    "runtimeBindings46": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/policy-runtime246.json",
+      "rawBytesSha256": "fdbb4760089dd3b9a8906dcfa9112f0cc03da3adb166cbbf20432b493e77ecba"
+    },
+    "parentArchive721": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-retained-inputs259/receipt259.json",
+      "rawBytesSha256": "f74400ab83c926e3a6593b1b2b2b2143608dbe7bb7914a9741963806f0d118e1"
+    },
+    "originalStoppedState260": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/policy247-failure260/state-after-policy-stop260.json",
+      "rawBytesSha256": "cce0b93984c9d554f3a6b5f6fdcca6a13b65c54d4964f7fb5c9c24d03da78e30"
+    }
+  },
+  "verified": {
+    "allInputBytesAndPinClosure": true,
+    "onlyExpectedChangesFromBelow268": [
+      "mode below to h04",
+      "code review e1b61 and full bytes8106",
+      "distinct actual external edition03 four leaves",
+      "immutable entry4c36 at sequence342"
+    ],
+    "otherPinObjectsDeepEqualToPreviouslyApproved268": true,
+    "exactExecutionSourcesEqualCodeAdmission": true,
+    "entrySequence": 342,
+    "entryAuthBelowAndBelowVerified": true,
+    "entryH04Absent": true,
+    "entryMaterialityReviewAbsent": true,
+    "entryNoFaultBlockCleanupOrFinalH46Result": true,
+    "entryOriginalElevenStagesAndStoppedLabelPreserved": true,
+    "targetSignalFromActualBelow": "e4796d60-9446-40ce-9b09-8b7610bde016",
+    "targetSnapshotFromCommitted317": "19b1de0b-a834-4636-bb4e-ea8c22703238",
+    "targetHasNoActiveModernReviewInFullyVerified269DomainCaptures": true,
+    "expectedNewReviewPredecessor": null,
+    "fullReconciliationAckUsed": true,
+    "noMutableStateAsPin": true,
+    "noSelfReferenceOrInputBackfill": true
+  },
+  "authorizedBoundary": {
+    "namespace": "poms-r4ghi",
+    "epoch": "g2-business13",
+    "run": "main01",
+    "Source14Allowed": false,
+    "onlyMode": "h04",
+    "freshAuth": "Real manager auth through unchanged ordinary API, with nonce ownership and exact entry CAS before context.",
+    "domainRequests": [
+      "One real target operating-signal GET",
+      "One ordinary modern reviewOperatingSignalEvaluation POST using real server source/version/hash and original materiality body",
+      "Four real H commission-gate GETs"
+    ],
+    "GRequestAllowed": false,
+    "MainPOSTAllowed": false,
+    "receiptOrSnapshotProducerAllowed": false,
+    "original317ReplayAllowed": false,
+    "nextModeAutoExecutionAllowed": false,
+    "APIReplacementOrSyntheticSuccessAllowed": false,
+    "partialOrUnknownOutcome": "Preserve exact originals and stopped/block metadata; do not resend a possibly committed review.",
+    "perModeLaterInputReviewRequired": true
+  },
+  "historicalEvidenceBoundary": {
+    "oldBelow01FourLeafPathsAndBytesPreserved": true,
+    "guard02OpenC02SealNotRewritten": true,
+    "guard03ClosesC02WithoutRelabellingPriorEvidence": true,
+    "original318OwnershipFalseAndOriginalStoppedStageRemain": true,
+    "producerEpochAndSourceGenerationRemain13": true
+  },
+  "boundaries": {
+    "RootWrites": false,
+    "liveStateRead": false,
+    "SQL": false,
+    "HTTP": false,
+    "processOrPIDRead": false,
+    "actualH04ExecutionClaimed": false,
+    "completeH46Claimed": false,
+    "RustOfficial": 240,
+    "newlyCertified": 0,
+    "currentConsumerCertificationGranted": false,
+    "G3": false,
+    "G4": false
+  }
+}

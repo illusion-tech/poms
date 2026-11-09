@@ -1,0 +1,795 @@
+{
+  "kind": "non-author-actual-H04-280-full-fixedFS-readback",
+  "reviewer": "/root/r4ghi_final_gates13",
+  "node": "v26.13.0",
+  "command": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/policy280-h04/command280.json",
+    "rawBytesSha256": "b3ad8ea84ee60be5898952b44f0bb786d3dfa2462758d62218a406f7f4ef3e59"
+  },
+  "actualStep": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000366-h261-step-h04.json",
+    "rawBytesSha256": "73a523ca957e7bb4cc31564bae79c89bae964f11119bf6af8e1a730c2493acca"
+  },
+  "immutableAfter": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/policy280-h04/state-after-h04-280.json",
+    "bytes": 13529606,
+    "rawBytesSha256": "af245ff8ed1047fe2f8176b6fcd828f95af657e86feba29ab03a6963706285a4"
+  },
+  "index": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/policy280-h04/http-index282.json",
+    "bytes": 25509,
+    "rawBytesSha256": "d90b00454f02ff995b26bb7e804a018e685879aa8b51a2cd532be191ae8fb74d"
+  },
+  "consumedCodeReview": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/policy261-continuation-review01/guard03-code-review261.json",
+    "bytes": 8106,
+    "rawBytesSha256": "e1b61fb4caf4f8d417ddc12c426fd689c79af446c2abb0a794fdbed4894273be"
+  },
+  "consumedInput": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/policy261-h04-279.json",
+    "bytes": 2809,
+    "rawBytesSha256": "95416f30a046d68baf21a519aac29a3bc2892d11e564c122016aa067b25c2104"
+  },
+  "consumedSources": [
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/policy-replayless261-continuation03/core261.mjs",
+      "bytes": 16340,
+      "rawBytesSha256": "0fe889f86e59c253ca8e397338b535509d5ec0485a8ab09f6c5a7abf5bfef6d3"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/policy-replayless261-continuation03/publish261.mjs",
+      "bytes": 11933,
+      "rawBytesSha256": "de377243da452609b38e8efac7e49f415cc26a4216ed4afc3cc3c1941dd5d9c0"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/policy-replayless261-continuation03/cases261.mjs",
+      "bytes": 40332,
+      "rawBytesSha256": "a75d9dbed57869ca3299c7edcc2dd3bbdf526cf2a8cd21235e2aa8c0611f9331"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/policy-replayless261-continuation03/continue261.mjs",
+      "bytes": 12737,
+      "rawBytesSha256": "3c9f42104ff3a172da823fb88b7b63120b278a8407235d9bfc7c8d518bc8d7a5"
+    }
+  ],
+  "commandExitCode": 0,
+  "actualHTTPRequestCount": 10,
+  "authRequestCount": 4,
+  "HGETCount": 5,
+  "HReviewPOSTCount": 1,
+  "GRequestCount": 0,
+  "allComplete200": true,
+  "allTenLedgersComplete": true,
+  "allBlockersZero": true,
+  "requests": [
+    {
+      "operationId": "AuthController_getCsrfToken",
+      "method": "GET",
+      "status": 200,
+      "http": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business13/main01/000344-http-http.json",
+        "bytes": 1655,
+        "rawBytesSha256": "5471c085e335fbdbd7464cd52b51fbeb5831b5c850f6f453af3fb1318a8502a6"
+      },
+      "ledger": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000345-ledger.json",
+        "bytes": 740,
+        "rawBytesSha256": "090a77a0e9a5d055d998f225007dd39137ccf0435bef04faab2a1dfac2eeabf7"
+      },
+      "ownershipComplete": true,
+      "blockers": 0,
+      "deltaRows": 0,
+      "NativeDeltaRows": 0
+    },
+    {
+      "operationId": "AuthController_createPasswordAuthSession",
+      "method": "POST",
+      "status": 200,
+      "http": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business13/main01/000346-http-http.json",
+        "bytes": 1670,
+        "rawBytesSha256": "53edf4e14d648b78039332d79187e0bf775561329e0400c248ac05827dfbab62"
+      },
+      "ledger": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000347-ledger.json",
+        "bytes": 936,
+        "rawBytesSha256": "1a6af11a09e3129aa10f90ba23097f8ad06170492b443a6dfc429867cf9221e4"
+      },
+      "ownershipComplete": true,
+      "blockers": 0,
+      "deltaRows": 1,
+      "NativeDeltaRows": 0
+    },
+    {
+      "operationId": "AuthController_getCurrentAuthSession",
+      "method": "GET",
+      "status": 200,
+      "http": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business13/main01/000348-http-http.json",
+        "bytes": 1662,
+        "rawBytesSha256": "5cc9b9746eed27f2b61f6f7008ed02fc80005b5190bc7f1489d1220f8fc27cc3"
+      },
+      "ledger": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000349-ledger.json",
+        "bytes": 749,
+        "rawBytesSha256": "dc4832eada02e88caba8d72ed9117cb4014d8328ec61bba1cd1defec1ab9564b"
+      },
+      "ownershipComplete": true,
+      "blockers": 0,
+      "deltaRows": 0,
+      "NativeDeltaRows": 0
+    },
+    {
+      "operationId": "AuthController_getCurrentAuthSession",
+      "method": "GET",
+      "status": 200,
+      "http": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business13/main01/000350-http-http.json",
+        "bytes": 1662,
+        "rawBytesSha256": "f053a7138ac30dbfe4f1d372c395e9233edfc64b0643d80e006311166fe5d911"
+      },
+      "ledger": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000351-ledger.json",
+        "bytes": 749,
+        "rawBytesSha256": "9e60263c8a34d09193f7e8a360cb70faae1961256b292db679af9ca10cbeaf09"
+      },
+      "ownershipComplete": true,
+      "blockers": 0,
+      "deltaRows": 0,
+      "NativeDeltaRows": 0
+    },
+    {
+      "operationId": "ProjectCostController_getOperatingSignalEvaluation",
+      "method": "GET",
+      "status": 200,
+      "http": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business13/main01/000353-http-http.json",
+        "bytes": 1697,
+        "rawBytesSha256": "a55eacf1e96b8e9c10687b860f020e7f4a6dd0c62166aea3e2c940bfa25ac8e2"
+      },
+      "ledger": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000354-ledger.json",
+        "bytes": 909,
+        "rawBytesSha256": "013bb8834f876d59c087b4ce46e068fccbba317ebd4eda76532029c9f916ee17"
+      },
+      "ownershipComplete": true,
+      "blockers": 0,
+      "deltaRows": 1,
+      "NativeDeltaRows": 0
+    },
+    {
+      "operationId": "ProjectCostController_reviewOperatingSignalEvaluation",
+      "method": "POST",
+      "status": 200,
+      "http": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business13/main01/000355-http-http.json",
+        "bytes": 1712,
+        "rawBytesSha256": "1d59d51dd0af595803aa7e2746854826f56c0cad4cf3c8028b93498b1164b57c"
+      },
+      "ledger": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000356-ledger.json",
+        "bytes": 7890,
+        "rawBytesSha256": "0e3f77554dcc143fb43600cc27d5098f2acacf3531b182c3390ae26f2ca0d982"
+      },
+      "ownershipComplete": true,
+      "blockers": 0,
+      "deltaRows": 36,
+      "NativeDeltaRows": 0
+    },
+    {
+      "operationId": "ProjectCostController_getCommissionGateBinding",
+      "method": "GET",
+      "status": 200,
+      "http": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business13/main01/000357-http-http.json",
+        "bytes": 1689,
+        "rawBytesSha256": "45f158f9d2acc2c5dcb4ce918063236dcf81d2c6b4ba734ef9c438d60d5a906e"
+      },
+      "ledger": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000358-ledger.json",
+        "bytes": 759,
+        "rawBytesSha256": "613e0fbae2ef8429bbfc9d5e132e0c8c3109e13290a57525cb4fd91cb3c2fcb7"
+      },
+      "ownershipComplete": true,
+      "blockers": 0,
+      "deltaRows": 0,
+      "NativeDeltaRows": 0
+    },
+    {
+      "operationId": "ProjectCostController_getCommissionGateBinding",
+      "method": "GET",
+      "status": 200,
+      "http": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business13/main01/000359-http-http.json",
+        "bytes": 1689,
+        "rawBytesSha256": "802fe957fcbeaa3dd6296d6f42950011785a316f479bb851d6a8f79f62a10739"
+      },
+      "ledger": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000360-ledger.json",
+        "bytes": 759,
+        "rawBytesSha256": "52399841440959da167885b83d22d9c78bef8c34322895d476224e924e5374db"
+      },
+      "ownershipComplete": true,
+      "blockers": 0,
+      "deltaRows": 0,
+      "NativeDeltaRows": 0
+    },
+    {
+      "operationId": "ProjectCostController_getCommissionGateBinding",
+      "method": "GET",
+      "status": 200,
+      "http": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business13/main01/000361-http-http.json",
+        "bytes": 1689,
+        "rawBytesSha256": "f22b066c00dc0d44df53b9303c86c6ff8682eb53cad4a211fe0634e87a7dc0a9"
+      },
+      "ledger": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000362-ledger.json",
+        "bytes": 759,
+        "rawBytesSha256": "67f67d16fa485111638316fb6702cc683af5097cb29c1696502266e78463fa77"
+      },
+      "ownershipComplete": true,
+      "blockers": 0,
+      "deltaRows": 0,
+      "NativeDeltaRows": 0
+    },
+    {
+      "operationId": "ProjectCostController_getCommissionGateBinding",
+      "method": "GET",
+      "status": 200,
+      "http": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business13/main01/000363-http-http.json",
+        "bytes": 1689,
+        "rawBytesSha256": "e3b2789947bdc9d41ef1e8c467ff9211e0c2afe200089eff11ab7f1a7bfd0593"
+      },
+      "ledger": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000364-ledger.json",
+        "bytes": 759,
+        "rawBytesSha256": "22be4ab7d222266a863cb1819394161b005e70e0436b1bf528aef21bb8ecc8ef"
+      },
+      "ownershipComplete": true,
+      "blockers": 0,
+      "deltaRows": 0,
+      "NativeDeltaRows": 0
+    }
+  ],
+  "fullSnapshotPairs": 10,
+  "databases": 2,
+  "tablesPerDatabase": 139,
+  "tableFilesVerified": 5560,
+  "rowReferencesVerified": 98336,
+  "allRawHashesVerified": true,
+  "adjacentCaptureContinuity": true,
+  "schemaSequencesObjectsMetaEqual": true,
+  "NativeDeltaRows": 0,
+  "authDeltaRows": 2,
+  "reviewDeltaRows": 36,
+  "reviewBirths": 31,
+  "reviewUpdates": 5,
+  "reviewCommonXmin": "4817",
+  "reviewTransaction": {
+    "http": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business13/main01/000355-http-http.json",
+      "bytes": 1712,
+      "rawBytesSha256": "1d59d51dd0af595803aa7e2746854826f56c0cad4cf3c8028b93498b1164b57c"
+    },
+    "ledger": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000356-ledger.json",
+      "bytes": 7890,
+      "rawBytesSha256": "0e3f77554dcc143fb43600cc27d5098f2acacf3531b182c3390ae26f2ca0d982"
+    },
+    "before": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/snapshot-000355-http-before.json",
+      "bytes": 3138053,
+      "rawBytesSha256": "aab829991c66c3ee7b0dabf68ef0c3104c734172945cff7a8187ce23849c14f1"
+    },
+    "after": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/snapshot-000355-http-after.json",
+      "bytes": 3137774,
+      "rawBytesSha256": "afecc904706bcc165363b080a814a8598e1245e0fdc87c28ffc73cf01e6ae193"
+    },
+    "requestBody": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000355-http-request-body.bin",
+      "bytes": 1078,
+      "rawBytesSha256": "cd9413bda664c9afed3dbe5235b4fb1ec69b38b06cd0918a30941024d252a28c"
+    },
+    "responseBody": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/000355-http-response-body.bin",
+      "bytes": 4509,
+      "rawBytesSha256": "0d12862b3499365772e0815ec4d3ff9f5bf41a1539d69baed5b8731e3cb69b95"
+    }
+  },
+  "reviewRowMetadata": [
+    {
+      "database": "poms_r4ghi_rust",
+      "table": "approval_summary_field_projection",
+      "key": [
+        "148e6241-6270-47c3-b4d5-978f50dff35b"
+      ],
+      "kind": "birth",
+      "beforeSha256": null,
+      "afterSha256": "c3a91464e10f89972111420ec6b8952194658821a0f765a3d0718678e90d3610",
+      "beforeXmin": null,
+      "afterXmin": "4817"
+    },
+    {
+      "database": "poms_r4ghi_rust",
+      "table": "approval_summary_field_projection",
+      "key": [
+        "1c2d5be8-8e8a-499e-abdc-61bb197d6ad7"
+      ],
+      "kind": "birth",
+      "beforeSha256": null,
+      "afterSha256": "c8eb0ac19b4c382fa8a3863993fa72cc940f5d803e48c090bf999eda1a4e2f82",
+      "beforeXmin": null,
+      "afterXmin": "4817"
+    },
+    {
+      "database": "poms_r4ghi_rust",
+      "table": "approval_summary_field_projection",
+      "key": [
+        "26f32f0d-cb03-4d25-8d6b-04a90f21bdbf"
+      ],
+      "kind": "birth",
+      "beforeSha256": null,
+      "afterSha256": "a8c378cb70112ca1b90606ae88151be61cc2d06a74ecad2d3b937ab0d2a158d8",
+      "beforeXmin": null,
+      "afterXmin": "4817"
+    },
+    {
+      "database": "poms_r4ghi_rust",
+      "table": "approval_summary_field_projection",
+      "key": [
+        "2738d6ae-7b47-40cd-b3c0-79ac9ae5ade3"
+      ],
+      "kind": "birth",
+      "beforeSha256": null,
+      "afterSha256": "a0fa571f32fe728c9ce179d9869a0b726776abc7cbac8798158b034ba40d7902",
+      "beforeXmin": null,
+      "afterXmin": "4817"
+    },
+    {
+      "database": "poms_r4ghi_rust",
+      "table": "approval_summary_field_projection",
+      "key": [
+        "33de13ab-9088-4434-a0ee-575b047e65f9"
+      ],
+      "kind": "birth",
+      "beforeSha256": null,
+      "afterSha256": "533d873ef86d34727cb56050429f70edcb488870a5a190bb87758efd6e67a1b3",
+      "beforeXmin": null,
+      "afterXmin": "4817"
+    },
+    {
+      "database": "poms_r4ghi_rust",
+      "table": "approval_summary_field_projection",
+      "key": [
+        "3d625849-61ea-4474-a8a8-924970c6df42"
+      ],
+      "kind": "birth",
+      "beforeSha256": null,
+      "afterSha256": "39e1365557a5d6bc3d76e6146a36b1fc7c25cd1e36dc4068c8d46239ab0e6c12",
+      "beforeXmin": null,
+      "afterXmin": "4817"
+    },
+    {
+      "database": "poms_r4ghi_rust",
+      "table": "approval_summary_field_projection",
+      "key": [
+        "49f6698a-61d3-4b21-b4ee-7212277574dd"
+      ],
+      "kind": "birth",
+      "beforeSha256": null,
+      "afterSha256": "495f18888739bafa68ca303ac7b8f9b69d909e3a5a91df539f880f4392159a7b",
+      "beforeXmin": null,
+      "afterXmin": "4817"
+    },
+    {
+      "database": "poms_r4ghi_rust",
+      "table": "approval_summary_field_projection",
+      "key": [
+        "58e51fb0-280f-46da-8ee9-b474ae525dd5"
+      ],
+      "kind": "birth",
+      "beforeSha256": null,
+      "afterSha256": "b8aff5480bf377894a1370922ac68275099299c841f10b6c59fd61c047b04555",
+      "beforeXmin": null,
+      "afterXmin": "4817"
+    },
+    {
+      "database": "poms_r4ghi_rust",
+      "table": "approval_summary_field_projection",
+      "key": [
+        "5a4c413d-0fb9-4005-87ed-66092a8c538e"
+      ],
+      "kind": "birth",
+      "beforeSha256": null,
+      "afterSha256": "06734adfcb57fe7a353c603d8135b833d4b8efe219194ca2f5e490a674c4ec78",
+      "beforeXmin": null,
+      "afterXmin": "4817"
+    },
+    {
+      "database": "poms_r4ghi_rust",
+      "table": "approval_summary_field_projection",
+      "key": [
+        "8bc913da-ef00-40f3-8c02-9414a55181b6"
+      ],
+      "kind": "birth",
+      "beforeSha256": null,
+      "afterSha256": "6e87edb5ded4f66ebf9351188bee211dabdf07864b80f2048a5c6fe202fe5295",
+      "beforeXmin": null,
+      "afterXmin": "4817"
+    },
+    {
+      "database": "poms_r4ghi_rust",
+      "table": "approval_summary_field_projection",
+      "key": [
+        "9909d212-e101-4a85-addb-61727885f7be"
+      ],
+      "kind": "birth",
+      "beforeSha256": null,
+      "afterSha256": "abb2f49fb86d7e4bc12db2f0f352bcef39ab6bc188f79480ddab02ba65770ab3",
+      "beforeXmin": null,
+      "afterXmin": "4817"
+    },
+    {
+      "database": "poms_r4ghi_rust",
+      "table": "approval_summary_field_projection",
+      "key": [
+        "a2930092-f272-4ba2-8d58-500eebf832e2"
+      ],
+      "kind": "birth",
+      "beforeSha256": null,
+      "afterSha256": "81cebc636d60582eda9a3ea2ea6661b574eb9045893a4111b452802fad8e1a14",
+      "beforeXmin": null,
+      "afterXmin": "4817"
+    },
+    {
+      "database": "poms_r4ghi_rust",
+      "table": "approval_summary_field_projection",
+      "key": [
+        "a6bc08d9-2083-4538-842c-706816219672"
+      ],
+      "kind": "birth",
+      "beforeSha256": null,
+      "afterSha256": "50caedf529fe7af5fc7810812a7a0bf03e340e7ada280d8f04ba6f316b0d82e3",
+      "beforeXmin": null,
+      "afterXmin": "4817"
+    },
+    {
+      "database": "poms_r4ghi_rust",
+      "table": "approval_summary_field_projection",
+      "key": [
+        "c1efbd40-8cf2-41c7-8314-c73540772bfd"
+      ],
+      "kind": "birth",
+      "beforeSha256": null,
+      "afterSha256": "412b6211c6d50e09f283b1ff0a260a9eaf8814a8f50ef3b4d6ce047c7093f1aa",
+      "beforeXmin": null,
+      "afterXmin": "4817"
+    },
+    {
+      "database": "poms_r4ghi_rust",
+      "table": "approval_summary_field_projection",
+      "key": [
+        "c37f0a63-4f04-4740-87d0-7cd5580903f7"
+      ],
+      "kind": "birth",
+      "beforeSha256": null,
+      "afterSha256": "df0f3405667e0dff78b37d3eeafb76c9999dcbbec738725356107600184f446d",
+      "beforeXmin": null,
+      "afterXmin": "4817"
+    },
+    {
+      "database": "poms_r4ghi_rust",
+      "table": "approval_summary_field_projection",
+      "key": [
+        "d7940ee4-c134-4146-b8b5-19d7c28ea344"
+      ],
+      "kind": "birth",
+      "beforeSha256": null,
+      "afterSha256": "13b2206ded3b143f719c29dd06938f0960bcc3f3ebcbc031050a8d7bbc980f3a",
+      "beforeXmin": null,
+      "afterXmin": "4817"
+    },
+    {
+      "database": "poms_r4ghi_rust",
+      "table": "approval_summary_snapshot",
+      "key": [
+        "006e7bff-8d90-4245-8ab3-015d031bd1e0"
+      ],
+      "kind": "birth",
+      "beforeSha256": null,
+      "afterSha256": "320ff4c2a3f900c0c69a0b97c8440432bce503a61c2143e7ea486f1907abeb5a",
+      "beforeXmin": null,
+      "afterXmin": "4817"
+    },
+    {
+      "database": "poms_r4ghi_rust",
+      "table": "approval_summary_snapshot",
+      "key": [
+        "3cd6208a-de11-4fbf-b7e2-cee56e68e812"
+      ],
+      "kind": "birth",
+      "beforeSha256": null,
+      "afterSha256": "7191e7be01f011901883300b4fa157449ca82a0002337f742124f3766625cc89",
+      "beforeXmin": null,
+      "afterXmin": "4817"
+    },
+    {
+      "database": "poms_r4ghi_rust",
+      "table": "approval_summary_snapshot",
+      "key": [
+        "c4f7cf3e-7cce-4cd2-9a64-329d7d8b3f88"
+      ],
+      "kind": "birth",
+      "beforeSha256": null,
+      "afterSha256": "b9424fe575ff33ea7bb4403862d1acb8d2a6da0be0e563d178c17d32a75b5d45",
+      "beforeXmin": null,
+      "afterXmin": "4817"
+    },
+    {
+      "database": "poms_r4ghi_rust",
+      "table": "approval_summary_snapshot",
+      "key": [
+        "d04c65da-2f95-4a97-8f2a-b7b297e804ee"
+      ],
+      "kind": "birth",
+      "beforeSha256": null,
+      "afterSha256": "42ff1d6833a1baca3b9f87797fc2dbd6a2b04e7dbe5588d24103f4cc116eef08",
+      "beforeXmin": null,
+      "afterXmin": "4817"
+    },
+    {
+      "database": "poms_r4ghi_rust",
+      "table": "audit_log",
+      "key": [
+        "6fe771a1-63e6-48ce-a3ff-3031af1e4f3c"
+      ],
+      "kind": "birth",
+      "beforeSha256": null,
+      "afterSha256": "6f51c4fced276b88ee4f18825d6a6be90c615417cfc3ee76aa820d94ef13979a",
+      "beforeXmin": null,
+      "afterXmin": "4817"
+    },
+    {
+      "database": "poms_r4ghi_rust",
+      "table": "operating_command_receipt",
+      "key": [
+        "60d7fa40-59da-4e84-8156-6a1aff68ab78"
+      ],
+      "kind": "birth",
+      "beforeSha256": null,
+      "afterSha256": "e5f7df3cc8ad13460fe7d733546af2b5a5317abc26b914d3988edd3a8955ef2c",
+      "beforeXmin": null,
+      "afterXmin": "4817"
+    },
+    {
+      "database": "poms_r4ghi_rust",
+      "table": "operating_gate_summary_payload",
+      "key": [
+        "006e7bff-8d90-4245-8ab3-015d031bd1e0"
+      ],
+      "kind": "birth",
+      "beforeSha256": null,
+      "afterSha256": "e98ce1f864dc0d8466d2895773a0e6a968761564b7c466ac8dc2787ef9a801d9",
+      "beforeXmin": null,
+      "afterXmin": "4817"
+    },
+    {
+      "database": "poms_r4ghi_rust",
+      "table": "operating_gate_summary_payload",
+      "key": [
+        "3cd6208a-de11-4fbf-b7e2-cee56e68e812"
+      ],
+      "kind": "birth",
+      "beforeSha256": null,
+      "afterSha256": "43f669f1ea84c7037278462139f854abb0f6f8586d456ea9d37979fe9e6196ef",
+      "beforeXmin": null,
+      "afterXmin": "4817"
+    },
+    {
+      "database": "poms_r4ghi_rust",
+      "table": "operating_gate_summary_payload",
+      "key": [
+        "c4f7cf3e-7cce-4cd2-9a64-329d7d8b3f88"
+      ],
+      "kind": "birth",
+      "beforeSha256": null,
+      "afterSha256": "b3c06bb6d561257adbce99974ac99e7dbfc197057cb27291870b5b0ff9305c7f",
+      "beforeXmin": null,
+      "afterXmin": "4817"
+    },
+    {
+      "database": "poms_r4ghi_rust",
+      "table": "operating_gate_summary_payload",
+      "key": [
+        "d04c65da-2f95-4a97-8f2a-b7b297e804ee"
+      ],
+      "kind": "birth",
+      "beforeSha256": null,
+      "afterSha256": "9c57b68f555930071f96650a2cb548d2ae7bc8268377889f559ad0fd11365052",
+      "beforeXmin": null,
+      "afterXmin": "4817"
+    },
+    {
+      "database": "poms_r4ghi_rust",
+      "table": "operating_signal_evaluation_result",
+      "key": [
+        "e4796d60-9446-40ce-9b09-8b7610bde016"
+      ],
+      "kind": "update",
+      "beforeSha256": "573fb6682b956cafdac4eabbd649b58314f2728654ed3e30615147044b8f9318",
+      "afterSha256": "6532f62d72da8421486d30f13019626fde4289d8f669ceb864f8e4c3dc9d5f33",
+      "beforeXmin": "4806",
+      "afterXmin": "4817"
+    },
+    {
+      "database": "poms_r4ghi_rust",
+      "table": "operating_signal_gate_binding",
+      "key": [
+        "2870dfd7-abae-48d4-82d4-a760d1a68a3b"
+      ],
+      "kind": "birth",
+      "beforeSha256": null,
+      "afterSha256": "dc0121c0aa506bb976e30f1d72f8190aeae5414ecb3e9f0ed9f406e3820e547d",
+      "beforeXmin": null,
+      "afterXmin": "4817"
+    },
+    {
+      "database": "poms_r4ghi_rust",
+      "table": "operating_signal_gate_binding",
+      "key": [
+        "693dadca-928f-4e47-a4c3-1306fd8ef2ad"
+      ],
+      "kind": "birth",
+      "beforeSha256": null,
+      "afterSha256": "0be74d1fe950b266de2c2e9d796fb6064888e04c0030b6d0c0d6ced42bebf040",
+      "beforeXmin": null,
+      "afterXmin": "4817"
+    },
+    {
+      "database": "poms_r4ghi_rust",
+      "table": "operating_signal_gate_binding",
+      "key": [
+        "78c7f3b5-d1da-4df9-a0ad-f7f8b39ea8b0"
+      ],
+      "kind": "update",
+      "beforeSha256": "0bc749de092b86aa6e173d141ffe330e243a402730ee27843685fbc6f474df66",
+      "afterSha256": "c6f2510a3ceac1a676ef358f4288b8d6e97b57762c188174cfccc925ada7accb",
+      "beforeXmin": "4806",
+      "afterXmin": "4817"
+    },
+    {
+      "database": "poms_r4ghi_rust",
+      "table": "operating_signal_gate_binding",
+      "key": [
+        "a0082c48-60ee-4b56-bc55-a05020871f14"
+      ],
+      "kind": "birth",
+      "beforeSha256": null,
+      "afterSha256": "4f8de3281bd0bfb6bd8df3f292b12b94b096fc1182c1917d2e3c3fd3cf2519d8",
+      "beforeXmin": null,
+      "afterXmin": "4817"
+    },
+    {
+      "database": "poms_r4ghi_rust",
+      "table": "operating_signal_gate_binding",
+      "key": [
+        "ae2cdc70-6673-4e38-aa2d-ab0cc04b4d47"
+      ],
+      "kind": "update",
+      "beforeSha256": "8cca99a88406639b9acc1c6992101259323d93b278abc239ffe64a101e2538e8",
+      "afterSha256": "4de00387c72986cd5044b767a9902339995f0575d58f8b149da718916e55cda9",
+      "beforeXmin": "4806",
+      "afterXmin": "4817"
+    },
+    {
+      "database": "poms_r4ghi_rust",
+      "table": "operating_signal_gate_binding",
+      "key": [
+        "d3f3959f-2e13-4fdc-95cc-eb51310d3c22"
+      ],
+      "kind": "update",
+      "beforeSha256": "0b4e6976a72cea9f9c885e15060e50cc5bff65158adef52e1dce18eae4802e1f",
+      "afterSha256": "d8092d3896f184e216f39a275061f91d8974adc3150d89c0a882d11991e41255",
+      "beforeXmin": "4806",
+      "afterXmin": "4817"
+    },
+    {
+      "database": "poms_r4ghi_rust",
+      "table": "operating_signal_gate_binding",
+      "key": [
+        "dab2f8d2-70c9-4ea1-a5ae-ed547ed57f25"
+      ],
+      "kind": "birth",
+      "beforeSha256": null,
+      "afterSha256": "23001a8d661bf638bcd0fa730be68ae5f7f1c5bbc37fb34d303a8caca473f090",
+      "beforeXmin": null,
+      "afterXmin": "4817"
+    },
+    {
+      "database": "poms_r4ghi_rust",
+      "table": "operating_signal_gate_binding",
+      "key": [
+        "ef44b01e-502d-4413-bb76-460695c87801"
+      ],
+      "kind": "update",
+      "beforeSha256": "df48e1dbc91f711a2098edbd9b31c95e6cb150f9a1227a76c963c9cbd2140428",
+      "afterSha256": "2326e2dd844ecd2dfb573e947ccb6be83bceb6024cd86f1c82b94f532ff110f6",
+      "beforeXmin": "4806",
+      "afterXmin": "4817"
+    },
+    {
+      "database": "poms_r4ghi_rust",
+      "table": "operating_signal_review_record",
+      "key": [
+        "b10bcfe1-eeca-40dd-b13e-d4471d18b8eb"
+      ],
+      "kind": "birth",
+      "beforeSha256": null,
+      "afterSha256": "a8e7e3dd805aa17a70e817b259561173a4d97174f3ebaf6a0d64e9d786e027eb",
+      "beforeXmin": null,
+      "afterXmin": "4817"
+    }
+  ],
+  "actualGuard03ClosedDeltaRows": 36,
+  "actualFirstReviewPredecessor": null,
+  "reviewResult": {
+    "reviewRecordId": "b10bcfe1-eeca-40dd-b13e-d4471d18b8eb",
+    "signalId": "e4796d60-9446-40ce-9b09-8b7610bde016",
+    "snapshotId": "19b1de0b-a834-4636-bb4e-ea8c22703238",
+    "sourceHash": "b596f500412393419cd0426ddc21267d3d9191334319d93c4201db99f1cac729",
+    "evaluationHash": "b4cdeed50629a59c46dcf642401d5415eba0975687bd077a52cf22b0e1904d7a",
+    "rowVersion": 2,
+    "systemRisk": "unknown",
+    "effectiveRisk": "attention",
+    "maturity": "mature",
+    "H04InPayloadAndFourSummaries": true,
+    "H08ExcludedFromEffectivePayload": true,
+    "stageActions": {
+      "final": "review",
+      "first": "prompt",
+      "retention": "review",
+      "second": "review"
+    },
+    "oldBaseSnapshotContextEvidenceReasonsAndHeadUnchanged": true
+  },
+  "immutableState": {
+    "sequence": [
+      342,
+      366
+    ],
+    "oldStagesDeepEqual": true,
+    "oldStoppedLabelsPreserved": true,
+    "oldH01AndBelowAnd1999ReceiptDeepEqual": true,
+    "authH04AndH04Verified": true,
+    "equalAbsent": true,
+    "aboveAbsent": true,
+    "completeAbsent": true,
+    "noFaultOrBlock": true,
+    "onlyChangedTopBranches": [
+      "sequence",
+      "actors",
+      "owned",
+      "fixtures"
+    ]
+  },
+  "sourceGeneration": 13,
+  "producerEpoch": "g2-business13",
+  "original317Replayed": false,
+  "failure278Preserved": true,
+  "actualEqualExecuted": false,
+  "actual14": false,
+  "completeH46": false,
+  "RootWrites": false,
+  "liveStateRead": false,
+  "SQL": false,
+  "HTTP": false,
+  "processOrPIDRead": false,
+  "RustOfficial": 240,
+  "newlyCertified": 0,
+  "G3": false,
+  "G4": false,
+  "filesHashed": 5655
+}

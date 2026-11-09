@@ -1,0 +1,59 @@
+{
+  "kind": "non-author-278-precontext-path-containment-correction",
+  "reviewer": "/root/r4ghi_final_gates13",
+  "originalInput": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/policy261-h04-277.json",
+    "rawBytesSha256": "61e71d5c234c0d623578720dd71f9ba7ca2d9da44170f3a4879750f4408febae",
+    "bytes": 2793
+  },
+  "originalReview": {
+    "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/policy261-continuation-review01/input-h04-277-review.json",
+    "bytes": 5904,
+    "rawBytesSha256": "58ff8565718dd7d77cc13b731f533a41818a0e02d03d9591e6796a6bd6c9284c"
+  },
+  "actualCommand": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/policy278-h04/command278.json",
+    "rawBytesSha256": "3e66076042bce2932cbe9fffdae89362e755fe1750c5050acc5f7e8e4b13370b"
+  },
+  "actualExitCode": 1,
+  "stdout": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/policy278-h04/stdout.json",
+    "bytes": 0,
+    "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stderr": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/policy278-h04/stderr.log",
+    "bytes": 62,
+    "rawBytesSha256": "6ff3b455147a7a0864f6a1b1fd2e75ca085d797469d37b23e3b40a06a671a038"
+  },
+  "actualStderr": "STOP-before-context / AssertionError",
+  "cause": {
+    "missedByReviewer": true,
+    "oldInputExpectedEntryFile": "/home/wangzishi/.local/share/poms-r4ghi/private/policy269-below/state-after-below269.json",
+    "consumerRoot": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01",
+    "mappedRealpathRelative": "..\\..\\..\\policy269-below\\state-after-below269.json",
+    "oldEntryInsideConsumer": false,
+    "contentSHAWasCorrectButInsufficient": true,
+    "unchangedExecutableGuard": "continue261.inside(expectedEntryState.file) requires nonempty realpath-relative descendant of D before createContext/API imports."
+  },
+  "effectiveDecision": {
+    "original277NotExecutableAndNotReusable": true,
+    "originalInputAndReviewAndFailureBytesPreserved": true,
+    "noRelabelToPassed": true,
+    "code03ProductUnchanged": true,
+    "codeReviewE1PathGuidanceCorrected": "expectedNextEntry identifies content4c36; actual execution additionally requires a regular nlink1 immutable copy physically inside consumer D. The next exact-input review binds its actual path.",
+    "new279NeedsSeparateExactReview": true
+  },
+  "effects": {
+    "contextCreated": false,
+    "HTTP": false,
+    "SQL": false,
+    "domainCommit": false,
+    "RootCurrentStateReadByReviewer": false,
+    "RootReportedStateUnchangedSHA256": "4c36278e86c88f443480cac3f43dcc8c0d9c08bc3cc4183ed367c0adb7842813",
+    "RootReportedCounter": 342,
+    "RootStateObservationAttribution": "Parent reported post-exit raw4c36 and no lock; reviewer did not query live state or process."
+  },
+  "G3": false,
+  "G4": false
+}

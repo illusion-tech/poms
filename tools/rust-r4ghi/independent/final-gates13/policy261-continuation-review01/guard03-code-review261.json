@@ -1,0 +1,158 @@
+{
+  "kind": "non-author-H261-guard03-code-admission",
+  "status": "admissible-for-remaining-Source13-H46-modes-only-after-separate-exact-input-review",
+  "reviewer": "/root/r4ghi_final_gates13",
+  "reviewerIsAuthor": false,
+  "reviewedAt": "2026-11-08T23:48:08.884Z",
+  "candidateManifest": {
+    "file": "E:/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/policy-replayless261/continuation03/manifest261-guard03.json",
+    "rawBytesSha256": "2c2dddf42b174f1c72ea55d9a3f843995fb0aada386bdfbd73191702dfa2ed68",
+    "bytes": 3492
+  },
+  "candidateLeaf": {
+    "file": "E:/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/policy-replayless261/continuation03/proposed/cases261.mjs",
+    "rawBytesSha256": "a75d9dbed57869ca3299c7edcc2dd3bbdf526cf2a8cd21235e2aa8c0611f9331",
+    "bytes": 40332
+  },
+  "applyAfterGuard02": {
+    "manifest": {
+      "file": "E:/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/policy-replayless261/continuation02/manifest261-continuation02.json",
+      "rawBytesSha256": "d7c1a5ed2826b87b20c93c1d9291953a0b4219954480ac5cb1aa8947cb86c19e"
+    },
+    "beforeCasesSHA256": "587cab75d5eadbfbf9047e393a6313c117aae3ecd33d3c63cc01904a2ba14035",
+    "inverseToBeforeRawBytesExact": true,
+    "allOriginalGClosureAndBelowFlowUnchanged": true
+  },
+  "exactActualExecutionSources": [
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/policy-replayless261-continuation03/core261.mjs",
+      "bytes": 16340,
+      "rawBytesSha256": "0fe889f86e59c253ca8e397338b535509d5ec0485a8ab09f6c5a7abf5bfef6d3"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/policy-replayless261-continuation03/publish261.mjs",
+      "bytes": 11933,
+      "rawBytesSha256": "de377243da452609b38e8efac7e49f415cc26a4216ed4afc3cc3c1941dd5d9c0"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/policy-replayless261-continuation03/cases261.mjs",
+      "bytes": 40332,
+      "rawBytesSha256": "a75d9dbed57869ca3299c7edcc2dd3bbdf526cf2a8cd21235e2aa8c0611f9331"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/policy-replayless261-continuation03/continue261.mjs",
+      "bytes": 12737,
+      "rawBytesSha256": "3c9f42104ff3a172da823fb88b7b63120b278a8407235d9bfc7c8d518bc8d7a5"
+    }
+  ],
+  "sourceIdentity": {
+    "namespace": "poms-r4ghi",
+    "epoch": "g2-business13",
+    "run": "main01",
+    "sourceGeneration": 13,
+    "formalSourceCount": 416,
+    "frozenHelperCount": 198,
+    "API": 136,
+    "Source14Allowed": false,
+    "RootFormalProductOrHelpersChangedByThisReview": false
+  },
+  "findings": {
+    "C01": {
+      "status": "closed-by-guard02-retained-in-03",
+      "proof": "Actual317 exact65 and four validhash same-xmin foreign mutable family rejections pass independently."
+    },
+    "C02": {
+      "status": "closed-by-guard03",
+      "oldReview": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/policy261-continuation-review01/guard02-review261.json",
+        "rawBytesSha256": "1c73bd6ddb952b509998186ac4912c1dd73d8f4515b0360e46a8efe1f09de5f6"
+      },
+      "proof": "The exact existing-foreign-review FK first-review counterexample now rejects. Eligible predecessor is derived from before same-signal producer1 active rows; zero requires null/no update, one requires exact linked row/update, ambiguity stops.",
+      "frozenWriter": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_operating_signals/review.rs",
+        "rawBytesSha256": "7b51814b321aee598700e7a1ff238ee312735340044c8f415d6678582a37ef72",
+        "line": 297
+      },
+      "additionalClosure": [
+        "Before current project/signal/expected version and real snapshot/context/head/source binding.",
+        "Old four active gates use the exact prior review/null, same evidence/effective hash and snapshot/baseline versions.",
+        "Existing predecessor requires valid same-source/current-version payload and no prior materiality overlay.",
+        "New review before/effective source hashes and exactly one eligible supersede update."
+      ]
+    }
+  },
+  "checks": {
+    "authorPure": 51,
+    "authorPass": 51,
+    "authorFail": 0,
+    "authorSyntax": 1,
+    "authorReceipt": {
+      "file": "E:/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/policy-replayless261/continuation03/checks02/receipt.json",
+      "rawBytesSha256": "8360899db314ad0414f1a2eed04f4705c138a445bb254fa0c61ee3af76fd996c"
+    },
+    "authorFirstFixtureFailurePreserved": true,
+    "independentPure": 26,
+    "independentPass": 26,
+    "independentFail": 0,
+    "independentProbe": {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/policy261-continuation-review01/probe-guard03-02.mjs",
+      "bytes": 8419,
+      "rawBytesSha256": "46cc3ae59d17cc55feef49c7024fa2b8b666a7571bd10e879ca73bc6ef0ff4a3"
+    },
+    "independentResult": {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/policy261-continuation-review01/probe-guard03-02.json",
+      "bytes": 2633,
+      "rawBytesSha256": "b80a0a898d6a5035da7d6ffa2c3f9e3b7a3d64b943bf60267e9c5f999ea3a8d8"
+    },
+    "independentFirstFixtureAttempt": {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/policy261-continuation-review01/probe-guard03-attempt01.json",
+      "bytes": 684,
+      "rawBytesSha256": "ce9949fffcd54023288965f86d3c70e550498a06c9da9c986f125800dbac3de0"
+    },
+    "allH04ModelsExplicitlySynthetic": true,
+    "pendingAuthBranch": "Synthetic original branch checks retained; actual below269 auth update is separate GET evidence and does not certify G/H04 pending-auth business write."
+  },
+  "approvedModes": [
+    "h04",
+    "equal",
+    "above",
+    "complete"
+  ],
+  "executionAuthority": {
+    "actualInput": null,
+    "separateExactInputReviewRequiredForEveryMode": true,
+    "currentNextMode": "h04",
+    "expectedNextEntry": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/policy269-below/state-after-below269.json",
+      "rawBytesSha256": "4c36278e86c88f443480cac3f43dcc8c0d9c08bc3cc4183ed367c0adb7842813",
+      "bytes": 13444372
+    },
+    "actualReconciliation": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/policy261-publication264/published261.json",
+      "bytes": 3256,
+      "rawBytesSha256": "c4384a92025b489b0d84b8bf6fe68d33d7cd9cb5ff4c0398341bdd169dd0e929"
+    },
+    "modePrerequisites": "Consume verified preceding continuation receipts; running/stopped/partial/FI/block always STOP. Original11 stopped stages/history remain unchanged.",
+    "h04Boundary": "Fresh manager auth, target signal GET, one ordinary real modern materiality-review POST and four H GETs; no G call.",
+    "laterModes": "Each equal/above requires its own fixed entry and exact input approval; real one-cent receipt then real fresh G plus H readback, fully scoped delta guard. Complete only after actual preceding phases verified.",
+    "retryBoundary": "No original317 replay; no retry of any committed or uncertain domain command; no replacement of API responses or business source facts.",
+    "consumedBelow01Preserved": true,
+    "belowReplayAuthorized": false,
+    "finalSupplement": "Retain all exact versions actually consumed, including below01 and whichever later edition is actually run; no retrospective source relabel."
+  },
+  "boundaries": {
+    "readOnlyFixedFS": true,
+    "RootWrites": false,
+    "liveStateRead": false,
+    "SQL": false,
+    "HTTP": false,
+    "processOrPIDRead": false,
+    "actualH04Certified": false,
+    "completeH46Certified": false,
+    "currentConsumerCertificationGranted": false,
+    "RustOfficial": 240,
+    "newlyCertified": 0,
+    "G3": false,
+    "G4": false
+  }
+}

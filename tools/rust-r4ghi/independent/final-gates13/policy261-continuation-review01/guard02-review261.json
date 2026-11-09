@@ -1,0 +1,103 @@
+{
+  "kind": "independent-H261-continuation02-scoped-code-review",
+  "reviewer": "/root/r4ghi_final_gates13",
+  "reviewerIsProductOrToolAuthor": false,
+  "reviewedAt": "2026-11-08T23:34:53.816Z",
+  "candidate": {
+    "manifest": {
+      "file": "E:/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/policy-replayless261/continuation02/manifest261-continuation02.json",
+      "rawBytesSha256": "d7c1a5ed2826b87b20c93c1d9291953a0b4219954480ac5cb1aa8947cb86c19e"
+    },
+    "changedLeaf": {
+      "file": "E:/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/policy-replayless261/continuation02/proposed/cases261.mjs",
+      "rawBytesSha256": "587cab75d5eadbfbf9047e393a6313c117aae3ecd33d3c63cc01904a2ba14035"
+    },
+    "beforeLeafSHA256": "3417200789cb96c40f41f23b211abdd3b6dd54adf6b4698148a217ca8f581b92",
+    "otherThreeLogicalLeavesUnchanged": [
+      "0fe889f86e59c253ca8e397338b535509d5ec0485a8ab09f6c5a7abf5bfef6d3",
+      "de377243da452609b38e8efac7e49f415cc26a4216ed4afc3cc3c1941dd5d9c0",
+      "3c9f42104ff3a172da823fb88b7b63120b278a8407235d9bfc7c8d518bc8d7a5"
+    ],
+    "exactInverseToBeforeBytes": true
+  },
+  "supportingConclusions": [
+    "Exact actual317 full 65-row delta passes the complete new G closure.",
+    "C01 already-owned foreign Cost/Head/Baseline/Inclusion mutations with valid hash and same xmin are rejected.",
+    "Every changed/new row across both DB snapshots is claimed; Native writes/deletes/unclaimed rows are rejected.",
+    "Foreign and unknown new member/reason/summary/receipt/audit/auth/security/user rows tested independently are rejected.",
+    "Raw money MAX and one-cent mismatch use integer cents; no Number rounding acceptance in the amount predicate.",
+    "Original below code, real API flow, original materiality/payload/rule assertions, retry STOP and original failed stages are preserved by exact inverse."
+  ],
+  "authorEvidence": {
+    "receipt": {
+      "file": "E:/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/policy-replayless261/continuation02/checks08/receipt.json",
+      "rawBytesSha256": "ebcf7f0b2c95f59a09b4b569b6bd30a34942488effe10980534198b6597ecef5"
+    },
+    "pureTests": 40,
+    "pass": 40,
+    "fail": 0,
+    "syntax": true,
+    "actualH04": false,
+    "pendingAuth": "+2 same-business-xmin branch has synthetic positive/negative coverage only; actual317 had zero auth delta"
+  },
+  "independentProbes": {
+    "source": {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/policy261-continuation-review01/probe-guard02.mjs",
+      "bytes": 5444,
+      "rawBytesSha256": "4a4d028f748ec251ebe5810e4c593833105bab47df6058722dc8a46c20412305"
+    },
+    "result": {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/policy261-continuation-review01/probe-guard02.json",
+      "bytes": 1774,
+      "rawBytesSha256": "7f361f01de3993184bb981f4e90b94415bdb37891a05ae0b7e91ec7d9971e442"
+    },
+    "supportingChecksPassed": 17,
+    "reproducedRejectedCandidateFindings": 1,
+    "H04SyntheticFixture": true,
+    "actualContinuationInvoked": false
+  },
+  "findings": [
+    {
+      "id": "C02",
+      "priority": "P2",
+      "status": "open-in-guard02",
+      "file": "E:/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/policy-replayless261/continuation02/proposed/cases261.mjs",
+      "line": 54,
+      "trigger": "On first H04 review with no selected old-review updates, replace only the new target review supersedes_id with an actual retained foreign-signal review PK; recompute raw SHA and retain the expected transaction xmin.",
+      "observed": "assertClosedH04261 accepts the invalid predecessor edge in the explicitly synthetic 36-row H04 fixture.",
+      "cause": "supersedes_id is only asserted inside the existing-review update loop; the zero-update path has no predecessor assertion.",
+      "expected": "Derive the exact eligible previous review from before rows of the target signal. With no predecessor require null and no supersede update; otherwise require the exact predecessor and exact corresponding supersede update; ambiguous prior active records stop.",
+      "frozenProductWriter": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_operating_signals/review.rs",
+        "rawBytesSha256": "7b51814b321aee598700e7a1ff238ee312735340044c8f415d6678582a37ef72",
+        "line": 297,
+        "semantics": "Rust effective_draft yields a same-target previous_id; only that record may be superseded and the new review binds precisely that previous_id."
+      },
+      "actualProductFailureClaimed": false
+    }
+  ],
+  "decision": {
+    "newModesApproved": [],
+    "h04": false,
+    "equal": false,
+    "above": false,
+    "complete": false,
+    "reason": "C02 must close in a distinct immutable external edition before H04 code/input admission. No exact future-mode input is approved by this code review.",
+    "existingBelow01CodeAndExactInputApprovalsUnchanged": true,
+    "rootHelper198AndFormalSource416Unchanged": true
+  },
+  "boundaries": {
+    "readOnlyFixedFS": true,
+    "RootProductOrHelperWrites": false,
+    "liveStateRead": false,
+    "SQL": false,
+    "HTTP": false,
+    "processOrPIDRead": false,
+    "actualH04Certified": false,
+    "currentConsumerCertificationGranted": false,
+    "RustOfficial": 240,
+    "newlyCertified": 0,
+    "G3": false,
+    "G4": false
+  }
+}

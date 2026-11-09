@@ -1,0 +1,104 @@
+{
+  "kind": "non-author-equal281-static-review-without-effect-admission",
+  "status": "NOT-ADMITTED-old136-process-lost-new-protocol-and-binding-required",
+  "reviewer": "/root/r4ghi_final_gates13",
+  "input": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/policy261-equal281.json",
+    "bytes": 2813,
+    "rawBytesSha256": "8892abf03e38d96d8592f638330ffb93aba319d0a1e9b1655b281269d2cc2152"
+  },
+  "mode": "equal",
+  "staticShapeAndPinsVerified": true,
+  "entry": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/policy261-equal-entry281.json",
+    "bytes": 13529606,
+    "rawBytesSha256": "af245ff8ed1047fe2f8176b6fcd828f95af657e86feba29ab03a6963706285a4"
+  },
+  "entrySequence": 366,
+  "H04HistoricalReview": {
+    "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/policy261-continuation-review01/actual-h04-280-review01.json",
+    "bytes": 2266,
+    "rawBytesSha256": "d5a74105e9583ea91614e438cc498f9592469fd590189d0f17d9e40078e6ac6a"
+  },
+  "codeAdmission": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/policy261-continuation-review01/guard03-code-review261.json",
+    "bytes": 8106,
+    "rawBytesSha256": "e1b61fb4caf4f8d417ddc12c426fd689c79af446c2abb0a794fdbed4894273be"
+  },
+  "exactExecutionSources": [
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/policy-replayless261-continuation03/core261.mjs",
+      "bytes": 16340,
+      "rawBytesSha256": "0fe889f86e59c253ca8e397338b535509d5ec0485a8ab09f6c5a7abf5bfef6d3"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/policy-replayless261-continuation03/publish261.mjs",
+      "bytes": 11933,
+      "rawBytesSha256": "de377243da452609b38e8efac7e49f415cc26a4216ed4afc3cc3c1941dd5d9c0"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/policy-replayless261-continuation03/cases261.mjs",
+      "bytes": 40332,
+      "rawBytesSha256": "a75d9dbed57869ca3299c7edcc2dd3bbdf526cf2a8cd21235e2aa8c0611f9331"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/policy-replayless261-continuation03/continue261.mjs",
+      "bytes": 12737,
+      "rawBytesSha256": "3c9f42104ff3a172da823fb88b7b63120b278a8407235d9bfc7c8d518bc8d7a5"
+    }
+  ],
+  "actualReconciliation": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/policy261-publication264/published261.json",
+    "bytes": 3256,
+    "rawBytesSha256": "c4384a92025b489b0d84b8bf6fe68d33d7cd9cb5ff4c0398341bdd169dd0e929"
+  },
+  "physicalConsumerContainment": [
+    {
+      "name": "input",
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/policy261-equal281.json",
+      "relativeToConsumer": "policy261-equal281.json",
+      "regular": true,
+      "nlink": 1,
+      "symlink": false
+    },
+    {
+      "name": "entry",
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/policy261-equal-entry281.json",
+      "relativeToConsumer": "policy261-equal-entry281.json",
+      "regular": true,
+      "nlink": 1,
+      "symlink": false
+    },
+    {
+      "name": "ack",
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/policy261-publication264/published261.json",
+      "relativeToConsumer": "policy261-publication264/published261.json",
+      "regular": true,
+      "nlink": 1,
+      "symlink": false
+    },
+    {
+      "name": "runtime",
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/policy-runtime246.json",
+      "relativeToConsumer": "policy-runtime246.json",
+      "regular": true,
+      "nlink": 1,
+      "symlink": false
+    }
+  ],
+  "onlyChangesFromActual279": [
+    "mode h04 to equal",
+    "expectedEntryState uses D-local immutable af245 / sequence366"
+  ],
+  "unchangedOtherPins": true,
+  "H04PrerequisiteHistoricallyVerified": true,
+  "equalReceiptAndStepAbsent": true,
+  "plannedSemanticOnly": "New0.01 to exact20.00 then one new G/H; never repeat19.99 or317",
+  "effectAdmission": false,
+  "reason": "Frozen schema3/119/H46 bind the old API136 physical record; restored PG alone cannot satisfy a new live API identity. Static correct input does not override its expired process authority.",
+  "liveStateOrPIDCheckedByReviewer": false,
+  "Source13PinsNotRewritten": true,
+  "Source14SuccessNotAssumed": true,
+  "G3": false,
+  "G4": false
+}
