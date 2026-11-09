@@ -1,0 +1,145 @@
+{
+  "kind": "Root-frozen-historical-baseline273-public-delta",
+  "technicalG1": {
+    "file": "manifest273-g1.json",
+    "rawBytesSha256": "a0d54baff5b5fcdc3ffe6f7a7ebb7f76da2cae2a9b396a308721b9895f2fb0bf"
+  },
+  "addSchemas": {
+    "HistoricalPeriodBaselineSelection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "policyVersion",
+        "publicationMode",
+        "periodKey",
+        "businessCutoff",
+        "selectionHash",
+        "originalAdoptedCostRef",
+        "selectedAdoptedCostRef",
+        "handoverBasisRef",
+        "handoverRebaselineRef",
+        "adoptionSourceRefs",
+        "technicalLineageRefs"
+      ],
+      "properties": {
+        "policyVersion": {
+          "type": "string",
+          "const": "historical-adoption-chain272-v1"
+        },
+        "publicationMode": {
+          "type": "string",
+          "const": "new-period-package"
+        },
+        "periodKey": {
+          "type": "string",
+          "pattern": "^(?:[0-9]{4}-(?:0[1-9]|1[0-2])|[0-9]{4}-W(?:0[1-9]|[1-4][0-9]|5[0-3]))$"
+        },
+        "businessCutoff": {
+          "type": "string",
+          "format": "date"
+        },
+        "selectionHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "originalAdoptedCostRef": {
+          "$ref": "#/components/schemas/SourceRef"
+        },
+        "selectedAdoptedCostRef": {
+          "$ref": "#/components/schemas/SourceRef"
+        },
+        "handoverBasisRef": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/SourceRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "handoverRebaselineRef": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/SourceRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "adoptionSourceRefs": {
+          "type": "array",
+          "maxItems": 1000,
+          "items": {
+            "$ref": "#/components/schemas/SourceRef"
+          }
+        },
+        "technicalLineageRefs": {
+          "type": "array",
+          "maxItems": 1000,
+          "items": {
+            "$ref": "#/components/schemas/SourceRef"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "CreatePeriodClosingSnapshotRequest": {
+      "replaceProperties": {
+        "baselinePackageRef": {
+          "expectedBefore": {
+            "$ref": "#/components/schemas/ExpectedRef"
+          },
+          "replacement": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ExpectedRef"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "CreateProjectOperatingSnapshotRequest": {
+      "replaceProperties": {
+        "baselinePackageRef": {
+          "expectedBefore": {
+            "$ref": "#/components/schemas/ExpectedRef"
+          },
+          "replacement": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ExpectedRef"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "OperatingPreparation": {
+      "addProperties": {
+        "periodBaselineSelection": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/HistoricalPeriodBaselineSelection"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "addRequired": [
+        "periodBaselineSelection"
+      ]
+    }
+  }
+}

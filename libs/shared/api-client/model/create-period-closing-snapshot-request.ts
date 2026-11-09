@@ -19,7 +19,7 @@ export interface CreatePeriodClosingSnapshotRequest {
     expectedProjectVersion: number;
     expectedInputHash: string;
     assertions: LegacyAssertions | null;
-    baselinePackageRef: ExpectedRef;
+    baselinePackageRef: ExpectedRef | null;
     periodKey: string;
     expectedPeriodSnapshotRef: ExpectedRef | null;
     costDecisions: Array<CostDecisionInput>;

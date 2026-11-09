@@ -1,6 +1,7 @@
-// Generation only. Frozen input plus the explicit G2 delta also drives Rust/TS.
+// Generation only. The complete registered273 canonical also drives Rust/TS.
 import { convertToOpenApi3Point0 } from '@poms/vendor-nestjs-zod';
 import { CreatableOperatingSnapshotModeSchema, OperatingBaselinePackageStatusSchema, OperatingSignalReviewDecisionSchema, OperatingSnapshotModeSchema } from '@poms/shared-contracts';
+import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
@@ -30,24 +31,15 @@ function removeStringKeyTautologies(schema: unknown): void {
     for (const key of ['allOf', 'anyOf', 'oneOf']) if (node[key]) for (const child of array(node[key])) removeStringKeyTautologies(child);
 }
 function mergePublicRegistry(): JsonObject {
-    const base = read('tools/rust-r4ghi/joint-g1/effective-v2/public-contracts.schema.json');
-    const schemas = object(object(base['components'])['schemas']);
-    for (const deltaFile of ['g2-public-delta01.json','g2-public-delta02.json','g2-public-delta03.json']) {
-    const delta = read('docs/design/rust-r4ghi/' + deltaFile);
-    Object.assign(schemas, object(delta['addSchemas']));
-    for (const [name, raw] of Object.entries(object(delta['components']))) {
-        const change = object(raw);
-        if (Object.keys(change).some(key => !['addProperties','addRequired','appendOneOf'].includes(key))) throw new Error('Unknown G2 schema change for ' + name);
-        const target = object(schemas[name]);
-        if (change['addProperties']) Object.assign(object(target['properties']), object(change['addProperties']));
-        if (change['addRequired']) {
-            const required = array(target['required']);
-            for (const field of array(change['addRequired'])) if (!required.includes(field)) required.push(field);
-        }
-        if (change['appendOneOf']) array(target['oneOf']).push(...array(change['appendOneOf']));
-    }
-    }
-    if (Object.keys(schemas).length !== 131) throw new Error('The approved R4GHI schema closure changed');
+    const registration = read('tools/rust-r4ghi/contracts273/registration.json');
+    if (registration['kind'] !== 'historical-public273-explicit-source-registration') throw new Error('Unregistered273 public source');
+    const canonicalPin = object(registration['canonical']);
+    if (canonicalPin['file'] !== 'tools/rust-r4ghi/contracts273/canonical.json') throw new Error('Unregistered273 canonical path');
+    const raw = readFileSync(resolve(process.cwd(), String(canonicalPin['file'])));
+    if (createHash('sha256').update(raw).digest('hex') !== canonicalPin['rawBytesSha256'] || raw.length !== canonicalPin['bytes']) throw new Error('273 canonical bytes differ from explicit registration');
+    const bundle = object(JSON.parse(raw.toString('utf8')));
+    const schemas = object(object(object(bundle['public'])['components'])['schemas']);
+    if (registration['publicSchemaCount'] !== 132 || Object.keys(schemas).length !== 132) throw new Error('The approved273 public schema closure changed');
     return schemas;
 }
 

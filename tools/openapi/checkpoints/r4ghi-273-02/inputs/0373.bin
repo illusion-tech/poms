@@ -1,0 +1,45 @@
+{
+  "kind": "user-approved-first-historical-period-baseline-selection272",
+  "questionItemId": "call_3d77f23f35054b2e8f088b17f8032be4:0",
+  "question": "还有一项历史补关口径待定：首次关闭过去期间时，建议由服务端沿真实历史采用链选择当期最新有效预算；无法唯一确定时阻断复核。采用哪种规则？当前周期验收会继续推进。",
+  "answer": "沿真实历史采用链选择，歧义阻断（推荐）",
+  "approvalSource": "explicit-user-reply-in-current-conversation",
+  "date": "2026-11-09",
+  "issues": [57, 101, 110, 111, 114],
+  "policy": {
+    "appliesTo": "first-close-of-a-past-business-period",
+    "selectionAuthority": "server-derived-real-historical-adoption-chain",
+    "selection": "unique-latest-valid-adopted-budget-for-that-period",
+    "businessTimezone": "Asia/Hong_Kong",
+    "ambiguousOrUnprovable": "block-for-reconciliation",
+    "chooseByUUIDOrArbitraryCurrentRow": false,
+    "assumeFutureBudgetWasHistoricallyEffective": false,
+    "fabricateHistoricalSourceOrTime": false,
+    "latePeriodMayReplaceRealtimeCurrent": false,
+    "rewritePreviouslyFrozenPeriodSelection": false
+  },
+  "implementationBoundary": {
+    "formerPendingDecisionResolved": true,
+    "currentSource13ImplementsAutomaticHistoricalSelection": false,
+    "existingSource13ValidationRetainedAsHistoricalEvidence": true,
+    "newFrozenDesignAndNecessaryProductionDeltaRequired": true,
+    "preparationAndCommandMustUseSameLockedSelection": true,
+    "selectedBudgetAndActualAdoptionEvidenceMustBeAuditable": true,
+    "currentSource13H46MayContinue": true,
+    "actualSource14SourceAndHelperGraphStillUnknown": true,
+    "priorStageOnly249BuildIsNotTheCombinedFinalCandidate": true,
+    "originalM97BusinessBaselineAndCanonicalM98MustRemain": true
+  },
+  "requiredValidation": [
+    "Unique real historical chain selects the budget effective for the requested period",
+    "Current later/future budget does not displace the valid historical budget",
+    "Branches, ties without a unique valid successor, cycles, broken links or missing adoption evidence fail closed",
+    "Historical superseded status does not erase a genuine verified adoption",
+    "Preparation, input hash, locks, CAS, commit and frozen source all bind the same choice",
+    "Realtime current, existing period history and old immutable evidence remain at their established authority boundaries"
+  ],
+  "implementationComplete": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "newCertifiedOperations": 0
+}

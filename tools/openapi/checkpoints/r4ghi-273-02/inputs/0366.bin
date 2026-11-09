@@ -1,0 +1,76 @@
+/**
+ * Shared Jest mock for @mikro-orm/core.
+ *
+ * Used via moduleNameMapper in jest.config.js so that every unit test
+ * automatically gets this mock without needing an inline jest.mock() call.
+ *
+ * The chain covers all property-builder methods currently used across entity
+ * files. Add new methods here when a new mikro-orm builder method is introduced.
+ */
+
+export const QueryOrder = { ASC: 'ASC', DESC: 'DESC' };
+
+export class EntityManager {
+    getConnection(): { execute(): Promise<unknown[]> } {
+        return { execute: async () => [] };
+    }
+}
+
+export class EntityRepository<T = unknown> {
+    readonly entityType?: T;
+}
+
+export class MikroORM {
+    isConnected(): boolean {
+        return true;
+    }
+
+    async close(): Promise<void> {
+        return undefined;
+    }
+}
+
+export class PostgreSqlDriver {}
+
+export const defineConfig = <TConfig>(config: TConfig): TConfig => config;
+
+const CHAIN_METHODS = [
+    'generated',
+    'createForeignKeyConstraint',
+    'deferMode',
+    'primary',
+    'nullable',
+    'length',
+    'defaultRaw',
+    'unique',
+    'fieldName',
+    'version',
+    'default',
+    'onCreate',
+    'onUpdate',
+    '$type',
+    'precision',
+    'scale',
+    'comment',
+    'columnType',
+    'mapToPk',
+    'foreignKeyName',
+    'updateRule',
+    'deleteRule',
+] as const;
+
+const makeChain = () => {
+    const chain: Record<string, unknown> = {};
+    CHAIN_METHODS.forEach((m) => {
+        chain[m] = () => chain;
+    });
+    return chain;
+};
+
+export const defineEntity = Object.assign(
+    (config: unknown) => {
+        void config;
+        return { class: class {}, setClass: () => undefined };
+    },
+    { properties: new Proxy({} as Record<string, unknown>, { get: () => makeChain }) }
+);

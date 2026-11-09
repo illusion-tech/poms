@@ -289,6 +289,7 @@ export * from './full-project-detail-view';
 export * from './health-check-dto';
 export * from './health-checks-dto';
 export * from './health-dependency-check-dto';
+export * from './historical-period-baseline-selection';
 export * from './identity-provider';
 export * from './identity-provider-config-status';
 export * from './identity-provider-config-summary';

@@ -23957,6 +23957,7 @@
           "customerId",
           "customerName",
           "customerProjectNo",
+          "executionAdmissionContext",
           "exportPolicy",
           "generatedAt",
           "id",
@@ -23977,8 +23978,7 @@
           "status",
           "summarySnapshotId",
           "updatedAt",
-          "updatedBy",
-          "executionAdmissionContext"
+          "updatedBy"
         ],
         "properties": {
           "id": {
@@ -28532,7 +28532,18 @@
             ]
           },
           "baselinePackageRef": {
-            "$ref": "#/components/schemas/ExpectedRef"
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ExpectedRef"
+              },
+              {
+                "type": "object",
+                "nullable": true,
+                "enum": [
+                  null
+                ]
+              }
+            ]
           },
           "snapshotMode": {
             "type": "string",
@@ -29025,7 +29036,18 @@
             ]
           },
           "baselinePackageRef": {
-            "$ref": "#/components/schemas/ExpectedRef"
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ExpectedRef"
+              },
+              {
+                "type": "object",
+                "nullable": true,
+                "enum": [
+                  null
+                ]
+              }
+            ]
           },
           "periodKey": {
             "type": "string",
@@ -44982,25 +45004,26 @@
       "OperatingPreparation": {
         "type": "object",
         "required": [
-          "outputVersion",
-          "kind",
-          "officialSnapshotRef",
-          "intent",
-          "projectId",
-          "headVersion",
-          "projectVersion",
-          "expectedInputHash",
-          "preparedAt",
-          "businessCutoff",
-          "periodKey",
-          "formalEligibility",
-          "evaluationStatus",
-          "sourceRows",
-          "proposedOriginalCostRef",
-          "selectedBaselinePackageRef",
           "allowedCommandCodes",
           "blockingReasonCodes",
-          "proposedAffectedTargets"
+          "businessCutoff",
+          "evaluationStatus",
+          "expectedInputHash",
+          "formalEligibility",
+          "headVersion",
+          "intent",
+          "kind",
+          "officialSnapshotRef",
+          "outputVersion",
+          "periodBaselineSelection",
+          "periodKey",
+          "preparedAt",
+          "projectId",
+          "projectVersion",
+          "proposedAffectedTargets",
+          "proposedOriginalCostRef",
+          "selectedBaselinePackageRef",
+          "sourceRows"
         ],
         "properties": {
           "outputVersion": {
@@ -45148,6 +45171,20 @@
             "items": {
               "$ref": "#/components/schemas/AffectedRestatementTarget"
             }
+          },
+          "periodBaselineSelection": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/HistoricalPeriodBaselineSelection"
+              },
+              {
+                "type": "object",
+                "nullable": true,
+                "enum": [
+                  null
+                ]
+              }
+            ]
           }
         },
         "additionalProperties": false
@@ -45161,6 +45198,97 @@
             "$ref": "#/components/schemas/OperatingAccountingPreparationView"
           }
         ]
+      },
+      "HistoricalPeriodBaselineSelection": {
+        "type": "object",
+        "required": [
+          "policyVersion",
+          "publicationMode",
+          "periodKey",
+          "businessCutoff",
+          "selectionHash",
+          "originalAdoptedCostRef",
+          "selectedAdoptedCostRef",
+          "handoverBasisRef",
+          "handoverRebaselineRef",
+          "adoptionSourceRefs",
+          "technicalLineageRefs"
+        ],
+        "properties": {
+          "policyVersion": {
+            "type": "string",
+            "enum": [
+              "historical-adoption-chain272-v1"
+            ]
+          },
+          "publicationMode": {
+            "type": "string",
+            "enum": [
+              "new-period-package"
+            ]
+          },
+          "periodKey": {
+            "type": "string",
+            "pattern": "^(?:[0-9]{4}-(?:0[1-9]|1[0-2])|[0-9]{4}-W(?:0[1-9]|[1-4][0-9]|5[0-3]))$"
+          },
+          "businessCutoff": {
+            "type": "string",
+            "format": "date"
+          },
+          "selectionHash": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "originalAdoptedCostRef": {
+            "$ref": "#/components/schemas/SourceRef"
+          },
+          "selectedAdoptedCostRef": {
+            "$ref": "#/components/schemas/SourceRef"
+          },
+          "handoverBasisRef": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SourceRef"
+              },
+              {
+                "type": "object",
+                "nullable": true,
+                "enum": [
+                  null
+                ]
+              }
+            ]
+          },
+          "handoverRebaselineRef": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SourceRef"
+              },
+              {
+                "type": "object",
+                "nullable": true,
+                "enum": [
+                  null
+                ]
+              }
+            ]
+          },
+          "adoptionSourceRefs": {
+            "type": "array",
+            "maxItems": 1000,
+            "items": {
+              "$ref": "#/components/schemas/SourceRef"
+            }
+          },
+          "technicalLineageRefs": {
+            "type": "array",
+            "maxItems": 1000,
+            "items": {
+              "$ref": "#/components/schemas/SourceRef"
+            }
+          }
+        },
+        "additionalProperties": false
       },
       "CreatableOperatingSnapshotMode": {
         "type": "string",

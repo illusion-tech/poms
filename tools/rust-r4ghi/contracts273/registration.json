@@ -1,0 +1,36 @@
+{
+  "kind": "historical-public273-explicit-source-registration",
+  "canonical": {
+    "file": "tools/rust-r4ghi/contracts273/canonical.json",
+    "bytes": 329179,
+    "rawBytesSha256": "8766d94c2b3acfa9e6d1c6ea0d374b823fb52c5a0dd62f1be9e738d52071db8c"
+  },
+  "authorCanonicalManifest": {
+    "file": "tools/rust-r4ghi/A/implementation/historical-baseline273/manifest273-canonical01.json",
+    "rawBytesSha256": "ec1d9adaf4673c0e0ebfba9ecebb84e554b4025ebb398bec3a399571f2d4a03b"
+  },
+  "technicalG1": {
+    "file": "tools/rust-r4ghi/A/implementation/historical-baseline273/manifest273-g1.json",
+    "rawBytesSha256": "a0d54baff5b5fcdc3ffe6f7a7ebb7f76da2cae2a9b396a308721b9895f2fb0bf"
+  },
+  "publicSchemaCount": 132,
+  "newSchemaNames": [
+    "HistoricalPeriodBaselineSelection"
+  ],
+  "requiredNullablePointers": [
+    "#/components/schemas/CreatePeriodClosingSnapshotRequest/properties/baselinePackageRef",
+    "#/components/schemas/CreateProjectOperatingSnapshotRequest/properties/baselinePackageRef",
+    "#/components/schemas/OperatingPreparation/properties/periodBaselineSelection"
+  ],
+  "retainedNamedEnums": [
+    "CreatableOperatingSnapshotMode",
+    "OperatingBaselinePackageStatus",
+    "OperatingSignalReviewDecision",
+    "OperatingSnapshotMode"
+  ],
+  "newPublicOperations": 0,
+  "previousSdkCheckpoint": "tools/openapi/checkpoints/r4ghi-s6/input-manifest01.json",
+  "oldS4S5S6Rewritten": false,
+  "formalS7SourceHead": null,
+  "businessG3Certified": false
+}

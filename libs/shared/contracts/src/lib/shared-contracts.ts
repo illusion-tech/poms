@@ -9511,3 +9511,6 @@ export const ReplaceSharedCostAllocationResultResultSchema = z
     .strict()
     .meta({ id: "ReplaceSharedCostAllocationResultResult" });
 export type ReplaceSharedCostAllocationResultResult = z.infer<typeof ReplaceSharedCostAllocationResultResultSchema>;
+
+// 273 historical first-close public schema; generated from the same complete canonical.
+export { HistoricalPeriodBaselineSelectionSchema, type HistoricalPeriodBaselineSelection } from "./rust-r4ghi-contracts.generated";

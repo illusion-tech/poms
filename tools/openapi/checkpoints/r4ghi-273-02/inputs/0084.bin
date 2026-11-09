@@ -1,0 +1,77 @@
+import { defineEntity } from '@mikro-orm/core';
+import { COMMISSION_CALCULATION_STATUSES, type CommissionCalculationStatus } from '@poms/shared-contracts';
+import { Project } from '../project/project.entity';
+import { CommissionRuleVersion } from './commission-rule-version.entity';
+
+const p = defineEntity.properties;
+const toSqlStringList = (values: readonly string[]): string => values.map((value) => `'${value.replaceAll("'", "''")}'`).join(', ');
+
+export const CommissionCalculationSchema = defineEntity({
+    name: 'CommissionCalculation',
+    tableName: 'commission_calculation',
+    schema: 'poms',
+    indexes: [
+        { name: 'idx_commission_calculation_project_current', properties: ['projectId', 'isCurrent'] },
+        { name: 'idx_commission_calculation_status', properties: ['status'] }
+    ],
+    uniques: [
+        { name: 'commission_calculation_project_version_unique', properties: ['projectId', 'version'] },
+        {
+            name: 'uq_commission_calculation_project_current',
+            expression: (columns, table, indexName) =>
+                `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.projectId}") where "${columns.isCurrent}" = true`
+        }
+    ],
+    checks: [
+        {
+            name: 'chk_commission_calculation_status',
+            expression: `"status" in (${toSqlStringList(COMMISSION_CALCULATION_STATUSES)})`
+        }
+    ],
+    properties: {
+        id: p.uuid().primary().defaultRaw('gen_random_uuid()'),
+        projectId: () =>
+            p
+                .manyToOne(Project)
+                .mapToPk()
+                .fieldName('project_id')
+                .foreignKeyName('commission_calculation_project_id_foreign')
+                .updateRule('cascade')
+                .deleteRule('cascade'),
+        ruleVersionId: () =>
+            p
+                .manyToOne(CommissionRuleVersion)
+                .mapToPk()
+                .fieldName('rule_version_id')
+                .foreignKeyName('commission_calculation_rule_version_id_foreign')
+                .updateRule('cascade'),
+        version: p.integer(),
+        isCurrent: p.boolean().default(true).fieldName('is_current'),
+        status: p.string().$type<CommissionCalculationStatus>().length(32).default('pending'),
+        recognizedRevenueTaxExclusive: p.decimal().precision(18).scale(2).fieldName('recognized_revenue_tax_exclusive'),
+        recognizedCostTaxExclusive: p.decimal().precision(18).scale(2).fieldName('recognized_cost_tax_exclusive'),
+        contributionMargin: p.decimal().precision(18).scale(2).fieldName('contribution_margin'),
+        contributionMarginRate: p.decimal().precision(8).scale(4).fieldName('contribution_margin_rate'),
+        commissionPool: p.decimal().precision(18).scale(2).fieldName('commission_pool'),
+        recalculatedFromId: () =>
+            p
+                .manyToOne(CommissionCalculation)
+                .mapToPk()
+                .nullable()
+                .fieldName('recalculated_from_id')
+                .foreignKeyName('commission_calculation_recalculated_from_id_foreign')
+                .updateRule('cascade')
+                .deleteRule('set null'),
+        approvedAt: p.datetime().nullable().fieldName('approved_at'),
+        approvedBy: p.uuid().nullable().fieldName('approved_by'),
+        rowVersion: p.integer().version().default(1).fieldName('row_version'),
+        createdAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).fieldName('created_at'),
+        createdBy: p.uuid().nullable().fieldName('created_by'),
+        updatedAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).onUpdate(() => new Date()).fieldName('updated_at'),
+        updatedBy: p.uuid().nullable().fieldName('updated_by')
+    }
+});
+
+export class CommissionCalculation extends CommissionCalculationSchema.class {}
+
+CommissionCalculationSchema.setClass(CommissionCalculation);

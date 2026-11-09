@@ -21,7 +21,7 @@ export interface CreateProjectOperatingSnapshotRequest {
     expectedProjectVersion: number;
     expectedInputHash: string;
     assertions: LegacyAssertions | null;
-    baselinePackageRef: ExpectedRef;
+    baselinePackageRef: ExpectedRef | null;
     costDecisions: Array<CostDecisionInput>;
 }
 export enum CreateProjectOperatingSnapshotRequestSnapshotModeEnum {

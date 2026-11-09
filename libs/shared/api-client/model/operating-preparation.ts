@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { HistoricalPeriodBaselineSelection } from './historical-period-baseline-selection';
 import { AffectedRestatementTarget } from './affected-restatement-target';
 import { FormalEligibility } from './formal-eligibility';
 import { SourceRow } from './source-row';
@@ -36,6 +37,7 @@ export interface OperatingPreparation {
      * Complete real project/terminal targets discovered for this restatement preparation; empty for non-restatement. Never guessed IDs or financial values.
      */
     proposedAffectedTargets: Array<AffectedRestatementTarget>;
+    periodBaselineSelection: HistoricalPeriodBaselineSelection | null;
 }
 export enum OperatingPreparationOutputVersionEnum {
     ServerDerivedV1 = 'server-derived-v1'

@@ -70,6 +70,27 @@ export interface OperatingPreparationQuery {
             @if (preparation(); as prepared) {
                 <p class="mt-3 text-sm">项目版本 {{ prepared.projectVersion }} · 经营版本 {{ prepared.headVersion }} · 截止 {{ prepared.businessCutoff }}</p>
                 <p class="mt-1 break-all font-mono text-xs">输入指纹 {{ prepared.expectedInputHash }}</p>
+                @if (prepared.periodBaselineSelection; as selection) {
+                    <section class="mt-3 rounded border p-3" aria-label="本期期末预算选择">
+                        <h3 class="font-semibold">本期预算按真实采用链确定</h3>
+                        <p>期间 {{ selection.periodKey }} · 业务截止 {{ selection.businessCutoff }} · 本次将冻结独立的期末基线。</p>
+                        <p class="mt-2">原采用预算 {{ selection.originalAdoptedCostRef.id }} · v{{ selection.originalAdoptedCostRef.rowVersion }}</p>
+                        <p>本期采用预算 {{ selection.selectedAdoptedCostRef.id }} · v{{ selection.selectedAdoptedCostRef.rowVersion }}</p>
+                        <p class="mt-1 break-all font-mono text-xs">选择指纹 {{ selection.selectionHash }}</p>
+                        <details class="mt-2">
+                            <summary>查看实际采用与技术证据</summary>
+                            @if (selection.handoverBasisRef; as basis) { <p>移交依据 {{ basis.id }} · v{{ basis.rowVersion }}</p> }
+                            @if (selection.handoverRebaselineRef; as rebaseline) { <p>移交再基线 {{ rebaseline.id }} · v{{ rebaseline.rowVersion }}</p> }
+                            <ul class="list-inside list-disc">
+                                @for (source of selection.adoptionSourceRefs; track source.kind + ':' + source.id) { <li>采用证据 {{ source.kind }} · {{ source.id }} · v{{ source.rowVersion }}</li> }
+                                @for (source of selection.technicalLineageRefs; track source.kind + ':' + source.id) { <li>技术链 {{ source.kind }} · {{ source.id }} · v{{ source.rowVersion }}</li> }
+                            </ul>
+                        </details>
+                    </section>
+                }
+                @if (intent() === 'restatement' && originalSnapshot()?.periodEndSnapshotRef) {
+                    <p class="mt-3" aria-label="原期间冻结预算">沿用原期间冻结预算 {{ originalSnapshot()?.baselinePackageRef?.id }} · v{{ originalSnapshot()?.baselinePackageRef?.rowVersion }}。</p>
+                }
                 @if (prepared.blockingReasonCodes.length) {
                     <div class="mt-3 rounded bg-amber-50 p-3 text-slate-900" role="status">
                         <p>需要处理的依据：</p>
@@ -251,12 +272,23 @@ export class ProjectOperatingAuthoring {
                 prepared.proposedAffectedTargets.some((target) => target.projectId === prepared.projectId && target.restatesSnapshotRef.id === this.originalSnapshot()?.id) &&
                 (this.correctionMode() === 'late-facts' || (this.correctionRefs().length > 0 && JSON.stringify(this.correctionRefs()) === this.requestedCorrectionSignature()))
             );
-        if (!prepared.selectedBaselinePackageRef) return false;
-        if (prepared.blockingReasonCodes.some((code) => !['cost-classification-required', 'source-not-ready'].includes(code))) return false;
+        if (this.intent() === 'period-close') {
+            const selection = prepared.periodBaselineSelection;
+            if (!selection || prepared.selectedBaselinePackageRef !== null || selection.periodKey !== prepared.periodKey || selection.businessCutoff !== prepared.businessCutoff) return false;
+        } else if (!prepared.selectedBaselinePackageRef || prepared.periodBaselineSelection !== null) return false;
+        const pending = prepared.sourceRows.filter((row) => this.classifiable(row) && !row.currentDecisionRef);
         const decisions = this.decisions();
-        return prepared.sourceRows
-            .filter((row) => this.classifiable(row) && !row.currentDecisionRef)
-            .every((row) => !!decisions[row.sourceRef.id]?.reasonText.trim() && (decisions[row.sourceRef.id].decision === 'exclude' || decisions[row.sourceRef.id].evidenceRefs.length > 0));
+        if (!Object.keys(decisions).every((id) => pending.some((row) => row.sourceRef.id === id))) return false;
+        if (!pending.every((row) => this.completeDecision(row, decisions[row.sourceRef.id]))) return false;
+        const command = this.intent() === 'period-close' ? 'period-close' : 'snapshot-create';
+        if (prepared.formalEligibility.status === 'eligible' && prepared.formalEligibility.blockingReasonCodes.length === 0 && prepared.blockingReasonCodes.length === 0 && prepared.allowedCommandCodes.includes(command)) return true;
+        // Classification is delivered in this same command. A generic not-ready
+        // reason alone never admits unknown history, tax, stage, currency or scope.
+        const reasons = [...prepared.blockingReasonCodes, ...prepared.formalEligibility.blockingReasonCodes];
+        if (prepared.formalEligibility.status !== 'missing-evidence' || !reasons.includes('cost-classification-required') || reasons.some((code) => code !== 'cost-classification-required' && code !== 'source-not-ready')) return false;
+        if (!pending.length || !pending.every((row) => row.state === 'unclassified' && row.blockingReasonCodes.includes('cost-classification-required') && row.blockingReasonCodes.every((code) => code === 'cost-classification-required' || code === 'source-not-ready'))) return false;
+        if (!prepared.formalEligibility.missingEvidenceRefs.every((ref) => pending.some((row) => sameSource(ref, row.sourceRef)))) return false;
+        return prepared.sourceRows.every((row) => row.blockingReasonCodes.length === 0 || row.blockingReasonCodes.every((code) => code === 'outside-business-cutoff') || pending.includes(row));
     });
 
     classifiable(row: OperatingSourceRow): boolean {
@@ -406,12 +438,16 @@ export class ProjectOperatingAuthoring {
                     affectedTargets
                 }
             });
+        } else if (this.intent() === 'period-close' && prepared.periodBaselineSelection && prepared.selectedBaselinePackageRef === null) {
+            this.commandRequested.emit({ kind: 'close-period', request: { ...common, baselinePackageRef: null, periodKey: prepared.periodBaselineSelection.periodKey, expectedPeriodSnapshotRef: null, costDecisions: Object.values(this.decisions()) } });
         } else if (prepared.selectedBaselinePackageRef) {
-            const costDecisions = Object.values(this.decisions());
-            if (this.intent() === 'period-close')
-                this.commandRequested.emit({ kind: 'close-period', request: { ...common, baselinePackageRef: expected(prepared.selectedBaselinePackageRef), periodKey: this.periodKey().trim(), expectedPeriodSnapshotRef: null, costDecisions } });
-            else this.commandRequested.emit({ kind: 'create-snapshot', request: { ...common, baselinePackageRef: expected(prepared.selectedBaselinePackageRef), snapshotMode: 'realtime', periodKey: null, costDecisions } });
+            this.commandRequested.emit({ kind: 'create-snapshot', request: { ...common, baselinePackageRef: expected(prepared.selectedBaselinePackageRef), snapshotMode: 'realtime', periodKey: null, costDecisions: Object.values(this.decisions()) } });
         }
+    }
+    private completeDecision(row: OperatingSourceRow, decision: CostDecisionInput | undefined): boolean {
+        if (!decision || !decision.reasonText.trim() || !sameExpected(decision.target, row.sourceRef) || decision.expectedVersion !== (row.currentDecisionRef?.rowVersion ?? 0) || !row.allowedRecognitionRoles.includes(decision.recognitionRole)) return false;
+        if (decision.decision === 'include' && !decision.evidenceRefs.length) return false;
+        return decision.evidenceRefs.every((ref) => this.evidenceRows().some((evidence) => sameExpected(ref, evidence.sourceRef)));
     }
     private uniqueRef(kind: string): ExpectedRef | null {
         const rows = this.preparation()?.sourceRows.filter((row) => row.sourceRef.kind === kind && row.state === 'ready') ?? [];
@@ -421,4 +457,11 @@ export class ProjectOperatingAuthoring {
 
 function expected(ref: SourceRef): ExpectedRef {
     return { kind: ref.kind, id: ref.id, expectedVersion: ref.rowVersion, payloadHash: ref.payloadHash };
+}
+
+function sameSource(a: SourceRef, b: SourceRef): boolean {
+    return a.kind === b.kind && a.id === b.id && a.rowVersion === b.rowVersion && a.payloadHash === b.payloadHash;
+}
+function sameExpected(ref: ExpectedRef, source: SourceRef): boolean {
+    return ref.kind === source.kind && ref.id === source.id && ref.expectedVersion === source.rowVersion && ref.payloadHash === source.payloadHash;
 }
