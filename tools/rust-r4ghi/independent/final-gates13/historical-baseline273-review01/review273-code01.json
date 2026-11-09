@@ -1,0 +1,182 @@
+{
+  "kind": "non-author-A273-code01-product-review",
+  "schemaVersion": 1,
+  "status": "NOT-READY",
+  "verdict": "changes-required-before-product-code-admission",
+  "reviewer": "/root/r4ghi_final_gates13",
+  "reviewerIsProductAuthor": false,
+  "reviewedAt": "2026-11-09T03:03:27.590Z",
+  "candidate": {
+    "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/A/implementation/historical-baseline273/manifest273-code01.json",
+    "bytes": 19944,
+    "rawBytesSha256": "1172b409ca94ebe085629dd73f155f00feca2e76da947dfb20e68d87818c3ff0"
+  },
+  "sourceDifference": {
+    "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/A/implementation/historical-baseline273/source-difference273-code01.json",
+    "rawBytesSha256": "a07c10a06dbd5c81e518535cbc0fd8e954af73ebec0fe1de50ab44444133b669"
+  },
+  "authorSummary": {
+    "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/A/implementation/historical-baseline273/checks/summary273-code01.json",
+    "rawBytesSha256": "20506622dec7dd20efb52c7d6f3ec37a81f7394004b3ea26a6603f49c22c4452"
+  },
+  "technicalG1": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/A/implementation/historical-baseline273/manifest273-g1.json",
+    "bytes": 17564,
+    "rawBytesSha256": "a0d54baff5b5fcdc3ffe6f7a7ebb7f76da2cae2a9b396a308721b9895f2fb0bf"
+  },
+  "canonicalSeal": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/A/implementation/historical-baseline273/manifest273-canonical01.json",
+    "bytes": 4318,
+    "rawBytesSha256": "ec1d9adaf4673c0e0ebfba9ecebb84e554b4025ebb398bec3a399571f2d4a03b"
+  },
+  "findings": [
+    {
+      "id": "A273-IR01",
+      "priority": "P1",
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/A/implementation/historical-baseline273/proposed/apps/poms-api-rust/src/project_operating/period_baseline.rs",
+      "line": 852,
+      "sourceSHA256": "ba76850ab2680451ad812e21ef4fae30450937af15395f4e84bf4860ba663999",
+      "problem": "Latest confirmed historical handover may legitimately inherit a rebaseline anchored at an unconfirmed intermediate handover/basis. The candidate requires the rebaseline replacement/basis-after to directly equal the latest confirmed row instead of validating the true anchored ancestry.",
+      "realProducerEvidence": {
+        "pin": {
+          "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_handover/service.rs",
+          "rawBytesSha256": "306d57d5938ca114e6e845e5b98b66431345aedfe28654b7615121790dc28671"
+        },
+        "prepareStartLine": 332,
+        "inheritLine": 385,
+        "rebaselineInsertLine": 876,
+        "semantics": "Ordinary prepare on current draft preserves its effective rebaseline ID, creates a child handover and child basis, and does not rewrite the immutable rebaseline record replacement/basis-after."
+      },
+      "impact": "A fully proveable adopted history H0 confirmed -> R1/H1 draft -> ordinary prepare H2 -> H2 confirmed is rejected at first period close. Actual old D source, not an invented producer, establishes this case.",
+      "requiredCorrection": "Resolve and validate exact handover/basis/rebaseline ancestor paths, including recorded supersedes links, without changing old producer facts or making arbitrary records eligible.",
+      "requiredRegression": "Positive inherited-refresh history plus negative missing/cross-project/cyclic/mismatched record-anchor paths.",
+      "verification": "Confirmed by pinned source control flow; no reviewer pureRust or real PG/HTTP reproduction was claimed."
+    },
+    {
+      "id": "A273-IR02",
+      "priority": "P2",
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/A/implementation/historical-baseline273/proposed/apps/poms-api-rust/src/project_operating/period_baseline.rs",
+      "line": 781,
+      "alsoLine": 870,
+      "sourceSHA256": "ba76850ab2680451ad812e21ef4fae30450937af15395f4e84bf4860ba663999",
+      "problem": "Handover created_at is only checked <=knowledgeCutoff and rebaseline created_at likewise. created_at>confirmed_at and created_at>handled_at are not rejected, so a period-end source claim can precede the creation of its source event record.",
+      "impact": "With period cutoffNov1 and knowledgeNov9, a valid-shaped handover confirmedOct6/createdNov5 or rebaseline handledOct19/createdNov5 passes the enumerated source predicates and can enter the historical proof.",
+      "requiredCorrection": "Validate actual producer event chronology for project_handover and contract_handover_rebaseline_record; keep late G capture-now valid and do not impose imaginary basis.created_at.",
+      "requiredRegression": "Old code01 should fail the expected-rejection tests; new002 must reject each inverted chronology while preserving valid superseded historical records and real Main13 compatibility.",
+      "verification": "Deterministic source predicate/data walkthrough with actual M98 column metadata; reviewer did not claim actualRust execution."
+    }
+  ],
+  "nonBlockingOpenInvestigation": [
+    {
+      "id": "A273-Q01",
+      "topic": "Economic immutability of one published CostBudget domain version",
+      "facts": "Actual source_facts.cost contains id/version/rowVersion only. Selector uses current observed Cost monetary/currency fields and does not separately compare any prior frozen G economic payload. No actual producer/DB immutability constraint was independently established here.",
+      "requiredBeforeFinalReview": "Author should point to actual economic immutability enforcement or demonstrate/fix conflict handling where a prior frozen payload for the same budget version exists. This is recorded as unclosed clarification, not asserted as a confirmed bug."
+    }
+  ],
+  "checkedPositiveScope": [
+    "All13 products (11Rust+2JSON) before/candidate24 pins verified; readonly store/sources/view/272 decision unchanged.",
+    "Single selector drives coherent preparation and locked command; project/source-family ordering, existing input/project/head/period/legacy admission checks remain before needed writes.",
+    "Unique adopted Cost ancestry and real approval/time witnesses, duplicate same-budget consolidation, unadopted technical path-only N and exact net deltas are implemented; review findings concern handover/rebaseline closure.",
+    "First close uses explicit required-null baselinePackageRef, preview returns no invented G identity, chosen proof is stable input-hash material. Real TypedRequest missing-key rejection test is present and passes in the author suite.",
+    "Dedicated source/package/change rows use one CommonSession and real capture-now timestamps. New package is_current=false; old current package is not superseded.",
+    "Existing live head identity/current IDs are preserved with CAS-only advancement; headless period branch does not create realtime authority. Actual raw/xmin concurrency/FI remains future validation.",
+    "Existing period path reads original root context/member payload/hash and skips new history selection; missing-current-match members inherit exact originals.",
+    "Optional internal proof skips serialization when None. Baseline realtime algorithm only sets None; unchanged-context schema and Main13 validation artifact preserve old hashes.",
+    "H249 exact725166 CRLF and Hspecb3aa are the only external compile substitutions; no273 rewrite of Stage-only logic.",
+    "Canonical8766/modelB834 and source-context schema equality checked. DerivedOAS has242 paths/296 ops/691schemas; public132 schemas and required-nullable fields are present."
+  ],
+  "actualAuthorValidationVerified": {
+    "completeOriginalCompileInputsRehashed": 523,
+    "actualEffectiveTreeRehashed": 526,
+    "overlaySources": 19,
+    "actualCompileDeltas": 16,
+    "fmt": 0,
+    "productionLibClippy": 0,
+    "testAllTargets": 0,
+    "buildAPIAndCommon": 0,
+    "sourceStableAllFour": true,
+    "passed": 565,
+    "failed": 0,
+    "oldIgnored": 54,
+    "suites": 34,
+    "newA273TestsReported": 24,
+    "H249TestsReported": 6,
+    "actualMain13ProbePassed": 1,
+    "probeValidationArtifactOnly": true,
+    "probeTreeRestoreExact": true,
+    "binaries": [
+      {
+        "file": "/home/wangzishi/projects/poms-a273-fullcheck02/target/debug/poms-api-rust",
+        "bytes": 390108200,
+        "rawBytesSha256": "93aa43975d9240cf6273100d07fc5c8648ce452765bcc18eb8130b4055541276",
+        "nlink": 2
+      },
+      {
+        "file": "/home/wangzishi/projects/poms-a273-fullcheck02/target/debug/examples/r4ghi_summary_producer08",
+        "bytes": 294278144,
+        "rawBytesSha256": "4f6dc006271508ceb66229282f7ea43606091be607e6a22fcf7cd06f85626765",
+        "nlink": 2
+      }
+    ],
+    "RootCompiled": false,
+    "actualSource14": false
+  },
+  "priorEvidenceBoundary": {
+    "old1172And565Retained": true,
+    "existingActualMainSampleHasNoRequiredInheritedR1Case": true,
+    "positive565DoesNotCloseFindings": true,
+    "basisCreatedAtSubcaseWithdrawnBecauseNoSuchColumn": true,
+    "allNewSource14SourceHelperProcessAdmissionPinsStillNull": true,
+    "Source13ProductsAnd198Unmodified": true
+  },
+  "followup": [
+    "Author new002 in separate exclusive tree; retain code01 manifest/products/all successes/intermediates/failures.",
+    "Run actual pure Rust counterexamples against unchanged production01 to prove their boundary, then new002 regression and appropriate complete checks.",
+    "Retain canonical/G1/public inputs unless an explicitly registered change is necessary.",
+    "Revalidate all exact002 products/inputs, H003 formal tool prewrite closure, finalRoot25203/287/284 and actual14 admission before any runtime acceptance.",
+    "Complete actual dedicated period capture/read/FI/lock races, old period restatement/current-H invariants and joint G3/G4."
+  ],
+  "evidence": {
+    "counterexamples": {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/historical-baseline273-review01/regression-cases27301.json",
+      "bytes": 4729,
+      "rawBytesSha256": "f6d53615c0c81443e00addb6fe5abe44b167c1254d82babc922608a1f4b470f3"
+    },
+    "implementation": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/A/implementation/historical-baseline273/IMPLEMENTATION273.md",
+      "bytes": 7361,
+      "rawBytesSha256": "d0e1ceee6050b1549990f9b1b5c2dcb55d718d659095db8641597548c39b615c"
+    },
+    "necessaryWriteContract": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/A/implementation/historical-baseline273/write-contract273.json",
+      "bytes": 5046,
+      "rawBytesSha256": "ccc26e1f3894f9672126592e78b7b1653b02f136c5796e39967821efff9a562f"
+    },
+    "additionalReadOnlyDProducer": {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_handover/service.rs",
+      "rawBytesSha256": "306d57d5938ca114e6e845e5b98b66431345aedfe28654b7615121790dc28671"
+    },
+    "actualM98MetadataReference": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/snapshot-000363-http-after.json",
+      "bytes": 3137774,
+      "rawBytesSha256": "9fbb0f9842bf14a70729356eb4def224593de50d5604f0823a7cdc7c2033e077"
+    }
+  },
+  "boundaries": {
+    "onlyOwnFSReviewWrites": true,
+    "RootProductOrHelperStateWritten": false,
+    "liveStateRead": false,
+    "SQL": false,
+    "HTTP": false,
+    "serviceOrPIDQuery": false,
+    "GitMutation": false,
+    "independentRustExecution": false,
+    "actual14Admission": false,
+    "currentConsumerCertificationGranted": false,
+    "RustOfficial": 240,
+    "newlyCertified": 0,
+    "G3": false,
+    "G4": false
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "kind": "non-author-static-business-counterexamples-for-A273-code01",
+  "candidate": {
+    "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/A/implementation/historical-baseline273/manifest273-code01.json",
+    "bytes": 19944,
+    "rawBytesSha256": "1172b409ca94ebe085629dd73f155f00feca2e76da947dfb20e68d87818c3ff0"
+  },
+  "selector": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/A/implementation/historical-baseline273/proposed/apps/poms-api-rust/src/project_operating/period_baseline.rs",
+    "bytes": 44702,
+    "rawBytesSha256": "ba76850ab2680451ad812e21ef4fae30450937af15395f4e84bf4860ba663999"
+  },
+  "independentRustExecution": false,
+  "sourceBasedReasoning": true,
+  "actualPGOrHTTPProducerReproduction": false,
+  "cases": [
+    {
+      "id": "A273-IR01",
+      "label": "valid refreshed draft inherits a rebaseline ancestor",
+      "kind": "legitimate-producer-shape-false-rejection",
+      "periodKey": "2026-W44",
+      "businessCutoff": "2026-11-01",
+      "knowledgeCutoff": "2026-11-09T10:00:00Z",
+      "history": [
+        {
+          "handover": "H0",
+          "basis": "B0",
+          "version": 1,
+          "status": "confirmed",
+          "confirmedAt": "2026-10-06",
+          "budget": "A"
+        },
+        {
+          "operation": "actualD rebaseline",
+          "record": "R1",
+          "sourceHandover": "H0",
+          "replacementHandover": "H1",
+          "basisBefore": "B0",
+          "basisAfter": "B1",
+          "createdAndHandledAt": "2026-10-18",
+          "supersedes": null
+        },
+        {
+          "handover": "H1",
+          "basis": "B1",
+          "version": 2,
+          "status": "draft",
+          "confirmedAt": null,
+          "record": "R1",
+          "budget": "B"
+        },
+        {
+          "operation": "actualD ordinary prepare on current draft, unchanged contract adoption",
+          "handover": "H2",
+          "basis": "B2",
+          "version": 3,
+          "supersedesHandover": "H1",
+          "supersedesBasis": "B1",
+          "inheritedRebaseline": "R1",
+          "recordR1Unchanged": true
+        },
+        {
+          "operation": "actualD confirm",
+          "handover": "H2",
+          "confirmedAt": "2026-10-20"
+        }
+      ],
+      "economicAdoption": "Same contract has successive approved terms/preparations for costA then costB; do not invent two unrelated contracts as replacement. Both adopted by cutoff and all hashes/FKs/dates remain exact.",
+      "expected": "Select latest confirmed H2/B2 with actual R1 anchored at ancestor H1/B1, selected budgetB and original budgetA. Validate full true handover/basis/rebaseline ancestry.",
+      "candidatePath": "handover273 finds H2 latest and H0 previous_confirmed but directly requires R1.replacement_handover_id=H2 and R1.basis_after_id=B2; true producer R1 still points H1/B1, so it returns reconciliation.",
+      "sourceEvidence": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_handover/service.rs",
+        "rawBytesSha256": "306d57d5938ca114e6e845e5b98b66431345aedfe28654b7615121790dc28671"
+      }
+    },
+    {
+      "id": "A273-IR02a",
+      "label": "created after confirmed is not proved historical handover",
+      "mutations": "Existing fixture273 + valid Handover Oct6; change only project_handover.created_at to 2026-11-05, retain confirmed_at Oct6 and knowledge Nov9.",
+      "expected": "reconciliation blocker",
+      "candidatePath": "period_effective(confirmed)=true; known(created<=knowledge)=true; no created<=confirmed predicate, so the candidate admits this source relation.",
+      "actualColumnVerified": true
+    },
+    {
+      "id": "A273-IR02b",
+      "label": "created after handled is not proved historical rebaseline",
+      "mutations": "Existing valid R700 rebaseline fixture; change only contract_handover_rebaseline_record.created_at to 2026-11-05, retain handled_at Oct19 and latest handover confirmationOct20.",
+      "expected": "reconciliation blocker",
+      "candidatePath": "known(created<=knowledge)=true and effective(handled)=true; no created<=handled check.",
+      "actualColumnVerified": true
+    }
+  ],
+  "additionalChainRequirement": "R.supersedes_id is written by the actual D producer. The candidate only validates one direct selected tuple and never walks that record lineage; a repair must accept legitimate inherited anchors and reject broken/foreign/cyclic rebaseline parent links.",
+  "withdrawnSubcase": "Handover basis has generated_at but no created_at column in actual M98 metadata; no new field or DDL is requested.",
+  "RootProductWritten": false,
+  "SQL": false,
+  "HTTP": false,
+  "G3": false,
+  "G4": false
+}
