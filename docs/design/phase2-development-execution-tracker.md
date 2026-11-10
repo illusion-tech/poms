@@ -913,3 +913,11 @@ D#107/E#108/F#109及本批#106已按[独立关闭许可](archive/slices/rust-r4d
 [固定状态346](rust-r4ghi/continuation-status346.json)：344 code02两叶候选已通过[d712独审](../../tools/rust-r4ghi/independent/final-gates13/tax-preparation344-code02-review01/review-code34402-01.json)，真实作者133项默认单测/fmt/严格Clippy通过，未Root推广或执行验收。#119已[线上G1读回](https://github.com/illusion-tech/poms/issues/119#issuecomment-6775974346)并由Root派发14生产＋4验证隔离实现。retain14-only单叶获代码独审，实际只读输入已备，exact G2正在另审；未写批准文件、未实际封最终双库数据。旧14状态、Root两before及H2218仍不变；Source15实际state/API/准入、FI/正常Tax及业务G3/G4均未通过，新认证0，#57开放。
 
 <!-- /poms-r4ghi-status346 -->
+
+<!-- poms-final14-H15-G1 -->
+
+### 2026-11-11 最终14数据留存与H15/readers代码G1
+
+[最终14数据独审](../../tools/rust-r4ghi/independent/final-gates13/retain14-actual-readback119-01/review-final14-retention119.json)已通过：两次双139表、4935行（Native542/Rust4393）、3851 owned、3 borrowed及40对象闭合，原13与14失败/partial原件保留；不代表Source15准入。[H15/readers基线](rust-r4ghi/source15-policy-tax-readers-baseline.md)及[Root九叶冻结](../../tools/rust-r4ghi/source15-policy-readers-g1/Root-G1-H15-readers.json)采纳e859联合建议，实际线上G1读回后仅授H隔离代码。v2五ID与F→C→S→state顺序为准，227只是已知H3子集。下一步另行明确Root两Rust推广及完整构建；实际15/API/Reg5/state、业务FI/201及G3/G4仍待，新认证0，#57开放。
+
+<!-- /poms-final14-H15-G1 -->

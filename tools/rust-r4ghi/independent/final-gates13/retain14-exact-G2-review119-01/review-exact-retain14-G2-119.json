@@ -1,0 +1,142 @@
+{
+  "kind": "independent-exact-retain14-only-G2-review119",
+  "edition": "01",
+  "reviewer": "/root/r4ghi_final_gates13",
+  "reviewerIsCodeAuthor": false,
+  "verdict": "approved-retain14-only",
+  "approvedInput": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/retain14-119-prepared01/retain14-input119.json",
+    "bytes": 8577,
+    "rawBytesSha256": "4532ab780caa462993b62bc823ccfa211f7312dd2a7bd0102436fc6bcccd4586"
+  },
+  "request": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/retain14-119-prepared01/request-retain14-G2-review119.json",
+    "bytes": 8383,
+    "rawBytesSha256": "36fc4ba8aa43544d0c8ede65790f623013bc09a652a363d2d5516f42c04202d7"
+  },
+  "toolingManifest": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source15-admission119-code01/ret14-only-sealed01/manifest-retain14-only01.json",
+    "bytes": 5563,
+    "rawBytesSha256": "916dd1dc732e059172b9cd39c1c123236b720d9ef1f952b7afb126d5c70dd0e5"
+  },
+  "independentCodeReview": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/retain14-only-code119-review01/review-retain14-code01.json",
+    "bytes": 5937,
+    "rawBytesSha256": "a231e5c89dd89c0b95909303be2d5cc19e8369ee6876f15658793d6f7e0d96bd"
+  },
+  "actualExecutionSource": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/retain14-119-prepared01/capture-source15-retain14-code01.mjs",
+    "bytes": 25752,
+    "rawBytesSha256": "e731df0b03f9b9b42654b5eb798546d06cfa48ec419ac0a354870a2381a54a0b"
+  },
+  "node": {
+    "file": "/home/wangzishi/.local/share/fnm/node-versions/v24.19.0/installation/bin/node",
+    "bytes": 125989464,
+    "rawBytesSha256": "bc17c508ffeed0ec622934f9b7fa72f8e78da65350e63c3eceb56fa688aa5e12"
+  },
+  "currentState": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business14/main01/state.json",
+    "bytes": 13834997,
+    "rawBytesSha256": "bd21c40006d831dea4e0b1d45ef3c0b6548ada6739268b8724ab3bb09c333b97"
+  },
+  "expectedSource13": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business13/main01/state.json",
+    "bytes": 13529606,
+    "rawBytesSha256": "af245ff8ed1047fe2f8176b6fcd828f95af657e86feba29ab03a6963706285a4"
+  },
+  "expectedOwnership14": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business14/main01/ownership.jsonl",
+    "bytes": 1909,
+    "rawBytesSha256": "559aa091ba9cfa1ef1c72dd2a7c4d21c8d4285588519de937e6db2b2efd6aa79"
+  },
+  "expectedSourcePins": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source14-retained-inputs344-01/sourcePins420.json",
+    "bytes": 68385,
+    "rawBytesSha256": "1e1847f7163cd3a530448d1c5d0297055ef09ef1033c596f59b827f7b58ac573"
+  },
+  "expectedHelperPins": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source14-retained-inputs344-01/helperPins218.json",
+    "bytes": 33783,
+    "rawBytesSha256": "ad317f729c087788761b6a7eecc3a9db042f64d98231d5ab0e8fa1dd0dbea433"
+  },
+  "expectedApproval": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/retain14-119-prepared01/Root-exact-retain14-approval119.json",
+    "bytes": 5321,
+    "rawBytesSha256": "2b25fa3f0ef2e5ccb0fad75335be2e00eae96eefe586ccb804b052bfff564623"
+  },
+  "expectedApprovalBodyLocation": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/retain14-119-prepared01/request-retain14-G2-review119.json",
+    "jsonPointer": "/expectedApprovalBody",
+    "serialization": "JSON.stringify(body,null,2) plus one LF; 5321 bytes"
+  },
+  "RootMaySignExactExpectedApproval": true,
+  "RootMayExecuteOneRetain14InvocationAfterSigning": true,
+  "mode": "retain14",
+  "commandArguments": [
+    "/home/wangzishi/.local/share/poms-r4ghi/private/retain14-119-prepared01/capture-source15-retain14-code01.mjs",
+    "--input",
+    "/home/wangzishi/.local/share/poms-r4ghi/private/retain14-119-prepared01/retain14-input119.json",
+    "--input-sha",
+    "4532ab780caa462993b62bc823ccfa211f7312dd2a7bd0102436fc6bcccd4586",
+    "--approval",
+    "/home/wangzishi/.local/share/poms-r4ghi/private/retain14-119-prepared01/Root-exact-retain14-approval119.json",
+    "--approval-sha",
+    "2b25fa3f0ef2e5ccb0fad75335be2e00eae96eefe586ccb804b052bfff564623",
+    "--execute"
+  ],
+  "actionBound": {
+    "calls": 1,
+    "mode": "retain14",
+    "databases": [
+      "poms_r4ghi_native",
+      "poms_r4ghi_rust"
+    ],
+    "SQL": "Only reviewed default_transaction_read_only=on connections, identity/metadata/table/sequence SELECTs, SHOW, and two full139x2 repeatable-read READ ONLY snapshots with COMMIT/ROLLBACK. No DML/DDL/nextval/migration.",
+    "FS": "Only new D14/retained-capture119-UUID evidence directory and exclusive exact nonce D14/driver.lock with exact ownership release; optional outer raw command/stdout/stderr receipts. Live13/14 state and ownership remain byte-identical.",
+    "process": "Read-only original API/binary/PID/start/boot/exe/cwd verification by the unchanged reviewed capture and252 guards; no launch/stop/signal/rebinding.",
+    "HTTP": false,
+    "ordinaryContext": false,
+    "persist": false,
+    "stateMint": false,
+    "ownershipWrite": false,
+    "RootSourceHelperWrite": false,
+    "objectStorageWrite": false,
+    "source15BootstrapObserveOrPublication": false
+  },
+  "mandatoryExecutionConditions": [
+    "Root writes only the exact expected approval body at the exact expected path and verifies its raw2b25 SHA; keep this review pin in the outer execution record without changing the input or approval byte image.",
+    "Use the exact private e731 source copy and bc17 Node executable with empty execArgv/NODE_OPTIONS/NODE_PATH as required by code. Keep original420/218 and current entries unchanged until final retention actual readback.",
+    "All unchanged original218 preimport, archive344746, current schema4/252, API/binary and DB identity/defaultRO guards must pass; no historical identity or archived ctx.win substitution.",
+    "Any source/state/ownership/API/data/object drift, unexpected HTTP, partial output or failed guard stops the one authorized call. No bypass, invented receipt or automatic retry.",
+    "Success is not certified by this pre-execution review. Return actual original command/stdout/stderr, new double snapshots, final retention index and frozen state/ownership for independent readback."
+  ],
+  "verified": {
+    "inputAndApprovalByteImages": true,
+    "actualPrivateSourceLocationNotRelabelledAsRootTarget": true,
+    "allCurrent420And218Raw": true,
+    "allNonBinaryInputPinsAndNodeRaw": true,
+    "original339APIBinaryTuple": true,
+    "originalM97BaselineAnd108Preserved": true,
+    "all10HTTPAndAuthOnlyStateClosure": true,
+    "liveProcessAndCurrentDBFactsNotClaimed": true,
+    "old700MBBinaryRawRehashSkippedWithPriorExactTupleReuse": true
+  },
+  "verification": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/retain14-exact-G2-review119-01/verification.json",
+    "bytes": 9209,
+    "rawBytesSha256": "4e6610af573493309b4e4704149f38dfaab4a3b5c0c85fe23b35c223b0e2426c"
+  },
+  "approvalFileExistedAtReview": false,
+  "approvalFileCreatedByReviewer": false,
+  "actualCapture": null,
+  "actualFinal14Retention": null,
+  "RootProductPromotionGranted": false,
+  "observe15Granted": false,
+  "whole119CodeReady": false,
+  "Source15AdmissionGranted": false,
+  "domainEffectGranted": false,
+  "G3": false,
+  "G4": false,
+  "formalRustDelivered": 240,
+  "newRustCertified": 0
+}
