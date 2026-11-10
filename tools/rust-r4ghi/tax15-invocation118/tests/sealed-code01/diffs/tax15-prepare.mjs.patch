@@ -1,0 +1,255 @@
+diff --git a/E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/tax14-main258.mjs b/E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tax15-prepare.mjs
+index ad15c29b..ee15a39b 100644
+--- a/E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/tax14-main258.mjs
++++ b/E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tax15-prepare.mjs
+@@ -1,23 +1,229 @@
+-// Fresh Source14 Tax preparation only; Main13 is never replayed.
+-import assert from 'node:assert/strict';import {data,sha,uuid} from './pure.mjs';
+-import {capture,readRows} from './snapshot.mjs';import {assertRecorded} from './ledger.mjs';import {readPin54} from './consumer-admission54.mjs';import {exactExpectedRef} from './correction-preparation37.mjs';
+-import {readRetainedTax14,tax14Record,verifyTax14Sources} from './tax14-provenance258.mjs';
+-import {rowsTax13,completeTargetsTax13,deriveTax13Facts,inventoryTax13} from './tax13-facts.mjs';
+-export {correctionBindingTax13 as correctionBindingTax14} from './tax13-main.mjs';
+-export function composeTax14Body(primary,targets,correction){
+- assert.equal(primary.kind,'preparation-only');assert.equal(primary.intent,'restatement');const root=targets.find(t=>t.projectId===primary.projectId&&t.restatesSnapshotRef.id===primary.officialSnapshotRef?.id);assert(root);const item=t=>({projectId:t.projectId,expectedVersion:t.expectedVersion,restatesSnapshotRef:exactExpectedRef(t.restatesSnapshotRef),periodEndSnapshotRef:t.periodEndSnapshotRef?exactExpectedRef(t.periodEndSnapshotRef):null,costDecisions:[]});
+- return {inputVersion:'server-derived-v1',projectId:primary.projectId,expectedVersion:primary.headVersion,expectedProjectVersion:primary.projectVersion,expectedInputHash:primary.expectedInputHash,assertions:null,scope:'live',periodEndSnapshotRef:null,restatesSnapshotRef:exactExpectedRef(root.restatesSnapshotRef),restatementReason:'真实Source12共享Expense维持pending130.00，只替代真实证据版本；Source14按完整实际终端重述，不提供allocationOverride、不把来源pending复制给receiver。',restatementSummary:'依据当前公共准备范围和真实F来源关系自动重建完整2/1批次；允许旧同日终端纳入原先未收集的新事实，不强行保持旧聚合。',costDecisions:[],laborCorrections:[],allocationCorrections:[],stageCorrections:[],taxCorrections:[correction],affectedTargets:targets.filter(t=>t!==root).map(item),acknowledgedChangedSourceRefs:[]};
++// Actual GET/auth/read-only preparation; it never classifies or posts Main/Tax.
++import assert from "node:assert/strict";
++import fs from "node:fs";
++import { data, uuid } from "../business/pure.mjs";
++import {
++    assertSameCompleteTargets,
++    exactExpectedRef,
++} from "../business/correction-preparation37.mjs";
++import { completeTargetsTax13, rowsTax13 } from "../business/tax13-facts.mjs";
++import {
++    checkpoint118,
++    runtime118,
++    savePreparation118,
++} from "./invocation-proof.mjs";
++import { deriveTax15Facts, inventoryTax15 } from "./tax15-facts.mjs";
++import { assertRecorded118 } from "./tax15-once-ledger.mjs";
++import { sha118 } from "./retained-tax-proof.mjs";
++
++export function composeTax15Body(primary, targets, correction) {
++    assert.equal(primary.kind, "preparation-only");
++    assert.equal(primary.intent, "restatement");
++    const roots = targets.filter((t) =>
++        t.projectId === primary.projectId &&
++        t.restatesSnapshotRef.id === primary.officialSnapshotRef?.id
++    );
++    assert.equal(roots.length, 1);
++    const root = roots[0];
++    const item = (t) => ({
++        projectId: t.projectId,
++        expectedVersion: t.expectedVersion,
++        restatesSnapshotRef: exactExpectedRef(t.restatesSnapshotRef),
++        periodEndSnapshotRef: t.periodEndSnapshotRef
++            ? exactExpectedRef(t.periodEndSnapshotRef)
++            : null,
++        costDecisions: [],
++    });
++    return {
++        inputVersion: "server-derived-v1",
++        projectId: primary.projectId,
++        expectedVersion: primary.headVersion,
++        expectedProjectVersion: primary.projectVersion,
++        expectedInputHash: primary.expectedInputHash,
++        assertions: null,
++        scope: "live",
++        periodEndSnapshotRef: null,
++        restatesSnapshotRef: exactExpectedRef(root.restatesSnapshotRef),
++        restatementReason:
++            "真实 Source12 共享费用仍为 pending 130.00，仅替代真实税务证据版本；Source15 按完整业务影响范围重述，不把来源 pending 复制给其他项目。",
++        restatementSummary:
++            "沿实际费用与全部分摊批次推导影响终端；保留真实业务日期和重算时间，不提供分摊覆盖，不改写历史快照。",
++        costDecisions: [],
++        laborCorrections: [],
++        allocationCorrections: [],
++        stageCorrections: [],
++        taxCorrections: [correction],
++        affectedTargets: targets.filter((t) => t !== root).map(item),
++        acknowledgedChangedSourceRefs: [],
++    };
+ }
+-export async function prepareTax14(ctx,api,manifest){
+- const legacy=readRetainedTax14(ctx,manifest),record=tax14Record(ctx,manifest,legacy);assert(record.mainCompletion?.postconditions==='verified'&&record.retainedMain13?.replayForbidden===true,'Main13 must be inherited through the exact252 read-only bridge, never created again');readPin54(record.mainCompletion.original);assert(!record.pendingMain&&!record.pendingTaxTrial&&!record.normalTaxPending);assert(!record.sweep?.finalSuccess,'A committed Tax correction is not prepared or sent again');
+- if(record.taxPreparation){readPin54(record.taxPreparation.artifact);return record.taxPreparation;}
+- await api.login('manager');verifyTax14Sources(ctx,manifest);const observed=await capture(ctx,ctx.next('tax14-before-prepare'));assertRecorded(ctx,observed);const rows=rowsTax13(ctx,observed,readRows),cost=rows.owned('project_actual_cost_record',legacy.costId),tax=rows.owned('accounting_tax_treatment_snapshot',legacy.taxId),head=rows.values('project_operating_head').filter(h=>h.project_id===legacy.sourceProjectId);assert.equal(head.length,1);const primarySnapshotId=uuid(head[0].current_snapshot_id);
+- const get=async(projectId,snapshotId,roots=null)=>{const response=await api.request('ProjectCostController_getProjectUnifiedAccounting',{projectId},null,'manager',{query:{view:'preparation',intent:'restatement',restatesSnapshotId:snapshotId,...(roots?{correctionSourceRefs:JSON.stringify(roots)}:{})}});return {preparation:data(response).preparation,receipt:response.receiptId};};
+- const initial=await get(legacy.sourceProjectId,primarySnapshotId),find=(kind,id)=>{const found=initial.preparation.sourceRows.filter(r=>r.sourceRef.kind===kind&&r.sourceRef.id===id);assert.equal(found.length,1);return exactExpectedRef(found[0].sourceRef);};const taxRef=find('AccountingTaxTreatmentSnapshot',tax.id),costRef=find('ProjectActualCostRecord',cost.id);assert.equal(taxRef.expectedVersion,tax.row_version);assert.equal(costRef.expectedVersion,cost.row_version);
+- const reason='真实已确认旧费用的pending结论未变，仅替代来源证据版本；不冒称新生产、不转移币种、不认定抵扣。';const request={...legacy.taxRequest,expectedVersion:tax.row_version,replacementReason:reason,sourceReferences:[{kind:'source',sourceType:'project-actual-cost-record',sourceId:cost.id,sourceVersion:cost.row_version,businessDate:cost.occurred_on,reason}]};assert.equal(request.taxImpactAmount,'0.00');assert.equal(request.taxImpactPendingAmount,'130.00');assert.equal(request.deductibilityStatus,'pending');assert.equal(request.taxPendingFlag,true);assert.equal(request.currency,cost.currency);const correction={correctionKind:'tax-treatment-replacement',taxTreatmentRef:taxRef,expectedSourceRefs:[costRef],request};
+- // The query root is the real old Tax ref alone. Server83 must derive its
+- // cost dependency. Adding Cost/basis query roots would mask the old defect.
+- const roots=[taxRef],primary=await get(legacy.sourceProjectId,primarySnapshotId,roots),packets=[];for(const target of primary.preparation.proposedAffectedTargets){const packet=await get(target.projectId,target.restatesSnapshotRef.id,roots);packets.push({target,preparation:packet.preparation,receipt:packet.receipt});}
+- const fullPacket=ctx.artifact(ctx.next('tax14-complete-server-targets')+'.json',{initial,primary,packets,queryRoots:roots,oldProducer:legacy.producerStatePin,legacyReconciliation:legacy.reconciliation,TaxCorrectionPOSTExecuted:false});record.lastServerTargetPacket=fullPacket;ctx.persist();
+- const targets=completeTargetsTax13(primary.preparation,packets,legacy.projectIds),body=composeTax14Body(primary.preparation,targets,correction),fresh=await capture(ctx,ctx.next('tax14-prepared-current-facts'));assertRecorded(ctx,fresh);const facts=deriveTax13Facts(ctx,fresh,body,legacy,packets,readRows),inventory=inventoryTax13(facts),artifact=ctx.artifact(ctx.next('tax14-reviewable-body-inventory')+'.json',{body,bodySHA256:sha(JSON.stringify(body)),packets,fullPacket,facts,inventory,before:fresh.manifest,oldSnapshotAggregateEqualityAssumed:false,historicalBaselinePolicyAccepted:false,periodTargetsDropped:false,TaxCorrectionPOSTExecuted:false});record.taxPreparation={artifact,body,packets,facts,inventory,fullPacket,bodySHA256:sha(JSON.stringify(body)),postconditions:'prepared-for-Root-review-only'};ctx.persist();return record.taxPreparation;
++export async function prepareTax15(cap, api) {
++    const { ctx, p, h, legacy } = runtime118(cap);
++    assert.equal(p.mode, "prepare-only");
++    assert.equal(ctx.state.taxContinuation15.taxPreparation, null);
++    assert.equal(legacy.retainedMain13.replayForbidden, true);
++    assert.equal(legacy.retainedMain13.record.postconditions, "verified");
++    await api.login(p.actorKey);
++    checkpoint118(cap, "prepare-authenticated");
++    const before = await h.capture(ctx, ctx.next("tax15-before-prepare"));
++    assertRecorded118(cap, before);
++    const rows = rowsTax13(ctx, before, h.readRows),
++        cost = rows.owned("project_actual_cost_record", legacy.costId),
++        tax = rows.owned("accounting_tax_treatment_snapshot", legacy.taxId),
++        heads = rows.values("project_operating_head").filter((r) =>
++            r.project_id === legacy.sourceProjectId
++        );
++    assert.equal(heads.length, 1);
++    const selectedId = uuid(heads[0].current_snapshot_id);
++    const get = async (projectId, snapshotId, roots = null) => {
++        const response = await api.request(
++            "ProjectCostController_getProjectUnifiedAccounting",
++            { projectId },
++            null,
++            p.actorKey,
++            {
++                query: {
++                    view: "preparation",
++                    intent: "restatement",
++                    restatesSnapshotId: snapshotId,
++                    ...(roots
++                        ? { correctionSourceRefs: JSON.stringify(roots) }
++                        : {}),
++                },
++            },
++        );
++        const preparation = data(response).preparation;
++        assert(preparation);
++        return {
++            preparation,
++            receipt: response.receiptId,
++            http: {
++                file: response.receiptId,
++                rawBytesSha256: sha118(
++                    fs.readFileSync(response.receiptId),
++                ),
++            },
++        };
++    };
++    const initial = await get(legacy.sourceProjectId, selectedId),
++        find = (kind, id) => {
++            const a = initial.preparation.sourceRows.filter((r) =>
++                r.sourceRef.kind === kind && r.sourceRef.id === id
++            );
++            assert.equal(a.length, 1);
++            return exactExpectedRef(a[0].sourceRef);
++        },
++        taxRef = find("AccountingTaxTreatmentSnapshot", tax.id),
++        costRef = find("ProjectActualCostRecord", cost.id);
++    assert.equal(taxRef.expectedVersion, tax.row_version);
++    assert.equal(costRef.expectedVersion, cost.row_version);
++    const reason =
++        "真实已确认旧费用的 pending 结论未变，仅替代来源证据版本，不冒称新生产或已认定抵扣。";
++    const request = {
++        ...legacy.taxRequest,
++        expectedVersion: tax.row_version,
++        replacementReason: reason,
++        sourceReferences: [{
++            kind: "source",
++            sourceType: "project-actual-cost-record",
++            sourceId: cost.id,
++            sourceVersion: cost.row_version,
++            businessDate: cost.occurred_on,
++            reason,
++        }],
++    };
++    assert.equal(request.taxImpactAmount, "0.00");
++    assert.equal(request.taxImpactPendingAmount, "130.00");
++    assert.equal(request.deductibilityStatus, "pending");
++    assert.equal(request.taxPendingFlag, true);
++    assert.equal(request.currency, cost.currency);
++    const correction = {
++            correctionKind: "tax-treatment-replacement",
++            taxTreatmentRef: taxRef,
++            expectedSourceRefs: [costRef],
++            request,
++        },
++        queryRoots = [taxRef];
++    // Tax alone is the explicit query root. Cost/basis roots would conceal the
++    // server's responsibility to derive the actual Tax dependency and whole batch.
++    const primary = await get(legacy.sourceProjectId, selectedId, queryRoots),
++        packets = [];
++    for (const target of primary.preparation.proposedAffectedTargets) {
++        const packet = await get(
++            target.projectId,
++            target.restatesSnapshotRef.id,
++            queryRoots,
++        );
++        packets.push({ target, ...packet });
++    }
++    const fullPacket = ctx.artifact(
++        ctx.next("tax15-complete-server-targets") + ".json",
++        {
++            initial,
++            primary,
++            packets,
++            queryRoots,
++            oldProducer: legacy.producerStatePin,
++            legacyReconciliation: legacy.reconciliation,
++            TaxCorrectionPOSTExecuted: false,
++        },
++    );
++    ctx.state.taxContinuation15.lastServerTargetPacket = fullPacket;
++    ctx.persist();
++    const targets = completeTargetsTax13(
++        primary.preparation,
++        packets,
++        legacy.projectIds,
++    );
++    assertSameCompleteTargets(
++        targets,
++        packets.map((p) => p.preparation.proposedAffectedTargets),
++    );
++    const body = composeTax15Body(primary.preparation, targets, correction),
++        fresh = await h.capture(ctx, ctx.next("tax15-prepared-current-facts"));
++    assertRecorded118(cap, fresh);
++    const facts = deriveTax15Facts(
++            ctx,
++            fresh,
++            body,
++            legacy,
++            packets,
++            h.readRows,
++        ),
++        inventory = inventoryTax15(facts),
++        bodySHA256 = sha118(JSON.stringify(body));
++    const fullInventory = ctx.artifact(
++            ctx.next("tax15-full-inventory") + ".json",
++            inventory,
++        ),
++        artifact = ctx.artifact(
++            ctx.next("tax15-reviewable-body-inventory") + ".json",
++            {
++                body,
++                bodySHA256,
++                packets,
++                fullPacket,
++                facts,
++                inventory,
++                fullInventory,
++                before: fresh.manifest,
++                oldSnapshotAggregateEqualityAssumed: false,
++                historicalBaselinePolicyAccepted: false,
++                periodTargetsDropped: false,
++                TaxCorrectionPOSTExecuted: false,
++            },
++        );
++    const prepared = {
++        artifact,
++        body,
++        bodySHA256,
++        packets,
++        fullPacket,
++        facts,
++        inventory,
++        fullInventory,
++        postconditions: "prepared-for-Root-review-only",
++    };
++    savePreparation118(cap, prepared);
++    return artifact;
+ }

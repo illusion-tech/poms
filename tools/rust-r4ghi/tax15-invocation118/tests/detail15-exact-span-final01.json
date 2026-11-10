@@ -1,0 +1,23 @@
+{
+  "kind": "author-exact-original-detail-span-after-formatting",
+  "original": {
+    "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/tax13-facts.mjs",
+    "bytes": 15429,
+    "rawBytesSha256": "e55e6cb5dce6169e1ae2737881d946638ce709414ad6633c829fa2eb7c8eee9b",
+    "startByte": 7389,
+    "endByte": 15322,
+    "spanSHA256": "8908e5b74ffbdf84905f094c2fba75d72ad1545c06748f6111c00056630273c5"
+  },
+  "allowedDiff": {
+    "functionRename": "deriveTax13Facts -> deriveTax15FixtureDetails",
+    "removedFullLine": " const all=rows.values('project_operating_snapshot'),terminals=all.filter(s=>legacy.projectIds.includes(s.project_id)&&s.producer_version===1&&s.status==='active'&&!all.some(c=>c.supersedes_id===s.id)&&s.source_window_end>=cost.occurred_on);assert.deepEqual(targets.map(t=>t.projectId+':'+t.restatesSnapshotRef.id).sort(),terminals.map(s=>s.project_id+':'+s.id).sort(),'The fixture consumer must contain every actual applicable live terminal');",
+    "replacementAuthority": "The caller requires the independent complete implicit+explicit roots/impact/terminal union before invoking the preserved fixture detail function",
+    "allOtherOriginalFunctionBytesPreserved": true
+  },
+  "formattingOutsideThisFunctionOnly": true,
+  "beforeSHA256": "609dd794d9990b0d8c613f92f0575606686f7fbe2f83d7bd89b86a9b1cc6a054",
+  "afterSHA256": "a3cbe4b3ad7186a07dcd5f3bc65b2ef2a5e9fb678ba2daadf260dfcda3c360ea",
+  "expectedFunctionSHA256": "e75292dcdacdf738a73b827855875f22cbe7d5f082e54fc48c320a57c946e486",
+  "actualOriginalFunctionInverseVerified": true,
+  "actualRuntime": false
+}

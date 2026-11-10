@@ -1,0 +1,24 @@
+{
+  "kind": "author-full-span-Tax15-detail-correction",
+  "independentFinding": {
+    "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/independent-tax15-facts118-review01/review-tax15-facts118-01.json",
+    "rawBytesSha256": "1bcd6e5551c6fdae098f99cf9a268d953120252d04c2bdfefba872d9d44b0048"
+  },
+  "original": {
+    "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/tax13-facts.mjs",
+    "bytes": 15429,
+    "rawBytesSha256": "e55e6cb5dce6169e1ae2737881d946638ce709414ad6633c829fa2eb7c8eee9b",
+    "startByte": 7389,
+    "endByte": 15322,
+    "spanSHA256": "8908e5b74ffbdf84905f094c2fba75d72ad1545c06748f6111c00056630273c5"
+  },
+  "allowedDiff": {
+    "functionRename": "deriveTax13Facts -> deriveTax15FixtureDetails",
+    "removedFullLine": " const all=rows.values('project_operating_snapshot'),terminals=all.filter(s=>legacy.projectIds.includes(s.project_id)&&s.producer_version===1&&s.status==='active'&&!all.some(c=>c.supersedes_id===s.id)&&s.source_window_end>=cost.occurred_on);assert.deepEqual(targets.map(t=>t.projectId+':'+t.restatesSnapshotRef.id).sort(),terminals.map(s=>s.project_id+':'+s.id).sort(),'The fixture consumer must contain every actual applicable live terminal');",
+    "replacementAuthority": "The caller requires the independent complete implicit+explicit roots/impact/terminal union before invoking the preserved fixture detail function",
+    "allOtherOriginalFunctionBytesPreserved": true
+  },
+  "beforeRootSHA256": "60bd28f6dec10a7c53e1423ad8530b6a87abe292fd04a98c5aec88abe654973f",
+  "afterRootSHA256": "1aa6c0e70f0c0fe429559272e7b48e2ed4e4fddb638d89970cbda0875d4cc43e",
+  "noRuntimeExecuted": true
+}
