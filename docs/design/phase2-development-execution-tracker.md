@@ -931,3 +931,14 @@ D#107/E#108/F#109及本批#106已按[独立关闭许可](archive/slices/rust-r4d
 66f最终14留存与d712代码审后，Root已仅推广22d4/e9f两Rust叶，新420来源digest为b55f88…，其它528编译输入及218 helper原字节不变，原13AF/14bd21不改。旧14二进制保留，当前Root源码已不是Reg4记录的14图；未重用旧current14守卫。rawbuild01存在审件ABI/完整集合复测两P2而NOTREADY，02正在独审，未运行Cargo或启动API15，新认证0，#57开放。
 
 <!-- /poms-tax15-118-code-G1 -->
+
+
+<!-- poms-r4ghi-status348 -->
+
+### 2026-11-11 统一候选状态348：真实构建已独立读回
+
+[固定状态348](rust-r4ghi/continuation-status348.json)为当前状态；346及其后原件保留原时点标签。两Rust纠偏已实际推广，Root/mirror八条串行Cargo完整通过，两侧各620通过/54默认忽略（同一套674结果，不合成为1240新用例）；[实际构建与原路径历史独审](../../tools/rust-r4ghi/independent/final-gates13/rawbuild119-actual-history-readback01/review-actual-raw-history119.json)f48已通过。早先离线依赖失败保原件，默认缓存未改；新raw03明确使用原任务Cargo缓存。
+
+#119 whole02及H9 code02均仅代码就绪，旧NOTREADY保留。当前Root helper仍218；13有序变化构成最终227、总23文件的有限组合正在另审，尚未推广、退役14或启动15。Root #118八外置叶57项纯/FS协议例通过待独审；[#120](https://github.com/illusion-tech/poms/issues/120)已建立114父子及118/119原生依赖，G1固定25外置＋4验证，I第一包73项通过待独审，H3/backend增量0。真实15/API/Reg5/B1/state、Tax FI/正常201和所有后续阶段正向仍未通过。Rust正式240、R4已交付67/95、新认证0，#57和完整业务R5 #116保持开放。
+
+<!-- /poms-r4ghi-status348 -->

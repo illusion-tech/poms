@@ -1,0 +1,113 @@
+{
+  "kind": "non-author-source15-admission119-code-review",
+  "edition": "whole-code01-review01",
+  "author": "/root/r4_period_engineering206",
+  "reviewer": "/root/r4ghi_final_gates13",
+  "reviewerIsAuthor": false,
+  "toolingManifest": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source15-admission119-code01/sealed-code01/manifest119-code01.json",
+    "bytes": 48824,
+    "rawBytesSha256": "86176f6be93d7d6ce6780e6c16b68a71dd789e8ca52ec3ee3e9e025e0564d048"
+  },
+  "verdict": "NOT READY",
+  "complete119CodeReady": false,
+  "rawBuildCodeReady": false,
+  "retain14CodeReady": false,
+  "coveredModes": [],
+  "actualG2Authorized": false,
+  "findings": [
+    {
+      "id": "WH119-IR01",
+      "priority": 2,
+      "title": "Source15 pending-auth precondition is rejected as a null GH effect",
+      "file": "tools/rust-r4ghi/business/fault-sweep.mjs",
+      "lines": [
+        19,
+        20,
+        172,
+        173
+      ],
+      "nativeGuard": "tools/rust-r4ghi/business/source15-admission.mjs:211",
+      "evidence": "waitForActualPendingAuth(ctx,actorKey) still calls verifySources(ctx) without operationId. The new15 branch forwards null to assertGHCurrentSource15, whose first GH15.includes assertion rejects before runtime state or DB access. Existing generic sweep auth-coflush and normal callers still use the two-argument API.",
+      "independentProbe": {
+        "script": {
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/whole119-code-review01/probe-null-runtime-precondition.mjs",
+          "bytes": 2277,
+          "rawBytesSha256": "ba0bfe61e8ac6171af35b7598d013a8761dbf48c570d0bfb3604dd9afc17dd8d"
+        },
+        "result": {
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/whole119-code-review01/probe-null-runtime-result.json",
+          "bytes": 697,
+          "rawBytesSha256": "c83701e2d5714374604f1e93e30740965867d48e8a849943b0a8939c5a2801cb"
+        },
+        "nativeLinux": true,
+        "isolated222AllBytesVerified": true,
+        "runtimeStateReads": 0,
+        "dbCalls": 0,
+        "toolSession": 14390,
+        "toolCompletionChunk": "def788",
+        "exitCode": 0
+      },
+      "impact": "Required pending-auth FI preparation and generic success paths cannot run on actual Source15; the current75 tests do not exercise this exported path.",
+      "minimumFix": "Preserve the two-argument pending-auth API. For null runtime-only source verification perform complete typed15 current registry/source/H3/API verification; for non-null effect operations retain the exact six GH IDs. Do not fabricate a default GH operation, use static17/19, alter old14 branches or weaken real throttle/session/control/rollback checks.",
+      "requiredRegression": "Exercise the real exported wait helper/production dispatch through a narrowly labelled runtime/OS seam: typed null-source verification is reached, unknown non-GH effects still reject, and actual runtime validation/fresh session logic is not bypassed."
+    }
+  ],
+  "reviewedAreas": {
+    "finiteScope": "14production=4ADD+4MOD H3 plus6external; validation4 outside runtime. Full raw inverse of4MOD reproduces actual fixed original bytes, all14 protected refs unchanged. Core-only222 is explicitly rejected by native final-H3 composition.",
+    "historical14": "Explicit344 old-source/helper map, actual Reg4/B0/B1 constructors, real born10/11/12/13 resource scopes, Main13 once201 through final14 and actual auth200/10HTTP/final139x2. No ctx.win archive redirection or call to old252 current14 guard. Actual14 build metadata fields/argv and complete-compile canonical hash cross-checked.",
+    "rawHistory": "Whole bind carries actual rustExecutionHistory+review after raw completion, mapping original actual Root149 path to immutable same-byte code; it does not reread upgraded original path. Raw149→whole4866 production delta is only three bind-history schema/field edits; raw fresh guards preserved.",
+    "scopeAndPublication": "Only3 named scope slots are nulled; final approvals additionally bind exact B0 and source/helper/build/parent. Reg5 then real wx/readback B1 then state last; atomic no-replace and orphan failure states preserved. B1 mode only verifies existing artifacts.",
+    "twoSeams": "Pre-retire is literal retire14 historical reader with retirement null; ordinary reader requires real retirement. PreAPI only bind-after-real-write and start-before-spawn, all future API/readiness/observations/B0/reviews null, returns no current authority.",
+    "API": "Current source/14-code preimport, old owned PID/start/boot/exe/cwd/devino/socket verified before single SIGTERM; new ROOT15 build binding before spawn, private derived env, loopback/socket ownership and genuine readiness response, no automatic restart/force-kill. No actual process mode invoked.",
+    "currentRuntime": "Full actual H3/source/build/parent data even with missing pre-create helperPins; no publication-idle call in ordinary verification; immutable original birth/history and current latest progression separated. Null pending-auth path remains the blocking integration defect."
+  },
+  "validationEvidence": {
+    "audit": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/whole119-code-review01/audit.json",
+      "bytes": 5649,
+      "rawBytesSha256": "159fc8bbe4ce7313bc094f65fd5424be704441128a537fa10d07b26f655ecb1c"
+    },
+    "authorTests75Verified": true,
+    "syntax16Help5Verified": true,
+    "actualArchive746NativeFSTestAndBorn11DataTests": true,
+    "wholeRealNativeParentRetirePositiveNotExecutedByThoseTests": true,
+    "noActualReg5PositiveOrBusinessEffect": true,
+    "sourceStringCallgraphChecksAreNotModeTests": true
+  },
+  "newRootCacheIntegration": {
+    "classification": "Observed dependency/cache environment failure, not a Rust product lint regression",
+    "successful312Receipt": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/combined-build312/Root-cargo-checks-build.json",
+      "bytes": 121216,
+      "rawBytesSha256": "6882d438f5847c7ac07055ee34d0f76c58f493a0c89771b1f7b402abb7e98329"
+    },
+    "successful312ChildEnvironment": {
+      "CARGO_HOME": "/home/wangzishi/.cache/poms-r4def-cargo-home",
+      "RUSTUP_HOME": "/home/wangzishi/.rustup",
+      "CARGO_BUILD_JOBS": "2",
+      "CARGO_NET_OFFLINE": "true"
+    },
+    "currentRaw149AndWhole4866": "Their whitelist omits these cache/job settings, using HOME/.cargo under offline=true; Root reported fmt0 then clippy101 before compilation on missing ICU git revision.",
+    "newRootDecisionReported": "No default cache-additions/overwrite/synthesis executed. Root chose separately reviewed raw03 childenv using the actual312 dedicated CARGO_HOME/RUSTUP_HOME/jobs2; requires new raw03 code/exact G2 and fresh target/output.",
+    "whole02RequiredIntegration": "Keep inventory149 plus newchecks03 as an explicitly closed mode-specific raw-history set with each true manifest/code-review/path/copy/G2/input/intent/complete and actual result. Current native line79 hard149 for every mode cannot consume that future03 success. No arbitrary fallback, no old artifact rewrite, no claim first attempt ran8 commands."
+  },
+  "minimumNextEdition": [
+    "Fix WH119-IR01 within the allowed fault-sweep Source15 addition and preserve the entire old4MOD inverse boundary.",
+    "Integrate only the separately frozen/raw03 exact childenv and truthful mode-specific history identities. Keep failedchecks01/old149/whole86176 immutable.",
+    "Add regressions for actual null wait caller plus unknown operation and active-owned-FI verify/cleanup boundaries; retain all75 old cases.",
+    "Use actual fixed14 data to exercise the complete before-retirement native FS reader where feasible, with honest labels; archive-only pass is not that full path. No actual retirement/process call is needed for this FS seam.",
+    "Re-seal new complete14+4 and run real module combinations. ActualSource15 runtime/publisher/ordinary inputs remain unbound and need separate exact G2."
+  ],
+  "allOriginalSealsPreserved": true,
+  "actualMode": false,
+  "ordinaryContext": false,
+  "SQLHTTP": false,
+  "processQueryOrControl": false,
+  "RootPromotion": false,
+  "actualSource15Admission": false,
+  "G3": false,
+  "G4": false,
+  "formalRustDelivered": 240,
+  "newRustCertified": 0
+}
