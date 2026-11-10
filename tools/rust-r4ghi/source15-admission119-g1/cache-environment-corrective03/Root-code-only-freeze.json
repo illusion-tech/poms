@@ -1,0 +1,71 @@
+{
+  "kind": "Root-frozen-source15-119-cargo-environment-code-correction03",
+  "recordedAt": "2026-11-10T21:19:37.184Z",
+  "issue": 119,
+  "parentG1": {
+    "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/source15-admission119-g1/Root-G1-source15-119.json",
+    "bytes": 24767,
+    "rawBytesSha256": "b644c6b493e95126cfec32cf27624938bcaaf52b7c48c9813a93efa344018ffc"
+  },
+  "author": "/root/r4_period_engineering206",
+  "evidence": {
+    "actualFailedAttempt": {
+      "file": "//wsl.localhost/Debian/home/wangzishi/.local/share/poms-r4ghi/private/rawbuild119-checks-prepared01/run01/command-receipt.json",
+      "bytes": 977,
+      "rawBytesSha256": "da54808bf5c27bb72e401706b107253452e9ba74be09bc93b564d0f430afe528"
+    },
+    "actualSuccessful312Build": {
+      "file": "//wsl.localhost/Debian/home/wangzishi/.local/share/poms-r4ghi/private/combined-build312/Root-cargo-checks-build.json",
+      "bytes": 121216,
+      "rawBytesSha256": "6882d438f5847c7ac07055ee34d0f76c58f493a0c89771b1f7b402abb7e98329"
+    },
+    "independentDefaultIndexDifference": {
+      "file": "E:/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/independent-cache-hydration119-review01/review-index30-append01.json",
+      "bytes": 2888,
+      "rawBytesSha256": "4fe1a43df5ac8ad0b23fee60ff2ea19c54a70e07000bd2d23608630e40d315db"
+    }
+  },
+  "finding": "Raw149 used the default HOME/.cargo while actual successful312/H344 used the existing task Cargo cache; fmt passed, clippy stopped before compilation because the locked Git dependency was unavailable offline, and six later commands did not run.",
+  "decision": "Use the original verified task CARGO_HOME in a new reviewed builder revision. Both default-cache hydration proposals remain unexecuted; do not overwrite, merge or synthesize default sparse-index entries.",
+  "codeOnlyImplementationAuthorized": true,
+  "scope": {
+    "runtimeLeaf": "tools/rust-r4ghi/source15-admission119/build-source15.mjs",
+    "rawBeforeSHA256": "149bed1b19ebb1b1abdfeb0ebbf4b3184ad47d97aba94d597543bc7b68195ec8",
+    "rawCandidate": "I exclusive raw-build-only-sealed03",
+    "allowedRawDiff": [
+      "Add fixed CARGO_HOME=/home/wangzishi/.cache/poms-r4def-cargo-home to each Cargo child env",
+      "Add fixed RUSTUP_HOME=/home/wangzishi/.rustup and CARGO_BUILD_JOBS=2 matching the actual successful task environment",
+      "Record the exact nonsecret whitelist object actually passed to spawnSync in each command receipt"
+    ],
+    "wholeFollowup": "Original fourteen production and four validation leaves only. After raw03 has an exact sealed SHA, extend the native historical raw-code closed set from original149 to exactly [149,raw03]; verify each original manifest/review/input/G2/path/raw command and explicit private code map. Preserve original149 inventory and failed checks evidence. No wildcard, review-kind relabel, or current-source substitution.",
+    "otherKnownCorrection": "Apply the independently reproduced null read-only pending-auth precondition fix in the already-listed fault-sweep MOD after Final full findings; no old14 branch or actual throttle/control logic change."
+  },
+  "unchanged": [
+    "Two Rust product leaves and full source420/compile528",
+    "Root and mirror current helper218 before final reviewed promotion",
+    "Original raw149 bytes, manifest, reviews, input, approvals, inventory and failed attempt",
+    "Raw input closed shape, all source/type/hash/enumeration/state/parent guards and first-failure STOP",
+    "Offline dependency policy and locked Cargo revisions/checksums",
+    "Exactly eight serial Cargo commands in separate new ROOT15 targets",
+    "Fourteen production/four validation leaves and five public stages"
+  ],
+  "allowed": [
+    "Isolated code and non-runtime FS/unit validation in I candidate",
+    "Separate raw03 and whole02 immutable seals for non-author review"
+  ],
+  "prohibited": [
+    "Modify Root/source/helper/state/cache/API or run actual modes/Cargo/network",
+    "Execute default-cache hydration proposals",
+    "Reuse failed checks input/output/target or claim unrun commands",
+    "Claim current15/G3/G4 from code correction"
+  ],
+  "actualCacheHydrationExecuted": false,
+  "actualNewChecksInput": null,
+  "actualRaw03SHA256": null,
+  "actualG2": false,
+  "actualBuild15Complete": false,
+  "Source15Admitted": false,
+  "G3": false,
+  "G4": false,
+  "newCertified": 0
+}
