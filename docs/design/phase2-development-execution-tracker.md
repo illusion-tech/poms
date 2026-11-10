@@ -869,3 +869,11 @@ D#107/E#108/F#109及本批#106已按[独立关闭许可](archive/slices/rust-r4d
 ### 2026-11-06 R4 GHI 联合 G1 实际准入
 
 候选 `9e010077` 的223项输入及133项未改产品源已通过[非作者G1](../../tools/rust-r4ghi/independent/business-g1/round02/g1-review02.json)；[实际线上冻结](rust-r4ghi/g1-online01.json)与[准入索引](rust-r4ghi/g1-admission01.json)已读回，三线从同一输入进入G2。此前Pending基线/失败为保留的原始检查点，不改写。G9/H8/I11/R5最小4共32项尚未正式验收或G3/G4，Rust仍240、R4已交付67/规划95；#57/#101/#110/#116/#117保持Open。
+
+<!-- poms-r4ghi-tax14-invocation118 -->
+
+### 2026-11-11 Tax14 验收执行器验证复用 #118
+
+[#118](https://github.com/illusion-tech/poms/issues/118)已原生挂到阶段验收#114。真实inspect1095.87秒、7次完整252及原FI线性重复使执行成本不可接受；[技术基线](rust-r4ghi/tax14-invocation-reuse118-baseline.md)与proposal02/非作者建议已由Root冻结，范围仅6外置叶、无H2218/Reg4/B1/epoch或业务操作变化。实施待线上G1读回后按Root明确许可开展；实际G2、40负例、性能与真实下游消费均另审。当前原Tax14 prepare继续，不干预进程或结果。Rust正式240/本批新增0，联合32项与#57开放边界保持。
+
+<!-- /poms-r4ghi-tax14-invocation118 -->
