@@ -886,4 +886,14 @@ D#107/E#108/F#109及本批#106已按[独立关闭许可](archive/slices/rust-r4d
 
 [纠偏checkpoint344](rust-r4ghi/tax-preparation344-corrective-checkpoint.md)仍为业务Block；[Root两叶候选实施冻结](../../tools/rust-r4ghi/corrective344-g1/Root-corrective344-freeze.json)已采纳作者只读方案与独立建议，仅允许H隔离候选及必要回归，不授权Root提升、真实效果或Source15准入。旧14的420来源/528编译输入/218工具已作746叶原字节独立保全，14真实auth和失败保持；新Source15仅提案，不原地替换Reg4/B1，不修改原M98。成功准备、全FI、唯一正常提交及剩余阶段验收和独立G3/G4仍待完成。Rust正式240、R4为67/95、本批新增0，#57及本批各父子Issue保持开放，未合并main或部署切换。
 
+固定14个源码的公开writer/版本/完整锁闭包已通过[独立静态读集复核](../../tools/rust-r4ghi/independent/final-gates13/checkpoint344-readset-review01/review-readset344-01.json)，Root据此[恢复原两叶context候选实施](../../tools/rust-r4ghi/corrective344-g1/Root-readset344-resume.json)，未扩第三叶。该前提不代表逐列时间hash、DDL immutable或任意SQL保障；实际候选与G3/G4仍待。
+
 <!-- /poms-r4ghi-failed-prepare344 -->
+
+<!-- poms-source15-g0-119 -->
+
+### 2026-11-11 Source15 技术准入 G0 #119
+
+[实际G0原件](rust-r4ghi/source15-g0-119.json)：[#119](https://github.com/illusion-tech/poms/issues/119)已原生挂到#114，#118原生依赖#119。范围只为真实14-retained→15、同M98/139的有限技术准入；当前G0/Todo，G1与实施未授权，实际15各pin为空。两Rust生产纠偏仍按344另行复核，准备/FI/201及四caller不纳本技术子片；Rust正式240、R4已交付67、本批新增0，#57开放。
+
+<!-- /poms-source15-g0-119 -->

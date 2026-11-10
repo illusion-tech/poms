@@ -1,0 +1,9 @@
+# 344 新读集的版本与锁覆盖独立复核
+
+结论限固定公开Rust writer闭包：现版本/事实hash与完整family锁、锁后reload/rediscover/CAS足够，不必为逐时间列哈希扩preparation.rs。它不是逐列时间CAS或DDL immutable保证，也不覆盖任意privileged SQL。
+
+逐SQL核对：Basis/Result supersede及G inclusion必row_version+1；Cost的E唯一更新caller先touch，F Stage和G inclusion也与updated_at一起增加版本。generic E update本身没有自动增版本保证，不能把此结论推广到未知caller。Source只改已hash的is_current，created_at不改；Evidence仅append，request_id/created_at不被公开修改。creator/reason/created等未hash值只在server构造INSERT，captured source/Evidence整JSON已hash。
+
+BASIS_IDS递归涵盖ancestor和全部peer，五family按PK/composite PK锁定；collector在锁后重新加载、重复project发现并校验expectedInputHash。候选必须继续新鲜锁内判定，不能用缓存GET资格授排除；要以生产函数和真实hash路径补版本/marker/payload变化及future+missing顺序反例。
+
+建议Root明确恢复两叶隔离候选，仍不准Root提升、Source15准入、实际effect或G3/G4。新writer或新mutable read若超此闭包必须再次STOP。

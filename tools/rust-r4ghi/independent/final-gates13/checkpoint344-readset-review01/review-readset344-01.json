@@ -1,0 +1,276 @@
+{
+  "kind": "non-author-fixed-public-writer-readset-coverage344-review",
+  "verdict": "statically-sufficient-within-fixed-public-writer-closure",
+  "reviewer": "/root/r4ghi_final_gates13",
+  "authorAudit": {
+    "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/tax-preparation344-code01/readset-audit344.json",
+    "rawBytesSha256": "2dc97cb94666b64a0ba5d54f6ec5ffebe7b9b022c97ccbd5d7d19915615cef0b"
+  },
+  "checkpointPlanReview": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/checkpoint344-scope-review01/review-checkpoint344-plan01.json",
+    "bytes": 5800,
+    "rawBytesSha256": "1339f29f962157de37c3d080a11739aa8d39308e3ce815db5980a40d920f115b"
+  },
+  "sourcePins": [
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_operating/late_allocation.rs",
+      "relative": "apps/poms-api-rust/src/project_operating/late_allocation.rs",
+      "bytes": 23615,
+      "rawBytesSha256": "f7c628545b0ec9822f680d5a6538d54c2ad7d24b944a2d9a84a96179b44e3170"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_operating/sources.rs",
+      "relative": "apps/poms-api-rust/src/project_operating/sources.rs",
+      "bytes": 29268,
+      "rawBytesSha256": "298bf7ee91fc6a27b7f555942f660d2e1644f57a9d6fae9ea4bd8d124d99c9bf"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_operating/store.rs",
+      "relative": "apps/poms-api-rust/src/project_operating/store.rs",
+      "bytes": 22919,
+      "rawBytesSha256": "10144498fdf21b68dcddd8b543c6196919a1da3762a40fe4f0d7dc147c2d218a"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_operating/preparation.rs",
+      "relative": "apps/poms-api-rust/src/project_operating/preparation.rs",
+      "bytes": 28099,
+      "rawBytesSha256": "a8f6b4aee081458836b38100036b54566b2aa9ac18fc3aa25423433285c4eef8"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_operating/collector.rs",
+      "relative": "apps/poms-api-rust/src/project_operating/collector.rs",
+      "bytes": 27091,
+      "rawBytesSha256": "6caffa61c494169e1e419bbea07a48c143063790039847ff5edbe9fe05a791ca"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_operating/service.rs",
+      "relative": "apps/poms-api-rust/src/project_operating/service.rs",
+      "bytes": 27022,
+      "rawBytesSha256": "c9e98a8aa045ea4a17319b4b7d4586b434424354d496bfa91d3f61b179a7ec16"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_operating/inclusion.rs",
+      "relative": "apps/poms-api-rust/src/project_operating/inclusion.rs",
+      "bytes": 50675,
+      "rawBytesSha256": "683bb9a82d27ce4de78b3ac62fc9906f3d891718c0eb8289c078b474525cd16d"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_cost_governance/store.rs",
+      "relative": "apps/poms-api-rust/src/project_cost_governance/store.rs",
+      "bytes": 11880,
+      "rawBytesSha256": "6712ee261e4458df43fe3f1369dcdfa8a083de9e6f844f461a0eddc85a11867e"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_cost_governance/service.rs",
+      "relative": "apps/poms-api-rust/src/project_cost_governance/service.rs",
+      "bytes": 61189,
+      "rawBytesSha256": "40cfd49a18a592876b2a2ccf06176372fadc20ee3a9b22cdbc1c7b01a1171897"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_cost_governance/evidence.rs",
+      "relative": "apps/poms-api-rust/src/project_cost_governance/evidence.rs",
+      "bytes": 34133,
+      "rawBytesSha256": "12d804e277162d1a178258227129761b883ec1f8be44851f20926ab597e703fb"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_actual_cost/mod.rs",
+      "relative": "apps/poms-api-rust/src/project_actual_cost/mod.rs",
+      "bytes": 80974,
+      "rawBytesSha256": "da7c644b766b0cce407a37dc8bebd74874b6bab0bf0dc652697bb3e8e0d360e3"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_actual_cost/store.rs",
+      "relative": "apps/poms-api-rust/src/project_actual_cost/store.rs",
+      "bytes": 9144,
+      "rawBytesSha256": "0b39d14477e52641307d84f28c043dcf9c4309d38d0f55476e7f9806cb621eb5"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_operating/restatement.rs",
+      "relative": "apps/poms-api-rust/src/project_operating/restatement.rs",
+      "bytes": 44779,
+      "rawBytesSha256": "7251664a65dd189b38ea9349ba6e54b8a2ea84ca307d128e3b01f29ba446890c"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_operating/context.rs",
+      "relative": "apps/poms-api-rust/src/project_operating/context.rs",
+      "bytes": 90942,
+      "rawBytesSha256": "f0b18b53af2d3288a7b4078f15280a23cc8821a1d2792519733f64d935aaa0ac"
+    }
+  ],
+  "scope": "Only the new future-exclusion proof in the proposed two-leaf Restatement/context correction; not actual code or runtime acceptance",
+  "independentConclusions": {
+    "allFiveRowFamiliesAndCapturedJSONReadSetReviewed": true,
+    "fullTimeAndCreatorReasonRequestColumnsNotDirectlyHashed": true,
+    "noDDLImmutableGuaranteeClaimed": true,
+    "fixedSupportedRustWriterClosureMateriallyCoversUnhashedReadInputs": true,
+    "thirdPreparationLeafNotRequiredForThisBoundedWriterModel": true,
+    "blanketPerColumnTemporalHashRequirementNotApplied": true
+  },
+  "coverage": [
+    {
+      "family": "AllocationBasis",
+      "hashed": "identity/row_version/status/effective_at/evidence and financial payload",
+      "unhashed": "created_at/created_by/replacement_reason immutable after INSERT; updated_at changes on supersede only with row_version+1 and expected version",
+      "proof": [
+        {
+          "file": "apps/poms-api-rust/src/project_cost_governance/service.rs",
+          "line": 651
+        },
+        {
+          "file": "apps/poms-api-rust/src/project_cost_governance/store.rs",
+          "line": 189
+        }
+      ]
+    },
+    {
+      "family": "AllocationResult",
+      "hashed": "identity/basis/project/row_version/status/effective_at/evidence/money/share payload",
+      "unhashed": "creator/creation immutable; supersede and G inclusion update time with row_version+1",
+      "proof": [
+        {
+          "file": "apps/poms-api-rust/src/project_cost_governance/service.rs",
+          "line": 692
+        },
+        {
+          "file": "apps/poms-api-rust/src/project_cost_governance/store.rs",
+          "line": 205
+        },
+        {
+          "file": "apps/poms-api-rust/src/project_operating/inclusion.rs",
+          "line": 311
+        }
+      ]
+    },
+    {
+      "family": "AllocationSource",
+      "hashed": "entire source_payload/source_payload_hash/current marker and declared source set",
+      "unhashed": "created_at insert-only; updated_at/effective_at absent from row constructor",
+      "proof": [
+        {
+          "file": "apps/poms-api-rust/src/project_cost_governance/service.rs",
+          "line": 657
+        },
+        {
+          "file": "apps/poms-api-rust/src/project_cost_governance/service.rs",
+          "line": 661
+        },
+        {
+          "file": "apps/poms-api-rust/src/project_operating/sources.rs",
+          "line": 531
+        }
+      ]
+    },
+    {
+      "family": "Cost",
+      "hashed": "row_version and factual source/business/economic payload",
+      "unhashed": "created_at insert-only; E replacement touch, F stage and G inclusion pair updated_at with row_version+1",
+      "proof": [
+        {
+          "file": "apps/poms-api-rust/src/project_actual_cost/mod.rs",
+          "line": 223
+        },
+        {
+          "file": "apps/poms-api-rust/src/project_actual_cost/mod.rs",
+          "line": 652
+        },
+        {
+          "file": "apps/poms-api-rust/src/project_actual_cost/mod.rs",
+          "line": 1105
+        },
+        {
+          "file": "apps/poms-api-rust/src/project_cost_governance/service.rs",
+          "line": 1017
+        },
+        {
+          "file": "apps/poms-api-rust/src/project_operating/inclusion.rs",
+          "line": 294
+        }
+      ],
+      "importantLimit": "Generic E store::update does not itself increment versions; sufficiency depends on these fixed caller keysets and touch/SQL behavior."
+    },
+    {
+      "family": "Evidence",
+      "hashed": "whole frozen_payload and target/reason/actor/project identity; fixed reference version1",
+      "unhashed": "request_id and created_at append-only in server-owned INSERT constructor; no supported update/delete path found",
+      "proof": [
+        {
+          "file": "apps/poms-api-rust/src/project_cost_governance/evidence.rs",
+          "line": 615
+        },
+        {
+          "file": "apps/poms-api-rust/src/project_cost_governance/evidence.rs",
+          "line": 637
+        }
+      ]
+    }
+  ],
+  "lockAndCAS": {
+    "recursiveWholeBasisAncestorsAndAllPeersLoaded": true,
+    "allFiveFamiliesExactPKOrCompositePKForUpdate": true,
+    "projectSetLockedBeforeCollection": true,
+    "lockThenReloadMergeRediscoverBeforeExpectedInputHash": true,
+    "changedVersionOrIsCurrentOrCapturedPayloadChangesInputHash": true,
+    "sourceInputHashCoversEntireCapturedPayloadAndEconomicProjection": true,
+    "proof": [
+      {
+        "file": "apps/poms-api-rust/src/project_operating/store.rs",
+        "line": 185
+      },
+      {
+        "file": "apps/poms-api-rust/src/project_operating/store.rs",
+        "line": 295
+      },
+      {
+        "file": "apps/poms-api-rust/src/project_operating/sources.rs",
+        "line": 19
+      },
+      {
+        "file": "apps/poms-api-rust/src/project_operating/collector.rs",
+        "line": 36
+      },
+      {
+        "file": "apps/poms-api-rust/src/project_operating/collector.rs",
+        "line": 64
+      },
+      {
+        "file": "apps/poms-api-rust/src/project_operating/collector.rs",
+        "line": 109
+      },
+      {
+        "file": "apps/poms-api-rust/src/project_operating/preparation.rs",
+        "line": 594
+      },
+      {
+        "file": "apps/poms-api-rust/src/project_operating/service.rs",
+        "line": 123
+      }
+    ]
+  },
+  "boundedAssumptionsAndLimits": {
+    "arbitraryPrivilegedSQLOrUnreviewedTimestampOnlyWriterCovered": false,
+    "physicalDatabaseImmutabilityProven": false,
+    "unhashedTimestampBytesExactCASProven": false,
+    "noSupportedPublicTimestampOnlyCreatorReasonRequestRewriteFound": true,
+    "newWriterOrNewMutableReadRequiresNewCoverageReview": true,
+    "GETQualificationMustNotBeCachedAsAuthoritativePOSTPermission": true,
+    "lockedPOSTMustFreshlyReloadAndClassifyUnderExistingLocks": true,
+    "unknownLegacyFutureEvidenceMustRemainHardBlocked": true,
+    "allInWindowMustNotGainFirstPeriodTemporalPolicyRestrictions": true
+  },
+  "candidateRequirements": [
+    "Call the actual production classifier/predicate in regressions; prove future/missing member order reversal and corruption cannot grant exclusion.",
+    "Exercise the real input_hash/source-reference path for supported mutation patterns: Basis/Result/Cost version bump, Source current-marker change, and captured Evidence/source JSON change must invalidate the prepared hash.",
+    "The future path must accept only full qualify FutureBusiness, never swallow errors or alter metadata/time to make it fit.",
+    "Retain whole peer/ancestor selection and explicit/foreign real dependencies; no Root/H2/registered14 hot patch."
+  ],
+  "recommendation": "Root may explicitly resume H isolated two-leaf code-only candidate work within its prior scope. No preparation.rs expansion is required on the reviewed fixed public-writer model; any new uncovered mutable read must STOP before scope expansion.",
+  "RootExplicitResumeStillRequired": true,
+  "candidateCreatedOrCodeApprovedByThisArtifact": false,
+  "RustTestsOrRuntimeConcurrencyExecutedByReviewer": false,
+  "Source15G1G2OrEffectApproved": false,
+  "RootSourceHelperStateServiceOrGitWritten": false,
+  "SQL": false,
+  "HTTP": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

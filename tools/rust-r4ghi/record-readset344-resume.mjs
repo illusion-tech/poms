@@ -1,0 +1,23 @@
+// Root confirms the bounded static premise; no production promotion or execution.
+import fs from'node:fs';import assert from'node:assert/strict';import{createHash}from'node:crypto';
+const R='E:/projects/worktrees/poms-r3hijk-next28/poms',H='E:/projects/worktrees/poms-r4h-signals/poms',sha=b=>createHash('sha256').update(b).digest('hex');
+function load(file,digest){const b=fs.readFileSync(file);assert.equal(sha(b),digest);return{raw:b,value:JSON.parse(b),pin:{file,bytes:b.length,rawBytesSha256:digest}};}
+const author=load(H+'/tools/rust-r4ghi/H/implementation/support-patches/tax-preparation344-code01/readset-audit344.json','2dc97cb94666b64a0ba5d54f6ec5ffebe7b9b022c97ccbd5d7d19915615cef0b');
+const review=load(R+'/tools/rust-r4ghi/independent/final-gates13/checkpoint344-readset-review01/review-readset344-01.json','a1703e24af3dfb51b182905bec359def8b5d3752f8369f23f2aa9f7197df64db');
+assert.equal(review.value.kind,'non-author-fixed-public-writer-readset-coverage344-review');assert.equal(review.value.verdict,'statically-sufficient-within-fixed-public-writer-closure');assert.equal(review.value.RootExplicitResumeStillRequired,true);
+assert.equal(author.value.sourcePins.length,14);for(const p of author.value.sourcePins){const b=fs.readFileSync(p.file);assert.equal(b.length,p.bytes);assert.equal(sha(b),p.rawBytesSha256);}
+const freeze=load(R+'/tools/rust-r4ghi/corrective344-g1/Root-corrective344-freeze.json','a2456215a4b7a31cd7d9055f960cbce54f6d347b5b1916fcbeeda6875dfe6bc2');assert.equal(freeze.value.productionFiles.length,2);
+const retained=R+'/tools/rust-r4ghi/corrective344-g1/H-readset-audit344.json';fs.writeFileSync(retained,author.raw,{flag:'wx'});
+const resume={kind:'Root-explicit-two-leaf-context-implementation-resume344',recordedAt:new Date().toISOString(),issue:111,originalScope:freeze.pin,authorAudit:author.pin,retainedAuthorAudit:{file:retained,rawBytesSha256:sha(author.raw)},independentStaticReview:review.pin,sourceHashesReadBack:14,contextImplementationResumed:true,productionScopeUnchanged:true,thirdLeafAdded:false,
+ premise:'Only the fixed supported public Rust writer closure: insert-only unhashed values or legitimate mutations coupled to factual-hashed row_version/current markers, complete family/project locking and locked reload/rediscovery/CAS.',
+ exclusions:['No direct field-by-field temporal hash claim.','No DDL immutability or arbitrary privileged SQL guarantee.','E generic update is covered only through its present caller that first touches the version and uses its restricted column list; no approval for a new caller.'],
+ requiredCandidateEvidence:review.value.candidateRequirements,actualCandidateReviewed:false,RootPromotion:false,Source15Admission:false,actualG2:false,newCertified:0,G3:false,G4:false,businessCheckpoint:'Block',issue57:'OPEN'};
+const out=R+'/tools/rust-r4ghi/corrective344-g1/Root-readset344-resume.json';fs.writeFileSync(out,JSON.stringify(resume,null,2)+'\n',{flag:'wx'});
+const indexFile=R+'/docs/design/rust-r4ghi-delivery-status.json',j=JSON.parse(fs.readFileSync(indexFile));assert.equal(j.officialNewDelivered,0);
+j.currentCorrective.corrective344ReadsetResume={file:out,rawBytesSha256:sha(fs.readFileSync(out)),contextImplementationResumed:true,sourceCount:14,publicWriterPremiseOnly:true,thirdLeafAdded:false,RootPromotion:false,actualG2:false};
+const ar=load(R+'/tools/rust-r4ghi/independent/final-gates13/source14-archive344-review01/review-source14-preservation344-01.json','6a0341fd2176e5d8d1625d3a2dde6ac3f083732edfc49f77b7f3818385781ef3');
+j.currentCorrective.source14InputPreservation344.independentTypedInputReadback=ar.pin;j.currentCorrective.source14InputPreservation344.inputPreservationIndependentlyVerified=true;j.currentCorrective.source14InputPreservation344.dataFinalRetentionStillPending=true;
+fs.writeFileSync(indexFile,JSON.stringify(j,null,2)+'\n');
+const tf=R+'/docs/design/phase2-development-execution-tracker.md';let t=fs.readFileSync(tf,'utf8');assert(t.includes('<!-- /poms-r4ghi-failed-prepare344 -->'));
+t=t.replace('<!-- /poms-r4ghi-failed-prepare344 -->','固定14个源码的公开writer/版本/完整锁闭包已通过[独立静态读集复核](../../tools/rust-r4ghi/independent/final-gates13/checkpoint344-readset-review01/review-readset344-01.json)，Root据此[恢复原两叶context候选实施](../../tools/rust-r4ghi/corrective344-g1/Root-readset344-resume.json)，未扩第三叶。该前提不代表逐列时间hash、DDL immutable或任意SQL保障；实际候选与G3/G4仍待。\n\n<!-- /poms-r4ghi-failed-prepare344 -->');fs.writeFileSync(tf,t);
+console.log(JSON.stringify({resume:{file:out,rawBytesSha256:sha(fs.readFileSync(out))},scopeLeaves:2,sourcePremise:14,RootPromotion:false,actualG2:false,newCertified:0}));
