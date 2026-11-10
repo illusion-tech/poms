@@ -1,0 +1,27 @@
+{
+  "kind": "independent-rawbuild-cached-inventory-counterexample",
+  "candidateSHA256": "00fdcd3862711e76515ea5d27f09cce44a76bff63ee4c6b3b062bd6f2103b2a9",
+  "cases": [
+    {
+      "id": "RB119-C01",
+      "rootFullEnumerationStillExpected": true,
+      "mirrorCachedLeafChecksPass": true,
+      "mirrorActualCargoSetHasExtraFile": true,
+      "checksBuildHasNoFreshMirrorEnumeration": true
+    },
+    {
+      "id": "RB119-C02",
+      "rootCachedLeafChecksStillPassAfterAddedFile": true,
+      "actualRootCargoSetChanges": true,
+      "checksBuildStepAndFinalDoNotReenumerate": true
+    }
+  ],
+  "actualExportedEnumeratorUsed": true,
+  "fixtureScope": "Only this independent review directory; Windows FS paths, platform-independent enumerator",
+  "actualBuildModeInvoked": false,
+  "CargoInvoked": false,
+  "contextOrRuntimeInvoked": false,
+  "SQLHTTP": false,
+  "processQueryOrSignal": false,
+  "RootProductOrMirrorWritten": false
+}

@@ -1,0 +1,250 @@
+{
+  "kind": "non-author-source15-admission119-code-review",
+  "edition": "raw-build-only-sealed01-review01",
+  "author": "/root/r4_period_engineering206",
+  "reviewer": "/root/r4ghi_final_gates13",
+  "reviewerIsAuthor": false,
+  "toolingManifest": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source15-admission119-code01/raw-build-only-sealed01/manifest-raw-build-only01.json",
+    "bytes": 5965,
+    "rawBytesSha256": "e2a7ab045199da8905877d3b9e32102961189d2650658b92e8e0415ba17c644f"
+  },
+  "verdict": "NOT READY",
+  "rawBuildCodeReady": false,
+  "coveredModes": [
+    "inventory-copy",
+    "checks-build"
+  ],
+  "complete119CodeReady": false,
+  "actualG2Authorized": false,
+  "findings": [
+    {
+      "id": "RB119-IR01",
+      "priority": 2,
+      "area": "Existing final14 review ABI is not accepted",
+      "source": "tools/rust-r4ghi/source15-admission119/build-source15.mjs",
+      "line": 61,
+      "expectedByCode": {
+        "kind": "non-author-final-source14-retention119-readback",
+        "verdict": "approved-retention-only",
+        "receiptPointer": "retentionIndex",
+        "author": "required string distinct from reviewer"
+      },
+      "actualSignedReview": {
+        "pin": {
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/retain14-actual-readback119-01/review-final14-retention119.json",
+          "bytes": 14015,
+          "rawBytesSha256": "66f3a8973de24e06779d16d00b7aa693e894e756ff4c3e244e61484672cecb58"
+        },
+        "kind": "non-author-final-source14-retention-readback119",
+        "verdict": "approved-final14-retention-only",
+        "receiptPointer": "finalRetention14",
+        "reviewerIsCaptureAuthor": false,
+        "authorFieldPresent": false
+      },
+      "impact": "The already independently approved actual66f final14 evidence stops before the raw build modes. This is a real integration mismatch, not a data or product failure.",
+      "minimumFix": "Add a bounded explicit typed adapter to the actual immutable review shape and exact retention pin/reviewer facts, or consume a separately signed non-author thin adapter. Preserve66f and its original fields/labels; Root may not rewrite them to impersonate a reviewer."
+    },
+    {
+      "id": "RB119-IR02",
+      "priority": 2,
+      "area": "Cached leaf hashes do not establish complete Cargo/source set stability",
+      "source": "tools/rust-r4ghi/source15-admission119/build-source15.mjs",
+      "lines": [
+        47,
+        64,
+        74,
+        79,
+        85,
+        93,
+        112
+      ],
+      "actualBoundary": "Root full enumeration only in inputs(); mirror enumeration only in inventory-copy. checks-build before/after commands and final boundary only rehash cached compile leaves; sourcePins() is called only once.",
+      "counterexamples": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/raw-build119-code-review01/probe-result.json",
+        "bytes": 935,
+        "rawBytesSha256": "da5aebcd2813929ce3169c181b159ebf1b345c60ae492ff4a3d90381ac55a4f5"
+      },
+      "impact": "An extra Cargo tests/examples/build/config input in mirror after inventory can be present before checks-build yet all cached leaf checks still pass. A later extra Root input likewise does not invalidate cached checks. sourceStable:true cannot honestly certify the complete measured set.",
+      "minimumFix": "Re-enumerate the complete declared Cargo membership at copy boundaries and each command before/after plus final both-tree boundary, and remeasure the complete sourcePins set at the corresponding Root boundaries. Unknown added/deleted/renamed inputs must fail before further commands or final stable output."
+    }
+  ],
+  "probe": {
+    "script": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/raw-build119-code-review01/probe-inventory-boundary.mjs",
+      "bytes": 3423,
+      "rawBytesSha256": "0aecf2e130be056305cada255848726e1fbf3db7e50d55ddf566b8ec9b752b8a"
+    },
+    "result": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/raw-build119-code-review01/probe-result.json",
+      "bytes": 935,
+      "rawBytesSha256": "da5aebcd2813929ce3169c181b159ebf1b345c60ae492ff4a3d90381ac55a4f5"
+    },
+    "actualExportedEnumerator": true,
+    "cases": 2,
+    "exitCode": 0,
+    "actualMode": false,
+    "Cargo": false,
+    "runtime": false,
+    "SQLHTTP": false,
+    "processQueryOrSignal": false,
+    "fixtureWrites": "Only this independent review directory"
+  },
+  "checkedAndRetained": {
+    "all16FixedPins": [
+      {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source15-admission119-code01/raw-build-only-sealed01/manifest-raw-build-only01.json",
+        "bytes": 5965,
+        "rawBytesSha256": "e2a7ab045199da8905877d3b9e32102961189d2650658b92e8e0415ba17c644f"
+      },
+      {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/source15-admission119-g1/Root-G1-source15-119.json",
+        "bytes": 24767,
+        "rawBytesSha256": "b644c6b493e95126cfec32cf27624938bcaaf52b7c48c9813a93efa344018ffc"
+      },
+      {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source15-admission119-code01/raw-build-only-sealed01/tools/rust-r4ghi/source15-admission119/build-source15.mjs",
+        "bytes": 20804,
+        "rawBytesSha256": "00fdcd3862711e76515ea5d27f09cce44a76bff63ee4c6b3b062bd6f2103b2a9"
+      },
+      {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source15-admission119-code01/raw-build-only-sealed01/tools/rust-r4ghi/source15-admission119/tests/capture-publish15.test.mjs",
+        "bytes": 11809,
+        "rawBytesSha256": "8af25b54b5677c18cf9dbdc3898659e59e5be34f79b11c2d3e2707f5de39d724"
+      },
+      {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source15-admission119-code01/raw-build-only-sealed01/tools/rust-r4ghi/source15-admission119/capture-source15.mjs",
+        "bytes": 25752,
+        "rawBytesSha256": "e731df0b03f9b9b42654b5eb798546d06cfa48ec419ac0a354870a2381a54a0b"
+      },
+      {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source15-admission119-code01/raw-build-only-sealed01/tools/rust-r4ghi/source15-admission119/admit-source15.mjs",
+        "bytes": 11798,
+        "rawBytesSha256": "4be54711979292bc6a0edcb3461afc50115d3d59f2dd9c5b8f8992dc80ef1e09"
+      },
+      {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source15-admission119-code01/raw-build-only-sealed01/raw-build-input.NULL.json",
+        "bytes": 550,
+        "rawBytesSha256": "ad88657cc120f63f3e80c7f53cc5409803492b7ee1470ade59e465ba6861a51f"
+      },
+      {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source15-admission119-code01/raw-build-only-sealed01/raw-build-approval.NULL.json",
+        "bytes": 265,
+        "rawBytesSha256": "79d4ce37107cc55d4fcbf625a6ca410dfd576b900525d1d5f5c285e81cc360ec"
+      },
+      {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source15-admission119-code01/raw-build-only-sealed01/actual-output-schema119.json",
+        "bytes": 2324,
+        "rawBytesSha256": "00fa3521be6167a63ea2595fa947dc3cc6b5764133107f3cd8289c71fa53b5ed"
+      },
+      {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source15-admission119-code01/raw-build-only-sealed01/RAW-BUILD-ONLY.md",
+        "bytes": 1780,
+        "rawBytesSha256": "58537dda2daef3722b82d8fe4cf3689734fca48ed2e15e3cf9372a0b597fedb7"
+      },
+      {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source15-admission119-code01/raw-build-only-sealed01/syntax.stdout.txt",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source15-admission119-code01/raw-build-only-sealed01/syntax.stderr.txt",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source15-admission119-code01/raw-build-only-sealed01/tests.stdout.txt",
+        "bytes": 2065,
+        "rawBytesSha256": "3b28175ed51db4eb6559c5da8b2a71f1e1b0f1b2b55f1a208d1abdc5100aec30"
+      },
+      {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source15-admission119-code01/raw-build-only-sealed01/tests.stderr.txt",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source15-admission119-code01/raw-build-only-sealed01/help.stdout.txt",
+        "bytes": 191,
+        "rawBytesSha256": "a0fb420dc0a13e5b756f5365fdb7c1f1074d9ee07bdbe3749989b3961fcd6af8"
+      },
+      {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source15-admission119-code01/raw-build-only-sealed01/help.stderr.txt",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "full20804ByteProductionLeafReviewed": true,
+    "rawModeWhitelistBeforeRuntimeImport": true,
+    "bindRejectedByPartialManifest": true,
+    "futureRetirementHelperBindingBuildPairPreAPIPlanAllNull": true,
+    "fullCurrentHelperPreimportBeforeContextSourcePinsOnly": true,
+    "noCreateContextOrGuardOrPersist": true,
+    "old13AF14BDOwnershipBookends": true,
+    "old344ArchiveAndTwoProductDeltaIntentBound": true,
+    "RootMirrorPathsFixed": true,
+    "newROOT15FreshSeparateTargets": true,
+    "oldROOT14BinaryPathsNotWritten": true,
+    "mirrorOldDeclaredInputsVerifiedBeforeCopy": true,
+    "copyOnlyDifferentDeclaredBytes": true,
+    "CargoEightSerialIntendedCommands": [
+      "Root fmt",
+      "Root strict lib no-deps Clippy",
+      "Root all-targets test",
+      "Root API+Common build",
+      "mirror fmt",
+      "mirror strict lib no-deps Clippy",
+      "mirror all-targets test",
+      "mirror API+Common build"
+    ],
+    "childEnvironmentWhitelistDoesNotEnableDBOptIn": true,
+    "realStdoutStderrAndExitFilesOnCompletedCommand": true,
+    "firstFailurePartialAndUncertainCargoLockPreserved": true,
+    "postRawHelperBindingNull": true
+  },
+  "authorChecks": {
+    "syntaxExit": 0,
+    "helpExit": 0,
+    "totalPureNativeFSTests": 23,
+    "pass": 23,
+    "fail": 0,
+    "categories": {
+      "captureReused": 13,
+      "publisherTestOnly": 3,
+      "rawBuild": 7
+    },
+    "actualCopyOrCargoPerformed": false,
+    "doesNotProveProductionBoundaryBookends": true
+  },
+  "productAuthoritySeam": {
+    "status": "actual input/composition not yet supplied",
+    "codeLines": [
+      40,
+      44,
+      45
+    ],
+    "needed": "The planned normalized beforeSHA256/afterSHA256 product authority and new non-author product-review shape need explicit truthful mapping to the exact H34402 manifests/d712 and technicalG1. Existing H products use beforeRawBytesSha256/afterRawBytesSha256; do not silently relabel immutable originals. This is a future-input requirement, not a claim that an unseen composition is wrong."
+  },
+  "nativeEightCommandAlternative": {
+    "schema": {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source15-admission119-code01/raw-build-only-sealed01/actual-output-schema119.json",
+      "bytes": 2324,
+      "rawBytesSha256": "00fa3521be6167a63ea2595fa947dc3cc6b5764133107f3cd8289c71fa53b5ed"
+    },
+    "designMayBeUsedForSeparateExactRootPlan": true,
+    "notExecutionApproval": true,
+    "conditions": "Record true argv/cwd/toolchain/targets/outputs and full before/after membership+raw closure; no fabricated command step. Keep helperBinding/API/retirement future slots null. Exact Root plan and actual result need separate review; do not call this e2 runner ready."
+  },
+  "preservedPriorResults": {
+    "H34402CandidateD712Unchanged": true,
+    "final14ActualReadback66fUnchanged": true,
+    "RootReportedTwoLeafPromotionIsSeparateFromThisCodeReview": true,
+    "doNotCompareCurrentRootAfterToOld14Before": true
+  },
+  "minimumNextReview": "New edition only; preserve e2/23 tests and this NOT READY. Reproduce both enumerator boundary cases with the same production fresh-check function, accept the actual signed retention evidence via explicit typed mapping, then review exact mode inputs. No bind/API/15 admission authority.",
+  "RootProductHelperStateWrites": false,
+  "actualCopy": false,
+  "actualCargo": false,
+  "actualSource15Admission": false,
+  "G3": false,
+  "G4": false
+}

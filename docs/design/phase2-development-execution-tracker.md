@@ -921,3 +921,13 @@ D#107/E#108/F#109及本批#106已按[独立关闭许可](archive/slices/rust-r4d
 [最终14数据独审](../../tools/rust-r4ghi/independent/final-gates13/retain14-actual-readback119-01/review-final14-retention119.json)已通过：两次双139表、4935行（Native542/Rust4393）、3851 owned、3 borrowed及40对象闭合，原13与14失败/partial原件保留；不代表Source15准入。[H15/readers基线](rust-r4ghi/source15-policy-tax-readers-baseline.md)及[Root九叶冻结](../../tools/rust-r4ghi/source15-policy-readers-g1/Root-G1-H15-readers.json)采纳e859联合建议，实际线上G1读回后仅授H隔离代码。v2五ID与F→C→S→state顺序为准，227只是已知H3子集。下一步另行明确Root两Rust推广及完整构建；实际15/API/Reg5/state、业务FI/201及G3/G4仍待，新认证0，#57开放。
 
 <!-- /poms-final14-H15-G1 -->
+
+<!-- poms-tax15-118-code-G1 -->
+
+### 2026-11-11 Tax15 #118 八叶代码G1与两叶Root推广
+
+[新15基线](rust-r4ghi/tax15-invocation118-baseline.md)及[Root八叶冻结](../../tools/rust-r4ghi/tax15-invocation118-g1/Root-G1-Tax15-118.json)采纳非作者340c建议，只准6执行＋2真实prepare/facts外置ADD，H3贡献0；线上G1后Root才实施。独立事实须覆盖implicit+explicit完整根/impact union，不把旧日期谓词当全target oracle。原14 WIP5/6不当完成，实际15/prepare/FI/201/F/C/S/注册均为空。
+
+66f最终14留存与d712代码审后，Root已仅推广22d4/e9f两Rust叶，新420来源digest为b55f88…，其它528编译输入及218 helper原字节不变，原13AF/14bd21不改。旧14二进制保留，当前Root源码已不是Reg4记录的14图；未重用旧current14守卫。rawbuild01存在审件ABI/完整集合复测两P2而NOTREADY，02正在独审，未运行Cargo或启动API15，新认证0，#57开放。
+
+<!-- /poms-tax15-118-code-G1 -->
