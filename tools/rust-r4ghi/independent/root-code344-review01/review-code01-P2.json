@@ -1,0 +1,47 @@
+{
+  "kind": "Root-non-author-code344-01-production-gate-review",
+  "verdict": "not-ready-preserve-code01-require-bounded-code02",
+  "author": "H",
+  "reviewer": "Root",
+  "input": {
+    "file": "E:/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/tax-preparation344-code01/manifest344-code01.json",
+    "rawBytesSha256": "24441c221d4e42ce96513c9d4caa1926e128d0d80665a35ef1d8595044f061b1"
+  },
+  "finding": {
+    "id": "P2-future-allocation-classifier-generation-gate",
+    "severity": "P2",
+    "candidateContextSHA256": "d5375b14e2d52ade9a2796b62c2c50ea7960fb845e7c9dfb63e539b9387498ed",
+    "cause": "Both source_rows and build invoke the new source-business classifier only when result effective_at exceeds cutoff. A valid earlier-generated batch can still contain real source business after cutoff, so it remains included and fails later qualification.",
+    "supportedPublicPath": [
+      "project_actual_cost::create_expense accepts a real calendar expenseDate without restricting it to clock_now",
+      "Public confirmation and Cost source capture preserve the real expense date",
+      "F allocation sets effective_at to actual server time, independent of source business date",
+      "Therefore a real result with effective_at before or equal to a later historical cutoff may contain Cost.occurred_on after that cutoff"
+    ],
+    "sourceEvidence": [
+      {
+        "file": "apps/poms-api-rust/src/project_actual_cost/mod.rs",
+        "rawBytesSha256": "da7c644b766b0cce407a37dc8bebd74874b6bab0bf0dc652697bb3e8e0d360e3",
+        "anchor": "create_expense date parse, confirmation and source facts"
+      },
+      {
+        "file": "apps/poms-api-rust/src/project_cost_governance/service.rs",
+        "rawBytesSha256": "40cfd49a18a592876b2a2ccf06176372fadc20ee3a9b22cdbc1c7b01a1171897",
+        "anchor": "allocation effective_at uses actual now"
+      }
+    ],
+    "HConfirmedReachable": true,
+    "minimalRequiredChange": "Inside the same context leaf, apply the shared fresh classifier to every caller active/pending Restatement allocation before generation-day gates or accumulation. Preview marks proved future as outside even when effective_at is earlier. Keep in-window, Realtime and FirstPeriod admission unchanged.",
+    "requiredRegression": "Exercise actual production dispatch for effective_at before and equal to cutoff with real future Cost dates; direct classifier-only cases do not prove the caller gate."
+  },
+  "code01FilesAndPassingAuthorTestsPreserved": true,
+  "restatement22d4InheritedByCode02": true,
+  "scopeProductionLeaves": 2,
+  "thirdLeafOrBusinessDateRewriteGranted": false,
+  "RootPromotion": false,
+  "actualBusinessCommandsExecutedForThisReview": false,
+  "independentRustTestsExecutedForThisReview": false,
+  "Source15Admission": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

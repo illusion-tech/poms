@@ -894,6 +894,14 @@ D#107/E#108/F#109及本批#106已按[独立关闭许可](archive/slices/rust-r4d
 
 ### 2026-11-11 Source15 技术准入 G0 #119
 
-[实际G0原件](rust-r4ghi/source15-g0-119.json)：[#119](https://github.com/illusion-tech/poms/issues/119)已原生挂到#114，#118原生依赖#119。范围只为真实14-retained→15、同M98/139的有限技术准入；当前G0/Todo，G1与实施未授权，实际15各pin为空。两Rust生产纠偏仍按344另行复核，准备/FI/201及四caller不纳本技术子片；Rust正式240、R4已交付67、本批新增0，#57开放。
+[实际G0原件](rust-r4ghi/source15-g0-119.json)：[#119](https://github.com/illusion-tech/poms/issues/119)已原生挂到#114，#118原生依赖#119。范围只为真实14-retained→15、同M98/139的有限技术准入；建立时为G0/Todo，G1与实施未授权；当前代码G1见下节，实际15各pin仍为空。两Rust生产纠偏仍按344另行复核，准备/FI/201及四caller不纳本技术子片；Rust正式240、R4已交付67、本批新增0，#57开放。
 
 <!-- /poms-source15-g0-119 -->
+
+<!-- poms-source15-g1-119 -->
+
+### 2026-11-11 Source15 #119 代码G1
+
+[实施基线](rust-r4ghi/source15-admission119-baseline.md)、[Root冻结](../../tools/rust-r4ghi/source15-admission119-g1/Root-G1-source15-119.json)及[本地G1原件](rust-r4ghi/source15-g1-119.json)固定14生产叶＋4验证叶，采纳非作者b404建议；线上读回后由Root明确派发隔离实施。核心H3贡献222不是最终图；未授Root推广、实际环境操作或Source15准入。344 code01保留NOTREADY，完整code02作者133个默认用例通过，独立代码复核及完整Rust验证仍待。实际15所有pin/G2为空，新增认证0，#57开放。
+
+<!-- /poms-source15-g1-119 -->

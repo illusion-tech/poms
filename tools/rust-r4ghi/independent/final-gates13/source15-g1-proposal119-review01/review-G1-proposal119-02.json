@@ -1,0 +1,146 @@
+{
+  "kind": "non-author-fixed14-to15-finite-G1-design-review119",
+  "verdict": "recommended-finite-code-only-scope-freeze",
+  "reviewer": "/root/r4ghi_final_gates13",
+  "author": "I",
+  "proposal": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source14-retained-to15-G1-proposal02/manifest-G1-PROPOSAL02.json",
+    "bytes": 5897,
+    "rawBytesSha256": "42828152b2522604fde348783e5dbca99bd752c22c0807d7aa2541c8b7421619"
+  },
+  "exactFiles": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source14-retained-to15-G1-proposal02/exact-files02.json",
+    "bytes": 14218,
+    "rawBytesSha256": "e2f5c8854d1eda6ed9bc384befc9d0e690265f3437398993bc9c2bc58872fdb9"
+  },
+  "ABI": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source14-retained-to15-G1-proposal02/ABI15-v1.json",
+    "bytes": 3883,
+    "rawBytesSha256": "91f4fcf8a267a772f835de5c3ae03042a299341ed360c0606a0792f86e82c45b"
+  },
+  "publicationHashDomain": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source14-retained-to15-G1-proposal02/publication-hash-domain02.json",
+    "bytes": 3751,
+    "rawBytesSha256": "4dd2f644065f7c655d6902f19e2dfe45764e71ed241af4e39282a78c1f5ca31b"
+  },
+  "deferredAmendments": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source14-retained-to15-G1-proposal02/deferred-ABI02.json",
+    "bytes": 4121,
+    "rawBytesSha256": "ebff8b51509fd354ce6d0f8474bb748e4d1ce9c7fb1fc15d3023ba1426e0a038"
+  },
+  "branchCensus": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source14-retained-to15-G1-proposal02/branch-census02.json",
+    "bytes": 9276,
+    "rawBytesSha256": "aa803f895b5c8fdbe37b6d57bcca714cc3a5bc71ae5fa8c740bd1d244433695d"
+  },
+  "counts": {
+    "production": 14,
+    "validation": 4,
+    "H3ADD": 4,
+    "H3MOD": 4,
+    "externalADD": 6
+  },
+  "scopeDecision": {
+    "noDesignBlockerForCodeOnlyFreeze": true,
+    "exactProduction14AndValidation4Only": true,
+    "H3OnlyFourADDAndFourMOD": true,
+    "externalOnlySixADD": true,
+    "validationNotH3OrRuntime": true,
+    "core222IsContributionNotFinalActualH3": true,
+    "contextAnd14ProtectedReferencesRawVerified": true,
+    "MOD4BeforeRawAndNarrowCallChainsReviewed": true,
+    "direct20Current14BranchesRawAndResponsibilityReviewed": true,
+    "old108119252AndSchemas3And4RemainHistoricalUnweakened": true,
+    "ordinaryPartialContextMustMeasureCompleteH3WithoutHelperBypass": true,
+    "GH15OnlySixFixedOperationsAndNoOld19Fallback": true,
+    "existingGHRejectsProducerSpecificTaxFBranchesAndMustRemainSo": true,
+    "period273BothDedicatedAndGenericPeriodEndNullNoncurrentPathIncluded": true,
+    "new15TrustedCommonHasNoOldROOT14Fallback": true
+  },
+  "hashAndPublicationDecision": {
+    "exactThreeNullSlotsOnly": true,
+    "canonicalPlanHashDoesNotRedefineHistoricalArrayDigests": true,
+    "bootstrapCandidateInputAndApprovalHaveNoFutureOutputDependencies": true,
+    "bootstrapOnlyG2DoesNotGrantPublication": true,
+    "actualB0RequiredAndFinalG2BindsExactB0AndScope": true,
+    "Reg5ThenB1ThenAtomicStateIsAcyclic": true,
+    "orphanReg5OrB1NotActiveAdmission": true,
+    "B1ModeMustOnlyReadBackExistingAdmittedB1": true,
+    "interruptionMustNotOverwriteOrBlindRetry": true
+  },
+  "implementationConditions": [
+    {
+      "id": "119-ACTUAL-B1-STATE-INPUT",
+      "requirement": "Initial state builder must explicitly consume the already-written/readback B1 pin, either as a named argument or fixed verified post-write facts field. It may not derive or guess a future B1 path/hash."
+    },
+    {
+      "id": "119-ATOMIC-NOREPLACE",
+      "requirement": "Final activation of state15 must be atomic and no-replace under the exact nonce lock. Existing, staged, orphan or ambiguous outputs remain preserved and ordinary admission stays closed until all Reg5/B1/state proofs agree."
+    },
+    {
+      "id": "119-CURRENT-RUNTIME",
+      "requirement": "Native15 current guard must bind complete final actual source/compile/H3/API/binary/Common/readiness tuple, allow legitimate current actors/owned/latest progress and exact owned FI verification/cleanup, preserve immutable parent records, and never treat an old14 historical current tuple as15."
+    },
+    {
+      "id": "119-CLOSED-FILES",
+      "requirement": "Only the exact14 production and4 validation source paths may be authored. Extra production/test helper files or newly discovered consumers require a finite amendment, not open necessary-branch authority."
+    }
+  ],
+  "parent14Rules": {
+    "typed344SourceInputPreservationReview": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/source14-archive344-review01/review-source14-preservation344-01.json",
+      "rawBytesSha256": "6a0341fd2176e5d8d1625d3a2dde6ac3f083732edfc49f77b7f3818385781ef3",
+      "scope": "input preservation only;not final dualDB/binary/process/15admission"
+    },
+    "final14DataRetentionStillMissing": true,
+    "newHistoricalReaderMayUseOnlyExplicitOriginalToArchiveMappings": true,
+    "doNotRunOld252CurrentGuardAgainstArchiveOrRetiredPID": true,
+    "ctxWinArchiveRebindingForbidden": true,
+    "auth14Status200Main13Status201RemainDistinct": true,
+    "Main13BridgeKeepsReal13StateAndRetainedThrough14": true,
+    "Reg4ProjectSubsetsAndRealBirthsAndWholeProjectionPreserved": true,
+    "source14Failure341AuthOwnershipAndPartialLabelsNotRelabelled": true
+  },
+  "actualG2StrongPreconditions": [
+    "Actual final14 retention: fresh dual139x2 full raw/xmin/meta/sequence/objects, owned/borrowed/birth/latest/auth-cookie proofs, 13AF and 14point bookends, independent fixed readback.344 alone is not that retention.",
+    "Both Rust corrective product afters with separate non-author code review, complete final finite source/compile composition and unchanged protected/public ABI proof.",
+    "All additional15 Tax/prepare/H-policy/role/Labor/reader/caller amendments separately frozen and composed before final H3 measurement/publication; no publish222 then hot-add.",
+    "Actual Root and mirror full Rust checks/build in independent ROOT15 target and full complete compile inventory; bind measured H3 after build without claiming Cargo compiles Node.",
+    "Separate exact approvals for owned retire14/start15/status, actual new15 PID/boot/exe/cwd/stat/socket/readiness and state-free dualDB conservation equal final14.",
+    "Actual candidate-only bootstrap approval/B0, final exact independent/Root G2 binding scope plus B0, immutable final plan, and independent actual Reg5/B1/state15 publication readback before separate effects."
+  ],
+  "explicitlyExcluded": [
+    {
+      "file": "apps/poms-api-rust/src/project_operating/store.rs",
+      "beforeSHA256": "10144498fdf21b68dcddd8b543c6196919a1da3762a40fe4f0d7dc147c2d218a",
+      "modified": false
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_operating/preparation.rs",
+      "beforeSHA256": "a8f6b4aee081458836b38100036b54566b2aa9ac18fc3aa25423433285c4eef8",
+      "modified": false,
+      "reason": "FinalCASseal a170 confirms no third leaf"
+    }
+  ],
+  "deferredProductsNotGranted": [
+    "#118 actual15 caller/Tax edition",
+    "prepare/facts corrective",
+    "H-policy/role/Labor15 files",
+    "15 reader and four external callers"
+  ],
+  "H344Code01NotPromotedAndCode02SeparateProductReviewRequired": true,
+  "RootMayExplicitlyAuthorizeIExclusiveFiniteCodeOnly": true,
+  "implementationAuthorizedByThisReview": false,
+  "RootExplicitG1FreezeAndImplementationPermissionStillRequired": true,
+  "afterHashesAndActual15ValuesRemainNull": true,
+  "archive746Rescanned": false,
+  "oldBinariesHashed": false,
+  "ctxOr252Executed": false,
+  "SQL": false,
+  "HTTP": false,
+  "processQueryOrSignal": false,
+  "RootSourceHelperStateServiceGitOrIssueWritten": false,
+  "actualG2Authorized": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

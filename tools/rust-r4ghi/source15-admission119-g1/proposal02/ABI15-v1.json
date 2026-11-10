@@ -1,0 +1,50 @@
+{
+  "kind": "PROPOSED-fixed14-to15-admission119-ABI-v1",
+  "registrySchemaVersion": 5,
+  "protocolVersion": 1,
+  "producerEpoch": "g2-business14",
+  "consumerEpoch": "g2-business15",
+  "run": "main01",
+  "migrations": 98,
+  "tables": 139,
+  "activeStateFields": ["codeEpochAdmission15", "consumerAdmission54.registry", "apiProcess", "sourcePins"],
+  "historyOnly14Fields": ["codeEpochAdmission252", "prior consumerAdmission54", "old current candidate/runtime caches", "old cookies/permissions"],
+  "currentExports": {
+    "verifyPlan15": "verifyPlan15(planPin,{stage:'pre-observe'|'bootstrap'|'inspect'|'publish'|'B1'}) -> read-only derived facts; stage never grants effect by itself",
+    "assertCodeEpochContext15": "assertCodeEpochContext15(ctx,Reg5,{liveProcess=false,sourceFiles=false}) -> Reg5; accepts generic pre-createContext ctx but always measures full H3; no missing-helper bypass",
+    "currentCodeRegistry15": "currentCodeRegistry15(ctx,options) -> exact current Reg5 after full typed verification",
+    "effectiveHelperPins15": "effectiveHelperPins15(ctx,Reg5) -> consumer.helperPins exact pin after verification",
+    "assertRuntimeBinding15": "assertRuntimeBinding15(ctx,Reg5,{codeAdmission15:reg5Pin,candidate:B1_15Pin}) -> {candidate,admission:{registryPin,registry,producerState:final14StatePin,helperPinsPin}}",
+    "assertRetainedFixture15": "assertRetainedFixture15(ctx,Reg5,{registryPath,record,projectIds,producerReceipt=null}) -> {originalProducerState,retainedProducerState:final14StatePin,retainedAtEpoch:'g2-business14',producerEpoch:actualBirthEpoch,consumerEpoch:'g2-business15',retainedProducerOnly:true,codeAdmission15}",
+    "readRetainedCommand15": "readRetainedCommand15(ctx,Reg5,{pointer:'/taxContinuation13/mainCompletion',receipt}) -> {record,producerEpoch:'g2-business13',producerState:real13StatePin,retainedThrough14:final14StatePin,original:receipt,replayForbidden:true,currentConsumerCertified:false,codeAdmission15}; immutable13 proof, no live latest comparison",
+    "trustedSummaryBinary15": "trustedSummaryBinary15(ctx,Reg5) -> actual ROOT15 Common pin, same consumer.summaryBinary/trustedSummaryBinary, typed stat and bytes",
+    "assertGHCurrentSource15": "assertGHCurrentSource15(ctx,operationId) -> {registryPin,sourcePins,helperPinsPin}; only six fixed existing GH operations, all source/helper/API current, no fallback19"
+  },
+  "parentExport": {
+    "verifyRetained14For15": "verifyRetained14For15(parentSpec) -> derived {kind:'verified-fixed14-retained-parent-for15',frozenState14,registry4,archive344,finalRetention14,resources,Main13Bridge,retainedParentOnly:true,current15Granted:false}; native strict FS readers only"
+  },
+  "pureCoreExports": [
+    "assertPlanShape15(plan,stage)",
+    "assertStateTransfer15(transfer,actualFinal14State)",
+    "exactDeltas15(beforePins,afterPins,exactFrozenDeltaList)",
+    "resourceEntries15(verifiedParent14)",
+    "buildState15(parent14,verifiedPlanFacts,actualReg5Pin,nowUTC) [data only, no FS/authority mint]"
+  ],
+  "GHOperationIds": [
+    "ProjectCostController_activateOperatingBaselinePackage",
+    "ProjectCostController_createProjectOperatingSnapshot",
+    "ProjectCostController_createPeriodClosingSnapshot",
+    "ProjectCostController_createOperatingRestatement",
+    "ProjectCostController_reviewOperatingSignalEvaluation",
+    "ProjectCostController_reviewCommissionGateBinding"
+  ],
+  "historicalPeriod15": "Only verified schema5/epoch15 period-close or generic SnapshotCreate(PeriodEnd) enters existing273 explicit-null/noncurrent-G path; period restatement frozen roots preserved",
+  "runtimeMustAllowExactOwnedActiveFIForVerificationAndCleanup": true,
+  "publicationRequiresIdle": true,
+  "old14AuthPOSTStatus": 200,
+  "historicalMain13POSTStatus": 201,
+  "actualNewPins": null,
+  "G1Frozen": false,
+  "implementationAuthorized": false,
+  "actualG2Authorized": false
+}
