@@ -874,6 +874,16 @@ D#107/E#108/F#109及本批#106已按[独立关闭许可](archive/slices/rust-r4d
 
 ### 2026-11-11 Tax14 验收执行器验证复用 #118
 
-[#118](https://github.com/illusion-tech/poms/issues/118)已原生挂到阶段验收#114。真实inspect1095.87秒、7次完整252及原FI线性重复使执行成本不可接受；[技术基线](rust-r4ghi/tax14-invocation-reuse118-baseline.md)与proposal02/非作者建议已由Root冻结，范围仅6外置叶、无H2218/Reg4/B1/epoch或业务操作变化。实施待线上G1读回后按Root明确许可开展；实际G2、40负例、性能与真实下游消费均另审。当前原Tax14 prepare继续，不干预进程或结果。Rust正式240/本批新增0，联合32项与#57开放边界保持。
+[#118](https://github.com/illusion-tech/poms/issues/118)已原生挂到阶段验收#114。真实inspect1095.87秒、7次完整252及原FI线性重复使执行成本不可接受；[技术基线](rust-r4ghi/tax14-invocation-reuse118-baseline.md)与proposal02/非作者建议已由Root冻结并线上读回，原范围仅6外置叶、无H2218/Reg4/B1/epoch或业务操作变化。已开工但尚无完整候选；实际G2、40负例、性能与真实下游消费均另审。原prepare341现已失败并由下列344记录覆盖当前状态；#118的成功准备前置未满足，旧G1不自动扩大为新候选许可。Rust正式240/本批新增0，联合32项与#57开放边界保持。
 
 <!-- /poms-r4ghi-tax14-invocation118 -->
+
+<!-- poms-r4ghi-failed-prepare344 -->
+
+### 2026-11-11 Tax14 准备失败与生产纠偏
+
+[固定状态344](rust-r4ghi/continuation-status344.json)及[独立诊断](../../tools/rust-r4ghi/independent/final-gates13/tax-prepare341-failure-triage01/triage341-01.json)保留实际prepare退出1、服务端5/helper2、seq24固定after-state及完整GET证据。10次实际HTTP只有认证POST，未执行Tax/Main领域POST或FI。两处生产问题为peer内部数据误推自动新增根、历史context与future成本排除不一致；不能改数字、裁完整范围或伪造准备成功。
+
+[纠偏checkpoint344](rust-r4ghi/tax-preparation344-corrective-checkpoint.md)当前Block，两个Rust叶的候选尚待方案及明确实施许可。旧14的420来源/528编译输入/218工具已作746叶原字节独立保全，14真实auth和失败保持；新Source15仅提案，不原地替换Reg4/B1，不修改原M98。成功准备、全FI、唯一正常提交及剩余阶段验收和独立G3/G4仍待完成。Rust正式240、R4为67/95、本批新增0，#57及本批各父子Issue保持开放，未合并main或部署切换。
+
+<!-- /poms-r4ghi-failed-prepare344 -->
