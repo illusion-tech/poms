@@ -884,6 +884,6 @@ D#107/E#108/F#109及本批#106已按[独立关闭许可](archive/slices/rust-r4d
 
 [固定状态344](rust-r4ghi/continuation-status344.json)及[独立诊断](../../tools/rust-r4ghi/independent/final-gates13/tax-prepare341-failure-triage01/triage341-01.json)保留实际prepare退出1、服务端5/helper2、seq24固定after-state及完整GET证据。10次实际HTTP只有认证POST，未执行Tax/Main领域POST或FI。两处生产问题为peer内部数据误推自动新增根、历史context与future成本排除不一致；不能改数字、裁完整范围或伪造准备成功。
 
-[纠偏checkpoint344](rust-r4ghi/tax-preparation344-corrective-checkpoint.md)当前Block，两个Rust叶的候选尚待方案及明确实施许可。旧14的420来源/528编译输入/218工具已作746叶原字节独立保全，14真实auth和失败保持；新Source15仅提案，不原地替换Reg4/B1，不修改原M98。成功准备、全FI、唯一正常提交及剩余阶段验收和独立G3/G4仍待完成。Rust正式240、R4为67/95、本批新增0，#57及本批各父子Issue保持开放，未合并main或部署切换。
+[纠偏checkpoint344](rust-r4ghi/tax-preparation344-corrective-checkpoint.md)仍为业务Block；[Root两叶候选实施冻结](../../tools/rust-r4ghi/corrective344-g1/Root-corrective344-freeze.json)已采纳作者只读方案与独立建议，仅允许H隔离候选及必要回归，不授权Root提升、真实效果或Source15准入。旧14的420来源/528编译输入/218工具已作746叶原字节独立保全，14真实auth和失败保持；新Source15仅提案，不原地替换Reg4/B1，不修改原M98。成功准备、全FI、唯一正常提交及剩余阶段验收和独立G3/G4仍待完成。Rust正式240、R4为67/95、本批新增0，#57及本批各父子Issue保持开放，未合并main或部署切换。
 
 <!-- /poms-r4ghi-failed-prepare344 -->

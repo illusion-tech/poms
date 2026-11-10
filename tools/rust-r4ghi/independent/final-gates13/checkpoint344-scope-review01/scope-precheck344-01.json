@@ -1,0 +1,57 @@
+{
+  "kind": "non-author-checkpoint344-preimplementation-scope-review",
+  "status": "no-scope-blocker-awaiting-H-minimal-plan",
+  "reviewer": "/root/r4ghi_final_gates13",
+  "checkpoint": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/docs/design/rust-r4ghi/tax-preparation344-corrective-checkpoint.md",
+    "bytes": 6079,
+    "rawBytesSha256": "4dc6dfa1a697c0e17e471917b6f606c5687c42b7f15a56f3517a9b9c1e35e673"
+  },
+  "priorTriage": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/tax-prepare341-failure-triage01/triage341-01.json",
+    "bytes": 22121,
+    "rawBytesSha256": "52f58fd6d69811bf087b5052b8019bb1936ebc65b954fe105f347510dcfe822a"
+  },
+  "approvedProductionScope": [
+    "apps/poms-api-rust/src/project_operating/restatement.rs",
+    "apps/poms-api-rust/src/project_operating/context.rs"
+  ],
+  "tests": "necessary in-leaf regression tests only",
+  "scopeFindings": {
+    "twoLeafNoSurfaceOrMigrationExpansion": true,
+    "completePhysicalPeerCatalogRetained": true,
+    "explicitRootsAndForeignRealCostDependenciesRetained": true,
+    "implicitPeerOnlyFalseRootMustBePrevented": true,
+    "futureWholeBatchExcludedButMissingOrInvalidSourcesMustFailClosed": true,
+    "legitimateLateBusinessInWindowRetained": true,
+    "fullOtherRootEnumerationGapAcknowledged": true,
+    "noPromiseOfExactlyTwoActualTargets": true,
+    "old14Reg4B1StateAndH2218NotHotReplaced": true,
+    "new14To15AdmissionNeedsOwnFrozenG1": true,
+    "old341FailureNotRelabelledOrRetried": true
+  },
+  "requiredImplementationDetails": [
+    {
+      "id": "CP344-AUTO-ROOT-SCOPE",
+      "requirement": "Do not apply a blanket foreign-project filter to every source kind. Own changed shares must still infer; genuine foreign Cost dependencies and explicit roots must still discover complete batches."
+    },
+    {
+      "id": "CP344-WINDOW-FAIL-CLOSED",
+      "requirement": "The current allocation_in_window returns false for an empty member set and returns on the first future member. Direct false=>continue would swallow empty or later missing/corrupt sources. Verify complete membership and source existence/integrity before a whole-batch future exclusion; test both encounter orders."
+    },
+    {
+      "id": "CP344-VALIDATION",
+      "requirement": "In-leaf targeted checks are early evidence. The final combined Source15 still inherits original G1 full Rust regression/fmt/strict Clippy/build requirements and actual new-source preparation/qualification readback."
+    }
+  ],
+  "implementationPlanReviewed": false,
+  "RootImplementationPermissionGrantedByThisArtifact": false,
+  "RootPromotionOrRuntimePermissionGranted": false,
+  "actualEffectInputApproved": false,
+  "G1NewSource15Granted": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "SQL": false,
+  "HTTP": false,
+  "RootSourceStateOrGitWritten": false
+}

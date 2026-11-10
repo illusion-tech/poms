@@ -1,0 +1,10 @@
+import fs from'node:fs';import assert from'node:assert/strict';import{createHash}from'node:crypto';
+const R='E:/projects/worktrees/poms-r3hijk-next28/poms',f=R+'/tools/rust-r4ghi/corrective344-g1/Root-corrective344-freeze.json',b=fs.readFileSync(f),sha=createHash('sha256').update(b).digest('hex');
+assert.equal(sha,'a2456215a4b7a31cd7d9055f960cbce54f6d347b5b1916fcbeeda6875dfe6bc2');const p=JSON.parse(b);assert(p.implementationGranted&&!p.actualG2&&!p.Source15AdmissionGranted);
+const file=R+'/docs/design/rust-r4ghi-delivery-status.json',j=JSON.parse(fs.readFileSync(file));assert.equal(j.officialNewDelivered,0);assert.equal(j.G3Certified,false);assert.equal(j.G4Certified,false);
+j.currentCorrective.corrective344ImplementationFreeze={file:f,rawBytesSha256:sha,implementationOnly:true,author:'H',productionLeaves:2,RootPromotion:false,actualG2:false,Source15Admission:false,businessCheckpoint:'Block'};
+j.currentCorrective.source14InputPreservation344={file:'/home/wangzishi/.local/share/poms-r4ghi/private/source14-retained-inputs344-01/receipt344.json',rawBytesSha256:'0df8b21ec95ee497feb0c049ecdfea95c7824cdf98b7d6c8363562964717bc77',treeFiles:746,sourceCount:420,compileCount:528,helperCount:218,noRuntimeMutation:true,independentSource15RetentionReviewPending:true};
+j.currentCorrective.currentRuntimeStatus='Source14 prepare341 failed; bounded two-Rust-leaf corrective candidate implementation frozen, business checkpoint Block; Source15 admission proposal only, no FI/Tax normal/Main replay.';
+fs.writeFileSync(file,JSON.stringify(j,null,2)+'\n');
+const tf=R+'/docs/design/phase2-development-execution-tracker.md';let t=fs.readFileSync(tf,'utf8');const from='当前Block，两个Rust叶的候选尚待方案及明确实施许可。';assert(t.includes(from));t=t.replace(from,'仍为业务Block；[Root两叶候选实施冻结](../../tools/rust-r4ghi/corrective344-g1/Root-corrective344-freeze.json)已采纳作者只读方案与独立建议，仅允许H隔离候选及必要回归，不授权Root提升、真实效果或Source15准入。');fs.writeFileSync(tf,t);
+console.log(JSON.stringify({implementationOnly:true,newCertified:0,G3:false,G4:false,issue57:'OPEN'}));

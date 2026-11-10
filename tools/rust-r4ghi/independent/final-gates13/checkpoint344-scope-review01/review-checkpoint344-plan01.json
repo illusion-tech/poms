@@ -1,0 +1,106 @@
+{
+  "kind": "non-author-checkpoint344-minimal-plan-scope-review",
+  "verdict": "recommended-bounded-two-leaf-code-only-implementation",
+  "reviewer": "/root/r4ghi_final_gates13",
+  "checkpoint": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/docs/design/rust-r4ghi/tax-preparation344-corrective-checkpoint.md",
+    "bytes": 6079,
+    "rawBytesSha256": "4dc6dfa1a697c0e17e471917b6f606c5687c42b7f15a56f3517a9b9c1e35e673"
+  },
+  "authorPlanManifest": {
+    "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/tax-preparation344-plan01/manifest-plan344.json",
+    "rawBytesSha256": "7b8f69556eb4f3e2876f30214c5f082ee440d4ad2c83f8d563128489ff1ef843"
+  },
+  "authorPlan": {
+    "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/tax-preparation344-plan01/PLAN344.md",
+    "bytes": 6337,
+    "rawBytesSha256": "9211a75f8412f85fea08daabf9c2fe202f3031510aa2f3a8b78c0430bc081ee8"
+  },
+  "sourceWitness": {
+    "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/tax-preparation344-plan01/source-witness344.json",
+    "bytes": 3352,
+    "rawBytesSha256": "22360ab28c195e5ae2bf47bef4eb712b65cb86c9239ed224498e6e4bbdb5a0f0"
+  },
+  "priorIndependentTriage": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/tax-prepare341-failure-triage01/triage341-01.json",
+    "bytes": 22121,
+    "rawBytesSha256": "52f58fd6d69811bf087b5052b8019bb1936ebc65b954fe105f347510dcfe822a"
+  },
+  "sourceBefore": [
+    {
+      "file": "apps/poms-api-rust/src/project_operating/restatement.rs",
+      "beforeRawBytesSha256": "7251664a65dd189b38ea9349ba6e54b8a2ea84ca307d128e3b01f29ba446890c"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_operating/context.rs",
+      "beforeRawBytesSha256": "f0b18b53af2d3288a7b4078f15280a23cc8821a1d2792519733f64d935aaa0ac"
+    }
+  ],
+  "readOnlyInputCount": 7,
+  "additionalObservedReadOnlyDependency": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/project_operating/sources.rs",
+    "rawBytesSha256": "298bf7ee91fc6a27b7f555942f660d2e1644f57a9d6fae9ea4bd8d124d99c9bf"
+  },
+  "scopeDecision": {
+    "noScopeOrUserPolicyBlocker": true,
+    "productionFilesOnly": [
+      "apps/poms-api-rust/src/project_operating/restatement.rs",
+      "apps/poms-api-rust/src/project_operating/context.rs"
+    ],
+    "testsOnlyInThoseLeaves": true,
+    "noStoreOrSourcesOrInclusionOrLateAllocationOrPreparationChangesGranted": true,
+    "noDTOOrRouteOrSchemaOrM98OrH2Change": true,
+    "implicitFilterOnlyActualAllocationResultProjectId": true,
+    "referenceSelfReportedProjectIsNotAuthority": true,
+    "explicitRootsAndForeignCostTaxStageAndWholeBatchImpactsPreserved": true,
+    "otherRootEnumerationAndActualTargetCountRemainOpen": true
+  },
+  "futureGateDecision": {
+    "accepted": true,
+    "scope": "Positive proof for exclusion of an entire future-business batch only",
+    "mustScanAllMembersBeforeDecision": true,
+    "emptyMissingCostOrBadDateMustError": true,
+    "noEarlyReturnAtFirstFutureMember": true,
+    "allInWindowUsesOriginalRestatementAdmission": true,
+    "noFirstPeriodPolicy2OrTemporalAncestorRulesAddedToAllInWindowAdmission": true,
+    "anyFutureRequiresExistingFullQualifyReturningFutureBusiness": true,
+    "qualifyErrorOrEligibleAgainstFutureScanMustHardBlock": true,
+    "previewAndBuildMustUseSameClassifier": true,
+    "skipFutureBeforeAnyAccumulation": true,
+    "mixedBatchExcludedWholeNotTrimmed": true,
+    "legacyFutureWithoutEnoughProofRemainsUnverifiedAndBlocked": true,
+    "legacyFutureBlockedIsNotProofOfInvalidBusinessOrClaimOfNewSupport": true,
+    "firstPeriodAndRealtimeRemainUnchanged": true
+  },
+  "beforeCodeReadyRequirements": [
+    {
+      "id": "344-CAS-DEPENDENCIES",
+      "requirement": "Identify added created/updated/effective/peer/ancestor dependencies used by the future-only qualifier. Prove applicable source versions, existing input hash and locks still cover the material decision; if a needed mutable input is uncovered, STOP and report scope insufficiency before any third-leaf edit."
+    },
+    {
+      "id": "344-PRODUCTION-REGRESSIONS",
+      "requirement": "Tests must call actual production predicate/classifier, cover caller changed-share, foreign true Cost, explicit foreign result, peer-only, old in-window legacy/replacement, proven mixed future, empty/missing/bad sources/evidence/peer/ancestor, order reversal and unchanged realtime/FirstPeriod."
+    },
+    {
+      "id": "344-FINAL-VALIDATION",
+      "requirement": "Targeted leaf tests are early checks. Final combined candidate must still satisfy original G1 full Rust regression plus fmt/strict Clippy/build and later complete actual source/API/data/prepare validation; no predicted exactly-two target assertion."
+    }
+  ],
+  "implementationScopeRecommendationApproved": true,
+  "implementationAuthorizedByReviewer": false,
+  "RootExplicitImplementationPermissionStillRequired": true,
+  "allowedNextIfRootPermits": "H isolated proposal candidate for the two exact before leaves and in-leaf tests only; before/after/function diff/full inverse/source stability evidence required",
+  "actualCandidateOrImplementationOrTestsReviewed": false,
+  "RootPromotionOrAPIOrEffectPermissionGranted": false,
+  "Source15G1Or14To15ProtocolApproved": false,
+  "performanceCaller118Approved": false,
+  "old14Reg4B1H2218And341FailureMayNotBeReplacedOrRelabelled": true,
+  "currentCheckpointStatusRemainsBlock": true,
+  "officialRustOperations": 240,
+  "newCertified": 0,
+  "G3Certified": false,
+  "G4Certified": false,
+  "SQL": false,
+  "HTTP": false,
+  "RootSourceHelperStateGitOrServiceWritten": false
+}
