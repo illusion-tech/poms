@@ -1,0 +1,147 @@
+{
+  "kind": "independent-fixed-FS-code02-inverse-and-provenance-check",
+  "reviewer": "/root/r4ghi_final_gates13",
+  "candidate": {
+    "file": "E:/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/tax-preparation344-code02/manifest344-code02.json",
+    "bytes": 18818,
+    "rawBytesSha256": "ff0521e144ab1eb9aa95da0c7ff8f97d7b7cbd76f94082457bf628fd54d5888f"
+  },
+  "all42ArtifactPinsVerified": true,
+  "pinnedDependencyCount": 14,
+  "products": [
+    {
+      "file": "apps/poms-api-rust/src/project_operating/restatement.rs",
+      "beforeSHA": "7251664a65dd189b38ea9349ba6e54b8a2ea84ca307d128e3b01f29ba446890c",
+      "afterSHA": "22d4048f1f8057392626140103a2c8dbd355959703ced3a53a4a58c87319a6ef",
+      "hunks": 5,
+      "normalizedForwardAndInverseExact": true,
+      "beforeCRLF": 1074,
+      "afterCRLF": 0,
+      "priorStage249AndHistoricalLogicProtectedByExactInverse": true
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_operating/context.rs",
+      "beforeSHA": "f0b18b53af2d3288a7b4078f15280a23cc8821a1d2792519733f64d935aaa0ac",
+      "afterSHA": "e9f1b07f7cbb8f057f9c4a8ae7916f571207c7c14eb401a9e047ee05f34fdceb",
+      "hunks": 5,
+      "normalizedForwardAndInverseExact": true,
+      "beforeCRLF": 0,
+      "afterCRLF": 0,
+      "priorStage249AndHistoricalLogicProtectedByExactInverse": true
+    }
+  ],
+  "code01To02IncrementNormalizedInverseExact": true,
+  "compileInventory": {
+    "count": 528,
+    "exactBaseSet": true,
+    "onlyChangedFiles": [
+      {
+        "file": "apps/poms-api-rust/src/project_operating/context.rs",
+        "sha256": "e9f1b07f7cbb8f057f9c4a8ae7916f571207c7c14eb401a9e047ee05f34fdceb"
+      },
+      {
+        "file": "apps/poms-api-rust/src/project_operating/restatement.rs",
+        "sha256": "22d4048f1f8057392626140103a2c8dbd355959703ced3a53a4a58c87319a6ef"
+      }
+    ],
+    "isolatedTreeRawAll528Verified": true,
+    "declaredInputProvenanceOnly": true,
+    "notAClaimThatCargoCompilesEveryRegisteredFile": true
+  },
+  "authorCommandsReadback": [
+    {
+      "argv": [
+        "/home/wangzishi/.rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+        "fmt",
+        "--manifest-path",
+        "/home/wangzishi/projects/poms-r4ghi-H344-validation01/tree/apps/poms-api-rust/Cargo.toml",
+        "--",
+        "--check"
+      ],
+      "cwd": "/home/wangzishi/projects/poms-r4ghi-H344-validation01/tree",
+      "startedAt": "2026-11-10T18:27:23.693Z",
+      "completedAt": "2026-11-10T18:27:24.977Z",
+      "exitCode": 0,
+      "stdout": {
+        "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/tax-preparation344-code02/fmt-code02-retry01-stdout.log",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/tax-preparation344-code02/fmt-code02-retry01-stderr.log",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/home/wangzishi/.rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+        "test",
+        "--manifest-path",
+        "/home/wangzishi/projects/poms-r4ghi-H344-validation01/tree/apps/poms-api-rust/Cargo.toml",
+        "--locked",
+        "--offline",
+        "--lib",
+        "project_operating::",
+        "--",
+        "--nocapture"
+      ],
+      "cwd": "/home/wangzishi/projects/poms-r4ghi-H344-validation01/tree",
+      "startedAt": "2026-11-10T18:27:25.173Z",
+      "completedAt": "2026-11-10T18:27:37.317Z",
+      "exitCode": 0,
+      "stdout": {
+        "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/tax-preparation344-code02/test-operating-code02-retry01-stdout.log",
+        "bytes": 16463,
+        "rawBytesSha256": "3ec54bcb43d781a66ccd9c67ab32db385d1ca51f4ed05accf5ebb4b5a159dcab"
+      },
+      "stderr": {
+        "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/tax-preparation344-code02/test-operating-code02-retry01-stderr.log",
+        "bytes": 312,
+        "rawBytesSha256": "8d13f079bc4c4e091b47edb138de067bf0280220bac09a085ecbe58f78cbabdf"
+      }
+    },
+    {
+      "argv": [
+        "/home/wangzishi/.rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+        "clippy",
+        "--manifest-path",
+        "/home/wangzishi/projects/poms-r4ghi-H344-validation01/tree/apps/poms-api-rust/Cargo.toml",
+        "--locked",
+        "--offline",
+        "--lib",
+        "--no-deps",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "cwd": "/home/wangzishi/projects/poms-r4ghi-H344-validation01/tree",
+      "startedAt": "2026-11-10T18:27:37.526Z",
+      "completedAt": "2026-11-10T18:27:45.676Z",
+      "exitCode": 0,
+      "stdout": {
+        "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/tax-preparation344-code02/clippy-code02-retry01-stdout.log",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/tax-preparation344-code02/clippy-code02-retry01-stderr.log",
+        "bytes": 186,
+        "rawBytesSha256": "36a5f9059c8ad164ee1031dbb622e7a048d10a1b2d2086690f024a75712dde6b"
+      }
+    }
+  ],
+  "author133PassedVerified": true,
+  "productionFunctionNewTests": 21,
+  "independentRustTestsRun": false,
+  "fullBuildOrOriginalG1RegressionGranted": false,
+  "fsObservationHost": "Windows; Linux paths explicitly mapped to existing UNC or /mnt/e mount",
+  "RootProductOrHelperWritten": false,
+  "context": false,
+  "SQLHTTP": false,
+  "processQueryOrSignal": false,
+  "Git": false,
+  "Source15Admission": false,
+  "G3": false,
+  "G4": false
+}

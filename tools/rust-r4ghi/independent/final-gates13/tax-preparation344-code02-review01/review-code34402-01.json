@@ -1,0 +1,198 @@
+{
+  "kind": "non-author-two-leaf-candidate-code-review34402",
+  "edition": "01",
+  "reviewer": "/root/r4ghi_final_gates13",
+  "reviewerIsProductAuthor": false,
+  "verdict": "approved-two-leaf-candidate-code-only",
+  "candidateManifest": {
+    "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/tax-preparation344-code02/manifest344-code02.json",
+    "bytes": 18818,
+    "rawBytesSha256": "ff0521e144ab1eb9aa95da0c7ff8f97d7b7cbd76f94082457bf628fd54d5888f"
+  },
+  "approvedProductUnion": [
+    {
+      "file": "apps/poms-api-rust/src/project_operating/restatement.rs",
+      "operation": "MOD",
+      "beforeRawBytesSha256": "7251664a65dd189b38ea9349ba6e54b8a2ea84ca307d128e3b01f29ba446890c",
+      "afterRawBytesSha256": "22d4048f1f8057392626140103a2c8dbd355959703ced3a53a4a58c87319a6ef",
+      "candidate": {
+        "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/tax-preparation344-code02/proposed/apps/poms-api-rust/src/project_operating/restatement.rs",
+        "bytes": 51716,
+        "rawBytesSha256": "22d4048f1f8057392626140103a2c8dbd355959703ced3a53a4a58c87319a6ef"
+      }
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_operating/context.rs",
+      "operation": "MOD",
+      "beforeRawBytesSha256": "f0b18b53af2d3288a7b4078f15280a23cc8821a1d2792519733f64d935aaa0ac",
+      "afterRawBytesSha256": "e9f1b07f7cbb8f057f9c4a8ae7916f571207c7c14eb401a9e047ee05f34fdceb",
+      "candidate": {
+        "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/tax-preparation344-code02/proposed/apps/poms-api-rust/src/project_operating/context.rs",
+        "bytes": 119422,
+        "rawBytesSha256": "e9f1b07f7cbb8f057f9c4a8ae7916f571207c7c14eb401a9e047ee05f34fdceb"
+      }
+    }
+  ],
+  "baseEpoch": 14,
+  "successorEpoch": 15,
+  "finiteRootPromotion": {
+    "eligible": true,
+    "meaning": "Only these exact two candidate leaves are accepted as input to Root separately authorized finite promotion and subsequent complete validation.",
+    "RootPromotionExecuted": false,
+    "oldSource14RuntimeMayBeRebound": false,
+    "finalSource14RetentionRequiredBeforeRetiringOrReplacingItsRootInputs": true
+  },
+  "findings": [],
+  "reviewedBehavior": [
+    {
+      "area": "Code01 omission is publicly reachable",
+      "conclusion": "Expense create/update validates date format only; confirmation has no future-date prohibition. Cost derives its business date from expense_date; F basis/result effective_at uses actual clock_now. F generation at/before a cutoff therefore does not establish that every actual source Cost is in-window.",
+      "evidence": [
+        {
+          "file": "apps/poms-api-rust/src/project_actual_cost/mod.rs",
+          "rawBytesSha256": "da7c644b766b0cce407a37dc8bebd74874b6bab0bf0dc652697bb3e8e0d360e3",
+          "lines": [
+            166,
+            352,
+            446,
+            450,
+            1276
+          ]
+        },
+        {
+          "file": "apps/poms-api-rust/src/project_cost_governance/service.rs",
+          "rawBytesSha256": "40cfd49a18a592876b2a2ccf06176372fadc20ee3a9b22cdbc1c7b01a1171897",
+          "lines": [
+            650,
+            651,
+            692
+          ]
+        },
+        {
+          "file": "apps/poms-api-rust/src/project_cost_governance/store.rs",
+          "rawBytesSha256": "6712ee261e4458df43fe3f1369dcdfa8a083de9e6f844f461a0eddc85a11867e",
+          "lines": [
+            361
+          ]
+        }
+      ]
+    },
+    {
+      "area": "Implicit roots",
+      "conclusion": "Only implicit SharedCostAllocationResult references are projected by actual Catalog row.project_id to caller. Reference-supplied project metadata is not authority. Explicit selected roots merge afterwards with prior conflict/dedup rules. Physical peers, foreign Cost/Tax/Stage, Stage249 parent-current and complete historical impact expansion remain intact.",
+      "candidateLines": [
+        156,
+        167,
+        186,
+        196,
+        220,
+        239,
+        259
+      ]
+    },
+    {
+      "area": "Preview/build dispatch",
+      "conclusion": "Both loops first filter caller project and active/pending allocation rows. Both then call the same fresh Restatement classifier before the old generation cutoff gate. Build propagates Err and skips proven future batches before classification/counts/amounts. Preview reports proven future as outside-business-cutoff even with early/equal F time; Err remains source-basis-unverified.",
+      "contextLines": [
+        71,
+        87,
+        93,
+        371,
+        392,
+        1305,
+        1311,
+        1321,
+        1336
+      ]
+    },
+    {
+      "area": "Whole-batch qualification",
+      "conclusion": "Basis and nonempty physical source set required; every actual Cost/date scanned with no future early return. All-in-window retains prior Restatement qualification without FirstPeriod policy2. Future exclusion requires unchanged complete qualifier returning FutureBusiness. Missing/invalid source, peer/ancestor/evidence/version/economic/knowledge failures remain Err; Eligible after a future scan is an invariant error.",
+      "contextLines": [
+        753,
+        758,
+        766,
+        769,
+        778,
+        781,
+        789
+      ]
+    },
+    {
+      "area": "Other branches",
+      "conclusion": "Realtime and FirstPeriod dispatch return None and retain their old effective-time branches; inactive/foreign result filters remain ahead of dispatch. Full logical inverse confirms no change to protected prior history/Tax/budget logic outside the declared hunks. No catalog loader, impact graph, source factual payload/reference hash, DDL/route, source snapshot writer or five-family lock implementation is altered."
+    },
+    {
+      "area": "Readset/CAS",
+      "conclusion": "Reuses a170 after checking all14 dependency/current-before pins unchanged. Locked requests reclassify current Catalog instead of accepting cached GET permission. Coverage is bounded to supported public Rust writers with version/hash/current/payload plus locks/reload/CAS, not per-column timestamp hashing, DDL immutability or arbitrary privileged SQL.",
+      "review": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/checkpoint344-readset-review01/review-readset344-01.json",
+        "rawBytesSha256": "a1703e24af3dfb51b182905bec359def8b5d3752f8369f23f2aa9f7197df64db"
+      }
+    }
+  ],
+  "verification": {
+    "fixedFS": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/tax-preparation344-code02-review01/verification-result.json",
+      "bytes": 6076,
+      "rawBytesSha256": "3d73446af4007a84e098d7bb76f22e59fd5ef1f6fd6be41e36308b5c41c6ec38"
+    },
+    "allManifestArtifactPins": 42,
+    "declaredCompileInputs": 528,
+    "onlyOverlays": 2,
+    "allIsolatedTreeInputBytesMatched": true,
+    "wholeNormalizedForwardAndInverse": true,
+    "code01To02IncrementNormalizedInverse": true,
+    "EOL": "Old restatement725166 is CRLF; candidate22d404 is LF. Exact whole-body forward/inverse uses explicit CRLF-to-LF normalization; no raw-byte-preserved claim across that EOL change.",
+    "authorChecks": {
+      "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/tax-preparation344-code02/checks-code02.json",
+      "bytes": 5085,
+      "rawBytesSha256": "929e61c13ab5e07fe4d497b98ce3ac530b37171398902a0d19329f748f3229a3"
+    },
+    "fmtExit": 0,
+    "relevantUnitTests": {
+      "passed": 133,
+      "failed": 0,
+      "ignored": 0,
+      "cases344": 21,
+      "fixtureKind": "synthetic complete F Catalog invoking actual production dispatch/classifier/qualifier/hash/impact functions; no actual business rows"
+    },
+    "strictLibNoDepsClippyExit": 0,
+    "independentRustTestsRerun": false,
+    "independentVerification": "Independent FS-only executable verified raw pins, full inverse, input inventory and command logs; direct code review. Author Cargo execution is not relabeled as independent execution.",
+    "fullCrateRegressionOrBuildProven": false
+  },
+  "preservedFailures": {
+    "code01": {
+      "manifest": {
+        "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/tax-preparation344-code01/manifest344-code01.json",
+        "bytes": 26223,
+        "rawBytesSha256": "24441c221d4e42ce96513c9d4caa1926e128d0d80665a35ef1d8595044f061b1"
+      },
+      "status": "NOT READY; publicly reachable effective-at caller-gate omission"
+    },
+    "code02ClippyAttempt01": [
+      {
+        "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/tax-preparation344-code02/clippy-attempt01-preserved.json",
+        "bytes": 1131,
+        "rawBytesSha256": "32e000abae0b4f7df03bd35e855edf51ed007bfad6dbd56776e7b06535a0f4f4"
+      }
+    ],
+    "oldSource14TaxPrepare341": "failed; no preparation/FI/normal Tax POST certified"
+  },
+  "remainingBeforeActualSuccessorUse": [
+    "Complete original G1 regression/full build for final exact composition with actual source/compile/binary pins.",
+    "Final Source14 retained data/runtime evidence, explicit Source15 successor/G1 and independent exact G2; no in-place Reg4/B1/H2 patch.",
+    "Fresh actual preparation must enumerate all implicit/explicit roots and complete affected targets/eligibility; no assumption that server set must become two.",
+    "Actual full-target FI/normal effects, project/period/concurrency/authorization and final independent G3/G4."
+  ],
+  "Source15AdmissionGranted": false,
+  "APIOrProcessActionGranted": false,
+  "SQLHTTPGranted": false,
+  "StateOrH2MutationGranted": false,
+  "currentConsumerCertificationGranted": false,
+  "G3": false,
+  "G4": false,
+  "formalRustDelivered": 240,
+  "newRustCertified": 0
+}

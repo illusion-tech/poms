@@ -905,3 +905,11 @@ D#107/E#108/F#109及本批#106已按[独立关闭许可](archive/slices/rust-r4d
 [实施基线](rust-r4ghi/source15-admission119-baseline.md)、[Root冻结](../../tools/rust-r4ghi/source15-admission119-g1/Root-G1-source15-119.json)及[本地G1原件](rust-r4ghi/source15-g1-119.json)固定14生产叶＋4验证叶，采纳非作者b404建议；线上读回后由Root明确派发隔离实施。核心H3贡献222不是最终图；未授Root推广、实际环境操作或Source15准入。344 code01保留NOTREADY，完整code02作者133个默认用例通过，独立代码复核及完整Rust验证仍待。实际15所有pin/G2为空，新增认证0，#57开放。
 
 <!-- /poms-source15-g1-119 -->
+
+<!-- poms-r4ghi-status346 -->
+
+### 2026-11-11 统一候选状态346
+
+[固定状态346](rust-r4ghi/continuation-status346.json)：344 code02两叶候选已通过[d712独审](../../tools/rust-r4ghi/independent/final-gates13/tax-preparation344-code02-review01/review-code34402-01.json)，真实作者133项默认单测/fmt/严格Clippy通过，未Root推广或执行验收。#119已[线上G1读回](https://github.com/illusion-tech/poms/issues/119#issuecomment-6775974346)并由Root派发14生产＋4验证隔离实现。retain14-only单叶获代码独审，实际只读输入已备，exact G2正在另审；未写批准文件、未实际封最终双库数据。旧14状态、Root两before及H2218仍不变；Source15实际state/API/准入、FI/正常Tax及业务G3/G4均未通过，新认证0，#57开放。
+
+<!-- /poms-r4ghi-status346 -->
