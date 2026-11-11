@@ -1,0 +1,156 @@
+{
+  "kind": "isolated-FI-metadata-pin-and-outer-source-contract-checks",
+  "sources": {
+    "oldPreparer03": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/prepare-tax118-fi03.mjs",
+      "bytes": 6463,
+      "rawBytesSha256": "b8cab8f0160d3a45843b9d711445dd68ca00a20be34bffaaea8c38b440f2b74d"
+    },
+    "preparer04": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/prepare-tax118-fi04.mjs",
+      "bytes": 6690,
+      "rawBytesSha256": "5e9a4cd69e0eb74d334e6a07e85f0d8f07884d5a29f108fd72f4603476b3cbe5"
+    },
+    "outerFI03": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/execute-tax118-fi-once03.mjs",
+      "bytes": 5969,
+      "rawBytesSha256": "d506d884b436f8e06e4e2e24ebe21ad1533270b48587760e00fa6c9a907b4d40"
+    },
+    "preparerDerivation": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax118-fi-preparer04-derivation.json",
+      "bytes": 2228,
+      "rawBytesSha256": "62aa0f109e5863143f5c4aff8dc53ccd5be9949ce6136a02811db2dea210581c"
+    },
+    "outerDerivation": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax118-fi-outer03-derivation.json",
+      "bytes": 1878,
+      "rawBytesSha256": "d2cb0079c8ce9ce5cb531df6f1e75306d542bb45a5b9e5823502c20e923c59fd"
+    },
+    "runner": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/run-tax15-once.mjs",
+      "bytes": 22148,
+      "rawBytesSha256": "0f5fed8fabce7d65f3a4854da0f1ce751889c296933cff7ebc73ede0e7af0667"
+    },
+    "invocationProof": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs",
+      "bytes": 49154,
+      "rawBytesSha256": "a5b50ba102c4def8ebf0594a4cfa5ff207ee9a0e3452875385a5806659e0bfb8"
+    }
+  },
+  "cases": [
+    {
+      "name": "all eight preparer edits exactly map03 to04 and inverse to original bytes",
+      "passed": true
+    },
+    {
+      "name": "all five FI outer literal edits exactly map approved01f4 base to d506 and inverse",
+      "passed": true
+    },
+    {
+      "name": "actual CLI main constructs input/review pins without bytes; no implicit augmentation",
+      "passed": true
+    },
+    {
+      "name": "old whole pin comparison rejects true two-key CLI versus three-key metadata shape",
+      "passed": true
+    },
+    {
+      "name": "04 samePin accepts matching CLI to full",
+      "passed": true
+    },
+    {
+      "name": "04 samePin accepts matching full to CLI",
+      "passed": true
+    },
+    {
+      "name": "04 samePin accepts matching full to full",
+      "passed": true
+    },
+    {
+      "name": "04 samePin accepts matching CLI to CLI",
+      "passed": true
+    },
+    {
+      "name": "04 rejects different file",
+      "passed": true
+    },
+    {
+      "name": "04 rejects different digest",
+      "passed": true
+    },
+    {
+      "name": "04 rejects wrong left optional length",
+      "passed": true
+    },
+    {
+      "name": "04 rejects wrong right optional length",
+      "passed": true
+    },
+    {
+      "name": "04 rejects underlying raw corruption",
+      "passed": true
+    },
+    {
+      "name": "04 JSON accepts missing optional bytes",
+      "passed": true
+    },
+    {
+      "name": "04 JSON validates optional bytes",
+      "passed": true
+    },
+    {
+      "name": "exact metadata set expression keeps all original descriptors and original order",
+      "passed": true
+    },
+    {
+      "name": "FI exact pre-write guard accepts full consistent nine-field FI-only body",
+      "passed": true
+    },
+    {
+      "name": "FI exact pre-write guard rejects normal grant",
+      "passed": true
+    },
+    {
+      "name": "FI exact pre-write guard rejects false FI grant",
+      "passed": true
+    },
+    {
+      "name": "FI exact pre-write guard rejects prepare-only body mode",
+      "passed": true
+    },
+    {
+      "name": "FI exact pre-write guard rejects false G2",
+      "passed": true
+    },
+    {
+      "name": "FI exact pre-write guard rejects mismatched nonce",
+      "passed": true
+    }
+  ],
+  "passed": 22,
+  "failed": 0,
+  "modelSource": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/independent-root-tax118-fi-orchestration-review01/probe-fi04-source118.cjs",
+    "bytes": 12962,
+    "rawBytesSha256": "c72d63d76fff224b81db578deb8c624087c1afbb34e3bf6fd920c258a32a929b"
+  },
+  "sourceCapture": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/independent-root-tax118-fi-orchestration-review01/source-capture-fi03-04-outer03.json",
+    "bytes": 26452,
+    "rawBytesSha256": "84e4c27a52d1232adb3dbf5bde9601d7dfc4b058354efa2e1ee94fe63e95e03e"
+  },
+  "samePinFunctionSource": "function samePin(a,b){assert.equal(a.file,b.file);assert.equal(a.rawBytesSha256,b.rawBytesSha256);const q=read(a.file,a.rawBytesSha256);for(const p of[a,b])if(p.bytes!==undefined)assert.equal(p.bytes,q.b.length);}",
+  "jsonHelperSource": "const json=p=>{const q=read(p.file,p.rawBytesSha256);if(p.bytes!==undefined)assert.equal(p.bytes,q.b.length);return JSON.parse(q.b);};",
+  "closedSetObjectSource": "{kind:'Root-approved-Tax15-closed-FI-set118',prepared:complete.result,fullInventory:prepared.fullInventory,bodySHA256:prepared.bodySHA256,inventorySHA256:sha(Buffer.from(JSON.stringify(inventory))),orderedFamilyKeys:inventory.map(x=>x.key),descriptors:inventory}",
+  "outerExactGuardSpan": "assert.equal(request.kind, 'Root-requested-Tax15-fi-closed-set118-exact-G2');\nassert.equal(r.mode, 'fi-closed-set'); assert(typeof r.verdict === 'string' && r.verdict.startsWith('approved-'));\nassert.deepEqual(r.approvedInput, request.input); assert.deepEqual(r.expectedRootReview, request.expectedRootReview);\nconst input = JSON.parse(read(request.input.file, request.input.rawBytesSha256).b); assert.equal(input.mode, 'fi-closed-set');\nassert.equal(input.kind, 'Root-reviewed-Tax15-invocation118'); assert.equal(Object.keys(input).length, 34);\nconst entry = input.executionSources.find(p => p.file === R + '/tools/rust-r4ghi/tax15-invocation118/run-tax15-once.mjs'); assert(entry);\nconst codeReview = JSON.parse(read(input.codeReview.file, input.codeReview.rawBytesSha256).b);\nassert.equal(codeReview.kind, 'non-author-Tax15-invocation118-code-review');\nassert.equal(codeReview.verdict, 'code-ready-for-exact-input-review');\nassert.equal(codeReview.reviewerIsAuthor, false);\nassert.deepEqual(codeReview.executionSources, input.executionSources);\nfor (const p of input.executionSources) read(p.file, p.rawBytesSha256);\nconst liveState = read(P + '/business/g2-business15/main01/state.json', input.expectedEntryState.rawBytesSha256);\nassert.deepEqual(liveState.b, read(input.expectedEntryState.file, input.expectedEntryState.rawBytesSha256).b);\nassert(!fs.existsSync(O)); assert(!fs.existsSync(request.expectedRootReview.file));\nfor (const epoch of [13, 14, 15]) assert(!fs.existsSync(P + '/business/g2-business' + epoch + '/main01/driver.lock'));\nassert.deepEqual(request.expectedRootReviewBody, {\n  kind: 'Root-approved-exact-Tax15-invocation118', approvedInput: request.input,\n  codeReview: input.codeReview, expectedEntryState: input.expectedEntryState, mode: 'fi-closed-set',\n  nonce: input.nonce, actualG2Authorized: true, normalTaxPOSTGranted: false, FIGranted: true\n});\nconst bytes = Buffer.from(JSON.stringify(request.expectedRootReviewBody, null, 2) + '\\n');\nassert.equal(bytes.length, request.expectedRootReview.bytes); assert.equal(sha(bytes), request.expectedRootReview.rawBytesSha256);\nassert.equal(request.expectedRootReviewBody.actualG2Authorized, true);\nassert.equal(request.expectedRootReviewBody.normalTaxPOSTGranted, false); assert.equal(request.expectedRootReviewBody.FIGranted, true);\n",
+  "modelScope": "Exact pure metadata helpers/object expression and pre-write guard span only. Pin/JSON/set/state/review buffers are synthetic. No whole Root module, prepared input, mode, context or effect is executed. The outer fixture tests mode/body guard only, not full34-key runtime schema or eight-source admission.",
+  "byteShapesAreFromActualRunnerABI": true,
+  "actualPrepareResultRead": false,
+  "ordinaryStateOrTicketValuesRead": false,
+  "beforeAfterSourcesStable": true,
+  "RootOrPrivateWritten": false,
+  "globalFSOrCryptoPatched": false,
+  "actualDispatches": 0,
+  "actualNativeOrContextCalls": 0,
+  "SQLHTTP": false
+}

@@ -1,0 +1,44 @@
+{
+  "kind": "non-author-Root-Tax118-FI-preparer-source-review",
+  "verdict": "NOT_READY",
+  "sourceAuthor": "/root",
+  "reviewer": "/root/r4_period_engineering206",
+  "source": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/prepare-tax118-fi03.mjs",
+    "bytes": 6463,
+    "rawBytesSha256": "b8cab8f0160d3a45843b9d711445dd68ca00a20be34bffaaea8c38b440f2b74d"
+  },
+  "findings": [
+    {
+      "id": "T118-FIMETA-IR01",
+      "priority": "P2",
+      "lines": [
+        13,
+        14
+      ],
+      "summary": "Complete.input/complete.review/journal.input from actual CLI have file+rawSHA only, but metadata request pins also carry bytes. Whole-object deepEqual rejects the genuine same artifact.",
+      "actualABISource": [
+        {
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/run-tax15-once.mjs",
+          "bytes": 22148,
+          "rawBytesSha256": "0f5fed8fabce7d65f3a4854da0f1ce751889c296933cff7ebc73ede0e7af0667"
+        },
+        {
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs",
+          "bytes": 49154,
+          "rawBytesSha256": "a5b50ba102c4def8ebf0594a4cfa5ff207ee9a0e3452875385a5806659e0bfb8"
+        }
+      ],
+      "counterexample": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/independent-root-tax118-fi-orchestration-review01/checks-fi04-source118.json",
+        "bytes": 8476,
+        "rawBytesSha256": "53f028d9ec17bb27538abd68b885e3c68d9a48365a258c24ebd83dc0a45edc0f"
+      },
+      "actualExecutionClaimed": false
+    }
+  ],
+  "originalNeverRunLabelPreserved": true,
+  "nativeOrContextCalled": false,
+  "RootOrPrivateWritten": false,
+  "actualG2Granted": false
+}

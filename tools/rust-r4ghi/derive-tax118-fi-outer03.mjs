@@ -1,0 +1,9 @@
+// Derive a separately reviewable closed-set-only outer. Never executes it.
+import fs from'node:fs';import assert from'node:assert/strict';import{createHash}from'node:crypto';
+const R='E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi',sha=b=>createHash('sha256').update(b).digest('hex');
+const before=fs.readFileSync(R+'/execute-prepare118-once03.mjs');assert.equal(sha(before),'01f4e1c187370ea07c2ebc02854a0d6173777ea885612907baa43f72a00a9e10');let s=before.toString();const edits=[];
+function one(a,b){assert.equal(s.split(a).length,2,a);s=s.replace(a,b);edits.push({from:a,to:b,occurrences:1});}
+one('tax15-prepare118-prepared02','tax15-fi-closed-set118-prepared03');const n=s.split('prepare-only').length-1;assert(n>0);s=s.replaceAll('prepare-only','fi-closed-set');edits.push({from:'prepare-only',to:'fi-closed-set',occurrences:n});
+one('FIGranted: false','FIGranted: true');one('request.expectedRootReviewBody.FIGranted, false','request.expectedRootReviewBody.FIGranted, true');
+one('One actual native entry/exit; actor auth and complete read-only preparation evidence. Auth session/audit may write; no classification, FI, Tax/Main command or normal201','One complete original ordered FI closed set from prefix0, real native entry/exit and fresh actor/session/scope guards. Each family must return complete500 and full rollback with owned controls removed. Stop first unknown. No normal201 or Main replay');
+const after=Buffer.from(s),file=R+'/execute-tax118-fi-once03.mjs';fs.writeFileSync(file,after,{flag:'wx'});const d={kind:'source-only-prepare-outer03-to-closed-FI-only-outer03-derivation',before:{file:R+'/execute-prepare118-once03.mjs',bytes:before.length,rawBytesSha256:sha(before)},after:{file,bytes:after.length,rawBytesSha256:sha(after)},edits,actualModesExecuted:0};fs.writeFileSync(R+'/tax118-fi-outer03-derivation.json',JSON.stringify(d,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(d));

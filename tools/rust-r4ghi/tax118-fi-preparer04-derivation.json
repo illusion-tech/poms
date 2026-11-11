@@ -1,0 +1,49 @@
+{
+  "kind": "unrun-FI-metadata03-to04-actual-pin-shape-correction",
+  "before": {
+    "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/prepare-tax118-fi03.mjs",
+    "bytes": 6463,
+    "rawBytesSha256": "b8cab8f0160d3a45843b9d711445dd68ca00a20be34bffaaea8c38b440f2b74d"
+  },
+  "after": {
+    "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/prepare-tax118-fi04.mjs",
+    "bytes": 6690,
+    "rawBytesSha256": "5e9a4cd69e0eb74d334e6a07e85f0d8f07884d5a29f108fd72f4603476b3cbe5"
+  },
+  "edits": [
+    {
+      "from": "const json=p=>JSON.parse(read(p.file,p.rawBytesSha256).b);",
+      "to": "const json=p=>{const q=read(p.file,p.rawBytesSha256);if(p.bytes!==undefined)assert.equal(p.bytes,q.b.length);return JSON.parse(q.b);};\nfunction samePin(a,b){assert.equal(a.file,b.file);assert.equal(a.rawBytesSha256,b.rawBytesSha256);const q=read(a.file,a.rawBytesSha256);for(const p of[a,b])if(p.bytes!==undefined)assert.equal(p.bytes,q.b.length);}"
+    },
+    {
+      "from": "assert.deepEqual(complete.input,priorRequest.input);",
+      "to": "samePin(complete.input,priorRequest.input);"
+    },
+    {
+      "from": "assert.deepEqual(complete.review,priorRequest.expectedRootReview);",
+      "to": "samePin(complete.review,priorRequest.expectedRootReview);"
+    },
+    {
+      "from": "assert.deepEqual(journal.input,priorRequest.input);",
+      "to": "samePin(journal.input,priorRequest.input);"
+    },
+    {
+      "from": "assert.deepEqual(journal.result,complete.result);",
+      "to": "samePin(journal.result,complete.result);"
+    },
+    {
+      "from": "assert.deepEqual(exit.result,complete.result);",
+      "to": "samePin(exit.result,complete.result);"
+    },
+    {
+      "from": "assert.deepEqual(record.taxPreparation.artifact,complete.result);",
+      "to": "samePin(record.taxPreparation.artifact,complete.result);"
+    },
+    {
+      "from": "assert.deepEqual(state.consumerChecks.tax15Invocation118.invocations[prior.nonce].closedJournal,complete.closed.closedJournal);",
+      "to": "samePin(state.consumerChecks.tax15Invocation118.invocations[prior.nonce].closedJournal,complete.closed.closedJournal);"
+    }
+  ],
+  "actualFIInputCreated": false,
+  "actualModesExecuted": 0
+}
