@@ -1,0 +1,82 @@
+{
+  "kind": "independent-runtime121-source-promotion-ADD-replacement-counterexample",
+  "recordedAt": "2026-11-11T22:00:53.515Z",
+  "operator": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/source-promotion121/promote-once.mjs",
+    "bytes": 14965,
+    "rawBytesSha256": "ffdf5877cafa3b6e0c942d69ebac972cf6d3c52e0a89621c6f7fb481e20d5f68"
+  },
+  "sourceSpan": {
+    "begin": 12524,
+    "end": 13048,
+    "rawBytesSha256": "d42eb6aac27c71dfabdfb49e07dd51cbaff256055de5727dc138fccc21624473",
+    "statement": "ADD absent check -> owned lock check -> fs.renameSync(temp,target)"
+  },
+  "functionsExactSource": [
+    "keys",
+    "read",
+    "pin",
+    "entryExists",
+    "wx"
+  ],
+  "scope": "Exact production commit-loop source projection; only one ADD fixture per case in own review directory. The injected other writer happens after the real target lstat returnedENOENT; no Root/P/actual mode or process concurrency.",
+  "cases": [
+    {
+      "name": "normal",
+      "existingBeforeCheck": false,
+      "injectedAfterActualENOENT": false,
+      "renameCalls": 1,
+      "commitLoopAccepted": true,
+      "error": null,
+      "committedSteps": 1,
+      "unownedFileSHA256": "674db127c2a1e8a11e7def8a571bd8c7d912f4cdaf0fcca7ab90425b97fe9005",
+      "targetAfterSHA256": "0a7535282820e9e27db3014d74e80682b21812b77f47a139c67b9b667a244dd4",
+      "unownedFilePreserved": false,
+      "approvedBytesInstalled": true,
+      "fixtureRoot": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-source-safety-exact-review01/case-normal",
+      "RootNamespaceUsed": false
+    },
+    {
+      "name": "existing",
+      "existingBeforeCheck": true,
+      "injectedAfterActualENOENT": false,
+      "renameCalls": 0,
+      "commitLoopAccepted": false,
+      "error": {
+        "name": "AssertionError",
+        "message": "The expression evaluated to a falsy value:\n\n  assert(!entryExists(op.target))\n"
+      },
+      "committedSteps": 0,
+      "unownedFileSHA256": "674db127c2a1e8a11e7def8a571bd8c7d912f4cdaf0fcca7ab90425b97fe9005",
+      "targetAfterSHA256": "674db127c2a1e8a11e7def8a571bd8c7d912f4cdaf0fcca7ab90425b97fe9005",
+      "unownedFilePreserved": true,
+      "approvedBytesInstalled": false,
+      "fixtureRoot": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-source-safety-exact-review01/case-existing",
+      "RootNamespaceUsed": false
+    },
+    {
+      "name": "race",
+      "existingBeforeCheck": false,
+      "injectedAfterActualENOENT": true,
+      "renameCalls": 1,
+      "commitLoopAccepted": true,
+      "error": null,
+      "committedSteps": 1,
+      "unownedFileSHA256": "674db127c2a1e8a11e7def8a571bd8c7d912f4cdaf0fcca7ab90425b97fe9005",
+      "targetAfterSHA256": "0a7535282820e9e27db3014d74e80682b21812b77f47a139c67b9b667a244dd4",
+      "unownedFilePreserved": false,
+      "approvedBytesInstalled": true,
+      "fixtureRoot": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-source-safety-exact-review01/case-race",
+      "RootNamespaceUsed": false
+    }
+  ],
+  "finding": {
+    "id": "SS121-IR01",
+    "priority": "P2",
+    "conclusion": "Check-then-rename permits a newly arrived unknown ADD destination to be overwritten without a preimage; the loop records the step as successful. ADD requires an atomic no-replace install, with no rename fallback."
+  },
+  "actualRootOrPrivateWrite": false,
+  "actualMainCalled": false,
+  "SQLHTTP": false,
+  "processInspectionOrControl": false
+}
