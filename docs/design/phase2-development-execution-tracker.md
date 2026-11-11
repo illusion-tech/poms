@@ -986,3 +986,14 @@ D#107/E#108/F#109及本批#106已按[独立关闭许可](archive/slices/rust-r4d
 独立FI输入已按真实08e3/fdb9与body0f92冻结，尚待具体exactG2。真实认证窗口900/28800/60秒及独立raw touch边界纳入审查，未来FI新登录、保留真实过期及首错STOP，不假称全批耗时有保证。旧首次失败no-exit、351等原件保留；正式Rust240、R4 67/95、新业务认证0，业务G3/G4未通过，#118/#120、#57及完整R5 #116继续开放，#119技术收口保持。
 
 <!-- /poms-r4ghi-status352 -->
+
+
+<!-- poms-r4ghi-status353 -->
+
+### 2026-11-11 状态353：运行身份丢失，FI在HTTP前停止，恢复#121先G0
+
+[固定状态353](rust-r4ghi/continuation-status353.json)及[G0范围](rust-r4ghi/runtime-recovery353-G0.md)保存真实FI exit1：旧API PID244091缺席，0/67、0HTTP、无控制器/业务提交，cap未返回且完整退出未完成。非作者失败读回da94通过原件核验，当前为NOT READY；不重发7f75，不改旧95c/G2、counter或journal。失败state/ownership私有同字节副本已留。
+
+原Podman容器/卷、PG15/OID目录仍在；新boot与旧API记录不同，尚未启动服务或证明逻辑数据守恒。原生子项[#121](https://github.com/illusion-tech/poms/issues/121)归#114并阻塞#118，G1待冻结，新增业务操作0。先原卷守恒，再建立真实新进程准入链；不能用新PID冒旧证明。#119历史技术G4与真实prepare8b/08e3保持原时点。正式Rust240、R4 67/95、新认证0，#57及完整R5 #116继续开放。
+
+<!-- /poms-r4ghi-status353 -->

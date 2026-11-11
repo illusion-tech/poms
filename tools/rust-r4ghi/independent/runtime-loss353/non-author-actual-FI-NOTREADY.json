@@ -1,0 +1,232 @@
+{
+  "kind": "non-author-actual-Tax15-fi118-failure-readback",
+  "verdict": "NOT_READY-runtime-identity-lost-before-FI",
+  "reviewer": "/root/r4h_engineering",
+  "reviewerIsAuthor": false,
+  "mode": "fi-closed-set",
+  "asOf": "2026-11-11T14:10:25.792Z",
+  "input": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/tax15-fi-closed-set118-prepared03/fi-closed-set-input118.json",
+    "bytes": 7470,
+    "rawBytesSha256": "4bd2593c5f9c6872e66a8604d77c4a2282487dbf65fea0c86cde2bd1aa9fd501"
+  },
+  "actualRootApproval": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/tax15-fi-closed-set118-prepared03/Root-exact-fi-closed-set-review118.json",
+    "bytes": 1026,
+    "rawBytesSha256": "5ccfaa091f19b9f4c97a2456713a84bd17f1b7860bdf6417cba1b50ee83440ad"
+  },
+  "consumedExactG2": {
+    "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/independent-tax15-fi118-G2-preflight03/review-exact-fi-closed-set118-G2-03.json",
+    "bytes": 18161,
+    "rawBytesSha256": "95c33cd4bd42a7b47d6ea9795d0051c4d33e3b0c32b4bb427a06a59b5538204b"
+  },
+  "outer": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/tax15-fi-closed-set118-prepared03/run01/command-receipt.json",
+    "bytes": 1047,
+    "rawBytesSha256": "8d8deda64b1dd81b3db0ca1091bced8fe440616a3877237d74c47de9e84003bf"
+  },
+  "actualExitCode": 1,
+  "elapsedSeconds": 224.817564067,
+  "stdoutBytes": 0,
+  "stderr": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/tax15-fi-closed-set118-prepared03/run01/stderr.log",
+    "bytes": 159,
+    "rawBytesSha256": "7732dc8b87a40350648ff11f746ee88e33c593aabb73a79a8a44272ed6bf1e14"
+  },
+  "error": "ENOENT: no such file or directory, open '/proc/244091/stat'",
+  "nonce": "7f75088b-9f3d-4dbf-93f9-288ea96c8258",
+  "intent": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/tax118-invocation-7f75088b-9f3d-4dbf-93f9-288ea96c8258/intent.json",
+    "bytes": 624,
+    "rawBytesSha256": "a7b22d25339dc275d139dc0c401973b1c9ebd15ea69c48f87d0c1e18b819b269"
+  },
+  "partial": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/tax118-invocation-7f75088b-9f3d-4dbf-93f9-288ea96c8258/partial.json",
+    "bytes": 1092,
+    "rawBytesSha256": "8fab7d0871e5ff48dd2b9e287b6a6d987db923a14ff6d531f7fb9d20193b3678"
+  },
+  "failedBookend": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/000026-tax118-failed-bookend.json",
+    "bytes": 520,
+    "rawBytesSha256": "a15d1ff2af218bf66de9bd2691238cc57240391af42bd698352e8087c93dec60"
+  },
+  "failedState": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/failed15-retained353-01/state-failed15.json",
+    "bytes": 14237432,
+    "rawBytesSha256": "4c354c9190cdae04135ddedd1da7e8652fe5aa6e0aa8f5c74805faef9bc903ea"
+  },
+  "ownershipLog": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/failed15-retained353-01/ownership-failed15.jsonl",
+    "bytes": 5560,
+    "rawBytesSha256": "b76bb9d8345b0364554f05fb0d719f5083278b332ff54303946d9df3f167a918"
+  },
+  "preservationMapping": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/failed15-retained353-01/retained-failed15-mapping.json",
+    "bytes": 1367,
+    "rawBytesSha256": "10ff9393ddaf17815cb92037950cc9d91ab193b8908319b15842d77d32ea8ac0"
+  },
+  "phase": "failed-preserve",
+  "entryBoundary": {
+    "actualConstructorReturned": true,
+    "constructorMayPersistIdenticalStateAndLoadsLazyDBClosures": true,
+    "privateCapabilityAllocated": true,
+    "capabilityReturned": false,
+    "actualEntryGuardGenerated": false,
+    "createWireReached": false,
+    "loginReached": false,
+    "runFIReached": false
+  },
+  "exitBoundary": {
+    "privateClosePathReached": true,
+    "fixedSourceAttemptsCurrentFilesAndSeparateFullNativeExit": true,
+    "wholeExitVerificationCompleted": false,
+    "actualExitGuardGenerated": false,
+    "actualClosedJournalGenerated": false,
+    "actualCompleteGenerated": false,
+    "firstBookendErrorPreserved": true,
+    "individualNativeSubcallResultNotSeparatelyRecorded": true,
+    "sourceInferenceNotAnActualPerSubcallTrace": true,
+    "publicCapabilityNeverReturnedAndPrivateCapabilityClosedByFinally": true
+  },
+  "businessReachability": {
+    "newCanonicalHTTP": 0,
+    "newAuthenticationCalls": 0,
+    "actualFITrials": 0,
+    "controlsInstalledByThisCaller": 0,
+    "normalTaxOrMainOrClassificationCommands": 0,
+    "sweepInitialized": false,
+    "pendingTrial": false,
+    "ACK": false,
+    "activeFault": false,
+    "noCallerOwnedDBClientPathReachedBeforeGuardFailure": true,
+    "noFreshDBConservationCapture": true,
+    "noClaimAboutUnrelatedExternalDatabaseChanges": true
+  },
+  "metadataReadback": {
+    "onlyPersistedTopLevelDelta": "consumerChecks",
+    "newJournalPhase": "failed-preserve",
+    "newJournalEntryGuard": null,
+    "newJournalFamilies": [],
+    "newJournalHTTPAttempts": [],
+    "actorsOwnedBorrowedTaxAndAllOtherStateExactEntry": true,
+    "stateSequence": 25,
+    "numberedNewPrivateArtifacts": [
+      "000026-tax118-failed-bookend.json"
+    ],
+    "counterExplanation": "Journal persisted at25 before failed-bookend next/artifact26; no later state persist. No counter correction or old evidence rewrite is made or authorized.",
+    "priorPreparePublicHTTPOnly": 7,
+    "ownershipLogEntriesOnlyPriorPrepare": 6,
+    "driverLockAbsent": true,
+    "allOriginalInputSourcesStillPinned": true
+  },
+  "identityEvidence": {
+    "retainedAPI": {
+      "pin": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source15-api119-start15-01/process.json",
+        "bytes": 5776,
+        "rawBytesSha256": "b42e176e4b77a63136cfee4a7fdc9f294552e1fd279acf3d951f066fa21a520c"
+      },
+      "pid": 244091,
+      "recordedBootId": "9d02bf81-d51b-4aba-8d21-00fb41566491"
+    },
+    "newInvocation": {
+      "pid": 407,
+      "bootId": "23f386b9-b829-434c-954c-ab8de1269de0"
+    },
+    "recordedBootIdsDiffer": true,
+    "currentOSOrPortProbeByReviewer": false,
+    "noNewPIDSubstitution": true,
+    "RootRuntimeObservation353": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime-loss353-observation01/observation.json",
+      "bytes": 2753,
+      "rawBytesSha256": "80151bd29512f869a4aee63fd5e0d020f3bc3a2c0d136a983d4452d81a1ef698",
+      "authority": "Root read-only diagnostic only; not an independently repeated container/volume or DB observation by this reviewer"
+    }
+  },
+  "sourceCausality": [
+    {
+      "file": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs",
+        "rawBytesSha256": "a5b50ba102c4def8ebf0594a4cfa5ff207ee9a0e3452875385a5806659e0bfb8"
+      },
+      "start": 491,
+      "end": 528,
+      "claim": "apiIdentity reads the actual retained API PID stat before start/exe/cwd/socket/binary acceptance."
+    },
+    {
+      "file": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs",
+        "rawBytesSha256": "a5b50ba102c4def8ebf0594a4cfa5ff207ee9a0e3452875385a5806659e0bfb8"
+      },
+      "start": 776,
+      "end": 965,
+      "claim": "Constructor returned; fixed setup creates a private cap then currentFiles; ownership/entry guard and return follow only after that check."
+    },
+    {
+      "file": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs",
+        "rawBytesSha256": "a5b50ba102c4def8ebf0594a4cfa5ff207ee9a0e3452875385a5806659e0bfb8"
+      },
+      "start": 966,
+      "end": 1000,
+      "claim": "Opening failure with private cap calls closeInvocation; no value is returned to runner, secondary close error remains explicit."
+    },
+    {
+      "file": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs",
+        "rawBytesSha256": "a5b50ba102c4def8ebf0594a4cfa5ff207ee9a0e3452875385a5806659e0bfb8"
+      },
+      "start": 1193,
+      "end": 1286,
+      "claim": "Close independently attempts current and native full exit; whole failure persists failed-preserve and writes the unique failed-bookend artifact. It does not emit successful guard or closed journal."
+    },
+    {
+      "file": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/run-tax15-once.mjs",
+        "rawBytesSha256": "0f5fed8fabce7d65f3a4854da0f1ce751889c296933cff7ebc73ede0e7af0667"
+      },
+      "start": 469,
+      "end": 597,
+      "claim": "Runner cannot create wire or enter runFI before await-open returns; this failed await leaves cap unassigned, so no second close is attempted. Partial/original main error and exact-owned lock cleanup remain."
+    },
+    {
+      "file": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/context.mjs",
+        "bytes": 11614,
+        "rawBytesSha256": "d73d0e24cf7ff880537f7372ad362ff75eeb4f9d7daadb6a520ae691afd26017"
+      },
+      "start": 79,
+      "end": 110,
+      "claim": "DB client/connect are lazy function bodies; constructor persists and returns. No such client path is reached in this pre-wire failure."
+    }
+  ],
+  "priorEvidenceTreatment": {
+    "original95cAuthorizationImmutable": true,
+    "authorizationConsumedBySingleFailedDispatch": true,
+    "sameInputOrNonceRetryGranted": false,
+    "e798AndFeffCodeReadinessNotRewrittenOrRevokedByThisEnvironmentalLoss": true,
+    "priorActualPrepare8bStillHistoricalSuccess": true,
+    "old16acfFailureAndNoExitHistoryUnchanged": true,
+    "currentRuntimeReady": false
+  },
+  "requiredNext": "STOP. Preserve originals. Root must separately freeze and review any environment recovery/new actual API identity, baseline, input and gate; no old PID, nonce, approval or successful-exit substitution.",
+  "evidence": {
+    "fixedFailureReadback": {
+      "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/independent-tax15-fi118-actual-failure03/failure-boundaries03.json",
+      "bytes": 18794,
+      "rawBytesSha256": "6c1172a16a5f957f02266ffac12eae9e59d52da24bc920cb8e9246584b876757"
+    },
+    "retentionReadback": {
+      "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/independent-tax15-fi118-actual-failure03/preservation-map-readback03.json",
+      "bytes": 1036,
+      "rawBytesSha256": "597d31f0c4ed65a17377e14454144490be16c023e82cc79fe511a63f7d64080b"
+    }
+  },
+  "reviewerNativeHelperContextDBHTTPProcessControlOrGit": false,
+  "RootOrPrivateWritten": false,
+  "passwordCookieCSRFOrRawStatePublished": false,
+  "newExecutionAuthorization": false,
+  "G2": false,
+  "G3": false,
+  "G4": false
+}
