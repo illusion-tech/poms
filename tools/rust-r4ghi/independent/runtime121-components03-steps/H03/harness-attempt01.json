@@ -1,0 +1,9 @@
+{
+  "kind": "independent-H03-probe-harness-dependency-correction",
+  "productFinding": false,
+  "firstRunExit": 1,
+  "cause": "The isolated 284 response-tail projection omitted its local payload Buffer dependency, causing a ReferenceError before ctx.public; the outer assertion correctly rejected the incomplete model run.",
+  "productionOrRootChanged": false,
+  "preservedTempDirectory": "own-temp-guards",
+  "correction": "Supply the already fixed local request payload Buffer to the VM dependency set; use new own-temp-guards02 directory without overwriting prior evidence."
+}

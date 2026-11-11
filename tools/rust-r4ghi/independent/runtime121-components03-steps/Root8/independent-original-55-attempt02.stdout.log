@@ -1,0 +1,98 @@
+✔ actual pure input/record/body schemas stay17/25/12; model is not full preflight (3.284318ms)
+✔ input shape rejects missing key (1.462062ms)
+✔ input shape rejects unknown CLI-like mode (0.620936ms)
+✔ input shape rejects future API pin (0.46353ms)
+✔ input shape rejects future readiness (0.307296ms)
+✔ input shape rejects future registry (0.295905ms)
+✔ input shape rejects foreign epoch (0.327093ms)
+✔ input shape rejects foreign namespace (0.855359ms)
+✔ input shape rejects bad nonce (3.255259ms)
+✔ input shape rejects old helper count (0.381625ms)
+✔ input shape rejects short whole closure (0.823534ms)
+✔ input shape rejects extra whole closure (0.307266ms)
+✔ input shape rejects wrong process path (0.343093ms)
+✔ input shape rejects old env edition (0.254517ms)
+✔ input shape rejects output nonce mismatch (0.208762ms)
+✔ input shape rejects G1B hash substituted (0.195526ms)
+✔ input shape rejects lexical pin alias (0.946565ms)
+✔ input shape rejects unknown current key (0.34108ms)
+✔ input shape rejects unknown pin key (0.233267ms)
+✔ exact keys rejects Proxy/accessor/symbol/foreign prototype without executing top-level traps (0.262101ms)
+✔ input top accessors/proxy are rejected before evaluating values (0.145583ms)
+✔ nested pin accessor/proxy must also reject without executing bytes getter (0.155221ms)
+✔ original env fullPin rejects missing pin (0.210505ms)
+✔ original env fullPin rejects missing bytes (0.221646ms)
+✔ original env fullPin rejects wrong path (0.34119ms)
+✔ original env fullPin rejects extra key (0.208701ms)
+✔ original env fullPin rejects empty file (0.14373ms)
+✔ actual16-key env derivation changes only HOST/PORT/CORS and preserves secret bytes/order (0.630763ms)
+✔ env rejects missing16th without dummy secret in error (0.463328ms)
+✔ env rejects unknown secret key without dummy secret in error (0.2348ms)
+✔ env rejects duplicate secret without dummy secret in error (0.132599ms)
+✔ env rejects quoted secret without dummy secret in error (0.09085ms)
+✔ env rejects NUL secret without dummy secret in error (0.127399ms)
+✔ env rejects wrong DB binding without dummy secret in error (0.232005ms)
+✔ env rejects malformed secret line without dummy secret in error (0.17084ms)
+✔ environment bytes reject invalid UTF8 without replacement or secret diagnostics (0.17069ms)
+✔ actual readiness predicate accepts only complete fixed endpoint200 with process/database pass (0.100359ms)
+✔ readiness rejects method (0.103204ms)
+✔ readiness rejects endpoint (0.065442ms)
+✔ readiness rejects port (0.051246ms)
+✔ readiness rejects status (0.153669ms)
+✔ readiness rejects incomplete (0.068678ms)
+✔ readiness rejects unknown transport (0.118703ms)
+✔ readiness rejects missing process (0.36286ms)
+✔ readiness rejects failed DB (0.209663ms)
+✔ readiness rejects wrong service (0.093315ms)
+✔ readiness rejects partial JSON (0.050795ms)
+✔ actual auth startup predicate rejects same-ms ns overrun and accepts real later-ms boundary (0.347662ms)
+✔ actual auth startup predicate rejects mode (0.105819ms)
+✔ actual auth startup predicate rejects uid (0.215754ms)
+✔ actual auth startup predicate rejects hardlink (0.088516ms)
+✔ actual auth startup predicate rejects symlink (0.058219ms)
+✔ actual waitAfterEnv uses natural real time and rejects unexplained future/missing ns (24.202219ms)
+✖ actual temporary Linux0600 file works with real waiter/original auth predicate (20.219034ms)
+✖ actual original-env FS predicates bind bytes and reject drift/aliases (34.841006ms)
+ℹ tests 55
+ℹ suites 0
+ℹ pass 53
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 351.958806
+
+✖ failing tests:
+
+test at isolated/tools/rust-r4ghi/runtime-recovery121/root/tests/api121.test.mjs:46:1
+✖ actual temporary Linux0600 file works with real waiter/original auth predicate (20.219034ms)
+  AssertionError [ERR_ASSERTION]: Current pinned launcher creates the env with wx/mode0600
+  
+  511n !== 384n
+  
+      at Module.assertStartupFileIdentity (file:///mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-Root8-API-code-review01/isolated/tools/rust-r4ghi/business/auth-config-binding.mjs:66:10)
+      at TestContext.<anonymous> (file:///mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-Root8-API-code-review01/isolated/tools/rust-r4ghi/runtime-recovery121/root/tests/api121.test.mjs:46:443)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 511n,
+    expected: 384n,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at isolated/tools/rust-r4ghi/runtime-recovery121/root/tests/api121.test.mjs:50:1
+✖ actual original-env FS predicates bind bytes and reject drift/aliases (34.841006ms)
+  AssertionError [ERR_ASSERTION]: Original startup environment file identity
+      at readBaseEnv (evalmachine.<anonymous>:16:58)
+      at TestContext.<anonymous> (file:///mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-Root8-API-code-review01/isolated/tools/rust-r4ghi/runtime-recovery121/root/tests/api121.test.mjs:60:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

@@ -1,0 +1,14 @@
+{
+  "kind": "independent-isolated-filesystem-premise-correction",
+  "failedAttempt": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-Root8-API-code-review01/isolated-Root8-API121-checks-attempt02.json",
+    "bytes": 1890,
+    "rawBytesSha256": "b77d78b78edf3fb2aa6b39922cc66081db6f5568edcdeaded204860b479668e8"
+  },
+  "originalTests": 55,
+  "pass": 53,
+  "fail": 2,
+  "reason": "Own TMPDIR under /mnt/e DrvFS exposes created0600 files as0777. The product predicates correctly rejected the permissions; original author Linux run remains55/55. Move only synthetic fixtures to named ext4 /tmp directory; no production, sealed test body, source env, Root/P or host mount changes.",
+  "sourceEnvRead": false,
+  "productDefect": false
+}
