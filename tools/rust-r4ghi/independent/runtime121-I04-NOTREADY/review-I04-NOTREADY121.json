@@ -1,0 +1,116 @@
+{
+  "kind": "non-author-runtime121-Native-I04-corrective-review",
+  "verdict": "NOT_READY-retained-Source14-Stat5-rejected",
+  "issue": 121,
+  "author": "I / r4_period_engineering206",
+  "reviewer": "/root/r4ghi_final_gates13",
+  "reviewerIsAuthor": false,
+  "reviewerIsRootExecutor": false,
+  "recordedAt": "2026-11-11T23:04:59.347Z",
+  "componentManifest": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-code04/sealed-code04/manifest-I121-code04.json",
+    "bytes": 26875,
+    "rawBytesSha256": "4b5265e88f435ab89d86e824d7b155c1abf5ea330c6ce2aac07f30a128b18eec"
+  },
+  "technicalG1": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/g1B/Root-G1B-121.json",
+    "bytes": 5254,
+    "rawBytesSha256": "be96f468fe8c7aa58dcebe6f687ef90d0afb46f1d9ca2ac2bc2b3e90974206cc"
+  },
+  "parentComponent": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-code03/sealed-code03/manifest-I121-code03.json",
+    "bytes": 23623,
+    "rawBytesSha256": "9467b5bc7629ffde3aad2df15004af3a6d14f110e08ab4a156558bdd2a639f31"
+  },
+  "parentReview": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-B-code03-review01/review-Native-B-code03-step121.json",
+    "bytes": 17543,
+    "rawBytesSha256": "274f4ebe7469be27bee7bfdcd3369d2a9e21152485ad3d03a6bafaea5b50f87b"
+  },
+  "evidence": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-B-code04-review01/actual-ancestor-shape-census-I04.json",
+    "bytes": 23456,
+    "rawBytesSha256": "a78a87037d66dd2261925d27924e70b7ad82b2ad7ac6306f38b1e406b873770b"
+  },
+  "source": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-code04/sealed-code04/proposed/tools/rust-r4ghi/business/runtime-admission121.mjs",
+    "bytes": 93218,
+    "rawBytesSha256": "2bae6141c2fb65ea17e108552834df7e85d7e3a673e88a4babb0b79549392680"
+  },
+  "findings": [
+    {
+      "id": "I121-HIST-IR01",
+      "priority": "P2",
+      "line": 74,
+      "trigger": "verifyRetainedSource15For121 first traverses the retainedSource14 registry and approvedPlan213b; historicalBuild14 passes its real consumer Pin3 plus binaryFilesStat5 into the private historicalBinary121 helper.",
+      "actual": "I04 requires each historical fact to include bytes. Both real Source14 Stat5 entries lack that unrecorded field, so the legitimate ancestor is rejected before any byte read.",
+      "actualS14Registry": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business14/main01/R4-Source14-code-admission25203.json",
+        "bytes": 45919,
+        "rawBytesSha256": "13127ac7a71bdf2e90b92ef8160e9ccb9a19312e30ff24efb3436e9da3512a78"
+      },
+      "actualS14ApprovedPlan": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business14/main01/admission-plan339-with-B0.json",
+        "rawBytesSha256": "213b545900c87139f3108abb0a43619a7b0d556bb890ff2cb7ceffadf5af9a53"
+      },
+      "actualS15Plan": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source15-plan119-publish01.json",
+        "rawBytesSha256": "2b2bdf87acd62a1187e650991b21b0e3380c2218e1857f32b291109927f10539"
+      },
+      "required": "Keep current Pin/binary/stat rules and historical input Pin2/3-orTyped6 unchanged. Only historical fact accepts explicit closedStat5-orStat6, validates recorded stat and any recorded bytes, returns the original fact unchanged and never invents historical bytes."
+    }
+  ],
+  "actualSchemaCensus": {
+    "actualCallsites": 3,
+    "actualHelperInvocationFrames": 8,
+    "Source14Pin3Stat5Frames": 2,
+    "Source15Typed6Stat6Frames": 6,
+    "relatedS15Typed6MetadataRowsSeparatelyVerified": 8,
+    "allKnownHelperAncestorContainersInspected": true,
+    "newI04Source14RejectsBeforeByteObservation": 2,
+    "oldI03Source14ShapeControlAccepts": 2,
+    "Source15ShapeControlsPassWithI04": 6,
+    "actualELFOrEnvBytesRead": false,
+    "byteObservationBoundary": "Explicit stub for shape-only source projections; not current or historical binary-byte acceptance."
+  },
+  "completedChecks": {
+    "singleNativeBlockForwardInverseExact": true,
+    "otherEightProductionRawUnchanged": true,
+    "binaryBytesAndCurrentBinaryRawUnchanged": true,
+    "CoreAndCurrentInputRulesUnchanged": true,
+    "allRecordedOldStatUnmutatedInProjectionControls": true,
+    "authorLinux51PassLabelVerified": true,
+    "author51CannotOverrideActualAncestorRegression": true
+  },
+  "notApproved": {
+    "finiteCodeStepIssued": false,
+    "RootCopy": false,
+    "SourceSafetyIncremental02": false,
+    "actualNamespaceVerifier": false,
+    "APIStart": false,
+    "current22955GraphRefresh": false,
+    "ordinaryConstructor": false,
+    "TaxFIOrNormal": false
+  },
+  "preserved": {
+    "I04CandidateAndSourcePinsUnmodified": true,
+    "I03_9467And274fRemainPriorBoundedReview": true,
+    "actualSourceaf22Andad98RemainTheirOriginalTimes": true,
+    "Root8_577efIndependentMinimalReviewUnmodified": true
+  },
+  "reviewerEffects": {
+    "RootOrPrivateWrite": false,
+    "namespaceNativeOrContext": false,
+    "SQLHTTP": false,
+    "applicationProcessInspectionOrControl": false,
+    "ELFBytesRead": false,
+    "environmentValuesRead": false
+  },
+  "codeReady": false,
+  "actualG2Authorized": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "businessG3": false,
+  "businessG4": false,
+  "newBusinessCertified": 0
+}

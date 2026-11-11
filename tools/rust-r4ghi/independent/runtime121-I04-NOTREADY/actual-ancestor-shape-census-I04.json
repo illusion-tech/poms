@@ -1,0 +1,609 @@
+{
+  "kind": "non-author-I04-actual-ancestor-binary-shape-census-and-counterexample",
+  "recordedAt": "2026-11-11T23:03:18.346Z",
+  "componentManifest": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-code04/sealed-code04/manifest-I121-code04.json",
+    "bytes": 26875,
+    "rawBytesSha256": "4b5265e88f435ab89d86e824d7b155c1abf5ea330c6ce2aac07f30a128b18eec"
+  },
+  "parentManifest": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-code03/sealed-code03/manifest-I121-code03.json",
+    "bytes": 23623,
+    "rawBytesSha256": "9467b5bc7629ffde3aad2df15004af3a6d14f110e08ab4a156558bdd2a639f31"
+  },
+  "sourceSingleBlockForwardInverseExact": true,
+  "otherEightProductionAndBinaryBytesCurrentBinaryCoreUnchanged": true,
+  "actualS14Registry": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business14/main01/R4-Source14-code-admission25203.json",
+    "bytes": 45919,
+    "rawBytesSha256": "13127ac7a71bdf2e90b92ef8160e9ccb9a19312e30ff24efb3436e9da3512a78"
+  },
+  "actualS14ApprovedPlan": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business14/main01/admission-plan339-with-B0.json",
+    "rawBytesSha256": "213b545900c87139f3108abb0a43619a7b0d556bb890ff2cb7ceffadf5af9a53"
+  },
+  "actualS15SchemaEvidence": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-code04/sealed-code04/evidence/actual-plan-build-schema-and-counterexample.json",
+    "bytes": 12954,
+    "rawBytesSha256": "7f1c7d146ec1016cbe5731b6029e96b61c8139a23266d4a8abad87c904af7f91"
+  },
+  "actualHelperCallsiteLines": [
+    {
+      "line": 951,
+      "text": "  for (const k of ['binary', 'summaryBinary']) { samePin15(b[k], p.consumer[k]); samePin15(mirror[k], p.consumer[k]); historicalBinary121(p.consumer[k], p.consumer.binaryFiles); }"
+    },
+    {
+      "line": 1098,
+      "text": "    for (const k of ['binary', 'summaryBinary']) historicalBinary121(r[k], r.binaryFiles);"
+    },
+    {
+      "line": 1101,
+      "text": "  for (const k of ['binary', 'summaryBinary']) { samePin15(mirrorCargo[k], consumer[k]); historicalBinary121(consumer[k], consumer.binaryFiles); inside(consumer.binaryRoot, consumer[k].file); }"
+    }
+  ],
+  "actualHelperInvocationFrames": [
+    {
+      "source": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business14/main01/admission-plan339-with-B0.json",
+        "rawBytesSha256": "213b545900c87139f3108abb0a43619a7b0d556bb890ff2cb7ceffadf5af9a53"
+      },
+      "argumentPointer": "/consumer/binary",
+      "factsPointer": "/consumer/binaryFiles",
+      "callsiteFunction": "historicalBuild14",
+      "callsite": "historicalBinary121(p.consumer[k],p.consumer.binaryFiles)",
+      "tree": null,
+      "argumentKeys": [
+        "bytes",
+        "file",
+        "rawBytesSha256"
+      ],
+      "factKeys": [
+        "dev",
+        "file",
+        "ino",
+        "nlink",
+        "rawBytesSha256"
+      ],
+      "factHasBytes": false,
+      "oldI03": {
+        "shapeAccepted": true,
+        "result": {
+          "returnedOriginalFact": true
+        },
+        "error": null,
+        "stubbedByteObservationCalls": 1,
+        "actualELFBytesRead": false,
+        "oldMetadataUnchanged": true
+      },
+      "newI04": {
+        "shapeAccepted": false,
+        "result": null,
+        "error": {
+          "name": "AssertionError",
+          "code": "ERR_ASSERTION",
+          "message": "Closed historical binary fact"
+        },
+        "stubbedByteObservationCalls": 0,
+        "actualELFBytesRead": false,
+        "oldMetadataUnchanged": true
+      }
+    },
+    {
+      "source": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business14/main01/admission-plan339-with-B0.json",
+        "rawBytesSha256": "213b545900c87139f3108abb0a43619a7b0d556bb890ff2cb7ceffadf5af9a53"
+      },
+      "argumentPointer": "/consumer/summaryBinary",
+      "factsPointer": "/consumer/binaryFiles",
+      "callsiteFunction": "historicalBuild14",
+      "callsite": "historicalBinary121(p.consumer[k],p.consumer.binaryFiles)",
+      "tree": null,
+      "argumentKeys": [
+        "bytes",
+        "file",
+        "rawBytesSha256"
+      ],
+      "factKeys": [
+        "dev",
+        "file",
+        "ino",
+        "nlink",
+        "rawBytesSha256"
+      ],
+      "factHasBytes": false,
+      "oldI03": {
+        "shapeAccepted": true,
+        "result": {
+          "returnedOriginalFact": true
+        },
+        "error": null,
+        "stubbedByteObservationCalls": 1,
+        "actualELFBytesRead": false,
+        "oldMetadataUnchanged": true
+      },
+      "newI04": {
+        "shapeAccepted": false,
+        "result": null,
+        "error": {
+          "name": "AssertionError",
+          "code": "ERR_ASSERTION",
+          "message": "Closed historical binary fact"
+        },
+        "stubbedByteObservationCalls": 0,
+        "actualELFBytesRead": false,
+        "oldMetadataUnchanged": true
+      }
+    },
+    {
+      "source": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source15-build119-checks34402-02/Root-cargo.json",
+        "bytes": 122382,
+        "rawBytesSha256": "b4718831181736221a8e97d8b93cb5be15232d7976aa989cab432494495143af"
+      },
+      "argumentPointer": "/binary",
+      "factsPointer": "/binaryFiles",
+      "callsiteFunction": "historicalBuild15_121",
+      "callsite": "historicalBinary121(r[k],r.binaryFiles)",
+      "tree": "Root",
+      "argumentKeys": [
+        "bytes",
+        "dev",
+        "file",
+        "ino",
+        "nlink",
+        "rawBytesSha256"
+      ],
+      "factKeys": [
+        "bytes",
+        "dev",
+        "file",
+        "ino",
+        "nlink",
+        "rawBytesSha256"
+      ],
+      "factHasBytes": true,
+      "oldI03": {
+        "shapeAccepted": false,
+        "result": null,
+        "error": {
+          "name": "AssertionError",
+          "code": "ERR_ASSERTION",
+          "message": "Closed pin121"
+        },
+        "stubbedByteObservationCalls": 0,
+        "actualELFBytesRead": false,
+        "oldMetadataUnchanged": true
+      },
+      "newI04": {
+        "shapeAccepted": true,
+        "result": {
+          "returnedOriginalFact": true
+        },
+        "error": null,
+        "stubbedByteObservationCalls": 1,
+        "actualELFBytesRead": false,
+        "oldMetadataUnchanged": true
+      }
+    },
+    {
+      "source": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source15-build119-checks34402-02/Root-cargo.json",
+        "bytes": 122382,
+        "rawBytesSha256": "b4718831181736221a8e97d8b93cb5be15232d7976aa989cab432494495143af"
+      },
+      "argumentPointer": "/summaryBinary",
+      "factsPointer": "/binaryFiles",
+      "callsiteFunction": "historicalBuild15_121",
+      "callsite": "historicalBinary121(r[k],r.binaryFiles)",
+      "tree": "Root",
+      "argumentKeys": [
+        "bytes",
+        "dev",
+        "file",
+        "ino",
+        "nlink",
+        "rawBytesSha256"
+      ],
+      "factKeys": [
+        "bytes",
+        "dev",
+        "file",
+        "ino",
+        "nlink",
+        "rawBytesSha256"
+      ],
+      "factHasBytes": true,
+      "oldI03": {
+        "shapeAccepted": false,
+        "result": null,
+        "error": {
+          "name": "AssertionError",
+          "code": "ERR_ASSERTION",
+          "message": "Closed pin121"
+        },
+        "stubbedByteObservationCalls": 0,
+        "actualELFBytesRead": false,
+        "oldMetadataUnchanged": true
+      },
+      "newI04": {
+        "shapeAccepted": true,
+        "result": {
+          "returnedOriginalFact": true
+        },
+        "error": null,
+        "stubbedByteObservationCalls": 1,
+        "actualELFBytesRead": false,
+        "oldMetadataUnchanged": true
+      }
+    },
+    {
+      "source": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source15-build119-checks34402-02/mirror-cargo.json",
+        "bytes": 117591,
+        "rawBytesSha256": "c816972ff5867791bb80e6197d5abb18dd42426b002096f5255a5ddc4048b889"
+      },
+      "argumentPointer": "/binary",
+      "factsPointer": "/binaryFiles",
+      "callsiteFunction": "historicalBuild15_121",
+      "callsite": "historicalBinary121(r[k],r.binaryFiles)",
+      "tree": "mirror",
+      "argumentKeys": [
+        "bytes",
+        "dev",
+        "file",
+        "ino",
+        "nlink",
+        "rawBytesSha256"
+      ],
+      "factKeys": [
+        "bytes",
+        "dev",
+        "file",
+        "ino",
+        "nlink",
+        "rawBytesSha256"
+      ],
+      "factHasBytes": true,
+      "oldI03": {
+        "shapeAccepted": false,
+        "result": null,
+        "error": {
+          "name": "AssertionError",
+          "code": "ERR_ASSERTION",
+          "message": "Closed pin121"
+        },
+        "stubbedByteObservationCalls": 0,
+        "actualELFBytesRead": false,
+        "oldMetadataUnchanged": true
+      },
+      "newI04": {
+        "shapeAccepted": true,
+        "result": {
+          "returnedOriginalFact": true
+        },
+        "error": null,
+        "stubbedByteObservationCalls": 1,
+        "actualELFBytesRead": false,
+        "oldMetadataUnchanged": true
+      }
+    },
+    {
+      "source": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source15-build119-checks34402-02/mirror-cargo.json",
+        "bytes": 117591,
+        "rawBytesSha256": "c816972ff5867791bb80e6197d5abb18dd42426b002096f5255a5ddc4048b889"
+      },
+      "argumentPointer": "/summaryBinary",
+      "factsPointer": "/binaryFiles",
+      "callsiteFunction": "historicalBuild15_121",
+      "callsite": "historicalBinary121(r[k],r.binaryFiles)",
+      "tree": "mirror",
+      "argumentKeys": [
+        "bytes",
+        "dev",
+        "file",
+        "ino",
+        "nlink",
+        "rawBytesSha256"
+      ],
+      "factKeys": [
+        "bytes",
+        "dev",
+        "file",
+        "ino",
+        "nlink",
+        "rawBytesSha256"
+      ],
+      "factHasBytes": true,
+      "oldI03": {
+        "shapeAccepted": false,
+        "result": null,
+        "error": {
+          "name": "AssertionError",
+          "code": "ERR_ASSERTION",
+          "message": "Closed pin121"
+        },
+        "stubbedByteObservationCalls": 0,
+        "actualELFBytesRead": false,
+        "oldMetadataUnchanged": true
+      },
+      "newI04": {
+        "shapeAccepted": true,
+        "result": {
+          "returnedOriginalFact": true
+        },
+        "error": null,
+        "stubbedByteObservationCalls": 1,
+        "actualELFBytesRead": false,
+        "oldMetadataUnchanged": true
+      }
+    },
+    {
+      "source": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source15-plan119-publish01.json",
+        "bytes": 51818,
+        "rawBytesSha256": "2b2bdf87acd62a1187e650991b21b0e3380c2218e1857f32b291109927f10539"
+      },
+      "argumentPointer": "/consumer/binary",
+      "factsPointer": "/consumer/binaryFiles",
+      "callsiteFunction": "historicalBuild15_121",
+      "callsite": "historicalBinary121(consumer[k],consumer.binaryFiles)",
+      "tree": null,
+      "argumentKeys": [
+        "bytes",
+        "dev",
+        "file",
+        "ino",
+        "nlink",
+        "rawBytesSha256"
+      ],
+      "factKeys": [
+        "bytes",
+        "dev",
+        "file",
+        "ino",
+        "nlink",
+        "rawBytesSha256"
+      ],
+      "factHasBytes": true,
+      "oldI03": {
+        "shapeAccepted": false,
+        "result": null,
+        "error": {
+          "name": "AssertionError",
+          "code": "ERR_ASSERTION",
+          "message": "Closed pin121"
+        },
+        "stubbedByteObservationCalls": 0,
+        "actualELFBytesRead": false,
+        "oldMetadataUnchanged": true
+      },
+      "newI04": {
+        "shapeAccepted": true,
+        "result": {
+          "returnedOriginalFact": true
+        },
+        "error": null,
+        "stubbedByteObservationCalls": 1,
+        "actualELFBytesRead": false,
+        "oldMetadataUnchanged": true
+      }
+    },
+    {
+      "source": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source15-plan119-publish01.json",
+        "bytes": 51818,
+        "rawBytesSha256": "2b2bdf87acd62a1187e650991b21b0e3380c2218e1857f32b291109927f10539"
+      },
+      "argumentPointer": "/consumer/summaryBinary",
+      "factsPointer": "/consumer/binaryFiles",
+      "callsiteFunction": "historicalBuild15_121",
+      "callsite": "historicalBinary121(consumer[k],consumer.binaryFiles)",
+      "tree": null,
+      "argumentKeys": [
+        "bytes",
+        "dev",
+        "file",
+        "ino",
+        "nlink",
+        "rawBytesSha256"
+      ],
+      "factKeys": [
+        "bytes",
+        "dev",
+        "file",
+        "ino",
+        "nlink",
+        "rawBytesSha256"
+      ],
+      "factHasBytes": true,
+      "oldI03": {
+        "shapeAccepted": false,
+        "result": null,
+        "error": {
+          "name": "AssertionError",
+          "code": "ERR_ASSERTION",
+          "message": "Closed pin121"
+        },
+        "stubbedByteObservationCalls": 0,
+        "actualELFBytesRead": false,
+        "oldMetadataUnchanged": true
+      },
+      "newI04": {
+        "shapeAccepted": true,
+        "result": {
+          "returnedOriginalFact": true
+        },
+        "error": null,
+        "stubbedByteObservationCalls": 1,
+        "actualELFBytesRead": false,
+        "oldMetadataUnchanged": true
+      }
+    }
+  ],
+  "counts": {
+    "callsites": 3,
+    "invocations": 8,
+    "S14Pin3WithStat5": 2,
+    "S15Typed6WithStat6": 6,
+    "relatedS15PlanBuildCargoTyped6MetadataRows": 8
+  },
+  "finding": {
+    "id": "I121-HIST-IR01",
+    "priority": "P2",
+    "conclusion": "The complete retained Source15 reader first traverses Source14. Real S14 consumer Pin3 values have exact five-key facts without bytes. I04 rejects both at the newly forced six-key historical fact guard before any byte read; Source15-only Typed6 tests do not cover the ancestor."
+  },
+  "minimalFix": "Keep historical input Pin2/3-orTyped6 and all current Pin/binary/stat rules unchanged. Only historical fact permits explicit closedStat5-orStat6; validate recorded stat and optional recorded bytes, preserve original fact unchanged, and use strict admitted identity for observed bytes without inventing historical bytes.",
+  "namespaceVerifierCalled": false,
+  "actualELFOrEnvironmentRead": false,
+  "RootOrPrivateWritten": false,
+  "SQLHTTPOrProcessInspectionControl": false,
+  "shapeOnlyStubBoundaryNotActualBinaryAcceptance": true,
+  "readPins": [
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-code04/sealed-code04/manifest-I121-code04.json",
+      "bytes": 26875,
+      "rawBytesSha256": "4b5265e88f435ab89d86e824d7b155c1abf5ea330c6ce2aac07f30a128b18eec"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-code03/sealed-code03/manifest-I121-code03.json",
+      "bytes": 23623,
+      "rawBytesSha256": "9467b5bc7629ffde3aad2df15004af3a6d14f110e08ab4a156558bdd2a639f31"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-B-code03-review01/review-Native-B-code03-step121.json",
+      "bytes": 17543,
+      "rawBytesSha256": "274f4ebe7469be27bee7bfdcd3369d2a9e21152485ad3d03a6bafaea5b50f87b"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-code04/sealed-code04/evidence/native04-exact-inverse.json",
+      "bytes": 2653,
+      "rawBytesSha256": "e8991a58673f3255ab40aa8f3bd41ca102826af16a1c927c911778d7a3027b6e"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-code04/sealed-code04/proposed/tools/rust-r4ghi/business/runtime-admission121.mjs",
+      "bytes": 93218,
+      "rawBytesSha256": "2bae6141c2fb65ea17e108552834df7e85d7e3a673e88a4babb0b79549392680"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-code03/sealed-code03/proposed/tools/rust-r4ghi/business/runtime-admission121.mjs",
+      "bytes": 92249,
+      "rawBytesSha256": "2ebe24bbe42ebdeddb7091647662f9de0efc0306c8b6ae1672a8cead8da3e64a"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-code04/sealed-code04/proposed/tools/rust-r4ghi/business/runtime-admission-core121.mjs",
+      "bytes": 17259,
+      "rawBytesSha256": "58fea2219a71af3b643e932f440339f330d5f4223567e4a3bcb7b2d84221dd43"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-code03/sealed-code03/proposed/tools/rust-r4ghi/business/runtime-admission-core121.mjs",
+      "bytes": 17259,
+      "rawBytesSha256": "58fea2219a71af3b643e932f440339f330d5f4223567e4a3bcb7b2d84221dd43"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-code04/sealed-code04/proposed/tools/rust-r4ghi/business/consumer-admission54.mjs",
+      "bytes": 14210,
+      "rawBytesSha256": "5d6f575779e9661852faf2a1df5283894ea2c673bb010fd619c46a7dd994146b"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-code03/sealed-code03/proposed/tools/rust-r4ghi/business/consumer-admission54.mjs",
+      "bytes": 14210,
+      "rawBytesSha256": "5d6f575779e9661852faf2a1df5283894ea2c673bb010fd619c46a7dd994146b"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-code04/sealed-code04/proposed/tools/rust-r4ghi/business/http.mjs",
+      "bytes": 12109,
+      "rawBytesSha256": "dc1ee9dd009cadaa963d4e97de23d839931c803c17c02e8bbfe19fdb85c40200"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-code03/sealed-code03/proposed/tools/rust-r4ghi/business/http.mjs",
+      "bytes": 12109,
+      "rawBytesSha256": "dc1ee9dd009cadaa963d4e97de23d839931c803c17c02e8bbfe19fdb85c40200"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-code04/sealed-code04/proposed/tools/rust-r4ghi/business/fault-sweep.mjs",
+      "bytes": 25874,
+      "rawBytesSha256": "e167e13e8c46e011d98dea68d36147a78aa88d7b35c6a32b7ee3fcd10eb02335"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-code03/sealed-code03/proposed/tools/rust-r4ghi/business/fault-sweep.mjs",
+      "bytes": 25874,
+      "rawBytesSha256": "e167e13e8c46e011d98dea68d36147a78aa88d7b35c6a32b7ee3fcd10eb02335"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-code04/sealed-code04/proposed/tools/rust-r4ghi/business/gh-write-facts.mjs",
+      "bytes": 27143,
+      "rawBytesSha256": "bc3c1f03d3cedb2a265a45b2d9c1f1c883463ee0dd26f70703289ee5bb1a7f49"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-code03/sealed-code03/proposed/tools/rust-r4ghi/business/gh-write-facts.mjs",
+      "bytes": 27143,
+      "rawBytesSha256": "bc3c1f03d3cedb2a265a45b2d9c1f1c883463ee0dd26f70703289ee5bb1a7f49"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-code04/sealed-code04/proposed/tools/rust-r4ghi/business/trusted.mjs",
+      "bytes": 7907,
+      "rawBytesSha256": "f94aecb7532de74e3e1ed0671cea77d77c955a5945e286331ac979d30ba05be3"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-code03/sealed-code03/proposed/tools/rust-r4ghi/business/trusted.mjs",
+      "bytes": 7907,
+      "rawBytesSha256": "f94aecb7532de74e3e1ed0671cea77d77c955a5945e286331ac979d30ba05be3"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-code04/sealed-code04/proposed/tools/rust-r4ghi/runtime-recovery121/native/publish-runtime121.mjs",
+      "bytes": 9945,
+      "rawBytesSha256": "b85d0d4904d682dad322ec9ea2a48efbaec3950b825fa34cfcf42a9255ef8924"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-code03/sealed-code03/proposed/tools/rust-r4ghi/runtime-recovery121/native/publish-runtime121.mjs",
+      "bytes": 9945,
+      "rawBytesSha256": "b85d0d4904d682dad322ec9ea2a48efbaec3950b825fa34cfcf42a9255ef8924"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-code04/sealed-code04/proposed/tools/rust-r4ghi/runtime-recovery121/native/input121.template.json",
+      "bytes": 1452,
+      "rawBytesSha256": "2aa9c87cc77f30366aee6c3cf9626894b15b2b0a602633c042780a5acb221162"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-code03/sealed-code03/proposed/tools/rust-r4ghi/runtime-recovery121/native/input121.template.json",
+      "bytes": 1452,
+      "rawBytesSha256": "2aa9c87cc77f30366aee6c3cf9626894b15b2b0a602633c042780a5acb221162"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business14/main01/R4-Source14-code-admission25203.json",
+      "bytes": 45919,
+      "rawBytesSha256": "13127ac7a71bdf2e90b92ef8160e9ccb9a19312e30ff24efb3436e9da3512a78"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business14/main01/admission-plan339-with-B0.json",
+      "bytes": 35064,
+      "rawBytesSha256": "213b545900c87139f3108abb0a43619a7b0d556bb890ff2cb7ceffadf5af9a53"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-code04/sealed-code04/evidence/actual-plan-build-schema-and-counterexample.json",
+      "bytes": 12954,
+      "rawBytesSha256": "7f1c7d146ec1016cbe5731b6029e96b61c8139a23266d4a8abad87c904af7f91"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source15-plan119-publish01.json",
+      "bytes": 51818,
+      "rawBytesSha256": "2b2bdf87acd62a1187e650991b21b0e3380c2218e1857f32b291109927f10539"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source15-build119-bind-01/build-binding.json",
+      "bytes": 3896,
+      "rawBytesSha256": "19eed60ccb24bfd77b13fce8b353651538b0fcf39274a7f3112f7dae72896ce2"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source15-build119-checks34402-02/Root-cargo.json",
+      "bytes": 122382,
+      "rawBytesSha256": "b4718831181736221a8e97d8b93cb5be15232d7976aa989cab432494495143af"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source15-build119-checks34402-02/mirror-cargo.json",
+      "bytes": 117591,
+      "rawBytesSha256": "c816972ff5867791bb80e6197d5abb18dd42426b002096f5255a5ddc4048b889"
+    }
+  ]
+}
