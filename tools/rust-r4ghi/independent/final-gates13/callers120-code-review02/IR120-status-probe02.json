@@ -1,0 +1,14 @@
+{
+  "kind": "non-author-caller120-current15-code-review-label-fixed-regression",
+  "file": "tools/rust-r4ghi/policy-continuation15-287/run287.mjs",
+  "line": 10,
+  "actualFunctionBody": "function assertCodeReview287(p){const review=json287(p.independentReview);assert.equal(review.kind,'non-author-H46-continuation287-code-readiness');assert.equal(review.reviewerIsAuthor,false);assert.equal(review.status,'code-ready-for-new15-exact-input-review');assert(review.approvedModes.includes(p.mode));assert.deepEqual(review.executionSources,p.executionSources);return review;}",
+  "method": "Exact production function body with in-memory data; json287 supplies that data, no source/ctx/admission call",
+  "current15ReviewAccepted": true,
+  "legacy14LabelRejected": true,
+  "actualModeExecuted": false,
+  "RootPrivateWritten": false,
+  "SQLHTTP": false,
+  "processControl": false,
+  "verdict": "C120-ABI01 closed only in exact code02; old code01 NOT READY retained"
+}

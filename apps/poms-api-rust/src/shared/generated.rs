@@ -8914,7 +8914,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:184; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:186; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ManualOperatingMaterialityReviewRiskDecision {
         #[serde(rename = "normal")]
@@ -8947,7 +8947,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:186; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:188; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum MoneyFactKnowledge {
         #[serde(rename = "known")]
@@ -8976,7 +8976,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:186; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:188; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum MoneyFactZeroProof {
         #[serde(rename = "source-basis-value")]
@@ -9009,7 +9009,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:188; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:190; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OperatingCommandResultTargetType {
         #[serde(rename = "OperatingBaselinePackage")]
@@ -9046,7 +9046,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:190; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:192; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OperatingEvaluationContextSnapshotMode {
         #[serde(rename = "realtime")]
@@ -9079,7 +9079,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:190; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:192; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OperatingEvaluationContextEvaluationStatus {
         #[serde(rename = "complete")]
@@ -9116,7 +9116,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:194; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:196; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OwnConditionCloseResultCompletionConditionStatus {
         #[serde(rename = "pending")]
@@ -9145,7 +9145,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:196; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:198; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectArchiveRecordSummaryArchiveAnchorStage {
         #[serde(rename = "completed")]
@@ -9182,7 +9182,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:196; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:198; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectArchiveRecordSummaryArchiveAnchorSourceType {
         #[serde(rename = "project")]
@@ -9211,7 +9211,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:196; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:198; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectArchiveRecordSummaryStatus {
         #[serde(rename = "recorded")]
@@ -9244,7 +9244,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:196; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:198; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectArchiveRecordSummarySourceQualification {
         #[serde(rename = "verified-producer")]
@@ -9273,7 +9273,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:200; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:202; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectCompletionConditionSummaryStatus {
         #[serde(rename = "pending")]
@@ -9302,7 +9302,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:210; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:212; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ReceiptBasisInputSelectionPolicy {
         #[serde(rename = "receipt-date-effective-terms")]
@@ -9331,7 +9331,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:214; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:216; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ReviewCommissionGateBindingRequestReviewAction {
         #[serde(rename = "acknowledge")]
@@ -9364,7 +9364,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:231; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:233; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionRoleAssignmentDetailViewSourceQualification {
         #[serde(rename = "verified-producer")]
@@ -9393,7 +9393,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:233; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:235; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ConfirmReceiptRecordRequestMode {
         #[serde(rename = "confirm")]
@@ -9422,7 +9422,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:237; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:239; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CreateProjectCompletionRecordRequestCompletionResult {
         #[serde(rename = "completed")]
@@ -9451,7 +9451,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:239; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:241; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CreateProjectOperatingSnapshotRequestSnapshotMode {
         #[serde(rename = "realtime")]
@@ -9480,7 +9480,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:243; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:245; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum FinancialGroupGrossMarginRateState {
         #[serde(rename = "known")]
@@ -9513,7 +9513,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:245; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:247; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OperatingReasonViewCategory {
         #[serde(rename = "evidence")]
@@ -9566,7 +9566,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:245; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:247; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OperatingReasonViewProjectAction {
         #[serde(rename = "prompt")]
@@ -9599,7 +9599,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:245; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:247; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OperatingReasonViewStageActionsFirst {
         #[serde(rename = "prompt")]
@@ -9632,7 +9632,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:245; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:247; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OperatingReasonViewStageActionsSecond {
         #[serde(rename = "prompt")]
@@ -9665,7 +9665,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:245; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:247; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OperatingReasonViewStageActionsFinal {
         #[serde(rename = "prompt")]
@@ -9698,7 +9698,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:245; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:247; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OperatingReasonViewStageActionsRetention {
         #[serde(rename = "prompt")]
@@ -9731,7 +9731,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:247; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:249; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OwnCompletionConditionTaskStatus {
         #[serde(rename = "pending")]
@@ -9760,7 +9760,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:251; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:253; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectCompletionRecordSummaryCompletionResult {
         #[serde(rename = "completed")]
@@ -9789,7 +9789,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:251; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:253; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectCompletionRecordSummaryStatus {
         #[serde(rename = "confirmed")]
@@ -9814,7 +9814,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:251; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:253; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectCompletionRecordSummarySourceQualification {
         #[serde(rename = "verified-producer")]
@@ -9843,7 +9843,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:251; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:253; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectCompletionRecordSummaryConditionStatus {
         #[serde(rename = "not-applicable")]
@@ -9880,7 +9880,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:261; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:263; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ReviewOperatingSignalEvaluationRequestReviewDecision {
         #[serde(rename = "approve")]
@@ -9909,7 +9909,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:265; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:267; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionGateBindingHistoryViewCurrentActionLevel {
         #[serde(rename = "prompt")]
@@ -9942,7 +9942,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:265; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:267; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionGateBindingHistoryViewReviewState {
         #[serde(rename = "not-required")]
@@ -9983,7 +9983,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:265; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:267; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CommissionGateBindingHistoryViewSystemBindingAction {
         #[serde(rename = "prompt")]
@@ -10016,7 +10016,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:267; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:269; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum FinancialProjectionMode {
         #[serde(rename = "full")]
@@ -10049,7 +10049,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:267; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:269; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum FinancialProjectionFieldPackageKeys {
         #[serde(rename = "operating-finance")]
@@ -10078,7 +10078,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:273; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:275; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OperatingGateFeedbackItemSystemBindingAction {
         #[serde(rename = "prompt")]
@@ -10111,7 +10111,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:273; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:275; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OperatingGateFeedbackItemBindingAction {
         #[serde(rename = "prompt")]
@@ -10144,7 +10144,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:273; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:275; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OperatingGateFeedbackItemReviewState {
         #[serde(rename = "not-required")]
@@ -10185,7 +10185,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:275; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:277; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OperatingSignalEvaluationViewCurrentActionLevel {
         #[serde(rename = "prompt")]
@@ -10218,7 +10218,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:275; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:277; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OperatingSignalEvaluationViewReviewState {
         #[serde(rename = "not-required")]
@@ -10259,7 +10259,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:277; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:279; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OwnCompletionTaskParentConditionStatus {
         #[serde(rename = "pending")]
@@ -10288,7 +10288,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:281; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:283; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectBusinessOutcomeOverviewViewCurrentActionLevel {
         #[serde(rename = "prompt")]
@@ -10321,7 +10321,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:281; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:283; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectBusinessOutcomeOverviewViewReviewState {
         #[serde(rename = "not-required")]
@@ -10362,7 +10362,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:281; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:283; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectBusinessOutcomeOverviewViewCostActionRecommendation {
         #[serde(rename = "prompt")]
@@ -10395,7 +10395,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:283; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:285; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectUnifiedAccountingViewReviewState {
         #[serde(rename = "not-required")]
@@ -10436,7 +10436,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:283; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:285; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectUnifiedAccountingViewCurrentActionLevel {
         #[serde(rename = "prompt")]
@@ -10469,7 +10469,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:285; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:287; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectVarianceRiskExplanationViewCurrentActionLevel {
         #[serde(rename = "prompt")]
@@ -10502,7 +10502,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:285; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:287; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectVarianceRiskExplanationViewReviewState {
         #[serde(rename = "not-required")]
@@ -10543,7 +10543,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:287; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:289; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ReviewCommissionGateBindingResultCurrentActionLevel {
         #[serde(rename = "prompt")]
@@ -10576,7 +10576,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:287; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:289; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ReviewCommissionGateBindingResultReviewState {
         #[serde(rename = "not-required")]
@@ -10617,7 +10617,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:287; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:289; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ReviewCommissionGateBindingResultSystemBindingAction {
         #[serde(rename = "prompt")]
@@ -10650,7 +10650,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:287; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:289; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ReviewCommissionGateBindingResultBindingAction {
         #[serde(rename = "prompt")]
@@ -10683,7 +10683,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:289; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:291; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ReviewOperatingSignalEvaluationResultCurrentActionLevel {
         #[serde(rename = "prompt")]
@@ -10716,7 +10716,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:289; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:291; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ReviewOperatingSignalEvaluationResultReviewState {
         #[serde(rename = "not-required")]
@@ -10757,7 +10757,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:291; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:293; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum SourceFinancialProjectionMode {
         #[serde(rename = "full")]
@@ -10790,7 +10790,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:291; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:293; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum SourceFinancialProjectionFieldPackageKeys {
         #[serde(rename = "operating-finance")]
@@ -10819,7 +10819,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:297; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:299; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum BusinessAccountingFeedbackViewCurrentActionLevel {
         #[serde(rename = "prompt")]
@@ -10852,7 +10852,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:297; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:299; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum BusinessAccountingFeedbackViewReviewState {
         #[serde(rename = "not-required")]
@@ -10893,7 +10893,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:299; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:301; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum CreateOperatingRestatementRequestScope {
         #[serde(rename = "live")]
@@ -10922,7 +10922,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:305; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:307; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum SourceRowRowKind {
         #[serde(rename = "contract")]
@@ -10975,7 +10975,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:305; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:307; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum SourceRowState {
         #[serde(rename = "ready")]
@@ -11012,7 +11012,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:305; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:307; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum SourceRowContainsLabor {
         #[serde(rename = "yes")]
@@ -11045,7 +11045,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:305; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:307; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum SourceRowAllowedRecognitionRoles {
         #[serde(rename = "direct-source")]
@@ -11082,7 +11082,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:307; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:309; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OperatingBaselinePackageSummaryContainsLabor {
         #[serde(rename = "yes")]
@@ -11115,7 +11115,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:307; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:309; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OperatingBaselinePackageSummaryStatus {
         #[serde(rename = "active")]
@@ -11144,7 +11144,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:309; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:311; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OperatingPreparationIntent {
         #[serde(rename = "baseline-activation")]
@@ -11185,7 +11185,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:309; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:311; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OperatingPreparationEvaluationStatus {
         #[serde(rename = "not-evaluated")]
@@ -11214,7 +11214,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:311; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:313; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OperatingRestatementSummaryContainsLabor {
         #[serde(rename = "yes")]
@@ -11247,7 +11247,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:311; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:313; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OperatingRestatementSummaryScope {
         #[serde(rename = "live")]
@@ -11276,7 +11276,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:311; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:313; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum OperatingRestatementSummaryStatus {
         #[serde(rename = "active")]
@@ -11305,7 +11305,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:313; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:315; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum PeriodClosingSnapshotSummaryContainsLabor {
         #[serde(rename = "yes")]
@@ -11338,7 +11338,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:313; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:315; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum PeriodClosingSnapshotSummaryStatus {
         #[serde(rename = "active")]
@@ -11367,7 +11367,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:317; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:319; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectOperatingSnapshotSummaryContainsLabor {
         #[serde(rename = "yes")]
@@ -11400,7 +11400,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:317; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:319; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectOperatingSnapshotSummarySnapshotMode {
         #[serde(rename = "realtime")]
@@ -11433,7 +11433,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:317; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:319; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectOperatingSnapshotSummaryStatus {
         #[serde(rename = "active")]
@@ -11462,7 +11462,7 @@ mod generated_values {
         }
     }
 
-    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:317; shared-inline-subset.
+    /// Source: libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts:319; shared-inline-subset.
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
     pub enum ProjectOperatingSnapshotSummaryCurrentActionLevel {
         #[serde(rename = "prompt")]

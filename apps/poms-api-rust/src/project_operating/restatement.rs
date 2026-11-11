@@ -160,7 +160,14 @@ pub(crate) async fn scope_roots_with_session(
     selected: &[ExpectedRef],
 ) -> Result<Vec<ExpectedRef>, Error> {
     let catalog = sources::load(session, project, false).await?;
-    let mut roots = inferred_late_roots(session, snapshot, &catalog).await?;
+    let roots = inferred_late_roots(session, project, snapshot, &catalog).await?;
+    merge_selected_roots(roots, selected)
+}
+
+fn merge_selected_roots(
+    mut roots: Vec<ExpectedRef>,
+    selected: &[ExpectedRef],
+) -> Result<Vec<ExpectedRef>, Error> {
     roots.extend_from_slice(selected);
     roots.sort_by_key(|r| (r.kind.clone(), r.id));
     for pair in roots.windows(2) {
@@ -178,10 +185,19 @@ pub(crate) async fn scope_roots_with_session(
 
 pub(crate) async fn inferred_late_roots(
     session: &mut CommonSession<'_, '_>,
+    project: Uuid,
     snapshot: Uuid,
     catalog: &sources::Catalog,
 ) -> Result<Vec<ExpectedRef>, Error> {
     let refs = changed_sources(session, snapshot, catalog).await?;
+    inferred_roots_for_project(project, refs, catalog)
+}
+
+fn inferred_roots_for_project(
+    project: Uuid,
+    refs: Vec<Value>,
+    catalog: &sources::Catalog,
+) -> Result<Vec<ExpectedRef>, Error> {
     refs.into_iter()
         .filter(|r| {
             matches!(
@@ -200,48 +216,8 @@ pub(crate) async fn inferred_late_roots(
                 )
             )
         })
-        .filter(|r| {
-            let Some(id) = r["id"].as_str().and_then(|s| Uuid::parse_str(s).ok()) else {
-                return false;
-            };
-            let (table, field, allowed) = match r["kind"].as_str() {
-                Some("ProjectActualCostRecord") => (
-                    Table::Cost,
-                    "record_status",
-                    &["registered", "confirmed", "included"][..],
-                ),
-                Some("ContractTermSnapshot") => (Table::Term, "snapshot_status", &["active"][..]),
-                Some("Contract") => (Table::Contract, "status", &["active"][..]),
-                Some("ReceiptRecord") => (
-                    Table::Receipt,
-                    "status",
-                    &["pending-confirmation", "confirmed"][..],
-                ),
-                Some("SharedCostAllocationBasis") => {
-                    (Table::AllocationBasis, "status", &["active", "pending"][..])
-                }
-                Some("SharedCostAllocationResult") => (
-                    Table::AllocationResult,
-                    "status",
-                    &["active", "pending"][..],
-                ),
-                Some("CostStageAttributionSnapshot") => (Table::Stage, "status", &["active"][..]),
-                Some("AccountingTaxTreatmentSnapshot") => {
-                    (Table::Tax, "status", &["active", "pending"][..])
-                }
-                Some("OperatingBaselinePackage") => {
-                    return catalog
-                        .find(Table::Baseline, id)
-                        .is_some_and(|r| r["is_current"] == true);
-                }
-                Some("ReceiptAccountingBasis") => return true,
-                _ => return false,
-            };
-            catalog
-                .find(table, id)
-                .and_then(|row| row[field].as_str())
-                .is_some_and(|status| allowed.contains(&status))
-        })
+        .filter(|reference| inferred_late_source_is_current(reference, catalog))
+        .filter(|reference| inferred_source_is_projected(reference, catalog, project))
         .map(|r| {
             Ok(ExpectedRef {
                 kind: store::text(&r, "kind")?.into(),
@@ -254,6 +230,90 @@ pub(crate) async fn inferred_late_roots(
             })
         })
         .collect()
+}
+
+// Complete peer rows remain in the Catalog for qualification and impact graph
+// traversal. Only an automatically inferred allocation result is local to the
+// caller projection; real foreign Cost/Tax dependencies and explicit roots keep
+// their existing complete-batch authority.
+fn inferred_source_is_projected(
+    reference: &Value,
+    catalog: &sources::Catalog,
+    project: Uuid,
+) -> bool {
+    if reference["kind"] != "SharedCostAllocationResult" {
+        return true;
+    }
+    let Ok(id) = store::id(reference, "id") else {
+        return false;
+    };
+    catalog
+        .find(Table::AllocationResult, id)
+        .is_some_and(|row| row["project_id"] == project.to_string())
+}
+
+// Automatic Stage roots represent a currently usable Cost. Historical Stage
+// rows remain available to explicit correction roots and impact discovery.
+const INFERRED_CURRENT_COST_STATUSES: &[&str] = &["registered", "confirmed", "included"];
+
+fn inferred_late_source_is_current(reference: &Value, catalog: &sources::Catalog) -> bool {
+    let Some(id) = reference["id"]
+        .as_str()
+        .and_then(|s| Uuid::parse_str(s).ok())
+    else {
+        return false;
+    };
+    let (table, field, allowed) = match reference["kind"].as_str() {
+        Some("ProjectActualCostRecord") => {
+            (Table::Cost, "record_status", INFERRED_CURRENT_COST_STATUSES)
+        }
+        Some("ContractTermSnapshot") => (Table::Term, "snapshot_status", &["active"][..]),
+        Some("Contract") => (Table::Contract, "status", &["active"][..]),
+        Some("ReceiptRecord") => (
+            Table::Receipt,
+            "status",
+            &["pending-confirmation", "confirmed"][..],
+        ),
+        Some("SharedCostAllocationBasis") => {
+            (Table::AllocationBasis, "status", &["active", "pending"][..])
+        }
+        Some("SharedCostAllocationResult") => (
+            Table::AllocationResult,
+            "status",
+            &["active", "pending"][..],
+        ),
+        Some("CostStageAttributionSnapshot") => {
+            let Some(stage) = catalog.find(Table::Stage, id) else {
+                return false;
+            };
+            // The caller loads the complete source catalog. An absent/invalid
+            // parent cannot authorize an automatically inferred correction.
+            let parent = stage["cost_record_id"]
+                .as_str()
+                .and_then(|s| Uuid::parse_str(s).ok())
+                .and_then(|cost_id| catalog.find(Table::Cost, cost_id));
+            return stage["status"] == "active"
+                && parent
+                    .and_then(|cost| cost["record_status"].as_str())
+                    .is_some_and(|status| INFERRED_CURRENT_COST_STATUSES.contains(&status));
+        }
+        // Tax assessments also permit manual/non-Cost evidence. Their existing
+        // active/pending rule is independent of Stage's parent qualification.
+        Some("AccountingTaxTreatmentSnapshot") => {
+            (Table::Tax, "status", &["active", "pending"][..])
+        }
+        Some("OperatingBaselinePackage") => {
+            return catalog
+                .find(Table::Baseline, id)
+                .is_some_and(|r| r["is_current"] == true);
+        }
+        Some("ReceiptAccountingBasis") => return true,
+        _ => return false,
+    };
+    catalog
+        .find(table, id)
+        .and_then(|row| row[field].as_str())
+        .is_some_and(|status| allowed.contains(&status))
 }
 
 #[derive(Clone)]
@@ -865,5 +925,371 @@ mod tax_dependency83_tests {
                 .expect("qualified manual evidence")
                 .is_empty()
         );
+    }
+}
+
+#[cfg(test)]
+mod inferred_parent_current249_tests {
+    use super::*;
+    use serde_json::json;
+
+    fn uid(n: u128) -> String {
+        Uuid::from_u128(n).to_string()
+    }
+
+    fn reference(kind: &str, n: u128) -> Value {
+        json!({"kind":kind,"id":uid(n),"rowVersion":1,"payloadHash":"unchanged"})
+    }
+
+    fn catalog(parent_status: Option<&str>, stage_status: &str) -> sources::Catalog {
+        let mut out = sources::Catalog::default();
+        out.rows.insert(
+            Table::Stage,
+            vec![json!({
+                "id":uid(1),"cost_record_id":uid(2),"status":stage_status,"row_version":1
+            })],
+        );
+        if let Some(status) = parent_status {
+            out.rows.insert(
+                Table::Cost,
+                vec![json!({
+                    "id":uid(2),"record_status":status,"row_version":3
+                })],
+            );
+        }
+        out
+    }
+
+    #[test]
+    fn genuine_late_stage_with_current_parent_remains_inferable() {
+        for status in ["registered", "confirmed", "included"] {
+            let catalog = catalog(Some(status), "active");
+            let original = catalog.rows.clone();
+            assert!(
+                inferred_late_source_is_current(
+                    &reference("CostStageAttributionSnapshot", 1),
+                    &catalog
+                ),
+                "{status}"
+            );
+            assert!(
+                inferred_late_source_is_current(&reference("ProjectActualCostRecord", 2), &catalog),
+                "Stage and Cost share the current status rule: {status}"
+            );
+            assert_eq!(catalog.rows, original);
+        }
+    }
+
+    #[test]
+    fn active_historical_stage_cannot_reactivate_replaced_or_retired_cost() {
+        for status in [
+            "replaced",
+            "voided",
+            "superseded",
+            "retired",
+            "draft",
+            "excluded",
+        ] {
+            let catalog = catalog(Some(status), "active");
+            let original = catalog.rows.clone();
+            assert!(
+                !inferred_late_source_is_current(
+                    &reference("CostStageAttributionSnapshot", 1),
+                    &catalog
+                ),
+                "{status}"
+            );
+            assert!(
+                !inferred_late_source_is_current(
+                    &reference("ProjectActualCostRecord", 2),
+                    &catalog
+                ),
+                "{status}"
+            );
+            // Qualification changes no historical producer row/version/status.
+            assert_eq!(catalog.rows, original);
+        }
+    }
+
+    #[test]
+    fn stage_requires_its_exact_present_parent_and_known_current_status() {
+        let stage_ref = reference("CostStageAttributionSnapshot", 1);
+        let mut missing = catalog(None, "active");
+        assert!(!inferred_late_source_is_current(&stage_ref, &missing));
+        missing.rows.insert(
+            Table::Cost,
+            vec![json!({
+                "id":uid(99),"record_status":"included"
+            })],
+        );
+        assert!(!inferred_late_source_is_current(&stage_ref, &missing));
+        for invalid in [Value::Null, json!("not-a-uuid"), json!(999)] {
+            let mut catalog = catalog(Some("included"), "active");
+            catalog.rows.get_mut(&Table::Stage).expect("stage")[0]["cost_record_id"] = invalid;
+            assert!(!inferred_late_source_is_current(&stage_ref, &catalog));
+        }
+        let mut unknown = catalog(Some("included"), "active");
+        unknown.rows.get_mut(&Table::Cost).expect("cost")[0]["record_status"] = Value::Null;
+        assert!(!inferred_late_source_is_current(&stage_ref, &unknown));
+        unknown.rows.remove(&Table::Stage);
+        assert!(!inferred_late_source_is_current(&stage_ref, &unknown));
+    }
+
+    #[test]
+    fn nonactive_stage_is_not_revived_by_a_current_cost() {
+        for status in ["pending", "superseded", "retired", ""] {
+            assert!(
+                !inferred_late_source_is_current(
+                    &reference("CostStageAttributionSnapshot", 1),
+                    &catalog(Some("included"), status)
+                ),
+                "{status}"
+            );
+        }
+    }
+
+    #[test]
+    fn manual_or_current_tax_assessments_keep_the_independent_existing_rule() {
+        for status in ["active", "pending"] {
+            let mut catalog = catalog(Some("replaced"), "active");
+            catalog.rows.insert(
+                Table::Tax,
+                vec![
+                    json!({"id":uid(3),"status":status,"governance_evidence_id":uid(30)}),
+                    json!({"id":uid(4),"status":status,"cost_record_id":uid(2)}),
+                ],
+            );
+            assert!(
+                inferred_late_source_is_current(
+                    &reference("AccountingTaxTreatmentSnapshot", 3),
+                    &catalog
+                ),
+                "manual assessment has no Cost parent: {status}"
+            );
+            assert!(
+                inferred_late_source_is_current(
+                    &reference("AccountingTaxTreatmentSnapshot", 4),
+                    &catalog
+                ),
+                "no new Tax-parent business rule: {status}"
+            );
+        }
+        let mut catalog = sources::Catalog::default();
+        catalog
+            .rows
+            .insert(Table::Tax, vec![json!({"id":uid(3),"status":"superseded"})]);
+        assert!(!inferred_late_source_is_current(
+            &reference("AccountingTaxTreatmentSnapshot", 3),
+            &catalog
+        ));
+    }
+
+    #[test]
+    fn current_tax_candidates_do_not_gain_an_obsolete_stage_seed() {
+        let mut catalog = catalog(Some("replaced"), "active");
+        catalog.rows.insert(
+            Table::Tax,
+            vec![
+                json!({"id":uid(3),"status":"active"}),
+                json!({"id":uid(4),"status":"active"}),
+            ],
+        );
+        let refs = [
+            reference("CostStageAttributionSnapshot", 1),
+            reference("AccountingTaxTreatmentSnapshot", 3),
+            reference("AccountingTaxTreatmentSnapshot", 4),
+        ];
+        let selected = refs
+            .iter()
+            .filter(|r| inferred_late_source_is_current(r, &catalog))
+            .map(|r| r["id"].as_str().expect("id").to_owned())
+            .collect::<BTreeSet<_>>();
+        assert_eq!(selected, BTreeSet::from([uid(3), uid(4)]));
+        // This is automatic-root qualification only, not target graph pruning.
+        // The unchanged impact_graph still traverses history for explicit roots.
+    }
+}
+
+#[cfg(test)]
+mod implicit_projection344_tests {
+    use super::*;
+    use serde_json::json;
+
+    fn id(n: u128) -> Uuid {
+        Uuid::from_u128(n)
+    }
+
+    fn allocation(n: u128, project: u128, version: i32) -> Value {
+        json!({"id":id(n),"project_id":id(project),"basis_id":id(100),
+            "row_version":version,"status":"active"})
+    }
+
+    fn expected(table: Table, row: &Value) -> ExpectedRef {
+        let r = sources::reference(table, row).unwrap();
+        ExpectedRef {
+            kind: r["kind"].as_str().unwrap().to_owned(),
+            id: store::id(&r, "id").unwrap(),
+            expected_version: r["rowVersion"].as_i64().unwrap() as i32,
+            payload_hash: r["payloadHash"].as_str().unwrap().to_owned(),
+        }
+    }
+
+    #[test]
+    fn peer_only_catalog_addition_is_not_an_implicit_project_root() {
+        let own = allocation(1, 10, 1);
+        let peer = allocation(2, 20, 2);
+        let mut catalog = sources::Catalog::default();
+        catalog
+            .rows
+            .insert(Table::AllocationResult, vec![own, peer.clone()]);
+        // The caller already consumed its own result. The physical peer was
+        // intentionally not in that caller's frozen financial projection.
+        let changed = vec![sources::reference(Table::AllocationResult, &peer).unwrap()];
+        assert!(
+            inferred_roots_for_project(id(10), changed, &catalog)
+                .unwrap()
+                .is_empty()
+        );
+        assert_eq!(catalog.all(Table::AllocationResult).len(), 2);
+    }
+
+    #[test]
+    fn actual_own_result_identity_and_version_remain_implicit_roots() {
+        for version in [1, 2] {
+            let own = allocation(1, 10, version);
+            let peer = allocation(2, 20, 2);
+            let mut catalog = sources::Catalog::default();
+            catalog
+                .rows
+                .insert(Table::AllocationResult, vec![own.clone(), peer]);
+            let roots = inferred_roots_for_project(
+                id(10),
+                catalog
+                    .members()
+                    .unwrap()
+                    .into_iter()
+                    .map(|(r, _)| r)
+                    .collect(),
+                &catalog,
+            )
+            .unwrap();
+            assert_eq!(roots.len(), 1);
+            assert_eq!(roots[0].id, id(1));
+            assert_eq!(roots[0].expected_version, version);
+            assert_eq!(
+                roots[0].payload_hash,
+                expected(Table::AllocationResult, &own).payload_hash
+            );
+        }
+    }
+
+    #[test]
+    fn reported_project_on_reference_cannot_override_the_real_peer_row() {
+        let peer = allocation(2, 20, 2);
+        let mut catalog = sources::Catalog::default();
+        catalog
+            .rows
+            .insert(Table::AllocationResult, vec![peer.clone()]);
+        let mut reference = sources::reference(Table::AllocationResult, &peer).unwrap();
+        reference["project_id"] = json!(id(10));
+        assert!(
+            inferred_roots_for_project(id(10), vec![reference], &catalog)
+                .unwrap()
+                .is_empty()
+        );
+    }
+
+    #[test]
+    fn real_foreign_cost_and_manual_tax_dependencies_are_not_pruned() {
+        let cost =
+            json!({"id":id(30),"project_id":id(20),"row_version":3,"record_status":"confirmed"});
+        let tax = json!({"id":id(31),"project_id":id(20),"row_version":2,"status":"active"});
+        let mut catalog = sources::Catalog::default();
+        catalog.rows.insert(Table::Cost, vec![cost]);
+        catalog.rows.insert(Table::Tax, vec![tax]);
+        let roots = inferred_roots_for_project(
+            id(10),
+            catalog
+                .members()
+                .unwrap()
+                .into_iter()
+                .map(|(r, _)| r)
+                .collect(),
+            &catalog,
+        )
+        .unwrap();
+        assert_eq!(
+            roots.iter().map(|r| r.id).collect::<BTreeSet<_>>(),
+            BTreeSet::from([id(30), id(31)])
+        );
+    }
+
+    #[test]
+    fn explicit_foreign_historical_result_survives_the_local_inference_filter() {
+        let mut historical = allocation(2, 20, 2);
+        historical["status"] = json!("superseded");
+        let mut catalog = sources::Catalog::default();
+        catalog
+            .rows
+            .insert(Table::AllocationResult, vec![historical.clone()]);
+        let inferred = inferred_roots_for_project(
+            id(10),
+            vec![sources::reference(Table::AllocationResult, &historical).unwrap()],
+            &catalog,
+        )
+        .unwrap();
+        assert!(inferred.is_empty());
+        let selected = expected(Table::AllocationResult, &historical);
+        let merged = merge_selected_roots(inferred, std::slice::from_ref(&selected)).unwrap();
+        assert_eq!(merged.len(), 1);
+        assert_eq!(merged[0].id, selected.id);
+        assert_eq!(merged[0].payload_hash, selected.payload_hash);
+    }
+
+    #[test]
+    fn explicit_selection_still_rejects_conflicting_versions() {
+        let own = allocation(1, 10, 1);
+        let selected = expected(Table::AllocationResult, &own);
+        let mut changed = expected(Table::AllocationResult, &own);
+        changed.expected_version = 2;
+        assert!(merge_selected_roots(vec![selected], &[changed]).is_err());
+    }
+
+    #[test]
+    fn a_kept_own_root_still_expands_all_real_batch_projects_and_sources() {
+        let own = allocation(1, 10, 2);
+        let peer = allocation(2, 20, 2);
+        let mut catalog = sources::Catalog::default();
+        catalog
+            .rows
+            .insert(Table::AllocationResult, vec![own, peer]);
+        let roots = inferred_roots_for_project(
+            id(10),
+            catalog
+                .members()
+                .unwrap()
+                .into_iter()
+                .map(|(r, _)| r)
+                .collect(),
+            &catalog,
+        )
+        .unwrap();
+        assert_eq!(roots.len(), 1);
+        let batch_rows = vec![
+            json!({"resultId":id(1),"projectId":id(10),"costId":id(30),"costProjectId":id(20),"basisId":id(100),"businessDate":"2026-11-07"}),
+            json!({"resultId":id(2),"projectId":id(20),"costId":id(30),"costProjectId":id(20),"basisId":id(100),"businessDate":"2026-11-07"}),
+        ];
+        let mut ids = roots.iter().map(|r| r.id).collect::<BTreeSet<_>>();
+        let mut impacts = Vec::new();
+        append_batch_impacts(&batch_rows, &mut ids, &mut impacts).unwrap();
+        assert_eq!(ids, BTreeSet::from([id(1), id(2), id(30), id(100)]));
+        assert_eq!(
+            impacts
+                .iter()
+                .filter_map(|i| i.project)
+                .collect::<BTreeSet<_>>(),
+            BTreeSet::from([id(10), id(20)])
+        );
+        assert!(impacts.iter().all(|i| i.producer));
     }
 }

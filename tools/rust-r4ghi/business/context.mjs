@@ -25,6 +25,7 @@ const directFiles = ['docs/design/rust-r4ghi/acceptance-plan01.json', 'docs/desi
   'docs/design/rust-r4ghi/g2-project-metadata-noop61.md',
   'docs/design/rust-r4ghi/g2-frozen-participant-parent-lock65.sql',
   'docs/design/rust-r4ghi/source13-g2-freeze136.json',
+  'docs/design/rust-r4ghi/user-decision-historical-baseline272.json', 'tools/rust-r4ghi/contracts273/canonical.json',
   'tools/rust-r4ghi/migrate-frozen-parent98-136.mjs',
   'tools/rust-r4abc/upstream-payloads01.mjs',
   'tools/rust-r4ghi/run-tax-continuation13.mjs',

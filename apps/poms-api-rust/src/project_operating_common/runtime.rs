@@ -91,6 +91,136 @@ pub struct ApprovedProjectCostTransition {
     pub delta_net_cents: OperatingMoneyCents,
 }
 
+/// Actual observed lifecycle refs and the separately recorded adoption identity.
+/// A later supersede may change rowVersion; it does not rewrite this adoption.
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct HistoricalBudgetAdoptionWitness {
+    pub cost_ref: SourceRef,
+    pub recorded_cost_version: i32,
+    pub recorded_cost_row_version: i32,
+    pub contract_ref: SourceRef,
+    pub term_ref: SourceRef,
+    pub preparation_ref: SourceRef,
+    pub review_binding_ref: SourceRef,
+    pub approval_ref: SourceRef,
+    pub cost_effective_at: DateTime<Utc>,
+    pub term_effective_at: DateTime<Utc>,
+    pub preparation_activated_at: DateTime<Utc>,
+    pub approval_decided_at: DateTime<Utc>,
+    pub adopted_at: DateTime<Utc>,
+    pub eligible_for_period: bool,
+}
+
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct HistoricalTemporalSourceFact {
+    pub source_ref: SourceRef,
+    pub created_at: Option<DateTime<Utc>>,
+    pub effective_at: Option<DateTime<Utc>>,
+    pub activated_at: Option<DateTime<Utc>>,
+    pub decided_at: Option<DateTime<Utc>>,
+    pub signed_at: Option<DateTime<Utc>>,
+    pub generated_at: Option<DateTime<Utc>>,
+    pub confirmed_at: Option<DateTime<Utc>>,
+    pub handled_at: Option<DateTime<Utc>>,
+    pub entered_at: Option<DateTime<Utc>>,
+    pub raw_temporal_hash: Sha256,
+}
+
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct HistoricalBudgetChainSegment {
+    pub before_cost_ref: SourceRef,
+    pub after_cost_ref: SourceRef,
+    pub technical_path_refs: Vec<SourceRef>,
+    pub adopted_at: DateTime<Utc>,
+}
+
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct HistoricalHandoverLinkProof {
+    pub handover_ref: SourceRef,
+    pub basis_ref: SourceRef,
+    pub supersedes_handover_ref: Option<SourceRef>,
+    pub basis_supersedes_ref: Option<SourceRef>,
+    pub effective_baseline_ref: SourceRef,
+    pub rebaseline_ref: Option<SourceRef>,
+    pub created_at: DateTime<Utc>,
+    pub generated_at: DateTime<Utc>,
+    pub confirmed_at: Option<DateTime<Utc>>,
+}
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct HistoricalRebaselineLinkProof {
+    pub record_ref: SourceRef,
+    pub source_handover_ref: SourceRef,
+    pub replacement_handover_ref: SourceRef,
+    pub before_basis_ref: SourceRef,
+    pub after_basis_ref: SourceRef,
+    pub effective_baseline_after_ref: SourceRef,
+    pub supersedes_record_ref: Option<SourceRef>,
+    pub created_at: DateTime<Utc>,
+    pub handled_at: DateTime<Utc>,
+}
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct HistoricalHandoverLineageProof {
+    pub handover_links: Vec<HistoricalHandoverLinkProof>,
+    pub rebaseline_links: Vec<HistoricalRebaselineLinkProof>,
+}
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct HistoricalFrozenBudgetEconomicWitness {
+    pub baseline_source_ref: SourceRef,
+    pub observed_cost_ref: SourceRef,
+    // Existing saved ref identity, not an invented current/source-member ref.
+    pub recorded_cost_kind: String,
+    pub recorded_cost_id: Uuid,
+    pub recorded_cost_row_version: i32,
+    pub recorded_cost_payload_hash: Sha256,
+    pub verified_domain_version: i32,
+    pub currency: String,
+    pub net_cost: OperatingMoneyCents,
+    pub comparison_mode: String,
+}
+
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct HistoricalExcludedAdoptionCandidate {
+    pub term_ref: SourceRef,
+    pub related_source_refs: Vec<SourceRef>,
+    pub reason_code: String,
+    pub observed_business_at: DateTime<Utc>,
+}
+
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct HistoricalPeriodSelectionProof {
+    pub schema_version: i32,
+    pub policy_version: String,
+    pub policy_source_hash: Sha256,
+    pub period_key: String,
+    pub business_cutoff: NaiveDate,
+    pub selection_hash: Sha256,
+    pub original_cost_ref: SourceRef,
+    pub selected_cost_ref: SourceRef,
+    pub adoption_source_refs: Vec<SourceRef>,
+    pub technical_lineage_refs: Vec<SourceRef>,
+    pub observed_adoptions: Vec<HistoricalBudgetAdoptionWitness>,
+    pub excluded_adoption_candidates: Vec<HistoricalExcludedAdoptionCandidate>,
+    pub temporal_source_facts: Vec<HistoricalTemporalSourceFact>,
+    pub chain_segments: Vec<HistoricalBudgetChainSegment>,
+    pub handover_basis_ref: Option<SourceRef>,
+    pub handover_rebaseline_ref: Option<SourceRef>,
+    pub handover_ref: Option<SourceRef>,
+    pub execution_stage_ref: Option<SourceRef>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub handover_lineage: Option<Box<HistoricalHandoverLineageProof>>,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub frozen_economic_witnesses: Vec<HistoricalFrozenBudgetEconomicWitness>,
+}
+
 #[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct OperatingBaselineSourceDraft {
@@ -109,6 +239,10 @@ pub struct OperatingBaselineSourceDraft {
     pub current_effective_baseline_cost: OperatingMoneyCents,
     pub source_hash: Sha256,
     pub payload_hash: Sha256,
+    // Old immutable draft/hash bytes must remain untouched, including absence
+    // of this field. Never serialize an invented null into an old draft.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub historical_period_selection: Option<Box<HistoricalPeriodSelectionProof>>,
 }
 
 #[derive(Clone, Debug)]

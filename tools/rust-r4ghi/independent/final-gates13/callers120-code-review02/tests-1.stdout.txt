@@ -1,0 +1,136 @@
+TAP version 13
+# Subtest: null actual input and unfinished source states cannot authorize a writer
+ok 1 - null actual input and unfinished source states cannot authorize a writer
+  ---
+  duration_ms: 12.022747
+  type: 'test'
+  ...
+# Subtest: initial baseline body is server-derived and stable blocked command is explicitly not eligible
+ok 2 - initial baseline body is server-derived and stable blocked command is explicitly not eligible
+  ---
+  duration_ms: 4.090198
+  type: 'test'
+  ...
+# Subtest: race and stable legacy codes are separate exact typed409s; generic/status-only/unique do not qualify
+ok 3 - race and stable legacy codes are separate exact typed409s; generic/status-only/unique do not qualify
+  ---
+  duration_ms: 1.917119
+  type: 'test'
+  ...
+# Subtest: a real waiter must be one canonical Rust project lock linked to exact owner PID
+ok 4 - a real waiter must be one canonical Rust project lock linked to exact owner PID
+  ---
+  duration_ms: 0.468439
+  type: 'test'
+  ...
+# Subtest: one acknowledged external source0 row is distinct from a Rust birth, optional auth only true raw five columns
+ok 5 - one acknowledged external source0 row is distinct from a Rust birth, optional auth only true raw five columns
+  ---
+  duration_ms: 3.009223
+  type: 'test'
+  ...
+# Subtest: joint delta rejects unknown extra birth
+ok 6 - joint delta rejects unknown extra birth
+  ---
+  duration_ms: 1.30701
+  type: 'test'
+  ...
+# Subtest: joint delta rejects wrong legacy PK
+ok 7 - joint delta rejects wrong legacy PK
+  ---
+  duration_ms: 1.034599
+  type: 'test'
+  ...
+# Subtest: joint delta rejects legacy row wrong xmin
+ok 8 - joint delta rejects legacy row wrong xmin
+  ---
+  duration_ms: 0.728146
+  type: 'test'
+  ...
+# Subtest: joint delta rejects modern audit commit
+ok 9 - joint delta rejects modern audit commit
+  ---
+  duration_ms: 1.928346
+  type: 'test'
+  ...
+# Subtest: joint delta rejects modern head commit
+ok 10 - joint delta rejects modern head commit
+  ---
+  duration_ms: 1.156853
+  type: 'test'
+  ...
+# Subtest: joint delta rejects Native database mutation
+ok 11 - joint delta rejects Native database mutation
+  ---
+  duration_ms: 0.848531
+  type: 'test'
+  ...
+# Subtest: joint delta rejects catalog/index drift
+ok 12 - joint delta rejects catalog/index drift
+  ---
+  duration_ms: 0.726038
+  type: 'test'
+  ...
+# Subtest: joint delta rejects object change
+ok 13 - joint delta rejects object change
+  ---
+  duration_ms: 0.584867
+  type: 'test'
+  ...
+# Subtest: joint delta rejects old auth deletion
+ok 14 - joint delta rejects old auth deletion
+  ---
+  duration_ms: 1.283416
+  type: 'test'
+  ...
+# Subtest: restore removes only the declared new fixture and preserves original rows/xmin
+ok 15 - restore removes only the declared new fixture and preserves original rows/xmin
+  ---
+  duration_ms: 1.449698
+  type: 'test'
+  ...
+# Subtest: Root counter, ownership, metadata and other fixture identities stay delegated through the persisted witness lens
+ok 16 - Root counter, ownership, metadata and other fixture identities stay delegated through the persisted witness lens
+  ---
+  duration_ms: 1.222993
+  type: 'test'
+  ...
+# Subtest: SQL is an exact new-row negative fixture, clock-only creation, no old-row updates or weakened catalog
+ok 17 - SQL is an exact new-row negative fixture, clock-only creation, no old-row updates or weakened catalog
+  ---
+  duration_ms: 6.956262
+  type: 'test'
+  ...
+# Subtest: wire is external canonical observation; no FI installer, Native API or global reconcile escape
+ok 18 - wire is external canonical observation; no FI installer, Native API or global reconcile escape
+  ---
+  duration_ms: 15.493683
+  type: 'test'
+  ...
+# Subtest: exact284 runtime normalizes12 keys with explicit H3 mapping, never raw aliases
+ok 19 - exact284 runtime normalizes12 keys with explicit H3 mapping, never raw aliases
+  ---
+  duration_ms: 1.058935
+  type: 'test'
+  ...
+# Subtest: source closure canonicalization rejects duplicate/conflicting/copy/Windows paths and uses UTF8 order
+ok 20 - source closure canonicalization rejects duplicate/conflicting/copy/Windows paths and uses UTF8 order
+  ---
+  duration_ms: 1.554014
+  type: 'test'
+  ...
+# Subtest: baseline-only branch is not given a Tax gate or inherited joint permission
+ok 21 - baseline-only branch is not given a Tax gate or inherited joint permission
+  ---
+  duration_ms: 0.514084
+  type: 'test'
+  ...
+1..21
+# tests 21
+# suites 0
+# pass 21
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 900.8292

@@ -200,6 +200,41 @@ pub(crate) async fn baseline(
     reason: &str,
     actor: &Actor,
 ) -> Result<Uuid, Error> {
+    if draft.historical_period_selection.is_some() {
+        return Err(store::conflict("period_baseline_reconciliation_required"));
+    }
+    baseline_capture(session, draft, old, reason, true, actor).await
+}
+
+/// A first close creates an actual, dedicated historical package. It never
+/// replaces/supersedes a live package and never installs a current head.
+pub(crate) async fn historical_baseline(
+    session: &mut CommonSession<'_, '_>,
+    draft: &OperatingBaselineSourceDraft,
+    actor: &Actor,
+) -> Result<Uuid, Error> {
+    if draft.historical_period_selection.is_none() {
+        return Err(store::conflict("period_baseline_reconciliation_required"));
+    }
+    baseline_capture(
+        session,
+        draft,
+        None,
+        "历史期间真实采用链预算272",
+        false,
+        actor,
+    )
+    .await
+}
+
+async fn baseline_capture(
+    session: &mut CommonSession<'_, '_>,
+    draft: &OperatingBaselineSourceDraft,
+    old: Option<&Value>,
+    reason: &str,
+    is_current: bool,
+    actor: &Actor,
+) -> Result<Uuid, Error> {
     let id = new_uuid()?;
     let payload = serde_json::to_value(draft).map_err(|_| Error::Internal)?;
     let original_version: i32 = sqlx::query_scalar(
@@ -223,7 +258,7 @@ pub(crate) async fn baseline(
             return Err(store::conflict("operating_baseline_changed"));
         }
     }
-    store::insert(session,Table::Baseline,&json!({"id":id,"project_id":draft.project_id,"original_baseline_cost":draft.original_baseline_cost.decimal_string(),"handover_baseline_cost":draft.handover_baseline_cost.decimal_string(),"execution_change_package_total":draft.execution_change_package_total.decimal_string(),"change_package_total":draft.change_package_total.decimal_string(),"current_effective_baseline_cost":draft.current_effective_baseline_cost.decimal_string(),"baseline_selection_source":if draft.handover_rebaseline_ref.is_some(){"handover-rebaseline"}else{"original"},"effective_operating_baseline_id":draft.handover_rebaseline_ref.as_ref().map(|r|r.id),"baseline_summary":reason,"is_current":true,"status":"active","effective_at":clock_now(),"effective_by":actor.id,"created_at":clock_now(),"created_by":actor.id,"updated_at":clock_now(),"updated_by":actor.id,"row_version":1,"producer_version":1,"source_context_id":draft.id,"currency":draft.currency,"source_hash":draft.source_hash})).await?;
+    store::insert(session,Table::Baseline,&json!({"id":id,"project_id":draft.project_id,"original_baseline_cost":draft.original_baseline_cost.decimal_string(),"handover_baseline_cost":draft.handover_baseline_cost.decimal_string(),"execution_change_package_total":draft.execution_change_package_total.decimal_string(),"change_package_total":draft.change_package_total.decimal_string(),"current_effective_baseline_cost":draft.current_effective_baseline_cost.decimal_string(),"baseline_selection_source":if draft.handover_rebaseline_ref.is_some(){"handover-rebaseline"}else{"original"},"effective_operating_baseline_id":draft.handover_rebaseline_ref.as_ref().map(|r|r.id),"baseline_summary":reason,"is_current":is_current,"status":"active","effective_at":clock_now(),"effective_by":actor.id,"created_at":clock_now(),"created_by":actor.id,"updated_at":clock_now(),"updated_by":actor.id,"row_version":1,"producer_version":1,"source_context_id":draft.id,"currency":draft.currency,"source_hash":draft.source_hash})).await?;
     for transition in &draft.approved_transitions {
         let proof = transition
             .approval_source_refs

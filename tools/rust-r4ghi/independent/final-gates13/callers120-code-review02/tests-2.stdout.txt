@@ -1,0 +1,136 @@
+TAP version 13
+# Subtest: real newly completed HK week is the only positive calendar case
+ok 1 - real newly completed HK week is the only positive calendar case
+  ---
+  duration_ms: 1.937132
+  type: 'test'
+  ...
+# Subtest: period body copies server CAS/input/baseline refs and keeps cost decisions empty
+ok 2 - period body copies server CAS/input/baseline refs and keeps cost decisions empty
+  ---
+  duration_ms: 1.101926
+  type: 'test'
+  ...
+# Subtest: generic PeriodEnd probe keeps its own actual intent/hash and exact distinct DTO
+ok 3 - generic PeriodEnd probe keeps its own actual intent/hash and exact distinct DTO
+  ---
+  duration_ms: 3.072861
+  type: 'test'
+  ...
+# Subtest: generic audit probe is fail-only before the dedicated full FI and normal POST remains unique
+ok 4 - generic audit probe is fail-only before the dedicated full FI and normal POST remains unique
+  ---
+  duration_ms: 7.832565
+  type: 'test'
+  ...
+# Subtest: missing qualification, unclassified roots, future/missing roots cannot be trimmed to force a period case
+ok 5 - missing qualification, unclassified roots, future/missing roots cannot be trimmed to force a period case
+  ---
+  duration_ms: 2.970599
+  type: 'test'
+  ...
+# Subtest: the unbound all-null template cannot authorize any effect mode
+ok 6 - the unbound all-null template cannot authorize any effect mode
+  ---
+  duration_ms: 6.647103
+  type: 'test'
+  ...
+# Subtest: each effect mode needs its exact prior original pins; flags and unknown fields cannot replace them
+ok 7 - each effect mode needs its exact prior original pins; flags and unknown fields cannot replace them
+  ---
+  duration_ms: 3.353057
+  type: 'test'
+  ...
+# Subtest: period history can advance only head version while real current and review rows stay exact
+ok 8 - period history can advance only head version while real current and review rows stay exact
+  ---
+  duration_ms: 1.723452
+  type: 'test'
+  ...
+# Subtest: actual period/snapshot reads must expose one persisted paired source and identical full financial groups
+ok 9 - actual period/snapshot reads must expose one persisted paired source and identical full financial groups
+  ---
+  duration_ms: 0.701726
+  type: 'test'
+  ...
+# Subtest: economic accumulation keys retain direct/share type identity
+ok 10 - economic accumulation keys retain direct/share type identity
+  ---
+  duration_ms: 0.400591
+  type: 'test'
+  ...
+# Subtest: a prior preparation cannot be overwritten by another prepare
+ok 11 - a prior preparation cannot be overwritten by another prepare
+  ---
+  duration_ms: 27.113536
+  type: 'test'
+  ...
+# Subtest: committed/uncertain state blocks another normal POST: normalSuccess
+ok 12 - committed/uncertain state blocks another normal POST: normalSuccess
+  ---
+  duration_ms: 38.530817
+  type: 'test'
+  ...
+# Subtest: committed/uncertain state blocks blind FI replay: normalSuccess
+ok 13 - committed/uncertain state blocks blind FI replay: normalSuccess
+  ---
+  duration_ms: 45.115179
+  type: 'test'
+  ...
+# Subtest: committed/uncertain state blocks another normal POST: normalPending
+ok 14 - committed/uncertain state blocks another normal POST: normalPending
+  ---
+  duration_ms: 44.659217
+  type: 'test'
+  ...
+# Subtest: committed/uncertain state blocks blind FI replay: normalPending
+ok 15 - committed/uncertain state blocks blind FI replay: normalPending
+  ---
+  duration_ms: 46.456697
+  type: 'test'
+  ...
+# Subtest: committed/uncertain state blocks another normal POST: pendingTrial
+ok 16 - committed/uncertain state blocks another normal POST: pendingTrial
+  ---
+  duration_ms: 49.982742
+  type: 'test'
+  ...
+# Subtest: committed/uncertain state blocks blind FI replay: pendingTrial
+ok 17 - committed/uncertain state blocks blind FI replay: pendingTrial
+  ---
+  duration_ms: 47.237315
+  type: 'test'
+  ...
+# Subtest: unresolved normal outcome cannot enter read-verification as if committed
+ok 18 - unresolved normal outcome cannot enter read-verification as if committed
+  ---
+  duration_ms: 44.030607
+  type: 'test'
+  ...
+# Subtest: new runtime rejects14 before native callbacks; Role/H46 cannot impersonate period or mixed
+ok 19 - new runtime rejects14 before native callbacks; Role/H46 cannot impersonate period or mixed
+  ---
+  duration_ms: 1.245577
+  type: 'test'
+  ...
+# Subtest: complete source identity rejects duplicates, dot segments, copies and Windows aliases
+ok 20 - complete source identity rejects duplicates, dot segments, copies and Windows aliases
+  ---
+  duration_ms: 1.584931
+  type: 'test'
+  ...
+# Subtest: both actual first-period paths, Receiver/W45 and current/H invariants remain; no extra normal period
+ok 21 - both actual first-period paths, Receiver/W45 and current/H invariants remain; no extra normal period
+  ---
+  duration_ms: 14.514856
+  type: 'test'
+  ...
+1..21
+# tests 21
+# suites 0
+# pass 21
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 591.965459

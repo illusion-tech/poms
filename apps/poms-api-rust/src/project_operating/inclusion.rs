@@ -1,5 +1,6 @@
 //! Explicit classification and one-time actual E/F consumption CAS.
 use super::{
+    late_allocation::{self, Qualification, Timing},
     sources::{self, Catalog},
     store::{self, Table},
 };
@@ -136,7 +137,7 @@ pub(crate) async fn apply(
     inputs: &[CostDecisionInput],
     catalog: &Catalog,
     cutoff: NaiveDate,
-    restatement: bool,
+    timing: Timing,
     actor: &Actor,
 ) -> Result<(), Error> {
     apply_with_predecessors(
@@ -145,7 +146,7 @@ pub(crate) async fn apply(
         inputs,
         catalog,
         cutoff,
-        restatement,
+        timing,
         actor,
         &BTreeMap::new(),
     )
@@ -162,10 +163,11 @@ pub(crate) async fn apply_with_predecessors(
     inputs: &[CostDecisionInput],
     catalog: &Catalog,
     cutoff: NaiveDate,
-    restatement: bool,
+    timing: Timing,
     actor: &Actor,
     predecessors: &BTreeMap<Uuid, Uuid>,
 ) -> Result<(), Error> {
+    let restatement = timing == Timing::Restatement;
     let mut seen = BTreeSet::new();
     let members = catalog.members()?;
     for input in inputs {
@@ -304,7 +306,7 @@ pub(crate) async fn apply_with_predecessors(
                 {
                     return Err(store::conflict("operating_allocation_not_frozen"));
                 }
-                qualify_allocation(session, catalog, original, cutoff, restatement).await?;
+                qualify_allocation(session, catalog, original, cutoff, timing).await?;
                 if original["is_included_in_project_cost"] != true {
                     let n=sqlx::query("UPDATE poms.shared_cost_allocation_result SET is_included_in_project_cost=true,included_at=$1,included_by=$2,row_version=row_version+1,updated_at=$1,updated_by=$2 WHERE id=$3 AND row_version=$4 AND status='active' AND NOT is_included_in_project_cost")
                         .bind(clock_now()).bind(actor.id).bind(input.target.id).bind(store::version(original)?).execute(&mut *session.connection).await?.rows_affected();
@@ -372,7 +374,7 @@ pub(crate) async fn qualify_allocation(
     catalog: &Catalog,
     result: &Value,
     cutoff: NaiveDate,
-    restatement: bool,
+    timing: Timing,
 ) -> Result<(), Error> {
     let basis = catalog
         .by(Table::AllocationBasis, "id", &result["basis_id"])
@@ -422,8 +424,19 @@ pub(crate) async fn qualify_allocation(
             ));
         }
     }
-    if !restatement && sources::business_day(&result["effective_at"])? > cutoff {
-        return Err(store::conflict("operating_allocation_outside_cutoff"));
+    if sources::business_day(&result["effective_at"])? > cutoff {
+        match timing {
+            Timing::Restatement => {}
+            Timing::FirstPeriod(knowledge) => {
+                match late_allocation::qualify(catalog, result, cutoff, knowledge)? {
+                    Qualification::Eligible(_) => {}
+                    Qualification::FutureBusiness => {
+                        return Err(store::conflict("operating_allocation_outside_cutoff"));
+                    }
+                }
+            }
+            Timing::Realtime => return Err(store::conflict("operating_allocation_outside_cutoff")),
+        }
     }
     let members = catalog
         .all(Table::AllocationSource)

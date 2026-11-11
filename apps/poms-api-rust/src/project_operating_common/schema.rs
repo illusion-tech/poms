@@ -7,72 +7,30 @@ use serde_json::{Value, value::RawValue};
 use std::{collections::BTreeMap, sync::OnceLock};
 use uuid::Uuid;
 
-const PUBLIC: &str =
-    include_str!("../../../../tools/rust-r4ghi/joint-g1/effective-v2/public-contracts.schema.json");
-const CONTEXT: &str =
-    include_str!("../../../../tools/rust-r4ghi/joint-g1/effective-v2/source-context.schema.json");
-const DELTAS: [&str; 3] = [
-    include_str!("../../../../docs/design/rust-r4ghi/g2-public-delta01.json"),
-    include_str!("../../../../docs/design/rust-r4ghi/g2-public-delta02.json"),
-    include_str!("../../../../docs/design/rust-r4ghi/g2-public-delta03.json"),
-];
+// This is the exact complete assembly shared with Native/Shared/OAS273. The
+// old v2/delta01-03 originals remain historical inputs, not runtime overlays.
+const CANONICAL273: &str = include_str!("../../../../tools/rust-r4ghi/contracts273/canonical.json");
 
-pub fn public_registry() -> &'static Value {
+fn canonical_registry273() -> &'static Value {
     static DATA: OnceLock<Value> = OnceLock::new();
     DATA.get_or_init(|| {
-        let mut base: Value = serde_json::from_str(PUBLIC).unwrap_or(Value::Null);
-        for raw in DELTAS {
-            let delta: Value = serde_json::from_str(raw).unwrap_or(Value::Null);
-            if let (Some(target), Some(extra)) = (
-                base["components"]["schemas"].as_object_mut(),
-                delta["addSchemas"].as_object(),
-            ) {
-                target.extend(extra.clone());
-            }
-            if let Some(changes) = delta["components"].as_object() {
-                for (name, change) in changes {
-                    assert!(
-                        change
-                            .as_object()
-                            .is_some_and(|fields| fields.keys().all(|key| matches!(
-                                key.as_str(),
-                                "addProperties" | "addRequired" | "appendOneOf"
-                            ))),
-                        "Unknown G2 public schema change for {name}"
-                    );
-                    let target = &mut base["components"]["schemas"][name];
-                    if let (Some(properties), Some(extra)) = (
-                        target["properties"].as_object_mut(),
-                        change["addProperties"].as_object(),
-                    ) {
-                        properties.extend(extra.clone());
-                    }
-                    if let (Some(required), Some(extra)) = (
-                        target["required"].as_array_mut(),
-                        change["addRequired"].as_array(),
-                    ) {
-                        for value in extra {
-                            if !required.contains(value) {
-                                required.push(value.clone());
-                            }
-                        }
-                    }
-                    if let (Some(one_of), Some(extra)) = (
-                        target["oneOf"].as_array_mut(),
-                        change["appendOneOf"].as_array(),
-                    ) {
-                        one_of.extend(extra.clone());
-                    }
-                }
-            }
-        }
-        base
+        let value: Value = serde_json::from_str(CANONICAL273)
+            .unwrap_or_else(|_| panic!("The sealed canonical273 assembly must be valid JSON"));
+        assert_eq!(value["kind"], "assembled-canonical273-model-source");
+        assert!(value["public"]["components"]["schemas"].is_object());
+        assert!(value["sourceContext"]["$defs"].is_object());
+        value
     })
 }
-pub fn context_registry() -> &'static Value {
-    static DATA: OnceLock<Value> = OnceLock::new();
-    DATA.get_or_init(|| serde_json::from_str(CONTEXT).unwrap_or(Value::Null))
+
+pub fn public_registry() -> &'static Value {
+    &canonical_registry273()["public"]
 }
+
+pub fn context_registry() -> &'static Value {
+    &canonical_registry273()["sourceContext"]
+}
+
 fn resolved<'a>(schema: &'a Value, root: &'a Value) -> Option<&'a Value> {
     if let Some(reference) = schema["$ref"].as_str() {
         root.pointer(reference.strip_prefix('#')?)
@@ -523,6 +481,55 @@ pub fn validate_context_value(value: &Value) -> Result<(), Error> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn historical273_preserves_the_entire_original_context_schema() {
+        let old: Value = serde_json::from_str(include_str!(
+            "../../../../tools/rust-r4ghi/joint-g1/effective-v2/source-context.schema.json"
+        ))
+        .unwrap();
+        assert_eq!(context_registry(), &old);
+    }
+    #[test]
+    fn historical273_real_typed_boundary_requires_the_nullable_baseline_key() {
+        for (operation, extra) in [
+            (
+                "ProjectCostController_createPeriodClosingSnapshot",
+                serde_json::json!({"periodKey":"2026-W45","expectedPeriodSnapshotRef":null}),
+            ),
+            (
+                "ProjectCostController_createProjectOperatingSnapshot",
+                serde_json::json!({"snapshotMode":"period-end","periodKey":"2026-W45"}),
+            ),
+        ] {
+            let mut body = serde_json::json!({"inputVersion":"server-derived-v1","projectId":"00000000-0000-0000-0000-000000000001","expectedVersion":0,"expectedProjectVersion":1,"expectedInputHash":"a".repeat(64),"assertions":null,"baselinePackageRef":null,"costDecisions":[]});
+            body.as_object_mut()
+                .unwrap()
+                .extend(extra.as_object().unwrap().clone());
+            assert!(
+                crate::project_operating_common::TypedRequest::parse(
+                    operation,
+                    Some(&body.to_string())
+                )
+                .is_ok()
+            );
+            body.as_object_mut().unwrap().remove("baselinePackageRef");
+            assert!(matches!(
+                crate::project_operating_common::TypedRequest::parse(
+                    operation,
+                    Some(&body.to_string())
+                ),
+                Err(Error::BadRequest(_))
+            ));
+            body["baselinePackageRef"] = serde_json::json!({"kind":"OperatingBaselinePackage","id":"00000000-0000-0000-0000-000000000002","expectedVersion":1,"payloadHash":"b".repeat(64)});
+            assert!(
+                crate::project_operating_common::TypedRequest::parse(
+                    operation,
+                    Some(&body.to_string())
+                )
+                .is_ok()
+            );
+        }
+    }
     #[test]
     fn integer_tokens_are_exact_and_never_round_to_an_expected_version() {
         assert_eq!(exact_int4("1e0").ok(), Some(1));

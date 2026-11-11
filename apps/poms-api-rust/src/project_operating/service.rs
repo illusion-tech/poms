@@ -221,30 +221,32 @@ async fn run(
                 )
                 .await?
             } else {
-                let baseline = state
-                    .baseline_package_ref
-                    .as_ref()
-                    .ok_or(Error::Internal)?
-                    .id;
+                let is_period = plan.generated_ids.paired_period_id.is_some();
+                let head = capture_head(state, state.head_row_version, !is_period, is_period)?;
+                let period_baseline_audit = if is_period {
+                    Some(historical_baseline_audit(&ctx, &catalog)?)
+                } else {
+                    None
+                };
                 let captured = capture::snapshot(
                     session,
                     ctx,
                     &catalog,
                     plan.generated_ids.paired_period_id,
-                    Some((
-                        state.head_row_version,
-                        baseline,
-                        plan.generated_ids.paired_period_id.is_none(),
-                    )),
+                    head,
                     actor,
                 )
                 .await?;
-                let version = captured.new_head_version.ok_or(Error::Internal)?;
+                let version = captured.new_head_version.unwrap_or(state.head_row_version);
                 let (target, kind) = captured
                     .period_id
                     .map(|id| (id, "PeriodClosingSnapshot"))
                     .unwrap_or((captured.snapshot_id, "ProjectOperatingSnapshot"));
-                audit(session,actor,op,kind,target,project,None,json!({"sourceHash":captured.source_hash,"snapshotId":captured.snapshot_id,"newHeadVersion":version,"evaluationHash":captured.evaluation.evaluation_hash})).await?;
+                let mut after = json!({"sourceHash":captured.source_hash,"snapshotId":captured.snapshot_id,"newHeadVersion":version,"evaluationHash":captured.evaluation.evaluation_hash});
+                if let Some(period_baseline) = period_baseline_audit {
+                    after["historicalPeriodBaseline"] = period_baseline;
+                }
+                audit(session, actor, op, kind, target, project, None, after).await?;
                 command_result(
                     target,
                     kind,
@@ -380,21 +382,9 @@ async fn restate_all(
             .as_ref()
             .is_some_and(|s| s.id == before_ref.id);
         let head_version = *new_heads.get(&project).ok_or(Error::Internal)?;
-        let baseline = state
-            .baseline_package_ref
-            .as_ref()
-            .ok_or(Error::Internal)?
-            .id;
-        let captured = capture::snapshot(
-            session,
-            context,
-            &catalog,
-            None,
-            Some((head_version, baseline, selected)),
-            actor,
-        )
-        .await?;
-        new_heads.insert(project, captured.new_head_version.ok_or(Error::Internal)?);
+        let head = capture_head(state, head_version, selected, period_ref.is_some())?;
+        let captured = capture::snapshot(session, context, &catalog, None, head, actor).await?;
+        new_heads.insert(project, captured.new_head_version.unwrap_or(head_version));
         let id = new_uuid()?;
         let root = store::id(before, "root_snapshot_id").unwrap_or(before_ref.id);
         store::insert(session,Table::Restatement,&json!({"id":id,"project_id":project,"period_end_snapshot_id":period_ref.as_ref().map(|p|p.id),"restates_snapshot_id":before_ref.id,"restated_snapshot_id":captured.snapshot_id,"handover_rebaseline_record_id":before["handover_rebaseline_record_id"],"restatement_reason":input.restatement_reason,"restatement_summary":input.restatement_summary,"status":"active","handled_at":clock_now(),"handled_by":actor.id,"created_at":clock_now(),"created_by":actor.id,"updated_at":clock_now(),"updated_by":actor.id,"row_version":1,"producer_version":1,"restatement_scope":scope,"root_snapshot_id":root,"causal_source_refs":causal,"before_source_hash":before["source_hash"],"after_source_hash":captured.source_hash,"restatement_batch_id":batch})).await?;
@@ -416,6 +406,122 @@ async fn restate_all(
         Some(&captured.source_hash),
         Some(&captured.evaluation),
     )
+}
+
+/// A period can advance an existing head's CAS version, but cannot manufacture
+/// realtime authority or replace the live baseline/current IDs. A period-only
+/// project stays headless, including later restatement of that frozen period.
+fn capture_head(
+    state: &OperatingLockedProjectState,
+    version: i32,
+    selected: bool,
+    period: bool,
+) -> Result<Option<(i32, Uuid, bool)>, Error> {
+    if period && selected {
+        return Err(store::conflict("period_baseline_reconciliation_required"));
+    }
+    if version == 0 {
+        if period
+            && !selected
+            && state.baseline_package_ref.is_none()
+            && state.current_snapshot_ref.is_none()
+        {
+            return Ok(None);
+        }
+        return Err(store::conflict("operating_baseline_required"));
+    }
+    let baseline = state
+        .baseline_package_ref
+        .as_ref()
+        .ok_or_else(|| store::conflict("operating_baseline_required"))?;
+    Ok(Some((version, baseline.id, selected)))
+}
+
+fn historical_baseline_audit(
+    context: &OperatingSourceContext,
+    catalog: &sources::Catalog,
+) -> Result<Value, Error> {
+    let reference = context
+        .baseline
+        .baseline_package_ref
+        .as_ref()
+        .ok_or(Error::Internal)?;
+    let package = catalog
+        .find(Table::Baseline, reference.id)
+        .ok_or(Error::Internal)?;
+    let source = catalog
+        .by(Table::BaselineSource, "id", &package["source_context_id"])
+        .ok_or(Error::Internal)?;
+    let proof = &source["frozen_payload"]["historicalPeriodSelection"];
+    if proof["periodKey"]
+        != serde_json::to_value(&context.snapshot.period_key).map_err(|_| Error::Internal)?
+        || package["is_current"] != false
+        || package["producer_version"] != 1
+        || !proof["selectionHash"].is_string()
+    {
+        return Err(store::conflict("period_baseline_reconciliation_required"));
+    }
+    Ok(json!({"baselinePackageRef":reference,
+        "baselineSourceRef":sources::reference(Table::BaselineSource, source)?,
+        "selectionHash":proof["selectionHash"],"periodKey":proof["periodKey"],
+        "policyVersion":proof["policyVersion"],"selectedAdoptedCostRef":proof["selectedCostRef"],
+        "originalAdoptedCostRef":proof["originalCostRef"],
+        "adoptedTransitionCount":source["frozen_payload"]["approvedTransitions"].as_array().ok_or(Error::Internal)?.len()}))
+}
+
+#[cfg(test)]
+mod historical_head273_tests {
+    use super::*;
+    fn reference(id: u128) -> SourceRef {
+        SourceRef {
+            kind: "OperatingBaselinePackage".into(),
+            id: Uuid::from_u128(id),
+            row_version: 1,
+            payload_hash: "a".repeat(64),
+        }
+    }
+    fn state() -> OperatingLockedProjectState {
+        OperatingLockedProjectState {
+            project_id: Uuid::from_u128(1),
+            project_row_version: 3,
+            head_row_version: 8,
+            baseline_package_ref: Some(reference(10)),
+            current_snapshot_ref: Some(reference(20)),
+            terminal_root_refs: vec![],
+        }
+    }
+    #[test]
+    fn first_period_and_period_restatement_only_use_existing_live_head_identity() {
+        let original = state();
+        assert_eq!(
+            capture_head(&original, 8, false, true).unwrap(),
+            Some((8, Uuid::from_u128(10), false))
+        );
+        assert_eq!(
+            original.current_snapshot_ref.as_ref().unwrap().id,
+            Uuid::from_u128(20)
+        );
+        assert_eq!(
+            original.baseline_package_ref.as_ref().unwrap().id,
+            Uuid::from_u128(10)
+        );
+        assert!(capture_head(&original, 8, true, true).is_err());
+        assert_eq!(
+            capture_head(&original, 8, true, false).unwrap(),
+            Some((8, Uuid::from_u128(10), true))
+        );
+    }
+    #[test]
+    fn period_only_project_remains_headless_and_cannot_publish_a_realtime_current() {
+        let mut original = state();
+        original.head_row_version = 0;
+        original.baseline_package_ref = None;
+        original.current_snapshot_ref = None;
+        assert_eq!(capture_head(&original, 0, false, true).unwrap(), None);
+        assert!(capture_head(&original, 0, true, false).is_err());
+        original.baseline_package_ref = Some(reference(10));
+        assert!(capture_head(&original, 0, false, true).is_err());
+    }
 }
 
 #[expect(

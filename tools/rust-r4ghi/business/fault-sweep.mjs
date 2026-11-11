@@ -1,3 +1,5 @@
+import {assertGHCurrentSource15,currentCodeRegistry15} from './source15-admission.mjs';
+import {currentCodeRegistry252,readPin252} from './same-m98-code-admission252.mjs';
 // Root-only real FI controls; importing this file performs no SQL, HTTP or I/O.
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
@@ -15,6 +17,16 @@ const kind = 'source-bound-required-write-sweep17';
 const identitySHA = value => sha(JSON.stringify(value));
 const exactStatus = attempt => assert(attempt.status === 500 && attempt.responseComplete === true && attempt.transportFailure === false, 'FI requires an actual complete500; no missing-ACK rollback inference');
 function verifySources(ctx, operationId = null) {
+  if (ctx.epoch === 'g2-business15') {
+    if (operationId === null) { const registry = currentCodeRegistry15(ctx, {liveProcess:true,sourceFiles:true}); const pins = JSON.parse(readPin252(registry.consumer.sourcePins)); assert.deepEqual(pins, ctx.pins, 'Readonly pending-auth still binds the complete typed15 source graph'); return pins; }
+    const current = assertGHCurrentSource15(ctx, operationId); assert.deepEqual(current.sourcePins, ctx.pins); return current.sourcePins;
+  }
+  if (ctx.epoch === 'g2-business14' && isGHWrite(operationId)) {
+    const registry = currentCodeRegistry252(ctx, {liveProcess:true,sourceFiles:true});
+    const pins = JSON.parse(readPin252(registry.consumer.sourcePins));
+    assert.deepEqual(pins, ctx.pins, 'Every current14 GH effect binds the complete actual14 source graph');
+    return pins;
+  }
   if (ctx.epoch === 'g2-business13' && isGHWrite(operationId)) {
     // This new tool generation is separately admitted. Keep the old19 pins as
     // their original historical input; never silently refresh that old file.

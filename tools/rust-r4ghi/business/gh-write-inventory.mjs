@@ -1,3 +1,4 @@
+import{periodHistoricalInventory273,periodHistoricalSelectorSql273,periodHistoricalWriteMatches273}from'./period-historical-facts273.mjs';
 import assert from 'node:assert/strict';
 import { uuid } from './pure.mjs';
 import { isGHWrite } from './gh-write-facts.mjs';
@@ -16,7 +17,7 @@ export function ghWriteInventory(operationId, scope) {
     add('H-summary-last-field', 'approval_summary_field_projection', 'INSERT', { kind: 'summary-field', summary: { actorId, scenario: 'commission-gate-review', packageKey: 'project-operating-commission-gate-v1', targetType: 'operating-signal-gate-binding', targetId }, fieldOrder: 3 }, h('summary'), 'Actual fourth mandatory financialFacts field; all real new summaries must share the final TX.', count),
     root('H-summary-payload', 'operating_gate_summary_payload', 'INSERT', targetId ? { binding_id: uuid(targetId) } : { gate_stage_type: 'retention' }, h('summary'), 'Actual immutable payload for this exact binding, or real last-stage retention payload.', targetId ? 1 : facts.captureCount || 1),
   ];
-  let entries = [];
+  let entries = [];if(facts.periodHistorical273)entries.push(...periodHistoricalInventory273(scope));
   const baseline = operationId.endsWith('activateOperatingBaselinePackage'), signalReview = operationId.endsWith('reviewOperatingSignalEvaluation'), gateReview = operationId.endsWith('reviewCommissionGateBinding');
   if (baseline) {
     entries = [root('G-baseline-source', 'operating_baseline_source', 'INSERT'), root('G-baseline-package', 'operating_baseline_package', 'INSERT')];
@@ -58,24 +59,24 @@ export function ghWriteInventory(operationId, scope) {
       for (const id of facts.terminalIds) entries.push(root(`G-restatement-record:${id}`, 'operating_restatement_record', 'INSERT', { restates_snapshot_id: id }, g('service'), 'Actual complete terminal root, causal source refs and shared batch from Rust.'));
     }
   }
-  if (!signalReview && !gateReview) entries.push(root('G-head-cas', 'project_operating_head', facts.headPresent ? 'UPDATE' : 'INSERT', {}, g('store'), 'Exact actual head branch; no fabricated initial head.'));
+  if (!signalReview && !gateReview&&!(facts.periodHistorical273&&!facts.headPresent)) entries.push(root('G-head-cas', 'project_operating_head', facts.headPresent ? 'UPDATE' : 'INSERT', {}, g('store'), 'Exact actual head branch; no fabricated initial head.'));
   const auditCount = operationId.endsWith('createOperatingRestatement') ? facts.captureCount : 1;
   entries.push(add('required-success-audit', 'audit_log', 'INSERT', { kind: 'audit', operationId, actorId, projectId }, 'apps/poms-api-rust/src/contract_support/mod.rs', 'Mandatory exact root operation/request/actor/project audit; every complete terminal restatement audits its own record.', auditCount));
   if (!baseline && !signalReview && !gateReview) entries.push(add('H-policy-audit', 'audit_log', 'INSERT', { kind: 'audit', operationId: 'OperatingPolicy_evaluate', actorId, projectId }, h('service'), 'Real H evaluation audit in the same G outer transaction.', facts.captureCount));
   entries.push(eq('GH-command-receipt', 'operating_command_receipt', 'INSERT', { operation_id: operationId, actor_id: actorId, target_scope: signalReview || gateReview ? uuid(params.id) : projectId }, signalReview || gateReview ? h('store') : g('service'), 'Actual same-TX idempotency receipt; not a forged committed JSON claim.'));
   entries.push(add('pending-auth-coflush', 'auth_session', 'UPDATE', { kind: 'auth-coflush', operationId, actorId, projectId }, 'apps/poms-api-rust/src/auth/store.rs', 'Real pending-auth update only after the exact root audit; independent raw touch remains separate.'));
-  assert.equal(new Set(entries.map(d => d.key)).size, entries.length); return entries;
+  if(facts.periodHistorical273)entries=entries.filter(d=>d.key!=='G-source-member-baseline');assert.equal(new Set(entries.map(d=>d.key)).size,entries.length);return entries;
 }
 
 export function ghSelectorSql(descriptor) {
-  const m = descriptor.match; for (const key of ['projectId', 'actorId', 'baselineId', 'changePackageId']) if (m[key]) uuid(m[key]);
+  const m=descriptor.match;if(m.kind.startsWith('gh-period273-'))return periodHistoricalSelectorSql273(descriptor); for (const key of ['projectId', 'actorId', 'baselineId', 'changePackageId']) if (m[key]) uuid(m[key]);
   if (m.kind === 'gh-source-member') return `j->>'source_kind'='OperatingBaselinePackage' AND j->>'source_id'='${m.baselineId}' AND EXISTS(SELECT 1 FROM poms.operating_source_context c WHERE c.id=(j->>'context_id')::uuid AND c.project_id='${m.projectId}'::uuid)`;
   if (m.kind === 'gh-reason') { assert.equal(m.index, 0); return `(j->>'reason_index')::int=0 AND EXISTS(SELECT 1 FROM poms.operating_evaluation_evidence e WHERE e.id=(j->>'evidence_id')::uuid AND e.project_id='${m.projectId}'::uuid AND e.evaluated_by='${m.actorId}'::uuid)`; }
   if (m.kind === 'gh-change-baseline') return `j->>'change_package_id'='${m.changePackageId}' AND j->>'created_by'='${m.actorId}' AND EXISTS(SELECT 1 FROM poms.operating_baseline_package b WHERE b.id=(j->>'baseline_package_id')::uuid AND b.project_id='${m.projectId}'::uuid)`;
   throw new Error('Unknown reviewed GH selector');
 }
 export function ghWriteMatches(descriptor, row, allRows) {
-  const m = descriptor.match, v = JSON.parse(row.raw), find = (table, id) => allRows(table).map(r => JSON.parse(r.raw)).find(r => r.id === id);
+  if(descriptor.match.kind.startsWith('gh-period273-'))return periodHistoricalWriteMatches273(descriptor,row,allRows);const m = descriptor.match, v = JSON.parse(row.raw), find = (table, id) => allRows(table).map(r => JSON.parse(r.raw)).find(r => r.id === id);
   if (m.kind === 'gh-source-member') return v.source_kind === 'OperatingBaselinePackage' && v.source_id === m.baselineId && find('operating_source_context', v.context_id)?.project_id === m.projectId;
   if (m.kind === 'gh-reason') { const e = find('operating_evaluation_evidence', v.evidence_id); return v.reason_index === 0 && e?.project_id === m.projectId && e.evaluated_by === m.actorId; }
   if (m.kind === 'gh-change-baseline') return v.change_package_id === m.changePackageId && v.created_by === m.actorId && find('operating_baseline_package', v.baseline_package_id)?.project_id === m.projectId;

@@ -1,6 +1,6 @@
 //! Read-only preparation. Generated preview identities never enter input hashes.
 use super::{
-    baseline, context, restatement,
+    baseline, context, period_baseline, restatement,
     sources::{self, Catalog},
     store::{self, Table},
 };
@@ -57,6 +57,14 @@ pub async fn prepare_with_session(
     )
     .await?;
     let window = window_for(session, project_id, intent).await?;
+    // Project/access locks precede the same ordered source-family lock used by
+    // the command. Reload only after all historical adoption families lock.
+    let catalog = if is_first_period(intent) {
+        sources::lock_full_source_set(session, &projects).await?;
+        sources::load(session, project_id, false).await?
+    } else {
+        catalog
+    };
     let locked = if matches!(intent, OperatingPreparationIntent::Restatement { .. }) {
         restatement::affected_states(session, &projects, &roots).await?
     } else {
@@ -233,6 +241,12 @@ pub async fn prepare_query_with_session(
     serde_json::from_value(json!({"view":"preparation","outputVersion":"server-derived-v1","preparation":preparation,"officialCurrent":null})).map_err(|_|Error::Internal)
 }
 
+pub(crate) fn is_first_period(intent: &OperatingPreparationIntent) -> bool {
+    matches!(intent, OperatingPreparationIntent::PeriodClose { .. })
+        || matches!(intent, OperatingPreparationIntent::SnapshotCreate { mode, .. }
+            if mode.as_str() == "period-end")
+}
+
 pub(crate) fn intent_code(intent: &OperatingPreparationIntent) -> &'static str {
     match intent {
         OperatingPreparationIntent::BaselineActivation => "baseline-activation",
@@ -378,6 +392,26 @@ pub(crate) async fn from_catalog(
     actor: &Actor,
 ) -> Result<OperatingPreparation, Error> {
     let mut blocks = Vec::<String>::new();
+    let first_period = is_first_period(intent);
+    let existing_period = matches!(
+        intent,
+        OperatingPreparationIntent::Restatement {
+            period_end_snapshot: Some(_),
+            ..
+        }
+    );
+    let historical = if first_period {
+        match period_baseline::select(catalog, project_id, window) {
+            Ok(selection) => Some(selection),
+            Err(Error::CodedConflict { code, .. }) => {
+                blocks.push(code.into());
+                None
+            }
+            Err(error) => return Err(error),
+        }
+    } else {
+        None
+    };
     let current = if matches!(intent, OperatingPreparationIntent::ReceiptBasis { .. }) {
         None
     } else {
@@ -392,11 +426,15 @@ pub(crate) async fn from_catalog(
     };
     // Cash-basis certification consumes its contract terms and documentary
     // currency proof. It does not require an operating budget or handover.
-    let draft = if matches!(intent, OperatingPreparationIntent::ReceiptBasis { .. }) {
+    let draft = if first_period {
+        historical
+            .as_ref()
+            .map(|selection| selection.preview_draft())
+    } else if existing_period || matches!(intent, OperatingPreparationIntent::ReceiptBasis { .. }) {
         None
     } else {
         match baseline::derive(session, project_id, catalog).await {
-            Ok(d) => Some(d),
+            Ok(d) => Some(serde_json::to_value(d).map_err(|_| Error::Internal)?),
             Err(Error::CodedConflict { code, .. }) => {
                 blocks.push(code.into());
                 None
@@ -409,6 +447,8 @@ pub(crate) async fn from_catalog(
         OperatingPreparationIntent::BaselineActivation
             | OperatingPreparationIntent::ReceiptBasis { .. }
     ) && current.is_none()
+        && !first_period
+        && !existing_period
     {
         blocks.push("operating-baseline-required".into());
     }
@@ -426,7 +466,7 @@ pub(crate) async fn from_catalog(
         project_id,
         catalog,
         window,
-        matches!(intent, OperatingPreparationIntent::Restatement { .. }),
+        super::late_allocation::Timing::for_intent(intent, window),
         actor,
     )
     .await?;
@@ -463,7 +503,16 @@ pub(crate) async fn from_catalog(
             }
         }
     }
-    if current.is_some()
+    let mut proposed_original = draft.as_ref().map(|d| d["originalCostRef"].clone());
+    let mut selected_baseline = if first_period {
+        None
+    } else {
+        current
+            .as_ref()
+            .map(|b| sources::reference(Table::Baseline, b))
+            .transpose()?
+    };
+    if (current.is_some() || historical.is_some() || existing_period)
         && !matches!(
             intent,
             OperatingPreparationIntent::BaselineActivation
@@ -497,11 +546,37 @@ pub(crate) async fn from_catalog(
             _ => return Err(Error::Internal),
         };
         match context::build(
-            session, project_id, catalog, window, &ids, mode, restates, period, None,
+            session,
+            project_id,
+            catalog,
+            window,
+            &ids,
+            mode,
+            restates,
+            period,
+            historical.as_ref().map(context::PeriodBaseline::Preview),
         )
         .await
         {
-            Ok(context) => blocks.extend(context.formal_eligibility.blocking_reason_codes),
+            Ok(context) => {
+                if existing_period {
+                    proposed_original = context
+                        .baseline
+                        .original_technical_package_ref
+                        .as_ref()
+                        .map(serde_json::to_value)
+                        .transpose()
+                        .map_err(|_| Error::Internal)?;
+                    selected_baseline = context
+                        .baseline
+                        .baseline_package_ref
+                        .as_ref()
+                        .map(serde_json::to_value)
+                        .transpose()
+                        .map_err(|_| Error::Internal)?;
+                }
+                blocks.extend(context.formal_eligibility.blocking_reason_codes);
+            }
             Err(Error::CodedConflict { code, .. }) => blocks.push(code.into()),
             Err(Error::Conflict(_) | Error::NotFound(_)) => {
                 blocks.push("operating-source-changed-or-unverified".into())
@@ -513,7 +588,7 @@ pub(crate) async fn from_catalog(
     blocks.dedup();
     let hash = input_hash(project_id, intent, window, project, catalog, states)?;
     let head = catalog.all(Table::Head).first();
-    serde_json::from_value(json!({"outputVersion":"server-derived-v1","kind":"preparation-only","officialSnapshotRef":head.and_then(|h|catalog.by(Table::Snapshot,"id",&h["current_snapshot_id"])).map(|s|sources::reference(Table::Snapshot,s)).transpose()?,"intent":intent_code(intent),"projectId":project_id,"headVersion":head.and_then(|h|h["row_version"].as_i64()).unwrap_or(0),"projectVersion":store::version(project)?,"expectedInputHash":hash,"preparedAt":window.knowledge_cutoff,"businessCutoff":window.business_cutoff,"periodKey":window.period_key,"formalEligibility":{"status":if blocks.is_empty(){"eligible"}else{"missing-evidence"},"blockingReasonCodes":blocks,"missingEvidenceRefs":[]},"evaluationStatus":"not-evaluated","sourceRows":source_rows,"proposedOriginalCostRef":draft.map(|d|d.original_cost_ref),"selectedBaselinePackageRef":current.as_ref().map(|b|sources::reference(Table::Baseline,b)).transpose()?,"allowedCommandCodes":if blocks.is_empty(){vec![intent_code(intent)]}else{vec![]},"blockingReasonCodes":blocks,"proposedAffectedTargets":[]})).map_err(|_|Error::Internal)
+    serde_json::from_value(json!({"outputVersion":"server-derived-v1","kind":"preparation-only","officialSnapshotRef":head.and_then(|h|catalog.by(Table::Snapshot,"id",&h["current_snapshot_id"])).map(|s|sources::reference(Table::Snapshot,s)).transpose()?,"intent":intent_code(intent),"projectId":project_id,"headVersion":head.and_then(|h|h["row_version"].as_i64()).unwrap_or(0),"projectVersion":store::version(project)?,"expectedInputHash":hash,"preparedAt":window.knowledge_cutoff,"businessCutoff":window.business_cutoff,"periodKey":window.period_key,"formalEligibility":{"status":if blocks.is_empty(){"eligible"}else{"missing-evidence"},"blockingReasonCodes":blocks,"missingEvidenceRefs":[]},"evaluationStatus":"not-evaluated","sourceRows":source_rows,"proposedOriginalCostRef":proposed_original,"selectedBaselinePackageRef":selected_baseline,"periodBaselineSelection":historical.as_ref().map(|selection|selection.public_selection()).transpose()?,"allowedCommandCodes":if blocks.is_empty(){vec![intent_code(intent)]}else{vec![]},"blockingReasonCodes":blocks,"proposedAffectedTargets":[]})).map_err(|_|Error::Internal)
 }
 
 pub(crate) fn input_hash(
@@ -562,6 +637,15 @@ pub(crate) fn input_hash(
         let mut refs = correction_source_refs.clone();
         refs.sort_by_key(|r| (r.kind.clone(), r.id));
         input["businessScope"]["correctionSourceRefs"] = json!(refs);
+    }
+    if is_first_period(intent) {
+        // Current row/member hashes alone omit adoption instants in several
+        // legacy sources. The exact stable choice and temporal facts are CAS
+        // inputs in both coherent GET and locked POST; no preview UUID/clock.
+        input["firstPeriodAllocationEvidence298"] =
+            super::late_allocation::input_evidence(catalog, project_id, window)?;
+        input["historicalPeriodBaselineSelection"] =
+            period_baseline::hash_input(catalog, project_id, window)?;
     }
     canonical_hash(&input)
 }

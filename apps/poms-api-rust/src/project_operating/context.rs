@@ -1,6 +1,8 @@
 //! Collector-owned immutable business facts. No signal/maturity policy lives here.
 use super::{
-    facts, inclusion, projection,
+    facts, inclusion,
+    late_allocation::{self, Qualification, Timing},
+    projection,
     sources::{self, Catalog},
     store::{self, Table},
 };
@@ -11,7 +13,7 @@ use crate::{
         hash,
         model::{
             ExpectedRef, OperatingBusinessWindow, OperatingGeneratedIds, OperatingMoneyCents,
-            OperatingSourceContext, OperatingSourceRow,
+            OperatingSourceContext, OperatingSourceRow, SourceRef,
         },
     },
 };
@@ -48,7 +50,7 @@ pub(crate) async fn source_rows(
     project: Uuid,
     catalog: &Catalog,
     window: &OperatingBusinessWindow,
-    allow_late_allocations: bool,
+    timing: Timing,
     actor: &Actor,
 ) -> Result<Vec<OperatingSourceRow>, Error> {
     let mut out: Vec<OperatingSourceRow> = Vec::new();
@@ -353,7 +355,26 @@ pub(crate) async fn source_rows(
             let mut blockers = Vec::new();
             let classification_changed = matches!(table, Table::Cost | Table::AllocationResult)
                 && decision.is_some_and(|d| d["source_row_version"] != row["row_version"]);
-            let state = if classification_changed {
+            let late_qualification = if table == Table::AllocationResult
+                && business.is_some_and(|day| day > window.business_cutoff)
+                && let Timing::FirstPeriod(knowledge) = timing
+            {
+                Some(late_allocation::qualify(
+                    catalog,
+                    row,
+                    window.business_cutoff,
+                    knowledge,
+                ))
+            } else {
+                None
+            };
+            let restatement_window =
+                allocation_window_for_timing(catalog, table, row, window, timing);
+            let state = if matches!(&late_qualification, Some(Err(_)))
+                || matches!(&restatement_window, Some(Err(_)))
+            {
+                "legacy-unverified"
+            } else if classification_changed {
                 "unclassified"
             } else {
                 state
@@ -368,14 +389,18 @@ pub(crate) async fn source_rows(
                     _ => "source-not-ready",
                 });
             }
-            if business.is_some_and(|day| day > window.business_cutoff) {
-                if table == Table::AllocationResult
-                    && allow_late_allocations
-                    && allocation_in_window(catalog, row, window.business_cutoff)?
-                {
-                    blockers.push("late-produced-allocation-full-in-window");
-                } else {
-                    blockers.push("outside-business-cutoff");
+            if let Some(qualification) = &restatement_window {
+                if let Some(reason) = restatement_window_reason(
+                    qualification,
+                    business.is_some_and(|day| day > window.business_cutoff),
+                ) {
+                    blockers.push(reason);
+                }
+            } else if business.is_some_and(|day| day > window.business_cutoff) {
+                match late_qualification {
+                    Some(Ok(Qualification::Eligible(_))) => {} // eligibility, not a blocker
+                    Some(Err(_)) => {} // the hard source-basis-unverified above remains
+                    _ => blockers.push("outside-business-cutoff"),
                 }
             }
             let fp = projection::source(
@@ -686,28 +711,88 @@ fn source_day(table: Table, row: &Value) -> Result<chrono::NaiveDate, Error> {
         }],
     )
 }
-fn allocation_in_window(
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum RestatementAllocationWindow {
+    InWindow,
+    FutureBusiness,
+}
+
+// Restatement membership is determined by the real source business dates, not
+// by when F happened to produce a result. Both preview and build call this
+// dispatch before any result-effective-at gate.
+fn allocation_window_for_timing(
+    catalog: &Catalog,
+    table: Table,
+    row: &Value,
+    window: &OperatingBusinessWindow,
+    timing: Timing,
+) -> Option<Result<RestatementAllocationWindow, Error>> {
+    if table == Table::AllocationResult && timing == Timing::Restatement {
+        Some(restatement_allocation_window(catalog, row, window))
+    } else {
+        None
+    }
+}
+
+fn restatement_window_reason(
+    qualification: &Result<RestatementAllocationWindow, Error>,
+    produced_after_cutoff: bool,
+) -> Option<&'static str> {
+    match qualification {
+        Ok(RestatementAllocationWindow::FutureBusiness) => Some("outside-business-cutoff"),
+        Ok(RestatementAllocationWindow::InWindow) if produced_after_cutoff => {
+            Some("late-produced-allocation-full-in-window")
+        }
+        Ok(RestatementAllocationWindow::InWindow) | Err(_) => None,
+    }
+}
+
+// This is a current-catalog classification, never a cached GET authorization.
+// Existing in-window Restatement qualification is deliberately unchanged. Only
+// exclusion of a future batch borrows the complete first-period proof gate.
+fn restatement_allocation_window(
     catalog: &Catalog,
     result: &Value,
-    cutoff: chrono::NaiveDate,
-) -> Result<bool, Error> {
+    window: &OperatingBusinessWindow,
+) -> Result<RestatementAllocationWindow, Error> {
+    let basis = catalog
+        .by(Table::AllocationBasis, "id", &result["basis_id"])
+        .ok_or_else(|| store::conflict("operating_allocation_basis_missing"))?;
     let members = catalog
         .all(Table::AllocationSource)
         .iter()
-        .filter(|s| s["basis_id"] == result["basis_id"])
+        .filter(|s| s["basis_id"] == basis["id"])
         .collect::<Vec<_>>();
     if members.is_empty() {
-        return Ok(false);
+        return Err(store::conflict("operating_allocation_members_missing"));
     }
+    let mut future = false;
     for member in members {
         let cost = catalog
             .by(Table::Cost, "id", &member["cost_record_id"])
             .ok_or_else(|| store::conflict("operating_allocation_member_missing"))?;
-        if sources::business_day(&cost["occurred_on"])? > cutoff {
-            return Ok(false);
-        }
+        // Do not return on the first future member: a later missing/invalid
+        // source must still block the entire batch, independently of row order.
+        future |= sources::business_day(&cost["occurred_on"])? > window.business_cutoff;
     }
-    Ok(true)
+    if !future {
+        return Ok(RestatementAllocationWindow::InWindow);
+    }
+    confirmed_future_allocation(late_allocation::qualify(
+        catalog,
+        result,
+        window.business_cutoff,
+        window.knowledge_cutoff,
+    )?)
+}
+
+fn confirmed_future_allocation(
+    qualification: Qualification,
+) -> Result<RestatementAllocationWindow, Error> {
+    match qualification {
+        Qualification::FutureBusiness => Ok(RestatementAllocationWindow::FutureBusiness),
+        Qualification::Eligible(_) => Err(store::conflict("operating_late_allocation_unverified")),
+    }
 }
 
 fn collect_references(value: &Value, out: &mut Vec<Value>) {
@@ -809,6 +894,17 @@ fn allocation_key(catalog: &Catalog, result: &Value) -> Result<String, Error> {
     ))
 }
 
+/// Only the first period capture can supply this override. A preparation has
+/// proved economic refs but no invented G identity; capture supplies the actual
+/// noncurrent package written on this same outer transaction.
+pub(crate) enum PeriodBaseline<'a> {
+    Preview(&'a super::period_baseline::HistoricalSelection),
+    Captured {
+        selection: &'a super::period_baseline::HistoricalSelection,
+        package_id: Uuid,
+    },
+}
+
 #[expect(
     clippy::too_many_arguments,
     reason = "The collector passes distinct locked sources, scope, and frozen-window inputs."
@@ -822,7 +918,7 @@ pub(crate) async fn build(
     mode: &str,
     restates: Option<Value>,
     period: Option<Value>,
-    baseline_draft: Option<&Value>,
+    period_baseline: Option<PeriodBaseline<'_>>,
 ) -> Result<OperatingSourceContext, Error> {
     let mut blockers = BTreeSet::new();
     let mut pending = Vec::new();
@@ -878,10 +974,7 @@ pub(crate) async fn build(
             .as_ref()
             .ok_or_else(|| store::conflict("period_baseline_reconciliation_required"))?;
         let record:Value=sqlx::query_scalar("SELECT captured_payload FROM poms.operating_source_member WHERE context_id=$1 AND source_kind='OperatingBaselinePackage' AND source_id=$2 AND source_row_version=$3 AND source_payload_hash=$4").bind(original.context_id).bind(reference.id).bind(reference.row_version).bind(&reference.payload_hash).fetch_optional(&mut *session.connection).await?.ok_or_else(||store::conflict("period_baseline_reconciliation_required"))?;
-        if canonical_hash(&record)? != reference.payload_hash {
-            return Err(store::conflict("period_baseline_reconciliation_required"));
-        }
-        Some(record)
+        Some(frozen_period_baseline_member(reference, record)?)
     } else {
         None
     };
@@ -889,31 +982,56 @@ pub(crate) async fn build(
         .all(Table::Baseline)
         .iter()
         .find(|b| b["is_current"] == true);
-    let baseline = historical_baseline.as_ref().or(current_baseline);
-    if baseline.is_none() {
+    let first_period = window.period_key.is_some() && historical_period.is_none();
+    if period_baseline.is_some() != first_period {
+        return Err(store::conflict("period_baseline_reconciliation_required"));
+    }
+    let (baseline, draft) = match period_baseline {
+        Some(PeriodBaseline::Preview(selection)) => (None, Some(selection.preview_draft())),
+        Some(PeriodBaseline::Captured {
+            selection,
+            package_id,
+        }) => {
+            let row = catalog
+                .find(Table::Baseline, package_id)
+                .ok_or_else(|| store::conflict("period_baseline_reconciliation_required"))?;
+            let source = catalog
+                .by(Table::BaselineSource, "id", &row["source_context_id"])
+                .ok_or_else(|| store::conflict("period_baseline_reconciliation_required"))?;
+            let expected =
+                serde_json::to_value(selection.draft(store::id(source, "id")?, project)?)
+                    .map_err(|_| Error::Internal)?;
+            if row["project_id"] != project.to_string()
+                || row["is_current"] != false
+                || row["status"] != "active"
+                || row["producer_version"] != 1
+                || source["frozen_payload"] != expected
+                || source["source_hash"] != expected["sourceHash"]
+                || source["payload_hash"] != expected["payloadHash"]
+                || row["source_hash"] != expected["sourceHash"]
+            {
+                return Err(store::conflict("period_baseline_reconciliation_required"));
+            }
+            (Some(row), Some(expected))
+        }
+        None => {
+            let row = historical_baseline.as_ref().or(current_baseline);
+            let draft = row
+                .and_then(|b| catalog.by(Table::BaselineSource, "id", &b["source_context_id"]))
+                .map(|r| r["frozen_payload"].clone());
+            (row, draft)
+        }
+    };
+    if baseline.is_none() && !first_period {
         blockers.insert("operating-baseline-required".to_owned());
     }
     if baseline.is_some_and(|b| b["producer_version"] != 1) {
         blockers.insert("legacy_operating_baseline_admission_required".to_owned());
     }
-    let draft = baseline_draft.cloned().or_else(|| {
-        baseline
-            .and_then(|b| catalog.by(Table::BaselineSource, "id", &b["source_context_id"]))
-            .map(|r| r["frozen_payload"].clone())
-    });
-    // First-period publication must prove business-time adoption. Capturing a
-    // G package later is legitimate; adopting future estimate facts is not.
-    if window.period_key.is_some() && historical_period.is_none() {
-        super::period_baseline::assert_adoption(
-            catalog,
-            project,
-            draft
-                .as_ref()
-                .ok_or_else(|| store::conflict("period_baseline_reconciliation_required"))?,
-            window,
-        )?;
-    }
-    if let Some(draft) = draft.as_ref().filter(|_| historical_period.is_none()) {
+    if let Some(draft) = draft
+        .as_ref()
+        .filter(|_| historical_period.is_none() && !first_period)
+    {
         let mut adopted_ids = BTreeSet::new();
         if let Some(id) = draft["originalCostRef"]["id"].as_str() {
             adopted_ids.insert(id.to_owned());
@@ -1182,19 +1300,38 @@ pub(crate) async fn build(
             return Err(store::conflict("operating_commitment_payment_overlap"));
         }
     }
+    let allocation_timing = Timing::for_capture(mode, first_period, window);
+    let mut late_allocation_refs = Vec::new();
     for result in catalog.all(Table::AllocationResult) {
         if result["project_id"] != project.to_string()
             || !matches!(result["status"].as_str(), Some("active" | "pending"))
         {
             continue;
         }
-        if mode != "restated"
-            && result["effective_at"].as_str().is_some_and(|_| {
-                sources::business_day(&result["effective_at"])
-                    .is_ok_and(|d| d > window.business_cutoff)
-            })
+        if let Some(qualification) = allocation_window_for_timing(
+            catalog,
+            Table::AllocationResult,
+            result,
+            window,
+            allocation_timing,
+        ) && qualification? == RestatementAllocationWindow::FutureBusiness
         {
             continue;
+        }
+        if sources::business_day(&result["effective_at"])? > window.business_cutoff {
+            match allocation_timing {
+                Timing::Realtime => continue,
+                Timing::Restatement => {} // every result was classified above
+                Timing::FirstPeriod(knowledge) => match late_allocation::qualify(
+                    catalog,
+                    result,
+                    window.business_cutoff,
+                    knowledge,
+                )? {
+                    Qualification::FutureBusiness => continue,
+                    Qualification::Eligible(trace) => late_allocation_refs.extend(trace.references),
+                },
+            }
         }
         registered_costs += 1;
         let Some(decision) = inclusion::current_decision(
@@ -1230,7 +1367,7 @@ pub(crate) async fn build(
                 catalog,
                 result,
                 window.business_cutoff,
-                mode == "restated",
+                allocation_timing,
             )
             .await?;
             included += 1;
@@ -1356,7 +1493,7 @@ pub(crate) async fn build(
     } else {
         None
     };
-    let mut scope_refs = Vec::new();
+    let mut scope_refs = late_allocation_refs;
     for value in [
         &contracts,
         &receipts,
@@ -1378,13 +1515,15 @@ pub(crate) async fn build(
             &serde_json::to_value(&original.baseline).map_err(|_| Error::Internal)?,
             &mut scope_refs,
         );
-    } else if let Some(handover) = draft.as_ref().and_then(|d| {
-        catalog.all(Table::Handover).iter().find(|h| {
-            h["basis_snapshot_id"] == d["handoverBasisRef"]["id"]
-                && h["producer_version"] == 1
-                && matches!(h["status"].as_str(), Some("confirmed" | "superseded"))
+    } else if !first_period
+        && let Some(handover) = draft.as_ref().and_then(|d| {
+            catalog.all(Table::Handover).iter().find(|h| {
+                h["basis_snapshot_id"] == d["handoverBasisRef"]["id"]
+                    && h["producer_version"] == 1
+                    && matches!(h["status"].as_str(), Some("confirmed" | "superseded"))
+            })
         })
-    }) {
+    {
         scope_refs.push(sources::reference(Table::Handover, handover)?);
     }
     for cost in &costs {
@@ -1454,6 +1593,16 @@ pub(crate) async fn build(
                 baseline
                     .map(|b| sources::reference(Table::Baseline, b))
                     .transpose()?
+                    .or_else(|| {
+                        draft.as_ref().map(|d| {
+                            d[if key == "originalBaselineCost" {
+                                "originalCostRef"
+                            } else {
+                                "currentCostRef"
+                            }]
+                            .clone()
+                        })
+                    })
                     .into_iter()
                     .collect(),
                 "source-basis-value",
@@ -1513,6 +1662,14 @@ pub(crate) async fn build(
         .map(|h| sources::reference(Table::Handover, h))
         .transpose()?
         .unwrap_or(Value::Null);
+    if first_period {
+        // The selector proves the exact historical handover. A later handover
+        // which reused this basis must not win an unordered catalog search.
+        payload["baseline"]["handoverRef"] = draft
+            .as_ref()
+            .map(|d| d["historicalPeriodSelection"]["handoverRef"].clone())
+            .unwrap_or(Value::Null);
+    }
     let mut constraints = Vec::<Value>::new();
     if let Some(estimate) = draft
         .as_ref()
@@ -1551,6 +1708,50 @@ pub(crate) async fn build(
         serde_json::from_value(payload.take()).map_err(|_| Error::Internal)?;
     context.source_hash = hash::source_hash(&context)?.as_str().to_owned();
     Ok(context)
+}
+
+/// Existing period budgets are an immutable source-member inheritance. Their
+/// present lifecycle row is never used to mint a replacement historical ref.
+fn frozen_period_baseline_member(reference: &SourceRef, record: Value) -> Result<Value, Error> {
+    if canonical_hash(&record)? != reference.payload_hash
+        || sources::reference(Table::Baseline, &record)?
+            != serde_json::to_value(reference).map_err(|_| Error::Internal)?
+        || record["producer_version"] != 1
+    {
+        return Err(store::conflict("period_baseline_reconciliation_required"));
+    }
+    Ok(record)
+}
+
+#[cfg(test)]
+mod historical_member273_tests {
+    use super::*;
+    #[test]
+    fn old_period_inherits_exact_original_payload_instead_of_later_lifecycle() {
+        let row = json!({"id":Uuid::from_u128(100),"project_id":Uuid::from_u128(1),"row_version":1,"producer_version":1,"is_current":true,"status":"active"});
+        let frozen = sources::factual_payload(Table::Baseline, &row);
+        let reference: SourceRef =
+            serde_json::from_value(sources::reference(Table::Baseline, &row).unwrap()).unwrap();
+        assert_eq!(
+            frozen_period_baseline_member(&reference, frozen.clone()).unwrap(),
+            frozen
+        );
+        let mut later = row;
+        later["row_version"] = json!(2);
+        later["status"] = json!("superseded");
+        later["is_current"] = json!(false);
+        assert!(
+            frozen_period_baseline_member(
+                &reference,
+                sources::factual_payload(Table::Baseline, &later)
+            )
+            .is_err()
+        );
+        assert_eq!(
+            frozen_period_baseline_member(&reference, frozen.clone()).unwrap(),
+            frozen
+        );
+    }
 }
 
 fn cost_source_ref(catalog: &Catalog, cost: &Value) -> Result<Value, Error> {
@@ -1863,5 +2064,599 @@ mod foreign_fiscal_source84_tests {
             &json!({"project_id":null}),
             project
         ));
+    }
+}
+
+#[cfg(test)]
+mod restatement_cutoff344_tests {
+    use super::*;
+    use crate::project_cost_governance::{AllocationShare, allocate_source_layers};
+    use crate::project_operating_common::model::{
+        CreateOperatingRestatementRequestScope, OperatingPreparationIntent,
+    };
+    use chrono::{DateTime, NaiveDate, Utc};
+
+    // Complete synthetic F graph, copied from the already registered qualifier
+    // fixture. It is not a claim of any real project, source or business write.
+    fn instant(value: &Value) -> Result<DateTime<Utc>, Error> {
+        DateTime::parse_from_rfc3339(value.as_str().ok_or(Error::Internal)?)
+            .map(|v| v.with_timezone(&Utc))
+            .map_err(|_| Error::Internal)
+    }
+    fn uid(n: u128) -> Value {
+        json!(Uuid::from_u128(n))
+    }
+    fn money(n: i128, scale: u32) -> Value {
+        let base = 10_i128.pow(scale);
+        json!(format!(
+            "{}.{:0width$}",
+            n / base,
+            n % base,
+            width = scale as usize
+        ))
+    }
+    fn now() -> DateTime<Utc> {
+        instant(&json!("2026-11-10T00:00:00Z")).unwrap()
+    }
+    fn cutoff() -> NaiveDate {
+        NaiveDate::from_ymd_opt(2026, 11, 8).unwrap()
+    }
+    fn insert(c: &mut Catalog, t: Table, v: Value) {
+        c.rows.entry(t).or_default().push(v);
+    }
+    fn proof(
+        c: &mut Catalog,
+        target: &Value,
+        kind: &str,
+        id: u128,
+        payload: Value,
+        time: &str,
+        project: Value,
+    ) {
+        insert(
+            c,
+            Table::Evidence,
+            json!({"id":uid(id),"target_type":kind,"target_id":target["id"],"project_id":project,
+        "schema_version":1,"evidence_kind":"source-facts","frozen_payload":payload,"payload_hash":canonical_hash(&payload).unwrap(),
+        "reason":"Actual governed allocation","actor_id":uid(90),"request_id":format!("fixture-{id}"),"created_at":time}),
+        );
+    }
+    fn fixture(replacement: bool) -> (Catalog, Value) {
+        let mut c = Catalog::default();
+        for (n, net, tax, day) in [(1, 10, 1, "2026-10-01"), (2, 1, 0, "2026-11-08")] {
+            let original = json!({"id":uid(n+50),"row_version":1});
+            insert(
+                &mut c,
+                Table::Cost,
+                json!({"id":uid(n),"project_id":uid(10),"row_version":1,"record_status":"confirmed",
+            "source_type":"expense-record","source_id":uid(n+50),"currency":"CNY","occurred_on":day,
+            "source_basis":{"sourceRowVersion":1,"sourcePayload":original},
+            "amount_excluding_tax":money(net,2),"tax_cost_amount":money(tax,2),"amount_including_tax":money(net+tax,2),
+            "created_at":"2026-11-08T00:00:00Z","updated_at":"2026-11-08T00:00:00Z"}),
+            );
+        }
+        batch(&mut c, 100, None, "2026-11-09T00:00:00Z", [1, 1]);
+        if replacement {
+            for table in [Table::AllocationBasis, Table::AllocationResult] {
+                for row in c.rows.get_mut(&table).unwrap() {
+                    row["status"] = json!("superseded");
+                    row["row_version"] = json!(2);
+                    row["updated_at"] = json!("2026-11-09T01:00:00Z");
+                }
+            }
+            for s in c.rows.get_mut(&Table::AllocationSource).unwrap() {
+                s["is_current"] = json!(false);
+            }
+            batch(&mut c, 200, Some(100), "2026-11-09T01:00:00Z", [2, 1]);
+        }
+        let id = if replacement { 201 } else { 101 };
+        let r = c
+            .find(Table::AllocationResult, Uuid::from_u128(id))
+            .unwrap()
+            .clone();
+        (c, r)
+    }
+    fn batch(c: &mut Catalog, id: u128, previous: Option<u128>, time: &str, weights: [i128; 2]) {
+        let mut frozen = Vec::new();
+        for cost in c.all(Table::Cost).to_vec() {
+            let original = &cost["source_basis"]["sourcePayload"];
+            let hash = canonical_hash(original).unwrap();
+            let source = json!({"sourceType":cost["source_type"],"sourceId":cost["source_id"],"sourceRowVersion":1,
+            "sourcePayload":original,
+            "currency":"CNY","occurredOn":cost["occurred_on"],"amountExcludingTax":cost["amount_excluding_tax"],
+            "taxCostAmount":cost["tax_cost_amount"],"amountIncludingTax":cost["amount_including_tax"],
+            "governanceVersionProof":{"costRecordId":cost["id"],"sourceType":cost["source_type"],"sourceId":cost["source_id"],
+                "capturedVersion":1,"capturedPayloadHash":hash,"previousCertifiedVersion":1,"previousPayloadHash":hash,
+                "currentVersion":1,"currentPayloadHash":hash,"sourcePayload":original,"reason":"unchanged"}});
+            let payload = json!({"cost":cost,"source":source});
+            insert(
+                c,
+                Table::AllocationSource,
+                json!({"basis_id":uid(id),"cost_record_id":cost["id"],"cost_row_version":1,
+            "source_type":cost["source_type"],"source_id":cost["source_id"],"source_row_version":1,"currency":"CNY",
+            "amount_excluding_tax":cost["amount_excluding_tax"],"tax_cost_amount":cost["tax_cost_amount"],"amount_including_tax":cost["amount_including_tax"],
+            "source_payload":payload,"source_payload_hash":canonical_hash(&payload).unwrap(),"is_current":true,"created_at":time}),
+            );
+            frozen.push(payload);
+        }
+        use sha2::{Digest, Sha256};
+        let ids = [
+            Uuid::from_u128(1).to_string(),
+            Uuid::from_u128(2).to_string(),
+        ]
+        .join("|");
+        let scope_hash = Sha256::digest(ids.as_bytes())
+            .iter()
+            .map(|b| format!("{b:02x}"))
+            .collect::<String>();
+        let basis = json!({"id":uid(id),"row_version":1,"status":"active","governance_schema_version":1,"currency":"CNY",
+        "allocation_algorithm":"largest-remainder-cents-v1","replacement_operation_id":uid(id+50),"replacement_reason":previous.map(|_|"Actual correction"),
+        "supersedes_id":previous.map(Uuid::from_u128),"governance_evidence_id":uid(id+10),"created_at":time,"updated_at":time,"effective_at":time,"created_by":uid(90),
+        "measurement_basis":"including-tax","source_amount_excluding_tax":"0.11","source_tax_cost_amount":"0.01","source_amount_including_tax":"0.12","measurement_amount":"0.12",
+        "source_cost_scope_key":format!("cost-scope:{scope_hash}")});
+        let items = json!([{"projectId":uid(10),"allocationWeight":money(weights[0],6)},{"projectId":uid(20),"allocationWeight":money(weights[1],6)}]);
+        let policy = json!({"id":"selected-measurement-first","version":2,"measurementBasis":"including-tax",
+        "grossComponents":"gross-cap-net-tax-complement","tieBreak":"project-uuid-bytes-ascending","secondaryQuota":"bounded-largest-deficit"});
+        let transitions = frozen
+            .iter()
+            .map(|s| s["source"]["governanceVersionProof"].clone())
+            .collect::<Vec<_>>();
+        let payload = json!({"sources":frozen,"sourceVersionTransitions":transitions,"measurementBasis":"including-tax","totals":["0.11","0.01","0.12"],"currency":"CNY",
+        "projectShares":items,"algorithm":"largest-remainder-cents-v1","predecessorBasisId":basis["supersedes_id"],"allocationPolicy":policy});
+        proof(
+            c,
+            &basis,
+            "SharedCostAllocationBasis",
+            id + 10,
+            payload,
+            time,
+            Value::Null,
+        );
+        insert(c, Table::AllocationBasis, basis);
+        let shares = [
+            AllocationShare {
+                project: *Uuid::from_u128(10).as_bytes(),
+                weight: weights[0],
+            },
+            AllocationShare {
+                project: *Uuid::from_u128(20).as_bytes(),
+                weight: weights[1],
+            },
+        ];
+        for (i, a) in allocate_source_layers([Some(11), Some(1), Some(12)], &shares, 2)
+            .unwrap()
+            .iter()
+            .enumerate()
+        {
+            let result = json!({"id":uid(id+i as u128+1),"basis_id":uid(id),"project_id":json!(Uuid::from_bytes(a.project)),"row_version":1,"status":"active","governance_schema_version":1,
+            "currency":"CNY","replacement_operation_id":uid(id+50),"supersedes_id":previous.map(|p|Uuid::from_u128(p+i as u128+1)),"governance_evidence_id":uid(id+20+i as u128),
+            "created_at":time,"updated_at":time,"effective_at":time,"created_by":uid(90),"allocation_weight":money(weights[i],6),
+            "allocated_amount_excluding_tax":a.layers[0].map(|n|money(n,2)),"allocated_tax_cost_amount":a.layers[1].map(|n|money(n,2)),"allocated_amount_including_tax":a.layers[2].map(|n|money(n,2)),
+            "allocated_amount":money(a.amount,2),"allocation_ratio":money(a.ratio,6),"residual_minor_units":a.residual});
+            let payload = json!({"basisId":uid(id),"basisEvidenceId":uid(id+10),"allocation":items[i],"allocationPolicy":policy,"sourceVersionTransitions":transitions,
+            "layers":a.layers.map(|v|v.map(|n|money(n,2))),"amount":money(a.amount,2),"ratio":money(a.ratio,6),"residualMinorUnits":a.residual,"predecessorResultId":result["supersedes_id"]});
+            proof(
+                c,
+                &result,
+                "SharedCostAllocationResult",
+                id + 20 + i as u128,
+                payload,
+                time,
+                result["project_id"].clone(),
+            );
+            insert(c, Table::AllocationResult, result);
+        }
+    }
+
+    fn mutate(c: &mut Catalog, table: Table, id: u128, f: impl FnOnce(&mut Value)) {
+        f(c.rows
+            .get_mut(&table)
+            .unwrap()
+            .iter_mut()
+            .find(|r| r["id"] == uid(id))
+            .unwrap());
+    }
+    fn actual_source_day(c: &mut Catalog, id: u128, day: &str) {
+        mutate(c, Table::Cost, id, |r| r["occurred_on"] = json!(day));
+        for s in c.rows.get_mut(&Table::AllocationSource).unwrap() {
+            if s["cost_record_id"] == uid(id) {
+                s["source_payload"]["cost"]["occurred_on"] = json!(day);
+                s["source_payload"]["source"]["occurredOn"] = json!(day);
+                s["source_payload_hash"] = json!(canonical_hash(&s["source_payload"]).unwrap());
+            }
+        }
+        let snapshots = c.all(Table::AllocationSource).to_vec();
+        for e in c.rows.get_mut(&Table::Evidence).unwrap() {
+            if e["target_type"] == "SharedCostAllocationBasis" {
+                e["frozen_payload"]["sources"] = json!(
+                    snapshots
+                        .iter()
+                        .filter(|s| s["basis_id"] == e["target_id"])
+                        .map(|s| s["source_payload"].clone())
+                        .collect::<Vec<_>>()
+                );
+                e["payload_hash"] = json!(canonical_hash(&e["frozen_payload"]).unwrap());
+            }
+        }
+    }
+
+    fn window() -> OperatingBusinessWindow {
+        OperatingBusinessWindow {
+            business_cutoff: cutoff(),
+            knowledge_cutoff: now(),
+            source_window_start: None,
+            source_window_end: Some(cutoff()),
+            period_key: None,
+            business_timezone: "Asia/Hong_Kong".into(),
+        }
+    }
+    fn future_fixture(replacement: bool) -> (Catalog, Value) {
+        let (mut c, r) = fixture(replacement);
+        actual_source_day(&mut c, 2, "2026-11-09");
+        (c, r)
+    }
+    fn classify(c: &Catalog, r: &Value) -> Result<RestatementAllocationWindow, Error> {
+        restatement_allocation_window(c, r, &window())
+    }
+    fn restatement_hash(c: &Catalog) -> String {
+        let intent = OperatingPreparationIntent::Restatement {
+            scope: CreateOperatingRestatementRequestScope::Live,
+            restates_snapshot: ExpectedRef {
+                kind: "OperatingSnapshot".into(),
+                id: Uuid::from_u128(900),
+                expected_version: 1,
+                payload_hash: "a".repeat(64),
+            },
+            period_end_snapshot: None,
+            correction_source_refs: vec![],
+        };
+        super::super::preparation::input_hash(
+            Uuid::from_u128(10),
+            &intent,
+            &window(),
+            &json!({"id":uid(10),"row_version":1}),
+            c,
+            &[],
+        )
+        .unwrap()
+    }
+
+    #[test]
+    fn restatement_keeps_legal_in_window_create_and_replacement() {
+        for replacement in [false, true] {
+            let (c, r) = fixture(replacement);
+            assert_eq!(
+                classify(&c, &r).unwrap(),
+                RestatementAllocationWindow::InWindow
+            );
+            assert_eq!(
+                r["effective_at"],
+                if replacement {
+                    "2026-11-09T01:00:00Z"
+                } else {
+                    "2026-11-09T00:00:00Z"
+                }
+            );
+        }
+    }
+
+    #[test]
+    fn in_window_restatement_does_not_gain_first_period_policy_requirement() {
+        let (mut c, r) = fixture(false);
+        for e in c.rows.get_mut(&Table::Evidence).unwrap() {
+            e["frozen_payload"]
+                .as_object_mut()
+                .unwrap()
+                .remove("allocationPolicy");
+            e["payload_hash"] = json!(canonical_hash(&e["frozen_payload"]).unwrap());
+        }
+        assert!(late_allocation::qualify(&c, &r, cutoff(), now()).is_err());
+        assert_eq!(
+            classify(&c, &r).unwrap(),
+            RestatementAllocationWindow::InWindow
+        );
+    }
+
+    #[test]
+    fn proven_future_mixed_batch_is_excluded_whole_without_mutating_sources() {
+        for replacement in [false, true] {
+            let (c, r) = future_fixture(replacement);
+            let before = c.members().unwrap();
+            assert_eq!(
+                classify(&c, &r).unwrap(),
+                RestatementAllocationWindow::FutureBusiness
+            );
+            assert_eq!(c.members().unwrap(), before);
+            assert_eq!(
+                c.all(Table::AllocationResult).len(),
+                if replacement { 4 } else { 2 }
+            );
+            assert_eq!(
+                c.all(Table::AllocationSource).len(),
+                if replacement { 4 } else { 2 }
+            );
+        }
+    }
+
+    #[test]
+    fn future_does_not_hide_a_later_missing_source_in_either_row_order() {
+        for reverse in [false, true] {
+            let (mut c, r) = future_fixture(false);
+            c.rows
+                .get_mut(&Table::Cost)
+                .unwrap()
+                .retain(|cost| cost["id"] != uid(1));
+            if reverse {
+                c.rows.get_mut(&Table::AllocationSource).unwrap().reverse();
+            }
+            assert!(classify(&c, &r).is_err());
+        }
+    }
+
+    #[test]
+    fn future_does_not_hide_bad_date_in_either_row_order() {
+        for reverse in [false, true] {
+            let (mut c, r) = future_fixture(false);
+            mutate(&mut c, Table::Cost, 1, |v| v["occurred_on"] = Value::Null);
+            if reverse {
+                c.rows.get_mut(&Table::AllocationSource).unwrap().reverse();
+            }
+            assert!(classify(&c, &r).is_err());
+        }
+    }
+
+    #[test]
+    fn empty_missing_basis_and_missing_frozen_member_never_mean_future() {
+        let (mut empty, r) = future_fixture(false);
+        empty
+            .rows
+            .get_mut(&Table::AllocationSource)
+            .unwrap()
+            .clear();
+        assert!(classify(&empty, &r).is_err());
+        let (mut no_basis, r) = future_fixture(false);
+        no_basis.rows.remove(&Table::AllocationBasis);
+        assert!(classify(&no_basis, &r).is_err());
+        let (mut missing, r) = future_fixture(false);
+        // Retain the future source, but lose an earlier physical member that is
+        // still declared by the frozen source set. Complete qualification fails.
+        missing
+            .rows
+            .get_mut(&Table::AllocationSource)
+            .unwrap()
+            .retain(|s| s["cost_record_id"] == uid(2));
+        assert!(classify(&missing, &r).is_err());
+    }
+
+    #[test]
+    fn future_requires_complete_peer_and_ancestor_identity() {
+        let (mut no_peer, r) = future_fixture(false);
+        no_peer
+            .rows
+            .get_mut(&Table::AllocationResult)
+            .unwrap()
+            .retain(|p| p["id"] == r["id"]);
+        assert!(classify(&no_peer, &r).is_err());
+        let (mut no_parent, r) = future_fixture(true);
+        no_parent
+            .rows
+            .get_mut(&Table::AllocationBasis)
+            .unwrap()
+            .retain(|p| p["id"] != uid(100));
+        assert!(classify(&no_parent, &r).is_err());
+        let (mut wrong_parent, r) = future_fixture(true);
+        mutate(&mut wrong_parent, Table::AllocationResult, 201, |p| {
+            p["supersedes_id"] = uid(102)
+        });
+        assert!(classify(&wrong_parent, &r).is_err());
+    }
+
+    #[test]
+    fn future_requires_real_evidence_versions_money_and_currency() {
+        for defect in 0..5 {
+            let (mut c, r) = future_fixture(false);
+            match defect {
+                0 => {
+                    c.rows.get_mut(&Table::Evidence).unwrap().remove(0);
+                }
+                1 => mutate(&mut c, Table::Evidence, 110, |p| {
+                    p["payload_hash"] = json!("b".repeat(64))
+                }),
+                2 => mutate(&mut c, Table::Cost, 2, |p| p["row_version"] = json!(2)),
+                3 => mutate(&mut c, Table::AllocationResult, 102, |p| {
+                    p["allocated_tax_cost_amount"] = json!("100.00")
+                }),
+                _ => mutate(&mut c, Table::AllocationResult, 102, |p| {
+                    p["currency"] = json!("USD")
+                }),
+            }
+            assert!(classify(&c, &r).is_err(), "defect {defect}");
+        }
+    }
+
+    #[test]
+    fn future_gate_uses_each_actual_knowledge_window_without_get_cache() {
+        let (c, r) = future_fixture(false);
+        let mut before_birth = window();
+        before_birth.knowledge_cutoff = instant(&json!("2026-11-08T23:59:59Z")).unwrap();
+        assert!(restatement_allocation_window(&c, &r, &before_birth).is_err());
+        assert_eq!(
+            classify(&c, &r).unwrap(),
+            RestatementAllocationWindow::FutureBusiness
+        );
+        // A later locked observation must still inspect current data, rather
+        // than reuse the success of the previous coherent GET.
+        let mut after_get = c.clone();
+        mutate(&mut after_get, Table::Cost, 2, |p| {
+            p["row_version"] = json!(2)
+        });
+        assert!(classify(&after_get, &r).is_err());
+    }
+
+    #[test]
+    fn eligible_proof_cannot_authorize_a_future_scan_disagreement() {
+        let (c, r) = fixture(false);
+        let actual = late_allocation::qualify(&c, &r, cutoff(), now()).unwrap();
+        assert!(matches!(&actual, Qualification::Eligible(_)));
+        assert!(confirmed_future_allocation(actual).is_err());
+    }
+
+    #[test]
+    fn actual_restatement_input_hash_binds_supported_versions_current_and_payload() {
+        let (original, r) = future_fixture(false);
+        let before_hash = restatement_hash(&original);
+        let before_result = sources::reference(Table::AllocationResult, &r).unwrap();
+        for change in 0..5 {
+            let mut c = original.clone();
+            match change {
+                0 => mutate(&mut c, Table::AllocationBasis, 100, |p| {
+                    p["row_version"] = json!(2);
+                    p["updated_at"] = json!("2026-11-09T02:00:00Z");
+                    p["status"] = json!("superseded");
+                }),
+                1 => mutate(&mut c, Table::AllocationResult, 101, |p| {
+                    p["row_version"] = json!(2);
+                    p["updated_at"] = json!("2026-11-09T02:00:00Z");
+                    p["is_included_in_project_cost"] = json!(true);
+                }),
+                2 => {
+                    c.rows.get_mut(&Table::AllocationSource).unwrap()[0]["is_current"] =
+                        json!(false)
+                }
+                3 => mutate(&mut c, Table::Cost, 2, |p| {
+                    p["row_version"] = json!(2);
+                    p["record_status"] = json!("included");
+                    p["updated_at"] = json!("2026-11-09T02:00:00Z");
+                }),
+                _ => {
+                    let mut proof = c.all(Table::Evidence)[0].clone();
+                    proof["id"] = uid(999);
+                    proof["request_id"] = json!("new-real-append");
+                    insert(&mut c, Table::Evidence, proof);
+                }
+            }
+            assert_ne!(restatement_hash(&c), before_hash, "change {change}");
+            if change == 1 {
+                assert_ne!(
+                    sources::reference(
+                        Table::AllocationResult,
+                        c.find(Table::AllocationResult, Uuid::from_u128(101))
+                            .unwrap()
+                    )
+                    .unwrap(),
+                    before_result
+                );
+            }
+        }
+        let mut payload_change = original.clone();
+        let member = &mut payload_change
+            .rows
+            .get_mut(&Table::AllocationSource)
+            .unwrap()[0];
+        member["source_payload"]["source"]["currency"] = json!("USD");
+        member["source_payload_hash"] = json!(canonical_hash(&member["source_payload"]).unwrap());
+        assert_ne!(restatement_hash(&payload_change), before_hash);
+        assert!(classify(&payload_change, &r).is_err());
+    }
+
+    #[test]
+    fn real_dispatch_excludes_future_source_when_f_clock_is_equal_or_before_cutoff() {
+        for business_cutoff in [
+            NaiveDate::from_ymd_opt(2026, 11, 9).unwrap(),
+            NaiveDate::from_ymd_opt(2026, 11, 10).unwrap(),
+        ] {
+            let (mut c, r) = fixture(false);
+            // Lawful synthetic future-dated expense source; retain F's original
+            // real production clock. Neither result nor source dates are moved
+            // backwards to turn future business into late in-window business.
+            actual_source_day(&mut c, 2, "2026-11-11");
+            let original_result = r.clone();
+            let mut w = window();
+            w.business_cutoff = business_cutoff;
+            w.source_window_end = Some(business_cutoff);
+            w.knowledge_cutoff = instant(&json!("2026-11-12T00:00:00Z")).unwrap();
+            assert!(sources::business_day(&r["effective_at"]).unwrap() <= w.business_cutoff);
+            let dispatched = allocation_window_for_timing(
+                &c,
+                Table::AllocationResult,
+                &r,
+                &w,
+                Timing::Restatement,
+            )
+            .unwrap();
+            assert_eq!(
+                dispatched.as_ref().unwrap(),
+                &RestatementAllocationWindow::FutureBusiness
+            );
+            // This is the same actual reason helper used by source_rows, and
+            // the same dispatch/result used before build's old effective gate.
+            assert_eq!(
+                restatement_window_reason(&dispatched, false),
+                Some("outside-business-cutoff")
+            );
+            assert_eq!(r, original_result);
+            assert_eq!(c.all(Table::AllocationSource).len(), 2);
+            assert_eq!(c.all(Table::AllocationResult).len(), 2);
+        }
+    }
+
+    #[test]
+    fn real_dispatch_blocks_missing_source_before_the_f_clock_gate() {
+        let (mut c, r) = fixture(false);
+        actual_source_day(&mut c, 2, "2026-11-11");
+        c.rows
+            .get_mut(&Table::Cost)
+            .unwrap()
+            .retain(|cost| cost["id"] != uid(1));
+        let mut w = window();
+        w.business_cutoff = NaiveDate::from_ymd_opt(2026, 11, 10).unwrap();
+        w.knowledge_cutoff = instant(&json!("2026-11-12T00:00:00Z")).unwrap();
+        for reverse in [false, true] {
+            if reverse {
+                c.rows.get_mut(&Table::AllocationSource).unwrap().reverse();
+            }
+            let dispatched = allocation_window_for_timing(
+                &c,
+                Table::AllocationResult,
+                &r,
+                &w,
+                Timing::Restatement,
+            )
+            .unwrap();
+            assert!(dispatched.is_err());
+            assert_eq!(restatement_window_reason(&dispatched, false), None);
+        }
+    }
+
+    #[test]
+    fn shared_dispatch_leaves_realtime_first_period_and_other_source_kinds_unchanged() {
+        let (c, r) = fixture(false);
+        for timing in [Timing::Realtime, Timing::FirstPeriod(now())] {
+            assert!(
+                allocation_window_for_timing(&c, Table::AllocationResult, &r, &window(), timing)
+                    .is_none()
+            );
+        }
+        assert!(
+            allocation_window_for_timing(&c, Table::Cost, &r, &window(), Timing::Restatement)
+                .is_none()
+        );
+        let dispatched = allocation_window_for_timing(
+            &c,
+            Table::AllocationResult,
+            &r,
+            &window(),
+            Timing::Restatement,
+        )
+        .unwrap();
+        assert_eq!(
+            dispatched.as_ref().unwrap(),
+            &RestatementAllocationWindow::InWindow
+        );
+        assert_eq!(restatement_window_reason(&dispatched, false), None);
+        assert_eq!(
+            restatement_window_reason(&dispatched, true),
+            Some("late-produced-allocation-full-in-window")
+        );
     }
 }

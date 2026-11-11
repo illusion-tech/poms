@@ -6,22 +6,52 @@ import { ownedFile } from './context.mjs';
 import { sha, uuid } from './pure.mjs';
 import { capture } from './snapshot.mjs';
 import { assertRecorded, reconcileAttempt } from './ledger.mjs';
+import { currentCodeRegistry15, trustedSummaryBinary15 } from './source15-admission.mjs';
+import { currentCodeRegistry252, trustedSummaryBinary252 } from './same-m98-code-admission252.mjs';
+
+// Source14 selects Common only through its actual typed code-admission artifact.
+export function source14Summary257(ctx) {
+  assert.equal(ctx.epoch, 'g2-business14');
+  const registry = currentCodeRegistry252(ctx, { liveProcess: true, sourceFiles: true });
+  assert.equal(registry.schemaVersion, 4);
+  const pin = trustedSummaryBinary252(ctx, registry);
+  assert.equal(pin.file, registry.consumer.trustedSummaryBinary.file);
+  assert.equal(pin.rawBytesSha256, registry.consumer.trustedSummaryBinary.rawBytesSha256);
+  return pin;
+}
+
+
+export function source15Summary119(ctx) {
+  assert.equal(ctx.epoch, 'g2-business15');
+  const registry = currentCodeRegistry15(ctx, { liveProcess: true, sourceFiles: true });
+  assert.equal(registry.schemaVersion, 5); return trustedSummaryBinary15(ctx, registry);
+}
 
 export async function produceActualSummary(ctx) {
   const f = ctx.state.fixtures; assert(f.projectSourcesComplete && f.summaryInput && !f.summary);
   assert(!ctx.state.cleaned && !ctx.state.cleanupPlan && !ctx.state.blockedObservation);
   const source = `${ctx.win}/apps/poms-api-rust/examples/r4ghi_summary_producer08.rs`;
   const mirrorSource = `${ctx.mirror}/apps/poms-api-rust/examples/r4ghi_summary_producer08.rs`;
-  const binary = '/home/wangzishi/.cache/poms-r4ghi-target-ROOT/debug/examples/r4ghi_summary_producer08';
+  const selected15 = ctx.epoch === 'g2-business15' ? source15Summary119(ctx) : null;
+  const selected14 = ctx.epoch === 'g2-business14' ? source14Summary257(ctx) : null;
+  const binary = selected15 ? selected15.file : selected14 ? selected14.file : '/home/wangzishi/.cache/poms-r4ghi-target-ROOT/debug/examples/r4ghi_summary_producer08';
   const sourceBytes = ownedFile(source), mirrorBytes = ownedFile(mirrorSource);
   const binaryStat = fs.lstatSync(binary); assert(binaryStat.isFile() && !binaryStat.isSymbolicLink()); assert.equal(fs.realpathSync(binary), binary);
   const binaryBytes = fs.readFileSync(binary); // Cargo may hard-link its binary artifact to its own deps output.
+  if (selected15) assert.equal(sha(binaryBytes), selected15.rawBytesSha256);
+  if (selected14) assert.equal(sha(binaryBytes), selected14.rawBytesSha256);
   assert.equal(sha(sourceBytes), sha(mirrorBytes), 'Trusted seam build source differs from review source');
   const text = sourceBytes.toString('utf8');
   assert(text.includes('const NAMESPACE: &str = "poms-r4ghi"') && text.includes(`const BASE: &str = "${ctx.base}"`) && text.includes('r4ghi_control.marker'));
   assert(text.includes('"poms_r4ghi_rust_app"') && text.includes('"poms_r4ghi_rust"') && text.includes('25434') && text.includes('ApprovalCommonService::new'));
   const pins = { source: { file: source, rawBytesSha256: sha(sourceBytes) }, mirrorSource: { file: mirrorSource, rawBytesSha256: sha(mirrorBytes) }, binary: { file: binary, rawBytesSha256: sha(binaryBytes) } };
+  if (selected15) {
+    if (ctx.state.trustedSummarySeam15) assert.deepEqual(ctx.state.trustedSummarySeam15, pins); else ctx.state.trustedSummarySeam15 = pins;
+  } else if (selected14) {
+    if (ctx.state.trustedSummarySeam14) assert.deepEqual(ctx.state.trustedSummarySeam14, pins); else ctx.state.trustedSummarySeam14 = pins;
+  } else {
   if (ctx.state.trustedSummarySeam) assert.deepEqual(ctx.state.trustedSummarySeam, pins); else ctx.state.trustedSummarySeam = pins;
+  }
   const input = ownedFile(f.summaryInput.file); assert.equal(sha(input), f.summaryInput.rawBytesSha256);
   const request = JSON.parse(input); assert.equal(request.expectedInstanceId, ctx.identity.marker); assert.equal(request.actorId, ctx.state.actors.manager.id);
   assert.equal(request.projectId, f.project.id); assert.equal(request.costPackageId, f.cost.id); assert.equal(request.baselineId, f.baseline.id);

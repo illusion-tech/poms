@@ -1,3 +1,5 @@
+import {assertCodeEpochContext15,assertRetainedFixture15} from './source15-admission.mjs';
+import {assertCodeEpochContext252,assertRetainedFixture252} from './same-m98-code-admission252.mjs';
 // Synchronous, read-only provenance checks. No top-level I/O/await or permission mint.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -82,6 +84,8 @@ export function assertAdmittedContext54(ctx, { liveProcess = false, sourceFiles 
   const admission = ctx.state.consumerAdmission54; assert(admission && admission.registry, 'Explicit retained-data admission is required');
   within54(ctx.priv, admission.registry.file); const registry = JSON.parse(readPin54(admission.registry));
   assert.equal(registry.kind, 'verified-retained-data-consumer-registry54'); assert.equal(registry.namespace, ctx.namespace); assert.equal(registry.marker, ctx.state.marker);
+  if (registry.schemaVersion === 5) return assertCodeEpochContext15(ctx, registry, {liveProcess,sourceFiles});
+  if (registry.schemaVersion === 4) return assertCodeEpochContext252(ctx, registry, {liveProcess,sourceFiles});
   assert.equal(registry.consumer.epoch, ctx.epoch); assert.equal(registry.consumer.run, ctx.run);
   const digest = sha(JSON.stringify(ctx.pins)); assert.equal(digest, registry.consumer.sourcePinsSHA256); assert.deepEqual(ctx.state.sourcePins, ctx.pins);
   const pins = JSON.parse(readPin54(registry.consumer.sourcePins)); assert.deepEqual(pins, ctx.pins);
@@ -103,6 +107,8 @@ export function assertAdmittedFixtureSource(ctx, { registryPath, record, project
   const current = sha(JSON.stringify(ctx.pins));
   const registry = ctx.state.consumerAdmission54 ? assertAdmittedContext54(ctx) : null;
   const entry = registry?.fixtureAdmissions.find(value => value.registryPath === registryPath);
+  if (registry?.schemaVersion === 5 && entry) return assertRetainedFixture15(ctx, registry, {registryPath,record,projectIds,producerReceipt});
+  if (registry?.schemaVersion === 4 && entry) return assertRetainedFixture252(ctx, registry, {registryPath,record,projectIds,producerReceipt});
   // An explicitly retained path is permanently an old producer identity. Its
   // source label cannot turn it into a fresh record and bypass the projection.
   if (!entry) {

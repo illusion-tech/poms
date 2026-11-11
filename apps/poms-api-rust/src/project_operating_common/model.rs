@@ -1367,7 +1367,7 @@ pub struct CreatePeriodClosingSnapshotRequest {
     #[serde(rename = "assertions")]
     pub assertions: Option<LegacyAssertions>,
     #[serde(rename = "baselinePackageRef")]
-    pub baseline_package_ref: ExpectedRef,
+    pub baseline_package_ref: Option<ExpectedRef>,
     #[serde(rename = "periodKey")]
     pub period_key: String,
     #[serde(rename = "expectedPeriodSnapshotRef")]
@@ -1451,7 +1451,7 @@ pub struct CreateProjectOperatingSnapshotRequest {
     #[serde(rename = "assertions")]
     pub assertions: Option<LegacyAssertions>,
     #[serde(rename = "baselinePackageRef")]
-    pub baseline_package_ref: ExpectedRef,
+    pub baseline_package_ref: Option<ExpectedRef>,
     #[serde(rename = "snapshotMode")]
     pub snapshot_mode: CreateProjectOperatingSnapshotRequestSnapshotMode,
     #[serde(rename = "periodKey")]
@@ -1966,6 +1966,33 @@ impl GrossMarginRateUse {
             Self::BusinessJudgment => "business-judgment",
         }
     }
+}
+
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct HistoricalPeriodBaselineSelection {
+    #[serde(rename = "policyVersion")]
+    pub policy_version: String,
+    #[serde(rename = "publicationMode")]
+    pub publication_mode: String,
+    #[serde(rename = "periodKey")]
+    pub period_key: String,
+    #[serde(rename = "businessCutoff")]
+    pub business_cutoff: NaiveDate,
+    #[serde(rename = "selectionHash")]
+    pub selection_hash: String,
+    #[serde(rename = "originalAdoptedCostRef")]
+    pub original_adopted_cost_ref: SourceRef,
+    #[serde(rename = "selectedAdoptedCostRef")]
+    pub selected_adopted_cost_ref: SourceRef,
+    #[serde(rename = "handoverBasisRef")]
+    pub handover_basis_ref: Option<SourceRef>,
+    #[serde(rename = "handoverRebaselineRef")]
+    pub handover_rebaseline_ref: Option<SourceRef>,
+    #[serde(rename = "adoptionSourceRefs")]
+    pub adoption_source_refs: Vec<SourceRef>,
+    #[serde(rename = "technicalLineageRefs")]
+    pub technical_lineage_refs: Vec<SourceRef>,
 }
 
 #[derive(
@@ -2779,6 +2806,8 @@ pub struct OperatingPreparation {
     pub blocking_reason_codes: Vec<String>,
     #[serde(rename = "proposedAffectedTargets")]
     pub proposed_affected_targets: Vec<AffectedRestatementTarget>,
+    #[serde(rename = "periodBaselineSelection")]
+    pub period_baseline_selection: Option<HistoricalPeriodBaselineSelection>,
 }
 
 #[derive(

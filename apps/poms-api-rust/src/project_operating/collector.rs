@@ -1,6 +1,6 @@
 //! The sole collector/prepare write pipeline, borrowing one outer transaction.
 use super::{
-    baseline, context, inclusion, preparation, restatement, sources,
+    baseline, capture, context, inclusion, period_baseline, preparation, restatement, sources,
     store::{self, Table},
 };
 use crate::{
@@ -179,31 +179,43 @@ pub async fn collect_with_session(
             generated_ids: plan.generated_ids.clone(),
         });
     }
-    store::semantic_current_baseline(session.connection, plan.project_id, false).await?;
-    let baseline = catalog
-        .all(Table::Baseline)
-        .iter()
-        .find(|b| b["is_current"] == true)
-        .ok_or_else(|| store::conflict("operating_baseline_required"))?;
+    // Keep the independent legacy-current admission guard, even when first
+    // close has no current package. Its new historical budget is selected from
+    // the same fully locked sources used by the expected input hash above.
+    let current =
+        store::semantic_current_baseline(session.connection, plan.project_id, false).await?;
+    let first_period = preparation::is_first_period(&plan.intent);
+    let historical = if first_period {
+        Some(period_baseline::select(
+            &catalog,
+            plan.project_id,
+            &plan.window,
+        )?)
+    } else {
+        None
+    };
     let decisions: &[CostDecisionInput] = match &plan.input {
         OperatingCollectInput::CaptureSnapshot(input) => {
-            sources::assert_expected(
-                &sources::reference(Table::Baseline, baseline)?,
-                &serde_json::to_value(&input.baseline_package_ref).map_err(|_| Error::Internal)?,
+            assert_capture_baseline(
+                first_period,
+                input.baseline_package_ref.as_ref(),
+                current.as_ref(),
             )?;
             &input.cost_decisions
         }
         OperatingCollectInput::ClosePeriod(input) => {
-            sources::assert_expected(
-                &sources::reference(Table::Baseline, baseline)?,
-                &serde_json::to_value(&input.baseline_package_ref).map_err(|_| Error::Internal)?,
-            )?;
+            assert_capture_baseline(true, input.baseline_package_ref.as_ref(), current.as_ref())?;
             if input.expected_period_snapshot_ref.is_some() {
                 return Err(store::conflict("period_snapshot_exists"));
             }
             &input.cost_decisions
         }
-        OperatingCollectInput::Restate(input) => &input.cost_decisions,
+        OperatingCollectInput::Restate(input) => {
+            if input.period_end_snapshot_ref.is_none() && current.is_none() {
+                return Err(store::conflict("operating_baseline_required"));
+            }
+            &input.cost_decisions
+        }
         OperatingCollectInput::Preview(_) => &[],
         OperatingCollectInput::ActivateBaseline(_) => return Err(Error::Internal),
     };
@@ -297,7 +309,7 @@ pub async fn collect_with_session(
                     &mapped,
                     &after,
                     cutoff.ok_or(Error::Internal)?,
-                    true,
+                    super::late_allocation::Timing::Restatement,
                     actor,
                     &predecessors,
                 )
@@ -312,11 +324,30 @@ pub async fn collect_with_session(
             decisions,
             &catalog,
             plan.window.business_cutoff,
-            false,
+            super::late_allocation::Timing::for_intent(&plan.intent, &plan.window),
             actor,
         )
         .await?;
     }
+    // Selection/CAS/legacy/absence and exact classification preconditions
+    // have all run. These writes belong to the same physical outer TX as the
+    // period, source members, H history, audit/auth and command receipt.
+    let historical_package = if write {
+        match historical.as_ref() {
+            Some(selection) => {
+                let draft = selection.draft(
+                    plan.generated_ids
+                        .baseline_source_id
+                        .ok_or(Error::Internal)?,
+                    plan.project_id,
+                )?;
+                Some(capture::historical_baseline(session, &draft, actor).await?)
+            }
+            None => None,
+        }
+    } else {
+        None
+    };
     let final_catalog = if write {
         sources::load(session, plan.project_id, false).await?
     } else {
@@ -372,7 +403,9 @@ pub async fn collect_with_session(
     // the published primary context must include those genuinely new facts.
     let final_window = final_collection_window(
         &plan.window,
-        write && matches!(plan.intent, OperatingPreparationIntent::Restatement { .. }),
+        write
+            && (first_period
+                || matches!(plan.intent, OperatingPreparationIntent::Restatement { .. })),
         crate::auth::model::clock_now(),
     );
     let ctx = context::build(
@@ -384,7 +417,15 @@ pub async fn collect_with_session(
         mode,
         restates,
         period,
-        None,
+        historical
+            .as_ref()
+            .map(|selection| match historical_package {
+                Some(package_id) => context::PeriodBaseline::Captured {
+                    selection,
+                    package_id,
+                },
+                None => context::PeriodBaseline::Preview(selection),
+            }),
     )
     .await?;
     let rows = context::source_rows(
@@ -392,7 +433,7 @@ pub async fn collect_with_session(
         plan.project_id,
         &final_catalog,
         &final_window,
-        matches!(plan.intent, OperatingPreparationIntent::Restatement { .. }),
+        super::late_allocation::Timing::for_intent(&plan.intent, &final_window),
         actor,
     )
     .await?;
@@ -404,6 +445,26 @@ pub async fn collect_with_session(
         producer_transitions: transitions,
         generated_ids: plan.generated_ids.clone(),
     })
+}
+
+fn assert_capture_baseline(
+    first_period: bool,
+    supplied: Option<&ExpectedRef>,
+    current: Option<&Value>,
+) -> Result<(), Error> {
+    if first_period {
+        if supplied.is_some() {
+            return Err(store::conflict("period_baseline_selection_changed"));
+        }
+        return Ok(());
+    }
+    let supplied = supplied
+        .ok_or_else(|| Error::BadRequest("Realtime snapshot requires baselinePackageRef".into()))?;
+    let current = current.ok_or_else(|| store::conflict("operating_baseline_required"))?;
+    sources::assert_expected(
+        &sources::reference(Table::Baseline, current)?,
+        &serde_json::to_value(supplied).map_err(|_| Error::Internal)?,
+    )
 }
 
 fn final_collection_window(
@@ -446,6 +507,24 @@ mod tests {
     use super::*;
     use serde_json::json;
     use uuid::Uuid;
+
+    #[test]
+    fn historical273_required_null_and_realtime_required_real_ref_are_distinct() {
+        let row = json!({"id":Uuid::from_u128(9),"project_id":Uuid::from_u128(1),"row_version":1,"producer_version":1,"is_current":true,"status":"active"});
+        let reference = sources::reference(Table::Baseline, &row).unwrap();
+        let expected:ExpectedRef=serde_json::from_value(json!({"kind":reference["kind"],"id":reference["id"],"expectedVersion":reference["rowVersion"],"payloadHash":reference["payloadHash"]})).unwrap();
+        assert!(assert_capture_baseline(true, None, None).is_ok());
+        assert!(assert_capture_baseline(true, None, Some(&row)).is_ok());
+        assert!(assert_capture_baseline(true, Some(&expected), Some(&row)).is_err());
+        assert!(matches!(
+            assert_capture_baseline(false, None, Some(&row)),
+            Err(Error::BadRequest(_))
+        ));
+        assert!(assert_capture_baseline(false, Some(&expected), Some(&row)).is_ok());
+        let mut changed = expected;
+        changed.expected_version += 1;
+        assert!(assert_capture_baseline(false, Some(&changed), Some(&row)).is_err());
+    }
 
     #[test]
     fn correction_lock_proof_covers_all_project_contexts_without_changing_economic_members() {

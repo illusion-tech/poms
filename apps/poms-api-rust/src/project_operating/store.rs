@@ -179,7 +179,27 @@ impl Table {
                 .join(",")
         )
     }
-    fn project_predicate(self) -> Result<&'static str, Error> {
+    fn project_predicate(self) -> Result<String, Error> {
+        // Complete shares/ancestors are internal qualification inputs. Every
+        // public/financial loop still filters the caller's actual project.
+        const BASIS_IDS: &str = "WITH RECURSIVE lineage(id) AS (\n SELECT b.id FROM poms.shared_cost_allocation_basis b WHERE\n b.id IN (SELECT basis_id FROM poms.shared_cost_allocation_result WHERE project_id=$1)\n OR b.id IN (SELECT s.basis_id FROM poms.shared_cost_allocation_source_snapshot s JOIN poms.project_actual_cost_record c ON c.id=s.cost_record_id WHERE c.project_id=$1)\n UNION SELECT b.supersedes_id FROM poms.shared_cost_allocation_basis b JOIN lineage l ON b.id=l.id WHERE b.supersedes_id IS NOT NULL\n) SELECT id FROM lineage";
+        match self {
+            Self::AllocationBasis => return Ok(format!("t.id IN ({BASIS_IDS})")),
+            Self::AllocationResult | Self::AllocationSource => {
+                return Ok(format!("t.basis_id IN ({BASIS_IDS})"));
+            }
+            Self::Cost => {
+                return Ok(format!(
+                    "t.project_id=$1 OR t.id IN (SELECT cost_record_id FROM poms.shared_cost_allocation_source_snapshot WHERE basis_id IN ({BASIS_IDS}))"
+                ));
+            }
+            Self::Evidence => {
+                return Ok(format!(
+                    "t.project_id=$1 OR t.id IN (SELECT governance_evidence_id FROM poms.shared_cost_allocation_basis WHERE id IN ({BASIS_IDS})) OR t.id IN (SELECT governance_evidence_id FROM poms.shared_cost_allocation_result WHERE basis_id IN ({BASIS_IDS})) OR t.id IN (SELECT governance_evidence_id FROM poms.cost_stage_attribution_snapshot WHERE cost_record_id IN (SELECT cost_record_id FROM poms.shared_cost_allocation_source_snapshot WHERE basis_id IN ({BASIS_IDS})))"
+                ));
+            }
+            _ => {}
+        }
         Ok(match self {
             Self::Term | Self::Preparation => {
                 "t.contract_id IN (SELECT id FROM poms.contract WHERE project_id=$1)"
@@ -204,12 +224,6 @@ impl Table {
                 "t.project_id=$1 OR t.id::text IN (SELECT c.source_id FROM poms.project_actual_cost_record c WHERE c.source_type='expense-record' AND c.id IN (SELECT s.cost_record_id FROM poms.shared_cost_allocation_source_snapshot s JOIN poms.shared_cost_allocation_result r ON r.basis_id=s.basis_id WHERE r.project_id=$1))"
             }
 
-            Self::AllocationBasis => {
-                "t.id IN (SELECT basis_id FROM poms.shared_cost_allocation_result WHERE project_id=$1) OR t.id IN (SELECT s.basis_id FROM poms.shared_cost_allocation_source_snapshot s JOIN poms.project_actual_cost_record c ON c.id=s.cost_record_id WHERE c.project_id=$1)"
-            }
-            Self::AllocationSource => {
-                "t.basis_id IN (SELECT basis_id FROM poms.shared_cost_allocation_result WHERE project_id=$1) OR t.cost_record_id IN (SELECT id FROM poms.project_actual_cost_record WHERE project_id=$1)"
-            }
             Self::Stage => {
                 "t.cost_record_id IN (SELECT id FROM poms.project_actual_cost_record WHERE project_id=$1 OR id IN (SELECT cost_record_id FROM poms.shared_cost_allocation_source_snapshot WHERE basis_id IN (SELECT basis_id FROM poms.shared_cost_allocation_result WHERE project_id=$1)))"
             }
@@ -222,18 +236,12 @@ impl Table {
             Self::AttachmentLink => {
                 "(t.target_type='project' AND t.target_id=$1) OR (t.target_type='contract' AND t.target_id IN (SELECT id FROM poms.contract WHERE project_id=$1))"
             }
-            Self::Evidence => {
-                "t.project_id=$1 OR t.id IN (SELECT governance_evidence_id FROM poms.cost_stage_attribution_snapshot WHERE cost_record_id IN (SELECT cost_record_id FROM poms.shared_cost_allocation_source_snapshot WHERE basis_id IN (SELECT basis_id FROM poms.shared_cost_allocation_result WHERE project_id=$1))) OR t.id IN (SELECT governance_evidence_id FROM poms.shared_cost_allocation_basis WHERE id IN (SELECT basis_id FROM poms.shared_cost_allocation_result WHERE project_id=$1) OR id IN (SELECT s.basis_id FROM poms.shared_cost_allocation_source_snapshot s JOIN poms.project_actual_cost_record c ON c.id=s.cost_record_id WHERE c.project_id=$1))"
-            }
             Self::Rate => {
                 "EXISTS(SELECT 1 FROM poms.project_actual_cost_record c WHERE c.source_type='labor' AND (c.project_id=$1 OR c.id IN (SELECT cost_record_id FROM poms.shared_cost_allocation_source_snapshot WHERE basis_id IN (SELECT basis_id FROM poms.shared_cost_allocation_result WHERE project_id=$1))) AND (t.id::text=c.source_id OR (((t.rate_scope_type='person' AND t.person_id=c.labor_person_id) OR (t.rate_scope_type='role' AND t.role_code=c.labor_role)) AND t.effective_from<=c.labor_period_end AND (t.effective_to IS NULL OR t.effective_to>=c.labor_period_start))))"
             }
-            Self::Cost => {
-                "t.project_id=$1 OR t.id IN (SELECT cost_record_id FROM poms.shared_cost_allocation_source_snapshot WHERE basis_id IN (SELECT basis_id FROM poms.shared_cost_allocation_result WHERE project_id=$1))"
-            }
-            Self::CostMember | Self::SourceMember => return Err(Error::Internal),
+            Self::AllocationBasis | Self::AllocationResult | Self::AllocationSource | Self::Evidence | Self::Cost | Self::CostMember | Self::SourceMember => return Err(Error::Internal),
             _ => "t.project_id=$1",
-        })
+        }.to_owned())
     }
 }
 

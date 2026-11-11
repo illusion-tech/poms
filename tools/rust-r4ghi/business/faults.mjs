@@ -14,6 +14,9 @@ async function identity(ctx, control) {
   });
 }
 export async function installFault(ctx, descriptor, requestId, before) {
+  if (descriptor.kind === 'source-bound-tax-continuation14-sweep') {
+    const { installTax14Fault } = await import('./tax14-sweep258.mjs'); return installTax14Fault(ctx, descriptor, requestId, before);
+  }
   if (descriptor.kind === 'source-bound-tax-continuation13-sweep') {
     const { installTax13Fault } = await import('./tax13-sweep.mjs'); return installTax13Fault(ctx, descriptor, requestId, before);
   }
@@ -71,6 +74,9 @@ END; $business_fi$`);
   return control;
 }
 export async function removeFault(ctx) {
+  if (ctx.state.activeFault?.kind === 'source-bound-tax-continuation14-sweep') {
+    const { removeTax14Fault } = await import('./tax14-sweep258.mjs'); return removeTax14Fault(ctx);
+  }
   if (ctx.state.activeFault?.kind === 'source-bound-tax-continuation13-sweep') {
     const { removeTax13Fault } = await import('./tax13-sweep.mjs'); return removeTax13Fault(ctx);
   }

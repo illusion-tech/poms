@@ -243,6 +243,7 @@ pub(crate) async fn derive(
         current_effective_baseline_cost: current,
         source_hash: Sha256::try_from("0".repeat(64))?,
         payload_hash: Sha256::try_from("0".repeat(64))?,
+        historical_period_selection: None,
     };
     let payload = serde_json::to_value(&draft).map_err(|_| Error::Internal)?;
     let mut factual = payload.clone();
