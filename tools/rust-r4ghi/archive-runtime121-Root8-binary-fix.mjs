@@ -1,0 +1,10 @@
+// Retain the reviewed Root8 binary-identity correction; no runtime effects.
+import fs from 'node:fs';import assert from 'node:assert/strict';
+import { C, assertOperatorHost121, json, local, pin, read } from './runtime-recovery121/root/facts121.mjs';
+assertOperatorHost121();const R=C.root,F=R+'/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-Root8-API-code-review02',O=R+'/tools/rust-r4ghi/independent/runtime121-Root8-binary-fix02';
+const checked=(file,hash)=>{const p=pin(file);assert.equal(p.rawBytesSha256,hash);return p;};
+const review=checked(F+'/review-Root8-API-code03-step121.json','577ef5922ecfe58420b121fab19c0069938c497170e2ad11fd783e496110d8b1'),manifest=checked(F+'/manifest.json','e599a8c19c260de8247a3fb103518d8020215625c55410920beab21fc81a79de');
+const r=json(review);assert.equal(r.kind,'non-author-runtime121-finite-code-step');assert.equal(r.verdict,'approved-bounded-step-only');assert.equal(r.reviewerIsAuthor,false);assert.equal(r.entries.length,8);assert.equal(r.componentManifest.rawBytesSha256,'aeb02ab6b034f96feb42c20f0cf2b42c5888b96c36f4b2a2d7b3c34a5ce4dd66');
+const sources=[review,manifest,...json(manifest).files.map(({file,bytes,rawBytesSha256})=>({file,bytes,rawBytesSha256}))],unique=[...new Map(sources.map(p=>[p.file,p])).values()];for(const p of unique)read(p);assert(!fs.existsSync(local(O)));fs.mkdirSync(local(O),{recursive:true});const copies=[];
+for(const p of unique){assert(p.file.startsWith(F+'/'));const file=O+'/'+p.file.slice(F.length+1);fs.writeFileSync(local(file),read(p),{flag:'wx'});const copy=checked(file,p.rawBytesSha256);assert.equal(copy.bytes,p.bytes);copies.push({original:p,copy});}
+fs.writeFileSync(local(O+'/raw-copies-provenance.json'),JSON.stringify({kind:'Root8-reviewed-binary-identity-correction',copies,Root8CodeStepOnly:true,oldAPIInput01Invalid:true,priorSourceGraphHistoricalOnly:true,actualAPIStarted:false,actualG2Authorized:false},null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({copies:copies.length,review,APIStarted:false}));

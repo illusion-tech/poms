@@ -167,7 +167,9 @@ async function preflight(p) {
   for(const k of ['containerCreated','volumeCreated','migrationOrBackupRestore','businessDML','APIStarted'])assert.equal(pgStart[k],false);
   assert.equal(proof.observations.length,2);assert.notEqual(proof.observations[0].file,proof.observations[1].file);const baseline=json(proof.baseline),observed=proof.observations.map(json);ob.equalSnapshots121(baseline,observed[0]);ob.equalSnapshots121(baseline,observed[1]);ob.equalSnapshots121(observed[0],observed[1]);
   assert.deepEqual(pg.inspectOriginalPG121(),pgStart.after);assert.equal(pgStart.after.running,true);assert.equal(pgStart.bootId,holder.bootId);
-  same(p.current.binary,parent.code.plan.consumer.binary);same(p.current.summaryBinary,parent.code.plan.consumer.summaryBinary);
+  // Historical build containers include old stat fields. Compare their admitted
+  // byte identity; fresh inode/link facts are measured separately below.
+  for(const key of ['binary','summaryBinary'])assert.deepEqual({file:p.current[key].file,rawBytesSha256:p.current[key].rawBytesSha256},core.pinOnly121(parent.code.plan.consumer[key]),'Current binary differs from the admitted original byte identity');
   const facts=[binaryFact(p.current.binary),binaryFact(p.current.summaryBinary)];assert.deepEqual(facts,p.current.binaryFiles);assert.equal(p.current.nodeExecutable.file,A.node);assert.equal(p.current.nodeExecutable.rawBytesSha256,A.nodeSHA);binaryFact(p.current.nodeExecutable);
   return{closure,parent,af,pg,auth,holder,pgStart,binaryFiles:facts};
 }

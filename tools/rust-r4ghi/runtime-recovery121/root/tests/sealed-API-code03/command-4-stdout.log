@@ -1,0 +1,358 @@
+TAP version 13
+# Subtest: actual pure input/record/body schemas stay17/25/12; model is not full preflight
+ok 1 - actual pure input/record/body schemas stay17/25/12; model is not full preflight
+  ---
+  duration_ms: 2.568807
+  type: 'test'
+  ...
+# Subtest: input shape rejects missing key
+ok 2 - input shape rejects missing key
+  ---
+  duration_ms: 1.389155
+  type: 'test'
+  ...
+# Subtest: input shape rejects unknown CLI-like mode
+ok 3 - input shape rejects unknown CLI-like mode
+  ---
+  duration_ms: 0.407935
+  type: 'test'
+  ...
+# Subtest: input shape rejects future API pin
+ok 4 - input shape rejects future API pin
+  ---
+  duration_ms: 0.396654
+  type: 'test'
+  ...
+# Subtest: input shape rejects future readiness
+ok 5 - input shape rejects future readiness
+  ---
+  duration_ms: 0.300674
+  type: 'test'
+  ...
+# Subtest: input shape rejects future registry
+ok 6 - input shape rejects future registry
+  ---
+  duration_ms: 0.38973
+  type: 'test'
+  ...
+# Subtest: input shape rejects foreign epoch
+ok 7 - input shape rejects foreign epoch
+  ---
+  duration_ms: 0.382267
+  type: 'test'
+  ...
+# Subtest: input shape rejects foreign namespace
+ok 8 - input shape rejects foreign namespace
+  ---
+  duration_ms: 0.876673
+  type: 'test'
+  ...
+# Subtest: input shape rejects bad nonce
+ok 9 - input shape rejects bad nonce
+  ---
+  duration_ms: 3.509334
+  type: 'test'
+  ...
+# Subtest: input shape rejects old helper count
+ok 10 - input shape rejects old helper count
+  ---
+  duration_ms: 0.341841
+  type: 'test'
+  ...
+# Subtest: input shape rejects short whole closure
+ok 11 - input shape rejects short whole closure
+  ---
+  duration_ms: 0.720671
+  type: 'test'
+  ...
+# Subtest: input shape rejects extra whole closure
+ok 12 - input shape rejects extra whole closure
+  ---
+  duration_ms: 0.360486
+  type: 'test'
+  ...
+# Subtest: input shape rejects wrong process path
+ok 13 - input shape rejects wrong process path
+  ---
+  duration_ms: 0.328676
+  type: 'test'
+  ...
+# Subtest: input shape rejects old env edition
+ok 14 - input shape rejects old env edition
+  ---
+  duration_ms: 0.302898
+  type: 'test'
+  ...
+# Subtest: input shape rejects output nonce mismatch
+ok 15 - input shape rejects output nonce mismatch
+  ---
+  duration_ms: 0.21888
+  type: 'test'
+  ...
+# Subtest: input shape rejects G1B hash substituted
+ok 16 - input shape rejects G1B hash substituted
+  ---
+  duration_ms: 0.680616
+  type: 'test'
+  ...
+# Subtest: input shape rejects lexical pin alias
+ok 17 - input shape rejects lexical pin alias
+  ---
+  duration_ms: 0.499316
+  type: 'test'
+  ...
+# Subtest: input shape rejects unknown current key
+ok 18 - input shape rejects unknown current key
+  ---
+  duration_ms: 0.212418
+  type: 'test'
+  ...
+# Subtest: input shape rejects unknown pin key
+ok 19 - input shape rejects unknown pin key
+  ---
+  duration_ms: 0.205305
+  type: 'test'
+  ...
+# Subtest: exact keys rejects Proxy/accessor/symbol/foreign prototype without executing top-level traps
+ok 20 - exact keys rejects Proxy/accessor/symbol/foreign prototype without executing top-level traps
+  ---
+  duration_ms: 0.272761
+  type: 'test'
+  ...
+# Subtest: input top accessors/proxy are rejected before evaluating values
+ok 21 - input top accessors/proxy are rejected before evaluating values
+  ---
+  duration_ms: 0.306224
+  type: 'test'
+  ...
+# Subtest: nested pin accessor/proxy must also reject without executing bytes getter
+ok 22 - nested pin accessor/proxy must also reject without executing bytes getter
+  ---
+  duration_ms: 0.302678
+  type: 'test'
+  ...
+# Subtest: original env fullPin rejects missing pin
+ok 23 - original env fullPin rejects missing pin
+  ---
+  duration_ms: 0.183595
+  type: 'test'
+  ...
+# Subtest: original env fullPin rejects missing bytes
+ok 24 - original env fullPin rejects missing bytes
+  ---
+  duration_ms: 0.157646
+  type: 'test'
+  ...
+# Subtest: original env fullPin rejects wrong path
+ok 25 - original env fullPin rejects wrong path
+  ---
+  duration_ms: 0.257182
+  type: 'test'
+  ...
+# Subtest: original env fullPin rejects extra key
+ok 26 - original env fullPin rejects extra key
+  ---
+  duration_ms: 0.30447
+  type: 'test'
+  ...
+# Subtest: original env fullPin rejects empty file
+ok 27 - original env fullPin rejects empty file
+  ---
+  duration_ms: 0.172323
+  type: 'test'
+  ...
+# Subtest: actual16-key env derivation changes only HOST/PORT/CORS and preserves secret bytes/order
+ok 28 - actual16-key env derivation changes only HOST/PORT/CORS and preserves secret bytes/order
+  ---
+  duration_ms: 0.747442
+  type: 'test'
+  ...
+# Subtest: env rejects missing16th without dummy secret in error
+ok 29 - env rejects missing16th without dummy secret in error
+  ---
+  duration_ms: 0.510687
+  type: 'test'
+  ...
+# Subtest: env rejects unknown secret key without dummy secret in error
+ok 30 - env rejects unknown secret key without dummy secret in error
+  ---
+  duration_ms: 0.151574
+  type: 'test'
+  ...
+# Subtest: env rejects duplicate secret without dummy secret in error
+ok 31 - env rejects duplicate secret without dummy secret in error
+  ---
+  duration_ms: 0.100719
+  type: 'test'
+  ...
+# Subtest: env rejects quoted secret without dummy secret in error
+ok 32 - env rejects quoted secret without dummy secret in error
+  ---
+  duration_ms: 0.139382
+  type: 'test'
+  ...
+# Subtest: env rejects NUL secret without dummy secret in error
+ok 33 - env rejects NUL secret without dummy secret in error
+  ---
+  duration_ms: 0.226915
+  type: 'test'
+  ...
+# Subtest: env rejects wrong DB binding without dummy secret in error
+ok 34 - env rejects wrong DB binding without dummy secret in error
+  ---
+  duration_ms: 0.157866
+  type: 'test'
+  ...
+# Subtest: env rejects malformed secret line without dummy secret in error
+ok 35 - env rejects malformed secret line without dummy secret in error
+  ---
+  duration_ms: 0.127259
+  type: 'test'
+  ...
+# Subtest: environment bytes reject invalid UTF8 without replacement or secret diagnostics
+ok 36 - environment bytes reject invalid UTF8 without replacement or secret diagnostics
+  ---
+  duration_ms: 0.163346
+  type: 'test'
+  ...
+# Subtest: actual readiness predicate accepts only complete fixed endpoint200 with process/database pass
+ok 37 - actual readiness predicate accepts only complete fixed endpoint200 with process/database pass
+  ---
+  duration_ms: 0.098705
+  type: 'test'
+  ...
+# Subtest: readiness rejects method
+ok 38 - readiness rejects method
+  ---
+  duration_ms: 0.104456
+  type: 'test'
+  ...
+# Subtest: readiness rejects endpoint
+ok 39 - readiness rejects endpoint
+  ---
+  duration_ms: 0.066394
+  type: 'test'
+  ...
+# Subtest: readiness rejects port
+ok 40 - readiness rejects port
+  ---
+  duration_ms: 0.050064
+  type: 'test'
+  ...
+# Subtest: readiness rejects status
+ok 41 - readiness rejects status
+  ---
+  duration_ms: 0.049232
+  type: 'test'
+  ...
+# Subtest: readiness rejects incomplete
+ok 42 - readiness rejects incomplete
+  ---
+  duration_ms: 0.109284
+  type: 'test'
+  ...
+# Subtest: readiness rejects unknown transport
+ok 43 - readiness rejects unknown transport
+  ---
+  duration_ms: 0.194334
+  type: 'test'
+  ...
+# Subtest: readiness rejects missing process
+ok 44 - readiness rejects missing process
+  ---
+  duration_ms: 0.149841
+  type: 'test'
+  ...
+# Subtest: readiness rejects failed DB
+ok 45 - readiness rejects failed DB
+  ---
+  duration_ms: 0.179897
+  type: 'test'
+  ...
+# Subtest: readiness rejects wrong service
+ok 46 - readiness rejects wrong service
+  ---
+  duration_ms: 0.122609
+  type: 'test'
+  ...
+# Subtest: readiness rejects partial JSON
+ok 47 - readiness rejects partial JSON
+  ---
+  duration_ms: 0.049623
+  type: 'test'
+  ...
+# Subtest: actual auth startup predicate rejects same-ms ns overrun and accepts real later-ms boundary
+ok 48 - actual auth startup predicate rejects same-ms ns overrun and accepts real later-ms boundary
+  ---
+  duration_ms: 0.17615
+  type: 'test'
+  ...
+# Subtest: actual auth startup predicate rejects mode
+ok 49 - actual auth startup predicate rejects mode
+  ---
+  duration_ms: 0.079409
+  type: 'test'
+  ...
+# Subtest: actual auth startup predicate rejects uid
+ok 50 - actual auth startup predicate rejects uid
+  ---
+  duration_ms: 0.049383
+  type: 'test'
+  ...
+# Subtest: actual auth startup predicate rejects hardlink
+ok 51 - actual auth startup predicate rejects hardlink
+  ---
+  duration_ms: 0.043932
+  type: 'test'
+  ...
+# Subtest: actual auth startup predicate rejects symlink
+ok 52 - actual auth startup predicate rejects symlink
+  ---
+  duration_ms: 0.132879
+  type: 'test'
+  ...
+# Subtest: actual waitAfterEnv uses natural real time and rejects unexplained future/missing ns
+ok 53 - actual waitAfterEnv uses natural real time and rejects unexplained future/missing ns
+  ---
+  duration_ms: 10.818514
+  type: 'test'
+  ...
+# Subtest: actual temporary Linux0600 file works with real waiter/original auth predicate
+ok 54 - actual temporary Linux0600 file works with real waiter/original auth predicate
+  ---
+  duration_ms: 1.040286
+  type: 'test'
+  ...
+# Subtest: actual original-env FS predicates bind bytes and reject drift/aliases
+ok 55 - actual original-env FS predicates bind bytes and reject drift/aliases
+  ---
+  duration_ms: 8.472486
+  type: 'test'
+  ...
+# Subtest: new current binary input remains a strict pin, never the historical stat container
+ok 56 - new current binary input remains a strict pin, never the historical stat container
+  ---
+  duration_ms: 0.256681
+  type: 'test'
+  ...
+# Subtest: actual binary comparison projects admitted historical identity and keeps old stat untouched
+ok 57 - actual binary comparison projects admitted historical identity and keeps old stat untouched
+  ---
+  duration_ms: 16.192867
+  type: 'test'
+  ...
+# Subtest: actual binary FS predicate accepts legitimate two-link builds and rejects byte drift
+ok 58 - actual binary FS predicate accepts legitimate two-link builds and rejects byte drift
+  ---
+  duration_ms: 6.807373
+  type: 'test'
+  ...
+1..58
+# tests 58
+# suites 0
+# pass 58
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 286.187136

@@ -6,7 +6,7 @@ import os from 'node:os';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {createHash} from 'node:crypto';
-import {runInNewContext} from 'node:vm';
+import {runInNewContext,runInThisContext} from 'node:vm';
 
 const root=process.platform==='win32'?'E:/projects/worktrees/poms-r3hijk-next28/poms':'/mnt/e/projects/worktrees/poms-r3hijk-next28/poms';
 const api=await import(pathToFileURL(root+'/tools/rust-r4ghi/runtime-recovery121/root/start-api121.mjs').href);
@@ -63,4 +63,22 @@ test('actual original-env FS predicates bind bytes and reject drift/aliases',{sk
  fs.linkSync(file,link);assert.throws(()=>readActual(v));fs.unlinkSync(link);
  fs.renameSync(file,link);fs.symlinkSync(link,file);assert.throws(()=>readActual(v));fs.unlinkSync(file);fs.renameSync(link,file);
  assert.throws(()=>readActual({current:{baseNormalEnv:{...pin,file:path.join(dir,'missing.env')}}}));
+});
+
+test('new current binary input remains a strict pin, never the historical stat container',()=>{
+ const v=input();v.current.binary={...v.current.binary,bytes:8,dev:'1',ino:'2',nlink:2};assert.throws(()=>inputShapeAPI121(v));
+});
+test('actual binary comparison projects admitted historical identity and keeps old stat untouched',async()=>{
+ const core=await import(pathToFileURL(root+'/tools/rust-r4ghi/business/runtime-admission-core121.mjs').href),source=fs.readFileSync(root+'/tools/rust-r4ghi/runtime-recovery121/root/start-api121.mjs','utf8');
+ const at=source.indexOf("for(const key of ['binary','summaryBinary'])"),end=source.indexOf('const facts=[binaryFact',at);assert(at>=0&&end>at);
+ const statement=source.slice(at,end),current={binary:{file:'/model/api',bytes:8,rawBytesSha256:'a'.repeat(64)},summaryBinary:{file:'/model/common',bytes:9,rawBytesSha256:'b'.repeat(64)}};
+ const historical={binary:{...current.binary,dev:'91',ino:'92',nlink:2},summaryBinary:{...current.summaryBinary,dev:'93',ino:'94',nlink:2}},before=JSON.stringify(historical),p={current},parent={code:{plan:{consumer:historical}}};
+ const compare=runInThisContext('(function(assert,core,p,parent){'+statement+'\n})');compare(assert,core,p,parent);assert.equal(JSON.stringify(historical),before);historical.binary.rawBytesSha256='c'.repeat(64);assert.throws(()=>compare(assert,core,p,parent));
+});
+test('actual binary FS predicate accepts legitimate two-link builds and rejects byte drift',{skip:process.platform!=='linux'},async t=>{
+ const dir=fs.mkdtempSync(path.join(os.tmpdir(),'poms-API121-binary-')),file=path.join(dir,'binary'),link=path.join(dir,'cargo-deps-link');t.after(()=>{for(const f of [link,file])try{fs.unlinkSync(f);}catch(e){if(e.code!=='ENOENT')throw e;}fs.rmdirSync(dir);});
+ const source=fs.readFileSync(root+'/tools/rust-r4ghi/runtime-recovery121/root/start-api121.mjs','utf8'),cut=(a,b)=>{const start=source.indexOf(a),end=source.indexOf(b,start+a.length);assert(start>=0&&end>start);return source.slice(start,end);};
+ const hash=b=>createHash('sha256').update(b).digest('hex'),code=cut('function pinShape(p)','function read(p)')+cut('function binaryFact(p)','const order=')+'\nbinaryFact;';
+ const actual=runInNewContext(code,{fs,path,assert,types:(await import('node:util')).types,sha:hash,exactKeysAPI121});
+ const bytes=Buffer.from('ISOLATED_COMPILED_BINARY\n');fs.writeFileSync(file,bytes,{flag:'wx'});fs.linkSync(file,link);const pin={file,bytes:bytes.length,rawBytesSha256:hash(bytes)},fact=actual(pin);assert.equal(fact.nlink,2);assert.equal(fact.bytes,bytes.length);assert.equal(fact.rawBytesSha256,pin.rawBytesSha256);fs.writeFileSync(link,'CHANGED');assert.throws(()=>actual(pin));
 });

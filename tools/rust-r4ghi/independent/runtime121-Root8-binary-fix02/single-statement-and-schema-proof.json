@@ -1,0 +1,83 @@
+{
+  "kind": "independent-Root8-API-code03-single-statement-difference",
+  "priorComponent": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/tests/sealed-API-code01/manifest-Root8-API-code121.json",
+    "bytes": 11295,
+    "rawBytesSha256": "f83e1e6c1ddc043a41b15c58b703f814c723699c1d0d4db5f85f0625aa205b99"
+  },
+  "currentComponent": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/tests/sealed-API-code03/manifest-Root8-API-code121.json",
+    "bytes": 11295,
+    "rawBytesSha256": "aeb02ab6b034f96feb42c20f0cf2b42c5888b96c36f4b2a2d7b3c34a5ce4dd66"
+  },
+  "before": "  same(p.current.binary,parent.code.plan.consumer.binary);same(p.current.summaryBinary,parent.code.plan.consumer.summaryBinary);",
+  "after": "  // Historical build containers include old stat fields. Compare their admitted\n  // byte identity; fresh inode/link facts are measured separately below.\n  for(const key of ['binary','summaryBinary'])assert.deepEqual({file:p.current[key].file,rawBytesSha256:p.current[key].rawBytesSha256},core.pinOnly121(parent.code.plan.consumer[key]),'Current binary differs from the admitted original byte identity');",
+  "fullForwardInverseRawExact": true,
+  "otherA7RawUnchanged": true,
+  "currentPinShapeAndBinaryFactRawUnchanged": true,
+  "actualHistoricalMetadata": {
+    "plan": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source15-plan119-publish01.json",
+      "rawBytesSha256": "2b2bdf87acd62a1187e650991b21b0e3380c2218e1857f32b291109927f10539"
+    },
+    "binary": {
+      "keys": [
+        "bytes",
+        "dev",
+        "file",
+        "ino",
+        "nlink",
+        "rawBytesSha256"
+      ],
+      "file": "/home/wangzishi/.cache/poms-r4ghi-target-ROOT15/34402-build119-02/mirror/debug/poms-api-rust",
+      "rawBytesSha256": "85d9cb1e7e86a9fd94bdcfd528922064f1f0a1ba0759bc17e570e098db677292",
+      "bytes": 390335232,
+      "nlink": 2
+    },
+    "summaryBinary": {
+      "keys": [
+        "bytes",
+        "dev",
+        "file",
+        "ino",
+        "nlink",
+        "rawBytesSha256"
+      ],
+      "file": "/home/wangzishi/.cache/poms-r4ghi-target-ROOT15/34402-build119-02/mirror/debug/examples/r4ghi_summary_producer08",
+      "rawBytesSha256": "e2842dca044b8c28f96dc7d37f9bd1a530376f5bbc4e1f897365f7d90509132b",
+      "bytes": 295302696,
+      "nlink": 2
+    },
+    "ELFBytesRead": false
+  },
+  "ELFBytesRead": false,
+  "environmentValuesRead": false,
+  "priorFailedValidation": {
+    "partial": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/tests/sealed-API-code02/partial-validation.json",
+      "bytes": 1320,
+      "rawBytesSha256": "77e0a4ef7b753715c82ac2e1bb6f553388c167db83569361dbd856ac12a90761"
+    },
+    "command": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/tests/sealed-API-code02/command-4.json",
+      "bytes": 1011,
+      "rawBytesSha256": "437f2109a5aa6a2903f84c1ff6456519578f1c0565c1dba13cbd22fef4a23441"
+    },
+    "stdout": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/tests/sealed-API-code02/command-4-stdout.log",
+      "bytes": 11158,
+      "rawBytesSha256": "95ea5b3fcb921499a50fdd4a71d3492133026b53a23f2c37ad9d865aebdefa16"
+    },
+    "counts": {
+      "tests": 58,
+      "pass": 57,
+      "fail": 1
+    },
+    "sourceBookendBefore": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/tests/sealed-API-code02/source-bookend-before.json",
+      "bytes": 2446,
+      "rawBytesSha256": "eaeec808c9ac5e151007f2be79793755b09d389e69a257f45ce54d9744a35f06"
+    },
+    "diagnostic": "Identical model file/hash values failed deepStrictEqual in Script.runInNewContext; current test uses runInThisContext. Old production source already021c."
+  }
+}
