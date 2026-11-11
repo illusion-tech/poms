@@ -4,7 +4,8 @@ import fs from "node:fs";
 import path from "node:path";
 import assert from "node:assert/strict";
 import { pathToFileURL } from "node:url";
-import { createContext, sourcePins } from "../business/context.mjs";
+import { sourcePins } from "../business/context.mjs";
+import {createContext121,assertCurrentLease121,runtimeReference121} from "../business/runtime-admission121.mjs";
 import {
     assertRuntimeFacts118,
     F118,
@@ -45,7 +46,7 @@ const runtimeKeys = new Set([
     "owned",
     "borrowed",
     "objects",
-    "taxContinuation15",
+    "taxContinuation121",
     "consumerChecks",
     "activeFault",
     "blockedObservation",
@@ -96,6 +97,11 @@ const protectedTax = new Set([
     "mainCompletion",
     "legacyReferences",
     "taxPreparation",
+    "runtimeAdmission121",
+    "retainedSource15State",
+    "retainedPreparation15",
+    "continuation121",
+    "continuationReadback",
 ]);
 export function assertInput118(p) {
     const keys = [
@@ -321,7 +327,7 @@ export function restrictContext118(root) {
             if (!cache.has(v)) cache.set(v, freeze118(structuredClone(v)));
             return cache.get(v);
         };
-    const tax = new Proxy(root.state.taxContinuation15, {
+    const tax = new Proxy(root.state.taxContinuation121, {
         get(t, k) {
             if (typeof k !== "string") return undefined;
             const v = t[k];
@@ -363,7 +369,7 @@ export function restrictContext118(root) {
     });
     const state = new Proxy(root.state, {
         get(t, k) {
-            if (k === "taxContinuation15") return tax;
+            if (k === "taxContinuation121") return tax;
             if (typeof k !== "string") return undefined;
             return runtimeKeys.has(k) ? t[k] : ro(t[k]);
         },
@@ -372,7 +378,7 @@ export function restrictContext118(root) {
             return q
                 ? {
                     ...q,
-                    value: k === "taxContinuation15"
+                    value: k === "taxContinuation121"
                         ? tax
                         : runtimeKeys.has(k)
                         ? q.value
@@ -382,7 +388,7 @@ export function restrictContext118(root) {
         },
         set(t, k, v) {
             assert(
-                runtimeKeys.has(k) && k !== "taxContinuation15",
+                runtimeKeys.has(k) && k !== "taxContinuation121",
                 "Immutable parent field",
             );
             return Reflect.set(t, k, v, t);
@@ -391,7 +397,7 @@ export function restrictContext118(root) {
             throw Error("State descriptors protected");
         },
         deleteProperty(t, k) {
-            assert(runtimeKeys.has(k) && k !== "taxContinuation15");
+            assert(runtimeKeys.has(k) && k !== "taxContinuation121");
             return Reflect.deleteProperty(t, k);
         },
         getPrototypeOf() {
@@ -522,11 +528,12 @@ function apiIdentity(d) {
             sockets.has("socket:[" + listeners[0][9] + "]"),
         "Exact owned API listener",
     );
-    for (const p of [d.plan.consumer.binary, d.plan.consumer.summaryBinary]) {
-        binary(p, d.plan.consumer.binaryFiles);
+    for (const p of [d.verifiedRuntime.current.binary, d.verifiedRuntime.current.summaryBinary]) {
+        binary(p, d.verifiedRuntime.current.binaryFiles);
     }
 }
 function currentFiles(d) {
+    assertCurrentLease121(d.root,d.verifiedRuntime);
     const lock = json118({
         file: d.root.priv + "/driver.lock",
         rawBytesSha256: d.lockSHA,
@@ -564,7 +571,7 @@ function currentFiles(d) {
         read118({ file: F118.win + "/" + q.file, rawBytesSha256: q.sha256 });
     }
     for (
-        const q of [...d.p.executionSources, ...d.plan.tooling.executionSources]
+        const q of d.p.executionSources
     ) read118(q);
     for (
         const q of [
@@ -578,51 +585,15 @@ function currentFiles(d) {
     assert.deepEqual(parent(d.root.state), d.parent);
     assert.deepEqual(json118(d.p.runtimeBindings), d.manifest);
     samePin118(d.root.state.consumerAdmission54.registry, d.p.codeAdmission15);
-    samePin118(d.root.state.codeEpochAdmission15.candidate, d.p.candidate);
+    samePin118(d.root.state.runtimeAdmission121.candidate, d.p.candidate);
+    samePin118(d.root.state.runtimeAdmission121.registry,d.manifest.current.runtimeAdmission121);
     samePin118(d.root.state.apiProcess, d.p.apiProcess);
     apiIdentity(d);
 }
-function ensureRecord(root, manifest, reg, legacy, runtimePin) {
-    const identity = {
-        runtimeBindings: runtimePin,
-        sourcePinsSHA256: manifest.current.sourcePinsSHA256,
-        codeAdmission15: manifest.current.codeAdmission15,
-        producerEpoch: manifest.legacy.epoch,
-        producerSourcePinsSHA256: manifest.legacy.sourcePinsSHA256,
-        producerProjectionSHA256: manifest.current.producerProjectionSHA256,
-        originalProducerState12: manifest.legacy.originalProducerState12,
-        reconciliation: manifest.legacy.reconciliation,
-        retainedMainOriginal: legacy.retainedMain13.original,
-    };
-    if (root.state.taxContinuation15) {
-        assert.deepEqual(root.state.taxContinuation15.identity, identity);
-        return;
-    }
-    root.state.taxContinuation15 = {
-        kind: "current-Source15-consumer-of-retained-real-tax-producer",
-        identity,
-        originalProducer12: manifest.legacy.originalProducerState12,
-        retainedParent14: {
-            producerState: reg.producerState,
-            retentionIndex: reg.retentionIndex,
-        },
-        legacyReferences: {
-            sourceProjectId: legacy.sourceProjectId,
-            mainProjectId: legacy.mainProjectId,
-            costId: legacy.costId,
-            taxId: legacy.taxId,
-            basisId: legacy.basisId,
-            resultIds: legacy.resultIds,
-            producerState: legacy.producerStatePin,
-        },
-        retainedMain13: legacy.retainedMain13,
-        mainCompletion: legacy.retainedMain13.record,
-        taxPreparation: null,
-        sweep: null,
-        complete: null,
-        sidecar: null,
-    };
-    root.persist();
+function ensureRecord(root,manifest,reg,legacy,runtimePin,retainedPreparation15){
+ const identity={runtimeBindings:runtimePin,runtimeAdmission121:manifest.current.runtimeAdmission121,sourcePinsSHA256:manifest.current.sourcePinsSHA256,codeAdmission15:manifest.current.codeAdmission15,producerEpoch:manifest.legacy.epoch,producerSourcePinsSHA256:manifest.legacy.sourcePinsSHA256,producerProjectionSHA256:manifest.current.producerProjectionSHA256,originalProducerState12:manifest.legacy.originalProducerState12,reconciliation:manifest.legacy.reconciliation,retainedMainOriginal:legacy.retainedMain13.original,retainedSource15State:manifest.current.retainedSource15State};
+ if(root.state.taxContinuation121){assert.deepEqual(root.state.taxContinuation121.identity,identity);assert.deepEqual(root.state.taxContinuation121.retainedPreparation15,retainedPreparation15);return;}
+ root.state.taxContinuation121={kind:'current-Source15-runtime121-consumer-of-retained-real-tax-producer',identity,runtimeAdmission121:manifest.current.runtimeAdmission121,retainedSource15State:manifest.current.retainedSource15State,retainedPreparation15,originalProducer12:manifest.legacy.originalProducerState12,retainedParent14:{producerState:reg.producerState,retentionIndex:reg.retentionIndex},legacyReferences:{sourceProjectId:legacy.sourceProjectId,mainProjectId:legacy.mainProjectId,costId:legacy.costId,taxId:legacy.taxId,basisId:legacy.basisId,resultIds:legacy.resultIds,producerState:legacy.producerStatePin},retainedMain13:legacy.retainedMain13,mainCompletion:legacy.retainedMain13.record,taxPreparation:null,continuation121:null,continuationReadback:null,sweep:null,complete:null,sidecar:null};root.persist();
 }
 function closeFailedOpen118(
     root,
@@ -636,10 +607,7 @@ function closeFailedOpen118(
     let nativeExitError = null, sourceExitError = null;
     // Attempt the real native exit even if later journal/path checks fail.
     try {
-        native.assertRuntimeBinding15(root, registry, {
-            codeAdmission15: p.codeAdmission15,
-            candidate: p.candidate,
-        });
+        native.assertRuntimeBinding121(root,{runtimeAdmission121:json118(p.runtimeBindings).current.runtimeAdmission121,candidate:p.candidate});
     } catch (error) {
         nativeExitError = error.message;
     }
@@ -767,13 +735,13 @@ export async function openInvocation118(inputPin, reviewPin) {
     samePin118(manifest.current.candidate, p.candidate);
     const native = await import(
         pathToFileURL(
-            F118.win + "/tools/rust-r4ghi/business/source15-admission.mjs",
+            F118.win + "/tools/rust-r4ghi/business/runtime-admission121.mjs",
         ).href
     );
     const reg = json118(p.codeAdmission15);
     let root;
     try {
-        root = createContext({
+        root = createContext121({
             epoch: F118.epoch,
             run: F118.run,
             "api-process-record": p.apiProcess.file,
@@ -794,11 +762,11 @@ export async function openInvocation118(inputPin, reviewPin) {
         assert.deepEqual(root.state, JSON.parse(entry));
         const facts = assertRuntimeFacts118(root, manifest, reg),
             legacy = readRetainedTaxProof118(root, manifest, reg);
-        samePin118(p.actualSourcePins, reg.consumer.sourcePins);
-        samePin118(p.actualCompilePins, reg.consumer.compilePins);
-        samePin118(p.actualHelperPins, reg.consumer.helperPins);
-        ensureRecord(root, manifest, reg, legacy, p.runtimeBindings);
-        const record = root.state.taxContinuation15;
+        samePin118(p.actualSourcePins,facts.verifiedRuntime.current.sourcePins);
+        samePin118(p.actualCompilePins,facts.verifiedRuntime.current.compilePins);
+        samePin118(p.actualHelperPins,facts.verifiedRuntime.current.helperPins);
+        ensureRecord(root,manifest,reg,legacy,p.runtimeBindings,facts.retainedPreparation15);
+        const record = root.state.taxContinuation121;
         assert(
             !record.pendingMain,
             "Main is inherited only; no pending Main continuation",
@@ -861,6 +829,7 @@ export async function openInvocation118(inputPin, reviewPin) {
             }
             assert.equal(hash(prepared.body), p.bodySHA256);
             assert.deepEqual(json118(p.fullInventory), prepared.inventory);
+            assertContinuation121(root,manifest,record,p);
         }
         const boot = fs.readFileSync("/proc/sys/kernel/random/boot_id", "utf8")
                 .trim(),
@@ -875,6 +844,7 @@ export async function openInvocation118(inputPin, reviewPin) {
                 manifest: freeze118(manifest),
                 registry: freeze118(reg),
                 plan: freeze118(facts.plan),
+                verifiedRuntime:facts.verifiedRuntime,
                 legacy: freeze118(legacy),
                 prepared,
                 h: await helpers(),
@@ -1002,6 +972,8 @@ export function currentTuple118(cap) {
         helperPins: c.helperPins,
         runtimeBindings: d.p.runtimeBindings,
         bodySHA256: d.p.bodySHA256,
+        runtimeAdmission121:c.runtimeAdmission121,
+        runtimeReference121:runtimeReference121(d.root,d.verifiedRuntime),
     };
 }
 export function runtime118(cap) {
@@ -1022,6 +994,7 @@ export function runtime118(cap) {
         frame: d.frame ? freeze118(structuredClone(d.frame)) : null,
         entryGuard: d.entryGuard,
         boot: d.boot,
+        runtimeReference121:freeze118(structuredClone(runtimeReference121(d.root,d.verifiedRuntime))),
     });
 }
 export function checkpoint118(cap, phase) {
@@ -1035,7 +1008,8 @@ export function checkpoint118(cap, phase) {
         samePin118(a.codeAdmission15, d.p.codeAdmission15);
         samePin118(a.apiProcess, d.p.apiProcess);
         assert.equal(a.bindingSHA256, hash(d.manifest));
-        assert.deepEqual(a.scope, d.root.state.taxContinuation15.sweep?.scope);
+        samePin118(a.runtimeAdmission121,d.manifest.current.runtimeAdmission121);
+        assert.deepEqual(a.scope, d.root.state.taxContinuation121.sweep?.scope);
     }
     return {
         nonce: d.p.nonce,
@@ -1043,14 +1017,15 @@ export function checkpoint118(cap, phase) {
         cursor: d.cursor,
         pid: d.pid,
         boot: d.boot,
+        runtimeReference121:freeze118(structuredClone(runtimeReference121(d.root,d.verifiedRuntime))),
     };
 }
 export function savePreparation118(cap, value) {
     const d = live(cap);
     assert.equal(d.p.mode, "prepare-only");
-    assert.equal(d.root.state.taxContinuation15.taxPreparation, null);
+    assert.equal(d.root.state.taxContinuation121.taxPreparation, null);
     assert.equal(value.postconditions, "prepared-for-Root-review-only");
-    d.root.state.taxContinuation15.taxPreparation = structuredClone(value);
+    d.root.state.taxContinuation121.taxPreparation = structuredClone(value);
     d.root.persist();
 }
 export function noteLedger118(cap, pin) {
@@ -1065,7 +1040,7 @@ export function beginFamily118(cap, key) {
     assert.equal(d.keys[d.cursor], key);
     assert(
         !d.frame && !d.root.state.activeFault &&
-            !d.root.state.taxContinuation15.pendingTaxTrial,
+            !d.root.state.taxContinuation121.pendingTaxTrial,
     );
     d.frame = {
         stage: "ready",
@@ -1090,10 +1065,10 @@ export function advanceFamily118(cap, observation) {
     assert.equal(d.frame?.stage, "familyVerified");
     assert(
         !d.root.state.activeFault &&
-            !d.root.state.taxContinuation15.pendingTaxTrial,
+            !d.root.state.taxContinuation121.pendingTaxTrial,
     );
     pin118(observation);
-    const f = d.root.state.taxContinuation15.sweep.failures;
+    const f = d.root.state.taxContinuation121.sweep.failures;
     assert.equal(f[d.cursor]?.key, d.keys[d.cursor]);
     samePin118(f[d.cursor].observation, observation);
     read118(observation);
@@ -1107,13 +1082,13 @@ export function setVerifiedPrefix118(cap, length) {
     assert.equal(d.p.mode, "fi-family");
     assert.equal(d.cursor, 0);
     assert(!d.frame);
-    assert.equal(length, d.root.state.taxContinuation15.sweep.failures.length);
+    assert.equal(length, d.root.state.taxContinuation121.sweep.failures.length);
     assert.equal(length, d.p.approvedStartCursor);
     samePin118(d.review.approvedCompletedPrefix, d.p.approvedCompletedPrefix);
     const prefix = json118(d.p.approvedCompletedPrefix);
     assert.deepEqual(
         prefix.failures,
-        d.root.state.taxContinuation15.sweep.failures,
+        d.root.state.taxContinuation121.sweep.failures,
     );
     assert.equal(prefix.inventorySHA256, hash(d.prepared.inventory));
     d.cursor = length;
@@ -1121,7 +1096,7 @@ export function setVerifiedPrefix118(cap, length) {
 export function invocationJournal118(cap) {
     const d = live(cap),
         all = d.root.state.consumerChecks ??= {},
-        journal = all.tax15Invocation118 ??= {
+        journal = all.taxInvocation121 ??= {
             kind: "actual-Tax15-external-invocations118",
             invocations: {},
         },
@@ -1173,15 +1148,15 @@ export function domainPermission118(
         assert(["fi-closed-set", "fi-family"].includes(d.p.mode));
         assert.equal(d.frame?.stage, "controlsInstalled");
         assert.equal(
-            d.root.state.taxContinuation15.pendingTaxTrial?.key,
+            d.root.state.taxContinuation121.pendingTaxTrial?.key,
             d.frame.key,
         );
     } else {
         assert.equal(expectedStatus, 201);
         assert.equal(d.p.mode, "commit-once");
         assert.equal(d.review.normalTaxPOSTGranted, true);
-        assert(d.root.state.taxContinuation15.normalTaxPending);
-        assert(!d.root.state.taxContinuation15.sweep.finalSuccess);
+        assert(d.root.state.taxContinuation121.normalTaxPending);
+        assert(!d.root.state.taxContinuation121.sweep.finalSuccess);
     }
     d.domainSent = true;
 }
@@ -1203,13 +1178,10 @@ export async function closeInvocation118(cap, result, { failed = false } = {}) {
             const native = await import(
                 pathToFileURL(
                     F118.win +
-                        "/tools/rust-r4ghi/business/source15-admission.mjs",
+                        "/tools/rust-r4ghi/business/runtime-admission121.mjs",
                 ).href
             );
-            native.assertCodeEpochContext15(d.root, d.registry, {
-                liveProcess: true,
-                sourceFiles: true,
-            });
+            d.verifiedRuntime=native.assertRuntimeBinding121(d.root,{runtimeAdmission121:d.manifest.current.runtimeAdmission121,candidate:d.p.candidate});
         } catch (e) {
             bookendError ??= e;
         }
@@ -1252,6 +1224,7 @@ export async function closeInvocation118(cap, result, { failed = false } = {}) {
         );
         journal.closedJournal = closed;
         d.root.persist();
+        if(!failed && d.p.mode==="prepare-only")publishPreparationContinuation121(d,result,closed,current15);
         if (!failed && d.p.mode === "commit-once") {
             await publishCompleted118(d, result, closed, current15);
         }
@@ -1274,7 +1247,7 @@ export async function closeInvocation118(cap, result, { failed = false } = {}) {
             error: e.message,
             activeFault: d.root.state.activeFault ?? null,
             normalMayAlreadyBeCommitted: Boolean(
-                d.root.state.taxContinuation15.sweep?.finalSuccess,
+                d.root.state.taxContinuation121.sweep?.finalSuccess,
             ),
             replayForbidden: true,
         });
@@ -1286,7 +1259,7 @@ export async function closeInvocation118(cap, result, { failed = false } = {}) {
 }
 async function publishCompleted118(d, normalResult, closedJournal, current15) {
     const root = d.root,
-        record = root.state.taxContinuation15,
+        record = root.state.taxContinuation121,
         sweep = record.sweep;
     assert(
         !root.state.activeFault && !root.state.blockedObservation &&
@@ -1313,8 +1286,8 @@ async function publishCompleted118(d, normalResult, closedJournal, current15) {
         root.next("tax118-after-verified-frame") + ".json",
         {
             kind:
-                "actual-Source15-Tax118-after-verified-ownership-journal-frame",
-            schemaVersion: 1,
+                "actual-Source15-runtime121-Tax118-after-verified-ownership-journal-frame",
+            schemaVersion: 2,
             namespace: F118.namespace,
             epoch: F118.epoch,
             run: F118.run,
@@ -1332,11 +1305,20 @@ async function publishCompleted118(d, normalResult, closedJournal, current15) {
             entryGuard: d.entryGuard,
             exitGuard: d.exitGuard,
             closedJournal,
+            retainedPreparation15:record.retainedPreparation15,
+            continuation121:record.continuation121,
         },
     );
     sweep.afterVerifiedFrame = frame;
     const envelope = {
-        kind: "actual-Source15-retained-tax-consumer-complete",
+        kind: "actual-Source15-runtime121-retained-tax-consumer-complete",
+        schemaVersion:2,
+        runtimeAdmission121:d.manifest.current.runtimeAdmission121,
+        runtimeReference121:current15.runtimeReference121,
+        retainedSource15State:record.retainedSource15State,
+        retainedPreparation15:record.retainedPreparation15,
+        continuation121:record.continuation121,
+        continuationReadback:record.continuationReadback,
         requiredSweepKind: F118.faultKind,
         sourceGeneration: 15,
         consumerEpoch: F118.epoch,
@@ -1365,7 +1347,7 @@ async function publishCompleted118(d, normalResult, closedJournal, current15) {
             envelope,
         ),
         invocations = Object.values(
-            root.state.consumerChecks.tax15Invocation118.invocations,
+            root.state.consumerChecks.taxInvocation121.invocations,
         ).filter((i) =>
             ["prepare-only", "fi-closed-set", "fi-family", "commit-once"]
                 .includes(i.mode) &&
@@ -1376,8 +1358,14 @@ async function publishCompleted118(d, normalResult, closedJournal, current15) {
     const sidecar = root.artifact(
         root.next("tax118-execution-sidecar") + ".json",
         {
-            kind: "actual-Tax15-invocation118-execution-sidecar",
-            schemaVersion: 1,
+            kind: "actual-Source15-runtime121-Tax118-execution-sidecar",
+            schemaVersion: 2,
+            runtimeReference121:current15.runtimeReference121,
+            runtimeAdmission121:d.manifest.current.runtimeAdmission121,
+            retainedSource15State:record.retainedSource15State,
+            retainedPreparation15:record.retainedPreparation15,
+            continuation121:record.continuation121,
+            continuationReadback:record.continuationReadback,
             namespace: F118.namespace,
             epoch: F118.epoch,
             run: F118.run,
@@ -1417,4 +1405,25 @@ async function publishCompleted118(d, normalResult, closedJournal, current15) {
     record.complete = completion;
     record.sidecar = sidecar;
     root.persist();
+}
+
+export async function verifyPublishedInvocation121(cap){
+ const d=live(cap);assert.equal(d.p.mode,'verify-committed');currentFiles(d);const record=d.root.state.taxContinuation121;pin118(record.complete);pin118(record.sidecar);const reader=await import(pathToFileURL(F118.win+'/tools/rust-r4ghi/tax15-readonly/runtime15.mjs').href);const c=d.manifest.current,proof=reader.assertTax15Envelope(d.root,{sourcePins:d.p.actualSourcePins,sourcePinsSHA256:c.sourcePinsSHA256,sourceCount:c.sourceCount,helperPins:c.helperPins,helperCount:c.helperCount,helperSources:c.helperSources,apiProcess:c.apiProcess,binarySHA256:c.binarySHA256,codeAdmission15:c.codeAdmission15,candidate:c.candidate,taxRuntimeBindings:d.p.runtimeBindings,taxCompletion:record.complete});currentFiles(d);return d.root.artifact(d.root.next('tax121-published-readback')+'.json',{kind:'actual-runtime121-published-Tax-completion-readback',runtimeAdmission121:c.runtimeAdmission121,completion:record.complete,sidecar:record.sidecar,afterVerifiedFrame:proof.envelope.afterVerifiedFrame,historicalOwnershipFromImmutableFrame:true,currentOwnedLatestUsed:false,newHTTP:false});
+}
+// The fresh preparation closes before K exists. K references the closed journal;
+// no historical prepare, old failed invocation or current runtime JSON is edited.
+export function assertPreparationContinuationData121(record,manifest){
+ const old=json118(manifest.retainedPreparation15.prepared15),fresh=record.taxPreparation;
+ assert(fresh);assert.equal(fresh.bodySHA256,manifest.retainedPreparation15.bodySHA256);assert.deepEqual(fresh.body,old.body);assert.deepEqual(fresh.facts,old.facts);assert.deepEqual(fresh.inventory,old.inventory);assert.deepEqual(json118(fresh.fullInventory),json118(manifest.retainedPreparation15.fullInventory));return fresh;
+}
+function publishPreparationContinuation121(d,result,closedJournal,current15){
+ const r=d.root.state.taxContinuation121;assert.equal(r.continuation121,null);assertPreparationContinuationData121(r,d.manifest);samePin118(result,r.taxPreparation.artifact);const proof={kind:'actual-Source15-runtime121-prepare-continuation-verified',schemaVersion:1,runtimeAdmission121:d.manifest.current.runtimeAdmission121,current15,retainedPreparation15:r.retainedPreparation15,prepared15:r.taxPreparation.artifact,fullInventory:r.taxPreparation.fullInventory,bodySHA256:r.taxPreparation.bodySHA256,orderedFamilyKeys:r.taxPreparation.inventory.map(x=>x.key),entryGuard:d.entryGuard,exitGuard:d.exitGuard,closedJournal,originalFailureReplay:false,TaxCorrectionPOSTExecuted:false,FIExecuted:false,normalTaxPOSTExecuted:false};r.continuation121=d.root.artifact(d.root.next('tax121-prepare-continuation')+'.json',proof);d.root.persist();
+}
+function assertContinuation121(root,manifest,record,p){
+ assertPreparationContinuationData121(record,manifest);const k=json118(record.continuation121);assert.equal(k.kind,'actual-Source15-runtime121-prepare-continuation-verified');samePin118(k.runtimeAdmission121,manifest.current.runtimeAdmission121);samePin118(k.prepared15,p.prepared15);samePin118(k.fullInventory,p.fullInventory);assert.equal(k.bodySHA256,p.bodySHA256);assert.deepEqual(k.retainedPreparation15,record.retainedPreparation15);for(const name of ['entryGuard','exitGuard','closedJournal'])read118(k[name]);assert.equal(json118(k.closedJournal).phase,'closed-verified');
+ if(['fi-closed-set','fi-family'].includes(p.mode)){
+  const authority=json118(p.mode==='fi-closed-set'?p.approvedClosedFISet:p.approvedRecovery);samePin118(authority.continuation121,record.continuation121);samePin118(authority.runtimeAdmission121,manifest.current.runtimeAdmission121);const review=json118(authority.continuationReadback);assert.equal(review.kind,'non-author-runtime121-prepare-continuation-readback');assert.equal(review.verdict,'approved-actual-prepare-continuation');assert.equal(review.reviewerIsAuthor,false);samePin118(review.continuation121,record.continuation121);samePin118(review.runtimeAdmission121,manifest.current.runtimeAdmission121);samePin118(review.prepared15,p.prepared15);samePin118(review.fullInventory,p.fullInventory);assert.equal(review.bodySHA256,p.bodySHA256);if(record.continuationReadback)samePin118(record.continuationReadback,authority.continuationReadback);else{record.continuationReadback=authority.continuationReadback;root.persist();}
+ }else if(p.mode==='commit-once'){
+  const fi=json118(p.approvedFICompletion);samePin118(fi.continuation121,record.continuation121);samePin118(fi.runtimeAdmission121,manifest.current.runtimeAdmission121);samePin118(fi.continuationReadback,record.continuationReadback);
+ }
 }

@@ -1,3 +1,4 @@
+import{createContext121}from'../business/runtime-admission121.mjs';
 import{preImport271}from'./admission271.mjs';
 import fs from'node:fs';import path from'node:path';import assert from'node:assert/strict';import{randomUUID}from'node:crypto';import{fileURLToPath,pathToFileURL}from'node:url';
 import{C271,sha271,pinSame271,one271,rows271,currentBatch271,frozenRef271,ref271,targetKey271,sameTargets271,compose271,derive271}from'./facts271.mjs';
@@ -68,7 +69,7 @@ async function main(){
  const a=process.argv.slice(2);assert.equal(a.length,7);assert.equal(a[0],'--input');assert.equal(a[2],'--approved-input-sha');assert.equal(a[4],'--mode');assert.equal(a[6],'--execute');const p=load271({file:a[1],rawBytesSha256:a[3]},a[5]);
  const directory=path.dirname(fileURLToPath(import.meta.url));assert.deepEqual(p.executionTools.map(x=>x.file).sort(),[...executableNames271.map(n=>directory+'/'+n),R271+'/tools/rust-r4ghi/tax15-readonly/runtime15.mjs',R271+'/tools/rust-r4ghi/tax15-readonly/facts15.mjs',R271+'/tools/rust-r4ghi/period15-270/runtime270.mjs',R271+'/tools/rust-r4ghi/period15-270/facts270.mjs'].sort());for(const pin of p.executionTools){within271(R271+'/tools/rust-r4ghi',pin.file);read271(pin);}
  const nonce=randomUUID(),lock=D271+'/driver.lock';fs.writeFileSync(lock,JSON.stringify({pid:process.pid,nonce,mode:C271.kind+'-'+a[5],inputPin:approved271(p)})+'\n',{flag:'wx',mode:0o600});let ctx;
- try{preImport271(p);const h=await helpers271();ctx=h.createContext({epoch:C271.epoch,run:C271.run,'api-process-record':p.apiProcess.file});await verify271(ctx,p,h,{allowOwnFault:a[5]==='disarm-fi'});let result;
+ try{preImport271(p);const h=await helpers271();ctx=createContext121({epoch:C271.epoch,run:C271.run,'api-process-record':p.apiProcess.file});await verify271(ctx,p,h,{allowOwnFault:a[5]==='disarm-fi'});let result;
    if(a[5]==='disarm-fi'){const {state}=saved271(ctx,p);assert(state.pendingTrial&&!state.normalPending&&!state.normalSuccess);approved271(p,'disarm-fi');result={disarmed:await remove271(ctx,p,h),pendingTrialPreservedForRootReconciliation:true,noHTTPExecuted:true};}
    else{const api=h.createApi(ctx);result=a[5]==='prepare'?await prepare271(ctx,api,p,h):a[5]==='fi-only'?await fiOnly271(ctx,api,p,h):a[5]==='commit'?await commit271(ctx,api,p,h):await readVerification271(ctx,api,p,h);}
    console.log(JSON.stringify(result));

@@ -1,3 +1,4 @@
+import {currentRuntime121,assertCurrentLease121,runtimeReference121} from './runtime-admission121.mjs';
 import fs from 'node:fs';
 import http from 'node:http';
 import assert from 'node:assert/strict';
@@ -25,7 +26,8 @@ function bindActualApi(ctx) {
 }
 
 export function createApi(ctx) {
-  bindActualApi(ctx);
+  const lease121=Object.hasOwn(ctx.state,'runtimeAdmission121')?currentRuntime121(ctx):null;
+  if(!lease121)bindActualApi(ctx);
   const spec = JSON.parse(fs.readFileSync(`${ctx.win}/libs/shared/api-spec/openapi.json`));
   const operations = operationMap(spec), actual = statusBindings(ctx);
   const success = id => {
@@ -35,6 +37,7 @@ export function createApi(ctx) {
   };
   ctx.artifact(`${ctx.next('status-bindings')}.json`, { actual, sourcePins: ctx.state.statusSourcePins }, { kind: 'source-bound-platform-create-status', status: 201, blanketStatusWidening: false });
   async function request(operationId, params = {}, body = null, actorKey = 'bootstrap', binding = {}) {
+    if(lease121)assertCurrentLease121(ctx,lease121);
     assert(!ctx.state.cleaned && !ctx.state.cleanupPlan && !ctx.state.blockedObservation && !ctx.state.activeFault, 'No HTTP after cleanup, unresolved observation or leftover FI');
     assert(ctx.state.baseline, 'Original immutable baseline required before any HTTP');
     const op = operations.get(operationId); assert(op, 'operationId absent from current full OpenAPI');
@@ -58,6 +61,7 @@ export function createApi(ctx) {
     const before = await capture(ctx, `${label}-before`); assertRecorded(ctx, before);
     let fault = null;
     if (binding.fi) { assert.equal(binding.expectedStatus, 500, 'FI attempts must keep an explicit failure status'); const { installFault } = await import('./faults.mjs'); await installFault(ctx, binding.fi, requestId, before); }
+    const reference121=lease121?runtimeReference121(ctx,lease121):null;
     const headers = { Origin: ctx.origin, 'X-Request-Id': requestId, 'Accept-Encoding': 'identity' };
     if (Object.keys(actor.cookies).length) headers.Cookie = Object.entries(actor.cookies).map(([k, v]) => `${k}=${v}`).join('; ');
     if (!['GET', 'HEAD'].includes(op.method) && actor.cookies.poms_csrf && binding.csrf !== 'omit') headers['X-CSRF-Token'] = binding.csrf === 'wrong' ? 'deliberately-invalid-test-token' : decodeURIComponent(actor.cookies.poms_csrf);
@@ -66,7 +70,7 @@ export function createApi(ctx) {
     if (binding.bytes) { assert(op.method === 'PUT'); assert(op.op.requestBody?.content?.['application/octet-stream']); headers['Content-Type'] = 'application/octet-stream'; }
     else if (payload.length) headers['Content-Type'] = 'application/json';
     if (payload.length || binding.bytes) headers['Content-Length'] = payload.length;
-    const originals = { requestConfig: ctx.artifact(`${label}-request.json`, { operationId, requestId, url: url.href, method: op.method, headers, binding: { ...binding, bytes: undefined, rawJson: undefined }, before: before.manifest }),
+    const originals = { requestConfig: ctx.artifact(`${label}-request.json`, { ...(reference121?{runtimeReference121:reference121}:{}), operationId, requestId, url: url.href, method: op.method, headers, binding: { ...binding, bytes: undefined, rawJson: undefined }, before: before.manifest }),
       requestBody: ctx.artifact(`${label}-request-body.bin`, payload) };
     ctx.persist(); const chunks = []; let response, failure;
     try {
@@ -82,12 +86,14 @@ export function createApi(ctx) {
     } catch (error) { failure = error; originals.failure = ctx.artifact(`${label}-transport-failure.json`, { name: error.name, message: error.message, stack: error.stack }); }
     const bytes = Buffer.concat(chunks); originals.responseBody = ctx.artifact(`${label}-response-body.bin`, bytes);
     let parsed = null; try { parsed = bytes.length ? JSON.parse(bytes.toString('utf8')) : null; } catch { /* Actual bytes are always retained. */ }
-    const attempt = { ...(ctx.state.processRestart1351 ? { processBinding1351: processReference1351(ctx) } : {}), operationId, requestId, actorKey, actorId: actor.id, pathParams: params, requestValue: body, requestBodySha256: sha(payload), status: response?.status ?? null, expectedStatus, responseComplete: response?.complete === true, transportFailure: Boolean(failure), body: parsed };
+    const attempt = { ...(reference121?{runtimeReference121:reference121}:{}), ...(ctx.state.processRestart1351 ? { processBinding1351: processReference1351(ctx) } : {}), operationId, requestId, actorKey, actorId: actor.id, pathParams: params, requestValue: body, requestBodySha256: sha(payload), status: response?.status ?? null, expectedStatus, responseComplete: response?.complete === true, transportFailure: Boolean(failure), body: parsed };
     const publicReceipt = `${label}-http.json`;
-    ctx.public(publicReceipt, { ...(ctx.state.processRestart1351 ? { processBinding1351: processReference1351(ctx) } : {}), kind: 'actual-business-HTTP-attempt', operationId, requestId, actorKey, method: op.method, canonicalTemplate: op.template,
+    ctx.public(publicReceipt, { ...(reference121?{runtimeReference121:reference121}:{}), ...(ctx.state.processRestart1351 ? { processBinding1351: processReference1351(ctx) } : {}), kind: 'actual-business-HTTP-attempt', operationId, requestId, actorKey, method: op.method, canonicalTemplate: op.template,
       querySha256: sha(url.search), status: attempt.status, expectedStatus, responseComplete: attempt.responseComplete, transportFailure: attempt.transportFailure,
       originals, bodyByteBoundary: 'Configured headers and Node HTTP transfer-decoded entity bytes; not raw TCP capture', secretsHeadersAndPayloadPublished: false });
     ctx.persist();
+    // Raw ACK/body/attempt are durable before a post-lease failure can STOP.
+    if(lease121)assertCurrentLease121(ctx,lease121);
     if (binding.fi) { const { removeFault } = await import('./faults.mjs'); fault = await removeFault(ctx); }
     const after = await capture(ctx, `${label}-after`);
     const ledger = await reconcileAttempt(ctx, before, after, attempt, binding);

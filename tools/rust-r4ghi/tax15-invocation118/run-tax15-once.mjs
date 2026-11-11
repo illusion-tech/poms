@@ -23,6 +23,7 @@ import {
     resetDomainSlot118,
     runtime118,
     setVerifiedPrefix118,
+    verifyPublishedInvocation121,
     stage118,
 } from "./invocation-proof.mjs";
 import { createWire118 } from "./tax15-once-wire.mjs";
@@ -113,7 +114,7 @@ export function verifyFIOriginals118(
 }
 async function runFI118(cap, api) {
     const { ctx, p, h, prepared } = runtime118(cap),
-        record = ctx.state.taxContinuation15;
+        record = ctx.state.taxContinuation121;
     h.assertEffectsReadyTax15(prepared);
     await api.login(p.actorKey);
     checkpoint118(cap, "FI-authenticated");
@@ -166,7 +167,7 @@ async function runFI118(cap, api) {
         samePin118(recovery.reconciledState, p.expectedEntryState);
         assert(Array.isArray(recovery.stoppedInvocations));
         const stopped = Object.values(
-            ctx.state.consumerChecks.tax15Invocation118.invocations,
+            ctx.state.consumerChecks.taxInvocation121.invocations,
         ).filter((j) =>
             j.phase === "closed-failed" &&
             ["fi-closed-set", "fi-family"].includes(j.mode)
@@ -281,6 +282,11 @@ async function runFI118(cap, api) {
         const original = ctx.artifact(
             ctx.next("tax15-fi-only-complete") + ".json",
             {
+                kind:"actual-Source15-runtime121-tax-required-write-FI-complete",
+                runtimeAdmission121:runtime118(cap).manifest.current.runtimeAdmission121,
+                retainedPreparation15:record.retainedPreparation15,
+                continuation121:record.continuation121,
+                continuationReadback:record.continuationReadback,
                 scope,
                 inventory,
                 bodySHA256: p.bodySHA256,
@@ -301,7 +307,7 @@ async function runFI118(cap, api) {
 }
 function verifyNormal118(cap) {
     const { ctx, h, prepared } = runtime118(cap),
-        record = ctx.state.taxContinuation15,
+        record = ctx.state.taxContinuation121,
         state = record.sweep,
         attempt = state?.finalSuccess;
     assert(
@@ -376,7 +382,7 @@ function verifyNormal118(cap) {
 }
 async function commit118(cap, api) {
     const { ctx, p, h, prepared } = runtime118(cap),
-        record = ctx.state.taxContinuation15,
+        record = ctx.state.taxContinuation121,
         state = record.sweep;
     assert.equal(p.mode, "commit-once");
     assert(state && !state.finalSuccess && !state.normalPending);
@@ -475,7 +481,7 @@ export async function runTax15Once118(inputPin, reviewPin) {
         } else if (input.mode === "commit-once") {
             result = await commit118(cap, createWire118(cap));
         } else if (input.mode === "verify-committed") {
-            result = verifyNormal118(cap);
+            result = await verifyPublishedInvocation121(cap);
         } else if (input.mode === "disarm-owned") {
             result = (await remove118(cap)).receipt;
         } else throw Error("Unknown finite Tax mode");

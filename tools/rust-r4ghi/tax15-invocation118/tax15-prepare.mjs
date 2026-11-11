@@ -14,7 +14,7 @@ import {
 } from "./invocation-proof.mjs";
 import { deriveTax15Facts, inventoryTax15 } from "./tax15-facts.mjs";
 import { assertRecorded118 } from "./tax15-once-ledger.mjs";
-import { sha118 } from "./retained-tax-proof.mjs";
+import {sha118,json118,samePin118} from "./retained-tax-proof.mjs";
 
 export function composeTax15Body(primary, targets, correction) {
     assert.equal(primary.kind, "preparation-only");
@@ -60,7 +60,7 @@ export function composeTax15Body(primary, targets, correction) {
 export async function prepareTax15(cap, api) {
     const { ctx, p, h, legacy } = runtime118(cap);
     assert.equal(p.mode, "prepare-only");
-    assert.equal(ctx.state.taxContinuation15.taxPreparation, null);
+    assert.equal(ctx.state.taxContinuation121.taxPreparation, null);
     assert.equal(legacy.retainedMain13.replayForbidden, true);
     assert.equal(legacy.retainedMain13.record.postconditions, "verified");
     await api.login(p.actorKey);
@@ -168,7 +168,7 @@ export async function prepareTax15(cap, api) {
             TaxCorrectionPOSTExecuted: false,
         },
     );
-    ctx.state.taxContinuation15.lastServerTargetPacket = fullPacket;
+    ctx.state.taxContinuation121.lastServerTargetPacket = fullPacket;
     ctx.persist();
     const targets = completeTargetsTax13(
         primary.preparation,
@@ -192,6 +192,10 @@ export async function prepareTax15(cap, api) {
         ),
         inventory = inventoryTax15(facts),
         bodySHA256 = sha118(JSON.stringify(body));
+    // Fresh GETs, physical roots, every peer, CAS and ordered descriptors all
+    // precede this exact historical comparison. No date/root/body fallback.
+    const origin=runtime118(cap).manifest.retainedPreparation15,old=json118(origin.prepared15);
+    assert.equal(bodySHA256,origin.bodySHA256);assert.equal(old.bodySHA256,origin.bodySHA256);assert.deepEqual(body,old.body);assert.deepEqual(facts,old.facts);assert.deepEqual(inventory,old.inventory);assert.deepEqual(inventory,json118(origin.fullInventory));
     const fullInventory = ctx.artifact(
             ctx.next("tax15-full-inventory") + ".json",
             inventory,
@@ -211,6 +215,8 @@ export async function prepareTax15(cap, api) {
                 historicalBaselinePolicyAccepted: false,
                 periodTargetsDropped: false,
                 TaxCorrectionPOSTExecuted: false,
+                runtimeAdmission121:runtime118(cap).manifest.current.runtimeAdmission121,
+                retainedPreparation15:ctx.state.taxContinuation121.retainedPreparation15,
             },
         );
     const prepared = {

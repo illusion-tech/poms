@@ -140,7 +140,7 @@ export function assertCurrentScope118(cap, before) {
     h.assertEffectsReadyTax15(prepared);
     const body = prepared.body;
     assert.equal(hash(body), p.bodySHA256);
-    const scope = ctx.state.taxContinuation15.sweep?.scope ??
+    const scope = ctx.state.taxContinuation121.sweep?.scope ??
         {
             operationId: F118.operation,
             branch: "tax",
@@ -215,7 +215,7 @@ export async function waitAuth118(cap) {
     }
 }
 export function rememberAck118(cap, attempt, receipt, before) {
-    const { ctx, p } = runtime118(cap), record = ctx.state.taxContinuation15;
+    const { ctx, p } = runtime118(cap), record = ctx.state.taxContinuation121;
     assert.equal(p.mode, "commit-once");
     assert(record.normalTaxPending);
     assert(
@@ -290,6 +290,7 @@ export async function install118(cap, descriptor, requestId, before) {
         runtimeBindings: p.runtimeBindings,
         codeAdmission15: manifest.current.codeAdmission15,
         apiProcess: manifest.current.apiProcess,
+        runtimeAdmission121:manifest.current.runtimeAdmission121,
         invocation118: {
             nonce: p.nonce,
             input: runtime118(cap).inputPin,
@@ -372,6 +373,7 @@ export async function remove118(cap) {
         assert.equal(active.invocation118?.nonce, p.nonce);
         assert.equal(active.invocation118?.cursor, frame.cursor);
     }
+    samePin118(active.runtimeAdmission121,manifest.current.runtimeAdmission121);
     samePin118(active.codeAdmission15, manifest.current.codeAdmission15);
     assert(
         ["installed", "commit-pending"].includes(active.phase) &&

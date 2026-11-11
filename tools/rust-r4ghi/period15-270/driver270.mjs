@@ -1,3 +1,4 @@
+import{createContext121}from'../business/runtime-admission121.mjs';
 import {preImport270,verifySource15Runtime270} from './runtime270.mjs';
 // External Root-only driver. It is never part of business/H0/H1 enumeration.
 // Importing is pure; actual operations require a private hash-approved input.
@@ -225,7 +226,7 @@ async function main270() {
   const nonce = randomUUID(), lock = PRIV + '/driver.lock'; fs.writeFileSync(lock, JSON.stringify({ pid: process.pid, nonce, mode: 'period270-' + a[5], inputPin }) + '\n', { flag: 'wx', mode: 0o600 });
   let ctx;
   try {
-    preImport270(plan); const h = await helpers270(); ctx = h.createContext({ epoch: PERIOD270.epoch, run: PERIOD270.run, 'api-process-record': plan.apiProcess.file });
+    preImport270(plan); const h = await helpers270(); ctx = createContext121({ epoch: PERIOD270.epoch, run: PERIOD270.run, 'api-process-record': plan.apiProcess.file });
     await verifyRuntime270(ctx, plan, h); const api = h.createApi(ctx); const result = a[5] === 'prepare' ? await prepare270(ctx, api, plan, inputPin, h)
       : a[5] === 'fi-only' ? await fi270(ctx, api, plan, h) : a[5] === 'commit' ? await commit270(ctx, api, plan, h) : await readVerification270(ctx, api, plan, h);
     console.log(JSON.stringify(result));

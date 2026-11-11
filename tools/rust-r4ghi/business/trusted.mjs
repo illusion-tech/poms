@@ -1,3 +1,4 @@
+import {currentRuntime121,assertCurrentLease121,runtimeReference121,trustedSummaryBinary121} from './runtime-admission121.mjs';
 // Root-authorized non-HTTP R3 CommonService seam. No SQL business fixture writer.
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
@@ -23,11 +24,13 @@ export function source14Summary257(ctx) {
 
 export function source15Summary119(ctx) {
   assert.equal(ctx.epoch, 'g2-business15');
+  if(Object.hasOwn(ctx.state,'runtimeAdmission121'))return trustedSummaryBinary121(ctx);
   const registry = currentCodeRegistry15(ctx, { liveProcess: true, sourceFiles: true });
   assert.equal(registry.schemaVersion, 5); return trustedSummaryBinary15(ctx, registry);
 }
 
 export async function produceActualSummary(ctx) {
+  const lease121=Object.hasOwn(ctx.state,'runtimeAdmission121')?currentRuntime121(ctx):null;
   const f = ctx.state.fixtures; assert(f.projectSourcesComplete && f.summaryInput && !f.summary);
   assert(!ctx.state.cleaned && !ctx.state.cleanupPlan && !ctx.state.blockedObservation);
   const source = `${ctx.win}/apps/poms-api-rust/examples/r4ghi_summary_producer08.rs`;
@@ -59,8 +62,10 @@ export async function produceActualSummary(ctx) {
   ctx.artifact(`${label}-intent.json`, { kind: 'actual-trusted-internal-CommonService-attempt', input: f.summaryInput, pins, before: before.manifest, HTTP: false, createsApproval: false }); ctx.persist();
   const envFile = `${ctx.private}/rust.env`; ownedFile(envFile);
   const env = { PATH: '/home/wangzishi/.cargo/bin:/usr/bin:/bin', HOME: '/home/wangzishi', USER: 'wangzishi', LANG: 'C.UTF-8', POMS_ENV_FILE: envFile };
+  const reference121=lease121?runtimeReference121(ctx,lease121):null;
   const execution = spawnSync(binary, [f.summaryInput.file], { cwd: ctx.mirror, env, encoding: null, timeout: 55000, maxBuffer: 16_000_000, windowsHide: true });
   const stdout = ctx.artifact(`${label}-stdout.bin`, execution.stdout ?? Buffer.alloc(0)), stderr = ctx.artifact(`${label}-stderr.bin`, execution.stderr ?? Buffer.alloc(0));
+  if(lease121){ctx.artifact(ctx.next('trusted-runtime121-outcome')+'.json',{runtimeReference121:reference121,exitCode:execution.status,signal:execution.signal,stdout,stderr});ctx.persist();assertCurrentLease121(ctx,lease121);}
   if (execution.error) ctx.artifact(`${label}-process-failure.json`, { name: execution.error.name, message: execution.error.message, stack: execution.error.stack });
   let body = null; try { body = JSON.parse((execution.stdout ?? Buffer.alloc(0)).toString('utf8')); } catch { /* Exact originals are retained. */ }
   const after = await capture(ctx, `${label}-after`);

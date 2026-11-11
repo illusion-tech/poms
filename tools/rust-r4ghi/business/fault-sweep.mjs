@@ -1,3 +1,4 @@
+import {currentRuntime121,assertGHCurrentSource121} from './runtime-admission121.mjs';
 import {assertGHCurrentSource15,currentCodeRegistry15} from './source15-admission.mjs';
 import {currentCodeRegistry252,readPin252} from './same-m98-code-admission252.mjs';
 // Root-only real FI controls; importing this file performs no SQL, HTTP or I/O.
@@ -17,6 +18,11 @@ const kind = 'source-bound-required-write-sweep17';
 const identitySHA = value => sha(JSON.stringify(value));
 const exactStatus = attempt => assert(attempt.status === 500 && attempt.responseComplete === true && attempt.transportFailure === false, 'FI requires an actual complete500; no missing-ACK rollback inference');
 function verifySources(ctx, operationId = null) {
+  if (Object.hasOwn(ctx.state,'runtimeAdmission121')) {
+    assert.equal(ctx.epoch,'g2-business15');
+    const pins=operationId===null?currentRuntime121(ctx).current.sources:assertGHCurrentSource121(ctx,operationId).sourcePins;
+    assert.deepEqual(pins,ctx.pins);return pins;
+  }
   if (ctx.epoch === 'g2-business15') {
     if (operationId === null) { const registry = currentCodeRegistry15(ctx, {liveProcess:true,sourceFiles:true}); const pins = JSON.parse(readPin252(registry.consumer.sourcePins)); assert.deepEqual(pins, ctx.pins, 'Readonly pending-auth still binds the complete typed15 source graph'); return pins; }
     const current = assertGHCurrentSource15(ctx, operationId); assert.deepEqual(current.sourcePins, ctx.pins); return current.sourcePins;

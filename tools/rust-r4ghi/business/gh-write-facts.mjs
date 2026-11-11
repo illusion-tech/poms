@@ -1,3 +1,4 @@
+import{assertGHCurrentSource121}from'./runtime-admission121.mjs';
 import{assertGHCurrentSource15}from'./source15-admission.mjs';
 import{publicSelection273,adoptedChainFacts273,observedPublicPeriodRefs273,observedCurrentCostUnits273}from'./period-historical-facts273.mjs';
 // Instrumentation inventory from actual owned rows, never an authorization or money calculator.
@@ -107,7 +108,8 @@ function periodPreparation273(ctx, scope, currentSnapshotId, operationId) {
 }
 
 export function deriveGHWriteFacts(ctx, snapshot, operationId, scope, readRows) {
-  if(ctx.epoch==='g2-business15')assertGHCurrentSource15(ctx,operationId);
+  if(Object.hasOwn(ctx.state,'runtimeAdmission121'))assertGHCurrentSource121(ctx,operationId);
+  else if(ctx.epoch==='g2-business15')assertGHCurrentSource15(ctx,operationId);
   assert(isGHWrite(operationId)); const { projectId, actorId, actorKey, params, body } = scope;
   const actor = ctx.state.actors[actorKey]; assert.equal(actor.id, actorId);
   for (const permission of ['operating:finance:sensitive:read', 'labor-cost-rate:sensitive:read']) assert(actor.permissions.includes(permission), 'This positive inventory requires the real source-sensitive actor; masked/denied-event paths need their own inventory');

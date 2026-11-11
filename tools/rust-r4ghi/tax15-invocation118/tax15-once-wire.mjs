@@ -34,7 +34,7 @@ import { F118, read118 } from "./retained-tax-proof.mjs";
 import { statusBindings } from "../userfix/status.mjs";
 import { ownedFile } from "../business/context.mjs";
 import { assertRestatementLaborNumberBinding } from "../business/restatement-labor-number.mjs";
-import { processReference1351 } from "../business/same-source-process1351.mjs";
+
 
 function bindActualApi(ctx) {
     const file = ctx.options["api-process-record"] ??
@@ -64,16 +64,9 @@ function bindActualApi(ctx) {
         "Started binary identity changed",
     );
     const binding = { file, rawBytesSha256: sha(bytes), record };
-    if (ctx.state.apiProcess) {
-        assert.deepEqual(
-            binding,
-            ctx.state.apiProcess,
-            "Do not silently change the bound API process",
-        );
-    } else {
-        ctx.state.apiProcess = binding;
-        ctx.persist();
-    }
+    assert(ctx.state.apiProcess,'Native121 must already have published the actual process; self-wire never adopts one');
+    assert.deepEqual(Object.keys(ctx.state.apiProcess).sort(),['file','rawBytesSha256','record',...(Object.hasOwn(ctx.state.apiProcess,'bytes')?['bytes']:[])].sort());
+    assert.equal(binding.file,ctx.state.apiProcess.file);assert.equal(binding.rawBytesSha256,ctx.state.apiProcess.rawBytesSha256);assert.deepEqual(binding.record,ctx.state.apiProcess.record);if(Object.hasOwn(ctx.state.apiProcess,'bytes'))assert.equal(ctx.state.apiProcess.bytes,bytes.length);
 }
 
 export function createWire118(cap) {
@@ -297,8 +290,10 @@ export function createWire118(cap) {
         if (payload.length || binding.bytes) {
             headers["Content-Length"] = payload.length;
         }
+        const runtimeReference121=checkpoint118(cap,"HTTP-reference-before-wire").runtimeReference121;
         const originals = {
             requestConfig: ctx.artifact(`${label}-request.json`, {
+                runtimeReference121,
                 operationId,
                 requestId,
                 url: url.href,
@@ -396,9 +391,7 @@ export function createWire118(cap) {
             parsed = bytes.length ? JSON.parse(bytes.toString("utf8")) : null;
         } catch { /* Actual bytes are always retained. */ }
         const attempt = {
-            ...(ctx.state.processRestart1351
-                ? { processBinding1351: processReference1351(ctx) }
-                : {}),
+            runtimeReference121,
             operationId,
             requestId,
             actorKey,
@@ -414,9 +407,7 @@ export function createWire118(cap) {
         };
         const publicReceipt = `${label}-http.json`;
         ctx.public(publicReceipt, {
-            ...(ctx.state.processRestart1351
-                ? { processBinding1351: processReference1351(ctx) }
-                : {}),
+            runtimeReference121,
             kind: "actual-business-HTTP-attempt",
             operationId,
             requestId,
@@ -438,7 +429,7 @@ export function createWire118(cap) {
             !attempt.transportFailure
         ) {
             if (p.mode !== "commit-once") {
-                ctx.state.taxContinuation15.unexpectedTaxACK = {
+                ctx.state.taxContinuation121.unexpectedTaxACK = {
                     attempt,
                     receipt: `${ctx.out}/${publicReceipt}`,
                     before: before.manifest,
@@ -457,6 +448,9 @@ export function createWire118(cap) {
             );
         }
         ctx.persist();
+        // Raw response, public attempt and any201 ACK already exist before a
+        // process/lease failure may stop cleanup. Never re-dispatch this body.
+        checkpoint118(cap,"HTTP-ACK-preserved-postguard");
         if (binding.fi) {
             const f = runtime118(cap).frame;
             stage118(cap, {
@@ -494,9 +488,9 @@ export function createWire118(cap) {
             binding,
         );
         noteLedger118(cap, ledger);
-        runtime118(cap).ctx.state.consumerChecks.tax15Invocation118
+        runtime118(cap).ctx.state.consumerChecks.taxInvocation121
             .invocations[p.nonce].httpAttempts ??= [];
-        runtime118(cap).ctx.state.consumerChecks.tax15Invocation118
+        runtime118(cap).ctx.state.consumerChecks.taxInvocation121
             .invocations[p.nonce].httpAttempts.push({
                 http: {
                     file: `${ctx.out}/${publicReceipt}`,
@@ -522,10 +516,10 @@ export function createWire118(cap) {
         }
         if (
             domain &&
-            ctx.state.taxContinuation15.sweep?.finalSuccess?.requestId ===
+            ctx.state.taxContinuation121.sweep?.finalSuccess?.requestId ===
                 requestId
         ) {
-            Object.assign(ctx.state.taxContinuation15.sweep.finalSuccess, {
+            Object.assign(ctx.state.taxContinuation121.sweep.finalSuccess, {
                 after: after.manifest,
                 ledger,
             });
