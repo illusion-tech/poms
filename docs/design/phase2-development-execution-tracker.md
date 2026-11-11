@@ -997,3 +997,14 @@ D#107/E#108/F#109及本批#106已按[独立关闭许可](archive/slices/rust-r4d
 原Podman容器/卷、PG15/OID目录仍在；新boot与旧API记录不同，尚未启动服务或证明逻辑数据守恒。原生子项[#121](https://github.com/illusion-tech/poms/issues/121)归#114并阻塞#118，G1待冻结，新增业务操作0。先原卷守恒，再建立真实新进程准入链；不能用新PID冒旧证明。#119历史技术G4与真实prepare8b/08e3保持原时点。正式Rust240、R4 67/95、新认证0，#57及完整R5 #116继续开放。
 
 <!-- /poms-r4ghi-status353 -->
+
+
+<!-- poms-r4ghi-status354 -->
+
+### 2026-11-12 状态354：#121 A/B与构造补充G1冻结，三线代码实施
+
+[固定状态354](rust-r4ghi/continuation-status354.json)记录同Source15显式新runtime lease方案：A为holder/原PG/双库RO守恒前置，B为Native与消费闭合，构造补充只品牌真实factory返回root/view并保planned-date原业务参数。旧01 NOTREADY与be96/f96c原件不改；原15记录、Reg5/B1/process、08e3/body0f92/full67及7f失败保留。
+
+Root/I/H按精确范围并行实施：Root A七外置叶首版已7项语法与37项Linux隔离检查通过、代码独审中；I Native与H21 seam仅候选代码。旧270源原像保全，计划2ADD/9MOD得到229图，实际新图/进程/准入尚无。当前PG/API未启动、逻辑守恒未实测、实际G2未签、#118仍由#121阻塞；正式Rust240、R4 67/95、新认证0，业务G3/G4未通过，#57/完整R5 #116保持开放。
+
+<!-- /poms-r4ghi-status354 -->
