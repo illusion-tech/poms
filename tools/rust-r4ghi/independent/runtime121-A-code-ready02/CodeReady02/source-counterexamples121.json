@@ -1,0 +1,78 @@
+{
+  "kind": "independent-runtime121-A-code02b-original-counterexample-rejection",
+  "sourceManifest": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/tests/sealed-A-code02b/manifest-A-code121.json",
+    "bytes": 14691,
+    "rawBytesSha256": "5f246372b746b1056556b3ec5e32138674fb927c2be12edf033d1c46b6b817f6"
+  },
+  "projectionsAreExactActualExportBodies": true,
+  "sourceFilesCopiedByteExact": true,
+  "mounts": [
+    {
+      "name": "wrong-mount-destination",
+      "acceptedByActualInspector": false
+    },
+    {
+      "name": "duplicate-volume-plus-foreign-pgdata",
+      "acceptedByActualInspector": false
+    },
+    {
+      "name": "wrong-PGDATA",
+      "acceptedByActualInspector": false
+    },
+    {
+      "name": "read-only-volume",
+      "acceptedByActualInspector": false
+    }
+  ],
+  "unknownBefore": {
+    "which": "before",
+    "rawStartCalls": 0,
+    "completeProduced": false,
+    "error": "Expected values to be strictly equal:\n+ actual - expected\n\n+ 'unknown'\n- 'exited'\n"
+  },
+  "unknownAfter": {
+    "which": "after",
+    "rawStartCalls": 1,
+    "completeProduced": false,
+    "error": "Expected values to be strictly equal:\n+ actual - expected\n\n+ 'unknown'\n- 'running'\n"
+  },
+  "holder": [
+    {
+      "kind": "positive",
+      "accepted": true,
+      "error": null,
+      "recordedArgInputMatchesClaimedInput": true,
+      "recordedArgReviewMatchesClaimedReview": true,
+      "readyFileEqualsInputOutput": true
+    },
+    {
+      "kind": "detached-approval",
+      "accepted": false,
+      "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n    '/home/wangzishi/.local/share/fnm/node-versions/v24.19.0/installation/bin/node',\n    '/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/hold-runtime121.mjs',\n    '--input',\n+   '/unit/original-input',\n-   '/unit/detached-input',\n    '--input-sha',\n    'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',\n    '--review',\n+   '/unit/original-review',\n-   '/unit/detached-review',\n    '--review-sha',\n    'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',\n    '--execute'\n  ]\n",
+      "recordedArgInputMatchesClaimedInput": false,
+      "recordedArgReviewMatchesClaimedReview": false,
+      "readyFileEqualsInputOutput": true
+    },
+    {
+      "kind": "wrong-ready-path",
+      "accepted": false,
+      "error": "Expected values to be strictly equal:\n+ actual - expected\n\n+ '/unit/copied-elsewhere-holder-ready'\n- '/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-A/holder-start/45ed984a-4c52-4668-8b51-328c45d53e41/holder-ready.json'\n",
+      "recordedArgInputMatchesClaimedInput": true,
+      "recordedArgReviewMatchesClaimedReview": true,
+      "readyFileEqualsInputOutput": false
+    },
+    {
+      "kind": "wrong-boot",
+      "accepted": false,
+      "error": "Expected values to be strictly equal:\n+ actual - expected\n\n+ 'changed-boot'\n- 'unit-boot'\n",
+      "recordedArgInputMatchesClaimedInput": true,
+      "recordedArgReviewMatchesClaimedReview": true,
+      "readyFileEqualsInputOutput": true
+    }
+  ],
+  "noActualPodmanOrProcessOrSignalOrClientOrContextUsed": true,
+  "allProcessFSAndApprovalDependenciesExplicitlySynthetic": true,
+  "RootAndPrivateWritten": false,
+  "originalTwoFindingsNowRejected": true
+}

@@ -1,0 +1,229 @@
+{
+  "kind": "non-author-runtime121-A-code-review",
+  "edition": "A-code01",
+  "verdict": "not-ready-runtime121-A-code01",
+  "author": "Root",
+  "reviewer": "/root/r4ghi_final_gates13",
+  "reviewerIsAuthor": false,
+  "recordedAt": "2026-11-11T18:58:04.720Z",
+  "toolingManifest": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/tests/sealed-A-code01/manifest-A-code121.json",
+    "bytes": 13471,
+    "rawBytesSha256": "b3cb435a09058a7770258642ca3d4d47ee33d6571dbfba7f6fc28e3f32732288"
+  },
+  "G1": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/g1A/Root-G1A-121.json",
+    "bytes": 4887,
+    "rawBytesSha256": "c20283d9a4e30d96f23d7f3890882e58a6f22e394fa9c747baa4c3a07968a68b"
+  },
+  "executionSources": [
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/hold-runtime121.mjs",
+      "bytes": 2131,
+      "rawBytesSha256": "b607a5dd56190b16c86d4deb03ff4ad7f9f68b8942374a15e0c8a7684ebcf8d8"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/start-holder121.ps1",
+      "bytes": 3896,
+      "rawBytesSha256": "9e1b5db26c5422133a019871188bb0e9bf0f267b455ba6d44306c6808cd51753"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/resume-original-pg121.mjs",
+      "bytes": 3775,
+      "rawBytesSha256": "48447dc1d80412a032c6191183b5ab4a1463799ef9c486d0233d14a5a3b96ea8"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/observe-conservation121.mjs",
+      "bytes": 14419,
+      "rawBytesSha256": "adcbfd9d07ef5d98a5675cd3b15adc54771c787bba6ef585e20973e9ad30c7ca"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/prepare121.mjs",
+      "bytes": 3507,
+      "rawBytesSha256": "50623e25bb4c294529ee92ef721caaf958bfc5660acba825f873a83ff53d8eaf"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/dispatch121.mjs",
+      "bytes": 4285,
+      "rawBytesSha256": "d59f9ed7095e66fca1ae9ea0b08c79e8d050fbaad7912c934451e3be46430ed5"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/facts121.mjs",
+      "bytes": 12830,
+      "rawBytesSha256": "25749d1a59c7193654e56a772d64285c4bf855ca8e90c22d2e2b9d5d3561cd42"
+    }
+  ],
+  "findings": [
+    {
+      "id": "A121-IR01",
+      "priority": "P2",
+      "status": "OPEN",
+      "title": "Close original PG mount and finite process-status guards before start/complete",
+      "source": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/resume-original-pg121.mjs",
+        "bytes": 3775,
+        "rawBytesSha256": "48447dc1d80412a032c6191183b5ab4a1463799ef9c486d0233d14a5a3b96ea8"
+      },
+      "locations": {
+        "inspectorStart": 13,
+        "mountCheck": 16,
+        "beforeStartGuard": 22,
+        "startDispatch": 28,
+        "afterStartGuard": 32
+      },
+      "problem": "inspectOriginalPG121 checks the named volume Source but drops destination/type/RW/PGDATA and mount uniqueness. resumePG121 requires running=false/pid0 but accepts any before.status; after start it accepts any status when running=true/pid>0. These states cannot prove the exact original mounted PG instance is in the finite approved stopped/running transition.",
+      "actualSourceCounterexamples": {
+        "evidence": {
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-A-code-review01/source-counterexamples121.json",
+          "bytes": 2355,
+          "rawBytesSha256": "dbc0787e0f57120063721ab79747b5eed1c6d5bea9df76c169f6bdda849fae1f"
+        },
+        "inspectorAccepted": [
+          "wrong destination",
+          "extra foreign PGDATA mount",
+          "PGDATA pointing elsewhere",
+          "RW=false"
+        ],
+        "unknownBeforeReachedSyntheticStartBoundary": true,
+        "unknownAfterProducedSyntheticComplete": true,
+        "actualPodmanOrPGStarted": false
+      },
+      "actualOriginalMountWitness": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-original-mount-observation01/observation.json",
+        "bytes": 977,
+        "rawBytesSha256": "2c0eaa058de2188622dc4822c7fdeb3239fc6a751738e582b3de4a9b1e58f3f2"
+      },
+      "minimalCorrection": [
+        "Use the actual original mount/PGDATA witness to bind the one expected original volume mount: exact Name/Source/Destination/Type/RW and the declared uniqueness policy; reject foreign or duplicate data mounts and missing/conflicting PGDATA rather than merely finding one matching Name.",
+        "Require the explicit original stopped status together with false/pid0 before any start, and the explicit running status together with a valid physical PID after start/readiness. Any unknown/inconsistent status STOP, including after a successful start; preserve original outcome/partial with no retry or stop.",
+        "Retain original full ID/image/loopback port/PG15/OID directory preconditions, one start only, real pg_isready and raw logs, state bookends and no create/replace/restore/migrate behavior. No business or schema change is needed."
+      ]
+    },
+    {
+      "id": "A121-IR02",
+      "priority": "P2",
+      "status": "OPEN",
+      "title": "Bind live holder argv and ready file to the exact executed approval and nonce",
+      "source": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/facts121.mjs",
+        "bytes": 12830,
+        "rawBytesSha256": "25749d1a59c7193654e56a772d64285c4bf855ca8e90c22d2e2b9d5d3561cd42"
+      },
+      "locations": {
+        "holderFacts": 104,
+        "argvCheck": 107,
+        "holderInput": 108
+      },
+      "problem": "The real kernel cmdline is only compared to the ready JSON h.argv and its first two entries. The h.input and h.review pins are validated separately but never bound to their exact argv positions. The consumed ready pin is also not constrained to holderInput.outputDirectory/holder-ready.json. A copied/detached ready record can therefore claim another unexecuted input/review while matching the unchanged live process argv.",
+      "actualSourceCounterexamples": {
+        "evidence": {
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-A-code-review01/source-counterexamples121.json",
+          "bytes": 2355,
+          "rawBytesSha256": "dbc0787e0f57120063721ab79747b5eed1c6d5bea9df76c169f6bdda849fae1f"
+        },
+        "validKernelArgvStillPointsToOriginalInputAndReview": true,
+        "detachedReadyInputAndReviewAccepted": true,
+        "readyFileOutsideExecutedInputOutputDirectoryAccepted": true,
+        "wrongBootNegativeStillRejects": true,
+        "noActualProcessOrPrivateDataQueried": true
+      },
+      "minimalCorrection": [
+        "Derive the complete expected kernel argv from fixed Node/source plus h.input.file/hash and h.review.file/hash, all exact flag order/count; compare the actual /proc argv to that concrete expected array as well as recorded argv.",
+        "Close h.input/h.review/nonce/source and mode through their actual strict original bytes; constrain the consumed ready pin to the real holderInput.outputDirectory plus fixed holder-ready.json, with exact nonce/output identity. Do not accept a same-byte metadata copy as the real executed output path.",
+        "Retain boot/PID/start/exe/cwd/source/binary checks and full source/approval validation. No callback, generic process adoption, automatic restart or control of other processes is introduced."
+      ]
+    }
+  ],
+  "verifiedUnaffectedBoundary": {
+    "allSevenActualAndSealedProductImagesByteEqual": true,
+    "allFiveValidationActualAndSealedImagesByteEqual": true,
+    "scopeSevenADDAndFiveValidationMatchesG1": true,
+    "inputClosed15KeysAndThreeModeNullMatrices": true,
+    "RootApprovalExact12WholeObjectBeforeEffects": true,
+    "nonAuthorCodeReviewAndExactInputReviewBeforeRootSigning": true,
+    "fixedEntrySelectionNoDynamicExecutableOrSQLInput": true,
+    "NodeExecutableCwdUidAndLoaderGuardsPresent": true,
+    "exclusiveNonceOutputAndWxEvidenceNoBlindReplay": true,
+    "WindowsWSLForegroundUsesHiddenWindowAndFixedArgv": true,
+    "holderDoesNotStartPGAPIOrChangeGlobalConfig": true,
+    "PGExactlyOneStartCommandAndUnknownOutcomePartialPreserved": true,
+    "PGInspectSecretsProjectedNotPublished": true,
+    "readonlyClientDefaultAndTransactionROVerified": true,
+    "fixedTwoDatabaseOwnerOidMarkerNamespaceTimezoneM98GuardsPresent": true,
+    "catalogAndAll139TablesRawXminKeyCellsAndWholeBytesCompared": true,
+    "bothObservationsEachMatchBaselineAndEachOther": true,
+    "fullMetaSequencesAndObjectBytesDirectoriesCompared": true,
+    "noCrossDatabaseAtomicityClaim": true,
+    "old13Old14Failed15AndOwnershipRawBookendsPresent": true,
+    "noContextOrNativeAuthorityOrDataRepair": true,
+    "unaffectedFindingsAreStaticCodeReviewNotActualRuntimeCertification": true
+  },
+  "checks": {
+    "independent": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-A-code-review01/isolated-checks121.json",
+      "bytes": 10849,
+      "rawBytesSha256": "6864c7f7dfe4c0cffd8e8a864255a2ad3c7ddb1ae4b386435c1cfaffd4d6b697"
+    },
+    "NodeSyntax": {
+      "count": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "originalIsolatedTests": {
+      "count": 37,
+      "passed": 37,
+      "failed": 0,
+      "skipped": 0,
+      "testBodiesCopiedByteExact": true,
+      "onlyOwnFixtureWrites": true
+    },
+    "counterexamples": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-A-code-review01/source-counterexamples121.json",
+      "bytes": 2355,
+      "rawBytesSha256": "dbc0787e0f57120063721ab79747b5eed1c6d5bea9df76c169f6bdda849fae1f"
+    },
+    "counterexamplesUseExactActualExportBodies": true,
+    "processFilesystemApprovalAndClientDependenciesInCounterexamplesSynthetic": true,
+    "RootPowerShellParser": "author syntax evidence reports pass, source read; not reexecuted by reviewer",
+    "authorEvidence": {
+      "syntax": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/tests/evidence/syntax01/checks.json",
+        "bytes": 9122,
+        "rawBytesSha256": "300ed80aefe201a92213c4785e5a7751e1c63a57d443c676fe5fc7a2d2ff6d3f"
+      },
+      "RootLinuxUnit": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/tests/evidence/unit01/checks.json",
+        "bytes": 4654,
+        "rawBytesSha256": "d226afcf443addaf7d39160b74571e9ee6b3314514cf49526d068059f3b9f245"
+      },
+      "IExactTestSourceAdoption": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/tests/candidate02-adoption.json",
+        "bytes": 1680,
+        "rawBytesSha256": "459b656cf0485e2f241ca78fa975dc74590e4c17ef8c7eb9122ae22254837f8c"
+      }
+    },
+    "noTaskOperatorOrActualCaptureExecuted": true
+  },
+  "scopeOfReview": {
+    "fullSevenProductionSourcesRead": true,
+    "fiveValidationSourcesRead": true,
+    "originalG1AAndH066DesignRead": true,
+    "RootOriginalMountObservationOnlyFixedFSRead": true,
+    "noCtorBOrCurrentRuntimeExpansion": true,
+    "noCargoOrSDKAdminChecksNeededForThisToolOnlyCorrection": true
+  },
+  "requiredSuccessor": "Preserve b3cb and all current product/test/log bytes. Root may produce a newly sealed finite edition correcting these guard defects, with matching isolated regressions and new exact source pins; independent code review and each actual mode exact G2 remain required.",
+  "codeReady": false,
+  "actualG2": false,
+  "actualG2Authorized": false,
+  "actualHolderPGAPIStartedByReviewer": false,
+  "actualConservationCertified": false,
+  "RootOrPrivateWritten": false,
+  "noSQLHTTPProcessProbeOrSignal": true,
+  "onlyOwnIndependentArtifactsAndSyntheticFixturesWritten": true,
+  "G3Certified": false,
+  "G4Certified": false,
+  "businessG3": false,
+  "businessG4": false,
+  "newBusinessCertified": 0
+}

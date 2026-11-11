@@ -1,0 +1,78 @@
+{
+  "kind": "independent-runtime121-A-code01-source-projection-counterexamples",
+  "sourceManifest": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/tests/sealed-A-code01/manifest-A-code121.json",
+    "bytes": 13471,
+    "rawBytesSha256": "b3cb435a09058a7770258642ca3d4d47ee33d6571dbfba7f6fc28e3f32732288"
+  },
+  "projectionsAreExactActualExportBodies": true,
+  "sourceFilesCopiedByteExact": true,
+  "mounts": [
+    {
+      "name": "wrong-mount-destination",
+      "acceptedByActualInspector": true
+    },
+    {
+      "name": "duplicate-volume-plus-foreign-pgdata",
+      "acceptedByActualInspector": true
+    },
+    {
+      "name": "wrong-PGDATA",
+      "acceptedByActualInspector": true
+    },
+    {
+      "name": "read-only-volume",
+      "acceptedByActualInspector": true
+    }
+  ],
+  "unknownBefore": {
+    "which": "before",
+    "rawStartCalls": 1,
+    "completeProduced": false,
+    "error": "SENTINEL-before-real-start"
+  },
+  "unknownAfter": {
+    "which": "after",
+    "rawStartCalls": 1,
+    "completeProduced": true,
+    "error": null
+  },
+  "holder": [
+    {
+      "kind": "positive",
+      "accepted": true,
+      "error": null,
+      "recordedArgInputMatchesClaimedInput": true,
+      "recordedArgReviewMatchesClaimedReview": true,
+      "readyFileEqualsInputOutput": true
+    },
+    {
+      "kind": "detached-approval",
+      "accepted": true,
+      "error": null,
+      "recordedArgInputMatchesClaimedInput": false,
+      "recordedArgReviewMatchesClaimedReview": false,
+      "readyFileEqualsInputOutput": true
+    },
+    {
+      "kind": "wrong-ready-path",
+      "accepted": true,
+      "error": null,
+      "recordedArgInputMatchesClaimedInput": true,
+      "recordedArgReviewMatchesClaimedReview": true,
+      "readyFileEqualsInputOutput": false
+    },
+    {
+      "kind": "wrong-boot",
+      "accepted": false,
+      "error": "Expected values to be strictly equal:\n+ actual - expected\n\n+ 'changed-boot'\n- 'unit-boot'\n",
+      "recordedArgInputMatchesClaimedInput": true,
+      "recordedArgReviewMatchesClaimedReview": true,
+      "readyFileEqualsInputOutput": true
+    }
+  ],
+  "noActualPodmanOrProcessOrSignalOrClientOrContextUsed": true,
+  "allProcessFSAndApprovalDependenciesExplicitlySynthetic": true,
+  "RootAndPrivateWritten": false,
+  "defectsReproduced": true
+}

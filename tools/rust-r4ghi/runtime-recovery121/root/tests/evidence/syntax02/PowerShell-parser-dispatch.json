@@ -1,0 +1,11 @@
+{
+  "name": "PowerShell-parser",
+  "exe": "C:/Program Files/WindowsApps/OpenAI.CodexPrimaryRuntime.v26-1104-2876-0_26.1104.2876.0_x64__3k8sg7r9htsxt/dependencies/native/powershell/pwsh.exe",
+  "argv": [
+    "-NoLogo",
+    "-NoProfile",
+    "-NonInteractive",
+    "-Command",
+    "$taskTokens=$null; $taskParseErrors=$null; [System.Management.Automation.Language.Parser]::ParseFile('E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/start-holder121.ps1',[ref]$taskTokens,[ref]$taskParseErrors) | Out-Null; if($taskParseErrors.Count){$taskParseErrors | ForEach-Object {$_.Message}; exit 1}"
+  ]
+}
