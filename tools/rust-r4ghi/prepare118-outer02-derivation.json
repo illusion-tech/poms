@@ -1,0 +1,26 @@
+{
+  "kind": "Root-exact-corrected-prepare118-dispatch-derivation",
+  "original": {
+    "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/execute-prepare118-once.mjs",
+    "bytes": 5287,
+    "rawBytesSha256": "48c8b576622130db8efaaf628ec057ba9bd7132133f55a851e9517ea3248e71a"
+  },
+  "successor": {
+    "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/execute-prepare118-once02.mjs",
+    "bytes": 5547,
+    "rawBytesSha256": "9760cfb2c6c93747383f8c8c65dd691619177efed54979bd89f1e7609ca07677"
+  },
+  "edits": [
+    [
+      "/tax15-prepare118-prepared01",
+      "/tax15-prepare118-prepared02"
+    ],
+    [
+      "assert.equal(entry.rawBytesSha256, 'e0a4a9a8fb1f06a974a5f854e18fd5edeb987c2ffdeda79499b8161fc388df30');",
+      "const codeReview = JSON.parse(read(input.codeReview.file, input.codeReview.rawBytesSha256).b);\nassert.equal(codeReview.kind, 'non-author-Tax15-invocation118-code-review');\nassert.equal(codeReview.verdict, 'code-ready-for-exact-input-review');\nassert.equal(codeReview.reviewerIsAuthor, false);\nassert.deepEqual(codeReview.executionSources, input.executionSources);"
+    ]
+  ],
+  "inverseExact": true,
+  "actualInvocationExecuted": false,
+  "normalFIGranted": false
+}

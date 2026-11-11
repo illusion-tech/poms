@@ -1,0 +1,82 @@
+{
+  "kind": "Root-requested-Tax15-prepare-only118-exact-G2",
+  "recordedAt": "2026-11-11T03:10:40.930Z",
+  "mode": "prepare-only",
+  "input": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/tax15-prepare118-prepared02/prepare-only-input118.json",
+    "bytes": 6671,
+    "rawBytesSha256": "498238a4a9eef0b8d44e616b869ce129768768adce743857814ce6d93f172436"
+  },
+  "expectedRootReview": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/tax15-prepare118-prepared02/Root-exact-prepare-only-review118.json",
+    "bytes": 1013,
+    "rawBytesSha256": "6fa00378515d3bc89e5cc6bfb5a20ade2a192c755469093657cc4eba9e12d94f"
+  },
+  "expectedRootReviewBody": {
+    "kind": "Root-approved-exact-Tax15-invocation118",
+    "approvedInput": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/tax15-prepare118-prepared02/prepare-only-input118.json",
+      "bytes": 6671,
+      "rawBytesSha256": "498238a4a9eef0b8d44e616b869ce129768768adce743857814ce6d93f172436"
+    },
+    "codeReview": {
+      "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/independent-tax15-invocation118-code02/review118-code02.json",
+      "bytes": 15180,
+      "rawBytesSha256": "feff98a01aa0a693c4e60061e41733c5527f0bb5bd4307efc9b193dcc3f9a3ab"
+    },
+    "expectedEntryState": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/tax15-prepare118-prepared02/entry-state15.json",
+      "bytes": 13842968,
+      "rawBytesSha256": "a6fda93cca0b21d8377254b3bbe7bce80687108cfd67cc1c7380012fef00b7fd"
+    },
+    "mode": "prepare-only",
+    "nonce": "c9b54e04-f63e-410c-a022-575815171333",
+    "actualG2Authorized": true,
+    "normalTaxPOSTGranted": false,
+    "FIGranted": false
+  },
+  "previousFailedRequest": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/tax15-prepare118-prepared01/request-prepare-only-G2-review118.json",
+    "bytes": 3511,
+    "rawBytesSha256": "77f220c78f3b93f1291432defae2cf0992dfd4e75e2a33de43aa1bc940790baa"
+  },
+  "previousFailedCommand": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/tax15-prepare118-prepared01/run01/command-receipt.json",
+    "bytes": 1034,
+    "rawBytesSha256": "16acf217fbbac315d6598dba9f722aa4bbc138f53ba7ef02496d4e52c16eef6c"
+  },
+  "previousPartial": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/tax118-invocation-88160fd3-c7d7-439b-89e6-70209be4e3c6/partial.json",
+    "bytes": 668,
+    "rawBytesSha256": "a14089de12a14b19201407914d05fb48b3fa18639f2ae32e48417be4316086b4"
+  },
+  "independentFailureReview": {
+    "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/independent-prepare118-actual-failure01/review-actual-failure-NOTREADY01.json",
+    "bytes": 5682,
+    "rawBytesSha256": "46065e69e4c8dfb1b290354c4f9a3506ea583e834178f949074ab338d5768101"
+  },
+  "previousRealConstructorReturnedButNoNativeExit": true,
+  "noRetroactiveExitClaimed": true,
+  "previousSourceAndFailureUnmodified": true,
+  "actualTechnicalReadback": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/actual15-technical-publication119-readback01/review-actual-technical-publication119.json",
+    "bytes": 13621,
+    "rawBytesSha256": "8308018883de481f9abfc3e6d2a2a403d4bfdc1a51252d7c97ff878fb7798dae"
+  },
+  "actualSource15EntryState": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/state.json",
+    "bytes": 13842968,
+    "rawBytesSha256": "a6fda93cca0b21d8377254b3bbe7bce80687108cfd67cc1c7380012fef00b7fd"
+  },
+  "actualOfflineActorEvidence": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/tax15-prepare118-actor-evidence01/manager-permissions-facts118.json",
+    "bytes": 6696,
+    "rawBytesSha256": "b370fad5be7f072d21fcfb0d36194631df7eb352e5010acbef2349d01e077876"
+  },
+  "recoveryBasis": "Independent old attempt pre-HTTP/client failure, no state/ownership change; new corrected-code review, nonce, phase, entry and exact approval. No old request replay.",
+  "requestedAction": "Single native createContext entry/exit, fresh actor auth and complete read-only preparation/targets/body/inventory evidence; no classification, FI, Tax/Main command or normal201",
+  "authenticationMayCreateSessionAndAuthAudit": true,
+  "actualG2": false,
+  "preparationAlreadyRun": false,
+  "RootReviewSigned": false
+}

@@ -1,0 +1,40 @@
+{
+  "kind": "non-author-Root-Tax118-retry-orchestration-source-review",
+  "edition": "outer02",
+  "verdict": "NOT_READY",
+  "sourceAuthor": "/root",
+  "reviewer": "/root/r4_period_engineering206",
+  "source": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/execute-prepare118-once02.mjs",
+    "bytes": 5547,
+    "rawBytesSha256": "9760cfb2c6c93747383f8c8c65dd691619177efed54979bd89f1e7609ca07677"
+  },
+  "finding": {
+    "id": "T118-ORCH02-IR01",
+    "priority": "P2",
+    "lines": [
+      19,
+      38
+    ],
+    "summary": "Before writing Root approval the old outer checks matching input/review pins and three bools but omits whole nine-field body/input equality.",
+    "evidence": {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/independent-root-prepare118-retry02-review01/checks-retry118-outer02-03.json",
+      "bytes": 29910,
+      "rawBytesSha256": "6c3c848872a2dcb36e13d8f0147274b29e834ece7609d1a70cc02ebdc9bb20e9"
+    },
+    "acceptedDriftKinds": [
+      "kind",
+      "approvedInput",
+      "codeReview",
+      "expectedEntryState",
+      "mode",
+      "nonce",
+      "extra-field",
+      "missing-field"
+    ],
+    "scope": "Exact pre-write guard-span model only. These contradictions may be rejected by the real child; no actual context escalation or real invalid dispatch is claimed."
+  },
+  "originalBytesPreserved": true,
+  "productionWrapperExecuted": false,
+  "actualG2Granted": false
+}
