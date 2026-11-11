@@ -1,0 +1,179 @@
+{
+  "kind": "non-author-runtime121-policy-view-entry-seal-design-review",
+  "issue": 121,
+  "verdict": "recommend-bounded-code-only-G1-append",
+  "reviewer": "/root/r4ghi_final_gates13",
+  "reviewerIsAuthor": false,
+  "author": "I / r4_period_engineering206 with H caller census",
+  "recordedAt": "2026-11-11T19:08:32.185Z",
+  "exactInputs": {
+    "manifest": {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-policy-view-supplement01/manifest-policy-view-supplement01.json",
+      "bytes": 483,
+      "rawBytesSha256": "92f761812ebc33b9c85501077820f0fbf656bca44824c842dad53f0d9a1f9d9a"
+    },
+    "specification": {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-policy-view-supplement01/policy-view-entry-seal.PROPOSED.json",
+      "bytes": 5632,
+      "rawBytesSha256": "21b43d7019201a1ab7aeaacd8f7e27dfd7cde2aa05ab430489f4aca58efe0d82"
+    },
+    "originalG1B": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/g1B/Root-G1B-121.json",
+      "bytes": 5254,
+      "rawBytesSha256": "be96f468fe8c7aa58dcebe6f687ef90d0afb46f1d9ca2ac2bc2b3e90974206cc"
+    },
+    "originalCtorAppend": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/g1B-Ctor-append01/Root-G1B-Ctor-append01.json",
+      "bytes": 3013,
+      "rawBytesSha256": "72dc2677f51b2a430b5970a81b40b9301aaf3d97dd9f00f2b8fe6356a90748cb"
+    },
+    "protectedPolicyFactory": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/policy-continuation15-287/facts287.mjs",
+      "bytes": 7977,
+      "rawBytesSha256": "e9d98597748585a45c6590931c243148fa987fd46ab1f64498eba5cd1b5807af"
+    },
+    "actualCallerBefore": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/policy-continuation15-287/run287.mjs",
+      "bytes": 17061,
+      "rawBytesSha256": "99a4434b8f8cb78c2868dbdb70a7bef4aa81d163265748982cb47065b964dfbd"
+    }
+  },
+  "findings": [],
+  "recommendation": {
+    "RootMayAppendFreezeExactProposalForCodeOnly": true,
+    "RootExplicitImplementationAuthorizationStillRequired": true,
+    "codeReady": false,
+    "actualG2Authorized": false
+  },
+  "scope": {
+    "ILeafIncrease": 0,
+    "HLeafIncrease": 0,
+    "IExistingLeaf": "tools/rust-r4ghi/business/runtime-admission121.mjs",
+    "additionalSynchronousExport": "createPolicyView121(root, record, baseReg5)",
+    "plannedPublicNativeExportsAfterAppend": 16,
+    "HCallerAlreadyMOD": "tools/rust-r4ghi/policy-continuation15-287/run287.mjs",
+    "H_MODUnchanged": 21,
+    "H_PROTECTUnchanged": 21,
+    "caller120_MODUnchanged": 8,
+    "caller120_PROTECTUnchanged": 17,
+    "H3PlannedCountUnchanged": 229,
+    "actualH3Count": null,
+    "validationLeafIncrease": 0,
+    "businessSourceCompileOrAlgorithmChange": 0
+  },
+  "sourceEvidence": {
+    "strictFSReadback": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-policy-view-design-review01/source-FS-readback-policy121.json",
+      "bytes": 3223,
+      "rawBytesSha256": "1093b32b8966cde7aa06f85f785d954cf5aab37fdd009fd0e41806c5811e8615"
+    },
+    "pinsVerified": 6,
+    "protectedFactorySignatureLine": 32,
+    "protectedFactoryDirectProxyReturnLine": 40,
+    "actualCurrentRecordLines": [
+      56,
+      57
+    ],
+    "actualViewPassedToGenericHTTPLine": 60,
+    "oldCallerByteSpan": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/policy-continuation15-287/run287.mjs",
+      "source": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/policy-continuation15-287/run287.mjs",
+        "bytes": 17061,
+        "rawBytesSha256": "99a4434b8f8cb78c2868dbdb70a7bef4aa81d163265748982cb47065b964dfbd"
+      },
+      "startByte": 11988,
+      "endByte": 12037,
+      "line": 60,
+      "rawBytesSha256": "91f3cdd72ce1a273e9b2b9fe008ab2aa89755d326022092fd8ed88b7156d758f",
+      "text": "openConsumerView287(root,record,runtime.registry)"
+    },
+    "sourceConfirmed": "openConsumerView287(root,record,registry) returns the actual Proxy directly; run287 obtains the real hPolicyContinuation15 current record and passes that Proxy to h.createApi. It does not return {ctx,record}.",
+    "noFactoryOrCurrentToolExecuted": true
+  },
+  "acceptedContracts": {
+    "fixedLiteralProtectedFactoryOnly": true,
+    "exactActualRootBrandRequired": true,
+    "rootIsNotAnotherViewOrJSON": true,
+    "recordMustBeTheActualRootCurrentReference": true,
+    "recordCloneProxyCallbackForbidden": true,
+    "originalBaseReg5IsOnlyReservedResourceData": true,
+    "actualProxyReturnReceivesIndependentPrivateBrand": true,
+    "rootViewVerifiedRuntimeObjectsNotExchangeable": true,
+    "originalEightMethodsAndRealStateIdentityProtected": true,
+    "readonlyReservedProducerResourcesUnchanged": true,
+    "noPublicRegistrarStamperReaderOrCallback": true,
+    "onlyTwoExistingNativeGenericHTTPContextLenses": [
+      {
+        "factory": "createWitnessView121",
+        "source": "facts284.newWitnessView284"
+      },
+      {
+        "factory": "createPolicyView121",
+        "source": "facts287.openConsumerView287"
+      }
+    ],
+    "Root118RestrictedViewNoNewBrandFactory": true,
+    "Root118LeaseCurrentChecksUsePrivateGenuineRoot": true,
+    "oldCaptureNext261NotANewContextLens": true
+  },
+  "entrySealBoundary": {
+    "sealIsVerifiedHistoricalEntryResultNotEffectPermission": true,
+    "storedOnlyInPrivateWeakMapForSameProcessAndExactGenuineCtx": true,
+    "eachFixedFactoryViewGetsItsOwnSealAndCapability": true,
+    "createContext121StillCallsOriginalFactoryOnceAndPerformsFullEntry": true,
+    "currentRuntime121MayReuseOnlyThatPrivateCompleteEntrySeal": true,
+    "eachCurrentRuntimeCallStillFreshlyValidates": [
+      "actual source420 membership and hashes",
+      "Root/mirror complete compile528 membership and hashes",
+      "actual H3229 and all external source closure",
+      "actual API boot/PID/start/exe/cwd/env/socket/binary and lifetime owner",
+      "exact current lease/candidate/state binding",
+      "immutable retained producer/history projections"
+    ],
+    "assertCurrentLease121StillFreshEachEffect": true,
+    "actorSessionScopeDBCatalogRowsLedgerControlGuardsNotCached": true,
+    "assertRuntimeBinding121AlwaysFullIndependentHistoricalArchiveAndRuntimeRecheckAtExit": true,
+    "noEntrySealReuseForFullExitOrExplicitFullHistoryReaders": true,
+    "noPersistentSerializedBooleanOrCrossContextReuse": true,
+    "unchangedActualACKAndPartialPreservationOnExitFailure": true,
+    "countsAreVerificationPhasesNotExtraConstructors": true
+  },
+  "requiredImplementationEvidence": [
+    "Root append-freeze exact92f7/21b4 before implementing the new export or the clarified currentRuntime121 entry-seal reuse semantics; be96/72dc and prior artifacts remain original.",
+    "Fixed current source/closure verification must precede use of the literal protected factory. Only the actual returned Proxy is branded; no caller-supplied module/factory/registrar/callback and no wrapper {ctx,record} substitution.",
+    "Verify record is the genuine actual current Root slot reference, with no fake clone, Proxy/getter/callback or another record; protect the original baseReg5 data and original eight methods/state relation. View current checks must also fail when its original Root identity/methods/state relation is replaced.",
+    "Exercise actual fixed policy factory behavior and per-view Native interface integration with explicitly labelled isolated FS/OS seams. Preserve reserved-resource readonly reflection/prototype/descriptor/freeze behavior and independent Root/view capability rejection.",
+    "Instrument the actual full-entry/current/exit functions to show entry history is reused only within one same-process genuine ctx and each genuine fixed view has an independent private seal. JSON metadata, booleans, root tokens passed to views, another ctx/process or public references must reject.",
+    "With an entry seal already present, drift each current source/compile/helper/external/API/process/lifetime-owner/lease/candidate/state/immutable retained projection independently and require immediate rejection; do not replace these checks with returned fields or cached flags.",
+    "After a valid entry, modify immutable historical/archive proof fixtures and require the actual assertRuntimeBinding121 exit to re-read/reject despite the entry seal. Known ACK/partial/control identities stay preserved without replay. Explicit full retained-history readers must not silently become cached-current readers.",
+    "Keep actual current state progression valid: do not deepEqual legitimate owned.latest/actor/current consumer fields to the entire frozen historical preimage. Preserve old Tax15/journal/Main13/resource births and new121 separation.",
+    "No added production/validation leaf or H3 count; only run287 already-authorized MOD receives the fixed factory call. Protected facts287/context implementations and business/HTTP/financial algorithms remain byte-identical.",
+    "Code readiness, actual229/current API/publication/real constructor or view acceptance, fresh prepare121 and each FI/normal input still require their separate concrete reviews and actual evidence. No timing or whole-batch liveness is certified by this design."
+  ],
+  "checks": {
+    "exactSpecParentAndSourcePins": "ran-and-passed",
+    "actualReturnAndRun287Callsite": "read-and-verified",
+    "narrowStrictLinuxFS": "ran-and-passed",
+    "runtimeOrCacheImplementationTests": "not-run-no-approved-implementation-in-this-proposal",
+    "actualContextOrFactoryOrNative": "not-run-not-authorized",
+    "SQLHTTPProcessOrRootPrivateWrite": "not-run"
+  },
+  "limits": {
+    "implementationGranted": false,
+    "codeReady": false,
+    "RootPromotionGranted": false,
+    "actualG2Authorized": false,
+    "contextConstructionGranted": false,
+    "APIOrPGControlGranted": false,
+    "TaxPrepareFIOrNormalGranted": false,
+    "RootOrPrivateWritten": false,
+    "onlyOwnReviewArtifactsWritten": true,
+    "oldSealsModified": false
+  },
+  "G3Certified": false,
+  "G4Certified": false,
+  "businessG3": false,
+  "businessG4": false,
+  "newBusinessOperationCertifications": 0
+}

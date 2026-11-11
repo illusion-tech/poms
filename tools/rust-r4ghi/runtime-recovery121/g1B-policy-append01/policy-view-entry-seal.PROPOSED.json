@@ -1,0 +1,100 @@
+{
+  "kind": "I-runtime121-fixed-policy-view-and-entry-seal-supplement-PROPOSAL",
+  "issue": 121,
+  "status": "NOT_FROZEN_NOT_IMPLEMENTED",
+  "parentG1B": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/g1B/Root-G1B-121.json",
+    "bytes": 5254,
+    "rawBytesSha256": "be96f468fe8c7aa58dcebe6f687ef90d0afb46f1d9ca2ac2bc2b3e90974206cc"
+  },
+  "parentCtorAppend": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/g1B-Ctor-append01/Root-G1B-Ctor-append01.json",
+    "bytes": 3013,
+    "rawBytesSha256": "72dc2677f51b2a430b5970a81b40b9301aaf3d97dd9f00f2b8fe6356a90748cb"
+  },
+  "ILeafIncrease": 0,
+  "HLeafIncrease": 0,
+  "H3Still": 229,
+  "export": {
+    "name": "createPolicyView121",
+    "signature": "createPolicyView121(root, record, baseReg5)",
+    "synchronous": true,
+    "fixedTarget": "../policy-continuation15-287/facts287.mjs::openConsumerView287",
+    "protectedSource": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/policy-continuation15-287/facts287.mjs",
+      "bytes": 7977,
+      "rawBytesSha256": "e9d98597748585a45c6590931c243148fa987fd46ab1f64498eba5cd1b5807af"
+    },
+    "actualReturn": "The exact Proxy ctx returned by the literal protected factory, NOT {ctx,record}.",
+    "requirements": [
+      "Require actual private-branded root, not view or JSON.",
+      "record must strictly equal root.state.consumerChecks.hPolicyContinuation15 actual current working record; a clone/proxy/callback is forbidden.",
+      "Require exact original baseReg5 historical JSON; it is reserved-resource data, not fake current Reg5.consumer.",
+      "Verify fixed protected source through current approved closure before use; no reader/factory injection.",
+      "Only actual returned view gets its own private brand and per-ctx entry seal/current capability. Never share Root/view verifiedRuntime object; no public registration or stamp.",
+      "Root original8 methods/state identity and view immutable delegated contract remain checked."
+    ]
+  },
+  "HCaller": {
+    "file": "tools/rust-r4ghi/policy-continuation15-287/run287.mjs",
+    "operation": "already-authorized MOD",
+    "call": "existing openConsumerView287(root,record,baseReg5) replaced only by fixed Native createPolicyView121(root,record,baseReg5)",
+    "businessAndViewImplementationUnchanged": true
+  },
+  "finiteViewInventory": [
+    {
+      "name": "actual root",
+      "source": "protected context.mjs createContext",
+      "factory": "createContext121",
+      "NativeAndGenericHTTP": true
+    },
+    {
+      "name": "legacy284 witness lens",
+      "source": "protected facts284.newWitnessView284",
+      "factory": "createWitnessView121",
+      "NativeAndGenericHTTP": true
+    },
+    {
+      "name": "287 policy fixture lens",
+      "source": "protected facts287.openConsumerView287",
+      "factory": "createPolicyView121",
+      "NativeAndGenericHTTP": true
+    },
+    {
+      "name": "Root118 restricted cap view",
+      "source": "restrictContext118",
+      "factory": null,
+      "NativeAndGenericHTTP": false,
+      "reason": "Only self-wire/pure helpers/capture/ledger. All lease/current checkpoints explicitly use private cap real d.root, not this restricted view."
+    },
+    {
+      "name": "old261 captureNext261",
+      "source": "existing replayless261 helper",
+      "factory": null,
+      "createsNewContextView": false,
+      "reason": "Uses already real287 ctx/API; no new ctx lens."
+    }
+  ],
+  "entrySealSemantics": {
+    "constructor": "createContext121 is the only full actual native entry for a real root: complete immutable archive+parent+current validation once, original constructor once, private brand only its true return.",
+    "currentRuntime121": "Only private branded same ctx may retrieve its process-local complete entry seal; every call still fresh-validates actual source420/compile528/H3229/external closure, API/process/binary/lifetime owner, exact lease/candidate/state and immutable retained projections. It does not merely return fields.",
+    "assertRuntimeBinding121": "Always independently revalidate complete historical/archive+runtime proof at full exit, with explicit same current lease/candidate. No automatic reuse of entry seal for this bookend.",
+    "effect": "assertCurrentLease121 still rechecks all current facts per effect; original actor/auth/scope/DB/catalog/row/ledger/control guards remain.",
+    "noCrossCtx": "Entry cache is private to the exact real root or exact fixed-factory view. JSON booleans, persisted cache, arbitrary ctx, callback, and passing a root verifiedRuntime to a view are forbidden.",
+    "counts": "#118 = actual constructor/full entry1 + each-effect fresh guards + full native exit1; repeated archive scans are not extra constructors."
+  },
+  "negativeCases": [
+    "fake root/record clone/proxy/callback cannot mint policy view",
+    "actual literal policy factory return shape matches oldProxy exactly",
+    "Root and policy view cannot exchange capabilities",
+    "reserved retained producer resources remain readonly",
+    "Object.valueOf/descriptor/prototype/freeze cannot expose or replace actual Root",
+    "currentRuntime121 refreshes current facts each call while does not rerun immutable archive within same genuine entry seal",
+    "assertRuntimeBinding121 performs full historical exit even if entry seal exists",
+    "unbranded or serialized entry-seal metadata fails before any read/effect"
+  ],
+  "implementationGranted": false,
+  "actualG2Authorized": false,
+  "independentReview": null,
+  "RootFreeze": null
+}
