@@ -6,4 +6,6 @@ Root 实际封件 `f83e1e` 包含源码前后书挡、55 项隔离测试、三�
 
 本提交不启动 API、不推广 33 项候选、不产生实际 Native 权限，也不认证完整 229/55 运行图或业务 G3/G4。后继依赖具体 SourceSafety、实际图度量、API 启动 G2 与真实进程读回。
 
+计数澄清：Native 的 `baseKeys121`、`parentShape121` 和原冻结模板列举的是 18 项。早期提案叙述中的“base19”仅是文字计数误差，以真实闭集为准；不增加第十九键，新增两项依赖补档仍只由 composition 绑定。启动器直接调用该真实校验器，不自行扩大 base 形状。
+
 E1 例外：`git diff --cached --check` 实际退出 2，仅报告冻结日志 `independent/runtime121-components03-steps/Root8/independent-original-55-attempt02.stdout.log` 第 70、72 行的空白。该 5,666 字节原件 SHA 为 `6ac241873507711435659b54e7f610e2d8f4e146ac3496645ac02ee659aacb09`，属于已保留的审阅夹具失败；不能为检查通过改写原始字节。批准人与清理责任人为 Root，处理期限 2026-11-30：随本批 G4 将例外及原件一并归档，保留字节与历史标签。源码和文档无此项诊断，不将该次整体 diff 检查记为通过。
