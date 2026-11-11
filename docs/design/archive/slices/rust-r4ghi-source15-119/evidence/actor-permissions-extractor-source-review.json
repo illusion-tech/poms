@@ -1,0 +1,90 @@
+{
+  "kind": "non-author-Root-offline-actor-permissions118-source-review",
+  "verdict": "source-only-no-blocker-found",
+  "sourceAuthor": "/root",
+  "reviewer": "/root/r4_period_engineering206",
+  "reviewerIsSourceAuthor": false,
+  "reviewerAuthoredPriorMethodNote": true,
+  "reviewedSource": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/derive-actor-permissions118.mjs",
+    "bytes": 5126,
+    "rawBytesSha256": "894a5b040d21d62fbb4e06d485ef4a751d731bca088dfb2a5ecf65da2f3d6153"
+  },
+  "frozenRuleSource": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tax15-once-effects.mjs",
+    "bytes": 19392,
+    "rawBytesSha256": "23cd16985eb2ba9f4adc321a73d31e8c510f453d62765a0040f8eba78d9045b2",
+    "function": "permissionSet118",
+    "lines": [26, 44]
+  },
+  "metadataChecked": {
+    "command": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/observe15-119-prepared02/run01/command-receipt.json",
+      "rawBytesSha256": "44f6c4d8150b42de61fb7c071d897123e47c8f54d53ee65d799cb772952cd93b",
+      "exitCode": 0,
+      "signal": null
+    },
+    "coldObservation": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/retained-capture119-d7d3c318-fcac-4835-86a2-f5e4f5fdbe25/fresh15-M98-observations.json",
+      "bytes": 51559,
+      "rawBytesSha256": "8f2543fa1d353ba0d3b2611778b85edf1c27754c1895a1b35575941fe717f620"
+    },
+    "snapshotA": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/retained-capture119-d7d3c318-fcac-4835-86a2-f5e4f5fdbe25/snapshot-s15-ret-d7d3c318-fcac-4835-86a2-f5e4f5fdbe25-a.json",
+      "bytes": 3161711,
+      "rawBytesSha256": "ff8edd1fa728d8c3b1c0f1acf65be1f85e7cbac785a4715133544637885780ed"
+    },
+    "snapshotB": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/retained-capture119-d7d3c318-fcac-4835-86a2-f5e4f5fdbe25/snapshot-s15-ret-d7d3c318-fcac-4835-86a2-f5e4f5fdbe25-b.json",
+      "bytes": 3161711,
+      "rawBytesSha256": "f92c848d9b20a4c279fb3ecb79851190e608c42278b9d3c4395f187836d00eda"
+    },
+    "snapshotSchemaVersion": 1,
+    "snapshotEpoch": "g2-business15",
+    "snapshotRun": "main01",
+    "selectedDatabase": "poms_r4ghi_rust",
+    "registeredTablesPerSnapshot": 139,
+    "tableCountsAAndB": {
+      "platform_user": 21,
+      "user_role_assignment": 21,
+      "role": 21,
+      "role_permission_assignment": 318
+    },
+    "tableHashesAAndB": {
+      "platform_user": "bab6817fe04e9cd000bc1db7f5850e89ceddf4d3b07a5beb2bbd01892668a163",
+      "user_role_assignment": "1add47a466bc1ca645de2eed1e098c394f6b1dcba7ecca709400e25eed53b4d9",
+      "role": "c6d21f89facbedc3d6052b736f3a0366a494a2105bd645e7a7f562bc3142e5f4",
+      "role_permission_assignment": "55e38d507a640764636235a4dd3bca30de839122b640bea6e2b7301110b783ce"
+    },
+    "descriptorKeysBothSnapshots": ["file", "count", "pk", "columns", "rawBytesSha256", "logicalRowsSha256"],
+    "actualPermissionJSONLRowsReadByReviewer": false
+  },
+  "staticChecks": [
+    {"lines": "9-24", "result": "Strict regular/no-symlink/realpath/nlink1 and SHA input reads; exact actual state15 path/hash and namespace/epoch/run; manager ID must equal the retained parent14 manager ID, whose full state hash is fixed to real BD14."},
+    {"lines": "25-30", "result": "Pinned successful observe02 command/stdout resolves the exact 8f cold receipt; its stable pair and retained B snapshot match the actual descriptor shape checked independently."},
+    {"lines": "31-40", "result": "Selects only the Rust database and all four full table files. Full JSONL SHA and row count are checked; raw string SHA is checked before JSON.parse(row.raw). Permission extraction never uses cells."},
+    {"lines": "42-43", "result": "The actual manager ID must identify exactly one platform_user row with is_active true."},
+    {"lines": "44-46", "result": "Complete active user-role, active role, active role-permission relationships match frozen permissionSet118, including full union and no extra revoked_at, role-name, organisation or minimum-list filter."},
+    {"lines": "46-48", "result": "Permission keys are deduplicated with Set and sorted by JavaScript default .sort(); only nonempty strings accepted. Active-role IDs are separately sorted for comparison and provenance."},
+    {"lines": "50-51", "result": "Independently derives A and B and compares actor ID, active-account fact, complete active-role set and complete permission set. Only file provenance is excluded because A/B have distinct real files."},
+    {"lines": "52-64", "result": "Rechecks the exact source15 state bytes before writing a dedicated absent output directory and wx evidence file. Does not create context, execute SQL/HTTP/native, grant roles or permissions, or write business state."}
+  ],
+  "findings": [],
+  "limits": {
+    "sourceAndInterfaceReviewOnly": true,
+    "requiresRealPublishedAndIndependentlyApprovedState15BeforeRootExecution": true,
+    "isNotAReplacementForReg5AdmissionOrRuntimeFreshGuards": true,
+    "doesNotReviewOwnCallers120Algorithms": true,
+    "scriptExecutedByReviewer": false,
+    "state15OrParentStateReadByReviewer": false,
+    "passwordOrCookieValuesReadByReviewer": false,
+    "permissionRowsOrActualPermissionsDerivedByReviewer": false,
+    "RootOrPrivateFilesWrittenByReviewer": false,
+    "SQLHTTPExecuted": false,
+    "nativeOrContextInvoked": false,
+    "actualG2Authorized": false,
+    "actualPermissionEvidence": null,
+    "G3Certified": false,
+    "G4Certified": false
+  }
+}

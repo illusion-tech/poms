@@ -1,0 +1,103 @@
+{
+  "kind": "non-author-Root-Tax118-prepare-input-constructor-source-review",
+  "verdict": "NOT_READY",
+  "sourceAuthor": "/root",
+  "reviewer": "/root/r4_period_engineering206",
+  "reviewerIsSourceAuthor": false,
+  "source": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/prepare-tax15-118-input.mjs",
+    "bytes": 7605,
+    "rawBytesSha256": "7bde8150046839673377145c764d96ba38b3c7b964fcb7a7b165281866beaef1"
+  },
+  "sourceCapture": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/independent-root-prepare118-input-review01/source-capture118.json",
+    "bytes": 10446,
+    "rawBytesSha256": "a82e7e369447959f281e30eccdc52db50ce4097ff95074ae6d99893ac06cdb97"
+  },
+  "readers": [
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs",
+      "bytes": 43349,
+      "rawBytesSha256": "5c827ab7dae81d83377baf89e2c784f6523fb7fcf6bb733fa23ca483de980311"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/retained-tax-proof.mjs",
+      "bytes": 40406,
+      "rawBytesSha256": "0e3278fcc4a04b0b952736f0666f7477ed8d0eb6e0193e89b3a1b3b2fc73bd9c"
+    }
+  ],
+  "frozenTemplates": [
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/source15-tax118-prepare-recipe01/prepare-input118.null.json",
+      "bytes": 3641,
+      "rawBytesSha256": "815fdcd01cc6e63633a024ad3cb0264a5c520dae6cbb9d6a3085e68b2cdb7639"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/source15-tax118-prepare-recipe01/tax-runtime15.required-null.json",
+      "bytes": 2656,
+      "rawBytesSha256": "b4f8a993048551945994ad4e8ff6f859a3f7d1619d388535687b83c872eb0d05"
+    }
+  ],
+  "findings": [
+    {
+      "id": "PREP118-IR01",
+      "priority": "P2",
+      "title": "runtimeBindings output lies outside the real invocation reader private scope",
+      "builderLines": [
+        7,
+        56,
+        59
+      ],
+      "readerLines": [
+        655,
+        668,
+        669
+      ],
+      "counterexample": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/independent-root-prepare118-input-review01/counter-runtime-location118.json",
+        "bytes": 1236,
+        "rawBytesSha256": "ba8f596d91f933a6f060fd3650fd4704b639832ac4a6d1eda04b0994671426c1"
+      },
+      "consequence": "A constructed input with otherwise valid actual pins is rejected before the one native createContext entry, so the first prepare cannot start.",
+      "minimalRepair": "Retain this edition; new Root orchestration edition must wx-write runtime bindings under the existing actual business/g2-business15/main01 private directory, without prebuilding an invocation nonce directory or relaxing the frozen reader. Rebind the resulting pin in the input and future exact review."
+    }
+  ],
+  "otherStaticChecks": [
+    {
+      "lines": "18-27",
+      "result": "Requires real state15 exact file/rawSHA and real offline actor-facts kind/state binding/actor ID/active account/full-set fact; does not use a permission cache or test minimum list."
+    },
+    {
+      "lines": "28-44",
+      "result": "Uses current state codeEpochAdmission15 candidate B1, explicitly rejects candidateReceipt B0 SHA, carries full420 source and227 helper arrays plus original pins, forwards compile pin, hashes the entire current fixtures.sharedSourceFollowup58 object."
+    },
+    {
+      "lines": "45-48",
+      "result": "Retained Main13 sourceState uses Reg5 producerState (retained14), original c075/4524 remains frozen, complete legacy12 template object remains unchanged and its pin values are read as pins."
+    },
+    {
+      "lines": "34-36,49-52,57-63",
+      "result": "Uses exact frozen templates; input retains34 keys, fresh UUID and prepare-only mode, executionSources are full reviewed sources, and all10 unproduced body/FI/normal/fault slots remain null."
+    },
+    {
+      "lines": "53-80",
+      "result": "Entry state is copied as original bytes; only prepared evidence directory/files are written, no invocation nonce directory/context/native/SQLHTTP; expected future Root review is described but not written/signed and request.actualG2 is false."
+    }
+  ],
+  "pendingActualContracts": [
+    "Actual Final technicalReadback exact input must exist and be independently checked before any real preparation; this review does not manufacture its kind, verdict or fields.",
+    "Actual Reg5/B1/state, ActorFacts, runtime input and G2 remain separate real evidence; this source review does not verify their values."
+  ],
+  "productionScriptExecuted": false,
+  "RootOrPrivateWritten": false,
+  "state15OrParentStateRead": false,
+  "passwordOrCookieValuesRead": false,
+  "SQLHTTPExecuted": false,
+  "nativeOrContextInvoked": false,
+  "actualG2Authorized": false,
+  "actualPreparedInput": null,
+  "actualPermissionResult": null,
+  "doesNotReviewCallers120Algorithms": true,
+  "G3Certified": false,
+  "G4Certified": false
+}
