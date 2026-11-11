@@ -1,0 +1,77 @@
+{
+  "kind": "non-author-runtime121-API-env-pin-G1-design-review",
+  "verdict": "recommend-code-only-append",
+  "issue": 121,
+  "author": "/root",
+  "reviewer": "/root/r4ghi_final_gates13",
+  "reviewerIsAuthor": false,
+  "recordedAt": "2026-11-11T20:53:33.847Z",
+  "proposal": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/Root-B-API-env-proposal01/proposal-env-pin121.json",
+    "bytes": 3896,
+    "rawBytesSha256": "75ad56724088781a0742fbf84908ce13a89fac4de8e1106667c7aefac99b6b1f"
+  },
+  "parentAPIAppend": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/g1B-API-append01/Root-G1B-API-append01.json",
+    "bytes": 7325,
+    "rawBytesSha256": "96f0090e2965cc96e9557ff297192ecad15f712b74e39934bb00b2396e1a4b3c"
+  },
+  "evidence": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-API-env-design-review01/design-FS-evidence121.json",
+    "bytes": 2665,
+    "rawBytesSha256": "565b62005e1b93ab2024b766286560bbb26df27039919a5e95722031aa2aa977"
+  },
+  "scope": {
+    "onlyProductionLeaf": "tools/rust-r4ghi/runtime-recovery121/root/start-api121.mjs",
+    "currentNestedKeys": {
+      "before": 11,
+      "after": 12,
+      "added": "baseNormalEnv"
+    },
+    "inputTopKeys": 17,
+    "RootApprovalKeys": 12,
+    "APIRecordKeys": 25,
+    "productionLeafCount": 1,
+    "validationEntries": 2,
+    "A7Changes": 0,
+    "H3Planned": 229,
+    "externalPlanned": 55,
+    "sourceCount": 420,
+    "compileCount": 528,
+    "newLeafOrExport": 0
+  },
+  "rationale": "The original environment is a real startup input. The current unsealed starter discovers its hash only during the environment phase, so exactG2 cannot bind its original bytes beforehand. Historical API136 has eight exact fields and cannot supply an invented environment hash. A new current input fullPin closes that gap without changing or relabeling the original record.",
+  "acceptedDataflow": [
+    "Prepare the new concrete input with the fixed original baseNormalEnv fullPin already present; exactG2 binds that input.",
+    "Keep parent96f and the originalAPI136 record unchanged. Freeze a named API append02 before inserting that exact new baseline SHA into the starter and the same existing Native finiteG1 allowlist; keep historical96f, without wildcard allowance.",
+    "Read the exact approved pin and derive the new wx0600 private environment using only HOST/PORT/CORS value changes. Keep all other configuration values and the original source file bytes unchanged.",
+    "Actual process record retains its25-key shape: baseNormalEnv equals input.current.baseNormalEnv, normalEnv is the true derivative pin. Input has no future process or derivative hash, so approval/input/record remain acyclic."
+  ],
+  "mandatoryImplementationChecks": [
+    "baseNormalEnv must be the exact three-key fullPin(file,bytes,rawBytesSha256) for /home/wangzishi/.local/share/poms-r4ghi/private/rust.env; no missing pin, alternate path, implicit discovery or optional-byte fallback.",
+    "Revalidate strict regular/noalias/nlink1 and the required owned private file properties at metadata, dispatch, full child preflight, final pre-spawn after the bounded natural timestamp wait, and after readiness. Drift stops subsequent effects and preserves any already-started process as an unknown/partial result for Root reconciliation.",
+    "Reuse only the approved exact base bytes for derivation; never rewrite, rotate, normalize or append to the original file. Source-file byte preservation is distinct from the newly derived file serialization.",
+    "All mismatch diagnostics must use fixed nonsecret text and permitted path/hash metadata, including assertions that could otherwise render whole buffers/objects.",
+    "Reject wrong/missing/extra pins, post-approval byte drift and file/link/owner aliases in isolated tests; verify only three configuration values change and all original timestamp/wx/first-fail/actual-readback safeguards remain.",
+    "Root8 finite code-step must bind the new starter baseline and unchanged independently reviewedA7. Final sealed code/tests and exact input remain independently reviewed before any launch."
+  ],
+  "designBlockers": [],
+  "implementationGranted": false,
+  "RootMayFreezeNamedCodeOnlyAppend": true,
+  "unsealedStarterWitnessOnly": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/start-api121.mjs",
+    "bytes": 36095,
+    "rawBytesSha256": "271c1ac2befe5027b94129dd8cbe61cadc83c6d319f071da7040f83bdd9fe9f8"
+  },
+  "starterCodeReady": false,
+  "actualG2Authorized": false,
+  "APIStartGranted": false,
+  "nativeAuthorityGranted": false,
+  "sourceEnvironmentValuesRead": false,
+  "sourceEnvironmentValuesPrinted": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "businessG3": false,
+  "businessG4": false,
+  "newBusinessCertified": 0
+}
