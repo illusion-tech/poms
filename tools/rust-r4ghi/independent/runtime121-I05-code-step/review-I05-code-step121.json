@@ -1,0 +1,311 @@
+{
+  "kind": "non-author-runtime121-finite-code-step",
+  "verdict": "approved-bounded-step-only",
+  "issue": 121,
+  "author": "I / r4_period_engineering206",
+  "reviewer": "/root/r4ghi_final_gates13",
+  "reviewerIsAuthor": false,
+  "reviewerIsRootExecutor": false,
+  "recordedAt": "2026-11-11T23:16:05.250Z",
+  "componentManifest": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-code05/sealed-code05/manifest-I121-code05.json",
+    "bytes": 30822,
+    "rawBytesSha256": "bc82216bc377aba857248a0a55eda61e5fc4b2576564a82ab30891493cbc0a5c"
+  },
+  "technicalG1": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/g1B/Root-G1B-121.json",
+    "bytes": 5254,
+    "rawBytesSha256": "be96f468fe8c7aa58dcebe6f687ef90d0afb46f1d9ca2ac2bc2b3e90974206cc"
+  },
+  "additionalFrozenAuthorities": [
+    {
+      "name": "Ctor",
+      "pin": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/g1B-Ctor-append01/Root-G1B-Ctor-append01.json",
+        "bytes": 3013,
+        "rawBytesSha256": "72dc2677f51b2a430b5970a81b40b9301aaf3d97dd9f00f2b8fe6356a90748cb"
+      }
+    },
+    {
+      "name": "Policy",
+      "pin": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/g1B-policy-append01/Root-G1B-policy-append01.json",
+        "bytes": 2702,
+        "rawBytesSha256": "77083554eb09b8cfb24ddee8bfe4fdc75d2261f01a5a6462a0a309815dcfe714"
+      }
+    },
+    {
+      "name": "Protected261",
+      "pin": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/g1B-protected261-append01/Root-G1B-protected261-append01.json",
+        "bytes": 3850,
+        "rawBytesSha256": "4ce7369f93c9ecdc2ab9fb06dccb6eb3c4372535f140130e31ef6e04ae7d3f95"
+      }
+    },
+    {
+      "name": "RootAPIAppend",
+      "pin": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/g1B-API-append01/Root-G1B-API-append01.json",
+        "bytes": 7325,
+        "rawBytesSha256": "96f0090e2965cc96e9557ff297192ecad15f712b74e39934bb00b2396e1a4b3c"
+      }
+    },
+    {
+      "name": "CurrentWireAppend",
+      "pin": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/g1B-current-wire-append01/Root-G1B-current-wire-append01.json",
+        "bytes": 11782,
+        "rawBytesSha256": "b4d05c19a867b4f4e1990e36b4a742cd23e00958fb0bae6e7e5725e96cc7b15f"
+      }
+    },
+    {
+      "name": "RootAPIAppend02",
+      "pin": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/g1B-API-append02/Root-G1B-API-append02.json",
+        "bytes": 10198,
+        "rawBytesSha256": "ac9cb66a6501f6e42f26ffe5470f49726dda2b37709e375bd8e043ae13430aad"
+      }
+    }
+  ],
+  "entries": [
+    {
+      "file": "tools/rust-r4ghi/business/runtime-admission-core121.mjs",
+      "operation": "ADD",
+      "beforeSHA256": null,
+      "afterSHA256": "58fea2219a71af3b643e932f440339f330d5f4223567e4a3bcb7b2d84221dd43",
+      "productPointer": "/production/0",
+      "candidate": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-code05/sealed-code05/proposed/tools/rust-r4ghi/business/runtime-admission-core121.mjs",
+        "bytes": 17259,
+        "rawBytesSha256": "58fea2219a71af3b643e932f440339f330d5f4223567e4a3bcb7b2d84221dd43"
+      }
+    },
+    {
+      "file": "tools/rust-r4ghi/business/runtime-admission121.mjs",
+      "operation": "ADD",
+      "beforeSHA256": null,
+      "afterSHA256": "575332154922858204cd0088528001a540606cc3cd52217e39a251b0ebe97993",
+      "productPointer": "/production/1",
+      "candidate": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-code05/sealed-code05/proposed/tools/rust-r4ghi/business/runtime-admission121.mjs",
+        "bytes": 93658,
+        "rawBytesSha256": "575332154922858204cd0088528001a540606cc3cd52217e39a251b0ebe97993"
+      }
+    },
+    {
+      "file": "tools/rust-r4ghi/business/consumer-admission54.mjs",
+      "operation": "MOD",
+      "beforeSHA256": "d7eb968758b76625eb954e69d32a80f16c29ac891cf1cabd9b78d0e6322f3d88",
+      "afterSHA256": "5d6f575779e9661852faf2a1df5283894ea2c673bb010fd619c46a7dd994146b",
+      "productPointer": "/production/2",
+      "candidate": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-code05/sealed-code05/proposed/tools/rust-r4ghi/business/consumer-admission54.mjs",
+        "bytes": 14210,
+        "rawBytesSha256": "5d6f575779e9661852faf2a1df5283894ea2c673bb010fd619c46a7dd994146b"
+      }
+    },
+    {
+      "file": "tools/rust-r4ghi/business/http.mjs",
+      "operation": "MOD",
+      "beforeSHA256": "7eb4ca4a5c15bccfd85256e7ea0b18e8ad2b905341f876e1ab21a25f2745ae86",
+      "afterSHA256": "dc1ee9dd009cadaa963d4e97de23d839931c803c17c02e8bbfe19fdb85c40200",
+      "productPointer": "/production/3",
+      "candidate": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-code05/sealed-code05/proposed/tools/rust-r4ghi/business/http.mjs",
+        "bytes": 12109,
+        "rawBytesSha256": "dc1ee9dd009cadaa963d4e97de23d839931c803c17c02e8bbfe19fdb85c40200"
+      }
+    },
+    {
+      "file": "tools/rust-r4ghi/business/fault-sweep.mjs",
+      "operation": "MOD",
+      "beforeSHA256": "90b91ff48edbd101a5535ffb271ff40334c96030c33f5f8e77951b0f45f00f85",
+      "afterSHA256": "e167e13e8c46e011d98dea68d36147a78aa88d7b35c6a32b7ee3fcd10eb02335",
+      "productPointer": "/production/4",
+      "candidate": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-code05/sealed-code05/proposed/tools/rust-r4ghi/business/fault-sweep.mjs",
+        "bytes": 25874,
+        "rawBytesSha256": "e167e13e8c46e011d98dea68d36147a78aa88d7b35c6a32b7ee3fcd10eb02335"
+      }
+    },
+    {
+      "file": "tools/rust-r4ghi/business/gh-write-facts.mjs",
+      "operation": "MOD",
+      "beforeSHA256": "eaa486ddf8a407615aeb42b50a60a8828b2fb6838711e6abedbc56e697527901",
+      "afterSHA256": "bc3c1f03d3cedb2a265a45b2d9c1f1c883463ee0dd26f70703289ee5bb1a7f49",
+      "productPointer": "/production/5",
+      "candidate": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-code05/sealed-code05/proposed/tools/rust-r4ghi/business/gh-write-facts.mjs",
+        "bytes": 27143,
+        "rawBytesSha256": "bc3c1f03d3cedb2a265a45b2d9c1f1c883463ee0dd26f70703289ee5bb1a7f49"
+      }
+    },
+    {
+      "file": "tools/rust-r4ghi/business/trusted.mjs",
+      "operation": "MOD",
+      "beforeSHA256": "65bf68e4d209219cf3177aff515af52d520ada5f94a63c5102aa811f6480313d",
+      "afterSHA256": "f94aecb7532de74e3e1ed0671cea77d77c955a5945e286331ac979d30ba05be3",
+      "productPointer": "/production/6",
+      "candidate": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-code05/sealed-code05/proposed/tools/rust-r4ghi/business/trusted.mjs",
+        "bytes": 7907,
+        "rawBytesSha256": "f94aecb7532de74e3e1ed0671cea77d77c955a5945e286331ac979d30ba05be3"
+      }
+    },
+    {
+      "file": "tools/rust-r4ghi/runtime-recovery121/native/publish-runtime121.mjs",
+      "operation": "ADD",
+      "beforeSHA256": null,
+      "afterSHA256": "b85d0d4904d682dad322ec9ea2a48efbaec3950b825fa34cfcf42a9255ef8924",
+      "productPointer": "/production/7",
+      "candidate": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-code05/sealed-code05/proposed/tools/rust-r4ghi/runtime-recovery121/native/publish-runtime121.mjs",
+        "bytes": 9945,
+        "rawBytesSha256": "b85d0d4904d682dad322ec9ea2a48efbaec3950b825fa34cfcf42a9255ef8924"
+      }
+    },
+    {
+      "file": "tools/rust-r4ghi/runtime-recovery121/native/input121.template.json",
+      "operation": "ADD",
+      "beforeSHA256": null,
+      "afterSHA256": "2aa9c87cc77f30366aee6c3cf9626894b15b2b0a602633c042780a5acb221162",
+      "productPointer": "/production/8",
+      "candidate": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-code05/sealed-code05/proposed/tools/rust-r4ghi/runtime-recovery121/native/input121.template.json",
+        "bytes": 1452,
+        "rawBytesSha256": "2aa9c87cc77f30366aee6c3cf9626894b15b2b0a602633c042780a5acb221162"
+      }
+    }
+  ],
+  "sourceClosures": {
+    "nativeI9": [
+      {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/consumer-admission54.mjs",
+        "rawBytesSha256": "5d6f575779e9661852faf2a1df5283894ea2c673bb010fd619c46a7dd994146b"
+      },
+      {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/fault-sweep.mjs",
+        "rawBytesSha256": "e167e13e8c46e011d98dea68d36147a78aa88d7b35c6a32b7ee3fcd10eb02335"
+      },
+      {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/gh-write-facts.mjs",
+        "rawBytesSha256": "bc3c1f03d3cedb2a265a45b2d9c1f1c883463ee0dd26f70703289ee5bb1a7f49"
+      },
+      {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/http.mjs",
+        "rawBytesSha256": "dc1ee9dd009cadaa963d4e97de23d839931c803c17c02e8bbfe19fdb85c40200"
+      },
+      {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/runtime-admission-core121.mjs",
+        "rawBytesSha256": "58fea2219a71af3b643e932f440339f330d5f4223567e4a3bcb7b2d84221dd43"
+      },
+      {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/runtime-admission121.mjs",
+        "rawBytesSha256": "575332154922858204cd0088528001a540606cc3cd52217e39a251b0ebe97993"
+      },
+      {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/trusted.mjs",
+        "rawBytesSha256": "f94aecb7532de74e3e1ed0671cea77d77c955a5945e286331ac979d30ba05be3"
+      },
+      {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/native/input121.template.json",
+        "rawBytesSha256": "2aa9c87cc77f30366aee6c3cf9626894b15b2b0a602633c042780a5acb221162"
+      },
+      {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/native/publish-runtime121.mjs",
+        "rawBytesSha256": "b85d0d4904d682dad322ec9ea2a48efbaec3950b825fa34cfcf42a9255ef8924"
+      }
+    ]
+  },
+  "executionSourceIdentitiesAreFutureRootTargets": true,
+  "basis": {
+    "parentI04NotReady": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-B-code04-review01/review-I04-NOTREADY121.json",
+      "bytes": 5663,
+      "rawBytesSha256": "8aff6de9b4f94ccee553ca16f9ffa25171114c421b1009bb0c23ef16c98bd6a8"
+    },
+    "priorI03BoundedStep": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-B-code03-review01/review-Native-B-code03-step121.json",
+      "bytes": 17543,
+      "rawBytesSha256": "274f4ebe7469be27bee7bfdcd3369d2a9e21152485ad3d03a6bafaea5b50f87b"
+    },
+    "originalActualAncestorCensus": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-B-code04-review01/actual-ancestor-shape-census-I04.json",
+      "bytes": 23456,
+      "rawBytesSha256": "a78a87037d66dd2261925d27924e70b7ad82b2ad7ac6306f38b1e406b873770b"
+    },
+    "currentSourceAndAncestorReadback": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-B-code05-review01/source-and-ancestor-readback-I05.json",
+      "bytes": 70054,
+      "rawBytesSha256": "c0ea4081b83615971365c2df6ab3d2ed003c1612611814b7753830837c8fd6eb"
+    },
+    "currentIsolatedChecks": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-B-code05-review01/isolated-I05-checks.json",
+      "bytes": 18153,
+      "rawBytesSha256": "b880286c800a5cd9f3f9b6426ac44c37f8dc2a98de439208f2ef31762bfb9880"
+    }
+  },
+  "verified": {
+    "singleHistoricalFactsBlockForwardInverseToI04Exact": true,
+    "otherEightProductionRawUnchanged": true,
+    "historicalInputIdentityPin2or3orTyped6Unchanged": true,
+    "currentPinBinaryBytesCurrentBinaryAndCoreRulesRawUnchanged": true,
+    "allFiveOriginalMODInheritedFromI03Exact": true,
+    "nineHistoricalFunctionsRawUnchangedWithCurrentOffsets": true,
+    "allSevenFrozenAuthoritiesPinned": true,
+    "closedHistoricalStat5or6Only": true,
+    "absentBytesNeverBackfilledOrInvented": true,
+    "recordedStatAndRecordedBytesValidatedSeparately": true,
+    "strictAdmittedIdentityUsedForByteObservation": true,
+    "returnsOriginalHistoricalFactUnchanged": true,
+    "oldStatNeverUsedAsCurrentKernelObservation": true,
+    "unknownKeysPartialStatInvalidTypeAndWrongHashSizeRejected": true,
+    "actualS14Pin3Stat5FramesCovered": 2,
+    "actualS15Typed6Stat6FramesCovered": 6,
+    "allKnownDirectHelperFramesCovered": 8,
+    "related19eedTwoMetadataRowsNotCountedAsDirectFrames": true
+  },
+  "independentValidation": {
+    "latestLinuxUnit52": {
+      "tests": 52,
+      "passed": 52,
+      "failed": 0,
+      "skipped": 0
+    },
+    "syntax": {
+      "files": 12,
+      "passed": 12,
+      "failed": 0
+    },
+    "actualMetadataFrameReplays": 8,
+    "realSmallTemporaryHardlink2AndStat5NoBackfillCovered": true,
+    "successfulRunStderrBytes": 0,
+    "byteObservationStubInActualMetadataCensus": true,
+    "largeELFBytesRead": false,
+    "environmentValuesRead": false,
+    "actualNamespaceVerifierOrConstructorMode": false
+  },
+  "closedFinding": {
+    "id": "I121-HIST-IR01",
+    "status": "closed-for-exact-I05-code-only",
+    "oldI04And8affRemainNOTREADY": true,
+    "oldI03AndActualaf22ad98NotRelabeledCurrent": true
+  },
+  "limits": {
+    "exactI9ComponentOnly": true,
+    "fullActual22955GraphRefreshed": false,
+    "RootNativeFilePromotionGranted": false,
+    "SourceSafetyGranted": false,
+    "APIStartOrRuntimePublicationGranted": false,
+    "actualConstructorOrTaxAcceptance": false,
+    "reviewerRootOrPrivateWrite": false,
+    "actualSQLHTTPOrProcessControl": false
+  },
+  "codeReadyForThisExactIComponentOnly": true,
+  "actualG2Authorized": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "businessG3": false,
+  "businessG4": false,
+  "newBusinessCertified": 0
+}

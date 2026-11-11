@@ -1,0 +1,10 @@
+// Preserve the precise I05 bounded review; no source update or runtime effect.
+import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';
+import { C, assertOperatorHost121, json, local, pin, read } from './runtime-recovery121/root/facts121.mjs';
+assertOperatorHost121();const R=C.root,F=R+'/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-B-code05-review01',O=R+'/tools/rust-r4ghi/independent/runtime121-I05-code-step';
+const checked=(f,h)=>{const p=pin(f);assert.equal(p.rawBytesSha256,h);return p;};
+const review=checked(F+'/review-I05-code-step121.json','86b676a2cb25325137b9229d6d2c0cfad6261cc5b96ec1bd88b5a2429c00199e'),manifest=checked(F+'/manifest.json','656fb065c520aaebb958e262f840d0bc9bb703b11504531d0258cd34b4fab1f9');
+const r=json(review);assert.equal(r.kind,'non-author-runtime121-finite-code-step');assert.equal(r.verdict,'approved-bounded-step-only');assert.equal(r.reviewerIsAuthor,false);assert.equal(r.entries.length,9);assert.equal(r.componentManifest.rawBytesSha256,'bc82216bc377aba857248a0a55eda61e5fc4b2576564a82ab30891493cbc0a5c');
+const files=[review,manifest,...json(manifest).files.map(({file,bytes,rawBytesSha256})=>({file,bytes,rawBytesSha256}))],unique=[...new Map(files.map(p=>[p.file,p])).values()];for(const p of unique){assert(p.file.startsWith(F+'/'));read(p);}assert(!fs.existsSync(local(O)));fs.mkdirSync(local(O),{recursive:true});const copies=[];
+for(const p of unique){const f=O+'/'+p.file.slice(F.length+1);fs.mkdirSync(local(path.posix.dirname(f)),{recursive:true});fs.writeFileSync(local(f),read(p),{flag:'wx'});const copy=checked(f,p.rawBytesSha256);assert.equal(copy.bytes,p.bytes);copies.push({original:p,copy});}
+fs.writeFileSync(local(O+'/raw-copies-provenance.json'),JSON.stringify({kind:'Root-retained-I05-code-step',copies,I04NotReadyUnchanged:true,actualSourceUpdate:false,APIStarted:false,nativeAuthorityGranted:false},null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({copies:copies.length,review,sourceUpdate:false}));
