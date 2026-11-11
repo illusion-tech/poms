@@ -1,0 +1,15 @@
+{
+  "kind": "independent-review-harness-only-failure",
+  "script": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/start15-exact-G2-review01/verify-start-input-readonly119.mjs",
+    "bytes": 8563,
+    "rawBytesSha256": "b9bd9c552ee603e59d901eac6b69d33fb5af22e2d6a4889cab33be2fcad6e7f2"
+  },
+  "exitCode": 1,
+  "exception": "TypeError reading undefined pin from API input.tooling.independentCodeReview",
+  "cause": "Reviewer incorrectly reused build tooling shape; actual API tooling intentionally has entry/manifest/executionSources, while the reviewed preAPI draft has independentCodeReview",
+  "failureBeforeOwnObservationWrite": true,
+  "actualBusinessModeExecuted": false,
+  "RootPrivateWritten": false,
+  "productInputOrCodeChanged": false
+}

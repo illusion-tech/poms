@@ -942,3 +942,14 @@ D#107/E#108/F#109及本批#106已按[独立关闭许可](archive/slices/rust-r4d
 #119 whole02及H9 code02均仅代码就绪，旧NOTREADY保留。当前Root helper仍218；13有序变化构成最终227、总23文件的有限组合正在另审，尚未推广、退役14或启动15。Root #118八外置叶57项纯/FS协议例通过待独审；[#120](https://github.com/illusion-tech/poms/issues/120)已建立114父子及118/119原生依赖，G1固定25外置＋4验证，I第一包73项通过待独审，H3/backend增量0。真实15/API/Reg5/B1/state、Tax FI/正常201和所有后续阶段正向仍未通过。Rust正式240、R4已交付67/95、新认证0，#57和完整业务R5 #116保持开放。
 
 <!-- /poms-r4ghi-status348 -->
+
+
+<!-- poms-r4ghi-status349 -->
+
+### 2026-11-11 统一候选状态349：新隔离 API 就绪，状态准入待完成
+
+[固定状态349](rust-r4ghi/continuation-status349.json)接续348：Root实际23文件和227 helper已独立读回；原API14已唯一受控SIGTERM退休，真实buildBinding15通过完整后验，新ROOT15 API已启动且31441/readiness真实200。Source13/14状态与ownership原hash保持；无迁移、恢复或重置。新状态、B0/Reg5/B1尚未发布；先完成默认只读139表双快照守恒与独立准入，才能进入新业务验收。
+
+#118八外置叶已非作者代码就绪，真实15 prepare/FI/单正常201和F/C/S未执行。#120原code01发现真实旧14准入标识拒绝新15的P2，原件保NOT READY；code02仅一字节修正，作者75项/23syntax/4help通过，独立最终复核待完成。四caller仍未推广。已完成Main13的一次201及旧partial/failed原件保持原标签，未重放。Rust正式240、R4交付67/95、本批新增认证0、业务G3/G4未通过；#57及完整业务R5 #116保持开放。
+
+<!-- /poms-r4ghi-status349 -->
