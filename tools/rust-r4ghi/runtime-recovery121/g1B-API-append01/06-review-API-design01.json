@@ -1,0 +1,92 @@
+{
+  "kind": "non-author-runtime121-B-API-operator-design-review",
+  "verdict": "NOT_READY_DESIGN_COMPATIBILITY",
+  "reviewer": "/root/r4h_engineering",
+  "reviewerIsAuthor": false,
+  "proposal": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/Root-B-API-proposal01/proposal-API121.json",
+    "bytes": 8563,
+    "rawBytesSha256": "31e3b96b59e6db0cc6e414c9226ce95fa6af4839314403c8bcb88a138237efed"
+  },
+  "scope": {
+    "proposalOnly": true,
+    "RootStarterSourceNotYetReviewed": true,
+    "H21AlgorithmsNotReviewed": true,
+    "noActualNativeOrContext": true,
+    "noProcessOrDBHTTP": true,
+    "RootOrPrivateWritten": false
+  },
+  "findings": [
+    {
+      "id": "IR-API121-01",
+      "priority": "P2",
+      "summary": "The closed24-key API record omits mandatory actual startedAt consumed by the unchanged current auth configuration reader.",
+      "evidence": {
+        "proposalPointer": "/record/keys",
+        "reader": {
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/auth-config-binding.mjs",
+          "bytes": 8932,
+          "rawBytesSha256": "cb21f169d5d9ef1512466eb82e273495e977ef07f77d6dd3b170409a03e96d89"
+        },
+        "readerLine": 84,
+        "realCallers": [
+          {
+            "source": {
+              "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tax15-once-effects.mjs",
+              "bytes": 19392,
+              "rawBytesSha256": "23cd16985eb2ba9f4adc321a73d31e8c510f453d62765a0040f8eba78d9045b2"
+            },
+            "line": 175,
+            "entry": "waitAuth118"
+          },
+          {
+            "source": {
+              "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/fault-sweep.mjs",
+              "bytes": 25506,
+              "rawBytesSha256": "90b91ff48edbd101a5535ffb271ff40334c96030c33f5f8e77951b0f45f00f85"
+            },
+            "line": 176,
+            "entry": "waitForActualPendingAuth"
+          }
+        ]
+      },
+      "impact": "Startup/readiness and Native current API validation can succeed while the required pending-auth/normal FI path deterministically rejects the new record before reading actual auth configuration.",
+      "required": "Freeze an honest actual pre-spawn startedAt in the new record and synchronize its exact record schema with Native/Root8. Do not synthesize/backdate it or change the protected auth reader."
+    },
+    {
+      "id": "IR-API121-02",
+      "priority": "P2",
+      "summary": "The proposal does not close the process/env output paths against the unchanged auth reader required edition layout.",
+      "evidence": {
+        "proposalPointers": [
+          "/input/outputDirectory",
+          "/process/normalEnv"
+        ],
+        "reader": {
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/auth-config-binding.mjs",
+          "bytes": 8932,
+          "rawBytesSha256": "cb21f169d5d9ef1512466eb82e273495e977ef07f77d6dd3b170409a03e96d89"
+        },
+        "readerLines": [
+          99,
+          100
+        ]
+      },
+      "impact": "Because POMS_ENV_FILE is explicitly present, the reader must take its selected-file branch. It requires processFile private/rust-api<digits>-process.json and exact same-prefix .env; arbitrary files only under the UUID output directory are incompatible.",
+      "required": "Explicitly freeze two new canonical compatible process/env paths, their unique numeric edition derivation or approved input fields, wx/no reuse, same POMS_ENV_FILE and exact-input effect scope. Logs/receipts may remain in the UUID directory. No helper alias, fallback, global env mutation or extra H3 change."
+    }
+  ],
+  "otherwiseCompatibleDesign": [
+    "Exactly one already named Root start-api121 production ADD and two validation entries; A7 remains byte-protected.",
+    "Pre-API uses only exact retainedSource15 history; no ordinary context, current API authority, future plan/registry/candidate or self-reference.",
+    "Same approved ELF once, guarded holder/original PG and readonly conservation, one readiness200, unknown preserve/no signal/retry fit the bounded sequence.",
+    "Full229/55 source closure and original420/528/build/stat checks remain necessary; final actual inputs/code/G2 are not supplied by this review."
+  ],
+  "implementationRecommendation": "Amend only this proposal record/path contract and resubmit the finite design. Do not implement or execute from this NOT READY review.",
+  "actualG2Authorized": false,
+  "implementationGranted": false,
+  "currentNativeAuthorityGranted": false,
+  "overall121G1BOrCodeReady": false,
+  "G3": false,
+  "G4": false
+}

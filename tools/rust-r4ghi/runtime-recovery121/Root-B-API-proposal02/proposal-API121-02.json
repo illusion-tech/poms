@@ -1,0 +1,257 @@
+{
+  "kind": "Root-runtime121-B-API-operator-design-proposal",
+  "schemaVersion": 1,
+  "issue": 121,
+  "parentG1B": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/g1B/Root-G1B-121.json",
+    "rawBytesSha256": "be96f468fe8c7aa58dcebe6f687ef90d0afb46f1d9ca2ac2bc2b3e90974206cc"
+  },
+  "basis": "The existing frozen G1B RootOwnership.B already names start-api121.mjs ADD. This makes its input/dispatch/process receipts concrete; A7 and its three modes remain byte-protected.",
+  "production": [
+    {
+      "file": "tools/rust-r4ghi/runtime-recovery121/root/start-api121.mjs",
+      "operation": "ADD",
+      "owner": "Root",
+      "beforeSHA256": null,
+      "afterSHA256": null
+    }
+  ],
+  "validationOnly": [
+    "tools/rust-r4ghi/runtime-recovery121/root/tests/api121.test.mjs",
+    "tools/rust-r4ghi/runtime-recovery121/root/tests/seal-api121.mjs"
+  ],
+  "counts": {
+    "RootProductionADD": 1,
+    "RootAProductionMOD": 0,
+    "H3PlannedComplete": 229,
+    "backendSource": 420,
+    "compileInputs": 528,
+    "currentRootOperatorSources": 8,
+    "currentExternalPlanned": 55
+  },
+  "commands": {
+    "metadata": [
+      "--prepare-request",
+      "--input",
+      "FILE",
+      "--input-sha",
+      "SHA"
+    ],
+    "dispatch": [
+      "--request",
+      "FILE",
+      "--request-sha",
+      "SHA",
+      "--independent-review",
+      "FILE",
+      "--independent-review-sha",
+      "SHA",
+      "--execute"
+    ],
+    "privateChild": [
+      "--input",
+      "FILE",
+      "--input-sha",
+      "SHA",
+      "--review",
+      "FILE",
+      "--review-sha",
+      "SHA",
+      "--execute"
+    ],
+    "metadataEffects": "Only exact immutable request metadata under the actual input directory; approval and effect output absent. No API/context/SQL/HTTP/process control.",
+    "dispatchEffects": "After exact non-author G2, wx output directory/Root approval, invoke fixed same source once as child, preserve original stdout/stderr and actual command receipt. No automatic retry/stop."
+  },
+  "input": {
+    "kind": "Root-runtime121-B-API-operation-input",
+    "keys": [
+      "kind",
+      "schemaVersion",
+      "namespace",
+      "epoch",
+      "run",
+      "nonce",
+      "G1B",
+      "operatorBaseline",
+      "codeReview",
+      "base",
+      "current",
+      "composition",
+      "expectedStates",
+      "executionSources",
+      "outputDirectory",
+      "processFile",
+      "normalEnvFile"
+    ],
+    "schemaVersion": 1,
+    "namespace": "poms-r4ghi",
+    "epoch": "g2-business15",
+    "run": "main01",
+    "base": "Exact already frozen 19-field Native retainedSource15 parent specification; no future API/registry/candidate or fake context.",
+    "currentKeys": [
+      "sourcePins",
+      "compilePins",
+      "helperPins",
+      "helperCount",
+      "binary",
+      "summaryBinary",
+      "binaryFiles",
+      "nodeExecutable",
+      "lifetimeOwner",
+      "PGStart",
+      "PGConservation"
+    ],
+    "compositionKeys": [
+      "helperComposition",
+      "externalComposition",
+      "independentCodeReviews"
+    ],
+    "executionSources": "Actual exact canonical union of full229 helpers and full55 external sources; every file/hash and directory membership verified. Root operator record.code is the exact Root8 subset. Final counts alone do not certify identity.",
+    "expectedStates": "Exact Source13/14 frozen states and failed-preserve Source15/ownership as in A; unchanged raw before/after every phase.",
+    "outputDirectory": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-B/api-start/<new UUIDv4>; no reuse",
+    "processFile": "/home/wangzishi/.local/share/poms-r4ghi/private/rust-api121-process.json",
+    "normalEnvFile": "/home/wangzishi/.local/share/poms-r4ghi/private/rust-api121.env",
+    "outputPathRule": "Both fixed numeric-edition paths must be absent at metadata and dispatch/child preflight; wx only. Original process/env records unmodified. Logs/receipts stay in the unique UUID directory. POMS_ENV_FILE is exactly normalEnvFile and processFile maps to it by -process.json to .env.",
+    "codeReviewContract": {
+      "kind": "non-author-runtime121-finite-code-step",
+      "verdict": "approved-bounded-step-only",
+      "reviewerIsAuthor": false,
+      "component": "Root8 exact source component: already certified unchanged A7 plus new B1; every original-base beforeSHA is null, while implementation new ADD remains1",
+      "technicalG1": "The new Root B operator baseline explicitly binds parent G1A/G1B and the unchanged A7 code-ready source pins."
+    }
+  },
+  "request": {
+    "kind": "Root-runtime121-B-API-exact-G2-request",
+    "keys": [
+      "kind",
+      "recordedAt",
+      "input",
+      "expectedRootReview",
+      "expectedRootReviewBody",
+      "actualG2",
+      "RootReviewSigned",
+      "effectsExecuted"
+    ],
+    "RootReviewKeys": [
+      "kind",
+      "approvedInput",
+      "G1B",
+      "operatorBaseline",
+      "codeReview",
+      "nonce",
+      "processControl",
+      "APIStart",
+      "readinessOnly",
+      "businessDML",
+      "nativeAuthority",
+      "createReplaceRestoreMigrate"
+    ],
+    "RootReviewKind": "Root-approved-exact-runtime121-B-API",
+    "nonAuthorKind": "non-author-runtime121-B-API-exact-G2",
+    "nonAuthorRequired": {
+      "reviewerIsAuthor": false,
+      "verdict": "approved-one-same-byte-API-start-readiness-only",
+      "approvedInput": "exact full actual input pin",
+      "expectedRootReview": "exact full expected approval pin"
+    },
+    "approval": "Root approval absent until separate concrete G2. Whole body exactly derived from input; no future output pins."
+  },
+  "preflight": [
+    "Fixed Linux Node bc17, uid1000, Root cwd, empty execArgv, no NODE_OPTIONS/NODE_PATH; do not import the new Native before full actual source closure verification.",
+    "Full canonical live source420 and compile528 membership+bytes on Root/mirror, actual229 directory and full55 external bytes, concrete code reviews and frozen finite source composition.",
+    "Only verifyRetainedSource15For121(exact base) may run before API. No createContext/currentRuntime/verifyRuntimePlan call and no fake current or future-null object.",
+    "Actual A holder0961 and four-key owner bundle/cross-bound Windows launch + original command; fresh Linux holder identity. No fresh Windows CIM claim.",
+    "Actual original PG start and two139x2 conservation against fixed snapshot21, full raw/xmin/meta/seq/object evidence; fresh exact same running container/mount/image/PGDATA/port/PID before and after.",
+    "Same original ELF and Common bytes; fresh stat/dev/ino, only31441 free/no old listener. Preserve old API/build/proof records.",
+    "Preserve protected auth-config-binding raw bytes. Its selected explicit env must be the exact private/rust-api121.env from processFile, regular nlink1/uid1000/mode0600, with mtime/ctime/birthtime no later than actual startedAt. Record includes the actual startedAt consumed by original waitAuth/fault-pending paths."
+  ],
+  "process": {
+    "binary": "Exact original Source15 owned ELF; no build/migration/data reset/alternate binary.",
+    "spawnOnce": true,
+    "cwd": "/home/wangzishi/projects/poms-rust-r4ghi",
+    "argv": [],
+    "environmentKeys": [
+      "PATH",
+      "HOME",
+      "USER",
+      "LANG",
+      "POMS_ENV_FILE"
+    ],
+    "normalEnv": "Read exact original rust.env allowlist without printing values; derive only HOST=127.0.0.1, PORT=31441, CORS_ORIGIN=http://127.0.0.1:44551,http://localhost:44551. Write private wx0600 and bind bytes. No global env/config changes. Exact canonical path is input.normalEnvFile; wx0600, single link, uid1000. It must remain unchanged for the full process lifetime.",
+    "lifetime": "Foreground WSL holder remains live; API may detach with original private stdout/stderr. All PID/boot/start/exe/cwd/env/socket identities freshly verified before completion.",
+    "readiness": "GET only http://127.0.0.1:31441/api/health/readiness; at most30 attempts, 500ms delay only after known ECONNREFUSED while same child alive. First other network/HTTP/body failure STOP. One successful200, process+database pass. No auth/domain HTTP.",
+    "unknown": "Write partial/intents and actual child identity when known; preserve possibly running process/logs, do not signal/stop/retry or consume another nonce silently.",
+    "startTimeOrder": "After env write/stat, yield on real time until Date.now() is at least ceil(max(mtimeNs,ctimeNs,positive birthtimeNs)/1e6), then capture actual new Date().toISOString() immediately before spawn. Bounded wait; future/unexplainable file times stop. Never edit clock/stat or round timestamps into a false launch."
+  },
+  "record": {
+    "kind": "actual-source15-owned-API-process121",
+    "protocolVersion": 1,
+    "keys": [
+      "kind",
+      "protocolVersion",
+      "namespace",
+      "epoch",
+      "run",
+      "root",
+      "port",
+      "pid",
+      "startTime",
+      "startedAt",
+      "bootId",
+      "binary",
+      "binarySha256",
+      "binaryFiles",
+      "baseBuildBinding",
+      "sourcePins",
+      "compilePins",
+      "helperPins",
+      "baseAPIProcess",
+      "lifetimeOwner",
+      "normalEnv",
+      "baseNormalEnv",
+      "readinessAttempt",
+      "input",
+      "code"
+    ],
+    "code": "All eight Root source pins, not only the starter. No future registry/candidate or context.",
+    "readiness": {
+      "mode": "start",
+      "port": 31441,
+      "readiness": 200,
+      "privateCredentialsPrinted": false,
+      "pid": "actual PID",
+      "binarySha256": "same actual ELF SHA"
+    },
+    "startedAt": "The actual wall-clock ISO instant captured immediately before the sole spawn, after selected env metadata is no later than this instant. Not backdated, derived from old process, synthetic or a business date."
+  },
+  "validation": [
+    "Syntax and finite static unbound diagnostics are separate from code readiness.",
+    "Pure real parser/predicate tests reject extra keys, fake paths, nonce reuse, substituted source closure, wrong body/input/Root approval, wrong mount/holder/PG/binary identity; no services or real namespace ctx.",
+    "Environment derivation, exact argv/receipt schema and readiness classifier tested with isolated data; preserve historical source invariants.",
+    "Actual API positive only after code review, actual complete graph promotion and this new exact G2; independent live process/readiness readback mandatory.",
+    "Regression against actual protected auth-reader predicates: missing startedAt, mismatched process/env edition, wrong POMS_ENV_FILE, post-start file metadata and same-ms nanosecond boundary reject; genuine real-time launch after env metadata accepts. No private env bytes printed."
+  ],
+  "implementationGranted": false,
+  "RootPromotionGranted": false,
+  "actualG2Authorized": false,
+  "actualAPI": null,
+  "businessG3": false,
+  "businessG4": false,
+  "edition": 2,
+  "parentProposal": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/Root-B-API-proposal01/proposal-API121.json",
+    "bytes": 8563,
+    "rawBytesSha256": "31e3b96b59e6db0cc6e414c9226ce95fa6af4839314403c8bcb88a138237efed"
+  },
+  "priorNotReadyReview": {
+    "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms-r4h-signals",
+    "bytes": 4748,
+    "rawBytesSha256": "a2c458d2e41cf3218de5b281353209dc8f3b1d8284539a6ad56ca7098a9d1da5"
+  },
+  "protectedAuthReader": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/auth-config-binding.mjs",
+    "bytes": 8932,
+    "rawBytesSha256": "cb21f169d5d9ef1512466eb82e273495e977ef07f77d6dd3b170409a03e96d89"
+  },
+  "correctiveScope": "Only close missing actual startedAt and two compatible output paths; no auth helper changes, fallback, extra Native/H3 leaf or business semantics change. Proposal01/NOT_READY remain immutable."
+}
