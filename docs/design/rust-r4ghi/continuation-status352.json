@@ -1,0 +1,87 @@
+{
+  "kind": "R4-Tax118-actual-prepare-approved-full67-FI-G2-pending-status352",
+  "recordedAt": "2026-11-11T04:07:46.555Z",
+  "sourceCommit": "c8d9cf88b8eda47fb75c4af269fcb03fea76e890",
+  "Source15Admitted": true,
+  "technical119": {
+    "state": "CLOSED",
+    "G3": true,
+    "G4": true
+  },
+  "actualPrepare": {
+    "command": {
+      "file": "//wsl.localhost/Debian/home/wangzishi/.local/share/poms-r4ghi/private/tax15-prepare118-prepared02/run01/command-receipt.json",
+      "bytes": 1030,
+      "rawBytesSha256": "ec37413c6979605dff8f16371ac075e88f41c24495ee60d4450dd716c9b5379e"
+    },
+    "complete": {
+      "file": "//wsl.localhost/Debian/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/tax118-invocation-c9b54e04-f63e-410c-a022-575815171333/complete.json",
+      "bytes": 1674,
+      "rawBytesSha256": "07e317333ac49fdab987fb481339deef9fefbeb5bbf29f6b6d3a40aee9b5c2a6"
+    },
+    "independentActualReadback": {
+      "file": "E:/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/independent-tax15-prepare118-actual-readback02/review-actual-prepare-only118-new02.json",
+      "bytes": 21312,
+      "rawBytesSha256": "8b129d69c1087c2c3a37c65f20b0ca7a891286793776bef7cfa18398948b8fd1"
+    },
+    "exitCode": 0,
+    "elapsedSeconds": 1548.844873959,
+    "stdoutBytes": 524,
+    "stderrBytes": 0,
+    "closedPhase": "closed-verified",
+    "sequence": 25,
+    "HTTPComplete200": 7,
+    "targetPackets": 2,
+    "inventory": 67,
+    "bodySHA256": "0f92913cd78146402e5eb3a004f10a55c8e47417d961301210d2e7d5376dcc98",
+    "preparedSHA256": "08e3eb6cff5297609a1d11e092382afc4f52b0ebedf9ee19c5dd5f8442412338",
+    "fullInventorySHA256": "fdb957d8c82c0630eefa8ef0517bfa24cc0ec073fcf33bd923c78da09440946b",
+    "distinctFullSnapshots": 16,
+    "tablesPerDB": 139,
+    "rawTableFiles": 4448,
+    "rowVersions": 78973,
+    "ownedInherited": 3851,
+    "newOwnedSessions": 1,
+    "nonAuthBusinessPreserved": true
+  },
+  "nextFI": {
+    "request": {
+      "file": "//wsl.localhost/Debian/home/wangzishi/.local/share/poms-r4ghi/private/tax15-fi-closed-set118-prepared03/request-fi-closed-set-G2-review118.json",
+      "bytes": 3463,
+      "rawBytesSha256": "a356c414ce8e80096cc9ceffef2c5a70bef7d8635889df0598f66c91ab8123d3"
+    },
+    "fullOrderedInventory": 67,
+    "inputMaterialized": true,
+    "independentExactG2Pending": true,
+    "RootReviewSigned": false,
+    "actualFIExecuted": false
+  },
+  "actualAuthentication": {
+    "idleSeconds": 900,
+    "absoluteSeconds": 28800,
+    "throttleSeconds": 60,
+    "rawTouchBoundary": "Independent auth autocommit may extend idle before a failed business TX. It remains subject to actual idle/absolute deadlines; future FI logs in afresh. No batch-duration guarantee or config/clock change."
+  },
+  "retainedOldFailure": {
+    "commandSHA256": "16acf217fbbac315d6598dba9f722aa4bbc138f53ba7ef02496d4e52c16eef6c",
+    "constructorReturned": true,
+    "nativeExitAttempted": false,
+    "oldInputReplayForbidden": true,
+    "notRewritten": true
+  },
+  "official": {
+    "Rust": 240,
+    "R4Delivered": 67,
+    "R4Total": 95,
+    "batchCandidate": 32,
+    "newCertified": 0
+  },
+  "actualTaxOrMainPOST": false,
+  "actualClassification": false,
+  "actualNormal201": false,
+  "businessG3": false,
+  "businessG4": false,
+  "parent57": "OPEN",
+  "fullR5_116": "OPEN",
+  "issues118And120": "OPEN"
+}

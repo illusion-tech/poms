@@ -975,3 +975,14 @@ D#107/E#108/F#109及本批#106已按[独立关闭许可](archive/slices/rust-r4d
 [code02纠偏](rust-r4ghi/tax118-corrective-code02.md)修复两个引用及post-constructor失败出口和主次错留存，八叶边界不变、H3/backend增量0。完整非作者审feff及独立70项通过，只允许进入新exact-input review；必须新nonce/phase/entry及单独G2后才可执行。业务新增认证0、正式Rust240、R4 67/95，#118/#120与业务父子Issue保持开放，#57/完整R5 #116保持开放。350等原快照保留原时点。
 
 <!-- /poms-r4ghi-status351 -->
+
+
+<!-- poms-r4ghi-status352 -->
+
+### 2026-11-11 状态352：真实准备及独立读回通过，67项FI另行G2
+
+[固定状态352](rust-r4ghi/continuation-status352.json)记录纠偏后新prepare实际exit0及H非作者完整读回8b129通过：7个完整200、两目标packet、67项完整有序库存和同一body，native退出、closed journal与seq25当前状态闭合。16份完整双库139表快照共4448表文件/78973行版本逐raw/xmin核对，非Auth业务、meta/sequence/object保持；仅新增一个可归属session及其触碰，继承owned3851全同。
+
+独立FI输入已按真实08e3/fdb9与body0f92冻结，尚待具体exactG2。真实认证窗口900/28800/60秒及独立raw touch边界纳入审查，未来FI新登录、保留真实过期及首错STOP，不假称全批耗时有保证。旧首次失败no-exit、351等原件保留；正式Rust240、R4 67/95、新业务认证0，业务G3/G4未通过，#118/#120、#57及完整R5 #116继续开放，#119技术收口保持。
+
+<!-- /poms-r4ghi-status352 -->
