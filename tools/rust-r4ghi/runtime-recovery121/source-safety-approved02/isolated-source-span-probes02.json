@@ -1,0 +1,240 @@
+{
+  "kind": "independent-SourceSafety02-exact-source-span-isolated-probes",
+  "recordedAt": "2026-11-11T22:16:48.633Z",
+  "operator": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/source-promotion121/promote-once02.mjs",
+    "bytes": 17045,
+    "rawBytesSha256": "9d094c39b605d258e511de2d38bf734750e3ad9ae72c3c1692482b79f8db4f42"
+  },
+  "commitSpan": {
+    "start": 13309,
+    "end": 15087,
+    "rawBytesSha256": "9f22f96ae3d08a3e0dad005f1f119f0765aa292d5772f03e6f9989049f6a61d8"
+  },
+  "cases": [
+    {
+      "name": "normal",
+      "mode": "normal",
+      "accepted": true,
+      "error": null,
+      "linkCalls": 1,
+      "renameCalls": 0,
+      "unlinkTargets": [
+        "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-source-safety-exact-review02/case-normal/owned-stage.tmp"
+      ],
+      "unknownPreserved": false,
+      "approvedBytesInstalled": true,
+      "targetIsDangling": false,
+      "targetExists": true,
+      "stageExists": false,
+      "targetNlink": 1,
+      "stageNlink": null,
+      "injectedAfterENOENT": false,
+      "applied": [
+        {
+          "file": "tools/rust-r4ghi/unit/file.mjs",
+          "installation": "atomic-link-no-replace",
+          "after": {
+            "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-source-safety-exact-review02/case-normal/target.mjs",
+            "bytes": 28,
+            "rawBytesSha256": "3957c515c52fe3f56eaf0f80a82362b14ca5ed347c96fa54df09187ce7857aa7"
+          }
+        }
+      ],
+      "linkedAdds": [
+        {
+          "file": "tools/rust-r4ghi/unit/file.mjs",
+          "target": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-source-safety-exact-review02/case-normal/target.mjs",
+          "ownedStage": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-source-safety-exact-review02/case-normal/owned-stage.tmp",
+          "dev": "73",
+          "ino": "6917529027680106885",
+          "expectedSHA256": "3957c515c52fe3f56eaf0f80a82362b14ca5ed347c96fa54df09187ce7857aa7",
+          "stageUnlinked": true
+        }
+      ],
+      "fixtureRoot": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-source-safety-exact-review02/case-normal",
+      "lockPreserved": true
+    },
+    {
+      "name": "raced",
+      "mode": "race",
+      "accepted": false,
+      "error": {
+        "name": "Error",
+        "code": "EEXIST",
+        "message": "EEXIST: file already exists, link '/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-source-safety-exact-review02/case-raced/owned-stage.tmp' -> '/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-source-safety-exact-review02/case-raced/target.mjs'"
+      },
+      "linkCalls": 1,
+      "renameCalls": 0,
+      "unlinkTargets": [],
+      "unknownPreserved": true,
+      "approvedBytesInstalled": false,
+      "targetIsDangling": false,
+      "targetExists": true,
+      "stageExists": true,
+      "targetNlink": 1,
+      "stageNlink": 1,
+      "injectedAfterENOENT": true,
+      "applied": [],
+      "linkedAdds": [],
+      "fixtureRoot": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-source-safety-exact-review02/case-raced",
+      "lockPreserved": true
+    },
+    {
+      "name": "existing",
+      "mode": "existing",
+      "accepted": false,
+      "error": {
+        "name": "AssertionError",
+        "code": "ERR_ASSERTION",
+        "message": "The expression evaluated to a falsy value:\n\n  assert(!entryExists(op.target))\n"
+      },
+      "linkCalls": 0,
+      "renameCalls": 0,
+      "unlinkTargets": [],
+      "unknownPreserved": true,
+      "approvedBytesInstalled": false,
+      "targetIsDangling": false,
+      "targetExists": true,
+      "stageExists": true,
+      "targetNlink": 1,
+      "stageNlink": 1,
+      "injectedAfterENOENT": false,
+      "applied": [],
+      "linkedAdds": [],
+      "fixtureRoot": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-source-safety-exact-review02/case-existing",
+      "lockPreserved": true
+    },
+    {
+      "name": "dangling-target",
+      "mode": "dangling",
+      "accepted": false,
+      "error": {
+        "name": "AssertionError",
+        "code": "ERR_ASSERTION",
+        "message": "The expression evaluated to a falsy value:\n\n  assert(!entryExists(op.target))\n"
+      },
+      "linkCalls": 0,
+      "renameCalls": 0,
+      "unlinkTargets": [],
+      "unknownPreserved": false,
+      "approvedBytesInstalled": false,
+      "targetIsDangling": true,
+      "targetExists": false,
+      "stageExists": true,
+      "targetNlink": null,
+      "stageNlink": 1,
+      "injectedAfterENOENT": false,
+      "applied": [],
+      "linkedAdds": [],
+      "fixtureRoot": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-source-safety-exact-review02/case-dangling-target",
+      "lockPreserved": true
+    },
+    {
+      "name": "unsupported",
+      "mode": "unsupported",
+      "accepted": false,
+      "error": {
+        "name": "Error",
+        "code": "EOPNOTSUPP",
+        "message": "Synthetic unsupported hardlink"
+      },
+      "linkCalls": 1,
+      "renameCalls": 0,
+      "unlinkTargets": [],
+      "unknownPreserved": false,
+      "approvedBytesInstalled": false,
+      "targetIsDangling": false,
+      "targetExists": false,
+      "stageExists": true,
+      "targetNlink": null,
+      "stageNlink": 1,
+      "injectedAfterENOENT": false,
+      "applied": [],
+      "linkedAdds": [],
+      "fixtureRoot": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-source-safety-exact-review02/case-unsupported",
+      "lockPreserved": true
+    },
+    {
+      "name": "linked-failure",
+      "mode": "after-link-failure",
+      "accepted": false,
+      "error": {
+        "name": "Error",
+        "code": "EIO",
+        "message": "Synthetic publication failure after link ACK"
+      },
+      "linkCalls": 1,
+      "renameCalls": 0,
+      "unlinkTargets": [],
+      "unknownPreserved": false,
+      "approvedBytesInstalled": true,
+      "targetIsDangling": false,
+      "targetExists": true,
+      "stageExists": true,
+      "targetNlink": 2,
+      "stageNlink": 2,
+      "injectedAfterENOENT": false,
+      "applied": [],
+      "linkedAdds": [
+        {
+          "file": "tools/rust-r4ghi/unit/file.mjs",
+          "target": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-source-safety-exact-review02/case-linked-failure/target.mjs",
+          "ownedStage": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-source-safety-exact-review02/case-linked-failure/owned-stage.tmp",
+          "dev": "73",
+          "ino": "6917529027680106895",
+          "expectedSHA256": "3957c515c52fe3f56eaf0f80a82362b14ca5ed347c96fa54df09187ce7857aa7",
+          "stageUnlinked": false
+        }
+      ],
+      "fixtureRoot": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-source-safety-exact-review02/case-linked-failure",
+      "lockPreserved": true
+    },
+    {
+      "name": "mod",
+      "mode": "mod",
+      "accepted": true,
+      "error": null,
+      "linkCalls": 0,
+      "renameCalls": 1,
+      "unlinkTargets": [],
+      "unknownPreserved": false,
+      "approvedBytesInstalled": true,
+      "targetIsDangling": false,
+      "targetExists": true,
+      "stageExists": false,
+      "targetNlink": 1,
+      "stageNlink": null,
+      "injectedAfterENOENT": false,
+      "applied": [
+        {
+          "file": "tools/rust-r4ghi/unit/file.mjs",
+          "installation": "reviewed-MOD-CAS-rename",
+          "after": {
+            "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-source-safety-exact-review02/case-mod/target.mjs",
+            "bytes": 28,
+            "rawBytesSha256": "3957c515c52fe3f56eaf0f80a82362b14ca5ed347c96fa54df09187ce7857aa7"
+          }
+        }
+      ],
+      "linkedAdds": [],
+      "fixtureRoot": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-source-safety-exact-review02/case-mod",
+      "lockPreserved": true
+    }
+  ],
+  "brokenDriverLockRejected": true,
+  "inventoryCases": {
+    "original227Accepted": true,
+    "extraEntryRejected": true,
+    "sameCountReplacementRejected": true,
+    "changedHashRejected": true,
+    "sourceSpanRawSHA256": "d239a4e054e68ca64f7a0e57c01ca82657d925d774c04c4149b783bbbc980bd2"
+  },
+  "SS121IR01ClosedInThisOperator": true,
+  "ADDNoReplaceAndNoFallbackVerified": true,
+  "linkAcknowledgedBeforeMetadataAndFailedLinkPreserved": true,
+  "oldMODCASRenamePreserved": true,
+  "actualMainCalled": false,
+  "RootOrPrivateWritten": false,
+  "actualAPINativeContextSQLHTTPOrProcessInspection": false
+}
