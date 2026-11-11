@@ -1,0 +1,144 @@
+{
+  "kind": "non-author-runtime121-A-pg-start-actual-readback",
+  "verdict": "approved-actual-original-pg-start-readback",
+  "mode": "pg-start",
+  "issue": 121,
+  "executor": "Root",
+  "reviewer": "/root/r4ghi_final_gates13",
+  "reviewerIsAuthor": false,
+  "reviewerIsRootExecutor": false,
+  "recordedAt": "2026-11-11T20:05:31.799Z",
+  "actualCommand": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-A/pg-start/d785af86-078b-4ba2-b325-b1fbc53028b0/command-receipt.json",
+    "bytes": 1066,
+    "rawBytesSha256": "9af38eea6e4301b05ad58bc51e8fb800aabf1b0d6bbf17796fa527296ac6f37e"
+  },
+  "actualPgStart": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-A/pg-start/d785af86-078b-4ba2-b325-b1fbc53028b0/complete.json",
+    "bytes": 3272,
+    "rawBytesSha256": "981d63c82ea17fdd19101e87bd0035f8c4b9f675fb36be64dcbf9573af0aa98a"
+  },
+  "originalExactG2": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-A-pg-start-exactG2-review01/review-pg-start-exactG2-121.json",
+    "bytes": 14095,
+    "rawBytesSha256": "e93494ab737905e5be463b1f161cfffa67ab43c168cc1bd28fab4f377b5bcd15"
+  },
+  "approvedInput": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-A-inputs/pg-start/d785af86-078b-4ba2-b325-b1fbc53028b0/input.json",
+    "bytes": 4494,
+    "rawBytesSha256": "e8d8fd5447bc8d8de8ba05071c1c2264a2ad1fc5e983dde91932fbe46bf43b96"
+  },
+  "actualRootReview": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-A-inputs/pg-start/d785af86-078b-4ba2-b325-b1fbc53028b0/Root-review.json",
+    "bytes": 1105,
+    "rawBytesSha256": "492aba4fea5a97e6a1323960569ed7a81a7e20e8da839c704e72829ba3e854ca"
+  },
+  "actualHolder": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-A/holder-start/18922a5d-22d8-45c8-871a-8a0339649653/holder-ready.json",
+    "bytes": 2416,
+    "rawBytesSha256": "0961936de6be3ca430db57d1feaf0529501e58aa554326f89b75f7afd4db18d6"
+  },
+  "evidence": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-A-pg-start-actual-readback01/actual-pgstart-evidence121.json",
+    "bytes": 14281,
+    "rawBytesSha256": "e3be321ea44632b2504af33fdd7a754f42f45ffac43a14e51870160d1e070753"
+  },
+  "verified": {
+    "requestInputRootApprovalG2DispatchIntentLineageExact": true,
+    "actualSingleCommandExitCode": 0,
+    "signal": null,
+    "processError": null,
+    "sevenSourcesStillExactCodeReady0071": true,
+    "completeMatchesOriginalBeforeAndLogs": true,
+    "before": {
+      "status": "exited",
+      "running": false,
+      "pid": 0
+    },
+    "after": {
+      "status": "running",
+      "running": true,
+      "pid": 6360
+    },
+    "originalCID": "513925616f4e1c1c988753e385be7f441dc98f6fb490101537498f60e8d5e00f",
+    "originalImage": "b718026138f18af7722fc66f706d64990e869a4b196508aaf4f3671786c8d93a",
+    "volume": "poms-r4ghi-pg15-data",
+    "volumeSource": "/home/wangzishi/.local/share/containers/storage/volumes/poms-r4ghi-pg15-data/_data",
+    "mountCount": 1,
+    "volumeType": "volume",
+    "volumeReadWrite": true,
+    "volumeTargetAndPGDATA": "/var/lib/postgresql/data",
+    "portBinding": "127.0.0.1:25434 ->15432",
+    "originalInstanceProjectionUnchangedExceptStateAndPid": true,
+    "PGVersionAndOriginalOIDDirectoriesRecorded": {
+      "version": "15",
+      "oids": [
+        "16385",
+        "16387"
+      ]
+    },
+    "holderBootMatchesActualReady0961": "3e3ee369-496d-471a-8718-8425d3e75b6c",
+    "startRawStdoutExactOriginalFullCID": true,
+    "startRawExit0NoSignalNoProcessError": true,
+    "readiness": [
+      {
+        "database": "poms_r4ghi_native",
+        "exitCode": 0,
+        "signal": null,
+        "processError": null,
+        "stdout": "127.0.0.1:15432 - accepting connections"
+      },
+      {
+        "database": "poms_r4ghi_rust",
+        "exitCode": 0,
+        "signal": null,
+        "processError": null,
+        "stdout": "127.0.0.1:15432 - accepting connections"
+      }
+    ],
+    "outerStdoutBytes": 297,
+    "outerStderrBytes": 0,
+    "fourFileStateAndOwnershipBookendsUnchanged": true,
+    "noPartialOrDriverLocks": true
+  },
+  "warnings": {
+    "innerStartAndBothReadinessStderrNonempty": true,
+    "eachHasExactlyKnownFourWarningMessages": true,
+    "classification": "Existing cgroupv2 systemd-manager/no-user-session warnings and automatic Podman cgroupfs fallback only; no unexpected stderr or processError was found.",
+    "hostWorkaroundExecutedByReviewedOperator": false,
+    "noSystemdOrLingerConfigChangeClaimed": true,
+    "rawWarningsPreserved": true,
+    "notClaimedAllStderrZero": true
+  },
+  "evidenceLimits": {
+    "currentPGOrContainerNotQueriedByReviewer": true,
+    "afterPID6360IsActualSavedRootPostInspectProjection": true,
+    "fullOriginalInspectGuardFieldsClosedByExactReviewedSourceAndItsActualExit0": true,
+    "PGVersionOIDDirectoryChecksAreRecordedExecutedPreconditionsNotAnIndependentSQLProbe": true,
+    "readinessIsNotDatabaseNamespaceOrLogicalContentConservation": true,
+    "databaseLogicalConservationCertified": false,
+    "fileStateLogBookendsAreDistinctFromDatabaseDataConservation": true,
+    "actualProgramStatesDataConservationNotYetObserved": true,
+    "noActualSQLHTTPAPIOrNativeContextUsedByReviewer": true,
+    "noProcessQuerySignalOrServiceStartByReviewer": true,
+    "RootOrPrivateWritten": false,
+    "onlyOwnReviewArtifactsWritten": true
+  },
+  "boundary": {
+    "onlyThisOriginalPGStartAndReadinessCertified": true,
+    "pgObserveGranted": false,
+    "APIStartGranted": false,
+    "currentRuntimeLeaseOrNativeAuthorityGranted": false,
+    "TaxPrepareFIOrNormalGranted": false,
+    "newContainerVolumeOrDatabaseCreationGranted": false,
+    "backupRestoreMigrationOrDataRepairGranted": false,
+    "repeatStartOrStopGranted": false,
+    "noFurtherExecutionGranted": true
+  },
+  "next": "A separate concrete pg-observe input and independent exact G2 are required for two full defaultRO double-database139 observations. This receipt may serve only as that future input predecessor; it does not establish data conservation or API/native/Tax permission.",
+  "G3Certified": false,
+  "G4Certified": false,
+  "businessG3": false,
+  "businessG4": false,
+  "newBusinessCertified": 0
+}
