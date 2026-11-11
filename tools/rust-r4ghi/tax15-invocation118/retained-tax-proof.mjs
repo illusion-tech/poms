@@ -11,7 +11,7 @@ import {
 } from "../business/tax13-provenance.mjs";
 import { pointer54 } from "../business/consumer-admission54.mjs";
 import { resourceProjection252 } from "../business/same-m98-code-core252.mjs";
-import { uuid } from "../business/pure.mjs";
+import { sha, uuid } from "../business/pure.mjs";
 export const F118 = Object.freeze({
     namespace: "poms-r4ghi",
     epoch: "g2-business15",

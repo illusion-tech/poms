@@ -449,7 +449,7 @@ export async function runTax15Once118(inputPin, reviewPin) {
         { flag: "wx", mode: 0o600 },
     );
     const lockSHA = sha118(fs.readFileSync(lock));
-    let cap, result, closed;
+    let cap, result, closed, primaryFailure;
     try {
         fs.writeFileSync(
             dir + "/intent.json",
@@ -499,6 +499,7 @@ export async function runTax15Once118(inputPin, reviewPin) {
         );
         return receipt;
     } catch (e) {
+        primaryFailure = e;
         if (cap) {
             try {
                 closed = await closeInvocation118(cap, result ?? null, {
@@ -521,6 +522,7 @@ export async function runTax15Once118(inputPin, reviewPin) {
                     message: e.message,
                     bookendError: e.bookendError ?? null,
                     closed: closed ?? null,
+                    openFailure: e.openFailure ?? null,
                     blindRetryForbidden: true,
                 },
                 null,
@@ -530,12 +532,36 @@ export async function runTax15Once118(inputPin, reviewPin) {
         );
         throw e;
     } finally {
-        const bytes = fs.readFileSync(lock);
-        assert.equal(sha118(bytes), lockSHA);
-        const owner = JSON.parse(bytes);
-        assert.equal(owner.pid, process.pid);
-        assert.equal(owner.nonce, input.nonce);
-        fs.unlinkSync(lock);
+        try {
+            const bytes = fs.readFileSync(lock);
+            assert.equal(sha118(bytes), lockSHA);
+            const owner = JSON.parse(bytes);
+            assert.equal(owner.pid, process.pid);
+            assert.equal(owner.nonce, input.nonce);
+            fs.unlinkSync(lock);
+        } catch (lockError) {
+            const evidence = {
+                kind: "Tax15-lock-cleanup-failure-preserve",
+                input: inputPin,
+                nonce: input.nonce,
+                primaryError: primaryFailure?.message ?? null,
+                lockError: lockError.message,
+                completionAlreadyWritten: fs.existsSync(dir + "/complete.json"),
+                replayForbidden: true,
+            };
+            try {
+                fs.writeFileSync(
+                    dir + "/lock-cleanup-failure.json",
+                    JSON.stringify(evidence, null, 2) + "\n",
+                    { flag: "wx", mode: 0o600 },
+                );
+            } catch (evidenceError) {
+                lockError.evidenceError = evidenceError.message;
+            }
+            if (primaryFailure) {
+                primaryFailure.lockCleanupError = lockError.message;
+            } else throw lockError;
+        }
     }
 }
 export async function main118(args = process.argv.slice(2)) {

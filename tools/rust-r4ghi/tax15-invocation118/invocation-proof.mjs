@@ -624,6 +624,102 @@ function ensureRecord(root, manifest, reg, legacy, runtimePin) {
     };
     root.persist();
 }
+function closeFailedOpen118(
+    root,
+    native,
+    registry,
+    p,
+    inputPin,
+    reviewPin,
+    primary,
+) {
+    let nativeExitError = null, sourceExitError = null;
+    // Attempt the real native exit even if later journal/path checks fail.
+    try {
+        native.assertRuntimeBinding15(root, registry, {
+            codeAdmission15: p.codeAdmission15,
+            candidate: p.candidate,
+        });
+    } catch (error) {
+        nativeExitError = error.message;
+    }
+    primary.openFailure = {
+        phase: nativeExitError
+            ? "failed-preserve"
+            : "closed-failed-before-capability",
+        actualConstructorReturned: true,
+        capabilityReturned: false,
+        nativeExitAttempted: true,
+        nativeExitVerified: nativeExitError === null,
+        nativeExitError,
+    };
+    if (nativeExitError) primary.bookendError = nativeExitError;
+    const priv = F118.private + "/business/" + F118.epoch + "/" + F118.run;
+    const directory = priv + "/tax118-invocation-" + p.nonce;
+    assert.equal(fs.realpathSync(directory), directory);
+    const intent = json118({
+        file: directory + "/intent.json",
+        rawBytesSha256: sha118(fs.readFileSync(directory + "/intent.json")),
+    });
+    samePin118(intent.input, inputPin);
+    samePin118(intent.exactReview, reviewPin);
+    assert.equal(intent.pid, process.pid);
+    assert.equal(intent.nonce, p.nonce);
+    try {
+        for (
+            const pin of [
+                inputPin,
+                reviewPin,
+                p.runtimeBindings,
+                ...p.executionSources,
+            ]
+        ) read118(pin);
+    } catch (error) {
+        sourceExitError = error.message;
+    }
+    const outcome = {
+        kind: "actual-Tax15-open-failure-before-capability",
+        phase: nativeExitError || sourceExitError
+            ? "failed-preserve"
+            : "closed-failed-before-capability",
+        nonce: p.nonce,
+        mode: p.mode,
+        pid: process.pid,
+        input: inputPin,
+        exactReview: reviewPin,
+        actualConstructorReturned: true,
+        capabilityReturned: false,
+        commandVerified: false,
+        nativeExitAttempted: true,
+        nativeExitVerified: nativeExitError === null,
+        sourceExitVerified: sourceExitError === null,
+        nativeExitError,
+        sourceExitError,
+        primaryError: primary.message,
+        actualStateAfterFailure: {
+            file: priv + "/state.json",
+            rawBytesSha256: sha118(fs.readFileSync(priv + "/state.json")),
+        },
+        activeControlsPreserved: Boolean(root.state.activeFault),
+        noStateRollbackAttempted: true,
+        completion: null,
+        sidecar: null,
+        replayForbidden: true,
+    };
+    primary.openFailure = outcome;
+    if (nativeExitError || sourceExitError) {
+        primary.bookendError = nativeExitError ?? sourceExitError;
+    }
+    const file = directory + "/failed-open-native-exit.json";
+    const bytes = Buffer.from(JSON.stringify(outcome, null, 2) + "\n");
+    fs.writeFileSync(file, bytes, { flag: "wx", mode: 0o600 });
+    outcome.evidence = {
+        file,
+        bytes: bytes.length,
+        rawBytesSha256: sha118(bytes),
+    };
+    return { openFailure: outcome, result: null };
+}
 export async function openInvocation118(inputPin, reviewPin) {
     assert.equal(process.platform, "linux");
     assert.equal(process.version, "v24.19.0");
@@ -674,154 +770,219 @@ export async function openInvocation118(inputPin, reviewPin) {
             F118.win + "/tools/rust-r4ghi/business/source15-admission.mjs",
         ).href
     );
-    const root = createContext({
-        epoch: F118.epoch,
-        run: F118.run,
-        "api-process-record": p.apiProcess.file,
-    }); // one real native entry through consumer-admission54
-    assert.deepEqual(root.state, JSON.parse(entry));
-    const reg = json118(p.codeAdmission15),
-        facts = assertRuntimeFacts118(root, manifest, reg),
-        legacy = readRetainedTaxProof118(root, manifest, reg);
-    samePin118(p.actualSourcePins, reg.consumer.sourcePins);
-    samePin118(p.actualCompilePins, reg.consumer.compilePins);
-    samePin118(p.actualHelperPins, reg.consumer.helperPins);
-    ensureRecord(root, manifest, reg, legacy, p.runtimeBindings);
-    const record = root.state.taxContinuation15;
-    assert(
-        !record.pendingMain,
-        "Main is inherited only; no pending Main continuation",
-    );
-    if (
-        ["prepare-only", "fi-closed-set", "fi-family", "commit-once"].includes(
-            p.mode,
-        )
-    ) {
-        assert(
-            !record.pendingTaxTrial && !record.normalTaxPending,
-            "Unknown command never replayed",
-        );
-    }
-    if (p.mode === "verify-committed") {
-        assert.equal(
-            record.sweep?.finalSuccess?.status,
-            201,
-            "Read verification requires the cached original201",
-        );
-    }
-    if (
-        ["prepare-only", "fi-closed-set", "fi-family", "commit-once"].includes(
-            p.mode,
-        )
-    ) {
-        assert(
-            !record.unexpectedTaxACK,
-            "Unexpected acknowledged command requires reconciliation",
-        );
-    }
-    if (p.mode !== "disarm-owned") {
-        assert(!root.state.activeFault && !root.state.blockedObservation);
-    }
-    if (
-        ["prepare-only", "fi-closed-set", "fi-family", "commit-once"].includes(
-            p.mode,
-        )
-    ) assert(!record.sweep?.finalSuccess, "Already committed Tax never POSTed");
-    let prepared = null;
-    if (p.mode === "prepare-only") {
-        assert.equal(
-            record.taxPreparation,
-            null,
-            "Preparation is one-shot; inspect its original instead of issuing a new one",
-        );
-    } else {
-        prepared = json118(p.prepared15);
-        samePin118(record.taxPreparation.artifact, p.prepared15);
-        for (const k of ["body", "packets", "facts", "inventory"]) {
-            assert.deepEqual(prepared[k], record.taxPreparation[k]);
-        }
-        assert.equal(hash(prepared.body), p.bodySHA256);
-        assert.deepEqual(json118(p.fullInventory), prepared.inventory);
-    }
-    const boot = fs.readFileSync("/proc/sys/kernel/random/boot_id", "utf8")
-            .trim(),
-        cap = Object.freeze(Object.create(null)),
-        d = {
-            root,
-            ctx: restrictContext118(root),
-            p: freeze118(p),
-            inputPin: freeze118({ ...inputPin }),
-            reviewPin: freeze118({ ...reviewPin }),
-            review: freeze118(review),
-            manifest: freeze118(manifest),
-            registry: freeze118(reg),
-            plan: freeze118(facts.plan),
-            legacy: freeze118(legacy),
-            prepared,
-            h: await helpers(),
-            build: await import(
-                pathToFileURL(
-                    F118.win +
-                        "/tools/rust-r4ghi/source15-admission119/build-source15.mjs",
-                ).href
-            ),
-            comparisonBaseline: freeze118(
-                json118(root.state.schemaComparison108.comparisonBaseline),
-            ),
-            parent: freeze118(structuredClone(parent(root.state))),
-            pid: process.pid,
-            boot,
-            lockSHA,
-            cursor: 0,
-            keys: freeze118(
-                prepared ? prepared.inventory.map((x) => x.key) : [],
-            ),
-            frame: null,
-            domainSent: false,
-            closed: false,
-            startedAt: new Date().toISOString(),
-            entryGuard: null,
-            exitGuard: null,
-            ledgers: [],
+    const reg = json118(p.codeAdmission15);
+    let root;
+    try {
+        root = createContext({
+            epoch: F118.epoch,
+            run: F118.run,
+            "api-process-record": p.apiProcess.file,
+        }); // one real native entry through consumer-admission54
+    } catch (error) {
+        error.openFailure = {
+            phase: "native-entry-not-returned-preserve",
+            actualConstructorReturned: false,
+            nativeExitAttempted: false,
+            entryEffectsUnknown: true,
+            reason:
+                "No real root was returned; no fabricated context or second constructor is permitted",
         };
-    caps.set(cap, d);
-    currentFiles(d);
-    if (p.mode === "fi-closed-set") {
-        assertClosedSet118(prepared.inventory, json118(p.approvedClosedFISet), {
-            prepared: p.prepared15,
-            fullInventory: p.fullInventory,
-            bodySHA256: p.bodySHA256,
-        });
+        throw error;
     }
-    const ownershipState = root.artifact(
-            root.next("tax118-entry-ownership") + ".json",
-            root.state,
-        ),
-        ownershipLogPrefix = root.artifact(
-            root.next("tax118-entry-ownership-log") + ".jsonl",
-            fs.existsSync(priv + "/ownership.jsonl")
-                ? fs.readFileSync(priv + "/ownership.jsonl")
-                : Buffer.alloc(0),
+    let openingCap = null;
+    try {
+        assert.deepEqual(root.state, JSON.parse(entry));
+        const facts = assertRuntimeFacts118(root, manifest, reg),
+            legacy = readRetainedTaxProof118(root, manifest, reg);
+        samePin118(p.actualSourcePins, reg.consumer.sourcePins);
+        samePin118(p.actualCompilePins, reg.consumer.compilePins);
+        samePin118(p.actualHelperPins, reg.consumer.helperPins);
+        ensureRecord(root, manifest, reg, legacy, p.runtimeBindings);
+        const record = root.state.taxContinuation15;
+        assert(
+            !record.pendingMain,
+            "Main is inherited only; no pending Main continuation",
         );
-    d.entryGuard = root.artifact(root.next("tax118-entry-guard") + ".json", {
-        kind: "actual-native15-tax118-entry",
-        phase: "entry-verified",
-        epoch: F118.epoch,
-        run: F118.run,
-        current15: currentTuple118(cap),
-        nonce: p.nonce,
-        pid: process.pid,
-        bootId: boot,
-        input: inputPin,
-        exactReview: reviewPin,
-        ownershipState,
-        ownershipLogPrefix,
-        executionSources: p.executionSources,
-        completion: null,
-        sidecar: null,
-    });
-    invocationJournal118(cap);
-    return cap;
+        if (
+            ["prepare-only", "fi-closed-set", "fi-family", "commit-once"]
+                .includes(
+                    p.mode,
+                )
+        ) {
+            assert(
+                !record.pendingTaxTrial && !record.normalTaxPending,
+                "Unknown command never replayed",
+            );
+        }
+        if (p.mode === "verify-committed") {
+            assert.equal(
+                record.sweep?.finalSuccess?.status,
+                201,
+                "Read verification requires the cached original201",
+            );
+        }
+        if (
+            ["prepare-only", "fi-closed-set", "fi-family", "commit-once"]
+                .includes(
+                    p.mode,
+                )
+        ) {
+            assert(
+                !record.unexpectedTaxACK,
+                "Unexpected acknowledged command requires reconciliation",
+            );
+        }
+        if (p.mode !== "disarm-owned") {
+            assert(!root.state.activeFault && !root.state.blockedObservation);
+        }
+        if (
+            ["prepare-only", "fi-closed-set", "fi-family", "commit-once"]
+                .includes(
+                    p.mode,
+                )
+        ) {
+            assert(
+                !record.sweep?.finalSuccess,
+                "Already committed Tax never POSTed",
+            );
+        }
+        let prepared = null;
+        if (p.mode === "prepare-only") {
+            assert.equal(
+                record.taxPreparation,
+                null,
+                "Preparation is one-shot; inspect its original instead of issuing a new one",
+            );
+        } else {
+            prepared = json118(p.prepared15);
+            samePin118(record.taxPreparation.artifact, p.prepared15);
+            for (const k of ["body", "packets", "facts", "inventory"]) {
+                assert.deepEqual(prepared[k], record.taxPreparation[k]);
+            }
+            assert.equal(hash(prepared.body), p.bodySHA256);
+            assert.deepEqual(json118(p.fullInventory), prepared.inventory);
+        }
+        const boot = fs.readFileSync("/proc/sys/kernel/random/boot_id", "utf8")
+                .trim(),
+            cap = Object.freeze(Object.create(null)),
+            d = {
+                root,
+                ctx: restrictContext118(root),
+                p: freeze118(p),
+                inputPin: freeze118({ ...inputPin }),
+                reviewPin: freeze118({ ...reviewPin }),
+                review: freeze118(review),
+                manifest: freeze118(manifest),
+                registry: freeze118(reg),
+                plan: freeze118(facts.plan),
+                legacy: freeze118(legacy),
+                prepared,
+                h: await helpers(),
+                build: await import(
+                    pathToFileURL(
+                        F118.win +
+                            "/tools/rust-r4ghi/source15-admission119/build-source15.mjs",
+                    ).href
+                ),
+                comparisonBaseline: freeze118(
+                    json118(root.state.schemaComparison108.comparisonBaseline),
+                ),
+                parent: freeze118(structuredClone(parent(root.state))),
+                pid: process.pid,
+                boot,
+                lockSHA,
+                cursor: 0,
+                keys: freeze118(
+                    prepared ? prepared.inventory.map((x) => x.key) : [],
+                ),
+                frame: null,
+                domainSent: false,
+                closed: false,
+                startedAt: new Date().toISOString(),
+                entryGuard: null,
+                exitGuard: null,
+                ledgers: [],
+            };
+        caps.set(cap, d);
+        openingCap = cap;
+        currentFiles(d);
+        if (p.mode === "fi-closed-set") {
+            assertClosedSet118(
+                prepared.inventory,
+                json118(p.approvedClosedFISet),
+                {
+                    prepared: p.prepared15,
+                    fullInventory: p.fullInventory,
+                    bodySHA256: p.bodySHA256,
+                },
+            );
+        }
+        const ownershipState = root.artifact(
+                root.next("tax118-entry-ownership") + ".json",
+                root.state,
+            ),
+            ownershipLogPrefix = root.artifact(
+                root.next("tax118-entry-ownership-log") + ".jsonl",
+                fs.existsSync(priv + "/ownership.jsonl")
+                    ? fs.readFileSync(priv + "/ownership.jsonl")
+                    : Buffer.alloc(0),
+            );
+        d.entryGuard = root.artifact(
+            root.next("tax118-entry-guard") + ".json",
+            {
+                kind: "actual-native15-tax118-entry",
+                phase: "entry-verified",
+                epoch: F118.epoch,
+                run: F118.run,
+                current15: currentTuple118(cap),
+                nonce: p.nonce,
+                pid: process.pid,
+                bootId: boot,
+                input: inputPin,
+                exactReview: reviewPin,
+                ownershipState,
+                ownershipLogPrefix,
+                executionSources: p.executionSources,
+                completion: null,
+                sidecar: null,
+            },
+        );
+        invocationJournal118(cap);
+        return cap;
+    } catch (primary) {
+        try {
+            if (openingCap) {
+                primary.openFailure = {
+                    phase: "open-failed-after-private-capability-allocation",
+                    actualConstructorReturned: true,
+                    capabilityReturned: false,
+                    closed: await closeInvocation118(openingCap, null, {
+                        failed: true,
+                    }),
+                };
+            } else {
+                closeFailedOpen118(
+                    root,
+                    native,
+                    reg,
+                    p,
+                    inputPin,
+                    reviewPin,
+                    primary,
+                );
+            }
+        } catch (exitError) {
+            primary.bookendError ??= exitError.message;
+            primary.openFailure ??= {
+                phase: "open-failed-exit-error-preserve",
+                actualConstructorReturned: true,
+                capabilityReturned: false,
+                exitError: exitError.message,
+            };
+            primary.openFailure.exitEvidenceError ??= exitError.message;
+        }
+        throw primary;
+    }
 }
 export function currentTuple118(cap) {
     const d = live(cap), c = d.manifest.current;

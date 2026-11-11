@@ -1,0 +1,90 @@
+// Original attribution loops are byte-exact except the proved-baseline loader.
+import assert from "node:assert/strict";
+import { keyOf } from "../business/pure.mjs";
+import { difference } from "../business/snapshot.mjs";
+import { assertObjectsRecorded } from "../business/objects.mjs";
+import { reconcileAttempt as originalReconcileAttempt } from "../business/ledger.mjs";
+import { runtime118 } from "./invocation-proof.mjs";
+export function assertRecorded118(cap, observed) {
+    const { ctx, comparisonBaseline } = runtime118(cap);
+    const baseline = comparisonBaseline, blockers = [];
+    assertObjectsRecorded(ctx, baseline, observed);
+    for (const database of ctx.databases) {
+        assert.deepEqual(
+            observed.databases[database].meta.normative,
+            baseline.databases[database].meta.normative,
+            "Original catalog/OIDs/ACL/functions/triggers/roles changed",
+        );
+        assert.deepEqual(
+            observed.databases[database].meta.sequences,
+            baseline.databases[database].meta.sequences,
+            "Unowned SQL sequence drift",
+        );
+    }
+    for (const change of difference(baseline, observed)) {
+        if (
+            ctx.state.schemaComparison108 && change.table === "poms_migrations"
+        ) {
+            blockers.push({
+                kind: "canonical-M98-registration-drift-not-fixture-authority",
+                database: change.database,
+            });
+            continue;
+        }
+        if (change.database !== ctx.database) {
+            blockers.push({
+                kind: "native-database-drift",
+                database: change.database,
+                table: change.table,
+            });
+            continue;
+        }
+        for (const row of change.added) {
+            const owned =
+                ctx.state.owned[keyOf(change.database, change.table, row.key)];
+            if (
+                !owned || owned.latestSha256 !== row.sha256 ||
+                (owned.latestXmin && owned.latestXmin !== row.xmin) ||
+                owned.deleted
+            ) {
+                blockers.push({
+                    kind: "unknown-added-row-or-unobserved-change",
+                    table: change.table,
+                    key: row.key,
+                });
+            }
+        }
+        for (const pair of change.changed) {
+            const borrowed = ctx.state
+                .borrowed[
+                    keyOf(change.database, change.table, pair.after.key)
+                ];
+            if (
+                !borrowed || borrowed.baselineSha256 !== pair.before.sha256 ||
+                borrowed.latestSha256 !== pair.after.sha256
+            ) {
+                blockers.push({
+                    kind: "unobserved-original-row-change",
+                    table: change.table,
+                    key: pair.after.key,
+                });
+            }
+        }
+        for (const row of change.missing) {
+            blockers.push({
+                kind: "original-row-deleted",
+                table: change.table,
+                key: row.key,
+            });
+        }
+    }
+    assert.equal(
+        blockers.length,
+        0,
+        "Unattributed state before command; inspect private full before snapshot",
+    );
+}
+export async function reconcile118(cap, before, after, attempt, binding) {
+    const { ctx } = runtime118(cap);
+    return originalReconcileAttempt(ctx, before, after, attempt, binding);
+}

@@ -1,0 +1,128 @@
+{
+  "kind": "non-author-actual-Tax15-invocation118-code01-failure-readback",
+  "verdict": "NOTREADY-frozen-code01-after-actual-entry-failure",
+  "reviewer": "/root/r4h_engineering",
+  "author": "/root",
+  "reviewerIsCodeAuthor": false,
+  "reviewerIsPriorCodeReviewer": true,
+  "priorReviewMissAcknowledged": true,
+  "actualFailedCommand": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/tax15-prepare118-prepared01/run01/command-receipt.json",
+    "bytes": 1034,
+    "rawBytesSha256": "16acf217fbbac315d6598dba9f722aa4bbc138f53ba7ef02496d4e52c16eef6c"
+  },
+  "actualInput": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/tax15-prepare118-prepared01/prepare-only-input118.json",
+    "bytes": 6651,
+    "rawBytesSha256": "187a6e4a0d1a43467c88230cf1be5efeffd6402fc6471ecaf01e390fbccc557d"
+  },
+  "actualRootReview": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/tax15-prepare118-prepared01/Root-exact-prepare-only-review118.json",
+    "bytes": 993,
+    "rawBytesSha256": "0bce693e908bbf674538cff40e8aae3bf0641208705188d277cdd7542acf5ac5"
+  },
+  "actualExactG2": {
+    "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/independent-tax15-prepare118-G2-review01/review-prepare-only-G2-118.json",
+    "bytes": 10804,
+    "rawBytesSha256": "ee1630fade67f08623e013fcd000cad01d78320a5d532df6a0f5e28a815fefce"
+  },
+  "priorAttemptAuthorizedButFailed": true,
+  "actualNonceIntent": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/tax118-invocation-88160fd3-c7d7-439b-89e6-70209be4e3c6/intent.json",
+    "bytes": 612,
+    "rawBytesSha256": "7db1f0afa02f4d43296e212d555e981b406b7e673cbefe2f5de62d56f58c3dc2"
+  },
+  "actualPartial": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/tax118-invocation-88160fd3-c7d7-439b-89e6-70209be4e3c6/partial.json",
+    "bytes": 668,
+    "rawBytesSha256": "a14089de12a14b19201407914d05fb48b3fa18639f2ae32e48417be4316086b4"
+  },
+  "findings": [
+    {
+      "id": "IR118-ACT01",
+      "priority": "P2",
+      "file": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/retained-tax-proof.mjs",
+        "bytes": 40406,
+        "rawBytesSha256": "0e3278fcc4a04b0b952736f0666f7477ed8d0eb6e0193e89b3a1b3b2fc73bd9c"
+      },
+      "line": 232,
+      "summary": "Unbound sha in actual retained checkpoint path prevents every normal entry from returning a cap",
+      "actualError": "sha is not defined",
+      "firstCheckpoint": "Source12 expense checkpointTax14",
+      "retainedMain118NotReached": true
+    },
+    {
+      "id": "IR118-ACT02",
+      "priority": "P2",
+      "file": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs",
+        "bytes": 43349,
+        "rawBytesSha256": "5c827ab7dae81d83377baf89e2c784f6523fb7fcf6bb733fa23ca483de980311"
+      },
+      "line": 677,
+      "relatedRunner": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/run-tax15-once.mjs",
+        "bytes": 21071,
+        "rawBytesSha256": "e0a4a9a8fb1f06a974a5f854e18fd5edeb987c2ffdeda79499b8161fc388df30"
+      },
+      "relatedRunnerLines": [
+        470,
+        502
+      ],
+      "summary": "Post-createContext, pre-cap open exception bypasses native exit because outer cap was never assigned",
+      "contextObjectConstructed": true,
+      "nativeEntryReached": true,
+      "capReturned": false,
+      "nativeExitAttempted": false
+    }
+  ],
+  "actualBoundaries": {
+    "A6StateExactUnchanged": true,
+    "ownershipZero": true,
+    "noPrivateSequenceArtifacts": true,
+    "noPublicHTTPOrWireArtifacts": true,
+    "nonceOnlyIntentAndPartial": true,
+    "driverLockRemoved": true,
+    "result": null,
+    "closed": null,
+    "bookendError": null,
+    "HTTPAuthDBClientPathNotReached": true,
+    "zeroContextClaimRejected": true,
+    "ownerCredentialReadDuringActualContextConstruction": true,
+    "causalityBasis": "Actual error+immutable fixed source control flow+FS artifacts, not a runtime instrumented stack or a new DB snapshot"
+  },
+  "originalsPreserved": [
+    "f205 code01 manifest",
+    "b3d code-ready historical review",
+    "187a input",
+    "0bce RootReview",
+    "ee163 exactG2",
+    "16acf failed command and partial"
+  ],
+  "noNewExecutionOrRetryGranted": true,
+  "newCode02AndIndependentReviewNewNonceInputG2Required": true,
+  "noSource15RebuildOrStateRepairConclusion": true,
+  "Root119Or8fOriginalLabelsNotRewritten": true,
+  "scopeExcludesH9AlgorithmSelfReview": true,
+  "RootOrPrivateWritten": false,
+  "reviewerNativeContextDBHTTPOrSignalOrRetry": false,
+  "evidence": {
+    "actual": {
+      "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/independent-prepare118-actual-failure01/failure-boundaries01.json",
+      "bytes": 3476,
+      "rawBytesSha256": "7dda7854e6c0a396d07b2281eab657c2af8fc174d6e902a52d265daf8ee7102a"
+    },
+    "source": {
+      "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/independent-prepare118-actual-failure01/source-causality01.json",
+      "bytes": 2832,
+      "rawBytesSha256": "0ea70d58c5b1a6cd78384b7088af7a576ec6570f21215ae1107481fd17f0a006"
+    }
+  },
+  "notes": {
+    "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/independent-prepare118-actual-failure01/README-NOTREADY01.md",
+    "bytes": 2630,
+    "rawBytesSha256": "7473a95c34ffef361118fb7e5b492ca55a588fbe1ba72d42d83d2f2cc07a3853"
+  },
+  "businessG3G4Certified": false
+}

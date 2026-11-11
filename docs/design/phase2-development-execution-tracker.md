@@ -964,3 +964,14 @@ D#107/E#108/F#109及本批#106已按[独立关闭许可](archive/slices/rust-r4d
 [固定状态350](rust-r4ghi/continuation-status350.json)接续349，仅#119技术零业务操作子片具备在线G4收口条件。#118真实37权限与首次prepare-only输入已物化，仍需单独执行G2；尚未创建普通ctx或执行Tax15/FI/正常201/FCS。#120四caller代码及实际25文件读回已通过，业务调用验收待完成。Rust正式240、R4交付67/95、本批新增认证0，业务G3/G4未通过；#57与完整业务R5 #116保持开放。
 
 <!-- /poms-r4ghi-status350 -->
+
+
+<!-- poms-r4ghi-status351 -->
+
+### 2026-11-11 状态351：#118首次准备失败保留，code02独审通过
+
+[固定状态351](rust-r4ghi/continuation-status351.json)记录首次实际prepare exit1：真实constructor已返回，但原cap未返回，因此未尝试native exit；缺失sha绑定发生在首个保留expense checkpoint，未到wire/Auth/DB client路径。初始A6/空ownership原字节仍在，旧输入与nonce禁止重试。#119已完成的技术G3/G4保持。
+
+[code02纠偏](rust-r4ghi/tax118-corrective-code02.md)修复两个引用及post-constructor失败出口和主次错留存，八叶边界不变、H3/backend增量0。完整非作者审feff及独立70项通过，只允许进入新exact-input review；必须新nonce/phase/entry及单独G2后才可执行。业务新增认证0、正式Rust240、R4 67/95，#118/#120与业务父子Issue保持开放，#57/完整R5 #116保持开放。350等原快照保留原时点。
+
+<!-- /poms-r4ghi-status351 -->

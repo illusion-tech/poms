@@ -1,0 +1,99 @@
+{
+  "kind": "frozen-eight-source-open-close-control-flow-audit",
+  "oldSourcePins": [
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs",
+      "bytes": 43349,
+      "rawBytesSha256": "5c827ab7dae81d83377baf89e2c784f6523fb7fcf6bb733fa23ca483de980311"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/retained-tax-proof.mjs",
+      "bytes": 40406,
+      "rawBytesSha256": "0e3278fcc4a04b0b952736f0666f7477ed8d0eb6e0193e89b3a1b3b2fc73bd9c"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/run-tax15-once.mjs",
+      "bytes": 21071,
+      "rawBytesSha256": "e0a4a9a8fb1f06a974a5f854e18fd5edeb987c2ffdeda79499b8161fc388df30"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tax15-facts.mjs",
+      "bytes": 28208,
+      "rawBytesSha256": "a3cbe4b3ad7186a07dcd5f3bc65b2ef2a5e9fb678ba2daadf260dfcda3c360ea"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tax15-once-effects.mjs",
+      "bytes": 19392,
+      "rawBytesSha256": "23cd16985eb2ba9f4adc321a73d31e8c510f453d62765a0040f8eba78d9045b2"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tax15-once-ledger.mjs",
+      "bytes": 3434,
+      "rawBytesSha256": "ca5833c6bd9a31755d99914685a333af6e3c190f4c920ef12b17e76c8d2edd1d"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tax15-once-wire.mjs",
+      "bytes": 21490,
+      "rawBytesSha256": "a28a79bd8c110e3767ec5c63a9775884d38ed1523b8a0afb394353d33bcfb65f"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tax15-prepare.mjs",
+      "bytes": 8764,
+      "rawBytesSha256": "e811b348e4e8e0c673d663b1166e7b05848e0ad0e918b81450847d78c5e8b0cb"
+    }
+  ],
+  "open": {
+    "fullFunction": {
+      "from": 627,
+      "to": 825
+    },
+    "tryStatementsInsideOpen": 0,
+    "realCreateContext": {
+      "from": 677,
+      "to": 681
+    },
+    "assertRuntimeFacts": {
+      "from": 684,
+      "to": 684
+    },
+    "readRetainedTaxProof": {
+      "from": 685,
+      "to": 685
+    },
+    "ensureRecord": {
+      "from": 689,
+      "to": 689
+    },
+    "WeakMapRegistration": {
+      "from": 787,
+      "to": 787
+    },
+    "returnCapability": {
+      "from": 824,
+      "to": 824
+    },
+    "nativeExitCallInsideOpen": false
+  },
+  "caller": {
+    "awaitAssignment": {
+      "from": 470,
+      "to": 470
+    },
+    "assignmentOnReject": false,
+    "conditionalClose": "if(cap) closeInvocation118(...)",
+    "finally": {
+      "from": 532,
+      "to": 539
+    }
+  },
+  "conditionalErrorPrecedenceProbe": {
+    "kind": "pure-JavaScript-only; not Root/native/FS execution",
+    "primary": "primary-open-error",
+    "finally": "secondary-lock-error",
+    "actualThrown": "secondary-lock-error",
+    "demonstratesOriginalFinallyCanMaskPrimary": true
+  },
+  "runtimeModulesImported": 0,
+  "actualRootContextCreated": false,
+  "RootOrPrivateWritten": false
+}

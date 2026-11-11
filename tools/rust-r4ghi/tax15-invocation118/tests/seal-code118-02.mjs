@@ -1,0 +1,32 @@
+// Freeze only the eight-leaf correction; prior source, reviews and failed run stay immutable.
+import fs from 'node:fs'; import path from 'node:path'; import assert from 'node:assert/strict'; import { createHash } from 'node:crypto'; import { createRequire } from 'node:module';
+const R='/mnt/e/projects/worktrees/poms-r3hijk-next28/poms',D=R+'/tools/rust-r4ghi/tax15-invocation118',O=D+'/tests/sealed-code02';
+const require=createRequire(R+'/package.json'),ts=require('typescript'),sha=b=>createHash('sha256').update(b).digest('hex');
+function read(file,h){const st=fs.lstatSync(file);assert(st.isFile()&&!st.isSymbolicLink()&&st.nlink===1);assert.equal(fs.realpathSync(file),file);const b=fs.readFileSync(file);if(h)assert.equal(sha(b),h,file);return{b,pin:{file,bytes:b.length,rawBytesSha256:sha(b)}};}
+function put(name,value){const file=O+'/'+name;fs.writeFileSync(file,Buffer.isBuffer(value)?value:JSON.stringify(value,null,2)+'\n',{flag:'wx',mode:0o600});return read(file).pin;}
+const parent=read(D+'/tests/sealed-code01/manifest118-code01.json','f20513e897bd51661408d61376c8f21d23c1e8196f4b349cc0e06efe6b1985ed'),old=JSON.parse(parent.b);
+const checksPin=read(D+'/tests/evidence/corrective02-01/checks.json').pin,checks=JSON.parse(read(checksPin.file,checksPin.rawBytesSha256).b);assert.equal(checks.allPassed,true);assert.equal(checks.results.length,10);for(const r of checks.results)assert.equal(r.exitCode,0);
+const unit=read(checks.results.find(r=>r.name==='unit').stdout.file).b.toString();assert(/tests 70/.test(unit)&&/pass 70/.test(unit)&&/fail 0/.test(unit));
+assert(!fs.existsSync(O));fs.mkdirSync(O,{mode:0o700});for(const sub of['products','before','tests'])fs.mkdirSync(O+'/'+sub,{mode:0o700});
+const production=[],maps=[];
+function functions(file,b){const text=b.toString(),ast=ts.createSourceFile(file,text,ts.ScriptTarget.Latest,true,ts.ScriptKind.JS),all=[];
+ const visit=n=>{if(ts.isFunctionLike(n)&&n.body){const start=n.getStart(ast),end=n.end,raw=text.slice(start,end);all.push({kind:ts.SyntaxKind[n.kind],name:n.name?.getText(ast)??(ts.isVariableDeclaration(n.parent)?n.parent.name.getText(ast):null),startByte:Buffer.byteLength(text.slice(0,start)),endByte:Buffer.byteLength(text.slice(0,end)),rawBytesSha256:sha(raw),complete:true});}ts.forEachChild(n,visit);};visit(ast);return all;}
+for(const p of old.production){const name=path.basename(p.file),before=read(p.candidate.file,p.afterSHA256),after=read(R+'/'+p.file);const priorCopy=put('before/'+name,before.b),candidate=put('products/'+name,after.b);
+ const priorFunctions=functions(p.file,before.b),currentFunctions=functions(p.file,after.b);maps.push({file:p.file,before:priorCopy,after:candidate,priorFunctions,currentFunctions});
+ production.push({...p,operation:before.pin.rawBytesSha256===after.pin.rawBytesSha256?'UNCHANGED':'MOD',originalSliceOperation:'ADD',beforeSHA256:before.pin.rawBytesSha256,beforeCode01:priorCopy,afterSHA256:after.pin.rawBytesSha256,candidate,actualRootSource:after.pin});}
+assert.equal(production.filter(p=>p.operation==='MOD').length,4);assert.equal(production.length,8);
+for(const [file,name]of[['tax15-facts.mjs','deriveTax15FixtureDetails'],['retained-tax-proof.mjs','checkpointTax14']]){const map=maps.find(m=>m.file.endsWith('/'+file)),before=map.priorFunctions.find(f=>f.name===name),after=map.currentFunctions.find(f=>f.name===name);assert(before&&after);assert.equal(before.rawBytesSha256,after.rawBytesSha256,name+' protected full function changed');}
+const sourceMap=put('function-map-code02.json',{kind:'complete-eight-leaf-code02-function-map',files:maps,oldCompleteFunctions:maps.reduce((n,m)=>n+m.priorFunctions.length,0),currentCompleteFunctions:maps.reduce((n,m)=>n+m.currentFunctions.length,0),noAbbreviatedFunctions:true});
+const validation=[];for(const name of['root-union15.test.mjs','capability15.test.mjs','journal15.test.mjs','entry-failure02.test.mjs','run-code02-checks.mjs']){const source=read(D+'/tests/'+name);validation.push({file:D+'/tests/'+name,raw:put('tests/'+name,source.b)});}
+const identities=list=>list.map(p=>({file:p.file,rawBytesSha256:p.rawBytesSha256})).sort((a,b)=>Buffer.compare(Buffer.from(a.file),Buffer.from(b.file)));
+const executionSources=old.executionSources.map(p=>{const match=production.find(e=>e.actualRootSource.file===p.file);assert(match);return{...p,rawBytesSha256:match.afterSHA256,...(p.bytes!==undefined?{bytes:match.actualRootSource.bytes}:{})};});
+const byFile=new Map(executionSources.map(p=>[p.file,p]));const sourceClosures=Object.fromEntries(Object.entries(old.sourceClosures).map(([key,list])=>[key,identities(list.map(p=>{assert(byFile.has(p.file));return byFile.get(p.file);}))]));
+const manifest={...old,edition:'code02',parentManifest:parent.pin,production,validation,executionSources,sourceClosures,sourceMap,checks:checksPin,testCount:70,syntaxCount:8,helpCount:1,
+ correction:{actualFailedCommand:{file:'/home/wangzishi/.local/share/poms-r4ghi/private/tax15-prepare118-prepared01/run01/command-receipt.json',rawBytesSha256:'16acf217fbbac315d6598dba9f722aa4bbc138f53ba7ef02496d4e52c16eef6c'},
+  findings:['IR118-ACT01 sha unbound in first retained expense checkpoint','REF02 TAX13_OPERATION unbound in protected facts return','IR118-ACT02 real constructor returned but cap not returned; complete native exit was skipped'],
+  resolution:['Bind existing pure.sha without modifying checkpoint function body','Bind existing TAX13_OPERATION without modifying full facts function body','Protect every post-constructor opening failure with one real native exit or internal close; preserve primary and secondary lock/exit errors'],
+  originalFailedEvidenceAndCode01Unchanged:true,oldNativeExitWasNotRetroactivelyClaimed:true},
+ actualTestsAre:'70 isolated source/protocol/temporary-FS cases, including native/loader doubles; no actual context, business DB or HTTP',
+ changedLeaves:production.filter(p=>p.operation==='MOD').map(p=>p.file),unchangedLeaves:production.filter(p=>p.operation==='UNCHANGED').map(p=>p.file),
+ actualModesExecutedForCode02:0,actualCode01FailurePreserved:true,RootBusinessStateWritten:false,DBHTTP:false,productionCodeReady:true,needsIndependentCodeReview:true,G3:false,G4:false,newCertified:0};
+const pin=put('manifest118-code02.json',manifest);console.log(JSON.stringify({manifest:pin,production:8,changed:4,testCount:70,currentFunctions:maps.reduce((n,m)=>n+m.currentFunctions.length,0),actualCode02Mode:false}));
