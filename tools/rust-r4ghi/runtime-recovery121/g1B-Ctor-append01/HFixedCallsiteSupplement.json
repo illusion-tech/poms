@@ -1,0 +1,110 @@
+{
+  "kind": "H-author-actual-constructor-callsite121-supplement-PROPOSAL",
+  "RootFreezeBase": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/g1B/Root-G1B-121.json",
+    "bytes": 5254,
+    "rawBytesSha256": "be96f468fe8c7aa58dcebe6f687ef90d0afb46f1d9ca2ac2bc2b3e90974206cc"
+  },
+  "NativeCtorSupplement": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-Ctor-supplement01/Ctor-ABI121-supplement-PROPOSED.json",
+    "bytes": 8688,
+    "rawBytesSha256": "4dbc8f39ab62368f891690e02a7726451053ae8b6a9c1e5375b452b39708b2c8"
+  },
+  "actualDirectConstructorSites": [
+    {
+      "file": "tools/rust-r4ghi/legacy-authority15-284/driver284.mjs",
+      "operation": "PROTECT_UNCHANGED-to-MOD-pending-explicit-supplement-freeze",
+      "before": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/legacy-authority15-284/driver284.mjs",
+        "bytes": 37309,
+        "rawBytesSha256": "7b52290f62039d53ba9c12c681c3de34bcd5b458aad3a1f95320ce9b3ede8d55"
+      },
+      "oldCall": {
+        "text": "h.createContext({epoch:plan.epoch,run:plan.run,'api-process-record':plan.runtime.apiProcess.file,...(plan.plannedDate?{'planned-date':plan.plannedDate}:{})})",
+        "startByte": 35558,
+        "endByte": 35715,
+        "startLine": 51,
+        "rawBytesSha256": "77e6689cbe5f8758c862b4974091a9073bf5246f5b95b6dcf53f30def32b9618"
+      },
+      "fixedNativeImport": "import {createContext121} from '../business/runtime-admission121.mjs';",
+      "plannedCalleeOnlyReplacement": "createContext121",
+      "argumentsRawUnchanged": true,
+      "synchronousCall": true,
+      "hCreateContextAliasOrStamper": false,
+      "allBusinessProductionOrReadViewFunctionSpansProtected": true,
+      "actualProtectedFileModified": false
+    },
+    {
+      "file": "tools/rust-r4ghi/period15-270/driver270.mjs",
+      "operation": "PROTECT_UNCHANGED-to-MOD-pending-explicit-supplement-freeze",
+      "before": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/period15-270/driver270.mjs",
+        "bytes": 28511,
+        "rawBytesSha256": "a8bcec1013927fca9511ee1f602ba2c4a6974fb6a781aba46b61f2d581c2001f"
+      },
+      "oldCall": {
+        "text": "h.createContext({ epoch: PERIOD270.epoch, run: PERIOD270.run, 'api-process-record': plan.apiProcess.file })",
+        "startByte": 27259,
+        "endByte": 27366,
+        "startLine": 228,
+        "rawBytesSha256": "272a678c82cb44e9d5e8402661757e3326acd247ae58db0767a1eeb483de834b"
+      },
+      "fixedNativeImport": "import {createContext121} from '../business/runtime-admission121.mjs';",
+      "plannedCalleeOnlyReplacement": "createContext121",
+      "argumentsRawUnchanged": true,
+      "synchronousCall": true,
+      "hCreateContextAliasOrStamper": false,
+      "allBusinessProductionOrReadViewFunctionSpansProtected": true,
+      "actualProtectedFileModified": false
+    },
+    {
+      "file": "tools/rust-r4ghi/mixed15-271/driver271.mjs",
+      "operation": "PROTECT_UNCHANGED-to-MOD-pending-explicit-supplement-freeze",
+      "before": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/mixed15-271/driver271.mjs",
+        "bytes": 20744,
+        "rawBytesSha256": "ecd12a4522b286a54ecabb5a416dc874da307359221a8d04180423be4ec4e965"
+      },
+      "oldCall": {
+        "text": "h.createContext({epoch:C271.epoch,run:C271.run,'api-process-record':p.apiProcess.file})",
+        "startByte": 19351,
+        "endByte": 19438,
+        "startLine": 71,
+        "rawBytesSha256": "8d6fcf1c11ef3c793c317f27eebf8c1f39381e788e386c8a3fd5d2f16aae2c7a"
+      },
+      "fixedNativeImport": "import {createContext121} from '../business/runtime-admission121.mjs';",
+      "plannedCalleeOnlyReplacement": "createContext121",
+      "argumentsRawUnchanged": true,
+      "synchronousCall": true,
+      "hCreateContextAliasOrStamper": false,
+      "allBusinessProductionOrReadViewFunctionSpansProtected": true,
+      "actualProtectedFileModified": false
+    }
+  ],
+  "witnessAdditionalCall": {
+    "file": "tools/rust-r4ghi/legacy-authority15-284/witness284.mjs",
+    "beforeSHA256": "82ef8d7c733cd0eeaf526e7872e20eb3199be7a6df513531cd8a82bc0412f7a7",
+    "fixedNativeImport": "import {createWitnessView121,currentRuntime121,trustedSummaryBinary121} from '../business/runtime-admission121.mjs';",
+    "factory": "createWitnessView121(root,binding.code.registry)",
+    "returns": "actual original {ctx,record}",
+    "synchronous": true,
+    "originalViewImplementation": "facts284.newWitnessView284 remains exact protected raw",
+    "noFakeContextOrAlias": true
+  },
+  "countsRequested": {
+    "H_MOD": 21,
+    "H_PROTECT": 21,
+    "caller120_MOD": 8,
+    "caller120_PROTECT": 17,
+    "H3_ADD": 0,
+    "H3_MOD": 4,
+    "plannedCompleteH3": 229
+  },
+  "factoryExportsRequested": [
+    "createContext121(options) -> actual original root synchronously",
+    "createWitnessView121(root,baseReg5) -> actual original {ctx,record} synchronously"
+  ],
+  "implementationOfThisSupplement": false,
+  "RootOrPrivateWritten": false,
+  "newG2": false
+}

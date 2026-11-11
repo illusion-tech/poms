@@ -1,0 +1,265 @@
+{
+  "kind": "I-runtime121-real-constructor-brand-ABI-supplement-PROPOSAL",
+  "edition": 2,
+  "status": "NECESSARY_FINITE_G1_SUPPLEMENT_NOT_FROZEN_NOT_IMPLEMENTED",
+  "issue": 121,
+  "refs": {
+    "G1B": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/g1B/Root-G1B-121.json",
+      "bytes": 5254,
+      "rawBytesSha256": "be96f468fe8c7aa58dcebe6f687ef90d0afb46f1d9ca2ac2bc2b3e90974206cc"
+    },
+    "ABI": {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-G1-proposal01/ABI121-v1.PROPOSED.json",
+      "bytes": 18507,
+      "rawBytesSha256": "f96c5f4ba884fcaa67cca102becc58e3a3d590e961af38506c3eed78ff440fcf"
+    },
+    "context": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/context.mjs",
+      "bytes": 11614,
+      "rawBytesSha256": "d73d0e24cf7ff880537f7372ad362ff75eeb4f9d7daadb6a520ae691afd26017"
+    },
+    "witnessFacts": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/legacy-authority15-284/facts284.mjs",
+      "bytes": 15904,
+      "rawBytesSha256": "1a9dbf78ae957ad459cd519f9e85f7594aaf1fb4da61fa6d74976037a095d3ed"
+    }
+  },
+  "problem": "Original context line79 passes a fresh partial literal to consumer54; real root object is constructed at82 and returned at110. A check or public registrar on partial fields cannot privately prove the real returned object.",
+  "IProductionLeafIncrease": 0,
+  "IFilesChanged": [
+    "tools/rust-r4ghi/business/runtime-admission121.mjs",
+    "tools/rust-r4ghi/business/consumer-admission54.mjs"
+  ],
+  "protectedUnmodified": [
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/context.mjs",
+      "bytes": 11614,
+      "rawBytesSha256": "d73d0e24cf7ff880537f7372ad362ff75eeb4f9d7daadb6a520ae691afd26017"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/legacy-authority15-284/facts284.mjs",
+      "bytes": 15904,
+      "rawBytesSha256": "1a9dbf78ae957ad459cd519f9e85f7594aaf1fb4da61fa6d74976037a095d3ed"
+    }
+  ],
+  "exports": [
+    {
+      "name": "createContext121",
+      "signature": "createContext121(options)",
+      "synchronous": true,
+      "returns": "The actual root returned by the literal original createContext(options), not a clone/proxy/fabrication.",
+      "options": {
+        "prototype": "Object.prototype only; node:util/types.isProxy false",
+        "requiredKeys": [
+          "epoch",
+          "run"
+        ],
+        "optionalKeys": [
+          "api-process-record",
+          "provision-receipt",
+          "planned-date"
+        ],
+        "accessorsOrSymbols": "reject",
+        "values": "own immutable read snapshot of primitive strings only; fixed15/main01; any optional API record must be exactly the approved current API; original provision must be the verified namespace receipt",
+        "plannedDate": {
+          "type": "optional own primitive string",
+          "format": "YYYY-MM-DD and real ISO calendar date; no implicit Date.now/default/timezone conversion",
+          "purpose": "Already-approved explicit business DTO date, not a clock override, source effective-time backfill or API/DB time control.",
+          "binding": "Exact original caller G2 input raw/hash and fixed source expression plan.plannedDate; wrapper preserves this value in the real ctx.options. Do not drop, refresh, synthesize, normalize to another date or allow option aliases.",
+          "requiredCaller": "driver284 prepare-witness requires plan.plannedDate by original assertPlan284; other phases preserve original conditional spread and null/missing behavior."
+        }
+      },
+      "steps": [
+        "Reject reentry and invalid options before opening construction frame.",
+        "Validate fixed current plan/code before invoking literal original function.",
+        "Private synchronous frame binds approved state path/API and can record the real partial callback only while inside this original constructor. assertRuntimeContext121 never publicly registers a context.",
+        "Invoke original createContext once. Its consumer54 exact121 dispatch fully verifies229 while helperPins absent.",
+        "Require the returned actual state object equals the state observed by the private partial callback; capture the actual8 own methods and real state object.",
+        "Only this actual returned root enters private WeakMap; final strong validation before returning it.",
+        "Finally clears private frame after every success/throw; never infer a context exists when original function did not return."
+      ]
+    },
+    {
+      "name": "createWitnessView121",
+      "signature": "createWitnessView121(root, baseReg5)",
+      "synchronous": true,
+      "returns": "The actual {ctx,record} returned by literal protected facts284.newWitnessView284(root,originalReg5). ctx receives an independent private view brand tied to that root.",
+      "steps": [
+        "Require root is a real private-branded returned root, not an existing view, JSON/partial or user supplied clone.",
+        "Fully verify current root and exact immutable baseReg5 JSON; verify fixed literal facts284 source against approved current closure before its use.",
+        "Call literal protected newWitnessView284 once; no reader/factory callbacks or public registrar.",
+        "Brand only its actual returned view; retain private relation to genuine root, source/view state identity and unchanged protected8-method delegation contract.",
+        "Do not let Root/view exchange verifiedRuntime objects; private per-view current checks also ensure its root original own methods/state identity remain genuine."
+      ]
+    }
+  ],
+  "importRule": "Only fixed protected imports; no archive code executes. Root/H source-before-import checks bind all current H3 and external sources, including protected context/facts. No input module or callback.",
+  "consumer54": "For partial constructor validation require the private active frame. For ordinary runtime require actual root/view private brand; arbitrary partial/JSON can neither get marked nor qualify by field equality. Malformed marker failsclosed. Source15 original non121 path unchanged.",
+  "HRequiredExtraMOD": [
+    {
+      "file": "tools/rust-r4ghi/legacy-authority15-284/driver284.mjs",
+      "operation": "MOD",
+      "before": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/legacy-authority15-284/driver284.mjs",
+        "bytes": 37309,
+        "rawBytesSha256": "7b52290f62039d53ba9c12c681c3de34bcd5b458aad3a1f95320ce9b3ede8d55"
+      },
+      "afterSHA256": null,
+      "owner": "H",
+      "change": "Only actual constructor call switches to fixed Native createContext121; no same-name alias injection, no financial/target/FI/one-normal behavior change."
+    },
+    {
+      "file": "tools/rust-r4ghi/period15-270/driver270.mjs",
+      "operation": "MOD",
+      "before": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/period15-270/driver270.mjs",
+        "bytes": 28511,
+        "rawBytesSha256": "a8bcec1013927fca9511ee1f602ba2c4a6974fb6a781aba46b61f2d581c2001f"
+      },
+      "afterSHA256": null,
+      "owner": "H",
+      "change": "Only actual constructor call switches to fixed Native createContext121; no same-name alias injection, no financial/target/FI/one-normal behavior change."
+    },
+    {
+      "file": "tools/rust-r4ghi/mixed15-271/driver271.mjs",
+      "operation": "MOD",
+      "before": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/mixed15-271/driver271.mjs",
+        "bytes": 20744,
+        "rawBytesSha256": "ecd12a4522b286a54ecabb5a416dc874da307359221a8d04180423be4ec4e965"
+      },
+      "afterSHA256": null,
+      "owner": "H",
+      "change": "Only actual constructor call switches to fixed Native createContext121; no same-name alias injection, no financial/target/FI/one-normal behavior change."
+    }
+  ],
+  "HScopeAfterApproval": {
+    "MOD": 21,
+    "protected": 21,
+    "H3CountUnchanged": 229,
+    "caller120MOD": 8,
+    "caller120Protected": 17
+  },
+  "witnessExistingMOD": "Existing H witness MOD switches fixed factory in addition to the three current/summary callsites; facts/view implementation itself remains byte-identical.",
+  "negativeCases": [
+    "Fake partial ctx/clone/JSON/boolean cannot register or validate ordinary root.",
+    "Getter/accessor/proxy/symbol options reject before calling original factory.",
+    "Nested/reentrant constructor rejects and outer frame is correctly preserved/cleared.",
+    "Original constructor throw before partial, after partial or before return leaves no leaked brand/frame; next approved fresh isolated test can enter without borrowed brand.",
+    "A fake returned object or mismatched actual state cannot be registered.",
+    "Mutated original8 root methods/state identity rejects current check.",
+    "Fake witness/view/public callback or raw Root-derived clone cannot be registered.",
+    "Protected actual Root fixture view supports registered resources and its own private verifiedRuntime; cannot borrow root capability or replace Root through reflection.",
+    "No function.length===3 enforcement for consumeTax15Completion: preserve2 positional+3 keys.",
+    "Original approved valid planned-date survives exact factory forwarding; missing/invalid/future aliases/date object/getter/proxy rejected when required by original source. No new business-date inference or system-clock mutation."
+  ],
+  "validationScopeIncrease": 0,
+  "implementationGranted": false,
+  "actualG2Authorized": false,
+  "independentReview": null,
+  "RootSupplementFreeze": null,
+  "originalSupplement01": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-Ctor-supplement01/manifest-Ctor-supplement01.json",
+    "bytes": 1569,
+    "rawBytesSha256": "1f1a1e36c9d9a39681193799c1299226fddd2f9247b30dd9e25feedf98ae0ed9"
+  },
+  "HFixedCallsiteSupplement": {
+    "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/source15-lease-tax121-code01/H-constructor-callsite121-supplement.PROPOSED.json",
+    "bytes": 5183,
+    "rawBytesSha256": "4650b3eda0fb2b6c6a3c5d7dbfeca20a576c6ed810f754b609145c6308811c3e"
+  },
+  "actualCurrentConstructorKeySets": [
+    {
+      "file": "tax15-invocation118/invocation-proof.mjs",
+      "keys": [
+        "epoch",
+        "run",
+        "api-process-record"
+      ]
+    },
+    {
+      "file": "business/labor-mask15.mjs",
+      "keys": [
+        "epoch",
+        "run",
+        "api-process-record"
+      ]
+    },
+    {
+      "file": "policy-role15/setup-role15.mjs",
+      "keys": [
+        "epoch",
+        "run",
+        "api-process-record"
+      ]
+    },
+    {
+      "file": "policy-continuation15-287/run287.mjs",
+      "keys": [
+        "epoch",
+        "run",
+        "api-process-record"
+      ]
+    },
+    {
+      "file": "legacy-authority15-284/driver284.mjs",
+      "keys": [
+        "epoch",
+        "run",
+        "api-process-record"
+      ],
+      "conditionalKey": "planned-date",
+      "originalExpression": "...(plan.plannedDate?{'planned-date':plan.plannedDate}:{})"
+    },
+    {
+      "file": "period15-270/driver270.mjs",
+      "keys": [
+        "epoch",
+        "run",
+        "api-process-record"
+      ]
+    },
+    {
+      "file": "mixed15-271/driver271.mjs",
+      "keys": [
+        "epoch",
+        "run",
+        "api-process-record"
+      ]
+    }
+  ],
+  "plannedDateSourceChain": [
+    {
+      "file": "tools/rust-r4ghi/legacy-authority15-284/facts284.mjs",
+      "function": "assertPlan284",
+      "rule": "Complete plan includes plannedDate; prepare-witness requires date-only string."
+    },
+    {
+      "file": "tools/rust-r4ghi/legacy-authority15-284/witness284.mjs",
+      "line": 4,
+      "rule": "Persisted witness f.plannedDate equals original plan.plannedDate."
+    },
+    {
+      "file": "tools/rust-r4ghi/business/upstream.mjs",
+      "line": 13,
+      "rule": "Only explicit ctx.options planned-date or persisted fixture date; used by real DTO payloads."
+    },
+    {
+      "file": "tools/rust-r4ghi/business/policy-boundary-producers26.mjs",
+      "rule": "Pass preserved business context planned date to existing DTO payload producers."
+    }
+  ],
+  "excludedOptions": [
+    "phase",
+    "stage",
+    "api-stopped-receipt",
+    "cycle-sandbox-receipt",
+    "cycle-sandbox-sha",
+    "period-key",
+    "arbitrary future option",
+    "callback",
+    "reader",
+    "factory"
+  ]
+}

@@ -1,0 +1,359 @@
+{
+  "kind": "non-author-runtime121-Ctor-supplement02-design-review",
+  "edition": 2,
+  "issue": 121,
+  "verdict": "recommend-bounded-code-only-G1-append",
+  "reviewer": "/root/r4ghi_final_gates13",
+  "reviewerIsAuthor": false,
+  "authors": [
+    "I / r4_period_engineering206",
+    "H / r4h_engineering"
+  ],
+  "recordedAt": "2026-11-11T18:32:46.803Z",
+  "exactInputs": {
+    "manifest": {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-Ctor-supplement02/manifest-Ctor-supplement02.json",
+      "bytes": 1240,
+      "rawBytesSha256": "5d2fda3b9d33d7d305f0ea7ea43a522168d37059450cd147c0ef9d19a6f3f70f"
+    },
+    "specification": {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-Ctor-supplement02/Ctor-ABI121-supplement02.PROPOSED.json",
+      "bytes": 12671,
+      "rawBytesSha256": "df160eb87af75e24b952ec62612c9744a5cce84fa1931a6cd8a026307900c9ac"
+    },
+    "HFixedCallsiteSupplement": {
+      "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/source15-lease-tax121-code01/H-constructor-callsite121-supplement.PROPOSED.json",
+      "bytes": 5183,
+      "rawBytesSha256": "4650b3eda0fb2b6c6a3c5d7dbfeca20a576c6ed810f754b609145c6308811c3e"
+    },
+    "originalSupplement01": {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-Ctor-supplement01/manifest-Ctor-supplement01.json",
+      "bytes": 1569,
+      "rawBytesSha256": "1f1a1e36c9d9a39681193799c1299226fddd2f9247b30dd9e25feedf98ae0ed9"
+    },
+    "originalABI": {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-G1-proposal01/ABI121-v1.PROPOSED.json",
+      "bytes": 18507,
+      "rawBytesSha256": "f96c5f4ba884fcaa67cca102becc58e3a3d590e961af38506c3eed78ff440fcf"
+    },
+    "originalRootG1B": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/g1B/Root-G1B-121.json",
+      "bytes": 5254,
+      "rawBytesSha256": "be96f468fe8c7aa58dcebe6f687ef90d0afb46f1d9ca2ac2bc2b3e90974206cc"
+    },
+    "priorIndependentNotReady": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-Ctor-design-review01/review-Ctor-supplement01-NOTREADY.json",
+      "bytes": 9002,
+      "rawBytesSha256": "6cbed51bc08b1077e243ac6ca2dfc64c0d0348d842932132f1c4c66f4af567e0"
+    }
+  },
+  "decision": {
+    "Ctor121_IR01": {
+      "designStatus": "CLOSED_IN_EXACT_SUPPLEMENT02",
+      "old01StatusPreserved": "NOT_READY_OPTIONS_COMPATIBILITY_GAP",
+      "reason": "Options explicitly preserve planned-date as primitive real-calendar YYYY-MM-DD data, original conditional spread/value and concrete caller input/G2 binding; no clock/default/effective backfill or generic option passthrough."
+    },
+    "RootMayAppendFreezeThisExactSupplementForCodeOnly": true,
+    "RootExplicitAuthorizationStillRequiredBeforeNewConstructorChanges": true,
+    "codeReady": false,
+    "implementationGrantedByReviewer": false,
+    "actualG2Authorized": false
+  },
+  "finiteScope": {
+    "ILeafIncrease": 0,
+    "IAlreadyFrozenLeavesReceivingCtorChange": [
+      "tools/rust-r4ghi/business/runtime-admission121.mjs",
+      "tools/rust-r4ghi/business/consumer-admission54.mjs"
+    ],
+    "addedSynchronousExports": [
+      {
+        "name": "createContext121",
+        "signature": "createContext121(options)",
+        "returns": "The actual root returned by the literal original createContext(options), not a clone/proxy/fabrication."
+      },
+      {
+        "name": "createWitnessView121",
+        "signature": "createWitnessView121(root, baseReg5)",
+        "returns": "The actual {ctx,record} returned by literal protected facts284.newWitnessView284(root,originalReg5). ctx receives an independent private view brand tied to that root."
+      }
+    ],
+    "plannedNativePublicExportCount": 15,
+    "originalNativePublicExportCount": 13,
+    "extraHExternalMOD": [
+      {
+        "file": "tools/rust-r4ghi/legacy-authority15-284/driver284.mjs",
+        "operation": "MOD",
+        "before": {
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/legacy-authority15-284/driver284.mjs",
+          "bytes": 37309,
+          "rawBytesSha256": "7b52290f62039d53ba9c12c681c3de34bcd5b458aad3a1f95320ce9b3ede8d55"
+        },
+        "afterSHA256": null,
+        "owner": "H",
+        "change": "Only actual constructor call switches to fixed Native createContext121; no same-name alias injection, no financial/target/FI/one-normal behavior change."
+      },
+      {
+        "file": "tools/rust-r4ghi/period15-270/driver270.mjs",
+        "operation": "MOD",
+        "before": {
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/period15-270/driver270.mjs",
+          "bytes": 28511,
+          "rawBytesSha256": "a8bcec1013927fca9511ee1f602ba2c4a6974fb6a781aba46b61f2d581c2001f"
+        },
+        "afterSHA256": null,
+        "owner": "H",
+        "change": "Only actual constructor call switches to fixed Native createContext121; no same-name alias injection, no financial/target/FI/one-normal behavior change."
+      },
+      {
+        "file": "tools/rust-r4ghi/mixed15-271/driver271.mjs",
+        "operation": "MOD",
+        "before": {
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/mixed15-271/driver271.mjs",
+          "bytes": 20744,
+          "rawBytesSha256": "ecd12a4522b286a54ecabb5a416dc874da307359221a8d04180423be4ec4e965"
+        },
+        "afterSHA256": null,
+        "owner": "H",
+        "change": "Only actual constructor call switches to fixed Native createContext121; no same-name alias injection, no financial/target/FI/one-normal behavior change."
+      }
+    ],
+    "H_MOD": 21,
+    "H_PROTECT": 21,
+    "caller120_MOD": 8,
+    "caller120_PROTECT": 17,
+    "H3_ADDUnchanged": 2,
+    "H3_MODUnchanged": 9,
+    "H3PlannedCountUnchanged": 229,
+    "actualH3Count": null,
+    "validationEntryIncrease": 0,
+    "RustSourceCompileDTOAPIDDLBusinessAlgorithmChange": 0
+  },
+  "sourceAndDeltaChecks": {
+    "evidence": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-Ctor-design-review02/strict-FS-readback12102.json",
+      "bytes": 6864,
+      "rawBytesSha256": "00764bba0bec812eaad4145842560f45cf3f5255d9d600f7e24ee180456d3331"
+    },
+    "exactChangedJSONPointers": [
+      "/edition",
+      "/exports/0/options/optionalKeys/2",
+      "/exports/0/options/plannedDate",
+      "/HScopeAfterApproval/caller120MOD",
+      "/HScopeAfterApproval/caller120Protected",
+      "/negativeCases/9",
+      "/originalSupplement01",
+      "/HFixedCallsiteSupplement",
+      "/actualCurrentConstructorKeySets",
+      "/plannedDateSourceChain",
+      "/excludedOptions"
+    ],
+    "sevenActualConstructorSourcePins": [
+      {
+        "pin": {
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs",
+          "bytes": 49154,
+          "rawBytesSha256": "a5b50ba102c4def8ebf0594a4cfa5ff207ee9a0e3452875385a5806659e0bfb8"
+        },
+        "line": 776,
+        "keys": [
+          "epoch",
+          "run",
+          "api-process-record"
+        ],
+        "conditionalKey": null
+      },
+      {
+        "pin": {
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/labor-mask15.mjs",
+          "bytes": 38606,
+          "rawBytesSha256": "5161fe5d07a0e9ce9928fc0082486b420411e3f812e7873a18823c7f5ac3b5cf"
+        },
+        "line": 83,
+        "keys": [
+          "epoch",
+          "run",
+          "api-process-record"
+        ],
+        "conditionalKey": null
+      },
+      {
+        "pin": {
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/policy-role15/setup-role15.mjs",
+          "bytes": 25168,
+          "rawBytesSha256": "627e914eff3e77997de6c3d9abc230e74cee5810b51b8b45587b1d99d55b8a72"
+        },
+        "line": 88,
+        "keys": [
+          "epoch",
+          "run",
+          "api-process-record"
+        ],
+        "conditionalKey": null
+      },
+      {
+        "pin": {
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/policy-continuation15-287/run287.mjs",
+          "bytes": 17061,
+          "rawBytesSha256": "99a4434b8f8cb78c2868dbdb70a7bef4aa81d163265748982cb47065b964dfbd"
+        },
+        "line": 55,
+        "keys": [
+          "epoch",
+          "run",
+          "api-process-record"
+        ],
+        "conditionalKey": null
+      },
+      {
+        "pin": {
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/legacy-authority15-284/driver284.mjs",
+          "bytes": 37309,
+          "rawBytesSha256": "7b52290f62039d53ba9c12c681c3de34bcd5b458aad3a1f95320ce9b3ede8d55"
+        },
+        "line": 51,
+        "keys": [
+          "epoch",
+          "run",
+          "api-process-record"
+        ],
+        "conditionalKey": "planned-date"
+      },
+      {
+        "pin": {
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/period15-270/driver270.mjs",
+          "bytes": 28511,
+          "rawBytesSha256": "a8bcec1013927fca9511ee1f602ba2c4a6974fb6a781aba46b61f2d581c2001f"
+        },
+        "line": 228,
+        "keys": [
+          "epoch",
+          "run",
+          "api-process-record"
+        ],
+        "conditionalKey": null
+      },
+      {
+        "pin": {
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/mixed15-271/driver271.mjs",
+          "bytes": 20744,
+          "rawBytesSha256": "ecd12a4522b286a54ecabb5a416dc874da307359221a8d04180423be4ec4e965"
+        },
+        "line": 71,
+        "keys": [
+          "epoch",
+          "run",
+          "api-process-record"
+        ],
+        "conditionalKey": null
+      }
+    ],
+    "allSevenExistingConstructorKeySetsCompatible": true,
+    "threeHDriverCallByteSpansAndHashesMatch": true,
+    "threeHArgumentsRawUnchanged": true,
+    "oldTwoFactorySignaturesStepsAndWitnessBodyJSONUnchanged": true,
+    "originalContextAndWitnessImplementationRawProtected": [
+      {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/context.mjs",
+        "bytes": 11614,
+        "rawBytesSha256": "d73d0e24cf7ff880537f7372ad362ff75eeb4f9d7daadb6a520ae691afd26017"
+      },
+      {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/legacy-authority15-284/facts284.mjs",
+        "bytes": 15904,
+        "rawBytesSha256": "1a9dbf78ae957ad459cd519f9e85f7594aaf1fb4da61fa6d74976037a095d3ed"
+      }
+    ],
+    "priorFullG1And270ArchiveReviewReusedWithoutReScanning": true,
+    "strictFSChecks": 20,
+    "contextFactoryOrNativeExecuted": false
+  },
+  "acceptedDesign": {
+    "createContext121": {
+      "synchronous": true,
+      "fixedOriginalFactoryOnly": true,
+      "returnsActualOriginalReturnNotClone": true,
+      "optionsClosedDataSnapshotNoProxyAccessorsSymbolsFunctions": true,
+      "privateFrameRequiredForLiteralPartial": true,
+      "reentrantCallRejected": true,
+      "frameClearedFinallyEverySuccessAndThrow": true,
+      "noPublicRegistrarStamperOrWeakeningCallback": true,
+      "onlyActualReturnRootBranded": true,
+      "returnedStateMustBeTheExactObservedPartialState": true,
+      "captureEightGenuineOwnMethodsAndStateIdentity": true,
+      "strongFinalValidationBeforeReturn": true
+    },
+    "createWitnessView121": {
+      "synchronous": true,
+      "onlyGenuinePrivateBrandedRootAccepted": true,
+      "exactImmutableOriginalReg5Argument": true,
+      "fixedProtectedNewWitnessView284Only": true,
+      "returnsActualCtxRecord": true,
+      "viewHasDistinctPrivateBrandBoundToRoot": true,
+      "noRootViewCapabilityExchange": true,
+      "eightMethodDelegationAndActualSourceStateIdentityPreserved": true
+    },
+    "unchangedConstructorPhaseSemantics": {
+      "noFrameOrMalformedLeaseCannotFallback": true,
+      "originalNon121BranchNotBroadened": true,
+      "originalContextD73AndWitnessFacts1A9NotEdited": true,
+      "noNewContextSchemaAliasOrFactoryCallback": true
+    },
+    "plannedDate": {
+      "optionalForGeneralFactory": true,
+      "requiredByExistingDriver284PrepareWitnessRule": true,
+      "exactOriginalPrimitiveValuePreserved": true,
+      "realCalendarAndYYYYMMDDEncodingValidation": true,
+      "noCurrentTimeOrTimezoneBasedRewrite": true,
+      "noNewPastOrFutureBusinessDatePolicy": true,
+      "noAliasOrSilentFieldDrop": true,
+      "actualChosenDateMustComeFromConcreteApprovedCallerInput": true
+    }
+  },
+  "normativePriorityAndNoCycle": {
+    "bindingOrder": [
+      "Original f96c ABI and be96 G1B remain immutable base.",
+      "Supplement02 df160 supplies the corrected additive constructor/options design.",
+      "H4650 supplies exact three existing driver call byte spans and fixed import/callee-only intent; its reference to supplement01 is parent provenance.",
+      "Root append freeze binds actual02 and H4650 pins together; never rewrite H4650 to point back to future02 and create a hash cycle."
+    ],
+    "H4650Parent01PointerDoesNotRestoreOldMissingOptionContract": true
+  },
+  "requiredCodeAndActualFollowup": [
+    "Root must explicitly append-freeze exact5d2f/df16/H4650 before implementing these constructor changes; original G1B approval is not silently widened.",
+    "Code review must show current source/closure pins are checked before first untrusted module import, fixed actual original factory/view function identities, no top-level task execution, no callable registrar or user-selected module.",
+    "Use own-property descriptors and util.types.isProxy before any untrusted getters. Snapshot only closed primitive options; preserve planned-date exactly. Missing date is rejected only where the original specific caller requires it; native factory cannot infer phase or synthesize a date.",
+    "Private synchronous construction frame is exactly scoped to one fixed constructor call, rejects nested/reentrant calls, cleans up on throws before partial/after partial/before real return, and never leaves a reachable brand on failed construction.",
+    "Genuine real returned state/method identity and protected Root/view relation must be tested at real module seams. BaseReg5 must be verified as immutable data rather than invoking attacker getters/proxies. Root/view/JSON/partial/public reference cannot exchange or mint private current authority.",
+    "Three new driver MODs are limited to the explicit fixed import and callee substitution; original arguments including conditional planned-date remain byte-identical. Witness existing MOD may use fixed createWitnessView121 while facts284 view implementation stays raw-identical.",
+    "All original financial/FI/normal/wait/CAS/target/receipt algorithms and non121 behavior remain protected; no added leaf, H3 count, validation entry or business scope.",
+    "Later actual new229/API/runtime publication/real unmodified constructor acceptance/fresh prepare121 and each FI or normal phase require their previously frozen independent concrete input/actual gates. Isolated tests cannot certify those facts."
+  ],
+  "testsAndEvidenceClassification": {
+    "proposalAndCurrentSourceFS": "ran-and-passed",
+    "original01CounterexampleNewWhitelistCompatibility": "closed-in-design-only",
+    "actualProtectedThreeDriverByteSpans": "ran-and-passed",
+    "sevenActualConstructorKeysets": "reviewed-from-exact-source-and-FS-pins",
+    "implementationNegativeCases": "planned-not-implemented-or-run-by-reviewer",
+    "actualContextOrFactory": "not-run-not-authorized",
+    "SQLHTTPOrProcessProbe": "not-run-not-authorized",
+    "RootOrPrivateWrite": "not-run",
+    "GitIssueWrite": "not-run"
+  },
+  "limits": {
+    "codeReady": false,
+    "RootPromotionGranted": false,
+    "actualG2Authorized": false,
+    "contextConstructionGranted": false,
+    "APIOrPGOrServiceControlGranted": false,
+    "TaxPrepareFIOrNormalGranted": false,
+    "oldFailureOrGateRelabelled": false,
+    "oldSealsModified": false,
+    "RootOrPrivateWritten": false,
+    "onlyOwnReviewArtifactsWritten": true
+  },
+  "G3Certified": false,
+  "G4Certified": false,
+  "businessG3": false,
+  "businessG4": false,
+  "newBusinessOperationCertifications": 0
+}
