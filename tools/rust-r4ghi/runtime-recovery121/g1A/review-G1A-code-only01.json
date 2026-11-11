@@ -1,0 +1,116 @@
+{
+  "kind": "non-author-runtime-recovery121-G1A-design-review",
+  "verdict": "recommend-bounded-G1A-code-only",
+  "reviewer": "/root/r4h_engineering",
+  "reviewerIsAuthor": false,
+  "asOf": "2026-11-11T15:53:02.599Z",
+  "reviewedDocument": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/docs/design/rust-r4ghi/runtime-recovery121-G1A.md",
+    "bytes": 5268,
+    "rawBytesSha256": "12d8c57731135136d3bab3c02efdafe4764c3b1d813247dc0001e2e1b4b065ec"
+  },
+  "reviewedScope": "Root G1-A contract and staged implementation boundary only; not source-code readiness or actual operation approval",
+  "findings": [],
+  "conclusion": "The preceding holder/original-volume PG recovery/default-read-only conservation slice is compatible with preservation constraints and can be independently frozen for code-only implementation without consuming unfinished Native/Tax lease authority.",
+  "productionAllowlist": [
+    "tools/rust-r4ghi/runtime-recovery121/root/hold-runtime121.mjs",
+    "tools/rust-r4ghi/runtime-recovery121/root/start-holder121.ps1",
+    "tools/rust-r4ghi/runtime-recovery121/root/resume-original-pg121.mjs",
+    "tools/rust-r4ghi/runtime-recovery121/root/observe-conservation121.mjs",
+    "tools/rust-r4ghi/runtime-recovery121/root/prepare121.mjs",
+    "tools/rust-r4ghi/runtime-recovery121/root/dispatch121.mjs",
+    "tools/rust-r4ghi/runtime-recovery121/root/facts121.mjs"
+  ],
+  "productionCount": 7,
+  "validationAllowlist": [
+    "tools/rust-r4ghi/runtime-recovery121/root/tests/facts121.test.mjs",
+    "tools/rust-r4ghi/runtime-recovery121/root/tests/readonly121.test.mjs",
+    "tools/rust-r4ghi/runtime-recovery121/root/tests/holder121.test.mjs",
+    "tools/rust-r4ghi/runtime-recovery121/root/tests/run-checks121.mjs",
+    "tools/rust-r4ghi/runtime-recovery121/root/tests/seal-code121.mjs"
+  ],
+  "validationCount": 5,
+  "excludedProduction": [
+    "tools/rust-r4ghi/runtime-recovery121/root/start-api121.mjs"
+  ],
+  "modeMatrix": [
+    {
+      "mode": "holder-start",
+      "holder": null,
+      "pgStart": null,
+      "baseline": null,
+      "processControl": true,
+      "readonlyPG": false,
+      "APIStart": false,
+      "businessDML": false,
+      "createReplaceRestoreMigrate": false
+    },
+    {
+      "mode": "pg-start",
+      "holder": "actual prior holder pin",
+      "pgStart": null,
+      "baseline": null,
+      "processControl": true,
+      "readonlyPG": false,
+      "APIStart": false,
+      "businessDML": false,
+      "createReplaceRestoreMigrate": false
+    },
+    {
+      "mode": "pg-observe",
+      "holder": "actual live holder pin",
+      "pgStart": "actual prior original-PG start pin",
+      "baseline": "actual immutable snapshot21 pin and complete originals",
+      "processControl": false,
+      "readonlyPG": true,
+      "APIStart": false,
+      "businessDML": false,
+      "createReplaceRestoreMigrate": false
+    }
+  ],
+  "schema": {
+    "inputKeys": 15,
+    "RootApprovalKeys": 12,
+    "exactWholeObjectBeforeEffects": true,
+    "futureFieldsNullUntilActuallyProduced": true,
+    "noDynamicSQLOrEntryOrCallback": true
+  },
+  "necessaryImplementationConditions": [
+    "Preserve all original13/14/failed15 states, ownership15, old Reg5/B1/API, real prepare08e3/body0f92/full67 and their failed/partial labels; new evidence is wx only.",
+    "Root freezes this bounded A contract before code; every real mode then separately needs non-author code review and exact G2, binding complete actual source bytes/input/approval/nonce/output.",
+    "Holder must retain exact Windows/Linux physical identity, executable/source/boot/start provenance and original logs; loss or unknown result stops successors, with no automatic restart or global service/config change.",
+    "Only exact original full container ID513925616f4e1c1c988753e385be7f441dc98f6fb490101537498f60e8d5e00f, imageb718026138f18af7722fc66f706d64990e869a4b196508aaf4f3671786c8d93a, original volume/mount/PG15/OID16385+16387/loopback25434 may start once from stopped/pid0 after intent; never create/replace/restore/migrate.",
+    "PG observe uses only private original owner credentials with default_transaction_read_only plus an explicit READ ONLY transaction for the fixed two databases; secrets stay out of argv/public output/Git.",
+    "Two independent complete observations must each equal the actual snapshot21 baseline across raw/xmin/all139 tables/meta/sequences/objects and required namespace/marker/role/OID/M98/version/timezone identity. No partial table/target trimming or cross-database atomicity claim.",
+    "A discrepancy, absent original, unknown status or failed readonly/identity guard stops without DML, time repair, retry, automatic stop or manufactured equality.",
+    "A creates process and database evidence only. It cannot authorize API reuse/start, ordinary ctx/native signer, runtime registry/candidate publication, retained-Tax continuation, FI/normal or any business G3/G4; complete #121 G1 remains pending I/H ABI closure."
+  ],
+  "identityBoundary": {
+    "namespace": "poms-r4ghi",
+    "marker": "0ca66699-053b-4f40-ad5c-82fed4cf1a6f",
+    "originalSourceBase": "aaa4b16ac66092f0cb1dc6646a02cf14e80823ee",
+    "schema": "M98",
+    "tablesPerDatabase": 139
+  },
+  "validationBoundary": "Temporary FS and explicitly labelled process doubles may test pre-effect rejection/contracts; no model may stand in for actual holder/PG/fresh RO results.",
+  "requiredNegativeClasses": [
+    "wrong/missing/extra approval or input key; mode/nonce/source/pin mismatch",
+    "future mode fields populated early or absent actual predecessor",
+    "holder Windows/Linux PID/start/boot/exe/source or owner mismatch/loss",
+    "wrong container/image/volume/mount/port/OID/version or already-running/unknown PG",
+    "read-only off, unexpected DB/namespace/marker/role/migration/table count",
+    "any row/raw/xmin/metadata/sequence/object difference or missing snapshot original",
+    "output collision/partial run/reuse of consumed nonce; secret or dynamic SQL/entry/callback injection",
+    "using A evidence as API/native/Tax authority or pretending overall G1 complete"
+  ],
+  "sourceOnlyImplementationRecommendation": true,
+  "codeReadinessCertified": false,
+  "actualG2": false,
+  "actualRuntimeOrPGOrAPIStarted": false,
+  "actualConservationObservedByReviewer": false,
+  "overall121G1": "pending-I-H-typed-interface-closure",
+  "businessG3": false,
+  "businessG4": false,
+  "reviewerRootOrPrivateWritten": false,
+  "reviewerContextNativeDBHTTPProcessOrGit": false
+}

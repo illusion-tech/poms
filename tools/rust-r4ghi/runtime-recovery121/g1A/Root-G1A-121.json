@@ -1,0 +1,158 @@
+{
+  "kind": "Root-frozen-runtime-recovery121-G1A",
+  "schemaVersion": 1,
+  "issue": 121,
+  "recordedAt": "2026-11-11T16:09:34.770Z",
+  "author": "Root",
+  "document": {
+    "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/docs/design/rust-r4ghi/runtime-recovery121-G1A.md",
+    "bytes": 5268,
+    "rawBytesSha256": "12d8c57731135136d3bab3c02efdafe4764c3b1d813247dc0001e2e1b4b065ec"
+  },
+  "independentDesignReview": {
+    "file": "E:/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/independent-runtime-recovery121-G1A-review01/review-G1A-code-only01.json",
+    "bytes": 6503,
+    "rawBytesSha256": "0661042125ef8f99071f2376ed6c203ff4b84cb9509efc51f12b5148ed75e0e1"
+  },
+  "scope": "Only task-owned holder, original-PG resume and independent default-RO conservation; not API/native/Tax authority",
+  "productionAllowlist": [
+    {
+      "file": "tools/rust-r4ghi/runtime-recovery121/root/hold-runtime121.mjs",
+      "operation": "ADD",
+      "owner": "Root"
+    },
+    {
+      "file": "tools/rust-r4ghi/runtime-recovery121/root/start-holder121.ps1",
+      "operation": "ADD",
+      "owner": "Root"
+    },
+    {
+      "file": "tools/rust-r4ghi/runtime-recovery121/root/resume-original-pg121.mjs",
+      "operation": "ADD",
+      "owner": "Root"
+    },
+    {
+      "file": "tools/rust-r4ghi/runtime-recovery121/root/observe-conservation121.mjs",
+      "operation": "ADD",
+      "owner": "Root"
+    },
+    {
+      "file": "tools/rust-r4ghi/runtime-recovery121/root/prepare121.mjs",
+      "operation": "ADD",
+      "owner": "Root"
+    },
+    {
+      "file": "tools/rust-r4ghi/runtime-recovery121/root/dispatch121.mjs",
+      "operation": "ADD",
+      "owner": "Root"
+    },
+    {
+      "file": "tools/rust-r4ghi/runtime-recovery121/root/facts121.mjs",
+      "operation": "ADD",
+      "owner": "Root"
+    }
+  ],
+  "validationAllowlist": [
+    "tools/rust-r4ghi/runtime-recovery121/root/tests/facts121.test.mjs",
+    "tools/rust-r4ghi/runtime-recovery121/root/tests/readonly121.test.mjs",
+    "tools/rust-r4ghi/runtime-recovery121/root/tests/holder121.test.mjs",
+    "tools/rust-r4ghi/runtime-recovery121/root/tests/run-checks121.mjs",
+    "tools/rust-r4ghi/runtime-recovery121/root/tests/seal-code121.mjs"
+  ],
+  "counts": {
+    "production": 7,
+    "validationEntries": 5,
+    "newBusinessOperations": 0,
+    "RustChanges": 0,
+    "SDKChanges": 0,
+    "AdminChanges": 0,
+    "H3Changes": 0,
+    "TaxOrCallerAlgorithmChanges": 0
+  },
+  "modes": [
+    {
+      "mode": "holder-start",
+      "holder": null,
+      "pgStart": null,
+      "baseline": null,
+      "processControl": true,
+      "readonlyPG": false,
+      "APIStart": false,
+      "businessDML": false,
+      "createReplaceRestoreMigrate": false
+    },
+    {
+      "mode": "pg-start",
+      "holder": "actual prior holder pin",
+      "pgStart": null,
+      "baseline": null,
+      "processControl": true,
+      "readonlyPG": false,
+      "APIStart": false,
+      "businessDML": false,
+      "createReplaceRestoreMigrate": false
+    },
+    {
+      "mode": "pg-observe",
+      "holder": "actual live holder pin",
+      "pgStart": "actual prior original-PG start pin",
+      "baseline": "actual immutable snapshot21 pin and complete originals",
+      "processControl": false,
+      "readonlyPG": true,
+      "APIStart": false,
+      "businessDML": false,
+      "createReplaceRestoreMigrate": false
+    }
+  ],
+  "inputKeys": [
+    "kind",
+    "schemaVersion",
+    "mode",
+    "namespace",
+    "nonce",
+    "G1",
+    "codeReview",
+    "executionSources",
+    "expectedStates",
+    "runtimeLossObservation",
+    "failedRetention",
+    "holder",
+    "pgStart",
+    "baseline",
+    "outputDirectory"
+  ],
+  "RootApprovalKeys": [
+    "kind",
+    "approvedInput",
+    "G1",
+    "codeReview",
+    "mode",
+    "nonce",
+    "actualG2Authorized",
+    "processControl",
+    "readonlyPG",
+    "APIStart",
+    "businessDML",
+    "createReplaceRestoreMigrate"
+  ],
+  "immutableFacts": {
+    "runtimeLossObservationSHA256": "80151bd29512f869a4aee63fd5e0d020f3bc3a2c0d136a983d4452d81a1ef698",
+    "failedStateRetentionSHA256": "10ff9393ddaf17815cb92037950cc9d91ab193b8908319b15842d77d32ea8ac0",
+    "failedStateSHA256": "4c354c9190cdae04135ddedd1da7e8652fe5aa6e0aa8f5c74805faef9bc903ea",
+    "ownershipSHA256": "b76bb9d8345b0364554f05fb0d719f5083278b332ff54303946d9df3f167a918",
+    "baseline": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/snapshot-000021-tax15-prepared-current-facts.json",
+      "bytes": 3142796,
+      "rawBytesSha256": "183bb7b076940ddb33b2edf9d2dcf82b63d2f1e580b5cbebc8d6ec48a023db8c"
+    }
+  },
+  "codeImplementationGranted": true,
+  "actualG2Authorized": false,
+  "APIStartGranted": false,
+  "nativeContextGranted": false,
+  "whole121G1Complete": false,
+  "businessG3": false,
+  "businessG4": false,
+  "parent57": "OPEN",
+  "fullR5_116": "OPEN"
+}
