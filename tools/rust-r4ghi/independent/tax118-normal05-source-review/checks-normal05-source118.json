@@ -1,0 +1,226 @@
+{
+  "kind": "isolated-normal05-source-contract-checks",
+  "sources": {
+    "preparer": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/prepare-tax118-normal05.mjs",
+      "bytes": 6732,
+      "rawBytesSha256": "6b85b80d10abee487fe075eade3abeccf066bc2efab4e8934db601fceba0de22"
+    },
+    "outer": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/execute-tax118-normal-once05.mjs",
+      "bytes": 5947,
+      "rawBytesSha256": "da5e81ab3d9f8a63bec71e91a8be7753ae487edcb6b4da5c053b860b9709d991"
+    },
+    "baseFIOuter": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/execute-tax118-fi-once03.mjs",
+      "bytes": 5969,
+      "rawBytesSha256": "d506d884b436f8e06e4e2e24ebe21ad1533270b48587760e00fa6c9a907b4d40"
+    },
+    "derivation": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax118-normal-outer05-derivation.json",
+      "bytes": 1947,
+      "rawBytesSha256": "13a0b0bc137f5145ab660b65e071fd90729a3f00f773470a224fc32e91c6054b"
+    },
+    "reviewedFIHelper": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/prepare-tax118-fi04.mjs",
+      "bytes": 6690,
+      "rawBytesSha256": "5e9a4cd69e0eb74d334e6a07e85f0d8f07884d5a29f108fd72f4603476b3cbe5"
+    }
+  },
+  "cases": [
+    {
+      "name": "all seven restricted normal outer edits are exact forward and context-aware inverse",
+      "passed": true
+    },
+    {
+      "name": "samePin helper remains identical to reviewed FI04 including actual optional length checks",
+      "passed": true
+    },
+    {
+      "name": "normal metadata actual assertion span accepts coherent FI-only complete shape and CLI optional bytes",
+      "passed": true
+    },
+    {
+      "name": "failed FI journal rejected",
+      "passed": true
+    },
+    {
+      "name": "failed native exit rejected",
+      "passed": true
+    },
+    {
+      "name": "wrong FI result/state pin rejected",
+      "passed": true
+    },
+    {
+      "name": "trimmed FI inventory rejected",
+      "passed": true
+    },
+    {
+      "name": "reordered complete failures rejected even when state agrees",
+      "passed": true
+    },
+    {
+      "name": "missing complete failures rejected",
+      "passed": true
+    },
+    {
+      "name": "wrong unchanged body hash rejected",
+      "passed": true
+    },
+    {
+      "name": "prepared body changed after FI rejected",
+      "passed": true
+    },
+    {
+      "name": "FI claims previous normal execution rejected",
+      "passed": true
+    },
+    {
+      "name": "state activeFault blocks normal metadata",
+      "passed": true
+    },
+    {
+      "name": "state blockedObservation blocks normal metadata",
+      "passed": true
+    },
+    {
+      "name": "record pendingTaxTrial blocks normal metadata",
+      "passed": true
+    },
+    {
+      "name": "record normalTaxPending blocks normal metadata",
+      "passed": true
+    },
+    {
+      "name": "record unexpectedTaxACK blocks normal metadata",
+      "passed": true
+    },
+    {
+      "name": "record complete blocks normal metadata",
+      "passed": true
+    },
+    {
+      "name": "record sidecar blocks normal metadata",
+      "passed": true
+    },
+    {
+      "name": "cached 201 ACK blocks a new normal metadata package",
+      "passed": true
+    },
+    {
+      "name": "normal input changes only six intended fields and explicitly clears FI set approval",
+      "passed": true
+    },
+    {
+      "name": "normal outer full nine-field positive matches normal=true and FI=false",
+      "passed": true
+    },
+    {
+      "name": "normal outer false normal grant rejected",
+      "passed": true
+    },
+    {
+      "name": "normal outer FI grant rejected",
+      "passed": true
+    },
+    {
+      "name": "normal outer wrong mode rejected",
+      "passed": true
+    },
+    {
+      "name": "normal outer mismatched nonce rejected",
+      "passed": true
+    },
+    {
+      "name": "normal outer false G2 rejected",
+      "passed": true
+    }
+  ],
+  "passed": 27,
+  "failed": 0,
+  "sourceCapture": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/independent-root-tax118-normal05-review01/source-capture-normal05.json",
+    "bytes": 17584,
+    "rawBytesSha256": "85de9a09d17fabeb29ac28314bad2fa19d75cdc5fe25c36c7d761d7e8e837a85"
+  },
+  "diagnosticModel": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/independent-root-tax118-normal05-review01/probe-normal05-source118.cjs",
+    "bytes": 12956,
+    "rawBytesSha256": "524dc3562331c05dbd15a960eb0e03221f50824ca57f7e804ab4fb9c5ade19ca"
+  },
+  "metadataAssertionStatements": [
+    "assert.equal(complete.kind,'actual-Tax15-invocation118-command-complete');",
+    "assert.equal(complete.mode,'fi-closed-set');",
+    "samePin(complete.input,priorRequest.input);",
+    "samePin(complete.review,priorRequest.expectedRootReview);",
+    "assert.equal(journal.phase,'closed-verified');",
+    "assert.equal(journal.nonce,prior.nonce);",
+    "samePin(journal.input,priorRequest.input);",
+    "samePin(journal.result,complete.result);",
+    "assert.equal(exit.phase,'exit-verified');",
+    "assert.equal(exit.failed,false);",
+    "assert.equal(exit.nonce,prior.nonce);",
+    "samePin(exit.result,complete.result);",
+    "assert(sweep);",
+    "samePin(sweep.fiComplete,complete.result);",
+    "assert(Array.isArray(inventory)&&inventory.length>0);",
+    "assert.deepEqual(inventory,prepared.inventory);",
+    "assert.deepEqual(inventory,sweep.inventory);",
+    "assert.deepEqual(fi.inventory,inventory);",
+    "assert.deepEqual(fi.scope,sweep.scope);",
+    "assert.deepEqual(fi.failures,sweep.failures);",
+    "assert.equal(fi.normalTaxPOSTExecuted,false);",
+    "assert.equal(fi.bodySHA256,prepared.bodySHA256);",
+    "assert.equal(fi.bodySHA256,prior.bodySHA256);",
+    "assert.equal(sha(Buffer.from(JSON.stringify(prepared.body))),prior.bodySHA256);",
+    "assert.equal(fi.failures.length,inventory.length);",
+    "assert.deepEqual(fi.failures.map(x=>x.key),inventory.map(x=>x.key));",
+    "assert.equal(new Set(inventory.map(x=>x.key)).size,inventory.length);",
+    "samePin(record.taxPreparation.artifact,prior.prepared15);",
+    "assert.deepEqual(record.taxPreparation.body,prepared.body);",
+    "samePin(state.consumerChecks.tax15Invocation118.invocations[prior.nonce].closedJournal,complete.closed.closedJournal);",
+    "assert(!state.activeFault&&!state.blockedObservation&&!record.pendingTaxTrial&&!record.normalTaxPending&&!record.unexpectedTaxACK&&!sweep.finalSuccess&&!record.complete&&!record.sidecar);",
+    "assert.equal(code.kind,'non-author-Tax15-invocation118-code-review');",
+    "assert.equal(code.verdict,'code-ready-for-exact-input-review');",
+    "assert.equal(code.reviewerIsAuthor,false);",
+    "assert.deepEqual(code.executionSources,prior.executionSources);"
+  ],
+  "normalInputAssignments": [
+    {
+      "field": "mode",
+      "value": "'commit-once'"
+    },
+    {
+      "field": "nonce",
+      "value": "randomUUID()"
+    },
+    {
+      "field": "phase",
+      "value": "'tax15-commit05'"
+    },
+    {
+      "field": "expectedEntryState",
+      "value": "entry"
+    },
+    {
+      "field": "approvedClosedFISet",
+      "value": "null"
+    },
+    {
+      "field": "approvedFICompletion",
+      "value": "complete.result"
+    }
+  ],
+  "outerPrewriteGuardSpan": "assert.equal(request.kind, 'Root-requested-Tax15-commit-once118-exact-G2');\nassert.equal(r.mode, 'commit-once'); assert(typeof r.verdict === 'string' && r.verdict.startsWith('approved-'));\nassert.deepEqual(r.approvedInput, request.input); assert.deepEqual(r.expectedRootReview, request.expectedRootReview);\nconst input = JSON.parse(read(request.input.file, request.input.rawBytesSha256).b); assert.equal(input.mode, 'commit-once');\nassert.equal(input.kind, 'Root-reviewed-Tax15-invocation118'); assert.equal(Object.keys(input).length, 34);\nconst entry = input.executionSources.find(p => p.file === R + '/tools/rust-r4ghi/tax15-invocation118/run-tax15-once.mjs'); assert(entry);\nconst codeReview = JSON.parse(read(input.codeReview.file, input.codeReview.rawBytesSha256).b);\nassert.equal(codeReview.kind, 'non-author-Tax15-invocation118-code-review');\nassert.equal(codeReview.verdict, 'code-ready-for-exact-input-review');\nassert.equal(codeReview.reviewerIsAuthor, false);\nassert.deepEqual(codeReview.executionSources, input.executionSources);\nfor (const p of input.executionSources) read(p.file, p.rawBytesSha256);\nconst liveState = read(P + '/business/g2-business15/main01/state.json', input.expectedEntryState.rawBytesSha256);\nassert.deepEqual(liveState.b, read(input.expectedEntryState.file, input.expectedEntryState.rawBytesSha256).b);\nassert(!fs.existsSync(O)); assert(!fs.existsSync(request.expectedRootReview.file));\nfor (const epoch of [13, 14, 15]) assert(!fs.existsSync(P + '/business/g2-business' + epoch + '/main01/driver.lock'));\nassert.deepEqual(request.expectedRootReviewBody, {\n  kind: 'Root-approved-exact-Tax15-invocation118', approvedInput: request.input,\n  codeReview: input.codeReview, expectedEntryState: input.expectedEntryState, mode: 'commit-once',\n  nonce: input.nonce, actualG2Authorized: true, normalTaxPOSTGranted: true, FIGranted: false\n});\nconst bytes = Buffer.from(JSON.stringify(request.expectedRootReviewBody, null, 2) + '\\n');\nassert.equal(bytes.length, request.expectedRootReview.bytes); assert.equal(sha(bytes), request.expectedRootReview.rawBytesSha256);\nassert.equal(request.expectedRootReviewBody.actualG2Authorized, true);\nassert.equal(request.expectedRootReviewBody.normalTaxPOSTGranted, true); assert.equal(request.expectedRootReviewBody.FIGranted, false);\n",
+  "modelBoundary": "Only exact pure helpers, selected actual pre-write assertion statements and outer guard span run with synthetic decoded objects/pin/state/review buffers. No complete module, metadata program, prepared data, raw FI evidence or native runtime is executed. This is not a full34-key/eight-source runtime or rollback oracle.",
+  "sourcePinsBeforeAfterStable": true,
+  "actualFIOrPrepareResultRead": false,
+  "currentOrdinaryStateOrTicketValuesRead": false,
+  "RootOrPrivateWritten": false,
+  "productionModulesExecuted": false,
+  "actualDispatches": 0,
+  "nativeOrContextCalls": 0,
+  "SQLHTTP": false,
+  "globalFSOrCryptoPatched": false
+}
