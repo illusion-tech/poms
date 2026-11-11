@@ -1,0 +1,510 @@
+{
+  "kind": "I-proposed-runtime121-publication-contract",
+  "version": 1,
+  "status": "DESIGN_ONLY",
+  "issue": 121,
+  "plan": {
+    "kind": "source15-append-runtime-plan121",
+    "protocolVersion": 1,
+    "keys": [
+      "kind",
+      "protocolVersion",
+      "namespace",
+      "epoch",
+      "run",
+      "nonce",
+      "base",
+      "current",
+      "composition",
+      "stateTransfer",
+      "tooling",
+      "outputs"
+    ],
+    "baseKeys": [
+      "codeAdmission15",
+      "codeCandidate15",
+      "approvedCodePlan15",
+      "sourcePins",
+      "compilePins",
+      "helperPins227",
+      "buildBinding",
+      "retainedState15",
+      "ownership15",
+      "sourceArchive121",
+      "sourceArchiveSupplement121",
+      "runtimeLossObservation",
+      "failedInvocation",
+      "failedInvocationReview",
+      "prepared15",
+      "fullInventory",
+      "bodySHA256",
+      "preparedBaseline"
+    ],
+    "currentKeys": [
+      "sourcePins",
+      "compilePins",
+      "helperPins",
+      "helperCount",
+      "binary",
+      "summaryBinary",
+      "binaryFiles",
+      "nodeExecutable",
+      "lifetimeOwner",
+      "PGStart",
+      "PGConservation",
+      "apiProcess",
+      "readiness"
+    ],
+    "compositionKeys": [
+      "helperComposition",
+      "externalComposition",
+      "independentCodeReviews"
+    ],
+    "toolingKeys": [
+      "manifest",
+      "executionSources"
+    ],
+    "outputKeys": [
+      "registryFile",
+      "candidateFile",
+      "receiptDirectory"
+    ],
+    "scope": "scope121 = SHA256(canonical plain-JSON full plan). Plan contains only concrete prior pins and output path strings, never its own hash, approval/review, future registry/candidate pins, or future state publication.",
+    "verification": "verifyRuntimePlan121 validates closed shape and complete actual inputs with no createContext. The base parent is verified with typed historical archive resolver, never old live source15 guard or fake ctx."
+  },
+  "parentSpec": {
+    "kind": "retained-source15-parent-spec121",
+    "keys": [
+      "codeAdmission15",
+      "codeCandidate15",
+      "approvedCodePlan15",
+      "sourcePins",
+      "compilePins",
+      "helperPins227",
+      "buildBinding",
+      "retainedState15",
+      "ownership15",
+      "sourceArchive121",
+      "sourceArchiveSupplement121",
+      "runtimeLossObservation",
+      "failedInvocation",
+      "failedInvocationReview",
+      "prepared15",
+      "fullInventory",
+      "bodySHA256",
+      "preparedBaseline"
+    ],
+    "basePlanValueIdentity": "The exact plan.base fields are passed to the historical verifier; no overload/fallback/reader option.",
+    "requirements": [
+      "Original Reg5/B1 and original approved plan remain exact raw bytes and original meanings. Validate immutable119/14/13/12/108/119-tool historical chain, actual resource births and ownership/log/command receipts.",
+      "Old227, original plan tooling14, actual e798 Root8, actual12025 and H9 external4 are an exact source-map union. Map every required originalPin to a strict private regular nlink1 immutable raw copy. Validate original source descriptors and source identity; missing/extra/conflicting aliases rejected.",
+      "Source archives are proof data only, never imported/executed. No read of a newly promoted current path with an old SHA and no ctx.win=archive replacement.",
+      "Old dead API process record is retained historical fact. Do not read its nonexistent /proc, relabel its boot/PID or require old dev/ino to match new boot.",
+      "Same ELF/Common bytes and actual original build lineage remain strict; real new boot and filesystem stats belong to current121 independently.",
+      "Prepared result, original body bytes/hash, full ordered inventory, original success closed journal/native entry and exit must close against frozen taxContinuation15 exactly.",
+      "The only continuable failed invocation is the named original da94-reviewed zero-HTTP/control failed-preserve. Validate originals plus full Root RO conservation; retain failed label and do not infer any unknown/dispatched/ACK attempt safe. No new generic permission to clear blockedObservation or activeFault."
+    ]
+  },
+  "registry": {
+    "kind": "verified-Source15-append-runtime-registry121",
+    "schemaVersion": 1,
+    "protocolVersion": 1,
+    "fields": [
+      "kind",
+      "schemaVersion",
+      "protocolVersion",
+      "namespace",
+      "epoch",
+      "run",
+      "nonce",
+      "baseCodeRegistry",
+      "baseCodeCandidate",
+      "approvedPlan",
+      "scope121",
+      "independentInputReview",
+      "RootExecutionApproval",
+      "retained",
+      "current",
+      "composition",
+      "sourceArchive",
+      "G3Certified",
+      "G4Certified"
+    ],
+    "futureCandidateBackreference": false,
+    "codeEpochChanged": false,
+    "sameM98": true,
+    "businessBaselineReset": false
+  },
+  "candidate": {
+    "kind": "actual-Source15-runtime-candidate121",
+    "protocolVersion": 1,
+    "fields": [
+      "kind",
+      "protocolVersion",
+      "namespace",
+      "epoch",
+      "run",
+      "nonce",
+      "runtimeAdmission121",
+      "baseCodeRegistry",
+      "baseCodeCandidate",
+      "scope121",
+      "current",
+      "G3Certified",
+      "G4Certified"
+    ],
+    "runtimeAdmission121": "actual written/readback runtime registry pin",
+    "baseCodeCandidate": "exact original B1 pin; retain its original consumer/build/readiness identity, not overwrite",
+    "ordinaryUse": "Only accepted jointly with the same state marker + current Native validation; never old B0 or B1 alone."
+  },
+  "APIProcessRecord": {
+    "kind": "actual-source15-owned-API-process121",
+    "protocolVersion": 1,
+    "required": [
+      "kind",
+      "protocolVersion",
+      "namespace",
+      "epoch",
+      "run",
+      "root",
+      "port",
+      "pid",
+      "startTime",
+      "bootId",
+      "binary",
+      "binarySha256",
+      "binaryFiles",
+      "baseBuildBinding",
+      "sourcePins",
+      "compilePins",
+      "helperPins",
+      "baseAPIProcess",
+      "lifetimeOwner",
+      "normalEnv",
+      "baseNormalEnv",
+      "readinessAttempt",
+      "input",
+      "code"
+    ],
+    "rootOwner": "Root runtime-recovery121/root/start-api121.mjs only; new code G1/G2 required, original119 API record unchanged.",
+    "noFutureAuthorityField": true,
+    "sameBinaryNotSameProcess": "No Cargo; verify bytes same85d9 and actual new /proc/boot/exe/cwd/env/socket/stat. Process record does not point to the future registry/candidate.",
+    "readiness": {
+      "mode": "start",
+      "port": 31441,
+      "readiness": 200,
+      "privateCredentialsPrinted": false,
+      "pid": "actual new PID",
+      "binarySha256": "actual same-byte binary SHA"
+    },
+    "currentHelperNotCompiled": "New229 Node helper graph is explicit runtime composition, not falsely claimed as old Cargo output."
+  },
+  "externalPublisher": {
+    "file": "tools/rust-r4ghi/runtime-recovery121/native/publish-runtime121.mjs",
+    "modes": [
+      "inspect",
+      "publish"
+    ],
+    "inspectCLI": [
+      "--input",
+      "FILE",
+      "--approved-input-sha",
+      "SHA",
+      "--inspect"
+    ],
+    "publishCLI": [
+      "--input",
+      "FILE",
+      "--approved-input-sha",
+      "SHA",
+      "--review",
+      "FILE",
+      "--approved-review-sha",
+      "SHA",
+      "--execute"
+    ],
+    "nativeFunctionsFixed": [
+      "verifyRuntimePlan121"
+    ],
+    "effectScope": "FS only: output artifacts/new registry/new candidate + explicit locked same-state-file CAS. No context factory or process/SQL/HTTP/services/Cargo/Git/Issue.",
+    "preImport": "Strict local read input/review + complete actual source/tooling/code-review closure and own source before dynamic import. No unverified module used to verify itself.",
+    "exclusiveOwner": "Use original driver.lock namespace; acquire before any current-state or immutable output writes. Never remove stale foreign lock or auto retry.",
+    "appendCount": "First explicitly approved lease only; preimage.runtimeAdmission121 must be absent. A later process loss requires a new exact reviewed append, not automatic restart.",
+    "approval": {
+      "kind": "Root-approved-exact-runtime-admission121",
+      "keys": [
+        "kind",
+        "approvedPlan",
+        "scope121",
+        "independentInputReview",
+        "operator",
+        "expectedState",
+        "expectedOwnership",
+        "actualG2Authorized",
+        "FSStatePublicationGranted",
+        "APIStartGranted",
+        "PGWriteGranted",
+        "TaxHTTPGranted"
+      ],
+      "actualG2Authorized": true,
+      "FSStatePublicationGranted": true,
+      "APIStartGranted": false,
+      "PGWriteGranted": false,
+      "TaxHTTPGranted": false,
+      "operator": "actual final operator file/rawSHA, not an alias"
+    }
+  },
+  "order": [
+    {
+      "step": 1,
+      "phase": "A-holder/PG/RO",
+      "owner": "Root",
+      "requires": "A exact G2 per frozen mode",
+      "produces": "Actual live lifetime holder, original-PG resume receipt and independent dual139x2 conservation against snapshot21; not API/current authority."
+    },
+    {
+      "step": 2,
+      "phase": "archive-and-finite-promotion",
+      "owner": "Root",
+      "requires": "Actual old source base+supplement archive, code reviews, exact finite composition and source-safety approval",
+      "produces": "Actual229 helper graph and finite external execution closure; no old proof rewrite."
+    },
+    {
+      "step": 3,
+      "phase": "B-new-API",
+      "owner": "Root",
+      "requires": "Live actual holder, actual same-PG RO, Source420/compile528 unchanged, exact Root B G1/G2",
+      "produces": "Actual new API/readiness/process/stat code-bound receipts. Registry/candidate/current state remain absent."
+    },
+    {
+      "step": 4,
+      "phase": "inspect",
+      "owner": "I-code/Root-executor",
+      "requires": "Concrete plan and all step1-3 facts, expected current state/ownership raw preimage",
+      "produces": "FS-only inspect result/evidence, currentGranted=false; no candidate or state mint."
+    },
+    {
+      "step": 5,
+      "phase": "input-review-and-G2",
+      "owner": "Independent reviewer and Root",
+      "requires": "Actual plan raw pin + scope121 + all closure/input facts + exact operator",
+      "produces": "Independent actual-input review then Root exact FS publication approval; neither references future output pins."
+    },
+    {
+      "step": 6,
+      "phase": "publish-registry",
+      "owner": "Root",
+      "requires": "Exclusive lock + exact preimage CAS + idle proof + all prior facts fresh",
+      "produces": "wx/no-replace registry, strict readback actual pin. No candidate backreference."
+    },
+    {
+      "step": 7,
+      "phase": "publish-candidate",
+      "owner": "Root",
+      "requires": "Actual readback registry pin + original B1 + exact tuple",
+      "produces": "wx/no-replace runtime candidate, strict readback actual pin. No pretend candidate pin input."
+    },
+    {
+      "step": 8,
+      "phase": "activate-state",
+      "owner": "Root",
+      "requires": "Actual readback registry AND candidate + rechecked exclusive lock/current-state/ownership CAS",
+      "produces": "Atomic current state replacement, strict readback and exact permitted delta; then completion receipt. Any partial/orphan leaves saved and STOP, no silent overwrites or replay."
+    },
+    {
+      "step": 9,
+      "phase": "real-constructor-technical-acceptance",
+      "owner": "Root/independent acceptance",
+      "requires": "Published state, new process live, full actual229/code/source validated",
+      "produces": "Actual unmodified createContext chain through consumer54 Native121; no constructor cloned from model or state-only claim."
+    },
+    {
+      "step": 10,
+      "phase": "H-fresh-prepare-only-continuation",
+      "owner": "H-code/Root-executor",
+      "requires": "Actual constructor acceptance + native historical origin + new exact prepare-only input G2",
+      "produces": "New taxContinuation121 prepared result after fresh server targets/physical roots/all peers/CAS/body/full67 all exact; STOP on any difference. Original08e3/67/body0f92/7f75 remain unmodified."
+    },
+    {
+      "step": 11,
+      "phase": "new-FI-and-normal",
+      "owner": "Root plus independent exact-input review",
+      "requires": "Actual new121 prepare complete/closedverified, new closed-set G2 then separate normal G2",
+      "produces": "Only original approved operations; each family fresh runtime/current data/actor/control proof, normal once. Unknown/ACK never replay."
+    }
+  ],
+  "stateTransfer": {
+    "publicationOnlyWholePreimage": true,
+    "preserveTopLevelRule": "Unknown old top-level keys preserved exactly; reject undocumented replacement/drop. Base code/proofs never put through generic cache rewrite.",
+    "mustPreserve": [
+      "schemaVersion",
+      "namespace",
+      "marker",
+      "epoch",
+      "run",
+      "createdAt",
+      "prefix",
+      "sequence",
+      "sourcePins",
+      "consumerAdmission54",
+      "codeEpochAdmission15",
+      "baseline",
+      "schemaComparison108",
+      "fixtures",
+      "objects",
+      "owned",
+      "borrowed",
+      "taxContinuation13",
+      "taxContinuation14",
+      "taxContinuation15",
+      "producerExecutionHistory252",
+      "producerExecutionHistory15"
+    ],
+    "preserveNested": [
+      "/consumerChecks/tax15Invocation118 (entire old journal with failed-preserve label)",
+      "/actors/*/id and all actor metadata except explicitly declared cookies+permissions runtime cache"
+    ],
+    "replaceOnly": {
+      "/apiProcess": "actual current new API pin+record"
+    },
+    "addOnly": [
+      "/runtimeAdmission121 (exact ABI marker)",
+      "/runtimeHistory121 (one explicit original-state/API/archive/failure-disposition provenance entry)"
+    ],
+    "actorCache": "Only exact G1/G2-declared cookies and permissions clear to empty for fresh login. Actor IDs/account facts unchanged; old values remain in immutable retained state. No authority inferred from clearing.",
+    "forbidden": [
+      "source epoch or prefix reset",
+      "sequence/history rewind",
+      "ownership latest rewrite",
+      "old failure label rewrite",
+      "old taxContinuation15 alias to121",
+      "automatic clearing of control/pending/blocked/unknown",
+      "resource birth relabel"
+    ],
+    "runtimeAfterPublication": "Do NOT deepEqual the entire current state/owned.latest/actors/new consumerChecks to frozen preimage on every runtime call. Only immutable base/history/producer projection and ownership birth remain strict; legitimate new121 effects advance current latest through existing ledger.",
+    "closedKeys": [
+      "expectedState",
+      "expectedOwnership",
+      "actorCacheDelta"
+    ],
+    "apiProcessShape": {
+      "file": "actual new API record canonical file",
+      "rawBytesSha256": "actual new API record SHA",
+      "record": "exact actual JSON read from that pin"
+    },
+    "pinIdentity": "All Pin equality uses canonical file+rawBytesSha256; bytes when present must match actual length but never create false whole-object inequality. State.apiProcess has exactly the three listed keys; current.apiProcess is the pin, current.apiRecord is the record."
+  },
+  "rootMapping": [
+    {
+      "destination": "new runtimeBindings.current.runtimeAdmission121",
+      "source": "actual written/readback runtime registry pin; equals currentRuntime121(ctx).authorityPin"
+    },
+    {
+      "destination": "runtimeBindings.current.codeAdmission15 / top input.codeAdmission15",
+      "source": "original Reg5 pin = code.registryPin, never current runtime registry"
+    },
+    {
+      "destination": "runtimeBindings.current.candidate / top input.candidate",
+      "source": "actual new RuntimeCandidate pin = current.candidate, not original B0/B1"
+    },
+    {
+      "destination": "runtimeBindings.current.apiProcess / top input.apiProcess",
+      "source": "actual new API pin = current.apiProcess and explicit current state.apiProcess"
+    },
+    {
+      "destination": "runtimeBindings.current.helperPins/helperSources/helperCount",
+      "source": "actual full229 pin/array/count = current; expected-only graph or original227 not current"
+    },
+    {
+      "destination": "runtimeBindings.current.sourcePins/sourcePinsSHA256/sourceCount",
+      "source": "same real420 manifest/canonical digest/count; no refreshed Rust source"
+    },
+    {
+      "destination": "runtimeBindings.current.compilePins",
+      "source": "same actual528 pin; no rebuild merely for process loss"
+    },
+    {
+      "destination": "runtimeBindings.current.binary/binaryFiles/trustedSummaryBinary",
+      "source": "same real ELF/Common bytes plus separately actual current stat/process facts; preserve old build binding"
+    },
+    {
+      "destination": "H current mutable record/journal",
+      "source": "state.taxContinuation121 and consumerChecks.taxInvocation121 only"
+    },
+    {
+      "destination": "retained prepare input and historical Main13",
+      "source": "readRetainedPreparation121/readRetainedCommand121 strict origin; no source/runtime identity rewrite or POSTMain"
+    },
+    {
+      "destination": "oldFI04/normal05 metadata",
+      "source": "Must use a named new edition reading taxContinuation121.sweep. Old tools reading taxContinuation15.sweep are historical only and cannot be retried as current."
+    }
+  ],
+  "nullBeforeActual": {
+    "lifetimeOwner": null,
+    "PGStart": null,
+    "PGConservation": null,
+    "helperPins229": null,
+    "newAPI": null,
+    "newReadiness": null,
+    "plan": null,
+    "inputReview": null,
+    "RootG2": null,
+    "registry": null,
+    "candidate": null,
+    "statePublication": null,
+    "constructorAcceptance": null,
+    "newPrepare121": null,
+    "newFI": null,
+    "newNormal": null
+  },
+  "businessGate": {
+    "G3": false,
+    "G4": false,
+    "parent57": "OPEN",
+    "fullR5_116": "OPEN"
+  },
+  "implementationGranted": false,
+  "actualG2Authorized": false,
+  "existingArchiveFacts": {
+    "base": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/base-source15-retained121-01/original-source-map121.json",
+      "bytes": 278381,
+      "rawBytesSha256": "7085c71ee2fa244b5c4c10c582b17b45cc2dcad56967376305e8f05526db92a2"
+    },
+    "supplement": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/base-source15-retained121-supplement01/original-source-supplement121.json",
+      "bytes": 2719,
+      "rawBytesSha256": "0b0bd1ccc4931674cf986b5ac56f186abc5f799b9fa331dc4d6d28a7e3c9786d"
+    },
+    "uniqueSources": 270,
+    "sourcePreservationOnly": true,
+    "NativeAuthorityGranted": false
+  },
+  "ownerVerification": {
+    "RootAttestation": "Original actual Windows holder launch PID/creation/exe and hidden WSL foreground ownership are pinned Root facts, not guessed from idle settings.",
+    "NativeFresh": "Each current check validates actual Linux owner boot/PID/start/exe identity plus actual live API; Native does not claim it queried fresh Windows CIM merely by reading the pinned launch receipt.",
+    "noGlobalChange": "No vmIdleTimeout/systemd/global configuration edits or auto restart. Host reboot/new boot invalidates the live lease; another exact protocol is required."
+  },
+  "preAPIPhase": {
+    "allowedFunction": "verifyRetainedSource15For121(parentSpec)",
+    "required": "Concrete original historical parent/archive/frozen-state/prepare evidence. Root API tool independently requires actual current229/source420/compile528/lifetimeOwner/PG RO facts under B G2.",
+    "notRequiredYet": [
+      "new API process",
+      "readiness",
+      "runtime registry",
+      "runtime candidate",
+      "state marker",
+      "context acceptance"
+    ],
+    "return": "retainedParentOnly=true/currentRuntimeGranted=false/currentEffectsGranted=false",
+    "noCycle": "Do not call currentRuntime121 or verifyRuntimePlan121 before new API exists; publisher/inspect do require it."
+  },
+  "approvedRootViews": {
+    "source": "tools/rust-r4ghi/legacy-authority15-284/facts284.mjs::newWitnessView284 (protected original bytes)",
+    "scope": "Existing Root persisted fixture lens only: reserved registered resource roots proxy actual root read-only, new witness fixture fields stay in the actual persisted witness record, and exactly8 original Root-owned methods delegate.",
+    "NativeRule": "Full/current checks validate exact lease/source/process/ownership birth and the individually registered retained resource projections. Do not compare the whole ctx.state.fixtures/current owned.latest/actors to retained15 or demand root===view.",
+    "bindingRule": "Root and view each obtain a full Native verification for their own object identity. Their private verifiedRuntime objects cannot be exchanged. No signer/callback/reader/ctx methods injected.",
+    "prohibited": "Do not widen view business writes, alter reserved roots, return raw Root through reflection, or create a fake parent/current registry."
+  }
+}

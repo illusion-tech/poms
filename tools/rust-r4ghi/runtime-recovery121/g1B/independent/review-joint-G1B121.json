@@ -1,0 +1,685 @@
+{
+  "kind": "non-author-runtime-recovery121-joint-G1B-design-review",
+  "edition": 1,
+  "issue": 121,
+  "verdict": "recommend-bounded-code-only-G1-freeze",
+  "status": "DESIGN_RECOMMENDATION_ONLY_NOT_CODE_READY_OR_ACTUAL_G2",
+  "recordedAt": "2026-11-11T17:55:59.701Z",
+  "authors": [
+    "I / r4_period_engineering206",
+    "H / r4h_engineering"
+  ],
+  "reviewer": "/root/r4ghi_final_gates13",
+  "reviewerIsAuthor": false,
+  "inputs": {
+    "IManifest": {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-G1-proposal01/manifest121-G1-proposal01.json",
+      "bytes": 8179,
+      "rawBytesSha256": "792eb867a387e1c76fb528b97d7c60515fc514c63a7841c50497ae3f43ae1220"
+    },
+    "HManifest": {
+      "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/source15-lease-tax121-G1-proposal01/manifest-H-consumer-seams121-G1-PROPOSAL.json",
+      "bytes": 7268,
+      "rawBytesSha256": "01f6299f93e3794648c2f29804b709c3a14e6f4ec3fed7fbfea432e614f1f3de"
+    },
+    "NativeABI": {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-G1-proposal01/ABI121-v1.PROPOSED.json",
+      "bytes": 18507,
+      "rawBytesSha256": "f96c5f4ba884fcaa67cca102becc58e3a3d590e961af38506c3eed78ff440fcf"
+    },
+    "NativePublication": {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-G1-proposal01/publication121.PROPOSED.json",
+      "bytes": 20927,
+      "rawBytesSha256": "b80ed6fcdd47c1a785640a58c515ff7a72ed713c43c79c6bb2edd47c036889d3"
+    },
+    "HResolvedScope": {
+      "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/source15-lease-tax121-G1-proposal01/resolved-source-scope121.PROPOSED.json",
+      "bytes": 136737,
+      "rawBytesSha256": "41cc12436ea108abbf19006be27df0b890d718a3ef4cc9efd9050d8da0595875"
+    },
+    "HNativeV1Alignment": {
+      "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/source15-lease-tax121-G1-proposal01/native-v1-alignment121.PROPOSED.json",
+      "bytes": 3440,
+      "rawBytesSha256": "f35251fb29ce7ffaa8dd3fd226b68f59e885c912e5de5f3919cc0d12929f075f"
+    },
+    "H18Append": {
+      "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/source15-lease-tax121-G1-proposal01/scope18-native121-append.PROPOSED.json",
+      "bytes": 4456,
+      "rawBytesSha256": "58c170a590f443d204f891a1f35c95de1bc4098228e24cdef536839552addb0c"
+    }
+  },
+  "recommendation": {
+    "RootMayFreezeOneJointG1BForCodeOnly": true,
+    "RootExplicitImplementationAuthorizationStillRequired": true,
+    "scope": {
+      "I": {
+        "H3_ADD": 2,
+        "H3_MOD": 5,
+        "externalExecutable_ADD": 1,
+        "externalNullTemplate_ADD": 1,
+        "validationFiles": 4,
+        "products": [
+          {
+            "file": "tools/rust-r4ghi/business/runtime-admission121.mjs",
+            "operation": "ADD",
+            "inH3": true,
+            "before": null,
+            "beforeSHA256": null,
+            "afterSHA256": null,
+            "owner": "I"
+          },
+          {
+            "file": "tools/rust-r4ghi/business/runtime-admission-core121.mjs",
+            "operation": "ADD",
+            "inH3": true,
+            "before": null,
+            "beforeSHA256": null,
+            "afterSHA256": null,
+            "owner": "I"
+          },
+          {
+            "file": "tools/rust-r4ghi/business/consumer-admission54.mjs",
+            "operation": "MOD",
+            "inH3": true,
+            "before": {
+              "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/consumer-admission54.mjs",
+              "bytes": 13779,
+              "rawBytesSha256": "d7eb968758b76625eb954e69d32a80f16c29ac891cf1cabd9b78d0e6322f3d88"
+            },
+            "beforeSHA256": "d7eb968758b76625eb954e69d32a80f16c29ac891cf1cabd9b78d0e6322f3d88",
+            "afterSHA256": null,
+            "owner": "I"
+          },
+          {
+            "file": "tools/rust-r4ghi/business/http.mjs",
+            "operation": "MOD",
+            "inH3": true,
+            "before": {
+              "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/http.mjs",
+              "bytes": 11472,
+              "rawBytesSha256": "7eb4ca4a5c15bccfd85256e7ea0b18e8ad2b905341f876e1ab21a25f2745ae86"
+            },
+            "beforeSHA256": "7eb4ca4a5c15bccfd85256e7ea0b18e8ad2b905341f876e1ab21a25f2745ae86",
+            "afterSHA256": null,
+            "owner": "I"
+          },
+          {
+            "file": "tools/rust-r4ghi/business/fault-sweep.mjs",
+            "operation": "MOD",
+            "inH3": true,
+            "before": {
+              "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/fault-sweep.mjs",
+              "bytes": 25506,
+              "rawBytesSha256": "90b91ff48edbd101a5535ffb271ff40334c96030c33f5f8e77951b0f45f00f85"
+            },
+            "beforeSHA256": "90b91ff48edbd101a5535ffb271ff40334c96030c33f5f8e77951b0f45f00f85",
+            "afterSHA256": null,
+            "owner": "I"
+          },
+          {
+            "file": "tools/rust-r4ghi/business/gh-write-facts.mjs",
+            "operation": "MOD",
+            "inH3": true,
+            "before": {
+              "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/gh-write-facts.mjs",
+              "bytes": 26977,
+              "rawBytesSha256": "eaa486ddf8a407615aeb42b50a60a8828b2fb6838711e6abedbc56e697527901"
+            },
+            "beforeSHA256": "eaa486ddf8a407615aeb42b50a60a8828b2fb6838711e6abedbc56e697527901",
+            "afterSHA256": null,
+            "owner": "I"
+          },
+          {
+            "file": "tools/rust-r4ghi/business/trusted.mjs",
+            "operation": "MOD",
+            "inH3": true,
+            "before": {
+              "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/trusted.mjs",
+              "bytes": 7300,
+              "rawBytesSha256": "65bf68e4d209219cf3177aff515af52d520ada5f94a63c5102aa811f6480313d"
+            },
+            "beforeSHA256": "65bf68e4d209219cf3177aff515af52d520ada5f94a63c5102aa811f6480313d",
+            "afterSHA256": null,
+            "owner": "I"
+          },
+          {
+            "file": "tools/rust-r4ghi/runtime-recovery121/native/publish-runtime121.mjs",
+            "operation": "ADD",
+            "inH3": false,
+            "before": null,
+            "beforeSHA256": null,
+            "afterSHA256": null,
+            "owner": "I"
+          },
+          {
+            "file": "tools/rust-r4ghi/runtime-recovery121/native/input121.template.json",
+            "operation": "ADD",
+            "inH3": false,
+            "before": null,
+            "beforeSHA256": null,
+            "afterSHA256": null,
+            "owner": "I"
+          }
+        ]
+      },
+      "H": {
+        "MOD": 18,
+        "H3_MOD": 4,
+        "externalMOD": 14,
+        "PROTECT_UNCHANGED": 24,
+        "validationProductionTestFiles": 3,
+        "validationRunnerAndSealer": 2,
+        "products": [
+          {
+            "file": "tools/rust-r4ghi/tax15-invocation118/run-tax15-once.mjs",
+            "operation": "MOD",
+            "inH3": false,
+            "before": {
+              "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/run-tax15-once.mjs",
+              "bytes": 22148,
+              "rawBytesSha256": "0f5fed8fabce7d65f3a4854da0f1ce751889c296933cff7ebc73ede0e7af0667"
+            },
+            "beforeSHA256": "0f5fed8fabce7d65f3a4854da0f1ce751889c296933cff7ebc73ede0e7af0667",
+            "afterSHA256": null,
+            "owner": "H"
+          },
+          {
+            "file": "tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs",
+            "operation": "MOD",
+            "inH3": false,
+            "before": {
+              "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs",
+              "bytes": 49154,
+              "rawBytesSha256": "a5b50ba102c4def8ebf0594a4cfa5ff207ee9a0e3452875385a5806659e0bfb8"
+            },
+            "beforeSHA256": "a5b50ba102c4def8ebf0594a4cfa5ff207ee9a0e3452875385a5806659e0bfb8",
+            "afterSHA256": null,
+            "owner": "H"
+          },
+          {
+            "file": "tools/rust-r4ghi/tax15-invocation118/retained-tax-proof.mjs",
+            "operation": "MOD",
+            "inH3": false,
+            "before": {
+              "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/retained-tax-proof.mjs",
+              "bytes": 40411,
+              "rawBytesSha256": "618a267c67b4ad58ebe45aa5c37934e858cadd37c77eacbc3794424061226a0f"
+            },
+            "beforeSHA256": "618a267c67b4ad58ebe45aa5c37934e858cadd37c77eacbc3794424061226a0f",
+            "afterSHA256": null,
+            "owner": "H"
+          },
+          {
+            "file": "tools/rust-r4ghi/tax15-invocation118/tax15-once-effects.mjs",
+            "operation": "MOD",
+            "inH3": false,
+            "before": {
+              "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tax15-once-effects.mjs",
+              "bytes": 19392,
+              "rawBytesSha256": "23cd16985eb2ba9f4adc321a73d31e8c510f453d62765a0040f8eba78d9045b2"
+            },
+            "beforeSHA256": "23cd16985eb2ba9f4adc321a73d31e8c510f453d62765a0040f8eba78d9045b2",
+            "afterSHA256": null,
+            "owner": "H"
+          },
+          {
+            "file": "tools/rust-r4ghi/tax15-invocation118/tax15-once-wire.mjs",
+            "operation": "MOD",
+            "inH3": false,
+            "before": {
+              "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tax15-once-wire.mjs",
+              "bytes": 21490,
+              "rawBytesSha256": "a28a79bd8c110e3767ec5c63a9775884d38ed1523b8a0afb394353d33bcfb65f"
+            },
+            "beforeSHA256": "a28a79bd8c110e3767ec5c63a9775884d38ed1523b8a0afb394353d33bcfb65f",
+            "afterSHA256": null,
+            "owner": "H"
+          },
+          {
+            "file": "tools/rust-r4ghi/tax15-invocation118/tax15-prepare.mjs",
+            "operation": "MOD",
+            "inH3": false,
+            "before": {
+              "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tax15-prepare.mjs",
+              "bytes": 8764,
+              "rawBytesSha256": "e811b348e4e8e0c673d663b1166e7b05848e0ad0e918b81450847d78c5e8b0cb"
+            },
+            "beforeSHA256": "e811b348e4e8e0c673d663b1166e7b05848e0ad0e918b81450847d78c5e8b0cb",
+            "afterSHA256": null,
+            "owner": "H"
+          },
+          {
+            "file": "tools/rust-r4ghi/business/policy-security-runtime15.mjs",
+            "operation": "MOD",
+            "inH3": true,
+            "before": {
+              "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/policy-security-runtime15.mjs",
+              "bytes": 9485,
+              "rawBytesSha256": "d1f0b64fa934093e48fd15451dee0477af5233956c65f1390147bf4e7ec0630c"
+            },
+            "beforeSHA256": "d1f0b64fa934093e48fd15451dee0477af5233956c65f1390147bf4e7ec0630c",
+            "afterSHA256": null,
+            "owner": "H"
+          },
+          {
+            "file": "tools/rust-r4ghi/business/policy-security-bindings15.json",
+            "operation": "MOD",
+            "inH3": true,
+            "before": {
+              "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/policy-security-bindings15.json",
+              "bytes": 573,
+              "rawBytesSha256": "f233c591e9a41b537ee4be9a16e9ba2af9ddf9115abb32c7d6323d72704ce562"
+            },
+            "beforeSHA256": "f233c591e9a41b537ee4be9a16e9ba2af9ddf9115abb32c7d6323d72704ce562",
+            "afterSHA256": null,
+            "owner": "H"
+          },
+          {
+            "file": "tools/rust-r4ghi/business/policy-current-h46-15.mjs",
+            "operation": "MOD",
+            "inH3": true,
+            "before": {
+              "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/policy-current-h46-15.mjs",
+              "bytes": 14134,
+              "rawBytesSha256": "e47d128b3a7b4f0e076ca36a08f672148a179a8b47581c4076c5a2a8a512a05a"
+            },
+            "beforeSHA256": "e47d128b3a7b4f0e076ca36a08f672148a179a8b47581c4076c5a2a8a512a05a",
+            "afterSHA256": null,
+            "owner": "H"
+          },
+          {
+            "file": "tools/rust-r4ghi/business/labor-mask15.mjs",
+            "operation": "MOD",
+            "inH3": true,
+            "before": {
+              "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/labor-mask15.mjs",
+              "bytes": 38606,
+              "rawBytesSha256": "5161fe5d07a0e9ce9928fc0082486b420411e3f812e7873a18823c7f5ac3b5cf"
+            },
+            "beforeSHA256": "5161fe5d07a0e9ce9928fc0082486b420411e3f812e7873a18823c7f5ac3b5cf",
+            "afterSHA256": null,
+            "owner": "H"
+          },
+          {
+            "file": "tools/rust-r4ghi/policy-role15/setup-role15.mjs",
+            "operation": "MOD",
+            "inH3": false,
+            "before": {
+              "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/policy-role15/setup-role15.mjs",
+              "bytes": 25168,
+              "rawBytesSha256": "627e914eff3e77997de6c3d9abc230e74cee5810b51b8b45587b1d99d55b8a72"
+            },
+            "beforeSHA256": "627e914eff3e77997de6c3d9abc230e74cee5810b51b8b45587b1d99d55b8a72",
+            "afterSHA256": null,
+            "owner": "H"
+          },
+          {
+            "file": "tools/rust-r4ghi/tax15-readonly/runtime15.mjs",
+            "operation": "MOD",
+            "inH3": false,
+            "before": {
+              "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-readonly/runtime15.mjs",
+              "bytes": 13985,
+              "rawBytesSha256": "83203b158fa4611b700b5148134d649eed46921ad660e9a8b7b559ce99f193d0"
+            },
+            "beforeSHA256": "83203b158fa4611b700b5148134d649eed46921ad660e9a8b7b559ce99f193d0",
+            "afterSHA256": null,
+            "owner": "H"
+          },
+          {
+            "file": "tools/rust-r4ghi/tax15-readonly/facts15.mjs",
+            "operation": "MOD",
+            "inH3": false,
+            "before": {
+              "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-readonly/facts15.mjs",
+              "bytes": 46017,
+              "rawBytesSha256": "271c8bf82f814bd671afd4d2d121121c15be9b621ce2964da781d05f8325171f"
+            },
+            "beforeSHA256": "271c8bf82f814bd671afd4d2d121121c15be9b621ce2964da781d05f8325171f",
+            "afterSHA256": null,
+            "owner": "H"
+          },
+          {
+            "file": "tools/rust-r4ghi/policy-continuation15-287/run287.mjs",
+            "operation": "MOD",
+            "inH3": false,
+            "before": {
+              "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/policy-continuation15-287/run287.mjs",
+              "bytes": 17061,
+              "rawBytesSha256": "99a4434b8f8cb78c2868dbdb70a7bef4aa81d163265748982cb47065b964dfbd"
+            },
+            "beforeSHA256": "99a4434b8f8cb78c2868dbdb70a7bef4aa81d163265748982cb47065b964dfbd",
+            "afterSHA256": null,
+            "owner": "H"
+          },
+          {
+            "file": "tools/rust-r4ghi/legacy-authority15-284/witness284.mjs",
+            "operation": "MOD",
+            "inH3": false,
+            "before": {
+              "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/legacy-authority15-284/witness284.mjs",
+              "bytes": 4160,
+              "rawBytesSha256": "82ef8d7c733cd0eeaf526e7872e20eb3199be7a6df513531cd8a82bc0412f7a7"
+            },
+            "beforeSHA256": "82ef8d7c733cd0eeaf526e7872e20eb3199be7a6df513531cd8a82bc0412f7a7",
+            "afterSHA256": null,
+            "owner": "H"
+          },
+          {
+            "file": "tools/rust-r4ghi/legacy-authority15-284/runtime284.mjs",
+            "operation": "MOD",
+            "inH3": false,
+            "before": {
+              "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/legacy-authority15-284/runtime284.mjs",
+              "bytes": 6619,
+              "rawBytesSha256": "90cdd6ca29f835ab6fef95162dc43618d3922fb4488cda219666d838bd2f93b6"
+            },
+            "beforeSHA256": "90cdd6ca29f835ab6fef95162dc43618d3922fb4488cda219666d838bd2f93b6",
+            "afterSHA256": null,
+            "owner": "H"
+          },
+          {
+            "file": "tools/rust-r4ghi/period15-270/runtime270.mjs",
+            "operation": "MOD",
+            "inH3": false,
+            "before": {
+              "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/period15-270/runtime270.mjs",
+              "bytes": 6753,
+              "rawBytesSha256": "68a19d3e729f1c8a0ebb2987b895d53c73ac8a46617230a6dcec9a3a02f98390"
+            },
+            "beforeSHA256": "68a19d3e729f1c8a0ebb2987b895d53c73ac8a46617230a6dcec9a3a02f98390",
+            "afterSHA256": null,
+            "owner": "H"
+          },
+          {
+            "file": "tools/rust-r4ghi/mixed15-271/runtime271.mjs",
+            "operation": "MOD",
+            "inH3": false,
+            "before": {
+              "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/mixed15-271/runtime271.mjs",
+              "bytes": 13818,
+              "rawBytesSha256": "c0bc4a9591cf90242c5a82406ee78fab9471656f12af4edd6eb28b7bc8fd9e35"
+            },
+            "beforeSHA256": "c0bc4a9591cf90242c5a82406ee78fab9471656f12af4edd6eb28b7bc8fd9e35",
+            "afterSHA256": null,
+            "owner": "H"
+          }
+        ]
+      },
+      "combined": {
+        "H3_ADD": 2,
+        "H3_MOD": 9,
+        "beforeHelperCount": 227,
+        "plannedHelperCount": 229,
+        "actualHelperCount": null,
+        "I_HProducts": 27,
+        "source420Changes": 0,
+        "compile528Changes": 0,
+        "RustOrDTORouteOrDDLChanges": 0
+      },
+      "RootBLauncher": {
+        "file": "tools/rust-r4ghi/runtime-recovery121/root/start-api121.mjs",
+        "role": "separately Root-owned named launcher; source-safety/code review and exact start input approval still required",
+        "codeApprovedByThisDesignReview": false
+      },
+      "RootA": {
+        "G1": {
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/g1A/Root-G1A-121.json",
+          "bytes": 4887,
+          "rawBytesSha256": "c20283d9a4e30d96f23d7f3890882e58a6f22e394fa9c747baa4c3a07968a68b"
+        },
+        "separateModes": [
+          "holder-start",
+          "pg-start",
+          "pg-observe"
+        ],
+        "AapprovalDoesNotGrantBOrNativeTax": true
+      }
+    }
+  },
+  "findings": [],
+  "designAccepted": {
+    "sameSource15ExplicitRuntimeAuthority": true,
+    "no1351OverlayOrReg5ConsumerMutation": true,
+    "originalCodeAndRuntimeSeparated": true,
+    "newCurrentRuntimeCandidateDistinctFromOriginalB1": true,
+    "realUnmodifiedContextConstructorRequired": true,
+    "partialConstructorMustMeasureWhole229BeforeHelperPinsExists": true,
+    "presentMalformedLeaseCannotFallBack": true,
+    "eachHTTPUsesFreshNativeLeaseCheck": true,
+    "rawACKSavedBeforePostguardError": true,
+    "firstUnknownAndACKNeverRedispatched": true,
+    "noRecursiveOldArchiveConsumer54OrContextInPerWireCheck": true,
+    "privateWeakMapCapabilityPerExactContextOnly": true,
+    "RootAndApprovedWitnessViewGetSeparateNativeVerification": true,
+    "RuntimeReferenceIsEvidenceNotCapability": true,
+    "GHAllowlistSameSixAndNullReadonlyNotEffect": true,
+    "exactOwnedActiveFICurrentValidationDoesNotPreventExistingCleanup": true,
+    "CommonSameActualBytesWithFreshStatAndOriginalBuildDistinct": true,
+    "registeredResourcesAndRealBirthOnlyNotWholeCurrentStateFrozen": true,
+    "historicalSourceResolverOnlyActualOriginalPinToImmutableRawCopy": true,
+    "archiveSourceNeverImportedOrExecuted": true,
+    "originalReg5B1AndOldProcessPreservedAsHistory": true,
+    "newRegistryThenActualReadbackCandidateThenLockedCASState": true,
+    "noFuturePinOrSelfHashInPlan": true,
+    "scopeAndRawPlanBothBoundByLaterInputReview": true,
+    "onlyExplicitStateAPILeaseHistoryActorCacheDelta": true,
+    "ownershipBaselineM97AndSchema108Retained": true,
+    "oldTax15AndJournalWholeRecordImmutable": true,
+    "newTaxRecordAndJournalNamed121": true,
+    "onlyNamedZeroEffectFailureMayBridgeWithoutRelabelling": true,
+    "freshPrepareOnlyAllGETRootsPeersCASBody67EqualityBeforeFI": true,
+    "newContinuationIndependentReadbackRequired": true,
+    "FThenCThenSThenStateNoCycle": true,
+    "fiveConsumerIDsAndWholeOwnRegistrationPreserved": true,
+    "mixedPriorPeriodOwnInputAndRegistrationPreserved": true,
+    "RoleWholeInputAndLaborNoSixthIDPreserved": true,
+    "allHBusinessAndProtectedAlgorithmsOutsideAllowedSeams": true
+  },
+  "implementationClarifications": [
+    {
+      "id": "G1B-C01",
+      "severity": "clarification-not-design-blocker",
+      "topic": "Exact JavaScript ABI",
+      "requirement": "Preserve consumeTax15Completion(ctx,{consumerId,consumerInput,registration}): two JavaScript positional arguments, with three closed keys in the second argument. Five-ID/three-argument wording denotes the established logical closed tuple; it must not introduce a third positional argument or a function.length===3 guard. Existing readTax15SecurityCompletion(ctx,environmentBindings15Pin,completionPin) remains the three-positional native reader.",
+      "source": {
+        "central": {
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/retained-tax-proof.mjs",
+          "bytes": 40411,
+          "rawBytesSha256": "618a267c67b4ad58ebe45aa5c37934e858cadd37c77eacbc3794424061226a0f"
+        },
+        "centralLine": 923,
+        "native": {
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-readonly/runtime15.mjs",
+          "bytes": 13985,
+          "rawBytesSha256": "83203b158fa4611b700b5148134d649eed46921ad660e9a8b7b559ce99f193d0"
+        },
+        "nativeLine": 35
+      }
+    },
+    {
+      "id": "G1B-C02",
+      "severity": "normative-priority",
+      "topic": "Resolved H18 and actual Caller120 code02",
+      "requirement": "Root joint G1 must bind resolved-source-scope121 plus H18/native-v1 append. Original H17 counts/older pending ABI prose and old Caller120 metadata remain historical. Implementation consumes actual 1570 code02/run99a443 before images and the fixed f96c ABI; no fallback to old5ef/ca2c."
+    },
+    {
+      "id": "G1B-C03",
+      "severity": "required-implementation-evidence",
+      "topic": "Private capability and proof outputs",
+      "requirement": "Returned metadata must not expose mutable aliases capable of changing the private verified closure. Retained/current objects, canonical paths, inode rules, root/view identity and unforgeable per-ctx capability must be tested at the real module interface; JSON booleans, callback/stamper and archive-root replacement remain forbidden."
+    }
+  ],
+  "FSReadback": {
+    "evidence": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-G1B-design-review01/scope-and-archive-FS-readback121.json",
+      "bytes": 90887,
+      "rawBytesSha256": "07e86859adbfa2fcd983b97267cb9e3bd3cf7238abdba75169f2d1bfb016b4b6"
+    },
+    "checks": 363,
+    "currentBeforeAndProtectedFiles": 53,
+    "allCurrentBeforeRawPinsMatched": true,
+    "actualArchiveBase": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/base-source15-retained121-01/original-source-map121.json",
+      "bytes": 278381,
+      "rawBytesSha256": "7085c71ee2fa244b5c4c10c582b17b45cc2dcad56967376305e8f05526db92a2"
+    },
+    "actualArchiveSupplement": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/base-source15-retained121-supplement01/original-source-supplement121.json",
+      "bytes": 2719,
+      "rawBytesSha256": "0b0bd1ccc4931674cf986b5ac56f186abc5f799b9fa331dc4d6d28a7e3c9786d"
+    },
+    "derivedArchiveUnion": "original H3 227 + actual Reg5 plan execution14 + actual e798 Tax8 + actual1570 callers25 + H9 external4 =270 unique",
+    "privateArchiveImages": 270,
+    "all270ActualBytesRegularNoAliasNlink1Verified": true,
+    "notAnIndependentDatabaseConservationOrCurrentRuntimePass": true
+  },
+  "sourceSeamsReviewed": [
+    {
+      "file": "tools/rust-r4ghi/business/context.mjs",
+      "lines": [
+        79,
+        82,
+        84
+      ],
+      "conclusion": "Actual createContext calls consumer54 on partial fixed/state/pins facts before the final ctx and helperPins exist; unchanged context can support explicit Native enumeration through the consumer54 branch."
+    },
+    {
+      "file": "tools/rust-r4ghi/business/consumer-admission54.mjs",
+      "lines": [
+        87,
+        110
+      ],
+      "conclusion": "Both actual schema5 context and registered-fixture dispatch sites are named modifications; original non121 branches and fresh project birth logic remain protected."
+    },
+    {
+      "file": "tools/rust-r4ghi/business/http.mjs",
+      "lines": [
+        13,
+        28,
+        37,
+        71,
+        83,
+        85,
+        87,
+        91
+      ],
+      "conclusion": "Old API is bound once at createApi; per-wire lease hooks and explicit receipt references are necessary. Actual response/ACK evidence must be saved before postguard errors, while exact old control/ledger semantics remain."
+    },
+    {
+      "file": "tools/rust-r4ghi/business/fault-sweep.mjs",
+      "lines": [
+        19,
+        21,
+        22
+      ],
+      "conclusion": "Null readonly/current and six-GH operation branches must both dispatch explicitly; null does not grant operation authority."
+    },
+    {
+      "file": "tools/rust-r4ghi/business/gh-write-facts.mjs",
+      "lines": [
+        109,
+        110
+      ],
+      "conclusion": "Only current guard dispatch may change; oracle, allocation/period/member/amount/selectors remain original."
+    },
+    {
+      "file": "tools/rust-r4ghi/business/trusted.mjs",
+      "lines": [
+        24,
+        26,
+        27,
+        35
+      ],
+      "conclusion": "Select actual Common through explicit121 current identity; preserve existing real producer and same ELF/build lineage."
+    },
+    {
+      "file": "tools/rust-r4ghi/legacy-authority15-284/witness284.mjs",
+      "lines": [
+        4,
+        6
+      ],
+      "conclusion": "Two old current registry calls and one Common call are actual required seams; named 18th MOD is justified. Protected newWitnessView284 consumes original code.registry only for registered roots, not a fake current consumer."
+    }
+  ],
+  "publicationAndLaterGateRequirements": [
+    {
+      "phase": "joint G1-B freeze and implementation",
+      "required": "Root freezes exact I792e/H01f6/f96c/resolved-H18 scopes and validation allowlists, then explicitly authorizes only those code files. This review does not execute or grant implementation by itself."
+    },
+    {
+      "phase": "code review",
+      "required": "All MOD full raw before/after, exact allowed spans/inverse, unchanged algorithms/protected files, actual Native public interface integration, 44 planned I cases and H source/FS regression classes. Synthetic OS tests must retain model labels."
+    },
+    {
+      "phase": "source composition",
+      "required": "Actual complete229 graph and all finite external sources/code reviews; count is planned until promoted and independently measured. Original420/528/ELF unchanged is verified separately, not a claim Cargo compiled Node helpers."
+    },
+    {
+      "phase": "A recovery and B new process",
+      "required": "Separately approved actual same-container/volume/OID recovery and dual full defaultRO data conservation plus lifetime owner, then exact Root B launcher code/input review and real new boot/PID/start/exe/cwd/env/socket/readiness/stat. Old process records are never refreshed on paper."
+    },
+    {
+      "phase": "FS publication exact G2",
+      "required": "Concrete plan raw pin+scope, full historical chain/archive, named da94 originals and independently verified no-HTTP/control disposition, fresh actual source/helper/process facts, fixed output containment, actual state/ownership preimage, exact operator and no-replace. Registry real write/readback precedes candidate real write/readback, then same driver.lock protects CAS atomic activation; orphan/partial preserved STOP."
+    },
+    {
+      "phase": "actual technical readmission",
+      "required": "Independent actual publication readback and real original createContext through consumer54/Native121, not a model or presence flag."
+    },
+    {
+      "phase": "Tax prepare continuation",
+      "required": "New exact prepare-only input under the new authority: fresh login, all canonical GET, physical implicit/explicit roots/full historical batches/all peers/terminal union/head/project/CAS/currency/evidence/body/full ordered67 equality, followed by real exit/closed/complete and independent readback. Any difference STOP without trim/date repair or CAS rewrite."
+    },
+    {
+      "phase": "FI and normal",
+      "required": "Fresh code/input/nonce and separate exact G2 per authorized mode. Original failed 0HTTP attempt stays failed; no approval reuse. Normal201 and Main replay are not granted here; preserve real runtime/session deadlines and any first unknown STOP."
+    },
+    {
+      "phase": "F/C/S and five callers",
+      "required": "New explicit121 schemas bind both original preparation era and effective lease: reconciled/postconditions/closed FI+normal data produce F without C/S, C references F, S references C+sameF, current state records last. Each consumer uses its own complete input/registration; prior period/mixed remain distinct."
+    }
+  ],
+  "checks": {
+    "sealedIAndHFilePins": "ran-and-passed",
+    "boundedActualBeforeAndProtectedPinReadback": "ran-and-passed",
+    "actual270ArchivedSourceImages": "ran-and-passed",
+    "proposalShapeAndAuthorityConsistency": "ran-and-passed",
+    "runtimeImplementationTests": "not-run-no-implementation-in-these-candidates",
+    "actualConstructorOrNativeGuard": "not-run-not-authorized",
+    "databaseHTTPOrProcessProbe": "not-run-not-authorized",
+    "CargoJARSDKAdmin": "not-required-for-this-design-only-tool-scope",
+    "GitIssueWrite": "not-run-not-authorized"
+  },
+  "ownHarnessAttempt": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-G1B-design-review01/attempt01-note.json",
+    "sourceErrorOnly": true,
+    "proposalDefect": false,
+    "correctedOwn02ScriptPassed": true
+  },
+  "limits": {
+    "codeReady": false,
+    "implementationGranted": false,
+    "actualG2Authorized": false,
+    "actualRuntimeLeaseOrAPIGranted": false,
+    "processControlGranted": false,
+    "SQLHTTPGranted": false,
+    "TaxPrepareOrFIOrNormalGranted": false,
+    "Source16Granted": false,
+    "noMainReplay": true,
+    "originalFailureOrPriorGatesRelabelled": false,
+    "RootOrPrivateWritten": false,
+    "archiveCodeExecuted": false,
+    "wholeToolNativeContextExecuted": false,
+    "onlyOwnFSReviewArtifactsWritten": true
+  },
+  "G1BRootFreezeStillRequired": true,
+  "G3Certified": false,
+  "G4Certified": false,
+  "businessG3": false,
+  "businessG4": false,
+  "newBusinessOperationCertifications": 0,
+  "formalRustCountUnchanged": 240,
+  "parent57": "OPEN",
+  "fullR5_116": "OPEN"
+}
