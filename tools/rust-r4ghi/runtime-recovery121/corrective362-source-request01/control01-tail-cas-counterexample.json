@@ -1,0 +1,278 @@
+{
+  "kind": "non-author-runtime121-corrective362-review-finding",
+  "verdict": "NOTREADY",
+  "reviewer": "/root/control362_review",
+  "reviewerIsAuthor": false,
+  "author": "transport358_design",
+  "technicalG1": {
+    "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/g1B/Root-G1B-121.json",
+    "bytes": 5254,
+    "rawBytesSha256": "be96f468fe8c7aa58dcebe6f687ef90d0afb46f1d9ca2ac2bc2b3e90974206cc"
+  },
+  "correctiveG3": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/corrective362-g3-freeze01/Root-G3-code-input362.json",
+    "bytes": 14235,
+    "rawBytesSha256": "0bc2ad58712a8cc396f740701178b3e27cda8f16a615404c35f47f658ace10d2"
+  },
+  "componentManifest": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-code-control-data01/manifest-control362.json",
+    "bytes": 2896,
+    "rawBytesSha256": "d33aab1e20e0e6f267b638339c705f11614379ea9d20b3b6f651d93aab4a7eaa"
+  },
+  "leaf": {
+    "file": "tools/rust-r4ghi/runtime-recovery121/native/publish-runtime121.mjs",
+    "operation": "MOD",
+    "beforeSHA256": "a8f28d8a16daca2853f966bd30157f2c228ee7ec0a04b277831e0cd469d7fa24",
+    "afterSHA256": "c0e360fd29b9891bc5d527beb2e0f7e02d6afab6c8798bab54ebb93585768107",
+    "candidate": {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-code-control-data01/proposed/tools/rust-r4ghi/runtime-recovery121/native/publish-runtime121.mjs",
+      "bytes": 60230,
+      "rawBytesSha256": "c0e360fd29b9891bc5d527beb2e0f7e02d6afab6c8798bab54ebb93585768107"
+    },
+    "before": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/native/publish-runtime121.mjs",
+      "bytes": 36826,
+      "rawBytesSha256": "a8f28d8a16daca2853f966bd30157f2c228ee7ec0a04b277831e0cd469d7fa24"
+    },
+    "originalBeforeCopy": {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-code-control-data01/evidence/before/publish-runtime121.mjs",
+      "bytes": 36826,
+      "rawBytesSha256": "a8f28d8a16daca2853f966bd30157f2c228ee7ec0a04b277831e0cd469d7fa24"
+    },
+    "diff": {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-code-control-data01/diffs/publish-runtime121.mjs.diff",
+      "bytes": 26065,
+      "rawBytesSha256": "f4bc621e556a2608682e37d5e7b81731bae3cda9eda5c20bc82ff2c1ab0b5f74"
+    },
+    "classification": "existing284-member"
+  },
+  "finding": {
+    "id": "PUB-LATE-OWNERSHIP-CAS",
+    "status": "OBSERVED-COUNTEREXAMPLE-REQUIRES-ROOT-CLASSIFICATION",
+    "severity": "P1",
+    "leaf": "tools/rust-r4ghi/runtime-recovery121/native/publish-runtime121.mjs",
+    "lines": [
+      454,
+      461
+    ],
+    "description": "Full publisher main with only synthetic Native/Core interfaces publishes despite same-size ownership rewrite triggered after staged state write; final pre-rename CAS rereads state and lock only.",
+    "evidence": {
+      "events": [
+        {
+          "op": "read",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/MODEL-ONLY-input.json"
+        },
+        {
+          "op": "read",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/MODEL-ONLY-input.json"
+        },
+        {
+          "op": "read",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/MODEL-ONLY-approval.json"
+        },
+        {
+          "op": "read",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/MODEL-ONLY-peer.json"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/driver.lock"
+        },
+        {
+          "op": "read",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/state.json"
+        },
+        {
+          "op": "read",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/state.json"
+        },
+        {
+          "op": "read",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/state.json"
+        },
+        {
+          "op": "read",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/ownership.jsonl"
+        },
+        {
+          "op": "read",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/ownership.jsonl"
+        },
+        {
+          "op": "read",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/ownership.jsonl"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/runtime121-model/intent.json"
+        },
+        {
+          "op": "read",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/runtime121-model/intent.json"
+        },
+        {
+          "op": "read",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/runtime121-model/intent.json"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/runtime121-model/registry.json"
+        },
+        {
+          "op": "read",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/runtime121-model/registry.json"
+        },
+        {
+          "op": "read",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/runtime121-model/registry.json"
+        },
+        {
+          "op": "read",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/runtime121-model/registry.json"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/runtime121-model/candidate.json"
+        },
+        {
+          "op": "read",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/runtime121-model/candidate.json"
+        },
+        {
+          "op": "read",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/runtime121-model/candidate.json"
+        },
+        {
+          "op": "read",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/runtime121-model/candidate.json"
+        },
+        {
+          "op": "read",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/state.json"
+        },
+        {
+          "op": "read",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/state.json"
+        },
+        {
+          "op": "read",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/state.json"
+        },
+        {
+          "op": "read",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/ownership.jsonl"
+        },
+        {
+          "op": "read",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/ownership.jsonl"
+        },
+        {
+          "op": "read",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/ownership.jsonl"
+        },
+        {
+          "op": "read",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/driver.lock"
+        },
+        {
+          "op": "read",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/runtime121-model/registry.json"
+        },
+        {
+          "op": "read",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/runtime121-model/candidate.json"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/state.json.runtime121-model.tmp"
+        },
+        {
+          "op": "INJECT-LATE-OWNERSHIP-REWRITE",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/ownership.jsonl"
+        },
+        {
+          "op": "read",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/state.json.runtime121-model.tmp"
+        },
+        {
+          "op": "read",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/state.json.runtime121-model.tmp"
+        },
+        {
+          "op": "read",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/state.json"
+        },
+        {
+          "op": "read",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/state.json"
+        },
+        {
+          "op": "read",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/state.json"
+        },
+        {
+          "op": "read",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/driver.lock"
+        },
+        {
+          "op": "rename",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/state.json"
+        },
+        {
+          "op": "read",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/state.json"
+        },
+        {
+          "op": "read",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/state.json"
+        },
+        {
+          "op": "read",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/state.json"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/runtime121-model/complete.json"
+        },
+        {
+          "op": "read",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/runtime121-model/complete.json"
+        },
+        {
+          "op": "read",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/runtime121-model/complete.json"
+        },
+        {
+          "op": "read",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/driver.lock"
+        }
+      ],
+      "statePublished": true,
+      "ownershipMismatch": true
+    },
+    "scope": "Synthetic transaction model only; inherited ordering exists in prior publisher too. Frozen362 explicitly requires exact eb4a ownership CAS immediately before handoff."
+  },
+  "counterexample": {
+    "file": "E:\\projects\\worktrees\\poms-r4i-lifecycle\\poms\\tools\\rust-r4ghi\\I\\implementation\\control362-independent01/publisher-tail-counterexample.mjs",
+    "bytes": 6000,
+    "rawBytesSha256": "1491690781406ae2cc7bd2ebac983d52bfb9f9a7ab3b254a8fba71b90c555838"
+  },
+  "models": {
+    "file": "E:\\projects\\worktrees\\poms-r4i-lifecycle\\poms\\tools\\rust-r4ghi\\I\\implementation\\control362-independent01/review-model-results.json",
+    "bytes": 34405,
+    "rawBytesSha256": "0107b3017003a30c4681e62328306c40652d5666b8eaf78c5c66583fc05ba24a"
+  },
+  "moreModels": {
+    "file": "E:\\projects\\worktrees\\poms-r4i-lifecycle\\poms\\tools\\rust-r4ghi\\I\\implementation\\control362-independent01/review-more-model-results.json",
+    "bytes": 7139,
+    "rawBytesSha256": "a5518db789ea3fae0e948417431e48d8d0df8e2f4e8cf52884a8f44988b1abc7"
+  },
+  "requiredBoundedCorrection": "For protocolVersion3 only, recheck exact stateTransfer.expectedOwnership immediately before canonical state rename. Keep v1/v2 semantics and source protocol unchanged. Independent re-review must verify late ownership drift refuses before publication.",
+  "authority": {
+    "SourcePromotion": false,
+    "actualFS": false,
+    "G2": false,
+    "businessG3": false,
+    "businessG4": false
+  }
+}

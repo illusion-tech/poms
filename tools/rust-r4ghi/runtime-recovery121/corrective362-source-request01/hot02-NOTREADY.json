@@ -1,0 +1,143 @@
+{
+  "kind": "non-author-runtime121-finite-code-step",
+  "verdict": "NOTREADY-apps-exact-length-and-clone-descriptor-shape",
+  "recordedAt": "2026-11-12T21:28:05.346Z",
+  "author": "transport358_impl (I)",
+  "reviewer": "/root/transport358_code_review",
+  "reviewerIsAuthor": false,
+  "componentManifest": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-code-hot02/manifest-hot362.json",
+    "bytes": 14869,
+    "rawBytesSha256": "50f86febbda9420541b8360850b84f4ef5e5454049df1707e3f8d53bfd4a492a"
+  },
+  "technicalG1": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/g1B/Root-G1B-121.json",
+    "bytes": 5254,
+    "rawBytesSha256": "be96f468fe8c7aa58dcebe6f687ef90d0afb46f1d9ca2ac2bc2b3e90974206cc"
+  },
+  "correctiveG3": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/corrective362-g3-freeze01/Root-G3-code-input362.json",
+    "bytes": 14235,
+    "rawBytesSha256": "0bc2ad58712a8cc396f740701178b3e27cda8f16a615404c35f47f658ace10d2"
+  },
+  "appsABIAppend": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/corrective362-apps-ABI-addendum01/Root-apps-ABI-addendum362.json",
+    "bytes": 4446,
+    "rawBytesSha256": "120bd1638d5b02776e5e37269d1a79543773301ed672583eae08ee51c1f39f7e"
+  },
+  "candidateSources": [
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-code-hot02/proposed/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs",
+      "bytes": 61055,
+      "rawBytesSha256": "0718c93926f522d9825f2939619b6e19bbc1f7290f5d2875f0fefca9f356535e"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-code-hot02/proposed/tools/rust-r4ghi/tax15-invocation118/tax15-once-wire.mjs",
+      "bytes": 23861,
+      "rawBytesSha256": "669985306e4166fbb2bc95763176f24f7749a50037236f0f73a19f1b81fd99cc"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-code-hot02/proposed/tools/rust-r4ghi/tax15-invocation118/tax15-once-effects.mjs",
+      "bytes": 20509,
+      "rawBytesSha256": "dea11bc6f99dc22ea1c5a5abd673a97ecdb0ab53f8fa83d2aae1a4caf08b08be"
+    }
+  ],
+  "entries": [
+    {
+      "file": "tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs",
+      "beforeSHA256": "5acf886f286e1844a8078bb0dffb3797384c211511d40eba3570024a458bcf8b",
+      "afterSHA256": "0718c93926f522d9825f2939619b6e19bbc1f7290f5d2875f0fefca9f356535e",
+      "productPointer": "/production/0"
+    },
+    {
+      "file": "tools/rust-r4ghi/tax15-invocation118/tax15-once-wire.mjs",
+      "beforeSHA256": "b3bf45a8227c2c661c7853b6687bab456fcc8120a7e66681bdb667f90f79cebc",
+      "afterSHA256": "669985306e4166fbb2bc95763176f24f7749a50037236f0f73a19f1b81fd99cc",
+      "productPointer": "/production/1"
+    },
+    {
+      "file": "tools/rust-r4ghi/tax15-invocation118/tax15-once-effects.mjs",
+      "beforeSHA256": "559ce23d665d4f0e2aec13ead55ac57af0265559a80a5c958965f5301efbfafc",
+      "afterSHA256": "dea11bc6f99dc22ea1c5a5abd673a97ecdb0ab53f8fa83d2aae1a4caf08b08be",
+      "productPointer": "/production/2"
+    }
+  ],
+  "findings": [
+    {
+      "priority": 2,
+      "id": "TRAILING_HOLE_LENGTH",
+      "file": "tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs",
+      "line": 328,
+      "detail": "Exact ownKeys [0,1,length] does not prove length2. A plain nonproxy array with the two correct own role values and length3 trailing hole passes the complete restrict function and projects a forbidden length3 value.",
+      "counterexample": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-hot-independent02/trailing-hole-counterexample-hot02.json",
+        "bytes": 1475,
+        "rawBytesSha256": "c032bf6f7e52c0cd6f8f41807413ae5cd864df3b0c1ab8706eac20005d6652e1"
+      },
+      "required": "Assert actualApps.length===2 in addition to all existing plain-array/nonproxy/own-key/own-data/fixed-role checks."
+    },
+    {
+      "priority": 1,
+      "id": "NONENUMERABLE_ROLE_CLONE",
+      "file": "tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs",
+      "line": 330,
+      "detail": "Own data index1 can be nonenumerable and still pass the existing descriptor and role comparisons. Native structuredClone omits that property, so the published immutable view again lacks apps[1] required by createControl.",
+      "counterexample": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-hot-independent02/nonenumerable-role-counterexample-hot02.json",
+        "bytes": 1272,
+        "rawBytesSha256": "15f3849d7e764d28d765701485d2bb93b16d554591e325cfd4267a7679244002"
+      },
+      "required": "Require both own role data descriptors to be enumerable before clone (or an equally strict clone-result validation), while permitting legitimate frozen arrays with writable/configurable false."
+    }
+  ],
+  "completedVerification": {
+    "Hot01To02OnlyProofAppsDelta": true,
+    "wireEffectsByteIdenticalToHot01": true,
+    "hot02ToHot01InverseAndOriginalBeforeInverse": true,
+    "priorMissingAppsIssueClosedForLegitimateRoot": true,
+    "normalRootToConfinedViewToWholeWireInstallRemove": {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-hot-independent02/whole-FI-wire-hot02.json",
+      "bytes": 2205,
+      "rawBytesSha256": "01c8eaf6b3f0352dfb4f35cb37873b2136d81899a81c94c7408d36fc3ef99c77"
+    },
+    "fullWireFlow": "The identical Root-shaped fixture reproduces old Hot01 rollback/0HTTP, while Hot02 reaches two unchanged fixed rust_app GRANTs, two COMMITs, six exact DROP actions, one modeled500 response and no active controls afterward. No ctx field is patched.",
+    "independentWholeFunctionRegression": {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-hot-independent02/independent-hot362-hot02-regression.json",
+      "bytes": 8958,
+      "rawBytesSha256": "0897e3fd6ca9239244214079a122abb7c5662f0bda809e5967d84e1f85efdafe"
+    },
+    "wholeCasesPassed": 23,
+    "wholeCasesFailed": 0,
+    "normalFrozenArrayAccepted": true,
+    "immutableCloneReferenceIndependent": true,
+    "missingForeignProxyAccessorSparseAndExtraKeysReject": true,
+    "hotSQLLateReplyPermissionsCookieACKLedgerAndFullExitRegressionsRetained": true
+  },
+  "modelNotes": {
+    "wholeSourceModulesAndCompleteFunctions": true,
+    "NativeBoundaryIsCountedRejectingStubNotActualNative": true,
+    "SQLHTTPCatalogAndSelectorsSyntheticOnly": true,
+    "actualRootConstructorOrNamespaceNeverInvoked": true,
+    "trailingHoleRealmAdapterNote": "The source root trailing hole is genuine in the VM. The author realm adapter may densify holes after native clone; the preserved counterexample relies on the forbidden length3 acceptance, not on claiming a production projected-hole layout.",
+    "initialHoleObservationStopPreserved": {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-hot-independent02/hole-model-stop01.json",
+      "bytes": 549,
+      "rawBytesSha256": "75617fe396e2bad076875390311a8871195557d630c265dfc034c52b7707fbc7"
+    },
+    "nativeNonenumerableCloneBehaviorSeparatelyVerified": true
+  },
+  "boundary": {
+    "scopeIsExistingRoot120bdOnly": true,
+    "productionEdited": false,
+    "actualRootOrPrivateWritten": false,
+    "actualProcEnvSQLHTTPOrAppNativeInvoked": false,
+    "codeReady": false,
+    "sourcePromotionGranted": false,
+    "stateHandoffGranted": false,
+    "actualG2Granted": false,
+    "modeRetryGranted": false,
+    "FIOrBusinessPOSTGranted": false,
+    "parentGoalComplete": false
+  },
+  "next": "Preserve Hot02 and these two counterexamples. Await separately sealed Hot03 limited to length2 and enumerable own role descriptors; then regress whole paths and bad shapes. Do not sign this known incomplete candidate."
+}

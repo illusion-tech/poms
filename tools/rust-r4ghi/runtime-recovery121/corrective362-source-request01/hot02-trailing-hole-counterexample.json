@@ -1,0 +1,31 @@
+{
+  "kind": "independent-hot02-trailing-hole-array-shape-counterexample",
+  "recordedAt": "2026-11-12T21:20:45.696Z",
+  "componentManifest": {
+    "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-code-hot02/manifest-hot362.json",
+    "bytes": 14869,
+    "rawBytesSha256": "50f86febbda9420541b8360850b84f4ef5e5454049df1707e3f8d53bfd4a492a"
+  },
+  "proof": {
+    "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-code-hot02/proposed/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs",
+    "bytes": 61055,
+    "rawBytesSha256": "0718c93926f522d9825f2939619b6e19bbc1f7290f5d2875f0fefca9f356535e"
+  },
+  "rootAppsOwnKeys": [
+    "0",
+    "1",
+    "length"
+  ],
+  "rootArrayLength": 3,
+  "projectedArrayLength": 3,
+  "rootHasTrailingHole": true,
+  "projectedHasIndex2": true,
+  "realmAdapterMayDensifyHoles": true,
+  "projectedFrozen": true,
+  "unexpectedAcceptanceProven": true,
+  "finding": "Reflect.ownKeys == [0,1,length] does not prove length2/density: a length3 array with a trailing hole has exactly those keys and is accepted. The Root append requires the exact dense two-role array and rejection of malformed shapes.",
+  "minimumCorrection": "Require actualApps.length===2 in addition to the existing exact own-key/data-value/nonproxy/plain-array guards.",
+  "modelOnly": true,
+  "actualRootPrivateProcEnvSQLHTTPRead": false,
+  "productionWritten": false
+}

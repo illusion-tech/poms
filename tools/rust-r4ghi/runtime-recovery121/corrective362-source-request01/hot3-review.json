@@ -1,0 +1,172 @@
+{
+  "kind": "non-author-runtime121-finite-code-step",
+  "verdict": "approved-bounded-step-only",
+  "recordedAt": "2026-11-12T21:33:08.899Z",
+  "author": "transport358_impl (I)",
+  "reviewer": "/root/transport358_code_review",
+  "reviewerIsAuthor": false,
+  "componentManifest": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-code-hot03/manifest-hot362.json",
+    "bytes": 18097,
+    "rawBytesSha256": "8fd568ab5e6844099409f634e30fe107db96541fff0f71810822d87f60057efe"
+  },
+  "technicalG1": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/g1B/Root-G1B-121.json",
+    "bytes": 5254,
+    "rawBytesSha256": "be96f468fe8c7aa58dcebe6f687ef90d0afb46f1d9ca2ac2bc2b3e90974206cc"
+  },
+  "correctiveG3": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/corrective362-g3-freeze01/Root-G3-code-input362.json",
+    "bytes": 14235,
+    "rawBytesSha256": "0bc2ad58712a8cc396f740701178b3e27cda8f16a615404c35f47f658ace10d2"
+  },
+  "appsABIAppend": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/corrective362-apps-ABI-addendum01/Root-apps-ABI-addendum362.json",
+    "bytes": 4446,
+    "rawBytesSha256": "120bd1638d5b02776e5e37269d1a79543773301ed672583eae08ee51c1f39f7e"
+  },
+  "entries": [
+    {
+      "file": "tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs",
+      "beforeSHA256": "5acf886f286e1844a8078bb0dffb3797384c211511d40eba3570024a458bcf8b",
+      "afterSHA256": "23d6c9ef588a079ed1cc51161d0beed4d962cb0c7c4aede07694e924af299d79",
+      "productPointer": "/production/0"
+    },
+    {
+      "file": "tools/rust-r4ghi/tax15-invocation118/tax15-once-wire.mjs",
+      "beforeSHA256": "b3bf45a8227c2c661c7853b6687bab456fcc8120a7e66681bdb667f90f79cebc",
+      "afterSHA256": "669985306e4166fbb2bc95763176f24f7749a50037236f0f73a19f1b81fd99cc",
+      "productPointer": "/production/1"
+    },
+    {
+      "file": "tools/rust-r4ghi/tax15-invocation118/tax15-once-effects.mjs",
+      "beforeSHA256": "559ce23d665d4f0e2aec13ead55ac57af0265559a80a5c958965f5301efbfafc",
+      "afterSHA256": "dea11bc6f99dc22ea1c5a5abd673a97ecdb0ab53f8fa83d2aae1a4caf08b08be",
+      "productPointer": "/production/2"
+    }
+  ],
+  "candidateSources": [
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-code-hot03/proposed/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs",
+      "bytes": 61225,
+      "rawBytesSha256": "23d6c9ef588a079ed1cc51161d0beed4d962cb0c7c4aede07694e924af299d79"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-code-hot03/proposed/tools/rust-r4ghi/tax15-invocation118/tax15-once-wire.mjs",
+      "bytes": 23861,
+      "rawBytesSha256": "669985306e4166fbb2bc95763176f24f7749a50037236f0f73a19f1b81fd99cc"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-code-hot03/proposed/tools/rust-r4ghi/tax15-invocation118/tax15-once-effects.mjs",
+      "bytes": 20509,
+      "rawBytesSha256": "dea11bc6f99dc22ea1c5a5abd673a97ecdb0ab53f8fa83d2aae1a4caf08b08be"
+    }
+  ],
+  "scope": "Only the exact three hot leaves under existing G3 0bc plus Root apps append120bd. This is code qualification, not source installation or actual input approval.",
+  "resolvedFindings": [
+    {
+      "id": "CONFINED_APPS_MISSING",
+      "status": "closed",
+      "proof": "Existing genuine root.apps is explicitly shape-checked and projected through the original immutable ro clone. The original Hot01 failure is reproduced under the same Root-shaped full-wire fixture; Hot03 reaches the unchanged fixed GRANT and completes install/remove cleanup."
+    },
+    {
+      "id": "TRAILING_HOLE_LENGTH",
+      "status": "closed",
+      "proof": "The exact length2 assertion rejects a trailing-hole length3 array before any view is published."
+    },
+    {
+      "id": "NONENUMERABLE_ROLE_CLONE",
+      "status": "closed",
+      "proof": "Both own role descriptors must be enumerable data values before clone; both nonenumerable indices and accessors are refused. Frozen legitimate arrays with writable/configurable false remain accepted."
+    }
+  ],
+  "exactDelta": {
+    "evidence": {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-hot-independent03/exact-delta-hot03.json",
+      "bytes": 341,
+      "rawBytesSha256": "216067e3aa7a03920dc09d3f173a1c85bd36d48a2fbd649513c0c461d2b00f8a"
+    },
+    "onlyTwoAssertLinesAddedRelativeHot02": true,
+    "allOtherProofBytesUnchanged": true,
+    "wireEffectsByteIdenticalToHot01AndHot02": true,
+    "newConfinedDataKeyOnlyApps": true,
+    "noNewExportsRelativeHot02": true,
+    "oldNonproxyOwnKeyDataRoleChecksRetained": true,
+    "rolesUnchanged": [
+      "poms_r4ghi_native_app",
+      "poms_r4ghi_rust_app"
+    ]
+  },
+  "coverage": {
+    "privateDataView": "Private WeakMap/live PID/boot/confinement remain. The bound11-key reference is data only and does not refresh or authorize effects; actual wire creation/checkpoints reject stale Native-boundary dependency.",
+    "strongCheckpoints": "The full original Tax source420/compile528 Root+mirror/helper229/8executor/input/lock/parent/API/Facts6/FD body remains before one final complete Native reference checkpoint. Standalone currentFiles and explicit full exit remain; no full Native predicate is claimed to have been tested by its model stub.",
+    "dispatch": "All bulk proof/capture/attribution/request metadata/domain permission/pending persistence complete before the unconditional true checkpoint and reference equality, then final real actor/full37/cookie/session SQL. PreSQL monotonic anchor ceil-charges SQL delivery/close and all gap, strict >2000 remains, then direct send with no bulk/await/persist.",
+    "ABI": "guardActor118 still returns sessionId|string|null for all6 callers. Fixed guardActorForWire118 accepts only the genuine private cap and returns ephemeral observations; no override/proof/options/callback or persisted deadline input is accepted.",
+    "IOAndUnknown": "Actual complete source functions preserve request/response originals and public receipt/201 ACK before postguard; incomplete normal201 remains unknown/pending and cannot reuse the once-only private domain slot. Whole ledger rejects modeled row/object drift before send.",
+    "DDL": "Whole wire->install/createControl/remove executes two unchanged GRANTs to rust_app only, two COMMITs and six exact DROP operations in symbolic IO, retains old frame.sessionId ABI and stops before actual DDL on stale boundary or changed catalog. No selector/SQL/role/Actor permission widening."
+  },
+  "validation": {
+    "independentWholeFunctions": {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-hot-independent03/independent-hot362-hot03-regression.json",
+      "bytes": 9425,
+      "rawBytesSha256": "449d41a4078d7cf6a0bddadcc130f1267ab0b847a9dd6919ef8b65628a3f3b32"
+    },
+    "total": 27,
+    "pass": 27,
+    "fail": 0,
+    "fullWireOldNewComparison": {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-hot-independent03/whole-FI-wire-hot03.json",
+      "bytes": 2205,
+      "rawBytesSha256": "edd830517544b7de7ba06253bcc6d70e0abeed37545e1b2a2cadbbaaca7d9867"
+    },
+    "realOwnIFD": {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-hot-independent03/FD01-result.json",
+      "bytes": 1738,
+      "rawBytesSha256": "1eb19ecca7c138b4251b20057b0f01ab422234da62ea7be43f19e03fa4a0a5a6"
+    },
+    "realFDCases": 4,
+    "realFDPass": 4,
+    "realFDFail": 0,
+    "FDWholeFunctionByteExactBefore361": true,
+    "FDChecks": [
+      "Regular canonical Pin3/Facts6 verifies and closes",
+      "Same-size bad bytes reject and close",
+      "Real ancestor-directory ABA selects wrong inode and rejects/FD closes",
+      "Measured hardlink nlink2 accepted; stale Fact1 rejected"
+    ],
+    "onlyWindowsSeparatorProjectionForFD": true
+  },
+  "modelLimits": {
+    "wholeCandidateModulesAndCompleteFunctions": true,
+    "unchangedWholePrepareAndLedgerLinked": true,
+    "allFixtureSQLHTTPDDLCatalogAndSelectorsSynthetic": true,
+    "NativeBoundaryCountedRejectingStubNotActualNativeAcceptance": true,
+    "privateCapabilityMintHookIsModelOnly": true,
+    "actualNamespaceOrConstructorNeverCreated": true,
+    "actualPerformanceOrFullPreparationTimeBudgetNotProven": true,
+    "oldUnrelatedSuitesNotRepeated": true
+  },
+  "previousEvidencePreserved": {
+    "Hot01NOTREADY": "cd0d15e38cfe9b4e76b0a6380121198422cbc568bca8e20cf1b85173112cdcc8",
+    "Hot02NOTREADY": "1c10b30390eace3616d5b6abae49b2de6e91badfa3d90fc84d77de155c16a94d",
+    "sourcesSealsAndCounterexamplesUnmodified": true
+  },
+  "unresolvedSubstantiveFindings": [],
+  "boundaries": {
+    "codeOnlyQualification": true,
+    "control3Data2AndAggregateReviewStillRequired": true,
+    "sourceOperator03OnlyRetainsItsSeparateCodeQualification": true,
+    "actualEightSourceInputApproved": false,
+    "sourcePromotionGranted": false,
+    "stateHandoffGranted": false,
+    "actualG2Granted": false,
+    "modeRetryGranted": false,
+    "APIOrPGControlGranted": false,
+    "FIOrNormalTaxMainPOSTGranted": false,
+    "actualRootOrPrivateWritten": false,
+    "actualProcEnvSQLHTTPOrAppNativeInvoked": false,
+    "businessG3": false,
+    "businessG4": false,
+    "parentGoalComplete": false
+  }
+}

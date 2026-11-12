@@ -1,0 +1,26 @@
+{
+  "kind": "independent-hot02-nonenumerable-role-clone-counterexample",
+  "recordedAt": "2026-11-12T21:22:57.918Z",
+  "proof": {
+    "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-code-hot02/proposed/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs",
+    "bytes": 61055,
+    "rawBytesSha256": "0718c93926f522d9825f2939619b6e19bbc1f7290f5d2875f0fefca9f356535e"
+  },
+  "rootLength": 2,
+  "rootOwnKeys": [
+    "0",
+    "1",
+    "length"
+  ],
+  "rootSecondRoleCanonical": true,
+  "rootSecondRoleEnumerable": false,
+  "confinedSecondRoleMissing": true,
+  "viewFrozen": true,
+  "nativeStructuredCloneDropsSameNonenumerableRole": true,
+  "unexpectedAcceptanceProven": true,
+  "finding": "The pre-clone shape/role checks accept nonenumerable own index1. Existing ro structuredClone does not copy that role, so the confined view again lacks the fixed rust_app value required by createControl.",
+  "minimumCorrection": "Require both own role descriptors to be enumerable data values before clone, or verify the immutable cloned two-role result before publishing it; keep length2 and all other checks.",
+  "actualPrivateProcEnvSQLHTTPRead": false,
+  "RootPrivateWritten": false,
+  "actualNativeAppOrModeRun": false
+}
