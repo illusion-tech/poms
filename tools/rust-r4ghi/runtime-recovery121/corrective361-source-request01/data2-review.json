@@ -1,0 +1,90 @@
+{
+  "kind": "non-author-runtime121-finite-code-step",
+  "verdict": "approved-bounded-step-only",
+  "recordedAt": "2026-11-12T16:45:06.360Z",
+  "author": "I",
+  "reviewer": "/root/transport358_code_review",
+  "reviewerIsAuthor": false,
+  "componentManifest": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective361-code-data01/manifest-metadata-adapters361.json",
+    "bytes": 9340,
+    "rawBytesSha256": "8cd522e78fb72cfff665de6e0fd1464a49c64fd63f0593036b6416c049da8695"
+  },
+  "technicalG1": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/g1B/Root-G1B-121.json",
+    "bytes": 5254,
+    "rawBytesSha256": "be96f468fe8c7aa58dcebe6f687ef90d0afb46f1d9ca2ac2bc2b3e90974206cc"
+  },
+  "correctiveG3": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/corrective361-g3-freeze01/Root-G3-code-input361.json",
+    "bytes": 4167,
+    "rawBytesSha256": "820f727595c37cbe7eae6aa53ff3b9606ae6f0922be237f63fb8eb26f534ae07"
+  },
+  "entries": [
+    {
+      "file": "tools/rust-r4ghi/runtime-recovery121/Native-plan-data-candidate01/prepare-native-plan121.mjs",
+      "beforeSHA256": "61f798094c78244722dc813873f6387d0108febaa92eddf42b0728e0b0b181df",
+      "afterSHA256": "f9338f1ada802dd87ab253f4cbaf9cbf443d05abe2bda9c28b509d04ff570e3b",
+      "productPointer": "/production/0"
+    },
+    {
+      "file": "tools/rust-r4ghi/runtime-recovery121/Tax121-current-metadata-data-candidate01/prepare-tax121-current-metadata.mjs",
+      "beforeSHA256": "cad305ed8a6231a2a021eeb2f1bf39dfd44579bcb1e8420ce0548a5e365b7b6c",
+      "afterSHA256": "f5c644ed48da3ca1a773455b91571b5c33bc95c7aa064d6e79015fcb5b066f21",
+      "productPointer": "/production/1"
+    }
+  ],
+  "independentVerification": {
+    "DataIndependent": {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective361-data-independent-review01/data-independent-results361.json",
+      "bytes": 6078,
+      "rawBytesSha256": "2178459d76ba3c9fa579ae0cd6805651bbc8e8a335d0e74dcd5f6370c7bc0e5d"
+    },
+    "DataIndependentSource": {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective361-data-independent-review01/check-data361-independent.mjs",
+      "bytes": 24689,
+      "rawBytesSha256": "94fd55e3408b764a4448e4d81aa4d0439a60f272f07a7316fdace1d704edb6d2"
+    },
+    "DataFixtureDerivation": {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective361-data-independent-review01/fixture-derivation361.json",
+      "bytes": 554,
+      "rawBytesSha256": "4c5677057bd37a1677f05d11973ba41e5ad1d87d812d55cdb1fa91efa35d8a3c"
+    }
+  },
+  "scope": "Exactly the two frozen outside284 metadata adapter MOD leaves. Native v1 closed4 preserved, v2 closed5 successor path added; Tax closed6/input34/runtime17/Root9 preserved with real two-stage source binding. Data preparation only; no producer or actual input was executed here.",
+  "validation": {
+    "independentPureContractAndPreservationCases": 37,
+    "syntaxChecks": 2,
+    "syntaxExitCodes": [
+      0,
+      0
+    ],
+    "completeV1ByteInversePassed": true,
+    "builtinOnlyImportsAndNoProducerInvocation": true,
+    "bothDataSharedProofByteIdentical": true,
+    "sourceTwoStagesOld9New4AndReviewThreePlusOneBound": true,
+    "oldAPIStartupHelperToCurrentHelperBridgeBound": true,
+    "full32bdOnlyLeaseHistoryAndActiveTaxNullDeltasEnforced": true,
+    "actorSequenceAPIWhole823JournalAnd13MainStatePreserved": true,
+    "prepareOnlyBodySlotsAndNoCredentialCanaryEmission": true,
+    "outside284MembershipProven": true
+  },
+  "blockingFindings": [],
+  "authority": {
+    "codeOnly": true,
+    "RootProductionWriteGranted": false,
+    "sourcePromotionGranted": false,
+    "stateHandoffGranted": false,
+    "actualG2Authorized": false,
+    "modeRetryGranted": false,
+    "APIOrPGControlGranted": false,
+    "ordinaryContextGranted": false,
+    "SQLHTTPGranted": false,
+    "FIGranted": false,
+    "TaxPOSTGranted": false,
+    "MainReplayGranted": false,
+    "businessG3": false,
+    "businessG4": false
+  },
+  "limits": "Synthetic fixture generator is explicitly labelled, with independent mutation/preservation assertions; it is not a real state or context. Candidate data modules use only builtins; their IO loaders, CLI and producers were not called. P, namespace,SQLHTTP and service operations were not accessed. Actual metadata and exact G2 remain pending."
+}
