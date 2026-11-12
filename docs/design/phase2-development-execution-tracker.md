@@ -1106,3 +1106,14 @@ G1Policy3082经独审1489仅授1生产源和1验证文件代码实施。holder�
 本条固定为源提升前检查点：Root审批未签、生产源及canonical state未写，状态续接和实际模式尚未执行。须精确source peer后另签Root，仅准四生产MOD和两图外dataMOD，再独立核真实新229/55/284及保留280。旧M06、823失败、32bd、旧26和原Main13一次201保持；业务G3/G4与新增认证0不变，#57/#116开放、#119历史CLOSED。
 
 <!-- /poms-runtime121-corrective361-code-delivery -->
+
+
+<!-- poms-runtime121-Native361-publication -->
+
+### 2026-11-13 纠正361：真实状态续接、独立读回及全新prepare输入
+
+[实际FS发布与读回](rust-r4ghi/runtime121-corrective361-Native-publication-actual.md)已推送77c3a625；[在线逐字读回](rust-r4ghi/runtime121-Native361-publication-online.json)对应[子片#121](https://github.com/illusion-tech/poms/issues/121#issuecomment-6831702942)及[父项#57](https://github.com/illusion-tech/poms/issues/57#issuecomment-6831703795)。Root发布只执行1次、退出0；首auditor TDZ工具错误保留并纠正，readonly audit第2次通过，三项变化和14actors/counter/823journal/所有其他字段守恒。新canonical与私有异inode快照76ad，原32bd/old26/Main13一次201保留。
+
+本条固定在真实prepare前：新7040/ae68 metadata已生成0，进入独立具体G2输入审，尚无Root9/真实Ctor/prepare/K/67FI/Tax正常命令。文件读回不代业务验收，认证仍0、业务G3/G4未签，#57/#116开放、#119历史CLOSED。
+
+<!-- /poms-runtime121-Native361-publication -->
