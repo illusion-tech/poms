@@ -1,0 +1,159 @@
+{
+  "kind": "non-author-runtime121-finite-code-step",
+  "verdict": "NOTREADY-preexisting-confined-apps-ABI",
+  "recordedAt": "2026-11-12T21:01:24.869Z",
+  "author": "transport358_impl (I)",
+  "reviewer": "/root/transport358_code_review",
+  "reviewerIsAuthor": false,
+  "componentManifest": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-code-hot01/manifest-hot362.json",
+    "bytes": 14086,
+    "rawBytesSha256": "4a706b865abcc159fc3f81400f741eade63a9ffad09a5e53499db683038a3a75"
+  },
+  "technicalG1": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/g1B/Root-G1B-121.json",
+    "bytes": 5254,
+    "rawBytesSha256": "be96f468fe8c7aa58dcebe6f687ef90d0afb46f1d9ca2ac2bc2b3e90974206cc"
+  },
+  "correctiveG3": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/corrective362-g3-freeze01/Root-G3-code-input362.json",
+    "bytes": 14235,
+    "rawBytesSha256": "0bc2ad58712a8cc396f740701178b3e27cda8f16a615404c35f47f658ace10d2"
+  },
+  "entries": [
+    {
+      "file": "tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs",
+      "beforeSHA256": "5acf886f286e1844a8078bb0dffb3797384c211511d40eba3570024a458bcf8b",
+      "afterSHA256": "08c6243b52c5f4d63b612564c01f3cfbf7612801a4ef532fc07e69b927623d56",
+      "productPointer": "/production/0"
+    },
+    {
+      "file": "tools/rust-r4ghi/tax15-invocation118/tax15-once-wire.mjs",
+      "beforeSHA256": "b3bf45a8227c2c661c7853b6687bab456fcc8120a7e66681bdb667f90f79cebc",
+      "afterSHA256": "669985306e4166fbb2bc95763176f24f7749a50037236f0f73a19f1b81fd99cc",
+      "productPointer": "/production/1"
+    },
+    {
+      "file": "tools/rust-r4ghi/tax15-invocation118/tax15-once-effects.mjs",
+      "beforeSHA256": "559ce23d665d4f0e2aec13ead55ac57af0265559a80a5c958965f5301efbfafc",
+      "afterSHA256": "dea11bc6f99dc22ea1c5a5abd673a97ecdb0ab53f8fa83d2aae1a4caf08b08be",
+      "productPointer": "/production/2"
+    }
+  ],
+  "candidateSources": [
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-code-hot01/proposed/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs",
+      "bytes": 60150,
+      "rawBytesSha256": "08c6243b52c5f4d63b612564c01f3cfbf7612801a4ef532fc07e69b927623d56"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-code-hot01/proposed/tools/rust-r4ghi/tax15-invocation118/tax15-once-wire.mjs",
+      "bytes": 23861,
+      "rawBytesSha256": "669985306e4166fbb2bc95763176f24f7749a50037236f0f73a19f1b81fd99cc"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-code-hot01/proposed/tools/rust-r4ghi/tax15-invocation118/tax15-once-effects.mjs",
+      "bytes": 20509,
+      "rawBytesSha256": "dea11bc6f99dc22ea1c5a5abd673a97ecdb0ab53f8fa83d2aae1a4caf08b08be"
+    }
+  ],
+  "findings": [
+    {
+      "priority": 1,
+      "id": "CONFINED_APPS_MISSING",
+      "classification": "Preexisting baseline ABI defect; not introduced by the hot optimization",
+      "sourcePoints": [
+        {
+          "file": "tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs",
+          "line": 66,
+          "meaning": "dataKeys omits apps; restrictContext118 copies only these fields to the null-prototype frozen view"
+        },
+        {
+          "file": "tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs",
+          "line": 414,
+          "meaning": "Whitelisted data projection; no prototype fallback supplies apps"
+        },
+        {
+          "file": "tools/rust-r4ghi/tax15-invocation118/tax15-once-effects.mjs",
+          "line": 545,
+          "meaning": "The byte-preserved createControl GRANT reads ctx.apps[1]"
+        },
+        {
+          "file": "tools/rust-r4ghi/business/context.mjs",
+          "line": 82,
+          "meaning": "The real root spreads FIXED, including its two fixed namespace app roles"
+        }
+      ],
+      "detail": "With a synthetic root explicitly containing apps[2], the entire candidate restrictContext118 still produces a view with apps===undefined. The whole actual install118/createControl functions reach the fixed GRANT expression and throw TypeError before COMMIT. The model rolls back DDL and retains install-intent; no HTTP is dispatched.",
+      "counterexample": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-hot-independent01/missing-apps-counterexample362.json",
+        "bytes": 3046,
+        "rawBytesSha256": "f28a58d928b4a0d3a5f0a0a389477d1817a1182677e2d7546c756d852dc13da0"
+      },
+      "minimumCorrectionBoundary": "Before all-six-mode/FI readiness, reconcile the fixed readonly app-role data required by createControl with the confined view. Do not inject an ordinary ctx, accept arbitrary role/options/callbacks, expand actor permissions or change the fixed GRANT target. Any production fix needs Root authorization and a new sealed candidate; none is implemented by this review."
+    }
+  ],
+  "verifiedHotDelta": {
+    "exactInverseRestoresAllBeforeBytes": true,
+    "currentTaxBodyPreserved": true,
+    "standaloneWrapperAndFullExitPreserved": true,
+    "DDLBodiesBytePreserved": true,
+    "guardActorStringNullABI": true,
+    "privateGetterDoesNotRefreshOrGrantAnEffect": true,
+    "checkpointOneNativePlusFullTax": true,
+    "metadataReferenceEqualsFinalStrongReferenceBeforeSQL": true,
+    "bulkPersistBeforeFinalSQL": true,
+    "preSQLMonotonicAnchorCeilAndStrict2000": true,
+    "finalPermissionsAndCookieDriftReject": true,
+    "ACKFirstAndUnknownNoReplay": true,
+    "IOEntryExpansionOnlyFixedCapGuardForWire": true
+  },
+  "independentModels": {
+    "latest": {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-hot-independent01/independent-hot362-results02.json",
+      "bytes": 10491,
+      "rawBytesSha256": "ada469f2096a26c3db873a1174e93515009f3634cc2caa70efef3af0045d85d6"
+    },
+    "total": 20,
+    "passed": 17,
+    "failed": 3,
+    "failedCases": [
+      "Whole DDL install preserves installed controls after post-COMMIT boundary drift",
+      "Whole DDL removal rejects changed actual-catalog identity before any DROP",
+      "Whole DDL install/remove happy path keeps old string frame and exact two-control scope"
+    ],
+    "failureInterpretation": "The three remaining DDL-path failures are consistent with the confined-apps defect. The separate minimal counterexample supplies root.apps explicitly and proves this is not merely a missing synthetic root field.",
+    "initialReport": {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-hot-independent01/independent-hot362-results01.json",
+      "bytes": 10925,
+      "rawBytesSha256": "c708fdc4600fedda80ebf72fce14ac7cb97fc4153bddc1f6b6f86311a13cc9cd"
+    },
+    "initialFixtureCorrection": "The first model omitted the real caller sweep.scope; its original script/report remain retained. The second run populated that actual required relation without changing a product predicate, then exposed the apps ABI issue."
+  },
+  "modelLimits": {
+    "wholeCandidateModulesAndCompleteFunctions": true,
+    "unchangedWholePrepareAndLedgerLinked": true,
+    "harnessSourceRawPinned": true,
+    "NativeBoundaryIsExplicitCountedRejectingStubNotActualNative": true,
+    "SQLHTTPAndDDLCatalogSelectorsAreSynthetic": true,
+    "privateCapabilityMintHookIsModelOnly": true,
+    "actualConstructorOrNamespaceNeverCreated": true,
+    "actualPerformanceOrFullPreparationBudgetNotProven": true
+  },
+  "preservedBoundaries": {
+    "sourceOperator03StillOnlyCodeQualification": true,
+    "control3Data2AndCombinedSixReviewStillRequired": true,
+    "futureActualEightSourceInputNotApproved": true,
+    "currentRuntimeOrPrivateStateNotRead": true,
+    "RootOrPrivateWritten": false,
+    "actualProcEnvSQLHTTPOrAppNativeInvoked": false,
+    "sourcePromotionGranted": false,
+    "stateHandoffGranted": false,
+    "actualG2Granted": false,
+    "modeRetryGranted": false,
+    "FIOrNormalTaxMainGranted": false,
+    "businessG3": false,
+    "businessG4": false,
+    "parentGoalComplete": false
+  }
+}

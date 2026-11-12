@@ -1,0 +1,81 @@
+{
+  "kind": "Root-frozen-corrective362-confined-apps-ABI-addendum",
+  "recordedAt": "2026-11-12T21:03:24.125Z",
+  "issue": 121,
+  "owner": "Root",
+  "amends": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/corrective362-g3-freeze01/Root-G3-code-input362.json",
+    "bytes": 14235,
+    "rawBytesSha256": "0bc2ad58712a8cc396f740701178b3e27cda8f16a615404c35f47f658ace10d2"
+  },
+  "classification": "existing-baseline-drift: genuine fixed app-role data omitted from confined view but used by existing authorized FI control GRANT",
+  "evidence": [
+    {
+      "original": {
+        "name": "missing-apps-counterexample362.json",
+        "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-hot-independent01/missing-apps-counterexample362.json",
+        "bytes": 3046,
+        "rawBytesSha256": "f28a58d928b4a0d3a5f0a0a389477d1817a1182677e2d7546c756d852dc13da0"
+      },
+      "archived": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/corrective362-apps-ABI-addendum01/missing-apps-counterexample362.json",
+        "bytes": 3046,
+        "rawBytesSha256": "f28a58d928b4a0d3a5f0a0a389477d1817a1182677e2d7546c756d852dc13da0"
+      }
+    },
+    {
+      "original": {
+        "name": "review-hot01-NOTREADY.json",
+        "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-hot-independent01/review-hot362-NOTREADY01.json",
+        "bytes": 8361,
+        "rawBytesSha256": "cd0d15e38cfe9b4e76b0a6380121198422cbc568bca8e20cf1b85173112cdcc8"
+      },
+      "archived": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/corrective362-apps-ABI-addendum01/review-hot01-NOTREADY.json",
+        "bytes": 8361,
+        "rawBytesSha256": "cd0d15e38cfe9b4e76b0a6380121198422cbc568bca8e20cf1b85173112cdcc8"
+      }
+    },
+    {
+      "original": {
+        "name": "seal-hot01-NOTREADY.json",
+        "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-hot-independent01/seal-hot362-NOTREADY01.json",
+        "bytes": 3165,
+        "rawBytesSha256": "e3a67a60874e572278d0a9f7fde18b8b159abcecff228a569e5f2cf9d8bae2d7"
+      },
+      "archived": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/corrective362-apps-ABI-addendum01/seal-hot01-NOTREADY.json",
+        "bytes": 3165,
+        "rawBytesSha256": "e3a67a60874e572278d0a9f7fde18b8b159abcecff228a569e5f2cf9d8bae2d7"
+      }
+    }
+  ],
+  "scope": {
+    "onlyProductionFile": "tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs",
+    "onlyNewConfinedDataKey": "apps",
+    "source": "Existing genuine Native root ctx.apps from unchanged context.mjs FIXED.apps; immutable cloned projection through the existing confinement mechanism.",
+    "existingFixedRoles": [
+      "poms_r4ghi_native_app",
+      "poms_r4ghi_rust_app"
+    ],
+    "guard": "Require the existing fixed two-role data; reject missing/malformed/foreign roles rather than supply guessed data or accept input overrides.",
+    "unchanged": "No actor permissions, role assignment, GRANT target, control scope, function/trigger SQL, input34/runtime17/frame17/Root9/reference11, mode/caller or source membership changes.",
+    "candidateRule": "Preserve sealed hot01 and NOTREADY evidence; create hot02. Wire/effects must remain byte-identical to hot01. Only add the fixed readonly projection and necessary fail-closed shape assertions in the already frozen proof leaf."
+  },
+  "requiredValidation": [
+    "Whole real root->restrictContext projection proves exactly the existing frozen two-role array and no reference mutation.",
+    "Whole install/createControl/remove flow reaches exact existing GRANT and COMMIT/cleanup under synthetic IO; omission and foreign-role variants fail closed.",
+    "All prior hot deadline/ABI/cap/guard/ACK/unknown-outcome models remain; independent full six-mode/DDL qualification required before any Root source request."
+  ],
+  "codeImplementationGranted": true,
+  "sourcePromotionGranted": false,
+  "stateHandoffGranted": false,
+  "actualG2Granted": false,
+  "modeRetryGranted": false,
+  "APIOrPGControlGranted": false,
+  "businessG3": false,
+  "businessG4": false,
+  "newCertified": 0,
+  "parent57": "OPEN",
+  "fullR5_116": "OPEN"
+}

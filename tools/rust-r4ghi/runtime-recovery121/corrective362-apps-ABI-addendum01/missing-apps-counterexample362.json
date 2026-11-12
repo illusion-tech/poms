@@ -1,0 +1,69 @@
+{
+  "kind": "independent-corrective362-preexisting-confined-apps-ABI-counterexample",
+  "recordedAt": "2026-11-12T20:59:49.368Z",
+  "candidateSources": [
+    {
+      "component": "invocation",
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-code-hot01/proposed/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs",
+      "bytes": 60150,
+      "rawBytesSha256": "08c6243b52c5f4d63b612564c01f3cfbf7612801a4ef532fc07e69b927623d56"
+    },
+    {
+      "component": "wire",
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-code-hot01/proposed/tools/rust-r4ghi/tax15-invocation118/tax15-once-wire.mjs",
+      "bytes": 23861,
+      "rawBytesSha256": "669985306e4166fbb2bc95763176f24f7749a50037236f0f73a19f1b81fd99cc"
+    },
+    {
+      "component": "effects",
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-code-hot01/proposed/tools/rust-r4ghi/tax15-invocation118/tax15-once-effects.mjs",
+      "bytes": 20509,
+      "rawBytesSha256": "dea11bc6f99dc22ea1c5a5abd673a97ecdb0ab53f8fa83d2aae1a4caf08b08be"
+    }
+  ],
+  "publicOriginalContextSource": {
+    "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/context.mjs",
+    "bytes": 11614,
+    "rawBytesSha256": "d73d0e24cf7ff880537f7372ad362ff75eeb4f9d7daadb6a520ae691afd26017"
+  },
+  "rootAppsPresent": true,
+  "rootAppsCount": 2,
+  "confinedViewAppsMissing": true,
+  "viewFrozen": true,
+  "baselineAndCandidateDataKeysIdentical": true,
+  "completeInstallFunctionExecuted": true,
+  "syntheticDDLStatementsBeforeFailure": [
+    "BEGIN",
+    "CREATE SEQUENCE r4ghi_control.MODEL_000001_tax14_fi_p_hits",
+    "CREATE FUNCTION r4ghi_control.MODEL_000001_tax14_fi_p_fn()",
+    "REVOKE ALL ON",
+    "ROLLBACK"
+  ],
+  "postcondition": {
+    "COMMIT": false,
+    "rollback": true,
+    "activeIntentRetained": true,
+    "HTTPDispatches": 0
+  },
+  "error": {
+    "name": "TypeError",
+    "message": "Cannot read properties of undefined (reading '1')",
+    "frames": [
+      "    at createControl (model:effects:545:32)",
+      "    at async model:effects:336:13",
+      "    at async db (evalmachine.<anonymous>:32:19)",
+      "    at async Module.install118 (model:effects:333:5)",
+      "    at async file:///E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-hot-independent01/prove-missing-apps362.mjs:5:701"
+    ],
+    "modelStackOnly": true
+  },
+  "finding": "Actual root supplies FIXED.apps via context spread, but restrictContext118 omits apps from dataKeys. createControl reads ctx.apps[1] for its unchanged fixed GRANT, so the full FI install path fails before COMMIT even with root.apps explicitly present.",
+  "scope": {
+    "modelOnly": true,
+    "actualNativeAppContextNotCreated": true,
+    "actualProcEnvSQLHTTPOrPrivateDataRead": false,
+    "RootPrivateWritten": false,
+    "productionEdited": false,
+    "actualG2Granted": false
+  }
+}
