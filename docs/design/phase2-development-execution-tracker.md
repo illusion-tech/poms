@@ -1021,3 +1021,16 @@ Root8 687b6a、I03 274f4e、H03 8816ac均获非作者有界代码批准。[启�
 [12项Issue已同步读回](https://github.com/illusion-tech/poms/issues/121#issuecomment-6807594133)，[父#57已维护](https://github.com/illusion-tech/poms/issues/57#issuecomment-6807595083)。#121/#118/#120仍未收口；正式Rust240、R4 67/95、新业务认证0、业务G3/G4未通过，#57及完整R5 #116保持开放，#119历史技术G4不改。
 
 <!-- /poms-r4ghi-status355 -->
+
+
+<!-- poms-r4ghi-status356 -->
+
+### 2026-11-12 状态356：源码完整图实际读回，启动预检首停待修订
+
+[固定状态356](rust-r4ghi/continuation-status356.json)、[源码实际结果](rust-r4ghi/runtime121-source-actual-result.md)和[在线读回](rust-r4ghi/continuation-status356-online.json)保留原33项与单Native源码推广、当前41项Git原始字节核验以及真实229/55/284完整图；非作者db3574源码读回及24ec元数据composition读回通过，原像、失败输入和书挡保留。
+
+真实启动元数据预检03退出1，首停于原Reg5重建：已核验的原15 process未传入facts.apiRecord。非作者f853纯数据对照确认补该原记录后完整Reg5一致，错误记录仍拒；正在有限修订。API request、Root-review、API process和新env未生成，后继须新具体源安全包与实际图/输入，不重放失败预检或已消费审批。
+
+[12项Issue已同步读回](https://github.com/illusion-tech/poms/issues/121#issuecomment-6810282592)，[父#57已维护](https://github.com/illusion-tech/poms/issues/57#issuecomment-6810284879)。API启动G2、真实进程与原生准入/Ctor、fresh prepare121/body67及原批业务验收仍待完成。Rust240、R4 67/95、新认证0、业务G3/G4未通过，#57和完整R5 #116开放，#119历史技术G4不改。
+
+<!-- /poms-r4ghi-status356 -->
