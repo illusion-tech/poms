@@ -1,0 +1,92 @@
+{
+  "kind": "non-author-runtime121-A-exact-G2",
+  "mode": "pg-observe",
+  "verdict": "approved-once-readonly-PG-conservation-with-verified-live-holder358",
+  "recordedAt": "2026-11-12T12:37:28.273Z",
+  "author": "Root",
+  "reviewer": "/root/transport358_code_review",
+  "reviewerIsAuthor": false,
+  "reviewerIsRootExecutor": false,
+  "approvedInput": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-A-inputs/pg-observe/e6beaf59-4a28-4875-94c4-1a289ce933ec/input.json",
+    "bytes": 4998,
+    "rawBytesSha256": "8fac94aa5022539c52cb4256e82e3fce8f0ca0103db634fa0510f746af402cc9"
+  },
+  "expectedRootReview": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-A-inputs/pg-observe/e6beaf59-4a28-4875-94c4-1a289ce933ec/Root-review.json",
+    "bytes": 1109,
+    "rawBytesSha256": "f7232e351e3e0efa337fbe5567ffce90daa1f3bd4eace86cd1d1a2f7ad1b39e2"
+  },
+  "actualOperator": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/dispatch121.mjs",
+    "bytes": 4285,
+    "rawBytesSha256": "d59f9ed7095e66fca1ae9ea0b08c79e8d050fbaad7912c934451e3be46430ed5"
+  },
+  "originalObserveEntry": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/observe-conservation121.mjs",
+    "bytes": 14419,
+    "rawBytesSha256": "adcbfd9d07ef5d98a5675cd3b15adc54771c787bba6ef585e20973e9ad30c7ca"
+  },
+  "holder": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-A/holder-start/eb04b9f1-3d33-497c-9271-1fe5bb6af439/holder-ready.json",
+    "bytes": 2416,
+    "rawBytesSha256": "6dada953f400ca672696db9ca3aa7e86cba38e539111447cff0c270b4a529e88"
+  },
+  "verifiedLiveHolderBootId": "0e313ea7-9ac2-4a55-b1fe-fb472441344a",
+  "originalPGStart": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-A/pg-start/e86336a1-1931-4836-a666-c0f12539d945/complete.json",
+    "bytes": 3273,
+    "rawBytesSha256": "433430a722d7ef09d3e836d0c80f3c2d76165e7801f0f59152d32b0ec3b9296d"
+  },
+  "currentOriginalPGObservation": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/round358-original-PG-running01/observation.json",
+    "bytes": 1235,
+    "rawBytesSha256": "a7ae8f171741ee8444c5d6875f8bba7e7eef8535d402445fbba18424bf00c3cc"
+  },
+  "baseline": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/snapshot-000021-tax15-prepared-current-facts.json",
+    "bytes": 3142796,
+    "rawBytesSha256": "183bb7b076940ddb33b2edf9d2dcf82b63d2f1e580b5cbebc8d6ec48a023db8c"
+  },
+  "actualPGStartReadback": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/transport358-original-PG-observe-G2-independent01/review-actual-original-PG-start358.json",
+    "bytes": 7248,
+    "rawBytesSha256": "d09f71f4bdc7be096e1aa24d8a447a3440d28b709f8c1ea290b13eb97371a4a1"
+  },
+  "readonlyVerification": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/transport358-original-PG-observe-G2-independent01/pg-observe-input-verification358.json",
+    "bytes": 8228,
+    "rawBytesSha256": "9fbb840a5121d6ec8c477b828447da0ec7ba6bd72084d066bcd861bbf60d4457"
+  },
+  "blockingFindings": [],
+  "scope": "One exact original Linux pg-observe dispatch for two fresh full-database RR/RO snapshots against frozen baseline21. No new PG control, API/native context, business command or writes. Holder capture policy grants no PG authority.",
+  "authority": {
+    "readonlyPGSnapshotsExactly2": true,
+    "repeatableReadReadonlyTransactions": true,
+    "defaultAndTransactionReadonlyRequired": true,
+    "readonlyCatalogRowsXminSequencesObjectsAndBaselineComparison": true,
+    "PGControl": false,
+    "APIStart": false,
+    "NativeContext": false,
+    "HTTP": false,
+    "businessDML": false,
+    "createReplaceRestoreMigrate": false,
+    "baselineReset": false,
+    "hostConfiguration": false,
+    "automaticRetry": false,
+    "G3": false,
+    "G4": false,
+    "parent57": "OPEN",
+    "fullR5_116": "OPEN"
+  },
+  "operatorConditions": [
+    "Recheck current same live-holder boot, unchanged source/state/locks and exact current original PG facts before original observe entry.",
+    "Require both fresh observations versus frozen baseline and each other to match all original raw rows/xmin/meta/sequences/objects.",
+    "On unknown or partial observation preserve originals without automatic retry or any service control. Independent post-run file audit remains required before conservation acceptance."
+  ],
+  "reviewExecution": {
+    "RootOrPrivateWritten": false,
+    "PGControlSQLHTTPOrAPIInvoked": false,
+    "fixedLinuxHolderReadonlyEntryInvoked": true
+  }
+}
