@@ -11,3 +11,9 @@ Root真实只读inspect于22:33:51.853至22:38:48.588 UTC单次退出0、stderr0
 12份纯控制元数据及真实inspect原件保存在 `tools/rust-r4ghi/runtime-recovery121/Native362-plan-data-actual01/`，不含私有state、env或auth正文。本记录时Root12未签，peer7具体审查进行中；new registry/candidate及实际状态续接均未发生。后续只能按本次实际scope完成exact FS G2和单次发布，再独立验证三项状态变化与完整保全，冻结私有异inode entry快照。
 
 新current8、prepare-only、真实K/full67、完整FI与唯一正常Tax201仍后置。Rust240、R4 67/95、32 candidate、认证0、业务G3/G4 false；#57/#116 OPEN、#119历史 CLOSED。
+
+## 追加：具体 FS G2 与实际 Root12
+
+上述“Root12未签”保留为metadata/inspect时点记录。后续独立17组、377个raw文件只读核验通过，peer63850 B / `37547234925f1868df091fc6307538416269ee72be655fbad5866499f3532c80`严格闭7键并绑定真实scope、全284、e0d9和完整eb4a前缀。Root于22:49:00.053至22:49:07.433 UTC签署唯一Root12，退出0、stderr0：1728 B / `12c004c3edff05ae78f15ba91a7ef347c06ace25bdc58b0edc79196f3907d00b`，与非作者预计算正文逐字一致。该步骤只写审批metadata，没有状态发布或context。
+
+9份审批/独审原件保存在 `tools/rust-r4ghi/runtime-recovery121/Native362-FS-input-actual01/`。许可仅为一次registry/candidate及e0d9三项状态续接；API/PG写、Tax HTTP和context仍不在本许可内。实际发布结果及独立读回将另记，不从Root12存在推断发布完成。
