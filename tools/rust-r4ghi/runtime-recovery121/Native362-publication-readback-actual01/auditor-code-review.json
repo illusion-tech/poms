@@ -1,0 +1,172 @@
+{
+  "kind": "non-author-runtime121-Native362-publication-auditor-code-review",
+  "verdict": "code-ready-for-separately-authorized-once-readonly-publication-readback",
+  "recordedAt": "2026-11-12T23:07:08.673Z",
+  "reviewer": "/root/transport358_code_review",
+  "author": "/root/control362_review",
+  "reviewerIsAuthor": false,
+  "auditor": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/Native362-publication-readback-preparation01/audit-Native362-publication.mjs",
+    "bytes": 30484,
+    "rawBytesSha256": "fd7dc0acd49a7a95b8d5bf20fec19318d4c69920d8bd7d319a9c7f0028aae30e"
+  },
+  "componentManifest": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/Native362-publication-readback-preparation01/manifest-Native362-readback-preparation.json",
+    "bytes": 5467,
+    "rawBytesSha256": "8011b95e44fa42798805907d59916781735c8a8a90f6ad4b375963ecffb7a770"
+  },
+  "authorSeal": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/Native362-publication-readback-preparation01/seal-Native362-readback-preparation.json",
+    "bytes": 2311,
+    "rawBytesSha256": "a2e94dbcf3f053b1cd39caf7a265a0f7b6438b0ae8fa46186f4ce2926f3dc944"
+  },
+  "authorWholeFSResults": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/Native362-publication-readback-preparation01/whole-own-FS-model-results362-final.json",
+    "bytes": 4242,
+    "rawBytesSha256": "cc68c436dc9e07d988f60ed37cab3666f369c55935af4f128aaae8a718fa4323"
+  },
+  "independentWholeFSResults": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/Native362-publication-auditor-independent01/independent-whole-FS-results362-qualified.json",
+    "bytes": 3422,
+    "rawBytesSha256": "effd4c828bf78cc3da1bd6d2fafb866daf863e2da95be5f5ba69f0aa6f4c73f2"
+  },
+  "independentScript": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/Native362-publication-auditor-independent01/independent-whole-FS362.mjs",
+    "bytes": 22788,
+    "rawBytesSha256": "252f5383a5dbbad291f8d8aca3466040325c0ecae9a3a211fd8aecea6eebf561"
+  },
+  "fixtureBootstrap": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/Native362-publication-auditor-independent01/prepare-independent-models.mjs",
+    "bytes": 9418,
+    "rawBytesSha256": "404e7671c8ebe72444eae84658d314ecb0bad89724c12758aed88d9b8efce075"
+  },
+  "previousActualPassedAuditor": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/Native361-publication-actual01/auditor-code02.mjs.txt",
+    "bytes": 27921,
+    "rawBytesSha256": "a82fb506542c874b2c47dc9ef982834ef03e6d223e371eb62e2b896ca38b395c"
+  },
+  "previousActualReadback": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective361-publication-readback-337610a0-0a68-4445-862b-1b108cc47ce9/review-actual-publication361.json",
+    "bytes": 73104,
+    "rawBytesSha256": "91fb810b4c56274070efb4de73eddf28fa2eaeef24339446983dfded5c0c49f8"
+  },
+  "callingContract": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/Native362-publication-readback-preparation01/calling-contract362.json",
+    "bytes": 4238,
+    "rawBytesSha256": "10fc1c41798027da8e70c25f103f1e3dcc55830e75b66932665412915cda6f79"
+  },
+  "schema": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/Native362-publication-readback-preparation01/readback-spec.schema.json",
+    "bytes": 2398,
+    "rawBytesSha256": "295ec246f2936da5680572124e5f631903e2c1eee86a432a1f5dcbe50614c551"
+  },
+  "safeExistingActualSpec": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/Native362-publication-readback-spec01/readback-spec.json",
+    "bytes": 2775,
+    "rawBytesSha256": "4fcab732ae58374610c0d28069f89079a35c62016fff2df87db935b7c57e315e"
+  },
+  "staticReview": {
+    "fullCandidateModuleAndEveryExportAndCLIRead": true,
+    "completeDeltaFromPassedCODE02Reviewed": true,
+    "builtinOnlyNoNativeCorePublisherAppImports": true,
+    "TDZ": "sourceInventory is declared from sourcePins before expectedCurrent/expectedRegistry construction. The prior CODE02 fix is retained; no new helper closure reads an uninitialized local.",
+    "currentState": "Immutable e0d9 is the before image. Current state comes from complete.state Full3; spec entrySnapshot is post-publication14274424/dcac and not the old before image.",
+    "stateOracle": "Whole clone changes only runtimeAdmission121, exact old history prefix plus one new record, and taxContinuation121 to null. Other top keys and all nested actor/cache37/cookie/sequence39/owned/Main13/bothfailed-journal values remain equal, with exact serialized-byte and SHA checks.",
+    "sourceHistory": "Original M06 manifest9, Source361 manifest4 and new manifest6 remain separate. W3/S3 closed13/12 schema2, wrapper5/schema3, old API metadata inherited, review union5, exact6 changes with278 unchanged and complete229+55=284 source rereads.",
+    "identities": "same permits genuine historical Pin2. Current measured registry/candidate/state/spec pins require Full3; complete registry and candidate bodies and serialized bytes are reconstructed rather than reduced to pin identity.",
+    "outer": "Real Root safe spec/outer metadata matched --cd Root -- Node publisher followed by exact9 publisher args; exit0, current nonce, stdout complete fullpin, stderr0 and false NativeContext/SQLHTTP flags are checked. This is contract preparation, not actual P acceptance.",
+    "ownership": "All7456 current ownership bytes must equal retained eb4a; entire5560 original b76 prefix must match. Complete immutable expectedOwnership and current log are reread before return.",
+    "snapshot": "Private path, regular canonical singleton, raw equality to measured post-state and distinct inode are required. Real own-FS hardlink counterexample is rejected.",
+    "filesystem": "File adapter rejects leaf symlink/nlink!=1/noncanonical paths and pinned byte/hash mismatch. Unknown completed-directory entries, partial/temp/three driver locks refuse. Late state/ownership and all284 are re-read before report return.",
+    "cli": "main362 accepts exact8 readback flags, performs full audit before creating its own exact I output directory, and writes only wx review/seal. It cannot start Native, ctx, API, PG, SQL or HTTP. Errors expose safe name/code only; no original artifact repair/deletion/retry.",
+    "schemaProse": "Schema title/notes still mention corrective361/v2/32bd. These are documentation leftovers. Enforced kind is Native362, fixed actual plan protocol3/scope37b9, state oracle e0d9/39/cache37/bothjournals and ownership7456. No executable predicate is weakened; no schema version was invented."
+  },
+  "validation": {
+    "syntax": {
+      "runtime": "Node v24.19.0",
+      "exitCode": 0
+    },
+    "independentWholeOwnFSCases": 4,
+    "independentCases": [
+      {
+        "case": "complete whole-auditor happy with actual-hashed new state/registry/candidate/snapshot",
+        "outcome": "PASS",
+        "stateDeltaCount": 3,
+        "actorKeys": 14,
+        "historyPrefix": 2,
+        "historyAppend": 1,
+        "sourceCount": 284,
+        "cacheCount": 37
+      },
+      {
+        "case": "whole function rejects late permission-cache and failed-journal drift after clone proof",
+        "outcome": "PASS",
+        "triggerAfterStateCloneProof": true,
+        "finalStateRawRereadObserved": true,
+        "error": {
+          "name": "AssertionError",
+          "code": "ERR_ASSERTION"
+        }
+      },
+      {
+        "case": "whole function rejects late byte7000 change in retained 7456 ownership suffix",
+        "outcome": "PASS",
+        "first5560StillEqual": true,
+        "finalOwnershipRawRereadObserved": true,
+        "error": {
+          "name": "AssertionError",
+          "code": "ERR_ASSERTION"
+        }
+      },
+      {
+        "case": "whole function rejects byte-equal snapshot implemented as actual own-FS hardlink",
+        "outcome": "PASS",
+        "realHardlink": true,
+        "canonicalAndSnapshotSameInode": true,
+        "error": {
+          "name": "AssertionError",
+          "code": "ERR_ASSERTION"
+        }
+      }
+    ],
+    "wholeFunctionUsed": true,
+    "author25ReusedAsSealedEvidenceNotRerun": true,
+    "old1361SuiteRerun": false,
+    "modelLimits": [
+      "The complete auditor module/function executes with only fixed plan/nonce/scope rebound to a MODEL nonce; no prefix projection of the product function.",
+      "The complete author fixture factory is reused to construct inert own-I physical files; independently chosen late state/cache/journal, ownership-suffix and real-hardlink cases use that fixture.",
+      "External historical metadata raw identities are explicitly a synthetic ledger, not actual P hashes. New registry/candidate/state/snapshot model byte hashes are verified against their true model Full3 pins.",
+      "The actual-file adapter/CLI and actual P publication audit have not been executed; the real readback requires a separate Root grant."
+    ],
+    "initialScopeLabelCorrectionRetained": {
+      "original": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/Native362-publication-auditor-independent01/independent-whole-FS-results362.json",
+        "bytes": 2820,
+        "rawBytesSha256": "94565ea4ef94ee6d011917166b579b516e586b487efa390c87414d6285d336c0"
+      },
+      "originalField": "RootOrPrivateRead",
+      "reason": "Public Root source and safe metadata were read. No actual private P object was read. Original model output and test source retained unchanged."
+    }
+  },
+  "authority": {
+    "codeQualificationOnly": true,
+    "requiresSeparateRootActualReadonlyGrant": true,
+    "actualPublicationAccepted": false,
+    "actualPrivatePRead": false,
+    "RootPublicSourcesAndSafeMetadataRead": true,
+    "RootOrPrivateWritten": false,
+    "NativeCoreOrPublisherOrAppImportedOrEvaluated": false,
+    "NativeContext": false,
+    "procEnvSQLHTTP": false,
+    "sourcePromotion": false,
+    "NativePublication": false,
+    "prepare": false,
+    "FI": false,
+    "normalTax": false,
+    "Main": false,
+    "newG2": false,
+    "businessG3": false,
+    "businessG4": false
+  },
+  "blockingFindings": []
+}
