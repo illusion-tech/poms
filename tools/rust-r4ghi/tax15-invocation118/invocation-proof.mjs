@@ -3,6 +3,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import assert from "node:assert/strict";
+import { isProxy } from "node:util/types";
 import { pathToFileURL } from "node:url";
 import { sourcePins } from "../business/context.mjs";
 import {createContext121,assertCurrentLease121,runtimeReference121} from "../business/runtime-admission121.mjs";
@@ -83,6 +84,7 @@ const dataKeys = [
     "host",
     "port",
     "owner",
+    "apps",
     "mirror",
     "win",
     "private",
@@ -319,6 +321,18 @@ function live(cap) {
 // Pure view construction is exported for actual confinement tests. It cannot
 // mint a capability or choose an effect mode. Its prototype is deliberately null.
 export function restrictContext118(root) {
+    const appsField = Object.getOwnPropertyDescriptor(root, "apps");
+    assert(appsField && Object.hasOwn(appsField, "value"), "Existing genuine fixed app roles required");
+    const actualApps = appsField.value;
+    assert(Array.isArray(actualApps) && !isProxy(actualApps) && Object.getPrototypeOf(actualApps) === Array.prototype, "Plain fixed app-role array required");
+    assert.equal(actualApps.length, 2, "Exactly two fixed app roles required");
+    assert.deepEqual(Reflect.ownKeys(actualApps), ["0", "1", "length"], "Exactly two fixed app roles required");
+    for (const [i, role] of ["poms_r4ghi_native_app", "poms_r4ghi_rust_app"].entries()) {
+        const field = Object.getOwnPropertyDescriptor(actualApps, String(i));
+        assert(field && Object.hasOwn(field, "value"), "App roles must be own data values");
+        assert.equal(field.enumerable, true, "App roles must be enumerable data values");
+        assert.equal(field.value, role, "Foreign app role refused");
+    }
     const cache = new WeakMap(),
         ro = (v) => {
             if (v === null || typeof v !== "object") {
@@ -414,7 +428,7 @@ export function restrictContext118(root) {
     for (const k of dataKeys) {
         if (Object.hasOwn(root, k)) {
             Object.defineProperty(view, k, {
-                value: ro(root[k]),
+                value: ro(k === "apps" ? actualApps : root[k]),
                 enumerable: true,
             });
         }
@@ -573,6 +587,9 @@ function apiIdentity(d) {
 }
 function currentFiles(d) {
     assertCurrentLease121(d.root,d.verifiedRuntime);
+    currentTaxFiles118(d);
+}
+function currentTaxFiles118(d) {
     const lock = json118({
         file: d.root.priv + "/driver.lock",
         rawBytesSha256: d.lockSHA,
@@ -1015,6 +1032,19 @@ export function currentTuple118(cap) {
         runtimeReference121:runtimeReference121(d.root,d.verifiedRuntime),
     };
 }
+// This bound link is data only. It does not perform or authorize a current
+// check; effects must pass their explicit complete checkpoint/currentFiles.
+function runtimeLink118(d) {
+    const b = d.verifiedRuntime;
+    return freeze118(structuredClone({
+        kind: "actual-runtime-lease-reference121", protocolVersion: 1,
+        runtimeAdmission121: b.authorityPin, candidate: b.current.candidate,
+        baseCodeRegistry: b.code.registryPin, baseCodeCandidate: b.code.candidatePin,
+        apiProcess: b.current.apiProcess, sourcePins: b.current.sourcePins,
+        sourcePinsSHA256: b.current.sourcePinsSHA256,
+        compilePins: b.current.compilePins, helperPins: b.current.helperPins,
+    }));
+}
 export function runtime118(cap) {
     const d = live(cap);
     return Object.freeze({
@@ -1033,13 +1063,13 @@ export function runtime118(cap) {
         frame: d.frame ? freeze118(structuredClone(d.frame)) : null,
         entryGuard: d.entryGuard,
         boot: d.boot,
-        runtimeReference121:freeze118(structuredClone(runtimeReference121(d.root,d.verifiedRuntime))),
+        runtimeReference121:runtimeLink118(d),
     });
 }
 export function checkpoint118(cap, phase) {
     const d = live(cap);
     assert(typeof phase === "string" && phase);
-    currentFiles(d);
+    currentTaxFiles118(d);
     if (d.root.state.activeFault) {
         const a = d.root.state.activeFault;
         assert.equal(a.kind, F118.faultKind);

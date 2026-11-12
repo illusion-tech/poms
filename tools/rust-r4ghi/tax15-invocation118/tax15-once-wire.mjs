@@ -26,6 +26,7 @@ import {
 import {
     assertCurrentScope118,
     guardActor118,
+    guardActorForWire118,
     install118,
     rememberAck118,
     remove118,
@@ -247,6 +248,8 @@ export function createWire118(cap) {
             );
             await install118(cap, binding.fi, requestId, before);
         }
+        const dispatchSessionCookie = actor.cookies?.poms_session ?? null;
+        const dispatchCookieHash = dispatchSessionCookie ? sha(decodeURIComponent(dispatchSessionCookie)) : null;
         const headers = {
             Origin: ctx.origin,
             "X-Request-Id": requestId,
@@ -290,7 +293,7 @@ export function createWire118(cap) {
         if (payload.length || binding.bytes) {
             headers["Content-Length"] = payload.length;
         }
-        const runtimeReference121=checkpoint118(cap,"HTTP-reference-before-wire").runtimeReference121;
+        const runtimeReference121=runtime118(cap).runtimeReference121; // Bound metadata only; final checkpoint below authorizes no stale link.
         const originals = {
             requestConfig: ctx.artifact(`${label}-request.json`, {
                 runtimeReference121,
@@ -324,8 +327,29 @@ export function createWire118(cap) {
             }
         }
         ctx.persist();
+        const checkedReference121 = checkpoint118(cap, "HTTP-reference-before-wire").runtimeReference121;
+        assert.deepEqual(checkedReference121, runtimeReference121, "Final current identity differs from request metadata");
         const chunks = [];
         let response, failure;
+        // All bulk checks/captures/request artifacts/pending persistence are
+        // complete. Re-read actual account/full permissions/cookie/session now.
+        const finalDeadline = await guardActorForWire118(cap);
+        assert.equal(actor.cookies?.poms_session ?? null, dispatchSessionCookie, "Session cookie changed before dispatch");
+        if (finalDeadline === null) {
+            assert.equal(dispatchCookieHash, null);
+            assert(["AuthController_getCsrfToken", "AuthController_createPasswordAuthSession"].includes(operationId), "Only exact no-session Auth bootstrap may dispatch");
+        } else {
+            assert.equal(finalDeadline.cookieHash, dispatchCookieHash, "Headers differ from final checked session");
+            assert(typeof finalDeadline.monotonicStartNs === "bigint");
+            const elapsedNs = process.hrtime.bigint() - finalDeadline.monotonicStartNs;
+            assert(elapsedNs >= 0n, "Invalid monotonic dispatch interval");
+            const elapsedMs = (elapsedNs + 999999n) / 1000000n;
+            assert(elapsedMs <= BigInt(Number.MAX_SAFE_INTEGER));
+            assert(Number.isFinite(finalDeadline.minDeadlineMs) && Number.isFinite(finalDeadline.observedNowMs));
+            assert(finalDeadline.minDeadlineMs - finalDeadline.observedNowMs - Number(elapsedMs) > 2000, "Real session dispatch window expired");
+        }
+        // No await/hash/capture/SQL/persistence between the final synchronous
+        // window check and this existing direct request/end send block.
         try {
             response = await new Promise((resolve, reject) => {
                 const req = http.request(url, {
@@ -488,9 +512,9 @@ export function createWire118(cap) {
             binding,
         );
         noteLedger118(cap, ledger);
-        runtime118(cap).ctx.state.consumerChecks.taxInvocation121
+        ctx.state.consumerChecks.taxInvocation121
             .invocations[p.nonce].httpAttempts ??= [];
-        runtime118(cap).ctx.state.consumerChecks.taxInvocation121
+        ctx.state.consumerChecks.taxInvocation121
             .invocations[p.nonce].httpAttempts.push({
                 http: {
                     file: `${ctx.out}/${publicReceipt}`,

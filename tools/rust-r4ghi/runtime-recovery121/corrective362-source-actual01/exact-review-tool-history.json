@@ -1,0 +1,77 @@
+{
+  "kind": "independent-exact-source362-review-tool-stop-and-correction",
+  "recordedAt": "2026-11-12T22:08:51.769Z",
+  "initialReviewToolExitCode": 1,
+  "initialStoppedCheck": "Prior Source361 witness/plan/publication full chain",
+  "actualInputSubstantiveFailure": false,
+  "reason": "The verifier compared historical registry.approvedPlan Pin2 against oldPlan Full3 as whole objects. Exact file/SHA matched; only the valid optional historical bytes member was absent.",
+  "unchangedOriginalVerifier": {
+    "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-exact-source-G2-independent01/review-exact-source362-before-pin2-correction.mjs",
+    "bytes": 19958,
+    "rawBytesSha256": "0457d37d4e54e7fdfdc54b94fff6f00566df616cd6bdcd0d7c2c1fb9580c8096"
+  },
+  "diagnostic": {
+    "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-exact-source-G2-independent01/reference-shape-stop01.json",
+    "bytes": 2123,
+    "rawBytesSha256": "ab79f6dd459d97abac20fa89fd6a9e46af946b07572d155915ca9399931d4f00"
+  },
+  "correction": "Only the historical registry approvedPlan relation uses the same file/hash pin-reference semantics already required by the established ABI. The full referenced actual oldPlan bytes/SHA remain verified; no missing bytes were invented and no target metadata/source was rewritten.",
+  "currentNonceClosedFullpinChecks": [
+    {
+      "field": "input",
+      "pin": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source-inputs/a6e8e1ed-787a-4ab2-9595-eec42b617bfd/input.json",
+        "bytes": 1120,
+        "rawBytesSha256": "997a96b45647140bb604427534ef52002155977ba5708230c177151424e31224"
+      },
+      "closedFull3": true
+    },
+    {
+      "field": "G3",
+      "pin": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/corrective362-g3-freeze01/Root-G3-code-input362.json",
+        "bytes": 14235,
+        "rawBytesSha256": "0bc2ad58712a8cc396f740701178b3e27cda8f16a615404c35f47f658ace10d2"
+      },
+      "closedFull3": true
+    },
+    {
+      "field": "sourcePlan",
+      "pin": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source-inputs/a6e8e1ed-787a-4ab2-9595-eec42b617bfd/eight-source-plan.json",
+        "bytes": 7779,
+        "rawBytesSha256": "dc227898c5dffa39ae675105bd5472a07e51fca6f70046b7257f36e51d53dbca"
+      },
+      "closedFull3": true
+    },
+    {
+      "field": "operator",
+      "pin": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/promote-corrective362-once.mjs",
+        "bytes": 16037,
+        "rawBytesSha256": "af6e4f406cec2f84e711f13d7160b470eb8fea2322e2f4a48a3bb3632d93868d"
+      },
+      "closedFull3": true
+    },
+    {
+      "field": "expectedRootApproval",
+      "pin": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source-inputs/a6e8e1ed-787a-4ab2-9595-eec42b617bfd/Root-approval.json",
+        "bytes": 1463,
+        "rawBytesSha256": "f05d03d841ecaf19f370f674c378c552ecb7cd51a13eb40a308dbaedb2199d56"
+      },
+      "closedFull3": true
+    }
+  ],
+  "currentCandidateFullpins": "All8 operation candidates were required identical to the qualified full3 component candidate objects and physically read with exact byte count/hash. Current request/input/plan/operator/expected approval retain exact literal pins.",
+  "historicalM06CopyReadAlsoBoundToOriginalSHA": true,
+  "finalReadonlyChecksPassed": 347,
+  "finalPeer": {
+    "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-exact-source-G2-independent01/peer-exact-eight-source362.json",
+    "bytes": 1816,
+    "rawBytesSha256": "2dfa11404d644916ea550913b75ee17a625e6117eff9ef3350ef995297395d57"
+  },
+  "RootOrPrivateWritten": false,
+  "stateOwnershipParsed": false,
+  "actualSourceOperatorInvoked": false
+}

@@ -82,7 +82,9 @@ export function assertSessionFacts118(
     }
     return session?.id ?? null;
 }
-export async function guardActor118(cap) {
+async function readActorGuard118(cap) {
+    // Conservative anchor: before connection, SQL, result delivery or any await.
+    const monotonicStartNs = process.hrtime.bigint();
     const { ctx, p } = runtime118(cap), actor = ctx.state.actors[p.actorKey];
     assert.equal(actor.id, p.actorId);
     const cookieHash = p.mode !== "disarm-owned" && actor.cookies?.poms_session
@@ -115,7 +117,7 @@ export async function guardActor118(cap) {
         if (cookieHash) assert.equal(session.length, 1);
         const s = session[0]?.value,
             now = s ? Date.parse(s.observed_now) : Date.now();
-        return assertSessionFacts118({
+        const sessionId = assertSessionFacts118({
             actorId: p.actorId,
             account: account[0].value,
             permissions: permissionSet118({
@@ -133,7 +135,24 @@ export async function guardActor118(cap) {
                         .owned[keyOf(ctx.database, "auth_session", [s.id])],
                 ),
         });
+        const deadline = cookieHash ? Object.freeze({
+            observedNowMs: now,
+            minDeadlineMs: Math.min(Date.parse(s.idle_expires_at), Date.parse(s.absolute_expires_at)),
+            monotonicStartNs,
+            cookieHash,
+        }) : null;
+        return { sessionId, deadline };
     });
+}
+// The existing six-mode actor guard ABI remains sessionId|string|null.
+export async function guardActor118(cap) {
+    return (await readActorGuard118(cap)).sessionId;
+}
+// Fixed wire-only channel. Accepts only the genuine private capability; its
+// ephemeral observation is never persisted or accepted back from a caller.
+export async function guardActorForWire118(cap) {
+    assert.equal(arguments.length, 1, "Fixed wire guard accepts only its private capability");
+    return (await readActorGuard118(cap)).deadline;
 }
 export function assertCurrentScope118(cap, before) {
     const { ctx, p, h, prepared, legacy } = runtime118(cap);

@@ -304,8 +304,255 @@ function produceNativePlanV2361(options) {
   }
 }
 
+// Pure bounded state predicates only; no runtime constructor or effect code.
+const IO361={
+  "G1B": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/g1B/Root-G1B-121.json",
+    "bytes": 5254,
+    "rawBytesSha256": "be96f468fe8c7aa58dcebe6f687ef90d0afb46f1d9ca2ac2bc2b3e90974206cc"
+  },
+  "APIProcess": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/rust-api121-process.json",
+    "bytes": 5775,
+    "rawBytesSha256": "f822ffcd0e027c93c20ca6f5630bb2be44d738c1127199d30cbe3abfc2caa38f"
+  },
+  "failureNonce": "82321806-8586-4210-b5cd-ef16311f63ce"
+};
+
+// Builtin-only, exact three-stage source proof; identical in all four consumers.
+const IO362={
+  "freeze": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/corrective362-g3-freeze01/Root-G3-code-input362.json",
+    "bytes": 14235,
+    "rawBytesSha256": "0bc2ad58712a8cc396f740701178b3e27cda8f16a615404c35f47f658ace10d2"
+  },
+  "priorPlan": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-native-plan-data/337610a0-0a68-4445-862b-1b108cc47ce9/native-plan121.json",
+    "bytes": 78055,
+    "rawBytesSha256": "6c667cb813a789fafb3af26d3d5bf096bbdc8b2da24da6686292ad007dd31767"
+  },
+  "priorRegistry": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/runtime121-337610a0-0a68-4445-862b-1b108cc47ce9/registry.json",
+    "bytes": 134136,
+    "rawBytesSha256": "3f7a1365d57755671fdefcaf5e5edd0ea9c78a85a9cf6656cd20b78f3f2808a8"
+  },
+  "priorCandidate": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/runtime121-337610a0-0a68-4445-862b-1b108cc47ce9/candidate.json",
+    "bytes": 126007,
+    "rawBytesSha256": "a0521865327f9fe3a164f7d43ddd1fb1bbac6dcf76d0c22738a487b908ba655a"
+  },
+  "priorPublication": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/runtime121-337610a0-0a68-4445-862b-1b108cc47ce9/complete.json",
+    "bytes": 1522,
+    "rawBytesSha256": "bd7d2a242ed2d2ca15d329a8ba1f9a59efcba004fa5532d43497a4047e8e5811"
+  },
+  "priorReadback": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective361-publication-readback-337610a0-0a68-4445-862b-1b108cc47ce9/review-actual-publication361.json",
+    "bytes": 73104,
+    "rawBytesSha256": "91fb810b4c56274070efb4de73eddf28fa2eaeef24339446983dfded5c0c49f8"
+  },
+  "retainedState": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-prepare361-failed01/1899fb63-42e3-4bd5-94d2-f1fbd8c57d57/after-state.json",
+    "bytes": 14666792,
+    "rawBytesSha256": "e0d9ae5799c2c0adaccd98a0b5463915073089d596b7fe768666b9e6e3276a38"
+  },
+  "retainedOwnership": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-prepare361-failed01/1899fb63-42e3-4bd5-94d2-f1fbd8c57d57/after-ownership.jsonl",
+    "bytes": 7456,
+    "rawBytesSha256": "eb4aa89f5ce253bae776101a66dd06d8cfb5fd4748d69f341dd7059eef5a3989"
+  },
+  "failurePartial": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/tax118-invocation-1899fb63-42e3-4bd5-94d2-f1fbd8c57d57/partial.json",
+    "bytes": 1399,
+    "rawBytesSha256": "475056ab1ad4cd83c48b02babdf6de3b3efff8a3565cbf1267be54915fe743ce"
+  },
+  "failureRetention": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-prepare361-failed01/1899fb63-42e3-4bd5-94d2-f1fbd8c57d57/retention.json",
+    "bytes": 7563,
+    "rawBytesSha256": "23e42112aaf2b9d8005fbd86535845fddbf20f0b5e7c21726779c5924f78b4e9"
+  },
+  "failureReadback": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime121-prepare361-failure-independent01/evidence-failed-prepare361.json",
+    "bytes": 20168,
+    "rawBytesSha256": "04c743a9dd14f536e00e66a94265e1b664e45880b00f6b53fe78633d020a68ad"
+  },
+  "priorEntry": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-native-entry-snapshots361/337610a0-0a68-4445-862b-1b108cc47ce9/entry-state.json",
+    "bytes": 14253205,
+    "rawBytesSha256": "76ad68ccf87565192f6089294ede52ab77d977f423a364c9d1b1ebb5d3d3263d"
+  },
+  "entryGuard": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/000028-tax118-entry-guard.json",
+    "bytes": 8301,
+    "rawBytesSha256": "9d5d4c184c31a3e4e1719b2193de39e8f827b161715b30515e24c2ef9efc26eb"
+  },
+  "exitGuard": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/000038-tax118-exit-guard.json",
+    "bytes": 5752,
+    "rawBytesSha256": "0624a337c73c0f8b4d9b6c47a02b4a6d256c7e53d7546e54e1c849b8a8cb97e3"
+  },
+  "closedJournal": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/000039-tax118-closed-journal.json",
+    "bytes": 12740,
+    "rawBytesSha256": "68ce00627d44338597ebd89201638d5f24b98dc478abd49414d78a368dd09f55"
+  },
+  "retainedSix": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-predecessor-source01/manifest.json",
+    "bytes": 4952,
+    "rawBytesSha256": "07e274546d26f98b8ef2e35e43b1c4370cdb09a6adcee7323416d727d743958e"
+  },
+  "priorSourceComplete": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective361-source/a3d3040f-54ce-4f37-85ea-1aaacb18fe0d/complete.json",
+    "bytes": 4303,
+    "rawBytesSha256": "cf1cb797274fa45a7e08795782d32a888e362ec5720c922321d34a48a17d0a87"
+  },
+  "priorGraph": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective361-source/a3d3040f-54ce-4f37-85ea-1aaacb18fe0d/actual-execution-sources284.json",
+    "bytes": 60810,
+    "rawBytesSha256": "8cb6f1e5a6ee9d1e2ea093fa49aa61c3e56f774602b45b195eaaea5c8ebb105f"
+  },
+  "sixSources": [
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs",
+      "bytes": 59431,
+      "rawBytesSha256": "5acf886f286e1844a8078bb0dffb3797384c211511d40eba3570024a458bcf8b"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tax15-once-wire.mjs",
+      "bytes": 21877,
+      "rawBytesSha256": "b3bf45a8227c2c661c7853b6687bab456fcc8120a7e66681bdb667f90f79cebc"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tax15-once-effects.mjs",
+      "bytes": 19541,
+      "rawBytesSha256": "559ce23d665d4f0e2aec13ead55ac57af0265559a80a5c958965f5301efbfafc"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/runtime-admission121.mjs",
+      "bytes": 123267,
+      "rawBytesSha256": "ba6f97749d35904a4071ef1914ca51a6e2f563ecfd426013b449d12c05162957"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/runtime-admission-core121.mjs",
+      "bytes": 33196,
+      "rawBytesSha256": "ff4052b563f5ff359385a81c1cb71cc06c4aa9e0017886a997c797d1c0ba4559"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/native/publish-runtime121.mjs",
+      "bytes": 36826,
+      "rawBytesSha256": "a8f28d8a16daca2853f966bd30157f2c228ee7ec0a04b277831e0cd469d7fa24"
+    }
+  ],
+  "failureNonce": "1899fb63-42e3-4bd5-94d2-f1fbd8c57d57",
+  "priorSuccessor": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective361-source/a3d3040f-54ce-4f37-85ea-1aaacb18fe0d/successor12.json",
+    "bytes": 3062,
+    "rawBytesSha256": "099d3ade7822aa0460eb72c6ec77340d1ed553b9aea11067a1afc18b82943903"
+  }
+};
+const keys362=(v,k)=>{assert(v&&Object.getPrototypeOf(v)===Object.prototype);assert.deepEqual(Object.keys(v).sort(),[...k].sort());};
+function pin362(p,full=false){keys362(p,full||Object.hasOwn(p??{},'bytes')?['file','bytes','rawBytesSha256']:['file','rawBytesSha256']);assert(typeof p.file==='string'&&p.file.startsWith('/')&&path.posix.resolve(p.file)===p.file&&!p.file.includes('\\')&&!p.file.includes('//')&&!/[\0\r\n]/.test(p.file));assert(/^[a-f0-9]{64}$/.test(p.rawBytesSha256));if(p.bytes!==undefined)assert(Number.isSafeInteger(p.bytes)&&p.bytes>=0);return p;}
+function same362(a,b){pin362(a);pin362(b);assert.equal(a.file,b.file);assert.equal(a.rawBytesSha256,b.rawBytesSha256);if(a.bytes!==undefined&&b.bytes!==undefined)assert.equal(a.bytes,b.bytes);}
+const sourceRows362=a=>{assert(Array.isArray(a));const b=a.map(p=>{pin362(p);assert(p.file.startsWith('/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/'));return{file:p.file,rawBytesSha256:p.rawBytesSha256};}).sort((x,y)=>Buffer.compare(Buffer.from(x.file),Buffer.from(y.file)));assert.equal(new Set(b.map(p=>p.file)).size,b.length);return b;};
+function descriptors362(a,n){assert(Array.isArray(a)&&a.length===n);for(const p of a){keys362(p,['file','sha256']);assert(typeof p.file==='string'&&!p.file.startsWith('/')&&!p.file.includes('\\')&&!p.file.includes('//')&&!p.file.split('/').some(x=>!x||x==='.'||x==='..'));assert(/^[a-f0-9]{64}$/.test(p.sha256));}assert.deepEqual(a,[...a].sort((x,y)=>Buffer.compare(Buffer.from(x.file),Buffer.from(y.file))));assert.equal(new Set(a.map(p=>p.file)).size,n);return a;}
+function reviews362(a,newReview){assert(Array.isArray(a)&&a.length===4);const b=[...a,newReview];b.forEach(p=>pin362(p,true));assert.equal(new Set(b.map(p=>p.file)).size,5);return b.sort((x,y)=>Buffer.compare(Buffer.from(x.file),Buffer.from(y.file)));}
+function validateSourceSuccessor362(m){
+ const root='/mnt/e/projects/worktrees/poms-r3hijk-next28/poms',s=m.successor,w=m.witness,p2=m.predecessorPlan,prior=m.prior;
+ keys362(s,['kind','schemaVersion','predecessorPlan','predecessorRegistry','predecessorCandidate','predecessorPublication','predecessorReadback','retainedCurrentState','failurePartial','failureRetention','failureReadback','sourceWitness']);assert.equal(s.kind,'Root-runtime121-client-successor-handoff');assert.equal(s.schemaVersion,2);
+ for(const[k,n]of Object.entries({predecessorPlan:'priorPlan',predecessorRegistry:'priorRegistry',predecessorCandidate:'priorCandidate',predecessorPublication:'priorPublication',predecessorReadback:'priorReadback',retainedCurrentState:'retainedState',failurePartial:'failurePartial',failureRetention:'failureRetention',failureReadback:'failureReadback'})){pin362(s[k],true);assert.deepEqual(s[k],IO362[n]);}pin362(s.sourceWitness,true);
+ keys362(w,['kind','schemaVersion','baselineCompositionComplete','baselineHelperPins','baselineExternalPins','baselineExecutionSources','baselineStageManifest','retainedChangedSources','successorManifest','successorCodeReview','currentHelperPins','currentExternalPins','currentExecutionSources']);assert.equal(w.kind,'Root-runtime121-three-stage-client-source-witness');assert.equal(w.schemaVersion,2);for(const k of Object.keys(w).filter(k=>!['kind','schemaVersion'].includes(k)))pin362(w[k],true);
+ assert.deepEqual(w.baselineCompositionComplete,IO362.priorPublication);assert.deepEqual(w.retainedChangedSources,IO362.retainedSix);assert.equal(p2.protocolVersion,2);same362(p2.stateTransfer.successor,IO362.priorSuccessor);same362(w.baselineHelperPins,p2.current.helperPins);same362(w.baselineHelperPins,prior.witness.currentHelperPins);same362(w.baselineExternalPins,prior.witness.currentExternalPins);same362(w.baselineExecutionSources,prior.witness.currentExecutionSources);same362(w.baselineExecutionSources,IO362.priorGraph);same362(w.baselineStageManifest,p2.tooling.manifest);same362(w.baselineStageManifest,prior.witness.successorManifest);assert.deepEqual(sourceRows362(p2.tooling.executionSources),sourceRows362(prior.executionSources));
+ const r=m.retainedSix;keys362(r,['kind','recordedAt','priorSourceComplete','oldGraph','oldExecutionCount','mappings','remainingUnchangedMembers','allPrior284CurrentlyRawMatched','priorSource361AndM06Unmodified','newSourceOrGraphCreated','productionWritten','canonicalStateWritten','modeExecuted','actualG2Granted']);assert.equal(r.kind,'Root-fixed-six-predecessor-source-retained362');same362(r.priorSourceComplete,IO362.priorSourceComplete);same362(r.oldGraph,IO362.priorGraph);assert.equal(r.oldExecutionCount,284);assert.equal(r.remainingUnchangedMembers,278);assert.equal(r.allPrior284CurrentlyRawMatched,true);assert.equal(r.priorSource361AndM06Unmodified,true);for(const k of['newSourceOrGraphCreated','productionWritten','canonicalStateWritten','modeExecuted','actualG2Granted'])assert.equal(r[k],false);assert(Array.isArray(r.mappings)&&r.mappings.length===6);assert.deepEqual(r.mappings.map(q=>q.relative),IO362.sixSources.map(q=>q.file.slice(root.length+1)));for(const[q,i]of r.mappings.map((q,i)=>[q,i])){keys362(q,['relative','original','retainedCopy']);assert.deepEqual(q.original,IO362.sixSources[i]);pin362(q.retainedCopy,true);assert.equal(q.retainedCopy.file,'/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-predecessor-source01/'+(i+1)+'-'+path.posix.basename(q.relative)+'.bin');assert.equal(q.original.bytes,q.retainedCopy.bytes);assert.equal(q.original.rawBytesSha256,q.retainedCopy.rawBytesSha256);}
+ const old=sourceRows362(prior.executionSources),now=sourceRows362(m.executionSources);assert.equal(old.length,284);assert.equal(now.length,284);assert.deepEqual(old.map(p=>p.file),now.map(p=>p.file));descriptors362(m.helpers,229);descriptors362(m.external,55);assert.deepEqual(sourceRows362([...m.helpers,...m.external].map(p=>({file:root+'/'+p.file,rawBytesSha256:p.sha256}))),now);assert.deepEqual(prior.helpers.map(p=>p.file),m.helpers.map(p=>p.file));assert.deepEqual(prior.external.map(p=>p.file),m.external.map(p=>p.file));const changed=now.filter((p,i)=>p.rawBytesSha256!==old[i].rawBytesSha256);assert.deepEqual(changed.map(p=>p.file).sort(),IO362.sixSources.map(p=>p.file).sort());
+ const manifest=m.manifest,review=m.review;assert.equal(manifest.kind,'I-runtime121-code-candidate');assert.equal(manifest.edition,362);same362(manifest.correctiveG3,IO362.freeze);assert(Array.isArray(manifest.production)&&manifest.production.length===6);assert.deepEqual(manifest.production.map(p=>root+'/'+p.file).sort(),IO362.sixSources.map(p=>p.file).sort());assert.equal(review.kind,'non-author-runtime121-finite-code-step');assert.equal(review.verdict,'approved-bounded-step-only');assert.equal(review.reviewerIsAuthor,false);assert(typeof review.author==='string'&&review.author&&typeof review.reviewer==='string'&&review.reviewer&&review.author!==review.reviewer);same362(review.componentManifest,w.successorManifest);same362(review.correctiveG3,IO362.freeze);same362(review.technicalG1,IO361.G1B);assert(Array.isArray(review.entries)&&review.entries.length===6);assert.equal(new Set(review.entries.map(p=>p.file)).size,6);for(const[p,i]of manifest.production.map((p,i)=>[p,i])){const before=old.find(q=>q.file===root+'/'+p.file),after=now.find(q=>q.file===root+'/'+p.file);assert(before&&after);assert.equal(p.operation,'MOD');assert.equal(p.beforeSHA256,before.rawBytesSha256);assert.equal(p.afterSHA256,after.rawBytesSha256);assert.notEqual(p.beforeSHA256,p.afterSHA256);pin362(p.candidate,true);assert.equal(p.candidate.rawBytesSha256,p.afterSHA256);const e=review.entries.find(e=>e.file===p.file);assert(e);assert.equal(e.beforeSHA256,p.beforeSHA256);assert.equal(e.afterSHA256,p.afterSHA256);assert.equal(e.productPointer,'/production/'+i);}
+ same362(m.predecessorRegistry.approvedPlan,s.predecessorPlan);same362(m.predecessorCandidate.runtimeAdmission121,s.predecessorRegistry);same362(m.predecessorPublication.input,s.predecessorPlan);same362(m.predecessorPublication.registry,s.predecessorRegistry);same362(m.predecessorPublication.candidate,s.predecessorCandidate);assert.equal(m.predecessorPublication.statePublished,true);assert.equal(m.predecessorReadback.kind,'non-author-runtime121-corrective361-actual-FS-publication-readback');assert.equal(m.predecessorReadback.verdict,'approved-actual-exact-successor-FS-publication-readback');same362(m.predecessorReadback.complete,s.predecessorPublication);same362(m.predecessorReadback.plan,s.predecessorPlan);same362(m.predecessorReadback.registry,s.predecessorRegistry);same362(m.predecessorReadback.candidate,s.predecessorCandidate);same362(m.predecessorReadback.immutablePrivateEntrySnapshot,IO362.priorEntry);same362(m.retainedState.runtimeAdmission121.registry,s.predecessorRegistry);same362(m.retainedState.runtimeAdmission121.candidate,s.predecessorCandidate);assert.equal(m.retainedState.sequence,39);return m;
+}
+function loadSourceSuccessor362(reader,successorPin){
+ const raw=p=>{pin362(p);return reader(p);},get=p=>JSON.parse(raw(p));pin362(successorPin,true);const freeze=get(IO362.freeze);assert.equal(freeze.kind,'Root-frozen-runtime121-corrective362-G3-code-input');assert.equal(freeze.codeImplementationGranted,true);assert.equal(freeze.sourcePromotionGranted,false);assert.equal(freeze.actualTimingOrG2Authorized,false);
+ const successor=get(successorPin);keys362(successor,['kind','schemaVersion','predecessorPlan','predecessorRegistry','predecessorCandidate','predecessorPublication','predecessorReadback','retainedCurrentState','failurePartial','failureRetention','failureReadback','sourceWitness']);assert.equal(successor.kind,'Root-runtime121-client-successor-handoff');assert.equal(successor.schemaVersion,2);for(const[k,n]of Object.entries({predecessorPlan:'priorPlan',predecessorRegistry:'priorRegistry',predecessorCandidate:'priorCandidate',predecessorPublication:'priorPublication',predecessorReadback:'priorReadback',retainedCurrentState:'retainedState',failurePartial:'failurePartial',failureRetention:'failureRetention',failureReadback:'failureReadback'}))assert.deepEqual(successor[k],IO362[n]);
+ const witness=get(successor.sourceWitness);keys362(witness,['kind','schemaVersion','baselineCompositionComplete','baselineHelperPins','baselineExternalPins','baselineExecutionSources','baselineStageManifest','retainedChangedSources','successorManifest','successorCodeReview','currentHelperPins','currentExternalPins','currentExecutionSources']);assert.equal(witness.kind,'Root-runtime121-three-stage-client-source-witness');assert.equal(witness.schemaVersion,2);assert.deepEqual(witness.retainedChangedSources,IO362.retainedSix);
+ const retainedSix=get(witness.retainedChangedSources);assert(Array.isArray(retainedSix.mappings)&&retainedSix.mappings.length===6);const sixMap=new Map();for(const[q,i]of retainedSix.mappings.map((q,i)=>[q,i])){keys362(q,['relative','original','retainedCopy']);assert.deepEqual(q.original,IO362.sixSources[i]);pin362(q.retainedCopy,true);assert.equal(q.original.rawBytesSha256,q.retainedCopy.rawBytesSha256);assert.equal(q.original.bytes,q.retainedCopy.bytes);raw(q.retainedCopy);assert(!sixMap.has(q.original.file));sixMap.set(q.original.file,q);}
+ // Exactly stage361 six preimages. The nested361 reader still owns a226/M06 four.
+ const historicalRead=p=>{const q=sixMap.get(p.file);if(q){same362(p,q.original);return raw(q.retainedCopy);}return raw(p);};
+ const predecessorPlan=get(successor.predecessorPlan);const prior=readSuccessorFiles361(predecessorPlan,historicalRead);same362(predecessorPlan.stateTransfer.successor,IO362.priorSuccessor);const priorSource=get(IO362.priorSourceComplete);same362(priorSource.sourceWitness,prior.successor.sourceWitness);same362(priorSource.successor,predecessorPlan.stateTransfer.successor);same362(priorSource.executionSources,witness.baselineExecutionSources);
+ const m={successorPin,successor,witness,retainedSix,predecessorPlan,prior,predecessorRegistry:get(successor.predecessorRegistry),predecessorCandidate:get(successor.predecessorCandidate),predecessorPublication:get(successor.predecessorPublication),predecessorReadback:get(successor.predecessorReadback),retainedState:get(successor.retainedCurrentState),helpers:get(witness.currentHelperPins),external:get(witness.currentExternalPins),executionSources:get(witness.currentExecutionSources),manifest:get(witness.successorManifest),review:get(witness.successorCodeReview)};validateSourceSuccessor362(m);
+ for(const p of[successor.failurePartial,successor.failureRetention,successor.failureReadback,IO362.priorEntry,IO362.retainedOwnership,...predecessorPlan.composition.independentCodeReviews])raw(p);for(const p of m.manifest.production)raw(p.candidate);for(const p of m.executionSources)raw(p);const baseLog=raw(predecessorPlan.base.ownership15),afterLog=raw(IO362.retainedOwnership);assert.equal(baseLog.length,5560);assert.equal(afterLog.length,7456);assert(afterLog.subarray(0,baseLog.length).equals(baseLog),'362 retained eb4a must preserve b76');
+ return m;
+}
+function validatePlan362(plan,m,h,e){validateSourceSuccessor362(m);keys362(plan,['kind','protocolVersion','namespace','epoch','run','nonce','base','current','composition','stateTransfer','tooling','outputs']);assert.equal(plan.kind,'source15-append-runtime-plan121');assert.equal(plan.protocolVersion,3);for(const[k,v]of Object.entries({namespace:'poms-r4ghi',epoch:'g2-business15',run:'main01'}))assert.equal(plan[k],v);assert(/^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/.test(plan.nonce));assert.deepEqual(plan.base,m.predecessorPlan.base);keys362(plan.current,['sourcePins','compilePins','helperPins','helperCount','binary','summaryBinary','binaryFiles','nodeExecutable','lifetimeOwner','PGStart','PGConservation','apiProcess','readiness']);const expected=JSON.parse(JSON.stringify(m.predecessorPlan.current));expected.helperPins=m.witness.currentHelperPins;assert.deepEqual(plan.current,expected);keys362(plan.stateTransfer,['expectedState','expectedOwnership','actorCacheDelta','successor']);assert.deepEqual(plan.stateTransfer.expectedState,IO362.retainedState);assert.deepEqual(plan.stateTransfer.expectedOwnership,IO362.retainedOwnership);pin362(plan.stateTransfer.successor,true);same362(plan.stateTransfer.successor,m.successorPin);keys362(plan.stateTransfer.actorCacheDelta,['actorKeys','clearCookies','clearPermissions']);assert.deepEqual(plan.stateTransfer.actorCacheDelta,{actorKeys:Object.keys(m.retainedState.actors).sort(),clearCookies:false,clearPermissions:false});keys362(plan.composition,['helperComposition','externalComposition','independentCodeReviews']);assert.deepEqual(plan.composition.independentCodeReviews,reviews362(m.predecessorPlan.composition.independentCodeReviews,m.witness.successorCodeReview));keys362(h,['kind','schemaVersion','baseline','finalHelperPins','sourceWitness']);keys362(e,['kind','schemaVersion','baseline','finalSources','sourceWitness']);assert.equal(h.kind,'Root-Source15-runtime121-H3-successor-composition');assert.equal(e.kind,'Root-Source15-runtime121-external-successor-composition');assert.equal(h.schemaVersion,3);assert.equal(e.schemaVersion,3);same362(h.baseline,m.predecessorPlan.composition.helperComposition);same362(e.baseline,m.predecessorPlan.composition.externalComposition);same362(h.finalHelperPins,m.witness.currentHelperPins);same362(h.sourceWitness,m.successor.sourceWitness);same362(e.sourceWitness,m.successor.sourceWitness);assert.deepEqual(e.finalSources,m.external);keys362(plan.tooling,['manifest','executionSources']);same362(plan.tooling.manifest,m.witness.successorManifest);assert.deepEqual(plan.tooling.executionSources,m.executionSources);keys362(plan.outputs,['registryFile','candidateFile','receiptDirectory']);const d='/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/runtime121-'+plan.nonce;assert.deepEqual(plan.outputs,{registryFile:d+'/registry.json',candidateFile:d+'/candidate.json',receiptDirectory:d});return plan;}
+function readSuccessorFiles362(plan,reader){const m=loadSourceSuccessor362(reader,plan.stateTransfer.successor);const h=JSON.parse(reader(plan.composition.helperComposition)),e=JSON.parse(reader(plan.composition.externalComposition));validatePlan362(plan,m,h,e);return m;}
+
+
+function readSuccessorFiles361(plan,reader){const io={read:reader,json:p=>JSON.parse(reader(p))},m=loadSourceSuccessor361(io,plan.stateTransfer.successor);validateSuccessorPlan361(plan,m,plan.stateTransfer.successor);const h=io.json(plan.composition.helperComposition),e=io.json(plan.composition.externalComposition);validateSuccessorWrappers361(plan,m,h,e);return{successor:m.successor,witness:m.witness,baseline:m.composition,baselineComposition:m.oldPlanComposition,oldPlan:m.predecessorPlan,oldRegistry:m.predecessorRegistry,oldCandidate:m.predecessorCandidate,oldPublication:m.predecessorPublication,predecessorState:m.retainedState,retained:m.retainedSources,oldHelpers:m.oldHelpers,oldExternal:m.oldExternal,oldGraph:m.oldExecution,helpers:m.newHelpers,external:m.newExternal,executionSources:m.newExecution,manifest:m.manifest,review:m.review,helperComposition:h,externalComposition:e};}
+const copyData362=v=>JSON.parse(JSON.stringify(v));
+function ownershipPrefix362(base,retained,current){assert(Buffer.isBuffer(base)&&Buffer.isBuffer(retained)&&Buffer.isBuffer(current));assert.equal(base.length,5560);assert.equal(retained.length,7456);assert(retained.subarray(0,base.length).equals(base),'362 retained ownership must preserve original b76');assert(current.length>=retained.length&&current.subarray(0,retained.length).equals(retained),'362 entire eb4a ownership prefix required');return{originalBytes:base.length,retainedBytes:retained.length,currentBytes:current.length};}
+function successorHistory362(old,p,now){assert(Number.isFinite(Date.parse(now)));return{kind:'retained-runtime121-source361-successor-predecessor',recordedAt:now,retainedState:p.stateTransfer.expectedState,successor:p.stateTransfer.successor,predecessorLease:copyData362(old.runtimeAdmission121),retiredTaxContinuationPointer:'/taxContinuation121',failedInvocation:copyData362(IO362.failurePartial)};}
+function successorIdle362(state,p){assert.equal(p.protocolVersion,3);for(const k of['activeFault','blockedObservation','cleaned','cleanupPlan','admissionPending54'])assert(!state[k],'362 requires idle '+k);for(const n of['taxContinuation13','taxContinuation14','taxContinuation15','taxContinuation121'])for(const k of['pendingMain','pendingTaxTrial','normalTaxPending','unexpectedTaxACK'])assert(!state[n]?.[k]);const m=state.runtimeAdmission121;keys362(m,['kind','protocolVersion','registry','candidate','baseCodeRegistry','baseCodeCandidate']);assert.equal(m.kind,'current-source15-runtime-lease121');assert.equal(m.protocolVersion,1);same362(m.registry,IO362.priorRegistry);same362(m.candidate,IO362.priorCandidate);same362(m.baseCodeRegistry,p.base.codeAdmission15);same362(m.baseCodeCandidate,p.base.codeCandidate15);const r=state.taxContinuation121;assert.equal(r?.kind,'current-Source15-runtime121-consumer-of-retained-real-tax-producer');same362(r.runtimeAdmission121,IO362.priorRegistry);same362(r.identity.runtimeAdmission121,IO362.priorRegistry);for(const k of['taxPreparation','continuation121','continuationReadback','sweep','complete','sidecar'])assert.equal(r[k],null);const j=state.consumerChecks?.taxInvocation121?.invocations?.[IO362.failureNonce];assert(j&&j.phase==='closed-failed'&&j.mode==='prepare-only');assert.equal(j.result,null);assert.deepEqual(j.families,[]);assert.equal(j.httpAttempts.length,3);same362(j.entryGuard,IO362.entryGuard);same362(j.exitGuard,IO362.exitGuard);same362(j.closedJournal,IO362.closedJournal);assert(state.consumerChecks.taxInvocation121.invocations[IO361.failureNonce]?.phase==='failed-preserve');assert.equal(state.sequence,39);assert(Array.isArray(state.runtimeHistory121)&&state.runtimeHistory121.length===2);assert.deepEqual(p.stateTransfer.actorCacheDelta,{actorKeys:Object.keys(state.actors).sort(),clearCookies:false,clearPermissions:false});same362({file:state.apiProcess.file,rawBytesSha256:state.apiProcess.rawBytesSha256},IO361.APIProcess);return state;}
+
+function guardSuccessorEntry362(io,m){for(const n of[13,14,15])absent(P+'/business/g2-business'+n+'/main01/driver.lock');assert(measured(D15+'/state.json').equals(io.read(m.successor.retainedCurrentState)),'362 canonical current e0d9 differs');const base=io.read(m.predecessorPlan.base.ownership15),retained=io.read(IO362.retainedOwnership),now=measured(D15+'/ownership.jsonl');ownershipPrefix362(base,retained,now);assert(now.equals(retained),'362 ownership CAS changed before metadata');}
+function produceNativePlanV3362(options) {
+  assert.equal(process.platform, 'linux'); validateNativePlanOptions361(options); absent(options.outputDirectory);
+  const io = { read, json }, m = loadSourceSuccessor362(io.read, options.successor), s = m.successor, w = m.witness;
+  same361(options.compositionComplete, w.baselineCompositionComplete);
+  // Reuse the actual B17/current12/process25 records. They remain historical
+  // startup facts; the successor does not rewrite or relabel their helper graph.
+  const api = json(options.apiComplete); assert.equal(api.kind, 'actual-runtime121-B-API-start-readiness-complete'); assert.equal(api.APIStarted, true);
+  for (const k of ['ordinaryContextCreated', 'nativeAuthorityGranted', 'businessDML', 'registryOrCandidateCreated', 'statePublished']) assert.equal(api[k], false);
+  const input = json(api.input); keys(input, apiInput17); assert.equal(input.kind, 'Root-runtime121-B-API-operation-input'); assert.equal(input.schemaVersion, 1);
+  for (const [key, value] of [['namespace', 'poms-r4ghi'], ['epoch', 'g2-business15'], ['run', 'main01']]) assert.equal(input[key], value);
+  assert.equal(options.apiComplete.file, input.outputDirectory + '/complete.json'); keys(input.current, apiCurrent12); keys(input.base, base18);
+  assert.deepEqual(input.base, m.predecessorPlan.base);
+  const record = json(api.apiProcess), ready = json(api.readiness); keys(record, record25);
+  assert.equal(record.kind, 'actual-source15-owned-API-process121'); assert.equal(record.protocolVersion, 1);
+  for (const key of ['namespace', 'epoch', 'run']) assert.equal(record[key], input[key]);
+  assert.equal(record.root, M); assert.equal(record.port, 31441); assert(Number.isSafeInteger(record.pid) && record.pid > 1);
+  assert.equal(api.apiProcess.file, P + '/rust-api121-process.json'); assert.equal(input.processFile, api.apiProcess.file); samePin(record.input, api.input);
+  assert.equal(ready.mode, 'start'); assert.equal(ready.port, 31441); assert.equal(ready.readiness, 200); assert.equal(ready.privateCredentialsPrinted, false);
+  assert.equal(ready.pid, record.pid); assert.equal(ready.binarySha256, record.binarySha256); assert.equal(api.readiness.file, input.outputDirectory + '/readiness.json');
+  assert.deepEqual(input.composition, m.prior.baselineComposition); same361(record.helperPins, m.prior.witness.baselineHelperPins); same361(input.current.helperPins, m.prior.witness.baselineHelperPins);
+  for (const k of ['sourcePins', 'compilePins', 'helperPins', 'lifetimeOwner']) samePin(record[k], input.current[k]);
+  assert.equal(record.binary, input.current.binary.file); assert.equal(record.binarySha256, input.current.binary.rawBytesSha256);
+  const startedCurrent = clone(input.current); delete startedCurrent.baseNormalEnv; startedCurrent.binaryFiles = freshBinaryFiles(record.binaryFiles, startedCurrent);
+  startedCurrent.apiProcess = clone(api.apiProcess); startedCurrent.readiness = clone(api.readiness);
+  assert.deepEqual(startedCurrent, m.prior.oldPlan.current, 'All original A/B/current13 facts must equal the real predecessor plan');
+  const current = clone(m.predecessorPlan.current); current.helperPins = clone(w.currentHelperPins);
+  const execution = clone(m.executionSources); currentSources(execution, m.helpers);
+  const helperBody = { kind: 'Root-Source15-runtime121-H3-successor-composition', schemaVersion: 3, baseline: clone(m.predecessorPlan.composition.helperComposition), finalHelperPins: clone(w.currentHelperPins), sourceWitness: clone(s.sourceWitness) };
+  const externalBody = { kind: 'Root-Source15-runtime121-external-successor-composition', schemaVersion: 3, baseline: clone(m.predecessorPlan.composition.externalComposition), finalSources: clone(m.external), sourceWitness: clone(s.sourceWitness) };
+  const encode = value => Buffer.from(JSON.stringify(value, null, 2) + '\n');
+  const encodedOutputPin = (name, body) => { const b = encode(body); return { file: options.outputDirectory + '/' + name, bytes: b.length, rawBytesSha256: sha(b) }; };
+  const hPin = encodedOutputPin('helper-composition121.json', helperBody), ePin = encodedOutputPin('external-composition121.json', externalBody);
+  const runtimeDir = D15 + '/runtime121-' + options.nonce, expectedState = clone(s.retainedCurrentState), expectedOwnership = clone(IO362.retainedOwnership);
+  const actorKeys = Object.keys(m.retainedState.actors).sort();
+  const plan = { kind: 'source15-append-runtime-plan121', protocolVersion: 3, namespace: 'poms-r4ghi', epoch: 'g2-business15', run: 'main01', nonce: options.nonce,
+    base: clone(m.predecessorPlan.base), current, composition: { helperComposition: hPin, externalComposition: ePin, independentCodeReviews: reviews362(m.predecessorPlan.composition.independentCodeReviews, w.successorCodeReview) },
+    stateTransfer: { expectedState, expectedOwnership, actorCacheDelta: { actorKeys, clearCookies: false, clearPermissions: false }, successor: clone(options.successor) },
+    tooling: { manifest: clone(w.successorManifest), executionSources: execution }, outputs: { registryFile: runtimeDir + '/registry.json', candidateFile: runtimeDir + '/candidate.json', receiptDirectory: runtimeDir } };
+  validatePlan362(plan, m, helperBody, externalBody);
+  const recheck = () => { for (const p of [...readSet.values()]) read(p); currentSources(execution, m.helpers); freshBinaryFiles(record.binaryFiles, current); guardSuccessorEntry362(io, m); for (const file of Object.values(plan.outputs)) absent(file); };
+  recheck(); for (const file of [hPin.file, ePin.file]) absent(file);
+  const parent = path.posix.dirname(options.outputDirectory); fs.mkdirSync(parent, { recursive: true, mode: 0o700 }); assert.equal(fs.realpathSync(parent), parent); fs.mkdirSync(options.outputDirectory, { mode: 0o700 });
+  const save = (name, body) => { const file = options.outputDirectory + '/' + name, bytes = encode(body); fs.writeFileSync(file, bytes, { flag: 'wx', mode: 0o600 }); const p = { file, bytes: bytes.length, rawBytesSha256: sha(bytes) }; read(p); return p; };
+  try {
+    assert.deepEqual(save('helper-composition121.json', helperBody), hPin); assert.deepEqual(save('external-composition121.json', externalBody), ePin);
+    const planPin = save('native-plan121.json', plan);
+    const request = save('request-native-inspect-and-exact-review121.json', { kind: 'Root-runtime121-native-plan-data-awaiting-inspect', preparedPlan: planPin, actualAPIComplete: options.apiComplete, actualCompositionComplete: options.compositionComplete,
+      actualAPIProcess: api.apiProcess, actualReadiness: api.readiness, actualToolingManifest: w.successorManifest, successor: options.successor, sourceWitness: s.sourceWitness,
+      expectedState, expectedOwnership, actorKeyCount: actorKeys.length, clearCookies: false, clearPermissions: false,
+      scope121: null, nativeInspect: null, independentExactInputReview: null, RootExecutionApproval: null, nativeCalled: false, actualG2Granted: false, FSStatePublicationGranted: false, TaxHTTPGranted: false, businessG3: false, businessG4: false });
+    recheck();
+    return save('complete.json', { kind: 'Root-runtime121-native-plan-data-prepared', plan: planPin, request, APIComplete: options.apiComplete, compositionComplete: options.compositionComplete, successor: options.successor, sourceWitness: s.sourceWitness,
+      schemaCounts: { top: 12, base: 18, current: 13, composition: 3, stateTransfer: 4, tooling: 2, outputs: 3 }, protocolVersion: 3, executionSourceCount: 284,
+      baselineCompositionRetained: true, sourceWitnessThreeStagesVerified: true, liveStartupRecordUnchanged: true, binaryFilesOrigin: 'Exact original A/B/predecessor facts; fresh stat equality; Native independently checks real binary bytes and OS identities.', actorsValuesEmitted: false, canonicalStateModified: false,
+      NativeCalled: false, ctxCreated: false, APIOrSQLHTTPOrProcessControl: false, FSStatePublicationGranted: false, actualG2Granted: false, businessG3: false, businessG4: false });
+  } catch (error) {
+    try { save('partial.json', { kind: 'native-plan-data-preserve121', APIComplete: options.apiComplete, compositionComplete: options.compositionComplete, successor: options.successor, message: 'Metadata preparation stopped; preserve partial files and review before choosing a new output.', name: ['Error', 'AssertionError', 'TypeError', 'SyntaxError'].includes(error.name) ? error.name : 'Error', actualG2Granted: false }); } catch {}
+    throw error;
+  }
+}
+
 export function produceNativePlanData121(options) {
-  if (Object.hasOwn(options ?? {}, 'successor')) return produceNativePlanV2361(options);
+  if (Object.hasOwn(options ?? {}, 'successor')) { const s=json(options.successor); if(s.kind==='Root-runtime121-client-successor-handoff'&&s.schemaVersion===2)return produceNativePlanV3362(options); return produceNativePlanV2361(options); }
   assert.equal(process.platform, 'linux'); keys(options, ['apiComplete', 'compositionComplete', 'nonce', 'outputDirectory']);
   // Required real API comes first. No write or expectedState parse precedes it.
   metadataPin(options.apiComplete, true); metadataPin(options.compositionComplete, true);
