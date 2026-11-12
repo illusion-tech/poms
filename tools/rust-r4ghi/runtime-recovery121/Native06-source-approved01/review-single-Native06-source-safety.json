@@ -1,0 +1,164 @@
+{
+  "kind": "non-author-runtime121-single-Native-source-safety-review",
+  "verdict": "approved-once-single-Native-FS-promotion",
+  "recordedAt": "2026-11-12T01:33:46.144Z",
+  "author": "/root",
+  "reviewer": "/root/r4ghi_final_gates13",
+  "reviewerIsAuthor": false,
+  "reviewerIsRootExecutor": false,
+  "approvedInput": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-native06-source-inputs/e226bfb4-59e2-4fdb-9682-504c9a6cde61/input.json",
+    "bytes": 2343,
+    "rawBytesSha256": "e96e9a5b3a3332b38a0120527216026b044c085ab332b06aa1ccee3aca19f822"
+  },
+  "expectedRootApproval": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-native06-source-inputs/e226bfb4-59e2-4fdb-9682-504c9a6cde61/Root-approval.json",
+    "bytes": 2221,
+    "rawBytesSha256": "d6012c9a9fbe85f96336a7780c119e57bdf9be5ac8390abdc101fea89911a9b0"
+  },
+  "operator": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/promote-native06-once.mjs",
+    "bytes": 20846,
+    "rawBytesSha256": "c79296558aa2ec54fd51c48c12df88f9fe551d32f77c8cbcb4a6b667211586c4"
+  },
+  "limits": {
+    "copyFixedExistingNativeOnly": true,
+    "verifyRootStarterOnly": true,
+    "preserveFourStateLogBytes": true,
+    "preserveOther282CodeFiles": true,
+    "actualGraphMeasurementOnly": true,
+    "overwriteHistoricalEvidence": false,
+    "nativeOrHelperExecution": false,
+    "APIOrProcessControl": false,
+    "SQLHTTP": false,
+    "businessStateWrite": false,
+    "businessG3": false,
+    "businessG4": false
+  },
+  "request": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-native06-source-inputs/e226bfb4-59e2-4fdb-9682-504c9a6cde61/request-exact-review.json",
+    "bytes": 3766,
+    "rawBytesSha256": "82a145b41ec1a8bf4b025e804dee65606c66d5ec532940aabebc9d4a25426311"
+  },
+  "sourcePackage": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/Native06-source-candidate01/manifest-package.json",
+    "bytes": 3104,
+    "rawBytesSha256": "429d31b96db3ef237325fdcaa16e2aa97c53f39b1c2d621a5e4b74eeb77025db"
+  },
+  "NativeCodeReview": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-B-code06-review01/review-I06-code-step121.json",
+    "bytes": 16389,
+    "rawBytesSha256": "b3b7e0929dc07a86ad4bdf428a4ea24225a88bb6cde285ca3478fa3d8d72dcb8"
+  },
+  "Root8CodeReview": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-Root8-API-code-review02/review-Root8-API-code03-step121.json",
+    "bytes": 14442,
+    "rawBytesSha256": "577ef5922ecfe58420b121fab19c0069938c497170e2ad11fd783e496110d8b1"
+  },
+  "approvedAction": {
+    "mode": "single-native-promotion",
+    "oneUseNonce": "e226bfb4-59e2-4fdb-9682-504c9a6cde61",
+    "copyOnly": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/runtime-admission121.mjs",
+      "operation": "MOD",
+      "beforeSHA256": "575332154922858204cd0088528001a540606cc3cd52217e39a251b0ebe97993",
+      "afterSHA256": "ef958a654e517cf417fe39c21f4deaadcb942aab69bf3a51602e6aed92636f38",
+      "candidate": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-code06/sealed-code06/proposed/tools/rust-r4ghi/business/runtime-admission121.mjs",
+        "bytes": 93676,
+        "rawBytesSha256": "ef958a654e517cf417fe39c21f4deaadcb942aab69bf3a51602e6aed92636f38"
+      }
+    },
+    "RootStarter021cVerifyOnly": true,
+    "preserveOtherCodeFiles": 282,
+    "preserveOpaqueStateLogFiles": 4,
+    "freshWXPreimageAndStageBeforeLockedFullBeforeRecheck": true,
+    "existingFixedTargetCASBeforeRename": true,
+    "expectedAfterCounts": {
+      "helper": 229,
+      "external": 55,
+      "execution": 284
+    },
+    "firstErrorStopPreservePartialAndLock": true,
+    "noADDOrFallbackOrRollbackOrRetry": true
+  },
+  "algorithmInheritance": {
+    "oldReviewedOperator": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/promote-native05-once.mjs",
+      "bytes": 20652,
+      "rawBytesSha256": "96411bf6f7867878d77755498fbbcd0223aba0344ba019783a2b87db9c4f6ab5"
+    },
+    "oldSourceSafetyReview": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-single-Native05-source-safety-review01/review-single-Native05-source-safety.json",
+      "bytes": 7748,
+      "rawBytesSha256": "8371eabfbaa4fd73b9a5903b4a110d2b902e4b7435a657b18e9962b819695eae"
+    },
+    "exactBodyAfterEditionSuffixRenaming": true,
+    "bodySHA": "7108218b63c009fad256bb2b54ee89a45b9cb2b012c2b8930b945122fd064455",
+    "headerProfileAndPinsCheckedIndividually": true,
+    "oldNineFSAlgorithmCasesInheritedWithoutRerun": true
+  },
+  "independentChecks": {
+    "newProfileAnd11InputKeysClosed": true,
+    "expected12KeyApprovalByteImageVerified": true,
+    "peerAndRootApprovalCycleAbsent": true,
+    "actualPrior2d20AndDb35Bound": true,
+    "I06NineEntriesB3b7AndRoot8Aeb577eBound": true,
+    "fixedOnlyNative5753ToEf958": true,
+    "currentBeforeGraph229_55_284Verified": true,
+    "currentRootStarter021cAndOther282Verified": true,
+    "fullBusinessDirectoryNamesAndStrictRegularCanonicalNlink1": true,
+    "allFourOpaqueBookendsVerifiedBeforeAndAfterOwnAudit": true,
+    "approvalOutputOwnLockStageAndThreeDriverLocksAbsentAsOfEvidence": true,
+    "API121RecordEnvAbsentAnd31441NoListenerAsOfEvidence": true,
+    "fixedNodeBytesVersionUidCwdNoExecArgsOrNodeEnvVerified": true,
+    "strictPinnedFiles": 320,
+    "expectedAfterHelperAndExternalAndNormalized284ExactlyDerived": true,
+    "source420AndCompile528NotRescanned": true
+  },
+  "independentValidation": {
+    "newProfilePureTests": 20,
+    "passed": 20,
+    "failed": 0,
+    "skipped": 0,
+    "operatorSyntax": 1,
+    "allThreeOwnChildCommandsExit0": true,
+    "successfulStderrBytes": 0,
+    "oldFS9CasesNotRerun": true,
+    "operatorMainOrNativeRuntimeInvoked": false,
+    "RootOrPrivateWritten": false
+  },
+  "evidence": {
+    "FSAndProfile": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-single-Native06-source-safety-review01/exact06-FS-evidence.json",
+      "bytes": 265085,
+      "rawBytesSha256": "95e5fe6b0abf3eb7f2409854f0e2bcbc24f5280c9ed72f4534ea3056a48ef60a"
+    },
+    "validation": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-single-Native06-source-safety-review01/own-validation.json",
+      "bytes": 3744,
+      "rawBytesSha256": "932b935f790eee54b9b7e15e8dbc6345869d1afb370044f4f70223be1e217518"
+    }
+  },
+  "historicalBoundary": {
+    "priorNative05SingleUseApprovalRemainsConsumed": true,
+    "noReplayOf05Or33FilePromotion": true,
+    "NativeLogicalRegistrationStillADDNullButThisPhysicalActionIsExistingFileMOD": true,
+    "db35AndEarlierSourceReadbacksKeepTheirAsOfLabels": true
+  },
+  "notGranted": {
+    "APIOrProcessControl": true,
+    "SQLHTTP": true,
+    "NamespaceVerifierOrConstructor": true,
+    "runtimeAuthorityPublication": true,
+    "businessStateWrite": true,
+    "Cargo": true,
+    "actualRuntimeG2": true,
+    "G3": true,
+    "G4": true
+  },
+  "actualPromotionExecuted": false,
+  "RootApprovalCreatedByReviewer": false,
+  "G3Certified": false,
+  "G4Certified": false
+}
