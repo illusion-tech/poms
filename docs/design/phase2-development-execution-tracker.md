@@ -1084,3 +1084,14 @@ G1Policy3082经独审1489仅授1生产源和1验证文件代码实施。holder�
 [运行环境 #121 的 G3 事实](https://github.com/illusion-tech/poms/issues/121#issuecomment-6827391205)和[父 #57 的进度](https://github.com/illusion-tech/poms/issues/57#issuecomment-6827392256)已核对回写。下一步先最小代码纠正与受控 successor handoff 设计，再冻结新 exact G2；旧图、lease、原始失败与全部既有实证保持 as-of 标签。未获授权直接重跑既有 publisher、重写计数器或 snapshot reset。Rust240、R4 67/95、本批32 candidate、新认证0，业务G3/G4未通过；#57/#116保持开放。
 
 <!-- /poms-r4ghi-G3-checkpoint360 -->
+
+
+<!-- poms-runtime121-corrective361-code-freeze -->
+
+### 2026-11-13 纠正361：四叶与两数据适配的代码输入冻结
+
+[唯一输入及范围](rust-r4ghi/runtime121-corrective361-code-input.md)、[在线冻结读回](rust-r4ghi/runtime121-corrective361-freeze-online.json)仅授代码实施。独审 fdb4 通过，原四源已私有保全；旧 M06 与新四项 MOD overlay 分阶段，成员229/55/284不增，实际新hash另核。plan v2 只经闭successor/witness承接真实32bd CAS，原4c与旧823 journal保持；旧API启动事实不改，新client helper仅由严格witness桥接。
+
+[Issue #121 已记录冻结](https://github.com/illusion-tech/poms/issues/121#issuecomment-6828250293)。两线实现加独立验证均只交I候选；Root生产源提升、状态handoff、actual G2/重试及服务控制尚未授权。原359与360记录保留其as-of含义，业务G3/G4与认证计数不变。
+
+<!-- /poms-runtime121-corrective361-code-freeze -->
