@@ -1,0 +1,206 @@
+{
+  "kind": "aux358-code-only-interface-schema",
+  "schemaOnlyNotAnExecutionInput": true,
+  "newRuntimePinsOrActualEvidenceInvented": false,
+  "G1Policy": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/g1A-transport358-policy01/Root-G1A-holder-transport-policy358.json",
+    "bytes": 12056,
+    "rawBytesSha256": "3082f94a4f0c1a6cb0de7f807c24c32b534722369690f2c873a5dbc8b75b4be6"
+  },
+  "productionTarget": "tools/rust-r4ghi/runtime-recovery121/aux358/dispatch-holder358.mjs",
+  "pureExports": ["CONTRACT358", "localPath358", "trustedExecutable358", "parseCLI358", "assertHolderMode358", "reviewBody358", "childInvocation358", "readonlyInvocation358", "validateEnvelope358", "validateDispatch358", "validateOwnedObservation358", "validBoot358"],
+  "schemas": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$defs": {
+      "fullLinuxPin": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["file", "bytes", "rawBytesSha256"],
+        "properties": {
+          "file": {"type": "string", "pattern": "^/", "$comment": "Code additionally rejects noncanonical paths, aliases and physical symlinks/hardlinks."},
+          "bytes": {"type": "integer", "minimum": 0},
+          "rawBytesSha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+        }
+      },
+      "G1PolicyPin": {
+        "const": {
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/g1A-transport358-policy01/Root-G1A-holder-transport-policy358.json",
+          "bytes": 12056,
+          "rawBytesSha256": "3082f94a4f0c1a6cb0de7f807c24c32b534722369690f2c873a5dbc8b75b4be6"
+        }
+      },
+      "trustedWindowsExecutablePin": {
+        "type": "object", "additionalProperties": false,
+        "required": ["file", "bytes", "rawBytesSha256"],
+        "properties": {
+          "file": {"type": "string", "pattern": "^C:/Program Files/WindowsApps/OpenAI\\.CodexPrimaryRuntime\\.v[0-9]+-[0-9]+-[0-9]+-[0-9]+_[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+_x64__3k8sg7r9htsxt/dependencies/native/powershell/pwsh\\.exe$"},
+          "bytes": {"const": 301360},
+          "rawBytesSha256": {"const": "2a6769a3330dc1084d0154bfde7d164ab750ca7f700f313f9d417c1be78b2233"}
+        },
+        "$comment": "Concrete file is supplied independently by this round and exact peer. Only Windows parent reads/verifies the physical Windows executable. No search/fallback or package version constant."
+      },
+      "limits": {
+        "const": {
+          "holderStartOnly": true, "readonlyOwnedHolderSubentryOnly": true,
+          "PGControl": false, "APIStart": false, "NativeContext": false,
+          "domainSQLHTTP": false, "businessStateWrite": false,
+          "hostConfiguration": false, "scheduledTasksOrAutostart": false,
+          "automaticRetry": false
+        }
+      },
+      "currentRound14": {
+        "type": "object", "additionalProperties": false,
+        "required": ["kind", "recordedAt", "G1Policy", "roundId", "currentLossObservation", "hostObservation", "executablePin", "powerShellVersion", "actualOperator", "codeReview", "holderRequest", "bootPolicy", "limits", "actualG2Authorized"],
+        "properties": {
+          "kind": {"const": "Root-frozen-runtime121-A-current-recovery-round"},
+          "recordedAt": {"type": "string", "format": "date-time"},
+          "G1Policy": {"$ref": "#/$defs/G1PolicyPin"},
+          "roundId": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,95}$"},
+          "currentLossObservation": {"$ref": "#/$defs/fullLinuxPin"},
+          "hostObservation": {"$ref": "#/$defs/fullLinuxPin", "$comment": "Opaque raw observation bytes, independently reviewed and exact-pinned; no new schema is imposed on its contents."},
+          "executablePin": {"$ref": "#/$defs/trustedWindowsExecutablePin"},
+          "powerShellVersion": {"const": "7.6.9"},
+          "actualOperator": {"$ref": "#/$defs/fullLinuxPin"},
+          "codeReview": {"$ref": "#/$defs/fullLinuxPin"},
+          "holderRequest": {"$ref": "#/$defs/fullLinuxPin"},
+          "bootPolicy": {"const": "capture-and-bind-own-holder-launch"},
+          "limits": {"$ref": "#/$defs/limits"},
+          "actualG2Authorized": {"const": false}
+        },
+        "$comment": "Each exact current-round file is peer.transport358.G1Append. holderRequest is the full actual pin of the original prepare121 request. currentLossObservation is not substituted into the original A15 historical loss anchor and its observed boot cannot authorize execution."
+      },
+      "transport358Support6": {
+        "type": "object", "additionalProperties": false,
+        "required": ["G1Append", "newLossObservation", "bootPolicy", "actualOperator", "codeReview", "executablePin"],
+        "properties": {
+          "G1Append": {"$ref": "#/$defs/fullLinuxPin"},
+          "newLossObservation": {"$ref": "#/$defs/fullLinuxPin"},
+          "bootPolicy": {"const": "capture-and-bind-own-holder-launch"},
+          "actualOperator": {"$ref": "#/$defs/fullLinuxPin"},
+          "codeReview": {"$ref": "#/$defs/fullLinuxPin"},
+          "executablePin": {"$ref": "#/$defs/trustedWindowsExecutablePin"}
+        }
+      },
+      "codeReview": {
+        "type": "object",
+        "required": ["kind", "verdict", "author", "reviewer", "reviewerIsAuthor", "G1Policy", "operator", "executionSources"],
+        "properties": {
+          "kind": {"const": "non-author-runtime121-A-holder-transport358-code-review"},
+          "verdict": {"const": "code-ready-for-exact-holder-transport358-input-review"},
+          "author": {"type": "string", "minLength": 1},
+          "reviewer": {"type": "string", "minLength": 1},
+          "reviewerIsAuthor": {"const": false},
+          "G1Policy": {"$ref": "#/$defs/G1PolicyPin"},
+          "operator": {"$ref": "#/$defs/fullLinuxPin"},
+          "executionSources": {"type": "array", "minItems": 1, "maxItems": 1, "items": {"$ref": "#/$defs/fullLinuxPin"}}
+        },
+        "not": {"anyOf": [{"required": ["G1Append"]}, {"required": ["currentRound"]}]},
+        "$comment": "author != reviewer; operator == executionSources[0] == the actual aux358 fullpin. Additional JSON evidence fields allowed; code review must not depend on a future concrete round."
+      },
+      "exactPeer": {
+        "type": "object",
+        "required": ["kind", "mode", "verdict", "reviewerIsAuthor", "approvedInput", "expectedRootReview", "transport358"],
+        "properties": {
+          "kind": {"const": "non-author-runtime121-A-exact-G2"},
+          "mode": {"const": "holder-start"},
+          "verdict": {"const": "approved-once-holder-start-with-capture-bound-transport358"},
+          "reviewerIsAuthor": {"const": false},
+          "approvedInput": {"$ref": "#/$defs/fullLinuxPin"},
+          "expectedRootReview": {"$ref": "#/$defs/fullLinuxPin"},
+          "transport358": {"$ref": "#/$defs/transport358Support6"}
+        },
+        "$comment": "Additional JSON review evidence fields allowed. No supplied boot UUID is accepted in the closed support6."
+      },
+      "rawProc6": {
+        "type": "object", "additionalProperties": false,
+        "required": ["bootBeforeText", "statText", "exe", "cwd", "cmdlineBase64", "bootAfterText"],
+        "properties": {
+          "bootBeforeText": {"type": "string"}, "statText": {"type": "string"},
+          "exe": {"const": "/home/wangzishi/.local/share/fnm/node-versions/v24.19.0/installation/bin/node"},
+          "cwd": {"const": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms"},
+          "cmdlineBase64": {"type": "string"}, "bootAfterText": {"type": "string"}
+        },
+        "$comment": "Actual fixed Linux readFile/realpath results, not ready-record copies. Code parses raw PID/starttime/NUL argv and cross-checks all actual/recorded fields."
+      },
+      "ownedHolderObservation26": {
+        "type": "object", "additionalProperties": false,
+        "required": ["kind", "recordedAt", "mode", "nonce", "G1Policy", "G1Append", "actualOperator", "codeReview", "newLossObservation", "executablePin", "bootPolicy", "request", "independentReview", "input", "RootReview", "dispatch", "holderReady", "windowsLaunch", "holder", "windows", "rawProc", "readonly", "PGControl", "APIStart", "NativeContext", "SQLHTTP"],
+        "properties": {
+          "kind": {"const": "actual-runtime121-A-holder-transport358-owned-holder-readback"},
+          "recordedAt": {"type": "string", "format": "date-time"},
+          "mode": {"const": "holder-start"}, "nonce": {"type": "string", "format": "uuid"},
+          "G1Policy": {"$ref": "#/$defs/G1PolicyPin"},
+          "G1Append": {"$ref": "#/$defs/fullLinuxPin"},
+          "actualOperator": {"$ref": "#/$defs/fullLinuxPin"},
+          "codeReview": {"$ref": "#/$defs/fullLinuxPin"},
+          "newLossObservation": {"$ref": "#/$defs/fullLinuxPin"},
+          "executablePin": {"$ref": "#/$defs/trustedWindowsExecutablePin"},
+          "bootPolicy": {"const": "capture-and-bind-own-holder-launch"},
+          "request": {"$ref": "#/$defs/fullLinuxPin"},
+          "independentReview": {"$ref": "#/$defs/fullLinuxPin"},
+          "input": {"$ref": "#/$defs/fullLinuxPin"},
+          "RootReview": {"$ref": "#/$defs/fullLinuxPin"},
+          "dispatch": {"$ref": "#/$defs/fullLinuxPin"},
+          "holderReady": {"$ref": "#/$defs/fullLinuxPin"},
+          "windowsLaunch": {"$ref": "#/$defs/fullLinuxPin"},
+          "holder": {"type": "object", "$comment": "Unmodified original holder-ready.json body, checked against same owned input/review/nonce/source/node and flags."},
+          "windows": {"type": "object", "$comment": "Unmodified original windows-launch.json body; exact input/review/nonce/fixed WSL argv plus positive PID and creationTime."},
+          "rawProc": {"$ref": "#/$defs/rawProc6"},
+          "readonly": {"const": true},
+          "PGControl": {"const": false}, "APIStart": {"const": false},
+          "NativeContext": {"const": false}, "SQLHTTP": {"const": false}
+        }
+      }
+    }
+  },
+  "originalABI": {
+    "input15": ["kind", "schemaVersion", "mode", "namespace", "nonce", "G1", "codeReview", "executionSources", "expectedStates", "runtimeLossObservation", "failedRetention", "holder", "pgStart", "baseline", "outputDirectory"],
+    "holderStartSlots": {"holder": null, "pgStart": null, "baseline": null},
+    "originalG1AndLossMustStayInInput15": true,
+    "inputAndRequestPaths": {"input": "<private>/runtime121-A-inputs/holder-start/<same-fresh-nonce>/input.json", "request": "<same-parent>/request-exact-G2.json", "RootReview": "<same-parent>/Root-review.json"},
+    "RootReview12": ["kind", "approvedInput", "G1", "codeReview", "mode", "nonce", "actualG2Authorized", "processControl", "readonlyPG", "APIStart", "businessDML", "createReplaceRestoreMigrate"],
+    "RootReviewBodySerialization": "UTF8 JSON.stringify(body,null,2) + LF; exact expected bytes and SHA",
+    "request": {"kind": "Root-runtime121-A-exact-G2-request", "recordedAt": "original metadata timestamp", "mode": "holder-start", "input": "actual original input fullpin", "expectedRootReview": "prospective deterministic Root12 pin", "expectedRootReviewBody": "original Root12 object", "actualG2": false, "RootReviewSigned": false, "effectsExecuted": false},
+    "lifetimeOwner4": ["kind", "holderReady", "windowsLaunch", "launchCommand"],
+    "lifetimeOwnerRequiresIndependentActualWindowsPIDReadbackBeforeCreation": true,
+    "originalA7Root8NativeAndGraph284BytesUnchanged": true
+  },
+  "cli": {
+    "windowsActualEffect": ["--request", "<canonical-original-request-file>", "--request-sha", "<actual-request-sha256>", "--independent-review", "<canonical-actual-exact-peer-file>", "--independent-review-sha", "<actual-peer-sha256>", "--execute"],
+    "linuxReadonly": ["--read-owned-holder", "--request", "<same-request-file>", "--request-sha", "<same-request-sha256>", "--independent-review", "<same-peer-file>", "--independent-review-sha", "<same-peer-sha256>", "--execute"],
+    "linuxReadonlyFixedLaunch": ["C:/Windows/System32/wsl.exe", "-d", "Debian", "--cd", "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms", "--exec", "/home/wangzishi/.local/share/fnm/node-versions/v24.19.0/installation/bin/node", "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/aux358/dispatch-holder358.mjs", "<closed-linuxReadonly-argv-above>"],
+    "linuxReadonlyCreatesNoDirectoryRootReviewGenericReceiptOrBundle": true,
+    "linuxReadonlyWritesOnlyOneJSONLineToInheritedStdout": true,
+    "linuxReadonlyUsesSameActualSelfFullpinAndNoWindowsPhysicalBinaryPretence": true
+  },
+  "actualOutputDirectoryFiles": {
+    "dispatch.json": {"kind": "actual-runtime121-A-single-dispatch", "transportKind": "actual-runtime121-A-holder-transport358-dispatch", "mode": "holder-start", "additionalProvenance": ["G1Policy", "G1Append", "actualOperator", "codeReview", "executablePin", "newLossObservation", "bootPolicy"], "input": "same input fullpin", "RootReview": "same original Root12 fullpin", "request": "same request fullpin", "independentReview": "same exact-peer fullpin", "entry": "original start-holder121.ps1 fullpin", "executable": "round.executablePin.file", "argv": "fixed original PowerShell14 argv", "bootBefore": "actual boot-before.json fullpin", "capturedBootId": "boot-before actual bootId, never metadata boot authority"},
+    "child-command-receipt.json": {"kind": "actual-runtime121-A-holder-transport358-child-command", "ordering": "always before all after-boot/identity/final guards", "stdout": "original PS stdout FD pin", "stderr": "original PS stderr FD pin", "exitCode": "known status or null", "signal": "actual signal or null", "processError": "actual error marker or null"},
+    "boot-before.json AND boot-after.json": {"kind": "actual-runtime121-A-holder-transport358-boot-observation", "phase": "before OR after", "nonce": "same nonce", "input": "same input fullpin", "RootReview": "same Root12 fullpin", "G1Policy": "stable pin", "G1Append": "concrete-round fullpin", "bootPolicy": "capture-and-bind-own-holder-launch", "bootId": "actual captured kernel UUID or null", "executable": "C:/Windows/System32/wsl.exe", "argv": ["-d", "Debian", "--cd", "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms", "--exec", "/usr/bin/cat", "/proc/sys/kernel/random/boot_id"], "exitCode": "actual status or null", "signal": "actual signal or null", "processError": "actual error marker or null", "stdout": "original raw boot-<phase>.stdout.log fullpin", "stderr": "original raw boot-<phase>.stderr.log fullpin", "expectedBootIdField": "ABSENT"},
+    "holder-identity-command.json": {"kind": "actual-runtime121-A-holder-transport358-readonly-child-command", "stdout": "holder-identity.stdout.log actual FD fullpin", "stderr": "holder-identity.stderr.log actual FD fullpin", "exitCode": "actual status or null", "signal": "actual signal or null", "processError": "actual marker or null", "rawSavedBeforeParsingOrIdentityAcceptance": true},
+    "holder-identity.json": {"schema": "#/$defs/ownedHolderObservation26", "source": "JSON parsed from preserved actual readonly-child stdout; not a metadata fixture"},
+    "command-receipt.json": {"kind": "actual-runtime121-A-command", "mode": "holder-start", "exitCode": 0, "signal": null, "processError": null, "dispatch": "actual dispatch fullpin", "stdout": "original PS stdout fullpin", "stderr": "original PS stderr fullpin", "bootBefore": "actual boot-before fullpin", "bootAfter": "actual boot-after fullpin", "ownedHolderObservation": "actual holder-identity.json fullpin", "ownedHolderCommand": "actual holder-identity-command.json fullpin", "holderReady": "unmodified actual original ready fullpin", "windowsLaunch": "unmodified actual original Windows launch fullpin", "additionalProvenance": ["G1Policy", "G1Append", "actualOperator", "codeReview", "executablePin", "newLossObservation", "bootPolicy"], "genericSuccessCreatedLastOnlyAfterAllRealIdentityAndFinalGuards": true},
+    "partial.json": {"kind": "runtime121-A-holder-transport358-preserve", "phase": "last reached phase", "childCommandReceipt": "actual pin or null", "ownedHolderObservation": "actual pin or null", "ownedHolderCommand": "actual readonly raw-command pin or null", "commandReceipt": "actual pin or null", "spawnAttempted": "boolean", "processMayExist": "same conservative boolean", "automaticStop": false, "automaticRollback": false, "blindRetryForbidden": true}
+  },
+  "crossChecks": [
+    "support.G1Append actual raw bytes decode to currentRound14",
+    "round.G1Policy == codeReview.G1Policy == compiled stable G1Policy pin",
+    "round.actualOperator == peer.transport358.actualOperator == codeReview.operator == codeReview.executionSources[0] == actual installed same-source fullpin",
+    "round.codeReview == peer.transport358.codeReview actual raw bytes pin",
+    "round.holderRequest == actual raw original request fullpin",
+    "round.currentLossObservation == support.newLossObservation; historical input15 loss remains unchanged",
+    "round.executablePin == support.executablePin; Windows parent additionally checks physical canonical file and trusted bytes",
+    "peer.approvedInput == request.input; peer.expectedRootReview == request.expectedRootReview",
+    "before.bootId == after.bootId == holder-ready.bootId == both rawProc kernel boot reads",
+    "actual Linux PID/startTime/exe/cwd/NUL argv == same owned ready input/review/nonce/source/node chain",
+    "Windows launch tuple == same holder argv/input/review/nonce and original fixed WSL chain",
+    "all source/executable/state/retained-bookend/lstat locks checked before original facts import, before effects and final generic success"
+  ],
+  "notCertifiedHere": {
+    "RootInstalled": false, "actualG2": false, "anyRecoveryModeExecuted": false,
+    "actualLiveHolder": false, "actualWindowsPID": false,
+    "PGStartOrConservation": false, "APIStartOrNativeContext": false,
+    "Source14OrSource15BusinessAcceptance": false, "G3": false, "G4": false,
+    "parent57Closed": false, "fullR5_116Closed": false
+  }
+}

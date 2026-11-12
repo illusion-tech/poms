@@ -1,0 +1,622 @@
+TAP version 13
+# Subtest: pure import and exact-source evaluation model perform no filesystem/process/application work
+ok 1 - pure import and exact-source evaluation model perform no filesystem/process/application work
+  ---
+  duration_ms: 3.643
+  type: 'test'
+  ...
+# Subtest: original15/root12/support6 remain unchanged; no ordinary holder context is required
+ok 2 - original15/root12/support6 remain unchanged; no ordinary holder context is required
+  ---
+  duration_ms: 3.9365
+  type: 'test'
+  ...
+# Subtest: Windows and Linux path mapping use their own physical paths
+ok 3 - Windows and Linux path mapping use their own physical paths
+  ---
+  duration_ms: 0.1117
+  type: 'test'
+  ...
+# Subtest: closed CLI rejects extra modes, arbitrary subentries and omitted execution marker
+ok 4 - closed CLI rejects extra modes, arbitrary subentries and omitted execution marker
+  ---
+  duration_ms: 0.9197
+  type: 'test'
+  ...
+# Subtest: holder-mode rejection precedes any peer access: pg-start
+ok 5 - holder-mode rejection precedes any peer access: pg-start
+  ---
+  duration_ms: 0.8471
+  type: 'test'
+  ...
+# Subtest: holder-mode rejection precedes any peer access: pg-observe
+ok 6 - holder-mode rejection precedes any peer access: pg-observe
+  ---
+  duration_ms: 0.3353
+  type: 'test'
+  ...
+# Subtest: holder-mode rejection precedes any peer access: unknown
+ok 7 - holder-mode rejection precedes any peer access: unknown
+  ---
+  duration_ms: 0.2516
+  type: 'test'
+  ...
+# Subtest: same trusted bytes at two synthetic approved package paths require independent round binding
+ok 8 - same trusted bytes at two synthetic approved package paths require independent round binding
+  ---
+  duration_ms: 4.2116
+  type: 'test'
+  ...
+# Subtest: invocations use the approved concrete executable and one fixed readonly self/Node/WSL chain
+ok 9 - invocations use the approved concrete executable and one fixed readonly self/Node/WSL chain
+  ---
+  duration_ms: 0.9742
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects extra input key
+ok 10 - synthetic metadata rejects extra input key
+  ---
+  duration_ms: 0.689
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects missing input key
+ok 11 - synthetic metadata rejects missing input key
+  ---
+  duration_ms: 0.4952
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects holder slot
+ok 12 - synthetic metadata rejects holder slot
+  ---
+  duration_ms: 0.9522
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects PG slot
+ok 13 - synthetic metadata rejects PG slot
+  ---
+  duration_ms: 0.8951
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects baseline slot
+ok 14 - synthetic metadata rejects baseline slot
+  ---
+  duration_ms: 0.4408
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects source eighth
+ok 15 - synthetic metadata rejects source eighth
+  ---
+  duration_ms: 0.5595
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects source changed
+ok 16 - synthetic metadata rejects source changed
+  ---
+  duration_ms: 0.7648
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects old G1 replacement
+ok 17 - synthetic metadata rejects old G1 replacement
+  ---
+  duration_ms: 0.5703
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects old loss replacement
+ok 18 - synthetic metadata rejects old loss replacement
+  ---
+  duration_ms: 0.7377
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects wrong policy
+ok 19 - synthetic metadata rejects wrong policy
+  ---
+  duration_ms: 0.5403
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects proposal instead of frozen policy
+ok 20 - synthetic metadata rejects proposal instead of frozen policy
+  ---
+  duration_ms: 0.3356
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects policy code grant missing
+ok 21 - synthetic metadata rejects policy code grant missing
+  ---
+  duration_ms: 0.2975
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects wrong peer kind
+ok 22 - synthetic metadata rejects wrong peer kind
+  ---
+  duration_ms: 0.3592
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects wrong verdict
+ok 23 - synthetic metadata rejects wrong verdict
+  ---
+  duration_ms: 0.4106
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects peer author flag
+ok 24 - synthetic metadata rejects peer author flag
+  ---
+  duration_ms: 0.6555
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects wrong peer input
+ok 25 - synthetic metadata rejects wrong peer input
+  ---
+  duration_ms: 0.4001
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects support seventh key
+ok 26 - synthetic metadata rejects support seventh key
+  ---
+  duration_ms: 0.4132
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects support missing loss
+ok 27 - synthetic metadata rejects support missing loss
+  ---
+  duration_ms: 0.4632
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects arbitrary supplied boot authority
+ok 28 - synthetic metadata rejects arbitrary supplied boot authority
+  ---
+  duration_ms: 0.4262
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects boot policy changed
+ok 29 - synthetic metadata rejects boot policy changed
+  ---
+  duration_ms: 0.4416
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects wrong round request
+ok 30 - synthetic metadata rejects wrong round request
+  ---
+  duration_ms: 0.6866
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects wrong round operator
+ok 31 - synthetic metadata rejects wrong round operator
+  ---
+  duration_ms: 0.5139
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects wrong round review
+ok 32 - synthetic metadata rejects wrong round review
+  ---
+  duration_ms: 0.5429
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects wrong round loss
+ok 33 - synthetic metadata rejects wrong round loss
+  ---
+  duration_ms: 0.4619
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects round pre-frozen boot
+ok 34 - synthetic metadata rejects round pre-frozen boot
+  ---
+  duration_ms: 0.6125
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects round effect grant
+ok 35 - synthetic metadata rejects round effect grant
+  ---
+  duration_ms: 0.4443
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects round PG limits
+ok 36 - synthetic metadata rejects round PG limits
+  ---
+  duration_ms: 0.4599
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects round version
+ok 37 - synthetic metadata rejects round version
+  ---
+  duration_ms: 0.4678
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects host pin not full
+ok 38 - synthetic metadata rejects host pin not full
+  ---
+  duration_ms: 0.4039
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects wrong auxiliary kind
+ok 39 - synthetic metadata rejects wrong auxiliary kind
+  ---
+  duration_ms: 0.5161
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects aux author reviewer same
+ok 40 - synthetic metadata rejects aux author reviewer same
+  ---
+  duration_ms: 0.4252
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects aux source count7
+ok 41 - synthetic metadata rejects aux source count7
+  ---
+  duration_ms: 0.5945
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects aux source partial pin
+ok 42 - synthetic metadata rejects aux source partial pin
+  ---
+  duration_ms: 0.6612
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects aux review policy
+ok 43 - synthetic metadata rejects aux review policy
+  ---
+  duration_ms: 0.4922
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects aux review coupled to round
+ok 44 - synthetic metadata rejects aux review coupled to round
+  ---
+  duration_ms: 0.4663
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects wrong executable SHA
+ok 45 - synthetic metadata rejects wrong executable SHA
+  ---
+  duration_ms: 0.3794
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects wrong executable length
+ok 46 - synthetic metadata rejects wrong executable length
+  ---
+  duration_ms: 0.429
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects wrong executable path
+ok 47 - synthetic metadata rejects wrong executable path
+  ---
+  duration_ms: 0.5398
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects aliased executable path
+ok 48 - synthetic metadata rejects aliased executable path
+  ---
+  duration_ms: 0.3825
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects wrong namespace
+ok 49 - synthetic metadata rejects wrong namespace
+  ---
+  duration_ms: 0.2906
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects state hash drift
+ok 50 - synthetic metadata rejects state hash drift
+  ---
+  duration_ms: 0.6871
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects Root12 changed
+ok 51 - synthetic metadata rejects Root12 changed
+  ---
+  duration_ms: 0.8694
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects Root expected pin mismatch
+ok 52 - synthetic metadata rejects Root expected pin mismatch
+  ---
+  duration_ms: 0.3902
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects already signed request
+ok 53 - synthetic metadata rejects already signed request
+  ---
+  duration_ms: 0.7318
+  type: 'test'
+  ...
+# Subtest: synthetic metadata rejects wrong request nonce path
+ok 54 - synthetic metadata rejects wrong request nonce path
+  ---
+  duration_ms: 0.4387
+  type: 'test'
+  ...
+# Subtest: no getters/proxies/callbacks/symbols or hidden array channels are evaluated
+ok 55 - no getters/proxies/callbacks/symbols or hidden array channels are evaluated
+  ---
+  duration_ms: 1.7088
+  type: 'test'
+  ...
+# Subtest: valid raw owned-holder observation validates real-identity fields and the complete owned chain
+ok 56 - valid raw owned-holder observation validates real-identity fields and the complete owned chain
+  ---
+  duration_ms: 2.8376
+  type: 'test'
+  ...
+# Subtest: synthetic owned identity rejects before-after mismatch
+ok 57 - synthetic owned identity rejects before-after mismatch
+  ---
+  duration_ms: 0.7489
+  type: 'test'
+  ...
+# Subtest: synthetic owned identity rejects ready boot mismatch
+ok 58 - synthetic owned identity rejects ready boot mismatch
+  ---
+  duration_ms: 1.0884
+  type: 'test'
+  ...
+# Subtest: synthetic owned identity rejects live boot mismatch
+ok 59 - synthetic owned identity rejects live boot mismatch
+  ---
+  duration_ms: 0.6369
+  type: 'test'
+  ...
+# Subtest: synthetic owned identity rejects raw boot missing
+ok 60 - synthetic owned identity rejects raw boot missing
+  ---
+  duration_ms: 0.6816
+  type: 'test'
+  ...
+# Subtest: synthetic owned identity rejects ready nonce
+ok 61 - synthetic owned identity rejects ready nonce
+  ---
+  duration_ms: 0.9621
+  type: 'test'
+  ...
+# Subtest: synthetic owned identity rejects ready input
+ok 62 - synthetic owned identity rejects ready input
+  ---
+  duration_ms: 0.846
+  type: 'test'
+  ...
+# Subtest: synthetic owned identity rejects ready review
+ok 63 - synthetic owned identity rejects ready review
+  ---
+  duration_ms: 0.7003
+  type: 'test'
+  ...
+# Subtest: synthetic owned identity rejects ready source
+ok 64 - synthetic owned identity rejects ready source
+  ---
+  duration_ms: 1.5322
+  type: 'test'
+  ...
+# Subtest: synthetic owned identity rejects ready node
+ok 65 - synthetic owned identity rejects ready node
+  ---
+  duration_ms: 0.728
+  type: 'test'
+  ...
+# Subtest: synthetic owned identity rejects ready cwd
+ok 66 - synthetic owned identity rejects ready cwd
+  ---
+  duration_ms: 0.5671
+  type: 'test'
+  ...
+# Subtest: synthetic owned identity rejects ready argv
+ok 67 - synthetic owned identity rejects ready argv
+  ---
+  duration_ms: 0.6458
+  type: 'test'
+  ...
+# Subtest: synthetic owned identity rejects ready claims PG
+ok 68 - synthetic owned identity rejects ready claims PG
+  ---
+  duration_ms: 0.6603
+  type: 'test'
+  ...
+# Subtest: synthetic owned identity rejects raw PID
+ok 69 - synthetic owned identity rejects raw PID
+  ---
+  duration_ms: 1.0213
+  type: 'test'
+  ...
+# Subtest: synthetic owned identity rejects raw startTime
+ok 70 - synthetic owned identity rejects raw startTime
+  ---
+  duration_ms: 0.8767
+  type: 'test'
+  ...
+# Subtest: synthetic owned identity rejects raw exe
+ok 71 - synthetic owned identity rejects raw exe
+  ---
+  duration_ms: 0.6162
+  type: 'test'
+  ...
+# Subtest: synthetic owned identity rejects raw cwd
+ok 72 - synthetic owned identity rejects raw cwd
+  ---
+  duration_ms: 0.5337
+  type: 'test'
+  ...
+# Subtest: synthetic owned identity rejects raw argv
+ok 73 - synthetic owned identity rejects raw argv
+  ---
+  duration_ms: 0.5465
+  type: 'test'
+  ...
+# Subtest: synthetic owned identity rejects invalid raw base64
+ok 74 - synthetic owned identity rejects invalid raw base64
+  ---
+  duration_ms: 0.9343
+  type: 'test'
+  ...
+# Subtest: synthetic owned identity rejects raw argv terminal NUL missing
+ok 75 - synthetic owned identity rejects raw argv terminal NUL missing
+  ---
+  duration_ms: 1.0544
+  type: 'test'
+  ...
+# Subtest: synthetic owned identity rejects Windows PID
+ok 76 - synthetic owned identity rejects Windows PID
+  ---
+  duration_ms: 3.4215
+  type: 'test'
+  ...
+# Subtest: synthetic owned identity rejects Windows creation
+ok 77 - synthetic owned identity rejects Windows creation
+  ---
+  duration_ms: 0.6155
+  type: 'test'
+  ...
+# Subtest: synthetic owned identity rejects Windows input
+ok 78 - synthetic owned identity rejects Windows input
+  ---
+  duration_ms: 0.5671
+  type: 'test'
+  ...
+# Subtest: synthetic owned identity rejects Windows review
+ok 79 - synthetic owned identity rejects Windows review
+  ---
+  duration_ms: 0.7538
+  type: 'test'
+  ...
+# Subtest: synthetic owned identity rejects Windows argv
+ok 80 - synthetic owned identity rejects Windows argv
+  ---
+  duration_ms: 0.5399
+  type: 'test'
+  ...
+# Subtest: synthetic owned identity rejects Windows exe
+ok 81 - synthetic owned identity rejects Windows exe
+  ---
+  duration_ms: 0.5072
+  type: 'test'
+  ...
+# Subtest: synthetic owned identity rejects observation source
+ok 82 - synthetic owned identity rejects observation source
+  ---
+  duration_ms: 0.3437
+  type: 'test'
+  ...
+# Subtest: synthetic owned identity rejects observation round
+ok 83 - synthetic owned identity rejects observation round
+  ---
+  duration_ms: 0.3232
+  type: 'test'
+  ...
+# Subtest: synthetic owned identity rejects observation input
+ok 84 - synthetic owned identity rejects observation input
+  ---
+  duration_ms: 0.3816
+  type: 'test'
+  ...
+# Subtest: synthetic owned identity rejects observation peer
+ok 85 - synthetic owned identity rejects observation peer
+  ---
+  duration_ms: 0.3729
+  type: 'test'
+  ...
+# Subtest: synthetic owned identity rejects observation pathname
+ok 86 - synthetic owned identity rejects observation pathname
+  ---
+  duration_ms: 0.4458
+  type: 'test'
+  ...
+# Subtest: synthetic owned identity rejects observation callback
+ok 87 - synthetic owned identity rejects observation callback
+  ---
+  duration_ms: 0.5411
+  type: 'test'
+  ...
+# Subtest: synthetic owned identity rejects readonly boundary
+ok 88 - synthetic owned identity rejects readonly boundary
+  ---
+  duration_ms: 0.5777
+  type: 'test'
+  ...
+# Subtest: synthetic existing dispatch rejects legacy transport pretence
+ok 89 - synthetic existing dispatch rejects legacy transport pretence
+  ---
+  duration_ms: 0.3011
+  type: 'test'
+  ...
+# Subtest: synthetic existing dispatch rejects legacy executable
+ok 90 - synthetic existing dispatch rejects legacy executable
+  ---
+  duration_ms: 0.3167
+  type: 'test'
+  ...
+# Subtest: synthetic existing dispatch rejects dispatch argv
+ok 91 - synthetic existing dispatch rejects dispatch argv
+  ---
+  duration_ms: 0.2903
+  type: 'test'
+  ...
+# Subtest: synthetic existing dispatch rejects dispatch input
+ok 92 - synthetic existing dispatch rejects dispatch input
+  ---
+  duration_ms: 0.2278
+  type: 'test'
+  ...
+# Subtest: synthetic existing dispatch rejects dispatch review
+ok 93 - synthetic existing dispatch rejects dispatch review
+  ---
+  duration_ms: 0.2336
+  type: 'test'
+  ...
+# Subtest: synthetic existing dispatch rejects dispatch request
+ok 94 - synthetic existing dispatch rejects dispatch request
+  ---
+  duration_ms: 0.2528
+  type: 'test'
+  ...
+# Subtest: synthetic existing dispatch rejects dispatch peer
+ok 95 - synthetic existing dispatch rejects dispatch peer
+  ---
+  duration_ms: 0.2429
+  type: 'test'
+  ...
+# Subtest: boot acceptance has no pre-frozen UUID; only complete known successful observations can bind
+ok 96 - boot acceptance has no pre-frozen UUID; only complete known successful observations can bind
+  ---
+  duration_ms: 0.2364
+  type: 'test'
+  ...
+# Subtest: own-temp-FS actual control predicate: absent accepts; ordinary/directory/dangling entries reject
+ok 97 - own-temp-FS actual control predicate: absent accepts; ordinary/directory/dangling entries reject
+  ---
+  duration_ms: 3.2211
+  type: 'test'
+  ...
+# Subtest: actual control predicate error model: only ENOENT accepts; EACCES/ENOTDIR/EIO propagate
+ok 98 - actual control predicate error model: only ENOENT accepts; EACCES/ENOTDIR/EIO propagate
+  ---
+  duration_ms: 1.5676
+  type: 'test'
+  ...
+# Subtest: own-temp-FS source raw physical-file layer rejects hardlink aliases and directory-junction aliases
+ok 99 - own-temp-FS source raw physical-file layer rejects hardlink aliases and directory-junction aliases
+  ---
+  duration_ms: 5.533
+  type: 'test'
+  ...
+# Subtest: readonly source entry has no write/start/context or future generic/bundle dependency
+ok 100 - readonly source entry has no write/start/context or future generic/bundle dependency
+  ---
+  duration_ms: 0.2435
+  type: 'test'
+  ...
+# Subtest: own-temp-FS actual source-tail ordering model: every failed postcondition retains child raw without generic success
+ok 101 - own-temp-FS actual source-tail ordering model: every failed postcondition retains child raw without generic success
+  ---
+  duration_ms: 60.7948
+  type: 'test'
+  ...
+# Subtest: original consumer bundle4 and generic kinds remain distinct from truthful transport provenance
+ok 102 - original consumer bundle4 and generic kinds remain distinct from truthful transport provenance
+  ---
+  duration_ms: 0.5004
+  type: 'test'
+  ...
+1..102
+# tests 102
+# suites 0
+# pass 102
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 249.6268

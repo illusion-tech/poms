@@ -1,0 +1,13 @@
+{
+  "kind": "aux358-preseal-whitespace-runner-correction",
+  "status": "stopped-before-manifest",
+  "observedGitNoIndexExitCode": 1,
+  "stdoutLog": "whitespace-source.stdout.log",
+  "stderrLog": "whitespace-source.stderr.log",
+  "bothLogsEmpty": true,
+  "cause": "The packaging runner expected exit0 for git diff --no-index --check. This Git returns exit1 for a clean added-file diff; no whitespace diagnostic was emitted.",
+  "correction": "Preserve the original logs; record actual exit0 or exit1 as a clean check only with empty stdout and stderr and no signal/process error.",
+  "productionOrTestBytesChanged": false,
+  "actualG2": false,
+  "anyRecoveryModeExecuted": false
+}
