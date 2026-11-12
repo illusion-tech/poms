@@ -1,0 +1,169 @@
+{
+  "kind": "non-author-runtime121-prepare1899-corrective-design-review",
+  "verdict": "design-ready-for-bounded-code-only-freeze",
+  "recordedAt": "2026-11-12T20:10:43.937Z",
+  "reviewer": "/root/transport358_code_review",
+  "reviewerIsAuthor": false,
+  "author": "transport358_design",
+  "reviewedDesign": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime121-prepare1899-corrective-design01/corrective-design1899.json",
+    "bytes": 16677,
+    "rawBytesSha256": "2bd8f975c9131b52017ccce31fac80a26fdb7f0eaae214724cfec1e710cb5182"
+  },
+  "reviewedDesignSeal": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime121-prepare1899-corrective-design01/seal-design1899.json",
+    "bytes": 1783,
+    "rawBytesSha256": "e43e4a0baedc1a45b9907595880f967507f53c4b14b70c8d130e2371a4d82b5d"
+  },
+  "mandatoryAddendum": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime121-prepare1899-corrective-design-addendum02/design-addendum1899.json",
+    "bytes": 8598,
+    "rawBytesSha256": "4e2e6d9f2f4e10995eccdc7e1d25caa93cfb3280218ac429c8147e3439738a09"
+  },
+  "mandatoryAddendumSeal": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime121-prepare1899-corrective-design-addendum02/seal-design-addendum1899.json",
+    "bytes": 1230,
+    "rawBytesSha256": "837f9dbcff05080ed4cf18a2245911c34a42b4dcfbb001ea079a9176b887054f"
+  },
+  "originalDesignAloneApproved": false,
+  "originalAndAddendumAreOneRequiredBoundary": true,
+  "basis": {
+    "actualFailureDiagnosis": {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime121-prepare361-failure-independent01/diagnosis-failed-prepare361.json",
+      "bytes": 2498,
+      "rawBytesSha256": "b2e71eaf3ce9100e48c5d2c06af9239cdfa65664910fca132019e8028d5537d6"
+    },
+    "actualFailureEvidence": {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime121-prepare361-failure-independent01/evidence-failed-prepare361.json",
+      "bytes": 20168,
+      "rawBytesSha256": "04c743a9dd14f536e00e66a94265e1b664e45880b00f6b53fe78633d020a68ad"
+    },
+    "currentSourceAndCounterexampleModels": {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime121-prepare1899-design-independent01/source-and-model-evidence1899.json",
+      "bytes": 11923,
+      "rawBytesSha256": "262b923d08598ec52261e031f9c3efa579afbd7e66b53a7457f3b123a6ec9b42"
+    },
+    "ownershipPrefixCounterexample": {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime121-prepare1899-design-independent01/ownership-prefix-model1899.json",
+      "bytes": 1314,
+      "rawBytesSha256": "5beea9275986d965d68c7721d11b7565a6d8691ae9ce81f394fa8e27019abcd3"
+    }
+  },
+  "beforeSources": [
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs",
+      "bytes": 59431,
+      "rawBytesSha256": "5acf886f286e1844a8078bb0dffb3797384c211511d40eba3570024a458bcf8b"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tax15-once-wire.mjs",
+      "bytes": 21877,
+      "rawBytesSha256": "b3bf45a8227c2c661c7853b6687bab456fcc8120a7e66681bdb667f90f79cebc"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tax15-once-effects.mjs",
+      "bytes": 19541,
+      "rawBytesSha256": "559ce23d665d4f0e2aec13ead55ac57af0265559a80a5c958965f5301efbfafc"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/runtime-admission121.mjs",
+      "bytes": 123267,
+      "rawBytesSha256": "ba6f97749d35904a4071ef1914ca51a6e2f563ecfd426013b449d12c05162957"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/runtime-admission-core121.mjs",
+      "bytes": 33196,
+      "rawBytesSha256": "ff4052b563f5ff359385a81c1cb71cc06c4aa9e0017886a997c797d1c0ba4559"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/native/publish-runtime121.mjs",
+      "bytes": 36826,
+      "rawBytesSha256": "a8f28d8a16daca2853f966bd30157f2c228ee7ec0a04b277831e0cd469d7fa24"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/Native-plan-data-candidate01/prepare-native-plan121.mjs",
+      "bytes": 46983,
+      "rawBytesSha256": "f9338f1ada802dd87ab253f4cbaf9cbf443d05abe2bda9c28b509d04ff570e3b"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/Tax121-current-metadata-data-candidate01/prepare-tax121-current-metadata.mjs",
+      "bytes": 58862,
+      "rawBytesSha256": "f5c644ed48da3ca1a773455b91571b5c33bc95c7aa064d6e79015fcb5b066f21"
+    }
+  ],
+  "findings": [
+    {
+      "id": "ABI",
+      "status": "resolved-in-mandatory-addendum02",
+      "source": "effects assertSessionFacts118:83 / guardActor118:85-136; unchanged run-tax15-once:195-203; invocation-proof transition118:283-299",
+      "finding": "Replacing guardActor118 sessionId with a deadline object breaks the existing FI authenticated/controlsInstalled frame equality and would force an unapproved runner change.",
+      "required": "Preserve string|null return and all six-mode callers. Fixed wire-only deadline path takes only the genuine cap, cannot accept caller-provided proof/options/callback/skip or serialize a new authority."
+    },
+    {
+      "id": "MONOTONIC",
+      "status": "resolved-in-mandatory-addendum02",
+      "source": "effects:111-129 real session SQL observed_now; wire:293-337 bulk/reference/send ordering",
+      "finding": "A monotonic anchor taken at guard return undercharges delayed SQL/result delivery and can admit an expired session.",
+      "required": "Anchor before final SQL/at guard entry; ceil-charge the entire elapsed interval against min(idle,absolute)-DB observed_now; require >2000 immediately before direct request/end with no intervening bulk/await/persist. Preserve active account/full37/cookie/ownership and bootstrap semantics."
+    },
+    {
+      "id": "THREE_STAGES",
+      "status": "resolved-in-mandatory-addendum02",
+      "source": "Native readSuccessorFiles361:172-195 / Core WITNESS13:305-309 / publisher builtin stage verifier",
+      "finding": "Old M06 and Source361 contain different historical bytes at the same four paths; one copy per pathname or relabelled manifests cannot prove both stages.",
+      "required": "P3->S3->P2->S2->W2 exact-pin recursion; original9, prior4 and latest6 distinct. New W3 explicit kind/schema baselines the prior publication, not M06. Stage+file+expected-hash historical selection uses old a226 and new retained-six manifests; fixed6 MOD, 278 unchanged and all final284 physically verified before imports. API startup helper remains original historical truth across the two explicit overlays."
+    },
+    {
+      "id": "OWNERSHIP",
+      "status": "resolved-in-mandatory-addendum02",
+      "source": "Native fresh121:923-925 currently checks only plan.base.ownership15",
+      "finding": "With v3 current ownership eb4a7456, retaining only the old b765560 hot-prefix check admits truncating the real1899 suffix after publication.",
+      "required": "Keep original base b76. Pin immutable retained eb4a, prove eb4a begins b76, and require every v3 fresh/entry/fullExit current log begins all7456 eb4a bytes; allow only later owned appends. Publication CAS consumes exact e0d9/eb4a with no ownership writes. Keep v1/v2 unchanged."
+    }
+  ],
+  "coverage": {
+    "view": "A data getter may stop doing implicit Native fresh only while private cap/live/PID/boot/confinement checks remain and returned reference data never grants an effect. The current27 callsites do not consume runtime118.runtimeReference121; original true checkpoint/currentTuple references remain strongly checked.",
+    "checkpoint": "Factoring Tax-only reads and retaining one final complete Native/reference check preserves the original predicate union. All15 Tax sweeps, Root/mirror source420/compile528/helper229/exec284, Facts6/same-FD/ABA, A7 source/holder/Node chain, Native selfNode/ELF/API proc-env-socket, lease/state/ownership remain. Standalone currentFiles used at open/close/verify and the explicit full Native exit remain strong.",
+    "effects": "prepare-only and FI/commit HTTP retain explicit current checkpoints before permission/wire effects and after raw ACK preservation; install/remove retain DDL before/after checkpoints and actor guards. verify-committed retains standalone checks; disarm-owned retains exact-owned catalog/OID/ACL scope. Future implementation must prove all six branches and await transitions, not infer coverage from view data.",
+    "session": "Final actual37/account/role/session/ownership SQL occurs after bulk proof/capture/attribution/request metadata and pending intent. The old idle/absolute >2s predicates and ACK-first unknown-outcome preservation are unchanged; no TTL, reauthentication loop, relaxed guard or replay.",
+    "successor": "Clone e0d9 with exact lease/history-prefix+1/activeTax retirement only. Preserve sequence39, actors37/cookies, API/owned, original823 and1899 complete failed journals, old26/Main13/13/14, immutable76ad/4c and both ownership prefixes. New own ensureRecord may later populate only the new authority slot.",
+    "scope": "Six existing production MOD leaves plus the two existing outside284 metadata adapters are necessary and sufficient for the proposed bounded design. Rust source/ELF/Root8/API process/PG/business semantics and public Root12/peer7/Tax34/runtime17 shapes remain outside change scope."
+  },
+  "validation": {
+    "isolatedModelsPassed": 33,
+    "isolatedModelsFailed": 0,
+    "originalWholeFunctionsExecutedOnlyWithSyntheticIO": [
+      "assertSessionFacts118",
+      "transition118"
+    ],
+    "NativeOrAppImported": false,
+    "oldSuitesRepeated": false,
+    "actualPrivateDataReadThisRound": false,
+    "actualSpeedupMeasured": false,
+    "actualFullPrepareBudgetProven": false
+  },
+  "unresolvedSubstantiveDesignFindings": [],
+  "futureRequiredChecks": [
+    "Exact candidate six-leaf plus two-data source review and all6mode/await drift rejection models; no approved implementation exists yet.",
+    "Before source edit retain current six raw versions; separately reviewed source-only promotion, actual graph/witness/readback and named v3 input/CAS review.",
+    "After code review, Root must separately authorize safe current-check timing/budget evidence. Model51-to15 counts or logical byte totals are not actual latency/complete-prepare assurance.",
+    "Fresh actual metadata/G2 and original once execution, followed by real prepare/full67/K independent readback are separate boundaries."
+  ],
+  "authority": {
+    "codeOnlyDesignQualification": true,
+    "implementationApproved": false,
+    "productionWritten": false,
+    "RootPrivateWritten": false,
+    "sourcePromotionGranted": false,
+    "stateHandoffGranted": false,
+    "actualInputOptionsOrAuthorityCreated": false,
+    "actualG2Granted": false,
+    "modeRetryGranted": false,
+    "NativeAppProcSQLHTTPExecuted": false,
+    "FIGranted": false,
+    "normalTaxMainPOSTGranted": false,
+    "businessG3": false,
+    "businessG4": false,
+    "parentGoalComplete": false
+  }
+}

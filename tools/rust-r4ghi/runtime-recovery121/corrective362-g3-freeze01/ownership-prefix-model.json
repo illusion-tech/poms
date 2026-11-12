@@ -1,0 +1,40 @@
+{
+  "kind": "independent-prepare1899-synthetic-ownership-prefix-counterexample",
+  "model": {
+    "originalCodeParentBytes": 5560,
+    "retainedCurrentBytes": 7456,
+    "allBytesSynthetic": true
+  },
+  "total": 6,
+  "pass": 6,
+  "fail": 0,
+  "results": [
+    {
+      "name": "Existing base-only guard admits truncating the retained1899 suffix",
+      "passed": true
+    },
+    {
+      "name": "New v3 retained-current prefix guard rejects that same truncation",
+      "passed": true
+    },
+    {
+      "name": "Retained current log must preserve the original codeParent prefix",
+      "passed": true
+    },
+    {
+      "name": "Unchanged retained log and true later owned appends pass",
+      "passed": true
+    },
+    {
+      "name": "Same-length retained suffix rewrite fails exact byte-prefix comparison",
+      "passed": true
+    },
+    {
+      "name": "Old v1/v2 original-base rule remains a distinct unchanged branch",
+      "passed": true
+    }
+  ],
+  "requiredV3Rule": "Validate immutable retainedCurrent7456/eb4a still begins original5560/b76; every fresh/entry/fullExit requires current log to begin full retainedCurrent bytes and allows later owned suffix additions. Old base/codeParent pins and v1/v2 behavior remain unchanged.",
+  "actualPEnvProcOrSQLHTTPRead": false,
+  "RootPrivateWritten": false
+}
