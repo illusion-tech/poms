@@ -1117,3 +1117,14 @@ G1Policy3082经独审1489仅授1生产源和1验证文件代码实施。holder�
 本条固定在真实prepare前：新7040/ae68 metadata已生成0，进入独立具体G2输入审，尚无Root9/真实Ctor/prepare/K/67FI/Tax正常命令。文件读回不代业务验收，认证仍0、业务G3/G4未签，#57/#116开放、#119历史CLOSED。
 
 <!-- /poms-runtime121-Native361-publication -->
+
+
+<!-- poms-runtime121-prepare1899-failed-362 -->
+
+### 2026-11-13 纠正362：真实构造及entry/failed-exit完成，prepare会话余量不足
+
+[真实失败检查点](rust-r4ghi/runtime121-real-prepare-G3-checkpoint362.md)及[在线逐字读回](rust-r4ghi/runtime121-prepare362-failure-online.json)对应[子片#121](https://github.com/illusion-tech/poms/issues/121#issuecomment-6834624294)和[父项#57](https://github.com/illusion-tech/poms/issues/57#issuecomment-6834625401)。nonce1899单次退出1，真实Ctor/cap/entry完成，failed-exit校验并closed-failed；三个认证200后首个业务GET尚未发送。fresh prepared/K/全67、FI、Tax正常命令均未产生，原Main13一次201不重放。
+
+实际after-state e0d9/ownership eb4a/seq39私有保全，真实manager cookies/完整37权限与auth_session来源保留，旧823/26/13/14/原prepared-full67保持。独立34项关系读回仅证明失败与保全。下一步冻结有限技术G3纠正，消除重复全检并把真实会话检查放到发送前，源/lease续接、真实耗时预算及新G2仍后置。官方Rust240、R4 67/95、32 candidate、认证0、业务G3/G4未签；#57/#116开放、#119历史CLOSED。
+
+<!-- /poms-runtime121-prepare1899-failed-362 -->
