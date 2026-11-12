@@ -1173,3 +1173,12 @@ G1Policy3082经独审1489仅授1生产源和1验证文件代码实施。holder�
 [实际FS发布及验收](rust-r4ghi/runtime121-Native362-publication-actual.md)bf94c055已推送，[线上逐字读回](rust-r4ghi/runtime121-Native362-publication-online.json)对应[#121](https://github.com/illusion-tech/poms/issues/121#issuecomment-6838612169)及[#57](https://github.com/illusion-tech/poms/issues/57#issuecomment-6838613341)。2ba唯一pub0/complete5759，私有entry与当前dcac同字节异inode；独立actualreadback唯一0/5063重建registry/candidate/state，确认精确三变化、14actors/cache37/cookies/seq39/owned/API/bothjournals/ownership全前缀/284都保持。只认FS续接，真实Ctor/cap/freshK67及FI/Tax/Main尚未执行；认证0、业务G3G4未签，#57/#116开放。
 
 <!-- /poms-runtime121-Native362-publication -->
+
+
+<!-- poms-runtime121-prepare-timing-E1-362 -->
+
+### 2026-11-13 同一次真实prepare计时的E1边界
+
+[冻结E1](rust-r4ghi/runtime121-prepare362-timing-E1.md)aabc653f及[线上逐字读回](rust-r4ghi/runtime121-prepare362-timing-E1-online.json)对应[#121](https://github.com/illusion-tech/poms/issues/121#issuecomment-6838870210)和[#57](https://github.com/illusion-tech/poms/issues/57#issuecomment-6838871290)。仅对同6458 prepare-only作证据顺序替代，热预算仍未证明；标准exactG2/Root9另审，不减全部source/brand/37/session/mono>2s守卫、不延TTL、不加mode或自动重放。成功只独审消费本次真实prepared/K，失败保全停止；FI至少618CP/绝对idle预算另验，认证0/G3G4未签，#57/#116开放。
+
+<!-- /poms-runtime121-prepare-timing-E1-362 -->
