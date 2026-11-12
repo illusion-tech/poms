@@ -1,0 +1,142 @@
+{
+  "kind": "non-author-runtime121-A-round357-design-review",
+  "verdict": "recommend-bounded-new-round-design-only",
+  "recordedAt": "2026-11-12T02:10:33.368Z",
+  "author": "/root",
+  "reviewer": "/root/r4ghi_final_gates13",
+  "reviewerIsAuthor": false,
+  "reviewerIsRootExecutor": false,
+  "proposal": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/g1A-round357-append01/proposal-G1A-round357.json",
+    "bytes": 6986,
+    "rawBytesSha256": "8f81ae28b4feb955fa1dacff6917b51c81e4fd47d195c41b866565fa7a6a55ad"
+  },
+  "parentG1": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/g1A/Root-G1A-121.json",
+    "bytes": 4887,
+    "rawBytesSha256": "c20283d9a4e30d96f23d7f3890882e58a6f22e394fa9c747baa4c3a07968a68b"
+  },
+  "unchangedA7CodeReview": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-A-code-review02/review-A-code02b.json",
+    "bytes": 14378,
+    "rawBytesSha256": "0071eb7c620ea57cf5213a8e3ce008552ab1d33b98b2dc11a2fb4a04b60b5126"
+  },
+  "currentLossObservation": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime-loss357-observation01/observation.json",
+    "bytes": 3821,
+    "rawBytesSha256": "9c3c49edae6a5cac755bc6bf91ff94b99058ba76ea386a961b64fa12ed650571"
+  },
+  "pinnedBootForThisProposedRound": "a077fa56-73ab-485c-924d-8676f7585f01",
+  "recommendDesignFreeze": true,
+  "A7SourceChangesRecommended": false,
+  "reviewedScope": {
+    "oneNewRound357Only": true,
+    "originalA7RawBytesAnd0071ClosurePreserved": true,
+    "original15InputKeysAnd12RootReviewKeysPreserved": true,
+    "originalC202And8015SlotsRemainHistorical": true,
+    "newLossBoundExternallyRatherThanSubstituted": true,
+    "threeModesInOrder": [
+      "holder-start",
+      "pg-start",
+      "pg-observe"
+    ],
+    "eachRequiresNewNonceExactG2RootReviewDispatchOutputAndActualReadback": true,
+    "oldConsumedInvocationsNeverReused": true,
+    "onlyOriginalCIDImageUniqueVolumeMountPGDATAOIDAndPortMayResume": true,
+    "fullTwoDefaultAndExplicitReadOnlyDatabaseCapturesToOriginalSnapshot21AndEachOther": true,
+    "noCrossDatabaseAtomicityClaim": true,
+    "noRustNodeOrNativeCodeOrHostConfigChanges": true,
+    "sourceGraphCountsRemainDesignMetadataNotNewRuntimeProof": true
+  },
+  "requiredAtEachFutureExactG2": [
+    {
+      "requirement": "Bind the actual frozen round357 append, this9c3c loss observation and expected a077 boot as additional explicit review/dispatch evidence. A7 does not automatically consume these new external pins.",
+      "inputSchemaMustRemainUnchanged": true
+    },
+    {
+      "requirement": "Actual current boot must be checked directly before and after each dispatch, and recorded identities must agree with this round. Any change/unknown outcome stops and preserves artifacts; no automatic retry or restart."
+    },
+    {
+      "requirement": "Source7/host executables, all four opaque state/log bookends, retained mapping, absence of driver locks and original container/volume/OID identity must be verified again for the concrete input."
+    },
+    {
+      "requirement": "Fresh holder-start needs new real Windows launch, kernel holder boot/PID/start/argv/source/input/review/nonce/output facts. New pg-start must reference that actual holder; new pg-observe must reference that holder and the actual new PG-start."
+    },
+    {
+      "requirement": "New full139 per database in each of two read-only captures must match original snapshot21 raw/xmin/meta/sequence/object facts and each other. A difference blocks continuation without repair/reset/rebaselining."
+    },
+    {
+      "requirement": "Only after independent actual A readbacks may a new wx strict four-key lifetime-owner bundle be formed from the same new invocation. Future B/API input and exactG2 must use its actual new owner/PG/conservation/binary-stat/process/readiness pins; old runtime identities remain history."
+    }
+  ],
+  "eventBoundary": {
+    "pinnedHostEventsSupportShutdownAndNewBootTimeline": true,
+    "noHumanOrDeeperCauseAttribution": true,
+    "notADataConservationProof": true,
+    "reviewerDidNotProbeCurrentHostOrContainer": true
+  },
+  "evidence": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-A-round357-design-review01/design-evidence.json",
+    "bytes": 9180,
+    "rawBytesSha256": "5d4a38297adb38b1c89643f11e304689439e881966389124fcd129c31b8d8184"
+  },
+  "source7ExecutionSources": [
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/hold-runtime121.mjs",
+      "bytes": 2131,
+      "rawBytesSha256": "b607a5dd56190b16c86d4deb03ff4ad7f9f68b8942374a15e0c8a7684ebcf8d8"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/start-holder121.ps1",
+      "bytes": 3896,
+      "rawBytesSha256": "9e1b5db26c5422133a019871188bb0e9bf0f267b455ba6d44306c6808cd51753"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/resume-original-pg121.mjs",
+      "bytes": 4623,
+      "rawBytesSha256": "1da250ed2553b767d123f2d4669af4f283c4a046267eb3c0e81b408036309d51"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/observe-conservation121.mjs",
+      "bytes": 14419,
+      "rawBytesSha256": "adcbfd9d07ef5d98a5675cd3b15adc54771c787bba6ef585e20973e9ad30c7ca"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/prepare121.mjs",
+      "bytes": 3507,
+      "rawBytesSha256": "50623e25bb4c294529ee92ef721caaf958bfc5660acba825f873a83ff53d8eaf"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/dispatch121.mjs",
+      "bytes": 4285,
+      "rawBytesSha256": "d59f9ed7095e66fca1ae9ea0b08c79e8d050fbaad7912c934451e3be46430ed5"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/facts121.mjs",
+      "bytes": 13288,
+      "rawBytesSha256": "6f81a1cd71f2ced84e0cb5190e18fd5ef86d2f1a4dfad0dee42110c832748382"
+    }
+  ],
+  "limits": {
+    "holderOnly": true,
+    "originalPGResumeOnly": true,
+    "readonlyConservationOnly": true,
+    "hostConfiguration": false,
+    "scheduledTasksOrAutostart": false,
+    "newContainersOrVolumes": false,
+    "migrationRestoreOrBaselineReset": false,
+    "APIStart": false,
+    "NativeContext": false,
+    "domainSQLHTTP": false,
+    "businessG3": false,
+    "businessG4": false
+  },
+  "actualG2Authorized": false,
+  "anyModeExecuted": false,
+  "A7CodeModified": false,
+  "RootOrPrivateWritten": false,
+  "APIOrNativeContextOrSQLHTTPOrProcessControlPerformed": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "newBusinessCertified": 0
+}
