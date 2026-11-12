@@ -1164,3 +1164,12 @@ G1Policy3082经独审1489仅授1生产源和1验证文件代码实施。holder�
 [实际源与读回](rust-r4ghi/runtime121-corrective362-source-actual.md)fe3e2e7c已推送，[线上逐字读回](rust-r4ghi/runtime121-corrective362-source-actual-online.json)对应[#121](https://github.com/illusion-tech/poms/issues/121#issuecomment-6837880842)及[#57](https://github.com/illusion-tech/poms/issues/57#issuecomment-6837881758)。唯一Source a6e单次0/20.424秒仅源更新，独立actualAudit单次0/f032完整验证八源、全部284/278及真实3stage/guard/收尾；opaque state和ownership保持。源码为362，lease仍旧337/v2，尚无Native state/context/prepare/FI。评论时点v3纯数据plan f3e已0并正inspect，各后继FS G2和真实预算后置，业务认证0/G3G4未签，#57/#116开放。
 
 <!-- /poms-runtime121-actual-source362 -->
+
+
+<!-- poms-runtime121-Native362-publication -->
+
+### 2026-11-13 v3实际状态续接与独立实际读回通过
+
+[实际FS发布及验收](rust-r4ghi/runtime121-Native362-publication-actual.md)bf94c055已推送，[线上逐字读回](rust-r4ghi/runtime121-Native362-publication-online.json)对应[#121](https://github.com/illusion-tech/poms/issues/121#issuecomment-6838612169)及[#57](https://github.com/illusion-tech/poms/issues/57#issuecomment-6838613341)。2ba唯一pub0/complete5759，私有entry与当前dcac同字节异inode；独立actualreadback唯一0/5063重建registry/candidate/state，确认精确三变化、14actors/cache37/cookies/seq39/owned/API/bothjournals/ownership全前缀/284都保持。只认FS续接，真实Ctor/cap/freshK67及FI/Tax/Main尚未执行；认证0、业务G3G4未签，#57/#116开放。
+
+<!-- /poms-runtime121-Native362-publication -->
