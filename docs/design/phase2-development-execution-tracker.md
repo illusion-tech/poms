@@ -1034,3 +1034,16 @@ Root8 687b6a、I03 274f4e、H03 8816ac均获非作者有界代码批准。[启�
 [12项Issue已同步读回](https://github.com/illusion-tech/poms/issues/121#issuecomment-6810282592)，[父#57已维护](https://github.com/illusion-tech/poms/issues/57#issuecomment-6810284879)。API启动G2、真实进程与原生准入/Ctor、fresh prepare121/body67及原批业务验收仍待完成。Rust240、R4 67/95、新认证0、业务G3/G4未通过，#57和完整R5 #116开放，#119历史技术G4不改。
 
 <!-- /poms-r4ghi-status356 -->
+
+
+<!-- poms-r4ghi-status357 -->
+
+### 2026-11-12 状态357：源码修订已交付，整机重启后运行前置重新验证
+
+[固定状态357](rust-r4ghi/continuation-status357.json)、[源码与当前预检结果](rust-r4ghi/runtime121-source-actual-result.md)及[在线读回](rust-r4ghi/continuation-status357-online.json)保留Source06 actual91a4/eb412、M06 actual9124/1798及当前41项Git源码的实际字节证据。原03历史注册漏字段已修；新04通过该历史重建后，在原保活boot校验处首停。
+
+Windows选定事件和CIM确认整机关机后开机，WSL由3e3e变为a077，原Windows51024/Linux4802/PG6360身份失效。新只读9c3观测确认原CID/镜像/数据卷/端口/PG15/OID目录和四书挡仍在；PG当前exited，本boot逻辑守恒待重验，不能把旧A三mode和原双RO当作当前运行前置。恢复提案保原A7字节及8015历史anchor，另绑新loss，三新nonce/逐exactG2和新owner/PG/双RO后才能进入B；不增加主机配置或开机自启。
+
+[12项Issue同步读回](https://github.com/illusion-tech/poms/issues/121#issuecomment-6812644370)，[父#57已维护](https://github.com/illusion-tech/poms/issues/57#issuecomment-6812648547)。API request/review/env/process仍无；Native/Ctor/fresh准备与原批业务验收待完成。Rust240、R4 67/95、本批32candidate、新认证0、业务G3/G4未通过，#57与完整R5 #116开放，#119历史技术G4不改。
+
+<!-- /poms-r4ghi-status357 -->
