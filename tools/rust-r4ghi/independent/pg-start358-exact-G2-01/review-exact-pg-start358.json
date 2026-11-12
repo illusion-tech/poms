@@ -1,0 +1,76 @@
+{
+  "kind": "non-author-runtime121-A-exact-G2",
+  "mode": "pg-start",
+  "verdict": "approved-once-pg-start-original-container-with-verified-live-holder358",
+  "recordedAt": "2026-11-12T12:30:34.476Z",
+  "author": "Root",
+  "reviewer": "/root/transport358_code_review",
+  "reviewerIsAuthor": false,
+  "reviewerIsRootExecutor": false,
+  "approvedInput": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-A-inputs/pg-start/e86336a1-1931-4836-a666-c0f12539d945/input.json",
+    "bytes": 4494,
+    "rawBytesSha256": "23f52a1e854befade214ba3c277c0417d919da7644e51c4ccb203ad4e62c07ae"
+  },
+  "expectedRootReview": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-A-inputs/pg-start/e86336a1-1931-4836-a666-c0f12539d945/Root-review.json",
+    "bytes": 1105,
+    "rawBytesSha256": "1ccc4107584fa3565b33f0d379362fed8c6fb0c8e5067d46fa6b73946818e72e"
+  },
+  "actualOperator": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/dispatch121.mjs",
+    "bytes": 4285,
+    "rawBytesSha256": "d59f9ed7095e66fca1ae9ea0b08c79e8d050fbaad7912c934451e3be46430ed5"
+  },
+  "holder": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-A/holder-start/eb04b9f1-3d33-497c-9271-1fe5bb6af439/holder-ready.json",
+    "bytes": 2416,
+    "rawBytesSha256": "6dada953f400ca672696db9ca3aa7e86cba38e539111447cff0c270b4a529e88"
+  },
+  "verifiedLiveHolderBootId": "0e313ea7-9ac2-4a55-b1fe-fb472441344a",
+  "freshOwnedHolderObservation": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/transport358-original-PG-start-G2-independent01/live-holder-observation.json",
+    "bytes": 9690,
+    "rawBytesSha256": "9b93eb7a6d2b9b36227aa75b51651de7f7effe97df397f3d4e7cc8a3a3a5923d"
+  },
+  "currentOriginalPGObservation": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/round358-original-PG-current01/observation.json",
+    "bytes": 899,
+    "rawBytesSha256": "93b46815d38fbac573dab361d09cd21ed592c371faa740315eaf85677594ed29"
+  },
+  "readonlyVerification": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/transport358-original-PG-start-G2-independent01/pg-start-input-verification358.json",
+    "bytes": 14876,
+    "rawBytesSha256": "2f3fa72ef4fdec628e58898370ff02c4993cd2253f2728d478e549e9b0c95d9d"
+  },
+  "blockingFindings": [],
+  "scope": "One original Linux dispatch121 pg-start for this exact nonce/input/Root12, starting only the existing stopped original container and original volume. No aux358 PG dispatch and no holder capture-policy authority.",
+  "authority": {
+    "oneOriginalContainerStart": true,
+    "container": "513925616f4e1c1c988753e385be7f441dc98f6fb490101537498f60e8d5e00f",
+    "image": "b718026138f18af7722fc66f706d64990e869a4b196508aaf4f3671786c8d93a",
+    "volume": "poms-r4ghi-pg15-data",
+    "readonlyReadiness": true,
+    "createReplaceRestoreMigrate": false,
+    "APIStart": false,
+    "NativeContext": false,
+    "domainSQLHTTP": false,
+    "businessDML": false,
+    "hostConfiguration": false,
+    "automaticRetry": false,
+    "G3": false,
+    "G4": false,
+    "parent57": "OPEN",
+    "fullR5_116": "OPEN"
+  },
+  "operatorConditions": [
+    "Recheck unchanged source/state/locks, current live holder boot and original container exited/runningfalse/PID0 immediately before the original reviewed operation.",
+    "Unknown or partial start preserves all originals and potentially running container; no automatic retry, rollback, stop, replacement or restore.",
+    "A separate fresh pg-observe exact G2 and actual conservation evidence are still required."
+  ],
+  "reviewExecution": {
+    "RootOrPrivateWritten": false,
+    "PGStartOrAPIOrSQLHTTPInvoked": false,
+    "fixedLinuxHolderReadonlyEntryInvoked": true
+  }
+}
