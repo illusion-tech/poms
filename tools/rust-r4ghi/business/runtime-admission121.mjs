@@ -6,7 +6,8 @@ import { C121, GH121, H3Changes121, ExternalChanges121, ExternalAdds121,
   sha121, plain121, keys121, canonical121, copy121, freeze121, pin121,
   pinOnly121, samePin121, sameIdentity121, pointer121, relative121, sources121,
   descriptors121, finiteDelta121, parentShape121, planShape121, scope121,
-  assertRuntimeApproval121, registryBody121, candidateBody121 } from './runtime-admission-core121.mjs';
+  assertRuntimeApproval121, registryBody121, candidateBody121, CORRECTIVE361,
+  successorShape121, sourceWitnessShape121, retainedFourShape121, sourceOverlay121, successorHistory121 } from './runtime-admission-core121.mjs';
 import { C15, GH15, sha15, pin15, pinOnly15, samePin15, keys15, pointer15,
   assertPlanShape15, assertApprovals15, scope15, exactDeltas15, assertStateTransfer15,
   resourceEntries15, registryBody15, admittedBody15, bootstrapBody15,
@@ -31,6 +32,171 @@ import { holderFacts, shape as rootAShape121, reviewBody as rootAReview121,
 import { createContext as originalCreateContext } from './context.mjs';
 import { newWitnessView284 } from '../legacy-authority15-284/facts284.mjs';
 import { openConsumerView287 } from '../policy-continuation15-287/facts287.mjs';
+
+const IO361={
+  "freeze": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/corrective361-g3-freeze01/Root-G3-code-input361.json",
+    "bytes": 4167,
+    "rawBytesSha256": "820f727595c37cbe7eae6aa53ff3b9606ae6f0922be237f63fb8eb26f534ae07"
+  },
+  "M06": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-compositions06/17ca9a05-544f-486d-be19-2807de42b0c0/complete.json",
+    "bytes": 6150,
+    "rawBytesSha256": "9124829bdb1aa311055e99a4604767936914970c27d96b33ffc58e3fefb56c1a"
+  },
+  "oldHelper229": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-native06-source-promotion/e226bfb4-59e2-4fdb-9682-504c9a6cde61/actual-helper-pins229.json",
+    "bytes": 35523,
+    "rawBytesSha256": "df6c313c7e073704ccd4654b1521e4b28ab4fe9b18543b8d98f2823e519b0737"
+  },
+  "oldExternal55": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-native06-source-promotion/e226bfb4-59e2-4fdb-9682-504c9a6cde61/actual-external-pins55.json",
+    "bytes": 8818,
+    "rawBytesSha256": "2b38bfa2b1a40ffa5b963809121ecdbd18d1e233d0459413059be62dea35b14e"
+  },
+  "oldExecution284": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-native06-source-promotion/e226bfb4-59e2-4fdb-9682-504c9a6cde61/actual-execution-sources284.json",
+    "bytes": 66309,
+    "rawBytesSha256": "b196532840eaac9501b90032477ba74a3ee5810f1b32e010f6099b46ba4fc1c3"
+  },
+  "oldNativeStageManifest9": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime-recovery121-code06/sealed-code06/manifest-I121-code06.json",
+    "bytes": 33419,
+    "rawBytesSha256": "a3ea6d6ab4a656acac615447613a648e3a19a17f0f8bbe23771754ae4e158443"
+  },
+  "oldPlan": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-native-plan-data/8b6d8f9b-4bf8-4080-b8d2-63a3016772e1/native-plan121.json",
+    "bytes": 77418,
+    "rawBytesSha256": "4f1223c46875c7871414485526bb26728523e78dfbf281f3c491adcc8980c41e"
+  },
+  "oldRegistry": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/runtime121-8b6d8f9b-4bf8-4080-b8d2-63a3016772e1/registry.json",
+    "bytes": 133822,
+    "rawBytesSha256": "873185734ca68b5ecd7bcc7e51b26046aefa75e0b8ccc0165a895f3c4049a83d"
+  },
+  "oldCandidate": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/runtime121-8b6d8f9b-4bf8-4080-b8d2-63a3016772e1/candidate.json",
+    "bytes": 126012,
+    "rawBytesSha256": "fdef26addc5520c7ed4ee4008b9f6ba53e8f48df6403f125bdd274de37865af5"
+  },
+  "oldPublication": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/runtime121-8b6d8f9b-4bf8-4080-b8d2-63a3016772e1/complete.json",
+    "bytes": 1522,
+    "rawBytesSha256": "03a7a4864a819ecd10fbf1c81fb7c9df30372d97fb8ac4bffe76666f3b76d4eb"
+  },
+  "oldPublicationReadback": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime121-Native-actual-publication-readback01/review-actual-Native-publication121.json",
+    "bytes": 73073,
+    "rawBytesSha256": "de863d7e0cd8b985f7c6470192a97ff5f807858ac5c2cb736d9fc2495d2dc394"
+  },
+  "currentFailedState32bd": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-prepare-failed01/82321806-8586-4210-b5cd-ef16311f63ce/after-state.json",
+    "bytes": 14645579,
+    "rawBytesSha256": "32bd6587911328886fc32e0ea40848107275fcaab889e2780098c2729097987b"
+  },
+  "failurePartial": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/tax118-invocation-82321806-8586-4210-b5cd-ef16311f63ce/partial.json",
+    "bytes": 1493,
+    "rawBytesSha256": "bc442c68bdf87b5bdc6a2328a0cadd6476f3c996392aaaff5e971a76a69e1045"
+  },
+  "failureRetention": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/prepare121-failed01/private-retention-metadata.json",
+    "bytes": 4304,
+    "rawBytesSha256": "73cd760679553eb181b3cf91e07093f305b79eb6958f8b00aa077eee38873ba6"
+  },
+  "failureReadback": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime121-prepare823-failure-diagnosis01/review-failure-diagnosis121.json",
+    "bytes": 2930,
+    "rawBytesSha256": "487ff3e2572c12059897fe574246e204b850587bb3bdc147073fe47ee3249d0e"
+  },
+  "retainedChangedSources": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective361-predecessor-source01/manifest.json",
+    "bytes": 3631,
+    "rawBytesSha256": "a226e77c98ff7546fe66354fa72b44e68cadfe23f0e45cdbc53e87b20142175a"
+  },
+  "old4Sources": [
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs",
+      "bytes": 55792,
+      "rawBytesSha256": "774eb76ed16eb1b6395e829b0087cf06a1f8e8f2ccf6d9b8df0609f139c034a8"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/runtime-admission-core121.mjs",
+      "bytes": 17259,
+      "rawBytesSha256": "58fea2219a71af3b643e932f440339f330d5f4223567e4a3bcb7b2d84221dd43"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/runtime-admission121.mjs",
+      "bytes": 93676,
+      "rawBytesSha256": "ef958a654e517cf417fe39c21f4deaadcb942aab69bf3a51602e6aed92636f38"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/native/publish-runtime121.mjs",
+      "bytes": 9945,
+      "rawBytesSha256": "b85d0d4904d682dad322ec9ea2a48efbaec3950b825fa34cfcf42a9255ef8924"
+    }
+  ],
+  "APIProcess": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/rust-api121-process.json",
+    "bytes": 5775,
+    "rawBytesSha256": "f822ffcd0e027c93c20ca6f5630bb2be44d738c1127199d30cbe3abfc2caa38f"
+  },
+  "failureNonce": "82321806-8586-4210-b5cd-ef16311f63ce",
+  "G1B": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/g1B/Root-G1B-121.json",
+    "bytes": 5254,
+    "rawBytesSha256": "be96f468fe8c7aa58dcebe6f687ef90d0afb46f1d9ca2ac2bc2b3e90974206cc"
+  },
+  "predecessorEntry": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-native-entry-snapshots06/8b6d8f9b-4bf8-4080-b8d2-63a3016772e1/entry-state.json",
+    "bytes": 14246666,
+    "rawBytesSha256": "952f661ec8330472f83b3e6bb309d11cb7c2faaaca52fed5782d287ac4004a53"
+  }
+};
+const OLD_H3_361=["tools/rust-r4ghi/business/consumer-admission54.mjs","tools/rust-r4ghi/business/fault-sweep.mjs","tools/rust-r4ghi/business/gh-write-facts.mjs","tools/rust-r4ghi/business/http.mjs","tools/rust-r4ghi/business/labor-mask15.mjs","tools/rust-r4ghi/business/policy-current-h46-15.mjs","tools/rust-r4ghi/business/policy-security-bindings15.json","tools/rust-r4ghi/business/policy-security-runtime15.mjs","tools/rust-r4ghi/business/runtime-admission-core121.mjs","tools/rust-r4ghi/business/runtime-admission121.mjs","tools/rust-r4ghi/business/trusted.mjs"];
+const OLD_EXT_361=["tools/rust-r4ghi/legacy-authority15-284/driver284.mjs","tools/rust-r4ghi/legacy-authority15-284/runtime284.mjs","tools/rust-r4ghi/legacy-authority15-284/wire284.mjs","tools/rust-r4ghi/legacy-authority15-284/witness284.mjs","tools/rust-r4ghi/mixed15-271/driver271.mjs","tools/rust-r4ghi/mixed15-271/facts271.mjs","tools/rust-r4ghi/mixed15-271/runtime271.mjs","tools/rust-r4ghi/mixed15-271/transport271.mjs","tools/rust-r4ghi/period15-270/driver270.mjs","tools/rust-r4ghi/period15-270/runtime270.mjs","tools/rust-r4ghi/policy-continuation15-287/run287.mjs","tools/rust-r4ghi/policy-role15/setup-role15.mjs","tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs","tools/rust-r4ghi/tax15-invocation118/retained-tax-proof.mjs","tools/rust-r4ghi/tax15-invocation118/run-tax15-once.mjs","tools/rust-r4ghi/tax15-invocation118/tax15-once-effects.mjs","tools/rust-r4ghi/tax15-invocation118/tax15-once-wire.mjs","tools/rust-r4ghi/tax15-invocation118/tax15-prepare.mjs","tools/rust-r4ghi/tax15-readonly/facts15.mjs","tools/rust-r4ghi/tax15-readonly/runtime15.mjs","tools/rust-r4ghi/runtime-recovery121/native/input121.template.json","tools/rust-r4ghi/runtime-recovery121/native/publish-runtime121.mjs","tools/rust-r4ghi/runtime-recovery121/root/dispatch121.mjs","tools/rust-r4ghi/runtime-recovery121/root/facts121.mjs","tools/rust-r4ghi/runtime-recovery121/root/hold-runtime121.mjs","tools/rust-r4ghi/runtime-recovery121/root/observe-conservation121.mjs","tools/rust-r4ghi/runtime-recovery121/root/prepare121.mjs","tools/rust-r4ghi/runtime-recovery121/root/resume-original-pg121.mjs","tools/rust-r4ghi/runtime-recovery121/root/start-api121.mjs","tools/rust-r4ghi/runtime-recovery121/root/start-holder121.ps1"];
+
+// Built-in-only file proof. Kept byte-identical in Native and preimport publisher.
+function readSuccessorFiles361(plan,reader){
+ const root='/mnt/e/projects/worktrees/poms-r3hijk-next28/poms',priv='/home/wangzishi/.local/share/poms-r4ghi/private';
+ const keys=(v,k)=>{assert(v&&Object.getPrototypeOf(v)===Object.prototype);assert.deepEqual(Object.keys(v).sort(),[...k].sort());};
+ const shape=p=>{keys(p,Object.hasOwn(p??{},'bytes')?['file','bytes','rawBytesSha256']:['file','rawBytesSha256']);assert(typeof p.file==='string'&&p.file.startsWith('/')&&path.posix.resolve(p.file)===p.file&&!p.file.includes('\\')&&!p.file.includes('//')&&!/[\0\r\n]/.test(p.file));assert(/^[a-f0-9]{64}$/.test(p.rawBytesSha256));if(p.bytes!==undefined)assert(Number.isSafeInteger(p.bytes)&&p.bytes>=0);};
+ const same=(a,b)=>{shape(a);shape(b);assert.equal(a.file,b.file);assert.equal(a.rawBytesSha256,b.rawBytesSha256);if(a.bytes!==undefined&&b.bytes!==undefined)assert.equal(a.bytes,b.bytes);};
+ const full=p=>{keys(p,['file','bytes','rawBytesSha256']);shape(p);};
+ const raw=p=>{shape(p);return reader(p);},get=p=>JSON.parse(raw(p));
+ const norm=a=>{assert(Array.isArray(a));const b=a.map(p=>{shape(p);assert(p.file.startsWith(root+'/'));return{file:p.file,rawBytesSha256:p.rawBytesSha256};}).sort((x,y)=>Buffer.compare(Buffer.from(x.file),Buffer.from(y.file)));assert.equal(new Set(b.map(p=>p.file)).size,b.length);return b;};
+ const desc=(a,n)=>{assert(Array.isArray(a)&&a.length===n);for(const p of a){keys(p,['file','sha256']);assert(typeof p.file==='string'&&!p.file.startsWith('/')&&!p.file.includes('\\')&&!p.file.includes('//')&&!p.file.split('/').some(x=>!x||x==='.'||x==='..'));assert(/^[a-f0-9]{64}$/.test(p.sha256));}assert.deepEqual(a,[...a].sort((x,y)=>Buffer.compare(Buffer.from(x.file),Buffer.from(y.file))));assert.equal(new Set(a.map(p=>p.file)).size,n);return a;};
+ const merged=(h,e)=>norm([...h,...e].map(p=>({file:root+'/'+p.file,rawBytesSha256:p.sha256})));
+ const pointer=(o,p)=>{assert(typeof p==='string'&&/^\/(?:production)\/(?:0|[1-9][0-9]*)$/.test(p));return p.slice(1).split('/').reduce((v,k)=>v[k],o);};
+ const freeze=get(IO361.freeze);assert.equal(freeze.kind,'Root-frozen-runtime121-corrective361-G3-code-input');assert.equal(freeze.codeImplementationGranted,true);assert.equal(freeze.actualG2Authorized,false);
+ keys(plan,['kind','protocolVersion','namespace','epoch','run','nonce','base','current','composition','stateTransfer','tooling','outputs']);keys(plan.current,['sourcePins','compilePins','helperPins','helperCount','binary','summaryBinary','binaryFiles','nodeExecutable','lifetimeOwner','PGStart','PGConservation','apiProcess','readiness']);keys(plan.composition,['helperComposition','externalComposition','independentCodeReviews']);keys(plan.tooling,['manifest','executionSources']);keys(plan.outputs,['registryFile','candidateFile','receiptDirectory']);assert.equal(plan.protocolVersion,2);keys(plan.stateTransfer,['expectedState','expectedOwnership','actorCacheDelta','successor']);full(plan.stateTransfer.successor);
+ const successor=get(plan.stateTransfer.successor);keys(successor,['kind','schemaVersion','predecessorPlan','predecessorRegistry','predecessorCandidate','predecessorPublication','predecessorReadback','retainedCurrentState','failurePartial','failureRetention','failureReadback','sourceWitness']);assert.equal(successor.kind,'Root-runtime121-client-successor-handoff');assert.equal(successor.schemaVersion,1);
+ const sf={predecessorPlan:'oldPlan',predecessorRegistry:'oldRegistry',predecessorCandidate:'oldCandidate',predecessorPublication:'oldPublication',predecessorReadback:'oldPublicationReadback',retainedCurrentState:'currentFailedState32bd',failurePartial:'failurePartial',failureRetention:'failureRetention',failureReadback:'failureReadback'};
+ for(const[k,name]of Object.entries(sf)){full(successor[k]);assert.deepEqual(successor[k],IO361[name]);raw(successor[k]);}full(successor.sourceWitness);same(plan.stateTransfer.expectedState,successor.retainedCurrentState);
+ const witness=get(successor.sourceWitness);keys(witness,['kind','schemaVersion','baselineCompositionComplete','baselineHelperPins','baselineExternalPins','baselineExecutionSources','baselineStageManifest','retainedChangedSources','successorManifest','successorCodeReview','currentHelperPins','currentExternalPins','currentExecutionSources']);assert.equal(witness.kind,'Root-runtime121-two-stage-client-source-witness');assert.equal(witness.schemaVersion,1);
+ const wf={baselineCompositionComplete:'M06',baselineHelperPins:'oldHelper229',baselineExternalPins:'oldExternal55',baselineExecutionSources:'oldExecution284',baselineStageManifest:'oldNativeStageManifest9',retainedChangedSources:'retainedChangedSources'};for(const[k,name]of Object.entries(wf)){full(witness[k]);assert.deepEqual(witness[k],IO361[name]);}for(const k of['successorManifest','successorCodeReview','currentHelperPins','currentExternalPins','currentExecutionSources'])full(witness[k]);same(witness.successorManifest,plan.tooling.manifest);same(witness.currentHelperPins,plan.current.helperPins);
+ const retained=get(witness.retainedChangedSources);keys(retained,['kind','recordedAt','compositionComplete','oldGraph','oldExecutionCount','mappings','remainingUnchangedMembers','allOld284CurrentlyRawMatched','oldM06AndReviewsUnmodified','newSourceOrGraphCreated','productionWritten','canonicalStateWritten','modeExecuted','actualG2Granted']);assert.equal(retained.kind,'Root-fixed-four-predecessor-source-retained361');same(retained.compositionComplete,witness.baselineCompositionComplete);same(retained.oldGraph,witness.baselineExecutionSources);assert.equal(retained.oldExecutionCount,284);assert.equal(retained.remainingUnchangedMembers,280);assert.equal(retained.allOld284CurrentlyRawMatched,true);assert.equal(retained.oldM06AndReviewsUnmodified,true);for(const k of['newSourceOrGraphCreated','productionWritten','canonicalStateWritten','modeExecuted','actualG2Granted'])assert.equal(retained[k],false);assert(Array.isArray(retained.mappings)&&retained.mappings.length===4);const copies=new Map();
+ for(const m of retained.mappings){keys(m,['relative','original','retainedCopy']);const p=IO361.old4Sources.find(p=>p.file===root+'/'+m.relative);assert(p&&!copies.has(p.file));full(m.original);assert.deepEqual(m.original,p);full(m.retainedCopy);assert(m.retainedCopy.file.startsWith(priv+'/runtime121-corrective361-predecessor-source01/'));assert.equal(m.retainedCopy.bytes,p.bytes);assert.equal(m.retainedCopy.rawBytesSha256,p.rawBytesSha256);raw(m.retainedCopy);copies.set(p.file,m);}
+ assert.equal(copies.size,4);const historicalRead=p=>{const m=copies.get(p.file);if(m){same(p,m.original);return raw(m.retainedCopy);}return raw(p);};
+ const historicalJSON=p=>JSON.parse(historicalRead(p));
+ const baseline=get(witness.baselineCompositionComplete);assert.equal(baseline.kind,'Root-runtime121-Native06-composition-materialized');assert.equal(baseline.rootSourceRawRechecked,true);assert.equal(baseline.oldInputsUnmodified,true);same(baseline.actualGraphs.helper,witness.baselineHelperPins);same(baseline.actualGraphs.external,witness.baselineExternalPins);same(baseline.actualGraphs.execution,witness.baselineExecutionSources);
+ const oldHelpers=desc(get(witness.baselineHelperPins),229),oldExternal=desc(get(witness.baselineExternalPins),55),oldGraph=get(witness.baselineExecutionSources);assert.equal(oldGraph.length,284);assert.deepEqual(merged(oldHelpers,oldExternal),norm(oldGraph));assert.deepEqual(norm(get(baseline.normalizedExecutionSources)),norm(oldGraph));
+ const baselineComposition=get(baseline.planComposition);keys(baselineComposition,['helperComposition','externalComposition','independentCodeReviews']);same(baselineComposition.helperComposition,baseline.helperComposition);same(baselineComposition.externalComposition,baseline.externalComposition);assert(Array.isArray(baselineComposition.independentCodeReviews)&&baselineComposition.independentCodeReviews.length===3);
+ const oldPlan=get(successor.predecessorPlan),oldRegistry=get(successor.predecessorRegistry),oldCandidate=get(successor.predecessorCandidate),oldPublication=get(successor.predecessorPublication),oldReadback=get(successor.predecessorReadback),predecessorState=get(successor.retainedCurrentState);assert.equal(oldPlan.kind,'source15-append-runtime-plan121');assert.equal(oldPlan.protocolVersion,1);assert.deepEqual(oldPlan.base,plan.base);same(oldPlan.current.helperPins,witness.baselineHelperPins);same(oldPlan.tooling.manifest,witness.baselineStageManifest);assert.deepEqual(norm(oldPlan.tooling.executionSources),norm(oldGraph));assert.deepEqual(oldPlan.composition,baselineComposition);for(const key of Object.keys(oldPlan.current).filter(k=>k!=='helperPins'))assert.deepEqual(plan.current[key],oldPlan.current[key],'Client successor cannot replace service/current evidence '+key);same(plan.current.apiProcess,IO361.APIProcess);
+ same(oldRegistry.approvedPlan,successor.predecessorPlan);same(oldCandidate.runtimeAdmission121,successor.predecessorRegistry);assert.equal(oldPublication.kind,'actual-Source15-runtime121-FS-publication-complete');assert.equal(oldPublication.statePublished,true);same(oldPublication.input,successor.predecessorPlan);same(oldPublication.registry,successor.predecessorRegistry);same(oldPublication.candidate,successor.predecessorCandidate);assert.equal(oldReadback.kind,'non-author-runtime121-actual-FS-publication-readback');assert.equal(oldReadback.verdict,'approved-actual-exact-FS-runtime-publication-readback');assert.equal(oldReadback.reviewerIsPublicationExecutor,false);same(oldReadback.complete,successor.predecessorPublication);same(oldReadback.plan,successor.predecessorPlan);same(oldReadback.registry,successor.predecessorRegistry);same(oldReadback.candidate,successor.predecessorCandidate);same(oldReadback.immutablePrivateEntrySnapshot,IO361.predecessorEntry);assert.equal(oldReadback.entrySnapshotRawEqualCanonicalAndPhysicalInodeDistinct,true);raw(IO361.predecessorEntry);
+ same(predecessorState.runtimeAdmission121.registry,successor.predecessorRegistry);same(predecessorState.runtimeAdmission121.candidate,successor.predecessorCandidate);assert.equal(predecessorState.taxContinuation121?.kind,'current-Source15-runtime121-consumer-of-retained-real-tax-producer');assert.equal(predecessorState.consumerChecks?.taxInvocation121?.invocations?.[IO361.failureNonce]?.phase,'failed-preserve');
+ const historicalTooling=get(witness.baselineStageManifest);assert.equal(historicalTooling.kind,'I-runtime121-code-candidate');assert.equal(historicalTooling.production.length,9);for(const e of historicalTooling.production){const p=oldGraph.find(p=>p.file===root+'/'+e.file);assert(p&&p.rawBytesSha256===e.afterSHA256);}
+ const h=historicalJSON(baseline.helperComposition),e=historicalJSON(baseline.externalComposition);assert.equal(h.kind,'Root-Source15-runtime121-H3-composition');assert.equal(e.kind,'Root-Source15-runtime121-external-composition');same(h.finalHelperPins,witness.baselineHelperPins);same(h.baseHelperPins,oldPlan.base.helperPins227);assert.deepEqual(e.finalSources,oldExternal);
+ const apply=(before,after,frames,allowed)=>{const map=new Map(before.map(p=>[p.file,p.sha256])),seen=new Set();for(const f of frames){keys(f,['file','operation','beforeSHA256','afterSHA256','candidate','componentManifest','productPointer','independentReview','technicalG1']);assert(allowed.includes(f.file)&&!seen.has(f.file));seen.add(f.file);assert.equal(f.beforeSHA256,map.get(f.file)??null);assert.equal(f.operation,f.beforeSHA256===null?'ADD':'MOD');assert.notEqual(f.beforeSHA256,f.afterSHA256);assert.equal(f.candidate.rawBytesSha256,f.afterSHA256);historicalRead(f.candidate);raw(f.technicalG1);assert(['c20283d9a4e30d96f23d7f3890882e58a6f22e394fa9c747baa4c3a07968a68b','96f0090e2965cc96e9557ff297192ecad15f712b74e39934bb00b2396e1a4b3c','ac9cb66a6501f6e42f26ffe5470f49726dda2b37709e375bd8e043ae13430aad','b4d05c19a867b4f4e1990e36b4a742cd23e00958fb0bae6e7e5725e96cc7b15f','be96f468fe8c7aa58dcebe6f687ef90d0afb46f1d9ca2ac2bc2b3e90974206cc','72dc2677f51b2a430b5970a81b40b9301aaf3d97dd9f00f2b8fe6356a90748cb','77083554eb09b8cfb24ddee8bfe4fdc75d2261f01a5a6462a0a309815dcfe714'].includes(f.technicalG1.rawBytesSha256));const m=historicalJSON(f.componentManifest),node=pointer(m,f.productPointer),r=historicalJSON(f.independentReview);assert.equal(node.file,f.file);assert.equal(node.beforeSHA256,f.beforeSHA256);assert.equal(node.afterSHA256,f.afterSHA256);same(node.candidate,f.candidate);assert.equal(r.kind,'non-author-runtime121-finite-code-step');assert.equal(r.verdict,'approved-bounded-step-only');assert.equal(r.reviewerIsAuthor,false);assert(typeof r.author==='string'&&r.author&&typeof r.reviewer==='string'&&r.reviewer&&r.author!==r.reviewer);same(r.componentManifest,f.componentManifest);same(r.technicalG1,f.technicalG1);assert(baselineComposition.independentCodeReviews.some(p=>p.file===f.independentReview.file&&p.rawBytesSha256===f.independentReview.rawBytesSha256));assert(r.entries.some(q=>q.file===f.file&&q.beforeSHA256===f.beforeSHA256&&q.afterSHA256===f.afterSHA256&&q.productPointer===f.productPointer));map.set(f.file,f.afterSHA256);}assert.deepEqual([...seen].sort(),[...allowed].sort());assert.deepEqual([...map].map(([file,sha256])=>({file,sha256})).sort((a,b)=>Buffer.compare(Buffer.from(a.file),Buffer.from(b.file))),after);};
+ apply(desc(historicalJSON(h.baseHelperPins),227),oldHelpers,h.frames,OLD_H3_361);apply(desc(e.baseSources,45),oldExternal,e.frames,OLD_EXT_361);for(const p of oldGraph)historicalRead(p);for(const p of baselineComposition.independentCodeReviews)historicalRead(p);
+ const currentHelpers=desc(get(witness.currentHelperPins),229),currentExternal=desc(get(witness.currentExternalPins),55),currentGraph=get(witness.currentExecutionSources);assert.equal(currentGraph.length,284);assert.deepEqual(merged(currentHelpers,currentExternal),norm(currentGraph));assert.deepEqual(currentGraph,plan.tooling.executionSources);assert.deepEqual(norm(currentGraph),norm(plan.tooling.executionSources));assert.deepEqual(norm(currentGraph).map(p=>p.file),norm(oldGraph).map(p=>p.file));assert.deepEqual(oldHelpers.map(p=>p.file),currentHelpers.map(p=>p.file));assert.deepEqual(oldExternal.map(p=>p.file),currentExternal.map(p=>p.file));
+ const manifest=get(witness.successorManifest),review=get(witness.successorCodeReview);assert.equal(manifest.kind,'I-runtime121-code-candidate');assert.equal(manifest.edition,361);same(manifest.correctiveG3,IO361.freeze);assert(Array.isArray(manifest.production)&&manifest.production.length===4);assert.equal(review.kind,'non-author-runtime121-finite-code-step');assert.equal(review.verdict,'approved-bounded-step-only');assert.equal(review.reviewerIsAuthor,false);assert(typeof review.author==='string'&&review.author&&typeof review.reviewer==='string'&&review.reviewer&&review.author!==review.reviewer);same(review.componentManifest,witness.successorManifest);same(review.technicalG1,IO361.G1B);same(review.correctiveG3,IO361.freeze);assert(Array.isArray(review.entries)&&review.entries.length===4);
+ const seenNew=new Set();for(const [i,p]of manifest.production.entries()){const old=IO361.old4Sources.find(q=>q.file===root+'/'+p.file);assert(old&&!seenNew.has(p.file));seenNew.add(p.file);assert.equal(p.operation,'MOD');assert.equal(p.beforeSHA256,old.rawBytesSha256);const now=currentGraph.find(q=>q.file===old.file);assert(now&&now.rawBytesSha256===p.afterSHA256);assert.notEqual(p.beforeSHA256,p.afterSHA256);full(p.candidate);assert.equal(p.candidate.rawBytesSha256,p.afterSHA256);raw(p.candidate);assert(review.entries.some(q=>q.file===p.file&&q.beforeSHA256===p.beforeSHA256&&q.afterSHA256===p.afterSHA256&&q.productPointer==='/production/'+i));}
+ assert.deepEqual([...seenNew].sort(),IO361.old4Sources.map(p=>p.file.slice(root.length+1)).sort());const changed=[];const oldIds=norm(oldGraph),newIds=norm(currentGraph);for(let i=0;i<oldIds.length;i++)if(oldIds[i].rawBytesSha256!==newIds[i].rawBytesSha256)changed.push(oldIds[i].file);assert.deepEqual(changed.sort(),IO361.old4Sources.map(p=>p.file).sort());for(const p of currentGraph)raw(p);
+ const helperComposition=get(plan.composition.helperComposition),externalComposition=get(plan.composition.externalComposition);keys(helperComposition,['kind','schemaVersion','baseline','finalHelperPins','sourceWitness']);assert.equal(helperComposition.kind,'Root-Source15-runtime121-H3-successor-composition');assert.equal(helperComposition.schemaVersion,2);same(helperComposition.baseline,baseline.helperComposition);same(helperComposition.finalHelperPins,witness.currentHelperPins);same(helperComposition.sourceWitness,successor.sourceWitness);keys(externalComposition,['kind','schemaVersion','baseline','finalSources','sourceWitness']);assert.equal(externalComposition.kind,'Root-Source15-runtime121-external-successor-composition');assert.equal(externalComposition.schemaVersion,2);same(externalComposition.baseline,baseline.externalComposition);assert.deepEqual(externalComposition.finalSources,currentExternal);same(externalComposition.sourceWitness,successor.sourceWitness);
+ const reviewIds=a=>{assert(Array.isArray(a));const b=a.map(p=>{shape(p);return{file:p.file,rawBytesSha256:p.rawBytesSha256};}).sort((x,y)=>Buffer.compare(Buffer.from(x.file),Buffer.from(y.file)));assert.equal(new Set(b.map(p=>p.file)).size,b.length);return b;};assert.deepEqual(reviewIds(plan.composition.independentCodeReviews),reviewIds([...baselineComposition.independentCodeReviews,witness.successorCodeReview]));
+ return{successor,witness,retained,copies,predecessorState,oldPlan,oldRegistry,oldCandidate,oldPublication,baseline,baselineComposition,oldHelpers,oldExternal,oldGraph,helpers:currentHelpers,external:currentExternal,executionSources:norm(currentGraph),manifest,review,historicalRead,historicalJSON,helperComposition,externalComposition};
+}
 
 const data15=C121.private+'/business/'+C121.epoch+'/'+C121.run;
 const json=json15,readPin252=readPin15,rows252=rows15,sort=x=>[...x].sort();
@@ -358,18 +524,20 @@ export function verifyRetainedSource15For121(base) {
     sourceArchive:archive,code};
 }
 
-function composition121(plan,parent) {
-  const h=json121(plan.composition.helperComposition);
+function composition121(plan,parent,history=null) {
+  if(plan.protocolVersion===2)return compositionSuccessor121(plan,parent);
+  const stepRead121=history?history.historicalRead:read121, stepJSON121=history?history.historicalJSON:json121;
+  const h=stepJSON121(plan.composition.helperComposition);
   assert.equal(h.kind,'Root-Source15-runtime121-H3-composition');
   samePin121(h.baseHelperPins,plan.base.helperPins227);
   samePin121(h.finalHelperPins,plan.current.helperPins);
-  const helpers=json121(plan.current.helperPins);descriptors121(helpers,229);
+  const helpers=stepJSON121(plan.current.helperPins);descriptors121(helpers,229);
   finiteDelta121(parent.code.helper,helpers,h.frames,H3Changes121);
   const beforeExternal=[...parent.sourceArchive.index.values()]
     .map(x=>({file:x.originalPin.file.slice(C121.root.length+1),sha256:x.originalPin.rawBytesSha256}))
     .filter(x=>!x.file.startsWith('tools/rust-r4ghi/business/'))
     .sort((a,b)=>Buffer.compare(Buffer.from(a.file),Buffer.from(b.file)));
-  const e=json121(plan.composition.externalComposition);
+  const e=stepJSON121(plan.composition.externalComposition);
   assert.equal(e.kind,'Root-Source15-runtime121-external-composition');
   const dependency=protectedDependencies121(e.protectedDependencies,plan);
   for(const p of dependency.sources)beforeExternal.push({
@@ -381,7 +549,7 @@ function composition121(plan,parent) {
   const external=e.finalSources;descriptors121(external);
   finiteDelta121(beforeExternal,external,e.frames,[...ExternalChanges121,...ExternalAdds121]);
   for(const frame of [...h.frames,...e.frames]) {
-    read121(frame.candidate);read121(frame.technicalG1);
+    stepRead121(frame.candidate);stepRead121(frame.technicalG1);
     assert([
       'c20283d9a4e30d96f23d7f3890882e58a6f22e394fa9c747baa4c3a07968a68b',
       '96f0090e2965cc96e9557ff297192ecad15f712b74e39934bb00b2396e1a4b3c',
@@ -389,11 +557,11 @@ function composition121(plan,parent) {
       'b4d05c19a867b4f4e1990e36b4a742cd23e00958fb0bae6e7e5725e96cc7b15f',
       C121.G1B,C121.CtorAppend,C121.policyAppend,
     ].includes(frame.technicalG1.rawBytesSha256),'Outside fixed source/protocol G1');
-    const manifest=json121(frame.componentManifest),node=pointer121(manifest,frame.productPointer);
+    const manifest=stepJSON121(frame.componentManifest),node=pointer121(manifest,frame.productPointer);
     assert(node);assert.equal(node.file,frame.file);
     assert.equal(node.beforeSHA256,frame.beforeSHA256);assert.equal(node.afterSHA256,frame.afterSHA256);
     samePin121(node.candidate,frame.candidate);
-    const review=json121(frame.independentReview);
+    const review=stepJSON121(frame.independentReview);
     independent121(review,'non-author-runtime121-finite-code-step','approved-bounded-step-only');
     assert(typeof review.author==='string'&&review.author&&typeof review.reviewer==='string'&&review.reviewer);
     assert.notEqual(review.author,review.reviewer);
@@ -404,11 +572,11 @@ function composition121(plan,parent) {
     assert(review.entries.some(x=>x.file===frame.file&&x.beforeSHA256===frame.beforeSHA256&&
       x.afterSHA256===frame.afterSHA256&&x.productPointer===frame.productPointer));
   }
-  for(const pin of plan.composition.independentCodeReviews)read121(pin);
+  for(const pin of plan.composition.independentCodeReviews)stepRead121(pin);
   const all=[...helpers,...external].map(x=>({file:C121.root+'/'+x.file,rawBytesSha256:x.sha256}));
   const expected=sources121(all,C121.root);
   assert.deepEqual(sources121(plan.tooling.executionSources,C121.root),expected);
-  const tooling=json121(plan.tooling.manifest);
+  const tooling=stepJSON121(plan.tooling.manifest);
   assert.equal(tooling.kind,'I-runtime121-code-candidate');assert.equal(tooling.production.length,9);
   for(const entry of tooling.production) {
     const actual=expected.find(x=>x.file===C121.root+'/'+entry.file);assert(actual);
@@ -416,6 +584,12 @@ function composition121(plan,parent) {
   }
   assert.equal(external.length,55);
   return {helpers,external,executionSources:expected,dependencySupplement:dependency.archive};
+}
+function compositionSuccessor121(plan,parent){
+ const b=readSuccessorFiles361(plan,read121);successorShape121(b.successor);sourceWitnessShape121(b.witness);retainedFourShape121(b.retained);planShape121(b.oldPlan);
+ const prior=composition121(b.oldPlan,parent,b);assert.deepEqual(prior.helpers,b.oldHelpers);assert.deepEqual(prior.external,b.oldExternal);assert.deepEqual(sources121(prior.executionSources,C121.root),sources121(b.oldGraph,C121.root));
+ sourceOverlay121(b.oldGraph,plan.tooling.executionSources,b.oldHelpers,b.helpers,b.oldExternal,b.external,b.manifest.production);
+ return{helpers:b.helpers,external:b.external,executionSources:b.executionSources,dependencySupplement:prior.dependencySupplement,successor:b};
 }
 function protectedDependencies121(r,plan) {
   keys121(r,['kind','sourceManifest','sourcePointer','sources','archive','independentReview','RootAppendFreeze']);
@@ -550,7 +724,10 @@ function currentAPI121(plan,parent,composition) {
   assert.equal(r.root,C121.mirror);assert.equal(r.port,31441);
   samePin121(r.baseAPIProcess,parent.code.plan.consumer.apiProcess);
   samePin121(r.baseBuildBinding,plan.base.buildBinding);
-  for(const key of ['sourcePins','compilePins','helperPins','lifetimeOwner'])samePin121(r[key],c[key]);
+  for(const key of ['sourcePins','compilePins','lifetimeOwner'])samePin121(r[key],c[key]);
+  if(plan.protocolVersion===1)samePin121(r.helperPins,c.helperPins);else{
+    const b=composition.successor;assert(b);const startup=json121(r.input);assert.equal(startup.kind,'Root-runtime121-B-API-operation-input');assert.equal(startup.schemaVersion,1);samePin121(r.helperPins,startup.current.helperPins);samePin121(r.helperPins,b.witness.baselineHelperPins);samePin121(c.helperPins,b.witness.currentHelperPins);assert.deepEqual(startup.composition,b.baselineComposition);assert.deepEqual(sources121(startup.executionSources,C121.root),sources121(b.oldGraph,C121.root));for(const key of ['sourcePins','compilePins','lifetimeOwner'])samePin121(startup.current[key],c[key]);
+  }
   assert.equal(r.binary,c.binary.file);assert.equal(r.binarySha256,c.binary.rawBytesSha256);
   samePin121(c.binary,parent.code.plan.consumer.binary);
   samePin121(c.summaryBinary,parent.code.plan.consumer.summaryBinary);
@@ -642,6 +819,7 @@ export function verifyRuntimePlan121(planPin) {
   const composition=composition121(plan,parent);
   conservation121(plan,parent);const current=currentFacts121(plan,parent,composition);
   return {kind:'verified-source15-runtime-append-plan121',planPin,plan,parent,composition,current,
+    ...(plan.protocolVersion===2?{successor:composition.successor}:{}),
     ordinaryContextGranted:false,effectsGranted:false,statePublished:false};
 }
 
@@ -675,6 +853,9 @@ function retainedState121(state,facts) {
   for(const entry of facts.parent.resources) {
     const record=pointer121(state,entry.registryPath);
     assert.equal(sha121(JSON.stringify(resourceProjection252(record,entry.mode))),entry.retainedProjectionSHA256);
+  }
+  if(p.protocolVersion===2){
+    const b=facts.successor;assert(b);const predecessor=b.predecessorState;assert(Number.isSafeInteger(state.sequence)&&state.sequence>=predecessor.sequence);assert(Array.isArray(state.runtimeHistory121)&&state.runtimeHistory121.length===predecessor.runtimeHistory121.length+1);assert.deepEqual(state.runtimeHistory121.slice(0,-1),predecessor.runtimeHistory121);const appended=state.runtimeHistory121.at(-1);assert.deepEqual(appended,successorHistory121(predecessor,p,appended.recordedAt));const failedNonce=CORRECTIVE361.failureNonce;assert.deepEqual(state.consumerChecks.taxInvocation121.invocations[failedNonce],predecessor.consumerChecks.taxInvocation121.invocations[failedNonce]);if(state.taxContinuation121){samePin121(state.taxContinuation121.runtimeAdmission121,facts.authorityPin);samePin121(state.taxContinuation121.identity.runtimeAdmission121,facts.authorityPin);assert.equal(state.taxContinuation121.kind,'current-Source15-runtime121-consumer-of-retained-real-tax-producer');}return;
   }
   assert(Array.isArray(state.runtimeHistory121)&&state.runtimeHistory121.length===(old.runtimeHistory121?.length??0)+1);
   const h=state.runtimeHistory121.at(-1);

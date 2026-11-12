@@ -481,18 +481,57 @@ async function helpers() {
     });
 }
 function binary(p, all) {
-    assert(
-        all.some((q) =>
-            q.file === p.file && q.rawBytesSha256 === p.rawBytesSha256
-        ),
+    pin118(p);
+    assert(Array.isArray(all));
+    const matches = all.filter((q) =>
+        q.file === p.file && q.rawBytesSha256 === p.rawBytesSha256
     );
+    assert.equal(matches.length, 1, "Exactly one file/SHA binary Facts6 required");
+    const fact = matches[0];
+    assert.deepEqual(Object.keys(fact).sort(), [
+        "file", "rawBytesSha256", "bytes", "dev", "ino", "nlink",
+    ].sort());
+    assert(Number.isSafeInteger(fact.bytes) && fact.bytes >= 0);
+    assert(typeof fact.dev === "string" && /^[0-9]+$/.test(fact.dev));
+    assert(typeof fact.ino === "string" && /^[0-9]+$/.test(fact.ino));
+    assert(Number.isSafeInteger(fact.nlink) && fact.nlink >= 1);
+    if (p.bytes !== undefined) {
+        assert(Number.isSafeInteger(p.bytes) && p.bytes >= 0);
+        assert.equal(p.bytes, fact.bytes, "Pin/Fact binary byte count");
+    }
     const s = fs.lstatSync(p.file, { bigint: true });
-    assert(s.isFile() && !s.isSymbolicLink());
+    assert(s.isFile() && !s.isSymbolicLink() && s.nlink >= 1n);
     assert.equal(fs.realpathSync(p.file), p.file);
-    assert.equal(s.dev.toString(), p.dev);
-    assert.equal(s.ino.toString(), p.ino);
-    assert.equal(Number(s.nlink), p.nlink);
-    assert.equal(sha118(fs.readFileSync(p.file)), p.rawBytesSha256);
+    assert.equal(s.dev.toString(), fact.dev);
+    assert.equal(s.ino.toString(), fact.ino);
+    assert.equal(Number(s.nlink), fact.nlink);
+    assert.equal(Number(s.size), fact.bytes);
+    let fd = null;
+    try {
+        fd = fs.openSync(p.file, fs.constants.O_RDONLY | (fs.constants.O_NOFOLLOW ?? 0));
+        const opened = fs.fstatSync(fd, { bigint: true });
+        assert(opened.isFile() && !opened.isSymbolicLink());
+        assert.equal(opened.dev.toString(), fact.dev);
+        assert.equal(opened.ino.toString(), fact.ino);
+        assert.equal(Number(opened.nlink), fact.nlink);
+        assert.equal(Number(opened.size), fact.bytes);
+        for (const key of ["dev", "ino", "nlink", "size", "mtimeNs", "ctimeNs"])
+            assert.equal(opened[key], s[key], "Binary changed before opened");
+        const bytes = fs.readFileSync(fd);
+        assert.equal(bytes.length, fact.bytes);
+        assert.equal(sha118(bytes), p.rawBytesSha256);
+        const afterFD = fs.fstatSync(fd, { bigint: true });
+        assert(afterFD.isFile() && !afterFD.isSymbolicLink());
+        for (const key of ["dev", "ino", "nlink", "size", "mtimeNs", "ctimeNs"])
+            assert.equal(afterFD[key], opened[key], "Opened binary changed while verified");
+        const after = fs.lstatSync(p.file, { bigint: true });
+        assert(after.isFile() && !after.isSymbolicLink());
+        assert.equal(fs.realpathSync(p.file), p.file);
+        for (const key of ["dev", "ino", "nlink", "size", "mtimeNs", "ctimeNs"])
+            assert.equal(after[key], s[key], "Binary path changed while verified");
+    } finally {
+        if (fd !== null) fs.closeSync(fd);
+    }
 }
 function apiIdentity(d) {
     const r = d.root.state.apiProcess.record;
@@ -1165,6 +1204,51 @@ export function resetDomainSlot118(cap) {
     assert(!d.frame && !d.root.state.activeFault);
     d.domainSent = false;
 }
+// Failure evidence uses the already-owned invocation namespace, never next().
+function writeFailedBookend118(d, result, error) {
+    const priv = F118.private + "/business/" + F118.epoch + "/" + F118.run;
+    assert.equal(d.root.priv, priv);
+    assert.equal(d.pid, process.pid);
+    assert(/^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/.test(d.p.nonce));
+    const directory = priv + "/tax118-invocation-" + d.p.nonce;
+    const st = fs.lstatSync(directory);
+    assert(st.isDirectory() && !st.isSymbolicLink());
+    assert.equal(fs.realpathSync(directory), directory);
+    const intentPin = {
+        file: directory + "/intent.json",
+        rawBytesSha256: sha118(fs.readFileSync(directory + "/intent.json")),
+    };
+    const intent = json118(intentPin);
+    assert.equal(intent.kind, "actual-Tax15-invocation118-intent");
+    samePin118(intent.input, d.inputPin);
+    samePin118(intent.exactReview, d.reviewPin);
+    assert.equal(intent.pid, d.pid);
+    assert.equal(intent.nonce, d.p.nonce);
+    assert.equal(intent.mode, d.p.mode);
+    const value = {
+        kind: "tax118-bookend-failed-preserve-effects",
+        nonce: d.p.nonce,
+        mode: d.p.mode,
+        pid: d.pid,
+        input: d.inputPin,
+        exactReview: d.reviewPin,
+        ownerIntent: intentPin,
+        result: result ?? null,
+        error: error.message,
+        activeFault: d.root.state.activeFault ?? null,
+        normalMayAlreadyBeCommitted: Boolean(
+            d.root.state.taxContinuation121.sweep?.finalSuccess,
+        ),
+        replayForbidden: true,
+    };
+    const file = directory + "/failed-bookend.json";
+    const bytes = Buffer.from(JSON.stringify(value, null, 2) + "\n");
+    fs.writeFileSync(file, bytes, { flag: "wx", mode: 0o600 });
+    const evidence = { file, bytes: bytes.length, rawBytesSha256: sha118(bytes) };
+    read118(evidence);
+    return evidence;
+}
+
 export async function closeInvocation118(cap, result, { failed = false } = {}) {
     const d = live(cap);
     let bookendError;
@@ -1239,18 +1323,7 @@ export async function closeInvocation118(cap, result, { failed = false } = {}) {
         r.phase = "failed-preserve";
         r.error = e.message;
         d.root.persist();
-        d.root.artifact(d.root.next("tax118-failed-bookend") + ".json", {
-            kind: "tax118-bookend-failed-preserve-effects",
-            nonce: d.p.nonce,
-            input: d.inputPin,
-            result: result ?? null,
-            error: e.message,
-            activeFault: d.root.state.activeFault ?? null,
-            normalMayAlreadyBeCommitted: Boolean(
-                d.root.state.taxContinuation121.sweep?.finalSuccess,
-            ),
-            replayForbidden: true,
-        });
+        writeFailedBookend118(d, result, e);
         throw e;
     } finally {
         d.closed = true;
