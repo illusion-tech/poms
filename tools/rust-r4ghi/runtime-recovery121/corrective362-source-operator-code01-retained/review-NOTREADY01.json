@@ -1,0 +1,91 @@
+{
+  "kind": "non-author-runtime121-corrective362-source-operator-code-review",
+  "verdict": "NOTREADY-two-entire-main-ownFS-counterexamples",
+  "recordedAt": "2026-11-12T20:33:03.560Z",
+  "author": "Root",
+  "reviewer": "/root/transport358_code_review",
+  "reviewerIsAuthor": false,
+  "reviewedOperator": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/promote-corrective362-once.mjs",
+    "bytes": 15198,
+    "rawBytesSha256": "8b5065a32e879605541dfbeb27073277d53d5def66a297727f54792539ddc194"
+  },
+  "reviewedBaseline": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/corrective362-source-baseline01/baseline-pins362.json",
+    "bytes": 7262,
+    "rawBytesSha256": "c32b27d54cb7a8b2ce57079854d74f092e9b99989f4598f2ae28031ed07e390b"
+  },
+  "preservedOriginal": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-source-operator-independent01/promote-corrective362-once-15198-original.mjs.txt",
+    "bytes": 15198,
+    "rawBytesSha256": "8b5065a32e879605541dfbeb27073277d53d5def66a297727f54792539ddc194"
+  },
+  "preservedBaseline": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-source-operator-independent01/baseline-pins362-7262-original.json.txt",
+    "bytes": 7262,
+    "rawBytesSha256": "c32b27d54cb7a8b2ce57079854d74f092e9b99989f4598f2ae28031ed07e390b"
+  },
+  "fullModuleAndMainModels": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective362-source-operator-independent01/entire-main-model-results362.json",
+    "bytes": 30848,
+    "rawBytesSha256": "cff3e11dfe3c58572e68d8541bc1b6e86be9ef6f99ea7a6993a5a28a586fced9"
+  },
+  "findings": [
+    {
+      "priority": 1,
+      "id": "UNKNOWN_LOCK_ENTRY",
+      "file": "tools/rust-r4ghi/runtime-recovery121/promote-corrective362-once.mjs",
+      "line": 82,
+      "detail": "Driver absence is checked with existsSync. A real ownFS dangling junction at Source15 driver.lock was invisible to that check; the entire original main then completed all eight source renames, wrote complete/witness/successor and removed its source lock.",
+      "model": "02-dangling-driver-lock",
+      "required": "All absence checks must use lstat and accept only ENOENT, including Source13/14/15 drivers, operation output, source lock and each temp. Unknown/dangling entries must reject before any source effect."
+    },
+    {
+      "priority": 1,
+      "id": "LATE_GUARD_DRIFT",
+      "file": "tools/rust-r4ghi/runtime-recovery121/promote-corrective362-once.mjs",
+      "line": 97,
+      "detail": "The fixed state/ownership/API/old-bookend guards run before the operation and after all eight renames. The full ownFS model changed canonical state immediately after rename1; main still renamed the remaining seven sources and detected the drift only at line102. The lock and eight step backups survived, with no complete output.",
+      "model": "03-canonical-drift-after-first-rename",
+      "required": "Before each temp creation and each rename, reread the complete fixed guard group and verify the exact original own-lock bytes. Immediately before rename also reread that before source/candidate and verify temp bytes/hash. Keep partial output and lock on any failure; no automatic rollback/cleanup/retry."
+    }
+  ],
+  "staticCoverage": {
+    "input": "Exact seven-key input and exact sourcePlan/operations/fullpin shapes; Root and peer compared to complete fixed bodies, including reviewer identity, nonce/input/operator/G3/expected approval and no state/mode/API/PG grants.",
+    "bindings": "Exact ordered eight paths against frozen before values; production6/data2 manifests and independent reviews bind full componentManifest/G3/technicalG1, before/after/candidate hashes and exact production pointer. Data2 must be outside old284.",
+    "graphs": "The old229+55 must equal sorted unique old284. All six before leaves are retained by exact raw copies. New graph preserves membership, changes exactly helper2/external4, and leaves278 unchanged. All final284 are read before witness and complete output.",
+    "history": "W3 kind three-stage/schema2 and S3 schema2 keep closed13/12 output shapes. W3 baselines prior publication and current Source361 graphs/manifests; original b76 bytes must prefix retained current eb4a. Source-only outputs do not import Native or write canonical/ownership.",
+    "success": "Entire-main happy model completed all8 renames and exact graph/witness/successor/complete outputs; its source lock was removed only after exact-byte comparison.",
+    "failure": "Entire-main drift model kept source lock, intent, backups and steps. The late stop is the reported blocker, not successful source-promotion acceptance."
+  },
+  "modelScope": {
+    "completePromoterModuleCompiled": true,
+    "completeImportedFactsModuleCompiled": true,
+    "entireMainBodyByteIdentical": true,
+    "prefixOnlyProjection": false,
+    "realOwnFSWriteWxRenameLstatAndDanglingJunction": true,
+    "identityLiteralsReboundToConsistentSyntheticPins": true,
+    "LinuxUIDProcNodeCwdAreSyntheticFixtureData": true,
+    "actualRootScriptExecuted": false,
+    "actualRootOrPrivateOrProcOrEnvRead": false,
+    "actualRootPrivateWritten": false,
+    "actualApplicationOrSQLHTTPExecuted": false,
+    "syntheticFixturesAreNotActualInputsOrAuthority": true,
+    "initialHarnessCompileStopPreserved": "model-compile-stop01.json"
+  },
+  "limits": [
+    "This NOTREADY review is final for the15198/8b506 candidate. A corrected source requires a new exact hash and independent regression of the complete main.",
+    "No fixed candidate or actual eight-source request was reviewed or approved here. No source promotion, source installation, state handoff, retry, G2 or business acceptance is granted."
+  ],
+  "authority": {
+    "codeReady": false,
+    "sourcePromotionGranted": false,
+    "stateHandoffGranted": false,
+    "actualG2Granted": false,
+    "modeRetryGranted": false,
+    "APIOrPGControlGranted": false,
+    "businessG3": false,
+    "businessG4": false,
+    "parentGoalComplete": false
+  }
+}

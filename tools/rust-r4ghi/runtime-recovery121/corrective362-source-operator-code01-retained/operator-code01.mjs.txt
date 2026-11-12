@@ -1,0 +1,113 @@
+// Root-only finite source operation. Importing this module performs no effects.
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import {pathToFileURL} from 'node:url';
+import {C,assertOperatorHost121,json,pin,read,sha,directory121,writeWx} from './root/facts121.mjs';
+
+const base=C.root+'/tools/rust-r4ghi/runtime-recovery121/';
+export const G3_362=Object.freeze({file:base+'corrective362-g3-freeze01/Root-G3-code-input362.json',bytes:14235,rawBytesSha256:'0bc2ad58712a8cc396f740701178b3e27cda8f16a615404c35f47f658ace10d2'});
+const baselinePin=Object.freeze({file:base+'corrective362-source-baseline01/baseline-pins362.json',bytes:7262,rawBytesSha256:'c32b27d54cb7a8b2ce57079854d74f092e9b99989f4598f2ae28031ed07e390b'});
+const prefix=C.private+'/runtime121-corrective362-source/',lockFile=C.private+'/runtime121-corrective362-source.lock';
+const sourceFiles=Object.freeze([
+ 'tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs',
+ 'tools/rust-r4ghi/tax15-invocation118/tax15-once-wire.mjs',
+ 'tools/rust-r4ghi/tax15-invocation118/tax15-once-effects.mjs',
+ 'tools/rust-r4ghi/business/runtime-admission121.mjs',
+ 'tools/rust-r4ghi/business/runtime-admission-core121.mjs',
+ 'tools/rust-r4ghi/runtime-recovery121/native/publish-runtime121.mjs',
+ 'tools/rust-r4ghi/runtime-recovery121/Native-plan-data-candidate01/prepare-native-plan121.mjs',
+ 'tools/rust-r4ghi/runtime-recovery121/Tax121-current-metadata-data-candidate01/prepare-tax121-current-metadata.mjs',
+]);
+const closed=(v,keys)=>{assert(v&&typeof v==='object'&&!Array.isArray(v));assert.deepEqual(Object.keys(v).sort(),[...keys].sort());};
+const full=p=>{closed(p,['file','bytes','rawBytesSha256']);assert(Number.isSafeInteger(p.bytes)&&p.bytes>=0);read(p);return p;};
+const equalPin=(a,b)=>assert.deepEqual(a,b);
+const order=(a,b)=>Buffer.compare(Buffer.from(a.file),Buffer.from(b.file));
+
+export function inputShape362(p){
+ closed(p,['kind','protocolVersion','nonce','G3','sourcePlan','operator','outputDirectory']);
+ assert.equal(p.kind,'Root-runtime121-corrective362-source-promotion-input');assert.equal(p.protocolVersion,1);
+ assert(/^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/.test(p.nonce));
+ equalPin(p.G3,G3_362);full(p.G3);full(p.sourcePlan);full(p.operator);
+ assert.equal(p.operator.file,base+'promote-corrective362-once.mjs');assert.equal(p.outputDirectory,prefix+p.nonce);return p;
+}
+export function rootBody362(p,input){return{kind:'Root-approved-exact-runtime121-corrective362-source-promotion',input,G3:p.G3,sourcePlan:p.sourcePlan,operator:p.operator,nonce:p.nonce,productionMOD:6,outside284DataMOD:2,sourcePromotionGranted:true,stateHandoffGranted:false,modeRetryGranted:false,APIOrPGControlGranted:false,businessG3:false,businessG4:false};}
+export function peerBody362(p,input,approval){return{kind:'non-author-runtime121-corrective362-source-safety',author:'Root',reviewer:'/root/transport358_code_review',reviewerIsAuthor:false,verdict:'approved-exact-eight-source-promotion-only',input,G3:p.G3,sourcePlan:p.sourcePlan,operator:p.operator,expectedRootApproval:approval,productionMOD:6,outside284DataMOD:2,unchangedExecutionMembers:278,executionMembers:284,canonicalStateWriteGranted:false,APIOrPGControlGranted:false};}
+
+function component362(manifestPin,reviewPin,G3,count){
+ full(manifestPin);full(reviewPin);const m=json(manifestPin),r=json(reviewPin);
+ assert.equal(m.kind,'I-runtime121-code-candidate');assert.equal(m.edition,362);equalPin(m.correctiveG3,G3);
+ assert.equal(m.production.length,count);assert.equal(new Set(m.production.map(x=>x.file)).size,count);
+ assert.equal(r.kind,'non-author-runtime121-finite-code-step');assert.equal(r.verdict,'approved-bounded-step-only');assert.equal(r.reviewerIsAuthor,false);
+ assert(typeof r.author==='string'&&r.author.length>0);assert(typeof r.reviewer==='string'&&r.reviewer.length>0);assert.notEqual(r.author,r.reviewer);
+ equalPin(r.componentManifest,manifestPin);equalPin(r.correctiveG3,G3);assert.equal(r.technicalG1.rawBytesSha256,'be96f468fe8c7aa58dcebe6f687ef90d0afb46f1d9ca2ac2bc2b3e90974206cc');full(r.technicalG1);
+ assert.equal(r.entries.length,count);assert.equal(new Set(r.entries.map(x=>x.file)).size,count);return{m,r};
+}
+export function sourcePlan362(p){
+ inputShape362(p);const freeze=json(p.G3),b=json(baselinePin),s=json(p.sourcePlan);
+ assert.equal(freeze.codeImplementationGranted,true);assert.equal(freeze.sourcePromotionGranted,false);
+ assert.equal(b.kind,'runtime121-corrective362-unique-existing-source-baselines');equalPin(b.G3,p.G3);
+ closed(s,['kind','G3','productionManifest','productionCodeReview','dataManifest','dataCodeReview','operations','baselinePins']);
+ assert.equal(s.kind,'Root-runtime121-corrective362-eight-source-plan');equalPin(s.G3,p.G3);equalPin(s.baselinePins,baselinePin);
+ assert(Array.isArray(s.operations)&&s.operations.length===8);assert.deepEqual(s.operations.map(x=>x.file),sourceFiles);
+ const prod=component362(s.productionManifest,s.productionCodeReview,p.G3,6),data=component362(s.dataManifest,s.dataCodeReview,p.G3,2);
+ equalPin(prod.r.technicalG1,data.r.technicalG1);assert.equal(freeze.exactBeforeSources.length,8);
+ const measured=s.operations.map((o,i)=>{
+  closed(o,['file','before','candidate']);const expected=freeze.exactBeforeSources[i];assert.equal(o.file,expected.file);
+  equalPin(o.before,{file:C.root+'/'+expected.file,bytes:expected.beforeBytes,rawBytesSha256:expected.beforeSHA256});full(o.before);full(o.candidate);
+  assert(o.candidate.file.startsWith('/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/'));
+  assert.notEqual(o.before.rawBytesSha256,o.candidate.rawBytesSha256);
+  const {m,r}=i<6?prod:data,product=m.production.find(x=>x.file===o.file),index=m.production.indexOf(product);assert(product);assert.equal(product.operation,'MOD');
+  assert.equal(product.beforeSHA256,o.before.rawBytesSha256);assert.equal(product.afterSHA256,o.candidate.rawBytesSha256);equalPin(product.candidate,o.candidate);
+  const entry=r.entries.find(x=>x.file===o.file);assert(entry);assert.equal(entry.beforeSHA256,product.beforeSHA256);assert.equal(entry.afterSHA256,product.afterSHA256);assert.equal(entry.productPointer,'/production/'+index);
+  return{...o,bytes:read(o.candidate)};
+ });
+ const old=json(b.oldExecution284),h=json(b.oldHelper229),e=json(b.oldExternal55);assert.equal(old.length,284);assert.equal(h.length,229);assert.equal(e.length,55);
+ assert.equal(new Set(old.map(q=>q.file)).size,284);assert.deepEqual(old,[...old].sort(order));
+ assert.deepEqual([...h,...e].map(q=>({file:C.root+'/'+q.file,rawBytesSha256:q.sha256})).sort(order),old);
+ const paths=new Set(old.map(q=>q.file));for(const q of old)read(q);
+ for(const o of measured.slice(0,6))assert.equal(old.find(q=>q.file===o.before.file)?.rawBytesSha256,o.before.rawBytesSha256);
+ for(const o of measured.slice(6))assert(!paths.has(o.before.file));
+ equalPin(b.retainedChangedSources,freeze.retainedSixBeforeManifest);const retained=json(b.retainedChangedSources);assert.equal(retained.kind,'Root-fixed-six-predecessor-source-retained362');assert.equal(retained.mappings.length,6);assert.equal(new Set(retained.mappings.map(q=>q.relative)).size,6);equalPin(retained.oldGraph,b.oldExecution284);
+ for(const o of measured.slice(0,6)){const entry=retained.mappings.find(q=>q.relative===o.file);assert(entry);equalPin(entry.original,o.before);assert(read(entry.retainedCopy).equals(read(o.before)));}
+ for(const key of ['priorSourceComplete','priorSourceWitness','oldStageManifest4','oldPlan','oldRegistry','oldCandidate','oldPublication','oldPublicationReadback','failurePartial','failureRetention','failureReadback'])full(b[key]);
+ const prior=json(b.oldPlan),publication=json(b.oldPublication),w2=json(b.priorSourceWitness);assert.equal(prior.protocolVersion,2);assert.equal(publication.kind,'actual-Source15-runtime121-FS-publication-complete');
+ assert.equal(publication.input.file,b.oldPlan.file);assert.equal(publication.input.rawBytesSha256,b.oldPlan.rawBytesSha256);equalPin(publication.registry,b.oldRegistry);equalPin(publication.candidate,b.oldCandidate);equalPin(prior.current.helperPins,b.oldHelper229);equalPin(prior.tooling.manifest,b.oldStageManifest4);equalPin(w2.currentHelperPins,b.oldHelper229);equalPin(w2.currentExternalPins,b.oldExternal55);equalPin(w2.currentExecutionSources,b.oldExecution284);equalPin(w2.successorManifest,b.oldStageManifest4);assert.deepEqual(prior.tooling.executionSources,old);
+ const originalOwnership=read(b.originalOwnership),expectedOwnership=read(b.ownership);assert(expectedOwnership.length>=originalOwnership.length);assert(expectedOwnership.subarray(0,originalOwnership.length).equals(originalOwnership));
+ const guards=[b.currentFailedState,b.ownership,b.APIProcess,b.oldFailedBookend,b.failurePartial,b.failureRetention,b.failureReadback,
+  {file:C.private+'/business/g2-business13/main01/state.json',bytes:13529606,rawBytesSha256:'af245ff8ed1047fe2f8176b6fcd828f95af657e86feba29ab03a6963706285a4'},
+  {file:C.private+'/business/g2-business14/main01/state.json',bytes:13834997,rawBytesSha256:'bd21c40006d831dea4e0b1d45ef3c0b6548ada6739268b8724ab3bb09c333b97'},
+  {file:C.private+'/business/g2-business15/main01/state.json',bytes:b.currentFailedState.bytes,rawBytesSha256:b.currentFailedState.rawBytesSha256},
+  {file:C.private+'/business/g2-business15/main01/ownership.jsonl',bytes:b.ownership.bytes,rawBytesSha256:b.ownership.rawBytesSha256}];
+ for(const q of guards)read(q);for(const n of [13,14,15])assert(!fs.existsSync(C.private+'/business/g2-business'+n+'/main01/driver.lock'));
+ assert.equal(fs.readFileSync('/proc/sys/kernel/random/boot_id','utf8').trim(),'0e313ea7-9ac2-4a55-b1fe-fb472441344a');
+ const api=json(b.APIProcess),stat=fs.readFileSync('/proc/'+api.pid+'/stat','utf8');assert.equal(stat.slice(stat.lastIndexOf(')')+1).trim().split(/\s+/)[19],api.startTime);assert.equal(fs.realpathSync('/proc/'+api.pid+'/cwd'),C.mirror);
+ return{b,s,measured,old,h,e,guards};
+}
+
+async function main(){
+ assertOperatorHost121();assert.equal(process.platform,'linux');const a=process.argv.slice(2);assert.equal(a.length,13);
+ assert.deepEqual([a[0],a[2],a[4],a[6],a[8],a[10],a[12]],['--input','--input-sha','--peer-review','--peer-review-sha','--Root-review','--Root-review-sha','--execute']);
+ const input=pin(a[1]);assert.equal(input.rawBytesSha256,a[3]);const p=inputShape362(json(input));const peer=pin(a[5]);assert.equal(peer.rawBytesSha256,a[7]);const root=pin(a[9]);assert.equal(root.rawBytesSha256,a[11]);
+ equalPin(p.operator,pin(base+'promote-corrective362-once.mjs'));assert.deepEqual(json(root),rootBody362(p,input));assert.deepEqual(json(peer),peerBody362(p,input,root));
+ const c=sourcePlan362(p);assert(!fs.existsSync(p.outputDirectory));assert(!fs.existsSync(lockFile));directory121(p.outputDirectory,{exclusive:true});
+ const lockBytes=Buffer.from(JSON.stringify({nonce:p.nonce,input,pid:process.pid})+'\n');fs.writeFileSync(lockFile,lockBytes,{flag:'wx',mode:0o600});
+ writeWx(p.outputDirectory,'intent.json',{kind:'actual-corrective362-source-promotion-intent',input,peerReview:peer,RootReview:root,operator:p.operator,sourcePlan:p.sourcePlan,canonicalStateWrite:false});
+ const steps=[];
+ for(const[index,o]of c.measured.entries()){
+  const backup=writeWx(p.outputDirectory,'before-'+index+'.bin',read(o.before)),target=o.before.file,temp=target+'.corrective362-'+p.nonce;assert(!fs.existsSync(temp));fs.writeFileSync(temp,o.bytes,{flag:'wx',mode:fs.statSync(target).mode&0o777});
+  assert(read(o.candidate).equals(o.bytes));read(o.before);assert.equal(sha(fs.readFileSync(temp)),o.candidate.rawBytesSha256);fs.renameSync(temp,target);
+  const after=pin(target);assert.equal(after.rawBytesSha256,o.candidate.rawBytesSha256);assert.equal(after.bytes,o.candidate.bytes);steps.push(writeWx(p.outputDirectory,'step-'+index+'.json',{file:o.file,before:o.before,backup,candidate:o.candidate,after}));
+ }
+ for(const q of c.guards)read(q);const mods=new Map(c.measured.slice(0,6).map(o=>[o.file,o.candidate.rawBytesSha256]));
+ const h=c.h.map(q=>mods.has(q.file)?{file:q.file,sha256:mods.get(q.file)}:q),e=c.e.map(q=>mods.has(q.file)?{file:q.file,sha256:mods.get(q.file)}:q);
+ assert.equal(h.filter((q,i)=>q.sha256!==c.h[i].sha256).length,2);assert.equal(e.filter((q,i)=>q.sha256!==c.e[i].sha256).length,4);
+ const x=[...h,...e].map(q=>({file:C.root+'/'+q.file,rawBytesSha256:q.sha256})).sort(order);assert.equal(x.length,284);assert.equal(new Set(x.map(q=>q.file)).size,284);assert.deepEqual(x.map(q=>q.file),c.old.map(q=>q.file));
+ const changed=x.filter((q,i)=>q.rawBytesSha256!==c.old[i].rawBytesSha256);assert.equal(changed.length,6);assert.deepEqual(changed.map(q=>q.file).sort(),c.measured.slice(0,6).map(q=>q.before.file).sort());for(const q of x)read(q);for(const q of c.guards)read(q);
+ const helper=writeWx(p.outputDirectory,'actual-helper-pins229.json',h),external=writeWx(p.outputDirectory,'actual-external-pins55.json',e),execution=writeWx(p.outputDirectory,'actual-execution-sources284.json',x);
+ const witness=writeWx(p.outputDirectory,'source-witness13.json',{kind:'Root-runtime121-three-stage-client-source-witness',schemaVersion:2,baselineCompositionComplete:c.b.oldPublication,baselineHelperPins:c.b.oldHelper229,baselineExternalPins:c.b.oldExternal55,baselineExecutionSources:c.b.oldExecution284,baselineStageManifest:c.b.oldStageManifest4,retainedChangedSources:c.b.retainedChangedSources,successorManifest:c.s.productionManifest,successorCodeReview:c.s.productionCodeReview,currentHelperPins:helper,currentExternalPins:external,currentExecutionSources:execution});
+ const successor=writeWx(p.outputDirectory,'successor12.json',{kind:'Root-runtime121-client-successor-handoff',schemaVersion:2,predecessorPlan:c.b.oldPlan,predecessorRegistry:c.b.oldRegistry,predecessorCandidate:c.b.oldCandidate,predecessorPublication:c.b.oldPublication,predecessorReadback:c.b.oldPublicationReadback,retainedCurrentState:c.b.currentFailedState,failurePartial:c.b.failurePartial,failureRetention:c.b.failureRetention,failureReadback:c.b.failureReadback,sourceWitness:witness});
+ const complete=writeWx(p.outputDirectory,'complete.json',{kind:'actual-runtime121-corrective362-source-promotion-complete',recordedAt:new Date().toISOString(),input,peerReview:peer,RootReview:root,steps,helperPins:helper,externalPins:external,executionSources:execution,sourceWitness:witness,successor,productionMOD:6,outside284DataMOD:2,unchangedExecutionMembers:278,canonicalStateWritten:false,APIOrPGControlled:false,modeExecuted:false,businessG3:false,businessG4:false});
+ assert(fs.readFileSync(lockFile).equals(lockBytes));fs.unlinkSync(lockFile);console.log(JSON.stringify({complete,sourceWitness:witness,successor,canonicalStateWritten:false,modeExecuted:false}));
+}
+if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href)main().catch(e=>{const frames=String(e.stack??'').split('\n').slice(1).filter(x=>/^\s+at /.test(x));console.error(JSON.stringify({kind:'Root-corrective362-source-promotion-stopped',name:e.name,code:e.code??null,frames,preservePartialAndLock:true,blindRetryForbidden:true}));process.exitCode=1;});

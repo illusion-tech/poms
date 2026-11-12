@@ -1,0 +1,899 @@
+{
+  "kind": "non-author-corrective362-code02-entire-main-ownFS-regression",
+  "recordedAt": "2026-11-12T20:40:42.575Z",
+  "source": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/promote-corrective362-once.mjs",
+    "bytes": 16037,
+    "rawBytesSha256": "719f6d974e4c230ca2576927e50f5ccfa9e8a13cdf28b8e61b99fa74624408b7"
+  },
+  "baseline": {
+    "bytes": 7262,
+    "rawBytesSha256": "c32b27d54cb7a8b2ce57079854d74f092e9b99989f4598f2ae28031ed07e390b"
+  },
+  "entireRootFactsBytes": 13288,
+  "entireMainBodyByteIdentical": true,
+  "completeMainCases": 15,
+  "closed01FindingsRegressionPassed": true,
+  "newFinding": "The candidate/temp/before fullpin reads precede sourceWindow. Tampering those files during the last sourceWindow is not checked again before rename.",
+  "outcomes": [
+    {
+      "name": "01-complete-main-happy",
+      "entireMainRun": true,
+      "renames": 8,
+      "classifications": [
+        "candidate",
+        "candidate",
+        "candidate",
+        "candidate",
+        "candidate",
+        "candidate",
+        "candidate",
+        "candidate"
+      ],
+      "complete": true,
+      "lockPreserved": false,
+      "failure": null,
+      "events": [
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source.lock"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/intent.json"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/before-0.bin"
+        },
+        {
+          "op": "write",
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs.corrective362-00000000-0000-4000-8000-000000000362"
+        },
+        {
+          "op": "rename",
+          "from": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs.corrective362-00000000-0000-4000-8000-000000000362",
+          "to": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/step-0.json"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/before-1.bin"
+        },
+        {
+          "op": "write",
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tax15-once-wire.mjs.corrective362-00000000-0000-4000-8000-000000000362"
+        },
+        {
+          "op": "rename",
+          "from": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tax15-once-wire.mjs.corrective362-00000000-0000-4000-8000-000000000362",
+          "to": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tax15-once-wire.mjs"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/step-1.json"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/before-2.bin"
+        },
+        {
+          "op": "write",
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tax15-once-effects.mjs.corrective362-00000000-0000-4000-8000-000000000362"
+        },
+        {
+          "op": "rename",
+          "from": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tax15-once-effects.mjs.corrective362-00000000-0000-4000-8000-000000000362",
+          "to": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tax15-once-effects.mjs"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/step-2.json"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/before-3.bin"
+        },
+        {
+          "op": "write",
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/runtime-admission121.mjs.corrective362-00000000-0000-4000-8000-000000000362"
+        },
+        {
+          "op": "rename",
+          "from": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/runtime-admission121.mjs.corrective362-00000000-0000-4000-8000-000000000362",
+          "to": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/runtime-admission121.mjs"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/step-3.json"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/before-4.bin"
+        },
+        {
+          "op": "write",
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/runtime-admission-core121.mjs.corrective362-00000000-0000-4000-8000-000000000362"
+        },
+        {
+          "op": "rename",
+          "from": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/runtime-admission-core121.mjs.corrective362-00000000-0000-4000-8000-000000000362",
+          "to": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/runtime-admission-core121.mjs"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/step-4.json"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/before-5.bin"
+        },
+        {
+          "op": "write",
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/native/publish-runtime121.mjs.corrective362-00000000-0000-4000-8000-000000000362"
+        },
+        {
+          "op": "rename",
+          "from": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/native/publish-runtime121.mjs.corrective362-00000000-0000-4000-8000-000000000362",
+          "to": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/native/publish-runtime121.mjs"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/step-5.json"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/before-6.bin"
+        },
+        {
+          "op": "write",
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/Native-plan-data-candidate01/prepare-native-plan121.mjs.corrective362-00000000-0000-4000-8000-000000000362"
+        },
+        {
+          "op": "rename",
+          "from": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/Native-plan-data-candidate01/prepare-native-plan121.mjs.corrective362-00000000-0000-4000-8000-000000000362",
+          "to": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/Native-plan-data-candidate01/prepare-native-plan121.mjs"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/step-6.json"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/before-7.bin"
+        },
+        {
+          "op": "write",
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/Tax121-current-metadata-data-candidate01/prepare-tax121-current-metadata.mjs.corrective362-00000000-0000-4000-8000-000000000362"
+        },
+        {
+          "op": "rename",
+          "from": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/Tax121-current-metadata-data-candidate01/prepare-tax121-current-metadata.mjs.corrective362-00000000-0000-4000-8000-000000000362",
+          "to": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/Tax121-current-metadata-data-candidate01/prepare-tax121-current-metadata.mjs"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/step-7.json"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/actual-helper-pins229.json"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/actual-external-pins55.json"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/actual-execution-sources284.json"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/source-witness13.json"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/successor12.json"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/complete.json"
+        },
+        {
+          "op": "unlink",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source.lock"
+        }
+      ],
+      "exactOutputShapesVerified": {
+        "witness": 13,
+        "successor": 12,
+        "execution": 284,
+        "helper": 229,
+        "external": 55
+      },
+      "canonicalUnchanged": true
+    },
+    {
+      "name": "02-dangling-driver13",
+      "entireMainRun": true,
+      "renames": 0,
+      "classifications": [
+        "before",
+        "before",
+        "before",
+        "before",
+        "before",
+        "before",
+        "before",
+        "before"
+      ],
+      "complete": false,
+      "lockPreserved": false,
+      "failure": {
+        "name": "Error",
+        "code": null,
+        "message": "Expected absent source-operation entry"
+      },
+      "events": [],
+      "expectedRejection": true
+    },
+    {
+      "name": "02-dangling-driver14",
+      "entireMainRun": true,
+      "renames": 0,
+      "classifications": [
+        "before",
+        "before",
+        "before",
+        "before",
+        "before",
+        "before",
+        "before",
+        "before"
+      ],
+      "complete": false,
+      "lockPreserved": false,
+      "failure": {
+        "name": "Error",
+        "code": null,
+        "message": "Expected absent source-operation entry"
+      },
+      "events": [],
+      "expectedRejection": true
+    },
+    {
+      "name": "02-dangling-driver15",
+      "entireMainRun": true,
+      "renames": 0,
+      "classifications": [
+        "before",
+        "before",
+        "before",
+        "before",
+        "before",
+        "before",
+        "before",
+        "before"
+      ],
+      "complete": false,
+      "lockPreserved": false,
+      "failure": {
+        "name": "Error",
+        "code": null,
+        "message": "Expected absent source-operation entry"
+      },
+      "events": [],
+      "expectedRejection": true
+    },
+    {
+      "name": "03-canonical-drift-after-rename1",
+      "entireMainRun": true,
+      "renames": 1,
+      "classifications": [
+        "candidate",
+        "before",
+        "before",
+        "before",
+        "before",
+        "before",
+        "before",
+        "before"
+      ],
+      "complete": false,
+      "lockPreserved": true,
+      "failure": {
+        "name": "AssertionError",
+        "code": "ERR_ASSERTION",
+        "message": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/state.json\n+ actual - expected\n\n+ '5e3bd8af14eec5d07695975da898e95d4642b4cbaeb1c6d202eeff9ad5d6bea3'\n- '74b12e2ea68c741f52a092679dbb1d0a77333b82cff6f79a57fd520f4a07136e'\n"
+      },
+      "events": [
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source.lock"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/intent.json"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/before-0.bin"
+        },
+        {
+          "op": "write",
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs.corrective362-00000000-0000-4000-8000-000000000362"
+        },
+        {
+          "op": "rename",
+          "from": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs.corrective362-00000000-0000-4000-8000-000000000362",
+          "to": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs"
+        },
+        {
+          "op": "external-model-drift"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/step-0.json"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/before-1.bin"
+        }
+      ],
+      "expectedRejection": true
+    },
+    {
+      "name": "04-canonical-drift-after-temp-write",
+      "entireMainRun": true,
+      "renames": 0,
+      "classifications": [
+        "before",
+        "before",
+        "before",
+        "before",
+        "before",
+        "before",
+        "before",
+        "before"
+      ],
+      "complete": false,
+      "lockPreserved": true,
+      "failure": {
+        "name": "AssertionError",
+        "code": "ERR_ASSERTION",
+        "message": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/state.json\n+ actual - expected\n\n+ '5e3bd8af14eec5d07695975da898e95d4642b4cbaeb1c6d202eeff9ad5d6bea3'\n- '74b12e2ea68c741f52a092679dbb1d0a77333b82cff6f79a57fd520f4a07136e'\n"
+      },
+      "events": [
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source.lock"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/intent.json"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/before-0.bin"
+        },
+        {
+          "op": "write",
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs.corrective362-00000000-0000-4000-8000-000000000362"
+        },
+        {
+          "op": "external-model-drift"
+        }
+      ],
+      "expectedRejection": true
+    },
+    {
+      "name": "05-own-lock-bytes",
+      "entireMainRun": true,
+      "renames": 0,
+      "classifications": [
+        "before",
+        "before",
+        "before",
+        "before",
+        "before",
+        "before",
+        "before",
+        "before"
+      ],
+      "complete": false,
+      "lockPreserved": true,
+      "failure": {
+        "name": "AssertionError",
+        "code": "ERR_ASSERTION",
+        "message": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source.lock\n+ actual - expected\n\n+ 'f33184169cecd76f88907d8c584c49b09fa1d27d6719df925447f0f9d0ac91bb'\n- '4ceb58d86d2edb21ad920b8fa80cbe621049624b4f892d765b9a9bcf8aedc1f5'\n"
+      },
+      "events": [
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source.lock"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/intent.json"
+        },
+        {
+          "op": "external-model-lock-change",
+          "kind": "bytes"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/before-0.bin"
+        }
+      ],
+      "expectedRejection": true
+    },
+    {
+      "name": "05-own-lock-inode",
+      "entireMainRun": true,
+      "renames": 0,
+      "classifications": [
+        "before",
+        "before",
+        "before",
+        "before",
+        "before",
+        "before",
+        "before",
+        "before"
+      ],
+      "complete": false,
+      "lockPreserved": true,
+      "failure": {
+        "name": "AssertionError",
+        "code": "ERR_ASSERTION",
+        "message": "Expected values to be strictly equal:\n+ actual - expected\n\n+ 6917529027696888000\n- 6917529027680111000\n             ^\n"
+      },
+      "events": [
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source.lock"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/intent.json"
+        },
+        {
+          "op": "external-model-lock-change",
+          "kind": "inode"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/before-0.bin"
+        }
+      ],
+      "expectedRejection": true
+    },
+    {
+      "name": "05-own-lock-nlink",
+      "entireMainRun": true,
+      "renames": 0,
+      "classifications": [
+        "before",
+        "before",
+        "before",
+        "before",
+        "before",
+        "before",
+        "before",
+        "before"
+      ],
+      "complete": false,
+      "lockPreserved": true,
+      "failure": {
+        "name": "AssertionError",
+        "code": "ERR_ASSERTION",
+        "message": "The expression evaluated to a falsy value:\n\n  assert(actual.isFile()&&!actual.isSymbolicLink()&&actual.nlink===1)\n"
+      },
+      "events": [
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source.lock"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/intent.json"
+        },
+        {
+          "op": "external-model-lock-change",
+          "kind": "nlink"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/before-0.bin"
+        }
+      ],
+      "expectedRejection": true
+    },
+    {
+      "name": "05-own-lock-dangling",
+      "entireMainRun": true,
+      "renames": 0,
+      "classifications": [
+        "before",
+        "before",
+        "before",
+        "before",
+        "before",
+        "before",
+        "before",
+        "before"
+      ],
+      "complete": false,
+      "lockPreserved": true,
+      "failure": {
+        "name": "AssertionError",
+        "code": "ERR_ASSERTION",
+        "message": "The expression evaluated to a falsy value:\n\n  assert(actual.isFile()&&!actual.isSymbolicLink()&&actual.nlink===1)\n"
+      },
+      "events": [
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source.lock"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/intent.json"
+        },
+        {
+          "op": "external-model-lock-change",
+          "kind": "dangling"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/before-0.bin"
+        }
+      ],
+      "expectedRejection": true
+    },
+    {
+      "name": "06-dangling-output",
+      "entireMainRun": true,
+      "renames": 0,
+      "classifications": [
+        "before",
+        "before",
+        "before",
+        "before",
+        "before",
+        "before",
+        "before",
+        "before"
+      ],
+      "complete": false,
+      "lockPreserved": false,
+      "failure": {
+        "name": "Error",
+        "code": null,
+        "message": "Expected absent source-operation entry"
+      },
+      "events": [],
+      "expectedRejection": true
+    },
+    {
+      "name": "06-dangling-lock",
+      "entireMainRun": true,
+      "renames": 0,
+      "classifications": [
+        "before",
+        "before",
+        "before",
+        "before",
+        "before",
+        "before",
+        "before",
+        "before"
+      ],
+      "complete": false,
+      "lockPreserved": true,
+      "failure": {
+        "name": "Error",
+        "code": null,
+        "message": "Expected absent source-operation entry"
+      },
+      "events": [],
+      "expectedRejection": true
+    },
+    {
+      "name": "06-dangling-temp",
+      "entireMainRun": true,
+      "renames": 0,
+      "classifications": [
+        "before",
+        "before",
+        "before",
+        "before",
+        "before",
+        "before",
+        "before",
+        "before"
+      ],
+      "complete": false,
+      "lockPreserved": true,
+      "failure": {
+        "name": "Error",
+        "code": null,
+        "message": "Expected absent source-operation entry"
+      },
+      "events": [
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source.lock"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/intent.json"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/before-0.bin"
+        }
+      ],
+      "expectedRejection": true
+    },
+    {
+      "name": "07-temp-tamper-during-final-window",
+      "entireMainRun": true,
+      "renames": 1,
+      "classifications": [
+        "unexpected",
+        "before",
+        "before",
+        "before",
+        "before",
+        "before",
+        "before",
+        "before"
+      ],
+      "complete": false,
+      "lockPreserved": true,
+      "failure": {
+        "name": "AssertionError",
+        "code": "ERR_ASSERTION",
+        "message": "Expected values to be strictly equal:\n+ actual - expected\n\n+ '7efc79985087cd8bd390d6c198e433049eb5edb85ff74383442df037b7952571'\n- '458fe01691fafa3c92213b4e968e75129f0fb5cd34c44374e26c6af1be276047'\n"
+      },
+      "events": [
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source.lock"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/intent.json"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/before-0.bin"
+        },
+        {
+          "op": "write",
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs.corrective362-00000000-0000-4000-8000-000000000362"
+        },
+        {
+          "op": "external-model-last-window-tamper",
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs.corrective362-00000000-0000-4000-8000-000000000362"
+        },
+        {
+          "op": "rename",
+          "from": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs.corrective362-00000000-0000-4000-8000-000000000362",
+          "to": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs"
+        }
+      ],
+      "unsafeRenameProven": true
+    },
+    {
+      "name": "08-before-source-drift-during-final-window",
+      "entireMainRun": true,
+      "renames": 8,
+      "classifications": [
+        "candidate",
+        "candidate",
+        "candidate",
+        "candidate",
+        "candidate",
+        "candidate",
+        "candidate",
+        "candidate"
+      ],
+      "complete": true,
+      "lockPreserved": false,
+      "failure": null,
+      "events": [
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source.lock"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/intent.json"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/before-0.bin"
+        },
+        {
+          "op": "write",
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs.corrective362-00000000-0000-4000-8000-000000000362"
+        },
+        {
+          "op": "external-model-last-window-tamper",
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs"
+        },
+        {
+          "op": "rename",
+          "from": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs.corrective362-00000000-0000-4000-8000-000000000362",
+          "to": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/step-0.json"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/before-1.bin"
+        },
+        {
+          "op": "write",
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tax15-once-wire.mjs.corrective362-00000000-0000-4000-8000-000000000362"
+        },
+        {
+          "op": "rename",
+          "from": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tax15-once-wire.mjs.corrective362-00000000-0000-4000-8000-000000000362",
+          "to": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tax15-once-wire.mjs"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/step-1.json"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/before-2.bin"
+        },
+        {
+          "op": "write",
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tax15-once-effects.mjs.corrective362-00000000-0000-4000-8000-000000000362"
+        },
+        {
+          "op": "rename",
+          "from": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tax15-once-effects.mjs.corrective362-00000000-0000-4000-8000-000000000362",
+          "to": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tax15-once-effects.mjs"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/step-2.json"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/before-3.bin"
+        },
+        {
+          "op": "write",
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/runtime-admission121.mjs.corrective362-00000000-0000-4000-8000-000000000362"
+        },
+        {
+          "op": "rename",
+          "from": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/runtime-admission121.mjs.corrective362-00000000-0000-4000-8000-000000000362",
+          "to": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/runtime-admission121.mjs"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/step-3.json"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/before-4.bin"
+        },
+        {
+          "op": "write",
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/runtime-admission-core121.mjs.corrective362-00000000-0000-4000-8000-000000000362"
+        },
+        {
+          "op": "rename",
+          "from": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/runtime-admission-core121.mjs.corrective362-00000000-0000-4000-8000-000000000362",
+          "to": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/runtime-admission-core121.mjs"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/step-4.json"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/before-5.bin"
+        },
+        {
+          "op": "write",
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/native/publish-runtime121.mjs.corrective362-00000000-0000-4000-8000-000000000362"
+        },
+        {
+          "op": "rename",
+          "from": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/native/publish-runtime121.mjs.corrective362-00000000-0000-4000-8000-000000000362",
+          "to": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/native/publish-runtime121.mjs"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/step-5.json"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/before-6.bin"
+        },
+        {
+          "op": "write",
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/Native-plan-data-candidate01/prepare-native-plan121.mjs.corrective362-00000000-0000-4000-8000-000000000362"
+        },
+        {
+          "op": "rename",
+          "from": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/Native-plan-data-candidate01/prepare-native-plan121.mjs.corrective362-00000000-0000-4000-8000-000000000362",
+          "to": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/Native-plan-data-candidate01/prepare-native-plan121.mjs"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/step-6.json"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/before-7.bin"
+        },
+        {
+          "op": "write",
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/Tax121-current-metadata-data-candidate01/prepare-tax121-current-metadata.mjs.corrective362-00000000-0000-4000-8000-000000000362"
+        },
+        {
+          "op": "rename",
+          "from": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/Tax121-current-metadata-data-candidate01/prepare-tax121-current-metadata.mjs.corrective362-00000000-0000-4000-8000-000000000362",
+          "to": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/Tax121-current-metadata-data-candidate01/prepare-tax121-current-metadata.mjs"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/step-7.json"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/actual-helper-pins229.json"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/actual-external-pins55.json"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/actual-execution-sources284.json"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/source-witness13.json"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/successor12.json"
+        },
+        {
+          "op": "write",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/00000000-0000-4000-8000-000000000362/complete.json"
+        },
+        {
+          "op": "unlink",
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source.lock"
+        }
+      ],
+      "unexpectedAcceptanceProven": true
+    }
+  ],
+  "modelScope": {
+    "entireOperatorAndFactsModules": true,
+    "realOwnFSWriteWxRenameLstatAndDanglingJunction": true,
+    "constantIdentityPinsReboundForSyntheticFixture": true,
+    "NativeOrAppImported": false,
+    "actualRootPrivateProcEnvRead": false,
+    "actualRootPrivateWritten": false,
+    "actualInputOrAuthorityCreated": false
+  },
+  "verdict": "NOTREADY-final-window-preimage-temp-recheck-order"
+}
