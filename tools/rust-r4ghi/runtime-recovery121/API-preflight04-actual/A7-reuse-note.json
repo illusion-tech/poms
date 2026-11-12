@@ -1,0 +1,190 @@
+{
+  "kind": "I-readonly-runtime121-A7-new-boot-reuse-condition-note",
+  "schemaVersion": 1,
+  "conclusion": "Original A7 can be reused without code changes for a newly authorized recovery sequence if source/host/static identity/state conditions still match. Each of the three modes needs a fresh unique nonce/input/exactG2/RootReview/dispatch/output; prior consumed nonces cannot be replayed.",
+  "RootReportedEvent": {
+    "newBootId": "a077fa56-73ab-485c-924d-8676f7585f01",
+    "oldKeeperAndWindowsLauncherGone": true,
+    "originalContainerSameAndExited": true,
+    "APIStarted": false,
+    "businessWrites": false,
+    "independentlyObservedByThisNote": false
+  },
+  "exactImmutableInputRule": {
+    "G1": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/g1A/Root-G1A-121.json",
+      "bytes": 4887,
+      "rawBytesSha256": "c20283d9a4e30d96f23d7f3890882e58a6f22e394fa9c747baa4c3a07968a68b"
+    },
+    "runtimeLossObservation": "Must remain original353/80151... in the existing15-key input. facts121 C and shape pin exact file/SHA; a new loss Pin in that slot is rejected.",
+    "failedRetention": "Original10ff mapping and immutable failed15 state/log copies remain historical anchors.",
+    "baseline": "Original snapshot21/183bb7 remains the immutable comparison baseline, not replaced by a new snapshot.",
+    "refs": [
+      {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/facts121.mjs",
+        "line": 25
+      },
+      {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/facts121.mjs",
+        "line": 35
+      },
+      {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/facts121.mjs",
+        "line": 67
+      },
+      {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/facts121.mjs",
+        "line": 72
+      }
+    ]
+  },
+  "newLossEvidenceRule": "Capture a fresh new-boot loss observation and bind it in the new explicit Root G1 append and independent exact-G2 supporting evidence. Preserve original c202/8015 fields/artifacts. Do not add keys to the15-key input or12-key Root review. If the runtimeLossObservation input itself must be replaced, that requires a separate finite code/protocol revision; it is unnecessary for this reuse route.",
+  "mustBeNew": [
+    {
+      "artifact": "holder-start input/request/independent exactG2/RootReview/dispatch/logs/command receipt",
+      "rule": "New UUID and fresh mode output path; never old consumed nonce.",
+      "refs": [
+        {
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/prepare121.mjs",
+          "line": 17
+        },
+        {
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/dispatch121.mjs",
+          "line": 14
+        }
+      ]
+    },
+    {
+      "artifact": "Linux holder-ready and Windows launch",
+      "rule": "New real boot/PID/startTime/argv/source/input/review/nonce/output; old ready cannot pass live holderFacts.",
+      "refs": [
+        {
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/hold-runtime121.mjs",
+          "line": 18
+        },
+        {
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/facts121.mjs",
+          "line": 105
+        },
+        {
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/start-holder121.ps1",
+          "line": 28
+        }
+      ]
+    },
+    {
+      "artifact": "pg-start input/request/exactG2/RootReview/complete",
+      "rule": "New nonce and actual new holder Pin; fresh original CID/image/exact mount/PGDATA/OIDs, exited0→running before/after/readiness facts. No replacement/restore.",
+      "refs": [
+        {
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/resume-original-pg121.mjs",
+          "line": 25
+        },
+        {
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/resume-original-pg121.mjs",
+          "line": 28
+        }
+      ]
+    },
+    {
+      "artifact": "pg-observe input/request/exactG2/RootReview/two captures/complete",
+      "rule": "New nonce, same new holder and newly acknowledged PG-start Pin; same holder boot and actual current container, full139×2 raw/xmin/meta/seq/objects equality to original snapshot21 and between captures.",
+      "refs": [
+        {
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/observe-conservation121.mjs",
+          "line": 80
+        },
+        {
+          "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/observe-conservation121.mjs",
+          "line": 82
+        }
+      ]
+    },
+    {
+      "artifact": "lifetime owner bundle",
+      "rule": "New wx output, unchanged strict four-key schema kind+holderReady/windowsLaunch/launchCommand, all three Pins from the same new holder invocation. Old bundle remains history."
+    },
+    {
+      "artifact": "subsequent B API/input/runtime current facts",
+      "rule": "Fresh input nonce, owner/PGStart/PGConservation Pins, binary stat and later actual API/readiness/boot/PID. Old Source06/M06 remain source/as-of metadata only."
+    }
+  ],
+  "reusableIfRechecked": [
+    "Exact A7 source hashes and original non-author code review closure7",
+    "Original node/pwsh host executable/version/SHA constraints",
+    "Original CID/image/volume/PGDATA/port/OID identities",
+    "Original4 bookend hashes/retained copies and no live driver locks",
+    "Original failed15/prepare08e3/full67/body0f92/history labels and immutable snapshot21 baseline",
+    "Same Source15/M98/Rust bytes; no new source epoch is required solely by the boot loss"
+  ],
+  "liveBindings": {
+    "oldHolderRejected": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/facts121.mjs",
+      "line": 110
+    },
+    "PGMustUseNewHolderBoot": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/observe-conservation121.mjs",
+      "line": 80
+    },
+    "statesStillExact": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/facts121.mjs",
+      "line": 77
+    },
+    "existingOutputForbidsRetry": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/facts121.mjs",
+      "line": 99
+    }
+  },
+  "caveat": "This is source/contract advice, not a live host/container/state verification or any G1/G2/effect approval. Root must obtain explicit new recovery append/exact reviews and actual facts. No claim about what caused the reboot.",
+  "currentSourcePins": [
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/facts121.mjs",
+      "bytes": 13288,
+      "rawBytesSha256": "6f81a1cd71f2ced84e0cb5190e18fd5ef86d2f1a4dfad0dee42110c832748382"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/prepare121.mjs",
+      "bytes": 3507,
+      "rawBytesSha256": "50623e25bb4c294529ee92ef721caaf958bfc5660acba825f873a83ff53d8eaf"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/dispatch121.mjs",
+      "bytes": 4285,
+      "rawBytesSha256": "d59f9ed7095e66fca1ae9ea0b08c79e8d050fbaad7912c934451e3be46430ed5"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/hold-runtime121.mjs",
+      "bytes": 2131,
+      "rawBytesSha256": "b607a5dd56190b16c86d4deb03ff4ad7f9f68b8942374a15e0c8a7684ebcf8d8"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/start-holder121.ps1",
+      "bytes": 3896,
+      "rawBytesSha256": "9e1b5db26c5422133a019871188bb0e9bf0f267b455ba6d44306c6808cd51753"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/resume-original-pg121.mjs",
+      "bytes": 4623,
+      "rawBytesSha256": "1da250ed2553b767d123f2d4669af4f283c4a046267eb3c0e81b408036309d51"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/observe-conservation121.mjs",
+      "bytes": 14419,
+      "rawBytesSha256": "adcbfd9d07ef5d98a5675cd3b15adc54771c787bba6ef585e20973e9ad30c7ca"
+    }
+  ],
+  "newActualPins": {
+    "lossObservation": null,
+    "holder": null,
+    "PGStart": null,
+    "PGConservation": null,
+    "lifetimeOwner": null,
+    "newAPI": null,
+    "exactG2": null
+  },
+  "AModeOrNativeExecuted": false,
+  "SQLHTTP": false,
+  "serviceOrProcessControl": false,
+  "RootOrPrivateWritten": false,
+  "environmentValuesRead": false
+}

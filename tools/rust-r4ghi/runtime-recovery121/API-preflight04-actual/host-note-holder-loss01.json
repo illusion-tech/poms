@@ -1,0 +1,105 @@
+{
+  "kind": "H-readonly-runtime121-Windows-holder-loss-note",
+  "scope": "Existing holder receipts, related Windows process metadata and existing event-log metadata only.",
+  "observedWindowsAsOfUtc": "2026-11-12T01:53:27.3087437Z",
+  "windowsObservation": {
+    "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/independent-runtime-loss121-Windows01/windows-metadata01.json",
+    "bytes": 12409,
+    "rawBytesSha256": "0b3fd9d493baacb66fd38eb524dcbf752aca57894032300c4647e9b1978de4b6"
+  },
+  "specificHostEvents": {
+    "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/independent-runtime-loss121-Windows01/selected-host-events01.json",
+    "bytes": 2205,
+    "rawBytesSha256": "fedf02ac9b9dee66f55ed749b91a66699c73f85d1db670a483a6591e46ddb0dd"
+  },
+  "originalHolderReady": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-A/holder-start/18922a5d-22d8-45c8-871a-8a0339649653/holder-ready.json",
+    "bytes": 2416,
+    "rawBytesSha256": "0961936de6be3ca430db57d1feaf0529501e58aa554326f89b75f7afd4db18d6"
+  },
+  "originalWindowsLaunch": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-A/holder-start/18922a5d-22d8-45c8-871a-8a0339649653/windows-launch.json",
+    "bytes": 1606,
+    "rawBytesSha256": "de9898ee9e36566dc616b36010eb1a6fbf72fae2a062bdcbf26bd618c3e84860"
+  },
+  "holderReceiptReadToolChunk": "f05481",
+  "timeline": [
+    {
+      "utc": "2026-11-11T19:36:36.2252034Z",
+      "fact": "Original Windows wsl.exe holder PID51024 launch receipt."
+    },
+    {
+      "utc": "2026-11-11T19:36:37.029Z",
+      "fact": "Original Linux holder PID4802/startTime2030529 ready on boot3e3ee369-496d-471a-8718-8425d3e75b6c."
+    },
+    {
+      "utc": "2026-11-12T00:04:35.6175650Z",
+      "fact": "System/User32 1074 record67119: StartMenuExperienceHost.exe recorded as initiating power-off; Other(Unplanned), reason0x0."
+    },
+    {
+      "utc": "2026-11-12T00:04:49.0674530Z",
+      "fact": "EventLog6006 record67132."
+    },
+    {
+      "utc": "2026-11-12T00:04:54.0018099Z",
+      "fact": "Kernel-Power109 record67151."
+    },
+    {
+      "utc": "2026-11-12T00:04:57.8836849Z",
+      "fact": "Kernel-General13 record67153."
+    },
+    {
+      "utc": "2026-11-12T01:00:24.5000000Z",
+      "fact": "Win32_OperatingSystem current LastBootUpTime."
+    },
+    {
+      "utc": "2026-11-12T01:00:25.6643052Z",
+      "fact": "Kernel-General12 record67154."
+    },
+    {
+      "utc": "2026-11-12T01:00:40.1761875Z",
+      "fact": "EventLog6005 record67145."
+    },
+    {
+      "utc": "2026-11-12T01:42:52.3098680Z",
+      "fact": "Current vmmemWSL PID22364 creation metadata."
+    }
+  ],
+  "conclusion": {
+    "hostPowerOffThenNewBootEstablished": true,
+    "originalOwnerPredatesHostShutdown": true,
+    "oldWindowsHolderAbsentAtObservation": true,
+    "sufficientToExplainLostOldHolderAndLinuxLifetime": true,
+    "A7CodeDefectEstablished": false,
+    "WSLIdleOrToolJobTerminationEstablished": false,
+    "shutdownInitiatingProcessAsLogged": "C:\\Windows\\SystemApps\\Microsoft.Windows.StartMenuExperienceHost_cw5n1h2txyewy\\StartMenuExperienceHost.exe",
+    "specificHumanOrAutomationCause": "UNKNOWN",
+    "exactHolderExitTimeOrSignal": "UNKNOWN: no holder-ended original existed in the inspected directory; no pre-shutdown liveness heartbeat was recorded."
+  },
+  "linuxCurrentBoot": {
+    "value": "a077fa56-73ab-485c-924d-8676f7585f01",
+    "basis": "Root supplied read-only observation, not independently queried by H."
+  },
+  "limitations": [
+    "Process metadata is as-of this Windows observation, not a historical process-exit audit.",
+    "Related application-error query had0matches and related WSL/Lxss logs were unavailable/notfound; limits and errors are preserved in the observation. This does not prove no earlier holder-specific failure.",
+    "Logged initiating application and reason0x0 do not identify a human click, update policy, UI automation or deeper trigger.",
+    "No database state preservation is certified by these host events; Root must separately perform its frozen same-volume recovery and full read-only conservation."
+  ],
+  "RootDecisionAsReported": {
+    "keepA7Bytes": true,
+    "newScheduledTaskOrAutostartOrHostConfiguration": false,
+    "recoveryOnlyAfterExplicitG1AppendAndThreeNewNoncesExactG2": true,
+    "doNotReuseOldIdentityOrFailedInputs": true
+  },
+  "effects": {
+    "WSLCLIInvoked": false,
+    "NativeOrCtxInvoked": false,
+    "serviceOrProcessStartedStopped": false,
+    "hostConfigurationChanged": false,
+    "envOrCookiesRead": false,
+    "RootOrPrivateWritten": false,
+    "actualRecoveryAuthorized": false,
+    "actualG2": false
+  }
+}

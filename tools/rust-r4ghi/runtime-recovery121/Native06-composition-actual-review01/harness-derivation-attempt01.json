@@ -1,0 +1,6 @@
+{
+  "kind": "I-M06-reader-derivation-correction",
+  "productFinding": false,
+  "reason": "The first in-memory script generator redundantly expected the old manifest filename after a prior substring edit had already renamed it; it stopped before writing any reader or reading new actual inputs. The follow-up invocation failed MODULE_NOT_FOUND. Only the redundant derivation assertion was corrected; no input/Root change.",
+  "RootOrPrivateWritten": false
+}

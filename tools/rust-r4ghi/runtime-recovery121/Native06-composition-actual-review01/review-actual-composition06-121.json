@@ -1,0 +1,103 @@
+{
+  "kind": "non-author-runtime121-Native06-composition-metadata-readback",
+  "schemaVersion": 1,
+  "reviewer": "I /root/r4_period_engineering206",
+  "reviewerIsMaterializerAuthor": false,
+  "compositionReceipt": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-compositions06/17ca9a05-544f-486d-be19-2807de42b0c0/complete.json",
+    "bytes": 6150,
+    "rawBytesSha256": "9124829bdb1aa311055e99a4604767936914970c27d96b33ffc58e3fefb56c1a"
+  },
+  "sourceSafetyReceipt": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-native06-source-promotion/e226bfb4-59e2-4fdb-9682-504c9a6cde61/complete.json",
+    "bytes": 2753,
+    "rawBytesSha256": "91a4ce4d701f0d81d509bca2f2e5c4f5e2c916a4d2854d129c437bcdf48ce19e"
+  },
+  "findings": [],
+  "verdict": "approved-actual-metadata-only",
+  "checks": {
+    "all41Exact9KeyFrames": true,
+    "helper11External30": true,
+    "originalOperationsAndBeforeHashesUnchanged": true,
+    "component3ReviewsAndG1PointersMatch": true,
+    "I06All9ManifestAndReviewUpdated": true,
+    "H03AndRoot8FramesRawValueUnchangedFrom05": true,
+    "base18AndOriginal227AndExternal45Unchanged": true,
+    "protected7Unchanged": true,
+    "actualGraphPinsOriginateFromRealNative05SourceReceipt": true,
+    "helper229External55Execution284AllAgree": true,
+    "normalized2Key284ExactlyFullPinProjection": true,
+    "full284ByteMetadataMatchesOriginal272Plus41Frames": true,
+    "logicalNativeOriginalADDNullPreserved": true,
+    "physicalSourceDeltaDistinctMOD05To06": true,
+    "noPartialOutputFiles": true,
+    "readJSONBeforeAfterHashesStable": true
+  },
+  "actualCompositions": {
+    "helper": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-compositions06/17ca9a05-544f-486d-be19-2807de42b0c0/helper-composition121.json",
+      "bytes": 18319,
+      "rawBytesSha256": "99f2f32eb245ec7bc9d088aa68293211dba0c91d4317ca452475bda0cd69479d"
+    },
+    "external": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-compositions06/17ca9a05-544f-486d-be19-2807de42b0c0/external-composition121.json",
+      "bytes": 67305,
+      "rawBytesSha256": "214a1c7dad442b7c44e6a4730ce7525297e379d49c2b1e2969fbca2acca3c249"
+    },
+    "plan": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-compositions06/17ca9a05-544f-486d-be19-2807de42b0c0/plan-composition121.json",
+      "bytes": 1522,
+      "rawBytesSha256": "7b8443b6b3451e9ee7dca21a87793b214d16a4eda9820eb5bbcceaca9da136e1"
+    }
+  },
+  "actualGraphs": {
+    "helper": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-native06-source-promotion/e226bfb4-59e2-4fdb-9682-504c9a6cde61/actual-helper-pins229.json",
+      "bytes": 35523,
+      "rawBytesSha256": "df6c313c7e073704ccd4654b1521e4b28ab4fe9b18543b8d98f2823e519b0737"
+    },
+    "external": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-native06-source-promotion/e226bfb4-59e2-4fdb-9682-504c9a6cde61/actual-external-pins55.json",
+      "bytes": 8818,
+      "rawBytesSha256": "2b38bfa2b1a40ffa5b963809121ecdbd18d1e233d0459413059be62dea35b14e"
+    },
+    "execution": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-native06-source-promotion/e226bfb4-59e2-4fdb-9682-504c9a6cde61/actual-execution-sources284.json",
+      "bytes": 66309,
+      "rawBytesSha256": "b196532840eaac9501b90032477ba74a3ee5810f1b32e010f6099b46ba4fc1c3"
+    }
+  },
+  "normalizedExecutionSources": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-compositions06/17ca9a05-544f-486d-be19-2807de42b0c0/execution-sources284.native.json",
+    "bytes": 60810,
+    "rawBytesSha256": "a89b8dce9a52f5961d1538ea79046114072cb905331f3a559bbe23cd89cb276f"
+  },
+  "outputFiles": [
+    "complete.json",
+    "execution-sources284.native.json",
+    "external-composition121.json",
+    "helper-composition121.json",
+    "plan-composition121.json"
+  ],
+  "sourceBoundary": {
+    "NativeCoreHelperOrFactoryImportedOrCalled": false,
+    "materializerOrPreflightExecuted": false,
+    "actualRootSourceLeafBytesRead": false,
+    "fullSourceSafetyExecutionCertification": false,
+    "environmentFilesRead": false,
+    "environmentValuesSelectedOrSerialized": false,
+    "RootOrPrivateWritten": false,
+    "SQLHTTP": false,
+    "serviceOrProcessControl": false
+  },
+  "limitations": [
+    "Metadata consistency only; physical promotion/conservation and actual API/Native input G2 stay with separate reviewers.",
+    "Logical registration remains ADD from original227; physical Native replacement receipt is MOD05→06 and is not used as the logical before frame."
+  ],
+  "APIStartGranted": false,
+  "NativeAdmissionGranted": false,
+  "RootPromotionGranted": false,
+  "actualG2Authorized": false,
+  "G3": false,
+  "G4": false
+}
