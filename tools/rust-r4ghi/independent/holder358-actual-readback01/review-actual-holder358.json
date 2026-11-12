@@ -1,0 +1,101 @@
+{
+  "kind": "non-author-runtime121-A-holder-transport358-actual-readback",
+  "verdict": "actual-holder-readback-verified-for-original-PG-exact-input-review",
+  "recordedAt": "2026-11-12T12:27:47.582Z",
+  "reviewer": "/root/transport358_code_review",
+  "reviewerIsRootExecutor": false,
+  "nonce": "eb04b9f1-3d33-497c-9271-1fe5bb6af439",
+  "holderReady": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-A/holder-start/eb04b9f1-3d33-497c-9271-1fe5bb6af439/holder-ready.json",
+    "bytes": 2416,
+    "rawBytesSha256": "6dada953f400ca672696db9ca3aa7e86cba38e539111447cff0c270b4a529e88"
+  },
+  "windowsLaunch": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-A/holder-start/eb04b9f1-3d33-497c-9271-1fe5bb6af439/windows-launch.json",
+    "bytes": 1605,
+    "rawBytesSha256": "d0328760bd0f406147631a51ceb5b78647cacf32e770ad11add479d341545677"
+  },
+  "launchCommand": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-A/holder-start/eb04b9f1-3d33-497c-9271-1fe5bb6af439/command-receipt.json",
+    "bytes": 4497,
+    "rawBytesSha256": "d271d599a637b3a5582ee001fa945dfb57723b8e0eba4916b71f07069e3e9d4c"
+  },
+  "LinuxAndReceiptReadback": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/transport358-actual-holder-readback01/linux-and-receipt-readback358.json",
+    "bytes": 12053,
+    "rawBytesSha256": "3cb26f62a1fd1f69b871968eb36216610bf882b6924d8908f74125cce133b69b"
+  },
+  "independentWindowsCIMBefore": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/transport358-actual-holder-readback01/windows-CIM-before.json",
+    "bytes": 1123,
+    "rawBytesSha256": "2537f6e556ff6f06380c42ed1a8f93a8e611f36c46a5ccdc1b9ae59c5a06ca30"
+  },
+  "independentWindowsCIMAfter": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/transport358-actual-holder-readback01/windows-CIM-after.json",
+    "bytes": 1122,
+    "rawBytesSha256": "dea5968f873fa631d93bc3283d5484213168c5801439ff7e76dfd2bcd3b2a5d7"
+  },
+  "independentFreshLinuxReadonlyCommand": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/transport358-actual-holder-readback01/fresh-linux-readonly-command.json",
+    "bytes": 3043,
+    "rawBytesSha256": "cc368c9f6aead7a96b0e17227f6cf2710a21218993be73b07515338e8d96405e"
+  },
+  "independentFreshLinuxOwnedObservation": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/transport358-actual-holder-readback01/fresh-linux-owned-observation.json",
+    "bytes": 9690,
+    "rawBytesSha256": "2058c022c9306c1e728f6569419b584a82c1468098fc4dfe4ac13c9853c7ea53"
+  },
+  "identity": {
+    "LinuxPID": 31439,
+    "LinuxStartTime": "305149",
+    "bootId": "0e313ea7-9ac2-4a55-b1fe-fb472441344a",
+    "WindowsPID": 4320,
+    "WindowsCreationUTC": "2026-11-12T12:23:03.9465020Z",
+    "WindowsExecutable": "C:/Windows/System32/wsl.exe",
+    "WindowsArgv": [
+      "-d",
+      "Debian",
+      "--cd",
+      "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms",
+      "--exec",
+      "/home/wangzishi/.local/share/fnm/node-versions/v24.19.0/installation/bin/node",
+      "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/hold-runtime121.mjs",
+      "--input",
+      "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-A-inputs/holder-start/eb04b9f1-3d33-497c-9271-1fe5bb6af439/input.json",
+      "--input-sha",
+      "0cd642bb5aab51d554f9bcb927268b1666b4bb3249c0d612ee5f8ebaa83f47e8",
+      "--review",
+      "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-A-inputs/holder-start/eb04b9f1-3d33-497c-9271-1fe5bb6af439/Root-review.json",
+      "--review-sha",
+      "e12cf860f9d71bb61171def4c4b7dc8204d56a96b4a9000c27296f2be77d7300",
+      "--execute"
+    ]
+  },
+  "blockingFindings": [],
+  "checks": {
+    "actualWindowsPIDCreationExeAndExactArgvMatched": true,
+    "actualFreshLinuxPIDStartExeCwdArgvAndBootMatched": true,
+    "completeInputRootReviewNonceSourceNodeChainMatched": true,
+    "beforeAfterReadyAndFreshLiveBootEqual": true,
+    "originalRawBootChildAndIdentityFDLogsPinnedAndMatched": true,
+    "genericSuccessReceiptAndTransportProvenanceMatched": true,
+    "originalSourcesStateAndControlLockGuardsPassed": true
+  },
+  "scope": "Current actual holder identity and launch receipts only; permits preparation of the strict owner bundle and a separate original PG exact-input review, not PG or API execution.",
+  "limits": {
+    "RootOrPrivateWritten": false,
+    "WindowsMainHolderEntryInvoked": false,
+    "fixedLinuxReadonlyEntryInvoked": true,
+    "WSLReadonlyProcessInvoked": true,
+    "PGControl": false,
+    "APIStart": false,
+    "NativeContext": false,
+    "SQLHTTP": false,
+    "businessStateWrite": false,
+    "hostConfiguration": false,
+    "G3": false,
+    "G4": false,
+    "parent57": "OPEN",
+    "fullR5_116": "OPEN"
+  }
+}

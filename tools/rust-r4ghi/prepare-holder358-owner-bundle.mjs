@@ -1,0 +1,26 @@
+// Data only. Creates a fresh four-key bundle after independent actual readback.
+import assert from 'node:assert/strict';
+import {C,assertOperatorHost121,json,pin,read,holderFacts,directory121,writeWx} from './runtime-recovery121/root/facts121.mjs';
+assertOperatorHost121();assert.equal(process.platform,'linux');
+const nonce='eb04b9f1-3d33-497c-9271-1fe5bb6af439',D=C.private+'/runtime121-A/holder-start/'+nonce;
+const holderReady=pin(D+'/holder-ready.json'),windowsLaunch=pin(D+'/windows-launch.json'),launchCommand=pin(D+'/command-receipt.json');
+assert.equal(holderReady.rawBytesSha256,'6dada953f400ca672696db9ca3aa7e86cba38e539111447cff0c270b4a529e88');
+assert.equal(windowsLaunch.rawBytesSha256,'d0328760bd0f406147631a51ceb5b78647cacf32e770ad11add479d341545677');
+assert.equal(launchCommand.rawBytesSha256,'d271d599a637b3a5582ee001fa945dfb57723b8e0eba4916b71f07069e3e9d4c');
+const independent=pin('/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/transport358-actual-holder-readback01/review-actual-holder358.json');
+assert.equal(independent.rawBytesSha256,'8d7d2c298122ed29e5c978cbb64ad215478f9d84fb9a90ea6cae6782b14b30fd');
+const audit=json(independent);assert.equal(audit.verdict,'actual-holder-readback-verified-for-original-PG-exact-input-review');
+assert.equal(audit.reviewerIsRootExecutor,false);assert.equal(audit.blockingFindings.length,0);
+for(const [key,p]of Object.entries({holderReady,windowsLaunch,launchCommand}))assert.deepEqual(audit[key],p);
+assert.equal(audit.checks.actualWindowsPIDCreationExeAndExactArgvMatched,true);assert.equal(audit.checks.actualFreshLinuxPIDStartExeCwdArgvAndBootMatched,true);
+const h=holderFacts({holder:holderReady}),w=json(windowsLaunch),c=json(launchCommand),dispatch=json(c.dispatch);
+assert.equal(h.nonce,nonce);assert.equal(h.bootId,audit.identity.bootId);assert.equal(h.pid,audit.identity.LinuxPID);assert.equal(h.startTime,audit.identity.LinuxStartTime);
+assert.equal(w.windowsPid,audit.identity.WindowsPID);assert.equal(Date.parse(w.creationTime),Date.parse(audit.identity.WindowsCreationUTC));
+assert.equal(c.kind,'actual-runtime121-A-command');assert.equal(c.exitCode,0);assert.equal(c.signal,null);assert.equal(c.processError,null);
+assert.equal(dispatch.kind,'actual-runtime121-A-single-dispatch');assert.equal(dispatch.transportKind,'actual-runtime121-A-holder-transport358-dispatch');
+assert.equal(dispatch.capturedBootId,h.bootId);assert.deepEqual(dispatch.input,h.input);assert.deepEqual(dispatch.RootReview,h.review);
+for(const p of [c.stdout,c.stderr,c.bootBefore,c.bootAfter,c.ownedHolderObservation,c.ownedHolderCommand])read(p);
+const output=C.private+'/runtime121-lifetime-owner358/'+nonce;directory121(output,{exclusive:true});
+const lifetimeOwner=writeWx(output,'lifetime-owner.json',{kind:'actual-runtime121-lifetime-owner',holderReady,windowsLaunch,launchCommand});
+const proof=writeWx(output,'preparation.json',{kind:'Root-data-only-holder358-owner-bundle-preparation',recordedAt:new Date().toISOString(),lifetimeOwner,independentActualReadback:independent,bootId:h.bootId,PGOrAPIStarted:false,businessG3:false,businessG4:false});
+console.log(JSON.stringify({lifetimeOwner,proof,PGOrAPIStarted:false}));
