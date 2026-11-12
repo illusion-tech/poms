@@ -1155,3 +1155,12 @@ G1Policy3082经独审1489仅授1生产源和1验证文件代码实施。holder�
 [交付与请求](rust-r4ghi/runtime121-corrective362-code-delivery.md)d3fa440d已推送；[逐字线上读回](rust-r4ghi/runtime121-corrective362-code-delivery-online.json)对应[#121](https://github.com/illusion-tech/poms/issues/121#issuecomment-6837098161)和[#57](https://github.com/illusion-tech/poms/issues/57#issuecomment-6837099131)。HOT03/control02/data2及combined6已独审，44映射/50模块静态link通过且0evaluate；保留原NOTREADY和反例。真实a6e8 metadata单次0，input997a/request8fa4/plan dc22，Rootapproval未签，Source/native/状态续接/prepare/FI均未执行。后续具体Source G2、实际提升/读回、v3与时延预算仍独立。业务认证0/G3G4未签，#57/#116开放。
 
 <!-- /poms-runtime121-code-delivery362 -->
+
+
+<!-- poms-runtime121-actual-source362 -->
+
+### 2026-11-13 纠正362真实源码提升与独立实际读回
+
+[实际源与读回](rust-r4ghi/runtime121-corrective362-source-actual.md)fe3e2e7c已推送，[线上逐字读回](rust-r4ghi/runtime121-corrective362-source-actual-online.json)对应[#121](https://github.com/illusion-tech/poms/issues/121#issuecomment-6837880842)及[#57](https://github.com/illusion-tech/poms/issues/57#issuecomment-6837881758)。唯一Source a6e单次0/20.424秒仅源更新，独立actualAudit单次0/f032完整验证八源、全部284/278及真实3stage/guard/收尾；opaque state和ownership保持。源码为362，lease仍旧337/v2，尚无Native state/context/prepare/FI。评论时点v3纯数据plan f3e已0并正inspect，各后继FS G2和真实预算后置，业务认证0/G3G4未签，#57/#116开放。
+
+<!-- /poms-runtime121-actual-source362 -->
