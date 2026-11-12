@@ -1128,3 +1128,12 @@ G1Policy3082经独审1489仅授1生产源和1验证文件代码实施。holder�
 实际after-state e0d9/ownership eb4a/seq39私有保全，真实manager cookies/完整37权限与auth_session来源保留，旧823/26/13/14/原prepared-full67保持。独立34项关系读回仅证明失败与保全。下一步冻结有限技术G3纠正，消除重复全检并把真实会话检查放到发送前，源/lease续接、真实耗时预算及新G2仍后置。官方Rust240、R4 67/95、32 candidate、认证0、业务G3/G4未签；#57/#116开放、#119历史CLOSED。
 
 <!-- /poms-runtime121-prepare1899-failed-362 -->
+
+
+<!-- poms-runtime121-code-freeze362 -->
+
+### 2026-11-13 纠正362有限代码输入冻结
+
+[联合输入](rust-r4ghi/runtime121-corrective362-code-input.md)7abcb51a已推送；[在线逐字读回](rust-r4ghi/runtime121-corrective362-freeze-online.json)对应[#121](https://github.com/illusion-tech/poms/issues/121#issuecomment-6834837659)与[#57](https://github.com/illusion-tech/poms/issues/57#issuecomment-6834838606)。原设计+mandatory addendum02、独立33案例及六份真实原像联合冻结，代码0bc2/14235；仅授I内hot3/control3+data2两线候选实现。源码提升、lease续接、真实计时、具体G2及任何mode重试后置。业务认证0/G3G4未签，#57/#116开放。
+
+<!-- /poms-runtime121-code-freeze362 -->
