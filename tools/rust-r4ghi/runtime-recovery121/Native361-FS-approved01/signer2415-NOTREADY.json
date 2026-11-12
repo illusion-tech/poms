@@ -1,0 +1,33 @@
+{
+  "kind": "non-author-runtime121-Native361-signer-static-review",
+  "verdict": "NOTREADY-existsSync-does-not-prove-absence",
+  "recordedAt": "2026-11-12T17:08:45.972Z",
+  "reviewer": "/root/transport358_code_review",
+  "reviewerIsAuthor": false,
+  "reviewedSource": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective361-Native-signer-independent01/signer2415-before.mjs.txt",
+    "bytes": 5580,
+    "rawBytesSha256": "241536ca940cedd8db81f3a04a23e683531fa31a39a701fdfe58813ee0d6bcf6"
+  },
+  "RootPreservedOriginal": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/Native361-approval-helper-correction01/before-signer.mjs.txt",
+    "bytes": 5580,
+    "rawBytesSha256": "241536ca940cedd8db81f3a04a23e683531fa31a39a701fdfe58813ee0d6bcf6"
+  },
+  "counterexamples": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/corrective361-Native-signer-independent01/absence-counterexamples361-v2.json",
+    "bytes": 1494,
+    "rawBytesSha256": "b2b2ba799db7192b0600613c667d5d18d14f117abeea7f1da4145872adbe2f07"
+  },
+  "blockingFindings": [
+    {
+      "id": "F1",
+      "scope": "receipt directory, all three driver locks, approval and preparation outputs",
+      "finding": "existsSync treats dangling entries as absent. Exact old guard source accepted real own-tempFS dangling controls/orphans; a first synthetic metadata output can exist before the second output rejects. Existing unknown entry must fail before any approval write.",
+      "minimumFix": "Use lstat; only ENOENT is absence, all present entries reject and other errors propagate."
+    }
+  ],
+  "RootOrPrivateWritten": false,
+  "signerImportedOrExecuted": false,
+  "actualG2Granted": false
+}
