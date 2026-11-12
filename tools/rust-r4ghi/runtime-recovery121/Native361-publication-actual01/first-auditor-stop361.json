@@ -1,0 +1,72 @@
+{
+  "kind": "independent-actual-publication337-readback-first-stop",
+  "recordedAt": "2026-11-12T17:36:11.112Z",
+  "verdict": "blocked-auditor-TDZ-no-publication-acceptance",
+  "actualAuditAttempts": 1,
+  "actualToolExitCode": 1,
+  "actualToolWallTimeSeconds": 2.1501889,
+  "actualRuntime": "Node v24.19.0 (explicit executable and main version guard passed)",
+  "auditor": {
+    "file": "E:\\projects\\worktrees\\poms-r4i-lifecycle\\poms\\tools\\rust-r4ghi\\I\\implementation\\corrective361-publication-readback-code01\\readback-publication361.mjs",
+    "bytes": 27889,
+    "rawBytesSha256": "326ee7d5c7d7dc6b586221c9ed4f654a17ba3fe9da27ba39f664f6acef90a710"
+  },
+  "actualSpec": {
+    "file": "E:\\projects\\worktrees\\poms-r4i-lifecycle\\poms\\tools\\rust-r4ghi\\I\\implementation\\corrective361-publication-readback-independent01\\actual-readback-spec337.json",
+    "bytes": 2783,
+    "rawBytesSha256": "1435245fda0f67546b263f6d6c139bb86338ea99ced054bd945c5ab03aaa3e7d"
+  },
+  "toolCombinedOutputObservation": {
+    "file": "E:\\projects\\worktrees\\poms-r4i-lifecycle\\poms\\tools\\rust-r4ghi\\I\\implementation\\corrective361-publication-readback-independent01\\actual337-first-stop-tool-observation.txt",
+    "bytes": 215,
+    "rawBytesSha256": "c02f30092903a84a5b279baf32354795d4bcf93e7f342f90439377e590c4de12"
+  },
+  "originalRawStdoutStderrFilesCaptured": false,
+  "finding": {
+    "priority": "P2",
+    "classification": "new-real-drift-in-auditor",
+    "callLine": 50,
+    "declarationLine": 62,
+    "cause": "Function-local const sources shadows the outer sources() helper for the entire auditPublication361 scope; its first call occurs in the temporal dead zone.",
+    "pureProjection": {
+      "file": "E:\\projects\\worktrees\\poms-r4i-lifecycle\\poms\\tools\\rust-r4ghi\\I\\implementation\\corrective361-publication-readback-independent01\\actual337-TDZ-two-line-projection.txt",
+      "bytes": 725,
+      "rawBytesSha256": "430e2909b9bd415dd20e1b72d5758abca2b6b2275bf162250a3d549a3ec177d1"
+    },
+    "pureProjectionResult": "ReferenceError: Cannot access 'sources' before initialization",
+    "pureProjectionJsonOrIOCalls": 0,
+    "authorCodeModified": false,
+    "publicationFailureInferred": false
+  },
+  "recorderObserverCorrection": {
+    "retainedSource": {
+      "file": "E:\\projects\\worktrees\\poms-r4i-lifecycle\\poms\\tools\\rust-r4ghi\\I\\implementation\\corrective361-publication-readback-independent01\\record-first-stop-observer-attempt01.mjs.bin",
+      "bytes": 4384,
+      "rawBytesSha256": "dcf6b6b2f7dc0b7b159712cbba5b316162a544c13ef44f96839d8507557a9ddf"
+    },
+    "cause": "Recorder initially selected positional line48 rather than locating exact source line50; failed before the pure projection or any audit retry",
+    "actualAuditRerun": false,
+    "PRead": false,
+    "correctedToExactSourceLineSearch": true
+  },
+  "priorCodeReadyReview": {
+    "file": "E:\\projects\\worktrees\\poms-r4i-lifecycle\\poms\\tools\\rust-r4ghi\\I\\implementation\\corrective361-publication-readback-independent01\\review-publication-auditor-code361.json",
+    "bytes": 14336,
+    "rawBytesSha256": "53e55895c8260199c8af5187489b30af109c682522e0b77e33729b2259a1c1f5"
+  },
+  "priorCodeReadyWithdrawnFor326eVersion": true,
+  "priorSourceOnlyActualReadbackUnaffected": true,
+  "actualPublicationIndependentReadbackPassed": false,
+  "canonicalCurrentStateCertifiedByThisFailedAudit": false,
+  "actualOutputDirectoryCreated": false,
+  "privateFSWasReadOnlyAndAuthorized": true,
+  "privateValuesOrEnvEmitted": false,
+  "RootOrPrivateWritten": false,
+  "operatorAppNativeProcSQLHTTPOrModeRun": false,
+  "automaticRetry": false,
+  "actualAuditRerun": false,
+  "next": "Keep326e, actual spec and this first-stop evidence. Author derives a new source with the local sources array renamed and its two uses updated, then independent code check and explicit actual read-only retry permission; no business/Ctor advance from this failed audit.",
+  "actualG2GrantedByThisAudit": false,
+  "businessG3": false,
+  "businessG4": false
+}
