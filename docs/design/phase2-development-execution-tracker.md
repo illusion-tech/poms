@@ -1095,3 +1095,14 @@ G1Policy3082经独审1489仅授1生产源和1验证文件代码实施。holder�
 [Issue #121 已记录冻结](https://github.com/illusion-tech/poms/issues/121#issuecomment-6828250293)。两线实现加独立验证均只交I候选；Root生产源提升、状态handoff、actual G2/重试及服务控制尚未授权。原359与360记录保留其as-of含义，业务G3/G4与认证计数不变。
 
 <!-- /poms-runtime121-corrective361-code-freeze -->
+
+
+<!-- poms-runtime121-corrective361-code-delivery -->
+
+### 2026-11-13 纠正361：代码交付与具体六源请求
+
+[独立代码交付及实际请求](rust-r4ghi/runtime121-corrective361-source-delivery.md)已提交推送873dbc5b；[在线逐字读回](rust-r4ghi/runtime121-corrective361-code-delivery-online.json)对应[子片#121](https://github.com/illusion-tech/poms/issues/121#issuecomment-6829993170)及[父项#57](https://github.com/illusion-tech/poms/issues/57#issuecomment-6829994369)。四叶、两data及提升工具独审通过；真实旧284与固定六源当前before仍匹配。Root metadata-only生成request退出0，具体nonce a3d3040f-54ce-4f37-85ea-1aaacb18fe0d，input1117/cccfd8ef，request2901/681ea4a9。
+
+本条固定为源提升前检查点：Root审批未签、生产源及canonical state未写，状态续接和实际模式尚未执行。须精确source peer后另签Root，仅准四生产MOD和两图外dataMOD，再独立核真实新229/55/284及保留280。旧M06、823失败、32bd、旧26和原Main13一次201保持；业务G3/G4与新增认证0不变，#57/#116开放、#119历史CLOSED。
+
+<!-- /poms-runtime121-corrective361-code-delivery -->
