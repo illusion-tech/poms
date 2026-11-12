@@ -1060,3 +1060,16 @@ G1Policy3082经独审1489仅授1生产源和1验证文件代码实施。holder�
 [12项Issue已同步读回](https://github.com/illusion-tech/poms/issues/121#issuecomment-6822888090)，[父#57已维护](https://github.com/illusion-tech/poms/issues/57#issuecomment-6822891130)。旧A验收、旧失败和未执行标签保原，不能替代本轮实际前驱。Rust240、R4 67/95、本批32candidate、新认证0、业务G3/G4未通过；#57与完整R5 #116开放，#119历史技术G4不改。
 
 <!-- /poms-r4ghi-status358 -->
+
+
+<!-- poms-r4ghi-status359 -->
+
+### 2026-11-12 状态359：原库与同字节 API 恢复已独审
+
+[固定状态359](rust-r4ghi/continuation-status359.json)与[在线读回](rust-r4ghi/continuation-status359-online.json)记录本次恢复时点：新 holder 双侧身份、原容器/数据卷及两次全库只读观测均通过独审；834 个表文件、三套合计 14808 行的 raw/xmin/meta/sequence/objects 相等，四账本及原保留件保持。修正版文件审计只更正两条真实 verdict 对照，首次失败与安全诊断保留。
+
+同字节 Rust API 唯一启动及独立当前身份/socket/原初始 readiness 200 读回通过，PID 109023、start 656466、socket inode 27733；环境仅 opaque hash，不主张持续可用。fresh67 数据准备器及当前 Tax8 兼容审件为 code-ready。359 是 A/API 恢复时点的冻结记录，后续 Native FS 发布、真实构造和 prepare 的实证另行记录。
+
+[12 项 Issue 已同步读回](https://github.com/illusion-tech/poms/issues/121#issuecomment-6825626800)，[父 #57 已维护](https://github.com/illusion-tech/poms/issues/57#issuecomment-6825628925)。Rust 240、R4 67/95、本批 32 candidate、新增业务认证 0、业务 G3/G4 未通过；#57 与完整 R5 #116 保持开放，#119 历史技术 G4/CLOSED 保留。
+
+<!-- /poms-r4ghi-status359 -->
