@@ -1137,3 +1137,12 @@ G1Policy3082经独审1489仅授1生产源和1验证文件代码实施。holder�
 [联合输入](rust-r4ghi/runtime121-corrective362-code-input.md)7abcb51a已推送；[在线逐字读回](rust-r4ghi/runtime121-corrective362-freeze-online.json)对应[#121](https://github.com/illusion-tech/poms/issues/121#issuecomment-6834837659)与[#57](https://github.com/illusion-tech/poms/issues/57#issuecomment-6834838606)。原设计+mandatory addendum02、独立33案例及六份真实原像联合冻结，代码0bc2/14235；仅授I内hot3/control3+data2两线候选实现。源码提升、lease续接、真实计时、具体G2及任何mode重试后置。业务认证0/G3G4未签，#57/#116开放。
 
 <!-- /poms-runtime121-code-freeze362 -->
+
+
+<!-- poms-runtime121-fixed-apps362 -->
+
+### 2026-11-13 纠正362固定角色数据ABI追加
+
+[最小追加](rust-r4ghi/runtime121-corrective362-apps-ABI-addendum.md)2491a914已推送，[线上逐字读回](rust-r4ghi/runtime121-corrective362-apps-online.json)对应[#121](https://github.com/illusion-tech/poms/issues/121#issuecomment-6836017669)与[#57](https://github.com/illusion-tech/poms/issues/57#issuecomment-6836018807)。独立真实Root到受限view模型发现原dataKeys漏apps，hot01保NOTREADY；只授原proof叶既有固定双角色只读投影，hot02仍待完整6mode/DDL/热路径独审。sourceOperator03通过16完整main模型仍仅code-ready，无源提升/lease/G2；真实配置I900/A28800/T60不代替实测预算。新认证0、业务G3G4未签，#57/#116开放。
+
+<!-- /poms-runtime121-fixed-apps362 -->
