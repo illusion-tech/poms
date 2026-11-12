@@ -1,0 +1,114 @@
+{
+  "kind": "non-author-fresh-conservation358-audit02-exact-diff-review",
+  "verdict": "approved-once-exact-source02-file-only-audit",
+  "recordedAt": "2026-11-12T12:56:05.872Z",
+  "author": "/root/transport358_design",
+  "reviewer": "/root/transport358_code_review",
+  "reviewerIsAuthor": false,
+  "reviewerIsRootExecutor": false,
+  "source01": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/fresh-conservation358-audit-source01/audit-fresh-conservation358.mjs",
+    "bytes": 34911,
+    "rawBytesSha256": "bdfa9251cddb3e16b4d563a8b4bdde21e2e51f39b74486c6dc53fb10e82b8b73"
+  },
+  "source02": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/fresh-conservation358-audit-source02/audit-fresh-conservation358.mjs",
+    "bytes": 34965,
+    "rawBytesSha256": "ac05bb60206d86ee37d5452041134287d252521d7978ecb4b2902e0e8e4b845c"
+  },
+  "exactDifference": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/fresh-conservation358-audit-source02/exact-difference02.json",
+    "bytes": 2375,
+    "rawBytesSha256": "7586a88bea29dfa5c8faf04898632398c21de177e7e02e311fd3998e58b1cad2"
+  },
+  "unchangedSchema": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/fresh-conservation358-audit-source02/audit-spec.schema.json",
+    "bytes": 2745,
+    "rawBytesSha256": "081ae9e78171fdaf563b82944eeed2fd108e5c50beadd39fdddaa883d1145031"
+  },
+  "actualSpec": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/round358-conservation-audit-spec01/spec.json",
+    "bytes": 2397,
+    "rawBytesSha256": "52be70cbc9206069d3bab63c96931e8971de6d5e1ba9493b192bcfdf2ab73974"
+  },
+  "actualExecutedPeers": [
+    {
+      "mode": "pg-start",
+      "peer": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/transport358-original-PG-start-G2-independent01/review-exact-pg-start358.json",
+        "bytes": 3864,
+        "rawBytesSha256": "32e180362ea18424a8978e05049663c53dea8a5da42b4dbe0cf121c8ebe58165"
+      },
+      "verdict": "approved-once-pg-start-original-container-with-verified-live-holder358",
+      "genericCommand": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-A/pg-start/e86336a1-1931-4836-a666-c0f12539d945/command-receipt.json",
+        "bytes": 1067,
+        "rawBytesSha256": "27d3866b4e13d0c9f1224a3c78d59096509eecf290236220870cc8cd35ad6b1d"
+      },
+      "dispatch": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-A/pg-start/e86336a1-1931-4836-a666-c0f12539d945/dispatch.json",
+        "bytes": 2609,
+        "rawBytesSha256": "58d30d7c88d515bb11aeade1507c2a42d95e2da0c55943f5c55f2ec16235d617"
+      }
+    },
+    {
+      "mode": "pg-observe",
+      "peer": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/transport358-original-PG-observe-G2-independent01/review-exact-pg-observe358.json",
+        "bytes": 4752,
+        "rawBytesSha256": "fde8809396f1adba367a008c94ef9742c0667a4dec9af96457ce51f1b0651c05"
+      },
+      "verdict": "approved-once-readonly-PG-conservation-with-verified-live-holder358",
+      "genericCommand": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-A/pg-observe/e6beaf59-4a28-4875-94c4-1a289ce933ec/command-receipt.json",
+        "bytes": 1075,
+        "rawBytesSha256": "06ec363ccf03472eca6e41d9ec09a48b0050d11e87c91c721790f413de29221b"
+      },
+      "dispatch": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-A/pg-observe/e6beaf59-4a28-4875-94c4-1a289ce933ec/dispatch.json",
+        "bytes": 2634,
+        "rawBytesSha256": "c7b7570d6f7851e61939b3c5a9fa18ed5996c90c4df444309b4226c283ae961f"
+      }
+    }
+  ],
+  "replacements": [
+    {
+      "before": "approved-one-original-pg-start-only",
+      "after": "approved-once-pg-start-original-container-with-verified-live-holder358"
+    },
+    {
+      "before": "approved-one-readonly-original-conservation-only",
+      "after": "approved-once-readonly-PG-conservation-with-verified-live-holder358"
+    }
+  ],
+  "blockingFindings": [],
+  "checks": {
+    "eachOldAndNewLiteralOccursExactlyOnce": true,
+    "forwardReplacementEqualsAllSource02Bytes": true,
+    "reverseReplacementEqualsAllSource01Bytes": true,
+    "closed9SchemaBytesUnchanged": true,
+    "actualExecutedPGAndROPeerBodiesAndRawPinsMatched": true,
+    "noOtherCLISchemaReadPathOrDataAlgorithmChange": true
+  },
+  "scope": "One file-only audit with exactly source02 and the actual pinned spec. Existing failed source01 evidence and all actual G2/runtime outputs remain unchanged. No acceptance evidence is issued by this static diff review.",
+  "authority": {
+    "fileOnlyAuditOnce": true,
+    "SQL": false,
+    "HTTP": false,
+    "Namespace": false,
+    "PGControl": false,
+    "APIStart": false,
+    "NativeContext": false,
+    "businessStateWrite": false,
+    "RootOrPrivateWrite": false,
+    "G3": false,
+    "G4": false
+  },
+  "reviewExecution": {
+    "auditorImportedOrExecuted": false,
+    "databaseOrRuntimeInvoked": false,
+    "oldSuitesRerun": false,
+    "wroteOnlyOwnIReview": true
+  },
+  "remaining": "Actual successful independent file audit remains required before API input/G2 admission."
+}
