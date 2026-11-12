@@ -1047,3 +1047,16 @@ Windows选定事件和CIM确认整机关机后开机，WSL由3e3e变为a077，�
 [12项Issue同步读回](https://github.com/illusion-tech/poms/issues/121#issuecomment-6812644370)，[父#57已维护](https://github.com/illusion-tech/poms/issues/57#issuecomment-6812648547)。API request/review/env/process仍无；Native/Ctor/fresh准备与原批业务验收待完成。Rust240、R4 67/95、本批32candidate、新认证0、业务G3/G4未通过，#57与完整R5 #116开放，#119历史技术G4不改。
 
 <!-- /poms-r4ghi-status357 -->
+
+
+<!-- poms-r4ghi-status358 -->
+
+### 2026-11-12 状态358：稳定保活协议冻结，逐轮实测绑定后置
+
+[固定状态358](rust-r4ghi/continuation-status358.json)、[稳定协议G1](rust-r4ghi/runtime121-transport358-G1-policy.md)及[在线读回](rust-r4ghi/continuation-status358-online.json)保留357输入与适配从未执行的事实。新的主机／运行时目录及WSL观察boot变化不再写死源码；可信字节、原脚本、有限命令、原A15/Root12/四键bundle和A7/Root8/Native/284不放宽。
+
+G1Policy3082经独审1489仅授1生产源和1验证文件代码实施。holder实际执行时捕获before/after/ready boot并真实核验owned Linux身份后才写generic成功；current-round与每次exactG2另绑实际路径/loss/source/review，PG/RO仍绑定已验证liveholderboot逐freshnonce/G2。原CID/卷/PG15/OID/四书挡保持，PG当前exited，新boot逻辑守恒尚未重验，API和Native/Ctor未建立。
+
+[12项Issue已同步读回](https://github.com/illusion-tech/poms/issues/121#issuecomment-6822888090)，[父#57已维护](https://github.com/illusion-tech/poms/issues/57#issuecomment-6822891130)。旧A验收、旧失败和未执行标签保原，不能替代本轮实际前驱。Rust240、R4 67/95、本批32candidate、新认证0、业务G3/G4未通过；#57与完整R5 #116开放，#119历史技术G4不改。
+
+<!-- /poms-r4ghi-status358 -->
