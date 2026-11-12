@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Closed fresh runtime121 conservation358 files-only audit spec",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "G1Policy",
+    "holderReady",
+    "holderBootId",
+    "PGStart",
+    "ROCommand",
+    "ROComplete",
+    "baseline",
+    "observations"
+  ],
+  "properties": {
+    "kind": {
+      "const": "runtime121-fresh-conservation358-file-audit-spec"
+    },
+    "G1Policy": {
+      "const": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/g1A-transport358-policy01/Root-G1A-holder-transport-policy358.json",
+        "bytes": 12056,
+        "rawBytesSha256": "3082f94a4f0c1a6cb0de7f807c24c32b534722369690f2c873a5dbc8b75b4be6"
+      }
+    },
+    "holderReady": {
+      "$ref": "#/$defs/fullLinuxPin"
+    },
+    "holderBootId": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$"
+    },
+    "PGStart": {
+      "$ref": "#/$defs/fullLinuxPin"
+    },
+    "ROCommand": {
+      "$ref": "#/$defs/fullLinuxPin"
+    },
+    "ROComplete": {
+      "$ref": "#/$defs/fullLinuxPin"
+    },
+    "baseline": {
+      "const": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/snapshot-000021-tax15-prepared-current-facts.json",
+        "bytes": 3142796,
+        "rawBytesSha256": "183bb7b076940ddb33b2edf9d2dcf82b63d2f1e580b5cbebc8d6ec48a023db8c"
+      }
+    },
+    "observations": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/fullLinuxPin"
+      }
+    }
+  },
+  "$defs": {
+    "fullLinuxPin": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "file",
+        "bytes",
+        "rawBytesSha256"
+      ],
+      "properties": {
+        "file": {
+          "type": "string",
+          "pattern": "^/"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "rawBytesSha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    }
+  },
+  "$comment": "Schema only; no concrete execution spec or future runtime pin is produced. Code checks canonical nonalias files; same fresh holder/PG/RO lineage, distinct nonces, report/rawProc/boot equality, observation01 then observation02 paths, immutable baseline, full raw/xmin/meta/sequence/object/count equality and lstat/state bookends. No SQL, HTTP, Podman, subprocess, /proc inspection, environment value read or file write. Evidence is one stdout JSON object. This certifies an as-of files readback, never continuous DB state or G3/G4."
+}

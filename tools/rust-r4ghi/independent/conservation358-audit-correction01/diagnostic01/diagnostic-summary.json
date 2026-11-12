@@ -1,0 +1,84 @@
+{
+  "kind": "independent-fresh-conservation358-bounded-diagnostic-summary",
+  "recordedAt": "2026-11-12T12:50:29.202Z",
+  "diagnosticOnly": true,
+  "exitCode": 1,
+  "signal": null,
+  "processError": null,
+  "source": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/fresh-conservation358-audit-source01/audit-fresh-conservation358.mjs",
+    "bytes": 34911,
+    "rawBytesSha256": "bdfa9251cddb3e16b4d563a8b4bdde21e2e51f39b74486c6dc53fb10e82b8b73"
+  },
+  "mirror": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/fresh-conservation358-diagnostic01/audit-export-only.mjs",
+    "bytes": 34935,
+    "rawBytesSha256": "969a5075b55ccd304d782c9564459088fb65e726828fd4b32ffafd11654a927e"
+  },
+  "wrapper": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/fresh-conservation358-diagnostic01/diagnose-first-frame358.mjs",
+    "bytes": 2744,
+    "rawBytesSha256": "ac3e5a06ff89ee4aedd72ddc7af2621dbc2157cf709a9ccbdf3f09cf242b157c"
+  },
+  "spec": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/round358-conservation-audit-spec01/spec.json",
+    "bytes": 2397,
+    "rawBytesSha256": "52be70cbc9206069d3bab63c96931e8971de6d5e1ba9493b192bcfdf2ab73974"
+  },
+  "command": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/fresh-conservation358-diagnostic01/command-receipt.json",
+    "bytes": 1940,
+    "rawBytesSha256": "cc3f2ce996230edafb9710bbd9c92ba7a7cca8ab100158c19dc54dc0862d85d9"
+  },
+  "stdout": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/fresh-conservation358-diagnostic01/stdout-original.json",
+    "bytes": 0,
+    "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stderr": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/fresh-conservation358-diagnostic01/stderr-original.json",
+    "bytes": 883,
+    "rawBytesSha256": "74896cffe1cefee8b1e9dce269e46b1782734e949acc096c07b2cbc76aa7d251"
+  },
+  "name": "AssertionError",
+  "code": "ERR_ASSERTION",
+  "frames": [
+    {
+      "file": "file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/fresh-conservation358-diagnostic01/audit-export-only.mjs",
+      "function": "commandA",
+      "line": 59,
+      "column": 1523
+    },
+    {
+      "file": "file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/fresh-conservation358-diagnostic01/audit-export-only.mjs",
+      "function": "completeA",
+      "line": 63,
+      "column": 225
+    },
+    {
+      "file": "file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/fresh-conservation358-diagnostic01/audit-export-only.mjs",
+      "function": "auditFresh358",
+      "line": 85,
+      "column": 328
+    },
+    {
+      "file": "file:///mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/fresh-conservation358-diagnostic01/diagnose-first-frame358.mjs",
+      "function": null,
+      "line": 16,
+      "column": 120
+    }
+  ],
+  "firstFrameMapsExactlyTo": "assert.equal(peer.verdict,verdict)",
+  "assertionStartColumn": 1516,
+  "firstCall": "completeA for pg-start at original line85",
+  "cause": "Audit caller supplies the historical PG verdict literal; Root current G2 uses the separately approved transport358 verdict. Root also identified the analogous RO literal. Change only audit expectations; preserve both actual G2 files.",
+  "earlierPolicyFailureObserved": false,
+  "originalSourceChanged": false,
+  "mirrorPrefixBytes": 34911,
+  "mirrorPrefixUnchanged": true,
+  "onlySuffix": "export {auditFresh358};\n",
+  "diagnosticInvocations": 1,
+  "acceptanceEvidenceIssued": false,
+  "SQLHTTPPodmanProcOrRuntimeControl": false,
+  "RootOrPrivateWritten": false
+}
