@@ -1,0 +1,136 @@
+{
+  "kind": "non-author-runtime121-B-API-actual-readback",
+  "verdict": "approved-actual-same-byte-API-identity-and-initial-readiness-readback",
+  "recordedAt": "2026-11-12T13:30:17.647Z",
+  "reviewer": "/root/transport358_code_review",
+  "reviewerIsAPIExecutor": false,
+  "nonce": "7fa5bece-bc64-4810-b6d1-8ce1af03024d",
+  "actualAPIComplete": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-B/api-start/7fa5bece-bc64-4810-b6d1-8ce1af03024d/complete.json",
+    "bytes": 2716,
+    "rawBytesSha256": "fac140eefbf4671e4d155023f0d9dabf852a05daa6f83fcd6f8312a12e3bd4da"
+  },
+  "apiProcess": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/rust-api121-process.json",
+    "bytes": 5775,
+    "rawBytesSha256": "f822ffcd0e027c93c20ca6f5630bb2be44d738c1127199d30cbe3abfc2caa38f"
+  },
+  "readiness": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-B/api-start/7fa5bece-bc64-4810-b6d1-8ce1af03024d/readiness.json",
+    "bytes": 200,
+    "rawBytesSha256": "64c9adae664e801f5e301fa589a25204d66ab9194c07ac6a83ba3765ed4bf48f"
+  },
+  "originalCommand": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-B/api-start/7fa5bece-bc64-4810-b6d1-8ce1af03024d/command-receipt.json",
+    "bytes": 1058,
+    "rawBytesSha256": "68e7c575c3108cd7b6de5100c864fae808c0dd67f1dd219cd81a73e05a163266"
+  },
+  "originalProcessEvidence": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-B/api-start/7fa5bece-bc64-4810-b6d1-8ce1af03024d/actual-process.json",
+    "bytes": 566,
+    "rawBytesSha256": "fd7affe6130faf5b0916c57b65b05ecd06f30006f67c196e3f29d6f27c885ca8"
+  },
+  "independentReadonlyCommand": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime121-API-actual-readback01/actual01/command-receipt.json",
+    "bytes": 3542,
+    "rawBytesSha256": "07186f94b210eaae3f828f78399ac6f95cc3335d1155299052f1a5fdfd854ac4"
+  },
+  "independentReadonlyEvidence": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime121-API-actual-readback01/actual01/owned-API-readback.stdout.json",
+    "bytes": 13648,
+    "rawBytesSha256": "f54df043e1dc4dcf82d268df64098a2ae08e3084a6c16eafa2e1bef740453423"
+  },
+  "reader": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime121-API-actual-readback01/read-owned-API121.mjs",
+    "bytes": 16668,
+    "rawBytesSha256": "eefff85bcb7a89943f46275d3229c58df39abdaf019126f96243d1bc8ea0d460"
+  },
+  "identity": {
+    "pid": 109023,
+    "startTime": "656466",
+    "bootId": "0e313ea7-9ac2-4a55-b1fe-fb472441344a",
+    "uid": 1000,
+    "executable": "/home/wangzishi/.cache/poms-r4ghi-target-ROOT15/34402-build119-02/mirror/debug/poms-api-rust",
+    "executableSHA256": "85d9cb1e7e86a9fd94bdcfd528922064f1f0a1ba0759bc17e570e098db677292",
+    "executableBytes": 390335232,
+    "exeDev": "2096",
+    "exeIno": "5923377",
+    "cwd": "/home/wangzishi/projects/poms-rust-r4ghi",
+    "argv": [
+      "/home/wangzishi/.cache/poms-r4ghi-target-ROOT15/34402-build119-02/mirror/debug/poms-api-rust"
+    ],
+    "environmentSHA256": "f02304cc8c8fcf969a53be2797ae5483e47c97baa4b0700af54c09f7e13d9c1d",
+    "socket": {
+      "version": 4,
+      "host": "0100007F",
+      "inode": "27733"
+    },
+    "port": 31441,
+    "rawCmdlineSHA256": "d9b5931d3df5b88a05fe99e768b272ade72b47eddd1a5de9f906e356ca0fb712",
+    "environmentValuesDecodedParsedSavedOrPrinted": false
+  },
+  "initialReadiness": {
+    "attempt": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-B/api-start/7fa5bece-bc64-4810-b6d1-8ce1af03024d/readiness-attempt-01.json",
+      "bytes": 823,
+      "rawBytesSha256": "ab6a2c894f80fb0200f6224e6294defca6470171672a385a88ae986110ba38d4"
+    },
+    "method": "GET",
+    "url": "http://127.0.0.1:31441/api/health/readiness",
+    "status": 200,
+    "complete": true,
+    "errorCode": null,
+    "began": "2026-11-12T13:21:44.268Z",
+    "ended": "2026-11-12T13:21:44.278Z",
+    "bodySHA256": "98e16f99c43ae8330ed2dc757ac916e8a7596f08b0be5c7270f7e7c54383493c",
+    "service": "poms-api",
+    "ready": true,
+    "processPass": true,
+    "databasePass": true
+  },
+  "normalEnvOpaquePin": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/rust-api121.env",
+    "bytes": 741,
+    "rawBytesSha256": "bddee4f4cef4c37331c50a401cd12a14912458065877e6978b8a7276e5756479"
+  },
+  "baseEnvOpaquePin": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/rust.env",
+    "bytes": 718,
+    "rawBytesSha256": "d42dc1e25b6fff80268586b42e23df50c33e04db16843f70f3f23df79a2e646d"
+  },
+  "lifetimeOwner": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-lifetime-owner358/eb04b9f1-3d33-497c-9271-1fe5bb6af439/lifetime-owner.json",
+    "bytes": 886,
+    "rawBytesSha256": "8f17c478105d2ea4ee033fc6a1e87e37c09f7e9c06dfe5b892be39475c3d3303"
+  },
+  "blockingFindings": [],
+  "checks": {
+    "ownedPIDStartBootUIDExeCwdArgvMatched": true,
+    "fullMappedSameByteELFAndDevInodeMatched": true,
+    "opaqueProcessEnvironmentDigestMatchedOriginalEvidence": true,
+    "opaqueEnvFilePinsAndPrivateUIDModeStartupTimesMatched": true,
+    "uniquePort31441IPv4ListenerOwnedFDAndOriginalSocketInodeMatched": true,
+    "originalReadiness200CompleteServiceProcessDatabasePassMatched": true,
+    "exactInputRootReviewPrivateG2DispatchAndRoot8ChainMatched": true,
+    "noPartialOrDriverLocksAndFourStatePinsMatched": true
+  },
+  "scope": "As-of current owned API identity/socket and original reviewed readiness200 evidence. No new HTTP and no continuous availability or business acceptance claim.",
+  "limits": {
+    "HTTP": false,
+    "SQL": false,
+    "APIStart": false,
+    "PGControl": false,
+    "NativeContext": false,
+    "NativePublication": false,
+    "businessStateWrite": false,
+    "RootOrPrivateWrite": false,
+    "environmentContentsDecodedParsedSavedOrPrinted": false,
+    "startupLiveOrAsOfLogsRead": false,
+    "continuousAvailabilityClaim": false,
+    "G3": false,
+    "G4": false,
+    "parent57": "OPEN",
+    "fullR5_116": "OPEN"
+  },
+  "remaining": "Root subsequent Native preflight must recheck current liveness; Native publication and business inputs/G2 remain separate."
+}
