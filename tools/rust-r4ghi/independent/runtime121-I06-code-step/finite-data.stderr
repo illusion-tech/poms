@@ -1,0 +1,23 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'da6c7780a98a170d7c2575a55d73dfaa59d55a5bc16441e1ec092562570381d9'
+- 'a48d3dbee9033fba7273d926f44f52118223b6064dd8cb8a97e94864b4877c8e'
+
+    at file:///mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-B-code06-review01/audit-I06-finite.mjs:8:298
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 'da6c7780a98a170d7c2575a55d73dfaa59d55a5bc16441e1ec092562570381d9',
+  expected: 'a48d3dbee9033fba7273d926f44f52118223b6064dd8cb8a97e94864b4877c8e',
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

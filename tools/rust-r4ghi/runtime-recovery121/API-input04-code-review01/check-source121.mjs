@@ -1,0 +1,16 @@
+// Root metadata producer literal derivation only; never run/import producer.
+import fs from'node:fs';import path from'node:path';import assert from'node:assert/strict';import{spawnSync}from'node:child_process';import{createHash}from'node:crypto';import{fileURLToPath}from'node:url';
+const here=path.dirname(fileURLToPath(import.meta.url)),R='E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/',sha=b=>createHash('sha256').update(b).digest('hex'),linux=f=>f.replaceAll('\\','/').replace(/^E:\//,'/mnt/e/'),pin=f=>{const s=fs.lstatSync(f);assert(s.isFile()&&!s.isSymbolicLink()&&s.nlink===1);const b=fs.readFileSync(f);return{file:linux(f),bytes:b.length,rawBytesSha256:sha(b)};};
+const a=R+'prepare-runtime121-API-input03.mjs',b=R+'prepare-runtime121-API-input04.mjs',prior=pin(a),current=pin(b);assert.equal(prior.rawBytesSha256,'a0b2f9cec5678f54e08950f395d1b620cd0c5dcec1e8eced787ca9a55e55483d');assert.equal(current.rawBytesSha256,'a2af589d40bd665fdca5ec428a88acfbce76f52b519acaa1ef62b1db670b39d6');
+const edits=[
+ {before:'Root-runtime121-Native05-composition-materialized',after:'Root-runtime121-Native06-composition-materialized'},
+ {before:"beforeSHA256:'2ebe24bbe42ebdeddb7091647662f9de0efc0306c8b6ae1672a8cead8da3e64a',afterSHA256:'575332154922858204cd0088528001a540606cc3cd52217e39a251b0ebe97993'",after:"beforeSHA256:'575332154922858204cd0088528001a540606cc3cd52217e39a251b0ebe97993',afterSHA256:'ef958a654e517cf417fe39c21f4deaadcb942aab69bf3a51602e6aed92636f38'"},
+ {before:'API-start-input03',after:'API-start-input04'}
+];
+const old=fs.readFileSync(a,'utf8'),actual=fs.readFileSync(b,'utf8');let forward=old;for(const e of edits){assert.equal(forward.split(e.before).length,2);forward=forward.replace(e.before,e.after);}assert.equal(forward,actual);let inverse=actual;for(const e of [...edits].reverse()){assert.equal(inverse.split(e.after).length,2);inverse=inverse.replace(e.after,e.before);}assert.equal(inverse,old);
+const syntax=spawnSync(process.execPath,['--check',b],{encoding:'utf8'});assert.equal(syntax.status,0);assert.deepEqual(pin(a),prior);assert.deepEqual(pin(b),current);
+const priorReview=pin(path.resolve(here,'../independent-API-input03-121-review01/review-API-input03-source121.json'));assert.equal(priorReview.rawBytesSha256,'068285de2c86750933fa174f1cf05338cd267166bc63f425686208e8aa1ed032');
+const review={kind:'non-author-runtime121-API-input04-producer-source-interface-review',schemaVersion:1,author:'Root',reviewer:'I /root/r4_period_engineering206',reviewerIsAuthor:false,operator:current,priorOperator:prior,priorReview,
+  findings:[],verdict:'eligible-data-only-source-interface-only',checks:{exactThreeLiteralEdits:true,forwardAndInverseRawExact:true,syntaxExit:0,top17Current12Unchanged:true,originalBase18Unchanged:true,currentPin3AndFreshStat6ProjectionUnchanged:true,compositionKindRequiresFuture06:true,singlePhysicalNative05To06DeltaBound:true,newOutput04PreservesOriginal03:true,sourceStable:true},
+  edits,producerRun:false,futureActualComposition:null,actualAPIInput:null,RootOrPrivateWritten:false,NamespaceNativeOrFactoryCalled:false,APIOrPGCalled:false,actualG2Authorized:false};
+const out=here+'/review-API-input04-source121.json';fs.writeFileSync(out,JSON.stringify(review,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({review:pin(out)}));
