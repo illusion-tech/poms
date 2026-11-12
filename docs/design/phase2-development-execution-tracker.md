@@ -1146,3 +1146,12 @@ G1Policy3082经独审1489仅授1生产源和1验证文件代码实施。holder�
 [最小追加](rust-r4ghi/runtime121-corrective362-apps-ABI-addendum.md)2491a914已推送，[线上逐字读回](rust-r4ghi/runtime121-corrective362-apps-online.json)对应[#121](https://github.com/illusion-tech/poms/issues/121#issuecomment-6836017669)与[#57](https://github.com/illusion-tech/poms/issues/57#issuecomment-6836018807)。独立真实Root到受限view模型发现原dataKeys漏apps，hot01保NOTREADY；只授原proof叶既有固定双角色只读投影，hot02仍待完整6mode/DDL/热路径独审。sourceOperator03通过16完整main模型仍仅code-ready，无源提升/lease/G2；真实配置I900/A28800/T60不代替实测预算。新认证0、业务G3G4未签，#57/#116开放。
 
 <!-- /poms-runtime121-fixed-apps362 -->
+
+
+<!-- poms-runtime121-code-delivery362 -->
+
+### 2026-11-13 纠正362统一代码交付及具体源请求
+
+[交付与请求](rust-r4ghi/runtime121-corrective362-code-delivery.md)d3fa440d已推送；[逐字线上读回](rust-r4ghi/runtime121-corrective362-code-delivery-online.json)对应[#121](https://github.com/illusion-tech/poms/issues/121#issuecomment-6837098161)和[#57](https://github.com/illusion-tech/poms/issues/57#issuecomment-6837099131)。HOT03/control02/data2及combined6已独审，44映射/50模块静态link通过且0evaluate；保留原NOTREADY和反例。真实a6e8 metadata单次0，input997a/request8fa4/plan dc22，Rootapproval未签，Source/native/状态续接/prepare/FI均未执行。后续具体Source G2、实际提升/读回、v3与时延预算仍独立。业务认证0/G3G4未签，#57/#116开放。
+
+<!-- /poms-runtime121-code-delivery362 -->
