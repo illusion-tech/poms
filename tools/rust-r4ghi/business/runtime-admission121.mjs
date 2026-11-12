@@ -215,7 +215,7 @@ function originalCode15_121(base,archive,parent14) {
   assert.deepEqual(b0,bootstrapBody15(bootstrapPlan,b0.candidateInput,b0.bootstrapOnlyG2,process));
   const reg=json121(base.codeAdmission15),b1=json121(base.codeCandidate15);
   samePin121(reg.approvedPlan,base.approvedCodePlan15);
-  const facts={parent:parent14,sourcePins:source,compilePins:compile,helperPins:helper,helperComposition};
+  const facts={parent:parent14,apiRecord:process,sourcePins:source,compilePins:compile,helperPins:helper,helperComposition};
   assert.deepEqual(reg,registryBody15(p,base.approvedCodePlan15,facts));
   assert.deepEqual(b1,admittedBody15(p,base.codeAdmission15,b0));
   samePin121(b1.consumerAdmission.registry,base.codeAdmission15);
