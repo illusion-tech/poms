@@ -1,0 +1,134 @@
+{
+  "kind": "non-author-runtime121-original-Reg5-history-diagnostic",
+  "verdict": "NOT_READY-history-reconstruction-until-reviewed-fix",
+  "recordedAt": "2026-11-11T23:57:53.320Z",
+  "author": "/root/r4_period_engineering206",
+  "reviewer": "/root/r4ghi_final_gates13",
+  "reviewerIsAuthor": false,
+  "currentNative": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/runtime-admission121.mjs",
+    "bytes": 93658,
+    "rawBytesSha256": "575332154922858204cd0088528001a540606cc3cd52217e39a251b0ebe97993"
+  },
+  "originalPureCore": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/source15-admission-core.mjs",
+    "bytes": 21309,
+    "rawBytesSha256": "9091b92c06d6224a47acdd5b0ac59f4ac69b7d4747d41ccafa05880d530f7814"
+  },
+  "originalAdmissionSource": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/source15-admission.mjs",
+    "bytes": 33151,
+    "rawBytesSha256": "f13d4c915bd31b769ef1064aa78ad532a06ff09d202d2b4ddbfd7a235ba54ade"
+  },
+  "actualReg5": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/consumer-registry119-Reg5.json",
+    "bytes": 47696,
+    "rawBytesSha256": "c65fcd2a9a813fc7120d5b2ea4487f238777f351f78e137f278addfd56b2cf53"
+  },
+  "approvedHistoricalPlan": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source15-plan119-publish01.json",
+    "bytes": 51818,
+    "rawBytesSha256": "2b2bdf87acd62a1187e650991b21b0e3380c2218e1857f32b291109927f10539"
+  },
+  "actualHistoricalProcess": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source15-api119-start15-01/process.json",
+    "bytes": 5776,
+    "rawBytesSha256": "b42e176e4b77a63136cfee4a7fdc9f294552e1fd279acf3d951f066fa21a520c"
+  },
+  "failedMetadataPreflight": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/API121-preflight03/command-receipt.json",
+    "bytes": 1063,
+    "rawBytesSha256": "217a99373f3b739ca232b8f373c76882e8cc496c0042f2b06de8fd3224bf8e2f"
+  },
+  "finding": {
+    "id": "I121-REG5-IR01",
+    "priority": "P2",
+    "sourceFile": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/runtime-admission121.mjs",
+    "sourceLine": 218,
+    "assertionLine": 219,
+    "title": "Historical Reg5 reconstruction omits the already validated original apiRecord",
+    "producerContract": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/source15-admission-core.mjs",
+      "registryBodyLine": 113,
+      "tupleRecordLine": 103,
+      "originalFactsReturnFile": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/source15-admission.mjs",
+      "originalFactsReturnLine": 180
+    },
+    "exactDiff": [
+      {
+        "fieldPath": "/consumer/process/record",
+        "difference": "type",
+        "actualType": "object",
+        "reconstructedType": "undefined"
+      }
+    ],
+    "why": "registryBody15 passes facts.apiRecord to tuple15; the frozen Reg5 includes the original process record, while Native facts omits the key.",
+    "minimalCorrection": "Carry apiRecord:process in this historical facts object, using only the original process JSON already read and checked earlier in originalCode15_121.",
+    "mustPreserve": [
+      "Original Reg5, B1, plan and process bytes",
+      "Full existing deep equality assertion",
+      "Original process identity and B0 checks before reconstruction",
+      "Current121 process and historical15 process separation",
+      "All current strict pin/binary rules"
+    ],
+    "mustNotUse": [
+      "New121 process as an old15 record",
+      "Field trimming or skipping record equality",
+      "A write/backfill to the old Reg5 or old process",
+      "A rerun of the failed preflight before a separately reviewed new code/input"
+    ]
+  },
+  "independentPureProof": {
+    "onlyRegistryBody15OfAnExactCopiedOriginalPureCoreInvoked": true,
+    "bodyFactsParentStateFromPinnedFrozen14AndResourcesFromPinnedPlan": true,
+    "remainingArrayFactsNotUsedByThisBody": true,
+    "actualEmbeddedProcessEqualsOriginalPinnedProcessJSON": true,
+    "entireActualReg5DeepEqualAfterSingleMissingFactCompletion": true,
+    "afterDiff": [],
+    "wrongHistoricalProcessStillRejected": true,
+    "allOutputDiffsPathsOrShapesOnly": true,
+    "probe": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-Reg5-history-diagnostic01/probe-Reg5-body-only02.mjs",
+      "bytes": 5700,
+      "rawBytesSha256": "6dc2822b7b08ab597b1b33b77cba98ad32334c4f9bcf498cf5c4093261115fea"
+    },
+    "report": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-Reg5-history-diagnostic01/pure-Reg5-body-diff.json",
+      "bytes": 7614,
+      "rawBytesSha256": "f71a348fac9e05982c658a7dbeae30400e2f49b76b1d780dada573d42d1e5314"
+    }
+  },
+  "clarifications": [
+    {
+      "reportField": "realProcessOrELFOrEnvironmentRead",
+      "interpretation": "No OS/proc process probe, ELF bytes or environment values were read. The immutable historical process JSON b42e was read and used as explicitly pinned above."
+    }
+  ],
+  "failedAttemptPreserved": {
+    "originalProductPreflightExitCode": 1,
+    "originalProductPreflightNotRerun": true,
+    "ownFirstReadoutAssumedColonStackThenCorrectedToActualStructuredFrames": true,
+    "ownFirstProbe": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-Reg5-history-diagnostic01/probe-Reg5-body-only.mjs",
+      "bytes": 5530,
+      "rawBytesSha256": "efbb97f001715b101d296489d5309302e8c1d258533f38d67ca96749a762c737"
+    },
+    "ownCorrection": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-Reg5-history-diagnostic01/reviewer-attempt01-note.json",
+      "bytes": 683,
+      "rawBytesSha256": "2de2320bb5c61737a89f95fb4b9b8a6291bcb64c468abe391d35c65775b153b2"
+    }
+  },
+  "asOfPriorBoundaries": {
+    "I05FiniteCodeStepAndSourceSafetyActualRemainTheirOriginalScopeAndTime": true,
+    "newGapDoesNotReclassifyTheActualOneFileCopyAsFailed": true,
+    "noWholeRuntimePositiveClaim": true
+  },
+  "actualG2Authorized": false,
+  "implementationOrSourcePromotionGranted": false,
+  "NamespaceOrContextInvoked": false,
+  "SQLHTTPOrProcessControl": false,
+  "RootOrPrivateWritten": false,
+  "G3Certified": false,
+  "G4Certified": false
+}
