@@ -1073,3 +1073,14 @@ G1Policy3082经独审1489仅授1生产源和1验证文件代码实施。holder�
 [12 项 Issue 已同步读回](https://github.com/illusion-tech/poms/issues/121#issuecomment-6825626800)，[父 #57 已维护](https://github.com/illusion-tech/poms/issues/57#issuecomment-6825628925)。Rust 240、R4 67/95、本批 32 candidate、新增业务认证 0、业务 G3/G4 未通过；#57 与完整 R5 #116 保持开放，#119 历史技术 G4/CLOSED 保留。
 
 <!-- /poms-r4ghi-status359 -->
+
+
+<!-- poms-r4ghi-G3-checkpoint360 -->
+
+### 2026-11-13 G3 纠正检查点360：真实构造后的守卫失败
+
+[事实与保全边界](rust-r4ghi/runtime121-real-prepare-G3-checkpoint360.md)、[在线读回](rust-r4ghi/runtime121-G3-checkpoint360-online.json)记录首次真实 prepare-only 返回1：Native constructor 返回但 Tax capability 未返回，entry/exit 和 fresh67 未验收。Tax 守卫从 Pin3 读取 Facts6 的物理属性，失败退出又遇旧000026 bookend。原26严格 wx 保留；失败后的完整状态只私有保全，13/14/ownership 与旧证据保持，未重试。
+
+[运行环境 #121 的 G3 事实](https://github.com/illusion-tech/poms/issues/121#issuecomment-6827391205)和[父 #57 的进度](https://github.com/illusion-tech/poms/issues/57#issuecomment-6827392256)已核对回写。下一步先最小代码纠正与受控 successor handoff 设计，再冻结新 exact G2；旧图、lease、原始失败与全部既有实证保持 as-of 标签。未获授权直接重跑既有 publisher、重写计数器或 snapshot reset。Rust240、R4 67/95、本批32 candidate、新认证0，业务G3/G4未通过；#57/#116保持开放。
+
+<!-- /poms-r4ghi-G3-checkpoint360 -->

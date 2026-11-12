@@ -1,0 +1,16 @@
+// Mirror the verified factual G3 checkpoint. No source transition or runtime effects.
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+const R='E:/projects/worktrees/poms-r3hijk-next28/poms';
+const raw=fs.readFileSync(R+'/tmp/rust-r4ghi/root/checkpoint360-online/receipt.json'),r=JSON.parse(raw);
+assert.equal(r.kind,'actual-runtime121-G3-checkpoint360-comments');assert.equal(r.bothReadbackEqual,true);assert.equal(r.newCertified,0);assert.equal(r.modeRetried,false);
+assert.equal(r.issue121,'https://github.com/illusion-tech/poms/issues/121#issuecomment-6827391205');assert.equal(r.parent57,'https://github.com/illusion-tech/poms/issues/57#issuecomment-6827392256');
+for(const n of [121,57]){const a=JSON.parse(fs.readFileSync(R+'/tmp/rust-r4ghi/root/checkpoint360-online/'+n+'-request.json')),b=JSON.parse(fs.readFileSync(R+'/tmp/rust-r4ghi/root/checkpoint360-online/'+n+'-readback.json'));assert.equal(a.body,b.body);}
+const evidence=R+'/docs/design/rust-r4ghi/runtime121-G3-checkpoint360-online.json',indexFile=R+'/docs/design/rust-r4ghi-delivery-status.json',trackerFile=R+'/docs/design/phase2-development-execution-tracker.md';
+try{fs.lstatSync(evidence);throw Error('Existing checkpoint mirror requires reconciliation');}catch(e){if(e.code!=='ENOENT')throw e;}
+const indexRaw=fs.readFileSync(indexFile),trackerRaw=fs.readFileSync(trackerFile),index=JSON.parse(indexRaw),tracker=trackerRaw.toString('utf8');assert.equal(index.latestExecutionStatus,'rust-r4ghi/continuation-status359.json');assert(!index.correctiveCheckpoint360);assert(!tracker.includes('<!-- poms-r4ghi-G3-checkpoint360 -->'));
+index.correctiveCheckpoint360={kind:'factual-failed-real-prepare-G3-checkpoint',checkpoint:'rust-r4ghi/runtime121-real-prepare-G3-checkpoint360.md',onlineEvidence:'rust-r4ghi/runtime121-G3-checkpoint360-online.json',actualPrepareExitCode:1,actualConstructorReturned:true,capabilityReturned:false,entryExitAccepted:false,fullFresh67Accepted:false,afterStateSHA256:'32bd6587911328886fc32e0ea40848107275fcaab889e2780098c2729097987b',stateBodyRetainedPrivately:true,sourceCorrectionNotYetFrozen:true,modeRetried:false,newCertified:0,businessG3:false,businessG4:false,parent57:'OPEN',fullR5_116:'OPEN'};
+const appended=tracker+`\n\n<!-- poms-r4ghi-G3-checkpoint360 -->\n\n### 2026-11-13 G3 纠正检查点360：真实构造后的守卫失败\n\n[事实与保全边界](rust-r4ghi/runtime121-real-prepare-G3-checkpoint360.md)、[在线读回](rust-r4ghi/runtime121-G3-checkpoint360-online.json)记录首次真实 prepare-only 返回1：Native constructor 返回但 Tax capability 未返回，entry/exit 和 fresh67 未验收。Tax 守卫从 Pin3 读取 Facts6 的物理属性，失败退出又遇旧000026 bookend。原26严格 wx 保留；失败后的完整状态只私有保全，13/14/ownership 与旧证据保持，未重试。\n\n[运行环境 #121 的 G3 事实](${r.issue121})和[父 #57 的进度](${r.parent57})已核对回写。下一步先最小代码纠正与受控 successor handoff 设计，再冻结新 exact G2；旧图、lease、原始失败与全部既有实证保持 as-of 标签。未获授权直接重跑既有 publisher、重写计数器或 snapshot reset。Rust240、R4 67/95、本批32 candidate、新认证0，业务G3/G4未通过；#57/#116保持开放。\n\n<!-- /poms-r4ghi-G3-checkpoint360 -->\n`;
+assert(fs.readFileSync(indexFile).equals(indexRaw));assert(fs.readFileSync(trackerFile).equals(trackerRaw));
+fs.writeFileSync(evidence,raw,{flag:'wx'});fs.writeFileSync(indexFile,JSON.stringify(index,null,2)+'\n');fs.writeFileSync(trackerFile,appended);
+console.log(JSON.stringify({mirroredG3Checkpoint360:true,sourceCorrectionGranted:false,modeRetried:false,newCertified:0}));
