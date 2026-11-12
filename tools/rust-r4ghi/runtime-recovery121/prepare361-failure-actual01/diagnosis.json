@@ -1,0 +1,46 @@
+{
+  "kind": "non-author-runtime121-prepare361-actual-failure-diagnosis",
+  "verdict": "actual-prepare-failed-preserved-no-continuation",
+  "reviewer": "/root/transport358_code_review",
+  "reviewerIsAuthor": false,
+  "nonce": "1899fb63-42e3-4bd5-94d2-f1fbd8c57d57",
+  "recordedAt": "2026-11-12T19:41:44.050Z",
+  "evidence": {
+    "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime121-prepare361-failure-independent01/evidence-failed-prepare361.json",
+    "bytes": 20168,
+    "rawBytesSha256": "04c743a9dd14f536e00e66a94265e1b664e45880b00f6b53fe78633d020a68ad"
+  },
+  "actualBoundaries": {
+    "realConstructorReturned": true,
+    "privateCapabilityReturned": true,
+    "mandatoryEntryVerified": true,
+    "mandatoryFailedExitVerified": true,
+    "failedClosedJournalPreserved": true,
+    "authLoginReturned": true,
+    "initialPreparationReadSent": false,
+    "freshPrepared": false,
+    "full67FreshEqualityProven": false,
+    "continuationK": false,
+    "businessG3": false,
+    "businessG4": false
+  },
+  "cause": {
+    "message": "Real session expired or too close to deadline",
+    "actualMessageRead": true,
+    "actualStackAvailable": false,
+    "firstPreparationGETPresendGuardInferredFromSourceAndArtifacts": true,
+    "idleExpiryUTC": "2026-11-12T19:15:01.953Z",
+    "millisecondsRemainingAfterCapture37FileWrite": 7952,
+    "observedNowNotPersisted": "Files prove the idle deadline check failed. They cannot distinguish an already expired idle timer from the final <=2-second margin at the exact guard SQL observation."
+  },
+  "runtime121Assessment": "Actual current Native ctor, typed capability flow, entry guard and failed exit/closed guard were exercised under the source361 lease; these are narrower technical milestones. They do not certify fresh67 preparation or business G3/G4 and do not complete the parent objective.",
+  "tax118Assessment": "Prepare-only stopped before its first business preparation GET reached the wire. No fresh prepared/fullInventory/body67/K, FI or normal Tax/Main POST was produced.",
+  "nextBoundary": "Any correction needs a separately frozen bounded code/data change and fresh exact input review. No retry, lease reset, session extension, relaxed expiry threshold, FI or business POST is granted by this diagnosis.",
+  "scope": {
+    "readonlyFS": true,
+    "RootPrivateWritten": false,
+    "NativeAppOrProcessOrSQLHTTPInvoked": false,
+    "credentialsPublished": false,
+    "actualG2Granted": false
+  }
+}
