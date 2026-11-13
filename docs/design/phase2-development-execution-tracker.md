@@ -1278,3 +1278,9 @@ Root继续为父#114管理相同私有和活跃输入/运行资源。#114/#118/#
 实现before与R原交付before分列，原Root执行11/284/P未改；新5/SC18/C/R/B/S4、原Podman/4份完整RO/最后关闭基线、新API6c→X及Native X→Y按合同逐步实证。实际source/恢复/FS/ctx/Auth/probe均另准确G2；CP0、全FI预算UNKNOWN、normal/Main未授。#121历史技术G4及正式Rust240/R4 67/95/32candidate/业务新增认证0/G3G4未签保持，#57与#116开放。
 
 <!-- /poms-budget118-reentry-G1-v3 -->
+
+<!-- poms-runtime118-graph-RO-corrective01 -->
+
+[具名G3纠正](rust-r4ghi/runtime118-graph-RO-corrective01.md)已固定eb0f0335并同步[#118](https://github.com/illusion-tech/poms/issues/118#issuecomment-6866700377)：new5分别验证P3原图和公共镜像，不混Full3身份；RO保同连接完整READ ONLY与原格式，主机exe仅精确有限绑定。原80ea/04与历史证据不改，旧模型不当实际准入。当前仍隔离实施/独审，实际Root源/P/runtime未因本件改动，CP0/全FI预算UNKNOWN/业务认证0/G3G4未签。
+
+<!-- /poms-runtime118-graph-RO-corrective01 -->
