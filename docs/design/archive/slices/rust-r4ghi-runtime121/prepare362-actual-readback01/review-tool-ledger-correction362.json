@@ -1,0 +1,16 @@
+{
+  "kind": "independent-audit-tool-contract-correction",
+  "preservedStop": "actual-readonly-stop02.json",
+  "preservedSource": "audit-rest362.mjs",
+  "finding": "The original seven canonical Auth/GET HTTP ledger pins are legitimately also named commandLedgers by closeInvocation118. Empty families does not imply an empty ledger array.",
+  "actualSafeMetadata": {
+    "families": 0,
+    "httpAttempts": 7,
+    "commandLedgers": 7,
+    "commandLedgerArrayExactlyEqualsHttpAttemptsLedgerArray": true
+  },
+  "correctPredicate": "Each ledger must be the exact corresponding canonical Auth/GET attempt ledger; no extra domain command, FI or normalPOST ledger is allowed.",
+  "actualOriginalsModified": false,
+  "acceptanceIssued": false,
+  "privateValuesEmitted": false
+}

@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Data-only completed preparation capture reconstruction parameters",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "input",
+    "prepared",
+    "afterState"
+  ],
+  "properties": {
+    "input": {
+      "$ref": "#/$defs/fullPin"
+    },
+    "prepared": {
+      "$ref": "#/$defs/fullPin"
+    },
+    "afterState": {
+      "$ref": "#/$defs/fullPin"
+    }
+  },
+  "$defs": {
+    "fullPin": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "file",
+        "bytes",
+        "rawBytesSha256"
+      ],
+      "properties": {
+        "file": {
+          "type": "string",
+          "pattern": "^/"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "rawBytesSha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    }
+  },
+  "description": "Real completed Root-supplied entrance pins must be closed Full3 with positive safe integer lengths and canonical Linux paths. Actual readers enforce plain data/no extra symbols or accessors. Internal historical Pin2 remains compatible. No actual spec is instantiated in this code-only preparation."
+}

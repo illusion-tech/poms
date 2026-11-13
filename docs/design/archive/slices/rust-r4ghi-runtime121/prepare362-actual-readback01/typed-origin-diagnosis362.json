@@ -1,0 +1,346 @@
+{
+  "kind": "actual-completed-prepare362-typed-origin-metadata-diagnosis",
+  "recordedAt": "2026-11-13T01:02:27.769Z",
+  "actualInputs": {
+    "input": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/tax121-prepare-metadata-6458f733-0fe1-4b5e-b2ff-076908543af3/prepare-only-input118.json",
+      "bytes": 7040,
+      "rawBytesSha256": "1834a57d5d0e868422492b888df0654f1911b60bd07ea59025a56c0f3d93ae84"
+    },
+    "immutableAfter": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-prepare362-completed01/6458f733-0fe1-4b5e-b2ff-076908543af3/state-after.json",
+      "bytes": 15045544,
+      "rawBytesSha256": "6c1fabbacebc43fea8636c8fd91afac81dd66e8b6200ca5a769c08ae41401b3b"
+    },
+    "prepared": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/000062-tax15-reviewable-body-inventory.json",
+      "bytes": 672398,
+      "rawBytesSha256": "b7ed0bd59bef213af4a7e479055e8221231868f052820cb4cec92d31bb3a889b"
+    },
+    "K": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/000065-tax121-prepare-continuation.json",
+      "bytes": 367950,
+      "rawBytesSha256": "847fe81ffbc4cf4f73b369ac1466e3185e051a6d0d87ca429b444111767115e7"
+    },
+    "runtime": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/tax121-prepare-metadata-6458f733-0fe1-4b5e-b2ff-076908543af3/runtime-bindings121.json",
+      "bytes": 120266,
+      "rawBytesSha256": "e8460033f2958ef78941a6c07b8a6281f49a8f8863ee7fa1d31b1944d89d5e3d"
+    },
+    "immutableBefore": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-native-entry-snapshots362/2ba18403-1739-4274-8c3e-5e444f2aa6cf/entry-state.json",
+      "bytes": 14274424,
+      "rawBytesSha256": "dcacbdd8087aece6f1a17a62732b4243014650f91838a04a3b8444f67145da3d"
+    }
+  },
+  "factory": {
+    "source": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/runtime-admission121.mjs",
+      "bytes": 148850,
+      "rawBytesSha256": "197fc179bfbb8d92a45d732080cc0b96a78bc4e92c497d930d65c49759a9c906"
+    },
+    "functions": [
+      "preparationOrigin121:603-653",
+      "readRetainedPreparation121:1238-1247"
+    ],
+    "note": "The original factory returns a verified enriched18 origin; runtime retainedPreparation15 is only the three-field comparison anchor, not the same container."
+  },
+  "enriched": {
+    "closedKeys": [
+      "kind",
+      "protocolVersion",
+      "prepared15",
+      "fullInventory",
+      "bodySHA256",
+      "originalRecord",
+      "originalRuntime",
+      "originalEntryAndExit",
+      "originalInput",
+      "originalReview",
+      "sourceArchive",
+      "failedAttemptDisposition",
+      "PGConservation",
+      "runtimeAdmission121",
+      "retainedPreparationOnly",
+      "currentEffectsGranted",
+      "serverTargetsRefreshed",
+      "bodyRefreshed"
+    ],
+    "fieldTypes": {
+      "kind": "string",
+      "protocolVersion": "number",
+      "prepared15": "object",
+      "fullInventory": "object",
+      "bodySHA256": "string",
+      "originalRecord": "object",
+      "originalRuntime": "object",
+      "originalEntryAndExit": "object",
+      "originalInput": "object",
+      "originalReview": "object",
+      "sourceArchive": "object",
+      "failedAttemptDisposition": "object",
+      "PGConservation": "object",
+      "runtimeAdmission121": "object",
+      "retainedPreparationOnly": "boolean",
+      "currentEffectsGranted": "boolean",
+      "serverTargetsRefreshed": "boolean",
+      "bodyRefreshed": "boolean"
+    },
+    "safeControlValues": {
+      "kind": "verified-retained-tax15-preparation-origin121",
+      "protocolVersion": 1,
+      "prepared15": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/000023-tax15-reviewable-body-inventory.json",
+        "bytes": 314428,
+        "rawBytesSha256": "08e3eb6cff5297609a1d11e092382afc4f52b0ebedf9ee19c5dd5f8442412338"
+      },
+      "fullInventory": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/000022-tax15-full-inventory.json",
+        "bytes": 126094,
+        "rawBytesSha256": "fdb957d8c82c0630eefa8ef0517bfa24cc0ec073fcf33bd923c78da09440946b"
+      },
+      "bodySHA256": "0f92913cd78146402e5eb3a004f10a55c8e47417d961301210d2e7d5376dcc98",
+      "originalRecord": {
+        "closedKeys": [
+          "artifact",
+          "body",
+          "bodySHA256",
+          "packets",
+          "fullPacket",
+          "facts",
+          "inventory",
+          "fullInventory",
+          "postconditions"
+        ],
+        "fieldTypes": {
+          "artifact": "object",
+          "body": "object",
+          "bodySHA256": "string",
+          "packets": "array",
+          "fullPacket": "object",
+          "facts": "object",
+          "inventory": "array",
+          "fullInventory": "object",
+          "postconditions": "string"
+        },
+        "artifact": {
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/000023-tax15-reviewable-body-inventory.json",
+          "bytes": 314428,
+          "rawBytesSha256": "08e3eb6cff5297609a1d11e092382afc4f52b0ebedf9ee19c5dd5f8442412338"
+        },
+        "fullPacket": {
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/000020-tax15-complete-server-targets.json",
+          "bytes": 261360,
+          "rawBytesSha256": "8fa7fed90acec005a925e208f264bb87c42463d6835f331fe9c3088f6bf8341c"
+        },
+        "fullInventory": {
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/000022-tax15-full-inventory.json",
+          "bytes": 126094,
+          "rawBytesSha256": "fdb957d8c82c0630eefa8ef0517bfa24cc0ec073fcf33bd923c78da09440946b"
+        },
+        "bodySHA256": "0f92913cd78146402e5eb3a004f10a55c8e47417d961301210d2e7d5376dcc98",
+        "postconditions": "prepared-for-Root-review-only",
+        "body": {
+          "type": "object",
+          "keys": [
+            "inputVersion",
+            "projectId",
+            "expectedVersion",
+            "expectedProjectVersion",
+            "expectedInputHash",
+            "assertions",
+            "scope",
+            "periodEndSnapshotRef",
+            "restatesSnapshotRef",
+            "restatementReason",
+            "restatementSummary",
+            "costDecisions",
+            "laborCorrections",
+            "allocationCorrections",
+            "stageCorrections",
+            "taxCorrections",
+            "affectedTargets",
+            "acknowledgedChangedSourceRefs"
+          ],
+          "serializedBytes": 2678,
+          "serializedSHA256": "0f92913cd78146402e5eb3a004f10a55c8e47417d961301210d2e7d5376dcc98",
+          "valuesWithheld": true
+        },
+        "facts": {
+          "type": "object",
+          "keys": [
+            "version",
+            "branch",
+            "operationId",
+            "actorId",
+            "primaryProjectId",
+            "sourceProjectId",
+            "sourceCostId",
+            "sourceCostVersion",
+            "sourceBusinessDate",
+            "stageId",
+            "taxId",
+            "basisId",
+            "sourceCount",
+            "projects",
+            "targets",
+            "sourceDecisionId",
+            "results",
+            "factsAreAuthority",
+            "explicitAllocationOverride",
+            "oldSnapshotAggregateEqualityAssumed",
+            "baselinePolicyDecisionAssumed",
+            "rootUnion"
+          ],
+          "serializedBytes": 13442,
+          "serializedSHA256": "fb438d2e8f438775cf4c2e63bd1409aebe191ac3c3e71fae8db1e9f01dd88c0f",
+          "valuesWithheld": true
+        },
+        "inventory": {
+          "type": "array",
+          "count": 67,
+          "serializedBytes": 47894,
+          "serializedSHA256": "eac490a3dbc5638724636eae169cc082d4d19eff06dfabb17de784c5093e8445",
+          "valuesWithheld": true
+        },
+        "packets": {
+          "type": "array",
+          "count": 2,
+          "serializedBytes": 83627,
+          "serializedSHA256": "1f9c8eb00af498c4cd02b05af0f92705d90306afec8f4867936cda7df3d3814b",
+          "valuesWithheld": true
+        }
+      },
+      "originalRuntime": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/tax-runtime15-118-prepare01.json",
+        "bytes": 118598,
+        "rawBytesSha256": "b68fea53261abfe96a2ebadad96ada5c1518436c15b35d8c966c93da9f55cc32"
+      },
+      "originalEntryAndExit": {
+        "entry": {
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/000003-tax118-entry-guard.json",
+          "bytes": 5120,
+          "rawBytesSha256": "0ed99563927d0190d219bf9a69da17e386cf6a07136fe5e755413c8a16a31ab3"
+        },
+        "exit": {
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/000024-tax118-exit-guard.json",
+          "bytes": 3060,
+          "rawBytesSha256": "59614a258491e3597d7598e9ab6322f6525358b0334ac9371918f6d2ae0558a4"
+        },
+        "closed": {
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/000025-tax118-closed-journal.json",
+          "bytes": 15040,
+          "rawBytesSha256": "e0aa2f14303bf825e0b885195e026974323aa8b6d03e5347df890a01e80f3600"
+        }
+      },
+      "originalInput": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/tax15-prepare118-prepared02/prepare-only-input118.json",
+        "rawBytesSha256": "498238a4a9eef0b8d44e616b869ce129768768adce743857814ce6d93f172436"
+      },
+      "originalReview": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/tax15-prepare118-prepared02/Root-exact-prepare-only-review118.json",
+        "rawBytesSha256": "6fa00378515d3bc89e5cc6bfb5a20ade2a192c755469093657cc4eba9e12d94f"
+      },
+      "sourceArchive": {
+        "base": {
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/base-source15-retained121-01/original-source-map121.json",
+          "bytes": 278381,
+          "rawBytesSha256": "7085c71ee2fa244b5c4c10c582b17b45cc2dcad56967376305e8f05526db92a2"
+        },
+        "supplement": {
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/base-source15-retained121-supplement01/original-source-supplement121.json",
+          "bytes": 2719,
+          "rawBytesSha256": "0b0bd1ccc4931674cf986b5ac56f186abc5f799b9fa331dc4d6d28a7e3c9786d"
+        }
+      },
+      "failedAttemptDisposition": {
+        "review": {
+          "file": "/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/independent-tax15-fi118-actual-failure03/review-actual-FI118-NOTREADY03.json",
+          "bytes": 10812,
+          "rawBytesSha256": "da94da8ebcb29666a614bcd3f9377eb45fe8c05206396cb2eb82b3c0ce293ecd"
+        },
+        "partial": {
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/tax118-invocation-7f75088b-9f3d-4dbf-93f9-288ea96c8258/partial.json",
+          "bytes": 1092,
+          "rawBytesSha256": "8fab7d0871e5ff48dd2b9e287b6a6d987db923a14ff6d531f7fb9d20193b3678"
+        },
+        "input": {
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/tax15-fi-closed-set118-prepared03/fi-closed-set-input118.json",
+          "bytes": 7470,
+          "rawBytesSha256": "4bd2593c5f9c6872e66a8604d77c4a2282487dbf65fea0c86cde2bd1aa9fd501"
+        },
+        "intent": {
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/tax118-invocation-7f75088b-9f3d-4dbf-93f9-288ea96c8258/intent.json",
+          "bytes": 624,
+          "rawBytesSha256": "a7b22d25339dc275d139dc0c401973b1c9ebd15ea69c48f87d0c1e18b819b269"
+        },
+        "outer": {
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/tax15-fi-closed-set118-prepared03/run01/command-receipt.json",
+          "bytes": 1047,
+          "rawBytesSha256": "8d8deda64b1dd81b3db0ca1091bced8fe440616a3877237d74c47de9e84003bf"
+        },
+        "failedBookend": {
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/000026-tax118-failed-bookend.json",
+          "bytes": 520,
+          "rawBytesSha256": "a15d1ff2af218bf66de9bd2691238cc57240391af42bd698352e8087c93dec60"
+        },
+        "phase": "failed-preserve",
+        "newHTTP": 0,
+        "newFI": 0,
+        "controls": 0,
+        "currentEffectsGranted": false
+      },
+      "PGConservation": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-A/pg-observe/e6beaf59-4a28-4875-94c4-1a289ce933ec/complete.json",
+        "bytes": 3136,
+        "rawBytesSha256": "ab8c27833fc445de956e97ded20b489b5261a7e82c48c459a19d249195cb3eed"
+      },
+      "runtimeAdmission121": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/runtime121-2ba18403-1739-4274-8c3e-5e444f2aa6cf/registry.json",
+        "rawBytesSha256": "a8bcbc8db0125d3d7b5d0a1e3a941747f66fecc00d7f8dcaaa8752e7164c5a03"
+      },
+      "retainedPreparationOnly": true,
+      "currentEffectsGranted": false,
+      "serverTargetsRefreshed": false,
+      "bodyRefreshed": false
+    }
+  },
+  "runtimeThreeFieldAnchor": {
+    "prepared15": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/000023-tax15-reviewable-body-inventory.json",
+      "bytes": 314428,
+      "rawBytesSha256": "08e3eb6cff5297609a1d11e092382afc4f52b0ebedf9ee19c5dd5f8442412338"
+    },
+    "fullInventory": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/000022-tax15-full-inventory.json",
+      "bytes": 126094,
+      "rawBytesSha256": "fdb957d8c82c0630eefa8ef0517bfa24cc0ec073fcf33bd923c78da09440946b"
+    },
+    "bodySHA256": "0f92913cd78146402e5eb3a004f10a55c8e47417d961301210d2e7d5376dcc98"
+  },
+  "relationships": {
+    "recordEqualsObservedEnriched18": true,
+    "recordEqualsKEnriched18": true,
+    "originalRecordEqualsImmutableBeforeRetainedTaxPreparation": true,
+    "uniqueHistoricalPrepareJournalMatchesOriginalRuntimeInputReviewAndAllThreeBookends": true,
+    "preparedAndInventoryFullpinsAndBodyDigestEqualRuntimeThreeAnchor": true,
+    "enrichedRuntimeAdmissionMatchesActualCurrentRegistry": true
+  },
+  "blockedReaderAssertions": [
+    "eq(record.retainedPreparation15,bindings.retainedPreparation15)",
+    "eq(observed.retainedPreparation15,originRuntime3)"
+  ],
+  "minimumReaderCorrection": "Validate the exact enriched18 factory contract and its safe control relations; keep opaque originalRecord/body/facts/packets compared internally to immutable original evidence. Compare prepared15/fullInventory/bodySHA projection to runtime3, and compare observed enriched origin fully to record origin. Do not reduce enriched origin to a mere three-key existence check.",
+  "privacy": {
+    "originalRecordBodyFactsInventoryPacketsValuesWithheld": true,
+    "sourceArchiveAndUnknownDispositionNonPinValuesHashedOnly": true,
+    "noStateActorCookieCredentialAuthBodyOrEnvValuesSaved": true
+  },
+  "authority": {
+    "diagnosisOnly": true,
+    "physicalAuditNotPassedYet": true,
+    "acceptanceIssued": false,
+    "RootOrPrivateWritten": false,
+    "NativeCoreAppSQLHTTPInvoked": false
+  }
+}

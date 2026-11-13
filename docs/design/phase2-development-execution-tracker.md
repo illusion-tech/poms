@@ -1182,3 +1182,14 @@ G1Policy3082经独审1489仅授1生产源和1验证文件代码实施。holder�
 [冻结E1](rust-r4ghi/runtime121-prepare362-timing-E1.md)aabc653f及[线上逐字读回](rust-r4ghi/runtime121-prepare362-timing-E1-online.json)对应[#121](https://github.com/illusion-tech/poms/issues/121#issuecomment-6838870210)和[#57](https://github.com/illusion-tech/poms/issues/57#issuecomment-6838871290)。仅对同6458 prepare-only作证据顺序替代，热预算仍未证明；标准exactG2/Root9另审，不减全部source/brand/37/session/mono>2s守卫、不延TTL、不加mode或自动重放。成功只独审消费本次真实prepared/K，失败保全停止；FI至少618CP/绝对idle预算另验，认证0/G3G4未签，#57/#116开放。
 
 <!-- /poms-runtime121-prepare-timing-E1-362 -->
+
+
+<!-- poms-runtime121-prepare362-actual -->
+
+### 2026-11-13 纠正362：唯一真实准备及完整非作者读回通过
+
+[实际执行与完整验收](rust-r4ghi/runtime121-prepare362-actual.md)记录同6458 prepare-only唯一0、4941.4120591秒，实际Ctor/私有cap/entry/exit/closed和K已闭合；[原闭8键读回](archive/slices/rust-r4ghi-runtime121/prepare362-actual-readback01/review-actual-prepare-continuation362.json)565740通过。完整278表4938行重建1Tax根、2targets、全部peer/CAS、body/facts/ordered67；实际新61fdb完整清单及62b7ed与正式历史依据全等。Auth3+GET4的14份双库捕获仅同一新owned session一次创建/五次更新，完整37权限、14actors其余字段和旧823/1899/26/13/14/Main13/所有状态保全；最终8/284、Root+mirror各420/528、sequence39→65、锁及canonical 6c1f/ownership1da8均独立复核。
+
+[全部安全原件、工具停止及修正](archive/slices/rust-r4ghi-runtime121/prepare362-actual-readback01/archive.json)保真归档，私有原件和活跃运行输入保留原路径，由Root继续在#114下负责。E1本次真实结果/书挡已归档，但直接CP样本为0、618全FI预算仍未证明，不授FI/正常Tax/Main，不重放本次prepare。#121技术G3/G4固定提交及关闭前审查、线上镜像继续；Rust240、R4 67/95、本批32candidate/新增认证0、业务G3G4未签，#57/#116开放、#119历史CLOSED。
+
+<!-- /poms-runtime121-prepare362-actual -->

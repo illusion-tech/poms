@@ -16,7 +16,8 @@
     "r5": 116,
     "minimumR5": 117,
     "source15Admission": 119,
-    "source15Callers": 120
+    "source15Callers": 120,
+    "runtimeRecovery": 121
   },
   "candidateScope": {
     "I": 11,
@@ -97,13 +98,14 @@
   "G4Certified": false,
   "g2CurrentOnline": "../../tmp/rust-r4ghi/root/g2-online-status12/receipt.json",
   "periodAcceptance": {
-    "status": "natural-boundary-passed; Tax preparation failed before FI/normal; Receiver and period acceptance wait bounded correction and a new admitted candidate",
+    "status": "natural-boundary-passed; actual runtime121 prepare/K/full67 independently accepted; whole-FI timing budget unproven; Receiver and period integration remain pending",
     "earliestHongKong": "2026-11-09T00:00:00+08:00",
     "earliestTokyo": "2026-11-09T01:00:00+09:00",
     "passed": false,
     "preparation": "rust-r4ghi/source13-actual208.json",
     "fixtureAndOrderingCorrection": "../../tools/rust-r4ghi/policy-continuation14-287/PLAN287-addendum01.json",
-    "lateAllocationPolicy298": "rust-r4ghi/user-decision-period-allocation298.json"
+    "lateAllocationPolicy298": "rust-r4ghi/user-decision-period-allocation298.json",
+    "taxPreparationCheckpoint": "rust-r4ghi/runtime121-prepare362-actual.md"
   },
   "currentCorrective": {
     "checkpoint": "rust-r4ghi/g2-consumed-evidence-corrective54.md",
@@ -664,7 +666,7 @@
     "businessG3": false,
     "businessG4": false
   },
-  "currentRuntimeCheckpoint": "successorPublicationCheckpoint362",
+  "currentRuntimeCheckpoint": "prepareExecutionCheckpoint362",
   "prepareFailureCheckpoint362": {
     "kind": "Root-real-prepare1899-failed-checkpoint362-online",
     "recordedAt": "2026-11-12T20:08:04.432Z",
@@ -960,5 +962,67 @@
     "fullR5_116": "OPEN",
     "baseline": "rust-r4ghi/runtime121-prepare362-timing-E1.md",
     "onlineEvidence": "rust-r4ghi/runtime121-prepare362-timing-E1-online.json"
+  },
+  "prepareExecutionCheckpoint362": {
+    "kind": "actual-prepare362-independently-accepted-pending-technical-G4-online",
+    "recordedAt": "2026-11-13T01:51:47.037Z",
+    "nonce": "6458f733-0fe1-4b5e-b2ff-076908543af3",
+    "actualInvocationCount": 1,
+    "mode": "prepare-only",
+    "actualExitCode": 0,
+    "actualBegan": "2026-11-12T23:29:17.5366673Z",
+    "actualEndedAt": "2026-11-13T00:51:38.9487264Z",
+    "actualDurationSeconds": 4941.4120591,
+    "independentActualPrepareReadbackPassed": true,
+    "actualBodySHA256": "0f92913cd78146402e5eb3a004f10a55c8e47417d961301210d2e7d5376dcc98",
+    "actualFreshInventorySHA256": "fdb957d8c82c0630eefa8ef0517bfa24cc0ec073fcf33bd923c78da09440946b",
+    "K": {
+      "bytes": 367950,
+      "rawBytesSha256": "847fe81ffbc4cf4f73b369ac1466e3185e051a6d0d87ca429b444111767115e7"
+    },
+    "after": {
+      "bytes": 15045544,
+      "rawBytesSha256": "6c1fabbacebc43fea8636c8fd91afac81dd66e8b6200ca5a769c08ae41401b3b"
+    },
+    "ownershipAfter": {
+      "bytes": 13016,
+      "rawBytesSha256": "1da85861708f1d1c37389385f6c86741e46a7053d5c0eb034260ff8c01aba517"
+    },
+    "sequence": 65,
+    "physicalTables": 278,
+    "physicalRows": 4938,
+    "TaxRoots": 1,
+    "targets": 2,
+    "orderedFamilies": 67,
+    "canonicalAuthRequests": 3,
+    "preparationGETs": 4,
+    "httpCaptures": 14,
+    "tablesPerCapture": 278,
+    "oldRecordsAndBusinessStatePreserved": true,
+    "carrier": {
+      "file": "archive/slices/rust-r4ghi-runtime121/prepare362-actual-readback01/review-actual-prepare-continuation362.json",
+      "bytes": 1334,
+      "rawBytesSha256": "565740aa32a9c8b1b41810dd134566b2f7a6646493534b174c37669ce8d8b8c6"
+    },
+    "seal": {
+      "file": "archive/slices/rust-r4ghi-runtime121/prepare362-actual-readback01/seal-actual-prepare-continuation362.json",
+      "bytes": 3934,
+      "rawBytesSha256": "6bdf9acd6e0b1050fcb77f7b4a83df039e1c1f9bc543c21540781aec54a0e28e"
+    },
+    "baseline": "rust-r4ghi/runtime121-prepare362-actual.md",
+    "archive": "archive/slices/rust-r4ghi-runtime121/prepare362-actual-readback01/archive.json",
+    "E1ActualEvidenceCleanupCompleted": true,
+    "directCheckpointSamples": 0,
+    "wholeFIBudgetProven": false,
+    "FIG2Granted": false,
+    "normalTaxPOSTGranted": false,
+    "MainPOSTGranted": false,
+    "technical121G3G4PreclosePending": true,
+    "onlinePending": true,
+    "newCertified": 0,
+    "businessG3": false,
+    "businessG4": false,
+    "parent57": "OPEN",
+    "fullR5_116": "OPEN"
   }
 }
