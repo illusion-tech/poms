@@ -1268,3 +1268,13 @@ Root继续为父#114管理相同私有和活跃输入/运行资源。#114/#118/#
 [线上逐字回写](rust-r4ghi/runtime118-budget-probe-code04-online.json)同步[#118](https://github.com/illusion-tech/poms/issues/118#issuecomment-6862550755)与[#57](https://github.com/illusion-tech/poms/issues/57#issuecomment-6862554015)，两者继续Open。被动库存确认该时点Debian停止，具名新进程/原卷守恒、图外Root工具及plan5恢复合同仍在设计，实际源码/FS/ctx/Auth/probe各准确G2尚未授。#121历史技术G4保持完成；CP0、wholeFI预算UNKNOWN、normal/Main未授，Rust240/R4 67/95/32candidate、业务认证0/G3G4未签、#116开放。
 
 <!-- /poms-budget118-code04-G3 -->
+
+<!-- poms-budget118-reentry-G1-v3 -->
+
+### 2026-11-14 #118停机恢复与源码交付修订G1 v3冻结
+
+[精确基线](rust-r4ghi/runtime118-reentry-baseline-v3.md)及Root G1已推8c2c5f2c；[线上逐字镜像](rust-r4ghi/runtime118-reentry-G1-v3-online.json)核[#118 G1](https://github.com/illusion-tech/poms/issues/118#issuecomment-6864408507)和[#57](https://github.com/illusion-tech/poms/issues/57#issuecomment-6864412296)，均Open。非作者五输入READY只用于本次Root冻结；现只授I04基础上的控制5+Tax1修订、5Tax精确携带和3个图外Root支持工具隔离实施。v2代码G3保持原界限，新v3代码及实际步骤尚未通过。
+
+实现before与R原交付before分列，原Root执行11/284/P未改；新5/SC18/C/R/B/S4、原Podman/4份完整RO/最后关闭基线、新API6c→X及Native X→Y按合同逐步实证。实际source/恢复/FS/ctx/Auth/probe均另准确G2；CP0、全FI预算UNKNOWN、normal/Main未授。#121历史技术G4及正式Rust240/R4 67/95/32candidate/业务新增认证0/G3G4未签保持，#57与#116开放。
+
+<!-- /poms-budget118-reentry-G1-v3 -->

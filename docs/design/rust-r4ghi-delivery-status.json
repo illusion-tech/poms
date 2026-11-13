@@ -403,7 +403,7 @@
     }
   ],
   "historicalBaselineDecision272": "rust-r4ghi/user-decision-historical-baseline272.json",
-  "latestExecutionStatus": "rust-r4ghi/runtime118-budget-probe-code04-online.json",
+  "latestExecutionStatus": "rust-r4ghi/runtime118-reentry-G1-v3-online.json",
   "currentExecution348": {
     "status": "rust-r4ghi/continuation-status348.json",
     "actualEachTreeRustPassed": 620,
@@ -1099,11 +1099,11 @@
     "terminalParentComment": "https://github.com/illusion-tech/poms/issues/57#issuecomment-6842862718"
   },
   "budgetProbe118": {
-    "stage": "V2IsolatedCodeQualified_ReentryG1Design",
+    "stage": "ReentryV3ImplementingIsolatedCandidates",
     "issue": 118,
     "parent": 114,
     "G1Certified": true,
-    "codeG3Certified": true,
+    "codeG3Certified": false,
     "actualG2Granted": false,
     "sourcePromotionGranted": false,
     "FSGranted": false,
@@ -1111,14 +1111,14 @@
     "FIG2Granted": false,
     "normalTaxPOSTGranted": false,
     "MainPOSTGranted": false,
-    "baseline": "rust-r4ghi/runtime118-budget-probe-adoption-baseline-v2.md",
+    "baseline": "rust-r4ghi/runtime118-reentry-baseline-v3.md",
     "technicalG1": {
-      "file": "../../tools/rust-r4ghi/budget-probe118-g1-v2/Root-G1-budget-probe118-v2.json",
-      "bytes": 19563,
-      "rawBytesSha256": "68212af41282071678d3e062dd689fbffbf2b74443de0c5872bb2511e4d0c5a2"
+      "file": "../../tools/rust-r4ghi/budget-probe118-g1-v3/Root-G1-budget-probe118-v3.json",
+      "bytes": 32283,
+      "rawBytesSha256": "80ea3db59386f935b733e5e29b7b8a4db860c408ccb84f9204b9b5adebac00a1"
     },
-    "online": "rust-r4ghi/runtime118-budget-probe-code04-online.json",
-    "commentURL": "https://github.com/illusion-tech/poms/issues/118#issuecomment-6862550755",
+    "online": "rust-r4ghi/runtime118-reentry-G1-v3-online.json",
+    "commentURL": "https://github.com/illusion-tech/poms/issues/118#issuecomment-6864408507",
     "targets": 11,
     "graphMOD": 9,
     "same": 275,
@@ -1129,22 +1129,39 @@
     "newCertified": 0,
     "businessG3": false,
     "businessG4": false,
-    "codeG3Boundary": "Exact v2 isolated candidates only; no delivered or actual runtime qualification",
-    "codeCheckpoint": "rust-r4ghi/runtime118-budget-probe-code04.md",
-    "codeCheckpointArtifact": {
-      "file": "../../tools/rust-r4ghi/budget118-code-candidate04/Root-G3-budget118-code04.json",
-      "bytes": 5564,
-      "rawBytesSha256": "bd246f198ac863f18af378e84ca445a2ef83ad754e26d70429f0bd2631e6090b"
-    },
-    "independentCodeChecks": 298,
+    "codeG3Boundary": "Current v3 code pending; prior exact v2 qualification retained separately",
+    "independentCodeChecks": 0,
     "independentCodeFailures": 0,
     "modelEngine": "v24.19.0",
-    "runtimeReentryG1Frozen": false,
+    "runtimeReentryG1Frozen": true,
     "passiveHostObservation": {
       "file": "../../tools/rust-r4ghi/budget118-host-observation01/observation.json",
       "bytes": 2191,
       "rawBytesSha256": "ea2175d01d0ebdf2157ce43a5dafc69816819a022d9c663bc3a2d4e7b3709459"
     },
-    "runtimePrerequisite": "Debian stopped at passive observation; recovered current/API/G1 and qualified Root tools pending"
+    "runtimePrerequisite": "Reentry v3 G1 frozen; tools/code qualification and exact actual per-stage G2 pending",
+    "priorV2CodeG3": {
+      "qualified": true,
+      "checkpoint": "rust-r4ghi/runtime118-budget-probe-code04.md",
+      "artifact": {
+        "file": "../../tools/rust-r4ghi/budget118-code-candidate04/Root-G3-budget118-code04.json",
+        "bytes": 5564,
+        "rawBytesSha256": "bd246f198ac863f18af378e84ca445a2ef83ad754e26d70429f0bd2631e6090b"
+      },
+      "independentChecks": 298,
+      "modelEngine": "v24.19.0",
+      "online": "rust-r4ghi/runtime118-budget-probe-code04-online.json",
+      "commentURL": "https://github.com/illusion-tech/poms/issues/118#issuecomment-6862550755"
+    },
+    "previousJointG1": {
+      "file": "../../tools/rust-r4ghi/budget-probe118-g1-v2/Root-G1-budget-probe118-v2.json",
+      "bytes": 19563,
+      "rawBytesSha256": "68212af41282071678d3e062dd689fbffbf2b74443de0c5872bb2511e4d0c5a2"
+    },
+    "implementationAuthorized": true,
+    "codeValidation": "Not run for v3 yet",
+    "modifiedFrom04": 6,
+    "carry04": 5,
+    "RootSupportADDOutside284": 3
   }
 }
