@@ -1,0 +1,161 @@
+# #118 最小恢复G1 v8：预算入口与旧FS合同
+
+**DESIGN ONLY / 待Root与独审联合冻结。** 依据Root两份 `tmp/rust-r4ghi/root/budget118-{runtime-reentry,source-tool}-design01.md`、Tax恢复设计及公开代码。未启动WSL、读P/current/proc/env、运行进程/SQL/HTTP；控制04和Tax04不改。Root已报告Debian Stopped，因此旧boot/API109023/PG72989只能作历史身份，不能作当前。#121历史actual G4保持，不重开、不重放prepare6458。
+
+## 结论及原代码硬门
+
+原 `root/start-api121.mjs:249,254,274,278` 不写canonical.apiProcess，只wx固定private env/process及启动收据；但`:81,249` 固定旧路径且要求不存在，不能覆盖f822/旧env重跑。即使另获新进程记录，原预算分支也不会自动承认：Native `retainedState121:1019–1020` 要求state.apiProcess等于plan当前pin及record；Core `budgetSuccessorShape118/planShape121` 固定S4/current CAS=6c，`budgetState118`只准lease/history；两个factory的 `validateBudgetPlan118` 将current除helper外锁为旧P3。04仅修原M06历史startupBasis，不是本次实测boot准入。
+
+原A/holder/PG/API工具同样不能直接重跑：`root/facts121.mjs:37,69,76–79` 固定4c/b76及旧failedRetention；aux358的`:139,153–158`也锁这组旧状态；`root/start-api121.mjs:159,165–168`锁旧状态及早期preparedBaseline。新的6c/1da恢复不能改常量假装旧G1。新工具在284图外单独资格；可复用已核纯函数/固定机制，不运行原八工具main，不改原八及第12叶。
+
+推荐显式新分支：**plan protocolVersion5、S4 schemaVersion4**；旧1/2/3与旧六mode保持；old4/S4 schema3保留原数据/历史验证，当前新装配的执行入口明确收紧为new5。source仍W4 schema3/四阶段，229/55/284成员不增。这样未知旧consumer拒新恢复，不把允许任意X的松断言塞入旧protocol4。
+
+## 明确版本分派与执行入口
+
+这是具名的执行入口收紧，不声称新Tax装配仍可实际执行old4预算。Root、Control、Tax选择最少1个Tax叶方案：
+
+```text
+Branch                     G1 exact identity       graph manifest edition                 behavior
+ordinary six modes         original 646447          original contracts                     unchanged / schema2
+old4 + S4 schema3           original 68212           budget-probe118-v2                     data/history validation only
+new5 + S4 schema4 + B5      new actual RecoveryG1    budget-probe118-reentry-v1              current budget executor / schema3
+```
+
+Native/Core/两factory使用两个独立固定profile：legacy4只认原68212及v2 edition，reentry5只认新恢复G1及reentry-v1 edition；SC18.sourceG1、C/R/B/E9.recoveryG1和新qualification的technicalG1都必须为同一新实际Full3。新G1中原68212仅为正式父输入，不是另一张运行许可证。不得以全局替BUDGET118.G1、忽略edition或“两个hash均可”的白名单实现。
+
+当前Native `executeBudgetProbe121` 与Tax新装配只执行new5预算；old4 mode7在constructor/Auth前明确拒绝。版本来自已验证的published plan/S4/B5，不能由caller参数、purpose、input里的自报版本或skip决定。Tax最少1叶就是F118.budgetG1固定新恢复G1；旧六mode仍646447/schema2；old4资料可按原profile验证，不能据此进入新runner。若将来要求同一新Tax装配同时执行old4预算，必须另G1点名版本分派与必要额外叶，不属于本最小方案。
+
+“本次实测boot”表示此执行实际测得并在holder/PG/API/各书挡全链一致；Debian Stopped不足证明kernel boot数字必然改变。不得为了不同数字重启/shutdown WSL，也不要求PID、boot或inode数字与旧值不同；要求真实新的nonce/env/input/startedAt及本次实际进程tuple，旧证明不可重贴。
+
+## 实施与真实交付的两个before
+
+恢复实现从**已资格I04候选**继承：组件diff/回归的implementationBefore是Control04、Tax04各自实际after，修订G1须引用其combined04资格及逐叶Full3。本文不改04或把它称为已交付R。
+
+真实source-only交付的deliveryBefore仍是**R原stage3的11目标及284图**：原68212 G1的before11和60810B/b8fd的before284。retained9.original、combined delivery manifest.production/dataProduction的beforeSHA256及Root工具实际CAS都必须采用这组R before；不能拿I04 hash当R现场before。新实现qualified after才成为实际交付after。
+
+新G1须分列implementationBefore04与deliveryBeforeR；组件审查证明04→恢复候选，最终combined交付审查再证明R stage3→恢复最终after的合成差异。I04没有实际提升，不能凭空加一个历史source阶段；真实链仍M06原9→361原4→362原6→本次最终9，275 same、data2另列。交付前任何R目标/成员不匹配即停，不用archive路径代现场。这两个before不是G1可互换白名单。
+
+## 阶段守卫与拒绝边界
+
+source execute专用入口必须核**当时**API不存在、canonical=6c、ownership=1da、现场R原图和本次真实holder；原source收据中的APIStarted=false只是该历史阶段事实。handoff/Native/Tax使用另一个固定历史验证入口重读既有SC/Source独审/原图链，再独立核**本阶段**真实record2与X或Y、当前源图、holder/PG/完整守恒；不得要求后来仍API不存在或仍canonical6c，也不得由caller传skip/phase/purpose选择免检。
+
+新5必须覆盖所有旧4 budget-only拒门，包含ordinary constructor、actualBrand、current/binding/context、views/effectiveHelper/retained/GH/trusted/reference与公开facts投影；不能只扩planShape/currentAPI。普通effect路径对4和5均在逃逸/效果前中央拒绝，六port不增。实施沿既有完整模块反例验证，不增加词法checker或通用绕过开关。
+
+采用Root最小锁合同，不增加late双持锁：
+
+- early source/reentry效果阶段共用原private根下 `runtime118-reentry-operation.lock`，核自有完整锁字节/身份；既有各阶段driver/未知锁拒绝仍保留，不另取得driver锁。early当前书挡只准6c/1da及该阶段准确前置；holder launch在ready/实际身份保全完成后释放本次操作锁，后台lifetime holder不永久占锁。失败保留partial锁，不自动清除或换nonce绕开。
+- late Native FS与预算outer继续只使用原state15 `driver.lock` 原子wx，不再取得operation.lock。plan5 publisher与budget execute在own driver wx后、任何发布/ctx/Auth效果前，固定拒operation.lock存在或其partial；前置预检亦不能略过此检查。合法阶段不重叠必须由完整6c/X/Y与真实收据链证明，不能把两个exists检查当作通用双锁互斥算法，不增加caller skip或双持协议。
+- C10完成收束、B5数据接受以及late入口均明确核operation.lock没有未处置partial。合法阶段early只6c，FS须真实C/R/B及currentX，预算须实际FS complete及currentY，不能拿一个阶段的批准或实时断言代另一个阶段；跨阶段异常停在已有锁/原件，不推测完成。
+- B5/S4只是纯数据输出，不授进程/canonical；它们强读已有source历史收据和恢复链，不重跑source旧6c/API-absent实时谓词。当前阶段liveness/record2/X/Y由对应固定入口另核。以上仅定义路径/接口，不创建锁或实施。
+
+## 身份、版本和单向次序
+
+```text
+Origin7 birth = immutable 6c / 1da / K847 / carrier565 (unchanged)
+holder -> original PG -> RO-before pair
+  -> source9+2 / W4 / Origin7 / sourceComplete / source-readback
+  -> API(new229, new PID/boot/input/startedAt/env) -> RO-after pair
+  -> apiProcess-only canonical rebind 6c -> X
+  -> actual recovery complete C10 -> non-author actual readback R8
+  -> Root data-only bundle B5 -> S4(schema4, currentCAS=X)
+  -> plan5 -> Native FS only lease/history X -> Y -> Tax input entry=Y
+```
+
+source complete不引用C/R/B/S4；API input/record不引用未来post/X/C/B/S4；C不引用其未来独审；R绑定已存在C；B绑定已存在C/R；S4才引用B。Origin6c与currentX不能互相替换；原record/K/6458和所有旧journals逐字保持。上述图无hash环。
+
+## 可冻结的顶层闭形
+
+所有引用均真实已有Full3，闭 `file/bytes/rawBytesSha256`。这里仅定义字段，不创建任何实际pin或nonce。新 `recoveryG1` 是Root未来真实修订Full3，引用原68212、两线04资格、本设计、Root工具合同和独审；new5的专用常量、F118.budgetG1、carrier/input唯一采用它；Native/Core/factories的old4常量仍为原68212，不作全局替换。旧六mode仍646447。
+
+**SC18：source-only complete**，kind=`Root-runtime118-successful-prepare-source-only-complete`、schemaVersion=1，闭18：
+
+```text
+kind, schemaVersion, sourceG1, input, RootApproval, peerReview, combinedManifest,
+graphReview, dataQualification, steps, retained9, retainedData2, beforeGraphs,
+currentGraphs, sourceWitness, prepareOrigin121, postReadback, semantics
+```
+
+beforeGraphs/currentGraphs各闭3=`helper/external/execution`；steps恰11个真实步骤Full3，production9/data2分组按已提取交付合同。postReadback是Root已有后置读回数据，不能指SC自身；非作者source实际读回另存并绑定SC。semantics闭5=`canonicalModified/ownershipModified/contextCreated/APIStarted/SQLHTTP`，全false。SC仅在API不存在、Source完整读回且6c/1da守恒后产出；Source阶段不产S4。
+
+**C10：actual recovery complete**，kind=`Root-runtime118-successful-prepare-reentry-complete`、schemaVersion=1，闭10：
+
+```text
+kind, schemaVersion, recoveryG1, namespace, prepareOrigin121, steps,
+sourceDelivery, canonicalRebind, ownership, semantics
+```
+
+namespace=`poms-r4ghi`；prepareOrigin121指原Origin7；steps闭5=`holder/PG/conservationBefore/API/conservationAfter`，各为对应实际步骤Full3；sourceDelivery闭2=`sourceComplete/independentReadback`，前者SC18，后者已发生的source实际读回。canonicalRebind为实际单键重绑定步骤Full3；ownership为完整原1da。semantics闭4=`originalPreparationPreserved:true, canonicalChangedKeys:['apiProcess'], contextAuthGranted:false, FIOrNormalGranted:false`。C10只引用已完成步骤和X，不含未来恢复独审。
+
+**R8：非作者实际恢复读回**，kind=`non-author-runtime118-actual-reentry-readback`、schemaVersion=1，闭8：`kind/schemaVersion/recoveryG1/complete/reviewer/reviewerIsExecutor/verdict/evidence`。complete=C10；reviewer非空、reviewerIsExecutor=false；verdict=`approved-actual-source-bound-reentry`；evidence为实际审计证据Full3，覆盖全部步骤/原件/单键变化，不能只信producer布尔值。它不授ctx/Auth。
+
+**B5：Root纯数据接受bundle**，kind=`Root-runtime118-reentry-acceptance-bundle`、schemaVersion=1，闭5=`kind/schemaVersion/recoveryG1/recoveryComplete/independentReadback`。三方G1同pin，R8.complete=C10；读取并核现存C/R后wx B5，不调用恢复，不补未来事实。
+
+**S4恢复版**：同kind=`Root-runtime121-successful-prepare-adoption-handoff`、schemaVersion=4，闭13为原闭12加唯一 `recoveryReceipt`：
+
+```text
+kind, schemaVersion, predecessorPlan, predecessorRegistry, predecessorCandidate,
+predecessorPublication, predecessorReadback, retainedCurrentState,
+retainedOwnership, prepareOrigin121, sourceWitness, allowedPurpose, recoveryReceipt
+```
+
+P3五个原身份仍f3e/a8/2094/5759/5063；allowedPurpose固定budget-probe；prepareOrigin121仍Origin6c；sourceWitness=SC.sourceWitness(W4)；recoveryReceipt=B5；retainedCurrentState=canonicalRebind.outputs.after(X)，retainedOwnership=1da。不能为通过形状把X写回Origin7.state。Native FS完成后的Y另存immutable entry，Tax expectedEntryState=Y。
+
+## 实际步骤profile与新API记录
+
+步骤统一**E9 envelope**：闭9=`kind/schemaVersion/recoveryG1/input/RootApproval/executionReview/operator/outputs/semantics`，schema1；kind按下表字面量，所有批准绑定该实际input、operator及允许单一阶段。semantics闭3=`businessDML/contextAuthGranted/FIOrNormalGranted`全false。新工具G1冻结其raw输入/输出及实际审计源码，不能拿旧A/B批准换名。
+
+独立身份统一为Tax raw合同：runtime RootApproval闭10=`kind/schemaVersion/input/G1/codeQualification/operator/operatorIdentity/nonce/grants/retryPolicy`，operatorIdentity固定`Root`。顺序为RootApproval先实际落盘，peer再强读并绑定这个现存Full3，RootApproval不反指未来peer。peer固定kind=`non-author-runtime118-exact-reentry-phase-review`、schemaVersion=1、verdict=`approved-exact-reentry-phase`，闭13=`kind/schemaVersion/input/G1/codeQualification/operator/RootApproval/author/reviewer/reviewerIsAuthor/reviewerIsExecutor/verdict/evidence`。phase从已验证IA20/E9/I13及RootApproval的固定grants决定，peer不另留mode/approvedInput/recoveryG1别名，也不由caller指定免检阶段。author必须等于强读codeQualification.author；reviewer为非空身份，且不等author、不等强读RootApproval.operatorIdentity；reviewerIsAuthor/reviewerIsExecutor均false且与实际字符串比较一致，不能只信布尔。operator是代码Full3，不拿它与reviewer字符串混比；RootApproval/input/G1/qualification/operator/nonce/grants逐项交叉绑定。R8实际读回同样须将reviewer与实际C10各批准中的executor及qualification作者核异，不能仅声明reviewerIsExecutor=false。
+
+```text
+kind                                      outputs (closed fields)
+Root-runtime118-reentry-holder             holderReady/windowsLaunch/launchCommand/bootObservation/lifetimeOwner
+Root-runtime118-original-PG-current        mode/observationBefore/command/observationAfter/readiness
+Root-runtime118-RO-before                  baselineLocator/observations/comparison
+Root-runtime118-same-byte-API-start        processRecord/environment/readiness/processEvidence
+Root-runtime118-RO-after                   baselineLocator/observations/comparison
+Root-runtime118-api-only-rebind            before/after/deltaProof
+```
+
+所有output项为Full3，只有PG.mode为`started-existing|observed-running`，PG.command在后者为null；PG.readiness恰两库实际记录Full3数组；RO.observations恰两份完整双库快照Full3。holder须本次实测boot、真实Linux PID/startTime/uid/Node/source/cwd/argv及Windows父WSL进程，前后台原始输出和命令闭链；新lifetimeOwner不调用旧holderFacts的固定G1入口。
+
+PG仅同完整CID/image/原唯一volume/PGDATA/PG15/OID16385+16387；先观察，明确exited才start一次。若已running，只观察保留，不伪称本工具start、不自动restart/kill。RO指SQL事务，不把原PGDATA改成只读mount。禁止create/reset/restore/migrate。
+
+baselineLocator须沿原K.prepared15=closed.result=record.taxPreparation.artifact定位实际prepared.before，并证明该完整观察后至6458关闭无未闭合DB/HTTP效果；缺失/不唯一即停，不退回早期preparedBaseline。before两份、after两份各自和该同一最后关闭基线逐项全等，并交叉全等：两库139表/原raw/xmin/PK/cells/catalog/DDL/OID/role/sequence/marker/M98/objects。不同库不声称同一原子瞬间；比较必须重新读取所有原件，不能只验conserved=true。
+
+API必须在source交付并实际读回后启动，绑定SC真实**new229/new284**。固定输出形为原private根下 `/rust-api-reentry/<本次实际nonce>/rust-api118-process.json` 与同目录`rust-api118.env`；这满足未改 `auth-config-binding.mjs:97–98`，不覆盖旧rust-api121文件。原deriveEnv及启动文件身份/mtime/ctime、真实POMS_ENV_FILE、pid/startTime/boot/exe/cwd/uid/env/socket、原420/528和同字节两个ELF/Node验证全部保留；只允许readiness GET与原有明确ECONNREFUSED有界等待，未知即保全。
+
+新API input **IA20**：kind=`Root-runtime118-reentry-API-input`、schema1，闭20：
+
+```text
+kind, schemaVersion, recoveryG1, nonce, expectedState, expectedOwnership,
+lifetimeOwner, PGStart, preConservation, sourceComplete, sourcePins, compilePins,
+binary, summaryBinary, binaryFiles, nodeExecutable, baseNormalEnv,
+processFile, normalEnvFile, outputDirectory
+```
+
+IA20.expectedState仍6c，expectedOwnership=1da；preConservation指RO-before，sourceComplete=SC。它不能引用尚未发生的RO-after/X/C/B/S4。sourcePins/compilePins仍原420/528；binary/summaryBinary/Node仍原准入字节，binaryFiles为本次真实新stat。
+
+API启动前的source独立实际读回通过 **API E9.executionReview.evidence** 强绑定，不给IA20增槽。此执行前审件采用上面的唯一peer13 literal及phase规则。evidence为已存在Full3，其API profile闭3=`sourceComplete/independentReadback/startupGraphs`：sourceComplete与IA20的SC同pin，independentReadback必须实际绑定该SC且与C10.sourceDelivery.independentReadback同pin；C10.sourceDelivery仍原闭2 `sourceComplete/independentReadback`。startupGraphs闭3 helper/external/execution且与SC.currentGraphs逐项同pin。审件、Root批准、资格、证据和source读回都须在实际启动前存在。
+
+新process **record2**：kind=`actual-Source15-runtime118-reentry-API-process`、protocolVersion=2，闭28为原record25加`recoveryG1/sourceComplete/startupGraph`。其余25键保命名：`kind/protocolVersion/namespace/epoch/run/root/port/pid/startTime/startedAt/bootId/binary/binarySha256/binaryFiles/baseBuildBinding/sourcePins/compilePins/helperPins/baseAPIProcess/lifetimeOwner/normalEnv/baseNormalEnv/readinessAttempt/input/code`。helperPins=SC.currentGraphs.helper；startupGraph=SC.currentGraphs.execution；input=真实IA20；code为新图外工具完整资格闭包，不伪标原Root8。baseAPIProcess/baseBuildBinding仍历史来源；pid/boot/startedAt/input/环境与启动收据必须本次真实新生，不能拷旧109023字段。
+
+record2.code固定为API执行前审件 `codeQualification` 所指新工具资格记录中的完整 `executionSources:Full3[]`，规范排序且operator必须属于该确切集合；不是指E9、API complete或其自身。Native强读qualification及每个源码Full3并逐项核同，不能只比数组长度。qualification、source readback及IA20数据都先存在，随后形成执行前审件/Root批准→一次真实启动→record2/API complete；IA20不反指审件。IA20仍闭20、record2仍闭28，不产生未来引用环。
+
+## X重绑定与消费最小分支
+
+api-only rebind必须先验证全新API、post两份守恒、源码与锁的最终书挡，再wx temp→atomic rename。before为原6c，after为实际X的独立immutable副本；deltaProof逐字证明只有顶层apiProcess变化，恢复旧apiProcess可得到原6c字节。新的canonical binding**闭3**=`file/rawBytesSha256/record`：前两项取record2 Full3对应字段，record是其强读parsed JSON；Full3.bytes只留收据和plan/input pin，不混入canonical apiProcess。lease/history/record/K/journals/actors/owned/seq65与完整1da全不变。不调用ctx.persist/next/artifact，不伪造stateX。
+
+最小既有消费面如下，均需新G1后另授实施：
+
+1. **Core**：显式接受plan5/S4 schema4并把expectedState绑定B5→C→X；Origin仍固定6c。新pure state分支以X为before，只改lease/history；原protocol4仍固定6c。不得把所有expectedState改成任意Full3。
+2. **Native**：私有固定reader完整核SC→C→R→B及X单键delta、原K闭链；currentOwner/PG/conservation/currentAPI新增专用恢复profile强分支，不调用旧facts.loadCLI/holderFacts。record2 startup=new229/new284，完整fresh OS/FD/env/socket重新验证；旧record1的M06分支保持。plan.current.PGConservation取RO-after，IA20.preConservation取RO-before，**不要求二者同pin**，由四份完整守恒证明等值。public plan5 facts仍JSON-only，六port/中央purpose拒绝/一次Auth/close不变。
+3. **publisher**：当前预算effect执行入口只接受new5，old4 execute在任何私有写/锁/FS前明确拒绝；旧1/2/3的原FS合同与合法入口不变，old4 inspect/纯数据/历史验证仍按原68212及v2 edition保留。builtin preimport核新plan5及唯一恢复链，然后仍只FS发布lease/history；Origin/record不改，真实adoption再引用新lease/source。complete仍是实际FS结果，不提前携带未来事实；无需再造第二个recoveryReceipt字段。
+4. **NativeData**：新增S4 schema4/plan5分支。current仅允许具名holder、PGStart、postConservation、API/readiness、fresh binaryFiles与W4 helper变化；source420/compile528/ELF/Node字节、旧base/build/prepare来源保持。闭5 options不增参数；新分支compositionComplete固定为SC18（从S4链核同pin），旧4仍5759；不再以旧P3.current整等或原B17强配新API。
+5. **TaxData**：从新FS complete→plan5→S4→B5唯一链派生；闭6 options及nativePublication闭2不加槽。新分支compositionComplete=同SC18，旧分支不变；移除的是不适用的旧API/M06/早期preparedBaseline等同要求，以完整新链替代。full37只由RO-after真实两份观察按原四表规则派生；当前Input.entry=Y、新API=current新record。不能改标为旧A epoch。
+6. **Tax六叶**：最少仅retained-tax-proof的F118.budgetG1换新实际G1，只支持当前new5预算入口；不承诺old4 mode7可执行，旧六mode仍原协议。其余04预计携带，以联审验证为准。Tax已核qualified04的apiIdentity/wire/auth-config没有旧kind/protocol1/record25闭形断言，因此record2本身不迫新增Tax叶；record2/IA20的精确强验证归Native新分支。Tax34/Root9/runtimeBindings外6/current17/frame17/ref11不增槽；旧K出生tuple和新执行tuple分开。若真实代码依赖要求额外叶，先列明再冻，不隐形扩面。
+
+## 冻结与必须拒绝
+
+当前仅合同草案。Root工具G1还须闭合每个E9 raw记录的准确字段/路径/执行前批准及源码资格；这些不是本稿创建的工具。Native实现和模型必须拒：旧boot/PID/env换名、old229或M06配record2、startup引用未来post、pre/post仅互比而无最后关闭基线、缺任何完整快照/表/行/xmin/meta/object、PG观察冒充start、旧record/env覆盖、X改其它键、Origin被X替代、B/R/C错pin或未来环、X误当Tax entry Y、source工具或receipt授ctx/Auth。
+
+原Root8不改且继续因旧固定G1/4c/b76拒本恢复，这是保留其合同。单独新Root工具+专用receipt可以避开这些固定值；不能避开容器/卷/数据、源/二进制、真实启动身份、单键CAS和非作者实际读回。所有实际操作、Source/FS/ctx/Auth预算探测仍须准确独立G2；wholeFI预算UNKNOWN，业务/FI/normal均未授。

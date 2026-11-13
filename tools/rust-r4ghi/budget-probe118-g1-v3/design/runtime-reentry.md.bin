@@ -1,0 +1,32 @@
+# #118 停机后原环境重准入：Root 工具设计草案
+
+状态：待三线联合设计独审和修订 G1，不授代码实施或实际运行。只服务本次预算基础 CP 探测，新增业务操作为零；#121 历史实际 G4 保持完成。
+
+## 新事实与边界
+
+被动 `wsl --list --running --quiet` 为空，`wsl --list --verbose` 明确 Debian 为 Stopped。旧 boot、holder、PG PID、API PID 及环境绑定不能作为当前进程。原 prepare6458、K847、Origin6c/1da、P3/a8、所有旧证明仍是有效的历史事实，不重放、覆盖或改成新进程。
+
+“新boot”只指本次实测并全链一致的当前boot，不要求bootId/PID/inode数字与旧值不同，也不为取得不同数字shutdown或重启。真实性取决于新nonce、实际启动输入/时间、环境文件和完整进程tuple。当前新装配预算执行仅限plan5；old4只保原682/v2的数据历史验证，旧mode7在ctor/Auth前拒绝，旧六mode保持。
+
+Root 新增独立、有限的恢复操作工具及最小 Windows holder 启动器，放在原 284 图之外并单独做源码资格。原八个 Root 工具和其固定 G1/路径/输入不改、不重跑。候选预算代码的恢复接入由两线设计明确列出既有叶的最小变化；原 v2 两线04代码资格只证明当时的隔离实现，不能冒充恢复接口已交付。
+
+## 有序步骤
+
+1. **holder/首次观察**：以公开、完整可审查的精确输入、Root批准和非作者执行前审查启动同一个 Debian 的前台 holder，Windows 启动隐藏窗口。实际进程记录全新 boot/PID/startTime/cwd/argv/uid/Node 文件身份及真实 Windows WSL 父进程。观察原容器/卷/路径、既有 API listener、原文件和当前状态；若 canonical/ownership 不等于预期6c/1da，保留差异并停，不恢复旧备份。首次只写新 nonce 自有控制输出，不启动服务。
+2. **原 PG**：只允许原完整 CID、原 image、同非空 `poms-r4ghi-pg15-data`、唯一正确 volume mount/PGDATA/原 PG15 与两个 OID。只有明确 exited/running=false 才 start 一次；若已在运行则保留并单独审核已有身份，不自动 restart。禁止 create/reset/restore/migrate、替换卷、创建数据库或读写业务数据。所有 stdout/stderr/命令状态保存在私有输出，不打印环境或配置秘密。
+3. **数据守恒**：只用 owner/default_transaction_read_only=on、REPEATABLE READ READ ONLY，在每库139张原表捕获两份完整实际快照，验证真实行原字节/xmin/主键与cells、meta/DDL/role/sequence/marker/OID/migrations98和对象存储；和最后真实成功 prepare 关闭书挡的完整双库基线三向逐项比对。基线必须沿实际 K.prepared15、closed.result、record.taxPreparation.artifact 同 pin 及 exit/closed 的真实引用唯一定位 prepared.before，并实证该完整观察之后至关闭没有未闭合 DB/HTTP 效果；不能用比 Auth 更早的 preparedBaseline 或猜测行数。不同数据库不声称同一原子瞬间。只读原函数可在完整源码闭包验证后复用，原工具 main 不执行。
+4. **source-only 9+2**：独立工具及准确 G2 完成真实交付；它仍不改 canonical6c/ownership1da。逐目标/完整284读回后固定新229/55/284。此步骤执行期间不得有 API 或消费者运行；保留任意既有进程，不能自动杀掉。
+5. **同字节 API 唯一启动**：用实际新 holder/PG/守恒和已交付新源图启动原已准入的 Rust 二进制；验证 Root/M 原420/528、两个真实 binary 的新 inode/link 与旧已准入字节，固定 Node。原 `rust.env` 只作私有来源，经原规范 deriveEnv 函数派生，新的 env/process record/日志/请求/收据均写新 nonce 路径、wx/0600，不覆盖 `rust-api121.env` 或旧 process record。为维持未改 `auth-config-binding.mjs` 的原路径语义，新 process/env 配对固定在 `/private/rust-api-reentry/<nonce>/rust-api118-process.json` 与同目录 `rust-api118.env`（前缀含完整原 private 根）；禁止任意 env 路径。新 API 仅 readiness GET，保留原口径；只可对明确 ECONNREFUSED 做原有有界 readiness 等待，其他未知即停。验证真实 PID/startTime/boot/exe/cwd/uid/env文件身份/进程环境/socket，不能把新 PID 填进旧 record/input/startedAt。启动后再只读核完整数据和前置基线一致，未证守恒不能发布恢复完成。
+6. **最小 canonical 重绑定**：在完整新进程/守恒/源码闭包读回通过后，新 Root exact G2 只允许将 canonical 顶层 `apiProcess` 换为真实新 record。保全6c before原字节；完整 ownership、state13/14、原 K、record、6458 journal、actors、sequence65、所有业务与其他字段不动。固定 dev/ino/nlink/原字节锁，在最终 guard 后用同目录 wx temp→rename，重读实际 X 并校验还原该单字段可精确还原6c原字节。其他任何键/语义变化均失败保留。不动 lease/history，它们仍由后续 Native FS 单独发布。
+
+## 恢复收据与预算接入
+
+每步独立 nonce 和已存在输入、执行前审查、Root批准、完整/partial 收据均保留。实际恢复 receipt 只能引用已经存在的 holder、原 PG start、真实三向守恒、source-only实际 complete、新API complete/process/env、安全 OS 读回、canonical before/after及独立实际读回；不反指未来 S4/plan/registry/adoption，避免 hash cycle。精确闭形由联合恢复设计审查最终确定，不以本文概述替代。
+
+旧 Origin7 的 state/ownership/continuation/readback 始终为6c/1da/K847/565740。新 S4 通过具名 recoveryReceipt 绑定恢复后的 current CAS X，不能让“历史出生state”暗指当前。新 plan/registry 当前 API、holder、PG 与 source 图绑定真实恢复结果；所有跨层强校验都要验证该链。后续 Native FS 仍只替换 lease、追加一条 history；原成功 Tax 槽和 journal不清不改。Tax 新预算输入/Root9/实际 ctx/Auth 都是后续单独 G2，本恢复不授登录或业务 HTTP。
+
+## 必备验收
+
+实施前联合冻结 Gate、工具与受影响叶、所有闭形、源图采用时点、守恒基线定位、最小重绑定顺序与失败边界。代码独审需覆盖新旧身份混用、错容器/卷/PG/OID、错误基线、只读和事务选项、缺表/缺行/xmin/meta/对象漂移、API旧record覆盖、新env链接/时序/环境、process/socket假身份、Root/M源码或binary漂移、每步CAS/锁/temp竞争、首次失败无自动重启、单键重绑定和所有旧版本兼容。模型不得替代真实重启/守恒/实际读回。
+
+Root 按用户本次继续推进授权准备具体结果，不另请用户批准例行技术选择；只有新的业务语义无法判断时报告用户。实际各步仍须具备独立可审查的准确输入及本地 Root G2，不能用 G1 或用户启动指令冒充已产生的验收事实。

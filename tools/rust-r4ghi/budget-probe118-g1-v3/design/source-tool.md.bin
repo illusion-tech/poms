@@ -1,0 +1,86 @@
+# #118 成功准备态 9+2 源码交付工具设计草案
+
+状态：待独立设计审查与 Root 冻结。本文件不授实施或实际 G2，不替代联合 G1 v2，也不授环境恢复、API、FS 或 budget-probe。
+
+## 交付边界
+
+Root 新建一个独立有限工具 `promote-budget118-source-once.mjs`，只复制已经独立资格通过的九个图内候选与两个图外数据工厂。工具自身不进入原 284 成员图，另有精确源码资格。原 failed362 promoter、所有旧阶段源码、原 Root 八工具及其固定 G1 都保留，禁止以替换几个常量的方式重跑旧操作。
+
+直接输入为实际存在的联合 G1、最终 combined manifest、非作者 code-step review、数据工厂资格、原 284/229/55 与 before11、P3 五件、成功 prepare Origin7、恢复观察及精确 Root/peer source-only 批准。所有 pin 为实读 Full3。新恢复 G1 会决定交付时点的 boot/holder 和 API 不活动事实；本工具不以旧 boot/PID 作为活性证明，不要求恢复旧 PID。当前执行目标中的任何差异均阻断，不能用 archive 路径伪装原身份。
+
+联合 manifest 的 `production` 恰九项，`dataProduction` 恰两项，文件集合逐项对应联合 G1。九项的 edition/kind/review pointer 遵守 NativeData 消费合同；外部两项由本工具另外核查，不能声称 consumer 已自动核查它们。每项必须是 MOD，before 与联合 G1 和真实目标一致，candidate 与独审完全一致，且前后 hash 不同。禁止命令参数提供额外文件、任意目录或 callback。
+
+## 输入和效果权限
+
+唯一 execute CLI 显式绑定 input、input-sha、peer-review、peer-review-sha、Root-review、Root-review-sha 与 execute，无默认 mode，无网络和进程控制。独立源码资格和 Root 实际批准分别绑定工具自身 Full3。导入无效果，运行只用 Node builtin，关闭 NODE_OPTIONS/NODE_PATH，固定 uid、cwd、Node 身份与规范路径。只接受实际 JSON 闭形，不执行输入内脚本。
+
+效果仅为：新 nonce 专用交付输出目录与一个排他锁；固定九项 predecessor source 保全位置；两项 data before 保全；11 个目标各自的新 temp 与原子 rename；实际 229/55/284、W4、Origin7 与完整/部分执行收据。不能更改 canonical、ownership、lease/history、actors、journals、sequence、原 K、旧 metadata 和实际 prepare 证据；不能启动 API/PG、建 ctx/Auth、调用业务 HTTP/SQL 或修改部署。
+
+输出目录和锁都必须原先不存在。锁保存 nonce、input 与当前执行身份，持有期间每个 guard 核 dev/ino/nlink 和完整原字节。所有目录、目标、候选、guard、temp 和锁使用 lstat/realpath/常规文件/单链接核验；拒绝 symlink、hardlink、路径逃逸和既有 temp。失败保留输出、锁与真实已完成步骤，绝不自动重跑、覆盖或回滚证据。
+
+## 顺序与守恒
+
+1. 无写入预检：读取全部实际输入/批准/源码资格，核 11 before、完整 284 逐文件原字节与固定 229/55 成员，核 P3 互引、旧四阶段保全及成功 Origin；核当前 canonical/ownership 与指定 CAS、无 driver.lock/其他同类运行、有效恢复观察与 holder。首次运行前已存在任何本次输出均阻断。
+2. 获得新输出目录与锁后再次完整核 guard。先 wx 保全图内 before9 并重读，生成合同要求的固定 retained9；图外 before2 独立保全并重读。retained9 的 false flags 表示前置保全本身没有授 G2/写执行源，不能拿它替代真实执行批准。
+3. 按冻结顺序逐件：重核 guard 和未处理目标 before；wx 写当前目标旁唯一 temp，保留原 mode；再次核候选、before、temp、锁和不可写 guard；只 rename 当前 temp。记录真实 after 与 before-copy。对已完成目标必须核 candidate after，对未完成目标核 before，不能因首项提升而错误要求整个旧图仍完整匹配。
+4. 最后逐件重读 11 after 和 284 当前图，固定成员仍 229+55=284；图内恰 9 MOD/275 same（helper2、external7），图外 2 MOD。新 helper/external/execution 文件只从实际当前源生成，不能由候选摘要直接冒充。
+5. 全部文件已有实字节后生成 W4；Origin7 始终指原成功 prepare 出生6c/1da/K847/565740，不改原件。此时新 API 和恢复后的 current CAS X 尚不存在，禁止本步骤提前生成 S4 或为它填未来 pin。所有未来 plan/registry/candidate/adoption/ctx/session/sample/close pin 同样不预造。
+6. 完整收据固定 kind/schema 并显式区分 source-only complete 与旧 P3 FS complete5759。收据绑定 input/Root/peer/11步/retained9/data2/旧新三图/W4/Origin7、全后置读回和禁止效果的 false flags。只在全部通过后删除本次自有锁。任何失败保留已知 phase、已完成步骤和安全错误，不打印私有内容，不伪造 complete。
+
+恢复链实际完成以后，另一次具名的纯数据 handoff 准备才可 wx 生成新版 S4：消费现存 source-only complete/W4/Origin7 和恢复 receipt/X，以最新恢复 G1 的闭形验证两链。它不重做源码复制、不重放恢复、不产未来 FS/ctx pin。该数据入口与 execute 的 input/kind、允许输出和代码资格须在同一 Root 工具 G1 中单独冻结。依赖方向为 source complete→recovery receipt→S4，S4不被前两者反向引用。
+
+## 独立资格与实际分界
+
+工具实施前先独审此设计及恢复合同，冻结单一 G1。实施后非作者用完整模块的自有隔离 FS 验：错 before/candidate/G1/review、九加二集合/成员漂移、前后图混淆、路径/链接/锁替换、temp 竞争、各 rename 前 guard 漂移、中途失败保全、nonce 重放拒绝、后置完整读回及无 canonical/进程/SQLHTTP 效果。模型不等于实际源码交付。
+
+实际 G2 仅在准确 input、工具/代码资格、恢复状态与所有现存 pin 完整可审查后由 Root 签出；一次执行后另做非作者实际读回。它不授后续 Native FS/adoption 或 budget-probe。源码交付失败不能以换 nonce 绕开部分提升；先核明 partial 并建立具名纠正边界。
+
+## 精确接口补充（随恢复合同联合审查）
+
+采用控制设计的 SC18 / E9 / C10 / R8 / B5 / S4 schema4，不另造第二套 complete。新 sourceG1 与 recoveryG1 为同一 Root 修订 G1；原68212仍是具名父输入，旧 protocol4 与原 factory 的5759数据/历史验证合同保留。当前新装配Native executor和Tax仅执行new5，old4 budget必须在ctor/Auth前拒；这是具名执行入口收紧，不能称old4执行完全兼容。旧六mode仍原646447/schema2。plan5两个factory的 compositionComplete 为实际SC18；new5仅采用新修订G1和edition `budget-probe118-reentry-v1`，不泛化G1白名单。
+
+实际源码提升 input 闭9：`kind/schemaVersion/nonce/G1/codeReview/sourcePlan/runtimeWindow/operator/outputDirectory`；kind=`Root-runtime118-successful-prepare-source-promotion-input`，schema1。sourcePlan 闭7：`kind/schemaVersion/G1/combinedManifest/graphReview/dataQualification/operations`，kind=`Root-runtime118-nine-plus-two-source-plan`，schema1；operations 恰11项，项闭3=`file/before/candidate`，严格按新G1的原11目标顺序。codeReview 是本新Root工具的独立源码资格，不是graph9 review；graphReview/dataQualification独立绑定combinedManifest实际9/2数组及pointer。
+
+runtimeWindow 闭8：`kind/schemaVersion/bootId/holder/PGConservation/states/ownership/apiPort`，kind=`Root-runtime118-pre-API-source-window`，schema1；holder 为实际E9 holder，PGConservation为实际RO-before E9，states闭3=`state13/state14/state15`，所有值Full3；state15须当前canonical6c对应真实不可变副本，ownership须原1da，apiPort固定31441。此记录不因布尔值授权限；每个guard都重新读原状态/owned、锁和源，验证真实当前boot/Linux holder与31441无listener。holder/windows/lifetimeOwner的精确内部形沿恢复工具raw合同；只复用其已核纯校验，不运行任何恢复阶段。
+
+RootApproval 闭10：`kind/schemaVersion/input/G1/codeReview/operator/operatorIdentity/nonce/grants/retryPolicy`，kind=`Root-approved-runtime118-exact-source-promotion`，schema1、operatorIdentity固定`Root`；grants闭4=`sourcePromotionGranted:true/canonicalStateWriteGranted:false/APIOrPGControlGranted:false/contextAuthGranted:false`；retryPolicy=`preserve-partial-no-blind-retry`。批准必须实际写出并重读，之后非作者才签绑定它的executionReview，不使用尚不存在的Full3。仅Root批准存在仍不能执行。
+
+executionReview 闭12：`kind/schemaVersion/input/G1/codeReview/operator/RootApproval/author/reviewer/reviewerIsAuthor/reviewerIsExecutor/verdict`，kind=`non-author-runtime118-exact-source-promotion-review`，schema1；author须等于强读codeReview.author的`Root`，两reviewerIs均false且只作冗余，reviewer不得为空或等于代码author、qualification的任一codeAuthor或RootApproval.operatorIdentity，verdict=`approved-exact-nine-plus-two-source-only`。operator是代码Full3，不拿它和人名比较。工具先核两份实际批准和精确输入，任一缺失、错pin或错效果边界都拒绝。CLI严格为原型的显式input/peer/Root及各sha+execute七flag，无默认入口。
+
+SC18的postReadback为工具自有Root后置读回，闭10：`kind/schemaVersion/input/targets/graphs/stateBookends/ownership/lockIdentity/actualEffects/verifiedAt`，kind=`Root-runtime118-source-only-post-readback`，schema1；targets恰11项且每项闭4=`file/before/after/backup`；graphs为真实currentGraphs闭3，stateBookends与runtimeWindow三态全等，ownership仍同原1da，lockIdentity保全本次真实dev/ino/nonce+raw pin，actualEffects仅允许11源码MOD和自有控制输出。SC18不反指自己；新非作者actual source readback在SC存在后另产生，kind=`non-author-runtime118-actual-source-readback`、schema1，闭8=`kind/schemaVersion/G1/complete/reviewer/reviewerIsExecutor/verdict/evidence`，complete=SC18，reviewerIsExecutor=false，verdict=`approved-actual-nine-plus-two-source-only`。evidence须实际重读全部11/284、before保全与当前完整状态，不能只信postReadback。
+
+纯数据handoff input 闭7：`kind/schemaVersion/G1/nonce/sourceComplete/recoveryBundle/outputDirectory`，kind=`Root-runtime118-reentry-handoff-data-input`，schema1。sourceComplete=实际SC18，recoveryBundle=实际B5，C10.sourceDelivery.sourceComplete必须同SC，C10.prepareOrigin121与SC.prepareOrigin121同pin；Source原五件、W4、Origin、X与1da强读后，才wx生成S4 schema4闭13。此入口只读现存证明、写新nonce自有S4和数据complete，不提升源码/改canonical/起服务/签Root9。Root工具自身和调用的纯reader按同一已审源码闭包验证。
+
+上述所有输出路径固定在原private根下本次新nonce自有目录；retained9仍是旧consumer规定的固定九位置，data2另保全。路径、单链接与锁身份用bigint stat/string dev/ino，避免NTFS大inode被Number舍入。新三个Root支持文件只在独立代码资格通过后，Root从真实候选精确复制到原先不存在的图外路径，记录before-absent/after；安装本身不运行工具或改原284，也不授实际G2。
+
+postReadback.lockIdentity闭4=`dev/ino/nonce/rawCopy`，dev/ino为真实bigint转十进制string，rawCopy指持锁时已wx保全的锁原字节Full3，不指完成后已合法删除的活锁。actualEffects闭6固定为`executionSourceMOD:9/dataFactoryMOD:2/canonicalWrites:0/ownershipWrites:0/PGAPIControl:0/contextAuthSQLHTTP:0`。retainedData2是闭5记录的Full3，记录闭键=`kind/schemaVersion/G1/mappings/productionWritten`，kind=`Root-fixed-two-metadata-predecessor-source-retained118`、schema1、productionWritten=false（前置保全时点），mappings恰2项，同retained9的闭3 `relative/original/retainedCopy`。
+
+原目标before、旧graph成员的原hash、被更新或删除的活文件身份属于具名历史identity；提升后通过retained9/data2或锁rawCopy解析原字节，不把现在的after文件直接按旧hash重读，也不改写历史pin。真正的readable引用（候选、保全文件、manifest/review、三图/收据/Origin等）必须实际存在并强读。每一步guard根据已完成step集合分别校after/before，禁止通用fallback到任何可碰巧匹配的副本。
+
+图外支持文件的唯一Root相对路径固定为 `tools/rust-r4ghi/runtime-recovery121/budget118/promote-budget118-source-once.mjs`、同目录 `reenter-budget118-runtime.mjs`、同目录 `start-budget118-holder.ps1`。当前均须先核不存在；Root后续只按独立代码资格精确安装，不自动触发执行。
+
+阶段guard必须分开：API-absent/canonical6c/原源图是source producer执行时的live guard；后续API已活且canonical为X/Y时，handoff/Native/Tax只核它的历史输入、实际步骤和不可变书挡，不重跑那一旧阶段的API-absent或6c现场断言。后续另核本阶段当前record2、X/Y、当前源图和holder。不得提供caller控制的skip或historical开关来绕过source execute的live guard，内部固定入口选择各自有限谓词。
+
+新G1分列 implementationBefore=已资格I04候选、deliveryBefore=仍未提升的R原11/284。实现diff从I04继承；combined delivery manifest、retained9.original/data2.original和实际CAS的before永远是R原stage3，不把I04虚构成一个已经发生的Source阶段。最终图仍M06→361→362→本次最终9，275same；新qualified after才是交付after。
+
+## 单步、失败与互斥的有限合同
+
+source与所有早期reentry效果阶段只用一个跨nonce互斥文件：原private根下 `runtime118-reentry-operation.lock`，wx取得，原字节和bigint dev/ino全程核同。锁原形沿Tax raw共同合同；只释放本次明确自有且已完成的锁，失败保留，foreign锁永不删除。holder只在初始化阶段持锁，Ready后释放阶段锁并前台keepalive。任何driver/旧控制锁按共同合同拒绝；不能用source锁A和reentry锁B互查absence冒充原子互斥。
+
+后置plan5 publisher和Tax预算已共享原state15 `driver.lock` 的wx机制，保持它们的真实原子互斥，不再造late双锁。C/B收束及plan5发布/预算执行前须核operation.lock无partial。阶段前置为early必须6c、FS必须已存在C/R/B+X、预算必须已存在真实FS+Y；合法效果不能跨这些阶段重叠。纯B/S4数据输出不授进程/canonical效果，不重跑source旧阶段的live guard。
+
+SC18.steps每项指已存在的单步记录，闭14：`kind/schemaVersion/input/index/target/group/before/candidate/backup/temp/after/rename/controlOutputs/recordedAt`。kind=`Root-runtime118-source-promotion-step`、schema1，index为0..10，target严格对应冻结operation，group=`production|dataProduction`；before为具名现场历史身份，candidate/backup/after为真实Full3。temp闭3=`file/rawCopy/identity`：file是本次同目录temp历史路径string，rawCopy为已证同字节的现存候选Full3或独立保全，identity闭7=`dev/ino/nlink/mode/size/mtimeNs/ctimeNs`，均十进制string。成功rename后temp已不存在，不把它伪作仍可读取的Full3。
+
+rename闭3=`attempted/confirmed/outcome`；成功step固定true/true/`CONFIRMED_AFTER_RAW_READBACK`，只有真实after完整读回后才confirmed。调用rename前先在内存将attempted置true；异常时未完整读回则outcome=`UNKNOWN`，不能推断未提升。controlOutputs为该步之前已经存在的自有控制产物Full3数组，不能指本step自身或未来收据。
+
+partial闭16：`kind/schemaVersion/input/RootApproval/executionReview/operator/sourcePlan/runtimeWindow/phase/completedSteps/inFlight/error/controlOutputs/canonicalWritten/ownershipWritten/blindRetryForbidden`，kind=`Root-runtime118-source-promotion-partial`、schema1；后3项固定false/false/true。completedSteps只列确实wx完成的step Full3。inFlight为当前step同一闭14进度对象，尚未完整验证的backup/temp/after可null；null表示未获完整证明，不表示文件不存在或未产生效果。尚未attempt时rename=false/false/`NOT_ATTEMPTED`，尝试后未知则true/false/`UNKNOWN`，即使step收据写失败也保留已确认的内存事实。controlOutputs列已观测到的自有产物，保全部分备份/temp/锁和已改变目标，不重试或回滚。
+
+error闭3=`name/code/category`，name/code仅白名单短字符（不可用原message、actual/expected、cause或stack暴露私有对象），category固定`SOURCE_PROMOTION_STOPPED`。若连partial写入也失败，外层wx捕获的原stdout/stderr保留安全进度摘要，并保留锁/intent/全部已有文件；不得返回无效果或complete。postReadback、SC或锁释放失败同样不能抹掉已经改成after的11源真相，执行结果必须停止并交后续具名实际读回处理，禁止换nonce盲跑。
+
+partial.inFlight在尚未进入任何目标，或所有目标已完成而正在postReadback/SC/unlock时可为null；此时completedSteps仍保全部真实已写步骤，不伪造当前目标。任何未写成step的真实最后rename状态仍须保留在安全进度或其已存在原件中。
+
+新source工具资格采用 **SQ12**：kind=`non-author-runtime118-source-tool-code-qualification`、schema1，闭12=`kind/schemaVersion/G1/operator/executionSources/author/codeAuthors/reviewer/reviewerIsAuthor/verdict/modelEvidence/engines`；verdict=`approved-bounded-source-tool-code`，author=`Root`，codeAuthors为本修订G1中实际作者的规范唯一数组。reviewer须为已冻结独立reviewer且不属于codeAuthors，reviewerIsAuthor=false仅作冗余。operator固定已安装source入口且属于executionSources。
+
+SQ12是独立代码资格通过且Root精确安装3支持文件之后，非作者实际重读当前Root字节形成的代码carrier；modelEvidence指既有I候选与模型资格，必须按target逐项比对安装字节，不把未来Root路径伪作现存Full3。executionSources只包括稳定operator/复用纯helper闭包；source前原284、source进度的before/after混合图、完成后的SC18新284分别由固定阶段谓词核验，不把前后不同Native/Core塞进一份静态闭包冒同字节。record2.code同样遵守runtime Q的固定闭包语义，startupGraph另核SC全部284。
+
+engines闭2=`windowsNode/linuxNode`；Win为真实固定24.19模型执行证据，Linux明确记录冻结期望及尚未实跑状态，在同一次已批准首次WSL bootstrap/holder首段验证后才有真实运行证据。不能在停机时宣称Linux模型已执行。各Q/SQ资格只授准确输入审查，actualG2仍false。
