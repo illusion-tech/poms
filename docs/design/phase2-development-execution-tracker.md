@@ -1247,3 +1247,14 @@ Root继续为父#114管理相同私有和活跃输入/运行资源。#114/#118/#
 [#121终审证书链接及勾选](https://github.com/illusion-tech/poms/issues/121#issuecomment-6842861365)、[#57当前状态](https://github.com/illusion-tech/poms/issues/57#issuecomment-6842862718)均已完成[精确回写](archive/slices/rust-r4ghi-runtime121/technical121-G4-terminal-writeback01/receipt.json)。本技术子片Done，原关闭时间/原因保持；独立actual证书5cee4e只认证#121，业务认证0、全FI预算UNKNOWN、所有父/后继边界不变。
 
 <!-- /poms-runtime121-terminal-writeback-final -->
+
+
+<!-- poms-budget118-joint-G1-v2 -->
+
+### 2026-11-13 #118预算探测与原成功准备采用联合G1冻结
+
+[有限基线](rust-r4ghi/runtime118-budget-probe-adoption-baseline-v2.md)和[精确G1](../../tools/rust-r4ghi/budget-probe118-g1-v2/Root-G1-budget-probe118-v2.json)已提交39c67d76；[线上逐字镜像](rust-r4ghi/runtime118-budget-probe-G1-v2-online.json)核[#118 G1](https://github.com/illusion-tech/poms/issues/118#issuecomment-6849753005)。两v2/READY02关闭中央隔离和close输出缺口，保旧NOTREADY。范围11既有叶、284内9MOD/275same、图外数据2；控制5/Tax6在I隔离实现，独审并行。未改当前Root执行源/P/runtime，源码/FS/实际ctx/Auth/probe各具体G2后置。
+
+原K/record/6458/1da前缀保真实出生身份，N1仅完整基础CP观测；全618 FI预算UNKNOWN，normal/Main未授。#121实际技术G4不改，#57/#116开放，业务认证0/G3G4未签、Rust240/R4 67/95/候选32。
+
+<!-- /poms-budget118-joint-G1-v2 -->
