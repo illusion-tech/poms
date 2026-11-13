@@ -1,0 +1,91 @@
+{
+  "kind": "non-author-runtime118-finite-graph-pin-domain-correction-review",
+  "schemaVersion": 1,
+  "recordedAt": "2026-11-13T21:40:22.9284393Z",
+  "reviewer": "/root/budget118_review",
+  "reviewerIsAuthor": false,
+  "verdict": "APPROVED-BOUNDED-NEW5-CORRECTION",
+  "inputs": [
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v3/Root-G1-budget-probe118-v3.json",
+      "bytes": 32283,
+      "rawBytesSha256": "80ea3db59386f935b733e5e29b7b8a4db860c408ccb84f9204b9b5adebac00a1"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/Native362-plan-data-actual01/native-plan121.json",
+      "bytes": 78405,
+      "rawBytesSha256": "f3e56838c28e7006311b6f292b882d8785cb49fd764d4370e60cfa36d9995fef"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/Native362-plan-data-actual01/helper-composition121.json",
+      "bytes": 955,
+      "rawBytesSha256": "a8f3688f5661cd461f3941e4a44626cf6ec1e1ff5135db9f537c4e6bc86bef4c"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/corrective362-source-actual01/successor12.json",
+      "bytes": 3076,
+      "rawBytesSha256": "b81bf5826991100e758b5dddf8ce09d582562e2f6219b6521145bc4c743e4ec1"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/corrective362-source-actual01/source-witness13.json",
+      "bytes": 3389,
+      "rawBytesSha256": "619a65b106417c626ab2028690de8c1d4574d751839d4109022c29dfb110b30c"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/corrective362-source-actual01/raw-copies-provenance.json",
+      "bytes": 20484,
+      "rawBytesSha256": "6ff6ecc397345f32928c3e543115b989c519bfee674d0ac9b48286fac4c84837"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/corrective362-source-actual01/actual-execution-sources284.json",
+      "bytes": 60810,
+      "rawBytesSha256": "b8fd572ffa1e32ff581631410bcacc48e4350c51d4308e96d216cc985b89a25f"
+    }
+  ],
+  "counterexample": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-reentry-code-independent01/graph-pin-domain-counterexample01.json",
+    "bytes": 1971,
+    "rawBytesSha256": "3b2d944c35e428555ab3eb7266d0c84c79a2c703c33d08043638033743e355f4"
+  },
+  "parentG1": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v3/Root-G1-budget-probe118-v3.json",
+    "bytes": 32283,
+    "rawBytesSha256": "80ea3db59386f935b733e5e29b7b8a4db860c408ccb84f9204b9b5adebac00a1"
+  },
+  "blockingFindingsForProposedCorrection": [],
+  "implementationWithinExistingScope": true,
+  "codeReady": false,
+  "actualG2Granted": false,
+  "privateRead": false,
+  "currentPrivateRawClaimed": false,
+  "observed": {
+    "historicalOriginal": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/a6e8e1ed-787a-4ab2-9595-eec42b617bfd/actual-execution-sources284.json",
+      "bytes": 60810,
+      "rawBytesSha256": "b8fd572ffa1e32ff581631410bcacc48e4350c51d4308e96d216cc985b89a25f"
+    },
+    "readonlyMirror": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/corrective362-source-actual01/actual-execution-sources284.json",
+      "bytes": 60810,
+      "rawBytesSha256": "b8fd572ffa1e32ff581631410bcacc48e4350c51d4308e96d216cc985b89a25f"
+    },
+    "contentEqualByArchivedPin": true,
+    "fileIdentityEqual": false,
+    "P3ToW3PublicMetadataTraceVerified": true,
+    "publicMirrorRawVerified": true
+  },
+  "conclusion": "Recorded metadata establishes a real unsatisfiable equality in old4 and inherited initial new5: W4.baselineExecutionSources cannot samePin both the distinct P3/W3 private identity and public G1 mirror. Complete Native identity function independently rejects the two actual archived Full3 values on fixed Win24.",
+  "approvedCorrection": [
+    "Only new5: preserve P3/W3 original private identity in W4.baselineExecutionSources and SC.beforeGraphs.execution.",
+    "Treat unchanged 80ea.sourceBoundary.graph as the readonly public mirror. Strong-read both exact original and mirror pins, then compare complete raw bytes; retain all284/member/before checks.",
+    "No samePin equivalence, alias, fallback, rewritten old file or G1 whitelist. Missing or drifting either side must stop.",
+    "Apply in the already authorized shared reader/producer leaves and Root source tool; no new leaf, CLI, input slot, actual effect or historical source stage."
+  ],
+  "requiredRegression": [
+    "Use the real two distinct archived file identities in owned fixtures; do not collapse them into one synthetic pin.",
+    "Both exact files with identical bytes pass new5; substituting the public mirror as the W4 original must fail.",
+    "Missing original, missing mirror, wrong bytes/hash or semantically-equal but byte-different JSON each fail.",
+    "Keep the legacy04, 682, 80ea and prior bounded qualification artifacts byte-for-byte with their original labels; record this limitation and named correction separately."
+  ],
+  "limits": "This approves the finite correction for Root named G3. It does not certify private P bytes/current runtime, new candidate code, actual source delivery or any G2. Existing v2 audit is not reopened."
+}
