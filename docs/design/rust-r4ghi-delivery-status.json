@@ -105,7 +105,7 @@
     "preparation": "rust-r4ghi/source13-actual208.json",
     "fixtureAndOrderingCorrection": "../../tools/rust-r4ghi/policy-continuation14-287/PLAN287-addendum01.json",
     "lateAllocationPolicy298": "rust-r4ghi/user-decision-period-allocation298.json",
-    "taxPreparationCheckpoint": "rust-r4ghi/runtime121-prepare362-actual.md"
+    "taxPreparationCheckpoint": "archive/slices/rust-r4ghi-runtime121/prepare362-actual.md"
   },
   "currentCorrective": {
     "checkpoint": "rust-r4ghi/g2-consumed-evidence-corrective54.md",
@@ -403,7 +403,7 @@
     }
   ],
   "historicalBaselineDecision272": "rust-r4ghi/user-decision-historical-baseline272.json",
-  "latestExecutionStatus": "rust-r4ghi/continuation-status359.json",
+  "latestExecutionStatus": "archive/slices/rust-r4ghi-runtime121/technical121-G4-ready.json",
   "currentExecution348": {
     "status": "rust-r4ghi/continuation-status348.json",
     "actualEachTreeRustPassed": 620,
@@ -666,7 +666,7 @@
     "businessG3": false,
     "businessG4": false
   },
-  "currentRuntimeCheckpoint": "prepareExecutionCheckpoint362",
+  "currentRuntimeCheckpoint": "technicalRecovery121",
   "prepareFailureCheckpoint362": {
     "kind": "Root-real-prepare1899-failed-checkpoint362-online",
     "recordedAt": "2026-11-12T20:08:04.432Z",
@@ -1009,7 +1009,7 @@
       "bytes": 3934,
       "rawBytesSha256": "6bdf9acd6e0b1050fcb77f7b4a83df039e1c1f9bc543c21540781aec54a0e28e"
     },
-    "baseline": "rust-r4ghi/runtime121-prepare362-actual.md",
+    "baseline": "archive/slices/rust-r4ghi-runtime121/prepare362-actual.md",
     "archive": "archive/slices/rust-r4ghi-runtime121/prepare362-actual-readback01/archive.json",
     "E1ActualEvidenceCleanupCompleted": true,
     "directCheckpointSamples": 0,
@@ -1024,32 +1024,54 @@
     "businessG4": false,
     "parent57": "OPEN",
     "fullR5_116": "OPEN",
-    "onlineEvidence": "rust-r4ghi/runtime121-prepare362-actual-online.json",
+    "onlineEvidence": "archive/slices/rust-r4ghi-runtime121/prepare362-actual-online.json",
     "issues": [
       {
         "number": 121,
         "state": "open",
-        "bodyUpdatedAt": "2026-11-13T02:03:58Z",
+        "bodyUpdatedAt": "2026-11-13T02:23:52Z",
         "commentId": 6841629158,
         "commentURL": "https://github.com/illusion-tech/poms/issues/121#issuecomment-6841629158",
         "commentCreatedAt": "2026-11-13T02:04:00Z",
         "exactBodyReadback": true,
         "exactCommentReadback": true,
-        "bodySHA256": "bd4476326e85de23eae422446bbdd8f92d18689bbf1e1dc17513e3013ba6931d",
-        "commentSHA256": "fd189bc1e71dc67ad9aa7bc2bcbde7d8ce6834344d0da481fc92e77685b66582"
+        "bodySHA256": "f7931faa2888b40d1c4b297c6b9a1f40031fce68e12ca5244a14407f938f965a",
+        "commentSHA256": "6779f21686353eab28a0cf6c6ef178195de3ce6c1f13f33d383426be88132e0a",
+        "commentUpdatedAt": "2026-11-13T02:23:54Z",
+        "exactBodyAndCommentReadback": true
       },
       {
         "number": 57,
         "state": "open",
-        "bodyUpdatedAt": "2026-11-13T02:04:03Z",
+        "bodyUpdatedAt": "2026-11-13T02:23:58Z",
         "commentId": 6841630577,
         "commentURL": "https://github.com/illusion-tech/poms/issues/57#issuecomment-6841630577",
         "commentCreatedAt": "2026-11-13T02:04:06Z",
         "exactBodyReadback": true,
         "exactCommentReadback": true,
-        "bodySHA256": "a80ce3f059690b3baad5a755fdf8de85cc9b6ab87fc697b088dd5ec41d7529bb",
-        "commentSHA256": "5572551ff434a8adf350d66b932e3d65e136fd615591dfb3609ff74b50a7f45f"
+        "bodySHA256": "90b2cec9bbbb7ff3b263d364cb95967d18581bbd8f46ede14a7475b2572af61d",
+        "commentSHA256": "20112462effb233a78bd6715532394f3bcfd1ee8f8f200994953e702bbb6a0f2",
+        "commentUpdatedAt": "2026-11-13T02:24:00Z",
+        "exactBodyAndCommentReadback": true
       }
-    ]
+    ],
+    "onlineWordingCorrection": "archive/slices/rust-r4ghi-runtime121/prepared-artifact-label-correction01.json"
+  },
+  "technicalRecovery121": {
+    "stage": "G4Ready",
+    "issue": 121,
+    "technicalG3Passed": true,
+    "G4PreclosePassed": true,
+    "actualG4Completed": false,
+    "actualIssueClosurePending": true,
+    "actualTerminalReviewPending": true,
+    "closeout": "archive/slices/rust-r4ghi-runtime121/technical121-G4-ready.json",
+    "archiveExceptions": "archive/slices/rust-r4ghi-runtime121/archive-exceptions121.json",
+    "resourceOwner": "Root",
+    "activeInputParent": 114,
+    "wholeFIBudgetProven": false,
+    "newCertified": 0,
+    "businessG3": false,
+    "businessG4": false
   }
 }

@@ -1188,7 +1188,7 @@ G1Policy3082经独审1489仅授1生产源和1验证文件代码实施。holder�
 
 ### 2026-11-13 纠正362：唯一真实准备及完整非作者读回通过
 
-[实际执行与完整验收](rust-r4ghi/runtime121-prepare362-actual.md)记录同6458 prepare-only唯一0、4941.4120591秒，实际Ctor/私有cap/entry/exit/closed和K已闭合；[原闭8键读回](archive/slices/rust-r4ghi-runtime121/prepare362-actual-readback01/review-actual-prepare-continuation362.json)565740通过。完整278表4938行重建1Tax根、2targets、全部peer/CAS、body/facts/ordered67；实际新61fdb完整清单及62b7ed与正式历史依据全等。Auth3+GET4的14份双库捕获仅同一新owned session一次创建/五次更新，完整37权限、14actors其余字段和旧823/1899/26/13/14/Main13/所有状态保全；最终8/284、Root+mirror各420/528、sequence39→65、锁及canonical 6c1f/ownership1da8均独立复核。
+[实际执行与完整验收](archive/slices/rust-r4ghi-runtime121/prepare362-actual.md)记录同6458 prepare-only唯一0、4941.4120591秒，实际Ctor/私有cap/entry/exit/closed和K已闭合；[原闭8键读回](archive/slices/rust-r4ghi-runtime121/prepare362-actual-readback01/review-actual-prepare-continuation362.json)565740通过。完整278表4938行重建1Tax根、2targets、全部peer/CAS、body/facts/ordered67；实际新61fdb完整清单及62b7ed与正式历史依据全等。Auth3+GET4的14份双库捕获仅同一新owned session一次创建/五次更新，完整37权限、14actors其余字段和旧823/1899/26/13/14/Main13/所有状态保全；最终8/284、Root+mirror各420/528、sequence39→65、锁及canonical 6c1f/ownership1da8均独立复核。
 
 [全部安全原件、工具停止及修正](archive/slices/rust-r4ghi-runtime121/prepare362-actual-readback01/archive.json)保真归档，私有原件和活跃运行输入保留原路径，由Root继续在#114下负责。E1本次真实结果/书挡已归档，但直接CP样本为0、618全FI预算仍未证明，不授FI/正常Tax/Main，不重放本次prepare。#121技术G3/G4固定提交及关闭前审查、线上镜像继续；Rust240、R4 67/95、本批32candidate/新增认证0、业务G3G4未签，#57/#116开放、#119历史CLOSED。
 
@@ -1197,6 +1197,24 @@ G1Policy3082经独审1489仅授1生产源和1验证文件代码实施。holder�
 
 <!-- poms-runtime121-prepare362-actual-online -->
 
-[真实准备及完整读回](rust-r4ghi/runtime121-prepare362-actual.md)已推送33646ef4；[线上逐字镜像](rust-r4ghi/runtime121-prepare362-actual-online.json)核[#121](https://github.com/illusion-tech/poms/issues/121#issuecomment-6841629158)与[#57](https://github.com/illusion-tech/poms/issues/57#issuecomment-6841630577)正文及评论。B实际G2/准备验收已勾选，两个Issue仍Open，#121独立技术G3/G4关闭前审查继续；FI预算UNKNOWN、业务认证0/G3G4未签，#57/#116开放。
+[真实准备及完整读回](archive/slices/rust-r4ghi-runtime121/prepare362-actual.md)已推送33646ef4；[线上逐字镜像](archive/slices/rust-r4ghi-runtime121/prepare362-actual-online.json)核[#121](https://github.com/illusion-tech/poms/issues/121#issuecomment-6841629158)与[#57](https://github.com/illusion-tech/poms/issues/57#issuecomment-6841630577)正文及评论。B实际G2/准备验收已勾选，两个Issue仍Open，#121独立技术G3/G4关闭前审查继续；FI预算UNKNOWN、业务认证0/G3G4未签，#57/#116开放。
 
 <!-- /poms-runtime121-prepare362-actual-online -->
+
+
+<!-- poms-runtime121-prepared-label-correction -->
+
+[标注更正](archive/slices/rust-r4ghi-runtime121/prepared-artifact-label-correction01.json)：672398B/b7ed0b为包含body/facts/inventory的62 prepared产物，bodySHA单独核验。当前文档及#121/#57正文和自有检查点评论已更正并逐字读回；c10e初始线上快照保原as-of。实际prepare仍唯一0，domain POST为0，原件及业务认证数不变。
+
+<!-- /poms-runtime121-prepared-label-correction -->
+
+
+<!-- poms-runtime121-G4-ready -->
+
+### 2026-11-13 #121技术G3通过、G4关闭候选就绪
+
+[技术G3](archive/slices/rust-r4ghi-runtime121/technical121-preclose-independent01/review-technical121-G3.json)通过，[独立G4关闭前许可](archive/slices/rust-r4ghi-runtime121/technical121-preclose-independent01/review-technical121-G4-preclose.json)只授条件满足后的#121技术0操作收口。[G4Ready记录](archive/slices/rust-r4ghi-runtime121/technical121-G4-ready.json)已更正62 prepared名称、归档当前入口/初始线上镜像，并以[逐项例外](archive/slices/rust-r4ghi-runtime121/archive-exceptions121.json)明确47份父验收输入的消费者/原因/Root→#114/due及原字节终态快照；私有及活跃工具输入保持。固定safe提交、窄delta核、线上只关闭#121和非作者实际终审继续，actualG4尚未完成。
+
+全67FI预算UNKNOWN、直接CP样本0；不授FIG2/正常Tax/Main。Rust240、R4 67/95、本批32candidate/认证0、业务G3G4未签；#114/#118/#120/#57/#116开放、#119历史CLOSED。
+
+<!-- /poms-runtime121-G4-ready -->
