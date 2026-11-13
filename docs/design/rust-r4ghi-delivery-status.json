@@ -403,7 +403,7 @@
     }
   ],
   "historicalBaselineDecision272": "rust-r4ghi/user-decision-historical-baseline272.json",
-  "latestExecutionStatus": "rust-r4ghi/runtime118-budget-probe-G1-v2-online.json",
+  "latestExecutionStatus": "rust-r4ghi/runtime118-budget-probe-code04-online.json",
   "currentExecution348": {
     "status": "rust-r4ghi/continuation-status348.json",
     "actualEachTreeRustPassed": 620,
@@ -1099,11 +1099,11 @@
     "terminalParentComment": "https://github.com/illusion-tech/poms/issues/57#issuecomment-6842862718"
   },
   "budgetProbe118": {
-    "stage": "ImplementingIsolatedCandidates",
+    "stage": "V2IsolatedCodeQualified_ReentryG1Design",
     "issue": 118,
     "parent": 114,
     "G1Certified": true,
-    "codeG3Certified": false,
+    "codeG3Certified": true,
     "actualG2Granted": false,
     "sourcePromotionGranted": false,
     "FSGranted": false,
@@ -1117,8 +1117,8 @@
       "bytes": 19563,
       "rawBytesSha256": "68212af41282071678d3e062dd689fbffbf2b74443de0c5872bb2511e4d0c5a2"
     },
-    "online": "rust-r4ghi/runtime118-budget-probe-G1-v2-online.json",
-    "commentURL": "https://github.com/illusion-tech/poms/issues/118#issuecomment-6849753005",
+    "online": "rust-r4ghi/runtime118-budget-probe-code04-online.json",
+    "commentURL": "https://github.com/illusion-tech/poms/issues/118#issuecomment-6862550755",
     "targets": 11,
     "graphMOD": 9,
     "same": 275,
@@ -1128,6 +1128,23 @@
     "directCheckpointSamples": 0,
     "newCertified": 0,
     "businessG3": false,
-    "businessG4": false
+    "businessG4": false,
+    "codeG3Boundary": "Exact v2 isolated candidates only; no delivered or actual runtime qualification",
+    "codeCheckpoint": "rust-r4ghi/runtime118-budget-probe-code04.md",
+    "codeCheckpointArtifact": {
+      "file": "../../tools/rust-r4ghi/budget118-code-candidate04/Root-G3-budget118-code04.json",
+      "bytes": 5564,
+      "rawBytesSha256": "bd246f198ac863f18af378e84ca445a2ef83ad754e26d70429f0bd2631e6090b"
+    },
+    "independentCodeChecks": 298,
+    "independentCodeFailures": 0,
+    "modelEngine": "v24.19.0",
+    "runtimeReentryG1Frozen": false,
+    "passiveHostObservation": {
+      "file": "../../tools/rust-r4ghi/budget118-host-observation01/observation.json",
+      "bytes": 2191,
+      "rawBytesSha256": "ea2175d01d0ebdf2157ce43a5dafc69816819a022d9c663bc3a2d4e7b3709459"
+    },
+    "runtimePrerequisite": "Debian stopped at passive observation; recovered current/API/G1 and qualified Root tools pending"
   }
 }

@@ -1258,3 +1258,13 @@ Root继续为父#114管理相同私有和活跃输入/运行资源。#114/#118/#
 原K/record/6458/1da前缀保真实出生身份，N1仅完整基础CP观测；全618 FI预算UNKNOWN，normal/Main未授。#121实际技术G4不改，#57/#116开放，业务认证0/G3G4未签、Rust240/R4 67/95/候选32。
 
 <!-- /poms-budget118-joint-G1-v2 -->
+
+<!-- poms-budget118-code04-G3 -->
+
+### 2026-11-14 #118 v2隔离代码资格通过，恢复G1设计继续
+
+[Root代码检查点](rust-r4ghi/runtime118-budget-probe-code04.md)已固定2a2e9bf4，九个图内叶和两个数据工厂的精确combined235均获非作者有界代码批准。真实Win Node24.19独立298/298、作者173/32与11syntax/空白/静态链接通过；原Node26及失败证据保真，当前Root执行源仍为原284 before。此处只勾选隔离代码资格，不是#118总体或业务G3/G4。
+
+[线上逐字回写](rust-r4ghi/runtime118-budget-probe-code04-online.json)同步[#118](https://github.com/illusion-tech/poms/issues/118#issuecomment-6862550755)与[#57](https://github.com/illusion-tech/poms/issues/57#issuecomment-6862554015)，两者继续Open。被动库存确认该时点Debian停止，具名新进程/原卷守恒、图外Root工具及plan5恢复合同仍在设计，实际源码/FS/ctx/Auth/probe各准确G2尚未授。#121历史技术G4保持完成；CP0、wholeFI预算UNKNOWN、normal/Main未授，Rust240/R4 67/95/32candidate、业务认证0/G3G4未签、#116开放。
+
+<!-- /poms-budget118-code04-G3 -->
