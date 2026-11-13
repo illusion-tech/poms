@@ -1,0 +1,189 @@
+# #118 成功准备 adoption：中央 purpose 隔离与有限预算接口 v2
+
+状态：**DESIGN ONLY / 待联合独审与 Root 冻结**。作者 `/root/budget118_control`。本稿是 01 的有限修订，不是实现、代码资格、Root 交付、source promotion、FS publication、实际 input/nonce/Root9、ctx/Auth/SQL/HTTP 或任何 G2。旧稿、独审 NOTREADY、旧 partial 和所有实际证据保持原件。
+
+本轮只读 R/I 的公开源和安全归档的控制元数据，只在 I 本目录写设计。R=`E:/projects/worktrees/poms-r3hijk-next28/poms`；本轮 `git rev-parse HEAD` 为 `d78cae8a19da556fb51c3a04e720c6e1755a21d9`。未读取 P、canonical current、proc/env、凭据或实时 ownership；未 import/evaluate Native/Core/app，未运行 SQL/HTTP、prepare 或任何实际流程。下述历史状态 pin 不是本轮 live 检查结果。
+
+## 正式输入与修订范围
+
+01 控制稿 `../runtime118-successful-prepare-adoption-design01/design-successful-adoption118.md`：12830B，SHA256 `f0c5fd4188a17542c782fb5c63d9ebc782b3c1ae0855ef211551490623aa8ca6`。Tax01 `../runtime118-budget-probe-g3-design01/design-budget-probe118.md`：11212B，SHA256 `7bad73ff0824dd3dd3941983d7afb232fbafa83e1cc23ca258704f8ac2169591`。独审 `../runtime118-joint-design-independent01/review-joint-design118-NOTREADY01.json`：19691B，SHA256 `2afaeacad50a61d10e4d2e839f2af8ae33f6bb490f57a42cd73cf411b12268a7`。本轮均重新计算 bytes/SHA256 一致；在 I implementation 的 118/adoption 文件清单中未发现未完成的 design02，因此新建本目录，未覆盖 01。
+
+01 的 Origin7/S4/Adoption6、出生与消费双身份、FS 两 top 变化和分层 schema 合同继续作为输入。本稿替换其“10 叶 / 8 MOD / 276 same”的范围结论，补齐独审两项：`BUDGET-NATIVE-PURPOSE-ISOLATION` 与 `AFTER-CLOSE-TIMING-ENVELOPE`。后者的字段细节由 `/root/budget118_tax` 的 budget-probe design02 定义；双方已直接对齐本稿的唯一入口、六方法 port、固定三个产物路径和时序。本稿不提出第二套 Tax timing/schema。
+
+分类为 docs-only 的 G1 修订；拟实现行为属于跨层高风险。业务、公共 route、DTO、OpenAPI、ORM、DDL、迁移、UI：N/A，本 slice 不改变这些面。GitHub #118 的任务状态由 Root 维护；本稿不发布评论或改变状态。#121 已完成 actual 技术 G4 的历史结论保持，#118 的完整 FI 预算仍为 **UNKNOWN**。
+
+## 继续保持的对象与状态边界
+
+Origin7 闭键为 `kind/schemaVersion/state/ownership/recordPointer/continuation121/continuationReadback`；kind=`Root-runtime121-successful-prepare-origin`、schemaVersion=1、recordPointer=`/taxContinuation121`。S4 闭12与01完全一致，kind=`Root-runtime121-successful-prepare-adoption-handoff`、schemaVersion=3，`allowedPurpose='budget-probe'`。Adoption6 闭键为 `kind/schemaVersion/purpose/prepareOrigin121/current/semantics`；kind=`Root-runtime121-successful-prepare-adoption`、schemaVersion=1、purpose=`budget-probe`。其 current 闭5=`plan/registry/candidate/sourceWitness/scope121`；semantics 闭4=`freshPreparation/newK/actualContextObserved/FIOrNormalGranted`，四值均 false。
+
+这些 false 是语义标签，**不承担权限隔离**。隔离由以下真实 Native 构造、私有 brand 和每个普通入口的中央拒绝执行。
+
+原成功6458只实际运行一次，exit=0；原 K `847fe81f…`、prepared62 `b7ed0bd5…`、full61 `fdb957d8…`、body `0f92913c…`、565740 原 carrier、原 a8、原 entry/exit/closed 与6458 journal保持原身份和整样。原 K.current15.bodySHA256 的 null 不改，顶层实际 bodySHA256 不改。旧 record.continuationReadback 的实际值/null不补写565740。旧 K 的 a8 enriched18 与新当前 formal-origin 是两种 typed 对象，只核各自完整来源及共同 formal3 投影，不用新18覆盖旧18。
+
+已归档 after-state `6c1fabbacebc43fea8636c8fd91afac81dd66e8b6200ca5a769c08ae41401b3b` /15045544B、ownership `1da85861708f1d1c37389385f6c86741e46a7053d5c0eb034260ff8c01aba517` /13016B、sequence65 是历史 as-of 来源。本轮没有确认它们仍 live。未来实际步骤要按其 exact CAS 重新核对，漂移即停，不重置、不回填。完整1da保留 eb4a/b76 前缀，不能只取截段；probe 以后仅接受有真实 owned 来源的追加。
+
+FS publication 只换 `runtimeAdmission121` 并给 `runtimeHistory121` 追加命名 adoption 行；`taxContinuation121` 整对象、旧6458/823/1899及旧失败 journal、actors/owned/sequence/API和其它 histories不改。publisher在实际 registry/candidate 落盘逐字重读后 wx adoption，complete/history同引其 Full3。adoption不指 complete/runtimeBindings，不反写plan/registry；依赖顺序仍是 Origin→plan/S4→registry/candidate→adoption→complete/history，随后 runtimeBindings，不能制造未来 pin 或环。
+
+probe阶段与FS阶段分开：一次真实Auth允许其真实manager cookies/cache、auth/session owned/security、ownership追加、sequence/artifact、新nonce journal和锁书挡变化；不能把FS零delta套在Auth上。只有此真实Auth和固定安全capture/记账可以解释的变化才允许；原成功 record与旧 journals整样保持。新 invocation身份只放 private d 与新nonce journal；不能调用 `ensureRecord` 覆盖旧record，也不生成新K或FI恢复前缀。
+
+runtimeBindings **外层 schema2/闭5→schema3/闭6**，唯一新增 `prepareAdoption121:Full3`。current17、frame17、reference11、Tax input34、Root9九键各守自己的闭形，不能统称“runtime17整体不变”。旧六mode只接受原schema2；schema3/adoption与mode7精确配对。Root9仍为 `kind/approvedInput/codeReview/expectedEntryState/mode/nonce/actualG2Authorized/normalTaxPOSTGranted/FIGranted`；预算模式的后两值为false。七个FI/recovery/active-fault槽均null。未来FI/normal/readonly消费者桥另G1。
+
+Tax34不增加G1别名键。budget-probe的 `technicalG1` 必须消费未来Root真实冻结的**联合修订G1 Full3**，其正式输入引用原118 G1 `646447…`、原baseline `a5520b…`、两份02及其联合独审，并具有该步骤实际所需的 `implementationAuthorized` 等授权；不能沿原646447获得新mode。旧六mode继续只认原G1，baseline仍为原a5520b。新G1的Full3仅在它真实存在后由确切codeReview/codeReadyCarrier和Root exact input交叉绑定，不能caller任换一个自称G1的文件；本设计不造新G1、未来pin或authority。
+
+## Native 的唯一预算准入与私有目的
+
+有权限的外部入口固定为 `executeBudgetProbe121(inputPin, Root9Pin)`。两参必须是实际已存在、强读取的 exact Full3；不接ctx、root、cap、purpose、N、phase、operation、SQL、reader、runtime provider、writer或callback。它核闭34的mode7输入、闭9的Root批准、review/code资格、整源闭包、immutable entry、nonce/原owned driver.lock及实际 publication/adoption后，才允许进入内部构造。mode、nonce、input、codeReview和expectedEntryState逐项等值，FI/normal=false；缺少真实exact G2即拒绝。只说“purpose=budget-probe”不能替代这些条件。
+
+Native从**已验证** protocolVersion4计划、S4.allowedPurpose、同一Origin7/adoption、完整publication/history与exact Root9共同派生私有purpose。purpose写在不可由ctx/state字段改写的私有brand/闭包中；旧1/2/3维持原ordinary身份。未知protocol/purpose、v4无adoption、schema3落入旧mode、S4/adoption/input/Root9错配全部fail closed。不加可由调用者选择的purpose参数、skip、兼容fallback或临时全局许可。
+
+内部构造只复用真正 `originalCreateContext`，仍经原consumer-admission54。独占construction frame事先携带已验facts、snapshot与固定目的，只认该次同步原构造实际产生的一个partial和真实返回root；不允许reentry、伪partial、外来ctx或第二次constructor。普通 `createContext121` 在识别出v4 budget事实后、调用原构造的mkdir/persist/DB入口之前拒绝。直接调用原 `context.createContext` 也不能靠伪partial或admissionBootstrap登记预算brand；没有这个私有frame就拒绝。
+
+真实root八个own method的原函数身份、state own data identity、namespace/epoch/run/path/options仍由原brand谓词检查。原root及 `persist/next/artifact/public/client/db/instant/own` 只留在Native拥有的预算闭包及其固定已验Tax privileged dispatch中；对外不返回root、八方法facade、live state、cap、h、db/client、query callback或普通Native binding。预算分支不能调用原 `restrictContext118` 把八方法送出，`runtime118` 对预算cap硬拒；其普通六mode ABI保持。
+
+普通Native品牌/verified-map不能把预算binding升级成ordinary。Native预算binding在私有purpose域内核对同一个实际root和当前facts；公开返回的ref/data只是冻结深拷贝。普通 `currentRuntime121`、`assertCurrentLease121`、`assertRuntimeBinding121`、`assertRuntimeContext121`、views和retained/GH/trusted/reference门首先确认ordinary purpose，再进入其原完整谓词。预算内部从共同的私有强谓词body取得完整current/entry/retained/reference结果；不能开启全局开关使普通门在某个await期间放行。
+
+`assertRuntimeContext121` 的预算构造partial例外只存在上述正在执行的真实construction frame内，并消费其唯一partial位置；它不能给调用者返回ordinary授权，frame结束即清。已返回预算root再调此普通入口仍拒绝。内外两种调用不能混成“有budget标志就略过Native”。
+
+## 固定 dispatch 与六方法 port
+
+Native只从本次已验证整源图的固定 `tax15-invocation118/run-tax15-once.mjs` 调用内部 `runBudgetProbe118(inputPin, Root9Pin, nativePort)`，路径/模块/函数不可由参数选择。ESM固定函数身份与该确切source pin受完整源闭包约束；不接caller注册或注入函数，不新增第三方executor。此内部函数没有genuine Native port时不能执行；它不是第二个准入。
+
+唯一辅助断言签名为 `assertBudgetProbeRunner121(port, inputPin, Root9Pin): void`。runner第一条调用它，在任何port方法或builtinFS效果前由Native私有WeakMap核genuine/live/purpose、实际持有的两Full3、nonce、pid/boot/lock；不相信 `port.entryFacts()` 自报。首次native-created阶段消费runner-once claim；sample wx前再次调用，只能在真实CP已return且后actor completed/failed的私有sample-ready阶段消费sample-write-attempt latch。阶段由私有状态派生，不收caller phase，重复runner或重复sample写授权拒。断言只返回void、不返proof/root、不造cap；fake port即使伪造六方法或entryFacts也在首个FS前被拒。
+
+port为Native制造、WeakMap绑定的null-prototype冻结对象；runner的私有d仅持它和安全data。Native闭包及固定privileged dispatch暂用真正root/原proof内部状态时，先验Native-issued私有dispatch ticket、root identity、purpose、pid/boot/lock和当前单一阶段。不能从一个普通cap/外来root自行组装ticket；不能给外部提供取root的getter。内部函数可提取/复用原谓词body，但它们不能接受caller的ctx/reader/callback代替真root。固定dispatch的返回值同样只含冻结data/pins，不能把接到的root/d/ticket放进返回或Error属性。
+
+port字面方法仅以下六个；不返port/cap到调用者或日志，不把它藏在result/exception/iterable中：
+
+1. `entryFacts()`：零参，返回已通过真实构造、完整entry/retained/adoption/K验证的安全数据和entry pin。无live state、凭据、h或方法。
+2. `auth3Once()`：零参，使用私有root的原actor凭据，执行唯一原canonical Auth3。once latch先于cookies reset；unknown/failure也消费latch，不重试、不第二login。
+3. `actor37BeforeCP()`：零参，Auth3后固定真实account、完整37权限、cookie/owned session和SQL clock检查；会话cookie必须实际存在，不以原guard的无cookie/null路径冒充通过。
+4. `baseCPOnce()`：零参，只能在前guard通过后一次。内部直接跑**完整** `checkpoint118`，phase固定 `budget-base`，activeFault=false，包括原 `currentTaxFiles118` 全部工作和返回前最终完整Native reference。不接N、phase或caller proof。
+5. `actor37AfterCP()`：零参，在完整CP返回后对同一实际actor/cookie/session再做原SQL检查，Native私有记录其pre-SQL单调anchor和完整deadline事实；不收外来observation。
+6. `closeOnce(existingSampleFull3|null)`：只验固定nonce目录的现存sample，并与私有真实CP/actor状态逐项匹配；failed由私有阶段/失败事实派生，不接caller自报成功/failed。唯一真实close执行完整full bookend、retained proof、exit/closed seal并撤cap；重复调用、closed后再用port全部拒绝。
+
+固定顺序是entry→Auth3→前actor→一个指定baseCP sample→后actor→sample wx→close。原Auth wire内部所有必要checkpoint仍执行；N=1只指指定baseCP测量样本，不谎称Auth只发生一个checkpoint。端到端或Auth/capture/ledger成本必须按实际字段单独记录。
+
+任何原操作抛错都在私有状态中锁定preserve，不能恢复推进正常阶段。完整CP曾返回但后actor失败仍保其真实CP事实，后actor标failed/unknown。CP自身抛错不生成completedCP sample。sample wx缺失/畸形/失败时，`closeOnce(null)`仅可执行failed-preserve，不能输出OBSERVATION_COMPLETE；它仍核固定路径并保已有原件，不能换任意外来pin。真正constructor未return时不造root或close；已return后entry失败由同一个私有one-close latch保全，runner/outer均不能再close一次。
+
+## API允许/拒绝矩阵
+
+下表是权限合同，不是已执行测试；`INTERNAL`只表示上述固定dispatch且所有原强谓词仍成立。对预算对象，拒绝必须发生在首次外部效果或view/cap escape之前。
+
+```text
+API / channel                                   ordinary <=v3     v4 budget
+createContext121(options)                         EXISTING          DENY
+context.createContext (caller direct)             EXISTING RULES    DENY
+currentRuntime121 / assertCurrentLease121         EXISTING          DENY
+assertRuntimeBinding121 / assertRuntimeContext121 EXISTING          DENY (*)
+createWitnessView121 / createPolicyView121        EXISTING          DENY
+effectiveHelperPins121                           EXISTING          DENY
+assertRetainedFixture121                         EXISTING          DENY
+readRetainedCommand121 / readRetainedPreparation121 EXISTING        DENY
+assertGHCurrentSource121 / trustedSummaryBinary121 EXISTING        DENY
+runtimeReference121 (ordinary verified binding)   EXISTING          DENY
+runtime118 / restrictContext118 -> 8method facade EXISTING          DENY
+generic HTTP / trusted / FI / policy consumers    EXISTING          DENY
+public createWire118 / prepare / domain / FI      EXISTING          DENY
+executeBudgetProbe121(exact inputPin, Root9Pin)   DENY              FIXED ONLY
+budget entry/current/retained/full reference      DENY              INTERNAL
+budget Auth3/capture/ledger/actor/baseCP/close     DENY              INTERNAL
+budget port supplied by caller / JSON / Proxy    DENY              DENY
+post-close any privileged operation              EXISTING RULES    DENY
+post-close builtinFS nonce report/complete       EXISTING RULES    DATA ONLY
+```
+
+`(*)`唯一partial构造调用按前节限定，不给外部ordinary ctx/view/binding。普通消费者即使不认识schema3，也必须在中央purpose/brand门失败；不能把Tax旧六mode拒schema3作为它们的防线。`verifyRuntimePlan121`等元数据验证可返回冻结事实，但事实对象不造brand、不授ctx/effects。
+
+## 保持原强验证的具体复用
+
+Native/Core保留source/FD/no-follow/Node/ELF/A7/process/env/socket/state/ownership/PG和构建来源全部验证；预算不是轻量current、缓存fresh、skip flags或重写cold框架。`fullPublished121/contextFacts121/fresh121/actualBrand121/currentFacts121` 的共同强body供固定预算通道调用，普通export先加purpose拒绝，二者不能通过传入purpose来选许可。每个原fresh点仍fresh，entry与full exit仍完整full，不拿构造seal代替exit。
+
+`retained-tax-proof.mjs` 中 `assertRuntimeFacts118`、retainedFixture/Main/preparation及 `readRetainedTaxProof118` 共用原完整谓词body。预算固定dispatch只取exact manifest已限定的同一个legacy fixture、Main13原receipt和同一个retainedPreparation；无任意pointer/项目/receipt范围。保resourceProjection、实际persisted record identity、全部receipts、legacy/history/snapshot/67/K及source证明。`producerRootIdentity13`的纯身份谓词可原样使用，不能绕到需要ordinary generic授权的另一条执行路径。
+
+当前current formal3、新lease/source/adoption、原K/a8出生、原enriched18分别核对；新probe frame可含实际body `0f929…`，不得强迫它与旧K.current15的null深等。对预算跳过的是不适用的“旧record必须==新lease”断言，以显式双身份完整桥替代，不能跳掉record来源或把全部retained检查删掉。
+
+Auth沿原wire请求体执行 CSRF GET→password-session POST→current-session GET，保实际OpenAPI canonical method/path/status、固定actor、原I900/A28800/T60及完整37值。只增mode7的有限once/order/allowlist分支；拒业务GET、domain POST、DDL、任意Auth、override、第二login、延TTL、换会话拼样本。raw/config/body/ACK先落盘再postguard，完整before/after capture、owned/security归因、原锁和未知结果保全都不删。原六mode的 `guardActor118` 保 `string|null` ABI，不能让其返回新object。
+
+`snapshot.capture(privateRoot, fixedLabel)` 在固定Auth请求before/after按原实现执行：两数据库、catalog/OID/ACL/function/trigger/role、sequence、全表row/xmin和objects都保留，原db guard不省。其ctx.db和SQL callback只由这段已冻结实现内部创建和调用，外层port不能选择SQL/label/database或取得client；不能用假capture或传入reader替换。
+
+第11叶 `tax15-once-ledger.mjs` 必须修改：原 `assertRecorded118/reconcile118` 两处通过公开 `runtime118` 取ctx；预算不能沿该接口逃出八方法。将原归因body在同叶提成固定内部共用body，ordinary入口保持原行为，预算只由Native固定auth-ledger dispatch以真root、同一真实comparisonBaseline和当前三步Auth attempt调用。保normative/sequences、所有added/changed/missing、owned latest SHA/xmin/deleted、borrowed、objects、poms_migrations drift与blocker=0检查。
+
+`business/ledger.mjs` 的 `reconcileAttempt` 原算法与 `changedColumns` 参数化SQL保持原字节，在固定privileged auth dispatch内调用；不把ctx.db/client、callback或任选binding送给runner。Auth attempt必须是本次三步raw/ACK/captures的实际对象，不能caller提供`number/mutableTables/deleteTables/responseBirths`扩权。wire预算分支经这个固定ledger适配，不复制弱ledger，不给scope/number/DDL例外。原snapshot、business ledger、context、http、trusted、fault、policy等叶保持原字节，以中央deny或私有固定调用解释其边界。
+
+actor沿原五组SQL/参数与 `permissionSet118/assertSessionFacts118` 验account、active assignments/roles、完整permissions、实际cookie hash、owned session和clock_timestamp。pre-SQL anchor先于connection/SQL/await，纳秒向毫秒ceil，idle和absolute剩余均严格>2000ms。最终coverage从同一个真实后actor observation保守计入全部SQL/返回/后续到close return，不收caller观察、不做post-close SQL、不推断权限在未观测区间连续有效。
+
+## 唯一sample与关闭后外层输出
+
+Tax内部固定runner用单调start/end紧贴 `baseCPOnce()` 的完整调用；返回之前的最终Native reference属于测量。成功返回后才在**既有owned nonce目录** builtinFS `wx` 写 `budget-base-sample.json`，固定sample schema与字段以Tax02为准。任何exception不能标completedCP；原Auth/capture成本不能塞成baseCP耗时。
+
+`closeOnce`只收这个实际已存在sample的Full3或失败null，重读其bytes/路径/身份并与内部CP/actor数据核对。`close.result`只引用既有sample，不写将来的closeEnd、exitGuard、closedJournal或report pin。固定runner围单次真实close记closeStart/closeEnd；成功return的exitGuard/closedJournal是真实封口结果。close内部仍按原协议seal并撤cap，旧K、6458与sealed result/journal不反写。
+
+Native executor只返回无权data envelope，含已发生的sample/close事实与错误标签。其返回后，已有 `runTax15Once` nonce owner使用builtinFS `wx` 写固定 `budget-probe-report.json`，再写 `complete.json` 或 `partial.json` 引用report及已存在sample。writer没有cap/root/port，不回调Native，不读DB，不造close，不用root.artifact/next/persist。report字段与coverage/outcome精确定义归Tax02，路径和依赖方向双方一致。
+
+若close成功但保守窗口不足，report保留真实 `close.nativeCloseVerified=true`、真实exit/closed pins和实际close区间，probeOutcome为STOPPED_PRESERVE，不抹掉close事实也不宣称预算通过。若close抛错，只记录真实attempt和已产生证据；不补不存在的exit/closed。report/complete写失败仅保留已有文件与错误，不再close、重生cap或更改sample。outer只能引用已存在文件；close/sample/report/complete不互相反指，不能出现self-hash或future-pin环。
+
+## 精确文件清单与本轮真实before
+
+总范围 **11个既有叶**：284内9 MOD=`2 helper + 7 external`，其余 **275 same**；229/55/284成员数保持；两数据工厂outside284。没有新production模块。新增第11叶的理由是关闭公开runtime118→ctx→通用db/八方法泄露，同时复用原ledger完整算法；不能为保10叶把该guard省掉。01的8+2/276计数不再作为本v2范围。
+
+以下before均从R公开源本轮实际计算；不是after候选。当前归档 execution284元数据60810B、SHA256 `b8fd572ffa1e32ff581631410bcacc48e4350c51d4308e96d216cc985b89a25f`，本轮确认其284条及下面九个图内成员/hash一致。
+
+路径均相对 `tools/rust-r4ghi/`：
+
+```text
+H MOD business/runtime-admission121.mjs
+148850B 197fc179bfbb8d92a45d732080cc0b96a78bc4e92c497d930d65c49759a9c906
+H MOD business/runtime-admission-core121.mjs
+47826B 21205f08bb1a5522bde128992ec17785ff3b5c38bb1af6b2a9cafdc1d4f5b504
+E MOD runtime-recovery121/native/publish-runtime121.mjs
+60586B 5339974d221acac9a64908132d92280d0686096cf6a0e5fb9a329bd12fb4ecf2
+E MOD tax15-invocation118/run-tax15-once.mjs
+22564B c016db12248a9f30b7f4f827a70aae06fab0557c481285ecefefbaa12c49ff11
+E MOD tax15-invocation118/invocation-proof.mjs
+61225B 23d6c9ef588a079ed1cc51161d0beed4d962cb0c7c4aede07694e924af299d79
+E MOD tax15-invocation118/tax15-once-effects.mjs
+20509B dea11bc6f99dc22ea1c5a5abd673a97ecdb0ab53f8fa83d2aae1a4caf08b08be
+E MOD tax15-invocation118/retained-tax-proof.mjs
+41693B 454ba2f93bfd6ad3f7ede33b0403259e72f42fb1e4ea17c29bc0e9e162482716
+E MOD tax15-invocation118/tax15-once-wire.mjs
+23861B 669985306e4166fbb2bc95763176f24f7749a50037236f0f73a19f1b81fd99cc
+E MOD tax15-invocation118/tax15-once-ledger.mjs
+3434B ca5833c6bd9a31755d99914685a333af6e3c190f4c920ef12b17e76c8d2edd1d
+OUT MOD runtime-recovery121/Native-plan-data-candidate01/prepare-native-plan121.mjs
+83935B f30399b2230c0a2834a2c6fe035269b3120aa8dd136fa2d7a90055788d4e15b9
+OUT MOD runtime-recovery121/Tax121-current-metadata-data-candidate01/prepare-tax121-current-metadata.mjs
+94015B 543c75b7c5147b95455f1599b06c4bc47ccd90062b65b7555cc12440b3a1f087
+```
+
+Core负责新成功v4/Origin7/S4/Adoption6/两top变换/成功idle与全ownership；Native负责中央purpose、真构造、六方法port与原强验证复用；publisher builtin preimport精确九叶、实际adoption输出、complete/history和末次state+完整ownership CAS。Tax六叶各负责：run固定runner/sample/outer、proof双身份及cap/bookends、effects原真实actor/clock、retained-proof强retained桥、wire Auth-only once/order、ledger私有归因适配。两数据工厂沿01职责只构造真实既有来源；**Native-plan successor options现为闭5** `apiComplete/compositionComplete/nonce/outputDirectory/successor`（legacy v1闭4），v4沿这个有限successor分支，不与Tax工厂的shape混同。**Tax metadata options仍闭6** `nativePublication/compositionComplete/codeReadyCarrier/nonce/phase/outputDirectory`；不增mode/reader通用参数，mode7由已验v4/adoption派生。
+
+W4仍为明确four-stage kind/schema3（闭13沿01），baseline为P3真实publication5759与P3/W3原源和manifest6。阶段链改为 **M06原9→361原4→362原6→本次新9**；先保全本次九个真实before，再按固定stage+file+expectedhash读取精确保全原像，拒fallback；最终284全部真实读取。旧K/3353 source8历史字节、旧stage manifest/review身份不改。metadata factory/outside2和Root自有交付工具不能偷算进284。
+
+Root现有 `promote-corrective362-once.mjs` 绑定旧失败CAS/6+2，不可重跑承担成功态9+2。将来所需source-only promoter/只读交付审计由Root另行资格与具体G2；本稿既不实现也不交付这些工具。若实现发现这11叶无法保持全部guard，必须在实施前报精确依赖并联合修订范围，不能用purpose skip、宽callback或删强谓词维持计数。
+
+## 冻结后实施必须证明的负例与兼容性
+
+本节是未来代码资格的必测输入，不是本轮测试完成。复用现有有限验证方式；不建立冷框架、scanner或第二套checker。中央拒绝必须以完整ordinary函数的受控负例模型证明，不能只对函数名/字符串做regex断言。
+
+1. 合法v4 budget事实也不能经普通constructor获得Root；验证原constructor首次mkdir/persist/client前已拒。原context直接调用、伪partial、reentry、foreign root、options.purpose/skip、构造后再用partial均拒。
+2. 对真正预算brand模型逐一调用矩阵中所有普通Native current/binding/context/view/retained/GH/trusted/reference入口；断言无view/binding escape，首次HTTP/SQL/DDL/child-process或通用方法效果尚未发生。伪普通brand、JSON clone、Proxy、旧ordinary binding交换到budget root同样拒。
+3. 使用完整 `http.createApi`、trusted summary、fault-sweep/current-source、policy runtime消费者函数模型，证明它们在中央门失败；275未改叶不能依赖其主动认识Tax schema3。无中央deny的v1反例必须变红；普通合法<=v3兼容路径仍按原合同通过。
+4. schema3/adoption进入六旧mode、旧schema2进入budget、Root9错mode/nonce/input/review/entry/FI或normal、v4缺adoption/假false flags、错lease/source/Origin/current、旧G1冒充budget联合修订G1、外来module/port/ticket/ctx/reader/callback均拒。直接调用导出的内部runner并提供假entryFacts/六方法的反例，必须在首个port调用与sample FS前由Native void gate拒绝；重复runner/sample-write latch同样拒。
+5. `runtime118`、`restrictContext118`、公开wire/prepare/domain/FI函数对预算对象拒绝。递归检查所有return/error/data descriptor/iterator不含Root/live state/cap/port/h/8method/db/client/function；关后所有privileged方法拒绝，无rebrand/renew。
+6. Auth第二login在cookies reset前拒；Auth顺序/方法/path/status错、额外Auth、业务GET/domain POST/DDL、任意binding/SQL/database/label、TTL修改/换会话、unknown后重试均拒。原raw/ACK先持久化，任一postguard失败保留已发出的真实请求而不重发。
+7. capture原全量catalog/row/xmin/object检查与ledger全部归因负例保持；未知added/changed/missing、owned SHA/xmin或deleted错、borrowed错、非本Auth attempt、任意number/mutable/delete扩权均拒。确认内部callback/client从未返回runner。
+8. 完整37任一值错（包含长度仍37）、actor inactive、角色inactive、cookie/session/user mismatch、session非owned、expired、任一deadline恰2000ms或不足、SQL/await耗时、向下round均拒；纳秒ceil及pre-connection anchor覆盖不减。旧guard ABI仍是string|null。
+9. 在完整checkpoint每一子段及最终Native reference故障注入；任一exception无completedCP。测量end在最终reference返回之后，wx在end之后；重复baseCP、N/phase输入、activeFault均拒；不因前半段快而缩短CP。
+10. 完整CP后actor失败仍保真实CP并STOP；sample不存在/错路径/错pin/内容改写/错nonce/错CP/ref/actor，close.result不得引用它。wx失败走failed-preserve null，不捏造sample。
+11. close真成功、close抛错、post-close覆盖不足、report/complete wx失败分别验证真实标签；constructor未return无假close，entry后失败最多一个close。close.result只引已存在sample；sealed journal/旧K/6458不能被后写，cap不复活，关后无SQL或callback。
+12. v4 FS前后精确只有lease/history两top变化；旧record/K/carrier/old current15 null/6458及失败journal任一改写拒；1da全前缀截断/后缀改写、失败CAS冒充、旧K==新current混同、source stages倒置/错before/fallback拒。
+
+冻结验收须同时看到：本控制02与Tax02唯一接口一致；上述强验证复用及完整函数负例覆盖可实施；精确11叶/9+2原像清单；独审明确无剩余blocking finding，Root再冻结联合G1。此时才可另授有限实施；当前不声称独审Pass、G1已冻结或进入Doing。
+
+## 后续授权与证据限制
+
+Root需分别处理实际source-only G2、FS publication G2、ctx/Auth/probe exact G2，不互相隐含。FS未来只产命名adoption和lease/history；实际probe另含一次Auth3、原安全capture/owned/ledger/SQL actor/fullclose及失败保全。旧6458真实完整物理roots/peers/CAS/67/420/528/API/PG事实按原时刻复用，不能因预算测量重发prepare或伪称新fresh。
+
+N=1 base样本只证明那次完整测量及其真实bookends。activeFault、高尾、618上界、67次500/rollback、DDL/等待/auth coflush、完整capture/final67/close全路径资格仍UNKNOWN；不能乘618授FI。未来FI/normal单独联合G1和具体G2，不拆FI、不拼前缀、不自动登录、不增加business certified。
+
+本轮 `git diff --check` 与 `E:/.cargo/bin/deno.exe run --cached-only --allow-read tools/format-md-tables.ts --check <本稿>` 已通过。新文件另经 `git diff --no-index --check /dev/null <本稿>` 检查无whitespace诊断（exit1仅表示存在内容diff），不依赖untracked文件未进入普通diff的空结果。未运行pnpm。build/lint/API tests/migration/OpenAPI：本轮docs-only不要求；以上实施负例尚未执行，实际流程完全未运行。Root独审与冻结仍待完成。

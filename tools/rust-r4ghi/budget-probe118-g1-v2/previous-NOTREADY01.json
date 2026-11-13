@@ -1,0 +1,411 @@
+{
+  "kind": "non-author-runtime118-joint-G1-G3-design-review",
+  "verdict": "NOTREADY-for-code-freeze",
+  "recordedAt": "2026-11-13T03:29:59.509Z",
+  "reviewer": "/root/transport358_code_review",
+  "reviewerIsAuthor": false,
+  "issue": 118,
+  "parentIssue": 114,
+  "proposals": [
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-successful-prepare-adoption-design01/design-successful-adoption118.md",
+      "bytes": 12830,
+      "rawBytesSha256": "f0c5fd4188a17542c782fb5c63d9ebc782b3c1ae0855ef211551490623aa8ca6"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-budget-probe-g3-design01/design-budget-probe118.md",
+      "bytes": 11212,
+      "rawBytesSha256": "7bad73ff0824dd3dd3941983d7afb232fbafa83e1cc23ca258704f8ac2169591"
+    }
+  ],
+  "observedRootHead": "d78cae8a19da556fb51c3a04e720c6e1755a21d9",
+  "basis": {
+    "original118G1": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118-g1/Root-G1-Tax15-118.json",
+      "bytes": 8942,
+      "rawBytesSha256": "646447aab505c0bf73e0971439fca36a6aca1afb961a0a4573cadeccfc7342b9"
+    },
+    "baseline": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118-g1/baseline-frozen.md",
+      "bytes": 6301,
+      "rawBytesSha256": "a5520bb4f4dbe8d79945e9ef10309828d01c390fa94ba31301aeb8cfff9f444c"
+    },
+    "G3_362": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/corrective362-g3-freeze01/Root-G3-code-input362.json",
+      "bytes": 14235,
+      "rawBytesSha256": "0bc2ad58712a8cc396f740701178b3e27cda8f16a615404c35f47f658ace10d2"
+    },
+    "E1_362": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/prepare362-timing-E1-01/Root-E1-prepare362-timing.json",
+      "bytes": 4894,
+      "rawBytesSha256": "a5530e1a98173cc3dcd58c4fa0fa15dcc63bef3d1af2d99d302e87ffcb33e0c4"
+    },
+    "acceptedSuccessfulPreparation": {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime121-prepare362-actual-independent01/review-actual-prepare-continuation362.json",
+      "bytes": 1334,
+      "rawBytesSha256": "565740aa32a9c8b1b41810dd134566b2f7a6646493534b174c37669ce8d8b8c6"
+    },
+    "technical121ActualG4": {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/technical121-G4-actual-independent01/review-actual-technical121-G4.json",
+      "bytes": 6093,
+      "rawBytesSha256": "5cee4e0c7109ce2c0936b1a7212cda17bc96cc184b0c56bffc0a362b95e5047d"
+    },
+    "currentSourceGraph": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/corrective362-source-actual01/actual-execution-sources284.json",
+      "bytes": 60810,
+      "rawBytesSha256": "b8fd572ffa1e32ff581631410bcacc48e4350c51d4308e96d216cc985b89a25f"
+    }
+  },
+  "beforeProduction8": [
+    {
+      "file": "tools/rust-r4ghi/business/runtime-admission121.mjs",
+      "group": "helper",
+      "before": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/runtime-admission121.mjs",
+        "bytes": 148850,
+        "rawBytesSha256": "197fc179bfbb8d92a45d732080cc0b96a78bc4e92c497d930d65c49759a9c906"
+      }
+    },
+    {
+      "file": "tools/rust-r4ghi/business/runtime-admission-core121.mjs",
+      "group": "helper",
+      "before": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/runtime-admission-core121.mjs",
+        "bytes": 47826,
+        "rawBytesSha256": "21205f08bb1a5522bde128992ec17785ff3b5c38bb1af6b2a9cafdc1d4f5b504"
+      }
+    },
+    {
+      "file": "tools/rust-r4ghi/runtime-recovery121/native/publish-runtime121.mjs",
+      "group": "external",
+      "before": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/native/publish-runtime121.mjs",
+        "bytes": 60586,
+        "rawBytesSha256": "5339974d221acac9a64908132d92280d0686096cf6a0e5fb9a329bd12fb4ecf2"
+      }
+    },
+    {
+      "file": "tools/rust-r4ghi/tax15-invocation118/run-tax15-once.mjs",
+      "group": "external",
+      "before": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/run-tax15-once.mjs",
+        "bytes": 22564,
+        "rawBytesSha256": "c016db12248a9f30b7f4f827a70aae06fab0557c481285ecefefbaa12c49ff11"
+      }
+    },
+    {
+      "file": "tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs",
+      "group": "external",
+      "before": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs",
+        "bytes": 61225,
+        "rawBytesSha256": "23d6c9ef588a079ed1cc51161d0beed4d962cb0c7c4aede07694e924af299d79"
+      }
+    },
+    {
+      "file": "tools/rust-r4ghi/tax15-invocation118/tax15-once-effects.mjs",
+      "group": "external",
+      "before": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tax15-once-effects.mjs",
+        "bytes": 20509,
+        "rawBytesSha256": "dea11bc6f99dc22ea1c5a5abd673a97ecdb0ab53f8fa83d2aae1a4caf08b08be"
+      }
+    },
+    {
+      "file": "tools/rust-r4ghi/tax15-invocation118/retained-tax-proof.mjs",
+      "group": "external",
+      "before": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/retained-tax-proof.mjs",
+        "bytes": 41693,
+        "rawBytesSha256": "454ba2f93bfd6ad3f7ede33b0403259e72f42fb1e4ea17c29bc0e9e162482716"
+      }
+    },
+    {
+      "file": "tools/rust-r4ghi/tax15-invocation118/tax15-once-wire.mjs",
+      "group": "external",
+      "before": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tax15-once-wire.mjs",
+        "bytes": 23861,
+        "rawBytesSha256": "669985306e4166fbb2bc95763176f24f7749a50037236f0f73a19f1b81fd99cc"
+      }
+    }
+  ],
+  "beforeOutsideGraph2": [
+    {
+      "file": "tools/rust-r4ghi/runtime-recovery121/Native-plan-data-candidate01/prepare-native-plan121.mjs",
+      "before": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/Native-plan-data-candidate01/prepare-native-plan121.mjs",
+        "bytes": 83935,
+        "rawBytesSha256": "f30399b2230c0a2834a2c6fe035269b3120aa8dd136fa2d7a90055788d4e15b9"
+      }
+    },
+    {
+      "file": "tools/rust-r4ghi/runtime-recovery121/Tax121-current-metadata-data-candidate01/prepare-tax121-current-metadata.mjs",
+      "before": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/Tax121-current-metadata-data-candidate01/prepare-tax121-current-metadata.mjs",
+        "bytes": 94015,
+        "rawBytesSha256": "543c75b7c5147b95455f1599b06c4bc47ccd90062b65b7555cc12440b3a1f087"
+      }
+    }
+  ],
+  "sourceMembership": {
+    "helpers": 229,
+    "external": 55,
+    "execution": 284,
+    "proposedMOD": 8,
+    "helperMOD": 2,
+    "externalMOD": 6,
+    "remainingSame": 276,
+    "outsideDataMOD": 2,
+    "newProductionModule": 0,
+    "afterHashesNotInvented": true
+  },
+  "sourceAnchors": [
+    {
+      "file": "tools/rust-r4ghi/business/runtime-admission121.mjs",
+      "lines": [
+        1110,
+        1118,
+        1123,
+        1131,
+        1157,
+        1191,
+        1199,
+        1212,
+        1229,
+        1238,
+        1248,
+        1254,
+        1259
+      ],
+      "meaning": "Ordinary constructor and public current/view/retained/GH/trusted gates presently have no purpose distinction; budget-specific admission must not make them authorize v4 effects.",
+      "source": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/runtime-admission121.mjs",
+        "bytes": 148850,
+        "rawBytesSha256": "197fc179bfbb8d92a45d732080cc0b96a78bc4e92c497d930d65c49759a9c906"
+      }
+    },
+    {
+      "file": "tools/rust-r4ghi/business/http.mjs",
+      "lines": [
+        28,
+        29
+      ],
+      "meaning": "General createApi obtains a current Native binding before setting up HTTP.",
+      "source": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/http.mjs",
+        "bytes": 12109,
+        "rawBytesSha256": "dc1ee9dd009cadaa963d4e97de23d839931c803c17c02e8bbfe19fdb85c40200"
+      }
+    },
+    {
+      "file": "tools/rust-r4ghi/business/trusted.mjs",
+      "lines": [
+        32,
+        33
+      ],
+      "meaning": "Trusted summary effect obtains the same general Native binding.",
+      "source": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/trusted.mjs",
+        "bytes": 7907,
+        "rawBytesSha256": "f94aecb7532de74e3e1ed0671cea77d77c955a5945e286331ac979d30ba05be3"
+      }
+    },
+    {
+      "file": "tools/rust-r4ghi/business/fault-sweep.mjs",
+      "lines": [
+        20,
+        23
+      ],
+      "meaning": "General FI current-source path consumes currentRuntime121/assertGHCurrentSource121.",
+      "source": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/fault-sweep.mjs",
+        "bytes": 25874,
+        "rawBytesSha256": "e167e13e8c46e011d98dea68d36147a78aa88d7b35c6a32b7ee3fcd10eb02335"
+      }
+    },
+    {
+      "file": "tools/rust-r4ghi/business/policy-security-runtime15.mjs",
+      "lines": [
+        42
+      ],
+      "meaning": "Non-Tax policy control consumes general current lease binding.",
+      "source": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/policy-security-runtime15.mjs",
+        "bytes": 10331,
+        "rawBytesSha256": "b76220d711789dbee42c10dc228e6209b213051ae7e3a70861546f87a94a345d"
+      }
+    },
+    {
+      "file": "tools/rust-r4ghi/tax15-invocation118/retained-tax-proof.mjs",
+      "lines": [
+        95,
+        98,
+        100,
+        101,
+        138
+      ],
+      "meaning": "Budget still needs all strong retained Main/resource/preparation predicates through a fixed restricted channel; simply deny every generic function without a replacement would make Auth/probe unusable.",
+      "source": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/retained-tax-proof.mjs",
+        "bytes": 41693,
+        "rawBytesSha256": "454ba2f93bfd6ad3f7ede33b0403259e72f42fb1e4ea17c29bc0e9e162482716"
+      }
+    },
+    {
+      "file": "tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs",
+      "lines": [
+        824,
+        888,
+        1013,
+        1032,
+        1069,
+        1089,
+        1282,
+        1298,
+        1325,
+        1335,
+        1358,
+        1360
+      ],
+      "meaning": "Existing identity/current-K equality needs explicit adoption; close seals journal/result then deletes cap, so later final timing cannot be written into that sealed object.",
+      "source": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs",
+        "bytes": 61225,
+        "rawBytesSha256": "23d6c9ef588a079ed1cc51161d0beed4d962cb0c7c4aede07694e924af299d79"
+      }
+    },
+    {
+      "file": "tools/rust-r4ghi/tax15-invocation118/run-tax15-once.mjs",
+      "lines": [
+        488,
+        490,
+        491,
+        501,
+        507,
+        519
+      ],
+      "meaning": "Existing owned nonce outer command writes complete/partial after close; this is the finite acyclic slot for terminal observation, rather than rewriting a closed journal.",
+      "source": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/run-tax15-once.mjs",
+        "bytes": 22564,
+        "rawBytesSha256": "c016db12248a9f30b7f4f827a70aae06fab0557c481285ecefefbaa12c49ff11"
+      }
+    },
+    {
+      "file": "tools/rust-r4ghi/tax15-invocation118/tax15-once-effects.mjs",
+      "lines": [
+        85,
+        87,
+        113,
+        138,
+        148,
+        153
+      ],
+      "meaning": "Complete real actor37/session/DB-clock observation and its pre-SQL monotonic anchor exist; ordinary guard string/null ABI must remain.",
+      "source": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tax15-once-effects.mjs",
+        "bytes": 20509,
+        "rawBytesSha256": "dea11bc6f99dc22ea1c5a5abd673a97ecdb0ab53f8fa83d2aae1a4caf08b08be"
+      }
+    }
+  ],
+  "acceptedDesignParts": {
+    "shapes": {
+      "Origin7": [
+        "kind",
+        "schemaVersion",
+        "state",
+        "ownership",
+        "recordPointer",
+        "continuation121",
+        "continuationReadback"
+      ],
+      "S4": [
+        "kind",
+        "schemaVersion",
+        "predecessorPlan",
+        "predecessorRegistry",
+        "predecessorCandidate",
+        "predecessorPublication",
+        "predecessorReadback",
+        "retainedCurrentState",
+        "retainedOwnership",
+        "prepareOrigin121",
+        "sourceWitness",
+        "allowedPurpose"
+      ],
+      "Adoption6": [
+        "kind",
+        "schemaVersion",
+        "purpose",
+        "prepareOrigin121",
+        "current",
+        "semantics"
+      ],
+      "AdoptionCurrent5": [
+        "plan",
+        "registry",
+        "candidate",
+        "sourceWitness",
+        "scope121"
+      ]
+    },
+    "successfulKRetainedUnderItsBirthIdentity": true,
+    "currentConsumptionTupleKeptSeparate": true,
+    "originalRecordAnd6458JournalNotRewritten": true,
+    "Origin565740NotBackfilledIntoOldNullSlot": true,
+    "FSOnlyLeaseAndHistoryTwoTopChanges": true,
+    "full1daOwnershipPrefixAndEb4aB76ChainRequired": true,
+    "AuthProbeStateDeltasSeparatedFromFSZeroDelta": true,
+    "planRegistryCandidateAdoptionCompleteStateDependencyDirection": "Origin points only existing successful6c/1da/K/carrier; plan/S4 bindOrigin and exact source; registry/candidate precedeAdoption; complete/history pointAdoption; Adoption never pointscomplete/runtimeBindings. This direction has no required hash cycle.",
+    "runtimeOuterSchema2Closed5ToSchema3Closed6WithAdoption": true,
+    "current17Frame17Ref11Tax34Root9RemainTheirOwnShapes": true,
+    "oldSixModesMustRejectSchema3Adoption": true,
+    "oneCanonicalAuth3AndNoSecondLoginOrBusinessGETDDLDomainPOST": true
+  },
+  "findings": [
+    {
+      "id": "BUDGET-NATIVE-PURPOSE-ISOLATION",
+      "severity": "blocking-before-freeze",
+      "problem": "The documents bind S4.allowedPurpose=budget-probe and make Tax old six modes reject schema3, but do not specify an enforcement boundary preventing that valid v4 lease/brand from satisfying ordinary Native or non-Tax effect consumers.",
+      "staticCounterexample": "An implementation that only teaches fullPublished/current facts about v4, sets false semantics flags, and adds the Taxmode7 branch still lets ordinary createContext121 return a branded general Root; createWitnessView/createPolicyView and generic http/trusted/FI/policy entrypoints then obtain currentRuntime121/lease bindings. None of those unchanged consumers consults S4.allowedPurpose or Tax runtimeBindings.schemaVersion. This is a counterexample to the proposed design, not an executed v4 path or a claim of an existing v3 runtime exploit.",
+      "minimumRevision": "Within the same Native/proof/retained-proof boundary, freeze a fixed genuine Tax budget-only construction/brand/binding channel deriving purpose from verified S4/adoption and exact input/Root9, never a caller-supplied purpose/skip/callback. Explicitly reject v4 budget leases at ordinary constructors/Root-view creation and general Native current/binding/retained-resource/GH/trusted/effect-consumer gates before any external effect or view escape. Enumerate the fixed strong methods still required by Tax checkpoint/legacy/Auth/entry/full-close, preserving all predicates through the restricted channel. Leave the other276 production leaves unchanged only if complete-function negative models show they fail through the central purpose gate. If that cannot be done honestly within10 leaves, report the exact extra dependency rather than weaken the deny."
+    },
+    {
+      "id": "AFTER-CLOSE-TIMING-ENVELOPE",
+      "severity": "required-finite-contract-clarification",
+      "problem": "The proposed result field family includes final close duration/outcome and exit/closed pins, but the original close seals result/journal before returning and revokes cap. Their exact output placement must be frozen so implementations do not create a future-pin/self-hash cycle or revive the capability.",
+      "minimumRevision": "Persist the completedCP sample as an existing wx artifact before close. close.result may refer only to that existing sample. Measure close around its one real call. After return, the existing run-owned nonce directory complete/report writer can wx the final close timing, real exit/closed pins and OBSERVATION_COMPLETE or STOPPED_PRESERVE result. Never back-write closed.result, oldK or6458, never close twice, never use a closed cap or expose a caller callback. Preserve a successful Native-close fact even when conservative post-close deadline coverage fails."
+    }
+  ],
+  "timingJudgment": {
+    "CPBracket": "Start/end tightly wrap the whole checkpoint118 including its actual Native final reference. Persist after end; an exception cannot be a completedCP sample.",
+    "fullActorObservation": "Use the real account/full37/owned-cookie/session/SQL-clock checks. Keep the old guardActor118 string|null ABI and fixed private wire deadline path; no injected observation.",
+    "closeCoverage": "The pre-SQL monotonic anchor may conservatively charge all connection/SQL/await work plus everything through close return, using ceil nanoseconds-to-ms and requiring both idle/absolute remaining>2000ms. A lost margin or unavailable observation yields STOPPED_PRESERVE, while any already completedCP/close facts retain their true labels. No post-close SQL observation or continuously active permission claim is inferred.",
+    "qualification": "N=1 base(activeFault=false) can establish exactly that measured observation and bounded session-time bookends; it cannot establish a high-tail distribution, an upper bound for618 checkpoints, activeFault/DDL/500/rollback/waits/coflush/capture/final67/close whole-path budget, or FIG2 eligibility.",
+    "wholeFIBudget": "UNKNOWN",
+    "probeCouldBeFrozenAsLimitedMeasurementAfterFindingsResolved": true,
+    "noAssumedBudgetPass": true
+  },
+  "authority": {
+    "designReviewOnly": true,
+    "codeImplementationGranted": false,
+    "sourcePromotionGranted": false,
+    "NativeFSGranted": false,
+    "actualContextAuthProbeGranted": false,
+    "G2Granted": false,
+    "FIG2Granted": false,
+    "normalTaxPOSTGranted": false,
+    "MainPOSTGranted": false,
+    "newBusinessCertified": 0,
+    "businessG3": false,
+    "businessG4": false,
+    "technical121HistoricalG4Unchanged": true,
+    "RootOrPrivateWritten": false,
+    "actualPOrProcEnvSQLHTTPReadOrExecuted": false,
+    "actualNativeCoreAppImportedOrEvaluated": false,
+    "futureInputNonceAuthorityOrPinsCreated": false
+  },
+  "resolution": "Preserve both01 proposals and thisNOTREADY record. A narrow immutable design revision/addendum covering the central purpose deny and acyclic timing-report placement can be re-reviewed without repeating old actual preparation or unrelated suites. Root alone may subsequently freeze the exact bounded implementation input."
+}
