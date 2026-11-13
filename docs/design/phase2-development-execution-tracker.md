@@ -1240,3 +1240,10 @@ G1Policy3082经独审1489仅授1生产源和1验证文件代码实施。holder�
 Root继续为父#114管理相同私有和活跃输入/运行资源。#114/#118/#120/#57/#116保持Open、#119历史Closed，FI预算UNKNOWN/directCP0，不授后继实际效果；业务认证0/G3G4未签，Rust240、R4 67/95、候选32。
 
 <!-- /poms-runtime121-actual-G4-final -->
+
+
+<!-- poms-runtime121-terminal-writeback-final -->
+
+[#121终审证书链接及勾选](https://github.com/illusion-tech/poms/issues/121#issuecomment-6842861365)、[#57当前状态](https://github.com/illusion-tech/poms/issues/57#issuecomment-6842862718)均已完成[精确回写](archive/slices/rust-r4ghi-runtime121/technical121-G4-terminal-writeback01/receipt.json)。本技术子片Done，原关闭时间/原因保持；独立actual证书5cee4e只认证#121，业务认证0、全FI预算UNKNOWN、所有父/后继边界不变。
+
+<!-- /poms-runtime121-terminal-writeback-final -->
