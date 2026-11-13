@@ -1193,3 +1193,10 @@ G1Policy3082经独审1489仅授1生产源和1验证文件代码实施。holder�
 [全部安全原件、工具停止及修正](archive/slices/rust-r4ghi-runtime121/prepare362-actual-readback01/archive.json)保真归档，私有原件和活跃运行输入保留原路径，由Root继续在#114下负责。E1本次真实结果/书挡已归档，但直接CP样本为0、618全FI预算仍未证明，不授FI/正常Tax/Main，不重放本次prepare。#121技术G3/G4固定提交及关闭前审查、线上镜像继续；Rust240、R4 67/95、本批32candidate/新增认证0、业务G3G4未签，#57/#116开放、#119历史CLOSED。
 
 <!-- /poms-runtime121-prepare362-actual -->
+
+
+<!-- poms-runtime121-prepare362-actual-online -->
+
+[真实准备及完整读回](rust-r4ghi/runtime121-prepare362-actual.md)已推送33646ef4；[线上逐字镜像](rust-r4ghi/runtime121-prepare362-actual-online.json)核[#121](https://github.com/illusion-tech/poms/issues/121#issuecomment-6841629158)与[#57](https://github.com/illusion-tech/poms/issues/57#issuecomment-6841630577)正文及评论。B实际G2/准备验收已勾选，两个Issue仍Open，#121独立技术G3/G4关闭前审查继续；FI预算UNKNOWN、业务认证0/G3G4未签，#57/#116开放。
+
+<!-- /poms-runtime121-prepare362-actual-online -->
