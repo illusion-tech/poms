@@ -1218,3 +1218,14 @@ G1Policy3082经独审1489仅授1生产源和1验证文件代码实施。holder�
 全67FI预算UNKNOWN、直接CP样本0；不授FIG2/正常Tax/Main。Rust240、R4 67/95、本批32candidate/认证0、业务G3G4未签；#114/#118/#120/#57/#116开放、#119历史CLOSED。
 
 <!-- /poms-runtime121-G4-ready -->
+
+
+<!-- poms-runtime121-G4-online-applied -->
+
+### 2026-11-13 #121技术G4线上已应用，非作者实际终审待完成
+
+[#121技术收口](https://github.com/illusion-tech/poms/issues/121#issuecomment-6842682830)已按独立preclose/窄delta许可实际以completed关闭；[原始线上精确读回](archive/slices/rust-r4ghi-runtime121/technical121-G4-online01/receipt.json)核正文/评论与状态，并核#114/#118/#120/#57/#116仍Open、#119历史Closed，原生121→114及118的119/121依赖边保留。[#57当前状态](https://github.com/illusion-tech/poms/issues/57#issuecomment-6842684198)同步技术子片完成与完整业务验收仍待。
+
+此阶段为G4OnlineApplied，最终非作者actual G4证书尚待，未把preclose当终审。私有/活输入继续由Root在#114下负责，47项例外的observed指针按其记录时点解释。全67FI预算UNKNOWN/directCP0，业务认证0/G3G4未签、Rust240/R4 67/95/候选32；不授FI/正常Tax/Main。
+
+<!-- /poms-runtime121-G4-online-applied -->
