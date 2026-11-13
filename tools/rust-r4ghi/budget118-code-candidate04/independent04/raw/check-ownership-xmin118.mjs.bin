@@ -1,0 +1,52 @@
+// Full suffix/source functions with real hashes for synthetic log/HTTP/ledger/
+// row artifacts. Historical 1da raw-prefix validation is a modeled dependency.
+import fs from 'node:fs';import path from 'node:path';import vm from 'node:vm';
+import assert from 'node:assert/strict';import {createHash} from 'node:crypto';
+import {createRequire} from 'node:module';import {fileURLToPath} from 'node:url';
+const own=path.dirname(fileURLToPath(import.meta.url)).replaceAll('\\','/');
+const ts=createRequire('E:/projects/worktrees/poms-r3hijk-next28/poms/package.json')('typescript');
+const file=process.argv[2],output=process.argv[3];assert(file.replaceAll('\\','/').startsWith(own+'/'));assert(/^[a-z0-9-]+\.json$/.test(output));
+const bytes=fs.readFileSync(file),text=bytes.toString(),sha=b=>createHash('sha256').update(b).digest('hex');
+const ast=ts.createSourceFile(file,text,ts.ScriptTarget.Latest,true,ts.ScriptKind.JS),captures=[];
+const names=['currentOwnershipBudget118','budgetOwnershipSource118'];
+if(ast.statements.some(n=>ts.isFunctionDeclaration(n)&&n.name?.text==='assertBudgetOwnedLatest118'))names.push('assertBudgetOwnedLatest118');
+const bodies=names.map(name=>{const n=ast.statements.find(n=>ts.isFunctionDeclaration(n)&&n.name?.text===name);assert(n);const body=text.slice(n.getStart(ast),n.end).replace(/^export\s+/,'');captures.push({name,rawBodySha256:sha(body)});return body;}).join('\n');
+const c=vm.createContext({assert,Buffer,__sha:sha});
+vm.runInContext(`
+const data15='/MODEL/OWNED',process={pid:118},IO362={};let M;
+const sha121=__sha,keys121=(o,names)=>assert.deepEqual(Object.keys(o).sort(),[...names].sort());
+const samePin121=(a,b)=>assert.deepEqual(a,b);
+const fs={readFileSync:file=>{assert(M.files.has(file));return Buffer.from(M.files.get(file));}};
+const read121=p=>{const b=fs.readFileSync(p.file);assert.equal(sha121(b),p.rawBytesSha256);if(p.bytes!==undefined)assert.equal(b.length,p.bytes);return b;};
+const json121=p=>JSON.parse(read121(p));
+const ownershipPrefix118=(base,r362,retained,current)=>{assert.equal(base.toString(),'MODEL-BASE\\n');assert(r362.subarray(0,base.length).equals(base));assert(retained.subarray(0,r362.length).equals(r362));assert(current.subarray(0,retained.length).equals(retained));};
+function fixture(multiple=false){
+ M={files:new Map(),seq:0};const put=(value,file)=>{const b=Buffer.isBuffer(value)?value:Buffer.from(typeof value==='string'?value:JSON.stringify(value));file??='/MODEL/artifact-'+(++M.seq);M.files.set(file,b);return{file,bytes:b.length,rawBytesSha256:sha121(b)};};
+ const base=put('MODEL-BASE\\n'),r362=put('MODEL-BASE\\nMODEL-362\\n'),retained=put('MODEL-BASE\\nMODEL-362\\nMODEL-1DA\\n');IO362.retainedOwnership=r362;
+ M.plan={base:{ownership15:base},stateTransfer:{expectedOwnership:retained}};
+ const key='MODEL-OWNED-KEY',id='00000000-0000-4000-8000-000000000118';
+ const state={prefix:'model-prefix',owned:{},consumerChecks:{taxInvocation121:{invocations:{'MODEL-NONCE':{mode:'budget-probe',httpAttempts:[]}}}}};
+ put({mode:'budget-probe',pid:118,nonce:'MODEL-NONCE'},data15+'/driver.lock');
+ const rows=[],sourceRows=[];let previous=put({kind:'MODEL-BEFORE'});
+ for(let index=0;index<(multiple?2:1);index++){
+  const raw=JSON.stringify({id,status:'active',version:index}),rowSha256=sha121(raw),xmin=String(100+index),row=put(JSON.stringify({key:[id],raw,sha256:rowSha256,xmin})+'\\n');
+  const after=put({databases:{poms:{tables:{auth_session:{file:row.file,rawBytesSha256:row.rawBytesSha256}}}}}),requestId='model-prefix-auth-'+index,operationId=index?'AuthController_getCurrentAuthSession':'AuthController_createPasswordAuthSession';
+  const proof=index?{kind:'HTTP-owned-row-update',requestId,operationId,beforeSnapshot:previous,afterSnapshot:after}:{requestId,operationId,status:200,beforeSnapshot:previous,afterSnapshot:after};
+  const http=put({requestId,operationId,status:200}),ledger=put({requestId,operationId,ownershipComplete:true,blockers:[],before:previous,after,recorded:[{kind:index?'owned-update':'birth',table:'auth_session',key:[id]}]});
+  state.consumerChecks.taxInvocation121.invocations['MODEL-NONCE'].httpAttempts.push({http,ledger,before:previous,after});
+  state.owned[key]={database:'poms',table:'auth_session',key:[id],latestSha256:rowSha256,latestXmin:xmin,latestProof:proof};
+  rows.push({at:'2026-11-13T12:00:00Z',key,rowSha256,proof});sourceRows.push(row);previous=after;
+ }
+ put(Buffer.concat([M.files.get(retained.file),Buffer.from(rows.map(v=>JSON.stringify(v)).join('\\n')+'\\n')]),data15+'/ownership.jsonl');
+ M.state=state;M.key=key;M.put=put;M.sync=()=>put(state,data15+'/state.json');M.sync();return M;
+}
+globalThis.model={fixture};
+`,c);
+vm.runInContext(bodies,c);
+const checks=[];function check(name,program){try{vm.runInContext(program,c);checks.push({name,outcome:'PASS'});}catch(error){checks.push({name,outcome:'FAIL',error:{name:error.name,message:error.message}});}}
+check('complete suffix/source baseline with genuine hashed model after-row xmin',`{const f=model.fixture();currentOwnershipBudget118(f.plan);}`);
+check('changing only latestXmin must reject despite matching SHA/proof/log/HTTP/ledger',`{const f=model.fixture();f.state.owned[f.key].latestXmin='999999';f.sync();assert.throws(()=>currentOwnershipBudget118(f.plan));}`);
+check('two valid Auth updates of the same key compare only the last after-row xmin',`{const f=model.fixture(true);currentOwnershipBudget118(f.plan);}`);
+check('last-key wrong xmin rejects after an earlier valid Auth birth',`{const f=model.fixture(true);f.state.owned[f.key].latestXmin='100';f.sync();assert.throws(()=>currentOwnershipBudget118(f.plan));}`);
+const result={kind:'independent-budget118-complete-owned-suffix-xmin-model',recordedAt:new Date().toISOString(),engine:process.version,execPath:process.execPath,candidate:{file,bytes:bytes.length,rawBytesSha256:sha(bytes)},captures,checks,passed:checks.filter(c=>c.outcome==='PASS').length,failed:checks.filter(c=>c.outcome==='FAIL').length,limits:{allArtifactsMemoryOnly:true,syntheticArtifactRawHashesActuallyVerified:true,historical1daRawPrefixValidationModeled:true,actualPrivateProcEnvSQLHTTP:false,actualPerformance:false}};
+const out=own+'/'+output;fs.writeFileSync(out,JSON.stringify(result,null,2)+'\n',{flag:'wx',mode:0o600});console.log(JSON.stringify({file:out,passed:result.passed,failed:result.failed,rawBytesSha256:sha(fs.readFileSync(out))}));if(result.failed)process.exitCode=1;

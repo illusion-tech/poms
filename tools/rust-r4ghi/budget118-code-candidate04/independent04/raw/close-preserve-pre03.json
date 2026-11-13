@@ -1,0 +1,54 @@
+{
+  "kind": "independent-budget118-complete-close-secondary-preservation-model",
+  "recordedAt": "2026-11-13T11:01:59.008Z",
+  "candidate": {
+    "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-budget-code-independent01/link-pre02-sources/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs",
+    "bytes": 72514,
+    "rawBytesSha256": "2d5b44e96101d432498a18e6569567075815b85b2446b88e88c70fdf1e382d93"
+  },
+  "infrastructureProbe": null,
+  "wholeFunction": {
+    "name": "closeInvocation118",
+    "start": 1320,
+    "end": 1408,
+    "rawBodySha256": "9f543b0e800a7214e061b89db11d3eabf4f162c4b5edf50b65eff0f0d8cbb1f3"
+  },
+  "checks": [
+    {
+      "name": "full budget close returns real two born pins and revokes once",
+      "outcome": "PASS"
+    },
+    {
+      "name": "exit born then all state writes fail still exposes finite existing pins",
+      "outcome": "FAIL",
+      "error": {
+        "name": "AssertionError",
+        "message": "Already observed pins were lost to a secondary preserve error"
+      }
+    },
+    {
+      "name": "closed journal born then state and preserve writes fail still exposes finite existing pins",
+      "outcome": "FAIL",
+      "error": {
+        "name": "AssertionError",
+        "message": "Already observed pins were lost to a secondary preserve error"
+      }
+    },
+    {
+      "name": "failed-bookend write error cannot replace the primary finite close facts",
+      "outcome": "FAIL",
+      "error": {
+        "name": "AssertionError",
+        "message": "The expression evaluated to a falsy value:\n\n  assert(Object.hasOwn(error,'budgetCloseFacts'))\n"
+      }
+    }
+  ],
+  "passed": 1,
+  "failed": 3,
+  "limits": {
+    "strongNativeAndRetainedDependenciesModeled": true,
+    "allArtifactsMemoryOnly": true,
+    "actualPrivateProcEnvSQLHTTP": false,
+    "actualPerformance": false
+  }
+}

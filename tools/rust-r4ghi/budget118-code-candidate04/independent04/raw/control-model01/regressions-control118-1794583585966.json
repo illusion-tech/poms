@@ -1,0 +1,962 @@
+{
+  "kind": "independent-runtime118-control-isolated-regressions",
+  "candidatePins": [
+    {
+      "name": "core",
+      "file": "tools/rust-r4ghi/business/runtime-admission-core121.mjs",
+      "bytes": 62013,
+      "rawBytesSha256": "c27b4a6f4c4b63e46fa0e334585b9f105fc1a95d6c15bf668db90ed632a2ec1e"
+    },
+    {
+      "name": "native",
+      "file": "tools/rust-r4ghi/business/runtime-admission121.mjs",
+      "bytes": 202831,
+      "rawBytesSha256": "dd6d994174157a2754e81989238b6830fcdfb6ba7e42a08a19993d777f8a3147"
+    },
+    {
+      "name": "publisher",
+      "file": "tools/rust-r4ghi/runtime-recovery121/native/publish-runtime121.mjs",
+      "bytes": 84759,
+      "rawBytesSha256": "c4d38df07a5ca29f73a1e1caa11ee68a088bcdb21f83eb24bd464b9c05324f9e"
+    },
+    {
+      "name": "nativeData",
+      "file": "tools/rust-r4ghi/runtime-recovery121/Native-plan-data-candidate01/prepare-native-plan121.mjs",
+      "bytes": 116614,
+      "rawBytesSha256": "da8d5ccd58945e824ba32afa4adb0606ed10192b88c46529520e675ae7013b0a"
+    },
+    {
+      "name": "taxData",
+      "file": "tools/rust-r4ghi/runtime-recovery121/Tax121-current-metadata-data-candidate01/prepare-tax121-current-metadata.mjs",
+      "bytes": 126368,
+      "rawBytesSha256": "e37e79962eda342775eec58985f1bbc07838a308bde7021986036c736f57193c"
+    }
+  ],
+  "results": [
+    {
+      "module": "native",
+      "test": "complete old three-stage loader compatibility",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "complete four-stage loader and full plan positive (declared synthetic identities)",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "all nine stage3 preimages read through exact retained files",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "all 284 current sources reread",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "rejects ordinary purpose on valid S4",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "rejects original success CAS replaced with failed CAS",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "rejects original P3 registry changed",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "rejects Origin new K",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "rejects W4 relabelled three-stage",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "rejects baseline graph changed",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "rejects retained nine missing preimage",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "rejects wrong stage file hash cannot fall back",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "rejects original K body null rewritten",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "rejects original record changed",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "rejects original 6458 journal changed",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "rejects old carrier backfilled",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "rejects source manifest tenth graph member",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "rejects source review author equals reviewer",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "rejects ownership retained prefix corrupted",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "rejects whole 1da missing byte",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "rejects late current source missing",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "unchanged current sourcePins enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "unchanged current compilePins enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "unchanged current binary enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "unchanged current summaryBinary enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "unchanged current binaryFiles enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "unchanged current nodeExecutable enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "unchanged current lifetimeOwner enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "unchanged current PGStart enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "unchanged current PGConservation enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "unchanged current apiProcess enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "unchanged current readiness enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "publisher",
+      "test": "complete old three-stage loader compatibility",
+      "status": "PASS"
+    },
+    {
+      "module": "publisher",
+      "test": "complete four-stage loader and full plan positive (declared synthetic identities)",
+      "status": "PASS"
+    },
+    {
+      "module": "publisher",
+      "test": "all nine stage3 preimages read through exact retained files",
+      "status": "PASS"
+    },
+    {
+      "module": "publisher",
+      "test": "all 284 current sources reread",
+      "status": "PASS"
+    },
+    {
+      "module": "publisher",
+      "test": "rejects ordinary purpose on valid S4",
+      "status": "PASS"
+    },
+    {
+      "module": "publisher",
+      "test": "rejects original success CAS replaced with failed CAS",
+      "status": "PASS"
+    },
+    {
+      "module": "publisher",
+      "test": "rejects original P3 registry changed",
+      "status": "PASS"
+    },
+    {
+      "module": "publisher",
+      "test": "rejects Origin new K",
+      "status": "PASS"
+    },
+    {
+      "module": "publisher",
+      "test": "rejects W4 relabelled three-stage",
+      "status": "PASS"
+    },
+    {
+      "module": "publisher",
+      "test": "rejects baseline graph changed",
+      "status": "PASS"
+    },
+    {
+      "module": "publisher",
+      "test": "rejects retained nine missing preimage",
+      "status": "PASS"
+    },
+    {
+      "module": "publisher",
+      "test": "rejects wrong stage file hash cannot fall back",
+      "status": "PASS"
+    },
+    {
+      "module": "publisher",
+      "test": "rejects original K body null rewritten",
+      "status": "PASS"
+    },
+    {
+      "module": "publisher",
+      "test": "rejects original record changed",
+      "status": "PASS"
+    },
+    {
+      "module": "publisher",
+      "test": "rejects original 6458 journal changed",
+      "status": "PASS"
+    },
+    {
+      "module": "publisher",
+      "test": "rejects old carrier backfilled",
+      "status": "PASS"
+    },
+    {
+      "module": "publisher",
+      "test": "rejects source manifest tenth graph member",
+      "status": "PASS"
+    },
+    {
+      "module": "publisher",
+      "test": "rejects source review author equals reviewer",
+      "status": "PASS"
+    },
+    {
+      "module": "publisher",
+      "test": "rejects ownership retained prefix corrupted",
+      "status": "PASS"
+    },
+    {
+      "module": "publisher",
+      "test": "rejects whole 1da missing byte",
+      "status": "PASS"
+    },
+    {
+      "module": "publisher",
+      "test": "rejects late current source missing",
+      "status": "PASS"
+    },
+    {
+      "module": "publisher",
+      "test": "unchanged current sourcePins enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "publisher",
+      "test": "unchanged current compilePins enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "publisher",
+      "test": "unchanged current binary enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "publisher",
+      "test": "unchanged current summaryBinary enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "publisher",
+      "test": "unchanged current binaryFiles enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "publisher",
+      "test": "unchanged current nodeExecutable enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "publisher",
+      "test": "unchanged current lifetimeOwner enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "publisher",
+      "test": "unchanged current PGStart enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "publisher",
+      "test": "unchanged current PGConservation enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "publisher",
+      "test": "unchanged current apiProcess enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "publisher",
+      "test": "unchanged current readiness enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "nativeData",
+      "test": "complete old three-stage loader compatibility",
+      "status": "PASS"
+    },
+    {
+      "module": "nativeData",
+      "test": "complete four-stage loader and full plan positive (declared synthetic identities)",
+      "status": "PASS"
+    },
+    {
+      "module": "nativeData",
+      "test": "all nine stage3 preimages read through exact retained files",
+      "status": "PASS"
+    },
+    {
+      "module": "nativeData",
+      "test": "all 284 current sources reread",
+      "status": "PASS"
+    },
+    {
+      "module": "nativeData",
+      "test": "rejects ordinary purpose on valid S4",
+      "status": "PASS"
+    },
+    {
+      "module": "nativeData",
+      "test": "rejects original success CAS replaced with failed CAS",
+      "status": "PASS"
+    },
+    {
+      "module": "nativeData",
+      "test": "rejects original P3 registry changed",
+      "status": "PASS"
+    },
+    {
+      "module": "nativeData",
+      "test": "rejects Origin new K",
+      "status": "PASS"
+    },
+    {
+      "module": "nativeData",
+      "test": "rejects W4 relabelled three-stage",
+      "status": "PASS"
+    },
+    {
+      "module": "nativeData",
+      "test": "rejects baseline graph changed",
+      "status": "PASS"
+    },
+    {
+      "module": "nativeData",
+      "test": "rejects retained nine missing preimage",
+      "status": "PASS"
+    },
+    {
+      "module": "nativeData",
+      "test": "rejects wrong stage file hash cannot fall back",
+      "status": "PASS"
+    },
+    {
+      "module": "nativeData",
+      "test": "rejects original K body null rewritten",
+      "status": "PASS"
+    },
+    {
+      "module": "nativeData",
+      "test": "rejects original record changed",
+      "status": "PASS"
+    },
+    {
+      "module": "nativeData",
+      "test": "rejects original 6458 journal changed",
+      "status": "PASS"
+    },
+    {
+      "module": "nativeData",
+      "test": "rejects old carrier backfilled",
+      "status": "PASS"
+    },
+    {
+      "module": "nativeData",
+      "test": "rejects source manifest tenth graph member",
+      "status": "PASS"
+    },
+    {
+      "module": "nativeData",
+      "test": "rejects source review author equals reviewer",
+      "status": "PASS"
+    },
+    {
+      "module": "nativeData",
+      "test": "rejects ownership retained prefix corrupted",
+      "status": "PASS"
+    },
+    {
+      "module": "nativeData",
+      "test": "rejects whole 1da missing byte",
+      "status": "PASS"
+    },
+    {
+      "module": "nativeData",
+      "test": "rejects late current source missing",
+      "status": "PASS"
+    },
+    {
+      "module": "nativeData",
+      "test": "unchanged current sourcePins enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "nativeData",
+      "test": "unchanged current compilePins enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "nativeData",
+      "test": "unchanged current binary enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "nativeData",
+      "test": "unchanged current summaryBinary enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "nativeData",
+      "test": "unchanged current binaryFiles enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "nativeData",
+      "test": "unchanged current nodeExecutable enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "nativeData",
+      "test": "unchanged current lifetimeOwner enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "nativeData",
+      "test": "unchanged current PGStart enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "nativeData",
+      "test": "unchanged current PGConservation enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "nativeData",
+      "test": "unchanged current apiProcess enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "nativeData",
+      "test": "unchanged current readiness enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "complete old three-stage loader compatibility",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "complete four-stage loader and full plan positive (declared synthetic identities)",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "all nine stage3 preimages read through exact retained files",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "all 284 current sources reread",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "rejects ordinary purpose on valid S4",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "rejects original success CAS replaced with failed CAS",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "rejects original P3 registry changed",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "rejects Origin new K",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "rejects W4 relabelled three-stage",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "rejects baseline graph changed",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "rejects retained nine missing preimage",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "rejects wrong stage file hash cannot fall back",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "rejects original K body null rewritten",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "rejects original record changed",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "rejects original 6458 journal changed",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "rejects old carrier backfilled",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "rejects source manifest tenth graph member",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "rejects source review author equals reviewer",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "rejects ownership retained prefix corrupted",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "rejects whole 1da missing byte",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "rejects late current source missing",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "unchanged current sourcePins enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "unchanged current compilePins enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "unchanged current binary enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "unchanged current summaryBinary enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "unchanged current binaryFiles enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "unchanged current nodeExecutable enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "unchanged current lifetimeOwner enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "unchanged current PGStart enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "unchanged current PGConservation enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "unchanged current apiProcess enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "unchanged current readiness enforced",
+      "status": "PASS"
+    },
+    {
+      "module": "core",
+      "test": "S4/Origin7/Adoption6 and FS exactly two top-level changes",
+      "status": "PASS"
+    },
+    {
+      "module": "core",
+      "test": "publication idle rejects activeFault",
+      "status": "PASS"
+    },
+    {
+      "module": "core",
+      "test": "publication idle rejects blockedObservation",
+      "status": "PASS"
+    },
+    {
+      "module": "core",
+      "test": "publication idle rejects cleaned",
+      "status": "PASS"
+    },
+    {
+      "module": "core",
+      "test": "publication idle rejects cleanupPlan",
+      "status": "PASS"
+    },
+    {
+      "module": "core",
+      "test": "publication idle rejects admissionPending54",
+      "status": "PASS"
+    },
+    {
+      "module": "core",
+      "test": "false semantics does not grant freshPreparation",
+      "status": "PASS"
+    },
+    {
+      "module": "core",
+      "test": "false semantics does not grant newK",
+      "status": "PASS"
+    },
+    {
+      "module": "core",
+      "test": "false semantics does not grant actualContextObserved",
+      "status": "PASS"
+    },
+    {
+      "module": "core",
+      "test": "false semantics does not grant FIOrNormalGranted",
+      "status": "PASS"
+    },
+    {
+      "module": "core",
+      "test": "ordinary plan <=v3 remains accepted",
+      "status": "PASS"
+    },
+    {
+      "module": "nativeData",
+      "test": "complete native plan producer v4 writes only owned metadata and preserves original API/PG/420/528",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "complete metadata validator and builders retain outer6/current17/input34 and original K",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "budget metadata rejects old technical G1",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "budget metadata rejects erased original successful record",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "budget metadata rejects modified original journal",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "budget metadata rejects cleared manager cookies",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "budget metadata rejects sequence reset",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "budget metadata rejects adoption for a different source",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "budget metadata rejects ordinary output directory",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "budget metadata rejects permissions subset",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "complete v4 metadata loader uses both 139-table observations and full permission derivation",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "all ordinary current/binding/view/retained/GH/trusted/ref gates deny budget before I/O",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "fake/proxy/JSON port and ticket reject before effect",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "ordinary binding cannot be exchanged for budget binding",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "public v4 metadata wrapper recursively removes private readers, raw retained state and brands",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "public <=v3 metadata return contract remains unchanged",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "ownership source complete function positive uses real hashed synthetic HTTP/ledger/row bodies",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "ownership source rejects missing matching ledger",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "ownership source rejects ledger blocker",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "ownership source rejects HTTP status differs from ownership proof",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "ownership source rejects owned key is not ledger record",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "ownership source rejects ownership row SHA cannot be invented",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "ownership source rejects snapshot identity differs",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "ownership source rejects wrong live budget nonce",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "independent Origin cannot add caller authority fields",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "independent retained original path cannot be substituted",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "independent M06 manifest cannot replace the stage3 baseline",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "independent predecessor actual readback must keep its approved verdict",
+      "status": "PASS"
+    },
+    {
+      "module": "native",
+      "test": "independent new source cannot claim its after hash as the before image",
+      "status": "PASS"
+    },
+    {
+      "module": "publisher",
+      "test": "independent Origin cannot add caller authority fields",
+      "status": "PASS"
+    },
+    {
+      "module": "publisher",
+      "test": "independent retained original path cannot be substituted",
+      "status": "PASS"
+    },
+    {
+      "module": "publisher",
+      "test": "independent M06 manifest cannot replace the stage3 baseline",
+      "status": "PASS"
+    },
+    {
+      "module": "publisher",
+      "test": "independent predecessor actual readback must keep its approved verdict",
+      "status": "PASS"
+    },
+    {
+      "module": "publisher",
+      "test": "independent new source cannot claim its after hash as the before image",
+      "status": "PASS"
+    },
+    {
+      "module": "nativeData",
+      "test": "independent Origin cannot add caller authority fields",
+      "status": "PASS"
+    },
+    {
+      "module": "nativeData",
+      "test": "independent retained original path cannot be substituted",
+      "status": "PASS"
+    },
+    {
+      "module": "nativeData",
+      "test": "independent M06 manifest cannot replace the stage3 baseline",
+      "status": "PASS"
+    },
+    {
+      "module": "nativeData",
+      "test": "independent predecessor actual readback must keep its approved verdict",
+      "status": "PASS"
+    },
+    {
+      "module": "nativeData",
+      "test": "independent new source cannot claim its after hash as the before image",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "independent Origin cannot add caller authority fields",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "independent retained original path cannot be substituted",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "independent M06 manifest cannot replace the stage3 baseline",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "independent predecessor actual readback must keep its approved verdict",
+      "status": "PASS"
+    },
+    {
+      "module": "taxData",
+      "test": "independent new source cannot claim its after hash as the before image",
+      "status": "PASS"
+    }
+  ],
+  "passed": 183,
+  "failed": 0,
+  "classification": "DECLARED-SYNTHETIC-COMPLETE-MODULE-MODELS; no actual runtime/auth/performance acceptance",
+  "limits": {
+    "fixedHistoricalHashesDoNotClaimSyntheticBodiesAreTheirActualBytes": true,
+    "actualFDAndPrivate13016RawPositiveNotRun": true,
+    "actualPProcEnvSQLHTTP": false,
+    "sourcePromotion": false,
+    "FSOrContextG2": false
+  }
+}

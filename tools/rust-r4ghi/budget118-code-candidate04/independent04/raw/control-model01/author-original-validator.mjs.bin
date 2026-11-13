@@ -1,0 +1,117 @@
+// Bounded author regressions using the existing 362 declared-identity scaffold.
+// Complete candidate modules run in isolated VM contexts. Every candidate I/O
+// is virtual/forbidden; no Root Native/Core/app, P, proc/env, SQL or HTTP runs.
+import fs from 'node:fs';
+import path from 'node:path';
+import vm from 'node:vm';
+import assert from 'node:assert/strict';
+import crypto,{createHash} from 'node:crypto';
+import {isProxy} from 'node:util/types';
+import {isDeepStrictEqual} from 'node:util';
+import {fileURLToPath,pathToFileURL} from 'node:url';
+const here=path.dirname(fileURLToPath(import.meta.url)),base=path.dirname(here),proposed=base+'/proposed/tools/rust-r4ghi';
+const names={core:'business/runtime-admission-core121.mjs',native:'business/runtime-admission121.mjs',publisher:'runtime-recovery121/native/publish-runtime121.mjs',nativeData:'runtime-recovery121/Native-plan-data-candidate01/prepare-native-plan121.mjs',taxData:'runtime-recovery121/Tax121-current-metadata-data-candidate01/prepare-tax121-current-metadata.mjs'};
+const code=Object.fromEntries(Object.entries(names).map(([k,p])=>[k,fs.readFileSync(proposed+'/'+p,'utf8')]));
+const sha=b=>createHash('sha256').update(b).digest('hex');
+const coreExports=[...code.core.matchAll(/export\s+(?:function|const)\s+([A-Za-z_][A-Za-z0-9_]*)/g)].map(m=>m[1]);
+const strip=s=>s.replace(/^import[\s\S]*?from ['"][^'"]+['"];\r?\n/gm,'').replace(/^export /gm,'').replaceAll('import.meta.url',JSON.stringify('/SYNTHETIC-118-CANDIDATE-NOT-CLI'));
+const scaffold=fs.readFileSync(here+'/scaffold362.mjs.txt','utf8')+'\n'+fs.readFileSync(here+'/scaffold118.mjs.txt','utf8');
+const serialized=fs.readFileSync(here+'/public-basis362.json','utf8'),jointSerialized=fs.readFileSync(here+'/joint-G1.json','utf8'),graphSerialized=fs.readFileSync(here+'/execution284-before.json','utf8');
+assert.equal(sha(jointSerialized),'68212af41282071678d3e062dd689fbffbf2b74443de0c5872bb2511e4d0c5a2');
+assert.equal(sha(graphSerialized),'b8fd572ffa1e32ff581631410bcacc48e4350c51d4308e96d216cc985b89a25f');
+const results=[],contexts={};
+function check(who,label,js){try{vm.runInContext(js,contexts[who],{timeout:30000});results.push({module:who,test:label,status:'PASS'});}catch(e){results.push({module:who,test:label,status:'FAIL',error:{name:e.name,message:e.message}});throw e;}}
+function context(name){
+ const forbidden=new Proxy({}, {get:(_t,k)=>()=>{throw Error('CANDIDATE-ACTUAL-IO-FORBIDDEN:'+String(k));}});
+ const c=vm.createContext({assert,crypto,createHash,isProxy,isDeepStrictEqual,Buffer,path:path.posix,fs:forbidden,serialized,jointSerialized,graphSerialized,process:{platform:'linux',version:'v24.19.0',argv:[],execArgv:[],env:{},getuid:()=>1000,cwd:()=>'/SYNTHETIC',pid:118,hrtime:{bigint:()=>1000000000000n}},fileURLToPath:x=>x,pathToFileURL:x=>({href:x}),console:{log(){},error(){}}});
+ vm.runInContext('globalThis.structuredClone=v=>JSON.parse(JSON.stringify(v));',c);
+ vm.runInContext('globalThis.__core=(()=>{'+strip(code.core)+';return{'+coreExports.join(',')+'};})();',c);
+ for(const n of coreExports)c[n]=c.__core[n];
+ if(name!=='core'){
+  for(const m of code[name].matchAll(/^import\s*\{([\s\S]*?)\}\s*from\s*['"]([^'"]+)['"];?/gm))for(const item of m[1].split(',')){const n=item.trim().split(/\s+as\s+/).at(-1);if(n&&!Object.hasOwn(c,n))c[n]=()=>{throw Error('UNDECLARED-RELATIVE-DEPENDENCY:'+n);};}
+  new vm.Script(strip(code[name]),{filename:'complete-'+name+'-candidate',importModuleDynamically:()=>{throw Error('ACTUAL-MODULE-IMPORT-FORBIDDEN');}}).runInContext(c);
+ }else{
+  // Reuse the complete pure Core module lexical bindings for its model tests.
+  new vm.Script(strip(code.core),{filename:'complete-core-candidate'}).runInContext(c);
+  // The old source scaffold needs the fixed B118 object in the other modules.
+  vm.runInContext('const B118={...BUDGET118,root:C121.root,private:C121.private,carrierSHA:BUDGET118.carrier.rawBytesSha256};',c);
+ }
+ new vm.Script(scaffold,{filename:'declared-synthetic-scaffold-362-and-118'}).runInContext(c);
+ return c;
+}
+try{
+ for(const name of Object.keys(names))contexts[name]=context(name);
+ for(const who of ['native','publisher','nativeData','taxData']){
+  check(who,'complete old three-stage loader compatibility',`{const x=fixture362();const m=readSuccessorFiles362(x.P3,x.read);assert.equal(m.executionSources.length,284);assert.equal(m.manifest.production.length,6);}`);
+  check(who,'complete four-stage loader and full plan positive (declared synthetic identities)',`globalThis.x=fixture118();globalThis.m=readBudgetFiles118(x.P4,x.read);assert.equal(m.executionSources.length,284);assert.equal(m.manifest.production.length,9);assert.equal(m.helpers.length,229);assert.equal(m.external.length,55);assert.equal(m.prior.prior.manifest.production.length,4);assert.equal(m.prior.manifest.production.length,6);`);
+  check(who,'all nine stage3 preimages read through exact retained files',`for(const q of x.mappings){assert(x.reads.some(p=>p.file===q.retainedCopy.file&&p.rawBytesSha256===q.retainedCopy.rawBytesSha256));assert(!x.reads.some(p=>p.file===q.original.file&&p.rawBytesSha256===q.original.rawBytesSha256));}`);
+  check(who,'all 284 current sources reread',`for(const q of x.graph)assert(x.reads.some(p=>p.file===q.file&&p.rawBytesSha256===q.rawBytesSha256));`);
+  const cases=[
+   ['ordinary purpose on valid S4',`const s=y.json(y.S4pin);s.allowedPurpose='ordinary';y.register(y.S4pin,s);`],
+   ['original success CAS replaced with failed CAS',`const s=y.json(y.S4pin);s.retainedCurrentState=B.cfg.retainedState;y.register(y.S4pin,s);`],
+   ['original P3 registry changed',`const s=y.json(y.S4pin);s.predecessorRegistry=s.predecessorCandidate;y.register(y.S4pin,s);`],
+   ['Origin new K',`const s=y.json(y.originPin);s.continuation121=s.continuationReadback;y.register(y.originPin,s);`],
+   ['W4 relabelled three-stage',`const w=y.json(y.W4pin);w.kind='Root-runtime121-three-stage-client-source-witness';y.register(y.W4pin,w);`],
+   ['baseline graph changed',`const w=y.json(y.W4pin);w.baselineExecutionSources=w.currentExecutionSources;y.register(y.W4pin,w);`],
+   ['retained nine missing preimage',`y.entries.delete(y.key(y.mappings[3].retainedCopy));`],
+   ['wrong stage file hash cannot fall back',`const r=y.json(y.retainedPin);r.mappings[0].retainedCopy.rawBytesSha256='0'.repeat(64);y.register(y.retainedPin,r);`],
+   ['original K body null rewritten',`const k=y.json(B118.K);k.current15.bodySHA256=B118.bodySHA;y.register(B118.K,k);`],
+   ['original record changed',`const s=y.json(B118.state);s.taxContinuation121.complete={synthetic:true};y.register(B118.state,s);`],
+   ['original 6458 journal changed',`const s=y.json(B118.state);s.consumerChecks.taxInvocation121.invocations[B118.nonce].phase='closed-failed';y.register(B118.state,s);`],
+   ['old carrier backfilled',`const s=y.json(B118.state);s.taxContinuation121.continuationReadback=y.originPin;y.register(B118.state,s);`],
+   ['source manifest tenth graph member',`const q=y.json(y.W4.successorManifest);q.production.push(q.production[0]);y.register(y.W4.successorManifest,q);`],
+   ['source review author equals reviewer',`const q=y.json(y.W4.successorCodeReview);q.reviewer=q.author;y.register(y.W4.successorCodeReview,q);`],
+   ['ownership retained prefix corrupted',`const b=y.read(B118.ownership);b[0]^=1;y.register(B118.ownership,b);`],
+   ['whole 1da missing byte',`const b=y.read(B118.ownership);y.register(B118.ownership,b.subarray(0,-1));`],
+   ['late current source missing',`y.entries.delete(y.key(y.graph.at(-1)));`],
+  ];
+  for(const[label,mutation]of cases)check(who,'rejects '+label,`{const y=fixture118();${mutation}assert.throws(()=>readBudgetFiles118(y.P4,y.read));}`);
+  for(const field of ['sourcePins','compilePins','binary','summaryBinary','binaryFiles','nodeExecutable','lifetimeOwner','PGStart','PGConservation','apiProcess','readiness'])check(who,'unchanged current '+field+' enforced',`{const y=fixture118(),p=cloneM(y.P4);p.current.${field}=null;assert.throws(()=>readBudgetFiles118(p,y.read));}`);
+ }
+ check('core','S4/Origin7/Adoption6 and FS exactly two top-level changes',`globalThis.x=fixture118();globalThis.p=x.P4;budgetSuccessorShape118(x.S4);budgetOriginShape118(x.origin);globalThis.planPin=x.put('actual-model-P4',p);globalThis.regBody={kind:'verified-Source15-append-runtime-registry121',current:p.current};globalThis.regPin={file:p.outputs.registryFile,bytes:10,rawBytesSha256:'a'.repeat(64)};globalThis.canPin={file:p.outputs.candidateFile,bytes:10,rawBytesSha256:'b'.repeat(64)};globalThis.adoption=budgetAdoptionBody118(p,planPin,regPin,canPin,x.S4);globalThis.adoptionPin={file:p.outputs.receiptDirectory+'/prepare-adoption121.json',bytes:10,rawBytesSha256:'c'.repeat(64)};globalThis.written={verifiedFromDisk:true,registryPin:regPin,registryBody:regBody,candidatePin:canPin,candidateBody:candidateBody121(p,regPin,regBody),prepareAdoption121:adoptionPin,adoptionBody:adoption};globalThis.after=stateBody121(x.state,p,written,'2026-11-13T12:00:00Z');assert.deepEqual(Object.keys(after).filter(k=>JSON.stringify(after[k])!==JSON.stringify(x.state[k])).sort(),['runtimeAdmission121','runtimeHistory121']);assert.deepEqual(after.taxContinuation121,x.state.taxContinuation121);assert.deepEqual(after.actors,x.state.actors);assert.deepEqual(after.consumerChecks,x.state.consumerChecks);`);
+ for(const f of ['activeFault','blockedObservation','cleaned','cleanupPlan','admissionPending54'])check('core','publication idle rejects '+f,`{const b=cloneM(x.state);b.${f}={unknown:true};assert.throws(()=>publishIdle121(b,p));}`);
+ for(const f of ['freshPreparation','newK','actualContextObserved','FIOrNormalGranted'])check('core','false semantics does not grant '+f,`{const a=cloneM(adoption);a.semantics.${f}=true;assert.throws(()=>budgetAdoptionShape118(a));}`);
+ check('core','ordinary plan <=v3 remains accepted',`{const y=fixture362();planShape121(y.P3);}`);
+ new vm.Script(fs.readFileSync(here+'/native-plan-scaffold118.mjs.txt','utf8'),{filename:'declared-synthetic-native-plan-producer118'}).runInContext(contexts.nativeData);
+ check('nativeData','complete native plan producer v4 writes only owned metadata and preserves original API/PG/420/528',`const opts={apiComplete:apiPin,compositionComplete:B118.predecessor.predecessorPublication,nonce:f.P4.nonce,outputDirectory:outDir,successor:f.S4pin};const result=produceNativePlanData121(opts);assert.equal(result.file,outDir+'/complete.json');const output=JSON.parse(modelFiles.get(outDir+'/native-plan121.json'));assert.equal(output.protocolVersion,4);assert.deepEqual(output.base,B.p2.base);assert.deepEqual(output.current,{...B.p2.current,helperPins:f.W4.currentHelperPins});assert.equal(output.composition.independentCodeReviews.length,6);assert.equal(output.tooling.executionSources.length,284);assert.deepEqual(output.stateTransfer.expectedOwnership,B118.ownership);assert.equal(JSON.parse(modelFiles.get(outDir+'/helper-composition121.json')).schemaVersion,4);assert.equal(JSON.parse(modelFiles.get(outDir+'/complete.json')).actualG2Granted,false);assert(modelFiles.get(D15+'/state.json').equals(stateBytes));assert(modelFiles.get(D15+'/ownership.jsonl').equals(f.read(B118.ownership)));assert(!modelFiles.has(output.outputs.registryFile));`);
+ new vm.Script(fs.readFileSync(here+'/metadata-scaffold118.mjs.txt','utf8'),{filename:'declared-synthetic-metadata-scaffold118'}).runInContext(contexts.taxData);
+ check('taxData','complete metadata validator and builders retain outer6/current17/input34 and original K',`globalThis.md=metadataFixture118();validateMetadataModel121(md.model);globalThis.rb=buildRuntimeBindings121(md.model);assert.equal(Object.keys(rb).length,6);assert.equal(rb.schemaVersion,3);assert.equal(Object.keys(rb.current).length,17);const bytes=Buffer.from(JSON.stringify(rb));globalThis.runtimePin={file:md.model.options.outputDirectory+'/runtime-bindings121.json',bytes:bytes.length,rawBytesSha256:hashM(bytes)};globalThis.input=buildPrepareInput121(md.model,runtimePin);assert.equal(Object.keys(input).length,34);assert.equal(input.mode,'budget-probe');assert.equal(input.bodySHA256,B118.bodySHA);same(input.prepared15,md.model.successorEvidence.sourceModel.K.prepared15);same(input.fullInventory,md.model.successorEvidence.sourceModel.K.fullInventory);same(input.technicalG1,B118.G1);assert.equal(input.approvedClosedFISet,null);assert.equal(expectedBudgetReview118(md.f.put('input34',input),input).FIGranted,false);assert.throws(()=>expectedPrepareReview121(md.f.put('input34-old',input),input));`);
+ for(const[label,mutation]of [
+  ['old technical G1',`v.carrier.technicalG1=C.technicalG1;`],
+  ['erased original successful record',`v.entryState.taxContinuation121=null;`],
+  ['modified original journal',`v.entryState.consumerChecks.taxInvocation121.invocations[B118.nonce].phase='closed-failed';`],
+  ['cleared manager cookies',`v.entryState.actors.manager.cookies={};`],
+  ['sequence reset',`v.entryState.sequence=0;`],
+  ['adoption for a different source',`v.successorEvidence.adoption.current.sourceWitness=v.successorEvidence.adoption.current.registry;`],
+  ['ordinary output directory',`v.options.outputDirectory=D+'/tax121-prepare-metadata-'+v.options.nonce;`],
+  ['permissions subset',`v.permissions.expectedActorPermissions.pop();`],
+ ])check('taxData','budget metadata rejects '+label,`{const v=cloneM(md.model);${mutation}assert.throws(()=>validateMetadataModel121(v));}`);
+ new vm.Script(fs.readFileSync(here+'/load-metadata-scaffold118.mjs.txt','utf8'),{filename:'declared-synthetic-full-metadata-loader118'}).runInContext(contexts.taxData);
+ check('taxData','complete v4 metadata loader uses both 139-table observations and full permission derivation',`globalThis.lm=loadMetadataFixture118();globalThis.loaded4=lm.load();assert.equal(loaded4.plan.protocolVersion,4);assert.equal(loaded4.permissions.expectedActorPermissions.length,37);assert.equal(loaded4.permissions.actualSnapshots.length,2);assert.equal(loaded4.permissions.actorCachesUsed,false);const b=buildRuntimeBindings121(loaded4);assert.equal(b.schemaVersion,3);assert.deepEqual(b.prepareAdoption121,loaded4.publication.prepareAdoption121);`);
+ check('native','all ordinary current/binding/view/retained/GH/trusted/ref gates deny budget before I/O',`globalThis.effects=0;globalThis.modelRoot={state:{},namespace:C121.namespace,epoch:C121.epoch,run:C121.run};for(const n of rootMethods121)modelRoot[n]=()=>{effects++;throw Error('MODEL-EFFECT');};const methods=Object.fromEntries(rootMethods121.map(n=>[n,modelRoot[n]]));brands121.set(modelRoot,{type:'root',purpose:'budget-probe',root:modelRoot,state:modelRoot.state,methods,facts:{plan:{protocolVersion:4}},binding:null});const calls=[()=>currentRuntime121(modelRoot),()=>assertCurrentLease121(modelRoot,{}),()=>assertRuntimeBinding121(modelRoot,{}),()=>assertRuntimeContext121(modelRoot,{}),()=>createWitnessView121(modelRoot,{}),()=>createPolicyView121(modelRoot,{},{}),()=>effectiveHelperPins121(modelRoot),()=>assertRetainedFixture121(modelRoot,{}),()=>readRetainedCommand121(modelRoot,{}),()=>readRetainedPreparation121(modelRoot,{}),()=>assertGHCurrentSource121(modelRoot,GH121[0]),()=>trustedSummaryBinary121(modelRoot),()=>runtimeReference121(modelRoot,{})];for(const call of calls)assert.throws(call,/Budget purpose/);assert.equal(effects,0);`);
+ check('native','fake/proxy/JSON port and ticket reject before effect',`{const fake={entryFacts(){throw Error('FAKE-ENTRY-CALLED');}};for(const port of [fake,new Proxy(fake,{}),Object.freeze(Object.create(null))])assert.throws(()=>assertBudgetProbeRunner121(port,{},{}));assert.throws(()=>assertBudgetProbeDispatch121(modelRoot,{}));assert.throws(()=>budgetCurrentRuntime121(modelRoot,{}));assert.equal(effects,0);}`);
+ check('native','ordinary binding cannot be exchanged for budget binding',`{const value=Object.freeze({});verified121.set(value,{ctx:modelRoot,facts:{}});assert.throws(()=>assertCurrentLease121(modelRoot,value),/Budget purpose/);assert.throws(()=>budgetAssertCurrentLease121(modelRoot,{},value));}`);
+ check('native','public v4 metadata wrapper recursively removes private readers, raw retained state and brands',`globalThis.sf=fixture118();globalThis.rawFacts={kind:'verified-source15-runtime-append-plan121',planPin:sf.put('metadata-only-plan',sf.P4),plan:sf.P4,current:{...cloneM(B.reg.current),extraReader:()=>modelRoot},composition:{helpers:sf.helpers,external:sf.external,executionSources:sf.graph,dependencySupplement:sf.put('safe-source-archive',{}),successor:{historicalRead:()=>modelRoot,retainedState:{password:'SENSITIVE-SYNTHETIC-ONLY'},root:modelRoot}},parent:{state:{password:'SENSITIVE-SYNTHETIC-ONLY'}},ordinaryContextGranted:false,effectsGranted:false,statePublished:false};verifyRuntimePlanBody121=()=>rawFacts;globalThis.publicFacts=verifyRuntimePlan121(rawFacts.planPin);assert(Object.isFrozen(publicFacts)&&Object.isFrozen(publicFacts.current)&&Object.isFrozen(publicFacts.composition));assert.equal(publicFacts.parent,undefined);assert.equal(publicFacts.composition.successor,undefined);assert.equal(publicFacts.current.extraReader,undefined);assert(!JSON.stringify(publicFacts).includes('SENSITIVE-SYNTHETIC-ONLY'));const scan=v=>{assert.notEqual(typeof v,'function');if(v&&typeof v==='object'){assert(Object.isFrozen(v));for(const child of Object.values(v))scan(child);}};scan(publicFacts);`);
+ check('native','public <=v3 metadata return contract remains unchanged',`{const previous={...rawFacts,plan:{protocolVersion:3}};verifyRuntimePlanBody121=()=>previous;assert.equal(verifyRuntimePlan121(previous.planPin),previous);}`);
+ check('native','ownership source complete function positive uses real hashed synthetic HTTP/ledger/row bodies',`
+ globalThis.ownershipFixture118=()=>{
+  const records=new Map(),hash=b=>createHash('sha256').update(b).digest('hex');let i=0;
+  const put=value=>{const body=Buffer.from(typeof value==='string'?value:JSON.stringify(value)),pin={file:'/OWN-118-FIXTURE/'+(++i),bytes:body.length,rawBytesSha256:hash(body)};records.set(pin.file,{body,pin});return pin;};
+  const id='00000000-0000-4000-8000-000000000118',key='SYNTHETIC-OWNED-KEY',raw=JSON.stringify({id,status:'active'}),rowSHA=hash(raw),rowsPin=put(JSON.stringify({key:[id],raw,sha256:rowSHA})+'\\n'),before=put({synthetic:'before'}),after=put({databases:{poms:{tables:{auth_session:{file:rowsPin.file,rawBytesSha256:rowsPin.rawBytesSha256}}}}}),requestId='synthetic-prefix-http-118',operationId='AuthController_createPasswordAuthSession',http=put({requestId,operationId,status:200}),ledger=put({requestId,operationId,ownershipComplete:true,blockers:[],before,after,recorded:[{kind:'birth',table:'auth_session',key:[id]}]}),proof={requestId,operationId,status:200,beforeSnapshot:before,afterSnapshot:after},row={at:'2026-11-13T12:00:00Z',key,rowSha256:rowSHA,proof},state={prefix:'synthetic-prefix',owned:{[key]:{database:'poms',table:'auth_session',key:[id],latestSha256:rowSHA,latestProof:proof}},consumerChecks:{taxInvocation121:{invocations:{nonce118:{mode:'budget-probe',httpAttempts:[{http,ledger,before,after}]}}}}};
+  globalThis.fs={readFileSync:file=>{assert.equal(file,data15+'/driver.lock');return Buffer.from(JSON.stringify({mode:'budget-probe',pid:118,nonce:'nonce118'}));}};
+  globalThis.read121=p=>{if(p.file===data15+'/driver.lock'){const body=fs.readFileSync(p.file);assert.equal(hash(body),p.rawBytesSha256);return body;}const r=records.get(p.file);assert(r,'Only own fixture records');assert.equal(hash(r.body),p.rawBytesSha256);if(p.bytes!==undefined)assert.equal(p.bytes,r.body.length);return Buffer.from(r.body);};
+  const replace=(pin,value)=>{const body=Buffer.from(JSON.stringify(value));pin.rawBytesSha256=hash(body);pin.bytes=body.length;records.set(pin.file,{body,pin});};return{state,row,records,ledger,http,rowsPin,put,replace};
+ };globalThis.ov=ownershipFixture118();budgetOwnershipSource118(ov.state,ov.row);
+ `);
+ for(const [label,change]of [
+  ['missing matching ledger',`ov.state.consumerChecks.taxInvocation121.invocations.nonce118.httpAttempts=[];`],
+  ['ledger blocker',`const r=JSON.parse(ov.records.get(ov.ledger.file).body);r.blockers=[{unknown:true}];ov.replace(ov.ledger,r);`],
+  ['HTTP status differs from ownership proof',`const r=JSON.parse(ov.records.get(ov.http.file).body);r.status=401;ov.replace(ov.http,r);`],
+  ['owned key is not ledger record',`ov.state.owned[ov.row.key].key=['00000000-0000-4000-8000-000000000999'];`],
+  ['ownership row SHA cannot be invented',`ov.row.rowSha256='f'.repeat(64);`],
+  ['snapshot identity differs',`ov.row.proof.afterSnapshot=ov.row.proof.beforeSnapshot;`],
+  ['wrong live budget nonce',`ov.state.consumerChecks.taxInvocation121.invocations.nonce118.mode='prepare-only';`],
+ ])check('native','ownership source rejects '+label,`{ov=ownershipFixture118();${change}assert.throws(()=>budgetOwnershipSource118(ov.state,ov.row));}`);
+ const record={kind:'author-runtime118-control-isolated-regressions',candidatePins:Object.entries(names).map(([name,file])=>({name,file:'tools/rust-r4ghi/'+file,bytes:Buffer.byteLength(code[name]),rawBytesSha256:sha(code[name])})),results,passed:results.length,failed:0,classification:'DECLARED-SYNTHETIC-COMPLETE-MODULE-MODELS; no actual runtime/auth/performance acceptance',limits:{fixedHistoricalHashesDoNotClaimSyntheticBodiesAreTheirActualBytes:true,actualFDAndPrivate13016RawPositiveNotRun:true,actualPProcEnvSQLHTTP:false,sourcePromotion:false,FSOrContextG2:false}};
+ const output=here+'/regressions-control118-'+Date.now()+'.json';fs.writeFileSync(output,JSON.stringify(record,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({passed:results.length,failed:0,output}));
+}catch(e){const record={kind:'author-runtime118-control-regressions-stopped',results,error:{name:e.name,message:e.message},actualRuntimeExecuted:false};fs.writeFileSync(here+'/regressions-stopped-'+Date.now()+'.json',JSON.stringify(record,null,2)+'\n',{flag:'wx'});console.error(e);process.exitCode=1;}

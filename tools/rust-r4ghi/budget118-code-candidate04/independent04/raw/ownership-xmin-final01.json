@@ -1,0 +1,54 @@
+{
+  "kind": "independent-budget118-complete-owned-suffix-xmin-model",
+  "recordedAt": "2026-11-13T15:26:18.615Z",
+  "candidate": {
+    "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-budget-code-independent01/link-final02-sources/tools/rust-r4ghi/business/runtime-admission121.mjs",
+    "bytes": 202831,
+    "rawBytesSha256": "dd6d994174157a2754e81989238b6830fcdfb6ba7e42a08a19993d777f8a3147"
+  },
+  "captures": [
+    {
+      "name": "currentOwnershipBudget118",
+      "rawBodySha256": "51a4bf10254569dfbee65c4c90ed4a880431fd2e3b1bdf2c31a181ef3de4ae3a"
+    },
+    {
+      "name": "budgetOwnershipSource118",
+      "rawBodySha256": "a06385e739fdad214b5857afa79f20e2bb4a3fb2dbe4b8547018419173381abb"
+    }
+  ],
+  "checks": [
+    {
+      "name": "complete suffix/source baseline with genuine hashed model after-row xmin",
+      "outcome": "FAIL",
+      "error": {
+        "name": "ReferenceError",
+        "message": "assertBudgetOwnedLatest118 is not defined"
+      }
+    },
+    {
+      "name": "changing only latestXmin must reject despite matching SHA/proof/log/HTTP/ledger",
+      "outcome": "PASS"
+    },
+    {
+      "name": "two valid Auth updates of the same key compare only the last after-row xmin",
+      "outcome": "FAIL",
+      "error": {
+        "name": "ReferenceError",
+        "message": "assertBudgetOwnedLatest118 is not defined"
+      }
+    },
+    {
+      "name": "last-key wrong xmin rejects after an earlier valid Auth birth",
+      "outcome": "PASS"
+    }
+  ],
+  "passed": 2,
+  "failed": 2,
+  "limits": {
+    "allArtifactsMemoryOnly": true,
+    "syntheticArtifactRawHashesActuallyVerified": true,
+    "historical1daRawPrefixValidationModeled": true,
+    "actualPrivateProcEnvSQLHTTP": false,
+    "actualPerformance": false
+  }
+}

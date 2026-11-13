@@ -1,0 +1,147 @@
+// Complete public-source function bodies in one isolated realm. All dependencies
+// beyond brand/purpose/binding logic are explicit models; no Root module import.
+import fs from 'node:fs';
+import path from 'node:path';
+import vm from 'node:vm';
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import {createRequire} from 'node:module';
+import {fileURLToPath} from 'node:url';
+const own=path.dirname(fileURLToPath(import.meta.url)).replaceAll('\\','/');
+const R='E:/projects/worktrees/poms-r3hijk-next28/poms';
+const ts=createRequire(R+'/package.json')('typescript');
+const candidate=process.argv[2], output=process.argv[3];
+assert(candidate?.replaceAll('\\','/').startsWith(own+'/'),'Own retained candidate snapshot required');
+assert(/^[a-z0-9-]+\.json$/.test(output??''));
+const source=fs.readFileSync(candidate,'utf8'), sha=b=>createHash('sha256').update(b).digest('hex');
+const captured=[];
+function bodies(file,names) {
+  const text=fs.readFileSync(file,'utf8');
+  const ast=ts.createSourceFile(file,text,ts.ScriptTarget.Latest,true,ts.ScriptKind.JS);
+  return names.map(name=>{
+    const node=ast.statements.find(n=>ts.isFunctionDeclaration(n)&&n.name?.text===name);
+    assert(node,'Missing complete function '+name);
+    const body=text.slice(node.getStart(ast),node.end).replace(/^export\s+/,'');
+    captured.push({file,name,start:ast.getLineAndCharacterOfPosition(node.getStart(ast)).line+1,end:ast.getLineAndCharacterOfPosition(node.end).line+1,bytes:Buffer.byteLength(body),rawBodySha256:sha(body)});
+    return body;
+  }).join('\n');
+}
+const nativeNames=[
+  'nativeBrand121','actualBrand121','bindingData121','binding121',
+  'currentRuntime121','assertCurrentLease121','assertRuntimeBinding121','assertRuntimeContext121',
+  'options121','createContext121','viewBrand121','createWitnessView121','createPolicyView121',
+  'effectiveHelperPins121','assertRetainedFixture121','readRetainedCommand121','readRetainedPreparation121',
+  'assertGHCurrentSource121','trustedSummaryBinary121','runtimeReference121',
+  'budgetLive118','assertBudgetProbeDispatch121','assertBudgetProbeRunner121',
+  'budgetCurrentRuntime121','budgetAssertCurrentLease121','budgetAssertRuntimeBinding121',
+  'budgetRuntimeReference121','budgetAssertRetainedFixture121','budgetReadRetainedCommand121','budgetReadRetainedPreparation121',
+  'budgetBinding118','budgetSafeError118','budgetDispatch118','budgetStep118','verifyBudgetSample118','budgetClose118','budgetPort118',
+];
+for(const name of ['budgetPinData118','budgetReferenceData118','budgetActorData118','budgetStepData118','budgetErrorProjection118','budgetOpeningPins121','verifyRuntimePlan121']) {
+  if(source.includes('function '+name+'(')) nativeNames.push(name);
+}
+const native=bodies(candidate,nativeNames);
+const http=bodies(R+'/tools/rust-r4ghi/business/http.mjs',['createApi']);
+const trusted=bodies(R+'/tools/rust-r4ghi/business/trusted.mjs',['produceActualSummary']);
+const fault=bodies(R+'/tools/rust-r4ghi/business/fault-sweep.mjs',['verifySources']);
+const policy=bodies(R+'/tools/rust-r4ghi/business/policy-security-runtime15.mjs',['prepareSecurityRuntime15']);
+const c=vm.createContext({assert,Buffer,__nativeClone:structuredClone,__hash:sha});
+vm.runInContext(`
+globalThis.structuredClone=v=>JSON.parse(JSON.stringify(v));
+const brands121=new WeakMap(),verified121=new WeakMap(),budgetPorts118=new WeakMap(),budgetTickets118=new WeakMap(),budgetBindings118=new WeakMap();
+const rootMethods121=['persist','next','artifact','public','client','db','instant','own'];
+const C121={namespace:'poms-r4ghi',epoch:'g2-business15',run:'main01',root:'/MODEL/ROOT'};
+const GH121=['MODEL-GH'];let construction121=null;const data15='/MODEL/OWNED';
+let facts,constructCalls=0,freshCalls=0,effects=0,state={consumerChecks:{hPolicyContinuation15:{}}};
+const copy121=v=>structuredClone(v),freeze121=v=>{if(v&&typeof v==='object'){Object.values(v).forEach(freeze121);Object.freeze(v);}return v;};
+const plain121=v=>assert(v&&Object.getPrototypeOf(v)===Object.prototype);
+const sha121=__hash;
+const samePin121=(a,b)=>{assert.deepEqual(a,b);};const read121=p=>p.file===data15+'/state.json'?fs.readFileSync(p.file):Buffer.from('MODEL');
+const fs={readFileSync:f=>f==='/proc/sys/kernel/random/boot_id'?'MODEL-BOOT':Buffer.from(JSON.stringify(state))};
+let scope;
+const json121=pin=>{assert.equal(pin.file,'/MODEL/lock');return{pid:scope.lockBroken?78:77,nonce:'MODEL-NONCE',input:scope.inputPin};};
+const fullPin121118=pin=>{assert(pin&&typeof pin.file==='string');};
+const keys121=(o,names)=>assert.deepEqual(Object.keys(o).sort(),[...names].sort());
+const pin121=p=>{assert(p&&typeof p.file==='string'&&/^[a-f0-9]{64}$/.test(p.rawBytesSha256));keys121(p,p.bytes===undefined?['file','rawBytesSha256']:['file','bytes','rawBytesSha256']);return p;};
+let modelNs=0n;const process={pid:77,platform:'linux',hrtime:{bigint(){return ++modelNs;}}};
+let rawVerifierFacts;
+const verifyRuntimePlanBody121=()=>rawVerifierFacts;
+const fullPublished121=()=>facts;
+const contextFacts121=()=>{};const currentFacts121=()=>facts.current;
+const fresh121=()=>{freshCalls++;};const currentBinary121=()=>{effects++;};
+const pin=x=>assert(x&&typeof x.file==='string');
+function rootObject(s=state){const root={namespace:C121.namespace,epoch:C121.epoch,run:C121.run,api:'http://MODEL.invalid',state:s,pins:[],apps:['native','rust']};for(const k of rootMethods121)root[k]=function(){effects++;};return root;}
+function makeFacts(protocol){const p=n=>({file:'/MODEL/'+n,rawBytesSha256:'a'.repeat(64)});return{plan:{protocolVersion:protocol,base:{codeAdmission15:p('code'),codeCandidate15:p('code-candidate'),approvedCodePlan15:p('code-plan'),retainedState15:p('retained-state'),ownership15:p('ownership'),sourceArchive121:p('archive'),sourceArchiveSupplement121:p('supplement'),prepared15:p('prepared'),fullInventory:p('inventory')}},authorityPin:p('registry'),candidatePin:p('candidate'),authority:{kind:'model'},parent:{code:{registry:{kind:'model-registry'},candidate:{kind:'model-candidate'}}},current:{sources:[],helperPins:p('helpers'),candidate:p('candidate')},composition:{executionSources:[{file:C121.root+'/tools/rust-r4ghi/legacy-authority15-284/facts284.mjs'},{file:C121.root+'/tools/rust-r4ghi/policy-continuation15-287/facts287.mjs'}]}};}
+function originalCreateContext(){constructCalls++;const partial={state};assertRuntimeContext121(partial,facts.parent.code.registry);return rootObject(state);}
+const newWitnessView284=root=>({ctx:rootObject(structuredClone(root.state))});
+const openConsumerView287=root=>rootObject(structuredClone(root.state));
+function seed(purpose,protocol){facts=makeFacts(protocol);state={marker:'MODEL',prefix:'MODEL',runtimeAdmission121:{},consumerChecks:{hPolicyContinuation15:{}}};const root=rootObject(state),methods=Object.fromEntries(rootMethods121.map(k=>[k,root[k]]));brands121.set(root,{type:'root',purpose,root,state,methods,facts,binding:null});return root;}
+function seedScope(failOperation=null){
+ const root=seed('budget-probe',4),inputPin={file:'/MODEL/input',rawBytesSha256:'a'.repeat(64)},Root9Pin={file:'/MODEL/review',rawBytesSha256:'b'.repeat(64)};
+ const pin=n=>({file:'/MODEL/'+n,rawBytesSha256:'a'.repeat(64)}),actorId='11111111-1111-4111-8111-111111111111',permissions=Array.from({length:37},(_,i)=>'MODEL-P'+i);
+ scope={root,p:{nonce:'MODEL-NONCE',actorId,expectedActorPermissions:permissions,runtimeBindings:pin('runtime'),candidate:pin('candidate'),actualSourcePins:pin('source'),bodySHA256:'b'.repeat(64)},manifest:{prepareAdoption121:pin('adoption')},inputPin,Root9Pin,pid:77,boot:'MODEL-BOOT',lockPin:{file:'/MODEL/lock'},stage:'created',runnerClaimed:false,sampleWriteAttempted:false,afterAttempted:false,closeAttempted:false,closed:false,activeTicket:null,activeOperation:null,calls:[],tickets:[],proof:{},dir:'/MODEL/dir'};
+ const reference={kind:'actual-runtime-lease-reference121',protocolVersion:1,runtimeAdmission121:pin('registry'),candidate:pin('candidate'),baseCodeRegistry:pin('code'),baseCodeCandidate:pin('code-candidate'),apiProcess:pin('api'),sourcePins:pin('source'),sourcePinsSHA256:'a'.repeat(64),compilePins:pin('compile'),helperPins:pin('helpers')};
+ const currentFrame={namespace:root.namespace,epoch:root.epoch,run:root.run,marker:root.state.marker,prefix:root.state.prefix,api:root.api,apiProcess:pin('api'),binarySHA256:'a'.repeat(64),codeAdmission15:pin('code'),candidate:scope.p.candidate,sourcePins:scope.p.actualSourcePins,sourcePinsSHA256:'a'.repeat(64),helperPins:pin('helpers'),runtimeBindings:scope.p.runtimeBindings,bodySHA256:scope.p.bodySHA256,runtimeAdmission121:pin('registry'),runtimeReference121:reference};
+ const actor={status:'VERIFIED',observation:{actorId,accountActive:true,permissionSetSHA256:sha121(JSON.stringify([...permissions].sort())),permissionCount:37,sessionId:'22222222-2222-4222-8222-222222222222',ownedSession:true,sqlNowMs:1000,idleDeadlineMs:20000,absoluteDeadlineMs:30000,anchorNs:'1',returnedNs:'2',elapsedCeilMs:1,idleChargedRemainingMs:18999,absoluteChargedRemainingMs:28999,authSettings:{idleSeconds:900,absoluteSeconds:28800,throttleSeconds:60,evidence:[]}},error:null};
+ const values={entry:{currentFrame,entryGuard:pin('entry'),prepareAdoption121:scope.manifest.prepareAdoption121},auth:['AuthController_getCsrfToken','AuthController_createPasswordAuthSession','AuthController_getCurrentAuthSession'].map(operationId=>({operationId,http:pin('http'),before:pin('before'),after:pin('after'),ledger:pin('ledger')})),before:actor,after:actor,checkpoint:{nonce:scope.p.nonce,phase:'budget-base',cursor:0,pid:77,boot:scope.boot,runtimeReference121:reference},close:{exitGuard:pin('exit'),closedJournal:pin('closed'),result:null}};
+ const map={entry:'openBudgetInvocation118',auth:'authenticateBudgetInvocation118',before:'guardBudgetBefore118',checkpoint:'checkpointBudgetInvocation118',after:'guardBudgetAfter118',close:'closeBudgetInvocation118'};
+ for(const [operation,name]of Object.entries(map))scope.proof[name]=async function(root,ticket){assertBudgetProbeDispatch121(root,ticket);scope.calls.push(operation);scope.tickets.push(ticket);if(operation===failOperation){const error=Error('MODEL private dependency assertion');error.root=root;error.actual=root.state;error.ticket=ticket;throw error;}return values[operation];};
+ const port=budgetPort118(scope);return{scope,port,root,inputPin,Root9Pin};
+}
+function metadataFacts(protocol){const current={};for(const key of['namespace','epoch','run','marker','prefix','api','apiProcess','apiRecord','sourcePins','sources','sourcePinsSHA256','sourceCount','compilePins','helperPins','helperSources','helperCount','binary','summaryBinary','trustedSummaryBinary','binaryFiles','buildBinding','readiness','nodeExecutable','lifetimeOwner','PGConservation'])current[key]={model:key};current.extraRetainedState={secret:'SENSITIVE'};current.extraReader=()=>state;return{kind:'MODEL-METADATA',planPin:{file:'/MODEL/plan',rawBytesSha256:'a'.repeat(64)},plan:{protocolVersion:protocol},current,composition:{helpers:[],external:[],executionSources:[],dependencySupplement:null,successor:{retainedState:{secret:'SENSITIVE'},historicalRead:()=>state}},parent:{state:{secret:'SENSITIVE'}}};}
+globalThis.model={seed,seedScope,metadataFacts,setVerifierFacts(f){rawVerifierFacts=f;},get counts(){return{constructCalls,freshCalls,effects};},reset(){constructCalls=0;freshCalls=0;effects=0;},setFacts(protocol){facts=makeFacts(protocol);},rootObject};
+`,c);
+const functions=new vm.SourceTextModule(native+'\n'+http+'\n'+trusted+'\n'+fault+'\n'+policy+'\nObject.assign(globalThis,{'+[...nativeNames,'createApi','produceActualSummary','verifySources','prepareSecurityRuntime15'].join(',')+'});',{
+  context:c,identifier:'MODEL:complete-public-functions',
+  initializeImportMeta(meta){meta.url='MODEL:public-source-function';},
+  importModuleDynamically(){throw Error('Actual dynamic import forbidden');},
+});
+await functions.link(()=>{throw Error('Unexpected model import');});
+await functions.evaluate();
+const checks=[];
+async function check(name,program){try{await vm.runInContext('(async()=>{'+program+'})()',c);checks.push({name,outcome:'PASS'});}catch(error){checks.push({name,outcome:'FAIL',error:{name:error.name,message:error.message}});}}
+await check('budget ordinary constructor denies before original constructor',`model.reset();model.setFacts(4);assert.throws(()=>createContext121({epoch:C121.epoch,run:C121.run}),/Budget|budget/);assert.equal(model.counts.constructCalls,0);assert.equal(model.counts.effects,0);`);
+const ordinaryCalls=[
+  'currentRuntime121(root)','assertCurrentLease121(root,{})',
+  'assertRuntimeBinding121(root,{runtimeAdmission121:{},candidate:{}})',
+  'assertRuntimeContext121(root,{})','createWitnessView121(root,{})',
+  'createPolicyView121(root,root.state.consumerChecks.hPolicyContinuation15,{})',
+  'effectiveHelperPins121(root)','assertRetainedFixture121(root,{})',
+  'readRetainedCommand121(root,{})','readRetainedPreparation121(root,{})',
+  "assertGHCurrentSource121(root,'MODEL-GH')",'trustedSummaryBinary121(root)',
+  'runtimeReference121(root,{})','createApi(root)','verifySources(root)',
+  "verifySources(root,'MODEL-GH')",
+  "prepareSecurityRuntime15(root,{candidate:{file:'/MODEL/candidate'},trustedSummaryBinary:{file:'/MODEL/binary'}},'/MODEL/output')",
+];
+for(const call of ordinaryCalls) await check('central deny '+call,`model.reset();{const root=model.seed('budget-probe',4);assert.throws(()=>${call},/Budget|budget/);assert.equal(model.counts.effects,0);assert.equal(model.counts.freshCalls,0);}`);
+await check('trusted complete async producer denies at central Native gate',`model.reset();{const root=model.seed('budget-probe',4);await assert.rejects(produceActualSummary(root),/Budget|budget/);assert.equal(model.counts.effects,0);assert.equal(model.counts.freshCalls,0);}`);
+for(const protocol of [1,2,3]) await check('ordinary protocol '+protocol+' actual constructor/current/ref/two views retained',`model.reset();model.setFacts(${protocol});{const root=createContext121({epoch:C121.epoch,run:C121.run});const b=currentRuntime121(root);assert.equal(assertCurrentLease121(root,b),b);assert.equal(runtimeReference121(root,b).kind,'actual-runtime-lease-reference121');assert.equal(createWitnessView121(root,facts.parent.code.registry).ctx.state!==root.state,true);assert.equal(createPolicyView121(root,root.state.consumerChecks.hPolicyContinuation15,facts.parent.code.registry).state!==root.state,true);assert.equal(model.counts.constructCalls,1);assert.equal(model.counts.effects,0);}`);
+await check('purpose cannot be forged from mutable root fields or protocol4 ordinary brand',`{const root=model.seed('budget-probe',4);root.purpose='ordinary';root.state.purpose='ordinary';assert.throws(()=>currentRuntime121(root),/Budget|budget/);const confused=model.seed('ordinary',4);assert.throws(()=>currentRuntime121(confused),/Budget|budget/);}`);
+for(const call of [
+  'assertBudgetProbeDispatch121(root,ticket)',
+  'budgetCurrentRuntime121(root,ticket)','budgetAssertCurrentLease121(root,ticket,{})',
+  'budgetAssertRuntimeBinding121(root,ticket,{runtimeAdmission121:{},candidate:{}})',
+  'budgetRuntimeReference121(root,ticket,{})','budgetAssertRetainedFixture121(root,ticket,{})',
+  'budgetReadRetainedCommand121(root,ticket,{})','budgetReadRetainedPreparation121(root,ticket,{})',
+]) await check('fake ticket deny '+call,`{const root=new Proxy({}, {get(){throw Error('Foreign Root getter reached');}}),ticket=Object.freeze(Object.create(null));assert.throws(()=>${call},/ticket/);}`);
+await check('fake/proxy/JSON ports reject before modeled I/O',`for(const p of[{},Object.freeze(Object.create(null)),new Proxy({},{}),{entryFacts(){throw Error('Fake method reached');}}])assert.throws(()=>assertBudgetProbeRunner121(p,{},{}),/budget|Budget|scope/);`);
+await check('Native port is frozen null-prototype with exactly six methods',`{const m=model.seedScope();assert.equal(Object.getPrototypeOf(m.port),null);assert(Object.isFrozen(m.port));assert.deepEqual(Object.keys(m.port),['entryFacts','auth3Once','actor37BeforeCP','baseCPOnce','actor37AfterCP','closeOnce']);assert.equal(m.port.root,undefined);}`);
+await check('Native private stage order rejects early Auth before effects',`{const m=model.seedScope();assertBudgetProbeRunner121(m.port,m.inputPin,m.Root9Pin);await assert.rejects(m.port.auth3Once(),/Fixed budget order/);assert.deepEqual(m.scope.calls,[]);}`);
+await check('Native tickets expire after their complete dispatch, never become a generic binding',`{const m=model.seedScope();assertBudgetProbeRunner121(m.port,m.inputPin,m.Root9Pin);await m.port.entryFacts();assert.throws(()=>assertBudgetProbeDispatch121(m.root,m.scope.tickets[0]),/ticket/);assert.equal(m.scope.activeTicket,null);}`);
+await check('Native complete port flow rejects repeated CP and closes at most once',`{const m=model.seedScope();assertBudgetProbeRunner121(m.port,m.inputPin,m.Root9Pin);await m.port.entryFacts();await m.port.auth3Once();await m.port.actor37BeforeCP();await m.port.baseCPOnce();await assert.rejects(m.port.baseCPOnce(),/Fixed budget order/);await m.port.actor37AfterCP();assertBudgetProbeRunner121(m.port,m.inputPin,m.Root9Pin);assert.throws(()=>assertBudgetProbeRunner121(m.port,m.inputPin,m.Root9Pin),/one-shot/);await m.port.closeOnce(null);assert.equal(m.scope.calls.filter(x=>x==='close').length,1);await assert.rejects(m.port.closeOnce(null),/Live genuine budget scope|One real budget close/);for(const key of['entryFacts','auth3Once','actor37BeforeCP','baseCPOnce','actor37AfterCP'])await assert.rejects(m.port[key](),/Live genuine budget scope/);}`);
+await check('Native port step errors expose no Root/state/ticket attributes',`{const m=model.seedScope('auth');assertBudgetProbeRunner121(m.port,m.inputPin,m.Root9Pin);await m.port.entryFacts();let error;try{await m.port.auth3Once();}catch(e){error=e;}assert(error);for(const key of['root','actual','expected','ticket','cause'])assert.equal(Object.hasOwn(error,key),false,'Privileged error leaked '+key);}`);
+await check('Native close errors expose no Root/state/ticket attributes and still revoke',`{const m=model.seedScope('close');assertBudgetProbeRunner121(m.port,m.inputPin,m.Root9Pin);await m.port.entryFacts();let error;try{await m.port.closeOnce(null);}catch(e){error=e;}assert(error);assert.equal(m.scope.closed,true);for(const key of['root','actual','expected','ticket','cause'])assert.equal(Object.hasOwn(error,key),false,'Privileged close error leaked '+key);await assert.rejects(m.port.entryFacts(),/Live genuine budget scope/);}`);
+await check('close guard failure still consumes its one latch and revokes the old port',`{const m=model.seedScope();assertBudgetProbeRunner121(m.port,m.inputPin,m.Root9Pin);await m.port.entryFacts();m.scope.lockBroken=true;await assert.rejects(m.port.closeOnce(null));assert.equal(m.scope.closeAttempted,true);assert.equal(m.scope.closed,true);}`);
+await check('restoring a drifted lock cannot revive a port after its failed close',`{const m=model.seedScope();assertBudgetProbeRunner121(m.port,m.inputPin,m.Root9Pin);await m.port.entryFacts();m.scope.lockBroken=true;await assert.rejects(m.port.closeOnce(null));m.scope.lockBroken=false;await assert.rejects(m.port.auth3Once(),/closed|Live genuine budget scope/);assert.equal(m.scope.calls.includes('auth'),false);}`);
+if(nativeNames.includes('budgetOpeningPins121')) {
+  await check('opening fallback exposes only two frozen pins during genuine close dispatch',`{const m=model.seedScope();const entry=m.scope.proof.openBudgetInvocation118,close=m.scope.proof.closeBudgetInvocation118;m.scope.proof.openBudgetInvocation118=async(root,ticket)=>{assert.throws(()=>budgetOpeningPins121(root,ticket),/close/);return entry(root,ticket);};m.scope.proof.closeBudgetInvocation118=async(root,ticket)=>{const data=budgetOpeningPins121(root,ticket);assert.deepEqual(Object.keys(data),['inputPin','reviewPin']);assert.deepEqual(data.inputPin,m.inputPin);assert.deepEqual(data.reviewPin,m.Root9Pin);assert(Object.isFrozen(data)&&Object.isFrozen(data.inputPin)&&Object.isFrozen(data.reviewPin));return close(root,ticket);};assertBudgetProbeRunner121(m.port,m.inputPin,m.Root9Pin);await m.port.entryFacts();await m.port.closeOnce(null);assert.throws(()=>budgetOpeningPins121(m.root,m.scope.tickets.at(-1)),/ticket/);}`);
+  await check('returning Root or extra methods from a fixed callee is rejected before port output',`{const m=model.seedScope();m.scope.proof.openBudgetInvocation118=async(root,ticket)=>{assertBudgetProbeDispatch121(root,ticket);return{root,currentFrame:root,entryGuard:m.inputPin,prepareAdoption121:m.Root9Pin};};assertBudgetProbeRunner121(m.port,m.inputPin,m.Root9Pin);let error;try{await m.port.entryFacts();}catch(e){error=e;}assert(error);for(const key of['root','actual','expected','ticket','cause'])assert.equal(Object.hasOwn(error,key),false);}`);
+  await check('close error fact projection drops unclosed data and Root-shaped pins',`{const m=model.seedScope();for(const facts of[{exitGuard:m.inputPin,closedJournal:null,result:null,root:m.root},{exitGuard:m.root,closedJournal:null,result:null}]){const raw=Error('MODEL');raw.root=m.root;raw.ticket={};raw.budgetCloseFacts=facts;const error=budgetErrorProjection118(raw);assert.equal(Object.hasOwn(error,'root'),false);assert.equal(Object.hasOwn(error,'ticket'),false);assert.equal(Object.hasOwn(error,'budgetCloseFacts'),false);}}`);
+}
+if(nativeNames.includes('verifyRuntimePlan121')) {
+  await check('public v4 metadata wrapper returns only frozen data without raw state/readers',`{const raw=model.metadataFacts(4);model.setVerifierFacts(raw);const data=verifyRuntimePlan121({});assert.notEqual(data,raw);assert.equal(Object.keys(data.current).length,25);assert.equal(Object.keys(data.composition).length,4);assert.equal(data.ordinaryContextGranted,false);assert.equal(data.effectsGranted,false);assert.equal(data.statePublished,false);assert(!Object.hasOwn(data,'parent'));assert(!Object.hasOwn(data.composition,'successor'));assert(!JSON.stringify(data).includes('SENSITIVE'));const scan=value=>{assert.notEqual(typeof value,'function');if(value&&typeof value==='object'){assert(Object.isFrozen(value));for(const descriptor of Object.values(Object.getOwnPropertyDescriptors(value))){assert(Object.hasOwn(descriptor,'value'));scan(descriptor.value);}}};scan(data);}`);
+  for(const protocol of [1,2,3])await check('public metadata protocol '+protocol+' retains its original raw return reference',`{const raw=model.metadataFacts(${protocol});model.setVerifierFacts(raw);assert.equal(verifyRuntimePlan121({}),raw);}`);
+}
+const result={kind:'independent-budget118-complete-Native-and-generic-consumer-functions',recordedAt:new Date().toISOString(),engine:process.version,execPath:process.execPath,candidate:{file:candidate,bytes:Buffer.byteLength(source),rawBytesSha256:sha(source)},engine:process.version,execPath:process.execPath,checks,capturedCompleteFunctions:captured,passed:checks.filter(c=>c.outcome==='PASS').length,failed:checks.filter(c=>c.outcome==='FAIL').length,limits:{NativeCurrentFactsAreModeled:true,actualBrandedRuntimeNotCreated:true,noActualRootModuleImported:true,noActualPrivateProcEnvSQLHTTP:true,actualPerformanceClaim:false}};
+const out=own+'/'+output;fs.writeFileSync(out,JSON.stringify(result,null,2)+'\n',{flag:'wx',mode:0o600});
+console.log(JSON.stringify({file:out,passed:result.passed,failed:result.failed,rawBytesSha256:sha(fs.readFileSync(out))}));if(result.failed)process.exitCode=1;

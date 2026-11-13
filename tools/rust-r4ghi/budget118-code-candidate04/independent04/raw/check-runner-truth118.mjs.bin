@@ -1,0 +1,88 @@
+// Complete runner/outer-writer functions with symbolic I/O only. The model port
+// is a declared dependency; this does not claim an actual Native performance run.
+import fs from 'node:fs';
+import path from 'node:path';
+import vm from 'node:vm';
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import {createRequire} from 'node:module';
+import {fileURLToPath} from 'node:url';
+const own=path.dirname(fileURLToPath(import.meta.url)).replaceAll('\\','/');
+const R='E:/projects/worktrees/poms-r3hijk-next28/poms';
+const ts=createRequire(R+'/package.json')('typescript');
+const candidate=process.argv[2],output=process.argv[3];
+assert(candidate?.replaceAll('\\','/').startsWith(own+'/'));
+assert(/^[a-z0-9-]+\.json$/.test(output??''));
+const source=fs.readFileSync(candidate,'utf8'),sha=b=>createHash('sha256').update(b).digest('hex');
+const ast=ts.createSourceFile(candidate,source,ts.ScriptTarget.Latest,true,ts.ScriptKind.JS);
+const names=['failedActorBookend118','failureBudget118','ownData118','budgetNonceDirectory118','budgetSave118','budgetCoverage118','runBudgetProbe118','finishBudgetCommand118'];
+const captures=[];
+const bodies=names.map(name=>{
+  const node=ast.statements.find(n=>(ts.isFunctionDeclaration(n)&&n.name?.text===name)||(ts.isVariableStatement(n)&&n.declarationList.declarations.some(d=>d.name.getText(ast)===name)));
+  assert(node,'Complete function missing '+name);
+  const body=source.slice(node.getStart(ast),node.end).replace(/^export\s+/,'');
+  captures.push({name,start:ast.getLineAndCharacterOfPosition(node.getStart(ast)).line+1,end:ast.getLineAndCharacterOfPosition(node.end).line+1,rawBodySha256:sha(body)});
+  return body;
+}).join('\n');
+const c=vm.createContext({assert,Buffer,__hash:sha});
+vm.runInContext(`
+const F118={namespace:'MODEL',epoch:'g2-business15',run:'main01',private:'/MODEL/OWNED'};
+const budgetRunnerOnce118=new WeakSet(),admittedPorts=new WeakSet();let M;
+const process={pid:77,hrtime:{bigint(){M.now+=1000000n;return M.now;}}};
+const sha118=__hash;
+const freeze118=v=>{if(v&&typeof v==='object'){Object.values(v).forEach(freeze118);Object.freeze(v);}return v;};
+const samePin118=(a,b)=>assert.deepEqual(a,b);
+const fs={
+  lstatSync(f){M.io.push('lstat:'+f);assert.equal(f,M.dir);return{isDirectory:()=>true,isSymbolicLink:()=>false};},
+  realpathSync(f){M.io.push('realpath:'+f);return f;},
+  readFileSync(f){M.io.push('read:'+f);assert(M.files.has(f),'Undeclared model read '+f);return M.files.get(f);},
+  writeFileSync(f,bytes,options){M.io.push('write:'+f);assert.equal(options.flag,'wx');assert(f.startsWith(M.dir+'/'));if(M.failWrite===f)throw Error('MODEL wx failure');assert(!M.files.has(f),'MODEL EEXIST');M.files.set(f,Buffer.from(bytes));},
+  existsSync(f){return M.files.has(f);},
+};
+function read118(p){if(M.failSampleRead&&p.file.endsWith('/budget-base-sample.json'))throw Error('MODEL sample readback failure');const b=fs.readFileSync(p.file);assert.equal(__hash(b),p.rawBytesSha256);if(p.bytes!==undefined)assert.equal(b.length,p.bytes);return b;}
+const json118=p=>JSON.parse(read118(p));
+const assertInput118=p=>{assert.equal(p.mode,'budget-probe');return p;};
+const budgetNative121={
+  assertBudgetProbeRunner121(port,input,review){assert(admittedPorts.has(port),'Native genuine port required');assert.deepEqual(input,M.inputPin);assert.deepEqual(review,M.reviewPin);M.runnerChecks++;if(M.failSampleGate&&M.runnerChecks===2)throw Error('MODEL sample phase drift');},
+  async executeBudgetProbe121(){return M.terminal;},
+};
+function setup(options={}){
+  M={files:new Map(),io:[],now:0n,runnerChecks:0,closes:0,closed:false,options};
+  const put=(f,v)=>{const b=Buffer.from(JSON.stringify(v));M.files.set(f,b);return{file:f,bytes:b.length,rawBytesSha256:__hash(b)};};M.put=put;
+  const p={mode:'budget-probe',nonce:'MODEL-NONCE'};M.p=p;
+  M.dir=F118.private+'/business/'+F118.epoch+'/'+F118.run+'/tax118-invocation-'+p.nonce;
+  M.inputPin=put('/MODEL/input.json',p);M.reviewPin=put('/MODEL/review.json',{});
+  put(M.dir+'/intent.json',{input:M.inputPin,exactReview:M.reviewPin,pid:77,nonce:p.nonce,mode:p.mode});
+  M.adoption=put('/MODEL/adoption.json',{});M.entry=put('/MODEL/entry.json',{});
+  const actor=()=>({status:'VERIFIED',observation:{actorId:'MODEL-ACTOR',accountActive:true,permissionSetSHA256:'a'.repeat(64),permissionCount:37,sessionId:'MODEL-SESSION',ownedSession:true,sqlNowMs:100000,idleDeadlineMs:options.idleDeadline??120000,absoluteDeadlineMs:140000,anchorNs:M.now.toString(),returnedNs:M.now.toString(),elapsedCeilMs:0,idleChargedRemainingMs:20000,absoluteChargedRemainingMs:40000,authSettings:{idleSeconds:900,absoluteSeconds:28800,throttleSeconds:60,evidence:[]}},error:null});
+  const auth=['csrf','login','me'].map(operationId=>({operationId,http:put('/MODEL/'+operationId+'-http.json',{}),before:put('/MODEL/'+operationId+'-before.json',{}),after:put('/MODEL/'+operationId+'-after.json',{}),ledger:put('/MODEL/'+operationId+'-ledger.json',{})}));
+  let phase='created';const live=()=>assert(!M.closed,'MODEL port closed');
+  const port={
+    async entryFacts(){live();assert.equal(phase,'created');phase='entry';return{currentFrame:{model:'frame17'},entryGuard:M.entry,prepareAdoption121:M.adoption};},
+    async auth3Once(){live();assert.equal(phase,'entry');phase='auth';if(options.authFails)throw Error('MODEL auth failed');return auth;},
+    async actor37BeforeCP(){live();assert.equal(phase,'auth');phase='before';return actor();},
+    async baseCPOnce(){live();assert.equal(phase,'before');phase='cp';if(options.cpFails)throw Error('MODEL final Native reference failed');return{phase:'budget-base',runtimeReference121:{kind:'MODEL-REF'}};},
+    async actor37AfterCP(){live();assert.equal(phase,'cp');phase='after';if(options.afterFails)throw Error('MODEL actor revoked');return actor();},
+    async closeOnce(sample){live();M.closes++;M.closed=true;if(options.closeCost)M.now+=BigInt(options.closeCost);const exitGuard=put('/MODEL/exit.json',{}),closedJournal=options.closeFails?null:put('/MODEL/closed.json',{});if(options.closeFails){const error=Error('MODEL close failed');Object.defineProperty(error,'budgetCloseFacts',{value:{exitGuard,closedJournal}});throw error;}return{exitGuard,closedJournal,result:sample};},
+  };
+  admittedPorts.add(port);M.port=port;
+  M.failSampleRead=options.sampleReadFails;M.failSampleGate=options.sampleGateFails;
+  if(options.sampleWriteFails)M.failWrite=M.dir+'/budget-base-sample.json';
+  return M;
+}
+globalThis.model={setup,get value(){return M;}};
+`,c);
+vm.runInContext(bodies,c);
+const checks=[];
+async function check(name,program){try{await vm.runInContext('(async()=>{'+program+'})()',c);checks.push({name,outcome:'PASS'});}catch(error){checks.push({name,outcome:'FAIL',error:{name:error.name,message:error.message}});}}
+await check('complete CP/Auth/actors/close yields one sample and complete observation',`{const m=model.setup(),t=await runBudgetProbe118(m.inputPin,m.reviewPin,m.port);assert.equal(t.probeOutcome,'OBSERVATION_COMPLETE');assert.equal(t.baseCPRecorded,true);assert.equal(t.close.nativeCloseVerified,true);assert.equal(m.closes,1);assert.equal(Object.keys(json118(t.sample)).length,17);}`);
+await check('fake port rejects before methods or file reads',`{const m=model.setup();await assert.rejects(runBudgetProbe118(m.inputPin,m.reviewPin,{entryFacts(){throw Error('Fake method reached');}}),/genuine port/);assert.deepEqual(m.io,[]);}`);
+await check('complete CP then actor failure retains sample and honest STOP',`{const m=model.setup({afterFails:true}),t=await runBudgetProbe118(m.inputPin,m.reviewPin,m.port);assert.equal(t.baseCPRecorded,true);assert.equal(t.failure.checkpointReturned,true);assert.equal(t.probeOutcome,'STOPPED_PRESERVE');assert.equal(json118(t.sample).actorAfter.status,'FAILED');assert.equal(m.closes,1);}`);
+await check('CP final-ref throw is never a completedCP sample',`{const m=model.setup({cpFails:true}),t=await runBudgetProbe118(m.inputPin,m.reviewPin,m.port);assert.equal(t.sample,null);assert.equal(t.baseCPRecorded,false);assert.equal(t.failure.checkpointReturned,false);assert(t.failure.checkpointInterval);assert.equal(m.closes,1);}`);
+for(const option of ['sampleWriteFails','sampleReadFails','sampleGateFails']) await check('complete CP then '+option+' retains real interval without invented pin',`{const m=model.setup({${option}:true}),t=await runBudgetProbe118(m.inputPin,m.reviewPin,m.port);assert.equal(t.sample,null);assert.equal(t.baseCPRecorded,false);assert.equal(t.failure.checkpointReturned,true);assert(t.failure.checkpointInterval);assert.equal(t.probeOutcome,'STOPPED_PRESERVE');assert.equal(m.closes,1);}`);
+await check('close throw cannot claim verified coverage through close return',`{const m=model.setup({closeFails:true}),t=await runBudgetProbe118(m.inputPin,m.reviewPin,m.port);assert.equal(t.close.returned,false);assert.equal(t.close.nativeCloseVerified,false);assert.equal(t.probeOutcome,'STOPPED_PRESERVE');assert.equal(m.closes,1);assert.equal(t.sessionCoverage.status,'UNKNOWN');}`);
+await check('true Native close and insufficient final window retain separate true facts',`{const m=model.setup({closeCost:'20000000000'}),t=await runBudgetProbe118(m.inputPin,m.reviewPin,m.port);assert.equal(t.close.nativeCloseVerified,true);assert.equal(t.sessionCoverage.status,'UNKNOWN');assert.equal(t.probeOutcome,'STOPPED_PRESERVE');assert.equal(m.closes,1);}`);
+for(const name of ['budget-probe-report.json','complete.json']) await check(name+' write failure preserves the completed CP truth',`{const m=model.setup();m.terminal=await runBudgetProbe118(m.inputPin,m.reviewPin,m.port);m.failWrite=m.dir+'/${name}';let error;try{await finishBudgetCommand118(m.inputPin,m.reviewPin,m.p,m.dir);}catch(e){error=e;}assert(error);const failure=ownData118(error,'budgetProbeFailure');assert.equal(failure.checkpointReturned,true);assert(failure.checkpointInterval);assert.equal(m.closes,1);}`);
+const result={kind:'independent-budget118-complete-runner-terminal-truth-model',recordedAt:new Date().toISOString(),engine:process.version,execPath:process.execPath,candidate:{file:candidate,bytes:Buffer.byteLength(source),rawBytesSha256:sha(source)},engine:process.version,execPath:process.execPath,checks,capturedCompleteFunctions:captures,passed:checks.filter(c=>c.outcome==='PASS').length,failed:checks.filter(c=>c.outcome==='FAIL').length,limits:{NativePortAndIOAreModeled:true,actualRuntimeOrPerformance:false,actualPrivateProcEnvSQLHTTP:false,authorCandidateModified:false}};
+const out=own+'/'+output;fs.writeFileSync(out,JSON.stringify(result,null,2)+'\n',{flag:'wx',mode:0o600});
+console.log(JSON.stringify({file:out,passed:result.passed,failed:result.failed,rawBytesSha256:sha(fs.readFileSync(out))}));if(result.failed)process.exitCode=1;

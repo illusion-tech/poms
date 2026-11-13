@@ -1,0 +1,54 @@
+{
+  "kind": "independent-budget118-complete-owned-suffix-xmin-model",
+  "recordedAt": "2026-11-13T11:20:32.481Z",
+  "candidate": {
+    "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-budget-code-independent01/link-final01-sources/tools/rust-r4ghi/business/runtime-admission121.mjs",
+    "bytes": 202463,
+    "rawBytesSha256": "9fe2bad3e2ec8cdf54476630c0068615fa799b71df89a8e5cf8229ebb4308e74"
+  },
+  "captures": [
+    {
+      "name": "currentOwnershipBudget118",
+      "rawBodySha256": "279943d870f8ca0f61b18094012da9fff8f3979bdc8d6a3b55e618f653a96400"
+    },
+    {
+      "name": "budgetOwnershipSource118",
+      "rawBodySha256": "cb71606d04eb517b34028462e8393dd96f81eb6c6bb4afce7d3bd137dc58457d"
+    }
+  ],
+  "checks": [
+    {
+      "name": "complete suffix/source baseline with genuine hashed model after-row xmin",
+      "outcome": "PASS"
+    },
+    {
+      "name": "changing only latestXmin must reject despite matching SHA/proof/log/HTTP/ledger",
+      "outcome": "FAIL",
+      "error": {
+        "name": "AssertionError",
+        "message": "Missing expected exception."
+      }
+    },
+    {
+      "name": "two valid Auth updates of the same key compare only the last after-row xmin",
+      "outcome": "PASS"
+    },
+    {
+      "name": "last-key wrong xmin rejects after an earlier valid Auth birth",
+      "outcome": "FAIL",
+      "error": {
+        "name": "AssertionError",
+        "message": "Missing expected exception."
+      }
+    }
+  ],
+  "passed": 2,
+  "failed": 2,
+  "limits": {
+    "allArtifactsMemoryOnly": true,
+    "syntheticArtifactRawHashesActuallyVerified": true,
+    "historical1daRawPrefixValidationModeled": true,
+    "actualPrivateProcEnvSQLHTTP": false,
+    "actualPerformance": false
+  }
+}

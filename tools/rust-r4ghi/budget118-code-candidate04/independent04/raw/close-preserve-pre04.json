@@ -1,0 +1,42 @@
+{
+  "kind": "independent-budget118-complete-close-secondary-preservation-model",
+  "recordedAt": "2026-11-13T11:04:29.918Z",
+  "candidate": {
+    "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-budget-code-independent01/link-pre03-sources/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs",
+    "bytes": 72949,
+    "rawBytesSha256": "5161c3f3d38e3cd2992b4f964af26b1ee610afb9adc73c1ea208fda3aff19b4a"
+  },
+  "infrastructureProbe": null,
+  "wholeFunction": {
+    "name": "closeInvocation118",
+    "start": 1320,
+    "end": 1418,
+    "rawBodySha256": "be749b19ca8ffdd3a3b99984ba12387e0101a28125c4c2ebc20df39dfef01fb7"
+  },
+  "checks": [
+    {
+      "name": "full budget close returns real two born pins and revokes once",
+      "outcome": "PASS"
+    },
+    {
+      "name": "exit born then all state writes fail still exposes finite existing pins",
+      "outcome": "PASS"
+    },
+    {
+      "name": "closed journal born then state and preserve writes fail still exposes finite existing pins",
+      "outcome": "PASS"
+    },
+    {
+      "name": "failed-bookend write error cannot replace the primary finite close facts",
+      "outcome": "PASS"
+    }
+  ],
+  "passed": 4,
+  "failed": 0,
+  "limits": {
+    "strongNativeAndRetainedDependenciesModeled": true,
+    "allArtifactsMemoryOnly": true,
+    "actualPrivateProcEnvSQLHTTP": false,
+    "actualPerformance": false
+  }
+}

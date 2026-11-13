@@ -1,0 +1,54 @@
+// Complete closeInvocation118 body. Strong Native/retained dependencies are
+// declared models; every artifact and failure is memory-only.
+import fs from 'node:fs';import path from 'node:path';import vm from 'node:vm';
+import assert from 'node:assert/strict';import {createHash} from 'node:crypto';
+import {createRequire} from 'node:module';import {fileURLToPath} from 'node:url';
+const own=path.dirname(fileURLToPath(import.meta.url)).replaceAll('\\','/');
+const ts=createRequire('E:/projects/worktrees/poms-r3hijk-next28/poms/package.json')('typescript');
+const file=process.argv[2],output=process.argv[3];assert(file.replaceAll('\\','/').startsWith(own+'/'));assert(/^[a-z0-9-]+\.json$/.test(output));
+const bytes=fs.readFileSync(file),source=bytes.toString(),sha=b=>createHash('sha256').update(b).digest('hex');
+const ast=ts.createSourceFile(file,source,ts.ScriptTarget.Latest,true,ts.ScriptKind.JS);
+const node=ast.statements.find(n=>ts.isFunctionDeclaration(n)&&n.name?.text==='closeInvocation118');assert(node);
+const body=source.slice(node.getStart(ast),node.end).replace(/^export\s+/,'');
+const checkpointBodies=['budgetData118','checkpoint118','checkpointBudgetInvocation118'].map(name=>{const n=ast.statements.find(n=>ts.isFunctionDeclaration(n)&&n.name?.text===name);assert(n);const text=source.slice(n.getStart(ast),n.end).replace(/^export\s+/,'');return{name,text,rawBodySha256:sha(text)};});
+const c=vm.createContext({assert,Buffer,__sha:sha});
+vm.runInContext(`
+const caps=new WeakMap(),budgetRoots118=new WeakMap(),F118={win:'/MODEL/ROOT',epoch:'g2-business15',run:'main01'};
+let M;const live=cap=>{const d=caps.get(cap);assert(d&&!d.closed);return d;};
+const budgetNative121={assertBudgetProbeDispatch121(root,ticket){assert.equal(root,M.root);assert.equal(ticket,M.ticket);},budgetRuntimeReference121(root,ticket){budgetNative121.assertBudgetProbeDispatch121(root,ticket);M.checkpointOrder.push('final-native-ref');M.references++;if(M.options.finalReferenceFailure)throw Error('MODEL final Native reference failed');return{kind:'MODEL-FINAL-REF'};}};
+function currentTaxFiles118(){M.checkpointOrder.push('full-tax-files');if(M.options.checkpointFilesFailure)throw Error('MODEL full Tax files failed');}
+const freeze118=v=>{if(v&&typeof v==='object'){Object.values(v).forEach(freeze118);Object.freeze(v);}return v;};
+globalThis.structuredClone=v=>JSON.parse(JSON.stringify(v));
+function runtimeReference121(){M.references++;M.checkpointOrder.push('ordinary-final-ref');return{kind:'MODEL-ORDINARY-REF'};}
+function currentFiles(d,ticket){budgetNative121.assertBudgetProbeDispatch121(d.root,ticket);M.bookends++;if(M.options.bookendFailure)throw Error('MODEL full bookend failure');}
+function readRetainedTaxProof118(){M.retained++;}
+function assertBudgetPreparation118(){M.preparation=(M.preparation??0)+1;}
+function currentTuple118(){return{kind:'MODEL-CURRENT'};}
+function invocationJournal118(){return M.journal;}
+function writeFailedBookend118(){M.failedBookendWrites++;if(M.options.failedBookendWriteFailure)throw Error('MODEL secondary failed-bookend write');return null;}
+const pathToFileURL=()=>({href:'MODEL-NATIVE'});
+function setup(options={}){
+ M={options,persistCalls:0,bookends:0,retained:0,failedBookendWrites:0,artifacts:[],nativeFull:0,sequence:0,references:0,checkpointOrder:[]};
+ const root={state:{taxContinuation121:{kind:'MODEL-OLD-K-BIRTH',continuation121:'MODEL-OLD-K'}},next:label=>String(++M.sequence)+'-'+label,artifact:(name,value)=>{const b=Buffer.from(JSON.stringify(value));const p={file:'/MODEL/'+name,bytes:b.length,rawBytesSha256:__sha(b)};M.artifacts.push({name,p,value:JSON.parse(b)});return p;},persist(){M.persistCalls++;if(options.failPersistFrom&&M.persistCalls>=options.failPersistFrom)throw Error('MODEL secondary state persist failed');}};
+ M.root=root;M.ticket={};M.cap={};M.journal={mode:'budget-probe',families:[]};
+ M.d={root,cap:M.cap,nativeBudget:options.ordinaryDebug?false:true,budgetActorBefore:{status:'VERIFIED'},cursor:0,p:{mode:'budget-probe',nonce:'MODEL-NONCE',candidate:{file:'/MODEL/candidate'}},manifest:{current:{runtimeAdmission121:{file:'/MODEL/registry'}}},registry:{},pid:77,boot:'MODEL',inputPin:{file:'/MODEL/input'},entryGuard:{file:'/MODEL/entry'},ledgers:[],closed:false};
+ caps.set(M.cap,M.d);budgetRoots118.set(root,M.d);return M;
+}
+globalThis.model={setup,get value(){return M;},native:{budgetAssertRuntimeBinding121(){M.nativeFull++;return{};},assertRuntimeBinding121(){M.nativeFull++;return{};}}};
+`,c);
+const native=new vm.SyntheticModule(['budgetAssertRuntimeBinding121','assertRuntimeBinding121'],function(){for(const k of ['budgetAssertRuntimeBinding121','assertRuntimeBinding121'])this.setExport(k,c.model.native[k]);},{context:c,identifier:'MODEL-NATIVE'});
+await native.link(()=>{throw Error('Unexpected import');});await native.evaluate();
+const m=new vm.SourceTextModule(body+'\n'+checkpointBodies.map(x=>x.text).join('\n')+'\nObject.assign(globalThis,{closeInvocation118,checkpoint118,checkpointBudgetInvocation118});',{context:c,identifier:'MODEL:whole-close-and-checkpoint-bodies',importModuleDynamically:spec=>{assert.equal(spec,'MODEL-NATIVE');return native;}});await m.link(()=>{throw Error('Unexpected import');});await m.evaluate();
+const checks=[];
+const infrastructureProbe=await vm.runInContext('(async()=>{const f=model.setup({ordinaryDebug:true});try{await closeInvocation118(f.cap,null,{failed:true},f.ticket);return null;}catch(error){return{name:error.name,message:error.message,nativeFull:f.nativeFull,artifacts:f.artifacts.length};}})()',c);
+async function check(name,program){try{await vm.runInContext('(async()=>{'+program+'})()',c);checks.push({name,outcome:'PASS'});}catch(error){checks.push({name,outcome:'FAIL',error:{name:error.name,message:error.message}});}}
+await check('full budget close returns real two born pins and revokes once',`{const f=model.setup();const result=await closeInvocation118(f.cap,null,{failed:true},f.ticket);assert(result.exitGuard&&result.closedJournal);assert.equal(f.nativeFull,1);assert.equal(f.artifacts.length,2);assert.equal(caps.has(f.cap),false);assert.equal(budgetRoots118.has(f.root),false);}`);
+for(const [label,failPersistFrom,closedExpected]of [['exit born then all state writes fail',1,false],['closed journal born then state and preserve writes fail',2,true]])await check(label+' still exposes finite existing pins',`{const f=model.setup({failPersistFrom:${failPersistFrom}});let error;try{await closeInvocation118(f.cap,null,{failed:true},f.ticket);}catch(e){error=e;}assert(error);assert.equal(caps.has(f.cap),false);assert.equal(budgetRoots118.has(f.root),false);const facts=Object.getOwnPropertyDescriptor(error,'budgetCloseFacts')?.value;assert(facts,'Already observed pins were lost to a secondary preserve error');assert(facts.exitGuard);assert.equal(Boolean(facts.closedJournal),${closedExpected});assert.equal(facts.result,null);assert.equal(f.root.state.taxContinuation121.continuation121,'MODEL-OLD-K');}`);
+await check('failed-bookend write error cannot replace the primary finite close facts',`{const f=model.setup({bookendFailure:true,failedBookendWriteFailure:true});let error;try{await closeInvocation118(f.cap,null,{failed:true},f.ticket);}catch(e){error=e;}assert(error);assert(Object.hasOwn(error,'budgetCloseFacts'));assert.equal(error.budgetCloseFacts.exitGuard,null);assert.equal(error.budgetCloseFacts.closedJournal,null);assert.equal(caps.has(f.cap),false);}`);
+await check('complete designated checkpoint returns only after its final Native reference',`{const f=model.setup();const value=checkpointBudgetInvocation118(f.root,f.ticket);assert.equal(value.runtimeReference121.kind,'MODEL-FINAL-REF');assert.deepEqual(f.checkpointOrder,['full-tax-files','final-native-ref']);assert.equal(f.references,1);assert(f.d.budgetCheckpoint);}`);
+await check('final Native reference failure is not a returned complete checkpoint',`{const f=model.setup({finalReferenceFailure:true});assert.throws(()=>checkpointBudgetInvocation118(f.root,f.ticket),/final Native reference failed/);assert.deepEqual(f.checkpointOrder,['full-tax-files','final-native-ref']);assert.equal(f.d.budgetCheckpoint,undefined);assert.equal(f.d.budgetFailed,true);}`);
+await check('full Tax-file failure prevents reaching final Native reference',`{const f=model.setup({checkpointFilesFailure:true});assert.throws(()=>checkpointBudgetInvocation118(f.root,f.ticket),/full Tax files failed/);assert.equal(f.references,0);assert.equal(f.d.budgetCheckpoint,undefined);}`);
+await check('activeFault cannot enter the budget base checkpoint FI branch',`{const f=model.setup();f.root.state.activeFault={MODEL_ONLY:true};assert.throws(()=>checkpointBudgetInvocation118(f.root,f.ticket),/activeFault=false/);assert.deepEqual(f.checkpointOrder,[]);assert.equal(f.references,0);}`);
+await check('ordinary complete checkpoint keeps its existing final reference path',`{const f=model.setup({ordinaryDebug:true});const value=checkpoint118(f.cap,'legacy-model-phase');assert.equal(value.runtimeReference121.kind,'MODEL-ORDINARY-REF');assert.deepEqual(f.checkpointOrder,['full-tax-files','ordinary-final-ref']);}`);
+const result={kind:'independent-budget118-complete-close-and-checkpoint-preservation-model',recordedAt:new Date().toISOString(),engine:process.version,execPath:process.execPath,candidate:{file,bytes:bytes.length,rawBytesSha256:sha(bytes)},infrastructureProbe,wholeFunction:{name:'closeInvocation118',start:ast.getLineAndCharacterOfPosition(node.getStart(ast)).line+1,end:ast.getLineAndCharacterOfPosition(node.end).line+1,rawBodySha256:sha(body)},checkpointFunctions:checkpointBodies.map(({text,...meta})=>meta),checks,passed:checks.filter(c=>c.outcome==='PASS').length,failed:checks.filter(c=>c.outcome==='FAIL').length,limits:{strongNativeAndRetainedDependenciesModeled:true,checkpointFilePredicateDependencyModeled:true,allArtifactsMemoryOnly:true,actualPrivateProcEnvSQLHTTP:false,actualPerformance:false}};
+const out=own+'/'+output;fs.writeFileSync(out,JSON.stringify(result,null,2)+'\n',{flag:'wx',mode:0o600});console.log(JSON.stringify({file:out,passed:result.passed,failed:result.failed,rawBytesSha256:sha(fs.readFileSync(out))}));if(result.failed)process.exitCode=1;
