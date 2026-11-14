@@ -37,7 +37,7 @@ const OUTPUTS={
 };
 const E_KIND={'holder-start':'Root-runtime118-reentry-holder','pg-current':'Root-runtime118-original-PG-current','ro-before':'Root-runtime118-RO-before','ro-after':'Root-runtime118-RO-after','api-start':'Root-runtime118-same-byte-API-start','api-rebind':'Root-runtime118-api-only-rebind'};
 const HOST_ENV=Object.freeze({HOME:'/home/wangzishi',USER:'wangzishi',LOGNAME:'wangzishi',PATH:'/usr/bin:/bin',LANG:'C.UTF-8',LC_ALL:'C.UTF-8'});
-const WINDOWS=Object.freeze({pwsh:{file:'/mnt/c/Users/ynh2/.cache/codex-runtimes/codex-primary-runtime/dependencies/native/powershell/pwsh.exe',bytes:301360,rawBytesSha256:'2a6769a3330dc1084d0154bfde7d164ab750ca7f700f313f9d417c1be78b2233',nlink:1},wsl:{file:'/mnt/c/Windows/System32/wsl.exe',bytes:212992,rawBytesSha256:'97b8172d68ef95e47fe07ab6de231f9b00a73cc5b37f9ffa3d9b5ca13cf8d950',nlink:2}});
+const WINDOWS=Object.freeze({pwsh:{file:'/mnt/c/Users/ynh2/.cache/codex-runtimes/codex-primary-runtime/dependencies/native/powershell/pwsh.exe',bytes:301360,rawBytesSha256:'2a6769a3330dc1084d0154bfde7d164ab750ca7f700f313f9d417c1be78b2233',nlink:1},wsl:{file:'/mnt/c/Windows/System32/wsl.exe',bytes:212992,rawBytesSha256:'7492f024a0ef1f77d77a930e1681692501422e96a6df99f503b8a71881c8309c',nlink:2}});
 const BEGIN_RO='BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY';
 const SETTINGS=Object.freeze({transaction_read_only:'on',default_transaction_read_only:'on',transaction_isolation:'repeatable read'});
 // The original image was built --prefix=/opt/pgsql (Containerfile.pg15).

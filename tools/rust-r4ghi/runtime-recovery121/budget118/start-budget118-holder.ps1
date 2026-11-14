@@ -21,7 +21,7 @@ $script:CorrectiveSha118='56b922e657b4db4b8429aff638fe0f80a8dfa808cf53cb42a4211c
 $script:Pwsh118='C:/Users/ynh2/.cache/codex-runtimes/codex-primary-runtime/dependencies/native/powershell/pwsh.exe'
 $script:PwshSha118='2a6769a3330dc1084d0154bfde7d164ab750ca7f700f313f9d417c1be78b2233'
 $script:Wsl118='C:/Windows/System32/wsl.exe'
-$script:WslSha118='97b8172d68ef95e47fe07ab6de231f9b00a73cc5b37f9ffa3d9b5ca13cf8d950'
+$script:WslSha118='7492f024a0ef1f77d77a930e1681692501422e96a6df99f503b8a71881c8309c'
 
 # The only first-WSL bootstrap. Every command and executable is fixed here.
 # All arguments are separately bound data; nothing is evaluated as script.
