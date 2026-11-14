@@ -1,0 +1,58 @@
+{
+  "kind": "non-author-runtime118-root-support-joint-seam-review",
+  "schemaVersion": 1,
+  "reviewer": "/root/budget118_review",
+  "reviewerIsAuthor": false,
+  "verdict": "NOTREADY-NEW-FULL3-CONTRACT-REPAIRS-PENDING",
+  "technicalG1": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v3/Root-G1-budget-probe118-v3.json",
+    "bytes": 32283,
+    "rawBytesSha256": "80ea3db59386f935b733e5e29b7b8a4db860c408ccb84f9204b9b5adebac00a1"
+  },
+  "testedSource": {
+    "bytes": 42757,
+    "rawBytesSha256": "dd4944818a3876a970cba88703893c01a7313556e905b381a691d3a07d8ee0d3"
+  },
+  "testedRuntime": {
+    "bytes": 125482,
+    "rawBytesSha256": "787035a391e79d31c0624746cee21d20ad18ebf6678ad713cf0519e02b37b213"
+  },
+  "testedWindowsLauncher": {
+    "bytes": 25217,
+    "rawBytesSha256": "9a9fd33f8606fe28489f0673ef5ff57a6fc293ce13477b2b84030a73b4fee88a"
+  },
+  "positiveEvidence": [
+    "Complete public Runtime window returns deeply frozen closed8; the original operation lock may be held by Source while actual driver locks still reject.",
+    "Complete Source main dynamically imports the actual complete Runtime namespace and performs all eleven promotion steps in the owned MemoryFS to produce SC18 with actual Control02 and Tax01 candidate bytes.",
+    "The actual produced SC18 is accepted by complete Runtime source-history verification, followed by full live-holder/PG/pre/API/post/C/R/B/current-X verification and deeply frozen closed10 public handoff.",
+    "Complete Source --prepare-handoff consumes that actual public handoff and writes closed13 schema4 S4 with budget-probe purpose, without canonical/process/context effects."
+  ],
+  "blockingFindings": [
+    {
+      "id": "window-ownership-Full3",
+      "counterexample": "Starting from the accepted complete window, delete only ownership.bytes and write a new correctly hashed window. The public Runtime reader accepts and returns the resulting Pin2.",
+      "requiredCorrection": "Validate full(w.ownership) in the new window body before identity comparison. Keep the legacy historical Pin2 comparator unchanged.",
+      "evidence": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-reentry-code-independent01/joint-candidate01/tests/independent-joint-01.json",
+        "bytes": 4036,
+        "rawBytesSha256": "712e04818962576ca5969cba0ad23370f4652f31411f80bc05ae7659a18a119f"
+      }
+    },
+    {
+      "id": "C10-origin-Full3",
+      "counterexample": "After the accepted complete public handoff and Source S4 output, delete only C10.prepareOrigin121.bytes and recompute real C/R/B pins with R.complete correctly rebound. The public Runtime handoff still accepts the malformed C10.",
+      "requiredCorrection": "Explicitly validate c.prepareOrigin121 as Full3 in both new C10 consumers: public handoff verification and the data-only recovery-core writer validation. Independently verify the same new-C10 contract in the four new5 Control readers; do not globally alter legacy comparisons.",
+      "evidence": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-reentry-code-independent01/joint-candidate01/tests/independent-joint-03.json",
+        "bytes": 7502,
+        "rawBytesSha256": "da24c11cd336d85644f74790dd8a915c0d47a8d4d5de30ab6ac391600376ea65"
+      }
+    }
+  ],
+  "securityClassification": "The fixed historical Origin and ownership bytes are still strongly read. These findings violate the frozen new-data Full3 contract; they do not demonstrate escaped Root or context authority.",
+  "executionBoundary": "Win Node24.19.0, copied complete candidate modules, owned MemoryFS and virtual process/SQL/HTTP. Historical Node/birth/ELF identities remain explicitly declared model aliases; all new phase records use actual computed hashes. No private host paths were read and no actual recovery or source effect ran.",
+  "candidate01Preserved": true,
+  "rootSupportInstallationQualified": false,
+  "codeReady": false,
+  "actualG2Granted": false
+}

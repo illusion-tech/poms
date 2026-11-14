@@ -1,0 +1,13 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import {spawnSync} from 'node:child_process';
+import {fileURLToPath} from 'node:url';
+import {createHash} from 'node:crypto';
+assert.equal(process.version,'v24.19.0');
+const here=path.dirname(fileURLToPath(import.meta.url)),attempt=process.argv[2];assert(/^[a-z0-9-]+$/.test(attempt??''));
+const exe='C:/Users/ynh2/.cache/codex-runtimes/codex-primary-runtime/dependencies/native/powershell/pwsh.exe',argv=['-NoProfile','-NonInteractive','-File',here+'/test-holder118.ps1','-Attempt',attempt];
+assert.equal(createHash('sha256').update(fs.readFileSync(exe)).digest('hex'),'2a6769a3330dc1084d0154bfde7d164ab750ca7f700f313f9d417c1be78b2233');
+const result=spawnSync(exe,argv,{encoding:'utf8',timeout:60000,windowsHide:true,env:{SystemRoot:'C:/Windows',WINDIR:'C:/Windows',USERPROFILE:'C:/Users/ynh2',PATH:'C:/Windows/System32'},maxBuffer:1048576});
+const record={kind:'author-runtime118-Win24-PowerShell-ownIO-test-command',engine:{execPath:process.execPath,version:process.version},executable:exe,argv,status:result.status,signal:result.signal,error:result.error?{name:result.error.name,code:result.error.code}:null,stdout:result.stdout,stderr:result.stderr,actualWSL:false,actualG2:false};
+const file=here+'/holder-command-'+attempt+'.json';fs.writeFileSync(file,JSON.stringify(record,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({file,status:result.status,stdout:result.stdout,stderr:result.stderr}));if(result.status!==0)process.exitCode=1;

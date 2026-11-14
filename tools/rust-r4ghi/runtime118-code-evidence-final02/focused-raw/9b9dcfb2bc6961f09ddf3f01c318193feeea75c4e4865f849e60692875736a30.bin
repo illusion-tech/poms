@@ -1,0 +1,67 @@
+--- implementationBefore04/tools/rust-r4ghi/business/runtime-admission-core121.mjs
++++ candidate03/tools/rust-r4ghi/business/runtime-admission-core121.mjs
+@@ -480,13 +480,16 @@
+   for(const k of Object.keys(s).filter(k=>!['kind','schemaVersion','allowedPurpose'].includes(k)))fullPin121(s[k]);
+   assert.deepEqual(s.retainedCurrentState,BUDGET118.state);assert.deepEqual(s.retainedOwnership,BUDGET118.ownership);assert.equal(s.predecessorRegistry.rawBytesSha256,BUDGET118.birthRegistrySHA);for(const[k,p]of Object.entries(BUDGET118.predecessor))assert.deepEqual(s[k],p);return s;
+ }
++export function reentrySuccessorShape118(s){
++  keys121(s,['kind','schemaVersion','predecessorPlan','predecessorRegistry','predecessorCandidate','predecessorPublication','predecessorReadback','retainedCurrentState','retainedOwnership','prepareOrigin121','sourceWitness','allowedPurpose','recoveryReceipt'],'reentry S4');assert.equal(s.kind,'Root-runtime121-successful-prepare-adoption-handoff');assert.equal(s.schemaVersion,4);assert.equal(s.allowedPurpose,'budget-probe');for(const k of Object.keys(s).filter(k=>!['kind','schemaVersion','allowedPurpose'].includes(k)))fullPin121(s[k]);for(const[k,p]of Object.entries(BUDGET118.predecessor))assert.deepEqual(s[k],p);assert.deepEqual(s.retainedOwnership,BUDGET118.ownership);assert.notEqual(s.retainedCurrentState.rawBytesSha256,BUDGET118.state.rawBytesSha256);return s;
++}
+ export function budgetAdoptionShape118(a){
+   keys121(a,['kind','schemaVersion','purpose','prepareOrigin121','current','semantics'],'Adoption6');assert.equal(a.kind,'Root-runtime121-successful-prepare-adoption');assert.equal(a.schemaVersion,1);assert.equal(a.purpose,'budget-probe');fullPin121(a.prepareOrigin121);
+   keys121(a.current,['plan','registry','candidate','sourceWitness','scope121'],'AdoptionCurrent5');for(const k of['plan','registry','candidate','sourceWitness'])fullPin121(a.current[k]);assert(/^[a-f0-9]{64}$/.test(a.current.scope121));
+   keys121(a.semantics,['freshPreparation','newK','actualContextObserved','FIOrNormalGranted']);for(const v of Object.values(a.semantics))assert.equal(v,false);return a;
+ }
+ export function budgetAdoptionBody118(p,planPin,registryPin,candidatePin,s){
+-  planShape121(p);assert.equal(p.protocolVersion,4);budgetSuccessorShape118(s);
++  planShape121(p);assert([4,5].includes(p.protocolVersion));if(p.protocolVersion===5)reentrySuccessorShape118(s);else budgetSuccessorShape118(s);
+   return budgetAdoptionShape118(copy121({kind:'Root-runtime121-successful-prepare-adoption',schemaVersion:1,purpose:'budget-probe',prepareOrigin121:s.prepareOrigin121,current:{plan:fullPin121(planPin),registry:fullPin121(registryPin),candidate:fullPin121(candidatePin),sourceWitness:s.sourceWitness,scope121:scope121(p)},semantics:{freshPreparation:false,newK:false,actualContextObserved:false,FIOrNormalGranted:false}}));
+ }
+ export function budgetSuccessfulOrigin118(state,o,k,carrier,entry,exit,closed){
+@@ -502,7 +505,7 @@
+   ownershipPrefix362(base,retained362,retained);assert.equal(retained.length,13016);assert.equal(sha121(retained),BUDGET118.ownership.rawBytesSha256);assert(current.length>=retained.length&&current.subarray(0,retained.length).equals(retained),'Entire successful 1da prefix required');return{retainedBytes:retained.length,currentBytes:current.length};
+ }
+ export function budgetIdle118(state,p){
+-  planShape121(p);assert.equal(p.protocolVersion,4);for(const k of['activeFault','blockedObservation','cleaned','cleanupPlan','admissionPending54'])assert(!state[k],'Budget publication requires idle '+k);
++  planShape121(p);assert([4,5].includes(p.protocolVersion));for(const k of['activeFault','blockedObservation','cleaned','cleanupPlan','admissionPending54'])assert(!state[k],'Budget publication requires idle '+k);
+   for(const n of['taxContinuation13','taxContinuation14','taxContinuation15','taxContinuation121'])for(const k of['pendingMain','pendingTaxTrial','normalTaxPending','unexpectedTaxACK'])assert(!state[n]?.[k]);
+   const r=state.taxContinuation121;assert(r?.taxPreparation&&r.continuation121);samePin121(r.continuation121,BUDGET118.K);assert.equal(r.runtimeAdmission121.rawBytesSha256,BUDGET118.birthRegistrySHA);samePin121(r.identity.runtimeAdmission121,r.runtimeAdmission121);for(const k of['sweep','complete','sidecar'])assert.equal(r[k],null);
+   const j=state.consumerChecks?.taxInvocation121?.invocations?.[BUDGET118.nonce];assert(j&&j.phase==='closed-verified'&&j.mode==='prepare-only');samePin121(j.result,r.taxPreparation.artifact);assert.equal(state.sequence,65);assert.equal(Object.keys(state.actors).length,14);assert.deepEqual(p.stateTransfer.actorCacheDelta,{actorKeys:Object.keys(state.actors).sort(),clearCookies:false,clearPermissions:false});return state;
+@@ -520,7 +523,7 @@
+ export function planShape121(p) {
+   keys121(p, ['kind','protocolVersion','namespace','epoch','run','nonce','base','current',
+     'composition','stateTransfer','tooling','outputs'], 'runtime121 plan');
+-  assert.equal(p.kind, 'source15-append-runtime-plan121'); assert([1,2,3,4].includes(p.protocolVersion));
++  assert.equal(p.kind, 'source15-append-runtime-plan121'); assert([1,2,3,4,5].includes(p.protocolVersion));
+   for (const key of ['namespace','epoch','run']) assert.equal(p[key], C121[key]);
+   assert(/^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/.test(p.nonce));
+   parentShape121(p.base); keys121(p.current, currentKeys121, 'current121');
+@@ -535,8 +538,8 @@
+   assert(Array.isArray(p.composition.independentCodeReviews) && p.composition.independentCodeReviews.length);
+   p.composition.independentCodeReviews.forEach(pin121);
+   keys121(p.stateTransfer, p.protocolVersion===1?['expectedState','expectedOwnership','actorCacheDelta']:['expectedState','expectedOwnership','actorCacheDelta','successor']);
+-  if(p.protocolVersion===4){fullPin121(p.stateTransfer.successor);fullPin121(p.stateTransfer.expectedState);assert.deepEqual(p.stateTransfer.expectedState,BUDGET118.state);}else if(p.protocolVersion===1)samePin121(p.stateTransfer.expectedState,p.base.retainedState15);else if(p.protocolVersion===2){fullPin121(p.stateTransfer.successor);fullPin121(p.stateTransfer.expectedState);assert.deepEqual(p.stateTransfer.expectedState,CORRECTIVE361.currentFailedState32bd);}else{fullPin121(p.stateTransfer.successor);fullPin121(p.stateTransfer.expectedState);assert.deepEqual(p.stateTransfer.expectedState,CORRECTIVE362.retainedState);}
+-  if(p.protocolVersion===4){fullPin121(p.stateTransfer.expectedOwnership);assert.deepEqual(p.stateTransfer.expectedOwnership,BUDGET118.ownership);}else if(p.protocolVersion===3){fullPin121(p.stateTransfer.expectedOwnership);assert.deepEqual(p.stateTransfer.expectedOwnership,CORRECTIVE362.retainedOwnership);}else samePin121(p.stateTransfer.expectedOwnership, p.base.ownership15);
++  if(p.protocolVersion===5){fullPin121(p.stateTransfer.successor);fullPin121(p.stateTransfer.expectedState);assert.notEqual(p.stateTransfer.expectedState.rawBytesSha256,BUDGET118.state.rawBytesSha256);}else if(p.protocolVersion===4){fullPin121(p.stateTransfer.successor);fullPin121(p.stateTransfer.expectedState);assert.deepEqual(p.stateTransfer.expectedState,BUDGET118.state);}else if(p.protocolVersion===1)samePin121(p.stateTransfer.expectedState,p.base.retainedState15);else if(p.protocolVersion===2){fullPin121(p.stateTransfer.successor);fullPin121(p.stateTransfer.expectedState);assert.deepEqual(p.stateTransfer.expectedState,CORRECTIVE361.currentFailedState32bd);}else{fullPin121(p.stateTransfer.successor);fullPin121(p.stateTransfer.expectedState);assert.deepEqual(p.stateTransfer.expectedState,CORRECTIVE362.retainedState);}
++  if([4,5].includes(p.protocolVersion)){fullPin121(p.stateTransfer.expectedOwnership);assert.deepEqual(p.stateTransfer.expectedOwnership,BUDGET118.ownership);}else if(p.protocolVersion===3){fullPin121(p.stateTransfer.expectedOwnership);assert.deepEqual(p.stateTransfer.expectedOwnership,CORRECTIVE362.retainedOwnership);}else samePin121(p.stateTransfer.expectedOwnership, p.base.ownership15);
+   keys121(p.stateTransfer.actorCacheDelta, ['actorKeys','clearCookies','clearPermissions']);
+   assert(Array.isArray(p.stateTransfer.actorCacheDelta.actorKeys));
+   assert.equal(p.stateTransfer.actorCacheDelta.clearCookies,p.protocolVersion===1);
+@@ -597,7 +600,7 @@
+   });
+ }
+ export function publishIdle121(state, plan = null) {
+-  if(plan?.protocolVersion===4)return budgetIdle118(state,plan);
++  if([4,5].includes(plan?.protocolVersion))return budgetIdle118(state,plan);
+   if(plan?.protocolVersion===3)return successorIdle362(state,plan);
+   if(plan?.protocolVersion===2)return successorIdle121(state,plan);
+   assert(!Object.hasOwn(state,'runtimeAdmission121'), 'First explicitly reviewed lease only');
+@@ -608,7 +611,7 @@
+       assert(!state[record]?.[key], 'Unknown/pending cannot be cleared by publication');
+ }
+ export function stateBody121(old, p, written, now) {
+-  if(p.protocolVersion===4)return budgetState118(old,p,written,now);
++  if([4,5].includes(p.protocolVersion))return budgetState118(old,p,written,now);
+   if(p.protocolVersion===3)return successorState362(old,p,written,now);
+   if(p.protocolVersion===2)return successorState121(old,p,written,now);
+   publishIdle121(old);

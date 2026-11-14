@@ -1,0 +1,92 @@
+from pathlib import Path
+import json,hashlib,os,collections,stat
+OUT=Path(__file__).resolve().parent
+I=Path('E:/projects/worktrees/poms-r4i-lifecycle/poms');R=Path('E:/projects/worktrees/poms-r3hijk-next28/poms');IMPL=I/'tools/rust-r4ghi/I/implementation';REVIEW=IMPL/'runtime118-reentry-code-independent01'
+fullIndex=json.loads((OUT/'retention-index02.json').read_bytes())
+def sha(b):return hashlib.sha256(b).hexdigest()
+def pin(f):
+ b=strong(f);s=str(f.resolve()).replace('\\','/');return{'file':'/mnt/'+s[0].lower()+s[2:],'bytes':len(b),'rawBytesSha256':sha(b)}
+def strong(f):
+ a=os.lstat(f);assert stat.S_ISREG(a.st_mode) and not stat.S_ISLNK(a.st_mode) and a.st_nlink==1
+ with f.open('rb')as h:
+  b=os.fstat(h.fileno());raw=h.read();c=os.fstat(h.fileno())
+ d=os.lstat(f)
+ for k in ['st_dev','st_ino','st_size','st_mtime_ns','st_ctime_ns']:assert getattr(a,k)==getattr(b,k)==getattr(c,k)==getattr(d,k)
+ assert len(raw)==d.st_size;return raw
+def path(p):
+ s=p['file'];return Path('E:'+s[6:]) if s.startswith('/mnt/e/') else Path(s) if s.startswith(('E:/','E:\\')) else None
+def key(p):return p['file'],p['bytes'],p['rawBytesSha256']
+def ispin(p):return isinstance(p,dict) and set(p)=={'file','bytes','rawBytesSha256'} and isinstance(p['file'],str) and isinstance(p['bytes'],int) and len(p['rawBytesSha256'])==64
+def refs(v,ptr=''):
+ if ispin(v):yield ptr,v;return
+ if isinstance(v,dict):
+  for k,w in v.items():yield from refs(w,ptr+'/'+k)
+ elif isinstance(v,list):
+  for n,w in enumerate(v):yield from refs(w,ptr+'/'+str(n))
+allMappings={key(x['original']):x for x in fullIndex['mappings']};allUnresolved={key(x['expected']):x for x in fullIndex['unresolvedPublicReferences']};allBoundary={key(x['expected']):x for x in fullIndex['nonPublicIdentityBoundaries']}
+roots=['review-runtime118-reentry-code-READY02.json','model-evidence-final02.json','finite-production-READY02.json','finite-dataProduction-READY02.json','finite-rootSupport-READY02.json','final-combined-readback02.json']
+selected=[];boundary=[];unresolved=[];seen=set();q=collections.deque();dest=OUT/'focused-raw';dest.mkdir(exist_ok=True)
+def add(p,origin,expand):
+ if key(p)not in seen:seen.add(key(p));q.append((p,origin,expand))
+def addfile(f,origin,expand):add(pin(f),origin,expand)
+for name in roots:addfile(REVIEW/name,'final-code-ready-root',True)
+for f in [IMPL/'runtime118-reentry-control-impl01/manifest-control118-reentry-candidate03.json',IMPL/'runtime118-reentry-tax-impl01/manifest-tax118-reentry-candidate01.json',IMPL/'runtime118-reentry-tool-impl01/manifest-tool118-reentry-candidate02.json',IMPL/'runtime118-source-tool-impl01/manifest-source118-candidate03.json',IMPL/'runtime118-source-author-models01/source-author-model-bundle02-fixed-inputs.json']:
+ addfile(f,'final-component-or-fixed-author-bundle',True)
+
+def childExpand(parent,ptr,p):
+ s=p['file'];name=Path(s).name
+ if name in roots:return True
+ if name in ['manifest-control118-reentry-candidate03.json','manifest-tax118-reentry-candidate01.json','manifest-tool118-reentry-candidate02.json','manifest-source118-candidate03.json','combined-manifest.json','source-author-model-bundle02-fixed-inputs.json','retention.json','author-bundle01.json']:return True
+ # Reports may reference scripts, candidate snapshots and failure records; copy
+ # their direct Full3 references without recursively importing old fixture trees.
+ if ptr.startswith('/models/') or any(t in ptr for t in ['/boundedRegression','/newAuthorModels/','/unchanged67RetainedFrom01/','/preservedFailureReview','/failurePreservation/','/typedDirected','/typedC10Fix/','/producerConsumerABI','/authorCompleteModuleOwnIO/','/realPublicHistoricalMetadataModel']):return True
+ return False
+
+def retain(raw):
+ f=dest/(sha(raw)+'.bin')
+ if not f.exists():f.write_bytes(raw)
+ assert strong(f)==raw;return pin(f)
+
+# Explicit source-pre01 snapshot resolves its old mutable Source path.
+special=IMPL/'runtime118-source-author-models01/source-pre01.mjs.txt';sp=pin(special)
+while q:
+ expected,origin,expand=q.popleft();k=key(expected);record=allMappings.get(k);raw=None
+ if record:
+  raw=strong(path(record['retainedCopy']));assert len(raw)==expected['bytes'] and sha(raw)==expected['rawBytesSha256']
+ else:
+  f=path(expected)
+  if f and (f.is_relative_to(I)or f.is_relative_to(R)):
+   try:
+    b=strong(f)
+    if len(b)==expected['bytes']and sha(b)==expected['rawBytesSha256']:raw=b;record={'originalReadStatus':'ORIGINAL_EXACT','originalObserved':expected,'resolvedFrom':expected}
+   except(OSError,AssertionError):pass
+  if raw is None and expected['bytes']==sp['bytes']and expected['rawBytesSha256']==sp['rawBytesSha256']:
+   raw=strong(special);record={'originalReadStatus':'ORIGINAL_CHANGED_RESOLVED_NAMED_PRE01_SOURCE_SNAPSHOT','originalObserved':allUnresolved.get(k,{}).get('observed'),'resolvedFrom':sp}
+ if raw is None:
+  if k in allBoundary:boundary.append(allBoundary[k])
+  else:unresolved.append(allUnresolved.get(k,{'expected':expected,'reference':origin,'status':'NOT_RESOLVED'}))
+  continue
+ cp=retain(raw);selected.append({'original':expected,'reference':origin,'originalReadStatus':record['originalReadStatus'],'originalObserved':record.get('originalObserved'),'resolvedFrom':record['resolvedFrom'],'retainedCopy':cp,'sameBytesAndSHA':True,'sameOriginalFileIdentityClaimed':record['originalReadStatus']=='ORIGINAL_EXACT'})
+ if expand and expected['file'].endswith('.json'):
+  try:v=json.loads(raw)
+  except(ValueError,UnicodeDecodeError):continue
+  for ptr,p in refs(v):add(p,expected['file']+'#'+ptr,childExpand(expected['file'],ptr,p))
+
+scripts=[]
+for row in fullIndex['scriptSnapshots']:
+ raw=strong(path(row['retainedCopy']));scripts.append({**row,'retainedCopy':retain(raw)})
+
+reports=[];failures=[]
+for row in selected:
+ original=row['original'];s=original['file'].lower()
+ if not s.endswith('.json'):continue
+ try:v=json.loads(strong(path(row['retainedCopy'])))
+ except(ValueError,UnicodeDecodeError):continue
+ if isinstance(v,dict) and any(k in v for k in ['passed','pass','tests','verdict','status']):
+  summary={k:v[k]for k in ['kind','status','verdict','passed','failed','pass','fail','tests','limits','classification']if k in v}
+  if isinstance(v.get('results'),list):summary['resultEntries']=len(v['results']);summary['resultStatuses']=dict(collections.Counter(str(x.get('status','UNLABELLED'))for x in v['results']if isinstance(x,dict)))
+  reports.append({'artifact':original,'summary':summary})
+ if any(t in s for t in ['notready','stopped','attempt','pre01','pre02','fullpin-directed01']):failures.append({'artifact':original,'retainedCopy':row['retainedCopy'],'status':'PRESERVE_ORIGINAL_LABEL_NOT_FINAL_PASS'})
+
+index={'kind':'runtime118-focused-final-code-public-retention-index','schemaVersion':1,'roots':[pin(REVIEW/n)for n in roots],'components':fullIndex['components'],'mappings':selected,'necessaryScriptSnapshots':scripts,'modelResultsByArtifact':reports,'failurePreservationIndex':failures,'unresolvedPublicReferences':unresolved,'scopeBoundaries':boundary,'counts':{'mappedReferences':len(selected),'rawObjects':len(list(dest.glob('*.bin'))),'necessaryScripts':len(scripts),'publicUnresolved':len(unresolved),'scopeBoundaries':len(boundary),'failureArtifacts':len(failures)},'custody':fullIndex['custody'],'truth':fullIndex['truth'],'limitations':['Raw scripts are labelled as final snapshot unless exact original tested script Full3 was supplied; no tested identity is inferred from a filename.','Different historical model versions remain scoped to their exact source pins. Passing counts are not summed into a new execution.','Full3 references in frozen synthetic fixture payloads are preserved as fixture bytes, not treated as actual filesystem reads or runtime evidence.'],'packageCopyInstruction':'Copy this index and only focused-raw objects referenced by mappings/necessaryScriptSnapshots; raw/retention-index02.json are an earlier expansive discovery audit, not required final package contents.'}
+out=OUT/'retention-index-final02.json';assert not out.exists();out.write_text(json.dumps(index,ensure_ascii=False,indent=2)+'\n',encoding='utf-8',newline='\n');print(json.dumps({'index':pin(out),'counts':index['counts']}))

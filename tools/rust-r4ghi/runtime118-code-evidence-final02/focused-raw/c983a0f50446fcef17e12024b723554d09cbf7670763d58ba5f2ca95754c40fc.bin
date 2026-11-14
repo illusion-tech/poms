@@ -1,0 +1,55 @@
+ // New5 follows a real hashed synthetic DAG with full 139 x 2 snapshots x 4.
+ for(const who of ['native','publisher','nativeData','taxData']){
+  check(who,'new5 complete source/recovery/record2/last-closed four-snapshot chain',`globalThis.r5=fixtureReentry118();globalThis.rm5=readReentryFiles118(r5.P5,r5.read);assert.equal(rm5.recovery.conservation.snapshots.length,4);assert.equal(rm5.retainedState.apiProcess.record.protocolVersion,2);assert.equal(rm5.origin.state.rawBytesSha256,B118.state.rawBytesSha256);assert.notEqual(rm5.successor.retainedCurrentState.rawBytesSha256,B118.state.rawBytesSha256);assert.notEqual(rm5.recovery.pre.pin.file,rm5.recovery.post.pin.file);assert.equal(rm5.recovery.source.value.steps.length,11);`);
+  const mutations=[
+   ['new5 manifest cannot omit exact corrective input',`const m=y.json(y.W4.successorManifest);delete m.correctiveInputs;y.register(y.W4.successorManifest,m);`],
+   ['finite graph carrier cannot replace G1 with checkpoint',`const r=y.json(y.W4.successorCodeReview);r.correctiveG3=R118.corrective;y.register(y.W4.successorCodeReview,r);`],
+   ['corrective input must exist as its own strong-read file',`y.entries.delete(y.key(R118.corrective));`],
+   ['corrective input frozenG1 cannot become legacy4',`const c=y.json(R118.corrective);c.frozenG1=B118.G1;y.register(R118.corrective,c);`],
+   ['opaque data qualification is not acceptance',`const sc=y.json(y.SC);y.register(sc.dataQualification,{});`],
+   ['data qualification uses actual dataProduction pointer',`const sc=y.json(y.SC),q=y.json(sc.dataQualification);q.entries[0].productPointer='/production/0';y.register(sc.dataQualification,q);`],
+   ['SQ static closure cannot import changing Core',`const q=y.json(y.sq);q.executionSources.push({file:B118.root+'/'+B118.files[0],bytes:1,rawBytesSha256:'1'.repeat(64)});y.register(y.sq,q);`],
+   ['Win engine C path is not a general Linux alias',`const q=y.json(y.sq);q.engines.windowsNode.executable.file='C:/Users/ynh2/node.exe';y.register(y.sq,q);`],
+   ['DR9 database OID mismatch',`const s=y.json(y.pg),d=y.json(s.outputs.readiness[0]);d.serverIdentity.oid=999;y.register(s.outputs.readiness[0],d);`],
+   ['DR9 app role privilege drift',`const s=y.json(y.pg),d=y.json(s.outputs.readiness[0]);d.serverIdentity.roles[1].rolsuper=true;y.register(s.outputs.readiness[0],d);`],
+   ['RO transaction is actually writable',`const s=y.json(y.pre),c=y.json(s.outputs.comparison),t=y.json(c.transactionProofs[0]);t.transactionSettings.transaction_read_only='off';y.register(c.transactionProofs[0],t);`],
+   ['RO transaction cannot use other transport',`const s=y.json(y.pre),c=y.json(s.outputs.comparison),t=y.json(c.transactionProofs[0]);t.connectionOptions.transport='http';y.register(c.transactionProofs[0],t);`],
+   ['public graph mirror cannot replace original P3 private pin',`const w=y.json(y.W4pin);w.baselineExecutionSources=y.newG1.sourceBoundary.graph;y.register(y.W4pin,w);`],
+   ['missing public before graph mirror',`y.entries.delete(y.key(y.newG1.sourceBoundary.graph));`],
+   ['public mirror differs from original raw',`y.register(y.newG1.sourceBoundary.graph,Buffer.from('wrong raw despite declared pin'));`],
+   ['producer retained closure cannot be a subset',`const l=y.json(y.locator),a=y.json(l.audit);a.producerSources.pop();y.register(l.audit,a);`],
+   ['PG raw inspect mount options drift',`const s=y.json(y.pg),o=y.json(s.outputs.observationAfter),e=y.json(o.evidence),raw=y.json(e.inspect);raw[0].Mounts[0].Options=['nodev','nosuid'];y.register(e.inspect,raw);`],
+   ['pending projection cannot fake absence',`const l=y.json(y.locator),a=y.json(l.audit),p=y.json(a.pendingProjection);p.activeFault={present:true,value:{armed:true}};y.register(a.pendingProjection,p);`],
+   ['F11 numeric nlink cannot be string',`const d=y.json(y.delta);d.guards.temp.nlink='1';y.register(y.delta,d);`],
+   ['reused old startedAt before holder',`const s=y.json(y.recordPin);s.startedAt='2020-01-01T00:00:00Z';y.register(y.recordPin,s);`],
+   ['legacy G1 cannot grant new5',`const s=y.json(y.C);s.recoveryG1=B118.G1;y.register(y.C,s);`],
+   ['legacy edition cannot grant new5',`const s=y.json(y.W4.successorManifest);s.edition='budget-probe118-v2';y.register(y.W4.successorManifest,s);`],
+   ['I04 before cannot replace R delivery before',`const s=y.json(y.sourceInput),p=y.json(s.sourcePlan);p.operations[0].before=y.newG1.existingSources[0].implementationBefore04;y.register(s.sourcePlan,p);`],
+   ['source future receipt field rejected',`const s=y.json(y.SC);s.recoveryReceipt=y.bundle;y.register(y.SC,s);`],
+   ['C future independent review rejected',`const s=y.json(y.C);s.independentReview=y.R;y.register(y.C,s);`],
+   ['wrong actual C readback rejected',`const s=y.json(y.R);s.complete=y.SC;y.register(y.R,s);`],
+   ['actual recovery reviewer cannot equal executor',`const s=y.json(y.R);s.reviewer='Root';y.register(y.R,s);`],
+   ['step peer reviewer cannot equal code author',`const a=y.json(y.api),s=y.json(a.executionReview);s.reviewer='runtime-author';y.register(a.executionReview,s);`],
+   ['peer extra phase alias rejected',`const a=y.json(y.api),s=y.json(a.executionReview);s.mode='API';y.register(a.executionReview,s);`],
+   ['RootApproval cannot point future peer',`const a=y.json(y.api),s=y.json(a.RootApproval);s.peerReview=a.executionReview;y.register(a.RootApproval,s);`],
+   ['API source actual readback must bind same SC',`const a=y.json(y.sourceReadback);a.complete=y.C;y.register(y.sourceReadback,a);`],
+   ['API evidence original three keys only',`const s=y.json(y.api),p=y.json(s.executionReview),e=y.json(p.evidence);e.actualSourceReadback=e.independentReadback;delete e.independentReadback;y.register(p.evidence,e);`],
+   ['IA startup cannot use future post evidence',`const s=y.json(y.IA);s.preConservation=y.post;y.register(y.IA,s);`],
+   ['startup graph cannot be old229/M06',`const s=y.json(y.recordPin);s.helperPins=y.p3.current.helperPins;y.register(y.recordPin,s);`],
+   ['record2 static tool closure is exact',`const s=y.json(y.recordPin);s.code=s.code.slice(0,1);y.register(y.recordPin,s);`],
+   ['PG changed container rejected',`const s=y.json(y.pg),o=y.json(s.outputs.observationAfter);o.container.id='new-container';y.register(s.outputs.observationAfter,o);`],
+   ['post baseline must be same pre locator',`const s=y.json(y.post);s.outputs.baselineLocator=y.baselinePin;y.register(y.post,s);`],
+   ['one complete snapshot cannot substitute four',`const s=y.json(y.post);s.outputs.observations.pop();y.register(y.post,s);`],
+   ['full RO descriptor xmin drift rejected',`const s=y.json(y.post),p=s.outputs.observations[1],o=y.json(p),d=o.databases.poms_r4ghi_rust.tables.poms_migrations;d.rawBytesSha256='0'.repeat(64);y.register(p,o);`],
+   ['new X cannot replace Origin birth6c',`const s=y.json(y.originPin);s.state=y.Xpin;y.register(y.originPin,s);`],
+   ['X cannot mutate record/sequence',`const s=y.json(y.Xpin);s.sequence++;y.register(y.Xpin,s);`],
+   ['canonical binding cannot contain Full3 bytes',`const s=y.json(y.Xpin);s.apiProcess.bytes=y.recordPin.bytes;y.register(y.Xpin,s);`],
+   ['changedKeys cannot include lease',`const s=y.json(y.delta);s.changedKeys.push('runtimeAdmission121');y.register(y.delta,s);`],
+   ['legacy oldAPI cannot replace current record2',`const p=cloneM(y.P5);p.current.apiProcess=y.p3.current.apiProcess;return p;`],
+  ];
+  for(const[label,body]of mutations){const mutation=body.includes('return p;')?`const p=(()=>{${body}})();assert.throws(()=>readReentryFiles118(p,y.read));`:`${body}assert.throws(()=>readReentryFiles118(y.P5,y.read));`;check(who,'new5 rejects '+label,`{const y=fixtureReentry118();${mutation}}`);}
+ }
+ check('core','new5 S4 shape and unchanged two-top FS body accept X while retaining Origin6c',`{const y=fixtureReentry118(),p=y.P5;planShape121(p);reentrySuccessorShape118(y.S5);budgetOriginShape118(y.origin);const planPin=y.put('new5-plan',p),registryPin={file:p.outputs.registryFile,bytes:10,rawBytesSha256:'a'.repeat(64)},candidatePin={file:p.outputs.candidateFile,bytes:10,rawBytesSha256:'b'.repeat(64)},registryBody={kind:'verified-Source15-append-runtime-registry121',current:p.current},adoptionBody=budgetAdoptionBody118(p,planPin,registryPin,candidatePin,y.S5),prepareAdoption121={file:p.outputs.receiptDirectory+'/prepare-adoption121.json',bytes:10,rawBytesSha256:'c'.repeat(64)},written={verifiedFromDisk:true,registryPin,registryBody,candidatePin,candidateBody:candidateBody121(p,registryPin,registryBody),adoptionBody,prepareAdoption121};const out=stateBody121(y.X,p,written,'2026-11-14T12:00:00Z');assert.deepEqual(Object.keys(out).filter(k=>JSON.stringify(out[k])!==JSON.stringify(y.X[k])).sort(),['runtimeAdmission121','runtimeHistory121']);assert.deepEqual(out.apiProcess,y.X.apiProcess);assert.deepEqual(out.taxContinuation121,y.state.taxContinuation121);}`);
+ check('native','new5 ordinary exports centrally reject without effect',`{let calls=0;const root={state:{}};for(const n of rootMethods121)root[n]=()=>{calls++;throw Error('FORBIDDEN');};brands121.set(root,{type:'root',purpose:'ordinary',root,state:root.state,methods:Object.fromEntries(rootMethods121.map(n=>[n,root[n]])),facts:{plan:{protocolVersion:5}}});for(const f of[()=>currentRuntime121(root),()=>assertCurrentLease121(root,{}),()=>assertRuntimeBinding121(root,{}),()=>createWitnessView121(root,{}),()=>createPolicyView121(root,{},{}),()=>effectiveHelperPins121(root),()=>assertRetainedFixture121(root,{}),()=>readRetainedCommand121(root,{}),()=>readRetainedPreparation121(root,{}),()=>assertGHCurrentSource121(root,GH121[0]),()=>trustedSummaryBinary121(root),()=>runtimeReference121(root,{})])assert.throws(f,/Budget facts/);assert.equal(calls,0);}`);
+ check('native','operation partial blocks new5 live entry',`{const previous=fs;fs={existsSync:p=>{assert.equal(p,R118.operationLock);return true;}};assert.throws(()=>reentryOperationAbsent118(),/Unresolved/);fs={existsSync:p=>{assert.equal(p,R118.operationLock);return false;}};reentryOperationAbsent118();fs=previous;}`);
+ await checkAsync('publisher','old4 budget effect rejects before source read, dynamic import, driver or private writes',`(async()=>{const old=fs,proc=process,root='/mnt/e/projects/worktrees/poms-r3hijk-next28/poms';let writes=0;process={...proc,cwd:()=>root};fs={readFileSync:()=>Buffer.from(JSON.stringify({protocolVersion:4})),realpathSync:p=>p,writeFileSync:()=>{writes++;throw Error('FORBIDDEN-WRITE');},lstatSync:()=>({isFile:()=>true,isSymbolicLink:()=>false,nlink:1})};const previous=json;json=()=>({protocolVersion:4});await assert.rejects(main121(['--input','/home/wangzishi/.local/share/poms-r4ghi/private/model-plan','--approved-input-sha','1'.repeat(64),'--review','/home/wangzishi/.local/share/poms-r4ghi/private/model-root','--approved-review-sha','2'.repeat(64),'--execute']),/Legacy budget4/);assert.equal(writes,0);json=previous;fs=old;process=proc;})()`);

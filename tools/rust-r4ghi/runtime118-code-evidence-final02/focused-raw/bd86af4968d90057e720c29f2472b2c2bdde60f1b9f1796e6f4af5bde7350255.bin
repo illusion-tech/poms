@@ -1,0 +1,26 @@
+ contexts.api5=context('native');new vm.Script(fs.readFileSync(here+'/api-v4-scaffold118.mjs.txt','utf8')+'\n'+fs.readFileSync(here+'/new5-api-holder118.mjs.txt','utf8')).runInContext(contexts.api5);
+ check('api5','complete Native currentAPI5 executes OS/env/socket/bookends with new229 and seven-key clean environment',`globalThis.ap5=setupAPI5118();assert.deepEqual(currentAPI121(ap5.p,ap5.parent,ap5.composition),ap5.r);`);
+ for(const[label,body]of[
+  ['legacy inherited process environment',`z.files.set('/proc/'+z.r.pid+'/environ',Buffer.from('PATH=/home/wangzishi/.cargo/bin:/usr/bin:/bin\0HOME=/home/wangzishi\0USER=wangzishi\0LANG=C.UTF-8\0POMS_ENV_FILE='+z.r.normalEnv.file+'\0'));`],
+  ['boot differs from this receipt',`z.files.set('/proc/sys/kernel/random/boot_id','unknown-boot');`],
+  ['PID startTime drift',`z.files.set('/proc/'+z.r.pid+'/stat',JSON.stringify({pid:z.r.pid,startTime:'999999'}));`],
+  ['OS exe differs from same ELF',`z.links.set('/proc/'+z.r.pid+'/exe','/unknown-elf');`],
+  ['OS executable inode drift',`z.stats.set('/proc/'+z.r.pid+'/exe',{dev:1n,ino:999999n});`],
+  ['non-owner uid',`z.files.set('/proc/'+z.r.pid+'/status','Uid:\t0\t0\t0\t0\n');`],
+  ['unexpected binary arguments',`z.files.set('/proc/'+z.r.pid+'/cmdline',Buffer.from(z.r.binary+'\0--extra\0'));`],
+  ['injected NODE_OPTIONS',`z.files.set('/proc/'+z.r.pid+'/environ',Buffer.concat([z.files.get('/proc/'+z.r.pid+'/environ'),Buffer.from('NODE_OPTIONS=--inspect\0')]));`],
+  ['listener inode is not owned by exact process',`fs.readlinkSync=()=> 'socket:[not-owned]';`],
+ ])check('api5','currentAPI5 rejects '+label,`{const z=setupAPI5118();${body}assert.throws(()=>currentAPI121(z.p,z.parent,z.composition));}`);
+ contexts.holder5=context('native');new vm.Script(fs.readFileSync(here+'/new5-api-holder118.mjs.txt','utf8')).runInContext(contexts.holder5);
+ check('holder5','complete fresh holder5 uses fixed lower-case argv and exact clean six-key environment',`globalThis.hl5=setupHolder5118();assert.deepEqual(currentOwner121(hl5.f.P5),hl5.ready);`);
+ for(const[label,body]of[
+  ['actual boot drift',`z.files.set('/proc/sys/kernel/random/boot_id','different-current');`],
+  ['actual holder startTime drift',`z.files.set('/proc/'+z.ready.pid+'/stat',JSON.stringify({pid:z.ready.pid,startTime:'99'}));`],
+  ['actual parent startTime drift',`z.files.set('/proc/'+z.i.ppid+'/stat',JSON.stringify({pid:z.i.ppid,startTime:'99'}));`],
+  ['extra Node argument',`z.files.set('/proc/'+z.ready.pid+'/cmdline',Buffer.from(z.i.argv.join('\0')+'\0--extra\0'));`],
+  ['different OS exe',`z.links.set('/proc/'+z.ready.pid+'/exe','/unknown-node');`],
+  ['different cwd',`z.links.set('/proc/'+z.ready.pid+'/cwd','/other-checkout');`],
+  ['non-owner UID',`z.files.set('/proc/'+z.ready.pid+'/status','Uid:\t0\t0\t0\t0\n');`],
+  ['inherited NODE_OPTIONS',`z.files.set('/proc/'+z.ready.pid+'/environ',Buffer.concat([z.files.get('/proc/'+z.ready.pid+'/environ'),Buffer.from('NODE_OPTIONS=--inspect\0')]));`],
+  ['early operation partial lock',`fs.lstatSync=()=>({isFile:()=>true});`],
+ ])check('holder5','fresh holder5 rejects '+label,`{const z=setupHolder5118();${body}assert.throws(()=>currentOwner121(z.f.P5));}`);

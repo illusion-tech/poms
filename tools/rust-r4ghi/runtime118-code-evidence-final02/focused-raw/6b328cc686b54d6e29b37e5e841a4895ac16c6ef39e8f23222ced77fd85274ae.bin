@@ -1,0 +1,77 @@
+param([string]$Attempt)
+$ErrorActionPreference='Stop'
+$testHere118=$PSScriptRoot;$testBase118=Split-Path $testHere118
+$testCandidate118=$testBase118+'/proposed/tools/rust-r4ghi/runtime-recovery121/budget118/start-budget118-holder.ps1'
+$testRuntime118=$testBase118+'/proposed/tools/rust-r4ghi/runtime-recovery121/budget118/reenter-budget118-runtime.mjs'
+$testRepo118='E:/projects/worktrees/poms-r3hijk-next28/poms'
+$testPSBytes118=[IO.File]::ReadAllBytes($testCandidate118);$testRuntimeBytes118=[IO.File]::ReadAllBytes($testRuntime118)
+$testG1Bytes118=[IO.File]::ReadAllBytes($testRepo118+'/tools/rust-r4ghi/budget-probe118-g1-v3/Root-G1-budget-probe118-v3.json')
+$testCIBytes118=[IO.File]::ReadAllBytes($testRepo118+'/tools/rust-r4ghi/runtime118-graph-RO-corrective01/Root-G3-corrective-runtime118-01.json')
+$testPublicExecutables118=@{}
+foreach($file in @('C:/Windows/System32/wsl.exe','C:/Users/ynh2/.cache/codex-runtimes/codex-primary-runtime/dependencies/native/powershell/pwsh.exe','C:/Users/ynh2/AppData/Roaming/fnm/node-versions/v24.19.0/installation/node.exe')){$testPublicExecutables118[$file]=[IO.File]::ReadAllBytes($file)}
+# Import is inert. Replace every physical I/O leaf before calling real Main.
+. $testCandidate118
+$script:PhysicalCalls118=0
+function RawRead118([string]$File) {if(-not $script:ModelFiles118.Contains($File)){throw 'MODEL FILE ABSENT'};$script:Reads118.Add($File);return ,([byte[]]$script:ModelFiles118[$File])}
+function RawFacts118([string]$File) {if(-not $script:ModelFiles118.Contains($File)){throw 'MODEL STAT ABSENT'};return @{file=$File;bytes=$script:ModelFiles118[$File].Length;regular=$true;reparse=$false;dev='123';ino=$File.Length.ToString();nlink=$(if($script:ModelLinks118.Contains($File)){$script:ModelLinks118[$File]}else{'1'});lastWriteTicks='1';creationTicks='1'}}
+function RawHost118 {return @{cwd=$script:TaskRoot118;executable=$script:Pwsh118;script=($script:TaskRoot118+'/tools/rust-r4ghi/runtime-recovery121/budget118/start-budget118-holder.ps1')}}
+function RawExists118([string]$File) {return $script:ModelFiles118.Contains($File) -or $script:ModelDirectories118.Contains($File)}
+function RawMkdir118([string]$Folder) {if($script:ModelDirectories118.Contains($Folder)){throw 'MODEL EEXIST'};[void]$script:ModelDirectories118.Add($Folder)}
+function RawWrite118([string]$File,[byte[]]$Bytes) {if($script:ModelFail118 -ceq 'launch-write' -and $File.EndsWith('/windows-launch.json')){throw 'MODEL PRIMARY WRITE UNKNOWN'};if($script:ModelFail118 -ceq 'partial-write' -and $File.EndsWith('/partial.json')){throw 'MODEL SECONDARY WRITE UNKNOWN'};if($script:ModelFiles118.Contains($File)){throw 'MODEL EEXIST'};$script:ModelFiles118[$File]=$Bytes;$script:Writes118.Add($File)}
+function RawStart118([string[]]$Arguments,[string]$Stdout,[string]$Stderr) {$script:Spawns118++;$script:SeenArguments118=$Arguments;RawWrite118 $Stdout ([byte[]]@());RawWrite118 $Stderr ([byte[]]@());if($script:ModelFail118 -cin @('spawn-unknown','partial-write')){throw 'MODEL SPAWN UNKNOWN'};return @{Id=11855}}
+function RawProcess118([int]$Id) {$script:ProcessReads118++;$args=$script:SeenArguments118;if($script:ModelFail118 -ceq 'argv-extra'){$args+=@('--unapproved')};return @{pid=$Id;creationTime=$(if($script:ModelFail118 -ceq 'pid-reused' -and $script:ProcessReads118 -gt 1){'2026-11-15T00:00:00Z'}else{'2026-11-14T00:00:00Z'});executable=$script:Wsl118;commandLine=([string]('"'+$script:Wsl118+'" '+(($args | ForEach-Object {QuoteNative118 $_}) -join ' ')))}}
+function RawReady118([string]$LinuxFile) {Assert118 ($script:Spawns118 -eq 1);if($script:ModelFail118 -ceq 'no-ready'){return $null};return ,$script:ModelReady118}
+function RawWait118 {$script:Waits118++}
+
+function FixturePut118([string]$LinuxFile,$Value) {[byte[]]$bytes=$null;if($Value -is [byte[]]){$bytes=$Value}else{$bytes=[Text.UTF8Encoding]::new($false).GetBytes(($Value | ConvertTo-Json -Depth 100)+"`n")};$file=PublicPath118 $LinuxFile;$script:ModelFiles118[$file]=$bytes;return @{file=$LinuxFile;bytes=$bytes.Length;rawBytesSha256=(SHA118 $bytes)}}
+function Fixture118 {
+  $script:ModelFiles118=[ordered]@{};$script:ModelLinks118=[ordered]@{};$script:ModelDirectories118=[Collections.Generic.HashSet[string]]::new();$script:Reads118=[Collections.Generic.List[string]]::new();$script:Writes118=[Collections.Generic.List[string]]::new();$script:Spawns118=0;$script:ProcessReads118=0;$script:Waits118=0;$script:ModelFail118='';$script:SeenArguments118=@();$script:Stopped118=$null
+  foreach($file in $testPublicExecutables118.Keys){$script:ModelFiles118[$file]=$testPublicExecutables118[$file]};$script:ModelLinks118[$script:Wsl118]='2'
+  $root=$script:LinuxRoot118;$nonce='aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';$control=$root+'/tmp/MODEL-ONLY-118';$g1=FixturePut118 $script:G1File118 $testG1Bytes118;[void](FixturePut118 $script:CorrectiveFile118 $testCIBytes118)
+  $operator=FixturePut118 $script:Runtime118 $testRuntimeBytes118;$launcher=FixturePut118 $script:Launcher118 $testPSBytes118
+  $winNode=FixturePut118 '/mnt/c/Users/ynh2/AppData/Roaming/fnm/node-versions/v24.19.0/installation/node.exe' $testPublicExecutables118['C:/Users/ynh2/AppData/Roaming/fnm/node-versions/v24.19.0/installation/node.exe']
+  $proof=FixturePut118 ($control+'/model-evidence.json') @{MODEL_ONLY=$true}
+  $q=@{kind='non-author-runtime118-reentry-tool-code-qualification';schemaVersion=1;technicalG1=$g1;operator=$operator;executionSources=@($operator,$launcher | Sort-Object file);author='MODEL-tool-author';reviewer='MODEL-code-reviewer';reviewerIsAuthor=$false;verdict='approved-bounded-reentry-tool-code';modelEvidence=$proof;engines=@{linuxNode=@{expectedExecutable=@{file=$script:LinuxNode118;bytes=125989464;rawBytesSha256=$script:LinuxNodeSha118};expectedVersion='v24.19.0';observationStage='holder-system-bootstrap'};windowsNode=@{executable=$winNode;versionEvidence=$proof;modelResults=$proof}}};$qPin=FixturePut118 ($control+'/qualification.json') $q
+  $birth=$script:Private118+'/runtime121-prepare362-completed01/6458f733-0fe1-4b5e-b2ff-076908543af3';$p=@{kind='Root-runtime118-reentry-phase-input';schemaVersion=1;recoveryG1=$g1;phase='holder-start';nonce=$nonce;operator=$operator;codeQualification=$qPin;expectedState=@{file=($birth+'/state-after.json');bytes=15045544;rawBytesSha256='6c1fabbacebc43fea8636c8fd91afac81dd66e8b6200ca5a769c08ae41401b3b'};expectedOwnership=@{file=($birth+'/ownership-after.jsonl');bytes=13016;rawBytesSha256='1da85861708f1d1c37389385f6c86741e46a7053d5c0eb034260ff8c01aba517'};preparation=@{file=($script:Private118+'/business/g2-business15/main01/000065-tax121-prepare-continuation.json');bytes=367950;rawBytesSha256='847fe81ffbc4cf4f73b369ac1466e3185e051a6d0d87ca429b444111767115e7'};prior=@{};outputDirectory=($script:Private118+'/runtime118-reentry/holder-start/'+$nonce);windowsOutputDirectory=($root+'/tmp/rust-r4ghi/root/runtime118-reentry-windows/'+$nonce)}
+  $inputPin=FixturePut118 ($control+'/input.json') $p;$grants=@{holderStartGranted=$true;startOriginalPGGranted=$false;readonlyPGGranted=$false;APIStartGranted=$false;canonicalApiProcessWriteGranted=$false;ownControlWritesGranted=$true;contextAuthGranted=$false;FIOrNormalGranted=$false}
+  $r=@{kind='Root-approved-runtime118-exact-reentry-phase';schemaVersion=1;input=$inputPin;G1=$g1;codeQualification=$qPin;operator=$operator;operatorIdentity='Root';nonce=$nonce;grants=$grants;retryPolicy='preserve-partial-no-blind-retry'};$rootPin=FixturePut118 ($control+'/Root.json') $r
+  $e=@{kind='non-author-runtime118-exact-reentry-phase-review';schemaVersion=1;input=$inputPin;G1=$g1;codeQualification=$qPin;operator=$operator;RootApproval=$rootPin;author=$q.author;reviewer='MODEL-phase-reviewer';reviewerIsAuthor=$false;reviewerIsExecutor=$false;verdict='approved-exact-reentry-phase';evidence=$proof};$peerPin=FixturePut118 ($control+'/peer.json') $e
+  $h=@{kind='actual-runtime118-holder-ready';schemaVersion=1;recoveryG1=$g1;input=$inputPin;RootApproval=$rootPin;executionReview=$peerPin;operator=$operator;nonce=$nonce;bootId='MODEL-CURRENT-BOOT';pid=11856;startTime='11856';startedAt='2026-11-14T00:00:00Z';identity=@{};bootObservation=$proof};$script:ModelReady118=[Text.UTF8Encoding]::new($false).GetBytes(($h | ConvertTo-Json -Depth 100)+"`n")
+  return @{p=$p;r=$r;e=$e;q=$q;inputPin=$inputPin;rootPin=$rootPin;peerPin=$peerPin;h=$h;operator=$operator;qPin=$qPin}
+}
+function RebindFixture118($F) {$F.qPin=FixturePut118 $F.qPin.file $F.q;$F.p.codeQualification=$F.qPin;$F.inputPin=FixturePut118 $F.inputPin.file $F.p;$F.r.input=$F.inputPin;$F.r.codeQualification=$F.qPin;$F.rootPin=FixturePut118 $F.rootPin.file $F.r;$F.e.input=$F.inputPin;$F.e.codeQualification=$F.qPin;$F.e.RootApproval=$F.rootPin;$F.peerPin=FixturePut118 $F.peerPin.file $F.e;$F.h.input=$F.inputPin;$F.h.RootApproval=$F.rootPin;$F.h.executionReview=$F.peerPin;$script:ModelReady118=[Text.UTF8Encoding]::new($false).GetBytes(($F.h | ConvertTo-Json -Depth 100)+"`n")}
+$testResults118=[Collections.Generic.List[object]]::new()
+function AssertPartial118([bool]$Success,[int]$ExpectedSpawns) {
+ if(-not $Success -and $ExpectedSpawns -eq 1){$p=$script:Stopped118;Assert118 ($p.kind -ceq 'Root-runtime118-reentry-partial-preserve');Keys118 $p @('kind','schemaVersion','recoveryG1','input','RootApproval','executionReview','operator','phase','completedOutputs','error','processes','retryPolicy');Keys118 $p.error @('name','message','phase','primaryEvidence','writeFailures','replayForbidden');Keys118 $p.processes[0] @('role','state','command','pid','startTime','bootId','record','error');Assert118 ($p.processes[0].state -ceq 'unknown-preserve');if($script:ModelFail118 -cin @('spawn-unknown','partial-write')){Assert118 ($null -eq $p.processes[0].pid)}else{Assert118 ($p.processes[0].pid -eq 11855)};if($script:ModelFail118 -cin @('pid-reused','no-ready')){Assert118 ($null -ne $p.completedOutputs.windowsLaunch)};if($script:ModelFail118 -cin @('launch-write','partial-write')){Assert118 ($p.error.writeFailures.Count -eq 1)};Assert118 (-not (($p | ConvertTo-Json -Depth 100) -cmatch 'MODEL PRIMARY|MODEL SECONDARY|MODEL SPAWN'))}
+}
+function Case118([string]$Name,[scriptblock]$Mutation,[bool]$Success=$false,[int]$ExpectedSpawns=0) {
+  [Console]::Error.WriteLine('MODEL CASE '+$Name)
+  $f=Fixture118;try{if($Mutation){& $Mutation $f};$actual=$null;$failure=$null;try{$actual=InvokeHolder118 -InputFile $f.inputPin.file -InputSha $f.inputPin.rawBytesSha256 -RootReviewFile $f.rootPin.file -RootReviewSha $f.rootPin.rawBytesSha256 -PeerReviewFile $f.peerPin.file -PeerReviewSha $f.peerPin.rawBytesSha256 -Execute}catch{$failure=$_.Exception.Message};Assert118 (($null -eq $failure) -eq $Success) ($Name+':'+$failure);Assert118 ($script:Spawns118 -eq $ExpectedSpawns) ($Name+': spawn count');Assert118 (-not ($script:Reads118 | Where-Object {$_ -like '*wsl.localhost*' -or $_ -like '/home/*'}));if($Success){Assert118 ($actual.kind -ceq 'Root-runtime118-holder-wrapper-observed-ready');Assert118 ($actual.APIStarted -ceq $false -and $actual.PGStarted -ceq $false);Assert118 ($script:SeenArguments118 -ccontains '/usr/bin/env' -and $script:SeenArguments118 -ccontains '-i');Assert118 (-not ($script:SeenArguments118 -cmatch '^NODE_OPTIONS='))};AssertPartial118 $Success $ExpectedSpawns;$testResults118.Add(@{name=$Name;status='PASS';spawns=$script:Spawns118;privatePhysicalReads=0})}catch{$testResults118.Add(@{name=$Name;status='FAIL';error=@{name=$_.Exception.GetType().Name;message=$_.Exception.Message}})}
+}
+Case118 'real Main valid holder / exact one launch / no pre-WSL P read' $null $true 1
+Case118 'Root grant API extra rejected' {param($f)$f.r.grants.APIStartGranted=$true;RebindFixture118 $f}
+Case118 'peer equals author rejected' {param($f)$f.e.reviewer=$f.q.author;RebindFixture118 $f}
+Case118 'peer equals Root executor rejected' {param($f)$f.e.reviewer='Root';RebindFixture118 $f}
+Case118 'schema bool rejected before launch' {param($f)$f.p.schemaVersion=$true;RebindFixture118 $f}
+Case118 'false string rejected before launch' {param($f)$f.e.reviewerIsExecutor='False';RebindFixture118 $f}
+Case118 'input wrong phase rejected' {param($f)$f.p.phase='pg-current';RebindFixture118 $f}
+Case118 'birth identity cannot be alias file' {param($f)$f.p.expectedState.file+='.alias';RebindFixture118 $f}
+Case118 'system wsl exactly two links / one link replacement rejected' {$script:ModelLinks118[$script:Wsl118]='1'}
+Case118 'system wsl extra hardlink rejected' {$script:ModelLinks118[$script:Wsl118]='3'}
+Case118 'pwsh extra hardlink rejected' {$script:ModelLinks118[$script:Pwsh118]='2'}
+Case118 'wsl same-size wrong bytes rejected' {$script:ModelFiles118[$script:Wsl118]=[byte[]]::new(212992)}
+Case118 'operator evidence hardlink rejected' {param($f)$script:ModelLinks118[(PublicPath118 $f.operator.file)]='2'}
+Case118 'operator bytes drift rejected' {param($f)$script:ModelFiles118[(PublicPath118 $f.operator.file)]=[Text.Encoding]::UTF8.GetBytes('changed')}
+Case118 'qualification version expectation drift rejected' {param($f)$f.q.engines.linuxNode.expectedVersion='v26.13.0';RebindFixture118 $f}
+Case118 'argv injection rejected and live process preserved' {$script:ModelFail118='argv-extra'} $false 1
+Case118 'Windows PID tuple reuse rejected after launch' {$script:ModelFail118='pid-reused'} $false 1
+Case118 'spawn uncertainty / single attempt / actual unknown' {$script:ModelFail118='spawn-unknown'} $false 1
+Case118 'launch receipt write fails / PID preserved' {$script:ModelFail118='launch-write'} $false 1
+Case118 'partial secondary write failure preserves primary' {$script:ModelFail118='partial-write'} $false 1
+Case118 'wrong H nonce cannot complete launcher' {param($f)$f.h.nonce='bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';RebindFixture118 $f} $false 1
+Case118 'ready absence preserves live process / bounded wait' {$script:ModelFail118='no-ready'} $false 1
+
+Assert118 ($Attempt -cmatch '^[a-z0-9-]+$')
+$report=@{kind='author-runtime118-complete-PowerShell-Main-ownIO-model';schemaVersion=1;engine=@{PowerShellVersion=$PSVersionTable.PSVersion.ToString();entry='fixed Win24 runner'};candidate=@{file=$testCandidate118;bytes=$testPSBytes118.Length;rawBytesSha256=(SHA118 $testPSBytes118)};results=$testResults118.ToArray();passed=@($testResults118 | Where-Object status -ceq 'PASS').Count;failed=@($testResults118 | Where-Object status -ceq 'FAIL').Count;limits=@{completeScriptDotSourceInert=$true;realMainWithAllPhysicalLeavesReplaced=$true;allCandidateIOOwnedMemory=$true;actualWSL=$false;actualPProcEnvSQLHTTP=$false;LinuxNodeRun=$false;actualG2=$false}}
+$bytes=[Text.UTF8Encoding]::new($false).GetBytes(($report | ConvertTo-Json -Depth 100)+"`n");$reportFile=$testHere118+'/holder-tests-'+$Attempt+'.json';$s=[IO.File]::Open($reportFile,[IO.FileMode]::CreateNew,[IO.FileAccess]::Write);try{$s.Write($bytes,0,$bytes.Length)}finally{$s.Dispose()};@{file=$reportFile;bytes=$bytes.Length;rawBytesSha256=(SHA118 $bytes);passed=$report.passed;failed=$report.failed}|ConvertTo-Json -Compress
+if($report.failed){exit 1}

@@ -1,0 +1,72 @@
+{
+  "kind": "author-complete-Tool02-data-and-Source-joint-model",
+  "schemaVersion": 1,
+  "engine": {
+    "execPath": "C:\\Users\\ynh2\\AppData\\Roaming\\fnm\\node-versions\\v24.19.0\\installation\\node.exe",
+    "version": "v24.19.0"
+  },
+  "candidate": {
+    "file": "E:\\projects\\worktrees\\poms-r4i-lifecycle\\poms\\tools\\rust-r4ghi\\I\\implementation\\runtime118-reentry-tool-impl01/proposed02/tools/rust-r4ghi/runtime-recovery121/budget118/reenter-budget118-runtime.mjs",
+    "bytes": 133531,
+    "rawBytesSha256": "752dfb4b782314c9f66e5e6f98574b50a94083af3fa4fceab7cf7aeaba4a009a"
+  },
+  "results": [
+    {
+      "name": "public window rejects new ownership Pin2",
+      "status": "PASS"
+    },
+    {
+      "name": "C9 refuses Origin Pin2 before output",
+      "status": "PASS"
+    },
+    {
+      "name": "C9 primary and secondary wx preserve safe partial facts",
+      "status": "FAIL",
+      "error": {
+        "name": "AssertionError",
+        "message": "Expected values to be strictly equal:\n\n0 !== 2\n",
+        "stack": [
+          "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:",
+          "",
+          "0 !== 2",
+          "",
+          "    at file:///E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-reentry-tool-impl01/tests/test-data02-complete118.mjs:10:463",
+          "    at async check (file:///E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-reentry-tool-impl01/tests/test-data02-complete118.mjs:4:34)",
+          "    at async file:///E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-reentry-tool-impl01/tests/test-data02-complete118.mjs:10:1"
+        ]
+      }
+    },
+    {
+      "name": "complete real CLI5 C9 validates all steps and wx C10",
+      "status": "FAIL",
+      "error": {
+        "name": "AssertionError",
+        "message": "The expression evaluated to a falsy value:\n\n  assert(complete.file)\n",
+        "stack": [
+          "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:",
+          "",
+          "  assert(complete.file)",
+          "",
+          "    at file:///E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-reentry-tool-impl01/tests/test-data02-complete118.mjs:12:106",
+          "    at async check (file:///E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-reentry-tool-impl01/tests/test-data02-complete118.mjs:4:34)",
+          "    at async file:///E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-reentry-tool-impl01/tests/test-data02-complete118.mjs:12:1"
+        ]
+      }
+    },
+    {
+      "name": "old data CLI alias rejects without an output",
+      "status": "PASS"
+    }
+  ],
+  "passed": 3,
+  "failed": 2,
+  "limits": {
+    "completeModulesAndRealDataDispatcher": true,
+    "allIOOwnedMemory": true,
+    "actualHistorical393AndCurrent420528PublicMetadata": true,
+    "immutableBirthNodeELFIdentitiesDeclared": true,
+    "noReaderResultStub": true,
+    "actualPProcEnvSQLHTTP": false,
+    "actualG2": false
+  }
+}

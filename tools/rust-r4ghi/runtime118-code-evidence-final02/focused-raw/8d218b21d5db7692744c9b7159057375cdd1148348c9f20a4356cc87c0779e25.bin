@@ -1,0 +1,623 @@
+{
+  "kind": "I-independent-source-complete-module-own-IO-models",
+  "candidate": {
+    "file": "E:\\projects\\worktrees\\poms-r4i-lifecycle\\poms\\tools\\rust-r4ghi\\I\\implementation\\runtime118-reentry-code-independent01\\source-candidate01\\candidate.mjs",
+    "bytes": 42757,
+    "rawBytesSha256": "dd4944818a3876a970cba88703893c01a7313556e905b381a691d3a07d8ee0d3"
+  },
+  "engine": {
+    "execPath": "C:\\Users\\ynh2\\AppData\\Roaming\\fnm\\node-versions\\v24.19.0\\installation\\node.exe",
+    "version": "v24.19.0"
+  },
+  "passed": 29,
+  "failed": 0,
+  "results": [
+    {
+      "label": "legal full 11-step source promotion and SC18",
+      "status": "PASS",
+      "summary": {
+        "returned": true,
+        "error": null,
+        "renames": 11,
+        "sourceAfterCount": 11,
+        "partialPhase": null
+      }
+    },
+    {
+      "label": "last before-rename guard drift preserves NOT_ATTEMPTED and no source change",
+      "status": "PASS",
+      "summary": {
+        "returned": false,
+        "error": {
+          "name": "RootSourceOperationError",
+          "message": "Bounded Root source operation stopped; preserve real outputs and locks",
+          "ownKeys": [
+            "stack",
+            "message",
+            "name",
+            "code",
+            "category"
+          ]
+        },
+        "renames": 0,
+        "sourceAfterCount": 0,
+        "partialPhase": "before-rename"
+      }
+    },
+    {
+      "label": "rename attempted then throws before effect preserves UNKNOWN latch",
+      "status": "PASS",
+      "summary": {
+        "returned": false,
+        "error": {
+          "name": "RootSourceOperationError",
+          "message": "Bounded Root source operation stopped; preserve real outputs and locks",
+          "ownKeys": [
+            "stack",
+            "message",
+            "name",
+            "code",
+            "category"
+          ]
+        },
+        "renames": 1,
+        "sourceAfterCount": 0,
+        "partialPhase": "rename"
+      }
+    },
+    {
+      "label": "rename effect occurs then throws retains changed target and UNKNOWN",
+      "status": "PASS",
+      "summary": {
+        "returned": false,
+        "error": {
+          "name": "RootSourceOperationError",
+          "message": "Bounded Root source operation stopped; preserve real outputs and locks",
+          "ownKeys": [
+            "stack",
+            "message",
+            "name",
+            "code",
+            "category"
+          ]
+        },
+        "renames": 1,
+        "sourceAfterCount": 1,
+        "partialPhase": "rename"
+      }
+    },
+    {
+      "label": "step wx fails after confirmed rename preserves actual after pin",
+      "status": "PASS",
+      "summary": {
+        "returned": false,
+        "error": {
+          "name": "RootSourceOperationError",
+          "message": "Bounded Root source operation stopped; preserve real outputs and locks",
+          "ownKeys": [
+            "stack",
+            "message",
+            "name",
+            "code",
+            "category"
+          ]
+        },
+        "renames": 1,
+        "sourceAfterCount": 1,
+        "partialPhase": "step-receipt"
+      }
+    },
+    {
+      "label": "SC wx fails after all11 preserves completed steps and no fake complete",
+      "status": "PASS",
+      "summary": {
+        "returned": false,
+        "error": {
+          "name": "RootSourceOperationError",
+          "message": "Bounded Root source operation stopped; preserve real outputs and locks",
+          "ownKeys": [
+            "stack",
+            "message",
+            "name",
+            "code",
+            "category"
+          ]
+        },
+        "renames": 11,
+        "sourceAfterCount": 11,
+        "partialPhase": "complete"
+      }
+    },
+    {
+      "label": "reject foreign operation lock",
+      "status": "PASS",
+      "summary": {
+        "returned": false,
+        "error": {
+          "name": "RootSourceOperationError",
+          "message": "Bounded Root source operation stopped; preserve real outputs and locks",
+          "ownKeys": [
+            "stack",
+            "message",
+            "name",
+            "category"
+          ]
+        },
+        "renames": 0,
+        "sourceAfterCount": 0,
+        "partialPhase": null
+      }
+    },
+    {
+      "label": "reject foreign shared driver lock",
+      "status": "PASS",
+      "summary": {
+        "returned": false,
+        "error": {
+          "name": "RootSourceOperationError",
+          "message": "Bounded Root source operation stopped; preserve real outputs and locks",
+          "ownKeys": [
+            "stack",
+            "message",
+            "name",
+            "category"
+          ]
+        },
+        "renames": 0,
+        "sourceAfterCount": 0,
+        "partialPhase": null
+      }
+    },
+    {
+      "label": "reject existing future retained9 prefix",
+      "status": "PASS",
+      "summary": {
+        "returned": false,
+        "error": {
+          "name": "RootSourceOperationError",
+          "message": "Bounded Root source operation stopped; preserve real outputs and locks",
+          "ownKeys": [
+            "stack",
+            "message",
+            "name",
+            "category"
+          ]
+        },
+        "renames": 0,
+        "sourceAfterCount": 0,
+        "partialPhase": null
+      }
+    },
+    {
+      "label": "reject before raw drift",
+      "status": "PASS",
+      "summary": {
+        "returned": false,
+        "error": {
+          "name": "RootSourceOperationError",
+          "message": "Bounded Root source operation stopped; preserve real outputs and locks",
+          "ownKeys": [
+            "stack",
+            "message",
+            "name",
+            "code",
+            "category"
+          ]
+        },
+        "renames": 0,
+        "sourceAfterCount": 0,
+        "partialPhase": null
+      }
+    },
+    {
+      "label": "reject candidate raw drift",
+      "status": "PASS",
+      "summary": {
+        "returned": false,
+        "error": {
+          "name": "RootSourceOperationError",
+          "message": "Bounded Root source operation stopped; preserve real outputs and locks",
+          "ownKeys": [
+            "stack",
+            "message",
+            "name",
+            "code",
+            "category"
+          ]
+        },
+        "renames": 0,
+        "sourceAfterCount": 0,
+        "partialPhase": null
+      }
+    },
+    {
+      "label": "reject late unchanged275 raw drift",
+      "status": "PASS",
+      "summary": {
+        "returned": false,
+        "error": {
+          "name": "RootSourceOperationError",
+          "message": "Bounded Root source operation stopped; preserve real outputs and locks",
+          "ownKeys": [
+            "stack",
+            "message",
+            "name",
+            "code",
+            "category"
+          ]
+        },
+        "renames": 0,
+        "sourceAfterCount": 0,
+        "partialPhase": null
+      }
+    },
+    {
+      "label": "reject missing original private graph",
+      "status": "PASS",
+      "summary": {
+        "returned": false,
+        "error": {
+          "name": "RootSourceOperationError",
+          "message": "Bounded Root source operation stopped; preserve real outputs and locks",
+          "ownKeys": [
+            "stack",
+            "message",
+            "name",
+            "code",
+            "category"
+          ]
+        },
+        "renames": 0,
+        "sourceAfterCount": 0,
+        "partialPhase": null
+      }
+    },
+    {
+      "label": "reject missing public graph mirror",
+      "status": "PASS",
+      "summary": {
+        "returned": false,
+        "error": {
+          "name": "RootSourceOperationError",
+          "message": "Bounded Root source operation stopped; preserve real outputs and locks",
+          "ownKeys": [
+            "stack",
+            "message",
+            "name",
+            "code",
+            "category"
+          ]
+        },
+        "renames": 0,
+        "sourceAfterCount": 0,
+        "partialPhase": null
+      }
+    },
+    {
+      "label": "reject public mirror changed bytes",
+      "status": "PASS",
+      "summary": {
+        "returned": false,
+        "error": {
+          "name": "RootSourceOperationError",
+          "message": "Bounded Root source operation stopped; preserve real outputs and locks",
+          "ownKeys": [
+            "stack",
+            "message",
+            "name",
+            "code",
+            "category"
+          ]
+        },
+        "renames": 0,
+        "sourceAfterCount": 0,
+        "partialPhase": null
+      }
+    },
+    {
+      "label": "reject input source G1 changed",
+      "status": "PASS",
+      "summary": {
+        "returned": false,
+        "error": {
+          "name": "RootSourceOperationError",
+          "message": "Bounded Root source operation stopped; preserve real outputs and locks",
+          "ownKeys": [
+            "stack",
+            "message",
+            "name",
+            "code",
+            "category"
+          ]
+        },
+        "renames": 0,
+        "sourceAfterCount": 0,
+        "partialPhase": null
+      }
+    },
+    {
+      "label": "reject Root approval lacks source grant",
+      "status": "PASS",
+      "summary": {
+        "returned": false,
+        "error": {
+          "name": "RootSourceOperationError",
+          "message": "Bounded Root source operation stopped; preserve real outputs and locks",
+          "ownKeys": [
+            "stack",
+            "message",
+            "name",
+            "code",
+            "category"
+          ]
+        },
+        "renames": 0,
+        "sourceAfterCount": 0,
+        "partialPhase": null
+      }
+    },
+    {
+      "label": "reject peer wrongly allows author as reviewer",
+      "status": "PASS",
+      "summary": {
+        "returned": false,
+        "error": {
+          "name": "RootSourceOperationError",
+          "message": "Bounded Root source operation stopped; preserve real outputs and locks",
+          "ownKeys": [
+            "stack",
+            "message",
+            "name",
+            "code",
+            "category"
+          ]
+        },
+        "renames": 0,
+        "sourceAfterCount": 0,
+        "partialPhase": null
+      }
+    },
+    {
+      "label": "reject manifest lacks data2",
+      "status": "PASS",
+      "summary": {
+        "returned": false,
+        "error": {
+          "name": "RootSourceOperationError",
+          "message": "Bounded Root source operation stopped; preserve real outputs and locks",
+          "ownKeys": [
+            "stack",
+            "message",
+            "name",
+            "code",
+            "category"
+          ]
+        },
+        "renames": 0,
+        "sourceAfterCount": 0,
+        "partialPhase": null
+      }
+    },
+    {
+      "label": "reject manifest contains graph tenth leaf",
+      "status": "PASS",
+      "summary": {
+        "returned": false,
+        "error": {
+          "name": "RootSourceOperationError",
+          "message": "Bounded Root source operation stopped; preserve real outputs and locks",
+          "ownKeys": [
+            "stack",
+            "message",
+            "name",
+            "code",
+            "category"
+          ]
+        },
+        "renames": 0,
+        "sourceAfterCount": 0,
+        "partialPhase": null
+      }
+    },
+    {
+      "label": "reject manifest violates carry exact04",
+      "status": "PASS",
+      "summary": {
+        "returned": false,
+        "error": {
+          "name": "RootSourceOperationError",
+          "message": "Bounded Root source operation stopped; preserve real outputs and locks",
+          "ownKeys": [
+            "stack",
+            "message",
+            "name",
+            "code",
+            "category"
+          ]
+        },
+        "renames": 0,
+        "sourceAfterCount": 0,
+        "partialPhase": null
+      }
+    },
+    {
+      "label": "reject manifest substitutes implementation04 for R delivery before",
+      "status": "PASS",
+      "summary": {
+        "returned": false,
+        "error": {
+          "name": "RootSourceOperationError",
+          "message": "Bounded Root source operation stopped; preserve real outputs and locks",
+          "ownKeys": [
+            "stack",
+            "message",
+            "name",
+            "code",
+            "category"
+          ]
+        },
+        "renames": 0,
+        "sourceAfterCount": 0,
+        "partialPhase": null
+      }
+    },
+    {
+      "label": "reject finite data pointer points graph group",
+      "status": "PASS",
+      "summary": {
+        "returned": false,
+        "error": {
+          "name": "RootSourceOperationError",
+          "message": "Bounded Root source operation stopped; preserve real outputs and locks",
+          "ownKeys": [
+            "stack",
+            "message",
+            "name",
+            "code",
+            "category"
+          ]
+        },
+        "renames": 0,
+        "sourceAfterCount": 0,
+        "partialPhase": null
+      }
+    },
+    {
+      "label": "reject SQ closure includes changed target",
+      "status": "PASS",
+      "summary": {
+        "returned": false,
+        "error": {
+          "name": "RootSourceOperationError",
+          "message": "Bounded Root source operation stopped; preserve real outputs and locks",
+          "ownKeys": [
+            "stack",
+            "message",
+            "name",
+            "code",
+            "category"
+          ]
+        },
+        "renames": 0,
+        "sourceAfterCount": 0,
+        "partialPhase": null
+      }
+    },
+    {
+      "label": "reject Root approval refers another peer input",
+      "status": "PASS",
+      "summary": {
+        "returned": false,
+        "error": {
+          "name": "RootSourceOperationError",
+          "message": "Bounded Root source operation stopped; preserve real outputs and locks",
+          "ownKeys": [
+            "stack",
+            "message",
+            "name",
+            "code",
+            "category"
+          ]
+        },
+        "renames": 0,
+        "sourceAfterCount": 0,
+        "partialPhase": null
+      }
+    },
+    {
+      "label": "independent foreign replacement of own lock after first rename stops",
+      "status": "PASS",
+      "summary": {
+        "returned": false,
+        "error": {
+          "name": "RootSourceOperationError",
+          "message": "Bounded Root source operation stopped; preserve real outputs and locks",
+          "ownKeys": [
+            "stack",
+            "message",
+            "name",
+            "code",
+            "category"
+          ]
+        },
+        "renames": 1,
+        "sourceAfterCount": 1,
+        "partialPhase": "before-temp"
+      }
+    },
+    {
+      "label": "independent pending before target drift after first rename stops",
+      "status": "PASS",
+      "summary": {
+        "returned": false,
+        "error": {
+          "name": "RootSourceOperationError",
+          "message": "Bounded Root source operation stopped; preserve real outputs and locks",
+          "ownKeys": [
+            "stack",
+            "message",
+            "name",
+            "code",
+            "category"
+          ]
+        },
+        "renames": 1,
+        "sourceAfterCount": 1,
+        "partialPhase": "before-temp"
+      }
+    },
+    {
+      "label": "independent SC and partial write failure retains safe eleven-step truth",
+      "status": "PASS",
+      "summary": {
+        "returned": false,
+        "error": {
+          "name": "RootSourceOperationError",
+          "message": "Bounded Root source operation stopped; preserve real outputs and locks",
+          "ownKeys": [
+            "stack",
+            "message",
+            "name",
+            "code",
+            "category"
+          ]
+        },
+        "renames": 11,
+        "sourceAfterCount": 11,
+        "partialPhase": null
+      }
+    },
+    {
+      "label": "independent unlock failure preserves existing SC and global partial",
+      "status": "PASS",
+      "summary": {
+        "returned": false,
+        "error": {
+          "name": "RootSourceOperationError",
+          "message": "Bounded Root source operation stopped; preserve real outputs and locks",
+          "ownKeys": [
+            "stack",
+            "message",
+            "name",
+            "code",
+            "category"
+          ]
+        },
+        "renames": 11,
+        "sourceAfterCount": 11,
+        "partialPhase": "unlock"
+      }
+    }
+  ],
+  "classification": "Complete candidate source main/host/history/11-step/graph/retention/wx/rename/partial bodies; entirely virtual effects",
+  "limits": {
+    "actualPublicHistoricalRaw393Read": true,
+    "actualRBefore284Read": true,
+    "immutablePrivateBirthAndNodeHashesAreDeclaredSynthetic": true,
+    "runtimePureHelperAuthorityBoundaryIsDeclared": true,
+    "modelsDoNotCertifyActualRuntimeHelperOrPrivateBirth": true,
+    "actualPProcEnvSQLHTTP": false,
+    "actualSourcePromotion": false,
+    "actualG2Granted": false
+  }
+}

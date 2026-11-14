@@ -1,0 +1,145 @@
+// Independent selected new5 models, reusing the retained complete-module scaffold.
+// Complete candidate modules run in isolated VM contexts. Every candidate I/O
+// is virtual/forbidden; no Root Native/Core/app, P, proc/env, SQL or HTTP runs.
+import fs from 'node:fs';
+import path from 'node:path';
+import vm from 'node:vm';
+import assert from 'node:assert/strict';
+import crypto,{createHash} from 'node:crypto';
+import {isProxy} from 'node:util/types';
+import {isDeepStrictEqual} from 'node:util';
+import {fileURLToPath,pathToFileURL} from 'node:url';
+const here=path.dirname(fileURLToPath(import.meta.url)),base=path.dirname(here),proposed=base+'/proposed/tools/rust-r4ghi';
+const names={core:'business/runtime-admission-core121.mjs',native:'business/runtime-admission121.mjs',publisher:'runtime-recovery121/native/publish-runtime121.mjs',nativeData:'runtime-recovery121/Native-plan-data-candidate01/prepare-native-plan121.mjs',taxData:'runtime-recovery121/Tax121-current-metadata-data-candidate01/prepare-tax121-current-metadata.mjs'};
+const code=Object.fromEntries(Object.entries(names).map(([k,p])=>[k,fs.readFileSync(proposed+'/'+p,'utf8')]));
+const sha=b=>createHash('sha256').update(b).digest('hex');
+const coreExports=[...code.core.matchAll(/export\s+(?:function|const)\s+([A-Za-z_][A-Za-z0-9_]*)/g)].map(m=>m[1]);
+const strip=s=>s.replace(/^import[\s\S]*?from ['"][^'"]+['"];\r?\n/gm,'').replace(/^export /gm,'').replaceAll('import.meta.url',JSON.stringify('/SYNTHETIC-118-CANDIDATE-NOT-CLI'));
+const scaffold=fs.readFileSync(here+'/scaffold362.mjs.txt','utf8')+'\n'+fs.readFileSync(here+'/scaffold118.mjs.txt','utf8');
+const serialized=fs.readFileSync(here+'/public-basis362.json','utf8'),jointSerialized=fs.readFileSync(here+'/joint-G1.json','utf8'),graphSerialized=fs.readFileSync(here+'/execution284-before.json','utf8');
+assert.equal(sha(jointSerialized),'68212af41282071678d3e062dd689fbffbf2b74443de0c5872bb2511e4d0c5a2');
+assert.equal(sha(graphSerialized),'b8fd572ffa1e32ff581631410bcacc48e4350c51d4308e96d216cc985b89a25f');
+const reentrySerialized=fs.readFileSync(here+'/reentry-G1.json','utf8');assert.equal(sha(reentrySerialized),'80ea3db59386f935b733e5e29b7b8a4db860c408ccb84f9204b9b5adebac00a1');const correctiveSerialized=fs.readFileSync(here+'/corrective-G3.json','utf8');assert.equal(sha(correctiveSerialized),'56b922e657b4db4b8429aff638fe0f80a8dfa808cf53cb42a4211ccb59aed806');
+const results=[],contexts={};
+function check(who,label,js){try{vm.runInContext(js,contexts[who],{timeout:30000});results.push({module:who,test:label,status:'PASS'});}catch(e){results.push({module:who,test:label,status:'FAIL',error:{name:e.name,message:e.message}});throw e;}}
+async function checkAsync(who,label,js){try{await vm.runInContext(js,contexts[who],{timeout:30000});results.push({module:who,test:label,status:'PASS'});}catch(e){results.push({module:who,test:label,status:'FAIL',error:{name:e.name,message:e.message}});throw e;}}
+function context(name){
+ const forbidden=new Proxy({}, {get:(_t,k)=>()=>{throw Error('CANDIDATE-ACTUAL-IO-FORBIDDEN:'+String(k));}});
+ const c=vm.createContext({assert,crypto,createHash,isProxy,isDeepStrictEqual,Buffer,path:path.posix,fs:forbidden,serialized,jointSerialized,graphSerialized,reentrySerialized,correctiveSerialized,process:{platform:'linux',version:'v24.19.0',argv:[],execArgv:[],env:{},getuid:()=>1000,cwd:()=>'/SYNTHETIC',pid:118,hrtime:{bigint:()=>1000000000000n}},fileURLToPath:x=>x,pathToFileURL:x=>({href:x}),console:{log(){},error(){}}});
+ vm.runInContext('globalThis.structuredClone=v=>JSON.parse(JSON.stringify(v));',c);
+ vm.runInContext('globalThis.__core=(()=>{'+strip(code.core)+';return{'+coreExports.join(',')+'};})();',c);
+ for(const n of coreExports)c[n]=c.__core[n];
+ if(name!=='core'){
+  for(const m of code[name].matchAll(/^import\s*\{([\s\S]*?)\}\s*from\s*['"]([^'"]+)['"];?/gm))for(const item of m[1].split(',')){const n=item.trim().split(/\s+as\s+/).at(-1);if(n&&!Object.hasOwn(c,n))c[n]=()=>{throw Error('UNDECLARED-RELATIVE-DEPENDENCY:'+n);};}
+  new vm.Script(strip(code[name]),{filename:'complete-'+name+'-candidate',importModuleDynamically:()=>{throw Error('ACTUAL-MODULE-IMPORT-FORBIDDEN');}}).runInContext(c);
+ }else{
+  // Reuse the complete pure Core module lexical bindings for its model tests.
+  new vm.Script(strip(code.core),{filename:'complete-core-candidate'}).runInContext(c);
+  // The old source scaffold needs the fixed B118 object in the other modules.
+  vm.runInContext('const B118={...BUDGET118,root:C121.root,private:C121.private,carrierSHA:BUDGET118.carrier.rawBytesSha256};const R118={G1:{file:C121.root+`/tools/rust-r4ghi/budget-probe118-g1-v3/Root-G1-budget-probe118-v3.json`,bytes:32283,rawBytesSha256:`80ea3db59386f935b733e5e29b7b8a4db860c408ccb84f9204b9b5adebac00a1`},corrective:{file:C121.root+`/tools/rust-r4ghi/runtime118-graph-RO-corrective01/Root-G3-corrective-runtime118-01.json`,bytes:7322,rawBytesSha256:`56b922e657b4db4b8429aff638fe0f80a8dfa808cf53cb42a4211ccb59aed806`},edition:`budget-probe118-reentry-v1`};',c);
+ }
+ new vm.Script(scaffold,{filename:'declared-synthetic-scaffold-362-and-118'}).runInContext(c);
+ new vm.Script(fs.readFileSync(here+'/reentry-server118.mjs.txt','utf8')+fs.readFileSync(here+'/reentry-scaffold118.mjs.txt','utf8'),{filename:'new5-hashed-synthetic-receipts'}).runInContext(c);
+ return c;
+}
+try{
+ for(const name of Object.keys(names))contexts[name]=context(name);
+// New5 follows a real hashed synthetic DAG with full 139 x 2 snapshots x 4.
+ for(const who of ['native','publisher','nativeData','taxData']){
+  check(who,'new5 complete source/recovery/record2/last-closed four-snapshot chain',`globalThis.r5=fixtureReentry118();globalThis.rm5=readReentryFiles118(r5.P5,r5.read);assert.equal(rm5.recovery.conservation.snapshots.length,4);assert.equal(rm5.retainedState.apiProcess.record.protocolVersion,2);assert.equal(rm5.origin.state.rawBytesSha256,B118.state.rawBytesSha256);assert.notEqual(rm5.successor.retainedCurrentState.rawBytesSha256,B118.state.rawBytesSha256);assert.notEqual(rm5.recovery.pre.pin.file,rm5.recovery.post.pin.file);assert.equal(rm5.recovery.source.value.steps.length,11);`);
+  const mutations=[
+   ['new5 manifest cannot omit exact corrective input',`const m=y.json(y.W4.successorManifest);delete m.correctiveInputs;y.register(y.W4.successorManifest,m);`],
+   ['finite graph carrier cannot replace G1 with checkpoint',`const r=y.json(y.W4.successorCodeReview);r.correctiveG3=R118.corrective;y.register(y.W4.successorCodeReview,r);`],
+   ['corrective input must exist as its own strong-read file',`y.entries.delete(y.key(R118.corrective));`],
+   ['corrective input frozenG1 cannot become legacy4',`const c=y.json(R118.corrective);c.frozenG1=B118.G1;y.register(R118.corrective,c);`],
+   ['opaque data qualification is not acceptance',`const sc=y.json(y.SC);y.register(sc.dataQualification,{});`],
+   ['data qualification uses actual dataProduction pointer',`const sc=y.json(y.SC),q=y.json(sc.dataQualification);q.entries[0].productPointer='/production/0';y.register(sc.dataQualification,q);`],
+   ['SQ static closure cannot import changing Core',`const q=y.json(y.sq);q.executionSources.push({file:B118.root+'/'+B118.files[0],bytes:1,rawBytesSha256:'1'.repeat(64)});y.register(y.sq,q);`],
+   ['Win engine C path is not a general Linux alias',`const q=y.json(y.sq);q.engines.windowsNode.executable.file='C:/Users/ynh2/node.exe';y.register(y.sq,q);`],
+   ['DR9 database OID mismatch',`const s=y.json(y.pg),d=y.json(s.outputs.readiness[0]);d.serverIdentity.oid=999;y.register(s.outputs.readiness[0],d);`],
+   ['DR9 app role privilege drift',`const s=y.json(y.pg),d=y.json(s.outputs.readiness[0]);d.serverIdentity.roles[1].rolsuper=true;y.register(s.outputs.readiness[0],d);`],
+   ['RO transaction is actually writable',`const s=y.json(y.pre),c=y.json(s.outputs.comparison),t=y.json(c.transactionProofs[0]);t.transactionSettings.transaction_read_only='off';y.register(c.transactionProofs[0],t);`],
+   ['RO transaction cannot use other transport',`const s=y.json(y.pre),c=y.json(s.outputs.comparison),t=y.json(c.transactionProofs[0]);t.connectionOptions.transport='http';y.register(c.transactionProofs[0],t);`],
+   ['public graph mirror cannot replace original P3 private pin',`const w=y.json(y.W4pin);w.baselineExecutionSources=y.newG1.sourceBoundary.graph;y.register(y.W4pin,w);`],
+   ['missing public before graph mirror',`y.entries.delete(y.key(y.newG1.sourceBoundary.graph));`],
+   ['public mirror differs from original raw',`y.register(y.newG1.sourceBoundary.graph,Buffer.from('wrong raw despite declared pin'));`],
+   ['producer retained closure cannot be a subset',`const l=y.json(y.locator),a=y.json(l.audit);a.producerSources.pop();y.register(l.audit,a);`],
+   ['PG raw inspect mount options drift',`const s=y.json(y.pg),o=y.json(s.outputs.observationAfter),e=y.json(o.evidence),raw=y.json(e.inspect);raw[0].Mounts[0].Options=['nodev','nosuid'];y.register(e.inspect,raw);`],
+   ['pending projection cannot fake absence',`const l=y.json(y.locator),a=y.json(l.audit),p=a.pendingProjection;p.activeFault={present:true,value:{armed:true}};a.pendingProjection=p;y.register(l.audit,a);`],
+   ['F11 numeric nlink cannot be string',`const d=y.json(y.delta);d.guards.temp.nlink='1';y.register(y.delta,d);`],
+   ['reused old startedAt before holder',`const s=y.json(y.recordPin);s.startedAt='2020-01-01T00:00:00Z';y.register(y.recordPin,s);`],
+   ['legacy G1 cannot grant new5',`const s=y.json(y.C);s.recoveryG1=B118.G1;y.register(y.C,s);`],
+   ['legacy edition cannot grant new5',`const s=y.json(y.W4.successorManifest);s.edition='budget-probe118-v2';y.register(y.W4.successorManifest,s);`],
+   ['I04 before cannot replace R delivery before',`const s=y.json(y.sourceInput),p=y.json(s.sourcePlan);p.operations[0].before=y.newG1.existingSources[0].implementationBefore04;y.register(s.sourcePlan,p);`],
+   ['source future receipt field rejected',`const s=y.json(y.SC);s.recoveryReceipt=y.bundle;y.register(y.SC,s);`],
+   ['C future independent review rejected',`const s=y.json(y.C);s.independentReview=y.R;y.register(y.C,s);`],
+   ['wrong actual C readback rejected',`const s=y.json(y.R);s.complete=y.SC;y.register(y.R,s);`],
+   ['actual recovery reviewer cannot equal executor',`const s=y.json(y.R);s.reviewer='Root';y.register(y.R,s);`],
+   ['step peer reviewer cannot equal code author',`const a=y.json(y.api),s=y.json(a.executionReview);s.reviewer='runtime-author';y.register(a.executionReview,s);`],
+   ['peer extra phase alias rejected',`const a=y.json(y.api),s=y.json(a.executionReview);s.mode='API';y.register(a.executionReview,s);`],
+   ['RootApproval cannot point future peer',`const a=y.json(y.api),s=y.json(a.RootApproval);s.peerReview=a.executionReview;y.register(a.RootApproval,s);`],
+   ['API source actual readback must bind same SC',`const a=y.json(y.sourceReadback);a.complete=y.C;y.register(y.sourceReadback,a);`],
+   ['API evidence original three keys only',`const s=y.json(y.api),p=y.json(s.executionReview),e=y.json(p.evidence);e.actualSourceReadback=e.independentReadback;delete e.independentReadback;y.register(p.evidence,e);`],
+   ['IA startup cannot use future post evidence',`const s=y.json(y.IA);s.preConservation=y.post;y.register(y.IA,s);`],
+   ['startup graph cannot be old229/M06',`const s=y.json(y.recordPin);s.helperPins=y.p3.current.helperPins;y.register(y.recordPin,s);`],
+   ['record2 static tool closure is exact',`const s=y.json(y.recordPin);s.code=s.code.slice(0,1);y.register(y.recordPin,s);`],
+   ['PG changed container rejected',`const s=y.json(y.pg),o=y.json(s.outputs.observationAfter);o.container.id='new-container';y.register(s.outputs.observationAfter,o);`],
+   ['post baseline must be same pre locator',`const s=y.json(y.post);s.outputs.baselineLocator=y.baselinePin;y.register(y.post,s);`],
+   ['one complete snapshot cannot substitute four',`const s=y.json(y.post);s.outputs.observations.pop();y.register(y.post,s);`],
+   ['full RO descriptor xmin drift rejected',`const s=y.json(y.post),p=s.outputs.observations[1],o=y.json(p),d=o.databases.poms_r4ghi_rust.tables.poms_migrations;d.rawBytesSha256='0'.repeat(64);y.register(p,o);`],
+   ['new X cannot replace Origin birth6c',`const s=y.json(y.originPin);s.state=y.Xpin;y.register(y.originPin,s);`],
+   ['X cannot mutate record/sequence',`const s=y.json(y.Xpin);s.sequence++;y.register(y.Xpin,s);`],
+   ['canonical binding cannot contain Full3 bytes',`const s=y.json(y.Xpin);s.apiProcess.bytes=y.recordPin.bytes;y.register(y.Xpin,s);`],
+   ['changedKeys cannot include lease',`const s=y.json(y.delta);s.changedKeys.push('runtimeAdmission121');y.register(y.delta,s);`],
+   ['legacy oldAPI cannot replace current record2',`const p=cloneM(y.P5);p.current.apiProcess=y.p3.current.apiProcess;return p;`],
+  ];
+  for(const[label,body]of mutations){const mutation=body.includes('return p;')?`const p=(()=>{${body}})();assert.throws(()=>readReentryFiles118(p,y.read));`:`${body}assert.throws(()=>readReentryFiles118(y.P5,y.read));`;check(who,'new5 rejects '+label,`{const y=fixtureReentry118();${mutation}}`);}
+ }
+
+ // Independent complete-reader negatives: count alone cannot prove coverage.
+ for(const who of ['native','publisher','nativeData','taxData']){
+  check(who,'independent rejects duplicated readonly transaction proof coverage',"{const y=fixtureReentry118();readReentryFiles118(y.P5,y.read);const e=y.json(y.pre),c=y.json(e.outputs.comparison);c.transactionProofs=Array(4).fill(c.transactionProofs[0]);y.register(e.outputs.comparison,c);assert.throws(()=>readReentryFiles118(y.P5,y.read));}");
+  check(who,'independent requires ro01 and ro02 labels in each phase',"{const y=fixtureReentry118();readReentryFiles118(y.P5,y.read);const e=y.json(y.post),p=e.outputs.observations[1],s=y.json(p);s.label='ro01';y.register(p,s);assert.throws(()=>readReentryFiles118(y.P5,y.read));}");
+  check(who,'independent rejects a second corrective basis',"{const y=fixtureReentry118(),m=y.json(y.W4.successorManifest);m.correctiveInputs.push(m.correctiveInputs[0]);y.register(y.W4.successorManifest,m);assert.throws(()=>readReentryFiles118(y.P5,y.read));}");
+  check(who,'independent exact corrective basis rejects Pin2 projection',"{const y=fixtureReentry118(),m=y.json(y.W4.successorManifest);delete m.correctiveInputs[0].bytes;y.register(y.W4.successorManifest,m);assert.throws(()=>readReentryFiles118(y.P5,y.read));}");
+ }
+ check('core','new5 S4 shape and unchanged two-top FS body accept X while retaining Origin6c',`{const y=fixtureReentry118(),p=y.P5;planShape121(p);reentrySuccessorShape118(y.S5);budgetOriginShape118(y.origin);const planPin=y.put('new5-plan',p),registryPin={file:p.outputs.registryFile,bytes:10,rawBytesSha256:'a'.repeat(64)},candidatePin={file:p.outputs.candidateFile,bytes:10,rawBytesSha256:'b'.repeat(64)},registryBody={kind:'verified-Source15-append-runtime-registry121',current:p.current},adoptionBody=budgetAdoptionBody118(p,planPin,registryPin,candidatePin,y.S5),prepareAdoption121={file:p.outputs.receiptDirectory+'/prepare-adoption121.json',bytes:10,rawBytesSha256:'c'.repeat(64)},written={verifiedFromDisk:true,registryPin,registryBody,candidatePin,candidateBody:candidateBody121(p,registryPin,registryBody),adoptionBody,prepareAdoption121};const out=stateBody121(y.X,p,written,'2026-11-14T12:00:00Z');assert.deepEqual(Object.keys(out).filter(k=>JSON.stringify(out[k])!==JSON.stringify(y.X[k])).sort(),['runtimeAdmission121','runtimeHistory121']);assert.deepEqual(out.apiProcess,y.X.apiProcess);assert.deepEqual(out.taxContinuation121,y.state.taxContinuation121);}`);
+ check('native','new5 ordinary exports centrally reject without effect',`{let calls=0;const root={state:{}};for(const n of rootMethods121)root[n]=()=>{calls++;throw Error('FORBIDDEN');};brands121.set(root,{type:'root',purpose:'ordinary',root,state:root.state,methods:Object.fromEntries(rootMethods121.map(n=>[n,root[n]])),facts:{plan:{protocolVersion:5}}});for(const f of[()=>currentRuntime121(root),()=>assertCurrentLease121(root,{}),()=>assertRuntimeBinding121(root,{}),()=>createWitnessView121(root,{}),()=>createPolicyView121(root,{},{}),()=>effectiveHelperPins121(root),()=>assertRetainedFixture121(root,{}),()=>readRetainedCommand121(root,{}),()=>readRetainedPreparation121(root,{}),()=>assertGHCurrentSource121(root,GH121[0]),()=>trustedSummaryBinary121(root),()=>runtimeReference121(root,{})])assert.throws(f,/Budget facts/);assert.equal(calls,0);}`);
+ check('native','operation partial blocks new5 live entry',`{const previous=fs;fs={lstatSync:p=>{assert.equal(p,R118.operationLock);return{};}};assert.throws(()=>reentryOperationAbsent118(),/Unresolved/);fs={lstatSync:p=>{assert.equal(p,R118.operationLock);const e=new Error('OWN-MODEL');e.code='ENOENT';throw e;}};reentryOperationAbsent118();fs=previous;}`);
+ await checkAsync('publisher','old4 budget effect rejects before source read, dynamic import, driver or private writes',`(async()=>{const old=fs,proc=process,root='/mnt/e/projects/worktrees/poms-r3hijk-next28/poms';let writes=0;process={...proc,cwd:()=>root,execArgv:[]};fs={readFileSync:()=>Buffer.from(JSON.stringify({protocolVersion:4})),realpathSync:p=>p,writeFileSync:()=>{writes++;throw Error('FORBIDDEN-WRITE');},lstatSync:()=>({isFile:()=>true,isSymbolicLink:()=>false,nlink:1})};const previous=read;read=()=>Buffer.from(JSON.stringify({protocolVersion:4}));await assert.rejects(main121(['--input','/home/wangzishi/.local/share/poms-r4ghi/private/model-plan','--approved-input-sha','1'.repeat(64),'--review','/home/wangzishi/.local/share/poms-r4ghi/private/model-root','--approved-review-sha','2'.repeat(64),'--execute']),/Legacy budget4/);assert.equal(writes,0);read=previous;fs=old;process=proc;})()`);
+
+ contexts.nativeData5=context('nativeData');new vm.Script(fs.readFileSync(here+'/new5-factories118.mjs.txt','utf8')).runInContext(contexts.nativeData5);
+ check('nativeData5','new5 complete real producer body outputs plan5/SC with X CAS, original Origin and no Native effect',`globalThis.nd5=setupNativeData5118();const output=produceNativePlanData121(nd5.options);assert.equal(output.file,nd5.outDir+'/complete.json');const p=JSON.parse(nd5.files.get(nd5.outDir+'/native-plan121.json'));assert.equal(p.protocolVersion,5);assert.deepEqual(p.stateTransfer.expectedState,nd5.f.Xpin);assert.deepEqual(p.current.apiProcess,nd5.f.recordPin);assert.deepEqual(p.current.PGConservation,nd5.f.post);assert.deepEqual(JSON.parse(nd5.files.get(output.file)).compositionComplete,nd5.f.SC);assert(nd5.files.get(D15+'/state.json').equals(nd5.stateBytes));assert(!nd5.files.has(p.outputs.registryFile));`);
+ contexts.taxData5=context('taxData');new vm.Script(fs.readFileSync(here+'/new5-factories118.mjs.txt','utf8')).runInContext(contexts.taxData5);
+ check('taxData5','new5 complete metadata loader derives all37 from post RO and carries Y entry with input34/outer6/current17',`globalThis.tm5=setupTaxData5118();globalThis.mm5=tm5.load();assert.equal(mm5.permissions.expectedActorPermissions.length,37);assert.equal(mm5.permissions.actualSnapshots.length,2);assert.deepEqual(mm5.permissions.actualSnapshots,tm5.f.json(tm5.f.post).outputs.observations);const runtime=buildRuntimeBindings121(mm5);assert.equal(runtime.schemaVersion,3);assert.equal(Object.keys(runtime).length,6);assert.equal(Object.keys(runtime.current).length,17);const pin=tm5.f.at(mm5.options.outputDirectory+'/runtime-bindings121.json',runtime),input=buildPrepareInput121(mm5,pin);assert.equal(Object.keys(input).length,34);assert.deepEqual(input.expectedEntryState,tm5.entryPin);assert.deepEqual(input.technicalG1,R118.G1);assert.equal(expectedBudgetReview118(tm5.f.put('new5-input',input),input).FIGranted,false);`);
+ contexts.api5=context('native');new vm.Script(fs.readFileSync(here+'/api-v4-scaffold118.mjs.txt','utf8')+'\n'+fs.readFileSync(here+'/new5-api-holder118.mjs.txt','utf8')).runInContext(contexts.api5);
+ check('api5','complete Native currentAPI5 executes OS/env/socket/bookends with new229 and seven-key clean environment',`globalThis.ap5=setupAPI5118();assert.deepEqual(currentAPI121(ap5.p,ap5.parent,ap5.composition),ap5.r);`);
+ for(const[label,body]of[
+  ['legacy inherited process environment',String.raw`z.files.set('/proc/'+z.r.pid+'/environ',Buffer.from('PATH=/home/wangzishi/.cargo/bin:/usr/bin:/bin\0HOME=/home/wangzishi\0USER=wangzishi\0LANG=C.UTF-8\0POMS_ENV_FILE='+z.r.normalEnv.file+'\0'));`],
+  ['boot differs from this receipt',String.raw`z.files.set('/proc/sys/kernel/random/boot_id','unknown-boot');`],
+  ['PID startTime drift',String.raw`z.files.set('/proc/'+z.r.pid+'/stat',JSON.stringify({pid:z.r.pid,startTime:'999999'}));`],
+  ['OS exe differs from same ELF',String.raw`z.links.set('/proc/'+z.r.pid+'/exe','/unknown-elf');`],
+  ['OS executable inode drift',String.raw`z.stats.set('/proc/'+z.r.pid+'/exe',{dev:1n,ino:999999n});`],
+  ['non-owner uid',String.raw`z.files.set('/proc/'+z.r.pid+'/status','Uid:\t0\t0\t0\t0\n');`],
+  ['unexpected binary arguments',String.raw`z.files.set('/proc/'+z.r.pid+'/cmdline',Buffer.from(z.r.binary+'\0--extra\0'));`],
+  ['injected NODE_OPTIONS',String.raw`z.files.set('/proc/'+z.r.pid+'/environ',Buffer.concat([z.files.get('/proc/'+z.r.pid+'/environ'),Buffer.from('NODE_OPTIONS=--inspect\0')]));`],
+  ['listener inode is not owned by exact process',String.raw`fs.readlinkSync=()=> 'socket:[not-owned]';`],
+ ])check('api5','currentAPI5 rejects '+label,`{const z=setupAPI5118();${body}assert.throws(()=>currentAPI121(z.p,z.parent,z.composition));}`);
+ contexts.holder5=context('native');new vm.Script(fs.readFileSync(here+'/new5-api-holder118.mjs.txt','utf8')).runInContext(contexts.holder5);
+ check('holder5','complete fresh holder5 uses fixed lower-case argv and exact clean six-key environment',`globalThis.hl5=setupHolder5118();assert.deepEqual(currentOwner121(hl5.f.P5),hl5.ready);`);
+ for(const[label,body]of[
+  ['actual boot drift',String.raw`z.files.set('/proc/sys/kernel/random/boot_id','different-current');`],
+  ['actual holder startTime drift',String.raw`z.files.set('/proc/'+z.ready.pid+'/stat',JSON.stringify({pid:z.ready.pid,startTime:'99'}));`],
+  ['actual parent startTime drift',String.raw`z.files.set('/proc/'+z.i.ppid+'/stat',JSON.stringify({pid:z.i.ppid,startTime:'99'}));`],
+  ['extra Node argument',String.raw`z.files.set('/proc/'+z.ready.pid+'/cmdline',Buffer.from(z.i.argv.join('\0')+'\0--extra\0'));`],
+  ['different OS exe',String.raw`z.links.set('/proc/'+z.ready.pid+'/exe','/unknown-node');`],
+  ['different cwd',String.raw`z.links.set('/proc/'+z.ready.pid+'/cwd','/other-checkout');`],
+  ['non-owner UID',String.raw`z.files.set('/proc/'+z.ready.pid+'/status','Uid:\t0\t0\t0\t0\n');`],
+  ['inherited NODE_OPTIONS',String.raw`z.files.set('/proc/'+z.ready.pid+'/environ',Buffer.concat([z.files.get('/proc/'+z.ready.pid+'/environ'),Buffer.from('NODE_OPTIONS=--inspect\0')]));`],
+  ['early operation partial lock',String.raw`fs.lstatSync=()=>({isFile:()=>true});`],
+ ])check('holder5','fresh holder5 rejects '+label,`{const z=setupHolder5118();${body}assert.throws(()=>currentOwner121(z.f.P5));}`);
+
+ check('native','public budget4 and new5 metadata failures project fixed error without private state/cookies/functions',`{const f=fixtureReentry118(),oldRead=read121;read121=f.read;for(const plan of[f.P4,f.P5]){const pin=f.put('public-failed-plan',plan),privateState={actors:{manager:{password:'PRIVATE-SENTINEL',cookies:{session:'PRIVATE-SENTINEL'}}},root:()=>modelRoot},raw=new Error('PRIVATE-SENTINEL');raw.actual=privateState;raw.expected=privateState;raw.cause=privateState;verifyRuntimePlanBody121=()=>{throw raw;};let seen;try{verifyRuntimePlan121(pin);}catch(e){seen=e;}assert(seen&&seen!==raw);assert.equal(seen.message,'Budget runtime metadata verification stopped');assert.equal(seen.actual,undefined);assert.equal(seen.expected,undefined);assert.equal(seen.cause,undefined);assert.equal(seen.root,undefined);assert(!Object.getOwnPropertyNames(seen).some(k=>String(seen[k]).includes('PRIVATE-SENTINEL')));}const pin=f.put('public-failed-ordinary',f.P3),raw=new Error('ordinary-original');verifyRuntimePlanBody121=()=>{throw raw;};assert.throws(()=>verifyRuntimePlan121(pin),e=>e===raw);read121=oldRead;}`);
+ const record={engine:{execPath:process.execPath,version:process.version},kind:'I-independent-runtime118-selected-new5-models',candidatePins:Object.entries(names).map(([name,file])=>({name,file:'tools/rust-r4ghi/'+file,bytes:Buffer.byteLength(code[name]),rawBytesSha256:sha(code[name])})),results,passed:results.length,failed:0,classification:'DECLARED-SYNTHETIC-COMPLETE-MODULE-MODELS; no actual runtime/auth/performance acceptance',limits:{fixedHistoricalHashesDoNotClaimSyntheticBodiesAreTheirActualBytes:true,actualFDAndPrivate13016RawPositiveNotRun:true,actualPProcEnvSQLHTTP:false,sourcePromotion:false,FSOrContextG2:false}};
+ const output=here+'/independent-new5-'+Date.now()+'.json';fs.writeFileSync(output,JSON.stringify(record,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({passed:results.length,failed:0,output}));
+}catch(e){const record={kind:'I-independent-runtime118-selected-new5-stopped',results,error:{name:e.name,message:e.message},actualRuntimeExecuted:false};fs.writeFileSync(here+'/independent-new5-stopped-'+Date.now()+'.json',JSON.stringify(record,null,2)+'\n',{flag:'wx'});console.error(e);process.exitCode=1;}

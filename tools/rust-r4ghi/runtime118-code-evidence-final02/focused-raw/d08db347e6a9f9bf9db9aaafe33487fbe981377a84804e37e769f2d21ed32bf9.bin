@@ -1,0 +1,60 @@
+// Bounded author regressions using the existing 362 declared-identity scaffold.
+// Complete candidate modules run in isolated VM contexts. Every candidate I/O
+// is virtual/forbidden; no Root Native/Core/app, P, proc/env, SQL or HTTP runs.
+import fs from 'node:fs';
+import path from 'node:path';
+import vm from 'node:vm';
+import assert from 'node:assert/strict';
+import crypto,{createHash} from 'node:crypto';
+import {isProxy} from 'node:util/types';
+import {isDeepStrictEqual} from 'node:util';
+import {fileURLToPath,pathToFileURL} from 'node:url';
+const modelHere=path.dirname(fileURLToPath(import.meta.url)),here="E:\\projects\\worktrees\\poms-r4i-lifecycle\\poms\\tools\\rust-r4ghi\\I\\implementation\\runtime118-reentry-code-independent01/control-candidate03/tests",base=path.dirname(here),proposed=base+'/proposed03/tools/rust-r4ghi';
+const names={core:'business/runtime-admission-core121.mjs',native:'business/runtime-admission121.mjs',publisher:'runtime-recovery121/native/publish-runtime121.mjs',nativeData:'runtime-recovery121/Native-plan-data-candidate01/prepare-native-plan121.mjs',taxData:'runtime-recovery121/Tax121-current-metadata-data-candidate01/prepare-tax121-current-metadata.mjs'};
+const code=Object.fromEntries(Object.entries(names).map(([k,p])=>[k,fs.readFileSync(proposed+'/'+p,'utf8')]));
+const sha=b=>createHash('sha256').update(b).digest('hex');
+const coreExports=[...code.core.matchAll(/export\s+(?:function|const)\s+([A-Za-z_][A-Za-z0-9_]*)/g)].map(m=>m[1]);
+const strip=s=>s.replace(/^import[\s\S]*?from ['"][^'"]+['"];\r?\n/gm,'').replace(/^export /gm,'').replaceAll('import.meta.url',JSON.stringify('/SYNTHETIC-118-CANDIDATE-NOT-CLI'));
+const scaffold=fs.readFileSync(here+'/scaffold362.mjs.txt','utf8')+'\n'+fs.readFileSync(here+'/scaffold118.mjs.txt','utf8');
+const serialized=fs.readFileSync(here+'/public-basis362.json','utf8'),jointSerialized=fs.readFileSync(here+'/joint-G1.json','utf8'),graphSerialized=fs.readFileSync(here+'/execution284-before.json','utf8');
+assert.equal(sha(jointSerialized),'68212af41282071678d3e062dd689fbffbf2b74443de0c5872bb2511e4d0c5a2');
+assert.equal(sha(graphSerialized),'b8fd572ffa1e32ff581631410bcacc48e4350c51d4308e96d216cc985b89a25f');
+const reentrySerialized=fs.readFileSync(here+'/reentry-G1.json','utf8');assert.equal(sha(reentrySerialized),'80ea3db59386f935b733e5e29b7b8a4db860c408ccb84f9204b9b5adebac00a1');const correctiveSerialized=fs.readFileSync(here+'/corrective-G3.json','utf8');assert.equal(sha(correctiveSerialized),'56b922e657b4db4b8429aff638fe0f80a8dfa808cf53cb42a4211ccb59aed806');
+const results=[],contexts={};
+function check(who,label,js){try{vm.runInContext(js,contexts[who],{timeout:30000});results.push({module:who,test:label,status:'PASS'});}catch(e){results.push({module:who,test:label,status:'FAIL',error:{name:e.name,message:e.message}});throw e;}}
+async function checkAsync(who,label,js){try{await vm.runInContext(js,contexts[who],{timeout:30000});results.push({module:who,test:label,status:'PASS'});}catch(e){results.push({module:who,test:label,status:'FAIL',error:{name:e.name,message:e.message}});throw e;}}
+function context(name){
+ const forbidden=new Proxy({}, {get:(_t,k)=>()=>{throw Error('CANDIDATE-ACTUAL-IO-FORBIDDEN:'+String(k));}});
+ const c=vm.createContext({assert,crypto,createHash,isProxy,isDeepStrictEqual,Buffer,path:path.posix,fs:forbidden,serialized,jointSerialized,graphSerialized,reentrySerialized,correctiveSerialized,process:{platform:'linux',version:'v24.19.0',argv:[],execArgv:[],env:{},getuid:()=>1000,cwd:()=>'/SYNTHETIC',pid:118,hrtime:{bigint:()=>1000000000000n}},fileURLToPath:x=>x,pathToFileURL:x=>({href:x}),console:{log(){},error(){}}});
+ vm.runInContext('globalThis.structuredClone=v=>JSON.parse(JSON.stringify(v));',c);
+ vm.runInContext('globalThis.__core=(()=>{'+strip(code.core)+';return{'+coreExports.join(',')+'};})();',c);
+ for(const n of coreExports)c[n]=c.__core[n];
+ if(name!=='core'){
+  for(const m of code[name].matchAll(/^import\s*\{([\s\S]*?)\}\s*from\s*['"]([^'"]+)['"];?/gm))for(const item of m[1].split(',')){const n=item.trim().split(/\s+as\s+/).at(-1);if(n&&!Object.hasOwn(c,n))c[n]=()=>{throw Error('UNDECLARED-RELATIVE-DEPENDENCY:'+n);};}
+  new vm.Script(strip(code[name]),{filename:'complete-'+name+'-candidate',importModuleDynamically:()=>{throw Error('ACTUAL-MODULE-IMPORT-FORBIDDEN');}}).runInContext(c);
+ }else{
+  // Reuse the complete pure Core module lexical bindings for its model tests.
+  new vm.Script(strip(code.core),{filename:'complete-core-candidate'}).runInContext(c);
+  // The old source scaffold needs the fixed B118 object in the other modules.
+  vm.runInContext('const B118={...BUDGET118,root:C121.root,private:C121.private,carrierSHA:BUDGET118.carrier.rawBytesSha256};const R118={G1:{file:C121.root+`/tools/rust-r4ghi/budget-probe118-g1-v3/Root-G1-budget-probe118-v3.json`,bytes:32283,rawBytesSha256:`80ea3db59386f935b733e5e29b7b8a4db860c408ccb84f9204b9b5adebac00a1`},corrective:{file:C121.root+`/tools/rust-r4ghi/runtime118-graph-RO-corrective01/Root-G3-corrective-runtime118-01.json`,bytes:7322,rawBytesSha256:`56b922e657b4db4b8429aff638fe0f80a8dfa808cf53cb42a4211ccb59aed806`},edition:`budget-probe118-reentry-v1`};',c);
+ }
+ new vm.Script(scaffold,{filename:'declared-synthetic-scaffold-362-and-118'}).runInContext(c);
+ new vm.Script(fs.readFileSync(here+'/reentry-server118.mjs.txt','utf8')+fs.readFileSync(here+'/reentry-scaffold118.mjs.txt','utf8'),{filename:'new5-hashed-synthetic-receipts'}).runInContext(c);
+ return c;
+}
+const findings=[];
+for(const name of ['native','publisher','nativeData','taxData']){
+ const c=context(name);
+ const baseline=vm.runInContext(`const f=fixtureReentry118(),m=readReentryFiles118(f.P5,f.read);JSON.stringify({members:m.executionSources.length,snapshots:m.recovery.conservation.snapshots.length})`,c,{timeout:30000});
+ assert.deepEqual(JSON.parse(baseline),{members:284,snapshots:4});
+ const observed=vm.runInContext(`
+ const y=fixtureReentry118(),originalC=y.json(y.C),badC=cloneM(originalC);delete badC.prepareOrigin121.bytes;
+ const cPin=y.once('C10-Full3-negative',badC),oldR=y.json(y.R),rEvidence=y.once('recomputed-R-evidence',{modelOnly:true,complete:cPin}),newR={...oldR,complete:cPin,evidence:rEvidence},rPin=y.once('R8-recomputed-Full3-negative',newR),oldB=y.json(y.bundle),bPin=y.once('B5-recomputed-Full3-negative',{...oldB,recoveryComplete:cPin,independentReadback:rPin}),s={...cloneM(y.S5),recoveryReceipt:bPin},sPin=y.once('S4-recomputed-Full3-negative',s),plan=cloneM(y.P5);plan.stateTransfer.successor=sPin;
+ // Every changed envelope is encoded with its actual bytes/hash. The private
+ // historical hashes and stage authorities retain the declared fixture model.
+ for(const pin of[cPin,rEvidence,rPin,bPin,sPin]){const bytes=y.read(pin);assert.equal(bytes.length,pin.bytes);assert.equal(hashM(bytes),pin.rawBytesSha256);}
+ let accepted=false,error=null;try{const m=readReentryFiles118(plan,y.read);accepted=true;assert.equal(Object.hasOwn(m.recovery.complete.prepareOrigin121,'bytes'),false);assert.equal(m.origin.state.rawBytesSha256,B118.state.rawBytesSha256);assert.equal(m.successor.prepareOrigin121.bytes,y.originPin.bytes);}catch(e){error={name:e.name,message:String(e.message).slice(0,500)};}
+ JSON.stringify({accepted,error,removedField:'C10.prepareOrigin121.bytes',newC:cPin,newR:rPin,newB:bPin,newS4:sPin,allChangedPinsReallyRehashed:true,originalOriginStillFull3:true,actualRuntime:false})`,c,{timeout:30000});
+ const value=JSON.parse(observed);assert.equal(value.accepted,false,'new5 malformed C10 origin must reject');findings.push({module:name,baseline:'PASS',...value});
+}
+const report={kind:'non-author-new5-C10-origin-Full3-fixed-complete-module-regression',engine:{execPath:process.execPath,version:process.version},candidatePins:Object.entries(names).map(([name,file])=>({name,file:'tools/rust-r4ghi/'+file,bytes:Buffer.byteLength(code[name]),rawBytesSha256:sha(code[name])})),findings,summary:{baselinePassed:findings.length,malformedFull3Accepted:findings.filter(x=>x.accepted).length,productionCandidatesChanged:false,actualPProcEnvSQLHTTP:false,actualG2Granted:false},limits:'Own-IO complete modules; inherited immutable private hashes and phase authority are explicit synthetic dependencies. All new C/R/B/S4 bytes and hashes are actual model-generated values.'};const output=modelHere+'/independent-fullpin03.json';fs.writeFileSync(output,JSON.stringify(report,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({output,bytes:fs.statSync(output).size,rawBytesSha256:sha(fs.readFileSync(output)),summary:report.summary}));

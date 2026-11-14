@@ -1,0 +1,40 @@
+from pathlib import Path
+p=Path(__file__).resolve().parent
+control=p.parent/'runtime118-reentry-control-impl01/tests'
+s=(control/'validate-reentry-control118.mjs').read_text(encoding='utf-8')
+s=s[:s.index('try{\n for(const name of Object.keys(names))')]
+s=s.replace("const here=path.dirname(fileURLToPath(import.meta.url)),base=path.dirname(here)","const modelHere=path.dirname(fileURLToPath(import.meta.url)),here="+repr(str(control).replace('\\','/'))+",base=path.dirname(here)")
+s=s.replace("import {isProxy} from 'node:util/types';", "import {isProxy} from 'node:util/types';import{types,TextDecoder}from'node:util';")
+body=(p/'source-model-body01.mjs.txt').read_text(encoding='utf-8').replace("const scaffold=context('native')","const sourceSeedCtx=context('native')").replace('`,scaffold)', '`,sourceSeedCtx)')
+body=body.replace('},results=[];','},sourceResults=[];').replace('results.push(', 'sourceResults.push(').replace('results.at(', 'sourceResults.at(').replace(',results,error:', ',results:sourceResults,error:')
+body=body.replace("b=Buffer.from(b);const unique=", "b=Buffer.from(b);if(realSHA(b)!==pin.rawBytesSha256){let isJSON=true;try{JSON.parse(b.toString());}catch{isJSON=false;}if(!isJSON){const raw=Buffer.alloc(pin.bytes,32);b.copy(raw,0,0,Math.min(b.length,raw.length));Buffer.from(pin.rawBytesSha256).copy(raw,0,0,Math.min(64,raw.length));declared.set(realSHA(raw),pin.rawBytesSha256);baseFiles.set(pin.file,raw);return;}}const unique=")
+body=body.replace(' const seed=JSON.parse(seedSerialized),files=', ' process.execArgv=[];process.argv=[];const seed=JSON.parse(seedSerialized),files=')
+body=body.replace('windowsNode:{executable:engineEvidence,versionEvidence:',"windowsNode:{executable:{file:'/mnt/c/Users/ynh2/AppData/Roaming/fnm/node-versions/v24.19.0/installation/node.exe',bytes:92825416,rawBytesSha256:'3602f2bb1a10f2cbab4c36886218a33c1ab3db87290e73b033c46c77147d0237'},versionEvidence:")
+body=body.replace('baseFiles.set(SELF,sourceRaw);',"const winNodeRaw=fs.readFileSync('C:/Users/ynh2/AppData/Roaming/fnm/node-versions/v24.19.0/installation/node.exe');assert.equal(sha(winNodeRaw),'3602f2bb1a10f2cbab4c36886218a33c1ab3db87290e73b033c46c77147d0237');baseFiles.set('/mnt/c/Users/ynh2/AppData/Roaming/fnm/node-versions/v24.19.0/installation/node.exe',winNodeRaw);baseFiles.set(SELF,sourceRaw);")
+# Real, exact public metadata and named source archives replace the declared
+# scaffold's synthetic provenance before the complete source operation runs.
+body=body.replace('const oldG1=getBase(g1.previousJointG1);', "const resolvedHistory=JSON.parse(fs.readFileSync(modelHere+'/source-real-history-resolved02.json'));for(const q of resolvedHistory){const b=Buffer.from(q.body,'base64');assert.equal(sha(b),q.pin.rawBytesSha256);assert.equal(b.length,q.pin.bytes);baseFiles.set(q.file,b);}\nconst oldG1=getBase(g1.previousJointG1);")
+body=body.replace('const candidates=g1.existingSources.map', "for(const file of [...baseFiles.keys()])if(file.startsWith(P+'/runtime118-budget-predecessor-source/'))baseFiles.delete(file);\nconst candidates=g1.existingSources.map")
+body=body.replace('const nodeFile=g1.currentFactBoundary', "registerHistorical(seeded.k.closedJournal,{phase:'closed-verified',mode:'prepare-only',result:seeded.k.prepared15});\nconst nodeFile=g1.currentFactBoundary")
+body=body.replace('return{label,c,async run()',"vm.runInContext(`globalThis.rawStop=null;const originalSafeException=safeException;safeException=e=>{if(!globalThis.rawStop)globalThis.rawStop={name:e.name,message:String(e.message).slice(0,1200),stack:String(e.stack).split('\\\\n').slice(1,6)};return originalSafeException(e);};`,c);return{label,c,async run()")
+body=body.replace('JSON.stringify({writes,renames,helperStates,openFDs:', 'JSON.stringify({rawStop,writes,renames,helperStates,openFDs:')
+body=body.replace("events.push({type:'write',file});writes++;", "events.push({type:'write',file});writes++;if(modelFault==='before-rename-guard'&&file.endsWith('.tmp'))files.get(seed.candidates[0].candidate.file).raw=Buffer.from('CANDIDATE DRIFT BEFORE RENAME');")
+body=body.replace("complete:files.has(modelOut+'/complete.json')", "stepBodies:[...files].filter(([file])=>file.startsWith(modelOut+'/step-')&&file.endsWith('.json')).map(([,e])=>JSON.parse(e.raw)),lockRaw:files.has(modelOut+'/operation-lock.raw')?JSON.parse(files.get(modelOut+'/operation-lock.raw').raw):null,postReadback:files.has(modelOut+'/post-readback.json')?JSON.parse(files.get(modelOut+'/post-readback.json').raw):null,complete:files.has(modelOut+'/complete.json')")
+helpers="""
+ function value(pin){return JSON.parse(files.get(pin.file).raw);}
+ function refreshInput(p=value(input)){Object.assign(input,put(input.file,p));const a=value(approval);a.input={...input};Object.assign(approval,put(approval.file,a));const r=value(peer);r.input={...input};r.RootApproval={...approval};Object.assign(peer,put(peer.file,r));}
+ function replaceInput(fn){const p=value(input);fn(p);refreshInput(p);}
+ function replaceRoot(fn){const p=value(approval);fn(p);Object.assign(approval,put(approval.file,p));const r=value(peer);r.RootApproval={...approval};Object.assign(peer,put(peer.file,r));}
+ function replacePeer(fn){const p=value(peer);fn(p);Object.assign(peer,put(peer.file,p));}
+ function replaceQualification(fn){const p=value(sq);fn(p);Object.assign(sq,put(sq.file,p));replaceInput(p=>p.codeReview={...sq});const a=value(approval);a.codeReview={...sq};Object.assign(approval,put(approval.file,a));const r=value(peer);r.codeReview={...sq};r.RootApproval={...approval};Object.assign(peer,put(peer.file,r));}
+ function replaceFinite(group,fn){const s=value(sourcePlan),key=group==='production'?'graphReview':'dataQualification',q=value(s[key]);fn(q);s[key]=put(s[key].file,q);Object.assign(sourcePlan,put(sourcePlan.file,s));replaceInput(p=>p.sourcePlan={...sourcePlan});}
+ function replaceManifest(fn){const m=value(manifest);fn(m);Object.assign(manifest,put(manifest.file,m));const s=value(sourcePlan);s.combinedManifest={...manifest};for(const key of['graphReview','dataQualification']){const q=value(s[key]);q.componentManifest={...manifest};s[key]=put(s[key].file,q);}Object.assign(sourcePlan,put(sourcePlan.file,s));replaceInput(p=>p.sourcePlan={...sourcePlan});}
+"""
+body=body.replace(' ${mutation}',helpers+'\n ${mutation}')
+extra=(p/'source-extra-cases01.mjs.txt').read_text(encoding='utf-8').replace('${LOCK}',"/home/wangzishi/.local/share/poms-r4ghi/private/runtime118-reentry-operation.lock").replace('${D}',"/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01").replace('${P}',"/home/wangzishi/.local/share/poms-r4ghi/private")
+extra=""" await checkCase('last before-rename guard drift preserves NOT_ATTEMPTED and no source change','','before-rename-guard',out=>{assert(out.error);assert.equal(out.state.renames.length,0);assert.equal(out.state.sourceAfterCount,0);assert.equal(out.state.partial.phase,'before-rename');assert.deepEqual(out.state.partial.inFlight.rename,{attempted:false,confirmed:false,outcome:'NOT_ATTEMPTED'});assert(out.state.partial.inFlight.temp);assert(out.state.lockExists);});
+"""+extra
+body=body.replace("assert.equal(out.state.complete.steps.length,11);", "assert.equal(out.state.complete.steps.length,11);assert.equal(Object.keys(out.state.complete).length,18);assert.equal(Object.keys(out.state.lockRaw).length,10);assert.equal(out.state.lockRaw.phase,'source-promotion');assert.equal(Object.keys(out.state.postReadback).length,10);assert.equal(out.state.stepBodies.length,11);for(const s of out.state.stepBodies){assert.equal(Object.keys(s).length,14);assert.equal(Object.keys(s.temp.identity).length,7);for(const v of Object.values(s.temp.identity))assert.equal(typeof v,'string');assert.equal(s.rename.confirmed,true);}assert.equal(out.state.stepBodies.filter(s=>s.group==='production').length,9);assert.equal(out.state.stepBodies.filter(s=>s.group==='dataProduction').length,2);")
+body=body.replace('}catch(error){const report=',extra+'\n}catch(error){const report=')
+s+=body
+(p/'validate-source-author01.mjs').write_text(s,encoding='utf-8',newline='\n')

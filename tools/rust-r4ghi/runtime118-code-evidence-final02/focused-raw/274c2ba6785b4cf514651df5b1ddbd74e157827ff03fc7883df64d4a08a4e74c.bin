@@ -1,0 +1,158 @@
+{
+  "engine": {
+    "PowerShellVersion": "7.6.9",
+    "entry": "fixed Win24 runner"
+  },
+  "failed": 0,
+  "candidate": {
+    "bytes": 25217,
+    "rawBytesSha256": "9a9fd33f8606fe28489f0673ef5ff57a6fc293ce13477b2b84030a73b4fee88a",
+    "file": "E:\\projects\\worktrees\\poms-r4i-lifecycle\\poms\\tools\\rust-r4ghi\\I\\implementation\\runtime118-reentry-code-independent01\\tool-candidate02/proposed/tools/rust-r4ghi/runtime-recovery121/budget118/start-budget118-holder.ps1"
+  },
+  "passed": 22,
+  "schemaVersion": 1,
+  "results": [
+    {
+      "privatePhysicalReads": 0,
+      "name": "real Main valid holder / exact one launch / no pre-WSL P read",
+      "spawns": 1,
+      "status": "PASS"
+    },
+    {
+      "privatePhysicalReads": 0,
+      "name": "Root grant API extra rejected",
+      "spawns": 0,
+      "status": "PASS"
+    },
+    {
+      "privatePhysicalReads": 0,
+      "name": "peer equals author rejected",
+      "spawns": 0,
+      "status": "PASS"
+    },
+    {
+      "privatePhysicalReads": 0,
+      "name": "peer equals Root executor rejected",
+      "spawns": 0,
+      "status": "PASS"
+    },
+    {
+      "privatePhysicalReads": 0,
+      "name": "schema bool rejected before launch",
+      "spawns": 0,
+      "status": "PASS"
+    },
+    {
+      "privatePhysicalReads": 0,
+      "name": "false string rejected before launch",
+      "spawns": 0,
+      "status": "PASS"
+    },
+    {
+      "privatePhysicalReads": 0,
+      "name": "input wrong phase rejected",
+      "spawns": 0,
+      "status": "PASS"
+    },
+    {
+      "privatePhysicalReads": 0,
+      "name": "birth identity cannot be alias file",
+      "spawns": 0,
+      "status": "PASS"
+    },
+    {
+      "privatePhysicalReads": 0,
+      "name": "system wsl exactly two links / one link replacement rejected",
+      "spawns": 0,
+      "status": "PASS"
+    },
+    {
+      "privatePhysicalReads": 0,
+      "name": "system wsl extra hardlink rejected",
+      "spawns": 0,
+      "status": "PASS"
+    },
+    {
+      "privatePhysicalReads": 0,
+      "name": "pwsh extra hardlink rejected",
+      "spawns": 0,
+      "status": "PASS"
+    },
+    {
+      "privatePhysicalReads": 0,
+      "name": "wsl same-size wrong bytes rejected",
+      "spawns": 0,
+      "status": "PASS"
+    },
+    {
+      "privatePhysicalReads": 0,
+      "name": "operator evidence hardlink rejected",
+      "spawns": 0,
+      "status": "PASS"
+    },
+    {
+      "privatePhysicalReads": 0,
+      "name": "operator bytes drift rejected",
+      "spawns": 0,
+      "status": "PASS"
+    },
+    {
+      "privatePhysicalReads": 0,
+      "name": "qualification version expectation drift rejected",
+      "spawns": 0,
+      "status": "PASS"
+    },
+    {
+      "privatePhysicalReads": 0,
+      "name": "argv injection rejected and live process preserved",
+      "spawns": 1,
+      "status": "PASS"
+    },
+    {
+      "privatePhysicalReads": 0,
+      "name": "Windows PID tuple reuse rejected after launch",
+      "spawns": 1,
+      "status": "PASS"
+    },
+    {
+      "privatePhysicalReads": 0,
+      "name": "spawn uncertainty / single attempt / actual unknown",
+      "spawns": 1,
+      "status": "PASS"
+    },
+    {
+      "privatePhysicalReads": 0,
+      "name": "launch receipt write fails / PID preserved",
+      "spawns": 1,
+      "status": "PASS"
+    },
+    {
+      "privatePhysicalReads": 0,
+      "name": "partial secondary write failure preserves primary",
+      "spawns": 1,
+      "status": "PASS"
+    },
+    {
+      "privatePhysicalReads": 0,
+      "name": "wrong H nonce cannot complete launcher",
+      "spawns": 1,
+      "status": "PASS"
+    },
+    {
+      "privatePhysicalReads": 0,
+      "name": "ready absence preserves live process / bounded wait",
+      "spawns": 1,
+      "status": "PASS"
+    }
+  ],
+  "limits": {
+    "actualG2": false,
+    "realMainWithAllPhysicalLeavesReplaced": true,
+    "actualPProcEnvSQLHTTP": false,
+    "actualWSL": false,
+    "completeScriptDotSourceInert": true,
+    "allCandidateIOOwnedMemory": true,
+    "LinuxNodeRun": false
+  },
+  "kind": "author-runtime118-complete-PowerShell-Main-ownIO-model"
+}

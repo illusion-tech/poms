@@ -1,0 +1,64 @@
+{
+  "kind": "author-complete-source-module-P3-pin-shape-counterexample",
+  "engine": {
+    "execPath": "C:\\Users\\ynh2\\AppData\\Roaming\\fnm\\node-versions\\v24.19.0\\installation\\node.exe",
+    "version": "v24.19.0"
+  },
+  "candidate": {
+    "file": "E:\\projects\\worktrees\\poms-r4i-lifecycle\\poms\\tools\\rust-r4ghi\\I\\implementation\\runtime118-source-tool-impl01\\proposed\\tools\\rust-r4ghi\\runtime-recovery121\\budget118\\promote-budget118-source-once.mjs",
+    "bytes": 41201,
+    "rawBytesSha256": "e331701ff188e975275b10fe60319941f949fe8a8b0ab68c8e9ed7bfe4e49b19"
+  },
+  "retainedSource": "E:\\projects\\worktrees\\poms-r4i-lifecycle\\poms\\tools\\rust-r4ghi\\I\\implementation\\runtime118-source-author-models01/source-pre01.mjs.txt",
+  "archiveInputs": [
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-native-plan-data/2ba18403-1739-4274-8c3e-5e444f2aa6cf/native-plan121.json",
+      "archive": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/Native362-plan-data-actual01/native-plan121.json",
+      "bytes": 78405,
+      "rawBytesSha256": "f3e56838c28e7006311b6f292b882d8785cb49fd764d4370e60cfa36d9995fef"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/runtime121-2ba18403-1739-4274-8c3e-5e444f2aa6cf/registry.json",
+      "archive": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/Native362-publication-actual01/registry.json",
+      "bytes": 134446,
+      "rawBytesSha256": "a8bcbc8db0125d3d7b5d0a1e3a941747f66fecc00d7f8dcaaa8752e7164c5a03"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/runtime121-2ba18403-1739-4274-8c3e-5e444f2aa6cf/candidate.json",
+      "archive": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/Native362-publication-actual01/candidate.json",
+      "bytes": 126007,
+      "rawBytesSha256": "2094bdded77e23efb985c90294c259f5458407fe9f79b12d7a9d828c82fd07f8"
+    },
+    {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/runtime121-2ba18403-1739-4274-8c3e-5e444f2aa6cf/complete.json",
+      "archive": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/Native362-publication-actual01/complete.json",
+      "bytes": 1522,
+      "rawBytesSha256": "5759e7524d1fd59dee9b019d0cc67e6c573dc45e5c0b9f3e73dcab4436ee7ffd"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/Native362-publication-readback-2ba18403-1739-4274-8c3e-5e444f2aa6cf/review-actual-publication362.json",
+      "archive": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/Native362-publication-readback-actual01/review-actual-publication362.json",
+      "bytes": 73125,
+      "rawBytesSha256": "5063a0676cbe76c5d371d774f69f3089cc45769f405921cacb68c887d1cbda14"
+    }
+  ],
+  "status": "PRODUCT_COUNTEREXAMPLE_REPRODUCED",
+  "error": {
+    "name": "AssertionError",
+    "message": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  {\n-   bytes: 78405,\n    file: '/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-native-plan-data/2ba18403-1739-4274-8c3e-5e444f2aa6cf/native-plan121.json',\n    rawBytesSha256: 'f3e56838c28e7006311b6f292b882d8785cb49fd764d4370e60cfa36d9995fef'\n  }\n",
+    "actual": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-native-plan-data/2ba18403-1739-4274-8c3e-5e444f2aa6cf/native-plan121.json",
+      "rawBytesSha256": "f3e56838c28e7006311b6f292b882d8785cb49fd764d4370e60cfa36d9995fef"
+    },
+    "expected": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-native-plan-data/2ba18403-1739-4274-8c3e-5e444f2aa6cf/native-plan121.json",
+      "bytes": 78405,
+      "rawBytesSha256": "f3e56838c28e7006311b6f292b882d8785cb49fd764d4370e60cfa36d9995fef"
+    }
+  },
+  "explanation": "Actual public P3 registry approvedPlan is Pin2; fixed predecessorPlan is Full3. Source history uses generic deep equality and refuses valid bytes before promotion.",
+  "actualPRead": false,
+  "actualSourcePromotion": false,
+  "actualProcessEnvSQLHTTP": false,
+  "actualG2Granted": false
+}

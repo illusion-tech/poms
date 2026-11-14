@@ -1,0 +1,107 @@
+// MODEL ONLY. Direct adaptation of the prior independent MemoryFS/VM loader.
+// Candidate modules are supplied as complete text. No host application module,
+// private file, process command, network client or package loader is available.
+import path from 'node:path';
+import vm from 'node:vm';
+import assert from 'node:assert/strict';
+import crypto from 'node:crypto';
+import { types, TextDecoder, TextEncoder } from 'node:util';
+
+export const sha = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
+const errno = (code, file) => Object.assign(Error('MODEL_' + code + ':' + file), { code });
+export const MODEL_NONCE = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa'; // never a future run nonce
+
+export class MemoryFS {
+  constructor() { this.nodes = new Map(); this.fds = new Map(); this.sequence = 9007199254741000n; this.fdSequence = 100; this.calls = []; this.hook = null; }
+  key(value) {
+    if (value instanceof URL) value = decodeURIComponent(value.pathname);
+    assert.equal(typeof value, 'string'); assert(value.startsWith('/'), 'Only absolute memory paths');
+    return path.posix.normalize(value);
+  }
+  event(op, ...args) { this.calls.push([op, ...args]); this.hook?.(op, ...args); }
+  node(p) { p = this.key(p); const n = this.nodes.get(p); if (!n) throw errno('ENOENT', p); return n; }
+  fresh(bytes, directory = false) { return { bytes, directory, ino: ++this.sequence, dev: 1n, nlink: 1n, version: 1n, mode: directory ? 0o40700n : 0o100600n, uid: 1000n, gid: 1000n }; }
+  parent(p) { const d = path.posix.dirname(p); if (d !== p && !this.node(d).directory) throw errno('ENOTDIR', d); }
+  mkdirSync(p, options = {}) {
+    p = this.key(p); this.event('mkdir:before', p);
+    if (this.nodes.has(p)) { if (options.recursive && this.node(p).directory) return; throw errno('EEXIST', p); }
+    if (options.recursive) { const d = path.posix.dirname(p); if (d !== p && !this.nodes.has(d)) this.mkdirSync(d, options); }
+    if (p !== '/') this.parent(p); const n = this.fresh(null, true); if (options.mode !== undefined) n.mode = 0o40000n | BigInt(options.mode); this.nodes.set(p, n); this.event('mkdir:after', p);
+  }
+  existsSync(p) { p = this.key(p); this.event('exists', p); return this.nodes.has(p); }
+  writeFileSync(p, bytes, options = {}) {
+    let opened = null; if (typeof p === 'number') { const fd = this.fds.get(p); assert(fd); opened = fd.node; p = fd.file; }
+    p = this.key(p); options = typeof options === 'string' ? { encoding: options } : options; this.event('write:before', p);
+    const previous = opened ?? this.nodes.get(p); if (!opened && String(options.flag ?? 'w').includes('x') && previous) throw errno('EEXIST', p);
+    this.parent(p); if (previous?.directory) throw errno('EISDIR', p); if (previous?.symlink) throw Error('MODEL_SYMLINK_WRITE_DENIED');
+    const value = Buffer.from(bytes); const n = previous ?? this.fresh(value); n.bytes = value; n.version++; if (options.mode !== undefined && !previous) n.mode = 0o100000n | BigInt(options.mode); if (!opened || this.nodes.get(p) === opened) this.nodes.set(p, n); this.event('write:after', p);
+  }
+  appendFileSync(p, b, options = {}) { p = this.key(p); this.writeFileSync(p, Buffer.concat([this.nodes.get(p)?.bytes ?? Buffer.alloc(0), Buffer.from(b)]), options); }
+  readFileSync(p, encoding) {
+    let opened = null; if (typeof p === 'number') { const fd = this.fds.get(p); assert(fd); opened = fd.node; p = fd.file; }
+    p = this.key(p); this.event('read:before', p); const n = opened ?? this.node(p); if (n.symlink) return this.readFileSync(n.symlink, encoding); if (!n.bytes) throw errno('EISDIR', p);
+    const bytes = Buffer.from(n.bytes); this.event('read:after', p); return encoding === 'utf8' || encoding?.encoding === 'utf8' ? bytes.toString('utf8') : bytes;
+  }
+  realpathSync(p) { p = this.key(p); this.event('realpath', p); const n = this.node(p); return n.symlink ? this.realpathSync(n.symlink) : p; }
+  stats(n, options = {}) {
+    const number = x => options.bigint ? BigInt(x) : Number(x);
+    return { isFile: () => Boolean(n.bytes) && !n.symlink && !n.fifo, isFIFO:()=>Boolean(n.fifo), isDirectory: () => Boolean(n.directory), isSymbolicLink: () => Boolean(n.symlink),
+      dev: number(n.dev), ino: number(n.ino), nlink: number(n.nlink), size: number(n.bytes?.length ?? 0), mode: number(n.mode), uid: number(n.uid), gid: number(n.gid),
+      mtimeNs: n.version, ctimeNs: n.version, birthtimeNs: 1n, mtimeMs: Number(n.version) / 1e6, ctimeMs: Number(n.version) / 1e6 };
+  }
+  lstatSync(p, options = {}) { p = this.key(p); this.event('lstat', p); return this.stats(this.node(p), options); }
+  statSync(p, options) { const n = this.node(p); return this.lstatSync(n.symlink ?? p, options); }
+  openSync(p, flags, mode = 0o600) {
+    p = this.key(p); this.event('open:before', p, flags); const exclusive = String(flags).includes('x') || typeof flags === 'number' && Boolean(flags & 128), create = /[wa]/.test(String(flags)) || typeof flags === 'number' && Boolean(flags & 64);
+    if (exclusive && this.nodes.has(p)) throw errno('EEXIST', p); if (!this.nodes.has(p)) { if (!create) throw errno('ENOENT', p); this.writeFileSync(p, Buffer.alloc(0), { flag: 'wx', mode }); }
+    if (this.node(p).symlink && typeof flags === 'number' && (flags & 131072)) throw errno('ELOOP', p);
+    const actual = this.node(p).symlink ? this.realpathSync(p) : p; const fd = ++this.fdSequence; this.fds.set(fd, { file: actual, node: this.node(actual) }); this.event('open:after', p, fd); return fd;
+  }
+  fstatSync(fd, options = {}) { const entry = this.fds.get(fd); assert(entry); this.event('fstat', fd); return this.stats(entry.node, options); }
+  readSync(fd,buffer,offset,length,position=null){const entry=this.fds.get(fd);assert(entry);this.event('readSync',fd);const start=position??entry.cursor??0,count=Math.min(length,Math.max(0,entry.node.bytes.length-start));entry.node.bytes.copy(buffer,offset,start,start+count);if(position===null)entry.cursor=start+count;return count;}
+  closeSync(fd) { assert(this.fds.delete(fd)); this.event('close', fd); }
+  readlinkSync(p) { const n = this.node(p); if (!n.symlink) throw errno('EINVAL', p); return n.symlink; }
+  unlinkSync(p) { p = this.key(p); this.event('unlink:before', p); const n = this.node(p); this.nodes.delete(p); n.nlink--; this.event('unlink:after', p); }
+  renameSync(a, b) { a = this.key(a); b = this.key(b); this.event('rename:before', a, b); this.parent(b); const n = this.node(a), replaced = this.nodes.get(b); if (replaced === n) return; if (replaced) replaced.nlink--; this.nodes.set(b, n); this.nodes.delete(a); this.event('rename:after', a, b); }
+  readdirSync(p, options = {}) {
+    p = this.key(p); this.event('readdir', p); if (!this.node(p).directory) throw errno('ENOTDIR', p);
+    const names = [...new Set([...this.nodes.keys()].filter(k => k.startsWith(p + '/')).map(k => k.slice(p.length + 1).split('/')[0]))].sort();
+    return options.withFileTypes ? names.map(name => ({ name, isFile: () => Boolean(this.node(p + '/' + name).bytes), isDirectory: () => Boolean(this.node(p + '/' + name).directory), isSymbolicLink: () => Boolean(this.node(p + '/' + name).symlink) })) : names;
+  }
+  chmodSync(p, mode) { const n = this.node(p); n.mode = (n.directory ? 0o40000n : 0o100000n) | BigInt(mode); n.version++; }
+  fchmodSync(fd, mode) { const n = this.fds.get(fd).node; n.mode = (n.directory ? 0o40000n : 0o100000n) | BigInt(mode); n.version++; }
+  fsyncSync(fd) { assert(this.fds.has(fd)); this.event('fsync', fd); }
+  copyFileSync(a, b, flags = 0) { this.writeFileSync(b, this.readFileSync(a), { flag: flags & 1 ? 'wx' : 'w' }); }
+  // Fixture construction only. None of these methods are exposed as node:fs.
+  put(p, value) { const bytes = Buffer.isBuffer(value) ? value : Buffer.from(typeof value === 'string' ? value : JSON.stringify(value)); this.writeFileSync(p, bytes); return { file: this.key(p), bytes: bytes.length, rawBytesSha256: sha(bytes) }; }
+  symlink(p, target) { p = this.key(p); this.parent(p); const n = this.fresh(null); n.symlink = this.key(target); this.nodes.set(p, n); }
+  hardlink(p, target) { p = this.key(p); this.parent(p); const n = this.node(target); n.nlink++; this.nodes.set(p, n); }
+  interface() {
+    const allowed = new Set(['mkdirSync','existsSync','writeFileSync','appendFileSync','readFileSync','readSync','realpathSync','lstatSync','statSync','openSync','fstatSync','closeSync','readlinkSync','unlinkSync','renameSync','readdirSync','chmodSync','fchmodSync','fsyncSync','copyFileSync']);
+    const constants = Object.freeze({ O_RDONLY: 0, O_WRONLY: 1, O_RDWR: 2, O_CREAT: 64, O_EXCL: 128, O_TRUNC: 512, O_APPEND: 1024, O_DIRECTORY: 65536, O_NOFOLLOW: 131072, COPYFILE_EXCL: 1 });
+    return new Proxy(Object.create(null), { get: (_, k) => { if (k === 'constants') return constants; if (!allowed.has(k)) throw Error('DENIED_MODEL_FS_MEMBER:' + String(k)); const fn = this[k].bind(this); if (k === 'realpathSync') fn.native = fn; return fn; } });
+  }
+}
+
+// Only a finite explicit module map is linkable. It contains complete candidate
+// texts or explicit model dependencies; the host import loader is never used.
+export async function loadIsolated(entry, sources, { memory = new MemoryFS(), process: modelProcess, builtins = {}, globals = {} } = {}) {
+  assert(modelProcess, 'Explicit fake process required');
+  const context = vm.createContext({ Buffer, URL, TextDecoder, TextEncoder, structuredClone, queueMicrotask, console: { log() {}, error() {} }, process: modelProcess, ...globals }, { codeGeneration: { strings: false, wasm: false } });
+  const modules = new Map();
+  const posixURL = { pathToFileURL: p => new URL('file://' + p), fileURLToPath: u => decodeURIComponent(new URL(u).pathname) };
+  const pureCrypto = { createHash: crypto.createHash, randomUUID: () => MODEL_NONCE };
+  const fsFacade = memory.interface(), fsNames = ['mkdirSync','existsSync','writeFileSync','appendFileSync','readFileSync','realpathSync','lstatSync','statSync','openSync','fstatSync','closeSync','readlinkSync','unlinkSync','renameSync','readdirSync','chmodSync','fchmodSync','fsyncSync','copyFileSync'];
+  const provided = { 'node:fs': { default: fsFacade, ...Object.fromEntries(fsNames.map(k => [k, fsFacade[k]])), constants: fsFacade.constants }, 'node:path': { default: path.posix, ...path.posix, posix: path.posix, win32: path.win32 }, 'node:assert/strict': { default: assert, ...assert }, 'node:crypto': { default: pureCrypto, ...pureCrypto }, 'node:url': posixURL, 'node:util': { types, TextDecoder, TextEncoder }, 'node:util/types': types, 'node:process': { default: modelProcess, ...modelProcess }, ...builtins };
+  function module(id) {
+    if (modules.has(id)) return modules.get(id);
+    if (Object.hasOwn(provided, id)) {
+      const values = provided[id], names = Object.keys(values); const m = new vm.SyntheticModule(names, function () { for (const key of names) this.setExport(key, values[key]); }, { context, identifier: id }); modules.set(id, m); return m;
+    }
+    assert(sources.has(id), 'DENIED_MODEL_IMPORT:' + id); const source = sources.get(id); assert.equal(typeof source, 'string');
+    const m = new vm.SourceTextModule(source, { context, identifier: id, initializeImportMeta(meta) { meta.url = 'file://' + id; }, importModuleDynamically: async (spec, from) => { const child = resolve(spec, from.identifier); await evaluate(child); return child; } }); modules.set(id, m); return m;
+  }
+  function resolve(spec, from) { return module(spec.startsWith('node:') ? spec : spec.startsWith('file:') ? posixURL.fileURLToPath(spec) : spec.startsWith('/') ? spec : path.posix.resolve(path.posix.dirname(from), spec)); }
+  async function evaluate(m) { if (m.status === 'unlinked') await m.link((s, p) => resolve(s, p.identifier)); if (m.status !== 'evaluated') await m.evaluate(); return m; }
+  const main = module(entry); await evaluate(main); return { namespace: main.namespace, modules, context, memory };
+}

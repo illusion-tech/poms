@@ -1,0 +1,9 @@
+param([string]$Candidate,[string]$OwnedFile,[string]$LinkedFile,[string]$ResultFile)
+$ErrorActionPreference='Stop'
+# Inert full import. Only the private read/fstat leaf and strong-reader body
+# are called; every supplied data path is an existing owned fixture.
+. $Candidate
+$result=@{kind='author-runtime118-Windows-owned-file-handle-interop-model';schemaVersion=1;passed=0;failed=0;actualWSL=$false;actualPProcEnvSQLHTTP=$false;actualG2=$false;results=@()}
+try{$f=RawFacts118 $OwnedFile;Assert118 ($f.regular -and -not $f.reparse -and $f.nlink -ceq '1');Assert118 ($f.file -ceq $OwnedFile);Assert118 ($f.dev -is [string] -and $f.ino -is [string]);$bytes=RawRead118 $OwnedFile;$pin=@{file=('/mnt/e/'+$OwnedFile.Substring(3));bytes=$bytes.Length;rawBytesSha256=(SHA118 $bytes)};[void](Strong118 $pin);$result.results+=@{name='actual CSharp handle/finalpath and strong owned-file reader';status='PASS';identity=$f};$result.passed++}catch{$result.results+=@{name='actual CSharp handle/finalpath and strong owned-file reader';status='FAIL';message=$_.Exception.Message};$result.failed++}
+try{$f=RawFacts118 $LinkedFile;Assert118 ($f.nlink -ceq '2');$bytes=RawRead118 $LinkedFile;$pin=@{file=('/mnt/e/'+$LinkedFile.Substring(3));bytes=$bytes.Length;rawBytesSha256=(SHA118 $bytes)};$rejected=$false;try{[void](Strong118 $pin)}catch{$rejected=$true};Assert118 $rejected;$result.results+=@{name='actual owned hardlink rejected by ordinary reader';status='PASS';identity=$f};$result.passed++}catch{$result.results+=@{name='actual owned hardlink rejected by ordinary reader';status='FAIL';message=$_.Exception.Message};$result.failed++}
+$json=($result|ConvertTo-Json -Depth 30)+"`n";$s=[IO.File]::Open($ResultFile,[IO.FileMode]::CreateNew,[IO.FileAccess]::Write);try{$b=[Text.UTF8Encoding]::new($false).GetBytes($json);$s.Write($b,0,$b.Length)}finally{$s.Dispose()};@{file=$ResultFile;passed=$result.passed;failed=$result.failed}|ConvertTo-Json -Compress;if($result.failed){exit 1}

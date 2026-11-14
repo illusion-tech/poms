@@ -1,0 +1,72 @@
+// Bounded author regressions using the existing 362 declared-identity scaffold.
+// Complete candidate modules run in isolated VM contexts. Every candidate I/O
+// is virtual/forbidden; no Root Native/Core/app, P, proc/env, SQL or HTTP runs.
+import fs from 'node:fs';
+import path from 'node:path';
+import vm from 'node:vm';
+import assert from 'node:assert/strict';
+import crypto,{createHash} from 'node:crypto';
+import {isProxy} from 'node:util/types';import{types,TextDecoder}from'node:util';
+import {isDeepStrictEqual} from 'node:util';
+import {fileURLToPath,pathToFileURL} from 'node:url';
+const modelHere="E:\\projects\\worktrees\\poms-r4i-lifecycle\\poms\\tools\\rust-r4ghi\\I\\implementation\\runtime118-reentry-code-independent01/source-candidate01",here="E:\\projects\\worktrees\\poms-r4i-lifecycle\\poms\\tools\\rust-r4ghi\\I\\implementation\\runtime118-reentry-code-independent01/control-candidate02/tests",base=path.dirname(here),proposed=base+'/proposed/tools/rust-r4ghi';
+const names={core:'business/runtime-admission-core121.mjs',native:'business/runtime-admission121.mjs',publisher:'runtime-recovery121/native/publish-runtime121.mjs',nativeData:'runtime-recovery121/Native-plan-data-candidate01/prepare-native-plan121.mjs',taxData:'runtime-recovery121/Tax121-current-metadata-data-candidate01/prepare-tax121-current-metadata.mjs'};
+const code=Object.fromEntries(Object.entries(names).map(([k,p])=>[k,fs.readFileSync(proposed+'/'+p,'utf8')]));
+const sha=b=>createHash('sha256').update(b).digest('hex');
+const coreExports=[...code.core.matchAll(/export\s+(?:function|const)\s+([A-Za-z_][A-Za-z0-9_]*)/g)].map(m=>m[1]);
+const strip=s=>s.replace(/^import[\s\S]*?from ['"][^'"]+['"];\r?\n/gm,'').replace(/^export /gm,'').replaceAll('import.meta.url',JSON.stringify('/SYNTHETIC-118-CANDIDATE-NOT-CLI'));
+const scaffold=fs.readFileSync(here+'/scaffold362.mjs.txt','utf8')+'\n'+fs.readFileSync(here+'/scaffold118.mjs.txt','utf8');
+const serialized=fs.readFileSync(here+'/public-basis362.json','utf8'),jointSerialized=fs.readFileSync(here+'/joint-G1.json','utf8'),graphSerialized=fs.readFileSync(here+'/execution284-before.json','utf8');
+assert.equal(sha(jointSerialized),'68212af41282071678d3e062dd689fbffbf2b74443de0c5872bb2511e4d0c5a2');
+assert.equal(sha(graphSerialized),'b8fd572ffa1e32ff581631410bcacc48e4350c51d4308e96d216cc985b89a25f');
+const reentrySerialized=fs.readFileSync(here+'/reentry-G1.json','utf8');assert.equal(sha(reentrySerialized),'80ea3db59386f935b733e5e29b7b8a4db860c408ccb84f9204b9b5adebac00a1');const correctiveSerialized=fs.readFileSync(here+'/corrective-G3.json','utf8');assert.equal(sha(correctiveSerialized),'56b922e657b4db4b8429aff638fe0f80a8dfa808cf53cb42a4211ccb59aed806');
+const results=[],contexts={};
+function check(who,label,js){try{vm.runInContext(js,contexts[who],{timeout:30000});results.push({module:who,test:label,status:'PASS'});}catch(e){results.push({module:who,test:label,status:'FAIL',error:{name:e.name,message:e.message}});throw e;}}
+async function checkAsync(who,label,js){try{await vm.runInContext(js,contexts[who],{timeout:30000});results.push({module:who,test:label,status:'PASS'});}catch(e){results.push({module:who,test:label,status:'FAIL',error:{name:e.name,message:e.message}});throw e;}}
+function context(name){
+ const forbidden=new Proxy({}, {get:(_t,k)=>()=>{throw Error('CANDIDATE-ACTUAL-IO-FORBIDDEN:'+String(k));}});
+ const c=vm.createContext({assert,crypto,createHash,isProxy,isDeepStrictEqual,Buffer,path:path.posix,fs:forbidden,serialized,jointSerialized,graphSerialized,reentrySerialized,correctiveSerialized,process:{platform:'linux',version:'v24.19.0',argv:[],execArgv:[],env:{},getuid:()=>1000,cwd:()=>'/SYNTHETIC',pid:118,hrtime:{bigint:()=>1000000000000n}},fileURLToPath:x=>x,pathToFileURL:x=>({href:x}),console:{log(){},error(){}}});
+ vm.runInContext('globalThis.structuredClone=v=>JSON.parse(JSON.stringify(v));',c);
+ vm.runInContext('globalThis.__core=(()=>{'+strip(code.core)+';return{'+coreExports.join(',')+'};})();',c);
+ for(const n of coreExports)c[n]=c.__core[n];
+ if(name!=='core'){
+  for(const m of code[name].matchAll(/^import\s*\{([\s\S]*?)\}\s*from\s*['"]([^'"]+)['"];?/gm))for(const item of m[1].split(',')){const n=item.trim().split(/\s+as\s+/).at(-1);if(n&&!Object.hasOwn(c,n))c[n]=()=>{throw Error('UNDECLARED-RELATIVE-DEPENDENCY:'+n);};}
+  new vm.Script(strip(code[name]),{filename:'complete-'+name+'-candidate',importModuleDynamically:()=>{throw Error('ACTUAL-MODULE-IMPORT-FORBIDDEN');}}).runInContext(c);
+ }else{
+  // Reuse the complete pure Core module lexical bindings for its model tests.
+  new vm.Script(strip(code.core),{filename:'complete-core-candidate'}).runInContext(c);
+  // The old source scaffold needs the fixed B118 object in the other modules.
+  vm.runInContext('const B118={...BUDGET118,root:C121.root,private:C121.private,carrierSHA:BUDGET118.carrier.rawBytesSha256};const R118={G1:{file:C121.root+`/tools/rust-r4ghi/budget-probe118-g1-v3/Root-G1-budget-probe118-v3.json`,bytes:32283,rawBytesSha256:`80ea3db59386f935b733e5e29b7b8a4db860c408ccb84f9204b9b5adebac00a1`},corrective:{file:C121.root+`/tools/rust-r4ghi/runtime118-graph-RO-corrective01/Root-G3-corrective-runtime118-01.json`,bytes:7322,rawBytesSha256:`56b922e657b4db4b8429aff638fe0f80a8dfa808cf53cb42a4211ccb59aed806`},edition:`budget-probe118-reentry-v1`};',c);
+ }
+ new vm.Script(scaffold,{filename:'declared-synthetic-scaffold-362-and-118'}).runInContext(c);
+ new vm.Script(fs.readFileSync(here+'/reentry-server118.mjs.txt','utf8')+fs.readFileSync(here+'/reentry-scaffold118.mjs.txt','utf8'),{filename:'new5-hashed-synthetic-receipts'}).runInContext(c);
+ return c;
+}
+const rootRepo='E:/projects/worktrees/poms-r3hijk-next28/poms',sourcePath=path.resolve(modelHere,'candidate.mjs'),sourceRaw=fs.readFileSync(sourcePath),sourceText=sourceRaw.toString(),R='/mnt/e/projects/worktrees/poms-r3hijk-next28/poms',P='/home/wangzishi/.local/share/poms-r4ghi/private',D=P+'/business/g2-business15/main01',SELF=R+'/tools/rust-r4ghi/runtime-recovery121/budget118/promote-budget118-source-once.mjs',RUNTIME=R+'/tools/rust-r4ghi/runtime-recovery121/budget118/reenter-budget118-runtime.mjs',LAUNCHER=R+'/tools/rust-r4ghi/runtime-recovery121/budget118/start-budget118-holder.ps1',LOCK=P+'/runtime118-reentry-operation.lock';
+const sourceSeedCtx=context('native');const seeded=JSON.parse(vm.runInContext(`const sx=fixtureReentry118();JSON.stringify({entries:[...sx.entries.values()].map(e=>({pin:e.pin,body:e.body.toString('base64')})),p3:sx.p3,W3:sx.W3,W3pin:sx.W3pin,W2:sx.W2,W2pin:sx.S2.sourceWitness,state:sx.state,k:sx.k,carrier:sx.carrier,carrierPin:sx.origin.continuationReadback,g1:sx.newG1,oldGraph:sx.oldGraph,helper:sx.oldGraph.filter(p=>p.file.startsWith(B118.root+'/tools/rust-r4ghi/business/')).map(p=>({file:p.file.slice(B118.root.length+1),sha256:p.rawBytesSha256})),external:sx.oldGraph.filter(p=>!p.file.startsWith(B118.root+'/tools/rust-r4ghi/business/')).map(p=>({file:p.file.slice(B118.root.length+1),sha256:p.rawBytesSha256}))})`,sourceSeedCtx));
+const g1=seeded.g1,GPIN={file:R+'/tools/rust-r4ghi/budget-probe118-g1-v3/Root-G1-budget-probe118-v3.json',bytes:32283,rawBytesSha256:'80ea3db59386f935b733e5e29b7b8a4db860c408ccb84f9204b9b5adebac00a1'},CI={file:R+'/tools/rust-r4ghi/runtime118-graph-RO-corrective01/Root-G3-corrective-runtime118-01.json',bytes:7322,rawBytesSha256:'56b922e657b4db4b8429aff638fe0f80a8dfa808cf53cb42a4211ccb59aed806'};
+const baseFiles=new Map(),declared=new Map(),rawCache=new WeakMap();
+function realSHA(b){if(rawCache.has(b))return rawCache.get(b);const h=sha(b);rawCache.set(b,h);return h;}
+function historical(pin,b){b=Buffer.from(b);if(realSHA(b)!==pin.rawBytesSha256){let isJSON=true;try{JSON.parse(b.toString());}catch{isJSON=false;}if(!isJSON){const raw=Buffer.alloc(pin.bytes,32);b.copy(raw,0,0,Math.min(b.length,raw.length));Buffer.from(pin.rawBytesSha256).copy(raw,0,0,Math.min(64,raw.length));declared.set(realSHA(raw),pin.rawBytesSha256);baseFiles.set(pin.file,raw);return;}}const unique=Buffer.from('\n'+[...pin.rawBytesSha256].flatMap(c=>parseInt(c,16).toString(2).padStart(4,'0').split('').map(x=>x==='1'?'\t':' ')).join('')+'\n');if(realSHA(b)!==pin.rawBytesSha256){const minimum=b.length+unique.length;assert(minimum<=pin.bytes,'Declared historical JSON does not fit: '+pin.file+' '+minimum+' > '+pin.bytes);b=Buffer.concat([b,unique,Buffer.alloc(pin.bytes-minimum,32)]);declared.set(realSHA(b),pin.rawBytesSha256);}assert.equal(b.length,pin.bytes);baseFiles.set(pin.file,b);}
+function registerHistorical(p,value){const b=Buffer.isBuffer(value)?value:Buffer.from(JSON.stringify(value,null,2)+'\n');historical(p,b);}
+// Actual public current source bytes; only immutable private historical bodies
+// retain the existing declared-hash model. No actual private file is read.
+for(const q of seeded.entries){const b=Buffer.from(q.body,'base64'),pin=q.pin;if(pin.bytes===undefined)pin.bytes=b.length;try{registerHistorical(pin,b);}catch(e){if(e.message.startsWith('Declared historical JSON does not fit:')){const n={...pin,bytes:b.length+258};registerHistorical(n,b);}else throw e;}}
+for(const q of g1.existingSources){const f=rootRepo+'/'+q.target,b=fs.readFileSync(f);assert.equal(realSHA(b),q.deliveryBefore.rawBytesSha256);assert.equal(b.length,q.deliveryBefore.bytes);baseFiles.set(q.deliveryBefore.file,b);baseFiles.set(q.retainedDeliveryBefore.file,b);const old=fs.readFileSync('E:'+q.retainedImplementationBefore04.file.slice(6));assert.equal(realSHA(old),q.implementationBefore04.rawBytesSha256);baseFiles.set(q.retainedImplementationBefore04.file,old);}
+for(const q of seeded.oldGraph){const b=fs.readFileSync(rootRepo+'/'+q.file.slice(R.length+1));assert.equal(realSHA(b),q.rawBytesSha256);baseFiles.set(q.file,b);}
+// The fixture's M06 provenance uses all original component shapes but a
+// different synthetic grouping order; normalize that declared metadata only.
+const getBase=p=>JSON.parse(baseFiles.get(p.file).toString()),p3pin={file:P+'/runtime121-native-plan-data/2ba18403-1739-4274-8c3e-5e444f2aa6cf/native-plan121.json',bytes:78405,rawBytesSha256:'f3e56838c28e7006311b6f292b882d8785cb49fd764d4370e60cfa36d9995fef'},m06pin=seeded.W2.baselineCompositionComplete,m06=getBase(m06pin);m06.components.sort((a,b)=>[9,24,8].indexOf(a.count)-[9,24,8].indexOf(b.count));assert.deepEqual(m06.components.map(x=>x.count),[9,24,8]);const safetyBody=Buffer.from('{"modelOnly":true}\n'),safety={file:P+'/MODEL-SOURCE/source-safety.json',bytes:safetyBody.length,rawBytesSha256:realSHA(safetyBody)};baseFiles.set(safety.file,safetyBody);m06.sourceSafetyComplete=safety;registerHistorical(m06pin,m06);
+const resolvedHistory=JSON.parse(fs.readFileSync(modelHere+'/source-real-history-resolved02.json'));for(const q of resolvedHistory){const b=Buffer.from(q.body,'base64');assert.equal(sha(b),q.pin.rawBytesSha256);assert.equal(b.length,q.pin.bytes);baseFiles.set(q.file,b);}
+const oldG1=getBase(g1.previousJointG1);registerHistorical(oldG1.actualPrepareCarrier,seeded.carrier);const oldLease=JSON.parse(JSON.stringify(seeded.state));for(const key of['registry','candidate']){const pin=oldLease.runtimeAdmission121[key];delete pin.bytes;}registerHistorical({file:P+'/runtime121-prepare362-completed01/6458f733-0fe1-4b5e-b2ff-076908543af3/state-after.json',bytes:15045544,rawBytesSha256:'6c1fabbacebc43fea8636c8fd91afac81dd66e8b6200ca5a769c08ae41401b3b'},oldLease);
+// Use actual public P3 Pin2 projection shapes; the private plan remains the
+// declared provenance scaffold and is never labelled an actual private raw.
+for(const [name,file,hash]of[['registry','registry.json','a8bcbc8db0125d3d7b5d0a1e3a941747f66fecc00d7f8dcaaa8752e7164c5a03'],['candidate','candidate.json','2094bdded77e23efb985c90294c259f5458407fe9f79b12d7a9d828c82fd07f8'],['complete','complete.json','5759e7524d1fd59dee9b019d0cc67e6c573dc45e5c0b9f3e73dcab4436ee7ffd']]){const b=fs.readFileSync(rootRepo+'/tools/rust-r4ghi/runtime-recovery121/Native362-publication-actual01/'+file);assert.equal(realSHA(b),hash);baseFiles.set(D+'/runtime121-2ba18403-1739-4274-8c3e-5e444f2aa6cf/'+file,b);}
+registerHistorical(seeded.k.closedJournal,{phase:'closed-verified',mode:'prepare-only',result:seeded.k.prepared15});
+const nodeFile=g1.currentFactBoundary.linuxNodeFrozenExpectation.file,nodeBuf=Buffer.from('MODEL FROZEN LINUX NODE; NOT EXECUTED');declared.set(realSHA(nodeBuf),g1.currentFactBoundary.linuxNodeFrozenExpectation.rawBytesSha256);baseFiles.set(nodeFile,nodeBuf);
+const winNodeRaw=fs.readFileSync('C:/Users/ynh2/AppData/Roaming/fnm/node-versions/v24.19.0/installation/node.exe');assert.equal(sha(winNodeRaw),'3602f2bb1a10f2cbab4c36886218a33c1ab3db87290e73b033c46c77147d0237');baseFiles.set('/mnt/c/Users/ynh2/AppData/Roaming/fnm/node-versions/v24.19.0/installation/node.exe',winNodeRaw);baseFiles.set(SELF,sourceRaw);baseFiles.set(RUNTIME,Buffer.from('MODEL DECLARED RUNTIME PURE GUARD DEPENDENCY'));baseFiles.set(LAUNCHER,Buffer.from('MODEL DECLARED WINDOWS LAUNCHER DEPENDENCY'));
+for(const file of [...baseFiles.keys()])if(file.startsWith(P+'/runtime118-budget-predecessor-source/'))baseFiles.delete(file);
+const candidates=g1.existingSources.map((e,i)=>{let b;if(e.treatmentFrom04==='CARRY-exact-qualified04')b=baseFiles.get(e.retainedImplementationBefore04.file);else if(e.owner==='/root/budget118_control')b=fs.readFileSync(path.resolve("E:\\projects\\worktrees\\poms-r4i-lifecycle\\poms\\tools\\rust-r4ghi\\I\\implementation\\runtime118-reentry-code-independent01/joint-candidate01/proposed",e.target));else b=Buffer.from('MODEL MODIFIED RETAINED TAX PROOF\n');return{file:e.target,operation:'MOD',before:e.deliveryBefore,beforeSHA256:e.deliveryBefore.rawBytesSha256,afterSHA256:realSHA(b),candidate:{file:P+'/MODEL-SOURCE/candidate-'+i+'.bin',bytes:b.length,rawBytesSha256:realSHA(b)},raw:b};});for(const e of candidates)baseFiles.set(e.candidate.file,e.raw);
+const sourcePin={file:sourcePath,bytes:sourceRaw.length,rawBytesSha256:realSHA(sourceRaw)},sourceResults=[];
+function cryptoModel(){return{createHash:algorithm=>{assert.equal(algorithm,'sha256');const chunks=[];return{update(value){chunks.push(Buffer.isBuffer(value)?value:Buffer.from(value));return this;},digest(format){assert.equal(format,'hex');const b=chunks.length===1?chunks[0]:Buffer.concat(chunks),h=realSHA(b);return declared.get(h)??h;}};}};}
+export {baseFiles,declared,realSHA,historical,registerHistorical,seeded,g1,GPIN,CI,R,P,D,SELF,RUNTIME,LAUNCHER,candidates,sourceRaw,sourceText};

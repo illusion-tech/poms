@@ -1,0 +1,27 @@
+ await checkCase('rename attempted then throws before effect preserves UNKNOWN latch', '', 'rename-before',out=>{assert(out.error);assert.equal(out.state.sourceAfterCount,0);assert.equal(out.state.renames.length,1);assert.equal(out.state.partial.completedSteps.length,0);assert.equal(out.state.partial.inFlight.rename.attempted,true);assert.equal(out.state.partial.inFlight.rename.confirmed,false);assert.equal(out.state.partial.inFlight.rename.outcome,'UNKNOWN');assert(out.state.lockExists&&out.state.canonicalEqual&&out.state.ownershipEqual);});
+ await checkCase('rename effect occurs then throws retains changed target and UNKNOWN', '', 'rename-after',out=>{assert(out.error);assert.equal(out.state.sourceAfterCount,1);assert.equal(out.state.partial.completedSteps.length,0);assert.equal(out.state.partial.inFlight.rename.outcome,'UNKNOWN');assert.equal(out.state.partial.inFlight.after,null);assert(out.state.lockExists&&out.state.canonicalEqual&&out.state.ownershipEqual);});
+ await checkCase('step wx fails after confirmed rename preserves actual after pin', '', 'step-write',out=>{assert(out.error);assert.equal(out.state.sourceAfterCount,1);assert.equal(out.state.partial.completedSteps.length,0);assert.equal(out.state.partial.inFlight.rename.confirmed,true);assert.equal(out.state.partial.inFlight.rename.outcome,'CONFIRMED_AFTER_RAW_READBACK');assert(out.state.partial.inFlight.after);assert(out.state.lockExists);});
+ await checkCase('SC wx fails after all11 preserves completed steps and no fake complete', '', 'SC-write',out=>{assert(out.error);assert.equal(out.state.sourceAfterCount,11);assert.equal(out.state.partial.completedSteps.length,11);assert.equal(out.state.partial.inFlight,null);assert.equal(out.state.partial.phase,'complete');assert.equal(out.state.complete,null);assert(out.state.lockExists&&out.state.canonicalEqual&&out.state.ownershipEqual);});
+ const negatives=[
+ ['foreign operation lock',`put('${LOCK}',{foreign:true});`],
+ ['foreign shared driver lock',`put('${D}/driver.lock',{foreign:true});`],
+ ['existing future retained9 prefix',`dirs.add('${P}/runtime118-budget-predecessor-source');`],
+ ['before raw drift',`const e=seed.candidates[0];files.get(e.before.file).raw=Buffer.from('WRONG BEFORE');`],
+ ['candidate raw drift',`files.get(seed.candidates[0].candidate.file).raw=Buffer.from('WRONG CANDIDATE');`],
+ ['late unchanged275 raw drift',`const q=seed.oldGraph.find(q=>!seed.candidates.some(e=>e.before.file===q.file));files.get(q.file).raw=Buffer.from('WRONG SAME MEMBER');`],
+ ['missing original private graph',`files.delete('${P}/runtime121-corrective362-source/a6e8e1ed-787a-4ab2-9595-eec42b617bfd/actual-execution-sources284.json');`],
+ ['missing public graph mirror',`files.delete(seed.g1.sourceBoundary.graph.file);`],
+ ['public mirror changed bytes',`files.get(seed.g1.sourceBoundary.graph.file).raw=Buffer.from('MIRROR WRONG');`],
+ ['input source G1 changed',`replaceInput(p=>{p.G1=seed.CI;});`],
+ ['Root approval lacks source grant',`replaceRoot(p=>{p.grants.sourcePromotionGranted=false;});`],
+ ['peer wrongly allows author as reviewer',`replacePeer(p=>{p.reviewer='Root';});`],
+ ['manifest lacks data2',`replaceManifest(m=>{m.dataProduction.pop();});`],
+ ['manifest contains graph tenth leaf',`replaceManifest(m=>{m.production.push(m.production[0]);});`],
+ ['manifest violates carry exact04',`replaceManifest(m=>{const e=m.production.find(e=>seed.g1.existingSources.find(q=>q.target===e.file).treatmentFrom04==='CARRY-exact-qualified04');e.candidate=put('${P}/MODEL-SOURCE/bad-carry.bin',Buffer.from('BAD CARRY'));e.afterSHA256=e.candidate.rawBytesSha256;});`],
+ ['manifest substitutes implementation04 for R delivery before',`replaceManifest(m=>{const e=m.production[0],g=seed.g1.existingSources.find(q=>q.target===e.file);e.before=g.implementationBefore04;e.beforeSHA256=e.before.rawBytesSha256;});`],
+ ['finite data pointer points graph group',`replaceFinite('dataProduction',p=>{p.entries[0].productPointer='/production/0';});`],
+ ['SQ closure includes changed target',`replaceQualification(q=>{q.executionSources.push(seed.candidates[0].before);});`],
+ ['Root approval refers another peer input',`replaceRoot(p=>{p.input=seed.CI;});`],
+ ];
+ for(const[label,mutation]of negatives)await checkCase('reject '+label,mutation,'',out=>{assert(out.error);assert.equal(out.state.writes,0);assert.equal(out.state.renames.length,0);assert.equal(out.state.sourceAfterCount,0);assert(out.state.canonicalEqual&&out.state.ownershipEqual);});
+ const report={kind:'author-source-complete-module-own-IO-models',candidate:sourcePin,engine:{execPath:process.execPath,version:process.version},passed:sourceResults.length,failed:0,results:sourceResults,classification:'Complete candidate source main/host/history/11-step/graph/retention/wx/rename/partial bodies; entirely virtual effects',limits:{actualPublicHistoricalRaw393Read:true,actualRBefore284Read:true,immutablePrivateBirthAndNodeHashesAreDeclaredSynthetic:true,runtimePureHelperAuthorityBoundaryIsDeclared:true,modelsDoNotCertifyActualRuntimeHelperOrPrivateBirth:true,actualPProcEnvSQLHTTP:false,actualSourcePromotion:false,actualG2Granted:false}};const output=modelHere+'/source-model-results01-'+Date.now()+'.json';fs.writeFileSync(output,JSON.stringify(report,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({output,passed:sourceResults.length,failed:0,rawBytesSha256:sha(fs.readFileSync(output))}));

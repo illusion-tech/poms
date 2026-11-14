@@ -1,0 +1,98 @@
+{
+  "kind": "author-runtime118-real-Windows-sh-FD3-full-module-model",
+  "schemaVersion": 1,
+  "engine": {
+    "execPath": "C:\\Users\\ynh2\\AppData\\Roaming\\fnm\\node-versions\\v24.19.0\\installation\\node.exe",
+    "version": "v24.19.0",
+    "shell": {
+      "file": "C:/Program Files/Git/usr/bin/sh.exe",
+      "bytes": 2456832,
+      "rawBytesSha256": "acf4ecb52e601f7b4a37db51b07650b5d0315eafd010590e98079fa026da4b7b"
+    }
+  },
+  "candidates": [
+    {
+      "file": "E:\\projects\\worktrees\\poms-r4i-lifecycle\\poms\\tools\\rust-r4ghi\\I\\implementation\\runtime118-reentry-tool-impl01/proposed/tools/rust-r4ghi/runtime-recovery121/budget118/reenter-budget118-runtime.mjs",
+      "bytes": 125482,
+      "rawBytesSha256": "787035a391e79d31c0624746cee21d20ad18ebf6678ad713cf0519e02b37b213"
+    },
+    {
+      "file": "E:\\projects\\worktrees\\poms-r4i-lifecycle\\poms\\tools\\rust-r4ghi\\I\\implementation\\runtime118-reentry-tool-impl01/proposed/tools/rust-r4ghi/runtime-recovery121/budget118/start-budget118-holder.ps1",
+      "bytes": 25217,
+      "rawBytesSha256": "9a9fd33f8606fe28489f0673ef5ff57a6fc293ce13477b2b84030a73b4fee88a"
+    }
+  ],
+  "results": [
+    {
+      "name": "real sh normal",
+      "status": "PASS"
+    },
+    {
+      "name": "real sh hash-drift",
+      "status": "PASS"
+    },
+    {
+      "name": "real sh uid-drift",
+      "status": "PASS"
+    },
+    {
+      "name": "real sh fd-lost",
+      "status": "PASS"
+    },
+    {
+      "name": "actual shell FD3 bytes consumed by complete MJS fixed validator",
+      "status": "PASS"
+    },
+    {
+      "name": "FD3 truncated rejects",
+      "status": "PASS"
+    },
+    {
+      "name": "FD3 wrong-entry rejects",
+      "status": "PASS"
+    },
+    {
+      "name": "FD3 missing-closure rejects",
+      "status": "PASS"
+    }
+  ],
+  "transcripts": [
+    {
+      "mode": "normal",
+      "status": 0,
+      "stdout": "kind=runtime118-system-bootstrap\nuid=1000\nnode=/home/wangzishi/.local/share/fnm/node-versions/v24.19.0/installation/bin/node\nnodeSHA256=bc17c508ffeed0ec622934f9b7fa72f8e78da65350e63c3eceb56fa688aa5e12\nversion=v24.19.0\nentry=/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/budget118/reenter-budget118-runtime.mjs\nnode.dev=1 node.ino=9007199254741027 node.nlink=1 node.mode=755 node.bytes=125989464\ninput=/MODEL-ONLY/input.json\ninputSHA256=c585155755d71a0c0e362cac596c1ef40b4ddc8ec02d45393322321eec269667\nrootReview=/MODEL-ONLY/Root.json\nrootSHA256=c585155755d71a0c0e362cac596c1ef40b4ddc8ec02d45393322321eec269667\npeerReview=/MODEL-ONLY/peer.json\npeerSHA256=c585155755d71a0c0e362cac596c1ef40b4ddc8ec02d45393322321eec269667\noutput=/home/wangzishi/.local/share/poms-r4ghi/private/runtime118-reentry/holder-start/aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa\n",
+      "stderr": "MODEL_HASH:/home/wangzishi/.local/share/fnm/node-versions/v24.19.0/installation/bin/node\nMODEL_HASH:/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/budget118/reenter-budget118-runtime.mjs\nMODEL_HASH:/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/budget118/start-budget118-holder.ps1\nMODEL_HASH:/MODEL-ONLY/input.json\nMODEL_HASH:/MODEL-ONLY/Root.json\nMODEL_HASH:/MODEL-ONLY/peer.json\nMODEL_VERSION\nMODEL_FINAL_EXEC\n"
+    },
+    {
+      "mode": "hash-drift",
+      "status": 1,
+      "stdout": "",
+      "stderr": "MODEL_HASH:/home/wangzishi/.local/share/fnm/node-versions/v24.19.0/installation/bin/node\nMODEL_HASH:/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/budget118/reenter-budget118-runtime.mjs\n"
+    },
+    {
+      "mode": "uid-drift",
+      "status": 1,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "mode": "fd-lost",
+      "status": 0,
+      "stdout": "",
+      "stderr": "MODEL_HASH:/home/wangzishi/.local/share/fnm/node-versions/v24.19.0/installation/bin/node\nMODEL_HASH:/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/budget118/reenter-budget118-runtime.mjs\nMODEL_HASH:/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/budget118/start-budget118-holder.ps1\nMODEL_HASH:/MODEL-ONLY/input.json\nMODEL_HASH:/MODEL-ONLY/Root.json\nMODEL_HASH:/MODEL-ONLY/peer.json\nMODEL_VERSION\nMODEL_FINAL_EXEC\n/usr/bin/sh: line 24: 3: Bad file descriptor\n"
+    }
+  ],
+  "passed": 8,
+  "failed": 0,
+  "limits": {
+    "shellIsWindowsGitNotLinux": true,
+    "completeFixedLiteral": true,
+    "allPhysicalTransportsIntercepted": true,
+    "noPWriteBeforeExec": true,
+    "NodeFrozenIdentityIsDeclaredSyntheticFixture": true,
+    "actualPProcEnvSQLHTTP": false,
+    "WSLStarted": false,
+    "LinuxNodeExecuted": false,
+    "actualG2": false
+  }
+}

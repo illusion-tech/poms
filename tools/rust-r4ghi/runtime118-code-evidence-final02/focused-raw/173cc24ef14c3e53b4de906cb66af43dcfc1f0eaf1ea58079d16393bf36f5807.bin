@@ -1,0 +1,181 @@
+{
+  "kind": "non-author-new5-C10-origin-Full3-fixed-complete-module-regression",
+  "engine": {
+    "execPath": "C:\\Users\\ynh2\\AppData\\Roaming\\fnm\\node-versions\\v24.19.0\\installation\\node.exe",
+    "version": "v24.19.0"
+  },
+  "candidatePins": [
+    {
+      "name": "core",
+      "file": "tools/rust-r4ghi/business/runtime-admission-core121.mjs",
+      "bytes": 63151,
+      "rawBytesSha256": "b652e4a22d836091d01dbfd03a26454c4d57e0deaddde372512a04eb0b6a8a5e"
+    },
+    {
+      "name": "native",
+      "file": "tools/rust-r4ghi/business/runtime-admission121.mjs",
+      "bytes": 265690,
+      "rawBytesSha256": "5a7b7cf8d0888b8905b1c5938ddfbfa57ae8c0c7d51952ce24136a98c5d4f040"
+    },
+    {
+      "name": "publisher",
+      "file": "tools/rust-r4ghi/runtime-recovery121/native/publish-runtime121.mjs",
+      "bytes": 138338,
+      "rawBytesSha256": "c6dce4bcb6af9841000430de7a30b69d67a02a87a79f76a1bef407dcba16664e"
+    },
+    {
+      "name": "nativeData",
+      "file": "tools/rust-r4ghi/runtime-recovery121/Native-plan-data-candidate01/prepare-native-plan121.mjs",
+      "bytes": 176012,
+      "rawBytesSha256": "c00ea7d3ce7e7b630b71e1272b0da1775425b3e0211c38499ee24811df3d973b"
+    },
+    {
+      "name": "taxData",
+      "file": "tools/rust-r4ghi/runtime-recovery121/Tax121-current-metadata-data-candidate01/prepare-tax121-current-metadata.mjs",
+      "bytes": 185654,
+      "rawBytesSha256": "943bdbf07f1357b6b77ad953e6f6b118887d58cf6e0740b6c2df22e7dab98442"
+    }
+  ],
+  "findings": [
+    {
+      "module": "native",
+      "baseline": "PASS",
+      "accepted": false,
+      "error": {
+        "name": "AssertionError",
+        "message": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n-   'bytes',\n    'file',\n    'rawBytesSha256'\n  ]\n"
+      },
+      "removedField": "C10.prepareOrigin121.bytes",
+      "newC": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime118-model/C10-Full3-negative.json",
+        "bytes": 2996,
+        "rawBytesSha256": "00c354bf3e76b2ced484427928e643e28c5a41861d4d98b8954f43d1a29cc33c"
+      },
+      "newR": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime118-model/R8-recomputed-Full3-negative.json",
+        "bytes": 946,
+        "rawBytesSha256": "ec96fc8a403becd093402c638fda9d986b2473af4876a6190fdbba5835d92cb4"
+      },
+      "newB": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime118-model/B5-recomputed-Full3-negative.json",
+        "bytes": 842,
+        "rawBytesSha256": "d2dd65c576d723fa17931fc5d507aa2ef82ae8b8e5f94dc812698cc9d45752f8"
+      },
+      "newS4": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime118-model/S4-recomputed-Full3-negative.json",
+        "bytes": 2791,
+        "rawBytesSha256": "362ec989c0d7f7bae4e433e13b8bd1afb612dea55a40af9bca5fd477b5dc098a"
+      },
+      "allChangedPinsReallyRehashed": true,
+      "originalOriginStillFull3": true,
+      "actualRuntime": false
+    },
+    {
+      "module": "publisher",
+      "baseline": "PASS",
+      "accepted": false,
+      "error": {
+        "name": "AssertionError",
+        "message": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n-   'bytes',\n    'file',\n    'rawBytesSha256'\n  ]\n"
+      },
+      "removedField": "C10.prepareOrigin121.bytes",
+      "newC": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime118-model/C10-Full3-negative.json",
+        "bytes": 2996,
+        "rawBytesSha256": "00c354bf3e76b2ced484427928e643e28c5a41861d4d98b8954f43d1a29cc33c"
+      },
+      "newR": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime118-model/R8-recomputed-Full3-negative.json",
+        "bytes": 946,
+        "rawBytesSha256": "ec96fc8a403becd093402c638fda9d986b2473af4876a6190fdbba5835d92cb4"
+      },
+      "newB": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime118-model/B5-recomputed-Full3-negative.json",
+        "bytes": 842,
+        "rawBytesSha256": "d2dd65c576d723fa17931fc5d507aa2ef82ae8b8e5f94dc812698cc9d45752f8"
+      },
+      "newS4": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime118-model/S4-recomputed-Full3-negative.json",
+        "bytes": 2791,
+        "rawBytesSha256": "362ec989c0d7f7bae4e433e13b8bd1afb612dea55a40af9bca5fd477b5dc098a"
+      },
+      "allChangedPinsReallyRehashed": true,
+      "originalOriginStillFull3": true,
+      "actualRuntime": false
+    },
+    {
+      "module": "nativeData",
+      "baseline": "PASS",
+      "accepted": false,
+      "error": {
+        "name": "AssertionError",
+        "message": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n-   'bytes',\n    'file',\n    'rawBytesSha256'\n  ]\n"
+      },
+      "removedField": "C10.prepareOrigin121.bytes",
+      "newC": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime118-model/C10-Full3-negative.json",
+        "bytes": 2996,
+        "rawBytesSha256": "00c354bf3e76b2ced484427928e643e28c5a41861d4d98b8954f43d1a29cc33c"
+      },
+      "newR": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime118-model/R8-recomputed-Full3-negative.json",
+        "bytes": 946,
+        "rawBytesSha256": "ec96fc8a403becd093402c638fda9d986b2473af4876a6190fdbba5835d92cb4"
+      },
+      "newB": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime118-model/B5-recomputed-Full3-negative.json",
+        "bytes": 842,
+        "rawBytesSha256": "d2dd65c576d723fa17931fc5d507aa2ef82ae8b8e5f94dc812698cc9d45752f8"
+      },
+      "newS4": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime118-model/S4-recomputed-Full3-negative.json",
+        "bytes": 2791,
+        "rawBytesSha256": "362ec989c0d7f7bae4e433e13b8bd1afb612dea55a40af9bca5fd477b5dc098a"
+      },
+      "allChangedPinsReallyRehashed": true,
+      "originalOriginStillFull3": true,
+      "actualRuntime": false
+    },
+    {
+      "module": "taxData",
+      "baseline": "PASS",
+      "accepted": false,
+      "error": {
+        "name": "AssertionError",
+        "message": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n-   'bytes',\n    'file',\n    'rawBytesSha256'\n  ]\n"
+      },
+      "removedField": "C10.prepareOrigin121.bytes",
+      "newC": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime118-model/C10-Full3-negative.json",
+        "bytes": 2996,
+        "rawBytesSha256": "00c354bf3e76b2ced484427928e643e28c5a41861d4d98b8954f43d1a29cc33c"
+      },
+      "newR": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime118-model/R8-recomputed-Full3-negative.json",
+        "bytes": 946,
+        "rawBytesSha256": "ec96fc8a403becd093402c638fda9d986b2473af4876a6190fdbba5835d92cb4"
+      },
+      "newB": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime118-model/B5-recomputed-Full3-negative.json",
+        "bytes": 842,
+        "rawBytesSha256": "d2dd65c576d723fa17931fc5d507aa2ef82ae8b8e5f94dc812698cc9d45752f8"
+      },
+      "newS4": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime118-model/S4-recomputed-Full3-negative.json",
+        "bytes": 2791,
+        "rawBytesSha256": "362ec989c0d7f7bae4e433e13b8bd1afb612dea55a40af9bca5fd477b5dc098a"
+      },
+      "allChangedPinsReallyRehashed": true,
+      "originalOriginStillFull3": true,
+      "actualRuntime": false
+    }
+  ],
+  "summary": {
+    "baselinePassed": 4,
+    "malformedFull3Accepted": 0,
+    "productionCandidatesChanged": false,
+    "actualPProcEnvSQLHTTP": false,
+    "actualG2Granted": false
+  },
+  "limits": "Own-IO complete modules; inherited immutable private hashes and phase authority are explicit synthetic dependencies. All new C/R/B/S4 bytes and hashes are actual model-generated values."
+}

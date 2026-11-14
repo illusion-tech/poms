@@ -1,0 +1,75 @@
+// Real Windows Git sh parses/executes the complete fixed POSIX bootstrap.
+// Every physical TCB/file/Node transport is intercepted before evaluation;
+// the real heredoc/FD3/quoting/set-e/exec ordering remains shell semantics.
+import fs from 'node:fs';
+import path from 'node:path';
+import vm from 'node:vm';
+import assert from 'node:assert/strict';
+import crypto from 'node:crypto';
+import {spawnSync} from 'node:child_process';
+import {fileURLToPath} from 'node:url';
+import {MemoryFS,loadIsolated,sha} from './own-io118.mjs';
+assert.equal(process.version,'v24.19.0');
+const here=path.dirname(fileURLToPath(import.meta.url)),base=path.dirname(here),attempt=process.argv[2];assert(/^[a-z0-9-]+$/.test(attempt??''));
+const mjsPath=base+'/proposed/tools/rust-r4ghi/runtime-recovery121/budget118/reenter-budget118-runtime.mjs',psPath=base+'/proposed/tools/rust-r4ghi/runtime-recovery121/budget118/start-budget118-holder.ps1',mjs=fs.readFileSync(mjsPath,'utf8'),ps=fs.readFileSync(psPath,'utf8');
+fs.writeFileSync(here+'/bootstrap-runtime-'+attempt+'.mjs',mjs,{flag:'wx'});fs.writeFileSync(here+'/bootstrap-holder-'+attempt+'.ps1',ps,{flag:'wx'});
+const literal=/\$script:Bootstrap118=@'\r?\n([\s\S]*?)\r?\n'@/.exec(ps)?.[1];assert(literal);
+const shell='C:/Program Files/Git/usr/bin/sh.exe',shellBytes=fs.readFileSync(shell),env={SystemRoot:'C:/Windows',WINDIR:'C:/Windows',PATH:'C:/Program Files/Git/usr/bin;C:/Windows/System32',MSYS2_ARG_CONV_EXCL:'*',MSYS_NO_PATHCONV:'1'};
+const probe=`set +o posix
+function /MODEL/id { builtin printf 'MODEL_FUNCTION\n'; }
+function [ { builtin [ "$@"; }
+trap 'case "$BASH_COMMAND" in "exec /MODEL/NONEXISTENT") builtin printf "MODEL_EXEC_INTERCEPT\\n"; exit 0;; esac' DEBUG
+type /MODEL/id
+type '['
+/MODEL/id
+[ x = x ]
+exec /MODEL/NONEXISTENT
+`;
+const probeResult=spawnSync(shell,['--noprofile','--norc','-s'],{input:probe,env,encoding:'utf8',timeout:10000,windowsHide:true});assert.equal(probeResult.status,0,probeResult.stderr);assert(probeResult.stdout.includes('MODEL_EXEC_INTERCEPT'));assert(probeResult.stdout.includes('MODEL_FUNCTION'));
+const R='/mnt/e/projects/worktrees/poms-r3hijk-next28/poms',N='/home/wangzishi/.local/share/fnm/node-versions/v24.19.0/installation/bin/node',self=R+'/tools/rust-r4ghi/runtime-recovery121/budget118/reenter-budget118-runtime.mjs',launcher=R+'/tools/rust-r4ghi/runtime-recovery121/budget118/start-budget118-holder.ps1',out='/home/wangzishi/.local/share/poms-r4ghi/private/runtime118-reentry/holder-start/aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
+const memory=new MemoryFS();memory.mkdirSync('/MODEL-ONLY',{recursive:true});memory.mkdirSync(path.posix.dirname(self),{recursive:true});memory.mkdirSync(path.posix.dirname(N),{recursive:true});const operator=memory.put(self,mjs),psPin=memory.put(launcher,ps),input=memory.put('/MODEL-ONLY/input.json',{MODEL_ONLY:true}),root=memory.put('/MODEL-ONLY/Root.json',{MODEL_ONLY:true}),peer=memory.put('/MODEL-ONLY/peer.json',{MODEL_ONLY:true}),sources=[operator,psPin];
+const nodeBytes=Buffer.alloc(125989464,78),nodeModelHash=sha(nodeBytes);memory.put(N,nodeBytes);memory.node(N).mode=0o100755n;const nodeStat=memory.lstatSync(N,{bigint:true}),nodeSHA='bc17c508ffeed0ec622934f9b7fa72f8e78da65350e63c3eceb56fa688aa5e12',pins=[...sources,input,root,peer];
+const q=x=>"'"+String(x).replaceAll("'","'\\''")+"'";
+const args=[N,nodeSHA,R,self,input.file,input.rawBytesSha256,root.file,root.rawBytesSha256,peer.file,peer.rawBytesSha256,out,...pins.flatMap(p=>[p.file,p.rawBytesSha256,String(p.bytes)])];
+function prelude(mode){const files=[{file:N,bytes:nodeBytes.length,rawBytesSha256:nodeSHA},...pins];return `set +o posix
+model_mode=${q(mode)}
+function /usr/bin/id { builtin printf '${mode==='uid-drift'?'0':'1000'}\\n'; }
+function /usr/bin/readlink { if [[ "$2" = . ]]; then builtin printf '%s\\n' ${q(R)}; else builtin printf '%s\\n' "$2"; fi; }
+function /usr/bin/stat {
+ case "$2" in
+  '%h') builtin printf '1\\n';;
+  '%s') case "$3" in ${files.map(p=>q(p.file)+') builtin printf \'%s\\n\' '+q(p.bytes)+';;').join(' ')} *) exit 81;; esac;;
+  'node.dev='*) builtin printf '%s\\n' ${q('node.dev='+nodeStat.dev+' node.ino='+nodeStat.ino+' node.nlink=1 node.mode=755 node.bytes=125989464')};;
+  *) exit 82;;
+ esac
+}
+function /usr/bin/sha256sum { builtin printf 'MODEL_HASH:%s\\n' "$1" >&2;case "$1" in ${files.map(p=>q(p.file)+') builtin printf \'%s  %s\\n\' '+q(mode==='hash-drift'&&p.file===self?'0'.repeat(64):p.rawBytesSha256)+' "$1";;').join(' ')} *) exit 83;; esac; }
+function [ { if [[ "$1" = -f ]]; then case "$2" in ${files.map(p=>q(p.file)).join('|')}) return 0;; *) return 1;; esac;elif [[ "$1" = ! && "$2" = -L ]]; then return 0;else builtin [ "$@";fi; }
+function ${N} { builtin [ "$#" = 1 ] && builtin [ "$1" = --version ] || exit 84;builtin printf 'MODEL_VERSION\\n' >&2;builtin printf 'v24.19.0\\n'; }
+function /usr/bin/env { builtin [ "$1" = -i ] || exit 86;shift;for model_assignment in HOME=/home/wangzishi USER=wangzishi LOGNAME=wangzishi PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8;do builtin [ "$1" = "$model_assignment" ] || exit 87;shift;done;"$@"; }
+# Verify all absolute transport names resolve to the owned functions.
+for model_fn in /usr/bin/id /usr/bin/readlink /usr/bin/stat /usr/bin/sha256sum /usr/bin/env ${q(N)} '[';do builtin declare -F "$model_fn" >/dev/null || exit 85;done
+function model_before_exec {
+ case "$BASH_COMMAND" in
+  'exec /usr/bin/env -i HOME=/home/wangzishi USER=wangzishi LOGNAME=wangzishi PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 "$node" "$entry" --input '*)
+   builtin printf 'MODEL_FINAL_EXEC\\n' >&2
+   if [[ "$model_mode" = fd-lost ]];then exec 3<&-;fi
+   while IFS= builtin read -r model_line <&3;do builtin printf '%s\\n' "$model_line";done
+   exit 0;;
+ esac
+}
+trap model_before_exec DEBUG
+`;}
+const results=[],transcripts=[];
+for(const mode of['normal','hash-drift','uid-drift','fd-lost']){
+ const text=prelude(mode)+literal+'\n',result=spawnSync(shell,['--noprofile','--norc','-s','--',...args],{input:text,env,encoding:'utf8',timeout:10000,windowsHide:true,maxBuffer:1048576});transcripts.push({mode,status:result.status,stdout:result.stdout,stderr:result.stderr});
+ try{if(mode==='normal'){assert.equal(result.status,0,result.stderr);assert(result.stdout.includes('kind=runtime118-system-bootstrap\n'));assert(result.stderr.indexOf('MODEL_VERSION')>result.stderr.lastIndexOf('MODEL_HASH:'));assert(result.stderr.includes('MODEL_FINAL_EXEC'));}else if(mode==='fd-lost'){assert.equal(result.stdout,'');assert(result.stderr.includes('MODEL_FINAL_EXEC'));}else{assert.notEqual(result.status,0);assert(!result.stderr.includes('MODEL_VERSION'));assert(!result.stderr.includes('MODEL_FINAL_EXEC'));}results.push({name:'real sh '+mode,status:'PASS'});}catch(e){results.push({name:'real sh '+mode,status:'FAIL',error:{name:e.name,message:e.message}});}
+}
+const modelCrypto={createHash(algorithm){const h=crypto.createHash(algorithm);return{update(b){h.update(b);return this;},digest(encoding){const actual=h.digest(encoding);return actual===nodeModelHash?nodeSHA:actual;}};}};
+const denied=()=>{throw Error('ALL NONMEMORY CANDIDATE TRANSPORT FORBIDDEN');};
+const loader=await loadIsolated(self,new Map([[self,mjs+'\nexport const modelFD118={readBootstrapFD118,validateBootstrap118};']]),{memory,process:{argv:[],execArgv:[],env:{},platform:'linux',version:'v24.19.0'},builtins:{'node:crypto':modelCrypto,'node:child_process':{spawn:denied,spawnSync:denied},'node:http':{default:{request:denied}},'node:readline':{createInterface:denied}},globals:{assert}});loader.context.tool=loader.namespace;loader.context.fixture=JSON.stringify({p:{outputDirectory:out},inputPin:input,rootPin:root,peerPin:peer,root:{operator},qualification:{executionSources:sources}});
+const fdFile='/MODEL-ONLY/fd3',normal=transcripts.find(t=>t.mode==='normal').stdout;memory.put(fdFile,normal);memory.node(fdFile).fifo=true;memory.fds.set(3,{file:fdFile,node:memory.node(fdFile)});
+try{vm.runInContext(`const m=JSON.parse(fixture);const bytes=tool.modelFD118.readBootstrapFD118();assert.equal(tool.modelFD118.validateBootstrap118(bytes,m).length,bytes.length);`,loader.context,{timeout:10000});results.push({name:'actual shell FD3 bytes consumed by complete MJS fixed validator',status:'PASS'});}catch(e){results.push({name:'actual shell FD3 bytes consumed by complete MJS fixed validator',status:'FAIL',error:{name:e.name,message:e.message}});}
+for(const [name,value]of [['truncated',normal.slice(0,-1)],['wrong-entry',normal.replace('entry='+self,'entry=/MODEL-OTHER')],['missing-closure',normal.replace('inputSHA256='+input.rawBytesSha256,'inputSHA256='+'0'.repeat(64))]]){loader.context.bad=Buffer.from(value);try{vm.runInContext(`assert.throws(()=>tool.modelFD118.validateBootstrap118(bad,JSON.parse(fixture)));`,loader.context);results.push({name:'FD3 '+name+' rejects',status:'PASS'});}catch(e){results.push({name:'FD3 '+name+' rejects',status:'FAIL',error:{name:e.name,message:e.message}});}}
+const record={kind:'author-runtime118-real-Windows-sh-FD3-full-module-model',schemaVersion:1,engine:{execPath:process.execPath,version:process.version,shell:{file:shell,bytes:shellBytes.length,rawBytesSha256:sha(shellBytes)}},candidates:[{file:mjsPath,bytes:Buffer.byteLength(mjs),rawBytesSha256:sha(mjs)},{file:psPath,bytes:Buffer.byteLength(ps),rawBytesSha256:sha(ps)}],results,transcripts,passed:results.filter(x=>x.status==='PASS').length,failed:results.filter(x=>x.status==='FAIL').length,limits:{shellIsWindowsGitNotLinux:true,completeFixedLiteral:true,allPhysicalTransportsIntercepted:true,noPWriteBeforeExec:true,NodeFrozenIdentityIsDeclaredSyntheticFixture:true,actualPProcEnvSQLHTTP:false,WSLStarted:false,LinuxNodeExecuted:false,actualG2:false}};
+const file=here+'/bootstrap-sh-'+attempt+'.json';fs.writeFileSync(file,JSON.stringify(record,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({file,bytes:fs.statSync(file).size,rawBytesSha256:sha(fs.readFileSync(file)),passed:record.passed,failed:record.failed}));if(record.failed)process.exitCode=1;

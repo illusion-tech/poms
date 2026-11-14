@@ -1,0 +1,979 @@
+// Finite Source15 Tax118 provenance. No import-time effects or permission mint.
+import fs from "node:fs";
+import path from "node:path";
+import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
+import { pathToFileURL } from "node:url";
+import { assertSweepRollback } from "../business/fault-sweep.mjs";
+import {
+    assertEquivalentSnapshotsTax13,
+    producerRootIdentity13,
+} from "../business/tax13-provenance.mjs";
+import { pointer54 } from "../business/consumer-admission54.mjs";
+import { resourceProjection252 } from "../business/same-m98-code-core252.mjs";
+import { sha, uuid } from "../business/pure.mjs";
+import {currentRuntime121,assertRuntimeBinding121,assertCurrentLease121,assertRetainedFixture121,readRetainedCommand121,readRetainedPreparation121} from "../business/runtime-admission121.mjs";
+import * as budgetNative121 from "../business/runtime-admission121.mjs";
+export const F118 = Object.freeze({
+    namespace: "poms-r4ghi",
+    epoch: "g2-business15",
+    run: "main01",
+    win: "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms",
+    private: "/home/wangzishi/.local/share/poms-r4ghi/private",
+    mirror: "/home/wangzishi/projects/poms-rust-r4ghi",
+    operation: "ProjectCostController_createOperatingRestatement",
+    faultKind: "source-bound-tax-continuation121-sweep",
+    g1SHA: "646447aab505c0bf73e0971439fca36a6aca1afb961a0a4573cadeccfc7342b9",
+    baselineSHA:
+        "a5520bb4f4dbe8d79945e9ef10309828d01c390fa94ba31301aeb8cfff9f444c",
+    budgetG1: Object.freeze({
+        file: "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v2/Root-G1-budget-probe118-v2.json",
+        bytes: 19563,
+        rawBytesSha256: "68212af41282071678d3e062dd689fbffbf2b74443de0c5872bb2511e4d0c5a2",
+    }),
+    interfaceSHA:
+        "8c0b22d4cede59f13a27961f9760b758d4400b3318f74e050aeac11312e3dffb",
+});
+export const sha118 = (b) => createHash("sha256").update(b).digest("hex");
+export function pin118(p) {
+    assert(
+        p && typeof p.file === "string" && p.file.startsWith("/") &&
+            !p.file.startsWith("//") && !p.file.includes("\\") &&
+            path.posix.normalize(p.file) === p.file,
+        "Exact Linux absolute pin",
+    );
+    assert(/^[a-f0-9]{64}$/.test(p.rawBytesSha256));
+    return p;
+}
+export function samePin118(a, b) {
+    pin118(a);
+    pin118(b);
+    assert.equal(a.file, b.file);
+    assert.equal(a.rawBytesSha256, b.rawBytesSha256);
+    if (a.bytes !== undefined && b.bytes !== undefined) {
+        assert.equal(a.bytes, b.bytes);
+    }
+}
+export function read118(p) {
+    pin118(p);
+    const s = fs.lstatSync(p.file, { bigint: true });
+    assert(s.isFile() && !s.isSymbolicLink() && s.nlink === 1n);
+    assert.equal(fs.realpathSync(p.file), p.file);
+    const fd = fs.openSync(
+        p.file,
+        fs.constants.O_RDONLY | (fs.constants.O_NOFOLLOW ?? 0),
+    );
+    let b;
+    try {
+        const a = fs.fstatSync(fd, { bigint: true });
+        assert.equal(a.dev, s.dev);
+        assert.equal(a.ino, s.ino);
+        b = fs.readFileSync(fd);
+        const z = fs.fstatSync(fd, { bigint: true });
+        for (const k of ["dev", "ino", "size", "mtimeNs", "ctimeNs"]) {
+            assert.equal(z[k], a[k]);
+        }
+    } finally {
+        fs.closeSync(fd);
+    }
+    assert.equal(sha118(b), p.rawBytesSha256);
+    if (p.bytes !== undefined) assert.equal(b.length, p.bytes);
+    return b;
+}
+export const json118 = (p) => JSON.parse(read118(p));
+export function freeze118(v) {
+    if (v && typeof v === "object" && !Object.isFrozen(v)) {
+        for (const x of Object.values(v)) freeze118(x);
+        Object.freeze(v);
+    }
+    return v;
+}
+export function rows118(meta) {
+    return read118(meta).toString().split("\n").filter(Boolean).map((t) => {
+        const r = JSON.parse(t);
+        assert.equal(sha118(r.raw), r.sha256);
+        return r;
+    });
+}
+// These structural readers are called only after the real native entry guard.
+// They do not stand in for that guard, do not construct a cap, and cannot grant effects.
+function retainedFixture118(ctx,reg,spec,ticket=null){
+ const verified=(ticket===null?currentRuntime121(ctx):budgetNative121.budgetCurrentRuntime121(ctx,ticket));(ticket===null?assertCurrentLease121(ctx,verified):budgetNative121.budgetAssertCurrentLease121(ctx,ticket,verified));samePin118(verified.code.registryPin,ctx.state.consumerAdmission54.registry);assert.deepEqual(verified.code.registry,reg);return (ticket===null?assertRetainedFixture121(ctx,spec):budgetNative121.budgetAssertRetainedFixture121(ctx,ticket,spec));
+}
+function retainedMain118(ctx,manifest,reg,ticket=null){
+ const bridge=(ticket===null?readRetainedCommand121(ctx,{pointer:'/taxContinuation13/mainCompletion',receipt:manifest.retainedMain13.original}):budgetNative121.budgetReadRetainedCommand121(ctx,ticket,{pointer:'/taxContinuation13/mainCompletion',receipt:manifest.retainedMain13.original}));assert.equal(bridge.producerEpoch,'g2-business13');assert.equal(bridge.replayForbidden,true);assert.equal(bridge.currentConsumerCertified,false);samePin118(bridge.retainedThrough14,reg.producerState);samePin118(bridge.retainedThrough15,manifest.current.retainedSource15State);samePin118(bridge.original,manifest.retainedMain13.original);samePin118(bridge.original,bridge.record.original);assert.equal(bridge.record.status,201);assert.equal(bridge.record.postconditions,'verified');assert.deepEqual(json118(bridge.producerState).taxContinuation13.mainCompletion,bridge.record);assert.deepEqual(ctx.state.taxContinuation13,json118(reg.producerState).taxContinuation13);assert.deepEqual(ctx.state.taxContinuation13.mainCompletion,bridge.record);read118(bridge.original);return bridge;
+}
+export function assertRuntimeFacts118(ctx,manifest,reg,ticket=null){
+ const c=manifest.current;assert.equal(manifest.schemaVersion,ticket===null?2:3);if(ticket!==null){budgetNative121.assertBudgetProbeDispatch121(ctx,ticket);assert.deepEqual(Object.keys(manifest).sort(),["schemaVersion","current","legacy","retainedMain13","retainedPreparation15","prepareAdoption121"].sort());assert.deepEqual(Object.keys(c).sort(),["epoch","run","sourceCount","sourcePinsSHA256","sourcePins","binarySHA256","apiProcess","candidate","helperCount","helperSources","helperPins","codeAdmission15","retentionIndex","retainedProducerState","producerProjectionSHA256","runtimeAdmission121","retainedSource15State"].sort());read118(manifest.prepareAdoption121);}assert.equal(c.epoch,F118.epoch);assert.equal(c.run,F118.run);assert.equal(ctx.epoch,c.epoch);assert.equal(ctx.migrations,98);assert.equal(ctx.tables,139);assert.equal(reg.schemaVersion,5);const verified=(ticket===null?currentRuntime121(ctx):budgetNative121.budgetCurrentRuntime121(ctx,ticket));(ticket===null?assertCurrentLease121(ctx,verified):budgetNative121.budgetAssertCurrentLease121(ctx,ticket,verified));assert.deepEqual(verified.code.registry,reg);const current=verified.current;samePin118(c.codeAdmission15,verified.code.registryPin);samePin118(c.codeAdmission15,ctx.state.consumerAdmission54.registry);samePin118(c.candidate,current.candidate);samePin118(c.runtimeAdmission121,verified.authorityPin);samePin118(c.apiProcess,ctx.state.apiProcess);samePin118(c.apiProcess,current.apiProcess);samePin118(c.helperPins,current.helperPins);samePin118(c.retentionIndex,reg.retentionIndex);samePin118(c.retainedProducerState,verified.code.producerState);samePin118(c.retainedSource15State,verified.retained.statePin);assert.deepEqual(c.sourcePins,ctx.pins);assert.deepEqual(c.sourcePins,current.sources);assert.deepEqual(c.helperSources,ctx.helperPins);assert.deepEqual(c.helperSources,current.helperSources);assert.equal(c.sourceCount,420);assert.equal(c.sourceCount,ctx.pins.length);assert.equal(c.helperCount,ctx.helperPins.length);assert.deepEqual(json118(c.helperPins),ctx.helperPins);assert.deepEqual(json118(current.sourcePins),ctx.pins);assert.equal(c.sourcePinsSHA256,sha118(JSON.stringify(ctx.pins)));assert.equal(c.binarySHA256,current.binary.rawBytesSha256);assert.equal(c.sourcePinsSHA256,current.sourcePinsSHA256);const candidate=json118(c.candidate);assert.equal(candidate.epoch,F118.epoch);assert.equal(candidate.run,F118.run);samePin118(candidate.runtimeAdmission121,verified.authorityPin);assert.equal(sha118(JSON.stringify(pointer54(ctx.state,manifest.legacy.registryPath))),c.producerProjectionSHA256);assert.deepEqual(manifest.legacy,json118({file:ctx.win+'/tools/rust-r4ghi/business/tax14-bindings258.json',rawBytesSha256:ctx.helperPins.find(p=>p.file==='tools/rust-r4ghi/business/tax14-bindings258.json').sha256}).legacy);const historical=json118(verified.retained.statePin);assert.deepEqual(ctx.state.taxContinuation15,historical.taxContinuation15);assert.deepEqual(ctx.state.consumerChecks.tax15Invocation118,historical.consumerChecks.tax15Invocation118);const retainedPreparation15=(ticket===null?readRetainedPreparation121(ctx,manifest.retainedPreparation15):budgetNative121.budgetReadRetainedPreparation121(ctx,ticket,manifest.retainedPreparation15));assert.equal(retainedPreparation15.retainedPreparationOnly,true);assert.equal(retainedPreparation15.currentEffectsGranted,false);return{plan:json118(reg.approvedPlan),candidate,verifiedRuntime:verified,retainedPreparation15};
+}
+function checkpointTax14(ctx, checkpoint, operationId) {
+    assert.equal(checkpoint?.phase, "actual-success");
+    const original = JSON.parse(read118(checkpoint.original));
+    assert.equal(original.operationId, operationId);
+    assert.deepEqual(original.value, checkpoint.value);
+    assert.equal(original.receipt, checkpoint.receiptId);
+    assert(
+        original.ordinaryProducerOnly === true && original.FIClaimed === false,
+    );
+    const publicBytes = fs.readFileSync(original.receipt),
+        http = JSON.parse(publicBytes);
+    assert.equal(http.operationId, operationId);
+    assert.equal(http.responseComplete, true);
+    assert.equal(http.transportFailure, false);
+    assert(http.status >= 200 && http.status < 300);
+    assert.equal(http.status, http.expectedStatus);
+    for (const p of Object.values(http.originals)) read118(p);
+    const body = JSON.parse(read118(http.originals.responseBody));
+    assert.deepEqual(body.data ?? body, original.value);
+    assert.deepEqual(
+        JSON.parse(read118(http.originals.requestBody)),
+        original.request,
+    );
+    const before = JSON.parse(read118(original.before)),
+        after = JSON.parse(read118(original.after));
+    assert.equal(before.epoch, "g2-business12");
+    assert.equal(after.epoch, "g2-business12");
+    return {
+        checkpoint,
+        original,
+        http,
+        httpPin: { file: original.receipt, rawBytesSha256: sha(publicBytes) },
+    };
+}
+
+export function readRetainedTaxProof118(ctx, manifest, registry, ticket = null) {
+    if (ticket !== null) budgetNative121.assertBudgetProbeDispatch121(ctx, ticket);
+    const verified = { registry };
+    const oldState = JSON.parse(
+        read118(manifest.legacy.originalProducerState12),
+    );
+    const identity = producerRootIdentity13(ctx, manifest, oldState);
+    const { tax: t, projectIds } = identity;
+    const currentRecord121=pointer54(ctx.state,manifest.legacy.registryPath);assert.deepEqual(currentRecord121,identity.old);
+    const admitted = retainedFixture118(ctx, verified.registry, {
+        registryPath: manifest.legacy.registryPath,
+        record: currentRecord121,
+        projectIds,
+        producerReceipt: manifest.legacy.reconciliation,
+    }, ticket);
+    samePin118(
+        admitted.originalProducerState,
+        manifest.legacy.originalProducerState12,
+    );
+    samePin118(
+        admitted.retainedProducerState,
+        manifest.current.retainedSource15State,
+    );
+    samePin118(admitted.codeAdmission15, manifest.current.codeAdmission15);
+    assert.equal(admitted.retainedProducerOnly, true);
+    assert.equal(admitted.producerEpoch, "g2-business12");
+    assert.equal(
+        sha118(JSON.stringify(oldState.sourcePins)),
+        manifest.legacy.sourcePinsSHA256,
+    );
+    const reconcile = JSON.parse(read118(manifest.legacy.reconciliation));
+    assert.equal(
+        reconcile.kind,
+        "exact-metadata-only-known-Main-409-after-real-Tax-producer",
+    );
+    assert.equal(reconcile.failedMainSnapshotPublished, false);
+    assert.equal(reconcile.producerComplete, false);
+    assert.equal(reconcile.correctionPOSTExecuted, false);
+    assert.equal(
+        reconcile.noExpenseEFTaxAllocationOrSuccessfulSnapshotReplay,
+        true,
+    );
+    samePin118(reconcile.ledger, manifest.legacy.failedMainLedger);
+    samePin118(
+        reconcile.successfulReceiverSnapshot,
+        manifest.legacy.receiverSuccess,
+    );
+    assert.equal(
+        reconcile.originalPending.bodySHA256,
+        manifest.legacy.failedMainRequestBody.rawBytesSha256,
+    );
+    assert.equal(
+        reconcile.originalPending.key,
+        "snapshot:" + identity.mainProjectId,
+    );
+    read118(manifest.legacy.partial);
+    const failedBody = JSON.parse(
+        read118(manifest.legacy.failedMainRequestBody),
+    );
+    assert.equal(failedBody.projectId, identity.mainProjectId);
+    const ledger = JSON.parse(read118(manifest.legacy.failedMainLedger));
+    assert(
+        ledger.ownershipComplete && ledger.recorded.length === 0 &&
+            ledger.blockers.length === 0,
+    );
+    assert.equal(
+        reconcile.rollback.allBusinessAuditSecurityRowsAndXminUnchanged,
+        true,
+    );
+    const failedHTTP = JSON.parse(read118(reconcile.failedHTTP));
+    assert.equal(
+        failedHTTP.operationId,
+        "ProjectCostController_createProjectOperatingSnapshot",
+    );
+    assert.equal(failedHTTP.requestId, ledger.requestId);
+    assert.equal(failedHTTP.status, 409);
+    assert.equal(failedHTTP.responseComplete, true);
+    assert.equal(failedHTTP.transportFailure, false);
+    samePin118(
+        failedHTTP.originals.requestBody,
+        manifest.legacy.failedMainRequestBody,
+    );
+    assert.equal(
+        JSON.parse(read118(failedHTTP.originals.responseBody)).code,
+        "operating_cost_source_missing",
+    );
+    for (const p of Object.values(failedHTTP.originals)) read118(p);
+    const snapshots = [
+        ledger.before,
+        ledger.after,
+        reconcile.freshEquivalentSnapshot,
+    ].map((p) => JSON.parse(read118(p)));
+    for (const other of snapshots.slice(1)) {
+        assertEquivalentSnapshotsTax13(snapshots[0], other);
+    }
+    const operations = {
+        expense: "ProjectCostController_createExpenseRecord",
+        expenseConfirmed: "ProjectCostController_confirmExpenseRecord",
+        cost: "ProjectCostController_createProjectActualCostRecord",
+        stage: "ProjectCostController_confirmCostStageAttribution",
+        tax: "ProjectCostController_confirmAccountingTaxTreatment",
+        allocation: "ProjectCostController_confirmSharedCostAllocationBasis",
+        ["snapshot:" + identity.sourceProjectId]:
+            "ProjectCostController_createProjectOperatingSnapshot",
+    };
+    const checkpoints = {};
+    for (const [key, op] of Object.entries(operations)) {
+        checkpoints[key] = checkpointTax14(ctx, t[key], op);
+    }
+    samePin118(
+        t["snapshot:" + identity.sourceProjectId].original,
+        manifest.legacy.receiverSuccess,
+    );
+    assert.deepEqual(
+        checkpoints["snapshot:" + identity.sourceProjectId].original,
+        JSON.parse(read118(manifest.legacy.receiverSuccess)),
+    );
+    const costId = uuid(t.cost.value.targetId),
+        taxId = uuid(t.tax.value.targetId),
+        basisId = uuid(t.allocation.value.basisId),
+        expenseId = uuid(t.expense.value.id),
+        resultIds = t.allocation.value.allocationResultIds.map(uuid);
+    assert.equal(resultIds.length, 2);
+    assert.equal(
+        checkpoints.tax.original.request.taxImpactPendingAmount,
+        "130.00",
+    );
+    assert.equal(checkpoints.tax.original.request.taxImpactAmount, "0.00");
+    assert.equal(
+        checkpoints.tax.original.request.deductibilityStatus,
+        "pending",
+    );
+    return {
+        ...identity,
+        admitted,
+        checkpoints,
+        costId,
+        taxId,
+        basisId,
+        expenseId,
+        resultIds,
+        taxRequest: structuredClone(checkpoints.tax.original.request),
+        producerStatePin: manifest.legacy.originalProducerState12,
+        reconciliation: manifest.legacy.reconciliation,
+        retainedMain13: retainedMain118(ctx, manifest, verified.registry, ticket),
+    };
+}
+
+export const CONSUMERS118 = Object.freeze([
+    "h15-287",
+    "shared15-284",
+    "period15-270",
+    "mixed15-271",
+    "role15-setup",
+]);
+const EXEC118 = [
+    "run-tax15-once.mjs",
+    "invocation-proof.mjs",
+    "retained-tax-proof.mjs",
+    "tax15-once-effects.mjs",
+    "tax15-once-wire.mjs",
+    "tax15-once-ledger.mjs",
+].map((n) => "tools/rust-r4ghi/tax15-invocation118/" + n);
+const PREP118 = ["tax15-prepare.mjs", "tax15-facts.mjs"].map((n) =>
+    "tools/rust-r4ghi/tax15-invocation118/" + n
+);
+const NATIVE118 = [
+    "tools/rust-r4ghi/tax15-readonly/runtime15.mjs",
+    "tools/rust-r4ghi/tax15-readonly/facts15.mjs",
+];
+const RUNTIME12_118 = [
+    "sourcePins",
+    "sourcePinsSHA256",
+    "sourceCount",
+    "helperPins",
+    "helperCount",
+    "helperSources",
+    "apiProcess",
+    "binarySHA256",
+    "codeAdmission15",
+    "candidate",
+    "taxRuntimeBindings",
+    "taxCompletion",
+];
+const CURRENT15_118 = [
+    "namespace",
+    "epoch",
+    "run",
+    "marker",
+    "prefix",
+    "api",
+    "apiProcess",
+    "binarySHA256",
+    "codeAdmission15",
+    "candidate",
+    "sourcePins",
+    "sourcePinsSHA256",
+    "helperPins",
+    "runtimeBindings",
+    "bodySHA256",
+    "runtimeAdmission121",
+    "runtimeReference121",
+];
+function keys118(v, keys) {
+    assert(v && typeof v === "object" && !Array.isArray(v));
+    assert.deepEqual(Object.keys(v).sort(), [...keys].sort());
+}
+export function sourceIdentities118(list) {
+    assert(Array.isArray(list) && list.length > 0);
+    const normalized = list.map((p) => {
+        pin118(p);
+        if (p.bytes !== undefined) {
+            assert(Number.isSafeInteger(p.bytes) && p.bytes >= 0);
+        }
+        return { file: p.file, rawBytesSha256: p.rawBytesSha256 };
+    });
+    assert.equal(
+        new Set(normalized.map((p) => p.file)).size,
+        normalized.length,
+        "A source group cannot omit uniqueness by duplicating a file",
+    );
+    return normalized.sort((a, b) =>
+        Buffer.compare(Buffer.from(a.file), Buffer.from(b.file))
+    );
+}
+function sources118(list, relativeNames = null) {
+    sourceIdentities118(list);
+    if (relativeNames) {
+        assert.deepEqual(
+            list.map((p) => p.file).sort(),
+            relativeNames.map((n) => F118.win + "/" + n).sort(),
+        );
+    }
+    for (const p of list) read118(p);
+    return list;
+}
+function sourceReview118(pin, closure, sources) {
+    const r = json118(pin);
+    assert(typeof r.kind === "string" && r.kind.startsWith("non-author-"));
+    assert.equal(r.reviewerIsAuthor, false);
+    assert.equal(r.verdict, "code-ready-for-exact-input-review");
+    assert(r.sourceClosures && Object.hasOwn(r.sourceClosures, closure));
+    sources118(r.sourceClosures[closure]);
+    assert.deepEqual(
+        sourceIdentities118(r.sourceClosures[closure]),
+        sourceIdentities118(sources),
+    );
+    return r;
+}
+export function consumerArguments118(args) {
+    keys118(args, ["consumerId", "consumerInput", "registration"]);
+    assert(
+        CONSUMERS118.includes(args.consumerId),
+        "Only the five frozen consumer IDs",
+    );
+    pin118(args.consumerInput);
+    pin118(args.registration);
+    return args;
+}
+export function normalizeConsumer118(ctx, input, consumerId) {
+    assert(CONSUMERS118.includes(consumerId));
+    if (consumerId === "h15-287" || consumerId === "role15-setup") return null;
+    const v = consumerId === "shared15-284" ? input.runtime : input;
+    assert(v && typeof v === "object");
+    if (consumerId === "shared15-284") {
+        const required = [
+            "sourcePins",
+            "sourcePinsSHA256",
+            "sourceCount",
+            "helperH3",
+            "helperCount",
+            "codeAdmission15",
+            "candidate",
+            "apiProcess",
+            "binarySHA256",
+            "trustedSummaryBinary",
+            "taxRuntimeBindings",
+            "taxCompletion",
+        ];
+        keys118(v, required);
+        return {
+            sourcePins: v.sourcePins,
+            sourcePinsSHA256: v.sourcePinsSHA256,
+            sourceCount: v.sourceCount,
+            helperPins: v.helperH3,
+            helperCount: v.helperCount,
+            helperSources: structuredClone(ctx.helperPins),
+            apiProcess: v.apiProcess,
+            binarySHA256: v.binarySHA256,
+            codeAdmission15: v.codeAdmission15,
+            candidate: v.candidate,
+            taxRuntimeBindings: v.taxRuntimeBindings,
+            taxCompletion: v.taxCompletion,
+        };
+    }
+    return Object.fromEntries(RUNTIME12_118.map((k) => {
+        assert(
+            Object.hasOwn(v, k),
+            "Missing native top-level runtime field: " + k,
+        );
+        return [k, v[k]];
+    }));
+}
+export function assertInvocationJournal118(summary, sidecar, inventory) {
+    pin118(summary.closedJournal);
+    const journal = json118(summary.closedJournal),
+        input = json118(summary.input),
+        review = json118(summary.exactReview),
+        entry = json118(summary.entryGuard),
+        exit = json118(summary.exitGuard);
+    assert.equal(summary.phase, journal.phase);
+    assert(
+        journal.phase === "closed-verified" ||
+            journal.phase === "closed-failed" &&
+                ["fi-closed-set", "fi-family"].includes(journal.mode),
+    );
+    for (
+        const k of [
+            "nonce",
+            "pid",
+            "bootId",
+            "mode",
+            "input",
+            "exactReview",
+            "codeReview",
+            "entryGuard",
+            "exitGuard",
+            "executionSources",
+            "prepareFactsSources",
+        ]
+    ) assert.deepEqual(summary[k], journal[k]);
+    assert.equal(journal.epoch, F118.epoch);
+    assert.equal(journal.run, F118.run);
+    assert.equal(entry.phase, "entry-verified");
+    assert.equal(exit.phase, "exit-verified");
+    assert.equal(input.kind, "Root-reviewed-Tax15-invocation118");
+    assert.equal(input.mode, journal.mode);
+    assert.equal(input.nonce, journal.nonce);
+    assert.equal(review.kind, "Root-approved-exact-Tax15-invocation118");
+    assert.equal(review.actualG2Authorized, true);
+    samePin118(review.approvedInput, summary.input);
+    samePin118(review.codeReview, summary.codeReview);
+    samePin118(review.expectedEntryState, input.expectedEntryState);
+    assert.equal(review.mode, journal.mode);
+    assert.equal(review.nonce, journal.nonce);
+    assert.equal(review.normalTaxPOSTGranted, journal.mode === "commit-once");
+    assert.equal(
+        review.FIGranted,
+        ["fi-closed-set", "fi-family"].includes(journal.mode),
+    );
+    samePin118(input.runtimeBindings, sidecar.runtimeBindings);
+    samePin118(input.codeAdmission15, sidecar.codeAdmission15);
+    samePin118(input.candidate, sidecar.candidate);
+    samePin118(input.apiProcess, sidecar.apiProcess);
+    const ordered = (list) =>
+        [...list].sort((a, b) => a.file.localeCompare(b.file));
+    assert.deepEqual(
+        ordered(input.executionSources),
+        ordered([
+            ...sidecar.executionSources,
+            ...sidecar.prepareFactsSources,
+        ]),
+    );
+    assert.deepEqual(journal.executionSources, sidecar.executionSources);
+    assert.deepEqual(journal.prepareFactsSources, sidecar.prepareFactsSources);
+    samePin118(journal.codeReview, sidecar.codeReview);
+    samePin118(entry.input, summary.input);
+    samePin118(exit.input, summary.input);
+    samePin118(entry.exactReview, summary.exactReview);
+    assert.equal(entry.nonce, journal.nonce);
+    assert.equal(exit.nonce, journal.nonce);
+    assert.equal(entry.pid, journal.pid);
+    assert.equal(exit.pid, journal.pid);
+    assert.equal(entry.bootId, journal.bootId);
+    assert.equal(exit.bootId, journal.bootId);
+    read118(input.expectedEntryState);
+    if (journal.result) read118(journal.result);
+    else assert.equal(journal.phase, "closed-failed");
+    assert.deepEqual(
+        journal.commandLedgers,
+        journal.httpAttempts.map((a) => a.ledger),
+    );
+    for (const a of journal.httpAttempts) {
+        const wire = json118(a.http), ledger = json118(a.ledger);
+        samePin118(wire.runtimeReference121.runtimeAdmission121,sidecar.runtimeAdmission121);samePin118(wire.runtimeReference121.candidate,sidecar.candidate);samePin118(wire.runtimeReference121.apiProcess,sidecar.apiProcess);assert.deepEqual(json118(wire.originals.requestConfig).runtimeReference121,wire.runtimeReference121);
+        assert.equal(wire.responseComplete, true);
+        assert.equal(wire.transportFailure, false);
+        assert.equal(ledger.ownershipComplete, true);
+        assert.deepEqual(ledger.blockers, []);
+        assert.equal(ledger.requestId, wire.requestId);
+        assert.equal(ledger.operationId, wire.operationId);
+        samePin118(ledger.before, a.before);
+        samePin118(ledger.after, a.after);
+        for (const p of Object.values(wire.originals)) read118(p);
+        if (wire.operationId === F118.operation) {
+            assert(
+                ["fi-closed-set", "fi-family", "commit-once"].includes(
+                    journal.mode,
+                ),
+            );
+            assert.equal(
+                wire.status,
+                journal.mode === "commit-once" ? 201 : 500,
+            );
+            assert.equal(
+                sha118(read118(wire.originals.requestBody)),
+                sidecar.bodySHA256,
+            );
+        } else {
+            assert(
+                [
+                    "AuthController_getCsrfToken",
+                    "AuthController_createPasswordAuthSession",
+                    "AuthController_getCurrentAuthSession",
+                    "ProjectCostController_getProjectUnifiedAccounting",
+                ].includes(wire.operationId),
+            );
+            if (
+                wire.operationId ===
+                    "ProjectCostController_getProjectUnifiedAccounting"
+            ) assert.equal(journal.mode, "prepare-only");
+        }
+    }
+    if (["fi-closed-set", "fi-family"].includes(journal.mode)) {
+        const groups = new Map();
+        for (const f of journal.families) {
+            const a = groups.get(f.cursor) ?? [];
+            a.push(f);
+            groups.set(f.cursor, a);
+        }
+        const stages = [
+            "ready",
+            "authenticated",
+            "beforeCaptured",
+            "controlsInstalled",
+            "requestPending",
+            "responseRecorded",
+            "controlsRemoved",
+            "afterCaptured",
+            "reconciled",
+            "familyVerified",
+        ];
+        for (const [cursor, frames] of groups) {
+            assert.equal(frames[0].key, inventory[cursor]?.key);
+            const complete = frames.at(-1).stage === "familyVerified";
+            assert(
+                complete || journal.phase === "closed-failed",
+                "Only a stopped FI journal may contain an incomplete trailing family",
+            );
+            assert.deepEqual(
+                frames.map((f) => f.stage),
+                complete ? stages : stages.slice(0, frames.length),
+            );
+            for (const f of frames) {
+                assert.equal(f.cursor, cursor);
+                assert.equal(f.key, inventory[cursor].key);
+                assert.equal(f.bodySHA256, sidecar.bodySHA256);
+            }
+            if (complete) {
+                const listedReceipt =
+                    json118(frames.at(-1).observation).failed.receipt;
+                assert(
+                    journal.httpAttempts.some((a) =>
+                        a.http.file ===
+                            (typeof listedReceipt === "string"
+                                ? listedReceipt
+                                : listedReceipt.file)
+                    ),
+                    "A covered family needs its actual listed HTTP attempt",
+                );
+                const final = frames.at(-1),
+                    o = json118(final.observation),
+                    wire = json118(
+                        typeof o.failed.receipt === "string"
+                            ? {
+                                file: o.failed.receipt,
+                                rawBytesSha256: sha118(
+                                    fs.readFileSync(o.failed.receipt),
+                                ),
+                            }
+                            : o.failed.receipt,
+                    );
+                samePin118(final.before, o.failed.before);
+                samePin118(final.after, o.failed.after);
+                samePin118(final.ledger, o.failed.ledger);
+                assert.equal(final.requestId, wire.requestId);
+                assert.equal(final.sessionId, o.failed.fault.sessionId);
+                assert.equal(
+                    final.response.receipt,
+                    typeof o.failed.receipt === "string"
+                        ? o.failed.receipt
+                        : o.failed.receipt.file,
+                );
+                assert.deepEqual(final.controlIdentity, {
+                    primary: o.failed.fault.primary.identitySHA,
+                    fallback: o.failed.fault.fallback.identitySHA,
+                });
+                for (const f of frames) {
+                    for (
+                        const k of [
+                            "requestId",
+                            "sessionId",
+                            "before",
+                            "controlIdentity",
+                            "response",
+                            "after",
+                            "ledger",
+                        ]
+                    ) {
+                        if (f[k] !== undefined) {
+                            assert.deepEqual(
+                                f[k],
+                                final[k],
+                                "Immutable family phase fact changed: " + k,
+                            );
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return journal;
+}
+export function verifyStoppedFIJournal118(ctx, journal, bodySHA256, actorId) {
+    assert.equal(journal.phase, "closed-failed");
+    assert(["fi-closed-set", "fi-family"].includes(journal.mode));
+    const dispatched = new Set(
+        journal.httpAttempts.map((a) => json118(a.http)).filter((w) =>
+            w.operationId === F118.operation
+        ).map((w) => w.requestId),
+    );
+    for (const f of journal.families) {
+        if (
+            [
+                "requestPending",
+                "responseRecorded",
+                "controlsRemoved",
+                "afterCaptured",
+                "reconciled",
+                "familyVerified",
+            ].includes(f.stage)
+        ) {
+            assert(
+                dispatched.has(f.requestId),
+                "An unrecorded dispatched attempt remains unknown; no prefix recovery",
+            );
+        }
+    }
+    for (const a of journal.httpAttempts) {
+        const wire = json118(a.http);
+        assert.equal(
+            wire.responseComplete,
+            true,
+            "An unknown transport is never a recoverable FI prefix",
+        );
+        assert.equal(wire.transportFailure, false);
+        if (wire.operationId !== F118.operation) continue;
+        assert.equal(
+            wire.status,
+            500,
+            "An acknowledged business success is never replayed",
+        );
+        assert.equal(sha118(read118(wire.originals.requestBody)), bodySHA256);
+        assert.deepEqual(json118(wire.originals.responseBody), {
+            statusCode: 500,
+            message: "Internal server error",
+        });
+        assert(a.fault?.receipt && a.fault.sessionId);
+        const removed = json118(a.fault.receipt);
+        assert.equal(removed.identityMatched, true);
+        assert.equal(removed.active.requestId, wire.requestId);
+        assert.equal(removed.active.kind, F118.faultKind);
+        assert.equal(removed.counts.primary, a.fault.hitCount);
+        assert.equal(removed.counts.fallback, a.fault.fallbackHitCount);
+        const before = json118(a.before), after = json118(a.after);
+        for (const s of [before, after]) {
+            assert.equal(s.epoch, F118.epoch);
+            assert.equal(s.run, F118.run);
+            assert.equal(s.marker, ctx.state.marker);
+            assert.deepEqual(
+                Object.keys(s.databases).sort(),
+                [...ctx.databases].sort(),
+            );
+            for (const db of ctx.databases) {
+                assert.equal(Object.keys(s.databases[db].tables).length, 139);
+            }
+        }
+        assertSweepRollback(ctx, before, after, a.fault, actorId);
+    }
+    return true;
+}
+function assertSidecar118(ctx, pin, envelopePin, registration) {
+    const sidecar = json118(pin), envelope = json118(envelopePin);
+    assert.equal(sidecar.kind, "actual-Source15-runtime121-Tax118-execution-sidecar");
+    assert.equal(sidecar.schemaVersion, 2);
+    assert.equal(sidecar.namespace, F118.namespace);
+    assert.equal(sidecar.epoch, F118.epoch);
+    assert.equal(sidecar.run, F118.run);
+    assert.equal(sidecar.sourceGeneration, 15);
+    assert.equal(sidecar.oldProducerRecordsEdited, false);
+    assert.equal(sidecar.G3, false);
+    assert.equal(sidecar.G4, false);
+    samePin118(sidecar.completion, envelopePin);
+    samePin118(sidecar.afterVerifiedFrame, envelope.afterVerifiedFrame);
+    samePin118(
+        sidecar.afterVerifiedFrame,
+        ctx.state.taxContinuation121.sweep.afterVerifiedFrame,
+    );
+    samePin118(sidecar.fiCompletion, envelope.fiCompletionProof);
+    samePin118(sidecar.runtimeAdmission121,envelope.runtimeAdmission121);assert.deepEqual(sidecar.runtimeReference121,envelope.runtimeReference121);
+    samePin118(sidecar.retainedSource15State,envelope.retainedSource15State);
+    assert.deepEqual(sidecar.retainedPreparation15,envelope.retainedPreparation15);
+    samePin118(sidecar.continuation121,envelope.continuation121);
+    samePin118(sidecar.continuationReadback,envelope.continuationReadback);
+    for (
+        const k of [
+            "runtimeBindings",
+            "codeAdmission15",
+            "candidate",
+            "apiProcess",
+        ]
+    ) samePin118(sidecar[k], envelope[k]);
+    assert.equal(sidecar.sourcePinsSHA256, envelope.sourcePinsSHA256);
+    assert.equal(sidecar.bodySHA256, envelope.bodySHA256);
+    assert.equal(sidecar.scopeSHA256, sha118(JSON.stringify(envelope.scope)));
+    assert.equal(
+        sidecar.inventorySHA256,
+        sha118(JSON.stringify(envelope.inventory)),
+    );
+    assert.deepEqual(sidecar.familyResults, envelope.failures);
+    assert.deepEqual(sidecar.normalSuccess, envelope.finalSuccess);
+    assert.deepEqual(
+        sourceIdentities118(sidecar.executionSources),
+        sourceIdentities118(registration.producerExecutionSources),
+    );
+    assert.deepEqual(
+        sourceIdentities118(sidecar.prepareFactsSources),
+        sourceIdentities118(registration.prepareFactsSources),
+    );
+    samePin118(sidecar.codeReview, registration.producerCodeReview);
+    samePin118(sidecar.codeReview, registration.prepareFactsCodeReview);
+    assert.equal(sidecar.technicalG1.rawBytesSha256, F118.g1SHA);
+    read118(sidecar.technicalG1);
+    const frame = json118(sidecar.afterVerifiedFrame);
+    keys118(frame.current15, CURRENT15_118);
+    assert.deepEqual(registration.current15, frame.current15);assert.deepEqual(sidecar.runtimeReference121,frame.current15.runtimeReference121);
+    samePin118(frame.normalResult, sidecar.verification);
+    samePin118(frame.fiCompletion, sidecar.fiCompletion);
+    const journals = sidecar.invocations.map((s) =>
+        assertInvocationJournal118(s, sidecar, envelope.inventory)
+    );
+    for (let i = 0; i < journals.length; i++) {
+        if (journals[i].phase === "closed-failed") {
+            verifyStoppedFIJournal118(
+                ctx,
+                journals[i],
+                sidecar.bodySHA256,
+                envelope.scope.actorId,
+            );
+            const stoppedPin = sidecar.invocations[i].closedJournal;
+            const recoveries = journals.filter((j) =>
+                j.mode === "fi-family" && j.phase === "closed-verified"
+            ).map((j) => json118(json118(j.input).approvedRecovery));
+            assert(
+                recoveries.some((r) =>
+                    r.stoppedInvocations?.some((p) =>
+                        p.file === stoppedPin.file &&
+                        p.rawBytesSha256 === stoppedPin.rawBytesSha256
+                    )
+                ),
+                "Every retained interrupted prefix requires its own exact recovery approval",
+            );
+        }
+    }
+    assert.equal(new Set(journals.map((j) => j.nonce)).size, journals.length);
+    const preparedJournals=journals.filter(j=>j.mode==="prepare-only");assert.equal(preparedJournals.length,1);const continuation=json118(sidecar.continuation121);samePin118(continuation.closedJournal,sidecar.invocations.find(j=>j.mode==="prepare-only").closedJournal);samePin118(continuation.runtimeAdmission121,sidecar.runtimeAdmission121);
+    const commits = journals.filter((j) => j.mode === "commit-once");
+    assert.equal(commits.length, 1);
+    samePin118(commits[0].result, sidecar.verification);
+    samePin118(commits[0].entryGuard, frame.entryGuard);
+    samePin118(commits[0].exitGuard, frame.exitGuard);
+    samePin118(
+        sidecar.invocations.find((j) => j.mode === "commit-once").closedJournal,
+        frame.closedJournal,
+    );
+    const families = journals.filter((j) =>
+        ["fi-closed-set", "fi-family"].includes(j.mode)
+    ).flatMap((j) => j.families.filter((f) => f.stage === "familyVerified"));
+    assert.deepEqual(
+        families.map((f) => f.key),
+        envelope.inventory.map((d) => d.key),
+    );
+    assert.equal(families.length, envelope.failures.length);
+    for (let i = 0; i < families.length; i++) {
+        samePin118(families[i].observation, envelope.failures[i].observation);
+    }
+    return { sidecar, envelope, frame };
+}
+export async function consumeTax15Completion(ctx, args) {
+    const { consumerId, consumerInput, registration } = consumerArguments118(
+            args,
+        ),
+        originalInput = read118(consumerInput),
+        input = JSON.parse(originalInput),
+        reg = json118(registration);
+    assert.equal(ctx.namespace, F118.namespace);
+    assert.equal(ctx.epoch, F118.epoch);
+    assert.equal(ctx.run, F118.run);
+    assert(
+        consumerInput.file.startsWith(ctx.priv + "/") &&
+            registration.file.startsWith(ctx.priv + "/"),
+    );
+    keys118(reg, [
+        "kind",
+        "schemaVersion",
+        "consumerId",
+        "interfaceContract",
+        "readerSources",
+        "readerCodeReview",
+        "producerExecutionSources",
+        "producerCodeReview",
+        "prepareFactsSources",
+        "prepareFactsCodeReview",
+        "callerExecutionSources",
+        "callerCodeReview",
+        "current15",
+        "effectsGranted",
+    ]);
+    assert.equal(
+        reg.kind,
+        "Root-reviewed-Source15-runtime121-Tax118-consumer-registration",
+    );
+    assert.equal(reg.schemaVersion, 2);
+    assert.equal(reg.consumerId, consumerId);
+    assert.equal(reg.effectsGranted, false);
+    assert.equal(reg.interfaceContract.rawBytesSha256, F118.interfaceSHA);
+    read118(reg.interfaceContract);
+    samePin118(input.tax118ConsumerRegistration, registration);
+    const sidecarPin = pin118(input.taxExecution118Sidecar);
+    samePin118(ctx.state.taxContinuation121.sidecar, sidecarPin);
+    sources118(reg.readerSources, NATIVE118);
+    sources118(reg.producerExecutionSources, EXEC118);
+    sources118(reg.prepareFactsSources, PREP118);
+    sources118(reg.callerExecutionSources);
+    sourceReview118(reg.readerCodeReview, "nativeTax15", reg.readerSources);
+    sourceReview118(
+        reg.producerCodeReview,
+        "executor118",
+        reg.producerExecutionSources,
+    );
+    sourceReview118(
+        reg.prepareFactsCodeReview,
+        "prepareFacts118",
+        reg.prepareFactsSources,
+    );
+    sourceReview118(
+        reg.callerCodeReview,
+        consumerId,
+        reg.callerExecutionSources,
+    );
+    const union = new Map();
+    for (
+        const p of [
+            ...reg.readerSources,
+            ...reg.producerExecutionSources,
+            ...reg.prepareFactsSources,
+            ...reg.callerExecutionSources,
+        ]
+    ) {
+        if (union.has(p.file)) samePin118(union.get(p.file), p);
+        else union.set(p.file, p);
+    }
+    if (consumerId === "mixed15-271") {
+        const period = json118(input.periodCompletion),
+            priorPin = pin118(period.verificationInput),
+            prior = json118(priorPin);
+        assert(
+            !(prior.tax118ConsumerRegistration.file === registration.file &&
+                prior.tax118ConsumerRegistration.rawBytesSha256 ===
+                    registration.rawBytesSha256),
+            "Prior period uses its own registration",
+        );
+        samePin118(prior.taxExecution118Sidecar, sidecarPin);
+        samePin118(prior.taxRuntimeBindings, input.taxRuntimeBindings);
+        samePin118(prior.taxCompletion, input.taxCompletion);
+        await consumeTax15Completion(ctx, {
+            consumerId: "period15-270",
+            consumerInput: priorPin,
+            registration: prior.tax118ConsumerRegistration,
+        });
+    }
+    // Fixed native entrypoints only. Neither the input nor the registration can
+    // supply a module, export, callback, wrapper, or old14 fallback.
+    const native = await import(
+        pathToFileURL(
+            F118.win + "/tools/rust-r4ghi/tax15-readonly/runtime15.mjs",
+        ).href
+    );
+    let proof, envelopePin;
+    if (consumerId === "h15-287" || consumerId === "role15-setup") {
+        envelopePin = consumerId === "h15-287"
+            ? input.taxCompletion15
+            : input.taxCompletion;
+        proof = native.readTax15SecurityCompletion(
+            ctx,
+            input.environmentBindings15,
+            envelopePin,
+        );
+    } else {
+        const normalized = normalizeConsumer118(ctx, input, consumerId);
+        envelopePin = normalized.taxCompletion;
+        proof = native.assertTax15Envelope(ctx, normalized);
+    }
+    const verified = assertSidecar118(ctx, sidecarPin, envelopePin, reg);
+    for (const p of union.values()) read118(p);
+    assert(read118(consumerInput).equals(originalInput));
+    read118(registration);
+    read118(sidecarPin);
+    read118(envelopePin);
+    return freeze118(structuredClone({
+        ...proof,
+        invocation118Sidecar: {
+            sidecar: sidecarPin,
+            runtimeAdmission121:verified.sidecar.runtimeAdmission121,
+            continuation121:verified.sidecar.continuation121,
+            registration,
+            consumerInput,
+            consumerId,
+            interfaceContract: reg.interfaceContract,
+            actualReaderSources: reg.readerSources,
+            afterVerifiedFrame: verified.sidecar.afterVerifiedFrame,
+            externalExecutorVerified: true,
+            effectsGranted: false,
+        },
+    }));
+}

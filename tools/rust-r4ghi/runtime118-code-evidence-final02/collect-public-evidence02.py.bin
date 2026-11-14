@@ -1,0 +1,137 @@
+from pathlib import Path
+import os,stat,json,hashlib,collections
+
+OUT=Path(__file__).resolve().parent
+I=Path('E:/projects/worktrees/poms-r4i-lifecycle/poms')
+R=Path('E:/projects/worktrees/poms-r3hijk-next28/poms')
+IMPL=I/'tools/rust-r4ghi/I/implementation'
+REVIEW=IMPL/'runtime118-reentry-code-independent01'
+def sha(b):return hashlib.sha256(b).hexdigest()
+def posix(p):
+ s=str(p.resolve()).replace('\\','/');return '/mnt/'+s[0].lower()+s[2:]
+def from_path(s):
+ if s.startswith('/mnt/e/'):return Path('E:'+s[6:])
+ if s.startswith('E:/') or s.startswith('E:\\'):return Path(s)
+ return None
+def full(p):return isinstance(p,dict) and set(p)=={'file','bytes','rawBytesSha256'} and isinstance(p['file'],str) and isinstance(p['bytes'],int) and not isinstance(p['bytes'],bool) and p['bytes']>=0 and isinstance(p['rawBytesSha256'],str) and len(p['rawBytesSha256'])==64
+def refs(v,pointer=''):
+ if full(v):yield pointer,v;return
+ if isinstance(v,dict):
+  for k,w in v.items():yield from refs(w,pointer+'/'+str(k))
+ elif isinstance(v,list):
+  for n,w in enumerate(v):yield from refs(w,pointer+'/'+str(n))
+def measured(f):
+ f=f.resolve();a=os.lstat(f);assert stat.S_ISREG(a.st_mode) and not stat.S_ISLNK(a.st_mode),str(f)
+ assert a.st_nlink==1,('public evidence must be single-link',str(f),a.st_nlink)
+ fd=os.open(f,os.O_RDONLY|getattr(os,'O_BINARY',0)|getattr(os,'O_NOINHERIT',0))
+ try:
+  b=os.fstat(fd)
+  for k in ['st_dev','st_ino','st_size','st_mtime_ns','st_ctime_ns']:assert getattr(a,k)==getattr(b,k),(str(f),k)
+  chunks=[]
+  while True:
+   chunk=os.read(fd,1024*1024)
+   if not chunk:break
+   chunks.append(chunk)
+  raw=b''.join(chunks);c=os.fstat(fd);d=os.lstat(f)
+  for k in ['st_dev','st_ino','st_size','st_mtime_ns','st_ctime_ns']:assert getattr(b,k)==getattr(c,k)==getattr(d,k),(str(f),k)
+  assert len(raw)==d.st_size
+  return raw,{'file':posix(f),'bytes':len(raw),'rawBytesSha256':sha(raw)}
+ finally:os.close(fd)
+def allowed(f):return f is not None and (f.is_relative_to(I) or f.is_relative_to(R)) and not f.is_relative_to(OUT)
+
+# A content index is only an archive-packaging resolver. It never grants runtime
+# aliasing or says that a changed original file was strongly read at its old pin.
+archive_index=collections.defaultdict(list)
+def archive_hint(p):
+ s=p['file'].lower();return any(x in s for x in ['/fixed-','/retained-','/retained_','/snapshots/','/snapshot/','/author-evidence','/sealed-','/code-candidate','/before04','/delivery-before/','/implementation-before04/'])
+known_json=[]
+for d in [IMPL/'runtime118-source-author-models01',IMPL/'runtime118-source-tool-impl01',IMPL/'runtime118-reentry-control-impl01',IMPL/'runtime118-reentry-tool-impl01',REVIEW]:
+ for f in d.rglob('*.json'):
+  if 'MODEL-FS' in str(f) or 'virtual' in f.parts or f.stat().st_size>3_000_000:continue
+  try:
+   raw,pin=measured(f);v=json.loads(raw);known_json.append((f,v))
+   if archive_hint(pin):archive_index[(pin['bytes'],pin['rawBytesSha256'])].append(pin)
+   for _,p in refs(v):
+    if archive_hint(p):archive_index[(p['bytes'],p['rawBytesSha256'])].append(p)
+  except (ValueError,OSError,AssertionError):pass
+
+objects=OUT/'raw';objects.mkdir(exist_ok=True)
+mappings=[];unresolved=[];boundary=[];seen=set();queue=collections.deque();rows=[];observed_scripts=[]
+def retain(raw):
+ h=sha(raw);f=objects/(h+'.bin')
+ if f.exists():assert f.read_bytes()==raw
+ else:
+  fd=os.open(f,os.O_WRONLY|os.O_CREAT|os.O_EXCL|getattr(os,'O_BINARY',0));os.write(fd,raw);os.close(fd)
+ _,p=measured(f);return p
+def enqueue(pin,origin,expand=True):
+ key=(pin['file'],pin['bytes'],pin['rawBytesSha256'])
+ if key in seen:return
+ seen.add(key);queue.append((pin,origin,expand))
+def root_file(f,expand=True):
+ _,p=measured(f);enqueue(p,'explicit-final-root',expand)
+def expansion(pin,origin):
+ # G1 and frozen historical before manifests are preserved at their own pins;
+ # their transitive private/runtime lineage is not this final-code package.
+ s=pin['file']
+ if '/budget-probe118-g1-' in s or '/runtime118-graph-RO-corrective01/' in s or '/runtime118-data-assembly-corrective01/' in s:return False
+ if any(t in origin for t in ['/implementationBase','/previousJointG1','/before/','/implementationBefore04','/deliveryBeforeR','/retainedDeliveryBefore','/retainedImplementationBefore04']):return False
+ return s.endswith('.json')
+for n in ['review-runtime118-reentry-code-READY02.json','model-evidence-final02.json','finite-production-READY02.json','finite-dataProduction-READY02.json','finite-rootSupport-READY02.json','final-combined-readback02.json']:
+ root_file(REVIEW/n)
+for f in [IMPL/'runtime118-source-author-models01/source-author-model-bundle02-fixed-inputs.json',IMPL/'runtime118-reentry-fullpin-model01/fullpin-directed01.json',IMPL/'runtime118-reentry-fullpin-model01/fullpin-directed03.json',IMPL/'runtime118-source-author-models01/source-history-pre01.json']:
+ root_file(f)
+
+while queue:
+ expected,origin,expand=queue.popleft();f=from_path(expected['file'])
+ if not allowed(f):
+  boundary.append({'expected':expected,'reference':origin,'status':'NOT_READ_SCOPE_BOUNDARY','reason':'Only public R/I artifacts collected; private, virtual-model and external executable identities remain references.'});continue
+ status='ORIGINAL_EXACT';observed=None;raw=None;resolved=None
+ try:
+  candidate,observed=measured(f)
+  if observed['bytes']==expected['bytes'] and observed['rawBytesSha256']==expected['rawBytesSha256']:raw=candidate;resolved=observed
+  else:status='ORIGINAL_CHANGED'
+ except (OSError,AssertionError) as e:status='ORIGINAL_UNAVAILABLE';observed={'error':type(e).__name__}
+ if raw is None:
+  for p in archive_index.get((expected['bytes'],expected['rawBytesSha256']),[]):
+   af=from_path(p['file'])
+   if not allowed(af) or af==f:continue
+   try:
+    b,actual=measured(af)
+    if actual['bytes']==expected['bytes'] and actual['rawBytesSha256']==expected['rawBytesSha256']:
+     raw=b;resolved=actual;status+='_RESOLVED_SEALED_COPY';break
+   except (OSError,AssertionError):continue
+ if raw is None:
+  unresolved.append({'expected':expected,'reference':origin,'status':status,'observed':observed});continue
+ retained=retain(raw);mappings.append({'original':expected,'reference':origin,'originalReadStatus':status,'originalObserved':observed,'resolvedFrom':resolved,'retainedCopy':retained,'sameBytesAndSHA':True,'sameOriginalFileIdentityClaimed':status=='ORIGINAL_EXACT'})
+ if expected['file'].endswith('.json'):
+  try:v=json.loads(raw)
+  except (ValueError,UnicodeDecodeError):continue
+  if isinstance(v,dict):
+   stats={k:v[k] for k in ['kind','status','verdict','passed','failed','pass','fail','tests','engine','classification','limits'] if k in v}
+   if any(k in stats for k in ['passed','pass','tests','verdict','status']):rows.append({'artifact':expected,'summary':stats})
+  if expand:
+   for pointer,p in refs(v):
+    archive_index[(p['bytes'],p['rawBytesSha256'])].append(p) if archive_hint(p) else None
+    enqueue(p,expected['file']+'#'+pointer,expansion(p,pointer))
+
+# Necessary test-source snapshots: these paths are final fixed reviewer copies.
+# They are explicitly labelled observed source snapshots, not inferred matches to
+# an absent historical script pin. Existing result pins remain the acceptance.
+script_dirs=[REVIEW/'control-candidate01/tests',REVIEW/'control-candidate02/tests02',REVIEW/'control-candidate03',REVIEW/'tool-candidate02/tests',REVIEW/'joint-candidate02/tests',REVIEW/'source-candidate01']
+for d in script_dirs:
+ for f in sorted(d.iterdir()):
+  if not f.is_file() or f.suffix not in ['.mjs','.ps1','.py'] and not f.name.endswith('.mjs.txt'):continue
+  raw,p=measured(f);observed_scripts.append({'original':p,'retainedCopy':retain(raw),'status':'FINAL_REVIEWER_SCRIPT_SNAPSHOT','testedPinInferred':False})
+
+# Explicit retained author counts not necessarily re-listed by the independent
+# model set; each is tied to the component manifest above, never added as a sum.
+component_names=[IMPL/'runtime118-reentry-control-impl01/manifest-control118-reentry-candidate03.json',IMPL/'runtime118-reentry-tax-impl01/manifest-tax118-reentry-candidate01.json',IMPL/'runtime118-reentry-tool-impl01/manifest-tool118-reentry-candidate02.json',IMPL/'runtime118-source-tool-impl01/manifest-source118-candidate03.json']
+component_pins=[measured(f)[1] for f in component_names]
+failures=[]
+for m in mappings:
+ s=m['original']['file'].lower()
+ if any(t in s for t in ['notready','stopped','attempt','pre01','pre02','counterexample','fullpin-directed01']):failures.append({'artifact':m['original'],'retainedCopy':m['retainedCopy'],'label':'PRESERVED_ORIGINAL_LABEL; see artifact and final resolution, not added to final passing totals'})
+custody={'activeInputsRetained':True,'owner':'Root','parentIssue':114,'sliceIssue':118,'releaseOrCleanupBoundary':'Only after #118 G4; this package is a copy of evidence, not a transfer/cleanup of active I inputs.'}
+index={'kind':'runtime118-final-code-public-evidence-retention-index','schemaVersion':1,'components':component_pins,'mappings':mappings,'scriptSnapshots':observed_scripts,'modelReportIndex':rows,'failurePreservationIndex':failures,'unresolvedPublicReferences':unresolved,'nonPublicIdentityBoundaries':boundary,'counts':{'mappedReferences':len(mappings),'uniqueRawObjects':len(list(objects.glob('*.bin'))),'scriptSnapshots':len(observed_scripts),'publicUnresolved':len(unresolved),'scopeBoundaryReferences':len(boundary),'failureIndexEntries':len(failures)},'custody':custody,'truth':{'modulesExecuted':False,'newTestsOrSamplingRun':False,'PProcEnvRead':False,'WSLLaunched':False,'SQLHTTPExecuted':False,'productionSourceChanged':False,'actualG2Granted':False,'allHistoricalResultsReinterpretedAsFinalPass':False},'archiveResolutionPolicy':'If original path drifted, exact bytes resolve only from an already named sealed/fixed copy; mappings retain the changed/unavailable original status and never claim same-file identity.'}
+out=OUT/'retention-index02.json';assert not out.exists();out.write_text(json.dumps(index,ensure_ascii=False,indent=2)+'\n',encoding='utf-8',newline='\n')
+_,p=measured(out);print(json.dumps({'index':p,'counts':index['counts']}))

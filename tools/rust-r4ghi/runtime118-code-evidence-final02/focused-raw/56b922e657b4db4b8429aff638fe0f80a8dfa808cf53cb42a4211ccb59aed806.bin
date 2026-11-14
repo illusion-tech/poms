@@ -1,0 +1,134 @@
+{
+  "kind": "Root-runtime118-G3-corrective-graph-identity-and-readonly-transport",
+  "schemaVersion": 1,
+  "recordedAt": "2026-11-13T22:00:43.938Z",
+  "issue": 118,
+  "parentIssue": 114,
+  "owner": "Root",
+  "frozenG1": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v3/Root-G1-budget-probe118-v3.json",
+    "bytes": 32283,
+    "rawBytesSha256": "80ea3db59386f935b733e5e29b7b8a4db860c408ccb84f9204b9b5adebac00a1"
+  },
+  "classification": {
+    "graphIdentity": "new-real-drift discovered during new5 implementation",
+    "readonlyTransport": "Bounded implementation choice preserving the frozen readonlyPG contract"
+  },
+  "independent": {
+    "graph": {
+      "original": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-reentry-code-independent01/review-graph-pin-domain118-correction01.json",
+        "bytes": 5572,
+        "rawBytesSha256": "0ed570540b4459cb0ca61d263719879c8310bd3e85c1a3590fa13cbbf09acbf8"
+      },
+      "retained": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-graph-RO-corrective01/independent-graph-domain-review01.json",
+        "bytes": 5572,
+        "rawBytesSha256": "0ed570540b4459cb0ca61d263719879c8310bd3e85c1a3590fa13cbbf09acbf8"
+      }
+    },
+    "readonlyTransport": {
+      "original": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-reentry-code-independent01/review-readonly-transport118-choice01.json",
+        "bytes": 5493,
+        "rawBytesSha256": "60e4a2819a3679ba957ef2476da28926e05a0526b4776ad630ff9c03f60dc826"
+      },
+      "retained": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-graph-RO-corrective01/independent-RO-transport-review01.json",
+        "bytes": 5493,
+        "rawBytesSha256": "60e4a2819a3679ba957ef2476da28926e05a0526b4776ad630ff9c03f60dc826"
+      }
+    }
+  },
+  "graphEvidence": {
+    "publicHistoricalWitness": {
+      "original": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/corrective362-source-actual01/source-witness13.json",
+        "bytes": 3389,
+        "rawBytesSha256": "619a65b106417c626ab2028690de8c1d4574d751839d4109022c29dfb110b30c"
+      },
+      "retained": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-graph-RO-corrective01/P3-W3-public-archive.json",
+        "bytes": 3389,
+        "rawBytesSha256": "619a65b106417c626ab2028690de8c1d4574d751839d4109022c29dfb110b30c"
+      }
+    },
+    "originalGraphIdentityFromArchive": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-corrective362-source/a6e8e1ed-787a-4ab2-9595-eec42b617bfd/actual-execution-sources284.json",
+      "bytes": 60810,
+      "rawBytesSha256": "b8fd572ffa1e32ff581631410bcacc48e4350c51d4308e96d216cc985b89a25f"
+    },
+    "frozenPublicGraphMirror": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/corrective362-source-actual01/actual-execution-sources284.json",
+      "bytes": 60810,
+      "rawBytesSha256": "b8fd572ffa1e32ff581631410bcacc48e4350c51d4308e96d216cc985b89a25f"
+    },
+    "publicMirrorRawCopy": {
+      "original": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/corrective362-source-actual01/actual-execution-sources284.json",
+        "bytes": 60810,
+        "rawBytesSha256": "b8fd572ffa1e32ff581631410bcacc48e4350c51d4308e96d216cc985b89a25f"
+      },
+      "retained": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-graph-RO-corrective01/graph-public-mirror60810.json",
+        "bytes": 60810,
+        "rawBytesSha256": "b8fd572ffa1e32ff581631410bcacc48e4350c51d4308e96d216cc985b89a25f"
+      }
+    },
+    "sameRecordedBytesAndSHA": true,
+    "privateOriginalReadThisCheckpoint": false
+  },
+  "requiredCorrection": {
+    "new5Only": true,
+    "W4BaselineExecutionSources": "Must equal actual P3/W3.currentExecutionSources original private Full3",
+    "SC18BeforeGraphsExecution": "Same actual original graph identity, not the public mirror",
+    "G1SourceBoundaryGraph": "Remains frozen public retained graph mirror; never claim it has the private file identity",
+    "verification": "Strong-read both exact original and mirror, then require bytes/hash/raw equality; never weaken samePin or permit arbitrary alias/fallback",
+    "actualMissingOriginal": "STOP; the public copy does not replace a missing original",
+    "models": "Use the real distinct file values with same60810/b8fd; valid raw-equivalent mirror positive, mirror-as-original rejection and changed-byte rejection"
+  },
+  "readonlyTransport": {
+    "approvedChoice": "Builtin-only fixed Podman/psql bridge; no caller SQL, exec, callbacks or returned client",
+    "podman": "/usr/bin/podman",
+    "psql": "/opt/pgsql/bin/psql",
+    "imageBasis": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r0e/Containerfile.pg15",
+      "bytes": 1518,
+      "rawBytesSha256": "546bba48d472f22ba35b37c2c08db4c70356bfda45483ad91a0166c528fd1cd6"
+    },
+    "connection": "One psql process/connection per database transaction: BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY, actual SHOW default/transaction read_only, original complete catalog/rows, COMMIT",
+    "credentials": "Owner password only through bounded stdin into the child credential environment, never argv/SQL/log; do not use -W as an stdin password protocol",
+    "clientControls": "Fixed -X/-w/ON_ERROR_STOP and disabled echo/configuration; exact CID/image/readonly source contract retained",
+    "output": "Preserve original pg.rows types and all inner raw SQL, column order, sorting, NULL/arrays/xmin/meta/sequence/objects. Outer row_to_json may frame transport only",
+    "failure": "Truncation/exit/timeout/parse/connection uncertainty remains UNKNOWN/PRESERVE; no automatic second capture",
+    "actualAvailabilityOrConnectionVerified": false
+  },
+  "preserved": {
+    "frozen80eaUnmodified": true,
+    "previous682And04RawUnmodified": true,
+    "oldCodeQualification": "Historical bounded code/model evidence retained with its limits; not actual old4 runtime eligibility",
+    "historical121G4Unchanged": true,
+    "scopeExistingMOD6Carry5SupportADD3Unchanged": true,
+    "publicRoutesDTOAndDDLUnchanged": true
+  },
+  "authority": {
+    "implementationWithinExistingScope": true,
+    "codeQualified": false,
+    "actualG2Granted": false,
+    "sourceDeliveryGranted": false,
+    "runtimeStartGranted": false,
+    "NativeFSPublicationGranted": false,
+    "contextAuthProbeGranted": false,
+    "FIG2Granted": false,
+    "normalTaxPOSTGranted": false,
+    "MainPOSTGranted": false,
+    "newBusinessCertified": 0,
+    "businessG3": false,
+    "businessG4": false
+  },
+  "validationRequired": [
+    "Independent complete-module new5 real-path graph pair and all mirror mismatch negatives",
+    "Bridge single-connection readonly/credential/timeout/truncation/type fidelity own-IO models",
+    "Actual original graph, container/client and four complete snapshots only in subsequent exact actual G2/readback"
+  ]
+}
