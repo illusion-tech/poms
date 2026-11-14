@@ -15,18 +15,24 @@ import {
     allowNumberCounter,
     reconcileAttempt,
 } from "../business/ledger.mjs";
-import { assertRecorded118 } from "./tax15-once-ledger.mjs";
+import { assertRecorded118, assertBudgetRecorded118, reconcileBudgetAuth118 } from "./tax15-once-ledger.mjs";
+import * as budgetNative121 from "../business/runtime-admission121.mjs";
 import {
     checkpoint118,
     domainPermission118,
     noteLedger118,
     runtime118,
+    budgetInvocationFacts118,
+    budgetWireCheckpoint118,
+    budgetRecordHttp118,
     stage118,
 } from "./invocation-proof.mjs";
 import {
     assertCurrentScope118,
     guardActor118,
     guardActorForWire118,
+    guardBudgetActor118,
+    guardBudgetActorForWire118,
     install118,
     rememberAck118,
     remove118,
@@ -71,8 +77,15 @@ function bindActualApi(ctx) {
 }
 
 export function createWire118(cap) {
-    const { ctx, p } = runtime118(cap);
-    checkpoint118(cap, "wire-bind");
+    return createWireBody118(cap);
+}
+function createWireBody118(cap, budget = null) {
+    const runtime = () => budget === null ? runtime118(cap) : {...budgetInvocationFacts118(budget.root,budget.ticket),ctx:budget.root};
+    const checkpoint = phase => budget === null ? checkpoint118(cap,phase) : budgetWireCheckpoint118(budget.root,budget.ticket,phase);
+    const guardActor = () => budget === null ? guardActor118(cap) : guardBudgetActor118(budget.root,budget.ticket);
+    const guardForWire = () => budget === null ? guardActorForWire118(cap) : guardBudgetActorForWire118(budget.root,budget.ticket);
+    const { ctx, p } = runtime();
+    checkpoint( "wire-bind");
     bindActualApi(ctx);
     const spec = JSON.parse(read118(p.wireSpec));
     const operations = operationMap(spec), actual = statusBindings(ctx);
@@ -102,6 +115,15 @@ export function createWire118(cap) {
         actorKey = "bootstrap",
         binding = {},
     ) {
+        if (budget !== null) {
+            const expected = ["AuthController_getCsrfToken","AuthController_createPasswordAuthSession","AuthController_getCurrentAuthSession"];
+            assert.equal(operationId, expected[budget.step], "Budget Auth must use its one canonical ordered sequence");
+            assert.deepEqual(params, {});
+            assert.deepEqual(binding, {});
+            assert.equal(actorKey,p.actorKey);
+            assert.deepEqual(body, operationId === expected[1] ? {username:ctx.state.actors[p.actorKey].username,password:ctx.state.actors[p.actorKey].password} : null);
+            budget.step++; // consume before any request work; unknown results never retry
+        }
         assert(
             !ctx.state.cleaned && !ctx.state.cleanupPlan &&
                 !ctx.state.blockedObservation && !ctx.state.activeFault,
@@ -111,9 +133,9 @@ export function createWire118(cap) {
             ctx.state.baseline,
             "Original immutable baseline required before any HTTP",
         );
-        checkpoint118(cap, "HTTP-before");
+        checkpoint( "HTTP-before");
         assert(
-            ["prepare-only", "fi-closed-set", "fi-family", "commit-once"]
+            ["prepare-only", "fi-closed-set", "fi-family", "commit-once", "budget-probe"]
                 .includes(p.mode),
             "This invocation cannot send HTTP",
         );
@@ -140,7 +162,7 @@ export function createWire118(cap) {
             assert.equal(p.mode, "prepare-only");
             assert.deepEqual(Object.keys(params), ["projectId"]);
             assert(
-                runtime118(cap).legacy.projectIds.includes(params.projectId),
+                runtime().legacy.projectIds.includes(params.projectId),
             );
             assert.equal(binding.query?.view, "preparation");
             assert.equal(binding.query?.intent, "restatement");
@@ -158,7 +180,7 @@ export function createWire118(cap) {
         }
         if (domain) {
             assert.deepEqual(params, {});
-            assert.deepEqual(body, runtime118(cap).prepared.body);
+            assert.deepEqual(body, runtime().prepared.body);
             assert(
                 !binding.csrf && !binding.rawJson && !binding.bytes &&
                     !binding.query,
@@ -222,12 +244,13 @@ export function createWire118(cap) {
         ) await allowNumberCounter(ctx, "cost-labor");
         if (binding.number) await allowNumberCounter(ctx, binding.number.scope);
         const before = await capture(ctx, `${label}-before`);
-        assertRecorded118(cap, before);
-        await guardActor118(cap);
+        if (budget === null) assertRecorded118(cap, before);
+        else assertBudgetRecorded118(budget.root,budget.ticket,before);
+        await guardActor();
         if (domain) {
-            await guardActor118(cap);
+            await guardActor();
             assertCurrentScope118(cap, before);
-            const f = runtime118(cap).frame;
+            const f = runtime().frame;
             if (f) {
                 stage118(cap, {
                     cursor: f.cursor,
@@ -293,7 +316,7 @@ export function createWire118(cap) {
         if (payload.length || binding.bytes) {
             headers["Content-Length"] = payload.length;
         }
-        const runtimeReference121=runtime118(cap).runtimeReference121; // Bound metadata only; final checkpoint below authorizes no stale link.
+        const runtimeReference121=runtime().runtimeReference121; // Bound metadata only; final checkpoint below authorizes no stale link.
         const originals = {
             requestConfig: ctx.artifact(`${label}-request.json`, {
                 runtimeReference121,
@@ -308,14 +331,14 @@ export function createWire118(cap) {
             requestBody: ctx.artifact(`${label}-request-body.bin`, payload),
         };
         if (domain) {
-            await guardActor118(cap);
-            checkpoint118(cap, "HTTP-immediately-before");
+            await guardActor();
+            checkpoint( "HTTP-immediately-before");
             domainPermission118(cap, {
                 operationId,
                 expectedStatus,
                 bodySHA256: sha(payload),
             });
-            const f = runtime118(cap).frame;
+            const f = runtime().frame;
             if (f) {
                 stage118(cap, {
                     cursor: f.cursor,
@@ -327,13 +350,13 @@ export function createWire118(cap) {
             }
         }
         ctx.persist();
-        const checkedReference121 = checkpoint118(cap, "HTTP-reference-before-wire").runtimeReference121;
+        const checkedReference121 = checkpoint( "HTTP-reference-before-wire").runtimeReference121;
         assert.deepEqual(checkedReference121, runtimeReference121, "Final current identity differs from request metadata");
         const chunks = [];
         let response, failure;
         // All bulk checks/captures/request artifacts/pending persistence are
         // complete. Re-read actual account/full permissions/cookie/session now.
-        const finalDeadline = await guardActorForWire118(cap);
+        const finalDeadline = await guardForWire();
         assert.equal(actor.cookies?.poms_session ?? null, dispatchSessionCookie, "Session cookie changed before dispatch");
         if (finalDeadline === null) {
             assert.equal(dispatchCookieHash, null);
@@ -474,9 +497,9 @@ export function createWire118(cap) {
         ctx.persist();
         // Raw response, public attempt and any201 ACK already exist before a
         // process/lease failure may stop cleanup. Never re-dispatch this body.
-        checkpoint118(cap,"HTTP-ACK-preserved-postguard");
+        checkpoint("HTTP-ACK-preserved-postguard");
         if (binding.fi) {
-            const f = runtime118(cap).frame;
+            const f = runtime().frame;
             stage118(cap, {
                 cursor: f.cursor,
                 key: f.key,
@@ -493,9 +516,9 @@ export function createWire118(cap) {
             fault = await remove118(cap);
         }
         const after = await capture(ctx, `${label}-after`);
-        checkpoint118(cap, "HTTP-after");
+        checkpoint( "HTTP-after");
         if (binding.fi) {
-            const f = runtime118(cap).frame;
+            const f = runtime().frame;
             stage118(cap, {
                 cursor: f.cursor,
                 key: f.key,
@@ -504,14 +527,19 @@ export function createWire118(cap) {
                 after: after.manifest,
             });
         }
-        const ledger = await reconcileAttempt(
+        const ledger = budget === null ? await reconcileAttempt(
             ctx,
             before,
             after,
             attempt,
             binding,
-        );
-        noteLedger118(cap, ledger);
+        ) : await reconcileBudgetAuth118(budget.root,budget.ticket,before,after,attempt,binding);
+        if (budget === null) noteLedger118(cap, ledger);
+        if (budget !== null) {
+            const http = {file:`${ctx.out}/${publicReceipt}`,rawBytesSha256:sha(fs.readFileSync(`${ctx.out}/${publicReceipt}`))};
+            budgetRecordHttp118(budget.root,budget.ticket,{http,ledger,before:before.manifest,after:after.manifest});
+            budget.receipts.push({operationId,http,before:before.manifest,after:after.manifest,ledger});
+        } else {
         ctx.state.consumerChecks.taxInvocation121
             .invocations[p.nonce].httpAttempts ??= [];
         ctx.state.consumerChecks.taxInvocation121
@@ -528,8 +556,9 @@ export function createWire118(cap) {
                 ...(fault ? { fault } : {}),
             });
         ctx.persist();
+        }
         if (binding.fi) {
-            const f = runtime118(cap).frame;
+            const f = runtime().frame;
             stage118(cap, {
                 cursor: f.cursor,
                 key: f.key,
@@ -549,7 +578,7 @@ export function createWire118(cap) {
             });
             ctx.persist();
         }
-        await guardActor118(cap);
+        await guardActor();
         if (failure || !attempt.responseComplete) {
             throw new Error(
                 "Actual transport incomplete: reconcile committed state; never infer rollback from missing ACK",
@@ -572,6 +601,10 @@ export function createWire118(cap) {
         };
     }
     async function login(key) {
+        if (budget !== null) {
+            assert(!budget.loginStarted, "Budget second login rejected before cookie reset");
+            budget.loginStarted = true;
+        }
         const actor = ctx.state.actors[key];
         assert(actor?.username && actor.password);
         actor.cookies = {};
@@ -601,4 +634,19 @@ export function createWire118(cap) {
     }
 
     return { request, login, operations, spec, success };
+}
+
+const budgetAuthOnce118 = new WeakSet();
+export async function authenticateBudgetWire118(root, ticket) {
+    budgetNative121.assertBudgetProbeDispatch121(root,ticket);
+    assert(!budgetAuthOnce118.has(root), "Budget login is one-shot even after an unknown result");
+    budgetAuthOnce118.add(root); // always before cookie reset or construction work
+    const {p} = budgetInvocationFacts118(root,ticket);
+    assert.equal(p.mode,"budget-probe");
+    const budget = {root,ticket,step:0,loginStarted:false,receipts:[]};
+    const wire = createWireBody118(null,budget);
+    await wire.login(p.actorKey);
+    assert.equal(budget.step,3);
+    assert.equal(budget.receipts.length,3);
+    return budget.receipts;
 }

@@ -7,6 +7,7 @@ import { isProxy } from "node:util/types";
 import { pathToFileURL } from "node:url";
 import { sourcePins } from "../business/context.mjs";
 import {createContext121,assertCurrentLease121,runtimeReference121} from "../business/runtime-admission121.mjs";
+import * as budgetNative121 from "../business/runtime-admission121.mjs";
 import {
     assertRuntimeFacts118,
     F118,
@@ -20,6 +21,8 @@ import {
 } from "./retained-tax-proof.mjs";
 import { deriveTax15Facts, inventoryTax15 } from "./tax15-facts.mjs";
 const caps = new WeakMap();
+const budgetRoots118 = new WeakMap();
+const budgetOpening118 = new WeakMap();
 const hash = (v) => sha118(JSON.stringify(v));
 export const EXECUTOR_NAMES118 = Object.freeze([
     "run-tax15-once.mjs",
@@ -40,6 +43,7 @@ export const MODES118 = Object.freeze([
     "commit-once",
     "verify-committed",
     "disarm-owned",
+    "budget-probe",
 ]);
 const runtimeKeys = new Set([
     "sequence",
@@ -181,7 +185,11 @@ export function assertInput118(p) {
             "wireSpec",
         ]
     ) pin118(p[k]);
-    assert.equal(p.technicalG1.rawBytesSha256, F118.g1SHA);
+    if (p.mode === "budget-probe") {
+        samePin118(p.technicalG1, F118.budgetG1);
+        assert.equal(p.technicalG1.bytes, F118.budgetG1.bytes);
+        assert.equal(p.expectedActorPermissions.length, 37);
+    } else assert.equal(p.technicalG1.rawBytesSha256, F118.g1SHA);
     assert.equal(p.baseline.rawBytesSha256, F118.baselineSHA);
     assert.equal(
         p.wireSpec.file,
@@ -321,6 +329,7 @@ function live(cap) {
 // Pure view construction is exported for actual confinement tests. It cannot
 // mint a capability or choose an effect mode. Its prototype is deliberately null.
 export function restrictContext118(root) {
+    assert(!budgetRoots118.has(root), "Budget Root never exposes the eight-method facade");
     const appsField = Object.getOwnPropertyDescriptor(root, "apps");
     assert(appsField && Object.hasOwn(appsField, "value"), "Existing genuine fixed app roles required");
     const actualApps = appsField.value;
@@ -585,11 +594,13 @@ function apiIdentity(d) {
         binary(p, d.verifiedRuntime.current.binaryFiles);
     }
 }
-function currentFiles(d) {
-    assertCurrentLease121(d.root,d.verifiedRuntime);
+function currentFiles(d, ticket = null) {
+    if (d.nativeBudget) budgetNative121.budgetAssertCurrentLease121(d.root,ticket,d.verifiedRuntime);
+    else assertCurrentLease121(d.root,d.verifiedRuntime);
     currentTaxFiles118(d);
 }
 function currentTaxFiles118(d) {
+    if (d.nativeBudget) assert.deepEqual(d.root.state.taxContinuation121, d.originalRecord, "Successful preparation birth record is immutable");
     const lock = json118({
         file: d.root.priv + "/driver.lock",
         rawBytesSha256: d.lockSHA,
@@ -659,11 +670,13 @@ function closeFailedOpen118(
     inputPin,
     reviewPin,
     primary,
+    ticket = null,
 ) {
     let nativeExitError = null, sourceExitError = null;
     // Attempt the real native exit even if later journal/path checks fail.
     try {
-        native.assertRuntimeBinding121(root,{runtimeAdmission121:json118(p.runtimeBindings).current.runtimeAdmission121,candidate:p.candidate});
+        if (ticket === null) native.assertRuntimeBinding121(root,{runtimeAdmission121:json118(p.runtimeBindings).current.runtimeAdmission121,candidate:p.candidate});
+        else native.budgetAssertRuntimeBinding121(root,ticket,{runtimeAdmission121:json118(p.runtimeBindings).current.runtimeAdmission121,candidate:p.candidate});
     } catch (error) {
         nativeExitError = error.message;
     }
@@ -745,6 +758,11 @@ function closeFailedOpen118(
     return { openFailure: outcome, result: null };
 }
 export async function openInvocation118(inputPin, reviewPin) {
+    assert.equal(arguments.length, 2);
+    return openInvocationBody118(inputPin, reviewPin);
+}
+async function openInvocationBody118(inputPin, reviewPin, budgetEntry = null) {
+    if (budgetEntry !== null) budgetNative121.assertBudgetProbeDispatch121(budgetEntry.root, budgetEntry.ticket);
     assert.equal(process.platform, "linux");
     assert.equal(process.version, "v24.19.0");
     assert.equal(process.execArgv.length, 0);
@@ -752,7 +770,10 @@ export async function openInvocation118(inputPin, reviewPin) {
     const p = assertInput118(json118(inputPin)),
         review = json118(reviewPin),
         code = json118(p.codeReview);
+    assert.equal(p.mode === "budget-probe", budgetEntry !== null, "Budget entry is Native-only");
+    const ticket = budgetEntry?.ticket ?? null;
     assert.equal(code.kind, "non-author-Tax15-invocation118-code-review");
+    if (p.mode === "budget-probe") samePin118(code.technicalG1,p.technicalG1);
     assert.equal(code.verdict, "code-ready-for-exact-input-review");
     assert.equal(code.reviewerIsAuthor, false);
     assert.deepEqual(code.executionSources, p.executionSources);
@@ -797,11 +818,11 @@ export async function openInvocation118(inputPin, reviewPin) {
     const reg = json118(p.codeAdmission15);
     let root;
     try {
-        root = createContext121({
+        root = budgetEntry === null ? createContext121({
             epoch: F118.epoch,
             run: F118.run,
             "api-process-record": p.apiProcess.file,
-        }); // one real native entry through consumer-admission54
+        }) : budgetEntry.root; // budget Root is the one genuine Native-owned return
     } catch (error) {
         error.openFailure = {
             phase: "native-entry-not-returned-preserve",
@@ -816,19 +837,20 @@ export async function openInvocation118(inputPin, reviewPin) {
     let openingCap = null;
     try {
         assert.deepEqual(root.state, JSON.parse(entry));
-        const facts = assertRuntimeFacts118(root, manifest, reg),
-            legacy = readRetainedTaxProof118(root, manifest, reg);
+        const facts = assertRuntimeFacts118(root, manifest, reg, ticket),
+            legacy = readRetainedTaxProof118(root, manifest, reg, ticket);
         samePin118(p.actualSourcePins,facts.verifiedRuntime.current.sourcePins);
         samePin118(p.actualCompilePins,facts.verifiedRuntime.current.compilePins);
         samePin118(p.actualHelperPins,facts.verifiedRuntime.current.helperPins);
-        ensureRecord(root,manifest,reg,legacy,p.runtimeBindings,facts.retainedPreparation15);
+        if (budgetEntry === null) ensureRecord(root,manifest,reg,legacy,p.runtimeBindings,facts.retainedPreparation15);
+        else assertBudgetPreparation118(root, manifest, p, ticket);
         const record = root.state.taxContinuation121;
         assert(
             !record.pendingMain,
             "Main is inherited only; no pending Main continuation",
         );
         if (
-            ["prepare-only", "fi-closed-set", "fi-family", "commit-once"]
+            ["prepare-only", "fi-closed-set", "fi-family", "commit-once", "budget-probe"]
                 .includes(
                     p.mode,
                 )
@@ -846,7 +868,7 @@ export async function openInvocation118(inputPin, reviewPin) {
             );
         }
         if (
-            ["prepare-only", "fi-closed-set", "fi-family", "commit-once"]
+            ["prepare-only", "fi-closed-set", "fi-family", "commit-once", "budget-probe"]
                 .includes(
                     p.mode,
                 )
@@ -860,7 +882,7 @@ export async function openInvocation118(inputPin, reviewPin) {
             assert(!root.state.activeFault && !root.state.blockedObservation);
         }
         if (
-            ["prepare-only", "fi-closed-set", "fi-family", "commit-once"]
+            ["prepare-only", "fi-closed-set", "fi-family", "commit-once", "budget-probe"]
                 .includes(
                     p.mode,
                 )
@@ -885,14 +907,21 @@ export async function openInvocation118(inputPin, reviewPin) {
             }
             assert.equal(hash(prepared.body), p.bodySHA256);
             assert.deepEqual(json118(p.fullInventory), prepared.inventory);
-            assertContinuation121(root,manifest,record,p);
+            if (budgetEntry === null) assertContinuation121(root,manifest,record,p);
+            else assertBudgetPreparation118(root,manifest,p,ticket);
         }
         const boot = fs.readFileSync("/proc/sys/kernel/random/boot_id", "utf8")
                 .trim(),
             cap = Object.freeze(Object.create(null)),
             d = {
                 root,
-                ctx: restrictContext118(root),
+                ctx: budgetEntry === null ? restrictContext118(root) : null,
+                nativeBudget: budgetEntry !== null,
+                originalRecord: budgetEntry === null ? null : freeze118(structuredClone(record)),
+                budgetFailed: false,
+                budgetActorBefore: null,
+                budgetActorAfter: null,
+                budgetAuth3: [],
                 p: freeze118(p),
                 inputPin: freeze118({ ...inputPin }),
                 reviewPin: freeze118({ ...reviewPin }),
@@ -930,8 +959,9 @@ export async function openInvocation118(inputPin, reviewPin) {
                 ledgers: [],
             };
         caps.set(cap, d);
+        if (d.nativeBudget) { d.cap = cap; budgetRoots118.set(root, d); }
         openingCap = cap;
-        currentFiles(d);
+        currentFiles(d, ticket);
         if (p.mode === "fi-closed-set") {
             assertClosedSet118(
                 prepared.inventory,
@@ -960,7 +990,7 @@ export async function openInvocation118(inputPin, reviewPin) {
                 phase: "entry-verified",
                 epoch: F118.epoch,
                 run: F118.run,
-                current15: currentTuple118(cap),
+                current15: currentTuple118(cap, ticket),
                 nonce: p.nonce,
                 pid: process.pid,
                 bootId: boot,
@@ -976,6 +1006,11 @@ export async function openInvocation118(inputPin, reviewPin) {
         invocationJournal118(cap);
         return cap;
     } catch (primary) {
+        if (budgetEntry !== null) {
+            const d = budgetRoots118.get(root);
+            if (d) d.budgetFailed = true;
+            throw primary; // Native owns the single close latch, including failed entry.
+        }
         try {
             if (openingCap) {
                 primary.openFailure = {
@@ -1010,8 +1045,9 @@ export async function openInvocation118(inputPin, reviewPin) {
         throw primary;
     }
 }
-export function currentTuple118(cap) {
+export function currentTuple118(cap, ticket = null) {
     const d = live(cap), c = d.manifest.current;
+    if (d.nativeBudget) budgetNative121.assertBudgetProbeDispatch121(d.root, ticket);
     return {
         namespace: d.root.namespace,
         epoch: d.root.epoch,
@@ -1029,7 +1065,7 @@ export function currentTuple118(cap) {
         runtimeBindings: d.p.runtimeBindings,
         bodySHA256: d.p.bodySHA256,
         runtimeAdmission121:c.runtimeAdmission121,
-        runtimeReference121:runtimeReference121(d.root,d.verifiedRuntime),
+        runtimeReference121:d.nativeBudget ? budgetNative121.budgetRuntimeReference121(d.root,ticket,d.verifiedRuntime) : runtimeReference121(d.root,d.verifiedRuntime),
     };
 }
 // This bound link is data only. It does not perform or authorize a current
@@ -1047,6 +1083,7 @@ function runtimeLink118(d) {
 }
 export function runtime118(cap) {
     const d = live(cap);
+    assert(!d.nativeBudget, "Budget capability exposes no Root, helpers or general methods");
     return Object.freeze({
         ctx: d.ctx,
         p: d.p,
@@ -1066,8 +1103,12 @@ export function runtime118(cap) {
         runtimeReference121:runtimeLink118(d),
     });
 }
-export function checkpoint118(cap, phase) {
+export function checkpoint118(cap, phase, ticket = null) {
     const d = live(cap);
+    if (d.nativeBudget) {
+        budgetNative121.assertBudgetProbeDispatch121(d.root, ticket);
+        assert(!d.root.state.activeFault, "Budget checkpoints require activeFault=false");
+    }
     assert(typeof phase === "string" && phase);
     currentTaxFiles118(d);
     if (d.root.state.activeFault) {
@@ -1086,7 +1127,7 @@ export function checkpoint118(cap, phase) {
         cursor: d.cursor,
         pid: d.pid,
         boot: d.boot,
-        runtimeReference121:freeze118(structuredClone(runtimeReference121(d.root,d.verifiedRuntime))),
+        runtimeReference121:freeze118(structuredClone(d.nativeBudget ? budgetNative121.budgetRuntimeReference121(d.root,ticket,d.verifiedRuntime) : runtimeReference121(d.root,d.verifiedRuntime))),
     };
 }
 export function savePreparation118(cap, value) {
@@ -1279,12 +1320,13 @@ function writeFailedBookend118(d, result, error) {
     return evidence;
 }
 
-export async function closeInvocation118(cap, result, { failed = false } = {}) {
+export async function closeInvocation118(cap, result, { failed = false } = {}, ticket = null) {
     const d = live(cap);
+    if (d.nativeBudget) budgetNative121.assertBudgetProbeDispatch121(d.root, ticket);
     let bookendError;
     try {
         try {
-            currentFiles(d);
+            currentFiles(d, ticket);
         } catch (e) {
             bookendError = e;
         }
@@ -1295,13 +1337,16 @@ export async function closeInvocation118(cap, result, { failed = false } = {}) {
                         "/tools/rust-r4ghi/business/runtime-admission121.mjs",
                 ).href
             );
-            d.verifiedRuntime=native.assertRuntimeBinding121(d.root,{runtimeAdmission121:d.manifest.current.runtimeAdmission121,candidate:d.p.candidate});
+            d.verifiedRuntime=d.nativeBudget
+                ? native.budgetAssertRuntimeBinding121(d.root,ticket,{runtimeAdmission121:d.manifest.current.runtimeAdmission121,candidate:d.p.candidate})
+                : native.assertRuntimeBinding121(d.root,{runtimeAdmission121:d.manifest.current.runtimeAdmission121,candidate:d.p.candidate});
         } catch (e) {
             bookendError ??= e;
         }
         if (bookendError) throw bookendError;
-        readRetainedTaxProof118(d.root, d.manifest, d.registry);
-        const current15 = currentTuple118(cap);
+        readRetainedTaxProof118(d.root, d.manifest, d.registry, ticket);
+        if (d.nativeBudget) assertBudgetPreparation118(d.root,d.manifest,d.p,ticket);
+        const current15 = currentTuple118(cap, ticket);
         d.exitGuard = d.root.artifact(
             d.root.next("tax118-exit-guard") + ".json",
             {
@@ -1336,6 +1381,7 @@ export async function closeInvocation118(cap, result, { failed = false } = {}) {
             d.root.next("tax118-closed-journal") + ".json",
             journal,
         );
+        if (d.nativeBudget) d.actualClosedJournal = closed;
         journal.closedJournal = closed;
         d.root.persist();
         if(!failed && d.p.mode==="prepare-only")publishPreparationContinuation121(d,result,closed,current15);
@@ -1349,15 +1395,28 @@ export async function closeInvocation118(cap, result, { failed = false } = {}) {
         };
     } catch (e) {
         bookendError = e;
+        const primary = d.nativeBudget ? Error("Budget full close failed; preserve existing private evidence") : e;
+        if (d.nativeBudget) Object.defineProperty(primary, "budgetCloseFacts", {value:{exitGuard:d.exitGuard ?? null,closedJournal:d.actualClosedJournal ?? null,result:result ?? null}});
+        if (d.nativeBudget) {
+            try {
+                const r = invocationJournal118(cap);
+                r.phase = "failed-preserve";
+                r.error = primary.message;
+                d.root.persist();
+                writeFailedBookend118(d, result, primary);
+            } catch { /* A secondary evidence-write failure must not replace the already observed close facts. */ }
+            throw primary;
+        }
         const r = invocationJournal118(cap);
         r.phase = "failed-preserve";
-        r.error = e.message;
+        r.error = primary.message;
         d.root.persist();
-        writeFailedBookend118(d, result, e);
-        throw e;
+        writeFailedBookend118(d, result, primary);
+        throw primary;
     } finally {
         d.closed = true;
         caps.delete(cap);
+        if (d.nativeBudget) budgetRoots118.delete(d.root);
     }
 }
 async function publishCompleted118(d, normalResult, closedJournal, current15) {
@@ -1452,7 +1511,7 @@ async function publishCompleted118(d, normalResult, closedJournal, current15) {
         invocations = Object.values(
             root.state.consumerChecks.taxInvocation121.invocations,
         ).filter((i) =>
-            ["prepare-only", "fi-closed-set", "fi-family", "commit-once"]
+            ["prepare-only", "fi-closed-set", "fi-family", "commit-once", "budget-probe"]
                 .includes(i.mode) &&
             (i.phase === "closed-verified" ||
                 i.phase === "closed-failed" &&
@@ -1512,6 +1571,149 @@ async function publishCompleted118(d, normalResult, closedJournal, current15) {
 
 export async function verifyPublishedInvocation121(cap){
  const d=live(cap);assert.equal(d.p.mode,'verify-committed');currentFiles(d);const record=d.root.state.taxContinuation121;pin118(record.complete);pin118(record.sidecar);const reader=await import(pathToFileURL(F118.win+'/tools/rust-r4ghi/tax15-readonly/runtime15.mjs').href);const c=d.manifest.current,proof=reader.assertTax15Envelope(d.root,{sourcePins:d.p.actualSourcePins,sourcePinsSHA256:c.sourcePinsSHA256,sourceCount:c.sourceCount,helperPins:c.helperPins,helperCount:c.helperCount,helperSources:c.helperSources,apiProcess:c.apiProcess,binarySHA256:c.binarySHA256,codeAdmission15:c.codeAdmission15,candidate:c.candidate,taxRuntimeBindings:d.p.runtimeBindings,taxCompletion:record.complete});currentFiles(d);return d.root.artifact(d.root.next('tax121-published-readback')+'.json',{kind:'actual-runtime121-published-Tax-completion-readback',runtimeAdmission121:c.runtimeAdmission121,completion:record.complete,sidecar:record.sidecar,afterVerifiedFrame:proof.envelope.afterVerifiedFrame,historicalOwnershipFromImmutableFrame:true,currentOwnedLatestUsed:false,newHTTP:false});
+}
+
+// Only Native's current, non-escaping dispatch ticket reaches these functions.
+// The runner receives the six-method port, never this Root or the private cap.
+function budgetData118(root, ticket) {
+    budgetNative121.assertBudgetProbeDispatch121(root, ticket);
+    const d = budgetRoots118.get(root);
+    assert(d && d.nativeBudget && !d.closed, "Live Native-owned budget invocation required");
+    assert.equal(d.root, root);
+    live(d.cap);
+    return d;
+}
+function assertBudgetPreparation118(root, manifest, p, ticket) {
+    budgetNative121.assertBudgetProbeDispatch121(root, ticket);
+    const adoption = json118(manifest.prepareAdoption121);
+    assert.deepEqual(Object.keys(adoption).sort(), ["kind","schemaVersion","purpose","prepareOrigin121","current","semantics"].sort());
+    assert.equal(adoption.kind, "Root-runtime121-successful-prepare-adoption");
+    assert.equal(adoption.schemaVersion, 1);
+    assert.equal(adoption.purpose, "budget-probe");
+    assert.deepEqual(adoption.semantics, {freshPreparation:false,newK:false,actualContextObserved:false,FIOrNormalGranted:false});
+    samePin118(adoption.current.registry, manifest.current.runtimeAdmission121);
+    samePin118(adoption.current.candidate, p.candidate);
+    const origin = json118(adoption.prepareOrigin121);
+    assert.deepEqual(Object.keys(origin).sort(), ["kind","schemaVersion","state","ownership","recordPointer","continuation121","continuationReadback"].sort());
+    assert.equal(origin.kind, "Root-runtime121-successful-prepare-origin");
+    assert.equal(origin.schemaVersion, 1);
+    assert.equal(origin.recordPointer, "/taxContinuation121");
+    const original = json118(origin.state).taxContinuation121;
+    assert.deepEqual(root.state.taxContinuation121, original, "Never rewrite the successful birth record");
+    read118(origin.ownership);
+    samePin118(original.continuation121, origin.continuation121);
+    read118(origin.continuationReadback); // independent carrier; do not fill the old nullable slot
+    const k = json118(origin.continuation121);
+    assert.equal(k.kind, "actual-Source15-runtime121-prepare-continuation-verified");
+    samePin118(k.runtimeAdmission121, original.runtimeAdmission121);
+    samePin118(k.prepared15, p.prepared15);
+    samePin118(k.fullInventory, p.fullInventory);
+    assert.equal(k.bodySHA256, p.bodySHA256);
+    assertPreparationContinuationData121(original, manifest);
+    for (const name of ["entryGuard","exitGuard","closedJournal"]) read118(k[name]);
+    assert.equal(json118(k.closedJournal).phase, "closed-verified");
+    return adoption;
+}
+export async function openBudgetInvocation118(root, ticket, inputPin, reviewPin) {
+    budgetNative121.assertBudgetProbeDispatch121(root, ticket);
+    assert(!budgetOpening118.has(root), "Native budget entry cannot be repeated");
+    budgetOpening118.set(root, {inputPin:freeze118({...inputPin}),reviewPin:freeze118({...reviewPin})});
+    await openInvocationBody118(inputPin, reviewPin, {root, ticket});
+    const d = budgetData118(root, ticket);
+    return freeze118(structuredClone({
+        currentFrame: currentTuple118(d.cap, ticket),
+        entryGuard: d.entryGuard,
+        prepareAdoption121: d.manifest.prepareAdoption121,
+    }));
+}
+export function budgetInvocationFacts118(root, ticket) {
+    const d = budgetData118(root, ticket);
+    return freeze118(structuredClone({
+        p:d.p, inputPin:d.inputPin, reviewPin:d.reviewPin, manifest:d.manifest,
+        registry:d.registry, legacy:d.legacy, prepared:d.prepared,
+        comparisonBaseline:d.comparisonBaseline, entryGuard:d.entryGuard,
+        runtimeReference121:runtimeLink118(d),
+    }));
+}
+export function budgetWireCheckpoint118(root, ticket, phase) {
+    const d = budgetData118(root, ticket);
+    assert(["wire-bind","HTTP-before","HTTP-reference-before-wire","HTTP-ACK-preserved-postguard","HTTP-after"].includes(phase));
+    return checkpoint118(d.cap, phase, ticket);
+}
+export function budgetRecordHttp118(root, ticket, record) {
+    const d = budgetData118(root, ticket);
+    assert.deepEqual(Object.keys(record).sort(), ["http","ledger","before","after"].sort());
+    for (const pin of Object.values(record)) read118(pin);
+    d.ledgers.push(structuredClone(record.ledger));
+    invocationJournal118(d.cap).httpAttempts.push(structuredClone(record));
+    root.persist();
+}
+export async function authenticateBudgetInvocation118(root, ticket) {
+    const d = budgetData118(root, ticket);
+    assert.equal(d.budgetAuth3.length, 0);
+    try {
+        const wire = await import("./tax15-once-wire.mjs");
+        d.budgetAuth3 = await wire.authenticateBudgetWire118(root, ticket);
+        return freeze118(structuredClone(d.budgetAuth3));
+    } catch (error) { d.budgetFailed = true; throw error; }
+}
+async function observeBudget118(root, ticket, slot) {
+    const d = budgetData118(root, ticket);
+    assert(!d[slot + "Attempted"], "Budget actor observation is one-shot");
+    d[slot + "Attempted"] = true;
+    try {
+        const effects = await import("./tax15-once-effects.mjs");
+        d[slot] = await effects.observeBudgetActor118(root, ticket);
+        return freeze118(structuredClone(d[slot]));
+    } catch (error) { d.budgetFailed = true; throw error; }
+}
+export async function guardBudgetBefore118(root, ticket) {
+    return observeBudget118(root, ticket, "budgetActorBefore");
+}
+export function checkpointBudgetInvocation118(root, ticket) {
+    const d = budgetData118(root, ticket);
+    assert.equal(d.budgetActorBefore?.status, "VERIFIED");
+    assert(!d.budgetCheckpointAttempted, "One designated complete base checkpoint only");
+    d.budgetCheckpointAttempted = true;
+    try {
+        const value = checkpoint118(d.cap, "budget-base", ticket);
+        d.budgetCheckpoint = freeze118(structuredClone(value));
+        return value;
+    } catch (error) { d.budgetFailed = true; throw error; }
+}
+export async function guardBudgetAfter118(root, ticket) {
+    const d = budgetData118(root, ticket);
+    assert(d.budgetCheckpoint);
+    return observeBudget118(root, ticket, "budgetActorAfter");
+}
+export async function closeBudgetInvocation118(root, ticket, sample) {
+    budgetNative121.assertBudgetProbeDispatch121(root, ticket);
+    const d = budgetRoots118.get(root);
+    if (!d) {
+        const opening = budgetOpening118.get(root) ?? budgetNative121.budgetOpeningPins121(root,ticket);
+        assert(opening, "No invented entry after a constructor failure");
+        const p = assertInput118(json118(opening.inputPin));
+        const primary = Error("Budget entry did not complete; preserve the one Native exit");
+        try {
+            closeFailedOpen118(root,budgetNative121,json118(p.codeAdmission15),p,opening.inputPin,opening.reviewPin,primary,ticket);
+            return {exitGuard:null,closedJournal:null,result:null};
+        }
+        finally { budgetOpening118.delete(root); }
+    }
+    try {
+        if (sample !== null) {
+            assert.equal(sample.file, root.priv + "/tax118-invocation-" + d.p.nonce + "/budget-base-sample.json");
+            const value = json118(sample);
+            samePin118(value.input, d.inputPin);
+            samePin118(value.exactReview, d.reviewPin);
+            assert.deepEqual(value.checkpoint.value, d.budgetCheckpoint);
+            assert.deepEqual(value.auth3, d.budgetAuth3);
+        }
+    } catch { sample = null; d.budgetFailed = true; }
+    try {
+        return await closeInvocation118(d.cap, sample, {failed:d.budgetFailed || sample === null}, ticket);
+    }
+    finally { budgetOpening118.delete(root); }
 }
 // The fresh preparation closes before K exists. K references the closed journal;
 // no historical prepare, old failed invocation or current runtime JSON is edited.

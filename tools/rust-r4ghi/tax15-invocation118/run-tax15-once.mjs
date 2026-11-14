@@ -3,8 +3,10 @@ import fs from "node:fs";
 import path from "node:path";
 import assert from "node:assert/strict";
 import { pathToFileURL } from "node:url";
+import * as budgetNative121 from "../business/runtime-admission121.mjs";
 import {
     F118,
+    freeze118,
     json118,
     pin118,
     read118,
@@ -409,10 +411,168 @@ async function commit118(cap, api) {
     assert.equal(record.sweep.finalSuccess.requestId, response.requestId);
     return verifyNormal118(cap);
 }
+const budgetRunnerOnce118 = new WeakSet();
+const failedActorBookend118 = () => ({status:"UNOBSERVED",observation:null,error:null});
+function failureBudget118(phase, interval, returned, writes = []) {
+    return {phase,name:"Error",message:"Actual " + phase + " failure preserved; inspect existing private evidence",checkpointReturned:returned,checkpointInterval:interval,writeFailures:writes,replayForbidden:true};
+}
+function ownData118(object, key) {
+    const field = object && Object.getOwnPropertyDescriptor(object, key);
+    return field && Object.hasOwn(field,"value") ? field.value : undefined;
+}
+function budgetNonceDirectory118(inputPin, reviewPin, p) {
+    const directory = F118.private + "/business/" + F118.epoch + "/" + F118.run + "/tax118-invocation-" + p.nonce;
+    const stat = fs.lstatSync(directory);
+    assert(stat.isDirectory() && !stat.isSymbolicLink());
+    assert.equal(fs.realpathSync(directory), directory);
+    const intent = json118({file:directory + "/intent.json",rawBytesSha256:sha118(fs.readFileSync(directory + "/intent.json"))});
+    samePin118(intent.input,inputPin); samePin118(intent.exactReview,reviewPin);
+    assert.equal(intent.pid,process.pid); assert.equal(intent.nonce,p.nonce); assert.equal(intent.mode,"budget-probe");
+    return directory;
+}
+function budgetSave118(directory, name, value) {
+    assert(["budget-base-sample.json","budget-probe-report.json","complete.json","partial.json"].includes(name));
+    const file = directory + "/" + name, bytes = Buffer.from(JSON.stringify(value,null,2) + "\n");
+    fs.writeFileSync(file,bytes,{flag:"wx",mode:0o600});
+    const pin = {file,bytes:bytes.length,rawBytesSha256:sha118(bytes)};
+    read118(pin);
+    return pin;
+}
+function budgetCoverage118(actorAfter, endNs) {
+    const observation = actorAfter?.status === "VERIFIED" ? actorAfter.observation : null;
+    const result = {status:"UNKNOWN",lastActorObservation:observation,anchorNs:observation?.anchorNs ?? null,throughNs:endNs,elapsedCeilMs:null,idleChargedRemainingMs:null,absoluteChargedRemainingMs:null};
+    if (!observation || endNs === null) return result;
+    const elapsed = BigInt(endNs) - BigInt(observation.anchorNs);
+    if (elapsed < 0n) return result;
+    const elapsedCeilMs = Number((elapsed + 999999n) / 1000000n);
+    if (!Number.isSafeInteger(elapsedCeilMs)) return result;
+    result.elapsedCeilMs = elapsedCeilMs;
+    result.idleChargedRemainingMs = observation.idleDeadlineMs - observation.sqlNowMs - elapsedCeilMs;
+    result.absoluteChargedRemainingMs = observation.absoluteDeadlineMs - observation.sqlNowMs - elapsedCeilMs;
+    if (result.idleChargedRemainingMs > 2000 && result.absoluteChargedRemainingMs > 2000) result.status = "VERIFIED_THROUGH_CLOSE_RETURN";
+    return result;
+}
+export async function runBudgetProbe118(inputPin, reviewPin, port) {
+    // This must precede every method call, pin read, directory lookup and write.
+    budgetNative121.assertBudgetProbeRunner121(port,inputPin,reviewPin);
+    assert(!budgetRunnerOnce118.has(port),"Budget runner cannot reenter");
+    budgetRunnerOnce118.add(port);
+    const p = assertInput118(json118(inputPin));
+    assert.equal(p.mode,"budget-probe");
+    const directory = budgetNonceDirectory118(inputPin,reviewPin,p);
+    let entry, auth3 = [], actorBefore = failedActorBookend118(), actorAfter = failedActorBookend118();
+    let checkpoint, interval = null, checkpointReturned = false, sample = null, failure = null, phase = "entry";
+    try {
+        entry = await port.entryFacts();
+        phase = "auth3"; auth3 = await port.auth3Once();
+        phase = "actor-before"; actorBefore = await port.actor37BeforeCP();
+        assert.equal(actorBefore.status,"VERIFIED");
+        phase = "checkpoint";
+        const start = process.hrtime.bigint();
+        try { checkpoint = await port.baseCPOnce(); checkpointReturned = true; }
+        finally { const end = process.hrtime.bigint(); interval = {startNs:start.toString(),endNs:end.toString(),elapsedNs:(end-start).toString()}; }
+        phase = "actor-after";
+        try { actorAfter = await port.actor37AfterCP(); assert.equal(actorAfter.status,"VERIFIED"); }
+        catch { actorAfter = {status:"FAILED",observation:null,error:"Actual post-checkpoint actor check failed"}; failure = failureBudget118(phase,interval,true); }
+        phase = "sample-write";
+        budgetNative121.assertBudgetProbeRunner121(port,inputPin,reviewPin); // distinct private sample-write latch
+        budgetNonceDirectory118(inputPin,reviewPin,p);
+        sample = budgetSave118(directory,"budget-base-sample.json",{
+            kind:"actual-Tax15-budget-probe-base-sample118",schemaVersion:1,mode:p.mode,nonce:p.nonce,
+            input:inputPin,exactReview:reviewPin,prepareAdoption121:entry.prepareAdoption121,
+            currentFrame:entry.currentFrame,entryGuard:entry.entryGuard,auth3,actorBefore,
+            checkpoint:{phase:"budget-base",...interval,returned:true,activeFault:false,value:checkpoint},
+            actorAfter,baseCPRecorded:true,full67BudgetStatus:"UNKNOWN",FIGranted:false,normalTaxPOSTGranted:false,
+        });
+    } catch {
+        const writes = phase === "sample-write" ? [{file:directory + "/budget-base-sample.json",message:"Sample gate, wx or immutable readback failed",existingFilePreserved:fs.existsSync(directory + "/budget-base-sample.json")}] : [];
+        failure ??= failureBudget118(phase,interval,checkpointReturned,writes);
+        if (failure.writeFailures.length === 0 && writes.length) failure.writeFailures = writes;
+    }
+    const close = {constructorReturned:true,attempted:true,startNs:null,endNs:null,elapsedNs:null,returned:false,nativeCloseVerified:false,exitGuard:null,closedJournal:null,error:null};
+    let closed = null;
+    const closeStart = process.hrtime.bigint(); close.startNs = closeStart.toString();
+    try { closed = await port.closeOnce(sample); close.returned = true; }
+    catch (error) {
+        closed = ownData118(error,"budgetCloseFacts") ?? null;
+        close.error = "Actual full close failed; preserve existing private evidence";
+        failure ??= failureBudget118("close",interval,checkpointReturned);
+    } finally {
+        const closeEnd = process.hrtime.bigint(); close.endNs = closeEnd.toString(); close.elapsedNs = (closeEnd-closeStart).toString();
+    }
+    // Data-only file readback is permitted after close; no cap or SQL is used.
+    try {
+        if (closed) {
+            const exit = ownData118(closed,"exitGuard"), journal = ownData118(closed,"closedJournal");
+            if (exit) { read118(exit); close.exitGuard = exit; }
+            if (journal) { read118(journal); close.closedJournal = journal; }
+            close.nativeCloseVerified = close.returned && close.exitGuard !== null && close.closedJournal !== null;
+            if (close.returned && sample !== null) {
+                const actualResult = ownData118(closed,"result");
+                if (actualResult === null) {
+                    sample = null;
+                    failure ??= failureBudget118("sample-close-readback",interval,checkpointReturned);
+                } else samePin118(actualResult,sample);
+            }
+        }
+    } catch { close.nativeCloseVerified = false; close.error ??= "Actual close evidence readback failed"; failure ??= failureBudget118("close-readback",interval,checkpointReturned); }
+    const sessionCoverage = budgetCoverage118(actorAfter,close.returned ? close.endNs : null);
+    if (sessionCoverage.status !== "VERIFIED_THROUGH_CLOSE_RETURN") failure ??= failureBudget118("close-coverage",interval,checkpointReturned);
+    const complete = sample !== null && checkpointReturned && actorBefore.status === "VERIFIED" && actorAfter.status === "VERIFIED" && close.nativeCloseVerified && sessionCoverage.status === "VERIFIED_THROUGH_CLOSE_RETURN" && failure === null;
+    return freeze118({sample,baseCPRecorded:sample !== null,prepareAdoption121:entry?.prepareAdoption121 ?? null,close,sessionCoverage,probeOutcome:complete?"OBSERVATION_COMPLETE":"STOPPED_PRESERVE",failure});
+}
+async function finishBudgetCommand118(inputPin, reviewPin, input, directory) {
+    let terminal, report = null, closed = null, failure = null;
+    try {
+        terminal = await budgetNative121.executeBudgetProbe121(inputPin,reviewPin);
+    } catch (error) {
+        terminal = ownData118(error,"budgetProbeTerminal");
+        if (!terminal) terminal = {sample:null,baseCPRecorded:false,prepareAdoption121:null,close:{constructorReturned:null,attempted:false,startNs:null,endNs:null,elapsedNs:null,returned:false,nativeCloseVerified:false,exitGuard:null,closedJournal:null,error:"Native executor did not return a certified terminal envelope"},sessionCoverage:budgetCoverage118(null,null),probeOutcome:"STOPPED_PRESERVE",failure:failureBudget118("native-entry",null,false)};
+    }
+    let checkpointReturned = terminal.failure?.checkpointReturned ?? Boolean(terminal.baseCPRecorded);
+    let checkpointInterval = terminal.failure?.checkpointInterval ?? null, outputPhase = "report-write";
+    try {
+        if (terminal.sample) {
+            const saved = json118(terminal.sample).checkpoint;
+            checkpointReturned = saved.returned === true;
+            checkpointInterval = {startNs:saved.startNs,endNs:saved.endNs,elapsedNs:saved.elapsedNs};
+        }
+        closed = terminal.close.returned && terminal.close.exitGuard && terminal.close.closedJournal ? {exitGuard:terminal.close.exitGuard,closedJournal:terminal.close.closedJournal,result:terminal.sample} : null;
+        const adoption = terminal.prepareAdoption121 ?? json118(input.runtimeBindings).prepareAdoption121;
+        report = budgetSave118(directory,"budget-probe-report.json",{
+            kind:"actual-Tax15-budget-probe-report118",schemaVersion:1,mode:input.mode,nonce:input.nonce,input:inputPin,exactReview:reviewPin,
+            prepareAdoption121:adoption,sample:terminal.sample,baseCPRecorded:terminal.baseCPRecorded,close:terminal.close,sessionCoverage:terminal.sessionCoverage,
+            probeOutcome:terminal.probeOutcome,full67BudgetStatus:"UNKNOWN",FIGranted:false,normalTaxPOSTGranted:false,G3:false,G4:false,failure:terminal.failure,
+        });
+        outputPhase = "observation-stopped";
+        if (terminal.probeOutcome !== "OBSERVATION_COMPLETE") throw Error("Actual budget observation stopped; preserve partial evidence");
+        const receipt = {kind:"actual-Tax15-invocation118-command-complete",mode:input.mode,input:inputPin,review:reviewPin,result:terminal.sample,closed,G3:false,G4:false,budgetProbeReport:report};
+        outputPhase = "complete-write";
+        budgetSave118(directory,"complete.json",receipt);
+        return receipt;
+    } catch {
+        failure = terminal.failure ?? failureBudget118(outputPhase,checkpointInterval,checkpointReturned);
+        if (outputPhase === "report-write" || outputPhase === "complete-write") {
+            const file = directory + (outputPhase === "report-write" ? "/budget-probe-report.json" : "/complete.json");
+            failure = {...failure,writeFailures:[...failure.writeFailures,{file,message:"Actual output wx or immutable readback failed",existingFilePreserved:fs.existsSync(file)}]};
+        }
+        try {
+            budgetSave118(directory,"partial.json",{kind:"partial-Tax15-invocation118-preserve",mode:input.mode,input:inputPin,review:reviewPin,result:terminal.sample ?? null,message:"Actual budget command stopped; preserve existing private evidence",bookendError:terminal.close.error,closed,openFailure:null,blindRetryForbidden:true,budgetProbeReport:report,budgetProbeFailure:failure});
+        } catch { /* Preserve all existing files; never retry writes or close. */ }
+        const error = Error("Actual budget command stopped; inspect existing report/partial and never replay its nonce");
+        Object.defineProperty(error,"budgetProbeFailure",{value:freeze118(failure)});
+        throw error;
+    }
+}
 export async function runTax15Once118(inputPin, reviewPin) {
     assert.equal(process.platform, "linux");
     const input = assertInput118(json118(inputPin)),
         priv = F118.private + "/business/" + F118.epoch + "/" + F118.run;
+    if (input.mode === "budget-probe") {
+        const inputBytes = read118(inputPin), reviewBytes = read118(reviewPin);
+        inputPin = {file:inputPin.file,bytes:inputBytes.length,rawBytesSha256:sha118(inputBytes)};
+        reviewPin = {file:reviewPin.file,bytes:reviewBytes.length,rawBytesSha256:sha118(reviewBytes)};
+    }
     const exactReview = json118(reviewPin),
         codeReview = json118(input.codeReview);
     assert.equal(exactReview.kind, "Root-approved-exact-Tax15-invocation118");
@@ -473,6 +633,7 @@ export async function runTax15Once118(inputPin, reviewPin) {
             ) + "\n",
             { flag: "wx", mode: 0o600 },
         );
+        if (input.mode === "budget-probe") return await finishBudgetCommand118(inputPin, reviewPin, input, dir);
         cap = await openInvocation118(inputPin, reviewPin);
         if (input.mode === "prepare-only") {
             result = await prepareTax15(cap, createWire118(cap));
@@ -506,6 +667,7 @@ export async function runTax15Once118(inputPin, reviewPin) {
         return receipt;
     } catch (e) {
         primaryFailure = e;
+        if (input.mode === "budget-probe") throw e; // budget owner has already consumed its one close and written its partial
         if (cap) {
             try {
                 closed = await closeInvocation118(cap, result ?? null, {
@@ -573,7 +735,7 @@ export async function runTax15Once118(inputPin, reviewPin) {
 export async function main118(args = process.argv.slice(2)) {
     if (args.length === 1 && args[0] === "--help") {
         console.log(
-            "Root only: --input FILE --input-sha SHA --review FILE --review-sha SHA --execute. Modes: prepare-only | fi-closed-set | fi-family | commit-once | verify-committed | disarm-owned. Each mode needs its own exact G2.",
+            "Root only: --input FILE --input-sha SHA --review FILE --review-sha SHA --execute. Modes: prepare-only | fi-closed-set | fi-family | commit-once | verify-committed | disarm-owned | budget-probe. Each mode needs its own exact G2.",
         );
         return;
     }

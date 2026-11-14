@@ -18,10 +18,13 @@ import {
     checkpoint118,
     invocationJournal118,
     runtime118,
+    budgetInvocationFacts118,
     setVerifiedPrefix118,
     stage118,
 } from "./invocation-proof.mjs";
 import { createWire118 } from "./tax15-once-wire.mjs";
+import * as budgetNative121 from "../business/runtime-admission121.mjs";
+import { loadActualAuthConfig } from "../business/auth-config-binding.mjs";
 const hash = (value) => sha118(JSON.stringify(value)), identitySHA = hash;
 export function permissionSet118(values, userId) {
     const ids = new Set(
@@ -83,9 +86,13 @@ export function assertSessionFacts118(
     return session?.id ?? null;
 }
 async function readActorGuard118(cap) {
+    const { ctx, p } = runtime118(cap);
+    return readActorGuardBody118(ctx, p);
+}
+async function readActorGuardBody118(ctx, p) {
     // Conservative anchor: before connection, SQL, result delivery or any await.
     const monotonicStartNs = process.hrtime.bigint();
-    const { ctx, p } = runtime118(cap), actor = ctx.state.actors[p.actorKey];
+    const actor = ctx.state.actors[p.actorKey];
     assert.equal(actor.id, p.actorId);
     const cookieHash = p.mode !== "disarm-owned" && actor.cookies?.poms_session
         ? sha(decodeURIComponent(actor.cookies.poms_session))
@@ -141,7 +148,11 @@ async function readActorGuard118(cap) {
             monotonicStartNs,
             cookieHash,
         }) : null;
-        return { sessionId, deadline };
+        return { sessionId, deadline, facts: {
+            actorId:p.actorId, accountActive:account[0].value.is_active,
+            permissions:permissionSet118({user_role_assignment:assigned,role:roles,role_permission_assignment:perms},p.actorId),
+            session:s ? {id:s.id,createdAt:s.created_at,idleDeadlineMs:Date.parse(s.idle_expires_at),absoluteDeadlineMs:Date.parse(s.absolute_expires_at)} : null,
+        } };
     });
 }
 // The existing six-mode actor guard ABI remains sessionId|string|null.
@@ -558,4 +569,54 @@ END; $r4ghi_sweep40$`,
             quote(control.function)
         }()`,
     );
+}
+
+// Ticket-only callees of the fixed budget wire/actor dispatch. Never port exports.
+export async function guardBudgetActor118(root, ticket) {
+    budgetNative121.assertBudgetProbeDispatch121(root, ticket);
+    const {p} = budgetInvocationFacts118(root, ticket);
+    return (await readActorGuardBody118(root, p)).sessionId;
+}
+export async function guardBudgetActorForWire118(root, ticket) {
+    budgetNative121.assertBudgetProbeDispatch121(root, ticket);
+    const {p} = budgetInvocationFacts118(root, ticket);
+    return (await readActorGuardBody118(root, p)).deadline;
+}
+export async function observeBudgetActor118(root, ticket) {
+    budgetNative121.assertBudgetProbeDispatch121(root, ticket);
+    const {p} = budgetInvocationFacts118(root, ticket);
+    assert.equal(p.mode, "budget-probe");
+    assert.equal(p.expectedActorPermissions.length, 37);
+    const settings = loadActualAuthConfig(root);
+    assert.equal(settings.idleSeconds, 900);
+    assert.equal(settings.throttleSeconds, 60);
+    const observed = await readActorGuardBody118(root, p);
+    assert(observed.deadline && observed.facts.session, "Budget observation requires the actual owned session cookie");
+    const session = observed.facts.session;
+    assert.equal(session.absoluteDeadlineMs - Date.parse(session.createdAt), 28800000, "Actual absolute session lifetime must remain A28800");
+    const processRecord = root.state.apiProcess.record;
+    const configEvidence = root.state.actualAuthConfigurations[processRecord.pid + ":" + processRecord.startTime];
+    read118(configEvidence);
+    const config = json118(p.actualSourcePins).find(x => x.file === "apps/poms-api-rust/src/config.rs");
+    assert(config, "Pinned actual Rust absolute-setting source required");
+    const absoluteSource = {file:F118.win + "/" + config.file,rawBytesSha256:config.sha256};
+    const sourceBytes = read118(absoluteSource);
+    absoluteSource.bytes = sourceBytes.length;
+    const returnedNs = process.hrtime.bigint();
+    const elapsedNs = returnedNs - observed.deadline.monotonicStartNs;
+    assert(elapsedNs >= 0n);
+    const elapsedCeilMs = Number((elapsedNs + 999999n) / 1000000n);
+    assert(Number.isSafeInteger(elapsedCeilMs));
+    const idleChargedRemainingMs = session.idleDeadlineMs - observed.deadline.observedNowMs - elapsedCeilMs;
+    const absoluteChargedRemainingMs = session.absoluteDeadlineMs - observed.deadline.observedNowMs - elapsedCeilMs;
+    assert(idleChargedRemainingMs > 2000 && absoluteChargedRemainingMs > 2000, "Real session observation window expired");
+    return {status:"VERIFIED",observation:{
+        actorId:p.actorId,accountActive:observed.facts.accountActive,
+        permissionSetSHA256:sha(JSON.stringify(observed.facts.permissions)),permissionCount:observed.facts.permissions.length,
+        sessionId:observed.sessionId,ownedSession:true,sqlNowMs:observed.deadline.observedNowMs,
+        idleDeadlineMs:session.idleDeadlineMs,absoluteDeadlineMs:session.absoluteDeadlineMs,
+        anchorNs:observed.deadline.monotonicStartNs.toString(),returnedNs:returnedNs.toString(),elapsedCeilMs,
+        idleChargedRemainingMs,absoluteChargedRemainingMs,
+        authSettings:{idleSeconds:900,absoluteSeconds:28800,throttleSeconds:60,evidence:[configEvidence,absoluteSource]},
+    },error:null};
 }

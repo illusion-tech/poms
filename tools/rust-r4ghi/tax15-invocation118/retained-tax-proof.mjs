@@ -13,6 +13,7 @@ import { pointer54 } from "../business/consumer-admission54.mjs";
 import { resourceProjection252 } from "../business/same-m98-code-core252.mjs";
 import { sha, uuid } from "../business/pure.mjs";
 import {currentRuntime121,assertRuntimeBinding121,assertCurrentLease121,assertRetainedFixture121,readRetainedCommand121,readRetainedPreparation121} from "../business/runtime-admission121.mjs";
+import * as budgetNative121 from "../business/runtime-admission121.mjs";
 export const F118 = Object.freeze({
     namespace: "poms-r4ghi",
     epoch: "g2-business15",
@@ -25,6 +26,11 @@ export const F118 = Object.freeze({
     g1SHA: "646447aab505c0bf73e0971439fca36a6aca1afb961a0a4573cadeccfc7342b9",
     baselineSHA:
         "a5520bb4f4dbe8d79945e9ef10309828d01c390fa94ba31301aeb8cfff9f444c",
+    budgetG1: Object.freeze({
+        file: "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v3/Root-G1-budget-probe118-v3.json",
+        bytes: 32283,
+        rawBytesSha256: "80ea3db59386f935b733e5e29b7b8a4db860c408ccb84f9204b9b5adebac00a1",
+    }),
     interfaceSHA:
         "8c0b22d4cede59f13a27961f9760b758d4400b3318f74e050aeac11312e3dffb",
 });
@@ -91,14 +97,14 @@ export function rows118(meta) {
 }
 // These structural readers are called only after the real native entry guard.
 // They do not stand in for that guard, do not construct a cap, and cannot grant effects.
-function retainedFixture118(ctx,reg,spec){
- const verified=currentRuntime121(ctx);assertCurrentLease121(ctx,verified);samePin118(verified.code.registryPin,ctx.state.consumerAdmission54.registry);assert.deepEqual(verified.code.registry,reg);return assertRetainedFixture121(ctx,spec);
+function retainedFixture118(ctx,reg,spec,ticket=null){
+ const verified=(ticket===null?currentRuntime121(ctx):budgetNative121.budgetCurrentRuntime121(ctx,ticket));(ticket===null?assertCurrentLease121(ctx,verified):budgetNative121.budgetAssertCurrentLease121(ctx,ticket,verified));samePin118(verified.code.registryPin,ctx.state.consumerAdmission54.registry);assert.deepEqual(verified.code.registry,reg);return (ticket===null?assertRetainedFixture121(ctx,spec):budgetNative121.budgetAssertRetainedFixture121(ctx,ticket,spec));
 }
-function retainedMain118(ctx,manifest,reg){
- const bridge=readRetainedCommand121(ctx,{pointer:'/taxContinuation13/mainCompletion',receipt:manifest.retainedMain13.original});assert.equal(bridge.producerEpoch,'g2-business13');assert.equal(bridge.replayForbidden,true);assert.equal(bridge.currentConsumerCertified,false);samePin118(bridge.retainedThrough14,reg.producerState);samePin118(bridge.retainedThrough15,manifest.current.retainedSource15State);samePin118(bridge.original,manifest.retainedMain13.original);samePin118(bridge.original,bridge.record.original);assert.equal(bridge.record.status,201);assert.equal(bridge.record.postconditions,'verified');assert.deepEqual(json118(bridge.producerState).taxContinuation13.mainCompletion,bridge.record);assert.deepEqual(ctx.state.taxContinuation13,json118(reg.producerState).taxContinuation13);assert.deepEqual(ctx.state.taxContinuation13.mainCompletion,bridge.record);read118(bridge.original);return bridge;
+function retainedMain118(ctx,manifest,reg,ticket=null){
+ const bridge=(ticket===null?readRetainedCommand121(ctx,{pointer:'/taxContinuation13/mainCompletion',receipt:manifest.retainedMain13.original}):budgetNative121.budgetReadRetainedCommand121(ctx,ticket,{pointer:'/taxContinuation13/mainCompletion',receipt:manifest.retainedMain13.original}));assert.equal(bridge.producerEpoch,'g2-business13');assert.equal(bridge.replayForbidden,true);assert.equal(bridge.currentConsumerCertified,false);samePin118(bridge.retainedThrough14,reg.producerState);samePin118(bridge.retainedThrough15,manifest.current.retainedSource15State);samePin118(bridge.original,manifest.retainedMain13.original);samePin118(bridge.original,bridge.record.original);assert.equal(bridge.record.status,201);assert.equal(bridge.record.postconditions,'verified');assert.deepEqual(json118(bridge.producerState).taxContinuation13.mainCompletion,bridge.record);assert.deepEqual(ctx.state.taxContinuation13,json118(reg.producerState).taxContinuation13);assert.deepEqual(ctx.state.taxContinuation13.mainCompletion,bridge.record);read118(bridge.original);return bridge;
 }
-export function assertRuntimeFacts118(ctx,manifest,reg){
- const c=manifest.current;assert.equal(manifest.schemaVersion,2);assert.equal(c.epoch,F118.epoch);assert.equal(c.run,F118.run);assert.equal(ctx.epoch,c.epoch);assert.equal(ctx.migrations,98);assert.equal(ctx.tables,139);assert.equal(reg.schemaVersion,5);const verified=currentRuntime121(ctx);assertCurrentLease121(ctx,verified);assert.deepEqual(verified.code.registry,reg);const current=verified.current;samePin118(c.codeAdmission15,verified.code.registryPin);samePin118(c.codeAdmission15,ctx.state.consumerAdmission54.registry);samePin118(c.candidate,current.candidate);samePin118(c.runtimeAdmission121,verified.authorityPin);samePin118(c.apiProcess,ctx.state.apiProcess);samePin118(c.apiProcess,current.apiProcess);samePin118(c.helperPins,current.helperPins);samePin118(c.retentionIndex,reg.retentionIndex);samePin118(c.retainedProducerState,verified.code.producerState);samePin118(c.retainedSource15State,verified.retained.statePin);assert.deepEqual(c.sourcePins,ctx.pins);assert.deepEqual(c.sourcePins,current.sources);assert.deepEqual(c.helperSources,ctx.helperPins);assert.deepEqual(c.helperSources,current.helperSources);assert.equal(c.sourceCount,420);assert.equal(c.sourceCount,ctx.pins.length);assert.equal(c.helperCount,ctx.helperPins.length);assert.deepEqual(json118(c.helperPins),ctx.helperPins);assert.deepEqual(json118(current.sourcePins),ctx.pins);assert.equal(c.sourcePinsSHA256,sha118(JSON.stringify(ctx.pins)));assert.equal(c.binarySHA256,current.binary.rawBytesSha256);assert.equal(c.sourcePinsSHA256,current.sourcePinsSHA256);const candidate=json118(c.candidate);assert.equal(candidate.epoch,F118.epoch);assert.equal(candidate.run,F118.run);samePin118(candidate.runtimeAdmission121,verified.authorityPin);assert.equal(sha118(JSON.stringify(pointer54(ctx.state,manifest.legacy.registryPath))),c.producerProjectionSHA256);assert.deepEqual(manifest.legacy,json118({file:ctx.win+'/tools/rust-r4ghi/business/tax14-bindings258.json',rawBytesSha256:ctx.helperPins.find(p=>p.file==='tools/rust-r4ghi/business/tax14-bindings258.json').sha256}).legacy);const historical=json118(verified.retained.statePin);assert.deepEqual(ctx.state.taxContinuation15,historical.taxContinuation15);assert.deepEqual(ctx.state.consumerChecks.tax15Invocation118,historical.consumerChecks.tax15Invocation118);const retainedPreparation15=readRetainedPreparation121(ctx,manifest.retainedPreparation15);assert.equal(retainedPreparation15.retainedPreparationOnly,true);assert.equal(retainedPreparation15.currentEffectsGranted,false);return{plan:json118(reg.approvedPlan),candidate,verifiedRuntime:verified,retainedPreparation15};
+export function assertRuntimeFacts118(ctx,manifest,reg,ticket=null){
+ const c=manifest.current;assert.equal(manifest.schemaVersion,ticket===null?2:3);if(ticket!==null){budgetNative121.assertBudgetProbeDispatch121(ctx,ticket);assert.deepEqual(Object.keys(manifest).sort(),["schemaVersion","current","legacy","retainedMain13","retainedPreparation15","prepareAdoption121"].sort());assert.deepEqual(Object.keys(c).sort(),["epoch","run","sourceCount","sourcePinsSHA256","sourcePins","binarySHA256","apiProcess","candidate","helperCount","helperSources","helperPins","codeAdmission15","retentionIndex","retainedProducerState","producerProjectionSHA256","runtimeAdmission121","retainedSource15State"].sort());read118(manifest.prepareAdoption121);}assert.equal(c.epoch,F118.epoch);assert.equal(c.run,F118.run);assert.equal(ctx.epoch,c.epoch);assert.equal(ctx.migrations,98);assert.equal(ctx.tables,139);assert.equal(reg.schemaVersion,5);const verified=(ticket===null?currentRuntime121(ctx):budgetNative121.budgetCurrentRuntime121(ctx,ticket));(ticket===null?assertCurrentLease121(ctx,verified):budgetNative121.budgetAssertCurrentLease121(ctx,ticket,verified));assert.deepEqual(verified.code.registry,reg);const current=verified.current;samePin118(c.codeAdmission15,verified.code.registryPin);samePin118(c.codeAdmission15,ctx.state.consumerAdmission54.registry);samePin118(c.candidate,current.candidate);samePin118(c.runtimeAdmission121,verified.authorityPin);samePin118(c.apiProcess,ctx.state.apiProcess);samePin118(c.apiProcess,current.apiProcess);samePin118(c.helperPins,current.helperPins);samePin118(c.retentionIndex,reg.retentionIndex);samePin118(c.retainedProducerState,verified.code.producerState);samePin118(c.retainedSource15State,verified.retained.statePin);assert.deepEqual(c.sourcePins,ctx.pins);assert.deepEqual(c.sourcePins,current.sources);assert.deepEqual(c.helperSources,ctx.helperPins);assert.deepEqual(c.helperSources,current.helperSources);assert.equal(c.sourceCount,420);assert.equal(c.sourceCount,ctx.pins.length);assert.equal(c.helperCount,ctx.helperPins.length);assert.deepEqual(json118(c.helperPins),ctx.helperPins);assert.deepEqual(json118(current.sourcePins),ctx.pins);assert.equal(c.sourcePinsSHA256,sha118(JSON.stringify(ctx.pins)));assert.equal(c.binarySHA256,current.binary.rawBytesSha256);assert.equal(c.sourcePinsSHA256,current.sourcePinsSHA256);const candidate=json118(c.candidate);assert.equal(candidate.epoch,F118.epoch);assert.equal(candidate.run,F118.run);samePin118(candidate.runtimeAdmission121,verified.authorityPin);assert.equal(sha118(JSON.stringify(pointer54(ctx.state,manifest.legacy.registryPath))),c.producerProjectionSHA256);assert.deepEqual(manifest.legacy,json118({file:ctx.win+'/tools/rust-r4ghi/business/tax14-bindings258.json',rawBytesSha256:ctx.helperPins.find(p=>p.file==='tools/rust-r4ghi/business/tax14-bindings258.json').sha256}).legacy);const historical=json118(verified.retained.statePin);assert.deepEqual(ctx.state.taxContinuation15,historical.taxContinuation15);assert.deepEqual(ctx.state.consumerChecks.tax15Invocation118,historical.consumerChecks.tax15Invocation118);const retainedPreparation15=(ticket===null?readRetainedPreparation121(ctx,manifest.retainedPreparation15):budgetNative121.budgetReadRetainedPreparation121(ctx,ticket,manifest.retainedPreparation15));assert.equal(retainedPreparation15.retainedPreparationOnly,true);assert.equal(retainedPreparation15.currentEffectsGranted,false);return{plan:json118(reg.approvedPlan),candidate,verifiedRuntime:verified,retainedPreparation15};
 }
 function checkpointTax14(ctx, checkpoint, operationId) {
     assert.equal(checkpoint?.phase, "actual-success");
@@ -135,7 +141,8 @@ function checkpointTax14(ctx, checkpoint, operationId) {
     };
 }
 
-export function readRetainedTaxProof118(ctx, manifest, registry) {
+export function readRetainedTaxProof118(ctx, manifest, registry, ticket = null) {
+    if (ticket !== null) budgetNative121.assertBudgetProbeDispatch121(ctx, ticket);
     const verified = { registry };
     const oldState = JSON.parse(
         read118(manifest.legacy.originalProducerState12),
@@ -148,7 +155,7 @@ export function readRetainedTaxProof118(ctx, manifest, registry) {
         record: currentRecord121,
         projectIds,
         producerReceipt: manifest.legacy.reconciliation,
-    });
+    }, ticket);
     samePin118(
         admitted.originalProducerState,
         manifest.legacy.originalProducerState12,
@@ -278,7 +285,7 @@ export function readRetainedTaxProof118(ctx, manifest, registry) {
         taxRequest: structuredClone(checkpoints.tax.original.request),
         producerStatePin: manifest.legacy.originalProducerState12,
         reconciliation: manifest.legacy.reconciliation,
-        retainedMain13: retainedMain118(ctx, manifest, verified.registry),
+        retainedMain13: retainedMain118(ctx, manifest, verified.registry, ticket),
     };
 }
 
