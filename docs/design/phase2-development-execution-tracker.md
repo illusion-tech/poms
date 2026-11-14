@@ -1284,3 +1284,13 @@ Root继续为父#114管理相同私有和活跃输入/运行资源。#114/#118/#
 [具名G3纠正](rust-r4ghi/runtime118-graph-RO-corrective01.md)已固定eb0f0335并同步[#118](https://github.com/illusion-tech/poms/issues/118#issuecomment-6866700377)：new5分别验证P3原图和公共镜像，不混Full3身份；RO保同连接完整READ ONLY与原格式，主机exe仅精确有限绑定。原80ea/04与历史证据不改，旧模型不当实际准入。当前仍隔离实施/独审，实际Root源/P/runtime未因本件改动，CP0/全FI预算UNKNOWN/业务认证0/G3G4未签。
 
 <!-- /poms-runtime118-graph-RO-corrective01 -->
+
+<!-- poms-runtime118-current-host-early-actual -->
+
+### 2026-11-15 #118当前代码资格与初段实际恢复通过
+
+[当前代码G3](rust-r4ghi/runtime118-current-host-code-G3.md)固定0b55ebd2，[真实初段检查点](rust-r4ghi/runtime118-early-actual01.md)固定dba76669。c56e9+2+3和三处精确host pin修订已独审，9新窄测通过、两支持MOD实际读回和具名Source SQ接续完成。holder、原CID/卷/PG15及readiness、源码前两份完整只读守恒均有真实E9和独立读回；封口方式naturalEOF=false/精确退出时刻UNKNOWN保留，不冒性能。初段时原11/284仍before；随后准确Source9+2已具名G2执行中，未计完成，API/后RO/X/CRBS4/NativeFSY/ctxAuthProbe仍按后继具体G2。
+
+[线上逐字镜像](rust-r4ghi/runtime118-early-actual01-online.json)同步#118/#57开放。CP0、全FI预算UNKNOWN、FI/normal/Main未授、业务认证0/G3G4未签；#119/#121历史Closed，完整R5 #116开放。
+
+<!-- /poms-runtime118-current-host-early-actual -->
