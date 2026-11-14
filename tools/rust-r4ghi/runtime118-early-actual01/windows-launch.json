@@ -1,0 +1,80 @@
+{
+  "kind": "Root-runtime118-holder-Windows-launch",
+  "schemaVersion": 1,
+  "recoveryG1": {
+    "rawBytesSha256": "80ea3db59386f935b733e5e29b7b8a4db860c408ccb84f9204b9b5adebac00a1",
+    "bytes": 32283,
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v3/Root-G1-budget-probe118-v3.json"
+  },
+  "input": {
+    "rawBytesSha256": "bc2a36054b2c48fc2ccb625d0e42d3a0e729fe4d7803dad4800efcb676dbb396",
+    "bytes": 2139,
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-holder-G2-02/input-holder-start118.json"
+  },
+  "RootApproval": {
+    "rawBytesSha256": "9153a6ab5729af5cacbc667bff7bb8a7abf7a0355d9384237853a5f6971dba8e",
+    "bytes": 1579,
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-holder-G2-02/Root-approved-holder-start.json"
+  },
+  "executionReview": {
+    "rawBytesSha256": "b915dd5e51f6daaf29c0f8348c8a381bded8461bb7f066f6bd1d0b1d2bbd6ddc",
+    "bytes": 1902,
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-holder-peer-actual02/peer-holder-start118-actual02.json"
+  },
+  "operator": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/budget118/start-budget118-holder.ps1",
+    "bytes": 25217,
+    "rawBytesSha256": "37c8e7577f70107ee512f63aa08fb241f9a5f93d625293a2f1719af55cb318b0"
+  },
+  "nonce": "fef1a0e4-c9c1-4956-a1e0-2797f27ec796",
+  "pid": 28132,
+  "creationTime": "2026-11-14T15:30:17.2546580Z",
+  "executable": "C:/Windows/System32/wsl.exe",
+  "argv": [
+    "-d",
+    "Debian",
+    "--cd",
+    "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms",
+    "--exec",
+    "/usr/bin/env",
+    "-i",
+    "HOME=/home/wangzishi",
+    "USER=wangzishi",
+    "LOGNAME=wangzishi",
+    "PATH=/usr/bin:/bin",
+    "LANG=C.UTF-8",
+    "LC_ALL=C.UTF-8",
+    "/bin/sh",
+    "-c",
+    "set -eu\numask 077\nnode=$1; node_sha=$2; root=$3; entry=$4; input=$5; input_sha=$6; root_review=$7; root_sha=$8; peer=$9\nshift 9\npeer_sha=$1; out=$2\nshift 2\n[ \"$(/usr/bin/id -u)\" = 1000 ]\n[ \"$(/usr/bin/readlink -f .)\" = \"$root\" ]\n[ \"$node\" = /home/wangzishi/.local/share/fnm/node-versions/v24.19.0/installation/bin/node ]\n[ -f \"$node\" ] && [ ! -L \"$node\" ]\n[ \"$(/usr/bin/readlink -f \"$node\")\" = \"$node\" ]\n[ \"$(/usr/bin/stat -c %h \"$node\")\" = 1 ]\n[ \"$(/usr/bin/stat -c %s \"$node\")\" = 125989464 ]\ndigest=$(/usr/bin/sha256sum \"$node\"); digest=${digest%% *}\n[ \"$digest\" = \"$node_sha\" ]\nwhile [ \"$#\" -gt 0 ]; do\n  [ \"$#\" -ge 3 ]\n  item=$1; expected=$2; size=$3\n  shift 3\n  [ -f \"$item\" ] && [ ! -L \"$item\" ]\n  [ \"$(/usr/bin/readlink -f \"$item\")\" = \"$item\" ]\n  [ \"$(/usr/bin/stat -c %h \"$item\")\" = 1 ]\n  [ \"$(/usr/bin/stat -c %s \"$item\")\" = \"$size\" ]\n  digest=$(/usr/bin/sha256sum \"$item\"); digest=${digest%% *}\n  [ \"$digest\" = \"$expected\" ]\ndone\n# No Node invocation occurs until all data and stable source bytes pass.\nunset PWD OLDPWD SHLVL _\nversion=$(/usr/bin/env -i HOME=/home/wangzishi USER=wangzishi LOGNAME=wangzishi PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 \"$node\" --version)\n[ \"$version\" = v24.19.0 ]\n# The fixed descriptor carries data only. Node owns the sole L10 before any\n# private directory/control write and seals these observed bytes with wx.\nexec 3<<RUNTIME118_BOOTSTRAP_FACTS\nkind=runtime118-system-bootstrap\nuid=1000\nnode=$node\nnodeSHA256=$node_sha\nversion=$version\nentry=$entry\n$(/usr/bin/stat -c 'node.dev=%d node.ino=%i node.nlink=%h node.mode=%a node.bytes=%s' \"$node\")\ninput=$input\ninputSHA256=$input_sha\nrootReview=$root_review\nrootSHA256=$root_sha\npeerReview=$peer\npeerSHA256=$peer_sha\noutput=$out\nRUNTIME118_BOOTSTRAP_FACTS\nexec /usr/bin/env -i HOME=/home/wangzishi USER=wangzishi LOGNAME=wangzishi PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 \"$node\" \"$entry\" --input \"$input\" --input-sha \"$input_sha\" --root-review \"$root_review\" --root-review-sha \"$root_sha\" --peer-review \"$peer\" --peer-review-sha \"$peer_sha\" --execute",
+    "--",
+    "/home/wangzishi/.local/share/fnm/node-versions/v24.19.0/installation/bin/node",
+    "bc17c508ffeed0ec622934f9b7fa72f8e78da65350e63c3eceb56fa688aa5e12",
+    "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms",
+    "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/budget118/reenter-budget118-runtime.mjs",
+    "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-holder-G2-02/input-holder-start118.json",
+    "bc2a36054b2c48fc2ccb625d0e42d3a0e729fe4d7803dad4800efcb676dbb396",
+    "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-holder-G2-02/Root-approved-holder-start.json",
+    "9153a6ab5729af5cacbc667bff7bb8a7abf7a0355d9384237853a5f6971dba8e",
+    "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-holder-peer-actual02/peer-holder-start118-actual02.json",
+    "b915dd5e51f6daaf29c0f8348c8a381bded8461bb7f066f6bd1d0b1d2bbd6ddc",
+    "/home/wangzishi/.local/share/poms-r4ghi/private/runtime118-reentry/holder-start/fef1a0e4-c9c1-4956-a1e0-2797f27ec796",
+    "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/budget118/reenter-budget118-runtime.mjs",
+    "b37708b88543cc4e6f25b9face76887fe5fc1b039f126ff44ba85f0f291dd8d2",
+    "133531",
+    "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/budget118/start-budget118-holder.ps1",
+    "37c8e7577f70107ee512f63aa08fb241f9a5f93d625293a2f1719af55cb318b0",
+    "25217",
+    "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-holder-G2-02/input-holder-start118.json",
+    "bc2a36054b2c48fc2ccb625d0e42d3a0e729fe4d7803dad4800efcb676dbb396",
+    "2139",
+    "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-holder-G2-02/Root-approved-holder-start.json",
+    "9153a6ab5729af5cacbc667bff7bb8a7abf7a0355d9384237853a5f6971dba8e",
+    "1579",
+    "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-holder-peer-actual02/peer-holder-start118-actual02.json",
+    "b915dd5e51f6daaf29c0f8348c8a381bded8461bb7f066f6bd1d0b1d2bbd6ddc",
+    "1902"
+  ],
+  "stdoutFile": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-reentry-windows/fef1a0e4-c9c1-4956-a1e0-2797f27ec796/wsl-holder.stdout.log",
+  "stderrFile": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-reentry-windows/fef1a0e4-c9c1-4956-a1e0-2797f27ec796/wsl-holder.stderr.log"
+}
