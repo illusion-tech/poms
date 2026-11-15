@@ -1303,7 +1303,7 @@ Root继续为父#114管理相同私有和活跃输入/运行资源。#114/#118/#
 
 唯一budget-probe a783实际exit1/STOPPED_PRESERVE：Auth3三200、完整CP113.436174201秒、真实Native close629.800944921秒通过；through-close idle余额-81965ms不满足严格>2000ms。完整观察0，预算观测G3阻断/G4不满足，全67FI/618成本UNKNOWN。样本、partial、report、内层closed-verified及所有失败/UNKNOWN保原标签，无重试、追加登录、清理或TTL变化。
 
-有限停止尝试保真证据包独立实际G3通过，交付G4待实际终审；预算ObservationComplete仍Block。 [#118实录](https://github.com/illusion-tech/poms/issues/118#issuecomment-6901372407)、[#57镜像](https://github.com/illusion-tech/poms/issues/57#issuecomment-6901374500)均精确读回且保持Open。
+有限停止尝试保真证据包独立实际G3及交付G4已通过；该结论不认证预算ObservationComplete。 [#118实录](https://github.com/illusion-tech/poms/issues/118#issuecomment-6901838244)、[#57镜像](https://github.com/illusion-tech/poms/issues/57#issuecomment-6901840191)均精确读回且保持Open。
 
 当前canonical为post-probe cddedbd7、ownership8211dee8，不能还原为Y。Rust240/R4 67/95/32candidate/业务新增认证0及业务G3G4未签保持，#57/#114/#118/#120/#116开放，#119/#121历史Closed。私有/活输入继续Root→#114保管。
 
