@@ -1,6 +1,6 @@
 # #118 有界恢复与一次预算探针：2026-11-16
 
-本件接续[原交接](runtime118-resume-handoff-2026-11-16.md)，实际工作树为 R，Root 唯一执行，`/root/runtime118_actual_reviewer` 真实独立验收。有界恢复、不可变 Y 快照、Tax 元数据及具体 Root/peer 均已完成；唯一预算探针因 `close-coverage` 实际退出1，结果 `STOPPED_PRESERVE`。真实独立停止读回已通过，但完整预算观察未通过；预算 G3 阻断、G4不满足。有限尝试的保真证据包 G3、交付与Issue同步后的 G4另行实际审查，不能与预算通过混淆。
+本件接续[原交接](runtime118-resume-handoff-2026-11-16.md)，实际工作树为 R，Root 唯一执行，`/root/runtime118_actual_reviewer` 真实独立验收。有界恢复、不可变 Y 快照、Tax 元数据及具体 Root/peer 均已完成；唯一预算探针因 `close-coverage` 实际退出1，结果 `STOPPED_PRESERVE`。真实独立停止读回、有限保真证据包G3及交付后实际G4均已通过；完整预算观察未通过，预算 G3 阻断、G4不满足，两类gate不得混淆。
 
 ## 已完成的真实链
 
@@ -62,4 +62,6 @@ Root 当前判断为预算 `G3 = Block`、`G4 = Not satisfied`，原因是既定
 
 有限停止尝试的[evidence-only实际G3](../../../tools/rust-r4ghi/runtime118-resume-G3-actual01/review-actual-limited-stopped-package-G3.json)2956B/f27e1947ffe4e775…与[实际审计证据](../../../tools/rust-r4ghi/runtime118-resume-G3-actual01/evidence-actual-limited-stopped-package-G3.json)33774B/699e3ae702b64df9…已通过。它只批准已认证54个Added文件的证据提交：41对原件/不同物理副本、原消费身份、全部indexed bytes、隐私边界、冻结报告、原失败和STOPPED标签及必要当前书挡都经两侧真实复核；独立whitespace与三MD的缓存Deno均0。预算ObservationComplete/G3/G4仍未满足，118/57不可Done。
 
-精确54文件已提交并发布为 `2d893c4c25c12ddcba00ede0515fc389e1a06181`，remote readback exact/nonforce。GitHub[#118](https://github.com/illusion-tech/poms/issues/118#issuecomment-6901372407)与[#57](https://github.com/illusion-tech/poms/issues/57#issuecomment-6901374500)正文/评论均精确读回、保持Open；[本地镜像](runtime118-bounded-resume-online-g3.json)已记录。当前只待治理更新交付后的独立实际G4，不预签未来commit/Issue或预算通过。
+精确54文件已提交并发布为 `2d893c4c25c12ddcba00ede0515fc389e1a06181`，7项治理更新为 `eb154d57adca51175f6ab67f8869f25d6462e482`，两者remote readback exact/nonforce。GitHub[#118](https://github.com/illusion-tech/poms/issues/118#issuecomment-6901372407)与[#57](https://github.com/illusion-tech/poms/issues/57#issuecomment-6901374500)正文/评论均精确读回、保持Open；[本地G3镜像](runtime118-bounded-resume-online-g3.json)保留原时点。
+
+仅限停止尝试证据交付的[实际G4审件](../../../tools/rust-r4ghi/runtime118-resume-G4-actual01/review-actual-limited-stopped-delivery-G4.json)5400B/90584d929610efb0…与[先存真实证据](../../../tools/rust-r4ghi/runtime118-resume-G4-actual01/evidence-actual-limited-stopped-delivery-G4.json)18446B/94b535658b131ce8…已通过，覆盖两实际已发布commit、线上/本地镜像、原身份/失败保真、必要current/live与Root→114保管。Windows审计0；Linux01取错review层级的entryGuard，TypeError原件保留，经Root精确授权仅改为实存sample.entryGuard的一次只读02后0，原断言和预算结论保持。证书不预签其自身未来提交或随后Issue标记；后续仅保真发布签件、同步标记和只读核验，不增加runtime授权。[有限交付生命周期归档](../archive/slices/rust-r4ghi-runtime118-bounded-attempt-20261116/delivery-G4.md)记录相同边界。
