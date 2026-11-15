@@ -1294,3 +1294,17 @@ Root继续为父#114管理相同私有和活跃输入/运行资源。#114/#118/#
 [线上逐字镜像](rust-r4ghi/runtime118-early-actual01-online.json)同步#118/#57开放。CP0、全FI预算UNKNOWN、FI/normal/Main未授、业务认证0/G3G4未签；#119/#121历史Closed，完整R5 #116开放。
 
 <!-- /poms-runtime118-current-host-early-actual -->
+
+<!-- poms-runtime118-bounded-attempt-20261116 -->
+
+### 2026-11-16 #118恢复已接受，单次预算因close-coverage停止
+
+[实际记录](rust-r4ghi/runtime118-bounded-resume-2026-11-16.md)与[保真原件索引](../../tools/rust-r4ghi/runtime118-resume-actual01/retention-index.json)保留真实C10/R8→B5→S4→Native FS/Y→不可变entry→Tax元数据及准确Root/peer。原prepare/Source/API/rebind不重跑。
+
+唯一budget-probe a783实际exit1/STOPPED_PRESERVE：Auth3三200、完整CP113.436174201秒、真实Native close629.800944921秒通过；through-close idle余额-81965ms不满足严格>2000ms。完整观察0，预算观测G3阻断/G4不满足，全67FI/618成本UNKNOWN。样本、partial、report、内层closed-verified及所有失败/UNKNOWN保原标签，无重试、追加登录、清理或TTL变化。
+
+有限停止尝试保真证据包独立实际G3通过，交付G4待实际终审；预算ObservationComplete仍Block。 [#118实录](https://github.com/illusion-tech/poms/issues/118#issuecomment-6901372407)、[#57镜像](https://github.com/illusion-tech/poms/issues/57#issuecomment-6901374500)均精确读回且保持Open。
+
+当前canonical为post-probe cddedbd7、ownership8211dee8，不能还原为Y。Rust240/R4 67/95/32candidate/业务新增认证0及业务G3G4未签保持，#57/#114/#118/#120/#116开放，#119/#121历史Closed。私有/活输入继续Root→#114保管。
+
+<!-- /poms-runtime118-bounded-attempt-20261116 -->

@@ -59,3 +59,7 @@ Rust正式240、R4交付67/95、本批32candidate、业务新增认证0、业务
 本次交付类型为 runtime E2E/过程与证据，不修改应用、公共 route、DTO、DDL、迁移或生成客户端。原80ea明确这些应用 lint/build/OpenAPI/migration 不适用；没有重跑无关测试，也不冒称原代码模型资格为新实际运行。文档采用缓存 Deno，最终精确 staged whitespace 与公有保真包校验在落盘后执行。
 
 Root 当前判断为预算 `G3 = Block`、`G4 = Not satisfied`，原因是既定 through-close 谓词未满足；生产合同、TTL及严格守卫保持。一次有界执行取得了真实负面成本证据，不把 `STOPPED_PRESERVE` 改成预算通过。完成恢复、正面样本事实和失败预算结论分别由真实独立审件约束。后续预算方案或再次实际效果不在本轮授权内；不为完成 gate 而自动重试。
+
+有限停止尝试的[evidence-only实际G3](../../../tools/rust-r4ghi/runtime118-resume-G3-actual01/review-actual-limited-stopped-package-G3.json)2956B/f27e1947ffe4e775…与[实际审计证据](../../../tools/rust-r4ghi/runtime118-resume-G3-actual01/evidence-actual-limited-stopped-package-G3.json)33774B/699e3ae702b64df9…已通过。它只批准已认证54个Added文件的证据提交：41对原件/不同物理副本、原消费身份、全部indexed bytes、隐私边界、冻结报告、原失败和STOPPED标签及必要当前书挡都经两侧真实复核；独立whitespace与三MD的缓存Deno均0。预算ObservationComplete/G3/G4仍未满足，118/57不可Done。
+
+精确54文件已提交并发布为 `2d893c4c25c12ddcba00ede0515fc389e1a06181`，remote readback exact/nonforce。GitHub[#118](https://github.com/illusion-tech/poms/issues/118#issuecomment-6901372407)与[#57](https://github.com/illusion-tech/poms/issues/57#issuecomment-6901374500)正文/评论均精确读回、保持Open；[本地镜像](runtime118-bounded-resume-online-g3.json)已记录。当前只待治理更新交付后的独立实际G4，不预签未来commit/Issue或预算通过。
