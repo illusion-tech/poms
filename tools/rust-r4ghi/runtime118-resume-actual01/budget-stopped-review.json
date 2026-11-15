@@ -1,0 +1,89 @@
+{
+  "kind": "non-author-runtime118-actual-budget-probe-stopped-readback",
+  "schemaVersion": 1,
+  "reviewer": "/root/runtime118_actual_reviewer",
+  "reviewerIsAuthor": false,
+  "reviewerIsExecutor": false,
+  "verdict": "verified-actual-STOPPED_PRESERVE",
+  "approvedInput": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/tax121-budget-metadata-a7831b49-b5cf-4943-845b-89289debc4c7/budget-probe-input118.json",
+    "bytes": 7632,
+    "rawBytesSha256": "b16a851b725b75e399086f2a0b48b2b303cf386af2f8cc755eead7d590a34fb7"
+  },
+  "Root9": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/tax121-budget-metadata-a7831b49-b5cf-4943-845b-89289debc4c7/Root-exact-budget-probe-review118.json",
+    "bytes": 1136,
+    "rawBytesSha256": "507654ba270732351a3e75b148b190ec50b306f54cf21f82ac12d7c56abeb8cc"
+  },
+  "mode": "budget-probe",
+  "nonce": "a7831b49-b5cf-4943-845b-89289debc4c7",
+  "actualProbeExitCode": 1,
+  "probeOutcome": "STOPPED_PRESERVE",
+  "ObservationComplete": false,
+  "sample": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/tax118-invocation-a7831b49-b5cf-4943-845b-89289debc4c7/budget-base-sample.json",
+    "bytes": 15656,
+    "rawBytesSha256": "65ff7ff50c4d665fccf79c0f6284f7aba2e8497d5b080b2f1408a2a5edec38b4"
+  },
+  "report": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/tax118-invocation-a7831b49-b5cf-4943-845b-89289debc4c7/budget-probe-report.json",
+    "bytes": 4307,
+    "rawBytesSha256": "2107ba6865d48a149694ad3b3c6b4ac071bc3b82410583c0661e5c6d270ef5e3"
+  },
+  "partial": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/tax118-invocation-a7831b49-b5cf-4943-845b-89289debc4c7/partial.json",
+    "bytes": 2738,
+    "rawBytesSha256": "f4db056703b7778579b4b1fa0ddd070fe01b5152e351abe9331f80786d5dde90"
+  },
+  "exitGuard": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/000077-tax118-exit-guard.json",
+    "bytes": 6213,
+    "rawBytesSha256": "fb76a3067a7741fa9d58410beb7022a04b1899b1ec8ffb3cf9bf5274cbdcbdca"
+  },
+  "closedJournal": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/000078-tax118-closed-journal.json",
+    "bytes": 13224,
+    "rawBytesSha256": "bead6ccf36e14cca9be2675a48f2d3be1bc6aab71ccb8cd117f2e8d34eaabad3"
+  },
+  "currentState": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/state.json",
+    "bytes": 15065879,
+    "rawBytesSha256": "cddedbd760cb2a2f4e566ad57b69e0bc7b8fdc1fcde9284d027735f42595eaaf"
+  },
+  "currentOwnership": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/ownership.jsonl",
+    "bytes": 14912,
+    "rawBytesSha256": "8211dee8cf3fc171a577164344f90601a23675df08fb81c230fed158a65aa092"
+  },
+  "timing": {
+    "CPElapsedNs": "113436174201",
+    "closeElapsedNs": "629800944921",
+    "throughCloseElapsedCeilMs": 629881,
+    "idleThroughCloseRemainingMs": -81965,
+    "absoluteThroughCloseRemainingMs": 27448673
+  },
+  "evidence": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-budget-stopped-readback02/evidence-actual-stopped-budget-probe01.json",
+    "bytes": 25237,
+    "rawBytesSha256": "434bc7ae47760c09095e777f94eca4c37a183e995a5434b08b8cc9f18837444d"
+  },
+  "acceptance": {
+    "factualStoppedReadback": "PASS",
+    "ObservationComplete": "BLOCK",
+    "reason": "Actual through-close idle remaining -81965ms violates strict >2000ms; successful CP/actor points and real close do not establish session coverage through close.",
+    "full67FI618Budget": "UNKNOWN",
+    "budgetObservationG3G4": "NOT_SATISFIED",
+    "boundedAttemptEvidencePackageG3": "PENDING_ROOT_PACKAGE_AND_CHECKS",
+    "boundedAttemptEvidenceDeliveryG4": "PENDING_DELIVERY_ISSUE_SYNC_AND_ACTUAL_REVIEW"
+  },
+  "limits": {
+    "factualReadbackPassIsNotObservationComplete": true,
+    "budgetG3G4NotPassed": true,
+    "full67FI618Budget": "UNKNOWN",
+    "normalTaxMainAndFIGranted": false,
+    "noRetryCloseLoginCleanupOrRestore": true,
+    "newBusinessCertified": 0,
+    "businessG3": false,
+    "businessG4": false
+  }
+}

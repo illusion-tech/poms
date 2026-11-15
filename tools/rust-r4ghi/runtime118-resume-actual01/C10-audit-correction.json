@@ -1,0 +1,58 @@
+{
+  "kind": "non-author-runtime118-readonly-audit-adapter-correction02",
+  "schemaVersion": 1,
+  "reviewer": "/root/runtime118_actual_reviewer",
+  "rootDecision": "Root explicitly authorized one diagnosed read-only attempt02 after receiving exact binary paths and query-call-graph correction",
+  "previousCommand": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-C10-actual-independent01/audit-command.json",
+    "bytes": 2139,
+    "rawBytesSha256": "183b312083cd9310de985f854697ebec1e79bebae74f5638cf642e3cadad374b"
+  },
+  "previousResult": "audit adapter pathname omission; NOT a C10/product failure; no actuator attempted",
+  "correction": [
+    "Add exactly the two existing API/summary ELF pathnames to read-only access adapter; original binaryFact single:false role remains unchanged",
+    "Correct only audit expected read-only query count from 2 to 3: two exact Win32_Process queries and one exact container inspect",
+    "Change capture output directory identity from attempt01 to attempt02; no original artifacts overwritten"
+  ],
+  "changes": [
+    {
+      "file": "readonly-adapter.mjs",
+      "beforeBytes": 4721,
+      "beforeSHA256": "afb4574a0bb506a193454b795c6a9883d77736b507bbad37b342fb19623c576a",
+      "afterBytes": 4947,
+      "afterSHA256": "dc01f422d2fa3aa54c5881b9439cc1c2d41011450f6aab5b7e7dfb7c92dc3d7d",
+      "identical": false
+    },
+    {
+      "file": "audit-C10-actual01.mjs",
+      "beforeBytes": 13949,
+      "beforeSHA256": "174f1b754e2f2ddd56df5b564fbde122e84ca8380abe6ef3dae5a338981ba18a",
+      "afterBytes": 13949,
+      "afterSHA256": "97e8b5c42c96672e601a7a7ddf09a6d1deb9006234761e79d98d715ea73e94e0",
+      "identical": false
+    },
+    {
+      "file": "capture-C10-audit01.cjs",
+      "beforeBytes": 2365,
+      "beforeSHA256": "d9b60429c90562b12d28ce5dfb3d1bd9a18d223c49ddfd7f8428748915fe045e",
+      "afterBytes": 2365,
+      "afterSHA256": "6aa2a975568db352a88e72c86649a2a050be08a36e8d7714e4b37cf3d76e067d",
+      "identical": false
+    },
+    {
+      "file": "seal-actual-C10-R8-01.mjs",
+      "beforeBytes": 4786,
+      "beforeSHA256": "474bbff3115dac9854d60aed649a1c0c389a6d5cfe6a60ddd3bc02a48a94379d",
+      "afterBytes": 4786,
+      "afterSHA256": "474bbff3115dac9854d60aed649a1c0c389a6d5cfe6a60ddd3bc02a48a94379d",
+      "identical": true
+    }
+  ],
+  "businessSourceModified": false,
+  "qualifiedRuntimeModified": false,
+  "privateInputModified": false,
+  "SQLHTTP": false,
+  "newBusinessEffect": false,
+  "previousArtifactsPreserved": true,
+  "retryPolicy": "One diagnosed read-only attempt only; any new failure stops for report"
+}

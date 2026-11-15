@@ -1,0 +1,109 @@
+{
+  "kind": "readonly-Rust-auth-session-exact-contract-and-IP-diagnosis",
+  "schemaVersion": 1,
+  "changedRows": 1,
+  "changedColumns": [
+    "idle_expires_at",
+    "last_seen_at",
+    "row_version",
+    "updated_at"
+  ],
+  "checks": {
+    "rowVersionExactlyPlusOne": true,
+    "updatedAtEqualsLastSeen": true,
+    "idleRefreshEqualsMinNowPlus900AndAbsolute": true,
+    "refreshRespects60SecondThrottle": true,
+    "statusActiveBeforeAndAfter": true,
+    "priorIdleAndAbsoluteStrictlyAfterTouchNow": true,
+    "requestHasNoForwardedIPOverride": true,
+    "lastIPMatchesDirectLoopbackConnectInfoAndCoalesce": true,
+    "allOtherColumnsRemainUnchanged": true
+  },
+  "sourceBindings": [
+    {
+      "source": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/auth/store.rs",
+        "bytes": 22695,
+        "rawBytesSha256": "14ba9d8e7171e6a6fbd00fa68c25a283d53521e17921b5d0e2ac760fec1a3f40"
+      },
+      "mirror": {
+        "file": "/home/wangzishi/projects/poms-rust-r4ghi/apps/poms-api-rust/src/auth/store.rs",
+        "bytes": 22695,
+        "rawBytesSha256": "14ba9d8e7171e6a6fbd00fa68c25a283d53521e17921b5d0e2ac760fec1a3f40"
+      },
+      "sourcePinsMatched": true,
+      "compileInputsMatched": true
+    },
+    {
+      "source": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/auth/service.rs",
+        "bytes": 21730,
+        "rawBytesSha256": "3f216c2be127ca22e536f0413c91a72c29c37f2e97212089ac3a2611169ee650"
+      },
+      "mirror": {
+        "file": "/home/wangzishi/projects/poms-rust-r4ghi/apps/poms-api-rust/src/auth/service.rs",
+        "bytes": 21730,
+        "rawBytesSha256": "3f216c2be127ca22e536f0413c91a72c29c37f2e97212089ac3a2611169ee650"
+      },
+      "sourcePinsMatched": true,
+      "compileInputsMatched": true
+    },
+    {
+      "source": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/auth/guards.rs",
+        "bytes": 12029,
+        "rawBytesSha256": "58f7e67c075f3ee4918a0df433d0a055de81c4e99abb95ab7f0950d9c40c6082"
+      },
+      "mirror": {
+        "file": "/home/wangzishi/projects/poms-rust-r4ghi/apps/poms-api-rust/src/auth/guards.rs",
+        "bytes": 12029,
+        "rawBytesSha256": "58f7e67c075f3ee4918a0df433d0a055de81c4e99abb95ab7f0950d9c40c6082"
+      },
+      "sourcePinsMatched": true,
+      "compileInputsMatched": true
+    },
+    {
+      "source": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/src/lifecycle.rs",
+        "bytes": 5654,
+        "rawBytesSha256": "bef266ce6380176b77ff5564249c18549aad5ffdc3e0dad0aeabc93016b4e64f"
+      },
+      "mirror": {
+        "file": "/home/wangzishi/projects/poms-rust-r4ghi/apps/poms-api-rust/src/lifecycle.rs",
+        "bytes": 5654,
+        "rawBytesSha256": "bef266ce6380176b77ff5564249c18549aad5ffdc3e0dad0aeabc93016b4e64f"
+      },
+      "sourcePinsMatched": true,
+      "compileInputsMatched": true
+    }
+  ],
+  "sourcePins": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source15-build119-inventory34402-01/sourcePins.json",
+    "bytes": 68385,
+    "rawBytesSha256": "4f20c9848613d6fb53133f5779ee74c9586642c403a966f36b4c07833eb4bedf"
+  },
+  "compileInputs": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source15-build119-inventory34402-01/compileInputs.json",
+    "bytes": 83968,
+    "rawBytesSha256": "3197f2439ea136220089906cc3eb3e02284945d885ecf9062fc8612ab4795bc8"
+  },
+  "apiProcess": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/rust-api-reentry/99d82601-d21d-4519-888b-0096932b0ad3/rust-api118-process.json",
+    "bytes": 5204,
+    "rawBytesSha256": "e5e8218733b1e121ff46372874adb0de224dccf694af3f9a2ae07c916b6419c3"
+  },
+  "binaryBinding": {
+    "file": "/home/wangzishi/.cache/poms-r4ghi-target-ROOT15/34402-build119-02/mirror/debug/poms-api-rust",
+    "rawBytesSha256": "85d9cb1e7e86a9fd94bdcfd528922064f1f0a1ba0759bc17e570e098db677292"
+  },
+  "locations": {
+    "updateSQL": "auth/store.rs:223-227",
+    "throttleIdleCaller": "auth/service.rs:261-283",
+    "requestIP": "auth/guards.rs:85-105",
+    "ConnectInfoServer": "lifecycle.rs:24-27"
+  },
+  "privateValuesWithheld": true,
+  "noSQLHTTPOrEffect": true,
+  "probeRerun": false,
+  "diagnosticOnlyNotFullAudit02": true
+}

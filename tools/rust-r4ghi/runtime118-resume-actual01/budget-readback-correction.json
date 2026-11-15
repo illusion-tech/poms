@@ -1,0 +1,54 @@
+{
+  "kind": "Root-authorized-readonly-stopped-audit-Rust-contract-correction02",
+  "schemaVersion": 1,
+  "reviewer": "/root/runtime118_actual_reviewer",
+  "RootDecision": "One specifically diagnosed readonly audit02 only after Root source/compiled-binding verification; no probe or effect replay",
+  "priorAuditCommand": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-budget-stopped-readback01/audit-command.json",
+    "bytes": 1846,
+    "rawBytesSha256": "431e3300031b5478e4cf3c8462e5db749155daf172b75449d0f555e32b489225"
+  },
+  "actualDiagnosis": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-budget-stopped-readback01/Rust-auth-contract-IP-diagnosis03.json",
+    "bytes": 4305,
+    "rawBytesSha256": "2ce9c37e691fd7c8807e308bc21b4fc445997f5fa68a613939e37e68c3412c0d"
+  },
+  "sourceContract": "Pinned Rust store.rs223-227 touch SQL plus service.rs261-283 throttle/idle and guards.rs85-105+lifecycle.rs24-27 actualIP/ConnectInfo",
+  "cause": "Audit01 unverified two-column assumption omitted normal Rust row_version increment and same-now updated_at; not a Native/Tax/Source product failure",
+  "exactOldAssertion": "assert(changed.length>0&&changed.every(k=>['last_seen_at','idle_expires_at'].includes(k)));",
+  "exactNewAssertion": "eq(changed.sort(),['idle_expires_at','last_seen_at','row_version','updated_at']);assert.equal(BigInt(v.row_version),BigInt(b.row_version)+1n);assert.equal(Date.parse(v.updated_at),Date.parse(v.last_seen_at));assert.equal(Date.parse(v.idle_expires_at),Math.min(Date.parse(v.last_seen_at)+900000,Date.parse(v.absolute_expires_at)));assert(Date.parse(v.last_seen_at)-Date.parse(b.last_seen_at)>=60000);assert.equal(b.status,'active');assert.equal(v.status,'active');assert(Date.parse(b.idle_expires_at)>Date.parse(v.last_seen_at)&&Date.parse(b.absolute_expires_at)>Date.parse(v.last_seen_at));const actualHeaderNames=Object.keys(request.headers).map(k=>k.toLowerCase());assert(!actualHeaderNames.includes('x-forwarded-for')&&!actualHeaderNames.includes('x-real-ip'));assert.equal(new URL(request.url).hostname,'127.0.0.1');assert.equal(v.last_ip,new URL(request.url).hostname);assert.equal(v.last_ip,b.last_ip);",
+  "changes": [
+    {
+      "file": "audit-stopped-probe01.mjs",
+      "beforeBytes": 38498,
+      "beforeSHA256": "0adca6f76a09da2d3e7f3b6b821ddcbd25a794dea840591a4a27ea6bbd7fe703",
+      "afterBytes": 39315,
+      "afterSHA256": "e9ceb597bc7457f719783c9d51ec91845695e73e101a48cc709285866cd38fa1",
+      "identical": false
+    },
+    {
+      "file": "capture-stopped-audit01.cjs",
+      "beforeBytes": 2301,
+      "beforeSHA256": "9a186529c0cd7ed541d1fb9d950a117cbd1cd27c1ac0e58fe428de45a0b9f74b",
+      "afterBytes": 2301,
+      "afterSHA256": "145bcb40d7e5294058d70c422bcd262c37619f5f95756033beb9cff4afc23a1a",
+      "identical": false
+    },
+    {
+      "file": "seal-stopped-readback01.mjs",
+      "beforeBytes": 5370,
+      "beforeSHA256": "ed37c44bd8499b0ed62add407dd886b94311cf7efd5575715d50ca6fafd7bbd2",
+      "afterBytes": 5370,
+      "afterSHA256": "ed37c44bd8499b0ed62add407dd886b94311cf7efd5575715d50ca6fafd7bbd2",
+      "identical": true
+    }
+  ],
+  "allOtherAssertionsByteUnchanged": true,
+  "allAudit01AndDiagnosisOriginalsPreserved": true,
+  "applicationCodeChanged": false,
+  "privateInputOrActualRowsChanged": false,
+  "budgetPredicatesChanged": false,
+  "STOPPEDLabelChanged": false,
+  "probeSQLHTTPClockCloseLoginSnapshotCleanupOrServiceRerun": false,
+  "retryPolicy": "One authorized readonly audit02. Any new failure stops and reports; no automatic retry"
+}
