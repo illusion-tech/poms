@@ -1,0 +1,49 @@
+{"ownedFixtureRoot":"E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\tmp\\rust-r4ghi\\root\\runtime118-performance-impl01\\owned-tests-PDuPvD","scope":"owned local files and invalid Native arguments only","realAuthSQLHTTPSnapshotEffectsExecuted":0}
+✔ same boundary hashes one original once, returns independent Buffers (4.941ms)
+✔ new boundary rereads bytes, unchanged JSON decoded only once (2.749ms)
+✔ same-size mutation with restored mtime cannot reuse prior decode (2.534ms)
+✖ content changes during a scope are rejected by bookends (1.3054ms)
+✔ conflicting digest or byte count for one path is refused (1.8875ms)
+✔ hardlink exception cannot authorize the single-link evidence role (3.1731ms)
+✔ exact dev/ino/nlink role identity is checked (0.8036ms)
+✔ directory sharing retains complete entry list and seals mutation (3.229ms)
+✔ typed directory entries cannot poison later inventory (1.6951ms)
+✔ missing and replaced originals fail closed (1.9606ms)
+✔ no read outside scope; no nesting, await or use after disposal (0.9505ms)
+✔ failed observation clears state and next owned test is independent (1.7878ms)
+✔ descriptor resource bound stops rather than dropping dependencies (2.6561ms)
+✔ large binaries hash completely without retaining a large buffer (7.4351ms)
+✔ generic owned scope cannot activate Native ambient cache (1.5752ms)
+✔ forged/serialized budget scope cannot invoke callback or final freshness (0.7706ms)
+✔ budget entry rejects supplied context/callback before any valid execution (1.6412ms)
+✔ parent/self intervals do not add nested elapsed twice (0.3291ms)
+✔ phase failures retain status, no secret error text in profile (0.1746ms)
+✔ profile event cap and unknown metrics are explicit (3.1773ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 19
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 226.0425
+
+✖ failing tests:
+
+test at tools\rust-r4ghi\runtime118-performance-candidate01\tests\observation118.test.mjs:31:1
+✖ content changes during a scope are rejected by bookends (1.3054ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception.
+      at TestContext.<anonymous> (file:///E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-candidate01/tests/observation118.test.mjs:32:69)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: undefined,
+    operator: 'throws',
+    diff: 'simple'
+  }

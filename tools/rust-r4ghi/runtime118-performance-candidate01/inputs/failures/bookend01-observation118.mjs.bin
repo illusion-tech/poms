@@ -1,0 +1,119 @@
+// Candidate-only internal verifier support. No import-time I/O or effects.
+// Native scope activation requires the genuine unexported budget ticket.
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import {AsyncLocalStorage} from 'node:async_hooks';
+import {assertBudgetProbeDispatch121} from '../business/runtime-admission121.mjs';
+
+const digest = b => createHash('sha256').update(b).digest('hex');
+const statKeys = ['dev','ino','nlink','size','mtimeNs','ctimeNs','uid','gid','mode'];
+const equalStat = (a,b) => { for(const key of statKeys) assert.equal(a[key],b[key],'Observed file identity/content bookend changed'); };
+const label = s => { assert(typeof s==='string'&&/^[a-zA-Z0-9_.:-]{1,96}$/.test(s));return s; };
+const metricsKeys = new Set(['contentReads','contentReadBytes','shaBytes','metadataCalls','directoryEnumerations','jsonParseBytes','stateWriteBytes','sqlQueries']);
+const safeCount = n => { assert(Number.isSafeInteger(n)&&n>=0);return n; };
+const freeze = x => { if(x&&typeof x==='object'&&!Object.isFrozen(x)){for(const v of Object.values(x))freeze(v);Object.freeze(x);}return x; };
+
+export function createPhaseMetrics118({maxEvents=20000}={}) {
+    safeCount(maxEvents);const events=[],stack=[],totals=Object.fromEntries([...metricsKeys].map(k=>[k,0]));
+    let sequence=0,dropped=0,peakRSS=0;
+    const sampleMemory=()=>{peakRSS=Math.max(peakRSS,process.memoryUsage().rss);};
+    const begin=name=>{label(name);assert(sequence<Number.MAX_SAFE_INTEGER);const event={phaseId:++sequence,parentId:stack.at(-1)?.phaseId??null,sequence,startNs:process.hrtime.bigint(),endNs:null,status:'RUNNING'};stack.push(event);sampleMemory();return event;};
+    const end=(event,status)=>{assert.equal(stack.pop(),event,'Phase stack mismatch');event.endNs=process.hrtime.bigint();event.status=status;sampleMemory();if(events.length<maxEvents)events.push(event);else dropped++;};
+    const api={
+        add(key,n=1){assert(metricsKeys.has(key),'Unknown metric');safeCount(n);const next=totals[key]+n;safeCount(next);totals[key]=next;},
+        sync(name,body){const event=begin(name);try{const value=body();assert(!value||typeof value.then!=='function','Synchronous observation must not cross await');end(event,'PASS');return value;}catch(error){end(event,'FAIL');throw error;}},
+        async phase(name,body){const event=begin(name);try{const value=await body();end(event,'PASS');return value;}catch(error){end(event,'FAIL');throw error;}},
+        snapshot(){sampleMemory();const rows=events.map(e=>({...e,startNs:e.startNs.toString(),endNs:e.endNs.toString(),elapsedNs:(e.endNs-e.startNs).toString()}));
+            for(const row of rows){const direct=rows.filter(c=>c.parentId===row.phaseId);const child=direct.reduce((n,c)=>n+BigInt(c.elapsedNs),0n);row.selfNs=(BigInt(row.elapsedNs)-child).toString();}
+            return freeze({kind:'runtime118-performance-profile',schemaVersion:1,clock:'process.hrtime.bigint',counterCoverage:'instrumented verified readers; legacy direct I/O remains separately uncovered',events:rows,totals:{...totals},droppedEvents:dropped,openPhases:stack.length,memory:{peakSampledRSS:peakRSS,method:'RSS sampled at phase boundaries; instantaneous peak may be missed'},secretsAndPayloadPublished:false});}
+    };return Object.freeze(api);
+}
+
+// This factory has no ambient effect. Its instances are useful for owned-I/O
+// qualification; they cannot activate caching in a genuine Native invocation.
+export function createObservationController118({maxEntries=20000,maxCacheBytes=64*1024*1024,metrics=createPhaseMetrics118()}={}) {
+    safeCount(maxEntries);safeCount(maxCacheBytes);let current=null,disposed=false,cacheBytes=0;
+    const decoded=new Map();
+    const meta=file=>{metrics.add('metadataCalls');return fs.lstatSync(file,{bigint:true});};
+    const real=file=>{metrics.add('metadataCalls');assert.equal(fs.realpathSync(file),file,'Original canonical path required');};
+    const canonical=file=>{assert(typeof file==='string'&&path.isAbsolute(file)&&path.resolve(file)===file&&!file.includes('\0'));};
+    const policy=(s,p)=>{assert(s.isFile()&&!s.isSymbolicLink(),'Regular original required');assert(s.nlink>=1n);if(p.singleLink!==false)assert.equal(s.nlink,1n,'Single-link role required');for(const key of ['dev','ino','nlink','uid','gid','mode'])if(p[key]!==undefined)assert.equal(s[key].toString(),String(p[key]),'Role identity mismatch');};
+    const entryFor=(pin,p={})=>{
+        assert(current&&!disposed,'No live observation');assert(pin&&/^[a-f0-9]{64}$/.test(pin.rawBytesSha256));canonical(pin.file);
+        if(pin.bytes!==undefined)safeCount(pin.bytes);
+        const s=meta(pin.file);policy(s,p);real(pin.file);
+        let entry=current.files.get(pin.file);
+        if(entry){assert.equal(entry.sha,pin.rawBytesSha256,'Conflicting descriptor for same original');if(pin.bytes!==undefined)assert.equal(BigInt(pin.bytes),s.size);equalStat(entry.stat,s);entry.policies.push(p);return entry;}
+        assert(current.files.size+current.directories.size<maxEntries,'Observation dependency limit');
+        let fd;try{
+            metrics.add('metadataCalls');fd=fs.openSync(pin.file,fs.constants.O_RDONLY|(fs.constants.O_NOFOLLOW??0));
+            metrics.add('metadataCalls');const opened=fs.fstatSync(fd,{bigint:true});policy(opened,p);equalStat(s,opened);
+            const hash=createHash('sha256'),chunk=Buffer.allocUnsafe(1024*1024);let size=0;const parts=[];
+            // Bounded raw cache. Large files are fully hashed but not retained.
+            const retain=s.size<=BigInt(maxCacheBytes)&&s.size<=BigInt(maxCacheBytes-current.rawBytes-cacheBytes);
+            for(;;){const n=fs.readSync(fd,chunk,0,chunk.length,null);if(!n)break;size+=n;safeCount(size);hash.update(chunk.subarray(0,n));if(retain)parts.push(Buffer.from(chunk.subarray(0,n)));}
+            metrics.add('contentReads');metrics.add('contentReadBytes',size);metrics.add('shaBytes',size);
+            assert.equal(hash.digest('hex'),pin.rawBytesSha256,'Original SHA changed');assert.equal(BigInt(size),s.size);if(pin.bytes!==undefined)assert.equal(size,pin.bytes);
+            metrics.add('metadataCalls');equalStat(opened,fs.fstatSync(fd,{bigint:true}));equalStat(s,meta(pin.file));real(pin.file);
+            const bytes=retain?Buffer.concat(parts):null;if(bytes)current.rawBytes+=bytes.length;
+            entry={file:pin.file,sha:pin.rawBytesSha256,size,stat:s,bytes,policies:[p]};current.files.set(pin.file,entry);return entry;
+        }finally{if(fd!==undefined)fs.closeSync(fd);}
+    };
+    const read=(pin,p={})=>{
+        const entry=entryFor(pin,p);if(entry.bytes)return Buffer.from(entry.bytes);
+        // A caller demanding a huge mutable Buffer cannot borrow a verifier
+        // digest. The second full read is counted and SHA checked again.
+        const before=meta(pin.file);equalStat(entry.stat,before);real(pin.file);let fd;
+        try{metrics.add('metadataCalls');fd=fs.openSync(pin.file,fs.constants.O_RDONLY|(fs.constants.O_NOFOLLOW??0));metrics.add('metadataCalls');equalStat(before,fs.fstatSync(fd,{bigint:true}));const bytes=fs.readFileSync(fd);metrics.add('contentReads');metrics.add('contentReadBytes',bytes.length);metrics.add('shaBytes',bytes.length);assert.equal(digest(bytes),entry.sha);metrics.add('metadataCalls');equalStat(before,fs.fstatSync(fd,{bigint:true}));equalStat(before,meta(pin.file));real(pin.file);return bytes;}finally{if(fd!==undefined)fs.closeSync(fd);}
+    };
+    const verify=(pin,p={})=>{const e=entryFor(pin,p);return {file:e.file,rawBytesSha256:e.sha,bytes:e.size,dev:e.stat.dev.toString(),ino:e.stat.ino.toString(),nlink:Number(e.stat.nlink)};};
+    const json=(pin,p={})=>{
+        const entry=entryFor(pin,p),key=pin.file+'\0'+pin.rawBytesSha256;
+        // Every scope already performed the complete raw read/SHA. Only the
+        // immutable decoded value is reused across scopes.
+        if(decoded.has(key)){const item=decoded.get(key);decoded.delete(key);decoded.set(key,item);return item.value;}
+        const bytes=read(pin,p);metrics.add('jsonParseBytes',bytes.length);const value=freeze(JSON.parse(bytes));
+        if(bytes.length<=maxCacheBytes-current.rawBytes){while(cacheBytes+current.rawBytes+bytes.length>maxCacheBytes&&decoded.size){const [old,item]=decoded.entries().next().value;decoded.delete(old);cacheBytes-=item.charge;}decoded.set(key,{value,charge:bytes.length});cacheBytes+=bytes.length;}
+        return value;
+    };
+    const directory=(folder,options)=>{
+        assert(current&&!disposed);canonical(folder);const s=meta(folder);assert(s.isDirectory()&&!s.isSymbolicLink());real(folder);
+        let e=current.directories.get(folder);if(e){equalStat(s,e.stat);assert.equal(Boolean(options?.withFileTypes),e.typed);return e.values.slice();}
+        assert(current.files.size+current.directories.size<maxEntries,'Observation dependency limit');metrics.add('directoryEnumerations');
+        assert(options===undefined||(Object.keys(options).length===1&&options.withFileTypes===true),'Finite directory options');
+        const values=fs.readdirSync(folder,options);if(options?.withFileTypes)values.forEach(Object.freeze);equalStat(s,meta(folder));real(folder);e={stat:s,typed:Boolean(options?.withFileTypes),values};current.directories.set(folder,e);return values.slice();
+    };
+    const seal=scope=>{for(const e of scope.files.values()){const s=meta(e.file);equalStat(e.stat,s);real(e.file);for(const p of e.policies)policy(s,p);}for(const [file,e]of scope.directories){equalStat(e.stat,meta(file));real(file);}};
+    const api={read,verify,json,directory,
+        memo(key,body){assert(current);if(current.memo.has(key))return current.memo.get(key);const value=body();current.memo.set(key,value);return value;},
+        run(name,body){assert(!current&&!disposed,'No nested or disposed observation');const scope={files:new Map(),directories:new Map(),memo:new Map(),rawBytes:0};current=scope;try{return metrics.sync(name,()=>{const value=body();assert(!value||typeof value.then!=='function','Observation cannot cross await');seal(scope);return value;});}finally{current=null;}},
+        active(){return Boolean(current)&&!disposed;},
+        snapshot(){return metrics.snapshot();},
+        dispose(){assert(!current,'Active observation cannot be disposed');decoded.clear();cacheBytes=0;disposed=true;},
+    };return Object.freeze(api);
+}
+
+let active=null;
+const phaseContext=new AsyncLocalStorage();
+const owners=new WeakMap();
+function owner(root,ticket){assertBudgetProbeDispatch121(root,ticket);let value=owners.get(root);if(!value){const metrics=createPhaseMetrics118();value={metrics,controller:createObservationController118({metrics})};owners.set(root,value);}return value;}
+export function budgetObservation118(root,ticket,phase,body){
+    const value=owner(root,ticket);assert(!active,'Budget observation cannot reenter');
+    return value.controller.run(phase,()=>{active={root,ticket,...value};try{const result=body();assert(!result||typeof result.then!=='function');return result;}finally{active=null;}});
+}
+export function observedRead118(pin,policy){return active?active.controller.read(pin,policy):null;}
+export function observedVerify118(pin,policy){return active?active.controller.verify(pin,policy):null;}
+export function observedJSON118(pin,policy){return active?active.controller.json(pin,policy):null;}
+export function observedDirectory118(folder,options){return active?active.controller.directory(folder,options):null;}
+export function observedFresh118(root,facts,body){
+    if(!active)return body();assert.equal(active.root,root);assertBudgetProbeDispatch121(root,active.ticket);
+    // The root state may not mutate inside a shared read-only boundary.
+    const stateHash=digest(JSON.stringify(root.state));const key='fresh:'+facts.authorityPin.file+':'+facts.authorityPin.rawBytesSha256;
+    const value=active.controller.memo(key,()=>{body();return stateHash;});assert.equal(value,stateHash,'Root state changed inside observation');
+}
+export function profileBudgetPhase118(root,ticket,phase,body){const value=owner(root,ticket);return phaseContext.run(value.metrics,()=>value.metrics.phase(phase,body));}
+export function recordBudgetMetric118(key,n){const metrics=phaseContext.getStore();if(metrics)metrics.add(key,n);}
+export function profileBudgetSnapshot118(root,ticket){return owner(root,ticket).metrics.snapshot();}
+export function disposeBudgetObservation118(root,ticket){const value=owner(root,ticket);value.controller.dispose();owners.delete(root);}

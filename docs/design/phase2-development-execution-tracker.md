@@ -1308,3 +1308,13 @@ Root继续为父#114管理相同私有和活跃输入/运行资源。#114/#118/#
 当前canonical为post-probe cddedbd7、ownership8211dee8，不能还原为Y。Rust240/R4 67/95/32candidate/业务新增认证0及业务G3G4未签保持，#57/#114/#118/#120/#116开放，#119/#121历史Closed。私有/活输入继续Root→#114保管。
 
 <!-- /poms-runtime118-bounded-attempt-20261116 -->
+
+<!-- poms-runtime118-performance-candidate-20261116 -->
+
+### 2026-11-16 #118性能首片隔离候选，待独立资格
+
+[候选交付记录](rust-r4ghi/runtime118-performance-candidate-delivery-2026-11-16.md)和[完整候选图/证据](../../tools/rust-r4ghi/runtime118-performance-candidate01/README.md)交付阶段计时、同边界物料共享、原字节/SHA封口、只读解析复用及close编排。原284执行文件保持；隔离图实际285（7 MOD/277 SAME/1 ADD），作者61项全过，原代码对齐合同夹具37项全过，旧失败保留。
+
+固定公开JSON组件读取148→74；中位25.8545→25.7196ms且区间重叠，不声明稳定显著提速或真实CP/close目标通过。独立资格、安装准入、Linux/私有历史正向和实际预算均未完成。未安装、未启动Debian、未执行新SQL/HTTP/Auth/快照/探针；原STOPPED_PRESERVE、#118预算阻断及#57开放状态保持，不授后续效果。
+
+<!-- /poms-runtime118-performance-candidate-20261116 -->

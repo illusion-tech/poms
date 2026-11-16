@@ -1,0 +1,222 @@
+✖ view exposes exactly the eight actual own bound methods (1.6073ms)
+✖ view has no Root valueOf, constructor, inherited or symbol escape (0.1739ms)
+✖ parent data is an independent deeply readonly copy (0.1059ms)
+✖ reflected parent descriptors do not expose an original alias (0.1682ms)
+✖ Tax identity, Main13 and preparation are independently protected (1.3131ms)
+✖ top-level Tax replacement and immutable parent replacement are rejected (0.1824ms)
+✖ descriptor, prototype, freeze and context mutation cannot alter Root (0.2096ms)
+✖ only named runtime fields and Tax effect metadata remain writable (0.1459ms)
+✔ plain/prototype/JSON objects cannot forge runtime capability (0.91ms)
+✔ plain/prototype/JSON objects cannot forge checkpoint capability (0.3911ms)
+✔ plain/prototype/JSON objects cannot forge family capability (0.3716ms)
+✔ plain/prototype/JSON objects cannot forge domain capability (0.3337ms)
+✔ state machine requires every phase in order (0.4589ms)
+✔ state machine refuses skipped and repeated phases (0.7628ms)
+✔ one family cannot change cursor, key, body or recorded session (0.8163ms)
+✔ closed FI set binds its entire ordered source-derived inventory (1.7348ms)
+✔ closed FI set rejects trim (0.8235ms)
+✔ closed FI set rejects reorder (0.3224ms)
+✔ closed FI set rejects descriptor (0.4272ms)
+✔ closed FI set rejects body (0.2714ms)
+✔ closed FI set rejects prepared source (0.4538ms)
+✔ input shape has a distinct closed contract for prepare-only (1.0594ms)
+✔ input shape has a distinct closed contract for fi-closed-set (0.4482ms)
+✔ input shape has a distinct closed contract for fi-family (0.2796ms)
+✔ input shape has a distinct closed contract for commit-once (0.2411ms)
+✔ input shape has a distinct closed contract for verify-committed (0.2219ms)
+✔ input shape has a distinct closed contract for disarm-owned (0.2454ms)
+✖ input shape has a distinct closed contract for budget-probe (0.371ms)
+✔ prepare cannot prefill an unproduced body, inventory, normal or control grant (1.4393ms)
+✔ an FI capability cannot carry the normal grant or a callback (5.0993ms)
+✔ the executor cannot omit a source or silently alias its production path (0.7088ms)
+✔ joint consumer has exactly three arguments and five IDs (0.5076ms)
+✔ 284 normalizes its twelve actual fields explicitly to the native twelve (0.3266ms)
+✔ 284 rejects a helperH2 fallback or raw native forwarding (0.4425ms)
+✔ period and mixed require all top-level native runtime fields (0.2532ms)
+✔ source closures normalize two identity keys in deterministic UTF8 file order (0.2896ms)
+✔ source closures reject duplicate files, conflicting hashes and lexical aliases (0.3951ms)
+ℹ tests 37
+ℹ suites 0
+ℹ pass 28
+ℹ fail 9
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 194.0788
+
+✖ failing tests:
+
+test at tools\rust-r4ghi\tax15-invocation118\tests\capability15.test.mjs:7:1
+✖ view exposes exactly the eight actual own bound methods (1.6073ms)
+  AssertionError [ERR_ASSERTION]: Existing genuine fixed app roles required
+      at restrictContext118 (file:///E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs:334:5)
+      at TestContext.<anonymous> (file:///E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tests/capability15.test.mjs:7:86)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tools\rust-r4ghi\tax15-invocation118\tests\capability15.test.mjs:8:1
+✖ view has no Root valueOf, constructor, inherited or symbol escape (0.1739ms)
+  AssertionError [ERR_ASSERTION]: Existing genuine fixed app roles required
+      at restrictContext118 (file:///E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs:334:5)
+      at TestContext.<anonymous> (file:///E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tests/capability15.test.mjs:8:87)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tools\rust-r4ghi\tax15-invocation118\tests\capability15.test.mjs:9:1
+✖ parent data is an independent deeply readonly copy (0.1059ms)
+  AssertionError [ERR_ASSERTION]: Existing genuine fixed app roles required
+      at restrictContext118 (file:///E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs:334:5)
+      at TestContext.<anonymous> (file:///E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tests/capability15.test.mjs:9:81)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tools\rust-r4ghi\tax15-invocation118\tests\capability15.test.mjs:10:1
+✖ reflected parent descriptors do not expose an original alias (0.1682ms)
+  AssertionError [ERR_ASSERTION]: Existing genuine fixed app roles required
+      at restrictContext118 (file:///E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs:334:5)
+      at TestContext.<anonymous> (file:///E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tests/capability15.test.mjs:10:91)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tools\rust-r4ghi\tax15-invocation118\tests\capability15.test.mjs:11:1
+✖ Tax identity, Main13 and preparation are independently protected (1.3131ms)
+  AssertionError [ERR_ASSERTION]: Existing genuine fixed app roles required
+      at restrictContext118 (file:///E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs:334:5)
+      at TestContext.<anonymous> (file:///E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tests/capability15.test.mjs:11:95)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tools\rust-r4ghi\tax15-invocation118\tests\capability15.test.mjs:12:1
+✖ top-level Tax replacement and immutable parent replacement are rejected (0.1824ms)
+  AssertionError [ERR_ASSERTION]: Existing genuine fixed app roles required
+      at restrictContext118 (file:///E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs:334:5)
+      at TestContext.<anonymous> (file:///E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tests/capability15.test.mjs:12:93)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tools\rust-r4ghi\tax15-invocation118\tests\capability15.test.mjs:13:1
+✖ descriptor, prototype, freeze and context mutation cannot alter Root (0.2096ms)
+  AssertionError [ERR_ASSERTION]: Existing genuine fixed app roles required
+      at restrictContext118 (file:///E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs:334:5)
+      at TestContext.<anonymous> (file:///E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tests/capability15.test.mjs:13:99)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tools\rust-r4ghi\tax15-invocation118\tests\capability15.test.mjs:14:1
+✖ only named runtime fields and Tax effect metadata remain writable (0.1459ms)
+  AssertionError [ERR_ASSERTION]: Existing genuine fixed app roles required
+      at restrictContext118 (file:///E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs:334:5)
+      at TestContext.<anonymous> (file:///E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tests/capability15.test.mjs:14:96)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tools\rust-r4ghi\tax15-invocation118\tests\capability15.test.mjs:24:28
+✖ input shape has a distinct closed contract for budget-probe (0.371ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + '/tmp/g1'
+  - '/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v3/Root-G1-budget-probe118-v3.json'
+  
+      at samePin118 (file:///E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/retained-tax-proof.mjs:51:12)
+      at assertInput118 (file:///E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs:189:9)
+      at TestContext.<anonymous> (file:///E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tests/capability15.test.mjs:24:105)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/tmp/g1',
+    expected: '/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v3/Root-G1-budget-probe118-v3.json',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
