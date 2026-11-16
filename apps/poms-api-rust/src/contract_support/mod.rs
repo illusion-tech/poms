@@ -64,6 +64,9 @@ impl From<CommonFailure> for Error {
 }
 
 const UNIQUE_CONFLICTS: &[&str] = &[
+    "commission_rule_version_code_version_unique",
+    "commission_calculation_project_version_unique",
+    "uq_commission_calculation_project_current",
     "uq_r4d_amendment_scope",
     "uq_r4d_amendment_open",
     "uq_r4d_review_scope",

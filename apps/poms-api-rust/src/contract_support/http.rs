@@ -50,11 +50,23 @@ struct Inventory {
 fn operations() -> &'static [Operation] {
     static OPS: OnceLock<Vec<Operation>> = OnceLock::new();
     OPS.get_or_init(|| {
-        serde_json::from_str::<Inventory>(include_str!(
+        let mut operations = serde_json::from_str::<Inventory>(include_str!(
             "../../../../tools/rust-r4ghi/combined-operation-map02.json"
         ))
         .unwrap_or_else(|_| panic!("invalid frozen R4 operation map"))
-        .operations
+        .operations;
+        operations.extend(crate::commission::ROUTES.iter().map(
+            |(method, path, operation_id, permission, success_status)| Operation {
+                group: "R5".into(),
+                method: (*method).into(),
+                path: (*path).into(),
+                operation_id: (*operation_id).into(),
+                permissions: vec![(*permission).into()],
+                success_status: *success_status,
+                response_dto: None,
+            },
+        ));
+        operations
     })
 }
 
@@ -280,7 +292,7 @@ async fn dispatch(
         Ok(keys) => keys,
         Err(error) => return error.into_api_error().into_response(),
     };
-    let modern_group = matches!(op.group.as_str(), "G" | "H" | "I" | "R5-min");
+    let modern_group = matches!(op.group.as_str(), "G" | "H" | "I" | "R5-min" | "R5");
     let id = match if modern_group { None } else { matched.id } {
         None => None,
         Some(raw) => match decode_uri_component(&raw)
@@ -304,6 +316,14 @@ async fn dispatch(
         Err(error) => return error.into_response(),
     };
     let parsed = parts.extensions.remove::<ParsedBody>().unwrap_or_default();
+    let commission_request = if op.group == "R5" {
+        match crate::commission::Request::parse(&op.operation_id, parsed.raw()) {
+            Ok(input) => input,
+            Err(error) => return error.into_api_error().into_response(),
+        }
+    } else {
+        crate::commission::Request::None
+    };
     let typed = if crate::project_operating_common::request::request_name(&op.operation_id)
         .is_some()
     {
@@ -454,6 +474,16 @@ async fn dispatch(
                             )
                             .await
                         }
+                        "R5" => {
+                            crate::commission::execute(
+                                &mut session,
+                                &op.operation_id,
+                                &named,
+                                &commission_request,
+                                &actor,
+                            )
+                            .await
+                        }
                         "R5-min" => {
                             crate::commission_assignment::execute_with_session(
                                 &mut session,
@@ -468,7 +498,7 @@ async fn dispatch(
                         _ => Err(Error::Internal),
                     };
                     let result = result.and_then(|value| {
-                        if modern_group {
+                        if modern_group && op.group != "R5" {
                             let schema_name = op.response_dto.as_deref().ok_or(Error::Internal)?;
                             crate::project_operating_common::schema::validate_public_value(
                                 schema_name,
@@ -549,8 +579,8 @@ mod tests {
         );
     }
     #[test]
-    fn all_ninety_nine_operations_have_effective_permission() {
-        assert_eq!(operations().len(), 99);
+    fn all_business_operations_have_effective_permission() {
+        assert_eq!(operations().len(), 99 + crate::commission::ROUTES.len());
         assert!(operations().iter().all(|o| !o.permissions.is_empty()));
         assert!(
             operations()
@@ -558,6 +588,34 @@ mod tests {
                 .filter(|o| o.group == "C")
                 .all(|o| o.permissions == ["contract:finance:manage"])
         );
+    }
+    #[test]
+    fn commission_routes_match_existing_contracts_and_are_unique() {
+        let contract: Value = serde_json::from_str(include_str!(
+            "../../../../libs/shared/api-spec/openapi.json"
+        ))
+        .unwrap();
+        let mut ids = BTreeSet::new();
+        for op in operations() {
+            assert!(
+                ids.insert(&op.operation_id),
+                "duplicate operation {}",
+                op.operation_id
+            );
+            if op.group == "R5" {
+                let declared = &contract["paths"][&op.path][op.method.to_ascii_lowercase()];
+                assert_eq!(
+                    declared["operationId"].as_str(),
+                    Some(op.operation_id.as_str())
+                );
+                assert!(!declared["responses"][op.success_status.to_string()].is_null());
+                assert!(
+                    op.permissions[0]
+                        .parse::<crate::shared::generated::PermissionKey>()
+                        .is_ok()
+                );
+            }
+        }
     }
     #[test]
     fn dual_uuid_and_project_colon_routes_preserve_unique_resource_identity() {

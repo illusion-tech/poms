@@ -6,6 +6,7 @@ pub mod auth;
 pub mod binary_http;
 pub mod business_discussions;
 pub mod business_numbers;
+pub mod commission;
 pub mod commission_assignment;
 pub mod compat;
 pub mod config;
