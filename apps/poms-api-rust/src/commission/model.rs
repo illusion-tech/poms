@@ -1,4 +1,5 @@
 use crate::contract_support::{Error, nonnegative_money};
+use crate::shared::generated::CommissionAdjustmentType;
 use chrono::{DateTime, Utc};
 use rust_decimal::{Decimal, RoundingStrategy};
 use serde::{Deserialize, Serialize};
@@ -107,6 +108,16 @@ pub struct Recalculate {
     pub expected_version: Option<i32>,
 }
 
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct CreateAdjustment {
+    pub adjustment_type: CommissionAdjustmentType,
+    pub related_payout_id: Option<Uuid>,
+    pub related_calculation_id: Option<Uuid>,
+    pub amount: Option<String>,
+    pub reason: String,
+}
+
 #[derive(Debug)]
 pub enum Request {
     None,
@@ -114,6 +125,8 @@ pub enum Request {
     CreateCalculation(CreateCalculation),
     ConfirmCalculation(ConfirmCalculation),
     Recalculate(Recalculate),
+    CreateAdjustment(CreateAdjustment),
+    AdjustmentVersion(ConfirmCalculation),
 }
 
 pub fn amount(raw: &str) -> Result<Decimal, Error> {
@@ -168,6 +181,22 @@ impl Request {
                     amount(raw)?;
                 }
                 Self::Recalculate(input)
+            }
+            "CommissionController_createAdjustment" => {
+                let input: CreateAdjustment = parse(raw)?;
+                if input.reason.trim().is_empty() || input.reason.trim().chars().count() > 256 {
+                    return Err(Error::BadRequest("调整原因须为1到256字。".into()));
+                }
+                if let Some(raw) = &input.amount {
+                    amount(raw)?;
+                }
+                Self::CreateAdjustment(input)
+            }
+            "CommissionController_submitAdjustmentApproval"
+            | "CommissionController_executeAdjustment" => {
+                let input: ConfirmCalculation = parse(raw)?;
+                expected(input.expected_version)?;
+                Self::AdjustmentVersion(input)
             }
             _ => Self::None,
         })

@@ -1,5 +1,6 @@
-//! Commission rule versions and calculations share the ordinary authenticated
+//! Commission rules, calculations and adjustments share the authenticated
 //! HTTP transaction. Auxiliary acceptance ledgers are not part of this service.
+mod adjustment;
 pub mod model;
 mod service;
 pub use model::Request;
@@ -61,6 +62,34 @@ pub const ROUTES: &[(&str, &str, &str, &str, u16)] = &[
         "/api/commission-calculations/{id}:recalculate",
         "CommissionController_recalculateCalculation",
         "commission:calculations:manage",
+        200,
+    ),
+    (
+        "GET",
+        "/api/projects/{projectId}/commission-adjustments",
+        "CommissionController_listAdjustments",
+        "commission:adjustments:manage",
+        200,
+    ),
+    (
+        "POST",
+        "/api/projects/{projectId}/commission-adjustments",
+        "CommissionController_createAdjustment",
+        "commission:adjustments:manage",
+        200,
+    ),
+    (
+        "POST",
+        "/api/commission-adjustments/{id}:submitApproval",
+        "CommissionController_submitAdjustmentApproval",
+        "commission:adjustments:manage",
+        200,
+    ),
+    (
+        "POST",
+        "/api/commission-adjustments/{id}:execute",
+        "CommissionController_executeAdjustment",
+        "commission:adjustments:manage",
         200,
     ),
 ];

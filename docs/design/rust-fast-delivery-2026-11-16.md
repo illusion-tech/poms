@@ -29,4 +29,14 @@
 - HTTP层18项、进程退出1项、共享枚举1项通过；进程子fixture保持1项ignored，由父测试显式启动。首次HTTP回归因旧272项/222路径断言失败，修正为280项/228路径并增加八项接口与现有契约逐项核对、未登录401回归后通过。原失败日志保留。
 - `cargo +1.99.1 clippy --offline --locked --lib --no-deps -- -D warnings`通过；Linux开发二进制build通过，实际`--openapi`导出280项，其中提成12项。
 
-本机复用命令见`apps/poms-api-rust/README.md`。本轮日志在`apps/poms-api-rust/target/delivery-dependencies/cargo-*-linux-*.log`，导出为同目录`openapi-linux280.json`。未进行真实SQL业务链路、前端联调或目标TEST发布验证；完整R5仍缺16项，业务父项保持开放。下一步直接做业务SQL回归和余16项，不再将ICU下载或旧验收工具当作当前阻断。
+a7bfe388阶段记录：复用命令见`apps/poms-api-rust/README.md`，日志在`apps/poms-api-rust/target/delivery-dependencies/cargo-*-linux-*.log`，导出为同目录`openapi-linux280.json`。当时未进行真实SQL业务链路、前端联调或目标TEST发布验证，完整R5缺16项。
+
+2026-11-17后续交付：规则/计算8项已通过真实SQL/HTTP回归，并补齐调整列表、草稿、提交审批、执行4项，现Rust共284项/231路径，提成16/28项。
+
+- 从当前应用migration的`up()`初始化专用PostgreSQL17.11空库，真实登录、CSRF、HTTP事务和既有审批服务均参与。两个SQL场景通过，覆盖并发重算、审计失败整体回滚、财务审批/待办、补发防重复、暂停/冲销、累计扣回上限、缺失实际审批记录以及历史金额UNKNOWN不得按零处理。
+- 调整沿用实际可用的`finance_mgr`审批账户；只有status=approved不够，执行必须有对应的真实批准记录。发起人不能替代指定审批人，审批路由仍保留原`project:write`权限要求。调整原因不再明文复制进普通待办summary，通过既有敏感字段投影获取。
+- 库551、HTTP层18及SQL场景2通过；Clippy库与相关集成测试检查、Linux开发二进制build通过。首次SQLx编译约束和测试请求/权限fixture失败均已修复，原日志保留；未放宽产品认证或权限。
+
+可复用SQL命令及输入边界见`tools/rust-commission/README.md`，本轮记录为`commission-sql-http-01..07.log`、`commission-regression-01.log`、`commission-clippy-01.log`、`commission-build-01.log`及`openapi-linux284.json`，均在上述target目录。冻结角色/primary发放仅作为显式legacy持久化测试输入，不冒充其producer验收。测试cluster数据与失败记录保留。
+
+剩余12项：发放5、冻结争议/变更4、离职特例1、最终结算/规则解释2；前端联调、完整阶段验收和目标TEST发布仍待完成。#57/#116保持开放，不再投入旧验收工具框架。

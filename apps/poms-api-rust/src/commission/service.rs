@@ -60,7 +60,7 @@ pub async fn execute(
         ("CommissionController_recalculateCalculation", Request::Recalculate(input)) => {
             recalculate(session, keys.id()?, input, actor).await
         }
-        _ => Err(Error::Internal),
+        _ => super::adjustment::execute(session, operation, keys, request, actor).await,
     }
 }
 
@@ -203,10 +203,11 @@ async fn change_rule_status(
     Ok(result)
 }
 
-async fn projection_packet(
+pub(super) async fn projection_packet(
     session: &mut CommonSession<'_, '_>,
     actor: &Actor,
     row: &Value,
+    target_type: &str,
     package: SensitiveFieldPackageKey,
     fields: &[(&str, &str)],
 ) -> Result<Value, Error> {
@@ -233,7 +234,7 @@ async fn projection_packet(
                 .map(|p| p.as_str().to_owned())
                 .collect(),
         }),
-        target_type: "CommissionCalculation".into(),
+        target_type: target_type.into(),
         target_id: text(row, "id")?.into(),
         request_context: actor.request_context.clone(),
         mode_when_unauthorized: None,
@@ -256,6 +257,7 @@ async fn calculation_summary(
         session,
         actor,
         row,
+        "CommissionCalculation",
         SensitiveFieldPackageKey::OperatingFinance,
         &[
             (
@@ -278,6 +280,7 @@ async fn calculation_summary(
         session,
         actor,
         row,
+        "CommissionCalculation",
         SensitiveFieldPackageKey::CommissionCompensation,
         &[("commissionPoolProjection", "commission_pool")],
     )
@@ -424,9 +427,9 @@ async fn create_calculation(
     calculation_summary(session, &row, actor).await
 }
 
-fn check_version(row: &Value, expected: Option<i32>) -> Result<(), Error> {
+pub(super) fn check_version(row: &Value, expected: Option<i32>) -> Result<(), Error> {
     if expected.is_some_and(|expected| Some(expected) != version(row).ok()) {
-        return Err(Error::Conflict("提成计算版本已变化。".into()));
+        return Err(Error::Conflict("提成记录版本已变化。".into()));
     }
     Ok(())
 }

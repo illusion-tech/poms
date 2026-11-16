@@ -13,7 +13,7 @@ cargo build --locked --release
 cargo run --locked -- --openapi > openapi-rust.json
 ```
 
-`--openapi` 输出当前Rust实际注册的规范，不读取环境文件或连接数据库。当前接入280项，完整共享契约为296项，提成余16项待实现；接入数量不表示全部业务链路已验收。当前交付顺序见[短清单](../../docs/design/rust-fast-delivery-2026-11-16.md)。共享类型只从现有 TypeScript 来源机械生成，维护与兼容复算见 [R1B 工具](../../tools/rust-r1b/README.md)。认证 OpenAPI 元信息也由现有完整规范单向导出，保留其 3.0 语义；实际 handler、JSON、Cookie 和数据库行为有独立验证，不以元信息相等替代。
+`--openapi` 输出当前Rust实际注册的规范，不读取环境文件或连接数据库。当前接入284项，完整共享契约为296项，提成余12项待实现；接入数量不表示全部业务链路已验收。当前交付顺序见[短清单](../../docs/design/rust-fast-delivery-2026-11-16.md)。共享类型只从现有 TypeScript 来源机械生成，维护与兼容复算见 [R1B 工具](../../tools/rust-r1b/README.md)。认证 OpenAPI 元信息也由现有完整规范单向导出，保留其 3.0 语义；实际 handler、JSON、Cookie 和数据库行为有独立验证，不以元信息相等替代。
 
 本机已有的Linux Cargo缓存是`/home/wangzishi/.cache/poms-r4def-cargo-home`，包含固定ICU源码。2026-11-17已使用该缓存离线编译当前工作树，无须替换ICU依赖；在已经运行的Linux环境中，从仓库根目录执行：
 
@@ -24,6 +24,8 @@ cargo +1.99.1 test --manifest-path apps/poms-api-rust/Cargo.toml --offline --loc
 ```
 
 这是本机构建缓存路径，其他环境应使用自己的Cargo缓存。Windows默认缓存缺失不代表Linux构建不可用；无需重跑历史验收工具或修改Cargo.toml/lock。
+
+规则/计算及调整的12项接口已做[独立测试库SQL/HTTP回归](../../tools/rust-commission/README.md)，覆盖真实登录与审批、金额与版本冲突、并发和故障回滚。发放producer、冻结争议/变更、离职特例及最终结算仍待实现；本地回归不表示目标TEST已部署。
 
 会话 token/CSRF 采用原 base64url 与 SHA-256 存储合同，bcryptjs 和 AES-256-GCM v1 密文按原实现互通。账户、角色、权限和组织读取直接使用现有 schema；未知 raw permission 不被强枚举过滤。每次会话解析重新读取当前权限，touch/轮换/撤销采用原 guarded SQL；后续审计保留原 MikroORM 的请求局部 dirty snapshot flush：安全事件与额外版本 CAS 同事务，失败只回滚这次 flush，先前 raw 会话更新仍保留，公共查询不额外写入。未匹配路由/方法按本轮实测原 Nest/Express 返回 HTML 404，详见 R1C 纠偏记录。[R1D](../../docs/design/archive/slices/rust-r1d-e2e-client-baseline.md)已交付通用多后端harness、完整client生成与真实Chromium启动/基础认证smoke；整体浏览器旅程与阶段集成验收仍属R1E。
 
