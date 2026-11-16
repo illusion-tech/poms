@@ -21,4 +21,12 @@
 
 2026-11-17实现进展：当前共享OpenAPI共296项，其中提成28项。此前Rust仅接入角色分配/冻结4项，实际缺口为24项。本轮直接补规则版本列表/创建/激活/停用及计算列表/创建/确认/重算8项，新增源码在`apps/poms-api-rust/src/commission/`；验证结果单独记录，源码接入不等于业务已验收。后续16项是发放5、调整4、冻结争议/变更4、离职特例1、最终结算/规则解释2。
 
-本轮验证：`cargo +1.99.1 fmt --check`、Markdown检查与`git diff --check`通过。`cargo test --locked --lib`尚未进入编译：Windows缓存缺少固定ICU git源码，在线拉取发生TLS中断/低速超时；发布包替换因与既有URL依赖的ICU版本冲突已撤回，Cargo.toml/lock保持原样。新增金额边界、梯度边界、无收入/亏损、请求验证及路由契约测试均尚未运行，真实SQL/HTTP回归未执行。后续先解决固定依赖下载并运行这些测试，不能将格式检查当作编译或业务通过。
+前次提交56d15c54的验证记录：`cargo +1.99.1 fmt --check`、Markdown检查与`git diff --check`通过。`cargo test --locked --lib`尚未进入编译：Windows缓存缺少固定ICU git源码，在线拉取发生TLS中断/低速超时；发布包替换因与既有URL依赖的ICU版本冲突已撤回，Cargo.toml/lock保持原样。当时新增测试和真实SQL/HTTP回归未执行。
+
+2026-11-17后续已解除构建阻碍：只读检查发现Debian已经运行，已有Linux缓存`/home/wangzishi/.cache/poms-r4def-cargo-home`包含同一固定ICU提交38a49da4。前次只检查Windows默认缓存，漏看了这个专用缓存。现使用它离线编译实际R工作树，新target为`/home/wangzishi/.cache/poms-delivery-20261117/target`，Cargo.toml/lock不变，未启动或重启任何既有服务。
+
+- `cargo +1.99.1 test --offline --locked --lib`：551通过、0失败，包括新增金额/梯度/请求测试及ICU回归。
+- HTTP层18项、进程退出1项、共享枚举1项通过；进程子fixture保持1项ignored，由父测试显式启动。首次HTTP回归因旧272项/222路径断言失败，修正为280项/228路径并增加八项接口与现有契约逐项核对、未登录401回归后通过。原失败日志保留。
+- `cargo +1.99.1 clippy --offline --locked --lib --no-deps -- -D warnings`通过；Linux开发二进制build通过，实际`--openapi`导出280项，其中提成12项。
+
+本机复用命令见`apps/poms-api-rust/README.md`。本轮日志在`apps/poms-api-rust/target/delivery-dependencies/cargo-*-linux-*.log`，导出为同目录`openapi-linux280.json`。未进行真实SQL业务链路、前端联调或目标TEST发布验证；完整R5仍缺16项，业务父项保持开放。下一步直接做业务SQL回归和余16项，不再将ICU下载或旧验收工具当作当前阻断。

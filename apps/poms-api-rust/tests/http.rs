@@ -21,8 +21,7 @@ use tower::ServiceExt;
 
 type TestResult<T = ()> = Result<T, Box<dyn Error>>;
 
-#[tokio::test]
-async fn unmatched_followup_commands_preserve_native_html_before_guards() -> TestResult {
+async fn application_with_auth() -> TestResult<Router> {
     let database = closed_database().await?;
     let config = Config::from_map(&HashMap::from([
         ("DB_HOST".to_owned(), "127.0.0.1".to_owned()),
@@ -37,14 +36,41 @@ async fn unmatched_followup_commands_preserve_native_html_before_guards() -> Tes
         )),
         cookies: poms_api_rust::auth::cookie::AuthCookieService::from_auth_config(&config.auth),
     };
-    let app = http::router_with_auth(
+    Ok(http::router_with_auth(
         AppState {
             database,
             started_at: Instant::now(),
         },
         &[],
         auth,
-    );
+    ))
+}
+
+#[tokio::test]
+async fn commission_routes_require_authentication_before_database_access() -> TestResult {
+    let app = application_with_auth().await?;
+    for &(method, template, operation, _, _) in poms_api_rust::commission::ROUTES {
+        let path = template
+            .replace("{id}", "00000000-0000-4000-8000-000000000001")
+            .replace("{projectId}", "00000000-0000-4000-8000-000000000001");
+        let response = app
+            .clone()
+            .oneshot(
+                Request::builder()
+                    .method(method)
+                    .uri(path)
+                    .header(header::CONTENT_TYPE, "application/json")
+                    .body(Body::from("{}"))?,
+            )
+            .await?;
+        assert_eq!(response.status(), StatusCode::UNAUTHORIZED, "{operation}");
+    }
+    Ok(())
+}
+
+#[tokio::test]
+async fn unmatched_followup_commands_preserve_native_html_before_guards() -> TestResult {
+    let app = application_with_auth().await?;
     // Original Native routing-probe01 observed Express finalhandler HTML for
     // these unmatched spellings; encoded suffixes are not registered commands.
     for suffix in ["", ":unknown", "%3Avoid", ":%72eplace"] {
@@ -609,12 +635,11 @@ async fn basic_error_variants_consume_the_frozen_nest_filter_outputs() -> TestRe
 }
 
 #[test]
-fn openapi_has_two_hundred_seventy_two_operations_and_preserves_existing_health_schemas()
--> TestResult {
+fn openapi_preserves_registered_business_operations_and_existing_health_schemas() -> TestResult {
     let document = serde_json::to_value(http::openapi())?;
     let existing: Value = serde_json::from_str(EXISTING_OPENAPI)?;
     let paths = document["paths"].as_object().ok_or("missing paths")?;
-    assert_eq!(paths.len(), 222);
+    assert_eq!(paths.len(), 228);
     assert_eq!(
         paths
             .values()
@@ -626,7 +651,7 @@ fn openapi_has_two_hundred_seventy_two_operations_and_preserves_existing_health_
                 .contains(&method.as_str()))
                 .count()))
             .sum::<usize>(),
-        272
+        280
     );
     let r4: Value = serde_json::from_str(include_str!(
         "../../../tools/rust-r4ghi/combined-operation-map02.json"
@@ -643,6 +668,15 @@ fn openapi_has_two_hundred_seventy_two_operations_and_preserves_existing_health_
         let id = operation["operationId"]
             .as_str()
             .ok_or("missing R4 identity")?;
+        assert!(identities.insert(id));
+        assert_eq!(
+            document["paths"][path][&method],
+            existing["paths"][path][&method]
+        );
+        assert_eq!(document["paths"][path][&method]["operationId"], id);
+    }
+    for &(method, path, id, _, _) in poms_api_rust::commission::ROUTES {
+        let method = method.to_ascii_lowercase();
         assert!(identities.insert(id));
         assert_eq!(
             document["paths"][path][&method],
