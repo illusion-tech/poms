@@ -1,0 +1,42 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'Phase stack mismatch\n' +
++   '+ actual - expected\n' +
++   '\n' +
++   '+ undefined\n' +
++   '- {\n' +
++   '-   endNs: 15295342921000n,\n' +
++   '-   parentId: null,\n' +
++   '-   phaseId: 1,\n' +
++   '-   sequence: 1,\n' +
++   '-   startNs: 15295342575900n,\n' +
++   "-   status: 'PASS'\n" +
++   '- }\n'
+- 'Phase stack mismatch'
+
+    at file:///E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/independent-cases.mjs:31:12 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 'Phase stack mismatch\n' +
+    '+ actual - expected\n' +
+    '\n' +
+    '+ undefined\n' +
+    '- {\n' +
+    '-   endNs: 15295342921000n,\n' +
+    '-   parentId: null,\n' +
+    '-   phaseId: 1,\n' +
+    '-   sequence: 1,\n' +
+    '-   startNs: 15295342575900n,\n' +
+    "-   status: 'PASS'\n" +
+    '- }\n',
+  expected: 'Phase stack mismatch',
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

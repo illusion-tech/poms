@@ -1,0 +1,60 @@
+{
+  "kind": "independent-runtime118-directory-mode-cases",
+  "reviewer": "/root/performance118_independent_review01",
+  "reviewerIsAuthor": false,
+  "reviewedCommit": "72275c80e92fad30bb736af3c5e5ee5a00731739",
+  "actualRuntimeAuthority": false,
+  "actualTaskEffects": {
+    "SQL": 0,
+    "HTTP": 0,
+    "Auth": 0,
+    "newSnapshots": 0,
+    "probes": 0,
+    "WSLStarts": 0
+  },
+  "ownedRun": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\tmp\\rust-r4ghi\\root\\runtime118-performance-review01\\directory-jj6AQH",
+  "results": [
+    {
+      "id": "typed-then-names",
+      "requestedValidFSOperations": true,
+      "accepted": false,
+      "actual": false,
+      "expected": true,
+      "receivedName": "AssertionError"
+    },
+    {
+      "id": "names-then-typed",
+      "requestedValidFSOperations": true,
+      "accepted": false,
+      "actual": true,
+      "expected": false,
+      "receivedName": "AssertionError"
+    },
+    {
+      "id": "complete-functions-without-ambient-observation",
+      "passed": true,
+      "expectedSourceFiles": 1,
+      "bridge": "Explicit Windows owned-files path grammar model, not real runtime input"
+    },
+    {
+      "id": "complete-functions-walk-build",
+      "validControlWithoutObservation": true,
+      "accepted": false,
+      "innerName": "AssertionError",
+      "innerActual": false,
+      "innerExpected": true,
+      "nativeProjectedError": true,
+      "nativeClosed": true
+    },
+    {
+      "id": "complete-functions-build-walk",
+      "validControlWithoutObservation": true,
+      "accepted": false,
+      "innerName": "AssertionError",
+      "innerActual": true,
+      "innerExpected": false,
+      "nativeProjectedError": true,
+      "nativeClosed": true
+    }
+  ]
+}

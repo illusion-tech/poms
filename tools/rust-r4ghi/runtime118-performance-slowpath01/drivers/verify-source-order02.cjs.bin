@@ -1,0 +1,7 @@
+const fs=require('node:fs'),{createHash}=require('node:crypto');
+const root='E:/projects/worktrees/poms-r3hijk-next28/poms',out=root+'/tmp/rust-r4ghi/root/runtime118-performance-slowpath01';
+const source=JSON.parse(fs.readFileSync(out+'/sourcePins-reconstructed.json')).sort((a,b)=>a.file<b.file?-1:a.file>b.file?1:0),bytes=Buffer.from(JSON.stringify(source,null,2)+'\n');
+const rawBytesSha256=createHash('sha256').update(bytes).digest('hex');
+const expected=JSON.parse(fs.readFileSync(root+'/tools/rust-r4ghi/runtime-recovery121/Native362-plan-data-actual01/native-plan121.json')).current.sourcePins;
+const result={count:source.length,bytes:bytes.length,rawBytesSha256,expected,exactBytesHashMatch:rawBytesSha256===expected.rawBytesSha256&&bytes.length===expected.bytes,normalization:'Original Linux lexical relative-path order; Windows mixed native slash ordering was not equivalent',originalFull3IdentityClaimed:false};
+fs.writeFileSync(out+'/sourcePins-linux-order02.json',bytes,{flag:'wx'});fs.writeFileSync(out+'/source-inventory-check02.json',JSON.stringify(result,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(result));

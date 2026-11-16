@@ -1,0 +1,259 @@
+{
+  "kind": "non-author-runtime118-candidate02-review",
+  "schemaVersion": 1,
+  "reviewer": "/root/performance118_independent_review01",
+  "reviewerIsAuthor": false,
+  "verdict": "NOTREADY",
+  "correctiveCodeStatus": "F01-F05_VERIFIED_IN_RECORDED_SCOPE",
+  "input": {
+    "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-candidate02/review-input.json",
+    "bytes": 217827,
+    "rawBytesSha256": "42afdb5f347d4918299d18981eb826ab16aea4a244c0ae1cc3e49a81892b456d"
+  },
+  "sourceGraphVerified": 285,
+  "authorTestOriginalsVerified": 4,
+  "independentCombinationCases": 23,
+  "adaptedAuthorTests": {
+    "tests": 87,
+    "passed": 87,
+    "skipped": 0,
+    "adaptation": "Import/URL resolution and owned-output relocation only"
+  },
+  "report": {
+    "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/candidate02/REVIEW02.md",
+    "bytes": 6142,
+    "rawBytesSha256": "3b4ab6b8cb086362834609a7b1f7339f0fb3c6cd128d3e5e4893333726085761"
+  },
+  "newBlockingFindings": [
+    {
+      "id": "F06",
+      "priority": "P2",
+      "scope": "Controller cache strategy and component availability",
+      "confirmed": true,
+      "coldDirectoryPassed": true,
+      "warmDirectoryRejected": true,
+      "maxCacheBytes": 32,
+      "evictableDecodedCharge": 21,
+      "newNameBytes": 26,
+      "actualNative64MiBImpact": "UNKNOWN"
+    }
+  ],
+  "additionalConcerns": [
+    {
+      "id": "F07",
+      "priority": "P2",
+      "sameOriginalReaders": 1000,
+      "duplicateFrozenPolicies": 999,
+      "actualNativeHeapPeak": "UNKNOWN",
+      "standaloneRuntimeBlocker": false
+    }
+  ],
+  "actualConstructorAdmission": false,
+  "models": "Complete285 copies with explicit review-only minimal Root brand/liveness and private helper exports; no actual constructor",
+  "actualTaskEffects": {
+    "SQL": 0,
+    "HTTP": 0,
+    "Auth": 0,
+    "newSnapshots": 0,
+    "probes": 0,
+    "WSLStarts": 0
+  },
+  "candidateModified": false,
+  "originalExecutionModified": false,
+  "runtimeInstallationApproved": false,
+  "nextProbeApproved": false,
+  "retained": [
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/candidate02-attributed-fa4a1b75-86b7-4196-8877-dcd2a5e442af/adapted-author-regression.stderr.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/candidate02/evidence/candidate02-attributed-fa4a1b75-86b7-4196-8877-dcd2a5e442af/adapted-author-regression.stderr.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/candidate02-attributed-fa4a1b75-86b7-4196-8877-dcd2a5e442af/adapted-author-regression.stdout.bin",
+        "bytes": 7349,
+        "rawBytesSha256": "730e3d5c94d48c70cfd1f4807db104bb670199bcc7cc6ff8a4f99cbb5b2020e2"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/candidate02/evidence/candidate02-attributed-fa4a1b75-86b7-4196-8877-dcd2a5e442af/adapted-author-regression.stdout.bin",
+        "bytes": 7349,
+        "rawBytesSha256": "730e3d5c94d48c70cfd1f4807db104bb670199bcc7cc6ff8a4f99cbb5b2020e2"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/candidate02-attributed-fa4a1b75-86b7-4196-8877-dcd2a5e442af/commands.json",
+        "bytes": 8790,
+        "rawBytesSha256": "c12122a86ad884943dcba69b77369afbc482a0809432006c5b98e1c01700be27"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/candidate02/evidence/candidate02-attributed-fa4a1b75-86b7-4196-8877-dcd2a5e442af/commands.json",
+        "bytes": 8790,
+        "rawBytesSha256": "c12122a86ad884943dcba69b77369afbc482a0809432006c5b98e1c01700be27"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/candidate02-attributed-fa4a1b75-86b7-4196-8877-dcd2a5e442af/decoded-directory-pressure02.stderr.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/candidate02/evidence/candidate02-attributed-fa4a1b75-86b7-4196-8877-dcd2a5e442af/decoded-directory-pressure02.stderr.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/candidate02-attributed-fa4a1b75-86b7-4196-8877-dcd2a5e442af/decoded-directory-pressure02.stdout.bin",
+        "bytes": 905,
+        "rawBytesSha256": "ccbb3d632ab326d62b6274c0d71407045b4ba005b939a60098a81b1fd0358fd6"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/candidate02/evidence/candidate02-attributed-fa4a1b75-86b7-4196-8877-dcd2a5e442af/decoded-directory-pressure02.stdout.bin",
+        "bytes": 905,
+        "rawBytesSha256": "ccbb3d632ab326d62b6274c0d71407045b4ba005b939a60098a81b1fd0358fd6"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/candidate02-attributed-fa4a1b75-86b7-4196-8877-dcd2a5e442af/independent-cases02.stderr.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/candidate02/evidence/candidate02-attributed-fa4a1b75-86b7-4196-8877-dcd2a5e442af/independent-cases02.stderr.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/candidate02-attributed-fa4a1b75-86b7-4196-8877-dcd2a5e442af/independent-cases02.stdout.bin",
+        "bytes": 4053,
+        "rawBytesSha256": "0f2eb68db05f999c3b8e465d22a623015155d0f0713725713af4638eb2e835b4"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/candidate02/evidence/candidate02-attributed-fa4a1b75-86b7-4196-8877-dcd2a5e442af/independent-cases02.stdout.bin",
+        "bytes": 4053,
+        "rawBytesSha256": "0f2eb68db05f999c3b8e465d22a623015155d0f0713725713af4638eb2e835b4"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/candidate02-attributed-fa4a1b75-86b7-4196-8877-dcd2a5e442af/policy-retention02.stderr.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/candidate02/evidence/candidate02-attributed-fa4a1b75-86b7-4196-8877-dcd2a5e442af/policy-retention02.stderr.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/candidate02-attributed-fa4a1b75-86b7-4196-8877-dcd2a5e442af/policy-retention02.stdout.bin",
+        "bytes": 583,
+        "rawBytesSha256": "ce40173cb3d4ae0b66a72ca5fbca44e28c1a882c555b84aba87af901f6bfa778"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/candidate02/evidence/candidate02-attributed-fa4a1b75-86b7-4196-8877-dcd2a5e442af/policy-retention02.stdout.bin",
+        "bytes": 583,
+        "rawBytesSha256": "ce40173cb3d4ae0b66a72ca5fbca44e28c1a882c555b84aba87af901f6bfa778"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/candidate02-cases-cd7mUu/results.json",
+        "bytes": 6448,
+        "rawBytesSha256": "ec58435b0862ad02a7923b2b7b9fcef49d18e864c6483536ccb2373b5407dfc9"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/candidate02/evidence/candidate02-cases-cd7mUu/results.json",
+        "bytes": 6448,
+        "rawBytesSha256": "ec58435b0862ad02a7923b2b7b9fcef49d18e864c6483536ccb2373b5407dfc9"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/candidate02-cases-M0AUbS/results.json",
+        "bytes": 6448,
+        "rawBytesSha256": "7fa2d575d080dea775abf560ba7d9c49babdb46d4eceec768d1e79bb050facb8"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/candidate02/evidence/candidate02-cases-M0AUbS/results.json",
+        "bytes": 6448,
+        "rawBytesSha256": "7fa2d575d080dea775abf560ba7d9c49babdb46d4eceec768d1e79bb050facb8"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/candidate02-dir-pressure-d5cmEd/results.json",
+        "bytes": 793,
+        "rawBytesSha256": "70b66fb7c306fe217f0188d4c7c29fd92a14818620a12d4c242d265df5cf4bfc"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/candidate02/evidence/candidate02-dir-pressure-d5cmEd/results.json",
+        "bytes": 793,
+        "rawBytesSha256": "70b66fb7c306fe217f0188d4c7c29fd92a14818620a12d4c242d265df5cf4bfc"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/candidate02-dir-pressure-ogeCnd/results.json",
+        "bytes": 793,
+        "rawBytesSha256": "be73a8324b2a25a1fc27707d627d0efe976130cd991640b24849c8f4b886a646"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/candidate02/evidence/candidate02-dir-pressure-ogeCnd/results.json",
+        "bytes": 793,
+        "rawBytesSha256": "be73a8324b2a25a1fc27707d627d0efe976130cd991640b24849c8f4b886a646"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/candidate02-policy-YJNO1I/results.json",
+        "bytes": 457,
+        "rawBytesSha256": "9ad53cfaa2a1b5b43e336844dbe9b2db4d1d9fb594038eebb857ba6b491b03d5"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/candidate02/evidence/candidate02-policy-YJNO1I/results.json",
+        "bytes": 457,
+        "rawBytesSha256": "9ad53cfaa2a1b5b43e336844dbe9b2db4d1d9fb594038eebb857ba6b491b03d5"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-candidate02/review-input.json",
+        "bytes": 217827,
+        "rawBytesSha256": "42afdb5f347d4918299d18981eb826ab16aea4a244c0ae1cc3e49a81892b456d"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/candidate02/evidence/review-input.json",
+        "bytes": 217827,
+        "rawBytesSha256": "42afdb5f347d4918299d18981eb826ab16aea4a244c0ae1cc3e49a81892b456d"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/candidate02/model-manifest.json",
+        "bytes": 4332,
+        "rawBytesSha256": "8c7e3b54db1027bb12cf5e759738f2d720c73ac765191a428649d1897152705f"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/candidate02/evidence/model-manifest.json",
+        "bytes": 4332,
+        "rawBytesSha256": "8c7e3b54db1027bb12cf5e759738f2d720c73ac765191a428649d1897152705f"
+      }
+    }
+  ]
+}

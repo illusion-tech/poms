@@ -1,0 +1,236 @@
+{
+  "oracle": {
+    "node": "v24.19.0",
+    "package": "dotenv",
+    "version": "17.4.2",
+    "normalizedMainSha256": "46c50c6399a53bde79a1f85e720a80a073cb959b21072fad44a98b1bde72c3c2"
+  },
+  "cases": [
+    {
+      "name": "basics",
+      "input": "A=one\r\nB = two # comment\r\nEMPTY=\r\nexport C=three\r\nD: four\r\nNO_DELIMITER\n",
+      "expected": {
+        "A": "one",
+        "B": "two",
+        "EMPTY": "",
+        "C": "three",
+        "D": "four"
+      }
+    },
+    {
+      "name": "quotes",
+      "input": "S='single # quoted'\nD=\"double # quoted\"\nB=`back # tick`\nN=\"a\\nb\\rc\"\n",
+      "expected": {
+        "S": "single # quoted",
+        "D": "double # quoted",
+        "B": "back # tick",
+        "N": "a\nb\rc"
+      }
+    },
+    {
+      "name": "literal-expansion",
+      "input": "A=$HOME\nB=${TOKEN}\nC=\"$HOME/${TOKEN}\"\nD='$HOME'\n",
+      "expected": {
+        "A": "$HOME",
+        "B": "${TOKEN}",
+        "C": "$HOME/${TOKEN}",
+        "D": "$HOME"
+      }
+    },
+    {
+      "name": "backslashes",
+      "input": "A=path\\to\\file\nB=\"path\\to\\file\"\nC='path\\to\\file'\nD=\"quote\\\"inside\"\nE='quote\\'inside'\n",
+      "expected": {
+        "A": "path\\to\\file",
+        "B": "path\\to\\file",
+        "C": "path\\to\\file",
+        "D": "quote\\\"inside",
+        "E": "quote\\'inside"
+      }
+    },
+    {
+      "name": "unclosed",
+      "input": "A=\"unclosed\nB=next\nC='unclosed\nD=last\n",
+      "expected": {
+        "A": "\"unclosed",
+        "B": "next",
+        "C": "'unclosed",
+        "D": "last"
+      }
+    },
+    {
+      "name": "nested-and-tail",
+      "input": "A=\"outer 'inner' end\"\nB='outer \"inner\" end'\nC=\"closed\" garbage\nD='one' 'two'\nE=\"closed\" # tail\n",
+      "expected": {
+        "A": "outer 'inner' end",
+        "B": "outer \"inner\" end",
+        "C": "\"closed\" garbage",
+        "D": "one' 'two",
+        "E": "closed"
+      }
+    },
+    {
+      "name": "multiline",
+      "input": "A=\"first\nsecond\"\nB='first\nsecond'\nC=`first\nsecond`\nD=tail\n",
+      "expected": {
+        "A": "first\nsecond",
+        "B": "first\nsecond",
+        "C": "first\nsecond",
+        "D": "tail"
+      }
+    },
+    {
+      "name": "spacing-comments",
+      "input": "A=one#comment\nB=one two  # tail\nC=  \t  \nD = # empty\nE=\"a#b\"\n",
+      "expected": {
+        "A": "one",
+        "B": "one two",
+        "C": "",
+        "D": "",
+        "E": "a#b"
+      }
+    },
+    {
+      "name": "keys-export-duplicate",
+      "input": "export A=first\nA=second\nexport=literal\n1.odd-key=ok\nB:no-space-ignored\nC: spaced\n",
+      "expected": {
+        "A": "second",
+        "export": "literal",
+        "1.odd-key": "ok",
+        "C": "spaced"
+      }
+    },
+    {
+      "name": "empty-nextline",
+      "input": "A=\nB=next\nC=  \nD=\"value\"\n",
+      "expected": {
+        "A": "",
+        "B": "next",
+        "C": "",
+        "D": "value"
+      }
+    },
+    {
+      "name": "crossline-quote",
+      "input": "A=\n\"multi start\nend\"\nB=next\n",
+      "expected": {
+        "A": "multi start\nend",
+        "B": "next"
+      }
+    },
+    {
+      "name": "escaped-newlines",
+      "input": "A=\"\\\\n\"\nB=\"\\r\\n\"\nC='\\n\\r'\nD=`\\n`\n",
+      "expected": {
+        "A": "\\\n",
+        "B": "\r\n",
+        "C": "\\n\\r",
+        "D": "\\n"
+      }
+    },
+    {
+      "name": "unclosed-hash",
+      "input": "A=\"open#comment\nB=next\nC='open#tail\n",
+      "expected": {
+        "A": "\"open",
+        "B": "next",
+        "C": "'open"
+      }
+    },
+    {
+      "name": "invalid-lines",
+      "input": "# comment\n!BAD=x\nVALID=yes\nX Y=z\n : x\nQ=\n",
+      "expected": {
+        "VALID": "yes",
+        "Q": ""
+      }
+    },
+    {
+      "name": "bom-unicode-space",
+      "input": "\ufeffA=one\nB=\u00a0two\u00a0\nC=\u0085x\u0085\n",
+      "expected": {
+        "A": "one",
+        "B": "two",
+        "C": "\u0085x\u0085"
+      }
+    },
+    {
+      "name": "escaped-close-hash",
+      "input": "DB_PASSWORD=\"a#\\\"\n",
+      "expected": {
+        "DB_PASSWORD": "a#\\"
+      }
+    },
+    {
+      "name": "comment-unicode-line-separator",
+      "input": "# comment\u2028PORT=4444\n",
+      "expected": {
+        "PORT": "4444"
+      }
+    },
+    {
+      "name": "comment-unicode-paragraph-separator",
+      "input": "# comment\u2029PORT=4444\n",
+      "expected": {
+        "PORT": "4444"
+      }
+    },
+    {
+      "name": "unquoted-unicode-separator-is-value-data",
+      "input": "DB_PASSWORD=one\u2028PORT=4444\n",
+      "expected": {
+        "DB_PASSWORD": "one\u2028PORT=4444"
+      }
+    },
+    {
+      "name": "escaped-quote-before-later-close",
+      "input": "DB_PASSWORD=\"first\\\"\nB=middle\"\nPORT=4444\n",
+      "expected": {
+        "DB_PASSWORD": "first\\\"\nB=middle",
+        "PORT": "4444"
+      }
+    },
+    {
+      "name": "unquoted-inner-ls-single-quotes",
+      "input": "DB_PASSWORD=first\u2028'second'\n",
+      "expected": {
+        "DB_PASSWORD": "first\u2028second"
+      }
+    },
+    {
+      "name": "unquoted-inner-ps-backticks",
+      "input": "DB_PASSWORD=first\u2029`second`\n",
+      "expected": {
+        "DB_PASSWORD": "first\u2029second"
+      }
+    },
+    {
+      "name": "unquoted-inner-double-keeps-literal-escape",
+      "input": "DB_PASSWORD=first\u2028\"second\\nline\"\n",
+      "expected": {
+        "DB_PASSWORD": "first\u2028second\\nline"
+      }
+    },
+    {
+      "name": "inner-quote-strip-greedy-across-lines",
+      "input": "DB_PASSWORD=prefix\u2028'one'\u2028'two'\u2028tail\n",
+      "expected": {
+        "DB_PASSWORD": "prefix\u2028one'\u2028'two\u2028tail"
+      }
+    },
+    {
+      "name": "colon-required-newline-whitespace",
+      "input": "PORT:\n4444\n",
+      "expected": {
+        "PORT": "4444"
+      }
+    },
+    {
+      "name": "colon-newline-consumes-following-assignment-as-value",
+      "input": "DB_PASSWORD:\nPORT=4444\n",
+      "expected": {
+        "DB_PASSWORD": "PORT=4444"
+      }
+    }
+  ]
+}

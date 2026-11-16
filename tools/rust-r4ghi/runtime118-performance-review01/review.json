@@ -1,0 +1,740 @@
+{
+  "kind": "non-author-runtime118-performance-candidate-review",
+  "schemaVersion": 1,
+  "reviewer": "/root/performance118_independent_review01",
+  "reviewerIsAuthor": false,
+  "reviewedAuthor": "/root",
+  "reviewedCommit": "72275c80e92fad30bb736af3c5e5ee5a00731739",
+  "verdict": "NOTREADY",
+  "candidateInput": {
+    "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-candidate01/execution-manifest.json",
+    "bytes": 315020,
+    "rawBytesSha256": "34d6b8dfeb6cbfaec93c1849b86bd9887b81a978ac98df13f4f1a12942d38173"
+  },
+  "graphVerified": 285,
+  "originalExecutionFilesVerified": 284,
+  "report": {
+    "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/REVIEW.md",
+    "bytes": 7843,
+    "rawBytesSha256": "851020761aded4ba8b66cfd9dbcfb1f15be0a059e4402659d9096181dd9d598d"
+  },
+  "blockingFindings": [
+    {
+      "id": "F01",
+      "priority": "P1",
+      "confirmed": true,
+      "summary": "Metric failure replaces primary failure or discards successful close facts",
+      "genericCases": 3,
+      "fullModuleCloseCases": 5
+    },
+    {
+      "id": "F02",
+      "priority": "P1",
+      "confirmed": true,
+      "summary": "Collection/seal stream reads lack initial-size bounds; growing owned files over-consumed"
+    },
+    {
+      "id": "F03",
+      "priority": "P1",
+      "confirmed": true,
+      "summary": "Valid same-directory typed/names combinations are rejected; complete source functions fail in scope"
+    }
+  ],
+  "performanceConcerns": [
+    {
+      "id": "F04",
+      "priority": "P2",
+      "componentObserved": true,
+      "actualPrivateImpact": "UNKNOWN",
+      "referenceReads": 4,
+      "candidateReads": 6
+    },
+    {
+      "id": "F05",
+      "priority": "P2",
+      "componentObserved": true,
+      "actualPrivateImpact": "UNKNOWN",
+      "snapshotCounts": [
+        {
+          "events": 500,
+          "rowPredicates": 250000
+        },
+        {
+          "events": 1000,
+          "rowPredicates": 1000000
+        }
+      ]
+    }
+  ],
+  "models": {
+    "fullGraphCopies": 285,
+    "nativeModel": {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/native-model01/review-model-manifest.json",
+      "bytes": 147710,
+      "rawBytesSha256": "1bc851ad80b5662cc63256b6632408cd9d3215e9706aae215abdb9b1ca0795b8"
+    },
+    "directoryModel": {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/directory-model01/review-model-manifest.json",
+      "bytes": 996,
+      "rawBytesSha256": "86ddecfe7b7049612b7d4c1dfb96315b859ba50c6d335281b79e9786539ccbd8"
+    },
+    "adaptation": "Review-only liveness plus explicit minimal Root brand insertion/private exports; no actual constructor admission",
+    "actualRuntimeAuthority": false
+  },
+  "actualTaskEffects": {
+    "SQL": 0,
+    "HTTP": 0,
+    "Auth": 0,
+    "newSnapshots": 0,
+    "probes": 0,
+    "WSLStarts": 0
+  },
+  "sourceModified": false,
+  "candidateModified": false,
+  "originalExecutionModified": false,
+  "remainingUnknown": [
+    "Actual Linux identities and current private runtime",
+    "Genuine Native constructor and complete positive entry",
+    "Full actual four-stage write faults",
+    "Whole private historical cost/heap peak",
+    "Real baseCP/close/overall budget"
+  ],
+  "retained": [
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/attributed-0fdc7b1f-8fb0-4137-a3b0-443fb5a39d10/commands.json",
+        "bytes": 2334,
+        "rawBytesSha256": "278e10625f522f2ec9cbe1ed7ca43073901a905feba5cee291c11d4303f269aa"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/attributed-0fdc7b1f-8fb0-4137-a3b0-443fb5a39d10/commands.json",
+        "bytes": 2334,
+        "rawBytesSha256": "278e10625f522f2ec9cbe1ed7ca43073901a905feba5cee291c11d4303f269aa"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/attributed-0fdc7b1f-8fb0-4137-a3b0-443fb5a39d10/directory-cases.stderr.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/attributed-0fdc7b1f-8fb0-4137-a3b0-443fb5a39d10/directory-cases.stderr.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/attributed-0fdc7b1f-8fb0-4137-a3b0-443fb5a39d10/directory-cases.stdout.bin",
+        "bytes": 1042,
+        "rawBytesSha256": "34bc99a67b1fdcea470f2db36cf51ffe224e3681a67aef5d1b23ca79110a672c"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/attributed-0fdc7b1f-8fb0-4137-a3b0-443fb5a39d10/directory-cases.stdout.bin",
+        "bytes": 1042,
+        "rawBytesSha256": "34bc99a67b1fdcea470f2db36cf51ffe224e3681a67aef5d1b23ca79110a672c"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/attributed-6e4afd4a-fe0c-43c7-964b-6c6e24efc1e0/commands.json",
+        "bytes": 3564,
+        "rawBytesSha256": "1e38b3400514ebfc31c556533bb1554e91a1b8c66d88b1df90044ef3ebc76523"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/attributed-6e4afd4a-fe0c-43c7-964b-6c6e24efc1e0/commands.json",
+        "bytes": 3564,
+        "rawBytesSha256": "1e38b3400514ebfc31c556533bb1554e91a1b8c66d88b1df90044ef3ebc76523"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/attributed-6e4afd4a-fe0c-43c7-964b-6c6e24efc1e0/native-model-cases.stderr.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/attributed-6e4afd4a-fe0c-43c7-964b-6c6e24efc1e0/native-model-cases.stderr.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/attributed-6e4afd4a-fe0c-43c7-964b-6c6e24efc1e0/native-model-cases.stdout.bin",
+        "bytes": 2417,
+        "rawBytesSha256": "91170d4e61af18bab40a64edd3e8b6535a18725793c2030defb4cb20fcfa40db"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/attributed-6e4afd4a-fe0c-43c7-964b-6c6e24efc1e0/native-model-cases.stdout.bin",
+        "bytes": 2417,
+        "rawBytesSha256": "91170d4e61af18bab40a64edd3e8b6535a18725793c2030defb4cb20fcfa40db"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/attributed-6e4afd4a-fe0c-43c7-964b-6c6e24efc1e0/pressure-cases.stderr.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/attributed-6e4afd4a-fe0c-43c7-964b-6c6e24efc1e0/pressure-cases.stderr.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/attributed-6e4afd4a-fe0c-43c7-964b-6c6e24efc1e0/pressure-cases.stdout.bin",
+        "bytes": 1110,
+        "rawBytesSha256": "d92809ca0affa4996d163dcf51cbf0affa6011b6d94326dfecc64401c21d36c4"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/attributed-6e4afd4a-fe0c-43c7-964b-6c6e24efc1e0/pressure-cases.stdout.bin",
+        "bytes": 1110,
+        "rawBytesSha256": "d92809ca0affa4996d163dcf51cbf0affa6011b6d94326dfecc64401c21d36c4"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/directory-jj6AQH/build-walk/performance-profile118.json",
+        "bytes": 1103,
+        "rawBytesSha256": "ac651b1044e862e0b39862242f0a51689b9b54f9307372c4950e28b68eda5f24"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/directory-jj6AQH/build-walk/performance-profile118.json",
+        "bytes": 1103,
+        "rawBytesSha256": "ac651b1044e862e0b39862242f0a51689b9b54f9307372c4950e28b68eda5f24"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/directory-jj6AQH/results.json",
+        "bytes": 1727,
+        "rawBytesSha256": "c1b8d7306d2d288b11c71fa7b97a7b046add3e323c5eba1e5f88a3ae90328845"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/directory-jj6AQH/results.json",
+        "bytes": 1727,
+        "rawBytesSha256": "c1b8d7306d2d288b11c71fa7b97a7b046add3e323c5eba1e5f88a3ae90328845"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/directory-jj6AQH/simple/leaf.rs",
+        "bytes": 8,
+        "rawBytesSha256": "81899dccb873499c4b4198c78420197f63b7450d66bd6eb0c7126ca608d32024"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/directory-jj6AQH/simple/leaf.rs",
+        "bytes": 8,
+        "rawBytesSha256": "81899dccb873499c4b4198c78420197f63b7450d66bd6eb0c7126ca608d32024"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/directory-jj6AQH/source-root/apps/poms-api-rust/src/main.rs",
+        "bytes": 27,
+        "rawBytesSha256": "71bd9aa261e45babbba70eb46c4e1f2d312be3fdd4f01396e4711dbbcdf9dbe6"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/directory-jj6AQH/source-root/apps/poms-api-rust/src/main.rs",
+        "bytes": 27,
+        "rawBytesSha256": "71bd9aa261e45babbba70eb46c4e1f2d312be3fdd4f01396e4711dbbcdf9dbe6"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/directory-jj6AQH/walk-build/performance-profile118.json",
+        "bytes": 1101,
+        "rawBytesSha256": "910cb44e4a924b2e3c50bd2bf41d5ddb1adb0767ec5f9bc06149963122fdd4f3"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/directory-jj6AQH/walk-build/performance-profile118.json",
+        "bytes": 1101,
+        "rawBytesSha256": "910cb44e4a924b2e3c50bd2bf41d5ddb1adb0767ec5f9bc06149963122fdd4f3"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/directory-kXA7TD/build-walk/performance-profile118.json",
+        "bytes": 1104,
+        "rawBytesSha256": "876d12d86ea9ede571d7fffa42fa6f5acdf93965e0954a68931ea893f08812b0"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/directory-kXA7TD/build-walk/performance-profile118.json",
+        "bytes": 1104,
+        "rawBytesSha256": "876d12d86ea9ede571d7fffa42fa6f5acdf93965e0954a68931ea893f08812b0"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/directory-kXA7TD/results.json",
+        "bytes": 1727,
+        "rawBytesSha256": "6e8dd88c3c886b673e4a75b08828e48227a4183402eda4b2627e7041fb624177"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/directory-kXA7TD/results.json",
+        "bytes": 1727,
+        "rawBytesSha256": "6e8dd88c3c886b673e4a75b08828e48227a4183402eda4b2627e7041fb624177"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/directory-kXA7TD/simple/leaf.rs",
+        "bytes": 8,
+        "rawBytesSha256": "81899dccb873499c4b4198c78420197f63b7450d66bd6eb0c7126ca608d32024"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/directory-kXA7TD/simple/leaf.rs",
+        "bytes": 8,
+        "rawBytesSha256": "81899dccb873499c4b4198c78420197f63b7450d66bd6eb0c7126ca608d32024"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/directory-kXA7TD/source-root/apps/poms-api-rust/src/main.rs",
+        "bytes": 27,
+        "rawBytesSha256": "71bd9aa261e45babbba70eb46c4e1f2d312be3fdd4f01396e4711dbbcdf9dbe6"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/directory-kXA7TD/source-root/apps/poms-api-rust/src/main.rs",
+        "bytes": 27,
+        "rawBytesSha256": "71bd9aa261e45babbba70eb46c4e1f2d312be3fdd4f01396e4711dbbcdf9dbe6"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/directory-kXA7TD/walk-build/performance-profile118.json",
+        "bytes": 1101,
+        "rawBytesSha256": "9c46d58a790a2e687e19f5e740794dfce2d97ba90c2e97a78f68e6efb362c731"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/directory-kXA7TD/walk-build/performance-profile118.json",
+        "bytes": 1101,
+        "rawBytesSha256": "9c46d58a790a2e687e19f5e740794dfce2d97ba90c2e97a78f68e6efb362c731"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/native-model-VvUvyC/measurement-after-primary/owned-proof-terminal.json",
+        "bytes": 53,
+        "rawBytesSha256": "1ac588ad9d43361f2fbb7f081d646d6bca05e08b369495dc6b555632492b5e97"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/native-model-VvUvyC/measurement-after-primary/owned-proof-terminal.json",
+        "bytes": 53,
+        "rawBytesSha256": "1ac588ad9d43361f2fbb7f081d646d6bca05e08b369495dc6b555632492b5e97"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/native-model-VvUvyC/measurement-after-primary/performance-profile118.json",
+        "bytes": 651,
+        "rawBytesSha256": "314acd66a3826572d223a00d7c20e5e74a590b6d5991ddf346d110981db30b29"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/native-model-VvUvyC/measurement-after-primary/performance-profile118.json",
+        "bytes": 651,
+        "rawBytesSha256": "314acd66a3826572d223a00d7c20e5e74a590b6d5991ddf346d110981db30b29"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/native-model-VvUvyC/measurement-after-success/owned-proof-terminal.json",
+        "bytes": 53,
+        "rawBytesSha256": "8313989e03b577f665d678e4164b0f4473c12042da38baf9e19930b4170efb35"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/native-model-VvUvyC/measurement-after-success/owned-proof-terminal.json",
+        "bytes": 53,
+        "rawBytesSha256": "8313989e03b577f665d678e4164b0f4473c12042da38baf9e19930b4170efb35"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/native-model-VvUvyC/measurement-after-success/performance-profile118.json",
+        "bytes": 651,
+        "rawBytesSha256": "a269fc3edee7e43081b4654579aae21df93237699ba98da6483bd1529ff034f1"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/native-model-VvUvyC/measurement-after-success/performance-profile118.json",
+        "bytes": 651,
+        "rawBytesSha256": "a269fc3edee7e43081b4654579aae21df93237699ba98da6483bd1529ff034f1"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/native-model-VvUvyC/primary-close-failure/owned-proof-terminal.json",
+        "bytes": 49,
+        "rawBytesSha256": "a58aa8782583d2dc845970d498b51f2d375ec9e5575a003de99515be9520ecdb"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/native-model-VvUvyC/primary-close-failure/owned-proof-terminal.json",
+        "bytes": 49,
+        "rawBytesSha256": "a58aa8782583d2dc845970d498b51f2d375ec9e5575a003de99515be9520ecdb"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/native-model-VvUvyC/primary-close-failure/performance-profile118.json",
+        "bytes": 877,
+        "rawBytesSha256": "d8e456aac9e04e6abaf0188319f7aef7613bcffafaa9dccd7905b606d0c9e9e6"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/native-model-VvUvyC/primary-close-failure/performance-profile118.json",
+        "bytes": 877,
+        "rawBytesSha256": "d8e456aac9e04e6abaf0188319f7aef7613bcffafaa9dccd7905b606d0c9e9e6"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/native-model-VvUvyC/profile-write-failure/owned-proof-terminal.json",
+        "bytes": 49,
+        "rawBytesSha256": "9c369148fd39b8835011d955698a614f1962327882f5269b511adf2d201acab7"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/native-model-VvUvyC/profile-write-failure/owned-proof-terminal.json",
+        "bytes": 49,
+        "rawBytesSha256": "9c369148fd39b8835011d955698a614f1962327882f5269b511adf2d201acab7"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/native-model-VvUvyC/profile-write-failure/performance-profile118.json",
+        "bytes": 17,
+        "rawBytesSha256": "e75c9da58fde14a4b34b8f5f032be97db4c289fbb78455ba01f171356be958b0"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/native-model-VvUvyC/profile-write-failure/performance-profile118.json",
+        "bytes": 17,
+        "rawBytesSha256": "e75c9da58fde14a4b34b8f5f032be97db4c289fbb78455ba01f171356be958b0"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/native-model-VvUvyC/results.json",
+        "bytes": 3447,
+        "rawBytesSha256": "96cb56e52dca81565e1420e063b2162d1029323ae97e8bf1fb715af7e81e1dc9"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/native-model-VvUvyC/results.json",
+        "bytes": 3447,
+        "rawBytesSha256": "96cb56e52dca81565e1420e063b2162d1029323ae97e8bf1fb715af7e81e1dc9"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/native-model-VvUvyC/success/owned-proof-terminal.json",
+        "bytes": 35,
+        "rawBytesSha256": "717b42ccbb6f640fe72a2ec4e4bf0d4e9daed11e2bdb6a4bb42aaf77098d9e82"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/native-model-VvUvyC/success/owned-proof-terminal.json",
+        "bytes": 35,
+        "rawBytesSha256": "717b42ccbb6f640fe72a2ec4e4bf0d4e9daed11e2bdb6a4bb42aaf77098d9e82"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/native-model-VvUvyC/success/performance-profile118.json",
+        "bytes": 877,
+        "rawBytesSha256": "d854f62a424f8cdedf70d352ebc3affb9580b4918d2022b74f5adac207c79e4e"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/native-model-VvUvyC/success/performance-profile118.json",
+        "bytes": 877,
+        "rawBytesSha256": "d854f62a424f8cdedf70d352ebc3affb9580b4918d2022b74f5adac207c79e4e"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/native-model-yD3tOH/measurement-after-primary/owned-proof-terminal.json",
+        "bytes": 53,
+        "rawBytesSha256": "1ac588ad9d43361f2fbb7f081d646d6bca05e08b369495dc6b555632492b5e97"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/native-model-yD3tOH/measurement-after-primary/owned-proof-terminal.json",
+        "bytes": 53,
+        "rawBytesSha256": "1ac588ad9d43361f2fbb7f081d646d6bca05e08b369495dc6b555632492b5e97"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/native-model-yD3tOH/measurement-after-primary/performance-profile118.json",
+        "bytes": 651,
+        "rawBytesSha256": "18bba966ba5aca7a4e5b4a15a3eea9ffc47a1d355f95a35ac46554d38ec23e75"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/native-model-yD3tOH/measurement-after-primary/performance-profile118.json",
+        "bytes": 651,
+        "rawBytesSha256": "18bba966ba5aca7a4e5b4a15a3eea9ffc47a1d355f95a35ac46554d38ec23e75"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/native-model-yD3tOH/measurement-after-success/owned-proof-terminal.json",
+        "bytes": 53,
+        "rawBytesSha256": "8313989e03b577f665d678e4164b0f4473c12042da38baf9e19930b4170efb35"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/native-model-yD3tOH/measurement-after-success/owned-proof-terminal.json",
+        "bytes": 53,
+        "rawBytesSha256": "8313989e03b577f665d678e4164b0f4473c12042da38baf9e19930b4170efb35"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/native-model-yD3tOH/measurement-after-success/performance-profile118.json",
+        "bytes": 651,
+        "rawBytesSha256": "2bbe6d055ba53d32865fbc389e89e925bf0287a08127d363b311a2c1b95ab2c8"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/native-model-yD3tOH/measurement-after-success/performance-profile118.json",
+        "bytes": 651,
+        "rawBytesSha256": "2bbe6d055ba53d32865fbc389e89e925bf0287a08127d363b311a2c1b95ab2c8"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/native-model-yD3tOH/primary-close-failure/owned-proof-terminal.json",
+        "bytes": 49,
+        "rawBytesSha256": "a58aa8782583d2dc845970d498b51f2d375ec9e5575a003de99515be9520ecdb"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/native-model-yD3tOH/primary-close-failure/owned-proof-terminal.json",
+        "bytes": 49,
+        "rawBytesSha256": "a58aa8782583d2dc845970d498b51f2d375ec9e5575a003de99515be9520ecdb"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/native-model-yD3tOH/primary-close-failure/performance-profile118.json",
+        "bytes": 877,
+        "rawBytesSha256": "85f1705939fe9048369e5b2a10f8d8fc5a0e7d546af67ddbcf21aeda29e3d27a"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/native-model-yD3tOH/primary-close-failure/performance-profile118.json",
+        "bytes": 877,
+        "rawBytesSha256": "85f1705939fe9048369e5b2a10f8d8fc5a0e7d546af67ddbcf21aeda29e3d27a"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/native-model-yD3tOH/profile-write-failure/owned-proof-terminal.json",
+        "bytes": 49,
+        "rawBytesSha256": "9c369148fd39b8835011d955698a614f1962327882f5269b511adf2d201acab7"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/native-model-yD3tOH/profile-write-failure/owned-proof-terminal.json",
+        "bytes": 49,
+        "rawBytesSha256": "9c369148fd39b8835011d955698a614f1962327882f5269b511adf2d201acab7"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/native-model-yD3tOH/profile-write-failure/performance-profile118.json",
+        "bytes": 17,
+        "rawBytesSha256": "e75c9da58fde14a4b34b8f5f032be97db4c289fbb78455ba01f171356be958b0"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/native-model-yD3tOH/profile-write-failure/performance-profile118.json",
+        "bytes": 17,
+        "rawBytesSha256": "e75c9da58fde14a4b34b8f5f032be97db4c289fbb78455ba01f171356be958b0"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/native-model-yD3tOH/results.json",
+        "bytes": 3447,
+        "rawBytesSha256": "e4b3f1489b0a2411b6f1e66221e0d1ebd9c5e0155e0613827463552d7ad96e9c"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/native-model-yD3tOH/results.json",
+        "bytes": 3447,
+        "rawBytesSha256": "e4b3f1489b0a2411b6f1e66221e0d1ebd9c5e0155e0613827463552d7ad96e9c"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/native-model-yD3tOH/success/owned-proof-terminal.json",
+        "bytes": 35,
+        "rawBytesSha256": "717b42ccbb6f640fe72a2ec4e4bf0d4e9daed11e2bdb6a4bb42aaf77098d9e82"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/native-model-yD3tOH/success/owned-proof-terminal.json",
+        "bytes": 35,
+        "rawBytesSha256": "717b42ccbb6f640fe72a2ec4e4bf0d4e9daed11e2bdb6a4bb42aaf77098d9e82"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/native-model-yD3tOH/success/performance-profile118.json",
+        "bytes": 877,
+        "rawBytesSha256": "7327d56c2c485c26c00d05ea8750b1a402f5bea5f12211d4cb76fae170a652eb"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/native-model-yD3tOH/success/performance-profile118.json",
+        "bytes": 877,
+        "rawBytesSha256": "7327d56c2c485c26c00d05ea8750b1a402f5bea5f12211d4cb76fae170a652eb"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/owned-cases-fMcOse/growth-collect.bin",
+        "bytes": 131088,
+        "rawBytesSha256": "e2b00a0344dc7cad7368ec510ddd4ab8b779e473b97eceb427e78b6a6befa22f"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/owned-cases-fMcOse/growth-collect.bin",
+        "bytes": 131088,
+        "rawBytesSha256": "e2b00a0344dc7cad7368ec510ddd4ab8b779e473b97eceb427e78b6a6befa22f"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/owned-cases-fMcOse/growth-seal.bin",
+        "bytes": 131088,
+        "rawBytesSha256": "e2b00a0344dc7cad7368ec510ddd4ab8b779e473b97eceb427e78b6a6befa22f"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/owned-cases-fMcOse/growth-seal.bin",
+        "bytes": 131088,
+        "rawBytesSha256": "e2b00a0344dc7cad7368ec510ddd4ab8b779e473b97eceb427e78b6a6befa22f"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/owned-cases-fMcOse/owned-closed-journal.json",
+        "bytes": 34,
+        "rawBytesSha256": "1e63256742a48cf0dbc79ed51d5a52f78f935917e7f311c704157dbe1f1feac4"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/owned-cases-fMcOse/owned-closed-journal.json",
+        "bytes": 34,
+        "rawBytesSha256": "1e63256742a48cf0dbc79ed51d5a52f78f935917e7f311c704157dbe1f1feac4"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/owned-cases-fMcOse/results.json",
+        "bytes": 3300,
+        "rawBytesSha256": "4b4a1a3c6063936e45d12b75c0c265c76277517fb7a1053f86dcc8139194c526"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/owned-cases-fMcOse/results.json",
+        "bytes": 3300,
+        "rawBytesSha256": "4b4a1a3c6063936e45d12b75c0c265c76277517fb7a1053f86dcc8139194c526"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/owned-cases-wb3syF/owned-closed-journal.json",
+        "bytes": 34,
+        "rawBytesSha256": "1e63256742a48cf0dbc79ed51d5a52f78f935917e7f311c704157dbe1f1feac4"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/owned-cases-wb3syF/owned-closed-journal.json",
+        "bytes": 34,
+        "rawBytesSha256": "1e63256742a48cf0dbc79ed51d5a52f78f935917e7f311c704157dbe1f1feac4"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/pressure-gqCyRS/large-for-cache.json",
+        "bytes": 1036,
+        "rawBytesSha256": "530c9f0554b996625c450e39214e622c468519920ab2eb2d689611a37cd59375"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/pressure-gqCyRS/large-for-cache.json",
+        "bytes": 1036,
+        "rawBytesSha256": "530c9f0554b996625c450e39214e622c468519920ab2eb2d689611a37cd59375"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/pressure-gqCyRS/results.json",
+        "bytes": 1760,
+        "rawBytesSha256": "7148dab08d6fbd87d2e727ee8b14cd4c3bd23e689685652079d24e41c00b89b2"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/pressure-gqCyRS/results.json",
+        "bytes": 1760,
+        "rawBytesSha256": "7148dab08d6fbd87d2e727ee8b14cd4c3bd23e689685652079d24e41c00b89b2"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/run-1c76c190-20d9-4b8e-aa75-14bba3d2a54c/command.json",
+        "bytes": 1871,
+        "rawBytesSha256": "09090319f2e5cff67b014265de369231f5dc5bbfc4cb30fd5af5fc8ee1e0e2a0"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/run-1c76c190-20d9-4b8e-aa75-14bba3d2a54c/command.json",
+        "bytes": 1871,
+        "rawBytesSha256": "09090319f2e5cff67b014265de369231f5dc5bbfc4cb30fd5af5fc8ee1e0e2a0"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/run-1c76c190-20d9-4b8e-aa75-14bba3d2a54c/stderr.bin",
+        "bytes": 1147,
+        "rawBytesSha256": "aaca02e07c519e88218c4e67841236628f1d47e8cfb401f6b19c543720bf36be"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/run-1c76c190-20d9-4b8e-aa75-14bba3d2a54c/stderr.bin",
+        "bytes": 1147,
+        "rawBytesSha256": "aaca02e07c519e88218c4e67841236628f1d47e8cfb401f6b19c543720bf36be"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/run-1c76c190-20d9-4b8e-aa75-14bba3d2a54c/stdout.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/run-1c76c190-20d9-4b8e-aa75-14bba3d2a54c/stdout.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/run-b215ae6f-bb56-409b-b2c7-1466c78e5d29/command.json",
+        "bytes": 1871,
+        "rawBytesSha256": "75c33b2949ebf3d265405096c9b0eb1d144e6098b2dc8085c4495ae4436c5dbf"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/run-b215ae6f-bb56-409b-b2c7-1466c78e5d29/command.json",
+        "bytes": 1871,
+        "rawBytesSha256": "75c33b2949ebf3d265405096c9b0eb1d144e6098b2dc8085c4495ae4436c5dbf"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/run-b215ae6f-bb56-409b-b2c7-1466c78e5d29/stderr.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/run-b215ae6f-bb56-409b-b2c7-1466c78e5d29/stderr.bin",
+        "bytes": 0,
+        "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "original": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-review01/run-b215ae6f-bb56-409b-b2c7-1466c78e5d29/stdout.bin",
+        "bytes": 4174,
+        "rawBytesSha256": "2540c2bf0b8c887eb8dc5fc9c841a21bf42c8083ad33f13adfb504789b5b1928"
+      },
+      "retained": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-performance-review01/evidence/run-b215ae6f-bb56-409b-b2c7-1466c78e5d29/stdout.bin",
+        "bytes": 4174,
+        "rawBytesSha256": "2540c2bf0b8c887eb8dc5fc9c841a21bf42c8083ad33f13adfb504789b5b1928"
+      }
+    }
+  ]
+}

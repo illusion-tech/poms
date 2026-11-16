@@ -1,0 +1,90 @@
+{
+  "kind": "independent-candidate03-cache-role-cases",
+  "schemaVersion": 1,
+  "reviewer": "/root/performance118_independent_review01",
+  "reviewerIsAuthor": false,
+  "reviewInputSHA256": "1d803d4d2cbeb6ffb02b2b69a8a4107a82a8776d45dd34ddce7f7c1fe53307f7",
+  "ownedRun": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\tmp\\rust-r4ghi\\root\\runtime118-performance-review01\\candidate03-cache-role-EgXtzA",
+  "allPassed": true,
+  "actualTaskEffects": {
+    "SQL": 0,
+    "HTTP": 0,
+    "Auth": 0,
+    "newSnapshots": 0,
+    "probes": 0,
+    "WSLStarts": 0
+  },
+  "results": [
+    {
+      "id": "F06-exact-independent-cold-warm-directory-now-equivalent",
+      "passed": true,
+      "details": {
+        "capacity": 32,
+        "priorDecodedCharge": 21,
+        "newNameBytes": 26,
+        "coldPassed": true,
+        "warmPassed": true,
+        "returnedDecodedValuesPreserved": true
+      }
+    },
+    {
+      "id": "raw-eviction-retains-original-return-and-forces-reread",
+      "passed": true,
+      "details": {
+        "reads": 3,
+        "bufferReturnedBeforeEvictionStillValid": true,
+        "retainedSHASeal": true
+      }
+    },
+    {
+      "id": "evicted-buffer-content-change-refused-on-next-read",
+      "passed": true,
+      "details": {
+        "changedOriginalRejected": true
+      }
+    },
+    {
+      "id": "evicted-buffer-dependency-survives-until-final-seal",
+      "passed": true,
+      "details": {
+        "descriptorNotEvicted": true,
+        "missingOriginalRejectedAtSeal": true
+      }
+    },
+    {
+      "id": "mandatory-name-limits-remain-hard",
+      "passed": true,
+      "details": {
+        "singleNameOverLimitRefused": true,
+        "nonEvictableAggregateRefused": true
+      }
+    },
+    {
+      "id": "F07-identical-roles-retained-once-current-still-fresh",
+      "passed": true,
+      "details": {
+        "sameRoleReaders": 1000,
+        "sameRoleRecords": 1,
+        "withStricterRoleRecords": 2,
+        "currentReads": 5,
+        "currentFDOpens": 5
+      }
+    },
+    {
+      "id": "all-distinct-checked-role-combinations-preserved",
+      "passed": true,
+      "details": {
+        "distinctConstraintCombinations": 128,
+        "equivalentReverseOrderExtraRecords": 0
+      }
+    },
+    {
+      "id": "permissive-role-does-not-hide-new-strict-role",
+      "passed": true,
+      "details": {
+        "nlink2AcceptedOnlyForPermissiveRole": true,
+        "strictRoleRejected": true
+      }
+    }
+  ]
+}

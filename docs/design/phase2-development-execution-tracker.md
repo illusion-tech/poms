@@ -1318,3 +1318,15 @@ Root继续为父#114管理相同私有和活跃输入/运行资源。#114/#118/#
 固定公开JSON组件读取148→74；中位25.8545→25.7196ms且区间重叠，不声明稳定显著提速或真实CP/close目标通过。独立资格、安装准入、Linux/私有历史正向和实际预算均未完成。未安装、未启动Debian、未执行新SQL/HTTP/Auth/快照/探针；原STOPPED_PRESERVE、#118预算阻断及#57开放状态保持，不授后续效果。
 
 <!-- /poms-runtime118-performance-candidate-20261116 -->
+
+<!-- poms-runtime118-performance-independent-20261116 -->
+
+### 2026-11-16 #118隔离纠正03获限定代码资格，实际预算仍阻断
+
+[本轮记录](rust-r4ghi/runtime118-performance-review-and-slowpath-2026-11-16.md)保留01/02独立NOTREADY、全部失败、输入盘点与组件计时；[03实际独审](../../tools/rust-r4ghi/runtime118-performance-review01/candidate03/REVIEW03.md)只签READY_LIMITED_ISOLATED_CORRECTIVE_CODE，31项独立组合及92项适配回归通过。不是constructor、完整工具/业务G3G4、安装或新运行批准。
+
+现存R420/528重建清单bytes/SHA与既有描述符精确匹配但不是P原Full3；Windows R文件组件03配对中位CP-R624.4439→567.3103ms、close-R2415.8516→638.9951ms。M/P历史/ELF/进程/Linux/完整CP及close未测，工程目标和全67FI/618仍UNKNOWN。
+
+未安装、未启动Debian、未真实SQL/HTTP/Auth/新快照/探针；原284与P/I不改，旧Root9/nonce/Y不复用。#118保持OPEN/Doing及预算阻断，#57开放，业务新增认证0不变。
+
+<!-- /poms-runtime118-performance-independent-20261116 -->

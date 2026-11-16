@@ -1,0 +1,11 @@
+const fs=require('node:fs'),assert=require('node:assert/strict'),{spawnSync}=require('node:child_process'),{randomUUID,createHash}=require('node:crypto');
+const root='E:/projects/worktrees/poms-r3hijk-next28/poms',dir=root+'/tmp/rust-r4ghi/root/runtime118-performance-review01/attributed-'+randomUUID();fs.mkdirSync(dir,{recursive:true});assert.equal(process.version,'v24.19.0');
+const sha=b=>createHash('sha256').update(b).digest('hex'),id=file=>{const b=fs.readFileSync(file);return{file,bytes:b.length,rawBytesSha256:sha(b)};};
+const commands=[],names=process.argv.length>2?process.argv.slice(2):['native-model-cases.mjs','pressure-cases.mjs'];assert(names.every(n=>['native-model-cases.mjs','pressure-cases.mjs','directory-cases.mjs'].includes(n)));
+for(const name of names){
+ const file=root+'/tools/rust-r4ghi/runtime118-performance-review01/'+name,start=process.hrtime.bigint(),r=spawnSync(process.execPath,[file],{cwd:root,encoding:null,timeout:60000,maxBuffer:4*1024*1024});
+ const stem=name.replace('.mjs','');for(const [suffix,b]of[['stdout.bin',r.stdout??Buffer.alloc(0)],['stderr.bin',r.stderr??Buffer.alloc(0)]])fs.writeFileSync(dir+'/'+stem+'.'+suffix,b,{flag:'wx'});
+ commands.push({program:id(file),engine:id(process.execPath),args:[file],cwd:root,exitCode:r.status,signal:r.signal,error:r.error?{name:r.error.name,code:r.error.code}:null,elapsedNs:(process.hrtime.bigint()-start).toString(),stdout:id(dir+'/'+stem+'.stdout.bin'),stderr:id(dir+'/'+stem+'.stderr.bin')});process.stdout.write(r.stdout??'');process.stderr.write(r.stderr??'');assert.equal(r.status,0,name);
+}
+const output={kind:'non-author-runtime118-attributed-commands',reviewer:'/root/performance118_independent_review01',reviewerIsAuthor:false,reviewedCommit:'72275c80e92fad30bb736af3c5e5ee5a00731739',commands,modelManifest:id(root+'/tools/rust-r4ghi/runtime118-performance-review01/native-model01/review-model-manifest.json'),directoryModelManifest:fs.existsSync(root+'/tools/rust-r4ghi/runtime118-performance-review01/directory-model01/review-model-manifest.json')?id(root+'/tools/rust-r4ghi/runtime118-performance-review01/directory-model01/review-model-manifest.json'):null};
+fs.writeFileSync(dir+'/commands.json',JSON.stringify(output,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({commands:dir+'/commands.json'}));

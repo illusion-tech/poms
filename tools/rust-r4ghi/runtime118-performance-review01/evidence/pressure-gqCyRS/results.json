@@ -1,0 +1,58 @@
+{
+  "kind": "independent-runtime118-resource-cost-cases",
+  "schemaVersion": 1,
+  "reviewer": "/root/performance118_independent_review01",
+  "reviewerIsAuthor": false,
+  "reviewedCommit": "72275c80e92fad30bb736af3c5e5ee5a00731739",
+  "ownedRun": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\tmp\\rust-r4ghi\\root\\runtime118-performance-review01\\pressure-gqCyRS",
+  "actualTaskEffects": {
+    "SQL": 0,
+    "HTTP": 0,
+    "Auth": 0,
+    "newSnapshots": 0,
+    "probes": 0,
+    "WSLStarts": 0
+  },
+  "pressure": {
+    "id": "cache-pressure-read-amplification",
+    "fixtureBytes": 1036,
+    "maxCacheBytes": 64,
+    "consumers": 4,
+    "referenceReader": "Exact original readPin15 body with Windows descriptor adapter",
+    "referenceBodySHA256": "5ca63aa10222762bcb5448796dcbc15f43f55ca1e6d6e24f5383e3bac0c5173d",
+    "referenceReads": 4,
+    "referenceBytes": 4144,
+    "candidate": {
+      "contentReads": 6,
+      "contentReadBytes": 6216,
+      "shaBytes": 6216,
+      "metadataCalls": 56,
+      "directoryEnumerations": 0,
+      "jsonParseBytes": 4144,
+      "stateWriteBytes": 0,
+      "sqlQueries": 0
+    },
+    "outputsEqual": true,
+    "productionPrivateInputsMeasured": false
+  },
+  "snapshotComplexity": {
+    "measured": [
+      {
+        "events": 500,
+        "measuredRowPredicateInvocations": 250000,
+        "openPhases": 0,
+        "droppedEvents": 0
+      },
+      {
+        "events": 1000,
+        "measuredRowPredicateInvocations": 1000000,
+        "openPhases": 0,
+        "droppedEvents": 0
+      }
+    ],
+    "conclusion": "N squared row scans; costs repeated by each budget dispatch snapshot",
+    "atMax20000TheoreticalComparisons": 400000000,
+    "actualProbeEventCount": "UNKNOWN",
+    "productionImpactProven": false
+  }
+}

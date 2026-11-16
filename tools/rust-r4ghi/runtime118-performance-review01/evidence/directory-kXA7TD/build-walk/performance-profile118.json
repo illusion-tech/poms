@@ -1,0 +1,45 @@
+{
+  "kind": "runtime118-performance-profile",
+  "schemaVersion": 1,
+  "clock": "process.hrtime.bigint",
+  "counterCoverage": "instrumented verified readers; legacy direct I/O remains separately uncovered",
+  "events": [
+    {
+      "phaseId": 2,
+      "parentId": 1,
+      "sequence": 2,
+      "startNs": "16496330458300",
+      "endNs": "16496333600600",
+      "status": "FAIL",
+      "elapsedNs": "3142300",
+      "selfNs": "3142300"
+    },
+    {
+      "phaseId": 1,
+      "parentId": null,
+      "sequence": 1,
+      "startNs": "16496330400400",
+      "endNs": "16496333687500",
+      "status": "FAIL",
+      "elapsedNs": "3287100",
+      "selfNs": "144800"
+    }
+  ],
+  "totals": {
+    "contentReads": 1,
+    "contentReadBytes": 27,
+    "shaBytes": 27,
+    "metadataCalls": 13,
+    "directoryEnumerations": 1,
+    "jsonParseBytes": 0,
+    "stateWriteBytes": 0,
+    "sqlQueries": 0
+  },
+  "droppedEvents": 0,
+  "openPhases": 0,
+  "memory": {
+    "peakSampledRSS": 54550528,
+    "method": "RSS sampled at phase boundaries; instantaneous peak may be missed"
+  },
+  "secretsAndPayloadPublished": false
+}

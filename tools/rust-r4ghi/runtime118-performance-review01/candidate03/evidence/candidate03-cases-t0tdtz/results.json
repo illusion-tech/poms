@@ -1,0 +1,258 @@
+{
+  "kind": "independent-candidate03-carried-cases",
+  "schemaVersion": 1,
+  "reviewer": "/root/performance118_independent_review01",
+  "reviewerIsAuthor": false,
+  "reviewInputSHA256": "1d803d4d2cbeb6ffb02b2b69a8a4107a82a8776d45dd34ddce7f7c1fe53307f7",
+  "actualConstructorAdmission": false,
+  "actualTaskEffects": {
+    "SQL": 0,
+    "HTTP": 0,
+    "Auth": 0,
+    "newSnapshots": 0,
+    "probes": 0,
+    "WSLStarts": 0
+  },
+  "ownedRun": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms\\tmp\\rust-r4ghi\\root\\runtime118-performance-review01\\candidate03-cases-t0tdtz",
+  "allPassed": true,
+  "results": [
+    {
+      "id": "F01-original-sync-and-async-primary-retained",
+      "passed": true,
+      "details": null
+    },
+    {
+      "id": "schema2-clock-unknown-propagates-to-self",
+      "passed": true,
+      "details": {
+        "childElapsed": null,
+        "parentSelf": null
+      }
+    },
+    {
+      "id": "full-native-close-success",
+      "passed": true,
+      "details": {
+        "proofCalls": 1,
+        "resultPreserved": true,
+        "primaryCloseFactsPreserved": false,
+        "metricsHealthy": true,
+        "profileUnavailable": false,
+        "secondCloseRefused": true
+      }
+    },
+    {
+      "id": "full-native-close-primary",
+      "passed": true,
+      "details": {
+        "proofCalls": 1,
+        "resultPreserved": false,
+        "primaryCloseFactsPreserved": true,
+        "metricsHealthy": true,
+        "profileUnavailable": false,
+        "secondCloseRefused": true
+      }
+    },
+    {
+      "id": "full-native-close-rss-primary",
+      "passed": true,
+      "details": {
+        "proofCalls": 1,
+        "resultPreserved": false,
+        "primaryCloseFactsPreserved": true,
+        "metricsHealthy": false,
+        "profileUnavailable": false,
+        "secondCloseRefused": true
+      }
+    },
+    {
+      "id": "full-native-close-rss-success",
+      "passed": true,
+      "details": {
+        "proofCalls": 1,
+        "resultPreserved": true,
+        "primaryCloseFactsPreserved": false,
+        "metricsHealthy": false,
+        "profileUnavailable": false,
+        "secondCloseRefused": true
+      }
+    },
+    {
+      "id": "full-native-close-clock-unknown",
+      "passed": true,
+      "details": {
+        "proofCalls": 1,
+        "resultPreserved": true,
+        "primaryCloseFactsPreserved": false,
+        "metricsHealthy": false,
+        "profileUnavailable": false,
+        "secondCloseRefused": true
+      }
+    },
+    {
+      "id": "full-native-close-strong-clock-stop",
+      "passed": true,
+      "details": {
+        "proofCalls": 0,
+        "resultPreserved": false,
+        "primaryCloseFactsPreserved": false,
+        "metricsHealthy": null,
+        "profileUnavailable": false,
+        "secondCloseRefused": true
+      }
+    },
+    {
+      "id": "full-native-close-profile-write",
+      "passed": true,
+      "details": {
+        "proofCalls": 1,
+        "resultPreserved": true,
+        "primaryCloseFactsPreserved": false,
+        "metricsHealthy": true,
+        "profileUnavailable": true,
+        "secondCloseRefused": true
+      }
+    },
+    {
+      "id": "full-native-close-rss-primary-profile-write",
+      "passed": true,
+      "details": {
+        "proofCalls": 1,
+        "resultPreserved": false,
+        "primaryCloseFactsPreserved": true,
+        "metricsHealthy": false,
+        "profileUnavailable": true,
+        "secondCloseRefused": true
+      }
+    },
+    {
+      "id": "F02-original-growth-collect",
+      "passed": true,
+      "details": {
+        "initialSize": 16,
+        "appended": 131072,
+        "actualGrowthReadBytes": 17,
+        "copiedOverflowBytes": 0
+      }
+    },
+    {
+      "id": "F02-original-growth-seal",
+      "passed": true,
+      "details": {
+        "initialSize": 16,
+        "appended": 131072,
+        "actualGrowthReadBytes": 17,
+        "copiedOverflowBytes": 0
+      }
+    },
+    {
+      "id": "F02-original-growth-uncached",
+      "passed": true,
+      "details": {
+        "initialSize": 16,
+        "appended": 131072,
+        "actualGrowthReadBytes": 17,
+        "copiedOverflowBytes": 0
+      }
+    },
+    {
+      "id": "quota-declared-file-buffer-reject-before-read",
+      "passed": true,
+      "details": {
+        "allBeforeContentRead": true
+      }
+    },
+    {
+      "id": "quota-zero-byte-and-middle-growth",
+      "passed": true,
+      "details": {
+        "inputBytes": 2097152,
+        "actualReadBytes": 2097153
+      }
+    },
+    {
+      "id": "pressure-N-plus-one-and-linear-snapshot",
+      "passed": true,
+      "details": {
+        "pressureReads": 5,
+        "counts": [
+          {
+            "events": 500,
+            "filterPredicateCalls": 0,
+            "mapLookups": 500
+          },
+          {
+            "events": 1000,
+            "filterPredicateCalls": 0,
+            "mapLookups": 1000
+          }
+        ]
+      }
+    },
+    {
+      "id": "F03-complete-functions-walk-build",
+      "passed": true,
+      "details": {
+        "completeFunctionsPassed": true,
+        "modelNotConstructor": true
+      }
+    },
+    {
+      "id": "F03-complete-functions-build-walk",
+      "passed": true,
+      "details": {
+        "completeFunctionsPassed": true,
+        "modelNotConstructor": true
+      }
+    },
+    {
+      "id": "Native-static-membership-dynamic-priority-current-FD",
+      "passed": true,
+      "details": {
+        "staticMembers": 2,
+        "excludedDynamic": 8,
+        "currentHolderFDRefreshed": true
+      }
+    },
+    {
+      "id": "wire-live-metric-context-start-fault",
+      "passed": true,
+      "details": {
+        "diagnosticCalls": 7,
+        "primaryPreserved": null,
+        "successfulResponse": 200,
+        "metricsHealthy": false,
+        "actualHTTP": 0
+      }
+    },
+    {
+      "id": "wire-live-metric-context-headers-fault",
+      "passed": true,
+      "details": {
+        "diagnosticCalls": 7,
+        "primaryPreserved": null,
+        "successfulResponse": 200,
+        "metricsHealthy": false,
+        "actualHTTP": 0
+      }
+    },
+    {
+      "id": "wire-live-metric-context-catch-fault",
+      "passed": true,
+      "details": {
+        "diagnosticCalls": 6,
+        "primaryPreserved": true,
+        "successfulResponse": null,
+        "metricsHealthy": false,
+        "actualHTTP": 0
+      }
+    },
+    {
+      "id": "wire-ordinary-mode-no-added-diagnostic-calls",
+      "passed": true,
+      "details": {
+        "addedDiagnosticCalls": 0
+      }
+    }
+  ]
+}

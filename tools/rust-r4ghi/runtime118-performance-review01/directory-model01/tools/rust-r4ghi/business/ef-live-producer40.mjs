@@ -1,0 +1,232 @@
+// Root-executed actual HTTP producers. Importing performs no PG/HTTP or writes.
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import { data, keyOf, sha, uuid } from './pure.mjs';
+import { capture, readRows } from './snapshot.mjs';
+import { assertRecorded } from './ledger.mjs';
+import { createApi } from './http.mjs';
+import { expectedRef } from './handover.mjs';
+import { prepareNonemptyCrossProjectRestatement37 } from './correction-preparation37.mjs';
+
+const rv = row => { assert(Number.isInteger(row?.rowVersion) && row.rowVersion > 0 && row.rowVersion <= 2147483647); return row.rowVersion; };
+const artifact = pin => { const bytes = fs.readFileSync(pin.file); assert.equal(sha(bytes), pin.rawBytesSha256); return JSON.parse(bytes); };
+function receiverView(rootCtx) {
+  assert(!rootCtx.fixtureViewKey); const root = rootCtx.state.fixtures;
+  assert(root.platformComplete && root.org?.id && root.customer?.id && root.roles);
+  root.efReceiver40 ??= { kind: 'ordinary-actual-EF-receiver-producer-not-FI', sourcePinsSHA256: sha(JSON.stringify(rootCtx.pins)), stages: {},
+    fixtures: { platformComplete: true, org: structuredClone(root.org), customer: structuredClone(root.customer), roles: structuredClone(root.roles),
+      ...(root.plannedDate ? { plannedDate: root.plannedDate } : {}),
+      ...(root.executionMinimalRole ? { executionMinimalRole: structuredClone(root.executionMinimalRole) } : {}) } };
+  const record = root.efReceiver40; assert.equal(record.sourcePinsSHA256, sha(JSON.stringify(rootCtx.pins)));
+  const state = new Proxy(rootCtx.state, {
+    get(target, property, receiver) { return property === 'fixtures' ? record.fixtures : Reflect.get(target, property, receiver); },
+    set(target, property, value, receiver) { assert.notEqual(property, 'fixtures'); return Reflect.set(target, property, value, receiver); },
+    deleteProperty(target, property) { assert.notEqual(property, 'fixtures'); return Reflect.deleteProperty(target, property); },
+  });
+  rootCtx.persist(); return { ctx: { ...rootCtx, state, fixtureViewKey: 'ef-receiver40' }, record };
+}
+export function assertEFPublicContract40(api) {
+  for (const op of ['ProjectCostController_getProjectUnifiedAccounting','ProjectCostController_activateOperatingBaselinePackage',
+    'ProjectCostController_getCurrentOperatingBaselinePackage','ProjectCostController_publishInternalCostRateVersion',
+    'ProjectCostController_createProjectActualCostRecord','ProjectCostController_getProjectActualCostRecordDetail',
+    'ProjectCostController_confirmCostStageAttribution','ProjectCostController_createExpenseRecord',
+    'ProjectCostController_confirmExpenseRecord','ProjectCostController_confirmAccountingTaxTreatment',
+    'ProjectCostController_confirmSharedCostAllocationBasis','ProjectCostController_createProjectOperatingSnapshot']) {
+    assert(api.operations.has(op), 'Unregistered EF fixture operationId: '+op);
+  }
+  const resolve = rule => {
+    if (rule.$ref) return resolve(api.spec.components.schemas[rule.$ref.split('/').at(-1)]);
+    if (rule.allOf?.length === 1) return resolve(rule.allOf[0]);
+    return rule;
+  };
+  const enumeration = (name, property, values) => {
+    const schema = api.spec.components.schemas[name]; assert(schema, 'Missing canonical schema '+name);
+    const rule=resolve(property ? schema.properties[property] : schema);assert(Array.isArray(rule?.enum));
+    for(const value of values) assert(rule.enum.includes(value), 'Unregistered canonical enum '+name+(property?'.'+property:'')+': '+value);
+  };
+  enumeration('CostDecisionInput','reasonCode',['shared-source-delegated','executed-labor','actual-expense']);
+  enumeration('CostDecisionInput','decision',['include','exclude']);
+  enumeration('CostDecisionInput','recognitionRole',['direct-source','allocation-share']);
+  enumeration('InternalCostRateScopeType',null,['role']);enumeration('InternalCostRateUnit',null,['hour']);
+  enumeration('LaborCostPeriodType',null,['week']);enumeration('ConfirmCostStageAttributionMode',null,['auto']);
+  enumeration('AccountingTaxDeductibilityStatus',null,['pending']);
+  enumeration('ConfirmSharedCostAllocationBasisRequest','measurementBasis',['excluding-tax']);
+  enumeration('CreateProjectOperatingSnapshotRequest','snapshotMode',['realtime']);
+}
+
+async function checkpointStage(ctx, record, key, run) {
+  const prior = record.stages[key];
+  if (prior) { assert.equal(prior.phase, 'verified', 'Interrupted stage requires exact original reconciliation, never command replay'); artifact(prior.result); return; }
+  record.stages[key] = { phase: 'running', startedAt: new Date().toISOString() }; ctx.persist();
+  const result = await run();
+  record.stages[key] = { phase: 'verified', result: ctx.artifact(`${ctx.next('ef-stage')}.json`, { key, result },
+    { kind: 'actual-EF-fixture-producer-stage', stage: key, requiredWriteFIClaimed: false }) }; ctx.persist();
+}
+async function activateBaseline(ctx, api, f, record) {
+  const op = 'ProjectCostController_activateOperatingBaselinePackage';
+  await checkpointStage(ctx, record, 'operating-baseline', async () => {
+    const response = await api.request('ProjectCostController_getProjectUnifiedAccounting', { projectId: f.project.id }, null, 'manager',
+      { query: { view: 'preparation', intent: 'baseline-activation' } });
+    const p = data(response).preparation;
+    assert(p?.proposedOriginalCostRef && p.proposedOriginalCostRef.id === f.cost.id); assert.equal(p.selectedBaselinePackageRef, null);
+    const basis = p.sourceRows.find(row => row.sourceRef.kind === 'ProjectHandoverBasisSnapshot' && row.sourceRef.id === f.handover.handoverBasisSnapshotId); assert(basis);
+    const body = { inputVersion: 'server-derived-v1', projectId: f.project.id, expectedVersion: p.headVersion, expectedProjectVersion: p.projectVersion,
+      expectedInputHash: p.expectedInputHash, assertions: null, expectedCurrentPackageRef: null, originalAdoptedCostRef: expectedRef(p.proposedOriginalCostRef),
+      selectedHandoverBasisRef: expectedRef(basis.sourceRef), handoverRebaselineRef: null, approvedChangeRefs: [], reason: '接收项目沿真实批准激活合同与已确认移交采用其自己的原技术估算一次。' };
+    const result = await api.request(op, {}, body, 'manager', { responseBirths: [{ table: 'operating_baseline_package', pointer: '/targetId' }],
+      mutableTables: ['project_operating_head'] });
+    f.efOperatingBaseline40 = data(result); ctx.persist(); return { receiptId: result.receiptId, command: f.efOperatingBaseline40 };
+  });
+}
+export async function prepareEFLiveReceiver40(rootCtx) {
+  const main = rootCtx.state.fixtures, { ctx, record } = receiverView(rootCtx), api = createApi(ctx), f = ctx.state.fixtures;
+  assertEFPublicContract40(api);
+  const { projectSources } = await import('./upstream.mjs'); const { produceActualSummary } = await import('./trusted.mjs');
+  const { contractPrepare, contractFinish } = await import('./contracts.mjs'); const { receipts, handover } = await import('./handover.mjs');
+  const { rolesAndExecution } = await import('./roles.mjs');
+  await api.login('manager');
+  await api.login('unrelated'); // A cookie's presence is not a live-session proof.
+  await checkpointStage(ctx, record, 'project-sources', () => projectSources(ctx, api));
+  await checkpointStage(ctx, record, 'summary', () => produceActualSummary(ctx));
+  await api.login('manager'); await checkpointStage(ctx, record, 'contract-prepare', () => contractPrepare(ctx, api));
+  await checkpointStage(ctx, record, 'contract-finish', () => contractFinish(ctx, api));
+  await api.login('manager'); await checkpointStage(ctx, record, 'receipt', () => receipts(ctx, api));
+  for (const actor of ['manager', 'execution', 'finance']) await api.login(actor);
+  await checkpointStage(ctx, record, 'handover', () => handover(ctx, api));
+  await checkpointStage(ctx, record, 'roles-execution', () => rolesAndExecution(ctx, api));
+  await api.login('manager'); await activateBaseline(ctx, api, f, record);
+  assert(f.executionComplete && f.efOperatingBaseline40); assert.equal(rootCtx.state.fixtures, main);
+  return { kind: 'actual-ordinary-second-project-with-own-contracts-and-baseline', projectId: f.project.id, execution: f.execution,
+    actualProducersOnly: true, newReceiverCostRowsFabricated: false, FIClaimed: false, G3Certified: false, G4Certified: false };
+}
+
+async function write(ctx, api, state, key, operationId, params, body, binding) {
+  assertEFPublicContract40(api);
+  if (state[key]) { assert.equal(state[key].phase, 'actual-success'); artifact(state[key].original); return state[key].value; }
+  assert(!state.pending, 'An uncertain previously started producer needs exact Root reconciliation before another write');
+  state.pending = { key, operationId, params, bodySHA256: sha(JSON.stringify(body)), startedAt: new Date().toISOString() }; ctx.persist();
+  const response = await api.request(operationId, params, body, 'manager', binding);
+  // Save success before all semantic postconditions. Later failure must not replay the POST.
+  const value = data(response);
+  state[key] = { phase: 'actual-success', value, receiptId: response.receiptId, original: ctx.artifact(`${ctx.next('ef-producer-success')}.json`,
+    { operationId, params, request: body, value, receiptId: response.receiptId, before: response.before, after: response.after }) };
+  delete state.pending; ctx.persist(); return value;
+}
+export function classifyNewRows(p, { laborId, expenseCostId, shareIds }) {
+  const decisions = [];
+  for (const row of p.sourceRows) {
+    if (!['direct-cost', 'allocation-share', 'supporting-source'].includes(row.rowKind)) continue;
+    if (row.blockingReasonCodes.includes('outside-business-cutoff')) continue;
+    assert.notEqual(row.rowKind, 'supporting-source', 'Unmapped sources need a genuine E producer');
+    if (row.currentDecisionRef) continue; // Existing decisions remain exact, not silently reclassified.
+    const id = row.sourceRef.id;
+    const isLabor = id === laborId, isExpense = id === expenseCostId, isShare = shareIds.includes(id);
+    assert(isLabor || isExpense || isShare, 'Explicitly classify every other actual source before this fixture capture');
+    const role = isShare ? 'allocation-share' : 'direct-source';
+    decisions.push({ target: expectedRef(row.sourceRef), expectedVersion: 0, decision: isLabor ? 'exclude' : 'include', recognitionRole: role,
+      reasonCode: isLabor ? 'shared-source-delegated' : isShare ? 'executed-labor' : 'actual-expense',
+      reasonText: isLabor ? '真实共享池来源只通过完整项目份额累计，明确排除其再次直接累计。' : isShare ? '显式纳入真实F完整批次对本项目计算的份额，金额不由客户端计算。' : '显式纳入本项目真实已确认费用与F归属。',
+      primaryCostRef: null, supportingSourceRefs: row.sourceMembers.map(expectedRef), evidenceRefs: [expectedRef(row.sourceRef), ...row.sourceMembers.map(expectedRef)] });
+  }
+  return decisions;
+}
+export async function produceEFLiveCrossProjectFixture40(ctx, api) {
+  assertEFPublicContract40(api);
+  const main = ctx.state.fixtures, receiver = main.efReceiver40?.fixtures;
+  assert(main.executionComplete && main.operatingComplete && !main.lifecycleComplete, 'Main real live producer chain must stop before lifecycle completion');
+  assert(receiver?.executionComplete && receiver.efOperatingBaseline40, 'Run the ordinary real receiver producer stage first');
+  const projectIds = [uuid(main.project.id), uuid(receiver.project.id)]; assert.notEqual(projectIds[0], projectIds[1]);
+  main.efCrossProject40 ??= { kind: 'actual-ordinary-nonempty-correction-fixture-inputs', sourcePinsSHA256: sha(JSON.stringify(ctx.pins)), projectIds };
+  const state = main.efCrossProject40; assert.deepEqual(state.projectIds, projectIds); assert.equal(state.sourcePinsSHA256, sha(JSON.stringify(ctx.pins)));
+  assert(!state.pending, 'Interrupted producer is not automatically replayable');
+  if (state.prepared) {
+    artifact(state.prepared.artifact);
+    return { kind: 'actual-ordinary-E-F-fixture-already-prepared', preparedArtifact: state.prepared.artifact,
+      producerCommandsReplayed: false, correctionPOSTExecutedByThisStage: false, requiredWriteFICertified: false, G3Certified: false, G4Certified: false };
+  }
+  await api.login('manager');
+  const before = await capture(ctx, ctx.next('ef-fixture-guard')); assertRecorded(ctx, before);
+  const actualRow = (table, id) => {
+    const rows = readRows(before.databases[ctx.database].tables[table]); const row = rows.find(r => r.key.length === 1 && r.key[0] === id); assert(row);
+    const owned = ctx.state.owned[keyOf(ctx.database, table, [id])]; assert(owned && !owned.deleted && owned.proof?.transport === 'HTTP');
+    assert.equal(owned.latestSha256, row.sha256); assert.equal(owned.latestXmin, row.xmin); return JSON.parse(row.raw);
+  };
+  const manager = ctx.state.actors.manager; const memberships = readRows(before.databases[ctx.database].tables.user_org_membership).map(r => JSON.parse(r.raw));
+  for (const id of projectIds) {
+    const project = actualRow('project', id); assert.equal(project.owner_user_id, manager.id); assert(project.owner_org_id);
+    assert(memberships.some(m => m.user_id === manager.id && m.org_unit_id === project.owner_org_id && m.status === 'active'));
+    await api.request('ProjectCostController_getCurrentOperatingBaselinePackage', { projectId: id }, null, 'manager');
+  }
+  const stageId = uuid(main.execution.projectStageRecordId), stage = actualRow('project_stage_record', stageId);
+  assert.equal(stage.project_id, projectIds[0]); assert.equal(stage.to_stage, 'execution'); assert.equal(stage.producer_version, 1);
+  const businessDate = await ctx.db(async c => (await c.query("SELECT timezone('Asia/Hong_Kong',now())::date::text AS business_date")).rows[0].business_date);
+  const stageDate = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Hong_Kong', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(stage.entered_at));
+  assert.equal(stageDate, businessDate, 'Today cannot be used as fabricated historical stage evidence');
+  state.businessDate ??= businessDate; assert.equal(state.businessDate, businessDate, 'Cross-day resume requires a fresh reviewed scenario, not backdating'); ctx.persist();
+  const rate = await write(ctx, api, state, 'rate', 'ProjectCostController_publishInternalCostRateVersion', {}, { rateScopeType: 'role', personId: null,
+    roleCode: `${ctx.state.prefix}-ef40`, rateUnit: 'hour', rateValue: '100.0000', currency: 'CNY', effectiveFrom: businessDate, effectiveTo: null,
+    changeReason: '本隔离真实HTTP共享工时测试作用域的新费率，不替换他人费率。' }, { responseBirths: [{ table: 'internal_cost_rate_version', pointer: '/targetId' }] });
+  const labor = await write(ctx, api, state, 'labor', 'ProjectCostController_createProjectActualCostRecord', { projectId: projectIds[0] }, { costType: 'labor',
+    laborPersonId: null, laborRole: `${ctx.state.prefix}-ef40`, laborPeriodType: 'week', laborPeriodStart: businessDate, laborPeriodEnd: businessDate,
+    actualHours: '8', actualPersonDays: null, workSummary: '本受控真实producer fixture的同日8小时共享工作登记。', rateVersionId: rate.targetId, attachmentIds: [] },
+    { responseBirths: [{ table: 'project_actual_cost_record', pointer: '/targetId' }], number: { scope: 'cost-labor', pointer: '/recordNo',
+      rowSource: { table: 'project_actual_cost_record', responsePointer: '/targetId', column: 'record_no' } } });
+  let laborView = data(await api.request('ProjectCostController_getProjectActualCostRecordDetail', { id: labor.targetId }, null, 'manager'));
+  const stageEvidence = { kind: 'source', sourceType: 'project-stage-record', sourceId: stageId, sourceVersion: stage.sequence_no, businessDate, reason: '真实执行ledger的实际sequence_no和同日entered_at。' };
+  await write(ctx, api, state, 'laborStage', 'ProjectCostController_confirmCostStageAttribution', { id: labor.targetId }, { stageAttributionMode: 'auto', attributedStage: 'execution',
+    expectedVersion: rv(laborView), attributionSummary: '实际同日共享人力的F首阶段确认。', attributionEvidence: stageEvidence },
+    { responseBirths: [{ table: 'cost_stage_attribution_snapshot', pointer: '/targetId' }], mutableTables: ['project_actual_cost_record'],
+      updatedAnchors: [{ table: 'project_actual_cost_record', id: labor.targetId, requestBinding: 'path:id' }] });
+  const category = main.expenseCategory; assert(typeof category === 'string');
+  const expense = await write(ctx, api, state, 'expense', 'ProjectCostController_createExpenseRecord', { projectId: projectIds[0] }, {
+    contractId: main.contractRuns[0].contract.id, expenseCategory: category, expenseDescription: '非空E/F整合fixture的独立真实费用C2。', expenseDate: businessDate,
+    currency: 'CNY', amountIncludingTax: '5650.00', amountExcludingTax: '5000.00', taxAmount: '650.00', sourceType: 'manual', evidenceSummary: '受控测试通过公开费用producer登记；不伪称外部历史票据。', attachmentCount: 0 },
+    { responseBirths: [{ table: 'expense_record', pointer: '/id' }] });
+  const confirmed = await write(ctx, api, state, 'expenseConfirmed', 'ProjectCostController_confirmExpenseRecord', { id: expense.id }, { expectedVersion: rv(expense) },
+    { mutableTables: ['expense_record'], updatedAnchors: [{ table: 'expense_record', id: expense.id, requestBinding: 'path:id' }] });
+  const cost = await write(ctx, api, state, 'expenseCost', 'ProjectCostController_createProjectActualCostRecord', { projectId: projectIds[0] }, { costType: 'expense', expenseRecordId: expense.id,
+    expectedSourceVersion: rv(confirmed), costDescription: '从真实已确认C2费用生产成本，不复制来源金额。' },
+    { responseBirths: [{ table: 'project_actual_cost_record', pointer: '/targetId' }], number: { scope: 'cost-expense', pointer: '/recordNo',
+      rowSource: { table: 'project_actual_cost_record', responsePointer: '/targetId', column: 'record_no' } } });
+  let costView = data(await api.request('ProjectCostController_getProjectActualCostRecordDetail', { id: cost.targetId }, null, 'manager'));
+  await write(ctx, api, state, 'expenseStage', 'ProjectCostController_confirmCostStageAttribution', { id: cost.targetId }, { stageAttributionMode: 'auto', attributedStage: 'execution',
+    expectedVersion: rv(costView), attributionSummary: 'C2实际同日执行成本归属。', attributionEvidence: stageEvidence },
+    { responseBirths: [{ table: 'cost_stage_attribution_snapshot', pointer: '/targetId' }], mutableTables: ['project_actual_cost_record'],
+      updatedAnchors: [{ table: 'project_actual_cost_record', id: cost.targetId, requestBinding: 'path:id' }] });
+  costView = data(await api.request('ProjectCostController_getProjectActualCostRecordDetail', { id: cost.targetId }, null, 'manager'));
+  const taxRequest = { taxTreatmentType: `${ctx.state.prefix}-ef40`, deductibilityStatus: 'pending', taxImpactAmount: '0.00', taxImpactSummary: '只针对C2真实650.00税层保留待评估，不推断C1或分摊项目税务。',
+    taxPendingFlag: true, taxImpactPendingAmount: '650.00', currency: costView.currency, basisSummary: '实际C2源版本；负责人明确保持pending，不宣称抵扣或已完成结论。',
+    sourceReferences: [{ kind: 'source', sourceType: 'project-actual-cost-record', sourceId: cost.targetId, sourceVersion: rv(costView), businessDate, reason: 'C2真实成本与税层来源版本。' }] };
+  const tax = await write(ctx, api, state, 'tax', 'ProjectCostController_confirmAccountingTaxTreatment', { projectId: projectIds[0] }, taxRequest,
+    { responseBirths: [{ table: 'accounting_tax_treatment_snapshot', pointer: '/targetId' }] });
+  laborView = data(await api.request('ProjectCostController_getProjectActualCostRecordDetail', { id: labor.targetId }, null, 'manager'));
+  const allocation = await write(ctx, api, state, 'allocation', 'ProjectCostController_confirmSharedCostAllocationBasis', {}, { basisType: 'actual-shared-labor',
+    sourceCostRecordIds: [labor.targetId], allocationMethod: 'responsible-weight', projectShareItems: projectIds.map(projectId => ({ projectId, allocationWeight: '1', allocationSummary: '实际测试共享工作的等权原依据。' })),
+    basisSummary: '完整同日真实劳动来源批次；两个接收项目都具有当前真实M。', measurementBasis: 'excluding-tax', expectedSourceVersions: [{ costRecordId: labor.targetId, expectedVersion: rv(laborView) }] },
+    { responseBirths: [{ table: 'shared_cost_allocation_basis', pointer: '/basisId' }] });
+  assert.equal(allocation.allocationResultIds.length, 2);
+  for (const projectId of projectIds) {
+    const key = `snapshot:${projectId}`;
+    if (state[key]) continue;
+    const preparationResponse = await api.request('ProjectCostController_getProjectUnifiedAccounting', { projectId }, null, 'manager', { query: { view: 'preparation', intent: 'snapshot-create' } });
+    const p = data(preparationResponse).preparation; assert(p.selectedBaselinePackageRef);
+    const body = { inputVersion: 'server-derived-v1', projectId, expectedVersion: p.headVersion, expectedProjectVersion: p.projectVersion, expectedInputHash: p.expectedInputHash,
+      assertions: null, baselinePackageRef: expectedRef(p.selectedBaselinePackageRef), snapshotMode: 'realtime', periodKey: null,
+      costDecisions: classifyNewRows(p, { laborId: labor.targetId, expenseCostId: cost.targetId, shareIds: allocation.allocationResultIds }) };
+    await write(ctx, api, state, key, 'ProjectCostController_createProjectOperatingSnapshot', {}, body,
+      { responseBirths: [{ table: 'project_operating_snapshot', pointer: '/targetId' }], mutableTables: ['project_operating_head', 'project_actual_cost_record',
+        'shared_cost_allocation_result', 'project_cost_inclusion_head', 'operating_signal_gate_binding', 'commission_gate_review_record'] });
+  }
+  const primary = state[`snapshot:${projectIds[0]}`].value;
+  const scenario = { primaryProjectId: projectIds[0], primarySnapshotId: primary.snapshotId, projectIds, requirePeriod: false,
+    reason: '真实fixture同区间8→9小时、完整分摊权重2/1，以及C2归属/税来源版本同步更正。', summary: '真实E/F生产者在完整各项目终端闭包同事务重述；C1未评估仍unknown，未改变抵扣结论。',
+    labor: { costId: labor.targetId, rateId: rate.targetId, actualHours: '9', actualPersonDays: null, workSummary: '本测试实际受控登记后的同日9小时更正输入。', reason: '显式纠正受控工时登记8→9，不改变实际工作区间或费率来源。' },
+    allocation: { basisId: allocation.basisId, reason: '完整批次真实权重由1/1更正为2/1。', shares: projectIds.map((projectId, index) => ({ projectId, allocationWeight: index === 0 ? '2' : '1', reason: index === 0 ? 'P1修订的真实测试权重2。' : 'P2保留的真实测试权重1。' })) },
+    stage: { costId: cost.targetId, projectStageRecordId: stageId, newAttributedStage: 'execution', reason: '同阶段归属证据重述；不宣称distinct-stage值已变化。' },
+    tax: { taxTreatmentId: tax.targetId, request: { ...taxRequest, replacementReason: 'C2真实归属producer改版本后重申原pending650.00结论，仅更新真实来源版本。' } } };
+  delete scenario.tax.request.sourceReferences;
+  const preparation = await prepareNonemptyCrossProjectRestatement37(ctx, api, scenario);
+  state.prepared = { scenario, artifact: preparation.artifact, body: preparation.body, binding: preparation.binding }; ctx.persist();
+  return { kind: 'actual-ordinary-E-F-two-project-fixture-and-read-only-nonempty-preparation', preparedArtifact: state.prepared.artifact, projectIds,
+    ordinaryFixtureCompleted: true, correctionPOSTExecuted: false, requiredWriteFICertified: false, periodPositiveCovered: false, G3Certified: false, G4Certified: false };
+}
