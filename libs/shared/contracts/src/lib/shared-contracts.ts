@@ -122,6 +122,7 @@ export const PERMISSION_KEYS = [
     "commission:calculations:manage",
     "commission:payouts:manage",
     "commission:adjustments:manage",
+    "commission:low-down-payment:approve",
     // 合同资金
     "contract:finance:manage",
     "contract:finance:sensitive:read",
@@ -173,6 +174,7 @@ export const PermissionsMeta: Record<PermissionKey, PermissionMeta> = {
     "commission:calculations:manage": { description: "管理提成计算结果", group: "提成治理" },
     "commission:payouts:manage": { description: "管理提成发放", group: "提成治理" },
     "commission:adjustments:manage": { description: "管理提成调整", group: "提成治理" },
+    "commission:low-down-payment:approve": { description: "管理层批准低首付款特例及解除", group: "提成治理" },
     "contract:finance:manage": { description: "管理合同资金事实", group: "合同资金" },
     "contract:finance:sensitive:read": { description: "查看合同资金敏感字段", group: "敏感字段" },
     "operating:finance:sensitive:read": { description: "查看经营核算敏感字段", group: "敏感字段" },

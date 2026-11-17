@@ -22,7 +22,6 @@ pub use service::{RolesError, RolesService};
 #[derive(Deserialize)]
 #[serde(rename_all = "camelCase")]
 struct Authority {
-    permissions: Vec<PlatformPermissionSummary>,
     minimum_permissions: BTreeMap<String, Vec<PermissionKey>>,
 }
 
@@ -37,7 +36,13 @@ fn authority() -> &'static Authority {
 }
 
 pub fn permission_dictionary() -> &'static [PlatformPermissionSummary] {
-    &authority().permissions
+    static PERMISSIONS: OnceLock<Vec<PlatformPermissionSummary>> = OnceLock::new();
+    PERMISSIONS.get_or_init(|| {
+        serde_json::from_str(include_str!(
+            "../../../../tools/rust-commission/permissions-current.json"
+        ))
+        .unwrap_or_else(|_| panic!("invalid current TypeScript permission dictionary"))
+    })
 }
 
 pub fn minimum_permissions(role_key: &str) -> &'static [PermissionKey] {

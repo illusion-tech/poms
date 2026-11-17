@@ -23,7 +23,7 @@ cargo +1.99.1 test --manifest-path apps/poms-api-rust/Cargo.toml \
 
 计算用的已冻结角色、交接/合同条款、经营绑定/评审和离职决策，以及调整场景的已发放primary记录，均属于显式的legacy持久化测试输入，不伪装为新producer产物；这些上游producer的完整集成尚未验收。发放场景本身通过真实Rust接口创建草稿、提交审批、批准与登记。合成审批账户不代表人工财务批准，负例中的无审批状态、缺失金额也不作为业务成功证据。
 
-当前发放实现限定匹配冻结基线的单一有效合同，多合同项目返回409。低首付款首期仅使用10%/15%保守上限，不自动解锁20%/25%/30%。最终结算/规则解释查询及调整后的结算刷新已实现；完整上游producer贯穿和前端联调仍待完成。
+当时发放实现限定单一有效合同；最新多合同与管理层批准状态见下文2026-11-18记录。
 
 2026-11-17本机使用解压在`/home/wangzishi/.cache/poms-commission-tests-20261117/runtime`中的官方Debian PostgreSQL17.11包及进程局部库路径，独立cluster/data/socket均在该测试目录。系统服务未安装；既有开发库及历史验收环境没有复用。
 
@@ -34,3 +34,19 @@ cargo +1.99.1 test --manifest-path apps/poms-api-rust/Cargo.toml \
 首次查询测试发现旧结算税额列不允许NULL，新增迁移与ORM映射修复后，通过真实结算写入验证未知税额仍为NULL，并验证回滚不得把它补成0。新增迁移仅应用于本轮独立库。失败与后续修复日志保留为`r5-tail-sql-01..03.log`、`r5-tail-sql-all-01..02.log`及`r5-tail-tax-migration-01.log`；Rust库554、HTTP层18、SQL10以及相关TypeScript类型检查、ESLint通过。
 
 Clippy和Linux开发build通过，实际`openapi-linux296.json`与完整规范的296项method/path/operationId一致。一次独立真实TCP进程通过登录、发放列表、最终结算和规则解释查询后正常退出，记录为`r5-tail-network-smoke-01.log`；仍不代表目标TEST发布或前端联调完成。
+
+2026-11-18增量已支持冻结合同集合、按不含税金额分配项目池、分别/汇总回款判断，以及独立管理层特例/解除权限。实际回款由G的不可变净额依据读取；不得直接使用receipt_amount含税现金。财务批准冻结原始发放及补发的合同分摊，执行时不能换合同；历史多合同已付款缺少分摊仍返回409。新迁移只在本轮专用库执行。
+
+Rust库557、HTTP18、共享枚举333组及SQL12通过。新增两项SQL场景验证20%/50%净额分钱边界、独立管理层权限、批准不可改写、财务审批独立性、已付跨计算版本分摊、未知历史及“批准B后不得改付A”。多合同完整FK输入仍明确标为legacy，G回款确认、财务审批与新提成操作均走实际Rust处理函数，不代表完整上游producer验收。
+
+当前契约更新使用普通工具，不重跑历史Source/prepare/API/rebind：
+
+```bash
+node tools/rust-commission/export-business-contracts.cjs --write
+node tools/rust-commission/generate-business-client.mjs --write apps/poms-api-rust/target/delivery-dependencies/new-client-staging
+node tools/rust-commission/build-admin.mjs apps/poms-api-rust/target/delivery-dependencies/new-admin-build
+```
+
+本机须显式使用已有Node24.19；客户端使用已有Java17和7.20.0 generator缓存，不下载依赖。客户端uniqueItems仍用JSON数组，避免Set序列化为空对象。构建工具从实际project.json生成临时Angular CLI配置，保留每次配置、产物和失败，拒绝覆盖已有配置，直接运行ng build，不调用pnpm或Nx。
+
+Angular生产构建通过，两个现有入口单元套件6项通过。真实Chromium156以只有项目读取、独立管理层权限及敏感读取权限的合成角色完成页面合同选择、条件确认、批准201和历史回读；记录为`commission-manager-browser-02.json`，前次缺少默认浏览器未发出业务命令且保留失败。API与静态页面服务均正常停止。目标Debian12发布及完整producer贯穿仍待完成。

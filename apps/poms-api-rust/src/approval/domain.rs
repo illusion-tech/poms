@@ -629,6 +629,15 @@ impl ApprovalDomainHandler for OriginalApprovalDomain {
                         .map_err(contract_support::Error::into_common)?;
                 }
             }
+            if table == Table::Adjustment && approved {
+                let adjustment_id =
+                    uuid::Uuid::parse_str(&id.js_text().to_utf8_lossy()).map_err(|_| {
+                        CommonFailure::http(StatusCode::BAD_REQUEST, "Invalid adjustment UUID")
+                    })?;
+                crate::commission::prepare_adjustment_approval(session, adjustment_id)
+                    .await
+                    .map_err(contract_support::Error::into_common)?;
+            }
             let entity = required(find_one(session, table, &filters, &[]).await?, kind, &id)?;
             let mut row = store::data(session.state, entity)?;
             let mut snapshot_id = None;

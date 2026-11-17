@@ -47,7 +47,27 @@ pub(super) async fn execute(
     .await?;
     let mut result = match operation {
         "CommissionController_getCommissionFinalSettlement" => {
-            json!({"projectId":project,"finalSettlementStatus":state["finalSettlementStatus"],"nonRetentionSettlementStatus":state["nonRetentionSettlementStatus"],"retentionSettlementStatus":state["retentionSettlementStatus"],"retentionDueDate":state["retentionDueDate"],"retentionDueStatus":state["retentionDueStatus"],"retentionRequirementSummary":state["retentionRequirementSummary"],"retentionReceiptSummary":state["retentionReceiptSummary"],"departureExceptionSummary":state["departureExceptionSummary"]})
+            sensitive["retention_receipt_summary"] = state["retentionReceiptSummary"].clone();
+            let receipt = projection_packet(
+                session,
+                actor,
+                &sensitive,
+                "project",
+                SensitiveFieldPackageKey::ContractFinance,
+                &[(
+                    "retentionReceiptSummaryProjection",
+                    "retention_receipt_summary",
+                )],
+            )
+            .await?;
+            let receipt_summary = if state["retentionReceiptSummary"].is_null() {
+                Value::Null
+            } else if receipt["retentionReceiptSummaryProjection"]["value"].is_null() {
+                json!("质保金到账摘要受合同资金敏感权限限制。")
+            } else {
+                receipt["retentionReceiptSummaryProjection"]["value"].clone()
+            };
+            json!({"projectId":project,"finalSettlementStatus":state["finalSettlementStatus"],"nonRetentionSettlementStatus":state["nonRetentionSettlementStatus"],"retentionSettlementStatus":state["retentionSettlementStatus"],"retentionDueDate":state["retentionDueDate"],"retentionDueStatus":state["retentionDueStatus"],"retentionRequirementSummary":state["retentionRequirementSummary"],"retentionReceiptSummary":receipt_summary,"departureExceptionSummary":state["departureExceptionSummary"]})
         }
         "CommissionController_getCommissionRuleExplanation" => {
             let explanation:Option<Uuid>=sqlx::query_scalar("SELECT id FROM poms.commission_rule_explanation_snapshot WHERE project_id=$1 AND is_current AND status='active' AND final_settlement_snapshot_id=$2 FOR SHARE")

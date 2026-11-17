@@ -112,6 +112,14 @@ async fn fixture(named_user: Option<&str>, permissions: &[PermissionKey]) -> Res
     let password = fs::read_to_string(std::env::var("POMS_COMMISSION_PASSWORD_FILE")?)?;
     let pool = PgPoolOptions::new()
         .max_connections(4)
+        .after_connect(|connection, _| {
+            Box::pin(async move {
+                sqlx::query("SET TIME ZONE 'Etc/GMT-8'")
+                    .execute(connection)
+                    .await?;
+                Ok(())
+            })
+        })
         .connect_with(
             PgConnectOptions::new()
                 .host("127.0.0.1")
@@ -168,7 +176,15 @@ async fn fixture(named_user: Option<&str>, permissions: &[PermissionKey]) -> Res
         .bind(role)
         .execute(&pool)
         .await?;
-    for permission in permissions {
+    let mut permissions = permissions.to_vec();
+    // These owned commission scenarios now invoke the real G receipt producer.
+    // Financial-read and management-approval grants remain independent.
+    if permissions.contains(&PermissionKey::CommissionCalculationsManage)
+        && !permissions.contains(&PermissionKey::ContractFinanceManage)
+    {
+        permissions.push(PermissionKey::ContractFinanceManage);
+    }
+    for permission in &permissions {
         sqlx::query(
             "INSERT INTO poms.role_permission_assignment(role_id,permission_key) VALUES($1,$2)",
         )
@@ -294,7 +310,9 @@ async fn rule_calculation_http_sql_lifecycle_conflicts_concurrency_and_rollback(
             json!({}),
         )
         .await?;
-    let project = project_fixture(&pool, user, true).await?;
+    let project = payout_inputs(&client, &pool, user, "0.10", "0.20")
+        .await?
+        .project;
     let path = format!("/api/projects/{project}/commission-calculations");
     let input = json!({"ruleVersionId":rule_id,"recognizedRevenueTaxExclusive":"100000.00","recognizedCostTaxExclusive":"70000.00"});
     let calculation = client.ok("POST", &path, input.clone()).await?;
@@ -368,7 +386,9 @@ async fn rule_calculation_http_sql_lifecycle_conflicts_concurrency_and_rollback(
         .bind(project).bind(calculation_id).bind(user).fetch_one(&pool).await?;
     assert_eq!(adjustments, 1);
 
-    let boundary_project = project_fixture(&pool, user, true).await?;
+    let boundary_project = payout_inputs(&client, &pool, user, "0.10", "0.20")
+        .await?
+        .project;
     let boundary = client.ok("POST",&format!("/api/projects/{boundary_project}/commission-calculations"),
         json!({"ruleVersionId":rule_id,"recognizedRevenueTaxExclusive":"100000.00","recognizedCostTaxExclusive":"70000.01"})).await?;
     assert_eq!(
@@ -571,7 +591,10 @@ async fn adjustment_real_approval_execution_and_cumulative_clawback() -> Result 
             json!({}),
         )
         .await?;
-    let project = project_fixture(&pool, user, true).await?;
+    let project = payout_inputs(&client, &pool, user, "0.10", "0.20")
+        .await?
+        .project;
+    sqlx::query("INSERT INTO poms.acceptance_record(project_id,acceptance_type,acceptance_result,status,scope_summary,evidence_summary,confirmed_at) VALUES($1,'stage-outcome','accepted','confirmed','owned legacy stage scope','explicit owned legacy evidence',now())").bind(project).execute(&pool).await?;
     let calculation = client.ok("POST",&format!("/api/projects/{project}/commission-calculations"),json!({"ruleVersionId":rule_id,"recognizedRevenueTaxExclusive":"100000","recognizedCostTaxExclusive":"70000"})).await?;
     let calculation_id = row_id(&calculation)?;
     client
@@ -750,21 +773,40 @@ struct PayoutInputs {
 }
 
 async fn payout_inputs(
+    client: &Client,
     pool: &PgPool,
     owner: Uuid,
     retention: &str,
     down: &str,
 ) -> Result<PayoutInputs> {
-    payout_inputs_custom(pool, owner, retention, down, "100000", -30).await
+    payout_inputs_custom(client, pool, owner, retention, down, "100000", -30).await
 }
 
 async fn payout_inputs_custom(
+    client: &Client,
     pool: &PgPool,
     owner: Uuid,
     retention: &str,
     down: &str,
     amount: &str,
     due_days: i32,
+) -> Result<PayoutInputs> {
+    payout_inputs_received(
+        client, pool, owner, retention, down, amount, due_days, amount,
+    )
+    .await
+}
+
+#[allow(clippy::too_many_arguments)]
+async fn payout_inputs_received(
+    client: &Client,
+    pool: &PgPool,
+    owner: Uuid,
+    retention: &str,
+    down: &str,
+    amount: &str,
+    due_days: i32,
+    receipt_net: &str,
 ) -> Result<PayoutInputs> {
     let project = project_fixture(pool, owner, false).await?;
     let contract: Uuid = sqlx::query_scalar("SELECT id FROM poms.contract WHERE project_id=$1")
@@ -785,6 +827,47 @@ async fn payout_inputs_custom(
         .bind(contract)
         .execute(pool)
         .await?;
+    let existing_org:Option<Uuid>=sqlx::query_scalar("SELECT m.org_unit_id FROM poms.user_org_membership m JOIN poms.org_unit o ON o.id=m.org_unit_id AND o.is_active WHERE m.user_id=$1 AND m.status='active' AND m.membership_type='primary' ORDER BY m.created_at,m.id LIMIT 1").bind(owner).fetch_optional(pool).await?;
+    let org = if let Some(org) = existing_org {
+        org
+    } else {
+        let org = uuid(pool).await?;
+        sqlx::query("INSERT INTO poms.org_unit(id,name,code,is_active) VALUES($1,$2,$3,true)")
+            .bind(org)
+            .bind(format!("Commission finance {org}"))
+            .bind(format!("cs-{org}"))
+            .execute(pool)
+            .await?;
+        sqlx::query("INSERT INTO poms.user_org_membership(user_id,org_unit_id,membership_type,status) VALUES($1,$2,'primary','active')").bind(owner).bind(org).execute(pool).await?;
+        org
+    };
+    sqlx::query("UPDATE poms.project SET owner_org_id=$1 WHERE id=$2")
+        .bind(org)
+        .bind(project)
+        .execute(pool)
+        .await?;
+    // Known, persisted legacy activated terms; not a fabricated R4A producer.
+    let declared = json!({"inputKind":"owned-legacy-activated-terms","contractId":contract,"amountTaxExclusive":amount,"taxRate":"0.13","currencyCode":"CNY"});
+    let declared_hash = poms_api_rust::contract_support::canonical_hash(&declared)
+        .map_err(|_| "legacy declared terms hash")?;
+    sqlx::query("UPDATE poms.contract_term_snapshot SET payload_hash=$1,effective_at=clock_timestamp() WHERE id=$2").bind(declared_hash).bind(term).execute(pool).await?;
+    let receipt: Uuid = sqlx::query_scalar(
+        "SELECT id FROM poms.receipt_record WHERE project_id=$1 ORDER BY id LIMIT 1",
+    )
+    .bind(project)
+    .fetch_one(pool)
+    .await?;
+    confirm_net_receipt(
+        client,
+        pool,
+        project,
+        contract,
+        term,
+        receipt_net,
+        "manual",
+        Some(receipt),
+    )
+    .await?;
     let package: Uuid=sqlx::query_scalar("INSERT INTO poms.approval_summary_package_definition(approval_scenario_key,summary_package_key,projection_level,export_policy,field_rule_version) VALUES($1,$1,'commission-controlled','internal-only','explicit-legacy-test-input') RETURNING id")
         .bind(format!("payout-sql-{project}")).fetch_one(pool).await?;
     let handover_id = uuid(pool).await?;
@@ -833,6 +916,16 @@ async fn calculated_amount(
     user: Uuid,
     amount: &str,
 ) -> Result<Uuid> {
+    calculated_values(client, project, user, amount, "70000").await
+}
+
+async fn calculated_values(
+    client: &Client,
+    project: Uuid,
+    user: Uuid,
+    amount: &str,
+    cost: &str,
+) -> Result<Uuid> {
     let rule=client.ok("POST","/api/commission-rule-versions",json!({"ruleCode":format!("PAY-{user}-{project}").chars().take(64).collect::<String>(),"version":1,"tierDefinitionJson":{"tiers":[{"minMarginRate":0,"maxMarginRate":null,"commissionRate":0.2}]}})).await?;
     let rule_id = row_id(&rule)?;
     client
@@ -842,7 +935,7 @@ async fn calculated_amount(
             json!({}),
         )
         .await?;
-    let calculation=client.ok("POST",&format!("/api/projects/{project}/commission-calculations"),json!({"ruleVersionId":rule_id,"recognizedRevenueTaxExclusive":amount,"recognizedCostTaxExclusive":"70000"})).await?;
+    let calculation=client.ok("POST",&format!("/api/projects/{project}/commission-calculations"),json!({"ruleVersionId":rule_id,"recognizedRevenueTaxExclusive":amount,"recognizedCostTaxExclusive":cost})).await?;
     let id = row_id(&calculation)?;
     client
         .ok(
@@ -968,7 +1061,7 @@ async fn payout_first_second_final_retention_and_actual_approvals() -> Result {
         ],
     )
     .await?;
-    let inputs = payout_inputs(&pool, user, "0.10", "0.20").await?;
+    let inputs = payout_inputs(&client, &pool, user, "0.10", "0.20").await?;
     let project = inputs.project;
     let calculation = calculated(&client, project, user).await?;
     let first = payout_draft(&client, project, calculation, "first").await?;
@@ -1090,7 +1183,17 @@ async fn payout_first_second_final_retention_and_actual_approvals() -> Result {
     );
     let retention_id = row_id(&retention)?;
     assert_eq!(client.call("POST",&format!("/api/commission-payouts/{retention_id}:submitApproval"),json!({"payoutStage":"retention","expectedVersion":1,"gateReviewRecordId":inputs.review,"summarySnapshotId":inputs.summary,"retentionReceiptRecordId":inputs.summary,"departureExceptionDecisionId":inputs.summary})).await?.0,StatusCode::CONFLICT);
-    let receipt: Uuid=sqlx::query_scalar("INSERT INTO poms.receipt_record(project_id,contract_id,receipt_amount,receipt_date,source_type,status,confirmed_at) VALUES($1,$2,10000,now(),'retention','confirmed',now()) RETURNING id").bind(project).bind(inputs.contract).fetch_one(&pool).await?;
+    let receipt = confirm_net_receipt(
+        &client,
+        &pool,
+        project,
+        inputs.contract,
+        inputs.term,
+        "10000",
+        "retention",
+        None,
+    )
+    .await?;
     let departure: Uuid=sqlx::query_scalar("INSERT INTO poms.commission_departure_exception_decision(project_id,freeze_version_id,version,departure_scenario_code,decision_code,decision_summary,summary_package_key,summary_snapshot_id,projection_level,export_policy) VALUES($1,$2,1,'not-applicable','continue','explicit legacy responsibility decision',$3,$4,'commission-controlled','internal-only') RETURNING id")
         .bind(project).bind(inputs.freeze).bind(format!("payout-sql-{project}")).bind(inputs.summary).fetch_one(&pool).await?;
     payout_approve(&client,&finance.client,&pool,retention_id,"retention",json!({"gateReviewRecordId":inputs.review,"summarySnapshotId":inputs.summary,"freezeVersionId":inputs.freeze,"retentionReceiptRecordId":receipt,"departureExceptionDecisionId":departure}),true).await?;
@@ -1129,6 +1232,55 @@ async fn payout_first_second_final_retention_and_actual_approvals() -> Result {
     Ok(())
 }
 
+#[allow(clippy::too_many_arguments)]
+async fn confirm_net_receipt(
+    client: &Client,
+    pool: &PgPool,
+    project: Uuid,
+    contract: Uuid,
+    term: Uuid,
+    net: &str,
+    source_type: &str,
+    existing: Option<Uuid>,
+) -> Result<Uuid> {
+    let gross:String=sqlx::query_scalar("SELECT ROUND($1::text::numeric*(1+tax_rate),2)::text FROM poms.contract_term_snapshot WHERE id=$2").bind(net).bind(term).fetch_one(pool).await?;
+    let receipt = if let Some(receipt) = existing {
+        // Prepare this new fixture's pending input before any producer runs.
+        sqlx::query("UPDATE poms.receipt_record SET receipt_amount=$1::text::numeric,receipt_date=clock_timestamp(),source_type=$2,status='pending-confirmation',confirmed_at=NULL,confirmed_by=NULL WHERE id=$3").bind(&gross).bind(source_type).bind(receipt).execute(pool).await?;
+        receipt
+    } else {
+        sqlx::query_scalar("INSERT INTO poms.receipt_record(project_id,contract_id,receipt_amount,receipt_date,source_type,status) VALUES($1,$2,$3::text::numeric,clock_timestamp(),$4,'pending-confirmation') RETURNING id").bind(project).bind(contract).bind(&gross).bind(source_type).fetch_one(pool).await?
+    };
+    let reference = {
+        let mut connection = pool.acquire().await?;
+        let mut state = poms_api_rust::approval_common::CommonState::default();
+        let mut session =
+            poms_api_rust::approval_common::CommonSession::borrow(&mut connection, &mut state);
+        poms_api_rust::project_operating::sources::source_reference_with_session(
+            &mut session,
+            "ContractTermSnapshot",
+            term,
+        )
+        .await
+        .map_err(|e| format!("actual term source reference: {e:?}"))?
+    };
+    let reference = serde_json::to_value(reference)?;
+    let expected = json!({"kind":reference["kind"],"id":reference["id"],"expectedVersion":reference["rowVersion"],"payloadHash":reference["payloadHash"]});
+    let contract_version: i32 =
+        sqlx::query_scalar("SELECT row_version FROM poms.contract WHERE id=$1")
+            .bind(contract)
+            .fetch_one(pool)
+            .await?;
+    client.ok("POST",&format!("/api/receipt-records/{receipt}:confirm"),json!({"inputVersion":"server-derived-v1","expectedVersion":1,"expectedContractVersion":contract_version,"mode":"confirm","basis":{"termSnapshotRef":expected,"currencyBasisRef":expected,"evidenceRefs":[],"selectionPolicy":"receipt-date-effective-terms","reason":"owned functional receipt input"}})).await?;
+    let actual:(String,i32)=sqlx::query_as("SELECT amount_excluding_tax::text,producer_version::integer FROM poms.receipt_accounting_basis WHERE receipt_id=$1").bind(receipt).fetch_one(pool).await?;
+    assert_eq!(
+        actual.0.parse::<rust_decimal::Decimal>()?,
+        net.parse::<rust_decimal::Decimal>()?
+    );
+    assert_eq!(actual.1, 1, "basis must come from the actual G API");
+    Ok(receipt)
+}
+
 #[tokio::test]
 #[ignore = "requires explicit dedicated commission DB initialized from application migrations"]
 async fn payout_project_balance_recalculation_and_nested_approval_rollback() -> Result {
@@ -1160,7 +1312,7 @@ async fn payout_project_balance_recalculation_and_nested_approval_rollback() -> 
         ],
     )
     .await?;
-    let inputs = payout_inputs(&pool, user, "0.10", "0.20").await?;
+    let inputs = payout_inputs(&client, &pool, user, "0.10", "0.20").await?;
     let project = inputs.project;
     let calculation = calculated(&client, project, user).await?;
     let first = payout_draft(&client, project, calculation, "first").await?;
@@ -1322,9 +1474,13 @@ async fn payout_project_balance_recalculation_and_nested_approval_rollback() -> 
         )
     })
     .await?;
-    let statuses = [a?.0.as_u16(), b?.0.as_u16()];
+    let responses = [a?, b?];
+    let statuses = responses.each_ref().map(|response| response.0.as_u16());
     assert_eq!(statuses.iter().filter(|s| **s == 200).count(), 1);
-    assert!(statuses.iter().all(|s| matches!(s, 200 | 400 | 409)));
+    assert!(
+        statuses.iter().all(|s| matches!(s, 200 | 400 | 409)),
+        "{responses:?}"
+    );
     let amount: String =
         sqlx::query_scalar("SELECT approved_amount::text FROM poms.commission_payout WHERE id=$1")
             .bind(next_payout_id)
@@ -1376,7 +1532,7 @@ async fn payout_zero_retention_low_down_payment_and_future_due_date() -> Result 
         ],
     )
     .await?;
-    let zero = payout_inputs(&pool, user, "0", "0.20").await?;
+    let zero = payout_inputs(&client, &pool, user, "0", "0.20").await?;
     let calculation = calculated(&client, zero.project, user).await?;
     let payout = payout_draft(&client, zero.project, calculation, "final").await?;
     assert_eq!(payout["theoreticalCapAmountProjection"]["value"], "6000.00");
@@ -1411,7 +1567,7 @@ async fn payout_zero_retention_low_down_payment_and_future_due_date() -> Result 
             .0,
         StatusCode::UNPROCESSABLE_ENTITY
     );
-    let low = payout_inputs(&pool, user, "0.10", "0.10").await?;
+    let low = payout_inputs(&client, &pool, user, "0.10", "0.10").await?;
     let calculation = calculated(&client, low.project, user).await?;
     let payout = payout_draft(&client, low.project, calculation, "first").await?;
     assert_eq!(payout["theoreticalCapAmountProjection"]["value"], "600.00");
@@ -1442,15 +1598,19 @@ async fn payout_zero_retention_low_down_payment_and_future_due_date() -> Result 
             json!({"expectedVersion":1}),
         )
         .await?;
-    let mid = client
-        .ok(
-            "POST",
-            &format!("/api/projects/{}/commission-payouts", low.project),
-            json!({"calculationId":next_id,"stageType":"first","selectedTier":"mid"}),
-        )
-        .await?;
-    assert_eq!(mid["theoreticalCapAmountProjection"]["value"], "300.00");
-    let future = payout_inputs_custom(&pool, user, "0.10", "0.20", "100000", 30).await?;
+    assert_eq!(
+        client
+            .call(
+                "POST",
+                &format!("/api/projects/{}/commission-payouts", low.project),
+                json!({"calculationId":next_id,"stageType":"first","selectedTier":"mid"})
+            )
+            .await?
+            .0,
+        StatusCode::UNPROCESSABLE_ENTITY,
+        "a tier selection does not replace management approval"
+    );
+    let future = payout_inputs_custom(&client, &pool, user, "0.10", "0.20", "100000", 30).await?;
     let calculation = calculated(&client, future.project, user).await?;
     let payout = payout_draft(&client, future.project, calculation, "final").await?;
     let payout_id = row_id(&payout)?;
@@ -1473,7 +1633,17 @@ async fn payout_zero_retention_low_down_payment_and_future_due_date() -> Result 
         .await?;
     let retention = payout_draft(&client, future.project, calculation, "retention").await?;
     let retention_id = row_id(&retention)?;
-    let receipt: Uuid=sqlx::query_scalar("INSERT INTO poms.receipt_record(project_id,contract_id,receipt_amount,receipt_date,source_type,status) VALUES($1,$2,10000,now(),'retention','confirmed') RETURNING id").bind(future.project).bind(future.contract).fetch_one(&pool).await?;
+    let receipt = confirm_net_receipt(
+        &client,
+        &pool,
+        future.project,
+        future.contract,
+        future.term,
+        "10000",
+        "retention",
+        None,
+    )
+    .await?;
     let decision: Uuid=sqlx::query_scalar("INSERT INTO poms.commission_departure_exception_decision(project_id,freeze_version_id,version,departure_scenario_code,decision_code,decision_summary,summary_package_key,summary_snapshot_id,projection_level,export_policy) VALUES($1,$2,1,'not-applicable','continue','explicit future-date test input',$3,$4,'commission-controlled','internal-only') RETURNING id")
         .bind(future.project).bind(future.freeze).bind(format!("payout-sql-{}",future.project)).bind(future.summary).fetch_one(&pool).await?;
     assert_eq!(client.call("POST",&format!("/api/commission-payouts/{retention_id}:submitApproval"),json!({"payoutStage":"retention","expectedVersion":1,"gateReviewRecordId":future.review,"summarySnapshotId":future.summary,"retentionReceiptRecordId":receipt,"departureExceptionDecisionId":decision})).await?.0,StatusCode::UNPROCESSABLE_ENTITY);
@@ -1520,8 +1690,16 @@ async fn payout_large_decimal_amount_survives_both_approval_routes() -> Result {
     )
     .await?;
     for generic in [false, true] {
-        let inputs =
-            payout_inputs_custom(&pool, user, "0.10", "0.20", "7654321098765432.10", -30).await?;
+        let inputs = payout_inputs_custom(
+            &client,
+            &pool,
+            user,
+            "0.10",
+            "0.20",
+            "7654321098765432.10",
+            -30,
+        )
+        .await?;
         let calculation =
             calculated_amount(&client, inputs.project, user, "7654321098765432.10").await?;
         let payout = payout_draft(&client, inputs.project, calculation, "first").await?;
@@ -1616,7 +1794,7 @@ async fn payout_zero_final_confirmation_and_prior_retention_after_recalculation(
         ],
     )
     .await?;
-    let inputs = payout_inputs(&pool, user, "0.20", "0.20").await?;
+    let inputs = payout_inputs(&client, &pool, user, "0.20", "0.20").await?;
     let project = inputs.project;
     let calculation = calculated(&client, project, user).await?;
     for (stage, tier, amount) in [
@@ -1655,7 +1833,17 @@ async fn payout_zero_final_confirmation_and_prior_retention_after_recalculation(
     }
     let state: String=sqlx::query_scalar("SELECT final_settlement_status FROM poms.commission_final_settlement_snapshot WHERE project_id=$1 AND is_current").bind(project).fetch_one(&pool).await?;
     assert_eq!(state, "pending-retention-settlement");
-    let receipt: Uuid=sqlx::query_scalar("INSERT INTO poms.receipt_record(project_id,contract_id,receipt_amount,receipt_date,source_type,status) VALUES($1,$2,20000,now(),'retention','confirmed') RETURNING id").bind(project).bind(inputs.contract).fetch_one(&pool).await?;
+    let receipt = confirm_net_receipt(
+        &client,
+        &pool,
+        project,
+        inputs.contract,
+        inputs.term,
+        "20000",
+        "retention",
+        None,
+    )
+    .await?;
     let decision: Uuid=sqlx::query_scalar("INSERT INTO poms.commission_departure_exception_decision(project_id,freeze_version_id,version,departure_scenario_code,decision_code,decision_summary,summary_package_key,summary_snapshot_id,projection_level,export_policy) VALUES($1,$2,1,'not-applicable','continue','explicit legacy settlement input',$3,$4,'commission-controlled','internal-only') RETURNING id")
         .bind(project).bind(inputs.freeze).bind(format!("payout-sql-{project}")).bind(inputs.summary).fetch_one(&pool).await?;
     let references = json!({"gateReviewRecordId":inputs.review,"summarySnapshotId":inputs.summary,"retentionReceiptRecordId":receipt,"departureExceptionDecisionId":decision});
@@ -1786,17 +1974,8 @@ async fn departure_decision(
 #[ignore = "requires explicit dedicated commission DB initialized from application migrations"]
 async fn r5_tail_dispute_replacement_concurrency_and_atomic_rollback() -> Result {
     let f = tail_fixture().await?;
-    let inputs = payout_inputs(&f.pool, f.user, "0.10", "0.20").await?;
-    // The role-detail route requires an actual full owner relation. A legacy
-    // personal-owner anchor without an organization deliberately remains 403.
-    let org = uuid(&f.pool).await?;
-    sqlx::query("INSERT INTO poms.org_unit(id,name,code,is_active) VALUES($1,'Commission scope fixture',$2,true)").bind(org).bind(format!("r5-tail-{org}")).execute(&f.pool).await?;
-    sqlx::query("INSERT INTO poms.user_org_membership(user_id,org_unit_id,membership_type,status) VALUES($1,$2,'primary','active')").bind(f.user).bind(org).execute(&f.pool).await?;
-    sqlx::query("UPDATE poms.project SET owner_org_id=$1 WHERE id=$2")
-        .bind(org)
-        .bind(inputs.project)
-        .execute(&f.pool)
-        .await?;
+    let inputs = payout_inputs(&f.client, &f.pool, f.user, "0.10", "0.20").await?;
+    // The real G confirmation setup already supplies a full owner relation.
     let assignment_path = format!("/api/commission-role-assignments/{}", inputs.freeze);
     assert_eq!(
         f.client.ok("GET", &assignment_path, json!({})).await?["allowedActions"],
@@ -1940,7 +2119,7 @@ async fn r5_tail_dispute_replacement_concurrency_and_atomic_rollback() -> Result
             .fetch_one(&f.pool)
             .await?;
     assert_eq!(original_payout, "draft");
-    let other = payout_inputs(&f.pool, f.user, "0.10", "0.20").await?;
+    let other = payout_inputs(&f.client, &f.pool, f.user, "0.10", "0.20").await?;
     assert_eq!(f.client.call("POST",&format!("/api/projects/{}/commission-departure-exception-decisions",other.project),json!({"freezeVersionId":replacement,"summarySnapshotId":freeze_summary(&f.pool,replacement).await?,"departureScenarioCode":"none","decisionCode":"continue","decisionSummary":"invalid cross project"})).await?.0,StatusCode::BAD_REQUEST);
     close_fixture(f).await
 }
@@ -1950,7 +2129,7 @@ async fn r5_tail_dispute_replacement_concurrency_and_atomic_rollback() -> Result
 async fn r5_tail_departure_versions_and_live_settlement_queries() -> Result {
     let f = tail_fixture().await?;
     let finance = tail_finance().await?;
-    let i = payout_inputs_custom(&f.pool, f.user, "0.10", "0.20", "100000", 30).await?;
+    let i = payout_inputs_custom(&f.client, &f.pool, f.user, "0.10", "0.20", "100000", 30).await?;
     let final_path = format!("/api/projects/{}/commission-final-settlement", i.project);
     let rule_path = format!("/api/projects/{}/commission-rule-explanation", i.project);
     assert_eq!(
@@ -1981,7 +2160,17 @@ async fn r5_tail_departure_versions_and_live_settlement_queries() -> Result {
     let summary = freeze_summary(&f.pool, i.freeze).await?;
     let first = departure_decision(&f.client, i.project, i.freeze, summary, None).await?;
     assert_eq!(first["version"], 1);
-    let receipt:Uuid=sqlx::query_scalar("INSERT INTO poms.receipt_record(project_id,contract_id,receipt_amount,receipt_date,source_type,status) VALUES($1,$2,10000,now(),'retention','confirmed') RETURNING id").bind(i.project).bind(i.contract).fetch_one(&f.pool).await?;
+    let receipt = confirm_net_receipt(
+        &f.client,
+        &f.pool,
+        i.project,
+        i.contract,
+        i.term,
+        "10000",
+        "retention",
+        None,
+    )
+    .await?;
     assert_eq!(
         f.client.ok("GET", &rule_path, json!({})).await?["blockingReasonCode"],
         "retention-due-pending"
@@ -2103,10 +2292,561 @@ async fn r5_tail_departure_versions_and_live_settlement_queries() -> Result {
 
 #[tokio::test]
 #[ignore = "requires explicit dedicated commission DB initialized from application migrations"]
+async fn management_release_uses_net_receipts_separate_permission_and_real_finance_approval()
+-> Result {
+    let owner = fixture(
+        None,
+        &[
+            PermissionKey::CommissionRuleVersionsManage,
+            PermissionKey::CommissionCalculationsManage,
+            PermissionKey::CommissionPayoutsManage,
+            PermissionKey::CommissionAdjustmentsManage,
+            PermissionKey::CommissionAmountSensitiveRead,
+            PermissionKey::ProjectWrite,
+        ],
+    )
+    .await?;
+    let finance = fixture(
+        Some("finance_mgr"),
+        &[
+            PermissionKey::CommissionPayoutsManage,
+            PermissionKey::CommissionAdjustmentsManage,
+            PermissionKey::CommissionAmountSensitiveRead,
+            PermissionKey::ProjectWrite,
+        ],
+    )
+    .await?;
+    let manager = fixture(
+        None,
+        &[
+            PermissionKey::CommissionLowDownPaymentApprove,
+            PermissionKey::ExceptionApprovalOpinionSensitiveRead,
+            PermissionKey::ProjectWrite,
+        ],
+    )
+    .await?;
+    let i = payout_inputs_received(
+        &owner.client,
+        &owner.pool,
+        owner.user,
+        "0.10",
+        "0.10",
+        "100000",
+        -30,
+        "19999.99",
+    )
+    .await?;
+    let contract: Uuid = sqlx::query_scalar("SELECT id FROM poms.contract WHERE project_id=$1")
+        .bind(i.project)
+        .fetch_one(&owner.pool)
+        .await?;
+    let term: Uuid =
+        sqlx::query_scalar("SELECT current_snapshot_id FROM poms.contract WHERE id=$1")
+            .bind(contract)
+            .fetch_one(&owner.pool)
+            .await?;
+    let path = format!(
+        "/api/projects/{}/commission-low-down-payment-releases",
+        i.project
+    );
+    let mut request = json!({"freezeVersionId":i.freeze,"expectedFreezeVersion":1,"contractIds":[contract],"decision":"raise-first-cap","conditionsConfirmed":true,"reason":"management confirmed project conditions"});
+    // Gross receipts already exceed 20%; actual net income is still one cent short.
+    assert_eq!(
+        manager.client.call("POST", &path, request.clone()).await?.0,
+        StatusCode::UNPROCESSABLE_ENTITY
+    );
+    assert_eq!(
+        finance.client.call("POST", &path, request.clone()).await?.0,
+        StatusCode::FORBIDDEN
+    );
+    confirm_net_receipt(
+        &owner.client,
+        &owner.pool,
+        i.project,
+        contract,
+        term,
+        "0.01",
+        "manual",
+        None,
+    )
+    .await?;
+    let calculation =
+        calculated_values(&owner.client, i.project, owner.user, "10000", "7000").await?;
+    let draft = owner
+        .client
+        .ok(
+            "POST",
+            &format!("/api/projects/{}/commission-payouts", i.project),
+            json!({"calculationId":calculation,"stageType":"first","selectedTier":"premium"}),
+        )
+        .await?;
+    let payout = row_id(&draft)?;
+    assert_eq!(draft["theoreticalCapAmountProjection"]["value"], "60.00");
+    request["conditionsConfirmed"] = json!(false);
+    assert_eq!(
+        manager.client.call("POST", &path, request.clone()).await?.0,
+        StatusCode::BAD_REQUEST
+    );
+    request["conditionsConfirmed"] = json!(true);
+    request["contractIds"] = json!([uuid(&owner.pool).await?]);
+    assert_eq!(
+        manager.client.call("POST", &path, request.clone()).await?.0,
+        StatusCode::BAD_REQUEST
+    );
+    request["contractIds"] = json!([contract]);
+    let (a, b) = tokio::join!(
+        manager.client.call("POST", &path, request.clone()),
+        manager.client.call("POST", &path, request.clone())
+    );
+    let replies = [a?, b?];
+    let mut codes = replies.each_ref().map(|r| r.0.as_u16());
+    codes.sort();
+    assert_eq!(codes, [201, 409], "{replies:?}");
+    let release = &replies
+        .iter()
+        .find(|r| r.0 == StatusCode::CREATED)
+        .ok_or("missing management decision")?
+        .1;
+    assert_eq!(release["approvedBy"], manager.user.to_string());
+    assert_eq!(release["reasonProjection"]["value"], request["reason"]);
+    assert_eq!(release["currentApplicable"], true);
+    let release_id = row_id(release)?;
+    let immutable = sqlx::query(
+        "UPDATE poms.commission_low_down_payment_release SET reason='changed' WHERE id=$1",
+    )
+    .bind(release_id)
+    .execute(&owner.pool)
+    .await;
+    let Err(immutable) = immutable else {
+        return Err("management approval history unexpectedly changed".into());
+    };
+    assert_eq!(
+        immutable
+            .as_database_error()
+            .and_then(|e| e.code())
+            .as_deref(),
+        Some("23514")
+    );
+    assert_eq!(
+        finance.client.call("GET", &path, json!({})).await?.0,
+        StatusCode::FORBIDDEN
+    );
+    let masked = manager.client.ok("GET", &path, json!({})).await?;
+    assert!(
+        masked["currentContext"]["contracts"][0]["amountTaxExclusiveProjection"]["value"].is_null()
+    );
+    let submitted = owner
+        .client
+        .ok(
+            "POST",
+            &format!("/api/commission-payouts/{payout}:submitApproval"),
+            json!({"payoutStage":"first","expectedVersion":1}),
+        )
+        .await?;
+    assert_eq!(
+        submitted["theoreticalCapAmountProjection"]["value"],
+        "90.00"
+    );
+    assert_eq!(
+        manager
+            .client
+            .call(
+                "POST",
+                &format!("/api/commission-payouts/{payout}:approve"),
+                json!({"expectedVersion":2})
+            )
+            .await?
+            .0,
+        StatusCode::FORBIDDEN
+    );
+    finance
+        .client
+        .ok(
+            "POST",
+            &format!("/api/commission-payouts/{payout}:approve"),
+            json!({"expectedVersion":2}),
+        )
+        .await?;
+    owner
+        .client
+        .ok(
+            "POST",
+            &format!("/api/commission-payouts/{payout}:registerPayout"),
+            json!({"payoutStage":"first","paidRecordAmount":"90","expectedVersion":3}),
+        )
+        .await?;
+    request["decision"] = json!("release-standard");
+    let extra = confirm_net_receipt(
+        &owner.client,
+        &owner.pool,
+        i.project,
+        contract,
+        term,
+        "29999.99",
+        "manual",
+        None,
+    )
+    .await?;
+    assert_eq!(
+        manager.client.call("POST", &path, request.clone()).await?.0,
+        StatusCode::UNPROCESSABLE_ENTITY
+    );
+    confirm_net_receipt(
+        &owner.client,
+        &owner.pool,
+        i.project,
+        contract,
+        term,
+        "0.01",
+        "manual",
+        None,
+    )
+    .await?;
+    let unlocked = manager.client.call("POST", &path, request.clone()).await?;
+    assert_eq!(unlocked.0, StatusCode::CREATED, "{:?}", unlocked.1);
+    let supplement=approve_adjustment(&owner.client,&finance.client,&owner.pool,i.project,json!({"adjustmentType":"supplement","relatedPayoutId":payout,"amount":"90","reason":"management release plus actual finance approval"})).await?;
+    owner
+        .client
+        .ok(
+            "POST",
+            &format!("/api/commission-adjustments/{supplement}:execute"),
+            json!({"expectedVersion":3}),
+        )
+        .await?;
+    let total:String=sqlx::query_scalar("SELECT SUM(paid_record_amount)::text FROM poms.commission_payout WHERE project_id=$1 AND status='paid'").bind(i.project).fetch_one(&owner.pool).await?;
+    assert_eq!(total, "180.00");
+    let excess=owner.client.ok("POST",&format!("/api/projects/{}/commission-adjustments",i.project),json!({"adjustmentType":"supplement","relatedPayoutId":payout,"amount":"0.01","reason":"negative cap case"})).await?;
+    let excess = row_id(&excess)?;
+    owner
+        .client
+        .ok(
+            "POST",
+            &format!("/api/commission-adjustments/{excess}:submitApproval"),
+            json!({"expectedVersion":1}),
+        )
+        .await?;
+    let excess_approval:Uuid=sqlx::query_scalar("SELECT id FROM poms.approval_record WHERE target_object_id=$1 AND current_status='pending'").bind(excess).fetch_one(&owner.pool).await?;
+    assert_eq!(
+        finance
+            .client
+            .call(
+                "POST",
+                &format!("/api/approval-records/{excess_approval}:approve"),
+                json!({"expectedVersion":1})
+            )
+            .await?
+            .0,
+        StatusCode::UNPROCESSABLE_ENTITY
+    );
+    // Controlled receipt-withdrawal fault: retained G basis must not keep a
+    // management decision applicable after the actual receipt stops qualifying.
+    sqlx::query("UPDATE poms.receipt_record SET status='pending-confirmation' WHERE id=$1")
+        .bind(extra)
+        .execute(&owner.pool)
+        .await?;
+    let history = manager.client.ok("GET", &path, json!({})).await?;
+    assert_eq!(
+        history["records"]
+            .as_array()
+            .ok_or("release history")?
+            .iter()
+            .find(|r| r["decision"] == "release-standard")
+            .ok_or("unlock history")?["currentApplicable"],
+        false
+    );
+    close_fixture(manager).await?;
+    close_fixture(finance).await?;
+    close_fixture(owner).await
+}
+
+// Explicit legacy inputs with complete FK-bound membership. This exercises the
+// payout consumer, not upstream readiness/handover producer certification.
+async fn captured_multi_contract_input(f: &Fixture, i: &PayoutInputs) -> Result<(Uuid, Uuid)> {
+    let project = i.project;
+    let second:Uuid=sqlx::query_scalar("INSERT INTO poms.contract(project_id,contract_no,status) VALUES($1,$2,'active') RETURNING id").bind(project).bind(format!("CS-second-{project}")).fetch_one(&f.pool).await?;
+    let declared = json!({"inputKind":"owned-legacy-multi-contract-set","projectId":project,"anchorNet":"60000.00","secondNet":"40000.00"});
+    let hash = poms_api_rust::contract_support::canonical_hash(&declared)
+        .map_err(|_| "legacy set hash")?;
+    let second_term:Uuid=sqlx::query_scalar("INSERT INTO poms.contract_term_snapshot(contract_id,snapshot_status,amount_tax_inclusive,amount_tax_exclusive,tax_rate,down_payment_rate,retention_rate,retention_due_date,currency_code,payload_hash,effective_at) VALUES($1,'active',45200,40000,0.13,0.20,0.20,current_date-30,'CNY',$2,clock_timestamp()) RETURNING id").bind(second).bind(&hash).fetch_one(&f.pool).await?;
+    sqlx::query("UPDATE poms.contract SET current_snapshot_id=$1 WHERE id=$2")
+        .bind(second_term)
+        .bind(second)
+        .execute(&f.pool)
+        .await?;
+    let baseline:Uuid=sqlx::query_scalar("INSERT INTO poms.commercial_release_baseline(project_id,baseline_code) VALUES($1,$2) RETURNING id").bind(project).bind(format!("legacy-{project}")).fetch_one(&f.pool).await?;
+    let cost:Uuid=sqlx::query_scalar("INSERT INTO poms.project_technical_cost_package(project_id,version,technical_feasibility_decision,technical_conclusion_summary,currency_code,total_estimated_amount_excluding_tax,total_tax_cost_amount,total_estimated_amount_including_tax,tax_assumption_summary,tax_review_status,effective_at) VALUES($1,1,'feasible','explicit legacy input','CNY',7000,910,7910,'13%','confirmed',now()) RETURNING id").bind(project).fetch_one(&f.pool).await?;
+    let pricing:Uuid=sqlx::query_scalar("INSERT INTO poms.project_pricing_margin_review(project_id,version,technical_cost_package_id,pricing_path,quote_version,currency_code,quote_amount_tax_inclusive,quote_amount_tax_exclusive,tax_rate,tax_condition_summary,payment_terms_summary,gross_margin_band,gross_margin_summary,decision,decision_summary,effective_at) VALUES($1,1,$2,'direct','legacy-1','CNY',113000,100000,0.13,'legacy','legacy','normal','legacy','pass','legacy',now()) RETURNING id").bind(project).bind(cost).fetch_one(&f.pool).await?;
+    let basis:Uuid=sqlx::query_scalar("INSERT INTO poms.project_handover_basis_snapshot(project_id,version,source_payload,source_hash,payload_hash,status,generated_by) VALUES($1,1,$2,$3,$3,'active',$4) RETURNING id").bind(project).bind(&declared).bind(&hash).bind(f.user).fetch_one(&f.pool).await?;
+    let members:Vec<(Uuid,Uuid)>=sqlx::query_as("SELECT id,current_snapshot_id FROM poms.contract WHERE project_id=$1 AND status='active' ORDER BY id").bind(project).fetch_all(&f.pool).await?;
+    for (contract, term) in members {
+        let diff:Uuid=sqlx::query_scalar("INSERT INTO poms.commercial_baseline_diff_result(baseline_id,project_id,contract_id,diff_level,review_status) VALUES($1,$2,$3,'none','reviewed') RETURNING id").bind(baseline).bind(project).bind(contract).fetch_one(&f.pool).await?;
+        let readiness:Uuid=sqlx::query_scalar("INSERT INTO poms.contract_readiness_package(project_id,contract_id,source_baseline_id,latest_diff_result_id,package_status,guard_decision) VALUES($1,$2,$3,$4,'ready','allow') RETURNING id").bind(project).bind(contract).bind(baseline).bind(diff).fetch_one(&f.pool).await?;
+        let preparation:Uuid=sqlx::query_scalar("INSERT INTO poms.contract_term_preparation(project_id,contract_id,source_readiness_id,source_baseline_id,source_diff_result_id,source_cost_package_id,source_pricing_review_id,version,status,contract_row_version_at_preparation,currency_code,amount_tax_inclusive,amount_tax_exclusive,tax_rate,down_payment_rate,retention_rate,retention_due_date,payment_terms,receivable_plan_seeds,source_facts,contract_core_hash,payload_hash,prepared_by) SELECT $1,$2,$3,$4,$5,$6,$7,1,'prepared',1,t.currency_code,t.amount_tax_inclusive,t.amount_tax_exclusive,t.tax_rate,t.down_payment_rate,t.retention_rate,t.retention_due_date,'legacy',jsonb_build_array(jsonb_build_object('nodeKey','all','plannedAmount',t.amount_tax_inclusive::text)),$8,$9,$9,$10 FROM poms.contract_term_snapshot t WHERE id=$11 RETURNING id").bind(project).bind(contract).bind(readiness).bind(baseline).bind(diff).bind(cost).bind(pricing).bind(&declared).bind(&hash).bind(f.user).bind(term).fetch_one(&f.pool).await?;
+        sqlx::query("UPDATE poms.contract_term_snapshot SET source_preparation_id=$1 WHERE id=$2")
+            .bind(preparation)
+            .bind(term)
+            .execute(&f.pool)
+            .await?;
+        sqlx::query("UPDATE poms.contract_term_preparation SET status='activated',activated_snapshot_id=$1,activated_at=now(),activated_by=$2 WHERE id=$3").bind(term).bind(f.user).bind(preparation).execute(&f.pool).await?;
+        let plan:Uuid=sqlx::query_scalar("INSERT INTO poms.receivable_plan_version(project_id,contract_id,snapshot_id,source_preparation_id,source_readiness_id,version,status,currency_code,amount_tax_inclusive,payload_hash,initialized_by) SELECT $1,$2,$3,$4,$5,1,'active',currency_code,amount_tax_inclusive,$6,$7 FROM poms.contract_term_snapshot WHERE id=$3 RETURNING id").bind(project).bind(contract).bind(term).bind(preparation).bind(readiness).bind(&hash).bind(f.user).fetch_one(&f.pool).await?;
+        sqlx::query("INSERT INTO poms.project_handover_contract_basis(basis_snapshot_id,project_id,contract_id,term_snapshot_id,readiness_package_id,preparation_id,plan_version_id,source_payload_hash,currency_code,signed_amount,amount_tax_inclusive,amount_tax_exclusive,is_compatibility_anchor) SELECT $1,$2,$3,$4,$5,$6,$7,$8,currency_code,amount_tax_inclusive,amount_tax_inclusive,amount_tax_exclusive,$9 FROM poms.contract_term_snapshot WHERE id=$4").bind(basis).bind(project).bind(contract).bind(term).bind(readiness).bind(preparation).bind(plan).bind(&hash).bind(contract!=second).execute(&f.pool).await?;
+    }
+    let handover: Uuid = sqlx::query_scalar(
+        "SELECT source_handover_id FROM poms.commission_role_assignment WHERE id=$1",
+    )
+    .bind(i.freeze)
+    .fetch_one(&f.pool)
+    .await?;
+    sqlx::query("UPDATE poms.project_handover SET basis_snapshot_id=$1 WHERE id=$2")
+        .bind(basis)
+        .bind(handover)
+        .execute(&f.pool)
+        .await?;
+    sqlx::query("INSERT INTO poms.project_receipt_judgment_freeze(project_id,receipt_judgment_mode,source_type,source_id,source_handover_id,source_handover_summary_snapshot_id,basis_snapshot_id,frozen_by) SELECT $1,'contract-separate','project-handover',$2,$2,summary_snapshot_id,$3,$4 FROM poms.project_handover WHERE id=$2").bind(project).bind(handover).bind(basis).bind(f.user).execute(&f.pool).await?;
+    Ok((second, second_term))
+}
+
+#[tokio::test]
+#[ignore = "requires explicit dedicated commission DB initialized from application migrations"]
+async fn multi_contract_cash_stays_with_approved_contract_and_unknown_history_is_retained() -> Result
+{
+    let f = fixture(
+        None,
+        &[
+            PermissionKey::CommissionRuleVersionsManage,
+            PermissionKey::CommissionCalculationsManage,
+            PermissionKey::CommissionPayoutsManage,
+            PermissionKey::CommissionAdjustmentsManage,
+            PermissionKey::CommissionAmountSensitiveRead,
+            PermissionKey::ProjectWrite,
+        ],
+    )
+    .await?;
+    let finance = fixture(
+        Some("finance_mgr"),
+        &[
+            PermissionKey::CommissionPayoutsManage,
+            PermissionKey::CommissionAdjustmentsManage,
+            PermissionKey::CommissionAmountSensitiveRead,
+            PermissionKey::ProjectWrite,
+        ],
+    )
+    .await?;
+    let i = payout_inputs_received(
+        &f.client, &f.pool, f.user, "0.10", "0.20", "60000", -30, "12000",
+    )
+    .await?;
+    let first: Uuid = sqlx::query_scalar("SELECT id FROM poms.contract WHERE project_id=$1")
+        .bind(i.project)
+        .fetch_one(&f.pool)
+        .await?;
+    let (second, second_term) = captured_multi_contract_input(&f, &i).await?;
+    let calculation = calculated_values(&f.client, i.project, f.user, "10000", "7000").await?;
+    let draft = payout_draft(&f.client, i.project, calculation, "first").await?;
+    assert_eq!(draft["theoreticalCapAmountProjection"]["value"], "72.00");
+    let payout = row_id(&draft)?;
+    payout_approve(
+        &f.client,
+        &finance.client,
+        &f.pool,
+        payout,
+        "first",
+        json!({}),
+        true,
+    )
+    .await?;
+    confirm_net_receipt(
+        &f.client,
+        &f.pool,
+        i.project,
+        second,
+        second_term,
+        "8000",
+        "manual",
+        None,
+    )
+    .await?;
+    let original_receipt:Uuid=sqlx::query_scalar("UPDATE poms.receipt_record SET status='pending-confirmation' WHERE project_id=$1 AND contract_id=$2 RETURNING id").bind(i.project).bind(first).fetch_one(&f.pool).await?;
+    assert_eq!(
+        f.client
+            .call(
+                "POST",
+                &format!("/api/commission-payouts/{payout}:registerPayout"),
+                json!({"payoutStage":"first","paidRecordAmount":"48","expectedVersion":3})
+            )
+            .await?
+            .0,
+        StatusCode::UNPROCESSABLE_ENTITY,
+        "an approval for contract A cannot pay contract B"
+    );
+    sqlx::query("UPDATE poms.receipt_record SET status='confirmed' WHERE id=$1")
+        .bind(original_receipt)
+        .execute(&f.pool)
+        .await?;
+    f.client
+        .ok(
+            "POST",
+            &format!("/api/commission-payouts/{payout}:registerPayout"),
+            json!({"payoutStage":"first","paidRecordAmount":"72","expectedVersion":3}),
+        )
+        .await?;
+    let paid: Value = sqlx::query_scalar(
+        "SELECT paid_contract_allocations FROM poms.commission_payout WHERE id=$1",
+    )
+    .bind(payout)
+    .fetch_one(&f.pool)
+    .await?;
+    assert_eq!(
+        paid.as_array()
+            .ok_or("paid packet")?
+            .iter()
+            .find(|r| r["contractId"] == first.to_string())
+            .ok_or("first allocation")?["amount"],
+        "72.00"
+    );
+    let recalculated=f.client.ok("POST",&format!("/api/commission-calculations/{calculation}:recalculate"),json!({"reason":"same pool, next independent contract installment","expectedVersion":2})).await?;
+    let calculation = row_id(&recalculated)?;
+    f.client
+        .ok(
+            "POST",
+            &format!("/api/commission-calculations/{calculation}:approve"),
+            json!({"expectedVersion":1}),
+        )
+        .await?;
+    // Controlled loss of historical evidence must remain UNKNOWN.
+    sqlx::query("UPDATE poms.commission_payout SET paid_contract_allocations=NULL WHERE id=$1")
+        .bind(payout)
+        .execute(&f.pool)
+        .await?;
+    let create = format!("/api/projects/{}/commission-payouts", i.project);
+    assert_eq!(
+        f.client
+            .call(
+                "POST",
+                &create,
+                json!({"calculationId":calculation,"stageType":"first"})
+            )
+            .await?
+            .0,
+        StatusCode::CONFLICT
+    );
+    sqlx::query("UPDATE poms.commission_payout SET paid_contract_allocations=$1 WHERE id=$2")
+        .bind(paid)
+        .bind(payout)
+        .execute(&f.pool)
+        .await?;
+    let next = payout_draft(&f.client, i.project, calculation, "first").await?;
+    assert_eq!(next["theoreticalCapAmountProjection"]["value"], "48.00");
+    let next_id = row_id(&next)?;
+    payout_approve(
+        &f.client,
+        &finance.client,
+        &f.pool,
+        next_id,
+        "first",
+        json!({}),
+        false,
+    )
+    .await?;
+    f.client
+        .ok(
+            "POST",
+            &format!("/api/commission-payouts/{next_id}:registerPayout"),
+            json!({"payoutStage":"first","paidRecordAmount":"48","expectedVersion":3}),
+        )
+        .await?;
+    let amounts:Vec<(Uuid,String)>=sqlx::query_as("SELECT (a->>'contractId')::uuid,SUM((a->>'amount')::numeric)::text FROM poms.commission_payout p CROSS JOIN LATERAL jsonb_array_elements(p.paid_contract_allocations) a WHERE project_id=$1 AND status='paid' GROUP BY a->>'contractId' ORDER BY a->>'contractId'").bind(i.project).fetch_all(&f.pool).await?;
+    assert!(amounts.contains(&(first, "72.00".into())));
+    assert!(amounts.contains(&(second, "48.00".into())));
+    let return_second=approve_adjustment(&f.client,&finance.client,&f.pool,i.project,json!({"adjustmentType":"clawback","relatedPayoutId":next_id,"amount":"48","reason":"return second installment before supplement"})).await?;
+    f.client
+        .ok(
+            "POST",
+            &format!("/api/commission-adjustments/{return_second}:execute"),
+            json!({"expectedVersion":3}),
+        )
+        .await?;
+    // Use the still-paid first record as the supplement's primary anchor. Its
+    // actual finance approval must capture only contract B's remaining share.
+    let supplement=approve_adjustment(&f.client,&finance.client,&f.pool,i.project,json!({"adjustmentType":"supplement","relatedPayoutId":payout,"amount":"48","reason":"explicit contract B supplement"})).await?;
+    let allocation: Value = sqlx::query_scalar(
+        "SELECT approved_contract_allocations FROM poms.commission_adjustment WHERE id=$1",
+    )
+    .bind(supplement)
+    .fetch_one(&f.pool)
+    .await?;
+    assert_eq!(
+        allocation
+            .as_array()
+            .ok_or("supplement allocation")?
+            .iter()
+            .find(|r| r["contractId"] == second.to_string())
+            .ok_or("second approval")?["amount"],
+        "48.00"
+    );
+    sqlx::query("UPDATE poms.receipt_record SET status='pending-confirmation' WHERE project_id=$1 AND contract_id=$2").bind(i.project).bind(second).execute(&f.pool).await?;
+    let return_first=approve_adjustment(&f.client,&finance.client,&f.pool,i.project,json!({"adjustmentType":"clawback","relatedPayoutId":payout,"amount":"48","reason":"contract A now has available balance"})).await?;
+    f.client
+        .ok(
+            "POST",
+            &format!("/api/commission-adjustments/{return_first}:execute"),
+            json!({"expectedVersion":3}),
+        )
+        .await?;
+    assert_eq!(
+        f.client
+            .call(
+                "POST",
+                &format!("/api/commission-adjustments/{supplement}:execute"),
+                json!({"expectedVersion":3})
+            )
+            .await?
+            .0,
+        StatusCode::UNPROCESSABLE_ENTITY,
+        "contract B approval cannot move to contract A's newly available 48"
+    );
+    sqlx::query(
+        "UPDATE poms.receipt_record SET status='confirmed' WHERE project_id=$1 AND contract_id=$2",
+    )
+    .bind(i.project)
+    .bind(second)
+    .execute(&f.pool)
+    .await?;
+    f.client
+        .ok(
+            "POST",
+            &format!("/api/commission-adjustments/{supplement}:execute"),
+            json!({"expectedVersion":3}),
+        )
+        .await?;
+    let actual:Value=sqlx::query_scalar("SELECT paid_contract_allocations FROM poms.commission_payout WHERE source_payout_id=$1 AND payout_kind='supplement'").bind(payout).fetch_one(&f.pool).await?;
+    assert_eq!(actual, allocation);
+    sqlx::query("INSERT INTO poms.contract(project_id,contract_no,status) VALUES($1,$2,'active')")
+        .bind(i.project)
+        .bind(format!("CS-added-after-freeze-{}", i.project))
+        .execute(&f.pool)
+        .await?;
+    assert_eq!(
+        f.client
+            .call(
+                "POST",
+                &create,
+                json!({"calculationId":calculation,"stageType":"first"})
+            )
+            .await?
+            .0,
+        StatusCode::CONFLICT
+    );
+    close_fixture(finance).await?;
+    close_fixture(f).await
+}
+
+#[tokio::test]
+#[ignore = "requires explicit dedicated commission DB initialized from application migrations"]
 async fn r5_tail_adjustment_refresh_and_settlement_rollback() -> Result {
     let f = tail_fixture().await?;
     let finance = tail_finance().await?;
-    let i = payout_inputs(&f.pool, f.user, "0", "0.20").await?;
+    let i = payout_inputs(&f.client, &f.pool, f.user, "0", "0.20").await?;
     sqlx::query("UPDATE poms.operating_signal_gate_binding SET tax_impact_pending_amount=NULL,tax_pending_knowledge='unknown' WHERE id=(SELECT binding_id FROM poms.commission_gate_review_record WHERE id=$1)").bind(i.review).execute(&f.pool).await?;
     let calc = calculated(&f.client, i.project, f.user).await?;
     let payout = row_id(&payout_draft(&f.client, i.project, calc, "final").await?)?;

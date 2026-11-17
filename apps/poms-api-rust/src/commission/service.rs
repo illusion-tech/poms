@@ -30,6 +30,20 @@ pub async fn execute(
     }
     if matches!(
         operation,
+        "CommissionController_listLowDownPaymentReleases"
+            | "CommissionController_approveLowDownPaymentRelease"
+    ) {
+        return super::low_down_payment::execute(
+            session,
+            operation,
+            keys.project_id()?,
+            request,
+            actor,
+        )
+        .await;
+    }
+    if matches!(
+        operation,
         "CommissionFreezeDisputeController_submitCommissionFreezeDispute"
             | "CommissionFreezeDisputeController_getCommissionFreezeDispute"
             | "CommissionFreezeDisputeController_arbitrateCommissionFreezeDispute"
@@ -356,8 +370,12 @@ async fn supported_facts(
             "缺少已生效合同，无法计算提成。".into(),
         ));
     }
-    let receipts: Decimal = sqlx::query_scalar("SELECT COALESCE(SUM(receipt_amount),0) FROM poms.receipt_record WHERE project_id=$1 AND status='confirmed'")
-        .bind(project).fetch_one(&mut *session.connection).await?;
+    let rows = super::contract_scope::qualified_receipts(session, project, None, false).await?;
+    let receipts = super::contract_scope::sum(
+        rows.iter()
+            .map(|r| super::payout_context::money(r, "amount_excluding_tax"))
+            .collect::<Result<Vec<_>, _>>()?,
+    )?;
     let payments: Decimal = sqlx::query_scalar("SELECT COALESCE(SUM(amount_excluding_tax),0) FROM poms.payment_record WHERE project_id=$1 AND status='confirmed'")
         .bind(project).fetch_one(&mut *session.connection).await?;
     if receipts < revenue || payments < cost {
@@ -419,6 +437,7 @@ async fn create_calculation(
     facts::project(session, project, true).await?;
     let revenue = model::amount(&input.recognized_revenue_tax_exclusive)?;
     let cost = model::amount(&input.recognized_cost_tax_exclusive)?;
+    frozen_assignment(session, project).await?;
     supported_facts(session, project, revenue, cost).await?;
     let selected_rule = rule(session, input.rule_version_id).await?;
     if selected_rule["status"] != "active" {
@@ -426,7 +445,6 @@ async fn create_calculation(
             "仅激活规则可用于新的提成计算。".into(),
         ));
     }
-    frozen_assignment(session, project).await?;
     let tiers: TierDefinition =
         serde_json::from_value(selected_rule["tier_definition_json"].clone())
             .map_err(|_| Error::Internal)?;

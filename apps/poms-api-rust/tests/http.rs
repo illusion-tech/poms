@@ -639,7 +639,7 @@ fn openapi_preserves_registered_business_operations_and_existing_health_schemas(
     let document = serde_json::to_value(http::openapi())?;
     let existing: Value = serde_json::from_str(EXISTING_OPENAPI)?;
     let paths = document["paths"].as_object().ok_or("missing paths")?;
-    assert_eq!(paths.len(), 242);
+    assert_eq!(paths.len(), 243);
     assert_eq!(
         paths
             .values()
@@ -651,7 +651,7 @@ fn openapi_preserves_registered_business_operations_and_existing_health_schemas(
                 .contains(&method.as_str()))
                 .count()))
             .sum::<usize>(),
-        296
+        298
     );
     let r4: Value = serde_json::from_str(include_str!(
         "../../../tools/rust-r4ghi/combined-operation-map02.json"

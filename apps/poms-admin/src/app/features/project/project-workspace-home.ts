@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
-import { ProjectStore, ProjectWorkspaceStore, type ProjectWorkspaceGuidanceView } from '@poms/admin-data-access';
+import { Component, computed, inject, ChangeDetectionStrategy } from '@angular/core';
+import { AuthStore, ProjectStore, ProjectWorkspaceStore, type ProjectWorkspaceGuidanceView } from '@poms/admin-data-access';
 import { SectionCard } from '../../shared/ui/sectioncard';
 import { WorkspaceActionLink } from '../../shared/ui/workspace-action-link';
 import { WorkspaceCommandPanel, type WorkspaceCommandPanelItem } from '../../shared/ui/workspace-command-panel';
@@ -13,6 +13,13 @@ import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
     changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         @if (project()) {
+            @if (canApproveLowDownPayment()) {
+                <section-card class="mb-6 block">
+                    <ng-template #title>低首付款管理层批准</ng-template>
+                    <ng-template #description>核实实际回款与业务条件，确认特例上限或解除限制。</ng-template>
+                    <app-workspace-action-link class="mt-4 block" [routerLink]="['/projects', project()!.id, 'commission', 'low-down-payment']" label="办理管理层批准" />
+                </section-card>
+            }
             @if (guidance(); as guidance) {
                 <div class="grid grid-cols-1 gap-6 xl:grid-cols-2">
                     <div class="flex flex-col gap-4">
@@ -60,6 +67,8 @@ import { WorkspaceFeedback } from '../../shared/ui/workspace-feedback';
     `
 })
 export class ProjectWorkspaceHome {
+    readonly #authStore = inject(AuthStore);
+    readonly canApproveLowDownPayment = computed(() => this.#authStore.hasAnyPermission(['commission:low-down-payment:approve']));
     readonly #projectStore = inject(ProjectStore);
     readonly #workspaceStore = inject(ProjectWorkspaceStore);
 

@@ -241,6 +241,16 @@ export const appRoutes: Routes = [
                             ],
                             requiredPermissionsMode: 'all'
                         }
+                    },
+                    {
+                        path: 'low-down-payment',
+                        loadComponent: () => import('./app/features/commission/project-commission-low-down-payment').then((c) => c.ProjectCommissionLowDownPayment),
+                        canActivate: [permissionGuard],
+                        data: {
+                            breadcrumb: '管理层批准',
+                            requiredPermissions: ['project:read', 'commission:low-down-payment:approve'],
+                            requiredPermissionsMode: 'all'
+                        }
                     }
                 ]
             },

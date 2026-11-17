@@ -62,3 +62,9 @@ a7bfe388阶段记录：复用命令见`apps/poms-api-rust/README.md`，日志在
 Clippy和Linux开发二进制build通过；实际`openapi-linux296.json`的296项method/path/operationId与现有完整共享规范逐项一致。独立TCP进程通过健康、CSRF、登录，以及发放列表、最终结算和规则解释3个查询，随后正常退出；对应`r5-tail-clippy-02.log`、`r5-tail-build-01.log`和`r5-tail-network-smoke-01.log`。此前Clippy条件嵌套警告已修复，原失败日志保留。此构建仍是本机开发产物，目标Debian12/glibc2.36发布验证另行完成。
 
 路由缺口已补完；剩余主要是多合同发放范围/分配、低首付款后续解锁、完整producer集成、前端核心流程联调、目标Linux包与TEST发布/回滚验证。#57/#116继续开放，旧验收工具框架不恢复。
+
+2026-11-18已完成多合同分摊与低首付款管理层批准增量：298项/243路径、提成30项。保留项目池，按合同不含税金额分摊；回款判断使用实际G净额及冻结模式；原始发放和补发均固定财务批准的合同分摊，不能换合同付款。管理层独立权限和页面不授予计算/发放/调整能力，15%特例和50%解锁仍不替代财务审批。
+
+Rust库557、HTTP18、共享枚举333组、SQL12及前端入口6项回归通过，Clippy、相关TypeScript/ESLint、Angular生产构建通过。实际Chromium→生产Angular→Rust→独立PG完成管理层选择合同、批准201及回读，合成账户不等于人工批准；失败、UNKNOWN和原件均保留。具体规则、迁移与验证见[多合同及低首付款交付记录](commission-low-down-payment-delivery-2026-11-17.md)。
+
+当前剩余为完整producer贯穿、其余核心页面联调，以及目标Linux包与TEST发布/回滚验证。本机开发产物的`__isoc23_strtol`要求GLIBC_2.38，目标Debian12/glibc2.36尚不可直接使用；需先完成兼容构建。#57/#116继续开放。

@@ -447,9 +447,30 @@ mod tests {
 
     #[test]
     fn all_frozen_original_zod_cases_match() {
-        let corpus: Value =
+        let delta: Value = serde_json::from_str(include_str!(
+            "../../../../tools/rust-commission/audit-current-golden.json"
+        ))
+        .unwrap_or_else(|_| panic!("golden"));
+        let mut corpus: Value =
             serde_json::from_str(include_str!("../../../../tools/rust-r2ef/f-golden.json"))
-                .unwrap_or_else(|_| panic!("golden"));
+                .unwrap_or_else(|_| panic!("historical golden"));
+        let rows = corpus["cases"]
+            .as_array_mut()
+            .unwrap_or_else(|| panic!("historical cases"));
+        for entry in delta["cases"]
+            .as_array()
+            .unwrap_or_else(|| panic!("current cases"))
+        {
+            if let Some(old) = rows.iter_mut().find(|old| {
+                old["schema"] == entry["schema"]
+                    && old["name"] == entry["name"]
+                    && old["inputRaw"] == entry["inputRaw"]
+            }) {
+                *old = entry.clone();
+            } else {
+                rows.push(entry.clone());
+            }
+        }
         for case in corpus["cases"]
             .as_array()
             .unwrap_or_else(|| panic!("cases"))
@@ -497,9 +518,10 @@ mod tests {
 
     #[test]
     fn field_order_and_permission_source_match_mechanical_authority() {
-        let authority: Value =
-            serde_json::from_str(include_str!("../../../../tools/rust-r2ef/f-authority.json"))
-                .unwrap_or_else(|_| panic!("authority"));
+        let authority: Value = serde_json::from_str(include_str!(
+            "../../../../tools/rust-commission/audit-current-authority.json"
+        ))
+        .unwrap_or_else(|_| panic!("authority"));
         for kind in [QueryKind::Audit, QueryKind::Entity, QueryKind::Security] {
             assert_eq!(
                 json!(query_fields(kind)),

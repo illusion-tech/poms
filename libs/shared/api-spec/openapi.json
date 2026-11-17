@@ -12540,6 +12540,88 @@
           "Commission Freeze Change Requests"
         ]
       }
+    },
+    "/api/projects/{projectId}/commission-low-down-payment-releases": {
+      "get": {
+        "operationId": "CommissionController_listLowDownPaymentReleases",
+        "summary": "查询低首付款批准条件和管理层批准记录",
+        "tags": [
+          "Commission"
+        ],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommissionLowDownPaymentReleaseListView"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "CommissionController_approveLowDownPaymentRelease",
+        "summary": "管理层确认低首付款特例或解除",
+        "tags": [
+          "Commission"
+        ],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "security": [
+          {
+            "pomsSession": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApproveCommissionLowDownPaymentReleaseRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommissionLowDownPaymentReleaseSummary"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "info": {
@@ -12800,6 +12882,7 @@
                 "commission:calculations:manage",
                 "commission:payouts:manage",
                 "commission:adjustments:manage",
+                "commission:low-down-payment:approve",
                 "contract:finance:manage",
                 "contract:finance:sensitive:read",
                 "operating:finance:sensitive:read",
@@ -12967,6 +13050,7 @@
                 "commission:calculations:manage",
                 "commission:payouts:manage",
                 "commission:adjustments:manage",
+                "commission:low-down-payment:approve",
                 "contract:finance:manage",
                 "contract:finance:sensitive:read",
                 "operating:finance:sensitive:read",
@@ -13142,6 +13226,7 @@
                 "commission:calculations:manage",
                 "commission:payouts:manage",
                 "commission:adjustments:manage",
+                "commission:low-down-payment:approve",
                 "contract:finance:manage",
                 "contract:finance:sensitive:read",
                 "operating:finance:sensitive:read",
@@ -13856,6 +13941,7 @@
               "commission:calculations:manage",
               "commission:payouts:manage",
               "commission:adjustments:manage",
+              "commission:low-down-payment:approve",
               "contract:finance:manage",
               "contract:finance:sensitive:read",
               "operating:finance:sensitive:read",
@@ -14033,6 +14119,7 @@
                 "commission:calculations:manage",
                 "commission:payouts:manage",
                 "commission:adjustments:manage",
+                "commission:low-down-payment:approve",
                 "contract:finance:manage",
                 "contract:finance:sensitive:read",
                 "operating:finance:sensitive:read",
@@ -14169,6 +14256,7 @@
                 "commission:calculations:manage",
                 "commission:payouts:manage",
                 "commission:adjustments:manage",
+                "commission:low-down-payment:approve",
                 "contract:finance:manage",
                 "contract:finance:sensitive:read",
                 "operating:finance:sensitive:read",
@@ -14585,6 +14673,7 @@
                 "commission:calculations:manage",
                 "commission:payouts:manage",
                 "commission:adjustments:manage",
+                "commission:low-down-payment:approve",
                 "contract:finance:manage",
                 "contract:finance:sensitive:read",
                 "operating:finance:sensitive:read",
@@ -45319,6 +45408,246 @@
           "period-end",
           "restated"
         ]
+      },
+      "CommissionLowDownPaymentDecision": {
+        "type": "string",
+        "enum": [
+          "raise-first-cap",
+          "release-standard"
+        ]
+      },
+      "ApproveCommissionLowDownPaymentReleaseRequest": {
+        "type": "object",
+        "properties": {
+          "freezeVersionId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "expectedFreezeVersion": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 2147483647,
+            "minimum": 0
+          },
+          "contractIds": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            },
+            "uniqueItems": true
+          },
+          "decision": {
+            "$ref": "#/components/schemas/CommissionLowDownPaymentDecision"
+          },
+          "conditionsConfirmed": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          }
+        },
+        "required": [
+          "freezeVersionId",
+          "expectedFreezeVersion",
+          "contractIds",
+          "decision",
+          "conditionsConfirmed",
+          "reason"
+        ]
+      },
+      "CommissionLowDownPaymentReleaseSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "freezeVersionId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "sourceHandoverId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "contractIds": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
+          },
+          "decision": {
+            "$ref": "#/components/schemas/CommissionLowDownPaymentDecision"
+          },
+          "reasonProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
+          "approvedBy": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "approvedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "rowVersion": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
+          },
+          "currentApplicable": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "projectId",
+          "freezeVersionId",
+          "sourceHandoverId",
+          "contractIds",
+          "decision",
+          "reasonProjection",
+          "approvedBy",
+          "approvedAt",
+          "rowVersion",
+          "currentApplicable"
+        ],
+        "additionalProperties": false
+      },
+      "CommissionLowDownPaymentContractContext": {
+        "type": "object",
+        "properties": {
+          "contractId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "contractNo": {
+            "type": "string"
+          },
+          "amountTaxExclusiveProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
+          "confirmedReceiptsTaxExclusiveProjection": {
+            "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+          },
+          "lowDownPayment": {
+            "type": "boolean"
+          },
+          "availableDecisions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommissionLowDownPaymentDecision"
+            }
+          }
+        },
+        "required": [
+          "contractId",
+          "contractNo",
+          "amountTaxExclusiveProjection",
+          "confirmedReceiptsTaxExclusiveProjection",
+          "lowDownPayment",
+          "availableDecisions"
+        ],
+        "additionalProperties": false
+      },
+      "CommissionLowDownPaymentContext": {
+        "type": "object",
+        "properties": {
+          "freezeVersionId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "expectedFreezeVersion": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
+          },
+          "sourceHandoverId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "receiptJudgmentMode": {
+            "$ref": "#/components/schemas/ProjectReceiptJudgmentMode"
+          },
+          "contracts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommissionLowDownPaymentContractContext"
+            }
+          }
+        },
+        "required": [
+          "freezeVersionId",
+          "expectedFreezeVersion",
+          "sourceHandoverId",
+          "receiptJudgmentMode",
+          "contracts"
+        ],
+        "additionalProperties": false
+      },
+      "CommissionLowDownPaymentReleaseListView": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "currentContext": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CommissionLowDownPaymentContext"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "blockingReason": {
+            "type": "string",
+            "nullable": true
+          },
+          "records": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommissionLowDownPaymentReleaseSummary"
+            }
+          }
+        },
+        "required": [
+          "projectId",
+          "currentContext",
+          "blockingReason",
+          "records"
+        ],
+        "additionalProperties": false
       }
     }
   }

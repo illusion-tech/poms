@@ -197,6 +197,18 @@ pub enum Request {
     SubmitDispute(SubmitDispute),
     ArbitrateDispute(ArbitrateDispute),
     DepartureDecision(DepartureDecision),
+    ApproveLowDown(ApproveLowDown),
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ApproveLowDown {
+    pub freeze_version_id: Uuid,
+    pub expected_freeze_version: i32,
+    pub contract_ids: Vec<Uuid>,
+    pub decision: crate::shared::generated::CommissionLowDownPaymentDecision,
+    pub conditions_confirmed: bool,
+    pub reason: String,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -282,6 +294,25 @@ impl Request {
             Ok(())
         }
         Ok(match operation {
+            "CommissionController_approveLowDownPaymentRelease" => {
+                let input: ApproveLowDown = parse(raw)?;
+                expected(Some(input.expected_freeze_version))?;
+                bounded_text(&input.reason, 2000, false)?;
+                if !input.conditions_confirmed
+                    || input.contract_ids.is_empty()
+                    || input
+                        .contract_ids
+                        .iter()
+                        .collect::<std::collections::BTreeSet<_>>()
+                        .len()
+                        != input.contract_ids.len()
+                {
+                    return Err(Error::BadRequest(
+                        "须确认本次业务条件并明确选择不重复的合同。".into(),
+                    ));
+                }
+                Self::ApproveLowDown(input)
+            }
             "CommissionFreezeDisputeController_submitCommissionFreezeDispute" => {
                 let input: SubmitDispute = parse(raw)?;
                 expected(input.expected_version)?;

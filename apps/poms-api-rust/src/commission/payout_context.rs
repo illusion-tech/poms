@@ -1,20 +1,29 @@
-use super::model;
+use super::{
+    contract_scope::{self, Term},
+    model,
+};
 use crate::{
     approval_common::CommonSession,
     contract_support::Error,
-    project_lifecycle::facts::{id, text},
-    shared::generated::{CommissionPayoutStage as Stage, CommissionPayoutTier as Tier},
+    project_lifecycle::facts::id,
+    shared::generated::{
+        CommissionPayoutStage as Stage, CommissionPayoutTier as Tier,
+        ProjectReceiptJudgmentMode as Mode,
+    },
 };
 use rust_decimal::{Decimal, RoundingStrategy};
 use serde_json::Value;
-use std::{collections::BTreeMap, str::FromStr};
+use std::{collections::BTreeSet, str::FromStr};
 use uuid::Uuid;
 
 pub(super) struct Source {
     pub freeze: Value,
-    pub term: Value,
     pub binding: Option<Value>,
     pub review: Option<Value>,
+    pub terms: Vec<Term>,
+    pub mode: Mode,
+    pub raised: BTreeSet<Uuid>,
+    pub released: BTreeSet<Uuid>,
 }
 
 pub(super) fn money(row: &Value, field: &str) -> Result<Decimal, Error> {
@@ -66,6 +75,18 @@ async fn load_source(
     stage: Stage,
     enforce_eligibility: bool,
 ) -> Result<Source, Error> {
+    if enforce_eligibility {
+        let p = crate::project_lifecycle::facts::project(session, project, false).await?;
+        if !matches!(
+            p["current_stage"].as_str(),
+            Some("execution" | "acceptance" | "completed" | "conditional-completed")
+        ) || matches!(p["status"].as_str(), Some("blocked" | "closed"))
+        {
+            return Err(Error::Unprocessable(
+                "尚未进入实际实施阶段或项目存在经营阻断。".into(),
+            ));
+        }
+    }
     let freeze: Value = sqlx::query_scalar("SELECT to_jsonb(a) FROM poms.commission_role_assignment a WHERE project_id=$1 AND is_current AND status='frozen' FOR SHARE")
         .bind(project).fetch_optional(&mut *session.connection).await?
         .ok_or_else(||Error::Unprocessable("缺少当前已冻结角色分配。".into()))?;
@@ -78,21 +99,19 @@ async fn load_source(
     if !valid {
         return Err(Error::Conflict("冻结角色与当前已确认移交不一致。".into()));
     }
-    let active: i64 = sqlx::query_scalar(
-        "SELECT count(*) FROM poms.contract WHERE project_id=$1 AND status='active'",
-    )
-    .bind(project)
-    .fetch_one(&mut *session.connection)
-    .await?;
-    if active != 1 {
-        return Err(Error::Conflict(
-            "发放需要明确唯一合同冻结口径，不能推测多合同资格。".into(),
-        ));
+    let (terms, mode) = contract_scope::load(session, project, &freeze).await?;
+    if freeze["producer_version"] == 1 && enforce_eligibility {
+        crate::commission_assignment::require_current_frozen(
+            session,
+            project,
+            id(&freeze, "id")?,
+            None,
+        )
+        .await?;
     }
-    let term: Value = sqlx::query_scalar("SELECT to_jsonb(t)||jsonb_build_object('amount_tax_exclusive',t.amount_tax_exclusive::text,'down_payment_rate',t.down_payment_rate::text,'retention_rate',t.retention_rate::text) FROM poms.contract_term_snapshot t JOIN poms.contract c ON c.id=t.contract_id AND c.current_snapshot_id=t.id WHERE t.id=$1 AND c.project_id=$2 AND c.status='active' AND t.snapshot_status='active' FOR SHARE OF t,c")
-        .bind(baseline).bind(project).fetch_optional(&mut *session.connection).await?
-        .ok_or_else(||Error::Conflict("冻结合同基线已变化，请先明确发放依据。".into()))?;
-    fraction(&term, "retention_rate")?;
+    if !terms.iter().any(|t| t.snapshot == baseline) {
+        return Err(Error::Conflict("兼容基线不属于当前冻结合同集合。".into()));
+    }
     let selected_stage = if stage == Stage::Retention {
         "final"
     } else {
@@ -126,12 +145,67 @@ async fn load_source(
     if enforce_eligibility && open {
         return Err(Error::Unprocessable("冻结版本仍有未收口争议。".into()));
     }
-    Ok(Source {
+    let mut source = Source {
         freeze,
-        term,
         binding,
         review,
-    })
+        terms,
+        mode,
+        raised: BTreeSet::new(),
+        released: BTreeSet::new(),
+    };
+    let releases:Vec<Value>=sqlx::query_scalar("SELECT to_jsonb(r) FROM poms.commission_low_down_payment_release r WHERE project_id=$1 AND freeze_version_id=$2")
+        .bind(project).bind(id(&source.freeze,"id")?).fetch_all(&mut *session.connection).await?;
+    for release in releases {
+        if !release_applies(&source, &release)? {
+            continue;
+        }
+        for contract in release["contract_ids"].as_array().ok_or(Error::Internal)? {
+            let contract = contract
+                .as_str()
+                .and_then(|v| Uuid::parse_str(v).ok())
+                .ok_or(Error::Internal)?;
+            if release["decision"] == "release-standard" {
+                source.released.insert(contract);
+            } else {
+                source.raised.insert(contract);
+            }
+        }
+    }
+    Ok(source)
+}
+
+pub(super) fn release_applies(source: &Source, release: &Value) -> Result<bool, Error> {
+    if release["freeze_version_id"] != source.freeze["id"]
+        || release["freeze_row_version"] != source.freeze["row_version"]
+        || release["source_handover_id"] != source.freeze["source_handover_id"]
+        || release["source_contract_scope"] != contract_scope::references(&source.terms)
+        || release["criteria"]["receiptJudgmentMode"] != source.mode.as_str()
+    {
+        return Ok(false);
+    }
+    let threshold = if release["decision"] == "release-standard" {
+        Decimal::new(50, 2)
+    } else if release["decision"] == "raise-first-cap" {
+        Decimal::new(20, 2)
+    } else {
+        return Err(Error::Conflict("未知的管理层批准决定。".into()));
+    };
+    for contract in release["contract_ids"].as_array().ok_or(Error::Internal)? {
+        let contract = contract
+            .as_str()
+            .and_then(|v| Uuid::parse_str(v).ok())
+            .ok_or(Error::Internal)?;
+        let Some(term) = source.terms.iter().find(|t| t.contract == contract) else {
+            return Ok(false);
+        };
+        if term.down >= Decimal::new(20, 2)
+            || !contract_scope::receipt_eligible(&source.terms, source.mode, term, threshold)?
+        {
+            return Ok(false);
+        }
+    }
+    Ok(true)
 }
 
 pub(super) async fn stage_eligible(
@@ -143,20 +217,14 @@ pub(super) async fn stage_eligible(
     if stage == Stage::Retention {
         return Ok(());
     }
-    let amount = money(&source.term, "amount_tax_exclusive")?;
-    if amount <= Decimal::ZERO {
-        return Err(Error::Unprocessable(
-            "合同不含税金额必须明确且为正数。".into(),
-        ));
-    }
-    let receipts: Decimal = sqlx::query_scalar("SELECT COALESCE(SUM(receipt_amount),0) FROM poms.receipt_record WHERE project_id=$1 AND contract_id=$2 AND status='confirmed'")
-        .bind(project).bind(id(&source.term,"contract_id")?).fetch_one(&mut *session.connection).await?;
-    let threshold = match stage {
-        Stage::First => Decimal::new(20, 2),
-        Stage::Second => Decimal::new(80, 2),
-        _ => Decimal::ONE - fraction(&source.term, "retention_rate")?,
-    };
-    if receipts < amount.checked_mul(threshold).ok_or(Error::Internal)? {
+    if !source
+        .terms
+        .iter()
+        .map(|term| stage_contract_eligible(source, term, stage))
+        .collect::<Result<Vec<_>, _>>()?
+        .into_iter()
+        .any(|v| v)
+    {
         return Err(Error::Unprocessable(
             "当前实际回款未达到本阶段发放条件。".into(),
         ));
@@ -173,80 +241,187 @@ pub(super) async fn stage_eligible(
     Ok(())
 }
 
-pub(super) fn cumulative_limit(
+pub(super) fn stage_contract_eligible(
+    source: &Source,
+    term: &Term,
+    stage: Stage,
+) -> Result<bool, Error> {
+    if stage == Stage::Retention {
+        return Ok(true);
+    }
+    if stage == Stage::Final && source.mode == Mode::ProjectAggregate {
+        let required = contract_scope::sum(
+            source
+                .terms
+                .iter()
+                .map(|t| {
+                    t.amount
+                        .checked_mul(Decimal::ONE - t.retention)
+                        .ok_or(Error::Internal)
+                })
+                .collect::<Result<Vec<_>, _>>()?,
+        )?;
+        return Ok(contract_scope::sum(source.terms.iter().map(|t| t.receipts))? >= required);
+    }
+    let threshold = match stage {
+        Stage::First => Decimal::new(20, 2),
+        Stage::Second => Decimal::new(80, 2),
+        _ => Decimal::ONE - term.retention,
+    };
+    contract_scope::receipt_eligible(&source.terms, source.mode, term, threshold)
+}
+pub(super) fn limits(
     pool: Decimal,
     stage: Stage,
     tier: Tier,
     source: &Source,
-) -> Result<Decimal, Error> {
-    let retention = fraction(&source.term, "retention_rate")?;
-    let percent = match stage {
-        Stage::First if fraction(&source.term, "down_payment_rate")? < Decimal::new(20, 2) => {
-            if tier == Tier::Basic {
-                10
-            } else {
-                15
-            }
-        }
-        Stage::First => match tier {
-            Tier::Basic => 20,
-            Tier::Mid => 25,
-            Tier::Premium => 30,
-        },
-        Stage::Second => match tier {
-            Tier::Basic => 70,
-            Tier::Mid => 75,
-            Tier::Premium => 80,
-        },
-        _ => 100,
-    };
-    let rate = if stage == Stage::Retention {
-        Decimal::ONE
-    } else {
-        Decimal::new(percent, 2).min(Decimal::ONE - retention)
-    };
-    pool.checked_mul(rate).map(rounded).ok_or(Error::Internal)
-}
-
-/// Read the existing cash records, including older calculation versions and
-/// supplements. A pause does not erase cash already registered as paid.
-pub(super) async fn balances(
-    session: &mut CommonSession<'_, '_>,
-    project: Uuid,
-) -> Result<(Decimal, Decimal), Error> {
-    let clawbacks: Vec<(Uuid,Option<Decimal>,bool)> = sqlx::query_as("SELECT related_payout_id,SUM(amount),COALESCE(bool_and(amount IS NOT NULL AND amount>0),false) FROM poms.commission_adjustment WHERE project_id=$1 AND status='executed' AND adjustment_type='clawback' GROUP BY related_payout_id")
-        .bind(project).fetch_all(&mut *session.connection).await?;
-    let mut deductions = BTreeMap::new();
-    for (payout, amount, valid) in clawbacks {
-        if !valid {
-            return Err(Error::Conflict(
-                "历史扣回金额未知，不能推测发放余额。".into(),
-            ));
-        }
-        deductions.insert(payout, amount.ok_or(Error::Internal)?);
-    }
-    let rows: Vec<Value> = sqlx::query_scalar("SELECT to_jsonb(p)||jsonb_build_object('paid_record_amount',p.paid_record_amount::text) FROM poms.commission_payout p WHERE project_id=$1 AND status IN ('paid','suspended','reversed') ORDER BY id")
-        .bind(project).fetch_all(&mut *session.connection).await?;
-    let (mut total, mut nonretention) = (Decimal::ZERO, Decimal::ZERO);
-    for row in rows {
-        if row["status"] == "reversed"
-            || (row["status"] == "suspended" && row["paid_record_amount"].is_null())
-        {
+) -> Result<Vec<(Uuid, Decimal)>, Error> {
+    let shares = contract_scope::apportion(
+        pool,
+        &source
+            .terms
+            .iter()
+            .map(|t| (t.contract, t.amount))
+            .collect::<Vec<_>>(),
+    )?;
+    let mut caps = Vec::new();
+    for (contract, share) in shares {
+        let term = source
+            .terms
+            .iter()
+            .find(|t| t.contract == contract)
+            .ok_or(Error::Internal)?;
+        if !stage_contract_eligible(source, term, stage)? {
+            caps.push((contract, Decimal::ZERO));
             continue;
         }
-        let paid = money(&row, "paid_record_amount")?;
-        let returned = deductions
-            .get(&id(&row, "id")?)
-            .copied()
-            .unwrap_or(Decimal::ZERO);
-        if returned > paid {
-            return Err(Error::Conflict("历史累计扣回超过已发放金额。".into()));
+        let percent = match stage {
+            Stage::First => match tier {
+                Tier::Basic => 20,
+                Tier::Mid => 25,
+                Tier::Premium => 30,
+            },
+            Stage::Second => match tier {
+                Tier::Basic => 70,
+                Tier::Mid => 75,
+                Tier::Premium => 80,
+            },
+            _ => 100,
+        };
+        let mut rate = Decimal::new(percent, 2);
+        if stage == Stage::Retention {
+            rate = if term.down < Decimal::new(20, 2) && !source.released.contains(&contract) {
+                Decimal::ZERO
+            } else {
+                Decimal::ONE
+            };
+        } else {
+            if term.down < Decimal::new(20, 2) && !source.released.contains(&contract) {
+                rate = Decimal::new(
+                    if source.raised.contains(&contract) && tier != Tier::Basic {
+                        15
+                    } else {
+                        10
+                    },
+                    2,
+                );
+            }
+            rate = rate.min(Decimal::ONE - term.retention);
         }
-        let net = paid - returned;
-        total = total.checked_add(net).ok_or(Error::Internal)?;
-        if text(&row, "stage_type")? != "retention" {
-            nonretention = nonretention.checked_add(net).ok_or(Error::Internal)?;
+        caps.push((contract, share.checked_mul(rate).ok_or(Error::Internal)?));
+    }
+    contract_scope::round_distribution(&caps)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use serde_json::json;
+
+    fn source() -> Source {
+        let term = |n, amount, retention, receipts| Term {
+            contract: Uuid::from_u128(n),
+            snapshot: Uuid::from_u128(n + 10),
+            amount: Decimal::new(amount, 0),
+            down: Decimal::new(20, 2),
+            retention: Decimal::new(retention, 2),
+            due: Some("2026-01-01".into()),
+            currency: "CNY".into(),
+            receipts: Decimal::new(receipts, 0),
+            row_version: 1,
+            payload_hash: None,
+        };
+        Source {
+            freeze: json!({"id":Uuid::from_u128(100),"row_version":1,"source_handover_id":Uuid::from_u128(101)}),
+            binding: None,
+            review: None,
+            terms: vec![term(1, 60000, 10, 20000), term(2, 40000, 20, 0)],
+            mode: Mode::ProjectAggregate,
+            raised: BTreeSet::new(),
+            released: BTreeSet::new(),
         }
     }
-    Ok((total, nonretention))
+
+    #[test]
+    fn project_pool_shares_obey_frozen_receipt_mode_and_each_contract_retention() {
+        let mut s = source();
+        let pool = Decimal::new(1000, 0);
+        assert_eq!(
+            limits(pool, Stage::First, Tier::Basic, &s).unwrap(),
+            vec![
+                (Uuid::from_u128(1), Decimal::new(120, 0)),
+                (Uuid::from_u128(2), Decimal::new(80, 0))
+            ]
+        );
+        s.mode = Mode::ContractSeparate;
+        assert_eq!(
+            limits(pool, Stage::First, Tier::Basic, &s).unwrap(),
+            vec![
+                (Uuid::from_u128(1), Decimal::new(120, 0)),
+                (Uuid::from_u128(2), Decimal::ZERO)
+            ]
+        );
+        s.terms[0].receipts = Decimal::new(54000, 0);
+        s.terms[1].receipts = Decimal::new(32000, 0);
+        assert_eq!(
+            limits(pool, Stage::Final, Tier::Premium, &s).unwrap(),
+            vec![
+                (Uuid::from_u128(1), Decimal::new(540, 0)),
+                (Uuid::from_u128(2), Decimal::new(320, 0))
+            ]
+        );
+        assert_eq!(
+            super::super::cash_allocation::nonretention_limit(pool, &s).unwrap(),
+            Decimal::new(860, 0)
+        );
+    }
+
+    #[test]
+    fn low_down_payment_cap_cannot_be_bypassed_by_later_stage_or_tier() {
+        let mut s = source();
+        let contract = s.terms[0].contract;
+        s.mode = Mode::ContractSeparate;
+        s.terms[0].down = Decimal::new(10, 2);
+        s.terms[0].receipts = Decimal::new(60000, 0);
+        for stage in [Stage::First, Stage::Second, Stage::Final] {
+            assert_eq!(
+                limits(Decimal::new(1000, 0), stage, Tier::Premium, &s).unwrap()[0].1,
+                Decimal::new(60, 0)
+            );
+        }
+        s.raised.insert(contract);
+        assert_eq!(
+            limits(Decimal::new(1000, 0), Stage::Second, Tier::Premium, &s).unwrap()[0].1,
+            Decimal::new(90, 0)
+        );
+        s.released.insert(contract);
+        assert_eq!(
+            limits(Decimal::new(1000, 0), Stage::Second, Tier::Premium, &s).unwrap()[0].1,
+            Decimal::new(480, 0)
+        );
+        let mut record = json!({"freeze_version_id":s.freeze["id"],"freeze_row_version":1,"source_handover_id":s.freeze["source_handover_id"],"source_contract_scope":contract_scope::references(&s.terms),"contract_ids":[contract],"decision":"release-standard","criteria":{"receiptJudgmentMode":"contract-separate"}});
+        assert!(release_applies(&s, &record).unwrap());
+        record["criteria"]["receiptJudgmentMode"] = json!("project-aggregate");
+        assert!(!release_applies(&s, &record).unwrap());
+    }
 }

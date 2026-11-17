@@ -37,6 +37,12 @@ fn required_packages(
     // Historical and current commission writes can contain full monetary rows
     // without package metadata. An audit-management permission is not a second
     // path around the domain's independent amount/operating-finance grants.
+    if row.target_type == "commission-low-down-payment-release" {
+        names.extend([
+            "contract-finance".to_owned(),
+            "exception-approval-opinion".to_owned(),
+        ]);
+    }
     if matches!(
         row.target_type.as_str(),
         "commission-calculation" | "CommissionCalculation"

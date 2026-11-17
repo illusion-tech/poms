@@ -1,4 +1,5 @@
 use super::{
+    cash_allocation as cash, contract_scope,
     model::{self, ApprovePayout, CreatePayout, RegisterPayout, Request, SubmitPayout},
     payout_context::{self as context, Source},
     service::{check_version, projection_packet},
@@ -93,28 +94,25 @@ async fn calculation(
 async fn available(
     session: &mut CommonSession<'_, '_>,
     payout: &Value,
-) -> Result<(Decimal, Source, bool), Error> {
+) -> Result<(Decimal, Source, bool, Vec<(Uuid, Decimal)>), Error> {
     let project = id(payout, "project_id")?;
     let stage = stage(payout)?;
     let source = context::source(session, project, stage).await?;
+    cash::check_scope(payout, &source)?;
     context::stage_eligible(session, project, stage, &source).await?;
     let pool = calculation(session, project, id(payout, "calculation_id")?).await?;
     let tier = text(payout, "selected_tier")?
         .parse()
         .map_err(|_| Error::Internal)?;
-    let limit = context::cumulative_limit(pool, stage, tier, &source)?;
-    let (paid, nonretention) = context::balances(session, project).await?;
-    let used = if stage == Stage::Retention {
-        paid
-    } else {
-        nonretention
-    };
-    let remaining = (limit - used).min(pool - paid);
+    let (allocations, balances) =
+        cash::remaining(session, project, pool, stage, tier, &source).await?;
+    let remaining = contract_scope::sum(allocations.iter().map(|(_, v)| *v))?;
+    let nonretention = contract_scope::sum(balances.nonretention.values().copied())?;
     let zero_final = stage == Stage::Final
         && remaining == Decimal::ZERO
-        && nonretention == limit
-        && paid <= pool;
-    Ok((remaining.max(Decimal::ZERO), source, zero_final))
+        && nonretention == cash::nonretention_limit(pool, &source)?
+        && balances.total <= pool;
+    Ok((remaining, source, zero_final, allocations))
 }
 async fn summary(
     session: &mut CommonSession<'_, '_>,
@@ -167,24 +165,27 @@ async fn create(
             "当前计算版本与发放阶段已有原始发放记录。".into(),
         ));
     }
-    let (paid, nonretention) = context::balances(session, project).await?;
-    let limit = context::cumulative_limit(pool, input.stage_type, input.selected_tier, &source)?;
-    let used = if input.stage_type == Stage::Retention {
-        paid
-    } else {
-        nonretention
-    };
-    let cap = (limit - used).min(pool - paid);
+    let (available, balances) = cash::remaining(
+        session,
+        project,
+        pool,
+        input.stage_type,
+        input.selected_tier,
+        &source,
+    )
+    .await?;
+    let cap = contract_scope::sum(available.iter().map(|(_, v)| *v))?;
+    let nonretention = contract_scope::sum(balances.nonretention.values().copied())?;
     let zero_final = input.stage_type == Stage::Final
         && cap == Decimal::ZERO
-        && nonretention == limit
-        && paid <= pool;
+        && nonretention == cash::nonretention_limit(pool, &source)?
+        && balances.total <= pool;
     if cap < Decimal::ZERO || (cap == Decimal::ZERO && !zero_final) {
         return Err(Error::Unprocessable("当前阶段无剩余可发放金额。".into()));
     }
     let payout = new_uuid()?;
-    sqlx::query("INSERT INTO poms.commission_payout(id,project_id,calculation_id,stage_type,payout_kind,selected_tier,theoretical_cap_amount,status,created_by,updated_by) VALUES($1,$2,$3,$4,'primary',$5,$6,'draft',$7,$7)")
-        .bind(payout).bind(project).bind(input.calculation_id).bind(input.stage_type.as_str()).bind(input.selected_tier.as_str()).bind(cap).bind(actor.id).execute(&mut *session.connection).await?;
+    sqlx::query("INSERT INTO poms.commission_payout(id,project_id,calculation_id,stage_type,payout_kind,selected_tier,theoretical_cap_amount,status,created_by,updated_by,source_contract_scope) VALUES($1,$2,$3,$4,'primary',$5,$6,'draft',$7,$7,$8)")
+        .bind(payout).bind(project).bind(input.calculation_id).bind(input.stage_type.as_str()).bind(input.selected_tier.as_str()).bind(cap).bind(actor.id).bind(cash::scope(&source)).execute(&mut *session.connection).await?;
     let after = row(session, payout).await?;
     facts::record(
         session,
@@ -234,7 +235,7 @@ fn validate_refs(input: &SubmitPayout, source: &Source) -> Result<(), Error> {
     }
     Ok(())
 }
-async fn ready(
+pub(super) async fn ready(
     session: &mut CommonSession<'_, '_>,
     project: Uuid,
     source: &Source,
@@ -286,7 +287,7 @@ async fn submit(
     if stage(&before)? != input.payout_stage {
         return Err(Error::BadRequest("发放阶段与记录不一致。".into()));
     }
-    let (available, source, zero_final) = available(session, &before).await?;
+    let (available, source, zero_final, _) = available(session, &before).await?;
     if available <= Decimal::ZERO && !zero_final {
         return Err(Error::Unprocessable("当前阶段发放余额已用尽。".into()));
     }
@@ -320,8 +321,8 @@ async fn submit(
         .bind(approval).bind(payout).bind(project).bind(actor.id).bind(approver).bind(now).execute(&mut *session.connection).await?;
     sqlx::query("INSERT INTO poms.todo_item(id,source_type,source_id,todo_type,business_domain,target_object_type,target_object_id,project_id,title,assignee_user_id,status,priority) VALUES($1,'approval-record',$2,'approval','commission','commission-payout',$3,$4,$5,$6,'open','high')")
         .bind(todo).bind(approval).bind(payout).bind(project).bind(format!("提成发放审批：{}",input.payout_stage.as_str())).bind(approver).execute(&mut *session.connection).await?;
-    sqlx::query("UPDATE poms.commission_payout SET status='pending-approval',row_version=row_version+1,updated_at=$1,updated_by=$2 WHERE id=$3")
-        .bind(now).bind(actor.id).bind(payout).execute(&mut *session.connection).await?;
+    sqlx::query("UPDATE poms.commission_payout SET status='pending-approval',row_version=row_version+1,updated_at=$1,updated_by=$2,theoretical_cap_amount=$4,source_contract_scope=COALESCE(source_contract_scope,$5) WHERE id=$3")
+        .bind(now).bind(actor.id).bind(payout).bind(available).bind(cash::scope(&source)).execute(&mut *session.connection).await?;
     let after = row(session, payout).await?;
     facts::record(session,actor,"CommissionController_submitPayoutApproval","commission-payout",payout,project,Some(before),json!({"payout":after,"approvalRecordId":approval,"todoItemId":todo,"comment":input.comment.as_deref().map(str::trim)})).await?;
     summary(session, &after, actor).await
@@ -338,7 +339,7 @@ pub(crate) async fn prepare_approval(
     if before["status"] != "pending-approval" {
         return Err(Error::Conflict("发放不处于待审批状态。".into()));
     }
-    let (remaining, source, zero_final) = available(session, &before).await?;
+    let (remaining, source, zero_final, allocations) = available(session, &before).await?;
     let cap = context::money(&before, "theoretical_cap_amount")?.min(remaining);
     if cap <= Decimal::ZERO && !zero_final {
         return Err(Error::Unprocessable("当前阶段无可批准发放余额。".into()));
@@ -356,11 +357,44 @@ pub(crate) async fn prepare_approval(
     if stage(&before)? == Stage::Retention {
         ready(session, project, &source, None, None).await?;
     }
-    sqlx::query("UPDATE poms.commission_payout SET approved_amount=$1 WHERE id=$2")
+    let approved = contract_scope::apportion(amount, &allocations)?;
+    sqlx::query("UPDATE poms.commission_payout SET approved_amount=$1,approved_contract_allocations=$3,source_contract_scope=COALESCE(source_contract_scope,$4) WHERE id=$2")
         .bind(amount)
         .bind(payout)
+        .bind(cash::packet(&source,&approved)?)
+        .bind(cash::scope(&source))
         .execute(&mut *session.connection)
         .await?;
+    Ok(())
+}
+
+/// Runs after the shared approval service has flushed its real decision, while
+/// the authenticated caller's outer transaction and project lock are still held.
+pub(crate) async fn after_approval(
+    session: &mut CommonSession<'_, '_>,
+    approval: Uuid,
+) -> Result<(), Error> {
+    let payout:Option<Value>=sqlx::query_scalar("SELECT to_jsonb(p) FROM poms.approval_record a JOIN poms.commission_payout p ON p.id=a.target_object_id AND p.project_id=a.project_id WHERE a.id=$1 AND a.target_object_type='commission-payout' AND a.approval_type='commission-payout-approval' AND a.current_status='approved' AND p.status='approved'")
+        .bind(approval).fetch_optional(&mut *session.connection).await?;
+    let Some(payout) = payout else {
+        return Ok(());
+    };
+    let stage = stage(&payout)?;
+    if !matches!(stage, Stage::Final | Stage::Retention) {
+        return Ok(());
+    }
+    let project = id(&payout, "project_id")?;
+    let source = context::source(session, project, stage).await?;
+    cash::check_scope(&payout, &source)?;
+    let evaluation = settlement::evaluate(session, project, &source, None, None, false).await?;
+    let review = source.review.as_ref().ok_or(Error::Internal)?;
+    let changed=sqlx::query("UPDATE poms.commission_final_settlement_snapshot SET source_contract_scope=$1,retention_receipt_ids=$2 WHERE project_id=$3 AND freeze_version_id=$4 AND gate_review_record_id=$5 AND summary_snapshot_id=$6 AND is_current AND status='active'")
+        .bind(cash::scope(&source)).bind(json!(evaluation.receipt_ids)).bind(project).bind(id(&source.freeze,"id")?).bind(id(review,"id")?).bind(id(review,"summary_snapshot_id")?).execute(&mut *session.connection).await?.rows_affected();
+    if changed != 1 {
+        return Err(Error::Conflict(
+            "实际发放批准没有形成匹配的当前结算材料。".into(),
+        ));
+    }
     Ok(())
 }
 async fn approve(
@@ -444,12 +478,34 @@ async fn register(
         return Err(Error::Conflict("审批引用不匹配本次发放。".into()));
     }
     let amount = model::amount(&input.paid_record_amount)?;
-    let (remaining, source, _) = available(session, &before).await?;
+    let (remaining, source, _, allocations) = available(session, &before).await?;
     if amount > context::money(&before, "approved_amount")? || amount > remaining {
         return Err(Error::Unprocessable(
             "登记金额超过批准金额或当前阶段累计余额。".into(),
         ));
     }
+    let approved = cash::parse(
+        &before["approved_contract_allocations"],
+        context::money(&before, "approved_amount")?,
+        &source,
+    )?
+    .into_iter()
+    .collect::<std::collections::BTreeMap<_, _>>();
+    let candidates = allocations
+        .into_iter()
+        .map(|(contract, remaining)| {
+            (
+                contract,
+                remaining.min(approved.get(&contract).copied().unwrap_or(Decimal::ZERO)),
+            )
+        })
+        .collect::<Vec<_>>();
+    if amount > contract_scope::sum(candidates.iter().map(|(_, v)| *v))? {
+        return Err(Error::Unprocessable(
+            "当前达标合同与原批准合同份额不匹配，不能改付其他合同。".into(),
+        ));
+    }
+    let paid = contract_scope::apportion(amount, &candidates)?;
     if input.payout_stage == Stage::Retention {
         let snapshot = settlement::current(session, project)
             .await?
@@ -465,8 +521,8 @@ async fn register(
         ready(session, project, &source, None, None).await?;
     }
     let now = crate::auth::model::clock_now();
-    sqlx::query("UPDATE poms.commission_payout SET status='paid',paid_record_amount=$1,handled_at=$2,handled_by=$3,row_version=row_version+1,updated_at=$4,updated_by=$3 WHERE id=$5")
-        .bind(amount).bind(input.paid_at.unwrap_or(now)).bind(actor.id).bind(now).bind(payout).execute(&mut *session.connection).await?;
+    sqlx::query("UPDATE poms.commission_payout SET status='paid',paid_record_amount=$1,handled_at=$2,handled_by=$3,row_version=row_version+1,updated_at=$4,updated_by=$3,paid_contract_allocations=$6,source_contract_scope=COALESCE(source_contract_scope,$7) WHERE id=$5")
+        .bind(amount).bind(input.paid_at.unwrap_or(now)).bind(actor.id).bind(now).bind(payout).bind(cash::packet(&source,&paid)?).bind(cash::scope(&source)).execute(&mut *session.connection).await?;
     if matches!(input.payout_stage, Stage::Final | Stage::Retention) {
         settlement::refresh(session, project, actor.id).await?;
     }

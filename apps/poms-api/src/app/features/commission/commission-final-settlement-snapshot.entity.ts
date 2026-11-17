@@ -167,6 +167,8 @@ export const CommissionFinalSettlementSnapshotSchema = defineEntity({
             .fieldName('baseline_selection_source')
             .comment('基线选择来源'),
         taxImpactSummary: p.text().fieldName('tax_impact_summary').comment('税务影响摘要'),
+        sourceContractScope: p.json().$type<Record<string, unknown>>().nullable().fieldName('source_contract_scope'),
+        retentionReceiptIds: p.json().$type<string[]>().nullable().fieldName('retention_receipt_ids'),
         taxImpactPendingAmount: p
             .decimal()
             .precision(18)

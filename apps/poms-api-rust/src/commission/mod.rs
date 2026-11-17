@@ -1,7 +1,11 @@
 //! Commission rules, calculations and adjustments share the authenticated
 //! HTTP transaction. Auxiliary acceptance ledgers are not part of this service.
 mod adjustment;
+pub(crate) use adjustment::prepare_approval as prepare_adjustment_approval;
+mod cash_allocation;
+mod contract_scope;
 mod dispute;
+mod low_down_payment;
 pub mod model;
 pub(crate) mod payout;
 mod payout_context;
@@ -13,6 +17,20 @@ pub use service::execute;
 
 /// Only implemented operations enter the public router and OpenAPI document.
 pub const ROUTES: &[(&str, &str, &str, &str, u16)] = &[
+    (
+        "GET",
+        "/api/projects/{projectId}/commission-low-down-payment-releases",
+        "CommissionController_listLowDownPaymentReleases",
+        "commission:low-down-payment:approve",
+        200,
+    ),
+    (
+        "POST",
+        "/api/projects/{projectId}/commission-low-down-payment-releases",
+        "CommissionController_approveLowDownPaymentRelease",
+        "commission:low-down-payment:approve",
+        201,
+    ),
     (
         "POST",
         "/api/commission-freeze-disputes",

@@ -1,5 +1,7 @@
 use super::{
+    cash_allocation as cash, contract_scope,
     model::{self, CreateAdjustment, Request},
+    payout_context,
     service::{check_version, projection_packet},
 };
 use crate::{
@@ -7,7 +9,10 @@ use crate::{
     contract_support::{Actor, Error, new_uuid},
     project_lifecycle::facts::{self, id, instant, next_version, text, version},
     project_operating_common::ResourceKeys,
-    shared::generated::{CommissionAdjustmentType as Kind, SensitiveFieldPackageKey},
+    shared::generated::{
+        CommissionAdjustmentType as Kind, CommissionPayoutStage, CommissionPayoutTier,
+        SensitiveFieldPackageKey,
+    },
 };
 use rust_decimal::Decimal;
 use serde_json::{Value, json};
@@ -43,6 +48,58 @@ pub(super) async fn execute(
         }
         _ => Err(Error::Internal),
     }
+}
+
+async fn supplement_capacity(
+    session: &mut CommonSession<'_, '_>,
+    project: Uuid,
+    payout: &Value,
+) -> Result<(payout_context::Source, Vec<(Uuid, Decimal)>), Error> {
+    eligible(payout, &["paid", "suspended"])?;
+    let stage: CommissionPayoutStage = text(payout, "stage_type")?
+        .parse()
+        .map_err(|_| Error::Internal)?;
+    let tier: CommissionPayoutTier = text(payout, "selected_tier")?
+        .parse()
+        .map_err(|_| Error::Internal)?;
+    let source = payout_context::source(session, project, stage).await?;
+    payout_context::stage_eligible(session, project, stage, &source).await?;
+    cash::check_scope(payout, &source)?;
+    if stage == CommissionPayoutStage::Retention {
+        super::payout::ready(session, project, &source, None, None).await?;
+    }
+    let pool:Option<String>=sqlx::query_scalar("SELECT commission_pool::text FROM poms.commission_calculation WHERE project_id=$1 AND is_current AND status='effective'").bind(project).fetch_optional(&mut *session.connection).await?;
+    let pool = model::amount(
+        &pool.ok_or_else(|| Error::Conflict("补发须引用当前已批准的提成池。".into()))?,
+    )?;
+    let (remaining, _) = cash::remaining(session, project, pool, stage, tier, &source).await?;
+    Ok((source, remaining))
+}
+
+pub(crate) async fn prepare_approval(
+    session: &mut CommonSession<'_, '_>,
+    adjustment: Uuid,
+) -> Result<(), Error> {
+    let project = locked_project(session, adjustment).await?;
+    let before = row(session, adjustment).await?;
+    if before["adjustment_type"] != "supplement" {
+        return Ok(());
+    }
+    if before["status"] != "pending-approval" {
+        return Err(Error::Conflict("补发不处于待审批状态。".into()));
+    }
+    let payout = payout(session, id(&before, "related_payout_id")?, project).await?;
+    let amount = model::amount(text(&before, "amount")?)?;
+    let (source, remaining) = supplement_capacity(session, project, &payout).await?;
+    if amount <= Decimal::ZERO || amount > contract_scope::sum(remaining.iter().map(|(_, v)| *v))? {
+        return Err(Error::Unprocessable(
+            "补发超过当前达标合同、阶段或项目余额。".into(),
+        ));
+    }
+    let allocations = cash::packet(&source, &contract_scope::apportion(amount, &remaining)?)?;
+    sqlx::query("UPDATE poms.commission_adjustment SET source_contract_scope=$1,approved_contract_allocations=$2 WHERE id=$3")
+        .bind(cash::scope(&source)).bind(allocations).bind(adjustment).execute(&mut *session.connection).await?;
+    Ok(())
 }
 
 async fn row(session: &mut CommonSession<'_, '_>, adjustment: Uuid) -> Result<Value, Error> {
@@ -277,13 +334,35 @@ async fn execute_approved(
             })
         }
         "supplement" => {
-            eligible(&payout, &["paid", "suspended"])?;
             let amount = model::amount(text(&before, "amount")?)?;
             if amount <= Decimal::ZERO {
                 return Err(Error::Unprocessable("补发金额必须为正数。".into()));
             }
-            sqlx::query("INSERT INTO poms.commission_payout(id,project_id,calculation_id,stage_type,payout_kind,source_payout_id,selected_tier,theoretical_cap_amount,approved_amount,paid_record_amount,status,approved_at,approved_by,handled_at,handled_by,created_by,updated_by) VALUES($1,$2,$3,$4,'supplement',$5,$6,$7,$7,$7,'paid',$8,$9,$8,$9,$9,$9)")
+            let (source, remaining) = supplement_capacity(session, project, &payout).await?;
+            if before["source_contract_scope"].is_null()
+                || before["approved_contract_allocations"].is_null()
+            {
+                return Err(Error::Conflict(
+                    "补发缺少实际批准的合同分摊，须重新核实审批。".into(),
+                ));
+            }
+            cash::check_scope(&before, &source)?;
+            let approved = cash::parse(&before["approved_contract_allocations"], amount, &source)?;
+            if approved.iter().any(|(id, amount)| {
+                *amount
+                    > remaining
+                        .iter()
+                        .find(|(contract, _)| contract == id)
+                        .map_or(Decimal::ZERO, |(_, cap)| *cap)
+            }) {
+                return Err(Error::Unprocessable(
+                    "实际批准合同的补发余额已变化，不能转移至其他合同。".into(),
+                ));
+            }
+            let allocations = cash::packet(&source, &approved)?;
+            sqlx::query("INSERT INTO poms.commission_payout(id,project_id,calculation_id,stage_type,payout_kind,source_payout_id,selected_tier,theoretical_cap_amount,approved_amount,paid_record_amount,status,approved_at,approved_by,handled_at,handled_by,created_by,updated_by,source_contract_scope,approved_contract_allocations,paid_contract_allocations) VALUES($1,$2,$3,$4,'supplement',$5,$6,$7,$7,$7,'paid',$8,$9,$8,$9,$9,$9,$10,$11,$11)")
                 .bind(new_uuid()?).bind(project).bind(id(&payout,"calculation_id")?).bind(text(&payout,"stage_type")?).bind(payout_id).bind(text(&payout,"selected_tier")?).bind(amount).bind(now).bind(actor.id)
+                .bind(cash::scope(&source)).bind(allocations)
                 .execute(&mut *session.connection).await?;
             None
         }

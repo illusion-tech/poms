@@ -36,7 +36,7 @@ where
 #[rustfmt::skip]
 fn all_generated_enums_match_manifest_and_openapi_values() -> Result<(), Box<dyn Error>> {
     let manifest = manifest()?;
-    assert_eq!(manifest["coverage"]["generatedEnumFamilies"], 331);
+    assert_eq!(manifest["coverage"]["generatedEnumFamilies"], 332);
     verify_enum::<PermissionKey>(&manifest, "PermissionKey", PermissionKey::ALL)?;
     verify_enum::<SystemSettingKey>(&manifest, "SystemSettingKey", SystemSettingKey::ALL)?;
     verify_enum::<SystemSettingValueType>(&manifest, "SystemSettingValueType", SystemSettingValueType::ALL)?;
@@ -368,6 +368,7 @@ fn all_generated_enums_match_manifest_and_openapi_values() -> Result<(), Box<dyn
     verify_enum::<AuthSessionStatus>(&manifest, "AuthSessionStatus", AuthSessionStatus::ALL)?;
     verify_enum::<AuthSessionRevokedReason>(&manifest, "AuthSessionRevokedReason", AuthSessionRevokedReason::ALL)?;
     verify_enum::<AuthSessionErrorCode>(&manifest, "AuthSessionErrorCode", AuthSessionErrorCode::ALL)?;
+    verify_enum::<CommissionLowDownPaymentDecision>(&manifest, "CommissionLowDownPaymentDecision", CommissionLowDownPaymentDecision::ALL)?;
     for occurrence in manifest["enumOccurrences"].as_array().ok_or("missing occurrences")? {
         let family = manifest["enums"].as_array().ok_or("missing enums")?.iter().find(|item| item["name"] == occurrence["family"]).ok_or("unmapped occurrence")?;
         assert_eq!(family["values"], occurrence["values"], "every z.enum maps to actual tested Rust family");
