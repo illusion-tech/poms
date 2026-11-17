@@ -296,6 +296,7 @@ async fn execute_approved(
     }
     sqlx::query("UPDATE poms.commission_adjustment SET status='executed',executed_at=$1,executed_by=$2,row_version=row_version+1,updated_at=$1,updated_by=$2 WHERE id=$3")
         .bind(now).bind(actor.id).bind(adjustment).execute(&mut *session.connection).await?;
+    super::settlement::refresh(session, project, actor.id).await?;
     let after = row(session, adjustment).await?;
     facts::record(
         session,

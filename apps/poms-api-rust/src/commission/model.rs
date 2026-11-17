@@ -194,6 +194,63 @@ pub enum Request {
     SubmitPayout(SubmitPayout),
     ApprovePayout(ApprovePayout),
     RegisterPayout(RegisterPayout),
+    SubmitDispute(SubmitDispute),
+    ArbitrateDispute(ArbitrateDispute),
+    DepartureDecision(DepartureDecision),
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct SubmitDispute {
+    pub freeze_version_id: Uuid,
+    pub dispute_reason: String,
+    pub affected_assignment_ids: Vec<Uuid>,
+    pub recalculation_impact_mode: String,
+    #[serde(default, deserialize_with = "non_null_optional")]
+    pub comment: Option<String>,
+    #[serde(default, deserialize_with = "non_null_optional")]
+    pub expected_version: Option<i32>,
+}
+#[derive(Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ReplacementParticipant {
+    pub user_id: Uuid,
+    pub display_name: String,
+    pub role_type: String,
+    pub weight: crate::project_operating_common::model::Millionths,
+}
+#[derive(Debug, Deserialize, Serialize)]
+pub struct ReplacementAssignment {
+    pub participants: Vec<ReplacementParticipant>,
+}
+#[derive(Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ArbitrateDispute {
+    pub arbitration_decision: String,
+    pub replacement_assignment_payload: Option<ReplacementAssignment>,
+    pub recalculation_impact_mode: String,
+    #[serde(default, deserialize_with = "non_null_optional")]
+    pub comment: Option<String>,
+    #[serde(default, deserialize_with = "non_null_optional")]
+    pub expected_version: Option<i32>,
+}
+#[derive(Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct DepartureDecision {
+    pub freeze_version_id: Uuid,
+    pub departure_scenario_code: String,
+    pub decision_code: String,
+    pub decision_summary: String,
+    pub confirmation_requirement_summary: Option<String>,
+    pub summary_snapshot_id: Uuid,
+}
+
+fn bounded_text(value: &str, maximum: usize, allow_empty: bool) -> Result<(), Error> {
+    let value = value.trim();
+    if (!allow_empty && value.is_empty()) || value.encode_utf16().count() > maximum {
+        return Err(Error::BadRequest("提成请求文本长度不符合契约。".into()));
+    }
+    Ok(())
 }
 
 pub fn amount(raw: &str) -> Result<Decimal, Error> {
@@ -225,6 +282,57 @@ impl Request {
             Ok(())
         }
         Ok(match operation {
+            "CommissionFreezeDisputeController_submitCommissionFreezeDispute" => {
+                let input: SubmitDispute = parse(raw)?;
+                expected(input.expected_version)?;
+                bounded_text(&input.dispute_reason, 1000, false)?;
+                bounded_text(&input.recalculation_impact_mode, 64, false)?;
+                if let Some(comment) = &input.comment {
+                    bounded_text(comment, 1000, true)?;
+                }
+                if input.affected_assignment_ids.is_empty() {
+                    return Err(Error::BadRequest("至少指定一名受影响参与者。".into()));
+                }
+                Self::SubmitDispute(input)
+            }
+            "CommissionFreezeDisputeController_arbitrateCommissionFreezeDispute" => {
+                let input: ArbitrateDispute = parse(raw)?;
+                expected(input.expected_version)?;
+                bounded_text(&input.arbitration_decision, 64, false)?;
+                bounded_text(&input.recalculation_impact_mode, 64, false)?;
+                if let Some(comment) = &input.comment {
+                    bounded_text(comment, 1000, true)?;
+                }
+                if let Some(replacement) = &input.replacement_assignment_payload {
+                    if replacement.participants.is_empty() {
+                        return Err(Error::BadRequest("替代冻结至少需要一名参与者。".into()));
+                    }
+                    let mut total = 0_i32;
+                    let mut identities = std::collections::BTreeSet::new();
+                    for p in &replacement.participants {
+                        bounded_text(&p.display_name, usize::MAX, false)?;
+                        bounded_text(&p.role_type, 64, false)?;
+                        if !identities.insert((p.user_id, p.role_type.trim())) {
+                            return Err(Error::BadRequest("替代冻结的用户与角色不能重复。".into()));
+                        }
+                        total = total.checked_add(p.weight.units()).ok_or(Error::Internal)?;
+                    }
+                    if total != 1_000_000 {
+                        return Err(Error::BadRequest("替代冻结权重合计必须精确等于1。".into()));
+                    }
+                }
+                Self::ArbitrateDispute(input)
+            }
+            "CommissionDepartureExceptionDecisionController_createDepartureExceptionDecision" => {
+                let input: DepartureDecision = parse(raw)?;
+                bounded_text(&input.departure_scenario_code, 64, false)?;
+                bounded_text(&input.decision_code, 32, false)?;
+                bounded_text(&input.decision_summary, 2000, false)?;
+                if let Some(value) = &input.confirmation_requirement_summary {
+                    bounded_text(value, 2000, false)?;
+                }
+                Self::DepartureDecision(input)
+            }
             "CommissionController_createPayout" => Self::CreatePayout(parse(raw)?),
             "CommissionController_submitPayoutApproval" => {
                 let input: SubmitPayout = parse(raw)?;
@@ -380,6 +488,31 @@ pub fn calculate(
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn controlled_freeze_request_precision_identity_and_text_boundaries() {
+        let user = Uuid::from_u128(1);
+        let other = Uuid::from_u128(2);
+        let operation = "CommissionFreezeDisputeController_arbitrateCommissionFreezeDispute";
+        let mut input = serde_json::json!({"arbitrationDecision":"replace","recalculationImpactMode":"review","replacementAssignmentPayload":{"participants":[{"userId":user,"displayName":"甲","roleType":"sales-owner","weight":0.333333},{"userId":other,"displayName":"乙","roleType":"delivery-owner","weight":0.666667}]}});
+        assert!(Request::parse(operation, Some(&input.to_string())).is_ok());
+        input["replacementAssignmentPayload"]["participants"][1]["weight"] =
+            serde_json::json!(0.666666);
+        assert!(Request::parse(operation, Some(&input.to_string())).is_err());
+        input["replacementAssignmentPayload"]["participants"][1]["weight"] =
+            serde_json::json!(0.6666667);
+        assert!(Request::parse(operation, Some(&input.to_string())).is_err());
+        input["replacementAssignmentPayload"] = serde_json::Value::Null;
+        input["expectedVersion"] = serde_json::Value::Null;
+        assert!(Request::parse(operation, Some(&input.to_string())).is_err());
+        let input = serde_json::json!({"freezeVersionId":user,"disputeReason":"😀".repeat(501),"affectedAssignmentIds":[user],"recalculationImpactMode":"review"});
+        assert!(
+            Request::parse(
+                "CommissionFreezeDisputeController_submitCommissionFreezeDispute",
+                Some(&input.to_string())
+            )
+            .is_err()
+        );
+    }
     fn tiers() -> TierDefinition {
         serde_json::from_str(r#"{"tiers":[{"minMarginRate":0.3,"maxMarginRate":null,"commissionRate":0.2},{"minMarginRate":0,"maxMarginRate":0.3,"commissionRate":0.1}]}"#).unwrap()
     }

@@ -10,7 +10,6 @@ use crate::{
     approval_common::{CommonSession, Text, Timestamp, js::Value as JsValue},
     contract_support::{Error, new_uuid},
     project_lifecycle::facts::{id, next_version, text},
-    shared::generated::CommissionPayoutStage as Stage,
 };
 use serde_json::Value;
 use uuid::Uuid;
@@ -177,10 +176,20 @@ pub(super) async fn refresh(
     project: Uuid,
     actor: Uuid,
 ) -> Result<(), Error> {
-    if current(session, project).await?.is_none() {
+    let Some(snapshot) = current(session, project).await? else {
         return Ok(());
-    }
-    let source = context::source(session, project, Stage::Final).await?;
+    };
+    let source = context::settlement_source(session, project).await?;
+    references(&snapshot, &source)?;
+    let evaluation = state(session, project, &source).await?;
+    write(session, project, actor, &source, &evaluation).await
+}
+
+pub(super) async fn state(
+    session: &mut CommonSession<'_, '_>,
+    project: Uuid,
+    source: &Source,
+) -> Result<Evaluation, Error> {
     let pool: Option<String>=sqlx::query_scalar("SELECT commission_pool::text FROM poms.commission_calculation WHERE project_id=$1 AND is_current AND status='effective'")
         .bind(project).fetch_optional(&mut *session.connection).await?;
     let pool = pool.ok_or_else(|| Error::Conflict("当前提成计算尚未确认生效。".into()))?;
@@ -192,12 +201,12 @@ pub(super) async fn refresh(
         )
         .map(context::rounded)
         .ok_or(Error::Internal)?;
-    let mut evaluation = evaluate(session, project, &source, None, None, total >= pool).await?;
+    let mut evaluation = evaluate(session, project, source, None, None, total >= pool).await?;
     if nonretention < limit {
         evaluation.draft.final_settlement_status = "pending-final-settlement";
         evaluation.draft.non_retention_settlement_status = "pending-non-retention";
         evaluation.draft.retention_settlement_status = "waiting-retention";
         evaluation.draft.rule_explanation = rules::pending_final_rule_explanation();
     }
-    write(session, project, actor, &source, &evaluation).await
+    Ok(evaluation)
 }

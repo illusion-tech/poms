@@ -1729,3 +1729,452 @@ async fn payout_zero_final_confirmation_and_prior_retention_after_recalculation(
     finance.pool.close().await;
     Ok(())
 }
+
+async fn tail_fixture() -> Result<Fixture> {
+    fixture(
+        None,
+        &[
+            PermissionKey::CommissionAssignmentsManage,
+            PermissionKey::CommissionRuleVersionsManage,
+            PermissionKey::CommissionCalculationsManage,
+            PermissionKey::CommissionPayoutsManage,
+            PermissionKey::CommissionAdjustmentsManage,
+            PermissionKey::CommissionAmountSensitiveRead,
+            PermissionKey::OperatingFinanceSensitiveRead,
+            PermissionKey::ProjectWrite,
+        ],
+    )
+    .await
+}
+async fn close_fixture(f: Fixture) -> Result {
+    f.database.close(Duration::from_secs(2)).await?;
+    f.pool.close().await;
+    Ok(())
+}
+async fn tail_finance() -> Result<Fixture> {
+    fixture(
+        Some("finance_mgr"),
+        &[
+            PermissionKey::CommissionPayoutsManage,
+            PermissionKey::CommissionAmountSensitiveRead,
+            PermissionKey::ProjectWrite,
+        ],
+    )
+    .await
+}
+async fn freeze_summary(pool: &PgPool, freeze: Uuid) -> Result<Uuid> {
+    Ok(sqlx::query_scalar(
+        "SELECT handover_summary_snapshot_id FROM poms.commission_role_assignment WHERE id=$1",
+    )
+    .bind(freeze)
+    .fetch_one(pool)
+    .await?)
+}
+async fn departure_decision(
+    client: &Client,
+    project: Uuid,
+    freeze: Uuid,
+    summary: Uuid,
+    requirement: Option<&str>,
+) -> Result<Value> {
+    let (status,row)=client.call("POST",&format!("/api/projects/{project}/commission-departure-exception-decisions"),json!({"freezeVersionId":freeze,"summarySnapshotId":summary,"departureScenarioCode":"not-applicable","decisionCode":"continue","decisionSummary":"责任结论已记录","confirmationRequirementSummary":requirement})).await?;
+    assert_eq!(status, StatusCode::CREATED, "{row}");
+    Ok(row)
+}
+
+#[tokio::test]
+#[ignore = "requires explicit dedicated commission DB initialized from application migrations"]
+async fn r5_tail_dispute_replacement_concurrency_and_atomic_rollback() -> Result {
+    let f = tail_fixture().await?;
+    let inputs = payout_inputs(&f.pool, f.user, "0.10", "0.20").await?;
+    // The role-detail route requires an actual full owner relation. A legacy
+    // personal-owner anchor without an organization deliberately remains 403.
+    let org = uuid(&f.pool).await?;
+    sqlx::query("INSERT INTO poms.org_unit(id,name,code,is_active) VALUES($1,'Commission scope fixture',$2,true)").bind(org).bind(format!("r5-tail-{org}")).execute(&f.pool).await?;
+    sqlx::query("INSERT INTO poms.user_org_membership(user_id,org_unit_id,membership_type,status) VALUES($1,$2,'primary','active')").bind(f.user).bind(org).execute(&f.pool).await?;
+    sqlx::query("UPDATE poms.project SET owner_org_id=$1 WHERE id=$2")
+        .bind(org)
+        .bind(inputs.project)
+        .execute(&f.pool)
+        .await?;
+    let assignment_path = format!("/api/commission-role-assignments/{}", inputs.freeze);
+    assert_eq!(
+        f.client.ok("GET", &assignment_path, json!({})).await?["allowedActions"],
+        json!(["submit-commission-freeze-dispute"])
+    );
+    let calc = calculated(&f.client, inputs.project, f.user).await?;
+    let draft = payout_draft(&f.client, inputs.project, calc, "first").await?;
+    let bad = json!({"freezeVersionId":inputs.freeze,"disputeReason":"核实权重","affectedAssignmentIds":[uuid(&f.pool).await?],"recalculationImpactMode":"controlled-review","expectedVersion":1});
+    assert_eq!(
+        f.client
+            .call("POST", "/api/commission-freeze-disputes", bad)
+            .await?
+            .0,
+        StatusCode::BAD_REQUEST
+    );
+    let body = json!({"freezeVersionId":inputs.freeze,"disputeReason":"核实权重","affectedAssignmentIds":[f.user],"recalculationImpactMode":"controlled-review","expectedVersion":1});
+    let (a, b) = tokio::join!(
+        f.client
+            .call("POST", "/api/commission-freeze-disputes", body.clone()),
+        f.client
+            .call("POST", "/api/commission-freeze-disputes", body)
+    );
+    let (a, b) = (a?, b?);
+    assert_eq!(
+        [a.0, b.0].iter().filter(|s| **s == StatusCode::OK).count(),
+        1
+    );
+    assert_eq!(
+        [a.0, b.0]
+            .iter()
+            .filter(|s| **s == StatusCode::CONFLICT)
+            .count(),
+        1
+    );
+    let result = if a.0 == StatusCode::OK { a.1 } else { b.1 };
+    let dispute: Uuid = result["disputeRecordId"]
+        .as_str()
+        .ok_or("dispute ID")?
+        .parse()?;
+    let detail = f
+        .client
+        .ok(
+            "GET",
+            &format!("/api/commission-freeze-disputes/{dispute}"),
+            json!({}),
+        )
+        .await?;
+    assert_eq!(detail["arbitrationStatus"], "pending");
+    assert_eq!(
+        f.client.ok("GET", &assignment_path, json!({})).await?["allowedActions"],
+        json!([])
+    );
+    assert_eq!(
+        detail["allowedActions"],
+        json!(["arbitrate-commission-freeze-dispute"])
+    );
+    assert!(
+        detail["impactAssessmentSummary"]
+            .as_str()
+            .ok_or("impact")?
+            .contains("effective-calculation-present")
+    );
+    assert_eq!(
+        f.client
+            .call(
+                "POST",
+                &format!("/api/projects/{}/commission-payouts", inputs.project),
+                json!({"calculationId":calc,"stageType":"second","selectedTier":"basic"})
+            )
+            .await?
+            .0,
+        StatusCode::UNPROCESSABLE_ENTITY
+    );
+    let path = format!("/api/commission-freeze-disputes/{dispute}:arbitrate");
+    let mut body = json!({"arbitrationDecision":"adjust-weights","replacementAssignmentPayload":{"participants":[{"userId":f.user,"displayName":"request cannot rename a user","roleType":"sales-owner","weight":1}]},"recalculationImpactMode":"controlled-review","expectedVersion":1,"comment":"rollback"});
+    payout_audit_fault(
+        &f.pool,
+        dispute,
+        "dispute",
+        "CommissionFreezeDisputeController_arbitrateCommissionFreezeDispute",
+        "NEW.after_snapshot->>'comment'='rollback'",
+    )
+    .await?;
+    assert_eq!(
+        f.client.call("POST", &path, body.clone()).await?.0,
+        StatusCode::INTERNAL_SERVER_ERROR
+    );
+    let unchanged:(String,i32,i64,i64)=sqlx::query_as("SELECT status,row_version,(SELECT count(*) FROM poms.commission_role_assignment WHERE project_id=$2),(SELECT count(*) FROM poms.commission_freeze_change_request WHERE dispute_record_id=$1) FROM poms.commission_freeze_dispute_record WHERE id=$1")
+        .bind(dispute).bind(inputs.project).fetch_one(&f.pool).await?;
+    assert_eq!(unchanged, ("submitted".into(), 1, 1, 0));
+    body["comment"] = json!("approved test correction");
+    let (a, b) = tokio::join!(
+        f.client.call("POST", &path, body.clone()),
+        f.client.call("POST", &path, body)
+    );
+    let (a, b) = (a?, b?);
+    assert_eq!(
+        [a.0, b.0].iter().filter(|s| **s == StatusCode::OK).count(),
+        1
+    );
+    assert_eq!(
+        [a.0, b.0]
+            .iter()
+            .filter(|s| **s == StatusCode::CONFLICT)
+            .count(),
+        1
+    );
+    let result = if a.0 == StatusCode::OK { a.1 } else { b.1 };
+    let replacement: Uuid = result["replacementFreezeVersionId"]
+        .as_str()
+        .ok_or("replacement ID")?
+        .parse()?;
+    let change: Uuid = result["changeRequestId"]
+        .as_str()
+        .ok_or("change ID")?
+        .parse()?;
+    let changed = f
+        .client
+        .ok(
+            "GET",
+            &format!("/api/commission-freeze-change-requests/{change}"),
+            json!({}),
+        )
+        .await?;
+    assert_eq!(
+        changed["replacementFreezeVersionId"],
+        replacement.to_string()
+    );
+    assert_eq!(changed["status"], "effective");
+    let qualification:(i32,Option<Uuid>,String)=sqlx::query_as("SELECT producer_version::integer,freeze_payload_id,participants_json->0->>'displayName' FROM poms.commission_role_assignment WHERE id=$1").bind(replacement).fetch_one(&f.pool).await?;
+    assert_eq!(qualification, (0, None, "Commission SQL test".into()));
+    let original: (bool, String) =
+        sqlx::query_as("SELECT is_current,status FROM poms.commission_role_assignment WHERE id=$1")
+            .bind(inputs.freeze)
+            .fetch_one(&f.pool)
+            .await?;
+    assert_eq!(original, (false, "superseded".into()));
+    let original_payout: String =
+        sqlx::query_scalar("SELECT status FROM poms.commission_payout WHERE id=$1")
+            .bind(row_id(&draft)?)
+            .fetch_one(&f.pool)
+            .await?;
+    assert_eq!(original_payout, "draft");
+    let other = payout_inputs(&f.pool, f.user, "0.10", "0.20").await?;
+    assert_eq!(f.client.call("POST",&format!("/api/projects/{}/commission-departure-exception-decisions",other.project),json!({"freezeVersionId":replacement,"summarySnapshotId":freeze_summary(&f.pool,replacement).await?,"departureScenarioCode":"none","decisionCode":"continue","decisionSummary":"invalid cross project"})).await?.0,StatusCode::BAD_REQUEST);
+    close_fixture(f).await
+}
+
+#[tokio::test]
+#[ignore = "requires explicit dedicated commission DB initialized from application migrations"]
+async fn r5_tail_departure_versions_and_live_settlement_queries() -> Result {
+    let f = tail_fixture().await?;
+    let finance = tail_finance().await?;
+    let i = payout_inputs_custom(&f.pool, f.user, "0.10", "0.20", "100000", 30).await?;
+    let final_path = format!("/api/projects/{}/commission-final-settlement", i.project);
+    let rule_path = format!("/api/projects/{}/commission-rule-explanation", i.project);
+    assert_eq!(
+        f.client.call("GET", &final_path, json!({})).await?.0,
+        StatusCode::NOT_FOUND
+    );
+    let calc = calculated(&f.client, i.project, f.user).await?;
+    let payout = row_id(&payout_draft(&f.client, i.project, calc, "final").await?)?;
+    payout_approve(&f.client,&finance.client,&f.pool,payout,"final",json!({"gateReviewRecordId":i.review,"summarySnapshotId":i.summary,"freezeVersionId":i.freeze}),false).await?;
+    let unpaid = f.client.ok("GET", &final_path, json!({})).await?;
+    assert_eq!(
+        unpaid["nonRetentionSettlementStatus"],
+        "pending-non-retention"
+    );
+    f.client
+        .ok(
+            "POST",
+            &format!("/api/commission-payouts/{payout}:registerPayout"),
+            json!({"payoutStage":"final","paidRecordAmount":"5400","expectedVersion":3}),
+        )
+        .await?;
+    let pending = f.client.ok("GET", &final_path, json!({})).await?;
+    assert_eq!(
+        pending["finalSettlementStatus"],
+        "pending-retention-settlement"
+    );
+    assert_eq!(pending["retentionDueStatus"], "pending");
+    let summary = freeze_summary(&f.pool, i.freeze).await?;
+    let first = departure_decision(&f.client, i.project, i.freeze, summary, None).await?;
+    assert_eq!(first["version"], 1);
+    let receipt:Uuid=sqlx::query_scalar("INSERT INTO poms.receipt_record(project_id,contract_id,receipt_amount,receipt_date,source_type,status) VALUES($1,$2,10000,now(),'retention','confirmed') RETURNING id").bind(i.project).bind(i.contract).fetch_one(&f.pool).await?;
+    assert_eq!(
+        f.client.ok("GET", &rule_path, json!({})).await?["blockingReasonCode"],
+        "retention-due-pending"
+    );
+    // Change only this owned upstream test input. GET must read it without a
+    // settlement mutation or a new payout approval.
+    sqlx::query(
+        "UPDATE poms.contract_term_snapshot SET retention_due_date=current_date-1 WHERE id=$1",
+    )
+    .bind(i.term)
+    .execute(&f.pool)
+    .await?;
+    let before: i64 = sqlx::query_scalar(
+        "SELECT count(*) FROM poms.commission_final_settlement_snapshot WHERE project_id=$1",
+    )
+    .bind(i.project)
+    .fetch_one(&f.pool)
+    .await?;
+    let ready = f.client.ok("GET", &final_path, json!({})).await?;
+    assert_eq!(ready["retentionDueStatus"], "due");
+    assert_eq!(ready["retentionSettlementStatus"], "ready-retention");
+    let after: i64 = sqlx::query_scalar(
+        "SELECT count(*) FROM poms.commission_final_settlement_snapshot WHERE project_id=$1",
+    )
+    .bind(i.project)
+    .fetch_one(&f.pool)
+    .await?;
+    assert_eq!(before, after, "GET must not create settlement snapshots");
+    let second = departure_decision(
+        &f.client,
+        i.project,
+        i.freeze,
+        summary,
+        Some("责任承接尚未确认"),
+    )
+    .await?;
+    assert_eq!(second["version"], 2);
+    assert_eq!(
+        f.client.ok("GET", &rule_path, json!({})).await?["blockingReasonCode"],
+        "departure-confirmation-pending"
+    );
+    let first_status: String = sqlx::query_scalar(
+        "SELECT status FROM poms.commission_departure_exception_decision WHERE id=$1",
+    )
+    .bind(row_id(&first)?)
+    .fetch_one(&f.pool)
+    .await?;
+    assert_eq!(first_status, "superseded");
+    let third = departure_decision(&f.client, i.project, i.freeze, summary, None).await?;
+    assert_eq!(third["version"], 3);
+    let (a, b) = tokio::join!(
+        departure_decision(&f.client, i.project, i.freeze, summary, None),
+        departure_decision(&f.client, i.project, i.freeze, summary, None)
+    );
+    let mut versions = [
+        a?["version"].as_i64().ok_or("version")?,
+        b?["version"].as_i64().ok_or("version")?,
+    ];
+    versions.sort();
+    assert_eq!(versions, [4, 5]);
+    let current:i64=sqlx::query_scalar("SELECT count(*) FROM poms.commission_departure_exception_decision WHERE project_id=$1 AND is_current").bind(i.project).fetch_one(&f.pool).await?;
+    assert_eq!(current, 1);
+    sqlx::query("UPDATE poms.receipt_record SET status='draft' WHERE id=$1")
+        .bind(receipt)
+        .execute(&f.pool)
+        .await?;
+    assert_eq!(
+        f.client.ok("GET", &rule_path, json!({})).await?["blockingReasonCode"],
+        "retention-receipt-pending"
+    );
+    sqlx::query("UPDATE poms.receipt_record SET status='confirmed' WHERE id=$1")
+        .bind(receipt)
+        .execute(&f.pool)
+        .await?;
+    let d=f.client.ok("POST","/api/commission-freeze-disputes",json!({"freezeVersionId":i.freeze,"disputeReason":"查询必须反映当前争议","affectedAssignmentIds":[f.user],"recalculationImpactMode":"review"})).await?;
+    assert_eq!(
+        f.client.ok("GET", &rule_path, json!({})).await?["blockingReasonCode"],
+        "freeze-dispute-pending"
+    );
+    let closed=f.client.ok("POST",&format!("/api/commission-freeze-disputes/{}:arbitrate",d["disputeRecordId"].as_str().ok_or("dispute")?),json!({"arbitrationDecision":"no-change","recalculationImpactMode":"review","expectedVersion":1})).await?;
+    assert!(closed["replacementFreezeVersionId"].is_null());
+    assert_eq!(
+        f.client.ok("GET", &final_path, json!({})).await?["retentionSettlementStatus"],
+        "ready-retention"
+    );
+    sqlx::query("UPDATE poms.operating_signal_gate_binding SET tax_impact_pending_amount=NULL,tax_pending_knowledge='unknown' WHERE id=(SELECT binding_id FROM poms.commission_gate_review_record WHERE id=$1)").bind(i.review).execute(&f.pool).await?;
+    departure_decision(&f.client, i.project, i.freeze, summary, None).await?;
+    let unknown = f.client.ok("GET", &final_path, json!({})).await?;
+    assert!(unknown["taxImpactPendingAmountProjection"]["value"].is_null());
+    let stored_unknown:bool=sqlx::query_scalar("SELECT tax_impact_pending_amount IS NULL FROM poms.commission_final_settlement_snapshot WHERE project_id=$1 AND is_current").bind(i.project).fetch_one(&f.pool).await?;
+    assert!(
+        stored_unknown,
+        "a real settlement write must preserve UNKNOWN"
+    );
+    let mut rollback = f.pool.begin().await?;
+    let rejected=sqlx::query("ALTER TABLE poms.commission_final_settlement_snapshot ALTER COLUMN tax_impact_pending_amount SET NOT NULL, ALTER COLUMN tax_impact_pending_amount SET DEFAULT 0").execute(&mut *rollback).await;
+    assert!(
+        rejected
+            .as_ref()
+            .err()
+            .and_then(|e| e.as_database_error())
+            .is_some_and(|e| e.code().as_deref() == Some("23502")),
+        "down migration must refuse existing unknown values"
+    );
+    rollback.rollback().await?;
+    for permission in [
+        PermissionKey::CommissionAmountSensitiveRead,
+        PermissionKey::OperatingFinanceSensitiveRead,
+    ] {
+        sqlx::query("UPDATE poms.role_permission_assignment SET status='revoked',revoked_at=now() WHERE role_id=$1 AND permission_key=$2").bind(f.role).bind(permission.as_str()).execute(&f.pool).await?;
+    }
+    let hidden = f.client.ok("GET", &rule_path, json!({})).await?;
+    assert_eq!(hidden["nextActionSummaryProjection"]["mode"], "masked");
+    assert_eq!(hidden["taxImpactSummaryProjection"]["mode"], "masked");
+    assert!(!hidden.to_string().contains("explicit test tax basis"));
+    close_fixture(finance).await?;
+    close_fixture(f).await
+}
+
+#[tokio::test]
+#[ignore = "requires explicit dedicated commission DB initialized from application migrations"]
+async fn r5_tail_adjustment_refresh_and_settlement_rollback() -> Result {
+    let f = tail_fixture().await?;
+    let finance = tail_finance().await?;
+    let i = payout_inputs(&f.pool, f.user, "0", "0.20").await?;
+    sqlx::query("UPDATE poms.operating_signal_gate_binding SET tax_impact_pending_amount=NULL,tax_pending_knowledge='unknown' WHERE id=(SELECT binding_id FROM poms.commission_gate_review_record WHERE id=$1)").bind(i.review).execute(&f.pool).await?;
+    let calc = calculated(&f.client, i.project, f.user).await?;
+    let payout = row_id(&payout_draft(&f.client, i.project, calc, "final").await?)?;
+    payout_approve(&f.client,&finance.client,&f.pool,payout,"final",json!({"gateReviewRecordId":i.review,"summarySnapshotId":i.summary,"freezeVersionId":i.freeze}),true).await?;
+    f.client
+        .ok(
+            "POST",
+            &format!("/api/commission-payouts/{payout}:registerPayout"),
+            json!({"payoutStage":"final","paidRecordAmount":"6000","expectedVersion":3}),
+        )
+        .await?;
+    let original:Uuid=sqlx::query_scalar("SELECT id FROM poms.commission_final_settlement_snapshot WHERE project_id=$1 AND is_current").bind(i.project).fetch_one(&f.pool).await?;
+    let path = format!("/api/projects/{}/commission-final-settlement", i.project);
+    assert_eq!(
+        f.client.ok("GET", &path, json!({})).await?["finalSettlementStatus"],
+        "settled-all"
+    );
+    let fail=approve_adjustment(&f.client,&finance.client,&f.pool,i.project,json!({"adjustmentType":"clawback","relatedPayoutId":payout,"relatedCalculationId":calc,"amount":"100","reason":"rollback fixture"})).await?;
+    payout_audit_fault(
+        &f.pool,
+        fail,
+        "settlement_adjustment",
+        "CommissionController_executeAdjustment",
+        "true",
+    )
+    .await?;
+    assert_eq!(
+        f.client
+            .call(
+                "POST",
+                &format!("/api/commission-adjustments/{fail}:execute"),
+                json!({"expectedVersion":3})
+            )
+            .await?
+            .0,
+        StatusCode::INTERNAL_SERVER_ERROR
+    );
+    let unchanged:Uuid=sqlx::query_scalar("SELECT id FROM poms.commission_final_settlement_snapshot WHERE project_id=$1 AND is_current").bind(i.project).fetch_one(&f.pool).await?;
+    assert_eq!(unchanged, original);
+    let state:(String,String)=sqlx::query_as("SELECT a.status,p.status FROM poms.commission_adjustment a JOIN poms.commission_payout p ON p.id=a.related_payout_id WHERE a.id=$1").bind(fail).fetch_one(&f.pool).await?;
+    assert_eq!(state, ("approved".into(), "paid".into()));
+    let adjustment=approve_adjustment(&f.client,&finance.client,&f.pool,i.project,json!({"adjustmentType":"clawback","relatedPayoutId":payout,"relatedCalculationId":calc,"amount":"200","reason":"approved cash correction"})).await?;
+    f.client
+        .ok(
+            "POST",
+            &format!("/api/commission-adjustments/{adjustment}:execute"),
+            json!({"expectedVersion":3}),
+        )
+        .await?;
+    let pending = f.client.ok("GET", &path, json!({})).await?;
+    assert_eq!(pending["finalSettlementStatus"], "pending-final-settlement");
+    assert_eq!(
+        pending["nonRetentionSettlementStatus"],
+        "pending-non-retention"
+    );
+    let persisted:(Uuid,String)=sqlx::query_as("SELECT id,final_settlement_status FROM poms.commission_final_settlement_snapshot WHERE project_id=$1 AND is_current").bind(i.project).fetch_one(&f.pool).await?;
+    assert_ne!(persisted.0, original);
+    assert_eq!(persisted.1, "pending-final-settlement");
+    assert_eq!(
+        f.client
+            .ok(
+                "GET",
+                &format!("/api/projects/{}/commission-rule-explanation", i.project),
+                json!({})
+            )
+            .await?["currentStageStatus"],
+        "pending-final-settlement"
+    );
+    close_fixture(finance).await?;
+    close_fixture(f).await
+}

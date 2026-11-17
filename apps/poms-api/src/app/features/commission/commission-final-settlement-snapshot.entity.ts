@@ -171,9 +171,9 @@ export const CommissionFinalSettlementSnapshotSchema = defineEntity({
             .decimal()
             .precision(18)
             .scale(2)
-            .default(0)
+            .nullable()
             .fieldName('tax_impact_pending_amount')
-            .comment('待闭合税务影响金额'),
+            .comment('待闭合税务影响金额；NULL表示未知，不等同于零'),
         dataMaturityLevel: p.string().$type<OperatingDataMaturityLevel>().length(32).fieldName('data_maturity_level').comment('数据成熟度等级'),
         costActionRecommendation: p
             .string()

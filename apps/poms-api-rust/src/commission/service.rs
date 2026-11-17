@@ -30,6 +30,24 @@ pub async fn execute(
     }
     if matches!(
         operation,
+        "CommissionFreezeDisputeController_submitCommissionFreezeDispute"
+            | "CommissionFreezeDisputeController_getCommissionFreezeDispute"
+            | "CommissionFreezeDisputeController_arbitrateCommissionFreezeDispute"
+            | "CommissionFreezeChangeRequestController_getCommissionFreezeChangeRequest"
+            | "CommissionDepartureExceptionDecisionController_createDepartureExceptionDecision"
+    ) {
+        return super::dispute::execute(session, operation, keys, request, actor).await;
+    }
+    if matches!(
+        operation,
+        "CommissionController_getCommissionFinalSettlement"
+            | "CommissionController_getCommissionRuleExplanation"
+    ) {
+        return super::settlement_view::execute(session, operation, keys.project_id()?, actor)
+            .await;
+    }
+    if matches!(
+        operation,
         "CommissionController_listPayouts"
             | "CommissionController_createPayout"
             | "CommissionController_submitPayoutApproval"

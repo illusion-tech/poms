@@ -1,16 +1,67 @@
 //! Commission rules, calculations and adjustments share the authenticated
 //! HTTP transaction. Auxiliary acceptance ledgers are not part of this service.
 mod adjustment;
+mod dispute;
 pub mod model;
 pub(crate) mod payout;
 mod payout_context;
 mod service;
 mod settlement;
+mod settlement_view;
 pub use model::Request;
 pub use service::execute;
 
 /// Only implemented operations enter the public router and OpenAPI document.
 pub const ROUTES: &[(&str, &str, &str, &str, u16)] = &[
+    (
+        "POST",
+        "/api/commission-freeze-disputes",
+        "CommissionFreezeDisputeController_submitCommissionFreezeDispute",
+        "commission:assignments:manage",
+        200,
+    ),
+    (
+        "GET",
+        "/api/commission-freeze-disputes/{id}",
+        "CommissionFreezeDisputeController_getCommissionFreezeDispute",
+        "commission:assignments:manage",
+        200,
+    ),
+    (
+        "POST",
+        "/api/commission-freeze-disputes/{id}:arbitrate",
+        "CommissionFreezeDisputeController_arbitrateCommissionFreezeDispute",
+        "commission:assignments:manage",
+        200,
+    ),
+    (
+        "GET",
+        "/api/commission-freeze-change-requests/{id}",
+        "CommissionFreezeChangeRequestController_getCommissionFreezeChangeRequest",
+        "commission:assignments:manage",
+        200,
+    ),
+    (
+        "POST",
+        "/api/projects/{projectId}/commission-departure-exception-decisions",
+        "CommissionDepartureExceptionDecisionController_createDepartureExceptionDecision",
+        "commission:payouts:manage",
+        201,
+    ),
+    (
+        "GET",
+        "/api/projects/{projectId}/commission-final-settlement",
+        "CommissionController_getCommissionFinalSettlement",
+        "commission:payouts:manage",
+        200,
+    ),
+    (
+        "GET",
+        "/api/projects/{projectId}/commission-rule-explanation",
+        "CommissionController_getCommissionRuleExplanation",
+        "commission:payouts:manage",
+        200,
+    ),
     (
         "GET",
         "/api/commission-rule-versions",

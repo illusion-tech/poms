@@ -50,6 +50,22 @@ pub(super) async fn source(
     project: Uuid,
     stage: Stage,
 ) -> Result<Source, Error> {
+    load_source(session, project, stage, true).await
+}
+
+pub(super) async fn settlement_source(
+    session: &mut CommonSession<'_, '_>,
+    project: Uuid,
+) -> Result<Source, Error> {
+    load_source(session, project, Stage::Final, false).await
+}
+
+async fn load_source(
+    session: &mut CommonSession<'_, '_>,
+    project: Uuid,
+    stage: Stage,
+    enforce_eligibility: bool,
+) -> Result<Source, Error> {
     let freeze: Value = sqlx::query_scalar("SELECT to_jsonb(a) FROM poms.commission_role_assignment a WHERE project_id=$1 AND is_current AND status='frozen' FOR SHARE")
         .bind(project).fetch_optional(&mut *session.connection).await?
         .ok_or_else(||Error::Unprocessable("缺少当前已冻结角色分配。".into()))?;
@@ -95,18 +111,19 @@ pub(super) async fn source(
             "最终发放/质保金缺少当前实际经营评审。".into(),
         ));
     }
-    if binding
-        .as_ref()
-        .is_some_and(|b| blocked(b, "binding_action", stage == Stage::Retention))
-        || review
+    if enforce_eligibility
+        && (binding
             .as_ref()
-            .is_some_and(|r| blocked(r, "gate_review_decision", stage == Stage::Retention))
+            .is_some_and(|b| blocked(b, "binding_action", stage == Stage::Retention))
+            || review
+                .as_ref()
+                .is_some_and(|r| blocked(r, "gate_review_decision", stage == Stage::Retention)))
     {
         return Err(Error::Unprocessable("当前经营评审不允许本次发放。".into()));
     }
     let open: bool = sqlx::query_scalar("SELECT EXISTS(SELECT 1 FROM poms.commission_freeze_dispute_record WHERE freeze_version_id=$1 AND status='submitted')")
         .bind(id(&freeze,"id")?).fetch_one(&mut *session.connection).await?;
-    if open {
+    if enforce_eligibility && open {
         return Err(Error::Unprocessable("冻结版本仍有未收口争议。".into()));
     }
     Ok(Source {

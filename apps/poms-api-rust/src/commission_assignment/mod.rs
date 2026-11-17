@@ -6,3 +6,4 @@ pub use service::{
 };
 // Root's typed route adapter calls only these concrete request functions.
 pub use service::execute_with_session;
+pub(crate) use service::{replace_frozen_with_session, summary};

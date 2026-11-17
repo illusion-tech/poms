@@ -154,7 +154,10 @@ async fn verify_duties(
     Ok(())
 }
 
-async fn summary(session: &mut CommonSession<'_, '_>, assignment: &Value) -> Result<Value, Error> {
+pub(crate) async fn summary(
+    session: &mut CommonSession<'_, '_>,
+    assignment: &Value,
+) -> Result<Value, Error> {
     let mut people = Vec::new();
     if assignment["producer_version"] == 1 {
         for p in participants(session, id(assignment, "id")?).await? {
@@ -227,13 +230,20 @@ pub async fn detail_with_session(
         };
     let frozen: Option<Value> = sqlx::query_scalar("SELECT to_jsonb(f) FROM poms.commission_role_assignment_freeze_payload f WHERE assignment_id=$1")
         .bind(assignment_id).fetch_optional(&mut *session.connection).await?;
+    let can_dispute: bool = if a["is_current"] == true && a["status"] == "frozen" {
+        sqlx::query_scalar("SELECT EXISTS(SELECT 1 FROM poms.project_handover h JOIN poms.approval_summary_snapshot s ON s.id=h.summary_snapshot_id AND s.target_id=h.id AND s.target_type='project-handover' WHERE h.id=$1 AND h.project_id=$2 AND h.is_current AND h.status='confirmed' AND s.id=$3 AND s.status='active') AND NOT EXISTS(SELECT 1 FROM poms.commission_freeze_dispute_record WHERE freeze_version_id=$4 AND status='submitted')")
+            .bind(a["source_handover_id"].as_str().and_then(|v|Uuid::parse_str(v).ok())).bind(id(&a,"project_id")?).bind(a["handover_summary_snapshot_id"].as_str().and_then(|v|Uuid::parse_str(v).ok())).bind(assignment_id)
+            .fetch_one(&mut *session.connection).await?
+    } else {
+        false
+    };
     let empty = Value::Null;
     let f = frozen.as_ref().unwrap_or(&empty);
     Ok(
         json!({"roleAssignmentId":assignment_id,"projectId":a["project_id"],"freezeVersionSummary":summary(session,&a).await?,"sourceHandoverId":a["source_handover_id"],"contractSummarySnapshotId":a["contract_summary_snapshot_id"],"handoverSummarySnapshotId":a["handover_summary_snapshot_id"],
       "effectiveHandoverBaselineSummary":{"status":if a["effective_handover_baseline_snapshot_id"].is_null(){"missing"}else{"available"},"baselineSnapshotId":a["effective_handover_baseline_snapshot_id"],"sourceType":if a["source_handover_id"].is_null(){"none"}else{"project-handover"},"sourceId":a["source_handover_id"],"summary":if a["status"]=="frozen"{"角色冻结引用固定移交基线。"}else{"尚未冻结移交基线。"}},
       "receiptJudgmentModeSummary":{"status":if frozen.is_some(){"frozen"}else{"not-frozen"},"receiptJudgmentMode":f["source_payload"]["receiptJudgmentMode"],"sourceType":if frozen.is_some(){"project-handover"}else{"none"},"sourceId":a["source_handover_id"],"summary":if frozen.is_some(){"使用同链回款判断冻结。"}else{"角色尚未引用正式回款冻结。"}},
-      "summaryPackageKey":frozen.as_ref().map(|_|"commission-role-freeze-confirmation"),"summarySnapshotId":f["freeze_summary_snapshot_id"],"projectionLevel":frozen.as_ref().map(|_|"commission-role-freeze"),"exportPolicy":frozen.as_ref().map(|_|"commission-controlled"),"allowedActions":if can_freeze {vec!["freeze-commission-role-assignment"]}else{vec![]},"generatedAt":crate::auth::model::clock_now(),"sourcePayloadHash":f["source_payload_hash"],"sourceQualification":qualification(&a),"receiptJudgmentFreezeId":f["receipt_judgment_freeze_id"],"handoverBasisSnapshotId":f["handover_basis_snapshot_id"],"freezeSummarySnapshotId":f["freeze_summary_snapshot_id"]}),
+      "summaryPackageKey":frozen.as_ref().map(|_|"commission-role-freeze-confirmation"),"summarySnapshotId":f["freeze_summary_snapshot_id"],"projectionLevel":frozen.as_ref().map(|_|"commission-role-freeze"),"exportPolicy":frozen.as_ref().map(|_|"commission-controlled"),"allowedActions":if can_freeze {vec!["freeze-commission-role-assignment"]}else if can_dispute{vec!["submit-commission-freeze-dispute"]}else{vec![]},"generatedAt":crate::auth::model::clock_now(),"sourcePayloadHash":f["source_payload_hash"],"sourceQualification":qualification(&a),"receiptJudgmentFreezeId":f["receipt_judgment_freeze_id"],"handoverBasisSnapshotId":f["handover_basis_snapshot_id"],"freezeSummarySnapshotId":f["freeze_summary_snapshot_id"]}),
     )
 }
 
@@ -491,6 +501,108 @@ pub async fn require_current_frozen(
         payload_hash: text(&f, "source_payload_hash")?.into(),
         freeze_summary_id: id(&f, "freeze_summary_snapshot_id")?,
     })
+}
+
+/// A controlled replacement preserves the original producer's qualification.
+/// Modern replacements go through the existing freeze producer with current
+/// confirmed duties; legacy inputs never acquire a fabricated modern payload.
+pub(crate) async fn replace_frozen_with_session(
+    session: &mut CommonSession<'_, '_>,
+    before: &Value,
+    requested: &[crate::commission::model::ReplacementParticipant],
+    actor: &Actor,
+) -> Result<Uuid, Error> {
+    let project = id(before, "project_id")?;
+    let previous = id(before, "id")?;
+    if before["is_current"] != true || before["status"] != "frozen" {
+        return Err(Error::Conflict("只有当前冻结版本可生成受控替代。".into()));
+    }
+    let modern = before["producer_version"] == 1;
+    let frozen = if modern {
+        Some(require_current_frozen(session, project, previous, None).await?)
+    } else {
+        None
+    };
+    let old_people = participants(session, previous).await?;
+    let mut people = Vec::new();
+    for p in requested {
+        let name: String = sqlx::query_scalar(
+            "SELECT display_name FROM poms.platform_user WHERE id=$1 AND is_active FOR SHARE",
+        )
+        .bind(p.user_id)
+        .fetch_optional(&mut *session.connection)
+        .await?
+        .ok_or_else(|| Error::BadRequest("替代参与者不存在或已停用。".into()))?;
+        let old = old_people.iter().find(|old| {
+            old["userId"] == p.user_id.to_string() && old["roleType"] == p.role_type.trim()
+        });
+        let responsibility = if let Some(old) = old {
+            old["responsibilitySummary"].as_str().map(str::to_owned)
+        } else if let Some(f) = &frozen {
+            sqlx::query_scalar("SELECT responsibility_summary FROM poms.project_handover_participant_role WHERE handover_id=$1 AND participant_user_id=$2 AND role_key=$3")
+                .bind(id(&f.handover,"id")?).bind(p.user_id).bind(p.role_type.trim()).fetch_optional(&mut *session.connection).await?
+        } else {
+            None
+        };
+        let zero_reason = if p.weight.units() == 0 {
+            old.and_then(|v| v["zeroWeightReason"].as_str())
+        } else {
+            None
+        };
+        people.push(json!({"userId":p.user_id,"roleType":p.role_type.trim(),"weightUnits":p.weight.units(),"displayName":name,"responsibilitySummary":responsibility,"zeroWeightReason":zero_reason}));
+    }
+    if modern {
+        verify_duties(session, project, &people, true).await?;
+    }
+    let maximum: i32 = sqlx::query_scalar(
+        "SELECT COALESCE(MAX(version),0) FROM poms.commission_role_assignment WHERE project_id=$1",
+    )
+    .bind(project)
+    .fetch_one(&mut *session.connection)
+    .await?;
+    let logical = next_version(maximum)?;
+    next_version(version(before)?)?;
+    let now = crate::auth::model::clock_now();
+    let changed = sqlx::query("UPDATE poms.commission_role_assignment SET is_current=false,status='superseded',row_version=row_version+1,updated_at=$1,updated_by=$2 WHERE id=$3 AND is_current AND status='frozen' AND row_version=$4")
+        .bind(now).bind(actor.id).bind(previous).bind(version(before)?).execute(&mut *session.connection).await?.rows_affected();
+    if changed != 1 {
+        return Err(Error::Conflict("冻结角色版本已变化。".into()));
+    }
+    let replacement = new_uuid()?;
+    let legacy = people.iter().map(|p| -> Result<Value,Error> {
+        let units = i32::try_from(p["weightUnits"].as_i64().ok_or(Error::Internal)?).map_err(|_|Error::Internal)?;
+        Ok(json!({"userId":p["userId"],"roleType":p["roleType"],"displayName":p["displayName"],"weight":weight_number(units)}))
+    }).collect::<Result<Vec<_>,Error>>()?;
+    sqlx::query("INSERT INTO poms.commission_role_assignment(id,project_id,version,is_current,status,participants_json,source_handover_id,source_handover_rebaseline_record_id,contract_summary_snapshot_id,handover_summary_snapshot_id,effective_handover_baseline_snapshot_id,frozen_at,frozen_by,supersedes_id,created_by,updated_by,producer_version,weights_policy_version) SELECT $1,project_id,$2,true,$3,$4,source_handover_id,source_handover_rebaseline_record_id,contract_summary_snapshot_id,handover_summary_snapshot_id,effective_handover_baseline_snapshot_id,CASE WHEN $5 THEN NULL ELSE $6 END,CASE WHEN $5 THEN NULL ELSE $7 END,id,$7,$7,producer_version,weights_policy_version FROM poms.commission_role_assignment WHERE id=$8")
+        .bind(replacement).bind(logical).bind(if modern{"draft"}else{"frozen"}).bind(json!(legacy)).bind(modern).bind(now).bind(actor.id).bind(previous)
+        .execute(&mut *session.connection).await?;
+    if let Some(f) = frozen {
+        for (order, p) in people.iter().enumerate() {
+            sqlx::query("INSERT INTO poms.commission_role_assignment_participant(assignment_id,user_id,role_type,responsibility_summary,weight_units,zero_weight_reason,display_name_at_assignment,sort_order) VALUES($1,$2,$3,$4,$5,$6,$7,$8)")
+                .bind(replacement).bind(id(p,"userId")?).bind(text(p,"roleType")?).bind(text(p,"responsibilitySummary")?).bind(p["weightUnits"].as_i64().ok_or(Error::Internal)? as i32)
+                .bind(p["zeroWeightReason"].as_str()).bind(text(p,"displayName")?).bind(i32::try_from(order).map_err(|_|Error::Internal)?)
+                .execute(&mut *session.connection).await?;
+        }
+        let h = f.handover;
+        freeze_with_session(
+            session,
+            replacement,
+            &FreezeCommissionRoleAssignmentRequest {
+                input_version: "server-derived-v1".into(),
+                expected_version: 1,
+                source_handover_id: id(&h, "id")?,
+                expected_handover_version: version(&h)?,
+                handover_summary_snapshot_id: id(&h, "summary_snapshot_id")?,
+                handover_basis_snapshot_id: id(&h, "basis_snapshot_id")?,
+                expected_source_hash: text(&h, "source_payload_hash")?.into(),
+                comment: None,
+            },
+            actor,
+        )
+        .await?;
+    }
+    facts::record(session,actor,"CommissionFreezeDisputeController_arbitrateCommissionFreezeDispute","commission-role-assignment",replacement,project,Some(before.clone()),json!({"replacementId":replacement,"supersedesId":previous,"participants":people,"sourceQualification":if modern{"verified-producer"}else{"legacy-unverified"}})).await?;
+    Ok(replacement)
 }
 
 #[cfg(test)]

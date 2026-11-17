@@ -14,8 +14,14 @@ class Migration {
 }
 (async () => {
   const directory = path.join(root, 'apps/poms-api/src/migrations');
+  const args = process.argv.slice(2);
+  if (args.length && (args.length !== 2 || args[0] !== '--only' || !/^Migration[^/\\]*\.ts$/.test(args[1]))) {
+    throw new Error('Usage: emit-test-schema.cjs [--only MigrationName.ts]');
+  }
+  const names = fs.readdirSync(directory).filter(n => /^Migration.*\.ts$/.test(n) && (!args.length || n === args[1])).sort();
+  if (!names.length) throw new Error('No matching application migration');
   const output = ['BEGIN;'];
-  for (const name of fs.readdirSync(directory).filter(n => /^Migration.*\.ts$/.test(n)).sort()) {
+  for (const name of names) {
     const source = fs.readFileSync(path.join(directory, name), 'utf8');
     const code = ts.transpileModule(source, { compilerOptions: {
       target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.CommonJS,
