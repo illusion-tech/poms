@@ -1,5 +1,7 @@
 use crate::contract_support::{Error, nonnegative_money};
-use crate::shared::generated::CommissionAdjustmentType;
+use crate::shared::generated::{
+    CommissionAdjustmentType, CommissionPayoutStage, CommissionPayoutTier,
+};
 use chrono::{DateTime, Utc};
 use rust_decimal::{Decimal, RoundingStrategy};
 use serde::{Deserialize, Serialize};
@@ -118,6 +120,67 @@ pub struct CreateAdjustment {
     pub reason: String,
 }
 
+fn basic_tier() -> CommissionPayoutTier {
+    CommissionPayoutTier::Basic
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct CreatePayout {
+    pub calculation_id: Uuid,
+    pub stage_type: CommissionPayoutStage,
+    #[serde(default = "basic_tier")]
+    pub selected_tier: CommissionPayoutTier,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct SubmitPayout {
+    pub payout_stage: CommissionPayoutStage,
+    #[serde(default, deserialize_with = "non_null_optional")]
+    pub freeze_version_id: Option<Uuid>,
+    #[serde(default, deserialize_with = "non_null_optional")]
+    pub baseline_selection_source: Option<String>,
+    #[serde(default, deserialize_with = "non_null_optional")]
+    pub gate_review_record_id: Option<Uuid>,
+    #[serde(default, deserialize_with = "non_null_optional")]
+    pub summary_snapshot_id: Option<Uuid>,
+    #[serde(default, deserialize_with = "non_null_optional")]
+    pub retention_receipt_record_id: Option<Uuid>,
+    #[serde(default, deserialize_with = "non_null_optional")]
+    pub departure_exception_decision_id: Option<Uuid>,
+    #[serde(default, deserialize_with = "non_null_optional")]
+    pub comment: Option<String>,
+    #[serde(default, deserialize_with = "non_null_optional")]
+    pub expected_version: Option<i32>,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ApprovePayout {
+    #[serde(default, deserialize_with = "non_null_optional")]
+    pub approved_amount: Option<String>,
+    #[serde(default, deserialize_with = "non_null_optional")]
+    pub expected_version: Option<i32>,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct RegisterPayout {
+    pub payout_stage: CommissionPayoutStage,
+    pub paid_record_amount: String,
+    #[serde(default, deserialize_with = "non_null_optional")]
+    pub approval_record_id: Option<Uuid>,
+    #[serde(default, deserialize_with = "non_null_optional")]
+    pub summary_snapshot_id: Option<Uuid>,
+    #[serde(default, deserialize_with = "non_null_optional")]
+    pub paid_at: Option<DateTime<Utc>>,
+    #[serde(default, deserialize_with = "non_null_optional")]
+    pub comment: Option<String>,
+    #[serde(default, deserialize_with = "non_null_optional")]
+    pub expected_version: Option<i32>,
+}
+
 #[derive(Debug)]
 pub enum Request {
     None,
@@ -127,6 +190,10 @@ pub enum Request {
     Recalculate(Recalculate),
     CreateAdjustment(CreateAdjustment),
     AdjustmentVersion(ConfirmCalculation),
+    CreatePayout(CreatePayout),
+    SubmitPayout(SubmitPayout),
+    ApprovePayout(ApprovePayout),
+    RegisterPayout(RegisterPayout),
 }
 
 pub fn amount(raw: &str) -> Result<Decimal, Error> {
@@ -151,7 +218,55 @@ impl Request {
             serde_json::from_str(raw.unwrap_or("{}"))
                 .map_err(|_| Error::BadRequest("提成请求字段或类型不符合接口契约。".into()))
         }
+        fn comment(value: Option<&str>, maximum: usize) -> Result<(), Error> {
+            if value.is_some_and(|s| s.trim().is_empty() || s.trim().chars().count() > maximum) {
+                return Err(Error::BadRequest("提成请求文本长度不符合契约。".into()));
+            }
+            Ok(())
+        }
         Ok(match operation {
+            "CommissionController_createPayout" => Self::CreatePayout(parse(raw)?),
+            "CommissionController_submitPayoutApproval" => {
+                let input: SubmitPayout = parse(raw)?;
+                expected(input.expected_version)?;
+                comment(input.comment.as_deref(), 2000)?;
+                comment(input.baseline_selection_source.as_deref(), 32)?;
+                if input.payout_stage == CommissionPayoutStage::Retention
+                    && [
+                        input.gate_review_record_id,
+                        input.summary_snapshot_id,
+                        input.retention_receipt_record_id,
+                        input.departure_exception_decision_id,
+                    ]
+                    .iter()
+                    .any(Option::is_none)
+                {
+                    return Err(Error::BadRequest(
+                        "质保金审批必须提供评审、摘要、到账和离职/特例结论引用。".into(),
+                    ));
+                }
+                Self::SubmitPayout(input)
+            }
+            "CommissionController_approvePayout" => {
+                let input: ApprovePayout = parse(raw)?;
+                expected(input.expected_version)?;
+                if let Some(raw) = &input.approved_amount {
+                    amount(raw)?;
+                }
+                Self::ApprovePayout(input)
+            }
+            "CommissionController_registerPayout" => {
+                let input: RegisterPayout = parse(raw)?;
+                expected(input.expected_version)?;
+                amount(&input.paid_record_amount)?;
+                comment(input.comment.as_deref(), 2000)?;
+                if input.payout_stage == CommissionPayoutStage::Retention
+                    && input.summary_snapshot_id.is_none()
+                {
+                    return Err(Error::BadRequest("质保金登记必须引用当前结算摘要。".into()));
+                }
+                Self::RegisterPayout(input)
+            }
             "CommissionController_createRuleVersion" => {
                 let input: CreateRule = parse(raw)?;
                 input.validate()?;

@@ -10,6 +10,7 @@ use crate::approval_common::{
     session::{ApprovalDomainHandler, DomainDecisionFuture},
     store,
 };
+use crate::contract_support;
 use axum::http::StatusCode;
 use sqlx::PgConnection;
 
@@ -605,6 +606,28 @@ impl ApprovalDomainHandler for OriginalApprovalDomain {
                     reason:record.decision_comment.as_ref().map(|text|text.to_utf8_lossy()),
                     metadata:serde_json::json!({"requiredSensitivePackages":["contract-finance"],"approvalRecordId":approval_id,"decision":if approved{"approved"}else{"rejected"}}),
                 }).await.map_err(contract_support::Error::into_common)?;
+            }
+            if table == Table::Payout {
+                let payout_id =
+                    uuid::Uuid::parse_str(&id.js_text().to_utf8_lossy()).map_err(|_| {
+                        CommonFailure::http(StatusCode::BAD_REQUEST, "Invalid payout UUID")
+                    })?;
+                let project_id: Option<uuid::Uuid> =
+                    sqlx::query_scalar("SELECT project_id FROM poms.commission_payout WHERE id=$1")
+                        .bind(payout_id)
+                        .fetch_optional(&mut *session.connection)
+                        .await?;
+                let project_id = project_id.ok_or_else(|| {
+                    CommonFailure::http(StatusCode::NOT_FOUND, "Payout not found")
+                })?;
+                contract_support::lock_project(session.connection, project_id)
+                    .await
+                    .map_err(contract_support::Error::into_common)?;
+                if approved {
+                    crate::commission::payout::prepare_approval(session, payout_id)
+                        .await
+                        .map_err(contract_support::Error::into_common)?;
+                }
             }
             let entity = required(find_one(session, table, &filters, &[]).await?, kind, &id)?;
             let mut row = store::data(session.state, entity)?;

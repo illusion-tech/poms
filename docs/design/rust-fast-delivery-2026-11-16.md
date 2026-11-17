@@ -40,3 +40,14 @@ a7bfe388阶段记录：复用命令见`apps/poms-api-rust/README.md`，日志在
 可复用SQL命令及输入边界见`tools/rust-commission/README.md`，本轮记录为`commission-sql-http-01..07.log`、`commission-regression-01.log`、`commission-clippy-01.log`、`commission-build-01.log`及`openapi-linux284.json`，均在上述target目录。冻结角色/primary发放仅作为显式legacy持久化测试输入，不冒充其producer验收。测试cluster数据与失败记录保留。
 
 剩余12项：发放5、冻结争议/变更4、离职特例1、最终结算/规则解释2；前端联调、完整阶段验收和目标TEST发布仍待完成。#57/#116保持开放，不再投入旧验收工具框架。
+
+2026-11-17发放链交付：补齐发放列表、草稿、提交审批、批准、登记5项，实际Rust规范为289项/235路径，提成21/28项。用户明确允许启动Debian用于构建和独立测试；只启动自有PostgreSQL测试库与一次测试API，未启动旧PG/API或验收执行器，未重跑旧prepare/Source/rebind/probe。
+
+- 发放沿用现有审批服务和待办，通用审批与发放专用审批采用相同校验和锁顺序；登记要求真实批准记录。金额使用Decimal，跨计算版本计入实际已付款、补发和扣回，暂停状态不抹去已经付出的现金。首期、二期、尾款和质保金分别检查当前合同/冻结基线、到账、阶段验收及经营评审条件；尾款/质保金写入现有结算和规则解释快照。
+- 当前仅支持与冻结基线匹配的单一有效合同，多合同项目返回409，不推定合同分摊或qualified-subset范围。低首付款首期保守上限10%/15%，尚无自动解锁20%/25%/30%的链路。最终结算/规则解释查询与调整后的结算视图协调仍需后续补齐，不能按路由数量声明完整R5完成。
+- 库553、HTTP层18、SQL场景7通过，Clippy库及相关测试与Linux开发二进制build通过。SQL覆盖两种实际审批入口的并发、故障整体回滚、跨重算余额、低首付款/零质保金/零金额尾款及大额小数精度。另一次真实TCP进程验证通过健康、CSRF、登录和发放查询，API正常退出。
+- 新增审计敏感字段回归：无package元数据的提成发放/调整金额仍需提成敏感权限；计算快照同时要求经营财务与提成敏感权限。测试输入中的上游冻结/交接/条款/经营评审/离职决策保留显式legacy身份；不冒充完整producer或人工批准验收。
+
+记录保留在上述target目录：`payout-regression-01.log`、`payout-sql-all-01.log`、`payout-clippy-01.log`、`payout-build-01.log`、`payout-network-smoke-01.log`和`openapi-linux289.json`。初次编译缺失导入及SQL fixture的唯一键/当前交接标记问题均已修复，失败日志保留，未降低产品权限或业务约束。验证结束后已停止本轮自有API和PostgreSQL进程，测试数据与配置原件保留。
+
+剩余7项：冻结争议/变更4、离职特例1、最终结算/规则解释查询2；另需完整producer集成、多合同范围处理、前端联调和目标Linux/TEST发布验证。#57/#116保持开放，完整后端尚未交付。

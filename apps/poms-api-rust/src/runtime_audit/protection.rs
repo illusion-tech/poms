@@ -34,6 +34,23 @@ fn required_packages(
             );
         }
     }
+    // Historical and current commission writes can contain full monetary rows
+    // without package metadata. An audit-management permission is not a second
+    // path around the domain's independent amount/operating-finance grants.
+    if matches!(
+        row.target_type.as_str(),
+        "commission-calculation" | "CommissionCalculation"
+    ) {
+        names.extend([
+            "operating-finance".to_owned(),
+            "commission-compensation".to_owned(),
+        ]);
+    } else if matches!(
+        row.target_type.as_str(),
+        "commission-payout" | "CommissionPayout" | "commission-adjustment" | "CommissionAdjustment"
+    ) {
+        names.insert("commission-compensation".to_owned());
+    }
     if names.is_empty() {
         if row
             .metadata
@@ -207,5 +224,52 @@ mod tests {
         let mut input = row();
         input.metadata = Some(json!({"requiredSensitivePackages":["invented-package"]}));
         assert!(protect(vec![input], user(&[]), context()).is_err());
+    }
+    #[test]
+    fn unlabelled_commission_amount_history_requires_its_domain_grant() {
+        for target in [
+            "commission-payout",
+            "CommissionPayout",
+            "commission-adjustment",
+        ] {
+            let mut input = row();
+            input.target_type = target.into();
+            input.event_type = "CommissionController_registerPayout".into();
+            input.metadata = Some(json!({"producerVersion":1,"raw":"COMMISSION_SECRET"}));
+            let (hidden, _) = protect(vec![input.clone()], user(&["project:write"]), context())
+                .unwrap_or_else(|_| panic!("projection"));
+            assert!(hidden[0].before_snapshot.is_none() && hidden[0].after_snapshot.is_none());
+            assert!(
+                !serde_json::to_string(&hidden)
+                    .unwrap_or_default()
+                    .contains("COMMISSION_SECRET")
+            );
+            let permission =
+                crate::shared::generated::PermissionKey::CommissionAmountSensitiveRead.as_str();
+            let (visible, _) = protect(vec![input.clone()], user(&[permission]), context())
+                .unwrap_or_else(|_| panic!("projection"));
+            assert_eq!(visible[0].after_snapshot, input.after_snapshot);
+        }
+    }
+    #[test]
+    fn calculation_audit_does_not_release_costs_with_only_compensation_access() {
+        let mut input = row();
+        input.target_type = "commission-calculation".into();
+        input.event_type = "CommissionController_recalculateCalculation".into();
+        input.metadata = Some(json!({"producerVersion":1}));
+        let compensation =
+            crate::shared::generated::PermissionKey::CommissionAmountSensitiveRead.as_str();
+        let operating =
+            crate::shared::generated::PermissionKey::OperatingFinanceSensitiveRead.as_str();
+        let (hidden, _) = protect(vec![input.clone()], user(&[compensation]), context())
+            .unwrap_or_else(|_| panic!("projection"));
+        assert!(hidden[0].after_snapshot.is_none());
+        let (visible, _) = protect(
+            vec![input.clone()],
+            user(&[compensation, operating]),
+            context(),
+        )
+        .unwrap_or_else(|_| panic!("projection"));
+        assert_eq!(visible[0].after_snapshot, input.after_snapshot);
     }
 }

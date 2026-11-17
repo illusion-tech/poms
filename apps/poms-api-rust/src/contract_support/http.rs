@@ -360,6 +360,7 @@ async fn dispatch(
         },
     };
     let status = StatusCode::from_u16(op.success_status).unwrap_or(StatusCode::OK);
+    let commission_approval = crate::approval::ApprovalService::new(database.clone());
     let result = database
         .with_connection(move |connection| {
             Box::pin(async move {
@@ -481,6 +482,7 @@ async fn dispatch(
                                 &named,
                                 &commission_request,
                                 &actor,
+                                &commission_approval,
                             )
                             .await
                         }

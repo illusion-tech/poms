@@ -23,9 +23,20 @@ pub async fn execute(
     keys: &ResourceKeys,
     request: &Request,
     actor: &Actor,
+    approval: &crate::approval::ApprovalService,
 ) -> Result<Value, Error> {
     if !session.connection.is_in_transaction() {
         return Err(Error::Internal);
+    }
+    if matches!(
+        operation,
+        "CommissionController_listPayouts"
+            | "CommissionController_createPayout"
+            | "CommissionController_submitPayoutApproval"
+            | "CommissionController_approvePayout"
+            | "CommissionController_registerPayout"
+    ) {
+        return super::payout::execute(session, operation, keys, request, actor, approval).await;
     }
     match (operation, request) {
         ("CommissionController_listRuleVersions", Request::None) => {

@@ -2,7 +2,10 @@
 //! HTTP transaction. Auxiliary acceptance ledgers are not part of this service.
 mod adjustment;
 pub mod model;
+pub(crate) mod payout;
+mod payout_context;
 mod service;
+mod settlement;
 pub use model::Request;
 pub use service::execute;
 
@@ -90,6 +93,41 @@ pub const ROUTES: &[(&str, &str, &str, &str, u16)] = &[
         "/api/commission-adjustments/{id}:execute",
         "CommissionController_executeAdjustment",
         "commission:adjustments:manage",
+        200,
+    ),
+    (
+        "GET",
+        "/api/projects/{projectId}/commission-payouts",
+        "CommissionController_listPayouts",
+        "commission:payouts:manage",
+        200,
+    ),
+    (
+        "POST",
+        "/api/projects/{projectId}/commission-payouts",
+        "CommissionController_createPayout",
+        "commission:payouts:manage",
+        200,
+    ),
+    (
+        "POST",
+        "/api/commission-payouts/{id}:submitApproval",
+        "CommissionController_submitPayoutApproval",
+        "commission:payouts:manage",
+        200,
+    ),
+    (
+        "POST",
+        "/api/commission-payouts/{id}:approve",
+        "CommissionController_approvePayout",
+        "commission:payouts:manage",
+        200,
+    ),
+    (
+        "POST",
+        "/api/commission-payouts/{id}:registerPayout",
+        "CommissionController_registerPayout",
+        "commission:payouts:manage",
         200,
     ),
 ];
