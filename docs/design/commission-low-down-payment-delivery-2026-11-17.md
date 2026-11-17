@@ -39,4 +39,4 @@
 
 验证：Rust库557、HTTP18、共享枚举333组、SQL场景12、现有前端入口回归6通过，Clippy及相关TypeScript/ESLint通过。Angular22生产构建成功；实际Chromium156→Angular→Rust→独立PG的管理层专用角色完成选择合同、确认条件、提交201、历史回读及防重复操作，无页面异常。该账户没有提成计算/发放/调整权限。冻结/移交仍含明确legacy测试材料，实际回款来自G生产函数，不冒称完整上游producer链或人工批准。
 
-全部执行日志、失败与截图保留于`apps/poms-api-rust/target/delivery-dependencies/commission-*`。包括旧37项权限语料不匹配、新DTO的Set不适合JSON、CLI工作区路径、缺少默认浏览器和并发死锁的失败及修复记录；没有修改历史原件或运行旧验收框架。目标Debian12发布及完整producer贯穿继续待办，#57/#116开放。
+全部执行日志、失败与截图保留于`apps/poms-api-rust/target/delivery-dependencies/commission-*`。包括旧37项权限语料不匹配、新DTO的Set不适合JSON、CLI工作区路径、缺少默认浏览器和并发死锁的失败及修复记录；没有修改历史原件或运行旧验收框架。随后[Linux兼容release及目标直接运行已通过](rust-linux-candidate-2026-11-18.md)，目标10项迁移演练、服务切换及完整producer贯穿继续待办，#57/#116开放。

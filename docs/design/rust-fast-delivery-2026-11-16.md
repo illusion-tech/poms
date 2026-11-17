@@ -67,4 +67,6 @@ Clippy和Linux开发二进制build通过；实际`openapi-linux296.json`的296�
 
 Rust库557、HTTP18、共享枚举333组、SQL12及前端入口6项回归通过，Clippy、相关TypeScript/ESLint、Angular生产构建通过。实际Chromium→生产Angular→Rust→独立PG完成管理层选择合同、批准201及回读，合成账户不等于人工批准；失败、UNKNOWN和原件均保留。具体规则、迁移与验证见[多合同及低首付款交付记录](commission-low-down-payment-delivery-2026-11-17.md)。
 
-当前剩余为完整producer贯穿、其余核心页面联调，以及目标Linux包与TEST发布/回滚验证。本机开发产物的`__isoc23_strtol`要求GLIBC_2.38，目标Debian12/glibc2.36尚不可直接使用；需先完成兼容构建。#57/#116继续开放。
+同日后续已完成兼容release构建：使用单独解压的Debian12头文件和库，正常release耗时5分39秒，最高必需GLIBC2.34；本机在2.36下通过实际登录/查询，目标TEST直接运行导出298项规范并退出0。首次编译后WSL Git不能解释Windows worktree指针，元信息步骤失败并保留原日志；二进制随后独立复核，没有盲目重编。
+
+只读检查目标实际迁移记录，确认10项待执行，当前仍为`20260804-163850`。候选包包含release二进制、生产Angular、这10项实际迁移的JS/SQL及候选配置，没有私有环境文件；未执行目标迁移或服务切换。[具体候选及剩余工作](rust-linux-candidate-2026-11-18.md)：完整producer贯穿、其余核心页面联调、隔离副本迁移演练与应用回退验证。#57/#116继续开放。

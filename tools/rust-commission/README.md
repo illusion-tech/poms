@@ -50,3 +50,5 @@ node tools/rust-commission/build-admin.mjs apps/poms-api-rust/target/delivery-de
 本机须显式使用已有Node24.19；客户端使用已有Java17和7.20.0 generator缓存，不下载依赖。客户端uniqueItems仍用JSON数组，避免Set序列化为空对象。构建工具从实际project.json生成临时Angular CLI配置，保留每次配置、产物和失败，拒绝覆盖已有配置，直接运行ng build，不调用pnpm或Nx。
 
 Angular生产构建通过，两个现有入口单元套件6项通过。真实Chromium156以只有项目读取、独立管理层权限及敏感读取权限的合成角色完成页面合同选择、条件确认、批准201和历史回读；记录为`commission-manager-browser-02.json`，前次缺少默认浏览器未发出业务命令且保留失败。API与静态页面服务均正常停止。目标Debian12发布及完整producer贯穿仍待完成。
+
+Linux兼容release及本机真实网络检查、目标ABI检查见[候选版本说明](../../docs/design/rust-linux-candidate-2026-11-18.md)。`build-linux-release.py`使用解压的sysroot，不安装宿主包；Windows Git实际HEAD通过`--source-revision`传给WSL，避免解释Windows worktree指针。目标只读元数据确认待执行10项迁移，`inspect-test-target.cjs`不打印凭据或业务行。`package-candidate.mjs`只组装本地已验证产物和实际pending迁移，不部署、不执行迁移。
