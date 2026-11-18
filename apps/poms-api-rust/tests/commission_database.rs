@@ -197,13 +197,26 @@ async fn fixture(named_user: Option<&str>, permissions: &[PermissionKey]) -> Res
         service: Arc::new(AuthService::new(database.clone(), config.auth.clone())),
         cookies: AuthCookieService::from_auth_config(&config.auth),
     };
-    let app = http::router_with_auth(
+    let password_path = std::path::PathBuf::from(std::env::var("POMS_COMMISSION_PASSWORD_FILE")?);
+    let storage_root = password_path
+        .parent()
+        .ok_or("owned test directory")?
+        .join("r4-native-attachments")
+        .join(user.to_string());
+    let storage_settings =
+        poms_api_rust::attachment_storage::AttachmentRuntimeSettings::from_map(&HashMap::from([(
+            "POMS_ATTACHMENT_LOCAL_ROOT".into(),
+            storage_root.to_string_lossy().into_owned(),
+        )]));
+    let app = http::router_with_runtime_settings(
         AppState {
             database: database.clone(),
             started_at: Instant::now(),
         },
         &[],
         auth,
+        poms_api_rust::provider_support::ProviderSettings::default(),
+        storage_settings,
     );
     let anonymous_csrf = app
         .clone()
@@ -2917,4 +2930,628 @@ async fn r5_tail_adjustment_refresh_and_settlement_rollback() -> Result {
     );
     close_fixture(finance).await?;
     close_fixture(f).await
+}
+
+fn native_success<'a>(
+    client: &'a Client,
+    method: &'a str,
+    path: &'a str,
+    input: Value,
+) -> std::pin::Pin<Box<dyn std::future::Future<Output = Result<Value>> + 'a>> {
+    // Keep the router future outside the long scenario's test-thread stack.
+    Box::pin(async move {
+        let (status, value) = client.call(method, path, input).await?;
+        assert!(
+            matches!(status, StatusCode::OK | StatusCode::CREATED),
+            "{method} {path}: {status} {value}"
+        );
+        Ok(value)
+    })
+}
+
+#[tokio::test]
+#[ignore = "requires explicit dedicated commission DB initialized from application migrations"]
+async fn r4_native_business_delivery_chain() -> Result {
+    let permissions = [
+        PermissionKey::CustomerRead,
+        PermissionKey::CustomerWrite,
+        PermissionKey::ProjectRead,
+        PermissionKey::ProjectWrite,
+        PermissionKey::NavContractsView,
+        PermissionKey::ContractFinanceManage,
+        PermissionKey::ContractFinanceSensitiveRead,
+        PermissionKey::OperatingFinanceSensitiveRead,
+        PermissionKey::CommissionAssignmentsManage,
+        PermissionKey::CommissionCalculationsManage,
+        PermissionKey::CommissionPayoutsManage,
+        PermissionKey::CommissionRuleVersionsManage,
+        PermissionKey::CommissionAmountSensitiveRead,
+    ];
+    let f = fixture(None, &permissions).await?;
+    let reviewer = fixture(
+        Some("vp_owner"),
+        &[
+            PermissionKey::ProjectRead,
+            PermissionKey::ProjectWrite,
+            PermissionKey::NavContractsView,
+        ],
+    )
+    .await?;
+    // Login/organization and generic pricing lineage are test configuration.
+    // Qualified contract/handover/role states come from the actual APIs.
+    let org = uuid(&f.pool).await?;
+    sqlx::query("INSERT INTO poms.org_unit(id,name,code,is_active) VALUES($1,$2,$3,true)")
+        .bind(org)
+        .bind(format!("R4 functional {org}"))
+        .bind(format!("r4-{org}"))
+        .execute(&f.pool)
+        .await?;
+    sqlx::query("INSERT INTO poms.user_org_membership(user_id,org_unit_id,membership_type,status) VALUES($1,$2,'primary','active')")
+        .bind(f.user).bind(org).execute(&f.pool).await?;
+    sqlx::query("UPDATE poms.platform_user SET primary_org_unit_id=$1 WHERE id=$2")
+        .bind(org)
+        .bind(f.user)
+        .execute(&f.pool)
+        .await?;
+    let customer = native_success(&f.client, "POST", "/api/customers",
+        json!({"displayName":format!("R4 native customer {}",f.user),"ownerOrgId":org,"ownerUserId":f.user})).await?;
+    let customer = row_id(&customer)?;
+    let project = native_success(&f.client, "POST", "/api/projects",
+        json!({"projectName":format!("R4 native chain {}",f.user),"customerId":customer,"initialOwnership":"creator"})).await?;
+    let project = row_id(&project)?;
+    println!("native business project: {project}");
+    let contract = native_success(&f.client, "POST", "/api/contracts",
+        json!({"projectId":project,"signedAmount":"113000.00","currencyCode":"CNY","signedAt":"2026-11-01T00:00:00.000Z"})).await?;
+    let contract = row_id(&contract)?;
+    let cost = native_success(&f.client, "POST", &format!("/api/projects/{project}/technical-cost-packages"),
+        json!({"technicalFeasibilityDecision":"feasible","technicalConclusionSummary":"Owned native functional input","allowNextStage":true,"currencyCode":"CNY","taxAssumptionSummary":"13 percent","taxReviewStatus":"reviewed","costItems":[{"costCategory":"procurement","costDescription":"Equipment","estimationBasis":"Owned functional quotation","amountExcludingTax":"70000.00","taxCostAmount":"9100.00","amountIncludingTax":"79100.00","currencyCode":"CNY","confidenceLevel":"high","highUncertainty":false}]})).await?;
+    let cost = row_id(&cost)?;
+    let bid = native_success(&f.client, "POST", &format!("/api/projects/{project}/bid-commercial-processes"),
+        json!({"bidMode":"not-required","currentStage":"closed","decision":"not-required","resultStatus":"not-applicable","processSummary":"Direct commercial functional case","decisionSummary":"No bid required"})).await?;
+    let bid = row_id(&bid)?;
+    let terms = json!({"contractId":contract,"amountTaxInclusive":"113000.00","amountTaxExclusive":"100000.00","taxRate":"0.13","downPaymentRate":"0.20","retentionRate":"0","retentionDueDate":null,"paymentTerms":"20 percent deposit, remaining on delivery","receivablePlanSeeds":[{"nodeKey":"deposit","label":"Deposit","plannedAmount":"22600.00","plannedDate":"2026-11-18","isRetentionNode":false,"sortOrder":0},{"nodeKey":"delivery","label":"Delivery","plannedAmount":"90400.00","plannedDate":"2026-12-18","isRetentionNode":false,"sortOrder":1}]});
+    let baseline = native_success(&f.client, "POST", "/api/commercial-release-baselines",
+        json!({"projectId":project,"baselineCode":format!("R4-{project}"),"contractTerms":[terms.clone()],"amountTaxInclusive":"113000.00","amountTaxExclusive":"100000.00","taxRate":"0.13","downPaymentRate":"0.20","retentionRate":"0","paymentTerms":"20 percent deposit, remaining on delivery"})).await?;
+    let baseline = row_id(&baseline)?;
+    // Pricing accepts an existing generic summary as lineage, not approval.
+    // Its declared decision is recorded by the actual pricing API below.
+    let package = format!("r4-native-{project}");
+    let definition:Uuid=sqlx::query_scalar("INSERT INTO poms.approval_summary_package_definition(approval_scenario_key,summary_package_key,projection_level,export_policy,field_rule_version) VALUES($1,$1,'minimum-confirmation','internal-only','functional-configuration') RETURNING id").bind(&package).fetch_one(&f.pool).await?;
+    let summary:Uuid=sqlx::query_scalar("INSERT INTO poms.approval_summary_snapshot(target_type,target_id,approval_scenario_key,summary_package_id,summary_package_key,projection_level,export_policy,business_status_at_snapshot) VALUES('project',$1,$2,$3,$2,'minimum-confirmation','internal-only','assessment') RETURNING id").bind(project).bind(&package).bind(definition).fetch_one(&f.pool).await?;
+    native_success(&f.client, "POST", &format!("/api/projects/{project}/pricing-margin-reviews"),
+        json!({"technicalCostPackageId":cost,"bidCommercialProcessId":bid,"commercialReleaseBaselineId":baseline,"pricingPath":"direct-commercial","quoteVersion":"functional-1","currencyCode":"CNY","quoteAmountTaxInclusive":"113000.00","quoteAmountTaxExclusive":"100000.00","taxRate":"0.13","taxConditionSummary":"13 percent confirmed","paymentTermsSummary":"20 percent deposit, remaining on delivery","grossMarginRate":"0.30","grossMarginBand":"target","grossMarginSummary":"30 percent","decision":"released","decisionSummary":"Owned functional commercial decision","approvalScenarioKey":package,"summaryPackageKey":package,"summarySnapshotId":summary,"projectionLevel":"minimum-confirmation","exportPolicy":"internal-only"})).await?;
+    let readiness=native_success(&f.client,"POST","/api/contract-readiness-packages",
+        json!({"projectId":project,"contractId":contract,"sourceBaselineId":baseline,"candidateTerms":terms})).await?;
+    let readiness = row_id(&readiness)?;
+    native_success(
+        &f.client,
+        "POST",
+        &format!("/api/contract-readiness-packages/{readiness}:initializeContractSnapshot"),
+        json!({"contractId":contract,"expectedVersion":1}),
+    )
+    .await?;
+    let preparation: Uuid = sqlx::query_scalar(
+        "SELECT current_preparation_id FROM poms.contract_readiness_package WHERE id=$1",
+    )
+    .bind(readiness)
+    .fetch_one(&f.pool)
+    .await?;
+    let before = native_success(
+        &f.client,
+        "GET",
+        &format!("/api/contracts/{contract}"),
+        json!({}),
+    )
+    .await?;
+    native_success(
+        &f.client,
+        "POST",
+        &format!("/api/contracts/{contract}:submitReview"),
+        json!({"preparationId":preparation,"expectedVersion":before["rowVersion"]}),
+    )
+    .await?;
+    let approval:Uuid=sqlx::query_scalar("SELECT id FROM poms.approval_record WHERE target_object_id=$1 AND current_status='pending'").bind(contract).fetch_one(&f.pool).await?;
+    native_success(
+        &reviewer.client,
+        "POST",
+        &format!("/api/approval-records/{approval}:approve"),
+        json!({"expectedVersion":1}),
+    )
+    .await?;
+    let approved = native_success(
+        &f.client,
+        "GET",
+        &format!("/api/contracts/{contract}"),
+        json!({}),
+    )
+    .await?;
+    native_success(
+        &f.client,
+        "POST",
+        &format!("/api/contracts/{contract}:activate"),
+        json!({"expectedVersion":approved["rowVersion"],"approvalRecordId":approval}),
+    )
+    .await?;
+    let active: String = sqlx::query_scalar("SELECT status FROM poms.contract WHERE id=$1")
+        .bind(contract)
+        .fetch_one(&f.pool)
+        .await?;
+    assert_eq!(active, "active");
+    let prepared = native_success(
+        &f.client,
+        "GET",
+        &format!("/api/contract-readiness-packages/{readiness}"),
+        json!({}),
+    )
+    .await?;
+    native_success(
+        &f.client,
+        "POST",
+        &format!("/api/contract-readiness-packages/{readiness}:initializeReceivablePlan"),
+        json!({"contractId":contract,"expectedVersion":prepared["rowVersion"]}),
+    )
+    .await?;
+
+    println!("native contract activated: {contract}");
+    let detail = native_success(
+        &f.client,
+        "GET",
+        &format!("/api/projects/{project}/project-handover"),
+        json!({}),
+    )
+    .await?;
+    native_success(&f.client,"POST",&format!("/api/projects/{project}/project-handovers"),
+        json!({"executionOwnerUserId":f.user,"participants":[{"userId":f.user,"responsibilities":[{"roleKey":"sales-owner","responsibilitySummary":"Sales delivery"},{"roleKey":"business-admin","responsibilitySummary":"Business coordination"},{"roleKey":"technical-support","responsibilitySummary":"Technical support"},{"roleKey":"execution-owner","responsibilitySummary":"Execute delivery"}]}],"financeConfirmationRequired":false,"receiptJudgmentMode":"project-aggregate","expectedProjectVersion":detail["projectRowVersion"],"expectedSourceHash":detail["currentSourcePayloadHash"]})).await?;
+    let detail = native_success(
+        &f.client,
+        "GET",
+        &format!("/api/projects/{project}/project-handover"),
+        json!({}),
+    )
+    .await?;
+    let handover = detail["handoverId"].as_str().ok_or("handover ID")?;
+    let confirmation_version:i32=sqlx::query_scalar("SELECT c.row_version FROM poms.project_handover h JOIN poms.confirmation_record c ON c.id=h.confirmation_record_id WHERE h.id=$1").bind(Uuid::parse_str(handover)?).fetch_one(&f.pool).await?;
+    native_success(&f.client,"POST",&format!("/api/project-handovers/{handover}/participant-confirmations"),json!({"summarySnapshotId":detail["summarySnapshotId"],"handoverBasisSnapshotId":detail["handoverBasisSnapshotId"],"expectedConfirmationVersion":confirmation_version})).await?;
+    let detail = native_success(
+        &f.client,
+        "GET",
+        &format!("/api/projects/{project}/project-handover"),
+        json!({}),
+    )
+    .await?;
+    native_success(&f.client,"POST",&format!("/api/project-handovers/{handover}:confirm"),json!({"participantConfirmations":[{"participantId":f.user,"participantRoleKey":"sales-owner","participantStatus":"confirmed"},{"participantId":f.user,"participantRoleKey":"business-admin","participantStatus":"confirmed"},{"participantId":f.user,"participantRoleKey":"technical-support","participantStatus":"confirmed"},{"participantId":f.user,"participantRoleKey":"execution-owner","participantStatus":"confirmed"}],"receiptJudgmentMode":"project-aggregate","contractSummarySnapshotId":detail["contractSummarySnapshotId"],"expectedVersion":detail["rowVersion"],"handoverBasisSnapshotId":detail["handoverBasisSnapshotId"],"summarySnapshotId":detail["summarySnapshotId"],"sourcePayloadHash":detail["sourcePayloadHash"]})).await?;
+    let assignment=native_success(&f.client,"POST",&format!("/api/projects/{project}/commission-role-assignments"),json!({"inputVersion":"server-derived-v1","expectedCurrentAssignmentId":null,"expectedCurrentRowVersion":null,"participants":[{"userId":f.user,"roleType":"sales-owner","responsibilitySummary":"Sales delivery","weight":0.5},{"userId":f.user,"roleType":"execution-owner","responsibilitySummary":"Execute delivery","weight":0.5}]})).await?;
+    let assignment_id = row_id(&assignment)?;
+    let detail = native_success(
+        &f.client,
+        "GET",
+        &format!("/api/projects/{project}/project-handover"),
+        json!({}),
+    )
+    .await?;
+    native_success(&f.client,"POST",&format!("/api/commission-role-assignments/{assignment_id}:freeze"),json!({"inputVersion":"server-derived-v1","sourceHandoverId":handover,"handoverSummarySnapshotId":detail["summarySnapshotId"],"handoverBasisSnapshotId":detail["handoverBasisSnapshotId"],"expectedSourceHash":detail["sourcePayloadHash"],"expectedHandoverVersion":detail["rowVersion"],"expectedVersion":assignment["rowVersion"]})).await?;
+    let frozen = native_success(
+        &f.client,
+        "GET",
+        &format!("/api/projects/{project}/commission-role-assignment"),
+        json!({}),
+    )
+    .await?;
+    assert_eq!(frozen["sourceQualification"], "verified-producer");
+    let handover_stage:Uuid=sqlx::query_scalar("SELECT id FROM poms.project_stage_record WHERE project_id=$1 AND to_stage='handover' ORDER BY sequence_no DESC LIMIT 1").bind(project).fetch_one(&f.pool).await?;
+    let project_view = native_success(
+        &f.client,
+        "GET",
+        &format!("/api/projects/{project}"),
+        json!({}),
+    )
+    .await?;
+    native_success(&f.client,"POST",&format!("/api/projects/{project}:startExecution"),json!({"inputVersion":"server-derived-v1","handoverStageRecordId":handover_stage,"reason":"Owned actual producer chain","handoverSummarySnapshotId":detail["summarySnapshotId"],"expectedProjectVersion":project_view["rowVersion"],"expectedRoleAssignmentVersion":frozen["rowVersion"],"commissionRoleAssignmentId":assignment_id,"sourceHandoverId":handover,"sourcePayloadHash":detail["sourcePayloadHash"]})).await?;
+    let stage: String = sqlx::query_scalar("SELECT current_stage FROM poms.project WHERE id=$1")
+        .bind(project)
+        .fetch_one(&f.pool)
+        .await?;
+    assert_eq!(stage, "execution");
+    println!("native handover/freeze/execution completed: {project}");
+
+    let business_time = chrono::Utc::now().to_rfc3339_opts(chrono::SecondsFormat::Millis, true);
+    let receipt = native_success(
+        &f.client,
+        "POST",
+        &format!("/api/contracts/{contract}/receipt-records"),
+        json!({"receiptAmount":"113000.00","receiptDate":business_time,"sourceType":"manual"}),
+    )
+    .await?;
+    let receipt = row_id(&receipt)?;
+    let term: Uuid =
+        sqlx::query_scalar("SELECT current_snapshot_id FROM poms.contract WHERE id=$1")
+            .bind(contract)
+            .fetch_one(&f.pool)
+            .await?;
+    let term_ref = native_source_expected(&f.pool, "ContractTermSnapshot", term).await?;
+    let current_contract = native_success(
+        &f.client,
+        "GET",
+        &format!("/api/contracts/{contract}"),
+        json!({}),
+    )
+    .await?;
+    native_success(&f.client,"POST",&format!("/api/receipt-records/{receipt}:confirm"),json!({"inputVersion":"server-derived-v1","expectedVersion":1,"expectedContractVersion":current_contract["rowVersion"],"mode":"confirm","basis":{"termSnapshotRef":term_ref,"currencyBasisRef":term_ref,"evidenceRefs":[],"selectionPolicy":"receipt-date-effective-terms","reason":"Owned actual receipt producer"}})).await?;
+    let net:String=sqlx::query_scalar("SELECT amount_excluding_tax::text FROM poms.receipt_accounting_basis WHERE receipt_id=$1 AND producer_version=1").bind(receipt).fetch_one(&f.pool).await?;
+    assert_eq!(net, "100000.00");
+    let payable=native_success(&f.client,"POST",&format!("/api/projects/{project}/payable-records"),json!({"contractId":contract,"vendorName":"Owned functional vendor","costCategory":"procurement","payableDescription":"Known zero-tax procurement","currency":"CNY","amountExcludingTax":"70000.00","taxAmount":"0.00","amountIncludingTax":"70000.00","expectedPaymentDate":chrono::Utc::now().date_naive().to_string(),"evidenceSummary":"Owned functional supplier settlement"})).await?;
+    let payable = row_id(&payable)?;
+    let payment=native_success(&f.client,"POST",&format!("/api/projects/{project}/payment-records"),json!({"contractId":contract,"payableRecordId":payable,"currency":"CNY","amountExcludingTax":"70000.00","taxAmount":"0.00","amountIncludingTax":"70000.00","paymentDate":business_time,"costCategory":"procurement","sourceType":"manual"})).await?;
+    let payment_id = row_id(&payment)?;
+    native_success(
+        &f.client,
+        "POST",
+        &format!("/api/payment-records/{payment_id}:confirm"),
+        json!({"expectedVersion":payment["rowVersion"]}),
+    )
+    .await?;
+    let payment = native_success(
+        &f.client,
+        "GET",
+        &format!("/api/projects/{project}/payment-records"),
+        json!({}),
+    )
+    .await?;
+    let payment_version = payment
+        .as_array()
+        .ok_or("payment list")?
+        .iter()
+        .find(|row| row["id"] == payment_id.to_string())
+        .ok_or("actual payment")?["rowVersion"]
+        .clone();
+    let actual=native_success(&f.client,"POST",&format!("/api/projects/{project}/actual-cost-records"),json!({"costType":"payment-fact","paymentRecordId":payment_id,"expectedSourceVersion":payment_version,"costDescription":"Owned actual paid cost","evidenceSummary":"Actual confirmed payment"})).await?;
+    let actual_id = Uuid::parse_str(
+        actual["targetId"]
+            .as_str()
+            .ok_or("actual cost command targetId")?,
+    )?;
+    let actual_detail = native_success(
+        &f.client,
+        "GET",
+        &format!("/api/project-actual-cost-records/{actual_id}"),
+        json!({}),
+    )
+    .await?;
+    assert_eq!(actual_detail["recordStatus"], "registered");
+    let (execution_stage, stage_sequence): (Uuid, i32) = sqlx::query_as("SELECT id,sequence_no FROM poms.project_stage_record WHERE project_id=$1 AND to_stage='execution' ORDER BY sequence_no DESC LIMIT 1").bind(project).fetch_one(&f.pool).await?;
+    native_success(&f.client, "POST", &format!("/api/project-actual-cost-records/{actual_id}/stage-attributions"), json!({"stageAttributionMode":"auto","attributedStage":"execution","expectedVersion":actual_detail["rowVersion"],"attributionSummary":"Actual immutable execution milestone","attributionEvidence":{"kind":"source","sourceType":"project-stage-record","sourceId":execution_stage,"sourceVersion":stage_sequence,"businessDate":actual_detail["occurredOn"],"reason":"The payment occurred on the actual execution admission date"}})).await?;
+    let payable_detail = native_success(
+        &f.client,
+        "GET",
+        &format!("/api/projects/{project}/payable-records"),
+        json!({}),
+    )
+    .await?;
+    let payable_version = payable_detail
+        .as_array()
+        .ok_or("payable list")?
+        .iter()
+        .find(|row| row["id"] == payable.to_string())
+        .ok_or("actual payable")?["rowVersion"]
+        .clone();
+    let payable_cost = native_success(&f.client, "POST", &format!("/api/projects/{project}/actual-cost-records"), json!({"costType":"procurement","payableRecordId":payable,"expectedSourceVersion":payable_version,"evidenceSummary":"Paid commitment supports the actual payment without a second cost"})).await?;
+    let payable_cost = Uuid::parse_str(
+        payable_cost["targetId"]
+            .as_str()
+            .ok_or("payable cost targetId")?,
+    )?;
+    println!("native receipt/payment/cost completed: {project}");
+    let preparation = native_success(
+        &f.client,
+        "GET",
+        &format!(
+            "/api/projects/{project}/unified-accounting?view=preparation&intent=baseline-activation"
+        ),
+        json!({}),
+    )
+    .await?;
+    let p = &preparation["preparation"];
+    assert!(!p["proposedOriginalCostRef"].is_null(), "{}", preparation);
+    let basis = p["sourceRows"]
+        .as_array()
+        .ok_or("baseline sources")?
+        .iter()
+        .find(|row| row["sourceRef"]["kind"] == "ProjectHandoverBasisSnapshot")
+        .map(|row| expected_from_source(&row["sourceRef"]))
+        .unwrap_or(Value::Null);
+    native_success(&f.client,"POST","/api/operating-baseline-packages",json!({"inputVersion":"server-derived-v1","projectId":project,"expectedVersion":p["headVersion"],"expectedProjectVersion":p["projectVersion"],"expectedInputHash":p["expectedInputHash"],"assertions":null,"expectedCurrentPackageRef":expected_from_source(&p["selectedBaselinePackageRef"]),"originalAdoptedCostRef":expected_from_source(&p["proposedOriginalCostRef"]),"selectedHandoverBasisRef":basis,"handoverRebaselineRef":null,"approvedChangeRefs":[],"reason":"Adopt actual native handover budget"})).await?;
+    let preparation=native_success(&f.client,"GET",&format!("/api/projects/{project}/unified-accounting?view=preparation&intent=snapshot-create&snapshotMode=realtime"),json!({})).await?;
+    let p = &preparation["preparation"];
+    let cost_row = p["sourceRows"]
+        .as_array()
+        .ok_or("actual sources")?
+        .iter()
+        .find(|row| row["sourceRef"]["id"] == actual_id.to_string())
+        .ok_or("actual cost source")?;
+    let payment_ref = native_source_expected(&f.pool, "PaymentRecord", payment_id).await?;
+    let decision = json!({"target":expected_from_source(&cost_row["sourceRef"]),"expectedVersion":if cost_row["currentDecisionRef"].is_null(){json!(0)}else{cost_row["currentDecisionRef"]["rowVersion"].clone()},"decision":"include","recognitionRole":"direct-source","reasonCode":"actual-payment","reasonText":"Confirmed zero-tax payment recorded by the native flow","primaryCostRef":null,"supportingSourceRefs":[payment_ref],"evidenceRefs":[payment_ref]});
+    let payable_row = p["sourceRows"]
+        .as_array()
+        .ok_or("payable sources")?
+        .iter()
+        .find(|row| row["sourceRef"]["id"] == payable_cost.to_string())
+        .ok_or("payable cost source")?;
+    let supporting_decision = json!({"target":expected_from_source(&payable_row["sourceRef"]),"expectedVersion":0,"decision":"exclude","recognitionRole":"evidence-only","reasonCode":"duplicate-support","reasonText":"The linked paid commitment supports the actual payment; recognize only the payment","primaryCostRef":expected_from_source(&cost_row["sourceRef"]),"supportingSourceRefs":[payment_ref],"evidenceRefs":[payment_ref]});
+    println!(
+        "snapshot preparation reasons before classifications: {}",
+        p["formalEligibility"]["blockingReasonCodes"]
+    );
+    let snapshot=native_success(&f.client,"POST","/api/project-operating-snapshots",json!({"inputVersion":"server-derived-v1","projectId":project,"expectedVersion":p["headVersion"],"expectedProjectVersion":p["projectVersion"],"expectedInputHash":p["expectedInputHash"],"assertions":null,"baselinePackageRef":expected_from_source(&p["selectedBaselinePackageRef"]),"snapshotMode":"realtime","periodKey":null,"costDecisions":[supporting_decision,decision]})).await?;
+    println!("native operating snapshot: {}", snapshot["snapshotId"]);
+    let calculation = calculated(&f.client, project, f.user).await?;
+    let first = payout_draft(&f.client, project, calculation, "first").await?;
+    assert_eq!(first["theoreticalCapAmountProjection"]["value"], "1200.00");
+    let first = row_id(&first)?;
+    let finance = fixture(
+        Some("finance_mgr"),
+        &[PermissionKey::CommissionPayoutsManage],
+    )
+    .await?;
+    payout_approve(
+        &f.client,
+        &finance.client,
+        &f.pool,
+        first,
+        "first",
+        json!({}),
+        true,
+    )
+    .await?;
+    f.client
+        .ok(
+            "POST",
+            &format!("/api/commission-payouts/{first}:registerPayout"),
+            json!({"payoutStage":"first","paidRecordAmount":"1200.00","expectedVersion":3}),
+        )
+        .await?;
+    println!("native operating and commission first payout completed: {project}");
+    close_fixture(finance).await?;
+
+    let snapshot_id = Uuid::parse_str(
+        snapshot["snapshotId"]
+            .as_str()
+            .ok_or("native snapshot ID")?,
+    )?;
+    let context: Value = sqlx::query_scalar("SELECT frozen_payload FROM poms.operating_source_context WHERE snapshot_id=$1 AND producer_version=1").bind(snapshot_id).fetch_one(&f.pool).await?;
+    assert_eq!(context["formalEligibility"]["status"], "eligible");
+    assert_eq!(
+        context["metrics"]["confirmedReceiptAmounts"]["net"]["value"],
+        "100000.00"
+    );
+    assert_eq!(
+        context["metrics"]["includedCostAmounts"]["net"]["value"],
+        "70000.00"
+    );
+    assert_eq!(context["metrics"]["grossMarginNet"]["value"], "30000.00");
+    assert_eq!(context["scope"]["unmappedCostCount"], 0);
+    assert_eq!(context["scope"]["includedCostCount"], 1);
+    assert_eq!(context["scope"]["excludedCostCount"], 1);
+    native_success(
+        &f.client,
+        "GET",
+        &format!("/api/project-operating-snapshots/{snapshot_id}"),
+        json!({}),
+    )
+    .await?;
+    let signal_id = snapshot["evaluationRefs"]["signalEvaluationId"]
+        .as_str()
+        .ok_or("native signal ID")?;
+    let signal = native_success(
+        &f.client,
+        "GET",
+        &format!("/api/operating-signal-evaluations/{signal_id}"),
+        json!({}),
+    )
+    .await?;
+    assert_eq!(signal["signalEvaluationId"], signal_id);
+    assert_eq!(signal["projectId"], project.to_string());
+
+    let evidence = native_project_evidence(&f, project).await?;
+    let project_view = native_success(
+        &f.client,
+        "GET",
+        &format!("/api/projects/{project}"),
+        json!({}),
+    )
+    .await?;
+    let before_stage: i64 =
+        sqlx::query_scalar("SELECT count(*) FROM poms.project_stage_record WHERE project_id=$1")
+            .bind(project)
+            .fetch_one(&f.pool)
+            .await?;
+    let acceptance_input = json!({"inputVersion":"server-derived-v1","expectedProjectVersion":project_view["rowVersion"],"executionStageRecordId":execution_stage,"evidenceRefs":[evidence],"evidenceSummary":"Actual local attachment uploaded and downloaded through native APIs","readinessSummary":"Owned functional delivery ready for final acceptance"});
+    let (denied, _) = reviewer
+        .client
+        .call(
+            "POST",
+            &format!("/api/projects/{project}:startAcceptance"),
+            acceptance_input.clone(),
+        )
+        .await?;
+    assert_eq!(denied, StatusCode::NOT_FOUND); // Conceal projects outside this actor's scope.
+    let mut missing_evidence = acceptance_input.clone();
+    missing_evidence["evidenceRefs"] = json!([]);
+    let (missing, _) = f
+        .client
+        .call(
+            "POST",
+            &format!("/api/projects/{project}:startAcceptance"),
+            missing_evidence,
+        )
+        .await?;
+    assert_eq!(missing, StatusCode::BAD_REQUEST);
+    let unchanged_stage: i64 =
+        sqlx::query_scalar("SELECT count(*) FROM poms.project_stage_record WHERE project_id=$1")
+            .bind(project)
+            .fetch_one(&f.pool)
+            .await?;
+    assert_eq!(
+        before_stage, unchanged_stage,
+        "Rejected delivery must not create a stage fact"
+    );
+    native_success(
+        &f.client,
+        "POST",
+        &format!("/api/projects/{project}:startAcceptance"),
+        acceptance_input.clone(),
+    )
+    .await?;
+    let (stale, _) = f
+        .client
+        .call(
+            "POST",
+            &format!("/api/projects/{project}:startAcceptance"),
+            acceptance_input,
+        )
+        .await?;
+    assert_eq!(stale, StatusCode::CONFLICT);
+    let acceptance_stage: Uuid = sqlx::query_scalar("SELECT id FROM poms.project_stage_record WHERE project_id=$1 AND to_stage='acceptance' ORDER BY sequence_no DESC LIMIT 1").bind(project).fetch_one(&f.pool).await?;
+    let project_view = native_success(
+        &f.client,
+        "GET",
+        &format!("/api/projects/{project}"),
+        json!({}),
+    )
+    .await?;
+    let acceptance = native_success(&f.client, "POST", &format!("/api/projects/{project}/acceptance-records"), json!({"inputVersion":"server-derived-v1","expectedProjectVersion":project_view["rowVersion"],"acceptanceStageRecordId":acceptance_stage,"acceptanceType":"final-acceptance","acceptanceResult":"accepted","scopeSummary":"Actual native delivery chain","evidenceSummary":"Owned final acceptance attachment","evidenceRefs":[evidence]})).await?;
+    assert_eq!(acceptance["sourceQualification"], "verified-producer");
+    let acceptance_id = row_id(&acceptance)?;
+    let project_view = native_success(
+        &f.client,
+        "GET",
+        &format!("/api/projects/{project}"),
+        json!({}),
+    )
+    .await?;
+    let completion = native_success(&f.client, "POST", &format!("/api/projects/{project}/completion-records"), json!({"inputVersion":"server-derived-v1","expectedProjectVersion":project_view["rowVersion"],"acceptanceRecordId":acceptance_id,"expectedAcceptanceVersion":acceptance["rowVersion"],"completionResult":"completed","completedAt":chrono::Utc::now().to_rfc3339_opts(chrono::SecondsFormat::Millis,true),"completionSummary":"Owned final acceptance completed","evidenceSummary":"Actual native attachment","evidenceRefs":[evidence]})).await?;
+    assert_eq!(completion["sourceQualification"], "verified-producer");
+    assert_eq!(completion["conditionStatus"], "not-applicable");
+    let project_view = native_success(
+        &f.client,
+        "GET",
+        &format!("/api/projects/{project}"),
+        json!({}),
+    )
+    .await?;
+    let archive = native_success(&f.client, "POST", &format!("/api/projects/{project}/archive-records"), json!({"inputVersion":"server-derived-v1","expectedProjectVersion":project_view["rowVersion"],"archivedAt":chrono::Utc::now().to_rfc3339_opts(chrono::SecondsFormat::Millis,true),"archiveSummary":"Archive actual completed delivery","evidenceSummary":"Native acceptance and completion records"})).await?;
+    assert_eq!(archive["sourceQualification"], "verified-producer");
+    assert_eq!(archive["archiveAnchorStage"], "completed");
+    let current_stage: String =
+        sqlx::query_scalar("SELECT current_stage FROM poms.project WHERE id=$1")
+            .bind(project)
+            .fetch_one(&f.pool)
+            .await?;
+    assert_eq!(current_stage, "completed");
+    println!("native attachment/acceptance/completion/archive completed: {project}");
+
+    close_fixture(reviewer).await?;
+    close_fixture(f).await
+}
+
+fn expected_from_source(reference: &Value) -> Value {
+    if reference.is_null() {
+        return Value::Null;
+    }
+    json!({"kind":reference["kind"],"id":reference["id"],"expectedVersion":reference["rowVersion"],"payloadHash":reference["payloadHash"]})
+}
+async fn native_source_expected(pool: &PgPool, kind: &str, id: Uuid) -> Result<Value> {
+    let mut connection = pool.acquire().await?;
+    let mut state = poms_api_rust::approval_common::CommonState::default();
+    let mut session =
+        poms_api_rust::approval_common::CommonSession::borrow(&mut connection, &mut state);
+    let reference = poms_api_rust::project_operating::sources::source_reference_with_session(
+        &mut session,
+        kind,
+        id,
+    )
+    .await
+    .map_err(|error| format!("actual source reference: {error:?}"))?;
+    Ok(expected_from_source(&serde_json::to_value(reference)?))
+}
+
+/// Real local object I/O through the production upload/complete/download routes.
+/// This test configures an owned directory and does not impersonate S3 or write
+/// a prequalified attachment/link directly into the database.
+async fn native_project_evidence(f: &Fixture, project: Uuid) -> Result<Value> {
+    let bytes = format!("Owned R4 native delivery evidence for {project}\n").into_bytes();
+    let session = native_success(&f.client, "POST", "/api/attachment-upload-sessions", json!({"operationType":"create-attachment","targetType":"project","targetId":project,"originalName":"native-delivery.txt","mimeType":"application/octet-stream","sizeBytes":bytes.len(),"category":"acceptance","securityLevel":"internal","relationType":"normal","description":"Owned functional evidence"})).await?;
+    assert_eq!(session["providerType"], "local");
+    assert_eq!(session["uploadMode"], "proxy");
+    let id = row_id(&session)?;
+    let target = native_success(
+        &f.client,
+        "POST",
+        &format!("/api/attachment-upload-sessions/{id}/upload-targets"),
+        json!({"expectedVersion":session["rowVersion"]}),
+    )
+    .await?;
+    let object_path = format!("/api/attachment-upload-sessions/{id}/object");
+    assert!(
+        target["url"] == object_path,
+        "Expected the owned local proxy target"
+    );
+    let response = f
+        .client
+        .app
+        .clone()
+        .oneshot(
+            Request::builder()
+                .method("PUT")
+                .uri(&object_path)
+                .header(header::CONTENT_TYPE, "application/octet-stream")
+                .header(header::CONTENT_LENGTH, bytes.len())
+                .header(header::COOKIE, &f.client.cookie)
+                .header("x-csrf-token", &f.client.csrf)
+                .body(Body::from(bytes.clone()))?,
+        )
+        .await?;
+    let status = response.status();
+    let uploaded: Value =
+        serde_json::from_slice(&to_bytes(response.into_body(), 1024 * 1024).await?)?;
+    assert_eq!(
+        status,
+        StatusCode::OK,
+        "Owned local proxy upload: {uploaded}"
+    );
+    assert_eq!(uploaded["status"], "uploaded");
+    let attachment = native_success(
+        &f.client,
+        "POST",
+        &format!("/api/attachment-upload-sessions/{id}:complete"),
+        json!({"expectedVersion":uploaded["rowVersion"]}),
+    )
+    .await?;
+    let attachment_id = row_id(&attachment)?;
+    let download = f
+        .client
+        .app
+        .clone()
+        .oneshot(
+            Request::builder()
+                .uri(format!("/api/attachments/{attachment_id}/download"))
+                .header(header::COOKIE, &f.client.cookie)
+                .body(Body::empty())?,
+        )
+        .await?;
+    assert_eq!(download.status(), StatusCode::OK, "Owned evidence download");
+    assert_eq!(
+        to_bytes(download.into_body(), 1024 * 1024).await?.as_ref(),
+        bytes.as_slice()
+    );
+    let link = attachment["links"]
+        .as_array()
+        .and_then(|links| {
+            links.iter().find(|link| {
+                link["targetType"] == "project" && link["targetId"] == project.to_string()
+            })
+        })
+        .ok_or("actual native attachment link")?;
+    let link_id = row_id(link)?;
+    println!("native evidence attachment completed and downloaded: {attachment_id}");
+    Ok(json!({"attachmentLinkId":link_id}))
 }
