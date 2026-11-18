@@ -51,7 +51,7 @@ node tools/rust-commission/build-admin.mjs apps/poms-api-rust/target/delivery-de
 
 Angular生产构建通过，两个现有入口单元套件6项通过。真实Chromium156以只有项目读取、独立管理层权限及敏感读取权限的合成角色完成页面合同选择、条件确认、批准201和历史回读；记录为`commission-manager-browser-02.json`，前次缺少默认浏览器未发出业务命令且保留失败。API与静态页面服务均正常停止。目标Debian12发布及完整producer贯穿仍待完成。
 
-Linux兼容release及本机真实网络检查、目标ABI检查见[候选版本说明](../../docs/design/rust-linux-candidate-2026-11-18.md)。`build-linux-release.py`使用解压的sysroot，不安装宿主包；Windows Git实际HEAD通过`--source-revision`传给WSL，避免解释Windows worktree指针。目标只读元数据确认待执行10项迁移，`inspect-test-target.cjs`不打印凭据或业务行。`package-candidate.mjs`只组装本地已验证产物和实际pending迁移，不部署、不执行迁移。
+Linux兼容release及本机真实网络检查、目标ABI检查见[候选版本说明](../../docs/design/rust-linux-candidate-2026-11-18.md)。`build-linux-release.py`使用解压的sysroot，不安装宿主包；Windows Git实际HEAD通过`--source-revision`传给WSL，避免解释Windows worktree指针。目标只读元数据确认待执行10项迁移，`inspect-test-target.cjs`不打印凭据或业务行。`package-candidate.mjs` 使用 `--smoke` 指定验证通过的本地 release、`--frontend` 指定 Angular `dist`、`--state` 指定留存的目标迁移快照。产品切换前重新核对目标。需要随包附带目标 ABI 结果时，使用带有同一源码版本的 `--target` 证据。构建器可用 `--reuse-build-root` 复用本机已解压的 sysroot 和 Cargo 缓存，产物仍写到新的目录。
 
 2026-11-18增加实际正常完工业务链 `r4_native_business_delivery_chain`：新建客户/项目，完成真实合同审批/激活及应收计划、移交本人确认、职责冻结与执行准入，确认G净回款和付款，确认成本阶段、排除关联应付重复计入，生成经营快照/信号并实际审批登记首笔提成，再通过真实本地附件上传/下载走到最终验收、普通完工和归档。账户/组织和通用报价摘要属于测试基础配置，后续业务状态不由SQL伪造；既有12项中的legacy输入仍保持原标签。附件根目录在密码文件所在的自有测试目录下 `r4-native-attachments/<test-user-id>/`，保留文件，不使用默认业务存储目录或外部对象存储。
 
