@@ -13,16 +13,18 @@ use serde_json::{Value, json};
 use std::collections::BTreeMap;
 use uuid::Uuid;
 
+// Keep the shared coordinator on the heap so nested capture/restatement polls
+// do not inflate every HTTP caller's stack frame.
 pub async fn activate_baseline_with_session(
     session: &mut CommonSession<'_, '_>,
     input: &ActivateOperatingBaselinePackageRequest,
     actor: &Actor,
 ) -> Result<OperatingCommandResult, Error> {
-    run(
+    Box::pin(run(
         session,
         OperatingCollectInput::ActivateBaseline(input.clone()),
         actor,
-    )
+    ))
     .await
 }
 pub async fn create_snapshot_with_session(
@@ -30,11 +32,11 @@ pub async fn create_snapshot_with_session(
     input: &CreateProjectOperatingSnapshotRequest,
     actor: &Actor,
 ) -> Result<OperatingCommandResult, Error> {
-    run(
+    Box::pin(run(
         session,
         OperatingCollectInput::CaptureSnapshot(input.clone()),
         actor,
-    )
+    ))
     .await
 }
 pub async fn close_period_with_session(
@@ -42,11 +44,11 @@ pub async fn close_period_with_session(
     input: &CreatePeriodClosingSnapshotRequest,
     actor: &Actor,
 ) -> Result<OperatingCommandResult, Error> {
-    run(
+    Box::pin(run(
         session,
         OperatingCollectInput::ClosePeriod(input.clone()),
         actor,
-    )
+    ))
     .await
 }
 pub async fn restate_with_session(
@@ -54,11 +56,11 @@ pub async fn restate_with_session(
     input: &CreateOperatingRestatementRequest,
     actor: &Actor,
 ) -> Result<OperatingCommandResult, Error> {
-    run(
+    Box::pin(run(
         session,
         OperatingCollectInput::Restate(input.clone()),
         actor,
-    )
+    ))
     .await
 }
 

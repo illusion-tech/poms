@@ -2952,6 +2952,16 @@ fn native_success<'a>(
 #[tokio::test]
 #[ignore = "requires explicit dedicated commission DB initialized from application migrations"]
 async fn r4_native_business_delivery_chain() -> Result {
+    Box::pin(native_business_delivery_chain(false)).await
+}
+
+#[tokio::test]
+#[ignore = "requires explicit dedicated commission DB initialized from application migrations"]
+async fn r4_native_conditional_completion_and_archive_chain() -> Result {
+    Box::pin(native_business_delivery_chain(true)).await
+}
+
+async fn native_business_delivery_chain(conditional: bool) -> Result {
     let permissions = [
         PermissionKey::CustomerRead,
         PermissionKey::CustomerWrite,
@@ -2961,6 +2971,7 @@ async fn r4_native_business_delivery_chain() -> Result {
         PermissionKey::ContractFinanceManage,
         PermissionKey::ContractFinanceSensitiveRead,
         PermissionKey::OperatingFinanceSensitiveRead,
+        PermissionKey::LaborCostRateSensitiveRead,
         PermissionKey::CommissionAssignmentsManage,
         PermissionKey::CommissionCalculationsManage,
         PermissionKey::CommissionPayoutsManage,
@@ -3351,7 +3362,17 @@ async fn r4_native_business_delivery_chain() -> Result {
     assert_eq!(signal["signalEvaluationId"], signal_id);
     assert_eq!(signal["projectId"], project.to_string());
 
-    let evidence = native_project_evidence(&f, project).await?;
+    if !conditional {
+        Box::pin(native_late_cost_restatement_and_reviews(
+            &f,
+            project,
+            contract,
+            snapshot_id,
+            execution_stage,
+        ))
+        .await?;
+    }
+    let evidence = native_project_evidence(&f, project, None).await?;
     let project_view = native_success(
         &f.client,
         "GET",
@@ -3418,6 +3439,17 @@ async fn r4_native_business_delivery_chain() -> Result {
         json!({}),
     )
     .await?;
+    if conditional {
+        Box::pin(native_conditional_completion_and_archive(
+            &f,
+            project,
+            acceptance_stage,
+            evidence,
+        ))
+        .await?;
+        close_fixture(reviewer).await?;
+        return close_fixture(f).await;
+    }
     let acceptance = native_success(&f.client, "POST", &format!("/api/projects/{project}/acceptance-records"), json!({"inputVersion":"server-derived-v1","expectedProjectVersion":project_view["rowVersion"],"acceptanceStageRecordId":acceptance_stage,"acceptanceType":"final-acceptance","acceptanceResult":"accepted","scopeSummary":"Actual native delivery chain","evidenceSummary":"Owned final acceptance attachment","evidenceRefs":[evidence]})).await?;
     assert_eq!(acceptance["sourceQualification"], "verified-producer");
     let acceptance_id = row_id(&acceptance)?;
@@ -3447,6 +3479,7 @@ async fn r4_native_business_delivery_chain() -> Result {
             .fetch_one(&f.pool)
             .await?;
     assert_eq!(current_stage, "completed");
+    Box::pin(native_archive_mutations(&f, project, &archive)).await?;
     println!("native attachment/acceptance/completion/archive completed: {project}");
 
     close_fixture(reviewer).await?;
@@ -3477,9 +3510,18 @@ async fn native_source_expected(pool: &PgPool, kind: &str, id: Uuid) -> Result<V
 /// Real local object I/O through the production upload/complete/download routes.
 /// This test configures an owned directory and does not impersonate S3 or write
 /// a prequalified attachment/link directly into the database.
-async fn native_project_evidence(f: &Fixture, project: Uuid) -> Result<Value> {
+async fn native_project_evidence(
+    f: &Fixture,
+    project: Uuid,
+    condition_context: Option<Value>,
+) -> Result<Value> {
     let bytes = format!("Owned R4 native delivery evidence for {project}\n").into_bytes();
-    let session = native_success(&f.client, "POST", "/api/attachment-upload-sessions", json!({"operationType":"create-attachment","targetType":"project","targetId":project,"originalName":"native-delivery.txt","mimeType":"application/octet-stream","sizeBytes":bytes.len(),"category":"acceptance","securityLevel":"internal","relationType":"normal","description":"Owned functional evidence"})).await?;
+    let mut input = json!({"operationType":"create-attachment","targetType":"project","targetId":project,"originalName":"native-delivery.txt","mimeType":"application/octet-stream","sizeBytes":bytes.len(),"category":"acceptance","securityLevel":"internal","relationType":"normal","description":"Owned functional evidence"});
+    if let Some(context) = condition_context {
+        input["completionConditionContext"] = context;
+    }
+    let session =
+        native_success(&f.client, "POST", "/api/attachment-upload-sessions", input).await?;
     assert_eq!(session["providerType"], "local");
     assert_eq!(session["uploadMode"], "proxy");
     let id = row_id(&session)?;
@@ -3554,4 +3596,531 @@ async fn native_project_evidence(f: &Fixture, project: Uuid) -> Result<Value> {
     let link_id = row_id(link)?;
     println!("native evidence attachment completed and downloaded: {attachment_id}");
     Ok(json!({"attachmentLinkId":link_id}))
+}
+
+async fn native_archive_mutations(f: &Fixture, project: Uuid, archive: &Value) -> Result {
+    let before = native_success(
+        &f.client,
+        "GET",
+        &format!("/api/projects/{project}"),
+        json!({}),
+    )
+    .await?;
+    let first_id = row_id(archive)?;
+    let replacement = native_success(&f.client, "POST", &format!("/api/project-archive-records/{first_id}:replace"), json!({"inputVersion":"server-derived-v1","expectedVersion":archive["rowVersion"],"archivedAt":chrono::Utc::now().to_rfc3339_opts(chrono::SecondsFormat::Millis,true),"archiveSummary":"Owned corrected archive description","evidenceSummary":"Preserve actual completion anchor","replacementReason":"Correct an owned archive description"})).await?;
+    let replacement_id = row_id(&replacement)?;
+    assert_ne!(first_id, replacement_id);
+    assert_eq!(
+        replacement["supersedesArchiveRecordId"],
+        first_id.to_string()
+    );
+    assert_eq!(
+        replacement["archiveAnchorSourceId"],
+        archive["archiveAnchorSourceId"]
+    );
+    assert_eq!(replacement["status"], "recorded");
+    let (stale, _) = f.client.call("POST", &format!("/api/project-archive-records/{first_id}:void"), json!({"inputVersion":"server-derived-v1","expectedVersion":archive["rowVersion"],"reason":"Stale original archive must remain superseded"})).await?;
+    assert_eq!(stale, StatusCode::CONFLICT);
+    let void_input = json!({"inputVersion":"server-derived-v1","expectedVersion":replacement["rowVersion"],"reason":"Owned fixture archive withdrawn; preserve the record"});
+    let voided = native_success(
+        &f.client,
+        "POST",
+        &format!("/api/project-archive-records/{replacement_id}:void"),
+        void_input.clone(),
+    )
+    .await?;
+    assert_eq!(voided["status"], "voided");
+    let (duplicate, _) = f
+        .client
+        .call(
+            "POST",
+            &format!("/api/project-archive-records/{replacement_id}:void"),
+            void_input,
+        )
+        .await?;
+    assert_eq!(duplicate, StatusCode::CONFLICT);
+    let records = native_success(
+        &f.client,
+        "GET",
+        &format!("/api/projects/{project}/archive-records"),
+        json!({}),
+    )
+    .await?;
+    let records = records.as_array().ok_or("native archive list")?;
+    assert_eq!(records.len(), 2);
+    assert!(
+        records
+            .iter()
+            .any(|row| row["id"] == first_id.to_string() && row["status"] == "superseded")
+    );
+    assert!(
+        records
+            .iter()
+            .any(|row| row["id"] == replacement_id.to_string() && row["status"] == "voided")
+    );
+    let after = native_success(
+        &f.client,
+        "GET",
+        &format!("/api/projects/{project}"),
+        json!({}),
+    )
+    .await?;
+    assert_eq!(after["currentStage"], before["currentStage"]);
+    assert_eq!(
+        after["currentStageRecordId"],
+        before["currentStageRecordId"]
+    );
+    println!("native archive replacement and withdrawal completed: {project}");
+    Ok(())
+}
+
+async fn native_conditional_completion_and_archive(
+    f: &Fixture,
+    project: Uuid,
+    acceptance_stage: Uuid,
+    evidence: Value,
+) -> Result {
+    let condition_actor = fixture(
+        None,
+        &[PermissionKey::ProjectRead, PermissionKey::ProjectWrite],
+    )
+    .await?;
+    // An unrelated active organization grants no full project responsibility.
+    let org = uuid(&f.pool).await?;
+    sqlx::query("INSERT INTO poms.org_unit(id,name,code,is_active) VALUES($1,$2,$3,true)")
+        .bind(org)
+        .bind(format!("Owned external condition team {org}"))
+        .bind(format!("r4-condition-{org}"))
+        .execute(&f.pool)
+        .await?;
+    sqlx::query("INSERT INTO poms.user_org_membership(user_id,org_unit_id,membership_type,status) VALUES($1,$2,'primary','active')").bind(condition_actor.user).bind(org).execute(&f.pool).await?;
+    sqlx::query("UPDATE poms.platform_user SET primary_org_unit_id=$1 WHERE id=$2")
+        .bind(org)
+        .bind(condition_actor.user)
+        .execute(&f.pool)
+        .await?;
+    let project_view = native_success(
+        &f.client,
+        "GET",
+        &format!("/api/projects/{project}"),
+        json!({}),
+    )
+    .await?;
+    let acceptance = native_success(&f.client, "POST", &format!("/api/projects/{project}/acceptance-records"), json!({"inputVersion":"server-derived-v1","expectedProjectVersion":project_view["rowVersion"],"acceptanceStageRecordId":acceptance_stage,"acceptanceType":"final-acceptance","acceptanceResult":"conditional","conditionalSummary":"Two actual responsibilities must be closed before archive","scopeSummary":"Owned conditional final acceptance","evidenceSummary":"Actual uploaded final evidence","evidenceRefs":[evidence]})).await?;
+    let acceptance_id = row_id(&acceptance)?;
+    let project_view = native_success(
+        &f.client,
+        "GET",
+        &format!("/api/projects/{project}"),
+        json!({}),
+    )
+    .await?;
+    let due = (chrono::Utc::now() + chrono::Duration::days(1))
+        .to_rfc3339_opts(chrono::SecondsFormat::Millis, true);
+    let completion = native_success(&f.client, "POST", &format!("/api/projects/{project}/completion-records"), json!({"inputVersion":"server-derived-v1","expectedProjectVersion":project_view["rowVersion"],"acceptanceRecordId":acceptance_id,"expectedAcceptanceVersion":acceptance["rowVersion"],"completionResult":"conditional-completed","completedAt":chrono::Utc::now().to_rfc3339_opts(chrono::SecondsFormat::Millis,true),"completionSummary":"Parent completion summary must remain private","evidenceSummary":"Parent completion evidence","evidenceRefs":[evidence],"completionConditions":[{"responsibleUserId":condition_actor.user,"dueAt":due,"summary":"External condition owner's own task","evidenceRefs":[evidence]},{"responsibleUserId":f.user,"dueAt":due,"summary":"Project execution owner's separate task","evidenceRefs":[evidence]}]})).await?;
+    let completion_id = row_id(&completion)?;
+    assert_eq!(completion["conditionStatus"], "pending");
+    let conditions = completion["conditions"]
+        .as_array()
+        .ok_or("native completion conditions")?;
+    let own = conditions
+        .iter()
+        .find(|row| row["responsibleUserId"] == condition_actor.user.to_string())
+        .ok_or("actual delegated condition")?;
+    let own_id = row_id(own)?;
+    let other = conditions
+        .iter()
+        .find(|row| row["responsibleUserId"] == f.user.to_string())
+        .ok_or("actual owner condition")?;
+    let other_id = row_id(other)?;
+    let project_view = native_success(
+        &f.client,
+        "GET",
+        &format!("/api/projects/{project}"),
+        json!({}),
+    )
+    .await?;
+    let archive_body = json!({"inputVersion":"server-derived-v1","expectedProjectVersion":project_view["rowVersion"],"archivedAt":chrono::Utc::now().to_rfc3339_opts(chrono::SecondsFormat::Millis,true),"archiveSummary":"Must wait for both conditions","evidenceSummary":"Owned conditional completion"});
+    let (pending_archive, _) = f
+        .client
+        .call(
+            "POST",
+            &format!("/api/projects/{project}/archive-records"),
+            archive_body,
+        )
+        .await?;
+    assert_eq!(pending_archive, StatusCode::CONFLICT);
+    assert_eq!(
+        native_success(
+            &f.client,
+            "GET",
+            &format!("/api/projects/{project}/archive-records"),
+            json!({})
+        )
+        .await?,
+        json!([])
+    );
+    for suffix in ["", "/acceptance-records", "/archive-records"] {
+        let (status, _) = condition_actor
+            .client
+            .call(
+                "GET",
+                &format!("/api/projects/{project}{suffix}"),
+                json!({}),
+            )
+            .await?;
+        assert_eq!(
+            status,
+            StatusCode::NOT_FOUND,
+            "Condition owner must not acquire a full project view"
+        );
+    }
+    let tasks = native_success(
+        &condition_actor.client,
+        "GET",
+        &format!("/api/projects/{project}/completion-records"),
+        json!({}),
+    )
+    .await?;
+    assert_eq!(tasks["scopeKind"], "own-condition-only");
+    let items = tasks["items"].as_array().ok_or("own task list")?;
+    assert_eq!(items.len(), 1);
+    assert!(items[0].get("acceptanceRecordId").is_none());
+    assert!(items[0].get("completionSummary").is_none());
+    let own_tasks = items[0]["ownTasks"].as_array().ok_or("own conditions")?;
+    assert_eq!(own_tasks.len(), 1);
+    assert_eq!(own_tasks[0]["conditionId"], own_id.to_string());
+    let closure_path =
+        format!("/api/project-completion-records/{completion_id}/conditions/{own_id}:close");
+    let initial_close = json!({"inputVersion":"server-derived-v1","expectedCompletionVersion":completion["rowVersion"],"expectedConditionVersion":own["rowVersion"],"closureSummary":"Only this condition's actual owner may close it","evidenceRefs":[evidence]});
+    let (substitute, _) = f.client.call("POST", &closure_path, initial_close).await?;
+    assert_eq!(substitute, StatusCode::FORBIDDEN);
+    let other_close = json!({"inputVersion":"server-derived-v1","expectedCompletionVersion":completion["rowVersion"],"expectedConditionVersion":other["rowVersion"],"closureSummary":"Cross-condition access must fail","evidenceRefs":[evidence]});
+    let (cross, _) = condition_actor
+        .client
+        .call(
+            "POST",
+            &format!("/api/project-completion-records/{completion_id}/conditions/{other_id}:close"),
+            other_close,
+        )
+        .await?;
+    assert_eq!(cross, StatusCode::NOT_FOUND);
+    let closure_evidence = Box::pin(native_project_evidence(
+        &condition_actor,
+        project,
+        Some(json!({"completionRecordId":completion_id,"conditionId":own_id})),
+    ))
+    .await?;
+    let close_body = json!({"inputVersion":"server-derived-v1","expectedCompletionVersion":completion["rowVersion"],"expectedConditionVersion":own["rowVersion"],"closureSummary":"Actual owner uploaded and closed the delegated condition","evidenceRefs":[closure_evidence]});
+    let closed = native_success(
+        &condition_actor.client,
+        "POST",
+        &closure_path,
+        close_body.clone(),
+    )
+    .await?;
+    assert_eq!(closed["scopeKind"], "own-condition-only");
+    assert_eq!(closed["conditionStatus"], "closed");
+    assert_eq!(closed["completionConditionStatus"], "pending");
+    let (replay, _) = condition_actor
+        .client
+        .call("POST", &closure_path, close_body)
+        .await?;
+    assert_eq!(replay, StatusCode::CONFLICT);
+    let all = native_success(
+        &f.client,
+        "GET",
+        &format!("/api/projects/{project}/completion-records"),
+        json!({}),
+    )
+    .await?;
+    let refreshed = all["items"]
+        .as_array()
+        .and_then(|items| {
+            items
+                .iter()
+                .find(|row| row["id"] == completion_id.to_string())
+        })
+        .ok_or("refreshed completion")?;
+    assert_eq!(refreshed["conditionStatus"], "pending");
+    let last = native_success(&f.client,"POST",&format!("/api/project-completion-records/{completion_id}/conditions/{other_id}:close"),json!({"inputVersion":"server-derived-v1","expectedCompletionVersion":refreshed["rowVersion"],"expectedConditionVersion":other["rowVersion"],"closureSummary":"Actual project owner closed the remaining condition","evidenceRefs":[evidence]})).await?;
+    assert_eq!(last["completionConditionStatus"], "closed");
+    let project_view = native_success(
+        &f.client,
+        "GET",
+        &format!("/api/projects/{project}"),
+        json!({}),
+    )
+    .await?;
+    assert_eq!(project_view["currentStage"], "conditional-completed");
+    let archive = native_success(&f.client,"POST",&format!("/api/projects/{project}/archive-records"),json!({"inputVersion":"server-derived-v1","expectedProjectVersion":project_view["rowVersion"],"archivedAt":chrono::Utc::now().to_rfc3339_opts(chrono::SecondsFormat::Millis,true),"archiveSummary":"Archive after both actual owners closed their conditions","evidenceSummary":"Actual conditional completion and closures"})).await?;
+    assert_eq!(archive["sourceQualification"], "verified-producer");
+    assert_eq!(archive["archiveAnchorStage"], "conditional-completed");
+    Box::pin(native_archive_mutations(f, project, &archive)).await?;
+    println!(
+        "native conditional completion, scoped owner closure and archive completed: {project}"
+    );
+    close_fixture(condition_actor).await
+}
+
+async fn native_late_cost_restatement_and_reviews(
+    f: &Fixture,
+    project: Uuid,
+    contract: Uuid,
+    original_snapshot: Uuid,
+    execution_stage: Uuid,
+) -> Result {
+    let today = chrono::Utc::now()
+        .with_timezone(&chrono_tz::Asia::Hong_Kong)
+        .date_naive()
+        .to_string();
+    let expense = native_success(&f.client,"POST",&format!("/api/projects/{project}/expense-records"),json!({"contractId":contract,"expenseCategory":"travel","expenseDescription":"Actual late reported travel cost","expenseDate":today,"currency":"CNY","amountIncludingTax":"1000.00","taxAmount":"0.00","amountExcludingTax":"1000.00","sourceType":"manual","evidenceSummary":"Owned reported expense after the first operating snapshot"})).await?;
+    let expense_id = row_id(&expense)?;
+    native_success(
+        &f.client,
+        "POST",
+        &format!("/api/expense-records/{expense_id}:confirm"),
+        json!({"expectedVersion":expense["rowVersion"]}),
+    )
+    .await?;
+    let expense = native_success(
+        &f.client,
+        "GET",
+        &format!("/api/expense-records/{expense_id}"),
+        json!({}),
+    )
+    .await?;
+    let cost = native_success(&f.client,"POST",&format!("/api/projects/{project}/actual-cost-records"),json!({"costType":"expense","expenseRecordId":expense_id,"expectedSourceVersion":expense["rowVersion"],"evidenceSummary":"Actual confirmed expense"})).await?;
+    let cost_id = Uuid::parse_str(cost["targetId"].as_str().ok_or("late cost target")?)?;
+    let cost = native_success(
+        &f.client,
+        "GET",
+        &format!("/api/project-actual-cost-records/{cost_id}"),
+        json!({}),
+    )
+    .await?;
+    let stage_sequence: i32 = sqlx::query_scalar(
+        "SELECT sequence_no FROM poms.project_stage_record WHERE id=$1 AND project_id=$2",
+    )
+    .bind(execution_stage)
+    .bind(project)
+    .fetch_one(&f.pool)
+    .await?;
+    native_success(&f.client,"POST",&format!("/api/project-actual-cost-records/{cost_id}/stage-attributions"),json!({"stageAttributionMode":"auto","attributedStage":"execution","expectedVersion":cost["rowVersion"],"attributionSummary":"Actual execution date expense","attributionEvidence":{"kind":"source","sourceType":"project-stage-record","sourceId":execution_stage,"sourceVersion":stage_sequence,"businessDate":cost["occurredOn"],"reason":"The expense occurred on the actual execution entry date"}})).await?;
+    let prepared = native_success(&f.client,"GET",&format!("/api/projects/{project}/unified-accounting?view=preparation&intent=restatement&restatesSnapshotId={original_snapshot}"),json!({})).await?;
+    let p = &prepared["preparation"];
+    let source = p["sourceRows"]
+        .as_array()
+        .and_then(|rows| {
+            rows.iter()
+                .find(|row| row["sourceRef"]["id"] == cost_id.to_string())
+        })
+        .ok_or("new expense cost source")?;
+    let expense_ref = native_source_expected(&f.pool, "ExpenseRecord", expense_id).await?;
+    let decision = json!({"target":expected_from_source(&source["sourceRef"]),"expectedVersion":0,"decision":"include","recognitionRole":"direct-source","reasonCode":"actual-expense","reasonText":"Recognize a real subsequently reported expense without rewriting the original snapshot","primaryCostRef":null,"supportingSourceRefs":[expense_ref],"evidenceRefs":[expense_ref]});
+    let targets = p["proposedAffectedTargets"]
+        .as_array()
+        .ok_or("actual affected targets")?;
+    let primary = targets
+        .iter()
+        .find(|target| {
+            target["projectId"] == project.to_string()
+                && target["restatesSnapshotRef"]["id"] == original_snapshot.to_string()
+        })
+        .ok_or("actual live restatement root")?;
+    let others = targets
+        .iter()
+        .filter(|target| {
+            target["projectId"] != primary["projectId"]
+                || target["restatesSnapshotRef"]["id"] != primary["restatesSnapshotRef"]["id"]
+        })
+        .cloned()
+        .collect::<Vec<_>>();
+    let request = json!({"inputVersion":"server-derived-v1","projectId":project,"scope":"live","expectedVersion":p["headVersion"],"expectedProjectVersion":p["projectVersion"],"expectedInputHash":p["expectedInputHash"],"assertions":null,"periodEndSnapshotRef":null,"restatesSnapshotRef":primary["restatesSnapshotRef"],"restatementReason":"Actual late expense","restatementSummary":"Add a confirmed 1000 expense and preserve the previous snapshot","costDecisions":[decision],"laborCorrections":[],"allocationCorrections":[],"stageCorrections":[],"taxCorrections":[],"affectedTargets":others,"acknowledgedChangedSourceRefs":[]});
+    let restated = native_success(
+        &f.client,
+        "POST",
+        "/api/operating-restatements",
+        request.clone(),
+    )
+    .await?;
+    let snapshot_id = Uuid::parse_str(restated["snapshotId"].as_str().ok_or("restated snapshot")?)?;
+    assert_ne!(snapshot_id, original_snapshot);
+    let old: Value = sqlx::query_scalar(
+        "SELECT frozen_payload FROM poms.operating_source_context WHERE snapshot_id=$1",
+    )
+    .bind(original_snapshot)
+    .fetch_one(&f.pool)
+    .await?;
+    let new: Value = sqlx::query_scalar(
+        "SELECT frozen_payload FROM poms.operating_source_context WHERE snapshot_id=$1",
+    )
+    .bind(snapshot_id)
+    .fetch_one(&f.pool)
+    .await?;
+    assert_eq!(
+        old["metrics"]["includedCostAmounts"]["net"]["value"],
+        "70000.00"
+    );
+    assert_eq!(
+        new["metrics"]["includedCostAmounts"]["net"]["value"],
+        "71000.00"
+    );
+    assert_eq!(new["metrics"]["grossMarginNet"]["value"], "29000.00");
+    let (replay_status, replayed) = f
+        .client
+        .call("POST", "/api/operating-restatements", request.clone())
+        .await?;
+    assert_eq!(replay_status, StatusCode::CREATED);
+    assert_eq!(
+        replayed, restated,
+        "Identical committed input must replay the actual receipt"
+    );
+    let mut changed_request = request;
+    changed_request["restatementReason"] =
+        json!("A different payload must not reuse the committed request identity");
+    let (changed_status, _) = f
+        .client
+        .call("POST", "/api/operating-restatements", changed_request)
+        .await?;
+    assert_eq!(changed_status, StatusCode::CONFLICT);
+    let signal_id = restated["evaluationRefs"]["signalEvaluationId"]
+        .as_str()
+        .ok_or("restated signal")?;
+    let signal = native_success(
+        &f.client,
+        "GET",
+        &format!("/api/operating-signal-evaluations/{signal_id}"),
+        json!({}),
+    )
+    .await?;
+    let issue = signal["reasonItems"]
+        .as_array()
+        .and_then(|items| {
+            items
+                .iter()
+                .find(|item| item["code"] == "qualitative-materiality-unassessed")
+        })
+        .ok_or("actual adverse variance qualitative issue")?;
+    assert_eq!(issue["evidenceProjection"]["mode"], "full");
+    let refs: Value = serde_json::from_str(
+        issue["evidenceProjection"]["value"]
+            .as_str()
+            .ok_or("frozen issue evidence")?,
+    )?;
+    let evidence = refs
+        .as_array()
+        .and_then(|refs| refs.first())
+        .ok_or("actual issue source reference")?;
+    let review = json!({"inputVersion":"server-derived-v1","reviewDecision":"manual-confirmed","resolvedDataMaturityLevel":signal["dataMaturityLevel"],"costActionRecommendation":signal["costActionRecommendation"],"referencedBaselineVersion":signal["referencedBaselineVersion"],"referencedSnapshotVersion":signal["referencedSnapshotVersion"],"expectedVersion":signal["rowVersion"],"expectedSourceHash":signal["evaluationContext"]["sourceHash"],"expectedEvaluationHash":signal["evaluationContext"]["evaluationHash"],"requestKey":uuid(&f.pool).await?,"manualMaterialityReview":{"policyVersion":"r4h-operating-v1","issueCodes":[issue["code"]],"riskDecision":"attention","evidenceRefs":[evidence],"rationale":"The actual 1000 expense exceeds the original budget; retain a qualitative attention decision without altering money"}});
+    let mut wrong_source = review.clone();
+    wrong_source["expectedSourceHash"] = json!("0".repeat(64));
+    let (wrong, _) = f
+        .client
+        .call(
+            "POST",
+            &format!("/api/operating-signal-evaluations/{signal_id}:review"),
+            wrong_source,
+        )
+        .await?;
+    assert_eq!(wrong, StatusCode::CONFLICT);
+    let reviewed = native_success(
+        &f.client,
+        "POST",
+        &format!("/api/operating-signal-evaluations/{signal_id}:review"),
+        review.clone(),
+    )
+    .await?;
+    let replayed = native_success(
+        &f.client,
+        "POST",
+        &format!("/api/operating-signal-evaluations/{signal_id}:review"),
+        review.clone(),
+    )
+    .await?;
+    assert_eq!(reviewed, replayed);
+    let mut conflicting = review;
+    conflicting["manualMaterialityReview"]["rationale"] =
+        json!("A different request must not reuse a committed request key");
+    let (collision, _) = f
+        .client
+        .call(
+            "POST",
+            &format!("/api/operating-signal-evaluations/{signal_id}:review"),
+            conflicting,
+        )
+        .await?;
+    assert_eq!(collision, StatusCode::CONFLICT);
+    let current = native_success(
+        &f.client,
+        "GET",
+        &format!("/api/operating-signal-evaluations/{signal_id}"),
+        json!({}),
+    )
+    .await?;
+    assert_eq!(current["riskLevel"], "attention");
+    let binding_id: Uuid = sqlx::query_scalar("SELECT id FROM poms.operating_signal_gate_binding WHERE project_id=$1 AND signal_evaluation_id=$2 AND gate_stage_type='first' AND status='active'").bind(project).bind(Uuid::parse_str(signal_id)?).fetch_one(&f.pool).await?;
+    let gate_path = format!("/api/commission-gate-bindings/{binding_id}");
+    let gate = native_success(&f.client, "GET", &gate_path, json!({})).await?;
+    let blocked = gate["reasonItems"]
+        .as_array()
+        .ok_or("actual gate reasons")?
+        .iter()
+        .filter(|reason| reason["stageActions"]["first"] == "block")
+        .filter_map(|reason| reason["code"].as_str())
+        .collect::<std::collections::BTreeSet<_>>();
+    let decision = if gate["bindingAction"] == "block" {
+        "blocked"
+    } else if current["riskLevel"] == "unknown"
+        || current["evaluationContext"]["evaluationStatus"] != "complete"
+    {
+        "review-required"
+    } else {
+        "confirmed"
+    };
+    let gate_review = json!({"inputVersion":"server-derived-v1","bindingAction":gate["bindingAction"],"gateReviewDecision":decision,"baselineSelectionSource":gate["baselineSelectionSource"],"summaryPackageKey":"project-operating-commission-gate-v1","summarySnapshotId":gate["summarySnapshotId"],"referencedBaselineVersion":gate["referencedBaselineVersion"],"referencedSnapshotVersion":gate["referencedSnapshotVersion"],"expectedVersion":gate["rowVersion"],"expectedSourceHash":gate["evaluationContext"]["sourceHash"],"expectedEvaluationHash":gate["evaluationContext"]["evaluationHash"],"requestKey":uuid(&f.pool).await?,"reviewAction":"acknowledge","blockingReasonCodes":blocked});
+    let acknowledged = native_success(
+        &f.client,
+        "POST",
+        &format!("{gate_path}:review"),
+        gate_review.clone(),
+    )
+    .await?;
+    let replayed = native_success(
+        &f.client,
+        "POST",
+        &format!("{gate_path}:review"),
+        gate_review,
+    )
+    .await?;
+    assert_eq!(acknowledged, replayed);
+    let gate = native_success(&f.client, "GET", &gate_path, json!({})).await?;
+    let tighten = json!({"inputVersion":"server-derived-v1","bindingAction":gate["bindingAction"],"gateReviewDecision":"blocked","baselineSelectionSource":gate["baselineSelectionSource"],"summaryPackageKey":"project-operating-commission-gate-v1","summarySnapshotId":gate["summarySnapshotId"],"referencedBaselineVersion":gate["referencedBaselineVersion"],"referencedSnapshotVersion":gate["referencedSnapshotVersion"],"expectedVersion":gate["rowVersion"],"expectedSourceHash":gate["evaluationContext"]["sourceHash"],"expectedEvaluationHash":gate["evaluationContext"]["evaluationHash"],"requestKey":uuid(&f.pool).await?,"reviewAction":"tighten-block","blockingReasonCodes":blocked});
+    native_success(&f.client, "POST", &format!("{gate_path}:review"), tighten).await?;
+    let final_gate = native_success(&f.client, "GET", &gate_path, json!({})).await?;
+    assert_eq!(final_gate["bindingAction"], "block");
+    let after: Value = sqlx::query_scalar(
+        "SELECT frozen_payload FROM poms.operating_source_context WHERE snapshot_id=$1",
+    )
+    .bind(snapshot_id)
+    .fetch_one(&f.pool)
+    .await?;
+    assert_eq!(
+        new, after,
+        "Reviews must not rewrite the immutable monetary context"
+    );
+    let unfinished_period = chrono::Utc::now()
+        .with_timezone(&chrono_tz::Asia::Hong_Kong)
+        .format("%Y-%m")
+        .to_string();
+    let (unfinished, _) = f.client.call("GET",&format!("/api/projects/{project}/unified-accounting?view=preparation&intent=period-close&periodKey={unfinished_period}"),json!({})).await?;
+    assert_eq!(
+        unfinished,
+        StatusCode::BAD_REQUEST,
+        "An unfinished real period must not be closed"
+    );
+    println!(
+        "native expense/restatement/qualitative and stage reviews completed: {project}; snapshot {snapshot_id}"
+    );
+    Ok(())
 }

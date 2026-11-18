@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import type { FrozenLifecycleEvidence, ProjectCompletionRecordList } from '@poms/shared-contracts';
+import { FullProjectDetailViewSchema, type FullProjectDetailView, type FrozenLifecycleEvidence, type ProjectCompletionRecordList } from '@poms/shared-contracts';
+import { lifecycleContext } from './project-governance-facts';
 import { ProjectLifecycleAuthoring, type ProjectLifecycleAuthoringApi } from './project-lifecycle-authoring';
 
 const projectId = '10000000-0000-4000-8000-000000000001';
@@ -50,6 +51,7 @@ function apiFixture() {
             closureEvidenceRefs: [evidence]
         })),
         uploadEvidence: unexpected,
+        uploadConditionEvidence: unexpected,
         openEvidence: jest.fn(async () => undefined)
     };
     return { api, unexpected };
@@ -93,5 +95,52 @@ describe('ProjectLifecycleAuthoring own tasks', () => {
             evidenceRefs: [{ attachmentLinkId: evidence.attachmentLinkId }]
         });
         expect(unexpected).not.toHaveBeenCalled();
+    });
+});
+
+function fullProject(status: FullProjectDetailView['status'], currentStage: FullProjectDetailView['currentStage']): FullProjectDetailView {
+    const instant = '2026-11-18T00:00:00.000Z';
+    return FullProjectDetailViewSchema.parse({ scopeKind: 'full-project', projectRowVersion: 3, currentStageRecordId: null, executionAdmissionContext: null,
+        id: projectId, projectNo: 'UNIT-LIFECYCLE', projectName: '单元测试归档项目', sourceLeadId: null, customerId: null, customerName: null, customerProjectNo: null,
+        status, currentStage, ownerOrgId: '00000000-0000-4000-8000-000000003001', ownerUserId: actorId,
+        plannedSignAt: null, closedAt: status === 'closed' ? instant : null, closedReason: status === 'closed' ? '项目终态' : null, rowVersion: 3, createdAt: instant, createdBy: null, updatedAt: instant, updatedBy: null,
+        ownerName: '单元经办人', ownerOrgName: '单元组织', sourceLeadSummary: null,
+        stageSummary: { currentStage, status, plannedSignAt: null, closedAt: status === 'closed' ? instant : null, closedReason: status === 'closed' ? '项目终态' : null, blockingReasons: [] },
+        currentBidSummary: { tenderNo: null, bidPackageNo: null, bidProcessId: null, bidStatus: 'not_configured', resultStatus: null, summary: null },
+        currentContractSummary: { activeContractCount: 0, latestContractId: null, latestContractNo: null, latestContractStatus: null,
+            signedAmountProjection: { fieldPackageKey: 'contract-finance', mode: 'masked', value: null, displayText: '已隐藏', reasonCode: 'missing-sensitive-read-permission' },
+            currencyCode: null, signedAt: null, currentSnapshotId: null },
+        currentApprovalSummary: { summarySnapshotId: null, summaryPackageKey: null, projectionLevel: null, exportPolicy: null, generatedAt: null },
+        currentConfirmationSummary: { confirmationRecordId: null, status: 'not_configured', requiredCount: 0, confirmedCount: 0, pendingCount: 0, confirmedAt: null },
+        summarySnapshotId: null, projectionLevel: null, exportPolicy: null, allowedActions: [], generatedAt: instant });
+}
+
+describe('ProjectLifecycleAuthoring terminal archive entry', () => {
+    const cases: [FullProjectDetailView['status'], FullProjectDetailView['currentStage'], boolean][] = [
+        ['closed', 'closed-lost', true],
+        ['closed', 'closed-terminated', true],
+        ['completed', 'completed', true],
+        ['completed', 'conditional-completed', true],
+        ['active', 'execution', false],
+        ['active', 'acceptance', false]
+    ];
+    it.each(cases)('shows archive only for authorized terminal state %s/%s', async (status, stage, expected) => {
+        await TestBed.configureTestingModule({ imports: [ProjectLifecycleAuthoring] }).compileComponents();
+        const { api } = apiFixture();
+        const fullApi: ProjectLifecycleAuthoringApi = {
+            ...api,
+            loadCompletionRecords: jest.fn(async () => ({ scopeKind: 'full-project', projectId, items: [] })),
+            loadAcceptanceRecords: jest.fn(async () => []),
+            loadArchiveRecords: jest.fn(async () => [])
+        };
+        const fixture = TestBed.createComponent(ProjectLifecycleAuthoring);
+        fixture.componentRef.setInput('projectId', projectId);
+        fixture.componentRef.setInput('api', fullApi);
+        fixture.componentRef.setInput('context', lifecycleContext(fullProject(status, stage), true));
+        fixture.detectChanges();
+        await fixture.whenStable();
+        fixture.detectChanges();
+        expect(fixture.nativeElement.textContent.includes('登记终态归档')).toBe(expected);
+        expect(lifecycleContext(fullProject(status, stage), false).canArchive).toBe(false);
     });
 });

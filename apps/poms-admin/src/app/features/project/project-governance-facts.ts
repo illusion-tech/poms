@@ -68,7 +68,10 @@ export function lifecycleContext(project: FullProjectDetailView, canWrite: boole
         currentStage: project.currentStage,
         currentStageRecordId: project.currentStageRecordId,
         canWriteLifecycle: canWrite && project.status !== 'closed',
-        canArchive: canWrite && project.status !== 'closed',
+        canArchive: canWrite && (
+            (project.status === 'completed' && ['completed', 'conditional-completed'].includes(project.currentStage)) ||
+            (project.status === 'closed' && ['closed-lost', 'closed-terminated'].includes(project.currentStage))
+        ),
         executionAdmission: canWrite && project.currentStage === 'handover' && admission
             && admission.handoverStageRecordId === project.currentStageRecordId ? admission : null
     };
