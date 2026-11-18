@@ -11,6 +11,7 @@ import subprocess
 parser = argparse.ArgumentParser()
 parser.add_argument('--packages', type=Path, required=True)
 parser.add_argument('--output', type=Path, required=True)
+parser.add_argument('--reuse-build-root', type=Path, help='Reuse an owned extracted sysroot/compiler and Cargo cache while retaining original release artifacts')
 parser.add_argument('--cargo-home', type=Path, required=True)
 parser.add_argument('--source-revision', required=True, help='Actual host Git HEAD; Windows worktree pointers cannot be read by WSL Git')
 args = parser.parse_args()
@@ -36,13 +37,31 @@ for package in packages:
 if observed != expected:
     raise SystemExit('The four Debian sysroot/runtime packages are required')
 output.mkdir(parents=True)
-sysroot = output / 'sysroot'
-sysroot.mkdir()
-for package in packages:
-    subprocess.run(['dpkg-deb', '-x', str(package), str(sysroot)], check=True)
-compiler = output / 'cc-bookworm'
-compiler.write_text('#!/bin/sh\nexec /usr/bin/gcc --sysroot=' + shlex.quote(str(sysroot)) + ' "$@"\n')
-compiler.chmod(0o755)
+if args.reuse_build_root:
+    cache = args.reuse_build_root.resolve()
+    if cache == output or cache.stat().st_uid != os.geteuid():
+        raise SystemExit('Use a separate owned existing build root')
+    sysroot = cache / 'sysroot'
+    compiler = cache / 'cc-bookworm'
+    build_target = cache / 'target'
+    sysroot_option = shlex.quote(str(sysroot))
+    compiler_prefix = '#!/bin/sh\nexec /usr/bin/gcc --sysroot='
+    compiler_suffix = ' "$@"\n'
+    permitted_compilers = [compiler_prefix + sysroot_option + compiler_suffix]
+    if sysroot_option == str(sysroot):
+        permitted_compilers.append(compiler_prefix + '"' + sysroot_option + '"' + compiler_suffix)
+    if not build_target.is_dir() or not (cache / 'poms-api-rust').is_file() or compiler.read_text() not in permitted_compilers:
+        raise SystemExit('Existing sysroot/compiler/cache or retained release artifact differs')
+    (output / 'sysroot').symlink_to(sysroot, target_is_directory=True)
+else:
+    sysroot = output / 'sysroot'
+    sysroot.mkdir()
+    for package in packages:
+        subprocess.run(['dpkg-deb', '-x', str(package), str(sysroot)], check=True)
+    compiler = output / 'cc-bookworm'
+    compiler.write_text('#!/bin/sh\nexec /usr/bin/gcc --sysroot=' + shlex.quote(str(sysroot)) + ' "$@"\n')
+    compiler.chmod(0o755)
+    build_target = output / 'target'
 # Debian's package contains an absolute symlink. Address its actual extracted
 # target explicitly; never replace or install a loader in the host filesystem.
 loader = sysroot / 'lib/x86_64-linux-gnu/ld-linux-x86-64.so.2'
@@ -51,14 +70,14 @@ probe = output / 'strtol-probe.c'
 probe.write_text('#include <stdio.h>\n#include <stdlib.h>\nint main(void){printf("%ld\\n",strtol("12345",NULL,10));return 0;}\n')
 subprocess.run([str(compiler), '-D_GNU_SOURCE', '-std=gnu17', str(probe), '-o', str(output / 'strtol-probe')], check=True)
 assert subprocess.check_output([str(loader), '--library-path', libraries, str(output / 'strtol-probe')], text=True).strip() == '12345'
-env = dict(os.environ, CARGO_HOME=str(args.cargo_home.resolve()), CARGO_TARGET_DIR=str(output / 'target'), CARGO_BUILD_JOBS='2', CC=str(compiler), CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_LINKER=str(compiler))
+env = dict(os.environ, CARGO_HOME=str(args.cargo_home.resolve()), CARGO_TARGET_DIR=str(build_target), CARGO_BUILD_JOBS='2', CC=str(compiler), CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_LINKER=str(compiler))
 cargo = str(Path.home() / '.cargo/bin/cargo')
 command = [cargo, '+1.99.1', 'build', '--manifest-path', str(repo / 'apps/poms-api-rust/Cargo.toml'), '--offline', '--locked', '--release', '--target', 'x86_64-unknown-linux-gnu']
 print('Building normal release profile against extracted glibc 2.36', flush=True)
 with (output / 'build.log').open('x') as log:
     subprocess.run(command, cwd=repo, env=env, stdout=log, stderr=subprocess.STDOUT, check=True)
 binary = output / 'poms-api-rust'
-shutil.copy2(output / 'target/x86_64-unknown-linux-gnu/release/poms-api-rust', binary)
+shutil.copy2(build_target / 'x86_64-unknown-linux-gnu/release/poms-api-rust', binary)
 versions = subprocess.check_output(['readelf', '--version-info', str(binary)], text=True)
 (output / 'elf-versions.txt').write_text(versions)
 required = sorted(set(re.findall(r'Name: (GLIBC_([0-9.]+))', versions)), key=lambda match: tuple(map(int, match[1].split('.'))))

@@ -353,12 +353,52 @@ async fn calculation_project(
         .ok_or_else(|| Error::NotFound("提成计算不存在。".into()))
 }
 
+/// Use G's current immutable included-cost context when one exists. Payments
+/// remain the explicitly labelled compatibility basis before a G capture.
+async fn supported_cost(
+    session: &mut CommonSession<'_, '_>,
+    project: Uuid,
+) -> Result<(Decimal, Value), Error> {
+    type OperatingCostHead = (Option<Uuid>, Option<i32>, Option<String>, Option<String>);
+    let captured: Option<OperatingCostHead> = sqlx::query_as(
+        "SELECT h.current_snapshot_id,s.captured_row_version,s.source_hash,s.status FROM poms.project_operating_head h LEFT JOIN poms.project_operating_snapshot s ON s.id=h.current_snapshot_id WHERE h.project_id=$1 FOR SHARE OF h",
+    ).bind(project).fetch_optional(&mut *session.connection).await?;
+    if let Some((Some(snapshot), version, source_hash, status)) = captured {
+        let invalid = || Error::Conflict("当前经营成本依据尚未核实，不能回退为付款合计。".into());
+        if status.as_deref() != Some("active") {
+            return Err(invalid());
+        }
+        let context = crate::project_operating_common::loader::load_frozen_context_with_session(
+            session,
+            snapshot,
+            version.ok_or_else(invalid)?,
+            source_hash.as_deref().ok_or_else(invalid)?,
+        )
+        .await?;
+        let amount = &context.metrics.included_cost_amounts.net;
+        if context.project_id != project
+            || context.formal_eligibility.status.as_str() != "eligible"
+            || context.currency.is_none()
+            || amount.knowledge.as_str() != "known"
+        {
+            return Err(invalid());
+        }
+        let limit = model::amount(amount.value.as_deref().ok_or_else(invalid)?)?;
+        return Ok((
+            limit,
+            json!({"kind":"operating-context","snapshotId":snapshot,"capturedRowVersion":context.snapshot.row_version,"contextId":context.context_id,"sourceHash":context.source_hash}),
+        ));
+    }
+    let payments: Decimal = sqlx::query_scalar("SELECT COALESCE(SUM(amount_excluding_tax),0) FROM poms.payment_record WHERE project_id=$1 AND status='confirmed'").bind(project).fetch_one(&mut *session.connection).await?;
+    Ok((payments, json!({"kind":"confirmed-payments"})))
+}
+
 async fn supported_facts(
     session: &mut CommonSession<'_, '_>,
     project: Uuid,
     revenue: Decimal,
     cost: Decimal,
-) -> Result<(), Error> {
+) -> Result<Value, Error> {
     let active: bool = sqlx::query_scalar(
         "SELECT EXISTS(SELECT 1 FROM poms.contract WHERE project_id=$1 AND status='active')",
     )
@@ -376,16 +416,14 @@ async fn supported_facts(
             .map(|r| super::payout_context::money(r, "amount_excluding_tax"))
             .collect::<Result<Vec<_>, _>>()?,
     )?;
-    let payments: Decimal = sqlx::query_scalar("SELECT COALESCE(SUM(amount_excluding_tax),0) FROM poms.payment_record WHERE project_id=$1 AND status='confirmed'")
-        .bind(project).fetch_one(&mut *session.connection).await?;
-    if receipts < revenue || payments < cost {
+    let (supported_cost, basis) = supported_cost(session, project).await?;
+    if receipts < revenue || supported_cost < cost {
         return Err(Error::Unprocessable(
             "已确认回款或成本不足以支持本次提成计算口径。".into(),
         ));
     }
-    Ok(())
+    Ok(basis)
 }
-
 async fn frozen_assignment(
     session: &mut CommonSession<'_, '_>,
     project: Uuid,
@@ -438,7 +476,7 @@ async fn create_calculation(
     let revenue = model::amount(&input.recognized_revenue_tax_exclusive)?;
     let cost = model::amount(&input.recognized_cost_tax_exclusive)?;
     frozen_assignment(session, project).await?;
-    supported_facts(session, project, revenue, cost).await?;
+    let cost_basis = supported_facts(session, project, revenue, cost).await?;
     let selected_rule = rule(session, input.rule_version_id).await?;
     if selected_rule["status"] != "active" {
         return Err(Error::Unprocessable(
@@ -468,7 +506,11 @@ async fn create_calculation(
         id(&row, "id")?,
         project,
         current,
-        row.clone(),
+        {
+            let mut audited = row.clone();
+            audited["recognizedCostBasis"] = cost_basis;
+            audited
+        },
     )
     .await?;
     calculation_summary(session, &row, actor).await
@@ -537,7 +579,7 @@ async fn recalculate(
             .as_deref()
             .unwrap_or(text(&before, "recognized_cost_tax_exclusive")?),
     )?;
-    supported_facts(session, project, revenue, cost).await?;
+    let cost_basis = supported_facts(session, project, revenue, cost).await?;
     frozen_assignment(session, project).await?;
     let rule_id = id(&before, "rule_version_id")?;
     let selected_rule = rule(session, rule_id).await?;
@@ -559,7 +601,7 @@ async fn recalculate(
         id(&row, "id")?,
         project,
         Some(before),
-        json!({"calculation":row,"reason":input.reason.trim()}),
+        json!({"calculation":row,"reason":input.reason.trim(),"recognizedCostBasis":cost_basis}),
     )
     .await?;
     calculation_summary(session, &row, actor).await

@@ -1,33 +1,60 @@
-// Package already-built artifacts and the target's actual pending migrations.
+// Package already-built artifacts and migrations from a read-only target snapshot.
 // This performs no database write, service operation, or remote deployment.
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 import { execFileSync } from 'node:child_process';
+import { parseArgs } from 'node:util';
 const require=createRequire(import.meta.url);
 const ts=require('typescript');
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
 const directory=path.join(root,'apps/poms-api-rust/target/delivery-dependencies');
-const smoke=JSON.parse(fs.readFileSync(path.join(directory,'bookworm-release-network-smoke-01.json')));
+const {values,positionals}=parseArgs({options:{frontend:{type:'string'},smoke:{type:'string'},target:{type:'string'},state:{type:'string'}},allowPositionals:true});
+if(positionals.length>1||(values.frontend&&positionals.length))throw new Error('Choose one frontend directory');
+function artifactFile(value){
+ const resolved=fs.realpathSync(path.resolve(directory,value));
+ if(!resolved.startsWith(fs.realpathSync(directory)+path.sep))throw new Error('Use an existing artifact inside delivery-dependencies');
+ return resolved;
+}
+const smoke=JSON.parse(fs.readFileSync(artifactFile(values.smoke??'bookworm-release-network-smoke-01.json')));
 const revision=smoke.source;
 if(!/^[0-9a-f]{40}$/.test(revision))throw new Error('Missing actual artifact source revision');
 const name='poms-rust-candidate-'+revision.slice(0,8)+'-bookworm';
 const stage=path.join(directory,name);
 const archive=path.join(directory,name+'.tar.gz');
 if(fs.existsSync(stage)||fs.existsSync(archive))throw new Error('Preserve the existing candidate; choose a new reviewed output');
-const state=JSON.parse(fs.readFileSync(path.join(directory,'test-target-readonly-metadata-03.json')));
-const target=JSON.parse(fs.readFileSync(path.join(directory,'bookworm-target-abi-smoke-01.json')));
-if(!smoke.passed||!target.candidateRan||!state.metadataRead||!Array.isArray(state.pendingInCheckout))throw new Error('Actual release, target and migration results are required');
+const state=JSON.parse(fs.readFileSync(artifactFile(values.state??'test-target-readonly-metadata-03.json')));
+const target = values.target ? JSON.parse(fs.readFileSync(artifactFile(values.target))) : null;
+if (!smoke.passed || smoke.profile !== 'release' || smoke.apiExitCode !== 0 || !state.metadataRead || !Array.isArray(state.pendingInCheckout)) {
+  throw new Error('Successful local release smoke and a read-only migration snapshot are required');
+}
+if (target && (!target.candidateRan || target.source !== revision)) {
+  throw new Error('Target ABI result must belong to this exact candidate');
+}
 fs.mkdirSync(stage);
 for(const dir of ['api','migrations','migrations-up'])fs.mkdirSync(path.join(stage,dir));
 fs.copyFileSync(path.join(directory,'poms-api-rust-bookworm-'+revision.slice(0,8)),path.join(stage,'api/poms-api-rust'));
-fs.copyFileSync(path.join(directory,'openapi-linux'+smoke.operations+'.json'),path.join(stage,'api/openapi.json'));
-const frontend=path.resolve(process.argv[2]??path.join(directory,'commission-admin-build-05/dist'));
+fs.copyFileSync(artifactFile(smoke.openapiFile??('openapi-linux'+smoke.operations+'.json')),path.join(stage,'api/openapi.json'));
+const frontend=path.resolve(values.frontend??positionals[0]??path.join(directory,'commission-admin-build-05/dist'));
 fs.cpSync(path.join(frontend,'browser'),path.join(stage,'admin/browser'),{recursive:true});
 const license=path.join(frontend,'3rdpartylicenses.txt');
 if(fs.existsSync(license))fs.copyFileSync(license,path.join(stage,'LICENSES.admin.txt'));
-fs.copyFileSync(path.join(root,'docs/design/rust-linux-candidate-2026-11-18.md'),path.join(stage,'README.md'));
+const targetCheck = target ? '此版本已在 TEST 直接执行 OpenAPI 导出。' : '此版本的 ABI 冒烟在本地 Debian 12 运行库完成。';
+fs.writeFileSync(path.join(stage, 'README.md'), [
+  '# POMS Rust Linux 候选包',
+  '',
+  '应用源提交 `' + revision + '`。Rust release 和 Angular 生产产物见 `api/`、`admin/browser/`。',
+  `本地 release 验证使用 glibc ${smoke.runtimeGlibc}，二进制最高要求 GLIBC ${smoke.requiredGlibc}。已核对 ${smoke.operations} 项 OpenAPI 操作并完成本机网络读取。`,
+  targetCheck,
+  '',
+  '本包按 `target-state.json` 中留存的 TEST 只读快照包含 ' + state.pendingInCheckout.length + ' 项迁移。迁移演练前重新核对目标数据库的迁移记录。',
+  '`migrations/` 提供转译后的迁移类。`migrations-up/` 提供用于审阅的 SQL。实际执行由应用迁移运行器记录版本。',
+  '候选配置读取服务器现有私有环境文件。目标演练、应用回退和服务切换仍待执行。',
+  '',
+].join('\n'));
+fs.writeFileSync(path.join(stage, 'local-release-smoke.json'), JSON.stringify(smoke, null, 2) + '\n');
+if (target) fs.writeFileSync(path.join(stage, 'target-abi-smoke.json'), JSON.stringify(target, null, 2) + '\n');
 fs.copyFileSync(path.join(root,'deploy/pm2/poms-api-rust-test.ecosystem.config.cjs'),path.join(stage,'poms-api-rust-test.ecosystem.config.cjs'));
 fs.writeFileSync(path.join(stage,'target-state.json'),JSON.stringify(state,null,2)+'\n');
 for(const migration of state.pendingInCheckout){
@@ -52,4 +79,4 @@ with tarfile.open(target,'x:gz') as archive:
 print(target.stat().st_size)
 `;
 const bytes=execFileSync('wsl.exe',['-d','Debian','--exec','/usr/bin/python3','-c',python,linuxPath(stage),linuxPath(archive)],{cwd:root,encoding:'utf8',windowsHide:true}).trim();
-console.log(JSON.stringify({archive,bytes:Number(bytes),source:revision,pendingMigrations:state.pendingInCheckout.length,deployed:false}));
+console.log(JSON.stringify({archive,bytes:Number(bytes),source:revision,pendingMigrations:state.pendingInCheckout.length,targetAbiChecked:Boolean(target),deployed:false}));

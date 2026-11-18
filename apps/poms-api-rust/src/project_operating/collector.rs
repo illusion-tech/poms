@@ -281,6 +281,12 @@ pub async fn collect_with_session(
                     &transitions,
                     &input.restatement_reason,
                 )?;
+                // Source/share peers remain in the locked, authorized batch even
+                // without accounting targets. An empty decision set has no
+                // inclusion effect and must not require a synthetic cutoff.
+                if mapped.is_empty() {
+                    continue;
+                }
                 let mut cutoff = if *project == plan.project_id {
                     Some(plan.window.business_cutoff)
                 } else {

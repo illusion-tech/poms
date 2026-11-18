@@ -2952,16 +2952,31 @@ fn native_success<'a>(
 #[tokio::test]
 #[ignore = "requires explicit dedicated commission DB initialized from application migrations"]
 async fn r4_native_business_delivery_chain() -> Result {
-    Box::pin(native_business_delivery_chain(false)).await
+    Box::pin(native_business_delivery_chain(NativeChain::Normal)).await
 }
 
 #[tokio::test]
 #[ignore = "requires explicit dedicated commission DB initialized from application migrations"]
 async fn r4_native_conditional_completion_and_archive_chain() -> Result {
-    Box::pin(native_business_delivery_chain(true)).await
+    Box::pin(native_business_delivery_chain(NativeChain::Conditional)).await
 }
 
-async fn native_business_delivery_chain(conditional: bool) -> Result {
+#[tokio::test]
+#[ignore = "requires explicit dedicated commission DB initialized from application migrations"]
+async fn r4_native_shared_allocation_and_atomic_restatement_chain() -> Result {
+    Box::pin(native_business_delivery_chain(NativeChain::Shared)).await
+}
+
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum NativeChain {
+    Normal,
+    Conditional,
+    Shared,
+}
+
+async fn native_business_delivery_chain(mode: NativeChain) -> Result {
+    let conditional = mode == NativeChain::Conditional;
+    let shared = mode == NativeChain::Shared;
     let permissions = [
         PermissionKey::CustomerRead,
         PermissionKey::CustomerWrite,
@@ -3251,6 +3266,15 @@ async fn native_business_delivery_chain(conditional: bool) -> Result {
             .as_str()
             .ok_or("payable cost targetId")?,
     )?;
+    if shared {
+        Box::pin(native_confirm_cost_stage(
+            &f,
+            project,
+            payable_cost,
+            execution_stage,
+        ))
+        .await?;
+    }
     println!("native receipt/payment/cost completed: {project}");
     let preparation = native_success(
         &f.client,
@@ -3372,6 +3396,15 @@ async fn native_business_delivery_chain(conditional: bool) -> Result {
         ))
         .await?;
     }
+    if shared {
+        Box::pin(native_shared_allocation_and_restatement(
+            &f,
+            project,
+            contract,
+            execution_stage,
+        ))
+        .await?;
+    }
     let evidence = native_project_evidence(&f, project, None).await?;
     let project_view = native_success(
         &f.client,
@@ -3450,6 +3483,18 @@ async fn native_business_delivery_chain(conditional: bool) -> Result {
         close_fixture(reviewer).await?;
         return close_fixture(f).await;
     }
+    let project_view = if shared {
+        native_success(&f.client,"POST",&format!("/api/projects/{project}/acceptance-records"),json!({"inputVersion":"server-derived-v1","expectedProjectVersion":project_view["rowVersion"],"acceptanceStageRecordId":acceptance_stage,"acceptanceType":"stage-acceptance","acceptanceResult":"accepted","scopeSummary":"Actual native stage delivery","evidenceSummary":"Actual uploaded evidence for second payout qualification","evidenceRefs":[evidence]})).await?;
+        native_success(
+            &f.client,
+            "GET",
+            &format!("/api/projects/{project}"),
+            json!({}),
+        )
+        .await?
+    } else {
+        project_view
+    };
     let acceptance = native_success(&f.client, "POST", &format!("/api/projects/{project}/acceptance-records"), json!({"inputVersion":"server-derived-v1","expectedProjectVersion":project_view["rowVersion"],"acceptanceStageRecordId":acceptance_stage,"acceptanceType":"final-acceptance","acceptanceResult":"accepted","scopeSummary":"Actual native delivery chain","evidenceSummary":"Owned final acceptance attachment","evidenceRefs":[evidence]})).await?;
     assert_eq!(acceptance["sourceQualification"], "verified-producer");
     let acceptance_id = row_id(&acceptance)?;
@@ -3481,6 +3526,9 @@ async fn native_business_delivery_chain(conditional: bool) -> Result {
     assert_eq!(current_stage, "completed");
     Box::pin(native_archive_mutations(&f, project, &archive)).await?;
     println!("native attachment/acceptance/completion/archive completed: {project}");
+    if shared {
+        Box::pin(native_followup_payouts(&f, project, calculation)).await?;
+    }
 
     close_fixture(reviewer).await?;
     close_fixture(f).await
@@ -4123,4 +4171,477 @@ async fn native_late_cost_restatement_and_reviews(
         "native expense/restatement/qualitative and stage reviews completed: {project}; snapshot {snapshot_id}"
     );
     Ok(())
+}
+
+async fn native_confirm_cost_stage(
+    f: &Fixture,
+    project: Uuid,
+    cost: Uuid,
+    execution: Uuid,
+) -> Result<Value> {
+    let detail = native_success(
+        &f.client,
+        "GET",
+        &format!("/api/project-actual-cost-records/{cost}"),
+        json!({}),
+    )
+    .await?;
+    let sequence: i32 = sqlx::query_scalar(
+        "SELECT sequence_no FROM poms.project_stage_record WHERE id=$1 AND project_id=$2",
+    )
+    .bind(execution)
+    .bind(project)
+    .fetch_one(&f.pool)
+    .await?;
+    native_success(&f.client,"POST",&format!("/api/project-actual-cost-records/{cost}/stage-attributions"),json!({"stageAttributionMode":"auto","attributedStage":"execution","expectedVersion":detail["rowVersion"],"attributionSummary":"Actual execution-stage source","attributionEvidence":{"kind":"source","sourceType":"project-stage-record","sourceId":execution,"sourceVersion":sequence,"businessDate":detail["occurredOn"],"reason":"Real source cost occurred on the immutable execution admission date"}})).await?;
+    native_success(
+        &f.client,
+        "GET",
+        &format!("/api/project-actual-cost-records/{cost}"),
+        json!({}),
+    )
+    .await
+}
+
+async fn native_shared_allocation_and_restatement(
+    f: &Fixture,
+    project: Uuid,
+    contract: Uuid,
+    execution: Uuid,
+) -> Result {
+    let main = native_success(
+        &f.client,
+        "GET",
+        &format!("/api/projects/{project}"),
+        json!({}),
+    )
+    .await?;
+    let peer = native_success(&f.client,"POST","/api/projects",json!({"projectName":format!("R4 native allocation peer {}",f.user),"customerId":main["customerId"],"initialOwnership":"creator"})).await?;
+    let peer = row_id(&peer)?;
+    let original_snapshot: Uuid = sqlx::query_scalar(
+        "SELECT current_snapshot_id FROM poms.project_operating_head WHERE project_id=$1",
+    )
+    .bind(project)
+    .fetch_one(&f.pool)
+    .await?;
+    let original: Value = sqlx::query_scalar(
+        "SELECT frozen_payload FROM poms.operating_source_context WHERE snapshot_id=$1",
+    )
+    .bind(original_snapshot)
+    .fetch_one(&f.pool)
+    .await?;
+    assert_eq!(
+        original["metrics"]["includedCostAmounts"]["net"]["value"],
+        "71000.00"
+    );
+    let today = chrono::Utc::now()
+        .with_timezone(&chrono_tz::Asia::Hong_Kong)
+        .date_naive()
+        .to_string();
+    let expense = native_success(&f.client,"POST",&format!("/api/projects/{project}/expense-records"),json!({"contractId":contract,"expenseCategory":"travel","expenseDescription":"Actual travel shared by two owned projects","expenseDate":today,"currency":"CNY","amountIncludingTax":"500.00","taxAmount":"0.00","amountExcludingTax":"500.00","sourceType":"manual","evidenceSummary":"Actual shared travel source, allocated by weights one and two"})).await?;
+    let expense_id = row_id(&expense)?;
+    native_success(
+        &f.client,
+        "POST",
+        &format!("/api/expense-records/{expense_id}:confirm"),
+        json!({"expectedVersion":expense["rowVersion"]}),
+    )
+    .await?;
+    let expense = native_success(
+        &f.client,
+        "GET",
+        &format!("/api/expense-records/{expense_id}"),
+        json!({}),
+    )
+    .await?;
+    let cost = native_success(&f.client,"POST",&format!("/api/projects/{project}/actual-cost-records"),json!({"costType":"expense","expenseRecordId":expense_id,"expectedSourceVersion":expense["rowVersion"],"evidenceSummary":"Confirmed shared expense, not a direct duplicate cost"})).await?;
+    let cost_id = Uuid::parse_str(cost["targetId"].as_str().ok_or("shared source cost")?)?;
+    let cost = Box::pin(native_confirm_cost_stage(f, project, cost_id, execution)).await?;
+    let basis_request = json!({"basisType":"shared-expense","sourceCostRecordIds":[cost_id],"allocationMethod":"weight","measurementBasis":"excluding-tax","expectedSourceVersions":[{"costRecordId":cost_id,"expectedVersion":cost["rowVersion"]}],"projectShareItems":[{"projectId":project,"allocationWeight":"1","allocationSummary":"Actual source project's weighted share"},{"projectId":peer,"allocationWeight":"2","allocationSummary":"Actual peer project's weighted share"}],"basisSummary":"Real shared expense with conserved cents"});
+    let basis = native_success(
+        &f.client,
+        "POST",
+        "/api/shared-cost-allocation-bases",
+        basis_request.clone(),
+    )
+    .await?;
+    let basis_id = Uuid::parse_str(basis["basisId"].as_str().ok_or("actual allocation basis")?)?;
+    let results = native_success(
+        &f.client,
+        "GET",
+        &format!("/api/shared-cost-allocation-bases/{basis_id}/results"),
+        json!({}),
+    )
+    .await?;
+    let results = results.as_array().ok_or("actual allocation results")?;
+    assert_eq!(results.len(), 2);
+    let own = results
+        .iter()
+        .find(|row| row["projectId"] == project.to_string())
+        .ok_or("own allocation share")?;
+    let peer_row = results
+        .iter()
+        .find(|row| row["projectId"] == peer.to_string())
+        .ok_or("peer allocation share")?;
+    assert_eq!(own["governanceCertification"], "verified");
+    let own_id = row_id(own)?;
+    let peer_id = row_id(peer_row)?;
+    let shares: Vec<(Uuid,String)> = sqlx::query_as("SELECT project_id,allocated_amount_excluding_tax::text FROM poms.shared_cost_allocation_result WHERE basis_id=$1 ORDER BY project_id").bind(basis_id).fetch_all(&f.pool).await?;
+    assert!(shares.contains(&(project, "166.67".into())));
+    assert!(shares.contains(&(peer, "333.33".into())));
+    let (reserved, _) = f
+        .client
+        .call("POST", "/api/shared-cost-allocation-bases", basis_request)
+        .await?;
+    assert_eq!(
+        reserved,
+        StatusCode::CONFLICT,
+        "A source cannot be reserved by a second live batch"
+    );
+    let basis_ref = native_source_expected(&f.pool, "SharedCostAllocationBasis", basis_id).await?;
+    let expense_ref = native_source_expected(&f.pool, "ExpenseRecord", expense_id).await?;
+    let prepared = native_success(&f.client,"GET",&format!("/api/projects/{project}/unified-accounting?view=preparation&intent=restatement&restatesSnapshotId={original_snapshot}"),json!({})).await?;
+    let p = &prepared["preparation"];
+    let rows = p["sourceRows"].as_array().ok_or("shared collection rows")?;
+    let source = rows
+        .iter()
+        .find(|row| row["sourceRef"]["id"] == cost_id.to_string())
+        .ok_or("shared source collection member")?;
+    let share = rows
+        .iter()
+        .find(|row| row["sourceRef"]["id"] == own_id.to_string())
+        .ok_or("own share collection member")?;
+    let allocation_include = json!({"target":expected_from_source(&share["sourceRef"]),"expectedVersion":0,"decision":"include","recognitionRole":"allocation-share","reasonCode":"other-evidenced","reasonText":"Recognize only this project's actual frozen share","primaryCostRef":null,"supportingSourceRefs":[basis_ref],"evidenceRefs":[expense_ref]});
+    let source_exclude = json!({"target":expected_from_source(&source["sourceRef"]),"expectedVersion":0,"decision":"exclude","recognitionRole":"direct-source","reasonCode":"shared-source-delegated","reasonText":"The real shared batch carries the source amount; do not count it a second time","primaryCostRef":null,"supportingSourceRefs":[expense_ref],"evidenceRefs":[expense_ref]});
+    let targets = p["proposedAffectedTargets"]
+        .as_array()
+        .ok_or("actual affected allocation roots")?;
+    let primary = targets
+        .iter()
+        .find(|target| {
+            target["projectId"] == project.to_string()
+                && target["restatesSnapshotRef"]["id"] == original_snapshot.to_string()
+        })
+        .ok_or("actual allocation restatement root")?;
+    let others = targets
+        .iter()
+        .filter(|target| {
+            target["projectId"] != primary["projectId"]
+                || target["restatesSnapshotRef"]["id"] != primary["restatesSnapshotRef"]["id"]
+        })
+        .cloned()
+        .collect::<Vec<_>>();
+    let request = json!({"inputVersion":"server-derived-v1","projectId":project,"scope":"live","expectedVersion":p["headVersion"],"expectedProjectVersion":p["projectVersion"],"expectedInputHash":p["expectedInputHash"],"assertions":null,"periodEndSnapshotRef":null,"restatesSnapshotRef":primary["restatesSnapshotRef"],"restatementReason":"Consume actual shared allocation","restatementSummary":"Include 166.67 and retain the real 500 source as delegated","costDecisions":[source_exclude,allocation_include],"laborCorrections":[],"allocationCorrections":[],"stageCorrections":[],"taxCorrections":[],"affectedTargets":others,"acknowledgedChangedSourceRefs":[]});
+    let mut double_count = request.clone();
+    let mut direct = source_exclude.clone();
+    direct["decision"] = json!("include");
+    direct["reasonCode"] = json!("actual-expense");
+    double_count["costDecisions"] = json!([allocation_include, direct]);
+    let (duplicate, duplicate_body) = f
+        .client
+        .call("POST", "/api/operating-restatements", double_count)
+        .await?;
+    assert_eq!(duplicate, StatusCode::CONFLICT);
+    assert_eq!(
+        duplicate_body["code"],
+        "operating_direct_shared_source_overlap"
+    );
+    let after_reject: (bool,i64,Uuid) = sqlx::query_as("SELECT r.is_included_in_project_cost,(SELECT count(*) FROM poms.project_cost_inclusion_decision d WHERE d.cost_record_id=$2 OR d.allocation_result_id=$1),(SELECT current_snapshot_id FROM poms.project_operating_head WHERE project_id=$3) FROM poms.shared_cost_allocation_result r WHERE r.id=$1").bind(own_id).bind(cost_id).bind(project).fetch_one(&f.pool).await?;
+    assert_eq!(
+        after_reject,
+        (false, 0, original_snapshot),
+        "Rejected direct/shared overlap must roll back earlier share consumption and decisions"
+    );
+    let captured =
+        native_success(&f.client, "POST", "/api/operating-restatements", request).await?;
+    let first_snapshot =
+        Uuid::parse_str(captured["snapshotId"].as_str().ok_or("shared snapshot")?)?;
+    let context: Value = sqlx::query_scalar(
+        "SELECT frozen_payload FROM poms.operating_source_context WHERE snapshot_id=$1",
+    )
+    .bind(first_snapshot)
+    .fetch_one(&f.pool)
+    .await?;
+    assert_eq!(
+        context["metrics"]["includedCostAmounts"]["net"]["value"],
+        "71166.67"
+    );
+    let peer_heads: i64 =
+        sqlx::query_scalar("SELECT count(*) FROM poms.project_operating_head WHERE project_id=$1")
+            .bind(peer)
+            .fetch_one(&f.pool)
+            .await?;
+    assert_eq!(
+        peer_heads, 0,
+        "An uninitialized peer must not receive an invented operating baseline or snapshot"
+    );
+    let replacement = json!({"expectedVersion":2,"expectedBasisVersion":1,"replacementReason":"Actual allocation weights corrected for the entire batch","projectShareItems":[{"projectId":project,"allocationWeight":"1"},{"projectId":peer,"allocationWeight":"1"}]});
+    let (guarded, guarded_body) = f
+        .client
+        .call(
+            "POST",
+            &format!("/api/shared-cost-allocation-results/{own_id}:replace"),
+            replacement,
+        )
+        .await?;
+    assert_eq!(
+        guarded,
+        StatusCode::CONFLICT,
+        "Consumed allocation changes require an atomic restatement"
+    );
+    assert_eq!(guarded_body["code"], "operating_restatement_required");
+    let basis_ref = native_source_expected(&f.pool, "SharedCostAllocationBasis", basis_id).await?;
+    let cost_ref = native_source_expected(&f.pool, "ProjectActualCostRecord", cost_id).await?;
+    let own_ref = native_source_expected(&f.pool, "SharedCostAllocationResult", own_id).await?;
+    let peer_ref = native_source_expected(&f.pool, "SharedCostAllocationResult", peer_id).await?;
+    let selected = serde_json::to_string(&json!([basis_ref]))?;
+    let encoded: String = url::form_urlencoded::byte_serialize(selected.as_bytes()).collect();
+    let prepared = native_success(&f.client,"GET",&format!("/api/projects/{project}/unified-accounting?view=preparation&intent=restatement&restatesSnapshotId={first_snapshot}&correctionSourceRefs={encoded}"),json!({})).await?;
+    let p = &prepared["preparation"];
+    let targets = p["proposedAffectedTargets"]
+        .as_array()
+        .ok_or("actual batch correction targets")?;
+    let primary = targets
+        .iter()
+        .find(|target| {
+            target["projectId"] == project.to_string()
+                && target["restatesSnapshotRef"]["id"] == first_snapshot.to_string()
+        })
+        .ok_or("consumed allocation root")?;
+    let others = targets
+        .iter()
+        .filter(|target| {
+            target["projectId"] != primary["projectId"]
+                || target["restatesSnapshotRef"]["id"] != primary["restatesSnapshotRef"]["id"]
+        })
+        .cloned()
+        .collect::<Vec<_>>();
+    let corrected = native_success(&f.client,"POST","/api/operating-restatements",json!({"inputVersion":"server-derived-v1","projectId":project,"scope":"live","expectedVersion":p["headVersion"],"expectedProjectVersion":p["projectVersion"],"expectedInputHash":p["expectedInputHash"],"assertions":null,"periodEndSnapshotRef":null,"restatesSnapshotRef":primary["restatesSnapshotRef"],"restatementReason":"Correct the complete shared allocation batch","restatementSummary":"Conserve 500 total and change both actual project shares to 250","costDecisions":[],"laborCorrections":[],"allocationCorrections":[{"basisRef":basis_ref,"sourceCostRefs":[cost_ref],"projectShareItems":[{"projectId":project,"allocationWeight":"1","expectedCurrentResultRef":own_ref,"reason":"Correct the source project's real share"},{"projectId":peer,"allocationWeight":"1","expectedCurrentResultRef":peer_ref,"reason":"Correct the peer project's real share"}],"reason":"Both real shares must change together under the source locks"}],"stageCorrections":[],"taxCorrections":[],"affectedTargets":others,"acknowledgedChangedSourceRefs":[]})).await?;
+    let corrected_snapshot = Uuid::parse_str(
+        corrected["snapshotId"]
+            .as_str()
+            .ok_or("corrected allocation snapshot")?,
+    )?;
+    let corrected_context: Value = sqlx::query_scalar(
+        "SELECT frozen_payload FROM poms.operating_source_context WHERE snapshot_id=$1",
+    )
+    .bind(corrected_snapshot)
+    .fetch_one(&f.pool)
+    .await?;
+    assert_eq!(
+        corrected_context["metrics"]["includedCostAmounts"]["net"]["value"],
+        "71250.00"
+    );
+    let old_context: Value = sqlx::query_scalar(
+        "SELECT frozen_payload FROM poms.operating_source_context WHERE snapshot_id=$1",
+    )
+    .bind(first_snapshot)
+    .fetch_one(&f.pool)
+    .await?;
+    assert_eq!(
+        context, old_context,
+        "Whole-batch correction must preserve the immutable old context"
+    );
+    let batch_rows: Vec<(Uuid,String,String)> = sqlx::query_as("SELECT project_id,status,allocated_amount_excluding_tax::text FROM poms.shared_cost_allocation_result WHERE supersedes_id=ANY($1) ORDER BY project_id").bind(vec![own_id,peer_id]).fetch_all(&f.pool).await?;
+    assert_eq!(batch_rows.len(), 2);
+    assert!(
+        batch_rows
+            .iter()
+            .all(|(_, status, amount)| status == "active" && amount == "250.00")
+    );
+    let peer_heads: i64 =
+        sqlx::query_scalar("SELECT count(*) FROM poms.project_operating_head WHERE project_id=$1")
+            .bind(peer)
+            .fetch_one(&f.pool)
+            .await?;
+    assert_eq!(peer_heads, 0);
+    println!(
+        "native shared allocation consumption and whole-batch correction completed: {project}; peer {peer}; snapshot {corrected_snapshot}"
+    );
+    Ok(())
+}
+
+async fn native_followup_payouts(f: &Fixture, project: Uuid, original_calculation: Uuid) -> Result {
+    let snapshot: Uuid = sqlx::query_scalar(
+        "SELECT current_snapshot_id FROM poms.project_operating_head WHERE project_id=$1",
+    )
+    .bind(project)
+    .fetch_one(&f.pool)
+    .await?;
+    let context: Value = sqlx::query_scalar(
+        "SELECT frozen_payload FROM poms.operating_source_context WHERE snapshot_id=$1",
+    )
+    .bind(snapshot)
+    .fetch_one(&f.pool)
+    .await?;
+    assert_eq!(
+        context["metrics"]["includedCostAmounts"]["net"]["value"],
+        "71250.00"
+    );
+    let signal_id: Uuid = sqlx::query_scalar("SELECT signal_evaluation_id FROM poms.operating_signal_gate_binding WHERE project_id=$1 AND gate_stage_type='final' AND status='active'").bind(project).fetch_one(&f.pool).await?;
+    let mut signal = native_success(
+        &f.client,
+        "GET",
+        &format!("/api/operating-signal-evaluations/{signal_id}"),
+        json!({}),
+    )
+    .await?;
+    if let Some(issue) = signal["reasonItems"].as_array().and_then(|reasons| {
+        reasons
+            .iter()
+            .find(|reason| reason["code"] == "qualitative-materiality-unassessed")
+    }) {
+        let refs: Value = serde_json::from_str(
+            issue["evidenceProjection"]["value"]
+                .as_str()
+                .ok_or("actual qualitative source evidence")?,
+        )?;
+        let evidence = refs
+            .as_array()
+            .and_then(|refs| refs.first())
+            .ok_or("actual quantitative variance evidence")?;
+        native_success(&f.client,"POST",&format!("/api/operating-signal-evaluations/{signal_id}:review"),json!({"inputVersion":"server-derived-v1","reviewDecision":"manual-confirmed","resolvedDataMaturityLevel":signal["dataMaturityLevel"],"costActionRecommendation":signal["costActionRecommendation"],"referencedBaselineVersion":signal["referencedBaselineVersion"],"referencedSnapshotVersion":signal["referencedSnapshotVersion"],"expectedVersion":signal["rowVersion"],"expectedSourceHash":signal["evaluationContext"]["sourceHash"],"expectedEvaluationHash":signal["evaluationContext"]["evaluationHash"],"requestKey":uuid(&f.pool).await?,"manualMaterialityReview":{"policyVersion":"r4h-operating-v1","issueCodes":[issue["code"]],"riskDecision":"attention","evidenceRefs":[evidence],"rationale":"The actual corrected cost exceeds budget; retain attention without changing the frozen monetary facts"}})).await?;
+        signal = native_success(
+            &f.client,
+            "GET",
+            &format!("/api/operating-signal-evaluations/{signal_id}"),
+            json!({}),
+        )
+        .await?;
+    }
+    let mut final_review = Value::Null;
+    for stage in ["second", "final"] {
+        let binding: Uuid = sqlx::query_scalar("SELECT id FROM poms.operating_signal_gate_binding WHERE project_id=$1 AND signal_evaluation_id=$2 AND gate_stage_type=$3 AND status='active'").bind(project).bind(signal_id).bind(stage).fetch_one(&f.pool).await?;
+        let gate = native_success(
+            &f.client,
+            "GET",
+            &format!("/api/commission-gate-bindings/{binding}"),
+            json!({}),
+        )
+        .await?;
+        let blocked = gate["reasonItems"]
+            .as_array()
+            .ok_or("actual stage reasons")?
+            .iter()
+            .filter(|reason| reason["stageActions"][stage] == "block")
+            .filter_map(|reason| reason["code"].as_str())
+            .collect::<std::collections::BTreeSet<_>>();
+        let decision = if gate["bindingAction"] == "block" {
+            "blocked"
+        } else if signal["riskLevel"] == "unknown"
+            || signal["evaluationContext"]["evaluationStatus"] != "complete"
+        {
+            "review-required"
+        } else {
+            "confirmed"
+        };
+        let result = native_success(&f.client,"POST",&format!("/api/commission-gate-bindings/{binding}:review"),json!({"inputVersion":"server-derived-v1","bindingAction":gate["bindingAction"],"gateReviewDecision":decision,"baselineSelectionSource":gate["baselineSelectionSource"],"summaryPackageKey":"project-operating-commission-gate-v1","summarySnapshotId":gate["summarySnapshotId"],"referencedBaselineVersion":gate["referencedBaselineVersion"],"referencedSnapshotVersion":gate["referencedSnapshotVersion"],"expectedVersion":gate["rowVersion"],"expectedSourceHash":gate["evaluationContext"]["sourceHash"],"expectedEvaluationHash":gate["evaluationContext"]["evaluationHash"],"requestKey":uuid(&f.pool).await?,"reviewAction":"acknowledge","blockingReasonCodes":blocked})).await?;
+        if stage == "final" {
+            final_review = result;
+        }
+    }
+    let version: i32 = sqlx::query_scalar(
+        "SELECT row_version FROM poms.commission_calculation WHERE id=$1 AND project_id=$2",
+    )
+    .bind(original_calculation)
+    .bind(project)
+    .fetch_one(&f.pool)
+    .await?;
+    let (unsupported, _) = f.client.call("POST",&format!("/api/commission-calculations/{original_calculation}:recalculate"),json!({"reason":"Do not recognize the full shared source a second time","expectedVersion":version,"recognizedRevenueTaxExclusive":"100000.00","recognizedCostTaxExclusive":"71500.00"})).await?;
+    assert_eq!(unsupported, StatusCode::UNPROCESSABLE_ENTITY);
+    let unchanged: (bool, i32) = sqlx::query_as(
+        "SELECT is_current,row_version FROM poms.commission_calculation WHERE id=$1",
+    )
+    .bind(original_calculation)
+    .fetch_one(&f.pool)
+    .await?;
+    assert_eq!(
+        unchanged,
+        (true, version),
+        "Unsupported recognition must not supersede the existing calculation"
+    );
+    let recalculated = native_success(&f.client,"POST",&format!("/api/commission-calculations/{original_calculation}:recalculate"),json!({"reason":"Actual corrected operating cost and preserved historical payment","expectedVersion":version,"recognizedRevenueTaxExclusive":context["metrics"]["confirmedReceiptAmounts"]["net"]["value"],"recognizedCostTaxExclusive":context["metrics"]["includedCostAmounts"]["net"]["value"]})).await?;
+    let calculation = row_id(&recalculated)?;
+    let cost_basis: Value = sqlx::query_scalar("SELECT after_snapshot->'recognizedCostBasis' FROM poms.audit_log WHERE target_id=$1 AND event_type='CommissionController_recalculateCalculation' ORDER BY occurred_at DESC LIMIT 1").bind(calculation.to_string()).fetch_one(&f.pool).await?;
+    assert_eq!(cost_basis["kind"], "operating-context");
+    assert_eq!(cost_basis["snapshotId"], snapshot.to_string());
+    assert_eq!(cost_basis["contextId"], context["contextId"]);
+    native_success(
+        &f.client,
+        "POST",
+        &format!("/api/commission-calculations/{calculation}:approve"),
+        json!({"expectedVersion":recalculated["rowVersion"]}),
+    )
+    .await?;
+    let finance = fixture(
+        Some("finance_mgr"),
+        &[PermissionKey::CommissionPayoutsManage],
+    )
+    .await?;
+    let second = native_success(
+        &f.client,
+        "POST",
+        &format!("/api/projects/{project}/commission-payouts"),
+        json!({"calculationId":calculation,"stageType":"second","selectedTier":"basic"}),
+    )
+    .await?;
+    assert_eq!(second["theoreticalCapAmountProjection"]["value"], "2825.00");
+    let second = row_id(&second)?;
+    payout_approve(
+        &f.client,
+        &finance.client,
+        &f.pool,
+        second,
+        "second",
+        json!({}),
+        true,
+    )
+    .await?;
+    native_success(
+        &f.client,
+        "POST",
+        &format!("/api/commission-payouts/{second}:registerPayout"),
+        json!({"payoutStage":"second","expectedVersion":3,"paidRecordAmount":"2825.00"}),
+    )
+    .await?;
+    let final_payout = native_success(
+        &f.client,
+        "POST",
+        &format!("/api/projects/{project}/commission-payouts"),
+        json!({"calculationId":calculation,"stageType":"final","selectedTier":"basic"}),
+    )
+    .await?;
+    assert_eq!(
+        final_payout["theoreticalCapAmountProjection"]["value"],
+        "1725.00"
+    );
+    let final_id = row_id(&final_payout)?;
+    let freeze: Uuid = sqlx::query_scalar("SELECT id FROM poms.commission_role_assignment WHERE project_id=$1 AND is_current AND status='frozen'").bind(project).fetch_one(&f.pool).await?;
+    payout_approve(&f.client,&finance.client,&f.pool,final_id,"final",json!({"freezeVersionId":freeze,"gateReviewRecordId":final_review["gateReviewRecordId"],"summarySnapshotId":final_review["summarySnapshotId"]}),false).await?;
+    native_success(
+        &f.client,
+        "POST",
+        &format!("/api/commission-payouts/{final_id}:registerPayout"),
+        json!({"payoutStage":"final","expectedVersion":3,"paidRecordAmount":"1725.00"}),
+    )
+    .await?;
+    let settled = native_success(
+        &f.client,
+        "GET",
+        &format!("/api/projects/{project}/commission-final-settlement"),
+        json!({}),
+    )
+    .await?;
+    assert_eq!(settled["finalSettlementStatus"], "settled-all");
+    let total: String = sqlx::query_scalar("SELECT sum(paid_record_amount)::text FROM poms.commission_payout WHERE project_id=$1 AND status='paid'").bind(project).fetch_one(&f.pool).await?;
+    assert_eq!(total, "5750.00");
+    let original: String = sqlx::query_scalar("SELECT paid_record_amount::text FROM poms.commission_payout WHERE project_id=$1 AND calculation_id=$2 AND stage_type='first' AND status='paid'").bind(project).bind(original_calculation).fetch_one(&f.pool).await?;
+    assert_eq!(
+        original, "1200.00",
+        "Recalculation must preserve the original actual payment"
+    );
+    println!(
+        "native recalculation/second/final payouts settled: {project}; total 5750.00, original first 1200.00 preserved"
+    );
+    close_fixture(finance).await
 }
