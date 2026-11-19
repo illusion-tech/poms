@@ -1,9 +1,13 @@
+import { FullProjectDetailViewSchema } from '@poms/shared-contracts';
 import { computed, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, Router } from '@angular/router';
 import { By } from '@angular/platform-browser';
 import {
     AuditHistoryStore,
+    CreateProjectArchiveRecordRequestInputVersionEnum,
+    ReplaceProjectArchiveRecordRequestInputVersionEnum,
+    VoidProjectArchiveRecordRequestInputVersionEnum,
     AttachmentStore,
     AttachmentTargetType,
     AuthStore,
@@ -28,7 +32,7 @@ import {
     type OwnerReferenceOrgUnit,
     type OwnerReferenceUser,
     type ProjectArchiveRecordSummary,
-    type ProjectDetailView,
+    type FullProjectDetailView as ProjectDetailView,
     ProjectStage,
     ProjectStatus,
     ProjectTimelineEventEventTypeEnum,
@@ -76,22 +80,22 @@ function idleAttachmentUploadProgress(): AttachmentUploadProgressState {
 
 function createCustomer(overrides: Partial<CustomerListView> = {}): CustomerListView {
     return {
-        id: 'customer-1',
+        id: '00000000-0000-4000-8000-000000002001',
         customerNo: 'CUST-2026-001',
         displayName: '华南地铁集团',
         legalName: null,
         shortName: null,
         status: CustomerStatus.Active,
-        ownerOrgId: 'org-1',
-        ownerUserId: 'user-1',
+        ownerOrgId: '00000000-0000-4000-8000-000000010001',
+        ownerUserId: '00000000-0000-4000-8000-000000009001',
         sourceChannel: null,
         remark: null,
         mergedIntoCustomerId: null,
         rowVersion: 1,
         createdAt: '2026-04-19T08:00:00.000Z',
-        createdBy: 'user-1',
+        createdBy: '00000000-0000-4000-8000-000000009001',
         updatedAt: '2026-04-19T08:00:00.000Z',
-        updatedBy: 'user-1',
+        updatedBy: '00000000-0000-4000-8000-000000009001',
         ownerName: '张销售',
         ownerOrgName: '华南销售一部',
         leadCount: 1,
@@ -101,27 +105,36 @@ function createCustomer(overrides: Partial<CustomerListView> = {}): CustomerList
     };
 }
 
+function assertFullFixture(value: unknown): asserts value is ProjectDetailView {
+    const result = FullProjectDetailViewSchema.safeParse(value);
+    if (!result.success) throw new Error('Invalid FullProject fixture: ' + JSON.stringify(result.error.issues));
+}
+
 function createProject(overrides: Partial<ProjectDetailView> = {}): ProjectDetailView {
-    return {
-        id: 'project-1',
+    const detail = {
+        scopeKind: 'full-project',
+        projectRowVersion: overrides.projectRowVersion ?? overrides.rowVersion ?? 3,
+        currentStageRecordId: null,
+        executionAdmissionContext: null,
+        id: '00000000-0000-4000-8000-000000001001',
         projectNo: 'P-2026-001',
         projectName: '华南地铁运营平台',
         sourceLeadId: null,
-        customerId: 'customer-1',
+        customerId: '00000000-0000-4000-8000-000000002001',
         customerName: '华南地铁集团',
         customerProjectNo: 'CUS-PRJ-2026-01',
         status: ProjectStatus.Blocked,
         currentStage: ProjectStage.Handover,
-        ownerOrgId: 'org-1',
-        ownerUserId: 'user-1',
+        ownerOrgId: '00000000-0000-4000-8000-000000010001',
+        ownerUserId: '00000000-0000-4000-8000-000000009001',
         plannedSignAt: '2026-05-01T00:00:00.000Z',
         closedAt: null,
         closedReason: null,
         rowVersion: 3,
         createdAt: '2026-04-19T10:00:00.000Z',
-        createdBy: 'system',
+        createdBy: '00000000-0000-4000-8000-000000009001',
         updatedAt: '2026-04-20T10:00:00.000Z',
-        updatedBy: 'admin',
+        updatedBy: '00000000-0000-4000-8000-000000009001',
         ownerName: '张销售',
         ownerOrgName: '华南销售一部',
         sourceLeadSummary: null,
@@ -134,6 +147,8 @@ function createProject(overrides: Partial<ProjectDetailView> = {}): ProjectDetai
             blockingReasons: ['project-status-blocked']
         },
         currentBidSummary: {
+            tenderNo: null,
+            bidPackageNo: null,
             bidProcessId: null,
             bidStatus: 'not_configured',
             resultStatus: null,
@@ -141,16 +156,16 @@ function createProject(overrides: Partial<ProjectDetailView> = {}): ProjectDetai
         },
         currentContractSummary: {
             activeContractCount: 1,
-            latestContractId: 'contract-1',
+            latestContractId: '00000000-0000-4000-8000-000000004001',
             latestContractNo: 'HT-2026-001',
             latestContractStatus: 'active',
             signedAmountProjection: sensitiveProjection('123456.78'),
             currencyCode: 'CNY',
             signedAt: '2026-04-18T00:00:00.000Z',
-            currentSnapshotId: 'snapshot-1'
+            currentSnapshotId: '00000000-0000-4000-8000-000000005001'
         },
         currentApprovalSummary: {
-            summarySnapshotId: '11111111-2222-3333-4444-555555555555',
+            summarySnapshotId: '00000000-0000-4000-8000-000000090001',
             summaryPackageKey: 'project-detail',
             projectionLevel: 'project',
             exportPolicy: 'internal',
@@ -164,18 +179,21 @@ function createProject(overrides: Partial<ProjectDetailView> = {}): ProjectDetai
             pendingCount: 0,
             confirmedAt: null
         },
-        summarySnapshotId: '11111111-2222-3333-4444-555555555555',
+        summarySnapshotId: '00000000-0000-4000-8000-000000090001',
         projectionLevel: 'project',
         exportPolicy: 'internal',
         allowedActions: ['view-project-workspace', 'edit-project-basic-info', 'manage-project-commission', 'reassign-project-owner'],
         generatedAt: '2026-04-20T08:00:00.000Z',
         ...overrides
     };
+    if (!overrides.stageSummary) detail.stageSummary = { ...detail.stageSummary, currentStage: detail.currentStage, status: detail.status };
+    assertFullFixture(detail);
+    return detail;
 }
 
 function createTimeline(overrides: Partial<ProjectTimelineView> = {}): ProjectTimelineView {
     return {
-        projectId: 'project-1',
+        projectId: '00000000-0000-4000-8000-000000001001',
         events: [
             {
                 eventKey: 'project-created',
@@ -183,25 +201,25 @@ function createTimeline(overrides: Partial<ProjectTimelineView> = {}): ProjectTi
                 stageLabel: '立项评估',
                 eventType: ProjectTimelineEventEventTypeEnum.StageEntered,
                 occurredAt: '2026-04-01T00:00:00.000Z',
-                actorUserId: 'user-1',
+                actorUserId: '00000000-0000-4000-8000-000000009001',
                 actorName: '张销售',
                 resultLabel: '项目创建',
                 sourceType: ProjectTimelineEventSourceTypeEnum.Project,
-                sourceId: 'project-1',
+                sourceId: '00000000-0000-4000-8000-000000001001',
                 evidenceLabel: 'P-2026-001',
                 isAuthoritative: true
             },
             {
-                eventKey: 'contract-signed:contract-1',
+                eventKey: 'contract-signed:00000000-0000-4000-8000-000000004001',
                 stage: ProjectStage.Contracting,
                 stageLabel: '签约中',
                 eventType: ProjectTimelineEventEventTypeEnum.StageCompleted,
                 occurredAt: '2026-04-18T08:00:00.000Z',
-                actorUserId: 'user-1',
+                actorUserId: '00000000-0000-4000-8000-000000009001',
                 actorName: '张销售',
                 resultLabel: '合同签约完成',
                 sourceType: ProjectTimelineEventSourceTypeEnum.Contract,
-                sourceId: 'contract-1',
+                sourceId: '00000000-0000-4000-8000-000000004001',
                 evidenceLabel: 'HT-2026-001',
                 isAuthoritative: true
             }
@@ -213,14 +231,14 @@ function createTimeline(overrides: Partial<ProjectTimelineView> = {}): ProjectTi
 
 function createArchiveRecord(overrides: Partial<Record<keyof ProjectArchiveRecordSummary, unknown>> = {}): ProjectArchiveRecordSummary {
     return {
-        id: 'archive-1',
-        projectId: 'project-1',
+        id: '00000000-0000-4000-8000-000000011001',
+        projectId: '00000000-0000-4000-8000-000000001001',
         archiveAnchorStage: ProjectArchiveRecordSummaryArchiveAnchorStageEnum.Completed,
         archiveAnchorSourceType: ProjectArchiveRecordSummaryArchiveAnchorSourceTypeEnum.Project,
-        archiveAnchorSourceId: 'project-1',
+        archiveAnchorSourceId: '00000000-0000-4000-8000-000000001001',
         status: ProjectArchiveRecordSummaryStatusEnum.Recorded,
         archivedAt: '2026-04-24T15:20:00.000Z',
-        archivedBy: 'user-4',
+        archivedBy: '00000000-0000-4000-8000-000000009004',
         archivedByName: '赵归档',
         archiveSummary: '项目资料已完成归档',
         evidenceSummary: '项目归档清单',
@@ -231,9 +249,9 @@ function createArchiveRecord(overrides: Partial<Record<keyof ProjectArchiveRecor
         voidedByName: null,
         voidReason: null,
         createdAt: '2026-04-24T15:20:00.000Z',
-        createdBy: 'user-4',
+        createdBy: '00000000-0000-4000-8000-000000009004',
         updatedAt: '2026-04-24T15:20:00.000Z',
-        updatedBy: 'user-4',
+        updatedBy: '00000000-0000-4000-8000-000000009004',
         rowVersion: 7,
         allowedActions: ['replace-project-archive-record', 'void-project-archive-record'],
         ...overrides
@@ -242,10 +260,10 @@ function createArchiveRecord(overrides: Partial<Record<keyof ProjectArchiveRecor
 
 function createPlatformUser(overrides: Partial<OwnerReferenceUser> = {}): OwnerReferenceUser {
     return {
-        id: 'user-1',
+        id: '00000000-0000-4000-8000-000000009001',
         displayName: '张销售',
         isActive: true,
-        primaryOrgUnitId: 'org-1',
+        primaryOrgUnitId: '00000000-0000-4000-8000-000000010001',
         primaryOrgUnitName: '华南销售一部',
         ...overrides
     };
@@ -253,7 +271,7 @@ function createPlatformUser(overrides: Partial<OwnerReferenceUser> = {}): OwnerR
 
 function createOrgUnit(overrides: Partial<OwnerReferenceOrgUnit> = {}): OwnerReferenceOrgUnit {
     return {
-        id: 'org-1',
+        id: '00000000-0000-4000-8000-000000010001',
         name: '华南销售一部',
         code: 'SALES-SOUTH-1',
         isActive: true,
@@ -366,9 +384,9 @@ describe('ProjectDetail', () => {
         timelineErrorSignal = signal<string | null>(timelineError);
         archiveRecordsErrorSignal = signal<string | null>(null);
         routerMock = { navigate: jest.fn() };
-        const customers = signal<CustomerListView[]>([createCustomer(), createCustomer({ id: 'customer-2', customerNo: 'CUST-2026-002', displayName: '城市交通集团' })]);
-        const ownerUsers = signal<OwnerReferenceUser[]>([createPlatformUser(), createPlatformUser({ id: 'user-2', displayName: '李经理', primaryOrgUnitId: 'org-2', primaryOrgUnitName: '华东销售部' })]);
-        const ownerOrgUnits = signal<OwnerReferenceOrgUnit[]>([createOrgUnit(), createOrgUnit({ id: 'org-2', name: '华东销售部', code: 'SALES-EAST' })]);
+        const customers = signal<CustomerListView[]>([createCustomer(), createCustomer({ id: '00000000-0000-4000-8000-000000002002', customerNo: 'CUST-2026-002', displayName: '城市交通集团' })]);
+        const ownerUsers = signal<OwnerReferenceUser[]>([createPlatformUser(), createPlatformUser({ id: '00000000-0000-4000-8000-000000009002', displayName: '李经理', primaryOrgUnitId: '00000000-0000-4000-8000-000000010002', primaryOrgUnitName: '华东销售部' })]);
+        const ownerOrgUnits = signal<OwnerReferenceOrgUnit[]>([createOrgUnit(), createOrgUnit({ id: '00000000-0000-4000-8000-000000010002', name: '华东销售部', code: 'SALES-EAST' })]);
         platformStoreMock = {
             ownerUsers,
             ownerOrgUnits,
@@ -469,12 +487,12 @@ describe('ProjectDetail', () => {
             archiveRecordsError: archiveRecordsErrorSignal,
             updateProject: jest.fn().mockResolvedValue(project),
             reassignProjectOwner: jest.fn().mockResolvedValue({
-                targetId: 'project-1',
-                projectOwnerReassignmentRecordId: 'owner-record-1',
-                previousOwnerUserId: 'user-1',
-                previousOwnerOrgId: 'org-1',
-                newOwnerUserId: 'user-2',
-                newOwnerOrgId: 'org-2',
+                targetId: '00000000-0000-4000-8000-000000001001',
+                projectOwnerReassignmentRecordId: '00000000-0000-4000-8000-000000012001',
+                previousOwnerUserId: '00000000-0000-4000-8000-000000009001',
+                previousOwnerOrgId: '00000000-0000-4000-8000-000000010001',
+                newOwnerUserId: '00000000-0000-4000-8000-000000009002',
+                newOwnerOrgId: '00000000-0000-4000-8000-000000010002',
                 businessStatusAfter: 'blocked'
             }),
             createProjectArchiveRecord: jest.fn().mockResolvedValue(archiveRecords[0] ?? createArchiveRecord()),
@@ -489,7 +507,7 @@ describe('ProjectDetail', () => {
                     provide: ActivatedRoute,
                     useValue: {
                         snapshot: {
-                            paramMap: convertToParamMap({ id: 'project-1' })
+                            paramMap: convertToParamMap({ id: '00000000-0000-4000-8000-000000001001' })
                         },
                         queryParamMap: of(convertToParamMap(queryParams))
                     }
@@ -601,9 +619,9 @@ describe('ProjectDetail', () => {
 
         const text = fixture.nativeElement.textContent;
 
-        expect(projectStoreMock.loadProject).toHaveBeenCalledWith('project-1');
-        expect(projectStoreMock.loadProjectTimeline).toHaveBeenCalledWith('project-1');
-        expect(projectStoreMock.loadProjectArchiveRecords).toHaveBeenCalledWith('project-1');
+        expect(projectStoreMock.loadProject).toHaveBeenCalledWith('00000000-0000-4000-8000-000000001001');
+        expect(projectStoreMock.loadProjectTimeline).toHaveBeenCalledWith('00000000-0000-4000-8000-000000001001');
+        expect(projectStoreMock.loadProjectArchiveRecords).toHaveBeenCalledWith('00000000-0000-4000-8000-000000001001');
         expect(text).toContain('华南地铁运营平台');
         expect(text).toContain('POMS 项目编号');
         expect(text).toContain('P-2026-001');
@@ -623,22 +641,22 @@ describe('ProjectDetail', () => {
         expect(text).toContain('项目附件');
         expect(attachmentStoreMock.loadAttachments).toHaveBeenCalledWith({
             targetType: AttachmentTargetType.Project,
-            targetId: 'project-1'
+            targetId: '00000000-0000-4000-8000-000000001001'
         });
         expect(salesFollowUpStoreMock.loadFollowUps).toHaveBeenCalledWith({
-            customerId: 'customer-1',
+            customerId: '00000000-0000-4000-8000-000000002001',
             leadId: undefined,
-            projectId: 'project-1',
+            projectId: '00000000-0000-4000-8000-000000001001',
             lifecycleScope: 'active'
         });
-        expect(salesIntelligenceStoreMock.loadContext).toHaveBeenCalledWith('customer-1', {
+        expect(salesIntelligenceStoreMock.loadContext).toHaveBeenCalledWith('00000000-0000-4000-8000-000000002001', {
             leadId: undefined,
-            projectId: 'project-1'
+            projectId: '00000000-0000-4000-8000-000000001001'
         });
         expect(businessDiscussionStoreMock.loadComments).toHaveBeenCalledWith({
-            customerId: 'customer-1',
+            customerId: '00000000-0000-4000-8000-000000002001',
             leadId: undefined,
-            projectId: 'project-1'
+            projectId: '00000000-0000-4000-8000-000000001001'
         });
         expect(text).not.toContain('project-status-blocked');
         expect(text).not.toContain('not_configured');
@@ -667,6 +685,8 @@ describe('ProjectDetail', () => {
         await setup(
             createProject({
                 currentBidSummary: {
+            tenderNo: null,
+            bidPackageNo: null,
                     bidProcessId: '6f2820b4-9665-4f22-8000-000000000011',
                     bidStatus: 'submitted',
                     resultStatus: 'pending',
@@ -684,12 +704,12 @@ describe('ProjectDetail', () => {
     it('renders source lead summary for projects converted from leads', async () => {
         await setup(
             createProject({
-                sourceLeadId: 'lead-1',
+                sourceLeadId: '00000000-0000-4000-8000-000000003001',
                 sourceLeadSummary: {
-                    id: 'lead-1',
+                    id: '00000000-0000-4000-8000-000000003001',
                     leadNo: 'L-2026-001',
                     leadName: '华南地铁线索',
-                    customerId: 'customer-1',
+                    customerId: '00000000-0000-4000-8000-000000002001',
                     customerName: '华南地铁集团',
                     status: LeadStatus.Converted
                 }
@@ -704,19 +724,19 @@ describe('ProjectDetail', () => {
         expect(text).toContain('已转项目');
         expect(text).toContain('查看线索列表');
         expect(salesFollowUpStoreMock.loadFollowUps).toHaveBeenCalledWith({
-            customerId: 'customer-1',
-            leadId: 'lead-1',
-            projectId: 'project-1',
+            customerId: '00000000-0000-4000-8000-000000002001',
+            leadId: '00000000-0000-4000-8000-000000003001',
+            projectId: '00000000-0000-4000-8000-000000001001',
             lifecycleScope: 'active'
         });
-        expect(salesIntelligenceStoreMock.loadContext).toHaveBeenCalledWith('customer-1', {
-            leadId: 'lead-1',
-            projectId: 'project-1'
+        expect(salesIntelligenceStoreMock.loadContext).toHaveBeenCalledWith('00000000-0000-4000-8000-000000002001', {
+            leadId: '00000000-0000-4000-8000-000000003001',
+            projectId: '00000000-0000-4000-8000-000000001001'
         });
         expect(businessDiscussionStoreMock.loadComments).toHaveBeenCalledWith({
-            customerId: 'customer-1',
-            leadId: 'lead-1',
-            projectId: 'project-1'
+            customerId: '00000000-0000-4000-8000-000000002001',
+            leadId: '00000000-0000-4000-8000-000000003001',
+            projectId: '00000000-0000-4000-8000-000000001001'
         });
     });
 
@@ -736,7 +756,7 @@ describe('ProjectDetail', () => {
 
         component.goToCommission();
 
-        expect(routerMock.navigate).not.toHaveBeenCalledWith(['/projects', 'project-1', 'commission', 'operations']);
+        expect(routerMock.navigate).not.toHaveBeenCalledWith(['/projects', '00000000-0000-4000-8000-000000001001', 'commission', 'operations']);
     });
 
     it('renders current contract amount from backend projection', async () => {
@@ -766,15 +786,15 @@ describe('ProjectDetail', () => {
         component.showEditDialog();
         component.editForm = {
             projectName: '  更新后的项目  ',
-            customerId: 'customer-2',
+            customerId: '00000000-0000-4000-8000-000000002002',
             customerProjectNo: '  CUS-PRJ-NEW  '
         };
 
         await component.saveProject();
 
-        expect(projectStoreMock.updateProject).toHaveBeenCalledWith('project-1', {
+        expect(projectStoreMock.updateProject).toHaveBeenCalledWith('00000000-0000-4000-8000-000000001001', {
             projectName: '更新后的项目',
-            customerId: 'customer-2',
+            customerId: '00000000-0000-4000-8000-000000002002',
             customerProjectNo: 'CUS-PRJ-NEW'
         });
         expect(customerStoreMock.loadCustomers).toHaveBeenCalledWith({ status: CustomerStatus.Active });
@@ -785,13 +805,13 @@ describe('ProjectDetail', () => {
         await setup();
 
         component.showReassignOwnerDialog();
-        component.updateReassignOwnerUser('user-2');
+        component.updateReassignOwnerUser('00000000-0000-4000-8000-000000009002');
         component.reassignOwnerForm.reason = '  区域销售责任调整  ';
         await component.saveProjectOwner();
 
-        expect(projectStoreMock.reassignProjectOwner).toHaveBeenCalledWith('project-1', {
-            ownerUserId: 'user-2',
-            ownerOrgId: 'org-2',
+        expect(projectStoreMock.reassignProjectOwner).toHaveBeenCalledWith('00000000-0000-4000-8000-000000001001', {
+            ownerUserId: '00000000-0000-4000-8000-000000009002',
+            ownerOrgId: '00000000-0000-4000-8000-000000010002',
             reason: '区域销售责任调整',
             expectedVersion: 3
         });
@@ -851,7 +871,7 @@ describe('ProjectDetail', () => {
                     stageLabel: '验收确认',
                     eventType: ProjectTimelineEventEventTypeEnum.StageCompleted,
                     occurredAt: '2026-04-21T09:30:00.000Z',
-                    actorUserId: 'user-2',
+                    actorUserId: '00000000-0000-4000-8000-000000009002',
                     actorName: '李业务',
                     resultLabel: '最终验收已通过',
                     sourceType: ProjectTimelineEventSourceTypeEnum.AcceptanceRecord,
@@ -893,7 +913,7 @@ describe('ProjectDetail', () => {
                     stageLabel: '已完成',
                     eventType: ProjectTimelineEventEventTypeEnum.StageCompleted,
                     occurredAt: '2026-04-24T11:45:00.000Z',
-                    actorUserId: 'user-3',
+                    actorUserId: '00000000-0000-4000-8000-000000009003',
                     actorName: '王交付',
                     resultLabel: '项目完成已确认',
                     sourceType: ProjectTimelineEventSourceTypeEnum.ProjectCompletionRecord,
@@ -931,16 +951,16 @@ describe('ProjectDetail', () => {
             events: [
                 ...createTimeline().events,
                 {
-                    eventKey: 'project-archive:archive-1',
+                    eventKey: 'project-archive:00000000-0000-4000-8000-000000011001',
                     stage: ProjectStage.Completed,
                     stageLabel: '已完成',
                     eventType: ProjectTimelineEventEventTypeEnum.Milestone,
-                    occurredAt: '2026-04-24T15:20:00.000Z',
-                    actorUserId: 'user-4',
+                    occurredAt: '2026-04-24T08:20:00.000Z',
+                    actorUserId: '00000000-0000-4000-8000-000000009004',
                     actorName: '赵归档',
                     resultLabel: '项目资料已完成归档',
                     sourceType: ProjectTimelineEventSourceTypeEnum.ProjectArchiveRecord,
-                    sourceId: 'archive-1',
+                    sourceId: '00000000-0000-4000-8000-000000011001',
                     evidenceLabel: '项目归档清单',
                     isAuthoritative: true
                 }
@@ -976,20 +996,20 @@ describe('ProjectDetail', () => {
             }
         });
         const current = createArchiveRecord({
-            id: 'archive-2',
+            id: '00000000-0000-4000-8000-000000011002',
             archiveSummary: '修正后的归档结论',
             evidenceSummary: '修正后的归档清单',
             replacementReason: '补充遗漏的验收附件'
         });
         const superseded = createArchiveRecord({
-            id: 'archive-1',
+            id: '00000000-0000-4000-8000-000000011001',
             status: ProjectArchiveRecordSummaryStatusEnum.Superseded,
             archiveSummary: '原始归档结论',
             evidenceSummary: '原始归档清单',
             rowVersion: 3
         });
         const voided = createArchiveRecord({
-            id: 'archive-0',
+            id: '00000000-0000-4000-8000-000000011000',
             status: ProjectArchiveRecordSummaryStatusEnum.Voided,
             archiveSummary: '重复归档记录',
             evidenceSummary: '重复归档清单',
@@ -1125,7 +1145,9 @@ describe('ProjectDetail', () => {
 
         await component.createArchiveRecord();
 
-        expect(projectStoreMock.createProjectArchiveRecord).toHaveBeenCalledWith('project-1', {
+        expect(projectStoreMock.createProjectArchiveRecord).toHaveBeenCalledWith('00000000-0000-4000-8000-000000001001', {
+            inputVersion: CreateProjectArchiveRecordRequestInputVersionEnum.ServerDerivedV1,
+            expectedProjectVersion: project.projectRowVersion,
             archivedAt: '2026-04-26T10:30:00.000Z',
             archiveSummary: '首次归档结论',
             evidenceSummary: '首次归档清单'
@@ -1159,7 +1181,8 @@ describe('ProjectDetail', () => {
 
         await component.replaceArchiveRecord();
 
-        expect(projectStoreMock.replaceProjectArchiveRecord).toHaveBeenCalledWith('archive-1', {
+        expect(projectStoreMock.replaceProjectArchiveRecord).toHaveBeenCalledWith('00000000-0000-4000-8000-000000011001', {
+            inputVersion: ReplaceProjectArchiveRecordRequestInputVersionEnum.ServerDerivedV1,
             archivedAt: '2026-04-26T10:30:00.000Z',
             archiveSummary: '新归档结论',
             evidenceSummary: '新证据摘要',
@@ -1193,7 +1216,8 @@ describe('ProjectDetail', () => {
 
         await component.voidArchiveRecord();
 
-        expect(projectStoreMock.voidProjectArchiveRecord).toHaveBeenCalledWith('archive-1', {
+        expect(projectStoreMock.voidProjectArchiveRecord).toHaveBeenCalledWith('00000000-0000-4000-8000-000000011001', {
+            inputVersion: VoidProjectArchiveRecordRequestInputVersionEnum.ServerDerivedV1,
             reason: '归档事实错误',
             comment: '待重新归档',
             expectedVersion: 10

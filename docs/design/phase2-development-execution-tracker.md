@@ -2,7 +2,7 @@
 
 **文档状态**: Active
 **最后更新**: 2026-11-05
-**Rust 迁移补充索引更新**: 2026-11-05；原第二阶段任务状态不变
+Rust 迁移补充索引更新于 2026-11-20。
 **适用范围**: `POMS` 第二阶段当前统一开发范围下的工程任务拆解、状态跟踪与执行回写
 **关联文档**:
 
@@ -26,6 +26,8 @@
   - `archive/mainline-closure/phase2-mainline-task-tracker.md`
 
 ---
+
+Rust `02e860ec` 已完成 TEST 数据库迁移、应用回退演练和服务切换。#57 及 10 个嵌套子任务保持开放，54 个嵌套子任务已关闭。现存历史项目缺依据时已验证关账准备保持阻断。TEST 同版本 Rust 使用业务接口生成的隔离数据通过已结束周关账和测试提成发放登记及结算验证。[#114](https://github.com/illusion-tech/poms/issues/114) 本轮 TEST 业务验收已完成，覆盖期末和实时评价、已关期间重述及回滚、首次角色冻结边界。候选待正式合入 `main`。Swagger 已恢复，详见 [迁移总任务 #57](https://github.com/illusion-tech/poms/issues/57) 与 [TEST 发布记录](rust-linux-candidate-2026-11-18.md)。
 
 ## 1. 文档目标
 
@@ -838,7 +840,7 @@ D#107/E#108/F#109及本批#106已按[独立关闭许可](archive/slices/rust-r4d
 
 已按用户授权建立 [本批 #110](https://github.com/illusion-tech/poms/issues/110) → G#111/H#112/I#113/阶段验收#114；[用户创建关联补缺 #115](https://github.com/illusion-tech/poms/issues/115) 为 #57 独立子项。G9/H8/I8共25既有入口及内部机制正在审计，角色冻结最小依赖、受控阶段推进、回款净税依据、成本纳入口径尚待联合冻结。当前 `G1Pending`、本批产品实现未准入，正式Rust240、R4累计67/92、余25。
 
-[#115 基线](rust-r4ghi-user-create-fix-baseline.md)仅冻结用户创建必要写同事务及真实关联修复，可独立推进；不计入R4新入口。三作者显式gpt-6.1-sol/max，Fast未核实；Root独占公共契约/迁移/路由/生成物/Git及统一环境。完整阶段验收及独立G3/G4通过后才可收口#101，#57保持Open。
+[#115 基线](archive/slices/rust-r2-user-create-fix115/baseline.md.bin)仅冻结用户创建必要写同事务及真实关联修复，可独立推进；不计入R4新入口。三作者显式gpt-6.1-sol/max，Fast未核实；Root独占公共契约/迁移/路由/生成物/Git及统一环境。完整阶段验收及独立G3/G4通过后才可收口#101，#57保持Open。
 
 [当前状态](rust-r4ghi-delivery-status.json)与[实际G0读回](rust-r4ghi/g0-registration01.json)保留真实Gate；历史已归档交付不重写。
 
@@ -851,3 +853,535 @@ D#107/E#108/F#109及本批#106已按[独立关闭许可](archive/slices/rust-r4d
 
 
 2026-11-06：#115独立实际G4已通过并线上Closed/completed；[证书与原件](archive/slices/rust-r2-user-create-fix115/README.md)已保全。仅既有用户创建修复完成，新增HTTP为0，正式Rust仍240；R4 GHI及最小R5本批32仍在联合G1准备，#101/#57/#110/#116/#117保持Open。
+
+<!-- poms-r4ghi-next32-input -->
+
+### 2026-11-06 R4 GHI 与最小 R5 的 32 项联合输入
+
+按六项用户裁决形成 [联合基线](rust-r4ghi-next32-baseline.md)：G9、H8、I11、最小角色4，共32项；其中29既有、3新增。新canonical已在 authoritative inventory 6.25 登记，R4规划总数95、本批剩余28；正式交付仍67、Rust仍240，272仅为验收后的目标。联合G1独立复核及线上冻结尚待完成，当前不准入G2。
+
+回款含税额须有可追溯净税依据；成本显式分类由服务端核算；零分成角色须说明原因；最终验收与有条件完工须真实闭环。创建人仅有可证、未消费的首次个人主责指派权，此后按真实责任链授权。首轮独审的两项P1/一项P2保留失败记录，有效v2及正式字节manifest另行复核。
+
+三业务作者从同一冻结输入独立工作，Root统一共享契约、迁移/实体、真实producer支撑、接线、生成物与环境。完整R4阶段验收及独立G3/G4通过后才可关闭#101；本批只能在各自通过后关闭#111/#112/#113/#117/#114/#110，完整R5父#116和总体#57保持Open。#115已独立G4并Closed，不重复计本批新增。
+
+<!-- /poms-r4ghi-next32-input -->
+
+<!-- poms-r4ghi-actual-g1-admission -->
+
+### 2026-11-06 R4 GHI 联合 G1 实际准入
+
+候选 `9e010077` 的223项输入及133项未改产品源已通过[非作者G1](../../tools/rust-r4ghi/independent/business-g1/round02/g1-review02.json)；[实际线上冻结](rust-r4ghi/g1-online01.json)与[准入索引](rust-r4ghi/g1-admission01.json)已读回，三线从同一输入进入G2。此前Pending基线/失败为保留的原始检查点，不改写。G9/H8/I11/R5最小4共32项尚未正式验收或G3/G4，Rust仍240、R4已交付67/规划95；#57/#101/#110/#116/#117保持Open。
+
+<!-- poms-r4ghi-tax14-invocation118 -->
+
+### 2026-11-11 Tax14 验收执行器验证复用 #118
+
+[#118](https://github.com/illusion-tech/poms/issues/118)已原生挂到阶段验收#114。真实inspect1095.87秒、7次完整252及原FI线性重复使执行成本不可接受；[技术基线](rust-r4ghi/tax14-invocation-reuse118-baseline.md)与proposal02/非作者建议已由Root冻结并线上读回，原范围仅6外置叶、无H2218/Reg4/B1/epoch或业务操作变化。已开工但尚无完整候选；实际G2、40负例、性能与真实下游消费均另审。原prepare341现已失败并由下列344记录覆盖当前状态；#118的成功准备前置未满足，旧G1不自动扩大为新候选许可。Rust正式240/本批新增0，联合32项与#57开放边界保持。
+
+<!-- /poms-r4ghi-tax14-invocation118 -->
+
+<!-- poms-r4ghi-failed-prepare344 -->
+
+### 2026-11-11 Tax14 准备失败与生产纠偏
+
+[固定状态344](rust-r4ghi/continuation-status344.json)及[独立诊断](../../tools/rust-r4ghi/independent/final-gates13/tax-prepare341-failure-triage01/triage341-01.json)保留实际prepare退出1、服务端5/helper2、seq24固定after-state及完整GET证据。10次实际HTTP只有认证POST，未执行Tax/Main领域POST或FI。两处生产问题为peer内部数据误推自动新增根、历史context与future成本排除不一致；不能改数字、裁完整范围或伪造准备成功。
+
+[纠偏checkpoint344](rust-r4ghi/tax-preparation344-corrective-checkpoint.md)仍为业务Block；[Root两叶候选实施冻结](../../tools/rust-r4ghi/corrective344-g1/Root-corrective344-freeze.json)已采纳作者只读方案与独立建议，仅允许H隔离候选及必要回归，不授权Root提升、真实效果或Source15准入。旧14的420来源/528编译输入/218工具已作746叶原字节独立保全，14真实auth和失败保持；新Source15仅提案，不原地替换Reg4/B1，不修改原M98。成功准备、全FI、唯一正常提交及剩余阶段验收和独立G3/G4仍待完成。Rust正式240、R4为67/95、本批新增0，#57及本批各父子Issue保持开放，未合并main或部署切换。
+
+固定14个源码的公开writer/版本/完整锁闭包已通过[独立静态读集复核](../../tools/rust-r4ghi/independent/final-gates13/checkpoint344-readset-review01/review-readset344-01.json)，Root据此[恢复原两叶context候选实施](../../tools/rust-r4ghi/corrective344-g1/Root-readset344-resume.json)，未扩第三叶。该前提不代表逐列时间hash、DDL immutable或任意SQL保障；实际候选与G3/G4仍待。
+
+<!-- /poms-r4ghi-failed-prepare344 -->
+
+<!-- poms-source15-g0-119 -->
+
+### 2026-11-11 Source15 技术准入 G0 #119
+
+[实际G0原件](rust-r4ghi/source15-g0-119.json)：[#119](https://github.com/illusion-tech/poms/issues/119)已原生挂到#114，#118原生依赖#119。范围只为真实14-retained→15、同M98/139的有限技术准入；建立时为G0/Todo，G1与实施未授权；当前代码G1见下节，实际15各pin仍为空。两Rust生产纠偏仍按344另行复核，准备/FI/201及四caller不纳本技术子片；Rust正式240、R4已交付67、本批新增0，#57开放。
+
+<!-- /poms-source15-g0-119 -->
+
+<!-- poms-source15-g1-119 -->
+
+### 2026-11-11 Source15 #119 代码G1
+
+[实施基线](rust-r4ghi/source15-admission119-baseline.md)、[Root冻结](../../tools/rust-r4ghi/source15-admission119-g1/Root-G1-source15-119.json)及[本地G1原件](rust-r4ghi/source15-g1-119.json)固定14生产叶＋4验证叶，采纳非作者b404建议；线上读回后由Root明确派发隔离实施。核心H3贡献222不是最终图；未授Root推广、实际环境操作或Source15准入。344 code01保留NOTREADY，完整code02作者133个默认用例通过，独立代码复核及完整Rust验证仍待。实际15所有pin/G2为空，新增认证0，#57开放。
+
+<!-- /poms-source15-g1-119 -->
+
+<!-- poms-r4ghi-status346 -->
+
+### 2026-11-11 统一候选状态346
+
+[固定状态346](rust-r4ghi/continuation-status346.json)：344 code02两叶候选已通过[d712独审](../../tools/rust-r4ghi/independent/final-gates13/tax-preparation344-code02-review01/review-code34402-01.json)，真实作者133项默认单测/fmt/严格Clippy通过，未Root推广或执行验收。#119已[线上G1读回](https://github.com/illusion-tech/poms/issues/119#issuecomment-6775974346)并由Root派发14生产＋4验证隔离实现。retain14-only单叶获代码独审，实际只读输入已备，exact G2正在另审；未写批准文件、未实际封最终双库数据。旧14状态、Root两before及H2218仍不变；Source15实际state/API/准入、FI/正常Tax及业务G3/G4均未通过，新认证0，#57开放。
+
+<!-- /poms-r4ghi-status346 -->
+
+<!-- poms-final14-H15-G1 -->
+
+### 2026-11-11 最终14数据留存与H15/readers代码G1
+
+[最终14数据独审](../../tools/rust-r4ghi/independent/final-gates13/retain14-actual-readback119-01/review-final14-retention119.json)已通过：两次双139表、4935行（Native542/Rust4393）、3851 owned、3 borrowed及40对象闭合，原13与14失败/partial原件保留；不代表Source15准入。[H15/readers基线](rust-r4ghi/source15-policy-tax-readers-baseline.md)及[Root九叶冻结](../../tools/rust-r4ghi/source15-policy-readers-g1/Root-G1-H15-readers.json)采纳e859联合建议，实际线上G1读回后仅授H隔离代码。v2五ID与F→C→S→state顺序为准，227只是已知H3子集。下一步另行明确Root两Rust推广及完整构建；实际15/API/Reg5/state、业务FI/201及G3/G4仍待，新认证0，#57开放。
+
+<!-- /poms-final14-H15-G1 -->
+
+<!-- poms-tax15-118-code-G1 -->
+
+### 2026-11-11 Tax15 #118 八叶代码G1与两叶Root推广
+
+[新15基线](rust-r4ghi/tax15-invocation118-baseline.md)及[Root八叶冻结](../../tools/rust-r4ghi/tax15-invocation118-g1/Root-G1-Tax15-118.json)采纳非作者340c建议，只准6执行＋2真实prepare/facts外置ADD，H3贡献0；线上G1后Root才实施。独立事实须覆盖implicit+explicit完整根/impact union，不把旧日期谓词当全target oracle。原14 WIP5/6不当完成，实际15/prepare/FI/201/F/C/S/注册均为空。
+
+66f最终14留存与d712代码审后，Root已仅推广22d4/e9f两Rust叶，新420来源digest为b55f88…，其它528编译输入及218 helper原字节不变，原13AF/14bd21不改。旧14二进制保留，当前Root源码已不是Reg4记录的14图；未重用旧current14守卫。rawbuild01存在审件ABI/完整集合复测两P2而NOTREADY，02正在独审，未运行Cargo或启动API15，新认证0，#57开放。
+
+<!-- /poms-tax15-118-code-G1 -->
+
+
+<!-- poms-r4ghi-status348 -->
+
+### 2026-11-11 统一候选状态348：真实构建已独立读回
+
+[固定状态348](rust-r4ghi/continuation-status348.json)为当前状态；346及其后原件保留原时点标签。两Rust纠偏已实际推广，Root/mirror八条串行Cargo完整通过，两侧各620通过/54默认忽略（同一套674结果，不合成为1240新用例）；[实际构建与原路径历史独审](../../tools/rust-r4ghi/independent/final-gates13/rawbuild119-actual-history-readback01/review-actual-raw-history119.json)f48已通过。早先离线依赖失败保原件，默认缓存未改；新raw03明确使用原任务Cargo缓存。
+
+#119 whole02及H9 code02均仅代码就绪，旧NOTREADY保留。当前Root helper仍218；13有序变化构成最终227、总23文件的有限组合正在另审，尚未推广、退役14或启动15。Root #118八外置叶57项纯/FS协议例通过待独审；[#120](https://github.com/illusion-tech/poms/issues/120)已建立114父子及118/119原生依赖，G1固定25外置＋4验证，I第一包73项通过待独审，H3/backend增量0。真实15/API/Reg5/B1/state、Tax FI/正常201和所有后续阶段正向仍未通过。Rust正式240、R4已交付67/95、新认证0，#57和完整业务R5 #116保持开放。
+
+<!-- /poms-r4ghi-status348 -->
+
+
+<!-- poms-r4ghi-status349 -->
+
+### 2026-11-11 统一候选状态349：新隔离 API 就绪，状态准入待完成
+
+[固定状态349](rust-r4ghi/continuation-status349.json)接续348：Root实际23文件和227 helper已独立读回；原API14已唯一受控SIGTERM退休，真实buildBinding15通过完整后验，新ROOT15 API已启动且31441/readiness真实200。Source13/14状态与ownership原hash保持；无迁移、恢复或重置。新状态、B0/Reg5/B1尚未发布；先完成默认只读139表双快照守恒与独立准入，才能进入新业务验收。
+
+#118八外置叶已非作者代码就绪，真实15 prepare/FI/单正常201和F/C/S未执行。#120原code01发现真实旧14准入标识拒绝新15的P2，原件保NOT READY；code02仅一字节修正，作者75项/23syntax/4help通过，独立最终复核待完成。四caller仍未推广。已完成Main13的一次201及旧partial/failed原件保持原标签，未重放。Rust正式240、R4交付67/95、本批新增认证0、业务G3/G4未通过；#57及完整业务R5 #116保持开放。
+
+<!-- /poms-r4ghi-status349 -->
+
+
+<!-- poms-r4ghi-status350 -->
+
+### 2026-11-11 状态350：#119技术准入G3/G4通过，业务验收待继续
+
+[技术G4归档](archive/slices/rust-r4ghi-source15-119/technical119-G4.json)记录真实Source15 Reg5→B1→no-replace状态最后激活及独立实际读回，代码已提交到候选分支a808；原13/14状态、M97/108、Main13一次201及旧partial/failed/NOTREADY保持。初始A6状态和空ownership另留私有同字节副本，以便业务操作后仍可审初始证据。源码798文件可精确还原，其中3个既有CRLF文本与Git规范的差异单列；三条EOF空白诊断保原并未记为lint通过。
+
+[固定状态350](rust-r4ghi/continuation-status350.json)接续349，仅#119技术零业务操作子片具备在线G4收口条件。#118真实37权限与首次prepare-only输入已物化，仍需单独执行G2；尚未创建普通ctx或执行Tax15/FI/正常201/FCS。#120四caller代码及实际25文件读回已通过，业务调用验收待完成。Rust正式240、R4交付67/95、本批新增认证0，业务G3/G4未通过；#57与完整业务R5 #116保持开放。
+
+<!-- /poms-r4ghi-status350 -->
+
+
+<!-- poms-r4ghi-status351 -->
+
+### 2026-11-11 状态351：#118首次准备失败保留，code02独审通过
+
+[固定状态351](rust-r4ghi/continuation-status351.json)记录首次实际prepare exit1：真实constructor已返回，但原cap未返回，因此未尝试native exit；缺失sha绑定发生在首个保留expense checkpoint，未到wire/Auth/DB client路径。初始A6/空ownership原字节仍在，旧输入与nonce禁止重试。#119已完成的技术G3/G4保持。
+
+[code02纠偏](rust-r4ghi/tax118-corrective-code02.md)修复两个引用及post-constructor失败出口和主次错留存，八叶边界不变、H3/backend增量0。完整非作者审feff及独立70项通过，只允许进入新exact-input review；必须新nonce/phase/entry及单独G2后才可执行。业务新增认证0、正式Rust240、R4 67/95，#118/#120与业务父子Issue保持开放，#57/完整R5 #116保持开放。350等原快照保留原时点。
+
+<!-- /poms-r4ghi-status351 -->
+
+
+<!-- poms-r4ghi-status352 -->
+
+### 2026-11-11 状态352：真实准备及独立读回通过，67项FI另行G2
+
+[固定状态352](rust-r4ghi/continuation-status352.json)记录纠偏后新prepare实际exit0及H非作者完整读回8b129通过：7个完整200、两目标packet、67项完整有序库存和同一body，native退出、closed journal与seq25当前状态闭合。16份完整双库139表快照共4448表文件/78973行版本逐raw/xmin核对，非Auth业务、meta/sequence/object保持；仅新增一个可归属session及其触碰，继承owned3851全同。
+
+独立FI输入已按真实08e3/fdb9与body0f92冻结，尚待具体exactG2。真实认证窗口900/28800/60秒及独立raw touch边界纳入审查，未来FI新登录、保留真实过期及首错STOP，不假称全批耗时有保证。旧首次失败no-exit、351等原件保留；正式Rust240、R4 67/95、新业务认证0，业务G3/G4未通过，#118/#120、#57及完整R5 #116继续开放，#119技术收口保持。
+
+<!-- /poms-r4ghi-status352 -->
+
+
+<!-- poms-r4ghi-status353 -->
+
+### 2026-11-11 状态353：运行身份丢失，FI在HTTP前停止，恢复#121先G0
+
+[固定状态353](rust-r4ghi/continuation-status353.json)及[G0范围](rust-r4ghi/runtime-recovery353-G0.md)保存真实FI exit1：旧API PID244091缺席，0/67、0HTTP、无控制器/业务提交，cap未返回且完整退出未完成。非作者失败读回da94通过原件核验，当前为NOT READY；不重发7f75，不改旧95c/G2、counter或journal。失败state/ownership私有同字节副本已留。
+
+原Podman容器/卷、PG15/OID目录仍在；新boot与旧API记录不同，尚未启动服务或证明逻辑数据守恒。原生子项[#121](https://github.com/illusion-tech/poms/issues/121)归#114并阻塞#118，G1待冻结，新增业务操作0。先原卷守恒，再建立真实新进程准入链；不能用新PID冒旧证明。#119历史技术G4与真实prepare8b/08e3保持原时点。正式Rust240、R4 67/95、新认证0，#57及完整R5 #116继续开放。
+
+<!-- /poms-r4ghi-status353 -->
+
+
+<!-- poms-r4ghi-status354 -->
+
+### 2026-11-12 状态354：#121 A/B与构造补充G1冻结，三线代码实施
+
+[固定状态354](rust-r4ghi/continuation-status354.json)记录同Source15显式新runtime lease方案：A为holder/原PG/双库RO守恒前置，B为Native与消费闭合，构造补充只品牌真实factory返回root/view并保planned-date原业务参数。旧01 NOTREADY与be96/f96c原件不改；原15记录、Reg5/B1/process、08e3/body0f92/full67及7f失败保留。
+
+Root/I/H按精确范围并行实施：Root A七外置叶首版已7项语法与37项Linux隔离检查通过、代码独审中；I Native与H21 seam仅候选代码。旧270源原像保全，计划2ADD/9MOD得到229图，实际新图/进程/准入尚无。当前PG/API未启动、逻辑守恒未实测、实际G2未签、#118仍由#121阻塞；正式Rust240、R4 67/95、新认证0，业务G3/G4未通过，#57/完整R5 #116保持开放。
+
+<!-- /poms-r4ghi-status354 -->
+
+
+<!-- poms-r4ghi-status355 -->
+
+### 2026-11-12 状态355：原PG与守恒完成独审，三个代码组件通过有限独审
+
+[固定状态355](rust-r4ghi/continuation-status355.json)、[实际守恒](rust-r4ghi/runtime121-A-conservation-result.md)及[在线读回](rust-r4ghi/continuation-status355-online.json)保留三次已消费实际调用：holder、原PG恢复和双139表两次只读观察均退出0；非作者5fd27完整复算834个文件、14808行，三组raw/xmin/key/cells/meta/seq/object等值。仅本次观测时点，不主张跨库原子性；原始警告与失败标签不改写。
+
+Root8 687b6a、I03 274f4e、H03 8816ac均获非作者有界代码批准。[启动器及组件交付](rust-r4ghi/runtime121-API-code-delivery.md)保留原始隔离证据及冻结日志两行空白E1；不冒完整typecheck或整体diff检查通过。实际business目录仍227，229/55为候选目标；33叶源码提升须具体SourceSafety，API启动、新准入与真实Ctor、fresh prepare121/body67及FI/唯一正常201均后置。
+
+[12项Issue已同步读回](https://github.com/illusion-tech/poms/issues/121#issuecomment-6807594133)，[父#57已维护](https://github.com/illusion-tech/poms/issues/57#issuecomment-6807595083)。#121/#118/#120仍未收口；正式Rust240、R4 67/95、新业务认证0、业务G3/G4未通过，#57及完整R5 #116保持开放，#119历史技术G4不改。
+
+<!-- /poms-r4ghi-status355 -->
+
+
+<!-- poms-r4ghi-status356 -->
+
+### 2026-11-12 状态356：源码完整图实际读回，启动预检首停待修订
+
+[固定状态356](rust-r4ghi/continuation-status356.json)、[源码实际结果](rust-r4ghi/runtime121-source-actual-result.md)和[在线读回](rust-r4ghi/continuation-status356-online.json)保留原33项与单Native源码推广、当前41项Git原始字节核验以及真实229/55/284完整图；非作者db3574源码读回及24ec元数据composition读回通过，原像、失败输入和书挡保留。
+
+真实启动元数据预检03退出1，首停于原Reg5重建：已核验的原15 process未传入facts.apiRecord。非作者f853纯数据对照确认补该原记录后完整Reg5一致，错误记录仍拒；正在有限修订。API request、Root-review、API process和新env未生成，后继须新具体源安全包与实际图/输入，不重放失败预检或已消费审批。
+
+[12项Issue已同步读回](https://github.com/illusion-tech/poms/issues/121#issuecomment-6810282592)，[父#57已维护](https://github.com/illusion-tech/poms/issues/57#issuecomment-6810284879)。API启动G2、真实进程与原生准入/Ctor、fresh prepare121/body67及原批业务验收仍待完成。Rust240、R4 67/95、新认证0、业务G3/G4未通过，#57和完整R5 #116开放，#119历史技术G4不改。
+
+<!-- /poms-r4ghi-status356 -->
+
+
+<!-- poms-r4ghi-status357 -->
+
+### 2026-11-12 状态357：源码修订已交付，整机重启后运行前置重新验证
+
+[固定状态357](rust-r4ghi/continuation-status357.json)、[源码与当前预检结果](rust-r4ghi/runtime121-source-actual-result.md)及[在线读回](rust-r4ghi/continuation-status357-online.json)保留Source06 actual91a4/eb412、M06 actual9124/1798及当前41项Git源码的实际字节证据。原03历史注册漏字段已修；新04通过该历史重建后，在原保活boot校验处首停。
+
+Windows选定事件和CIM确认整机关机后开机，WSL由3e3e变为a077，原Windows51024/Linux4802/PG6360身份失效。新只读9c3观测确认原CID/镜像/数据卷/端口/PG15/OID目录和四书挡仍在；PG当前exited，本boot逻辑守恒待重验，不能把旧A三mode和原双RO当作当前运行前置。恢复提案保原A7字节及8015历史anchor，另绑新loss，三新nonce/逐exactG2和新owner/PG/双RO后才能进入B；不增加主机配置或开机自启。
+
+[12项Issue同步读回](https://github.com/illusion-tech/poms/issues/121#issuecomment-6812644370)，[父#57已维护](https://github.com/illusion-tech/poms/issues/57#issuecomment-6812648547)。API request/review/env/process仍无；Native/Ctor/fresh准备与原批业务验收待完成。Rust240、R4 67/95、本批32candidate、新认证0、业务G3/G4未通过，#57与完整R5 #116开放，#119历史技术G4不改。
+
+<!-- /poms-r4ghi-status357 -->
+
+
+<!-- poms-r4ghi-status358 -->
+
+### 2026-11-12 状态358：稳定保活协议冻结，逐轮实测绑定后置
+
+[固定状态358](rust-r4ghi/continuation-status358.json)、[稳定协议G1](rust-r4ghi/runtime121-transport358-G1-policy.md)及[在线读回](rust-r4ghi/continuation-status358-online.json)保留357输入与适配从未执行的事实。新的主机／运行时目录及WSL观察boot变化不再写死源码；可信字节、原脚本、有限命令、原A15/Root12/四键bundle和A7/Root8/Native/284不放宽。
+
+G1Policy3082经独审1489仅授1生产源和1验证文件代码实施。holder实际执行时捕获before/after/ready boot并真实核验owned Linux身份后才写generic成功；current-round与每次exactG2另绑实际路径/loss/source/review，PG/RO仍绑定已验证liveholderboot逐freshnonce/G2。原CID/卷/PG15/OID/四书挡保持，PG当前exited，新boot逻辑守恒尚未重验，API和Native/Ctor未建立。
+
+[12项Issue已同步读回](https://github.com/illusion-tech/poms/issues/121#issuecomment-6822888090)，[父#57已维护](https://github.com/illusion-tech/poms/issues/57#issuecomment-6822891130)。旧A验收、旧失败和未执行标签保原，不能替代本轮实际前驱。Rust240、R4 67/95、本批32candidate、新认证0、业务G3/G4未通过；#57与完整R5 #116开放，#119历史技术G4不改。
+
+<!-- /poms-r4ghi-status358 -->
+
+
+<!-- poms-r4ghi-status359 -->
+
+### 2026-11-12 状态359：原库与同字节 API 恢复已独审
+
+[固定状态359](rust-r4ghi/continuation-status359.json)与[在线读回](rust-r4ghi/continuation-status359-online.json)记录本次恢复时点：新 holder 双侧身份、原容器/数据卷及两次全库只读观测均通过独审；834 个表文件、三套合计 14808 行的 raw/xmin/meta/sequence/objects 相等，四账本及原保留件保持。修正版文件审计只更正两条真实 verdict 对照，首次失败与安全诊断保留。
+
+同字节 Rust API 唯一启动及独立当前身份/socket/原初始 readiness 200 读回通过，PID 109023、start 656466、socket inode 27733；环境仅 opaque hash，不主张持续可用。fresh67 数据准备器及当前 Tax8 兼容审件为 code-ready。359 是 A/API 恢复时点的冻结记录，后续 Native FS 发布、真实构造和 prepare 的实证另行记录。
+
+[12 项 Issue 已同步读回](https://github.com/illusion-tech/poms/issues/121#issuecomment-6825626800)，[父 #57 已维护](https://github.com/illusion-tech/poms/issues/57#issuecomment-6825628925)。Rust 240、R4 67/95、本批 32 candidate、新增业务认证 0、业务 G3/G4 未通过；#57 与完整 R5 #116 保持开放，#119 历史技术 G4/CLOSED 保留。
+
+<!-- /poms-r4ghi-status359 -->
+
+
+<!-- poms-r4ghi-G3-checkpoint360 -->
+
+### 2026-11-13 G3 纠正检查点360：真实构造后的守卫失败
+
+[事实与保全边界](rust-r4ghi/runtime121-real-prepare-G3-checkpoint360.md)、[在线读回](rust-r4ghi/runtime121-G3-checkpoint360-online.json)记录首次真实 prepare-only 返回1：Native constructor 返回但 Tax capability 未返回，entry/exit 和 fresh67 未验收。Tax 守卫从 Pin3 读取 Facts6 的物理属性，失败退出又遇旧000026 bookend。原26严格 wx 保留；失败后的完整状态只私有保全，13/14/ownership 与旧证据保持，未重试。
+
+[运行环境 #121 的 G3 事实](https://github.com/illusion-tech/poms/issues/121#issuecomment-6827391205)和[父 #57 的进度](https://github.com/illusion-tech/poms/issues/57#issuecomment-6827392256)已核对回写。下一步先最小代码纠正与受控 successor handoff 设计，再冻结新 exact G2；旧图、lease、原始失败与全部既有实证保持 as-of 标签。未获授权直接重跑既有 publisher、重写计数器或 snapshot reset。Rust240、R4 67/95、本批32 candidate、新认证0，业务G3/G4未通过；#57/#116保持开放。
+
+<!-- /poms-r4ghi-G3-checkpoint360 -->
+
+
+<!-- poms-runtime121-corrective361-code-freeze -->
+
+### 2026-11-13 纠正361：四叶与两数据适配的代码输入冻结
+
+[唯一输入及范围](rust-r4ghi/runtime121-corrective361-code-input.md)、[在线冻结读回](rust-r4ghi/runtime121-corrective361-freeze-online.json)仅授代码实施。独审 fdb4 通过，原四源已私有保全；旧 M06 与新四项 MOD overlay 分阶段，成员229/55/284不增，实际新hash另核。plan v2 只经闭successor/witness承接真实32bd CAS，原4c与旧823 journal保持；旧API启动事实不改，新client helper仅由严格witness桥接。
+
+[Issue #121 已记录冻结](https://github.com/illusion-tech/poms/issues/121#issuecomment-6828250293)。两线实现加独立验证均只交I候选；Root生产源提升、状态handoff、actual G2/重试及服务控制尚未授权。原359与360记录保留其as-of含义，业务G3/G4与认证计数不变。
+
+<!-- /poms-runtime121-corrective361-code-freeze -->
+
+
+<!-- poms-runtime121-corrective361-code-delivery -->
+
+### 2026-11-13 纠正361：代码交付与具体六源请求
+
+[独立代码交付及实际请求](rust-r4ghi/runtime121-corrective361-source-delivery.md)已提交推送873dbc5b；[在线逐字读回](rust-r4ghi/runtime121-corrective361-code-delivery-online.json)对应[子片#121](https://github.com/illusion-tech/poms/issues/121#issuecomment-6829993170)及[父项#57](https://github.com/illusion-tech/poms/issues/57#issuecomment-6829994369)。四叶、两data及提升工具独审通过；真实旧284与固定六源当前before仍匹配。Root metadata-only生成request退出0，具体nonce a3d3040f-54ce-4f37-85ea-1aaacb18fe0d，input1117/cccfd8ef，request2901/681ea4a9。
+
+本条固定为源提升前检查点：Root审批未签、生产源及canonical state未写，状态续接和实际模式尚未执行。须精确source peer后另签Root，仅准四生产MOD和两图外dataMOD，再独立核真实新229/55/284及保留280。旧M06、823失败、32bd、旧26和原Main13一次201保持；业务G3/G4与新增认证0不变，#57/#116开放、#119历史CLOSED。
+
+<!-- /poms-runtime121-corrective361-code-delivery -->
+
+
+<!-- poms-runtime121-Native361-publication -->
+
+### 2026-11-13 纠正361：真实状态续接、独立读回及全新prepare输入
+
+[实际FS发布与读回](rust-r4ghi/runtime121-corrective361-Native-publication-actual.md)已推送77c3a625；[在线逐字读回](rust-r4ghi/runtime121-Native361-publication-online.json)对应[子片#121](https://github.com/illusion-tech/poms/issues/121#issuecomment-6831702942)及[父项#57](https://github.com/illusion-tech/poms/issues/57#issuecomment-6831703795)。Root发布只执行1次、退出0；首auditor TDZ工具错误保留并纠正，readonly audit第2次通过，三项变化和14actors/counter/823journal/所有其他字段守恒。新canonical与私有异inode快照76ad，原32bd/old26/Main13一次201保留。
+
+本条固定在真实prepare前：新7040/ae68 metadata已生成0，进入独立具体G2输入审，尚无Root9/真实Ctor/prepare/K/67FI/Tax正常命令。文件读回不代业务验收，认证仍0、业务G3/G4未签，#57/#116开放、#119历史CLOSED。
+
+<!-- /poms-runtime121-Native361-publication -->
+
+
+<!-- poms-runtime121-prepare1899-failed-362 -->
+
+### 2026-11-13 纠正362：真实构造及entry/failed-exit完成，prepare会话余量不足
+
+[真实失败检查点](rust-r4ghi/runtime121-real-prepare-G3-checkpoint362.md)及[在线逐字读回](rust-r4ghi/runtime121-prepare362-failure-online.json)对应[子片#121](https://github.com/illusion-tech/poms/issues/121#issuecomment-6834624294)和[父项#57](https://github.com/illusion-tech/poms/issues/57#issuecomment-6834625401)。nonce1899单次退出1，真实Ctor/cap/entry完成，failed-exit校验并closed-failed；三个认证200后首个业务GET尚未发送。fresh prepared/K/全67、FI、Tax正常命令均未产生，原Main13一次201不重放。
+
+实际after-state e0d9/ownership eb4a/seq39私有保全，真实manager cookies/完整37权限与auth_session来源保留，旧823/26/13/14/原prepared-full67保持。独立34项关系读回仅证明失败与保全。下一步冻结有限技术G3纠正，消除重复全检并把真实会话检查放到发送前，源/lease续接、真实耗时预算及新G2仍后置。官方Rust240、R4 67/95、32 candidate、认证0、业务G3/G4未签；#57/#116开放、#119历史CLOSED。
+
+<!-- /poms-runtime121-prepare1899-failed-362 -->
+
+
+<!-- poms-runtime121-code-freeze362 -->
+
+### 2026-11-13 纠正362有限代码输入冻结
+
+[联合输入](rust-r4ghi/runtime121-corrective362-code-input.md)7abcb51a已推送；[在线逐字读回](rust-r4ghi/runtime121-corrective362-freeze-online.json)对应[#121](https://github.com/illusion-tech/poms/issues/121#issuecomment-6834837659)与[#57](https://github.com/illusion-tech/poms/issues/57#issuecomment-6834838606)。原设计+mandatory addendum02、独立33案例及六份真实原像联合冻结，代码0bc2/14235；仅授I内hot3/control3+data2两线候选实现。源码提升、lease续接、真实计时、具体G2及任何mode重试后置。业务认证0/G3G4未签，#57/#116开放。
+
+<!-- /poms-runtime121-code-freeze362 -->
+
+
+<!-- poms-runtime121-fixed-apps362 -->
+
+### 2026-11-13 纠正362固定角色数据ABI追加
+
+[最小追加](rust-r4ghi/runtime121-corrective362-apps-ABI-addendum.md)2491a914已推送，[线上逐字读回](rust-r4ghi/runtime121-corrective362-apps-online.json)对应[#121](https://github.com/illusion-tech/poms/issues/121#issuecomment-6836017669)与[#57](https://github.com/illusion-tech/poms/issues/57#issuecomment-6836018807)。独立真实Root到受限view模型发现原dataKeys漏apps，hot01保NOTREADY；只授原proof叶既有固定双角色只读投影，hot02仍待完整6mode/DDL/热路径独审。sourceOperator03通过16完整main模型仍仅code-ready，无源提升/lease/G2；真实配置I900/A28800/T60不代替实测预算。新认证0、业务G3G4未签，#57/#116开放。
+
+<!-- /poms-runtime121-fixed-apps362 -->
+
+
+<!-- poms-runtime121-code-delivery362 -->
+
+### 2026-11-13 纠正362统一代码交付及具体源请求
+
+[交付与请求](rust-r4ghi/runtime121-corrective362-code-delivery.md)d3fa440d已推送；[逐字线上读回](rust-r4ghi/runtime121-corrective362-code-delivery-online.json)对应[#121](https://github.com/illusion-tech/poms/issues/121#issuecomment-6837098161)和[#57](https://github.com/illusion-tech/poms/issues/57#issuecomment-6837099131)。HOT03/control02/data2及combined6已独审，44映射/50模块静态link通过且0evaluate；保留原NOTREADY和反例。真实a6e8 metadata单次0，input997a/request8fa4/plan dc22，Rootapproval未签，Source/native/状态续接/prepare/FI均未执行。后续具体Source G2、实际提升/读回、v3与时延预算仍独立。业务认证0/G3G4未签，#57/#116开放。
+
+<!-- /poms-runtime121-code-delivery362 -->
+
+
+<!-- poms-runtime121-actual-source362 -->
+
+### 2026-11-13 纠正362真实源码提升与独立实际读回
+
+[实际源与读回](rust-r4ghi/runtime121-corrective362-source-actual.md)fe3e2e7c已推送，[线上逐字读回](rust-r4ghi/runtime121-corrective362-source-actual-online.json)对应[#121](https://github.com/illusion-tech/poms/issues/121#issuecomment-6837880842)及[#57](https://github.com/illusion-tech/poms/issues/57#issuecomment-6837881758)。唯一Source a6e单次0/20.424秒仅源更新，独立actualAudit单次0/f032完整验证八源、全部284/278及真实3stage/guard/收尾；opaque state和ownership保持。源码为362，lease仍旧337/v2，尚无Native state/context/prepare/FI。评论时点v3纯数据plan f3e已0并正inspect，各后继FS G2和真实预算后置，业务认证0/G3G4未签，#57/#116开放。
+
+<!-- /poms-runtime121-actual-source362 -->
+
+
+<!-- poms-runtime121-Native362-publication -->
+
+### 2026-11-13 v3实际状态续接与独立实际读回通过
+
+[实际FS发布及验收](rust-r4ghi/runtime121-Native362-publication-actual.md)bf94c055已推送，[线上逐字读回](rust-r4ghi/runtime121-Native362-publication-online.json)对应[#121](https://github.com/illusion-tech/poms/issues/121#issuecomment-6838612169)及[#57](https://github.com/illusion-tech/poms/issues/57#issuecomment-6838613341)。2ba唯一pub0/complete5759，私有entry与当前dcac同字节异inode；独立actualreadback唯一0/5063重建registry/candidate/state，确认精确三变化、14actors/cache37/cookies/seq39/owned/API/bothjournals/ownership全前缀/284都保持。只认FS续接，真实Ctor/cap/freshK67及FI/Tax/Main尚未执行；认证0、业务G3G4未签，#57/#116开放。
+
+<!-- /poms-runtime121-Native362-publication -->
+
+
+<!-- poms-runtime121-prepare-timing-E1-362 -->
+
+### 2026-11-13 同一次真实prepare计时的E1边界
+
+[冻结E1](rust-r4ghi/runtime121-prepare362-timing-E1.md)aabc653f及[线上逐字读回](rust-r4ghi/runtime121-prepare362-timing-E1-online.json)对应[#121](https://github.com/illusion-tech/poms/issues/121#issuecomment-6838870210)和[#57](https://github.com/illusion-tech/poms/issues/57#issuecomment-6838871290)。仅对同6458 prepare-only作证据顺序替代，热预算仍未证明；标准exactG2/Root9另审，不减全部source/brand/37/session/mono>2s守卫、不延TTL、不加mode或自动重放。成功只独审消费本次真实prepared/K，失败保全停止；FI至少618CP/绝对idle预算另验，认证0/G3G4未签，#57/#116开放。
+
+<!-- /poms-runtime121-prepare-timing-E1-362 -->
+
+
+<!-- poms-runtime121-prepare362-actual -->
+
+### 2026-11-13 纠正362：唯一真实准备及完整非作者读回通过
+
+[实际执行与完整验收](archive/slices/rust-r4ghi-runtime121/prepare362-actual.md)记录同6458 prepare-only唯一0、4941.4120591秒，实际Ctor/私有cap/entry/exit/closed和K已闭合；[原闭8键读回](archive/slices/rust-r4ghi-runtime121/prepare362-actual-readback01/review-actual-prepare-continuation362.json)565740通过。完整278表4938行重建1Tax根、2targets、全部peer/CAS、body/facts/ordered67；实际新61fdb完整清单及62b7ed与正式历史依据全等。Auth3+GET4的14份双库捕获仅同一新owned session一次创建/五次更新，完整37权限、14actors其余字段和旧823/1899/26/13/14/Main13/所有状态保全；最终8/284、Root+mirror各420/528、sequence39→65、锁及canonical 6c1f/ownership1da8均独立复核。
+
+[全部安全原件、工具停止及修正](archive/slices/rust-r4ghi-runtime121/prepare362-actual-readback01/archive.json)保真归档，私有原件和活跃运行输入保留原路径，由Root继续在#114下负责。E1本次真实结果/书挡已归档，但直接CP样本为0、618全FI预算仍未证明，不授FI/正常Tax/Main，不重放本次prepare。#121技术G3/G4固定提交及关闭前审查、线上镜像继续；Rust240、R4 67/95、本批32candidate/新增认证0、业务G3G4未签，#57/#116开放、#119历史CLOSED。
+
+<!-- /poms-runtime121-prepare362-actual -->
+
+
+<!-- poms-runtime121-prepare362-actual-online -->
+
+[真实准备及完整读回](archive/slices/rust-r4ghi-runtime121/prepare362-actual.md)已推送33646ef4；[线上逐字镜像](archive/slices/rust-r4ghi-runtime121/prepare362-actual-online.json)核[#121](https://github.com/illusion-tech/poms/issues/121#issuecomment-6841629158)与[#57](https://github.com/illusion-tech/poms/issues/57#issuecomment-6841630577)正文及评论。B实际G2/准备验收已勾选，两个Issue仍Open，#121独立技术G3/G4关闭前审查继续；FI预算UNKNOWN、业务认证0/G3G4未签，#57/#116开放。
+
+<!-- /poms-runtime121-prepare362-actual-online -->
+
+
+<!-- poms-runtime121-prepared-label-correction -->
+
+[标注更正](archive/slices/rust-r4ghi-runtime121/prepared-artifact-label-correction01.json)：672398B/b7ed0b为包含body/facts/inventory的62 prepared产物，bodySHA单独核验。当前文档及#121/#57正文和自有检查点评论已更正并逐字读回；c10e初始线上快照保原as-of。实际prepare仍唯一0，domain POST为0，原件及业务认证数不变。
+
+<!-- /poms-runtime121-prepared-label-correction -->
+
+
+<!-- poms-runtime121-G4-ready -->
+
+### 2026-11-13 #121技术G3通过、G4关闭候选就绪
+
+[技术G3](archive/slices/rust-r4ghi-runtime121/technical121-preclose-independent01/review-technical121-G3.json)通过，[独立G4关闭前许可](archive/slices/rust-r4ghi-runtime121/technical121-preclose-independent01/review-technical121-G4-preclose.json)只授条件满足后的#121技术0操作收口。[G4Ready记录](archive/slices/rust-r4ghi-runtime121/technical121-G4-ready.json)已更正62 prepared名称、归档当前入口/初始线上镜像，并以[逐项例外](archive/slices/rust-r4ghi-runtime121/archive-exceptions121.json)明确47份父验收输入的消费者/原因/Root→#114/due及原字节终态快照；私有及活跃工具输入保持。固定safe提交、窄delta核、线上只关闭#121和非作者实际终审继续，actualG4尚未完成。
+
+全67FI预算UNKNOWN、直接CP样本0；不授FIG2/正常Tax/Main。Rust240、R4 67/95、本批32candidate/认证0、业务G3G4未签；#114/#118/#120/#57/#116开放、#119历史CLOSED。
+
+<!-- /poms-runtime121-G4-ready -->
+
+
+<!-- poms-runtime121-G4-online-applied -->
+
+### 2026-11-13 #121技术G4线上已应用，非作者实际终审待完成
+
+[#121技术收口](https://github.com/illusion-tech/poms/issues/121#issuecomment-6842682830)已按独立preclose/窄delta许可实际以completed关闭；[原始线上精确读回](archive/slices/rust-r4ghi-runtime121/technical121-G4-online01/receipt.json)核正文/评论与状态，并核#114/#118/#120/#57/#116仍Open、#119历史Closed，原生121→114及118的119/121依赖边保留。[#57当前状态](https://github.com/illusion-tech/poms/issues/57#issuecomment-6842684198)同步技术子片完成与完整业务验收仍待。
+
+此阶段为G4OnlineApplied，最终非作者actual G4证书尚待，未把preclose当终审。私有/活输入继续由Root在#114下负责，47项例外的observed指针按其记录时点解释。全67FI预算UNKNOWN/directCP0，业务认证0/G3G4未签、Rust240/R4 67/95/候选32；不授FI/正常Tax/Main。
+
+<!-- /poms-runtime121-G4-online-applied -->
+
+
+<!-- poms-runtime121-actual-G4-final -->
+
+### 2026-11-13 #121实际技术G4非作者终审通过
+
+[实际终审证书](archive/slices/rust-r4ghi-runtime121/technical121-G4-actual-independent01/review-actual-technical121-G4.json)5cee4e及[最终收口记录](archive/slices/rust-r4ghi-runtime121/technical121-G4.json)只认证#121技术子片Done；其CLOSED/completed、正文评论、34线上原件/20delta原件、归档/依赖/归属、本地镜像及Source8/opaque6c1f/1da8已核，完整父目标仍未完成。证书原件发布与121终审勾选链接正在回写。
+
+Root继续为父#114管理相同私有和活跃输入/运行资源。#114/#118/#120/#57/#116保持Open、#119历史Closed，FI预算UNKNOWN/directCP0，不授后继实际效果；业务认证0/G3G4未签，Rust240、R4 67/95、候选32。
+
+<!-- /poms-runtime121-actual-G4-final -->
+
+
+<!-- poms-runtime121-terminal-writeback-final -->
+
+[#121终审证书链接及勾选](https://github.com/illusion-tech/poms/issues/121#issuecomment-6842861365)、[#57当前状态](https://github.com/illusion-tech/poms/issues/57#issuecomment-6842862718)均已完成[精确回写](archive/slices/rust-r4ghi-runtime121/technical121-G4-terminal-writeback01/receipt.json)。本技术子片Done，原关闭时间/原因保持；独立actual证书5cee4e只认证#121，业务认证0、全FI预算UNKNOWN、所有父/后继边界不变。
+
+<!-- /poms-runtime121-terminal-writeback-final -->
+
+
+<!-- poms-budget118-joint-G1-v2 -->
+
+### 2026-11-13 #118预算探测与原成功准备采用联合G1冻结
+
+[有限基线](rust-r4ghi/runtime118-budget-probe-adoption-baseline-v2.md)和[精确G1](../../tools/rust-r4ghi/budget-probe118-g1-v2/Root-G1-budget-probe118-v2.json)已提交39c67d76；[线上逐字镜像](rust-r4ghi/runtime118-budget-probe-G1-v2-online.json)核[#118 G1](https://github.com/illusion-tech/poms/issues/118#issuecomment-6849753005)。两v2/READY02关闭中央隔离和close输出缺口，保旧NOTREADY。范围11既有叶、284内9MOD/275same、图外数据2；控制5/Tax6在I隔离实现，独审并行。未改当前Root执行源/P/runtime，源码/FS/实际ctx/Auth/probe各具体G2后置。
+
+原K/record/6458/1da前缀保真实出生身份，N1仅完整基础CP观测；全618 FI预算UNKNOWN，normal/Main未授。#121实际技术G4不改，#57/#116开放，业务认证0/G3G4未签、Rust240/R4 67/95/候选32。
+
+<!-- /poms-budget118-joint-G1-v2 -->
+
+<!-- poms-budget118-code04-G3 -->
+
+### 2026-11-14 #118 v2隔离代码资格通过，恢复G1设计继续
+
+[Root代码检查点](rust-r4ghi/runtime118-budget-probe-code04.md)已固定2a2e9bf4，九个图内叶和两个数据工厂的精确combined235均获非作者有界代码批准。真实Win Node24.19独立298/298、作者173/32与11syntax/空白/静态链接通过；原Node26及失败证据保真，当前Root执行源仍为原284 before。此处只勾选隔离代码资格，不是#118总体或业务G3/G4。
+
+[线上逐字回写](rust-r4ghi/runtime118-budget-probe-code04-online.json)同步[#118](https://github.com/illusion-tech/poms/issues/118#issuecomment-6862550755)与[#57](https://github.com/illusion-tech/poms/issues/57#issuecomment-6862554015)，两者继续Open。被动库存确认该时点Debian停止，具名新进程/原卷守恒、图外Root工具及plan5恢复合同仍在设计，实际源码/FS/ctx/Auth/probe各准确G2尚未授。#121历史技术G4保持完成；CP0、wholeFI预算UNKNOWN、normal/Main未授，Rust240/R4 67/95/32candidate、业务认证0/G3G4未签、#116开放。
+
+<!-- /poms-budget118-code04-G3 -->
+
+<!-- poms-budget118-reentry-G1-v3 -->
+
+### 2026-11-14 #118停机恢复与源码交付修订G1 v3冻结
+
+[精确基线](rust-r4ghi/runtime118-reentry-baseline-v3.md)及Root G1已推8c2c5f2c；[线上逐字镜像](rust-r4ghi/runtime118-reentry-G1-v3-online.json)核[#118 G1](https://github.com/illusion-tech/poms/issues/118#issuecomment-6864408507)和[#57](https://github.com/illusion-tech/poms/issues/57#issuecomment-6864412296)，均Open。非作者五输入READY只用于本次Root冻结；现只授I04基础上的控制5+Tax1修订、5Tax精确携带和3个图外Root支持工具隔离实施。v2代码G3保持原界限，新v3代码及实际步骤尚未通过。
+
+实现before与R原交付before分列，原Root执行11/284/P未改；新5/SC18/C/R/B/S4、原Podman/4份完整RO/最后关闭基线、新API6c→X及Native X→Y按合同逐步实证。实际source/恢复/FS/ctx/Auth/probe均另准确G2；CP0、全FI预算UNKNOWN、normal/Main未授。#121历史技术G4及正式Rust240/R4 67/95/32candidate/业务新增认证0/G3G4未签保持，#57与#116开放。
+
+<!-- /poms-budget118-reentry-G1-v3 -->
+
+<!-- poms-runtime118-graph-RO-corrective01 -->
+
+[具名G3纠正](rust-r4ghi/runtime118-graph-RO-corrective01.md)已固定eb0f0335并同步[#118](https://github.com/illusion-tech/poms/issues/118#issuecomment-6866700377)：new5分别验证P3原图和公共镜像，不混Full3身份；RO保同连接完整READ ONLY与原格式，主机exe仅精确有限绑定。原80ea/04与历史证据不改，旧模型不当实际准入。当前仍隔离实施/独审，实际Root源/P/runtime未因本件改动，CP0/全FI预算UNKNOWN/业务认证0/G3G4未签。
+
+<!-- /poms-runtime118-graph-RO-corrective01 -->
+
+<!-- poms-runtime118-current-host-early-actual -->
+
+### 2026-11-15 #118当前代码资格与初段实际恢复通过
+
+[当前代码G3](rust-r4ghi/runtime118-current-host-code-G3.md)固定0b55ebd2，[真实初段检查点](rust-r4ghi/runtime118-early-actual01.md)固定dba76669。c56e9+2+3和三处精确host pin修订已独审，9新窄测通过、两支持MOD实际读回和具名Source SQ接续完成。holder、原CID/卷/PG15及readiness、源码前两份完整只读守恒均有真实E9和独立读回；封口方式naturalEOF=false/精确退出时刻UNKNOWN保留，不冒性能。初段时原11/284仍before；随后准确Source9+2已具名G2执行中，未计完成，API/后RO/X/CRBS4/NativeFSY/ctxAuthProbe仍按后继具体G2。
+
+[线上逐字镜像](rust-r4ghi/runtime118-early-actual01-online.json)同步#118/#57开放。CP0、全FI预算UNKNOWN、FI/normal/Main未授、业务认证0/G3G4未签；#119/#121历史Closed，完整R5 #116开放。
+
+<!-- /poms-runtime118-current-host-early-actual -->
+
+<!-- poms-runtime118-bounded-attempt-20261116 -->
+
+### 2026-11-16 #118恢复已接受，单次预算因close-coverage停止
+
+[实际记录](rust-r4ghi/runtime118-bounded-resume-2026-11-16.md)与[保真原件索引](../../tools/rust-r4ghi/runtime118-resume-actual01/retention-index.json)保留真实C10/R8→B5→S4→Native FS/Y→不可变entry→Tax元数据及准确Root/peer。原prepare/Source/API/rebind不重跑。
+
+唯一budget-probe a783实际exit1/STOPPED_PRESERVE：Auth3三200、完整CP113.436174201秒、真实Native close629.800944921秒通过；through-close idle余额-81965ms不满足严格>2000ms。完整观察0，预算观测G3阻断/G4不满足，全67FI/618成本UNKNOWN。样本、partial、report、内层closed-verified及所有失败/UNKNOWN保原标签，无重试、追加登录、清理或TTL变化。
+
+有限停止尝试保真证据包独立实际G3及交付G4已通过；该结论不认证预算ObservationComplete。 [#118实录](https://github.com/illusion-tech/poms/issues/118#issuecomment-6901838244)、[#57镜像](https://github.com/illusion-tech/poms/issues/57#issuecomment-6901840191)均精确读回且保持Open。
+
+当前canonical为post-probe cddedbd7、ownership8211dee8，不能还原为Y。Rust240/R4 67/95/32candidate/业务新增认证0及业务G3G4未签保持，#57/#114/#118/#120/#116开放，#119/#121历史Closed。私有/活输入继续Root→#114保管。
+
+<!-- /poms-runtime118-bounded-attempt-20261116 -->
+
+<!-- poms-runtime118-performance-candidate-20261116 -->
+
+### 2026-11-16 #118性能首片隔离候选，待独立资格
+
+[候选交付记录](rust-r4ghi/runtime118-performance-candidate-delivery-2026-11-16.md)和[完整候选图/证据](../../tools/rust-r4ghi/runtime118-performance-candidate01/README.md)交付阶段计时、同边界物料共享、原字节/SHA封口、只读解析复用及close编排。原284执行文件保持；隔离图实际285（7 MOD/277 SAME/1 ADD），作者61项全过，原代码对齐合同夹具37项全过，旧失败保留。
+
+固定公开JSON组件读取148→74；中位25.8545→25.7196ms且区间重叠，不声明稳定显著提速或真实CP/close目标通过。独立资格、安装准入、Linux/私有历史正向和实际预算均未完成。未安装、未启动Debian、未执行新SQL/HTTP/Auth/快照/探针；原STOPPED_PRESERVE、#118预算阻断及#57开放状态保持，不授后续效果。
+
+<!-- /poms-runtime118-performance-candidate-20261116 -->
+
+<!-- poms-runtime118-performance-independent-20261116 -->
+
+### 2026-11-16 #118隔离纠正03获限定代码资格，实际预算仍阻断
+
+[本轮记录](rust-r4ghi/runtime118-performance-review-and-slowpath-2026-11-16.md)保留01/02独立NOTREADY、全部失败、输入盘点与组件计时；[03实际独审](../../tools/rust-r4ghi/runtime118-performance-review01/candidate03/REVIEW03.md)只签READY_LIMITED_ISOLATED_CORRECTIVE_CODE，31项独立组合及92项适配回归通过。不是constructor、完整工具/业务G3G4、安装或新运行批准。
+
+现存R420/528重建清单bytes/SHA与既有描述符精确匹配但不是P原Full3；Windows R文件组件03配对中位CP-R624.4439→567.3103ms、close-R2415.8516→638.9951ms。M/P历史/ELF/进程/Linux/完整CP及close未测，工程目标和全67FI/618仍UNKNOWN。
+
+未安装、未启动Debian、未真实SQL/HTTP/Auth/新快照/探针；原284与P/I不改，旧Root9/nonce/Y不复用。#118保持OPEN/Doing及预算阻断，#57开放，业务新增认证0不变。
+
+<!-- /poms-runtime118-performance-independent-20261116 -->
+
+<!-- rust-fast-delivery-20261116 -->
+
+### 2026-11-16 用户调整优先级：尽快交付Rust业务，停止扩展验收框架
+
+[当前交付指令](rust-fast-delivery-2026-11-16.md)优先旧工具推进顺序：285图安装/准入包、验收旁账、逐步签名、整树重复哈希、每请求全库快照及67FI/618预算不再阻塞业务交付。既有失败/UNKNOWN不改写，保留原件；产品认证权限、金额/事务/并发语义和业务财务/审计功能仍保留。
+
+当前工作转为Rust产品构建与针对性回归、R4/最小角色32项真实功能、完整R5及前端联调/发布准备。只用短清单和必要检查；不以旧门禁未签当作停止正常代码实施的理由。#57及未完成业务父项保持开放，生产切流与破坏性操作另需明确批准，不运行pnpm。
+
+2026-11-17已新增规则版本与计算/重算8项Rust实现，提成剩余功能缺口从24项收缩至16项源码待补。前次56d15c54未编译；后续发现已经运行的Linux环境有固定ICU专用缓存，改用该缓存后离线构建通过，Cargo.toml/lock未变。库测试551、HTTP层18、进程退出1、共享枚举1通过，Clippy库检查与开发二进制build通过，实际OpenAPI为280项/228路径。首次HTTP旧计数断言失败已修正并保留日志。真实SQL业务、前端联调和目标TEST发布未验证，不增加业务已验收计数。见上述短清单的记录与可复用命令。
+
+<!-- /rust-fast-delivery-20261116 -->
+
+2026-11-17提成实际交付推进：规则/计算8项完成独立PostgreSQL17.11上的真实SQL/HTTP回归；新增调整列表/草稿/提交审批/执行4项，并跑通实际财务审批与待办、累计扣回上限、补发防重复、故障回滚和UNKNOWN金额拒绝。库551、HTTP层18、SQL场景2通过，Clippy库与相关测试、Linux开发build通过，实际OpenAPI284项/231路径、提成16/28。记录与复用命令见[交付清单](rust-fast-delivery-2026-11-16.md)和[SQL回归](../../tools/rust-commission/README.md)。剩余12项及完整联调/发布未完成，#57/#116保持开放；未作全后端交付或部署结论。
+
+2026-11-17继续补齐发放列表/草稿/提交审批/批准/登记5项，实际OpenAPI289项/235路径、提成21/28。复用真实审批/待办，校验跨重算版本累计付款与当前基线，支持零金额尾款确认及质保结算写入；补强提成审计金额权限。库553、HTTP层18、SQL场景7及Clippy/Linux开发build通过，真实TCP进程的CSRF/登录/发放查询通过后正常退出。当前发放仅支持匹配冻结基线的单一有效合同，多合同返回409，低首付款尚无自动解锁链路；上游producer仍用显式legacy测试输入。剩余7项及多合同/完整producer集成、前端联调和目标TEST发布待完成，详见[交付清单](rust-fast-delivery-2026-11-16.md)；#57/#116继续开放。
+
+2026-11-17已补齐冻结争议/变更4、离职结论1、最终结算/规则解释查询2，共7项，Rust路由296项/242路径、提成28/28。仲裁防重复并保留原冻结版本，离职结论保持单current，查询按当前事实计算，调整执行同步刷新结算；新增结算税额nullable迁移，未知税额不补0且回滚不能吞掉NULL。库554、HTTP层18、SQL场景10及相关TypeScript类型检查/ESLint通过，失败原件保留。详见[交付清单](rust-fast-delivery-2026-11-16.md)和[SQL回归](../../tools/rust-commission/README.md)。多合同、低首付款解锁、完整producer贯穿、前端与目标发布仍待，#57/#116保持开放。
+
+<!-- poms-issue101-current-delivery-20261118 -->
+
+### 2026-11-18 #101及原生子任务状态对齐：实现接入已有，完整业务验收待完成
+
+已只读核对GitHub原生树及开放项正文/评论，随后更新并逐项读回当前摘要和清单。#101直接子项为#102、#106、#110；17个后代中10个Closed、7个Open。本次没有关闭、重开或重挂任务，原生关系与历史关闭原因保持。
+
+- #102及#103/#104/#105、#106及#107/#108/#109：历史完成/Closed保持。
+- [#101](https://github.com/illusion-tech/poms/issues/101)、[#110](https://github.com/illusion-tech/poms/issues/110)：Doing/Open，已有可运行候选，完整R4业务验收待完成。
+- [#111](https://github.com/illusion-tech/poms/issues/111) G9、[#112](https://github.com/illusion-tech/poms/issues/112) H8、[#113](https://github.com/illusion-tech/poms/issues/113) I11：当前规范映射均完整，保持Open，真实来源生成、上下游消费及核心页面联调待完成。
+- [#114](https://github.com/illusion-tech/poms/issues/114)：Doing/Open，当前主线是隔离副本10项迁移演练、真实合同/资金/成本/移交/冻结到经营、提成、验收完工归档的贯穿，以及权限、原子性/并发和应用回退验证。
+- #119/#121：历史技术完成/Closed保持，不提升为完整R4业务验收。
+- [#118](https://github.com/illusion-tech/poms/issues/118)、[#120](https://github.com/illusion-tech/poms/issues/120)：保持Open，旧验收工具扩展暂停，不作为当前正常产品实施与测试的前置。唯一预算失败、UNKNOWN及限定隔离代码结论保留；没有重新执行旧工具。
+- 关联[#117](https://github.com/illusion-tech/poms/issues/117)仍属#116，4项角色操作已接入，真实已确认移交生成冻结及I准入消费待完成，保持Open。
+
+本次将#101/#110/#111/#112/#113/#114/#117/#118/#120九项的旧原文完整保留在历史折叠区，顶部以当前交付状态为准。历史240、67/95与旧G1/G2/G3/G4只反映当时验收口径；当前全后端298项/243路径是实际规范导出数量。32项联合范围映射覆盖G9/9、H8/8、I11/11、关联角色4/4，完整业务验收仍未完成。
+
+应用提交b07b6b52、候选及说明68033456；既有库557、HTTP18、提成SQL12及管理层实际页面流程通过，不能替代全部R4链路测试。[当前交付清单](rust-fast-delivery-2026-11-16.md)及[Linux候选与待办](rust-linux-candidate-2026-11-18.md)记录实际范围。#57/#101/#110/#114/#116继续开放；下一步先做隔离迁移演练，再做真实业务贯穿和其余核心页面联调。
+
+<!-- /poms-issue101-current-delivery-20261118 -->
+
+### 2026-11-18 用户纠正交付顺序，正常完工主链实际贯通
+
+当前顺序改为：先完成业务功能与核心页面联调，迁移演练/应用回退放到最后、TEST切换前。此前“先演练迁移再做业务”的顺序停止采用，旧辅助验收框架不恢复。
+
+新 `r4_native_business_delivery_chain` 经真实Rust Router、认证/CSRF、独立PG和本地附件上传下载，完成合同激活/应收计划、移交本人确认、职责冻结/执行、回款与付款/成本/经营信号、首笔提成实际财务审批登记、最终验收、普通完工和归档；权限/缺证据/陈旧重放拒绝通过。原12项加新主链共13个SQL场景全部通过，相关Clippy通过。本轮只增加集成测试，未修改产品代码；测试基础配置与legacy材料边界见[交付清单](rust-fast-delivery-2026-11-16.md)。GitHub #114/#110/#101已同步简短进度并保持Open，历史记录保留。
+
+继续其余期间/更正/分摊/经营评审/条件完工等分支及核心页面，再做隔离迁移和回退。#57/#101/#110/#114/#116保持开放；没有目标迁移、服务切换或完整后端交付结论。
+### 2026-11-18 有条件完工、经营重述及核心页面贯通
+
+已通过真实native producer链验证有条件最终验收/完工、独立责任人限定证据上传与本人闭合、全部闭合前禁止归档，以及普通/有条件终态的归档替代/撤销。正常主链增加费用确认/成本归属、经营重述、质性评审与阶段核阅/收紧，旧快照和金额上下文不被改写；相同请求重放与不同内容冲突通过。
+
+实际修复经营协调future栈占用及归档表单终态判断。库557、HTTP18、共享枚举、SQL/HTTP14、前端28及严格Clippy/类型/ESLint/实际构建通过，真实Chromium→生产页面→Rust→独立PG完成经营复核、归档写入和条件本人查看/下载；字体采用系统回退。失败/部分完成、历史原件和UNKNOWN保留。
+
+GitHub #114/#110/#101已同步简短进度、逐项读回且保持Open；#101读取时的TLS超时改用REST读取核实后同步，没有盲重提未知写入。剩余共享分摊消费、已结束期间及其余页面/后续提成继续验证，之后统一更新候选包，迁移/回退仍最后进行。#57/#116继续开放，现有Linux包不冒称包含本次后续修复。详见[交付清单](rust-fast-delivery-2026-11-16.md)。

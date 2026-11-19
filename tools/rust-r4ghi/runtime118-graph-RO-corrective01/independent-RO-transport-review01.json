@@ -1,0 +1,68 @@
+{
+  "kind": "non-author-runtime118-finite-readonly-transport-review",
+  "schemaVersion": 1,
+  "recordedAt": "2026-11-13T21:57:30.3829460Z",
+  "reviewer": "/root/budget118_review",
+  "reviewerIsAuthor": false,
+  "verdict": "APPROVED-BOUNDED-READONLY-TRANSPORT-CHOICE",
+  "parentG1": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v3/Root-G1-budget-probe118-v3.json",
+    "bytes": 32283,
+    "rawBytesSha256": "80ea3db59386f935b733e5e29b7b8a4db860c408ccb84f9204b9b5adebac00a1"
+  },
+  "inputs": [
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r0e/Containerfile.pg15",
+      "bytes": 1518,
+      "rawBytesSha256": "546bba48d472f22ba35b37c2c08db4c70356bfda45483ad91a0166c528fd1cd6"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/observe-conservation121.mjs",
+      "bytes": 14419,
+      "rawBytesSha256": "adcbfd9d07ef5d98a5675cd3b15adc54771c787bba6ef585e20973e9ad30c7ca"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/resume-original-pg121.mjs",
+      "bytes": 4623,
+      "rawBytesSha256": "1da250ed2553b767d123f2d4669af4f283c4a046267eb3c0e81b408036309d51"
+    }
+  ],
+  "implementationWithinExistingScope": true,
+  "codeReady": false,
+  "actualG2Granted": false,
+  "privateRead": false,
+  "containerProbed": false,
+  "conclusion": "A fixed builtin-only Podman/shell/psql readonly bridge is an implementation choice within 80ea readonlyPG authority. It replaces transport only, adds no caller SQL/client/callback or public CLI, and does not claim any stopped Linux vendor closure was verified.",
+  "fixedBoundary": [
+    "Use the original rootless /usr/bin/podman, exact existing CID/image/uid/volume/mount/port predicates. The archived original Containerfile builds PostgreSQL15.12 with --prefix=/opt/pgsql; the psql role is fixed /opt/pgsql/bin/psql, never /usr/bin/psql or PATH lookup. Actual executable/image checks remain later G2 prerequisites.",
+    "Use only reviewed fixed shell and psql argv. Disable psql startup configuration and password prompts and enforce ON_ERROR_STOP. Never expose a general SQL/query/psql method or accept caller scripts, connection strings, environment overrides or client objects.",
+    "Deliver the credential from the Node parent only over stdin to the fixed private shell wrapper; consume it before SQL and supply it only to the psql child credential environment. Never include it in argv, SQL, echo, logs, command receipts or errors. -W is not a declared stdin password protocol.",
+    "Each full per-database observation must keep all guard/catalog/row queries in one backend connection and one original REPEATABLE READ READ ONLY transaction, with default_transaction_read_only=on and real SHOW results verified inside it. No per-query process/connection substitution, reconnect or cross-database atomicity claim.",
+    "Keep original fixed SQL, table inventory139 per DB, ordering, columns, PostgreSQL text/raw representation, xmin, PK/cells, meta/catalog/DDL/roles/sequences/marker/OIDs/M98/objects and exact snapshot8/row5 result shapes. A transport JSON envelope is acceptable only if the inner raw strings and all original pg.rows types and null/array/number/string distinctions are retained.",
+    "Only confirmed complete output and committed readonly transactions may become complete snapshot/ROG11/E9 facts. Timeout, truncation, malformed framing, uncertain exit or lost COMMIT acknowledgement stays failed/UNKNOWN, preserves existing outputs and primary evidence, and never silently re-samples or restarts services."
+  ],
+  "requiredCodeEvidence": [
+    "Complete candidate module with owned fake process/stdin/stdout fixtures proves one-connection lifetime, exact argv, no secret in argv/log/error, actual SHOW before reads and no callback/client escape.",
+    "Round-trip fixtures cover empty/nonempty rows, NULL, arrays, booleans, integers/text OIDs, Unicode, quotes/newlines and exact raw/xmin/cells ordering against original capture/comparison functions.",
+    "Partial output, command error, duplicate/missing/end framing and secondary receipt failures preserve true uncertainty. Code qualification and exact actual G2 remain separate."
+  ],
+  "officialBasis": [
+    {
+      "url": "https://www.postgresql.org/docs/15/app-psql.html",
+      "supports": "psql -X disables startup files; -w avoids password prompts; ON_ERROR_STOP stops script processing with error status."
+    },
+    {
+      "url": "https://www.postgresql.org/docs/15/libpq-envars.html",
+      "supports": "PGPASSWORD and PGOPTIONS supply libpq connection password and options; credentials remain private child state."
+    },
+    {
+      "url": "https://www.postgresql.org/docs/15/sql-set-transaction.html",
+      "supports": "REPEATABLE READ visibility belongs to the current transaction and READ ONLY mode must be established before its reads."
+    },
+    {
+      "url": "https://www.postgresql.org/docs/15/functions-json.html",
+      "supports": "row_to_json preserves composite structure while SQL text values remain escaped JSON strings; exact transport shape still requires qualification."
+    }
+  ],
+  "limits": "No container, psql, P, proc/env, SQL/HTTP or WSL was executed or inspected. This finite contract review is for the named Root technical G3 checkpoint only; it is not code-ready or actual-data conservation evidence."
+}

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { ProjectStore, ProjectWorkspaceStore } from '@poms/admin-data-access';
+import { AuthStore, ProjectStore, ProjectWorkspaceStore } from '@poms/admin-data-access';
 import type { ProjectWorkspaceEntryView } from '@poms/admin-data-access';
 import { ButtonModule } from 'primeng/button';
 import { ProjectContextHeader } from '../../shared/ui/project-context-header';
@@ -66,6 +66,7 @@ import { projectStageLabelOrFallback, projectStageSeverityOrFallback, projectSta
     `
 })
 export class ProjectCommissionShell implements OnInit, OnDestroy {
+    readonly #authStore = inject(AuthStore);
     readonly #route = inject(ActivatedRoute);
     readonly #router = inject(Router);
     readonly #projectStore = inject(ProjectStore);
@@ -112,14 +113,19 @@ export class ProjectCommissionShell implements OnInit, OnDestroy {
         const keys = ['commission-freeze-binding', 'commission-gate-overview', 'commission-final-settlement', 'commission-rule-explanation', 'commission-operations'];
         const entries = this.guidance()?.recommendedEntries ?? [];
 
-        return keys.map((key) => this.#toNavItem(key, entries)).filter((item): item is WorkspaceNavItem => item !== null);
+        const items = keys.map((key) => this.#toNavItem(key, entries)).filter((item): item is WorkspaceNavItem => item !== null);
+        if (this.#authStore.hasAnyPermission(['commission:low-down-payment:approve'])) {
+            items.push({ label: '管理层批准', routerLink: ['/projects', this.projectId(), 'commission', 'low-down-payment'], enabled: true });
+        }
+        return items;
     });
 
     ngOnInit() {
         const projectId = this.projectId();
         if (projectId) {
-            void this.#projectStore.loadProject(projectId);
-            void this.#workspaceStore.loadGuidance(projectId).catch(() => undefined);
+            void this.#projectStore.loadProject(projectId).then(() => this.#workspaceStore.loadGuidance(projectId)).catch(() => {
+                void this.#router.navigate(['/projects', projectId]);
+            });
         }
     }
 
@@ -145,7 +151,7 @@ export class ProjectCommissionShell implements OnInit, OnDestroy {
 
     reloadGuidance() {
         const projectId = this.projectId();
-        if (projectId) {
+        if (projectId && this.project()?.id === projectId) {
             void this.#workspaceStore.loadGuidance(projectId).catch(() => undefined);
         }
     }

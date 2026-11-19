@@ -1,0 +1,800 @@
+--- a/tools/rust-r4ghi/business/faults.mjs
++++ b/tools/rust-r4ghi/business/faults.mjs
+@@ -14,6 +14,9 @@
+   });
+ }
+ export async function installFault(ctx, descriptor, requestId, before) {
++  if (descriptor.kind === 'source-bound-required-write-sweep17') {
++    const { installSweepFault } = await import('./fault-sweep.mjs'); return installSweepFault(ctx, descriptor, requestId, before);
++  }
+   assert(!ctx.state.activeFault, 'Disarm any prior exact owned FI before a new attempt');
+   assert(/^[a-zA-Z0-9_-]{1,100}$/.test(requestId));
+   const table = descriptor.table, meta = before.databases[ctx.database].tables[table]; assert(meta);
+@@ -59,6 +62,9 @@
+   return control;
+ }
+ export async function removeFault(ctx) {
++  if (ctx.state.activeFault?.kind === 'source-bound-required-write-sweep17') {
++    const { removeSweepFault } = await import('./fault-sweep.mjs'); return removeSweepFault(ctx);
++  }
+   const control = ctx.state.activeFault; assert(control);
+   assert.equal(definitionHash(await identity(ctx, control)), control.identitySHA, 'Never disarm changed or foreign control objects');
+   const hits = await ctx.db(async c => (await c.query(`SELECT last_value::text,is_called FROM r4ghi_control.${quote(control.sequence)}`)).rows[0]);
+--- a/tools/rust-r4ghi/business/roles.mjs
++++ b/tools/rust-r4ghi/business/roles.mjs
+@@ -1,57 +1,65 @@
+-import assert from 'node:assert/strict';
+-import { data, uuid } from './pure.mjs';
+-import { restrictExecutionRole, executionAdmissionFromEO } from './execution-admission.mjs';
+-
+-const rv = row => { assert(Number.isSafeInteger(row?.rowVersion) && row.rowVersion > 0 && row.rowVersion <= 2147483647); return row.rowVersion; };
+-export async function rolesAndExecution(ctx, api, { auditFaults = false } = {}) {
+-  const f = ctx.state.fixtures; assert(f.handoverComplete && !f.executionComplete);
+-  await restrictExecutionRole(ctx, api);
+-  const call = async (op, params, body = null, binding = {}, actor = 'manager') => data(await api.request(op, params, body, actor, binding));
+-  const write = async (op, params, body, binding, actor = 'manager') => {
+-    if (!auditFaults) return call(op, params, body, binding, actor);
+-    const { faultAndRetry } = await import('./faults.mjs');
+-    const pair = await faultAndRetry(ctx, api, { operationId: op, params, body, binding, actor,
+-      fault: { table: 'audit_log', event: 'INSERT', field: 'request_id', eventType: op } });
+-    f.requiredAuditFaults ??= {}; f.requiredAuditFaults[op] = pair.receipt; ctx.persist(); return data(pair.successful);
+-  };
+-  const participants = [
+-    { userId: ctx.state.actors.manager.id, roleType: 'sales-owner', weight: 0.5, zeroWeightReason: null, responsibilitySummary: '真实项目M承担销售主责。' },
+-    { userId: ctx.state.actors.execution.id, roleType: 'execution-owner', weight: 0.499999, zeroWeightReason: null, responsibilitySummary: '真实EO承担交付执行职责。' },
+-    { userId: ctx.state.actors.finance.id, roleType: 'finance', weight: 0.000001, zeroWeightReason: null, responsibilitySummary: '真实财务参与者承担回款核验职责，精确百万分之一。' },
+-    { userId: ctx.state.actors.manager.id, roleType: 'business-admin', weight: 0, zeroWeightReason: '本次真实兼任商务资料治理职责，不另计提成权重。', responsibilitySummary: '真实M兼任已确认的商务资料治理职责。' },
+-  ];
+-  if (!f.roleAssignment) {
+-    const current = await call('CommissionController_getCurrentRoleAssignment', { projectId: f.project.id }); assert.equal(current, null, 'Fresh project must have actual 200/null current assignment');
+-    if (!f.roleWeightNegativesComplete) {
+-      const base = { inputVersion: 'server-derived-v1', expectedCurrentAssignmentId: null, expectedCurrentRowVersion: null, participants };
+-      for (const token of ['1e-7', '0.10000000000000001']) {
+-        const rawJson = JSON.stringify(base).replace('"weight":0.5', `"weight":${token}`); assert.notEqual(rawJson, JSON.stringify(base));
+-        await call('CommissionController_createRoleAssignment', { projectId: f.project.id }, null, { rawJson, expectedStatus: 400 });
+-        assert.equal(await call('CommissionController_getCurrentRoleAssignment', { projectId: f.project.id }), null, 'Rejected precision may not create any assignment');
+-      }
+-      f.roleWeightNegativesComplete = true; ctx.persist();
+-    }
+-    f.roleAssignment = await write('CommissionController_createRoleAssignment', { projectId: f.project.id }, { inputVersion: 'server-derived-v1', expectedCurrentAssignmentId: null, expectedCurrentRowVersion: null, participants },
+-      { responseBirths: [{ table: 'commission_role_assignment', pointer: '/id' }] }); ctx.persist();
+-  }
+-  let detail = await call('CommissionRoleAssignmentController_getRoleAssignmentDetail', { id: f.roleAssignment.id });
+-  if (detail.freezeVersionSummary.status !== 'frozen') {
+-    const handover = await call('ProjectHandoverController_getProjectHandoverDetailByProject', { projectId: f.project.id });
+-    f.roleFreezeResult = await write('CommissionRoleAssignmentController_freezeRoleAssignment', { id: f.roleAssignment.id }, { inputVersion: 'server-derived-v1', sourceHandoverId: uuid(handover.handoverId),
+-      handoverSummarySnapshotId: uuid(handover.summarySnapshotId), handoverBasisSnapshotId: uuid(handover.handoverBasisSnapshotId), expectedSourceHash: handover.sourcePayloadHash,
+-      expectedHandoverVersion: rv(handover), expectedVersion: rv(detail.freezeVersionSummary), comment: '按真实本人职责、固定材料和精确百万分权重冻结本项目角色。' },
+-      { mutableTables: ['commission_role_assignment', 'project_handover', 'approval_summary_snapshot'], updatedAnchors: [{ table: 'commission_role_assignment', id: f.roleAssignment.id, requestBinding: 'path:id' }] }); ctx.persist();
+-  }
+-  detail = await call('CommissionRoleAssignmentController_getRoleAssignmentDetail', { id: f.roleAssignment.id });
+-  assert.equal(detail.freezeVersionSummary.status, 'frozen'); assert.equal(detail.sourceQualification, 'verified-producer');
+-  assert(detail.freezeVersionSummary.participantsJson.some(p => p.weightExact === '0.000001') && detail.freezeVersionSummary.participantsJson.some(p => p.weightExact === '0.000000' && p.zeroWeightReason));
+-  f.frozenRoleDetail = detail;
+-  const { body: executionBody } = await executionAdmissionFromEO(ctx, api);
+-  f.execution = await write('ProjectController_startExecution', { id: f.project.id }, executionBody,
+-    { responseBirths: [{ table: 'project_stage_record', pointer: '/projectStageRecordId' }], mutableTables: ['project'], updatedAnchors: [{ table: 'project', id: f.project.id, requestBinding: 'path:id' }] }, 'execution');
+-  assert.equal(f.execution.businessStatusAfter, 'execution'); assert.equal(f.execution.enteredBy, ctx.state.actors.execution.id);
+-  f.executionComplete = true; ctx.persist();
+-  return { kind: 'actual-minimal-R5-and-EO-controlled-execution', completed: true, roleOperations: 4, precisionNegatives: 2, acceptedExactMillionth: true, frozenZeroReasonMember: true,
+-    EOProfile: 'actual-project-read-write-only', RoleGETForEO: 'actual403', executionAdmission: 'actual-EO-ProjectDetail-six-refs',
+-    fullR5Claim: false, requiredAuditFI: auditFaults ? 'only-actually-recorded-families-in-this-stage' : 'not-run', directDatabaseRoleMutationTests: 'not-run', nextStage: 'actual-costs-and-operating', G3Certified: false, G4Certified: false };
+-}
++import assert from 'node:assert/strict';
++import { data, uuid } from './pure.mjs';
++import { restrictExecutionRole, executionAdmissionFromEO } from './execution-admission.mjs';
++
++const rv = row => { assert(Number.isSafeInteger(row?.rowVersion) && row.rowVersion > 0 && row.rowVersion <= 2147483647); return row.rowVersion; };
++export async function rolesAndExecution(ctx, api, { auditFaults = false, requiredWriteSweep = false } = {}) {
++  const f = ctx.state.fixtures; assert(f.handoverComplete && !f.executionComplete);
++  if (requiredWriteSweep && f.roleAssignment) assert(f.requiredWriteSweepReceipts?.CommissionController_createRoleAssignment, 'A preexisting ordinary draft cannot be claimed as create FI coverage; use an eligible fresh stage');
++  if (requiredWriteSweep && f.roleFreezeResult) assert(f.requiredWriteSweepReceipts?.CommissionRoleAssignmentController_freezeRoleAssignment, 'A previously successful ordinary freeze is not FI coverage');
++  await restrictExecutionRole(ctx, api);
++  const call = async (op, params, body = null, binding = {}, actor = 'manager') => data(await api.request(op, params, body, actor, binding));
++  const write = async (op, params, body, binding, actor = 'manager') => {
++    if (requiredWriteSweep) {
++      const { faultSweepAndRetry } = await import('./fault-sweep.mjs');
++      const result = await faultSweepAndRetry(ctx, api, { operationId: op, params, body, binding, actor });
++      f.requiredWriteSweepReceipts ??= {}; f.requiredWriteSweepReceipts[op] = result.receipt; ctx.persist(); return data(result.successful);
++    }
++    if (!auditFaults) return call(op, params, body, binding, actor);
++    const { faultAndRetry } = await import('./faults.mjs');
++    const pair = await faultAndRetry(ctx, api, { operationId: op, params, body, binding, actor,
++      fault: { table: 'audit_log', event: 'INSERT', field: 'request_id', eventType: op } });
++    f.requiredAuditFaults ??= {}; f.requiredAuditFaults[op] = pair.receipt; ctx.persist(); return data(pair.successful);
++  };
++  const participants = [
++    { userId: ctx.state.actors.manager.id, roleType: 'sales-owner', weight: 0.5, zeroWeightReason: null, responsibilitySummary: '真实项目M承担销售主责。' },
++    { userId: ctx.state.actors.execution.id, roleType: 'execution-owner', weight: 0.499999, zeroWeightReason: null, responsibilitySummary: '真实EO承担交付执行职责。' },
++    { userId: ctx.state.actors.finance.id, roleType: 'finance', weight: 0.000001, zeroWeightReason: null, responsibilitySummary: '真实财务参与者承担回款核验职责，精确百万分之一。' },
++    { userId: ctx.state.actors.manager.id, roleType: 'business-admin', weight: 0, zeroWeightReason: '本次真实兼任商务资料治理职责，不另计提成权重。', responsibilitySummary: '真实M兼任已确认的商务资料治理职责。' },
++  ];
++  if (!f.roleAssignment) {
++    const current = await call('CommissionController_getCurrentRoleAssignment', { projectId: f.project.id }); assert.equal(current, null, 'Fresh project must have actual 200/null current assignment');
++    if (!f.roleWeightNegativesComplete) {
++      const base = { inputVersion: 'server-derived-v1', expectedCurrentAssignmentId: null, expectedCurrentRowVersion: null, participants };
++      for (const token of ['1e-7', '0.10000000000000001']) {
++        const rawJson = JSON.stringify(base).replace('"weight":0.5', `"weight":${token}`); assert.notEqual(rawJson, JSON.stringify(base));
++        await call('CommissionController_createRoleAssignment', { projectId: f.project.id }, null, { rawJson, expectedStatus: 400 });
++        assert.equal(await call('CommissionController_getCurrentRoleAssignment', { projectId: f.project.id }), null, 'Rejected precision may not create any assignment');
++      }
++      f.roleWeightNegativesComplete = true; ctx.persist();
++    }
++    f.roleAssignment = await write('CommissionController_createRoleAssignment', { projectId: f.project.id }, { inputVersion: 'server-derived-v1', expectedCurrentAssignmentId: null, expectedCurrentRowVersion: null, participants },
++      { responseBirths: [{ table: 'commission_role_assignment', pointer: '/id' }] }); ctx.persist();
++  }
++  let detail = await call('CommissionRoleAssignmentController_getRoleAssignmentDetail', { id: f.roleAssignment.id });
++  if (detail.freezeVersionSummary.status !== 'frozen') {
++    const handover = await call('ProjectHandoverController_getProjectHandoverDetailByProject', { projectId: f.project.id });
++    f.roleFreezeResult = await write('CommissionRoleAssignmentController_freezeRoleAssignment', { id: f.roleAssignment.id }, { inputVersion: 'server-derived-v1', sourceHandoverId: uuid(handover.handoverId),
++      handoverSummarySnapshotId: uuid(handover.summarySnapshotId), handoverBasisSnapshotId: uuid(handover.handoverBasisSnapshotId), expectedSourceHash: handover.sourcePayloadHash,
++      expectedHandoverVersion: rv(handover), expectedVersion: rv(detail.freezeVersionSummary), comment: '按真实本人职责、固定材料和精确百万分权重冻结本项目角色。' },
++      { mutableTables: ['commission_role_assignment', 'project_handover', 'approval_summary_snapshot'], updatedAnchors: [{ table: 'commission_role_assignment', id: f.roleAssignment.id, requestBinding: 'path:id' }] }); ctx.persist();
++  }
++  if (requiredWriteSweep) assert(f.requiredWriteSweepReceipts?.CommissionRoleAssignmentController_freezeRoleAssignment, 'Actual frozen status alone is not required-write sweep evidence');
++  detail = await call('CommissionRoleAssignmentController_getRoleAssignmentDetail', { id: f.roleAssignment.id });
++  assert.equal(detail.freezeVersionSummary.status, 'frozen'); assert.equal(detail.sourceQualification, 'verified-producer');
++  assert(detail.freezeVersionSummary.participantsJson.some(p => p.weightExact === '0.000001') && detail.freezeVersionSummary.participantsJson.some(p => p.weightExact === '0.000000' && p.zeroWeightReason));
++  f.frozenRoleDetail = detail;
++  const { body: executionBody } = await executionAdmissionFromEO(ctx, api);
++  f.execution = await write('ProjectController_startExecution', { id: f.project.id }, executionBody,
++    { responseBirths: [{ table: 'project_stage_record', pointer: '/projectStageRecordId' }], mutableTables: ['project'], updatedAnchors: [{ table: 'project', id: f.project.id, requestBinding: 'path:id' }] }, 'execution');
++  assert.equal(f.execution.businessStatusAfter, 'execution'); assert.equal(f.execution.enteredBy, ctx.state.actors.execution.id);
++  f.executionComplete = true; ctx.persist();
++  return { kind: 'actual-minimal-R5-and-EO-controlled-execution', completed: true, roleOperations: 4, precisionNegatives: 2, acceptedExactMillionth: true, frozenZeroReasonMember: true,
++    EOProfile: 'actual-project-read-write-only', RoleGETForEO: 'actual403', executionAdmission: 'actual-EO-ProjectDetail-six-refs',
++    fullR5Claim: false, requiredWriteFI: requiredWriteSweep ? 'all-source-listed-families-actually-hit1-and-one-success' : 'not-run', requiredAuditFI: auditFaults ? 'only-actually-recorded-families-in-this-stage' : 'not-run', directDatabaseRoleMutationTests: 'not-run', nextStage: 'actual-costs-and-operating', G3Certified: false, G4Certified: false };
++}
+--- a/tools/rust-r4ghi/business/lifecycle.mjs
++++ b/tools/rust-r4ghi/business/lifecycle.mjs
+@@ -11,22 +11,35 @@
+   for (const task of parent.ownTasks) { exactKeys(task, ['conditionId', 'conditionRowVersion', 'summary', 'responsibleUserId', 'dueAt', 'status', 'evidenceRefs', 'closure']); assert.equal(task.responsibleUserId, actorId); }
+   return parent;
+ }
+-export async function lifecycleAcceptance(ctx, api) {
++export async function lifecycleAcceptance(ctx, api, { requiredWriteSweep = false } = {}) {
+   const f = ctx.state.fixtures; assert(f.executionComplete && !f.lifecycleComplete);
++  if (requiredWriteSweep) {
++    const prior = [['acceptanceEntry', 'ProjectController_startAcceptance', f.project.id], ['finalAcceptance', 'ProjectController_createAcceptanceRecord', f.project.id],
++      ['completion', 'ProjectController_createProjectCompletionRecord', f.project.id], ['archive', 'ProjectController_createProjectArchiveRecord', f.project.id],
++      ['replacementArchive', 'ProjectArchiveRecordController_replaceProjectArchiveRecord', f.archive?.id], ['archiveVoided', 'ProjectArchiveRecordController_voidProjectArchiveRecord', f.replacementArchive?.id]];
++    for (const [field, operationId, id] of prior) if (f[field]) assert(f.requiredWriteSweepReceipts?.[operationId + ':' + id], `Existing ordinary ${field} is not FI coverage`);
++    for (const closed of Object.values(f.conditionClosures ?? {}).map(c => c.closed).filter(Boolean)) assert(f.requiredWriteSweepReceipts?.['ProjectCompletionRecordController_closeCompletionCondition:' + closed.conditionId], 'Existing ordinary closure is not FI coverage');
++  }
+   const call = async (op, params, body = null, binding = {}, actor = 'execution') => data(await api.request(op, params, body, actor, binding));
++  const write = async (op, params, body, binding, actor = 'execution') => {
++    if (!requiredWriteSweep) return call(op, params, body, binding, actor);
++    const { faultSweepAndRetry } = await import('./fault-sweep.mjs');
++    const result = await faultSweepAndRetry(ctx, api, { operationId: op, params, body, binding, actor });
++    f.requiredWriteSweepReceipts ??= {}; f.requiredWriteSweepReceipts[op + ':' + (params.id ?? params.projectId ?? '')] = result.receipt; ctx.persist(); return data(result.successful);
++  };
+   const projectRead = () => call('ProjectController_getById', { id: f.project.id });
+   if (!f.deliveryEvidence) { f.deliveryEvidence = await uploadEvidence(ctx, api, { actor: 'execution', key: 'delivery', text: `POMS ${ctx.state.prefix}\nProject ${f.project.id}\nActual HTTP uploaded delivery evidence for this isolated acceptance fixture.\n` }); ctx.persist(); }
+   const refs = [{ attachmentLinkId: uuid(f.deliveryEvidence.attachmentLinkId) }];
+   if (!f.acceptanceEntry) {
+     f.project = await projectRead();
+-    f.acceptanceEntry = await call('ProjectController_startAcceptance', { id: f.project.id }, { inputVersion: 'server-derived-v1', expectedProjectVersion: rv(f.project),
++    f.acceptanceEntry = await write('ProjectController_startAcceptance', { id: f.project.id }, { inputVersion: 'server-derived-v1', expectedProjectVersion: rv(f.project),
+       executionStageRecordId: uuid(f.execution.projectStageRecordId), evidenceRefs: refs, evidenceSummary: '实际HTTP上传的本隔离验收交付文件。', readinessSummary: '真实执行准入负责人核对交付文件后进入验收。' },
+       { responseBirths: [{ table: 'project_stage_record', pointer: '/projectStageRecordId' }], mutableTables: ['project'], updatedAnchors: [{ table: 'project', id: f.project.id, requestBinding: 'path:id' }] }); ctx.persist();
+   }
+   assert.equal(f.acceptanceEntry.businessStatusAfter, 'acceptance');
+   if (!f.finalAcceptance) {
+     f.project = await projectRead();
+-    f.finalAcceptance = await call('ProjectController_createAcceptanceRecord', { projectId: f.project.id }, { inputVersion: 'server-derived-v1', acceptanceType: 'final-acceptance', acceptanceResult: 'conditional',
++    f.finalAcceptance = await write('ProjectController_createAcceptanceRecord', { projectId: f.project.id }, { inputVersion: 'server-derived-v1', acceptanceType: 'final-acceptance', acceptanceResult: 'conditional',
+       scopeSummary: '本隔离验收项目整体最终验收。', evidenceSummary: '核对实际交付附件与同链执行事实。', conditionalSummary: '由两名真实责任人分别补交独立关闭文件后才能归档。',
+       expectedProjectVersion: rv(f.project), evidenceRefs: refs, acceptanceStageRecordId: uuid(f.acceptanceEntry.projectStageRecordId) },
+       { responseBirths: [{ table: 'acceptance_record', pointer: '/id' }] }); ctx.persist();
+@@ -36,7 +49,7 @@
+     f.conditionAInitial = await uploadEvidence(ctx, api, { actor: 'execution', key: 'condition-a-initial', text: `POMS ${ctx.state.prefix}\nOnly condition A initial instruction/evidence. No parent acceptance or condition B materials.\n` });
+     f.conditionBInitial = await uploadEvidence(ctx, api, { actor: 'execution', key: 'condition-b-initial', text: `POMS ${ctx.state.prefix}\nOnly condition B initial instruction/evidence. No parent acceptance or condition A materials.\n` });
+     f.conditionDueAt ??= new Date(Date.now() + 7 * 86400000).toISOString(); f.project = await projectRead(); ctx.persist();
+-    f.completion = await call('ProjectController_createProjectCompletionRecord', { projectId: f.project.id }, { inputVersion: 'server-derived-v1', acceptanceRecordId: uuid(f.finalAcceptance.id), expectedAcceptanceVersion: rv(f.finalAcceptance),
++    f.completion = await write('ProjectController_createProjectCompletionRecord', { projectId: f.project.id }, { inputVersion: 'server-derived-v1', acceptanceRecordId: uuid(f.finalAcceptance.id), expectedAcceptanceVersion: rv(f.finalAcceptance),
+       completionResult: 'conditional-completed', completedAt: await ctx.instant(), completionSummary: '按真实最终附条件验收记录附条件完工，原始结论保持不可变。', evidenceSummary: '实际交付文件及两项独立责任任务。',
+       expectedProjectVersion: rv(f.project), evidenceRefs: refs, completionConditions: [
+         { summary: '责任人A本人上传本任务新purpose文件并提交关闭。', responsibleUserId: ctx.state.actors.condition.id, dueAt: f.conditionDueAt, evidenceRefs: [{ attachmentLinkId: f.conditionAInitial.attachmentLinkId }] },
+@@ -67,7 +80,7 @@
+       await call('ProjectCompletionRecordController_closeCompletionCondition', params, body, { expectedStatus: 403 }, 'manager');
+       f.conditionClosures[actor] = { wrongActorBlocked: true }; ctx.persist();
+     }
+-    const closed = await call('ProjectCompletionRecordController_closeCompletionCondition', params, body,
++    const closed = await write('ProjectCompletionRecordController_closeCompletionCondition', params, body,
+       { responseBirths: [{ table: 'project_completion_condition_closure', pointer: '/closureRecordId' }], mutableTables: ['project_completion_record', 'project_completion_condition'],
+         updatedAnchors: [{ table: 'project_completion_record', id: f.completion.id, requestBinding: 'path:completionRecordId' }, { table: 'project_completion_condition', id: currentTask.conditionId, requestBinding: 'path:id' }] }, actor);
+     exactKeys(closed, Object.keys(api.spec.components.schemas.OwnConditionCloseResult.properties)); assert.equal(closed.scopeKind, 'own-condition-only'); assert.equal(closed.closedBy, actorId);
+@@ -80,16 +93,16 @@
+   const original = completed.items.find(item => item.id === f.completion.id); assert.equal(original.completionResult, 'conditional-completed'); assert.equal(original.conditionStatus, 'closed');
+   if (!f.archive) {
+     f.project = await projectRead();
+-    f.archive = await call('ProjectController_createProjectArchiveRecord', { projectId: f.project.id }, { inputVersion: 'server-derived-v1', archivedAt: await ctx.instant(), archiveSummary: '两项真实本人关闭后归档；附属里程碑不改变原附条件完工结论。',
++    f.archive = await write('ProjectController_createProjectArchiveRecord', { projectId: f.project.id }, { inputVersion: 'server-derived-v1', archivedAt: await ctx.instant(), archiveSummary: '两项真实本人关闭后归档；附属里程碑不改变原附条件完工结论。',
+       evidenceSummary: '引用服务器已聚合全部关闭的真实完成事实。', expectedProjectVersion: rv(f.project) }, { responseBirths: [{ table: 'project_archive_record', pointer: '/id' }] }); ctx.persist();
+   }
+   if (!f.replacementArchive) {
+-    f.replacementArchive = await call('ProjectArchiveRecordController_replaceProjectArchiveRecord', { id: f.archive.id }, { inputVersion: 'server-derived-v1', expectedVersion: rv(f.archive), archivedAt: await ctx.instant(),
++    f.replacementArchive = await write('ProjectArchiveRecordController_replaceProjectArchiveRecord', { id: f.archive.id }, { inputVersion: 'server-derived-v1', expectedVersion: rv(f.archive), archivedAt: await ctx.instant(),
+       archiveSummary: '真实归档修订版本，保留前驱不可变事实。', evidenceSummary: '沿同一已全部关闭的完成事实修订归档说明。', replacementReason: '本隔离验收实际验证归档替代版本链。' },
+       { responseBirths: [{ table: 'project_archive_record', pointer: '/id' }], mutableTables: ['project_archive_record'], updatedAnchors: [{ table: 'project_archive_record', id: f.archive.id, requestBinding: 'path:id' }] }); ctx.persist();
+   }
+   if (!f.archiveVoided) {
+-    f.archiveVoided = await call('ProjectArchiveRecordController_voidProjectArchiveRecord', { id: f.replacementArchive.id }, { inputVersion: 'server-derived-v1', expectedVersion: rv(f.replacementArchive), reason: '实际验收撤销当前归档，保留审计与原终态。' },
++    f.archiveVoided = await write('ProjectArchiveRecordController_voidProjectArchiveRecord', { id: f.replacementArchive.id }, { inputVersion: 'server-derived-v1', expectedVersion: rv(f.replacementArchive), reason: '实际验收撤销当前归档，保留审计与原终态。' },
+       { mutableTables: ['project_archive_record'], updatedAnchors: [{ table: 'project_archive_record', id: f.replacementArchive.id, requestBinding: 'path:id' }] }); ctx.persist();
+   }
+   const archives = await call('ProjectController_listProjectArchiveRecords', { projectId: f.project.id }); assert(archives.some(row => row.id === f.replacementArchive.id && row.status === 'voided'));
+@@ -97,5 +110,5 @@
+   f.lifecycleComplete = true; ctx.persist();
+   return { kind: 'actual-conditional-final-acceptance-own-purpose-close-archive-chain', completed: true, conditionalConclusionPreserved: true,
+     ownTaskClosures: 2, pendingArchiveBlocked: true, wrongActorClosesBlocked: 2, ownPurposeBindings: 2, actualDualUUIDCloseRoute: true,
+-    archiveReplaceAndVoidPreserveStage: true, racesAndCrossParentCases: 'not-run', G3Certified: false, G4Certified: false };
++    requiredWriteFI: requiredWriteSweep ? 'all-source-listed-families-actually-hit1-and-one-success' : 'not-run', archiveReplaceAndVoidPreserveStage: true, racesAndCrossParentCases: 'not-run', G3Certified: false, G4Certified: false };
+ }
+--- a/tools/rust-r4ghi/business/upstream.mjs
++++ b/tools/rust-r4ghi/business/upstream.mjs
+@@ -83,7 +83,9 @@
+   if (stage === 'receipt') { const { receipts } = await import('./handover.mjs'); return receipts(ctx, api); }
+   if (stage === 'handover') { const { handover } = await import('./handover.mjs'); return handover(ctx, api); }
+   if (stage === 'roles-and-execution') { const { rolesAndExecution } = await import('./roles.mjs'); return rolesAndExecution(ctx, api); }
++  if (stage === 'roles-and-execution-sweep') { const { rolesAndExecution } = await import('./roles.mjs'); return rolesAndExecution(ctx, api, { requiredWriteSweep: true }); }
+   if (stage === 'roles-and-execution-fi') { const { rolesAndExecution } = await import('./roles.mjs'); return rolesAndExecution(ctx, api, { auditFaults: true }); }
++  if (stage === 'lifecycle-sweep') { const { lifecycleAcceptance } = await import('./lifecycle.mjs'); return lifecycleAcceptance(ctx, api, { requiredWriteSweep: true }); }
+   if (stage === 'lifecycle') { const { lifecycleAcceptance } = await import('./lifecycle.mjs'); return lifecycleAcceptance(ctx, api); }
+   if (stage === 'actual-costs') { const { actualExpenseAndStage } = await import('./costs.mjs'); return actualExpenseAndStage(ctx, api); }
+   if (stage === 'operating') { const { operatingCaptureAndReview } = await import('./operating.mjs'); return operatingCaptureAndReview(ctx, api); }
+--- a/tools/rust-r4ghi/business/driver.mjs
++++ b/tools/rust-r4ghi/business/driver.mjs
+@@ -9,7 +9,7 @@
+ 
+ export const HELP = `business/driver.mjs preflight|baseline|run|report|cycle-sandbox|disarm-fi|plan-cleanup|apply-cleanup|noop
+   --epoch NEW_BUSINESS_EPOCH --run RUN [--phase UNIQUE_PHASE]
+-  [--stage platform|project-sources|summary|contract-prepare|contract-finish|receipt|handover|roles-and-execution|actual-costs|operating|lifecycle]
++  [--stage platform|project-sources|summary|contract-prepare|contract-finish|receipt|handover|roles-and-execution|roles-and-execution-sweep|actual-costs|operating|lifecycle|lifecycle-sweep]
+   [--provision-receipt ORIGINAL_NAMESPACE_PROVISION_JSON]
+   [--api-process-record PRIVATE_ACTUAL_PROCESS_JSON]
+   [--approved-plan-sha SHA --api-stopped-receipt PRIVATE_ACTUAL_STOP_JSON]
+--- a/tools/rust-r4ghi/business/README.md
++++ b/tools/rust-r4ghi/business/README.md
+@@ -86,3 +86,15 @@
+ - 全 R5、WORM、真实 lost COMMIT ACK、部署、切流：不在本工具授权范围。
+ 
+ 离线验证命令：`node --test tools/rust-r4ghi/business/foundation.test.mjs`。纯测试使用合成单元输入，只验证工具规则，不是产品验收结果。
++
++## 17 source-bound 必要写逐项失败 sweep（候选，未运行）
++
++Root 可选择 `roles-and-execution-sweep` 与 `lifecycle-sweep`，分别替代尚未执行的普通阶段。16 最小 EO 权限必须先晋升。已普通成功的阶段不能追认为 FI；工具要求相应 immutable sweep receipt，状态 frozen/closed 本身不构成覆盖。原 `roles-and-execution-fi` 仍只是历史 audit-only，不能外推。
++
++`required-write-inventory.mjs` 对当前精确源码绑定 10 operationId、55 个选中必要写家族；两项真实条件分别关闭时实际要 61 次 one-hit 失败、11 次最终成功（此为准备计划，非已运行计数）。Role create 含真实最后 participant，freeze 包含最后 summary field；阶段为 snapshot/field/ledger/project；验收、完工、本人关闭、归档按真实分支分别列出业务表、冻结证据 owner、双 CAS、必要 audit 与实际 pending-auth coflush。条件完工分别命中完成证据和最后一个真实条件证据；不通过猜表追加虚假覆盖。source hashes 任一变化即停，E/F/G/H 未列操作仍未覆盖。
++
++每个命令固定实际同一 body bytes/hash 和 CAS，逐个安装本 run 精确 owned actor/project/source 分支 primary BEFORE 故障与 exact request success audit 的 deferred COMMIT 兜底。primary 非实际 hit1 或兜底命中都不能计覆盖；兜底使 primary 未命中仍回滚并停，不进入最终成功。最后一项 pending-auth 的 selector 只有本 TX 已有 exact request audit 才可命中，排除事务前独立 raw last_seen touch。工具只读取绑定实际 API 进程的两个非秘密 AUTH 设置，等真实时间到期，不 SQL 回填 session；同一实际原 cookie/session 绑定，401/到期必须 Root 真重登。每 5 秒短等、30 秒输出等待状态。最终真实成功也等待实际 pending-auth，以新行/修改行与 exact audit 的真实 xmin 核所有选中必要写均来自同一外层事务。
++
++每次失败观察双库 139 表 PK/完整 bytes/SHA/真实 xmin、catalog/OID/ACL/functions/triggers/sequences、对象 bytes/keys/directories完全回滚；只单列允许精确当前 actor/session 的源代码原始 last_seen touch，其它 audit/security/platform 均不豁免。控制对象按本次独占名称与实际 OID/定义/owner/ACL 核验后移除，`disarm-fi` 已支持这对控制；中断安装且身份不可证时停给 Root 核对，不删除未知对象。私有原件保留，最终 actual success 在任何事后断言前即记录，断言失败不能重放已提交命令。
++
++作者只执行 node syntax 和纯测试；未实际 SQL 安装触发器、未 HTTP、未执行 sweep、未认证完整必要写/竞态/G3/G4。真实 run 原件、hit sequence 和最终事务行是唯一实际覆盖证据。
+--- /dev/null
++++ b/tools/rust-r4ghi/business/required-write-inventory.mjs
+@@ -0,0 +1,142 @@
++// Only source-reviewed Role/I paths below. This is not a list of guessed tables.
++import assert from 'node:assert/strict';
++import { sha, uuid, keyOf } from './pure.mjs';
++import { readRows } from './snapshot.mjs';
++
++const roleSource = 'apps/poms-api-rust/src/commission_assignment/service.rs';
++const lifecycleSource = 'apps/poms-api-rust/src/project_lifecycle/service.rs';
++const factsSource = 'apps/poms-api-rust/src/project_lifecycle/facts.rs';
++const evidenceSource = 'apps/poms-api-rust/src/lifecycle_evidence/mod.rs';
++const authSource = 'apps/poms-api-rust/src/auth/store.rs';
++const auditSource = 'apps/poms-api-rust/src/contract_support/mod.rs';
++
++function entry(key, table, event, match, source, rationale) {
++  return { key, table, event, match, source, rationale };
++}
++export function requiredWriteInventory(operationId, { projectId, actorId, params, body }) {
++  uuid(projectId); uuid(actorId); assert(body && typeof body === 'object');
++  const project = (key = 'project-cas') => entry(key, 'project', 'UPDATE', { kind: 'equals', values: { id: projectId } }, lifecycleSource, 'Actual source calls bump_project or write_stage CAS.');
++  const projectInsert = (key, table, values = {}, source = lifecycleSource) => entry(key, table, 'INSERT', { kind: 'equals', values: { project_id: projectId, ...values } }, source, 'Actual INSERT includes this run owned project FK.');
++  const summaries = (scenario, packageKey, targetType, targetId = null) => {
++    const summary = { kind: 'summary', actorId, scenario, packageKey, targetType, targetId };
++    return [entry('summary-snapshot', 'approval_summary_snapshot', 'INSERT', summary, factsSource, 'facts::summary writes an actor-bound exact scenario/package/type; stage target UUID is allocated later, not fabricated.'),
++      entry('summary-last-field', 'approval_summary_field_projection', 'INSERT', { kind: 'summary-field', summary, fieldOrder: 5 }, factsSource, 'All six fixed fields are mandatory; fail the last field after prior fields were inserted.')];
++  };
++  const stage = (toStage, packageKey) => [...summaries('project-stage-transition', packageKey, 'project-stage-record'),
++    projectInsert('stage-ledger', 'project_stage_record', { to_stage: toStage }, factsSource), project()];
++  const evidence = (owner, refs, extra = {}) => {
++    assert(Array.isArray(refs) && refs.length, 'This FI case must use actual nonempty evidence, not an unexercised conditional branch');
++    return entry(`evidence-${owner}`, 'project_lifecycle_evidence_ref', 'INSERT', { kind: 'evidence', projectId, owner,
++      linkId: uuid(refs.at(-1).attachmentLinkId), ...extra }, evidenceSource, 'Exact last request attachment link and real owner FK branch in lifecycle_evidence::persist.');
++  };
++  let entries;
++  switch (operationId) {
++    case 'CommissionController_createRoleAssignment':
++      assert.equal(body.expectedCurrentAssignmentId, null); assert.equal(body.expectedCurrentRowVersion, null);
++      assert(body.participants?.length > 1);
++      entries = [projectInsert('role-draft', 'commission_role_assignment', {}, roleSource),
++        entry('role-last-participant', 'commission_role_assignment_participant', 'INSERT', { kind: 'participant', projectId, order: body.participants.length - 1 }, roleSource, 'Last actual input participant, joined through the newly inserted real assignment project FK.')];
++      break;
++    case 'CommissionRoleAssignmentController_freezeRoleAssignment':
++      entries = [...summaries('commission-role-freeze', 'commission-role-freeze-confirmation', 'commission-role-assignment', uuid(params.id)),
++        projectInsert('role-freeze-payload', 'commission_role_assignment_freeze_payload', { assignment_id: uuid(params.id) }, roleSource),
++        entry('role-freeze-cas', 'commission_role_assignment', 'UPDATE', { kind: 'equals', values: { id: uuid(params.id), project_id: projectId } }, roleSource, 'Real current draft CAS; D receipt/handover verification is read-only here.')];
++      break;
++    case 'ProjectController_startExecution': entries = stage('execution', 'project-execution-admission'); break;
++    case 'ProjectController_startAcceptance': entries = [...stage('acceptance', 'project-acceptance-admission'), evidence('stage', body.evidenceRefs)]; break;
++    case 'ProjectController_createAcceptanceRecord':
++      entries = [projectInsert('final-acceptance', 'acceptance_record'), evidence('acceptance', body.evidenceRefs), project()]; break;
++    case 'ProjectController_createProjectCompletionRecord': {
++      assert.equal(body.completionResult, 'conditional-completed'); assert(body.completionConditions?.length > 0);
++      const last = body.completionConditions.length - 1;
++      entries = [projectInsert('completion-record', 'project_completion_record'), evidence('completion', body.evidenceRefs),
++        projectInsert('last-completion-condition', 'project_completion_condition', { sort_order: last }),
++        evidence('condition', body.completionConditions[last].evidenceRefs, { conditionOrder: last }),
++        ...stage('conditional-completed', 'project-completion-stage')]; break;
++    }
++    case 'ProjectCompletionRecordController_closeCompletionCondition':
++      entries = [projectInsert('personal-condition-closure', 'project_completion_condition_closure', { condition_id: uuid(params.id), completion_record_id: uuid(params.completionRecordId), closed_by: actorId }),
++        evidence('closure', body.evidenceRefs, { conditionId: uuid(params.id), completionId: uuid(params.completionRecordId) }),
++        entry('condition-dual-cas', 'project_completion_condition', 'UPDATE', { kind: 'equals', values: { id: uuid(params.id), completion_record_id: uuid(params.completionRecordId), project_id: projectId } }, lifecycleSource, 'Exact parent/child/project CAS and actual responsible actor.'),
++        entry('completion-aggregate-cas', 'project_completion_record', 'UPDATE', { kind: 'equals', values: { id: uuid(params.completionRecordId), project_id: projectId } }, lifecycleSource, 'Actual server pending/closed aggregate CAS, without changing original completion conclusion.')]; break;
++    case 'ProjectController_createProjectArchiveRecord': entries = [projectInsert('archive-record', 'project_archive_record'), project()]; break;
++    case 'ProjectArchiveRecordController_replaceProjectArchiveRecord':
++      entries = [entry('archive-predecessor-cas', 'project_archive_record', 'UPDATE', { kind: 'equals', values: { id: uuid(params.id), project_id: projectId } }, lifecycleSource, 'Real recorded predecessor becomes superseded in the same transaction.'),
++        projectInsert('replacement-archive', 'project_archive_record', { supersedes_archive_record_id: uuid(params.id) })]; break;
++    case 'ProjectArchiveRecordController_voidProjectArchiveRecord':
++      entries = [entry('archive-void-cas', 'project_archive_record', 'UPDATE', { kind: 'equals', values: { id: uuid(params.id), project_id: projectId } }, lifecycleSource, 'Actual recorded version CAS; terminal project stage is not rewritten.')]; break;
++    default: throw new Error('No reviewed required-write inventory for this operation; never sweep guessed tables');
++  }
++  entries.push(entry('required-success-audit', 'audit_log', 'INSERT', { kind: 'audit', operationId, actorId, projectId }, auditSource, 'Exact operation/request/actor/project success audit in the business outer transaction.'));
++  entries.push(entry('pending-auth-coflush', 'auth_session', 'UPDATE', { kind: 'auth-coflush', operationId, actorId, projectId }, authSource, 'Only after this request audit exists; raw pre-transaction last_seen touch is deliberately excluded. Real throttle expiry is required.'));
++  assert.equal(new Set(entries.map(e => e.key)).size, entries.length);
++  return entries;
++}
++
++const literal = value => {
++  assert(value === null || typeof value === 'string' && /^[A-Za-z0-9_.:-]{1,150}$/.test(value) || Number.isSafeInteger(value));
++  return value === null ? 'NULL' : `'${value}'`;
++};
++const equalSql = (expression, values) => Object.entries(values).map(([key, value]) => {
++  assert(/^[a-z_][a-z0-9_]*$/.test(key)); return value === null ? `${expression}->>'${key}' IS NULL` : `${expression}->>'${key}'=${literal(value)}`;
++}).join(' AND ');
++function summarySql(expression, m) {
++  return equalSql(expression, { created_by: uuid(m.actorId), approval_scenario_key: m.scenario, summary_package_key: m.packageKey, target_type: m.targetType,
++    ...(m.targetId ? { target_id: uuid(m.targetId) } : {}) });
++}
++export function selectorSql(descriptor, context) {
++  const m = descriptor.match;
++  switch (m.kind) {
++    case 'equals': return equalSql('j', m.values);
++    case 'participant': return `(j->>'sort_order')::int=${m.order} AND EXISTS(SELECT 1 FROM poms.commission_role_assignment a WHERE a.id=(j->>'assignment_id')::uuid AND a.project_id=${literal(uuid(m.projectId))}::uuid)`;
++    case 'summary': return summarySql('j', m);
++    case 'summary-field': return `(j->>'field_order')::int=${m.fieldOrder} AND EXISTS(SELECT 1 FROM poms.approval_summary_snapshot s WHERE s.id=(j->>'summary_snapshot_id')::uuid AND ${summarySql('to_jsonb(s)', m.summary)})`;
++    case 'evidence': {
++      const columns = { stage: 'stage_record_id', acceptance: 'acceptance_record_id', completion: 'completion_record_id', condition: 'completion_condition_id', closure: 'condition_closure_id' };
++      assert(columns[m.owner]); let condition = equalSql('j', { project_id: uuid(m.projectId), attachment_link_id: uuid(m.linkId) }) + ` AND j->>'${columns[m.owner]}' IS NOT NULL`;
++      if (m.owner === 'condition') condition += ` AND EXISTS(SELECT 1 FROM poms.project_completion_condition c WHERE c.id=(j->>'completion_condition_id')::uuid AND c.project_id=${literal(uuid(m.projectId))}::uuid AND c.sort_order=${m.conditionOrder})`;
++      if (m.owner === 'closure') condition += ` AND EXISTS(SELECT 1 FROM poms.project_completion_condition_closure c WHERE c.id=(j->>'condition_closure_id')::uuid AND c.condition_id=${literal(uuid(m.conditionId))}::uuid AND c.completion_record_id=${literal(uuid(m.completionId))}::uuid AND c.project_id=${literal(uuid(m.projectId))}::uuid)`;
++      return condition;
++    }
++    case 'audit': return equalSql('j', { request_id: context.requestId, event_type: m.operationId, operator_id: uuid(m.actorId), result: 'success' }) + ` AND j->'metadata'->>'projectId'=${literal(uuid(m.projectId))}`;
++    case 'auth-coflush': return equalSql('j', { id: uuid(context.sessionId), user_id: uuid(m.actorId) }) + ` AND EXISTS(SELECT 1 FROM poms.audit_log a WHERE a.request_id=${literal(context.requestId)} AND a.event_type=${literal(m.operationId)} AND a.operator_id=${literal(uuid(m.actorId))}::uuid AND a.result='success' AND a.metadata->>'projectId'=${literal(uuid(m.projectId))})`;
++    default: throw new Error('Unrecognized reviewed FI selector');
++  }
++}
++
++function summaryMatches(value, m) {
++  return value.created_by === m.actorId && value.approval_scenario_key === m.scenario && value.summary_package_key === m.packageKey && value.target_type === m.targetType && (!m.targetId || value.target_id === m.targetId);
++}
++export function writeMatches(descriptor, row, allRows, context) {
++  const v = JSON.parse(row.raw), m = descriptor.match;
++  const lookup = (table, id) => allRows(table).map(r => JSON.parse(r.raw)).find(r => r.id === id);
++  switch (m.kind) {
++    case 'equals': return Object.entries(m.values).every(([k, value]) => v[k] === value);
++    case 'participant': return v.sort_order === m.order && lookup('commission_role_assignment', v.assignment_id)?.project_id === m.projectId;
++    case 'summary': return summaryMatches(v, m);
++    case 'summary-field': return v.field_order === m.fieldOrder && summaryMatches(lookup('approval_summary_snapshot', v.summary_snapshot_id) ?? {}, m.summary);
++    case 'evidence': {
++      const columns = { stage: 'stage_record_id', acceptance: 'acceptance_record_id', completion: 'completion_record_id', condition: 'completion_condition_id', closure: 'condition_closure_id' };
++      if (v.project_id !== m.projectId || v.attachment_link_id !== m.linkId || !v[columns[m.owner]]) return false;
++      if (m.owner === 'condition') { const c = lookup('project_completion_condition', v.completion_condition_id); return c?.project_id === m.projectId && c.sort_order === m.conditionOrder; }
++      if (m.owner === 'closure') { const c = lookup('project_completion_condition_closure', v.condition_closure_id); return c?.project_id === m.projectId && c.condition_id === m.conditionId && c.completion_record_id === m.completionId; }
++      return true;
++    }
++    case 'audit': return v.request_id === context.requestId && v.event_type === m.operationId && v.operator_id === m.actorId && v.result === 'success' && v.metadata?.projectId === m.projectId;
++    case 'auth-coflush': return v.id === context.sessionId && v.user_id === m.actorId;
++    default: throw new Error('Unrecognized required-write descriptor');
++  }
++}
++
++export function requireOwnedScope(ctx, before, { projectId, actorId, actorKey }) {
++  const actor = ctx.state.actors[actorKey]; assert.equal(actor?.id, actorId);
++  for (const [table, id] of [['project', projectId], ['platform_user', actorId]]) assert(ctx.state.owned[keyOf(ctx.database, table, [uuid(id)])], 'FI may target only this run owned project and actor');
++  assert(actor.cookies?.poms_session);
++  const hash = sha(decodeURIComponent(actor.cookies.poms_session));
++  const sessions = readRows(before.databases[ctx.database].tables.auth_session).filter(r => {
++    const value = JSON.parse(r.raw); return value.token_hash === hash && value.user_id === actorId && value.status === 'active';
++  });
++  assert.equal(sessions.length, 1, 'Real current actor cookie must bind exactly one actual active owned session');
++  assert(ctx.state.owned[keyOf(ctx.database, 'auth_session', sessions[0].key)]);
++  return uuid(sessions[0].key[0]);
++}
+--- /dev/null
++++ b/tools/rust-r4ghi/business/fault-sweep.mjs
+@@ -0,0 +1,249 @@
++// Root-only real FI controls; importing this file performs no SQL, HTTP or I/O.
++import fs from 'node:fs';
++import assert from 'node:assert/strict';
++import { setTimeout as delay } from 'node:timers/promises';
++import { sha, quote, uuid, keyOf } from './pure.mjs';
++import { loadSnapshot, readRows } from './snapshot.mjs';
++import { requiredWriteInventory, selectorSql, writeMatches, requireOwnedScope } from './required-write-inventory.mjs';
++
++const kind = 'source-bound-required-write-sweep17';
++const identitySHA = value => sha(JSON.stringify(value));
++const exactStatus = attempt => assert(attempt.status === 500 && attempt.responseComplete === true && attempt.transportFailure === false, 'FI requires an actual complete500; no missing-ACK rollback inference');
++function verifySources(ctx) {
++  const pins = JSON.parse(fs.readFileSync(new URL('./required-write-sources17.json', import.meta.url)));
++  for (const pin of pins) assert.equal(ctx.pins.find(p => p.file === pin.file)?.sha256, pin.sha256, `Reviewed FI source changed: ${pin.file}`);
++  return pins;
++}
++function controlNames(ctx, table, event, suffix, deferred = false) {
++  const prefix = `${ctx.state.prefix}_${suffix}`;
++  const control = { table, event, deferred, function: `${prefix}_fn`, trigger: `${prefix}_tg`, sequence: `${prefix}_hits` };
++  for (const name of [control.function, control.trigger, control.sequence]) { quote(name); assert(name.length <= 63); }
++  return control;
++}
++async function inspect(c, control) {
++  const fn = (await c.query("SELECT p.oid::text oid,pg_get_functiondef(p.oid) definition,p.proacl::text acl,pg_get_userbyid(p.proowner) owner,p.prosecdef,p.proconfig FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace WHERE n.nspname='r4ghi_control' AND p.proname=$1", [control.function])).rows;
++  const trigger = (await c.query('SELECT oid::text,pg_get_triggerdef(oid,true) definition,tgenabled FROM pg_trigger WHERE tgname=$1 AND tgrelid=$2::regclass', [control.trigger, `poms.${control.table}`])).rows;
++  const sequence = (await c.query("SELECT c.oid::text,pg_get_userbyid(c.relowner) owner,c.relacl::text acl FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace WHERE n.nspname='r4ghi_control' AND c.relname=$1 AND c.relkind='S'", [control.sequence])).rows;
++  assert.equal(fn.length, 1); assert.equal(trigger.length, 1); assert.equal(sequence.length, 1);
++  return { fn, trigger, sequence };
++}
++async function createControl(c, ctx, control, selector, marker) {
++  assert(/^[a-z0-9-]+$/.test(marker));
++  await c.query(`CREATE SEQUENCE r4ghi_control.${quote(control.sequence)} START 1 MINVALUE 1 NO CYCLE`);
++  await c.query(`CREATE FUNCTION r4ghi_control.${quote(control.function)}() RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $r4ghi_sweep17$
++DECLARE j jsonb:=to_jsonb(NEW);
++BEGIN
++ IF current_user<>'${ctx.owner}' THEN RAISE EXCEPTION 'Unexpected FI definer'; END IF;
++ IF ${selector} THEN
++  PERFORM nextval('r4ghi_control.${control.sequence}'::regclass);
++  RAISE EXCEPTION USING ERRCODE='P0001',MESSAGE='r4ghi-required-write-${marker}';
++ END IF;
++ RETURN NEW;
++END; $r4ghi_sweep17$`);
++  await c.query(`REVOKE ALL ON FUNCTION r4ghi_control.${quote(control.function)}() FROM PUBLIC`);
++  await c.query(`GRANT EXECUTE ON FUNCTION r4ghi_control.${quote(control.function)}() TO ${quote(ctx.apps[1])}`);
++  const timing = control.deferred ? 'CREATE CONSTRAINT TRIGGER' : 'CREATE TRIGGER';
++  const phase = control.deferred ? 'AFTER' : 'BEFORE';
++  const deferral = control.deferred ? ' DEFERRABLE INITIALLY DEFERRED' : '';
++  await c.query(`${timing} ${quote(control.trigger)} ${phase} ${control.event} ON poms.${quote(control.table)}${deferral} FOR EACH ROW EXECUTE FUNCTION r4ghi_control.${quote(control.function)}()`);
++}
++export async function installSweepFault(ctx, descriptor, requestId, before) {
++  assert.equal(process.platform, 'linux'); assert(!ctx.state.activeFault);
++  assert.equal(descriptor.kind, kind); assert(/^[A-Za-z0-9_-]{1,100}$/.test(requestId));
++  const sourcePins = verifySources(ctx);
++  const inventory = requiredWriteInventory(descriptor.operationId, descriptor.scope);
++  const selected = inventory.find(d => d.key === descriptor.key); assert(selected);
++  assert.deepEqual(selected, descriptor.selected, 'Never accept client-provided SQL or an altered write inventory');
++  const sessionId = requireOwnedScope(ctx, before, descriptor.scope);
++  const binding = { requestId, sessionId }, suffix = ctx.next('sweep-fi').replaceAll('-', '_');
++  const primary = controlNames(ctx, selected.table, selected.event, `${suffix}_p`);
++  const fallback = controlNames(ctx, 'audit_log', 'INSERT', `${suffix}_f`, true);
++  const audit = inventory.find(d => d.match.kind === 'audit'); assert(audit);
++  for (const control of [primary, fallback]) assert(before.databases[ctx.database].tables[control.table]);
++  const active = { kind, phase: 'install-intent', requestId, operationId: descriptor.operationId, key: selected.key, sessionId, scope: descriptor.scope,
++    selected, sourcePins, before: before.manifest, primary, fallback };
++  const intent = ctx.artifact(`${ctx.next('sweep-install-intent')}.json`, active, { kind: 'exact-source-bound-required-write-FI-intent', operationId: active.operationId, writeFamily: active.key, businessFixtureSQL: false });
++  active.intent = intent; ctx.state.activeFault = active; ctx.persist();
++  await ctx.db(async c => {
++    await c.query('BEGIN');
++    try {
++      await createControl(c, ctx, primary, selectorSql(selected, binding), 'primary');
++      // This fires at COMMIT, after pending-auth flush. A missed primary still
++      // rolls back instead of silently committing an untested business command.
++      await createControl(c, ctx, fallback, selectorSql(audit, binding), 'missed-primary-fallback');
++      active.primary.identity = await inspect(c, primary); active.primary.identitySHA = identitySHA(active.primary.identity);
++      active.fallback.identity = await inspect(c, fallback); active.fallback.identitySHA = identitySHA(active.fallback.identity);
++      active.phase = 'commit-pending'; ctx.persist();
++      await c.query('COMMIT');
++    } catch (error) { await c.query('ROLLBACK'); throw error; }
++  });
++  active.phase = 'installed'; ctx.persist();
++  ctx.artifact(`${ctx.next('sweep-installed')}.json`, active, { kind: 'actual-source-bound-required-write-FI-installed', operationId: active.operationId, writeFamily: active.key, twoOwnedControls: true });
++  return active;
++}
++export async function removeSweepFault(ctx) {
++  const active = ctx.state.activeFault; assert.equal(active?.kind, kind);
++  assert(['installed', 'commit-pending'].includes(active.phase) && active.primary.identitySHA && active.fallback.identitySHA, 'Interrupted install needs exact Root catalog reconciliation; never drop unverifiable objects');
++  const counts = await ctx.db(async c => {
++    await c.query('BEGIN');
++    try {
++      for (const control of [active.primary, active.fallback]) assert.equal(identitySHA(await inspect(c, control)), control.identitySHA, 'OID/definition/owner/ACL changed; preserve controls and stop');
++      const result = {};
++      for (const [name, control] of [['primary', active.primary], ['fallback', active.fallback]]) {
++        const hit = (await c.query(`SELECT last_value::text,is_called FROM r4ghi_control.${quote(control.sequence)}`)).rows[0];
++        result[name] = hit.is_called ? Number(hit.last_value) : 0; assert(Number.isSafeInteger(result[name]));
++        await c.query(`DROP TRIGGER ${quote(control.trigger)} ON poms.${quote(control.table)}`);
++        await c.query(`DROP FUNCTION r4ghi_control.${quote(control.function)}()`);
++        await c.query(`DROP SEQUENCE r4ghi_control.${quote(control.sequence)}`);
++      }
++      await c.query('COMMIT'); return result;
++    } catch (error) { await c.query('ROLLBACK'); throw error; }
++  });
++  const receipt = ctx.artifact(`${ctx.next('sweep-disarmed')}.json`, { active, counts, identityMatched: true }, { kind: 'actual-source-bound-required-write-FI-disarmed', operationId: active.operationId, writeFamily: active.key, primaryHits: counts.primary, fallbackHits: counts.fallback, exactOwnedControlsOnly: true });
++  delete ctx.state.activeFault; ctx.persist();
++  return { hitCount: counts.primary, fallbackHitCount: counts.fallback, sessionId: active.sessionId, key: active.key, receipt };
++}
++
++const touchColumns = new Set(['last_seen_at', 'last_ip', 'idle_expires_at', 'row_version', 'updated_at']);
++export function exactRawTouch(before, after, sessionId, actorId) {
++  if (before.key.length !== 1 || before.key[0] !== sessionId || after.key[0] !== sessionId) return false;
++  const b = JSON.parse(before.raw), a = JSON.parse(after.raw);
++  if (b.user_id !== actorId || a.user_id !== actorId || b.status !== 'active' || a.status !== 'active' || a.row_version !== b.row_version + 1) return false;
++  if (!Number.isFinite(Date.parse(a.last_seen_at)) || Date.parse(a.last_seen_at) <= Date.parse(b.last_seen_at) || Date.parse(a.updated_at) !== Date.parse(a.last_seen_at)) return false;
++  if (Date.parse(a.idle_expires_at) > Date.parse(a.absolute_expires_at) || Date.parse(a.idle_expires_at) < Date.parse(b.idle_expires_at)) return false;
++  const stable = value => Object.fromEntries(Object.entries(value).filter(([key]) => !touchColumns.has(key)));
++  return JSON.stringify(stable(b)) === JSON.stringify(stable(a));
++}
++export function assertRollbackRows(beforeRows, afterRows, { allowSession, actorId }) {
++  const b = new Map(beforeRows.map(r => [JSON.stringify(r.key), r]));
++  assert.equal(afterRows.length, b.size, 'FI left inserted or deleted rows');
++  const touches = [];
++  for (const a of afterRows) {
++    const old = b.get(JSON.stringify(a.key)); assert(old, 'FI changed a primary key');
++    if (old.sha256 === a.sha256 && old.xmin === a.xmin) continue;
++    assert(allowSession && exactRawTouch(old, a, allowSession, actorId), 'FI left a business/audit/security/version-only change or unbound authentication mutation');
++    touches.push({ key: a.key, beforeSHA256: old.sha256, afterSHA256: a.sha256, beforeXmin: old.xmin, afterXmin: a.xmin });
++  }
++  return touches;
++}
++export function assertSweepRollback(ctx, before, after, fault, actorId) {
++  const rawTouches = [];
++  assert.deepEqual(Object.keys(before.databases), Object.keys(after.databases));
++  for (const database of ctx.databases) {
++    assert.deepEqual(before.databases[database].meta, after.databases[database].meta, 'FI controls must be removed with catalog/sequence identities restored before observation');
++    assert.deepEqual(before.objects[database], after.objects[database], 'FI changed file bytes, keys or directories');
++    assert.deepEqual(Object.keys(before.databases[database].tables), Object.keys(after.databases[database].tables));
++    for (const table of Object.keys(before.databases[database].tables)) {
++      const touches = assertRollbackRows(readRows(before.databases[database].tables[table]), readRows(after.databases[database].tables[table]),
++        { allowSession: database === ctx.database && table === 'auth_session' ? fault.sessionId : null, actorId });
++      rawTouches.push(...touches.map(t => ({ database, table, ...t })));
++    }
++  }
++  return { allBusinessAuditSecurityRowsAndXminUnchanged: true, catalogSequencesAndObjectsUnchanged: true, separateActualRawAuthTouches: rawTouches };
++}
++
++function runtimeAuthThrottle(ctx) {
++  const record = ctx.state.apiProcess?.record; assert(record?.pid && record.startTime);
++  assert.equal(fs.readFileSync(`/proc/${record.pid}/stat`, 'utf8').split(' ')[21], record.startTime);
++  // Read only these nonsecret settings from the already-bound actual process.
++  const env = fs.readFileSync(`/proc/${record.pid}/environ`).toString().split('\0');
++  const field = key => env.find(s => s.startsWith(key + '='))?.slice(key.length + 1);
++  const seconds = (value, fallback) => { if (value === undefined) return fallback; assert(/^\d*$/.test(value)); const n = value === '' ? 0 : Number(value); assert(Number.isSafeInteger(n) && n >= 0); return n; };
++  return { throttleSeconds: seconds(field('AUTH_SESSION_LAST_SEEN_THROTTLE_SECONDS'), 60), idleSeconds: seconds(field('AUTH_SESSION_IDLE_TIMEOUT_SECONDS'), 900) };
++}
++export async function waitForActualPendingAuth(ctx, actorKey) {
++  assert.equal(process.platform, 'linux'); verifySources(ctx);
++  const settings = runtimeAuthThrottle(ctx), actor = ctx.state.actors[actorKey]; assert(actor?.cookies?.poms_session && actor.id);
++  const tokenHash = sha(decodeURIComponent(actor.cookies.poms_session));
++  assert(settings.throttleSeconds + 2 < settings.idleSeconds, 'Actual config cannot produce a due active session for this case; do not backdate or weaken it');
++  let waits = 0, first = null;
++  for (;;) {
++    const rows = await ctx.db(async c => (await c.query("SELECT id::text,user_id::text,status,last_seen_at,clock_timestamp() now,idle_expires_at,absolute_expires_at FROM poms.auth_session WHERE token_hash=$1", [tokenHash])).rows);
++    assert.equal(rows.length, 1); const row = rows[0];
++    assert.equal(row.user_id, actor.id); assert.equal(row.status, 'active');
++    assert(ctx.state.owned[keyOf(ctx.database, 'auth_session', [uuid(row.id)])]);
++    const now = Date.parse(row.now), deadline = Math.min(Date.parse(row.idle_expires_at), Date.parse(row.absolute_expires_at));
++    assert(deadline - now > 2000, 'Actual session expired/near expiry: Root must re-login, never treat401 as domain rejection');
++    const remaining = Date.parse(row.last_seen_at) + settings.throttleSeconds * 1000 + 100 - now;
++    first ??= { sessionId: row.id, actualLastSeen: row.last_seen_at, observedAt: row.now, settings };
++    if (remaining <= 0) return ctx.artifact(`${ctx.next('auth-flush-due')}.json`, { kind: 'actual-session-real-throttle-due', first, observedAt: row.now, actualLastSeen: row.last_seen_at, waits, noSessionSQLMutation: true },
++      { kind: 'actual-pending-auth-FI-precondition', actorKey, waitedForRealTime: waits > 0, businessFixtureSQL: false });
++    assert(remaining + 2000 < deadline - now, 'Session would expire before actual throttle: Root must re-login');
++    if (waits % 6 === 0) console.log(JSON.stringify({ kind: 'awaiting-real-auth-throttle', actorKey, remainingSeconds: Math.ceil(remaining / 1000), SQLSessionBackdating: false }));
++    await delay(Math.min(5000, Math.ceil(remaining))); waits += 1;
++  }
++}
++
++export function verifyFinalWrites(ctx, before, after, attempt, inventory, sessionId) {
++  const all = table => readRows(after.databases[ctx.database].tables[table]);
++  const changed = table => {
++    const b = new Map(readRows(before.databases[ctx.database].tables[table]).map(r => [JSON.stringify(r.key), r]));
++    return all(table).filter(r => !b.has(JSON.stringify(r.key)) || b.get(JSON.stringify(r.key)).sha256 !== r.sha256 || b.get(JSON.stringify(r.key)).xmin !== r.xmin);
++  };
++  const binding = { requestId: attempt.requestId, sessionId };
++  const auditDescriptor = inventory.find(d => d.match.kind === 'audit');
++  const audits = changed('audit_log').filter(r => writeMatches(auditDescriptor, r, all, binding)); assert.equal(audits.length, 1);
++  const xid = audits[0].xmin, writes = [];
++  for (const descriptor of inventory) {
++    const matches = changed(descriptor.table).filter(r => writeMatches(descriptor, r, all, binding));
++    assert.equal(matches.length, 1, `Final success lacks exactly one actual selected mandatory write: ${descriptor.key}`);
++    assert.equal(matches[0].xmin, xid, `Necessary ${descriptor.key} is not in the actual audit/business outer transaction`);
++    writes.push({ family: descriptor.key, table: descriptor.table, key: matches[0].key, rowSHA256: matches[0].sha256, xmin: matches[0].xmin, source: descriptor.source });
++  }
++  return { actualSharedBusinessAuditAuthXmin: xid, writes };
++}
++
++export async function faultSweepAndRetry(ctx, api, { operationId, params, body, actor = 'manager', binding = {} }) {
++  assert(!binding.fi && !binding.expectedStatus && !binding.rawJson && !binding.bytes);
++  const sourcePins = verifySources(ctx), f = ctx.state.fixtures;
++  const scope = { projectId: uuid(f.project.id), actorId: uuid(ctx.state.actors[actor].id), actorKey: actor, params, body };
++  const inventory = requiredWriteInventory(operationId, scope), bodySHA256 = sha(JSON.stringify(body));
++  const sweepKey = sha(JSON.stringify({ operationId, params, actorId: scope.actorId, bodySHA256 }));
++  ctx.state.requiredWriteSweeps ??= {};
++  let state = ctx.state.requiredWriteSweeps[sweepKey];
++  if (!state) {
++    state = { operationId, actorId: scope.actorId, bodySHA256, inventory, sourcePins, failures: [], finalSuccess: null };
++    ctx.state.requiredWriteSweeps[sweepKey] = state; ctx.persist();
++  }
++  assert.deepEqual(state.inventory, inventory); assert.deepEqual(state.sourcePins, sourcePins);
++  assert.equal(state.finalSuccess, null, 'This exact command already succeeded once; never execute another successful retry');
++  for (const selected of inventory) {
++    const previous = state.failures.find(failure => failure.key === selected.key);
++    if (previous) {
++      const bytes = fs.readFileSync(previous.observation.file); assert.equal(sha(bytes), previous.observation.rawBytesSha256);
++      const actual = JSON.parse(bytes); assert.equal(actual.operationId, operationId); assert.equal(actual.descriptor.key, selected.key); assert.equal(actual.bodySHA256, bodySHA256);
++      assert.equal(actual.failed.fault.hitCount, 1); assert.equal(actual.failed.fault.fallbackHitCount, 0);
++      assert.equal(actual.rollback.allBusinessAuditSecurityRowsAndXminUnchanged, true); continue;
++    }
++    if (selected.match.kind === 'auth-coflush') await waitForActualPendingAuth(ctx, actor);
++    assert.equal(sha(JSON.stringify(body)), bodySHA256, 'A sweep never edits the body or refreshes its CAS between failures');
++    const failed = await api.request(operationId, params, body, actor, { ...binding, expectedStatus: 500,
++      fi: { kind, key: selected.key, operationId, scope, selected } });
++    exactStatus(failed); assert.equal(failed.requestBodySha256, bodySHA256);
++    // Record rollback before enforcing coverage so a fallback miss remains an
++    // immutable failed/uncovered observation, never a synthetic PASS or success.
++    const rollback = assertSweepRollback(ctx, loadSnapshot(ctx, failed.before), loadSnapshot(ctx, failed.after), failed.fault, scope.actorId);
++    const observation = ctx.artifact(`${ctx.next('sweep-failure')}.json`, { operationId, descriptor: selected, bodySHA256, failed: { receipt: failed.receiptId, before: failed.before, after: failed.after, fault: failed.fault }, rollback },
++      { kind: 'actual-required-write-failure-observation', operationId, writeFamily: selected.key, primaryHits: failed.fault.hitCount, fallbackHits: failed.fault.fallbackHitCount, fullRollbackObserved: true, coveragePassed: failed.fault.hitCount === 1 && failed.fault.fallbackHitCount === 0 });
++    assert.equal(failed.fault.hitCount, 1, 'Required primary was not actually hit once; fallback rolled back. Stop without successful retry');
++    assert.equal(failed.fault.fallbackHitCount, 0, 'Fallback is not mandatory-write coverage');
++    state.failures.push({ key: selected.key, observation, requestId: failed.requestId, requestBodySHA256: failed.requestBodySha256 }); ctx.persist();
++  }
++  assert.deepEqual(state.failures.map(f => f.key).sort(), inventory.map(d => d.key).sort());
++  // Make the final real successful request exercise actual pending-auth too.
++  await waitForActualPendingAuth(ctx, actor);
++  assert.equal(sha(JSON.stringify(body)), bodySHA256);
++  const successful = await api.request(operationId, params, body, actor, binding);
++  // Persist the actual success before any postcondition. A failed verifier must
++  // never make a resume replay this already committed command.
++  state.finalSuccess = { receipt: successful.receiptId, requestId: successful.requestId, status: successful.status, postconditions: 'pending' }; ctx.persist();
++  assert.equal(successful.requestBodySha256, bodySHA256);
++  const before = loadSnapshot(ctx, successful.before), after = loadSnapshot(ctx, successful.after);
++  const sessionId = requireOwnedScope(ctx, before, scope);
++  const transaction = verifyFinalWrites(ctx, before, after, successful, inventory, sessionId);
++  state.finalSuccess.transaction = transaction; state.finalSuccess.postconditions = 'verified'; ctx.persist();
++  const receipt = ctx.artifact(`${ctx.next('sweep-complete')}.json`, { ...state, sameBodyAcrossEveryAttempt: true, successfulRequestsInThisSweep: 1,
++    allRequiredFamiliesActuallyHitOnce: true, businessDataSQLFixtures: false }, { kind: 'actual-full-required-write-sweep-and-one-success', operationId,
++    requiredWriteFamilies: inventory.length, actualOneHitFailures: state.failures.length, successfulRetries: 1, sameBody: true, actualCommonOuterTransactionVerified: true });
++  return { successful, receipt, failures: state.failures };
++}
+--- /dev/null
++++ b/tools/rust-r4ghi/business/fault-sweep.test.mjs
+@@ -0,0 +1,81 @@
++import test from 'node:test';
++import assert from 'node:assert/strict';
++import { sha } from './pure.mjs';
++import { requiredWriteInventory, selectorSql, writeMatches } from './required-write-inventory.mjs';
++import { exactRawTouch, assertRollbackRows } from './fault-sweep.mjs';
++
++const projectId = '11111111-1111-4111-8111-111111111111', actorId = '22222222-2222-4222-8222-222222222222';
++const id = '33333333-3333-4333-8333-333333333333', linkId = '44444444-4444-4444-8444-444444444444';
++const other = '55555555-5555-4555-8555-555555555555';
++const scope = body => ({ projectId, actorId, actorKey: 'execution', params: { id, completionRecordId: other }, body });
++const refs = [{ attachmentLinkId: linkId }];
++const row = (value, xmin = '100') => { const raw = JSON.stringify(value); return { key: [value.id], raw, sha256: sha(raw), xmin }; };
++
++test('source inventory covers ten concrete commands with branch-specific evidence, audit and pending-auth', () => {
++  const cases = [
++    ['CommissionController_createRoleAssignment', { expectedCurrentAssignmentId: null, expectedCurrentRowVersion: null, participants: [{}, {}, {}, {}] }, 4],
++    ['CommissionRoleAssignmentController_freezeRoleAssignment', {}, 6],
++    ['ProjectController_startExecution', {}, 6],
++    ['ProjectController_startAcceptance', { evidenceRefs: refs }, 7],
++    ['ProjectController_createAcceptanceRecord', { evidenceRefs: refs }, 5],
++    ['ProjectController_createProjectCompletionRecord', { completionResult: 'conditional-completed', evidenceRefs: refs, completionConditions: [{ evidenceRefs: refs }, { evidenceRefs: refs }] }, 10],
++    ['ProjectCompletionRecordController_closeCompletionCondition', { evidenceRefs: refs }, 6],
++    ['ProjectController_createProjectArchiveRecord', {}, 4],
++    ['ProjectArchiveRecordController_replaceProjectArchiveRecord', {}, 4],
++    ['ProjectArchiveRecordController_voidProjectArchiveRecord', {}, 3],
++  ];
++  assert.equal(cases.reduce((total, [op, body, count]) => {
++    const inventory = requiredWriteInventory(op, scope(body)); assert.equal(inventory.length, count);
++    assert.equal(inventory.at(-2).match.kind, 'audit'); assert.equal(inventory.at(-1).match.kind, 'auth-coflush');
++    for (const d of inventory) assert(selectorSql(d, { requestId: 'actual-request-17', sessionId: id }).length > 10);
++    return total + inventory.length;
++  }, 0), 55);
++});
++test('conditional branches cannot be claimed without actual evidence/input and unknown operations fail closed', () => {
++  assert.throws(() => requiredWriteInventory('ProjectController_startAcceptance', scope({ evidenceRefs: [] })));
++  assert.throws(() => requiredWriteInventory('ProjectController_createProjectCompletionRecord', scope({ completionResult: 'completed', evidenceRefs: refs, completionConditions: [] })));
++  assert.throws(() => requiredWriteInventory('ProjectCostController_createOperatingRestatement', scope({})));
++  assert.throws(() => requiredWriteInventory('CommissionController_createRoleAssignment', scope({ expectedCurrentAssignmentId: id, expectedCurrentRowVersion: 1, participants: [{}, {}] })));
++});
++test('auth primary can only fire after exact request audit, so raw touch is not coflush coverage', () => {
++  const d = requiredWriteInventory('ProjectController_startExecution', scope({})).at(-1);
++  const sql = selectorSql(d, { requestId: 'actual-request-17', sessionId: id });
++  assert(sql.includes(`j->>'id'='${id}'`)); assert(sql.includes('EXISTS(SELECT 1 FROM poms.audit_log'));
++  assert(sql.includes("a.request_id='actual-request-17'")); assert(sql.includes("a.event_type='ProjectController_startExecution'"));
++  assert(sql.includes(`a.operator_id='${actorId}'::uuid`));
++  assert.throws(() => selectorSql(d, { requestId: "';DROP TABLE poms.project;--", sessionId: id }));
++});
++test('last participant FI binds the actual new assignment project and final input order', () => {
++  const d = requiredWriteInventory('CommissionController_createRoleAssignment', scope({ expectedCurrentAssignmentId: null, expectedCurrentRowVersion: null, participants: [{}, {}, {}, {}] }))[1];
++  const participant = row({ id, assignment_id: other, sort_order: 3 });
++  assert(writeMatches(d, participant, () => [row({ id: other, project_id: projectId })], {}));
++  assert(!writeMatches(d, participant, () => [row({ id: other, project_id: actorId })], {}));
++  assert(!writeMatches(d, row({ id, assignment_id: other, sort_order: 0 }), () => [row({ id: other, project_id: projectId })], {}));
++});
++test('same link cannot satisfy closure FI through another parent or child', () => {
++  const d = requiredWriteInventory('ProjectCompletionRecordController_closeCompletionCondition', scope({ evidenceRefs: refs })).find(d => d.match.kind === 'evidence');
++  const evidence = row({ id: linkId, project_id: projectId, attachment_link_id: linkId, condition_closure_id: actorId });
++  const lookup = value => table => table === 'project_completion_condition_closure' ? [row(value)] : [];
++  assert(writeMatches(d, evidence, lookup({ id: actorId, project_id: projectId, condition_id: id, completion_record_id: other }), {}));
++  assert(!writeMatches(d, evidence, lookup({ id: actorId, project_id: projectId, condition_id: other, completion_record_id: other }), {}));
++  assert(!writeMatches(d, evidence, lookup({ id: actorId, project_id: projectId, condition_id: id, completion_record_id: id }), {}));
++});
++const auth = { id, user_id: actorId, status: 'active', token_hash: 'private-token', csrf_token_hash: 'private-csrf', last_ip: '127.0.0.1',
++  last_seen_at: '2026-11-07T00:00:00Z', idle_expires_at: '2026-11-07T00:15:00Z', absolute_expires_at: '2026-11-08T00:00:00Z', row_version: 3, updated_at: '2026-11-07T00:00:00Z' };
++const touch = { ...auth, last_seen_at: '2026-11-07T00:01:00Z', idle_expires_at: '2026-11-07T00:16:00Z', row_version: 4, updated_at: '2026-11-07T00:01:00Z' };
++test('rollback permits only exact current actor raw auth touch, not status/CSRF/session changes', () => {
++  assert(exactRawTouch(row(auth), row(touch, '101'), id, actorId));
++  for (const changed of [{ ...touch, csrf_token_hash: 'changed' }, { ...touch, status: 'revoked' }, { ...touch, user_id: other }, { ...touch, row_version: 5 }, { ...touch, updated_at: '2026-11-07T00:01:01Z' }]) {
++    assert(!exactRawTouch(row(auth), row(changed, '101'), id, actorId));
++  }
++  assert(!exactRawTouch(row(auth), row(touch, '101'), other, actorId));
++});
++test('rollback checks xmin-only writes, additions/deletions and never exempts audit/security/platform', () => {
++  const stable = row({ id, amount: '9999999999999999.99' });
++  assert.deepEqual(assertRollbackRows([stable], [stable], { allowSession: null, actorId }), []);
++  assert.throws(() => assertRollbackRows([stable], [{ ...stable, xmin: '101' }], { allowSession: null, actorId }));
++  assert.throws(() => assertRollbackRows([], [stable], { allowSession: null, actorId }));
++  assert.throws(() => assertRollbackRows([stable], [], { allowSession: null, actorId }));
++  assert.equal(assertRollbackRows([row(auth)], [row(touch, '101')], { allowSession: id, actorId }).length, 1);
++  assert.throws(() => assertRollbackRows([row(auth)], [row(touch, '101')], { allowSession: null, actorId }));
++});
+--- /dev/null
++++ b/tools/rust-r4ghi/business/required-write-sources17.json
+@@ -0,0 +1,42 @@
++[
++  {
++    "file": "apps/poms-api-rust/src/commission_assignment/service.rs",
++    "sha256": "f68d44bcdebcbd2bb78ce035f122fa7cbc72c55b92dcce98f6fbbebf5ac02598"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_lifecycle/service.rs",
++    "sha256": "70fdc0463dcae8558ec0ddaac5ad4dc6abf17532c38914fde5042d659d62c590"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_lifecycle/facts.rs",
++    "sha256": "c185236d83e0675d77ec8a51b3dc7a195b6839ed36b4c7ce72ab4f74c4f0830c"
++  },
++  {
++    "file": "apps/poms-api-rust/src/lifecycle_evidence/mod.rs",
++    "sha256": "bd3e14e4fdb2655ea37f23e7512faa36d4c78d64c529bd5a5d2566fd9ba8571a"
++  },
++  {
++    "file": "apps/poms-api-rust/src/auth/service.rs",
++    "sha256": "3f216c2be127ca22e536f0413c91a72c29c37f2e97212089ac3a2611169ee650"
++  },
++  {
++    "file": "apps/poms-api-rust/src/auth/store.rs",
++    "sha256": "14ba9d8e7171e6a6fbd00fa68c25a283d53521e17921b5d0e2ac760fec1a3f40"
++  },
++  {
++    "file": "apps/poms-api-rust/src/config.rs",
++    "sha256": "71857aacb627ee7180a32a0985b055322fd60e082b6a842b52cf2e249b8830d7"
++  },
++  {
++    "file": "apps/poms-api-rust/src/contract_support/http.rs",
++    "sha256": "cf205c9aca5812870bae66b790973d32b45dd9a4801005da7f38485c85534edf"
++  },
++  {
++    "file": "apps/poms-api-rust/src/contract_support/mod.rs",
++    "sha256": "f0152a5b1fd36f5d0a5eb0daa55ec52d1bac26a068850d6ae624104d268244f8"
++  },
++  {
++    "file": "apps/poms-api-rust/src/approval/context.rs",
++    "sha256": "949be75195aec51c29d38b6b8999ccb510c9dbf77dc6de3513187785a765525a"
++  }
++]

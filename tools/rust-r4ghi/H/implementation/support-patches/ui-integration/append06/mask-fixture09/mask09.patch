@@ -1,0 +1,50 @@
+--- a/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/append06/mask-fixture08/mask-fixture08.mjs
++++ b/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/append06/mask-fixture08/mask-fixture08.mjs
+@@ -4,6 +4,7 @@
+ import { createHash } from 'node:crypto';
+ import { fileURLToPath, pathToFileURL } from 'node:url';
+ import { MAX, maxExpenseRequest } from '../max-fixture06.mjs';
++import { getSingleOwnedRoleUser } from './user-proof09.mjs';
+ 
+ const ROOT = '/mnt/e/projects/worktrees/poms-r3hijk-next28/poms';
+ const PRIVATE = '/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business08/main01';
+@@ -43,8 +44,9 @@
+   exactPermissions(managerAuth.permissions, api.spec.components.schemas.AssignRolePermissionsRequest.properties.permissionKeys.items.enum);
+   const role = await call('PlatformController_getRole', { id: person.roleId });
+   assert.equal(role.id, person.roleId); assert.equal(role.roleKey, f.roles.person.roleKey); assert(role.isActive && !role.isSystemRole); assert.equal(role.assignedUserCount, 1, 'Person role is not exclusive to one real user');
+-  const personUser = await call('PlatformController_getUser', { id: person.id });
+-  assert(personUser.isActive); assert.deepEqual(personUser.roles, [role.roleKey], 'Person has additional role assignments');
++  const personUserAttempt = await api.request('PlatformController_getUser', { id: person.id }, null, 'manager');
++  const beforeUser = getSingleOwnedRoleUser(ctx, personUserAttempt, { userId: person.id, role });
++  const personUser = beforeUser.user; f.maskUserRoleProofBefore = beforeUser.proof; ctx.persist();
+   assert(personUser.orgUnits.some(org => org.id === person.orgId && ['primary', 'secondary'].includes(org.membershipType)), 'Actual active M is missing');
+   const ownerReference = await call('PlatformController_listOwnerReferenceData');
+   assert(ownerReference.users.some(user => user.id === person.id && user.isActive)); assert(ownerReference.orgUnits.some(org => org.id === person.orgId && org.isActive));
+@@ -114,7 +116,9 @@
+     f.maskPermissionProof = permissionAttempt.ledger; f.maskPermissionExtended = true; ctx.persist();
+   }
+   const finalRole = await call('PlatformController_getRole', { id: person.roleId }); assert.equal(finalRole.assignedUserCount, 1); exactPermissions(finalRole.permissionKeys, PERSON_PERMISSIONS);
+-  const finalUser = await call('PlatformController_getUser', { id: person.id }); assert.deepEqual(finalUser.roles, [role.roleKey]); exactPermissions(finalUser.permissions, PERSON_PERMISSIONS);
++  const finalUserAttempt = await api.request('PlatformController_getUser', { id: person.id }, null, 'manager');
++  const afterUser = getSingleOwnedRoleUser(ctx, finalUserAttempt, { userId: person.id, role: finalRole });
++  f.maskUserRoleProofAfter = afterUser.proof; ctx.persist();
+   await api.login('person'); exactPermissions(ctx.state.actors.person.permissions, PERSON_PERMISSIONS);
+   const actualPersonSession = await call('AuthController_getCurrentAuthSession', {}, null, 'person'); assert(actualPersonSession.authenticated && actualPersonSession.user?.id === person.id); exactPermissions(actualPersonSession.permissions, PERSON_PERMISSIONS);
+   f.maskCurrentProject = await call('ProjectController_getById', { id: f.maskProject.id }, null, 'person'); assert.equal(f.maskCurrentProject.scopeKind, 'full-project'); assert.equal(f.maskCurrentProject.ownerUserId, person.id); assert.equal(f.maskCurrentProject.ownerOrgId, person.orgId);
+@@ -139,13 +143,13 @@
+ 
+ async function main() {
+   const args = process.argv.slice(2);
+-  if (args.length === 1 && args[0] === '--help') { console.log('Root only: node mask-fixture08.mjs --business-date YYYY-MM-DD --execute. Independent project+MAX facts, real reassignment and one owned permission addition. Import/help do no I/O.'); return; }
++  if (args.length === 1 && args[0] === '--help') { console.log('Root only: node mask-fixture09.mjs --business-date YYYY-MM-DD --execute. Independent project+MAX facts, real reassignment and one owned permission addition. Import/help do no I/O.'); return; }
+   assert(args.length === 3 && args[0] === '--business-date' && /^\d{4}-\d{2}-\d{2}$/.test(args[1]) && args[2] === '--execute'); assert.equal(process.platform, 'linux');
+-  const lock = `${PRIVATE}/driver.lock`; fs.writeFileSync(lock, JSON.stringify({ pid: process.pid, mode: 'H-mask-fixture08', at: new Date().toISOString() }) + '\n', { flag: 'wx', mode: 0o600 });
++  const lock = `${PRIVATE}/driver.lock`; fs.writeFileSync(lock, JSON.stringify({ pid: process.pid, mode: 'H-mask-fixture09', at: new Date().toISOString() }) + '\n', { flag: 'wx', mode: 0o600 });
+   let ctx, label;
+   try {
+     const { createContext } = await import(pathToFileURL(`${ROOT}/tools/rust-r4ghi/business/context.mjs`).href), { createApi } = await import(pathToFileURL(`${ROOT}/tools/rust-r4ghi/business/http.mjs`).href);
+-    ctx = createContext({ epoch: 'g2-business08', run: 'main01' }); label = ctx.next('H-mask-fixture08'); ctx.persist();
++    ctx = createContext({ epoch: 'g2-business08', run: 'main01' }); label = ctx.next('H-mask-fixture09'); ctx.persist();
+     ctx.artifact(`${label}-intent.json`, { toolSHA256: sha(fs.readFileSync(fileURLToPath(import.meta.url))), businessDate: args[1], sourcePins: ctx.pins, helperPins: ctx.helperPins, G3Certified: false, G4Certified: false });
+     const result = await actualMaskFixture(ctx, createApi(ctx), { businessDate: args[1] }); ctx.artifact(`${label}-complete.json`, result, result); console.log(JSON.stringify(result));
+   } catch (error) {

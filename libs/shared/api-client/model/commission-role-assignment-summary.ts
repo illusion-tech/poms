@@ -7,8 +7,8 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { CommissionParticipantRead } from './commission-participant-read';
 import { CommissionRoleAssignmentStatus } from './commission-role-assignment-status';
-import { CommissionRoleAssignmentSummaryParticipantsJsonInner } from './commission-role-assignment-summary-participants-json-inner';
 
 
 export interface CommissionRoleAssignmentSummary {
@@ -18,7 +18,7 @@ export interface CommissionRoleAssignmentSummary {
     rowVersion: number;
     isCurrent: boolean;
     status: CommissionRoleAssignmentStatus;
-    participantsJson: Array<CommissionRoleAssignmentSummaryParticipantsJsonInner>;
+    participantsJson: Array<CommissionParticipantRead>;
     sourceHandoverId: string | null;
     sourceHandoverRebaselineRecordId: string | null;
     contractSummarySnapshotId: string | null;
@@ -27,4 +27,13 @@ export interface CommissionRoleAssignmentSummary {
     frozenAt: string | null;
     createdAt: string;
     updatedAt: string;
+    sourcePayloadHash: string | null;
+    freezeSummarySnapshotId: string | null;
+    sourceQualification: CommissionRoleAssignmentSummarySourceQualificationEnum;
+    frozenBy: string | null;
+    weightsPolicyVersion: string | null;
 }
+export enum CommissionRoleAssignmentSummarySourceQualificationEnum {
+    VerifiedProducer = 'verified-producer',
+    LegacyUnverified = 'legacy-unverified'
+};

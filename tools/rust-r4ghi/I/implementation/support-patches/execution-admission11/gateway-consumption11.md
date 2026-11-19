@@ -1,0 +1,11 @@
+# H gateway 接入
+
+只消费 FullProjectDetailView.executionAdmissionContext。该required字段是nullable；非null只有实际StartProjectExecutionRequest移除inputVersion/expectedProjectVersion/reason后的6字段。无需并且不可为了开始执行再强制Role GET；Role GET与4个Role操作的commission:assignments:manage全局权限保持。
+
+将detail.executionAdmissionContext直接赋给LifecycleAuthoringContext.executionAdmission。发起命令时由既有子组件附inputVersion=server-derived-v1、同一个detail.projectRowVersion和本次真实reason。每次成功命令后重读detail；CAS或链已变时重新加载。上下文是实际引用，不是授权token，执行端仍重新核验所有scope、当前stage/handover/freeze与版本。
+
+sourcePayloadHash是实际confirmed Handover.source_payload_hash，经同一business verifier校验；不是role freeze hash，也不是handover summary的另一套hash。字段不给weights、任何金额、participants或冻结payload。非EO、无ProjectWrite、非handover、无真stage/当前frozen-role、源链不就绪均为null；creator与legacy anchor分支根本不增加该字段。
+
+Root先追加g2-public-delta02/schema/common130并重生完整SSOT/OpenAPI/client，再同时晋升产品helper与Project细节字段。旧delta01原件不改。Native参考与新的required nullable字段的明确处理由Root统一冻结，不以缺字段伪通过。
+
+实际待验：EO只有ProjectRead+ProjectWrite、没有commission manage，Role GET403、FullProject Detail有6真实refs且startExecution成功；非EO/无Write/未freeze/换h/旧advanced项目无真admission为null；Scope/SQL/必要审计及身份故障必须冒泡/整体回滚；context无weights/金额，命令仍拒伪造/旧版本。

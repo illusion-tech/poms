@@ -1,0 +1,389 @@
+//! Read an actual immutable lifecycle milestone. Root-owned consumer proposal.
+//! No current project stage/head, inferred interval, source insert or producer
+//! calculation is used to certify a historical entry.
+use super::facts::{self, id, text};
+use crate::{
+    approval_common::CommonSession,
+    contract_support::{Error, canonical_hash},
+    project_operating_common::model::SourceRef,
+};
+use chrono::{DateTime, Utc};
+use serde_json::{Value, json};
+use std::collections::BTreeSet;
+use uuid::Uuid;
+
+pub struct VerifiedProjectStageFact {
+    row: Value,
+    occurred_at: DateTime<Utc>,
+    version: i32,
+}
+impl VerifiedProjectStageFact {
+    pub fn id(&self) -> Uuid {
+        id(&self.row, "id").expect("verified stage id")
+    }
+    pub fn project_id(&self) -> Uuid {
+        id(&self.row, "project_id").expect("verified stage project")
+    }
+    pub fn version(&self) -> i32 {
+        self.version
+    }
+    pub fn stage(&self) -> &str {
+        self.row["to_stage"].as_str().expect("verified stage")
+    }
+    pub fn occurred_at(&self) -> DateTime<Utc> {
+        self.occurred_at
+    }
+    pub fn nested_integrity_hash(&self) -> &str {
+        self.row["source_payload_hash"]
+            .as_str()
+            .expect("verified nested hash")
+    }
+    pub fn source_ref(&self) -> Result<SourceRef, Error> {
+        // G owns the sole full factual whitelist/hash. It uses sequence_no as
+        // SourceRef.rowVersion; this is NOT the nested transition payload hash.
+        crate::project_operating::sources::project_stage_reference(&self.row)
+    }
+    pub fn factual_payload(&self) -> Value {
+        crate::project_operating::sources::project_stage_factual_payload(&self.row)
+    }
+    pub fn evidence_snapshot(&self) -> Result<Value, Error> {
+        Ok(
+            json!({"sourceRef":self.source_ref()?,"versionField":"sequence_no","occurredAt":self.occurred_at,"stage":self.stage(),"nestedIntegrityHash":self.nested_integrity_hash(),"factualPayload":self.factual_payload()}),
+        )
+    }
+}
+fn invalid() -> Error {
+    Error::Conflict("The immutable project stage source or its provenance is invalid".into())
+}
+fn sequence(row: &Value) -> Result<i32, Error> {
+    row["sequence_no"]
+        .as_i64()
+        .and_then(|n| i32::try_from(n).ok())
+        .filter(|n| *n > 0)
+        .ok_or_else(invalid)
+}
+fn optional_id(row: &Value, key: &str) -> Result<Option<Uuid>, Error> {
+    if row[key].is_null() {
+        Ok(None)
+    } else {
+        id(row, key).map(Some)
+    }
+}
+fn package(stage: &str) -> Result<&'static str, Error> {
+    match stage {
+        "handover" => Ok("project-handover-stage"),
+        "execution" => Ok("project-execution-admission"),
+        "acceptance" => Ok("project-acceptance-admission"),
+        "completed" | "conditional-completed" => Ok("project-completion-stage"),
+        _ => Err(invalid()),
+    }
+}
+
+#[allow(clippy::too_many_arguments)]
+async fn snapshot_binding(
+    session: &mut CommonSession<'_, '_>,
+    snapshot: Uuid,
+    target: Uuid,
+    target_type: &str,
+    scenario: &str,
+    package: &str,
+    projection: &str,
+    export: &str,
+    rule: &str,
+    status: Option<&str>,
+) -> Result<(), Error> {
+    let valid:bool=sqlx::query_scalar("SELECT EXISTS(SELECT 1 FROM poms.approval_summary_snapshot s JOIN poms.approval_summary_package_definition d ON d.id=s.summary_package_id WHERE s.id=$1 AND s.target_id=$2 AND s.target_type=$3 AND s.approval_scenario_key=$4 AND s.summary_package_key=$5 AND s.projection_level=$6 AND s.export_policy=$7 AND d.approval_scenario_key=$4 AND d.summary_package_key=$5 AND d.projection_level=$6 AND d.export_policy=$7 AND d.field_rule_version=$8 AND ($9::text IS NULL OR s.business_status_at_snapshot=$9))")
+        .bind(snapshot).bind(target).bind(target_type).bind(scenario).bind(package).bind(projection).bind(export).bind(rule).bind(status).fetch_one(&mut *session.connection).await?;
+    if !valid {
+        return Err(invalid());
+    }
+    Ok(())
+}
+
+async fn source_bindings(session: &mut CommonSession<'_, '_>, row: &Value) -> Result<(), Error> {
+    let project = id(row, "project_id")?;
+    let stage = text(row, "to_stage")?;
+    snapshot_binding(
+        session,
+        id(row, "summary_snapshot_id")?,
+        id(row, "id")?,
+        "project-stage-record",
+        "project-stage-transition",
+        package(stage)?,
+        "project-stage-admission",
+        "internal-only",
+        "r4i-lifecycle-v1",
+        Some(stage),
+    )
+    .await?;
+    let h:Value=sqlx::query_scalar("SELECT to_jsonb(h) FROM poms.project_handover h WHERE id=$1 AND project_id=$2 AND producer_version=1")
+        .bind(id(row,"source_handover_id")?).bind(project).fetch_optional(&mut *session.connection).await?.ok_or_else(invalid)?;
+    let basis:Value=sqlx::query_scalar("SELECT to_jsonb(b) FROM poms.project_handover_basis_snapshot b WHERE id=$1 AND project_id=$2")
+        .bind(id(&h,"basis_snapshot_id")?).bind(project).fetch_optional(&mut *session.connection).await?.ok_or_else(invalid)?;
+    if canonical_hash(&basis["source_payload"])? != text(&basis, "payload_hash")?
+        || basis["source_hash"] != h["source_payload_hash"]
+    {
+        return Err(invalid());
+    }
+    // Verify the captured D summaries, not the later current contract/material
+    // sets. A later controlled rebaseline cannot erase an actual past entry.
+    for (column, target_type, pkg, target) in [
+        (
+            "contract_summary_snapshot_id",
+            "project",
+            "contract-handover-confirmation",
+            project,
+        ),
+        (
+            "summary_snapshot_id",
+            "project-handover",
+            "project-handover-confirmation",
+            id(&h, "id")?,
+        ),
+    ] {
+        snapshot_binding(
+            session,
+            id(&h, column)?,
+            target,
+            target_type,
+            "handover-confirmation",
+            pkg,
+            "handover-confirmation",
+            "handover-controlled",
+            "r4d-v1",
+            None,
+        )
+        .await?;
+        let captured:Value=sqlx::query_scalar("SELECT to_jsonb(p) FROM poms.project_handover_summary_payload p WHERE summary_snapshot_id=$1 AND project_id=$2 AND basis_snapshot_id=$3")
+            .bind(id(&h,column)?).bind(project).bind(id(&basis,"id")?).fetch_optional(&mut *session.connection).await?.ok_or_else(invalid)?;
+        if canonical_hash(&captured["payload"])? != text(&basis, "payload_hash")?
+            || captured["payload_hash"] != basis["payload_hash"]
+            || captured["source_hash"] != basis["source_hash"]
+            || (target_type == "project-handover"
+                && (captured["handover_id"] != h["id"]
+                    || captured["contract_summary_snapshot_id"]
+                        != h["contract_summary_snapshot_id"]))
+        {
+            return Err(invalid());
+        }
+    }
+    let payload = &row["source_payload"];
+    if payload["projectId"] != row["project_id"]
+        || payload["sourceHandoverId"] != h["id"]
+        || payload["fromStage"] != row["from_stage"]
+        || payload["toStage"] != row["to_stage"]
+    {
+        return Err(invalid());
+    }
+    if stage == "handover" {
+        if !row["source_role_assignment_id"].is_null()
+            || !row["source_completion_record_id"].is_null()
+            || payload["handoverBasisSnapshotId"] != h["basis_snapshot_id"]
+            || payload["contractSummarySnapshotId"] != h["contract_summary_snapshot_id"]
+            || payload["handoverSummarySnapshotId"] != h["summary_snapshot_id"]
+            || payload["handoverSourceHash"] != h["source_payload_hash"]
+        {
+            return Err(invalid());
+        }
+    } else {
+        let assignment = id(row, "source_role_assignment_id")?;
+        let frozen:Value=sqlx::query_scalar("SELECT to_jsonb(f) FROM poms.commission_role_assignment_freeze_payload f JOIN poms.commission_role_assignment a ON a.id=f.assignment_id AND a.project_id=f.project_id AND a.producer_version=1 AND a.freeze_payload_id=a.id WHERE f.assignment_id=$1 AND f.project_id=$2")
+            .bind(assignment).bind(project).fetch_optional(&mut *session.connection).await?.ok_or_else(invalid)?;
+        if canonical_hash(&frozen["source_payload"])? != text(&frozen, "source_payload_hash")?
+            || frozen["handover_id"] != h["id"]
+            || frozen["handover_basis_snapshot_id"] != h["basis_snapshot_id"]
+            || frozen["handover_summary_snapshot_id"] != h["summary_snapshot_id"]
+            || frozen["contract_summary_snapshot_id"] != h["contract_summary_snapshot_id"]
+            || frozen["source_payload"]["handoverSourceHash"] != h["source_payload_hash"]
+        {
+            return Err(invalid());
+        }
+        snapshot_binding(
+            session,
+            id(&frozen, "freeze_summary_snapshot_id")?,
+            assignment,
+            "commission-role-assignment",
+            "commission-role-freeze",
+            "commission-role-freeze-confirmation",
+            "commission-role-freeze",
+            "commission-controlled",
+            "r4i-role-freeze-v1",
+            Some("frozen"),
+        )
+        .await?;
+        if stage == "execution" || stage == "acceptance" {
+            if payload["commissionRoleAssignmentId"] != row["source_role_assignment_id"]
+                || payload["roleFreezePayloadHash"] != frozen["source_payload_hash"]
+            {
+                return Err(invalid());
+            }
+        }
+        if stage == "execution"
+            && (payload["executionOwnerUserId"] != row["entered_by"]
+                || row["entered_by"] != basis["source_payload"]["executionOwnerUserId"]
+                || payload["handoverSourceHash"] != h["source_payload_hash"]
+                || payload["handoverSummarySnapshotId"] != h["summary_snapshot_id"]
+                || payload["roleFreezeSummarySnapshotId"] != frozen["freeze_summary_snapshot_id"]
+                || payload["receiptJudgmentFreezeId"] != frozen["receipt_judgment_freeze_id"])
+        {
+            return Err(invalid());
+        }
+    }
+    if stage != "execution" && payload["enteredBy"] != row["entered_by"] {
+        return Err(invalid());
+    }
+    if matches!(stage, "completed" | "conditional-completed") {
+        let completion:Value=sqlx::query_scalar("SELECT to_jsonb(c) FROM poms.project_completion_record c JOIN poms.acceptance_record a ON a.id=c.acceptance_record_id AND a.project_id=c.project_id AND a.producer_version=1 AND a.status='confirmed' AND a.acceptance_type='final-acceptance' AND ((a.acceptance_result='accepted' AND c.completion_result='completed') OR (a.acceptance_result='conditional' AND c.completion_result='conditional-completed')) WHERE c.id=$1 AND c.project_id=$2 AND c.producer_version=1 AND c.status='confirmed'")
+            .bind(id(row,"source_completion_record_id")?).bind(project).fetch_optional(&mut *session.connection).await?.ok_or_else(invalid)?;
+        if completion["completion_result"] != row["to_stage"]
+            || completion["source_stage_record_id"] != row["previous_stage_record_id"]
+            || payload["sourceCompletionRecordId"] != completion["id"]
+            || payload["completionSourcePayloadHash"] != completion["source_payload_hash"]
+            || completion["completed_by"] != row["entered_by"]
+        {
+            return Err(invalid());
+        }
+    } else if !row["source_completion_record_id"].is_null() {
+        return Err(invalid());
+    }
+    Ok(())
+}
+
+fn parent_binding(child: &Value, parent: Option<&Value>) -> Result<(), Error> {
+    let to = text(child, "to_stage")?;
+    let from = text(child, "from_stage")?;
+    let event = text(child, "event_type")?;
+    if (event == "stage-requalified") != (from == "handover" && to == "handover")
+        || !matches!(event, "stage-entered" | "stage-requalified")
+    {
+        return Err(invalid());
+    }
+    let before = child["project_row_version_before"]
+        .as_i64()
+        .filter(|n| *n > 0)
+        .ok_or_else(invalid)?;
+    if child["project_row_version_after"].as_i64() != before.checked_add(1) {
+        return Err(invalid());
+    }
+    let pointer = if to == "acceptance" {
+        "executionStageRecordId"
+    } else {
+        "previousStageRecordId"
+    };
+    if child["source_payload"][pointer] != child["previous_stage_record_id"] {
+        return Err(invalid());
+    }
+    match parent {
+        None => {
+            if sequence(child)? != 1
+                || to != "handover"
+                || !matches!(
+                    from,
+                    "assessment"
+                        | "scope-confirmation"
+                        | "commercial-closure"
+                        | "contracting"
+                        | "handover"
+                )
+            {
+                return Err(invalid());
+            }
+        }
+        Some(parent) => {
+            if sequence(parent)?.checked_add(1) != Some(sequence(child)?)
+                || parent["to_stage"] != child["from_stage"]
+                || before
+                    < parent["project_row_version_after"]
+                        .as_i64()
+                        .ok_or_else(invalid)?
+            {
+                return Err(invalid());
+            }
+            let expected = match to {
+                "handover" => "handover",
+                "execution" => "handover",
+                "acceptance" => "execution",
+                "completed" | "conditional-completed" => "acceptance",
+                _ => return Err(invalid()),
+            };
+            if parent["to_stage"] != expected {
+                return Err(invalid());
+            }
+            if to != "handover" && child["source_handover_id"] != parent["source_handover_id"] {
+                return Err(invalid());
+            }
+            if matches!(to, "acceptance" | "completed" | "conditional-completed")
+                && child["source_role_assignment_id"] != parent["source_role_assignment_id"]
+            {
+                return Err(invalid());
+            }
+            if to == "acceptance"
+                && child["source_payload"]["executionSourceHash"] != parent["source_payload_hash"]
+            {
+                return Err(invalid());
+            }
+        }
+    }
+    Ok(())
+}
+
+pub async fn load_verified_stage_fact_with_session(
+    session: &mut CommonSession<'_, '_>,
+    project_id: Uuid,
+    stage_id: Uuid,
+    expected_sequence_no: i32,
+) -> Result<VerifiedProjectStageFact, Error> {
+    if expected_sequence_no <= 0 {
+        return Err(Error::BadRequest(
+            "A positive actual stage sequence is required".into(),
+        ));
+    }
+    let bound: Option<Uuid> =
+        sqlx::query_scalar("SELECT project_id FROM poms.project_stage_record WHERE id=$1")
+            .bind(stage_id)
+            .fetch_optional(&mut *session.connection)
+            .await?;
+    if bound != Some(project_id) {
+        return Err(Error::Unprocessable(
+            "Real same-project stage evidence is unavailable".into(),
+        ));
+    }
+    let target = facts::stage(session, project_id, stage_id).await?;
+    if sequence(&target)? != expected_sequence_no {
+        return Err(Error::Conflict(
+            "Stage evidence source sequence changed".into(),
+        ));
+    }
+    let mut chain = vec![target.clone()];
+    let mut seen = BTreeSet::from([stage_id]);
+    while let Some(previous) = optional_id(
+        chain.last().ok_or_else(invalid)?,
+        "previous_stage_record_id",
+    )? {
+        if !seen.insert(previous) {
+            return Err(invalid());
+        }
+        chain.push(facts::stage(session, project_id, previous).await?);
+    }
+    for index in 0..chain.len() {
+        let row = &chain[index];
+        parent_binding(row, chain.get(index + 1))?;
+        source_bindings(session, row).await?;
+    }
+    let occurred_at = DateTime::parse_from_rfc3339(text(&target, "entered_at")?)
+        .map_err(|_| invalid())?
+        .with_timezone(&Utc);
+    let fact = VerifiedProjectStageFact {
+        row: target,
+        occurred_at,
+        version: expected_sequence_no,
+    };
+    let source = fact.source_ref()?;
+    if source.kind != "ProjectStageRecord"
+        || source.id != stage_id
+        || source.row_version != expected_sequence_no
+    {
+        return Err(invalid());
+    }
+    Ok(fact)
+}

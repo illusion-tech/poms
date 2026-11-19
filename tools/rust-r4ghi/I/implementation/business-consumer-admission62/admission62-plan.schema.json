@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Root explicit chained retained-data admission schema2 (not HTTP)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "schemaVersion",
+    "producer",
+    "consumer"
+  ],
+  "properties": {
+    "kind": {
+      "const": "retained-data-consumer-admission54"
+    },
+    "schemaVersion": {
+      "const": 2
+    },
+    "producer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "epoch",
+        "run",
+        "sourcePinsSHA256",
+        "retentionIndex",
+        "frozenState",
+        "retainedSnapshot",
+        "priorRegistry"
+      ],
+      "properties": {
+        "epoch": {
+          "$ref": "#/$defs/segment"
+        },
+        "run": {
+          "$ref": "#/$defs/segment"
+        },
+        "sourcePinsSHA256": {
+          "$ref": "#/$defs/sha"
+        },
+        "retentionIndex": {
+          "$ref": "#/$defs/pin"
+        },
+        "frozenState": {
+          "$ref": "#/$defs/pin"
+        },
+        "retainedSnapshot": {
+          "$ref": "#/$defs/pin"
+        },
+        "priorRegistry": {
+          "$ref": "#/$defs/pin"
+        }
+      }
+    },
+    "consumer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "epoch",
+        "run",
+        "sourcePins",
+        "sourcePinsSHA256",
+        "sourceCount",
+        "candidateReceipt",
+        "candidateSourceDigestPointer",
+        "candidateBinaryHashPointer",
+        "binarySHA256",
+        "apiProcess",
+        "impactReview"
+      ],
+      "properties": {
+        "epoch": {
+          "$ref": "#/$defs/segment"
+        },
+        "run": {
+          "$ref": "#/$defs/segment"
+        },
+        "sourcePins": {
+          "$ref": "#/$defs/pin"
+        },
+        "sourcePinsSHA256": {
+          "$ref": "#/$defs/sha"
+        },
+        "sourceCount": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "candidateReceipt": {
+          "$ref": "#/$defs/pin"
+        },
+        "candidateSourceDigestPointer": {
+          "type": "string",
+          "pattern": "^/"
+        },
+        "candidateBinaryHashPointer": {
+          "type": "string",
+          "pattern": "^/"
+        },
+        "binarySHA256": {
+          "$ref": "#/$defs/sha"
+        },
+        "apiProcess": {
+          "$ref": "#/$defs/pin"
+        },
+        "impactReview": {
+          "$ref": "#/$defs/pin"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "pin": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "file",
+        "rawBytesSha256"
+      ],
+      "properties": {
+        "file": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rawBytesSha256": {
+          "$ref": "#/$defs/sha"
+        }
+      }
+    },
+    "sha": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "segment": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{0,47}$"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import os from 'node:os';
+import { createHash } from 'node:crypto';
+import { relayPaths24 } from './business/ui-relay-common24.mjs';
+assert.equal(process.platform, 'linux');
+const root = '/mnt/e/projects/worktrees/poms-r3hijk-next28/poms', priv = '/home/wangzishi/.local/share/poms-r4ghi/private';
+const sha = bytes => createHash('sha256').update(bytes).digest('hex'), pin = file => ({ file, rawBytesSha256: sha(fs.readFileSync(file)) });
+const priorFile = priv + '/ui-config/runtime14/dom14-source12-02-prepare-input16.json';
+assert.equal(pin(priorFile).rawBytesSha256, 'adb2617056efd91e200443003a88932654924b6e1858515492d1ef09cc34e32d');
+const input = JSON.parse(fs.readFileSync(priorFile, 'utf8').replaceAll('dom14-source12-02', 'dom14-source12-03'));
+const fragmentFile = root + '/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/tcp-relay24/relay24.plan-fragment.json';
+assert.equal(pin(fragmentFile).rawBytesSha256, '84be7838f48e0a6860ba9b2f48c084187469e5686c4ab1ebfcf9dbe1c2958af0');
+const fragment = JSON.parse(fs.readFileSync(fragmentFile)); input.plan.relay24 = fragment.relay24;
+input.plan.relay24.paths = relayPaths24(input.plan.uiRun);
+assert.equal(input.plan.relay24.workerKind, 'runtime14');
+assert(os.networkInterfaces().eth0.some(row => row.family === 'IPv4' && row.address === input.plan.relay24.wslIPv4 && !row.internal));
+for (const runtime of [input.plan.relay24.wsl, input.plan.windows.powershell]) assert.equal(sha(fs.readFileSync(runtime.executablePath.replace(/^C:/i, '/mnt/c'))), runtime.rawBytesSha256);
+assert.equal(input.purpose, 'dom'); assert(!Object.hasOwn(input.plan, 'actorProofKeys')); assert.equal(input.plan.cases.length, 6); assert.equal(input.plan.writeActions.length, 3);
+assert.equal(input.promotedToolClosure.rawBytesSha256, '3708e52876ab3d714e594a1af0a68b518c1042ab6634f910e20a0719e0f7eda5');
+const file = priv + '/ui-config/runtime14/' + input.plan.uiRun + '-prepare-input16.json';
+fs.writeFileSync(file, JSON.stringify(input, null, 2) + '\n', { flag: 'wx', mode: 0o600 });
+console.log(JSON.stringify({ input: pin(file), cases: input.plan.cases.map(item => item.kind), plannedWrites: 3, worker: input.plan.relay24.workerKind,
+  actualEth0Rechecked: true, exactPowerShellAndWSLBytesRechecked: true, oldRuns01And02Preserved: true, HTTPExecuted: false, listenersStarted: false }));

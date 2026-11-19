@@ -47,6 +47,7 @@ pub enum LeadsError {
     Customer(CustomersError),
     Dictionary(DictionaryError),
     Database(DbError),
+    Business(crate::contract_support::Error),
     Internal,
 }
 
@@ -57,6 +58,7 @@ impl LeadsError {
             Self::BadRequest(message) => ApiError::message(StatusCode::BAD_REQUEST, message),
             Self::Conflict(message) => ApiError::message(StatusCode::CONFLICT, message),
             Self::Customer(error) => error.into_api_error(),
+            Self::Business(error) => error.into_api_error(),
             Self::Dictionary(DictionaryError::NotFound(message)) => {
                 ApiError::message(StatusCode::NOT_FOUND, message)
             }
@@ -1476,6 +1478,8 @@ impl LeadsService {
             let candidates=store::conversion_attachments(connection,lead.id).await?;
             project.row_version=store::insert_conversion_project(connection,&project).await?;
             save_lead(connection,&before,&mut lead).await?;
+            crate::project_action_authorization::ownership::record_new_origin_with_connection(
+                connection,project.id,operator.id,"lead-conversion",before.id,None).await.map_err(LeadsError::Business)?;
             let mut copied=0;
             for attachment_id in candidates {
                 if store::existing_project_link(connection,attachment_id,project.id).await? {continue;}

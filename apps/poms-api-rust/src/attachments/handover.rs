@@ -290,6 +290,8 @@ impl AttachmentsService {
         if !ctx.permission(&format!("project:{mode}")) {
             return Err(forbidden(format!("Missing project {mode} permission")));
         }
+        self.target_access("project-handover", id, mode, ctx)
+            .await?;
         let handover = self
             .facts
             .find_handover(id)
@@ -469,13 +471,9 @@ impl AttachmentsService {
             request_id: request_id.map(str::to_owned),
             operator: ctx.session.user.user_id,
         };
-        store::flush(
-            &self.database,
-            &mut ctx.entities,
-            &mut ctx.pending,
-            Some(audit),
-        )
-        .await
+        self.persist(ctx, Some(audit))
+            .await
+            .map_err(|failure| failure.error)
     }
     pub async fn handover_checklist(
         &self,
@@ -492,15 +490,6 @@ impl AttachmentsService {
                 ctx,
             )
             .await?;
-        self.k_audit(
-            "attachment.handover_checklist_viewed",
-            id,
-            "success",
-            Wire::value(json!({"projectId":handover.project_id,"selectionCount":rows.len()})),
-            request_id,
-            ctx,
-        )
-        .await?;
         let items = if rows.is_empty() {
             self.collect_handover_candidates(&handover, &project, ctx)
                 .await?
@@ -514,6 +503,15 @@ impl AttachmentsService {
                 .map(|&index| selection_item(&ctx.entities[index]))
                 .collect()
         };
+        self.k_audit(
+            "attachment.handover_checklist_viewed",
+            id,
+            "success",
+            Wire::value(json!({"projectId":handover.project_id,"selectionCount":rows.len()})),
+            request_id,
+            ctx,
+        )
+        .await?;
         checklist(&handover, items)
     }
     async fn refresh_handover_rows(
@@ -848,6 +846,9 @@ impl AttachmentsService {
         let index = self.load(Table::DownloadPackage, id, ctx).await?;
         self.handover_context(ctx.entities[index].str("handover_id"), "read", ctx)
             .await?;
+        project_scope::read_package(&self.database, &ctx.session, &ctx.entities[index].data)
+            .await?;
+        ctx.note_scope(Intent::Package { id: id.to_owned() })?;
         Ok(index)
     }
     pub async fn get_download_package(&self, id: &str, ctx: &mut CallContext) -> Result<Wire> {

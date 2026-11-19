@@ -399,9 +399,30 @@ mod tests {
 
     #[tokio::test]
     async fn actual_source_zod_cases_match_success_and_full_error_bodies() {
-        let cases: Value =
+        let delta: Value = serde_json::from_str(include_str!(
+            "../../../../tools/rust-commission/roles-current-golden.json"
+        ))
+        .unwrap_or_else(|_| panic!("invalid oracle"));
+        let mut cases: Value =
             serde_json::from_str(include_str!("../../../../tools/rust-r2b/roles-golden.json"))
-                .unwrap_or_else(|_| panic!("invalid oracle"));
+                .unwrap_or_else(|_| panic!("invalid historical oracle"));
+        let rows = cases["cases"]
+            .as_array_mut()
+            .unwrap_or_else(|| panic!("historical cases"));
+        for entry in delta["cases"]
+            .as_array()
+            .unwrap_or_else(|| panic!("current cases"))
+        {
+            if let Some(old) = rows.iter_mut().find(|old| {
+                old["schema"] == entry["schema"]
+                    && old["name"] == entry["name"]
+                    && old["inputRaw"] == entry["inputRaw"]
+            }) {
+                *old = entry.clone();
+            } else {
+                rows.push(entry.clone());
+            }
+        }
         for case in cases["cases"]
             .as_array()
             .unwrap_or_else(|| panic!("missing cases"))

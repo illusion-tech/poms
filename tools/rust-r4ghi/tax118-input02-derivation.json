@@ -1,0 +1,30 @@
+{
+  "kind": "Root-runtime-prefix-only-input118-preparation-correction",
+  "original": {
+    "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/prepare-tax15-118-input.mjs",
+    "bytes": 7605,
+    "rawBytesSha256": "7bde8150046839673377145c764d96ba38b3c7b964fcb7a7b165281866beaef1",
+    "actuallyExecuted": false
+  },
+  "successor": {
+    "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/prepare-tax15-118-input02.mjs",
+    "bytes": 7827,
+    "rawBytesSha256": "6502f33b34dd2b64679f1c6b42910cd9039cbc8c9032e3fa3bec1bf8c38fb497",
+    "actuallyExecuted": false
+  },
+  "sourceRule": "invocation-proof.mjs openInvocation118 runtimeBindings.file must be under actual D15",
+  "changedSpans": [
+    [
+      "fs.mkdirSync(O, { mode: 0o700 });",
+      "const runtimeFile = P + '/business/g2-business15/main01/tax-runtime15-118-prepare01.json';\nassert(!fs.existsSync(runtimeFile));\nfs.mkdirSync(O, { mode: 0o700 });"
+    ],
+    [
+      "const entryState = put('entry-state15.json', stateRead.b), runtimePin = put('tax-runtime15.json', runtime);",
+      "const entryState = put('entry-state15.json', stateRead.b);\nfs.writeFileSync(runtimeFile, JSON.stringify(runtime, null, 2) + '\\n', { flag: 'wx', mode: 0o600 });\nconst runtimePin = read(runtimeFile).pin;"
+    ]
+  ],
+  "inverseExact": true,
+  "nativeReaderModified": false,
+  "nonceDirectoryCreated": false,
+  "actualMode": false
+}

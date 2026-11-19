@@ -1,3 +1,4 @@
+import { ProjectStageRecord } from '../project-cost/rust-r4ghi-entities.entity';
 import { defineEntity } from '@mikro-orm/core';
 import { Project } from './project.entity';
 
@@ -28,7 +29,8 @@ export const ProjectArchiveRecordSchema = defineEntity({
         {
             name: 'chk_project_archive_record_status',
             expression: `"status" in ('recorded', 'voided', 'superseded')`
-        }
+        },
+        {"name":"archive_new_producer_check","expression":"producer_version=0 OR (producer_version=1\n    AND source_payload_hash IS NOT NULL AND source_payload_hash ~ '^[0-9a-f]{64}$' AND archived_by IS NOT NULL\n    AND source_qualification IS NOT NULL\n    AND ((archive_anchor_stage IN ('completed','conditional-completed') AND archive_anchor_source_type='project-completion-record'\n         AND ((source_stage_record_id IS NOT NULL AND source_qualification='verified-producer') OR source_qualification='legacy-unverified'))\n      OR (archive_anchor_stage IN ('closed-lost','closed-terminated') AND archive_anchor_source_type='project'\n         AND source_qualification='legacy-unverified')))"}
     ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
@@ -78,6 +80,12 @@ export const ProjectArchiveRecordSchema = defineEntity({
         updatedAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).onUpdate(() => new Date()).fieldName('updated_at').comment('最后更新时间'),
         updatedBy: p.uuid().nullable().fieldName('updated_by').comment('最后更新人'),
         rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号')
+    ,
+        producerVersion: p.smallint().default(0).fieldName("producer_version"),
+        sourceStageRecordId: () => p.manyToOne(ProjectStageRecord).mapToPk().joinColumns("source_stage_record_id").referencedColumnNames("id").foreignKeyName("project_archive_record_source_stage_record_id_fkey").deleteRule("restrict").updateRule("no action").nullable(),
+        sourcePayloadHash: p.string().length(64).nullable().fieldName("source_payload_hash"),
+        sourceQualification: p.text().nullable().fieldName("source_qualification"),
+        jghiScopeConstraint1: () => p.manyToOne(ProjectStageRecord).mapToPk().joinColumns("source_stage_record_id","project_id").referencedColumnNames("id","project_id").columnTypes("uuid","uuid").ownColumns().hydrate(false).hidden().foreignKeyName("fk_jghi_archive_stage_project").deleteRule("no action").updateRule("no action").nullable()
     }
 });
 

@@ -1,0 +1,44 @@
+--- a/apps/poms-api-rust/src/project_workspace/http.rs
++++ b/apps/poms-api-rust/src/project_workspace/http.rs
+@@ -1,12 +1,14 @@
+ //! Existing workspace projections preserve the unvalidated raw project ID.
+ use super::Service;
+ use crate::{
++    auth::projection::ProjectionRequestContext,
+     auth::{
+         cookie::decode_uri_component,
+         guards::{self, RequestMetadata, RoutePolicy},
+         http::AuthHttpState,
+     },
++    contract_support::Actor,
+     error::ApiError,
+     opportunity_context::transport::{
+         not_found, response, rewrite, validate_path_parameter, validate_uuid_parameter,
+     },
+@@ -90,12 +92,24 @@
+     };
+     if let Err(error) = validate_uuid_parameter(&id, "projectId") {
+         return error.into_response();
+     }
++    let actor = Actor {
++        id: session.user.user_id,
++        request_id: metadata.request_id.clone(),
++        session,
++        request_context: ProjectionRequestContext {
++            request_id: metadata.request_id,
++            path: metadata.path,
++            method: metadata.method,
++            ip: metadata.info.ip,
++            user_agent: metadata.info.user_agent,
++        },
++    };
+     let result = if parts.uri.path().ends_with("/workspace-guidance") {
+-        service.guidance(&id, &session).await
++        service.guidance(&id, actor).await
+     } else {
+-        service.timeline(&id).await
++        service.timeline(&id, actor).await
+     };
+     match result {
+         Ok(value) => response(StatusCode::OK, value),
+         Err(error) => error.into_api_error().into_response(),

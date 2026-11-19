@@ -1,0 +1,74 @@
+{
+  "kind": "FS-only-exact-Native-cleanup92-02-evidence",
+  "originalStateObservedPin": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/native-reference92/source12-native01/state.json",
+    "rawBytesSha256": "f103aab760cd393c9350ce617cddfc9410db158db2ee2fe7328930e2d986b343"
+  },
+  "originalStateClassification": "mutable pre-reconciliation observation; actual bytes will be preserved privately by the new cleanup tool before any change",
+  "originalPlan": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/native-reference92/source12-native01/plan.json",
+    "rawBytesSha256": "8856601ec2992e7540954627504714366d25251660c1d9e56317505c20cf8f01"
+  },
+  "native17Proof": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/native-reference92/source12-native01/000043-modern17-proof.json",
+    "rawBytesSha256": "fd95fd07f45984786a55bd9f50be1698e1df5fe93982d55169778211c89ab284"
+  },
+  "loginObservation": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/native-reference92/source12-native01/000005-native-http-attempt.json",
+    "rawBytesSha256": "bc144832718bd126b752238620c7cdffe5849d4a773a4efd3675b70b0dbc70c8"
+  },
+  "loginHeaders": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/native-reference92/source12-native01/000005-native-http-response-headers.json",
+    "rawBytesSha256": "e0d02cae34bd14fefdb5e229a91f7543ca1bf53ec2851440fbc43eab6789ae71"
+  },
+  "loginBody": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/native-reference92/source12-native01/000005-native-http-response-body.bin",
+    "rawBytesSha256": "cc27563dbea200ba59c99e682397f74c05a0f61cbd6415b7220399a9aa56860b"
+  },
+  "loginLedger": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/native-reference92/source12-native01/000006-ledger.json",
+    "rawBytesSha256": "ca3b3b3e4730acf1a64ba0bccc6cbd81ee1c9d14390b6d42ac514cf046b0746d"
+  },
+  "birthSnapshots": {
+    "before": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/native-reference92/source12-native01/snapshot-000005-native-http-before.json",
+      "rawBytesSha256": "8c5a8acfc7a74ab9307840502e9e685be19587d5910d80d521bf7f5efbe58455"
+    },
+    "after": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/native-reference92/source12-native01/snapshot-000005-native-http-after.json",
+      "rawBytesSha256": "10efc103dd66a04098c5c000ff425a0b1ae33312dd75a7fa2060cfeb82662ed3"
+    }
+  },
+  "existingOrphan44": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/native-reference92/source12-native01/snapshot-000044-cleanup-before.json",
+    "rawBytesSha256": "5d3e8e682af798e7b9f55a6361373ac956879e7fa23fd521ee99854db9657c22"
+  },
+  "stateSequence": 43,
+  "snapshot44SequenceAlreadyConsumedInFilesystem": true,
+  "target": {
+    "phaseRun": "source12-native01",
+    "database": "poms_r4ghi_native",
+    "table": "auth_session",
+    "id": "24a89525-deff-4fe1-a871-2df3ab1b203e",
+    "oldPlanSHA256": "8856601ec2992e7540954627504714366d25251660c1d9e56317505c20cf8f01",
+    "proof17SHA256": "fd95fd07f45984786a55bd9f50be1698e1df5fe93982d55169778211c89ab284",
+    "originalStateSHA256": "f103aab760cd393c9350ce617cddfc9410db158db2ee2fe7328930e2d986b343",
+    "rowSHA256": "5603cbb3528d2bfac0f920c96509e5795bac0da4a18f5f1ecce575366565aa3b",
+    "xmin": "4393"
+  },
+  "verifiedBirth": {
+    "id": "24a89525-deff-4fe1-a871-2df3ab1b203e",
+    "tokenHash": "verified-in-memory-not-exported",
+    "birthRowSHA256": "5603cbb3528d2bfac0f920c96509e5795bac0da4a18f5f1ecce575366565aa3b",
+    "birthXmin": "4393",
+    "responseJSONSessionIDClaimed": false,
+    "cookieDerivedAnchorTupleVerified": true
+  },
+  "actualBodyContainsSessionID": false,
+  "genericClassification": "First cookie-token-hash anchor is fed to the second birthProof pass, producing HTTP-real-response-ID with pointer literal HTTP-real-cookie-token-hash. No JSON response session ID is claimed.",
+  "plannedMetadataTransition": "43->44 plus a cleanup92_02 overlay only; original plan/source164/proof17/owned identities unchanged; snapshot44 never overwritten",
+  "SQL": false,
+  "HTTP": false,
+  "RootWritten": false,
+  "CredentialOrCookieValuesExported": false
+}

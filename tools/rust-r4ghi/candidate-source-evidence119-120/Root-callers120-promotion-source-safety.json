@@ -1,0 +1,157 @@
+{
+  "kind": "non-author-Root-callers120-finite-promotion-filesystem-source-safety-review",
+  "verdict": "eligible-filesystem-action-source-safety-only",
+  "createdAt": "2026-11-11T00:27:10.662Z",
+  "operatorAuthor": "/root",
+  "reviewer": "/root/r4_period_engineering206",
+  "reviewerIsOperatorAuthor": false,
+  "reviewerIsCallerAlgorithmAuthor": true,
+  "callerAlgorithmReviewExplicitlyExcluded": true,
+  "approvedPlan": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source15-callers120-promote-prepared01/plan120.json",
+    "bytes": 24189,
+    "rawBytesSha256": "c232ad09a8cfd2f073a45d5eec7d755ba3a4a866c3c9c1a800897821e091226a"
+  },
+  "promotionOperator": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/promote-callers120-code02.mjs",
+    "bytes": 13874,
+    "rawBytesSha256": "417c18a33d11457982f87c50edff6f0a6648d62643b4a53dbb110252fed2b64d"
+  },
+  "request": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source15-callers120-promote-prepared01/request-source-safety-review120.json",
+    "bytes": 1563,
+    "rawBytesSha256": "cb3b1d0b140ea6abf18bfa02cedde68f9405646e4923d1d4494271f7392b15a2"
+  },
+  "callerAlgorithmEvidence": {
+    "independentReview": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/callers120-code-review02/review-callers120-code02-final.json",
+      "bytes": 44891,
+      "rawBytesSha256": "ff66299b80860079d77db44dda731f8f75054658355a1d46c81ef98106ed96d4"
+    },
+    "wireReview": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/final-gates13/callers120-code-review02/review-h15-code-readiness12002-final.json",
+      "bytes": 3772,
+      "rawBytesSha256": "b44768f5600910bcf0c38f43e0312ae3e8726cf2357f9924afb415505e588ed8"
+    },
+    "authorManifest": {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source15-callers-code02/sealed-code02/manifest120-code02.json",
+      "bytes": 99104,
+      "rawBytesSha256": "1570b7187ec4a714c3c92f57b22147a53242084c1636c326a11d297b05e8db5a"
+    },
+    "frozenG1": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/source15-callers-g1/Root-G1-four-callers15.json",
+      "bytes": 33996,
+      "rawBytesSha256": "f495d447a20efc5c3e898176469e4897ace5fb4cd7f1c6df7de67a40c8f9960c"
+    }
+  },
+  "independentCheckEvidence": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/independent-root-callers120-promotion-review01/checks-promotion120.json",
+    "bytes": 4926,
+    "rawBytesSha256": "d6b890ad217fdd2f5b8965f294e1578868c9d64e5d6e5b2c135428978d37d5bb"
+  },
+  "exactOriginalSourceCopies": [
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/independent-root-callers120-promotion-review01/operator120.mjs",
+      "bytes": 13874,
+      "rawBytesSha256": "417c18a33d11457982f87c50edff6f0a6648d62643b4a53dbb110252fed2b64d"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/independent-root-callers120-promotion-review01/plan120.json",
+      "bytes": 24189,
+      "rawBytesSha256": "c232ad09a8cfd2f073a45d5eec7d755ba3a4a866c3c9c1a800897821e091226a"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/independent-root-callers120-promotion-review01/request120.json",
+      "bytes": 1563,
+      "rawBytesSha256": "cb3b1d0b140ea6abf18bfa02cedde68f9405646e4923d1d4494271f7392b15a2"
+    }
+  ],
+  "productionCount": 25,
+  "operations": {
+    "ADD": 25,
+    "MOD": 0,
+    "REMOVE": 0
+  },
+  "newDirectories": [
+    "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/policy-continuation15-287",
+    "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/legacy-authority15-284",
+    "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/period15-270",
+    "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/mixed15-271"
+  ],
+  "validationFilesPromoted": 0,
+  "H3Delta": 0,
+  "backendSourceCompileDelta": 0,
+  "findings": [],
+  "sourceSafety": [
+    {
+      "lines": "12-19,21-39,96-98",
+      "result": "strict regular/no-symlink/realpath/nlink1/rawSHA read; finite candidates match pinned manifest and independent Final mapping; operator full pin and plan evidence are rebound before dispatch/apply"
+    },
+    {
+      "lines": "41-57,121,130",
+      "result": "before/after apply protects AF13/BD14 plus both ownership logs, absent state15, idle driver locks, frozen source420/compile528 known leaves in both trees, exact enumerated H3 227, native fourteen and Root118 eight source arrays"
+    },
+    {
+      "lines": "58-65,127-130",
+      "result": "four canonical parent mkdirs only; stages are exact target sibling + .caller120- + UUID, written wx from verified candidate bytes; native link cannot replace an existing or concurrently born target; detach and strict nlink1 readback required before success"
+    },
+    {
+      "lines": "99-114",
+      "result": "dispatch binds exact review+plan+operator, writes approval and one run directory with wx, records original stdout/stderr, makes one fixed-self spawn and preserves its actual exit/signal/error and pipe hashes"
+    },
+    {
+      "lines": "116-135",
+      "result": "apply rechecks exact approval/review/plan/operator; actual01 directory and wx promotion lock prevent a second invocation from replaying the batch; successful cleanup follows complete receipt, while mutation-phase errors preserve partial, stages and retained lock and forbid blind retry"
+    },
+    {
+      "lines": "1-10,67-71,137",
+      "result": "imports only Node builtins; import does not run main; CLI restricts Linux/cwd/Node SHA/empty execArgv and no NODE_OPTIONS/NODE_PATH; no caller/native module import, context creation, SQL, HTTP, API control or Cargo"
+    }
+  ],
+  "actualReadOnlyEvidence": {
+    "allTwentyFiveTargetsAbsent": true,
+    "allFourParentsAbsent": true,
+    "state15Absent": true,
+    "sourceCount": 420,
+    "compileCount": 528,
+    "helperCount": 227,
+    "knownCompileLeavesHashedAcrossTwoTrees": 1056,
+    "helperMembershipEnumerated": true,
+    "sourceCompileAssessment": "All frozen known input leaves were read independently. The reviewed operator repeats frozen-source/frozen-compile leaf hashes before and after; it does not invoke the native Cargo-closure enumerator. This is an ADD-only external-caller action with no source/compile writes and grants no native build/admission certification.",
+    "nativeFourteenModuleArrayMatchedActualAPIProcessRecord": true,
+    "Root118EightModuleArrayMatchedActualIndependentReview": true,
+    "originalOperatorPlanRequestAndProtectedFilesStableAfterProbe": true
+  },
+  "testBoundary": {
+    "count": 19,
+    "normalImportUsedExactVerifiedSourceBytes": true,
+    "nativeTemporaryFSOnly": true,
+    "fullSourceVMUsedOnlyForDeterministicLinkAndDetachBoundaries": true,
+    "VMModuleLocalFSFacade": true,
+    "globalFSOrOtherNodeBuiltinPatched": false,
+    "originalInstallAdd120FunctionUnchanged": true,
+    "temporaryArtifactsPreserved": true,
+    "processMainOrPrepareDispatchApplyExecuted": false
+  },
+  "actionConditions": [
+    "Root must dispatch with this exact full review pin and the approved c232 plan / 417c operator; changed source, target state or evidence requires stop and a new bounded review.",
+    "Only the exact 25 ADD targets, four parents, fixed private action evidence and named UUID sibling stages are within this action. No existing target, even with equal bytes, may be skipped or replaced.",
+    "Any unknown birth, failed link/detach/readback, protected-file drift or partial outcome stops. Preserve original pipes, stages, partial and lock; no blind retry.",
+    "Actual post-promotion filesystem readback remains independent. Caller semantics rely only on the referenced Final reviews; this report does not substitute for them."
+  ],
+  "scope": {
+    "filesystemActionSourceSafetyOnly": true,
+    "actualActionExecutedByReviewer": false,
+    "actualPromotionVerified": false,
+    "RootExactApprovalGrantedByReviewer": false,
+    "Source15AdmissionGranted": false,
+    "callerRuntimeExactInputsApproved": false,
+    "DBHTTP": false,
+    "APIControl": false,
+    "CargoExecuted": false,
+    "contextCreated": false,
+    "businessStateWritten": false,
+    "G3Certified": false,
+    "G4Certified": false
+  }
+}

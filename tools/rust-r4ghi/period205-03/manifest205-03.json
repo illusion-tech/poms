@@ -1,0 +1,88 @@
+{
+  "kind": "proposed-Source13-preclassified-period-FI-tool-correction205-03",
+  "sourcePinsSHA256": "5e467b677cfe08e44c8cb1c71cac62478e416e394ba4a5ec8651dab5732c255e",
+  "sourceCount": 416,
+  "RootApplied": false,
+  "H1Admitted": false,
+  "databaseOrHTTPExecuted": false,
+  "oldH0AndSources19Preserved": true,
+  "boundedCase": "already-classified real current capture; exact full period-preparation unit set required before any effects",
+  "changes": [
+    {
+      "file": "tools/rust-r4ghi/business/fault-sweep.mjs",
+      "operation": "replace-exact-H0-helper",
+      "before": {
+        "file": "tools/rust-r4ghi/period205/before/tools/rust-r4ghi/business/fault-sweep.mjs",
+        "rawBytesSha256": "986afb297db23a425d13384b312c8b80f26b2aaeba13ec66ac93b853bd064e36"
+      },
+      "after": {
+        "file": "tools/rust-r4ghi/period205-03/proposed/tools/rust-r4ghi/business/fault-sweep.mjs",
+        "rawBytesSha256": "0fa7108fccdc065ad66b29375b0fca876b599f076bce6030bbe5bb6a14aa67cd"
+      }
+    },
+    {
+      "file": "tools/rust-r4ghi/business/gh-write-facts.mjs",
+      "operation": "replace-exact-H0-helper",
+      "before": {
+        "file": "tools/rust-r4ghi/period205/before/tools/rust-r4ghi/business/gh-write-facts.mjs",
+        "rawBytesSha256": "400fa7b0d0a52e8c696b861e609e98432a9fd05502252b8e06d4714653598a87"
+      },
+      "after": {
+        "file": "tools/rust-r4ghi/period205-03/proposed/tools/rust-r4ghi/business/gh-write-facts.mjs",
+        "rawBytesSha256": "94cc54b98eba00cdd0f36015410928a1a33f35e401fd688e6c148105211e2800"
+      }
+    },
+    {
+      "file": "tools/rust-r4ghi/business/required-write-sources13.json",
+      "operation": "add-current416-source-list",
+      "before": null,
+      "after": {
+        "file": "tools/rust-r4ghi/period205-03/proposed/tools/rust-r4ghi/business/required-write-sources13.json",
+        "rawBytesSha256": "e95a9c8e3cabf30095c463a577d2d70eb681eb7b22d6c7ee31375dbdcf55e22c"
+      }
+    },
+    {
+      "file": "tools/rust-r4ghi/business/gh-write-inventory.test.mjs",
+      "operation": "update-pure-period-inventory-test-and-reject-unapproved-effect-path",
+      "before": {
+        "file": "tools/rust-r4ghi/period205-02/before/tools/rust-r4ghi/business/gh-write-inventory.test.mjs",
+        "rawBytesSha256": "0da7243aed5de8fc7dc3588700b72e1291e82ff99e99caa86f2380151b1e9cfa"
+      },
+      "after": {
+        "file": "tools/rust-r4ghi/period205-03/proposed/tools/rust-r4ghi/business/gh-write-inventory.test.mjs",
+        "rawBytesSha256": "76dcb10aea625076a1b7bfc853d14ab1dcc4595371b36539d098118c6b135fed"
+      }
+    }
+  ],
+  "requiredExternalPreflight": [
+    "actual completed HK period",
+    "real period preparation eligible",
+    "no classification decisions",
+    "all selected live cost units equal all period direct/share rows",
+    "actual full inventory reviewed before effects",
+    "Tax complete before any period creation",
+    "same-body FI rollback then one normal success",
+    "current live snapshot/gates/reviews remain unchanged except operating head CAS version"
+  ],
+  "formalG3Certified": false,
+  "G4Certified": false,
+  "supersedesProposal": {
+    "file": "tools/rust-r4ghi/period205-02/manifest205-02.json",
+    "rawBytesSha256": "edd8e0ba23b0a8fd93e39797078918db08048d65f44dc4d8bcc51f52a638fd6a"
+  },
+  "independentHoldRetained": "tools/rust-r4ghi/independent/review05/period205-review119/review119.json",
+  "mandatoryInstallGuard": [
+    "actual-current-run-period-preparation-HTTP-pin",
+    "canonical-request-and-raw-response-identity",
+    "eligible-and-exact-CAS-hash-baseline",
+    "empty-cost-decisions",
+    "all-and-only-preparation-units-equal-current-members",
+    "current-source-versions-and-decision-unit-and-typed-FK-and-frozen-ref-match"
+  ],
+  "independentCounterexampleRetained": "tools/rust-r4ghi/independent/review05/period205-review119/negative205-02.json",
+  "additionalGuard": [
+    "nonempty-current-run-request-nonce-and-actual-header-equality",
+    "strict-input-hash-and-project-version-and-baseline-hash-shapes",
+    "actual-project-and-selected-snapshot-version-match"
+  ]
+}

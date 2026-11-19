@@ -1,0 +1,180 @@
+{
+  "kind": "Root-reviewable-external-post-M98-negative02-lock-before-context",
+  "schemaVersion": 1,
+  "closesInToolScope": "IR108-01",
+  "predecessorManifestSHA256": "9e6b162937ddc48344b497a65df6ac1641eb51bfbd769769c956b89d61b0f47b",
+  "predecessorUnmodified": true,
+  "candidate": {
+    "target": "tools/rust-r4ghi/probe-m98-frozen-external.mjs",
+    "file": "proposed/tools/rust-r4ghi/probe-m98-frozen-external.mjs",
+    "observedRootTargetSHA256": null,
+    "applyIfAbsentOrExactBeforeSHA256": "26340aa2fa5cd1b8f99e8a0a54e6cbf552fd366d40343a096a2681310975ef60",
+    "beforeCandidate": "before/tools/rust-r4ghi/probe-m98-frozen-external.mjs",
+    "beforeSHA256": "26340aa2fa5cd1b8f99e8a0a54e6cbf552fd366d40343a096a2681310975ef60",
+    "afterSHA256": "f340e65e2ee59d184c5711587d24c79e4f5ca43fabd0f356a4485ce542cad37a",
+    "bytes": 15252
+  },
+  "dependencies": [
+    {
+      "file": "tools/rust-r4ghi/business/context.mjs",
+      "rawBytesSha256": "9862d325c82f8823cc76499ca20a202322e22347864d9cec3a52a1bccf24ac3d",
+      "bytes": 11496,
+      "RootReadOnlyAtSeal": true
+    },
+    {
+      "file": "tools/rust-r4ghi/business/consumer-admission54.mjs",
+      "rawBytesSha256": "5e67049e566ea27eb28b7e4ea6a4b1e4affab6fe5a06f7540ebcf308527bf9de",
+      "bytes": 12711,
+      "RootReadOnlyAtSeal": true
+    },
+    {
+      "file": "tools/rust-r4ghi/business/schema-comparison108.mjs",
+      "rawBytesSha256": "99e05df11f1c59ec2322d910ceae12a543936b6fc5c90440309927f6f4bdd6ae",
+      "bytes": 18559,
+      "RootReadOnlyAtSeal": true
+    },
+    {
+      "file": "tools/rust-r4ghi/business/snapshot.mjs",
+      "rawBytesSha256": "0ab579d978d6d8e4b6401ff6004f9d4dc42d88be88391c34621d8135356fb7fa",
+      "bytes": 9906,
+      "RootReadOnlyAtSeal": true
+    },
+    {
+      "file": "tools/rust-r4ghi/business/ledger.mjs",
+      "rawBytesSha256": "ca72e96a2485b84372f703be879adb5e0d7a0e93db8d8bbe87f65a9283b959c9",
+      "bytes": 14909,
+      "RootReadOnlyAtSeal": true
+    },
+    {
+      "file": "tools/rust-r4ghi/business/fault-sweep.mjs",
+      "rawBytesSha256": "986afb297db23a425d13384b312c8b80f26b2aaeba13ec66ac93b853bd064e36",
+      "bytes": 23605,
+      "RootReadOnlyAtSeal": true
+    },
+    {
+      "file": "tools/rust-r4ghi/business/pure.mjs",
+      "rawBytesSha256": "42f1d133ad6b279235c8c2b7c3f10c129958e4aa7b42fa1da5287f160a88fa1a",
+      "bytes": 9121,
+      "RootReadOnlyAtSeal": true
+    }
+  ],
+  "explicitDependencyRefreeze": {
+    "file": "tools/rust-r4ghi/business/context.mjs",
+    "beforeSHA256": "3904197cc67eea28d1bf288df60e3e460f731b07c34eeb190ebe072c9435462f",
+    "afterSHA256": "9862d325c82f8823cc76499ca20a202322e22347864d9cec3a52a1bccf24ac3d",
+    "reason": "Root181-four-directFiles-source-leaves-added",
+    "otherDirectDependenciesByteIdentical": true
+  },
+  "sidecars": [
+    {
+      "file": "README02.md",
+      "rawBytesSha256": "2a6eec9c265dd3d33269a6ab0ff497e9e5805e5a61ff6c1752ad309dfaddd602",
+      "bytes": 2130
+    },
+    {
+      "file": "plan-template.json",
+      "rawBytesSha256": "bda67ead64dae035d12e489857222e93e7fcfb774ce94fe942901d8a4746f522",
+      "bytes": 496
+    },
+    {
+      "file": "frozen-external.test.mjs",
+      "rawBytesSha256": "a0ba8e46a0b7178852a8eec953afd669e7cf87bc581668770eeb0be998fc80c2",
+      "bytes": 12416
+    },
+    {
+      "file": "check.mjs",
+      "rawBytesSha256": "b60299e51c57d817a642b8b2a6dcdb85d42a3641d8a24d8a1de6e73ebb13c4e5",
+      "bytes": 1557
+    },
+    {
+      "file": "prepare02.mjs",
+      "rawBytesSha256": "b4b0dfcdf90c994c5f130bd6ee454dff8b80965c4c7ecfbf1eb52f411558faa8",
+      "bytes": 3372
+    },
+    {
+      "file": "seal02.mjs",
+      "rawBytesSha256": "6415ea7430a451848f017f5d852dfc526114f45935a82aadcc8a4cf7ae70d5c5",
+      "bytes": 4458
+    },
+    {
+      "file": "validation.json",
+      "rawBytesSha256": "e8aa5f5283c6bbf2042fecaf7dc21dfb304d38b186bfe93a96a8661ac5be020b",
+      "bytes": 505
+    },
+    {
+      "file": "pure.stdout.log",
+      "rawBytesSha256": "7a6e9cfd93858bcc5992b02b79401792eab18d8b1860b40427919e75fa6f6542",
+      "bytes": 3949
+    },
+    {
+      "file": "pure.stderr.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "syntax.stdout.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "syntax.stderr.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "help.stdout.log",
+      "rawBytesSha256": "128ec42933c165b418773b3abaf2a7cb74ece44223fe3fff131b059120f3af12",
+      "bytes": 238
+    },
+    {
+      "file": "help.stderr.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    }
+  ],
+  "validation": {
+    "kind": "I-M98-external-negative02-lock-before-context-pure-validation",
+    "node": "v24.19.0",
+    "steps": [
+      {
+        "name": "syntax",
+        "exitCode": 0
+      },
+      {
+        "name": "help",
+        "exitCode": 0
+      },
+      {
+        "name": "pure",
+        "exitCode": 0
+      }
+    ],
+    "purePass": 15,
+    "pureFail": 0,
+    "sourceStable": true,
+    "actualMode": false,
+    "SQLConnections": 0,
+    "HTTPRequests": 0,
+    "RootWrites": 0,
+    "actualSource13": null,
+    "actualM98Proof": null,
+    "G3Certified": false
+  },
+  "controlledSQLAndNegativeBuildersByteIdentical": true,
+  "nullPlanTemplateByteIdentical": true,
+  "lockBeforeCreateContextAndPersist": true,
+  "exactOwnerNonceReleaseOnly": true,
+  "excludedFromBusinessH0": true,
+  "approvalSupportingToolKey": "postM98FrozenNegative",
+  "actualSource13": null,
+  "actualAPI136": null,
+  "actualR3": null,
+  "actualM98NegativeProof": null,
+  "actualM98AppliedByAuthor": false,
+  "SQLConnectionsByAuthor": 0,
+  "HTTPRequestsByAuthor": 0,
+  "RootWritesByAuthor": 0,
+  "processesStartedByAuthor": 0,
+  "G3Certified": false,
+  "G4Certified": false
+}

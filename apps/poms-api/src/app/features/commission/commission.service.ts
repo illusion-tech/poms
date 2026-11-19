@@ -1,3 +1,5 @@
+import { parseR4GhiFrozenNativeValue } from "../../core/rust-r4ghi-native-protocol.guard";
+import { ProjectOperatingSnapshotSummarySchema } from "../../core/rust-r4ghi-frozen-native-reference";
 import { EntityManager, QueryOrder } from '@mikro-orm/core';
 import { randomUUID } from 'node:crypto';
 import type {
@@ -39,7 +41,7 @@ import type {
     SubmitCommissionFreezeDisputeResult,
     SubmitCommissionPayoutApprovalRequest,
     UserPayload
-} from '@poms/shared-contracts';
+} from "../../core/rust-r4ghi-frozen-native-reference";
 import { Inject, BadRequestException, ConflictException, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { CommissionAdjustment } from './commission-adjustment.entity';
 import { CommissionCalculation } from './commission-calculation.entity';
@@ -1728,7 +1730,7 @@ export class CommissionService {
             },
             {
                 key: 'taxImpactPendingAmountProjection',
-                rawValue: this.#stringifyDecimal(snapshot.taxImpactPendingAmount)
+                rawValue: this.#stringifyDecimal(parseR4GhiFrozenNativeValue(ProjectOperatingSnapshotSummarySchema.shape.taxImpactPendingAmount, snapshot.taxImpactPendingAmount))
             }
         ]);
 
@@ -2157,7 +2159,7 @@ export class CommissionService {
             gateReviewRecordId: gateReview.id,
             baselineSelectionSource: binding.baselineSelectionSource,
             taxImpactSummary: binding.taxImpactSummary,
-            taxImpactPendingAmount: binding.taxImpactPendingAmount,
+            taxImpactPendingAmount: parseR4GhiFrozenNativeValue(ProjectOperatingSnapshotSummarySchema.shape.taxImpactPendingAmount, binding.taxImpactPendingAmount),
             dataMaturityLevel: binding.dataMaturityLevel,
             costActionRecommendation: binding.costActionRecommendation,
             currentActionLevel: binding.currentActionLevel,
@@ -2177,7 +2179,7 @@ export class CommissionService {
             gateReviewRecordId: snapshot.gateReviewRecordId,
             baselineSelectionSource: snapshot.baselineSelectionSource,
             taxImpactSummary: snapshot.taxImpactSummary,
-            taxImpactPendingAmount: snapshot.taxImpactPendingAmount,
+            taxImpactPendingAmount: parseR4GhiFrozenNativeValue(ProjectOperatingSnapshotSummarySchema.shape.taxImpactPendingAmount, snapshot.taxImpactPendingAmount),
             dataMaturityLevel: snapshot.dataMaturityLevel,
             costActionRecommendation: snapshot.costActionRecommendation,
             currentActionLevel: snapshot.currentActionLevel,
@@ -2244,7 +2246,7 @@ export class CommissionService {
             departureExceptionSummary: statusPatch.departureExceptionSummary,
             baselineSelectionSource: evidenceBase.baselineSelectionSource,
             taxImpactSummary: evidenceBase.taxImpactSummary,
-            taxImpactPendingAmount: this.#stringifyDecimal(evidenceBase.taxImpactPendingAmount),
+            taxImpactPendingAmount: this.#stringifyDecimal(parseR4GhiFrozenNativeValue(ProjectOperatingSnapshotSummarySchema.shape.taxImpactPendingAmount, evidenceBase.taxImpactPendingAmount)),
             dataMaturityLevel: evidenceBase.dataMaturityLevel,
             costActionRecommendation: evidenceBase.costActionRecommendation,
             currentActionLevel: evidenceBase.currentActionLevel,

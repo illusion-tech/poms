@@ -1,0 +1,69 @@
+{
+  "kind": "non-author-Root-bind119-orchestration-interface-source-review",
+  "reviewer": "/root/r4_period_engineering206",
+  "author": "Root",
+  "reviewerIsOrchestratorAuthor": false,
+  "reviewerIsCore119Author": true,
+  "coreAlgorithmReviewExcluded": true,
+  "sourceFiles": [
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/prepare-bind15-119.mjs",
+      "rawBytesSha256": "6de12d3f337653032287c6a98ed4a1055e36ed88415b01ba4ccdbc93d4cb1997"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/execute-bind15-119-once.mjs",
+      "rawBytesSha256": "791bb0592c1807fa973edf3493f9356a47f981d1af008c7b865acef665b9c9a2"
+    }
+  ],
+  "preparedRequest": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/bind15-119-prepared01/request-bind15-G2-review119.json",
+    "bytes": 2509,
+    "rawBytesSha256": "d27a282433b3eb0df3a6a6d5928b88cd61b5270fe9ed277654e9d376d9580f75"
+  },
+  "preparedInput": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/bind15-119-prepared01/bind15-input119.json",
+    "bytes": 9509,
+    "rawBytesSha256": "3b1c0fdc4e03c6116c9d0058d8422b8ec71e2d6816a7e2382e3f4fa7da23aa3e"
+  },
+  "preAPIDraft": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/bind15-119-prepared01/preAPI-draft-binding-null119.json",
+    "bytes": 49385,
+    "rawBytesSha256": "6dfe9ddd269ab74a1ef2f543b50c042d1d60a81f24247161d0ca67a0382eec8d"
+  },
+  "expectedApproval": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/bind15-119-prepared01/Root-exact-bind15-approval119.json",
+    "bytes": 759,
+    "rawBytesSha256": "933e2ca67bfddd4cbfcbf257d18acfd9c12e3ad0d62028810590d310ea616207"
+  },
+  "actualApprovalBytesRecomputed": 759,
+  "actualApprovalSHARecomputed": "933e2ca67bfddd4cbfcbf257d18acfd9c12e3ad0d62028810590d310ea616207",
+  "target14VsBareAPI14Exact": true,
+  "resources9MetadataMatchesRetainedIndex": true,
+  "explicit26TransferExact": true,
+  "futurePlanSlotsNull": true,
+  "retirementReceiptFieldsReadback": true,
+  "nativeReaderExecutionNotReperformed": true,
+  "singleSpawnAndOriginalPipes": true,
+  "oneShotWXAndPreexistingOutputStop": true,
+  "unrecognizedOutcomeDoesNotPermitAutomaticRetry": true,
+  "verdict": "eligible-bounded-orchestration-interface-and-source-safety-only",
+  "findings": [],
+  "conditions": [
+    "Final exact bind-only non-author G2 and actual review pin still required. This code opinion does not sign actual bind execution.",
+    "Expected approval is truly759 bytes; do not use an earlier740 estimate.",
+    "Only the real native callee can verify full current data, history, retired parent and post-write binding; those core algorithms are excluded from this review.",
+    "Root dispatcher must use these reviewed source hashes and the reviewed input/expected-approval pins; any source/input change requires new exact review.",
+    "Approval/run01/output wx guards make any interrupted/uncertain attempt stop. Preserve its original files/logs/callee partial; do not delete guards to retry."
+  ],
+  "actualMode": false,
+  "ctx": false,
+  "nativeFunctionsInvoked": false,
+  "RootOrPrivateWritten": false,
+  "SQLHTTP": false,
+  "processQueryOrControl": false,
+  "Cargo": false,
+  "actualBindingExecuted": false,
+  "actualSource15Admission": false,
+  "G3": false,
+  "G4": false
+}

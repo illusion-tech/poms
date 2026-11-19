@@ -1,0 +1,100 @@
+TAP version 13
+# Subtest: five probes use the existing zero/positive facts, distinct actual model user/role and frozen target without mutating input
+ok 1 - five probes use the existing zero/positive facts, distinct actual model user/role and frozen target without mutating input
+  ---
+  duration_ms: 3.017948
+  type: 'test'
+  ...
+# Subtest: missing genuine zero/positive, a draft target, old producer, same project or missing freeze payload cannot start
+ok 2 - missing genuine zero/positive, a draft target, old producer, same project or missing freeze payload cannot start
+  ---
+  duration_ms: 8.73453
+  type: 'test'
+  ...
+# Subtest: both parents are locked in stable ID order, then exact child, then one UPDATE and unconditional rollback/end
+ok 3 - both parents are locked in stable ID order, then exact child, then one UPDATE and unconditional rollback/end
+  ---
+  duration_ms: 5.459817
+  type: 'test'
+  ...
+# Subtest: unexpected UPDATE success is still rolled back and cannot become a passing guard proof
+ok 4 - unexpected UPDATE success is still rolled back and cannot become a passing guard proof
+  ---
+  duration_ms: 0.380753
+  type: 'test'
+  ...
+# Subtest: parent raw/xmin or membership drift prevents the UPDATE and still rolls back
+ok 5 - parent raw/xmin or membership drift prevents the UPDATE and still rolls back
+  ---
+  duration_ms: 1.990028
+  type: 'test'
+  ...
+# Subtest: child raw/xmin drift or absence prevents the UPDATE and still rolls back
+ok 6 - child raw/xmin drift or absence prevents the UPDATE and still rolls back
+  ---
+  duration_ms: 0.804918
+  type: 'test'
+  ...
+# Subtest: timeout, wrong constraint code or wrong diagnostic never count as the expected immutable guard
+ok 7 - timeout, wrong constraint code or wrong diagnostic never count as the expected immutable guard
+  ---
+  duration_ms: 0.943968
+  type: 'test'
+  ...
+# Subtest: rollback failure is retained as infrastructure failure, end is attempted and certification rejects
+ok 8 - rollback failure is retained as infrastructure failure, end is attempted and certification rejects
+  ---
+  duration_ms: 0.670666
+  type: 'test'
+  ...
+# Subtest: BEGIN failure always attempts rollback/end without reaching locks or UPDATE
+ok 9 - BEGIN failure always attempts rollback/end without reaching locks or UPDATE
+  ---
+  duration_ms: 0.689692
+  type: 'test'
+  ...
+# Subtest: unreviewed field names reject before opening any connection
+ok 10 - unreviewed field names reject before opening any connection
+  ---
+  duration_ms: 0.565749
+  type: 'test'
+  ...
+# Subtest: an existing fixed new13 driver lock causes zero createContext calls, zero persist and no existing lock mutation
+ok 11 - an existing fixed new13 driver lock causes zero createContext calls, zero persist and no existing lock mutation
+  ---
+  duration_ms: 0.740236
+  type: 'test'
+  ...
+# Subtest: new13 lock is obtained before the context/persist action and is released only after the action completes
+ok 12 - new13 lock is obtained before the context/persist action and is released only after the action completes
+  ---
+  duration_ms: 0.257853
+  type: 'test'
+  ...
+# Subtest: failure during post-lock context validation releases this exact owned nonce lock
+ok 13 - failure during post-lock context validation releases this exact owned nonce lock
+  ---
+  duration_ms: 0.232475
+  type: 'test'
+  ...
+# Subtest: a changed PID or nonce lock is preserved and rejected rather than deleting a different owner
+ok 14 - a changed PID or nonce lock is preserved and rejected rather than deleting a different owner
+  ---
+  duration_ms: 0.4645
+  type: 'test'
+  ...
+# Subtest: a redirected new13 private directory is rejected before any lock creation or context action
+ok 15 - a redirected new13 private directory is rejected before any lock creation or context action
+  ---
+  duration_ms: 0.14936
+  type: 'test'
+  ...
+1..15
+# tests 15
+# suites 0
+# pass 15
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 155.723738

@@ -7,8 +7,20 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ReceiptBasisInput } from './receipt-basis-input';
 
 
 export interface ConfirmReceiptRecordRequest {
-    expectedVersion?: number;
+    inputVersion: ConfirmReceiptRecordRequestInputVersionEnum;
+    mode: ConfirmReceiptRecordRequestModeEnum;
+    expectedVersion: number;
+    expectedContractVersion: number;
+    basis: ReceiptBasisInput;
 }
+export enum ConfirmReceiptRecordRequestInputVersionEnum {
+    ServerDerivedV1 = 'server-derived-v1'
+};
+export enum ConfirmReceiptRecordRequestModeEnum {
+    Confirm = 'confirm',
+    CertifyExistingBasis = 'certify-existing-basis'
+};

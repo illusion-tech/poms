@@ -1,0 +1,26 @@
+{
+  "kind": "author-owned-cache-directory-pressure",
+  "schemaVersion": 1,
+  "source": "candidate02 exact 42af review input",
+  "quota": 256,
+  "priorDecodedJSONBytes": 252,
+  "directoryNameBytes": 22,
+  "warmResult": null,
+  "warmError": {
+    "name": "AssertionError",
+    "message": "Combined directory cache byte limit"
+  },
+  "freshResult": [
+    "valid-static-file-name"
+  ],
+  "validSameDirectoryRejectedOnlyAfterCache": true,
+  "actualEffects": {
+    "SQL": 0,
+    "HTTP": 0,
+    "Auth": 0,
+    "snapshots": 0
+  },
+  "limits": [
+    "Owned 256B-cache model; not the actual private Native resource footprint"
+  ]
+}

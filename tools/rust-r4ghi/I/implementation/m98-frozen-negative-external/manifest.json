@@ -1,0 +1,165 @@
+{
+  "kind": "Root-reviewable-external-post-M98-frozen-negative-candidate",
+  "schemaVersion": 1,
+  "candidate": {
+    "target": "tools/rust-r4ghi/probe-m98-frozen-external.mjs",
+    "file": "proposed/tools/rust-r4ghi/probe-m98-frozen-external.mjs",
+    "beforeSHA256": null,
+    "RootPathMustBeAbsent": true,
+    "afterSHA256": "26340aa2fa5cd1b8f99e8a0a54e6cbf552fd366d40343a096a2681310975ef60",
+    "bytes": 14849
+  },
+  "dependencies": [
+    {
+      "file": "tools/rust-r4ghi/business/context.mjs",
+      "rawBytesSha256": "3904197cc67eea28d1bf288df60e3e460f731b07c34eeb190ebe072c9435462f",
+      "bytes": 11321,
+      "RootReadOnlyAtSeal": true
+    },
+    {
+      "file": "tools/rust-r4ghi/business/consumer-admission54.mjs",
+      "rawBytesSha256": "5e67049e566ea27eb28b7e4ea6a4b1e4affab6fe5a06f7540ebcf308527bf9de",
+      "bytes": 12711,
+      "RootReadOnlyAtSeal": true
+    },
+    {
+      "file": "tools/rust-r4ghi/business/schema-comparison108.mjs",
+      "rawBytesSha256": "99e05df11f1c59ec2322d910ceae12a543936b6fc5c90440309927f6f4bdd6ae",
+      "bytes": 18559,
+      "RootReadOnlyAtSeal": true
+    },
+    {
+      "file": "tools/rust-r4ghi/business/snapshot.mjs",
+      "rawBytesSha256": "0ab579d978d6d8e4b6401ff6004f9d4dc42d88be88391c34621d8135356fb7fa",
+      "bytes": 9906,
+      "RootReadOnlyAtSeal": true
+    },
+    {
+      "file": "tools/rust-r4ghi/business/ledger.mjs",
+      "rawBytesSha256": "ca72e96a2485b84372f703be879adb5e0d7a0e93db8d8bbe87f65a9283b959c9",
+      "bytes": 14909,
+      "RootReadOnlyAtSeal": true
+    },
+    {
+      "file": "tools/rust-r4ghi/business/fault-sweep.mjs",
+      "rawBytesSha256": "986afb297db23a425d13384b312c8b80f26b2aaeba13ec66ac93b853bd064e36",
+      "bytes": 23605,
+      "RootReadOnlyAtSeal": true
+    },
+    {
+      "file": "tools/rust-r4ghi/business/pure.mjs",
+      "rawBytesSha256": "42f1d133ad6b279235c8c2b7c3f10c129958e4aa7b42fa1da5287f160a88fa1a",
+      "bytes": 9121,
+      "RootReadOnlyAtSeal": true
+    }
+  ],
+  "sidecars": [
+    {
+      "file": "README.md",
+      "rawBytesSha256": "261d73c7d3ad4af99e9d6f3fa78e5c146a132a5a640c93e7fe9edb1d2890bbc9",
+      "bytes": 3472
+    },
+    {
+      "file": "plan-template.json",
+      "rawBytesSha256": "bda67ead64dae035d12e489857222e93e7fcfb774ce94fe942901d8a4746f522",
+      "bytes": 496
+    },
+    {
+      "file": "frozen-external.test.mjs",
+      "rawBytesSha256": "819e8c07bccc028f567c99b7a15093a836d4acd0ed67b7010943c13bf64d3524",
+      "bytes": 8430
+    },
+    {
+      "file": "check.mjs",
+      "rawBytesSha256": "b6be8983856222b005ae15c0aaf2710e8f51820a76033e328c89d3223f38304c",
+      "bytes": 1540
+    },
+    {
+      "file": "seal.mjs",
+      "rawBytesSha256": "abd3a235de633ca6a919536e40492c5da7227015c740ebf9754f817a48a45470",
+      "bytes": 3010
+    },
+    {
+      "file": "validation.json",
+      "rawBytesSha256": "24f2ff111a67025028fe8503a0021c087021c4563eee8c43555f9353d6ae69e3",
+      "bytes": 488
+    },
+    {
+      "file": "pure.stdout.log",
+      "rawBytesSha256": "a6173418834a3e5a14e091d8d2aa8168ab8f56fabcf064a2b7f27ad9058f5322",
+      "bytes": 2636
+    },
+    {
+      "file": "pure.stderr.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "syntax.stdout.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "syntax.stderr.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "help.stdout.log",
+      "rawBytesSha256": "128ec42933c165b418773b3abaf2a7cb74ece44223fe3fff131b059120f3af12",
+      "bytes": 238
+    },
+    {
+      "file": "help.stderr.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    }
+  ],
+  "validation": {
+    "kind": "I-M98-external-negative-pure-only-validation",
+    "node": "v24.19.0",
+    "steps": [
+      {
+        "name": "syntax",
+        "exitCode": 0
+      },
+      {
+        "name": "help",
+        "exitCode": 0
+      },
+      {
+        "name": "pure",
+        "exitCode": 0
+      }
+    ],
+    "purePass": 10,
+    "pureFail": 0,
+    "sourceStable": true,
+    "actualMode": false,
+    "SQLConnections": 0,
+    "HTTPRequests": 0,
+    "RootWrites": 0,
+    "actualSource13": null,
+    "actualM98Proof": null,
+    "G3Certified": false
+  },
+  "excludedFromBusinessH0": true,
+  "approvalSupportingToolKey": "postM98FrozenNegative",
+  "expectedHistoricalM97Record": "consumerChecks.frozenReparent58[1817b9ae-ec3a-4910-aebd-07a2b6963975]",
+  "historicalM97EvidenceMustRemainUnchanged": true,
+  "allControlledUpdateTransactionsLockBothParentsFirst": true,
+  "allControlledUpdateTransactionsAlwaysRollback": true,
+  "noParentlessOrCommitWindow": true,
+  "noBusinessCommandReplay": true,
+  "actualSource13": null,
+  "actualAPI136": null,
+  "actualR3": null,
+  "actualM98NegativeProof": null,
+  "actualM98AppliedByAuthor": false,
+  "SQLConnectionsByAuthor": 0,
+  "HTTPRequestsByAuthor": 0,
+  "RootWritesByAuthor": 0,
+  "processesStartedByAuthor": 0,
+  "G3Certified": false,
+  "G4Certified": false
+}

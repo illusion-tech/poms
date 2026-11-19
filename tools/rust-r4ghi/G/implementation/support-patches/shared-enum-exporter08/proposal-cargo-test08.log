@@ -1,0 +1,632 @@
+   Compiling r4-s5-enum-proposal v0.0.0 (E:\projects\worktrees\poms-r4g-operating\poms\tools\rust-r4ghi\G\implementation\support-patches\shared-enum-exporter08\proposal-poms\apps\poms-api-rust)
+error[E0428]: the name `ReadinessInitializationResult` is defined multiple times
+    --> src\shared\generated.rs:7562:5
+     |
+7531 |     pub type ReadinessInitializationResult = ReadinessInitializationResultTargetType;
+     |     --------------------------------------------------------------------------------- previous definition of the type `ReadinessInitializationResult` here
+...
+7562 |     pub type ReadinessInitializationResult = ReadinessInitializationResultResultStatus;
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `ReadinessInitializationResult` redefined here
+     |
+     = note: `ReadinessInitializationResult` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `ReadinessInitializationResult` is defined multiple times
+    --> src\shared\generated.rs:7593:5
+     |
+7531 |     pub type ReadinessInitializationResult = ReadinessInitializationResultTargetType;
+     |     --------------------------------------------------------------------------------- previous definition of the type `ReadinessInitializationResult` here
+...
+7593 |     pub type ReadinessInitializationResult = ReadinessInitializationResultBusinessStatusAfter;
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `ReadinessInitializationResult` redefined here
+     |
+     = note: `ReadinessInitializationResult` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `OperatingFinanceSensitiveStringProjection` is defined multiple times
+    --> src\shared\generated.rs:7663:5
+     |
+7628 |     pub type OperatingFinanceSensitiveStringProjection = OperatingFinanceSensitiveStringProjectionMode;
+     |     --------------------------------------------------------------------------------------------------- previous definition of the type `OperatingFinanceSensitiveStringProjection` here
+...
+7663 |     pub type OperatingFinanceSensitiveStringProjection = OperatingFinanceSensitiveStringProjectionReasonCode;
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `OperatingFinanceSensitiveStringProjection` redefined here
+     |
+     = note: `OperatingFinanceSensitiveStringProjection` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `LaborCostRateSensitiveStringProjection` is defined multiple times
+    --> src\shared\generated.rs:7733:5
+     |
+7698 |     pub type LaborCostRateSensitiveStringProjection = LaborCostRateSensitiveStringProjectionMode;
+     |     --------------------------------------------------------------------------------------------- previous definition of the type `LaborCostRateSensitiveStringProjection` here
+...
+7733 |     pub type LaborCostRateSensitiveStringProjection = LaborCostRateSensitiveStringProjectionReasonCode;
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `LaborCostRateSensitiveStringProjection` redefined here
+     |
+     = note: `LaborCostRateSensitiveStringProjection` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `SharedCostAllocationBasisSummary` is defined multiple times
+    --> src\shared\generated.rs:7865:5
+     |
+7834 |     pub type SharedCostAllocationBasisSummary = SharedCostAllocationBasisSummaryMeasurementBasis;
+     |     --------------------------------------------------------------------------------------------- previous definition of the type `SharedCostAllocationBasisSummary` here
+...
+7865 |     pub type SharedCostAllocationBasisSummary = SharedCostAllocationBasisSummaryGovernanceCertification;
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `SharedCostAllocationBasisSummary` redefined here
+     |
+     = note: `SharedCostAllocationBasisSummary` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `OperatingMetricKnowledge` is defined multiple times
+    --> src\shared\generated.rs:8185:5
+     |
+8154 |     pub type OperatingMetricKnowledge = OperatingMetricKnowledgeConfirmedReceipts;
+     |     ------------------------------------------------------------------------------ previous definition of the type `OperatingMetricKnowledge` here
+...
+8185 |     pub type OperatingMetricKnowledge = OperatingMetricKnowledgeIncludedCost;
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `OperatingMetricKnowledge` redefined here
+     |
+     = note: `OperatingMetricKnowledge` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `OperatingMetricKnowledge` is defined multiple times
+    --> src\shared\generated.rs:8216:5
+     |
+8154 |     pub type OperatingMetricKnowledge = OperatingMetricKnowledgeConfirmedReceipts;
+     |     ------------------------------------------------------------------------------ previous definition of the type `OperatingMetricKnowledge` here
+...
+8216 |     pub type OperatingMetricKnowledge = OperatingMetricKnowledgeTaxPending;
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `OperatingMetricKnowledge` redefined here
+     |
+     = note: `OperatingMetricKnowledge` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `OperatingMetricKnowledge` is defined multiple times
+    --> src\shared\generated.rs:8247:5
+     |
+8154 |     pub type OperatingMetricKnowledge = OperatingMetricKnowledgeConfirmedReceipts;
+     |     ------------------------------------------------------------------------------ previous definition of the type `OperatingMetricKnowledge` here
+...
+8247 |     pub type OperatingMetricKnowledge = OperatingMetricKnowledgeGrossMargin;
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `OperatingMetricKnowledge` redefined here
+     |
+     = note: `OperatingMetricKnowledge` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `OperatingMetricKnowledge` is defined multiple times
+    --> src\shared\generated.rs:8278:5
+     |
+8154 |     pub type OperatingMetricKnowledge = OperatingMetricKnowledgeConfirmedReceipts;
+     |     ------------------------------------------------------------------------------ previous definition of the type `OperatingMetricKnowledge` here
+...
+8278 |     pub type OperatingMetricKnowledge = OperatingMetricKnowledgeGrossMarginRate;
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `OperatingMetricKnowledge` redefined here
+     |
+     = note: `OperatingMetricKnowledge` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `OperatingMetricKnowledge` is defined multiple times
+    --> src\shared\generated.rs:8317:5
+     |
+8154 |     pub type OperatingMetricKnowledge = OperatingMetricKnowledgeConfirmedReceipts;
+     |     ------------------------------------------------------------------------------ previous definition of the type `OperatingMetricKnowledge` here
+...
+8317 |     pub type OperatingMetricKnowledge = OperatingMetricKnowledgeGrossMarginRateReason;
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `OperatingMetricKnowledge` redefined here
+     |
+     = note: `OperatingMetricKnowledge` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `OperatingMetricKnowledge` is defined multiple times
+    --> src\shared\generated.rs:8352:5
+     |
+8154 |     pub type OperatingMetricKnowledge = OperatingMetricKnowledgeConfirmedReceipts;
+     |     ------------------------------------------------------------------------------ previous definition of the type `OperatingMetricKnowledge` here
+...
+8352 |     pub type OperatingMetricKnowledge = OperatingMetricKnowledgeGrossMarginRateUse;
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `OperatingMetricKnowledge` redefined here
+     |
+     = note: `OperatingMetricKnowledge` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `AcceptanceRecordSummary` is defined multiple times
+    --> src\shared\generated.rs:8610:5
+     |
+8575 |     pub type AcceptanceRecordSummary = AcceptanceRecordSummaryAcceptanceType;
+     |     ------------------------------------------------------------------------- previous definition of the type `AcceptanceRecordSummary` here
+...
+8610 |     pub type AcceptanceRecordSummary = AcceptanceRecordSummaryAcceptanceResult;
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `AcceptanceRecordSummary` redefined here
+     |
+     = note: `AcceptanceRecordSummary` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `AcceptanceRecordSummary` is defined multiple times
+    --> src\shared\generated.rs:8641:5
+     |
+8575 |     pub type AcceptanceRecordSummary = AcceptanceRecordSummaryAcceptanceType;
+     |     ------------------------------------------------------------------------- previous definition of the type `AcceptanceRecordSummary` here
+...
+8641 |     pub type AcceptanceRecordSummary = AcceptanceRecordSummaryStatus;
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `AcceptanceRecordSummary` redefined here
+     |
+     = note: `AcceptanceRecordSummary` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `AcceptanceRecordSummary` is defined multiple times
+    --> src\shared\generated.rs:8672:5
+     |
+8575 |     pub type AcceptanceRecordSummary = AcceptanceRecordSummaryAcceptanceType;
+     |     ------------------------------------------------------------------------- previous definition of the type `AcceptanceRecordSummary` here
+...
+8672 |     pub type AcceptanceRecordSummary = AcceptanceRecordSummarySourceQualification;
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `AcceptanceRecordSummary` redefined here
+     |
+     = note: `AcceptanceRecordSummary` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `CostDecisionInput` is defined multiple times
+    --> src\shared\generated.rs:8773:5
+     |
+8734 |     pub type CostDecisionInput = CostDecisionInputDecision;
+     |     ------------------------------------------------------- previous definition of the type `CostDecisionInput` here
+...
+8773 |     pub type CostDecisionInput = CostDecisionInputRecognitionRole;
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `CostDecisionInput` redefined here
+     |
+     = note: `CostDecisionInput` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `CostDecisionInput` is defined multiple times
+    --> src\shared\generated.rs:8836:5
+     |
+8734 |     pub type CostDecisionInput = CostDecisionInputDecision;
+     |     ------------------------------------------------------- previous definition of the type `CostDecisionInput` here
+...
+8836 |     pub type CostDecisionInput = CostDecisionInputReasonCode;
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `CostDecisionInput` redefined here
+     |
+     = note: `CostDecisionInput` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `CreateAcceptanceRecordRequest` is defined multiple times
+    --> src\shared\generated.rs:8906:5
+     |
+8871 |     pub type CreateAcceptanceRecordRequest = CreateAcceptanceRecordRequestAcceptanceType;
+     |     ------------------------------------------------------------------------------------- previous definition of the type `CreateAcceptanceRecordRequest` here
+...
+8906 |     pub type CreateAcceptanceRecordRequest = CreateAcceptanceRecordRequestAcceptanceResult;
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `CreateAcceptanceRecordRequest` redefined here
+     |
+     = note: `CreateAcceptanceRecordRequest` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `MoneyFact` is defined multiple times
+    --> src\shared\generated.rs:9069:5
+     |
+9034 |     pub type MoneyFact = MoneyFactKnowledge;
+     |     ---------------------------------------- previous definition of the type `MoneyFact` here
+...
+9069 |     pub type MoneyFact = MoneyFactZeroProof;
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `MoneyFact` redefined here
+     |
+     = note: `MoneyFact` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `OperatingEvaluationContext` is defined multiple times
+    --> src\shared\generated.rs:9182:5
+     |
+9143 |     pub type OperatingEvaluationContext = OperatingEvaluationContextSnapshotMode;
+     |     ----------------------------------------------------------------------------- previous definition of the type `OperatingEvaluationContext` here
+...
+9182 |     pub type OperatingEvaluationContext = OperatingEvaluationContextEvaluationStatus;
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `OperatingEvaluationContext` redefined here
+     |
+     = note: `OperatingEvaluationContext` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `ProjectArchiveRecordSummary` is defined multiple times
+    --> src\shared\generated.rs:9283:5
+     |
+9252 |     pub type ProjectArchiveRecordSummary = ProjectArchiveRecordSummaryArchiveAnchorStage;
+     |     ------------------------------------------------------------------------------------- previous definition of the type `ProjectArchiveRecordSummary` here
+...
+9283 |     pub type ProjectArchiveRecordSummary = ProjectArchiveRecordSummaryArchiveAnchorSourceType;
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `ProjectArchiveRecordSummary` redefined here
+     |
+     = note: `ProjectArchiveRecordSummary` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `ProjectArchiveRecordSummary` is defined multiple times
+    --> src\shared\generated.rs:9318:5
+     |
+9252 |     pub type ProjectArchiveRecordSummary = ProjectArchiveRecordSummaryArchiveAnchorStage;
+     |     ------------------------------------------------------------------------------------- previous definition of the type `ProjectArchiveRecordSummary` here
+...
+9318 |     pub type ProjectArchiveRecordSummary = ProjectArchiveRecordSummaryStatus;
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `ProjectArchiveRecordSummary` redefined here
+     |
+     = note: `ProjectArchiveRecordSummary` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `ProjectArchiveRecordSummary` is defined multiple times
+    --> src\shared\generated.rs:9349:5
+     |
+9252 |     pub type ProjectArchiveRecordSummary = ProjectArchiveRecordSummaryArchiveAnchorStage;
+     |     ------------------------------------------------------------------------------------- previous definition of the type `ProjectArchiveRecordSummary` here
+...
+9349 |     pub type ProjectArchiveRecordSummary = ProjectArchiveRecordSummarySourceQualification;
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `ProjectArchiveRecordSummary` redefined here
+     |
+     = note: `ProjectArchiveRecordSummary` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `OperatingReasonView` is defined multiple times
+    --> src\shared\generated.rs:9695:5
+     |
+9660 |     pub type OperatingReasonView = OperatingReasonViewCategory;
+     |     ----------------------------------------------------------- previous definition of the type `OperatingReasonView` here
+...
+9695 |     pub type OperatingReasonView = OperatingReasonViewProjectAction;
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `OperatingReasonView` redefined here
+     |
+     = note: `OperatingReasonView` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `OperatingReasonView` is defined multiple times
+    --> src\shared\generated.rs:9730:5
+     |
+9660 |     pub type OperatingReasonView = OperatingReasonViewCategory;
+     |     ----------------------------------------------------------- previous definition of the type `OperatingReasonView` here
+...
+9730 |     pub type OperatingReasonView = OperatingReasonViewStageActionsFirst;
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `OperatingReasonView` redefined here
+     |
+     = note: `OperatingReasonView` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `OperatingReasonView` is defined multiple times
+    --> src\shared\generated.rs:9765:5
+     |
+9660 |     pub type OperatingReasonView = OperatingReasonViewCategory;
+     |     ----------------------------------------------------------- previous definition of the type `OperatingReasonView` here
+...
+9765 |     pub type OperatingReasonView = OperatingReasonViewStageActionsSecond;
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `OperatingReasonView` redefined here
+     |
+     = note: `OperatingReasonView` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `OperatingReasonView` is defined multiple times
+    --> src\shared\generated.rs:9800:5
+     |
+9660 |     pub type OperatingReasonView = OperatingReasonViewCategory;
+     |     ----------------------------------------------------------- previous definition of the type `OperatingReasonView` here
+...
+9800 |     pub type OperatingReasonView = OperatingReasonViewStageActionsFinal;
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `OperatingReasonView` redefined here
+     |
+     = note: `OperatingReasonView` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `OperatingReasonView` is defined multiple times
+    --> src\shared\generated.rs:9835:5
+     |
+9660 |     pub type OperatingReasonView = OperatingReasonViewCategory;
+     |     ----------------------------------------------------------- previous definition of the type `OperatingReasonView` here
+...
+9835 |     pub type OperatingReasonView = OperatingReasonViewStageActionsRetention;
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `OperatingReasonView` redefined here
+     |
+     = note: `OperatingReasonView` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `ProjectCompletionRecordSummary` is defined multiple times
+    --> src\shared\generated.rs:9924:5
+     |
+9897 |     pub type ProjectCompletionRecordSummary = ProjectCompletionRecordSummaryCompletionResult;
+     |     ----------------------------------------------------------------------------------------- previous definition of the type `ProjectCompletionRecordSummary` here
+...
+9924 |     pub type ProjectCompletionRecordSummary = ProjectCompletionRecordSummaryStatus;
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `ProjectCompletionRecordSummary` redefined here
+     |
+     = note: `ProjectCompletionRecordSummary` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `ProjectCompletionRecordSummary` is defined multiple times
+    --> src\shared\generated.rs:9955:5
+     |
+9897 |     pub type ProjectCompletionRecordSummary = ProjectCompletionRecordSummaryCompletionResult;
+     |     ----------------------------------------------------------------------------------------- previous definition of the type `ProjectCompletionRecordSummary` here
+...
+9955 |     pub type ProjectCompletionRecordSummary = ProjectCompletionRecordSummarySourceQualification;
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `ProjectCompletionRecordSummary` redefined here
+     |
+     = note: `ProjectCompletionRecordSummary` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `ProjectCompletionRecordSummary` is defined multiple times
+    --> src\shared\generated.rs:9994:5
+     |
+9897 |     pub type ProjectCompletionRecordSummary = ProjectCompletionRecordSummaryCompletionResult;
+     |     ----------------------------------------------------------------------------------------- previous definition of the type `ProjectCompletionRecordSummary` here
+...
+9994 |     pub type ProjectCompletionRecordSummary = ProjectCompletionRecordSummaryConditionStatus;
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `ProjectCompletionRecordSummary` redefined here
+     |
+     = note: `ProjectCompletionRecordSummary` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `CommissionGateBindingHistoryView` is defined multiple times
+     --> src\shared\generated.rs:10103:5
+      |
+10060 |     pub type CommissionGateBindingHistoryView = CommissionGateBindingHistoryViewCurrentActionLevel;
+      |     ----------------------------------------------------------------------------------------------- previous definition of the type `CommissionGateBindingHistoryView` here
+...
+10103 |     pub type CommissionGateBindingHistoryView = CommissionGateBindingHistoryViewReviewState;
+      |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `CommissionGateBindingHistoryView` redefined here
+      |
+      = note: `CommissionGateBindingHistoryView` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `CommissionGateBindingHistoryView` is defined multiple times
+     --> src\shared\generated.rs:10138:5
+      |
+10060 |     pub type CommissionGateBindingHistoryView = CommissionGateBindingHistoryViewCurrentActionLevel;
+      |     ----------------------------------------------------------------------------------------------- previous definition of the type `CommissionGateBindingHistoryView` here
+...
+10138 |     pub type CommissionGateBindingHistoryView = CommissionGateBindingHistoryViewSystemBindingAction;
+      |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `CommissionGateBindingHistoryView` redefined here
+      |
+      = note: `CommissionGateBindingHistoryView` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `FinancialProjection` is defined multiple times
+     --> src\shared\generated.rs:10204:5
+      |
+10173 |     pub type FinancialProjection = FinancialProjectionMode;
+      |     ------------------------------------------------------- previous definition of the type `FinancialProjection` here
+...
+10204 |     pub type FinancialProjection = FinancialProjectionFieldPackageKeys;
+      |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `FinancialProjection` redefined here
+      |
+      = note: `FinancialProjection` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `OperatingGateFeedbackItem` is defined multiple times
+     --> src\shared\generated.rs:10274:5
+      |
+10239 |     pub type OperatingGateFeedbackItem = OperatingGateFeedbackItemSystemBindingAction;
+      |     ---------------------------------------------------------------------------------- previous definition of the type `OperatingGateFeedbackItem` here
+...
+10274 |     pub type OperatingGateFeedbackItem = OperatingGateFeedbackItemBindingAction;
+      |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `OperatingGateFeedbackItem` redefined here
+      |
+      = note: `OperatingGateFeedbackItem` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `OperatingGateFeedbackItem` is defined multiple times
+     --> src\shared\generated.rs:10317:5
+      |
+10239 |     pub type OperatingGateFeedbackItem = OperatingGateFeedbackItemSystemBindingAction;
+      |     ---------------------------------------------------------------------------------- previous definition of the type `OperatingGateFeedbackItem` here
+...
+10317 |     pub type OperatingGateFeedbackItem = OperatingGateFeedbackItemReviewState;
+      |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `OperatingGateFeedbackItem` redefined here
+      |
+      = note: `OperatingGateFeedbackItem` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `OperatingSignalEvaluationView` is defined multiple times
+     --> src\shared\generated.rs:10395:5
+      |
+10352 |     pub type OperatingSignalEvaluationView = OperatingSignalEvaluationViewCurrentActionLevel;
+      |     ----------------------------------------------------------------------------------------- previous definition of the type `OperatingSignalEvaluationView` here
+...
+10395 |     pub type OperatingSignalEvaluationView = OperatingSignalEvaluationViewReviewState;
+      |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `OperatingSignalEvaluationView` redefined here
+      |
+      = note: `OperatingSignalEvaluationView` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `ProjectBusinessOutcomeOverviewView` is defined multiple times
+     --> src\shared\generated.rs:10504:5
+      |
+10461 |     pub type ProjectBusinessOutcomeOverviewView = ProjectBusinessOutcomeOverviewViewCurrentActionLevel;
+      |     --------------------------------------------------------------------------------------------------- previous definition of the type `ProjectBusinessOutcomeOverviewView` here
+...
+10504 |     pub type ProjectBusinessOutcomeOverviewView = ProjectBusinessOutcomeOverviewViewReviewState;
+      |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `ProjectBusinessOutcomeOverviewView` redefined here
+      |
+      = note: `ProjectBusinessOutcomeOverviewView` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `ProjectBusinessOutcomeOverviewView` is defined multiple times
+     --> src\shared\generated.rs:10539:5
+      |
+10461 |     pub type ProjectBusinessOutcomeOverviewView = ProjectBusinessOutcomeOverviewViewCurrentActionLevel;
+      |     --------------------------------------------------------------------------------------------------- previous definition of the type `ProjectBusinessOutcomeOverviewView` here
+...
+10539 |     pub type ProjectBusinessOutcomeOverviewView = ProjectBusinessOutcomeOverviewViewCostActionRecommendation;
+      |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `ProjectBusinessOutcomeOverviewView` redefined here
+      |
+      = note: `ProjectBusinessOutcomeOverviewView` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `ProjectUnifiedAccountingView` is defined multiple times
+     --> src\shared\generated.rs:10617:5
+      |
+10582 |     pub type ProjectUnifiedAccountingView = ProjectUnifiedAccountingViewReviewState;
+      |     -------------------------------------------------------------------------------- previous definition of the type `ProjectUnifiedAccountingView` here
+...
+10617 |     pub type ProjectUnifiedAccountingView = ProjectUnifiedAccountingViewCurrentActionLevel;
+      |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `ProjectUnifiedAccountingView` redefined here
+      |
+      = note: `ProjectUnifiedAccountingView` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `ProjectVarianceRiskExplanationView` is defined multiple times
+     --> src\shared\generated.rs:10695:5
+      |
+10652 |     pub type ProjectVarianceRiskExplanationView = ProjectVarianceRiskExplanationViewCurrentActionLevel;
+      |     --------------------------------------------------------------------------------------------------- previous definition of the type `ProjectVarianceRiskExplanationView` here
+...
+10695 |     pub type ProjectVarianceRiskExplanationView = ProjectVarianceRiskExplanationViewReviewState;
+      |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `ProjectVarianceRiskExplanationView` redefined here
+      |
+      = note: `ProjectVarianceRiskExplanationView` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `ReviewCommissionGateBindingResult` is defined multiple times
+     --> src\shared\generated.rs:10773:5
+      |
+10730 |     pub type ReviewCommissionGateBindingResult = ReviewCommissionGateBindingResultCurrentActionLevel;
+      |     ------------------------------------------------------------------------------------------------- previous definition of the type `ReviewCommissionGateBindingResult` here
+...
+10773 |     pub type ReviewCommissionGateBindingResult = ReviewCommissionGateBindingResultReviewState;
+      |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `ReviewCommissionGateBindingResult` redefined here
+      |
+      = note: `ReviewCommissionGateBindingResult` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `ReviewCommissionGateBindingResult` is defined multiple times
+     --> src\shared\generated.rs:10808:5
+      |
+10730 |     pub type ReviewCommissionGateBindingResult = ReviewCommissionGateBindingResultCurrentActionLevel;
+      |     ------------------------------------------------------------------------------------------------- previous definition of the type `ReviewCommissionGateBindingResult` here
+...
+10808 |     pub type ReviewCommissionGateBindingResult = ReviewCommissionGateBindingResultSystemBindingAction;
+      |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `ReviewCommissionGateBindingResult` redefined here
+      |
+      = note: `ReviewCommissionGateBindingResult` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `ReviewCommissionGateBindingResult` is defined multiple times
+     --> src\shared\generated.rs:10843:5
+      |
+10730 |     pub type ReviewCommissionGateBindingResult = ReviewCommissionGateBindingResultCurrentActionLevel;
+      |     ------------------------------------------------------------------------------------------------- previous definition of the type `ReviewCommissionGateBindingResult` here
+...
+10843 |     pub type ReviewCommissionGateBindingResult = ReviewCommissionGateBindingResultBindingAction;
+      |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `ReviewCommissionGateBindingResult` redefined here
+      |
+      = note: `ReviewCommissionGateBindingResult` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `ReviewOperatingSignalEvaluationResult` is defined multiple times
+     --> src\shared\generated.rs:10921:5
+      |
+10878 |     pub type ReviewOperatingSignalEvaluationResult = ReviewOperatingSignalEvaluationResultCurrentActionLevel;
+      |     --------------------------------------------------------------------------------------------------------- previous definition of the type `ReviewOperatingSignalEvaluationResult` here
+...
+10921 |     pub type ReviewOperatingSignalEvaluationResult = ReviewOperatingSignalEvaluationResultReviewState;
+      |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `ReviewOperatingSignalEvaluationResult` redefined here
+      |
+      = note: `ReviewOperatingSignalEvaluationResult` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `SourceFinancialProjection` is defined multiple times
+     --> src\shared\generated.rs:10987:5
+      |
+10956 |     pub type SourceFinancialProjection = SourceFinancialProjectionMode;
+      |     ------------------------------------------------------------------- previous definition of the type `SourceFinancialProjection` here
+...
+10987 |     pub type SourceFinancialProjection = SourceFinancialProjectionFieldPackageKeys;
+      |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `SourceFinancialProjection` redefined here
+      |
+      = note: `SourceFinancialProjection` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `BusinessAccountingFeedbackView` is defined multiple times
+     --> src\shared\generated.rs:11065:5
+      |
+11022 |     pub type BusinessAccountingFeedbackView = BusinessAccountingFeedbackViewCurrentActionLevel;
+      |     ------------------------------------------------------------------------------------------- previous definition of the type `BusinessAccountingFeedbackView` here
+...
+11065 |     pub type BusinessAccountingFeedbackView = BusinessAccountingFeedbackViewReviewState;
+      |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `BusinessAccountingFeedbackView` redefined here
+      |
+      = note: `BusinessAccountingFeedbackView` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `SourceRow` is defined multiple times
+     --> src\shared\generated.rs:11190:5
+      |
+11151 |     pub type SourceRow = SourceRowRowKind;
+      |     -------------------------------------- previous definition of the type `SourceRow` here
+...
+11190 |     pub type SourceRow = SourceRowState;
+      |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `SourceRow` redefined here
+      |
+      = note: `SourceRow` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `SourceRow` is defined multiple times
+     --> src\shared\generated.rs:11225:5
+      |
+11151 |     pub type SourceRow = SourceRowRowKind;
+      |     -------------------------------------- previous definition of the type `SourceRow` here
+...
+11225 |     pub type SourceRow = SourceRowContainsLabor;
+      |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `SourceRow` redefined here
+      |
+      = note: `SourceRow` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `SourceRow` is defined multiple times
+     --> src\shared\generated.rs:11264:5
+      |
+11151 |     pub type SourceRow = SourceRowRowKind;
+      |     -------------------------------------- previous definition of the type `SourceRow` here
+...
+11264 |     pub type SourceRow = SourceRowAllowedRecognitionRoles;
+      |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `SourceRow` redefined here
+      |
+      = note: `SourceRow` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `OperatingBaselinePackageSummary` is defined multiple times
+     --> src\shared\generated.rs:11330:5
+      |
+11299 |     pub type OperatingBaselinePackageSummary = OperatingBaselinePackageSummaryContainsLabor;
+      |     ---------------------------------------------------------------------------------------- previous definition of the type `OperatingBaselinePackageSummary` here
+...
+11330 |     pub type OperatingBaselinePackageSummary = OperatingBaselinePackageSummaryStatus;
+      |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `OperatingBaselinePackageSummary` redefined here
+      |
+      = note: `OperatingBaselinePackageSummary` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `OperatingPreparation` is defined multiple times
+     --> src\shared\generated.rs:11404:5
+      |
+11373 |     pub type OperatingPreparation = OperatingPreparationIntent;
+      |     ----------------------------------------------------------- previous definition of the type `OperatingPreparation` here
+...
+11404 |     pub type OperatingPreparation = OperatingPreparationEvaluationStatus;
+      |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `OperatingPreparation` redefined here
+      |
+      = note: `OperatingPreparation` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `OperatingRestatementSummary` is defined multiple times
+     --> src\shared\generated.rs:11470:5
+      |
+11439 |     pub type OperatingRestatementSummary = OperatingRestatementSummaryContainsLabor;
+      |     -------------------------------------------------------------------------------- previous definition of the type `OperatingRestatementSummary` here
+...
+11470 |     pub type OperatingRestatementSummary = OperatingRestatementSummaryScope;
+      |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `OperatingRestatementSummary` redefined here
+      |
+      = note: `OperatingRestatementSummary` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `OperatingRestatementSummary` is defined multiple times
+     --> src\shared\generated.rs:11501:5
+      |
+11439 |     pub type OperatingRestatementSummary = OperatingRestatementSummaryContainsLabor;
+      |     -------------------------------------------------------------------------------- previous definition of the type `OperatingRestatementSummary` here
+...
+11501 |     pub type OperatingRestatementSummary = OperatingRestatementSummaryStatus;
+      |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `OperatingRestatementSummary` redefined here
+      |
+      = note: `OperatingRestatementSummary` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `PeriodClosingSnapshotSummary` is defined multiple times
+     --> src\shared\generated.rs:11567:5
+      |
+11536 |     pub type PeriodClosingSnapshotSummary = PeriodClosingSnapshotSummaryContainsLabor;
+      |     ---------------------------------------------------------------------------------- previous definition of the type `PeriodClosingSnapshotSummary` here
+...
+11567 |     pub type PeriodClosingSnapshotSummary = PeriodClosingSnapshotSummaryStatus;
+      |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `PeriodClosingSnapshotSummary` redefined here
+      |
+      = note: `PeriodClosingSnapshotSummary` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `ProjectOperatingSnapshotSummary` is defined multiple times
+     --> src\shared\generated.rs:11637:5
+      |
+11602 |     pub type ProjectOperatingSnapshotSummary = ProjectOperatingSnapshotSummaryContainsLabor;
+      |     ---------------------------------------------------------------------------------------- previous definition of the type `ProjectOperatingSnapshotSummary` here
+...
+11637 |     pub type ProjectOperatingSnapshotSummary = ProjectOperatingSnapshotSummarySnapshotMode;
+      |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `ProjectOperatingSnapshotSummary` redefined here
+      |
+      = note: `ProjectOperatingSnapshotSummary` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `ProjectOperatingSnapshotSummary` is defined multiple times
+     --> src\shared\generated.rs:11668:5
+      |
+11602 |     pub type ProjectOperatingSnapshotSummary = ProjectOperatingSnapshotSummaryContainsLabor;
+      |     ---------------------------------------------------------------------------------------- previous definition of the type `ProjectOperatingSnapshotSummary` here
+...
+11668 |     pub type ProjectOperatingSnapshotSummary = ProjectOperatingSnapshotSummaryStatus;
+      |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `ProjectOperatingSnapshotSummary` redefined here
+      |
+      = note: `ProjectOperatingSnapshotSummary` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `ProjectOperatingSnapshotSummary` is defined multiple times
+     --> src\shared\generated.rs:11703:5
+      |
+11602 |     pub type ProjectOperatingSnapshotSummary = ProjectOperatingSnapshotSummaryContainsLabor;
+      |     ---------------------------------------------------------------------------------------- previous definition of the type `ProjectOperatingSnapshotSummary` here
+...
+11703 |     pub type ProjectOperatingSnapshotSummary = ProjectOperatingSnapshotSummaryCurrentActionLevel;
+      |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `ProjectOperatingSnapshotSummary` redefined here
+      |
+      = note: `ProjectOperatingSnapshotSummary` must be defined only once in the type namespace of this module
+
+For more information about this error, try `rustc --explain E0428`.
+error: could not compile `r4-s5-enum-proposal` (lib) due to 57 previous errors
+warning: build failed, waiting for other jobs to finish...
+error: could not compile `r4-s5-enum-proposal` (lib test) due to 57 previous errors

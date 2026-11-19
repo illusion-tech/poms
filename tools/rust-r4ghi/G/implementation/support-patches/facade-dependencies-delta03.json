@@ -1,0 +1,17 @@
+{
+  "kind": "review-only-not-applied-delta03",
+  "applied": false,
+  "compiled": false,
+  "realDatabaseValidated": false,
+  "Epreflight": {
+    "baseSha256": "f3db8eb7e847384f794c30beee6f03cc8c3758dc43db94a4d12dc4afd2fee311",
+    "candidateSha256": "da7c644b766b0cce407a37dc8bebd74874b6bab0bf0dc652697bb3e8e0d360e3",
+    "effects": "none; calls existing build_labor only, returns unit"
+  },
+  "FreferenceRead": {
+    "baseSha256": "6c10996eec05d8c224fd2a02ade0a69eb17b8a497ed175b09609ab8fbbf42c53",
+    "candidateSha256": "8f270b7c24294aef71383d50915439ebca76f3beaa38deb3102ca6c0b7d29cfa",
+    "boundary": "Read/capture an actual same-project included cost with real confirmation. No included cost mutation, no allocation consumption or stage interval inference; service write guards and source.stage=None stay intact."
+  },
+  "reason": "A real first Tax append may cite an already recognized source without requiring a nonexistent old Tax. A sealed Tax/Stage correction may also read actual recognized cost source facts."
+}

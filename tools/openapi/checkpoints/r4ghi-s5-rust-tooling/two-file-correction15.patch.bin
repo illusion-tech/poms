@@ -1,0 +1,51 @@
+--- a/tools/rust-r1b/s5/full-build.mjs
++++ b/tools/rust-r1b/s5/full-build.mjs
+@@ -2,7 +2,7 @@
+ // The entry wrapper must require Root-reviewed registration and S5 Git guard.
+ import assert from 'node:assert/strict';
+ import { readFileSync } from 'node:fs';
+-import { resolve } from 'node:path';
++import { posix, resolve } from 'node:path';
+ import { createRequire } from 'node:module';
+ import { createHash } from 'node:crypto';
+ import { analyzeRegisteredGraph, proposeRegistry, CLOSED_MODULES } from './registered-module-graph.mjs';
+@@ -163,9 +163,9 @@
+                 if(!item.topLevel||!aliases.has(item.owner)||old.origin!=='shared-array')throw new Error('Unregistered nominal collision '+name+' at '+item.id);
+                 same(old.values,item.values,'Canonical nominal source and retained array diverge: '+name);
+                 const reexporting=inputs.get(old.source.path);
+-                const resolveImported=(specifier)=>resolve('/',old.source.path,'..',specifier+(specifier.endsWith('.ts')?'':'.ts')).replaceAll('\\','/');
++                const resolveImported=(specifier)=>posix.normalize(posix.join(posix.dirname(old.source.path),specifier+(specifier.endsWith('.ts')?'':'.ts')));
+                 const proofs=[item.owner,name].map((symbol)=>{
+-                    const imported=reexporting.imports.filter((entry)=>entry.name===symbol&&entry.importedName===symbol&&resolveImported(entry.specifier).endsWith('/'+item.path));
++                    const imported=reexporting.imports.filter((entry)=>entry.name===symbol&&entry.importedName===symbol&&resolveImported(entry.specifier)===item.path);
+                     const exported=reexporting.exports.filter((entry)=>entry.name===symbol&&entry.localName===symbol);
+                     if(imported.length!==1||exported.length!==1)throw new Error('Canonical nominal binding lacks exact TS import/reexport '+name+':'+symbol);
+                     return {symbol,import:imported[0],export:exported[0]};
+--- a/tools/rust-r1b/s5/registered-module-graph.mjs
++++ b/tools/rust-r1b/s5/registered-module-graph.mjs
+@@ -4,7 +4,7 @@
+ import { createHash } from 'node:crypto';
+ import { readFileSync } from 'node:fs';
+ import { createRequire } from 'node:module';
+-import { dirname, resolve } from 'node:path';
++import { posix, resolve } from 'node:path';
+ import { Script } from 'node:vm';
+ 
+ export const CLOSED_MODULES = Object.freeze([
+@@ -42,11 +42,11 @@
+ function inputModule(specifier, from) {
+     if (specifier === 'zod') return 'zod';
+     if (!specifier.startsWith('.')) throw new Error(`Unregistered module import ${specifier}`);
+-    const absolute = resolve('/', dirname(from), specifier + (specifier.endsWith('.ts') ? '' : '.ts')).replaceAll('\\', '/');
+-    // resolve('/') is platform-dependent, so match only exact registered suffixes.
+-    const matches = CLOSED_MODULES.filter((name) => absolute.endsWith('/' + name));
+-    if (matches.length !== 1) throw new Error(`Unregistered module edge ${from} -> ${specifier}`);
+-    return matches[0];
++    // Logical module paths are repository-relative, independent of the host OS.
++    // Keep leading '..' underflow; a virtual-root resolve would silently clamp it.
++    const logical = posix.normalize(posix.join(posix.dirname(from), specifier + (specifier.endsWith('.ts') ? '' : '.ts')));
++    if (!CLOSED_MODULES.includes(logical)) throw new Error(`Unregistered module edge ${from} -> ${specifier}`);
++    return logical;
+ }
+ 
+ function syntax(ts, text, path) {

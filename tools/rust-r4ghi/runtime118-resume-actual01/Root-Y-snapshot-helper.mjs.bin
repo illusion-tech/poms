@@ -1,0 +1,37 @@
+// Root-owned, post-publication raw snapshot only. No module import beyond
+// builtins, service/process control, environment read, canonical or lock write.
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import {createHash,randomUUID} from 'node:crypto';
+
+const R='/mnt/e/projects/worktrees/poms-r3hijk-next28/poms';
+const P='/home/wangzishi/.local/share/poms-r4ghi/private';
+const D=P+'/business/g2-business15/main01';
+const TOP=P+'/runtime118-Native-Y-snapshots';
+const OWN_SHA='1da85861708f1d1c37389385f6c86741e46a7053d5c0eb034260ff8c01aba517';
+const sha=b=>createHash('sha256').update(b).digest('hex');
+function absolute(f){assert(typeof f==='string'&&f.startsWith('/')&&!f.startsWith('//')&&!/[\\\0\r\n]/.test(f));assert.equal(path.posix.normalize(f),f);}
+function raw(f){absolute(f);const a=fs.lstatSync(f,{bigint:true});assert(a.isFile()&&!a.isSymbolicLink());assert.equal(a.nlink,1n);assert.equal(a.uid,1000n);assert.equal(fs.realpathSync(f),f);const fd=fs.openSync(f,fs.constants.O_RDONLY|fs.constants.O_NOFOLLOW);try{const s=fs.fstatSync(fd,{bigint:true});for(const k of ['dev','ino','size','nlink','uid','mode','mtimeNs','ctimeNs'])assert.equal(s[k],a[k]);const b=fs.readFileSync(fd),z=fs.fstatSync(fd,{bigint:true}),l=fs.lstatSync(f,{bigint:true});for(const k of ['dev','ino','size','nlink','uid','mode','mtimeNs','ctimeNs']){assert.equal(z[k],s[k]);assert.equal(l[k],s[k]);}assert.equal(BigInt(b.length),s.size);return{bytes:b,identity:{file:f,dev:s.dev.toString(),ino:s.ino.toString(),nlink:Number(s.nlink),uid:Number(s.uid),mode:Number(s.mode),bytes:b.length,rawBytesSha256:sha(b),mtimeNs:s.mtimeNs.toString(),ctimeNs:s.ctimeNs.toString()}};}finally{fs.closeSync(fd);}}
+function pin(f){const v=raw(f);return{file:f,bytes:v.bytes.length,rawBytesSha256:v.identity.rawBytesSha256};}
+function read(p){const v=raw(p.file);assert.equal(v.identity.rawBytesSha256,p.rawBytesSha256);if(p.bytes!==undefined)assert.equal(v.bytes.length,p.bytes);return v;}
+const json=p=>JSON.parse(read(p).bytes);
+function dir(f){const s=fs.lstatSync(f,{bigint:true});assert(s.isDirectory()&&!s.isSymbolicLink());assert.equal(s.uid,1000n);assert.equal(fs.realpathSync(f),f);}
+let output=null,publication=null,snapshot=null,phase='preflight';
+function save(name,value){assert(output&&path.posix.basename(name)===name);const file=output+'/'+name,b=Buffer.isBuffer(value)?value:Buffer.from(JSON.stringify(value,null,2)+'\n');fs.writeFileSync(file,b,{flag:'wx',mode:0o600});const p=pin(file);assert(read(p).bytes.equals(b));return p;}
+try{
+  assert.equal(process.platform,'linux');assert.equal(process.getuid(),1000);assert.equal(process.cwd(),R);assert.equal(process.version,'v24.19.0');assert.deepEqual(process.execArgv,[]);
+  const args=process.argv.slice(2);assert.equal(args.length,4);assert.equal(args[0],'--publication');assert.equal(args[2],'--publication-sha');publication=pin(args[1]);assert.equal(publication.rawBytesSha256,args[3]);
+  const p=json(publication);assert.equal(p.kind,'actual-Source15-runtime121-FS-publication-complete');assert.equal(p.statePublished,true);for(const k of ['ordinaryContextCreated','APIStarted','SQLHTTP','G3','G4'])assert.equal(p[k],false);
+  const plan=json(p.input);assert.equal(plan.protocolVersion,5);assert.equal(publication.file,plan.outputs.receiptDirectory+'/complete.json');assert.equal(p.state.file,D+'/state.json');assert.equal(p.registry.file,plan.outputs.registryFile);assert.equal(p.candidate.file,plan.outputs.candidateFile);
+  const approval=json(p.approval);assert.equal(approval.kind,'Root-approved-exact-runtime-admission121');assert.equal(approval.actualG2Authorized,true);assert.equal(approval.FSStatePublicationGranted,true);for(const k of ['APIStartGranted','PGWriteGranted','TaxHTTPGranted'])assert.equal(approval[k],false);assert.equal(approval.approvedPlan.file,p.input.file);assert.equal(approval.approvedPlan.rawBytesSha256,p.input.rawBytesSha256);read(approval.independentInputReview);read(p.registry);read(p.candidate);read(p.prepareAdoption121);
+  const before=read(p.state),owned=raw(D+'/ownership.jsonl');assert.equal(owned.bytes.length,13016);assert.equal(owned.identity.rawBytesSha256,OWN_SHA);
+  dir(P);if(!fs.existsSync(TOP))fs.mkdirSync(TOP,{mode:0o700});dir(TOP);output=TOP+'/'+randomUUID();assert(!fs.existsSync(output));fs.mkdirSync(output,{mode:0o700});dir(output);
+  phase='raw-snapshot-copy';snapshot=save('state-after.json',before.bytes);assert.equal(snapshot.bytes,p.state.bytes);assert.equal(snapshot.rawBytesSha256,p.state.rawBytesSha256);
+  const after=read(p.state),ownedAfter=raw(D+'/ownership.jsonl');assert.deepEqual(after.identity,before.identity);assert(after.bytes.equals(before.bytes));assert.deepEqual(ownedAfter.identity,owned.identity);assert(ownedAfter.bytes.equals(owned.bytes));assert(read(snapshot).bytes.equals(before.bytes));
+  phase='complete';const complete=save('complete.json',{kind:'Root-runtime118-actual-Native-Y-raw-snapshot',schemaVersion:1,owner:'Root',executingDelegate:'/root',publication,snapshot,canonicalBefore:before.identity,canonicalAfter:after.identity,ownershipBefore:owned.identity,ownershipAfter:ownedAfter.identity,rawBytesEqual:true,FDAndHashBookendsVerified:true,canonicalWritten:false,ownershipWritten:false,prepareReplayed:false,contextAuthSQLHTTP:false});
+  console.log(JSON.stringify({complete,snapshot,dataOnly:true}));
+}catch{
+  let partial=null;if(output)try{partial=save('partial.json',{kind:'Root-runtime118-Native-Y-snapshot-partial-preserve',schemaVersion:1,publication,phase,snapshot,canonicalWritten:false,ownershipWritten:false,blindRetryForbidden:true});}catch{}
+  console.error(JSON.stringify({kind:'runtime118-Native-Y-snapshot-stopped',phase,partial,preserveOriginals:true,blindRetryForbidden:true}));process.exitCode=1;
+}

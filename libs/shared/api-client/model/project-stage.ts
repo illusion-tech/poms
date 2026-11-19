@@ -29,5 +29,7 @@ export enum ProjectStage {
 
     ClosedLost = 'closed-lost',
 
-    ClosedTerminated = 'closed-terminated'
+    ClosedTerminated = 'closed-terminated',
+
+    ConditionalCompleted = 'conditional-completed'
 }

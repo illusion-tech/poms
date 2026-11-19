@@ -4,6 +4,9 @@ import { Project } from './project.entity';
 const p = defineEntity.properties;
 
 export const ProjectOwnerReassignmentRecordSchema = defineEntity({
+    uniques: [
+        {"name":"uq_jghi_reassignment_project","properties":["id","projectId"]}
+    ],
     name: 'ProjectOwnerReassignmentRecord',
     tableName: 'project_owner_reassignment_record',
     schema: 'poms',

@@ -1,0 +1,29 @@
+--- a/apps/poms-api-rust/src/project_cost_governance/evidence.rs
++++ b/apps/poms-api-rust/src/project_cost_governance/evidence.rs
+@@ -359,12 +359,20 @@
+         if i64::from(store::version(&cost)?) != version {
+             return Err(Error::Conflict("Evidence source version changed".into()));
+         }
+-        if !logic::valid_confirmation_state(
+-            store::text(&cost, "record_status")?,
+-            cost["is_included_in_project_cost"]
+-                .as_bool()
+-                .unwrap_or(true),
+-        ) {
++        // This branch reads evidence and never changes the referenced cost.
++        // Actual target stage/allocation/tax write guards remain in service.
++        let included_readable = cost["record_status"] == "included"
++            && cost["is_included_in_project_cost"] == true
++            && !cost["confirmed_at"].is_null()
++            && !cost["confirmed_by"].is_null();
++        if !included_readable
++            && !logic::valid_confirmation_state(
++                store::text(&cost, "record_status")?,
++                cost["is_included_in_project_cost"]
++                    .as_bool()
++                    .unwrap_or(true),
++            )
++        {
+             return Err(Error::Conflict(
+                 "Evidence cost is not an eligible current fact".into(),
+             ));

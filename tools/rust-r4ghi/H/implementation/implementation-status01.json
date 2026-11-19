@@ -1,0 +1,175 @@
+{
+  "status": "implementation-written-awaiting-root-common-and-integration",
+  "author": "H",
+  "baseHead": "9e010077e3010ff09447e9d77cb1bf1f7adbf68d",
+  "scope": "H8 existing operations; no new HTTP",
+  "sourceManifestSHA256": "89a2ebeba984320afe9b883910be742edb15e97ce19b409eab0c3b4372d27da9",
+  "canonicalPolicySHA256": "7e9cfcedc496bd5d4ffd6fc158371e3db069110798926c63a5156ee4614a1aec",
+  "observedChecks": [
+    {
+      "check": "H rustfmt edition2024",
+      "result": "passed-syntax-and-format-only"
+    },
+    {
+      "check": "H scoped git diff --check",
+      "result": "passed"
+    },
+    {
+      "check": "isolated Angular22.1.6 ngc strictTemplates against generated128 candidate",
+      "result": "passed-not-integrated-build"
+    },
+    {
+      "check": "isolated actual Angular/Jest component unit tests against generated128 candidate",
+      "result": "passed",
+      "suites": 1,
+      "tests": 5
+    },
+    {
+      "check": "generated128 candidate standalone TypeScript strict compilation",
+      "result": "passed-not-canonical-shared-integration"
+    },
+    {
+      "check": "generated-schema regression counterexamples",
+      "result": "passed-generator-only",
+      "tests": 11
+    },
+    {
+      "check": "literal SQL placeholder/bind static count only",
+      "result": "passed-static-not-SQL-execution",
+      "statements": 40
+    }
+  ],
+  "pendingChecks": [
+    "Rust real compile/clippy/pure unit execution after Root common mod/hash/loader/scope/HTTP typed keys are synchronized; exact runtime Deserialize/Stored proof has now been received and consumed",
+    "Root canonical shared integration and full Native/shared/admin lint/build/tests",
+    "Root real PostgreSQL/HTTP/concurrency/FI/UI acceptance",
+    "Independent non-author G3/G4",
+    "Root final scope capability helper must gate H GET allowedActions by actual operating-write eligibility; write commands already enforce strict Root write authorization"
+  ],
+  "falseClaimsPrevented": {
+    "noGitOrGitHubMutation": true,
+    "noDatabaseAccessOrMigration": true,
+    "noServiceStarted": true,
+    "noSelfSignedGate": true,
+    "syntheticPureFixturesNotPGAcceptance": true
+  },
+  "excludedCache": "support-patches/jest-cache retained locally; not input or evidence; optional deletion was not executed",
+  "files": [
+    {
+      "path": "apps/poms-api-rust/src/project_operating_signals/mod.rs",
+      "bytes": 438,
+      "sha256": "3fa3519dcd29561cfe115665afe08f65203e4d6cd09d55dd96387833915e5fda"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_operating_signals/policy.rs",
+      "bytes": 38879,
+      "sha256": "7f351253b74cd801f1d1e0a52bb27df681ef680bb7ca57a931c93ed7adb0acab"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_operating_signals/projection.rs",
+      "bytes": 4668,
+      "sha256": "c048d0d464d88a4d023b4af8e7397752417063b6ffee8cc42a1abdd1d15e45db"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_operating_signals/query.rs",
+      "bytes": 26754,
+      "sha256": "7eaa441f5789b64533fa8defcfa3f5b56d4cbb6ec2b33506dd7cb309ccfc72eb"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_operating_signals/review.rs",
+      "bytes": 27647,
+      "sha256": "7b51814b321aee598700e7a1ff238ee312735340044c8f415d6678582a37ef72"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_operating_signals/service.rs",
+      "bytes": 21914,
+      "sha256": "a3841a9889f0ad5b314fb8e0d962ce5909506a7e6a491976f9e1dab07f745a68"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_operating_signals/store.rs",
+      "bytes": 14244,
+      "sha256": "b878c39a0bc9c130d72500c417aee07787f72ed840368e964a3187436e28a457"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_operating_signals/summary.rs",
+      "bytes": 9901,
+      "sha256": "d7ac414a8389dd3972fadbe5952dfa659e281eb2316c6e473fa9743c22a4b93c"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_operating_signals/tests.rs",
+      "bytes": 19125,
+      "sha256": "987fab7dd5624fd752eb25f396bbd9c8bb91e73c0d7529135062b68f6ee647f6"
+    },
+    {
+      "path": "tools/rust-r4ghi/H/implementation/support-patches/candidate9e-shared-contracts.ts",
+      "bytes": 483396,
+      "sha256": "d962b8267030c8277f760b8bd6471e62491ee7fbd6353226f6291d3ff3a18db1"
+    },
+    {
+      "path": "tools/rust-r4ghi/H/implementation/support-patches/check-generated.cjs",
+      "bytes": 2426,
+      "sha256": "259e4ed06cfa6e5d72e3df85753d26e58a1946cb240600ba012df63983c3b560"
+    },
+    {
+      "path": "tools/rust-r4ghi/H/implementation/support-patches/jest.ui-unit.cjs",
+      "bytes": 1315,
+      "sha256": "a5af7bc752fdff15b284da14915d7238cd014ef9ba0f515d697ce63b6f9e66fc"
+    },
+    {
+      "path": "tools/rust-r4ghi/H/implementation/support-patches/modern-reference-guard.ts",
+      "bytes": 1236,
+      "sha256": "ef78fb1cc915ffb76f65fd3883b99ce026bef78f3d65ef6acb350f176533db6c"
+    },
+    {
+      "path": "tools/rust-r4ghi/H/implementation/support-patches/prepare-shared-native.py",
+      "bytes": 11851,
+      "sha256": "252a89cf5f891b6c5e6943d0e88e6756c7eb38158d13f46303904aa93689bc25"
+    },
+    {
+      "path": "tools/rust-r4ghi/H/implementation/support-patches/root-integration.md",
+      "bytes": 2748,
+      "sha256": "3514a1600dfae9470ef87745399cef7dd98b5aca57bbbb6e578c19409b6991c2"
+    },
+    {
+      "path": "tools/rust-r4ghi/H/implementation/support-patches/rust-r4ghi-contracts.generated.ts",
+      "bytes": 269620,
+      "sha256": "b3512e1b8ec33c11dcf12908e82387ffc5d8730e51f45f880f37326c5d7208b2"
+    },
+    {
+      "path": "tools/rust-r4ghi/H/implementation/support-patches/shared-native-candidate.json",
+      "bytes": 10651,
+      "sha256": "e3c7700aa0a3ae916ae4f5f28ba9d5a4df4fd838fa8f596b6ec8bb2fec6c59b8"
+    },
+    {
+      "path": "tools/rust-r4ghi/H/implementation/support-patches/tsconfig.generated.json",
+      "bytes": 362,
+      "sha256": "3b8dd737e333a6aa2f295989e21011b37d648559536d9fbf49dd326e455fefbd"
+    },
+    {
+      "path": "tools/rust-r4ghi/H/implementation/support-patches/tsconfig.ui-candidate.json",
+      "bytes": 1014,
+      "sha256": "7475b36addd67e0c58493d808496d5564163a723dac7e38e2823f1bfd8eb2fab"
+    },
+    {
+      "path": "tools/rust-r4ghi/H/implementation/support-patches/tsconfig.ui-unit.json",
+      "bytes": 361,
+      "sha256": "c5c4a8a54e6ca5651b0d4a048a478a36cad5f1754211ec52c228f5aca5a0fb09"
+    },
+    {
+      "path": "tools/rust-r4ghi/H/implementation/support-patches/ui-contract-harness.ts",
+      "bytes": 201,
+      "sha256": "f35ed0881ee89f4a43a124523f2bf019386b66f1ad3bdf4095f955fb7ff35ea2"
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/project/project-operating-review.ts",
+      "bytes": 17826,
+      "sha256": "2d5c78e1380778b2013d25ab17f40f876e2921edf8517969b15709f460d4cef7"
+    },
+    {
+      "path": "apps/poms-admin/src/app/features/project/project-operating-review.spec.ts",
+      "bytes": 11983,
+      "sha256": "f8d2349d55ad4074db391c42328df61221bfd7751a1280ec484b8bf5ccb55380"
+    }
+  ],
+  "pureRuleTestGroupsWrittenNotRun": 13
+}

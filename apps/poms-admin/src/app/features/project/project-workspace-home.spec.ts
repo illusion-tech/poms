@@ -1,7 +1,7 @@
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { ProjectStage, ProjectStatus, ProjectStore, ProjectWorkspaceStore, type ProjectDetailView, type ProjectWorkspaceGuidanceView } from '@poms/admin-data-access';
+import { AuthStore, ProjectStage, ProjectStatus, ProjectStore, ProjectWorkspaceStore, type ProjectDetailView, type ProjectWorkspaceGuidanceView } from '@poms/admin-data-access';
 import { ProjectWorkspaceHome } from './project-workspace-home';
 
 function sensitiveProjection(value: string | null, mode: 'full' | 'masked' = value === null ? 'masked' : 'full') {
@@ -151,6 +151,7 @@ describe('ProjectWorkspaceHome', () => {
             imports: [ProjectWorkspaceHome],
             providers: [
                 provideRouter([]),
+                { provide: AuthStore, useValue: { hasAnyPermission: () => false } },
                 {
                     provide: ProjectStore,
                     useValue: {

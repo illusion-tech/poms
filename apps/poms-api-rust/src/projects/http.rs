@@ -131,6 +131,14 @@ pub fn router(auth: AuthHttpState, service: Arc<ProjectsService>) -> Router {
         .with_state(auth)
 }
 
+fn success_status(operation: Operation) -> StatusCode {
+    if matches!(operation, Operation::Create) {
+        StatusCode::CREATED
+    } else {
+        StatusCode::OK
+    }
+}
+
 fn response(status: StatusCode, value: Wire) -> Response {
     let mut response = (status, value.0).into_response();
     response.headers_mut().insert(
@@ -225,6 +233,7 @@ async fn dispatch(
                     &id,
                     validate!(validation::validate_update(parsed.raw())),
                     &session,
+                    &metadata,
                 )
                 .await
         }
@@ -234,19 +243,13 @@ async fn dispatch(
                 &id,
                 validate!(validation::validate_reassign(parsed.raw())),
                 &session,
+                &metadata,
             )
             .await;
         }
     };
     match result {
-        Ok(value) => response(
-            if matches!(op, Operation::Create) {
-                StatusCode::CREATED
-            } else {
-                StatusCode::OK
-            },
-            value,
-        ),
+        Ok(value) => response(success_status(op), value),
         Err(error) => error.into_api_error().into_response(),
     }
 }
@@ -256,11 +259,12 @@ async fn reassign(
     id: &str,
     input: super::model::ReassignProjectOwner,
     session: &crate::auth::model::ResolvedSession,
+    metadata: &crate::auth::guards::RequestMetadata,
 ) -> Response {
-    match service.reassign(id, input, session).await {
-        // Original Native witness01 actually returns 201; the unchanged
-        // complete specification's 200 is classified existing-baseline-drift.
-        Ok(value) => response(StatusCode::CREATED, value),
+    match service.reassign(id, input, session, metadata).await {
+        // The canonical contract has only 200. Preserve old Native/MASK09 201
+        // as failed-contract evidence; a committed reassignment is not retried.
+        Ok(value) => response(success_status(Operation::Reassign), value),
         Err(error) => error.into_api_error().into_response(),
     }
 }
@@ -269,6 +273,19 @@ async fn reassign(
 mod tests {
     use super::*;
 
+    #[test]
+    fn canonical_success_status_distinguishes_creation_from_updates_and_reassignment() {
+        assert_eq!(success_status(Operation::Create), StatusCode::CREATED);
+        for operation in [
+            Operation::List,
+            Operation::Get,
+            Operation::Lookup,
+            Operation::Update,
+            Operation::Reassign,
+        ] {
+            assert_eq!(success_status(operation), StatusCode::OK);
+        }
+    }
     #[test]
     fn only_six_original_operation_shapes_are_dispatched() {
         for (method, path) in [

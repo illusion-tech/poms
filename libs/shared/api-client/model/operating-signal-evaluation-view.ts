@@ -7,8 +7,13 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { OperatingEvaluationContext } from './operating-evaluation-context';
 import { OperatingSnapshotActionLevel } from './operating-snapshot-action-level';
+import { OperatingRiskLevel } from './operating-risk-level';
+import { OperatingMetricKnowledge } from './operating-metric-knowledge';
+import { OperatingReasonView } from './operating-reason-view';
 import { OperatingDataMaturityLevel } from './operating-data-maturity-level';
+import { SensitiveStringFieldProjection } from './sensitive-string-field-projection';
 import { OperatingSignalLevel } from './operating-signal-level';
 
 
@@ -17,14 +22,42 @@ export interface OperatingSignalEvaluationView {
     projectId: string;
     formulaBoundaryAction: OperatingSnapshotActionLevel;
     signalLevel: OperatingSignalLevel;
-    taxImpactSummary: string;
-    allocationStabilitySummary: string | null;
-    unmappedCostSummary: string | null;
+    taxImpactSummary: OperatingSignalEvaluationViewTaxImpactSummaryEnum | null;
+    allocationStabilitySummary: OperatingSignalEvaluationViewAllocationStabilitySummaryEnum | null;
+    unmappedCostSummary: OperatingSignalEvaluationViewUnmappedCostSummaryEnum | null;
     dataMaturityLevel: OperatingDataMaturityLevel;
     costActionRecommendation: OperatingSnapshotActionLevel;
-    currentActionLevel: OperatingSnapshotActionLevel;
+    currentActionLevel: OperatingSignalEvaluationViewCurrentActionLevelEnum;
     referencedBaselineVersion: string;
     referencedSnapshotVersion: string;
     reviewRequired: boolean;
-    reviewSummary: string | null;
+    reviewSummary: OperatingSignalEvaluationViewReviewSummaryEnum | null;
+    evaluationContext: OperatingEvaluationContext;
+    reasonItems: Array<OperatingReasonView>;
+    reviewState: OperatingSignalEvaluationViewReviewStateEnum;
+    metricKnowledge: OperatingMetricKnowledge;
+    rowVersion: number;
+    riskLevel: OperatingRiskLevel;
+    systemSignalLevel: OperatingSignalLevel;
+    systemRiskLevel: OperatingRiskLevel;
+    taxImpactSummaryProjection: SensitiveStringFieldProjection;
+    allocationStabilitySummaryProjection: SensitiveStringFieldProjection;
+    unmappedCostSummaryProjection: SensitiveStringFieldProjection;
+    reviewSummaryProjection: SensitiveStringFieldProjection;
 }
+export type OperatingSignalEvaluationViewTaxImpactSummaryEnum = null;;
+export type OperatingSignalEvaluationViewAllocationStabilitySummaryEnum = null;;
+export type OperatingSignalEvaluationViewUnmappedCostSummaryEnum = null;;
+export enum OperatingSignalEvaluationViewCurrentActionLevelEnum {
+    Prompt = 'prompt',
+    Review = 'review',
+    Block = 'block'
+};
+export type OperatingSignalEvaluationViewReviewSummaryEnum = null;;
+export enum OperatingSignalEvaluationViewReviewStateEnum {
+    NotRequired = 'not-required',
+    Pending = 'pending',
+    Acknowledged = 'acknowledged',
+    ManualConfirmed = 'manual-confirmed',
+    Stale = 'stale'
+};

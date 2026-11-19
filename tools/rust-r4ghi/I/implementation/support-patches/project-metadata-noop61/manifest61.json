@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "proposal": "I-accepted-IR-I60-01-metadata-new-owner-noop61",
+  "state": "frozen-prepared",
+  "files": [
+    {
+      "file": "apps/poms-api-rust/src/projects/service.rs",
+      "beforeSHA256": "f46a61cb295dd9caab7652b0cbc076ec3c8ef42bfea5d10601f92570079406ef",
+      "afterSHA256": "e8d6b0da004caf742d76f7b81734bf92f6c36817dba2fe9930e5328b4d0f7df5",
+      "candidate": "proposed/apps/poms-api-rust/src/projects/service.rs"
+    },
+    {
+      "file": "apps/poms-api-rust/src/projects/store.rs",
+      "beforeSHA256": "23ed76140b91e5627f503ddbc1687077f11f1d4d036b0a5c544ebfb7a1cce94c",
+      "afterSHA256": "42af2ed1f8171359916aa0ffd207d292c65c4a28202c479ed3b1ac1f4992761e",
+      "candidate": "proposed/apps/poms-api-rust/src/projects/store.rs"
+    }
+  ],
+  "scope": "Move updater stamping inside existing business-dirty branch; attribution alone is not business dirtiness",
+  "serviceDiffExactOnly": true,
+  "storeDiffOnlyClassifierAndTwoRegressions": true,
+  "authorizationCASCanonicalAuditCommonFlushUnchanged": true,
+  "validation": {
+    "rustfmt": "both full candidates passed",
+    "rust": "1.99.1",
+    "extractedActualClassifierAndTestsOnly": true,
+    "realDependencyPins": [
+      {
+        "file": "/home/wangzishi/.cache/poms-r4ghi-target-ROOT/debug/deps/libchrono-6f198e0d99a786b4.rlib",
+        "sha256": "f818b9e7d5895c797b41fa02c659833eb22f441ddd650c48f0e020a7bd1f386a"
+      },
+      {
+        "file": "/home/wangzishi/.cache/poms-r4ghi-target-ROOT/debug/deps/libuuid-670016c2d8dd5403.rlib",
+        "sha256": "e3c8e7ba2b7581d6594818eefc21bcd59731cfce289a66248e5a590f7805ecf2"
+      }
+    ],
+    "proof": [
+      {
+        "file": "extracted-actual-store-tests61.rs",
+        "sha256": "3b53cec671f0b1803883031987e2f384205e43bce646885f6b3885e8fffe6da1"
+      },
+      {
+        "file": "rustc61.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "pure61.log",
+        "sha256": "78a8b4f1fd36315418ee23804d5ad467eac892d706f57352df23a90b2b823cfe"
+      }
+    ],
+    "tests": 2,
+    "passed": 2,
+    "failed": 0,
+    "fullCrate": "pending Root",
+    "HTTP": "pending actual new-owner empty/same-value requests on source12"
+  },
+  "documentation": {
+    "file": "README61.md",
+    "sha256": "e4007eaaa8d575165ecc0ceaae607712fe51840cb1eec67e06f1ff1c55cf4c7b"
+  },
+  "SQLOrHTTPExecutedByAuthor": false,
+  "RootProductWrittenByAuthor": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

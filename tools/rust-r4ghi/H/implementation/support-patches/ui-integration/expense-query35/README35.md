@@ -1,0 +1,9 @@
+只修ui-expense18-policy的一处scope选择器，完整候选与exact before/after在products35.json，不改产品或按钮/表单定位。
+
+真实Expense01 DOM没有workspace form，仅“费用办理未完成，请核对原始结果。”alert。源代码的form aria-label和“登记本笔实际费用”按钮文字本来正确，不能改selector隐藏未加载问题。FS核browser13个请求全GET；Linux12条实际forward均complete200；唯一index10 canonical ContractController_list在beforeRequest失败、status=null、未forward，无POST/PUT/费用birth。Full GET确为本EO项目full-project/execution，owner是manager；不是权限隐藏表单。
+
+原policy把query方式GET /api/contracts的projectId与两个path方式cost list混在一起读params.projectId，导致undefined。真实SSOT projectId在query，实际data-access明确contractControllerList({projectId})并对所有返回来源再次验同project。本增量只拆Contract分支：固定原origin/path、projectId恰有一个且等于scene项目；其它query仍不能替代该必须scope参数。不新增operation、不泛化listing。expense-records/actual-cost-records继续原params.projectId校验，其他所有reads/writes/金额/CAS/ledger无改动。
+
+原exchange为避免泄露只记录/api/contracts?projectId，不声称其中保存了原始query值；同项目值的真实来源是Full返回ID及已pin的实际data-access调用。8项纯例核缺query/错名/foreign/重复/错路由/外源拒绝、两个path list不接受query冒充及未知Role仍拒绝。没有实际HTTP/SQL/浏览器。
+
+Root可在停止所有driver后，与Role34一起exact提升并捕获一轮全新图；新Expense02仍用原未创建费用的真实EO execution项目，fresh actor/plan/binding后从首create开始。保Expense01 failed及502原件，不重用旧私件或宣称其通过。若后续取得create ACK又停，应按真实effect对账，不盲重POST。本包不签Gate。

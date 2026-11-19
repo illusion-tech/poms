@@ -1,0 +1,338 @@
+diff --git a/tools/rust-r4ghi/business/lifecycle-consumer57.mjs b/tools/rust-r4ghi/business/lifecycle-consumer57.mjs
+new file mode 100644
+--- /dev/null
++++ b/tools/rust-r4ghi/business/lifecycle-consumer57.mjs
+@@ -0,0 +1,24 @@
++import assert from 'node:assert/strict';
++import { data, uuid } from './pure.mjs';
++
++export function lifecycleConsumer57(rootCtx, key, projectId) {
++  rootCtx.state.consumerChecks ??= {}; rootCtx.state.consumerChecks.lifecycle57 ??= {};
++  const store = rootCtx.state.consumerChecks.lifecycle57;
++  const record = store[key] ??= { projectId: uuid(projectId), fixtures: { project: { id: projectId }, uploads: {} }, checks: {} }; rootCtx.persist();
++  assert.equal(record.projectId, projectId);
++  const state = new Proxy(rootCtx.state, { get(target, name, receiver) { return name === 'fixtures' ? record.fixtures : Reflect.get(target, name, receiver); },
++    set(target, name, value, receiver) { assert.notEqual(name, 'fixtures'); return Reflect.set(target, name, value, receiver); } });
++  return { ctx: { ...rootCtx, state, consumerCheckKey57: key }, record };
++}
++export function ownTask57(response, actorId, parentId) {
++  const value = data(response); assert.equal(value.scopeKind, 'own-condition-only');
++  const parent = value.items.find(item => item.completionRecordId === parentId); assert(parent && parent.ownTasks.length === 1);
++  const task = parent.ownTasks[0]; assert.equal(task.responsibleUserId, actorId); uuid(task.conditionId);
++  return { parent, task, projectId: value.projectId };
++}
++export async function taskBody57(ctx, api, actor, parentId, evidenceLinkId) {
++  const response = await api.request('ProjectController_listProjectCompletionRecords', { projectId: ctx.state.fixtures.project.id }, null, actor);
++  const { parent, task } = ownTask57(response, ctx.state.actors[actor].id, parentId); assert.equal(task.status, 'pending');
++  return { params: { completionRecordId: parentId, id: task.conditionId }, body: { inputVersion: 'server-derived-v1', expectedCompletionVersion: parent.completionRowVersion,
++    expectedConditionVersion: task.conditionRowVersion, closureSummary: '本人以本任务真实purpose证据关闭；独立验收CAS/并发原件保留，不代其他责任人。', evidenceRefs: [{ attachmentLinkId: uuid(evidenceLinkId) }] }, task, parent, listReceipt: response.receiptId };
++}
+diff --git a/tools/rust-r4ghi/business/lifecycle-race57.mjs b/tools/rust-r4ghi/business/lifecycle-race57.mjs
+new file mode 100644
+--- /dev/null
++++ b/tools/rust-r4ghi/business/lifecycle-race57.mjs
+@@ -0,0 +1,78 @@
++import http from 'node:http';
++import assert from 'node:assert/strict';
++import { randomUUID } from 'node:crypto';
++import { setTimeout as delay } from 'node:timers/promises';
++import { data, sha, exactPath } from './pure.mjs';
++import { capture, readRows } from './snapshot.mjs';
++import { assertRecorded, reconcileAttempt } from './ledger.mjs';
++import { blockedByControl } from './creator-proofs.mjs';
++export const closeOperation57 = 'ProjectCompletionRecordController_closeCompletionCondition';
++
++async function attempt57(ctx, api, before, input, label) {
++  const operation = api.operations.get(closeOperation57); assert.equal(operation.method, 'POST');
++  const actor = ctx.state.actors[input.actor], requestId = `${ctx.state.prefix}-${label}-${randomUUID().slice(0, 8)}`;
++  const url = new URL(ctx.api + exactPath(operation.template, input.params)), payload = Buffer.from(JSON.stringify(input.body)); assert.equal(url.origin, ctx.api);
++  const headers = { Origin: ctx.origin, 'X-Request-Id': requestId, 'Accept-Encoding': 'identity', 'Content-Type': 'application/json', 'Content-Length': payload.length,
++    Cookie: Object.entries(actor.cookies).map(([key, value]) => `${key}=${value}`).join('; '), 'X-CSRF-Token': decodeURIComponent(actor.cookies.poms_csrf) };
++  const originals = { request: ctx.artifact(`${label}-request.json`, { operationId: closeOperation57, actorKey: input.actor, actorId: actor.id, requestId, url: url.href, headers, params: input.params, before: before.manifest }),
++    requestBody: ctx.artifact(`${label}-body.bin`, payload) }; ctx.persist();
++  const chunks = []; let response = null, failure = null;
++  try {
++    response = await new Promise((resolve, reject) => {
++      const request = http.request(url, { method: 'POST', headers, timeout: 45000 }, result => {
++        originals.responseHeaders = ctx.artifact(`${label}-response-headers.json`, { status: result.statusCode, rawHeaders: result.rawHeaders });
++        for (const cookie of result.headers['set-cookie'] ?? []) { const part = cookie.split(';', 1)[0], at = part.indexOf('='); if (at > 0) actor.cookies[part.slice(0, at)] = part.slice(at + 1); }
++        result.on('data', bytes => chunks.push(Buffer.from(bytes))); result.once('aborted', () => reject(new Error('race response aborted'))); result.once('error', reject);
++        result.once('end', () => resolve({ status: result.statusCode, complete: result.complete }));
++      }); request.once('error', reject); request.once('timeout', () => request.destroy(new Error('race timeout'))); request.end(payload);
++    });
++  } catch (error) { failure = { name: error.name, message: error.message }; }
++  const bytes = Buffer.concat(chunks); originals.responseBody = ctx.artifact(`${label}-response.bin`, bytes); let body = null; try { body = JSON.parse(bytes); } catch { /* Exact bytes retained. */ }
++  const value = { operationId: closeOperation57, requestId, actorKey: input.actor, actorId: actor.id, pathParams: input.params, requestValue: input.body, requestBodySha256: sha(payload),
++    body, status: response?.status ?? null, responseComplete: response?.complete === true, transportFailure: Boolean(failure), originals, failure };
++  const receiptId = `${ctx.out}/${label}-http.json`; ctx.public(`${label}-http.json`, { kind: 'actual-A07-concurrent-close-HTTP', operationId: closeOperation57, requestId,
++    status: value.status, responseComplete: value.responseComplete, transportFailure: value.transportFailure, originals, originalBodyAndCredentialsPrivate: true }); ctx.persist(); return { ...value, receiptId };
++}
++export async function concurrentClose57(ctx, api, record, inputs, projectId, parentId) {
++  assert.equal(process.platform, 'linux'); assert.equal(inputs.length, 2); assert(!record.raceAttempt, 'A started race must be reconciled, never blindly replayed');
++  const before = await capture(ctx, ctx.next('a07-race-before')); assertRecorded(ctx, before);
++  record.raceAttempt = { phase: 'control-pending', before: before.manifest, inputs: inputs.map(input => ({ actor: input.actor, params: input.params, bodySHA256: sha(JSON.stringify(input.body)) })) }; ctx.persist();
++  const control = await ctx.client(); let released = false, pending = [], waiters = [], controlPid = null, schedulingFailure = null;
++  try {
++    await control.query('BEGIN'); controlPid = (await control.query('SELECT pg_backend_pid()::int AS pid')).rows[0].pid;
++    assert.equal((await control.query('SELECT id FROM poms.project_completion_record WHERE id=$1::uuid AND project_id=$2::uuid FOR UPDATE', [parentId, projectId])).rows.length, 1);
++    let settled = 0; pending = inputs.map(input => attempt57(ctx, api, before, input, ctx.next('a07-race-http')).then(value => ({ value }), error => ({ failure: { name: error.name, message: error.message } })).finally(() => { settled += 1; }));
++    for (let i = 0; i < 100; i += 1) {
++      const graph = await ctx.db(async c => (await c.query('SELECT pid::int,usename,state,wait_event_type,pg_blocking_pids(pid) AS blocked_by FROM pg_stat_activity WHERE datname=current_database()')).rows);
++      waiters = graph.filter(row => row.usename === ctx.apps[1] && row.state === 'active' && row.wait_event_type === 'Lock' && blockedByControl(row.pid, graph, controlPid));
++      if (waiters.length >= 2 || settled === 2) break; await delay(100);
++    }
++    await control.query('ROLLBACK'); released = true;
++  } catch (error) { schedulingFailure = { name: error.name, message: error.message }; }
++  finally { try { if (!released) await control.query('ROLLBACK'); } catch (error) { schedulingFailure ??= { name: error.name, message: error.message }; } finally { try { await control.end(); } catch (error) { schedulingFailure ??= { name: error.name, message: error.message }; } } }
++  const settled = await Promise.all(pending), attempts = settled.flatMap(item => item.value ? [item.value] : []), failures = settled.flatMap(item => item.failure ? [item.failure] : []);
++  const after = await capture(ctx, ctx.next('a07-race-after')); record.raceAttempt.after = after.manifest; record.raceAttempt.phase = 'responses-proof-pending'; ctx.persist();
++  const success = api.success(closeOperation57), acceptable = !schedulingFailure && !failures.length && waiters.length === 2 && attempts.length === 2
++    && attempts.every(attempt => attempt.responseComplete && !attempt.transportFailure) && JSON.stringify(attempts.map(attempt => attempt.status).sort()) === JSON.stringify([success, 409].sort());
++  const observation = ctx.artifact(`${ctx.next('a07-race-observed')}.json`, { before: before.manifest, after: after.manifest, attempts, failures, schedulingFailure, controlPid, waiters,
++    actualTwoWaitersBeforeRelease: waiters.length === 2, expectedStatuses: [success, 409], acceptable, schedulingSQLOnlyAndAlwaysRollback: true });
++  record.raceAttempt.observation = observation; ctx.persist();
++  if (!acceptable) { ctx.state.blockedObservation = observation; ctx.persist(); throw new Error('Actual race incomplete/unexpected; inspect both attempts and exact data, no inferred rollback or retry'); }
++  const winner = attempts.find(attempt => attempt.status === success), loser = attempts.find(attempt => attempt.status === 409); winner.expectedStatus = success;
++  const ledger = await reconcileAttempt(ctx, before, after, winner, { responseBirths: [{ table: 'project_completion_condition_closure', pointer: '/closureRecordId' }], mutableTables: ['project_completion_record', 'project_completion_condition'],
++    updatedAnchors: [{ table: 'project_completion_record', id: parentId, requestBinding: 'path:completionRecordId' }, { table: 'project_completion_condition', id: winner.pathParams.id, requestBinding: 'path:id' }] });
++  const all = (snapshot, table) => readRows(snapshot.databases[ctx.database].tables[table]), row = (snapshot, table, id) => all(snapshot, table).find(item => item.key[0] === id);
++  const parentBefore = row(before, 'project_completion_record', parentId), parentAfter = row(after, 'project_completion_record', parentId);
++  assert.equal(JSON.parse(parentAfter.raw).row_version, JSON.parse(parentBefore.raw).row_version + 1);
++  assert.equal(JSON.parse(parentAfter.raw).completion_result, 'conditional-completed');
++  const priorIds = new Set(all(before, 'project_completion_condition_closure').map(item => item.key[0]));
++  const closures = all(after, 'project_completion_condition_closure').filter(item => !priorIds.has(item.key[0])); assert.equal(closures.length, 1); assert.equal(closures[0].key[0], data(winner).closureRecordId);
++  const conditionBefore = row(before, 'project_completion_condition', winner.pathParams.id), conditionAfter = row(after, 'project_completion_condition', winner.pathParams.id);
++  assert.equal(JSON.parse(conditionAfter.raw).row_version, JSON.parse(conditionBefore.raw).row_version + 1); assert.equal(JSON.parse(conditionAfter.raw).status, 'closed');
++  if (loser.pathParams.id !== winner.pathParams.id) { const oldLoser = row(before, 'project_completion_condition', loser.pathParams.id), currentLoser = row(after, 'project_completion_condition', loser.pathParams.id); assert.equal(currentLoser.sha256, oldLoser.sha256); assert.equal(currentLoser.xmin, oldLoser.xmin); }
++  const audits = all(after, 'audit_log').filter(item => { const value = JSON.parse(item.raw); return value.event_type === closeOperation57 && [winner.requestId, loser.requestId].includes(value.request_id); }); assert.equal(audits.length, 1);
++  for (const actual of [conditionAfter, ...closures, ...audits]) assert.equal(actual.xmin, parentAfter.xmin);
++  const proof = ctx.artifact(`${ctx.next('a07-race-proof')}.json`, { observation, ledger, projectId, parentId, winner: winner.receiptId, loser: loser.receiptId, winningConditionId: winner.pathParams.id,
++    actualSharedXmin: parentAfter.xmin, oneClosureOneParentIncrementOneWinningAudit: true, actualLockWaiters: 2, businessFactsSQLFixture: false });
++  record.raceAttempt.phase = 'verified'; record.raceAttempt.proof = proof; ctx.persist(); return { proof, winner, loser };
++}
+diff --git a/tools/rust-r4ghi/business/lifecycle-cases57.mjs b/tools/rust-r4ghi/business/lifecycle-cases57.mjs
+new file mode 100644
+--- /dev/null
++++ b/tools/rust-r4ghi/business/lifecycle-cases57.mjs
+@@ -0,0 +1,70 @@
++import assert from 'node:assert/strict';
++import { data } from './pure.mjs';
++import { createApi } from './http.mjs';
++import { openFixtureView } from './fixture-view23.mjs';
++import { uploadEvidence } from './evidence.mjs';
++import { lifecycleConsumer57, ownTask57, taskBody57 } from './lifecycle-consumer57.mjs';
++import { concurrentClose57, closeOperation57 } from './lifecycle-race57.mjs';
++import { loadSnapshot } from './snapshot.mjs';
++import { assertSweepRollback } from './fault-sweep.mjs';
++import { requireOwnedScope } from './required-write-inventory.mjs';
++
++function unchanged57(ctx, response, projectId, actor) {
++  const before = loadSnapshot(ctx, response.before), after = loadSnapshot(ctx, response.after);
++  const sessionId = requireOwnedScope(ctx, before, { projectId, actorId: ctx.state.actors[actor].id, actorKey: actor });
++  return assertSweepRollback(ctx, before, after, { sessionId }, ctx.state.actors[actor].id);
++}
++async function clones57(ctx, api, actorKey) {
++  const original = ctx.state.actors[actorKey], keys = ['a07SameA', 'a07SameB'];
++  for (const key of keys) { ctx.state.actors[key] ??= { key, id: original.id, username: original.username, password: original.password, cookies: {}, permissions: [], roleId: original.roleId, orgId: original.orgId };
++    assert.equal(ctx.state.actors[key].id, original.id); await api.login(key); }
++  assert.notEqual(ctx.state.actors[keys[0]].cookies.poms_session, ctx.state.actors[keys[1]].cookies.poms_session); return keys;
++}
++export async function ownSameTask57(rootCtx) {
++  const producer = openFixtureView(rootCtx, 'own').record; assert(producer.pause?.result.parentCompletionRecordId);
++  const projectId = producer.pause.result.projectId, parentId = producer.pause.result.parentCompletionRecordId;
++  const { ctx, record } = lifecycleConsumer57(rootCtx, 'same-task-own-B', projectId), api = createApi(ctx);
++  if (record.result) return record.result;
++  await api.login('unrelated');
++  const list = await api.request('ProjectController_listProjectCompletionRecords', { projectId }, null, 'unrelated'), { task } = ownTask57(list, ctx.state.actors.unrelated.id, parentId);
++  assert.equal(task.status, 'pending');
++  const actual = await ctx.db(async c => (await c.query('SELECT id::text,status,responsible_user_id::text FROM poms.project_completion_condition WHERE completion_record_id=$1::uuid AND project_id=$2::uuid ORDER BY id', [parentId, projectId])).rows);
++  assert.equal(actual.length, 2); assert.equal(actual.filter(row => row.status === 'pending').length, 1); assert.equal(actual.find(row => row.status === 'pending').id, task.conditionId, 'Run only after UI14 really closed task A');
++  record.purpose ??= await uploadEvidence(ctx, api, { actor: 'unrelated', key: 'a07-same-b', condition: { completionRecordId: parentId, conditionId: task.conditionId }, text: `Real A07 same-task CAS evidence for ${task.conditionId}; no other project or task link.` }); ctx.persist();
++  const prepared = await taskBody57(ctx, api, 'unrelated', parentId, record.purpose.attachmentLinkId), keys = await clones57(ctx, api, 'unrelated');
++  const result = await concurrentClose57(ctx, api, record, keys.map(actor => ({ ...prepared, actor })), projectId, parentId);
++  assert.equal(data(result.winner).completionConditionStatus, 'closed');
++  record.result = { kind: 'actual-A07-same-task-double-session-CAS', projectId, parentId, conditionId: task.conditionId, race: result.proof, actualWinnerCount: 1, originalConditionalConclusionUnchanged: true, oldProducerRecordWritten: false, G3Certified: false, G4Certified: false }; ctx.persist(); return record.result;
++}
++export async function crossParent57(rootCtx) {
++  const producer = openFixtureView(rootCtx, 'own').record, projectId = producer.pause.result.projectId, parentId = producer.pause.result.parentCompletionRecordId;
++  const { ctx, record } = lifecycleConsumer57(rootCtx, 'cross-parent-own-B', projectId), api = createApi(ctx);
++  assert(rootCtx.state.fixtures.completion?.id, 'Main must have a real independently produced completion parent first');
++  const wrongParent = rootCtx.state.fixtures.completion.id; assert.notEqual(wrongParent, parentId);
++  await api.login('unrelated'); const list = await api.request('ProjectController_listProjectCompletionRecords', { projectId }, null, 'unrelated'), { task } = ownTask57(list, ctx.state.actors.unrelated.id, parentId); assert.equal(task.status, 'pending');
++  record.purpose ??= await uploadEvidence(ctx, api, { actor: 'unrelated', key: 'a07-cross-b', condition: { completionRecordId: parentId, conditionId: task.conditionId }, text: `Real A07 negative parent/evidence checks for ${task.conditionId}; task remains pending.` }); ctx.persist();
++  const prepared = await taskBody57(ctx, api, 'unrelated', parentId, record.purpose.attachmentLinkId);
++  const cases = [
++    { name: 'wrong-parent', actor: 'unrelated', params: { ...prepared.params, completionRecordId: wrongParent }, body: prepared.body, status: 404 },
++    { name: 'foreign-project-evidence', actor: 'unrelated', params: prepared.params, body: { ...prepared.body, evidenceRefs: [{ attachmentLinkId: rootCtx.state.fixtures.deliveryEvidence.attachmentLinkId }] }, status: 409 },
++    { name: 'wrong-responsible-owner', actor: 'manager', params: prepared.params, body: prepared.body, status: 403 },
++  ];
++  await api.login('manager'); record.results ??= {};
++  for (const item of cases) { if (record.results[item.name]) continue; const response = await api.request(closeOperation57, item.params, item.body, item.actor, { expectedStatus: item.status });
++    record.results[item.name] = ctx.artifact(`${ctx.next('a07-negative')}.json`, { name: item.name, receipt: response.receiptId, expectedStatus: item.status, rollback: unchanged57(ctx, response, projectId, item.actor), taskStillUnconsumed: true }); ctx.persist(); }
++  return { kind: 'actual-A07-dual-UUID-project-and-responsibility-rejections', projectId, parentId, results: record.results, oldProducerRecordWritten: false, G3Certified: false, G4Certified: false };
++}
++export async function sensitiveGet57(rootCtx) {
++  const f = rootCtx.state.fixtures; assert(f.maskProject?.id && f.maskFixtureComplete, 'Wait for the actual H16 MASK person-owned fixture; full manager projections do not emit a hidden-field event');
++  const projectId = f.maskProject.id, { ctx, record } = lifecycleConsumer57(rootCtx, 'sensitive-get-mask', projectId), api = createApi(ctx); await api.login('person');
++  const permissions = ctx.state.actors.person.permissions; assert(permissions.includes('contract:finance:manage')); assert(!permissions.includes('operating:finance:sensitive:read'));
++  if (record.proof) return { proof: record.proof, noFailedProbeReplay: true };
++  const response = await api.request('ProjectCostController_getProjectUnifiedAccounting', { projectId }, null, 'person', { expectedStatus: 500,
++    query: { view: 'preparation', intent: 'snapshot-create', snapshotMode: 'realtime' }, fi: { table: 'security_event', event: 'INSERT', field: 'request_id', eventType: 'sensitive_field.masked' } });
++  assert.equal(response.fault.hitCount, 1); const payload = data(response); assert.equal(payload.statusCode, 500);
++  for (const key of ['financialProjection', 'preparation', 'officialCurrent', 'sourceRows', 'reasonItems', 'evaluationRefs']) assert(!Object.hasOwn(payload, key), 'Necessary sensitive audit failure must expose no protected success payload');
++  const rollback = unchanged57(ctx, response, projectId, 'person');
++  const success = await api.request('ProjectCostController_getProjectUnifiedAccounting', { projectId }, null, 'person', { query: { view: 'preparation', intent: 'snapshot-create', snapshotMode: 'realtime' } });
++  record.proof = ctx.artifact(`${ctx.next('a07-sensitive-get-proof')}.json`, { failed: response.receiptId, actualPrimaryHits: response.fault.hitCount, rollback, noPayloadOnFailure: true, successfulRead: success.receiptId,
++    actualProjectionEvent: 'sensitive_field.masked', allPermissionFullReadNotMisrepresentedAsAudited: true }); ctx.persist(); return { kind: 'actual-A07-required-sensitive-GET-audit-failure', proof: record.proof, G3Certified: false, G4Certified: false };
++}
+diff --git a/tools/rust-r4ghi/business/lifecycle-two-task57.mjs b/tools/rust-r4ghi/business/lifecycle-two-task57.mjs
+new file mode 100644
+--- /dev/null
++++ b/tools/rust-r4ghi/business/lifecycle-two-task57.mjs
+@@ -0,0 +1,51 @@
++import assert from 'node:assert/strict';
++import { data } from './pure.mjs';
++import { createApi } from './http.mjs';
++import { pauseBeforeOwnList } from './pause-boundary23.mjs';
++import { lifecycleConsumer57, ownTask57, taskBody57 } from './lifecycle-consumer57.mjs';
++import { uploadEvidence } from './evidence.mjs';
++import { concurrentClose57, closeOperation57 } from './lifecycle-race57.mjs';
++
++export async function prepareTwoTask57(rootCtx) {
++  const source = rootCtx.state.fixtures.a05Boundaries26?.views?.['cent-max'];
++  assert(source?.result?.published && source.fixtures.a05SnapshotHTTP?.proof && source.fixtures.a05SnapshotHTTP.proofPending === false, 'Finish actual A05 cent-max publication before reusing its project');
++  const { ctx, record } = lifecycleConsumer57(rootCtx, 'different-tasks-cent-max', source.fixtures.project.id), api = createApi(ctx), f = ctx.state.fixtures;
++  assert(!source.fixtures.completion, 'Do not take a project already consumed by another lifecycle/UI flow');
++  if (record.prepared) return record.prepared;
++  assert(!record.preparationStarted, 'Interrupted actual lifecycle preparation requires exact originals reconciliation');
++  for (const actor of ['execution', 'condition', 'unrelated']) await api.login(actor);
++  const live = data(await api.request('ProjectController_getById', { id: f.project.id }, null, 'execution'));
++  assert.equal(live.scopeKind, 'full-project'); assert.equal(live.currentStage, 'execution'); assert.equal(live.currentStageRecordId, source.fixtures.execution.projectStageRecordId);
++  f.executionComplete = true; f.execution = source.fixtures.execution; record.sourcePublishedSnapshotProof = source.fixtures.a05SnapshotHTTP.proof;
++  record.preparationStarted = true; ctx.persist();
++  const boundary = await pauseBeforeOwnList(ctx, api); assert.equal(boundary.operationId, 'ProjectController_listProjectCompletionRecords');
++  record.prepared = { projectId: f.project.id, parentId: f.completion.id, boundary, realTwoConditionsPending: true, originalPublishedSnapshotProof: record.sourcePublishedSnapshotProof,
++    moneyOrOriginalProducerRecordWritten: false, currentLifecycleFactsAreConsumerChecksOnly: true }; ctx.persist(); return record.prepared;
++}
++export async function differentTasks57(rootCtx) {
++  const prepared = await prepareTwoTask57(rootCtx), { ctx, record } = lifecycleConsumer57(rootCtx, 'different-tasks-cent-max', prepared.projectId), api = createApi(ctx), parentId = prepared.parentId;
++  if (record.result) return record.result;
++  assert(!record.raceAttempt, 'Reconcile an existing race before attempting closure again');
++  const inputs = [];
++  for (const actor of ['condition', 'unrelated']) {
++    await api.login(actor); const list = await api.request('ProjectController_listProjectCompletionRecords', { projectId: prepared.projectId }, null, actor), { task } = ownTask57(list, ctx.state.actors[actor].id, parentId); assert.equal(task.status, 'pending');
++    record.purposes ??= {}; record.purposes[actor] ??= await uploadEvidence(ctx, api, { actor, key: `a07-two-${actor}`, condition: { completionRecordId: parentId, conditionId: task.conditionId }, text: `Real A07 different-task purpose for ${task.conditionId}, personal actor ${actor}; parent CAS must not skip another task.` }); ctx.persist();
++    const input = await taskBody57(ctx, api, actor, parentId, record.purposes[actor].attachmentLinkId); inputs.push({ ...input, actor });
++  }
++  assert.equal(inputs[0].body.expectedCompletionVersion, inputs[1].body.expectedCompletionVersion); assert.notEqual(inputs[0].params.id, inputs[1].params.id);
++  const result = await concurrentClose57(ctx, api, record, inputs, prepared.projectId, parentId); assert.equal(data(result.winner).completionConditionStatus, 'pending');
++  record.refreshedLoser ??= { phase: 'refresh-pending' }; ctx.persist();
++  const loserActor = result.loser.actorKey, original = inputs.find(input => input.actor === loserActor);
++  const fresh = await taskBody57(ctx, api, loserActor, parentId, record.purposes[loserActor].attachmentLinkId);
++  assert.equal(fresh.body.expectedConditionVersion, original.body.expectedConditionVersion); assert.equal(fresh.body.expectedCompletionVersion, original.body.expectedCompletionVersion + 1);
++  record.refreshedLoser.phase = 'actual-resubmission-starting'; ctx.persist();
++  const response = await api.request(closeOperation57, fresh.params, fresh.body, loserActor, { responseBirths: [{ table: 'project_completion_condition_closure', pointer: '/closureRecordId' }], mutableTables: ['project_completion_record', 'project_completion_condition'],
++    updatedAnchors: [{ table: 'project_completion_record', id: parentId, requestBinding: 'path:completionRecordId' }, { table: 'project_completion_condition', id: fresh.params.id, requestBinding: 'path:id' }] });
++  record.refreshedLoser = { phase: 'success-proof-pending', receipt: response.receiptId, before: response.before, after: response.after }; ctx.persist();
++  const closed = data(response); assert.equal(closed.completionConditionStatus, 'closed'); assert.notEqual(closed.closureRecordId, data(result.winner).closureRecordId);
++  const rows = await ctx.db(async c => (await c.query('SELECT condition_status,completion_result,row_version,(SELECT count(*)::int FROM poms.project_completion_condition c WHERE c.completion_record_id=p.id AND c.status=\'closed\') closed_count,(SELECT count(*)::int FROM poms.project_completion_condition_closure r WHERE r.completion_record_id=p.id) closure_count FROM poms.project_completion_record p WHERE p.id=$1::uuid AND p.project_id=$2::uuid', [parentId, prepared.projectId])).rows);
++  assert.equal(rows.length, 1); assert.equal(rows[0].condition_status, 'closed'); assert.equal(rows[0].completion_result, 'conditional-completed'); assert.equal(rows[0].closed_count, 2); assert.equal(rows[0].closure_count, 2);
++  record.refreshedLoser.phase = 'verified'; record.result = { kind: 'actual-A07-two-different-tasks-parent-CAS-and-server-aggregate', projectId: prepared.projectId, parentId, race: result.proof,
++    explicitFreshParentRetry: response.receiptId, finalActual: rows, actualTwoOriginalCASRequestsHadOnlyOneWinner: true, finalAggregateAfterBothActualClosuresOnly: true,
++    originalConditionalResultAndA05MoneyUnchanged: true, oldProducerViewWritten: false, G3Certified: false, G4Certified: false }; ctx.persist(); return record.result;
++}
+diff --git a/tools/rust-r4ghi/business/run-lifecycle57.mjs b/tools/rust-r4ghi/business/run-lifecycle57.mjs
+new file mode 100644
+--- /dev/null
++++ b/tools/rust-r4ghi/business/run-lifecycle57.mjs
+@@ -0,0 +1,27 @@
++#!/usr/bin/env node
++import fs from 'node:fs';
++import assert from 'node:assert/strict';
++import { pathToFileURL } from 'node:url';
++import { createContext, FIXED } from './context.mjs';
++import { sha, segment, safeFailure } from './pure.mjs';
++export async function main(argv = process.argv.slice(2)) {
++  if (argv.length === 1 && argv[0] === '--help') { console.log('Root only: run-lifecycle57.mjs EPOCH RUN same-task|cross-parent|sensitive-get|prepare-two-task|different-tasks; current actual retained consumer context and source pins required. No import/help I/O.'); return; }
++  assert.equal(argv.length, 3); const epoch = segment(argv[0]), run = segment(argv[1]), mode = argv[2];
++  assert(['same-task', 'cross-parent', 'sensitive-get', 'prepare-two-task', 'different-tasks'].includes(mode)); assert.equal(process.platform, 'linux');
++  const lock = `${FIXED.private}/business/${epoch}/${run}/driver.lock`; assert(!fs.existsSync(lock), 'Wait for Root102/lifecycle/UI driver to end');
++  const ctx = createContext({ epoch, run }); fs.writeFileSync(lock, JSON.stringify({ pid: process.pid, mode: `lifecycle57-${mode}` }) + '\n', { flag: 'wx', mode: 0o600 });
++  let label;
++  try {
++    assert(ctx.state.baseline && !ctx.state.activeFault && !ctx.state.blockedObservation && !ctx.state.cleaned);
++    const pins = JSON.parse(fs.readFileSync(new URL('./lifecycle-sources57.json', import.meta.url)));
++    for (const pin of pins) assert.equal(ctx.pins.find(value => value.file === pin.file)?.sha256, pin.sha256, `Actual A07 source changed: ${pin.file}`);
++    const { ownSameTask57, crossParent57, sensitiveGet57 } = await import('./lifecycle-cases57.mjs');
++    const { prepareTwoTask57, differentTasks57 } = await import('./lifecycle-two-task57.mjs');
++    label = ctx.next(`a07-${mode}`); ctx.persist(); ctx.artifact(`${label}-intent.json`, { kind: 'Root-actual-A07-mode-intent', mode, sourcePins: ctx.pins, helperPins: ctx.helperPins });
++    const result = await ({ 'same-task': ownSameTask57, 'cross-parent': crossParent57, 'sensitive-get': sensitiveGet57, 'prepare-two-task': prepareTwoTask57, 'different-tasks': differentTasks57 }[mode])(ctx);
++    const receipt = ctx.artifact(`${label}-complete.json`, result, { kind: 'actual-A07-mode-complete', mode, G3Certified: false, G4Certified: false }); console.log(JSON.stringify({ status: 'completed', mode, receipt, G3Certified: false, G4Certified: false }));
++  } catch (error) {
++    const original = ctx.artifact(`${ctx.next('a07-partial')}.json`, { name: error.name, message: error.message, stack: error.stack, mode }); console.error(JSON.stringify({ ...safeFailure(error), mode, original })); process.exitCode = 1;
++  } finally { const owner = JSON.parse(fs.readFileSync(lock)); assert.equal(owner.pid, process.pid); fs.unlinkSync(lock); }
++}
++if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) await main();
+diff --git a/tools/rust-r4ghi/business/lifecycle57.test.mjs b/tools/rust-r4ghi/business/lifecycle57.test.mjs
+new file mode 100644
+--- /dev/null
++++ b/tools/rust-r4ghi/business/lifecycle57.test.mjs
+@@ -0,0 +1,27 @@
++import test from 'node:test';
++import assert from 'node:assert/strict';
++import { exactPath } from './pure.mjs';
++import { lifecycleConsumer57, ownTask57, taskBody57 } from './lifecycle-consumer57.mjs';
++import { blockedByControl } from './creator-proofs.mjs';
++const a = '11111111-1111-4111-8111-111111111111', b = '22222222-2222-4222-8222-222222222222', c = '33333333-3333-4333-8333-333333333333';
++test('A07 dual UUID request never substitutes child for parent', () => {
++  assert.equal(exactPath('/api/project-completion-records/{completionRecordId}/conditions/{id}:close', { completionRecordId: a, id: b }), `/api/project-completion-records/${a}/conditions/${b}:close`);
++});
++test('task body uses actual minimal own-list parent and child CAS, with no FullProject read', async () => {
++  const calls = [], body = { scopeKind: 'own-condition-only', projectId: a, items: [{ completionRecordId: b, completionRowVersion: 4, ownTasks: [{ conditionId: c, conditionRowVersion: 2, responsibleUserId: 'actor', status: 'pending' }] }] };
++  const ctx = { state: { fixtures: { project: { id: a } }, actors: { unrelated: { id: 'actor' } } } }, api = { request: async (...args) => { calls.push(args); return { body, receiptId: 'actual' }; } };
++  const result = await taskBody57(ctx, api, 'unrelated', b, a); assert.equal(result.body.expectedCompletionVersion, 4); assert.equal(result.body.expectedConditionVersion, 2);
++  assert.deepEqual(result.params, { completionRecordId: b, id: c }); assert.equal(calls.length, 1); assert.equal(calls[0][0], 'ProjectController_listProjectCompletionRecords');
++  assert.throws(() => ownTask57({ body }, 'other', b));
++});
++test('consumer check upload and closure metadata never mutate retained Own/A05 producer fixtures', () => {
++  const state = { fixtures: { uiFixtureViews23: { own: { original: true } }, a05Boundaries26: { original: true } }, owned: {}, actors: {} }, before = JSON.stringify(state.fixtures);
++  let serialized; const root = { state, persist: () => { serialized = JSON.stringify(state); } }, view = lifecycleConsumer57(root, 'same-task', a);
++  view.ctx.state.fixtures.uploads.example = { actualReceipt: 'real-upload' }; view.ctx.persist();
++  assert.equal(JSON.stringify(state.fixtures), before); assert(serialized.includes('actualReceipt')); assert.equal(view.ctx.state.owned, state.owned);
++  assert.throws(() => { view.ctx.state.fixtures = {}; });
++});
++test('two real waiters may be blocked indirectly by the project lock ahead of controlled parent', () => {
++  const graph = [{ pid: 1, blocked_by: [9] }, { pid: 2, blocked_by: [1] }, { pid: 3, blocked_by: [] }];
++  assert(blockedByControl(1, graph, 9)); assert(blockedByControl(2, graph, 9)); assert(!blockedByControl(3, graph, 9));
++});
+diff --git a/tools/rust-r4ghi/business/lifecycle-sources57.json b/tools/rust-r4ghi/business/lifecycle-sources57.json
+new file mode 100644
+--- /dev/null
++++ b/tools/rust-r4ghi/business/lifecycle-sources57.json
+@@ -0,0 +1,26 @@
++[
++  {
++    "file": "apps/poms-api-rust/src/project_lifecycle/service.rs",
++    "sha256": "70fdc0463dcae8558ec0ddaac5ad4dc6abf17532c38914fde5042d659d62c590"
++  },
++  {
++    "file": "apps/poms-api-rust/src/lifecycle_evidence/mod.rs",
++    "sha256": "bd3e14e4fdb2655ea37f23e7512faa36d4c78d64c529bd5a5d2566fd9ba8571a"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_action_authorization/mod.rs",
++    "sha256": "df4073a4a6d744d70924f48d39d4c7149701e40584e5d9a21419630dd574814b"
++  },
++  {
++    "file": "apps/poms-api-rust/src/auth/projection.rs",
++    "sha256": "5b973bdbda8a7e2138cf4237bec63a30d3220cf34273de6161168e2eeee028f8"
++  },
++  {
++    "file": "apps/poms-api-rust/src/auth/audit.rs",
++    "sha256": "0b4348a873f4fdb67ba215ffa6d04014f936c984a9261b9fe984d773f171d09c"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating_signals/projection.rs",
++    "sha256": "c048d0d464d88a4d023b4af8e7397752417063b6ffee8cc42a1abdd1d15e45db"
++  }
++]

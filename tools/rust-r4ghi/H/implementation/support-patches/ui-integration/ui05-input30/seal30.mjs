@@ -1,0 +1,4 @@
+import fs from 'node:fs'; import path from 'node:path'; import { createHash } from 'node:crypto'; import { fileURLToPath } from 'node:url';
+const here = path.dirname(fileURLToPath(import.meta.url)), sha = value => createHash('sha256').update(value).digest('hex'), files = ['transform30.mjs', 'ui05-prepare-input30.unbound.json', 'audit30.json', 'CALLS30.md', 'seal30.mjs'];
+const manifest = { kind: 'H-FS-only-UI05-minimal-input-conversion-unbound', files: files.map(file => ({ file, rawBytesSha256: sha(fs.readFileSync(here + '/' + file)) })), actualPrepareCollectContextHTTPBrowserExecuted: false, RootWritten: false, future20ToolGraphSourceBasesLeftForRootCapture: true, executableAsDelivered: false, G3Certified: false, G4Certified: false };
+fs.writeFileSync(here+'/manifest30.json',JSON.stringify(manifest,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({manifestSHA256:sha(fs.readFileSync(here+'/manifest30.json'))}));

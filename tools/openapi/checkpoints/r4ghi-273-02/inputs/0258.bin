@@ -1,0 +1,113 @@
+// Generation only. The complete registered273 canonical also drives Rust/TS.
+import { convertToOpenApi3Point0 } from '@poms/vendor-nestjs-zod';
+import { CreatableOperatingSnapshotModeSchema, OperatingBaselinePackageStatusSchema, OperatingSignalReviewDecisionSchema, OperatingSnapshotModeSchema } from '@poms/shared-contracts';
+import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+
+type JsonObject = Record<string, unknown>;
+function object(value: unknown): JsonObject {
+    if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error('Invalid R4GHI generation input');
+    return value as JsonObject;
+}
+function read(file: string): JsonObject {
+    return object(JSON.parse(readFileSync(resolve(process.cwd(), file), 'utf8')));
+}
+function array(value: unknown): unknown[] {
+    if (!Array.isArray(value)) throw new Error('Invalid R4GHI generation array');
+    return value;
+}
+function removeStringKeyTautologies(schema: unknown): void {
+    if (!schema || typeof schema !== 'object' || Array.isArray(schema)) return;
+    const node = schema as JsonObject;
+    if (node['propertyNames']) {
+        const names = object(node['propertyNames']);
+        if (Object.keys(names).length !== 1 || names['type'] !== 'string') throw new Error('Nontrivial propertyNames cannot be represented by this OAS3.0 normalization');
+        // JSON object keys are already strings. This constraint is a tautology.
+        delete node['propertyNames'];
+    }
+    if (node['properties']) for (const child of Object.values(object(node['properties']))) removeStringKeyTautologies(child);
+    for (const key of ['items', 'additionalProperties', 'not']) removeStringKeyTautologies(node[key]);
+    for (const key of ['allOf', 'anyOf', 'oneOf']) if (node[key]) for (const child of array(node[key])) removeStringKeyTautologies(child);
+}
+function mergePublicRegistry(): JsonObject {
+    const registration = read('tools/rust-r4ghi/contracts273/registration.json');
+    if (registration['kind'] !== 'historical-public273-explicit-source-registration') throw new Error('Unregistered273 public source');
+    const canonicalPin = object(registration['canonical']);
+    if (canonicalPin['file'] !== 'tools/rust-r4ghi/contracts273/canonical.json') throw new Error('Unregistered273 canonical path');
+    const raw = readFileSync(resolve(process.cwd(), String(canonicalPin['file'])));
+    if (createHash('sha256').update(raw).digest('hex') !== canonicalPin['rawBytesSha256'] || raw.length !== canonicalPin['bytes']) throw new Error('273 canonical bytes differ from explicit registration');
+    const bundle = object(JSON.parse(raw.toString('utf8')));
+    const schemas = object(object(object(bundle['public'])['components'])['schemas']);
+    if (registration['publicSchemaCount'] !== 132 || Object.keys(schemas).length !== 132) throw new Error('The approved273 public schema closure changed');
+    return schemas;
+}
+
+/** Preserve OAS3.0 and fail before mutation when any source constraint is unsupported. */
+export function applyR4ghiOpenApi(document: unknown): void {
+    const doc = object(document);
+    if (typeof doc['openapi'] !== 'string' || !doc['openapi'].startsWith('3.0.')) throw new Error('R4GHI generation requires the existing OAS3.0 dialect');
+    const gate = read('docs/design/rust-r4ghi/g1-online01.json');
+    if (!gate['G1Certified'] || !gate['G2Authorized']) throw new Error('R4GHI has no actual online G1');
+    const normalizerModule = require(resolve(process.cwd(), 'tools/openapi/strict-jsonschema-oas30.cjs')) as {
+        createStrictNormalizer: (converter: typeof convertToOpenApi3Point0) => {
+            normalizeRegistry: (schemas: JsonObject) => { schemas: JsonObject };
+        };
+    };
+    const registry = mergePublicRegistry();
+    // Existing named enums remain published even when new DTOs inline them.
+    const retainedEnums = {
+        CreatableOperatingSnapshotMode: CreatableOperatingSnapshotModeSchema,
+        OperatingBaselinePackageStatus: OperatingBaselinePackageStatusSchema,
+        OperatingSignalReviewDecision: OperatingSignalReviewDecisionSchema,
+        OperatingSnapshotMode: OperatingSnapshotModeSchema
+    };
+    for (const [name, schema] of Object.entries(retainedEnums)) {
+        registry[name] = { type: 'string', enum: [...schema.options] };
+    }
+    const normalized = normalizerModule.createStrictNormalizer(convertToOpenApi3Point0).normalizeRegistry(registry);
+    const paths = object(doc['paths']);
+    const operations = array(read('docs/design/rust-r4ghi/operation-map01.json')['operations']);
+    if (operations.length !== 32) throw new Error('The approved R4GHI operations changed');
+    const prepared: { operation: JsonObject; source: JsonObject }[] = [];
+    for (const item of operations) {
+        const source = object(item);
+        const path = String(source['runtimePath']);
+        const method = String(source['method']).toLowerCase();
+        const operation = object(object(paths[path])[method]);
+        if (operation['operationId'] !== source['operationId']) throw new Error('R4GHI canonical route and operationId drift: ' + path);
+        for (const key of ['requestDto', 'responseDto']) {
+            const dto = source[key];
+            if (dto !== null && typeof dto === 'string' && !normalized.schemas[dto]) throw new Error('R4GHI unregistered DTO: ' + dto);
+        }
+        prepared.push({ operation, source });
+    }
+    const schemas = object(object(doc['components'])['schemas']);
+    Object.assign(schemas, normalized.schemas);
+    for (const schema of Object.values(schemas)) removeStringKeyTautologies(schema);
+    for (const { operation, source } of prepared) {
+        const responses = object(operation['responses']);
+        for (const status of Object.keys(responses)) if (/^2\d\d$/.test(status)) delete responses[status];
+        responses[String(source['successStatus'])] = {
+            description: '冻结的业务响应',
+            content: { 'application/json': { schema: { $ref: '#/components/schemas/' + String(source['responseDto']) } } }
+        };
+        if (source['requestDto']) operation['requestBody'] = {
+            required: true,
+            content: { 'application/json': { schema: { $ref: '#/components/schemas/' + String(source['requestDto']) } } }
+        };
+        if (source['operationId'] === 'ProjectCostController_getProjectUnifiedAccounting') {
+            const params = operation['parameters'] ? array(operation['parameters']) : [];
+            const names = new Set(['view', 'intent', 'snapshotMode', 'periodKey', 'restatesSnapshotId', 'periodEndSnapshotId', 'receiptId', 'correctionSourceRefs']);
+            operation['parameters'] = [
+                ...params.filter(p => !names.has(String(object(p)['name']))),
+                { name: 'view', in: 'query', required: false, schema: { type: 'string', enum: ['preparation'] } },
+                { name: 'intent', in: 'query', required: false, schema: { type: 'string', enum: ['baseline-activation', 'snapshot-create', 'period-close', 'restatement', 'receipt-basis'] } },
+                { name: 'snapshotMode', in: 'query', required: false, schema: { type: 'string', enum: ['realtime', 'period-end'] } },
+                { name: 'periodKey', in: 'query', required: false, schema: { type: 'string' } },
+                ...['restatesSnapshotId', 'periodEndSnapshotId', 'receiptId'].map(name => ({ name, in: 'query', required: false, schema: { type: 'string', format: 'uuid' } })),
+                { name: 'correctionSourceRefs', in: 'query', required: false, description: 'JSON 编码的 exact ExpectedRef 数组；服务端发现并核对真实完整影响闭包。', schema: { type: 'string' } }
+            ];
+        }
+    }
+}

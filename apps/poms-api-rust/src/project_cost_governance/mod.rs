@@ -1,9 +1,17 @@
 //! R4F: twelve governed cost operations on the caller's one outer transaction.
+mod correction;
 mod evidence;
 mod logic;
+
+// Reuse the actual F money/rounding algorithm for read-only G qualification.
+pub(crate) use logic::{
+    Share as AllocationShare, allocate_layers as allocate_source_layers,
+    decimal as allocation_decimal, total_layers as allocation_totals,
+};
 mod projection;
 mod service;
 mod store;
+pub(crate) use correction::{apply_corrections_with_session, cost_ids_for_evidence_reference};
 
 use crate::{
     approval_common::CommonSession,

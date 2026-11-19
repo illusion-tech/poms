@@ -1,0 +1,73 @@
+{
+  "kind": "273-public-contract-design-delta-not-applied",
+  "technicalG1Approved": true,
+  "newPublicOperations": 0,
+  "canonicalRouteRows": [164, 165, 291, 533, 550],
+  "requestChanges": [
+    {
+      "schema": "CreatePeriodClosingSnapshotRequest",
+      "field": "baselinePackageRef",
+      "required": true,
+      "before": {"$ref": "#/components/schemas/ExpectedRef"},
+      "after": {"anyOf": [{"$ref": "#/components/schemas/ExpectedRef"}, {"type": "null"}]},
+      "semanticGuard": "First period-close must explicitly pass null and expectedInputHash binds the server-selected historical proof. Missing is400; an unrelated/non-null package is not ignored. Existing period duplicate/admission guards remain."
+    },
+    {
+      "schema": "CreateProjectOperatingSnapshotRequest",
+      "field": "baselinePackageRef",
+      "required": true,
+      "before": {"$ref": "#/components/schemas/ExpectedRef"},
+      "after": {"anyOf": [{"$ref": "#/components/schemas/ExpectedRef"}, {"type": "null"}]},
+      "semanticGuard": "snapshotMode=realtime still requires non-null real ExpectedRef; period-end uses the same first-close273 pipeline. Missing never defaults to null."
+    }
+  ],
+  "preparationChange": {
+    "schema": "OperatingPreparation",
+    "newRequiredField": "periodBaselineSelection",
+    "schemaValue": {"anyOf": [{"$ref": "#/components/schemas/HistoricalPeriodBaselineSelection"}, {"type": "null"}]},
+    "outsideFirstPeriodClose": null,
+    "unprovableSelection": "null plus exact blockingReasonCodes and allowedCommandCodes=[]",
+    "selectedBaselinePackageRefAtFirstClose": null,
+    "existingPeriodRestatementSelectedBaselinePackageRef": "The original frozen source-member ref, not the current physical baseline row lifecycle ref."
+  },
+  "newSchemas": {
+    "HistoricalPeriodBaselineSelection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["policyVersion", "publicationMode", "periodKey", "businessCutoff", "selectionHash", "originalAdoptedCostRef", "selectedAdoptedCostRef", "handoverBasisRef", "handoverRebaselineRef", "adoptionSourceRefs", "technicalLineageRefs"],
+      "properties": {
+        "policyVersion": {"type": "string", "const": "historical-adoption-chain272-v1"},
+        "publicationMode": {"type": "string", "const": "new-period-package"},
+        "periodKey": {"type": "string", "pattern": "^(?:[0-9]{4}-(?:0[1-9]|1[0-2])|[0-9]{4}-W(?:0[1-9]|[1-4][0-9]|5[0-3]))$"},
+        "businessCutoff": {"type": "string", "format": "date"},
+        "selectionHash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "originalAdoptedCostRef": {"$ref": "#/components/schemas/SourceRef"},
+        "selectedAdoptedCostRef": {"$ref": "#/components/schemas/SourceRef"},
+        "handoverBasisRef": {"anyOf": [{"$ref": "#/components/schemas/SourceRef"}, {"type": "null"}]},
+        "handoverRebaselineRef": {"anyOf": [{"$ref": "#/components/schemas/SourceRef"}, {"type": "null"}]},
+        "adoptionSourceRefs": {"type": "array", "maxItems": 1000, "items": {"$ref": "#/components/schemas/SourceRef"}},
+        "technicalLineageRefs": {"type": "array", "maxItems": 1000, "items": {"$ref": "#/components/schemas/SourceRef"}}
+      }
+    }
+  },
+  "serverOnlyProof": {
+    "storage": "OperatingBaselineSourceDraft.historicalPeriodSelection in existing immutable frozen_payload, optional only for old records",
+    "contains": ["policy272 source pin/version", "period bounds", "stable selectionHash", "known actual adoption witnesses and business timestamps", "recorded adoption CostBudget id/version/rowVersion distinct from current observed lifecycle SourceRef", "complete real technical ancestry paths", "as-of handover/rebaseline/execution witnesses", "exact currency and selected budget cents", "classification of approved changes", "candidate exclusions and ambiguity checks"],
+    "captureTimes": "Actual now, never backdated",
+    "publicMoneyExposureAdded": false
+  },
+  "runtimeValidationRequirements": [
+    "The actual TypedRequest::parse -> schema::normalize_public_request required-key validation must reject absent property before serde Option can treat missing asNone; test the actual entry rather than a standalone serde model",
+    "Canonical/Shared strict schema keeps the field in required; no optional or undefined rewrite",
+    "Realtime-null rejected before effects",
+    "Preparation has no generated G package UUID; command generates actual new package under locks",
+    "Same canonical selection proof participates in expectedInputHash and is recomputed in command",
+    "Existing period restatement never uses the null first-close branch"
+  ],
+  "formalCanonicalOrSDKWritten": false,
+  "RootProductWritten": false,
+  "SQL": false,
+  "HTTP": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

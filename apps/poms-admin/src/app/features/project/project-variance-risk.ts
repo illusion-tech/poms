@@ -61,7 +61,7 @@ export class ProjectVarianceRisk implements OnInit {
             return '--';
         }
 
-        return current.allowedActions.includes('reviewOperatingSignalEvaluation') ? '当前结果仍要求人工复核后再进入下游判断。' : '当前结果可以作为下游判断输入。';
+        return current.currentActionLevel === 'block' ? '当前存在阻断，请先处理真实来源。' : current.currentActionLevel === 'review' ? '当前结果需要复核；阶段门禁按服务器当前结论处理。' : '当前为提示；使用前仍须核对数据知识状态和对应阶段门禁。';
     });
 
     readonly riskJudgementItems = computed<WorkspaceFactGridItem[]>(() => {

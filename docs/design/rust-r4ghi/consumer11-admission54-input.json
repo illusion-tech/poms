@@ -1,0 +1,51 @@
+{
+  "kind": "Root-reviewed-actual-consumer11-admission-input54",
+  "plan": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/retention/consumer11-admission54/admission-plan54.json",
+    "rawBytesSha256": "49187303f482de19e37811a2a501b61fccfdea94d25f6f1a18fa78e52b4cde15"
+  },
+  "producer": {
+    "epoch": "g2-business10",
+    "run": "main01",
+    "retentionIndex": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/retention/epoch10-before-correction53/index.json",
+      "rawBytesSha256": "da6b3d1380f9fced79eaef663588ff8c5d4ec3970141d0219f24e6f758fb6665"
+    },
+    "frozenState": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/retention/epoch10-before-correction53/state-at-retention53.json",
+      "rawBytesSha256": "5c3e2303cfcab63b2f41af413094c4de4074ca52fa76cc7afa5bd07e36ab8495"
+    },
+    "retainedSnapshot": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business10/main01/snapshot-002346-retained53-after.json",
+      "rawBytesSha256": "097e558071f3042dc9c5014f4e8efa4594d34f73f9828c1e1666f10174958201"
+    },
+    "sourcePinsSHA256": "a379d62b5b583446b01f4a6bb3891b4bf9bdaf0e5966fb7a39dd7b07b643c589"
+  },
+  "consumer": {
+    "epoch": "g2-business11",
+    "run": "main01",
+    "sourcePins": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/retention/consumer11-admission54/source11-pins.json",
+      "rawBytesSha256": "0348b1e2fdb98c6736511eeca4dd3d38d2846ad2bd19428fd52697ae1c3f7c10"
+    },
+    "sourcePinsSHA256": "a39bd00fd4161a075309874d417a000a93f69d0913708c17d61d2c34af76096f",
+    "sourceCount": 405,
+    "candidateReceipt": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/retention/consumer11-admission54/candidate11-pre-admission.json",
+      "rawBytesSha256": "c4c9172167204e0368167ba629b1cc692aae7c18b2b0cba6fa1539cab71c7b8d"
+    },
+    "candidateSourceDigestPointer": "/sourcePinsSHA256",
+    "candidateBinaryHashPointer": "/binarySha256",
+    "apiProcess": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/rust-api134-process.json",
+      "rawBytesSha256": "8c699944c2a8b4c853ed49408cf2dd5d55343dbe6d9759e67d348e2ef6eb57be"
+    },
+    "binarySHA256": "c73fcaa6cc9063e9a6b7dc481a51f9f52d4ed3f9855c55201d1ab46f0695bee4"
+  },
+  "oldProducerUnchanged": true,
+  "newConsumerAlreadyMinted": false,
+  "businessSQLWrites": 0,
+  "businessHTTP": 0,
+  "G3Certified": false,
+  "G4Certified": false
+}

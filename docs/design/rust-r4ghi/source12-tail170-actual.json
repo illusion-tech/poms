@@ -1,0 +1,648 @@
+{
+  "kind": "Root-actual-Source12-tail-UI-and-original-data-retention170",
+  "sourceEpoch": "g2-business12",
+  "sourceCount": 406,
+  "sourcePinsSHA256": "5263ad894591ac682fe7ebf9ca5cfa2aaac3334d4481ae5de4dd63d83b4681fa",
+  "evidence": [
+    {
+      "run": "dom14-source12-06a",
+      "receipt": {
+        "file": "tmp/rust-r4ghi/root/ui-runtime14/dom14-source12-06a/receipt10.json",
+        "bytes": 104224,
+        "rawBytesSha256": "9220580ff8da5658c60decaac96cf4aa03bb20057c28777d7a7a38988e81f91c"
+      },
+      "actualSourceBinding": {
+        "approvedBindingSHA256": "c7a2b9c378e5e56b4d6b8bacacad35d35a7403e6d697b01b9df8cc2343c294db",
+        "epoch": "g2-business12",
+        "run": "main01",
+        "tables": 139,
+        "migrations": 97,
+        "processBinarySHA256": "de8eaaf6ce15a2054380e25f3151c21611cf0bf760230c7336745d80850d9cff",
+        "actorKeys": [
+          "manager"
+        ],
+        "sourceManifest": {
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/004534-candidate-source-binding12.json",
+          "rawBytesSha256": "b5c86c8882657aac1e1affc153510a728bc304943265e51a230b6be19a0429b7"
+        },
+        "candidateReceipt": {
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/004534-candidate-source-binding12.json",
+          "rawBytesSha256": "b5c86c8882657aac1e1affc153510a728bc304943265e51a230b6be19a0429b7"
+        }
+      },
+      "observedStatus": "passed-bound-cases-only",
+      "observedAllA08FormsPassed": null,
+      "cases": [
+        {
+          "kind": "creator-assigned-readback",
+          "status": "passed",
+          "actualWriteObserver": [],
+          "businessWritePerformed": false,
+          "actualFormGroups": null,
+          "baselineCreatedInThisRun": null,
+          "actualFrozenH08": null,
+          "role03RetroactivePostReadClaimed": null
+        }
+      ],
+      "actualHTTPCounts": {
+        "GET:200": 19
+      },
+      "observerCount": 19
+    },
+    {
+      "run": "dom14-source12-06b",
+      "receipt": {
+        "file": "tmp/rust-r4ghi/root/ui-runtime14/dom14-source12-06b/receipt10.json",
+        "bytes": 165832,
+        "rawBytesSha256": "7341507ba26ab8f4833ba49531a0b4a72f6db94b54d8921a58f0dd80166898e9"
+      },
+      "actualSourceBinding": {
+        "approvedBindingSHA256": "6a4128043403b4ab170e2b0bc1a39fa335b93df636cde629063f8f1543841ae1",
+        "epoch": "g2-business12",
+        "run": "main01",
+        "tables": 139,
+        "migrations": 97,
+        "processBinarySHA256": "de8eaaf6ce15a2054380e25f3151c21611cf0bf760230c7336745d80850d9cff",
+        "actorKeys": [
+          "condition",
+          "manager",
+          "person"
+        ],
+        "sourceManifest": {
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/004534-candidate-source-binding12.json",
+          "rawBytesSha256": "b5c86c8882657aac1e1affc153510a728bc304943265e51a230b6be19a0429b7"
+        },
+        "candidateReceipt": {
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/004534-candidate-source-binding12.json",
+          "rawBytesSha256": "b5c86c8882657aac1e1affc153510a728bc304943265e51a230b6be19a0429b7"
+        }
+      },
+      "observedStatus": "passed-bound-cases-only",
+      "observedAllA08FormsPassed": null,
+      "cases": [
+        {
+          "kind": "own-condition",
+          "status": "passed",
+          "actualWriteObserver": [
+            {
+              "operationId": "AttachmentUploadSessionController_create",
+              "purpose": "new-own-purpose-session",
+              "responseTargetId": "0fbf1c67-f762-4469-aa03-994fb5edf657"
+            },
+            {
+              "operationId": "AttachmentUploadSessionController_createUploadTarget",
+              "purpose": "exact-own-session-target",
+              "responseTargetId": "0fbf1c67-f762-4469-aa03-994fb5edf657"
+            },
+            {
+              "operationId": "AttachmentUploadSessionController_proxyUploadObject",
+              "purpose": "exact-approved-own-file-bytes",
+              "responseTargetId": "0fbf1c67-f762-4469-aa03-994fb5edf657"
+            },
+            {
+              "operationId": "AttachmentUploadSessionController_complete",
+              "purpose": "complete-exact-own-purpose",
+              "responseTargetId": "193d8466-b30a-4724-ae1f-70397e066b2e"
+            },
+            {
+              "operationId": "ProjectCompletionRecordController_closeCompletionCondition",
+              "purpose": "exact-own-parent-child-close",
+              "responseTargetId": "7d923602-3e01-4e17-be37-8aec28980862"
+            }
+          ],
+          "businessWritePerformed": true,
+          "actualFormGroups": null,
+          "baselineCreatedInThisRun": null,
+          "actualFrozenH08": null,
+          "role03RetroactivePostReadClaimed": null
+        },
+        {
+          "kind": "legacy-anchor",
+          "status": "passed",
+          "actualWriteObserver": [],
+          "businessWritePerformed": false,
+          "actualFormGroups": null,
+          "baselineCreatedInThisRun": null,
+          "actualFrozenH08": null,
+          "role03RetroactivePostReadClaimed": null
+        },
+        {
+          "kind": "money-max",
+          "status": "passed",
+          "actualWriteObserver": [],
+          "businessWritePerformed": false,
+          "actualFormGroups": null,
+          "baselineCreatedInThisRun": null,
+          "actualFrozenH08": null,
+          "role03RetroactivePostReadClaimed": null
+        },
+        {
+          "kind": "sensitive-mask",
+          "status": "passed",
+          "actualWriteObserver": [],
+          "businessWritePerformed": false,
+          "actualFormGroups": null,
+          "baselineCreatedInThisRun": null,
+          "actualFrozenH08": null,
+          "role03RetroactivePostReadClaimed": null
+        }
+      ],
+      "actualHTTPCounts": {
+        "GET:200": 41,
+        "POST:201": 1,
+        "POST:200": 3,
+        "PUT:200": 1
+      },
+      "observerCount": 46
+    },
+    {
+      "run": "role18-source12-03",
+      "receipt": {
+        "file": "tmp/rust-r4ghi/root/ui-runtime14/role18-source12-03/receipt18-05.json",
+        "bytes": 100045,
+        "rawBytesSha256": "4a63f6c2a1f031c8796a3bbb6d095b6d2b55652dcc739b1fd85c37f6fa4cfeb3"
+      },
+      "actualSourceBinding": {
+        "approvedBindingSHA256": "c7bd49df9d5f382de8358d60e9cf3dd233b2a113cd5219a266fe937cb4c68641",
+        "epoch": "g2-business12",
+        "run": "main01",
+        "tables": 139,
+        "migrations": 97,
+        "processBinarySHA256": "de8eaaf6ce15a2054380e25f3151c21611cf0bf760230c7336745d80850d9cff",
+        "actorKeys": [
+          "manager",
+          "execution",
+          "finance",
+          "manager-role-peer"
+        ],
+        "sourceManifest": {
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/004534-candidate-source-binding12.json",
+          "rawBytesSha256": "b5c86c8882657aac1e1affc153510a728bc304943265e51a230b6be19a0429b7"
+        },
+        "candidateReceipt": {
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/004534-candidate-source-binding12.json",
+          "rawBytesSha256": "b5c86c8882657aac1e1affc153510a728bc304943265e51a230b6be19a0429b7"
+        }
+      },
+      "observedStatus": "passed-bound-cases-only",
+      "observedAllA08FormsPassed": false,
+      "cases": [
+        {
+          "kind": "role-forms",
+          "status": "passed",
+          "actualWriteObserver": [
+            {
+              "operationId": "CommissionRoleAssignmentController_freezeRoleAssignment",
+              "purpose": "real-UI-role-freeze",
+              "responseTargetId": "1817b9ae-ec3a-4910-aebd-07a2b6963975"
+            }
+          ],
+          "businessWritePerformed": null,
+          "actualFormGroups": null,
+          "baselineCreatedInThisRun": null,
+          "actualFrozenH08": null,
+          "role03RetroactivePostReadClaimed": null
+        }
+      ],
+      "actualHTTPCounts": {
+        "GET:200": 13,
+        "POST:200": 1
+      },
+      "observerCount": 14
+    },
+    {
+      "run": "expense18-source12-02",
+      "receipt": {
+        "file": "tmp/rust-r4ghi/root/ui-runtime14/expense18-source12-02/receipt18-04.json",
+        "bytes": 127250,
+        "rawBytesSha256": "e5af97c68eb02c554dce90f18ae75306f7a5c3ecedfc19522324467e1342b882"
+      },
+      "actualSourceBinding": {
+        "approvedBindingSHA256": "bf3775d2bea8984256e2a229b0a684a4b6205721cfbeba7ceb435d0ef061e8c2",
+        "epoch": "g2-business12",
+        "run": "main01",
+        "tables": 139,
+        "migrations": 97,
+        "processBinarySHA256": "de8eaaf6ce15a2054380e25f3151c21611cf0bf760230c7336745d80850d9cff",
+        "actorKeys": [
+          "manager"
+        ],
+        "sourceManifest": {
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/004534-candidate-source-binding12.json",
+          "rawBytesSha256": "b5c86c8882657aac1e1affc153510a728bc304943265e51a230b6be19a0429b7"
+        },
+        "candidateReceipt": {
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/004534-candidate-source-binding12.json",
+          "rawBytesSha256": "b5c86c8882657aac1e1affc153510a728bc304943265e51a230b6be19a0429b7"
+        }
+      },
+      "observedStatus": "passed-bound-cases-only",
+      "observedAllA08FormsPassed": false,
+      "cases": [
+        {
+          "kind": "expense-cost-forms",
+          "status": "passed",
+          "actualWriteObserver": [
+            {
+              "operationId": "ProjectCostController_createExpenseRecord",
+              "purpose": "real-UI-expense-create",
+              "responseTargetId": "6ef4b622-210d-40f0-bfd6-54515e89352c"
+            },
+            {
+              "operationId": "ProjectCostController_confirmExpenseRecord",
+              "purpose": "real-UI-expense-confirm",
+              "responseTargetId": "6ef4b622-210d-40f0-bfd6-54515e89352c"
+            },
+            {
+              "operationId": "ProjectCostController_createProjectActualCostRecord",
+              "purpose": "real-UI-source-only-E-cost",
+              "responseTargetId": "aa2366e0-e7e2-4c9c-91d8-3d7c73be9b18"
+            },
+            {
+              "operationId": "ProjectCostController_confirmCostStageAttribution",
+              "purpose": "real-UI-F-manual-stage-attribution",
+              "responseTargetId": "949a725c-f210-4309-bb88-e49624006114"
+            }
+          ],
+          "businessWritePerformed": null,
+          "actualFormGroups": null,
+          "baselineCreatedInThisRun": null,
+          "actualFrozenH08": null,
+          "role03RetroactivePostReadClaimed": null
+        }
+      ],
+      "actualHTTPCounts": {
+        "GET:200": 36,
+        "POST:201": 3,
+        "POST:200": 1
+      },
+      "observerCount": 40
+    },
+    {
+      "run": "role18-source12-frozen01",
+      "receipt": {
+        "file": "tmp/rust-r4ghi/root/ui-runtime14/role18-source12-frozen01/receipt18-05.json",
+        "bytes": 97116,
+        "rawBytesSha256": "75a4afd447ae0b85cd1380292a982c67b6bab76219dd299e6a84b1f969d4e747"
+      },
+      "actualSourceBinding": {
+        "approvedBindingSHA256": "4149fe8dfee4e20963597c0c745e9d21b60dda25ba01f7ae6d76e19c85da53ee",
+        "epoch": "g2-business12",
+        "run": "main01",
+        "tables": 139,
+        "migrations": 97,
+        "processBinarySHA256": "de8eaaf6ce15a2054380e25f3151c21611cf0bf760230c7336745d80850d9cff",
+        "actorKeys": [
+          "manager"
+        ],
+        "sourceManifest": {
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/007133-p1351-candidate.json",
+          "rawBytesSha256": "1dde0fda6f0c23682568f8256ea98da4137ebd7793da7915238e0ac066a9740c"
+        },
+        "candidateReceipt": {
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/007133-p1351-candidate.json",
+          "rawBytesSha256": "1dde0fda6f0c23682568f8256ea98da4137ebd7793da7915238e0ac066a9740c"
+        }
+      },
+      "observedStatus": "passed-bound-cases-only",
+      "observedAllA08FormsPassed": false,
+      "cases": [
+        {
+          "kind": "frozen-role-readback",
+          "status": "passed",
+          "actualWriteObserver": [],
+          "businessWritePerformed": false,
+          "actualFormGroups": null,
+          "baselineCreatedInThisRun": null,
+          "actualFrozenH08": null,
+          "role03RetroactivePostReadClaimed": false
+        }
+      ],
+      "actualHTTPCounts": {
+        "GET:200": 12
+      },
+      "observerCount": 12
+    },
+    {
+      "run": "lifecycle18-source12-02",
+      "receipt": {
+        "file": "tmp/rust-r4ghi/root/ui-runtime14/lifecycle18-source12-02/receipt18-03.json",
+        "bytes": 159649,
+        "rawBytesSha256": "14a66bdd00019794534b739ce321a2d364f3036c9b1caadb41416fbb1e88962f"
+      },
+      "actualSourceBinding": {
+        "approvedBindingSHA256": "aa7d186fc8d3750bf6fc3fb1c44f6ac6381277e1dd8954cc846bf57faa7b5087",
+        "epoch": "g2-business12",
+        "run": "main01",
+        "tables": 139,
+        "migrations": 97,
+        "processBinarySHA256": "de8eaaf6ce15a2054380e25f3151c21611cf0bf760230c7336745d80850d9cff",
+        "actorKeys": [
+          "execution"
+        ],
+        "sourceManifest": {
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/007133-p1351-candidate.json",
+          "rawBytesSha256": "1dde0fda6f0c23682568f8256ea98da4137ebd7793da7915238e0ac066a9740c"
+        },
+        "candidateReceipt": {
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/007133-p1351-candidate.json",
+          "rawBytesSha256": "1dde0fda6f0c23682568f8256ea98da4137ebd7793da7915238e0ac066a9740c"
+        }
+      },
+      "observedStatus": "passed-bound-cases-only",
+      "observedAllA08FormsPassed": false,
+      "cases": [
+        {
+          "kind": "eo-lifecycle",
+          "status": "passed",
+          "actualWriteObserver": [
+            {
+              "operationId": "AttachmentUploadSessionController_create",
+              "purpose": "actual-delivery-normal-project-evidence",
+              "responseTargetId": "fb175646-5424-4dc6-8d61-84857c48f432"
+            },
+            {
+              "operationId": "AttachmentUploadSessionController_createUploadTarget",
+              "purpose": "exact-normal-project-session-target",
+              "responseTargetId": "fb175646-5424-4dc6-8d61-84857c48f432"
+            },
+            {
+              "operationId": "AttachmentUploadSessionController_proxyUploadObject",
+              "purpose": "exact-approved-lifecycle-file-bytes",
+              "responseTargetId": "fb175646-5424-4dc6-8d61-84857c48f432"
+            },
+            {
+              "operationId": "AttachmentUploadSessionController_complete",
+              "purpose": "complete-exact-normal-project-evidence",
+              "responseTargetId": "f045f902-5b9c-4070-acf0-0660f7d62e5d"
+            },
+            {
+              "operationId": "ProjectController_startAcceptance",
+              "purpose": "EO-real-UI-start-acceptance",
+              "responseTargetId": "62e55eab-ea7d-4204-9d20-cd2434935aba"
+            },
+            {
+              "operationId": "AttachmentUploadSessionController_create",
+              "purpose": "actual-acceptance-normal-project-evidence",
+              "responseTargetId": "f55bb256-5a41-40c1-8fe1-9bea518d0068"
+            },
+            {
+              "operationId": "AttachmentUploadSessionController_createUploadTarget",
+              "purpose": "exact-normal-project-session-target",
+              "responseTargetId": "f55bb256-5a41-40c1-8fe1-9bea518d0068"
+            },
+            {
+              "operationId": "AttachmentUploadSessionController_proxyUploadObject",
+              "purpose": "exact-approved-lifecycle-file-bytes",
+              "responseTargetId": "f55bb256-5a41-40c1-8fe1-9bea518d0068"
+            },
+            {
+              "operationId": "AttachmentUploadSessionController_complete",
+              "purpose": "complete-exact-normal-project-evidence",
+              "responseTargetId": "196a36af-d17e-475b-a251-10fb57f82d57"
+            },
+            {
+              "operationId": "ProjectController_createAcceptanceRecord",
+              "purpose": "EO-real-UI-final-accepted",
+              "responseTargetId": "9acecc1c-11f4-437c-9794-943f409d8334"
+            },
+            {
+              "operationId": "AttachmentUploadSessionController_create",
+              "purpose": "actual-completion-normal-project-evidence",
+              "responseTargetId": "88db85f7-d162-43f2-9020-d230d8f5efb3"
+            },
+            {
+              "operationId": "AttachmentUploadSessionController_createUploadTarget",
+              "purpose": "exact-normal-project-session-target",
+              "responseTargetId": "88db85f7-d162-43f2-9020-d230d8f5efb3"
+            },
+            {
+              "operationId": "AttachmentUploadSessionController_proxyUploadObject",
+              "purpose": "exact-approved-lifecycle-file-bytes",
+              "responseTargetId": "88db85f7-d162-43f2-9020-d230d8f5efb3"
+            },
+            {
+              "operationId": "AttachmentUploadSessionController_complete",
+              "purpose": "complete-exact-normal-project-evidence",
+              "responseTargetId": "8dc5c40a-27e8-47f1-b14e-80d9a63cc107"
+            },
+            {
+              "operationId": "ProjectController_createProjectCompletionRecord",
+              "purpose": "EO-real-UI-completion",
+              "responseTargetId": "1280ca75-3895-476c-ae2b-191a6f6c7081"
+            },
+            {
+              "operationId": "ProjectController_createProjectArchiveRecord",
+              "purpose": "EO-real-UI-terminal-archive",
+              "responseTargetId": "b0970ac6-e9f8-40ac-b220-b25bcc70b355"
+            }
+          ],
+          "businessWritePerformed": null,
+          "actualFormGroups": [
+            "start-acceptance",
+            "final-acceptance",
+            "completion",
+            "archive"
+          ],
+          "baselineCreatedInThisRun": null,
+          "actualFrozenH08": null,
+          "role03RetroactivePostReadClaimed": null
+        }
+      ],
+      "actualHTTPCounts": {
+        "GET:200": 50,
+        "POST:201": 6,
+        "POST:200": 7,
+        "PUT:200": 3
+      },
+      "observerCount": 66
+    },
+    {
+      "run": "gh18-source12-04",
+      "receipt": {
+        "file": "tmp/rust-r4ghi/root/ui-runtime14/gh18-source12-04/receipt18-06.json",
+        "bytes": 112033,
+        "rawBytesSha256": "66c3bb8bde03a443304f6fedb89082383b47f39c9762a2dd94912516ca54b00e"
+      },
+      "actualSourceBinding": {
+        "approvedBindingSHA256": "c6d2585fa42045a0546750c75b920734820396af5fc30cfb1893bf56bcf51504",
+        "epoch": "g2-business12",
+        "run": "main01",
+        "tables": 139,
+        "migrations": 97,
+        "processBinarySHA256": "de8eaaf6ce15a2054380e25f3151c21611cf0bf760230c7336745d80850d9cff",
+        "actorKeys": [
+          "manager"
+        ],
+        "sourceManifest": {
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/007133-p1351-candidate.json",
+          "rawBytesSha256": "1dde0fda6f0c23682568f8256ea98da4137ebd7793da7915238e0ac066a9740c"
+        },
+        "candidateReceipt": {
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/007133-p1351-candidate.json",
+          "rawBytesSha256": "1dde0fda6f0c23682568f8256ea98da4137ebd7793da7915238e0ac066a9740c"
+        }
+      },
+      "observedStatus": "passed-bound-cases-only",
+      "observedAllA08FormsPassed": false,
+      "cases": [
+        {
+          "kind": "gh-forms",
+          "status": "passed",
+          "actualWriteObserver": [
+            {
+              "operationId": "ProjectCostController_createProjectOperatingSnapshot",
+              "purpose": "real-UI-G-capture-and-cost-classification",
+              "responseTargetId": "73d2f88c-3d55-4713-b4bf-31c8d6b06af6"
+            },
+            {
+              "operationId": "ProjectCostController_reviewOperatingSignalEvaluation",
+              "purpose": "real-UI-H-materiality-overlay",
+              "responseTargetId": "2eacbe7d-81d7-4a0b-89f8-66a3a80154a2",
+              "reviewRecordId": "0fe0daf4-ec94-4235-9444-48042091b941"
+            },
+            {
+              "operationId": "ProjectCostController_reviewCommissionGateBinding",
+              "purpose": "real-UI-H-first-stage-tighten-block",
+              "responseTargetId": "98a00658-a68d-4d39-b3a1-8e6b9e12c3a5",
+              "reviewRecordId": "b0b9b63f-951d-4cc2-afe1-94aef1cf0768"
+            }
+          ],
+          "businessWritePerformed": null,
+          "actualFormGroups": null,
+          "baselineCreatedInThisRun": false,
+          "actualFrozenH08": true,
+          "role03RetroactivePostReadClaimed": null
+        }
+      ],
+      "actualHTTPCounts": {
+        "GET:200": 21,
+        "POST:201": 1,
+        "POST:200": 2
+      },
+      "observerCount": 24
+    }
+  ],
+  "failedOriginalsPreserved": [
+    {
+      "run": "gh18-source12-02",
+      "original": {
+        "file": "tmp/rust-r4ghi/root/ui-runtime14/gh18-source12-02/receipt18-06.json",
+        "bytes": 95038,
+        "rawBytesSha256": "f999ef43fa6c2b2bf82aafd21cade195c9aba906739c60516ff0b1592d4770a9"
+      },
+      "stillFailed": true,
+      "acknowledgedBusinessWrites": []
+    },
+    {
+      "run": "gh18-source12-03",
+      "original": {
+        "file": "tmp/rust-r4ghi/root/ui-runtime14/gh18-source12-03/receipt18-06.json",
+        "bytes": 98766,
+        "rawBytesSha256": "cd59d801d6380843207863dcfa2a7bd1528dcad9d43b5c070bc8052f3721395f"
+      },
+      "stillFailed": true,
+      "acknowledgedBusinessWrites": [
+        {
+          "operationId": "ProjectCostController_activateOperatingBaselinePackage",
+          "purpose": "real-UI-G-baseline",
+          "responseTargetId": "ca89ca5c-b482-4155-a327-6e56d4a4ad1a"
+        }
+      ]
+    },
+    {
+      "run": "lifecycle18-source12-01",
+      "original": {
+        "file": "tmp/rust-r4ghi/root/ui-runtime14/lifecycle18-source12-01/receipt18-03.json",
+        "bytes": 97983,
+        "rawBytesSha256": "897264dadbdbbe851372447cb30ec451afafd6d3c589f6194e2cb3701d3262c2"
+      },
+      "stillFailed": true,
+      "acknowledgedBusinessWrites": []
+    }
+  ],
+  "continuationBoundaries": {
+    "roleOriginalCreate02NotReplayed": true,
+    "roleFreeze03PlusIndependentPeer409AndColdReadbackSeparated": true,
+    "roleBusinessVersion": 1,
+    "roleRowVersion": 2,
+    "GHBaseline03KeptAndThreeRemainingForms04ActuallyExecuted": true,
+    "EOOriginalStartExecutionNotReplayed": true,
+    "lifecycle02ActualEvidenceUploads": 3,
+    "finalAcceptanceOnlyCompletion": true
+  },
+  "source12TailUIDriverCompletionGuards": true,
+  "noAggregateRunRetroactivelyRelabelledAllA08Passed": true,
+  "retention": {
+    "file": "docs/design/rust-r4ghi/retained-source12-before-source13-139.json",
+    "bytes": 3537,
+    "rawBytesSha256": "ee6fc57578c1f2c3e601b8a2890c3af846d9429056fc85bbd27fc19d28d3b998"
+  },
+  "sourcePacket": {
+    "file": "docs/design/rust-r4ghi/retention/final12-source140/receipt.json",
+    "bytes": 4482,
+    "rawBytesSha256": "f48a01dada316d1628600dfdf92a467437be0fc89104fa7562c73765bd5602cc"
+  },
+  "privateIndex": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/retention/epoch12-before-source13-139/index.json",
+    "rawBytesSha256": "fed889a2c467945656d7c317f006b5ba2bc9780435459460863b3735dacb17b7"
+  },
+  "migrationBeforeCandidate": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-007492-retained139-after.json",
+    "bytes": 3137240,
+    "rawBytesSha256": "106c66efc668090d4605b6a953ebfddfa65aa2df8c13c3e7531a51bf57130d15"
+  },
+  "actualSource12FrozenState": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/retention/epoch12-before-source13-139/state-at-retention139.json",
+    "bytes": 12362792,
+    "rawBytesSha256": "ee7371dc4fc5d388f6898fb1c6eb90bebb6404eca6c31d23599469445804a628"
+  },
+  "archiveCount": 2,
+  "objectCopies": 40,
+  "retainedHelperAndLauncherFiles": 180,
+  "retainedProcess": {
+    "generation": "API1351",
+    "activeApiProcess": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/rust-api1351-process.json",
+      "rawBytesSha256": "fd81b926dbaad79debc0343ac63b6cff7c967ac4a52cd64db0a7d0e7d4dbc2a1"
+    },
+    "activeRestartRegistry": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/007134-p1351-registry.json",
+      "rawBytesSha256": "05985940f4a4085fab81d0711d2285931818a2b78fb29a9612bfcc1365b1667b"
+    },
+    "activeCandidate": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/007133-p1351-candidate.json",
+      "rawBytesSha256": "1dde0fda6f0c23682568f8256ea98da4137ebd7793da7915238e0ac066a9740c"
+    },
+    "originalSchema2Registry": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/000002-consumer-admission54-registry.json",
+      "rawBytesSha256": "3ed7bd387b6f4f3b8e44201e7985043b18b71cefceba3194f83ab19300f7d29c"
+    },
+    "historicalAPI135Process": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/rust-api135-process.json",
+      "rawBytesSha256": "a42333c74b7afd8aa7359bb3cf915444cc7cbbfebff9049a467c2cdb33ccef06"
+    },
+    "historicalAPI135Candidate": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/004534-candidate-source-binding12.json",
+      "rawBytesSha256": "b5c86c8882657aac1e1affc153510a728bc304943265e51a230b6be19a0429b7"
+    },
+    "oldEvidenceRelabelledAs1351": false
+  },
+  "originalM97Baseline": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business10/main01/snapshot-baseline-000002-baseline01.json",
+    "bytes": 3114679,
+    "rawBytesSha256": "f4026a1464d843d45b986f999d4dbbedbce967e941736e386512cb1103fe734d"
+  },
+  "originalDatabaseVolumeKept": true,
+  "databaseRestoreExecuted": false,
+  "archiveTOCOnlyNotRestoreOrPortableXminCertification": true,
+  "Source13OrM98Applied": false,
+  "periodPositiveAccepted": false,
+  "waitingNaturalHongKong": "2026-11-09T00:00:00+08:00",
+  "historicalBaselineAutomaticSelectionApproved": false,
+  "formalRustDelivered": 240,
+  "newlyCertified": 0,
+  "G3Certified": false,
+  "G4Certified": false,
+  "mainMergeOrDeploymentPerformed": false
+}

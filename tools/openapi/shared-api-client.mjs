@@ -7,6 +7,7 @@ import { createRequire } from 'node:module';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { repairGeneratedModels } from './repair-generated-models.mjs';
 
 export const workspaceRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const baselinePath = 'tools/openapi/shared-api-client-baseline.json';
@@ -27,8 +28,8 @@ export function loadBaseline(root = workspaceRoot) {
     assert.equal(baseline.spec.file, specificationPath, 'Only the full specification may generate the client');
     assert.equal(baseline.client.directory, clientPath, 'Client output directory is fixed');
     assert.deepEqual(baseline.client.metadata, ['project.json', 'tsconfig.json', 'tsconfig.lib.json']);
-    assert.equal(baseline.spec.operations.length, 293, 'Full operation protection must not become a Rust subset');
-    assert.equal(baseline.spec.schemas.length, 626, 'Full schema protection must not become a Rust subset');
+    assert.equal(baseline.spec.operations.length, 296, 'Full operation protection must not become a Rust subset');
+    assert.equal(baseline.spec.schemas.length, 690, 'Full schema protection must not become a Rust subset');
     return baseline;
 }
 
@@ -246,6 +247,7 @@ export function runClient({ root = workspaceRoot, mode = '--check', jar, java, e
     try {
         const generatorOutput = generate({ root, directory, java: javaInfo, jar: jarFile, env });
         validateGeneratedTree(directory, baseline);
+        const modelRepairs = repairGeneratedModels(directory, JSON.parse(readText(safeChild(root, specificationPath))));
         for (const file of baseline.client.metadata) copyFileSync(safeChild(target, file), path.join(directory, file));
         normalizePath(directory);
         const expected = treeManifest(directory, { normalized: true });
@@ -286,6 +288,7 @@ export function runClient({ root = workspaceRoot, mode = '--check', jar, java, e
                 schemas: baseline.spec.schemas.length
             },
             generator: { version: generatorVersion, jarSha256: baseline.generator.jarSha256, javaVersion: javaInfo.version, directJar: true, ...generatorOutput },
+            modelRepairs,
             clientFiles: expected.length,
             manifestSha256: sha256(JSON.stringify(expected)),
             files: expected,

@@ -1,0 +1,155 @@
+{
+  "kind": "Root-reviewable exact gap and integration proposal; no complete product patch claimed",
+  "createdAt": "2026-11-06T19:46:14.738891+00:00",
+  "rootProductModified": false,
+  "baseStableAtCapture": true,
+  "status": "Current protocol cannot express or persist an OwnCondition upload binding. Root corrective selection required.",
+  "findings": [
+    {
+      "id": "AS08-P1-01",
+      "file": "apps/poms-api-rust/src/attachments/service.rs",
+      "line": 451,
+      "fact": "target_access checks only type RBAC and target existence. FullProject must be verified in the same source-read transaction for project/contract list and normal access."
+    },
+    {
+      "id": "AS08-P1-02",
+      "file": "apps/poms-api-rust/src/attachments/service.rs",
+      "line": 510,
+      "fact": "readable, center:1601, history:1268 and active-link summaries bypass real project scope; a single I evidence reader fix cannot protect these original routes."
+    },
+    {
+      "id": "AS08-GAP-01",
+      "fact": "Live upload/link/list DTOs have no relatedField, completionRecordId, conditionId or businessContext. Six target types and five relation types are closed enums. UploadSession has no JSON business context; description is free user text. The validator strips unknown fields."
+    },
+    {
+      "id": "AS08-GAP-02",
+      "file": "apps/poms-api-rust/src/attachments/store.rs",
+      "line": 262,
+      "fact": "Read helpers use independent Database.with_connection calls; flush_guarded:1720 opens its own transaction at1749. A separate Scope precheck cannot establish same-CommonSession authority for later reads/writes."
+    }
+  ],
+  "options": [
+    {
+      "name": "Zero new HTTP/DDL with explicit typed existing-route context and authoritative binding producer",
+      "proposedNotExisting": true,
+      "newHTTP": 0,
+      "newDDL": 0,
+      "change": "Root corrective adds optional typed project/completion/condition context to the existing upload/read protocol, shared/OpenAPI/client/validator. A required server-produced self-hashed versioned scope-binding audit metadata fact may use existing audit_log JSON, written with session insert and reloaded in each phase under actual Condition scope.",
+      "limit": "This audit binding is not already implemented or authorized as an authority source. Root must define unique binding, immutability, cardinality, actor/session/project/condition identity, request hash, producer and consumption semantics before it is usable. Do not treat arbitrary audit text as proof."
+    },
+    {
+      "name": "Dedicated persistent binding",
+      "newHTTP": 0,
+      "newDDL": "required",
+      "change": "Add exact typed scope-context column or binding table with project/completion/condition/session FKs and immutable producer facts; explicit protocol context on existing routes. More direct storage semantics, outside zero-DDL request."
+    }
+  ],
+  "rejectedShortcuts": [
+    "Invent relatedField or rely on stripped unknown keys",
+    "Hide privilege-bearing UUIDs in description, changeNote, filename or relationType",
+    "Bare project:write or same-org membership as own-task upload permission",
+    "Project-wide list plus frontend filtering",
+    "Reuse only existing frozen refs and call new evidence producer complete",
+    "Scope checked on another connection before legacy reads",
+    "Link arbitrary other-user attachmentId to obtain own condition access"
+  ],
+  "integrationPlan": "integration-plan.md",
+  "securityEvidence": "security-policy-evidence.md",
+  "validation": {
+    "executed": "Read-only source inspection only",
+    "GitDBHTTPBuild": false,
+    "RootActualRequired": true
+  },
+  "inputs": [
+    {
+      "path": "apps/poms-api-rust/src/attachments/service.rs",
+      "baseSHA256": "0fbd8afc1c22fec87e3034b9e31d9c89a3cfea92d85cb8f0ef1866dd23bcceab",
+      "bytes": 81710
+    },
+    {
+      "path": "apps/poms-api-rust/src/attachments/store.rs",
+      "baseSHA256": "525028f45ce39a5935f4a1565eee662b76a2976f07a212a580c23f862e899899",
+      "bytes": 77122
+    },
+    {
+      "path": "apps/poms-api-rust/src/attachments/model.rs",
+      "baseSHA256": "bf68f01357c574b194869c9cd49651d000fb904db233f49c60c2746c72893b51",
+      "bytes": 4239
+    },
+    {
+      "path": "apps/poms-api-rust/src/attachments/validation.rs",
+      "baseSHA256": "58b5bdc35dc70226ab77e2da9e90232d61b0d333c85613c65084896b7ae21f47",
+      "bytes": 28393
+    },
+    {
+      "path": "apps/poms-api-rust/src/attachments/http.rs",
+      "baseSHA256": "bf3104acae5ce0ea4899887036a4328d87a9e6ef173ca830d46c375e179270ce",
+      "bytes": 20344
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_action_authorization/mod.rs",
+      "baseSHA256": "57a6fa40227a658f2020ef81a5d1e5b93ab34f1b129dd6aff377fc78e0405ed6",
+      "bytes": 55722
+    },
+    {
+      "path": "apps/poms-api-rust/src/lifecycle_evidence/mod.rs",
+      "baseSHA256": "b40ee3a8091d233e90737a693f4a27f060d9aa41df7b1f1a37fd3c332a83e5fb",
+      "bytes": 16501
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment-upload-session.entity.ts",
+      "baseSHA256": "91c0cde339a88dccf4438dfe38fb49e291be9cb77fb465e61a0b2252be1c2367",
+      "bytes": 7443
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment.entity.ts",
+      "baseSHA256": "c22e8c12f1a0f1ef4f2c62943d59bed2b195bfd9cf5dead97ec3329a25b780d8",
+      "bytes": 19232
+    },
+    {
+      "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "baseSHA256": "4de8f52d9a2b69064c848446d02ebb9d612c31f595838de7345c99c546d40c87",
+      "bytes": 460387
+    },
+    {
+      "path": "libs/shared/api-client/model/create-attachment-upload-session-request.ts",
+      "baseSHA256": "16d5e38ab489a51632089314eaadeed2c6e11adcb50ba7880011e56a87782765",
+      "bytes": 1001
+    },
+    {
+      "path": "libs/shared/api-client/model/create-attachment-link-request.ts",
+      "baseSHA256": "20c58f3d40792662ce8c6667485cbb7400407ba3af67b3d492320575ed43c855",
+      "bytes": 479
+    },
+    {
+      "path": "libs/shared/api-client/api/attachment.service.ts",
+      "baseSHA256": "8872c03af91cc97baaf0f973a03bddc8bb3ecb7fa77e594257bd756edff03510",
+      "bytes": 54503
+    },
+    {
+      "path": "tools/rust-r2ij/j-dto-rules.json",
+      "baseSHA256": "7815280a911f9649bd9b3ebf45672e476130b09bacdf2711c62c6f5cdce55991",
+      "bytes": 16392
+    },
+    {
+      "path": "tools/rust-r4ghi/joint-g1/effective-v2/scope-response-contract.json",
+      "baseSHA256": "cda71a19968c081ca40241facf14dfd7f0d69f422bea8b767237fdbb5e0594c1",
+      "bytes": 3772
+    },
+    {
+      "path": "docs/design/rust-r2ij/j-source-input.md",
+      "baseSHA256": "296a7d7369d12b82a4f7ad80720755fdfbfff696a84c3d27b13a5ddc77001f47",
+      "bytes": 43427
+    },
+    {
+      "path": "docs/design/rust-r2ij/g0-dependencies.json",
+      "baseSHA256": "c5f2046afecc2bdff35f26c1cfca81b3c7ce9d38e19b182cf5194858c301d9dd",
+      "bytes": 102553
+    },
+    {
+      "path": "docs/design/archive/slices/rust-r2ij-storage-attachments-baseline.md",
+      "baseSHA256": "0acbfe5a33d1ffb51000e76f6bc8687452cc82ba48a0714761547a2ba53d835f",
+      "bytes": 29298
+    }
+  ]
+}

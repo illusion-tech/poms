@@ -1,0 +1,79 @@
+{
+  "kind": "non-author-runtime118-installed-code-carriers-readback",
+  "schemaVersion": 1,
+  "recordedAt": "2026-11-14T09:22:23.339Z",
+  "reviewer": "/root/budget118_review",
+  "reviewerIsCarrierWriter": false,
+  "verdict": "approved-exact-installed-code-carriers",
+  "inputs": {
+    "complete": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-installed-code-carriers01/complete.json",
+      "bytes": 5248,
+      "rawBytesSha256": "de0a4199379f2950a7b95101b627e5cabb1a427d08834a151374eba4e06f506c"
+    },
+    "runtimeQ11": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-installed-code-carriers01/runtime-Q11.json",
+      "bytes": 2988,
+      "rawBytesSha256": "3183f11973c362408579b0dc8ad19d478dec8fd6d76d191b861572bdcc783807"
+    },
+    "sourceSQ12": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-installed-code-carriers01/source-SQ12.json",
+      "bytes": 3332,
+      "rawBytesSha256": "b88cfe2d867d0b3bfa1eeb8454caad8897cc501caa21fd35bc703e0c24553633"
+    },
+    "fieldRecommendation": {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-reentry-code-independent01/Q11-SQ12-installed-fields01.json",
+      "bytes": 8052,
+      "rawBytesSha256": "1120c31ce22a881cba748c629e45ea1d2095f339a5066437c1c75b1347abc906"
+    },
+    "installedModelEvidence": {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-reentry-code-independent01/installed-modelEvidence-bundle01.json",
+      "bytes": 6550,
+      "rawBytesSha256": "bd8f446333be45873a4211932dba67b92e3b9f541a3a6d3a709b5989479ecb98"
+    }
+  },
+  "checked": {
+    "closedKeys": {
+      "Q11": 11,
+      "SQ12": 12
+    },
+    "bothEqualIndependentlyReviewedInstalledFieldSets": true,
+    "allSevenRetainedMappingsByteEqual": true,
+    "QExecutionSources": 2,
+    "SQExecutionSources": 3,
+    "actualInstalledSupport": [
+      {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/budget118/promote-budget118-source-once.mjs",
+        "bytes": 42757,
+        "rawBytesSha256": "dd4944818a3876a970cba88703893c01a7313556e905b381a691d3a07d8ee0d3"
+      },
+      {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/budget118/reenter-budget118-runtime.mjs",
+        "bytes": 133531,
+        "rawBytesSha256": "681b33644c551c067fd9c06c5726eb596033417ab4dc26c505728a6ae45a7966"
+      },
+      {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/budget118/start-budget118-holder.ps1",
+        "bytes": 25217,
+        "rawBytesSha256": "9a9fd33f8606fe28489f0673ef5ff57a6fc293ce13477b2b84030a73b4fee88a"
+      }
+    ],
+    "actualEqualsQualifiedAndIndependentlyTestedBytes": true,
+    "identitiesAuthorReviewerAndCodeAuthorsMatchFrozenG1": true,
+    "WindowsNodeEvidenceStronglyRead": true,
+    "LinuxNodeOnlyFrozenExpectation": true
+  },
+  "nestedEvidenceBoundary": "Root reports an explicit nested public evidence review. This independent check verifies the exact existing bundle, CODE-READY verdict/manifest, installation readback, retained copy byte equality and actual installed code. Runtime consumers still only strong-read opaque modelEvidence and do not automatically enforce nested schema/kind/verdicts.",
+  "blockingFindings": [],
+  "actualHolderInputReviewed": false,
+  "holderStartGranted": false,
+  "actualRuntimeG2Granted": false,
+  "reviewActions": {
+    "candidateModuleExecuted": false,
+    "PRead": false,
+    "procEnvRead": false,
+    "WSLLaunched": false,
+    "SQLHTTP": false,
+    "suiteRerun": false
+  }
+}

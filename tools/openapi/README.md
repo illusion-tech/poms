@@ -11,7 +11,7 @@ node tools/openapi/shared-api-client.mjs --write
 
 Nx `shared-api-client:generate` / `check` 保留 `poms-api:openapi` 上游依赖，后者刷新 `libs/shared/api-spec/openapi.json`。因此整条 Nx check 链会写规范；直接 Node check 只读受审输入和 client。不存在任意 `inputSpec` / output override；子集、缺失/重复 operationId、schema 缺失、外部 `$ref` 和输入漂移都会在同步前拒绝。
 
-`shared-api-client-baseline.json` 是 R1D 的输入保护清单，绑定 `e951b76b` 的完整规范、配置与锁文件，包含 291 条 method/path/operationId 和 585 个 schema 名称。它不复制 schema 结构、不生成产品类型。working tree 与 index 独立检查；生成前后复查来源及三个手管元文件。来源指纹仅做 UTF-8 CRLF→LF，与输出规范化是两回事。后续契约变更需先审阅并显式更新该清单，工具没有自动接受新基线的选项。
+`shared-api-client-baseline.json` 是完整输入保护清单。当前 S6 输入提交为 `2cd1be6029cf1b14ebfb1fc4530af894507a4c5a`，绑定完整规范、配置与锁文件，包含 242 paths、296 条 method/path/operationId 和 690 个 schema 名称；原 S5 与永久 S4 均保留。精确来源与原字节证据在 `checkpoints/r4ghi-s6/`。这只是 G2 生成输入，不代表业务 G3/G4。清单不复制 schema 结构、不生成产品类型。working tree 与 index 独立检查；生成前后复查来源及三个手管元文件。来源指纹仅做 UTF-8 CRLF→LF，与输出规范化是两回事。后续契约变更需先审阅并显式更新该清单，工具没有自动接受新基线的选项。
 
 生成器固定 `7.20.0`，JAR SHA256 固定为 `871e0155287a87b579ff31096b2d45b1f95a115edfe631411ec6cff4848d0f03`。来源为 [官方 Maven artifact](https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.20.0/openapi-generator-cli-7.20.0.jar)，由主运行器预先下载校验；本工具不安装或下载依赖。直接调用该 JAR，保留配置中的 `ngVersion:21.0.0` 和原 `--skip-validate-spec` 参数，不升级模板。
 
@@ -41,4 +41,11 @@ node --test tools/openapi/shared-api-client.integration.test.mjs
 node tools/openapi/capture-normalization-oracle.mjs --check
 ```
 
-单元测试还覆盖 source/index 抵消、未跟踪输入、生成期间元文件变化、缺失/额外/隐藏文件、坏 JAR/Java、路径越界和 symlink、失败不写目标及唯一临时目录。真实集成测试在 Windows 额外执行旧 PS check/normalize 薄入口；Linux 的矩阵不包含 Windows 适配器。两端实际完整 579 文件必须与仓库一致并有相同内容清单，不能只以生成器 exit code 认证。
+单元测试还覆盖 source/index 抵消、未跟踪输入、生成期间元文件变化、缺失/额外/隐藏文件、坏 JAR/Java、路径越界和 symlink、失败不写目标及唯一临时目录。真实集成测试在 Windows 额外执行旧 PS check/normalize 薄入口；Linux 的矩阵不包含 Windows 适配器。当前 S5 实际完整 682 文件必须与仓库一致并有相同内容清单，不能只以生成器 exit code 认证。
+
+
+## 固定生成器的模型表示修正
+
+完整 JAR 生成与文件清单校验之后、同步之前，`repair-generated-models.mjs` 从同一完整 canonical spec 绑定生成模型名称、属性与实际声明，修正精确 null/boolean、纯引用 union 和条件必填被错误抬升的表示。未知空枚举、缺失导入或不匹配立即终止；不放宽 canonical，不手改目标 SDK。每次结果记录修正路径和前后指纹，仍保留六项输入、三个手管元文件、并发 check 及失败不写目标保护。
+
+语义回归：`node --test tools/openapi/repair-generated-models.test.mjs`。S5 的 70 处修正、完整 write/check 及独立实际复核见 `checkpoints/r4ghi-s5-model-repair/`；不是业务 G3/G4。

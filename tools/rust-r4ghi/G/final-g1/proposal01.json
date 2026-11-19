@@ -1,0 +1,256 @@
+{
+  "schemaVersion": 1,
+  "status": "FINAL-G1-TARGET-PROPOSAL-NOT-ADMITTED",
+  "slice": "G #111 / batch #110",
+  "owner": "/root/r4g_operating",
+  "expectedModel": "gpt-6.1-sol",
+  "expectedEffort": "max",
+  "fastMode": "unverified",
+  "userDecisions": [
+    "Minimal R5 four operations and controlled stage two operations",
+    "ReceiptAmount gross cash, traceable immutable net/tax basis, no legacy guessing",
+    "Explicit cost include/exclude with reasons; server derives monetary and action results",
+    "Zero commission weights with reasons and six-place total one",
+    "Final acceptance/conditional completion has traceable condition close one new operation"
+  ],
+  "operationBudget": {
+    "batch": 32,
+    "knownExistingOriginal": 25,
+    "stageNew": 2,
+    "conditionCloseNew": 1,
+    "minimumR5Existing": 4,
+    "GExisting": 9,
+    "GNew": 0,
+    "receiptBasisNew": 0,
+    "previewNew": 0,
+    "note": "Existing C confirm gains explicit certify-existing-basis mode; existing H unified-accounting query gains preparation view. Root must freeze changed semantic contracts, not count them as new public routes. Any later split endpoint changes 32 and needs route registration."
+  },
+  "routes": [
+    {
+      "operationId": "ProjectCostController_activateOperatingBaselinePackage",
+      "method": "POST",
+      "path": "/api/operating-baseline-packages",
+      "canonicalLine": 162,
+      "permission": "contract:finance:manage",
+      "input": {
+        "$ref": "#/$defs/ActivateOperatingBaselinePackageRequest"
+      },
+      "response": {
+        "$ref": "#/$defs/OperatingCommandResult"
+      },
+      "successStatus": 201,
+      "inputVersion": "server-derived-v1"
+    },
+    {
+      "operationId": "ProjectCostController_getCurrentOperatingBaselinePackage",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/operating-baseline-package",
+      "canonicalLine": 163,
+      "permission": "contract:finance:manage",
+      "input": null,
+      "response": {
+        "$ref": "#/$defs/OperatingBaselinePackageSummary"
+      },
+      "successStatus": 200,
+      "inputVersion": null
+    },
+    {
+      "operationId": "ProjectCostController_createProjectOperatingSnapshot",
+      "method": "POST",
+      "path": "/api/project-operating-snapshots",
+      "canonicalLine": 164,
+      "permission": "contract:finance:manage",
+      "input": {
+        "$ref": "#/$defs/CreateProjectOperatingSnapshotRequest"
+      },
+      "response": {
+        "$ref": "#/$defs/OperatingCommandResult"
+      },
+      "successStatus": 201,
+      "inputVersion": "server-derived-v1"
+    },
+    {
+      "operationId": "ProjectCostController_getProjectOperatingSnapshot",
+      "method": "GET",
+      "path": "/api/project-operating-snapshots/{id}",
+      "canonicalLine": 550,
+      "permission": "contract:finance:manage",
+      "input": null,
+      "response": {
+        "$ref": "#/$defs/ProjectOperatingSnapshotSummary"
+      },
+      "successStatus": 200,
+      "inputVersion": null
+    },
+    {
+      "operationId": "ProjectCostController_createPeriodClosingSnapshot",
+      "method": "POST",
+      "path": "/api/period-closing-snapshots",
+      "canonicalLine": 165,
+      "permission": "contract:finance:manage",
+      "input": {
+        "$ref": "#/$defs/CreatePeriodClosingSnapshotRequest"
+      },
+      "response": {
+        "$ref": "#/$defs/OperatingCommandResult"
+      },
+      "successStatus": 201,
+      "inputVersion": "server-derived-v1"
+    },
+    {
+      "operationId": "ProjectCostController_getPeriodClosingSnapshot",
+      "method": "GET",
+      "path": "/api/period-closing-snapshots/{id}",
+      "canonicalLine": 533,
+      "permission": "contract:finance:manage",
+      "input": null,
+      "response": {
+        "$ref": "#/$defs/PeriodClosingSnapshotSummary"
+      },
+      "successStatus": 200,
+      "inputVersion": null
+    },
+    {
+      "operationId": "ProjectCostController_createOperatingRestatement",
+      "method": "POST",
+      "path": "/api/operating-restatements",
+      "canonicalLine": 166,
+      "permission": "contract:finance:manage",
+      "input": {
+        "$ref": "#/$defs/CreateOperatingRestatementRequest"
+      },
+      "response": {
+        "$ref": "#/$defs/OperatingCommandResult"
+      },
+      "successStatus": 201,
+      "inputVersion": "server-derived-v1"
+    },
+    {
+      "operationId": "ProjectCostController_listOperatingRestatements",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/operating-restatements",
+      "canonicalLine": 556,
+      "permission": "contract:finance:manage",
+      "input": null,
+      "response": {
+        "$ref": "#/$defs/OperatingRestatementListView"
+      },
+      "successStatus": 200,
+      "inputVersion": null
+    },
+    {
+      "operationId": "ProjectCostController_getOperatingRestatement",
+      "method": "GET",
+      "path": "/api/operating-restatements/{id}",
+      "canonicalLine": 532,
+      "permission": "contract:finance:manage",
+      "input": null,
+      "response": {
+        "$ref": "#/$defs/OperatingRestatementSummary"
+      },
+      "successStatus": 200,
+      "inputVersion": null
+    }
+  ],
+  "expectedVersions": {
+    "expectedVersion": "Mandatory project_operating_head.row_version, 0 means no prior head; field is never optional",
+    "expectedProjectVersion": "Mandatory positive actual project.row_version under project lock",
+    "references": "Every supplied identity requires positive expectedVersion+payloadHash; decision expectedVersion=0 only means no current decision",
+    "expectedInputHash": "Preparation factual input hash BEFORE new classification/correction producer writes. Recompute after all locks; mismatch 409.",
+    "finalSourceHash": "H factual whitelist AFTER actual classification/membership/source-state transitions; distinct from expectedInputHash. Generated IDs/time policy exclusions follow H proposal exactly."
+  },
+  "interface": {
+    "sharedContext": "Consume H/final-g1/source-context.schema.json; Root owns final shared model/canonical serializer",
+    "collect": "pub async fn collect_with_session(session:&mut CommonSession<'_, '_>, plan:&OperatingCollectPlan, lock_mode:CollectLockMode, actor:&Actor)->Result<OperatingCollection,Error>",
+    "prepare": "pub async fn prepare_with_session(session:&mut CommonSession<'_, '_>, project_id:Uuid, intent:&OperatingPreparationIntent, actor:&Actor)->Result<OperatingPreparation,Error>",
+    "loadFrozen": "pub async fn load_frozen_context_with_session(session:&mut CommonSession<'_, '_>, snapshot_id:Uuid, expected_row_version:i32, expected_source_hash:&str)->Result<OperatingSourceContext,Error>",
+    "derive": "project_operating_signals::derive_operating_evaluation(&context,None)",
+    "readiness": "project_operating_signals::derive_cost_readiness(&context)",
+    "evaluate": "project_operating_signals::evaluate_with_session(session,snapshot_id,1,&source_hash,actor)->Result<OperatingEvaluationRefs,Error>",
+    "sequence": [
+      "Discover complete impacted project set without acquiring a partial set of locks; sorted project UUID locks; rediscover and restart on new scope",
+      "Lock head/baseline/contract/receipt and all source-family/source/cost/F governance rows in shared deterministic order; assert all versions and expectedInputHash",
+      "Apply real receipt certification/labor/allocation correction producer calls only when explicitly requested and authorized; persist explicit classifications; CAS direct cost included transition; preserve actual source-state before/after proof",
+      "Allocate target snapshot/context UUIDs server-side; collect exact post-producer immutable context and sourceRows; calculate exact primary facts; H pure derive owns action/readiness",
+      "Reject formalEligibility missing-evidence; write G source context/members and snapshot with final action once at captured row version 1",
+      "For period: write paired period anchor with exactly same source context; for restatement: append restatement+causal links and metadata-only old terminal supersede",
+      "H evaluate reloads real new context/hash/v1, recomputes/asserts final facts/action and writes DMER/OSER/four binding/summary chains; no G facts writeback",
+      "CAS project_operating_head/new period terminal pointers, required business audit/security/auth coflush, one outer COMMIT; any necessary write failure rolls back all"
+    ]
+  },
+  "baselineOnlySequence": "activateOperatingBaselinePackage validates only adopted estimate/approved transition/handover provenance and freezes operating_baseline_source; it does not require receipts/cost classifications or create a fake ProjectOperatingSnapshot/H evaluation. Its sourceContextId is a baseline evidence ID, not an OperatingSourceContext row. Snapshot creation separately applies the full G/H pipeline.",
+  "baselineAmounts": "originalBaselineCost = earliest formally adopted PROJECT estimate net; handoverBaselineCost = exact adopted handover effective project estimate net (or original when no absorbed rebaseline); executionChangePackageTotal = sum approved post-execution successor net minus predecessor net once each; changePackageTotal compatibility = handoverBaselineCost-originalBaselineCost+executionChangePackageTotal; currentEffectiveBaselineCost=handoverBaselineCost+executionChangePackageTotal. Keep all components distinct in source payload/UI; original never overwritten.",
+  "collector": {
+    "contracts": "As-of effective complete contract set with exact activated term/preparation/readiness/review bindings; net from immutable terms, currency from certified immutable activation-baseline/contract linkage; no single-contract shortcut or signed gross used as net",
+    "receipts": "Confirmed same-project receipts by true receiptDate <= business cutoff; every required row must have immutable v1 receipt_accounting_basis. Gross cash for progress ratio; net for margin. No missing-basis exclusion toggle.",
+    "costs": "All real registered/current source rows partitioned by actual include/exclude producer; unknown/unclassified remains visible and not implicit zero. Included direct nodes need captured E source facts + active verified F stage and known net currency; payment installments are distinct actual payment IDs.",
+    "sourceChains": "Server constructs canonicalAccumulationKey from actual primary source identity/lineage and sourceChainKey from real payable link. Invoice/tax-support/evidence-only must exclude primary money; controlled explicit supportingSourceRefs creates actual append-only source link+reason, never amount/date heuristics. Included procurement promise excludes any absorbed same-chain payment principal; no triple counting.",
+    "allocations": "Use actual F basis/result/source snapshots, exact stored selected-measurement-first-v2 cents/layers. No synthetic ProjectActualCostRecord. Result version and each real source/stage lineage frozen; shared source full amount and same share source-set mutually exclusive; direct source unrelated same-payable installments remain valid.",
+    "baseline": "One adopted PROJECT technical-cost chain, counted once even across many contracts; original earliest approved adopted package immutable. Current handover cost from exact before/after basis verified chain; execution change delta = approved successor project cost version net minus predecessor net, each transition once. Contract gross/signed delta never cost delta. Forked/disconnected/conflicting adopted project packages reject.",
+    "tax": "Active F tax snapshots/evidence, deductible VAT excluded from base; non-deductible adjustment only when explicit source component not already included; pending remains unknown/pending, never automatic addition of all taxImpactAmount",
+    "labor": "yes if any transitive member is labor; no only if all lineage verified non-labor; otherwise unknown and strongest reversible projection/write guards",
+    "zero": "Known zero only exhaustive source-scope zero or authorized explicit exclusions with proofs; money knowledge separate from maturity/evaluation. Missing confirmed receipt basis or included hard evidence prevents official publish."
+  },
+  "inclusion": {
+    "persistence": "Append project_cost_inclusion_decision + CAS project_cost_inclusion_head. Per-snapshot operating_snapshot_cost_member immutable; copying same actual decision into later snapshot does not reinclude or reprice it.",
+    "directProducer": "UPDATE project_actual_cost_record SET record_status='included',is_included_in_project_cost=true,included_at=now(),included_by=actor,row_version=row_version+1 WHERE id=... AND row_version=expected AND record_status='confirmed' AND NOT is_included_in_project_cost RETURNING ...; exactly one row, after real qualification.",
+    "includedMeaning": "Sticky consumed-ever fact; never reset flag/status to confirmed merely to bypass E/F guards. Live inclusion head can only change through explicit restatement when previously published inclusion changes. Replaced old record remains historical flag=true,status=replaced; original membership never changes.",
+    "sharedProducer": "Do not flip confirmed shared pool source to included as full direct cost. CAS actual F result is_included_in_project_cost=true/included_at/by and increment result row_version, record causal metadata transition; membership consumes only result project share.",
+    "exclusion": "Unconsumed candidate exclude creates reasoned classification only, no included cost flag; explicit registered/no-stage exclusion is pending/not-yet-applicable and H retains gap. New source candidates cannot disappear from exhaustive scope.",
+    "ordinaryReplacement": "E direct labor replace, F stage/tax/whole-allocation replace and C source mutation must check actual consumed membership; normal paths return 409 operating_restatement_required if changing a consumed factual component. No fake reset/uninclude.",
+    "restatementReplacement": "Existing operating-restatements handles live or period roots. Sealed internal RestatementPermit is produced only after true referenced snapshots/source hashes/versions and full affected-project set are locked. It allows actual E labor recalculation and F complete-batch replacement using real business inputs, fresh stage/source proof, predecessor links and all necessary G/H restatements atomically. It is never a client boolean.",
+    "bound": "Unsupported non-labor source correction stays blocked until its real upstream producer exists; G accepts only actual corrected source IDs/versions, never correction money. Do not invent a refund/source row or certify a fixture."
+  },
+  "periodPolicy": {
+    "timezone": "Asia/Hong_Kong (existing business pipeline); do not change DB timezone",
+    "acceptedKeys": "Valid actual YYYY-MM or ISO YYYY-Www, reject impossible week 53 and future unfinished period",
+    "accumulation": "Cumulative project inception through periodEnd; sourceWindowStart=null explicitly means all history, sourceWindowEnd=periodEnd. UI says cumulative, not period-only increment.",
+    "capture": "knowledgeCutoff is actual coherent source collection time; normal closing uses then-known effective producers; original period context never rewritten",
+    "laterFacts": "Restatement retains exact old business cutoff, advances knowledgeCutoff, names actual late/corrected producers; historical status/source histories must be reconstructible or publication rejects",
+    "shared": "Normal freeze requires actual F result already effective and all real source members in scope. Explicit restatement may adopt later-effective full F batch when every member actually occurred by old cutoff, marked late-recognized with both dates. Cross-cutoff mixed batch cannot be partially inferred; needs actual F period-split producer or missing-evidence."
+  },
+  "receiptBasis": {
+    "route": "Existing POST /api/receipt-records/{id}:confirm / ContractFinanceController_confirmReceiptRecord, 200",
+    "targetDto": "ConfirmReceiptRecordRequest in target-dto.schema.json, mandatory expectedVersion",
+    "confirm": "pending-confirmation only; exact selected real same-contract activated terms + currency evidence + expected versions; derive cents_net=HALF_UP(gross_cents*10000/(10000+rate4)), tax=gross-net; insert immutable basis and CAS receipt confirmed in caller outerTX with audit/auth",
+    "historicalCertification": "mode certify-existing-basis requires status confirmed and no existing basis; explicit original same-contract terms/currency evidence, actor/reason/evidence refs, scoped attachment/activation validation; do not change receiptAmount/date/status/confirmedAt/confirmedBy. CAS receipt row_version+1, append basis+create audit atomically. No infer-from-current-rate, no zero backfill.",
+    "snapshotSelection": "UI default can nominate uniquely proven receipt-date effective snapshot. Otherwise operator must explicitly select actual previously activated terms and documentary evidence; server verifies identity/version/hash and actual approval lineage, never chooses latest/current silently. A legacy term missing tax/currency authority cannot be repaired by guessing in this command.",
+    "currency": "Certified activation commercial baseline currency plus same-contract immutable-after-draft currency check; optional new term snapshot currency_code frozen by actual activation for future rows. Legacy rows remain null unless same-command explicit source evidence proves it, never migration mass backfill.",
+    "immutable": "Single basis per receipt for this slice. Existing basis re-rate/correction needs a separately authorized correction semantic; reject instead of replacing current-rate basis. Historical operating contexts remain unknown until explicit new restatement consumes basis; no old context backfill."
+  },
+  "preview": {
+    "publicOperation": "Existing H GET /api/projects/{projectId}/unified-accounting",
+    "query": "view=preparation&intent=baseline-activation|snapshot-create|period-close|restatement|receipt-basis; optional periodKey/restatesSnapshotId/receiptId must be typed actual IDs",
+    "responseAddition": "preparation:OperatingPreparation; official current result separate nullable/typed409; read-only actual G collector + H pure derive if applicable, no business snapshot/classification/R5 fixture created",
+    "frontEnd": "Select actual sourceRows and evidence/period/reason, echo real refs/head versions/input hash, submit server-derived-v1. No H policy, tax formula, monetary total or action class calculated in UI."
+  },
+  "compatibility": {
+    "shared": "Root promotes new discriminator DTOs, concrete 201 results, knowledge/projection types and all generated client/spec updates together. Legacy raw fields are deprecated compatibility outputs; Rust v1 returns null there if retained, never a second authority.",
+    "requests": "Legacy amount/action fields permitted only in explicit optional assertions envelope, exact compare to computed server facts/conclusions; mismatch 409 assertion_mismatch, unknown-vs-number mismatch rejects. No quiet discard or authoritative legacy fallback.",
+    "nativeBuild": "Root captures current full G legacy request/return interfaces/schemas into explicit frozen-native-reference as already practiced for R4DEF; Node service type imports stay legacy. Controller adapter discriminates inputVersion: legacy reference branch uses frozen original; server-derived-v1 returns clear 422 reference_runtime_unsupported unless real Node producer is intentionally implemented. New Rust never serves legacy reference authority.",
+    "responseBuild": "Shared view can be explicit union ServerDerivedV1 | deprecated FrozenLegacyReference; generated Angular clients narrow by outputVersion/producerVersion and never treat absent discriminator as official current. Node reference legacy rows have producer_version=0 and cannot write G head or appear certified. Freeze this intentional Node/Rust difference and run Native build, Rust build, full contract/client checks."
+  },
+  "minimumUI": [
+    "Existing operating-overview workspace adds preparation empty/setup state and sourceRows table with IDs/versions/eligibility, scoped projection and real repair links",
+    "Activate adopted baseline from approved project estimate chain; choose actual source refs and reason, no amount editor",
+    "Classify every new current cost candidate include/exclude with role/evidence/reason; unknown/stale/source conflict blocks submit and reloads preparation",
+    "Create realtime snapshot and month/ISO-week closing from exact same form; show final server action, sourceHash and four independent stage bindings",
+    "History drawer opens original frozen context and later restatement side-by-side, actual late-source differences/reason; corrections route through existing real E/F forms under governed transaction",
+    "Receipt confirmation/historical-basis action selects exact original terms/currency evidence and shows gross vs derived net/tax; no direct net input",
+    "No duplicate policy in browser; loading/conflict/403/missing basis/unknown values versus zero and labor masks remain explicit"
+  ],
+  "rootOwnedPromotions": [
+    "Canonical semantics/query freeze for existing G/C/H operations, total32 receipt=0 preview=0 new route",
+    "SQL-first migration+ORM mapping for target-schema.sql; exact FK/deferred immutable checks and FI cleanup resource inventory",
+    "Shared context/hash helpers+H schema, source DTOs/spec/client and narrow frozen Native compatibility adapter",
+    "Minimal R5 and controlled stage source interfaces plus I final condition closure freeze; G must consume real source facts"
+  ],
+  "acceptance": [
+    "Real signed contracts/readiness/activated terms plus actual gross receipts -> certified basis -> E actual cost -> F real stage/allocation/tax -> explicit G classifications -> G v1 snapshot -> H actual four-stage producers -> real I/R5 consumer",
+    "Expected versions/hash and duplicate/current/period/successor concurrency reject coherently; share replacement includes every impacted project target",
+    "Fault each direct cost CAS/shared result CAS/classification/head/member/context/snapshot/period/restatement/H/audit/auth write; whole outerTX rollback (pre-existing independent auth raw touch label preserved)",
+    "Original period/member/source payload hashes immutable after true backdated producer correction and restatement; no historical current-source reinterpretation",
+    "Exact cents/tax HALF_UP; all-classified excluded zero versus unknown; source-chain no duplicate promise/payment/invoice; same project estimate reused by multiple contracts counted once; selected F cents never recomputed ratios",
+    "Native build+Angular build/client regeneration required after Root compatibility promotion; actual UI source selection and historical certification, all sensitive permission combinations"
+  ]
+}

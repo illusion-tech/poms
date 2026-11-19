@@ -1,0 +1,94 @@
+本稿为恢复 G1 的 raw 合同 v2，DESIGN ONLY，配套 Control `runtime118-reentry-g1-design04/design-runtime-reentry118-v4.md`（22194B / 3fa188245fc9c71d07fd01d3e8e59f30c8c4a321ffda32ff70bc8a4d8e0bc646）和 Root 最新两工具稿。保留 raw01 原件；不实施、不运行，不改 Tax04/旧Root8。三个新支持目标已只读核不存在，唯一 Root 相对路径为 `tools/rust-r4ghi/runtime-recovery121/budget118/{promote-budget118-source-once.mjs,reenter-budget118-runtime.mjs,start-budget118-holder.ps1}`。本线后续仅负责后两个的隔离候选，Root sole actual。所有标为 pin 的值是已存在 Full3，闭 `file/bytes/rawBytesSha256`；路径中的 `<nonce>` 只定义形式，不创建实际 nonce/input/批准或任何进程。
+
+原682/v2/plan4仅保数据与历史验证；新装配 Native executor、Tax预算只执行 plan5/新RecoveryG1/edition=`budget-probe118-reentry-v1`，old4预算在ctor/Auth前拒；旧六mode646/schema2不变。Tax实码无旧record25/kind/protocol1的整体断言，record2闭28由Native新profile强验，Tax仅F118新G1一叶成立。本稿的“本次boot”均指实时测得并全链一致，不要求bootId/PID/inode数字不同，不为改数字shutdown/reboot。有既有API listener一律保留停审，不杀进程。
+
+1. 非API输入、资格与执行前批准。
+
+非API输入 **I13**：kind=`Root-runtime118-reentry-phase-input`、schema1，闭13：
+
+```text
+kind, schemaVersion, recoveryG1, phase, nonce, operator, codeQualification,
+expectedState, expectedOwnership, preparation, prior, outputDirectory, windowsOutputDirectory
+```
+
+phase只可`holder-start/pg-current/ro-before/ro-after/api-rebind`；expectedState=原6c、expectedOwnership=原1da、preparation=原K847。早期不能要求尚未由source步骤产出的Origin7文件。operator固定新runtime MJS；codeQualification为该operator的实际独立代码资格。prior分别闭0=`{}`；闭1=`holder`；闭2=`holder/PG`；闭4=`holder/PG/conservationBefore/API`；闭6=`holder/PG/conservationBefore/API/conservationAfter/sourceDelivery`。其中阶段项为已完成E9，sourceDelivery沿C10闭2=`sourceComplete/independentReadback`。全部effect phase只接受canonical仍6c/ownership仍1da；API另用Control IA20，不加第二输入格式。
+
+代码资格/carrier **Q11**，kind=`non-author-runtime118-reentry-tool-code-qualification`、schema1，闭11：`kind/schemaVersion/technicalG1/operator/executionSources/author/reviewer/reviewerIsAuthor/verdict/modelEvidence/engines`。technicalG1同新RecoveryG1；author/reviewer非空且不同、reviewerIsAuthor=false；verdict=`approved-bounded-reentry-tool-code`。operator必须属于排序、唯一的executionSources完整Full3数组。record2.code等于该数组，不是Q11 pin、不指未来API E9；source工具有自己的operator资格，不把graph9 review当工具资格。
+
+Q11只在**I候选代码资格→Root精确安装三新图外文件（先核不存在，不运行）→非作者实际安装读回**之后收束，executionSources才可填写实际Root operator/启动器及完整稳定纯helper的现存Full3。modelEvidence为已存在的资格/安装证据bundle Full3，绑定I候选资格、真实安装记录、非作者安装读回和模型结果；模型仍指I原候选，不能把尚未安装的Root路径预造Full3或只换file字段。该静态闭包不得包含随source9提升的Native/Core/Tax/Data；如某helper传递依赖这些变化叶，改为已核稳定实现或已存在精确保全源，不使同一Q11在source前后强读不同字节。阶段284另验：source前核原图，source后/API startupGraph核SC18真实新284，不纳入record2.code静态数组冒充同一身份。
+
+engines仍闭2=`linuxNode/windowsNode`，但类型明确：windowsNode闭3=`executable/versionEvidence/modelResults`，全为真实已存在Win24.19证据；linuxNode闭3=`expectedExecutable/expectedVersion/observationStage`，值为冻结的既有期望Full3、`v24.19.0`和`holder-system-bootstrap`。它不声称Linux模型或当前Linux身份已经执行过；真实Linux字节/身份/版本由获批首次WSL bootstrap和holder实测。模型不当真实恢复。
+
+runtime **RootApproval10**，kind=`Root-approved-runtime118-exact-reentry-phase`、schema1，闭10：`kind/schemaVersion/input/G1/codeQualification/operator/operatorIdentity/nonce/grants/retryPolicy`。operatorIdentity字面`Root`；input/operator/资格/G1/nonce逐项同实际输入，retryPolicy=`preserve-partial-no-blind-retry`。先wx并重读RootApproval，之后才签peer，RootApproval不指尚不存在的peer。
+
+runtime **executionReview13**，kind=`non-author-runtime118-exact-reentry-phase-review`、schema1，闭13：`kind/schemaVersion/input/G1/codeQualification/operator/RootApproval/author/reviewer/reviewerIsAuthor/reviewerIsExecutor/verdict/evidence`。author必须等强读Q11.author，reviewer非空且不等author及RootApproval.operatorIdentity，两reviewerIs均false仅作冗余断言；verdict=`approved-exact-reentry-phase`。这是Root对Control04相应旧literal的具名收敛，无mode/approvedInput/recoveryG1等顶层别名；phase只由已核I13/IA20输入和批准派生。不能将代码Full3 E9.operator与人名比较。source审批沿Root source稿独立kind，亦需明确Root人名及实际author/reviewer分离。
+
+grants闭8=`holderStartGranted/startOriginalPGGranted/readonlyPGGranted/APIStartGranted/canonicalApiProcessWriteGranted/ownControlWritesGranted/contextAuthGranted/FIOrNormalGranted`；末两恒false、ownControl恒true。holder仅holderStart；PG仅startOriginalPG+readonlyPG（已running只观察）；两RO仅readonlyPG；API仅APIStart；rebind仅canonicalApiProcessWrite。其余恒false，不接受caller自选效果。
+
+非API evidence为已存在的执行前审计Full3，固定包含输入/批准/资格及本阶段prior的强读结果，不填未来boot/PID或恢复结论。API evidence精确闭3 `sourceComplete/independentReadback/startupGraphs`：实际source readback必须先存在且绑定同SC18，startupGraphs等SC.currentGraphs，IA20不加槽。API independentReadback与C10.sourceDelivery.independentReadback须同一实际pin，后者闭2字段名不变，不能按别名宽松解析。共同CLI只有显式input、Root、peer及各sha与execute，无默认phase；缺任一实际批准先拒。Windows preflight只验证可在Windows读取的公开输入/批准/代码；P实际guard在批准后的Linux child中验证，不为了预检提前运行WSL命令。
+
+2. 固定目录与互斥。
+
+令P为原完整private根，D=`P/business/g2-business15/main01`。I13.outputDirectory严格`P/runtime118-reentry/<phase>/<nonce>`；holder另有windowsOutputDirectory=`R/tmp/rust-r4ghi/root/runtime118-reentry-windows/<nonce>`，其它phase该字段null。API IA20路径严格`P/rust-api-reentry/<nonce>`及`rust-api118-process.json/rust-api118.env`，沿Control不扩展。
+
+所有early source/reentry effect阶段共用唯一`P/runtime118-reentry-operation.lock`，不是各自目录锁；原driver.lock存在亦拒绝。锁 **L10** 闭`kind/schemaVersion/G1/input/operator/phase/nonce/pid/startTime/bootId`，kind=`Root-runtime118-reentry-operation-lock`，schema1；wx后每次guard核完整原字节与bigint dev/ino/nlink，保全`outputDirectory/operation-lock.raw`。原先已有锁（包括dead/未知PID）一律停止，不删旧锁、不换nonce绕过partial；成功且全读回后才删本次确切锁。holder只在初始化观察/Ready写出期间持锁，Ready前释放后仅前台keepalive，无RPC/服务控制，因此后续合法阶段可获得同锁。
+
+所有early合法效果要求6c；api-rebind成功为X后，不再允许early effect。C/B收束、后续plan5发布和budget execute前拒operation.lock的未闭partial。late publisher/Tax仍用原driver.lock wx，不新增late双持。B/S4纯数据只验已存在历史链，不重新要求实时6c。阶段链要求FS先有C/R/B+X，budget先有actual FS+Y；X不是Tax entry。
+
+3. holder无环原件与Root数据收束。
+
+Windows启动器先强核固定Windows `wsl.exe`/PowerShell的真实exe路径、文件身份与冻结允许身份，及公开R上的Root/peer/Q11和已安装源码；不先读P、不在批准前起WSL。首次启动是同一次受审 `wsl.exe -d Debian --cd R --exec /usr/bin/env -i <固定非秘密env> /bin/sh -c <固定bootstrap> -- <固定角色的已验参数>`，隐藏窗口且只一次。bootstrap是已资格PS源码中的固定literal，不另建第四支持文件、不eval输入脚本、不经PATH选程序；TCB仅冻结的系统`/usr/bin/env`、`/bin/sh`及固定`/usr/bin/id/readlink/stat/sha256sum`机制。它先核uid/cwd、Linux Node既定真实路径、常规文件/链接/实际身份和期望SHA，及Root入口和稳定资格闭包各源的实际字节，全部通过才允许经已核Node读version并exec Node/holder。不能先执行待核Node再让它自证。bootstrap原始核验输出单独wx私有`bootstrap-observation.raw`，H的processEvidence强绑该已存原件；失败不exec Node、不起服务、不重试。参数只来自Root/peer已绑定I13/Q11并逐项验证，使用固定argv和独立参数引用，不拼接任意命令。
+
+新Windows输出目录先不存在，实际WSL进程启动后才wx以下L14；input没有未来Windows PID/hash。该WSL进程先运行上述固定系统bootstrap后exec holder，PID身份据真实OS记录，不声称bootstrap是额外服务。已有API listener保留停审；不自动重启、shutdown或杀进程。
+
+首次WSL调用在同一次启动里先用固定系统`/usr/bin/env -i`建立最小环境，再进无profile的/bin/sh bootstrap；只保本G1固定HOME/USER/LOGNAME/PATH/LANG/LC_ALL等必要非秘密值，不继承NODE_OPTIONS/NODE_PATH、ENV/BASH_ENV、LD_PRELOAD/LD_LIBRARY_PATH或任意WSLENV注入。通过hash门后Node仅固定`node executable + operator + 六个实际pin参数及execute`，无额外execArgv；version检查同样先清环境。Windows资格预检如需调用冻结Win Node，也先以固定最小env删除NODE_OPTIONS/NODE_PATH并固定无额外execArgv（模型自己的experimental标志只属于模型）；不能到Node运行后才自验这些启动门。WindowsPowerShell同样固定exe和-NoProfile/-NonInteractive，不执行profile或输入脚本。
+
+**WindowsLaunch L14**：kind=`Root-runtime118-holder-Windows-launch`、schema1，闭14：`kind/schemaVersion/recoveryG1/input/RootApproval/executionReview/operator/nonce/pid/creationTime/executable/argv/stdoutFile/stderrFile`。operator为已资格Windows启动器；pid/creationTime/executable/argv为实际WSL Windows进程，input仍holder I13。stdoutFile/stderrFile仅为固定`windowsOutputDirectory/wsl-holder.{stdout,stderr}.log`路径，活日志不伪装已封口Full3；L不指未来Ready。
+
+经bootstrap验证后才运行的Linux child再核资格、完整真实6c/1da/K与当前31441无listener，记录本次boot及实际身份，写固定`outputDirectory/boot-observation.json`和`holder-ready.json`；失败只保partial和实际进程，不起服务。child不等未来L hash、不接受Windows PID作为构造参数。
+
+**HolderReady H14**：kind=`actual-runtime118-holder-ready`、schema1，闭14：`kind/schemaVersion/recoveryG1/input/RootApproval/executionReview/operator/nonce/bootId/pid/startTime/startedAt/identity/bootObservation`。identity闭8=`uid/node/source/cwd/argv/ppid/parentStartTime/processEvidence`；uid1000、node/source为实测Full3、cwd固定R、argv与批准启动完全一致；PPID是实际Linux父身份，不冒充Windows PID。bootObservation为实际immutable原件Full3；H不引用L或未来command。
+
+**BootObservation O12**：闭`kind/schemaVersion/recoveryG1/input/observedAt/bootId/canonical/ownership/environment/apiListeners/runtimeExecutables/processEvidence`，kind=`Root-runtime118-holder-boot-observation`、schema1。canonical/ownership各闭2=`snapshot/identity`，前者为本次wx不可变原字节Full3、后者F11；API listeners必须实测空才可Ready。environment/进程原始只读观察均为私有Full3，未知项如实标注，不据holder ready声称PG守恒；PG阶段须另严格验证。runtimeExecutables记录本次实读固定执行路径的Full3，后续命令前再验，不允许命令参数提供额外程序。
+
+启动器看到H后返回有限安全信息，实际wrapper命令结束才由Root命令记录器封口`launcher.stdout/stderr`及 **CMD15**：kind=`Root-runtime118-command-result`、schema1，闭15=`kind/schemaVersion/recoveryG1/input/RootApproval/executionReview/operator/executable/argv/startedAt/endedAt/exitCode/signal/stdout/stderr`。这里记录的是Windows wrapper真实退出，不是仍活WSL/holder退出；stdout/stderr为已结束命令实际Full3。holder仍必须存活。
+
+Root随后用数据收束输入 **HD7**：`kind/schemaVersion/recoveryG1/input/RootApproval/executionReview/raw`，kind=`Root-runtime118-holder-data-input`、schema1，raw闭3=`windowsLaunch/holderReady/launchCommand`，全已存在。只验证并wx **lifetimeOwner O4**=`kind/holderReady/windowsLaunch/launchCommand`，kind=`actual-runtime118-lifetime-owner`；不再启动child。三个原件须同input/G1/nonce/代码资格，L实际WSL argv和H实际Linux argv绑定同一启动，Root实际读回核当前两个进程；不能仅信自报PID。O4及Control holder E9的完整收束由Root在原holder目录wx，E9.header沿原holder实际input/Root/peer/operator，不改成未来聚合输入。
+
+固定文件为Linux目录的`holder-ready.json/boot-observation.json/lifetime-owner.json/complete.json`及Windows目录的`windows-launch.json/launch-command.json/launcher.stdout/launcher.stderr`；Root command记录和data收束均只能引用已存在原件。完整依赖为I/Root→peer→实际L与H→真实wrapper CMD→O4→holder E9，无H↔L或command自hash环。
+
+4. PG实际观察与命令。
+
+**PGO13**：kind=`Root-runtime118-original-PG-observation`、schema1，闭13=`kind/schemaVersion/recoveryG1/input/observedAt/bootId/container/image/volume/mount/pgProcess/databases/evidence`。container闭4=`id/running/status/exitCode`；image闭2=`id/digest`；volume闭3=`name/driver/mountpoint`；mount闭4=`source/destination/rw/pgdata`；pgProcess为实际`pid/startTime/startedAt`或未运行时null；databases恰两项闭2=`name/oid`。stopped-before的databases只是原批准映射，须有同原PGDATA实际`PG_VERSION=15`和`base/<OID>`目录证据，明确未SQL验证；after/readiness才实核DB/OID，不能混标。
+
+实际exe严格原rootless **`/usr/bin/podman`**，同原uid1000，命令前核固定exe真实身份/字节及本次holder，不用Docker、别名或PATH替代。完整保留公开 `inspectOriginalPG121` 14–21 强谓词：完整CID/image；唯一mount，Type=volume/原Name/Source/Destination/Driver=local/RW=true/Mode空；Options严格`nodev,nosuid,rbind`、Propagation=rprivate；PGDATA环境恰一条原目标；端口严格127.0.0.1:25434→15432/tcp；status仅exited/running且pid/running一致。PGO的压缩投影不删这些条件，evidence须保原inspect/volume/unshare实际原件并可重核，不能只信投影。
+
+PG目录固定`before.json/command.json/after.json/readiness-native.json/readiness-rust.json/complete.json`。仅before明确exited/running=false/pid0时执行argv `['start', 原完整CID]`一次，exe固定/usr/bin/podman，command用CMD15；before已running则mode=`observed-running`、command=null、不伪称start、不restart。inspect、`unshare /usr/bin/cat .../PG_VERSION`、`unshare /usr/bin/test -d .../base/<OID>`及`exec 原CID pg_isready -h 127.0.0.1 -p 15432 -U poms_r0e_owner -d 原DB`均沿原固定argv语义并核身份，不能扩为任意exec。两个readiness原件沿 **DR9**：`kind/schemaVersion/recoveryG1/input/database/observedAt/connectionOptions/settings/serverIdentity`，kind=`Root-runtime118-PG-readiness`、schema1；保实际Podman readiness命令结果，并以固定owner只读连接/READ ONLY事务实核真实namespace/DB/OID/版本/端口/隔离/时区/M98，不建库或迁移。未知则保已有进程和partial。
+
+5. RO最后关闭baseline和原snapshot形。
+
+pre阶段固定`baseline-locator.json/baseline-audit.json/snapshot-ro01.json/snapshot-ro02.json/comparison.json/complete.json`。post仅在自己的目录写两份snapshot/transaction/comparison/E9，**不新写locator或audit**；RO-after.outputs.baselineLocator必须强读复用RO-before的同一个BL13 Full3，BL.input仍为原pre输入，另外重读pre两份观察。**BL13**：kind=`Root-runtime118-last-closed-prepare-baseline`、schema1，闭13=`kind/schemaVersion/recoveryG1/input/state/ownership/continuation/entryGuard/exitGuard/closedJournal/prepared/baseline/audit`。state/ownership/K直接是既有6c/1da/847，不依赖未来Origin7；prepared须K.prepared15=closed.result=record.taxPreparation.artifact，baseline唯一为该prepared的`before`。
+
+audit是 **BA9**：kind=`Root-runtime118-closed-prepare-baseline-audit`、schema1，闭9=`kind/schemaVersion/recoveryG1/input/producerSources/captureReference/closedCommandSet/pendingProjection/noFurtherEffects`。producerSources为已冻结完整producer闭包的实际`original/retainedCopy`映射：RO-before发生在本次SC/retained9之前，只能采用已存在的原producer精确归档，或在原R before284仍逐字匹配时wx自有RO-pre源码保全。不得引用未来SC备份、等待以后生成保全或提升后按旧hash重读R；post只读pre已经实存且核过的同一immutable映射。captureReference闭3=`prepared/pointer/baseline`，pointer固定`/before`；closedCommandSet绑定真实closed的全部HTTP/capture/ledger，pendingProjection保真实absence/null状态；noFurtherEffects只有核准确旧source控制流及实际闭链后可为true，consumer必须重核这些原件，不能只信true。缺失、不唯一或baseline后有未闭合DB/HTTP就停，不能退回早preparedBaseline。
+
+快照沿完整原`capture`格式不改：manifest闭8=`schemaVersion/label/marker/epoch/run/capturedAt/databases/objects`，schema1、epoch=`runtime118-reentry`、run=本阶段nonce、label=`ro01/ro02`。databases严格原两库，每库闭2=`meta/tables`，139原表；meta保持`tables/foreignKeys/externalForeignKeys/normative/sequences`；table descriptor闭6=`file/count/pk/columns/rawBytesSha256/logicalRowsSha256`；行JSONL闭5=`key/cells/raw/sha256/xmin`；objects及所有catalog/role/DDL/sequence沿原完整形。不同库不声称同一原子瞬间，不复制业务对象或写业务状态。
+
+每库每次抓取保 **ROG11**：kind=`Root-runtime118-RO-transaction`、schema1，闭11=`kind/schemaVersion/recoveryG1/input/database/connectionOptions/serverIdentity/begin/transactionSettings/outcome/error`。原件名`ro01-<database>-transaction.json`及ro02；default_transaction_read_only=on，实际BEGIN为REPEATABLE READ READ ONLY，在事务内实读设置；四个事务/阶段，无秘密连接串。outcome只可真实committed-read-only或失败；失败不冒充完整观察，不自动重采。
+
+**CMP12**：kind=`Root-runtime118-RO-comparison`、schema1，闭12=`kind/schemaVersion/recoveryG1/input/baselineLocator/observations/priorConservation/transactionProofs/comparisons/summary/crossDatabaseAtomicity/status`。observations恰本阶段两份完整Full3，pre.priorConservation=null、post为pre E9；transactionProofs恰四份，comparisons为pre两份、post四份各对同baseline重新读取比较；summary记实际计数与各项相等，crossDatabaseAtomicity=false。raw/xmin/PK/cells/meta/OID/role/sequence/objects均全等才status=verified；Native/实际独审仍重新核原件，不信摘要。
+
+6. API接口只用Control，三处消费约束。
+
+API用Control IA20/record2闭28/E9。IA20只引用pre和SC，不引用未来post/X/C；executionReview.evidence闭3为`sourceComplete/independentReadback/startupGraphs`已存在真实三件；record2.code等Q11.executionSources数组。API文件和env按其新nonce固定路径，guard保持原deriveEnv/启动文件时序/真实环境和socket；只readiness GET，明确ECONNREFUSED有界等待，其它未知停。活API日志只记录路径或有明确字节边界的快照，不把持续增长日志伪装immutable Full3。plan5.current.PGConservation=post E9，IA20.preConservation=pre E9，不强令同pin；四份观察都重读对最后关闭baseline。
+
+7. 单字段rebind、文件身份与失败。
+
+**F11**文件身份闭`file/dev/ino/nlink/mode/uid/bytes/rawBytesSha256/mtimeNs/ctimeNs/birthtimeNs`；dev/ino/ns使用bigint转十进制字符串，避免NTFS Number舍入。普通文件/realpath/no-follow/单链接，原字节和持锁身份逐guard复验；已有API listener或任何不明同类运行保留停审。
+
+rebind固定`before-state.json/after-state.json/restored-before.json/delta-proof.json/complete.json`，临时文件仅D内`state.json.runtime118-reentry-<nonce>.tmp`，wx/原mode、最终guard后同目录rename。**DP12**：kind=`Root-runtime118-api-only-delta-proof`、schema1，闭12=`kind/schemaVersion/recoveryG1/input/before/after/newProcess/changedKeys/restoredBytes/ownership/guards/verified`。guards闭4=`beforeState/ownership/temp/lockIdentity`，前三为F11，lockIdentity闭4=`dev/ino/nonce/rawCopy`；rawCopy为本次保全锁字节，不指已合法删除活锁。
+
+newProcess是实际record2文件Full3，canonical X.apiProcess必须按原Core原形闭3 `{file,rawBytesSha256,record}`，record为该文件的完整parsed record2；**不含bytes**。changedKeys仅`['apiProcess']`，after为实际X不可变副本；还原原apiProcess后实际序列化字节必须等于原6c，restoredBytes为该数据证明副本，不做回滚。state13/14、完整1da、lease/history、actors、seq65、record/K/6458全不动。Native另以X为CAS，仅lease/history得Y；Tax entry必须Y。
+
+所有阶段成功才wx Control指定E9。runtime **partial P12**固定kind=`Root-runtime118-reentry-partial-preserve`、schema1，闭12=`kind/schemaVersion/recoveryG1/input/RootApproval/executionReview/operator/phase/completedOutputs/error/processes/retryPolicy`。completedOutputs保持该E9.outputs的同一闭键及实际字段类型：PG.mode为字符串或null；PG.readiness及RO.observations保持规定数组槽位，每slot仅保已存在且强读通过的Full3或null，缺slot绝不冒充完整数组；其余字段为Full3或null。只有已写并强读通过才有pin，partial不能据部分数组声明完整E9。error闭6=`name/message/phase/primaryEvidence/writeFailures/replayForbidden`，仅有限安全数据；writeFailures项闭4=`file/existingFilePreserved/status/message`，status为write-failed/readback-failed/unknown，不把失败写宣称完整。processes项闭8=`role/state/command/pid/startTime/bootId/record/error`；state仅not-spawned/spawned-unverified/verified-live/exit-observed/unknown-preserve，pid等只填真实已见值。spawn或Podman start已尝试但结果未知须unknown-preserve，不能写not-spawned、自动重试或杀进程；不得把原Error的actual/expected/cause/root/functions带出。
+
+partial仅一次best-effort wx；若该写也失败，保持原primary和已见输出/进程事实向外返回有限安全错误，不能让secondary掩掉原事实，不重试写或伪complete。运行中日志仅路径或明确边界副本；不把未封口日志赋Full3。锁/临时文件/原件和进程按真实phase保全，不回滚canonical、不重启、不二次启动、不换nonce重放。完整C10只在所有E9/source读回/实际X都存在且operation.lock无partial后由Root纯数据收束；之后实际R8、B5、S4顺序不变。04代码和资格只作恢复实施before；本稿与模型都不授实际G2、ctx/Auth、业务、FI或normal，wholeFI预算UNKNOWN。

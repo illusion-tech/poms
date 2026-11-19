@@ -1,0 +1,236 @@
+//! Proposed Root-owned project_action_authorization/ownership.rs.
+//! New-project producers call this once, inside their existing transaction.
+use crate::contract_support::{Error, canonical_hash, new_uuid};
+use serde_json::{Value, json};
+use sqlx::{Connection, PgConnection, Row};
+use uuid::Uuid;
+
+async fn validate_responsibility(
+    connection: &mut PgConnection,
+    owner: Option<Uuid>,
+    org: Option<Uuid>,
+    creator: Uuid,
+) -> Result<(), Error> {
+    let invalid = || Error::CodedUnprocessable {
+        code: "project_responsibility_context_required",
+        message: "项目责任链缺少有效组织和实际成员关系，请先完善责任归属。".into(),
+    };
+    let org = org.ok_or_else(invalid)?;
+    let subject = owner.unwrap_or(creator);
+    let mut accounts = vec![subject, creator];
+    accounts.sort();
+    accounts.dedup();
+    let active: Vec<Uuid> = sqlx::query_scalar(
+        "SELECT id FROM poms.platform_user WHERE id=ANY($1) AND is_active ORDER BY id FOR SHARE",
+    )
+    .bind(&accounts)
+    .fetch_all(&mut *connection)
+    .await?;
+    if active.len() != accounts.len() {
+        return Err(invalid());
+    }
+    let active_org: Option<Uuid> =
+        sqlx::query_scalar("SELECT id FROM poms.org_unit WHERE id=$1 AND is_active FOR SHARE")
+            .bind(org)
+            .fetch_optional(&mut *connection)
+            .await?;
+    if active_org.is_none() {
+        return Err(invalid());
+    }
+    let memberships: Vec<Uuid> = sqlx::query_scalar("SELECT id FROM poms.user_org_membership WHERE user_id=$1 AND org_unit_id=$2 AND status='active' AND revoked_at IS NULL AND membership_type IN ('primary','secondary') ORDER BY id FOR SHARE")
+        .bind(subject).bind(org).fetch_all(&mut *connection).await?;
+    if memberships.is_empty() {
+        return Err(invalid());
+    }
+    Ok(())
+}
+
+/// Static direct-create provenance only. Fresh org/M and immutable payload/audit
+/// checks remain separate; a personal origin never becomes bootstrap-eligible.
+pub(crate) fn direct_creation_source_matches(
+    project_id: Uuid,
+    source_record_id: Uuid,
+    source_lead_id: Option<Uuid>,
+    creator: Uuid,
+    initial_kind: &str,
+    initial_owner: Option<Uuid>,
+) -> bool {
+    source_record_id == project_id
+        && source_lead_id.is_none()
+        && match (initial_kind, initial_owner) {
+            ("personal", Some(owner)) => owner == creator,
+            ("org-owned", None) => true,
+            _ => false,
+        }
+}
+
+pub(crate) async fn record_new_origin_with_connection(
+    connection: &mut PgConnection,
+    project_id: Uuid,
+    creator_id: Uuid,
+    source_type: &str,
+    source_record_id: Uuid,
+    request_id: Option<&str>,
+) -> Result<(), Error> {
+    if !connection.is_in_transaction() {
+        return Err(Error::Internal);
+    }
+    let row = sqlx::query("SELECT to_jsonb(p) AS project,p.xmin::text AS creation_xid,(txid_current() % 4294967296)::text AS current_xid FROM poms.project p WHERE id=$1 FOR UPDATE")
+        .bind(project_id).fetch_optional(&mut *connection).await?.ok_or(Error::Internal)?;
+    let p: Value = row.try_get("project")?;
+    let creation_xid: String = row.try_get("creation_xid")?;
+    let current_xid: String = row.try_get("current_xid")?;
+    if creation_xid != current_xid {
+        return Err(Error::Conflict(
+            "ownership-origin只能由同一真实创建事务产生，不能补写普通旧项目来源。".into(),
+        ));
+    }
+    let owner = p["owner_user_id"]
+        .as_str()
+        .and_then(|s| Uuid::parse_str(s).ok());
+    let owner_org = p["owner_org_id"]
+        .as_str()
+        .and_then(|s| Uuid::parse_str(s).ok());
+    let kind = if owner.is_some() {
+        "personal"
+    } else {
+        "org-owned"
+    };
+    let source_lead_id = p["source_lead_id"]
+        .as_str()
+        .map(Uuid::parse_str)
+        .transpose()
+        .map_err(|_| Error::Internal)?;
+    let valid_source = match source_type {
+        "direct-create" => direct_creation_source_matches(
+            project_id,
+            source_record_id,
+            source_lead_id,
+            creator_id,
+            kind,
+            owner,
+        ),
+        "lead-conversion" => p["source_lead_id"] == source_record_id.to_string(),
+        _ => false,
+    };
+    if !valid_source
+        || p["created_by"] != creator_id.to_string()
+        || p["current_stage"] != "assessment"
+        || p["row_version"] != 1
+        || (owner.is_none() && owner_org.is_none())
+    {
+        return Err(Error::Conflict(
+            "新项目 ownership-origin 与真实创建/转换来源不一致。".into(),
+        ));
+    }
+    validate_responsibility(connection, owner, owner_org, creator_id).await?;
+    if source_type == "lead-conversion" {
+        let source: Value =
+            sqlx::query_scalar("SELECT to_jsonb(l) FROM poms.lead l WHERE id=$1 FOR SHARE")
+                .bind(source_record_id)
+                .fetch_one(&mut *connection)
+                .await?;
+        if source["converted_project_id"] != project_id.to_string()
+            || source["converted_by"] != creator_id.to_string()
+            || source["status"] != "converted"
+            || source["owner_user_id"] != p["owner_user_id"]
+            || source["owner_org_id"] != p["owner_org_id"]
+        {
+            return Err(Error::Conflict(
+                "新项目责任归属与真实线索转换来源不一致。".into(),
+            ));
+        }
+    }
+    let created_at =
+        chrono::DateTime::parse_from_rfc3339(p["created_at"].as_str().ok_or(Error::Internal)?)
+            .map_err(|_| Error::Internal)?
+            .with_timezone(&chrono::Utc);
+
+    let payload = json!({"schemaVersion":1,"projectId":project_id,"creatorUserId":creator_id,"sourceType":source_type,"sourceRecordId":source_record_id,"initialKind":kind,"initialOwnerUserId":owner,"initialOwnerOrgId":owner_org,"createdAt":created_at});
+    let hash = canonical_hash(&payload)?;
+    sqlx::query("INSERT INTO poms.project_ownership_origin(project_id,producer_version,creator_user_id,source_type,source_record_id,initial_kind,initial_owner_user_id,initial_owner_org_id,source_payload,source_payload_hash,bootstrap_state,first_personal_owner_user_id,first_personal_assigned_at,bootstrap_consumed_at,row_version,created_at) VALUES($1,1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$6,$11,$11,1,$12)")
+        .bind(project_id).bind(creator_id).bind(source_type).bind(source_record_id).bind(kind).bind(owner).bind(owner_org).bind(&payload).bind(&hash)
+        .bind(if owner.is_some(){"consumed"}else{"available"}).bind(owner.map(|_|created_at)).bind(created_at)
+        .execute(&mut *connection).await?;
+    sqlx::query("INSERT INTO poms.audit_log(id,event_type,target_type,target_id,operator_id,request_id,result,after_snapshot,metadata,occurred_at) VALUES($1,'project.ownership-origin-created','project',$2,$3,$4,'success',$5,$6,$7)")
+        .bind(new_uuid()?).bind(project_id.to_string()).bind(creator_id).bind(request_id)
+        .bind(payload).bind(json!({"schemaVersion":1,"projectId":project_id,"sourcePayloadHash":hash,"sourceType":source_type})).bind(created_at)
+        .execute(&mut *connection).await?;
+    Ok(())
+}
+
+#[cfg(test)]
+mod decision8_source_tests {
+    use super::*;
+
+    #[test]
+    fn direct_personal_creation_keeps_only_the_real_creator_as_initial_owner() {
+        let project = Uuid::from_u128(1);
+        let creator = Uuid::from_u128(2);
+        assert!(direct_creation_source_matches(
+            project,
+            project,
+            None,
+            creator,
+            "personal",
+            Some(creator)
+        ));
+        assert!(!direct_creation_source_matches(
+            project,
+            project,
+            None,
+            creator,
+            "personal",
+            Some(Uuid::from_u128(3))
+        ));
+        assert!(!direct_creation_source_matches(
+            project, project, None, creator, "personal", None
+        ));
+    }
+
+    #[test]
+    fn direct_organization_creation_has_no_personal_owner_or_lead_alias() {
+        let project = Uuid::from_u128(1);
+        let creator = Uuid::from_u128(2);
+        assert!(direct_creation_source_matches(
+            project,
+            project,
+            None,
+            creator,
+            "org-owned",
+            None
+        ));
+        assert!(!direct_creation_source_matches(
+            project,
+            project,
+            None,
+            creator,
+            "org-owned",
+            Some(creator)
+        ));
+        assert!(!direct_creation_source_matches(
+            project,
+            project,
+            Some(Uuid::from_u128(3)),
+            creator,
+            "org-owned",
+            None
+        ));
+        assert!(!direct_creation_source_matches(
+            project,
+            Uuid::from_u128(4),
+            None,
+            creator,
+            "org-owned",
+            None
+        ));
+        assert!(!direct_creation_source_matches(
+            project,
+            project,
+            None,
+            creator,
+            "organization",
+            None
+        ));
+    }
+}

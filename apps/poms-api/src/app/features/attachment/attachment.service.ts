@@ -1,4 +1,4 @@
-import { Inject, BadRequestException, ConflictException, ForbiddenException, Injectable, NotFoundException, UnsupportedMediaTypeException } from '@nestjs/common';
+import { UnprocessableEntityException, Inject, BadRequestException, ConflictException, ForbiddenException, Injectable, NotFoundException, UnsupportedMediaTypeException } from '@nestjs/common';
 import type { EntityManager } from '@mikro-orm/core';
 import { createHash, randomUUID } from 'node:crypto';
 import { extname } from 'node:path';
@@ -125,6 +125,9 @@ export class AttachmentService {
     ) {}
 
     async createAttachmentUploadSession(request: CreateAttachmentUploadSessionRequest, user: UserPayload, requestId?: string | null): Promise<AttachmentUploadSessionSummary> {
+        if (request.completionConditionContext !== undefined) {
+            throw new UnprocessableEntityException({ statusCode: 422, code: 'native_completion_condition_context_unsupported', message: 'Condition-purpose attachment upload is supported by the Rust producer only.' });
+        }
         const maxSizeBytes = await this.maxAttachmentSizeBytes();
         if (request.sizeBytes > maxSizeBytes) {
             throw new BadRequestException('Attachment file exceeds size limit');

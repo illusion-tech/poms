@@ -1,0 +1,110 @@
+{
+  "kind": "Source13-independent-observations-fixed-cargo-protocol-template-only",
+  "binding": {
+    "kind": "actual-Source13-source-inventory-and-owned-mirror-build-binding",
+    "namespace": "poms-r4ghi",
+    "sourcePins": null,
+    "sourcePinsSHA256": null,
+    "sourceCount": null,
+    "binary": null,
+    "Root": {
+      "receipt": null,
+      "sourceStablePointer": "/sourceStable",
+      "inputsPointer": "/sourceInputs",
+      "copiedInputsPointer": "/copiedTargets"
+    },
+    "mirror": {
+      "receipt": null,
+      "sourceStablePointer": "/sourceStable",
+      "inputsPointer": "/inputs",
+      "stepPointers": {
+        "fmt": "/steps/fmt",
+        "clippy": "/steps/clippy",
+        "test": "/steps/test",
+        "build": "/steps/build"
+      },
+      "binaryPointer": "/binary"
+    }
+  },
+  "actualRootInventoryReceiptShape": {
+    "kind": "actual-Source13-source-inventory-and-copy",
+    "operation": "source-inventory-and-copy",
+    "root": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms",
+    "destinationRoot": "/home/wangzishi/projects/poms-rust-r4ghi",
+    "sourceStable": null,
+    "sourceInputs": null,
+    "copiedTargets": null
+  },
+  "actualMirrorCargoReceiptShape": {
+    "kind": "actual-Source13-owned-mirror-cargo-checks-and-build",
+    "operation": "fmt-clippy-test-build",
+    "root": "/home/wangzishi/projects/poms-rust-r4ghi",
+    "sourceStable": null,
+    "inputs": null,
+    "binary": null,
+    "steps": {
+      "fmt": null,
+      "clippy": null,
+      "test": null,
+      "build": null
+    }
+  },
+  "oneActualMirrorStepShape": {
+    "kind": "actual-owned-mirror-cargo-command",
+    "command": null,
+    "cwd": "/home/wangzishi/projects/poms-rust-r4ghi",
+    "argv": null,
+    "exitCode": null
+  },
+  "actualRootReceipt": null,
+  "actualMirrorReceipt": null,
+  "actualSource13": null,
+  "G3Certified": false,
+  "G4Certified": false,
+  "expectedProtocolOnly": {
+    "cwd": "/home/wangzishi/projects/poms-rust-r4ghi",
+    "argvByCommand": {
+      "fmt": [
+        "/home/wangzishi/.cargo/bin/cargo",
+        "+1.99.1",
+        "fmt",
+        "--manifest-path",
+        "/home/wangzishi/projects/poms-rust-r4ghi/apps/poms-api-rust/Cargo.toml",
+        "--",
+        "--check"
+      ],
+      "clippy": [
+        "/home/wangzishi/.cargo/bin/cargo",
+        "+1.99.1",
+        "clippy",
+        "--manifest-path",
+        "/home/wangzishi/projects/poms-rust-r4ghi/apps/poms-api-rust/Cargo.toml",
+        "--lib",
+        "--no-deps",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "test": [
+        "/home/wangzishi/.cargo/bin/cargo",
+        "+1.99.1",
+        "test",
+        "--manifest-path",
+        "/home/wangzishi/projects/poms-rust-r4ghi/apps/poms-api-rust/Cargo.toml",
+        "--all-targets"
+      ],
+      "build": [
+        "/home/wangzishi/.cargo/bin/cargo",
+        "+1.99.1",
+        "build",
+        "--manifest-path",
+        "/home/wangzishi/projects/poms-rust-r4ghi/apps/poms-api-rust/Cargo.toml",
+        "--bin",
+        "poms-api-rust",
+        "--example",
+        "r4ghi_summary_producer08"
+      ]
+    },
+    "executionRecordedByConstructor": false
+  }
+}

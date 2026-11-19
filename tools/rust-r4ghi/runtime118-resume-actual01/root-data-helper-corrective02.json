@@ -1,0 +1,32 @@
+{
+  "kind": "Root-runtime118-data-helper-exact-descriptor-correction",
+  "recordedAt": "2026-11-15T18:58:45.2623399+00:00",
+  "owner": "/root",
+  "original": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-resume-root01/assemble-existing-data-root01.mjs",
+    "bytes": 8902,
+    "rawBytesSha256": "2af58ef5aa1761bb462ac5e3cd9333762bc06bd40b65ec96ffe79890834c77d3"
+  },
+  "derived": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-resume-root01/assemble-existing-data-root02.mjs",
+    "bytes": 8971,
+    "rawBytesSha256": "8ee443d6c3ed0f6906a1b7accb2839ad03171363ce0fabb1935662bca2fa83cb"
+  },
+  "originalFailureReceipt": {
+    "file": "C:/Users/ynh2/.codex/tmp/runtime118-resume-2026-11-16/tax-options-9c5c47cfab8d2e4dbe1f0cdcd6b3d04ef298cc20a18a80c6b3cd314ce3ba0a75/command-receipt.json",
+    "bytes": 2278,
+    "rawBytesSha256": "a6b70b4ed36b83c1a777bd73ccfb60238379f088a9ee7bbc63906e54f59c0a11"
+  },
+  "cause": "Root helper required Full3 from an actual FS complete.input Full2; existing qualified contracts allow Full2 here",
+  "exactReplacementFrom": "const plan=json(p.input);",
+  "exactReplacementTo": "const measuredPlan=pin(p.input.file);same(measuredPlan,p.input);const plan=json(measuredPlan);",
+  "replacementCount": 1,
+  "otherBytesUnchanged": true,
+  "validation": "Measure real existing plan, compare original descriptor path/SHA, then strong-read its measured Full3; no global descriptor rule relaxed",
+  "decision": "Root authorizes one specifically diagnosed pure-data attempt02 after this correction",
+  "TaxMetadataToolPreviouslyInvoked": false,
+  "Tax34PreviouslyCreated": false,
+  "TaxNoncePreviouslyCreated": false,
+  "NativeOrSQLHTTPOrBusinessEffectExecuted": false,
+  "originalFailureAndSourcePreserved": true
+}

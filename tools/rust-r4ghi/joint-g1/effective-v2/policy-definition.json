@@ -1,0 +1,178 @@
+{
+  "version": "r4h-operating-v1",
+  "ruleContract": {
+    "version": "r4h-operating-v1",
+    "maturity": [
+      "insufficient if necessary effective contract/confirmed receipt basis/explicit classified cost scope/factual layer missing. Ordinary review cannot change this. Official eligibility guard applies separately.",
+      "preliminary if necessary evidence exists but pending/unmapped/tax/allocation/restatement uncertainty remains, even when its qualitative materiality has been reviewed.",
+      "mature only complete classified known current-scope sources with no pending gaps/corrections/restatements; maturity is not risk normality."
+    ],
+    "formulas": [
+      "grossMarginNet=confirmedReceiptNet-includedCostNet; margin ratio denominator confirmedReceiptNet",
+      "zero known receipt denominator=>null rate/zero-denominator; unknown=>null/missing-evidence; immature ratios explicitly unstable",
+      "low receipt ratio exact comparison confirmed gross cash/effective contract gross <0.20, same frozen currency/gross layer; no tax-layer mixing",
+      "extreme margin ratio <-1 or >1; exact -1/1 not extreme by this rule. No fabricated abnormal-jump threshold."
+    ],
+    "risk": [
+      "Auto risk/alert for proven negative margin only when known facts, mature, receipt ratio>=0.20 and receipt net>0. Independent authoritative cost BLOCK survives regardless receipt ratio.",
+      "Negative observed margin at low/zero receipts or immature data => qualitative-materiality-unassessed, unknown risk/signal and explicit manual review; preserve independent cost/formula/maturity/restatement actions.",
+      "Any adverse positive cost variance or pending impact with only qualitative materiality adds unassessed review. No invented amount/percentage threshold. Verified manual review classifies only exact qualitative issues normal/attention/risk, not facts or maturity.",
+      "normal only complete facts and no automatic risk/attention or unresolved qualitative issues. unknown never means normal or confirmed release."
+    ],
+    "ruleRows": [
+      {
+        "id": "H01",
+        "code": "missing-hard-evidence",
+        "project": "review",
+        "stages": {
+          "first": "prompt",
+          "second": "block",
+          "final": "block",
+          "retention": "block"
+        }
+      },
+      {
+        "id": "H02",
+        "code": "pending-optional-facts",
+        "project": "review",
+        "stages": {
+          "first": "prompt",
+          "second": "review",
+          "final": "review",
+          "retention": "review"
+        }
+      },
+      {
+        "id": "H03",
+        "code": "low-receipt-ratio",
+        "project": "prompt",
+        "stages": {
+          "first": "prompt",
+          "second": "prompt",
+          "final": "prompt",
+          "retention": "prompt"
+        }
+      },
+      {
+        "id": "H04",
+        "code": "risk-attention",
+        "project": "review",
+        "stages": {
+          "first": "prompt",
+          "second": "review",
+          "final": "review",
+          "retention": "review"
+        }
+      },
+      {
+        "id": "H05",
+        "code": "risk-confirmed",
+        "project": "block",
+        "stages": {
+          "first": "review",
+          "second": "block",
+          "final": "block",
+          "retention": "block"
+        }
+      },
+      {
+        "id": "H06",
+        "code": "restatement-pending",
+        "project": "review",
+        "stages": {
+          "first": "review",
+          "second": "block",
+          "final": "block",
+          "retention": "block"
+        }
+      },
+      {
+        "id": "H07",
+        "code": "extreme-ratio",
+        "project": "review",
+        "stages": {
+          "first": "review",
+          "second": "review",
+          "final": "block",
+          "retention": "block"
+        }
+      },
+      {
+        "id": "H08",
+        "code": "qualitative-materiality-unassessed",
+        "project": "review",
+        "stages": {
+          "first": "review",
+          "second": "review",
+          "final": "review",
+          "retention": "review"
+        }
+      },
+      {
+        "id": "H09",
+        "code": "authoritative-cost-block",
+        "project": "block",
+        "stages": {
+          "first": "review",
+          "second": "block",
+          "final": "block",
+          "retention": "block"
+        }
+      },
+      {
+        "id": "H10",
+        "code": "authoritative-cost-review",
+        "project": "review",
+        "stages": {
+          "first": "prompt",
+          "second": "review",
+          "final": "review",
+          "retention": "review"
+        }
+      },
+      {
+        "id": "H11",
+        "code": "normal-complete",
+        "project": "prompt",
+        "stages": {
+          "first": "prompt",
+          "second": "prompt",
+          "final": "prompt",
+          "retention": "prompt"
+        }
+      }
+    ],
+    "aggregate": "Project=max(costAction floor, all project candidates). Four gates independently max per-stage including explicit H09/H10 standalone-cost mappings; do not copy project action. Persist all reasons and flag all equal-max project/stage primaries; sort code/evidenceHash.",
+    "manual": "Manual materiality review may resolve unknown qualitative issues to an evidenced classification. It cannot replace automatic/proven normal-attention-risk findings, downgrade source floor/BLOCK, change maturity or supply missing hard facts. Generic exception downgrade excluded pending separate authorized approval/expiry baseline."
+  },
+  "numericConstants": {
+    "lowReceiptRatio": {
+      "numerator": 1,
+      "denominator": 5,
+      "comparison": "strictly-less"
+    },
+    "negativeAutoRiskMinimumReceiptRatio": {
+      "numerator": 1,
+      "denominator": 5,
+      "comparison": "greater-or-equal"
+    },
+    "extremeMarginLower": {
+      "numerator": -1,
+      "denominator": 1,
+      "comparison": "strictly-less"
+    },
+    "extremeMarginUpper": {
+      "numerator": 1,
+      "denominator": 1,
+      "comparison": "strictly-greater"
+    },
+    "severityOrder": [
+      "prompt",
+      "review",
+      "block"
+    ],
+    "displayRatioScale": 6,
+    "displayRounding": "half-away-from-zero"
+  },
+  "authority": "H pure derivation only; Root model/hash module contains no business policy calculator"
+}

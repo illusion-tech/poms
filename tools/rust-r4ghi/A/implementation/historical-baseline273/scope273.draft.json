@@ -1,0 +1,69 @@
+{
+  "kind": "273-finite-technical-G1-scope-proposal",
+  "status": "Root-approved-technical-G1-to-be-sealed-before-implementation",
+  "implementationStarted": false,
+  "RustDirectProducts": [
+    "apps/poms-api-rust/src/project_operating/baseline.rs",
+    "apps/poms-api-rust/src/project_operating/period_baseline.rs",
+    "apps/poms-api-rust/src/project_operating/period_baseline/tests.rs",
+    "apps/poms-api-rust/src/project_operating/preparation.rs",
+    "apps/poms-api-rust/src/project_operating/collector.rs",
+    "apps/poms-api-rust/src/project_operating/context.rs",
+    "apps/poms-api-rust/src/project_operating/capture.rs",
+    "apps/poms-api-rust/src/project_operating/service.rs",
+    "apps/poms-api-rust/src/project_operating/view.rs",
+    "apps/poms-api-rust/src/project_operating_common/runtime.rs"
+  ],
+  "RustConditionalOnlyIfNecessaryAndExplicitlyRegistered": [
+    "apps/poms-api-rust/src/project_operating/store.rs",
+    "apps/poms-api-rust/src/project_operating/sources.rs"
+  ],
+  "baselineRsBoundary": "Only supply the new optional proof=None for existing realtime draft construction and expose shared exact-money/ref helpers if needed; no unrelated realtime budget algorithm rewrite",
+  "executionClassificationSource": {"table": "project_stage_record", "SourceKind": "ProjectStageRecord", "alreadyRegisteredLockedAndHashed": true, "requiredFacts": ["producer_version=1", "event_type=stage-entered", "from_stage=handover", "to_stage=execution", "source_handover_id", "source_role_assignment_id", "entered_at", "source_payload", "source_payload_hash"], "newTableOrKindRequired": false},
+  "GeneratedContractProductsAfterCanonicalFreeze": [
+    "apps/poms-api-rust/src/project_operating_common/model.rs",
+    "libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts",
+    "libs/shared/api-spec/openapi.json",
+    "Full generated SDK output and enum registration from a new exact feature input checkpoint"
+  ],
+  "SeparateGovernanceAndToolInputs": [
+    "new273 technical G1 and public DTO delta; original effective-v2 stays immutable",
+    "formal source registration of user-decision-historical-baseline272.json",
+    "context source enumeration explicit new registered leaf; no dirty override",
+    "I25203 full bounded multi-file source/helper deltas and actual build/fresh plan",
+    "I270 period body/preparation/gh-facts/FI exact new dedicated G package families",
+    "I271 existing-period frozen baseline retained for every period target",
+    "H/admin UI preparation display, explicit-null request and frozen-period restatement presentation"
+  ],
+  "recommendedPersistence": {
+    "newTables": 0,
+    "newColumns": 0,
+    "newMigration": null,
+    "existingTables": ["operating_baseline_source", "operating_baseline_package", "change_package_baseline", "operating_source_context", "operating_source_member", "project_operating_snapshot", "period_closing_snapshot"],
+    "staticDDLFindings": ["uq_obp_project_current is partial WHERE is_current=true", "baseline certified CHECK does not force is_current=true", "source frozen_payload only requires JSON object and captures source/economic proof", "all existing FK/producer/immutable constraints remain"],
+    "M99Assumed": false,
+    "M98BaselineGuardStaticChecked": true,
+    "implementationMustPreserveAllM98EffectiveGuards": true,
+    "actualPGOrORMCheckNotPerformedByAuthor": true
+  },
+  "normalEffects": {
+    "newPeriodDedicatedBaselineSource": 1,
+    "newNoncurrentBaselinePackage": 1,
+    "approvedChangeRows": "actual unique adopted transitions N; no phantom writes when zero",
+    "sourceMembers": "complete actual newG/adoption/technical/handover/stage closure",
+    "oldRealtimePackageOrHeadIdentityOrCurrentHMovement": false,
+    "existingHeadCASVersionIncrement": "Root confirmed +1 with unchanged baseline/current IDs",
+    "noHeadCase": "no insertion of realtime head/authority",
+    "allSamePhysicalOuterTransaction": true
+  },
+  "G1AcceptanceClasses": ["pure graph/time/lifecycle/money/DTO cases", "real producer-qualified history and complete public preparation", "actual capture-now noncurrent package and exact period readback", "preserved frozen-period restatement and realtime identity", "PG lock/barrier/CAS races", "all actual new and retained necessary-write FI families", "full combined14 compile/Native/admin/SDK/HTTP/DOM evidence under new exact inputs"],
+  "syntheticHistoryCountsAsDelivery": false,
+  "OriginalH249Candidate": {"file": "apps/poms-api-rust/src/project_operating/restatement.rs", "rawBytesSha256": "7251664a65dd189b38ea9349ba6e54b8a2ea84ca307d128e3b01f29ba446890c", "EOL": "CRLF", "isCombinedFinal273Build": false},
+  "OriginalM97BaselineAndM98CanonicalRetained": true,
+  "NewPublicRoutes": 0,
+  "RootProductWritten": false,
+  "SQL": false,
+  "HTTP": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

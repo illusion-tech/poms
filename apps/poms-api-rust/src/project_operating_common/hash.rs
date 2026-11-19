@@ -1,0 +1,162 @@
+//! The one factual whitelist and canonical serializer used by both G and H.
+use super::{model::OperatingSourceContext, scalars::Sha256};
+use crate::contract_support::Error;
+use serde::Serialize;
+use serde_json::{Map, Value};
+
+pub fn canonical_hash<T: Serialize + ?Sized>(value: &T) -> Result<Sha256, Error> {
+    let value = serde_json::to_value(value).map_err(|_| Error::Internal)?;
+    Sha256::try_from(crate::contract_support::canonical_hash(&value)?)
+}
+pub fn policy_hash() -> Result<Sha256, Error> {
+    let value: Value = serde_json::from_str(include_str!(
+        "../../../../tools/rust-r4ghi/joint-g1/effective-v2/policy-definition.json"
+    ))
+    .map_err(|_| Error::Internal)?;
+    canonical_hash(&value)
+}
+fn select(value: &Value, keys: &Value) -> Result<Map<String, Value>, Error> {
+    let keys = keys.as_array().ok_or(Error::Internal)?;
+    keys.iter()
+        .map(|key| {
+            let key = key.as_str().ok_or(Error::Internal)?;
+            Ok((
+                key.to_owned(),
+                value.get(key).ok_or(Error::Internal)?.clone(),
+            ))
+        })
+        .collect()
+}
+fn str_at(value: &Value, path: &str) -> String {
+    value
+        .pointer(path)
+        .and_then(Value::as_str)
+        .unwrap_or("")
+        .to_owned()
+}
+fn ref_key(value: &Value) -> (String, String, i64, String) {
+    (
+        str_at(value, "/kind"),
+        str_at(value, "/id"),
+        value["rowVersion"].as_i64().unwrap_or(-1),
+        str_at(value, "/payloadHash"),
+    )
+}
+fn normalize_sets(value: &mut Value, key: &str) {
+    match value {
+        Value::Object(values) => {
+            for (name, child) in values {
+                normalize_sets(child, name);
+            }
+        }
+        Value::Array(values) => {
+            for child in values.iter_mut() {
+                normalize_sets(child, "");
+            }
+            if key == "approvedChangeRefs" || key == "approvedTransitions" {
+                return;
+            }
+            let source_refs = !values.is_empty()
+                && values.iter().all(|value| {
+                    value.as_object().is_some_and(|object| {
+                        object.len() == 4
+                            && ["kind", "id", "rowVersion", "payloadHash"]
+                                .iter()
+                                .all(|key| object.contains_key(*key))
+                    })
+                });
+            if source_refs {
+                values.sort_by_key(ref_key);
+                return;
+            }
+            match key {
+                "contracts" => values.sort_by_key(|v| str_at(v, "/contractRef/id")),
+                "receipts" => values.sort_by_key(|v| str_at(v, "/receiptRef/id")),
+                "costs" => values.sort_by_key(|v| {
+                    (
+                        str_at(v, "/canonicalAccumulationKey"),
+                        str_at(v, "/recognitionRole"),
+                        str_at(v, "/sourceRef/id"),
+                        str_at(v, "/costRef/id"),
+                    )
+                }),
+                "allocations" => values.sort_by_key(|v| str_at(v, "/resultRef/id")),
+                "taxTreatments" => values.sort_by_key(|v| str_at(v, "/taxTreatmentRef/id")),
+                "pendingFacts" => {
+                    values.sort_by_key(|v| (str_at(v, "/kind"), str_at(v, "/sourceRef/id")))
+                }
+                "upstreamCostConstraints" => values.sort_by_key(|v| {
+                    (
+                        str_at(v, "/ruleId"),
+                        str_at(v, "/reasonCode"),
+                        v["basisRefs"].to_string(),
+                    )
+                }),
+                _ => {}
+            }
+        }
+        _ => {}
+    }
+}
+pub fn source_hash(context: &OperatingSourceContext) -> Result<Sha256, Error> {
+    let value = serde_json::to_value(context).map_err(|_| Error::Internal)?;
+    let whitelist = &super::schema::context_registry()["x-sourceHashFactualWhitelist"];
+    let mut selected = select(&value, &whitelist["top"])?;
+    selected.insert(
+        "snapshot".into(),
+        Value::Object(select(&value["snapshot"], &whitelist["snapshot"])?),
+    );
+    let mut factual = Value::Object(selected);
+    normalize_sets(&mut factual, "");
+    canonical_hash(&factual)
+}
+/// H supplies the registered normalized wrapper (sourceHash, policyVersion,
+/// policyHash, normalizedDerivedOutput). New output IDs never belong here.
+pub fn evaluation_hash(
+    normalized_wrapper: &Value,
+    overlay: Option<&Sha256>,
+) -> Result<Sha256, Error> {
+    let mut object = normalized_wrapper
+        .as_object()
+        .cloned()
+        .ok_or(Error::Internal)?;
+    if ![
+        "sourceHash",
+        "policyVersion",
+        "policyHash",
+        "normalizedDerivedOutput",
+    ]
+    .iter()
+    .all(|key| object.contains_key(*key))
+    {
+        return Err(Error::Internal);
+    }
+    object.insert(
+        "verifiedReviewOverlayHash".into(),
+        overlay
+            .map(|hash| Value::String(hash.to_string()))
+            .unwrap_or(Value::Null),
+    );
+    canonical_hash(&object)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn source_sets_sort_but_approved_history_keeps_business_order() {
+        let a = serde_json::json!({"kind":"Cost","id":"a","rowVersion":2,"payloadHash":"x"});
+        let b = serde_json::json!({"kind":"Cost","id":"a","rowVersion":10,"payloadHash":"x"});
+        let mut value = serde_json::json!({"evidenceRefs":[b.clone(),a.clone()],"approvedChangeRefs":[b.clone(),a.clone()]});
+        normalize_sets(&mut value, "");
+        assert_eq!(value["evidenceRefs"], serde_json::json!([a, b.clone()]));
+        assert_eq!(value["approvedChangeRefs"][0], b);
+    }
+    #[test]
+    fn actual_policy_matches_frozen_registration() {
+        assert_eq!(
+            policy_hash().ok().map(|v| v.to_string()).as_deref(),
+            Some("7e9cfcedc496bd5d4ffd6fc158371e3db069110798926c63a5156ee4614a1aec")
+        );
+    }
+}

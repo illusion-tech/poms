@@ -10,7 +10,7 @@
 
 
 export interface AuthSessionLogoutResult {
-    authenticated: boolean;
+    authenticated: false;
     resultStatus: AuthSessionLogoutResultResultStatusEnum;
     revoked: boolean;
 }

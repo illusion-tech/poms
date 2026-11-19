@@ -1,0 +1,51 @@
+// Pure UI request assembly unit checks with synthetic, schema-validated fixtures.
+// This is not transport, authorization, PostgreSQL, HTTP or business acceptance.
+const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),assert=require('node:assert/strict'),{createRequire}=require('node:module');
+const installed=createRequire('E:/projects/poms/package.json'),ts=installed('typescript');
+const root='E:/projects/worktrees/poms-r3hijk-next28/poms';
+const cache=new Map();
+function physical(file){return file;}
+function load(file){file=path.resolve(file);if(cache.has(file))return cache.get(file).exports;const module={exports:{}};cache.set(file,module);const js=ts.transpileModule(fs.readFileSync(physical(file),'utf8'),{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.CommonJS,esModuleInterop:true}}).outputText;function ownRequire(n){if(n==='@poms/shared-contracts')return load(path.join(root,'libs/shared/contracts/src/index.ts'));if(n.startsWith('.')){const base=path.resolve(path.dirname(file),n);for(const f of [base,base+'.ts',path.join(base,'index.ts')])if(fs.existsSync(f)&&fs.statSync(f).isFile())return load(f);throw new Error(n);}return installed(n);}vm.runInThisContext(`(function(require,module,exports){${js}\n})`,{filename:file})(ownRequire,module,module.exports);return module.exports;}
+const c=load(path.join(root,'libs/shared/contracts/src/index.ts'));
+const f=load(path.join(__dirname,'proposed/apps/poms-admin/src/app/features/project/project-governance-facts.ts'));
+const schemas=JSON.parse(fs.readFileSync(path.join(__dirname,'../../shared-g2-130/public-contracts.g2-130.schema.json'),'utf8')).components.schemas;
+const id=n=>`00000000-0000-4000-8000-${String(n).padStart(12,'0')}`;
+function sample(s){if(s.$ref)return sample(schemas[s.$ref.split('/').pop()]);if(Array.isArray(s.type))return s.type.includes('null')?null:sample({...s,type:s.type[0]});if('const'in s)return s.const;if(s.enum)return s.enum[0];if(s.anyOf||s.oneOf){const branches=s.anyOf||s.oneOf;return sample(branches.find(v=>v.type==='null')??branches[0]);}if(s.allOf?.length===1&&!s.type&&!s.properties)return sample(s.allOf[0]);if(s.type==='null')return null;if(s.type==='array')return[];if(s.type==='object'||s.properties){const v={};for(const k of s.required??[])v[k]=sample(s.properties[k]);return v;}if(s.type==='boolean')return false;if(s.type==='integer'||s.type==='number')return s.minimum??0;if(s.type==='string'){if(s.format==='uuid')return id(1);if(s.format==='date')return'2026-11-07';if(s.format==='date-time')return'2026-11-07T00:00:00Z';if(s.pattern?.includes('{64}'))return'a'.repeat(64);return'x'.repeat(s.minLength??1);}throw new Error('fixture unsupported:'+JSON.stringify(s));}
+const ref=(kind,n,version=3)=>c.SourceRefSchema.parse({kind,id:id(n),rowVersion:version,payloadHash:'a'.repeat(64)});
+function row(sourceRef,state='ready',members=[]){return c.SourceRowSchema.parse({...sample(schemas.SourceRow),financialProjection:{mode:'masked',displayText:'synthetic hidden',fieldPackageKeys:['operating-finance','labor-cost-rate'],value:null},rowKind:sourceRef.kind==='Contract'?'contract':sourceRef.kind==='ReceiptRecord'?'receipt':'stage-evidence',sourceRef,state,sourceMembers:members});}
+const contract=ref('Contract',2,7),receiptRef=ref('ReceiptRecord',3,2),term=ref('ContractTermSnapshot',4),commercial=ref('CommercialReleaseBaseline',5),attachment=ref('Attachment',6),pendingTerm=ref('ContractTermSnapshot',7);
+const receipt=c.ReceiptRecordSummarySchema.parse({id:receiptRef.id,projectId:id(1),contractId:contract.id,receiptAmount:'113.00',receiptDate:'2026-11-07T00:00:00Z',sourceType:'bank',status:'pending-confirmation',confirmedAt:null,confirmedBy:null,rowVersion:2,createdAt:'2026-11-07T00:00:00Z',updatedAt:'2026-11-07T00:00:00Z'});
+const preparation=c.OperatingPreparationSchema.parse({...sample(schemas.OperatingPreparation),projectId:id(1),periodKey:null,intent:'receipt-basis',allowedCommandCodes:['receipt-basis'],sourceRows:[row(contract,'ready',[term,commercial,pendingTerm]),row(receiptRef,'pending'),row(term,'ready',[commercial]),row(pendingTerm,'pending'),row(attachment)]});
+const selection={termKey:f.sourceIdentity(term),currencyKey:f.sourceIdentity(commercial),evidenceKeys:[],selectionPolicy:'receipt-date-effective-terms',reason:'按回款当日已生效条款确认'};
+let cases=0;function check(fn){fn();cases++;}
+check(()=>assert.deepEqual(f.receiptBasisChoices(preparation,contract.id).terms,[term]));
+check(()=>{const request=c.ConfirmReceiptRecordRequestSchema.parse(f.receiptConfirmation(preparation,receipt,selection));assert.equal(request.expectedContractVersion,7);assert.equal(request.expectedVersion,2);assert.deepEqual(request.basis.termSnapshotRef,f.expectedSource(term));assert.equal(request.basis.termSnapshotRef.payloadHash,term.payloadHash);assert.equal('taxRate'in request,false);assert.equal('currency'in request,false);});
+check(()=>assert.throws(()=>f.receiptConfirmation(preparation,receipt,{...selection,termKey:'client-invented'}),/版本/));
+check(()=>assert.throws(()=>f.receiptConfirmation(preparation,{...receipt,rowVersion:3},selection),/版本/));
+check(()=>assert.throws(()=>f.receiptConfirmation(preparation,receipt,{...selection,evidenceKeys:['invented-attachment-hash']}),/白名单/));
+check(()=>assert.throws(()=>f.receiptConfirmation(preparation,{...receipt,status:'confirmed'},selection),/真实附件/));
+check(()=>assert.throws(()=>f.receiptConfirmation(preparation,receipt,{...selection,selectionPolicy:'explicit-activated-terms-evidence'}),/真实附件/));
+check(()=>{const request=f.receiptConfirmation(preparation,{...receipt,status:'confirmed'},{...selection,currencyKey:f.sourceIdentity(commercial),evidenceKeys:[f.sourceIdentity(attachment)]});assert.equal(request.mode,'certify-existing-basis');assert.deepEqual(request.basis.currencyBasisRef,f.expectedSource(commercial));assert.deepEqual(request.basis.evidenceRefs,[f.expectedSource(attachment)]);});
+check(()=>{const unrelated=ref('CommercialReleaseBaseline',9);const changed={...preparation,sourceRows:preparation.sourceRows.map(r=>r.sourceRef.kind==='Contract'?{...r,sourceMembers:[...r.sourceMembers,unrelated]}:r)};assert.throws(()=>f.receiptConfirmation(changed,receipt,{...selection,currencyKey:f.sourceIdentity(unrelated)}),/版本/);});
+check(()=>{const pending={...preparation,sourceRows:preparation.sourceRows.map(r=>r.sourceRef.id===term.id?{...r,state:'pending'}:r)};assert.throws(()=>f.receiptConfirmation(pending,receipt,selection),/版本/);});
+check(()=>{const before=JSON.stringify(preparation);f.receiptConfirmation(preparation,receipt,selection);assert.equal(JSON.stringify(preparation),before);});
+check(()=>{const ready={...preparation,sourceRows:preparation.sourceRows.map(r=>r.sourceRef.id===receipt.id?{...r,state:'ready'}:r)};assert.throws(()=>f.receiptConfirmation(ready,receipt,selection),/不可变/);});
+check(()=>assert.deepEqual(f.receiptCurrencyChoices(preparation,f.sourceIdentity(term)),[commercial]));
+check(()=>{const ownCurrency={...preparation,sourceRows:preparation.sourceRows.map(r=>r.sourceRef.id===term.id?{...r,sourceMembers:[]}:r)};const request=f.receiptConfirmation(ownCurrency,receipt,{...selection,currencyKey:f.sourceIdentity(term)});assert.deepEqual(request.basis.currencyBasisRef,f.expectedSource(term));});
+const project=c.FullProjectDetailViewSchema.parse({...sample(schemas.FullProjectDetailView),id:id(1),currentStage:'handover',currentStageRecordId:id(12),projectRowVersion:8,status:'active'});
+
+const serverContext=c.ExecutionAdmissionContextViewSchema.parse({handoverStageRecordId:project.currentStageRecordId,handoverSummarySnapshotId:id(14),expectedRoleAssignmentVersion:4,commissionRoleAssignmentId:id(15),sourceHandoverId:id(13),sourcePayloadHash:'b'.repeat(64)});
+const readyProject=c.FullProjectDetailViewSchema.parse({...project,executionAdmissionContext:serverContext});
+check(()=>{const context=f.lifecycleContext(readyProject,true);assert.equal(context.executionAdmission,readyProject.executionAdmissionContext);assert.equal(context.executionAdmission.sourcePayloadHash,'b'.repeat(64));assert.equal(context.projectRowVersion,readyProject.projectRowVersion);});
+check(()=>assert.equal(f.lifecycleContext({...readyProject,executionAdmissionContext:null},true).executionAdmission,null));
+check(()=>assert.equal(f.lifecycleContext(readyProject,false).executionAdmission,null));
+check(()=>assert.equal(f.lifecycleContext({...readyProject,currentStage:'execution'},true).executionAdmission,null));
+check(()=>assert.equal(f.lifecycleContext({...readyProject,currentStageRecordId:id(99)},true).executionAdmission,null));
+check(()=>{const context=f.lifecycleContext(readyProject,true);assert.equal(c.StartProjectExecutionRequestSchema.safeParse({...context.executionAdmission,inputVersion:'server-derived-v1',expectedProjectVersion:context.projectRowVersion,reason:'本人确认真实执行准入'}).success,true);});
+check(()=>{const bad={...readyProject};delete bad.executionAdmissionContext;assert.equal(c.FullProjectDetailViewSchema.safeParse(bad).success,false);});
+check(()=>assert.equal(c.FullProjectDetailViewSchema.safeParse({...readyProject,executionAdmissionContext:{...serverContext,weights:[1]}}).success,false));
+const central=fs.readFileSync(path.join(__dirname,'proposed/apps/poms-admin/src/app/features/project/project-governance.ts'),'utf8');
+check(()=>{const method=central.slice(central.indexOf('    private async loadLifecycleContext()'),central.indexOf('    refreshAfterLifecycle()'));assert.equal(method.includes('loadCurrent('),false);assert.equal(method.includes('loadHandover('),false);assert.equal(method.includes('roleApi('),false);});
+const gateway=fs.readFileSync(path.join(__dirname,'proposed/apps/poms-admin/src/app/features/project/project-governance-api.ts'),'utf8');
+check(()=>assert.match(gateway,/projectCompletionRecordControllerCloseCompletionCondition\(\{ id: conditionId, completionRecordId, closeProjectCompletionConditionRequest: ClientValue\.closeCondition\(body\) \}\)/));
+const result={status:'passed-pure-UI-server-context-request-assembly-unit-only',cases,syntheticFixtures:true,noHTTP:true,noDB:true,noAuthorizationAcceptance:true,actualRootCanonical130:true};fs.writeFileSync(path.join(__dirname,'facts-unit03.json'),JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result));

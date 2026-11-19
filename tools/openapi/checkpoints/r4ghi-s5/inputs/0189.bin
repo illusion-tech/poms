@@ -1,0 +1,52 @@
+import { ProjectTechnicalCostPackage } from '../project/project-technical-cost-package.entity';
+import { defineEntity } from '@mikro-orm/core';
+import { CHANGE_PACKAGE_BASELINE_STATUSES, ChangePackageBaselineStatusValue, type ChangePackageBaselineStatus } from '@poms/shared-contracts';
+import { OperatingBaselinePackage } from './operating-baseline-package.entity';
+
+const p = defineEntity.properties;
+const toSqlStringList = (values: readonly string[]): string => values.map((value) => `'${value.replaceAll("'", "''")}'`).join(', ');
+
+export const ChangePackageBaselineSchema = defineEntity({
+    name: 'ChangePackageBaseline',
+    tableName: 'change_package_baseline',
+    schema: 'poms',
+    comment: '已批准变更包基线明细',
+    indexes: [
+        { name: 'idx_cpb_baseline_package', properties: ['baselinePackageId', 'status'] }
+    ],
+    uniques: [
+        { name: 'uq_cpb_package_change', properties: ['baselinePackageId', 'changePackageId'] },
+        {"name":"uq_r4g_change_transition","expression":"CREATE UNIQUE INDEX uq_r4g_change_transition ON poms.change_package_baseline\n  (baseline_package_id,before_cost_package_id,after_cost_package_id)\n  WHERE before_cost_package_id IS NOT NULL AND after_cost_package_id IS NOT NULL"}
+    ],
+    checks: [
+        {
+            name: 'chk_change_package_baseline_status',
+            expression: `"status" in (${toSqlStringList(CHANGE_PACKAGE_BASELINE_STATUSES)})`
+        }
+    ],
+    properties: {
+        id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
+        baselinePackageId: () => p.manyToOne(OperatingBaselinePackage).mapToPk().fieldName('baseline_package_id').comment('关联经营基线包'),
+        changePackageId: p.uuid().fieldName('change_package_id').comment('变更包标识'),
+        changeAmount: p.decimal().precision(18).scale(2).default(0).fieldName('change_amount').comment('变更金额（正增负减）'),
+        changeSummary: p.text().nullable().fieldName('change_summary').comment('变更包说明'),
+        status: p.string().$type<ChangePackageBaselineStatus>().length(32).default(ChangePackageBaselineStatusValue.Active).comment('状态：active/voided'),
+        effectiveAt: p.datetime().nullable().fieldName('effective_at').comment('生效时间'),
+        createdAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).fieldName('created_at').comment('创建时间'),
+        createdBy: p.uuid().nullable().fieldName('created_by').comment('创建人'),
+        updatedAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).onUpdate(() => new Date()).fieldName('updated_at').comment('最后更新时间'),
+        updatedBy: p.uuid().nullable().fieldName('updated_by').comment('最后更新人'),
+        rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号')
+    ,
+        sourceKind: p.string().length(64).nullable().fieldName("source_kind"),
+        sourceId: p.uuid().nullable().fieldName("source_id"),
+        sourceRowVersion: p.integer().nullable().fieldName("source_row_version"),
+        beforeCostPackageId: () => p.manyToOne(ProjectTechnicalCostPackage).mapToPk().joinColumns("before_cost_package_id").referencedColumnNames("id").foreignKeyName("change_package_baseline_before_cost_package_id_fkey").deleteRule("restrict").updateRule("no action").nullable(),
+        afterCostPackageId: () => p.manyToOne(ProjectTechnicalCostPackage).mapToPk().joinColumns("after_cost_package_id").referencedColumnNames("id").foreignKeyName("change_package_baseline_after_cost_package_id_fkey").deleteRule("restrict").updateRule("no action").nullable(),
+        sourcePayloadHash: p.string().length(64).nullable().fieldName("source_payload_hash")
+    }
+});
+
+export class ChangePackageBaseline extends ChangePackageBaselineSchema.class {}
+
+ChangePackageBaselineSchema.setClass(ChangePackageBaseline);

@@ -1,0 +1,60 @@
+{
+  "kind": "non-author-runtime118-limited-stopped-evidence-package-G3",
+  "schemaVersion": 1,
+  "reviewer": "/root/runtime118_actual_reviewer",
+  "reviewerIsPackageAuthor": false,
+  "reviewerIsRuntimeExecutor": false,
+  "reviewerAuthoredSomePriorIndependentReadbacks": true,
+  "gate": "G3",
+  "decision": "PASS",
+  "verdict": "approved-limited-evidence-only-checkpoint-G3",
+  "scope": "Exact certified staged54 evidence-only checkpoint: preserve the bounded recovery chain and the one actual STOPPED_PRESERVE attempt. This is not budget ObservationComplete or business G3/G4.",
+  "approvedRHeadBeforeCommit": "e95aff6708fb5f4151ebf91716a39700841511ad",
+  "RBranch": "codex/poms-r4ghi-next25",
+  "stagedCount": 54,
+  "stagedFingerprintSHA256": "606869a6ac0efe8aebf4c19e45f30760b5f269960393cb73f76efc4a9f727ea0",
+  "retentionIndex": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-resume-actual01/retention-index.json",
+    "bytes": 32902,
+    "rawBytesSha256": "f048495b8ccf21db25ef4d2a736f392bf0b71cbd8913baf5613a11743e3f46b6"
+  },
+  "frozenScopeG3Input": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-resume-actual01/scope-G3-input01.md.bin",
+    "bytes": 10356,
+    "rawBytesSha256": "4cded4f3e87827b9e4706375c700050647043d7160a5c03f02b4e3f6b37e4fa0"
+  },
+  "mutableDocAtReview": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/docs/design/rust-r4ghi/runtime118-bounded-resume-2026-11-16.md",
+    "bytes": 10356,
+    "rawBytesSha256": "4cded4f3e87827b9e4706375c700050647043d7160a5c03f02b4e3f6b37e4fa0"
+  },
+  "evidence": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-limited-evidence-G3-independent01/evidence-actual-limited-stopped-package-G3.json",
+    "bytes": 33774,
+    "rawBytesSha256": "699e3ae702b64df9dbb361754da69e6feb5de3cfd9f537474615da26cf292ec3"
+  },
+  "canCommitPublishExactCertifiedEvidenceCheckpoint": true,
+  "budgetObservationG3": "BLOCK",
+  "budgetObservationG4": "NOT_SATISFIED",
+  "ObservationComplete": false,
+  "full67FI618Budget": "UNKNOWN",
+  "mustKeep118And57Open": true,
+  "canMark118Or57Done": false,
+  "G4": "PENDING_ACTUAL_DELIVERY_ISSUE_SYNC_AND_REVIEW",
+  "futureCommitOrIssuePinsCertified": false,
+  "conditions": [
+    "Approval binds the exact staged54 content and immutable retention index/scope input; no future commit or Issue action is pre-certified.",
+    "Frozen copies, original identities, failures and STOPPED labels must stay byte-exact.",
+    "Later gate metadata or mutable documentation updates require actual review; this is not G4."
+  ],
+  "limits": {
+    "GitWritesByReviewer": false,
+    "RootApprovalSignedByReviewer": false,
+    "effectsOrSQLHTTPOrSnapshotExecuted": false,
+    "pnpmExecuted": false,
+    "productionSourceChanged": false,
+    "newBusinessCertified": 0,
+    "businessG3": false,
+    "businessG4": false
+  }
+}

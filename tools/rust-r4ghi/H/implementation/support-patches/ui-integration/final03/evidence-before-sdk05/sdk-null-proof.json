@@ -1,0 +1,21 @@
+{
+  "status": "observed-generated-null-only-type-not-literal-null",
+  "zeroAssignmentRejected": false,
+  "nullAssignmentRejected": false,
+  "literalNullNarrowingRejected": true,
+  "missingRequiredRejected": true,
+  "diagnostics": [
+    {
+      "file": "E:/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/final03/sdk-null-proof.ts",
+      "line": 5,
+      "code": 2322,
+      "message": "Type 'OperatingSignalEvaluationViewTaxImpactSummaryEnum | null' is not assignable to type 'null'.\n  Type 'OperatingSignalEvaluationViewTaxImpactSummaryEnum' is not assignable to type 'null'."
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/final03/sdk-null-proof.ts",
+      "line": 6,
+      "code": 2741,
+      "message": "Property 'taxImpactSummary' is missing in type '{}' but required in type 'Pick<OperatingSignalEvaluationView, \"taxImpactSummary\">'."
+    }
+  ]
+}

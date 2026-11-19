@@ -1,0 +1,1248 @@
+{
+  "schemaVersion": 1,
+  "phase": "G1-input-audit-only",
+  "operationCount": 8,
+  "newPublicRoutes": 0,
+  "operations": [
+    {
+      "operationId": "ProjectCostController_reviewOperatingSignalEvaluation",
+      "method": "POST",
+      "path": "/api/operating-signal-evaluations/{id}:review",
+      "canonical": "POST /operating-signal-evaluations/{id}:review",
+      "canonicalStatus": "aligned",
+      "canonicalInventoryLine": 286,
+      "canonicalInventoryRow": "| `project-cost` | `reviewOperatingSignalEvaluation`   | `POST /operating-signal-evaluations/{id}:review`         | `POST /operating-signal-evaluations/{id}:review`         | `POST /operating-signal-evaluations/{id}:review`         | `ADR-015` + `EX-15G` + `EX-13B`              | `N/A`      | `EX-13B` 已完成 direct cutover；不保留 slash-action 或 project-scoped write alias | `B3`  | `aligned` |",
+      "permissionKeys": [
+        "contract:finance:manage"
+      ],
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ],
+      "authorizationSource": "controller @HasPermissions plus shared session/CSRF adapter; no per-project data-scope check found in the H service",
+      "parameterSchemas": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestDto": "ReviewOperatingSignalEvaluationRequestDto",
+      "requestSchema": "ReviewOperatingSignalEvaluationRequest",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ReviewOperatingSignalEvaluationRequest"
+            }
+          }
+        }
+      },
+      "responseDto": "ReviewOperatingSignalEvaluationResultDto",
+      "responseSchema": "ReviewOperatingSignalEvaluationResult",
+      "successStatus": 200,
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewOperatingSignalEvaluationResult"
+              }
+            }
+          }
+        }
+      },
+      "controllerLines": [
+        384,
+        396
+      ],
+      "serviceLines": [
+        1409,
+        1474
+      ],
+      "sourceHashes": {
+        "controller": "88546c3723ab44367e3a184495a41d3d93fe3cad11eb62b82030cc27e7550ef0",
+        "service": "3a4c50f8226717fd1ed760778792b36d35ce9dea5377dcbae1a7d6f5b6e1911a",
+        "sharedContract": "d962b8267030c8277f760b8bd6471e62491ee7fbd6353226f6291d3ff3a18db1",
+        "openapi": "56ae1835f50e427dd564b60f423da49e5c03fd88eed431b12ae054011e6de821",
+        "inventory": "e5d86489cf1480c89460ea3359f35fb23a0e368ffd46ec6d9e3ef07f6348e07c"
+      }
+    },
+    {
+      "operationId": "ProjectCostController_getOperatingSignalEvaluation",
+      "method": "GET",
+      "path": "/api/operating-signal-evaluations/{id}",
+      "canonical": "GET /operating-signal-evaluations/{id}",
+      "canonicalStatus": "aligned",
+      "canonicalInventoryLine": 287,
+      "canonicalInventoryRow": "| `project-cost` | `getOperatingSignalEvaluation`      | `GET /operating-signal-evaluations/{id}`                 | `GET /operating-signal-evaluations/{id}`                 | `GET /operating-signal-evaluations/{id}`                 | `ADR-015` + `EX-15G` + `query-view-boundary` | `N/A`      | item detail query 保持 resource-first                                             | `B3`  | `aligned` |",
+      "permissionKeys": [
+        "contract:finance:manage"
+      ],
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ],
+      "authorizationSource": "controller @HasPermissions plus shared session/CSRF adapter; no per-project data-scope check found in the H service",
+      "parameterSchemas": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestDto": null,
+      "requestSchema": null,
+      "requestBody": null,
+      "responseDto": "OperatingSignalEvaluationViewDto",
+      "responseSchema": "OperatingSignalEvaluationView",
+      "successStatus": 200,
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OperatingSignalEvaluationView"
+              }
+            }
+          }
+        }
+      },
+      "controllerLines": [
+        398,
+        404
+      ],
+      "serviceLines": [
+        1476,
+        1506
+      ],
+      "sourceHashes": {
+        "controller": "88546c3723ab44367e3a184495a41d3d93fe3cad11eb62b82030cc27e7550ef0",
+        "service": "3a4c50f8226717fd1ed760778792b36d35ce9dea5377dcbae1a7d6f5b6e1911a",
+        "sharedContract": "d962b8267030c8277f760b8bd6471e62491ee7fbd6353226f6291d3ff3a18db1",
+        "openapi": "56ae1835f50e427dd564b60f423da49e5c03fd88eed431b12ae054011e6de821",
+        "inventory": "e5d86489cf1480c89460ea3359f35fb23a0e368ffd46ec6d9e3ef07f6348e07c"
+      }
+    },
+    {
+      "operationId": "ProjectCostController_reviewCommissionGateBinding",
+      "method": "POST",
+      "path": "/api/commission-gate-bindings/{id}:review",
+      "canonical": "POST /commission-gate-bindings/{id}:review",
+      "canonicalStatus": "aligned",
+      "canonicalInventoryLine": 288,
+      "canonicalInventoryRow": "| `project-cost` | `reviewCommissionGateBinding`       | `POST /commission-gate-bindings/{id}:review`             | `POST /commission-gate-bindings/{id}:review`             | `POST /commission-gate-bindings/{id}:review`             | `ADR-015` + `EX-15G` + `EX-13B`              | `N/A`      | `EX-13B` 已完成 direct cutover；不保留 slash-action 或 project-scoped write alias | `B3`  | `aligned` |",
+      "permissionKeys": [
+        "contract:finance:manage"
+      ],
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ],
+      "authorizationSource": "controller @HasPermissions plus shared session/CSRF adapter; no per-project data-scope check found in the H service",
+      "parameterSchemas": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestDto": "ReviewCommissionGateBindingRequestDto",
+      "requestSchema": "ReviewCommissionGateBindingRequest",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ReviewCommissionGateBindingRequest"
+            }
+          }
+        }
+      },
+      "responseDto": "ReviewCommissionGateBindingResultDto",
+      "responseSchema": "ReviewCommissionGateBindingResult",
+      "successStatus": 200,
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewCommissionGateBindingResult"
+              }
+            }
+          }
+        }
+      },
+      "controllerLines": [
+        406,
+        418
+      ],
+      "serviceLines": [
+        1508,
+        1602
+      ],
+      "sourceHashes": {
+        "controller": "88546c3723ab44367e3a184495a41d3d93fe3cad11eb62b82030cc27e7550ef0",
+        "service": "3a4c50f8226717fd1ed760778792b36d35ce9dea5377dcbae1a7d6f5b6e1911a",
+        "sharedContract": "d962b8267030c8277f760b8bd6471e62491ee7fbd6353226f6291d3ff3a18db1",
+        "openapi": "56ae1835f50e427dd564b60f423da49e5c03fd88eed431b12ae054011e6de821",
+        "inventory": "e5d86489cf1480c89460ea3359f35fb23a0e368ffd46ec6d9e3ef07f6348e07c"
+      }
+    },
+    {
+      "operationId": "ProjectCostController_getCommissionGateBinding",
+      "method": "GET",
+      "path": "/api/commission-gate-bindings/{id}",
+      "canonical": "GET /commission-gate-bindings/{id}",
+      "canonicalStatus": "aligned",
+      "canonicalInventoryLine": 289,
+      "canonicalInventoryRow": "| `project-cost` | `getCommissionGateBinding`          | `GET /commission-gate-bindings/{id}`                     | `GET /commission-gate-bindings/{id}`                     | `GET /commission-gate-bindings/{id}`                     | `ADR-015` + `EX-15G` + `query-view-boundary` | `N/A`      | gate binding detail 保持 top-level identity                                       | `B3`  | `aligned` |",
+      "permissionKeys": [
+        "contract:finance:manage"
+      ],
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ],
+      "authorizationSource": "controller @HasPermissions plus shared session/CSRF adapter; no per-project data-scope check found in the H service",
+      "parameterSchemas": [
+        {
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestDto": null,
+      "requestSchema": null,
+      "requestBody": null,
+      "responseDto": "CommissionGateBindingHistoryViewDto",
+      "responseSchema": "CommissionGateBindingHistoryView",
+      "successStatus": 200,
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommissionGateBindingHistoryView"
+              }
+            }
+          }
+        }
+      },
+      "controllerLines": [
+        420,
+        426
+      ],
+      "serviceLines": [
+        1604,
+        1659
+      ],
+      "sourceHashes": {
+        "controller": "88546c3723ab44367e3a184495a41d3d93fe3cad11eb62b82030cc27e7550ef0",
+        "service": "3a4c50f8226717fd1ed760778792b36d35ce9dea5377dcbae1a7d6f5b6e1911a",
+        "sharedContract": "d962b8267030c8277f760b8bd6471e62491ee7fbd6353226f6291d3ff3a18db1",
+        "openapi": "56ae1835f50e427dd564b60f423da49e5c03fd88eed431b12ae054011e6de821",
+        "inventory": "e5d86489cf1480c89460ea3359f35fb23a0e368ffd46ec6d9e3ef07f6348e07c"
+      }
+    },
+    {
+      "operationId": "ProjectCostController_getProjectBusinessOutcomeOverview",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/business-outcome-overview",
+      "canonical": "GET /projects/{projectId}/business-outcome-overview",
+      "canonicalStatus": "aligned",
+      "canonicalInventoryLine": 290,
+      "canonicalInventoryRow": "| `project-cost` | `getProjectBusinessOutcomeOverview` | `GET /projects/{projectId}/business-outcome-overview`    | `GET /projects/{projectId}/business-outcome-overview`    | `GET /projects/{projectId}/business-outcome-overview`    | `ADR-015` + `EX-15G` + `query-view-boundary` | `N/A`      | 作为项目稳定名词型子资源，不使用 `/summary` / `/detail` 后缀                      | `B3`  | `aligned` |",
+      "permissionKeys": [
+        "contract:finance:manage"
+      ],
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ],
+      "authorizationSource": "controller @HasPermissions plus shared session/CSRF adapter; no per-project data-scope check found in the H service",
+      "parameterSchemas": [
+        {
+          "name": "projectId",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestDto": null,
+      "requestSchema": null,
+      "requestBody": null,
+      "responseDto": "ProjectBusinessOutcomeOverviewViewDto",
+      "responseSchema": "ProjectBusinessOutcomeOverviewView",
+      "successStatus": 200,
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectBusinessOutcomeOverviewView"
+              }
+            }
+          }
+        }
+      },
+      "controllerLines": [
+        428,
+        441
+      ],
+      "serviceLines": [
+        1662,
+        1710
+      ],
+      "sourceHashes": {
+        "controller": "88546c3723ab44367e3a184495a41d3d93fe3cad11eb62b82030cc27e7550ef0",
+        "service": "3a4c50f8226717fd1ed760778792b36d35ce9dea5377dcbae1a7d6f5b6e1911a",
+        "sharedContract": "d962b8267030c8277f760b8bd6471e62491ee7fbd6353226f6291d3ff3a18db1",
+        "openapi": "56ae1835f50e427dd564b60f423da49e5c03fd88eed431b12ae054011e6de821",
+        "inventory": "e5d86489cf1480c89460ea3359f35fb23a0e368ffd46ec6d9e3ef07f6348e07c"
+      }
+    },
+    {
+      "operationId": "ProjectCostController_getProjectUnifiedAccounting",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/unified-accounting",
+      "canonical": "GET /projects/{projectId}/unified-accounting",
+      "canonicalStatus": "aligned",
+      "canonicalInventoryLine": 291,
+      "canonicalInventoryRow": "| `project-cost` | `getProjectUnifiedAccounting`       | `GET /projects/{projectId}/unified-accounting`           | `GET /projects/{projectId}/unified-accounting`           | `GET /projects/{projectId}/unified-accounting`           | `ADR-015` + `EX-15G` + `query-view-boundary` | `N/A`      | 作为项目稳定名词型子资源，不使用 `/current` / `/detail` 后缀                      | `B3`  | `aligned` |",
+      "permissionKeys": [
+        "contract:finance:manage"
+      ],
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ],
+      "authorizationSource": "controller @HasPermissions plus shared session/CSRF adapter; no per-project data-scope check found in the H service",
+      "parameterSchemas": [
+        {
+          "name": "projectId",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestDto": null,
+      "requestSchema": null,
+      "requestBody": null,
+      "responseDto": "ProjectUnifiedAccountingViewDto",
+      "responseSchema": "ProjectUnifiedAccountingView",
+      "successStatus": 200,
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectUnifiedAccountingView"
+              }
+            }
+          }
+        }
+      },
+      "controllerLines": [
+        443,
+        453
+      ],
+      "serviceLines": [
+        1712,
+        1757
+      ],
+      "sourceHashes": {
+        "controller": "88546c3723ab44367e3a184495a41d3d93fe3cad11eb62b82030cc27e7550ef0",
+        "service": "3a4c50f8226717fd1ed760778792b36d35ce9dea5377dcbae1a7d6f5b6e1911a",
+        "sharedContract": "d962b8267030c8277f760b8bd6471e62491ee7fbd6353226f6291d3ff3a18db1",
+        "openapi": "56ae1835f50e427dd564b60f423da49e5c03fd88eed431b12ae054011e6de821",
+        "inventory": "e5d86489cf1480c89460ea3359f35fb23a0e368ffd46ec6d9e3ef07f6348e07c"
+      }
+    },
+    {
+      "operationId": "ProjectCostController_getProjectVarianceRiskExplanation",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/variance-risk-explanation",
+      "canonical": "GET /projects/{projectId}/variance-risk-explanation",
+      "canonicalStatus": "aligned",
+      "canonicalInventoryLine": 292,
+      "canonicalInventoryRow": "| `project-cost` | `getProjectVarianceRiskExplanation` | `GET /projects/{projectId}/variance-risk-explanation`    | `GET /projects/{projectId}/variance-risk-explanation`    | `GET /projects/{projectId}/variance-risk-explanation`    | `ADR-015` + `EX-15G` + `query-view-boundary` | `N/A`      | 作为项目稳定名词型子资源，不使用页面投影后缀                                      | `B3`  | `aligned` |",
+      "permissionKeys": [
+        "contract:finance:manage"
+      ],
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ],
+      "authorizationSource": "controller @HasPermissions plus shared session/CSRF adapter; no per-project data-scope check found in the H service",
+      "parameterSchemas": [
+        {
+          "name": "projectId",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestDto": null,
+      "requestSchema": null,
+      "requestBody": null,
+      "responseDto": "ProjectVarianceRiskExplanationViewDto",
+      "responseSchema": "ProjectVarianceRiskExplanationView",
+      "successStatus": 200,
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectVarianceRiskExplanationView"
+              }
+            }
+          }
+        }
+      },
+      "controllerLines": [
+        455,
+        468
+      ],
+      "serviceLines": [
+        1759,
+        1788
+      ],
+      "sourceHashes": {
+        "controller": "88546c3723ab44367e3a184495a41d3d93fe3cad11eb62b82030cc27e7550ef0",
+        "service": "3a4c50f8226717fd1ed760778792b36d35ce9dea5377dcbae1a7d6f5b6e1911a",
+        "sharedContract": "d962b8267030c8277f760b8bd6471e62491ee7fbd6353226f6291d3ff3a18db1",
+        "openapi": "56ae1835f50e427dd564b60f423da49e5c03fd88eed431b12ae054011e6de821",
+        "inventory": "e5d86489cf1480c89460ea3359f35fb23a0e368ffd46ec6d9e3ef07f6348e07c"
+      }
+    },
+    {
+      "operationId": "ProjectCostController_getBusinessAccountingFeedback",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/business-accounting-feedback",
+      "canonical": "GET /projects/{projectId}/business-accounting-feedback",
+      "canonicalStatus": "aligned",
+      "canonicalInventoryLine": 293,
+      "canonicalInventoryRow": "| `project-cost` | `getBusinessAccountingFeedback`     | `GET /projects/{projectId}/business-accounting-feedback` | `GET /projects/{projectId}/business-accounting-feedback` | `GET /projects/{projectId}/business-accounting-feedback` | `ADR-015` + `EX-15G` + `query-view-boundary` | `N/A`      | 作为项目稳定名词型子资源，不使用页面投影后缀                                      | `B3`  | `aligned` |",
+      "permissionKeys": [
+        "contract:finance:manage"
+      ],
+      "security": [
+        {
+          "pomsSession": []
+        }
+      ],
+      "authorizationSource": "controller @HasPermissions plus shared session/CSRF adapter; no per-project data-scope check found in the H service",
+      "parameterSchemas": [
+        {
+          "name": "projectId",
+          "required": true,
+          "in": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestDto": null,
+      "requestSchema": null,
+      "requestBody": null,
+      "responseDto": "BusinessAccountingFeedbackViewDto",
+      "responseSchema": "BusinessAccountingFeedbackView",
+      "successStatus": 200,
+      "responses": {
+        "200": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BusinessAccountingFeedbackView"
+              }
+            }
+          }
+        }
+      },
+      "controllerLines": [
+        470,
+        480
+      ],
+      "serviceLines": [
+        1790,
+        1846
+      ],
+      "sourceHashes": {
+        "controller": "88546c3723ab44367e3a184495a41d3d93fe3cad11eb62b82030cc27e7550ef0",
+        "service": "3a4c50f8226717fd1ed760778792b36d35ce9dea5377dcbae1a7d6f5b6e1911a",
+        "sharedContract": "d962b8267030c8277f760b8bd6471e62491ee7fbd6353226f6291d3ff3a18db1",
+        "openapi": "56ae1835f50e427dd564b60f423da49e5c03fd88eed431b12ae054011e6de821",
+        "inventory": "e5d86489cf1480c89460ea3359f35fb23a0e368ffd46ec6d9e3ef07f6348e07c"
+      }
+    }
+  ],
+  "exactPrimaryOpenapiSchemas": {
+    "ReviewOperatingSignalEvaluationRequest": {
+      "type": "object",
+      "properties": {
+        "reviewDecision": {
+          "$ref": "#/components/schemas/OperatingSignalReviewDecision"
+        },
+        "resolvedDataMaturityLevel": {
+          "$ref": "#/components/schemas/OperatingDataMaturityLevel"
+        },
+        "costActionRecommendation": {
+          "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+        },
+        "referencedBaselineVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "referencedSnapshotVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "reviewComment": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "nullable": true
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      },
+      "required": [
+        "reviewDecision",
+        "resolvedDataMaturityLevel",
+        "costActionRecommendation",
+        "referencedBaselineVersion",
+        "referencedSnapshotVersion"
+      ]
+    },
+    "ReviewOperatingSignalEvaluationResult": {
+      "type": "object",
+      "properties": {
+        "targetId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "signalEvaluationId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "reviewRecordId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "taxImpactSummary": {
+          "type": "string"
+        },
+        "dataMaturityLevel": {
+          "$ref": "#/components/schemas/OperatingDataMaturityLevel"
+        },
+        "costActionRecommendation": {
+          "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+        },
+        "currentActionLevel": {
+          "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+        },
+        "referencedBaselineVersion": {
+          "type": "string"
+        },
+        "referencedSnapshotVersion": {
+          "type": "string"
+        },
+        "resultStatus": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "targetId",
+        "signalEvaluationId",
+        "reviewRecordId",
+        "taxImpactSummary",
+        "dataMaturityLevel",
+        "costActionRecommendation",
+        "currentActionLevel",
+        "referencedBaselineVersion",
+        "referencedSnapshotVersion",
+        "resultStatus"
+      ]
+    },
+    "OperatingSignalEvaluationView": {
+      "type": "object",
+      "properties": {
+        "signalEvaluationId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "projectId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "formulaBoundaryAction": {
+          "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+        },
+        "signalLevel": {
+          "$ref": "#/components/schemas/OperatingSignalLevel"
+        },
+        "taxImpactSummary": {
+          "type": "string"
+        },
+        "allocationStabilitySummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "unmappedCostSummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "dataMaturityLevel": {
+          "$ref": "#/components/schemas/OperatingDataMaturityLevel"
+        },
+        "costActionRecommendation": {
+          "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+        },
+        "currentActionLevel": {
+          "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+        },
+        "referencedBaselineVersion": {
+          "type": "string"
+        },
+        "referencedSnapshotVersion": {
+          "type": "string"
+        },
+        "reviewRequired": {
+          "type": "boolean"
+        },
+        "reviewSummary": {
+          "type": "string",
+          "nullable": true
+        }
+      },
+      "required": [
+        "signalEvaluationId",
+        "projectId",
+        "formulaBoundaryAction",
+        "signalLevel",
+        "taxImpactSummary",
+        "allocationStabilitySummary",
+        "unmappedCostSummary",
+        "dataMaturityLevel",
+        "costActionRecommendation",
+        "currentActionLevel",
+        "referencedBaselineVersion",
+        "referencedSnapshotVersion",
+        "reviewRequired",
+        "reviewSummary"
+      ]
+    },
+    "ReviewCommissionGateBindingRequest": {
+      "type": "object",
+      "properties": {
+        "bindingAction": {
+          "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+        },
+        "gateReviewDecision": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32
+        },
+        "blockingReasonCode": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "nullable": true
+        },
+        "baselineSelectionSource": {
+          "$ref": "#/components/schemas/BaselineSelectionSource"
+        },
+        "summaryPackageKey": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "summarySnapshotId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "referencedBaselineVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "referencedSnapshotVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "comment": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "nullable": true
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      },
+      "required": [
+        "bindingAction",
+        "gateReviewDecision",
+        "baselineSelectionSource",
+        "summaryPackageKey",
+        "summarySnapshotId",
+        "referencedBaselineVersion",
+        "referencedSnapshotVersion"
+      ]
+    },
+    "ReviewCommissionGateBindingResult": {
+      "type": "object",
+      "properties": {
+        "targetId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "bindingResultId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "gateReviewRecordId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "taxImpactSummary": {
+          "type": "string"
+        },
+        "taxImpactPendingAmount": {
+          "type": "string"
+        },
+        "dataMaturityLevel": {
+          "$ref": "#/components/schemas/OperatingDataMaturityLevel"
+        },
+        "costActionRecommendation": {
+          "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+        },
+        "currentActionLevel": {
+          "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+        },
+        "baselineSelectionSource": {
+          "$ref": "#/components/schemas/BaselineSelectionSource"
+        },
+        "referencedBaselineVersion": {
+          "type": "string"
+        },
+        "referencedSnapshotVersion": {
+          "type": "string"
+        },
+        "summaryPackageKey": {
+          "type": "string"
+        },
+        "summarySnapshotId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "projectionLevel": {
+          "type": "string"
+        },
+        "exportPolicy": {
+          "type": "string"
+        },
+        "nextActionSummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "businessStatusAfter": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "targetId",
+        "bindingResultId",
+        "gateReviewRecordId",
+        "taxImpactSummary",
+        "taxImpactPendingAmount",
+        "dataMaturityLevel",
+        "costActionRecommendation",
+        "currentActionLevel",
+        "baselineSelectionSource",
+        "referencedBaselineVersion",
+        "referencedSnapshotVersion",
+        "summaryPackageKey",
+        "summarySnapshotId",
+        "projectionLevel",
+        "exportPolicy",
+        "nextActionSummary",
+        "businessStatusAfter"
+      ]
+    },
+    "CommissionGateBindingHistoryView": {
+      "type": "object",
+      "properties": {
+        "bindingId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "projectId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "signalEvaluationId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "gateStageType": {
+          "type": "string"
+        },
+        "signalLevel": {
+          "$ref": "#/components/schemas/OperatingSignalLevel"
+        },
+        "taxImpactSummary": {
+          "type": "string"
+        },
+        "taxImpactPendingAmount": {
+          "type": "string"
+        },
+        "dataMaturityLevel": {
+          "$ref": "#/components/schemas/OperatingDataMaturityLevel"
+        },
+        "costActionRecommendation": {
+          "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+        },
+        "currentActionLevel": {
+          "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+        },
+        "baselineSelectionSource": {
+          "$ref": "#/components/schemas/BaselineSelectionSource"
+        },
+        "referencedBaselineVersion": {
+          "type": "string"
+        },
+        "referencedSnapshotVersion": {
+          "type": "string"
+        },
+        "bindingAction": {
+          "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+        },
+        "gateReviewDecision": {
+          "type": "string",
+          "nullable": true
+        },
+        "blockingReasonSummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "summaryPackageKey": {
+          "type": "string",
+          "nullable": true
+        },
+        "summarySnapshotId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "projectionLevel": {
+          "type": "string",
+          "nullable": true
+        },
+        "exportPolicy": {
+          "type": "string",
+          "nullable": true
+        },
+        "nextActionSummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "handledBy": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "handledAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+          "nullable": true
+        },
+        "allowedActions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "bindingId",
+        "projectId",
+        "signalEvaluationId",
+        "gateStageType",
+        "signalLevel",
+        "taxImpactSummary",
+        "taxImpactPendingAmount",
+        "dataMaturityLevel",
+        "costActionRecommendation",
+        "currentActionLevel",
+        "baselineSelectionSource",
+        "referencedBaselineVersion",
+        "referencedSnapshotVersion",
+        "bindingAction",
+        "gateReviewDecision",
+        "blockingReasonSummary",
+        "summaryPackageKey",
+        "summarySnapshotId",
+        "projectionLevel",
+        "exportPolicy",
+        "nextActionSummary",
+        "handledBy",
+        "handledAt",
+        "allowedActions"
+      ]
+    },
+    "ProjectBusinessOutcomeOverviewView": {
+      "type": "object",
+      "properties": {
+        "projectId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "effectiveContractSetSummaryProjection": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "receivableConfirmedAmountSummaryProjection": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "includedCostTotalSummaryProjection": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "currentEffectiveBaselineCostSummaryProjection": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "grossMarginAmountProjection": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "grossMarginRateProjection": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "taxImpactSummaryProjection": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "allocationStabilitySummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "unmappedCostSummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "dataMaturityLevel": {
+          "$ref": "#/components/schemas/OperatingDataMaturityLevel"
+        },
+        "currentActionLevel": {
+          "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+        },
+        "referencedBaselineVersion": {
+          "type": "string"
+        },
+        "referencedSnapshotVersion": {
+          "type": "string"
+        },
+        "allowedActions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "projectId",
+        "effectiveContractSetSummaryProjection",
+        "receivableConfirmedAmountSummaryProjection",
+        "includedCostTotalSummaryProjection",
+        "currentEffectiveBaselineCostSummaryProjection",
+        "grossMarginAmountProjection",
+        "grossMarginRateProjection",
+        "taxImpactSummaryProjection",
+        "allocationStabilitySummary",
+        "unmappedCostSummary",
+        "dataMaturityLevel",
+        "currentActionLevel",
+        "referencedBaselineVersion",
+        "referencedSnapshotVersion",
+        "allowedActions"
+      ]
+    },
+    "ProjectUnifiedAccountingView": {
+      "type": "object",
+      "properties": {
+        "projectId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "snapshotId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "originalBaselineCostSummaryProjection": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "currentEffectiveBaselineCostSummaryProjection": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "includedCostTotalSummaryProjection": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "receivableConfirmedAmountSummaryProjection": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "taxImpactSummaryProjection": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "taxImpactPendingAmountProjection": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "allocationStabilitySummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "unmappedCostSummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "dataMaturityLevel": {
+          "$ref": "#/components/schemas/OperatingDataMaturityLevel"
+        },
+        "costActionRecommendation": {
+          "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+        },
+        "referencedBaselineVersion": {
+          "type": "string"
+        },
+        "referencedSnapshotVersion": {
+          "type": "string"
+        },
+        "allowedActions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "projectId",
+        "snapshotId",
+        "originalBaselineCostSummaryProjection",
+        "currentEffectiveBaselineCostSummaryProjection",
+        "includedCostTotalSummaryProjection",
+        "receivableConfirmedAmountSummaryProjection",
+        "taxImpactSummaryProjection",
+        "taxImpactPendingAmountProjection",
+        "allocationStabilitySummary",
+        "unmappedCostSummary",
+        "dataMaturityLevel",
+        "costActionRecommendation",
+        "referencedBaselineVersion",
+        "referencedSnapshotVersion",
+        "allowedActions"
+      ]
+    },
+    "ProjectVarianceRiskExplanationView": {
+      "type": "object",
+      "properties": {
+        "projectId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "signalEvaluationId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "varianceSourceSummaryProjection": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "riskLevel": {
+          "$ref": "#/components/schemas/OperatingRiskLevel"
+        },
+        "taxImpactSummaryProjection": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "allocationStabilitySummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "unmappedCostSummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "dataMaturityLevel": {
+          "$ref": "#/components/schemas/OperatingDataMaturityLevel"
+        },
+        "costActionRecommendation": {
+          "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+        },
+        "currentActionLevel": {
+          "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+        },
+        "referencedBaselineVersion": {
+          "type": "string"
+        },
+        "referencedSnapshotVersion": {
+          "type": "string"
+        },
+        "recommendedActionSummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "allowedActions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "projectId",
+        "signalEvaluationId",
+        "varianceSourceSummaryProjection",
+        "riskLevel",
+        "taxImpactSummaryProjection",
+        "allocationStabilitySummary",
+        "unmappedCostSummary",
+        "dataMaturityLevel",
+        "costActionRecommendation",
+        "currentActionLevel",
+        "referencedBaselineVersion",
+        "referencedSnapshotVersion",
+        "recommendedActionSummary",
+        "allowedActions"
+      ]
+    },
+    "BusinessAccountingFeedbackView": {
+      "type": "object",
+      "properties": {
+        "projectId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "signalLevel": {
+          "$ref": "#/components/schemas/OperatingSignalLevel"
+        },
+        "currentActionLevel": {
+          "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+        },
+        "taxImpactSummaryProjection": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "allocationStabilitySummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "unmappedCostSummary": {
+          "type": "string",
+          "nullable": true
+        },
+        "dataMaturityLevel": {
+          "$ref": "#/components/schemas/OperatingDataMaturityLevel"
+        },
+        "costActionRecommendation": {
+          "$ref": "#/components/schemas/OperatingSnapshotActionLevel"
+        },
+        "referencedBaselineVersion": {
+          "type": "string"
+        },
+        "referencedSnapshotVersion": {
+          "type": "string"
+        },
+        "nextActionSummaryProjection": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "downstreamConsumerSummaryProjection": {
+          "$ref": "#/components/schemas/SensitiveStringFieldProjection"
+        },
+        "allowedActions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "projectId",
+        "signalLevel",
+        "currentActionLevel",
+        "taxImpactSummaryProjection",
+        "allocationStabilitySummary",
+        "unmappedCostSummary",
+        "dataMaturityLevel",
+        "costActionRecommendation",
+        "referencedBaselineVersion",
+        "referencedSnapshotVersion",
+        "nextActionSummaryProjection",
+        "downstreamConsumerSummaryProjection",
+        "allowedActions"
+      ]
+    }
+  },
+  "schemaNote": "Exact current OpenAPI primary schemas; shared refs resolve in source-manifest OpenAPI. Proposals below do not modify this baseline."
+}

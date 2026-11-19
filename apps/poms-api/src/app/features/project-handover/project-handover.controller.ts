@@ -1,3 +1,8 @@
+import { RustR4GhiNativeProtocolGuard } from "../../core/rust-r4ghi-native-protocol.guard";
+import { UseGuards } from "@nestjs/common";
+import { ApiBody } from "@nestjs/swagger";
+import { ZodValidationPipe } from "@poms/vendor-nestjs-zod";
+import { PrepareProjectHandoverRequestSchema, type PrepareProjectHandoverRequest } from "../../core/rust-r4ghi-frozen-native-reference";
 import type {
     ConfirmProjectHandoverResult,
     ContractHandoverSummaryView,
@@ -115,11 +120,13 @@ export class ProjectHandoverController {
     }
 
     // Rust owns these new commands. Native remains a labelled source-reference runtime.
+    @UseGuards(RustR4GhiNativeProtocolGuard)
+    @ApiBody({ type: PrepareProjectHandoverRequestDto })
     @Post("projects/:projectId/project-handovers")
     @HasPermissions("project:write")
     @ApiOperation({ summary: "准备真实项目移交与职责确认材料" })
     @ApiCreatedResponse({ type: ProjectHandoverDetailViewDto })
-    prepareProjectHandover(@Param("projectId") projectId: string, @Body() body: PrepareProjectHandoverRequestDto): Promise<ProjectHandoverDetailView> {
+    prepareProjectHandover(@Param("projectId") projectId: string, @Body(new ZodValidationPipe(PrepareProjectHandoverRequestSchema)) body: PrepareProjectHandoverRequest): Promise<ProjectHandoverDetailView> {
         void projectId;
         void body;
         return Promise.reject(new NotImplementedException("Real handover preparation is implemented by the Rust backend"));

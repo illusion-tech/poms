@@ -1,0 +1,67 @@
+{
+  "kind": "complete-existing-pure-capture-relations-materialization",
+  "sourcePins": [
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/pure.mjs",
+      "bytes": 9121,
+      "rawBytesSha256": "42f1d133ad6b279235c8c2b7c3f10c129958e4aa7b42fa1da5287f160a88fa1a"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/correction-preparation37.mjs",
+      "bytes": 15978,
+      "rawBytesSha256": "244fe63284c01ff16c23f6fcdadb55d33977b7259e88620b4773a62345d0f8b2"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/period-historical-facts273.mjs",
+      "bytes": 104087,
+      "rawBytesSha256": "18adbf5f28789b2ad40bbe3b0a5d3b79d007c211c7476912005d64fab868a2ed"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/shared-source-inventory58.mjs",
+      "bytes": 20103,
+      "rawBytesSha256": "333a8f567a0382655b8d7da444eaa40121a78dc90b772b43aeda1870e05b8f98"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/tax13-facts.mjs",
+      "bytes": 15429,
+      "rawBytesSha256": "e55e6cb5dce6169e1ae2737881d946638ce709414ad6633c829fa2eb7c8eee9b"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tax15-facts.mjs",
+      "bytes": 28229,
+      "rawBytesSha256": "414f63921406a1cea3b23ec57fdd1db401d469ed3c3fc0e126102d8b16022f18"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tax15-prepare.mjs",
+      "bytes": 9476,
+      "rawBytesSha256": "d78656ecaadc26ee79d7b231e0857ba92cd41331b1af11a68aec249cb6abfa04"
+    }
+  ],
+  "mechanicalDataSeamChanges": [
+    "Explicit immutable rows data parameter; no ctx",
+    "Pass the same explicit rows/actor data to complete original details",
+    "Remove only original rowsTax13 context adapter",
+    "Actor identity supplied as exact-input data, not a context"
+  ],
+  "completeTaxRootCatalogImpactTerminalUnion": true,
+  "completeTaxFactsDetailsAndCAS": true,
+  "completeTargetSetAndInventoryFunctions": true,
+  "neededCompleteFactualKinds": [
+    "Contract",
+    "ContractTermSnapshot",
+    "ReceiptRecord",
+    "ReceiptAccountingBasis",
+    "ProjectActualCostRecord",
+    "SharedCostAllocationBasis",
+    "SharedCostAllocationResult",
+    "CostStageAttributionSnapshot",
+    "AccountingTaxTreatmentSnapshot",
+    "OperatingBaselinePackage",
+    "ProjectOperatingSnapshot",
+    "PeriodClosingSnapshot"
+  ],
+  "ordinaryUnusedKindsNotCopied": true,
+  "noContextOrCapConstructed": true,
+  "noBusinessModuleImportedOrExecuted": true,
+  "AuthFix": "Required exact4 originals keys before original opaque raw reads; original4339 candidate unchanged."
+}

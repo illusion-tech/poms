@@ -29,6 +29,24 @@ pub(crate) fn as_value<T: Serialize>(value: &T) -> Result<Value, CommonFailure> 
 fn text(data: &Data, key: &str) -> Option<crate::approval_common::Text> {
     get(data, key).as_text().cloned()
 }
+
+async fn lock_commission_decision(
+    session: &mut CommonSession<'_, '_>,
+    id: &Value,
+) -> Result<(), CommonFailure> {
+    let Ok(id) = uuid::Uuid::parse_str(&id.js_text().to_utf8_lossy()) else {
+        return Ok(());
+    };
+    // The dedicated payout entry point uses this same order: approval, project,
+    // payout. Hold the approval lock before the domain handler locks its project.
+    let _: Option<uuid::Uuid> = sqlx::query_scalar(
+        "SELECT id FROM poms.approval_record WHERE id=$1 AND target_object_type='commission-payout' AND approval_type='commission-payout-approval' FOR UPDATE",
+    )
+    .bind(id)
+    .fetch_optional(&mut *session.connection)
+    .await?;
+    Ok(())
+}
 fn lookup<'a>(rows: &'a [Data], id: &Value) -> Option<&'a Data> {
     rows.iter().find(|row| get(row, "id") == id)
 }
@@ -254,7 +272,10 @@ impl ApprovalService {
         actor: Value,
         input: Data,
     ) -> Result<Value, CommonFailure> {
-        self.common
+        let approval_id = id.clone();
+        lock_commission_decision(session, &id).await?;
+        let result = self
+            .common
             .resolve_public_decision_with(
                 session,
                 id,
@@ -263,7 +284,13 @@ impl ApprovalService {
                 input,
                 &OriginalApprovalDomain,
             )
+            .await?;
+        let approval_id = uuid::Uuid::parse_str(&approval_id.js_text().to_utf8_lossy())
+            .map_err(|_| CommonFailure::unexpected("Invalid resolved approval ID"))?;
+        crate::commission::payout::after_approval(session, approval_id)
             .await
+            .map_err(crate::contract_support::Error::into_common)?;
+        Ok(result)
     }
     pub async fn reject_with_session(
         &self,
@@ -272,6 +299,7 @@ impl ApprovalService {
         actor: Value,
         input: Data,
     ) -> Result<Value, CommonFailure> {
+        lock_commission_decision(session, &id).await?;
         self.common
             .resolve_public_decision_with(
                 session,

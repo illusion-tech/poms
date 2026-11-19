@@ -17,6 +17,8 @@ import { Observable }                                        from 'rxjs';
 import { OpenApiHttpParams, QueryParamStyle } from '../query.params';
 
 // @ts-ignore
+import { ApproveCommissionLowDownPaymentReleaseRequest } from '../model/approve-commission-low-down-payment-release-request';
+// @ts-ignore
 import { ApproveCommissionPayoutRequest } from '../model/approve-commission-payout-request';
 // @ts-ignore
 import { CommissionAdjustmentSummary } from '../model/commission-adjustment-summary';
@@ -24,6 +26,10 @@ import { CommissionAdjustmentSummary } from '../model/commission-adjustment-summ
 import { CommissionCalculationSummary } from '../model/commission-calculation-summary';
 // @ts-ignore
 import { CommissionFinalSettlementView } from '../model/commission-final-settlement-view';
+// @ts-ignore
+import { CommissionLowDownPaymentReleaseListView } from '../model/commission-low-down-payment-release-list-view';
+// @ts-ignore
+import { CommissionLowDownPaymentReleaseSummary } from '../model/commission-low-down-payment-release-summary';
 // @ts-ignore
 import { CommissionPayoutSummary } from '../model/commission-payout-summary';
 // @ts-ignore
@@ -44,6 +50,8 @@ import { CreateCommissionPayoutRequest } from '../model/create-commission-payout
 import { CreateCommissionRoleAssignmentRequest } from '../model/create-commission-role-assignment-request';
 // @ts-ignore
 import { CreateCommissionRuleVersionRequest } from '../model/create-commission-rule-version-request';
+// @ts-ignore
+import { CurrentCommissionRoleAssignmentResponse } from '../model/current-commission-role-assignment-response';
 // @ts-ignore
 import { ExecuteCommissionAdjustmentRequest } from '../model/execute-commission-adjustment-request';
 // @ts-ignore
@@ -68,6 +76,11 @@ export interface CommissionControllerActivateRuleVersionRequestParams {
 export interface CommissionControllerApproveCalculationRequestParams {
     id: string;
     confirmCommissionCalculationRequest: ConfirmCommissionCalculationRequest;
+}
+
+export interface CommissionControllerApproveLowDownPaymentReleaseRequestParams {
+    projectId: string;
+    approveCommissionLowDownPaymentReleaseRequest: ApproveCommissionLowDownPaymentReleaseRequest;
 }
 
 export interface CommissionControllerApprovePayoutRequestParams {
@@ -121,6 +134,10 @@ export interface CommissionControllerListAdjustmentsRequestParams {
 }
 
 export interface CommissionControllerListCalculationsRequestParams {
+    projectId: string;
+}
+
+export interface CommissionControllerListLowDownPaymentReleasesRequestParams {
     projectId: string;
 }
 
@@ -284,6 +301,79 @@ export class CommissionApi extends BaseService {
             {
                 context: localVarHttpContext,
                 body: confirmCommissionCalculationRequest,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 管理层确认低首付款特例或解除
+     * @endpoint post /api/projects/{projectId}/commission-low-down-payment-releases
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public commissionControllerApproveLowDownPaymentRelease(requestParameters: CommissionControllerApproveLowDownPaymentReleaseRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<CommissionLowDownPaymentReleaseSummary>;
+    public commissionControllerApproveLowDownPaymentRelease(requestParameters: CommissionControllerApproveLowDownPaymentReleaseRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<CommissionLowDownPaymentReleaseSummary>>;
+    public commissionControllerApproveLowDownPaymentRelease(requestParameters: CommissionControllerApproveLowDownPaymentReleaseRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<CommissionLowDownPaymentReleaseSummary>>;
+    public commissionControllerApproveLowDownPaymentRelease(requestParameters: CommissionControllerApproveLowDownPaymentReleaseRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const projectId = requestParameters?.projectId;
+        if (projectId === null || projectId === undefined) {
+            throw new Error('Required parameter projectId was null or undefined when calling commissionControllerApproveLowDownPaymentRelease.');
+        }
+        const approveCommissionLowDownPaymentReleaseRequest = requestParameters?.approveCommissionLowDownPaymentReleaseRequest;
+        if (approveCommissionLowDownPaymentReleaseRequest === null || approveCommissionLowDownPaymentReleaseRequest === undefined) {
+            throw new Error('Required parameter approveCommissionLowDownPaymentReleaseRequest was null or undefined when calling commissionControllerApproveLowDownPaymentRelease.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (pomsSession) required
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/commission-low-down-payment-releases`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<CommissionLowDownPaymentReleaseSummary>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: approveCommissionLowDownPaymentReleaseRequest,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
@@ -927,9 +1017,9 @@ export class CommissionApi extends BaseService {
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public commissionControllerGetCurrentRoleAssignment(requestParameters: CommissionControllerGetCurrentRoleAssignmentRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<CommissionRoleAssignmentSummary>;
-    public commissionControllerGetCurrentRoleAssignment(requestParameters: CommissionControllerGetCurrentRoleAssignmentRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<CommissionRoleAssignmentSummary>>;
-    public commissionControllerGetCurrentRoleAssignment(requestParameters: CommissionControllerGetCurrentRoleAssignmentRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<CommissionRoleAssignmentSummary>>;
+    public commissionControllerGetCurrentRoleAssignment(requestParameters: CommissionControllerGetCurrentRoleAssignmentRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<CurrentCommissionRoleAssignmentResponse>;
+    public commissionControllerGetCurrentRoleAssignment(requestParameters: CommissionControllerGetCurrentRoleAssignmentRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<CurrentCommissionRoleAssignmentResponse>>;
+    public commissionControllerGetCurrentRoleAssignment(requestParameters: CommissionControllerGetCurrentRoleAssignmentRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<CurrentCommissionRoleAssignmentResponse>>;
     public commissionControllerGetCurrentRoleAssignment(requestParameters: CommissionControllerGetCurrentRoleAssignmentRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const projectId = requestParameters?.projectId;
         if (projectId === null || projectId === undefined) {
@@ -965,7 +1055,7 @@ export class CommissionApi extends BaseService {
 
         let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/commission-role-assignment`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<CommissionRoleAssignmentSummary>('get', `${basePath}${localVarPath}`,
+        return this.httpClient.request<CurrentCommissionRoleAssignmentResponse>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -1084,6 +1174,65 @@ export class CommissionApi extends BaseService {
         let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/commission-calculations`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<Array<CommissionCalculationSummary>>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 查询低首付款批准条件和管理层批准记录
+     * @endpoint get /api/projects/{projectId}/commission-low-down-payment-releases
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public commissionControllerListLowDownPaymentReleases(requestParameters: CommissionControllerListLowDownPaymentReleasesRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<CommissionLowDownPaymentReleaseListView>;
+    public commissionControllerListLowDownPaymentReleases(requestParameters: CommissionControllerListLowDownPaymentReleasesRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<CommissionLowDownPaymentReleaseListView>>;
+    public commissionControllerListLowDownPaymentReleases(requestParameters: CommissionControllerListLowDownPaymentReleasesRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<CommissionLowDownPaymentReleaseListView>>;
+    public commissionControllerListLowDownPaymentReleases(requestParameters: CommissionControllerListLowDownPaymentReleasesRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const projectId = requestParameters?.projectId;
+        if (projectId === null || projectId === undefined) {
+            throw new Error('Required parameter projectId was null or undefined when calling commissionControllerListLowDownPaymentReleases.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (pomsSession) required
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/projects/${this.configuration.encodeParam({name: "projectId", value: projectId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/commission-low-down-payment-releases`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<CommissionLowDownPaymentReleaseListView>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,

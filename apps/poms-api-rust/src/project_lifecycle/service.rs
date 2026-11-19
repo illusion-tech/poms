@@ -1,0 +1,1178 @@
+use super::{
+    facts::{self, StageWrite, cas, id, next_version, text, version},
+    view,
+};
+use crate::project_operating_common::{ResourceKeys, TypedRequest};
+use crate::{
+    approval_common::CommonSession,
+    commission_assignment::{self, FrozenAssignmentFacts},
+    contract_support::{Actor, Error, canonical_hash, new_uuid},
+    lifecycle_evidence::{self, EvidenceAccess, EvidenceOwner},
+    project_action_authorization::{self as scope, ProjectAction, ProjectActionTarget},
+    project_operating_common::model::{
+        CloseProjectCompletionConditionRequest, CreateAcceptanceRecordRequest,
+        CreateProjectArchiveRecordRequest, CreateProjectCompletionRecordRequest,
+        ReplaceProjectArchiveRecordRequest, StartProjectAcceptanceRequest,
+        StartProjectExecutionRequest, VoidProjectArchiveRecordRequest,
+    },
+};
+use chrono::{DateTime, Utc};
+use serde_json::{Value, json};
+use sqlx::Connection;
+use uuid::Uuid;
+
+pub async fn execute_with_session(
+    session: &mut CommonSession<'_, '_>,
+    operation_id: &str,
+    keys: &ResourceKeys,
+    _query: &Value,
+    request: &TypedRequest,
+    actor: &Actor,
+) -> Result<Value, Error> {
+    if !session.connection.is_in_transaction() {
+        return Err(Error::Internal);
+    }
+    match (operation_id, request) {
+        ("ProjectController_listAcceptanceRecords", TypedRequest::None) => {
+            list_acceptances_with_session(session, keys.require("projectId")?, actor).await
+        }
+        (
+            "ProjectController_createAcceptanceRecord",
+            TypedRequest::CreateAcceptanceRecordRequest(input),
+        ) => {
+            create_acceptance_with_session(session, keys.require("projectId")?, input, actor).await
+        }
+        ("ProjectController_listProjectCompletionRecords", TypedRequest::None) => {
+            list_completions_with_session(session, keys.require("projectId")?, actor).await
+        }
+        (
+            "ProjectController_createProjectCompletionRecord",
+            TypedRequest::CreateProjectCompletionRecordRequest(input),
+        ) => {
+            create_completion_with_session(session, keys.require("projectId")?, input, actor).await
+        }
+        ("ProjectController_listProjectArchiveRecords", TypedRequest::None) => {
+            list_archives_with_session(session, keys.require("projectId")?, actor).await
+        }
+        (
+            "ProjectController_createProjectArchiveRecord",
+            TypedRequest::CreateProjectArchiveRecordRequest(input),
+        ) => create_archive_with_session(session, keys.require("projectId")?, input, actor).await,
+        (
+            "ProjectArchiveRecordController_replaceProjectArchiveRecord",
+            TypedRequest::ReplaceProjectArchiveRecordRequest(input),
+        ) => replace_archive_with_session(session, keys.require("id")?, input, actor).await,
+        (
+            "ProjectArchiveRecordController_voidProjectArchiveRecord",
+            TypedRequest::VoidProjectArchiveRecordRequest(input),
+        ) => void_archive_with_session(session, keys.require("id")?, input, actor).await,
+        ("ProjectController_startExecution", TypedRequest::StartProjectExecutionRequest(input)) => {
+            start_execution_with_session(session, keys.require("id")?, input, actor).await
+        }
+        (
+            "ProjectController_startAcceptance",
+            TypedRequest::StartProjectAcceptanceRequest(input),
+        ) => start_acceptance_with_session(session, keys.require("id")?, input, actor).await,
+        (
+            "ProjectCompletionRecordController_closeCompletionCondition",
+            TypedRequest::CloseProjectCompletionConditionRequest(input),
+        ) => {
+            close_condition_with_session(
+                session,
+                keys.require("completionRecordId")?,
+                keys.require("id")?,
+                input,
+                actor,
+            )
+            .await
+        }
+        _ => Err(Error::Internal),
+    }
+}
+
+async fn require_stage_chain(
+    session: &mut CommonSession<'_, '_>,
+    p: &Value,
+    s: &Value,
+) -> Result<FrozenAssignmentFacts, Error> {
+    let frozen = commission_assignment::require_current_frozen(
+        session,
+        id(p, "id")?,
+        id(s, "source_role_assignment_id")?,
+        None,
+    )
+    .await?;
+    if s["source_handover_id"] != frozen.handover["id"]
+        || s["source_payload"]["roleFreezePayloadHash"] != frozen.payload_hash
+    {
+        return Err(Error::Conflict("阶段准入与当前冻结职责来源不一致。".into()));
+    }
+    Ok(frozen)
+}
+
+pub async fn list_acceptances_with_session(
+    session: &mut CommonSession<'_, '_>,
+    project_id: Uuid,
+    actor: &Actor,
+) -> Result<Value, Error> {
+    scope::require(
+        session,
+        actor,
+        ProjectAction::ReadProjectAnchorOrIList,
+        ProjectActionTarget::Project { id: project_id },
+    )
+    .await?;
+    let rows:Vec<Value>=sqlx::query_scalar("SELECT to_jsonb(a) FROM poms.acceptance_record a WHERE project_id=$1 ORDER BY confirmed_at DESC,id DESC FOR SHARE")
+        .bind(project_id).fetch_all(&mut *session.connection).await?;
+    let mut out = Vec::with_capacity(rows.len());
+    for row in rows {
+        out.push(view::acceptance(session, &row, actor).await?);
+    }
+    Ok(json!(out))
+}
+pub async fn list_completions_with_session(
+    session: &mut CommonSession<'_, '_>,
+    project_id: Uuid,
+    actor: &Actor,
+) -> Result<Value, Error> {
+    let proof = scope::require(
+        session,
+        actor,
+        ProjectAction::ReadOwnCompletionTask,
+        ProjectActionTarget::Project { id: project_id },
+    )
+    .await?;
+    let full = proof.scope_kind() == "full-project";
+    drop(proof);
+    if !full {
+        return view::own_completion_tasks(session, project_id, actor).await;
+    }
+    let rows:Vec<Value>=sqlx::query_scalar("SELECT to_jsonb(c) FROM poms.project_completion_record c WHERE project_id=$1 ORDER BY completed_at DESC,id DESC FOR SHARE")
+        .bind(project_id).fetch_all(&mut *session.connection).await?;
+    let mut out = Vec::with_capacity(rows.len());
+    for row in rows {
+        out.push(view::completion(session, &row, actor).await?);
+    }
+    Ok(json!({"scopeKind":"full-project","projectId":project_id,"items":out}))
+}
+pub async fn list_archives_with_session(
+    session: &mut CommonSession<'_, '_>,
+    project_id: Uuid,
+    actor: &Actor,
+) -> Result<Value, Error> {
+    scope::require(
+        session,
+        actor,
+        ProjectAction::ReadProjectAnchorOrIList,
+        ProjectActionTarget::Project { id: project_id },
+    )
+    .await?;
+    let can_mutate = match scope::require(
+        session,
+        actor,
+        ProjectAction::CreateReplaceVoidArchive,
+        ProjectActionTarget::Project { id: project_id },
+    )
+    .await
+    {
+        Ok(_) => true,
+        Err(Error::Forbidden(_) | Error::NotFound(_)) => false,
+        Err(error) => return Err(error),
+    };
+    let rows:Vec<Value>=sqlx::query_scalar("SELECT to_jsonb(a) FROM poms.project_archive_record a WHERE project_id=$1 ORDER BY archived_at DESC,id DESC FOR SHARE")
+        .bind(project_id).fetch_all(&mut *session.connection).await?;
+    let mut out = Vec::with_capacity(rows.len());
+    for row in rows {
+        out.push(view::archive(session, &row, actor, can_mutate).await?);
+    }
+    Ok(json!(out))
+}
+
+/// Called only by the existing, authorized D prepare producer after its actual
+/// handover/basis/duties have been written in the same borrowed transaction.
+pub async fn enter_handover_with_session(
+    session: &mut CommonSession<'_, '_>,
+    project_id: Uuid,
+    handover_id: Uuid,
+    expected_project_version: i32,
+    actor: &Actor,
+) -> Result<Value, Error> {
+    let proof = scope::require(
+        session,
+        actor,
+        ProjectAction::PrepareHandover,
+        ProjectActionTarget::Project { id: project_id },
+    )
+    .await?;
+    enter_handover_with_verified_authority(
+        session,
+        project_id,
+        handover_id,
+        expected_project_version,
+        actor,
+        &proof,
+    )
+    .await
+}
+
+/// Reuse the authority proved against the old responsibility chain before D
+/// supersedes it. The proof cannot cross actor/session/physical-TX boundaries.
+pub(crate) async fn enter_handover_with_verified_authority(
+    session: &mut CommonSession<'_, '_>,
+    project_id: Uuid,
+    handover_id: Uuid,
+    expected_project_version: i32,
+    actor: &Actor,
+    proof: &crate::project_action_authorization::ProjectAccessProof,
+) -> Result<Value, Error> {
+    proof.assert_session(session, actor).await?;
+    if proof.project_id() != project_id
+        || !proof.is_full_project()
+        || !matches!(
+            proof.action(),
+            ProjectAction::PrepareHandover | ProjectAction::RebaselineHandover
+        )
+        || proof.project_row_version() != expected_project_version
+    {
+        return Err(Error::Forbidden(
+            "移交阶段准入缺少本事务原责任链授权。".into(),
+        ));
+    }
+    let p = facts::project(session, project_id, true).await?;
+    cas(expected_project_version, version(&p)?, "项目")?;
+    if p["status"] != "active"
+        || !matches!(
+            p["current_stage"].as_str(),
+            Some(
+                "assessment"
+                    | "scope-confirmation"
+                    | "commercial-closure"
+                    | "contracting"
+                    | "handover"
+            )
+        )
+    {
+        return Err(Error::Conflict(
+            "已推进项目不能通过重新准备移交倒退或补造前史。".into(),
+        ));
+    }
+    let h:Value=sqlx::query_scalar("SELECT to_jsonb(h) FROM poms.project_handover h WHERE id=$1 AND project_id=$2 AND is_current AND producer_version=1 AND status='draft' FOR UPDATE")
+        .bind(handover_id).bind(project_id).fetch_optional(&mut *session.connection).await?.ok_or_else(||Error::Conflict("移交准备未形成真实当前事实。".into()))?;
+    let b:Value=sqlx::query_scalar("SELECT to_jsonb(b) FROM poms.project_handover_basis_snapshot b WHERE id=$1 AND project_id=$2 AND is_current AND status='active'")
+        .bind(id(&h,"basis_snapshot_id")?).bind(project_id).fetch_optional(&mut *session.connection).await?.ok_or_else(||Error::Conflict("移交准备缺少真实基线。".into()))?;
+    if canonical_hash(&b["source_payload"])? != text(&b, "payload_hash")?
+        || b["source_hash"] != h["source_payload_hash"]
+        || b["source_payload"]["salesOwnerUserId"] != p["owner_user_id"]
+    {
+        return Err(Error::Conflict("真实移交来源与项目责任不一致。".into()));
+    }
+    let previous = if p["current_stage_record_id"].is_null() {
+        None
+    } else {
+        Some(facts::stage(session, project_id, id(&p, "current_stage_record_id")?).await?)
+    };
+    if previous
+        .as_ref()
+        .is_some_and(|s| s["to_stage"] != "handover")
+    {
+        return Err(Error::Conflict("阶段前序不是移交准备。".into()));
+    }
+    let stage_id = new_uuid()?;
+    let payload = json!({"schemaVersion":1,"projectId":project_id,"fromStage":p["current_stage"],"toStage":"handover","sourceHandoverId":handover_id,"handoverBasisSnapshotId":h["basis_snapshot_id"],"contractSummarySnapshotId":h["contract_summary_snapshot_id"],"handoverSummarySnapshotId":h["summary_snapshot_id"],"handoverSourceHash":h["source_payload_hash"],"previousStageRecordId":p["current_stage_record_id"],"enteredBy":actor.id});
+    let result = facts::write_stage(
+        session,
+        actor,
+        StageWrite {
+            id: stage_id,
+            project: &p,
+            previous: previous.as_ref(),
+            handover_id,
+            assignment_id: None,
+            completion_id: None,
+            to_stage: "handover",
+            reason: "真实移交准备形成当前承接事实。",
+            payload,
+        },
+    )
+    .await?;
+    facts::record(
+        session,
+        actor,
+        if proof.action() == ProjectAction::RebaselineHandover {
+            "ProjectHandoverController_rebaselineContractHandover"
+        } else {
+            "ProjectHandoverController_prepareProjectHandover"
+        },
+        "project-stage-record",
+        stage_id,
+        project_id,
+        Some(json!({"currentStage":p["current_stage"],"rowVersion":p["row_version"]})),
+        result.clone(),
+    )
+    .await?;
+    Ok(result)
+}
+
+pub async fn start_execution_with_session(
+    session: &mut CommonSession<'_, '_>,
+    project_id: Uuid,
+    request: &StartProjectExecutionRequest,
+    actor: &Actor,
+) -> Result<Value, Error> {
+    let p = facts::project(session, project_id, true).await?;
+    scope::require(
+        session,
+        actor,
+        ProjectAction::StartExecution,
+        ProjectActionTarget::Project { id: project_id },
+    )
+    .await?;
+    cas(request.expected_project_version, version(&p)?, "项目")?;
+    let previous = facts::current_stage(session, &p, "handover").await?;
+    if id(&previous, "id")? != request.handover_stage_record_id
+        || id(&previous, "source_handover_id")? != request.source_handover_id
+    {
+        return Err(Error::Conflict("当前真实移交准入已变化。".into()));
+    }
+    let frozen = commission_assignment::require_current_frozen(
+        session,
+        project_id,
+        request.commission_role_assignment_id,
+        Some(request.expected_role_assignment_version),
+    )
+    .await?;
+    if id(&frozen.handover, "id")? != request.source_handover_id
+        || id(&frozen.handover, "summary_snapshot_id")? != request.handover_summary_snapshot_id
+        || text(&frozen.handover, "source_payload_hash")? != request.source_payload_hash
+        || frozen.handover["execution_owner_user_id"] != actor.id.to_string()
+    {
+        return Err(Error::Conflict(
+            "执行准入须由同链真实执行负责人提交。".into(),
+        ));
+    }
+    let stage_id = new_uuid()?;
+    let payload = json!({"schemaVersion":1,"projectId":project_id,"fromStage":"handover","toStage":"execution","previousStageRecordId":request.handover_stage_record_id,"sourceHandoverId":request.source_handover_id,"handoverSummarySnapshotId":request.handover_summary_snapshot_id,"handoverSourceHash":request.source_payload_hash,"commissionRoleAssignmentId":frozen.assignment_id,"roleAssignmentRowVersion":frozen.row_version,"roleFreezePayloadHash":frozen.payload_hash,"roleFreezeSummarySnapshotId":frozen.freeze_summary_id,"receiptJudgmentFreezeId":frozen.receipt_freeze_id,"executionOwnerUserId":actor.id,"reason":request.reason.trim()});
+    let result = facts::write_stage(
+        session,
+        actor,
+        StageWrite {
+            id: stage_id,
+            project: &p,
+            previous: Some(&previous),
+            handover_id: request.source_handover_id,
+            assignment_id: Some(frozen.assignment_id),
+            completion_id: None,
+            to_stage: "execution",
+            reason: request.reason.trim(),
+            payload,
+        },
+    )
+    .await?;
+    facts::record(
+        session,
+        actor,
+        "ProjectController_startExecution",
+        "project-stage-record",
+        stage_id,
+        project_id,
+        Some(json!({"currentStage":"handover","rowVersion":version(&p)?})),
+        result.clone(),
+    )
+    .await?;
+    Ok(result)
+}
+
+pub async fn start_acceptance_with_session(
+    session: &mut CommonSession<'_, '_>,
+    project_id: Uuid,
+    request: &StartProjectAcceptanceRequest,
+    actor: &Actor,
+) -> Result<Value, Error> {
+    let p = facts::project(session, project_id, true).await?;
+    scope::require(
+        session,
+        actor,
+        ProjectAction::StartAcceptanceConfirmAcceptanceConfirmCompletion,
+        ProjectActionTarget::Project { id: project_id },
+    )
+    .await?;
+    cas(request.expected_project_version, version(&p)?, "项目")?;
+    let previous = facts::current_stage(session, &p, "execution").await?;
+    if id(&previous, "id")? != request.execution_stage_record_id
+        || previous["entered_by"] != actor.id.to_string()
+    {
+        return Err(Error::Conflict("须由真实执行准入负责人提交交付。".into()));
+    }
+    let frozen = require_stage_chain(session, &p, &previous).await?;
+    let evidence = lifecycle_evidence::validate_and_freeze(
+        session,
+        project_id,
+        &request.evidence_refs,
+        EvidenceAccess::FullProject,
+        actor,
+    )
+    .await?;
+    let stage_id = new_uuid()?;
+    let payload = json!({"schemaVersion":1,"projectId":project_id,"fromStage":"execution","toStage":"acceptance","executionStageRecordId":request.execution_stage_record_id,"executionSourceHash":previous["source_payload_hash"],"sourceHandoverId":frozen.handover["id"],"commissionRoleAssignmentId":frozen.assignment_id,"roleFreezePayloadHash":frozen.payload_hash,"readinessSummary":request.readiness_summary.trim(),"evidenceSummary":request.evidence_summary.trim(),"evidenceRefs":evidence.public_refs(),"enteredBy":actor.id});
+    let result = facts::write_stage(
+        session,
+        actor,
+        StageWrite {
+            id: stage_id,
+            project: &p,
+            previous: Some(&previous),
+            handover_id: id(&frozen.handover, "id")?,
+            assignment_id: Some(frozen.assignment_id),
+            completion_id: None,
+            to_stage: "acceptance",
+            reason: request.readiness_summary.trim(),
+            payload,
+        },
+    )
+    .await?;
+    lifecycle_evidence::persist(
+        session,
+        project_id,
+        EvidenceOwner::Stage(stage_id),
+        &evidence,
+        actor,
+    )
+    .await?;
+    facts::record(
+        session,
+        actor,
+        "ProjectController_startAcceptance",
+        "project-stage-record",
+        stage_id,
+        project_id,
+        Some(json!({"currentStage":"execution","rowVersion":version(&p)?})),
+        result.clone(),
+    )
+    .await?;
+    Ok(result)
+}
+
+pub async fn create_acceptance_with_session(
+    session: &mut CommonSession<'_, '_>,
+    project_id: Uuid,
+    request: &CreateAcceptanceRecordRequest,
+    actor: &Actor,
+) -> Result<Value, Error> {
+    let p = facts::project(session, project_id, true).await?;
+    scope::require(
+        session,
+        actor,
+        ProjectAction::StartAcceptanceConfirmAcceptanceConfirmCompletion,
+        ProjectActionTarget::Project { id: project_id },
+    )
+    .await?;
+    cas(request.expected_project_version, version(&p)?, "项目")?;
+    let current = facts::current_stage(session, &p, "acceptance").await?;
+    if id(&current, "id")? != request.acceptance_stage_record_id {
+        return Err(Error::Conflict("验收准入事实已变化。".into()));
+    }
+    require_stage_chain(session, &p, &current).await?;
+    let conditional = request.acceptance_result.as_str() == "conditional";
+    if conditional
+        && request
+            .conditional_summary
+            .as_deref()
+            .is_none_or(|s| s.trim().is_empty())
+    {
+        return Err(Error::BadRequest("有条件验收必须说明条件。".into()));
+    }
+    let evidence = lifecycle_evidence::validate_and_freeze(
+        session,
+        project_id,
+        &request.evidence_refs,
+        EvidenceAccess::FullProject,
+        actor,
+    )
+    .await?;
+    let acceptance_id = new_uuid()?;
+    let confirmed_at = crate::auth::model::clock_now();
+    let payload = json!({"schemaVersion":1,"projectId":project_id,"sourceStageRecordId":request.acceptance_stage_record_id,"sourceStageHash":current["source_payload_hash"],"acceptanceType":request.acceptance_type.as_str(),"acceptanceResult":request.acceptance_result.as_str(),"scopeSummary":request.scope_summary.trim(),"evidenceSummary":request.evidence_summary.trim(),"comment":request.comment.as_deref().map(str::trim),"conditionalSummary":request.conditional_summary.as_deref().map(str::trim),"evidenceRefs":evidence.public_refs(),"confirmedAt":confirmed_at,"confirmedBy":actor.id});
+    let hash = canonical_hash(&payload)?;
+    sqlx::query("INSERT INTO poms.acceptance_record(id,project_id,acceptance_type,acceptance_result,status,scope_summary,evidence_summary,comment,confirmed_at,confirmed_by,created_by,updated_by,producer_version,source_stage_record_id,source_payload_hash,conditional_summary) VALUES($1,$2,$3,$4,'confirmed',$5,$6,$7,$8,$9,$9,$9,1,$10,$11,$12)")
+        .bind(acceptance_id).bind(project_id).bind(request.acceptance_type.as_str()).bind(request.acceptance_result.as_str()).bind(request.scope_summary.trim()).bind(request.evidence_summary.trim()).bind(request.comment.as_deref().map(str::trim)).bind(confirmed_at).bind(actor.id).bind(request.acceptance_stage_record_id).bind(&hash).bind(request.conditional_summary.as_deref().map(str::trim))
+        .execute(&mut *session.connection).await?;
+    session
+        .state
+        .trace
+        .inserted("acceptance_record", &acceptance_id.to_string());
+    lifecycle_evidence::persist(
+        session,
+        project_id,
+        EvidenceOwner::Acceptance(acceptance_id),
+        &evidence,
+        actor,
+    )
+    .await?;
+    bump_project(session, &p, actor).await?;
+    facts::record(
+        session,
+        actor,
+        "ProjectController_createAcceptanceRecord",
+        "acceptance-record",
+        acceptance_id,
+        project_id,
+        None,
+        json!({"sourcePayload":payload,"sourcePayloadHash":hash}),
+    )
+    .await?;
+    let row = acceptance_row(session, project_id, acceptance_id).await?;
+    view::acceptance(session, &row, actor).await
+}
+
+async fn acceptance_row(
+    session: &mut CommonSession<'_, '_>,
+    project_id: Uuid,
+    acceptance_id: Uuid,
+) -> Result<Value, Error> {
+    sqlx::query_scalar(
+        "SELECT to_jsonb(a) FROM poms.acceptance_record a WHERE id=$1 AND project_id=$2 FOR UPDATE",
+    )
+    .bind(acceptance_id)
+    .bind(project_id)
+    .fetch_optional(&mut *session.connection)
+    .await?
+    .ok_or_else(|| Error::NotFound("验收事实不存在。".into()))
+}
+async fn bump_project(
+    session: &mut CommonSession<'_, '_>,
+    p: &Value,
+    actor: &Actor,
+) -> Result<(), Error> {
+    let changed=sqlx::query("UPDATE poms.project SET row_version=$1,updated_at=$2,updated_by=$3 WHERE id=$4 AND row_version=$5")
+        .bind(next_version(version(p)?)?).bind(crate::auth::model::clock_now()).bind(actor.id).bind(id(p,"id")?).bind(version(p)?)
+        .execute(&mut *session.connection).await?.rows_affected();
+    if changed != 1 {
+        return Err(Error::Conflict("项目版本已变化。".into()));
+    }
+    Ok(())
+}
+fn completion_mapping(
+    acceptance_type: &str,
+    result: &str,
+    completion: &str,
+    conditions: usize,
+) -> Result<(), Error> {
+    let valid = acceptance_type == "final-acceptance"
+        && match (result, completion) {
+            ("accepted", "completed") => conditions == 0,
+            ("conditional", "conditional-completed") => conditions > 0,
+            _ => false,
+        };
+    if valid {
+        Ok(())
+    } else {
+        Err(Error::Conflict(
+            "仅最终通过验收可完成；最终有条件验收须逐项登记真实条件。".into(),
+        ))
+    }
+}
+fn business_time(value: DateTime<Utc>, minimum: DateTime<Utc>) -> Result<(), Error> {
+    if value < minimum || value > crate::auth::model::clock_now() {
+        return Err(Error::BadRequest(
+            "业务时间不能早于来源事实或晚于服务器当前时间。".into(),
+        ));
+    }
+    Ok(())
+}
+fn date(value: &Value, field: &str) -> Result<DateTime<Utc>, Error> {
+    DateTime::parse_from_rfc3339(text(value, field)?)
+        .map(|v| v.with_timezone(&Utc))
+        .map_err(|_| Error::Internal)
+}
+
+pub async fn create_completion_with_session(
+    session: &mut CommonSession<'_, '_>,
+    project_id: Uuid,
+    request: &CreateProjectCompletionRecordRequest,
+    actor: &Actor,
+) -> Result<Value, Error> {
+    let p = facts::project(session, project_id, true).await?;
+    scope::require(
+        session,
+        actor,
+        ProjectAction::StartAcceptanceConfirmAcceptanceConfirmCompletion,
+        ProjectActionTarget::Project { id: project_id },
+    )
+    .await?;
+    cas(request.expected_project_version, version(&p)?, "项目")?;
+    let current = facts::current_stage(session, &p, "acceptance").await?;
+    let frozen = require_stage_chain(session, &p, &current).await?;
+    let acceptance = acceptance_row(session, project_id, request.acceptance_record_id).await?;
+    cas(
+        request.expected_acceptance_version,
+        version(&acceptance)?,
+        "验收",
+    )?;
+    if acceptance["producer_version"] != 1
+        || acceptance["status"] != "confirmed"
+        || acceptance["source_stage_record_id"] != current["id"]
+    {
+        return Err(Error::Conflict(
+            "完成来源须为当前真实验收准入产生的确认。".into(),
+        ));
+    }
+    let latest_final:Option<Uuid>=sqlx::query_scalar("SELECT id FROM poms.acceptance_record WHERE project_id=$1 AND acceptance_type='final-acceptance' AND status='confirmed' ORDER BY confirmed_at DESC,created_at DESC,id DESC LIMIT 1")
+        .bind(project_id).fetch_optional(&mut *session.connection).await?;
+    if latest_final != Some(request.acceptance_record_id) {
+        return Err(Error::Conflict("须引用本项目最新最终验收结论。".into()));
+    }
+    let conditions = request.completion_conditions.as_deref().unwrap_or_default();
+    completion_mapping(
+        text(&acceptance, "acceptance_type")?,
+        text(&acceptance, "acceptance_result")?,
+        request.completion_result.as_str(),
+        conditions.len(),
+    )?;
+    business_time(request.completed_at, date(&acceptance, "confirmed_at")?)?;
+    let evidence = lifecycle_evidence::validate_and_freeze(
+        session,
+        project_id,
+        &request.evidence_refs,
+        EvidenceAccess::FullProject,
+        actor,
+    )
+    .await?;
+    let mut condition_evidence = Vec::with_capacity(conditions.len());
+    for condition in conditions {
+        // The authorized execution owner delegates only this condition. A new
+        // condition owner need not already possess full project participant scope.
+        let responsible:bool=sqlx::query_scalar(r#"SELECT EXISTS(SELECT 1 FROM poms.platform_user u
+          JOIN poms.user_org_membership membership ON membership.user_id=u.id AND membership.status='active' AND membership.revoked_at IS NULL AND membership.membership_type IN ('primary','secondary')
+          JOIN poms.org_unit org ON org.id=membership.org_unit_id AND org.is_active
+          WHERE u.id=$1 AND u.is_active)"#)
+            .bind(condition.responsible_user_id).fetch_one(&mut *session.connection).await?;
+        if !responsible || condition.summary.trim().is_empty() {
+            return Err(Error::BadRequest(
+                "条件须指定本项目真实有效责任人和条件内容。".into(),
+            ));
+        }
+        condition_evidence.push(
+            lifecycle_evidence::validate_and_freeze(
+                session,
+                project_id,
+                &condition.evidence_refs,
+                EvidenceAccess::FullProject,
+                actor,
+            )
+            .await?,
+        );
+    }
+    let completion_id = new_uuid()?;
+    let condition_payloads=conditions.iter().zip(&condition_evidence).map(|(c,e)|json!({"summary":c.summary.trim(),"responsibleUserId":c.responsible_user_id,"dueAt":c.due_at,"evidenceRefs":e.public_refs()})).collect::<Vec<_>>();
+    let condition_status = if conditions.is_empty() {
+        "not-applicable"
+    } else {
+        "pending"
+    };
+    let payload = json!({"schemaVersion":1,"projectId":project_id,"sourceStageRecordId":current["id"],"acceptanceRecordId":request.acceptance_record_id,"acceptanceRowVersion":request.expected_acceptance_version,"acceptanceSourceHash":acceptance["source_payload_hash"],"completionResult":request.completion_result.as_str(),"completedAt":request.completed_at,"completedBy":actor.id,"completionSummary":request.completion_summary.trim(),"evidenceSummary":request.evidence_summary.trim(),"evidenceRefs":evidence.public_refs(),"conditions":condition_payloads});
+    let hash = canonical_hash(&payload)?;
+    sqlx::query("INSERT INTO poms.project_completion_record(id,project_id,acceptance_record_id,completion_result,status,completed_at,completed_by,completion_summary,evidence_summary,created_by,updated_by,producer_version,source_stage_record_id,source_payload_hash,condition_status) VALUES($1,$2,$3,$4,'confirmed',$5,$6,$7,$8,$6,$6,1,$9,$10,$11)")
+        .bind(completion_id).bind(project_id).bind(request.acceptance_record_id).bind(request.completion_result.as_str()).bind(request.completed_at).bind(actor.id).bind(request.completion_summary.trim()).bind(request.evidence_summary.trim()).bind(id(&current,"id")?).bind(&hash).bind(condition_status).execute(&mut *session.connection).await?;
+    session
+        .state
+        .trace
+        .inserted("project_completion_record", &completion_id.to_string());
+    lifecycle_evidence::persist(
+        session,
+        project_id,
+        EvidenceOwner::Completion(completion_id),
+        &evidence,
+        actor,
+    )
+    .await?;
+    for (order, (condition, evidence)) in conditions.iter().zip(&condition_evidence).enumerate() {
+        let condition_id = new_uuid()?;
+        sqlx::query("INSERT INTO poms.project_completion_condition(id,project_id,completion_record_id,sort_order,summary,responsible_user_id,due_at,status,created_by) VALUES($1,$2,$3,$4,$5,$6,$7,'pending',$8)")
+            .bind(condition_id).bind(project_id).bind(completion_id).bind(i32::try_from(order).map_err(|_|Error::Internal)?).bind(condition.summary.trim()).bind(condition.responsible_user_id).bind(condition.due_at).bind(actor.id).execute(&mut *session.connection).await?;
+        session
+            .state
+            .trace
+            .inserted("project_completion_condition", &condition_id.to_string());
+        lifecycle_evidence::persist(
+            session,
+            project_id,
+            EvidenceOwner::Condition(condition_id),
+            evidence,
+            actor,
+        )
+        .await?;
+    }
+    let stage_id = new_uuid()?;
+    let stage_payload = json!({"schemaVersion":1,"projectId":project_id,"fromStage":"acceptance","toStage":request.completion_result.as_str(),"previousStageRecordId":current["id"],"sourceHandoverId":frozen.handover["id"],"commissionRoleAssignmentId":frozen.assignment_id,"sourceCompletionRecordId":completion_id,"completionSourcePayloadHash":hash,"completionResult":request.completion_result.as_str(),"enteredBy":actor.id});
+    facts::write_stage(
+        session,
+        actor,
+        StageWrite {
+            id: stage_id,
+            project: &p,
+            previous: Some(&current),
+            handover_id: id(&frozen.handover, "id")?,
+            assignment_id: Some(frozen.assignment_id),
+            completion_id: Some(completion_id),
+            to_stage: request.completion_result.as_str(),
+            reason: request.completion_summary.trim(),
+            payload: stage_payload,
+        },
+    )
+    .await?;
+    facts::record(
+        session,
+        actor,
+        "ProjectController_createProjectCompletionRecord",
+        "project-completion-record",
+        completion_id,
+        project_id,
+        None,
+        json!({"sourcePayload":payload,"sourcePayloadHash":hash,"terminalStageRecordId":stage_id}),
+    )
+    .await?;
+    let row = completion_row(session, project_id, completion_id).await?;
+    view::completion(session, &row, actor).await
+}
+
+async fn completion_row(
+    session: &mut CommonSession<'_, '_>,
+    project_id: Uuid,
+    completion_id: Uuid,
+) -> Result<Value, Error> {
+    sqlx::query_scalar("SELECT to_jsonb(c) FROM poms.project_completion_record c WHERE project_id=$1 AND id=$2 FOR UPDATE")
+        .bind(project_id).bind(completion_id).fetch_optional(&mut *session.connection).await?.ok_or_else(||Error::NotFound("完成事实不存在。".into()))
+}
+
+pub async fn close_condition_with_session(
+    session: &mut CommonSession<'_, '_>,
+    completion_id: Uuid,
+    condition_id: Uuid,
+    request: &CloseProjectCompletionConditionRequest,
+    actor: &Actor,
+) -> Result<Value, Error> {
+    let project_id: Uuid =
+        sqlx::query_scalar("SELECT project_id FROM poms.project_completion_record WHERE id=$1")
+            .bind(completion_id)
+            .fetch_optional(&mut *session.connection)
+            .await?
+            .ok_or_else(|| Error::NotFound("条件不存在。".into()))?;
+    facts::project(session, project_id, true).await?;
+    let proof = scope::require(
+        session,
+        actor,
+        ProjectAction::CloseCompletionCondition,
+        ProjectActionTarget::Condition {
+            completion_record_id: completion_id,
+            condition_id,
+        },
+    )
+    .await?;
+    let scope_kind = proof.scope_kind().to_owned();
+    drop(proof);
+    let completion = completion_row(session, project_id, completion_id).await?;
+    let condition:Value=sqlx::query_scalar("SELECT to_jsonb(c) FROM poms.project_completion_condition c WHERE id=$1 AND completion_record_id=$2 AND project_id=$3 FOR UPDATE")
+        .bind(condition_id).bind(completion_id).bind(project_id).fetch_optional(&mut *session.connection).await?.ok_or_else(||Error::NotFound("条件不存在。".into()))?;
+    cas(
+        request.expected_completion_version,
+        version(&completion)?,
+        "完成事实",
+    )?;
+    cas(
+        request.expected_condition_version,
+        version(&condition)?,
+        "条件",
+    )?;
+    next_version(request.expected_completion_version)?;
+    next_version(request.expected_condition_version)?;
+    if completion["producer_version"] != 1
+        || completion["status"] != "confirmed"
+        || completion["completion_result"] != "conditional-completed"
+        || condition["status"] != "pending"
+        || condition["responsible_user_id"] != actor.id.to_string()
+    {
+        return Err(Error::Conflict("仅本人可关闭本项目当前待办条件。".into()));
+    }
+    let evidence = lifecycle_evidence::validate_and_freeze(
+        session,
+        project_id,
+        &request.evidence_refs,
+        if scope_kind == "full-project" {
+            EvidenceAccess::FullProject
+        } else {
+            EvidenceAccess::OwnCondition {
+                completion_record_id: completion_id,
+                condition_id,
+            }
+        },
+        actor,
+    )
+    .await?;
+    let own_evidence = lifecycle_evidence::read(
+        session,
+        project_id,
+        EvidenceOwner::Condition(condition_id),
+        actor,
+    )
+    .await?;
+    let closure_id = new_uuid()?;
+    let closed_at = crate::auth::model::clock_now();
+    // Deliberate whitelist: no parent acceptance ID, completion summary or parent
+    // evidence can enter this hash or its minimal response.
+    let payload = json!({"schemaVersion":1,"projectId":project_id,"completionRecordId":completion_id,"expectedCompletionVersion":request.expected_completion_version,"conditionId":condition_id,"expectedConditionVersion":request.expected_condition_version,"responsibleUserId":actor.id,"closedBy":actor.id,"closedAt":closed_at,"closureSummary":request.closure_summary.trim(),"ownConditionEvidenceRefs":own_evidence,"closureEvidenceRefs":evidence.public_refs()});
+    let hash = canonical_hash(&payload)?;
+    sqlx::query("INSERT INTO poms.project_completion_condition_closure(id,condition_id,project_id,completion_record_id,closed_by,closed_at,closure_summary,source_payload,source_payload_hash) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)")
+        .bind(closure_id).bind(condition_id).bind(project_id).bind(completion_id).bind(actor.id).bind(closed_at).bind(request.closure_summary.trim()).bind(payload).bind(&hash).execute(&mut *session.connection).await?;
+    session.state.trace.inserted(
+        "project_completion_condition_closure",
+        &closure_id.to_string(),
+    );
+    lifecycle_evidence::persist(
+        session,
+        project_id,
+        EvidenceOwner::Closure(closure_id),
+        &evidence,
+        actor,
+    )
+    .await?;
+    let changed=sqlx::query("UPDATE poms.project_completion_condition SET status='closed',closure_record_id=$1,closed_at=$2,closed_by=$3,row_version=row_version+1 WHERE id=$4 AND completion_record_id=$5 AND project_id=$6 AND row_version=$7 AND status='pending' AND responsible_user_id=$3")
+        .bind(closure_id).bind(closed_at).bind(actor.id).bind(condition_id).bind(completion_id).bind(project_id).bind(request.expected_condition_version).execute(&mut *session.connection).await?.rows_affected();
+    if changed != 1 {
+        return Err(Error::Conflict("条件版本已变化。".into()));
+    }
+    let pending:bool=sqlx::query_scalar("SELECT EXISTS(SELECT 1 FROM poms.project_completion_condition WHERE completion_record_id=$1 AND project_id=$2 AND status='pending')")
+        .bind(completion_id).bind(project_id).fetch_one(&mut *session.connection).await?;
+    let aggregate = if pending { "pending" } else { "closed" };
+    let changed=sqlx::query("UPDATE poms.project_completion_record SET condition_status=$1,row_version=row_version+1,updated_at=$2,updated_by=$3 WHERE id=$4 AND project_id=$5 AND row_version=$6 AND producer_version=1 AND completion_result='conditional-completed' AND status='confirmed'")
+        .bind(aggregate).bind(closed_at).bind(actor.id).bind(completion_id).bind(project_id).bind(request.expected_completion_version).execute(&mut *session.connection).await?.rows_affected();
+    if changed != 1 {
+        return Err(Error::Conflict("完成事实版本已变化。".into()));
+    }
+    let result = json!({"scopeKind":scope_kind,"targetId":completion_id,"conditionId":condition_id,"conditionStatus":"closed","completionConditionStatus":aggregate,"completionRowVersion":next_version(request.expected_completion_version)?,"conditionRowVersion":next_version(request.expected_condition_version)?,"closureRecordId":closure_id,"closedAt":closed_at,"closedBy":actor.id,"sourcePayloadHash":hash,"closureEvidenceRefs":evidence.public_refs()});
+    facts::record(session,actor,"ProjectCompletionRecordController_closeCompletionCondition","project-completion-condition",condition_id,project_id,Some(json!({"status":"pending","conditionRowVersion":request.expected_condition_version,"completionRowVersion":request.expected_completion_version})),result.clone()).await?;
+    Ok(result)
+}
+
+struct ArchiveAnchor {
+    stage: String,
+    source_type: &'static str,
+    source_id: Uuid,
+    stage_id: Option<Uuid>,
+    qualification: &'static str,
+    occurred_at: DateTime<Utc>,
+    source_hash: Option<String>,
+}
+async fn terminal_anchor(
+    session: &mut CommonSession<'_, '_>,
+    p: &Value,
+) -> Result<ArchiveAnchor, Error> {
+    let project_id = id(p, "id")?;
+    if p["status"] == "completed"
+        && matches!(
+            p["current_stage"].as_str(),
+            Some("completed" | "conditional-completed")
+        )
+    {
+        let c:Value=sqlx::query_scalar("SELECT to_jsonb(c) FROM poms.project_completion_record c WHERE project_id=$1 AND status='confirmed' ORDER BY completed_at DESC,id DESC LIMIT 1 FOR UPDATE")
+            .bind(project_id).fetch_optional(&mut *session.connection).await?.ok_or_else(||Error::Conflict("归档缺少真实完成来源。".into()))?;
+        if c["completion_result"] != p["current_stage"] {
+            return Err(Error::Conflict("完成来源与终态不一致。".into()));
+        }
+        let modern = c["producer_version"] == 1;
+        if c["completion_result"] == "conditional-completed" {
+            let pending:bool=sqlx::query_scalar("SELECT NOT EXISTS(SELECT 1 FROM poms.project_completion_condition WHERE completion_record_id=$1) OR EXISTS(SELECT 1 FROM poms.project_completion_condition WHERE completion_record_id=$1 AND status<>'closed')")
+                .bind(id(&c,"id")?).fetch_one(&mut *session.connection).await?;
+            if !modern || pending || c["condition_status"] != "closed" {
+                return Err(Error::Conflict(
+                    "仍有待关闭或无法核实的完成条件，不能归档。".into(),
+                ));
+            }
+        }
+        let a = acceptance_row(session, project_id, id(&c, "acceptance_record_id")?).await?;
+        completion_mapping(
+            text(&a, "acceptance_type")?,
+            text(&a, "acceptance_result")?,
+            text(&c, "completion_result")?,
+            if c["completion_result"] == "conditional-completed" {
+                1
+            } else {
+                0
+            },
+        )?;
+        if a["status"] != "confirmed" {
+            return Err(Error::Conflict("归档来源验收无效。".into()));
+        }
+        let stage_id = if modern {
+            let s = facts::stage(session, project_id, id(p, "current_stage_record_id")?).await?;
+            if s["to_stage"] != c["completion_result"]
+                || s["source_completion_record_id"] != c["id"]
+                || s["source_payload"]["completionSourcePayloadHash"] != c["source_payload_hash"]
+            {
+                return Err(Error::Conflict("终态阶段与完成来源链不一致。".into()));
+            }
+            Some(id(&s, "id")?)
+        } else {
+            None
+        };
+        return Ok(ArchiveAnchor {
+            stage: text(&c, "completion_result")?.into(),
+            source_type: "project-completion-record",
+            source_id: id(&c, "id")?,
+            stage_id,
+            qualification: if modern {
+                "verified-producer"
+            } else {
+                "legacy-unverified"
+            },
+            occurred_at: date(&c, "completed_at")?,
+            source_hash: c["source_payload_hash"].as_str().map(str::to_owned),
+        });
+    }
+    if p["status"] == "closed"
+        && matches!(
+            p["current_stage"].as_str(),
+            Some("closed-lost" | "closed-terminated")
+        )
+        && p["closed_reason"]
+            .as_str()
+            .is_some_and(|s| !s.trim().is_empty())
+    {
+        return Ok(ArchiveAnchor {
+            stage: text(p, "current_stage")?.into(),
+            source_type: "project",
+            source_id: project_id,
+            stage_id: None,
+            qualification: "legacy-unverified",
+            occurred_at: date(p, "closed_at")?,
+            source_hash: None,
+        });
+    }
+    Err(Error::Conflict(
+        "只有存在真实完成或关闭来源的终态项目可归档。".into(),
+    ))
+}
+
+#[allow(clippy::too_many_arguments)]
+async fn insert_archive(
+    session: &mut CommonSession<'_, '_>,
+    project_id: Uuid,
+    anchor: &ArchiveAnchor,
+    archived_at: DateTime<Utc>,
+    summary: &str,
+    evidence_summary: &str,
+    previous: Option<Uuid>,
+    replacement_reason: Option<&str>,
+    actor: &Actor,
+) -> Result<Value, Error> {
+    business_time(archived_at, anchor.occurred_at)?;
+    let archive_id = new_uuid()?;
+    let payload = json!({"schemaVersion":1,"projectId":project_id,"archiveAnchorStage":anchor.stage,"archiveAnchorSourceType":anchor.source_type,"archiveAnchorSourceId":anchor.source_id,"sourceStageRecordId":anchor.stage_id,"sourceQualification":anchor.qualification,"upstreamSourceHash":anchor.source_hash,"archivedAt":archived_at,"archivedBy":actor.id,"archiveSummary":summary.trim(),"evidenceSummary":evidence_summary.trim(),"supersedesArchiveRecordId":previous,"replacementReason":replacement_reason});
+    let hash = canonical_hash(&payload)?;
+    sqlx::query("INSERT INTO poms.project_archive_record(id,project_id,archive_anchor_stage,archive_anchor_source_type,archive_anchor_source_id,status,archived_at,archived_by,archive_summary,evidence_summary,supersedes_archive_record_id,replacement_reason,created_by,updated_by,producer_version,source_stage_record_id,source_payload_hash,source_qualification) VALUES($1,$2,$3,$4,$5,'recorded',$6,$7,$8,$9,$10,$11,$7,$7,1,$12,$13,$14)")
+        .bind(archive_id).bind(project_id).bind(&anchor.stage).bind(anchor.source_type).bind(anchor.source_id).bind(archived_at).bind(actor.id).bind(summary.trim()).bind(evidence_summary.trim()).bind(previous).bind(replacement_reason).bind(anchor.stage_id).bind(&hash).bind(anchor.qualification).execute(&mut *session.connection).await?;
+    session
+        .state
+        .trace
+        .inserted("project_archive_record", &archive_id.to_string());
+    facts::record(
+        session,
+        actor,
+        if previous.is_some() {
+            "ProjectArchiveRecordController_replaceProjectArchiveRecord"
+        } else {
+            "ProjectController_createProjectArchiveRecord"
+        },
+        "project-archive-record",
+        archive_id,
+        project_id,
+        previous.map(|id| json!({"supersedesArchiveRecordId":id})),
+        json!({"sourcePayload":payload,"sourcePayloadHash":hash}),
+    )
+    .await?;
+    let row = archive_row(session, archive_id).await?;
+    view::archive(session, &row, actor, true).await
+}
+
+async fn archive_row(
+    session: &mut CommonSession<'_, '_>,
+    archive_id: Uuid,
+) -> Result<Value, Error> {
+    sqlx::query_scalar(
+        "SELECT to_jsonb(a) FROM poms.project_archive_record a WHERE id=$1 FOR UPDATE",
+    )
+    .bind(archive_id)
+    .fetch_optional(&mut *session.connection)
+    .await?
+    .ok_or_else(|| Error::NotFound("归档事实不存在。".into()))
+}
+pub async fn create_archive_with_session(
+    session: &mut CommonSession<'_, '_>,
+    project_id: Uuid,
+    request: &CreateProjectArchiveRecordRequest,
+    actor: &Actor,
+) -> Result<Value, Error> {
+    let p = facts::project(session, project_id, true).await?;
+    scope::require(
+        session,
+        actor,
+        ProjectAction::CreateReplaceVoidArchive,
+        ProjectActionTarget::Project { id: project_id },
+    )
+    .await?;
+    cas(request.expected_project_version, version(&p)?, "项目")?;
+    let current:bool=sqlx::query_scalar("SELECT EXISTS(SELECT 1 FROM poms.project_archive_record WHERE project_id=$1 AND status='recorded')").bind(project_id).fetch_one(&mut *session.connection).await?;
+    if current {
+        return Err(Error::Conflict("已有当前归档，请替代或撤销该记录。".into()));
+    }
+    let anchor = terminal_anchor(session, &p).await?;
+    let result = insert_archive(
+        session,
+        project_id,
+        &anchor,
+        request.archived_at,
+        &request.archive_summary,
+        &request.evidence_summary,
+        None,
+        None,
+        actor,
+    )
+    .await?;
+    bump_project(session, &p, actor).await?;
+    Ok(result)
+}
+pub async fn replace_archive_with_session(
+    session: &mut CommonSession<'_, '_>,
+    archive_id: Uuid,
+    request: &ReplaceProjectArchiveRecordRequest,
+    actor: &Actor,
+) -> Result<Value, Error> {
+    let project_id: Uuid =
+        sqlx::query_scalar("SELECT project_id FROM poms.project_archive_record WHERE id=$1")
+            .bind(archive_id)
+            .fetch_optional(&mut *session.connection)
+            .await?
+            .ok_or_else(|| Error::NotFound("归档事实不存在。".into()))?;
+    let p = facts::project(session, project_id, true).await?;
+    scope::require(
+        session,
+        actor,
+        ProjectAction::CreateReplaceVoidArchive,
+        ProjectActionTarget::Archive { id: archive_id },
+    )
+    .await?;
+    let row = archive_row(session, archive_id).await?;
+    cas(request.expected_version, version(&row)?, "归档")?;
+    next_version(request.expected_version)?;
+    if row["status"] != "recorded" {
+        return Err(Error::Conflict("仅当前有效归档可替代。".into()));
+    }
+    let anchor = terminal_anchor(session, &p).await?;
+    if row["archive_anchor_source_id"] != anchor.source_id.to_string()
+        || row["archive_anchor_stage"] != anchor.stage
+    {
+        return Err(Error::Conflict("归档终态锚点发生变化。".into()));
+    }
+    business_time(request.archived_at, anchor.occurred_at)?;
+    let changed=sqlx::query("UPDATE poms.project_archive_record SET status='superseded',row_version=row_version+1,updated_at=$1,updated_by=$2 WHERE id=$3 AND row_version=$4 AND status='recorded'")
+        .bind(crate::auth::model::clock_now()).bind(actor.id).bind(archive_id).bind(request.expected_version).execute(&mut *session.connection).await?.rows_affected();
+    if changed != 1 {
+        return Err(Error::Conflict("归档版本已变化。".into()));
+    }
+    insert_archive(
+        session,
+        project_id,
+        &anchor,
+        request.archived_at,
+        &request.archive_summary,
+        &request.evidence_summary,
+        Some(archive_id),
+        Some(request.replacement_reason.trim()),
+        actor,
+    )
+    .await
+}
+pub async fn void_archive_with_session(
+    session: &mut CommonSession<'_, '_>,
+    archive_id: Uuid,
+    request: &VoidProjectArchiveRecordRequest,
+    actor: &Actor,
+) -> Result<Value, Error> {
+    let project_id: Uuid =
+        sqlx::query_scalar("SELECT project_id FROM poms.project_archive_record WHERE id=$1")
+            .bind(archive_id)
+            .fetch_optional(&mut *session.connection)
+            .await?
+            .ok_or_else(|| Error::NotFound("归档事实不存在。".into()))?;
+    let p = facts::project(session, project_id, true).await?;
+    scope::require(
+        session,
+        actor,
+        ProjectAction::CreateReplaceVoidArchive,
+        ProjectActionTarget::Archive { id: archive_id },
+    )
+    .await?;
+    let row = archive_row(session, archive_id).await?;
+    cas(request.expected_version, version(&row)?, "归档")?;
+    next_version(request.expected_version)?;
+    if row["status"] != "recorded" {
+        return Err(Error::Conflict("仅当前有效归档可撤销。".into()));
+    }
+    let anchor = terminal_anchor(session, &p).await?;
+    if row["archive_anchor_source_id"] != anchor.source_id.to_string()
+        || row["archive_anchor_stage"] != anchor.stage
+    {
+        return Err(Error::Conflict("归档终态锚点发生变化。".into()));
+    }
+    let changed=sqlx::query("UPDATE poms.project_archive_record SET status='voided',voided_at=$1,voided_by=$2,void_reason=$3,row_version=row_version+1,updated_at=$1,updated_by=$2 WHERE id=$4 AND row_version=$5 AND status='recorded'")
+        .bind(crate::auth::model::clock_now()).bind(actor.id).bind(request.reason.trim()).bind(archive_id).bind(request.expected_version).execute(&mut *session.connection).await?.rows_affected();
+    if changed != 1 {
+        return Err(Error::Conflict("归档版本已变化。".into()));
+    }
+    let after = archive_row(session, archive_id).await?;
+    let result = view::archive(session, &after, actor, true).await?;
+    facts::record(
+        session,
+        actor,
+        "ProjectArchiveRecordController_voidProjectArchiveRecord",
+        "project-archive-record",
+        archive_id,
+        project_id,
+        Some(json!({"status":"recorded","rowVersion":request.expected_version})),
+        json!({"status":"voided","reason":request.reason.trim(),"comment":request.comment}),
+    )
+    .await?;
+    Ok(result)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn only_true_final_acceptance_maps_to_terminal_completion() {
+        assert!(completion_mapping("final-acceptance", "accepted", "completed", 0).is_ok());
+        assert!(
+            completion_mapping(
+                "final-acceptance",
+                "conditional",
+                "conditional-completed",
+                2
+            )
+            .is_ok()
+        );
+        for args in [
+            ("stage-acceptance", "accepted", "completed", 0),
+            ("stage-outcome", "conditional", "conditional-completed", 1),
+            ("final-acceptance", "rejected", "completed", 0),
+            ("final-acceptance", "conditional", "completed", 0),
+            ("final-acceptance", "accepted", "conditional-completed", 1),
+            (
+                "final-acceptance",
+                "conditional",
+                "conditional-completed",
+                0,
+            ),
+        ] {
+            assert!(completion_mapping(args.0, args.1, args.2, args.3).is_err());
+        }
+    }
+}

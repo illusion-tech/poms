@@ -1,0 +1,22 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+import { fileURLToPath } from 'node:url';
+const here = path.dirname(fileURLToPath(import.meta.url)), old = path.resolve(here, '../m98-frozen-negative-external'), root = '/mnt/e/projects/worktrees/poms-r3hijk-next28/poms', sha = value => createHash('sha256').update(value).digest('hex'), target = 'tools/rust-r4ghi/probe-m98-frozen-external.mjs';
+assert(!fs.existsSync(here + '/manifest02.json')); const priorBytes = fs.readFileSync(old + '/manifest.json'); assert.equal(sha(priorBytes), '9e6b162937ddc48344b497a65df6ac1641eb51bfbd769769c956b89d61b0f47b'); const prior = JSON.parse(priorBytes);
+const before = fs.readFileSync(old + '/proposed/' + target), next = fs.readFileSync(here + '/proposed/' + target); assert.equal(sha(before), '26340aa2fa5cd1b8f99e8a0a54e6cbf552fd366d40343a096a2681310975ef60');
+const a = before.toString().indexOf('async function runExternal('), b = next.toString().indexOf('export async function withExternalM98Lock('); assert.equal(before.toString().slice(0, a), next.toString().slice(0, b), 'All controlled SQL/negative builders must remain byte-identical');
+assert(next.toString().indexOf('return withExternalM98Lock(plan.phase, async () => {') < next.toString().indexOf('const ctx = createContext('));
+assert.equal(sha(fs.readFileSync(old + '/plan-template.json')), sha(fs.readFileSync(here + '/plan-template.json')));
+const validation = JSON.parse(fs.readFileSync(here + '/validation.json')); assert.equal(validation.purePass, 15); assert.equal(validation.pureFail, 0); assert.equal(validation.sourceStable, true);
+const dependencies = prior.dependencies.map(previous => { const raw = fs.readFileSync(root + '/' + previous.file), hash = sha(raw); if (previous.file.endsWith('/context.mjs')) assert.equal(hash, '9862d325c82f8823cc76499ca20a202322e22347864d9cec3a52a1bccf24ac3d'); else assert.equal(hash, previous.rawBytesSha256); return { file: previous.file, rawBytesSha256: hash, bytes: raw.length, RootReadOnlyAtSeal: true }; });
+const currentTarget = fs.existsSync(root + '/' + target) ? sha(fs.readFileSync(root + '/' + target)) : null; assert(currentTarget === null || currentTarget === sha(before));
+const saved = here + '/before/' + target; fs.mkdirSync(path.dirname(saved), { recursive: true }); fs.writeFileSync(saved, before, { flag: 'wx' });
+const sidecars = ['README02.md', 'plan-template.json', 'frozen-external.test.mjs', 'check.mjs', 'prepare02.mjs', 'seal02.mjs', 'validation.json', 'pure.stdout.log', 'pure.stderr.log', 'syntax.stdout.log', 'syntax.stderr.log', 'help.stdout.log', 'help.stderr.log'].map(file => { const raw = fs.readFileSync(here + '/' + file); return { file, rawBytesSha256: sha(raw), bytes: raw.length }; });
+const manifest = { kind: 'Root-reviewable-external-post-M98-negative02-lock-before-context', schemaVersion: 1, closesInToolScope: 'IR108-01', predecessorManifestSHA256: sha(priorBytes), predecessorUnmodified: true,
+  candidate: { target, file: 'proposed/' + target, observedRootTargetSHA256: currentTarget, applyIfAbsentOrExactBeforeSHA256: sha(before), beforeCandidate: 'before/' + target, beforeSHA256: sha(before), afterSHA256: sha(next), bytes: next.length }, dependencies,
+  explicitDependencyRefreeze: { file: 'tools/rust-r4ghi/business/context.mjs', beforeSHA256: prior.dependencies.find(value => value.file.endsWith('/context.mjs')).rawBytesSha256, afterSHA256: dependencies.find(value => value.file.endsWith('/context.mjs')).rawBytesSha256, reason: 'Root181-four-directFiles-source-leaves-added', otherDirectDependenciesByteIdentical: true },
+  sidecars, validation, controlledSQLAndNegativeBuildersByteIdentical: true, nullPlanTemplateByteIdentical: true, lockBeforeCreateContextAndPersist: true, exactOwnerNonceReleaseOnly: true, excludedFromBusinessH0: true, approvalSupportingToolKey: 'postM98FrozenNegative',
+  actualSource13: null, actualAPI136: null, actualR3: null, actualM98NegativeProof: null, actualM98AppliedByAuthor: false, SQLConnectionsByAuthor: 0, HTTPRequestsByAuthor: 0, RootWritesByAuthor: 0, processesStartedByAuthor: 0, G3Certified: false, G4Certified: false };
+const raw = Buffer.from(JSON.stringify(manifest, null, 2) + '\n'); fs.writeFileSync(here + '/manifest02.json', raw, { flag: 'wx' }); process.stdout.write(JSON.stringify({ manifestSHA256: sha(raw), candidateSHA256: sha(next), purePass: 15 }) + '\n');

@@ -1,0 +1,47 @@
+{
+  "kind": "Root-technical-correction-to-287-fixture-order",
+  "date": "2026-11-09",
+  "originalPlan": {
+    "file": "tools/rust-r4ghi/policy-continuation14-287/PLAN287.md",
+    "rawBytesSha256": "87f9a5b9f75d197f4994f78c8a04cdd57e40c5d30c4cf7ace10a5fb0566c2edd",
+    "preservedUnchanged": true
+  },
+  "reason": "Root conflated the original Receiver positive-period fixture with the independent Main legacy negative fixture; I checked the frozen206/270 and219/271 inputs and identified the error.",
+  "scopeChangedByUser": false,
+  "positivePeriod270": {
+    "project": "Receiver",
+    "projectId": "4d9e57ad-4890-4f53-80da-c6d224ce576b",
+    "periodKey": "2026-W45",
+    "status": "original-frozen-target-preserved"
+  },
+  "mixed271": "Use the actual270 completed Receiver period proof as the primary period; enumerate the entire actual live and period target set independently.",
+  "legacyNegative284": {
+    "project": "Main",
+    "projectId": "51d60c76-6de2-432a-8714-10e3ed3234f3",
+    "periodKey": "2026-W45",
+    "realPeriod270Prerequisite": false,
+    "constraint": "Main negative fixture must be restored before any future genuine Main root for the same period. It is not a hard dependency of Receiver270.",
+    "sequenceChoice": "Keep its exact negative/restore before270 to simplify the acceptance sequence; do not create a second genuine Main period."
+  },
+  "roleAndMatrixOrder": {
+    "roleSetup": "After287, establish the exact four-permission role with the genuine transactional two-child/FK/audit checks; this may precede284.",
+    "fullLaborAndPeriodMatrix": "After270 and271 produce the actual period and restatement targets, freshly prepare the complete scope and run the matrix; do not claim period coverage before those targets exist."
+  },
+  "correctedSequence": [
+    "final13 historical partial retention",
+    "combined14 build, genuine process and25203 admission",
+    "Tax14 complete FI and one normal submission",
+    "287 actual20.00 and20.01 continuation",
+    "explicit role setup with exact permissions",
+    "284 baseline and independent Main-period negative tests and exact restoration",
+    "270 genuine Receiver W45 period",
+    "271 complete mixed live and period restatement",
+    "fresh complete Labor and period matrix and necessary audit FI",
+    "owned-data conservation and independent G3/G4"
+  ],
+  "extraPeriodAuthorized": false,
+  "RootStateOrProductChanged": false,
+  "newCertifiedOperations": 0,
+  "G3": false,
+  "G4": false
+}

@@ -1,0 +1,525 @@
+--- a/tools/rust-r4ghi/business/operating.mjs
++++ b/tools/rust-r4ghi/business/operating.mjs
+@@ -94,3 +94,5 @@
+     stageBindings: 4, humanReviewOnlyTightens: true, literalNullCompatibilityKeysChecked: true, numericPolicyThresholdBoundaryCertification: 'not-run',
+     periodClose: 'not-run-pending-user-current-selection', restatementAndOtherProducers: 'not-run', G3Certified: false, G4Certified: false };
+ }
++
++export { decisions as expenseDecisions };
+--- a/tools/rust-r4ghi/business/upstream.mjs
++++ b/tools/rust-r4ghi/business/upstream.mjs
+@@ -88,6 +88,8 @@
+   if (stage === 'lifecycle-sweep') { const { lifecycleAcceptance } = await import('./lifecycle.mjs'); return lifecycleAcceptance(ctx, api, { requiredWriteSweep: true }); }
+   if (stage === 'lifecycle') { const { lifecycleAcceptance } = await import('./lifecycle.mjs'); return lifecycleAcceptance(ctx, api); }
+   if (stage === 'actual-costs') { const { actualExpenseAndStage } = await import('./costs.mjs'); return actualExpenseAndStage(ctx, api); }
++  if (stage === 'operating-restatement') { const { operatingLiveRestatement } = await import('./restatement.mjs'); return operatingLiveRestatement(ctx, api); }
++  if (stage === 'operating-period-preparation') { const { inspectPeriodPreparation } = await import('./period-preparation.mjs'); return inspectPeriodPreparation(ctx, api); }
+   if (stage === 'operating') { const { operatingCaptureAndReview } = await import('./operating.mjs'); return operatingCaptureAndReview(ctx, api); }
+   throw new Error('Requested business stage is not implemented yet; inspect README and retain not-run label');
+ }
+--- a/tools/rust-r4ghi/business/driver.mjs
++++ b/tools/rust-r4ghi/business/driver.mjs
+@@ -9,11 +9,11 @@
+ 
+ export const HELP = `business/driver.mjs preflight|baseline|run|report|cycle-sandbox|disarm-fi|plan-cleanup|apply-cleanup|noop
+   --epoch NEW_BUSINESS_EPOCH --run RUN [--phase UNIQUE_PHASE]
+-  [--stage platform|project-sources|summary|contract-prepare|contract-finish|receipt|handover|roles-and-execution|roles-and-execution-sweep|actual-costs|operating|lifecycle|lifecycle-sweep]
++  [--stage platform|project-sources|summary|contract-prepare|contract-finish|receipt|handover|roles-and-execution|roles-and-execution-sweep|actual-costs|operating|operating-restatement|operating-period-preparation|lifecycle|lifecycle-sweep]
+   [--provision-receipt ORIGINAL_NAMESPACE_PROVISION_JSON]
+   [--api-process-record PRIVATE_ACTUAL_PROCESS_JSON]
+   [--approved-plan-sha SHA --api-stopped-receipt PRIVATE_ACTUAL_STOP_JSON]
+-  [--cycle-sandbox-receipt PRIVATE_ACTUAL_SANDBOX_JSON --cycle-sandbox-sha SHA]
++  [--period-key EXACT_COMPLETED_MONTH_OR_WEEK]\n  [--cycle-sandbox-receipt PRIVATE_ACTUAL_SANDBOX_JSON --cycle-sandbox-sha SHA]
+ Only Root runs real SQL/HTTP in owned Debian WSL. --help/import do no I/O.
+ Implemented stages and their run state are documented in business/README.md.`;
+ export async function main(argv = process.argv.slice(2)) {
+@@ -22,7 +22,7 @@
+   assert(['preflight', 'baseline', 'run', 'report', 'cycle-sandbox', 'disarm-fi', 'plan-cleanup', 'apply-cleanup', 'noop'].includes(mode));
+   const options = {};
+   for (let n = 0; n < args.length; n += 2) { assert(/^--[a-z-]+$/.test(args[n]) && args[n + 1]); const key = args[n].slice(2); assert(!Object.hasOwn(options, key)); options[key] = args[n + 1]; }
+-  assert(Object.keys(options).every(k => ['epoch', 'run', 'phase', 'stage', 'provision-receipt', 'api-process-record', 'approved-plan-sha', 'api-stopped-receipt', 'planned-date', 'cycle-sandbox-receipt', 'cycle-sandbox-sha'].includes(k)));
++  assert(Object.keys(options).every(k => ['epoch', 'run', 'phase', 'stage', 'provision-receipt', 'api-process-record', 'approved-plan-sha', 'api-stopped-receipt', 'planned-date', 'period-key', 'cycle-sandbox-receipt', 'cycle-sandbox-sha'].includes(k)));
+   let ctx, lock, label;
+   try {
+     ctx = createContext(options); lock = `${ctx.priv}/driver.lock`;
+--- a/tools/rust-r4ghi/business/README.md
++++ b/tools/rust-r4ghi/business/README.md
+@@ -98,3 +98,15 @@
+ 每次失败观察双库 139 表 PK/完整 bytes/SHA/真实 xmin、catalog/OID/ACL/functions/triggers/sequences、对象 bytes/keys/directories完全回滚；只单列允许精确当前 actor/session 的源代码原始 last_seen touch，其它 audit/security/platform 均不豁免。控制对象按本次独占名称与实际 OID/定义/owner/ACL 核验后移除，`disarm-fi` 已支持这对控制；中断安装且身份不可证时停给 Root 核对，不删除未知对象。私有原件保留，最终 actual success 在任何事后断言前即记录，断言失败不能重放已提交命令。
+ 
+ 作者只执行 node syntax 和纯测试；未实际 SQL 安装触发器、未 HTTP、未执行 sweep、未认证完整必要写/竞态/G3/G4。真实 run 原件、hit sequence 和最终事务行是唯一实际覆盖证据。
++
++## 18 真实 G live 晚到费用重述（候选，未运行）
++
++Root 在 actual-costs→operating 已完成、lifecycle 尚未完成时执行 `run --stage operating-restatement`。工具先私有冻结原真实realtime snapshot完整事实（仅排除DB正式允许变的 status/is_current/row_version/updated_at/by选择字段）、context与完整source/cost membership，再通过真实费用登记/确认→E成本映射→F project-stage-record provider新增同业务日费用。新事实必须 createdAt 实际晚于原 knowledgeCutoff 且 businessDate 落原窗口；不SQL回填、造fixture、猜执行区间或在高级stage创建项目。
++
++从真实restatement preparation取得 exact refs/versions/inputHash/完整 terminal target集合，原costDecisions生成器按已真实生产的两成本复用（不改变旧reason制造额外更正）。发现本case之外项目/period/未声明成本/分摊即停，不能丢target或伪造分类。实际 POST create + list + get三入口，真实伪hash409、同body幂等重试和相同requestKey改body409。原事实逐字节保持、新causal closure有真实晚到cost；净成本/毛利delta以实际server cost member和E decimal SQLtext用BigInt分核，不JSON浮点；无税务producer不得把unknown变0。
++
++真实创建的所有 affected restatement/snapshot/context/source/cost membership/H evidence/reason/maturity/signal/四binding/四summary与field/payload/audit/receipt按实际xmin证明同outerTX，客户端JSON不作事务凭证。已成功命令先保存完整原件pin再断言，验证失败只能对账，不能重放业务POST。
++
++正常期末是否维护live current的第7裁决仍pending。`run --stage operating-period-preparation --period-key YYYY-MM`（或YYYY-Www）仅真实只读GET与私有待审request body，candidateExecutable固定false，无POST/批准flag；不造历史effectiveAt去跨过新项目/旧期间缺口。它不计正常期末两操作验收。
++
++作者只跑syntax/纯测试；G三入口、晚到producer及新跨源correction FI/竞态均未运行。完整labor/payment/invoice/tax/allocation跨项目corrective、正常period2仍未覆盖。历史E/F成功不能替本次新restatement或完整32写FI认证。
+--- /dev/null
++++ b/tools/rust-r4ghi/business/restatement.mjs
+@@ -0,0 +1,192 @@
++// Public real producers only. All SQL below is immutable observation, never fixtures.
++import fs from 'node:fs';
++import assert from 'node:assert/strict';
++import { data, uuid, sha, keyOf } from './pure.mjs';
++import { expectedRef } from './handover.mjs';
++import { expenseDecisions } from './operating.mjs';
++import { loadSnapshot, readRows, difference } from './snapshot.mjs';
++import { assertFrozenPreserved, assertLateSource, assertLateCostDelta, completeLiveTargets } from './restatement-assertions.mjs';
++
++const op = 'ProjectCostController_createOperatingRestatement';
++const rv = value => { assert(Number.isSafeInteger(value?.rowVersion) && value.rowVersion > 0 && value.rowVersion <= 2147483647); return value.rowVersion; };
++function sourcesUnchanged(ctx) {
++  const pins = JSON.parse(fs.readFileSync(new URL('./restatement-sources18.json', import.meta.url)));
++  for (const pin of pins) assert.equal(ctx.pins.find(p => p.file === pin.file)?.sha256, pin.sha256, 'Prepared G/E/F/H producer source changed'); return pins;
++}
++export async function frozenSnapshot(ctx, snapshotId) {
++  uuid(snapshotId); assert(ctx.state.owned[keyOf(ctx.database, 'project_operating_snapshot', [snapshotId])]);
++  return ctx.db(async c => {
++    await c.query('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY');
++    try {
++      const rows = (await c.query(`SELECT s.id::text "snapshotId",s.project_id::text "projectId",s.source_context_id::text "contextId",s.source_hash "sourceHash",c.payload_hash "sourcePayloadHash",s.currency,
++        s.source_window_end::text "sourceWindowEnd",c.knowledge_cutoff "knowledgeCutoff",s.snapshot_mode "snapshotMode",s.period_end_snapshot_id::text "periodEndSnapshotId",
++        (to_jsonb(s)-ARRAY['status','is_current','row_version','updated_at','updated_by'])::text "frozenSnapshotRaw",row_to_json(c)::text "sourceContextRaw",
++        s.effective_contract_total::text "effectiveContract",s.receivable_confirmed_total::text "confirmedReceipt",s.included_cost_total::text "includedCost",s.gross_margin_amount::text "grossMargin",
++        s.tax_pending_knowledge "taxPendingKnowledge",s.tax_impact_pending_amount::text "taxPending"
++        FROM poms.project_operating_snapshot s JOIN poms.operating_source_context c ON c.id=s.source_context_id AND c.snapshot_id=s.id AND c.project_id=s.project_id
++        WHERE s.id=$1::uuid AND s.producer_version=1 AND c.producer_version=1`, [snapshotId])).rows;
++      assert.equal(rows.length, 1); const row = rows[0]; assert.equal(row.projectId, ctx.state.fixtures.project.id);
++      const sourceMemberRows = (await c.query('SELECT row_to_json(m)::text raw FROM poms.operating_source_member m WHERE context_id=$1::uuid ORDER BY member_key', [row.contextId])).rows.map(r => r.raw);
++      const costMemberRows = (await c.query('SELECT row_to_json(m)::text raw FROM poms.operating_snapshot_cost_member m WHERE snapshot_id=$1::uuid ORDER BY unit_key', [snapshotId])).rows.map(r => r.raw);
++      const costAmounts = (await c.query('SELECT unit_key "unitKey",net_knowledge "netKnowledge",amount_excluding_tax::text net,tax_cost_amount::text tax,amount_including_tax::text gross FROM poms.operating_snapshot_cost_member WHERE snapshot_id=$1::uuid ORDER BY unit_key', [snapshotId])).rows;
++      const metrics = Object.fromEntries(['effectiveContract', 'confirmedReceipt', 'includedCost', 'grossMargin', 'taxPendingKnowledge', 'taxPending'].map(k => [k, row[k]]));
++      for (const key of Object.keys(metrics)) delete row[key];
++      await c.query('COMMIT'); return { ...row, knowledgeCutoff: row.knowledgeCutoff.toISOString(), sourceMemberRows, costMemberRows, costAmounts, metrics };
++    } catch (error) { await c.query('ROLLBACK'); throw error; }
++  });
++}
++async function lateExpense(ctx, api, original) {
++  const f = ctx.state.fixtures, state = f.liveRestatement;
++  assert(f.expenseCategory && f.costBusinessDate && f.contractRuns?.[0]?.contract?.id);
++  const call = async (id, params, body = null, binding = {}) => data(await api.request(id, params, body, 'manager', binding));
++  if (!state.expense) {
++    state.expense = await call('ProjectCostController_createExpenseRecord', { projectId: f.project.id }, { contractId: f.contractRuns[0].contract.id, expenseCategory: f.expenseCategory,
++      expenseDescription: '旧G快照之后才真实登记的同一业务日费用，用于晚到事实重述。', expenseDate: f.costBusinessDate, currency: 'CNY', amountIncludingTax: '5650.00', amountExcludingTax: '5000.00', taxAmount: '650.00',
++      sourceType: 'manual', evidenceSummary: '真实HTTP费用生产；不回填createdAt、不SQL伪造成本或重述。', attachmentCount: 0 }, { responseBirths: [{ table: 'expense_record', pointer: '/id' }] }); ctx.persist();
++  }
++  if (state.expense.status !== 'confirmed') {
++    state.expense = await call('ProjectCostController_confirmExpenseRecord', { id: state.expense.id }, { expectedVersion: rv(state.expense) },
++      { mutableTables: ['expense_record'], updatedAnchors: [{ table: 'expense_record', id: state.expense.id, requestBinding: 'path:id' }] }); ctx.persist();
++  }
++  if (!state.actualCostCommand) {
++    state.actualCostCommand = await call('ProjectCostController_createProjectActualCostRecord', { projectId: f.project.id }, { costType: 'expense', expenseRecordId: uuid(state.expense.id), expectedSourceVersion: rv(state.expense),
++      costDescription: '真实晚到费用通过E映射成为实际成本，再由F真实阶段来源确认。', evidenceSummary: '已确认费用实际版本，金额与币种由E读取。' },
++      { responseBirths: [{ table: 'project_actual_cost_record', pointer: '/targetId' }], number: { scope: 'cost-expense', pointer: '/recordNo', rowSource: { table: 'project_actual_cost_record', responsePointer: '/targetId', column: 'record_no' } } }); ctx.persist();
++  }
++  state.cost = await call('ProjectCostController_getProjectActualCostRecordDetail', { id: uuid(state.actualCostCommand.targetId) }); ctx.persist();
++  if (!state.stage) {
++    const stages = await ctx.db(async c => (await c.query("SELECT id::text,sequence_no,to_stage,timezone('Asia/Hong_Kong',entered_at)::date::text day FROM poms.project_stage_record WHERE id=$1::uuid AND project_id=$2::uuid", [f.execution.projectStageRecordId, f.project.id])).rows);
++    assert.equal(stages.length, 1); const stage = stages[0]; assert.equal(stage.to_stage, 'execution'); assert.equal(stage.day, f.costBusinessDate);
++    assert(Number.isSafeInteger(stage.sequence_no) && stage.sequence_no > 0);
++    state.stage = await call('ProjectCostController_confirmCostStageAttribution', { id: state.cost.id }, { stageAttributionMode: 'auto', attributedStage: 'execution', expectedVersion: rv(state.cost),
++      attributionSummary: '真实晚到同日费用沿实际执行ledger确认，不从mutable当前阶段猜区间。', attributionEvidence: { kind: 'source', sourceType: 'project-stage-record', sourceId: stage.id,
++        sourceVersion: stage.sequence_no, businessDate: stage.day, reason: '确切ledger sequence_no/entered_at，只证明同一业务日milestone。' } },
++      { responseBirths: [{ table: 'cost_stage_attribution_snapshot', pointer: '/targetId' }], mutableTables: ['project_actual_cost_record'], updatedAnchors: [{ table: 'project_actual_cost_record', id: state.cost.id, requestBinding: 'path:id' }] }); ctx.persist();
++  }
++  const costs = await ctx.db(async c => (await c.query('SELECT id::text,project_id::text "projectId",source_type "sourceType",source_id::text "sourceId",occurred_on::text "businessDate",created_at "createdAt",currency,amount_excluding_tax::text "amountExcludingTax",tax_cost_amount::text "taxCostAmount",amount_including_tax::text "amountIncludingTax" FROM poms.project_actual_cost_record WHERE id=$1::uuid', [state.cost.id])).rows);
++  assert.equal(costs.length, 1); const cost = { ...costs[0], createdAt: costs[0].createdAt.toISOString() };
++  assert.equal(cost.sourceType, 'expense-record'); assert.equal(cost.sourceId, state.expense.id); assertLateSource(original, cost);
++  state.lateSource = cost; state.lateProducerProof = ctx.artifact(`${ctx.next('late-producer')}.json`, { cost, originalSnapshot: original.snapshotId, originalKnowledgeCutoff: original.knowledgeCutoff,
++    realExpenseId: state.expense.id, realStageCommand: state.stage }, { kind: 'actual-late-arriving-E-expense-and-F-stage-source', genuinePostCaptureProducer: true, SQLBusinessFixtures: false }); ctx.persist();
++}
++function matchingNew(database, after, before, table, test) {
++  const previous = new Map(readRows(before.databases[database].tables[table]).map(r => [JSON.stringify(r.key), r]));
++  return readRows(after.databases[database].tables[table]).filter(row => !previous.has(JSON.stringify(row.key)) && test(JSON.parse(row.raw)));
++}
++function atomicRestatement(ctx, response) {
++  const before = loadSnapshot(ctx, response.before), after = loadSnapshot(ctx, response.after), result = data(response), id = uuid(result.targetId), snapshot = uuid(result.snapshotId);
++  const created = (table, predicate) => matchingNew(ctx.database, after, before, table, predicate);
++  const records = created('operating_restatement_record', row => result.restatementIds.includes(row.id)); assert.equal(records.length, result.restatementIds.length); assert(records.length > 0);
++  const anchor = records.find(row => row.key[0] === id); assert(anchor); const xid = anchor.xmin;
++  const snapshotIds = records.map(row => JSON.parse(row.raw).restated_snapshot_id);
++  const snapshots = created('project_operating_snapshot', row => snapshotIds.includes(row.id)); assert.equal(snapshots.length, records.length);
++  const contexts = created('operating_source_context', row => snapshotIds.includes(row.snapshot_id)); assert.equal(contexts.length, records.length);
++  const contextIds = contexts.map(row => row.key[0]);
++  const signals = created('operating_signal_evaluation_result', row => snapshotIds.includes(row.referenced_snapshot_id)); assert.equal(signals.length, records.length);
++  const signalIds = signals.map(row => row.key[0]);
++  const bindings = created('operating_signal_gate_binding', row => signalIds.includes(row.signal_evaluation_id)); assert.equal(bindings.length, records.length * 4);
++  const summaryIds = bindings.map(row => JSON.parse(row.raw).current_summary_id);
++  const evidence = created('operating_evaluation_evidence', row => snapshotIds.includes(row.snapshot_id)); assert.equal(evidence.length, records.length);
++  const evidenceIds = evidence.map(row => row.key[0]);
++  assert(Object.values(result.evaluationRefs.bindingIds).every(id => bindings.some(row => row.key[0] === id)));
++  assert(Object.values(result.evaluationRefs.summarySnapshotIds).every(id => summaryIds.includes(id)));
++  const families = {
++    restatements: records, snapshots, contexts,
++    costMembers: created('operating_snapshot_cost_member', row => snapshotIds.includes(row.snapshot_id)),
++    sourceMembers: created('operating_source_member', row => contextIds.includes(row.context_id)),
++    maturity: created('data_maturity_evaluation_result', row => snapshotIds.includes(row.referenced_snapshot_id)),
++    signals, evidence, bindings,
++    summaries: created('approval_summary_snapshot', row => summaryIds.includes(row.id)),
++    summaryPayloads: created('operating_gate_summary_payload', row => summaryIds.includes(row.summary_snapshot_id)),
++    summaryFields: created('approval_summary_field_projection', row => summaryIds.includes(row.summary_snapshot_id)),
++    reasons: created('operating_evaluation_reason', row => evidenceIds.includes(row.evidence_id)),
++    commandReceipt: created('operating_command_receipt', row => row.operation_id === op && row.actor_id === ctx.state.actors.manager.id && row.authorized_response?.targetId === id),
++    audit: created('audit_log', row => row.request_id === response.requestId && row.event_type === op && result.restatementIds.includes(row.target_id) && row.operator_id === ctx.state.actors.manager.id && row.result === 'success'),
++    policyAudit: created('audit_log', row => row.request_id === response.requestId && row.event_type === 'OperatingPolicy_evaluate' && signalIds.includes(row.target_id) && row.operator_id === ctx.state.actors.manager.id && row.result === 'success'),
++  };
++  assert.equal(families.summaries.length, records.length * 4); assert.equal(families.summaryPayloads.length, records.length * 4);
++  assert.equal(families.summaryFields.length, records.length * 16); assert.equal(families.maturity.length, records.length); assert.equal(families.commandReceipt.length, 1);
++  assert.equal(families.audit.length, records.length); assert.equal(families.policyAudit.length, records.length);
++  for (const [family, rows] of Object.entries(families)) { assert(rows.length > 0, `No actual required ${family}`); for (const row of rows) assert.equal(row.xmin, xid, `Required ${family} escaped the actual outer transaction`); }
++  return { actualCommonXmin: xid, families: Object.fromEntries(Object.entries(families).map(([name, rows]) => [name, rows.map(row => ({ key: row.key, rowSHA256: row.sha256, xmin: row.xmin }))])), clientOuterTxClaimsUsed: false };
++}
++function unchangedBusinessRetry(ctx, attempt) {
++  const before = loadSnapshot(ctx, attempt.before), after = loadSnapshot(ctx, attempt.after);
++  const changes = difference(before, after).filter(ch => !(ch.database === ctx.database && ch.table === 'auth_session'));
++  assert.equal(changes.length, 0, 'Idempotent same-body retry / rejected changed body left business or audit changes');
++  for (const database of ctx.databases) {
++    assert.deepEqual(before.databases[database].meta, after.databases[database].meta); assert.deepEqual(before.objects[database], after.objects[database]);
++    for (const table of Object.keys(before.databases[database].tables)) {
++      if (database === ctx.database && table === 'auth_session') continue;
++      const facts = meta => readRows(meta).map(row => ({ key: row.key, sha256: row.sha256, xmin: row.xmin }));
++      assert.deepEqual(facts(before.databases[database].tables[table]), facts(after.databases[database].tables[table]), 'Read/retry/rejection changed a persisted business fact or xmin');
++    }
++  }
++}
++export async function operatingLiveRestatement(ctx, api) {
++  const f = ctx.state.fixtures; assert(f.operatingComplete && !f.lifecycleComplete && !f.liveRestatementComplete);
++  const sourcePins = sourcesUnchanged(ctx); f.liveRestatement ??= {}; const state = f.liveRestatement;
++  const call = async (id, params, body = null, binding = {}) => api.request(id, params, body, 'manager', binding);
++  if (!state.original) {
++    const id = uuid(f.operatingSnapshot.id); const original = await frozenSnapshot(ctx, id);
++    assert.equal(original.periodEndSnapshotId, null); assert.equal(original.snapshotMode, 'realtime');
++    state.original = ctx.artifact(`${ctx.next('original-frozen')}.json`, original, { kind: 'actual-pre-late-source-frozen-snapshot', localBusinessHashMinted: false }); state.originalSnapshotId = id; ctx.persist();
++  }
++  const bytes = fs.readFileSync(state.original.file); assert.equal(sha(bytes), state.original.rawBytesSha256); const original = JSON.parse(bytes);
++  await lateExpense(ctx, api, original); assertFrozenPreserved(original, await frozenSnapshot(ctx, original.snapshotId));
++  if (!state.command) {
++    const prepResponse = await call('ProjectCostController_getProjectUnifiedAccounting', { projectId: f.project.id }, null,
++      { query: { view: 'preparation', intent: 'restatement', restatesSnapshotId: original.snapshotId } });
++    const preparation = data(prepResponse).preparation, targets = completeLiveTargets(preparation, f.project.id, original.snapshotId);
++    const actualCosts = [f.actualCost.id, state.cost.id], costDecisions = expenseDecisions(preparation, actualCosts);
++    assert(costDecisions.some(d => d.target.id === state.cost.id));
++    const others = [];
++    for (const target of targets.others) {
++      const p = data(await call('ProjectCostController_getProjectUnifiedAccounting', { projectId: target.projectId }, null,
++        { query: { view: 'preparation', intent: 'restatement', restatesSnapshotId: target.restatesSnapshotRef.id } })).preparation;
++      others.push({ ...target, costDecisions: expenseDecisions(p, actualCosts) });
++    }
++    const body = { inputVersion: 'server-derived-v1', projectId: f.project.id, expectedVersion: preparation.headVersion, expectedProjectVersion: preparation.projectVersion,
++      expectedInputHash: preparation.expectedInputHash, assertions: null, scope: 'live', periodEndSnapshotRef: null, restatesSnapshotRef: targets.primary.restatesSnapshotRef,
++      restatementReason: '原不可变快照之后实际生产同业务日费用及真实E/F来源，显式纳入受控晚到事实重述。', restatementSummary: '保留原快照、上下文与来源集合；新快照、重述及H评价由服务器同事务生成。',
++      costDecisions, laborCorrections: [], allocationCorrections: [], affectedTargets: others, acknowledgedChangedSourceRefs: [], stageCorrections: [], taxCorrections: [] };
++    if (!state.invalidHashBlocked) {
++      const bad = structuredClone(body); bad.restatesSnapshotRef.payloadHash = (bad.restatesSnapshotRef.payloadHash[0] === '0' ? '1' : '0') + bad.restatesSnapshotRef.payloadHash.slice(1);
++      const rejected = await call(op, {}, bad, { expectedStatus: 409 }); unchangedBusinessRetry(ctx, rejected); state.invalidHashBlocked = rejected.receiptId; ctx.persist();
++    }
++    const response = await call(op, {}, body, { responseBirths: [{ table: 'operating_restatement_record', pointer: '/targetId' }, { table: 'project_operating_snapshot', pointer: '/snapshotId' }],
++      mutableTables: ['project_operating_head', 'project_operating_snapshot', 'project_cost_inclusion_head', 'project_actual_cost_record'],
++      updatedAnchors: [{ table: 'project_operating_snapshot', id: original.snapshotId, requestBinding: 'body:/restatesSnapshotRef/id' }] });
++    state.command = data(response); state.atomicInput = ctx.artifact(`${ctx.next('restatement-attempt')}.json`, { before: response.before, after: response.after, requestId: response.requestId, body: state.command, receiptId: response.receiptId }); state.commandBody = ctx.artifact(`${ctx.next('restatement-command')}.json`, body); state.commandReceipt = response.receiptId; ctx.persist();
++    state.transaction = ctx.artifact(`${ctx.next('restatement-atomic')}.json`, atomicRestatement(ctx, response), { kind: 'actual-restatement-G-H-audit-receipt-common-transaction', actualXminBound: true }); ctx.persist();
++  }
++  if (!state.transaction) {
++    assert(state.atomicInput, 'Successful command requires its original immutable before/after attempt; Root reconciles, never replay the business POST');
++    const bytes = fs.readFileSync(state.atomicInput.file); assert.equal(sha(bytes), state.atomicInput.rawBytesSha256);
++    state.transaction = ctx.artifact(`${ctx.next('restatement-atomic-reconcile')}.json`, atomicRestatement(ctx, JSON.parse(bytes)), { kind: 'actual-restatement-transaction-observation-reconciled', businessReexecuted: false }); ctx.persist();
++  }
++  const result = state.command, viewResponse = await call('ProjectCostController_getOperatingRestatement', { id: uuid(result.targetId) }), view = data(viewResponse);
++  const listResponse = await call('ProjectCostController_listOperatingRestatements', { projectId: f.project.id }), list = data(listResponse); assert(Array.isArray(list));
++  assert(list.some(r => r.id === result.targetId)); assert.equal(view.scope, 'live'); assert.equal(view.periodEndSnapshotRef, null);
++  assert.equal(view.restatesSnapshotRef.id, original.snapshotId); assert.equal(view.rootSnapshotRef.id, original.snapshotId); assert.equal(view.restatedSnapshotRef.id, result.snapshotId);
++  assert(view.causalitySourceRefs.some(ref => ref.kind === 'ProjectActualCostRecord' && ref.id === state.cost.id), 'Actual late source must be present in server causal closure');
++  assert(view.sourceRows.some(row => row.sourceRef.kind === 'ProjectActualCostRecord' && row.sourceRef.id === state.cost.id));
++  const current = await frozenSnapshot(ctx, uuid(result.snapshotId)); assert.notEqual(current.sourceHash, original.sourceHash);
++  assertFrozenPreserved(original, await frozenSnapshot(ctx, original.snapshotId)); const amounts = assertLateCostDelta(original, current, state.cost.id, state.lateSource);
++  const bodyBytes = fs.readFileSync(state.commandBody.file); assert.equal(sha(bodyBytes), state.commandBody.rawBytesSha256); const body = JSON.parse(bodyBytes);
++  if (!state.idempotentRetry) {
++    const retry = await call(op, {}, body); assert.deepEqual(data(retry), result); unchangedBusinessRetry(ctx, retry); state.idempotentRetry = retry.receiptId; ctx.persist();
++  }
++  if (!state.changedBodyRetryBlocked) {
++    const rejected = await call(op, {}, { ...body, restatementSummary: body.restatementSummary + '禁止以相同requestKey篡改正文。' }, { expectedStatus: 409 });
++    unchangedBusinessRetry(ctx, rejected); state.changedBodyRetryBlocked = rejected.receiptId; ctx.persist();
++  }
++  state.verification = ctx.artifact(`${ctx.next('restatement-verified')}.json`, { sourcePins, original: state.original, newSnapshot: current, amounts,
++    detailReceipt: viewResponse.receiptId, listReceipt: listResponse.receiptId, idempotentRetry: state.idempotentRetry, changedBodyRetryBlocked: state.changedBodyRetryBlocked,
++    invalidReferenceHashBlocked: state.invalidHashBlocked, transaction: state.transaction }, { kind: 'actual-live-late-source-restatement-three-HTTP-operations', originalFrozenFactsUnchanged: true,
++      sourceHashChangedFromRealProducer: true, realIdempotentRetry: true, realChangedBodyConflict: true, exactCents: true, sourceClosureIsServerProduced: true });
++  f.liveRestatementComplete = true; ctx.persist();
++  return { kind: 'actual-G-live-late-expense-restatement', completed: true, actualOperations: 3, realEExpenseAndFStageProducer: true, realServerRefsAndInputHash: true,
++    immutableOldFactsPreserved: true, necessaryWritesFI: 'not-run', crossProjectMultiSourceCorrections: 'not-covered-by-this-bounded-fixture', periodClose: 'blocked-pending-user-decision7',
++    G3Certified: false, G4Certified: false };
++}
+--- /dev/null
++++ b/tools/rust-r4ghi/business/restatement-assertions.mjs
+@@ -0,0 +1,53 @@
++import assert from 'node:assert/strict';
++
++export function exactCents(value) {
++  assert(typeof value === 'string' && /^-?(?:0|[1-9][0-9]*)\.[0-9]{2}$/.test(value), 'Use actual decimal SQL text or server string, never JSON float or a guessed zero');
++  const negative = value.startsWith('-'), [units, cents] = (negative ? value.slice(1) : value).split('.');
++  return (negative ? -1n : 1n) * (BigInt(units) * 100n + BigInt(cents));
++}
++export function assertFrozenPreserved(original, after) {
++  assert.equal(after.snapshotId, original.snapshotId);
++  for (const key of ['frozenSnapshotRaw', 'sourceContextRaw', 'sourceMemberRows', 'costMemberRows']) assert.deepEqual(after[key], original[key], `Original frozen ${key} changed`);
++  assert.equal(after.sourceHash, original.sourceHash); assert.equal(after.sourcePayloadHash, original.sourcePayloadHash);
++  // Status/current/rowVersion/updatedAt/by are allowed mutable selectors in the
++  // real DB guard. They are deliberately outside frozenSnapshotRaw, not hidden
++  // by comparing only some financial fields.
++}
++export function assertLateSource(original, source) {
++  assert(source.businessDate <= original.sourceWindowEnd, 'A new future business date is not a late-arrival correction of this frozen window');
++  assert(Date.parse(source.createdAt) > Date.parse(original.knowledgeCutoff), 'Producer must really execute after original knowledge cutoff; never backdate it');
++  assert.equal(source.projectId, original.projectId); assert.equal(source.currency, original.currency);
++  exactCents(source.amountExcludingTax); exactCents(source.taxCostAmount); exactCents(source.amountIncludingTax);
++}
++export function assertLateCostDelta(original, restated, lateCostId, lateSource) {
++  const old = new Map(original.costAmounts.map(row => [row.unitKey, row]));
++  const current = new Map(restated.costAmounts.map(row => [row.unitKey, row]));
++  assert.equal(current.size, old.size + 1, 'This bounded fixture produces exactly one new real cost; do not silently absorb an unknown allocation/source');
++  for (const [key, row] of old) assert.deepEqual(current.get(key), row, 'Previously captured cost amounts changed instead of appending the late source');
++  const late = current.get(`cost:${lateCostId}`); assert(late && !old.has(late.unitKey)); assert.equal(late.netKnowledge, 'known');
++  assert.equal(lateSource.id, lateCostId); assert.equal(late.net, lateSource.amountExcludingTax); assert.equal(late.tax, lateSource.taxCostAmount); assert.equal(late.gross, lateSource.amountIncludingTax);
++  const delta = exactCents(late.net);
++  assert.equal(exactCents(restated.metrics.includedCost) - exactCents(original.metrics.includedCost), delta);
++  assert.equal(exactCents(restated.metrics.grossMargin) - exactCents(original.metrics.grossMargin), -delta);
++  assert.equal(restated.metrics.effectiveContract, original.metrics.effectiveContract);
++  assert.equal(restated.metrics.confirmedReceipt, original.metrics.confirmedReceipt);
++  for (const state of [original, restated]) {
++    if (state.metrics.taxPendingKnowledge === 'unknown') assert.equal(state.metrics.taxPending, null, 'Unknown tax must not become fabricated zero');
++    else { assert.equal(state.metrics.taxPendingKnowledge, 'known'); exactCents(state.metrics.taxPending); }
++  }
++  if (original.metrics.taxPendingKnowledge === 'unknown') assert.equal(restated.metrics.taxPendingKnowledge, 'unknown', 'This case creates no tax certification/correction producer');
++  return { lateUnitKey: late.unitKey, actualServerNetDeltaCents: delta.toString(), noMoneyFloatRoundTrip: true, unknownTaxPreserved: true };
++}
++export function completeLiveTargets(preparation, projectId, snapshotId) {
++  assert(preparation.intent === 'restatement' && preparation.kind === 'preparation-only' && preparation.projectId === projectId);
++  assert(/^[a-f0-9]{64}$/.test(preparation.expectedInputHash));
++  assert(Number.isSafeInteger(preparation.headVersion) && preparation.headVersion >= 0);
++  assert(Number.isSafeInteger(preparation.projectVersion) && preparation.projectVersion > 0);
++  const targets = preparation.proposedAffectedTargets; assert(Array.isArray(targets) && targets.length);
++  const keys = targets.map(t => `${t.projectId}:${t.restatesSnapshotRef.id}`); assert.equal(new Set(keys).size, keys.length);
++  const primary = targets.filter(t => t.projectId === projectId && t.restatesSnapshotRef.id === snapshotId); assert.equal(primary.length, 1, 'Requested old snapshot must be an actual current terminal target, not a nominated stale ancestor');
++  // This prepared producer is explicitly one-project/live. Refuse and report a
++  // discovered extra scope, never omit it or invent its cost decisions.
++  assert(targets.every(t => t.projectId === projectId && t.periodEndSnapshotRef === null), 'Server discovered another project/period; extend real producers and decisions before running this bounded case');
++  return { primary: primary[0], others: targets.filter(t => t !== primary[0]) };
++}
+--- /dev/null
++++ b/tools/rust-r4ghi/business/restatement-assertions.test.mjs
+@@ -0,0 +1,39 @@
++import test from 'node:test';
++import assert from 'node:assert/strict';
++import { exactCents, assertFrozenPreserved, assertLateSource, assertLateCostDelta, completeLiveTargets } from './restatement-assertions.mjs';
++const id = '11111111-1111-4111-8111-111111111111', project = '22222222-2222-4222-8222-222222222222';
++test('exact cents preserve adjacent MAX18,2 values and never accept JSON numbers/null', () => {
++  assert.equal(exactCents('9999999999999999.99') - exactCents('9999999999999999.98'), 1n);
++  assert.equal(exactCents('-0.01'), -1n);
++  for (const value of [0, 5000.00, null, '5000', '5e3', '01.00', '1.000']) assert.throws(() => exactCents(value));
++});
++test('full frozen persisted bytes preserve facts while mutable selectors can change', () => {
++  const original = { snapshotId: id, frozenSnapshotRaw: '{"amount":9999999999999999.99}', sourceContextRaw: 'original-context', sourceMemberRows: ['original-member'], costMemberRows: ['original-cost'], sourceHash: 'old', sourcePayloadHash: 'payload', rowVersion: 1 };
++  assertFrozenPreserved(original, { ...original, rowVersion: 3, status: 'superseded', isCurrent: false });
++  for (const mutation of [{ frozenSnapshotRaw: '{"amount":9999999999999999.98}' }, { sourceContextRaw: 'changed' }, { sourceMemberRows: [] }, { costMemberRows: ['new-cost'] }, { sourceHash: 'new' }]) assert.throws(() => assertFrozenPreserved(original, { ...original, ...mutation }));
++});
++test('late source requires real post-knowledge creation and business date inside old window', () => {
++  const original = { projectId: project, sourceWindowEnd: '2026-11-07', knowledgeCutoff: '2026-11-07T00:00:00Z', currency: 'CNY' };
++  const source = { projectId: project, businessDate: '2026-11-07', createdAt: '2026-11-07T00:01:00Z', currency: 'CNY', amountExcludingTax: '5000.00', taxCostAmount: '650.00', amountIncludingTax: '5650.00' };
++  assertLateSource(original, source);
++  for (const mutation of [{ createdAt: original.knowledgeCutoff }, { businessDate: '2026-11-08' }, { projectId: id }, { currency: 'USD' }]) assert.throws(() => assertLateSource(original, { ...source, ...mutation }));
++});
++test('only explicit actual one-cost delta is accepted and unknown tax stays unknown', () => {
++  const member = { unitKey: 'cost:old', netKnowledge: 'known', net: '5000.00', tax: '650.00', gross: '5650.00' };
++  const original = { costAmounts: [member], metrics: { includedCost: '5000.00', grossMargin: '95000.00', effectiveContract: '100000.00', confirmedReceipt: '100000.00', taxPendingKnowledge: 'unknown', taxPending: null } };
++  const current = { costAmounts: [member, { ...member, unitKey: 'cost:' + id }], metrics: { ...original.metrics, includedCost: '10000.00', grossMargin: '90000.00' } };
++  const source = { id, amountExcludingTax: '5000.00', taxCostAmount: '650.00', amountIncludingTax: '5650.00' };
++  assert.equal(assertLateCostDelta(original, current, id, source).actualServerNetDeltaCents, '500000');
++  assert.throws(() => assertLateCostDelta(original, { ...current, metrics: { ...current.metrics, taxPendingKnowledge: 'known', taxPending: '0.00' } }, id, source));
++  assert.throws(() => assertLateCostDelta(original, { ...current, metrics: { ...current.metrics, includedCost: '9999.99' } }, id, source));
++  assert.throws(() => assertLateCostDelta(original, current, id, { ...source, amountExcludingTax: '4999.99' }));
++});
++test('complete target proof cannot drop another project/period/root or invent terminal ancestry', () => {
++  const target = { projectId: project, expectedVersion: 2, restatesSnapshotRef: { id }, periodEndSnapshotRef: null, costDecisions: [] };
++  const prep = { intent: 'restatement', kind: 'preparation-only', projectId: project, expectedInputHash: 'a'.repeat(64), headVersion: 2, projectVersion: 4, proposedAffectedTargets: [target] };
++  assert.equal(completeLiveTargets(prep, project, id).primary, target);
++  assert.throws(() => completeLiveTargets({ ...prep, proposedAffectedTargets: [target, target] }, project, id));
++  assert.throws(() => completeLiveTargets({ ...prep, proposedAffectedTargets: [] }, project, id));
++  assert.throws(() => completeLiveTargets({ ...prep, proposedAffectedTargets: [target, { ...target, projectId: id }] }, project, id));
++  assert.throws(() => completeLiveTargets({ ...prep, proposedAffectedTargets: [{ ...target, periodEndSnapshotRef: { id } }] }, project, id));
++});
+--- /dev/null
++++ b/tools/rust-r4ghi/business/period-preparation.mjs
+@@ -0,0 +1,26 @@
++// Decision7 remains pending. This stage has no period POST, opt-in flag or SQL write.
++import assert from 'node:assert/strict';
++import { data } from './pure.mjs';
++import { expectedRef } from './handover.mjs';
++import { expenseDecisions } from './operating.mjs';
++
++export async function inspectPeriodPreparation(ctx, api) {
++  const f = ctx.state.fixtures; assert(f.operatingComplete);
++  const periodKey = ctx.options['period-key'];
++  assert(typeof periodKey === 'string' && /^(?:\d{4}-(?:0[1-9]|1[0-2])|\d{4}-W(?:0[1-9]|[1-4][0-9]|5[0-3]))$/.test(periodKey), 'Root supplies the exact completed business period; never substitute a fake earlier effective date');
++  const response = await api.request('ProjectCostController_getProjectUnifiedAccounting', { projectId: f.project.id }, null, 'manager',
++    { query: { view: 'preparation', intent: 'period-close', periodKey } });
++  const view = data(response), p = view.preparation;
++  assert.equal(view.officialCurrent, null); assert(p?.kind === 'preparation-only' && p.intent === 'period-close' && p.periodKey === periodKey);
++  const actualCosts = [f.actualCost.id, f.liveRestatement?.cost?.id].filter(Boolean);
++  const body = p.selectedBaselinePackageRef ? { inputVersion: 'server-derived-v1', projectId: f.project.id, expectedVersion: p.headVersion,
++    expectedProjectVersion: p.projectVersion, expectedInputHash: p.expectedInputHash, assertions: null, baselinePackageRef: expectedRef(p.selectedBaselinePackageRef),
++    periodKey, expectedPeriodSnapshotRef: null, costDecisions: expenseDecisions(p, actualCosts) } : null;
++  const receipt = ctx.artifact(`${ctx.next('period-read-only-preparation')}.json`, { periodKey, actualPreparationReceipt: response.receiptId, preparation: p,
++    proposedBodyFromActualServerRefsOnly: body, candidateExecutable: false, policyStatus: 'pending-business-decision7', normalPeriodWriteSent: false,
++    pastPeriodSourceEligibilityFabricated: false }, { kind: 'actual-read-only-period-preparation-not-period-close-acceptance', realPeriodWrite: false,
++    formalEligibility: p.formalEligibility.status, blockingReasonCodes: p.blockingReasonCodes, decision7PresumedApproved: false });
++  f.periodReadOnlyPreparation ??= {}; f.periodReadOnlyPreparation[periodKey] = receipt; ctx.persist();
++  return { kind: 'actual-period-preparation-only', completed: true, periodKey, realPublicPreparationGET: true, normalPeriodCreateAndReadOperations: 'NOT executed/not certified',
++    currentSelectionPolicy: 'pending-user-decision7', preparedRequestExecutable: false, G3Certified: false, G4Certified: false };
++}
+--- /dev/null
++++ b/tools/rust-r4ghi/business/restatement-sources18.json
+@@ -0,0 +1,138 @@
++[
++  {
++    "file": "apps/poms-api-rust/src/project_operating/baseline.rs",
++    "sha256": "5146be07aae708162d0aead9ba415456ef8857680114b44e9d0851bb2d4bdb0d"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating/capture.rs",
++    "sha256": "e4bb0fc676ef669e211da400b8421662f12560c6eed8faccdd5e3f09366e6151"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating/collector.rs",
++    "sha256": "093c982188db4f5e2bb4fecb0e90cf309cf66d8f38745fcf294bf22ecf1c7d17"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating/context.rs",
++    "sha256": "a504f99f5d06c719b7cf2886b5cfbe84ef190a0fd9da9c80009dc893671bdb4d"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating/facts.rs",
++    "sha256": "273884c21d2bb04ff38d1eb98e3be5a955ad8817912784b09a05c4208b1b869f"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating/inclusion.rs",
++    "sha256": "b948ed81a0e60cbb3fa3334625eb489e22f4493e407b4520442b352273729e7d"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating/mod.rs",
++    "sha256": "671a0958d40005e7381f254393253af866f55645d660d63b5f7df46472f42897"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating/preparation.rs",
++    "sha256": "ccff8729cf6f77749f435c5d429b88bcc54a8166431ba452da0328251baaf185"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating/projection.rs",
++    "sha256": "3be184b32d86abbcf82a928f773eda319ba63ecbe8e0f7cb1b3c77fcc673fdda"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating/restatement.rs",
++    "sha256": "097bc607b8a1388b477faf427e66bea8c7fbcd1a2f390e0bce610008c248a893"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating/service.rs",
++    "sha256": "8e7a18f8349a5b9545ae9fde56ec4a11668338de7b2f9580d30a2e80ccb7599c"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating/sources.rs",
++    "sha256": "96112ed17471ede323fad1dc6a069e777bf258d2a8bacae5d55c27323c50df2f"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating/store.rs",
++    "sha256": "13850ed78ab5e2619becc91311afdd8eff415adcf3ff30b7b8272868d75382bb"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating/view.rs",
++    "sha256": "310aea4bc44e0f600316e5cc0f5a6fc7b8e9c9305a025f30603478b35480d2e9"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_actual_cost/logic.rs",
++    "sha256": "96bdbc87dd031b59c6b895243241cd9b847eb9ae690766c5782183a5c0f9ba4c"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_actual_cost/mod.rs",
++    "sha256": "da7c644b766b0cce407a37dc8bebd74874b6bab0bf0dc652697bb3e8e0d360e3"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_actual_cost/store.rs",
++    "sha256": "0b39d14477e52641307d84f28c043dcf9c4309d38d0f55476e7f9806cb621eb5"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_actual_cost/view.rs",
++    "sha256": "943a93380de87fbddc06650f35acfaf467db1a17abf6c25c3af162a5955b53ac"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_cost_governance/correction.rs",
++    "sha256": "2a1f999dc9840e6e05e37eb78332b5f8d9f85a98e4fd25cd5ccba8425f47bdc5"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_cost_governance/evidence.rs",
++    "sha256": "12d804e277162d1a178258227129761b883ec1f8be44851f20926ab597e703fb"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_cost_governance/logic.rs",
++    "sha256": "a287ed9281b71681820cb868adf03c5fc6cc59bb950c2814b9e7a0bc0fa0b15f"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_cost_governance/mod.rs",
++    "sha256": "7fbe80a6539d13fa85392a364b9bffaa22a00192864c1e92c8406c26871f7d51"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_cost_governance/projection.rs",
++    "sha256": "d525b70b521b3b7520345c77c9e547abe60080d7dd9644b515de876bef072725"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_cost_governance/service.rs",
++    "sha256": "40cfd49a18a592876b2a2ccf06176372fadc20ee3a9b22cdbc1c7b01a1171897"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_cost_governance/store.rs",
++    "sha256": "6712ee261e4458df43fe3f1369dcdfa8a083de9e6f844f461a0eddc85a11867e"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating_signals/mod.rs",
++    "sha256": "3fa3519dcd29561cfe115665afe08f65203e4d6cd09d55dd96387833915e5fda"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating_signals/policy.rs",
++    "sha256": "7f351253b74cd801f1d1e0a52bb27df681ef680bb7ca57a931c93ed7adb0acab"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating_signals/projection.rs",
++    "sha256": "c048d0d464d88a4d023b4af8e7397752417063b6ffee8cc42a1abdd1d15e45db"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating_signals/query.rs",
++    "sha256": "7eaa441f5789b64533fa8defcfa3f5b56d4cbb6ec2b33506dd7cb309ccfc72eb"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating_signals/review.rs",
++    "sha256": "7b51814b321aee598700e7a1ff238ee312735340044c8f415d6678582a37ef72"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating_signals/service.rs",
++    "sha256": "2cbe8319ad3ceb3bc6e7cdff7f3b3fce9bd3e27f12a3fa41394be067807608e3"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating_signals/store.rs",
++    "sha256": "de935757080ccf735bd8166f4086c2ef4efae0267d034e90caa54b991a2e6687"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating_signals/summary.rs",
++    "sha256": "d7ac414a8389dd3972fadbe5952dfa659e281eb2316c6e473fa9743c22a4b93c"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating_signals/tests.rs",
++    "sha256": "987fab7dd5624fd752eb25f396bbd9c8bb91e73c0d7529135062b68f6ee647f6"
++  }
++]

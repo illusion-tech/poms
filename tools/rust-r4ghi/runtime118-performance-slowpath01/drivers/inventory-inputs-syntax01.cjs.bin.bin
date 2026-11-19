@@ -1,0 +1,22 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict'),{createHash}=require('node:crypto');
+const root='E:/projects/worktrees/poms-r3hijk-next28/poms',linux='/mnt/e/projects/worktrees/poms-r3hijk-next28/poms',out=root+'/tmp/rust-r4ghi/root/runtime118-performance-slowpath01';
+assert.equal(process.version,'v24.19.0');
+const sha=b=>createHash('sha256').update(b).digest('hex'),bytesJSON=x=>Buffer.from(JSON.stringify(x,null,2)+'\n');
+const sourceText=fs.readFileSync(root+'/tools/rust-r4ghi/business/context.mjs','utf8');
+const start=sourceText.indexOf('const directFiles = '),end=sourceText.indexOf('export function createContext(',start);assert(start>0&&end>start);
+const sourceBody=sourceText.slice(start,end).replace('export function sourcePins','function sourcePins');
+const sourcePins=Function('fs','path','FIXED','sha',sourceBody+';return sourcePins;')(fs,path,{win:root},sha);
+const source=sourcePins();assert.equal(source.length,420);
+const normalize=f=>f.replaceAll('\\','/');const proxyFS={...fs,realpathSync(...args){return normalize(fs.realpathSync(...args));}};
+const build=fs.readFileSync(root+'/tools/rust-r4ghi/source15-admission119/build-source15.mjs','utf8'),cargoStart=build.indexOf('export function enumerateCargo15('),cargoEnd=build.indexOf('\nexport function enumerateSource15(',cargoStart);assert(cargoStart>=0&&cargoEnd>cargoStart);
+const cargoBody=build.slice(cargoStart,cargoEnd).replace('export function','function');
+const cargo=Function('fs','assert',cargoBody+';return enumerateCargo15;')(proxyFS,assert)(root);
+const compile=[...new Set([...source.map(p=>p.file),...cargo])].sort().map(file=>({file,sha256:sha(fs.readFileSync(root+'/'+file)))}));
+const plan=JSON.parse(fs.readFileSync(root+'/tools/rust-r4ghi/runtime-recovery121/Native362-plan-data-actual01/native-plan121.json'));
+const sourceBytes=bytesJSON(source),compileBytes=bytesJSON(compile);
+const peer=JSON.parse(fs.readFileSync(root+'/tools/rust-r4ghi/runtime118-resume-actual01/Native-exact-peer.json'));
+for(const p of peer.sourceClosures){assert(p.file.startsWith(linux+'/'));assert.equal(sha(fs.readFileSync(root+'/'+p.file.slice(linux.length+1))),p.rawBytesSha256);}
+const result={kind:'runtime118-existing-Windows-input-inventory',schemaVersion:1,source:{count:source.length,bytes:sourceBytes.length,rawBytesSha256:sha(sourceBytes),signedDescriptor:plan.current.sourcePins,exactBytesHashMatch:sourceBytes.length===plan.current.sourcePins.bytes&&sha(sourceBytes)===plan.current.sourcePins.rawBytesSha256},compile:{count:compile.length,bytes:compileBytes.length,rawBytesSha256:sha(compileBytes),signedDescriptor:plan.current.compilePins,exactBytesHashMatch:compileBytes.length===plan.current.compilePins.bytes&&sha(compileBytes)===plan.current.compilePins.rawBytesSha256},cargoCount:cargo.length,helpers:229,executionGraph:peer.sourceClosures.length,adapters:{sourceBodySHA256:sha(Buffer.from(sourceBody)),cargoBodySHA256:sha(Buffer.from(cargoBody)),windowsOnly:'Canonical separator normalization for metadata; no path alias accepted as runtime identity'},privatePathsNotAccessed:true,actualEffects:0,limits:['Reconstructed descriptor bytes are a different file identity; never runtime samePin','Linux private files, M tree, ELF, current process, ownership/state, complete recovery chain and close remain unavailable/UNKNOWN']};
+for(const [name,bytes]of [['sourcePins-reconstructed.json',sourceBytes],['compileInputs-reconstructed.json',compileBytes],['input-inventory.json',bytesJSON(result)]])fs.writeFileSync(out+'/'+name,bytes,{flag:'wx'});
+console.log(JSON.stringify(result));

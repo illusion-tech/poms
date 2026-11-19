@@ -10,6 +10,7 @@ import {
   PARENT_ID_KEY,
   PARENT_METADATA_KEY,
   SELF_REQUIRED_KEY,
+  SELF_ORIGINAL_TYPE_KEY,
   UNWRAP_ROOT_KEY,
   USES_THREE_POINT_ONE_SYNTAX_KEY,
 } from './const';
@@ -346,6 +347,16 @@ function cleanupSchema({
       delete propertySchema[PARENT_HAS_REFS_KEY];
     }
 
+    // Restore the actual JSON Schema constraint lost by Swagger's combinator
+    // metadata handling; this also keeps direct DTO and nested $defs identical.
+    if (SELF_ORIGINAL_TYPE_KEY in propertySchema) {
+      const originalType = propertySchema[SELF_ORIGINAL_TYPE_KEY];
+      if (typeof originalType === 'string') {
+        Object.assign(propertySchema, { type: originalType });
+      }
+      delete propertySchema[SELF_ORIGINAL_TYPE_KEY];
+    }
+
     // Remove `type` if we added `type: ''`
     if (EMPTY_TYPE_KEY in propertySchema && propertySchema[EMPTY_TYPE_KEY]) {
       delete propertySchema[EMPTY_TYPE_KEY];
@@ -373,7 +384,9 @@ function cleanupSchema({
 
     if (
       PARENT_ADDITIONAL_PROPERTIES_KEY in propertySchema &&
-      typeof propertySchema[PARENT_ADDITIONAL_PROPERTIES_KEY] === 'boolean'
+      (typeof propertySchema[PARENT_ADDITIONAL_PROPERTIES_KEY] === 'boolean' ||
+        (propertySchema[PARENT_ADDITIONAL_PROPERTIES_KEY] !== null &&
+          typeof propertySchema[PARENT_ADDITIONAL_PROPERTIES_KEY] === 'object'))
     ) {
       newOpenapiSchema.additionalProperties =
         propertySchema[PARENT_ADDITIONAL_PROPERTIES_KEY];
@@ -511,6 +524,14 @@ function fixParameter(
 ) {
   const parameter = deepmerge<typeof parameterInput>({}, parameterInput);
   let usesThreePointOneSyntax = false;
+
+  if (SELF_ORIGINAL_TYPE_KEY in parameter) {
+    const originalType = parameter[SELF_ORIGINAL_TYPE_KEY];
+    if (typeof originalType === 'string' && 'schema' in parameter && parameter.schema) {
+      Object.assign(parameter.schema, { type: originalType });
+    }
+    delete parameter[SELF_ORIGINAL_TYPE_KEY];
+  }
 
   // nestjs seems to move some stuff out of the schema and into the root level of the parameter object 🤷
   if (EMPTY_TYPE_KEY in parameter) {

@@ -1,0 +1,33 @@
+import fs from 'node:fs'; import path from 'node:path'; import assert from 'node:assert/strict'; import { createHash } from 'node:crypto'; import { fileURLToPath } from 'node:url';
+const here = path.dirname(fileURLToPath(import.meta.url)), root = 'E:/projects/worktrees/poms-r3hijk-next28/poms', sha = value => createHash('sha256').update(value).digest('hex'), products = [];
+const file = 'tools/rust-r4ghi/H/implementation/support-patches/ui-integration/runtime14/write-policy14.mjs', before = fs.readFileSync(root + '/' + file); let text = before.toString('utf8');
+const change = (from, to) => { assert.equal(text.split(from).length, 2, from); text = text.replace(from, to); };
+text = "import { assertOriginBefore28, assertOriginTransition28, assertOriginCommit28 } from '../../../../../business/ui-creator-origin28.mjs';\n" + text;
+change("      binding = { responseBirths: [{ table: 'project_owner_reassignment_record', pointer: '/projectOwnerReassignmentRecordId' }], mutableTables: ['project'], updatedAnchors: [{ table: 'project', id: scene.projectId, requestBinding: 'path:id' }] }; mutableRows = { project: [scene.projectId] }; purpose = 'creator-first-assignment';",
+`      const origins = sourceRows(ctx, before, 'project_ownership_origin', readRows).filter(item => item.row.key[0] === scene.projectId); assert.equal(origins.length, 1);
+      assertOriginBefore28(origins[0].cell, { projectId: scene.projectId, creatorId: actor.id, orgId: anchor.ownerOrgId, expectedOriginVersion: anchor.ownershipOriginRowVersion }); cache.originBefore28 = origins[0].row;
+      binding = { responseBirths: [{ table: 'project_owner_reassignment_record', pointer: '/projectOwnerReassignmentRecordId' }], mutableTables: ['project', 'project_ownership_origin'], updatedAnchors: [{ table: 'project', id: scene.projectId, requestBinding: 'path:id' }, { table: 'project_ownership_origin', id: scene.projectId, requestBinding: 'path:id' }] }; mutableRows = { project: [scene.projectId], project_ownership_origin: [scene.projectId] }; purpose = 'creator-first-assignment';`);
+change("assert.equal(record.reassigned_by, actor.id); cache.phase = 'assigned';", `assert.equal(record.reassigned_by, actor.id);
+      assert(attempt && attempt.operationId === operationId && attempt.actorId === actor.id && attempt.pathParams.id === scene.projectId && attempt.status === 200 && attempt.responseComplete && !attempt.transportFailure);
+      const row = (table, id) => { const found = sourceRows(ctx, after, table, readRows).filter(item => item.row.key[0] === id); assert.equal(found.length, 1); return found[0].row; };
+      const audits = sourceRows(ctx, after, 'audit_log', readRows).filter(item => item.cell.event_type === 'ProjectController_reassignOwner' && item.cell.target_id === scene.projectId && item.row.xmin === row('project', scene.projectId).xmin); assert.equal(audits.length, 1);
+      assertOriginCommit28({ beforeOrigin: cache.originBefore28, origin: row('project_ownership_origin', scene.projectId), project: row('project', scene.projectId), record: row('project_owner_reassignment_record', value.projectOwnerReassignmentRecordId), audit: audits[0].row,
+        requestId: attempt.requestId, actorId: actor.id, projectId: scene.projectId, targetOwnerId: value.newOwnerUserId, targetOrgId: value.newOwnerOrgId, expectedProjectVersion: intent.requestValue.expectedVersion }); cache.phase = 'assigned';`);
+change('  function observeWrite(operationId, response, after, differences) {', '  function observeWrite(operationId, response, after, differences, attempt) {');
+const old = "    for (const change of differences) for (const changed of change.changed) if ((intent.binding.mutableTables ?? []).includes(change.table)) assert(change.database === ctx.database && intent.mutableRows[change.table]?.includes(changed.after.key[0]), 'Write changed another row in the same table');";
+change(old, old + `
+    if (scene.kind === 'creator') for (const change of differences.filter(value => value.table === 'project_ownership_origin')) {
+      assert.equal((change.added ?? []).length, 0); assert.equal((change.missing ?? []).length, 0); assert.equal(change.changed.length, 1);
+      for (const pair of change.changed) {
+      assert.equal(change.database, ctx.database); assert.equal(pair.after.key[0], scene.projectId); assert.equal(pair.before.sha256, cache.originBefore28.sha256); assert.equal(pair.before.xmin, cache.originBefore28.xmin);
+      assertOriginTransition28(JSON.parse(pair.before.raw), JSON.parse(pair.after.raw), { projectId: scene.projectId, targetOwnerId: intent.requestValue.ownerUserId });
+      }
+    }`);
+function save(file, beforeBytes, after) { const candidate = 'proposed/' + file; fs.mkdirSync(path.dirname(here + '/' + candidate), { recursive: true }); fs.writeFileSync(here + '/' + candidate, after, { flag: 'wx' }); products.push({ file, candidate, beforeSHA256: beforeBytes ? sha(beforeBytes) : null, afterSHA256: sha(after) }); }
+save(file, before, Buffer.from(text));
+const linuxFile = 'tools/rust-r4ghi/H/implementation/support-patches/ui-integration/runtime14/linux14.mjs', linuxBefore = fs.readFileSync(root + '/' + linuxFile); const linux = linuxBefore.toString('utf8');
+const call = 'activePolicy.observeWrite(observation.operationId,body,after,changes);'; assert.equal(linux.split(call).length, 2); save(linuxFile, linuxBefore, Buffer.from(linux.replace(call, 'activePolicy.observeWrite(observation.operationId,body,after,changes,attempt);')));
+const fixtureFile = 'tools/rust-r4ghi/H/implementation/support-patches/ui-integration/runtime14/fixture-receipts14.mjs', fixtureBefore = fs.readFileSync(root + '/' + fixtureFile); let fixture = fixtureBefore.toString('utf8');
+const anchor = "    const record = ctx.state.fixtures.creatorOwnership23;"; assert.equal(fixture.split(anchor).length, 2); fixture = fixture.replace(anchor, "    assert(!ctx.state.consumerChecks?.creatorAssignmentRecovery28?.[scene.projectId]?.committed, 'This actual UI assignment already committed; use read-only reload, never replay first assignment');\n" + anchor); save(fixtureFile, fixtureBefore, Buffer.from(fixture));
+for (const name of ['ui-creator-origin28.mjs', 'recover-ui-creator-origin28.mjs']) { const nameFile = 'tools/rust-r4ghi/business/' + name; if (!fs.existsSync(here + '/proposed/' + nameFile)) continue; assert(!fs.existsSync(root + '/' + nameFile)); products.push({ file: nameFile, candidate: 'proposed/' + nameFile, beforeSHA256: null, afterSHA256: sha(fs.readFileSync(here + '/proposed/' + nameFile)) }); }
+fs.writeFileSync(here + '/products28.json', JSON.stringify(products, null, 2) + '\n', { flag: 'wx' }); console.log(JSON.stringify(products));

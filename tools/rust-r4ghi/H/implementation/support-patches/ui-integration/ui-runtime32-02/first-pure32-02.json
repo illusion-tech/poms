@@ -1,0 +1,10 @@
+{
+  "passed": 1,
+  "failed": 1,
+  "reason": "The pure fake filesystem assertion assumed slash paths while Node on Windows path.join used backslash.",
+  "productionFailure": false,
+  "correction": "Use path.basename for platform-neutral capture-name assertions; no runtime behavior or evidence rule changed.",
+  "SQL": false,
+  "HTTP": false,
+  "RootWritten": false
+}

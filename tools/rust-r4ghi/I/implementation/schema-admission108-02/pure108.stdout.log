@@ -1,0 +1,412 @@
+TAP version 13
+# Subtest: consumer bridge preserves original source and accepts only explicit project subsets
+ok 1 - consumer bridge preserves original source and accepts only explicit project subsets
+  ---
+  duration_ms: 692.389321
+  type: 'test'
+  ...
+# Subtest: only four actual UI observer fields may differ from the retained producer projection
+ok 2 - only four actual UI observer fields may differ from the retained producer projection
+  ---
+  duration_ms: 503.569216
+  type: 'test'
+  ...
+# Subtest: unlisted record, changed source label and corrupt pinned registry cannot be admitted
+ok 3 - unlisted record, changed source label and corrupt pinned registry cannot be admitted
+  ---
+  duration_ms: 354.828146
+  type: 'test'
+  ...
+# Subtest: new-source empty producer view can initialize without expanding an old admitted view
+ok 4 - new-source empty producer view can initialize without expanding an old admitted view
+  ---
+  duration_ms: 0.605074
+  type: 'test'
+  ...
+# Subtest: an admitted old path cannot relabel itself current and bypass its original producer facts
+ok 5 - an admitted old path cannot relabel itself current and bypass its original producer facts
+  ---
+  duration_ms: 683.564681
+  type: 'test'
+  ...
+# Subtest: unregistered current labels cannot clone old main/receiver projects or omit actual anchors
+ok 6 - unregistered current labels cannot clone old main/receiver projects or omit actual anchors
+  ---
+  duration_ms: 1341.515397
+  type: 'test'
+  ...
+# Subtest: fresh cannot reuse an original baseline project absent from old owned registry
+ok 7 - fresh cannot reuse an original baseline project absent from old owned registry
+  ---
+  duration_ms: 381.674582
+  type: 'test'
+  ...
+# Subtest: Legacy retains all producer qualification/hash/xmin/denial facts plus the exact old seed
+ok 8 - Legacy retains all producer qualification/hash/xmin/denial facts plus the exact old seed
+  ---
+  duration_ms: 1588.965593
+  type: 'test'
+  ...
+# Subtest: lexical prefix with parent traversal cannot redirect the registry outside consumer root
+ok 9 - lexical prefix with parent traversal cannot redirect the registry outside consumer root
+  ---
+  duration_ms: 131.587087
+  type: 'test'
+  ...
+# Subtest: snapshot admission rejects row xmin/catalog/object drift even with identical logical money
+ok 10 - snapshot admission rejects row xmin/catalog/object drift even with identical logical money
+  ---
+  duration_ms: 4.258846
+  type: 'test'
+  ...
+# Subtest: a second explicit admission retains old10 birth and new11 birth independently
+ok 11 - a second explicit admission retains old10 birth and new11 birth independently
+  ---
+  duration_ms: 3892.605193
+  type: 'test'
+  ...
+# Subtest: dropping the prior registry, changing its raw bytes or lying about birth source fails closed
+ok 12 - dropping the prior registry, changing its raw bytes or lying about birth source fails closed
+  ---
+  duration_ms: 4405.251286
+  type: 'test'
+  ...
+# Subtest: the new11 published proof is explicit and cannot be reassigned to old10 or replaced with an unpinned proof
+ok 13 - the new11 published proof is explicit and cannot be reassigned to old10 or replaced with an unpinned proof
+  ---
+  duration_ms: 6304.914532
+  type: 'test'
+  ...
+# Subtest: an old project cloned into an unregistered new11 view lacks a genuine new11 HTTP birth
+ok 14 - an old project cloned into an unregistered new11 view lacks a genuine new11 HTTP birth
+  ---
+  duration_ms: 2174.392931
+  type: 'test'
+  ...
+# Subtest: a pinned impact review never promotes old results to new consumer certification
+ok 15 - a pinned impact review never promotes old results to new consumer certification
+  ---
+  duration_ms: 786.523584
+  type: 'test'
+  ...
+# Subtest: the existing synchronous H bridge returns per-entry birth rather than the immediate producer for old10/new11
+ok 16 - the existing synchronous H bridge returns per-entry birth rather than the immediate producer for old10/new11
+  ---
+  duration_ms: 9134.906088
+  type: 'test'
+  ...
+# Subtest: new12 current labels cannot clone an unregistered old11 project or omit the real anchor
+ok 17 - new12 current labels cannot clone an unregistered old11 project or omit the real anchor
+  ---
+  duration_ms: 6187.433371
+  type: 'test'
+  ...
+# Subtest: new consumer keeps both historical generations and empties active FI/auth/seam without rebasing owned facts
+ok 18 - new consumer keeps both historical generations and empties active FI/auth/seam without rebasing owned facts
+  ---
+  duration_ms: 0.385362
+  type: 'test'
+  ...
+# Subtest: normal forward accepts exact function/log/sequence; original objects may have real owned additions
+ok 19 - normal forward accepts exact function/log/sequence; original objects may have real owned additions
+  ---
+  duration_ms: 31.615286
+  type: 'test'
+  ...
+# Subtest: schema delta rejects business row SHA change
+ok 20 - schema delta rejects business row SHA change
+  ---
+  duration_ms: 9.002442
+  type: 'test'
+  ...
+# Subtest: schema delta rejects original business xmin change
+ok 21 - schema delta rejects original business xmin change
+  ---
+  duration_ms: 7.466992
+  type: 'test'
+  ...
+# Subtest: schema delta rejects original migration xmin change
+ok 22 - schema delta rejects original migration xmin change
+  ---
+  duration_ms: 8.9104
+  type: 'test'
+  ...
+# Subtest: schema delta rejects function OID replacement
+ok 23 - schema delta rejects function OID replacement
+  ---
+  duration_ms: 6.87323
+  type: 'test'
+  ...
+# Subtest: schema delta rejects function ACL change
+ok 24 - schema delta rejects function ACL change
+  ---
+  duration_ms: 7.946276
+  type: 'test'
+  ...
+# Subtest: schema delta rejects function security/config change
+ok 25 - schema delta rejects function security/config change
+  ---
+  duration_ms: 6.241855
+  type: 'test'
+  ...
+# Subtest: schema delta rejects unapproved function body
+ok 26 - schema delta rejects unapproved function body
+  ---
+  duration_ms: 7.027778
+  type: 'test'
+  ...
+# Subtest: schema delta rejects function language/header change with correct approved body
+ok 27 - schema delta rejects function language/header change with correct approved body
+  ---
+  duration_ms: 6.286018
+  type: 'test'
+  ...
+# Subtest: schema delta rejects trigger drift
+ok 28 - schema delta rejects trigger drift
+  ---
+  duration_ms: 9.093015
+  type: 'test'
+  ...
+# Subtest: schema delta rejects role privilege drift
+ok 29 - schema delta rejects role privilege drift
+  ---
+  duration_ms: 8.78472
+  type: 'test'
+  ...
+# Subtest: schema delta rejects second added migration row
+ok 30 - schema delta rejects second added migration row
+  ---
+  duration_ms: 7.047505
+  type: 'test'
+  ...
+# Subtest: schema delta rejects missing original migration row
+ok 31 - schema delta rejects missing original migration row
+  ---
+  duration_ms: 6.905295
+  type: 'test'
+  ...
+# Subtest: schema delta rejects migration name substitution
+ok 32 - schema delta rejects migration name substitution
+  ---
+  duration_ms: 8.035488
+  type: 'test'
+  ...
+# Subtest: schema delta rejects missing sequence evidence
+ok 33 - schema delta rejects missing sequence evidence
+  ---
+  duration_ms: 6.145775
+  type: 'test'
+  ...
+# Subtest: schema delta rejects two nextvals instead of normal one
+ok 34 - schema delta rejects two nextvals instead of normal one
+  ---
+  duration_ms: 8.834958
+  type: 'test'
+  ...
+# Subtest: schema delta rejects unrelated sequence registered as migration delta
+ok 35 - schema delta rejects unrelated sequence registered as migration delta
+  ---
+  duration_ms: 12.571033
+  type: 'test'
+  ...
+# Subtest: schema delta rejects namespace marker switch
+ok 36 - schema delta rejects namespace marker switch
+  ---
+  duration_ms: 4.896823
+  type: 'test'
+  ...
+# Subtest: schema delta rejects object drift during migration
+ok 37 - schema delta rejects object drift during migration
+  ---
+  duration_ms: 7.259734
+  type: 'test'
+  ...
+# Subtest: schema delta rejects fresh post-migration business drift
+ok 38 - schema delta rejects fresh post-migration business drift
+  ---
+  duration_ms: 7.554636
+  type: 'test'
+  ...
+# Subtest: schema delta rejects 139th table excluded
+ok 39 - schema delta rejects 139th table excluded
+  ---
+  duration_ms: 8.941197
+  type: 'test'
+  ...
+# Subtest: M98 may not silently use original baseline when schema binding is absent
+ok 40 - M98 may not silently use original baseline when schema binding is absent
+  ---
+  duration_ms: 0.257774
+  type: 'test'
+  ...
+# Subtest: all-null future plan remains non-executable rather than certifying a future Source13
+ok 41 - all-null future plan remains non-executable rather than certifying a future Source13
+  ---
+  duration_ms: 0.526558
+  type: 'test'
+  ...
+# Subtest: read-only binding reproduces exact derived comparison and keeps original baseline separate
+ok 42 - read-only binding reproduces exact derived comparison and keeps original baseline separate
+  ---
+  duration_ms: 2568.144618
+  type: 'test'
+  ...
+# Subtest: derived comparison cannot launder all retained business rows into original
+ok 43 - derived comparison cannot launder all retained business rows into original
+  ---
+  duration_ms: 1725.673417
+  type: 'test'
+  ...
+# Subtest: only real zero-exit migration receipt may explain canonical advancement
+ok 44 - only real zero-exit migration receipt may explain canonical advancement
+  ---
+  duration_ms: 1324.573917
+  type: 'test'
+  ...
+# Subtest: matching new consumer baseline fields cannot override the frozen producer original baseline pin
+ok 45 - matching new consumer baseline fields cannot override the frozen producer original baseline pin
+  ---
+  duration_ms: 1274.989322
+  type: 'test'
+  ...
+# Subtest: wrapper success cannot replace a different exit code in the real execution receipt pin
+ok 46 - wrapper success cannot replace a different exit code in the real execution receipt pin
+  ---
+  duration_ms: 1340.45961
+  type: 'test'
+  ...
+# Subtest: ledger sees canonical M98 in both databases but still requires each HTTP-owned business/object addition
+ok 47 - ledger sees canonical M98 in both databases but still requires each HTTP-owned business/object addition
+  ---
+  duration_ms: 15619.600345
+  type: 'test'
+  ...
+# Subtest: schema3 preserves mixed10/11/12 births, late published receipts and exact legacy/UI projections
+ok 48 - schema3 preserves mixed10/11/12 births, late published receipts and exact legacy/UI projections
+  ---
+  duration_ms: 8119.260511
+  type: 'test'
+  ...
+# Subtest: 136 receipt chain rejects mutually identical DOWN argv with UP labels
+ok 49 - 136 receipt chain rejects mutually identical DOWN argv with UP labels
+  ---
+  duration_ms: 1398.998602
+  type: 'test'
+  ...
+# Subtest: 136 receipt chain rejects unrelated program with matching UP labels
+ok 50 - 136 receipt chain rejects unrelated program with matching UP labels
+  ---
+  duration_ms: 1443.201389
+  type: 'test'
+  ...
+# Subtest: 136 receipt chain rejects wrong runner path with mutually matching source labels
+ok 51 - 136 receipt chain rejects wrong runner path with mutually matching source labels
+  ---
+  duration_ms: 1439.862232
+  type: 'test'
+  ...
+# Subtest: 136 receipt chain rejects wrong target database consistently labelled
+ok 52 - 136 receipt chain rejects wrong target database consistently labelled
+  ---
+  duration_ms: 1443.550012
+  type: 'test'
+  ...
+# Subtest: 136 receipt chain rejects other allowed DB in argv while receipt names Native
+ok 53 - 136 receipt chain rejects other allowed DB in argv while receipt names Native
+  ---
+  duration_ms: 1474.193849
+  type: 'test'
+  ...
+# Subtest: 136 receipt chain rejects wrong migration name consistently labelled
+ok 54 - 136 receipt chain rejects wrong migration name consistently labelled
+  ---
+  duration_ms: 1461.06386
+  type: 'test'
+  ...
+# Subtest: 136 receipt chain rejects extra free direction argument
+ok 55 - 136 receipt chain rejects extra free direction argument
+  ---
+  duration_ms: 1429.9566
+  type: 'test'
+  ...
+# Subtest: 136 receipt chain rejects down Migrator method behind fixed UP invocation
+ok 56 - 136 receipt chain rejects down Migrator method behind fixed UP invocation
+  ---
+  duration_ms: 1459.535343
+  type: 'test'
+  ...
+# Subtest: 136 receipt chain rejects non-unique or extra Migrator options
+ok 57 - 136 receipt chain rejects non-unique or extra Migrator options
+  ---
+  duration_ms: 1467.976282
+  type: 'test'
+  ...
+# Subtest: 136 receipt chain rejects different intent than actual execution
+ok 58 - 136 receipt chain rejects different intent than actual execution
+  ---
+  duration_ms: 1501.84168
+  type: 'test'
+  ...
+# Subtest: 136 receipt chain rejects additional pending migration
+ok 59 - 136 receipt chain rejects additional pending migration
+  ---
+  duration_ms: 1463.583137
+  type: 'test'
+  ...
+# Subtest: 136 receipt chain rejects wrong applied migration
+ok 60 - 136 receipt chain rejects wrong applied migration
+  ---
+  duration_ms: 1499.078247
+  type: 'test'
+  ...
+# Subtest: 136 receipt chain rejects executed count97 despite wrapper success
+ok 61 - 136 receipt chain rejects executed count97 despite wrapper success
+  ---
+  duration_ms: 1538.845998
+  type: 'test'
+  ...
+# Subtest: 136 receipt chain rejects stdout points at another execution raw original
+ok 62 - 136 receipt chain rejects stdout points at another execution raw original
+  ---
+  duration_ms: 1530.427051
+  type: 'test'
+  ...
+# Subtest: 136 receipt chain rejects stdout completion false despite successful execution record
+ok 63 - 136 receipt chain rejects stdout completion false despite successful execution record
+  ---
+  duration_ms: 1510.948538
+  type: 'test'
+  ...
+# Subtest: 136 receipt requires the actual frozen G2 original rather than an absent file with a claimed pin
+ok 64 - 136 receipt requires the actual frozen G2 original rather than an absent file with a claimed pin
+  ---
+  duration_ms: 1301.745854
+  type: 'test'
+  ...
+# Subtest: 136 receipt rejects altered reviewed runner bytes despite matching runner labels
+ok 65 - 136 receipt rejects altered reviewed runner bytes despite matching runner labels
+  ---
+  duration_ms: 1292.998987
+  type: 'test'
+  ...
+# Subtest: 136 receipt binds actual Node bytes to the exact Node pin in G2, intent and execution
+ok 66 - 136 receipt binds actual Node bytes to the exact Node pin in G2, intent and execution
+  ---
+  duration_ms: 1288.766698
+  type: 'test'
+  ...
+# Subtest: 136 receipt rejects changed G2 mechanism even when both command chains adopt its new hash
+ok 67 - 136 receipt rejects changed G2 mechanism even when both command chains adopt its new hash
+  ---
+  duration_ms: 1425.786115
+  type: 'test'
+  ...
+1..67
+# tests 67
+# suites 0
+# pass 67
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 98995.84913

@@ -167,13 +167,15 @@ export const CommissionFinalSettlementSnapshotSchema = defineEntity({
             .fieldName('baseline_selection_source')
             .comment('基线选择来源'),
         taxImpactSummary: p.text().fieldName('tax_impact_summary').comment('税务影响摘要'),
+        sourceContractScope: p.json().$type<Record<string, unknown>>().nullable().fieldName('source_contract_scope'),
+        retentionReceiptIds: p.json().$type<string[]>().nullable().fieldName('retention_receipt_ids'),
         taxImpactPendingAmount: p
             .decimal()
             .precision(18)
             .scale(2)
-            .default(0)
+            .nullable()
             .fieldName('tax_impact_pending_amount')
-            .comment('待闭合税务影响金额'),
+            .comment('待闭合税务影响金额；NULL表示未知，不等同于零'),
         dataMaturityLevel: p.string().$type<OperatingDataMaturityLevel>().length(32).fieldName('data_maturity_level').comment('数据成熟度等级'),
         costActionRecommendation: p
             .string()

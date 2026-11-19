@@ -1,0 +1,143 @@
+{
+  "kind": "non-author-runtime121-technical-G3-review",
+  "verdict": "approved-scoped-technical121-G3",
+  "recordedAt": "2026-11-13T02:27:24.071Z",
+  "reviewer": "/root/transport358_code_review",
+  "reviewerIsAuthor": false,
+  "issue": 121,
+  "parentIssue": 114,
+  "fixedHead": "c10e3aa3829d985ce4bc73109b41a0d77e1d9583",
+  "acceptanceEvidenceCommit": "33646ef44f1b884cd59ec3e4b85a19193eea9eb4",
+  "candidate": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/docs/design/archive/slices/rust-r4ghi-runtime121/technical121-preclose-candidate.json",
+    "bytes": 4935,
+    "rawBytesSha256": "29470e16181f57a5ef77c73be83c99252149ae1550f87778fc9f3a253bf4e77d"
+  },
+  "scope": "Technical runtime recovery and original-data conservation through genuine prepare-only/K, zero new business operations",
+  "technicalG1": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/g1B/Root-G1B-121.json",
+    "bytes": 5254,
+    "rawBytesSha256": "be96f468fe8c7aa58dcebe6f687ef90d0afb46f1d9ca2ac2bc2b3e90974206cc"
+  },
+  "formalInputs": [
+    {
+      "file": "tools/rust-r4ghi/runtime-recovery121/corrective362-g3-freeze01/Root-G3-code-input362.json",
+      "bytes": 14235,
+      "rawBytesSha256": "0bc2ad58712a8cc396f740701178b3e27cda8f16a615404c35f47f658ace10d2"
+    },
+    {
+      "file": "tools/rust-r4ghi/runtime-recovery121/corrective362-apps-ABI-addendum01/Root-apps-ABI-addendum362.json",
+      "bytes": 4446,
+      "rawBytesSha256": "120bd1638d5b02776e5e37269d1a79543773301ed672583eae08ee51c1f39f7e"
+    },
+    {
+      "file": "tools/rust-r4ghi/runtime-recovery121/prepare362-timing-E1-01/Root-E1-prepare362-timing.json",
+      "bytes": 4894,
+      "rawBytesSha256": "a5530e1a98173cc3dcd58c4fa0fa15dcc63bef3d1af2d99d302e87ffcb33e0c4"
+    }
+  ],
+  "fixedFSAndLiveEvidence": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/technical121-preclose-independent01/evidence-fixed-preclose121.json",
+    "bytes": 370788,
+    "rawBytesSha256": "84f8fbfd62aad3c33a4213dcd3902cea6d3eacfe5ae6d70563883d67c881aa54"
+  },
+  "basis": {
+    "recovery359": [
+      {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/transport358-actual-holder-readback01/review-actual-holder358.json",
+        "bytes": 4999,
+        "rawBytesSha256": "8d7d2c298122ed29e5c978cbb64ad215478f9d84fb9a90ea6cae6782b14b30fd"
+      },
+      {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/fresh-conservation358-actual-readback02/review-actual-conservation358.json",
+        "bytes": 7484,
+        "rawBytesSha256": "2ff9a121d36d195aad0bb5a5086d79a83dae56bfa02746c6b96418e5ca493d0e"
+      },
+      {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/fresh-conservation358-actual-readback02/evidence.json",
+        "bytes": 675853,
+        "rawBytesSha256": "22a2d4427cb6c220fbe866865f3e46d891df40ec2b6971b382178a36218509a1"
+      },
+      {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/fresh-conservation358-actual-readback02/seal.json",
+        "bytes": 3723,
+        "rawBytesSha256": "04a0a05d1c7e6547566de74d1a65bb3ae7c227e784555ddf42c35ca316635a98"
+      },
+      {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime121-API-actual-readback01/actual01/review-actual-API121.json",
+        "bytes": 6279,
+        "rawBytesSha256": "308c70bc4c97def2e8a1f52d414bb5f87b9633757405795ac9123e28368133f1"
+      },
+      {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime121-API-actual-readback01/actual01/seal-actual-API121.json",
+        "bytes": 2116,
+        "rawBytesSha256": "b34de2adc57f00b53e2962f91c72b4ee3b5587bf52a9e58871e60573fe6387f3"
+      }
+    ],
+    "source362": {
+      "review": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source362-actual-readback01/review-actual-source362.json",
+        "bytes": 5180,
+        "rawBytesSha256": "eac0115eb4bcdc4dce2a08e828d1c29d6f7cd421fd376bd27ed75f48e7ef376b"
+      },
+      "facts": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source362-actual-readback01/facts-source362.json",
+        "bytes": 1713,
+        "rawBytesSha256": "f032e74dd1c8edde088e208d2324afc267a6c045021e4910f8db09bd4a8842bd"
+      }
+    },
+    "NativeV3Publication": {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/Native362-publication-readback-2ba18403-1739-4274-8c3e-5e444f2aa6cf/review-actual-publication362.json",
+      "bytes": 73125,
+      "rawBytesSha256": "5063a0676cbe76c5d371d774f69f3089cc45769f405921cacb68c887d1cbda14"
+    },
+    "completedPrepare": {
+      "carrier": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime121-prepare362-actual-independent01/review-actual-prepare-continuation362.json",
+        "bytes": 1334,
+        "rawBytesSha256": "565740aa32a9c8b1b41810dd134566b2f7a6646493534b174c37669ce8d8b8c6"
+      },
+      "seal": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime121-prepare362-actual-independent01/seal-actual-prepare-continuation362.json",
+        "bytes": 3934,
+        "rawBytesSha256": "6bdf9acd6e0b1050fcb77f7b4a83df039e1c1f9bc543c21540781aec54a0e28e"
+      }
+    },
+    "E1Timing": {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime121-prepare362-actual-independent01/judgment-E1-actual-prepare362.json",
+      "bytes": 17353,
+      "rawBytesSha256": "ddbc67bf90963c86eff05a676d006b5a33bfeee8d7b989d0bd0ff530a1496580"
+    }
+  },
+  "findings": {
+    "blockingTechnicalFindings": [],
+    "originalVolumeAndTwoDatabaseConservation": "Actual A three fresh modes and independent three-way raw/xmin/meta/sequence/object conservation passed as-of their preserved observations; original CID/image/volume/OIDs retained, no cross-database atomicity or continuous-state claim.",
+    "sameByteAPI": "Actual same-byte ELF start, initial readiness200 and owned OS/socket readback passed as-of evidence; later genuine Native entry/exit and prepare completed without another API/PG startup.",
+    "sourceAndRuntime": "Source362 actual eight-source update and readback, exact284/6MOD+278same, three-stage historical source preservation and v3 registry/candidate/three-delta state publication all accepted. Current8/284/229 and Root420/528 source bytes independently rechecked now.",
+    "realPreparation": "Exactly one 6458 prepare-only returned0; genuine constructor/private capability/entry/exit/closed/K and the closed8 independent carrier passed. Reconstructed278tables4938rows, complete physical roots/all peers/CAS/body/facts/ordered67/inventory, all37permissions, Auth3+GET4 and full private-state conservation accepted. This review reuses that complete actual readback; no application replay.",
+    "drift": "Corrective361/362, apps120bd and formalE1 retained as named immutable additions. Failed823/1899 and audit-tool NOTREADY/stop records preserve their true labels. The two final evidence commits changed no app or current execution source.",
+    "validationScope": "No repetition of unrelated build/suites for documentation/evidence-only commits. Fixed101files/67JSON, 57 archived-I pairs+24 safe actual originals matched Git blobs; current source and opaque private bookends rechecked.",
+    "E1Satisfaction": "The formally frozen E1 substituted evidence order for the same once-run, retained all actual source/FD/brand/current/37/sessionSQL/preSQL-monotonic>2s guards, and required success to consume the same prepared/K without replay. Actual once-run completion and timing/readback archival satisfy this technical checkpoint.",
+    "FIBudgetBoundary": "Direct CP samples0 and full-FI budget UNKNOWN remain true. Original G1B places any new exact FI/unique normal command after accepted preparation; it does not require FI/business certification to complete this zero-new-operation recovery subslice. E1 expressly grants no FI and requires its separate measured whole-path/current-deadline decision. Unknown FI budget therefore blocks downstream FI G2, not this already completed scoped technical recovery."
+  },
+  "documentationCorrection": {
+    "requiredBeforeClose": true,
+    "scope": "Replace current prose saying672398B/b7ed is a request body with complete prepared/reviewable-body-inventory artifact. The serialized body digest0f93 remains correct; no domainPOST occurred.",
+    "RootAcknowledged": true,
+    "actualEvidenceAffected": false
+  },
+  "limits": {
+    "FIG2Granted": false,
+    "normalTaxPOSTGranted": false,
+    "MainPOSTGranted": false,
+    "newBusinessOperations": 0,
+    "newBusinessCertified": 0,
+    "businessG3": false,
+    "businessG4": false,
+    "wholeFIBudget": "UNKNOWN",
+    "directCheckpointSamples": 0,
+    "minimumFullFICheckpoints": 618,
+    "continuousResourceLivenessCertified": false,
+    "productionDeploymentOrMainIntegrationCertified": false
+  }
+}

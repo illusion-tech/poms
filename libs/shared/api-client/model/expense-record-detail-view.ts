@@ -55,15 +55,9 @@ export interface ExpenseRecordDetailView {
     allowedActions: Array<string>;
     financialProjection: ExpenseFinancialProjection;
 }
-export enum ExpenseRecordDetailViewExpenseDescriptionEnum {
-};
-export enum ExpenseRecordDetailViewAmountIncludingTaxEnum {
-};
-export enum ExpenseRecordDetailViewTaxAmountEnum {
-};
-export enum ExpenseRecordDetailViewAmountExcludingTaxEnum {
-};
-export enum ExpenseRecordDetailViewEvidenceSummaryEnum {
-};
-export enum ExpenseRecordDetailViewVoidReasonEnum {
-};
+export type ExpenseRecordDetailViewExpenseDescriptionEnum = null;;
+export type ExpenseRecordDetailViewAmountIncludingTaxEnum = null;;
+export type ExpenseRecordDetailViewTaxAmountEnum = null;;
+export type ExpenseRecordDetailViewAmountExcludingTaxEnum = null;;
+export type ExpenseRecordDetailViewEvidenceSummaryEnum = null;;
+export type ExpenseRecordDetailViewVoidReasonEnum = null;;

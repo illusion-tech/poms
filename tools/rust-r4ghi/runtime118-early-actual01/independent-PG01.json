@@ -1,0 +1,527 @@
+{
+  "kind": "non-author-runtime118-actual-original-PG-current-readback",
+  "schemaVersion": 1,
+  "recordedAt": "2026-11-14T17:34:48.081Z",
+  "reviewer": "/root/holder118_peer",
+  "reviewerIsExecutor": false,
+  "verdict": "approved-actual-original-PG-current-only",
+  "G1": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v3/Root-G1-budget-probe118-v3.json",
+    "bytes": 32283,
+    "rawBytesSha256": "80ea3db59386f935b733e5e29b7b8a4db860c408ccb84f9204b9b5adebac00a1"
+  },
+  "PGComplete": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime118-reentry/pg-current/51478e58-8d98-4263-952c-e26321e17636/complete.json",
+    "bytes": 3055,
+    "rawBytesSha256": "065f00027a635f427a7738c502de41ebe1871e60924a77c3b116d191a27a258c"
+  },
+  "input": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-pg-G2-01/input-pg-current118.json",
+    "bytes": 2289,
+    "rawBytesSha256": "83db0b677505eaf3519bbb5d80ac773fd374f55728c4c1536f7961b9e1657243"
+  },
+  "RootApproval": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-pg-G2-01/Root-approved-pg-current118.json",
+    "bytes": 1572,
+    "rawBytesSha256": "0ffa115e6a6673be71583cacc8991d7e048b0a95851fb5d42f5354dea09f776f"
+  },
+  "executionReview": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-pg-peer-actual01/peer-pg-current118-actual01.json",
+    "bytes": 1886,
+    "rawBytesSha256": "1ac85e6f8983bff77a65e46d00d0f96bdc9c8bfc781fff4d7364dec15f8ff637"
+  },
+  "operator": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/budget118/reenter-budget118-runtime.mjs",
+    "bytes": 133531,
+    "rawBytesSha256": "b37708b88543cc4e6f25b9face76887fe5fc1b039f126ff44ba85f0f291dd8d2"
+  },
+  "actualLinuxReadback": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-pg-actual-readback01/PG-readback-final02.stdout.json",
+    "bytes": 35909,
+    "rawBytesSha256": "f864521e17132ff5ddf96a0539a95a3acafcdff81925d721127bb3f33be598f6"
+  },
+  "readonlyAuditCommand": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-pg-actual-readback01/PG-readback-final02-command.json",
+    "bytes": 1331,
+    "rawBytesSha256": "14a38adff76c8ce197a144a2b400b6eae7423880b5768a014704fdd3c7b9f136"
+  },
+  "readonlyAuditSource": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-pg-actual-readback01/audit-pg-control01.cjs",
+    "bytes": 22973,
+    "rawBytesSha256": "2907ac8d1f506e9c78e41e2c43787f8eccc0be16dee5b3069f9da946ecd4e55e"
+  },
+  "WindowsActualTuple": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-pg-actual-readback01/Windows-WSL-current01.json",
+    "bytes": 4861,
+    "rawBytesSha256": "65c84f181a660ad1300529e452c7bedea3f029ddc5d0c217c6ee74bdf4e05511"
+  },
+  "WSL": {
+    "pid": 28132,
+    "creationTime": "2026-11-14T15:30:17.2546580Z",
+    "executable": "C:/Windows/System32/wsl.exe",
+    "argvMatchesRecordedLaunch": true,
+    "commandLineRawSha256": "53acafb028532b200c93d07e1f0bf53c2ad9eb2d9116902e18b62aee43ea40c3"
+  },
+  "mode": "started-existing",
+  "observations": [
+    {
+      "pin": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime118-reentry/pg-current/51478e58-8d98-4263-952c-e26321e17636/before.json",
+        "bytes": 1904,
+        "rawBytesSha256": "741dc9a4ea56b2d7956f6dcf8763cafa8a2f27f016422570405f170a6f34e5d7"
+      },
+      "container": {
+        "id": "513925616f4e1c1c988753e385be7f441dc98f6fb490101537498f60e8d5e00f",
+        "running": false,
+        "status": "exited",
+        "exitCode": 0
+      },
+      "image": {
+        "id": "b718026138f18af7722fc66f706d64990e869a4b196508aaf4f3671786c8d93a",
+        "digest": "sha256:086140c1db0d726474eb5078bb013adbc96c4b980341bea323e963e59f55fe46"
+      },
+      "volume": {
+        "name": "poms-r4ghi-pg15-data",
+        "driver": "local",
+        "mountpoint": "/home/wangzishi/.local/share/containers/storage/volumes/poms-r4ghi-pg15-data/_data"
+      },
+      "mount": {
+        "source": "/home/wangzishi/.local/share/containers/storage/volumes/poms-r4ghi-pg15-data/_data",
+        "destination": "/var/lib/postgresql/data",
+        "rw": true,
+        "pgdata": "/var/lib/postgresql/data"
+      },
+      "pgProcess": null,
+      "PG_VERSION": "15",
+      "OIDs": [
+        "16385",
+        "16387"
+      ],
+      "inspectEnvironmentFiltered": true
+    },
+    {
+      "pin": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime118-reentry/pg-current/51478e58-8d98-4263-952c-e26321e17636/after.json",
+        "bytes": 2002,
+        "rawBytesSha256": "9b8f09d76c20f15a79a9e5aae678d448edb49f8fc54d82a966d25f8a0fc571bd"
+      },
+      "container": {
+        "id": "513925616f4e1c1c988753e385be7f441dc98f6fb490101537498f60e8d5e00f",
+        "running": true,
+        "status": "running",
+        "exitCode": 0
+      },
+      "image": {
+        "id": "b718026138f18af7722fc66f706d64990e869a4b196508aaf4f3671786c8d93a",
+        "digest": "sha256:086140c1db0d726474eb5078bb013adbc96c4b980341bea323e963e59f55fe46"
+      },
+      "volume": {
+        "name": "poms-r4ghi-pg15-data",
+        "driver": "local",
+        "mountpoint": "/home/wangzishi/.local/share/containers/storage/volumes/poms-r4ghi-pg15-data/_data"
+      },
+      "mount": {
+        "source": "/home/wangzishi/.local/share/containers/storage/volumes/poms-r4ghi-pg15-data/_data",
+        "destination": "/var/lib/postgresql/data",
+        "rw": true,
+        "pgdata": "/var/lib/postgresql/data"
+      },
+      "pgProcess": {
+        "pid": 954,
+        "startTime": "625808",
+        "startedAt": "2026-11-15T02:14:36.016636193+09:00"
+      },
+      "PG_VERSION": "15",
+      "OIDs": [
+        "16385",
+        "16387"
+      ],
+      "inspectEnvironmentFiltered": true
+    }
+  ],
+  "storedEvidence": [
+    {
+      "pin": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime118-reentry/pg-current/51478e58-8d98-4263-952c-e26321e17636/before-evidence.json",
+        "bytes": 1609,
+        "rawBytesSha256": "1f2f4a250853f0e1710a735e887931359ab8a2d68a7ef2b637299441fdb37f97"
+      },
+      "inspect": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime118-reentry/pg-current/51478e58-8d98-4263-952c-e26321e17636/before-inspect.raw",
+        "bytes": 15303,
+        "rawBytesSha256": "5ceae2b8c48b0b974f6db12daf7d5e8f9fe135e6f363e4d720a7ca69fb534e88"
+      },
+      "volume": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime118-reentry/pg-current/51478e58-8d98-4263-952c-e26321e17636/before-volume.raw",
+        "bytes": 527,
+        "rawBytesSha256": "6da1387b07e0460c54cfd87aeb92b6e38cd9c3695b1bacf4ead6ff696ea31576"
+      },
+      "PG_VERSION": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime118-reentry/pg-current/51478e58-8d98-4263-952c-e26321e17636/before-PG_VERSION.raw",
+        "bytes": 3,
+        "rawBytesSha256": "238903180cc104ec2c5d8b3f20c5bc61b389ec0a967df8cc208cdc7cd454174f"
+      },
+      "oidDirectories": [
+        {
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime118-reentry/pg-current/51478e58-8d98-4263-952c-e26321e17636/before-oid-16385.json",
+          "bytes": 2441,
+          "rawBytesSha256": "d5e907dcf013633750efeb80e5a2f3fd24cc2ffd0cabd10431dff2e9974615d2"
+        },
+        {
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime118-reentry/pg-current/51478e58-8d98-4263-952c-e26321e17636/before-oid-16387.json",
+          "bytes": 2441,
+          "rawBytesSha256": "b379e4f19f8270d2d94c821a5078c709ec363d012934b7d0d871d264650e58c3"
+        }
+      ],
+      "podman": {
+        "file": "/usr/bin/podman",
+        "bytes": 45138544,
+        "rawBytesSha256": "6e4993e061eb88205003892252e2e13bbf49c12a6f67f519881b9b3c94e980e6"
+      }
+    },
+    {
+      "pin": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime118-reentry/pg-current/51478e58-8d98-4263-952c-e26321e17636/after-evidence.json",
+        "bytes": 1604,
+        "rawBytesSha256": "668c9eebb7c8d64d8ff876523a95491f4a8c678006b46f46a86e4eef9dc4d608"
+      },
+      "inspect": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime118-reentry/pg-current/51478e58-8d98-4263-952c-e26321e17636/after-inspect.raw",
+        "bytes": 15347,
+        "rawBytesSha256": "a0be70b5fec3ee1dee89135f636c4fa98e224b681451091bbf5aaac608ad2e54"
+      },
+      "volume": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime118-reentry/pg-current/51478e58-8d98-4263-952c-e26321e17636/after-volume.raw",
+        "bytes": 527,
+        "rawBytesSha256": "6da1387b07e0460c54cfd87aeb92b6e38cd9c3695b1bacf4ead6ff696ea31576"
+      },
+      "PG_VERSION": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime118-reentry/pg-current/51478e58-8d98-4263-952c-e26321e17636/after-PG_VERSION.raw",
+        "bytes": 3,
+        "rawBytesSha256": "238903180cc104ec2c5d8b3f20c5bc61b389ec0a967df8cc208cdc7cd454174f"
+      },
+      "oidDirectories": [
+        {
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime118-reentry/pg-current/51478e58-8d98-4263-952c-e26321e17636/after-oid-16385.json",
+          "bytes": 2439,
+          "rawBytesSha256": "6c638a77defc642173809b067f66ed3726ee9480da4bb7987086316ba5563f2b"
+        },
+        {
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime118-reentry/pg-current/51478e58-8d98-4263-952c-e26321e17636/after-oid-16387.json",
+          "bytes": 2439,
+          "rawBytesSha256": "867c399a6512b8fed35ccb7dd96b103cbfaaf74ba4dc7ba02a5ed1f68b14b6d2"
+        }
+      ],
+      "podman": {
+        "file": "/usr/bin/podman",
+        "bytes": 45138544,
+        "rawBytesSha256": "6e4993e061eb88205003892252e2e13bbf49c12a6f67f519881b9b3c94e980e6"
+      }
+    }
+  ],
+  "readonlyReadiness": [
+    {
+      "pin": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime118-reentry/pg-current/51478e58-8d98-4263-952c-e26321e17636/readiness-native.json",
+        "bytes": 2109,
+        "rawBytesSha256": "24fccad44c4b7c68c37c71f3965f3fc403e07406109956794343b310dcd4192e"
+      },
+      "database": "poms_r4ghi_native",
+      "oid": "16385",
+      "serverVersion": "150012",
+      "settings": {
+        "transaction_read_only": "on",
+        "default_transaction_read_only": "on",
+        "transaction_isolation": "repeatable read"
+      },
+      "originalMarkerAndRolesAnd98MigrationsMatch": true,
+      "storedReadonlyEvidenceOnly": true
+    },
+    {
+      "pin": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime118-reentry/pg-current/51478e58-8d98-4263-952c-e26321e17636/readiness-rust.json",
+        "bytes": 2103,
+        "rawBytesSha256": "4a5c62734d90ec3c83ed1d3450ee2d73bc7430036c0734b5a4fbf5dc3281b536"
+      },
+      "database": "poms_r4ghi_rust",
+      "oid": "16387",
+      "serverVersion": "150012",
+      "settings": {
+        "transaction_read_only": "on",
+        "default_transaction_read_only": "on",
+        "transaction_isolation": "repeatable read"
+      },
+      "originalMarkerAndRolesAnd98MigrationsMatch": true,
+      "storedReadonlyEvidenceOnly": true
+    }
+  ],
+  "current": {
+    "bootId": "f9827a31-8128-425d-ac3e-a24d9dec3ed3",
+    "container": "513925616f4e1c1c988753e385be7f441dc98f6fb490101537498f60e8d5e00f",
+    "image": "b718026138f18af7722fc66f706d64990e869a4b196508aaf4f3671786c8d93a",
+    "volume": "poms-r4ghi-pg15-data",
+    "volumeRoot": "/home/wangzishi/.local/share/containers/storage/volumes/poms-r4ghi-pg15-data/_data",
+    "PID": 954,
+    "startTime": "625808",
+    "startedAt": "2026-11-15T02:14:36.016636193+09:00",
+    "processExecutable": {
+      "observed": true,
+      "path": "/opt/pgsql/bin/postgres",
+      "pathNamespace": "kernel-reported container path; no host realpath substitution"
+    },
+    "PG_VERSION": "15",
+    "OIDs": [
+      "16385",
+      "16387"
+    ],
+    "liveTupleStableAcrossRead": true,
+    "inspectEnvironmentNotRetained": true
+  },
+  "holder": {
+    "complete": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime118-reentry/holder-start/fef1a0e4-c9c1-4956-a1e0-2797f27ec796/complete.json",
+      "bytes": 3086,
+      "rawBytesSha256": "fe408fbaeb40c7c47ffc075aa615e5c285e885f71e15dc90e8dcfe2d949602ae"
+    },
+    "bootId": "f9827a31-8128-425d-ac3e-a24d9dec3ed3",
+    "pid": 322,
+    "startTime": "561",
+    "ppid": 321,
+    "parentStartTime": "560",
+    "cleanArgvAndEnvironmentMatch": true,
+    "liveTupleStableAcrossRead": true
+  },
+  "protectedHashes": [
+    {
+      "label": "canonical",
+      "current": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/state.json",
+        "bytes": 15045544,
+        "rawBytesSha256": "6c1fabbacebc43fea8636c8fd91afac81dd66e8b6200ca5a769c08ae41401b3b"
+      },
+      "identity": {
+        "dev": "2096",
+        "ino": "5939454",
+        "nlink": 1,
+        "uid": 1000,
+        "mode": 33152,
+        "mtimeNs": "1794531098903591658",
+        "ctimeNs": "1794531098903591658",
+        "regular": true,
+        "symlink": false,
+        "fdAndPathStableBeforeAfter": true
+      },
+      "expected": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-prepare362-completed01/6458f733-0fe1-4b5e-b2ff-076908543af3/state-after.json",
+        "bytes": 15045544,
+        "rawBytesSha256": "6c1fabbacebc43fea8636c8fd91afac81dd66e8b6200ca5a769c08ae41401b3b"
+      },
+      "snapshot": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime118-reentry/holder-start/fef1a0e4-c9c1-4956-a1e0-2797f27ec796/canonical-before.json",
+        "bytes": 15045544,
+        "rawBytesSha256": "6c1fabbacebc43fea8636c8fd91afac81dd66e8b6200ca5a769c08ae41401b3b"
+      },
+      "bytesEqualExpected": true,
+      "contentNotParsedOrOutput": true
+    },
+    {
+      "label": "ownership",
+      "current": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/ownership.jsonl",
+        "bytes": 13016,
+        "rawBytesSha256": "1da85861708f1d1c37389385f6c86741e46a7053d5c0eb034260ff8c01aba517"
+      },
+      "identity": {
+        "dev": "2096",
+        "ino": "5926099",
+        "nlink": 1,
+        "uid": 1000,
+        "mode": 33152,
+        "mtimeNs": "1794530502791748045",
+        "ctimeNs": "1794530502791748045",
+        "regular": true,
+        "symlink": false,
+        "fdAndPathStableBeforeAfter": true
+      },
+      "expected": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-prepare362-completed01/6458f733-0fe1-4b5e-b2ff-076908543af3/ownership-after.jsonl",
+        "bytes": 13016,
+        "rawBytesSha256": "1da85861708f1d1c37389385f6c86741e46a7053d5c0eb034260ff8c01aba517"
+      },
+      "snapshot": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime118-reentry/holder-start/fef1a0e4-c9c1-4956-a1e0-2797f27ec796/ownership-before.jsonl",
+        "bytes": 13016,
+        "rawBytesSha256": "1da85861708f1d1c37389385f6c86741e46a7053d5c0eb034260ff8c01aba517"
+      },
+      "bytesEqualExpected": true,
+      "contentNotParsedOrOutput": true
+    },
+    {
+      "label": "preparation",
+      "current": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/000065-tax121-prepare-continuation.json",
+        "bytes": 367950,
+        "rawBytesSha256": "847fe81ffbc4cf4f73b369ac1466e3185e051a6d0d87ca429b444111767115e7"
+      },
+      "identity": {
+        "dev": "2096",
+        "ino": "5939452",
+        "nlink": 1,
+        "uid": 1000,
+        "mode": 33152,
+        "mtimeNs": "1794531098839591672",
+        "ctimeNs": "1794531098839591672",
+        "regular": true,
+        "symlink": false,
+        "fdAndPathStableBeforeAfter": true
+      },
+      "expected": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/000065-tax121-prepare-continuation.json",
+        "bytes": 367950,
+        "rawBytesSha256": "847fe81ffbc4cf4f73b369ac1466e3185e051a6d0d87ca429b444111767115e7"
+      },
+      "snapshot": null,
+      "bytesEqualExpected": true,
+      "contentNotParsedOrOutput": true
+    }
+  ],
+  "actualPublicSources": [
+    {
+      "pin": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/budget118/reenter-budget118-runtime.mjs",
+        "bytes": 133531,
+        "rawBytesSha256": "b37708b88543cc4e6f25b9face76887fe5fc1b039f126ff44ba85f0f291dd8d2"
+      },
+      "identity": {
+        "dev": "1382411776",
+        "ino": "6917529027730464492",
+        "nlink": 1,
+        "regular": true,
+        "symlink": false,
+        "fdAndPathStableBeforeAfter": true
+      }
+    },
+    {
+      "pin": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/budget118/start-budget118-holder.ps1",
+        "bytes": 25217,
+        "rawBytesSha256": "37c8e7577f70107ee512f63aa08fb241f9a5f93d625293a2f1719af55cb318b0"
+      },
+      "identity": {
+        "dev": "1382411776",
+        "ino": "6917529027747241708",
+        "nlink": 1,
+        "regular": true,
+        "symlink": false,
+        "fdAndPathStableBeforeAfter": true
+      }
+    },
+    {
+      "pin": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/budget118/promote-budget118-source-once.mjs",
+        "bytes": 42757,
+        "rawBytesSha256": "dd4944818a3876a970cba88703893c01a7313556e905b381a691d3a07d8ee0d3"
+      },
+      "identity": {
+        "dev": "1382411776",
+        "ino": "6917529027680132844",
+        "nlink": 1,
+        "regular": true,
+        "symlink": false,
+        "fdAndPathStableBeforeAfter": true
+      }
+    }
+  ],
+  "engine": {
+    "Linux": {
+      "version": "v24.19.0",
+      "executable": {
+        "file": "/home/wangzishi/.local/share/fnm/node-versions/v24.19.0/installation/bin/node",
+        "bytes": 125989464,
+        "rawBytesSha256": "bc17c508ffeed0ec622934f9b7fa72f8e78da65350e63c3eceb56fa688aa5e12"
+      }
+    },
+    "Windows": {
+      "version": "v24.19.0",
+      "executable": {
+        "file": "/mnt/c/Users/ynh2/AppData/Roaming/fnm/node-versions/v24.19.0/installation/node.exe",
+        "bytes": 92825416,
+        "rawBytesSha256": "3602f2bb1a10f2cbab4c36886218a33c1ab3db87290e73b033c46c77147d0237"
+      }
+    }
+  },
+  "WindowsSystemRoles": [
+    {
+      "role": "pwsh",
+      "pin": {
+        "file": "/mnt/c/Users/ynh2/.cache/codex-runtimes/codex-primary-runtime/dependencies/native/powershell/pwsh.exe",
+        "bytes": 301360,
+        "rawBytesSha256": "2a6769a3330dc1084d0154bfde7d164ab750ca7f700f313f9d417c1be78b2233"
+      },
+      "identity": {
+        "dev": "3800612498",
+        "ino": "3659174700996335",
+        "nlink": 1,
+        "regular": true,
+        "symlink": false,
+        "fdAndPathStableBeforeAfter": true
+      }
+    },
+    {
+      "role": "WSL-nlink2",
+      "pin": {
+        "file": "/mnt/c/Windows/System32/wsl.exe",
+        "bytes": 212992,
+        "rawBytesSha256": "7492f024a0ef1f77d77a930e1681692501422e96a6df99f503b8a71881c8309c"
+      },
+      "identity": {
+        "dev": "3800612498",
+        "ino": "12384898977976090",
+        "nlink": 2,
+        "regular": true,
+        "symlink": false,
+        "fdAndPathStableBeforeAfter": true
+      }
+    }
+  ],
+  "checks": {
+    "originalCIDImageVolumeMountAndPortsMatch": true,
+    "originalPG15AndTwoOIDDirectoriesExist": true,
+    "currentPIDStartTupleMatchesStoredAfterAndStable": true,
+    "twoStoredReadonlyReadinessRecordsMatchIdentityAndGuard": true,
+    "actualHolderAndProtectedHashesRefreshed": true,
+    "storedInspectEnvironmentFilteredAndNoValuesRetained": true,
+    "readonlyMetadataOnlyQueriesExecuted": true
+  },
+  "captureBoundary": {
+    "naturalEOF": false,
+    "actualWrapperExitTime": "UNKNOWN",
+    "CMD15EndedAtMeaning": "actual capture-close seal time only"
+  },
+  "blockingFindings": [],
+  "limits": {
+    "noCredentialFileRead": true,
+    "noInspectEnvironmentRetained": true,
+    "businessRowsRead": false,
+    "SQLExecuted": false,
+    "HTTP": false,
+    "serviceStartedStopped": false,
+    "phaseOrDataWriterExecuted": false,
+    "privateWrite": false,
+    "storedReadinessNotReplacedByNewSQL": true
+  },
+  "notCertified": {
+    "fullDatabaseConservationOrBaselineComparison": true,
+    "API": true,
+    "sourcePromotion": true,
+    "AuthFIOrNormal": true
+  },
+  "auditDevelopment": {
+    "firstOwnReadonlyAttempt": {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-pg-actual-readback01/PG-readback-command01.json",
+      "bytes": 1269,
+      "rawBytesSha256": "5d10dcd2b702b40832342be3b5e6b3402a5a83b3a9e6f723d3d4e7b31f437882"
+    },
+    "correction": "Use readlink on the container /proc/PID/exe magic link, preserving its kernel-reported container pathname; do not resolve it as a host-root path. No SQL, phase, service control or private write was performed."
+  }
+}

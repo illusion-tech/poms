@@ -1,0 +1,11 @@
+--- a/apps/poms-api-rust/src/project_workspace/service.rs
++++ b/apps/poms-api-rust/src/project_workspace/service.rs
+@@ -299,7 +299,7 @@
+         };
+         events.push(Event {
+             key: format!("project-completed:{}", row.id),
+-            stage: "completed",
++            stage: &row.completion_result,
+             event_type: "stage-completed",
+             occurred_at: row.completed_at,
+             actor: row.completed_by,

@@ -1,0 +1,57 @@
+{
+  "kind": "proposed-Source13-preclassified-period-FI-tool-correction205",
+  "sourcePinsSHA256": "5e467b677cfe08e44c8cb1c71cac62478e416e394ba4a5ec8651dab5732c255e",
+  "sourceCount": 416,
+  "RootApplied": false,
+  "H1Admitted": false,
+  "databaseOrHTTPExecuted": false,
+  "oldH0AndSources19Preserved": true,
+  "boundedCase": "already-classified real current capture; exact full period-preparation unit set required before any effects",
+  "changes": [
+    {
+      "file": "tools/rust-r4ghi/business/fault-sweep.mjs",
+      "operation": "replace-exact-H0-helper",
+      "before": {
+        "file": "tools/rust-r4ghi/period205/before/tools/rust-r4ghi/business/fault-sweep.mjs",
+        "rawBytesSha256": "986afb297db23a425d13384b312c8b80f26b2aaeba13ec66ac93b853bd064e36"
+      },
+      "after": {
+        "file": "tools/rust-r4ghi/period205/proposed/tools/rust-r4ghi/business/fault-sweep.mjs",
+        "rawBytesSha256": "0fa7108fccdc065ad66b29375b0fca876b599f076bce6030bbe5bb6a14aa67cd"
+      }
+    },
+    {
+      "file": "tools/rust-r4ghi/business/gh-write-facts.mjs",
+      "operation": "replace-exact-H0-helper",
+      "before": {
+        "file": "tools/rust-r4ghi/period205/before/tools/rust-r4ghi/business/gh-write-facts.mjs",
+        "rawBytesSha256": "400fa7b0d0a52e8c696b861e609e98432a9fd05502252b8e06d4714653598a87"
+      },
+      "after": {
+        "file": "tools/rust-r4ghi/period205/proposed/tools/rust-r4ghi/business/gh-write-facts.mjs",
+        "rawBytesSha256": "dc2fbe03d966d2dc2bbc7d3fcd5657e3bc2b6759feecd5b7e455684d5f8dc87c"
+      }
+    },
+    {
+      "file": "tools/rust-r4ghi/business/required-write-sources13.json",
+      "operation": "add-current416-source-list",
+      "before": null,
+      "after": {
+        "file": "tools/rust-r4ghi/period205/proposed/tools/rust-r4ghi/business/required-write-sources13.json",
+        "rawBytesSha256": "e95a9c8e3cabf30095c463a577d2d70eb681eb7b22d6c7ee31375dbdcf55e22c"
+      }
+    }
+  ],
+  "requiredExternalPreflight": [
+    "actual completed HK period",
+    "real period preparation eligible",
+    "no classification decisions",
+    "all selected live cost units equal all period direct/share rows",
+    "actual full inventory reviewed before effects",
+    "Tax complete before any period creation",
+    "same-body FI rollback then one normal success",
+    "current live snapshot/gates/reviews remain unchanged except operating head CAS version"
+  ],
+  "formalG3Certified": false,
+  "G4Certified": false
+}

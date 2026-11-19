@@ -1,0 +1,8 @@
+// Immutable candidate package; RootApproval and actual source update remain absent.
+import fs from 'node:fs';import path from'node:path';import assert from'node:assert/strict';
+import{C,assertOperatorHost121,json,local,pin,read}from'./runtime-recovery121/root/facts121.mjs';
+assertOperatorHost121();const R=C.root,H='/mnt/e/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/runtime121-finite-promotion-increment03',O=R+'/tools/rust-r4ghi/runtime-recovery121/Native05-source-candidate03';
+const seal=pin(H+'/manifest-increment03-seal.json');assert.equal(seal.rawBytesSha256,'d9c164104527f6e6dca10a528b1c2d847d72ebc449a0be9f2e5aa341c1f7c4d4');
+const files=[seal,...json(seal).files.map(({file,bytes,rawBytesSha256})=>({file,bytes,rawBytesSha256}))],unique=[...new Map(files.map(p=>[p.file,p])).values()];for(const p of unique){assert(p.file.startsWith(H+'/'));read(p);}assert(!fs.existsSync(local(O)));fs.mkdirSync(local(O),{recursive:true});const copies=[];
+for(const p of unique){const f=O+'/'+p.file.slice(H.length+1);fs.mkdirSync(local(path.posix.dirname(f)),{recursive:true});fs.writeFileSync(local(f),read(p),{flag:'wx'});const copy=pin(f);assert.equal(copy.rawBytesSha256,p.rawBytesSha256);assert.equal(copy.bytes,p.bytes);copies.push({original:p,copy});}
+fs.writeFileSync(local(O+'/raw-copies-provenance.json'),JSON.stringify({kind:'Root-retained-Native05-source-candidate',copies,actualSourcePromotion:false,RootApprovalSigned:false,APIStarted:false},null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({package:pin(O+'/raw-copies-provenance.json'),actualSourcePromotion:false}));

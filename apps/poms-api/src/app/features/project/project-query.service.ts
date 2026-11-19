@@ -1,3 +1,5 @@
+import { parseR4GhiFrozenNativeValue } from "../../core/rust-r4ghi-native-protocol.guard";
+import { ProjectStageSchema } from "../../core/rust-r4ghi-frozen-native-reference";
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import type {
     AcceptanceRecordList,
@@ -33,8 +35,8 @@ import type {
     ProjectTimelineView,
     ProjectWorkspaceGuidanceView,
     UserPayload
-} from '@poms/shared-contracts';
-import { ProjectStageValue, ProjectStatusValue } from '@poms/shared-contracts';
+} from "../../core/rust-r4ghi-frozen-native-reference";
+import { ProjectStageValue, ProjectStatusValue } from "../../core/rust-r4ghi-frozen-native-reference";
 import { ApprovalSummarySnapshotRepository } from '../approval-summary/approval-summary.repository';
 import { SensitiveFieldProjectionService, type SensitiveFieldProjectionRequestContext } from '../../core/sensitive-field-projection/sensitive-field-projection.service';
 import { Contract } from '../contract/contract.entity';
@@ -221,7 +223,7 @@ export class ProjectQueryService {
                     customerId: project.customerId ?? null,
                     customerName: project.customerName ?? null,
                     customerProjectNo: project.customerProjectNo ?? null,
-                    currentStage: project.currentStage,
+                    currentStage: parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage),
                     status: project.status,
                     ownerOrgName: project.ownerOrgId ? (ownerOrgNameById.get(project.ownerOrgId) ?? null) : null,
                     ownerName: project.ownerUserId ? (ownerNameByUserId.get(project.ownerUserId) ?? null) : null,
@@ -290,7 +292,7 @@ export class ProjectQueryService {
             customerName: project.customerName ?? null,
             customerProjectNo: project.customerProjectNo ?? null,
             status: project.status,
-            currentStage: project.currentStage,
+            currentStage: parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage),
             ownerOrgId: project.ownerOrgId ?? null,
             ownerUserId: project.ownerUserId ?? null,
             plannedSignAt: project.plannedSignAt?.toISOString() ?? null,
@@ -336,9 +338,9 @@ export class ProjectQueryService {
 
         return {
             projectId: project.id,
-            currentStage: project.currentStage,
+            currentStage: parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage),
             status: project.status,
-            currentStageLabel: this.getStageLabel(project.currentStage),
+            currentStageLabel: this.getStageLabel(parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage)),
             statusLabel: this.getStatusLabel(project.status),
             headline: guidance.headline,
             currentFocus: guidance.currentFocus,
@@ -421,7 +423,7 @@ export class ProjectQueryService {
         if (!currentProcess) {
             return {
                 projectId: project.id,
-                currentStage: project.currentStage,
+                currentStage: parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage),
                 status: project.status,
                 currentProcess: null,
                 materialItems: [],
@@ -441,7 +443,7 @@ export class ProjectQueryService {
 
         return {
             projectId: project.id,
-            currentStage: project.currentStage,
+            currentStage: parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage),
             status: project.status,
             currentProcess: this.mapProjectBidCommercialProcess(currentProcess),
             materialItems: materialItems.map((item) => this.mapProjectBidCommercialMaterialItem(item)),
@@ -485,7 +487,7 @@ export class ProjectQueryService {
             const blockingReasons = this.buildPricingMarginPrerequisiteBlockingReasons(currentTechnicalCostPackage, currentBidCommercialProcess);
             return {
                 projectId: project.id,
-                currentStage: project.currentStage,
+                currentStage: parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage),
                 status: project.status,
                 currentReview: null,
                 technicalCostPackage: currentTechnicalCostPackage ? this.mapProjectTechnicalCostPackage(currentTechnicalCostPackage) : null,
@@ -508,7 +510,7 @@ export class ProjectQueryService {
 
         return {
             projectId: project.id,
-            currentStage: project.currentStage,
+            currentStage: parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage),
             status: project.status,
             currentReview: this.mapProjectPricingMarginReview(currentReview),
             technicalCostPackage: technicalCostPackage ? this.mapProjectTechnicalCostPackage(technicalCostPackage) : null,
@@ -551,7 +553,7 @@ export class ProjectQueryService {
         if (!currentPackage) {
             return {
                 projectId: project.id,
-                currentStage: project.currentStage,
+                currentStage: parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage),
                 status: project.status,
                 currentPackage: null,
                 scopeItems: [],
@@ -573,7 +575,7 @@ export class ProjectQueryService {
 
         return {
             projectId: project.id,
-            currentStage: project.currentStage,
+            currentStage: parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage),
             status: project.status,
             currentPackage: this.mapProjectTechnicalCostPackage(currentPackage),
             scopeItems: scopeItems.map((item) => this.mapProjectTechnicalScopeItem(item)),
@@ -720,8 +722,8 @@ export class ProjectQueryService {
         if (project.closedAt) {
             events.push({
                 eventKey: 'project-closed',
-                stage: project.currentStage,
-                stageLabel: this.getStageLabel(project.currentStage),
+                stage: parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage),
+                stageLabel: this.getStageLabel(parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage)),
                 eventType: 'stage-completed',
                 occurredAt: project.closedAt.toISOString(),
                 actorUserId: project.updatedBy ?? null,
@@ -1014,7 +1016,7 @@ export class ProjectQueryService {
         const permissionSet = new Set<PermissionKey>(permissions);
         const actions = ['view-bid-commercial-workspace'];
 
-        if (!this.isClosedProject(project) && PROJECT_WORKSPACE_PRESIGNING_STAGES.includes(project.currentStage) && permissionSet.has('project:write')) {
+        if (!this.isClosedProject(project) && PROJECT_WORKSPACE_PRESIGNING_STAGES.includes(parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage)) && permissionSet.has('project:write')) {
             actions.push('create-bid-commercial-process');
         }
 
@@ -1070,7 +1072,7 @@ export class ProjectQueryService {
         const permissionSet = new Set<PermissionKey>(permissions);
         const actions = ['view-pricing-margin-workspace'];
 
-        if (!this.isClosedProject(project) && PROJECT_WORKSPACE_PRESIGNING_STAGES.includes(project.currentStage) && permissionSet.has('project:write')) {
+        if (!this.isClosedProject(project) && PROJECT_WORKSPACE_PRESIGNING_STAGES.includes(parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage)) && permissionSet.has('project:write')) {
             actions.push('create-pricing-margin-review');
         }
 
@@ -1153,7 +1155,7 @@ export class ProjectQueryService {
         const permissionSet = new Set<PermissionKey>(permissions);
         const actions = ['view-technical-cost-workspace'];
 
-        if (!this.isClosedProject(project) && PROJECT_WORKSPACE_PRESIGNING_STAGES.includes(project.currentStage) && permissionSet.has('project:write')) {
+        if (!this.isClosedProject(project) && PROJECT_WORKSPACE_PRESIGNING_STAGES.includes(parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage)) && permissionSet.has('project:write')) {
             actions.push('create-technical-cost-package');
         }
 
@@ -1206,7 +1208,7 @@ export class ProjectQueryService {
 
     private buildStageSummary(project: Project): ProjectDetailView['stageSummary'] {
         return {
-            currentStage: project.currentStage,
+            currentStage: parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage),
             status: project.status,
             plannedSignAt: project.plannedSignAt?.toISOString() ?? null,
             closedAt: project.closedAt?.toISOString() ?? null,
@@ -1316,7 +1318,7 @@ export class ProjectQueryService {
             actions.push('reassign-project-owner');
         }
 
-        const commissionStageReady = PROJECT_WORKSPACE_COMMISSION_STAGES.includes(project.currentStage);
+        const commissionStageReady = PROJECT_WORKSPACE_COMMISSION_STAGES.includes(parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage));
         const commissionPermissions: PermissionKey[] = ['commission:assignments:manage', 'commission:calculations:manage', 'commission:payouts:manage', 'commission:adjustments:manage', 'commission:rule-versions:manage'];
         const canManageCommission = commissionPermissions.some((permission) => permissionSet.has(permission));
 
@@ -1336,7 +1338,7 @@ export class ProjectQueryService {
     }
 
     private isTerminalProjectStage(project: Project): boolean {
-        return TERMINAL_PROJECT_STAGES.includes(project.currentStage);
+        return TERMINAL_PROJECT_STAGES.includes(parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage));
     }
 
     private buildWorkspaceBlockingReasons(project: Project): string[] {
@@ -1353,7 +1355,7 @@ export class ProjectQueryService {
     }
 
     private buildWorkspaceGuidanceText(project: Project, blockingReasons: string[]): ProjectWorkspaceGuidanceText {
-        const stageLabel = this.getStageLabel(project.currentStage);
+        const stageLabel = this.getStageLabel(parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage));
 
         if (project.status === ProjectStatusValue.Blocked) {
             return {
@@ -1387,16 +1389,16 @@ export class ProjectQueryService {
 
         if (this.isClosedProject(project)) {
             return {
-                headline: PROJECT_WORKSPACE_STAGE_GUIDANCE[project.currentStage]?.headline ?? '项目已关闭。',
-                currentFocus: PROJECT_WORKSPACE_STAGE_GUIDANCE[project.currentStage]?.currentFocus ?? '查看关闭原因和归档事实。',
+                headline: PROJECT_WORKSPACE_STAGE_GUIDANCE[parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage)]?.headline ?? '项目已关闭。',
+                currentFocus: PROJECT_WORKSPACE_STAGE_GUIDANCE[parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage)]?.currentFocus ?? '查看关闭原因和归档事实。',
                 currentGap: project.closedReason ? `项目已关闭：${project.closedReason}` : '项目已关闭，不再推进后续阶段。',
-                nextStep: PROJECT_WORKSPACE_STAGE_GUIDANCE[project.currentStage]?.nextStep ?? '查看归档事实和结算结果。',
-                ownerFallback: PROJECT_WORKSPACE_STAGE_GUIDANCE[project.currentStage]?.ownerFallback ?? '项目负责人'
+                nextStep: PROJECT_WORKSPACE_STAGE_GUIDANCE[parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage)]?.nextStep ?? '查看归档事实和结算结果。',
+                ownerFallback: PROJECT_WORKSPACE_STAGE_GUIDANCE[parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage)]?.ownerFallback ?? '项目负责人'
             };
         }
 
         return (
-            PROJECT_WORKSPACE_STAGE_GUIDANCE[project.currentStage] ?? {
+            PROJECT_WORKSPACE_STAGE_GUIDANCE[parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage)] ?? {
                 headline: `${stageLabel}正在推进。`,
                 currentFocus: '确认当前阶段事实和下一步责任。',
                 currentGap: '需要补齐当前阶段的业务依据。',
@@ -1410,9 +1412,9 @@ export class ProjectQueryService {
         const permissionSet = new Set<PermissionKey>(permissions);
         const hasAllPermissions = (requiredPermissions: PermissionKey[]) => requiredPermissions.every((permission) => permissionSet.has(permission));
         const isClosed = this.isClosedProject(project);
-        const financeStageReady = PROJECT_WORKSPACE_FINANCE_STAGES.includes(project.currentStage);
-        const commissionStageReady = PROJECT_WORKSPACE_COMMISSION_STAGES.includes(project.currentStage);
-        const settlementStageReady = PROJECT_WORKSPACE_SETTLEMENT_STAGES.includes(project.currentStage);
+        const financeStageReady = PROJECT_WORKSPACE_FINANCE_STAGES.includes(parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage));
+        const commissionStageReady = PROJECT_WORKSPACE_COMMISSION_STAGES.includes(parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage));
+        const settlementStageReady = PROJECT_WORKSPACE_SETTLEMENT_STAGES.includes(parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage));
         const canUsePreSigningWorkspace = hasAllPermissions(PROJECT_WORKSPACE_PRESIGNING_PERMISSIONS) && allowedActions.includes('view-project-workspace');
         const canUseHandoverWorkspace = hasAllPermissions(PROJECT_WORKSPACE_HANDOVER_PERMISSIONS) && allowedActions.includes('view-project-workspace');
         const canUseFinanceWorkspace = hasAllPermissions(PROJECT_WORKSPACE_FINANCE_PERMISSIONS);
@@ -1442,7 +1444,7 @@ export class ProjectQueryService {
             }
         ];
 
-        if (PROJECT_WORKSPACE_PRESIGNING_STAGES.includes(project.currentStage)) {
+        if (PROJECT_WORKSPACE_PRESIGNING_STAGES.includes(parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage))) {
             entries.push({
                 key: 'pre-signing-workspace',
                 label: '签约前主线',
@@ -1505,7 +1507,7 @@ export class ProjectQueryService {
             });
         }
 
-        if (project.currentStage === ProjectStageValue.Handover) {
+        if (parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage) === ProjectStageValue.Handover) {
             entries.push({
                 key: 'handover-workspace',
                 label: '合同承接',
@@ -1671,6 +1673,6 @@ export class ProjectQueryService {
     }
 
     private isClosedProject(project: Project): boolean {
-        return project.status === ProjectStatusValue.Closed || project.currentStage === ProjectStageValue.ClosedLost || project.currentStage === ProjectStageValue.ClosedTerminated;
+        return project.status === ProjectStatusValue.Closed || parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage) === ProjectStageValue.ClosedLost || parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage) === ProjectStageValue.ClosedTerminated;
     }
 }

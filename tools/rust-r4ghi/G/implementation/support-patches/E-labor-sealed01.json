@@ -1,0 +1,15 @@
+{
+  "kind": "review-only-not-applied",
+  "source": "apps/poms-api-rust/src/project_actual_cost/mod.rs",
+  "sourceSha256": "aaaa5126be86c421255d699bcad582131943d7f500754f0db8e55ddfc437a407",
+  "candidateSha256": "f3db8eb7e847384f794c30beee6f03cc8c3758dc43db94a4d12dc4afd2fee311",
+  "applied": false,
+  "compiled": false,
+  "realDatabaseValidated": false,
+  "invariants": [
+    "Existing real E build_labor/create_cost still owns rates, quantities, interval coverage, published-rate authority, attachments, numbering and audits",
+    "Old included-ever flag is never reset; old row becomes replaced with its original amounts/confirmation/source_basis intact",
+    "Root validates typed LaborCorrection, mints same-TX scope, and calls actual new-cost stage producer before G consumes it",
+    "Root must genuinely rebuild every consumed allocation source set using new real E successor IDs and restore all affected terminals atomically"
+  ]
+}

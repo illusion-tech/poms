@@ -1,0 +1,52 @@
+--- a/apps/poms-api-rust/src/project_actual_cost/mod.rs
++++ b/apps/poms-api-rust/src/project_actual_cost/mod.rs
+@@ -1925,3 +1925,49 @@
+         );
+     }
+ }
++
++/// Read-only preflight through the very same real E labor builder. No number,
++/// cost row, audit or fabricated persisted draft is produced by this helper.
++pub(crate) async fn validate_labor_replacement_with_restatement_scope(
++    session: &mut CommonSession<'_, '_>,
++    id: Uuid,
++    body: &Value,
++    actor: &Actor,
++    scope: &crate::project_operating_common::model::VerifiedRestatementScope<'_>,
++) -> Result<(), Error> {
++    scope.access.assert_session(session, actor).await?;
++    require_labor_read(actor)?;
++    let old = store::row(session.connection, Table::Cost, id, true).await?;
++    scope.access.assert_project(uid(&old, "project_id")?)?;
++    let actual = crate::project_operating::sources::source_reference_with_session(
++        session,
++        "ProjectActualCostRecord",
++        id,
++    )
++    .await?;
++    if !scope.locked_source_refs.iter().any(|r| {
++        r.id == actual.id
++            && r.kind == actual.kind
++            && r.row_version == actual.row_version
++            && r.payload_hash == actual.payload_hash
++    }) {
++        return Err(Error::Conflict(
++            "Labor preflight is outside exact sealed source scope".into(),
++        ));
++    }
++    expected(body, "expectedSupersededRecordVersion", version(&old)?)?;
++    if old["cost_type"] != "labor"
++        || !matches!(
++            old["record_status"].as_str(),
++            Some("registered" | "confirmed" | "included")
++        )
++        || store::successor(session.connection, id).await?.is_some()
++    {
++        return Err(Error::Conflict(
++            "Labor preflight requires the actual current source".into(),
++        ));
++    }
++    let mut checked = old.clone();
++    build_labor(session, body, &mut checked, Some(&old), actor).await?;
++    Ok(())
++}

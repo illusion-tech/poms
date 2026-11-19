@@ -1,0 +1,1199 @@
+{
+  "source": "libs/shared/contracts/src/lib/shared-contracts.ts",
+  "base": "tools/rust-r2ef/f-golden.json",
+  "cases": [
+    {
+      "schema": "AuditLogListQuery",
+      "name": "empty",
+      "inputRaw": "{}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{}"
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "unknown-strip",
+      "inputRaw": "{\"unknown\":true,\"offset\":2}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{}"
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "empty",
+      "inputRaw": "{}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{}"
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "unknown-strip",
+      "inputRaw": "{\"unknown\":true,\"offset\":2}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{}"
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "empty",
+      "inputRaw": "{}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{}"
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "unknown-strip",
+      "inputRaw": "{\"unknown\":true,\"offset\":2}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{}"
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "unknown-strip",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[\"platform:users:manage\"],\"actorId\":\"spoof\",\"severity\":\"high\",\"unknown\":true}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[\"platform:users:manage\"]}"
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "limit:one",
+      "inputRaw": "{\"limit\":\"1\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":1}"
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "limit:hundred",
+      "inputRaw": "{\"limit\":\"100\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":100}"
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "limit:hex",
+      "inputRaw": "{\"limit\":\"0x10\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":16}"
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "limit:binary",
+      "inputRaw": "{\"limit\":\"0b10\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":2}"
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "limit:exponent",
+      "inputRaw": "{\"limit\":\"1e2\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":100}"
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "limit:plus",
+      "inputRaw": "{\"limit\":\"+2\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":2}"
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "limit:space",
+      "inputRaw": "{\"limit\":\" 2 \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":2}"
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "limit:boolean",
+      "inputRaw": "{\"limit\":true}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":1}"
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "limit:one-array",
+      "inputRaw": "{\"limit\":[\"2\"]}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":2}"
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "limit:number",
+      "inputRaw": "{\"limit\":2}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":2}"
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "from:utc",
+      "inputRaw": "{\"from\":\"2026-10-28T01:02:03Z\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"from\":\"2026-10-28T01:02:03Z\"}"
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "from:millis",
+      "inputRaw": "{\"from\":\"2026-10-28T01:02:03.123Z\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"from\":\"2026-10-28T01:02:03.123Z\"}"
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "from:fraction",
+      "inputRaw": "{\"from\":\"2026-10-28T01:02:03.123456789123Z\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"from\":\"2026-10-28T01:02:03.123456789123Z\"}"
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "from:leap",
+      "inputRaw": "{\"from\":\"2000-02-29T00:00:00Z\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"from\":\"2000-02-29T00:00:00Z\"}"
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "from:year-zero",
+      "inputRaw": "{\"from\":\"0000-02-29T00:00:00Z\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"from\":\"0000-02-29T00:00:00Z\"}"
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "reverse-range",
+      "inputRaw": "{\"from\":\"2026-10-29T00:00:00Z\",\"to\":\"2026-10-28T00:00:00Z\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"from\":\"2026-10-29T00:00:00Z\",\"to\":\"2026-10-28T00:00:00Z\"}"
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "eventType:space",
+      "inputRaw": "{\"eventType\":\" \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"eventType\":\" \"}"
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "eventType:astral-at",
+      "inputRaw": "{\"eventType\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"eventType\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}"
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "eventType:lone",
+      "inputRaw": "{\"eventType\":\"\\ud800\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"eventType\":\"\\ud800\"}"
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "targetType:space",
+      "inputRaw": "{\"targetType\":\" \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"targetType\":\" \"}"
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "targetType:astral-at",
+      "inputRaw": "{\"targetType\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"targetType\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}"
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "targetType:lone",
+      "inputRaw": "{\"targetType\":\"\\ud800\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"targetType\":\"\\ud800\"}"
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "targetId:space",
+      "inputRaw": "{\"targetId\":\" \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"targetId\":\" \"}"
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "targetId:astral-at",
+      "inputRaw": "{\"targetId\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"targetId\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}"
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "targetId:lone",
+      "inputRaw": "{\"targetId\":\"\\ud800\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"targetId\":\"\\ud800\"}"
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "operatorId:\"a0000000-0000-4000-8000-000000000001\"",
+      "inputRaw": "{\"operatorId\":\"a0000000-0000-4000-8000-000000000001\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"operatorId\":\"a0000000-0000-4000-8000-000000000001\"}"
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "operatorId:\"A0000000-0000-4000-8000-000000000001\"",
+      "inputRaw": "{\"operatorId\":\"A0000000-0000-4000-8000-000000000001\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"operatorId\":\"A0000000-0000-4000-8000-000000000001\"}"
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "operatorId:\"00000000-0000-0000-0000-000000000000\"",
+      "inputRaw": "{\"operatorId\":\"00000000-0000-0000-0000-000000000000\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"operatorId\":\"00000000-0000-0000-0000-000000000000\"}"
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "operatorId:\"ffffffff-ffff-ffff-ffff-ffffffffffff\"",
+      "inputRaw": "{\"operatorId\":\"ffffffff-ffff-ffff-ffff-ffffffffffff\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"operatorId\":\"ffffffff-ffff-ffff-ffff-ffffffffffff\"}"
+      }
+    },
+    {
+      "schema": "AuditLogListQuery",
+      "name": "result:\"success\"",
+      "inputRaw": "{\"result\":\"success\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"result\":\"success\"}"
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "limit:one",
+      "inputRaw": "{\"limit\":\"1\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":1}"
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "limit:hundred",
+      "inputRaw": "{\"limit\":\"100\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":100}"
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "limit:hex",
+      "inputRaw": "{\"limit\":\"0x10\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":16}"
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "limit:binary",
+      "inputRaw": "{\"limit\":\"0b10\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":2}"
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "limit:exponent",
+      "inputRaw": "{\"limit\":\"1e2\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":100}"
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "limit:plus",
+      "inputRaw": "{\"limit\":\"+2\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":2}"
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "limit:space",
+      "inputRaw": "{\"limit\":\" 2 \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":2}"
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "limit:boolean",
+      "inputRaw": "{\"limit\":true}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":1}"
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "limit:one-array",
+      "inputRaw": "{\"limit\":[\"2\"]}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":2}"
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "limit:number",
+      "inputRaw": "{\"limit\":2}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":2}"
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "from:utc",
+      "inputRaw": "{\"from\":\"2026-10-28T01:02:03Z\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"from\":\"2026-10-28T01:02:03Z\"}"
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "from:millis",
+      "inputRaw": "{\"from\":\"2026-10-28T01:02:03.123Z\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"from\":\"2026-10-28T01:02:03.123Z\"}"
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "from:fraction",
+      "inputRaw": "{\"from\":\"2026-10-28T01:02:03.123456789123Z\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"from\":\"2026-10-28T01:02:03.123456789123Z\"}"
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "from:leap",
+      "inputRaw": "{\"from\":\"2000-02-29T00:00:00Z\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"from\":\"2000-02-29T00:00:00Z\"}"
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "from:year-zero",
+      "inputRaw": "{\"from\":\"0000-02-29T00:00:00Z\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"from\":\"0000-02-29T00:00:00Z\"}"
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "reverse-range",
+      "inputRaw": "{\"from\":\"2026-10-29T00:00:00Z\",\"to\":\"2026-10-28T00:00:00Z\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"from\":\"2026-10-29T00:00:00Z\",\"to\":\"2026-10-28T00:00:00Z\"}"
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "eventType:space",
+      "inputRaw": "{\"eventType\":\" \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"eventType\":\" \"}"
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "eventType:astral-at",
+      "inputRaw": "{\"eventType\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"eventType\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}"
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "eventType:lone",
+      "inputRaw": "{\"eventType\":\"\\ud800\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"eventType\":\"\\ud800\"}"
+      }
+    },
+    {
+      "schema": "EntityAuditLogListQuery",
+      "name": "result:\"success\"",
+      "inputRaw": "{\"result\":\"success\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"result\":\"success\"}"
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "limit:one",
+      "inputRaw": "{\"limit\":\"1\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":1}"
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "limit:hundred",
+      "inputRaw": "{\"limit\":\"100\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":100}"
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "limit:hex",
+      "inputRaw": "{\"limit\":\"0x10\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":16}"
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "limit:binary",
+      "inputRaw": "{\"limit\":\"0b10\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":2}"
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "limit:exponent",
+      "inputRaw": "{\"limit\":\"1e2\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":100}"
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "limit:plus",
+      "inputRaw": "{\"limit\":\"+2\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":2}"
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "limit:space",
+      "inputRaw": "{\"limit\":\" 2 \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":2}"
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "limit:boolean",
+      "inputRaw": "{\"limit\":true}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":1}"
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "limit:one-array",
+      "inputRaw": "{\"limit\":[\"2\"]}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":2}"
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "limit:number",
+      "inputRaw": "{\"limit\":2}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"limit\":2}"
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "from:utc",
+      "inputRaw": "{\"from\":\"2026-10-28T01:02:03Z\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"from\":\"2026-10-28T01:02:03Z\"}"
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "from:millis",
+      "inputRaw": "{\"from\":\"2026-10-28T01:02:03.123Z\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"from\":\"2026-10-28T01:02:03.123Z\"}"
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "from:fraction",
+      "inputRaw": "{\"from\":\"2026-10-28T01:02:03.123456789123Z\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"from\":\"2026-10-28T01:02:03.123456789123Z\"}"
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "from:leap",
+      "inputRaw": "{\"from\":\"2000-02-29T00:00:00Z\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"from\":\"2000-02-29T00:00:00Z\"}"
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "from:year-zero",
+      "inputRaw": "{\"from\":\"0000-02-29T00:00:00Z\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"from\":\"0000-02-29T00:00:00Z\"}"
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "reverse-range",
+      "inputRaw": "{\"from\":\"2026-10-29T00:00:00Z\",\"to\":\"2026-10-28T00:00:00Z\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"from\":\"2026-10-29T00:00:00Z\",\"to\":\"2026-10-28T00:00:00Z\"}"
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "eventType:space",
+      "inputRaw": "{\"eventType\":\" \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"eventType\":\" \"}"
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "eventType:astral-at",
+      "inputRaw": "{\"eventType\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"eventType\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}"
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "eventType:lone",
+      "inputRaw": "{\"eventType\":\"\\ud800\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"eventType\":\"\\ud800\"}"
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "actorId:\"a0000000-0000-4000-8000-000000000001\"",
+      "inputRaw": "{\"actorId\":\"a0000000-0000-4000-8000-000000000001\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"actorId\":\"a0000000-0000-4000-8000-000000000001\"}"
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "actorId:\"A0000000-0000-4000-8000-000000000001\"",
+      "inputRaw": "{\"actorId\":\"A0000000-0000-4000-8000-000000000001\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"actorId\":\"A0000000-0000-4000-8000-000000000001\"}"
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "actorId:\"00000000-0000-0000-0000-000000000000\"",
+      "inputRaw": "{\"actorId\":\"00000000-0000-0000-0000-000000000000\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"actorId\":\"00000000-0000-0000-0000-000000000000\"}"
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "actorId:\"ffffffff-ffff-ffff-ffff-ffffffffffff\"",
+      "inputRaw": "{\"actorId\":\"ffffffff-ffff-ffff-ffff-ffffffffffff\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"actorId\":\"ffffffff-ffff-ffff-ffff-ffffffffffff\"}"
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "principal:space",
+      "inputRaw": "{\"principal\":\" \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"principal\":\" \"}"
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "principal:astral-at",
+      "inputRaw": "{\"principal\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"principal\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}"
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "principal:lone",
+      "inputRaw": "{\"principal\":\"\\ud800\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"principal\":\"\\ud800\"}"
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "path:space",
+      "inputRaw": "{\"path\":\" \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\" \"}"
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "path:astral-at",
+      "inputRaw": "{\"path\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}"
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "path:lone",
+      "inputRaw": "{\"path\":\"\\ud800\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\"\\ud800\"}"
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "permissionKey:space",
+      "inputRaw": "{\"permissionKey\":\" \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"permissionKey\":\" \"}"
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "permissionKey:astral-at",
+      "inputRaw": "{\"permissionKey\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"permissionKey\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}"
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "permissionKey:lone",
+      "inputRaw": "{\"permissionKey\":\"\\ud800\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"permissionKey\":\"\\ud800\"}"
+      }
+    },
+    {
+      "schema": "SecurityEventListQuery",
+      "name": "result:\"blocked\"",
+      "inputRaw": "{\"result\":\"blocked\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"result\":\"blocked\"}"
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "minimal",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[\"platform:users:manage\"]}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[\"platform:users:manage\"]}"
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "return-null",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[\"platform:users:manage\"],\"returnUrl\":null}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\"/platform/users\",\"returnUrl\":null,\"requiredPermissions\":[\"platform:users:manage\"]}"
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "duplicate-permissions",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[\"project:read\",\"lead:read\",\"project:read\"]}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[\"project:read\",\"lead:read\",\"project:read\"]}"
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "path:space",
+      "inputRaw": "{\"path\":\" \",\"requiredPermissions\":[\"platform:users:manage\"]}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\" \",\"requiredPermissions\":[\"platform:users:manage\"]}"
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "path:at",
+      "inputRaw": "{\"path\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\"requiredPermissions\":[\"platform:users:manage\"]}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\"requiredPermissions\":[\"platform:users:manage\"]}"
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "path:astral-at",
+      "inputRaw": "{\"path\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\",\"requiredPermissions\":[\"platform:users:manage\"]}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\",\"requiredPermissions\":[\"platform:users:manage\"]}"
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "path:lone-high",
+      "inputRaw": "{\"path\":\"\\ud800\",\"requiredPermissions\":[\"platform:users:manage\"]}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\"\\ud800\",\"requiredPermissions\":[\"platform:users:manage\"]}"
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "path:lone-low",
+      "inputRaw": "{\"path\":\"\\udc00\",\"requiredPermissions\":[\"platform:users:manage\"]}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\"\\udc00\",\"requiredPermissions\":[\"platform:users:manage\"]}"
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "path:nul",
+      "inputRaw": "{\"path\":\"a\\u0000b\",\"requiredPermissions\":[\"platform:users:manage\"]}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\"a\\u0000b\",\"requiredPermissions\":[\"platform:users:manage\"]}"
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "returnUrl:space",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[\"platform:users:manage\"],\"returnUrl\":\" \"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\"/platform/users\",\"returnUrl\":\" \",\"requiredPermissions\":[\"platform:users:manage\"]}"
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "returnUrl:null",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[\"platform:users:manage\"],\"returnUrl\":null}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\"/platform/users\",\"returnUrl\":null,\"requiredPermissions\":[\"platform:users:manage\"]}"
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "returnUrl:at",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[\"platform:users:manage\"],\"returnUrl\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\"/platform/users\",\"returnUrl\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\"requiredPermissions\":[\"platform:users:manage\"]}"
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "returnUrl:astral-at",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[\"platform:users:manage\"],\"returnUrl\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\"/platform/users\",\"returnUrl\":\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\",\"requiredPermissions\":[\"platform:users:manage\"]}"
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "returnUrl:lone-high",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[\"platform:users:manage\"],\"returnUrl\":\"\\ud800\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\"/platform/users\",\"returnUrl\":\"\\ud800\",\"requiredPermissions\":[\"platform:users:manage\"]}"
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "returnUrl:lone-low",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[\"platform:users:manage\"],\"returnUrl\":\"\\udc00\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\"/platform/users\",\"returnUrl\":\"\\udc00\",\"requiredPermissions\":[\"platform:users:manage\"]}"
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "returnUrl:nul",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[\"platform:users:manage\"],\"returnUrl\":\"a\\u0000b\"}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\"/platform/users\",\"returnUrl\":\"a\\u0000b\",\"requiredPermissions\":[\"platform:users:manage\"]}"
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "permissions:wrong",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[\"future:permission\"]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "platform:users:manage",
+              "platform:roles:manage",
+              "platform:navigation:manage",
+              "platform:org-units:manage",
+              "platform:dictionaries:manage",
+              "platform:identity-providers:manage",
+              "platform:org-sync:manage",
+              "platform:attachment-storage-providers:manage",
+              "platform:system-settings:manage",
+              "customer:read",
+              "customer:write",
+              "commission:rule-versions:manage",
+              "commission:assignments:manage",
+              "commission:calculations:manage",
+              "commission:payouts:manage",
+              "commission:adjustments:manage",
+              "commission:low-down-payment:approve",
+              "contract:finance:manage",
+              "contract:finance:sensitive:read",
+              "operating:finance:sensitive:read",
+              "commission:amount:sensitive:read",
+              "labor-cost-rate:sensitive:read",
+              "exception-approval-opinion:sensitive:read",
+              "lead:read",
+              "lead:write",
+              "lead:assign",
+              "lead:score:override",
+              "project:read",
+              "project:write",
+              "project:delete",
+              "nav:dashboard:view",
+              "nav:customers:view",
+              "nav:platform:view",
+              "nav:leads:view",
+              "nav:attachments:view",
+              "nav:projects:view",
+              "nav:contracts:view",
+              "nav:profile:view"
+            ],
+            "path": [
+              "requiredPermissions",
+              0
+            ],
+            "message": "Invalid option: expected one of \"platform:users:manage\"|\"platform:roles:manage\"|\"platform:navigation:manage\"|\"platform:org-units:manage\"|\"platform:dictionaries:manage\"|\"platform:identity-providers:manage\"|\"platform:org-sync:manage\"|\"platform:attachment-storage-providers:manage\"|\"platform:system-settings:manage\"|\"customer:read\"|\"customer:write\"|\"commission:rule-versions:manage\"|\"commission:assignments:manage\"|\"commission:calculations:manage\"|\"commission:payouts:manage\"|\"commission:adjustments:manage\"|\"commission:low-down-payment:approve\"|\"contract:finance:manage\"|\"contract:finance:sensitive:read\"|\"operating:finance:sensitive:read\"|\"commission:amount:sensitive:read\"|\"labor-cost-rate:sensitive:read\"|\"exception-approval-opinion:sensitive:read\"|\"lead:read\"|\"lead:write\"|\"lead:assign\"|\"lead:score:override\"|\"project:read\"|\"project:write\"|\"project:delete\"|\"nav:dashboard:view\"|\"nav:customers:view\"|\"nav:platform:view\"|\"nav:leads:view\"|\"nav:attachments:view\"|\"nav:projects:view\"|\"nav:contracts:view\"|\"nav:profile:view\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "permissions:mixed",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[null,false,\"bad\"]}",
+      "expected": {
+        "success": false,
+        "errors": [
+          {
+            "code": "invalid_value",
+            "values": [
+              "platform:users:manage",
+              "platform:roles:manage",
+              "platform:navigation:manage",
+              "platform:org-units:manage",
+              "platform:dictionaries:manage",
+              "platform:identity-providers:manage",
+              "platform:org-sync:manage",
+              "platform:attachment-storage-providers:manage",
+              "platform:system-settings:manage",
+              "customer:read",
+              "customer:write",
+              "commission:rule-versions:manage",
+              "commission:assignments:manage",
+              "commission:calculations:manage",
+              "commission:payouts:manage",
+              "commission:adjustments:manage",
+              "commission:low-down-payment:approve",
+              "contract:finance:manage",
+              "contract:finance:sensitive:read",
+              "operating:finance:sensitive:read",
+              "commission:amount:sensitive:read",
+              "labor-cost-rate:sensitive:read",
+              "exception-approval-opinion:sensitive:read",
+              "lead:read",
+              "lead:write",
+              "lead:assign",
+              "lead:score:override",
+              "project:read",
+              "project:write",
+              "project:delete",
+              "nav:dashboard:view",
+              "nav:customers:view",
+              "nav:platform:view",
+              "nav:leads:view",
+              "nav:attachments:view",
+              "nav:projects:view",
+              "nav:contracts:view",
+              "nav:profile:view"
+            ],
+            "path": [
+              "requiredPermissions",
+              0
+            ],
+            "message": "Invalid option: expected one of \"platform:users:manage\"|\"platform:roles:manage\"|\"platform:navigation:manage\"|\"platform:org-units:manage\"|\"platform:dictionaries:manage\"|\"platform:identity-providers:manage\"|\"platform:org-sync:manage\"|\"platform:attachment-storage-providers:manage\"|\"platform:system-settings:manage\"|\"customer:read\"|\"customer:write\"|\"commission:rule-versions:manage\"|\"commission:assignments:manage\"|\"commission:calculations:manage\"|\"commission:payouts:manage\"|\"commission:adjustments:manage\"|\"commission:low-down-payment:approve\"|\"contract:finance:manage\"|\"contract:finance:sensitive:read\"|\"operating:finance:sensitive:read\"|\"commission:amount:sensitive:read\"|\"labor-cost-rate:sensitive:read\"|\"exception-approval-opinion:sensitive:read\"|\"lead:read\"|\"lead:write\"|\"lead:assign\"|\"lead:score:override\"|\"project:read\"|\"project:write\"|\"project:delete\"|\"nav:dashboard:view\"|\"nav:customers:view\"|\"nav:platform:view\"|\"nav:leads:view\"|\"nav:attachments:view\"|\"nav:projects:view\"|\"nav:contracts:view\"|\"nav:profile:view\""
+          },
+          {
+            "code": "invalid_value",
+            "values": [
+              "platform:users:manage",
+              "platform:roles:manage",
+              "platform:navigation:manage",
+              "platform:org-units:manage",
+              "platform:dictionaries:manage",
+              "platform:identity-providers:manage",
+              "platform:org-sync:manage",
+              "platform:attachment-storage-providers:manage",
+              "platform:system-settings:manage",
+              "customer:read",
+              "customer:write",
+              "commission:rule-versions:manage",
+              "commission:assignments:manage",
+              "commission:calculations:manage",
+              "commission:payouts:manage",
+              "commission:adjustments:manage",
+              "commission:low-down-payment:approve",
+              "contract:finance:manage",
+              "contract:finance:sensitive:read",
+              "operating:finance:sensitive:read",
+              "commission:amount:sensitive:read",
+              "labor-cost-rate:sensitive:read",
+              "exception-approval-opinion:sensitive:read",
+              "lead:read",
+              "lead:write",
+              "lead:assign",
+              "lead:score:override",
+              "project:read",
+              "project:write",
+              "project:delete",
+              "nav:dashboard:view",
+              "nav:customers:view",
+              "nav:platform:view",
+              "nav:leads:view",
+              "nav:attachments:view",
+              "nav:projects:view",
+              "nav:contracts:view",
+              "nav:profile:view"
+            ],
+            "path": [
+              "requiredPermissions",
+              1
+            ],
+            "message": "Invalid option: expected one of \"platform:users:manage\"|\"platform:roles:manage\"|\"platform:navigation:manage\"|\"platform:org-units:manage\"|\"platform:dictionaries:manage\"|\"platform:identity-providers:manage\"|\"platform:org-sync:manage\"|\"platform:attachment-storage-providers:manage\"|\"platform:system-settings:manage\"|\"customer:read\"|\"customer:write\"|\"commission:rule-versions:manage\"|\"commission:assignments:manage\"|\"commission:calculations:manage\"|\"commission:payouts:manage\"|\"commission:adjustments:manage\"|\"commission:low-down-payment:approve\"|\"contract:finance:manage\"|\"contract:finance:sensitive:read\"|\"operating:finance:sensitive:read\"|\"commission:amount:sensitive:read\"|\"labor-cost-rate:sensitive:read\"|\"exception-approval-opinion:sensitive:read\"|\"lead:read\"|\"lead:write\"|\"lead:assign\"|\"lead:score:override\"|\"project:read\"|\"project:write\"|\"project:delete\"|\"nav:dashboard:view\"|\"nav:customers:view\"|\"nav:platform:view\"|\"nav:leads:view\"|\"nav:attachments:view\"|\"nav:projects:view\"|\"nav:contracts:view\"|\"nav:profile:view\""
+          },
+          {
+            "code": "invalid_value",
+            "values": [
+              "platform:users:manage",
+              "platform:roles:manage",
+              "platform:navigation:manage",
+              "platform:org-units:manage",
+              "platform:dictionaries:manage",
+              "platform:identity-providers:manage",
+              "platform:org-sync:manage",
+              "platform:attachment-storage-providers:manage",
+              "platform:system-settings:manage",
+              "customer:read",
+              "customer:write",
+              "commission:rule-versions:manage",
+              "commission:assignments:manage",
+              "commission:calculations:manage",
+              "commission:payouts:manage",
+              "commission:adjustments:manage",
+              "commission:low-down-payment:approve",
+              "contract:finance:manage",
+              "contract:finance:sensitive:read",
+              "operating:finance:sensitive:read",
+              "commission:amount:sensitive:read",
+              "labor-cost-rate:sensitive:read",
+              "exception-approval-opinion:sensitive:read",
+              "lead:read",
+              "lead:write",
+              "lead:assign",
+              "lead:score:override",
+              "project:read",
+              "project:write",
+              "project:delete",
+              "nav:dashboard:view",
+              "nav:customers:view",
+              "nav:platform:view",
+              "nav:leads:view",
+              "nav:attachments:view",
+              "nav:projects:view",
+              "nav:contracts:view",
+              "nav:profile:view"
+            ],
+            "path": [
+              "requiredPermissions",
+              2
+            ],
+            "message": "Invalid option: expected one of \"platform:users:manage\"|\"platform:roles:manage\"|\"platform:navigation:manage\"|\"platform:org-units:manage\"|\"platform:dictionaries:manage\"|\"platform:identity-providers:manage\"|\"platform:org-sync:manage\"|\"platform:attachment-storage-providers:manage\"|\"platform:system-settings:manage\"|\"customer:read\"|\"customer:write\"|\"commission:rule-versions:manage\"|\"commission:assignments:manage\"|\"commission:calculations:manage\"|\"commission:payouts:manage\"|\"commission:adjustments:manage\"|\"commission:low-down-payment:approve\"|\"contract:finance:manage\"|\"contract:finance:sensitive:read\"|\"operating:finance:sensitive:read\"|\"commission:amount:sensitive:read\"|\"labor-cost-rate:sensitive:read\"|\"exception-approval-opinion:sensitive:read\"|\"lead:read\"|\"lead:write\"|\"lead:assign\"|\"lead:score:override\"|\"project:read\"|\"project:write\"|\"project:delete\"|\"nav:dashboard:view\"|\"nav:customers:view\"|\"nav:platform:view\"|\"nav:leads:view\"|\"nav:attachments:view\"|\"nav:projects:view\"|\"nav:contracts:view\"|\"nav:profile:view\""
+          }
+        ]
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "duplicates-last-win",
+      "inputRaw": "{\"path\":\"old\",\"path\":\"new\",\"requiredPermissions\":[\"project:read\"]}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\"new\",\"requiredPermissions\":[\"project:read\"]}"
+      }
+    },
+    {
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "name": "escaped-key-last-win",
+      "inputRaw": "{\"path\":\"old\",\"\\u0070ath\":\"new\",\"requiredPermissions\":[\"project:read\"]}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\"new\",\"requiredPermissions\":[\"project:read\"]}"
+      }
+    },
+    {
+      "name": "current-business-permission",
+      "schema": "RecordRouteDeniedSecurityEventRequest",
+      "inputRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[\"commission:low-down-payment:approve\"],\"actorId\":\"spoof\",\"severity\":\"high\",\"unknown\":true}",
+      "expected": {
+        "success": true,
+        "dataRaw": "{\"path\":\"/platform/users\",\"requiredPermissions\":[\"commission:low-down-payment:approve\"]}"
+      }
+    }
+  ]
+}

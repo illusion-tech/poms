@@ -1,0 +1,32 @@
+--- a/apps/poms-api-rust/src/project_cost_governance/service.rs
++++ b/apps/poms-api-rust/src/project_cost_governance/service.rs
+@@ -802,7 +802,9 @@
+         .await?;
+     if let Some(permit) = permit {
+         validate_stage_restatement_permit(session, actor, permit, cost_id, id, project).await?;
+-    } else if operating_source_consumed(session, cost_id).await? {
++    } else if operating_source_consumed(session, cost_id).await?
++        && !is_true_first_stage_append(session, &cost, reclassify).await?
++    {
+         return Err(crate::contract_support::Error::CodedConflict {
+             code: "operating_restatement_required",
+             message: "Consumed cost facts require an atomic restatement".into(),
+@@ -1531,3 +1533,18 @@
+     }
+     Ok(())
+ }
++
++// A pending/excluded reference is not prior recognition. This exception only
++// appends the first actual stage and never revises a pre-existing stage/batch.
++async fn is_true_first_stage_append(
++    session: &mut CommonSession<'_, '_>,
++    cost: &Value,
++    reclassify: bool,
++) -> Result<bool, Error> {
++    if reclassify || cost["is_included_in_project_cost"] != false {
++        return Ok(false);
++    }
++    let id = store::id(cost, "id")?;
++    Ok(sqlx::query_scalar::<_,bool>("SELECT NOT EXISTS(SELECT 1 FROM poms.cost_stage_attribution_snapshot WHERE cost_record_id=$1) AND NOT EXISTS(SELECT 1 FROM poms.shared_cost_allocation_source_snapshot WHERE cost_record_id=$1)")
++        .bind(id).fetch_one(&mut *session.connection).await?)
++}

@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "namespace": "poms-r4ghi",
+  "epoch": null,
+  "run": null,
+  "uiRun": "gh18-06-01",
+  "origin": "http://127.0.0.1:44551",
+  "backendPort": 31441,
+  "paths": {
+    "linuxIPC": "/home/wangzishi/.local/share/poms-r4ghi/private/ui/runtime14/gh18-06-01",
+    "windowsIPC": "//wsl.localhost/Debian/home/wangzishi/.local/share/poms-r4ghi/private/ui/runtime14/gh18-06-01",
+    "linuxPlan": "/home/wangzishi/.local/share/poms-r4ghi/private/ui-config/runtime14/gh18-06-01.json",
+    "windowsPlan": "//wsl.localhost/Debian/home/wangzishi/.local/share/poms-r4ghi/private/ui-config/runtime14/gh18-06-01.json",
+    "windowsPrivate": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/private/ui-runtime14/gh18-06-01",
+    "linuxPublic": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/ui-runtime14/gh18-06-01",
+    "windowsPublic": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/ui-runtime14/gh18-06-01",
+    "linuxBinding": "/home/wangzishi/.local/share/poms-r4ghi/private/ui-config/runtime14/gh18-06-01-binding.json",
+    "windowsBinding": "//wsl.localhost/Debian/home/wangzishi/.local/share/poms-r4ghi/private/ui-config/runtime14/gh18-06-01-binding.json"
+  },
+  "sourceBases": [
+    {
+      "file": "tools/rust-r4ghi/H/implementation/support-patches/ui-integration/append06/ui06.candidate08.mjs",
+      "rawBytesSha256": "52addde6eab92076ea50970e597754bf426fc21a87019c91e25714b40068fe0c"
+    },
+    {
+      "file": "tools/rust-r4ghi/H/implementation/support-patches/ui-integration/append06/ui-server06.mjs",
+      "rawBytesSha256": "842e6a24443cf76beefa9f640412363701f04ec6ffaa0c806322b4841cd87aed"
+    }
+  ],
+  "browserCasesSourceBaseSHA256": "52addde6eab92076ea50970e597754bf426fc21a87019c91e25714b40068fe0c",
+  "linuxNodeExecutable": null,
+  "overallTimeoutSeconds": 1800,
+  "windows": {
+    "node": {
+      "executablePath": "C:/Users/ynh2/AppData/Roaming/fnm/node-versions/v24.19.0/installation/node.exe",
+      "rawBytesSha256": "3602f2bb1a10f2cbab4c36886218a33c1ab3db87290e73b033c46c77147d0237",
+      "version": "v24.19.0"
+    },
+    "browser": {
+      "executablePath": "C:/Program Files/Google/Chrome/Application/chrome.exe",
+      "rawBytesSha256": "46461accbdc87dc88a5bdd6d611be095dd6147db009863d794f742ca90662efa",
+      "productVersion": "156.0.8078.80",
+      "fileVersion": "156.0.8078.80",
+      "browserVersion": "156.0.8078.80"
+    },
+    "playwright": {
+      "requireFromPackageJson": "E:/projects/worktrees/poms-r3hijk-next28/poms/package.json",
+      "requireFromPackageJsonRawBytesSha256": "7bb812cbdfad7356fc835e18ff250c399706eb881f9f2b491f6c1257cc3c3b75",
+      "entryFile": "E:/projects/worktrees/poms-r3hijk-next28/poms/node_modules/.pnpm/@playwright+test@1.63.0/node_modules/@playwright/test/index.js",
+      "entryRawBytesSha256": "499da5dd8585212108a1443793de31ebc061ca7db02343f107955f261180cdfc",
+      "packageFile": "E:/projects/worktrees/poms-r3hijk-next28/poms/node_modules/.pnpm/@playwright+test@1.63.0/node_modules/@playwright/test/package.json",
+      "packageRawBytesSha256": "5587f932b8979b6889654b60e3c28aeb7ca0abbac00eec8c176c939a16149536",
+      "version": "1.63.0"
+    }
+  },
+  "cases": [
+    {
+      "kind": "gh-forms",
+      "actorKey": "manager",
+      "projectIdPointer": "/fixtures/uiFormFixtureViews18/gh-capture/pause/result/projectId",
+      "forbiddenTextPointers": []
+    }
+  ],
+  "RootMustBindCurrentWindowsInventoryAndLinuxNode": true,
+  "writeActions": [
+    {
+      "kind": "gh-forms",
+      "actorKey": "manager",
+      "requireActualPendingTaxPrerequisite": true,
+      "baselineReason": "依据当前真实批准估算和固定移交口径，采用本项目正式基线。",
+      "classificationReason": "显式纳入本项目真实已确认费用及F阶段归属，依据来自同一实际来源。",
+      "riskDecision": "attention",
+      "materialityRationale": "本人核对本次真实税务待核凭据缺口后保持关注；不改变系统金额、成熟度或硬阻断。",
+      "gateComment": "本人核阅真实当前阶段依据，选择更严格阻断；不作为提成发放批准。"
+    }
+  ],
+  "A08CompleteClaimed": false
+}

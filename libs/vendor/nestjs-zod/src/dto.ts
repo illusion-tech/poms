@@ -15,6 +15,7 @@ import {
   PARENT_ID_KEY,
   UNWRAP_ROOT_KEY,
   SELF_REQUIRED_KEY,
+  SELF_ORIGINAL_TYPE_KEY,
   PARENT_METADATA_KEY,
   USES_THREE_POINT_ONE_SYNTAX_KEY,
 } from './const';
@@ -177,6 +178,15 @@ function openApiMetadataFactory({
     // Add a marker so we know to clean this up.  We could just remove any
     // empty type, but we really only want to remove the empty types we
     // added
+    // Swagger removes an explicitly declared type beside allOf/oneOf/anyOf.
+    // Preserve the original JSON Schema type so cleanup restores its constraint.
+    if (
+      typeof propertySchema.type === 'string' &&
+      ('allOf' in propertySchema || 'oneOf' in propertySchema || 'anyOf' in propertySchema)
+    ) {
+      newPropertySchema[SELF_ORIGINAL_TYPE_KEY] = propertySchema.type;
+    }
+
     if (typeof propertySchema.type !== 'string') {
       newPropertySchema[EMPTY_TYPE_KEY] = true;
     }
@@ -218,7 +228,11 @@ function openApiMetadataFactory({
       newPropertySchema[PARENT_ID_KEY] = rootId;
     }
 
-    if (typeof jsonSchema.additionalProperties === 'boolean') {
+    if (
+      typeof jsonSchema.additionalProperties === 'boolean' ||
+      (jsonSchema.additionalProperties !== null &&
+        typeof jsonSchema.additionalProperties === 'object')
+    ) {
       newPropertySchema[PARENT_ADDITIONAL_PROPERTIES_KEY] =
         jsonSchema.additionalProperties;
     }

@@ -1,0 +1,134 @@
+{
+  "kind": "proposed-external-Source13-H1-real-period-driver206-final-protocol02",
+  "author": "/root/r4_period_engineering206",
+  "rootApplied": false,
+  "actualEffectsExecuted": false,
+  "H1OrB2Minted": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "sourcePinsSHA256": "5e467b677cfe08e44c8cb1c71cac62478e416e394ba4a5ec8651dab5732c255e",
+  "sourceCount": 416,
+  "files": [
+    {
+      "file": "tools/rust-r4ghi/I/implementation/period-driver206/driver206.mjs",
+      "bytes": 24897,
+      "rawBytesSha256": "ce6f92bc0557a7b3c61b6f4f5857eb80fa4fbeab745811fabb6a3eec4aa33447"
+    },
+    {
+      "file": "tools/rust-r4ghi/I/implementation/period-driver206/facts206.mjs",
+      "bytes": 19417,
+      "rawBytesSha256": "313c1450b61700e51505acb35cc15cb5bc7e49e71cc053a98c8a191c5e664660"
+    },
+    {
+      "file": "tools/rust-r4ghi/I/implementation/period-driver206/input206.template.json",
+      "bytes": 583,
+      "rawBytesSha256": "682f40794f5ddd4f0d0b37b7b499e40bef78afe89f02dc53a1f5e682e9f66af7"
+    },
+    {
+      "file": "tools/rust-r4ghi/I/implementation/period-driver206/facts206.test.mjs",
+      "bytes": 10583,
+      "rawBytesSha256": "187a783f03849bc49a0f3c63d720393ac5356e6a5852491d71957afa0d151397"
+    },
+    {
+      "file": "tools/rust-r4ghi/I/implementation/period-driver206/README206.md",
+      "bytes": 3006,
+      "rawBytesSha256": "2792383f72146e975ef3cdb507e56154eedf50fcf941017c2580beead835a377"
+    },
+    {
+      "file": "tools/rust-r4ghi/I/implementation/period-driver206/seal206.mjs",
+      "bytes": 4663,
+      "rawBytesSha256": "0ae3e973553a47854a315544da86522081515a3fe6b1f98ca9a1b5f801599f86"
+    }
+  ],
+  "checks": {
+    "file": "tools/rust-r4ghi/I/implementation/period-driver206-02/checks206-02.json",
+    "rawBytesSha256": "47bfd8eabf7393d8cc748ba222aabb1cd448f695b6df5ac8b4591d6311ae5b5a"
+  },
+  "requiredPeriodToolProtocol": {
+    "file": "tools/rust-r4ghi/period205-04/manifest205-04.json",
+    "rawBytesSha256": "f2ec3aefe405e1dc6b4d7dd12762d0c682e518d0fe40142ad083b9a45ec52073"
+  },
+  "proposedPromotion": [
+    {
+      "source": {
+        "file": "tools/rust-r4ghi/I/implementation/period-driver206/driver206.mjs",
+        "bytes": 24897,
+        "rawBytesSha256": "ce6f92bc0557a7b3c61b6f4f5857eb80fa4fbeab745811fabb6a3eec4aa33447"
+      },
+      "target": "tools/rust-r4ghi/period-driver206/driver206.mjs"
+    },
+    {
+      "source": {
+        "file": "tools/rust-r4ghi/I/implementation/period-driver206/facts206.mjs",
+        "bytes": 19417,
+        "rawBytesSha256": "313c1450b61700e51505acb35cc15cb5bc7e49e71cc053a98c8a191c5e664660"
+      },
+      "target": "tools/rust-r4ghi/period-driver206/facts206.mjs"
+    },
+    {
+      "source": {
+        "file": "tools/rust-r4ghi/I/implementation/period-driver206/input206.template.json",
+        "bytes": 583,
+        "rawBytesSha256": "682f40794f5ddd4f0d0b37b7b499e40bef78afe89f02dc53a1f5e682e9f66af7"
+      },
+      "target": "tools/rust-r4ghi/period-driver206/input206.template.json"
+    }
+  ],
+  "runtimePinsInTemplate": "All actual input pins are null; independently reviewed actual private inputs/H1/119/B2/Tax success required",
+  "requiredReviews": [
+    "Non-author exact code/protocol review",
+    "Root actual preparation and full dynamic inventory review before FI",
+    "Root actual FI originals review before normal POST"
+  ],
+  "effectModes": [
+    "prepare",
+    "fi-only",
+    "commit",
+    "read-verification"
+  ],
+  "unknownCommitPolicy": "Persist intent and originals; never replay uncertain/committed domain POST",
+  "businessBoundary": {
+    "projectId": "4d9e57ad-4890-4f53-80da-c6d224ce576b",
+    "periodKey": "2026-W45",
+    "naturalCompletedHKWeekOnly": true,
+    "sourceFactsFabricated": false,
+    "historicalBaselineReselectionApproved": false,
+    "periodUpdatesRealtimeCurrent": false,
+    "periodBindingsPublishCurrent": false,
+    "allNewPeriodTargetsRequireFreshLabor47Scope": true
+  },
+  "preservedOriginals": [
+    "R3",
+    "H0",
+    "B0",
+    "B1",
+    "schema108",
+    "M97-business-baseline",
+    "Source12-original-successes-failures-and-partials"
+  ],
+  "notModified": [
+    "business H0/H1 helpers",
+    "Product Rust",
+    "Migration SQL/TS",
+    "Routes/DTO/OpenAPI/generated client",
+    "GitHub issue/PR state",
+    "Root source416",
+    "API/PG process or actual database"
+  ],
+  "predecessorManifest": {
+    "file": "tools/rust-r4ghi/I/implementation/period-driver206/manifest206.json",
+    "rawBytesSha256": "8f0a963745a1e954f731b05c4bf0079312067dc3865adc55e283f77769d1e18d"
+  },
+  "requiredResourceToolProtocol": {
+    "file": "tools/rust-r4ghi/H/implementation/support-patches/resource-tool-admission119-02/manifest119-code02.json",
+    "rawBytesSha256": "43b9c1b0a51a59b0286620bc225b2c4b5446d5cd1d0e4a9480b8fd46bcdf3eb9"
+  },
+  "originalAuthorChecks": {
+    "file": "tools/rust-r4ghi/I/implementation/period-driver206/checks206.json",
+    "bytes": 1806,
+    "rawBytesSha256": "36789c8cd69723ca005f0495c71bdb8678d17422375fe0f21fc7b5f2f2457047"
+  },
+  "runtimeCodeChanged": false,
+  "originalFilesUnchanged": true,
+  "compatibility": "Only metadata aligns with final reviewed20504 and119 code02. Actual119/H1/B2 and Tax/period/effect pins still require future Root observations; no proposed pin is an actual admission."
+}

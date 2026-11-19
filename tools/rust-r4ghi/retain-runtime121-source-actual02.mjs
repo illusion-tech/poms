@@ -1,0 +1,13 @@
+// Preserve source promotion as-of its run, before later reviewed corrections.
+import fs from 'node:fs';import assert from 'node:assert/strict';
+import { C, assertOperatorHost121, json, local, pin, read } from './runtime-recovery121/root/facts121.mjs';
+assertOperatorHost121();const R=C.root,P=C.private,A=P+'/runtime121-source-promotion/dabe2f4c-2196-4e29-bab6-77e7ec3e539b',F=R+'/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-source-promotion-actual-readback02',O=R+'/tools/rust-r4ghi/runtime-recovery121/source-promotion-actual02';
+const checked=(file,hash)=>{const p=pin(file);assert.equal(p.rawBytesSha256,hash);return p;};
+const complete=checked(A+'/complete.json','af22e36d8d162dd32112ab68ded02f24f1b05a8244ddaeca437866499e5f588a'),review=checked(F+'/review-actual-source-promotion02.json','ad98a4170d9aaf2089713a0f4ca3ac250676ca9d551b5418b428c23186663b80'),manifest=checked(F+'/manifest.json','140bc280cebad7ac817ba1d582a04fe8f8a5c269f28f180dd0c3245d90010a04');
+const c=json(complete),r=json(review);assert.equal(r.verdict,'approved-actual-source-promotion-only');assert.equal(r.reviewerIsAuthor,false);assert.equal(c.copiedFiles.length,33);assert.equal(c.APIStarted,false);
+const outer=checked(R+'/tmp/rust-r4ghi/root/source-promotion121/run02/command-receipt.json','09ca68261e8b2262e377bfb57265303ee790c04b48da49a98a47a2bbf6db3e18');assert.equal(json(outer).exitCode,0);
+const sources=[complete,review,manifest,outer,c.input,c.RootApproval,c.independentReview,c.intent,c.helperPins,c.externalPins,c.executionSources,pin(A+'/fresh-preimage-map.json'),...json(manifest).files];
+for(let n=1;n<=33;n++)sources.push(pin(A+'/step-'+String(n).padStart(2,'0')+'.json'));for(let n=1;n<=4;n++)sources.push(pin(A+'/ADD-link-'+String(n).padStart(2,'0')+'.json'));
+const unique=[...new Map(sources.map(p=>[p.file,p])).values()];for(const p of unique)read(p);assert(!fs.existsSync(local(O)));fs.mkdirSync(local(O),{recursive:true});const copies=[];
+for(const p of unique){const file=O+'/'+p.file.split('/').at(-1);assert(!fs.existsSync(local(file)));fs.writeFileSync(local(file),read(p),{flag:'wx'});const copy=checked(file,p.rawBytesSha256);assert.equal(copy.bytes,p.bytes);copies.push({original:p,copy});}
+fs.writeFileSync(local(O+'/raw-copies-provenance.json'),JSON.stringify({kind:'Root-source-promotion-asof-actual-record',copies,original33SourcePromotionCertified:true,currentLaterCorrectionsNotCertifiedByThisRecord:true,privateCodePreimagesRetainedInOriginalDirectory:true,APIStarted:false,nativeAuthorityGranted:false,businessG3:false,businessG4:false},null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({safeCopies:copies.length,asof:complete,APIStarted:false}));

@@ -1,0 +1,8 @@
+const fs=require('node:fs'),assert=require('node:assert/strict'),{createHash}=require('node:crypto');
+const root='E:/projects/worktrees/poms-r3hijk-next28/poms',out=root+'/tmp/rust-r4ghi/root/runtime118-performance-slowpath01';
+const sha=b=>createHash('sha256').update(b).digest('hex'),archivePath=root+'/tools/rust-r4ghi/independent/final-gates13/source14-archive344-review01/verified-archive-leaves344.json';
+const archive=JSON.parse(fs.readFileSync(archivePath)),helpers=archive.files.filter(p=>p.relative.startsWith('tools/rust-r4ghi/business/'));assert.equal(helpers.length,218);
+const compile=archive.files.filter(p=>!p.relative.startsWith('tools/rust-r4ghi/business/')).map(p=>({file:p.relative,sha256:sha(fs.readFileSync(root+'/'+p.relative))})).sort((a,b)=>a.file<b.file?-1:a.file>b.file?1:0);assert.equal(compile.length,528);
+const bytes=Buffer.from(JSON.stringify(compile,null,2)+'\n'),expected=JSON.parse(fs.readFileSync(root+'/tools/rust-r4ghi/runtime-recovery121/Native362-plan-data-actual01/native-plan121.json')).current.compilePins;
+const result={count:compile.length,bytes:bytes.length,rawBytesSha256:sha(bytes),expected,exactBytesHashMatch:sha(bytes)===expected.rawBytesSha256&&bytes.length===expected.bytes,sourceArchiveEvidence:{file:archivePath,bytes:fs.statSync(archivePath).size,rawBytesSha256:sha(fs.readFileSync(archivePath))},oldHelperExclusion:helpers.length,originalFull3IdentityClaimed:false};
+fs.writeFileSync(out+'/compileInputs-current03.json',bytes,{flag:'wx'});fs.writeFileSync(out+'/compile-inventory-check03.json',JSON.stringify(result,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(result));

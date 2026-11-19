@@ -27,6 +27,8 @@ pub enum Error {
     Forbidden(String),
     Selection { ids: Vec<Uuid> },
     CodedConflict { code: &'static str, message: String },
+    CodedUnprocessable { code: &'static str, message: String },
+    TypedConflict(Value),
     Database(sqlx::Error),
     Common(CommonFailure),
     Internal,
@@ -37,8 +39,8 @@ impl std::fmt::Debug for Error {
         f.write_str(match self {
             Self::BadRequest(_) => "R4BadRequest",
             Self::NotFound(_) => "R4NotFound",
-            Self::Conflict(_) | Self::CodedConflict { .. } => "R4Conflict",
-            Self::Unprocessable(_) => "R4Unprocessable",
+            Self::Conflict(_) | Self::CodedConflict { .. } | Self::TypedConflict(_) => "R4Conflict",
+            Self::Unprocessable(_) | Self::CodedUnprocessable { .. } => "R4Unprocessable",
             Self::Forbidden(_) => "R4Forbidden",
             Self::Selection { .. } => "R4ContractSelectionRequired",
             Self::Database(_) | Self::Common(_) | Self::Internal => "R4Internal",
@@ -62,6 +64,9 @@ impl From<CommonFailure> for Error {
 }
 
 const UNIQUE_CONFLICTS: &[&str] = &[
+    "commission_rule_version_code_version_unique",
+    "commission_calculation_project_version_unique",
+    "uq_commission_calculation_project_current",
     "uq_r4d_amendment_scope",
     "uq_r4d_amendment_open",
     "uq_r4d_review_scope",
@@ -148,6 +153,11 @@ impl Error {
                 StatusCode::CONFLICT,
                 json!({"statusCode":409,"error":"Conflict","message":message,"code":code}),
             ),
+            Self::CodedUnprocessable { code, message } => ApiError::object(
+                StatusCode::UNPROCESSABLE_ENTITY,
+                json!({"statusCode":422,"error":"Unprocessable Entity","message":message,"code":code}),
+            ),
+            Self::TypedConflict(value) => ApiError::object(StatusCode::CONFLICT, value),
             Self::Common(failure) if failure.kind == FailureKind::Http => {
                 let status = failure
                     .status
@@ -172,6 +182,12 @@ impl Error {
             Self::Conflict(message) => (StatusCode::CONFLICT, message),
             Self::CodedConflict { code, message } => {
                 let mut failure = CommonFailure::http(StatusCode::CONFLICT, message.as_str());
+                failure.code = Some(code.into());
+                return failure;
+            }
+            Self::CodedUnprocessable { code, message } => {
+                let mut failure =
+                    CommonFailure::http(StatusCode::UNPROCESSABLE_ENTITY, message.as_str());
                 failure.code = Some(code.into());
                 return failure;
             }

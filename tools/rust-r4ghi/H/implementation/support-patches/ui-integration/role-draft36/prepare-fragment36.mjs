@@ -1,0 +1,7 @@
+// FS-only unbound plan fragment. The five-probe final pin must come from Root's resume.
+import fs from'node:fs';import path from'node:path';import assert from'node:assert/strict';import{createHash}from'node:crypto';import{fileURLToPath}from'node:url';
+const O=path.dirname(fileURLToPath(import.meta.url)),H='/home/wangzishi',U='//wsl.localhost/Debian/home/wangzishi',P=`${H}/.local/share/poms-r4ghi/private/business/g2-business12/main01`,sha=b=>createHash('sha256').update(b).digest('hex');
+const pin=(file,expected)=>{const b=fs.readFileSync(U+file.slice(H.length)),rawBytesSha256=sha(b);assert.equal(rawBytesSha256,expected);return{file,bytes:b.length,rawBytesSha256};};
+const original=JSON.parse(fs.readFileSync(path.resolve(O,'../role-plan31/role31.fragment.json')));original.writeActions[0].frozenReparentProbe=false;original.writeActions[0].existingDraftContinuation={assignmentId:'1817b9ae-ec3a-4910-aebd-07a2b6963975',createResponse:pin(`${P}/006937-ui10-http-browser-response.json`,'97da24bb0bc675bf217e2f99d2b65bef5e75490b54035491aa276962193752d7'),createLedger:pin(`${P}/006938-ledger.json`,'dfd7c3f0f41bec528163a89e8f1771617d7d756da62df986192a87351a26dc8c'),frozenProbeProof:null};
+fs.writeFileSync(`${O}/role36.fragment.unbound.json`,JSON.stringify(original,null,2)+'\n',{flag:'wx'});
+console.log(JSON.stringify({kind:'actual-existing-UI-draft-freeze-only-fragment',frozenProbeProofUnbound:true,newCreateOrProbeCommands:false,actualRuntimeExecuted:false}));

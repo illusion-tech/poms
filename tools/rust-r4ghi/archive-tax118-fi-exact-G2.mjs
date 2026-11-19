@@ -1,0 +1,15 @@
+// FS-only retention of a real non-author exact G2; never signs or dispatches.
+import fs from'node:fs';import assert from'node:assert/strict';import{createHash}from'node:crypto';
+const R='E:/projects/worktrees/poms-r3hijk-next28/poms',P='/home/wangzishi/.local/share/poms-r4ghi/private',O=R+'/tools/rust-r4ghi/independent/tax118-FI-exact-G2-01',sha=b=>createHash('sha256').update(b).digest('hex');
+const local=f=>f.startsWith('/mnt/e/')?'E:/'+f.slice(7):f.startsWith('/home/')?'//wsl.localhost/Debian'+f:f;
+function read(file,h){const b=fs.readFileSync(local(file));if(h)assert.equal(sha(b),h,file);return{b,pin:{file,bytes:b.length,rawBytesSha256:sha(b)}};}
+const a=process.argv.slice(2);assert.equal(a.length,8);assert.deepEqual([a[0],a[2],a[4],a[6]],['--review','--review-sha','--manifest','--manifest-sha']);
+const review=read(a[1],a[3]),manifest=read(a[5],a[7]),r=JSON.parse(review.b);assert.equal(r.mode,'fi-closed-set');assert.equal(r.reviewerIsAuthor,false);assert(r.verdict.startsWith('approved-'));
+const request=read(P+'/tax15-fi-closed-set118-prepared03/request-fi-closed-set-G2-review118.json','a356c414ce8e80096cc9ceffef2c5a70bef7d8635889df0598f66c91ab8123d3'),q=JSON.parse(request.b),input=read(q.input.file,q.input.rawBytesSha256),p=JSON.parse(input.b);
+assert.deepEqual(r.approvedInput,q.input);assert.deepEqual(r.expectedRootReview,q.expectedRootReview);assert.deepEqual(q.expectedRootReviewBody,{kind:'Root-approved-exact-Tax15-invocation118',approvedInput:q.input,codeReview:p.codeReview,expectedEntryState:p.expectedEntryState,mode:'fi-closed-set',nonce:p.nonce,actualG2Authorized:true,normalTaxPOSTGranted:false,FIGranted:true});
+assert.equal(p.mode,'fi-closed-set');assert.equal(Object.keys(p).length,34);assert.equal(p.bodySHA256,'0f92913cd78146402e5eb3a004f10a55c8e47417d961301210d2e7d5376dcc98');const live=read(P+'/business/g2-business15/main01/state.json',p.expectedEntryState.rawBytesSha256);assert.deepEqual(live.b,read(p.expectedEntryState.file,p.expectedEntryState.rawBytesSha256).b);
+assert(!fs.existsSync(local(q.expectedRootReview.file)));assert(!fs.existsSync(local(P+'/tax15-fi-closed-set118-prepared03/run01')));assert(!fs.existsSync(O));
+fs.mkdirSync(O,{recursive:true});const copies=[];function copy(v,name){const f=O+'/'+name;fs.writeFileSync(f,v.b,{flag:'wx'});assert.equal(sha(fs.readFileSync(f)),v.pin.rawBytesSha256);copies.push({original:v.pin,copy:read(f).pin});}
+copy(review,'non-author-exact-FI-G2.json');copy(manifest,'manifest-non-author-exact-FI-G2.json');copy(request,'actual-request.json');copy(input,'actual-input.json');
+const body={kind:'actual-independent-exact-FI-G2-evidence-before-dispatch',copies,actualEntryState:live.pin,reviewerIsAuthor:false,mode:'fi-closed-set',expectedRootReview:q.expectedRootReview,RootReviewSigned:false,actualFIExecuted:false,normalTaxPOSTGranted:false,newBusinessCertified:0};
+fs.writeFileSync(O+'/raw-copies-provenance.json',JSON.stringify(body,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({files:copies.length,independentReview:review.pin,actualFIExecuted:false}));

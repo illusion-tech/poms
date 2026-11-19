@@ -1,9 +1,10 @@
 import type { MigrationsOptions, SeederOptions } from '@mikro-orm/core';
 import { Migrator } from '@mikro-orm/migrations';
 import type { MikroOrmModuleOptions } from '@mikro-orm/nestjs';
-import { type Options as PostgreSqlOptions, PostgreSqlDriver } from '@mikro-orm/postgresql';
+import { type Options as PostgreSqlOptions } from '@mikro-orm/postgresql';
 import { SeedManager } from '@mikro-orm/seeder';
 import { loadValidatedEnv } from '../../../config/load-env';
+import { PomsPostgreSqlDriver } from './poms-postgresql-driver';
 
 type MikroOrmConfigOverrides = Partial<PostgreSqlOptions> & {
     connect?: boolean;
@@ -33,7 +34,7 @@ export function createBaseMikroOrmOptions(overrides: MikroOrmConfigOverrides = {
     };
 
     return {
-        driver: PostgreSqlDriver,
+        driver: PomsPostgreSqlDriver,
         clientUrl: env.DATABASE_URL,
         host: env.DB_HOST,
         port: env.DB_PORT,

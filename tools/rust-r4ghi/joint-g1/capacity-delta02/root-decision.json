@@ -1,0 +1,9 @@
+{
+  "source": "Root explicitly corrected its hypothesis in this task after static findings",
+  "finding": "Old formatAmount four-place formatting and EX26 quantity/unit_price numeric(18,4) were incorrectly inferred as operating storage type. No catalog evidence was supplied or fabricated.",
+  "decision": "Use actual migration/ORM source: no aggregate column widening. Preserve sealed v1. V1 known source/aggregate money retains numeric(18,2) semantic range; over-capacity422 before aggregate persistence and atomic rollback. No silent rounding of historical non-cent amounts.",
+  "SQLExecuted": false,
+  "databaseQueried": false,
+  "productChanged": false,
+  "sealedV1Rebuilt": false
+}

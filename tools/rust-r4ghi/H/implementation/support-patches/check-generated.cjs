@@ -1,0 +1,30 @@
+// Generator regression only; this is not integrated shared/API validation.
+const fs = require('node:fs');
+const path = require('node:path');
+const vm = require('node:vm');
+const assert = require('node:assert/strict');
+const { createRequire } = require('node:module');
+const installed = createRequire('E:/projects/poms/package.json');
+const ts = installed('typescript');
+const source = fs.readFileSync(path.join(__dirname, 'rust-r4ghi-contracts.generated.ts'), 'utf8');
+const javascript = ts.transpileModule(source, { compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.CommonJS } }).outputText;
+const exportsObject = {};
+vm.runInNewContext(javascript, { exports: exportsObject, module: { exports: exportsObject }, require: installed }, { filename: 'rust-r4ghi-contracts.generated.cjs' });
+const schemas = exportsObject;
+const id = '00000000-0000-4000-8000-000000000001';
+let cases = 0;
+function check(name, value, expected) { assert.equal(schemas[`${name}Schema`].safeParse(value).success, expected, name); cases += 1; }
+const zero = { knowledge: 'known', value: '0.00', unknownReasonCode: null, evidenceRefs: [], zeroProof: 'exhaustive-classified-scope-zero' };
+check('MoneyFact', zero, true);
+check('MoneyFact', { ...zero, zeroProof: null }, false);
+check('MoneyFact', { ...zero, knowledge: 'unknown', value: null, unknownReasonCode: 'missing-evidence', zeroProof: null }, true);
+check('MoneyFact', { ...zero, knowledge: 'unknown', value: '0.00', unknownReasonCode: 'missing-evidence' }, false);
+const participant = { userId: id, roleType: 'execution-owner', responsibilitySummary: '真实职责', weight: 0, zeroWeightReason: '冻结的零权重职责' };
+check('CommissionParticipantInput', participant, true);
+check('CommissionParticipantInput', { ...participant, zeroWeightReason: null }, false);
+check('CommissionParticipantInput', { ...participant, weight: 0.5, zeroWeightReason: null }, true);
+check('CommissionParticipantInput', { ...participant, weight: 0.5 }, false);
+check('SourceRef', { kind: 'ExpenseRecord', id, rowVersion: 2147483647, payloadHash: 'a'.repeat(64) }, true);
+check('SourceRef', { kind: 'ExpenseRecord', id, rowVersion: 2147483648, payloadHash: 'a'.repeat(64) }, false);
+check('OwnCompletionTaskListView', { scopeKind: 'own-condition-only', projectId: id, items: [], acceptanceRecordId: id }, false);
+console.log(JSON.stringify({ status: 'passed-generator-only', cases }));

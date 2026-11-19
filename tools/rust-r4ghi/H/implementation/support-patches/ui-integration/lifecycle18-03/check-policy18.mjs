@@ -1,0 +1,67 @@
+// Synthetic admission/sequence checks only; no real process, HTTP, DB, Chrome or producer.
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { createLifecycleWritePolicy18, lifecycleEvidence18, instant } from './proposed/tools/rust-r4ghi/business/ui-lifecycle18-policy.mjs';
+const id = n => `00000000-0000-4000-8000-${String(n).padStart(12, '0')}`, actor = { id: id(1) }, projectId = id(2), hash = 'a'.repeat(64), database = 'poms_r4ghi_rust';
+const action = { kind: 'eo-lifecycle', actorKey: 'execution', evidenceText: 'Synthetic control test, no external approval.', readinessSummary: 'ready', deliveryEvidenceSummary: 'delivery', scopeSummary: 'scope', acceptanceEvidenceSummary: 'accepted evidence', completionSummary: 'complete', completionEvidenceSummary: 'completion evidence', archiveSummary: 'archive', archiveEvidenceSummary: 'archive evidence' };
+const scene = { kind: 'eo-lifecycle', actorKey: 'execution', actor, projectId }, ctx = { database, state: { actors: { execution: actor }, fixtures: { project: { id: id(99) } } } };
+const readRows = table => table.rows;
+const snapshot = cells => ({ databases: { [database]: { tables: Object.fromEntries(Object.entries(cells).map(([table, values]) => [table, { rows: values.map(cell => ({ key: [cell.id], raw: JSON.stringify(cell) })) }])) } } });
+function setup() {
+  const cells = { project: [{ id: projectId, current_stage: 'execution', row_version: 5 }], project_stage_record: [{ id: id(3), project_id: projectId, to_stage: 'execution', entered_by: actor.id }], attachment_upload_session: [], acceptance_record: [], project_completion_record: [], project_archive_record: [] };
+  const policy = createLifecycleWritePolicy18({ ctx, scene, action, readRows });
+  const anchor = () => policy.observeRead('ProjectController_getById', { scopeKind: 'full-project', id: projectId, currentStage: cells.project[0].current_stage, projectRowVersion: cells.project[0].row_version, currentStageRecordId: cells.project_stage_record.at(-1).id }, { headers: { date: 'Sun, 08 Nov 2026 00:00:01 GMT' } }); anchor();
+  return { cells, policy, anchor };
+}
+const request = (operationId, params, body, cells, method = 'POST', bytes = Buffer.from(JSON.stringify(body))) => ({ operationId, params, body, before: snapshot(cells), method, bytes });
+let cases = 0; const check = fn => { fn(); cases++; };
+check(() => assert(instant('2026-11-08T00:00:00.000001Z') > instant('2026-11-08T00:00:00.000Z')));
+check(() => { const { policy } = setup(); assert.throws(() => policy.admitRead({ operationId: 'CommissionController_getCurrentRoleAssignment', params: { projectId }, rawPath: `/api/projects/${projectId}/commission-role-assignment` })); });
+check(() => { const { policy } = setup(); assert.throws(() => policy.admitRead({ operationId: 'ProjectController_list', params: {}, rawPath: '/api/projects' })); assert.throws(() => policy.admitRead({ operationId: 'ProjectController_getById', params: { id: id(99) }, rawPath: `/api/projects/${id(99)}` })); });
+check(() => { const { policy, cells } = setup(); assert.throws(() => policy.admit(request('ProjectController_startAcceptance', { id: projectId }, {}, cells))); });
+const h = setup(); let sequence = 10;
+function upload(phase) {
+  const file = lifecycleEvidence18({ projectId, actorId: actor.id, evidenceText: action.evidenceText }, phase), sessionId = id(sequence++), attachmentId = id(sequence++), linkId = id(sequence++);
+  const body = { operationType: 'create-attachment', targetType: 'project', targetId: projectId, originalName: file.name, mimeType: file.mimeType, sizeBytes: file.sizeBytes, checksumSha256: file.checksumSha256, category: 'delivery', relationType: 'evidence' };
+  h.policy.admit(request('AttachmentUploadSessionController_create', {}, body, h.cells));
+  const session = { id: sessionId, project_scope_context_version: 0, completion_record_id: null, completion_condition_id: null, operation_type: 'create-attachment', created_by: actor.id, target_type: 'project', target_id: projectId, base_attachment_id: null, status: 'pending', row_version: 1 }; h.cells.attachment_upload_session.push(session);
+  h.policy.observeWrite('AttachmentUploadSessionController_create', { id: sessionId, createdBy: actor.id, providerType: 'local', uploadMode: 'proxy', rowVersion: 1 }, snapshot(h.cells), []);
+  check(() => assert.throws(() => h.policy.admit(request('AttachmentUploadSessionController_createUploadTarget', { id: id(98) }, {}, h.cells))));
+  h.policy.admit(request('AttachmentUploadSessionController_createUploadTarget', { id: sessionId }, {}, h.cells)); session.status = 'uploading'; session.row_version = 2;
+  h.policy.observeWrite('AttachmentUploadSessionController_createUploadTarget', { sessionId, method: 'PUT', url: `/api/attachment-upload-sessions/${sessionId}/object` }, snapshot(h.cells), []);
+  check(() => assert.throws(() => h.policy.admit(request('AttachmentUploadSessionController_proxyUploadObject', { id: sessionId }, null, h.cells, 'PUT', Buffer.from('wrong file bytes')))));
+  h.policy.admit(request('AttachmentUploadSessionController_proxyUploadObject', { id: sessionId }, null, h.cells, 'PUT', file.bytes)); session.status = 'uploaded'; session.row_version = 3;
+  h.policy.observeWrite('AttachmentUploadSessionController_proxyUploadObject', { sessionId, status: 'uploaded' }, snapshot(h.cells), []);
+  h.policy.admit(request('AttachmentUploadSessionController_complete', { id: sessionId }, { checksumSha256: file.checksumSha256 }, h.cells)); session.status = 'completed'; session.row_version = 4; session.completed_attachment_id = attachmentId;
+  h.policy.observeWrite('AttachmentUploadSessionController_complete', { id: attachmentId, checksumSha256: file.checksumSha256, links: [{ id: linkId, attachmentId, targetType: 'project', targetId: projectId, status: 'active' }] }, snapshot(h.cells), []);
+  return linkId;
+}
+const delivery = upload('delivery');
+const stageBody = { inputVersion: 'server-derived-v1', expectedProjectVersion: 5, executionStageRecordId: id(3), readinessSummary: action.readinessSummary, evidenceSummary: action.deliveryEvidenceSummary, evidenceRefs: [{ attachmentLinkId: delivery }] };
+for (const change of [value => value.expectedProjectVersion++, value => value.executionStageRecordId = id(97), value => value.evidenceRefs = [{ attachmentLinkId: id(96) }], value => value.extra = true]) check(() => { const altered = structuredClone(stageBody); change(altered); assert.throws(() => h.policy.admit(request('ProjectController_startAcceptance', { id: projectId }, altered, h.cells))); });
+h.policy.admit(request('ProjectController_startAcceptance', { id: projectId }, stageBody, h.cells));
+check(() => assert.throws(() => h.policy.validateMutationRows([{ database, table: 'project', changed: [{ after: { key: [id(95)] } }] }])));
+h.cells.project[0].row_version = 6; h.cells.project[0].current_stage = 'acceptance'; h.cells.project_stage_record.push({ id: id(4), project_id: projectId, to_stage: 'acceptance', entered_by: actor.id, source_payload_hash: hash });
+h.policy.observeWrite('ProjectController_startAcceptance', { businessStatusAfter: 'acceptance', enteredBy: actor.id, projectStageRecordId: id(4), sourcePayloadHash: hash }, snapshot(h.cells), []); h.anchor();
+const acceptanceLink = upload('acceptance'), acceptanceId = id(50);
+const acceptanceBody = { inputVersion: 'server-derived-v1', expectedProjectVersion: 6, acceptanceStageRecordId: id(4), acceptanceType: 'final-acceptance', acceptanceResult: 'accepted', scopeSummary: action.scopeSummary, evidenceSummary: action.acceptanceEvidenceSummary, evidenceRefs: [{ attachmentLinkId: acceptanceLink }] };
+h.policy.admit(request('ProjectController_createAcceptanceRecord', { projectId }, acceptanceBody, h.cells)); h.cells.project[0].row_version = 7;
+h.cells.acceptance_record.push({ id: acceptanceId, project_id: projectId, acceptance_type: 'final-acceptance', acceptance_result: 'accepted', confirmed_by: actor.id, source_payload_hash: hash, row_version: 1, confirmed_at: '2026-11-08T00:00:00.000001Z' });
+h.policy.observeWrite('ProjectController_createAcceptanceRecord', { id: acceptanceId, projectId, acceptanceType: 'final-acceptance', acceptanceResult: 'accepted', sourceQualification: 'verified-producer', sourcePayloadHash: hash }, snapshot(h.cells), []); h.anchor();
+const completionLink = upload('completion'), completionId = id(51);
+const completionBody = { inputVersion: 'server-derived-v1', expectedProjectVersion: 7, acceptanceRecordId: acceptanceId, expectedAcceptanceVersion: 1, completionResult: 'completed', completedAt: '2026-11-08T00:00:01.000Z', completionSummary: action.completionSummary, evidenceSummary: action.completionEvidenceSummary, evidenceRefs: [{ attachmentLinkId: completionLink }] };
+check(() => { const body = { ...completionBody, completedAt: '2026-11-08T00:00:01.001Z' }; assert.throws(() => h.policy.admit(request('ProjectController_createProjectCompletionRecord', { projectId }, body, h.cells))); });
+check(() => { h.policy.observeRead('ProjectController_listAcceptanceRecords', [], { headers: { date: 'Sun, 08 Nov 2026 00:00:00 GMT' } }); const body = { ...completionBody, completedAt: '2026-11-08T00:00:00.000Z' }; assert.throws(() => h.policy.admit(request('ProjectController_createProjectCompletionRecord', { projectId }, body, h.cells))); });
+h.policy.admit(request('ProjectController_createProjectCompletionRecord', { projectId }, completionBody, h.cells)); h.cells.project[0].row_version = 8; h.cells.project[0].current_stage = 'completed';
+h.cells.project_completion_record.push({ id: completionId, project_id: projectId, acceptance_record_id: acceptanceId, completion_result: 'completed', completed_by: actor.id, source_payload_hash: hash, condition_status: 'not-applicable', completed_at: completionBody.completedAt });
+h.policy.observeWrite('ProjectController_createProjectCompletionRecord', { id: completionId, projectId, completionResult: 'completed', conditionStatus: 'not-applicable', completedBy: actor.id, sourceQualification: 'verified-producer', sourcePayloadHash: hash }, snapshot(h.cells), []); h.anchor();
+const archiveBody = { inputVersion: 'server-derived-v1', expectedProjectVersion: 8, archivedAt: '2026-11-08T00:00:01.000Z', archiveSummary: action.archiveSummary, evidenceSummary: action.archiveEvidenceSummary };
+h.policy.admit(request('ProjectController_createProjectArchiveRecord', { projectId }, archiveBody, h.cells)); h.cells.project[0].row_version = 9;
+h.cells.project_archive_record.push({ id: id(52), project_id: projectId, archive_anchor_source_id: completionId, archived_by: actor.id, status: 'recorded', source_payload_hash: hash });
+h.policy.observeWrite('ProjectController_createProjectArchiveRecord', { id: id(52), projectId, archiveAnchorStage: 'completed', archiveAnchorSourceId: completionId, archivedBy: actor.id, status: 'recorded', sourceQualification: 'verified-producer', sourcePayloadHash: hash }, snapshot(h.cells), []);
+check(() => assert(h.policy.completed())); check(() => assert.equal(h.policy.cache.writes.length, 16));
+check(() => assert.throws(() => h.policy.admit(request('ProjectController_createProjectArchiveRecord', { projectId }, archiveBody, h.cells))));
+const output = { kind: 'synthetic-EO-lifecycle-exact-upload-and-form-sequence-only', cases, passed: cases, syntheticWritesObserved: h.policy.cache.writes.length, actualHTTPExecuted: false, actualDBExecuted: false, actualBrowserExecuted: false, actualProducerExecuted: false, G3Certified: false };
+fs.writeFileSync(path.join(path.dirname(fileURLToPath(import.meta.url)), 'unit-policy18.json'), JSON.stringify(output, null, 2) + '\n'); console.log(JSON.stringify(output));

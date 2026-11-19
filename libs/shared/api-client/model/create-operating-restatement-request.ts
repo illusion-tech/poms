@@ -7,15 +7,40 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { CreateOperatingRestatementRequestRestatedValues } from './create-operating-restatement-request-restated-values';
+import { CostDecisionInput } from './cost-decision-input';
+import { LegacyAssertions } from './legacy-assertions';
+import { AffectedRestatementTarget } from './affected-restatement-target';
+import { LaborCorrection } from './labor-correction';
+import { TaxTreatmentReplacementCorrection } from './tax-treatment-replacement-correction';
+import { ExpectedRef } from './expected-ref';
+import { StageReclassificationCorrection } from './stage-reclassification-correction';
+import { AllocationCorrection } from './allocation-correction';
 
 
 export interface CreateOperatingRestatementRequest {
+    scope: CreateOperatingRestatementRequestScopeEnum;
+    periodEndSnapshotRef: ExpectedRef | null;
+    inputVersion: CreateOperatingRestatementRequestInputVersionEnum;
     projectId: string;
-    periodEndSnapshotId: string;
-    restatesSnapshotId: string;
+    expectedVersion: number;
+    expectedProjectVersion: number;
+    expectedInputHash: string;
+    assertions: LegacyAssertions | null;
+    restatesSnapshotRef: ExpectedRef;
     restatementReason: string;
     restatementSummary: string;
-    restatedValues: CreateOperatingRestatementRequestRestatedValues;
-    expectedRestatesSnapshotVersion?: number;
+    costDecisions: Array<CostDecisionInput>;
+    laborCorrections: Array<LaborCorrection>;
+    allocationCorrections: Array<AllocationCorrection>;
+    affectedTargets: Array<AffectedRestatementTarget>;
+    acknowledgedChangedSourceRefs: Array<ExpectedRef>;
+    stageCorrections: Array<StageReclassificationCorrection>;
+    taxCorrections: Array<TaxTreatmentReplacementCorrection>;
 }
+export enum CreateOperatingRestatementRequestScopeEnum {
+    Live = 'live',
+    Period = 'period'
+};
+export enum CreateOperatingRestatementRequestInputVersionEnum {
+    ServerDerivedV1 = 'server-derived-v1'
+};

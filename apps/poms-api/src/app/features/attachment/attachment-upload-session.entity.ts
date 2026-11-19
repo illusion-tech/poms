@@ -17,6 +17,7 @@ import {
     type AttachmentUploadSessionStatus
 } from '@poms/shared-contracts';
 import { Attachment } from './attachment.entity';
+import { ProjectCompletionCondition } from '../project-cost/rust-r4ghi-entities.entity';
 
 const p = defineEntity.properties;
 
@@ -36,6 +37,7 @@ export const AttachmentUploadSessionSchema = defineEntity({
         { name: 'idx_attachment_upload_session_completed_attachment', properties: ['completedAttachmentId'] }
     ],
     checks: [
+        { name: 'chk_jghi_upload_condition_context', expression: `(project_scope_context_version = 0 and completion_record_id is null and completion_condition_id is null) or (project_scope_context_version = 1 and completion_record_id is not null and completion_condition_id is not null and target_type = 'project' and target_id is not null and operation_type = 'create-attachment')` },
         { name: 'chk_attachment_upload_session_operation_type', expression: `"operation_type" in (${toSqlStringList(ATTACHMENT_UPLOAD_SESSION_OPERATION_TYPES)})` },
         { name: 'chk_attachment_upload_session_status', expression: `"status" in (${toSqlStringList(ATTACHMENT_UPLOAD_SESSION_STATUSES)})` },
         { name: 'chk_attachment_upload_session_upload_mode', expression: `"upload_mode" in (${toSqlStringList(ATTACHMENT_UPLOAD_MODES)})` },
@@ -54,6 +56,7 @@ export const AttachmentUploadSessionSchema = defineEntity({
         storageBucket: p.string().length(255).nullable().fieldName('storage_bucket').comment('冻结的存储桶'),
         storageKey: p.string().length(1024).fieldName('storage_key').comment('冻结的对象 key'),
         targetType: p.string().$type<AttachmentTargetType>().length(64).nullable().fieldName('target_type').comment('业务对象类型'),
+        completionConditionScope: () => p.manyToOne(ProjectCompletionCondition).mapToPk().joinColumns('completion_condition_id', 'completion_record_id', 'target_id').referencedColumnNames('id', 'completion_record_id', 'project_id').columnTypes('uuid', 'uuid', 'uuid').ownColumns().hydrate(false).hidden().foreignKeyName('fk_jghi_upload_condition_scope').deleteRule('restrict').updateRule('no action').nullable(),
         targetId: p.uuid().nullable().fieldName('target_id').comment('业务对象标识'),
         baseAttachmentId: () =>
             p
@@ -65,6 +68,9 @@ export const AttachmentUploadSessionSchema = defineEntity({
                 .updateRule('cascade')
                 .deleteRule('restrict')
                 .comment('新版本上传的基准附件'),
+        projectScopeContextVersion: p.integer().default(0).fieldName('project_scope_context_version').comment('0 ordinary; 1 immutable condition-purpose upload'),
+        completionRecordId: p.uuid().nullable().fieldName('completion_record_id').comment('Bound actual parent completion; not read authority by itself'),
+        completionConditionId: p.uuid().nullable().fieldName('completion_condition_id').comment('Bound actual own pending condition'),
         completedAttachmentId: () =>
             p
                 .manyToOne(Attachment)

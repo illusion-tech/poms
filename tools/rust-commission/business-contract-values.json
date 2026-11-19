@@ -1,0 +1,1026 @@
+{
+  "source": [
+    "libs/shared/contracts/src/lib/shared-contracts.ts",
+    "libs/shared/contracts/src/lib/commission-low-down-payment.ts"
+  ],
+  "enums": [
+    {
+      "name": "PermissionKey",
+      "sourceSymbol": "PERMISSION_KEYS",
+      "origin": "shared-array",
+      "source": {
+        "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+        "line": 105,
+        "column": 14
+      },
+      "aliases": [
+        "PermissionKey"
+      ],
+      "values": [
+        "platform:users:manage",
+        "platform:roles:manage",
+        "platform:navigation:manage",
+        "platform:org-units:manage",
+        "platform:dictionaries:manage",
+        "platform:identity-providers:manage",
+        "platform:org-sync:manage",
+        "platform:attachment-storage-providers:manage",
+        "platform:system-settings:manage",
+        "customer:read",
+        "customer:write",
+        "commission:rule-versions:manage",
+        "commission:assignments:manage",
+        "commission:calculations:manage",
+        "commission:payouts:manage",
+        "commission:adjustments:manage",
+        "commission:low-down-payment:approve",
+        "contract:finance:manage",
+        "contract:finance:sensitive:read",
+        "operating:finance:sensitive:read",
+        "commission:amount:sensitive:read",
+        "labor-cost-rate:sensitive:read",
+        "exception-approval-opinion:sensitive:read",
+        "lead:read",
+        "lead:write",
+        "lead:assign",
+        "lead:score:override",
+        "project:read",
+        "project:write",
+        "project:delete",
+        "nav:dashboard:view",
+        "nav:customers:view",
+        "nav:platform:view",
+        "nav:leads:view",
+        "nav:attachments:view",
+        "nav:projects:view",
+        "nav:contracts:view",
+        "nav:profile:view"
+      ],
+      "variants": [
+        {
+          "name": "PlatformUsersManage",
+          "wire": "platform:users:manage"
+        },
+        {
+          "name": "PlatformRolesManage",
+          "wire": "platform:roles:manage"
+        },
+        {
+          "name": "PlatformNavigationManage",
+          "wire": "platform:navigation:manage"
+        },
+        {
+          "name": "PlatformOrgUnitsManage",
+          "wire": "platform:org-units:manage"
+        },
+        {
+          "name": "PlatformDictionariesManage",
+          "wire": "platform:dictionaries:manage"
+        },
+        {
+          "name": "PlatformIdentityProvidersManage",
+          "wire": "platform:identity-providers:manage"
+        },
+        {
+          "name": "PlatformOrgSyncManage",
+          "wire": "platform:org-sync:manage"
+        },
+        {
+          "name": "PlatformAttachmentStorageProvidersManage",
+          "wire": "platform:attachment-storage-providers:manage"
+        },
+        {
+          "name": "PlatformSystemSettingsManage",
+          "wire": "platform:system-settings:manage"
+        },
+        {
+          "name": "CustomerRead",
+          "wire": "customer:read"
+        },
+        {
+          "name": "CustomerWrite",
+          "wire": "customer:write"
+        },
+        {
+          "name": "CommissionRuleVersionsManage",
+          "wire": "commission:rule-versions:manage"
+        },
+        {
+          "name": "CommissionAssignmentsManage",
+          "wire": "commission:assignments:manage"
+        },
+        {
+          "name": "CommissionCalculationsManage",
+          "wire": "commission:calculations:manage"
+        },
+        {
+          "name": "CommissionPayoutsManage",
+          "wire": "commission:payouts:manage"
+        },
+        {
+          "name": "CommissionAdjustmentsManage",
+          "wire": "commission:adjustments:manage"
+        },
+        {
+          "name": "CommissionLowDownPaymentApprove",
+          "wire": "commission:low-down-payment:approve"
+        },
+        {
+          "name": "ContractFinanceManage",
+          "wire": "contract:finance:manage"
+        },
+        {
+          "name": "ContractFinanceSensitiveRead",
+          "wire": "contract:finance:sensitive:read"
+        },
+        {
+          "name": "OperatingFinanceSensitiveRead",
+          "wire": "operating:finance:sensitive:read"
+        },
+        {
+          "name": "CommissionAmountSensitiveRead",
+          "wire": "commission:amount:sensitive:read"
+        },
+        {
+          "name": "LaborCostRateSensitiveRead",
+          "wire": "labor-cost-rate:sensitive:read"
+        },
+        {
+          "name": "ExceptionApprovalOpinionSensitiveRead",
+          "wire": "exception-approval-opinion:sensitive:read"
+        },
+        {
+          "name": "LeadRead",
+          "wire": "lead:read"
+        },
+        {
+          "name": "LeadWrite",
+          "wire": "lead:write"
+        },
+        {
+          "name": "LeadAssign",
+          "wire": "lead:assign"
+        },
+        {
+          "name": "LeadScoreOverride",
+          "wire": "lead:score:override"
+        },
+        {
+          "name": "ProjectRead",
+          "wire": "project:read"
+        },
+        {
+          "name": "ProjectWrite",
+          "wire": "project:write"
+        },
+        {
+          "name": "ProjectDelete",
+          "wire": "project:delete"
+        },
+        {
+          "name": "NavDashboardView",
+          "wire": "nav:dashboard:view"
+        },
+        {
+          "name": "NavCustomersView",
+          "wire": "nav:customers:view"
+        },
+        {
+          "name": "NavPlatformView",
+          "wire": "nav:platform:view"
+        },
+        {
+          "name": "NavLeadsView",
+          "wire": "nav:leads:view"
+        },
+        {
+          "name": "NavAttachmentsView",
+          "wire": "nav:attachments:view"
+        },
+        {
+          "name": "NavProjectsView",
+          "wire": "nav:projects:view"
+        },
+        {
+          "name": "NavContractsView",
+          "wire": "nav:contracts:view"
+        },
+        {
+          "name": "NavProfileView",
+          "wire": "nav:profile:view"
+        }
+      ],
+      "occurrenceIds": [
+        "libs/shared/contracts/src/lib/shared-contracts.ts:SanitizedUserSchema:397:30",
+        "libs/shared/contracts/src/lib/shared-contracts.ts:PlatformPermissionSummarySchema:513:14",
+        "libs/shared/contracts/src/lib/shared-contracts.ts:PlatformPermissionSummarySchema:520:23",
+        "libs/shared/contracts/src/lib/shared-contracts.ts:PlatformRoleDetailSchema:1399:29",
+        "libs/shared/contracts/src/lib/shared-contracts.ts:AssignRolePermissionsRequestSchema:1565:33",
+        "libs/shared/contracts/src/lib/shared-contracts.ts:UserPayloadSchema:1629:30",
+        "libs/shared/contracts/src/lib/shared-contracts.ts:NavigationItemSchema:1665:42",
+        "libs/shared/contracts/src/lib/shared-contracts.ts:CurrentAuthSessionViewSchema:1730:30",
+        "libs/shared/contracts/src/lib/shared-contracts.ts:RecordRouteDeniedSecurityEventRequestSchema:1916:38"
+      ]
+    },
+    {
+      "name": "CommissionLowDownPaymentDecision",
+      "sourceSymbol": "COMMISSION_LOW_DOWN_PAYMENT_DECISIONS",
+      "origin": "shared-array",
+      "source": {
+        "path": "libs/shared/contracts/src/lib/commission-low-down-payment.ts",
+        "line": 3,
+        "column": 14
+      },
+      "aliases": [],
+      "values": [
+        "raise-first-cap",
+        "release-standard"
+      ],
+      "variants": [
+        {
+          "name": "RaiseFirstCap",
+          "wire": "raise-first-cap"
+        },
+        {
+          "name": "ReleaseStandard",
+          "wire": "release-standard"
+        }
+      ],
+      "occurrenceIds": []
+    }
+  ],
+  "declarations": [
+    {
+      "name": "PERMISSION_KEYS",
+      "value": [
+        "platform:users:manage",
+        "platform:roles:manage",
+        "platform:navigation:manage",
+        "platform:org-units:manage",
+        "platform:dictionaries:manage",
+        "platform:identity-providers:manage",
+        "platform:org-sync:manage",
+        "platform:attachment-storage-providers:manage",
+        "platform:system-settings:manage",
+        "customer:read",
+        "customer:write",
+        "commission:rule-versions:manage",
+        "commission:assignments:manage",
+        "commission:calculations:manage",
+        "commission:payouts:manage",
+        "commission:adjustments:manage",
+        "commission:low-down-payment:approve",
+        "contract:finance:manage",
+        "contract:finance:sensitive:read",
+        "operating:finance:sensitive:read",
+        "commission:amount:sensitive:read",
+        "labor-cost-rate:sensitive:read",
+        "exception-approval-opinion:sensitive:read",
+        "lead:read",
+        "lead:write",
+        "lead:assign",
+        "lead:score:override",
+        "project:read",
+        "project:write",
+        "project:delete",
+        "nav:dashboard:view",
+        "nav:customers:view",
+        "nav:platform:view",
+        "nav:leads:view",
+        "nav:attachments:view",
+        "nav:projects:view",
+        "nav:contracts:view",
+        "nav:profile:view"
+      ],
+      "valueSha256": "77087b8382bff3dbd5389cfc90a6e647dc4f697c0f0eecab9572f36bbc1f04c5",
+      "declarationSha256": "2395f2bde0df395b554a12c82e58378fe3e7d06eb664ebcdad0d359bd718a314",
+      "expression": "[\n    // 平台管理\n    \"platform:users:manage\",\n    \"platform:roles:manage\",\n    \"platform:navigation:manage\",\n    \"platform:org-units:manage\",\n    \"platform:dictionaries:manage\",\n    \"platform:identity-providers:manage\",\n    \"platform:org-sync:manage\",\n    \"platform:attachment-storage-providers:manage\",\n    \"platform:system-settings:manage\",\n    // 客户主数据\n    \"customer:read\",\n    \"customer:write\",\n    // 提成治理\n    \"commission:rule-versions:manage\",\n    \"commission:assignments:manage\",\n    \"commission:calculations:manage\",\n    \"commission:payouts:manage\",\n    \"commission:adjustments:manage\",\n    // 合同资金\n    \"contract:finance:manage\",\n    \"contract:finance:sensitive:read\",\n    \"operating:finance:sensitive:read\",\n    \"commission:amount:sensitive:read\",\n    \"labor-cost-rate:sensitive:read\",\n    \"exception-approval-opinion:sensitive:read\",\n    // 线索\n    \"lead:read\",\n    \"lead:write\",\n    \"lead:assign\",\n    \"lead:score:override\",\n    // 项目\n    \"project:read\",\n    \"project:write\",\n    \"project:delete\",\n    // 导航可见性（仅影响菜单展示，不代替后端业务权限）\n    \"nav:dashboard:view\",\n    \"nav:customers:view\",\n    \"nav:platform:view\",\n    \"nav:leads:view\",\n    \"nav:attachments:view\",\n    \"nav:projects:view\",\n    \"nav:contracts:view\",\n    \"nav:profile:view\",\n] as const",
+      "helper": null,
+      "dependencies": [],
+      "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "line": 105,
+      "column": 14,
+      "kind": "string-array",
+      "r0Kind": "string-array",
+      "rustMappings": [
+        {
+          "family": "PermissionKey",
+          "relation": "source-dependency",
+          "via": "PERMISSION_KEYS",
+          "wireRelation": "exact-values-and-order"
+        }
+      ]
+    },
+    {
+      "name": "PermissionsMeta",
+      "value": {
+        "platform:users:manage": {
+          "description": "管理用户账号",
+          "group": "平台管理"
+        },
+        "platform:roles:manage": {
+          "description": "管理角色与权限",
+          "group": "平台管理"
+        },
+        "platform:navigation:manage": {
+          "description": "管理导航菜单",
+          "group": "平台管理"
+        },
+        "platform:org-units:manage": {
+          "description": "管理组织单元",
+          "group": "平台管理"
+        },
+        "platform:dictionaries:manage": {
+          "description": "管理业务配置字典",
+          "group": "平台管理"
+        },
+        "platform:identity-providers:manage": {
+          "description": "管理外部身份提供商配置",
+          "group": "平台管理"
+        },
+        "platform:org-sync:manage": {
+          "description": "管理外部组织同步",
+          "group": "平台管理"
+        },
+        "platform:attachment-storage-providers:manage": {
+          "description": "管理附件存储 Provider 配置",
+          "group": "平台管理"
+        },
+        "platform:system-settings:manage": {
+          "description": "管理系统设置",
+          "group": "平台管理"
+        },
+        "customer:read": {
+          "description": "查看客户主数据",
+          "group": "客户"
+        },
+        "customer:write": {
+          "description": "创建/维护客户主数据",
+          "group": "客户"
+        },
+        "commission:rule-versions:manage": {
+          "description": "管理提成规则版本",
+          "group": "提成治理"
+        },
+        "commission:assignments:manage": {
+          "description": "管理提成角色分配",
+          "group": "提成治理"
+        },
+        "commission:calculations:manage": {
+          "description": "管理提成计算结果",
+          "group": "提成治理"
+        },
+        "commission:payouts:manage": {
+          "description": "管理提成发放",
+          "group": "提成治理"
+        },
+        "commission:adjustments:manage": {
+          "description": "管理提成调整",
+          "group": "提成治理"
+        },
+        "commission:low-down-payment:approve": {
+          "description": "管理层批准低首付款特例及解除",
+          "group": "提成治理"
+        },
+        "contract:finance:manage": {
+          "description": "管理合同资金事实",
+          "group": "合同资金"
+        },
+        "contract:finance:sensitive:read": {
+          "description": "查看合同资金敏感字段",
+          "group": "敏感字段"
+        },
+        "operating:finance:sensitive:read": {
+          "description": "查看经营核算敏感字段",
+          "group": "敏感字段"
+        },
+        "commission:amount:sensitive:read": {
+          "description": "查看提成金额敏感字段",
+          "group": "敏感字段"
+        },
+        "labor-cost-rate:sensitive:read": {
+          "description": "查看人力成本率敏感字段",
+          "group": "敏感字段"
+        },
+        "exception-approval-opinion:sensitive:read": {
+          "description": "查看例外审批与保留意见敏感字段",
+          "group": "敏感字段"
+        },
+        "lead:read": {
+          "description": "查看销售线索",
+          "group": "线索"
+        },
+        "lead:write": {
+          "description": "登记/维护销售线索",
+          "group": "线索"
+        },
+        "lead:assign": {
+          "description": "分配/改派销售线索负责人",
+          "group": "线索"
+        },
+        "lead:score:override": {
+          "description": "审批线索评分人工覆盖",
+          "group": "线索"
+        },
+        "project:read": {
+          "description": "查看项目",
+          "group": "项目"
+        },
+        "project:write": {
+          "description": "创建/编辑项目",
+          "group": "项目"
+        },
+        "project:delete": {
+          "description": "删除项目",
+          "group": "项目"
+        },
+        "nav:dashboard:view": {
+          "description": "查看工作台菜单",
+          "group": "导航"
+        },
+        "nav:customers:view": {
+          "description": "查看客户菜单",
+          "group": "导航"
+        },
+        "nav:platform:view": {
+          "description": "查看平台管理菜单",
+          "group": "导航"
+        },
+        "nav:leads:view": {
+          "description": "查看线索菜单",
+          "group": "导航"
+        },
+        "nav:attachments:view": {
+          "description": "查看附件中心菜单",
+          "group": "导航"
+        },
+        "nav:projects:view": {
+          "description": "查看项目菜单",
+          "group": "导航"
+        },
+        "nav:contracts:view": {
+          "description": "查看合同菜单",
+          "group": "导航"
+        },
+        "nav:profile:view": {
+          "description": "查看个人中心菜单",
+          "group": "导航"
+        }
+      },
+      "valueSha256": "66bed2b54757daba816c2a7988fd82f00a6f89237384d99175677f20924f3a96",
+      "declarationSha256": "99c99d729eef7332ecf08763de4a0521eb68128edc77063e85b912aad12df88b",
+      "expression": "{\n    \"platform:users:manage\": { description: \"管理用户账号\", group: \"平台管理\" },\n    \"platform:roles:manage\": { description: \"管理角色与权限\", group: \"平台管理\" },\n    \"platform:navigation:manage\": { description: \"管理导航菜单\", group: \"平台管理\" },\n    \"platform:org-units:manage\": { description: \"管理组织单元\", group: \"平台管理\" },\n    \"platform:dictionaries:manage\": { description: \"管理业务配置字典\", group: \"平台管理\" },\n    \"platform:identity-providers:manage\": { description: \"管理外部身份提供商配置\", group: \"平台管理\" },\n    \"platform:org-sync:manage\": { description: \"管理外部组织同步\", group: \"平台管理\" },\n    \"platform:attachment-storage-providers:manage\": { description: \"管理附件存储 Provider 配置\", group: \"平台管理\" },\n    \"platform:system-settings:manage\": { description: \"管理系统设置\", group: \"平台管理\" },\n    \"customer:read\": { description: \"查看客户主数据\", group: \"客户\" },\n    \"customer:write\": { description: \"创建/维护客户主数据\", group: \"客户\" },\n    \"commission:rule-versions:manage\": { description: \"管理提成规则版本\", group: \"提成治理\" },\n    \"commission:assignments:manage\": { description: \"管理提成角色分配\", group: \"提成治理\" },\n    \"commission:calculations:manage\": { description: \"管理提成计算结果\", group: \"提成治理\" },\n    \"commission:payouts:manage\": { description: \"管理提成发放\", group: \"提成治理\" },\n    \"commission:adjustments:manage\": { description: \"管理提成调整\", group: \"提成治理\" },\n    \"contract:finance:manage\": { description: \"管理合同资金事实\", group: \"合同资金\" },\n    \"contract:finance:sensitive:read\": { description: \"查看合同资金敏感字段\", group: \"敏感字段\" },\n    \"operating:finance:sensitive:read\": { description: \"查看经营核算敏感字段\", group: \"敏感字段\" },\n    \"commission:amount:sensitive:read\": { description: \"查看提成金额敏感字段\", group: \"敏感字段\" },\n    \"labor-cost-rate:sensitive:read\": { description: \"查看人力成本率敏感字段\", group: \"敏感字段\" },\n    \"exception-approval-opinion:sensitive:read\": { description: \"查看例外审批与保留意见敏感字段\", group: \"敏感字段\" },\n    \"lead:read\": { description: \"查看销售线索\", group: \"线索\" },\n    \"lead:write\": { description: \"登记/维护销售线索\", group: \"线索\" },\n    \"lead:assign\": { description: \"分配/改派销售线索负责人\", group: \"线索\" },\n    \"lead:score:override\": { description: \"审批线索评分人工覆盖\", group: \"线索\" },\n    \"project:read\": { description: \"查看项目\", group: \"项目\" },\n    \"project:write\": { description: \"创建/编辑项目\", group: \"项目\" },\n    \"project:delete\": { description: \"删除项目\", group: \"项目\" },\n    \"nav:dashboard:view\": { description: \"查看工作台菜单\", group: \"导航\" },\n    \"nav:customers:view\": { description: \"查看客户菜单\", group: \"导航\" },\n    \"nav:platform:view\": { description: \"查看平台管理菜单\", group: \"导航\" },\n    \"nav:leads:view\": { description: \"查看线索菜单\", group: \"导航\" },\n    \"nav:attachments:view\": { description: \"查看附件中心菜单\", group: \"导航\" },\n    \"nav:projects:view\": { description: \"查看项目菜单\", group: \"导航\" },\n    \"nav:contracts:view\": { description: \"查看合同菜单\", group: \"导航\" },\n    \"nav:profile:view\": { description: \"查看个人中心菜单\", group: \"导航\" },\n}",
+      "helper": null,
+      "dependencies": [],
+      "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "line": 159,
+      "column": 14,
+      "kind": "permission-metadata",
+      "r0Kind": null,
+      "rustMappings": [
+        {
+          "family": "PermissionKey",
+          "relation": "typescript-type-constraint",
+          "via": "PermissionKey"
+        }
+      ]
+    }
+  ],
+  "enumOccurrences": [
+    {
+      "owner": "SanitizedUserSchema",
+      "line": 397,
+      "column": 30,
+      "propertyPath": [
+        "permissions"
+      ],
+      "topLevel": false,
+      "expression": "PERMISSION_KEYS",
+      "declarationSha256": "ff386c0b19f12ceeb56d4deb7728a929540a6bf754a99ecf3aadbef00442b38f",
+      "schemaId": "SanitizedUser",
+      "sourceArray": "PERMISSION_KEYS",
+      "id": "libs/shared/contracts/src/lib/shared-contracts.ts:SanitizedUserSchema:397:30",
+      "values": [
+        "platform:users:manage",
+        "platform:roles:manage",
+        "platform:navigation:manage",
+        "platform:org-units:manage",
+        "platform:dictionaries:manage",
+        "platform:identity-providers:manage",
+        "platform:org-sync:manage",
+        "platform:attachment-storage-providers:manage",
+        "platform:system-settings:manage",
+        "customer:read",
+        "customer:write",
+        "commission:rule-versions:manage",
+        "commission:assignments:manage",
+        "commission:calculations:manage",
+        "commission:payouts:manage",
+        "commission:adjustments:manage",
+        "commission:low-down-payment:approve",
+        "contract:finance:manage",
+        "contract:finance:sensitive:read",
+        "operating:finance:sensitive:read",
+        "commission:amount:sensitive:read",
+        "labor-cost-rate:sensitive:read",
+        "exception-approval-opinion:sensitive:read",
+        "lead:read",
+        "lead:write",
+        "lead:assign",
+        "lead:score:override",
+        "project:read",
+        "project:write",
+        "project:delete",
+        "nav:dashboard:view",
+        "nav:customers:view",
+        "nav:platform:view",
+        "nav:leads:view",
+        "nav:attachments:view",
+        "nav:projects:view",
+        "nav:contracts:view",
+        "nav:profile:view"
+      ],
+      "valuesSha256": "77087b8382bff3dbd5389cfc90a6e647dc4f697c0f0eecab9572f36bbc1f04c5",
+      "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "openApiValues": null,
+      "comparison": "current-ts-zod-source",
+      "family": "PermissionKey"
+    },
+    {
+      "owner": "PlatformPermissionSummarySchema",
+      "line": 513,
+      "column": 14,
+      "propertyPath": [
+        "key"
+      ],
+      "topLevel": false,
+      "expression": "PERMISSION_KEYS",
+      "declarationSha256": "3db7ab4beb34afe342d17f37400a445d30922682c25179920491d8ac864c3864",
+      "schemaId": "PlatformPermissionSummary",
+      "sourceArray": "PERMISSION_KEYS",
+      "id": "libs/shared/contracts/src/lib/shared-contracts.ts:PlatformPermissionSummarySchema:513:14",
+      "values": [
+        "platform:users:manage",
+        "platform:roles:manage",
+        "platform:navigation:manage",
+        "platform:org-units:manage",
+        "platform:dictionaries:manage",
+        "platform:identity-providers:manage",
+        "platform:org-sync:manage",
+        "platform:attachment-storage-providers:manage",
+        "platform:system-settings:manage",
+        "customer:read",
+        "customer:write",
+        "commission:rule-versions:manage",
+        "commission:assignments:manage",
+        "commission:calculations:manage",
+        "commission:payouts:manage",
+        "commission:adjustments:manage",
+        "commission:low-down-payment:approve",
+        "contract:finance:manage",
+        "contract:finance:sensitive:read",
+        "operating:finance:sensitive:read",
+        "commission:amount:sensitive:read",
+        "labor-cost-rate:sensitive:read",
+        "exception-approval-opinion:sensitive:read",
+        "lead:read",
+        "lead:write",
+        "lead:assign",
+        "lead:score:override",
+        "project:read",
+        "project:write",
+        "project:delete",
+        "nav:dashboard:view",
+        "nav:customers:view",
+        "nav:platform:view",
+        "nav:leads:view",
+        "nav:attachments:view",
+        "nav:projects:view",
+        "nav:contracts:view",
+        "nav:profile:view"
+      ],
+      "valuesSha256": "77087b8382bff3dbd5389cfc90a6e647dc4f697c0f0eecab9572f36bbc1f04c5",
+      "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "openApiValues": null,
+      "comparison": "current-ts-zod-source",
+      "family": "PermissionKey"
+    },
+    {
+      "owner": "PlatformPermissionSummarySchema",
+      "line": 520,
+      "column": 23,
+      "propertyPath": [
+        "deprecatedBy"
+      ],
+      "topLevel": false,
+      "expression": "PERMISSION_KEYS",
+      "declarationSha256": "3db7ab4beb34afe342d17f37400a445d30922682c25179920491d8ac864c3864",
+      "schemaId": "PlatformPermissionSummary",
+      "sourceArray": "PERMISSION_KEYS",
+      "id": "libs/shared/contracts/src/lib/shared-contracts.ts:PlatformPermissionSummarySchema:520:23",
+      "values": [
+        "platform:users:manage",
+        "platform:roles:manage",
+        "platform:navigation:manage",
+        "platform:org-units:manage",
+        "platform:dictionaries:manage",
+        "platform:identity-providers:manage",
+        "platform:org-sync:manage",
+        "platform:attachment-storage-providers:manage",
+        "platform:system-settings:manage",
+        "customer:read",
+        "customer:write",
+        "commission:rule-versions:manage",
+        "commission:assignments:manage",
+        "commission:calculations:manage",
+        "commission:payouts:manage",
+        "commission:adjustments:manage",
+        "commission:low-down-payment:approve",
+        "contract:finance:manage",
+        "contract:finance:sensitive:read",
+        "operating:finance:sensitive:read",
+        "commission:amount:sensitive:read",
+        "labor-cost-rate:sensitive:read",
+        "exception-approval-opinion:sensitive:read",
+        "lead:read",
+        "lead:write",
+        "lead:assign",
+        "lead:score:override",
+        "project:read",
+        "project:write",
+        "project:delete",
+        "nav:dashboard:view",
+        "nav:customers:view",
+        "nav:platform:view",
+        "nav:leads:view",
+        "nav:attachments:view",
+        "nav:projects:view",
+        "nav:contracts:view",
+        "nav:profile:view"
+      ],
+      "valuesSha256": "77087b8382bff3dbd5389cfc90a6e647dc4f697c0f0eecab9572f36bbc1f04c5",
+      "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "openApiValues": null,
+      "comparison": "current-ts-zod-source",
+      "family": "PermissionKey"
+    },
+    {
+      "owner": "PlatformRoleDetailSchema",
+      "line": 1399,
+      "column": 29,
+      "propertyPath": [
+        "permissionKeys"
+      ],
+      "topLevel": false,
+      "expression": "PERMISSION_KEYS",
+      "declarationSha256": "27f3ab48d1c47f779b4920556caac7ca92fd413e4cc8957981ca8852300ca45a",
+      "schemaId": "PlatformRoleDetail",
+      "sourceArray": "PERMISSION_KEYS",
+      "id": "libs/shared/contracts/src/lib/shared-contracts.ts:PlatformRoleDetailSchema:1399:29",
+      "values": [
+        "platform:users:manage",
+        "platform:roles:manage",
+        "platform:navigation:manage",
+        "platform:org-units:manage",
+        "platform:dictionaries:manage",
+        "platform:identity-providers:manage",
+        "platform:org-sync:manage",
+        "platform:attachment-storage-providers:manage",
+        "platform:system-settings:manage",
+        "customer:read",
+        "customer:write",
+        "commission:rule-versions:manage",
+        "commission:assignments:manage",
+        "commission:calculations:manage",
+        "commission:payouts:manage",
+        "commission:adjustments:manage",
+        "commission:low-down-payment:approve",
+        "contract:finance:manage",
+        "contract:finance:sensitive:read",
+        "operating:finance:sensitive:read",
+        "commission:amount:sensitive:read",
+        "labor-cost-rate:sensitive:read",
+        "exception-approval-opinion:sensitive:read",
+        "lead:read",
+        "lead:write",
+        "lead:assign",
+        "lead:score:override",
+        "project:read",
+        "project:write",
+        "project:delete",
+        "nav:dashboard:view",
+        "nav:customers:view",
+        "nav:platform:view",
+        "nav:leads:view",
+        "nav:attachments:view",
+        "nav:projects:view",
+        "nav:contracts:view",
+        "nav:profile:view"
+      ],
+      "valuesSha256": "77087b8382bff3dbd5389cfc90a6e647dc4f697c0f0eecab9572f36bbc1f04c5",
+      "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "openApiValues": null,
+      "comparison": "current-ts-zod-source",
+      "family": "PermissionKey"
+    },
+    {
+      "owner": "AssignRolePermissionsRequestSchema",
+      "line": 1565,
+      "column": 33,
+      "propertyPath": [
+        "permissionKeys"
+      ],
+      "topLevel": false,
+      "expression": "PERMISSION_KEYS",
+      "declarationSha256": "ef36714017b615cc69957021ff196824ae224a1fb7484891f3c7e5028842533f",
+      "schemaId": "AssignRolePermissionsRequest",
+      "sourceArray": "PERMISSION_KEYS",
+      "id": "libs/shared/contracts/src/lib/shared-contracts.ts:AssignRolePermissionsRequestSchema:1565:33",
+      "values": [
+        "platform:users:manage",
+        "platform:roles:manage",
+        "platform:navigation:manage",
+        "platform:org-units:manage",
+        "platform:dictionaries:manage",
+        "platform:identity-providers:manage",
+        "platform:org-sync:manage",
+        "platform:attachment-storage-providers:manage",
+        "platform:system-settings:manage",
+        "customer:read",
+        "customer:write",
+        "commission:rule-versions:manage",
+        "commission:assignments:manage",
+        "commission:calculations:manage",
+        "commission:payouts:manage",
+        "commission:adjustments:manage",
+        "commission:low-down-payment:approve",
+        "contract:finance:manage",
+        "contract:finance:sensitive:read",
+        "operating:finance:sensitive:read",
+        "commission:amount:sensitive:read",
+        "labor-cost-rate:sensitive:read",
+        "exception-approval-opinion:sensitive:read",
+        "lead:read",
+        "lead:write",
+        "lead:assign",
+        "lead:score:override",
+        "project:read",
+        "project:write",
+        "project:delete",
+        "nav:dashboard:view",
+        "nav:customers:view",
+        "nav:platform:view",
+        "nav:leads:view",
+        "nav:attachments:view",
+        "nav:projects:view",
+        "nav:contracts:view",
+        "nav:profile:view"
+      ],
+      "valuesSha256": "77087b8382bff3dbd5389cfc90a6e647dc4f697c0f0eecab9572f36bbc1f04c5",
+      "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "openApiValues": null,
+      "comparison": "current-ts-zod-source",
+      "family": "PermissionKey"
+    },
+    {
+      "owner": "UserPayloadSchema",
+      "line": 1629,
+      "column": 30,
+      "propertyPath": [
+        "permissions"
+      ],
+      "topLevel": false,
+      "expression": "PERMISSION_KEYS",
+      "declarationSha256": "a00175e2bc1ae884ff01f245ffcbb3d3500da3ea7598ec4b780e4588d7104ce1",
+      "schemaId": "UserPayload",
+      "sourceArray": "PERMISSION_KEYS",
+      "id": "libs/shared/contracts/src/lib/shared-contracts.ts:UserPayloadSchema:1629:30",
+      "values": [
+        "platform:users:manage",
+        "platform:roles:manage",
+        "platform:navigation:manage",
+        "platform:org-units:manage",
+        "platform:dictionaries:manage",
+        "platform:identity-providers:manage",
+        "platform:org-sync:manage",
+        "platform:attachment-storage-providers:manage",
+        "platform:system-settings:manage",
+        "customer:read",
+        "customer:write",
+        "commission:rule-versions:manage",
+        "commission:assignments:manage",
+        "commission:calculations:manage",
+        "commission:payouts:manage",
+        "commission:adjustments:manage",
+        "commission:low-down-payment:approve",
+        "contract:finance:manage",
+        "contract:finance:sensitive:read",
+        "operating:finance:sensitive:read",
+        "commission:amount:sensitive:read",
+        "labor-cost-rate:sensitive:read",
+        "exception-approval-opinion:sensitive:read",
+        "lead:read",
+        "lead:write",
+        "lead:assign",
+        "lead:score:override",
+        "project:read",
+        "project:write",
+        "project:delete",
+        "nav:dashboard:view",
+        "nav:customers:view",
+        "nav:platform:view",
+        "nav:leads:view",
+        "nav:attachments:view",
+        "nav:projects:view",
+        "nav:contracts:view",
+        "nav:profile:view"
+      ],
+      "valuesSha256": "77087b8382bff3dbd5389cfc90a6e647dc4f697c0f0eecab9572f36bbc1f04c5",
+      "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "openApiValues": null,
+      "comparison": "current-ts-zod-source",
+      "family": "PermissionKey"
+    },
+    {
+      "owner": "NavigationItemSchema",
+      "line": 1665,
+      "column": 42,
+      "propertyPath": [
+        "requiredPermissions"
+      ],
+      "topLevel": false,
+      "expression": "PERMISSION_KEYS",
+      "declarationSha256": "dfa825325d656925b4b421362a7e5d64f4d3407d870b09b6fb8e11dbdda81ee3",
+      "schemaId": "NavigationItem",
+      "sourceArray": "PERMISSION_KEYS",
+      "id": "libs/shared/contracts/src/lib/shared-contracts.ts:NavigationItemSchema:1665:42",
+      "values": [
+        "platform:users:manage",
+        "platform:roles:manage",
+        "platform:navigation:manage",
+        "platform:org-units:manage",
+        "platform:dictionaries:manage",
+        "platform:identity-providers:manage",
+        "platform:org-sync:manage",
+        "platform:attachment-storage-providers:manage",
+        "platform:system-settings:manage",
+        "customer:read",
+        "customer:write",
+        "commission:rule-versions:manage",
+        "commission:assignments:manage",
+        "commission:calculations:manage",
+        "commission:payouts:manage",
+        "commission:adjustments:manage",
+        "commission:low-down-payment:approve",
+        "contract:finance:manage",
+        "contract:finance:sensitive:read",
+        "operating:finance:sensitive:read",
+        "commission:amount:sensitive:read",
+        "labor-cost-rate:sensitive:read",
+        "exception-approval-opinion:sensitive:read",
+        "lead:read",
+        "lead:write",
+        "lead:assign",
+        "lead:score:override",
+        "project:read",
+        "project:write",
+        "project:delete",
+        "nav:dashboard:view",
+        "nav:customers:view",
+        "nav:platform:view",
+        "nav:leads:view",
+        "nav:attachments:view",
+        "nav:projects:view",
+        "nav:contracts:view",
+        "nav:profile:view"
+      ],
+      "valuesSha256": "77087b8382bff3dbd5389cfc90a6e647dc4f697c0f0eecab9572f36bbc1f04c5",
+      "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "openApiValues": null,
+      "comparison": "current-ts-zod-source",
+      "family": "PermissionKey"
+    },
+    {
+      "owner": "CurrentAuthSessionViewSchema",
+      "line": 1730,
+      "column": 30,
+      "propertyPath": [
+        "permissions"
+      ],
+      "topLevel": false,
+      "expression": "PERMISSION_KEYS",
+      "declarationSha256": "ffc923efa20dd774a790cbd93efa956b9a2273233b71f1fceaecfc9099b32f76",
+      "schemaId": "CurrentAuthSessionView",
+      "sourceArray": "PERMISSION_KEYS",
+      "id": "libs/shared/contracts/src/lib/shared-contracts.ts:CurrentAuthSessionViewSchema:1730:30",
+      "values": [
+        "platform:users:manage",
+        "platform:roles:manage",
+        "platform:navigation:manage",
+        "platform:org-units:manage",
+        "platform:dictionaries:manage",
+        "platform:identity-providers:manage",
+        "platform:org-sync:manage",
+        "platform:attachment-storage-providers:manage",
+        "platform:system-settings:manage",
+        "customer:read",
+        "customer:write",
+        "commission:rule-versions:manage",
+        "commission:assignments:manage",
+        "commission:calculations:manage",
+        "commission:payouts:manage",
+        "commission:adjustments:manage",
+        "commission:low-down-payment:approve",
+        "contract:finance:manage",
+        "contract:finance:sensitive:read",
+        "operating:finance:sensitive:read",
+        "commission:amount:sensitive:read",
+        "labor-cost-rate:sensitive:read",
+        "exception-approval-opinion:sensitive:read",
+        "lead:read",
+        "lead:write",
+        "lead:assign",
+        "lead:score:override",
+        "project:read",
+        "project:write",
+        "project:delete",
+        "nav:dashboard:view",
+        "nav:customers:view",
+        "nav:platform:view",
+        "nav:leads:view",
+        "nav:attachments:view",
+        "nav:projects:view",
+        "nav:contracts:view",
+        "nav:profile:view"
+      ],
+      "valuesSha256": "77087b8382bff3dbd5389cfc90a6e647dc4f697c0f0eecab9572f36bbc1f04c5",
+      "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "openApiValues": null,
+      "comparison": "current-ts-zod-source",
+      "family": "PermissionKey"
+    },
+    {
+      "owner": "RecordRouteDeniedSecurityEventRequestSchema",
+      "line": 1916,
+      "column": 38,
+      "propertyPath": [
+        "requiredPermissions"
+      ],
+      "topLevel": false,
+      "expression": "PERMISSION_KEYS",
+      "declarationSha256": "7b6255cc9f30b3bdc731779611df9cd96e37c8ca769fcac331dcbf0c319694b6",
+      "schemaId": "RecordRouteDeniedSecurityEventRequest",
+      "sourceArray": "PERMISSION_KEYS",
+      "id": "libs/shared/contracts/src/lib/shared-contracts.ts:RecordRouteDeniedSecurityEventRequestSchema:1916:38",
+      "values": [
+        "platform:users:manage",
+        "platform:roles:manage",
+        "platform:navigation:manage",
+        "platform:org-units:manage",
+        "platform:dictionaries:manage",
+        "platform:identity-providers:manage",
+        "platform:org-sync:manage",
+        "platform:attachment-storage-providers:manage",
+        "platform:system-settings:manage",
+        "customer:read",
+        "customer:write",
+        "commission:rule-versions:manage",
+        "commission:assignments:manage",
+        "commission:calculations:manage",
+        "commission:payouts:manage",
+        "commission:adjustments:manage",
+        "commission:low-down-payment:approve",
+        "contract:finance:manage",
+        "contract:finance:sensitive:read",
+        "operating:finance:sensitive:read",
+        "commission:amount:sensitive:read",
+        "labor-cost-rate:sensitive:read",
+        "exception-approval-opinion:sensitive:read",
+        "lead:read",
+        "lead:write",
+        "lead:assign",
+        "lead:score:override",
+        "project:read",
+        "project:write",
+        "project:delete",
+        "nav:dashboard:view",
+        "nav:customers:view",
+        "nav:platform:view",
+        "nav:leads:view",
+        "nav:attachments:view",
+        "nav:projects:view",
+        "nav:contracts:view",
+        "nav:profile:view"
+      ],
+      "valuesSha256": "77087b8382bff3dbd5389cfc90a6e647dc4f697c0f0eecab9572f36bbc1f04c5",
+      "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "openApiValues": null,
+      "comparison": "current-ts-zod-source",
+      "family": "PermissionKey"
+    }
+  ],
+  "coverage": {
+    "permissionKeys": 38,
+    "generatedEnumFamilies": 332
+  }
+}

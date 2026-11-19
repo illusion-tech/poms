@@ -1,0 +1,99 @@
+{
+  "kind": "FS-only-existing-role-spare-and-real-confirmed-duties",
+  "projectId": "389793fb-0f5b-48ea-a5f1-8515ee572d7f",
+  "producerEpoch": "g2-business12",
+  "producerRun": "main01",
+  "sourcePinsSHA256": "5263ad894591ac682fe7ebf9ca5cfa2aaac3334d4481ae5de4dd63d83b4681fa",
+  "historicalFrozenState": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/native-reference92/source12-native01/rust-state-before-native.json",
+    "rawBytesSha256": "c06c8a0277d99addd8820b762d6b787f48a8091cc3c7c787f713182fad966b6a"
+  },
+  "paused": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/004828-ui18-role-create-paused.json",
+    "bytes": 1884,
+    "rawBytesSha256": "c64655f198913398007067f367be1f9532e6de7807335001a3a7bc96eb886e53"
+  },
+  "actualDGET": {
+    "publicReceipt": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business12/main01/004816-http-http.json",
+      "rawBytesSha256": "be124d49c57cdd996c80b59662ffde14f17fc5fb7f37286e58e292a6101de2c3",
+      "bytes": 1710
+    },
+    "responseBody": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/004816-http-response-body.bin",
+      "bytes": 9533,
+      "rawBytesSha256": "dd2861558289c1d5509bb7aca30a062499ac1d5320a1f86065778e44b975103b"
+    }
+  },
+  "frozenDActualBody": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/004814-http-response-body.bin",
+    "bytes": 9533,
+    "rawBytesSha256": "e1bf80edaae1ab423d8eeaaee876fd4b3c0633f9fa0d321cca676ba89b11a017"
+  },
+  "exactReadComparisonExcludesOnlyGeneratedAt": {
+    "frozenActualGET": "2026-11-07T20:46:05.668Z",
+    "byProjectActualGET": "2026-11-07T20:46:06.849Z"
+  },
+  "currentRoleNullGET": {
+    "publicReceipt": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business12/main01/004825-http-http.json",
+      "rawBytesSha256": "cb8a78e9859efab7090664bf6544f20ef65061c710649ed3e2eeaa85940a900d",
+      "bytes": 1703
+    },
+    "responseBody": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/004825-http-response-body.bin",
+      "rawBytesSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "bytes": 4
+    }
+  },
+  "handoverId": "9a4bd3ed-2362-4a20-b13a-67865d8c736b",
+  "rowVersion": 2,
+  "sourcePayloadHash": "e601b13779b5c9d00547b1909b01ac3fddb0dbb195860631b1d08c9d54124ee6",
+  "summarySnapshotId": "e66113db-a326-4e2c-80f9-f3cbaef93f63",
+  "confirmedSelectedDuties": [
+    {
+      "actorKey": "manager",
+      "userId": "44e8c02b-6b46-44a5-b90e-bd7422b420bf",
+      "roleType": "sales-owner",
+      "actualResponsibilitySummary": "本人真实承担本隔离验收项目 sales-owner 职责并核对固定材料。"
+    },
+    {
+      "actorKey": "execution",
+      "userId": "e7dbe7a0-11ce-488d-8f09-4f1401e17f98",
+      "roleType": "execution-owner",
+      "actualResponsibilitySummary": "本人真实承担本隔离验收项目 execution-owner 职责并核对固定材料。"
+    },
+    {
+      "actorKey": "finance",
+      "userId": "4a439812-5440-48df-9a40-d2404f6778c9",
+      "roleType": "finance",
+      "actualResponsibilitySummary": "本人真实承担本隔离验收项目 finance 职责并核对固定材料。"
+    },
+    {
+      "actorKey": "manager",
+      "userId": "44e8c02b-6b46-44a5-b90e-bd7422b420bf",
+      "roleType": "business-admin",
+      "actualResponsibilitySummary": "本人真实承担本隔离验收项目 business-admin 职责并核对固定材料。"
+    }
+  ],
+  "expectedActorIds": {
+    "manager": "44e8c02b-6b46-44a5-b90e-bd7422b420bf",
+    "execution": "e7dbe7a0-11ce-488d-8f09-4f1401e17f98",
+    "finance": "4a439812-5440-48df-9a40-d2404f6778c9",
+    "manager-role-peer": "44e8c02b-6b46-44a5-b90e-bd7422b420bf"
+  },
+  "requiredActualActorProofKeys": [
+    "manager",
+    "execution",
+    "finance",
+    "manager-role-peer"
+  ],
+  "peerSessionStillUnbound": true,
+  "actorBindingsFinal": false,
+  "observedUIOrBusinessWritesByAuthor": 0,
+  "currentRuntimeMustRevalidateSpareAndServerValues": true,
+  "canonicalSuccessStatuses": {
+    "CommissionController_createRoleAssignment": 200,
+    "CommissionRoleAssignmentController_freezeRoleAssignment": 200
+  }
+}
